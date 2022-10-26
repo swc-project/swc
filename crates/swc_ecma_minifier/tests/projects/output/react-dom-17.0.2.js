@@ -5,7 +5,7 @@
     ], factory) : factory((global = global || self).ReactDOM = {}, global.React);
 }(this, function(exports1, React) {
     "use strict";
-    var func, _discreteUpdatesImpl, _flushDiscreteUpdatesImpl, _batchedEventUpdatesImpl, devToolsConfig, findFiberByHostInstance, ReactCurrentDispatcher, prevLog, prevInfo, prevWarn, prevError, prevGroup, prevGroupCollapsed, prevGroupEnd, prefix, componentFrameCache, didWarnValueDefaultValue$1, reusableSVGContainer, attemptUserBlockingHydration, attemptContinuousHydration, attemptHydrationAtCurrentPriority, attemptHydrationAtPriority, lastMovementX, lastMovementY, lastMouseEvent, warnedUnknownTags, suppressHydrationWarning, validatePropertiesInDevelopment, warnForTextDifference, warnForPropDifference, warnForExtraAttributes, warnForInvalidEventListener, canDiffStyleForHydrationWarning, normalizeMarkupForTextOrAttribute, normalizeHTML, SUPPRESS_HYDRATION_WARNING$1, fiberStack, warnedAboutMissingGetChildContext, rendererSigil, didWarnUpdateInsideUpdate, currentlyProcessingQueue, didWarnAboutStateAssignmentForComponent, didWarnAboutUninitializedState, didWarnAboutGetSnapshotBeforeUpdateWithoutDidUpdate, didWarnAboutLegacyLifecyclesAndDerivedState, didWarnAboutUndefinedDerivedState, warnOnUndefinedDerivedState, warnOnInvalidCallback, didWarnAboutDirectlyAssigningPropsToState, didWarnAboutContextTypeAndContextTypes, didWarnAboutInvalidateContextType, didWarnAboutMaps, didWarnAboutGenerators, didWarnAboutStringRefs, ownerHasKeyUseWarning, ownerHasFunctionTypeWarning, rendererSigil$1, didWarnAboutMismatchedHooksForComponent, didWarnAboutUseOpaqueIdentifier, didWarnAboutBadClass, didWarnAboutModulePatternComponent, didWarnAboutContextTypeOnFunctionComponent, didWarnAboutGetDerivedStateOnFunctionComponent, didWarnAboutFunctionRefs, didWarnAboutReassigningProps, didWarnAboutRevealOrder, didWarnAboutTailOptions, appendAllChildren, updateHostContainer, updateHostComponent$1, updateHostText$1, beginWork$1, didWarnAboutUpdateInRenderForAnotherComponent, hasBadMapPolyfill, didWarnAboutNestedUpdates, didWarnAboutFindNodeInStrictMode, topLevelUpdateWarnings, ReactSharedInternals = React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+    var func, devToolsConfig, findFiberByHostInstance, ReactCurrentDispatcher, prevLog, prevInfo, prevWarn, prevError, prevGroup, prevGroupCollapsed, prevGroupEnd, prefix, componentFrameCache, didWarnValueDefaultValue$1, reusableSVGContainer, attemptUserBlockingHydration, attemptContinuousHydration, attemptHydrationAtCurrentPriority, attemptHydrationAtPriority, lastMovementX, lastMovementY, lastMouseEvent, warnedUnknownTags, suppressHydrationWarning, validatePropertiesInDevelopment, warnForTextDifference, warnForPropDifference, warnForExtraAttributes, warnForInvalidEventListener, canDiffStyleForHydrationWarning, normalizeMarkupForTextOrAttribute, normalizeHTML, SUPPRESS_HYDRATION_WARNING$1, fiberStack, warnedAboutMissingGetChildContext, rendererSigil, didWarnUpdateInsideUpdate, currentlyProcessingQueue, didWarnAboutStateAssignmentForComponent, didWarnAboutUninitializedState, didWarnAboutGetSnapshotBeforeUpdateWithoutDidUpdate, didWarnAboutLegacyLifecyclesAndDerivedState, didWarnAboutUndefinedDerivedState, warnOnUndefinedDerivedState, warnOnInvalidCallback, didWarnAboutDirectlyAssigningPropsToState, didWarnAboutContextTypeAndContextTypes, didWarnAboutInvalidateContextType, didWarnAboutMaps, didWarnAboutGenerators, didWarnAboutStringRefs, ownerHasKeyUseWarning, ownerHasFunctionTypeWarning, rendererSigil$1, didWarnAboutMismatchedHooksForComponent, didWarnAboutUseOpaqueIdentifier, didWarnAboutBadClass, didWarnAboutModulePatternComponent, didWarnAboutContextTypeOnFunctionComponent, didWarnAboutGetDerivedStateOnFunctionComponent, didWarnAboutFunctionRefs, didWarnAboutReassigningProps, didWarnAboutRevealOrder, didWarnAboutTailOptions, appendAllChildren, updateHostContainer, updateHostComponent$1, updateHostText$1, beginWork$1, didWarnAboutUpdateInRenderForAnotherComponent, hasBadMapPolyfill, didWarnAboutNestedUpdates, didWarnAboutFindNodeInStrictMode, topLevelUpdateWarnings, ReactSharedInternals = React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
     function warn(format) {
         for(var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)args[_key - 1] = arguments[_key];
         printWarning("warn", format, args);
@@ -5272,7 +5272,7 @@
             source,
             subscribe
         ]), dispatcher.useEffect(function() {
-            var handleChange = function() {
+            var unsubscribe = subscribe(source._source, function() {
                 var latestGetSnapshot = refs.getSnapshot, latestSetSnapshot = refs.setSnapshot;
                 try {
                     latestSetSnapshot(latestGetSnapshot(source._source));
@@ -5283,7 +5283,7 @@
                         throw error;
                     });
                 }
-            }, unsubscribe = subscribe(source._source, handleChange);
+            });
             return "function" != typeof unsubscribe && error("Mutable source subscribe function must return an unsubscribe function."), unsubscribe;
         }, [
             source,
@@ -7141,14 +7141,13 @@
     }
     function logCapturedError(boundary, errorInfo) {
         try {
-            var errorBoundaryMessage, error = errorInfo.value, source = errorInfo.source, stack = errorInfo.stack;
+            var error = errorInfo.value, source = errorInfo.source, stack = errorInfo.stack;
             if (null != error && error._suppressLogging) {
                 if (1 === boundary.tag) return;
                 console.error(error);
             }
             var componentName = source ? getComponentName(source.type) : null, errorBoundaryName = getComponentName(boundary.type);
-            errorBoundaryMessage = errorBoundaryName ? "React will try to recreate this component tree from scratch using the error boundary you provided, " + errorBoundaryName + "." : "Consider adding an error boundary to your tree to customize error handling behavior.\nVisit https://reactjs.org/link/error-boundaries to learn more about error boundaries.";
-            console.error((componentName ? "The above error occurred in the <" + componentName + "> component:" : "The above error occurred in one of your React components:") + "\n" + (null !== stack ? stack : "") + "\n\n" + errorBoundaryMessage);
+            console.error((componentName ? "The above error occurred in the <" + componentName + "> component:" : "The above error occurred in one of your React components:") + "\n" + (null !== stack ? stack : "") + "\n\n" + (errorBoundaryName ? "React will try to recreate this component tree from scratch using the error boundary you provided, " + errorBoundaryName + "." : "Consider adding an error boundary to your tree to customize error handling behavior.\nVisit https://reactjs.org/link/error-boundaries to learn more about error boundaries."));
         } catch (e) {
             setTimeout(function() {
                 throw e;
@@ -8609,9 +8608,7 @@
     function detachFiberAfterEffects(fiber) {
         fiber.sibling = null, fiber.stateNode = null;
     }
-    var resolveFamily = null, failedBoundaries = null, setRefreshHandler = function(handler) {
-        resolveFamily = handler;
-    };
+    var resolveFamily = null, failedBoundaries = null;
     function resolveFunctionForHotReloading(type) {
         if (null === resolveFamily) return type;
         var family = resolveFamily(type);
@@ -8664,83 +8661,6 @@
     function markFailedErrorBoundaryForHotReloading(fiber) {
         null !== resolveFamily && "function" == typeof WeakSet && (null === failedBoundaries && (failedBoundaries = new WeakSet()), failedBoundaries.add(fiber));
     }
-    var scheduleRefresh = function(root, update) {
-        if (null !== resolveFamily) {
-            var staleFamilies = update.staleFamilies, updatedFamilies = update.updatedFamilies;
-            flushPassiveEffects(), flushSync(function() {
-                (function scheduleFibersWithFamiliesRecursively(fiber, updatedFamilies, staleFamilies) {
-                    var alternate = fiber.alternate, child = fiber.child, sibling = fiber.sibling, tag = fiber.tag, type = fiber.type, candidateType = null;
-                    switch(tag){
-                        case 0:
-                        case 15:
-                        case 1:
-                            candidateType = type;
-                            break;
-                        case 11:
-                            candidateType = type.render;
-                    }
-                    if (null === resolveFamily) throw Error("Expected resolveFamily to be set during hot reload.");
-                    var needsRender = !1, needsRemount = !1;
-                    if (null !== candidateType) {
-                        var family = resolveFamily(candidateType);
-                        void 0 !== family && (staleFamilies.has(family) ? needsRemount = !0 : updatedFamilies.has(family) && (1 === tag ? needsRemount = !0 : needsRender = !0));
-                    }
-                    null !== failedBoundaries && (failedBoundaries.has(fiber) || null !== alternate && failedBoundaries.has(alternate)) && (needsRemount = !0), needsRemount && (fiber._debugNeedsRemount = !0), (needsRemount || needsRender) && scheduleUpdateOnFiber(fiber, 1, -1), null === child || needsRemount || scheduleFibersWithFamiliesRecursively(child, updatedFamilies, staleFamilies), null !== sibling && scheduleFibersWithFamiliesRecursively(sibling, updatedFamilies, staleFamilies);
-                })(root.current, updatedFamilies, staleFamilies);
-            });
-        }
-    }, scheduleRoot = function(root, element) {
-        root.context === emptyContextObject && (flushPassiveEffects(), flushSync(function() {
-            updateContainer(element, root, null, null);
-        }));
-    }, findHostInstancesForRefresh = function(root, families) {
-        var hostInstances = new Set(), types = new Set(families.map(function(family) {
-            return family.current;
-        }));
-        return function findHostInstancesForMatchingFibersRecursively(fiber, types, hostInstances) {
-            var child = fiber.child, sibling = fiber.sibling, tag = fiber.tag, type = fiber.type, candidateType = null;
-            switch(tag){
-                case 0:
-                case 15:
-                case 1:
-                    candidateType = type;
-                    break;
-                case 11:
-                    candidateType = type.render;
-            }
-            var didMatch = !1;
-            null !== candidateType && types.has(candidateType) && (didMatch = !0), didMatch ? function(fiber, hostInstances) {
-                if (!function(fiber, hostInstances) {
-                    for(var node = fiber, foundHostInstances = !1;;){
-                        if (5 === node.tag) foundHostInstances = !0, hostInstances.add(node.stateNode);
-                        else if (null !== node.child) {
-                            node.child.return = node, node = node.child;
-                            continue;
-                        }
-                        if (node === fiber) return foundHostInstances;
-                        for(; null === node.sibling;){
-                            if (null === node.return || node.return === fiber) return foundHostInstances;
-                            node = node.return;
-                        }
-                        node.sibling.return = node.return, node = node.sibling;
-                    }
-                    return !1;
-                }(fiber, hostInstances)) for(var node = fiber;;){
-                    switch(node.tag){
-                        case 5:
-                            hostInstances.add(node.stateNode);
-                            return;
-                        case 4:
-                        case 3:
-                            hostInstances.add(node.stateNode.containerInfo);
-                            return;
-                    }
-                    if (null === node.return) throw Error("Expected to reach root first.");
-                    node = node.return;
-                }
-            }(fiber, hostInstances) : null !== child && findHostInstancesForMatchingFibersRecursively(child, types, hostInstances), null !== sibling && findHostInstancesForMatchingFibersRecursively(sibling, types, hostInstances);
-        }(root.current, types, hostInstances), hostInstances;
-    };
     hasBadMapPolyfill = !1;
     try {
         Object.preventExtensions({});
@@ -9138,7 +9058,7 @@
                 null != (value = props.value) && updateOptions(domElement, !!props.multiple, value, !1);
                 return;
         }
-    }, _discreteUpdatesImpl = function(fn, a, b, c, d) {
+    }, batchedUpdatesImpl = batchedUpdates$1, discreteUpdatesImpl = function(fn, a, b, c, d) {
         var prevExecutionContext = executionContext;
         executionContext |= 4;
         try {
@@ -9146,7 +9066,7 @@
         } finally{
             0 === (executionContext = prevExecutionContext) && (resetRenderTimer(), flushSyncCallbackQueue());
         }
-    }, _flushDiscreteUpdatesImpl = function() {
+    }, flushDiscreteUpdatesImpl = function() {
         if ((49 & executionContext) != 0) {
             (16 & executionContext) != 0 && error("unstable_flushDiscreteUpdates: Cannot flush updates when React is already rendering.");
             return;
@@ -9161,7 +9081,7 @@
             }
             flushSyncCallbackQueue();
         })(), flushPassiveEffects();
-    }, _batchedEventUpdatesImpl = function(fn, a) {
+    }, batchedEventUpdatesImpl = function(fn, a) {
         var prevExecutionContext = executionContext;
         executionContext |= 2;
         try {
@@ -9169,7 +9089,7 @@
         } finally{
             0 === (executionContext = prevExecutionContext) && (resetRenderTimer(), flushSyncCallbackQueue());
         }
-    }, batchedUpdatesImpl = batchedUpdates$1, discreteUpdatesImpl = _discreteUpdatesImpl, flushDiscreteUpdatesImpl = _flushDiscreteUpdatesImpl, batchedEventUpdatesImpl = _batchedEventUpdatesImpl, findFiberByHostInstance = (devToolsConfig = {
+    }, findFiberByHostInstance = (devToolsConfig = {
         findFiberByHostInstance: getClosestInstanceFromNode,
         bundleType: 1,
         version: ReactVersion,
@@ -9206,10 +9126,88 @@
         findFiberByHostInstance: findFiberByHostInstance || function(instance) {
             return null;
         },
-        findHostInstancesForRefresh: findHostInstancesForRefresh,
-        scheduleRefresh: scheduleRefresh,
-        scheduleRoot: scheduleRoot,
-        setRefreshHandler: setRefreshHandler,
+        findHostInstancesForRefresh: function(root, families) {
+            var hostInstances = new Set(), types = new Set(families.map(function(family) {
+                return family.current;
+            }));
+            return function findHostInstancesForMatchingFibersRecursively(fiber, types, hostInstances) {
+                var child = fiber.child, sibling = fiber.sibling, tag = fiber.tag, type = fiber.type, candidateType = null;
+                switch(tag){
+                    case 0:
+                    case 15:
+                    case 1:
+                        candidateType = type;
+                        break;
+                    case 11:
+                        candidateType = type.render;
+                }
+                var didMatch = !1;
+                null !== candidateType && types.has(candidateType) && (didMatch = !0), didMatch ? function(fiber, hostInstances) {
+                    if (!function(fiber, hostInstances) {
+                        for(var node = fiber, foundHostInstances = !1;;){
+                            if (5 === node.tag) foundHostInstances = !0, hostInstances.add(node.stateNode);
+                            else if (null !== node.child) {
+                                node.child.return = node, node = node.child;
+                                continue;
+                            }
+                            if (node === fiber) return foundHostInstances;
+                            for(; null === node.sibling;){
+                                if (null === node.return || node.return === fiber) return foundHostInstances;
+                                node = node.return;
+                            }
+                            node.sibling.return = node.return, node = node.sibling;
+                        }
+                        return !1;
+                    }(fiber, hostInstances)) for(var node = fiber;;){
+                        switch(node.tag){
+                            case 5:
+                                hostInstances.add(node.stateNode);
+                                return;
+                            case 4:
+                            case 3:
+                                hostInstances.add(node.stateNode.containerInfo);
+                                return;
+                        }
+                        if (null === node.return) throw Error("Expected to reach root first.");
+                        node = node.return;
+                    }
+                }(fiber, hostInstances) : null !== child && findHostInstancesForMatchingFibersRecursively(child, types, hostInstances), null !== sibling && findHostInstancesForMatchingFibersRecursively(sibling, types, hostInstances);
+            }(root.current, types, hostInstances), hostInstances;
+        },
+        scheduleRefresh: function(root, update) {
+            if (null !== resolveFamily) {
+                var staleFamilies = update.staleFamilies, updatedFamilies = update.updatedFamilies;
+                flushPassiveEffects(), flushSync(function() {
+                    (function scheduleFibersWithFamiliesRecursively(fiber, updatedFamilies, staleFamilies) {
+                        var alternate = fiber.alternate, child = fiber.child, sibling = fiber.sibling, tag = fiber.tag, type = fiber.type, candidateType = null;
+                        switch(tag){
+                            case 0:
+                            case 15:
+                            case 1:
+                                candidateType = type;
+                                break;
+                            case 11:
+                                candidateType = type.render;
+                        }
+                        if (null === resolveFamily) throw Error("Expected resolveFamily to be set during hot reload.");
+                        var needsRender = !1, needsRemount = !1;
+                        if (null !== candidateType) {
+                            var family = resolveFamily(candidateType);
+                            void 0 !== family && (staleFamilies.has(family) ? needsRemount = !0 : updatedFamilies.has(family) && (1 === tag ? needsRemount = !0 : needsRender = !0));
+                        }
+                        null !== failedBoundaries && (failedBoundaries.has(fiber) || null !== alternate && failedBoundaries.has(alternate)) && (needsRemount = !0), needsRemount && (fiber._debugNeedsRemount = !0), (needsRemount || needsRender) && scheduleUpdateOnFiber(fiber, 1, -1), null === child || needsRemount || scheduleFibersWithFamiliesRecursively(child, updatedFamilies, staleFamilies), null !== sibling && scheduleFibersWithFamiliesRecursively(sibling, updatedFamilies, staleFamilies);
+                    })(root.current, updatedFamilies, staleFamilies);
+                });
+            }
+        },
+        scheduleRoot: function(root, element) {
+            root.context === emptyContextObject && (flushPassiveEffects(), flushSync(function() {
+                updateContainer(element, root, null, null);
+            }));
+        },
+        setRefreshHandler: function(handler) {
+            resolveFamily = handler;
+        },
         getCurrentFiber: function() {
             return current;
         }

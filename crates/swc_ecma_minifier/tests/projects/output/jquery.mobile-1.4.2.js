@@ -5,7 +5,7 @@
         return factory($, root, doc), $.mobile;
     }) : factory(root.jQuery, root, doc);
 }(this, document, function(jQuery, window, document1, undefined) {
-    var $, nsNormalizeDict, oldFind, rbrace, jqmDataRE, $1, window1, compensateToolbars, $2, undefined1, uuid, slice, _cleanData, $3, rcapitals, replaceFunction, $4, bool, docElem, refNode, fakeBody, div, $5, support, $6, self, $win, dummyFnToInitNavigate, undefined2, path, $base, dialogHashKey, undefined3, $7, path1, initialHref, $8, undefined4, props, testElement, vendorPrefixes, heldCall, curr, diff, handler, lastCall, $9, baseElement, base, $10, undefined5, originalWidget, keepNativeFactoryDefault, orig, $11, undefined6, pageTransitionQueue, isPageTransitioning, $12, window2, $13, defaultGetMaxScrollForTransition, $14, $15, $16, undefined7, rInitialLetter, iconposClass, $17, meta, initialContent, disabledZoom, enabledZoom, disabledInitially, $18, undefined8, rDividerListItem, origDefaultFilterCallback;
+    var $, nsNormalizeDict, oldFind, rbrace, jqmDataRE, $1, window1, compensateToolbars, $2, undefined1, uuid, slice, _cleanData, $3, rcapitals, replaceFunction, $4, bool, docElem, refNode, fakeBody, div, $5, support, $6, self, $win, dummyFnToInitNavigate, undefined2, path, $base, dialogHashKey, undefined3, $7, path1, initialHref, $8, undefined4, props, testElement, vendorPrefixes, heldCall, curr, diff, handler, lastCall, $9, baseElement, base, $10, undefined5, originalWidget, keepNativeFactoryDefault, orig, $11, undefined6, pageTransitionQueue, isPageTransitioning, $12, window2, $13, $14, $15, $16, undefined7, rInitialLetter, iconposClass, $17, meta, initialContent, disabledZoom, enabledZoom, disabledInitially, $18, undefined8, rDividerListItem, origDefaultFilterCallback;
     jQuery.mobile = {}, function($, window, undefined) {
         $.extend($.mobile, {
             version: "1.4.2",
@@ -1806,14 +1806,14 @@
         beforeStartOut: function(screenHeight, reverseClass, none) {
             this.doneOut(screenHeight, reverseClass, none);
         }
-    }), $13 = jQuery, defaultGetMaxScrollForTransition = function() {
-        return 3 * $13.mobile.getScreenHeight();
-    }, $13.mobile.transitionHandlers = {
+    }), ($13 = jQuery).mobile.transitionHandlers = {
         sequential: $13.mobile.SerialTransition,
         simultaneous: $13.mobile.ConcurrentTransition
     }, $13.mobile.defaultTransitionHandler = $13.mobile.transitionHandlers.sequential, $13.mobile.transitionFallbacks = {}, $13.mobile._maybeDegradeTransition = function(transition) {
         return transition && !$13.support.cssTransform3d && $13.mobile.transitionFallbacks[transition] && (transition = $13.mobile.transitionFallbacks[transition]), transition;
-    }, $13.mobile.getMaxScrollForTransition = $13.mobile.getMaxScrollForTransition || defaultGetMaxScrollForTransition, jQuery.mobile.transitionFallbacks.flip = "fade", jQuery.mobile.transitionFallbacks.flow = "fade", jQuery.mobile.transitionFallbacks.pop = "fade", ($14 = jQuery).mobile.transitionHandlers.slide = $14.mobile.transitionHandlers.simultaneous, $14.mobile.transitionFallbacks.slide = "fade", jQuery.mobile.transitionFallbacks.slidedown = "fade", jQuery.mobile.transitionFallbacks.slidefade = "fade", jQuery.mobile.transitionFallbacks.slideup = "fade", jQuery.mobile.transitionFallbacks.turn = "fade", ($15 = jQuery).mobile.degradeInputs = {
+    }, $13.mobile.getMaxScrollForTransition = $13.mobile.getMaxScrollForTransition || function() {
+        return 3 * $13.mobile.getScreenHeight();
+    }, jQuery.mobile.transitionFallbacks.flip = "fade", jQuery.mobile.transitionFallbacks.flow = "fade", jQuery.mobile.transitionFallbacks.pop = "fade", ($14 = jQuery).mobile.transitionHandlers.slide = $14.mobile.transitionHandlers.simultaneous, $14.mobile.transitionFallbacks.slide = "fade", jQuery.mobile.transitionFallbacks.slidedown = "fade", jQuery.mobile.transitionFallbacks.slidefade = "fade", jQuery.mobile.transitionFallbacks.slideup = "fade", jQuery.mobile.transitionFallbacks.turn = "fade", ($15 = jQuery).mobile.degradeInputs = {
         color: !1,
         date: !1,
         datetime: !1,
@@ -2557,7 +2557,7 @@
                 this.refresh(undefined, !1, !0);
             },
             refresh: function(val, isfromControl, preventInputUpdate) {
-                var bg, left, width, data, pxStep, percent, control, isInput, optionElements, min, max, step, newval, valModStep, alignValue, percentPerStep, handlePercent, aPercent, bPercent, valueChanged, self = this, parentTheme = $.mobile.getAttribute(this.element[0], "theme"), theme = this.options.theme || parentTheme, trackTheme = this.options.trackTheme || parentTheme, cornerClass = this.options.corners ? " ui-corner-all" : "", miniClass = this.options.mini ? " ui-mini" : "";
+                var bg, left, width, data, pxStep, percent, control, isInput, optionElements, min, max, step, newval, valModStep, alignValue, handlePercent, aPercent, bPercent, valueChanged, self = this, parentTheme = $.mobile.getAttribute(this.element[0], "theme"), theme = this.options.theme || parentTheme, trackTheme = this.options.trackTheme || parentTheme, cornerClass = this.options.corners ? " ui-corner-all" : "", miniClass = this.options.mini ? " ui-mini" : "";
                 if (self.slider[0].className = [
                     this.isToggleSwitch ? "ui-slider ui-slider-switch ui-slider-track ui-shadow-inset" : "ui-slider-track ui-shadow-inset",
                     trackTheme ? " ui-bar-" + trackTheme : " ui-bar-inherit",
@@ -2567,7 +2567,7 @@
                     if (data = val, left = this.slider.offset().left, pxStep = (width = this.slider.width()) / ((max - min) / step), !this.dragging || data.pageX < left - 8 || data.pageX > left + width + 8) return;
                     percent = pxStep > 1 ? (data.pageX - left) / width * 100 : Math.round((data.pageX - left) / width * 100);
                 } else null == val && (val = isInput ? parseFloat(control.val() || 0) : control[0].selectedIndex), percent = (parseFloat(val) - min) / (max - min) * 100;
-                if (!isNaN(percent) && (valModStep = ((newval = percent / 100 * (max - min) + min) - min) % step, alignValue = newval - valModStep, 2 * Math.abs(valModStep) >= step && (alignValue += valModStep > 0 ? step : -step), percentPerStep = 100 / ((max - min) / step), newval = parseFloat(alignValue.toFixed(5)), void 0 === pxStep && (pxStep = width / ((max - min) / step)), pxStep > 1 && isInput && (percent = (newval - min) * percentPerStep * (1 / step)), percent < 0 && (percent = 0), percent > 100 && (percent = 100), newval < min && (newval = min), newval > max && (newval = max), this.handle.css("left", percent + "%"), this.handle[0].setAttribute("aria-valuenow", isInput ? newval : optionElements.eq(newval).attr("value")), this.handle[0].setAttribute("aria-valuetext", isInput ? newval : optionElements.eq(newval).getEncodedText()), this.handle[0].setAttribute("title", isInput ? newval : optionElements.eq(newval).getEncodedText()), this.valuebg && this.valuebg.css("width", percent + "%"), this._labels && (handlePercent = this.handle.width() / this.slider.width() * 100, aPercent = percent && handlePercent + (100 - handlePercent) * percent / 100, bPercent = 100 === percent ? 0 : Math.min(handlePercent + 100 - aPercent, 100), this._labels.each(function() {
+                if (!isNaN(percent) && (valModStep = ((newval = percent / 100 * (max - min) + min) - min) % step, alignValue = newval - valModStep, 2 * Math.abs(valModStep) >= step && (alignValue += valModStep > 0 ? step : -step), newval = parseFloat(alignValue.toFixed(5)), void 0 === pxStep && (pxStep = width / ((max - min) / step)), pxStep > 1 && isInput && (percent = (newval - min) * (100 / ((max - min) / step)) * (1 / step)), percent < 0 && (percent = 0), percent > 100 && (percent = 100), newval < min && (newval = min), newval > max && (newval = max), this.handle.css("left", percent + "%"), this.handle[0].setAttribute("aria-valuenow", isInput ? newval : optionElements.eq(newval).attr("value")), this.handle[0].setAttribute("aria-valuetext", isInput ? newval : optionElements.eq(newval).getEncodedText()), this.handle[0].setAttribute("title", isInput ? newval : optionElements.eq(newval).getEncodedText()), this.valuebg && this.valuebg.css("width", percent + "%"), this._labels && (handlePercent = this.handle.width() / this.slider.width() * 100, aPercent = percent && handlePercent + (100 - handlePercent) * percent / 100, bPercent = 100 === percent ? 0 : Math.min(handlePercent + 100 - aPercent, 100), this._labels.each(function() {
                     var ab = $(this).hasClass("ui-slider-label-a");
                     $(this).width((ab ? aPercent : bPercent) + "%");
                 })), !preventInputUpdate)) {
@@ -2915,12 +2915,12 @@
                 this._prepareHeightUpdate(this.options.keyupTimeoutBuffer);
             },
             _updateHeight: function() {
-                var scrollHeight, clientHeight, height, scrollTop = this.window.scrollTop();
+                var paddingTop, scrollHeight, clientHeight, borderTop, height, scrollTop = this.window.scrollTop();
                 this.keyupTimeout = 0, "onpage" in this.element[0] || this.element.css({
                     height: 0,
                     "min-height": 0,
                     "max-height": 0
-                }), scrollHeight = this.element[0].scrollHeight, clientHeight = this.element[0].clientHeight, height = scrollHeight + (parseFloat(this.element.css("border-top-width")) + parseFloat(this.element.css("border-bottom-width"))) + 15, 0 === clientHeight && (height += parseFloat(this.element.css("padding-top")) + parseFloat(this.element.css("padding-bottom"))), this.element.css({
+                }), scrollHeight = this.element[0].scrollHeight, clientHeight = this.element[0].clientHeight, borderTop = parseFloat(this.element.css("border-top-width")), height = scrollHeight + (borderTop + parseFloat(this.element.css("border-bottom-width"))) + 15, 0 === clientHeight && (paddingTop = parseFloat(this.element.css("padding-top")), height += paddingTop + parseFloat(this.element.css("padding-bottom"))), this.element.css({
                     height: height,
                     "min-height": "",
                     "max-height": ""

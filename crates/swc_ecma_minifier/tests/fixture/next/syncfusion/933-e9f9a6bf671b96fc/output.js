@@ -224,10 +224,10 @@
             function debounce(eventFunction, delay) {
                 var out;
                 return function() {
-                    var _this = this, args = arguments, later = function() {
+                    var _this = this, args = arguments;
+                    clearTimeout(out), out = setTimeout(function() {
                         return out = null, eventFunction.apply(_this, args);
-                    };
-                    clearTimeout(out), out = setTimeout(later, delay);
+                    }, delay);
                 };
             }
             function compareElementParent(child, parent) {
@@ -4423,10 +4423,10 @@
                 }, ChildProperty.prototype.updateTimeOut = function() {
                     if (this.parentObj.updateTimeOut) this.parentObj.finalUpdate(), this.parentObj.updateTimeOut();
                     else {
-                        var changeTime_1 = setTimeout(this.parentObj.dataBind.bind(this.parentObj)), clearUpdate = function() {
+                        var changeTime_1 = setTimeout(this.parentObj.dataBind.bind(this.parentObj));
+                        this.finalUpdate = function() {
                             clearTimeout(changeTime_1);
                         };
-                        this.finalUpdate = clearUpdate;
                     }
                 }, ChildProperty.prototype.clearChanges = function() {
                     this.finalUpdate(), this.updateChange(!1, this.propName), this.oldProperties = {}, this.changedProperties = {};
@@ -20713,12 +20713,9 @@
                     clearTimeout(this.autoCloseTimer), this.targetHover(evt.originalEvent);
                 }, Tooltip.prototype.touchEndHandler = function(e) {
                     var _this = this;
-                    if (!this.isSticky) {
-                        var close = function() {
-                            _this.close();
-                        };
-                        this.autoCloseTimer = setTimeout(close, 1500);
-                    }
+                    this.isSticky || (this.autoCloseTimer = setTimeout(function() {
+                        _this.close();
+                    }, 1500));
                 }, Tooltip.prototype.targetClick = function(e) {
                     var target;
                     target = this.target ? (0, ej2_base.oq)(e.target, this.target) : this.element, !(0, ej2_base.le)(target) && (null === target.getAttribute('data-tooltip-id') ? this.targetHover(e) : this.isSticky || this.hideTooltip(this.animation.close, e, target));
@@ -20743,11 +20740,9 @@
                         event: e || null,
                         element: this.tooltipEle,
                         isInteracted: !(0, ej2_base.le)(e)
-                    };
-                    var observeCallback = function(beforeRenderArgs) {
+                    }, this.trigger('beforeRender', this.tooltipEventArgs, (function(beforeRenderArgs) {
                         _this.beforeRenderCallback(beforeRenderArgs, target, e, showAnimation);
-                    };
-                    this.trigger('beforeRender', this.tooltipEventArgs, observeCallback.bind(this));
+                    }).bind(this));
                 }, Tooltip.prototype.beforeRenderCallback = function(beforeRenderArgs, target, e, showAnimation) {
                     beforeRenderArgs.cancel ? (this.isHidden = !0, this.clear(), this.mouseMoveBeforeRemove()) : (this.isHidden = !1, (0, ej2_base.le)(this.tooltipEle) ? (this.ctrlId = this.element.getAttribute('id') ? (0, ej2_base.QI)(this.element.getAttribute('id')) : (0, ej2_base.QI)('tooltip'), this.tooltipEle = this.createElement('div', {
                         className: TOOLTIP_WRAP + ' ' + POPUP_ROOT + ' ' + POPUP_LIB,
@@ -20773,24 +20768,20 @@
                         ctrlObj.tooltipEle
                     ], POPUP_OPEN), ctrlObj.showTipPointer && ctrlObj.renderArrow(), ctrlObj.renderCloseIcon(), ctrlObj.renderPopup(target), ctrlObj.adjustArrow(target, ctrlObj.position, ctrlObj.tooltipPositionX, ctrlObj.tooltipPositionY), ej2_base.fw.stop(ctrlObj.tooltipEle), ctrlObj.reposition(target));
                 }, Tooltip.prototype.tooltipAfterRender = function(target, e, showAnimation, ctrlObj) {
-                    if (target) {
-                        (0, ej2_base.IV)([
-                            ctrlObj.tooltipEle
-                        ], POPUP_OPEN), (0, ej2_base.cn)([
-                            ctrlObj.tooltipEle
-                        ], POPUP_CLOSE), ctrlObj.tooltipEventArgs = {
-                            type: e ? e.type : null,
-                            cancel: !1,
-                            target: target,
-                            event: e || null,
-                            element: ctrlObj.tooltipEle,
-                            isInteracted: !(0, ej2_base.le)(e)
-                        }, ctrlObj.needTemplateReposition() && !ctrlObj.mouseTrail && (ctrlObj.tooltipEle.style.display = 'none');
-                        var observeCallback = function(observedArgs) {
-                            ctrlObj.beforeOpenCallback(observedArgs, target, showAnimation, e);
-                        };
-                        ctrlObj.trigger('beforeOpen', ctrlObj.tooltipEventArgs, observeCallback.bind(ctrlObj));
-                    }
+                    target && ((0, ej2_base.IV)([
+                        ctrlObj.tooltipEle
+                    ], POPUP_OPEN), (0, ej2_base.cn)([
+                        ctrlObj.tooltipEle
+                    ], POPUP_CLOSE), ctrlObj.tooltipEventArgs = {
+                        type: e ? e.type : null,
+                        cancel: !1,
+                        target: target,
+                        event: e || null,
+                        element: ctrlObj.tooltipEle,
+                        isInteracted: !(0, ej2_base.le)(e)
+                    }, ctrlObj.needTemplateReposition() && !ctrlObj.mouseTrail && (ctrlObj.tooltipEle.style.display = 'none'), ctrlObj.trigger('beforeOpen', ctrlObj.tooltipEventArgs, (function(observedArgs) {
+                        ctrlObj.beforeOpenCallback(observedArgs, target, showAnimation, e);
+                    }).bind(ctrlObj)));
                 }, Tooltip.prototype.beforeOpenCallback = function(observedArgs, target, showAnimation, e) {
                     var _this = this;
                     if (observedArgs.cancel) this.isHidden = !0, this.clear(), this.mouseMoveBeforeRemove(), this.restoreElement(target);
@@ -20801,12 +20792,9 @@
                             delay: showAnimation.delay,
                             timingFunction: 'easeOut'
                         };
-                        if ('None' === showAnimation.effect && (openAnimation_1 = void 0), this.openDelay > 0) {
-                            var show = function() {
-                                _this.mouseTrail && ej2_base.bi.add(target, 'mousemove touchstart mouseenter', _this.onMouseMove, _this), _this.popupObj && (_this.popupObj.show(openAnimation_1, target), _this.mouseMoveEvent && _this.mouseTrail && _this.onMouseMove(_this.mouseMoveEvent));
-                            };
-                            this.showTimer = setTimeout(show, this.openDelay);
-                        } else this.popupObj && this.popupObj.show(openAnimation_1, target);
+                        'None' === showAnimation.effect && (openAnimation_1 = void 0), this.openDelay > 0 ? this.showTimer = setTimeout(function() {
+                            _this.mouseTrail && ej2_base.bi.add(target, 'mousemove touchstart mouseenter', _this.onMouseMove, _this), _this.popupObj && (_this.popupObj.show(openAnimation_1, target), _this.mouseMoveEvent && _this.mouseTrail && _this.onMouseMove(_this.mouseMoveEvent));
+                        }, this.openDelay) : this.popupObj && this.popupObj.show(openAnimation_1, target);
                     }
                     e && this.wireMouseEvents(e, target);
                 }, Tooltip.prototype.needTemplateReposition = function() {
@@ -20862,13 +20850,9 @@
                     return !this.windowCollision && this.target ? this.element : null;
                 }, Tooltip.prototype.hideTooltip = function(hideAnimation, e, targetElement) {
                     var _this = this;
-                    if (this.closeDelay > 0) {
-                        clearTimeout(this.hideTimer), clearTimeout(this.showTimer);
-                        var hide = function() {
-                            _this.closeDelay && _this.tooltipEle && _this.isTooltipOpen || _this.tooltipHide(hideAnimation, e, targetElement);
-                        };
-                        this.hideTimer = setTimeout(hide, this.closeDelay);
-                    } else this.tooltipHide(hideAnimation, e, targetElement);
+                    this.closeDelay > 0 ? (clearTimeout(this.hideTimer), clearTimeout(this.showTimer), this.hideTimer = setTimeout(function() {
+                        _this.closeDelay && _this.tooltipEle && _this.isTooltipOpen || _this.tooltipHide(hideAnimation, e, targetElement);
+                    }, this.closeDelay)) : this.tooltipHide(hideAnimation, e, targetElement);
                 }, Tooltip.prototype.tooltipHide = function(hideAnimation, e, targetElement) {
                     var target, _this = this;
                     target = e ? this.target ? targetElement || e.target : this.element : (0, ej2_base.Ys)('[data-tooltip-id= "' + this.ctrlId + '_content"]', document), this.tooltipEventArgs = {

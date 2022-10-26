@@ -1,10 +1,9 @@
 //// [bar.js]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-var Bar = function Bar() {
+module.exports = function Bar() {
     "use strict";
     _class_call_check(this, Bar);
 };
-module.exports = Bar;
 //// [cls.js]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";

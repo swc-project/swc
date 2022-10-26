@@ -9,12 +9,10 @@ function m1() {
 }(), function(x) {
     void 0 === x || _type_of(x);
 }(1), function(M) {
-    M.x = 1;
-    var C = function C() {
+    M.x = 1, M.C = function C() {
         "use strict";
         _class_call_check(this, C);
     };
-    M.C = C;
 }(M || (M = {})), (m1 || (m1 = {})).y = 2;
 var M, e1, c1 = function c1(x) {
     "use strict";

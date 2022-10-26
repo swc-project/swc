@@ -10,7 +10,7 @@
                     return Global;
                 }
             });
-            var fn, cache, func, cursor, react = __webpack_require__(7294), StyleSheet = function() {
+            var cache, func, cursor, react = __webpack_require__(7294), StyleSheet = function() {
                 function StyleSheet(options) {
                     var _this = this;
                     this._insertTag = function(tag) {
@@ -320,26 +320,23 @@
                                 copy(replace(element.value, "@", "@" + WEBKIT), element, "")
                             ], callback);
                         case Enum_RULESET:
-                            if (element.length) {
-                                var array, callback1;
-                                return array = element.props, callback1 = function(value) {
-                                    var value1;
-                                    switch(value1 = value, (value1 = /(::plac\w+|:read-\w+)/.exec(value1)) ? value1[0] : value1){
-                                        case ":read-only":
-                                        case ":read-write":
-                                            return serialize([
-                                                copy(replace(value, /:(read-\w+)/, ":" + MOZ + "$1"), element, "")
-                                            ], callback);
-                                        case "::placeholder":
-                                            return serialize([
-                                                copy(replace(value, /:(plac\w+)/, ":" + WEBKIT + "input-$1"), element, ""),
-                                                copy(replace(value, /:(plac\w+)/, ":" + MOZ + "$1"), element, ""),
-                                                copy(replace(value, /:(plac\w+)/, MS + "input-$1"), element, "")
-                                            ], callback);
-                                    }
-                                    return "";
-                                }, array.map(callback1).join("");
-                            }
+                            if (element.length) return element.props.map(function(value) {
+                                var value1;
+                                switch(value1 = value, (value1 = /(::plac\w+|:read-\w+)/.exec(value1)) ? value1[0] : value1){
+                                    case ":read-only":
+                                    case ":read-write":
+                                        return serialize([
+                                            copy(replace(value, /:(read-\w+)/, ":" + MOZ + "$1"), element, "")
+                                        ], callback);
+                                    case "::placeholder":
+                                        return serialize([
+                                            copy(replace(value, /:(plac\w+)/, ":" + WEBKIT + "input-$1"), element, ""),
+                                            copy(replace(value, /:(plac\w+)/, ":" + MOZ + "$1"), element, ""),
+                                            copy(replace(value, /:(plac\w+)/, MS + "input-$1"), element, "")
+                                        ], callback);
+                                }
+                                return "";
+                            }).join("");
                     }
                 }
             ], hash_browser_esm = function(str) {
@@ -403,10 +400,8 @@
                 return 45 === property.charCodeAt(1);
             }, isProcessableValue = function(value) {
                 return null != value && "boolean" != typeof value;
-            }, processStyleName = (fn = function(styleName) {
-                return isCustomProperty(styleName) ? styleName : styleName.replace(hyphenateRegex, "-$&").toLowerCase();
-            }, cache = Object.create(null), function(arg) {
-                return void 0 === cache[arg] && (cache[arg] = fn(arg)), cache[arg];
+            }, processStyleName = (cache = Object.create(null), function(arg) {
+                return void 0 === cache[arg] && (cache[arg] = isCustomProperty(arg) ? arg : arg.replace(hyphenateRegex, "-$&").toLowerCase()), cache[arg];
             }), processStyleValue = function(key, value) {
                 switch(key){
                     case "animation":
@@ -490,7 +485,7 @@
             };
             Object.prototype.hasOwnProperty;
             var EmotionCacheContext = (0, react.createContext)("undefined" != typeof HTMLElement ? function(options) {
-                var collection, length, callback, container, _insert, currentSheet, key = options.key;
+                var collection, length, callback, container, currentSheet, key = options.key;
                 if ("css" === key) {
                     var ssrStyles = document.querySelectorAll("style[data-emotion]:not([data-s])");
                     Array.prototype.forEach.call(ssrStyles, function(node) {
@@ -617,11 +612,7 @@
                     ], value = alloc(value = styles), 0, [
                         0
                     ], value), characters = "", value1), serializer);
-                };
-                _insert = function(selector, serialized, sheet, shouldCache) {
-                    currentSheet = sheet, stylis(selector ? selector + "{" + serialized.styles + "}" : serialized.styles), shouldCache && (cache.inserted[serialized.name] = !0);
-                };
-                var cache = {
+                }, cache = {
                     key: key,
                     sheet: new StyleSheet({
                         key: key,
@@ -633,7 +624,9 @@
                     nonce: options.nonce,
                     inserted: inserted,
                     registered: {},
-                    insert: _insert
+                    insert: function(selector, serialized, sheet, shouldCache) {
+                        currentSheet = sheet, stylis(selector ? selector + "{" + serialized.styles + "}" : serialized.styles), shouldCache && (cache.inserted[serialized.name] = !0);
+                    }
                 };
                 return cache.sheet.hydrate(nodesToHydrate), cache;
             }({
@@ -785,7 +778,7 @@
                     prefetched[href + "%" + as + (curLocale ? "%" + curLocale : "")] = !0;
                 }
             }
-            var _default = function(props) {
+            exports.default = function(props) {
                 var child, p = !1 !== props.prefetch, router = _router1.useRouter(), ref2 = _react.default.useMemo(function() {
                     var ref = _slicedToArray(_router.resolveHref(router, props.href, !0), 2), resolvedHref = ref[0], resolvedAs = ref[1];
                     return {
@@ -840,7 +833,6 @@
                 }
                 return _react.default.cloneElement(child, childProps);
             };
-            exports.default = _default;
         },
         7190: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
@@ -866,10 +858,8 @@
                 }(arr, 2) || function() {
                     throw TypeError("Invalid attempt to destructure non-iterable instance");
                 }(), visible = ref[0], setVisible = ref[1], setRef = _react.useCallback(function(el) {
-                    var callback, ref, id, observer, elements;
-                    unobserve.current && (unobserve.current(), unobserve.current = void 0), !isDisabled && !visible && el && el.tagName && (unobserve.current = (callback = function(isVisible) {
-                        return isVisible && setVisible(isVisible);
-                    }, id = (ref = function(options) {
+                    var ref, id, observer, elements;
+                    unobserve.current && (unobserve.current(), unobserve.current = void 0), !isDisabled && !visible && el && el.tagName && (unobserve.current = (id = (ref = function(options) {
                         var id = options.rootMargin || "", instance = observers.get(id);
                         if (instance) return instance;
                         var elements = new Map(), observer = new IntersectionObserver(function(entries) {
@@ -885,7 +875,9 @@
                         }), instance;
                     }({
                         rootMargin: rootMargin
-                    })).id, observer = ref.observer, (elements = ref.elements).set(el, callback), observer.observe(el), function() {
+                    })).id, observer = ref.observer, (elements = ref.elements).set(el, function(isVisible) {
+                        return isVisible && setVisible(isVisible);
+                    }), observer.observe(el), function() {
                         elements.delete(el), observer.unobserve(el), 0 === elements.size && (observer.disconnect(), observers.delete(id));
                     }));
                 }, [

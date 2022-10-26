@@ -10,7 +10,7 @@
                     return _app;
                 }
             });
-            var initialState, state, listeners, setState, _lg$1, _md$1, _sm$1, _baseStyleRoot, _Input$baseStyle$fiel, _Input$baseStyle, _Input$variants$unsty$1, _xs, _sm, _md, _lg, _xl, _container2, _container3, _container4, _Input$variants$unsty, _Input$sizes$xs$field, _Input$sizes$sm$field, _Input$sizes$md$field, _Input$sizes$lg$field, jsx_runtime = __webpack_require__(5893), react = __webpack_require__(7294), emotion_react_browser_esm = __webpack_require__(917), CSSReset = function() {
+            var initialState, state, listeners, setState, _lg$1, _md$1, _sm$1, _baseStyleRoot, _Input$baseStyle$fiel, _Input$baseStyle, _Input$variants$unsty$1, _xs, _sm, _md, _lg, _xl, _container2, _container3, _container4, _Input$variants$unsty, _Input$sizes$xs$field, _Input$sizes$sm$field, _Input$sizes$md$field, _Input$sizes$lg$field, jsx_runtime = __webpack_require__(5893), react = __webpack_require__(7294), emotion_react_browser_esm = __webpack_require__(917), CSSReset$1 = function() {
                 return react.createElement(emotion_react_browser_esm.xB, {
                     styles: '\n      html {\n        line-height: 1.5;\n        -webkit-text-size-adjust: 100%;\n        font-family: system-ui, sans-serif;\n        -webkit-font-smoothing: antialiased;\n        text-rendering: optimizeLegibility;\n        -moz-osx-font-smoothing: grayscale;\n        touch-action: manipulation;\n      }\n\n      body {\n        position: relative;\n        min-height: 100%;\n        font-feature-settings: \'kern\';\n      }\n\n      *,\n      *::before,\n      *::after {\n        border-width: 0;\n        border-style: solid;\n        box-sizing: border-box;\n      }\n\n      main {\n        display: block;\n      }\n\n      hr {\n        border-top-width: 1px;\n        box-sizing: content-box;\n        height: 0;\n        overflow: visible;\n      }\n\n      pre,\n      code,\n      kbd,\n      samp {\n        font-family: SFMono-Regular,  Menlo, Monaco, Consolas, monospace;\n        font-size: 1em;\n      }\n\n      a {\n        background-color: transparent;\n        color: inherit;\n        text-decoration: inherit;\n      }\n\n      abbr[title] {\n        border-bottom: none;\n        text-decoration: underline;\n        -webkit-text-decoration: underline dotted;\n        text-decoration: underline dotted;\n      }\n\n      b,\n      strong {\n        font-weight: bold;\n      }\n\n      small {\n        font-size: 80%;\n      }\n\n      sub,\n      sup {\n        font-size: 75%;\n        line-height: 0;\n        position: relative;\n        vertical-align: baseline;\n      }\n\n      sub {\n        bottom: -0.25em;\n      }\n\n      sup {\n        top: -0.5em;\n      }\n\n      img {\n        border-style: none;\n      }\n\n      button,\n      input,\n      optgroup,\n      select,\n      textarea {\n        font-family: inherit;\n        font-size: 100%;\n        line-height: 1.15;\n        margin: 0;\n      }\n\n      button,\n      input {\n        overflow: visible;\n      }\n\n      button,\n      select {\n        text-transform: none;\n      }\n\n      button::-moz-focus-inner,\n      [type="button"]::-moz-focus-inner,\n      [type="reset"]::-moz-focus-inner,\n      [type="submit"]::-moz-focus-inner {\n        border-style: none;\n        padding: 0;\n      }\n\n      fieldset {\n        padding: 0.35em 0.75em 0.625em;\n      }\n\n      legend {\n        box-sizing: border-box;\n        color: inherit;\n        display: table;\n        max-width: 100%;\n        padding: 0;\n        white-space: normal;\n      }\n\n      progress {\n        vertical-align: baseline;\n      }\n\n      textarea {\n        overflow: auto;\n      }\n\n      [type="checkbox"],\n      [type="radio"] {\n        box-sizing: border-box;\n        padding: 0;\n      }\n\n      [type="number"]::-webkit-inner-spin-button,\n      [type="number"]::-webkit-outer-spin-button {\n        -webkit-appearance: none !important;\n      }\n\n      input[type="number"] {\n        -moz-appearance: textfield;\n      }\n\n      [type="search"] {\n        -webkit-appearance: textfield;\n        outline-offset: -2px;\n      }\n\n      [type="search"]::-webkit-search-decoration {\n        -webkit-appearance: none !important;\n      }\n\n      ::-webkit-file-upload-button {\n        -webkit-appearance: button;\n        font: inherit;\n      }\n\n      details {\n        display: block;\n      }\n\n      summary {\n        display: list-item;\n      }\n\n      template {\n        display: none;\n      }\n\n      [hidden] {\n        display: none !important;\n      }\n\n      body,\n      blockquote,\n      dl,\n      dd,\n      h1,\n      h2,\n      h3,\n      h4,\n      h5,\n      h6,\n      hr,\n      figure,\n      p,\n      pre {\n        margin: 0;\n      }\n\n      button {\n        background: transparent;\n        padding: 0;\n      }\n\n      fieldset {\n        margin: 0;\n        padding: 0;\n      }\n\n      ol,\n      ul {\n        margin: 0;\n        padding: 0;\n      }\n\n      textarea {\n        resize: vertical;\n      }\n\n      button,\n      [role="button"] {\n        cursor: pointer;\n      }\n\n      button::-moz-focus-inner {\n        border: 0 !important;\n      }\n\n      table {\n        border-collapse: collapse;\n      }\n\n      h1,\n      h2,\n      h3,\n      h4,\n      h5,\n      h6 {\n        font-size: inherit;\n        font-weight: inherit;\n      }\n\n      button,\n      input,\n      optgroup,\n      select,\n      textarea {\n        padding: 0;\n        line-height: inherit;\n        color: inherit;\n      }\n\n      img,\n      svg,\n      video,\n      canvas,\n      audio,\n      iframe,\n      embed,\n      object {\n        display: block;\n      }\n\n      img,\n      video {\n        max-width: 100%;\n        height: auto;\n      }\n\n      [data-js-focus-visible] :focus:not([data-focus-visible-added]):not([data-focus-visible-disabled]) {\n        outline: none;\n        box-shadow: none;\n      }\n\n      select::-ms-expand {\n        display: none;\n      }\n    '
                 });
@@ -225,7 +225,7 @@
                 }, react.createElement(chakra_ui_color_mode_esm.SG, {
                     colorModeManager: colorModeManager,
                     options: theme.config
-                }, (void 0 === _props$resetCSS || _props$resetCSS) && react.createElement(CSSReset, null), react.createElement(chakra_ui_system_esm.ZL, null), portalZIndex ? react.createElement(PortalManager, {
+                }, (void 0 === _props$resetCSS || _props$resetCSS) && react.createElement(CSSReset$1, null), react.createElement(chakra_ui_system_esm.ZL, null), portalZIndex ? react.createElement(PortalManager, {
                     zIndex: portalZIndex
                 }, _children) : _children));
             }, spacing = {
@@ -1492,60 +1492,7 @@
                 var theme = props.theme, c = props.colorScheme;
                 return mode(getColor(theme, c + ".100", c), transparentize(c + ".200", 0.16)(theme))(props);
             }
-            var variantSubtle$1 = function(props) {
-                var c = props.colorScheme;
-                return {
-                    container: {
-                        bg: getBg(props)
-                    },
-                    icon: {
-                        color: mode(c + ".500", c + ".200")(props)
-                    },
-                    spinner: {
-                        color: mode(c + ".500", c + ".200")(props)
-                    }
-                };
-            }, variantLeftAccent = function(props) {
-                var c = props.colorScheme;
-                return {
-                    container: {
-                        paddingStart: 3,
-                        borderStartWidth: "4px",
-                        borderStartColor: mode(c + ".500", c + ".200")(props),
-                        bg: getBg(props)
-                    },
-                    icon: {
-                        color: mode(c + ".500", c + ".200")(props)
-                    },
-                    spinner: {
-                        color: mode(c + ".500", c + ".200")(props)
-                    }
-                };
-            }, variantTopAccent = function(props) {
-                var c = props.colorScheme;
-                return {
-                    container: {
-                        pt: 2,
-                        borderTopWidth: "4px",
-                        borderTopColor: mode(c + ".500", c + ".200")(props),
-                        bg: getBg(props)
-                    },
-                    icon: {
-                        color: mode(c + ".500", c + ".200")(props)
-                    },
-                    spinner: {
-                        color: mode(c + ".500", c + ".200")(props)
-                    }
-                };
-            }, variantSolid$3 = function(props) {
-                var c = props.colorScheme;
-                return {
-                    container: {
-                        bg: mode(c + ".500", c + ".200")(props),
-                        color: mode("white", "gray.900")(props)
-                    }
-                };
-            }, Alert = {
+            var Alert = {
                 parts: alertAnatomy.keys,
                 baseStyle: {
                     container: {
@@ -1574,10 +1521,63 @@
                     }
                 },
                 variants: {
-                    subtle: variantSubtle$1,
-                    "left-accent": variantLeftAccent,
-                    "top-accent": variantTopAccent,
-                    solid: variantSolid$3
+                    subtle: function(props) {
+                        var c = props.colorScheme;
+                        return {
+                            container: {
+                                bg: getBg(props)
+                            },
+                            icon: {
+                                color: mode(c + ".500", c + ".200")(props)
+                            },
+                            spinner: {
+                                color: mode(c + ".500", c + ".200")(props)
+                            }
+                        };
+                    },
+                    "left-accent": function(props) {
+                        var c = props.colorScheme;
+                        return {
+                            container: {
+                                paddingStart: 3,
+                                borderStartWidth: "4px",
+                                borderStartColor: mode(c + ".500", c + ".200")(props),
+                                bg: getBg(props)
+                            },
+                            icon: {
+                                color: mode(c + ".500", c + ".200")(props)
+                            },
+                            spinner: {
+                                color: mode(c + ".500", c + ".200")(props)
+                            }
+                        };
+                    },
+                    "top-accent": function(props) {
+                        var c = props.colorScheme;
+                        return {
+                            container: {
+                                pt: 2,
+                                borderTopWidth: "4px",
+                                borderTopColor: mode(c + ".500", c + ".200")(props),
+                                bg: getBg(props)
+                            },
+                            icon: {
+                                color: mode(c + ".500", c + ".200")(props)
+                            },
+                            spinner: {
+                                color: mode(c + ".500", c + ".200")(props)
+                            }
+                        };
+                    },
+                    solid: function(props) {
+                        var c = props.colorScheme;
+                        return {
+                            container: {
+                                bg: mode(c + ".500", c + ".200")(props),
+                                color: mode("white", "gray.900")(props)
+                            }
+                        };
+                    }
                 },
                 defaultProps: {
                     variant: "subtle",
@@ -1689,19 +1689,6 @@
                     borderColor: mode("white", "gray.800")(props),
                     verticalAlign: "top"
                 };
-            }, baseStyle$B = function(props) {
-                return {
-                    badge: {
-                        transform: "translate(25%, 25%)",
-                        borderRadius: "full",
-                        border: "0.2em solid",
-                        borderColor: mode("white", "gray.800")(props)
-                    },
-                    excessLabel: {
-                        bg: mode("gray.200", "whiteAlpha.400")(props)
-                    },
-                    container: baseStyleContainer$3(props)
-                };
             };
             function getSize$3(size) {
                 var themeSize = "100%" !== size ? sizes[size] : void 0;
@@ -1732,7 +1719,20 @@
                 full: getSize$3("100%")
             }, Avatar = {
                 parts: avatarAnatomy.keys,
-                baseStyle: baseStyle$B,
+                baseStyle: function(props) {
+                    return {
+                        badge: {
+                            transform: "translate(25%, 25%)",
+                            borderRadius: "full",
+                            border: "0.2em solid",
+                            borderColor: mode("white", "gray.800")(props)
+                        },
+                        excessLabel: {
+                            bg: mode("gray.200", "whiteAlpha.400")(props)
+                        },
+                        container: baseStyleContainer$3(props)
+                    };
+                },
                 sizes: sizes$k,
                 defaultProps: {
                     size: "md"
@@ -1813,15 +1813,6 @@
                         bg: mode(c + ".100", darkActiveBg)(props)
                     }
                 };
-            }, variantOutline$1 = function(props) {
-                var c = props.colorScheme, borderColor = mode("gray.200", "whiteAlpha.300")(props);
-                return sizes_501602a9_esm_extends({
-                    border: "1px solid",
-                    borderColor: "gray" === c ? borderColor : "currentColor",
-                    ".chakra-button__group[data-attached] > &:not(:last-of-type)": {
-                        marginEnd: "-1px"
-                    }
-                }, variantGhost(props));
             }, accessibleColorMap = {
                 yellow: {
                     bg: "yellow.400",
@@ -1835,55 +1826,6 @@
                     hoverBg: "cyan.500",
                     activeBg: "cyan.600"
                 }
-            }, variantSolid$1 = function(props) {
-                var _accessibleColorMap$c, c = props.colorScheme;
-                if ("gray" === c) {
-                    var _bg = mode("gray.100", "whiteAlpha.200")(props);
-                    return {
-                        bg: _bg,
-                        _hover: {
-                            bg: mode("gray.200", "whiteAlpha.300")(props),
-                            _disabled: {
-                                bg: _bg
-                            }
-                        },
-                        _active: {
-                            bg: mode("gray.300", "whiteAlpha.400")(props)
-                        }
-                    };
-                }
-                var _ref = null != (_accessibleColorMap$c = accessibleColorMap[c]) ? _accessibleColorMap$c : {}, _ref$bg = _ref.bg, _ref$color = _ref.color, _ref$hoverBg = _ref.hoverBg, _ref$activeBg = _ref.activeBg, background = mode(void 0 === _ref$bg ? c + ".500" : _ref$bg, c + ".200")(props);
-                return {
-                    bg: background,
-                    color: mode(void 0 === _ref$color ? "white" : _ref$color, "gray.800")(props),
-                    _hover: {
-                        bg: mode(void 0 === _ref$hoverBg ? c + ".600" : _ref$hoverBg, c + ".300")(props),
-                        _disabled: {
-                            bg: background
-                        }
-                    },
-                    _active: {
-                        bg: mode(void 0 === _ref$activeBg ? c + ".700" : _ref$activeBg, c + ".400")(props)
-                    }
-                };
-            }, variantLink = function(props) {
-                var c = props.colorScheme;
-                return {
-                    padding: 0,
-                    height: "auto",
-                    lineHeight: "normal",
-                    verticalAlign: "baseline",
-                    color: mode(c + ".500", c + ".200")(props),
-                    _hover: {
-                        textDecoration: "underline",
-                        _disabled: {
-                            textDecoration: "none"
-                        }
-                    },
-                    _active: {
-                        color: mode(c + ".700", c + ".500")(props)
-                    }
-                };
             }, baseStyleControl$1 = function(props) {
                 var c = props.colorScheme;
                 return {
@@ -1936,16 +1878,16 @@
             }, baseStyleIcon$4 = {
                 transitionProperty: "transform",
                 transitionDuration: "normal"
-            }, baseStyle$x = function(props) {
-                return {
-                    icon: baseStyleIcon$4,
-                    container: baseStyleContainer$2,
-                    control: baseStyleControl$1(props),
-                    label: baseStyleLabel$3
-                };
             }, Checkbox = {
                 parts: checkboxAnatomy.keys,
-                baseStyle: baseStyle$x,
+                baseStyle: function(props) {
+                    return {
+                        icon: baseStyleIcon$4,
+                        container: baseStyleContainer$2,
+                        control: baseStyleControl$1(props),
+                        label: baseStyleLabel$3
+                    };
+                },
                 sizes: {
                     sm: {
                         control: {
@@ -1988,34 +1930,7 @@
                     size: "md",
                     colorScheme: "blue"
                 }
-            }, $size$1 = cssVar("close-button-size"), baseStyle$w = function(props) {
-                var hoverBg = mode("blackAlpha.100", "whiteAlpha.100")(props), activeBg = mode("blackAlpha.200", "whiteAlpha.200")(props);
-                return {
-                    w: [
-                        $size$1.reference
-                    ],
-                    h: [
-                        $size$1.reference
-                    ],
-                    borderRadius: "md",
-                    transitionProperty: "common",
-                    transitionDuration: "normal",
-                    _disabled: {
-                        opacity: 0.4,
-                        cursor: "not-allowed",
-                        boxShadow: "none"
-                    },
-                    _hover: {
-                        bg: hoverBg
-                    },
-                    _active: {
-                        bg: activeBg
-                    },
-                    _focusVisible: {
-                        boxShadow: "outline"
-                    }
-                };
-            }, sizes$h = {
+            }, $size$1 = cssVar("close-button-size"), sizes$h = {
                 lg: ((_lg$1 = {})[$size$1.variable] = "40px", _lg$1.fontSize = "16px", _lg$1),
                 md: ((_md$1 = {})[$size$1.variable] = "32px", _md$1.fontSize = "12px", _md$1),
                 sm: ((_sm$1 = {})[$size$1.variable] = "24px", _sm$1.fontSize = "10px", _sm$1)
@@ -2056,24 +1971,6 @@
             }, baseStyleFooter$2 = {
                 px: 6,
                 py: 4
-            }, baseStyle$s = function(props) {
-                return {
-                    overlay: baseStyleOverlay$1,
-                    dialogContainer: baseStyleDialogContainer$1,
-                    dialog: sizes_501602a9_esm_extends({}, props.isFullHeight && {
-                        height: "100vh"
-                    }, {
-                        zIndex: "modal",
-                        maxH: "100vh",
-                        bg: mode("white", "gray.700")(props),
-                        color: "inherit",
-                        boxShadow: mode("lg", "dark-lg")(props)
-                    }),
-                    header: baseStyleHeader$2,
-                    closeButton: baseStyleCloseButton$3,
-                    body: baseStyleBody$2,
-                    footer: baseStyleFooter$2
-                };
             }, sizes$g = {
                 xs: getSize$2("xs"),
                 sm: getSize$2("md"),
@@ -2083,7 +1980,25 @@
                 full: getSize$2("full")
             }, Drawer = {
                 parts: drawerAnatomy.keys,
-                baseStyle: baseStyle$s,
+                baseStyle: function(props) {
+                    return {
+                        overlay: baseStyleOverlay$1,
+                        dialogContainer: baseStyleDialogContainer$1,
+                        dialog: sizes_501602a9_esm_extends({}, props.isFullHeight && {
+                            height: "100vh"
+                        }, {
+                            zIndex: "modal",
+                            maxH: "100vh",
+                            bg: mode("white", "gray.700")(props),
+                            color: "inherit",
+                            boxShadow: mode("lg", "dark-lg")(props)
+                        }),
+                        header: baseStyleHeader$2,
+                        closeButton: baseStyleCloseButton$3,
+                        body: baseStyleBody$2,
+                        footer: baseStyleFooter$2
+                    };
+                },
                 sizes: sizes$g,
                 defaultProps: {
                     size: "xs"
@@ -2124,42 +2039,42 @@
                         }
                     }
                 }
-            }, baseStyle$q = function(props) {
-                return {
-                    container: {
-                        width: "100%",
-                        position: "relative"
-                    },
-                    requiredIndicator: {
-                        marginStart: 1,
-                        color: mode("red.500", "red.300")(props)
-                    },
-                    helperText: {
-                        mt: 2,
-                        color: mode("gray.500", "whiteAlpha.600")(props),
-                        lineHeight: "normal",
-                        fontSize: "sm"
-                    }
-                };
             }, Form = {
                 parts: formAnatomy.keys,
-                baseStyle: baseStyle$q
-            }, baseStyle$p = function(props) {
-                return {
-                    text: {
-                        color: mode("red.500", "red.300")(props),
-                        mt: 2,
-                        fontSize: "sm",
-                        lineHeight: "normal"
-                    },
-                    icon: {
-                        marginEnd: "0.5em",
-                        color: mode("red.500", "red.300")(props)
-                    }
-                };
+                baseStyle: function(props) {
+                    return {
+                        container: {
+                            width: "100%",
+                            position: "relative"
+                        },
+                        requiredIndicator: {
+                            marginStart: 1,
+                            color: mode("red.500", "red.300")(props)
+                        },
+                        helperText: {
+                            mt: 2,
+                            color: mode("gray.500", "whiteAlpha.600")(props),
+                            lineHeight: "normal",
+                            fontSize: "sm"
+                        }
+                    };
+                }
             }, FormError = {
                 parts: formErrorAnatomy.keys,
-                baseStyle: baseStyle$p
+                baseStyle: function(props) {
+                    return {
+                        text: {
+                            color: mode("red.500", "red.300")(props),
+                            mt: 2,
+                            fontSize: "sm",
+                            lineHeight: "normal"
+                        },
+                        icon: {
+                            marginEnd: "0.5em",
+                            color: mode("red.500", "red.300")(props)
+                        }
+                    };
+                }
             }, size = {
                 lg: {
                     fontSize: "lg",
@@ -2210,103 +2125,7 @@
                     errorBorderColor: ec || mode("red.500", "red.300")(props)
                 };
             }
-            var variantOutline = function(props) {
-                var theme = props.theme, _getDefaults = getDefaults(props), fc = _getDefaults.focusBorderColor, ec = _getDefaults.errorBorderColor;
-                return {
-                    field: {
-                        border: "1px solid",
-                        borderColor: "inherit",
-                        bg: "inherit",
-                        _hover: {
-                            borderColor: mode("gray.300", "whiteAlpha.400")(props)
-                        },
-                        _readOnly: {
-                            boxShadow: "none !important",
-                            userSelect: "all"
-                        },
-                        _disabled: {
-                            opacity: 0.4,
-                            cursor: "not-allowed"
-                        },
-                        _invalid: {
-                            borderColor: getColor(theme, ec),
-                            boxShadow: "0 0 0 1px " + getColor(theme, ec)
-                        },
-                        _focusVisible: {
-                            zIndex: 1,
-                            borderColor: getColor(theme, fc),
-                            boxShadow: "0 0 0 1px " + getColor(theme, fc)
-                        }
-                    },
-                    addon: {
-                        border: "1px solid",
-                        borderColor: mode("inherit", "whiteAlpha.50")(props),
-                        bg: mode("gray.100", "whiteAlpha.300")(props)
-                    }
-                };
-            }, variantFilled = function(props) {
-                var theme = props.theme, _getDefaults2 = getDefaults(props), fc = _getDefaults2.focusBorderColor, ec = _getDefaults2.errorBorderColor;
-                return {
-                    field: {
-                        border: "2px solid",
-                        borderColor: "transparent",
-                        bg: mode("gray.100", "whiteAlpha.50")(props),
-                        _hover: {
-                            bg: mode("gray.200", "whiteAlpha.100")(props)
-                        },
-                        _readOnly: {
-                            boxShadow: "none !important",
-                            userSelect: "all"
-                        },
-                        _disabled: {
-                            opacity: 0.4,
-                            cursor: "not-allowed"
-                        },
-                        _invalid: {
-                            borderColor: getColor(theme, ec)
-                        },
-                        _focusVisible: {
-                            bg: "transparent",
-                            borderColor: getColor(theme, fc)
-                        }
-                    },
-                    addon: {
-                        border: "2px solid",
-                        borderColor: "transparent",
-                        bg: mode("gray.100", "whiteAlpha.50")(props)
-                    }
-                };
-            }, variantFlushed = function(props) {
-                var theme = props.theme, _getDefaults3 = getDefaults(props), fc = _getDefaults3.focusBorderColor, ec = _getDefaults3.errorBorderColor;
-                return {
-                    field: {
-                        borderBottom: "1px solid",
-                        borderColor: "inherit",
-                        borderRadius: 0,
-                        px: 0,
-                        bg: "transparent",
-                        _readOnly: {
-                            boxShadow: "none !important",
-                            userSelect: "all"
-                        },
-                        _invalid: {
-                            borderColor: getColor(theme, ec),
-                            boxShadow: "0px 1px 0px 0px " + getColor(theme, ec)
-                        },
-                        _focusVisible: {
-                            borderColor: getColor(theme, fc),
-                            boxShadow: "0px 1px 0px 0px " + getColor(theme, fc)
-                        }
-                    },
-                    addon: {
-                        borderBottom: "2px solid",
-                        borderColor: "inherit",
-                        borderRadius: 0,
-                        px: 0,
-                        bg: "transparent"
-                    }
-                };
-            }, Input = {
+            var Input = {
                 parts: inputAnatomy.keys,
                 baseStyle: {
                     field: {
@@ -2321,9 +2140,105 @@
                 },
                 sizes: sizes$e,
                 variants: {
-                    outline: variantOutline,
-                    filled: variantFilled,
-                    flushed: variantFlushed,
+                    outline: function(props) {
+                        var theme = props.theme, _getDefaults = getDefaults(props), fc = _getDefaults.focusBorderColor, ec = _getDefaults.errorBorderColor;
+                        return {
+                            field: {
+                                border: "1px solid",
+                                borderColor: "inherit",
+                                bg: "inherit",
+                                _hover: {
+                                    borderColor: mode("gray.300", "whiteAlpha.400")(props)
+                                },
+                                _readOnly: {
+                                    boxShadow: "none !important",
+                                    userSelect: "all"
+                                },
+                                _disabled: {
+                                    opacity: 0.4,
+                                    cursor: "not-allowed"
+                                },
+                                _invalid: {
+                                    borderColor: getColor(theme, ec),
+                                    boxShadow: "0 0 0 1px " + getColor(theme, ec)
+                                },
+                                _focusVisible: {
+                                    zIndex: 1,
+                                    borderColor: getColor(theme, fc),
+                                    boxShadow: "0 0 0 1px " + getColor(theme, fc)
+                                }
+                            },
+                            addon: {
+                                border: "1px solid",
+                                borderColor: mode("inherit", "whiteAlpha.50")(props),
+                                bg: mode("gray.100", "whiteAlpha.300")(props)
+                            }
+                        };
+                    },
+                    filled: function(props) {
+                        var theme = props.theme, _getDefaults2 = getDefaults(props), fc = _getDefaults2.focusBorderColor, ec = _getDefaults2.errorBorderColor;
+                        return {
+                            field: {
+                                border: "2px solid",
+                                borderColor: "transparent",
+                                bg: mode("gray.100", "whiteAlpha.50")(props),
+                                _hover: {
+                                    bg: mode("gray.200", "whiteAlpha.100")(props)
+                                },
+                                _readOnly: {
+                                    boxShadow: "none !important",
+                                    userSelect: "all"
+                                },
+                                _disabled: {
+                                    opacity: 0.4,
+                                    cursor: "not-allowed"
+                                },
+                                _invalid: {
+                                    borderColor: getColor(theme, ec)
+                                },
+                                _focusVisible: {
+                                    bg: "transparent",
+                                    borderColor: getColor(theme, fc)
+                                }
+                            },
+                            addon: {
+                                border: "2px solid",
+                                borderColor: "transparent",
+                                bg: mode("gray.100", "whiteAlpha.50")(props)
+                            }
+                        };
+                    },
+                    flushed: function(props) {
+                        var theme = props.theme, _getDefaults3 = getDefaults(props), fc = _getDefaults3.focusBorderColor, ec = _getDefaults3.errorBorderColor;
+                        return {
+                            field: {
+                                borderBottom: "1px solid",
+                                borderColor: "inherit",
+                                borderRadius: 0,
+                                px: 0,
+                                bg: "transparent",
+                                _readOnly: {
+                                    boxShadow: "none !important",
+                                    userSelect: "all"
+                                },
+                                _invalid: {
+                                    borderColor: getColor(theme, ec),
+                                    boxShadow: "0px 1px 0px 0px " + getColor(theme, ec)
+                                },
+                                _focusVisible: {
+                                    borderColor: getColor(theme, fc),
+                                    boxShadow: "0px 1px 0px 0px " + getColor(theme, fc)
+                                }
+                            },
+                            addon: {
+                                borderBottom: "2px solid",
+                                borderColor: "inherit",
+                                borderRadius: 0,
+                                px: 0,
+                                bg: "transparent"
+                            }
+                        };
+                    },
                     unstyled: {
                         field: {
                             bg: "transparent",
@@ -2341,18 +2256,6 @@
                     size: "md",
                     variant: "outline"
                 }
-            }, baseStyle$l = function(props) {
-                return {
-                    bg: mode("gray.100", "whiteAlpha")(props),
-                    borderRadius: "md",
-                    borderWidth: "1px",
-                    borderBottomWidth: "3px",
-                    fontSize: "0.8em",
-                    fontWeight: "bold",
-                    lineHeight: "normal",
-                    px: "0.4em",
-                    whiteSpace: "nowrap"
-                };
             }, List = {
                 parts: listAnatomy.keys,
                 baseStyle: {
@@ -2380,46 +2283,46 @@
             }, baseStyleButton = {
                 transitionProperty: "common",
                 transitionDuration: "normal"
-            }, baseStyle$i = function(props) {
-                return {
-                    button: baseStyleButton,
-                    list: {
-                        bg: mode("#fff", "gray.700")(props),
-                        boxShadow: mode("sm", "dark-lg")(props),
-                        color: "inherit",
-                        minW: "3xs",
-                        py: "2",
-                        zIndex: 1,
-                        borderRadius: "md",
-                        borderWidth: "1px"
-                    },
-                    item: {
-                        py: "0.4rem",
-                        px: "0.8rem",
-                        transitionProperty: "background",
-                        transitionDuration: "ultra-fast",
-                        transitionTimingFunction: "ease-in",
-                        _focus: {
-                            bg: mode("gray.100", "whiteAlpha.100")(props)
-                        },
-                        _active: {
-                            bg: mode("gray.200", "whiteAlpha.200")(props)
-                        },
-                        _expanded: {
-                            bg: mode("gray.100", "whiteAlpha.100")(props)
-                        },
-                        _disabled: {
-                            opacity: 0.4,
-                            cursor: "not-allowed"
-                        }
-                    },
-                    groupTitle: baseStyleGroupTitle,
-                    command: baseStyleCommand,
-                    divider: baseStyleDivider
-                };
             }, Menu = {
                 parts: menuAnatomy.keys,
-                baseStyle: baseStyle$i
+                baseStyle: function(props) {
+                    return {
+                        button: baseStyleButton,
+                        list: {
+                            bg: mode("#fff", "gray.700")(props),
+                            boxShadow: mode("sm", "dark-lg")(props),
+                            color: "inherit",
+                            minW: "3xs",
+                            py: "2",
+                            zIndex: 1,
+                            borderRadius: "md",
+                            borderWidth: "1px"
+                        },
+                        item: {
+                            py: "0.4rem",
+                            px: "0.8rem",
+                            transitionProperty: "background",
+                            transitionDuration: "ultra-fast",
+                            transitionTimingFunction: "ease-in",
+                            _focus: {
+                                bg: mode("gray.100", "whiteAlpha.100")(props)
+                            },
+                            _active: {
+                                bg: mode("gray.200", "whiteAlpha.200")(props)
+                            },
+                            _expanded: {
+                                bg: mode("gray.100", "whiteAlpha.100")(props)
+                            },
+                            _disabled: {
+                                opacity: 0.4,
+                                cursor: "not-allowed"
+                            }
+                        },
+                        groupTitle: baseStyleGroupTitle,
+                        command: baseStyleCommand,
+                        divider: baseStyleDivider
+                    };
+                }
             }, baseStyleOverlay = {
                 bg: "blackAlpha.600",
                 zIndex: "modal"
@@ -2446,27 +2349,6 @@
             }, baseStyleFooter$1 = {
                 px: 6,
                 py: 4
-            }, baseStyle$h = function(props) {
-                return {
-                    overlay: baseStyleOverlay,
-                    dialogContainer: {
-                        display: "flex",
-                        zIndex: "modal",
-                        justifyContent: "center",
-                        alignItems: props.isCentered ? "center" : "flex-start",
-                        overflow: "inside" === props.scrollBehavior ? "hidden" : "auto"
-                    },
-                    dialog: baseStyleDialog(props),
-                    header: baseStyleHeader$1,
-                    closeButton: baseStyleCloseButton$2,
-                    body: {
-                        px: 6,
-                        py: 2,
-                        flex: 1,
-                        overflow: "inside" === props.scrollBehavior ? "auto" : void 0
-                    },
-                    footer: baseStyleFooter$1
-                };
             };
             function getSize$1(value) {
                 return "full" === value ? {
@@ -2498,7 +2380,28 @@
                 full: getSize$1("full")
             }, Modal = {
                 parts: modalAnatomy.keys,
-                baseStyle: baseStyle$h,
+                baseStyle: function(props) {
+                    return {
+                        overlay: baseStyleOverlay,
+                        dialogContainer: {
+                            display: "flex",
+                            zIndex: "modal",
+                            justifyContent: "center",
+                            alignItems: props.isCentered ? "center" : "flex-start",
+                            overflow: "inside" === props.scrollBehavior ? "hidden" : "auto"
+                        },
+                        dialog: baseStyleDialog(props),
+                        header: baseStyleHeader$1,
+                        closeButton: baseStyleCloseButton$2,
+                        body: {
+                            px: 6,
+                            py: 2,
+                            flex: 1,
+                            overflow: "inside" === props.scrollBehavior ? "auto" : void 0
+                        },
+                        footer: baseStyleFooter$1
+                    };
+                },
                 sizes: sizes$d,
                 defaultProps: {
                     size: "md"
@@ -2507,24 +2410,6 @@
                 width: [
                     $stepperWidth.reference
                 ]
-            }, baseStyle$g = function(props) {
-                return {
-                    root: baseStyleRoot$1,
-                    field: baseStyleField$1,
-                    stepperGroup: baseStyleStepperGroup,
-                    stepper: {
-                        borderStart: "1px solid",
-                        borderStartColor: mode("inherit", "whiteAlpha.300")(props),
-                        color: mode("inherit", "whiteAlpha.800")(props),
-                        _active: {
-                            bg: mode("gray.200", "whiteAlpha.300")(props)
-                        },
-                        _disabled: {
-                            opacity: 0.4,
-                            cursor: "not-allowed"
-                        }
-                    }
-                };
             };
             function getSize(size) {
                 var _sizeStyle$field$font, _sizeStyle$field, sizeStyle = Input.sizes[size], radius = {
@@ -2558,7 +2443,25 @@
                 lg: getSize("lg")
             }, NumberInput = {
                 parts: numberInputAnatomy.keys,
-                baseStyle: baseStyle$g,
+                baseStyle: function(props) {
+                    return {
+                        root: baseStyleRoot$1,
+                        field: baseStyleField$1,
+                        stepperGroup: baseStyleStepperGroup,
+                        stepper: {
+                            borderStart: "1px solid",
+                            borderStartColor: mode("inherit", "whiteAlpha.300")(props),
+                            color: mode("inherit", "whiteAlpha.800")(props),
+                            _active: {
+                                bg: mode("gray.200", "whiteAlpha.300")(props)
+                            },
+                            _disabled: {
+                                opacity: 0.4,
+                                cursor: "not-allowed"
+                            }
+                        }
+                    };
+                },
                 sizes: sizes$c,
                 variants: variants$5,
                 defaultProps: defaultProps$b
@@ -2603,19 +2506,19 @@
                 top: 1,
                 insetEnd: 2,
                 padding: 2
-            }, baseStyle$e = function(props) {
-                return {
-                    popper: baseStylePopper,
-                    content: baseStyleContent(props),
-                    header: baseStyleHeader,
-                    body: baseStyleBody,
-                    footer: baseStyleFooter,
-                    arrow: {},
-                    closeButton: baseStyleCloseButton$1
-                };
             }, Popover = {
                 parts: popoverAnatomy.keys,
-                baseStyle: baseStyle$e
+                baseStyle: function(props) {
+                    return {
+                        popper: baseStylePopper,
+                        content: baseStyleContent(props),
+                        header: baseStyleHeader,
+                        body: baseStyleBody,
+                        footer: baseStyleFooter,
+                        arrow: {},
+                        closeButton: baseStyleCloseButton$1
+                    };
+                }
             }, baseStyleLabel$2 = {
                 lineHeight: "1",
                 fontSize: "0.25em",
@@ -2631,14 +2534,6 @@
                 } : {
                     bgColor: bgColor
                 })));
-            }, baseStyle$d = function(props) {
-                return {
-                    label: baseStyleLabel$2,
-                    filledTrack: baseStyleFilledTrack$1(props),
-                    track: {
-                        bg: mode("gray.100", "whiteAlpha.300")(props)
-                    }
-                };
             }, Progress = {
                 parts: progressAnatomy.keys,
                 sizes: {
@@ -2663,7 +2558,15 @@
                         }
                     }
                 },
-                baseStyle: baseStyle$d,
+                baseStyle: function(props) {
+                    return {
+                        label: baseStyleLabel$2,
+                        filledTrack: baseStyleFilledTrack$1(props),
+                        track: {
+                            bg: mode("gray.100", "whiteAlpha.300")(props)
+                        }
+                    };
+                },
                 defaultProps: {
                     size: "md",
                     colorScheme: "blue"
@@ -2684,15 +2587,15 @@
                         }
                     })
                 });
-            }, baseStyle$c = function(props) {
-                return {
-                    label: Checkbox.baseStyle(props).label,
-                    container: Checkbox.baseStyle(props).container,
-                    control: baseStyleControl(props)
-                };
             }, Radio = {
                 parts: radioAnatomy.keys,
-                baseStyle: baseStyle$c,
+                baseStyle: function(props) {
+                    return {
+                        label: Checkbox.baseStyle(props).label,
+                        container: Checkbox.baseStyle(props).container,
+                        control: baseStyleControl(props)
+                    };
+                },
                 sizes: {
                     md: {
                         control: {
@@ -2736,19 +2639,6 @@
                 _disabled: {
                     opacity: 0.5
                 }
-            }, baseStyle$b = function(props) {
-                return {
-                    field: sizes_501602a9_esm_extends({}, Input.baseStyle.field, {
-                        bg: mode("white", "gray.700")(props),
-                        appearance: "none",
-                        paddingBottom: "1px",
-                        lineHeight: "normal",
-                        "> option, > optgroup": {
-                            bg: mode("white", "gray.700")(props)
-                        }
-                    }),
-                    icon: baseStyleIcon$1
-                };
             }, iconSpacing = {
                 paddingInlineEnd: "2rem"
             }, sizes$8 = lodash_mergewith_default()({}, Input.sizes, {
@@ -2769,41 +2659,23 @@
                 }
             }), Select = {
                 parts: selectAnatomy.keys,
-                baseStyle: baseStyle$b,
+                baseStyle: function(props) {
+                    return {
+                        field: sizes_501602a9_esm_extends({}, Input.baseStyle.field, {
+                            bg: mode("white", "gray.700")(props),
+                            appearance: "none",
+                            paddingBottom: "1px",
+                            lineHeight: "normal",
+                            "> option, > optgroup": {
+                                bg: mode("white", "gray.700")(props)
+                            }
+                        }),
+                        icon: baseStyleIcon$1
+                    };
+                },
                 sizes: sizes$8,
                 variants: Input.variants,
                 defaultProps: Input.defaultProps
-            }, baseStyle$a = function(props) {
-                var defaultStartColor = mode("gray.100", "gray.800")(props), defaultEndColor = mode("gray.400", "gray.600")(props), _props$startColor = props.startColor, _props$endColor = props.endColor, speed = props.speed, theme = props.theme, start = getColor(theme, void 0 === _props$startColor ? defaultStartColor : _props$startColor), end = getColor(theme, void 0 === _props$endColor ? defaultEndColor : _props$endColor);
-                return {
-                    opacity: 0.7,
-                    borderRadius: "2px",
-                    borderColor: start,
-                    background: end,
-                    animation: speed + "s linear infinite alternate " + (0, emotion_react_browser_esm.F4)({
-                        from: {
-                            borderColor: start,
-                            background: start
-                        },
-                        to: {
-                            borderColor: end,
-                            background: end
-                        }
-                    })
-                };
-            }, baseStyle$9 = function(props) {
-                return {
-                    borderRadius: "md",
-                    fontWeight: "semibold",
-                    _focusVisible: {
-                        boxShadow: "outline",
-                        padding: "1rem",
-                        position: "fixed",
-                        top: "1.5rem",
-                        insetStart: "1.5rem",
-                        bg: mode("white", "gray.700")(props)
-                    }
-                };
             }, baseStyleFilledTrack = function(props) {
                 var c = props.colorScheme;
                 return {
@@ -2811,129 +2683,129 @@
                     height: "inherit",
                     bg: mode(c + ".500", c + ".200")(props)
                 };
-            }, baseStyle$8 = function(props) {
-                return {
-                    container: sizes_501602a9_esm_extends({
-                        display: "inline-block",
-                        position: "relative",
-                        cursor: "pointer",
-                        _disabled: {
-                            opacity: 0.6,
-                            cursor: "default",
-                            pointerEvents: "none"
-                        }
-                    }, orient({
-                        orientation: props.orientation,
-                        vertical: {
-                            h: "100%"
-                        },
-                        horizontal: {
-                            w: "100%"
-                        }
-                    })),
-                    track: {
-                        overflow: "hidden",
-                        borderRadius: "sm",
-                        bg: mode("gray.200", "whiteAlpha.200")(props),
-                        _disabled: {
-                            bg: mode("gray.300", "whiteAlpha.300")(props)
-                        }
-                    },
-                    thumb: sizes_501602a9_esm_extends({
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        position: "absolute",
-                        outline: 0,
-                        zIndex: 1,
-                        borderRadius: "full",
-                        bg: "white",
-                        boxShadow: "base",
-                        border: "1px solid",
-                        borderColor: "transparent",
-                        transitionProperty: "transform",
-                        transitionDuration: "normal",
-                        _focusVisible: {
-                            boxShadow: "outline"
-                        },
-                        _disabled: {
-                            bg: "gray.300"
-                        }
-                    }, orient({
-                        orientation: props.orientation,
-                        vertical: {
-                            left: "50%",
-                            transform: "translateX(-50%)",
-                            _active: {
-                                transform: "translateX(-50%) scale(1.15)"
-                            }
-                        },
-                        horizontal: {
-                            top: "50%",
-                            transform: "translateY(-50%)",
-                            _active: {
-                                transform: "translateY(-50%) scale(1.15)"
-                            }
-                        }
-                    })),
-                    filledTrack: baseStyleFilledTrack(props)
-                };
-            }, sizeLg = function(props) {
-                return {
-                    thumb: {
-                        w: "16px",
-                        h: "16px"
-                    },
-                    track: orient({
-                        orientation: props.orientation,
-                        horizontal: {
-                            h: "4px"
-                        },
-                        vertical: {
-                            w: "4px"
-                        }
-                    })
-                };
-            }, sizeMd = function(props) {
-                return {
-                    thumb: {
-                        w: "14px",
-                        h: "14px"
-                    },
-                    track: orient({
-                        orientation: props.orientation,
-                        horizontal: {
-                            h: "4px"
-                        },
-                        vertical: {
-                            w: "4px"
-                        }
-                    })
-                };
-            }, sizeSm = function(props) {
-                return {
-                    thumb: {
-                        w: "10px",
-                        h: "10px"
-                    },
-                    track: orient({
-                        orientation: props.orientation,
-                        horizontal: {
-                            h: "2px"
-                        },
-                        vertical: {
-                            w: "2px"
-                        }
-                    })
-                };
             }, Slider = {
                 parts: sliderAnatomy.keys,
                 sizes: {
-                    lg: sizeLg,
-                    md: sizeMd,
-                    sm: sizeSm
+                    lg: function(props) {
+                        return {
+                            thumb: {
+                                w: "16px",
+                                h: "16px"
+                            },
+                            track: orient({
+                                orientation: props.orientation,
+                                horizontal: {
+                                    h: "4px"
+                                },
+                                vertical: {
+                                    w: "4px"
+                                }
+                            })
+                        };
+                    },
+                    md: function(props) {
+                        return {
+                            thumb: {
+                                w: "14px",
+                                h: "14px"
+                            },
+                            track: orient({
+                                orientation: props.orientation,
+                                horizontal: {
+                                    h: "4px"
+                                },
+                                vertical: {
+                                    w: "4px"
+                                }
+                            })
+                        };
+                    },
+                    sm: function(props) {
+                        return {
+                            thumb: {
+                                w: "10px",
+                                h: "10px"
+                            },
+                            track: orient({
+                                orientation: props.orientation,
+                                horizontal: {
+                                    h: "2px"
+                                },
+                                vertical: {
+                                    w: "2px"
+                                }
+                            })
+                        };
+                    }
                 },
-                baseStyle: baseStyle$8,
+                baseStyle: function(props) {
+                    return {
+                        container: sizes_501602a9_esm_extends({
+                            display: "inline-block",
+                            position: "relative",
+                            cursor: "pointer",
+                            _disabled: {
+                                opacity: 0.6,
+                                cursor: "default",
+                                pointerEvents: "none"
+                            }
+                        }, orient({
+                            orientation: props.orientation,
+                            vertical: {
+                                h: "100%"
+                            },
+                            horizontal: {
+                                w: "100%"
+                            }
+                        })),
+                        track: {
+                            overflow: "hidden",
+                            borderRadius: "sm",
+                            bg: mode("gray.200", "whiteAlpha.200")(props),
+                            _disabled: {
+                                bg: mode("gray.300", "whiteAlpha.300")(props)
+                            }
+                        },
+                        thumb: sizes_501602a9_esm_extends({
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            position: "absolute",
+                            outline: 0,
+                            zIndex: 1,
+                            borderRadius: "full",
+                            bg: "white",
+                            boxShadow: "base",
+                            border: "1px solid",
+                            borderColor: "transparent",
+                            transitionProperty: "transform",
+                            transitionDuration: "normal",
+                            _focusVisible: {
+                                boxShadow: "outline"
+                            },
+                            _disabled: {
+                                bg: "gray.300"
+                            }
+                        }, orient({
+                            orientation: props.orientation,
+                            vertical: {
+                                left: "50%",
+                                transform: "translateX(-50%)",
+                                _active: {
+                                    transform: "translateX(-50%) scale(1.15)"
+                                }
+                            },
+                            horizontal: {
+                                top: "50%",
+                                transform: "translateY(-50%)",
+                                _active: {
+                                    transform: "translateY(-50%) scale(1.15)"
+                                }
+                            }
+                        })),
+                        filledTrack: baseStyleFilledTrack(props)
+                    };
+                },
                 defaultProps: {
                     size: "md",
                     colorScheme: "blue"
@@ -3028,13 +2900,6 @@
                 _checked: {
                     transform: "translateX(" + $translateX.reference + ")"
                 }
-            }, baseStyle$5 = function(props) {
-                var _rtl, _container;
-                return {
-                    container: ((_container = {})[$diff.variable] = diffValue, _container[$translateX.variable] = $diff.reference, _container._rtl = ((_rtl = {})[$translateX.variable] = calc($diff).negate().toString(), _rtl), _container),
-                    track: baseStyleTrack(props),
-                    thumb: baseStyleThumb
-                };
             }, sizes$4 = {
                 sm: {
                     container: ((_container2 = {})[$width.variable] = "1.375rem", _container2[$height.variable] = "0.75rem", _container2)
@@ -3047,7 +2912,14 @@
                 }
             }, Switch = {
                 parts: switchAnatomy.keys,
-                baseStyle: baseStyle$5,
+                baseStyle: function(props) {
+                    var _rtl, _container;
+                    return {
+                        container: ((_container = {})[$diff.variable] = diffValue, _container[$translateX.variable] = $diff.reference, _container._rtl = ((_rtl = {})[$translateX.variable] = calc($diff).negate().toString(), _rtl), _container),
+                        track: baseStyleTrack(props),
+                        thumb: baseStyleThumb
+                    };
+                },
                 sizes: sizes$4,
                 defaultProps: {
                     size: "md",
@@ -3057,69 +2929,6 @@
                 "&[data-is-numeric=true]": {
                     textAlign: "end"
                 }
-            }, variantSimple = function(props) {
-                var c = props.colorScheme;
-                return {
-                    th: sizes_501602a9_esm_extends({
-                        color: mode("gray.600", "gray.400")(props),
-                        borderBottom: "1px",
-                        borderColor: mode(c + ".100", c + ".700")(props)
-                    }, numericStyles),
-                    td: sizes_501602a9_esm_extends({
-                        borderBottom: "1px",
-                        borderColor: mode(c + ".100", c + ".700")(props)
-                    }, numericStyles),
-                    caption: {
-                        color: mode("gray.600", "gray.100")(props)
-                    },
-                    tfoot: {
-                        tr: {
-                            "&:last-of-type": {
-                                th: {
-                                    borderBottomWidth: 0
-                                }
-                            }
-                        }
-                    }
-                };
-            }, variantStripe = function(props) {
-                var c = props.colorScheme;
-                return {
-                    th: sizes_501602a9_esm_extends({
-                        color: mode("gray.600", "gray.400")(props),
-                        borderBottom: "1px",
-                        borderColor: mode(c + ".100", c + ".700")(props)
-                    }, numericStyles),
-                    td: sizes_501602a9_esm_extends({
-                        borderBottom: "1px",
-                        borderColor: mode(c + ".100", c + ".700")(props)
-                    }, numericStyles),
-                    caption: {
-                        color: mode("gray.600", "gray.100")(props)
-                    },
-                    tbody: {
-                        tr: {
-                            "&:nth-of-type(odd)": {
-                                "th, td": {
-                                    borderBottomWidth: "1px",
-                                    borderColor: mode(c + ".100", c + ".700")(props)
-                                },
-                                td: {
-                                    background: mode(c + ".100", c + ".700")(props)
-                                }
-                            }
-                        }
-                    },
-                    tfoot: {
-                        tr: {
-                            "&:last-of-type": {
-                                th: {
-                                    borderBottomWidth: 0
-                                }
-                            }
-                        }
-                    }
-                };
             }, Table = {
                 parts: tableAnatomy.keys,
                 baseStyle: {
@@ -3146,8 +2955,71 @@
                     }
                 },
                 variants: {
-                    simple: variantSimple,
-                    striped: variantStripe,
+                    simple: function(props) {
+                        var c = props.colorScheme;
+                        return {
+                            th: sizes_501602a9_esm_extends({
+                                color: mode("gray.600", "gray.400")(props),
+                                borderBottom: "1px",
+                                borderColor: mode(c + ".100", c + ".700")(props)
+                            }, numericStyles),
+                            td: sizes_501602a9_esm_extends({
+                                borderBottom: "1px",
+                                borderColor: mode(c + ".100", c + ".700")(props)
+                            }, numericStyles),
+                            caption: {
+                                color: mode("gray.600", "gray.100")(props)
+                            },
+                            tfoot: {
+                                tr: {
+                                    "&:last-of-type": {
+                                        th: {
+                                            borderBottomWidth: 0
+                                        }
+                                    }
+                                }
+                            }
+                        };
+                    },
+                    striped: function(props) {
+                        var c = props.colorScheme;
+                        return {
+                            th: sizes_501602a9_esm_extends({
+                                color: mode("gray.600", "gray.400")(props),
+                                borderBottom: "1px",
+                                borderColor: mode(c + ".100", c + ".700")(props)
+                            }, numericStyles),
+                            td: sizes_501602a9_esm_extends({
+                                borderBottom: "1px",
+                                borderColor: mode(c + ".100", c + ".700")(props)
+                            }, numericStyles),
+                            caption: {
+                                color: mode("gray.600", "gray.100")(props)
+                            },
+                            tbody: {
+                                tr: {
+                                    "&:nth-of-type(odd)": {
+                                        "th, td": {
+                                            borderBottomWidth: "1px",
+                                            borderColor: mode(c + ".100", c + ".700")(props)
+                                        },
+                                        td: {
+                                            background: mode(c + ".100", c + ".700")(props)
+                                        }
+                                    }
+                                }
+                            },
+                            tfoot: {
+                                tr: {
+                                    "&:last-of-type": {
+                                        th: {
+                                            borderBottomWidth: 0
+                                        }
+                                    }
+                                }
+                            }
+                        };
+                    },
                     unstyled: {}
                 },
                 sizes: {
@@ -3224,116 +3096,30 @@
                 };
             }, baseStyleTabpanel = {
                 p: 4
-            }, baseStyle$3 = function(props) {
-                return {
-                    root: {
-                        display: "vertical" === props.orientation ? "flex" : "block"
-                    },
-                    tab: {
-                        flex: props.isFitted ? 1 : void 0,
-                        transitionProperty: "common",
-                        transitionDuration: "normal",
-                        _focusVisible: {
-                            zIndex: 1,
-                            boxShadow: "outline"
-                        },
-                        _disabled: {
-                            cursor: "not-allowed",
-                            opacity: 0.4
-                        }
-                    },
-                    tablist: baseStyleTablist(props),
-                    tabpanel: baseStyleTabpanel
-                };
-            }, variantLine = function(props) {
-                var _tablist, _tab, c = props.colorScheme, orientation = props.orientation, borderProp = "vertical" === orientation ? "borderStart" : "borderBottom", marginProp = "vertical" === orientation ? "marginStart" : "marginBottom";
-                return {
-                    tablist: ((_tablist = {})[borderProp] = "2px solid", _tablist.borderColor = "inherit", _tablist),
-                    tab: ((_tab = {})[borderProp] = "2px solid", _tab.borderColor = "transparent", _tab[marginProp] = "-2px", _tab._selected = {
-                        color: mode(c + ".600", c + ".300")(props),
-                        borderColor: "currentColor"
-                    }, _tab._active = {
-                        bg: mode("gray.200", "whiteAlpha.300")(props)
-                    }, _tab._disabled = {
-                        _active: {
-                            bg: "none"
-                        }
-                    }, _tab)
-                };
-            }, variantEnclosed = function(props) {
-                var c = props.colorScheme;
-                return {
-                    tab: {
-                        borderTopRadius: "md",
-                        border: "1px solid",
-                        borderColor: "transparent",
-                        mb: "-1px",
-                        _selected: {
-                            color: mode(c + ".600", c + ".300")(props),
-                            borderColor: "inherit",
-                            borderBottomColor: mode("white", "gray.800")(props)
-                        }
-                    },
-                    tablist: {
-                        mb: "-1px",
-                        borderBottom: "1px solid",
-                        borderColor: "inherit"
-                    }
-                };
-            }, variantEnclosedColored = function(props) {
-                var c = props.colorScheme;
-                return {
-                    tab: {
-                        border: "1px solid",
-                        borderColor: "inherit",
-                        bg: mode("gray.50", "whiteAlpha.50")(props),
-                        mb: "-1px",
-                        _notLast: {
-                            marginEnd: "-1px"
-                        },
-                        _selected: {
-                            bg: mode("#fff", "gray.800")(props),
-                            color: mode(c + ".600", c + ".300")(props),
-                            borderColor: "inherit",
-                            borderTopColor: "currentColor",
-                            borderBottomColor: "transparent"
-                        }
-                    },
-                    tablist: {
-                        mb: "-1px",
-                        borderBottom: "1px solid",
-                        borderColor: "inherit"
-                    }
-                };
-            }, variantSoftRounded = function(props) {
-                var c = props.colorScheme, theme = props.theme;
-                return {
-                    tab: {
-                        borderRadius: "full",
-                        fontWeight: "semibold",
-                        color: "gray.600",
-                        _selected: {
-                            color: getColor(theme, c + ".700"),
-                            bg: getColor(theme, c + ".100")
-                        }
-                    }
-                };
-            }, variantSolidRounded = function(props) {
-                var c = props.colorScheme;
-                return {
-                    tab: {
-                        borderRadius: "full",
-                        fontWeight: "semibold",
-                        color: mode("gray.600", "inherit")(props),
-                        _selected: {
-                            color: mode("#fff", "gray.800")(props),
-                            bg: mode(c + ".600", c + ".300")(props)
-                        }
-                    }
-                };
             }, Tabs = {
                 parts: tabsAnatomy.keys,
-                baseStyle: baseStyle$3,
+                baseStyle: function(props) {
+                    return {
+                        root: {
+                            display: "vertical" === props.orientation ? "flex" : "block"
+                        },
+                        tab: {
+                            flex: props.isFitted ? 1 : void 0,
+                            transitionProperty: "common",
+                            transitionDuration: "normal",
+                            _focusVisible: {
+                                zIndex: 1,
+                                boxShadow: "outline"
+                            },
+                            _disabled: {
+                                cursor: "not-allowed",
+                                opacity: 0.4
+                            }
+                        },
+                        tablist: baseStyleTablist(props),
+                        tabpanel: baseStyleTabpanel
+                    };
+                },
                 sizes: {
                     sm: {
                         tab: {
@@ -3358,11 +3144,97 @@
                     }
                 },
                 variants: {
-                    line: variantLine,
-                    enclosed: variantEnclosed,
-                    "enclosed-colored": variantEnclosedColored,
-                    "soft-rounded": variantSoftRounded,
-                    "solid-rounded": variantSolidRounded,
+                    line: function(props) {
+                        var _tablist, _tab, c = props.colorScheme, orientation = props.orientation, borderProp = "vertical" === orientation ? "borderStart" : "borderBottom";
+                        return {
+                            tablist: ((_tablist = {})[borderProp] = "2px solid", _tablist.borderColor = "inherit", _tablist),
+                            tab: ((_tab = {})[borderProp] = "2px solid", _tab.borderColor = "transparent", _tab["vertical" === orientation ? "marginStart" : "marginBottom"] = "-2px", _tab._selected = {
+                                color: mode(c + ".600", c + ".300")(props),
+                                borderColor: "currentColor"
+                            }, _tab._active = {
+                                bg: mode("gray.200", "whiteAlpha.300")(props)
+                            }, _tab._disabled = {
+                                _active: {
+                                    bg: "none"
+                                }
+                            }, _tab)
+                        };
+                    },
+                    enclosed: function(props) {
+                        var c = props.colorScheme;
+                        return {
+                            tab: {
+                                borderTopRadius: "md",
+                                border: "1px solid",
+                                borderColor: "transparent",
+                                mb: "-1px",
+                                _selected: {
+                                    color: mode(c + ".600", c + ".300")(props),
+                                    borderColor: "inherit",
+                                    borderBottomColor: mode("white", "gray.800")(props)
+                                }
+                            },
+                            tablist: {
+                                mb: "-1px",
+                                borderBottom: "1px solid",
+                                borderColor: "inherit"
+                            }
+                        };
+                    },
+                    "enclosed-colored": function(props) {
+                        var c = props.colorScheme;
+                        return {
+                            tab: {
+                                border: "1px solid",
+                                borderColor: "inherit",
+                                bg: mode("gray.50", "whiteAlpha.50")(props),
+                                mb: "-1px",
+                                _notLast: {
+                                    marginEnd: "-1px"
+                                },
+                                _selected: {
+                                    bg: mode("#fff", "gray.800")(props),
+                                    color: mode(c + ".600", c + ".300")(props),
+                                    borderColor: "inherit",
+                                    borderTopColor: "currentColor",
+                                    borderBottomColor: "transparent"
+                                }
+                            },
+                            tablist: {
+                                mb: "-1px",
+                                borderBottom: "1px solid",
+                                borderColor: "inherit"
+                            }
+                        };
+                    },
+                    "soft-rounded": function(props) {
+                        var c = props.colorScheme, theme = props.theme;
+                        return {
+                            tab: {
+                                borderRadius: "full",
+                                fontWeight: "semibold",
+                                color: "gray.600",
+                                _selected: {
+                                    color: getColor(theme, c + ".700"),
+                                    bg: getColor(theme, c + ".100")
+                                }
+                            }
+                        };
+                    },
+                    "solid-rounded": function(props) {
+                        var c = props.colorScheme;
+                        return {
+                            tab: {
+                                borderRadius: "full",
+                                fontWeight: "semibold",
+                                color: mode("gray.600", "inherit")(props),
+                                _selected: {
+                                    color: mode("#fff", "gray.800")(props),
+                                    bg: mode(c + ".600", c + ".300")(props)
+                                }
+                            }
+                        };
+                    },
                     unstyled: {}
                 },
                 defaultProps: {
@@ -3487,14 +3359,7 @@
                 sm: null != (_Input$sizes$sm$field = Input.sizes.sm.field) ? _Input$sizes$sm$field : {},
                 md: null != (_Input$sizes$md$field = Input.sizes.md.field) ? _Input$sizes$md$field : {},
                 lg: null != (_Input$sizes$lg$field = Input.sizes.lg.field) ? _Input$sizes$lg$field : {}
-            }, $bg = cssVar("tooltip-bg"), $arrowBg = cssVar("popper-arrow-bg"), baseStyle = function(props) {
-                var _ref, bg = mode("gray.700", "gray.300")(props);
-                return (_ref = {})[$bg.variable] = "colors." + bg, _ref.px = "8px", _ref.py = "2px", _ref.bg = [
-                    $bg.reference
-                ], _ref[$arrowBg.variable] = [
-                    $bg.reference
-                ], _ref.color = mode("whiteAlpha.900", "gray.900")(props), _ref.borderRadius = "sm", _ref.fontWeight = "medium", _ref.fontSize = "sm", _ref.boxShadow = "md", _ref.maxW = "320px", _ref.zIndex = "tooltip", _ref;
-            }, foundations = sizes_501602a9_esm_extends({
+            }, $bg = cssVar("tooltip-bg"), $arrowBg = cssVar("popper-arrow-bg"), foundations = sizes_501602a9_esm_extends({
                 breakpoints: ((0, chakra_ui_utils_esm.ZK)({
                     condition: !0,
                     message: "[chakra-ui]: createBreakpoints(...) will be deprecated pretty soonsimply pass the breakpoints as an object. Remove the createBreakpoint(..) call"
@@ -3863,9 +3728,67 @@
                         },
                         variants: {
                             ghost: variantGhost,
-                            outline: variantOutline$1,
-                            solid: variantSolid$1,
-                            link: variantLink,
+                            outline: function(props) {
+                                var c = props.colorScheme, borderColor = mode("gray.200", "whiteAlpha.300")(props);
+                                return sizes_501602a9_esm_extends({
+                                    border: "1px solid",
+                                    borderColor: "gray" === c ? borderColor : "currentColor",
+                                    ".chakra-button__group[data-attached] > &:not(:last-of-type)": {
+                                        marginEnd: "-1px"
+                                    }
+                                }, variantGhost(props));
+                            },
+                            solid: function(props) {
+                                var _accessibleColorMap$c, c = props.colorScheme;
+                                if ("gray" === c) {
+                                    var _bg = mode("gray.100", "whiteAlpha.200")(props);
+                                    return {
+                                        bg: _bg,
+                                        _hover: {
+                                            bg: mode("gray.200", "whiteAlpha.300")(props),
+                                            _disabled: {
+                                                bg: _bg
+                                            }
+                                        },
+                                        _active: {
+                                            bg: mode("gray.300", "whiteAlpha.400")(props)
+                                        }
+                                    };
+                                }
+                                var _ref = null != (_accessibleColorMap$c = accessibleColorMap[c]) ? _accessibleColorMap$c : {}, _ref$bg = _ref.bg, _ref$color = _ref.color, _ref$hoverBg = _ref.hoverBg, _ref$activeBg = _ref.activeBg, background = mode(void 0 === _ref$bg ? c + ".500" : _ref$bg, c + ".200")(props);
+                                return {
+                                    bg: background,
+                                    color: mode(void 0 === _ref$color ? "white" : _ref$color, "gray.800")(props),
+                                    _hover: {
+                                        bg: mode(void 0 === _ref$hoverBg ? c + ".600" : _ref$hoverBg, c + ".300")(props),
+                                        _disabled: {
+                                            bg: background
+                                        }
+                                    },
+                                    _active: {
+                                        bg: mode(void 0 === _ref$activeBg ? c + ".700" : _ref$activeBg, c + ".400")(props)
+                                    }
+                                };
+                            },
+                            link: function(props) {
+                                var c = props.colorScheme;
+                                return {
+                                    padding: 0,
+                                    height: "auto",
+                                    lineHeight: "normal",
+                                    verticalAlign: "baseline",
+                                    color: mode(c + ".500", c + ".200")(props),
+                                    _hover: {
+                                        textDecoration: "underline",
+                                        _disabled: {
+                                            textDecoration: "none"
+                                        }
+                                    },
+                                    _active: {
+                                        color: mode(c + ".700", c + ".500")(props)
+                                    }
+                                };
+                            },
                             unstyled: {
                                 bg: "none",
                                 color: "inherit",
@@ -3909,7 +3832,34 @@
                     },
                     Checkbox: Checkbox,
                     CloseButton: {
-                        baseStyle: baseStyle$w,
+                        baseStyle: function(props) {
+                            var hoverBg = mode("blackAlpha.100", "whiteAlpha.100")(props), activeBg = mode("blackAlpha.200", "whiteAlpha.200")(props);
+                            return {
+                                w: [
+                                    $size$1.reference
+                                ],
+                                h: [
+                                    $size$1.reference
+                                ],
+                                borderRadius: "md",
+                                transitionProperty: "common",
+                                transitionDuration: "normal",
+                                _disabled: {
+                                    opacity: 0.4,
+                                    cursor: "not-allowed",
+                                    boxShadow: "none"
+                                },
+                                _hover: {
+                                    bg: hoverBg
+                                },
+                                _active: {
+                                    bg: activeBg
+                                },
+                                _focusVisible: {
+                                    boxShadow: "outline"
+                                }
+                            };
+                        },
                         sizes: sizes$h,
                         defaultProps: {
                             size: "md"
@@ -4045,7 +3995,19 @@
                     },
                     Input: Input,
                     Kbd: {
-                        baseStyle: baseStyle$l
+                        baseStyle: function(props) {
+                            return {
+                                bg: mode("gray.100", "whiteAlpha")(props),
+                                borderRadius: "md",
+                                borderWidth: "1px",
+                                borderBottomWidth: "3px",
+                                fontSize: "0.8em",
+                                fontWeight: "bold",
+                                lineHeight: "normal",
+                                px: "0.4em",
+                                whiteSpace: "nowrap"
+                            };
+                        }
                     },
                     Link: {
                         baseStyle: {
@@ -4104,10 +4066,41 @@
                     Radio: Radio,
                     Select: Select,
                     Skeleton: {
-                        baseStyle: baseStyle$a
+                        baseStyle: function(props) {
+                            var defaultStartColor = mode("gray.100", "gray.800")(props), defaultEndColor = mode("gray.400", "gray.600")(props), _props$startColor = props.startColor, _props$endColor = props.endColor, speed = props.speed, theme = props.theme, start = getColor(theme, void 0 === _props$startColor ? defaultStartColor : _props$startColor), end = getColor(theme, void 0 === _props$endColor ? defaultEndColor : _props$endColor);
+                            return {
+                                opacity: 0.7,
+                                borderRadius: "2px",
+                                borderColor: start,
+                                background: end,
+                                animation: speed + "s linear infinite alternate " + (0, emotion_react_browser_esm.F4)({
+                                    from: {
+                                        borderColor: start,
+                                        background: start
+                                    },
+                                    to: {
+                                        borderColor: end,
+                                        background: end
+                                    }
+                                })
+                            };
+                        }
                     },
                     SkipLink: {
-                        baseStyle: baseStyle$9
+                        baseStyle: function(props) {
+                            return {
+                                borderRadius: "md",
+                                fontWeight: "semibold",
+                                _focusVisible: {
+                                    boxShadow: "outline",
+                                    padding: "1rem",
+                                    position: "fixed",
+                                    top: "1.5rem",
+                                    insetStart: "1.5rem",
+                                    bg: mode("white", "gray.700")(props)
+                                }
+                            };
+                        }
                     },
                     Slider: Slider,
                     Spinner: {
@@ -4132,7 +4125,14 @@
                         }
                     },
                     Tooltip: {
-                        baseStyle: baseStyle
+                        baseStyle: function(props) {
+                            var _ref, bg = mode("gray.700", "gray.300")(props);
+                            return (_ref = {})[$bg.variable] = "colors." + bg, _ref.px = "8px", _ref.py = "2px", _ref.bg = [
+                                $bg.reference
+                            ], _ref[$arrowBg.variable] = [
+                                $bg.reference
+                            ], _ref.color = mode("whiteAlpha.900", "gray.900")(props), _ref.borderRadius = "sm", _ref.fontWeight = "medium", _ref.fontSize = "sm", _ref.boxShadow = "md", _ref.maxW = "320px", _ref.zIndex = "tooltip", _ref;
+                        }
                     }
                 },
                 styles: {
@@ -4215,21 +4215,7 @@
                     return target;
                 }).apply(this, arguments);
             }
-            var CheckIcon = function(props) {
-                return react.createElement(chakra_ui_icon_esm.JO, chakra_ui_alert_esm_extends({
-                    viewBox: "0 0 24 24"
-                }, props), react.createElement("path", {
-                    fill: "currentColor",
-                    d: "M12,0A12,12,0,1,0,24,12,12.014,12.014,0,0,0,12,0Zm6.927,8.2-6.845,9.289a1.011,1.011,0,0,1-1.43.188L5.764,13.769a1,1,0,1,1,1.25-1.562l4.076,3.261,6.227-8.451A1,1,0,1,1,18.927,8.2Z"
-                }));
-            }, InfoIcon = function(props) {
-                return react.createElement(chakra_ui_icon_esm.JO, chakra_ui_alert_esm_extends({
-                    viewBox: "0 0 24 24"
-                }, props), react.createElement("path", {
-                    fill: "currentColor",
-                    d: "M12,0A12,12,0,1,0,24,12,12.013,12.013,0,0,0,12,0Zm.25,5a1.5,1.5,0,1,1-1.5,1.5A1.5,1.5,0,0,1,12.25,5ZM14.5,18.5h-4a1,1,0,0,1,0-2h.75a.25.25,0,0,0,.25-.25v-4.5a.25.25,0,0,0-.25-.25H10.5a1,1,0,0,1,0-2h1a2,2,0,0,1,2,2v4.75a.25.25,0,0,0,.25.25h.75a1,1,0,1,1,0,2Z"
-                }));
-            }, WarningIcon = function(props) {
+            var WarningIcon = function(props) {
                 return react.createElement(chakra_ui_icon_esm.JO, chakra_ui_alert_esm_extends({
                     viewBox: "0 0 24 24"
                 }, props), react.createElement("path", {
@@ -4240,7 +4226,14 @@
                 "status"
             ], _createStylesContext = (0, chakra_ui_system_esm.eC)("Alert"), StylesProvider = _createStylesContext[0], useStyles = _createStylesContext[1], STATUSES = {
                 info: {
-                    icon: InfoIcon,
+                    icon: function(props) {
+                        return react.createElement(chakra_ui_icon_esm.JO, chakra_ui_alert_esm_extends({
+                            viewBox: "0 0 24 24"
+                        }, props), react.createElement("path", {
+                            fill: "currentColor",
+                            d: "M12,0A12,12,0,1,0,24,12,12.013,12.013,0,0,0,12,0Zm.25,5a1.5,1.5,0,1,1-1.5,1.5A1.5,1.5,0,0,1,12.25,5ZM14.5,18.5h-4a1,1,0,0,1,0-2h.75a.25.25,0,0,0,.25-.25v-4.5a.25.25,0,0,0-.25-.25H10.5a1,1,0,0,1,0-2h1a2,2,0,0,1,2,2v4.75a.25.25,0,0,0,.25.25h.75a1,1,0,1,1,0,2Z"
+                        }));
+                    },
                     colorScheme: "blue"
                 },
                 warning: {
@@ -4248,7 +4241,14 @@
                     colorScheme: "orange"
                 },
                 success: {
-                    icon: CheckIcon,
+                    icon: function(props) {
+                        return react.createElement(chakra_ui_icon_esm.JO, chakra_ui_alert_esm_extends({
+                            viewBox: "0 0 24 24"
+                        }, props), react.createElement("path", {
+                            fill: "currentColor",
+                            d: "M12,0A12,12,0,1,0,24,12,12.014,12.014,0,0,0,12,0Zm6.927,8.2-6.845,9.289a1.011,1.011,0,0,1-1.43.188L5.764,13.769a1,1,0,1,1,1.25-1.562l4.076,3.261,6.227-8.451A1,1,0,1,1,18.927,8.2Z"
+                        }));
+                    },
                     colorScheme: "green"
                 },
                 error: {
@@ -4564,11 +4564,7 @@
                 }, [
                     duration
                 ]);
-                var onMouseEnter = function() {
-                    return setDelay(null);
-                }, onMouseLeave = function() {
-                    return setDelay(duration);
-                }, close = function() {
+                var close = function() {
                     isPresent && onRequestRemove();
                 };
                 react.useEffect(function() {
@@ -4605,8 +4601,12 @@
                     initial: "initial",
                     animate: "animate",
                     exit: "exit",
-                    onHoverStart: onMouseEnter,
-                    onHoverEnd: onMouseLeave,
+                    onHoverStart: function() {
+                        return setDelay(null);
+                    },
+                    onHoverEnd: function() {
+                        return setDelay(duration);
+                    },
                     custom: {
                         position: position
                     },

@@ -1,12 +1,9 @@
 //// [importAliasIdentifiers.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-!function(moduleA) {
-    var Point = function Point(x, y) {
-        "use strict";
-        _class_call_check(this, Point), this.x = x, this.y = y;
-    };
-    moduleA.Point = Point;
-}(moduleA || (moduleA = {}));
+(moduleA || (moduleA = {})).Point = function Point(x, y) {
+    "use strict";
+    _class_call_check(this, Point), this.x = x, this.y = y;
+};
 var moduleA, clodule = function clodule() {
     "use strict";
     _class_call_check(this, clodule);

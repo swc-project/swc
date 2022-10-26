@@ -25,10 +25,8 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
         x: 0,
         y: 0,
         z: 0
-    };
-    var Line = function Line(start, end) {
+    }, A.Line = function Line(start, end) {
         "use strict";
         _class_call_check(this, Line), this.start = start, this.end = end;
     };
-    A.Line = Line;
 }(A || (A = {}));

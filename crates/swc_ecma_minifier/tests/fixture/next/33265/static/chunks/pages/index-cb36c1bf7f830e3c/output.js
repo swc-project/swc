@@ -773,7 +773,8 @@
         },
         779: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
             "use strict";
-            var url_toolkit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9945), url_toolkit__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(url_toolkit__WEBPACK_IMPORTED_MODULE_0__), global_window__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(8908), global_window__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(global_window__WEBPACK_IMPORTED_MODULE_1__), DEFAULT_LOCATION = "http://example.com", resolveUrl = function(baseUrl, relativeUrl) {
+            var url_toolkit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9945), url_toolkit__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(url_toolkit__WEBPACK_IMPORTED_MODULE_0__), global_window__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(8908), global_window__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(global_window__WEBPACK_IMPORTED_MODULE_1__), DEFAULT_LOCATION = "http://example.com";
+            __webpack_exports__.Z = function(baseUrl, relativeUrl) {
                 if (/^[a-z]+:/i.test(relativeUrl)) return relativeUrl;
                 /^data:/.test(baseUrl) && (baseUrl = global_window__WEBPACK_IMPORTED_MODULE_1___default().location && global_window__WEBPACK_IMPORTED_MODULE_1___default().location.href || "");
                 var nativeURL = "function" == typeof global_window__WEBPACK_IMPORTED_MODULE_1___default().URL, protocolLess = /^\/\//.test(baseUrl), removeLocation = !global_window__WEBPACK_IMPORTED_MODULE_1___default().location && !/\/\//i.test(baseUrl);
@@ -783,11 +784,11 @@
                 }
                 return url_toolkit__WEBPACK_IMPORTED_MODULE_0___default().buildAbsoluteURL(baseUrl, relativeUrl);
             };
-            __webpack_exports__.Z = resolveUrl;
         },
         3490: function(module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
-            var window1 = __webpack_require__(8908), httpResponseHandler = function(callback, decodeResponseBody) {
+            var window1 = __webpack_require__(8908);
+            module.exports = function(callback, decodeResponseBody) {
                 return void 0 === decodeResponseBody && (decodeResponseBody = !1), function(err, response, responseBody) {
                     if (err) {
                         callback(err);
@@ -814,7 +815,6 @@
                     callback(null, responseBody);
                 };
             };
-            module.exports = httpResponseHandler;
         },
         9603: function(module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
@@ -2617,11 +2617,7 @@
                                     "BYTERANGE-START",
                                     "BYTERANGE-LENGTH"
                                 ].forEach(function(key) {
-                                    if (event.attributes.hasOwnProperty(key)) {
-                                        event.attributes[key] = parseInt(event.attributes[key], 10);
-                                        var subkey = "BYTERANGE-LENGTH" === key ? "length" : "offset";
-                                        event.attributes.byterange = event.attributes.byterange || {}, event.attributes.byterange[subkey] = event.attributes[key], delete event.attributes[key];
-                                    }
+                                    event.attributes.hasOwnProperty(key) && (event.attributes[key] = parseInt(event.attributes[key], 10), event.attributes.byterange = event.attributes.byterange || {}, event.attributes.byterange["BYTERANGE-LENGTH" === key ? "length" : "offset"] = event.attributes[key], delete event.attributes[key]);
                                 }), _this2.trigger("data", event);
                                 return;
                             }
@@ -2656,19 +2652,17 @@
                         }), !0;
                     });
                 }, _proto.addTagMapper = function(_ref2) {
-                    var expression = _ref2.expression, map = _ref2.map, mapFn = function(line) {
+                    var expression = _ref2.expression, map = _ref2.map;
+                    this.tagMappers.push(function(line) {
                         return expression.test(line) ? map(line) : line;
-                    };
-                    this.tagMappers.push(mapFn);
+                    });
                 }, ParseStream;
-            }(Stream), camelCase = function(str) {
-                return str.toLowerCase().replace(/-(\w)/g, function(a) {
-                    return a[1].toUpperCase();
-                });
-            }, camelCaseKeys = function(attributes) {
+            }(Stream), camelCaseKeys = function(attributes) {
                 var result = {};
                 return Object.keys(attributes).forEach(function(key) {
-                    result[camelCase(key)] = attributes[key];
+                    result[key.toLowerCase().replace(/-(\w)/g, function(a) {
+                        return a[1].toUpperCase();
+                    })] = attributes[key];
                 }), result;
             }, setHoldBack = function(manifest) {
                 var serverControl = manifest.serverControl, targetDuration = manifest.targetDuration, partTargetDuration = manifest.partTargetDuration;
@@ -3599,7 +3593,7 @@
             };
         },
         4221: function(module) {
-            var parseSidx = function(data) {
+            module.exports = function(data) {
                 var view = new DataView(data.buffer, data.byteOffset, data.byteLength), result = {
                     version: data[0],
                     flags: new Uint8Array(data.subarray(1, 4)),
@@ -3619,10 +3613,9 @@
                 });
                 return result;
             };
-            module.exports = parseSidx;
         },
         1489: function(module) {
-            var secondsToVideoTs, secondsToAudioTs, videoTsToSeconds, audioTsToSeconds, audioTsToVideoTs, videoTsToAudioTs, metadataTsToSeconds;
+            var secondsToVideoTs, secondsToAudioTs, videoTsToSeconds, audioTsToSeconds;
             secondsToVideoTs = function(seconds) {
                 return 90000 * seconds;
             }, secondsToAudioTs = function(seconds, sampleRate) {
@@ -3631,21 +3624,21 @@
                 return timestamp / 90000;
             }, audioTsToSeconds = function(timestamp, sampleRate) {
                 return timestamp / sampleRate;
-            }, audioTsToVideoTs = function(timestamp, sampleRate) {
-                return secondsToVideoTs(audioTsToSeconds(timestamp, sampleRate));
-            }, videoTsToAudioTs = function(timestamp, sampleRate) {
-                return secondsToAudioTs(videoTsToSeconds(timestamp), sampleRate);
-            }, metadataTsToSeconds = function(timestamp, timelineStartPts, keepOriginalTimestamps) {
-                return videoTsToSeconds(keepOriginalTimestamps ? timestamp : timestamp - timelineStartPts);
             }, module.exports = {
                 ONE_SECOND_IN_TS: 90000,
                 secondsToVideoTs: secondsToVideoTs,
                 secondsToAudioTs: secondsToAudioTs,
                 videoTsToSeconds: videoTsToSeconds,
                 audioTsToSeconds: audioTsToSeconds,
-                audioTsToVideoTs: audioTsToVideoTs,
-                videoTsToAudioTs: videoTsToAudioTs,
-                metadataTsToSeconds: metadataTsToSeconds
+                audioTsToVideoTs: function(timestamp, sampleRate) {
+                    return secondsToVideoTs(audioTsToSeconds(timestamp, sampleRate));
+                },
+                videoTsToAudioTs: function(timestamp, sampleRate) {
+                    return secondsToAudioTs(videoTsToSeconds(timestamp), sampleRate);
+                },
+                metadataTsToSeconds: function(timestamp, timelineStartPts, keepOriginalTimestamps) {
+                    return videoTsToSeconds(keepOriginalTimestamps ? timestamp : timestamp - timelineStartPts);
+                }
             };
         },
         8581: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
@@ -3665,7 +3658,7 @@
             });
             var jsx_runtime = __webpack_require__(5893), react = __webpack_require__(7294), Home_module = __webpack_require__(214), Home_module_default = __webpack_require__.n(Home_module), video_es = __webpack_require__(5215);
             __webpack_require__(3512);
-            var VideoJS = function(props) {
+            var components_VideoJS = function(props) {
                 var videoRef = react.useRef(null), playerRef = react.useRef(null), options = props.options, onReady = props.onReady;
                 return react.useEffect(function() {
                     if (!playerRef.current) {
@@ -3694,18 +3687,12 @@
                 });
             };
             function Home() {
-                var playerRef = (0, react.useRef)(null), handlePlayerReady = function(player) {
-                    playerRef.current = player, player.on("waiting", function() {
-                        console.log("player is waiting");
-                    }), player.on("dispose", function() {
-                        console.log("player will dispose");
-                    });
-                };
+                var playerRef = (0, react.useRef)(null);
                 return (0, jsx_runtime.jsx)("div", {
                     className: Home_module_default().container,
                     children: (0, jsx_runtime.jsx)("main", {
                         className: Home_module_default().main,
-                        children: (0, jsx_runtime.jsx)(VideoJS, {
+                        children: (0, jsx_runtime.jsx)(components_VideoJS, {
                             options: {
                                 autoplay: !0,
                                 controls: !0,
@@ -3718,7 +3705,13 @@
                                     }
                                 ]
                             },
-                            onReady: handlePlayerReady
+                            onReady: function(player) {
+                                playerRef.current = player, player.on("waiting", function() {
+                                    console.log("player is waiting");
+                                }), player.on("dispose", function() {
+                                    console.log("player will dispose");
+                                });
+                            }
                         })
                     })
                 });

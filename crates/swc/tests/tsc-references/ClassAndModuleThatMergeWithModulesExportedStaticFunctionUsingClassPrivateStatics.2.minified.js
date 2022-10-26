@@ -9,9 +9,6 @@ var clodule = function() {
         return 42;
     }, clodule;
 }();
-!function(clodule1) {
-    var fn = function(x, y) {
-        return clodule.sfn("a");
-    };
-    clodule1.fn = fn;
-}(clodule || (clodule = {}));
+(clodule || (clodule = {})).fn = function(x, y) {
+    return clodule.sfn("a");
+};

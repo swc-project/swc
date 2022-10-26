@@ -48,60 +48,23 @@ export default function v(e) {
         for(var u, c, i = 0, o = t.length, f = e.length; i < o;){
             if (r >= f) return -1;
             if (37 === (u = t.charCodeAt(i++))) {
-                if (!(c = n9[(u = t.charAt(i++)) in y ? t.charAt(i++) : u]) || (r = c(n, e, r)) < 0) return -1;
+                if (!(c = nI[(u = t.charAt(i++)) in y ? t.charAt(i++) : u]) || (r = c(n, e, r)) < 0) return -1;
             } else if (u != e.charCodeAt(r++)) return -1;
         }
         return r;
-    }, a = function(n, t, e) {
-        var r = nk.exec(t.slice(e));
-        return r ? (n.p = nJ.get(r[0].toLowerCase()), e + r[0].length) : -1;
-    }, l = function(n, t, e) {
-        var r = n0.exec(t.slice(e));
-        return r ? (n.w = n1.get(r[0].toLowerCase()), e + r[0].length) : -1;
-    }, v = function(n, t, e) {
-        var r = nK.exec(t.slice(e));
-        return r ? (n.w = nN.get(r[0].toLowerCase()), e + r[0].length) : -1;
-    }, C = function(n, t, e) {
-        var r = n4.exec(t.slice(e));
-        return r ? (n.m = n7.get(r[0].toLowerCase()), e + r[0].length) : -1;
-    }, U = function(n, t, e) {
-        var r = n2.exec(t.slice(e));
-        return r ? (n.m = n3.get(r[0].toLowerCase()), e + r[0].length) : -1;
-    }, d = function(n, t, e) {
-        return o(n, nI, t, e);
-    }, D = function(n, t, e) {
-        return o(n, n$, t, e);
-    }, x = function(n, t, e) {
-        return o(n, n_, t, e);
-    }, nn = function(n) {
-        return nO[n.getDay()];
-    }, nx = function(n) {
-        return nE[n.getDay()];
-    }, nA = function(n) {
-        return nR[n.getMonth()];
-    }, nV = function(n) {
-        return nP[n.getMonth()];
-    }, nW = function(n) {
-        return nz[+(n.getHours() >= 12)];
-    }, nj = function(n) {
-        return 1 + ~~(n.getMonth() / 3);
-    }, nq = function(n) {
-        return nO[n.getUTCDay()];
-    }, nQ = function(n) {
-        return nE[n.getUTCDay()];
-    }, nX = function(n) {
-        return nR[n.getUTCMonth()];
-    }, nb = function(n) {
-        return nP[n.getUTCMonth()];
-    }, nB = function(n) {
-        return nz[+(n.getUTCHours() >= 12)];
-    }, nG = function(n) {
-        return 1 + ~~(n.getUTCMonth() / 3);
-    }, nI = e.dateTime, n$ = e.date, n_ = e.time, nz = e.periods, nE = e.days, nO = e.shortDays, nP = e.months, nR = e.shortMonths, nk = T(nz), nJ = m(nz), nK = T(nE), nN = m(nE), n0 = T(nO), n1 = m(nO), n2 = T(nP), n3 = m(nP), n4 = T(nR), n7 = m(nR), n6 = {
-        a: nn,
-        A: nx,
-        b: nA,
-        B: nV,
+    }, a = e.dateTime, l = e.date, v = e.time, C = e.periods, U = e.days, d = e.shortDays, D = e.months, x = e.shortMonths, nn = T(C), nx = m(C), nA = T(U), nV = m(U), nW = T(d), nj = m(d), nq = T(D), nQ = m(D), nX = T(x), nb = m(x), nB = {
+        a: function(n) {
+            return d[n.getDay()];
+        },
+        A: function(n) {
+            return U[n.getDay()];
+        },
+        b: function(n) {
+            return x[n.getMonth()];
+        },
+        B: function(n) {
+            return D[n.getMonth()];
+        },
         c: null,
         d: $,
         e: $,
@@ -114,8 +77,12 @@ export default function v(e) {
         L: O,
         m: R,
         M: k,
-        p: nW,
-        q: nj,
+        p: function(n) {
+            return C[+(n.getHours() >= 12)];
+        },
+        q: function(n) {
+            return 1 + ~~(n.getMonth() / 3);
+        },
         Q: nF,
         s: nZ,
         S: J,
@@ -130,11 +97,19 @@ export default function v(e) {
         Y: ni,
         Z: nf,
         "%": nY
-    }, n5 = {
-        a: nq,
-        A: nQ,
-        b: nX,
-        B: nb,
+    }, nG = {
+        a: function(n) {
+            return d[n.getUTCDay()];
+        },
+        A: function(n) {
+            return U[n.getUTCDay()];
+        },
+        b: function(n) {
+            return x[n.getUTCMonth()];
+        },
+        B: function(n) {
+            return D[n.getUTCMonth()];
+        },
         c: null,
         d: na,
         e: na,
@@ -147,8 +122,12 @@ export default function v(e) {
         L: nh,
         m: ny,
         M: nC,
-        p: nB,
-        q: nG,
+        p: function(n) {
+            return C[+(n.getUTCHours() >= 12)];
+        },
+        q: function(n) {
+            return 1 + ~~(n.getUTCMonth() / 3);
+        },
         Q: nF,
         s: nZ,
         S: nU,
@@ -163,12 +142,26 @@ export default function v(e) {
         Y: nH,
         Z: nS,
         "%": nY
-    }, n9 = {
-        a: l,
-        A: v,
-        b: C,
-        B: U,
-        c: d,
+    }, nI = {
+        a: function(n, t, e) {
+            var r = nW.exec(t.slice(e));
+            return r ? (n.w = nj.get(r[0].toLowerCase()), e + r[0].length) : -1;
+        },
+        A: function(n, t, e) {
+            var r = nA.exec(t.slice(e));
+            return r ? (n.w = nV.get(r[0].toLowerCase()), e + r[0].length) : -1;
+        },
+        b: function(n, t, e) {
+            var r = nX.exec(t.slice(e));
+            return r ? (n.m = nb.get(r[0].toLowerCase()), e + r[0].length) : -1;
+        },
+        B: function(n, t, e) {
+            var r = nq.exec(t.slice(e));
+            return r ? (n.m = nQ.get(r[0].toLowerCase()), e + r[0].length) : -1;
+        },
+        c: function(n, t, e) {
+            return o(n, a, t, e);
+        },
         d: V,
         e: V,
         f: b,
@@ -180,7 +173,10 @@ export default function v(e) {
         L: X,
         m: A,
         M: q,
-        p: a,
+        p: function(n, t, e) {
+            var r = nn.exec(t.slice(e));
+            return r ? (n.p = nx.get(r[0].toLowerCase()), e + r[0].length) : -1;
+        },
         q: Z,
         Q: G,
         s: I,
@@ -190,16 +186,20 @@ export default function v(e) {
         V: H,
         w: w,
         W: L,
-        x: D,
-        X: x,
+        x: function(n, t, e) {
+            return o(n, l, t, e);
+        },
+        X: function(n, t, e) {
+            return o(n, v, t, e);
+        },
         y: Y,
         Y: S,
         Z: F,
         "%": B
     };
-    return n6.x = u(n$, n6), n6.X = u(n_, n6), n6.c = u(nI, n6), n5.x = u(n$, n5), n5.X = u(n_, n5), n5.c = u(nI, n5), {
+    return nB.x = u(l, nB), nB.X = u(v, nB), nB.c = u(a, nB), nG.x = u(l, nG), nG.X = u(v, nG), nG.c = u(a, nG), {
         format: function(n) {
-            var t = u(n += "", n6);
+            var t = u(n += "", nB);
             return t.toString = function() {
                 return n;
             }, t;
@@ -211,7 +211,7 @@ export default function v(e) {
             }, t;
         },
         utcFormat: function(n) {
-            var t = u(n += "", n5);
+            var t = u(n += "", nG);
             return t.toString = function() {
                 return n;
             }, t;
