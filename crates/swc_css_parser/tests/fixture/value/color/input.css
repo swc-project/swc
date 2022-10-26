@@ -213,3 +213,25 @@
     color: rgb(constant(--red) constant(--green) constant(--blue));
     color: rgb(constant(--red) constant(--green) constant(--blue) / constant(--alpha));
 }
+
+div {
+    color: hsl(var(--b2, var(--b1)) / var(--tw-bg-opacity));
+    /*color: lab(var(--mycolor));*/
+    /*color: lab(var(--mycolor) 0);*/
+    /*color: lab(var(--mycolor) var(--mycolor));*/
+    /*color: lab(from var(--mycolor) 0 0 0);*/
+    /*color: lab(from var(--mycolor) var(--color));*/
+    /*color: rgb(var(--bg-color));*/
+    /*color: rgb(var(--bg-color));*/
+    /*color: rgb(var(--bg-color), var(--bg-color-a));*/
+    /*color: rgb(var(--bg-color) var(--bg-color-a));*/
+    /*color: color(from var(--bg-color) var(--bg-color));*/
+    /*color: color(from var(--bg-color) var(--bg-color) var(--bg-color));*/
+    /*color: color(var(--bg-color) var(--bg-color));*/
+    /*color: color(var(--bg-color));*/
+    /*color: color(from var(--base) mi calc(pi * 2) calc(ni / 2));*/
+    /*color: color(var(--bg-color));*/
+    /*color: color(--unwise 35% 20% 8%);*/
+    /*color: color(--unwise var(--bg-color));*/
+    /*color: color(--unwise var(--bg-color) var(--bg-color));*/
+}

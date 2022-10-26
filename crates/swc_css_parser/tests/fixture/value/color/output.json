@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 7115,
+    "end": 8090,
     "ctxt": 0
   },
   "rules": [
@@ -18417,6 +18417,239 @@
                         },
                         "value": "alpha",
                         "raw": "--alpha"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 7117,
+        "end": 8089,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 7117,
+          "end": 7120,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 7117,
+              "end": 7120,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 7117,
+                  "end": 7120,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": {
+                  "type": "TagNameSelector",
+                  "span": {
+                    "start": 7117,
+                    "end": 7120,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "WqName",
+                    "span": {
+                      "start": 7117,
+                      "end": 7120,
+                      "ctxt": 0
+                    },
+                    "prefix": null,
+                    "value": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 7117,
+                        "end": 7120,
+                        "ctxt": 0
+                      },
+                      "value": "div",
+                      "raw": "div"
+                    }
+                  }
+                },
+                "subclassSelectors": []
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 7121,
+          "end": 8089,
+          "ctxt": 0
+        },
+        "name": {
+          "type": "PreservedToken",
+          "span": {
+            "start": 7121,
+            "end": 7122,
+            "ctxt": 0
+          },
+          "token": "LBrace"
+        },
+        "value": [
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 7127,
+              "end": 7182,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 7127,
+                "end": 7132,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 7134,
+                  "end": 7182,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 7134,
+                    "end": 7137,
+                    "ctxt": 0
+                  },
+                  "value": "hsl",
+                  "raw": "hsl"
+                },
+                "value": [
+                  {
+                    "type": "Function",
+                    "span": {
+                      "start": 7138,
+                      "end": 7158,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 7138,
+                        "end": 7141,
+                        "ctxt": 0
+                      },
+                      "value": "var",
+                      "raw": "var"
+                    },
+                    "value": [
+                      {
+                        "type": "DashedIdent",
+                        "span": {
+                          "start": 7142,
+                          "end": 7146,
+                          "ctxt": 0
+                        },
+                        "value": "b2",
+                        "raw": "--b2"
+                      },
+                      {
+                        "type": "Delimiter",
+                        "span": {
+                          "start": 7146,
+                          "end": 7147,
+                          "ctxt": 0
+                        },
+                        "value": ","
+                      },
+                      {
+                        "type": "Function",
+                        "span": {
+                          "start": 7148,
+                          "end": 7157,
+                          "ctxt": 0
+                        },
+                        "name": {
+                          "type": "Ident",
+                          "span": {
+                            "start": 7148,
+                            "end": 7151,
+                            "ctxt": 0
+                          },
+                          "value": "var",
+                          "raw": "var"
+                        },
+                        "value": [
+                          {
+                            "type": "DashedIdent",
+                            "span": {
+                              "start": 7152,
+                              "end": 7156,
+                              "ctxt": 0
+                            },
+                            "value": "b1",
+                            "raw": "--b1"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 7159,
+                      "end": 7160,
+                      "ctxt": 0
+                    },
+                    "value": "/"
+                  },
+                  {
+                    "type": "Function",
+                    "span": {
+                      "start": 7161,
+                      "end": 7181,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 7161,
+                        "end": 7164,
+                        "ctxt": 0
+                      },
+                      "value": "var",
+                      "raw": "var"
+                    },
+                    "value": [
+                      {
+                        "type": "DashedIdent",
+                        "span": {
+                          "start": 7165,
+                          "end": 7180,
+                          "ctxt": 0
+                        },
+                        "value": "tw-bg-opacity",
+                        "raw": "--tw-bg-opacity"
                       }
                     ]
                   }
