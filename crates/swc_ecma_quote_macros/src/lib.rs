@@ -16,6 +16,7 @@ mod ast;
 mod builder;
 mod ctxt;
 mod input;
+mod query;
 mod ret_type;
 
 /// Don't invoke this macro directly, use the `quote!` macro from
@@ -58,3 +59,15 @@ pub fn internal_quote(input: proc_macro::TokenStream) -> proc_macro::TokenStream
     .to_token_stream()
     .into()
 }
+
+///
+///
+/// # Matchers
+///
+///
+/// ```ignore
+/// 
+/// let q = query!("");
+/// ```
+#[proc_macro]
+pub fn query(input: proc_macro::TokenStream) -> proc_macro::TokenStream {}
