@@ -27,7 +27,7 @@
         "type": "ListOfComponentValues",
         "span": {
           "start": 7,
-          "end": 19,
+          "end": 20,
           "ctxt": 0
         },
         "children": [
@@ -55,6 +55,19 @@
               "String": {
                 "value": "framework",
                 "raw": "\"framework\""
+              }
+            }
+          },
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 19,
+              "end": 20,
+              "ctxt": 0
+            },
+            "token": {
+              "WhiteSpace": {
+                "value": " "
               }
             }
           }

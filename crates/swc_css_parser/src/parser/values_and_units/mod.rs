@@ -2799,22 +2799,9 @@ where
 
                 unicode_range.push_str(&number);
 
-                match cur!(self) {
-                    tok!("?") => {
-                        let question = match bump!(self) {
-                            Token::Delim { value } => value,
-                            _ => {
-                                unreachable!();
-                            }
-                        };
-
-                        unicode_range.push(question);
-
-                        loop {
-                            if !is!(self, "?") {
-                                break;
-                            }
-
+                if !is!(self, EOF) {
+                    match cur!(self) {
+                        tok!("?") => {
                             let question = match bump!(self) {
                                 Token::Delim { value } => value,
                                 _ => {
@@ -2823,34 +2810,49 @@ where
                             };
 
                             unicode_range.push(question);
+
+                            loop {
+                                if !is!(self, "?") {
+                                    break;
+                                }
+
+                                let question = match bump!(self) {
+                                    Token::Delim { value } => value,
+                                    _ => {
+                                        unreachable!();
+                                    }
+                                };
+
+                                unicode_range.push(question);
+                            }
                         }
-                    }
-                    tok!("dimension") => {
-                        let dimension = match bump!(self) {
-                            Token::Dimension {
-                                raw_value,
-                                raw_unit,
-                                ..
-                            } => (raw_value, raw_unit),
-                            _ => {
-                                unreachable!();
-                            }
-                        };
+                        tok!("dimension") => {
+                            let dimension = match bump!(self) {
+                                Token::Dimension {
+                                    raw_value,
+                                    raw_unit,
+                                    ..
+                                } => (raw_value, raw_unit),
+                                _ => {
+                                    unreachable!();
+                                }
+                            };
 
-                        unicode_range.push_str(&dimension.0);
-                        unicode_range.push_str(&dimension.1);
-                    }
-                    tok!("number") => {
-                        let number = match bump!(self) {
-                            Token::Number { raw, .. } => raw,
-                            _ => {
-                                unreachable!();
-                            }
-                        };
+                            unicode_range.push_str(&dimension.0);
+                            unicode_range.push_str(&dimension.1);
+                        }
+                        tok!("number") => {
+                            let number = match bump!(self) {
+                                Token::Number { raw, .. } => raw,
+                                _ => {
+                                    unreachable!();
+                                }
+                            };
 
-                        unicode_range.push_str(&number);
+                            unicode_range.push_str(&number);
+                        }
+                        _ => {}
                     }
-                    _ => {}
                 }
             }
             // u <dimension-token> '?'*

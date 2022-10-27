@@ -799,7 +799,7 @@
                 getParsingFlags(config).invalidFormat = !0, config._d = new Date(NaN);
                 return;
             }
-            for(i = 0; i < config._f.length; i++)currentScore = 0, validFormatFound = !1, tempConfig = copyConfig({}, config), null != config._useUTC && (tempConfig._useUTC = config._useUTC), tempConfig._f = config._f[i], configFromStringAndFormat(tempConfig), isValid(tempConfig) && (validFormatFound = !0), currentScore += getParsingFlags(tempConfig).charsLeftOver, currentScore += 10 * getParsingFlags(tempConfig).unusedTokens.length, getParsingFlags(tempConfig).score = currentScore, bestFormatIsValid ? currentScore < scoreToBeat && (scoreToBeat = currentScore, bestMoment = tempConfig) : (null == scoreToBeat || currentScore < scoreToBeat || validFormatFound) && (scoreToBeat = currentScore, bestMoment = tempConfig, validFormatFound && (bestFormatIsValid = !0));
+            for(i = 0; i < config._f.length; i++)currentScore = 0, validFormatFound = !1, tempConfig = copyConfig({}, config), null != config._useUTC && (tempConfig._useUTC = config._useUTC), tempConfig._f = config._f[i], configFromStringAndFormat(tempConfig), isValid(tempConfig) && (validFormatFound = !0), currentScore = getParsingFlags(tempConfig).charsLeftOver + 10 * getParsingFlags(tempConfig).unusedTokens.length, getParsingFlags(tempConfig).score = currentScore, bestFormatIsValid ? currentScore < scoreToBeat && (scoreToBeat = currentScore, bestMoment = tempConfig) : (null == scoreToBeat || currentScore < scoreToBeat || validFormatFound) && (scoreToBeat = currentScore, bestMoment = tempConfig, validFormatFound && (bestFormatIsValid = !0));
             extend(config, bestMoment || tempConfig);
         }(config) : format ? configFromStringAndFormat(config) : isUndefined(input = (config1 = config)._i) ? config1._d = new Date(hooks.now()) : isDate(input) ? config1._d = new Date(input.valueOf()) : 'string' == typeof input ? function(config) {
             var matched = aspNetJsonRegex.exec(config._i);
@@ -850,9 +850,7 @@
         for(i = 1, res = moments[0]; i < moments.length; ++i)(!moments[i].isValid() || moments[i][fn](res)) && (res = moments[i]);
         return res;
     }
-    var now = function() {
-        return Date.now ? Date.now() : +new Date();
-    }, ordering = [
+    var ordering = [
         'year',
         'quarter',
         'month',
@@ -1707,8 +1705,8 @@
     }
     function toISOString$1() {
         if (!this.isValid()) return this.localeData().invalidDate();
-        var minutes, hours, years, s, totalSign, ymSign, daysSign, hmsSign, seconds = abs$1(this._milliseconds) / 1000, days = abs$1(this._days), months = abs$1(this._months), total = this.asSeconds();
-        return total ? (minutes = absFloor(seconds / 60), hours = absFloor(minutes / 60), seconds %= 60, minutes %= 60, years = absFloor(months / 12), months %= 12, s = seconds ? seconds.toFixed(3).replace(/\.?0+$/, '') : '', totalSign = total < 0 ? '-' : '', ymSign = sign(this._months) !== sign(total) ? '-' : '', daysSign = sign(this._days) !== sign(total) ? '-' : '', hmsSign = sign(this._milliseconds) !== sign(total) ? '-' : '', totalSign + 'P' + (years ? ymSign + years + 'Y' : '') + (months ? ymSign + months + 'M' : '') + (days ? daysSign + days + 'D' : '') + (hours || minutes || seconds ? 'T' : '') + (hours ? hmsSign + hours + 'H' : '') + (minutes ? hmsSign + minutes + 'M' : '') + (seconds ? hmsSign + s + 'S' : '')) : 'P0D';
+        var minutes, hours, years, s, ymSign, daysSign, hmsSign, seconds = abs$1(this._milliseconds) / 1000, days = abs$1(this._days), months = abs$1(this._months), total = this.asSeconds();
+        return total ? (minutes = absFloor(seconds / 60), hours = absFloor(minutes / 60), seconds %= 60, minutes %= 60, years = absFloor(months / 12), months %= 12, s = seconds ? seconds.toFixed(3).replace(/\.?0+$/, '') : '', ymSign = sign(this._months) !== sign(total) ? '-' : '', daysSign = sign(this._days) !== sign(total) ? '-' : '', hmsSign = sign(this._milliseconds) !== sign(total) ? '-' : '', (total < 0 ? '-' : '') + 'P' + (years ? ymSign + years + 'Y' : '') + (months ? ymSign + months + 'M' : '') + (days ? daysSign + days + 'D' : '') + (hours || minutes || seconds ? 'T' : '') + (hours ? hmsSign + hours + 'H' : '') + (minutes ? hmsSign + minutes + 'M' : '') + (seconds ? hmsSign + s + 'S' : '')) : 'P0D';
     }
     var proto$2 = Duration.prototype;
     return proto$2.isValid = function() {
@@ -1808,7 +1806,9 @@
     }, hooks.max = function() {
         var args = [].slice.call(arguments, 0);
         return pickBy('isAfter', args);
-    }, hooks.now = now, hooks.utc = createUTC, hooks.unix = function(input) {
+    }, hooks.now = function() {
+        return Date.now ? Date.now() : +new Date();
+    }, hooks.utc = createUTC, hooks.unix = function(input) {
         return createLocal(1000 * input);
     }, hooks.months = function(format, index) {
         return listMonthsImpl(format, index, 'months');

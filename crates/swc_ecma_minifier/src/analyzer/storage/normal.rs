@@ -254,6 +254,7 @@ impl ProgramData {
                 }
             }
         }
+
         // Passing object as a argument is possibly modification.
         e.mutated |= is_modify || (ctx.in_call_arg && ctx.is_exact_arg);
         e.executed_multiple_time |= ctx.executed_multiple_time;

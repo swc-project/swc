@@ -8,8 +8,8 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
     };
     A.Point = Point, A.Origin = new Point(0, 0);
 }(A || (A = {})), C || (C = {}), D || (D = {}), new A.Point(1, 1), function(E) {
-    var xDist = function(x) {
+    var a = A;
+    E.xDist = function(x) {
         return a.Origin.x - x.x;
-    }, a = A;
-    E.xDist = xDist;
+    };
 }(E || (E = {}));

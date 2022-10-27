@@ -35,8 +35,7 @@
                         var i = t - s.startTime;
                         s.remaining = s.duration - i, s.useEasing ? s.countDown ? s.frameVal = s.startVal - s.easingFn(i, 0, s.startVal - s.endVal, s.duration) : s.frameVal = s.easingFn(i, s.startVal, s.endVal - s.startVal, s.duration) : s.countDown ? s.frameVal = s.startVal - (s.startVal - s.endVal) * (i / s.duration) : s.frameVal = s.startVal + (s.endVal - s.startVal) * (i / s.duration), s.countDown ? s.frameVal = s.frameVal < s.endVal ? s.endVal : s.frameVal : s.frameVal = s.frameVal > s.endVal ? s.endVal : s.frameVal, s.frameVal = Number(s.frameVal.toFixed(s.options.decimalPlaces)), s.printValue(s.frameVal), i < s.duration ? s.rAF = requestAnimationFrame(s.count) : null !== s.finalEndVal ? s.update(s.finalEndVal) : s.callback && s.callback();
                     }, this.formatNumber = function(t) {
-                        i = Math.abs(t).toFixed(s.options.decimalPlaces);
-                        var i, a, n, e, o = (i += "").split(".");
+                        var a, n, e, o = (Math.abs(t).toFixed(s.options.decimalPlaces) + "").split(".");
                         if (a = o[0], n = o.length > 1 ? s.options.decimal + o[1] : "", s.options.useGrouping) {
                             e = "";
                             for(var l = 0, h = a.length; l < h; ++l)0 !== l && l % 3 == 0 && (e = s.options.separator + e), e = a[h - l - 1] + e;
@@ -480,10 +479,8 @@
                 }(arr, 2) || function() {
                     throw TypeError("Invalid attempt to destructure non-iterable instance");
                 }(), visible = ref[0], setVisible = ref[1], setRef = _react.useCallback(function(el) {
-                    var callback, ref, id, observer, elements;
-                    unobserve.current && (unobserve.current(), unobserve.current = void 0), !isDisabled && !visible && el && el.tagName && (unobserve.current = (callback = function(isVisible) {
-                        return isVisible && setVisible(isVisible);
-                    }, id = (ref = function(options) {
+                    var ref, id, observer, elements;
+                    unobserve.current && (unobserve.current(), unobserve.current = void 0), !isDisabled && !visible && el && el.tagName && (unobserve.current = (id = (ref = function(options) {
                         var id = options.rootMargin || "", instance = observers.get(id);
                         if (instance) return instance;
                         var elements = new Map(), observer = new IntersectionObserver(function(entries) {
@@ -499,7 +496,9 @@
                         }), instance;
                     }({
                         rootMargin: rootMargin
-                    })).id, observer = ref.observer, (elements = ref.elements).set(el, callback), observer.observe(el), function() {
+                    })).id, observer = ref.observer, (elements = ref.elements).set(el, function(isVisible) {
+                        return isVisible && setVisible(isVisible);
+                    }), observer.observe(el), function() {
                         elements.delete(el), observer.unobserve(el), 0 === elements.size && (observer.disconnect(), observers.delete(id));
                     }));
                 }, [
@@ -764,7 +763,8 @@
                 "containerProps",
                 "children",
                 "style"
-            ], CountUp = function(props) {
+            ];
+            exports.ZP = function(props) {
                 var className = props.className, redraw = props.redraw, containerProps = props.containerProps, children = props.children, style = props.style, useCountUpProps = _objectWithoutProperties(props, _excluded), containerRef = React__default.default.useRef(null), isInitializedRef = React__default.default.useRef(!1), _useCountUp = useCountUp(_objectSpread2(_objectSpread2({}, useCountUpProps), {}, {
                     ref: containerRef,
                     startOnMount: "function" != typeof children || 0 === props.delay,
@@ -824,7 +824,6 @@
                     style: style
                 }, containerProps));
             };
-            exports.ZP = CountUp;
         }
     }
 ]);

@@ -15,9 +15,7 @@ module.exports = {
 //// [index.js]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var ref = require("./module.js");
-ref.taskGroups, ref.taskNameToGroup;
-var MainThreadTasks = function MainThreadTasks(x, y) {
+ref.taskGroups, ref.taskNameToGroup, module.exports = function MainThreadTasks(x, y) {
     "use strict";
     _class_call_check(this, MainThreadTasks);
 };
-module.exports = MainThreadTasks;

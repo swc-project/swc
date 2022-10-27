@@ -11,7 +11,6 @@ function set_valueOne(v) {}
 function set_valueCompound(v) {}
 new class {
     m() {
-        var _tmp;
         let foo = {
             bar: 1
         };
@@ -27,9 +26,9 @@ new class {
             foo
         }), ({ foo: _write_only_error("#value").foo  } = {
             foo
-        }), _tmp = {
+        }), _write_only_error("#value").foo = _extends({}, {
             foo
-        }, _write_only_error("#value").foo = _extends({}, _tmp.foo), _write_only_error("#value"), [_class_private_field_destructure(this, _valueOne).value, ..._class_private_field_destructure(this, _valueRest).value] = [
+        }.foo), _write_only_error("#value"), [_class_private_field_destructure(this, _valueOne).value, ..._class_private_field_destructure(this, _valueRest).value] = [
             1,
             2,
             3

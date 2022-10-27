@@ -17,6 +17,8 @@
 @import '';
 @import "";
 @import "   ";
+@import "
+";
 @import url();
 @import url('');
 @import url("");
@@ -136,7 +138,7 @@ st.css');
 @import url("./test.css") layer(default) supports(display: flex) screen and (min-width: 400px);
 @import url("./test.css") layer supports(display: flex) screen and (min-width: 400px);
 @import url("./test.css") layer() supports(display: flex) screen and (min-width: 400px);
-@import url("./test.css");
+@import url("./test.css") layer();
 @import url("http://example.com/style.css") supports(display: flex) screen and (min-width: 400px);
 @import url("./test.css") layer(default) supports(display: flex) screen and (min-width: 400px);
 @import url("./test.css") screen and (min-width: 400px);

@@ -23,6 +23,12 @@
     :      ^
     `----
 
+  x Expected ":"
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:46:5]
+ 46 | }
+    : ^
+    `----
+
   x Unexpected end of file
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:40:1]
  40 | }

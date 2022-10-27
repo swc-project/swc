@@ -68,7 +68,15 @@ where
         match n {
             Rule::QualifiedRule(n) => emit!(self, n),
             Rule::AtRule(n) => emit!(self, n),
-            Rule::ListOfComponentValues(n) => emit!(self, n),
+            Rule::ListOfComponentValues(n) => {
+                emit!(
+                    &mut *self.with_ctx(Ctx {
+                        in_list_of_component_values: true,
+                        ..self.ctx
+                    }),
+                    n
+                )
+            }
         }
     }
 
@@ -81,10 +89,18 @@ where
     #[emitter]
     fn emit_qualified_rule_prelude(&mut self, n: &QualifiedRulePrelude) -> Result {
         match n {
-            QualifiedRulePrelude::ListOfComponentValues(n) => emit!(self, n),
             QualifiedRulePrelude::SelectorList(n) => {
                 emit!(self, n);
                 formatting_space!(self);
+            }
+            QualifiedRulePrelude::ListOfComponentValues(n) => {
+                emit!(
+                    &mut *self.with_ctx(Ctx {
+                        in_list_of_component_values: true,
+                        ..self.ctx
+                    }),
+                    n
+                )
             }
         }
     }
@@ -135,7 +151,6 @@ where
     #[emitter]
     fn emit_at_rule_prelude(&mut self, n: &AtRulePrelude) -> Result {
         match n {
-            AtRulePrelude::ListOfComponentValues(n) => emit!(self, n),
             AtRulePrelude::CharsetPrelude(n) => {
                 space!(self);
                 emit!(self, n);
@@ -294,6 +309,15 @@ where
             AtRulePrelude::CustomMediaPrelude(n) => {
                 space!(self);
                 emit!(self, n);
+            }
+            AtRulePrelude::ListOfComponentValues(n) => {
+                emit!(
+                    &mut *self.with_ctx(Ctx {
+                        in_list_of_component_values: true,
+                        ..self.ctx
+                    }),
+                    n
+                )
             }
         }
     }
@@ -1118,6 +1142,10 @@ where
         for (idx, node) in iter.enumerate() {
             emit!(self, node);
 
+            if self.ctx.in_list_of_component_values {
+                continue;
+            }
+
             let is_current_preserved_token = matches!(node, ComponentValue::PreservedToken(_));
             let next = nodes.get(idx + 1);
             let is_next_preserved_token = matches!(next, Some(ComponentValue::PreservedToken(_)));
@@ -1333,7 +1361,7 @@ where
                     decrease_indent!(self);
                 }
                 _ => {
-                    if ending == "]" && idx != len - 1 {
+                    if !self.ctx.in_list_of_component_values && ending == "]" && idx != len - 1 {
                         space!(self);
                     }
                 }
@@ -1380,7 +1408,15 @@ where
     #[emitter]
     fn emit_style_block(&mut self, n: &StyleBlock) -> Result {
         match n {
-            StyleBlock::ListOfComponentValues(n) => emit!(self, n),
+            StyleBlock::ListOfComponentValues(n) => {
+                emit!(
+                    &mut *self.with_ctx(Ctx {
+                        in_list_of_component_values: true,
+                        ..self.ctx
+                    }),
+                    n
+                )
+            }
             StyleBlock::AtRule(n) => emit!(self, n),
             StyleBlock::Declaration(n) => emit!(self, n),
             StyleBlock::QualifiedRule(n) => emit!(self, n),
@@ -1392,7 +1428,15 @@ where
         match n {
             DeclarationOrAtRule::Declaration(n) => emit!(self, n),
             DeclarationOrAtRule::AtRule(n) => emit!(self, n),
-            DeclarationOrAtRule::ListOfComponentValues(n) => emit!(self, n),
+            DeclarationOrAtRule::ListOfComponentValues(n) => {
+                emit!(
+                    &mut *self.with_ctx(Ctx {
+                        in_list_of_component_values: true,
+                        ..self.ctx
+                    }),
+                    n
+                )
+            }
         }
     }
 
@@ -2137,7 +2181,15 @@ where
     fn emit_forgiving_complex_list(&mut self, n: &ForgivingComplexSelector) -> Result {
         match n {
             ForgivingComplexSelector::ComplexSelector(n) => emit!(self, n),
-            ForgivingComplexSelector::ListOfComponentValues(n) => emit!(self, n),
+            ForgivingComplexSelector::ListOfComponentValues(n) => {
+                emit!(
+                    &mut *self.with_ctx(Ctx {
+                        in_list_of_component_values: true,
+                        ..self.ctx
+                    }),
+                    n
+                )
+            }
         }
     }
 
@@ -2175,7 +2227,15 @@ where
     fn emit_forgiving_relative_selector(&mut self, n: &ForgivingRelativeSelector) -> Result {
         match n {
             ForgivingRelativeSelector::RelativeSelector(n) => emit!(self, n),
-            ForgivingRelativeSelector::ListOfComponentValues(n) => emit!(self, n),
+            ForgivingRelativeSelector::ListOfComponentValues(n) => {
+                emit!(
+                    &mut *self.with_ctx(Ctx {
+                        in_list_of_component_values: true,
+                        ..self.ctx
+                    }),
+                    n
+                )
+            }
         }
     }
 

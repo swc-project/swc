@@ -1,6 +1,5 @@
 export function formatNumber(t) {
-    i = Math.abs(t).toFixed(s.options.decimalPlaces);
-    var i, a, n, e, o = (i += "").split(".");
+    var a, n, e, o = (Math.abs(t).toFixed(s.options.decimalPlaces) + "").split(".");
     if (a = o[0], n = o.length > 1 ? s.options.decimal + o[1] : "", s.options.useGrouping) {
         e = "";
         for(var l = 0, h = a.length; l < h; ++l)0 !== l && l % 3 == 0 && (e = s.options.separator + e), e = a[h - l - 1] + e;

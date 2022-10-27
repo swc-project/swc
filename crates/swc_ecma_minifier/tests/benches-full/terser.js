@@ -417,8 +417,7 @@
                         return ret;
                     }(function(ch, i) {
                         if (is_big_int) return !1;
-                        var code = ch.charCodeAt(0);
-                        switch(code){
+                        switch(ch.charCodeAt(0)){
                             case 95:
                                 return numeric_separator = !0;
                             case 98:
@@ -1913,8 +1912,8 @@
         base && base.PROPS && (props = props.concat(base.PROPS));
         for(var code = "return function AST_" + type + "(props){ if (props) { ", i = props.length; --i >= 0;)code += "this." + props[i] + " = props." + props[i] + ";";
         const proto = base && Object.create(base.prototype);
-        (proto && proto.initialize || methods && methods.initialize) && (code += "this.initialize();"), code += "}", code += "this.flags = 0;";
-        var ctor = Function(code += "}")();
+        (proto && proto.initialize || methods && methods.initialize) && (code += "this.initialize();");
+        var ctor = Function(code = "}this.flags = 0;}")();
         if (proto && (ctor.prototype = proto, ctor.BASE = base), base && base.SUBCLASSES.push(ctor), ctor.prototype.CTOR = ctor, ctor.prototype.constructor = ctor, ctor.PROPS = props || null, ctor.SELF_PROPS = self_props, ctor.SUBCLASSES = [], type && (ctor.prototype.TYPE = ctor.TYPE = type), methods) for(i in methods)HOP(methods, i) && ("$" === i[0] ? ctor[i.substr(1)] = methods[i] : ctor.prototype[i] = methods[i]);
         return ctor.DEFMETHOD = function(name, method) {
             this.prototype[name] = method;
@@ -4289,9 +4288,7 @@
             var a = str.split(/\r?\n/), n = a.length - 1;
             current_line += n, current_col += a[0].length, n > 0 && (ensure_line_len(), current_col = a[n].length), last = str;
         }
-        var star = function() {
-            print("*");
-        }, space = options.beautify ? function() {
+        var space = options.beautify ? function() {
             print(" ");
         } : function() {
             might_need_space = !0;
@@ -4360,7 +4357,9 @@
             },
             newline: newline,
             print: print,
-            star: star,
+            star: function() {
+                print("*");
+            },
             space: space,
             comma: function() {
                 print(","), space();

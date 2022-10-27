@@ -71,6 +71,18 @@
    :         ^^^^^^^^
    `----
 
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/feature-name-2/input.css:1:1]
+ 1 | @media ("string") {}
+   :                  ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/media/feature-name-2/input.css:1:1]
+ 1 | @media ("string") {}
+   :                  ^
+   `----
+
   x SimpleBlock
    ,-[$DIR/tests/recovery/at-rule/media/feature-name-2/input.css:1:1]
  1 | @media ("string") {}

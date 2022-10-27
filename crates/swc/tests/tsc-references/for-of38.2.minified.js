@@ -1,8 +1,7 @@
 //// [for-of38.ts]
-var map = new Map([
+for (var [k, v] of new Map([
     [
         "",
         !0
     ]
-]);
-for (var [k, v] of map);
+]));

@@ -1,5 +1,5 @@
 //// [for-of44.ts]
-var array = [
+for (var [num, strBoolSym] of [
     [
         0,
         ""
@@ -12,5 +12,4 @@ var array = [
         1,
         Symbol()
     ]
-];
-for (var [num, strBoolSym] of array);
+]);

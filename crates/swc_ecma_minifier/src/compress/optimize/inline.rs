@@ -1,7 +1,9 @@
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, EqIgnoreSpan, Spanned};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_optimization::simplify::expr_simplifier;
 use swc_ecma_utils::{class_has_side_effect, find_pat_ids, ExprExt};
+use swc_ecma_visit::VisitMutWith;
 
 use super::Optimizer;
 use crate::{
@@ -171,10 +173,7 @@ where
             // Mutation of properties are ok
             if is_inline_enabled
                 && usage.declared_count == 1
-                && (!usage.mutated
-                    || (usage.assign_count == 0
-                        && !usage.reassigned()
-                        && !usage.has_property_mutation))
+                && (usage.can_inline_var())
                 && match init {
                     Expr::Ident(Ident {
                         sym: js_word!("eval"),
@@ -253,9 +252,10 @@ where
 
             // Single use => inlined
             if is_inline_enabled
+                && usage.declared
                 && !should_preserve
                 && !usage.reassigned()
-                && (!usage.mutated || usage.is_mutated_only_by_one_call())
+                && (usage.can_inline_var() || usage.is_mutated_only_by_one_call())
                 && ref_count == 1
             {
                 match init {
@@ -291,6 +291,10 @@ where
 
                     Expr::Lit(..) => {}
 
+                    Expr::Fn(_) if !usage.can_inline_fn_once() => {
+                        return;
+                    }
+
                     Expr::Fn(f) => {
                         let excluded: Vec<Id> = find_pat_ids(&f.function.params);
 
@@ -307,6 +311,11 @@ where
                             }
                         }
                     }
+
+                    Expr::Arrow(..) if usage.callee_count == 0 => {
+                        return;
+                    }
+
                     Expr::Arrow(f) => {
                         let excluded: Vec<Id> = find_pat_ids(&f.params);
 
@@ -350,12 +359,6 @@ where
                                 }
                             }
                         }
-                    }
-                }
-
-                if usage.callee_count == 0 {
-                    if let Expr::Fn(..) | Expr::Arrow(..) = init {
-                        return;
                     }
                 }
 
@@ -618,9 +621,7 @@ where
             //
             if (self.options.reduce_vars || self.options.collapse_vars || self.options.inline != 0)
                 && usage.ref_count == 1
-                && (usage.callee_count > 0
-                    || !usage.executed_multiple_time
-                        && (usage.is_fn_local || !usage.used_in_non_child_fn))
+                && (usage.can_inline_fn_once())
                 && !usage.inline_prevented
                 && (match decl {
                     Decl::Class(..) => !usage.used_above_decl,
@@ -681,6 +682,30 @@ where
 
     /// Actually inlines variables.
     pub(super) fn inline(&mut self, e: &mut Expr) {
+        if let Expr::Member(me) = e {
+            if let MemberProp::Computed(ref mut prop) = me.prop {
+                if let Expr::Lit(Lit::Num(..)) = &*prop.expr {
+                    if let Expr::Ident(obj) = &*me.obj {
+                        let new = self.vars.lits_for_array_access.get(&obj.to_id());
+
+                        if let Some(new) = new {
+                            report_change!("inline: Inlined array access");
+                            self.changed = true;
+
+                            me.obj = new.clone();
+                            // TODO(kdy1): Optimize performance by skipping visiting of children
+                            // nodes.
+                            e.visit_mut_with(&mut expr_simplifier(
+                                self.marks.unresolved_mark,
+                                Default::default(),
+                            ));
+                        }
+                        return;
+                    }
+                }
+            }
+        }
+
         if let Expr::Ident(i) = e {
             let id = i.to_id();
             if let Some(value) = self

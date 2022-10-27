@@ -51,75 +51,41 @@
         },
         "value": [
           {
-            "type": "PreservedToken",
-            "span": {
-              "start": 17,
-              "end": 19,
-              "ctxt": 0
-            },
-            "token": {
-              "WhiteSpace": {
-                "value": "\n\t"
-              }
-            }
-          },
-          {
-            "type": "PreservedToken",
+            "type": "ListOfComponentValues",
             "span": {
               "start": 19,
-              "end": 23,
-              "ctxt": 0
-            },
-            "token": {
-              "Ident": {
-                "value": "form",
-                "raw": "form"
-              }
-            }
-          },
-          {
-            "type": "PreservedToken",
-            "span": {
-              "start": 23,
               "end": 24,
               "ctxt": 0
             },
-            "token": {
-              "WhiteSpace": {
-                "value": " "
-              }
-            }
-          },
-          {
-            "type": "SimpleBlock",
-            "span": {
-              "start": 24,
-              "end": 26,
-              "ctxt": 0
-            },
-            "name": {
-              "type": "PreservedToken",
-              "span": {
-                "start": 24,
-                "end": 25,
-                "ctxt": 0
+            "children": [
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 19,
+                  "end": 23,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "form",
+                    "raw": "form"
+                  }
+                }
               },
-              "token": "LBrace"
-            },
-            "value": []
-          },
-          {
-            "type": "PreservedToken",
-            "span": {
-              "start": 26,
-              "end": 27,
-              "ctxt": 0
-            },
-            "token": {
-              "WhiteSpace": {
-                "value": "\n"
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 23,
+                  "end": 24,
+                  "ctxt": 0
+                },
+                "token": {
+                  "WhiteSpace": {
+                    "value": " "
+                  }
+                }
               }
-            }
+            ]
           }
         ]
       }
@@ -169,75 +135,41 @@
         },
         "value": [
           {
-            "type": "PreservedToken",
-            "span": {
-              "start": 46,
-              "end": 48,
-              "ctxt": 0
-            },
-            "token": {
-              "WhiteSpace": {
-                "value": "\n\t"
-              }
-            }
-          },
-          {
-            "type": "PreservedToken",
+            "type": "ListOfComponentValues",
             "span": {
               "start": 48,
-              "end": 50,
-              "ctxt": 0
-            },
-            "token": {
-              "Ident": {
-                "value": "ot",
-                "raw": "ot"
-              }
-            }
-          },
-          {
-            "type": "PreservedToken",
-            "span": {
-              "start": 50,
               "end": 51,
               "ctxt": 0
             },
-            "token": {
-              "WhiteSpace": {
-                "value": " "
-              }
-            }
-          },
-          {
-            "type": "SimpleBlock",
-            "span": {
-              "start": 51,
-              "end": 53,
-              "ctxt": 0
-            },
-            "name": {
-              "type": "PreservedToken",
-              "span": {
-                "start": 51,
-                "end": 52,
-                "ctxt": 0
+            "children": [
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 48,
+                  "end": 50,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "ot",
+                    "raw": "ot"
+                  }
+                }
               },
-              "token": "LBrace"
-            },
-            "value": []
-          },
-          {
-            "type": "PreservedToken",
-            "span": {
-              "start": 53,
-              "end": 54,
-              "ctxt": 0
-            },
-            "token": {
-              "WhiteSpace": {
-                "value": "\n"
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 50,
+                  "end": 51,
+                  "ctxt": 0
+                },
+                "token": {
+                  "WhiteSpace": {
+                    "value": " "
+                  }
+                }
               }
-            }
+            ]
           }
         ]
       }

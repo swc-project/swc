@@ -24,39 +24,88 @@
         "raw": "page"
       },
       "prelude": {
-        "type": "PageSelectorList",
+        "type": "ListOfComponentValues",
         "span": {
-          "start": 13,
-          "end": 18,
+          "start": 6,
+          "end": 19,
           "ctxt": 0
         },
-        "selectors": [
+        "children": [
           {
-            "type": "PageSelector",
+            "type": "PreservedToken",
+            "span": {
+              "start": 6,
+              "end": 7,
+              "ctxt": 0
+            },
+            "token": {
+              "WhiteSpace": {
+                "value": " "
+              }
+            }
+          },
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 7,
+              "end": 11,
+              "ctxt": 0
+            },
+            "token": {
+              "Ident": {
+                "value": "Page",
+                "raw": "Page"
+              }
+            }
+          },
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 11,
+              "end": 12,
+              "ctxt": 0
+            },
+            "token": "Colon"
+          },
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 12,
+              "end": 13,
+              "ctxt": 0
+            },
+            "token": {
+              "WhiteSpace": {
+                "value": " "
+              }
+            }
+          },
+          {
+            "type": "PreservedToken",
             "span": {
               "start": 13,
               "end": 18,
               "ctxt": 0
             },
-            "pageType": {
-              "type": "PageSelectorType",
-              "span": {
-                "start": 13,
-                "end": 18,
-                "ctxt": 0
-              },
-              "value": {
-                "type": "Ident",
-                "span": {
-                  "start": 13,
-                  "end": 18,
-                  "ctxt": 0
-                },
+            "token": {
+              "Ident": {
                 "value": "blank",
                 "raw": "blank"
               }
+            }
+          },
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 18,
+              "end": 19,
+              "ctxt": 0
             },
-            "pseudos": null
+            "token": {
+              "WhiteSpace": {
+                "value": " "
+              }
+            }
           }
         ]
       },

@@ -1,17 +1,17 @@
 
-  x Expected whitespace, semicolon, EOF, at-keyword or ident token
+  x Expected whitespace, semicolon, EOF, at-keyword, '&' or ident token
    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:5:1]
  5 | <!--
    : ^^^^
    `----
 
-  x Expected whitespace, semicolon, EOF, at-keyword or ident token
+  x Expected whitespace, semicolon, EOF, at-keyword, '&' or ident token
     ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:14:1]
  14 | <!--
     : ^^^^
     `----
 
-  x Expected whitespace, semicolon, EOF, at-keyword or ident token
+  x Expected whitespace, semicolon, EOF, at-keyword, '&' or ident token
     ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:25:1]
  25 | <!--
     : ^^^^

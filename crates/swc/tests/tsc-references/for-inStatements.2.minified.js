@@ -33,13 +33,10 @@ for(var x in function(x, y) {
     return x + y;
 });
 for(var x in i[42]);
-for(var x in !function(M) {
-    var X = function X() {
-        "use strict";
-        _class_call_check(this, X);
-    };
-    M.X = X;
-}(M || (M = {})), M);
+for(var x in (M || (M = {})).X = function X() {
+    "use strict";
+    _class_call_check(this, X);
+}, M);
 for(var x in M.X);
 for(var x in !function(Color) {
     Color[Color.Red = 0] = "Red", Color[Color.Blue = 1] = "Blue";

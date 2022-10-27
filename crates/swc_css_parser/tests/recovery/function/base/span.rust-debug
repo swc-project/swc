@@ -660,10 +660,22 @@
   x ComponentValue
    ,-[$DIR/tests/recovery/function/base/input.css:7:5]
  7 | prop: func({ foo: bar });
+   :             ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/function/base/input.css:7:5]
+ 7 | prop: func({ foo: bar });
+   :             ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/base/input.css:7:5]
+ 7 | prop: func({ foo: bar });
    :              ^^^
    `----
 
-  x Ident
+  x Ident { value: Atom('foo' type=inline), raw: Atom('foo' type=inline) }
    ,-[$DIR/tests/recovery/function/base/input.css:7:5]
  7 | prop: func({ foo: bar });
    :              ^^^
@@ -684,13 +696,37 @@
   x ComponentValue
    ,-[$DIR/tests/recovery/function/base/input.css:7:5]
  7 | prop: func({ foo: bar });
-   :                   ^^^
+   :                  ^
    `----
 
-  x Ident
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/function/base/input.css:7:5]
+ 7 | prop: func({ foo: bar });
+   :                  ^
+   `----
+
+  x ComponentValue
    ,-[$DIR/tests/recovery/function/base/input.css:7:5]
  7 | prop: func({ foo: bar });
    :                   ^^^
+   `----
+
+  x Ident { value: Atom('bar' type=inline), raw: Atom('bar' type=inline) }
+   ,-[$DIR/tests/recovery/function/base/input.css:7:5]
+ 7 | prop: func({ foo: bar });
+   :                   ^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/base/input.css:7:5]
+ 7 | prop: func({ foo: bar });
+   :                      ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/function/base/input.css:7:5]
+ 7 | prop: func({ foo: bar });
+   :                      ^
    `----
 
   x ComponentValue

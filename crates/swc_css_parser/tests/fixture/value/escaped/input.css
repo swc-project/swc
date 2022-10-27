@@ -1,3 +1,29 @@
 table {
     color: \red;
 }
+
+a {
+    background: url("a).png");
+    background: url(a;a);
+    background: url(a/*);
+    background: \;a;
+}
+:not([foo=")"]) { }
+:not(div/*)*/) { }
+:not(:nth-child(2n of [foo=")"])) { }
+[foo=\"] { }
+[foo=\{] { }
+[foo=\(] { }
+[foo=yes\:\(it\'s\ work\)] { }
+
+\@noat { }
+
+h1\\{
+    color: \\;
+}
+
+[attr="\;"] { }
+
+.prop {
+    \62 olor: red
+}
