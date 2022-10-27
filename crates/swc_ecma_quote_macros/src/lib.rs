@@ -67,7 +67,16 @@ pub fn internal_quote(input: proc_macro::TokenStream) -> proc_macro::TokenStream
 ///
 /// ```ignore
 /// 
-/// let q = query!("");
+/// let q = query!("class Foo extends YourClass {}");
+///
+/// let module: Module = create_your_module();
+/// ```
+///
+/// ```ignore
+/// 
+/// let q = query!("console.log(...$1)");
+///
+/// let module: Module = create_your_module();
 /// ```
 #[proc_macro]
 pub fn query(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
