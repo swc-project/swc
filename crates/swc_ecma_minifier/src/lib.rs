@@ -68,6 +68,7 @@ use crate::{
 #[macro_use]
 mod macros;
 mod compress;
+mod control_flow;
 mod debug;
 pub mod eval;
 mod metadata;
