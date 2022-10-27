@@ -133,7 +133,7 @@ where
         // Consume the next input token. Create a new at-rule with its name set to the
         // value of the current input token, its prelude initially set to an empty list,
         // and its value initially set to nothing.
-        let at_rule_span = self.input.cur_span();
+        let span = self.input.cur_span();
         let at_keyword_name = match bump!(self) {
             Token::AtKeyword { value, raw } => (value, raw),
             _ => {
@@ -144,11 +144,7 @@ where
             (
                 at_keyword_name.0.to_ascii_lowercase(),
                 AtRuleName::DashedIdent(DashedIdent {
-                    span: Span::new(
-                        at_rule_span.lo + BytePos(1),
-                        at_rule_span.hi,
-                        Default::default(),
-                    ),
+                    span: Span::new(span.lo + BytePos(1), span.hi, Default::default()),
                     value: at_keyword_name.0,
                     raw: Some(at_keyword_name.1),
                 }),
@@ -157,11 +153,7 @@ where
             (
                 at_keyword_name.0.to_ascii_lowercase(),
                 AtRuleName::Ident(Ident {
-                    span: Span::new(
-                        at_rule_span.lo + BytePos(1),
-                        at_rule_span.hi,
-                        Default::default(),
-                    ),
+                    span: Span::new(span.lo + BytePos(1), span.hi, Default::default()),
                     value: at_keyword_name.0,
                     raw: Some(at_keyword_name.1),
                 }),
@@ -180,11 +172,11 @@ where
             // This is a parse error. Return the at-rule.
             if is!(self, EOF) {
                 self.errors.push(Error::new(
-                    at_rule_span,
-                    ErrorKind::EofButExpected("semicolon or curly block"),
+                    span!(self, span.lo),
+                    ErrorKind::EofButExpected("';' or '{'"),
                 ));
 
-                at_rule.span = span!(self, at_rule_span.lo);
+                at_rule.span = span!(self, span.lo);
 
                 return Ok(at_rule);
             }
@@ -204,7 +196,7 @@ where
                         Ok(at_rule_prelude) => match at_rule_prelude {
                             None if normalized_at_rule_name == js_word!("layer") => {
                                 self.errors.push(Error::new(
-                                    at_rule_span,
+                                    span,
                                     ErrorKind::Expected("at least one name"),
                                 ));
 
@@ -228,7 +220,7 @@ where
                             }
                         }
                     };
-                    at_rule.span = span!(self, at_rule_span.lo);
+                    at_rule.span = span!(self, span.lo);
 
                     return Ok(at_rule);
                 }
@@ -295,7 +287,7 @@ where
                             Some(block)
                         }
                     };
-                    at_rule.span = span!(self, at_rule_span.lo);
+                    at_rule.span = span!(self, span.lo);
 
                     return Ok(at_rule);
                 }
@@ -981,9 +973,19 @@ where
             // <EOF-token>
             // This is a parse error. Return the block.
             if is!(self, EOF) {
-                let span = self.input.cur_span();
+                let mirror = match &simple_block.name.token {
+                    Token::LBracket => "']'",
+                    Token::LParen => "')'",
+                    Token::LBrace => "'}'",
+                    _ => {
+                        unreachable!();
+                    }
+                };
 
-                self.errors.push(Error::new(span, ErrorKind::Eof));
+                self.errors.push(Error::new(
+                    span!(self, span.lo),
+                    ErrorKind::EofButExpected(mirror),
+                ));
 
                 break;
             }
@@ -1128,6 +1130,9 @@ where
         };
         let mut children = vec![];
 
+        // Repeatedly consume a component value from input until an <EOF-token> is
+        // returned, appending the returned values (except the final <EOF-token>) into a
+        // list. Return the list.
         loop {
             if is!(self, EOF) {
                 break;
