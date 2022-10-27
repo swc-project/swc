@@ -20,5 +20,5 @@
   x Invalid selector
    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:1:1]
  1 | <!-- 123 -->
-   :      ^
+   :      ^^^
    `----

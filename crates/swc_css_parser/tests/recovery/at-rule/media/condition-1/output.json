@@ -24,60 +24,325 @@
         "raw": "media"
       },
       "prelude": {
-        "type": "MediaQueryList",
+        "type": "ListOfComponentValues",
         "span": {
-          "start": 49,
-          "end": 59,
+          "start": 7,
+          "end": 60,
           "ctxt": 0
         },
-        "queries": [
+        "children": [
           {
-            "type": "MediaQuery",
+            "type": "PreservedToken",
+            "span": {
+              "start": 7,
+              "end": 8,
+              "ctxt": 0
+            },
+            "token": {
+              "WhiteSpace": {
+                "value": " "
+              }
+            }
+          },
+          {
+            "type": "SimpleBlock",
+            "span": {
+              "start": 8,
+              "end": 22,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "PreservedToken",
+              "span": {
+                "start": 8,
+                "end": 9,
+                "ctxt": 0
+              },
+              "token": "LParen"
+            },
+            "value": [
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 9,
+                  "end": 15,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "update",
+                    "raw": "update"
+                  }
+                }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 15,
+                  "end": 16,
+                  "ctxt": 0
+                },
+                "token": "Colon"
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 16,
+                  "end": 17,
+                  "ctxt": 0
+                },
+                "token": {
+                  "WhiteSpace": {
+                    "value": " "
+                  }
+                }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 17,
+                  "end": 21,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "slow",
+                    "raw": "slow"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 22,
+              "end": 23,
+              "ctxt": 0
+            },
+            "token": {
+              "WhiteSpace": {
+                "value": " "
+              }
+            }
+          },
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 23,
+              "end": 26,
+              "ctxt": 0
+            },
+            "token": {
+              "Ident": {
+                "value": "and",
+                "raw": "and"
+              }
+            }
+          },
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 26,
+              "end": 27,
+              "ctxt": 0
+            },
+            "token": {
+              "WhiteSpace": {
+                "value": " "
+              }
+            }
+          },
+          {
+            "type": "SimpleBlock",
+            "span": {
+              "start": 27,
+              "end": 40,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "PreservedToken",
+              "span": {
+                "start": 27,
+                "end": 28,
+                "ctxt": 0
+              },
+              "token": "LParen"
+            },
+            "value": [
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 28,
+                  "end": 33,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "hover",
+                    "raw": "hover"
+                  }
+                }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 33,
+                  "end": 34,
+                  "ctxt": 0
+                },
+                "token": "Colon"
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 34,
+                  "end": 35,
+                  "ctxt": 0
+                },
+                "token": {
+                  "WhiteSpace": {
+                    "value": " "
+                  }
+                }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 35,
+                  "end": 39,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "none",
+                    "raw": "none"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 40,
+              "end": 41,
+              "ctxt": 0
+            },
+            "token": {
+              "WhiteSpace": {
+                "value": " "
+              }
+            }
+          },
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 41,
+              "end": 48,
+              "ctxt": 0
+            },
+            "token": {
+              "Ident": {
+                "value": "unknown",
+                "raw": "unknown"
+              }
+            }
+          },
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 48,
+              "end": 49,
+              "ctxt": 0
+            },
+            "token": {
+              "WhiteSpace": {
+                "value": " "
+              }
+            }
+          },
+          {
+            "type": "SimpleBlock",
             "span": {
               "start": 49,
               "end": 59,
               "ctxt": 0
             },
-            "modifier": null,
-            "mediaType": null,
-            "keyword": null,
-            "condition": {
-              "type": "MediaCondition",
+            "name": {
+              "type": "PreservedToken",
               "span": {
                 "start": 49,
-                "end": 59,
+                "end": 50,
                 "ctxt": 0
               },
-              "conditions": [
-                {
-                  "type": "MediaFeaturePlain",
-                  "span": {
-                    "start": 49,
-                    "end": 59,
-                    "ctxt": 0
-                  },
-                  "name": {
-                    "type": "Ident",
-                    "span": {
-                      "start": 50,
-                      "end": 55,
-                      "ctxt": 0
-                    },
+              "token": "LParen"
+            },
+            "value": [
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 50,
+                  "end": 55,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
                     "value": "color",
                     "raw": "color"
-                  },
-                  "value": {
-                    "type": "Number",
-                    "span": {
-                      "start": 57,
-                      "end": 58,
-                      "ctxt": 0
-                    },
-                    "value": 1.0,
-                    "raw": "1"
                   }
                 }
-              ]
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 55,
+                  "end": 56,
+                  "ctxt": 0
+                },
+                "token": "Colon"
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 56,
+                  "end": 57,
+                  "ctxt": 0
+                },
+                "token": {
+                  "WhiteSpace": {
+                    "value": " "
+                  }
+                }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 57,
+                  "end": 58,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Number": {
+                    "value": 1.0,
+                    "raw": "1",
+                    "type": "integer"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 59,
+              "end": 60,
+              "ctxt": 0
+            },
+            "token": {
+              "WhiteSpace": {
+                "value": " "
+              }
             }
           }
         ]
@@ -89,7 +354,15 @@
           "end": 62,
           "ctxt": 0
         },
-        "name": "{",
+        "name": {
+          "type": "PreservedToken",
+          "span": {
+            "start": 60,
+            "end": 61,
+            "ctxt": 0
+          },
+          "token": "LBrace"
+        },
         "value": []
       }
     }
