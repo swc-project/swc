@@ -1203,6 +1203,7 @@ reduce_vars/array_forof_2/input.js
 reduce_vars/boolean_binary_assign/input.js
 reduce_vars/booleans/input.js
 reduce_vars/catch_var/input.js
+reduce_vars/chained_assignments/input.js
 reduce_vars/cond_assign/input.js
 reduce_vars/conditional_chain_call/input.js
 reduce_vars/conditional_chain_call_direct/input.js
