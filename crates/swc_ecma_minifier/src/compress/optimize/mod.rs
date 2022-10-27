@@ -664,11 +664,8 @@ where
             Expr::Paren(e) => return self.ignore_return_value(&mut e.expr),
 
             Expr::Bin(BinExpr {
-                op: op!("&&") | op!("||"),
-                left,
-                right,
-                ..
-            }) => {
+                op, left, right, ..
+            }) if op.may_short_circuit() => {
                 let ctx = Ctx {
                     dont_use_negated_iife: self.ctx.dont_use_negated_iife
                         || self.options.side_effects,
@@ -1472,7 +1469,7 @@ where
     fn visit_mut_bin_expr(&mut self, n: &mut BinExpr) {
         {
             let ctx = Ctx {
-                in_cond: self.ctx.in_cond || matches!(n.op, op!("&&") | op!("||") | op!("??")),
+                in_cond: self.ctx.in_cond || n.op.may_short_circuit(),
                 ..self.ctx
             };
 
