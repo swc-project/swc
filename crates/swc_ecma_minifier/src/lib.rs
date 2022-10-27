@@ -71,6 +71,8 @@ mod compress;
 mod control_flow;
 mod debug;
 pub mod eval;
+mod liveness;
+pub mod marks;
 mod metadata;
 mod mode;
 pub mod option;
