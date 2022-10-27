@@ -11,7 +11,7 @@ pub(crate) enum NodeRef<'a> {
 
 pub(crate) struct BasicBlock<'a> {
     pub(crate) id: BlockId,
-    pub(crate) exprs: Vec<NodeRef<'a>>,
+    pub(crate) nodes: Vec<NodeRef<'a>>,
 }
 
 pub struct ControlFlowGraph<'a> {
