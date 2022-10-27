@@ -2744,6 +2744,22 @@ where
                 }
             }
 
+            Expr::Assign(e) => {
+                if let Some(cmt) = self.comments {
+                    let lo = e.span.lo;
+
+                    if cmt.has_leading(lo) {
+                        return true;
+                    }
+                }
+
+                if let Some(e) = e.left.as_expr() {
+                    if self.has_leading_comment(e) {
+                        return true;
+                    }
+                }
+            }
+
             _ => {}
         }
 
