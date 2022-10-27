@@ -826,7 +826,7 @@
                                     selectionStart = range.start.row < row - 1 ? 0 : selectionStart, selectionEnd += prevLine.length + 1, line = prevLine + "\n" + line;
                                 } else if (range.end.row != row) {
                                     var nextLine = host.session.getLine(row + 1);
-                                    selectionEnd = range.end.row > row + 1 ? nextLine.length : selectionEnd, selectionEnd += line.length + 1, line = line + "\n" + nextLine;
+                                    selectionEnd = (range.end.row > row + 1 ? nextLine.length : selectionEnd) + (line.length + 1), line = line + "\n" + nextLine;
                                 } else isMobile && row > 0 && (line = "\n" + line, selectionEnd += 1, selectionStart += 1);
                                 line.length > 400 && (selectionStart < 400 && selectionEnd < 400 ? line = line.slice(0, 400) : (line = "\n", selectionStart == selectionEnd ? selectionStart = selectionEnd = 0 : (selectionStart = 0, selectionEnd = 1)));
                             }
@@ -9025,7 +9025,7 @@
                 function stringifyDelta(d) {
                     if (Array.isArray(d = d || this)) return d.map(stringifyDelta).join("\n");
                     var type = "";
-                    return d.action ? (type = "insert" == d.action ? "+" : "-", type += "[" + d.lines + "]") : d.value && (type = Array.isArray(d.value) ? d.value.map(stringifyRange).join("\n") : stringifyRange(d.value)), d.start && (type += stringifyRange(d)), (d.id || d.rev) && (type += "\t(" + (d.id || d.rev) + ")"), type;
+                    return d.action ? type = ("insert" == d.action ? "+" : "-") + "[" + d.lines + "]" : d.value && (type = Array.isArray(d.value) ? d.value.map(stringifyRange).join("\n") : stringifyRange(d.value)), d.start && (type += stringifyRange(d)), (d.id || d.rev) && (type += "\t(" + (d.id || d.rev) + ")"), type;
                 }
                 function stringifyRange(r) {
                     return r.start.row + ":" + r.start.column + "=>" + r.end.row + ":" + r.end.column;
