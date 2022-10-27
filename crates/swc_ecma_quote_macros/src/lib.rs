@@ -70,4 +70,6 @@ pub fn internal_quote(input: proc_macro::TokenStream) -> proc_macro::TokenStream
 /// let q = query!("");
 /// ```
 #[proc_macro]
-pub fn query(input: proc_macro::TokenStream) -> proc_macro::TokenStream {}
+pub fn query(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
+    input
+}
