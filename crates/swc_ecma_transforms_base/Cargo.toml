@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs", "src/**/*.js"]
 license       = "Apache-2.0"
 name          = "swc_ecma_transforms_base"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.111.35"
+version       = "0.111.36"
 
 [lib]
 bench = false
@@ -26,20 +26,20 @@ rustc-hash        = "1.1.0"
 serde             = { version = "1", features = ["derive"] }
 smallvec          = "1.8.0"
 swc_atoms         = { version = "0.4.24", path = "../swc_atoms" }
-swc_common        = { version = "0.29.11", path = "../swc_common" }
-swc_ecma_ast      = { version = "0.94.15", path = "../swc_ecma_ast" }
-swc_ecma_parser   = { version = "0.122.21", path = "../swc_ecma_parser" }
-swc_ecma_utils    = { version = "0.105.26", path = "../swc_ecma_utils" }
-swc_ecma_visit    = { version = "0.80.15", path = "../swc_ecma_visit" }
+swc_common        = { version = "0.29.12", path = "../swc_common" }
+swc_ecma_ast      = { version = "0.94.16", path = "../swc_ecma_ast" }
+swc_ecma_parser   = { version = "0.122.22", path = "../swc_ecma_parser" }
+swc_ecma_utils    = { version = "0.105.27", path = "../swc_ecma_utils" }
+swc_ecma_visit    = { version = "0.80.16", path = "../swc_ecma_visit" }
 tracing           = "0.1.32"
 
 [dev-dependencies]
 criterion                  = "0.3"
 rayon                      = "1"
-swc_ecma_codegen           = { version = "0.127.25", path = "../swc_ecma_codegen" }
+swc_ecma_codegen           = { version = "0.127.26", path = "../swc_ecma_codegen" }
 swc_ecma_transforms_macros = { version = "0.5.0", path = "../swc_ecma_transforms_macros" }
 swc_node_base              = { version = "0.5.8", path = "../swc_node_base" }
-testing                    = { version = "0.31.11", path = "../testing" }
+testing                    = { version = "0.31.12", path = "../testing" }
 
 [[bench]]
 harness = false

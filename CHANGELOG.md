@@ -16,6 +16,12 @@
 
 - **(html/minifier)** Handle `crossorigin` (#6261) ([782da5c](https://github.com/swc-project/swc/commit/782da5c83aa2d84e2b25d59272703300b670b88d))
 
+### Miscellaneous Tasks
+
+
+
+- **(common)** Switch to `new_debug_unreachable` (#6265) ([2f61332](https://github.com/swc-project/swc/commit/2f613321779cfa7a3ccb9d3fd6c7789459723f0f))
+
 ### Refactor
 
 
