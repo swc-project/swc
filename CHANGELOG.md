@@ -11,6 +11,9 @@
 
 
 
+- **(es/minfiier)** Compute more with sequential inliner (#6169) ([743a1aa](https://github.com/swc-project/swc/commit/743a1aab4fc8abf0ee002520cf88680fb4e14d2f))
+
+
 - **(html/minifier)** Handle `crossorigin` (#6261) ([782da5c](https://github.com/swc-project/swc/commit/782da5c83aa2d84e2b25d59272703300b670b88d))
 
 ### Refactor
