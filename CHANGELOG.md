@@ -5,6 +5,9 @@
 
 
 
+- **(css/parser)** Fix parsing of colors (#6260) ([c3944ba](https://github.com/swc-project/swc/commit/c3944ba2395e54c7b557f9a71639e18458dc2a97))
+
+
 - **(es/typescript)** Fix stack overflow (#6250) ([28ec6e8](https://github.com/swc-project/swc/commit/28ec6e8fc70cf74722c93353c03e4fdedb21954a))
 
 ### Features
