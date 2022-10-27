@@ -378,9 +378,10 @@ where
             // <EOF-token>
             // This is a parse error. Return nothing.
             if is!(self, EOF) {
-                let span = self.input.cur_span();
-
-                return Err(Error::new(span, ErrorKind::Eof));
+                return Err(Error::new(
+                    span!(self, span.lo),
+                    ErrorKind::EofButExpected("'{'"),
+                ));
             }
 
             match cur!(self) {

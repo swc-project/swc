@@ -167,10 +167,11 @@
      :   ^
      `----
 
-  x Unexpected end of file
-     ,-[$DIR/tests/recovery/hacks/input.css:114:1]
- 114 | }
-     : ^
+  x Unexpected end of file, but expected '{'
+     ,-[$DIR/tests/recovery/hacks/input.css:112:5]
+ 112 | ,-> &property: value;
+ 113 | `->     color: red;
+ 114 |     }
      `----
 
   x Unexpected tokens in at-rule prelude
