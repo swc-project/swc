@@ -194,9 +194,9 @@
     color: hwb(120 20% 30%);
     color: hwb(90deg 50% 50%);
     color: hwb(90deg 50% 50%);
-    color: hwb(90deg 50% 50%, 0.2);
+    color: hwb(90deg 50% 50% / 0.2);
     color: hwb(90 50% 50%);
-    color: hwb(90 50% 50% 0.2);
+    color: hwb(90 50% 50% / 0.2);
     color: hwb(90deg 33.75% 50%);
     color: hwb(120 30% 50%);
     color: hwb(120 30% 50% / 0.5);
