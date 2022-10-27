@@ -1,8 +1,6 @@
-console.log(
-    (function (c) {
-        var undefined = 42;
-        return (function () {
-            return c--, c--, void c.toString();
-        })();
-    })()
-);
+console.log(function(c) {
+    return function() {
+        c--, c--, c.toString();
+        return;
+    }();
+}());
