@@ -596,16 +596,11 @@ where
         }
     }
 
-    fn start_new_attribute(&mut self, c: Option<char>) {
+    fn start_new_attribute(&mut self) {
         if let Some(Tag { attributes, .. }) = &mut self.current_tag_token {
             // The longest known attribute is "glyph-orientation-horizontal" for SVG tags
-            let mut name = String::with_capacity(28);
-            let mut raw_name = String::with_capacity(28);
-
-            if let Some(c) = c {
-                name.push(c);
-                raw_name.push(c);
-            };
+            let name = String::with_capacity(28);
+            let raw_name = String::with_capacity(28);
 
             attributes.push(Attribute {
                 span: Default::default(),
@@ -619,14 +614,14 @@ where
         }
     }
 
-    fn append_name_to_attribute(&mut self, name: Option<(char, char)>) {
+    fn append_name_to_attribute(&mut self, c: char, raw_c: Option<char>) {
         if let Some(Tag { attributes, .. }) = &mut self.current_tag_token {
             if let Some(attribute) = attributes.last_mut() {
-                if let Some(name) = name {
-                    attribute.name.push(name.0);
+                attribute.name.push(c);
 
+                if let Some(raw_c) = raw_c {
                     if let Some(raw_name) = &mut attribute.raw_name {
-                        raw_name.push(name.1);
+                        raw_name.push(raw_c);
                     }
                 }
             }
@@ -2178,7 +2173,8 @@ where
                     // We set `None` for `value` to support boolean attributes in AST
                     Some(c @ '=') => {
                         self.emit_error(ErrorKind::UnexpectedEqualsSignBeforeAttributeName);
-                        self.start_new_attribute(Some(c));
+                        self.start_new_attribute();
+                        self.append_name_to_attribute(c, Some(c));
                         self.state = State::AttributeName;
                     }
                     // Anything else
@@ -2186,7 +2182,7 @@ where
                     // and value to the empty string. Reconsume in the attribute name state.
                     // We set `None` for `value` to support boolean attributes in AST
                     _ => {
-                        self.start_new_attribute(None);
+                        self.start_new_attribute();
                         self.reconsume_in_state(State::AttributeName);
                     }
                 }
@@ -2194,7 +2190,7 @@ where
             // https://html.spec.whatwg.org/multipage/parsing.html#attribute-name-state
             State::AttributeName => {
                 let anything_else = |lexer: &mut Lexer<I>, c: char| {
-                    lexer.append_name_to_attribute(Some((c, c)));
+                    lexer.append_name_to_attribute(c, Some(c));
                 };
 
                 // Consume the next input character:
@@ -2225,14 +2221,14 @@ where
                     // Append the lowercase version of the current input character (add 0x0020
                     // to the character's code point) to the current attribute's name.
                     Some(c) if is_ascii_upper_alpha(c) => {
-                        self.append_name_to_attribute(Some((c.to_ascii_lowercase(), c)));
+                        self.append_name_to_attribute(c.to_ascii_lowercase(), Some(c));
                     }
                     // U+0000 NULL
                     // This is an unexpected-null-character parse error. Append a U+FFFD
                     // REPLACEMENT CHARACTER character to the current attribute's name.
                     Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-                        self.append_name_to_attribute(Some((REPLACEMENT_CHARACTER, c)));
+                        self.append_name_to_attribute(REPLACEMENT_CHARACTER, Some(c));
                     }
                     // U+0022 QUOTATION MARK (")
                     // U+0027 APOSTROPHE (')
@@ -2304,7 +2300,7 @@ where
                     // and value to the empty string. Reconsume in the attribute name state.
                     // We set `None` for `value` to support boolean attributes in AST
                     _ => {
-                        self.start_new_attribute(None);
+                        self.start_new_attribute();
                         self.reconsume_in_state(State::AttributeName);
                     }
                 }
