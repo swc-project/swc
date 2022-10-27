@@ -578,6 +578,36 @@ impl Minifier<'_> {
         })
     }
 
+    fn is_type_text_javascript(&self, value: &JsWord) -> bool {
+        let value = value.trim().to_ascii_lowercase();
+        let value = if let Some(next) = value.split(';').next() {
+            next
+        } else {
+            &value
+        };
+
+        match value {
+            // Legacy JavaScript MIME types
+            "application/javascript"
+            | "application/ecmascript"
+            | "application/x-ecmascript"
+            | "application/x-javascript"
+            | "text/ecmascript"
+            | "text/javascript1.0"
+            | "text/javascript1.1"
+            | "text/javascript1.2"
+            | "text/javascript1.3"
+            | "text/javascript1.4"
+            | "text/javascript1.5"
+            | "text/jscript"
+            | "text/livescript"
+            | "text/x-ecmascript"
+            | "text/x-javascript" => true,
+            "text/javascript" => true,
+            _ => false,
+        }
+    }
+
     fn is_default_attribute_value(
         &self,
         namespace: Namespace,
@@ -606,47 +636,22 @@ impl Minifier<'_> {
                         }
                         _ => {}
                     },
-                    js_word!("script") => {
-                        match attribute.name {
-                            js_word!("type") => {
-                                let value = if let Some(next) = attribute_value.split(';').next() {
-                                    next
-                                } else {
-                                    attribute_value
-                                };
-
-                                match value {
-                                    // Legacy JavaScript MIME types
-                                    "application/javascript"
-                                    | "application/ecmascript"
-                                    | "application/x-ecmascript"
-                                    | "application/x-javascript"
-                                    | "text/ecmascript"
-                                    | "text/javascript1.0"
-                                    | "text/javascript1.1"
-                                    | "text/javascript1.2"
-                                    | "text/javascript1.3"
-                                    | "text/javascript1.4"
-                                    | "text/javascript1.5"
-                                    | "text/jscript"
-                                    | "text/livescript"
-                                    | "text/x-ecmascript"
-                                    | "text/x-javascript" => return true,
-                                    "text/javascript" => return true,
-                                    _ => {}
-                                }
+                    js_word!("script") => match attribute.name {
+                        js_word!("type") => {
+                            if self.is_type_text_javascript(attribute_value) {
+                                return true;
                             }
-                            js_word!("language") => {
-                                match &*attribute_value.trim().to_ascii_lowercase() {
-                                    "javascript" | "javascript1.2" | "javascript1.3"
-                                    | "javascript1.4" | "javascript1.5" | "javascript1.6"
-                                    | "javascript1.7" => return true,
-                                    _ => {}
-                                }
-                            }
-                            _ => {}
                         }
-                    }
+                        js_word!("language") => {
+                            match &*attribute_value.trim().to_ascii_lowercase() {
+                                "javascript" | "javascript1.2" | "javascript1.3"
+                                | "javascript1.4" | "javascript1.5" | "javascript1.6"
+                                | "javascript1.7" => return true,
+                                _ => {}
+                            }
+                        }
+                        _ => {}
+                    },
                     js_word!("link") => {
                         if attribute.name == js_word!("type")
                             && &*attribute_value.trim().to_ascii_lowercase() == "text/css"
@@ -1336,11 +1341,16 @@ impl Minifier<'_> {
 
     fn allow_elements_to_merge(&self, left: Option<&Child>, right: &Element) -> bool {
         if let Some(Child::Element(left)) = left {
-            if matches!(left.namespace, Namespace::HTML | Namespace::SVG)
+            let is_style_tag = matches!(left.namespace, Namespace::HTML | Namespace::SVG)
                 && left.tag_name == js_word!("style")
                 && matches!(right.namespace, Namespace::HTML | Namespace::SVG)
-                && right.tag_name == js_word!("style")
-            {
+                && right.tag_name == js_word!("style");
+            let is_script_tag = matches!(left.namespace, Namespace::HTML | Namespace::SVG)
+                && left.tag_name == js_word!("script")
+                && matches!(right.namespace, Namespace::HTML | Namespace::SVG)
+                && right.tag_name == js_word!("script");
+
+            if is_style_tag || is_script_tag {
                 let mut need_skip = false;
 
                 let mut left_attributes = left
@@ -1348,9 +1358,16 @@ impl Minifier<'_> {
                     .clone()
                     .into_iter()
                     .filter(|attribute| match attribute.name {
+                        js_word!("src") if is_script_tag => {
+                            need_skip = true;
+
+                            true
+                        }
                         js_word!("type") => {
                             if let Some(value) = &attribute.value {
-                                if value.trim().to_ascii_lowercase() == "text/css" {
+                                if is_style_tag && value.trim().to_ascii_lowercase() == "text/css" {
+                                    false
+                                } else if is_script_tag && self.is_type_text_javascript(value) {
                                     false
                                 } else {
                                     need_skip = true;
@@ -1374,9 +1391,16 @@ impl Minifier<'_> {
                     .clone()
                     .into_iter()
                     .filter(|attribute| match attribute.name {
+                        js_word!("src") if is_script_tag => {
+                            need_skip = true;
+
+                            true
+                        }
                         js_word!("type") => {
                             if let Some(value) = &attribute.value {
-                                if value.trim().to_ascii_lowercase() == "text/css" {
+                                if is_style_tag && value.trim().to_ascii_lowercase() == "text/css" {
+                                    false
+                                } else if is_script_tag && self.is_type_text_javascript(value) {
                                     false
                                 } else {
                                     need_skip = true;
@@ -1406,11 +1430,20 @@ impl Minifier<'_> {
     }
 
     fn merge_text_children(&self, left: &Element, right: &Element) -> Vec<Child> {
+        let is_script_tag = matches!(left.namespace, Namespace::HTML | Namespace::SVG)
+            && left.tag_name == js_word!("script")
+            && matches!(right.namespace, Namespace::HTML | Namespace::SVG)
+            && right.tag_name == js_word!("script");
+
         let data = left.children.iter().chain(right.children.iter()).fold(
             String::new(),
             |mut acc, child| match child {
-                Child::Text(text) => {
+                Child::Text(text) if text.data.len() > 0 => {
                     acc.push_str(&text.data);
+
+                    if is_script_tag {
+                        acc.push(';');
+                    }
 
                     acc
                 }
@@ -2751,17 +2784,12 @@ impl VisitMut for Minifier<'_> {
                         Some(js_word!("module")) if self.need_minify_js() => {
                             text_type = Some(MinifierType::JsModule);
                         }
-                        Some(
-                            js_word!("text/javascript")
-                            | js_word!("text/ecmascript")
-                            | js_word!("text/jscript")
-                            | js_word!("application/javascript")
-                            | js_word!("application/x-javascript")
-                            | js_word!("application/ecmascript"),
-                        )
-                        | None
-                            if self.need_minify_js() =>
+                        Some(value)
+                            if self.need_minify_js() && self.is_type_text_javascript(&value) =>
                         {
+                            text_type = Some(MinifierType::JsScript);
+                        }
+                        None if self.need_minify_js() => {
                             text_type = Some(MinifierType::JsScript);
                         }
                         Some(

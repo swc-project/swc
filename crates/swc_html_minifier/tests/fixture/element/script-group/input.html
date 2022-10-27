@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Document</title>
+</head>
+<body>
+<div>breaker</div>
+<script>var a = "test";console.log(a)</script>
+<script>var b = "test";console.log(b)</script>
+
+
+<div>breaker</div>
+<script type="text/javascript">var a = "test";console.log(a);</script>
+<script type="application/javascript">var b = "test";console.log(b);</script>
+
+
+<div>breaker</div>
+<script type="application/javascript">var a = "test";console.log(a)</script>
+<script>var b = "test";console.log(b)</script>
+
+
+<div>breaker</div>
+<script type="application/javascript;version=1.8">var a = "test";console.log(a)</script>
+<script>var b = "test";console.log(b)</script>
+
+
+<div>breaker</div>
+<script>var a = "test";console.log(a)</script>
+<script crossorigin="use-credentials">var b = "test";console.log(b)</script>
+
+
+<div>breaker</div>
+<script type="text/javascript" crossorigin="use-credentials">var a = "test";console.log(a)</script>
+<script crossorigin="use-credentials">var b = "test";console.log(b)</script>
+
+
+<div>breaker</div>
+<script>
+    (function test() {
+        let test = "1";
+        console.log(test);
+    })();
+</script>
+<script>
+    let test = "1";
+    console.log(test);
+</script>
+
+
+<div>breaker</div>
+<script type="module">var a = "test";console.log(a)</script>
+<script>var b = "test";console.log(b)</script>
+
+
+<div>breaker</div>
+<script type="module">var a = "test";console.log(a)</script>
+<script type="module">var b = "test";console.log(b)</script>
+
+
+<div>breaker</div>
+<script>var a = "test";console.log(a)</script>
+<script type="unknown">var b = "test";console.log(b)</script>
+
+
+<div>breaker</div>
+<script src="test.js"></script>
+<script>var b = "test";console.log(b)</script>
+</body>
+</html>
