@@ -1,1 +1,1 @@
-console.log("foo");
+console.log((0, "foo"));
