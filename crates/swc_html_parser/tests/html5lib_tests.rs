@@ -146,7 +146,7 @@ fn html5lib_test_tokenizer(input: PathBuf) {
             lexer.set_input_state(state.clone());
 
             if let Some(last_start_tag) = test.get("lastStartTag") {
-                let last_start_tag: String = serde_json::from_value(last_start_tag.clone())
+                let last_start_tag: JsWord = serde_json::from_value(last_start_tag.clone())
                     .expect("failed to get lastStartTag in test");
 
                 lexer.set_last_start_tag_name(&last_start_tag);
