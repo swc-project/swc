@@ -22,3 +22,9 @@
  3 |  
    : ^
    `----
+
+  x Unexpected end of file, but expected ')'
+   ,-[$DIR/tests/recovery/function/unclosed/input.css:2:5]
+ 2 | ,-> width: min(500px;
+ 3 | `-> }
+   `----
