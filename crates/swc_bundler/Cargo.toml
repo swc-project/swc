@@ -9,7 +9,7 @@ include       = ["Cargo.toml", "build.rs", "src/**/*.rs", "src/**/*.js"]
 license       = "Apache-2.0"
 name          = "swc_bundler"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.192.51"
+version       = "0.192.55"
 
   [package.metadata.docs.rs]
   all-features = true
@@ -37,18 +37,18 @@ radix_fmt                        = "1"
 rayon                            = { version = "1", optional = true }
 relative-path                    = "1.2"
 retain_mut                       = "0.1.2"
-swc_atoms                        = { version = "0.4.23", path = "../swc_atoms" }
-swc_common                       = { version = "0.29.10", path = "../swc_common" }
-swc_ecma_ast                     = { version = "0.94.14", path = "../swc_ecma_ast" }
-swc_ecma_codegen                 = { version = "0.127.24", path = "../swc_ecma_codegen" }
-swc_ecma_loader                  = { version = "0.41.11", path = "../swc_ecma_loader" }
-swc_ecma_parser                  = { version = "0.122.20", path = "../swc_ecma_parser" }
-swc_ecma_transforms_base         = { version = "0.111.34", path = "../swc_ecma_transforms_base" }
-swc_ecma_transforms_optimization = { version = "0.167.28", path = "../swc_ecma_transforms_optimization" }
-swc_ecma_utils                   = { version = "0.105.25", path = "../swc_ecma_utils" }
-swc_ecma_visit                   = { version = "0.80.14", path = "../swc_ecma_visit" }
-swc_fast_graph                   = { version = "0.17.11", path = "../swc_fast_graph/" }
-swc_graph_analyzer               = { version = "0.18.11", path = "../swc_graph_analyzer/" }
+swc_atoms                        = { version = "0.4.24", path = "../swc_atoms" }
+swc_common                       = { version = "0.29.12", path = "../swc_common" }
+swc_ecma_ast                     = { version = "0.94.16", path = "../swc_ecma_ast" }
+swc_ecma_codegen                 = { version = "0.127.27", path = "../swc_ecma_codegen" }
+swc_ecma_loader                  = { version = "0.41.13", path = "../swc_ecma_loader" }
+swc_ecma_parser                  = { version = "0.122.22", path = "../swc_ecma_parser" }
+swc_ecma_transforms_base         = { version = "0.111.37", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_optimization = { version = "0.167.31", path = "../swc_ecma_transforms_optimization" }
+swc_ecma_utils                   = { version = "0.105.27", path = "../swc_ecma_utils" }
+swc_ecma_visit                   = { version = "0.80.16", path = "../swc_ecma_visit" }
+swc_fast_graph                   = { version = "0.17.13", path = "../swc_fast_graph/" }
+swc_graph_analyzer               = { version = "0.18.13", path = "../swc_graph_analyzer/" }
 tracing                          = "0.1.32"
 
 [dev-dependencies]
@@ -57,17 +57,17 @@ ntest = "0.7.2"
 path-clean = "=0.1.0"
 reqwest = { version = "0.11.4", features = ["blocking"] }
 sha-1 = "0.10"
-swc_ecma_loader = { version = "0.41.11", path = "../swc_ecma_loader", features = [
+swc_ecma_loader = { version = "0.41.13", path = "../swc_ecma_loader", features = [
   "node",
   "cache",
 ] }
-swc_ecma_minifier = { version = "0.159.51", path = "../swc_ecma_minifier", features = [
+swc_ecma_minifier = { version = "0.159.55", path = "../swc_ecma_minifier", features = [
   "concurrent",
 ] }
-swc_ecma_transforms_proposal = { version = "0.144.21", path = "../swc_ecma_transforms_proposal" }
-swc_ecma_transforms_react = { version = "0.155.22", path = "../swc_ecma_transforms_react" }
-swc_ecma_transforms_typescript = { version = "0.159.24", path = "../swc_ecma_transforms_typescript" }
+swc_ecma_transforms_proposal = { version = "0.144.24", path = "../swc_ecma_transforms_proposal" }
+swc_ecma_transforms_react = { version = "0.155.25", path = "../swc_ecma_transforms_react" }
+swc_ecma_transforms_typescript = { version = "0.159.27", path = "../swc_ecma_transforms_typescript" }
 swc_node_base = { version = "0.5.8", path = "../swc_node_base" }
 tempfile = "3.1.0"
-testing = { version = "0.31.10", path = "../testing" }
+testing = { version = "0.31.12", path = "../testing" }
 url = "2.1.1"

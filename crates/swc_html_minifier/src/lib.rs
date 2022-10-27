@@ -367,13 +367,17 @@ fn get_white_space(namespace: Namespace, tag_name: &JsWord) -> WhiteSpace {
 }
 
 impl Minifier<'_> {
-    fn is_event_handler_attribute(&self, name: &JsWord) -> bool {
-        EVENT_HANDLER_ATTRIBUTES.contains(&&**name)
+    fn is_event_handler_attribute(&self, attribute: &Attribute) -> bool {
+        EVENT_HANDLER_ATTRIBUTES.contains(&&*attribute.name)
     }
 
-    fn is_boolean_attribute(&self, element: &Element, name: &JsWord) -> bool {
+    fn is_boolean_attribute(&self, element: &Element, attribute: &Attribute) -> bool {
+        if element.namespace != Namespace::HTML {
+            return false;
+        }
+
         if let Some(global_pseudo_element) = HTML_ELEMENTS_AND_ATTRIBUTES.get(&js_word!("*")) {
-            if let Some(element) = global_pseudo_element.other.get(name) {
+            if let Some(element) = global_pseudo_element.other.get(&attribute.name) {
                 if element.boolean.is_some() && element.boolean.unwrap() {
                     return true;
                 }
@@ -381,7 +385,7 @@ impl Minifier<'_> {
         }
 
         if let Some(element) = HTML_ELEMENTS_AND_ATTRIBUTES.get(&element.tag_name) {
-            if let Some(element) = element.other.get(name) {
+            if let Some(element) = element.other.get(&attribute.name) {
                 if element.boolean.is_some() && element.boolean.unwrap() {
                     return true;
                 }
@@ -391,25 +395,25 @@ impl Minifier<'_> {
         false
     }
 
-    fn is_trimable_separated_attribute(&self, element: &Element, attribute_name: &JsWord) -> bool {
-        if ALLOW_TO_TRIM_GLOBAL_ATTRIBUTES.contains(&&**attribute_name) {
+    fn is_trimable_separated_attribute(&self, element: &Element, attribute: &Attribute) -> bool {
+        if ALLOW_TO_TRIM_GLOBAL_ATTRIBUTES.contains(&&*attribute.name) {
             return true;
         }
 
         match element.namespace {
             Namespace::HTML => {
-                ALLOW_TO_TRIM_HTML_ATTRIBUTES.contains(&(&element.tag_name, attribute_name))
+                ALLOW_TO_TRIM_HTML_ATTRIBUTES.contains(&(&element.tag_name, &*attribute.name))
             }
             Namespace::SVG => {
-                ALLOW_TO_TRIM_SVG_ATTRIBUTES.contains(&(&element.tag_name, attribute_name))
+                ALLOW_TO_TRIM_SVG_ATTRIBUTES.contains(&(&element.tag_name, &*attribute.name))
             }
             _ => false,
         }
     }
 
-    fn is_comma_separated_attribute(&self, element: &Element, attribute_name: &JsWord) -> bool {
+    fn is_comma_separated_attribute(&self, element: &Element, attribute: &Attribute) -> bool {
         match element.namespace {
-            Namespace::HTML => match *attribute_name {
+            Namespace::HTML => match attribute.name {
                 js_word!("content")
                     if element.tag_name == js_word!("meta")
                         && (self.element_has_attribute_with_value(
@@ -450,27 +454,29 @@ impl Minifier<'_> {
                 {
                     true
                 }
-                _ if attribute_name == "exportparts" => true,
-                _ => COMMA_SEPARATED_HTML_ATTRIBUTES.contains(&(&element.tag_name, attribute_name)),
+                _ if attribute.name == js_word!("exportparts") => true,
+                _ => {
+                    COMMA_SEPARATED_HTML_ATTRIBUTES.contains(&(&element.tag_name, &*attribute.name))
+                }
             },
             Namespace::SVG => {
-                COMMA_SEPARATED_SVG_ATTRIBUTES.contains(&(&element.tag_name, attribute_name))
+                COMMA_SEPARATED_SVG_ATTRIBUTES.contains(&(&element.tag_name, &*attribute.name))
             }
             _ => false,
         }
     }
 
-    fn is_space_separated_attribute(&self, element: &Element, attribute_name: &JsWord) -> bool {
-        if SPACE_SEPARATED_GLOBAL_ATTRIBUTES.contains(&&**attribute_name) {
+    fn is_space_separated_attribute(&self, element: &Element, attribute: &Attribute) -> bool {
+        if SPACE_SEPARATED_GLOBAL_ATTRIBUTES.contains(&&*attribute.name) {
             return true;
         }
 
         match element.namespace {
             Namespace::HTML => {
-                SPACE_SEPARATED_HTML_ATTRIBUTES.contains(&(&element.tag_name, attribute_name))
+                SPACE_SEPARATED_HTML_ATTRIBUTES.contains(&(&element.tag_name, &*attribute.name))
             }
             Namespace::SVG => {
-                match *attribute_name {
+                match attribute.name {
                     js_word!("transform")
                     | js_word!("stroke-dasharray")
                     | js_word!("clip-path")
@@ -478,24 +484,24 @@ impl Minifier<'_> {
                     _ => {}
                 }
 
-                SPACE_SEPARATED_SVG_ATTRIBUTES.contains(&(&element.tag_name, attribute_name))
+                SPACE_SEPARATED_SVG_ATTRIBUTES.contains(&(&element.tag_name, &*attribute.name))
             }
             _ => false,
         }
     }
 
-    fn is_semicolon_separated_attribute(&self, element: &Element, attribute_name: &JsWord) -> bool {
+    fn is_semicolon_separated_attribute(&self, element: &Element, attribute: &Attribute) -> bool {
         match element.namespace {
             Namespace::SVG => {
-                SEMICOLON_SEPARATED_SVG_ATTRIBUTES.contains(&(&element.tag_name, attribute_name))
+                SEMICOLON_SEPARATED_SVG_ATTRIBUTES.contains(&(&element.tag_name, &*attribute.name))
             }
             _ => false,
         }
     }
 
-    fn is_attribute_value_unordered_set(&self, element: &Element, attribute_name: &JsWord) -> bool {
+    fn is_attribute_value_unordered_set(&self, element: &Element, attribute: &Attribute) -> bool {
         if matches!(
-            *attribute_name,
+            attribute.name,
             js_word!("class")
                 | js_word!("part")
                 | js_word!("itemprop")
@@ -507,17 +513,17 @@ impl Minifier<'_> {
 
         match element.namespace {
             Namespace::HTML => match element.tag_name {
-                js_word!("link") if *attribute_name == js_word!("blocking") => true,
-                js_word!("script") if *attribute_name == js_word!("blocking") => true,
-                js_word!("style") if *attribute_name == js_word!("blocking") => true,
-                js_word!("output") if *attribute_name == js_word!("for") => true,
-                js_word!("td") if *attribute_name == js_word!("headers") => true,
-                js_word!("th") if *attribute_name == js_word!("headers") => true,
-                js_word!("form") if *attribute_name == js_word!("rel") => true,
-                js_word!("a") if *attribute_name == js_word!("rel") => true,
-                js_word!("area") if *attribute_name == js_word!("rel") => true,
-                js_word!("link") if *attribute_name == js_word!("rel") => true,
-                js_word!("iframe") if *attribute_name == js_word!("sandbox") => true,
+                js_word!("link") if attribute.name == js_word!("blocking") => true,
+                js_word!("script") if attribute.name == js_word!("blocking") => true,
+                js_word!("style") if attribute.name == js_word!("blocking") => true,
+                js_word!("output") if attribute.name == js_word!("for") => true,
+                js_word!("td") if attribute.name == js_word!("headers") => true,
+                js_word!("th") if attribute.name == js_word!("headers") => true,
+                js_word!("form") if attribute.name == js_word!("rel") => true,
+                js_word!("a") if attribute.name == js_word!("rel") => true,
+                js_word!("area") if attribute.name == js_word!("rel") => true,
+                js_word!("link") if attribute.name == js_word!("rel") => true,
+                js_word!("iframe") if attribute.name == js_word!("sandbox") => true,
                 js_word!("link")
                     if self.element_has_attribute_with_value(
                         element,
@@ -527,17 +533,36 @@ impl Minifier<'_> {
                             js_word!("apple-touch-icon"),
                             js_word!("apple-touch-icon-precomposed"),
                         ],
-                    ) && *attribute_name == js_word!("sizes") =>
+                    ) && attribute.name == js_word!("sizes") =>
                 {
                     true
                 }
                 _ => false,
             },
             Namespace::SVG => {
-                matches!(element.tag_name, js_word!("a") if *attribute_name == js_word!("rel"))
+                matches!(element.tag_name, js_word!("a") if attribute.name == js_word!("rel"))
             }
             _ => false,
         }
+    }
+
+    fn is_crossorigin_attribute(&self, current_element: &Element, attribute: &Attribute) -> bool {
+        matches!(
+            (
+                current_element.namespace,
+                &current_element.tag_name,
+                &attribute.name,
+            ),
+            (
+                Namespace::HTML,
+                &js_word!("img")
+                    | &js_word!("audio")
+                    | &js_word!("video")
+                    | &js_word!("script")
+                    | &js_word!("link"),
+                &js_word!("crossorigin"),
+            ) | (Namespace::SVG, &js_word!("image"), &js_word!("crossorigin"))
+        )
     }
 
     fn element_has_attribute_with_value(
@@ -1310,13 +1335,71 @@ impl Minifier<'_> {
     }
 
     fn allow_elements_to_merge(&self, left: Option<&Child>, right: &Element) -> bool {
-        if let Some(left) = left {
-            return matches!((left, right), (Child::Element(left), right)
-                if matches!(left.namespace, Namespace::HTML | Namespace::SVG)
-                    && left.tag_name == js_word!("style")
-                    && matches!(right.namespace, Namespace::HTML | Namespace::SVG)
-                    && right.tag_name == js_word!("style")
-                    && left.attributes.eq_ignore_span(&right.attributes));
+        if let Some(Child::Element(left)) = left {
+            if matches!(left.namespace, Namespace::HTML | Namespace::SVG)
+                && left.tag_name == js_word!("style")
+                && matches!(right.namespace, Namespace::HTML | Namespace::SVG)
+                && right.tag_name == js_word!("style")
+            {
+                let mut need_skip = false;
+
+                let mut left_attributes = left
+                    .attributes
+                    .clone()
+                    .into_iter()
+                    .filter(|attribute| match attribute.name {
+                        js_word!("type") => {
+                            if let Some(value) = &attribute.value {
+                                if value.trim().to_ascii_lowercase() == "text/css" {
+                                    false
+                                } else {
+                                    need_skip = true;
+
+                                    true
+                                }
+                            } else {
+                                true
+                            }
+                        }
+                        _ => true,
+                    })
+                    .collect::<Vec<Attribute>>();
+
+                if need_skip {
+                    return false;
+                }
+
+                let mut right_attributes = right
+                    .attributes
+                    .clone()
+                    .into_iter()
+                    .filter(|attribute| match attribute.name {
+                        js_word!("type") => {
+                            if let Some(value) = &attribute.value {
+                                if value.trim().to_ascii_lowercase() == "text/css" {
+                                    false
+                                } else {
+                                    need_skip = true;
+
+                                    true
+                                }
+                            } else {
+                                true
+                            }
+                        }
+                        _ => true,
+                    })
+                    .collect::<Vec<Attribute>>();
+
+                if need_skip {
+                    return false;
+                }
+
+                left_attributes.sort_by(|a, b| a.name.cmp(&b.name));
+                right_attributes.sort_by(|a, b| a.name.cmp(&b.name));
+
+                return left_attributes.eq_ignore_span(&right_attributes);
+            }
         }
 
         false
@@ -2330,7 +2413,7 @@ impl VisitMut for Minifier<'_> {
                     if (matches!(i1.name, js_word!("id")) && value.is_empty())
                         || (matches!(i1.name, js_word!("class") | js_word!("style"))
                             && value.is_empty())
-                        || self.is_event_handler_attribute(&i1.name) && value.is_empty()
+                        || self.is_event_handler_attribute(i1) && value.is_empty()
                     {
                         remove_list.push(i);
 
@@ -2381,11 +2464,23 @@ impl VisitMut for Minifier<'_> {
         n.visit_mut_children_with(self);
 
         if let Some(value) = &n.value {
+            let current_element = match &self.current_element {
+                Some(current_element) => current_element,
+                _ => return,
+            };
+
             if value.is_empty() {
+                if (self.options.collapse_boolean_attributes
+                    && self.is_boolean_attribute(current_element, n))
+                    || (self.options.normalize_attributes
+                        && self.is_crossorigin_attribute(current_element, n)
+                        && value.is_empty())
+                {
+                    n.value = None;
+                }
+
                 return;
             }
-
-            let current_element = self.current_element.as_ref().unwrap();
 
             match (
                 current_element.namespace,
@@ -2410,13 +2505,18 @@ impl VisitMut for Minifier<'_> {
                 ) if self.options.normalize_attributes => {
                     n.value = Some(value.trim().to_ascii_lowercase().into());
                 }
-                _ if self.options.collapse_boolean_attributes
-                    && current_element.namespace == Namespace::HTML
-                    && self.is_boolean_attribute(current_element, &n.name) =>
+                _ if self.options.normalize_attributes
+                    && self.is_crossorigin_attribute(current_element, n)
+                    && value.to_ascii_lowercase() == js_word!("anonymous") =>
                 {
                     n.value = None;
                 }
-                _ if self.is_event_handler_attribute(&n.name) => {
+                _ if self.options.collapse_boolean_attributes
+                    && self.is_boolean_attribute(current_element, n) =>
+                {
+                    n.value = None;
+                }
+                _ if self.is_event_handler_attribute(n) => {
                     let mut value = value.to_string();
 
                     if self.options.normalize_attributes {
@@ -2443,7 +2543,7 @@ impl VisitMut for Minifier<'_> {
                     n.value = Some(js_word!(""));
                 }
                 _ if self.options.normalize_attributes
-                    && self.is_semicolon_separated_attribute(current_element, &n.name) =>
+                    && self.is_semicolon_separated_attribute(current_element, n) =>
                 {
                     n.value = Some(
                         value
@@ -2484,7 +2584,7 @@ impl VisitMut for Minifier<'_> {
                     n.value = Some(value.into());
                 }
                 _ if self.options.sort_space_separated_attribute_values
-                    && self.is_attribute_value_unordered_set(current_element, &n.name) =>
+                    && self.is_attribute_value_unordered_set(current_element, n) =>
                 {
                     let mut values = value.split_whitespace().collect::<Vec<_>>();
 
@@ -2493,7 +2593,7 @@ impl VisitMut for Minifier<'_> {
                     n.value = Some(values.join(" ").into());
                 }
                 _ if self.options.normalize_attributes
-                    && self.is_space_separated_attribute(current_element, &n.name) =>
+                    && self.is_space_separated_attribute(current_element, n) =>
                 {
                     n.value = Some(
                         value
@@ -2503,7 +2603,7 @@ impl VisitMut for Minifier<'_> {
                             .into(),
                     );
                 }
-                _ if self.is_comma_separated_attribute(current_element, &n.name) => {
+                _ if self.is_comma_separated_attribute(current_element, n) => {
                     let mut value = value.to_string();
 
                     if self.options.normalize_attributes {
@@ -2539,7 +2639,7 @@ impl VisitMut for Minifier<'_> {
                         n.value = Some(value.into());
                     }
                 }
-                _ if self.is_trimable_separated_attribute(current_element, &n.name) => {
+                _ if self.is_trimable_separated_attribute(current_element, n) => {
                     let mut value = value.to_string();
 
                     let fallback = |n: &mut Attribute| {

@@ -5298,7 +5298,7 @@
                     var width = data[i++], height = data[i++];
                     if (x1 = x0 + width, y1 = y0 + height, isStroke) {
                         if (containStroke(x0, y0, x1, y0, lineWidth, x, y) || containStroke(x1, y0, x1, y1, lineWidth, x, y) || containStroke(x1, y1, x0, y1, lineWidth, x, y) || containStroke(x0, y1, x0, y0, lineWidth, x, y)) return !0;
-                    } else w += windingLine(x1, y0, x1, y1, x, y), w += windingLine(x0, y1, x0, y0, x, y);
+                    } else w = windingLine(x1, y0, x1, y1, x, y) + windingLine(x0, y1, x0, y0, x, y);
                     break;
                 case CMD$1.Z:
                     if (isStroke) {
@@ -12349,7 +12349,7 @@
     function decodePolygon(coordinate, encodeOffsets, encodeScale) {
         for(var result = [], prevX = encodeOffsets[0], prevY = encodeOffsets[1], i = 0; i < coordinate.length; i += 2){
             var x = coordinate.charCodeAt(i) - 64, y = coordinate.charCodeAt(i + 1) - 64;
-            x = x >> 1 ^ -(1 & x), y = y >> 1 ^ -(1 & y), x += prevX, y += prevY, prevX = x, prevY = y, result.push([
+            y = y >> 1 ^ -(1 & y), x = (x >> 1 ^ -(1 & x)) + prevX, y += prevY, prevX = x, prevY = y, result.push([
                 x / encodeScale,
                 y / encodeScale
             ]);
@@ -15423,17 +15423,17 @@
                                         case 'half-year':
                                         case 'quarter':
                                         case 'month':
-                                            approxInterval1 = approxInterval, interval = (approxInterval1 /= 2592000000) > 6 ? 6 : approxInterval1 > 3 ? 3 : approxInterval1 > 2 ? 2 : 1, getterName = monthGetterName(isUTC), setterName = monthSetterName(isUTC);
+                                            interval = (approxInterval1 = approxInterval / 2592000000) > 6 ? 6 : approxInterval1 > 3 ? 3 : approxInterval1 > 2 ? 2 : 1, getterName = monthGetterName(isUTC), setterName = monthSetterName(isUTC);
                                             break;
                                         case 'week':
                                         case 'half-week':
                                         case 'day':
-                                            approxInterval2 = approxInterval, interval = (approxInterval2 /= 86400000) > 16 ? 16 : approxInterval2 > 7.5 ? 7 : approxInterval2 > 3.5 ? 4 : approxInterval2 > 1.5 ? 2 : 1, getterName = dateGetterName(isUTC), setterName = dateSetterName(isUTC);
+                                            interval = (approxInterval2 = approxInterval / 86400000) > 16 ? 16 : approxInterval2 > 7.5 ? 7 : approxInterval2 > 3.5 ? 4 : approxInterval2 > 1.5 ? 2 : 1, getterName = dateGetterName(isUTC), setterName = dateSetterName(isUTC);
                                             break;
                                         case 'half-day':
                                         case 'quarter-day':
                                         case 'hour':
-                                            approxInterval3 = approxInterval, interval = (approxInterval3 /= 3600000) > 12 ? 12 : approxInterval3 > 6 ? 6 : approxInterval3 > 3.5 ? 4 : approxInterval3 > 2 ? 2 : 1, getterName = hoursGetterName(isUTC), setterName = hoursSetterName(isUTC);
+                                            interval = (approxInterval3 = approxInterval / 3600000) > 12 ? 12 : approxInterval3 > 6 ? 6 : approxInterval3 > 3.5 ? 4 : approxInterval3 > 2 ? 2 : 1, getterName = hoursGetterName(isUTC), setterName = hoursSetterName(isUTC);
                                             break;
                                         case 'minute':
                                             interval = getMinutesAndSecondsInterval(approxInterval, !0), getterName = minutesGetterName(isUTC), setterName = minutesSetterName(isUTC);
@@ -34777,7 +34777,7 @@
             var blockMetaList = result1.meta, buttonContainer = document.createElement('div');
             buttonContainer.style.cssText = 'position:absolute;bottom:0;left:0;right:0;';
             var buttonStyle = "float:right;margin-right:20px;border:none;cursor:pointer;padding:2px 5px;font-size:12px;border-radius:3px", closeButton = document.createElement('div'), refreshButton = document.createElement('div');
-            buttonStyle += ';background-color:' + model.get('buttonColor'), buttonStyle += ';color:' + model.get('buttonTextColor');
+            buttonStyle = ';background-color:' + model.get('buttonColor') + ';color:' + model.get('buttonTextColor');
             var self1 = this;
             function close() {
                 container.removeChild(root), self1._dom = null;
