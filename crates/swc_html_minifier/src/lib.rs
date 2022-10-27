@@ -1451,6 +1451,10 @@ impl Minifier<'_> {
             },
         );
 
+        if data.len() == 0 {
+            return vec![];
+        }
+
         vec![Child::Text(Text {
             span: DUMMY_SP,
             data: data.into(),
@@ -2037,7 +2041,9 @@ impl Minifier<'_> {
         }
 
         let minified = match String::from_utf8(buf) {
-            Ok(minified) => minified,
+            // Avoid generating the sequence "</script" in JS code
+            // TODO move it to ecma codegen under the option?
+            Ok(minified) => minified.replace("</script>", "<\\/script>"),
             _ => return None,
         };
 
