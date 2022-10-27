@@ -37,6 +37,9 @@
 
 - **(css/parser)** Refactor more (#6251) ([a0e4684](https://github.com/swc-project/swc/commit/a0e4684476e1dba7afec7ac732044d44bb06ef6d))
 
+
+- **(html/parser)** Refactor (#6267) ([c255cfd](https://github.com/swc-project/swc/commit/c255cfd71609ebc7aeb0bd2d0d01ede6ae5c5e08))
+
 ### Testing
 
 
