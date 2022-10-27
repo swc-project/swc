@@ -9241,12 +9241,12 @@
             var n = r(7507);
             e.exports = function(e, t, r) {
                 var i, o, a, u;
-                return e = function(e) {
+                return "#" + n(e = function(e) {
                     var t, r;
                     for(e = (r = e = (t = e) > 1e7 ? 1e7 : t) < -10000000 ? -10000000 : r; e < 0;)e += 360;
                     for(; e > 359;)e -= 360;
                     return e;
-                }(e), t = (o = (i = t) > 100 ? 100 : i) < 0 ? 0 : o, r = (u = (a = r) > 100 ? 100 : a) < 0 ? 0 : u, "#" + n(e, t /= 100, r /= 100).map(function(e) {
+                }(e), t = ((o = (i = t) > 100 ? 100 : i) < 0 ? 0 : o) / 100, r = ((u = (a = r) > 100 ? 100 : a) < 0 ? 0 : u) / 100).map(function(e) {
                     return (256 + e).toString(16).substr(-2);
                 }).join("");
             };
@@ -15868,7 +15868,7 @@
                                     i += "".concat(t[0], " and ").concat(t[1], " arguments");
                                     break;
                                 default:
-                                    i += t.slice(0, o - 1).join(", "), i += ", and ".concat(t[o - 1], " arguments");
+                                    i = t.slice(0, o - 1).join(", ") + ", and ".concat(t[o - 1], " arguments");
                             }
                             return "".concat(i, " must be specified");
                         }, TypeError), e.exports.codes = l;

@@ -1,9 +1,13 @@
-console.log((function () {
-    var a = [
-        94,
-        173,
-        190,
-        239
-    ], b = 0;
-    return b |= 94, b <<= 8, b |= 173, b <<= 8, b |= 190, b <<= 8, b |= 239;
-})().toString(16));
+function f() {
+    var a = [94, 173, 190, 239];
+    var b = 0;
+    b |= a[0];
+    b <<= 8;
+    b |= a[1];
+    b <<= 8;
+    b |= a[2];
+    b <<= 8;
+    b |= a[3];
+    return b;
+}
+console.log(f().toString(16));

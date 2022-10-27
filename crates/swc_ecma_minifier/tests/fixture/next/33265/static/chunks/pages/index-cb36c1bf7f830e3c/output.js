@@ -4557,7 +4557,7 @@
                                     ], size = "width";
                             }
                             var size, step = boxPosition.lineHeight, position = step * Math.round(linePos), maxPosition = containerBox[size] + step, initialAxis = axis[0];
-                            Math.abs(position) > maxPosition && (position = position < 0 ? -1 : 1, position *= Math.ceil(maxPosition / step) * step), linePos < 0 && (position += "" === cue.vertical ? containerBox.height : containerBox.width, axis = axis.reverse()), boxPosition.move(initialAxis, position);
+                            Math.abs(position) > maxPosition && (position = (position < 0 ? -1 : 1) * (Math.ceil(maxPosition / step) * step)), linePos < 0 && (position += "" === cue.vertical ? containerBox.height : containerBox.width, axis = axis.reverse()), boxPosition.move(initialAxis, position);
                         } else {
                             var calculatedPercentage = boxPosition.lineHeight / containerBox.height * 100;
                             switch(cue.lineAlign){
