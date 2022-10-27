@@ -234,7 +234,7 @@ where
         take(&mut self.errors)
     }
 
-    fn set_last_start_tag_name(&mut self, tag_name: &str) {
+    fn set_last_start_tag_name(&mut self, tag_name: &JsWord) {
         self.last_start_tag_name = Some(tag_name.into());
     }
 
