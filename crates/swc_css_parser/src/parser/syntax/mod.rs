@@ -15,6 +15,9 @@ where
 {
     fn parse(&mut self) -> PResult<Stylesheet> {
         let start = self.input.cur_span();
+
+        // Consume a list of rules from input, with the top-level flag set, and set the
+        // stylesheet’s value to the result.
         let rules = self
             .with_ctx(Ctx {
                 is_top_level: true,
@@ -23,6 +26,7 @@ where
             .parse_as::<Vec<Rule>>()?;
         let last = self.input.last_pos();
 
+        // Return the stylesheet.
         Ok(Stylesheet {
             span: Span::new(start.lo, last, Default::default()),
             rules,
@@ -35,6 +39,8 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<Vec<Rule>> {
+        // To consume a list of rules, given a top-level flag:
+
         // Create an initially empty list of rules.
         let mut rules = vec![];
 
@@ -122,6 +128,8 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<AtRule> {
+        // To consume an at-rule:
+
         // Consume the next input token. Create a new at-rule with its name set to the
         // value of the current input token, its prelude initially set to an empty list,
         // and its value initially set to nothing.
@@ -314,6 +322,7 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<QualifiedRule> {
+        // To consume a qualified rule:
         let create_prelude =
             |p: &mut Parser<I>, list: Vec<ComponentValue>| -> PResult<QualifiedRulePrelude> {
                 let list_of_component_values = p.create_locv(list);
@@ -817,7 +826,7 @@ where
                             block_contents_grammar: BlockContentsGrammar::DeclarationValue,
                             ..self.ctx
                         };
-                        let parsed = self.with_ctx(ctx).parse_as::<ComponentValue>();
+                        let parsed = self.with_ctx(ctx).parse_generic_value();
                         let value_or_token = match parsed {
                             Ok(value) => value,
                             Err(err) => {
@@ -918,137 +927,27 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<ComponentValue> {
-        match self.ctx.block_contents_grammar {
-            BlockContentsGrammar::NoGrammar => {
-                // Consume the next input token.
-                match cur!(self) {
-                    // If the current input token is a <{-token>, <[-token>, or <(-token>, consume a
-                    // simple block and return it.
-                    tok!("[") | tok!("(") | tok!("{") => {
-                        let block = self.parse()?;
+        match cur!(self) {
+            // If the current input token is a <{-token>, <[-token>, or <(-token>, consume a
+            // simple block and return it.
+            tok!("[") | tok!("(") | tok!("{") => {
+                let block = self.parse()?;
 
-                        Ok(ComponentValue::SimpleBlock(block))
-                    }
-                    // Otherwise, if the current input token is a <function-token>, consume a
-                    // function and return it.
-                    tok!("function") => Ok(ComponentValue::Function(self.parse()?)),
-                    // Otherwise, return the current input token.
-                    _ => {
-                        let token = self.input.bump();
-
-                        match token {
-                            Some(t) => Ok(ComponentValue::PreservedToken(t)),
-                            _ => {
-                                unreachable!();
-                            }
-                        }
-                    }
-                }
+                Ok(ComponentValue::SimpleBlock(block))
             }
+            // Otherwise, if the current input token is a <function-token>, consume a
+            // function and return it.
+            tok!("function") => Ok(ComponentValue::Function(self.parse()?)),
+            // Otherwise, return the current input token.
             _ => {
-                // TODO refactor me
-                self.input.skip_ws();
+                let token = self.input.bump();
 
-                let span = self.input.cur_span();
-
-                match cur!(self) {
-                    tok!(",") | tok!("/") | tok!(";") => {
-                        return Ok(ComponentValue::Delimiter(self.parse()?));
+                match token {
+                    Some(t) => Ok(ComponentValue::PreservedToken(t)),
+                    _ => {
+                        unreachable!();
                     }
-
-                    tok!("string") => {
-                        return Ok(ComponentValue::Str(self.parse()?));
-                    }
-
-                    tok!("url") => {
-                        return Ok(ComponentValue::Url(self.parse()?));
-                    }
-
-                    Token::Function { value, .. } => match &*value.to_ascii_lowercase() {
-                        "url" | "src" => {
-                            return Ok(ComponentValue::Url(self.parse()?));
-                        }
-                        "rgb" | "rgba" | "hsl" | "hsla" | "hwb" | "lab" | "lch" | "oklab"
-                        | "oklch" | "color" | "device-cmyk" | "color-mix" | "color-contrast" => {
-                            return Ok(ComponentValue::Color(self.parse()?));
-                        }
-                        _ => {
-                            return Ok(ComponentValue::Function(self.parse()?));
-                        }
-                    },
-
-                    tok!("percentage") => {
-                        return Ok(ComponentValue::Percentage(self.parse()?));
-                    }
-
-                    tok!("dimension") => return Ok(ComponentValue::Dimension(self.parse()?)),
-
-                    Token::Number { type_flag, .. } => {
-                        if *type_flag == NumberType::Integer {
-                            return Ok(ComponentValue::Integer(self.parse()?));
-                        }
-
-                        return Ok(ComponentValue::Number(self.parse()?));
-                    }
-
-                    Token::Ident { value, .. } => {
-                        if value.starts_with("--") {
-                            return Ok(ComponentValue::DashedIdent(self.parse()?));
-                        } else if &*value.to_ascii_lowercase() == "u"
-                            && peeked_is_one_of!(self, "+", "number", "dimension")
-                        {
-                            return Ok(ComponentValue::UnicodeRange(self.parse()?));
-                        }
-
-                        return Ok(ComponentValue::Ident(self.parse()?));
-                    }
-
-                    tok!("[") | tok!("(") | tok!("{") => {
-                        let ctx = Ctx {
-                            block_contents_grammar: BlockContentsGrammar::NoGrammar,
-                            ..self.ctx
-                        };
-                        let mut block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
-                        let locv = self.create_locv(block.value);
-
-                        block.value = match self.parse_according_to_grammar(&locv, |parser| {
-                            let mut values = vec![];
-
-                            loop {
-                                parser.input.skip_ws();
-
-                                if is!(parser, EOF) {
-                                    break;
-                                }
-
-                                let component_value = parser.parse()?;
-
-                                values.push(component_value);
-                            }
-
-                            Ok(values)
-                        }) {
-                            Ok(values) => values,
-                            Err(err) => {
-                                if *err.kind() != ErrorKind::Ignore {
-                                    self.errors.push(err);
-                                }
-
-                                locv.children
-                            }
-                        };
-
-                        return Ok(ComponentValue::SimpleBlock(block));
-                    }
-
-                    tok!("#") => {
-                        return Ok(ComponentValue::Color(self.parse()?));
-                    }
-
-                    _ => {}
                 }
-
-                Err(Error::new(span, ErrorKind::Expected("Declaration value")))
             }
         }
     }

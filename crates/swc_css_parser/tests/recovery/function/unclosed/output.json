@@ -117,21 +117,52 @@
                 },
                 "value": [
                   {
-                    "type": "PreservedToken",
+                    "type": "CalcSum",
                     "span": {
                       "start": 22,
                       "end": 27,
                       "ctxt": 0
                     },
-                    "token": {
-                      "Dimension": {
-                        "value": 500.0,
-                        "raw_value": "500",
-                        "unit": "px",
-                        "raw_unit": "px",
-                        "type": "integer"
+                    "expressions": [
+                      {
+                        "type": "CalcProduct",
+                        "span": {
+                          "start": 22,
+                          "end": 27,
+                          "ctxt": 0
+                        },
+                        "expressions": [
+                          {
+                            "type": "Length",
+                            "span": {
+                              "start": 22,
+                              "end": 27,
+                              "ctxt": 0
+                            },
+                            "value": {
+                              "type": "Number",
+                              "span": {
+                                "start": 22,
+                                "end": 25,
+                                "ctxt": 0
+                              },
+                              "value": 500.0,
+                              "raw": "500"
+                            },
+                            "unit": {
+                              "type": "Ident",
+                              "span": {
+                                "start": 25,
+                                "end": 27,
+                                "ctxt": 0
+                              },
+                              "value": "px",
+                              "raw": "px"
+                            }
+                          }
+                        ]
                       }
-                    }
+                    ]
                   },
                   {
                     "type": "PreservedToken",

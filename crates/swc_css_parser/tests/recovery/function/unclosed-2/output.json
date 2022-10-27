@@ -237,19 +237,6 @@
                       "ctxt": 0
                     },
                     "token": "RBrace"
-                  },
-                  {
-                    "type": "PreservedToken",
-                    "span": {
-                      "start": 62,
-                      "end": 63,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": "\n"
-                      }
-                    }
                   }
                 ]
               }

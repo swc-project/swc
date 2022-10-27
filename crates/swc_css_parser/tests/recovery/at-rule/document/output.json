@@ -24,26 +24,13 @@
         "raw": "document"
       },
       "prelude": {
-        "type": "ListOfComponentValues",
+        "type": "DocumentPrelude",
         "span": {
-          "start": 10,
+          "start": 11,
           "end": 43,
           "ctxt": 0
         },
-        "children": [
-          {
-            "type": "PreservedToken",
-            "span": {
-              "start": 10,
-              "end": 11,
-              "ctxt": 0
-            },
-            "token": {
-              "WhiteSpace": {
-                "value": " "
-              }
-            }
-          },
+        "matchingFunctions": [
           {
             "type": "Function",
             "span": {
@@ -166,46 +153,25 @@
                 }
               },
               {
-                "type": "PreservedToken",
+                "type": "Ident",
                 "span": {
                   "start": 37,
                   "end": 40,
                   "ctxt": 0
                 },
-                "token": {
-                  "Ident": {
-                    "value": "com",
-                    "raw": "com"
-                  }
-                }
+                "value": "com",
+                "raw": "com"
               },
               {
-                "type": "PreservedToken",
+                "type": "Delimiter",
                 "span": {
                   "start": 40,
                   "end": 41,
                   "ctxt": 0
                 },
-                "token": {
-                  "Delim": {
-                    "value": "/"
-                  }
-                }
+                "value": "/"
               }
             ]
-          },
-          {
-            "type": "PreservedToken",
-            "span": {
-              "start": 42,
-              "end": 43,
-              "ctxt": 0
-            },
-            "token": {
-              "WhiteSpace": {
-                "value": " "
-              }
-            }
           }
         ]
       },

@@ -253,32 +253,14 @@
                     }
                   },
                   {
-                    "type": "PreservedToken",
-                    "span": {
-                      "start": 55,
-                      "end": 56,
-                      "ctxt": 0
-                    },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": " "
-                      }
-                    }
-                  },
-                  {
-                    "type": "PreservedToken",
+                    "type": "Integer",
                     "span": {
                       "start": 56,
                       "end": 57,
                       "ctxt": 0
                     },
-                    "token": {
-                      "Number": {
-                        "value": 2.0,
-                        "raw": "2",
-                        "type": "integer"
-                      }
-                    }
+                    "value": 2,
+                    "raw": "2"
                   }
                 ]
               }

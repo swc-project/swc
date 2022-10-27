@@ -11,6 +11,111 @@ impl<I> Parser<I>
 where
     I: ParserInput,
 {
+    pub(super) fn parse_generic_value(&mut self) -> PResult<ComponentValue> {
+        self.input.skip_ws();
+
+        let span = self.input.cur_span();
+
+        match cur!(self) {
+            tok!(",") | tok!("/") | tok!(";") => {
+                return Ok(ComponentValue::Delimiter(self.parse()?));
+            }
+
+            tok!("string") => {
+                return Ok(ComponentValue::Str(self.parse()?));
+            }
+
+            tok!("url") => {
+                return Ok(ComponentValue::Url(self.parse()?));
+            }
+
+            Token::Function { value, .. } => match &*value.to_ascii_lowercase() {
+                "url" | "src" => {
+                    return Ok(ComponentValue::Url(self.parse()?));
+                }
+                "rgb" | "rgba" | "hsl" | "hsla" | "hwb" | "lab" | "lch" | "oklab" | "oklch"
+                | "color" | "device-cmyk" | "color-mix" | "color-contrast" => {
+                    return Ok(ComponentValue::Color(self.parse()?));
+                }
+                _ => {
+                    return Ok(ComponentValue::Function(self.parse()?));
+                }
+            },
+
+            tok!("percentage") => {
+                return Ok(ComponentValue::Percentage(self.parse()?));
+            }
+
+            tok!("dimension") => return Ok(ComponentValue::Dimension(self.parse()?)),
+
+            Token::Number { type_flag, .. } => {
+                if *type_flag == NumberType::Integer {
+                    return Ok(ComponentValue::Integer(self.parse()?));
+                }
+
+                return Ok(ComponentValue::Number(self.parse()?));
+            }
+
+            Token::Ident { value, .. } => {
+                if value.starts_with("--") {
+                    return Ok(ComponentValue::DashedIdent(self.parse()?));
+                } else if &*value.to_ascii_lowercase() == "u"
+                    && peeked_is_one_of!(self, "+", "number", "dimension")
+                {
+                    return Ok(ComponentValue::UnicodeRange(self.parse()?));
+                }
+
+                return Ok(ComponentValue::Ident(self.parse()?));
+            }
+
+            tok!("[") | tok!("(") | tok!("{") => {
+                let ctx = Ctx {
+                    block_contents_grammar: BlockContentsGrammar::NoGrammar,
+                    ..self.ctx
+                };
+                let mut block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
+                let locv = self.create_locv(block.value);
+
+                block.value = match self.parse_according_to_grammar(&locv, |parser| {
+                    let mut values = vec![];
+
+                    loop {
+                        parser.input.skip_ws();
+
+                        if is!(parser, EOF) {
+                            break;
+                        }
+
+                        let component_value = parser.parse_generic_value()?;
+
+                        values.push(component_value);
+                    }
+
+                    Ok(values)
+                }) {
+                    Ok(values) => values,
+                    Err(err) => {
+                        if *err.kind() != ErrorKind::Ignore {
+                            self.errors.push(err);
+                        }
+
+                        locv.children
+                    }
+                };
+
+                return Ok(ComponentValue::SimpleBlock(block));
+            }
+
+            tok!("#") => {
+                return Ok(ComponentValue::Color(self.parse()?));
+            }
+
+            _ => {}
+        }
+
+        Err(Error::new(span, ErrorKind::Expected("Declaration value")))
+    }
+
     /// Parse value as <declaration-value>.
     pub(super) fn parse_declaration_value(&mut self) -> PResult<Vec<ComponentValue>> {
         let mut value = vec![];
@@ -1542,14 +1647,7 @@ where
                     break;
                 }
 
-                let value = match self.try_parse(|p| {
-                    let ctx = Ctx {
-                        block_contents_grammar: BlockContentsGrammar::DeclarationValue,
-                        ..p.ctx
-                    };
-
-                    p.with_ctx(ctx).parse_as::<ComponentValue>()
-                }) {
+                let value = match self.try_parse(|p| p.parse_generic_value()) {
                     Some(v) => v,
                     None => {
                         if is_one_of!(self, ";", ":") {

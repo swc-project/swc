@@ -278,22 +278,10 @@
   x ComponentValue
    ,-[$DIR/tests/recovery/delim-token/minus/input.css:4:5]
  4 | prop2: func(1 - 2);
-   :                ^
-   `----
-
-  x WhiteSpace { value: Atom(' ' type=inline) }
-   ,-[$DIR/tests/recovery/delim-token/minus/input.css:4:5]
- 4 | prop2: func(1 - 2);
-   :                ^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/recovery/delim-token/minus/input.css:4:5]
- 4 | prop2: func(1 - 2);
    :                 ^
    `----
 
-  x Number { value: 2.0, raw: Atom('2' type=inline), type_flag: Integer }
+  x Integer
    ,-[$DIR/tests/recovery/delim-token/minus/input.css:4:5]
  4 | prop2: func(1 - 2);
    :                 ^
