@@ -1365,9 +1365,9 @@ impl Minifier<'_> {
                         }
                         js_word!("type") => {
                             if let Some(value) = &attribute.value {
-                                if is_style_tag && value.trim().to_ascii_lowercase() == "text/css" {
-                                    false
-                                } else if is_script_tag && self.is_type_text_javascript(value) {
+                                if (is_style_tag && value.trim().to_ascii_lowercase() == "text/css")
+                                    || is_script_tag && self.is_type_text_javascript(value)
+                                {
                                     false
                                 } else {
                                     need_skip = true;
@@ -1398,9 +1398,9 @@ impl Minifier<'_> {
                         }
                         js_word!("type") => {
                             if let Some(value) = &attribute.value {
-                                if is_style_tag && value.trim().to_ascii_lowercase() == "text/css" {
-                                    false
-                                } else if is_script_tag && self.is_type_text_javascript(value) {
+                                if (is_style_tag && value.trim().to_ascii_lowercase() == "text/css")
+                                    || (is_script_tag && self.is_type_text_javascript(value))
+                                {
                                     false
                                 } else {
                                     need_skip = true;
@@ -1451,7 +1451,7 @@ impl Minifier<'_> {
             },
         );
 
-        if data.len() == 0 {
+        if data.is_empty() {
             return vec![];
         }
 
