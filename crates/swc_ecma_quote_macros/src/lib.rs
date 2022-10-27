@@ -78,6 +78,14 @@ pub fn internal_quote(input: proc_macro::TokenStream) -> proc_macro::TokenStream
 ///
 /// let module: Module = create_your_module();
 /// ```
+///
+///
+/// ```ignore
+/// 
+/// let q = query!("if ($1) { $2; } else $3");
+///
+/// let module: Module = create_your_module();
+/// ```
 #[proc_macro]
 pub fn query(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     input
