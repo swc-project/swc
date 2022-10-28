@@ -1194,7 +1194,7 @@ where
         match cur!(self) {
             tok!("function") => {
                 let ctx = Ctx {
-                    block_contents_grammar: BlockContentsGrammar::NoGrammar,
+                    block_contents_grammar: BlockContentsGrammar::DeclarationList,
                     ..self.ctx
                 };
                 let function = self.with_ctx(ctx).parse_as::<Function>()?;

@@ -944,7 +944,7 @@ where
                 let function = self
                     .with_ctx({
                         Ctx {
-                            block_contents_grammar: BlockContentsGrammar::NoGrammar,
+                            block_contents_grammar: BlockContentsGrammar::DeclarationList,
                             ..self.ctx
                         }
                     })
@@ -1115,7 +1115,7 @@ where
         function.span = span!(self, span.lo);
 
         match self.ctx.block_contents_grammar {
-            BlockContentsGrammar::NoGrammar | BlockContentsGrammar::DeclarationList => {}
+            BlockContentsGrammar::DeclarationList => {}
             _ => {
                 let locv = self.create_locv(function.value);
 
