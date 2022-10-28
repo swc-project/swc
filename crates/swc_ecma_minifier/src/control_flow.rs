@@ -1,4 +1,4 @@
-use swc_ecma_ast::{Expr, Program, Stmt};
+use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Visit};
 use swc_fast_graph::digraph::FastDiGraphMap;
 
@@ -38,8 +38,12 @@ struct CfgAnalyzer {
 }
 
 #[derive(Default)]
-struct Data {}
+struct Data {
+    pending_branch: Option,
+}
 
 impl Visit for CfgAnalyzer {
     noop_visit_type!();
+
+    fn visit_if_stmt(&mut self, s: &IfStmt) {}
 }
