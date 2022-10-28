@@ -88,49 +88,23 @@
         },
         "value": [
           {
-            "type": "ListOfComponentValues",
+            "type": "Declaration",
             "span": {
               "start": 9,
-              "end": 52,
+              "end": 51,
               "ctxt": 0
             },
-            "children": [
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 9,
-                  "end": 25,
-                  "ctxt": 0
-                },
-                "token": {
-                  "Ident": {
-                    "value": "background-image",
-                    "raw": "background-image"
-                  }
-                }
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 9,
+                "end": 25,
+                "ctxt": 0
               },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 25,
-                  "end": 26,
-                  "ctxt": 0
-                },
-                "token": "Colon"
-              },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 26,
-                  "end": 27,
-                  "ctxt": 0
-                },
-                "token": {
-                  "WhiteSpace": {
-                    "value": " "
-                  }
-                }
-              },
+              "value": "background-image",
+              "raw": "background-image"
+            },
+            "value": [
               {
                 "type": "PreservedToken",
                 "span": {
@@ -146,17 +120,9 @@
                     "raw_value": "   ./image.jpg  a  "
                   }
                 }
-              },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 51,
-                  "end": 52,
-                  "ctxt": 0
-                },
-                "token": "Semi"
               }
-            ]
+            ],
+            "important": null
           }
         ]
       }

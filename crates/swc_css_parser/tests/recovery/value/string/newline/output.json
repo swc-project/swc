@@ -88,49 +88,23 @@
         },
         "value": [
           {
-            "type": "ListOfComponentValues",
+            "type": "Declaration",
             "span": {
               "start": 9,
-              "end": 17,
+              "end": 16,
               "ctxt": 0
             },
-            "children": [
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 9,
-                  "end": 13,
-                  "ctxt": 0
-                },
-                "token": {
-                  "Ident": {
-                    "value": "prop",
-                    "raw": "prop"
-                  }
-                }
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 9,
+                "end": 13,
+                "ctxt": 0
               },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 13,
-                  "end": 14,
-                  "ctxt": 0
-                },
-                "token": "Colon"
-              },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 14,
-                  "end": 15,
-                  "ctxt": 0
-                },
-                "token": {
-                  "WhiteSpace": {
-                    "value": " "
-                  }
-                }
-              },
+              "value": "prop",
+              "raw": "prop"
+            },
+            "value": [
               {
                 "type": "PreservedToken",
                 "span": {
@@ -144,21 +118,9 @@
                     "raw": "\""
                   }
                 }
-              },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 16,
-                  "end": 17,
-                  "ctxt": 0
-                },
-                "token": {
-                  "WhiteSpace": {
-                    "value": "\n"
-                  }
-                }
               }
-            ]
+            ],
+            "important": null
           }
         ]
       }

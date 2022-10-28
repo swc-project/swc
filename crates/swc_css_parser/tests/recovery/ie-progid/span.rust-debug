@@ -115,7 +115,7 @@
    :        ^^^^^^
    `----
 
-  x Ident
+  x Ident { value: Atom('progid' type=inline), raw: Atom('progid' type=inline) }
    ,-[$DIR/tests/recovery/ie-progid/input.css:2:5]
  2 | filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#4f4f4f',endColorstr='#292929',GradientType=0);
    :        ^^^^^^
@@ -139,7 +139,7 @@
    :               ^^^^^^^^^^^^^^^^
    `----
 
-  x Ident
+  x Ident { value: Atom('DXImageTransform' type=dynamic), raw: Atom('DXImageTransform' type=dynamic) }
    ,-[$DIR/tests/recovery/ie-progid/input.css:2:5]
  2 | filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#4f4f4f',endColorstr='#292929',GradientType=0);
    :               ^^^^^^^^^^^^^^^^
@@ -163,7 +163,7 @@
    :                                ^^^^^^^^^
    `----
 
-  x Ident
+  x Ident { value: Atom('Microsoft' type=dynamic), raw: Atom('Microsoft' type=dynamic) }
    ,-[$DIR/tests/recovery/ie-progid/input.css:2:5]
  2 | filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#4f4f4f',endColorstr='#292929',GradientType=0);
    :                                ^^^^^^^^^
@@ -325,7 +325,7 @@
    :                                                                                                              ^
    `----
 
-  x Integer
+  x Number { value: 0.0, raw: Atom('0' type=inline), type_flag: Integer }
    ,-[$DIR/tests/recovery/ie-progid/input.css:2:5]
  2 | filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#4f4f4f',endColorstr='#292929',GradientType=0);
    :                                                                                                              ^
@@ -367,7 +367,7 @@
    :         ^^^^^^
    `----
 
-  x Ident
+  x Ident { value: Atom('progid' type=inline), raw: Atom('progid' type=inline) }
    ,-[$DIR/tests/recovery/ie-progid/input.css:3:5]
  3 | filter: progid:DXImageTransform.Microsoft.Blur(pixelradius=2) progid:DXImageTransform.Microsoft.Wheel(duration=3);
    :         ^^^^^^
@@ -391,7 +391,7 @@
    :                ^^^^^^^^^^^^^^^^
    `----
 
-  x Ident
+  x Ident { value: Atom('DXImageTransform' type=dynamic), raw: Atom('DXImageTransform' type=dynamic) }
    ,-[$DIR/tests/recovery/ie-progid/input.css:3:5]
  3 | filter: progid:DXImageTransform.Microsoft.Blur(pixelradius=2) progid:DXImageTransform.Microsoft.Wheel(duration=3);
    :                ^^^^^^^^^^^^^^^^
@@ -415,7 +415,7 @@
    :                                 ^^^^^^^^^
    `----
 
-  x Ident
+  x Ident { value: Atom('Microsoft' type=dynamic), raw: Atom('Microsoft' type=dynamic) }
    ,-[$DIR/tests/recovery/ie-progid/input.css:3:5]
  3 | filter: progid:DXImageTransform.Microsoft.Blur(pixelradius=2) progid:DXImageTransform.Microsoft.Wheel(duration=3);
    :                                 ^^^^^^^^^
@@ -481,7 +481,7 @@
    :                                                            ^
    `----
 
-  x Integer
+  x Number { value: 2.0, raw: Atom('2' type=inline), type_flag: Integer }
    ,-[$DIR/tests/recovery/ie-progid/input.css:3:5]
  3 | filter: progid:DXImageTransform.Microsoft.Blur(pixelradius=2) progid:DXImageTransform.Microsoft.Wheel(duration=3);
    :                                                            ^
@@ -490,10 +490,22 @@
   x ComponentValue
    ,-[$DIR/tests/recovery/ie-progid/input.css:3:5]
  3 | filter: progid:DXImageTransform.Microsoft.Blur(pixelradius=2) progid:DXImageTransform.Microsoft.Wheel(duration=3);
+   :                                                              ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/ie-progid/input.css:3:5]
+ 3 | filter: progid:DXImageTransform.Microsoft.Blur(pixelradius=2) progid:DXImageTransform.Microsoft.Wheel(duration=3);
+   :                                                              ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/ie-progid/input.css:3:5]
+ 3 | filter: progid:DXImageTransform.Microsoft.Blur(pixelradius=2) progid:DXImageTransform.Microsoft.Wheel(duration=3);
    :                                                               ^^^^^^
    `----
 
-  x Ident
+  x Ident { value: Atom('progid' type=inline), raw: Atom('progid' type=inline) }
    ,-[$DIR/tests/recovery/ie-progid/input.css:3:5]
  3 | filter: progid:DXImageTransform.Microsoft.Blur(pixelradius=2) progid:DXImageTransform.Microsoft.Wheel(duration=3);
    :                                                               ^^^^^^
@@ -517,7 +529,7 @@
    :                                                                      ^^^^^^^^^^^^^^^^
    `----
 
-  x Ident
+  x Ident { value: Atom('DXImageTransform' type=dynamic), raw: Atom('DXImageTransform' type=dynamic) }
    ,-[$DIR/tests/recovery/ie-progid/input.css:3:5]
  3 | filter: progid:DXImageTransform.Microsoft.Blur(pixelradius=2) progid:DXImageTransform.Microsoft.Wheel(duration=3);
    :                                                                      ^^^^^^^^^^^^^^^^
@@ -541,7 +553,7 @@
    :                                                                                       ^^^^^^^^^
    `----
 
-  x Ident
+  x Ident { value: Atom('Microsoft' type=dynamic), raw: Atom('Microsoft' type=dynamic) }
    ,-[$DIR/tests/recovery/ie-progid/input.css:3:5]
  3 | filter: progid:DXImageTransform.Microsoft.Blur(pixelradius=2) progid:DXImageTransform.Microsoft.Wheel(duration=3);
    :                                                                                       ^^^^^^^^^
@@ -607,7 +619,7 @@
    :                                                                                                                ^
    `----
 
-  x Integer
+  x Number { value: 3.0, raw: Atom('3' type=inline), type_flag: Integer }
    ,-[$DIR/tests/recovery/ie-progid/input.css:3:5]
  3 | filter: progid:DXImageTransform.Microsoft.Blur(pixelradius=2) progid:DXImageTransform.Microsoft.Wheel(duration=3);
    :                                                                                                                ^

@@ -1,14 +1,14 @@
 
+  x Expected Declaration value
+     ,-[$DIR/tests/recovery/hacks/input.css:180:1]
+ 180 | .selector { property: value !ie; }
+     :                             ^
+     `----
+
   x Expected Ident
      ,-[$DIR/tests/recovery/hacks/input.css:136:5]
  136 | @property: value;
      :          ^
-     `----
-
-  x Expected important
-     ,-[$DIR/tests/recovery/hacks/input.css:180:1]
- 180 | .selector { property: value !ie; }
-     :                             ^
      `----
 
   x Expected whitespace, semicolon, EOF, at-keyword, '&' or ident token

@@ -140,14 +140,32 @@
             },
             "value": [
               {
-                "type": "Integer",
+                "type": "PreservedToken",
                 "span": {
                   "start": 29,
                   "end": 30,
                   "ctxt": 0
                 },
-                "value": 1,
-                "raw": "1"
+                "token": {
+                  "Number": {
+                    "value": 1.0,
+                    "raw": "1",
+                    "type": "integer"
+                  }
+                }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 30,
+                  "end": 31,
+                  "ctxt": 0
+                },
+                "token": {
+                  "WhiteSpace": {
+                    "value": " "
+                  }
+                }
               },
               {
                 "type": "PreservedToken",
@@ -163,14 +181,32 @@
                 }
               },
               {
-                "type": "Integer",
+                "type": "PreservedToken",
+                "span": {
+                  "start": 32,
+                  "end": 33,
+                  "ctxt": 0
+                },
+                "token": {
+                  "WhiteSpace": {
+                    "value": " "
+                  }
+                }
+              },
+              {
+                "type": "PreservedToken",
                 "span": {
                   "start": 33,
                   "end": 34,
                   "ctxt": 0
                 },
-                "value": 2,
-                "raw": "2"
+                "token": {
+                  "Number": {
+                    "value": 2.0,
+                    "raw": "2",
+                    "type": "integer"
+                  }
+                }
               }
             ],
             "important": null

@@ -525,7 +525,7 @@
     :             ^^^^^^^^^
     `----
 
-  x Ident
+  x Ident { value: Atom('__ident__' type=dynamic), raw: Atom('__ident__' type=dynamic) }
     ,-[$DIR/tests/recovery/vercel/003/input.css:10:5]
  10 | flex-basis: __ident__%;
     :             ^^^^^^^^^

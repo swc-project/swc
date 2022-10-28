@@ -764,22 +764,28 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<Declaration> {
-        let span = self.input.cur_span();
+        // To consume a declaration:
 
         // Consume the next input token. Create a new declaration with its name set
         // to the value of the current input token and its value initially set to an
         // empty list.
+        let span = self.input.cur_span();
         let is_dashed_ident = match cur!(self) {
             Token::Ident { value, .. } => value.starts_with("--"),
             _ => {
                 return Err(Error::new(span, ErrorKind::Expected("Ident")));
             }
         };
-
         let name = if is_dashed_ident {
             DeclarationName::DashedIdent(self.parse()?)
         } else {
             DeclarationName::Ident(self.parse()?)
+        };
+        let mut declaration = Declaration {
+            span: Default::default(),
+            name,
+            value: vec![],
+            important: None,
         };
 
         // 1. While the next input token is a <whitespace-token>, consume the next input
@@ -794,124 +800,164 @@ where
         // token.
         self.input.skip_ws();
 
-        let mut end = self.input.cur_span().hi;
-        let mut value = vec![];
-
         // 4. As long as the next input token is anything other than an <EOF-token>,
         // consume a component value and append it to the declaration’s value.
-        if !is!(self, EOF) {
-            match is_dashed_ident {
-                true => {
-                    value.extend(self.parse_declaration_value()?);
+        let mut last_whitespaces = (0, 0, 0);
+        let mut exclamation_point_span = None;
+        let mut important_ident = None;
+
+        loop {
+            // TODO fix me `)`, workaround
+            if is_one_of!(self, EOF, ")") {
+                break;
+            }
+
+            let component_value = self
+                .with_ctx(Ctx {
+                    block_contents_grammar: BlockContentsGrammar::NoGrammar,
+                    ..self.ctx
+                })
+                .parse_as::<ComponentValue>()?;
+
+            match &component_value {
+                // Optimization for step 5
+                ComponentValue::PreservedToken(
+                    token_and_span @ TokenAndSpan {
+                        token: Token::Ident { value, .. },
+                        ..
+                    },
+                ) if exclamation_point_span.is_some()
+                    && value.to_ascii_lowercase() == js_word!("important") =>
+                {
+                    important_ident = Some(token_and_span.clone());
                 }
-                false => {
-                    loop {
-                        // TODO fix me
-                        self.input.skip_ws();
+                ComponentValue::PreservedToken(TokenAndSpan {
+                    span,
+                    token: Token::Delim { value: '!', .. },
+                    ..
+                }) => {
+                    exclamation_point_span = Some(span.clone());
 
-                        // TODO fix me
-                        if is_one_of!(self, EOF, "!", ";", "}", ")") {
-                            break;
-                        }
+                    if important_ident.is_some() {
+                        important_ident = None;
 
-                        let state = self.input.state();
-                        let ctx = Ctx {
-                            block_contents_grammar: BlockContentsGrammar::DeclarationValue,
-                            ..self.ctx
-                        };
-                        let parsed = self.with_ctx(ctx).parse_generic_value();
-                        let value_or_token = match parsed {
-                            Ok(value) => value,
-                            Err(err) => {
-                                self.errors.push(err);
-                                self.input.reset(&state);
+                        last_whitespaces = (last_whitespaces.2, 0, 0);
+                    }
+                }
+                // Optimization for step 6
+                ComponentValue::PreservedToken(TokenAndSpan {
+                    token: Token::WhiteSpace { .. },
+                    ..
+                }) => match (&exclamation_point_span, &important_ident) {
+                    (Some(_), Some(_)) => {
+                        last_whitespaces.2 += 1;
+                    }
+                    (Some(_), None) => {
+                        last_whitespaces.1 += 1;
+                    }
+                    (None, None) => {
+                        last_whitespaces.0 += 1;
+                    }
+                    _ => {
+                        unreachable!();
+                    }
+                },
+                _ => {
+                    last_whitespaces = (0, 0, 0);
 
-                                let ctx = Ctx {
-                                    block_contents_grammar: BlockContentsGrammar::NoGrammar,
-                                    ..self.ctx
-                                };
-
-                                self.with_ctx(ctx).parse_as::<ComponentValue>()?
-                            }
-                        };
-
-                        value.push(value_or_token);
-                        end = self.input.last_pos();
+                    if exclamation_point_span.is_some() {
+                        important_ident = None;
+                        exclamation_point_span = None;
                     }
                 }
             }
 
-            match value.last() {
-                Some(ComponentValue::PreservedToken(TokenAndSpan {
-                    span,
-                    token: Token::BadUrl { .. },
-                    ..
-                }))
-                | Some(ComponentValue::PreservedToken(TokenAndSpan {
-                    span,
-                    token: Token::BadString { .. },
-                    ..
-                })) => {
-                    return Err(Error::new(
-                        *span,
-                        ErrorKind::Unexpected("token in <declaration-value>"),
-                    ));
-                }
-                _ => {}
-            };
+            declaration.value.push(component_value);
         }
 
         // 5. If the last two non-<whitespace-token>s in the declaration’s value are a
         // <delim-token> with the value "!" followed by an <ident-token> with a value
         // that is an ASCII case-insensitive match for "important", remove them from the
         // declaration’s value and set the declaration’s important flag to true.
-        self.input.skip_ws();
+        if let (Some(exclamation_point_span), Some(important_ident)) =
+            (exclamation_point_span, important_ident)
+        {
+            let span = Span::new(
+                exclamation_point_span.lo,
+                important_ident.span_hi(),
+                Default::default(),
+            );
+            let value = match important_ident.token {
+                Token::Ident { value, raw } => (value, raw),
+                _ => {
+                    unreachable!();
+                }
+            };
+            let value = Ident {
+                span: important_ident.span,
+                value: value.0,
+                raw: Some(value.1),
+            };
 
-        let important = if is!(self, "!") {
-            let important_flag = self.parse()?;
-
-            end = self.input.last_pos();
-
-            Some(important_flag)
-        } else {
-            None
-        };
+            declaration.important = Some(ImportantFlag { span, value });
+        }
 
         // 6. While the last token in the declaration’s value is a <whitespace-token>,
         // remove that token.
-        self.input.skip_ws();
+        let len = if declaration.important.is_some() {
+            declaration.value.len()
+                - (last_whitespaces.0 + last_whitespaces.1 + last_whitespaces.2 + 2)
+        } else {
+            declaration.value.len() - (last_whitespaces.0 + last_whitespaces.1 + last_whitespaces.2)
+        };
 
-        // 7. Return the declaration.
-        Ok(Declaration {
-            span: Span::new(span.lo, end, Default::default()),
-            name,
-            value,
-            important,
-        })
-    }
-}
+        declaration.value.truncate(len);
 
-impl<I> Parse<ImportantFlag> for Parser<I>
-where
-    I: ParserInput,
-{
-    fn parse(&mut self) -> PResult<ImportantFlag> {
-        let span = self.input.cur_span();
-
-        expect!(self, "!");
-
-        self.input.skip_ws();
-
-        let ident: Ident = self.parse()?;
-
-        if &*ident.value.to_ascii_lowercase() != "important" {
-            return Err(Error::new(span, ErrorKind::Expected("important")));
+        // Update span
+        // TODO for commit history
+        if let Some(important) = &declaration.important {
+            declaration.span = Span::new(span.lo, important.span_hi(), Default::default());
+        } else if let Some(last) = declaration.value.last() {
+            declaration.span = Span::new(span.lo, last.span_hi(), Default::default());
+        } else {
+            declaration.span = span!(self, span.lo);
         }
 
-        Ok(ImportantFlag {
-            span: span!(self, span.lo),
-            value: ident,
-        })
+        if is_dashed_ident {
+            // Don't parse custom properties
+            //
+            // 7. Return the declaration.
+            return Ok(declaration);
+        }
+
+        // Grammar parsing
+        let locv = self.create_locv(declaration.value);
+
+        declaration.value = match self.parse_according_to_grammar(&locv, |parser| {
+            let mut values = vec![];
+
+            loop {
+                if is!(parser, EOF) {
+                    break;
+                }
+
+                values.push(parser.parse_generic_value()?);
+            }
+
+            Ok(values)
+        }) {
+            Ok(values) => values,
+            Err(err) => {
+                if *err.kind() != ErrorKind::Ignore {
+                    self.errors.push(err);
+                }
+
+                locv.children
+            }
+        };
+
+        // 7. Return the declaration.
+        Ok(declaration)
     }
 }
 
@@ -930,7 +976,11 @@ where
             }
             // Otherwise, if the current input token is a <function-token>, consume a
             // function and return it.
-            tok!("function") => Ok(ComponentValue::Function(self.parse()?)),
+            tok!("function") => {
+                let function = self.parse()?;
+
+                Ok(ComponentValue::Function(function))
+            }
             // Otherwise, return the current input token.
             _ => {
                 let token = self.input.bump();
@@ -951,6 +1001,10 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<SimpleBlock> {
+        // To consume a simple block:
+
+        // Create a simple block with its associated token set to the current input
+        // token and with its value initially set to an empty list.
         let span = self.input.cur_span();
         let name = match cur!(self) {
             tok!("{") | tok!("(") | tok!("[") => self.input.bump().unwrap(),
@@ -961,8 +1015,6 @@ where
                 ));
             }
         };
-        // Create a simple block with its associated token set to the current input
-        // token and with its value initially set to an empty list.
         let mut simple_block = SimpleBlock {
             span: Default::default(),
             name,

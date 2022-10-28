@@ -425,14 +425,18 @@
             },
             "value": [
               {
-                "type": "Ident",
+                "type": "PreservedToken",
                 "span": {
                   "start": 238,
                   "end": 265,
                   "ctxt": 0
                 },
-                "value": "__styled-jsx-placeholder__2",
-                "raw": "__styled-jsx-placeholder__2"
+                "token": {
+                  "Ident": {
+                    "value": "__styled-jsx-placeholder__2",
+                    "raw": "__styled-jsx-placeholder__2"
+                  }
+                }
               },
               {
                 "type": "PreservedToken",
@@ -736,14 +740,18 @@
                   },
                   "value": [
                     {
-                      "type": "Ident",
+                      "type": "PreservedToken",
                       "span": {
                         "start": 379,
                         "end": 406,
                         "ctxt": 0
                       },
-                      "value": "__styled-jsx-placeholder__3",
-                      "raw": "__styled-jsx-placeholder__3"
+                      "token": {
+                        "Ident": {
+                          "value": "__styled-jsx-placeholder__3",
+                          "raw": "__styled-jsx-placeholder__3"
+                        }
+                      }
                     },
                     {
                       "type": "PreservedToken",
@@ -1019,14 +1027,18 @@
                   },
                   "value": [
                     {
-                      "type": "Ident",
+                      "type": "PreservedToken",
                       "span": {
                         "start": 508,
                         "end": 535,
                         "ctxt": 0
                       },
-                      "value": "__styled-jsx-placeholder__4",
-                      "raw": "__styled-jsx-placeholder__4"
+                      "token": {
+                        "Ident": {
+                          "value": "__styled-jsx-placeholder__4",
+                          "raw": "__styled-jsx-placeholder__4"
+                        }
+                      }
                     },
                     {
                       "type": "PreservedToken",

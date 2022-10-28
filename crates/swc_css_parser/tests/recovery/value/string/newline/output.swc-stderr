@@ -16,9 +16,3 @@
  1 | ,-> a {
  2 | `->     prop: "
    `----
-
-  x Unexpected token in <declaration-value>
-   ,-[$DIR/tests/recovery/value/string/newline/input.css:2:5]
- 2 | prop: "
-   :       ^
-   `----

@@ -4346,20 +4346,26 @@
 
   x ComponentValue
      ,-[$DIR/tests/fixture/style-block/input.css:106:5]
- 106 | --zero-size: {
-     : ^^^^^^^^^^^^^^
+ 106 | ,-> --zero-size: {
+ 107 | |           width: 0;
+ 108 | |           height: 0;
+ 109 | `->     };
      `----
 
   x StyleBlock
      ,-[$DIR/tests/fixture/style-block/input.css:106:5]
- 106 | --zero-size: {
-     : ^^^^^^^^^^^^^^
+ 106 | ,-> --zero-size: {
+ 107 | |           width: 0;
+ 108 | |           height: 0;
+ 109 | `->     };
      `----
 
   x Declaration
      ,-[$DIR/tests/fixture/style-block/input.css:106:5]
- 106 | --zero-size: {
-     : ^^^^^^^^^^^^^^
+ 106 | ,-> --zero-size: {
+ 107 | |           width: 0;
+ 108 | |           height: 0;
+ 109 | `->     };
      `----
 
   x DeclarationName
@@ -4376,8 +4382,18 @@
 
   x ComponentValue
      ,-[$DIR/tests/fixture/style-block/input.css:106:5]
- 106 | --zero-size: {
-     :              ^
+ 106 | ,-> --zero-size: {
+ 107 | |           width: 0;
+ 108 | |           height: 0;
+ 109 | `->     };
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/style-block/input.css:106:5]
+ 106 | ,-> --zero-size: {
+ 107 | |           width: 0;
+ 108 | |           height: 0;
+ 109 | `->     };
      `----
 
   x LBrace
@@ -4546,33 +4562,27 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/style-block/input.css:109:5]
- 109 | };
-     : ^
-     `----
-
-  x RBrace
-     ,-[$DIR/tests/fixture/style-block/input.css:109:5]
- 109 | };
-     : ^
-     `----
-
-  x ComponentValue
      ,-[$DIR/tests/fixture/style-block/input.css:110:5]
- 110 | --small-icon: {
-     : ^^^^^^^^^^^^^^^
+ 110 | ,-> --small-icon: {
+ 111 | |           width: 16px;
+ 112 | |           height: 16px;
+ 113 | `->     }
      `----
 
   x StyleBlock
      ,-[$DIR/tests/fixture/style-block/input.css:110:5]
- 110 | --small-icon: {
-     : ^^^^^^^^^^^^^^^
+ 110 | ,-> --small-icon: {
+ 111 | |           width: 16px;
+ 112 | |           height: 16px;
+ 113 | `->     }
      `----
 
   x Declaration
      ,-[$DIR/tests/fixture/style-block/input.css:110:5]
- 110 | --small-icon: {
-     : ^^^^^^^^^^^^^^^
+ 110 | ,-> --small-icon: {
+ 111 | |           width: 16px;
+ 112 | |           height: 16px;
+ 113 | `->     }
      `----
 
   x DeclarationName
@@ -4589,8 +4599,18 @@
 
   x ComponentValue
      ,-[$DIR/tests/fixture/style-block/input.css:110:5]
- 110 | --small-icon: {
-     :               ^
+ 110 | ,-> --small-icon: {
+ 111 | |           width: 16px;
+ 112 | |           height: 16px;
+ 113 | `->     }
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/style-block/input.css:110:5]
+ 110 | ,-> --small-icon: {
+ 111 | |           width: 16px;
+ 112 | |           height: 16px;
+ 113 | `->     }
      `----
 
   x LBrace
@@ -4756,31 +4776,4 @@
      ,-[$DIR/tests/fixture/style-block/input.css:112:9]
  112 | ,-> height: 16px;
  113 | `->     }
-     `----
-
-  x ComponentValue
-     ,-[$DIR/tests/fixture/style-block/input.css:113:5]
- 113 | }
-     : ^
-     `----
-
-  x RBrace
-     ,-[$DIR/tests/fixture/style-block/input.css:113:5]
- 113 | }
-     : ^
-     `----
-
-  x ComponentValue
-     ,-[$DIR/tests/fixture/style-block/input.css:113:5]
- 113 | }
-     :  ^
- 114 | ;
-     `----
-
-  x WhiteSpace { value: Atom('
-  | ' type=inline) }
-     ,-[$DIR/tests/fixture/style-block/input.css:113:5]
- 113 | }
-     :  ^
- 114 | ;
      `----

@@ -11708,49 +11708,23 @@
         },
         "value": [
           {
-            "type": "ListOfComponentValues",
+            "type": "Declaration",
             "span": {
               "start": 3443,
-              "end": 3463,
+              "end": 3462,
               "ctxt": 0
             },
-            "children": [
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 3443,
-                  "end": 3451,
-                  "ctxt": 0
-                },
-                "token": {
-                  "Ident": {
-                    "value": "property",
-                    "raw": "property"
-                  }
-                }
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 3443,
+                "end": 3451,
+                "ctxt": 0
               },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 3451,
-                  "end": 3452,
-                  "ctxt": 0
-                },
-                "token": "Colon"
-              },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 3452,
-                  "end": 3453,
-                  "ctxt": 0
-                },
-                "token": {
-                  "WhiteSpace": {
-                    "value": " "
-                  }
-                }
-              },
+              "value": "property",
+              "raw": "property"
+            },
+            "value": [
               {
                 "type": "PreservedToken",
                 "span": {
@@ -11804,17 +11778,9 @@
                     "raw": "ie"
                   }
                 }
-              },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 3462,
-                  "end": 3463,
-                  "ctxt": 0
-                },
-                "token": "Semi"
               }
-            ]
+            ],
+            "important": null
           }
         ]
       }

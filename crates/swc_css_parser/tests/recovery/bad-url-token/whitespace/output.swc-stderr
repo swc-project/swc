@@ -4,9 +4,3 @@
  2 | ,-> background: url(image.
  3 | `->     png);
    `----
-
-  x Unexpected token in <declaration-value>
-   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:2:5]
- 2 | ,-> background: url(image.
- 3 | `->     png);
-   `----

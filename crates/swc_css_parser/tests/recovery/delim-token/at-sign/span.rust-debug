@@ -120,10 +120,22 @@
   x ComponentValue
    ,-[$DIR/tests/recovery/delim-token/at-sign/input.css:2:5]
  2 | color: @ red;
+   :         ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/delim-token/at-sign/input.css:2:5]
+ 2 | color: @ red;
+   :         ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/delim-token/at-sign/input.css:2:5]
+ 2 | color: @ red;
    :          ^^^
    `----
 
-  x Ident
+  x Ident { value: Atom('red' type=inline), raw: Atom('red' type=inline) }
    ,-[$DIR/tests/recovery/delim-token/at-sign/input.css:2:5]
  2 | color: @ red;
    :          ^^^

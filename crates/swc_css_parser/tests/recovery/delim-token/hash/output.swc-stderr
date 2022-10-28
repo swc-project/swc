@@ -4,9 +4,3 @@
  2 | color: ##;
    :        ^
    `----
-
-  x Expected Declaration value
-   ,-[$DIR/tests/recovery/delim-token/hash/input.css:2:5]
- 2 | color: ##;
-   :         ^
-   `----

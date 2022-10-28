@@ -161,10 +161,22 @@
    :        ^
    `----
 
-  x Integer
+  x Number { value: 1.0, raw: Atom('1' type=inline), type_flag: Integer }
    ,-[$DIR/tests/recovery/delim-token/minus/input.css:3:5]
  3 | prop1: 1 - 2;
    :        ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/delim-token/minus/input.css:3:5]
+ 3 | prop1: 1 - 2;
+   :         ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/delim-token/minus/input.css:3:5]
+ 3 | prop1: 1 - 2;
+   :         ^
    `----
 
   x ComponentValue
@@ -182,10 +194,22 @@
   x ComponentValue
    ,-[$DIR/tests/recovery/delim-token/minus/input.css:3:5]
  3 | prop1: 1 - 2;
+   :           ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/delim-token/minus/input.css:3:5]
+ 3 | prop1: 1 - 2;
+   :           ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/delim-token/minus/input.css:3:5]
+ 3 | prop1: 1 - 2;
    :            ^
    `----
 
-  x Integer
+  x Number { value: 2.0, raw: Atom('2' type=inline), type_flag: Integer }
    ,-[$DIR/tests/recovery/delim-token/minus/input.css:3:5]
  3 | prop1: 1 - 2;
    :            ^
