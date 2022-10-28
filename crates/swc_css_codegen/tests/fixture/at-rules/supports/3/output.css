@@ -1,4 +1,4 @@
-@supports (--x: y , z ) {
+@supports (--x: y , z) {
   a {
     color: red;
   }

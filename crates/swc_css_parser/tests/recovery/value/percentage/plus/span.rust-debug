@@ -107,7 +107,7 @@
    :            ^^
    `----
 
-  x Integer
+  x Number { value: 0.0, raw: Atom('+0' type=inline), type_flag: Integer }
    ,-[$DIR/tests/recovery/value/percentage/plus/input.css:1:1]
  1 | a { width: +0.%; }
    :            ^^

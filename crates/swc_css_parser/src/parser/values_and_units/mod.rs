@@ -11,83 +11,194 @@ impl<I> Parser<I>
 where
     I: ParserInput,
 {
-    /// Parse value as <declaration-value>.
-    pub(super) fn parse_declaration_value(&mut self) -> PResult<Vec<ComponentValue>> {
-        let mut value = vec![];
-        let mut balance_stack: Vec<Option<char>> = vec![];
+    pub(super) fn parse_generic_value(&mut self) -> PResult<ComponentValue> {
+        self.input.skip_ws();
 
-        // The <declaration-value> production matches any sequence of one or more
-        // tokens, so long as the sequence does not contain ...
-        loop {
-            if is!(self, EOF) {
-                break;
+        let span = self.input.cur_span();
+
+        match cur!(self) {
+            tok!(",") | tok!("/") | tok!(";") => {
+                return Ok(ComponentValue::Delimiter(self.parse()?));
             }
 
-            match cur!(self) {
-                // ... <bad-string-token>, <bad-url-token>,
-                tok!("bad-string") | tok!("bad-url") => break,
+            tok!("string") => {
+                return Ok(ComponentValue::Str(self.parse()?));
+            }
 
-                // ... unmatched <)-token>, <]-token>, or <}-token>,
-                tok!(")") | tok!("]") | tok!("}") => {
-                    let value = match cur!(self) {
-                        tok!(")") => ')',
-                        tok!("]") => ']',
-                        tok!("}") => '}',
-                        _ => {
-                            unreachable!();
+            tok!("url") => {
+                return Ok(ComponentValue::Url(self.parse()?));
+            }
+
+            Token::Function { value, .. } => match &*value.to_ascii_lowercase() {
+                "url" | "src" => {
+                    return Ok(ComponentValue::Url(self.parse()?));
+                }
+                "rgb" | "rgba" | "hsl" | "hsla" | "hwb" | "lab" | "lch" | "oklab" | "oklch"
+                | "color" | "device-cmyk" | "color-mix" | "color-contrast" => {
+                    return Ok(ComponentValue::Color(self.parse()?));
+                }
+                _ => {
+                    return Ok(ComponentValue::Function(
+                        self.with_ctx(Ctx {
+                            block_contents_grammar: BlockContentsGrammar::DeclarationValue,
+                            ..self.ctx
+                        })
+                        .parse_as::<Function>()?,
+                    ));
+                }
+            },
+
+            tok!("percentage") => {
+                return Ok(ComponentValue::Percentage(self.parse()?));
+            }
+
+            tok!("dimension") => return Ok(ComponentValue::Dimension(self.parse()?)),
+
+            Token::Number { type_flag, .. } => {
+                if *type_flag == NumberType::Integer {
+                    return Ok(ComponentValue::Integer(self.parse()?));
+                }
+
+                return Ok(ComponentValue::Number(self.parse()?));
+            }
+
+            Token::Ident { value, .. } => {
+                if value.starts_with("--") {
+                    return Ok(ComponentValue::DashedIdent(self.parse()?));
+                } else if &*value.to_ascii_lowercase() == "u"
+                    && peeked_is_one_of!(self, "+", "number", "dimension")
+                {
+                    return Ok(ComponentValue::UnicodeRange(self.parse()?));
+                }
+
+                return Ok(ComponentValue::Ident(self.parse()?));
+            }
+
+            tok!("[") | tok!("(") | tok!("{") => {
+                let ctx = Ctx {
+                    block_contents_grammar: BlockContentsGrammar::NoGrammar,
+                    ..self.ctx
+                };
+                let mut block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
+                let locv = self.create_locv(block.value);
+
+                block.value = match self.parse_according_to_grammar(&locv, |parser| {
+                    let mut values = vec![];
+
+                    loop {
+                        parser.input.skip_ws();
+
+                        if is!(parser, EOF) {
+                            break;
                         }
-                    };
 
-                    let balance_close_type = match balance_stack.pop() {
-                        Some(v) => v,
-                        None => None,
-                    };
+                        let component_value = parser.parse_generic_value()?;
 
-                    if Some(value) != balance_close_type {
-                        break;
+                        values.push(component_value);
                     }
-                }
 
-                tok!("function") | tok!("(") | tok!("[") | tok!("{") => {
-                    let value = match cur!(self) {
-                        tok!("function") | tok!("(") => ')',
-                        tok!("[") => ']',
-                        tok!("{") => '}',
-                        _ => {
-                            unreachable!();
+                    Ok(values)
+                }) {
+                    Ok(values) => values,
+                    Err(err) => {
+                        if *err.kind() != ErrorKind::Ignore {
+                            self.errors.push(err);
                         }
-                    };
 
-                    balance_stack.push(Some(value));
-                }
-
-                // ... or top-level <semicolon-token> tokens
-                tok!(";") => {
-                    if balance_stack.is_empty() {
-                        break;
+                        locv.children
                     }
-                }
+                };
 
-                // ... or <delim-token> tokens with a value of "!"
-                tok!("!") => {
-                    if balance_stack.is_empty() {
-                        break;
-                    }
-                }
-
-                _ => {}
+                return Ok(ComponentValue::SimpleBlock(block));
             }
 
-            let token = self.input.bump();
-
-            match token {
-                Some(token) => value.push(ComponentValue::PreservedToken(token)),
-                None => break,
+            tok!("#") => {
+                return Ok(ComponentValue::Color(self.parse()?));
             }
+
+            _ => {}
         }
 
-        Ok(value)
+        Err(Error::new(span, ErrorKind::Expected("Declaration value")))
     }
+
+    /// Parse value as <declaration-value>.
+    // pub(super) fn validate_declaration_value(&mut self) -> PResult<Vec<ComponentValue>> {
+    //     let mut value = vec![];
+    //     let mut balance_stack: Vec<Option<char>> = vec![];
+    //
+    //     // The <declaration-value> production matches any sequence of one or more
+    //     // tokens, so long as the sequence does not contain ...
+    //     loop {
+    //         if is!(self, EOF) {
+    //             break;
+    //         }
+    //
+    //         match cur!(self) {
+    //             // ... <bad-string-token>, <bad-url-token>,
+    //             tok!("bad-string") | tok!("bad-url") => { break; },
+    //
+    //             // ... unmatched <)-token>, <]-token>, or <}-token>,
+    //             tok!(")") | tok!("]") | tok!("}") => {
+    //                 let value = match cur!(self) {
+    //                     tok!(")") => ')',
+    //                     tok!("]") => ']',
+    //                     tok!("}") => '}',
+    //                     _ => {
+    //                         unreachable!();
+    //                     }
+    //                 };
+    //
+    //                 let balance_close_type = match balance_stack.pop() {
+    //                     Some(v) => v,
+    //                     None => None,
+    //                 };
+    //
+    //                 if Some(value) != balance_close_type {
+    //                     break;
+    //                 }
+    //             }
+    //
+    //             tok!("function") | tok!("(") | tok!("[") | tok!("{") => {
+    //                 let value = match cur!(self) {
+    //                     tok!("function") | tok!("(") => ')',
+    //                     tok!("[") => ']',
+    //                     tok!("{") => '}',
+    //                     _ => {
+    //                         unreachable!();
+    //                     }
+    //                 };
+    //
+    //                 balance_stack.push(Some(value));
+    //             }
+    //
+    //             // ... or top-level <semicolon-token> tokens
+    //             tok!(";") => {
+    //                 if balance_stack.is_empty() {
+    //                     break;
+    //                 }
+    //             }
+    //
+    //             // ... or <delim-token> tokens with a value of "!"
+    //             tok!("!") => {
+    //                 if balance_stack.is_empty() {
+    //                     break;
+    //                 }
+    //             }
+    //
+    //             _ => {}
+    //         }
+    //
+    //         let token = self.input.bump();
+    //
+    //         match token {
+    //             Some(token) => value.push(ComponentValue::PreservedToken(token)),
+    //             None => break,
+    //         }
+    //     }
+    //
+    //     Ok(value)
+    // }
 
     /// Parse value as <any-value>.
     pub(super) fn parse_any_value(&mut self) -> PResult<Vec<TokenAndSpan>> {
@@ -360,7 +471,15 @@ where
                                 }
                                 tok!("number") => Ok(Some(ComponentValue::Number(parser.parse()?))),
                                 Token::Function { value, .. } if is_math_function(value) => {
-                                    Ok(Some(ComponentValue::Function(parser.parse()?)))
+                                    Ok(Some(ComponentValue::Function(
+                                        parser
+                                            .with_ctx(Ctx {
+                                                block_contents_grammar:
+                                                    BlockContentsGrammar::DeclarationValue,
+                                                ..parser.ctx
+                                            })
+                                            .parse_as::<Function>()?,
+                                    )))
                                 }
                                 tok!("ident") => {
                                     is_legacy_syntax = false;
@@ -418,7 +537,15 @@ where
                                     }
                                 }
                                 Token::Function { value, .. } if is_math_function(value) => {
-                                    Ok(Some(ComponentValue::Function(parser.parse()?)))
+                                    Ok(Some(ComponentValue::Function(
+                                        parser
+                                            .with_ctx(Ctx {
+                                                block_contents_grammar:
+                                                    BlockContentsGrammar::DeclarationValue,
+                                                ..parser.ctx
+                                            })
+                                            .parse_as::<Function>()?,
+                                    )))
                                 }
                                 _ => {
                                     if !has_variable_before {
@@ -473,7 +600,15 @@ where
                                 }
                                 tok!("number") => Ok(Some(ComponentValue::Number(parser.parse()?))),
                                 Token::Function { value, .. } if is_math_function(value) => {
-                                    Ok(Some(ComponentValue::Function(parser.parse()?)))
+                                    Ok(Some(ComponentValue::Function(
+                                        parser
+                                            .with_ctx(Ctx {
+                                                block_contents_grammar:
+                                                    BlockContentsGrammar::DeclarationValue,
+                                                ..parser.ctx
+                                            })
+                                            .parse_as::<Function>()?,
+                                    )))
                                 }
                                 tok!("ident") if !is_legacy_syntax => {
                                     let ident: Ident = parser.parse()?;
@@ -517,7 +652,15 @@ where
                                     Ok(Some(ComponentValue::Percentage(parser.parse()?)))
                                 }
                                 Token::Function { value, .. } if is_math_function(value) => {
-                                    Ok(Some(ComponentValue::Function(parser.parse()?)))
+                                    Ok(Some(ComponentValue::Function(
+                                        parser
+                                            .with_ctx(Ctx {
+                                                block_contents_grammar:
+                                                    BlockContentsGrammar::DeclarationValue,
+                                                ..parser.ctx
+                                            })
+                                            .parse_as::<Function>()?,
+                                    )))
                                 }
                                 tok!("ident") => {
                                     let ident: Ident = parser.parse()?;
@@ -585,7 +728,15 @@ where
                                 }
                                 tok!("number") => Ok(Some(ComponentValue::Number(parser.parse()?))),
                                 Token::Function { value, .. } if is_math_function(value) => {
-                                    Ok(Some(ComponentValue::Function(parser.parse()?)))
+                                    Ok(Some(ComponentValue::Function(
+                                        parser
+                                            .with_ctx(Ctx {
+                                                block_contents_grammar:
+                                                    BlockContentsGrammar::DeclarationValue,
+                                                ..parser.ctx
+                                            })
+                                            .parse_as::<Function>()?,
+                                    )))
                                 }
                                 tok!("ident") if !is_legacy_syntax => {
                                     let ident: Ident = parser.parse()?;
@@ -629,7 +780,15 @@ where
                                     Ok(Some(ComponentValue::Percentage(parser.parse()?)))
                                 }
                                 Token::Function { value, .. } if is_math_function(value) => {
-                                    Ok(Some(ComponentValue::Function(parser.parse()?)))
+                                    Ok(Some(ComponentValue::Function(
+                                        parser
+                                            .with_ctx(Ctx {
+                                                block_contents_grammar:
+                                                    BlockContentsGrammar::DeclarationValue,
+                                                ..parser.ctx
+                                            })
+                                            .parse_as::<Function>()?,
+                                    )))
                                 }
                                 tok!("ident") => {
                                     let ident: Ident = parser.parse()?;
@@ -682,7 +841,15 @@ where
                                 Ok(Some(ComponentValue::AlphaValue(parser.parse()?)))
                             }
                             Token::Function { value, .. } if is_math_function(value) => {
-                                Ok(Some(ComponentValue::Function(parser.parse()?)))
+                                Ok(Some(ComponentValue::Function(
+                                    parser
+                                        .with_ctx(Ctx {
+                                            block_contents_grammar:
+                                                BlockContentsGrammar::DeclarationValue,
+                                            ..parser.ctx
+                                        })
+                                        .parse_as::<Function>()?,
+                                )))
                             }
                             _ => {
                                 if !has_variable_before {
@@ -716,7 +883,15 @@ where
                                 Ok(Some(ComponentValue::AlphaValue(parser.parse()?)))
                             }
                             Token::Function { value, .. } if is_math_function(value) => {
-                                Ok(Some(ComponentValue::Function(parser.parse()?)))
+                                Ok(Some(ComponentValue::Function(
+                                    parser
+                                        .with_ctx(Ctx {
+                                            block_contents_grammar:
+                                                BlockContentsGrammar::DeclarationValue,
+                                            ..parser.ctx
+                                        })
+                                        .parse_as::<Function>()?,
+                                )))
                             }
                             tok!("ident") => {
                                 let ident: Ident = parser.parse()?;
@@ -790,7 +965,15 @@ where
                                     Ok(Some(ComponentValue::Hue(parser.parse()?)))
                                 }
                                 Token::Function { value, .. } if is_math_function(value) => {
-                                    Ok(Some(ComponentValue::Function(parser.parse()?)))
+                                    Ok(Some(ComponentValue::Function(
+                                        parser
+                                            .with_ctx(Ctx {
+                                                block_contents_grammar:
+                                                    BlockContentsGrammar::DeclarationValue,
+                                                ..parser.ctx
+                                            })
+                                            .parse_as::<Function>()?,
+                                    )))
                                 }
                                 tok!("ident") => {
                                     let ident: Ident = parser.parse()?;
@@ -835,7 +1018,15 @@ where
                                 }
                                 tok!("number") => Ok(Some(ComponentValue::Number(parser.parse()?))),
                                 Token::Function { value, .. } if is_math_function(value) => {
-                                    Ok(Some(ComponentValue::Function(parser.parse()?)))
+                                    Ok(Some(ComponentValue::Function(
+                                        parser
+                                            .with_ctx(Ctx {
+                                                block_contents_grammar:
+                                                    BlockContentsGrammar::DeclarationValue,
+                                                ..parser.ctx
+                                            })
+                                            .parse_as::<Function>()?,
+                                    )))
                                 }
                                 tok!("ident") => {
                                     let ident: Ident = parser.parse()?;
@@ -898,7 +1089,15 @@ where
                                         Ok(Some(ComponentValue::Percentage(parser.parse()?)))
                                     }
                                     Token::Function { value, .. } if is_math_function(value) => {
-                                        Ok(Some(ComponentValue::Function(parser.parse()?)))
+                                        Ok(Some(ComponentValue::Function(
+                                            parser
+                                                .with_ctx(Ctx {
+                                                    block_contents_grammar:
+                                                        BlockContentsGrammar::DeclarationValue,
+                                                    ..parser.ctx
+                                                })
+                                                .parse_as::<Function>()?,
+                                        )))
                                     }
                                     tok!("ident") => {
                                         let ident: Ident = parser.parse()?;
@@ -947,7 +1146,15 @@ where
                                         Ok(Some(ComponentValue::Number(parser.parse()?)))
                                     }
                                     Token::Function { value, .. } if is_math_function(value) => {
-                                        Ok(Some(ComponentValue::Function(parser.parse()?)))
+                                        Ok(Some(ComponentValue::Function(
+                                            parser
+                                                .with_ctx(Ctx {
+                                                    block_contents_grammar:
+                                                        BlockContentsGrammar::DeclarationValue,
+                                                    ..parser.ctx
+                                                })
+                                                .parse_as::<Function>()?,
+                                        )))
                                     }
                                     tok!("ident") => {
                                         let ident: Ident = parser.parse()?;
@@ -1015,7 +1222,15 @@ where
                                         Ok(Some(ComponentValue::Percentage(parser.parse()?)))
                                     }
                                     Token::Function { value, .. } if is_math_function(value) => {
-                                        Ok(Some(ComponentValue::Function(parser.parse()?)))
+                                        Ok(Some(ComponentValue::Function(
+                                            parser
+                                                .with_ctx(Ctx {
+                                                    block_contents_grammar:
+                                                        BlockContentsGrammar::DeclarationValue,
+                                                    ..parser.ctx
+                                                })
+                                                .parse_as::<Function>()?,
+                                        )))
                                     }
                                     tok!("ident") => {
                                         let ident: Ident = parser.parse()?;
@@ -1064,7 +1279,15 @@ where
                                         Ok(Some(ComponentValue::Number(parser.parse()?)))
                                     }
                                     Token::Function { value, .. } if is_math_function(value) => {
-                                        Ok(Some(ComponentValue::Function(parser.parse()?)))
+                                        Ok(Some(ComponentValue::Function(
+                                            parser
+                                                .with_ctx(Ctx {
+                                                    block_contents_grammar:
+                                                        BlockContentsGrammar::DeclarationValue,
+                                                    ..parser.ctx
+                                                })
+                                                .parse_as::<Function>()?,
+                                        )))
                                     }
                                     tok!("ident") => {
                                         let ident: Ident = parser.parse()?;
@@ -1110,7 +1333,15 @@ where
                                         Ok(Some(ComponentValue::Hue(parser.parse()?)))
                                     }
                                     Token::Function { value, .. } if is_math_function(value) => {
-                                        Ok(Some(ComponentValue::Function(parser.parse()?)))
+                                        Ok(Some(ComponentValue::Function(
+                                            parser
+                                                .with_ctx(Ctx {
+                                                    block_contents_grammar:
+                                                        BlockContentsGrammar::DeclarationValue,
+                                                    ..parser.ctx
+                                                })
+                                                .parse_as::<Function>()?,
+                                        )))
                                     }
                                     tok!("ident") => {
                                         let ident: Ident = parser.parse()?;
@@ -1193,7 +1424,15 @@ where
                                 Ok(Some(ComponentValue::AlphaValue(parser.parse()?)))
                             }
                             Token::Function { value, .. } if is_math_function(value) => {
-                                Ok(Some(ComponentValue::Function(parser.parse()?)))
+                                Ok(Some(ComponentValue::Function(
+                                    parser
+                                        .with_ctx(Ctx {
+                                            block_contents_grammar:
+                                                BlockContentsGrammar::DeclarationValue,
+                                            ..parser.ctx
+                                        })
+                                        .parse_as::<Function>()?,
+                                )))
                             }
                             tok!("ident") if !matches!(function_name, "device-cmyk") => {
                                 let ident: Ident = parser.parse()?;
@@ -1302,7 +1541,15 @@ where
                             Ok(Some(ComponentValue::Percentage(parser.parse()?)))
                         }
                         Token::Function { value, .. } if is_math_function(value) => {
-                            Ok(Some(ComponentValue::Function(parser.parse()?)))
+                            Ok(Some(ComponentValue::Function(
+                                parser
+                                    .with_ctx(Ctx {
+                                        block_contents_grammar:
+                                            BlockContentsGrammar::DeclarationValue,
+                                        ..parser.ctx
+                                    })
+                                    .parse_as::<Function>()?,
+                            )))
                         }
                         tok!("ident") => {
                             let ident: Ident = parser.parse()?;
@@ -1353,7 +1600,14 @@ where
                                         "var" | "env" | "constant"
                                     ) =>
                             {
-                                ComponentValue::Function(self.parse()?)
+                                ComponentValue::Function(
+                                    self.with_ctx(Ctx {
+                                        block_contents_grammar:
+                                            BlockContentsGrammar::DeclarationValue,
+                                        ..self.ctx
+                                    })
+                                    .parse_as::<Function>()?,
+                                )
                             }
                             tok!("ident") => {
                                 let ident: Ident = self.parse()?;
@@ -1384,7 +1638,15 @@ where
                                 Ok(Some(ComponentValue::Percentage(parser.parse()?)))
                             }
                             Token::Function { value, .. } if is_math_function(value) => {
-                                Ok(Some(ComponentValue::Function(parser.parse()?)))
+                                Ok(Some(ComponentValue::Function(
+                                    parser
+                                        .with_ctx(Ctx {
+                                            block_contents_grammar:
+                                                BlockContentsGrammar::DeclarationValue,
+                                            ..parser.ctx
+                                        })
+                                        .parse_as::<Function>()?,
+                                )))
                             }
                             tok!("ident") => {
                                 let ident: Ident = parser.parse()?;
@@ -1440,7 +1702,15 @@ where
                                 }
                             }
                             Token::Function { value, .. } if is_math_function(value) => {
-                                Ok(Some(ComponentValue::Function(parser.parse()?)))
+                                Ok(Some(ComponentValue::Function(
+                                    parser
+                                        .with_ctx(Ctx {
+                                            block_contents_grammar:
+                                                BlockContentsGrammar::DeclarationValue,
+                                            ..parser.ctx
+                                        })
+                                        .parse_as::<Function>()?,
+                                )))
                             }
                             _ => {
                                 if !has_variable_before {
@@ -1477,7 +1747,15 @@ where
                                 Ok(Some(ComponentValue::AlphaValue(parser.parse()?)))
                             }
                             Token::Function { value, .. } if is_math_function(value) => {
-                                Ok(Some(ComponentValue::Function(parser.parse()?)))
+                                Ok(Some(ComponentValue::Function(
+                                    parser
+                                        .with_ctx(Ctx {
+                                            block_contents_grammar:
+                                                BlockContentsGrammar::DeclarationValue,
+                                            ..parser.ctx
+                                        })
+                                        .parse_as::<Function>()?,
+                                )))
                             }
                             tok!("ident") if !matches!(function_name, "device-cmyk") => {
                                 let ident: Ident = parser.parse()?;
@@ -1542,14 +1820,7 @@ where
                     break;
                 }
 
-                let value = match self.try_parse(|p| {
-                    let ctx = Ctx {
-                        block_contents_grammar: BlockContentsGrammar::DeclarationValue,
-                        ..p.ctx
-                    };
-
-                    p.with_ctx(ctx).parse_as::<ComponentValue>()
-                }) {
+                let value = match self.try_parse(|p| p.parse_generic_value()) {
                     Some(v) => v,
                     None => {
                         if is_one_of!(self, ";", ":") {
@@ -1589,7 +1860,13 @@ where
             {
                 *has_before_variable = true;
 
-                Ok(Some(ComponentValue::Function(self.parse()?)))
+                Ok(Some(ComponentValue::Function(
+                    self.with_ctx(Ctx {
+                        block_contents_grammar: BlockContentsGrammar::DeclarationValue,
+                        ..self.ctx
+                    })
+                    .parse_as::<Function>()?,
+                )))
             }
             _ => fallback(self, *has_before_variable),
         }
@@ -2275,7 +2552,13 @@ where
             }
             // <device-cmyk()>
             Token::Function { value, .. } if value.as_ref().eq_ignore_ascii_case("device-cmyk") => {
-                Ok(Color::Function(self.parse()?))
+                Ok(Color::Function(
+                    self.with_ctx(Ctx {
+                        block_contents_grammar: BlockContentsGrammar::DeclarationValue,
+                        ..self.ctx
+                    })
+                    .parse_as::<Function>()?,
+                ))
             }
             // <absolute-color-base>
             _ => match self.parse() {
@@ -2316,7 +2599,13 @@ where
                 Ok(AbsoluteColorBase::NamedColorOrTransparent(self.parse()?))
             }
             Token::Function { value, .. } if is_absolute_color_base_function(value) => {
-                Ok(AbsoluteColorBase::Function(self.parse()?))
+                Ok(AbsoluteColorBase::Function(
+                    self.with_ctx(Ctx {
+                        block_contents_grammar: BlockContentsGrammar::DeclarationValue,
+                        ..self.ctx
+                    })
+                    .parse_as::<Function>()?,
+                ))
             }
             _ => {
                 return Err(Error::new(
@@ -2427,7 +2716,13 @@ where
                     return Err(Error::new(span, ErrorKind::Expected("math function token")));
                 }
 
-                Ok(CmykComponent::Function(self.parse()?))
+                Ok(CmykComponent::Function(
+                    self.with_ctx(Ctx {
+                        block_contents_grammar: BlockContentsGrammar::DeclarationValue,
+                        ..self.ctx
+                    })
+                    .parse_as::<Function>()?,
+                ))
             }
             _ => {
                 unreachable!()
@@ -2580,7 +2875,13 @@ where
                             modifiers.push(UrlModifier::Ident(self.parse()?));
                         }
                         tok!("function") => {
-                            modifiers.push(UrlModifier::Function(self.parse()?));
+                            modifiers.push(UrlModifier::Function(
+                                self.with_ctx(Ctx {
+                                    block_contents_grammar: BlockContentsGrammar::DeclarationValue,
+                                    ..self.ctx
+                                })
+                                .parse_as::<Function>()?,
+                            ));
                         }
                         _ => {
                             let span = self.input.cur_span();
@@ -2605,89 +2906,6 @@ where
                 unreachable!()
             }
         }
-    }
-}
-
-impl<I> Parse<Function> for Parser<I>
-where
-    I: ParserInput,
-{
-    fn parse(&mut self) -> PResult<Function> {
-        let span = self.input.cur_span();
-        let ident = match bump!(self) {
-            Token::Function { value, raw } => (value, raw),
-            _ => {
-                unreachable!()
-            }
-        };
-        let function_name = &*ident.0.to_ascii_lowercase();
-        let name = Ident {
-            span: swc_common::Span::new(span.lo, span.hi - BytePos(1), Default::default()),
-            value: ident.0,
-            raw: Some(ident.1),
-        };
-
-        // Create a function with its name equal to the value of the current input token
-        // and with its value initially set to an empty list.
-        let mut function = Function {
-            span: Default::default(),
-            name,
-            value: vec![],
-        };
-
-        // Repeatedly consume the next input token and process it as follows:
-        loop {
-            // <EOF-token>
-            // This is a parse error. Return the function.
-            if is!(self, EOF) {
-                break;
-            }
-
-            match cur!(self) {
-                // <)-token>
-                // Return the function.
-                tok!(")") => {
-                    bump!(self);
-
-                    break;
-                }
-                // anything else
-                // Reconsume the current input token. Consume a component value and append the
-                // returned value to the function’s value.
-                _ => match self.ctx.block_contents_grammar {
-                    BlockContentsGrammar::NoGrammar => {
-                        let ctx = Ctx {
-                            block_contents_grammar: BlockContentsGrammar::NoGrammar,
-                            ..self.ctx
-                        };
-
-                        let component_value = self.with_ctx(ctx).parse_as::<ComponentValue>()?;
-
-                        function.value.push(component_value);
-                    }
-                    _ => {
-                        let state = self.input.state();
-                        let values = self.parse_function_values(function_name);
-
-                        match values {
-                            Ok(values) => {
-                                function.value.extend(values);
-                            }
-                            Err(err) => {
-                                self.errors.push(err);
-                                self.input.reset(&state);
-
-                                function.value.push(self.parse()?);
-                            }
-                        }
-                    }
-                },
-            }
-        }
-
-        function.span = span!(self, span.lo);
-
-        return Ok(function);
     }
 }
 
@@ -3292,7 +3510,13 @@ where
 
                 Ok(CalcValue::Sum(calc_sum_in_parens))
             }
-            tok!("function") => Ok(CalcValue::Function(self.parse()?)),
+            tok!("function") => Ok(CalcValue::Function(
+                self.with_ctx(Ctx {
+                    block_contents_grammar: BlockContentsGrammar::DeclarationValue,
+                    ..self.ctx
+                })
+                .parse_as::<Function>()?,
+            )),
             _ => {
                 let span = self.input.cur_span();
 

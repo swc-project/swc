@@ -277,7 +277,7 @@
             "type": "Declaration",
             "span": {
               "start": 55,
-              "end": 69,
+              "end": 80,
               "ctxt": 0
             },
             "name": {
@@ -292,97 +292,94 @@
             },
             "value": [
               {
-                "type": "PreservedToken",
+                "type": "Function",
                 "span": {
                   "start": 64,
-                  "end": 69,
-                  "ctxt": 0
-                },
-                "token": {
-                  "Function": {
-                    "value": "calc",
-                    "raw": "calc"
-                  }
-                }
-              },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 69,
-                  "end": 72,
-                  "ctxt": 0
-                },
-                "token": {
-                  "Percentage": {
-                    "value": 10.0,
-                    "raw": "10"
-                  }
-                }
-              },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 72,
-                  "end": 73,
-                  "ctxt": 0
-                },
-                "token": {
-                  "WhiteSpace": {
-                    "value": " "
-                  }
-                }
-              },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 73,
-                  "end": 74,
-                  "ctxt": 0
-                },
-                "token": {
-                  "Delim": {
-                    "value": "+"
-                  }
-                }
-              },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 74,
-                  "end": 75,
-                  "ctxt": 0
-                },
-                "token": {
-                  "WhiteSpace": {
-                    "value": " "
-                  }
-                }
-              },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 75,
-                  "end": 79,
-                  "ctxt": 0
-                },
-                "token": {
-                  "Dimension": {
-                    "value": 30.0,
-                    "raw_value": "30",
-                    "unit": "px",
-                    "raw_unit": "px",
-                    "type": "integer"
-                  }
-                }
-              },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 79,
                   "end": 80,
                   "ctxt": 0
                 },
-                "token": "RParen"
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 64,
+                    "end": 68,
+                    "ctxt": 0
+                  },
+                  "value": "calc",
+                  "raw": "calc"
+                },
+                "value": [
+                  {
+                    "type": "PreservedToken",
+                    "span": {
+                      "start": 69,
+                      "end": 72,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Percentage": {
+                        "value": 10.0,
+                        "raw": "10"
+                      }
+                    }
+                  },
+                  {
+                    "type": "PreservedToken",
+                    "span": {
+                      "start": 72,
+                      "end": 73,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": " "
+                      }
+                    }
+                  },
+                  {
+                    "type": "PreservedToken",
+                    "span": {
+                      "start": 73,
+                      "end": 74,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Delim": {
+                        "value": "+"
+                      }
+                    }
+                  },
+                  {
+                    "type": "PreservedToken",
+                    "span": {
+                      "start": 74,
+                      "end": 75,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": " "
+                      }
+                    }
+                  },
+                  {
+                    "type": "PreservedToken",
+                    "span": {
+                      "start": 75,
+                      "end": 79,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "Dimension": {
+                        "value": 30.0,
+                        "raw_value": "30",
+                        "unit": "px",
+                        "raw_unit": "px",
+                        "type": "integer"
+                      }
+                    }
+                  }
+                ]
               }
             ],
             "important": null

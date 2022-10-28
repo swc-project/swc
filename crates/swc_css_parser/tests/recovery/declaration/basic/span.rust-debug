@@ -224,49 +224,31 @@
   x ComponentValue
    ,-[$DIR/tests/recovery/declaration/basic/input.css:7:5]
  7 | prop: !!;
-   : ^^^^^^^^^
+   : ^^^^^^^^
    `----
 
   x StyleBlock
    ,-[$DIR/tests/recovery/declaration/basic/input.css:7:5]
  7 | prop: !!;
-   : ^^^^^^^^^
+   : ^^^^^^^^
    `----
 
-  x ComponentValue
+  x Declaration
+   ,-[$DIR/tests/recovery/declaration/basic/input.css:7:5]
+ 7 | prop: !!;
+   : ^^^^^^^^
+   `----
+
+  x DeclarationName
    ,-[$DIR/tests/recovery/declaration/basic/input.css:7:5]
  7 | prop: !!;
    : ^^^^
    `----
 
-  x Ident { value: Atom('prop' type=inline), raw: Atom('prop' type=inline) }
+  x Ident
    ,-[$DIR/tests/recovery/declaration/basic/input.css:7:5]
  7 | prop: !!;
    : ^^^^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/recovery/declaration/basic/input.css:7:5]
- 7 | prop: !!;
-   :     ^
-   `----
-
-  x Colon
-   ,-[$DIR/tests/recovery/declaration/basic/input.css:7:5]
- 7 | prop: !!;
-   :     ^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/recovery/declaration/basic/input.css:7:5]
- 7 | prop: !!;
-   :      ^
-   `----
-
-  x WhiteSpace { value: Atom(' ' type=inline) }
-   ,-[$DIR/tests/recovery/declaration/basic/input.css:7:5]
- 7 | prop: !!;
-   :      ^
    `----
 
   x ComponentValue
@@ -291,18 +273,6 @@
    ,-[$DIR/tests/recovery/declaration/basic/input.css:7:5]
  7 | prop: !!;
    :        ^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/recovery/declaration/basic/input.css:7:5]
- 7 | prop: !!;
-   :         ^
-   `----
-
-  x Semi
-   ,-[$DIR/tests/recovery/declaration/basic/input.css:7:5]
- 7 | prop: !!;
-   :         ^
    `----
 
   x ComponentValue

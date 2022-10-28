@@ -2404,19 +2404,19 @@
   x ComponentValue
     ,-[$DIR/tests/fixture/csstree/1/input.css:27:9]
  27 | --custom1: { something !important };
-    : ^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x StyleBlock
     ,-[$DIR/tests/fixture/csstree/1/input.css:27:9]
  27 | --custom1: { something !important };
-    : ^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Declaration
     ,-[$DIR/tests/fixture/csstree/1/input.css:27:9]
  27 | --custom1: { something !important };
-    : ^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x DeclarationName
@@ -2434,7 +2434,13 @@
   x ComponentValue
     ,-[$DIR/tests/fixture/csstree/1/input.css:27:9]
  27 | --custom1: { something !important };
-    :            ^
+    :            ^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/csstree/1/input.css:27:9]
+ 27 | --custom1: { something !important };
+    :            ^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x LBrace
@@ -2516,18 +2522,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/csstree/1/input.css:27:9]
- 27 | --custom1: { something !important };
-    :                                   ^
-    `----
-
-  x RBrace
-    ,-[$DIR/tests/fixture/csstree/1/input.css:27:9]
- 27 | --custom1: { something !important };
-    :                                   ^
-    `----
-
-  x ComponentValue
     ,-[$DIR/tests/fixture/csstree/1/input.css:28:9]
  28 | --custom2: ([]) !important;
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -2560,7 +2554,13 @@
   x ComponentValue
     ,-[$DIR/tests/fixture/csstree/1/input.css:28:9]
  28 | --custom2: ([]) !important;
-    :            ^
+    :            ^^^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/csstree/1/input.css:28:9]
+ 28 | --custom2: ([]) !important;
+    :            ^^^^
     `----
 
   x LParen
@@ -2572,49 +2572,19 @@
   x ComponentValue
     ,-[$DIR/tests/fixture/csstree/1/input.css:28:9]
  28 | --custom2: ([]) !important;
-    :             ^
+    :             ^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/csstree/1/input.css:28:9]
+ 28 | --custom2: ([]) !important;
+    :             ^^
     `----
 
   x LBracket
     ,-[$DIR/tests/fixture/csstree/1/input.css:28:9]
  28 | --custom2: ([]) !important;
     :             ^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/csstree/1/input.css:28:9]
- 28 | --custom2: ([]) !important;
-    :              ^
-    `----
-
-  x RBracket
-    ,-[$DIR/tests/fixture/csstree/1/input.css:28:9]
- 28 | --custom2: ([]) !important;
-    :              ^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/csstree/1/input.css:28:9]
- 28 | --custom2: ([]) !important;
-    :               ^
-    `----
-
-  x RParen
-    ,-[$DIR/tests/fixture/csstree/1/input.css:28:9]
- 28 | --custom2: ([]) !important;
-    :               ^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/csstree/1/input.css:28:9]
- 28 | --custom2: ([]) !important;
-    :                ^
-    `----
-
-  x WhiteSpace { value: Atom(' ' type=inline) }
-    ,-[$DIR/tests/fixture/csstree/1/input.css:28:9]
- 28 | --custom2: ([]) !important;
-    :                ^
     `----
 
   x ImportantFlag

@@ -1,3 +1,23 @@
 .a {
     color: white !!important;
 }
+
+.class {
+    color: red red red !important !important;
+}
+
+.class {
+    color: red red red !important!important   ;
+}
+
+.class {
+    color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
+}
+
+.class {
+    color: red red red !important !important!important;
+}
+
+.class {
+    color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
+}

@@ -135,7 +135,8 @@ body:first-of-type .selector {}
   |property: value;color: red;
 }
 .selector {
-  property: value !ie;}
+  property: value !ie;
+}
 @media screen\9  {}
 @media \0screen\,screen\9  {}
 @media \0screen {}

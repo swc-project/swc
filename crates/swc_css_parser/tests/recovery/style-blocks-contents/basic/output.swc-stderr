@@ -29,8 +29,9 @@
     : ^
     `----
 
-  x Unexpected end of file
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:40:1]
+  x Unexpected end of file, but expected '{'
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:39:5]
+ 39 | & test;
+    : ^^^^^^^^
  40 | }
-    : ^
     `----

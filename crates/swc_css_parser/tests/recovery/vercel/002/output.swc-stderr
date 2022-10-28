@@ -4,15 +4,3 @@
  4 | margin: 0 calc(__styled-jsx-placeholder__7vw - __styled-jsx-placeholder__7px);
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
-  x Expected 'number', 'dimension', 'percentage', 'ident', '(' or 'function' tokens
-   ,-[$DIR/tests/recovery/vercel/002/input.css:4:5]
- 4 | margin: 0 calc(__styled-jsx-placeholder__7vw - __styled-jsx-placeholder__7px);
-   :                                              ^
-   `----
-
-  x Expected Declaration value
-   ,-[$DIR/tests/recovery/vercel/002/input.css:4:5]
- 4 | margin: 0 calc(__styled-jsx-placeholder__7vw - __styled-jsx-placeholder__7px);
-   :                                              ^
-   `----

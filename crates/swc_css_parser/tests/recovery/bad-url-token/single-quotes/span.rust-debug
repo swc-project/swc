@@ -82,49 +82,31 @@
   x ComponentValue
    ,-[$DIR/tests/recovery/bad-url-token/single-quotes/input.css:2:5]
  2 | background: url(image'.png);
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
    ,-[$DIR/tests/recovery/bad-url-token/single-quotes/input.css:2:5]
  2 | background: url(image'.png);
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x ComponentValue
+  x Declaration
+   ,-[$DIR/tests/recovery/bad-url-token/single-quotes/input.css:2:5]
+ 2 | background: url(image'.png);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
    ,-[$DIR/tests/recovery/bad-url-token/single-quotes/input.css:2:5]
  2 | background: url(image'.png);
    : ^^^^^^^^^^
    `----
 
-  x Ident { value: Atom('background' type=dynamic), raw: Atom('background' type=dynamic) }
+  x Ident
    ,-[$DIR/tests/recovery/bad-url-token/single-quotes/input.css:2:5]
  2 | background: url(image'.png);
    : ^^^^^^^^^^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/recovery/bad-url-token/single-quotes/input.css:2:5]
- 2 | background: url(image'.png);
-   :           ^
-   `----
-
-  x Colon
-   ,-[$DIR/tests/recovery/bad-url-token/single-quotes/input.css:2:5]
- 2 | background: url(image'.png);
-   :           ^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/recovery/bad-url-token/single-quotes/input.css:2:5]
- 2 | background: url(image'.png);
-   :            ^
-   `----
-
-  x WhiteSpace { value: Atom(' ' type=inline) }
-   ,-[$DIR/tests/recovery/bad-url-token/single-quotes/input.css:2:5]
- 2 | background: url(image'.png);
-   :            ^
    `----
 
   x ComponentValue
@@ -137,18 +119,6 @@
    ,-[$DIR/tests/recovery/bad-url-token/single-quotes/input.css:2:5]
  2 | background: url(image'.png);
    :             ^^^^^^^^^^^^^^^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/recovery/bad-url-token/single-quotes/input.css:2:5]
- 2 | background: url(image'.png);
-   :                            ^
-   `----
-
-  x Semi
-   ,-[$DIR/tests/recovery/bad-url-token/single-quotes/input.css:2:5]
- 2 | background: url(image'.png);
-   :                            ^
    `----
 
   x ComponentValue

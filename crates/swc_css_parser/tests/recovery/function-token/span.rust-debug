@@ -111,7 +111,7 @@
    :       ^^^^^^^^^^^
    `----
 
-  x Url
+  x Function
    ,-[$DIR/tests/recovery/function-token/input.css:2:5]
  2 | prop: url("test") :
    :       ^^^^^^^^^^^
@@ -123,16 +123,28 @@
    :       ^^^
    `----
 
-  x UrlValue
+  x ComponentValue
    ,-[$DIR/tests/recovery/function-token/input.css:2:5]
  2 | prop: url("test") :
    :           ^^^^^^
    `----
 
-  x Str
+  x String { value: Atom('test' type=inline), raw: Atom('"test"' type=inline) }
    ,-[$DIR/tests/recovery/function-token/input.css:2:5]
  2 | prop: url("test") :
    :           ^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function-token/input.css:2:5]
+ 2 | prop: url("test") :
+   :                  ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/function-token/input.css:2:5]
+ 2 | prop: url("test") :
+   :                  ^
    `----
 
   x ComponentValue

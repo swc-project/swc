@@ -106,14 +106,18 @@
             },
             "value": [
               {
-                "type": "Ident",
+                "type": "PreservedToken",
                 "span": {
                   "start": 16,
                   "end": 22,
                   "ctxt": 0
                 },
-                "value": "progid",
-                "raw": "progid"
+                "token": {
+                  "Ident": {
+                    "value": "progid",
+                    "raw": "progid"
+                  }
+                }
               },
               {
                 "type": "PreservedToken",
@@ -125,14 +129,18 @@
                 "token": "Colon"
               },
               {
-                "type": "Ident",
+                "type": "PreservedToken",
                 "span": {
                   "start": 23,
                   "end": 39,
                   "ctxt": 0
                 },
-                "value": "DXImageTransform",
-                "raw": "DXImageTransform"
+                "token": {
+                  "Ident": {
+                    "value": "DXImageTransform",
+                    "raw": "DXImageTransform"
+                  }
+                }
               },
               {
                 "type": "PreservedToken",
@@ -148,14 +156,18 @@
                 }
               },
               {
-                "type": "Ident",
+                "type": "PreservedToken",
                 "span": {
                   "start": 40,
                   "end": 49,
                   "ctxt": 0
                 },
-                "value": "Microsoft",
-                "raw": "Microsoft"
+                "token": {
+                  "Ident": {
+                    "value": "Microsoft",
+                    "raw": "Microsoft"
+                  }
+                }
               },
               {
                 "type": "PreservedToken",
@@ -354,14 +366,18 @@
             },
             "value": [
               {
-                "type": "Ident",
+                "type": "PreservedToken",
                 "span": {
                   "start": 134,
                   "end": 140,
                   "ctxt": 0
                 },
-                "value": "progid",
-                "raw": "progid"
+                "token": {
+                  "Ident": {
+                    "value": "progid",
+                    "raw": "progid"
+                  }
+                }
               },
               {
                 "type": "PreservedToken",
@@ -373,14 +389,18 @@
                 "token": "Colon"
               },
               {
-                "type": "Ident",
+                "type": "PreservedToken",
                 "span": {
                   "start": 141,
                   "end": 157,
                   "ctxt": 0
                 },
-                "value": "DXImageTransform",
-                "raw": "DXImageTransform"
+                "token": {
+                  "Ident": {
+                    "value": "DXImageTransform",
+                    "raw": "DXImageTransform"
+                  }
+                }
               },
               {
                 "type": "PreservedToken",
@@ -396,14 +416,18 @@
                 }
               },
               {
-                "type": "Ident",
+                "type": "PreservedToken",
                 "span": {
                   "start": 158,
                   "end": 167,
                   "ctxt": 0
                 },
-                "value": "Microsoft",
-                "raw": "Microsoft"
+                "token": {
+                  "Ident": {
+                    "value": "Microsoft",
+                    "raw": "Microsoft"
+                  }
+                }
               },
               {
                 "type": "PreservedToken",
@@ -481,14 +505,31 @@
                 ]
               },
               {
-                "type": "Ident",
+                "type": "PreservedToken",
+                "span": {
+                  "start": 187,
+                  "end": 188,
+                  "ctxt": 0
+                },
+                "token": {
+                  "WhiteSpace": {
+                    "value": " "
+                  }
+                }
+              },
+              {
+                "type": "PreservedToken",
                 "span": {
                   "start": 188,
                   "end": 194,
                   "ctxt": 0
                 },
-                "value": "progid",
-                "raw": "progid"
+                "token": {
+                  "Ident": {
+                    "value": "progid",
+                    "raw": "progid"
+                  }
+                }
               },
               {
                 "type": "PreservedToken",
@@ -500,14 +541,18 @@
                 "token": "Colon"
               },
               {
-                "type": "Ident",
+                "type": "PreservedToken",
                 "span": {
                   "start": 195,
                   "end": 211,
                   "ctxt": 0
                 },
-                "value": "DXImageTransform",
-                "raw": "DXImageTransform"
+                "token": {
+                  "Ident": {
+                    "value": "DXImageTransform",
+                    "raw": "DXImageTransform"
+                  }
+                }
               },
               {
                 "type": "PreservedToken",
@@ -523,14 +568,18 @@
                 }
               },
               {
-                "type": "Ident",
+                "type": "PreservedToken",
                 "span": {
                   "start": 212,
                   "end": 221,
                   "ctxt": 0
                 },
-                "value": "Microsoft",
-                "raw": "Microsoft"
+                "token": {
+                  "Ident": {
+                    "value": "Microsoft",
+                    "raw": "Microsoft"
+                  }
+                }
               },
               {
                 "type": "PreservedToken",

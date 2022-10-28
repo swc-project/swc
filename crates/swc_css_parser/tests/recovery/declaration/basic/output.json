@@ -209,49 +209,23 @@
         },
         "value": [
           {
-            "type": "ListOfComponentValues",
+            "type": "Declaration",
             "span": {
               "start": 54,
-              "end": 63,
+              "end": 62,
               "ctxt": 0
             },
-            "children": [
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 54,
-                  "end": 58,
-                  "ctxt": 0
-                },
-                "token": {
-                  "Ident": {
-                    "value": "prop",
-                    "raw": "prop"
-                  }
-                }
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 54,
+                "end": 58,
+                "ctxt": 0
               },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 58,
-                  "end": 59,
-                  "ctxt": 0
-                },
-                "token": "Colon"
-              },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 59,
-                  "end": 60,
-                  "ctxt": 0
-                },
-                "token": {
-                  "WhiteSpace": {
-                    "value": " "
-                  }
-                }
-              },
+              "value": "prop",
+              "raw": "prop"
+            },
+            "value": [
               {
                 "type": "PreservedToken",
                 "span": {
@@ -277,17 +251,9 @@
                     "value": "!"
                   }
                 }
-              },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 62,
-                  "end": 63,
-                  "ctxt": 0
-                },
-                "token": "Semi"
               }
-            ]
+            ],
+            "important": null
           },
           {
             "type": "Declaration",

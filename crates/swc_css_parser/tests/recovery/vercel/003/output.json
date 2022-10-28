@@ -456,14 +456,18 @@
             },
             "value": [
               {
-                "type": "Ident",
+                "type": "PreservedToken",
                 "span": {
                   "start": 208,
                   "end": 217,
                   "ctxt": 0
                 },
-                "value": "__ident__",
-                "raw": "__ident__"
+                "token": {
+                  "Ident": {
+                    "value": "__ident__",
+                    "raw": "__ident__"
+                  }
+                }
               },
               {
                 "type": "PreservedToken",

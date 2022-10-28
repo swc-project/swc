@@ -26,7 +26,7 @@
   x Unexpected unknown unit "pix".
    ,-[$DIR/tests/rules/fail/unit-no-unknown/default/input.css:5:1]
  5 | a { color: rgb(255pix, 0, 51); }
-   :                   ^^^
+   :                ^^^^^^
    `----
 
   x Unexpected unknown unit "pix".

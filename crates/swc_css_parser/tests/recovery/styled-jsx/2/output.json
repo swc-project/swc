@@ -193,14 +193,18 @@
             },
             "value": [
               {
-                "type": "Ident",
+                "type": "PreservedToken",
                 "span": {
                   "start": 36,
                   "end": 63,
                   "ctxt": 0
                 },
-                "value": "__styled-jsx-placeholder__0",
-                "raw": "__styled-jsx-placeholder__0"
+                "token": {
+                  "Ident": {
+                    "value": "__styled-jsx-placeholder__0",
+                    "raw": "__styled-jsx-placeholder__0"
+                  }
+                }
               },
               {
                 "type": "PreservedToken",

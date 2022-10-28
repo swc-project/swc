@@ -106,7 +106,7 @@
             },
             "value": [
               {
-                "type": "Url",
+                "type": "Function",
                 "span": {
                   "start": 15,
                   "end": 26,
@@ -122,17 +122,35 @@
                   "value": "url",
                   "raw": "url"
                 },
-                "value": {
-                  "type": "String",
-                  "span": {
-                    "start": 19,
-                    "end": 25,
-                    "ctxt": 0
-                  },
-                  "value": "test",
-                  "raw": "\"test\""
+                "value": [
+                  {
+                    "type": "PreservedToken",
+                    "span": {
+                      "start": 19,
+                      "end": 25,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "String": {
+                        "value": "test",
+                        "raw": "\"test\""
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 26,
+                  "end": 27,
+                  "ctxt": 0
                 },
-                "modifiers": []
+                "token": {
+                  "WhiteSpace": {
+                    "value": " "
+                  }
+                }
               },
               {
                 "type": "PreservedToken",

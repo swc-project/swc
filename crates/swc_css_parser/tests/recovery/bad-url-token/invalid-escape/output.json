@@ -88,49 +88,23 @@
         },
         "value": [
           {
-            "type": "ListOfComponentValues",
+            "type": "Declaration",
             "span": {
               "start": 11,
-              "end": 44,
+              "end": 43,
               "ctxt": 0
             },
-            "children": [
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 11,
-                  "end": 21,
-                  "ctxt": 0
-                },
-                "token": {
-                  "Ident": {
-                    "value": "background",
-                    "raw": "background"
-                  }
-                }
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 11,
+                "end": 21,
+                "ctxt": 0
               },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 21,
-                  "end": 22,
-                  "ctxt": 0
-                },
-                "token": "Colon"
-              },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 22,
-                  "end": 23,
-                  "ctxt": 0
-                },
-                "token": {
-                  "WhiteSpace": {
-                    "value": " "
-                  }
-                }
-              },
+              "value": "background",
+              "raw": "background"
+            },
+            "value": [
               {
                 "type": "PreservedToken",
                 "span": {
@@ -146,17 +120,9 @@
                     "raw_value": "image.png\\\n    "
                   }
                 }
-              },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 43,
-                  "end": 44,
-                  "ctxt": 0
-                },
-                "token": "Semi"
               }
-            ]
+            ],
+            "important": null
           }
         ]
       }

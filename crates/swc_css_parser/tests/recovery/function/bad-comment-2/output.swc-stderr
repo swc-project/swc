@@ -6,11 +6,3 @@
  4 | |           "test.png"
  5 | `->     );
    `----
-
-  x Unexpected token in <declaration-value>
-   ,-[$DIR/tests/recovery/function/bad-comment-2/input.css:2:5]
- 2 | ,-> background: url(
- 3 | |           /* test */
- 4 | |           "test.png"
- 5 | `->     );
-   `----

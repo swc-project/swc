@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 31,
+    "end": 51,
     "ctxt": 0
   },
   "rules": [
@@ -10,7 +10,7 @@
       "type": "QualifiedRule",
       "span": {
         "start": 1,
-        "end": 31,
+        "end": 51,
         "ctxt": 0
       },
       "prelude": {
@@ -67,7 +67,7 @@
         "type": "SimpleBlock",
         "span": {
           "start": 8,
-          "end": 31,
+          "end": 51,
           "ctxt": 0
         },
         "name": {
@@ -84,129 +84,85 @@
             "type": "Declaration",
             "span": {
               "start": 11,
-              "end": 31,
+              "end": 51,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
                 "start": 11,
-                "end": 16,
+                "end": 32,
                 "ctxt": 0
               },
-              "value": "width",
-              "raw": "width"
+              "value": "grid-template-columns",
+              "raw": "grid-template-columns"
             },
             "value": [
               {
                 "type": "Function",
                 "span": {
-                  "start": 18,
-                  "end": 31,
+                  "start": 34,
+                  "end": 51,
                   "ctxt": 0
                 },
                 "name": {
                   "type": "Ident",
                   "span": {
-                    "start": 18,
-                    "end": 21,
+                    "start": 34,
+                    "end": 37,
                     "ctxt": 0
                   },
-                  "value": "min",
-                  "raw": "min"
+                  "value": "rgb",
+                  "raw": "rgb"
                 },
                 "value": [
                   {
-                    "type": "CalcSum",
+                    "type": "Number",
                     "span": {
-                      "start": 22,
-                      "end": 27,
+                      "start": 38,
+                      "end": 41,
                       "ctxt": 0
                     },
-                    "expressions": [
-                      {
-                        "type": "CalcProduct",
-                        "span": {
-                          "start": 22,
-                          "end": 27,
-                          "ctxt": 0
-                        },
-                        "expressions": [
-                          {
-                            "type": "Length",
-                            "span": {
-                              "start": 22,
-                              "end": 27,
-                              "ctxt": 0
-                            },
-                            "value": {
-                              "type": "Number",
-                              "span": {
-                                "start": 22,
-                                "end": 25,
-                                "ctxt": 0
-                              },
-                              "value": 500.0,
-                              "raw": "500"
-                            },
-                            "unit": {
-                              "type": "Ident",
-                              "span": {
-                                "start": 25,
-                                "end": 27,
-                                "ctxt": 0
-                              },
-                              "value": "px",
-                              "raw": "px"
-                            }
-                          }
-                        ]
-                      }
-                    ]
+                    "value": 255.0,
+                    "raw": "255"
                   },
                   {
-                    "type": "PreservedToken",
+                    "type": "Delimiter",
                     "span": {
-                      "start": 27,
-                      "end": 28,
+                      "start": 41,
+                      "end": 42,
                       "ctxt": 0
                     },
-                    "token": "Semi"
+                    "value": ","
                   },
                   {
-                    "type": "PreservedToken",
+                    "type": "Number",
                     "span": {
-                      "start": 28,
-                      "end": 29,
+                      "start": 43,
+                      "end": 46,
                       "ctxt": 0
                     },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": "\n"
-                      }
-                    }
+                    "value": 255.0,
+                    "raw": "255"
                   },
                   {
-                    "type": "PreservedToken",
+                    "type": "Delimiter",
                     "span": {
-                      "start": 29,
-                      "end": 30,
+                      "start": 46,
+                      "end": 47,
                       "ctxt": 0
                     },
-                    "token": "RBrace"
+                    "value": ","
                   },
                   {
-                    "type": "PreservedToken",
+                    "type": "Number",
                     "span": {
-                      "start": 30,
-                      "end": 31,
+                      "start": 48,
+                      "end": 51,
                       "ctxt": 0
                     },
-                    "token": {
-                      "WhiteSpace": {
-                        "value": "\n"
-                      }
-                    }
+                    "value": 255.0,
+                    "raw": "255"
                   }
                 ]
               }
