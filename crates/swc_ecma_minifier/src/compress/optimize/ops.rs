@@ -84,7 +84,7 @@ where
     pub(super) fn remove_bin_paren(&mut self, n: &mut BinExpr) {
         if let Expr::Bin(right) = &mut *n.right {
             if right.op == n.op {
-                if matches!(n.op, op!("&&") | op!("||") | op!("??"))
+                if n.op.may_short_circuit()
                     || (right.left.is_str() && right.op == op!(bin, "+"))
                     || (n.left.is_str() && right.right.is_str())
                 {

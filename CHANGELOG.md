@@ -5,10 +5,16 @@
 
 
 
+- **(common)** Remove `&mut` from `build_source_map_from` (#6276) ([47d7fca](https://github.com/swc-project/swc/commit/47d7fcaaedb97d1ce28727de6c22698fc2d0d11b))
+
+
 - **(css/parser)** Fix parsing of colors (#6260) ([c3944ba](https://github.com/swc-project/swc/commit/c3944ba2395e54c7b557f9a71639e18458dc2a97))
 
 
 - **(es/codegen)** Preserve more parens (#6268) ([c318446](https://github.com/swc-project/swc/commit/c3184463f1b09c9e434f31313afb0b13d0404379))
+
+
+- **(es/minifier)** Don't ignore nullish coalescing (#6272) ([8c1ac68](https://github.com/swc-project/swc/commit/8c1ac686cb948a60da2e260b54e583490bce526e))
 
 
 - **(es/typescript)** Fix stack overflow (#6250) ([28ec6e8](https://github.com/swc-project/swc/commit/28ec6e8fc70cf74722c93353c03e4fdedb21954a))
@@ -42,6 +48,9 @@
 
 ### Testing
 
+
+
+- **(css/minifier)** Fix fixture tester (#6222) ([cd1319d](https://github.com/swc-project/swc/commit/cd1319d9be11bc66b29c43d2fab71ff8e02fcea9))
 
 
 - **(css/parser)** Add tests for refactoring (#6262) ([4c293f9](https://github.com/swc-project/swc/commit/4c293f965b380e49790cdf4fd8c1e1cb3845e9c5))

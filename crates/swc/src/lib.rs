@@ -495,7 +495,7 @@ impl Compiler {
 
                         self.cm
                             .build_source_map_with_config(
-                                &mut src_map_buf,
+                                &src_map_buf,
                                 orig,
                                 SwcSourceMapConfig {
                                     source_file_name,
@@ -520,7 +520,7 @@ impl Compiler {
 
                     self.cm
                         .build_source_map_with_config(
-                            &mut src_map_buf,
+                            &src_map_buf,
                             orig,
                             SwcSourceMapConfig {
                                 source_file_name,
