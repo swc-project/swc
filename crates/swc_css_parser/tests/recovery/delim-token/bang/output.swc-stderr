@@ -1,5 +1,11 @@
 
-  x Expected Ident
+  x Expected Declaration value
+   ,-[$DIR/tests/recovery/delim-token/bang/input.css:2:5]
+ 2 | color: !!;
+   :        ^
+   `----
+
+  x Unexpected '!' in <declaration-value>
    ,-[$DIR/tests/recovery/delim-token/bang/input.css:2:5]
  2 | color: !!;
    :         ^

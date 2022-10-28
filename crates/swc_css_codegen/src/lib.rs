@@ -1473,7 +1473,11 @@ where
         }
 
         if is_custom_property {
-            self.emit_list(&n.value, ListFormat::NotDelimited)?;
+            self.with_ctx(Ctx {
+                in_list_of_component_values: true,
+                ..self.ctx
+            })
+            .emit_list(&n.value, ListFormat::NotDelimited)?;
         } else {
             self.emit_list_of_component_values_inner(
                 &n.value,

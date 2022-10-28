@@ -11,14 +11,8 @@
    :        ^
    `----
 
-  x Unexpected end of file
-   ,-[$DIR/tests/recovery/value/string/newline/input.css:2:13]
- 2 |  
-   : ^
-   `----
-
-  x Unexpected token in <declaration-value>
-   ,-[$DIR/tests/recovery/value/string/newline/input.css:2:5]
- 2 | prop: "
-   :       ^
+  x Unexpected end of file, but expected '}'
+   ,-[$DIR/tests/recovery/value/string/newline/input.css:1:1]
+ 1 | ,-> a {
+ 2 | `->     prop: "
    `----

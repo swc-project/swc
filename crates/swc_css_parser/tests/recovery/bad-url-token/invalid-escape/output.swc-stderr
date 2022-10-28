@@ -10,9 +10,3 @@
  2 | ,-> background: url(image.png\
  3 | `->     );
    `----
-
-  x Unexpected token in <declaration-value>
-   ,-[$DIR/tests/recovery/bad-url-token/invalid-escape/input.css:2:5]
- 2 | ,-> background: url(image.png\
- 3 | `->     );
-   `----

@@ -492,7 +492,7 @@
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x Ident
+  x Ident { value: Atom('__styled-jsx-placeholder__2' type=dynamic), raw: Atom('__styled-jsx-placeholder__2' type=dynamic) }
     ,-[$DIR/tests/recovery/styled-jsx/1/input.css:10:5]
  10 | flex-basis: __styled-jsx-placeholder__2%;
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -805,7 +805,7 @@
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x Ident
+  x Ident { value: Atom('__styled-jsx-placeholder__3' type=dynamic), raw: Atom('__styled-jsx-placeholder__3' type=dynamic) }
     ,-[$DIR/tests/recovery/styled-jsx/1/input.css:16:9]
  16 | flex-basis: __styled-jsx-placeholder__3%;
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1076,7 +1076,7 @@
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x Ident
+  x Ident { value: Atom('__styled-jsx-placeholder__4' type=dynamic), raw: Atom('__styled-jsx-placeholder__4' type=dynamic) }
     ,-[$DIR/tests/recovery/styled-jsx/1/input.css:22:9]
  22 | flex-basis: __styled-jsx-placeholder__4%;
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^

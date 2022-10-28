@@ -497,19 +497,19 @@
   x ComponentValue
    ,-[$DIR/tests/fixture/function/calc/input.css:6:5]
  6 | --width: calc(10% + 30px);
-   : ^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
    ,-[$DIR/tests/fixture/function/calc/input.css:6:5]
  6 | --width: calc(10% + 30px);
-   : ^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
    ,-[$DIR/tests/fixture/function/calc/input.css:6:5]
  6 | --width: calc(10% + 30px);
-   : ^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
@@ -527,13 +527,19 @@
   x ComponentValue
    ,-[$DIR/tests/fixture/function/calc/input.css:6:5]
  6 | --width: calc(10% + 30px);
-   :          ^^^^^
+   :          ^^^^^^^^^^^^^^^^
    `----
 
-  x Function { value: Atom('calc' type=static), raw: Atom('calc' type=static) }
+  x Function
    ,-[$DIR/tests/fixture/function/calc/input.css:6:5]
  6 | --width: calc(10% + 30px);
-   :          ^^^^^
+   :          ^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/function/calc/input.css:6:5]
+ 6 | --width: calc(10% + 30px);
+   :          ^^^^
    `----
 
   x ComponentValue
@@ -594,18 +600,6 @@
    ,-[$DIR/tests/fixture/function/calc/input.css:6:5]
  6 | --width: calc(10% + 30px);
    :                     ^^^^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/function/calc/input.css:6:5]
- 6 | --width: calc(10% + 30px);
-   :                         ^
-   `----
-
-  x RParen
-   ,-[$DIR/tests/fixture/function/calc/input.css:6:5]
- 6 | --width: calc(10% + 30px);
-   :                         ^
    `----
 
   x ComponentValue

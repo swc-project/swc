@@ -29,24 +29,6 @@
    :  ^^^^^^^^
    `----
 
-  x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/document/input.css:1:1]
- 1 | @document domain(http://www.example.com/) {}
-   :          ^
-   `----
-
-  x WhiteSpace { value: Atom(' ' type=inline) }
-   ,-[$DIR/tests/recovery/at-rule/document/input.css:1:1]
- 1 | @document domain(http://www.example.com/) {}
-   :          ^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/document/input.css:1:1]
- 1 | @document domain(http://www.example.com/) {}
-   :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
   x Function
    ,-[$DIR/tests/recovery/at-rule/document/input.css:1:1]
  1 | @document domain(http://www.example.com/) {}
@@ -177,18 +159,6 @@
    ,-[$DIR/tests/recovery/at-rule/document/input.css:1:1]
  1 | @document domain(http://www.example.com/) {}
    :                                        ^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/document/input.css:1:1]
- 1 | @document domain(http://www.example.com/) {}
-   :                                          ^
-   `----
-
-  x WhiteSpace { value: Atom(' ' type=inline) }
-   ,-[$DIR/tests/recovery/at-rule/document/input.css:1:1]
- 1 | @document domain(http://www.example.com/) {}
-   :                                          ^
    `----
 
   x SimpleBlock

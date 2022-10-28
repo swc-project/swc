@@ -24,26 +24,13 @@
         "raw": "document"
       },
       "prelude": {
-        "type": "ListOfComponentValues",
+        "type": "DocumentPrelude",
         "span": {
-          "start": 10,
+          "start": 11,
           "end": 43,
           "ctxt": 0
         },
-        "children": [
-          {
-            "type": "PreservedToken",
-            "span": {
-              "start": 10,
-              "end": 11,
-              "ctxt": 0
-            },
-            "token": {
-              "WhiteSpace": {
-                "value": " "
-              }
-            }
-          },
+        "matchingFunctions": [
           {
             "type": "Function",
             "span": {
@@ -193,19 +180,6 @@
                 }
               }
             ]
-          },
-          {
-            "type": "PreservedToken",
-            "span": {
-              "start": 42,
-              "end": 43,
-              "ctxt": 0
-            },
-            "token": {
-              "WhiteSpace": {
-                "value": " "
-              }
-            }
           }
         ]
       },

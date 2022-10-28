@@ -11458,49 +11458,31 @@
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:180:1]
  180 | .selector { property: value !ie; }
-     :             ^^^^^^^^^^^^^^^^^^^^
+     :             ^^^^^^^^^^^^^^^^^^^
      `----
 
   x StyleBlock
      ,-[$DIR/tests/recovery/hacks/input.css:180:1]
  180 | .selector { property: value !ie; }
-     :             ^^^^^^^^^^^^^^^^^^^^
+     :             ^^^^^^^^^^^^^^^^^^^
      `----
 
-  x ComponentValue
+  x Declaration
+     ,-[$DIR/tests/recovery/hacks/input.css:180:1]
+ 180 | .selector { property: value !ie; }
+     :             ^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x DeclarationName
      ,-[$DIR/tests/recovery/hacks/input.css:180:1]
  180 | .selector { property: value !ie; }
      :             ^^^^^^^^
      `----
 
-  x Ident { value: Atom('property' type=static), raw: Atom('property' type=static) }
+  x Ident
      ,-[$DIR/tests/recovery/hacks/input.css:180:1]
  180 | .selector { property: value !ie; }
      :             ^^^^^^^^
-     `----
-
-  x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:180:1]
- 180 | .selector { property: value !ie; }
-     :                     ^
-     `----
-
-  x Colon
-     ,-[$DIR/tests/recovery/hacks/input.css:180:1]
- 180 | .selector { property: value !ie; }
-     :                     ^
-     `----
-
-  x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:180:1]
- 180 | .selector { property: value !ie; }
-     :                      ^
-     `----
-
-  x WhiteSpace { value: Atom(' ' type=inline) }
-     ,-[$DIR/tests/recovery/hacks/input.css:180:1]
- 180 | .selector { property: value !ie; }
-     :                      ^
      `----
 
   x ComponentValue
@@ -11549,18 +11531,6 @@
      ,-[$DIR/tests/recovery/hacks/input.css:180:1]
  180 | .selector { property: value !ie; }
      :                              ^^
-     `----
-
-  x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:180:1]
- 180 | .selector { property: value !ie; }
-     :                                ^
-     `----
-
-  x Semi
-     ,-[$DIR/tests/recovery/hacks/input.css:180:1]
- 180 | .selector { property: value !ie; }
-     :                                ^
      `----
 
   x Rule

@@ -11,6 +11,9 @@
 - **(css/parser)** Fix parsing of colors (#6260) ([c3944ba](https://github.com/swc-project/swc/commit/c3944ba2395e54c7b557f9a71639e18458dc2a97))
 
 
+- **(css/parser)** Fix various issues (#6281) ([2813acc](https://github.com/swc-project/swc/commit/2813acccc248bed17dd6a961a6684e50a814546c))
+
+
 - **(es/codegen)** Preserve more parens (#6268) ([c318446](https://github.com/swc-project/swc/commit/c3184463f1b09c9e434f31313afb0b13d0404379))
 
 
@@ -24,6 +27,9 @@
 
 ### Features
 
+
+
+- **(css/parser)** Improve error reporting (#6274) ([956d574](https://github.com/swc-project/swc/commit/956d57468367ddfd7ff87cb98954a3006edad4b9))
 
 
 - **(es/minfiier)** Compute more with sequential inliner (#6169) ([743a1aa](https://github.com/swc-project/swc/commit/743a1aab4fc8abf0ee002520cf88680fb4e14d2f))
@@ -57,6 +63,9 @@
 
 
 - **(css/parser)** Add tests for refactoring (#6262) ([4c293f9](https://github.com/swc-project/swc/commit/4c293f965b380e49790cdf4fd8c1e1cb3845e9c5))
+
+
+- **(es/minifier)** Add a test for `??` operator (#6282) ([0376da7](https://github.com/swc-project/swc/commit/0376da73c6113ade5945321b7c3abe257ce3b83c))
 
 ## [1.3.11] - 2022-10-26
 

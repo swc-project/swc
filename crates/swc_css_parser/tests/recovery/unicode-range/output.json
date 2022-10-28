@@ -113,31 +113,20 @@
                 }
               },
               {
-                "type": "UnknownDimension",
+                "type": "PreservedToken",
                 "span": {
                   "start": 30,
                   "end": 44,
                   "ctxt": 0
                 },
-                "value": {
-                  "type": "Number",
-                  "span": {
-                    "start": 30,
-                    "end": 32,
-                    "ctxt": 0
-                  },
-                  "value": 1.0,
-                  "raw": "+1"
-                },
-                "unit": {
-                  "type": "Ident",
-                  "span": {
-                    "start": 32,
-                    "end": 44,
-                    "ctxt": 0
-                  },
-                  "value": "Z1ee1-FFFFFF",
-                  "raw": "Z1ee1-FFFFFF"
+                "token": {
+                  "Dimension": {
+                    "value": 1.0,
+                    "raw_value": "+1",
+                    "unit": "Z1ee1-FFFFFF",
+                    "raw_unit": "Z1ee1-FFFFFF",
+                    "type": "integer"
+                  }
                 }
               }
             ],
@@ -176,31 +165,20 @@
                 }
               },
               {
-                "type": "UnknownDimension",
+                "type": "PreservedToken",
                 "span": {
                   "start": 66,
                   "end": 80,
                   "ctxt": 0
                 },
-                "value": {
-                  "type": "Number",
-                  "span": {
-                    "start": 66,
-                    "end": 70,
-                    "ctxt": 0
-                  },
-                  "value": 10.0,
-                  "raw": "+1e1"
-                },
-                "unit": {
-                  "type": "Ident",
-                  "span": {
-                    "start": 70,
-                    "end": 80,
-                    "ctxt": 0
-                  },
-                  "value": "ee1-FFZFFF",
-                  "raw": "ee1-FFZFFF"
+                "token": {
+                  "Dimension": {
+                    "value": 10.0,
+                    "raw_value": "+1e1",
+                    "unit": "ee1-FFZFFF",
+                    "raw_unit": "ee1-FFZFFF",
+                    "type": "number"
+                  }
                 }
               }
             ],

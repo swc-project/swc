@@ -129,28 +129,23 @@
    :       ^^^^^^^
    `----
 
-  x Dimension
+  x Dimension { value: 10.1, raw_value: Atom('10.10' type=inline), unit: Atom('px' type=static), raw_unit: Atom('px' type=static), type_flag: Number }
    ,-[$DIR/tests/recovery/number/input.css:2:5]
  2 | prop: 10.10px
    :       ^^^^^^^
    `----
 
-  x Length
+  x ComponentValue
    ,-[$DIR/tests/recovery/number/input.css:2:5]
- 2 | prop: 10.10px
-   :       ^^^^^^^
+ 2 | ,-> prop: 10.10px
+ 3 | `->     prop1: 10px
    `----
 
-  x Number
+  x WhiteSpace { value: Atom('
+  |     ' type=inline) }
    ,-[$DIR/tests/recovery/number/input.css:2:5]
- 2 | prop: 10.10px
-   :       ^^^^^
-   `----
-
-  x Ident
-   ,-[$DIR/tests/recovery/number/input.css:2:5]
- 2 | prop: 10.10px
-   :            ^^
+ 2 | ,-> prop: 10.10px
+ 3 | `->     prop1: 10px
    `----
 
   x ComponentValue
@@ -159,7 +154,7 @@
    : ^^^^^
    `----
 
-  x Ident
+  x Ident { value: Atom('prop1' type=inline), raw: Atom('prop1' type=inline) }
    ,-[$DIR/tests/recovery/number/input.css:3:5]
  3 | prop1: 10px
    : ^^^^^
@@ -180,31 +175,38 @@
   x ComponentValue
    ,-[$DIR/tests/recovery/number/input.css:3:5]
  3 | prop1: 10px
-   :        ^^^^
+   :       ^
    `----
 
-  x Dimension
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/number/input.css:3:5]
+ 3 | prop1: 10px
+   :       ^
+   `----
+
+  x ComponentValue
    ,-[$DIR/tests/recovery/number/input.css:3:5]
  3 | prop1: 10px
    :        ^^^^
    `----
 
-  x Length
+  x Dimension { value: 10.0, raw_value: Atom('10' type=inline), unit: Atom('px' type=static), raw_unit: Atom('px' type=static), type_flag: Integer }
    ,-[$DIR/tests/recovery/number/input.css:3:5]
  3 | prop1: 10px
    :        ^^^^
    `----
 
-  x Number
+  x ComponentValue
    ,-[$DIR/tests/recovery/number/input.css:3:5]
- 3 | prop1: 10px
-   :        ^^
+ 3 | ,-> prop1: 10px
+ 4 | `->     prop2: 10
    `----
 
-  x Ident
+  x WhiteSpace { value: Atom('
+  |     ' type=inline) }
    ,-[$DIR/tests/recovery/number/input.css:3:5]
- 3 | prop1: 10px
-   :          ^^
+ 3 | ,-> prop1: 10px
+ 4 | `->     prop2: 10
    `----
 
   x ComponentValue
@@ -213,7 +215,7 @@
    : ^^^^^
    `----
 
-  x Ident
+  x Ident { value: Atom('prop2' type=inline), raw: Atom('prop2' type=inline) }
    ,-[$DIR/tests/recovery/number/input.css:4:5]
  4 | prop2: 10
    : ^^^^^
@@ -234,13 +236,38 @@
   x ComponentValue
    ,-[$DIR/tests/recovery/number/input.css:4:5]
  4 | prop2: 10
-   :        ^^
+   :       ^
    `----
 
-  x Integer
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/number/input.css:4:5]
+ 4 | prop2: 10
+   :       ^
+   `----
+
+  x ComponentValue
    ,-[$DIR/tests/recovery/number/input.css:4:5]
  4 | prop2: 10
    :        ^^
+   `----
+
+  x Number { value: 10.0, raw: Atom('10' type=inline), type_flag: Integer }
+   ,-[$DIR/tests/recovery/number/input.css:4:5]
+ 4 | prop2: 10
+   :        ^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/number/input.css:4:5]
+ 4 | ,-> prop2: 10
+ 5 | `->     prop3: 10.10
+   `----
+
+  x WhiteSpace { value: Atom('
+  |     ' type=inline) }
+   ,-[$DIR/tests/recovery/number/input.css:4:5]
+ 4 | ,-> prop2: 10
+ 5 | `->     prop3: 10.10
    `----
 
   x ComponentValue
@@ -249,7 +276,7 @@
    : ^^^^^
    `----
 
-  x Ident
+  x Ident { value: Atom('prop3' type=inline), raw: Atom('prop3' type=inline) }
    ,-[$DIR/tests/recovery/number/input.css:5:5]
  5 | prop3: 10.10
    : ^^^^^
@@ -265,6 +292,18 @@
    ,-[$DIR/tests/recovery/number/input.css:5:5]
  5 | prop3: 10.10
    :      ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/number/input.css:5:5]
+ 5 | prop3: 10.10
+   :       ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/number/input.css:5:5]
+ 5 | prop3: 10.10
+   :       ^
    `----
 
   x ComponentValue
@@ -273,7 +312,7 @@
    :        ^^^^^
    `----
 
-  x Number
+  x Number { value: 10.1, raw: Atom('10.10' type=inline), type_flag: Number }
    ,-[$DIR/tests/recovery/number/input.css:5:5]
  5 | prop3: 10.10
    :        ^^^^^

@@ -87,37 +87,31 @@
   x ComponentValue
    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:1:1]
  1 | .class {--foo:!; }
-   :         ^^^^^^^^
+   :         ^^^^^^^
    `----
 
   x StyleBlock
    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:1:1]
  1 | .class {--foo:!; }
-   :         ^^^^^^^^
+   :         ^^^^^^^
    `----
 
-  x ComponentValue
+  x Declaration
+   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:1:1]
+ 1 | .class {--foo:!; }
+   :         ^^^^^^^
+   `----
+
+  x DeclarationName
    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:1:1]
  1 | .class {--foo:!; }
    :         ^^^^^
    `----
 
-  x Ident { value: Atom('--foo' type=inline), raw: Atom('--foo' type=inline) }
+  x DashedIdent
    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:1:1]
  1 | .class {--foo:!; }
    :         ^^^^^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:1:1]
- 1 | .class {--foo:!; }
-   :              ^
-   `----
-
-  x Colon
-   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:1:1]
- 1 | .class {--foo:!; }
-   :              ^
    `----
 
   x ComponentValue
@@ -130,18 +124,6 @@
    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:1:1]
  1 | .class {--foo:!; }
    :               ^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:1:1]
- 1 | .class {--foo:!; }
-   :                ^
-   `----
-
-  x Semi
-   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:1:1]
- 1 | .class {--foo:!; }
-   :                ^
    `----
 
   x Rule
@@ -213,37 +195,31 @@
   x ComponentValue
    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:4:5]
  4 | --foo:!;
-   : ^^^^^^^^
+   : ^^^^^^^
    `----
 
   x StyleBlock
    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:4:5]
  4 | --foo:!;
-   : ^^^^^^^^
+   : ^^^^^^^
    `----
 
-  x ComponentValue
+  x Declaration
+   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:4:5]
+ 4 | --foo:!;
+   : ^^^^^^^
+   `----
+
+  x DeclarationName
    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:4:5]
  4 | --foo:!;
    : ^^^^^
    `----
 
-  x Ident { value: Atom('--foo' type=inline), raw: Atom('--foo' type=inline) }
+  x DashedIdent
    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:4:5]
  4 | --foo:!;
    : ^^^^^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:4:5]
- 4 | --foo:!;
-   :      ^
-   `----
-
-  x Colon
-   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:4:5]
- 4 | --foo:!;
-   :      ^
    `----
 
   x ComponentValue
@@ -256,18 +232,6 @@
    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:4:5]
  4 | --foo:!;
    :       ^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:4:5]
- 4 | --foo:!;
-   :        ^
-   `----
-
-  x Semi
-   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:4:5]
- 4 | --foo:!;
-   :        ^
    `----
 
   x ComponentValue
@@ -423,37 +387,31 @@
   x ComponentValue
     ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:10:5]
  10 | --foo:!;
-    : ^^^^^^^^
+    : ^^^^^^^
     `----
 
   x StyleBlock
     ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:10:5]
  10 | --foo:!;
-    : ^^^^^^^^
+    : ^^^^^^^
     `----
 
-  x ComponentValue
+  x Declaration
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:10:5]
+ 10 | --foo:!;
+    : ^^^^^^^
+    `----
+
+  x DeclarationName
     ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:10:5]
  10 | --foo:!;
     : ^^^^^
     `----
 
-  x Ident { value: Atom('--foo' type=inline), raw: Atom('--foo' type=inline) }
+  x DashedIdent
     ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:10:5]
  10 | --foo:!;
     : ^^^^^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:10:5]
- 10 | --foo:!;
-    :      ^
-    `----
-
-  x Colon
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:10:5]
- 10 | --foo:!;
-    :      ^
     `----
 
   x ComponentValue
@@ -466,18 +424,6 @@
     ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:10:5]
  10 | --foo:!;
     :       ^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:10:5]
- 10 | --foo:!;
-    :        ^
-    `----
-
-  x Semi
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:10:5]
- 10 | --foo:!;
-    :        ^
     `----
 
   x Rule
@@ -549,49 +495,31 @@
   x ComponentValue
     ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:14:5]
  14 | --foo: !;
-    : ^^^^^^^^^
+    : ^^^^^^^^
     `----
 
   x StyleBlock
     ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:14:5]
  14 | --foo: !;
-    : ^^^^^^^^^
+    : ^^^^^^^^
     `----
 
-  x ComponentValue
+  x Declaration
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:14:5]
+ 14 | --foo: !;
+    : ^^^^^^^^
+    `----
+
+  x DeclarationName
     ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:14:5]
  14 | --foo: !;
     : ^^^^^
     `----
 
-  x Ident { value: Atom('--foo' type=inline), raw: Atom('--foo' type=inline) }
+  x DashedIdent
     ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:14:5]
  14 | --foo: !;
     : ^^^^^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:14:5]
- 14 | --foo: !;
-    :      ^
-    `----
-
-  x Colon
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:14:5]
- 14 | --foo: !;
-    :      ^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:14:5]
- 14 | --foo: !;
-    :       ^
-    `----
-
-  x WhiteSpace { value: Atom(' ' type=inline) }
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:14:5]
- 14 | --foo: !;
-    :       ^
     `----
 
   x ComponentValue
@@ -604,18 +532,6 @@
     ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:14:5]
  14 | --foo: !;
     :        ^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:14:5]
- 14 | --foo: !;
-    :         ^
-    `----
-
-  x Semi
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:14:5]
- 14 | --foo: !;
-    :         ^
     `----
 
   x ComponentValue
@@ -771,49 +687,31 @@
   x ComponentValue
     ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:20:5]
  20 | --foo: !;
-    : ^^^^^^^^^
+    : ^^^^^^^^
     `----
 
   x StyleBlock
     ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:20:5]
  20 | --foo: !;
-    : ^^^^^^^^^
+    : ^^^^^^^^
     `----
 
-  x ComponentValue
+  x Declaration
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:20:5]
+ 20 | --foo: !;
+    : ^^^^^^^^
+    `----
+
+  x DeclarationName
     ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:20:5]
  20 | --foo: !;
     : ^^^^^
     `----
 
-  x Ident { value: Atom('--foo' type=inline), raw: Atom('--foo' type=inline) }
+  x DashedIdent
     ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:20:5]
  20 | --foo: !;
     : ^^^^^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:20:5]
- 20 | --foo: !;
-    :      ^
-    `----
-
-  x Colon
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:20:5]
- 20 | --foo: !;
-    :      ^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:20:5]
- 20 | --foo: !;
-    :       ^
-    `----
-
-  x WhiteSpace { value: Atom(' ' type=inline) }
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:20:5]
- 20 | --foo: !;
-    :       ^
     `----
 
   x ComponentValue
@@ -826,16 +724,4 @@
     ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:20:5]
  20 | --foo: !;
     :        ^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:20:5]
- 20 | --foo: !;
-    :         ^
-    `----
-
-  x Semi
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:20:5]
- 20 | --foo: !;
-    :         ^
     `----

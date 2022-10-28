@@ -106,14 +106,19 @@
             },
             "value": [
               {
-                "type": "Integer",
+                "type": "PreservedToken",
                 "span": {
                   "start": 12,
                   "end": 14,
                   "ctxt": 0
                 },
-                "value": 0,
-                "raw": "-0"
+                "token": {
+                  "Number": {
+                    "value": -0.0,
+                    "raw": "-0",
+                    "type": "integer"
+                  }
+                }
               },
               {
                 "type": "PreservedToken",

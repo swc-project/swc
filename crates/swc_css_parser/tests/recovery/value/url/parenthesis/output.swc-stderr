@@ -5,14 +5,9 @@
  3 | `-> }
    `----
 
-  x Unexpected end of file
-   ,-[$DIR/tests/recovery/value/url/parenthesis/input.css:3:1]
- 3 | }
-   :  ^
-   `----
-
-  x Unexpected token in <declaration-value>
-   ,-[$DIR/tests/recovery/value/url/parenthesis/input.css:2:5]
- 2 | ,-> background: url(test\);
+  x Unexpected end of file, but expected '}'
+   ,-[$DIR/tests/recovery/value/url/parenthesis/input.css:1:1]
+ 1 | ,-> a {
+ 2 | |       background: url(test\);
  3 | `-> }
    `----

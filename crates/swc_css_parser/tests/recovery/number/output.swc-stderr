@@ -4,15 +4,3 @@
  3 | prop1: 10px
    :      ^
    `----
-
-  x Expected Declaration value
-   ,-[$DIR/tests/recovery/number/input.css:4:5]
- 4 | prop2: 10
-   :      ^
-   `----
-
-  x Expected Declaration value
-   ,-[$DIR/tests/recovery/number/input.css:5:5]
- 5 | prop3: 10.10
-   :      ^
-   `----

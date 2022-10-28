@@ -115,7 +115,7 @@
    :       ^^^^^^^^^^^
    `----
 
-  x Url
+  x Function
    ,-[$DIR/tests/recovery/comments/declaration/input.css:2:5]
  2 | prop: url("test") /* comment */   /* comment */
    :       ^^^^^^^^^^^
@@ -127,16 +127,53 @@
    :       ^^^
    `----
 
-  x UrlValue
+  x ComponentValue
    ,-[$DIR/tests/recovery/comments/declaration/input.css:2:5]
  2 | prop: url("test") /* comment */   /* comment */
    :           ^^^^^^
    `----
 
-  x Str
+  x String { value: Atom('test' type=inline), raw: Atom('"test"' type=inline) }
    ,-[$DIR/tests/recovery/comments/declaration/input.css:2:5]
  2 | prop: url("test") /* comment */   /* comment */
    :           ^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/comments/declaration/input.css:2:5]
+ 2 | prop: url("test") /* comment */   /* comment */
+   :                  ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/comments/declaration/input.css:2:5]
+ 2 | prop: url("test") /* comment */   /* comment */
+   :                  ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/comments/declaration/input.css:2:5]
+ 2 | prop: url("test") /* comment */   /* comment */
+   :                                ^^^
+   `----
+
+  x WhiteSpace { value: Atom('   ' type=inline) }
+   ,-[$DIR/tests/recovery/comments/declaration/input.css:2:5]
+ 2 | prop: url("test") /* comment */   /* comment */
+   :                                ^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/comments/declaration/input.css:2:5]
+ 2 | ,-> prop: url("test") /* comment */   /* comment */
+ 3 | `->         /* comment */:
+   `----
+
+  x WhiteSpace { value: Atom('
+  |         ' type=dynamic) }
+   ,-[$DIR/tests/recovery/comments/declaration/input.css:2:5]
+ 2 | ,-> prop: url("test") /* comment */   /* comment */
+ 3 | `->         /* comment */:
    `----
 
   x ComponentValue

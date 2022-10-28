@@ -1,10 +1,4 @@
 
-  x Expected comma token
-   ,-[$DIR/tests/recovery/function/rgb/input.css:4:5]
- 4 | color: rgb("test", 100, 100);
-   :                            ^
-   `----
-
   x Expected percentage, function (math functions) or number token
    ,-[$DIR/tests/recovery/function/rgb/input.css:7:5]
  7 | color: rgb(100, 100, 100, "test");
@@ -24,45 +18,9 @@
    `----
 
   x Expected percentage, number, function (math functions) or ident (with 'none' value) token
-   ,-[$DIR/tests/recovery/function/rgb/input.css:4:5]
- 4 | color: rgb("test", 100, 100);
-   :                  ^
-   `----
-
-  x Expected percentage, number, function (math functions) or ident (with 'none' value) token
-   ,-[$DIR/tests/recovery/function/rgb/input.css:4:5]
- 4 | color: rgb("test", 100, 100);
-   :                       ^
-   `----
-
-  x Expected percentage, number, function (math functions) or ident (with 'none' value) token
-   ,-[$DIR/tests/recovery/function/rgb/input.css:4:5]
- 4 | color: rgb("test", 100, 100);
-   :                            ^
-   `----
-
-  x Expected percentage, number, function (math functions) or ident (with 'none' value) token
    ,-[$DIR/tests/recovery/function/rgb/input.css:5:5]
  5 | color: rgb(100, "test", 100);
    :                 ^^^^^^
-   `----
-
-  x Expected percentage, number, function (math functions) or ident (with 'none' value) token
-   ,-[$DIR/tests/recovery/function/rgb/input.css:5:5]
- 5 | color: rgb(100, "test", 100);
-   :               ^
-   `----
-
-  x Expected percentage, number, function (math functions) or ident (with 'none' value) token
-   ,-[$DIR/tests/recovery/function/rgb/input.css:5:5]
- 5 | color: rgb(100, "test", 100);
-   :                       ^
-   `----
-
-  x Expected percentage, number, function (math functions) or ident (with 'none' value) token
-   ,-[$DIR/tests/recovery/function/rgb/input.css:5:5]
- 5 | color: rgb(100, "test", 100);
-   :                            ^
    `----
 
   x Expected percentage, number, function (math functions) or ident (with 'none' value) token
@@ -72,63 +30,15 @@
    `----
 
   x Expected percentage, number, function (math functions) or ident (with 'none' value) token
-   ,-[$DIR/tests/recovery/function/rgb/input.css:6:5]
- 6 | color: rgb(100, 100, "test");
-   :               ^
-   `----
-
-  x Expected percentage, number, function (math functions) or ident (with 'none' value) token
-   ,-[$DIR/tests/recovery/function/rgb/input.css:6:5]
- 6 | color: rgb(100, 100, "test");
-   :                    ^
-   `----
-
-  x Expected percentage, number, function (math functions) or ident (with 'none' value) token
-   ,-[$DIR/tests/recovery/function/rgb/input.css:7:5]
- 7 | color: rgb(100, 100, 100, "test");
-   :               ^
-   `----
-
-  x Expected percentage, number, function (math functions) or ident (with 'none' value) token
-   ,-[$DIR/tests/recovery/function/rgb/input.css:7:5]
- 7 | color: rgb(100, 100, 100, "test");
-   :                           ^^^^^^
-   `----
-
-  x Expected percentage, number, function (math functions) or ident (with 'none' value) token
-   ,-[$DIR/tests/recovery/function/rgb/input.css:7:5]
- 7 | color: rgb(100, 100, 100, "test");
-   :                    ^
-   `----
-
-  x Expected percentage, number, function (math functions) or ident (with 'none' value) token
-   ,-[$DIR/tests/recovery/function/rgb/input.css:7:5]
- 7 | color: rgb(100, 100, 100, "test");
-   :                         ^
-   `----
-
-  x Expected percentage, number, function (math functions) or ident (with 'none' value) token
    ,-[$DIR/tests/recovery/function/rgb/input.css:9:5]
  9 | color: rgb("test" 100 100);
    :            ^^^^^^
    `----
 
   x Expected percentage, number, function (math functions) or ident (with 'none' value) token
-   ,-[$DIR/tests/recovery/function/rgb/input.css:9:5]
- 9 | color: rgb("test" 100 100);
-   :                          ^
-   `----
-
-  x Expected percentage, number, function (math functions) or ident (with 'none' value) token
     ,-[$DIR/tests/recovery/function/rgb/input.css:10:5]
  10 | color: rgb(100 "test" 100);
     :                ^^^^^^
-    `----
-
-  x Expected percentage, number, function (math functions) or ident (with 'none' value) token
-    ,-[$DIR/tests/recovery/function/rgb/input.css:10:5]
- 10 | color: rgb(100 "test" 100);
-    :                          ^
     `----
 
   x Expected percentage, number, function (math functions) or ident (with 'none' value) token
@@ -141,10 +51,4 @@
     ,-[$DIR/tests/recovery/function/rgb/input.css:12:5]
  12 | color: rgb(100 100 100 / "test");
     :                          ^^^^^^
-    `----
-
-  x Expected percentage, number, function (math functions) or ident (with 'none' value) token
-    ,-[$DIR/tests/recovery/function/rgb/input.css:12:5]
- 12 | color: rgb(100 100 100 / "test");
-    :                        ^
     `----

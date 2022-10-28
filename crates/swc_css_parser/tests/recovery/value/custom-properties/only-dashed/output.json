@@ -247,24 +247,58 @@
                 }
               },
               {
-                "type": "DashedIdent",
+                "type": "PreservedToken",
+                "span": {
+                  "start": 52,
+                  "end": 53,
+                  "ctxt": 0
+                },
+                "token": {
+                  "WhiteSpace": {
+                    "value": " "
+                  }
+                }
+              },
+              {
+                "type": "PreservedToken",
                 "span": {
                   "start": 53,
                   "end": 56,
                   "ctxt": 0
                 },
-                "value": "a",
-                "raw": "--a"
+                "token": {
+                  "Ident": {
+                    "value": "--a",
+                    "raw": "--a"
+                  }
+                }
               },
               {
-                "type": "Ident",
+                "type": "PreservedToken",
+                "span": {
+                  "start": 56,
+                  "end": 57,
+                  "ctxt": 0
+                },
+                "token": {
+                  "WhiteSpace": {
+                    "value": " "
+                  }
+                }
+              },
+              {
+                "type": "PreservedToken",
                 "span": {
                   "start": 57,
                   "end": 59,
                   "ctxt": 0
                 },
-                "value": "-a",
-                "raw": "-a"
+                "token": {
+                  "Ident": {
+                    "value": "-a",
+                    "raw": "-a"
+                  }
+                }
               }
             ],
             "important": null

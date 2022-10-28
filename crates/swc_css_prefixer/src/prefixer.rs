@@ -2154,8 +2154,7 @@ impl VisitMut for Prefixer {
             }
 
             "filter" => match &n.value[0] {
-                ComponentValue::Ident(Ident { value, .. })
-                    if value.as_ref().eq_ignore_ascii_case("progid") => {}
+                ComponentValue::PreservedToken(_) => {}
                 ComponentValue::Function(Function { name, .. })
                     if name.value.as_ref().eq_ignore_ascii_case("alpha") => {}
                 _ => {
