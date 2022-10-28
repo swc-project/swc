@@ -1,4 +1,5 @@
 use swc_ecma_ast::{Expr, Program, Stmt};
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut};
 use swc_fast_graph::digraph::FastDiGraphMap;
 
 /// The id of a basic block
@@ -30,8 +31,15 @@ impl ControlFlowGraph<'_> {
     }
 
     fn analyze_program(&mut self, program: &Program) {}
+}
 
-    fn analyze_stmt(&mut self, s: &Stmt) {}
+struct CfgAnalyzer {
+    data: Data,
+}
 
-    fn analyze_expr(&mut self, s: &Expr) {}
+#[derive(Default)]
+struct Data {}
+
+impl VisitMut for CfgAnalyzer {
+    noop_visit_mut_type!();
 }
