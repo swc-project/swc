@@ -30,4 +30,8 @@ impl ControlFlowGraph<'_> {
     }
 
     fn analyze_program(&mut self, program: &Program) {}
+
+    fn analyze_stmt(&mut self, s: &Stmt) {}
+
+    fn analyze_expr(&mut self, s: &Expr) {}
 }
