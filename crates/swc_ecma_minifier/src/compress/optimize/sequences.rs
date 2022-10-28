@@ -1570,9 +1570,8 @@ where
                     return Ok(false);
                 }
 
-                match *op {
-                    op!("&&") | op!("||") | op!("??") => return Ok(false),
-                    _ => {}
+                if op.may_short_circuit() {
+                    return Ok(false);
                 }
 
                 trace_op!("seq: Try right of bin");
