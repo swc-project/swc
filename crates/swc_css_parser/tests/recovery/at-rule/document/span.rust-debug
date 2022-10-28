@@ -143,7 +143,7 @@
    :                                     ^^^
    `----
 
-  x Ident
+  x Ident { value: Atom('com' type=inline), raw: Atom('com' type=inline) }
    ,-[$DIR/tests/recovery/at-rule/document/input.css:1:1]
  1 | @document domain(http://www.example.com/) {}
    :                                     ^^^
@@ -155,7 +155,7 @@
    :                                        ^
    `----
 
-  x Delimiter
+  x Delim { value: '/' }
    ,-[$DIR/tests/recovery/at-rule/document/input.css:1:1]
  1 | @document domain(http://www.example.com/) {}
    :                                        ^

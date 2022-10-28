@@ -153,23 +153,31 @@
                 }
               },
               {
-                "type": "Ident",
+                "type": "PreservedToken",
                 "span": {
                   "start": 37,
                   "end": 40,
                   "ctxt": 0
                 },
-                "value": "com",
-                "raw": "com"
+                "token": {
+                  "Ident": {
+                    "value": "com",
+                    "raw": "com"
+                  }
+                }
               },
               {
-                "type": "Delimiter",
+                "type": "PreservedToken",
                 "span": {
                   "start": 40,
                   "end": 41,
                   "ctxt": 0
                 },
-                "value": "/"
+                "token": {
+                  "Delim": {
+                    "value": "/"
+                  }
+                }
               }
             ]
           }

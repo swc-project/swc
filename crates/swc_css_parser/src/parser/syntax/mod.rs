@@ -1110,6 +1110,8 @@ where
             value: vec![],
         };
 
+        let mut with_error = false;
+
         // Repeatedly consume the next input token and process it as follows:
         loop {
             // <EOF-token>
@@ -1146,18 +1148,24 @@ where
                         function.value.push(component_value);
                     }
                     _ => {
-                        let state = self.input.state();
-                        let values = self.parse_function_values(function_name);
+                        if with_error {
+                            function.value.push(self.parse()?);
+                        } else {
+                            let state = self.input.state();
+                            let values = self.parse_function_values(function_name);
 
-                        match values {
-                            Ok(values) => {
-                                function.value.extend(values);
-                            }
-                            Err(err) => {
-                                self.errors.push(err);
-                                self.input.reset(&state);
+                            match values {
+                                Ok(values) => {
+                                    function.value.extend(values);
+                                }
+                                Err(err) => {
+                                    self.errors.push(err);
+                                    self.input.reset(&state);
 
-                                function.value.push(self.parse()?);
+                                    with_error = true;
+
+                                    function.value.push(self.parse()?);
+                                }
                             }
                         }
                     }

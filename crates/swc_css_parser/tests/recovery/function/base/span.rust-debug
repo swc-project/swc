@@ -186,10 +186,22 @@
   x ComponentValue
    ,-[$DIR/tests/recovery/function/base/input.css:2:5]
  2 | prop: func(1 + 2);
+   :               ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/function/base/input.css:2:5]
+ 2 | prop: func(1 + 2);
+   :               ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/base/input.css:2:5]
+ 2 | prop: func(1 + 2);
    :                ^
    `----
 
-  x Integer
+  x Number { value: 2.0, raw: Atom('2' type=inline), type_flag: Integer }
    ,-[$DIR/tests/recovery/function/base/input.css:2:5]
  2 | prop: func(1 + 2);
    :                ^
@@ -273,7 +285,7 @@
    :                  ^^^^^
    `----
 
-  x Ident
+  x Ident { value: Atom('ident' type=inline), raw: Atom('ident' type=inline) }
    ,-[$DIR/tests/recovery/function/base/input.css:3:5]
  3 | prop: func(ident.ident);
    :                  ^^^^^
@@ -369,10 +381,22 @@
    :                      ^^^^^
    `----
 
-  x Ident
+  x Ident { value: Atom('ident' type=inline), raw: Atom('ident' type=inline) }
    ,-[$DIR/tests/recovery/function/base/input.css:4:5]
  4 | prop: func3(   ident.ident   );
    :                      ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/base/input.css:4:5]
+ 4 | prop: func3(   ident.ident   );
+   :                           ^^^
+   `----
+
+  x WhiteSpace { value: Atom('   ' type=inline) }
+   ,-[$DIR/tests/recovery/function/base/input.css:4:5]
+ 4 | prop: func3(   ident.ident   );
+   :                           ^^^
    `----
 
   x ComponentValue
