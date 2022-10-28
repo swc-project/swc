@@ -83,18 +83,21 @@
    ,-[$DIR/tests/recovery/comments/declaration/input.css:2:5]
  2 | ,-> prop: url("test") /* comment */   /* comment */
  3 | `->         /* comment */:
+ 4 |     }
    `----
 
   x StyleBlock
    ,-[$DIR/tests/recovery/comments/declaration/input.css:2:5]
  2 | ,-> prop: url("test") /* comment */   /* comment */
  3 | `->         /* comment */:
+ 4 |     }
    `----
 
   x Declaration
    ,-[$DIR/tests/recovery/comments/declaration/input.css:2:5]
  2 | ,-> prop: url("test") /* comment */   /* comment */
  3 | `->         /* comment */:
+ 4 |     }
    `----
 
   x DeclarationName

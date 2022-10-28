@@ -81,20 +81,20 @@
 
   x ComponentValue
    ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:2:5]
- 2 | color: \
-   : ^^^^^^^^
+ 2 | ,-> color: \
+ 3 | `->     ;
    `----
 
   x StyleBlock
    ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:2:5]
- 2 | color: \
-   : ^^^^^^^^
+ 2 | ,-> color: \
+ 3 | `->     ;
    `----
 
   x Declaration
    ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:2:5]
- 2 | color: \
-   : ^^^^^^^^
+ 2 | ,-> color: \
+ 3 | `->     ;
    `----
 
   x DeclarationName

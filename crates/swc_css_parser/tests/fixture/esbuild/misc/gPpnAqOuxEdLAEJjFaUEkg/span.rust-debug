@@ -74,19 +74,19 @@
   x ComponentValue
    ,-[$DIR/tests/fixture/esbuild/misc/gPpnAqOuxEdLAEJjFaUEkg/input.css:1:1]
  1 | a { value: url(\61 bc) }
-   :     ^^^^^^^^^^^^^^^^^^
+   :     ^^^^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
    ,-[$DIR/tests/fixture/esbuild/misc/gPpnAqOuxEdLAEJjFaUEkg/input.css:1:1]
  1 | a { value: url(\61 bc) }
-   :     ^^^^^^^^^^^^^^^^^^
+   :     ^^^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
    ,-[$DIR/tests/fixture/esbuild/misc/gPpnAqOuxEdLAEJjFaUEkg/input.css:1:1]
  1 | a { value: url(\61 bc) }
-   :     ^^^^^^^^^^^^^^^^^^
+   :     ^^^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName

@@ -74,19 +74,19 @@
   x ComponentValue
    ,-[$DIR/tests/fixture/esbuild/misc/Ssg_Qhdw7h_c6ZtY52Qe4A/input.css:1:1]
  1 | a { color: #112333ff }
-   :     ^^^^^^^^^^^^^^^^
+   :     ^^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
    ,-[$DIR/tests/fixture/esbuild/misc/Ssg_Qhdw7h_c6ZtY52Qe4A/input.css:1:1]
  1 | a { color: #112333ff }
-   :     ^^^^^^^^^^^^^^^^
+   :     ^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
    ,-[$DIR/tests/fixture/esbuild/misc/Ssg_Qhdw7h_c6ZtY52Qe4A/input.css:1:1]
  1 | a { color: #112333ff }
-   :     ^^^^^^^^^^^^^^^^
+   :     ^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName

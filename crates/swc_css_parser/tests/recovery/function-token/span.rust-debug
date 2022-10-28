@@ -78,19 +78,22 @@
   x ComponentValue
    ,-[$DIR/tests/recovery/function-token/input.css:2:5]
  2 | prop: url("test") :
-   : ^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^
+ 3 | }
    `----
 
   x StyleBlock
    ,-[$DIR/tests/recovery/function-token/input.css:2:5]
  2 | prop: url("test") :
-   : ^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^
+ 3 | }
    `----
 
   x Declaration
    ,-[$DIR/tests/recovery/function-token/input.css:2:5]
  2 | prop: url("test") :
-   : ^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^
+ 3 | }
    `----
 
   x DeclarationName

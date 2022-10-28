@@ -74,19 +74,19 @@
   x ComponentValue
    ,-[$DIR/tests/fixture/esbuild/misc/ftc5-zf_sliOrFRRBGGS-g/input.css:1:1]
  1 | a { color: #122233ff }
-   :     ^^^^^^^^^^^^^^^^
+   :     ^^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
    ,-[$DIR/tests/fixture/esbuild/misc/ftc5-zf_sliOrFRRBGGS-g/input.css:1:1]
  1 | a { color: #122233ff }
-   :     ^^^^^^^^^^^^^^^^
+   :     ^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
    ,-[$DIR/tests/fixture/esbuild/misc/ftc5-zf_sliOrFRRBGGS-g/input.css:1:1]
  1 | a { color: #122233ff }
-   :     ^^^^^^^^^^^^^^^^
+   :     ^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName

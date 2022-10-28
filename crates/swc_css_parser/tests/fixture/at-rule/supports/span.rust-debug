@@ -913,25 +913,25 @@
   x SupportsConditionType
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:18:1]
  18 | @supports   (   display   :   flex   )   {}
-    :                 ^^^^^^^^^^^^^^^^^^
+    :                 ^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x SupportsInParens
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:18:1]
  18 | @supports   (   display   :   flex   )   {}
-    :                 ^^^^^^^^^^^^^^^^^^
+    :                 ^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x SupportsFeature
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:18:1]
  18 | @supports   (   display   :   flex   )   {}
-    :                 ^^^^^^^^^^^^^^^^^^
+    :                 ^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Declaration
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:18:1]
  18 | @supports   (   display   :   flex   )   {}
-    :                 ^^^^^^^^^^^^^^^^^^
+    :                 ^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x DeclarationName
@@ -1207,25 +1207,25 @@
   x SupportsConditionType
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:21:1]
  21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
-    :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x SupportsInParens
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:21:1]
  21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
-    :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x SupportsFeature
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:21:1]
  21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
-    :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Declaration
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:21:1]
  21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
-    :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x DeclarationName
@@ -1339,19 +1339,19 @@
   x SupportsInParens
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:21:1]
  21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
-    :                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x SupportsFeature
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:21:1]
  21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
-    :                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Declaration
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:21:1]
  21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
-    :                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x DeclarationName
@@ -1465,19 +1465,19 @@
   x SupportsInParens
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:21:1]
  21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
-    :                                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :                                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x SupportsFeature
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:21:1]
  21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
-    :                                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :                                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Declaration
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:21:1]
  21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
-    :                                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :                                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x DeclarationName
@@ -1591,19 +1591,19 @@
   x SupportsInParens
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:21:1]
  21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
-    :                                                                                                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :                                                                                                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x SupportsFeature
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:21:1]
  21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
-    :                                                                                                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :                                                                                                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Declaration
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:21:1]
  21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
-    :                                                                                                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :                                                                                                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x DeclarationName
@@ -1751,25 +1751,25 @@
   x SupportsConditionType
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:22:1]
  22 | @supports ( box-shadow: 0 0 2px black inset ) or
-    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x SupportsInParens
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:22:1]
  22 | @supports ( box-shadow: 0 0 2px black inset ) or
-    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x SupportsFeature
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:22:1]
  22 | @supports ( box-shadow: 0 0 2px black inset ) or
-    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Declaration
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:22:1]
  22 | @supports ( box-shadow: 0 0 2px black inset ) or
-    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x DeclarationName
@@ -1883,19 +1883,19 @@
   x SupportsInParens
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:23:3]
  23 | ( -moz-box-shadow: 0 0 2px black inset ) or
-    :   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x SupportsFeature
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:23:3]
  23 | ( -moz-box-shadow: 0 0 2px black inset ) or
-    :   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Declaration
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:23:3]
  23 | ( -moz-box-shadow: 0 0 2px black inset ) or
-    :   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x DeclarationName
@@ -2009,19 +2009,19 @@
   x SupportsInParens
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:24:3]
  24 | ( -webkit-box-shadow: 0 0 2px black inset ) or
-    :   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x SupportsFeature
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:24:3]
  24 | ( -webkit-box-shadow: 0 0 2px black inset ) or
-    :   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Declaration
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:24:3]
  24 | ( -webkit-box-shadow: 0 0 2px black inset ) or
-    :   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x DeclarationName
@@ -2135,19 +2135,19 @@
   x SupportsInParens
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:25:3]
  25 | ( -o-box-shadow: 0 0 2px black inset ) {
-    :   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x SupportsFeature
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:25:3]
  25 | ( -o-box-shadow: 0 0 2px black inset ) {
-    :   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Declaration
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:25:3]
  25 | ( -o-box-shadow: 0 0 2px black inset ) {
-    :   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x DeclarationName
@@ -2814,25 +2814,25 @@
   x SupportsConditionType
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:30:1]
  30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
-    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x SupportsInParens
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:30:1]
  30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
-    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x SupportsFeature
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:30:1]
  30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
-    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Declaration
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:30:1]
  30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
-    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x DeclarationName
@@ -2892,25 +2892,25 @@
   x SupportsConditionType
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:30:1]
  30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
-    :                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^
+    :                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x SupportsInParens
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:30:1]
  30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
-    :                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^
+    :                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x SupportsFeature
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:30:1]
  30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
-    :                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^
+    :                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Declaration
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:30:1]
  30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
-    :                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^
+    :                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x DeclarationName
@@ -2958,19 +2958,19 @@
   x SupportsInParens
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:30:1]
  30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
-    :                                                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :                                                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x SupportsFeature
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:30:1]
  30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
-    :                                                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :                                                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Declaration
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:30:1]
  30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
-    :                                                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :                                                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x DeclarationName
@@ -8672,20 +8672,20 @@
 
   x ComponentValue
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:118:7]
- 118 | color: red
-     : ^^^^^^^^^^
+ 118 | ,-> color: red
+ 119 | `->     }
      `----
 
   x StyleBlock
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:118:7]
- 118 | color: red
-     : ^^^^^^^^^^
+ 118 | ,-> color: red
+ 119 | `->     }
      `----
 
   x Declaration
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:118:7]
- 118 | color: red
-     : ^^^^^^^^^^
+ 118 | ,-> color: red
+ 119 | `->     }
      `----
 
   x DeclarationName

@@ -83,19 +83,19 @@
   x ComponentValue
    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:5:1]
  5 | <!-- .foo { color: red }  -->
-   :             ^^^^^^^^^^
+   :             ^^^^^^^^^^^
    `----
 
   x StyleBlock
    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:5:1]
  5 | <!-- .foo { color: red }  -->
-   :             ^^^^^^^^^^
+   :             ^^^^^^^^^^^
    `----
 
   x Declaration
    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:5:1]
  5 | <!-- .foo { color: red }  -->
-   :             ^^^^^^^^^^
+   :             ^^^^^^^^^^^
    `----
 
   x DeclarationName

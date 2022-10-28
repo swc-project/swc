@@ -98,13 +98,13 @@
   x ComponentValue
    ,-[$DIR/tests/fixture/esbuild/misc/OFqVy3cBzYnrIy6uze5Nuw/input.css:1:1]
  1 | @keyframes test { from {} to { color: red } }
-   :                                ^^^^^^^^^^
+   :                                ^^^^^^^^^^^
    `----
 
   x Declaration
    ,-[$DIR/tests/fixture/esbuild/misc/OFqVy3cBzYnrIy6uze5Nuw/input.css:1:1]
  1 | @keyframes test { from {} to { color: red } }
-   :                                ^^^^^^^^^^
+   :                                ^^^^^^^^^^^
    `----
 
   x DeclarationName

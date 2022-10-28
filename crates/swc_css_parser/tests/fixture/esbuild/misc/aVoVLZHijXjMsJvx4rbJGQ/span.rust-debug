@@ -44,13 +44,13 @@
   x ComponentValue
    ,-[$DIR/tests/fixture/esbuild/misc/aVoVLZHijXjMsJvx4rbJGQ/input.css:1:1]
  1 | @viewport { width: 100vw }
-   :             ^^^^^^^^^^^^
+   :             ^^^^^^^^^^^^^
    `----
 
   x Declaration
    ,-[$DIR/tests/fixture/esbuild/misc/aVoVLZHijXjMsJvx4rbJGQ/input.css:1:1]
  1 | @viewport { width: 100vw }
-   :             ^^^^^^^^^^^^
+   :             ^^^^^^^^^^^^^
    `----
 
   x DeclarationName

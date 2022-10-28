@@ -129,19 +129,22 @@
   x ComponentValue
    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:4:5]
  4 | background: red
-   : ^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^
+ 5 | }
    `----
 
   x StyleBlock
    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:4:5]
  4 | background: red
-   : ^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^
+ 5 | }
    `----
 
   x Declaration
    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:4:5]
  4 | background: red
-   : ^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^
+ 5 | }
    `----
 
   x DeclarationName

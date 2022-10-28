@@ -1842,19 +1842,19 @@
   x ComponentValue
     ,-[$DIR/tests/fixture/declaration/input.css:27:1]
  27 | a { color: a/* ; */ b  ; }
-    :     ^^^^^^^^^^^^^^^^^
+    :     ^^^^^^^^^^^^^^^^^^^
     `----
 
   x StyleBlock
     ,-[$DIR/tests/fixture/declaration/input.css:27:1]
  27 | a { color: a/* ; */ b  ; }
-    :     ^^^^^^^^^^^^^^^^^
+    :     ^^^^^^^^^^^^^^^^^^^
     `----
 
   x Declaration
     ,-[$DIR/tests/fixture/declaration/input.css:27:1]
  27 | a { color: a/* ; */ b  ; }
-    :     ^^^^^^^^^^^^^^^^^
+    :     ^^^^^^^^^^^^^^^^^^^
     `----
 
   x DeclarationName

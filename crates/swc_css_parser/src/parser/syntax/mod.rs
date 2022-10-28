@@ -930,14 +930,7 @@ where
         declaration.value.truncate(len);
 
         // Update span
-        // TODO for commit history
-        if let Some(important) = &declaration.important {
-            declaration.span = Span::new(span.lo, important.span_hi(), Default::default());
-        } else if let Some(last) = declaration.value.last() {
-            declaration.span = Span::new(span.lo, last.span_hi(), Default::default());
-        } else {
-            declaration.span = span!(self, span.lo);
-        }
+        declaration.span = span!(self, span.lo);
 
         if is_dashed_ident {
             // Don't parse custom properties

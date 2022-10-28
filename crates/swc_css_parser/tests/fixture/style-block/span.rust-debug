@@ -1948,19 +1948,19 @@
   x ComponentValue
     ,-[$DIR/tests/fixture/style-block/input.css:41:9]
  41 | & .class { color: red }
-    :            ^^^^^^^^^^
+    :            ^^^^^^^^^^^
     `----
 
   x StyleBlock
     ,-[$DIR/tests/fixture/style-block/input.css:41:9]
  41 | & .class { color: red }
-    :            ^^^^^^^^^^
+    :            ^^^^^^^^^^^
     `----
 
   x Declaration
     ,-[$DIR/tests/fixture/style-block/input.css:41:9]
  41 | & .class { color: red }
-    :            ^^^^^^^^^^
+    :            ^^^^^^^^^^^
     `----
 
   x DeclarationName
@@ -2359,19 +2359,19 @@
   x ComponentValue
     ,-[$DIR/tests/fixture/style-block/input.css:51:9]
  51 | & .class { color: red }
-    :            ^^^^^^^^^^
+    :            ^^^^^^^^^^^
     `----
 
   x StyleBlock
     ,-[$DIR/tests/fixture/style-block/input.css:51:9]
  51 | & .class { color: red }
-    :            ^^^^^^^^^^
+    :            ^^^^^^^^^^^
     `----
 
   x Declaration
     ,-[$DIR/tests/fixture/style-block/input.css:51:9]
  51 | & .class { color: red }
-    :            ^^^^^^^^^^
+    :            ^^^^^^^^^^^
     `----
 
   x DeclarationName
@@ -2900,19 +2900,19 @@
   x ComponentValue
     ,-[$DIR/tests/fixture/style-block/input.css:65:9]
  65 | & .class { color: red }
-    :            ^^^^^^^^^^
+    :            ^^^^^^^^^^^
     `----
 
   x StyleBlock
     ,-[$DIR/tests/fixture/style-block/input.css:65:9]
  65 | & .class { color: red }
-    :            ^^^^^^^^^^
+    :            ^^^^^^^^^^^
     `----
 
   x Declaration
     ,-[$DIR/tests/fixture/style-block/input.css:65:9]
  65 | & .class { color: red }
-    :            ^^^^^^^^^^
+    :            ^^^^^^^^^^^
     `----
 
   x DeclarationName
@@ -3876,19 +3876,19 @@
   x ComponentValue
     ,-[$DIR/tests/fixture/style-block/input.css:96:1]
  96 | a { color: a/* ; */ b  ; }
-    :     ^^^^^^^^^^^^^^^^^
+    :     ^^^^^^^^^^^^^^^^^^^
     `----
 
   x StyleBlock
     ,-[$DIR/tests/fixture/style-block/input.css:96:1]
  96 | a { color: a/* ; */ b  ; }
-    :     ^^^^^^^^^^^^^^^^^
+    :     ^^^^^^^^^^^^^^^^^^^
     `----
 
   x Declaration
     ,-[$DIR/tests/fixture/style-block/input.css:96:1]
  96 | a { color: a/* ; */ b  ; }
-    :     ^^^^^^^^^^^^^^^^^
+    :     ^^^^^^^^^^^^^^^^^^^
     `----
 
   x DeclarationName
@@ -4567,6 +4567,7 @@
  111 | |           width: 16px;
  112 | |           height: 16px;
  113 | `->     }
+ 114 |     ;
      `----
 
   x StyleBlock
@@ -4575,6 +4576,7 @@
  111 | |           width: 16px;
  112 | |           height: 16px;
  113 | `->     }
+ 114 |     ;
      `----
 
   x Declaration
@@ -4583,6 +4585,7 @@
  111 | |           width: 16px;
  112 | |           height: 16px;
  113 | `->     }
+ 114 |     ;
      `----
 
   x DeclarationName

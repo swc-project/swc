@@ -110,19 +110,19 @@
   x ComponentValue
    ,-[$DIR/tests/fixture/esbuild/misc/Gt3Lw4L5Pe4aLLDPz9cxRg/input.css:1:1]
  1 | .decl { a: b; c: d }
-   :               ^^^^
+   :               ^^^^^
    `----
 
   x StyleBlock
    ,-[$DIR/tests/fixture/esbuild/misc/Gt3Lw4L5Pe4aLLDPz9cxRg/input.css:1:1]
  1 | .decl { a: b; c: d }
-   :               ^^^^
+   :               ^^^^^
    `----
 
   x Declaration
    ,-[$DIR/tests/fixture/esbuild/misc/Gt3Lw4L5Pe4aLLDPz9cxRg/input.css:1:1]
  1 | .decl { a: b; c: d }
-   :               ^^^^
+   :               ^^^^^
    `----
 
   x DeclarationName
