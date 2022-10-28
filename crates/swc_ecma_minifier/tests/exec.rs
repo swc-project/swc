@@ -10342,3 +10342,19 @@ fn issue_6279_1() {
         "###,
     );
 }
+
+#[test]
+fn issue_6279_2() {
+    run_default_exec_test(
+        r###"
+        const r = new Regex('a', 'g');
+        function run(str, r) {
+            let m
+            while (m = r.exec(str)) {
+                console.log(m)
+            }
+        }
+        run('abcda', r)
+        "###,
+    );
+}
