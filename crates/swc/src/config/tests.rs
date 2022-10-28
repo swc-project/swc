@@ -28,3 +28,9 @@ fn issue_1532() {
     let err = res.expect_err("should fail");
     assert!(err.to_string().contains("unknown variant `esnext`"));
 }
+
+#[test]
+fn jsonc() {
+    let rc = parse_swcrc(include_str!("jsonc.json")).expect("failed to parse");
+    dbg!(&rc);
+}

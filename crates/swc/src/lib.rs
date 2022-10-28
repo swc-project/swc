@@ -122,7 +122,7 @@ use anyhow::{bail, Context, Error};
 use atoms::JsWord;
 use common::{collections::AHashMap, comments::SingleThreadedComments, errors::HANDLER};
 use config::{IsModule, JsMinifyCommentOption, JsMinifyOptions, OutputCharset};
-use json_comments::StripComments;
+use jsonc_parser::{parse_to_serde_value, ParseOptions};
 use once_cell::sync::Lazy;
 use serde::Serialize;
 use serde_json::error::Category;
@@ -1175,13 +1175,21 @@ fn parse_swcrc(s: &str) -> Result<Rc, Error> {
         ))
     }
 
-    if let Ok(v) = serde_json::from_reader(StripComments::new(
-        s.trim_start_matches('\u{feff}').as_bytes(),
-    )) {
-        return Ok(v);
+    let v = parse_to_serde_value(
+        s.trim_start_matches('\u{feff}'),
+        &ParseOptions {
+            allow_comments: true,
+            allow_trailing_commas: true,
+            allow_loose_object_property_names: false,
+        },
+    )?
+    .ok_or_else(|| Error::msg("failed to deserialize empty .swcrc (json) file"))?;
+
+    if let Ok(rc) = serde_json::from_value(v.clone()) {
+        return Ok(rc);
     }
 
-    serde_json::from_reader::<StripComments<&[u8]>, Config>(StripComments::new(s.as_bytes()))
+    serde_json::from_value(v)
         .map(Rc::Single)
         .map_err(convert_json_err)
 }
