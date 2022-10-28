@@ -48,4 +48,23 @@ impl Visit for UnitNoUnknown {
 
         unknown_dimension.visit_children_with(self);
     }
+
+    fn visit_component_value(&mut self, component_value: &ComponentValue) {
+        match component_value {
+            ComponentValue::PreservedToken(
+                token_and_span @ TokenAndSpan {
+                    token: Token::Dimension { unit, .. },
+                    ..
+                },
+            ) => {
+                if self.ignored_units.iter().all(|item| !item.is_match(unit)) {
+                    let message = format!("Unexpected unknown unit \"{}\".", unit);
+                    self.ctx.report(token_and_span, message);
+                }
+            }
+            _ => {}
+        }
+
+        component_value.visit_children_with(self);
+    }
 }
