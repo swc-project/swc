@@ -290,12 +290,7 @@ where
                 // Reconsume the current input token. Consume a component value. Append the returned
                 // value to the at-rule’s prelude.
                 _ => {
-                    let component_value = self
-                        .with_ctx(Ctx {
-                            block_contents_grammar: BlockContentsGrammar::NoGrammar,
-                            ..self.ctx
-                        })
-                        .parse_as::<ComponentValue>()?;
+                    let component_value = self.parse_as::<ComponentValue>()?;
 
                     prelude.push(component_value);
                 }
