@@ -809,6 +809,16 @@ where
         loop {
             // TODO fix me `)`, workaround
             if is_one_of!(self, EOF, ")") {
+                if important_ident.is_none() {
+                    if let Some(span) = &exclamation_point_span {
+                        // TODO improve me to `<declaration-value>`
+                        self.errors.push(Error::new(
+                            *span,
+                            ErrorKind::Unexpected("'!' in <declaration-value>"),
+                        ));
+                    }
+                }
+
                 break;
             }
 
@@ -865,7 +875,13 @@ where
                 _ => {
                     last_whitespaces = (0, 0, 0);
 
-                    if exclamation_point_span.is_some() {
+                    if let Some(span) = &exclamation_point_span {
+                        // TODO improve me to `<declaration-value>`
+                        self.errors.push(Error::new(
+                            *span,
+                            ErrorKind::Unexpected("'!' in <declaration-value>"),
+                        ));
+
                         important_ident = None;
                         exclamation_point_span = None;
                     }

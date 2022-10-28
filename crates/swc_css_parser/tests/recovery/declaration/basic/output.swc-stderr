@@ -10,3 +10,9 @@
  7 | prop: !!;
    :       ^
    `----
+
+  x Unexpected '!' in <declaration-value>
+   ,-[$DIR/tests/recovery/declaration/basic/input.css:7:5]
+ 7 | prop: !!;
+   :        ^
+   `----

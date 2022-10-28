@@ -123,82 +123,82 @@ where
     }
 
     /// Parse value as <declaration-value>.
-    pub(super) fn parse_declaration_value(&mut self) -> PResult<Vec<ComponentValue>> {
-        let mut value = vec![];
-        let mut balance_stack: Vec<Option<char>> = vec![];
-
-        // The <declaration-value> production matches any sequence of one or more
-        // tokens, so long as the sequence does not contain ...
-        loop {
-            if is!(self, EOF) {
-                break;
-            }
-
-            match cur!(self) {
-                // ... <bad-string-token>, <bad-url-token>,
-                tok!("bad-string") | tok!("bad-url") => break,
-
-                // ... unmatched <)-token>, <]-token>, or <}-token>,
-                tok!(")") | tok!("]") | tok!("}") => {
-                    let value = match cur!(self) {
-                        tok!(")") => ')',
-                        tok!("]") => ']',
-                        tok!("}") => '}',
-                        _ => {
-                            unreachable!();
-                        }
-                    };
-
-                    let balance_close_type = match balance_stack.pop() {
-                        Some(v) => v,
-                        None => None,
-                    };
-
-                    if Some(value) != balance_close_type {
-                        break;
-                    }
-                }
-
-                tok!("function") | tok!("(") | tok!("[") | tok!("{") => {
-                    let value = match cur!(self) {
-                        tok!("function") | tok!("(") => ')',
-                        tok!("[") => ']',
-                        tok!("{") => '}',
-                        _ => {
-                            unreachable!();
-                        }
-                    };
-
-                    balance_stack.push(Some(value));
-                }
-
-                // ... or top-level <semicolon-token> tokens
-                tok!(";") => {
-                    if balance_stack.is_empty() {
-                        break;
-                    }
-                }
-
-                // ... or <delim-token> tokens with a value of "!"
-                tok!("!") => {
-                    if balance_stack.is_empty() {
-                        break;
-                    }
-                }
-
-                _ => {}
-            }
-
-            let token = self.input.bump();
-
-            match token {
-                Some(token) => value.push(ComponentValue::PreservedToken(token)),
-                None => break,
-            }
-        }
-
-        Ok(value)
-    }
+    // pub(super) fn validate_declaration_value(&mut self) -> PResult<Vec<ComponentValue>> {
+    //     let mut value = vec![];
+    //     let mut balance_stack: Vec<Option<char>> = vec![];
+    //
+    //     // The <declaration-value> production matches any sequence of one or more
+    //     // tokens, so long as the sequence does not contain ...
+    //     loop {
+    //         if is!(self, EOF) {
+    //             break;
+    //         }
+    //
+    //         match cur!(self) {
+    //             // ... <bad-string-token>, <bad-url-token>,
+    //             tok!("bad-string") | tok!("bad-url") => { break; },
+    //
+    //             // ... unmatched <)-token>, <]-token>, or <}-token>,
+    //             tok!(")") | tok!("]") | tok!("}") => {
+    //                 let value = match cur!(self) {
+    //                     tok!(")") => ')',
+    //                     tok!("]") => ']',
+    //                     tok!("}") => '}',
+    //                     _ => {
+    //                         unreachable!();
+    //                     }
+    //                 };
+    //
+    //                 let balance_close_type = match balance_stack.pop() {
+    //                     Some(v) => v,
+    //                     None => None,
+    //                 };
+    //
+    //                 if Some(value) != balance_close_type {
+    //                     break;
+    //                 }
+    //             }
+    //
+    //             tok!("function") | tok!("(") | tok!("[") | tok!("{") => {
+    //                 let value = match cur!(self) {
+    //                     tok!("function") | tok!("(") => ')',
+    //                     tok!("[") => ']',
+    //                     tok!("{") => '}',
+    //                     _ => {
+    //                         unreachable!();
+    //                     }
+    //                 };
+    //
+    //                 balance_stack.push(Some(value));
+    //             }
+    //
+    //             // ... or top-level <semicolon-token> tokens
+    //             tok!(";") => {
+    //                 if balance_stack.is_empty() {
+    //                     break;
+    //                 }
+    //             }
+    //
+    //             // ... or <delim-token> tokens with a value of "!"
+    //             tok!("!") => {
+    //                 if balance_stack.is_empty() {
+    //                     break;
+    //                 }
+    //             }
+    //
+    //             _ => {}
+    //         }
+    //
+    //         let token = self.input.bump();
+    //
+    //         match token {
+    //             Some(token) => value.push(ComponentValue::PreservedToken(token)),
+    //             None => break,
+    //         }
+    //     }
+    //
+    //     Ok(value)
+    // }
 
     /// Parse value as <any-value>.
     pub(super) fn parse_any_value(&mut self) -> PResult<Vec<TokenAndSpan>> {

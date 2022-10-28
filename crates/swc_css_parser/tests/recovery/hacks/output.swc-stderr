@@ -167,6 +167,12 @@
      :   ^
      `----
 
+  x Unexpected '!' in <declaration-value>
+     ,-[$DIR/tests/recovery/hacks/input.css:180:1]
+ 180 | .selector { property: value !ie; }
+     :                             ^
+     `----
+
   x Unexpected end of file, but expected '{'
      ,-[$DIR/tests/recovery/hacks/input.css:112:5]
  112 | ,-> &property: value;
