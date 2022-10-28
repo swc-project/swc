@@ -11,6 +11,9 @@
 - **(css/parser)** Fix parsing of colors (#6260) ([c3944ba](https://github.com/swc-project/swc/commit/c3944ba2395e54c7b557f9a71639e18458dc2a97))
 
 
+- **(css/parser)** Fix various issues (#6281) ([2813acc](https://github.com/swc-project/swc/commit/2813acccc248bed17dd6a961a6684e50a814546c))
+
+
 - **(es/codegen)** Preserve more parens (#6268) ([c318446](https://github.com/swc-project/swc/commit/c3184463f1b09c9e434f31313afb0b13d0404379))
 
 
