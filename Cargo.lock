@@ -1370,10 +1370,13 @@ dependencies = [
 ]
 
 [[package]]
-name = "json_comments"
-version = "0.2.0"
+name = "jsonc-parser"
+version = "0.21.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ab25c689752fbb49903458495d3e71853229e262a2e6136325359e0705606483"
+checksum = "3a1853e40333206f9a685358046d13ab200169e3ee573019bddf0ede0dc29307"
+dependencies = [
+ "serde_json",
+]
 
 [[package]]
 name = "lazy_static"
@@ -2983,7 +2986,7 @@ dependencies = [
  "dashmap",
  "either",
  "indexmap",
- "json_comments",
+ "jsonc-parser",
  "lru",
  "napi",
  "napi-derive",
