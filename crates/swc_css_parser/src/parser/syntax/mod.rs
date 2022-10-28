@@ -846,7 +846,7 @@ where
                     token: Token::Delim { value: '!', .. },
                     ..
                 }) => {
-                    exclamation_point_span = Some(span.clone());
+                    exclamation_point_span = Some(*span);
 
                     if important_ident.is_some() {
                         important_ident = None;
