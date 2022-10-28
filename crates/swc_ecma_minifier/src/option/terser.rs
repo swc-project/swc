@@ -433,6 +433,8 @@ impl From<TerserEcmaVersion> for EsVersion {
                 2018 => EsVersion::Es2018,
                 2019 => EsVersion::Es2019,
                 2020 => EsVersion::Es2020,
+                2021 => EsVersion::Es2021,
+                2022 => EsVersion::Es2022,
                 _ => {
                     panic!("`{}` is not a valid ecmascript version", v)
                 }
