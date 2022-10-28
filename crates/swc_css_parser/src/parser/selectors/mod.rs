@@ -403,8 +403,8 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<CompoundSelector> {
-        let span = self.input.cur_span();
-        let start_pos = span.lo;
+        let start_span = self.input.cur_span();
+        let start_pos = start_span.lo;
 
         let mut nesting_selector = None;
 
@@ -459,11 +459,11 @@ where
             }
         }
 
-        let span = span!(self, start_pos);
-
         if nesting_selector.is_none() && type_selector.is_none() && subclass_selectors.is_empty() {
-            return Err(Error::new(span, ErrorKind::InvalidSelector));
+            return Err(Error::new(start_span, ErrorKind::InvalidSelector));
         }
+
+        let span = span!(self, start_pos);
 
         Ok(CompoundSelector {
             span,

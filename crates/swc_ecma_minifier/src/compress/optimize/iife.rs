@@ -683,10 +683,7 @@ where
         match e {
             Expr::Lit(..) | Expr::Ident(..) => true,
 
-            Expr::Bin(BinExpr {
-                op: op!("&&") | op!("||") | op!("??"),
-                ..
-            }) => false,
+            Expr::Bin(BinExpr { op, .. }) if op.may_short_circuit() => false,
 
             Expr::Bin(e) => {
                 self.is_return_arg_simple_enough_for_iife_eval(&e.left)

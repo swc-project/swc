@@ -581,11 +581,8 @@ fn span_visualizer_line_comment(input: PathBuf) {
 #[testing::fixture(
     "tests/recovery/**/input.css",
     exclude(
-        "at-rule/media/condition/input.css",
-        "at-rule/media/condition-1/input.css",
         "at-rule/page/invalid-nesting/input.css",
         "at-rule/page/without-page/input.css",
-        "at-rule/unknown/input.css",
         "function/calc/division/input.css",
         "function/calc/space/input.css",
         "function/var/input.css",
