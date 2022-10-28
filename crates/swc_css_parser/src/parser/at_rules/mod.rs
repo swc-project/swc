@@ -191,7 +191,6 @@ where
                                 block_contents_grammar: BlockContentsGrammar::DeclarationValue,
                                 ..self.ctx
                             };
-
                             let func = self.with_ctx(ctx).parse_as::<Function>()?;
 
                             self.input.skip_ws();
@@ -516,7 +515,6 @@ where
                         in_container_at_rule: true,
                         ..self.ctx
                     };
-
                     let style_blocks = self.with_ctx(ctx).parse_as::<Vec<StyleBlock>>()?;
                     let style_blocks: Vec<ComponentValue> = style_blocks
                         .into_iter()
@@ -586,12 +584,11 @@ where
                 declaration_list
             }
             js_word!("font-feature-values") => {
-                let declaration_list = self
-                    .with_ctx(Ctx {
-                        in_font_feature_values_at_rule: true,
-                        ..self.ctx
-                    })
-                    .parse_as::<Vec<DeclarationOrAtRule>>()?;
+                let ctx = Ctx {
+                    in_font_feature_values_at_rule: true,
+                    ..self.ctx
+                };
+                let declaration_list = self.with_ctx(ctx).parse_as::<Vec<DeclarationOrAtRule>>()?;
                 let declaration_list: Vec<ComponentValue> = declaration_list
                     .into_iter()
                     .map(ComponentValue::DeclarationOrAtRule)
@@ -642,7 +639,6 @@ where
                     ..self.ctx
                 };
                 let rule_list = self.with_ctx(ctx).parse_as::<Vec<Rule>>()?;
-
                 let rule_list: Vec<ComponentValue> = rule_list
                     .into_iter()
                     .map(|rule| match rule {
@@ -1237,17 +1233,12 @@ where
                     block_contents_grammar: BlockContentsGrammar::NoGrammar,
                     ..self.ctx
                 };
-
                 let function = self.with_ctx(ctx).parse_as::<Function>()?;
 
                 Ok(GeneralEnclosed::Function(function))
             }
             tok!("(") => {
-                let ctx = Ctx {
-                    block_contents_grammar: BlockContentsGrammar::NoGrammar,
-                    ..self.ctx
-                };
-                let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
+                let block = self.parse_as::<SimpleBlock>()?;
 
                 if let Some(first) = block.value.get(0) {
                     match first {
@@ -1310,7 +1301,6 @@ where
                         block_contents_grammar: BlockContentsGrammar::DeclarationValue,
                         ..self.ctx
                     };
-
                     let function = self.with_ctx(ctx).parse_as::<Function>()?;
 
                     Ok(DocumentPreludeMatchingFunction::Function(function))
@@ -1897,10 +1887,9 @@ where
                     block_contents_grammar: BlockContentsGrammar::DeclarationValue,
                     ..self.ctx
                 };
+                let function = self.with_ctx(ctx).parse_as::<Function>()?;
 
-                Ok(MediaFeatureValue::Function(
-                    self.with_ctx(ctx).parse_as::<Function>()?,
-                ))
+                Ok(MediaFeatureValue::Function(function))
             }
             _ => Err(Error::new(
                 span,
@@ -2517,10 +2506,9 @@ where
                     block_contents_grammar: BlockContentsGrammar::DeclarationValue,
                     ..self.ctx
                 };
+                let function = self.with_ctx(ctx).parse_as::<Function>()?;
 
-                Ok(SizeFeatureValue::Function(
-                    self.with_ctx(ctx).parse_as::<Function>()?,
-                ))
+                Ok(SizeFeatureValue::Function(function))
             }
             _ => Err(Error::new(
                 span,

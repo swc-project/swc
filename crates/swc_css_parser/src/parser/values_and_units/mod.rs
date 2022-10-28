@@ -11,6 +11,24 @@ impl<I> Parser<I>
 where
     I: ParserInput,
 {
+    pub(super) fn parse_generic_values(&mut self) -> PResult<Vec<ComponentValue>> {
+        let mut values = vec![];
+
+        loop {
+            self.input.skip_ws();
+
+            if is!(self, EOF) {
+                break;
+            }
+
+            let component_value = self.parse_generic_value()?;
+
+            values.push(component_value);
+        }
+
+        Ok(values)
+    }
+
     pub(super) fn parse_generic_value(&mut self) -> PResult<ComponentValue> {
         self.input.skip_ws();
 
@@ -75,30 +93,12 @@ where
             }
 
             tok!("[") | tok!("(") | tok!("{") => {
-                let ctx = Ctx {
-                    block_contents_grammar: BlockContentsGrammar::NoGrammar,
-                    ..self.ctx
-                };
-                let mut block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
+                let mut block = self.parse_as::<SimpleBlock>()?;
                 let locv = self.create_locv(block.value);
 
-                block.value = match self.parse_according_to_grammar(&locv, |parser| {
-                    let mut values = vec![];
-
-                    loop {
-                        parser.input.skip_ws();
-
-                        if is!(parser, EOF) {
-                            break;
-                        }
-
-                        let component_value = parser.parse_generic_value()?;
-
-                        values.push(component_value);
-                    }
-
-                    Ok(values)
-                }) {
+                block.value = match self
+                    .parse_according_to_grammar(&locv, |parser| parser.parse_generic_values())
+                {
                     Ok(values) => values,
                     Err(err) => {
                         if *err.kind() != ErrorKind::Ignore {

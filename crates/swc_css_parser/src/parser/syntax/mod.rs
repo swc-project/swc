@@ -227,12 +227,7 @@ where
                 // <{-token>
                 // Consume a simple block and assign it to the at-rule’s block. Return the at-rule.
                 tok!("{") => {
-                    let mut block = self
-                        .with_ctx(Ctx {
-                            block_contents_grammar: BlockContentsGrammar::NoGrammar,
-                            ..self.ctx
-                        })
-                        .parse_as::<SimpleBlock>()?;
+                    let mut block = self.parse_as::<SimpleBlock>()?;
 
                     let list_of_component_values = self.create_locv(prelude);
 
@@ -389,12 +384,7 @@ where
                 // Consume a simple block and assign it to the qualified rule’s block. Return the
                 // qualified rule.
                 tok!("{") => {
-                    let mut block = self
-                        .with_ctx(Ctx {
-                            block_contents_grammar: BlockContentsGrammar::NoGrammar,
-                            ..self.ctx
-                        })
-                        .parse_as::<SimpleBlock>()?;
+                    let mut block = self.parse_as::<SimpleBlock>()?;
 
                     block.value = match self.ctx.block_contents_grammar {
                         BlockContentsGrammar::DeclarationList => self
@@ -422,12 +412,7 @@ where
                 // Reconsume the current input token. Consume a component value. Append the returned
                 // value to the qualified rule’s prelude.
                 _ => {
-                    let component_value = self
-                        .with_ctx(Ctx {
-                            block_contents_grammar: BlockContentsGrammar::NoGrammar,
-                            ..self.ctx
-                        })
-                        .parse_as::<ComponentValue>()?;
+                    let component_value = self.parse_as::<ComponentValue>()?;
 
                     prelude.push(component_value);
                 }
@@ -513,12 +498,7 @@ where
                     };
 
                     while !is_one_of!(self, ";", EOF) {
-                        let ctx = Ctx {
-                            block_contents_grammar: BlockContentsGrammar::NoGrammar,
-                            ..self.ctx
-                        };
-
-                        let component_value = self.with_ctx(ctx).parse_as::<ComponentValue>()?;
+                        let component_value = self.parse_as::<ComponentValue>()?;
 
                         temporary_list.children.push(component_value);
                     }
@@ -607,12 +587,7 @@ where
                     };
 
                     while !is_one_of!(self, ";", EOF) {
-                        let ctx = Ctx {
-                            block_contents_grammar: BlockContentsGrammar::NoGrammar,
-                            ..self.ctx
-                        };
-
-                        let component_value = self.with_ctx(ctx).parse_as::<ComponentValue>()?;
+                        let component_value = self.parse_as::<ComponentValue>()?;
 
                         list_of_component_values.children.push(component_value);
                     }
@@ -688,12 +663,7 @@ where
                     };
 
                     while !is_one_of!(self, ";", EOF) {
-                        let ctx = Ctx {
-                            block_contents_grammar: BlockContentsGrammar::NoGrammar,
-                            ..self.ctx
-                        };
-
-                        let component_value = self.with_ctx(ctx).parse_as::<ComponentValue>()?;
+                        let component_value = self.parse_as::<ComponentValue>()?;
 
                         temporary_list.children.push(component_value);
                     }
@@ -738,12 +708,7 @@ where
                     };
 
                     while !is_one_of!(self, ";", EOF) {
-                        let ctx = Ctx {
-                            block_contents_grammar: BlockContentsGrammar::NoGrammar,
-                            ..self.ctx
-                        };
-
-                        let component_value = self.with_ctx(ctx).parse_as::<ComponentValue>()?;
+                        let component_value = self.parse_as::<ComponentValue>()?;
 
                         list_of_component_values.children.push(component_value);
                     }
@@ -822,12 +787,7 @@ where
                 break;
             }
 
-            let component_value = self
-                .with_ctx(Ctx {
-                    block_contents_grammar: BlockContentsGrammar::NoGrammar,
-                    ..self.ctx
-                })
-                .parse_as::<ComponentValue>()?;
+            let component_value = self.parse_as::<ComponentValue>()?;
 
             match &component_value {
                 // Optimization for step 5
@@ -1145,14 +1105,10 @@ where
                 // anything else
                 // Reconsume the current input token. Consume a component value and append the
                 // returned value to the function’s value.
+                // TODO refactor me
                 _ => match self.ctx.block_contents_grammar {
-                    BlockContentsGrammar::NoGrammar => {
-                        let ctx = Ctx {
-                            block_contents_grammar: BlockContentsGrammar::NoGrammar,
-                            ..self.ctx
-                        };
-
-                        let component_value = self.with_ctx(ctx).parse_as::<ComponentValue>()?;
+                    BlockContentsGrammar::NoGrammar | BlockContentsGrammar::DeclarationList => {
+                        let component_value = self.parse_as::<ComponentValue>()?;
 
                         function.value.push(component_value);
                     }
@@ -1194,10 +1150,6 @@ where
 {
     fn parse(&mut self) -> PResult<ListOfComponentValues> {
         let span = self.input.cur_span();
-        let ctx = Ctx {
-            block_contents_grammar: BlockContentsGrammar::NoGrammar,
-            ..self.ctx
-        };
         let mut children = vec![];
 
         // Repeatedly consume a component value from input until an <EOF-token> is
@@ -1208,7 +1160,7 @@ where
                 break;
             }
 
-            let components_value = self.with_ctx(ctx).parse_as::<ComponentValue>()?;
+            let components_value = self.parse_as::<ComponentValue>()?;
 
             children.push(components_value);
         }
