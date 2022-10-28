@@ -1,5 +1,3 @@
 div[data-size="calc(3*3)"] {
-}
-
-div:nth-child(2n + calc(3*3)) {
+    color: red;
 }

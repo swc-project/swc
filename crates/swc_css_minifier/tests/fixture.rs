@@ -17,16 +17,18 @@ fn minify_fixtures(input: PathBuf) {
         input.extension().unwrap().to_string_lossy()
     ));
 
-    testing::run_test(false, |cm, _handler| {
+    testing::run_test(false, |cm, handler| {
         let fm = cm.load_file(&input).unwrap();
 
         let mut errors = vec![];
         let res: Result<Stylesheet, _> = parse_file(&fm, Default::default(), &mut errors);
 
-        if res.is_err() || !errors.is_empty() {
-            // TODO uncomment me
-            // We are not debugging parser
-            // return Ok(());
+        for err in errors {
+            err.to_diagnostics(handler).emit();
+        }
+
+        if handler.has_errors() {
+            return Err(());
         }
 
         let mut ss = res.unwrap();

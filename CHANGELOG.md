@@ -44,6 +44,9 @@
 
 
 
+- **(css/minifier)** Fix fixture tester (#6222) ([cd1319d](https://github.com/swc-project/swc/commit/cd1319d9be11bc66b29c43d2fab71ff8e02fcea9))
+
+
 - **(css/parser)** Add tests for refactoring (#6262) ([4c293f9](https://github.com/swc-project/swc/commit/4c293f965b380e49790cdf4fd8c1e1cb3845e9c5))
 
 ## [1.3.11] - 2022-10-26
