@@ -168,7 +168,7 @@ dependencies = [
 
 [[package]]
 name = "binding_macros"
-version = "0.20.64"
+version = "0.20.65"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -1370,10 +1370,13 @@ dependencies = [
 ]
 
 [[package]]
-name = "json_comments"
-version = "0.2.0"
+name = "jsonc-parser"
+version = "0.21.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ab25c689752fbb49903458495d3e71853229e262a2e6136325359e0705606483"
+checksum = "3a1853e40333206f9a685358046d13ab200169e3ee573019bddf0ede0dc29307"
+dependencies = [
+ "serde_json",
+]
 
 [[package]]
 name = "lazy_static"
@@ -2973,7 +2976,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.232.64"
+version = "0.232.65"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -2983,7 +2986,7 @@ dependencies = [
  "dashmap",
  "either",
  "indexmap",
- "json_comments",
+ "jsonc-parser",
  "lru",
  "napi",
  "napi-derive",
@@ -3159,7 +3162,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.40.31"
+version = "0.40.32"
 dependencies = [
  "binding_macros",
  "once_cell",
@@ -3988,7 +3991,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.154.64"
+version = "0.154.65"
 dependencies = [
  "ahash",
  "anyhow",
@@ -4174,7 +4177,7 @@ dependencies = [
 
 [[package]]
 name = "swc_node_bundler"
-version = "0.18.64"
+version = "0.18.65"
 dependencies = [
  "anyhow",
  "dashmap",

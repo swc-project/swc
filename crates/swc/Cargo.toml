@@ -9,7 +9,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = "Apache-2.0"
 name          = "swc"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.232.64"
+version       = "0.232.65"
 
 [lib]
 bench = false
@@ -49,7 +49,7 @@ base64 = "0.13.0"
 dashmap = "5.1.0"
 either = "1"
 indexmap = { version = "1.6.1", features = ["serde"] }
-json_comments = "0.2.0"
+jsonc-parser = { version = "0.21.0", features = ["serde"] }
 lru = "0.7.1"
 once_cell = "1.10.0"
 parking_lot = "0.12.0"
