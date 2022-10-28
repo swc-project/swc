@@ -38,12 +38,8 @@ struct CfgAnalyzer {
 }
 
 #[derive(Default)]
-struct Data {
-    pending_branch: Option,
-}
+struct Data {}
 
-impl Visit for CfgAnalyzer {
-    noop_visit_type!();
-
-    fn visit_if_stmt(&mut self, s: &IfStmt) {}
+impl CfgAnalyzer {
+    fn handle_if(&mut self, s: &IfStmt, next_block: BlockId) {}
 }
