@@ -242,7 +242,6 @@ where
                                     }
 
                                     match &*arg.expr {
-                                        Expr::Lit(Lit::Regex(..)) => false,
                                         Expr::Lit(Lit::Str(s)) if s.value.len() > 3 => true,
                                         Expr::Lit(..) => false,
                                         _ => true,
