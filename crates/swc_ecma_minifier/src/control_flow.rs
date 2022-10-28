@@ -1,5 +1,5 @@
 use swc_ecma_ast::{Expr, Program, Stmt};
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut};
+use swc_ecma_visit::{noop_visit_type, Visit};
 use swc_fast_graph::digraph::FastDiGraphMap;
 
 /// The id of a basic block
@@ -40,6 +40,6 @@ struct CfgAnalyzer {
 #[derive(Default)]
 struct Data {}
 
-impl VisitMut for CfgAnalyzer {
-    noop_visit_mut_type!();
+impl Visit for CfgAnalyzer {
+    noop_visit_type!();
 }
