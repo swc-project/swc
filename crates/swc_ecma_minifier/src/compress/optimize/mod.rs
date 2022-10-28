@@ -1094,6 +1094,7 @@ where
                 span,
                 left,
                 right,
+                #[cfg(feature = "debug")]
                 op,
                 ..
             }) => {
