@@ -1,5 +1,5 @@
 :root {
-  --foo: red !important;
+  --foo: red!important;
   --foo: red!important;
 }
 div {
@@ -24,7 +24,8 @@ a {
   }
 }
 .foo {
-  color: red !ie;}
+  color: red !ie;
+}
 * {
   --x: !important;
 }

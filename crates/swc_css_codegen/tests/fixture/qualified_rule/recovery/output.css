@@ -23,7 +23,7 @@ $bad: rule;
 a {
   div.major { color: blue } color: red }
 a {
-  div: hover { color: blue } color:red;
+  div: hover { color: blue } color: red;
 }
 a {
   div: hover { color: blue };
