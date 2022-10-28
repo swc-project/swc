@@ -10347,7 +10347,7 @@ fn issue_6279_1() {
 fn issue_6279_2() {
     run_default_exec_test(
         r###"
-        const r = new Regexp('a', 'g');
+        const r = new RegExp('a', 'g');
         function run(str, r) {
             let m
             while (m = r.exec(str)) {
