@@ -89,7 +89,7 @@ where
                     || (n.left.is_str() && right.right.is_str())
                 {
                     self.changed = true;
-                    report_change!("Remove extra paren in binray expression");
+                    report_change!("Remove extra paren in binary expression");
                     let left = n.left.take();
                     let BinExpr {
                         op,
