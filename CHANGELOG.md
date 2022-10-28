@@ -26,6 +26,9 @@
 
 
 
+- **(css/parser)** Improve error reporting (#6274) ([956d574](https://github.com/swc-project/swc/commit/956d57468367ddfd7ff87cb98954a3006edad4b9))
+
+
 - **(es/minfiier)** Compute more with sequential inliner (#6169) ([743a1aa](https://github.com/swc-project/swc/commit/743a1aab4fc8abf0ee002520cf88680fb4e14d2f))
 
 
