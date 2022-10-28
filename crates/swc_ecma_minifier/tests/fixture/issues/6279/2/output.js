@@ -1,4 +1,4 @@
-const r = new Regex('a', 'g');
+const r = new RegExp('a', 'g');
 !function(str, r) {
     let m;
     for(; m = r.exec(str);)console.log(m);
