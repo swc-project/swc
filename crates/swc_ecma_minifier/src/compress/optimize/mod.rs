@@ -931,6 +931,8 @@ where
             | Expr::PrivateName(_)
             | Expr::Update(_) => return Some(e.take()),
 
+            Expr::Bin(BinExpr { op, .. }) if op.may_short_circuit() => return Some(e.take()),
+
             // Not supported. (At least at the moment)
             Expr::JSXMember(_)
             | Expr::JSXNamespacedName(_)
@@ -1092,7 +1094,6 @@ where
                 span,
                 left,
                 right,
-                #[cfg(feature = "debug")]
                 op,
                 ..
             }) => {
