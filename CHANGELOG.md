@@ -31,6 +31,9 @@
 
 - **(html/minifier)** Handle `crossorigin` (#6261) ([782da5c](https://github.com/swc-project/swc/commit/782da5c83aa2d84e2b25d59272703300b670b88d))
 
+
+- **(html/minifier)** Merge `script` tags (#6273) ([02f8d31](https://github.com/swc-project/swc/commit/02f8d31ef38a56740de3ce5b15340e91e9a476e1))
+
 ### Miscellaneous Tasks
 
 
