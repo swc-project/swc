@@ -946,7 +946,14 @@ where
             // Otherwise, if the current input token is a <function-token>, consume a
             // function and return it.
             tok!("function") => {
-                let function = self.parse()?;
+                let function = self
+                    .with_ctx({
+                        Ctx {
+                            block_contents_grammar: BlockContentsGrammar::NoGrammar,
+                            ..self.ctx
+                        }
+                    })
+                    .parse_as::<Function>()?;
 
                 Ok(ComponentValue::Function(function))
             }
@@ -1072,14 +1079,11 @@ where
             value: ident.0,
             raw: Some(ident.1),
         };
-
         let mut function = Function {
             span: Default::default(),
             name,
             value: vec![],
         };
-
-        let mut with_error = false;
 
         // Repeatedly consume the next input token and process it as follows:
         loop {
@@ -1105,40 +1109,35 @@ where
                 // anything else
                 // Reconsume the current input token. Consume a component value and append the
                 // returned value to the function’s value.
-                // TODO refactor me
-                _ => match self.ctx.block_contents_grammar {
-                    BlockContentsGrammar::NoGrammar | BlockContentsGrammar::DeclarationList => {
-                        let component_value = self.parse_as::<ComponentValue>()?;
+                _ => {
+                    let component_value = self.parse_as::<ComponentValue>()?;
 
-                        function.value.push(component_value);
-                    }
-                    _ => {
-                        if with_error {
-                            function.value.push(self.parse()?);
-                        } else {
-                            let state = self.input.state();
-                            let values = self.parse_function_values(function_name);
-
-                            match values {
-                                Ok(values) => {
-                                    function.value.extend(values);
-                                }
-                                Err(err) => {
-                                    self.errors.push(err);
-                                    self.input.reset(&state);
-
-                                    with_error = true;
-
-                                    function.value.push(self.parse()?);
-                                }
-                            }
-                        }
-                    }
-                },
+                    function.value.push(component_value);
+                }
             }
         }
 
         function.span = span!(self, span.lo);
+
+        match self.ctx.block_contents_grammar {
+            BlockContentsGrammar::NoGrammar | BlockContentsGrammar::DeclarationList => {}
+            _ => {
+                let locv = self.create_locv(function.value);
+
+                function.value = match self.parse_according_to_grammar(&locv, |parser| {
+                    parser.parse_function_values(function_name)
+                }) {
+                    Ok(values) => values,
+                    Err(err) => {
+                        if *err.kind() != ErrorKind::Ignore {
+                            self.errors.push(err);
+                        }
+
+                        locv.children
+                    }
+                };
+            }
+        }
 
         return Ok(function);
     }

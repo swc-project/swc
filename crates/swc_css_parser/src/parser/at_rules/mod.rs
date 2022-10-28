@@ -184,8 +184,6 @@ where
                         Token::Function { value, .. }
                             if *value.to_ascii_lowercase() == *"layer" =>
                         {
-                            let span = self.input.cur_span();
-
                             let ctx = Ctx {
                                 in_import_at_rule: true,
                                 block_contents_grammar: BlockContentsGrammar::DeclarationValue,
@@ -195,41 +193,7 @@ where
 
                             self.input.skip_ws();
 
-                            if func.value.len() != 1 {
-                                return Err(Error::new(
-                                    span,
-                                    ErrorKind::Expected(
-                                        "layer function inside @import expected to have exactly \
-                                         one ident argument",
-                                    ),
-                                ));
-                            } else if let ComponentValue::LayerName(LayerName {
-                                name: name_raw,
-                                ..
-                            }) = &func.value[0]
-                            {
-                                self.input.skip_ws();
-
-                                if name_raw.is_empty() {
-                                    return Err(Error::new(
-                                        span,
-                                        ErrorKind::Expected(
-                                            "layer function inside @import expected to have \
-                                             exactly one ident argument",
-                                        ),
-                                    ));
-                                } else {
-                                    Some(Box::new(ImportPreludeLayerName::Function(func)))
-                                }
-                            } else {
-                                return Err(Error::new(
-                                    span,
-                                    ErrorKind::Expected(
-                                        "layer function inside @import expected to have exactly \
-                                         one ident argument",
-                                    ),
-                                ));
-                            }
+                            Some(Box::new(ImportPreludeLayerName::Function(func)))
                         }
                         _ => None,
                     }
@@ -2040,32 +2004,12 @@ where
         let start = self.input.cur_span().lo;
         let mut name = vec![];
 
-        let entered = is!(self, Ident);
-
         while is!(self, Ident) {
-            let span = self.input.cur_span();
-            let token = bump!(self);
-            let ident = match token {
-                Token::Ident { value, raw } => Ident {
-                    span,
-                    value,
-                    raw: Some(raw),
-                },
-                _ => {
-                    unreachable!();
-                }
-            };
-
-            name.push(ident);
+            name.push(self.parse()?);
 
             if is!(self, ".") {
                 eat!(self, ".");
             }
-        }
-
-        if !entered {
-            // if first argument is not ident, without bump! will cause infinite loop
-            bump!(self);
         }
 
         Ok(LayerName {
