@@ -59,6 +59,9 @@
 - **(css/parser)** Refactor more (#6251) ([a0e4684](https://github.com/swc-project/swc/commit/a0e4684476e1dba7afec7ac732044d44bb06ef6d))
 
 
+- **(css/parser)** Refactor even more (#6288) ([6cafeb2](https://github.com/swc-project/swc/commit/6cafeb2bccc2ce3a1e7d3ef20bac7fb8164e988a))
+
+
 - **(es)** Accept custom instance of `Comments`  (#6290) ([1024a55](https://github.com/swc-project/swc/commit/1024a552cf6f470cef0e971f207d6023804ea514))
 
 
