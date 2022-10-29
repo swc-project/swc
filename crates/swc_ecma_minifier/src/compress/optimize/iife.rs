@@ -200,6 +200,7 @@ where
 
                         if let Some(arg) = arg {
                             match &**arg {
+                                Expr::Lit(Lit::Regex(..)) => continue,
                                 Expr::Lit(Lit::Str(s)) if s.value.len() > 3 => continue,
                                 Expr::Lit(..) => {}
                                 _ => continue,

@@ -20,6 +20,9 @@
 - **(es/minifier)** Don't ignore nullish coalescing (#6272) ([8c1ac68](https://github.com/swc-project/swc/commit/8c1ac686cb948a60da2e260b54e583490bce526e))
 
 
+- **(es/minifier)** Don't inline regex for IIFEs (#6283) ([4eab2ed](https://github.com/swc-project/swc/commit/4eab2ed2fc5d3eed2c397b81c780f87144106905))
+
+
 - **(es/typescript)** Fix stack overflow (#6250) ([28ec6e8](https://github.com/swc-project/swc/commit/28ec6e8fc70cf74722c93353c03e4fdedb21954a))
 
 
@@ -30,6 +33,9 @@
 
 
 - **(css/parser)** Improve error reporting (#6274) ([956d574](https://github.com/swc-project/swc/commit/956d57468367ddfd7ff87cb98954a3006edad4b9))
+
+
+- **(es)** Support trailing commas in `.swcrc` (#6289) ([244b0af](https://github.com/swc-project/swc/commit/244b0af30dc703842fbed76b3e9492e882c4bb3a))
 
 
 - **(es/minfiier)** Compute more with sequential inliner (#6169) ([743a1aa](https://github.com/swc-project/swc/commit/743a1aab4fc8abf0ee002520cf88680fb4e14d2f))
@@ -51,6 +57,9 @@
 
 
 - **(css/parser)** Refactor more (#6251) ([a0e4684](https://github.com/swc-project/swc/commit/a0e4684476e1dba7afec7ac732044d44bb06ef6d))
+
+
+- **(es)** Accept custom instance of `Comments`  (#6290) ([1024a55](https://github.com/swc-project/swc/commit/1024a552cf6f470cef0e971f207d6023804ea514))
 
 
 - **(html/parser)** Refactor (#6267) ([c255cfd](https://github.com/swc-project/swc/commit/c255cfd71609ebc7aeb0bd2d0d01ede6ae5c5e08))
