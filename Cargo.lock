@@ -168,7 +168,7 @@ dependencies = [
 
 [[package]]
 name = "binding_macros"
-version = "0.20.66"
+version = "0.20.67"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -2976,7 +2976,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.232.66"
+version = "0.232.67"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3162,7 +3162,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.40.33"
+version = "0.40.34"
 dependencies = [
  "binding_macros",
  "once_cell",
@@ -3991,7 +3991,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.154.66"
+version = "0.154.67"
 dependencies = [
  "ahash",
  "anyhow",
@@ -4177,7 +4177,7 @@ dependencies = [
 
 [[package]]
 name = "swc_node_bundler"
-version = "0.18.66"
+version = "0.18.67"
 dependencies = [
  "anyhow",
  "dashmap",
