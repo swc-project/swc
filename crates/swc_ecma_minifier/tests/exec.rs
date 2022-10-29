@@ -10327,3 +10327,34 @@ fn issue_6217_1() {
         false,
     );
 }
+
+#[test]
+fn issue_6279_1() {
+    run_default_exec_test(
+        r###"
+        function run(str, r) {
+            let m
+            while(m = r.exec(str)) {
+            console.log(m)
+            }
+        }
+        run('abcda', /a/g)
+        "###,
+    );
+}
+
+#[test]
+fn issue_6279_2() {
+    run_default_exec_test(
+        r###"
+        const r = new RegExp('a', 'g');
+        function run(str, r) {
+            let m
+            while (m = r.exec(str)) {
+                console.log(m)
+            }
+        }
+        run('abcda', r)
+        "###,
+    );
+}
