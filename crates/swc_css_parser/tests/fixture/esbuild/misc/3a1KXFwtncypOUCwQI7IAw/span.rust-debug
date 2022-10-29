@@ -80,13 +80,13 @@
   x ComponentValue
    ,-[$DIR/tests/fixture/esbuild/misc/3a1KXFwtncypOUCwQI7IAw/input.css:1:1]
  1 | @keyframes name { 100% { color: red } }
-   :                          ^^^^^^^^^^
+   :                          ^^^^^^^^^^^
    `----
 
   x Declaration
    ,-[$DIR/tests/fixture/esbuild/misc/3a1KXFwtncypOUCwQI7IAw/input.css:1:1]
  1 | @keyframes name { 100% { color: red } }
-   :                          ^^^^^^^^^^
+   :                          ^^^^^^^^^^^
    `----
 
   x DeclarationName

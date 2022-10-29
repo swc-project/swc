@@ -3291,7 +3291,7 @@
                   "type": "Declaration",
                   "span": {
                     "start": 1172,
-                    "end": 1182,
+                    "end": 1183,
                     "ctxt": 0
                   },
                   "name": {
@@ -3400,7 +3400,7 @@
                   "type": "Declaration",
                   "span": {
                     "start": 1211,
-                    "end": 1228,
+                    "end": 1229,
                     "ctxt": 0
                   },
                   "name": {

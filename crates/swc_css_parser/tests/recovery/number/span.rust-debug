@@ -93,6 +93,7 @@
  3 | |       prop1: 10px
  4 | |       prop2: 10
  5 | `->     prop3: 10.10
+ 6 |     }
    `----
 
   x StyleBlock
@@ -101,6 +102,7 @@
  3 | |       prop1: 10px
  4 | |       prop2: 10
  5 | `->     prop3: 10.10
+ 6 |     }
    `----
 
   x Declaration
@@ -109,6 +111,7 @@
  3 | |       prop1: 10px
  4 | |       prop2: 10
  5 | `->     prop3: 10.10
+ 6 |     }
    `----
 
   x DeclarationName

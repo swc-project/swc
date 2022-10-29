@@ -70,7 +70,15 @@
           "end": 34,
           "ctxt": 0
         },
-        "name": "{",
+        "name": {
+          "type": "PreservedToken",
+          "span": {
+            "start": 8,
+            "end": 9,
+            "ctxt": 0
+          },
+          "token": "LBrace"
+        },
         "value": [
           {
             "type": "Declaration",
@@ -109,100 +117,38 @@
                 },
                 "value": [
                   {
-                    "type": "CalcSum",
+                    "type": "PreservedToken",
                     "span": {
                       "start": 23,
                       "end": 26,
                       "ctxt": 0
                     },
-                    "expressions": [
-                      {
-                        "type": "CalcProduct",
-                        "span": {
-                          "start": 23,
-                          "end": 26,
-                          "ctxt": 0
-                        },
-                        "expressions": [
-                          {
-                            "type": "Length",
-                            "span": {
-                              "start": 23,
-                              "end": 26,
-                              "ctxt": 0
-                            },
-                            "value": {
-                              "type": "Number",
-                              "span": {
-                                "start": 23,
-                                "end": 24,
-                                "ctxt": 0
-                              },
-                              "value": 2.0,
-                              "raw": "2"
-                            },
-                            "unit": {
-                              "type": "Ident",
-                              "span": {
-                                "start": 24,
-                                "end": 26,
-                                "ctxt": 0
-                              },
-                              "value": "px",
-                              "raw": "px"
-                            }
-                          }
-                        ]
+                    "token": {
+                      "Dimension": {
+                        "value": 2.0,
+                        "raw_value": "2",
+                        "unit": "px",
+                        "raw_unit": "px",
+                        "type": "integer"
                       }
-                    ]
+                    }
                   },
                   {
-                    "type": "CalcSum",
+                    "type": "PreservedToken",
                     "span": {
                       "start": 26,
                       "end": 30,
                       "ctxt": 0
                     },
-                    "expressions": [
-                      {
-                        "type": "CalcProduct",
-                        "span": {
-                          "start": 26,
-                          "end": 30,
-                          "ctxt": 0
-                        },
-                        "expressions": [
-                          {
-                            "type": "Length",
-                            "span": {
-                              "start": 26,
-                              "end": 30,
-                              "ctxt": 0
-                            },
-                            "value": {
-                              "type": "Number",
-                              "span": {
-                                "start": 26,
-                                "end": 28,
-                                "ctxt": 0
-                              },
-                              "value": 1.0,
-                              "raw": "+1"
-                            },
-                            "unit": {
-                              "type": "Ident",
-                              "span": {
-                                "start": 28,
-                                "end": 30,
-                                "ctxt": 0
-                              },
-                              "value": "px",
-                              "raw": "px"
-                            }
-                          }
-                        ]
+                    "token": {
+                      "Dimension": {
+                        "value": 1.0,
+                        "raw_value": "+1",
+                        "unit": "px",
+                        "raw_unit": "px",
+                        "type": "integer"
                       }
-                    ]
+                    }
                   }
                 ]
               }

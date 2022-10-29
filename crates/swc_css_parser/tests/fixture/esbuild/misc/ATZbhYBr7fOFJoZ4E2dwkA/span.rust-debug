@@ -92,13 +92,13 @@
   x ComponentValue
    ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:1]
  1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
-   :                             ^^^^^^^^^^
+   :                             ^^^^^^^^^^^
    `----
 
   x Declaration
    ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:1]
  1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
-   :                             ^^^^^^^^^^
+   :                             ^^^^^^^^^^^
    `----
 
   x DeclarationName
@@ -170,13 +170,13 @@
   x ComponentValue
    ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:1]
  1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
-   :                                                     ^^^^^^^^^^^
+   :                                                     ^^^^^^^^^^^^
    `----
 
   x Declaration
    ,-[$DIR/tests/fixture/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:1]
  1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
-   :                                                     ^^^^^^^^^^^
+   :                                                     ^^^^^^^^^^^^
    `----
 
   x DeclarationName

@@ -74,19 +74,19 @@
   x ComponentValue
    ,-[$DIR/tests/recovery/value/string/newline/input.css:2:5]
  2 | prop: "
-   : ^^^^^^^
+   : ^^^^^^^^
    `----
 
   x StyleBlock
    ,-[$DIR/tests/recovery/value/string/newline/input.css:2:5]
  2 | prop: "
-   : ^^^^^^^
+   : ^^^^^^^^
    `----
 
   x Declaration
    ,-[$DIR/tests/recovery/value/string/newline/input.css:2:5]
  2 | prop: "
-   : ^^^^^^^
+   : ^^^^^^^^
    `----
 
   x DeclarationName

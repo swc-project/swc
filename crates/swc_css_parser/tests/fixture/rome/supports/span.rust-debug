@@ -156,25 +156,25 @@
   x SupportsConditionType
    ,-[$DIR/tests/fixture/rome/supports/input.css:4:1]
  4 | @supports ( box-shadow: 0 0 2px black inset ) or
-   :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x SupportsInParens
    ,-[$DIR/tests/fixture/rome/supports/input.css:4:1]
  4 | @supports ( box-shadow: 0 0 2px black inset ) or
-   :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x SupportsFeature
    ,-[$DIR/tests/fixture/rome/supports/input.css:4:1]
  4 | @supports ( box-shadow: 0 0 2px black inset ) or
-   :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
    ,-[$DIR/tests/fixture/rome/supports/input.css:4:1]
  4 | @supports ( box-shadow: 0 0 2px black inset ) or
-   :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
@@ -288,19 +288,19 @@
   x SupportsInParens
    ,-[$DIR/tests/fixture/rome/supports/input.css:5:11]
  5 | ( -moz-box-shadow: 0 0 2px black inset ) or
-   :   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x SupportsFeature
    ,-[$DIR/tests/fixture/rome/supports/input.css:5:11]
  5 | ( -moz-box-shadow: 0 0 2px black inset ) or
-   :   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
    ,-[$DIR/tests/fixture/rome/supports/input.css:5:11]
  5 | ( -moz-box-shadow: 0 0 2px black inset ) or
-   :   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
@@ -414,19 +414,19 @@
   x SupportsInParens
    ,-[$DIR/tests/fixture/rome/supports/input.css:6:11]
  6 | ( -webkit-box-shadow: 0 0 2px black inset ) or
-   :   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x SupportsFeature
    ,-[$DIR/tests/fixture/rome/supports/input.css:6:11]
  6 | ( -webkit-box-shadow: 0 0 2px black inset ) or
-   :   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
    ,-[$DIR/tests/fixture/rome/supports/input.css:6:11]
  6 | ( -webkit-box-shadow: 0 0 2px black inset ) or
-   :   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
@@ -540,19 +540,19 @@
   x SupportsInParens
    ,-[$DIR/tests/fixture/rome/supports/input.css:7:11]
  7 | ( -o-box-shadow: 0 0 2px black inset ) {}
-   :   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x SupportsFeature
    ,-[$DIR/tests/fixture/rome/supports/input.css:7:11]
  7 | ( -o-box-shadow: 0 0 2px black inset ) {}
-   :   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
    ,-[$DIR/tests/fixture/rome/supports/input.css:7:11]
  7 | ( -o-box-shadow: 0 0 2px black inset ) {}
-   :   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName

@@ -3359,13 +3359,13 @@
   x ComponentValue
     ,-[$DIR/tests/fixture/csstree/1/input.css:46:5]
  46 | from  { color: red }
-    :         ^^^^^^^^^^
+    :         ^^^^^^^^^^^
     `----
 
   x Declaration
     ,-[$DIR/tests/fixture/csstree/1/input.css:46:5]
  46 | from  { color: red }
-    :         ^^^^^^^^^^
+    :         ^^^^^^^^^^^
     `----
 
   x DeclarationName
@@ -3461,13 +3461,13 @@
   x ComponentValue
     ,-[$DIR/tests/fixture/csstree/1/input.css:47:5]
  47 | 50.1% { color: green; background: green }
-    :                       ^^^^^^^^^^^^^^^^^
+    :                       ^^^^^^^^^^^^^^^^^^
     `----
 
   x Declaration
     ,-[$DIR/tests/fixture/csstree/1/input.css:47:5]
  47 | 50.1% { color: green; background: green }
-    :                       ^^^^^^^^^^^^^^^^^
+    :                       ^^^^^^^^^^^^^^^^^^
     `----
 
   x DeclarationName

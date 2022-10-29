@@ -466,19 +466,19 @@
   x ComponentValue
    ,-[$DIR/tests/fixture/important/basic/input.css:8:5]
  8 | color: red !   important   ;
-   : ^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
    ,-[$DIR/tests/fixture/important/basic/input.css:8:5]
  8 | color: red !   important   ;
-   : ^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
    ,-[$DIR/tests/fixture/important/basic/input.css:8:5]
  8 | color: red !   important   ;
-   : ^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
@@ -574,19 +574,19 @@
   x ComponentValue
     ,-[$DIR/tests/fixture/important/basic/input.css:10:5]
  10 | color: white !   IMPORTANT   ;
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x StyleBlock
     ,-[$DIR/tests/fixture/important/basic/input.css:10:5]
  10 | color: white !   IMPORTANT   ;
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Declaration
     ,-[$DIR/tests/fixture/important/basic/input.css:10:5]
  10 | color: white !   IMPORTANT   ;
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x DeclarationName

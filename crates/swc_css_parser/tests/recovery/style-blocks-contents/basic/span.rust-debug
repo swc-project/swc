@@ -1349,20 +1349,20 @@
 
   x ComponentValue
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:32:13]
- 32 | color: red
-    : ^^^^^^^^^^
+ 32 | ,-> color: red
+ 33 | `->         }
     `----
 
   x StyleBlock
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:32:13]
- 32 | color: red
-    : ^^^^^^^^^^
+ 32 | ,-> color: red
+ 33 | `->         }
     `----
 
   x Declaration
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:32:13]
- 32 | color: red
-    : ^^^^^^^^^^
+ 32 | ,-> color: red
+ 33 | `->         }
     `----
 
   x DeclarationName

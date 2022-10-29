@@ -51,7 +51,6 @@ pub struct ParserConfig {
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum BlockContentsGrammar {
-    NoGrammar,
     StyleBlock,
     DeclarationList,
     RuleList,
@@ -61,7 +60,7 @@ pub enum BlockContentsGrammar {
 
 impl Default for BlockContentsGrammar {
     fn default() -> Self {
-        BlockContentsGrammar::NoGrammar
+        BlockContentsGrammar::Stylesheet
     }
 }
 

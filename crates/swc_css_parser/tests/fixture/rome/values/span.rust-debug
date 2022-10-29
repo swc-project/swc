@@ -475,19 +475,22 @@
   x ComponentValue
     ,-[$DIR/tests/fixture/rome/values/input.css:13:5]
  13 | color: yellow
-    : ^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^
+ 14 | }
     `----
 
   x StyleBlock
     ,-[$DIR/tests/fixture/rome/values/input.css:13:5]
  13 | color: yellow
-    : ^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^
+ 14 | }
     `----
 
   x Declaration
     ,-[$DIR/tests/fixture/rome/values/input.css:13:5]
  13 | color: yellow
-    : ^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^
+ 14 | }
     `----
 
   x DeclarationName
@@ -631,19 +634,22 @@
   x ComponentValue
     ,-[$DIR/tests/fixture/rome/values/input.css:18:5]
  18 | background: none
-    : ^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^
+ 19 | }
     `----
 
   x StyleBlock
     ,-[$DIR/tests/fixture/rome/values/input.css:18:5]
  18 | background: none
-    : ^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^
+ 19 | }
     `----
 
   x Declaration
     ,-[$DIR/tests/fixture/rome/values/input.css:18:5]
  18 | background: none
-    : ^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^
+ 19 | }
     `----
 
   x DeclarationName

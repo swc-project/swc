@@ -74,19 +74,19 @@
   x ComponentValue
    ,-[$DIR/tests/fixture/esbuild/misc/dVUzkh7NtbXySLzWGW0t9g/input.css:1:1]
  1 | a { color: red } a { color: green } a { color: red }
-   :     ^^^^^^^^^^
+   :     ^^^^^^^^^^^
    `----
 
   x StyleBlock
    ,-[$DIR/tests/fixture/esbuild/misc/dVUzkh7NtbXySLzWGW0t9g/input.css:1:1]
  1 | a { color: red } a { color: green } a { color: red }
-   :     ^^^^^^^^^^
+   :     ^^^^^^^^^^^
    `----
 
   x Declaration
    ,-[$DIR/tests/fixture/esbuild/misc/dVUzkh7NtbXySLzWGW0t9g/input.css:1:1]
  1 | a { color: red } a { color: green } a { color: red }
-   :     ^^^^^^^^^^
+   :     ^^^^^^^^^^^
    `----
 
   x DeclarationName
@@ -182,19 +182,19 @@
   x ComponentValue
    ,-[$DIR/tests/fixture/esbuild/misc/dVUzkh7NtbXySLzWGW0t9g/input.css:1:1]
  1 | a { color: red } a { color: green } a { color: red }
-   :                      ^^^^^^^^^^^^
+   :                      ^^^^^^^^^^^^^
    `----
 
   x StyleBlock
    ,-[$DIR/tests/fixture/esbuild/misc/dVUzkh7NtbXySLzWGW0t9g/input.css:1:1]
  1 | a { color: red } a { color: green } a { color: red }
-   :                      ^^^^^^^^^^^^
+   :                      ^^^^^^^^^^^^^
    `----
 
   x Declaration
    ,-[$DIR/tests/fixture/esbuild/misc/dVUzkh7NtbXySLzWGW0t9g/input.css:1:1]
  1 | a { color: red } a { color: green } a { color: red }
-   :                      ^^^^^^^^^^^^
+   :                      ^^^^^^^^^^^^^
    `----
 
   x DeclarationName
@@ -290,19 +290,19 @@
   x ComponentValue
    ,-[$DIR/tests/fixture/esbuild/misc/dVUzkh7NtbXySLzWGW0t9g/input.css:1:1]
  1 | a { color: red } a { color: green } a { color: red }
-   :                                         ^^^^^^^^^^
+   :                                         ^^^^^^^^^^^
    `----
 
   x StyleBlock
    ,-[$DIR/tests/fixture/esbuild/misc/dVUzkh7NtbXySLzWGW0t9g/input.css:1:1]
  1 | a { color: red } a { color: green } a { color: red }
-   :                                         ^^^^^^^^^^
+   :                                         ^^^^^^^^^^^
    `----
 
   x Declaration
    ,-[$DIR/tests/fixture/esbuild/misc/dVUzkh7NtbXySLzWGW0t9g/input.css:1:1]
  1 | a { color: red } a { color: green } a { color: red }
-   :                                         ^^^^^^^^^^
+   :                                         ^^^^^^^^^^^
    `----
 
   x DeclarationName
