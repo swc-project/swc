@@ -50,8 +50,9 @@ fn test_visit_mut() {
 
                 ..Default::default()
             },
-            |_, _| as_folder(PanicOnVisit),
-            |_, _| noop(),
+            SingleThreadedComments::default(),
+            |_| as_folder(PanicOnVisit),
+            |_| noop(),
         );
 
         assert_ne!(res.unwrap().code, "console.log(5 as const)");
@@ -101,11 +102,12 @@ fn shopify_1_check_filename() {
                 },
                 ..Default::default()
             },
-            |_, _: &SingleThreadedComments| {
+            SingleThreadedComments::default(),
+            |_| {
                 // Ensure comment API
                 noop()
             },
-            |_, _: &SingleThreadedComments| noop(),
+            |_| noop(),
         );
 
         if res.is_err() {
@@ -181,8 +183,15 @@ fn shopify_2_same_opt() {
             .into(),
         );
 
-        let res =
-            c.process_js_with_custom_pass(fm, None, &handler, &opts, |_, _| noop(), |_, _| noop());
+        let res = c.process_js_with_custom_pass(
+            fm,
+            None,
+            &handler,
+            &opts,
+            SingleThreadedComments::default(),
+            |_| noop(),
+            |_| noop(),
+        );
 
         if res.is_err() {
             return Err(());
@@ -243,8 +252,15 @@ fn shopify_3_reduce_defaults() {
             .into(),
         );
 
-        let res =
-            c.process_js_with_custom_pass(fm, None, &handler, &opts, |_, _| noop(), |_, _| noop());
+        let res = c.process_js_with_custom_pass(
+            fm,
+            None,
+            &handler,
+            &opts,
+            SingleThreadedComments::default(),
+            |_| noop(),
+            |_| noop(),
+        );
 
         if res.is_err() {
             return Err(());
@@ -300,8 +316,15 @@ fn shopify_4_reduce_more() {
             .into(),
         );
 
-        let res =
-            c.process_js_with_custom_pass(fm, None, &handler, &opts, |_, _| noop(), |_, _| noop());
+        let res = c.process_js_with_custom_pass(
+            fm,
+            None,
+            &handler,
+            &opts,
+            SingleThreadedComments::default(),
+            |_| noop(),
+            |_| noop(),
+        );
 
         if res.is_err() {
             return Err(());

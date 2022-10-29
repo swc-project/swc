@@ -327,6 +327,7 @@ macro_rules! build_transform_sync {
                               None,
                               handler,
                               &opts,
+                              Default::default(),
                               $before_pass,
                               $after_pass,
                           ), "failed to process js file"

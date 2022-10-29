@@ -851,15 +851,15 @@ impl Compiler {
         program: Option<Program>,
         handler: &Handler,
         opts: &Options,
-        custom_before_pass: impl FnOnce(&Program, &SingleThreadedComments) -> P1,
-        custom_after_pass: impl FnOnce(&Program, &SingleThreadedComments) -> P2,
+        comments: SingleThreadedComments,
+        custom_before_pass: impl FnOnce(&Program) -> P1,
+        custom_after_pass: impl FnOnce(&Program) -> P2,
     ) -> Result<TransformOutput, Error>
     where
         P1: swc_ecma_visit::Fold,
         P2: swc_ecma_visit::Fold,
     {
         self.run(|| -> Result<_, Error> {
-            let comments = SingleThreadedComments::default();
             let config = self.run(|| {
                 self.parse_js_as_input(
                     fm.clone(),
@@ -868,7 +868,7 @@ impl Compiler {
                     opts,
                     &fm.name,
                     Some(&comments),
-                    |program| custom_before_pass(program, &comments),
+                    |program| custom_before_pass(program),
                 )
             })?;
             let config = match config {
@@ -878,7 +878,7 @@ impl Compiler {
                 }
             };
 
-            let pass = chain!(config.pass, custom_after_pass(&config.program, &comments));
+            let pass = chain!(config.pass, custom_after_pass(&config.program));
 
             let config = BuiltInput {
                 program: config.program,
@@ -917,7 +917,15 @@ impl Compiler {
         handler: &Handler,
         opts: &Options,
     ) -> Result<TransformOutput, Error> {
-        self.process_js_with_custom_pass(fm, None, handler, opts, |_, _| noop(), |_, _| noop())
+        self.process_js_with_custom_pass(
+            fm,
+            None,
+            handler,
+            opts,
+            SingleThreadedComments::default(),
+            |_| noop(),
+            |_| noop(),
+        )
     }
 
     #[tracing::instrument(level = "info", skip_all)]
@@ -1091,8 +1099,9 @@ impl Compiler {
             Some(program),
             handler,
             opts,
-            |_, _| noop(),
-            |_, _| noop(),
+            SingleThreadedComments::default(),
+            |_| noop(),
+            |_| noop(),
         )
     }
 
