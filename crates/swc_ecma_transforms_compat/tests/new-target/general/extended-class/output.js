@@ -5,6 +5,7 @@ class Foo {
 }
 class Bar extends Foo {
     constructor(){
+        // This is probably bad...
         this.constructor;
         super();
     }
