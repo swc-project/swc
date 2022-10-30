@@ -17,6 +17,9 @@
 - **(es/codegen)** Preserve more parens (#6268) ([c318446](https://github.com/swc-project/swc/commit/c3184463f1b09c9e434f31313afb0b13d0404379))
 
 
+- **(es/lints)** Fix `const-assign` in function expressions (#6294) ([a27392a](https://github.com/swc-project/swc/commit/a27392a251360ff1ddfab240399d5c1e317335bc))
+
+
 - **(es/minifier)** Don't ignore nullish coalescing (#6272) ([8c1ac68](https://github.com/swc-project/swc/commit/8c1ac686cb948a60da2e260b54e583490bce526e))
 
 
