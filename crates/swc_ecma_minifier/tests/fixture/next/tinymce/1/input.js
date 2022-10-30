@@ -1,14 +1,14 @@
-Yp.revoke, (e => Yp.config((e => ({
+Yp.revoke, (a => Yp.config((b => ({
     aria: {
         mode: "checked"
     },
-    ...ge(e, ((e, t) => "exclusive" !== t)),
-    onToggled: (t, o) => {
-        p(e.onToggled) && e.onToggled(t, o), ((e, t) => {
+    ...ge(b, ((e, t) => "exclusive" !== t)),
+    onToggled: (c, d) => {
+        p(b.onToggled) && b.onToggled(c, d), ((e, f) => {
             Or(e, th, {
                 item: e,
-                state: t
+                state: f
             })
-        })(t, o)
+        })(c, d)
     }
-}))(e)))
+}))(a)))
