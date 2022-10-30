@@ -2423,11 +2423,15 @@ where
                 // We use var decl with no declarator to indicate we dropped an decl.
                 Stmt::Decl(Decl::Var(v)) if v.decls.is_empty() => {
                     *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                    self.prepend_stmts = old_prepend;
+                    self.append_stmts = old_append;
                     return;
                 }
                 Stmt::Expr(es) => {
                     if es.expr.is_invalid() {
                         *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                        self.prepend_stmts = old_prepend;
+                        self.append_stmts = old_append;
                         return;
                     }
                 }
@@ -2459,6 +2463,8 @@ where
             Stmt::Decl(Decl::Var(v)) if v.decls.is_empty() => {
                 s.take();
                 if self.prepend_stmts.is_empty() && self.append_stmts.is_empty() {
+                    self.prepend_stmts = old_prepend;
+                    self.append_stmts = old_append;
                     return;
                 }
             }
