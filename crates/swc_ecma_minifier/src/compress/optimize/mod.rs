@@ -1,4 +1,4 @@
-use std::{iter::once, mem::take};
+use std::iter::once;
 
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::{js_word, JsWord};

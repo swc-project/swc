@@ -559,6 +559,16 @@ impl std::ops::DerefMut for SynthesizedStmts {
     }
 }
 
+impl SynthesizedStmts {
+    pub fn push(&mut self, stmt: Stmt) {
+        self.0.push(stmt);
+    }
+
+    pub fn extend(&mut self, stmts: impl IntoIterator<Item = Stmt>) {
+        self.0.extend(stmts);
+    }
+}
+
 impl Take for SynthesizedStmts {
     fn dummy() -> Self {
         Self(Take::dummy())
