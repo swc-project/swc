@@ -85,9 +85,6 @@ dead_code/issue_2860_2/input.js
 dead_code/return_assignment/input.js
 destructuring/destructuring_dont_evaluate_with_undefined_as_default_assignment/input.js
 destructuring/export_unreferenced_declarations_2/input.js
-destructuring/issue_3205_2/input.js
-destructuring/issue_3205_3/input.js
-destructuring/issue_3205_4/input.js
 destructuring/issue_3205_5/input.js
 destructuring/mangle_destructuring_assign_toplevel_false/input.js
 destructuring/mangle_destructuring_assign_toplevel_true/input.js
@@ -122,9 +119,6 @@ drop_unused/issue_2163/input.js
 drop_unused/issue_2226_2/input.js
 drop_unused/issue_2226_3/input.js
 drop_unused/issue_2288/input.js
-drop_unused/issue_2418_1/input.js
-drop_unused/issue_2418_2/input.js
-drop_unused/issue_2418_3/input.js
 drop_unused/issue_2418_4/input.js
 drop_unused/issue_2516_1/input.js
 drop_unused/issue_2516_2/input.js
@@ -311,7 +305,6 @@ numbers/evaluate_1/input.js
 numbers/evaluate_2/input.js
 numbers/evaluate_3/input.js
 numbers/evaluate_4/input.js
-numbers/hex_numbers_in_parentheses_for_prototype_functions/input.js
 object/concise_methods_and_mangle_props/input.js
 object/dont_join_repeat_object_keys/input.js
 object/prop_arrow_with_nested_this/input.js
@@ -373,7 +366,6 @@ sequences/delete_seq_4/input.js
 sequences/delete_seq_5/input.js
 sequences/for_init_var/input.js
 sequences/for_sequences/input.js
-sequences/issue_1758/input.js
 sequences/issue_2062/input.js
 sequences/side_effects_cascade_3/input.js
 template_string/regex_2/input.js
