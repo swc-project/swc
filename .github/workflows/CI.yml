@@ -44,7 +44,7 @@ jobs:
           profile: minimal
           components: clippy
 
-      - run: cargo clippy --all -- -D warnings
+      - run: cargo clippy --all --all-targets -- -D warnings
 
   cargo-crev:
     name: Cargo crev
