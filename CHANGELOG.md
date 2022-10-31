@@ -17,6 +17,9 @@
 - **(es/codegen)** Preserve more parens (#6268) ([c318446](https://github.com/swc-project/swc/commit/c3184463f1b09c9e434f31313afb0b13d0404379))
 
 
+- **(es/compat)** Fix `new.target` in a nested scope (#6296) ([aa18612](https://github.com/swc-project/swc/commit/aa18612e62eee6f0fd1977c10aa2102ce113e6e4))
+
+
 - **(es/lints)** Fix `const-assign` in function expressions (#6294) ([a27392a](https://github.com/swc-project/swc/commit/a27392a251360ff1ddfab240399d5c1e317335bc))
 
 
