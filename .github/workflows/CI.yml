@@ -38,13 +38,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          submodules: true
 
       - uses: actions-rs/toolchain@v1
         with:
           profile: minimal
           components: clippy
 
-      - run: cargo clippy --all -- -D warnings
+      - run: cargo clippy --all --all-targets -- -D warnings
 
   cargo-crev:
     name: Cargo crev

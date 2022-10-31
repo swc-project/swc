@@ -45,7 +45,7 @@ fn parse_and_gen(entry: &Path) {
             emitter.emit_module(&m).unwrap();
         }
 
-        let srcmap = cm.build_source_map(&mut srcmap);
+        let srcmap = cm.build_source_map(&srcmap);
 
         fs::write("output.js", &code).unwrap();
 
