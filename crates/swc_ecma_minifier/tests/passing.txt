@@ -689,6 +689,7 @@ harmony/import_statement/input.js
 harmony/import_statement_mangling/input.js
 harmony/issue_1613/input.js
 harmony/issue_1753/input.js
+harmony/issue_1898/input.js
 harmony/issue_2028/input.js
 harmony/issue_2345/input.js
 harmony/issue_2349/input.js
