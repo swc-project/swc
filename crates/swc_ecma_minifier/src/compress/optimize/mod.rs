@@ -19,7 +19,7 @@ use Value::Known;
 
 use self::{
     unused::PropertyAccessOpts,
-    util::{extract_class_side_effect, Finalizer, NormalMultiReplacer},
+    util::{extract_class_side_effect, Finalizer, NormalMultiReplacer, SynthesizedStmts},
 };
 use super::util::{drop_invalid_stmts, is_fine_for_if_cons};
 #[cfg(feature = "debug")]
@@ -3066,44 +3066,5 @@ fn is_left_access_to_arguments(l: &PatOrExpr) -> bool {
             Pat::Expr(e) => is_expr_access_to_arguments(e),
             _ => false,
         },
-    }
-}
-
-#[derive(Debug, Default, PartialEq, Eq)]
-struct SynthesizedStmts(Vec<Stmt>);
-
-impl SynthesizedStmts {
-    fn take_stmts(&mut self) -> Vec<Stmt> {
-        take(&mut self.0)
-    }
-}
-
-impl std::ops::Deref for SynthesizedStmts {
-    type Target = Vec<Stmt>;
-
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-
-impl std::ops::DerefMut for SynthesizedStmts {
-    fn deref_mut(&mut self) -> &mut Self::Target {
-        &mut self.0
-    }
-}
-
-impl Take for SynthesizedStmts {
-    fn dummy() -> Self {
-        Self(Take::dummy())
-    }
-}
-
-impl Drop for SynthesizedStmts {
-    fn drop(&mut self) {
-        if !self.0.is_empty() {
-            if !std::thread::panicking() {
-                panic!("We should not drop synthesized stmts");
-            }
-        }
     }
 }
