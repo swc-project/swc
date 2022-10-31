@@ -114,7 +114,7 @@ fn bench_emitter(b: &mut Bencher, s: &str) {
                 let _ = emitter.emit_module(&module);
             }
             black_box(buf);
-            let srcmap = cm.build_source_map(&mut src_map_buf);
+            let srcmap = cm.build_source_map(&src_map_buf);
             black_box(srcmap);
         });
         Ok(())
