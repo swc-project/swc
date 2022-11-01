@@ -29,6 +29,9 @@
 - **(es/minifier)** Don't inline regex for IIFEs (#6283) ([4eab2ed](https://github.com/swc-project/swc/commit/4eab2ed2fc5d3eed2c397b81c780f87144106905))
 
 
+- **(es/minifier)** Fix infinite loop (#6300) ([655f674](https://github.com/swc-project/swc/commit/655f6744c550b4f0963ef090bf45a6eae2d273f6))
+
+
 - **(es/typescript)** Fix stack overflow (#6250) ([28ec6e8](https://github.com/swc-project/swc/commit/28ec6e8fc70cf74722c93353c03e4fdedb21954a))
 
 
