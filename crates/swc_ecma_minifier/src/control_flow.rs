@@ -43,6 +43,12 @@ struct Data {
 }
 
 impl CfgAnalyzer {
+    fn next_id(&mut self) -> BlockId {
+        let id = self.data.next_node_id;
+        self.data.next_node_id += 1;
+        id
+    }
+
     fn handle_stmt(&mut self, s: &Stmt, next_block: BlockId) {}
 
     /// s === si should be true
