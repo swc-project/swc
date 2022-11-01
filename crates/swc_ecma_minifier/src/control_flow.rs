@@ -42,6 +42,11 @@ struct Data {
     next_node_id: BlockId,
 }
 
+pub(crate) enum Branch {
+    OnTrue,
+    OnFalse,
+}
+
 impl CfgAnalyzer {
     fn next_id(&mut self) -> BlockId {
         let id = self.data.next_node_id;
@@ -49,22 +54,22 @@ impl CfgAnalyzer {
         id
     }
 
+    fn compute_fall_through(&mut self, s: &Stmt) -> BlockId {}
+
+    fn create_edge(&mut self, from: &BasicBlock, branch: Branch, to: BlockId) -> BlockId {}
+
     fn handle_stmt(&mut self, s: &Stmt, next_block: BlockId) {}
 
     /// s === si should be true
     fn handle_if(&mut self, s: &Stmt, si: &IfStmt, next_block: BlockId) -> BlockId {
-        self.create_edge(
-            s,
-            Branch::OnTrue,
-            self.compute_fall_throuh(si.consequent.as_ref()),
-        );
+        self.create_edge(s, Branch::OnTrue, self.compute_fall_throuh(&si.cons));
 
         match &si.alt {
             None => {
-                self.create_edge(node, Branch::OnFalse, next_block);
+                self.create_edge(s, Branch::OnFalse, next_block);
             }
             Some(alt) => {
-                self.create_edge(node, Branch::OnFalse, self.compute_fall_through(alt));
+                self.create_edge(s, Branch::OnFalse, self.compute_fall_through(alt));
             }
         }
 
