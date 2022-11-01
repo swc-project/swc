@@ -52,5 +52,22 @@ impl CfgAnalyzer {
     fn handle_stmt(&mut self, s: &Stmt, next_block: BlockId) {}
 
     /// s === si should be true
-    fn handle_if(&mut self, s: &Stmt, si: &IfStmt, next_block: BlockId) -> BlockId {}
+    fn handle_if(&mut self, s: &Stmt, si: &IfStmt, next_block: BlockId) -> BlockId {
+        self.create_edge(
+            s,
+            Branch::OnTrue,
+            self.compute_fall_throuh(si.consequent.as_ref()),
+        );
+
+        match &si.alt {
+            None => {
+                self.create_edge(node, Branch::OnFalse, next_block);
+            }
+            Some(alt) => {
+                self.create_edge(node, Branch::OnFalse, self.compute_fall_through(alt));
+            }
+        }
+
+        self.connect_to_possible_exception_handler(s, &si.test);
+    }
 }
