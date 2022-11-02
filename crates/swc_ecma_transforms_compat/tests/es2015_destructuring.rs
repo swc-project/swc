@@ -2261,3 +2261,27 @@ test!(
     "let [x] = [,];",
     "let x;"
 );
+
+test!(
+    syntax(),
+    |_| tr(),
+    issue_6304,
+    "let [] = [];",
+    "let ref = [];"
+);
+
+test!(
+    syntax(),
+    |_| tr(),
+    issue_6304_1,
+    "let [] = [,];",
+    "let ref = [,];"
+);
+
+test!(
+    syntax(),
+    |_| tr(),
+    issue_6304_2,
+    "let [] = [...[1, 2, 3]];",
+    "let ref = [...[1, 2, 3]];"
+);
