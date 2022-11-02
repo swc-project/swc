@@ -305,58 +305,49 @@ where
 {
     fn parse(&mut self) -> PResult<QualifiedRule> {
         // To consume a qualified rule:
-        let create_prelude =
-            |p: &mut Parser<I>, list: Vec<ComponentValue>| -> PResult<QualifiedRulePrelude> {
-                let list_of_component_values = p.create_locv(list);
+        let create_prelude = |p: &mut Parser<I>,
+                              list: Vec<ComponentValue>|
+         -> PResult<QualifiedRulePrelude> {
+            let list_of_component_values = p.create_locv(list);
 
-                if p.ctx.in_keyframes_at_rule {
-                    Ok(QualifiedRulePrelude::ListOfComponentValues(
-                        list_of_component_values,
-                    ))
+            if p.ctx.in_keyframes_at_rule {
+                Ok(QualifiedRulePrelude::ListOfComponentValues(
+                    list_of_component_values,
+                ))
+            } else {
+                if p.ctx.mixed_with_declarations {
+                    match p.parse_according_to_grammar::<RelativeSelectorList>(
+                        &list_of_component_values,
+                        |parser| parser.parse(),
+                    ) {
+                        Ok(relative_selector_list) => Ok(
+                            QualifiedRulePrelude::RelativeSelectorList(relative_selector_list),
+                        ),
+                        Err(err) => {
+                            p.errors.push(err);
+
+                            Ok(QualifiedRulePrelude::ListOfComponentValues(
+                                list_of_component_values,
+                            ))
+                        }
+                    }
                 } else {
                     match p.parse_according_to_grammar::<SelectorList>(
                         &list_of_component_values,
                         |parser| parser.parse(),
                     ) {
-                        Ok(selector_list) => {
-                            if p.ctx.is_trying_legacy_nesting {
-                                let selector_list = p
-                                    .legacy_nested_selector_list_to_modern_selector_list(
-                                        selector_list,
-                                    )?;
-
-                                Ok(QualifiedRulePrelude::SelectorList(selector_list))
-                            } else {
-                                Ok(QualifiedRulePrelude::SelectorList(selector_list))
-                            }
-                        }
+                        Ok(selector_list) => Ok(QualifiedRulePrelude::SelectorList(selector_list)),
                         Err(err) => {
-                            if p.ctx.is_trying_legacy_nesting {
-                                match p.parse_according_to_grammar::<RelativeSelectorList>(
-                                    &list_of_component_values,
-                                    |parser| parser.parse(),
-                                ) {
-                                    Ok(relative_selector_list) => {
-                                        let selector_list = p
-                                            .legacy_relative_selector_list_to_modern_selector_list(
-                                                relative_selector_list,
-                                            )?;
+                            p.errors.push(err);
 
-                                        Ok(QualifiedRulePrelude::SelectorList(selector_list))
-                                    }
-                                    _ => Err(err),
-                                }
-                            } else {
-                                p.errors.push(err);
-
-                                Ok(QualifiedRulePrelude::ListOfComponentValues(
-                                    list_of_component_values,
-                                ))
-                            }
+                            Ok(QualifiedRulePrelude::ListOfComponentValues(
+                                list_of_component_values,
+                            ))
                         }
                     }
                 }
-            };
+            }
+        };
 
         let span = self.input.cur_span();
         // Create a new qualified rule with its prelude initially set to an empty list,
@@ -375,6 +366,21 @@ where
             }
 
             match cur!(self) {
+                // <semicolon-token>
+                // If mixed with declarations is true, this is a parse error; return nothing.
+                // Otherwise, append a <semicolon-token> to the qualified rule’s prelude.
+                tok!(";") => {
+                    if self.ctx.mixed_with_declarations {
+                        return Err(Error::new(
+                            span!(self, span.lo),
+                            ErrorKind::EofButExpected("'{'"),
+                        ));
+                    } else {
+                        let component_value = self.parse_as::<ComponentValue>()?;
+
+                        prelude.push(component_value);
+                    }
+                }
                 // <{-token>
                 // Consume a simple block and assign it to the qualified rule’s block. Return the
                 // qualified rule.
@@ -472,12 +478,15 @@ where
                     rules.push(StyleBlock::AtRule(Box::new(at_rule)));
                 }
                 // <ident-token>
-                // Initialize a temporary list initially filled with the current input token. As
-                // long as the next input token is anything other than a <semicolon-token> or
+                // <function-token>
+                // <function>
+                //
+                // Reconsume the current input token. Initialize a temporary list, initially empty.
+                // As long as the next input token is anything other than a <semicolon-token> or
                 // <EOF-token>, consume a component value and append it to the temporary list.
                 // Consume a declaration from the temporary list. If anything was returned, append
                 // it to decls.
-                tok!("ident") => {
+                tok!("ident") | tok!("function") => {
                     if self.config.legacy_nesting {
                         if let Some(legacy_nested) = self.try_to_parse_legacy_nesting() {
                             rules.push(StyleBlock::QualifiedRule(Box::new(legacy_nested)));
@@ -514,82 +523,51 @@ where
 
                     declarations.push(decl_or_list_of_component_values);
                 }
-                // <delim-token> with a value of "&" (U+0026 AMPERSAND)
-                // Reconsume the current input token. Consume a qualified rule. If anything was
-                // returned, append it to rules.
-                tok!("&") => {
+                // anything else
+                // Reconsume the current input token. Consume a qualified rule, with mixed with
+                // declarations set to true. If anything was returned, append it to rules.
+                _ => {
                     let state = self.input.state();
-                    let qualified_rule = match self.parse() {
-                        Ok(v) => StyleBlock::QualifiedRule(v),
+                    let ctx = Ctx {
+                        mixed_with_declarations: true,
+                        ..self.ctx
+                    };
+                    let qualified_rule = self.with_ctx(ctx).parse_as::<Box<QualifiedRule>>();
+
+                    match qualified_rule {
+                        Ok(i) => rules.push(StyleBlock::QualifiedRule(i)),
                         Err(err) => {
                             self.errors.push(err);
                             self.input.reset(&state);
 
                             let span = self.input.cur_span();
-                            let mut children = vec![];
 
-                            while !is_one_of!(self, EOF, "}") {
-                                if let Some(token_and_span) = self.input.bump() {
-                                    children.push(ComponentValue::PreservedToken(token_and_span));
-                                }
+                            self.errors.push(Error::new(
+                                span,
+                                ErrorKind::Expected(
+                                    "whitespace, semicolon, EOF, at-keyword, '&' or ident token",
+                                ),
+                            ));
 
-                                if is!(self, ";") {
-                                    if let Some(token_and_span) = self.input.bump() {
-                                        children
-                                            .push(ComponentValue::PreservedToken(token_and_span));
-                                    }
+                            // For recovery mode
+                            let mut list_of_component_values = ListOfComponentValues {
+                                span: Default::default(),
+                                children: vec![],
+                            };
 
-                                    break;
-                                }
+                            // TODO verify error recovery (copied from prev spev)
+                            while !is_one_of!(self, ";", EOF) {
+                                let component_value = self.parse_as::<ComponentValue>()?;
+
+                                list_of_component_values.children.push(component_value);
                             }
 
-                            StyleBlock::ListOfComponentValues(ListOfComponentValues {
-                                span: span!(self, span.lo),
-                                children,
-                            })
+                            list_of_component_values.span = span!(self, span.lo);
+
+                            declarations
+                                .push(StyleBlock::ListOfComponentValues(list_of_component_values));
                         }
                     };
-
-                    rules.push(qualified_rule);
-                }
-
-                // anything else
-                // This is a parse error. Reconsume the current input token. As long as the next
-                // input token is anything other than a <semicolon-token> or <EOF-token>, consume a
-                // component value and throw away the returned value.
-                _ => {
-                    if self.config.legacy_nesting {
-                        if let Some(legacy_nested) = self.try_to_parse_legacy_nesting() {
-                            rules.push(StyleBlock::QualifiedRule(Box::new(legacy_nested)));
-
-                            continue;
-                        }
-                    }
-
-                    let span = self.input.cur_span();
-
-                    self.errors.push(Error::new(
-                        span,
-                        ErrorKind::Expected(
-                            "whitespace, semicolon, EOF, at-keyword, '&' or ident token",
-                        ),
-                    ));
-
-                    // For recovery mode
-                    let mut list_of_component_values = ListOfComponentValues {
-                        span: Default::default(),
-                        children: vec![],
-                    };
-
-                    while !is_one_of!(self, ";", EOF) {
-                        let component_value = self.parse_as::<ComponentValue>()?;
-
-                        list_of_component_values.children.push(component_value);
-                    }
-
-                    list_of_component_values.span = span!(self, span.lo);
-
-                    declarations.push(StyleBlock::ListOfComponentValues(list_of_component_values));
                 }
             }
         }

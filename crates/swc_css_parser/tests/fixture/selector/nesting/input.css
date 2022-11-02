@@ -67,3 +67,101 @@ figure {
     color: blue;
     &__bar { color: red; }
 }
+
+.foo {
+    color: red;
+
+    .bar {
+        color: blue;
+    }
+}
+
+.foo {
+    color: red;
+
+    + .bar {
+        color: blue;
+    }
+}
+
+.foo {
+    color: blue;
+    & > .bar { color: red; }
+    > .baz { color: green; }
+}
+
+div {
+    color: red;
+
+    & input { margin: 1em; }
+    /* valid, no longer starts with an identifier */
+
+    :is(input) { margin: 1em; }
+    /* valid, starts with a colon,
+       and equivalent to the previous rule. */
+}
+
+.foo, .bar {
+    color: blue;
+    + .baz, &.qux { color: red; }
+}
+
+.foo {
+    color: blue;
+    & .bar & .baz & .qux { color: red; }
+}
+
+.foo {
+    color: red;
+    .parent & {
+        color: blue;
+    }
+}
+
+.foo {
+    color: red;
+    :not(&) {
+        color: blue;
+    }
+}
+
+.foo {
+    color: red;
+    + .bar + & { color: blue; }
+}
+
+.ancestor .el {
+    .other-ancestor & { color: red; }
+}
+
+.foo {
+    & :is(.bar, &.baz) { color: red; }
+}
+
+@layer base {
+    html {
+        block-size: 100%;
+
+        & body {
+            min-block-size: 100%;
+        }
+    }
+}
+
+@layer base {
+    html {
+        block-size: 100%;
+
+        @layer base.support {
+            & body {
+                min-block-size: 100%;
+            }
+        }
+    }
+}
+
+article {
+    color: green;
+    & { color: blue; }
+    color: red;
+}

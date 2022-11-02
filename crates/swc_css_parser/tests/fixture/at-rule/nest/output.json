@@ -1033,7 +1033,7 @@
                     "ctxt": 0
                   },
                   "prelude": {
-                    "type": "SelectorList",
+                    "type": "RelativeSelectorList",
                     "span": {
                       "start": 295,
                       "end": 300,
@@ -1041,51 +1041,60 @@
                     },
                     "children": [
                       {
-                        "type": "ComplexSelector",
+                        "type": "RelativeSelector",
                         "span": {
                           "start": 295,
                           "end": 300,
                           "ctxt": 0
                         },
-                        "children": [
-                          {
-                            "type": "CompoundSelector",
-                            "span": {
-                              "start": 295,
-                              "end": 300,
-                              "ctxt": 0
-                            },
-                            "nestingSelector": {
-                              "type": "NestingSelector",
+                        "combinator": null,
+                        "selector": {
+                          "type": "ComplexSelector",
+                          "span": {
+                            "start": 295,
+                            "end": 300,
+                            "ctxt": 0
+                          },
+                          "children": [
+                            {
+                              "type": "CompoundSelector",
                               "span": {
                                 "start": 295,
-                                "end": 296,
+                                "end": 300,
                                 "ctxt": 0
-                              }
-                            },
-                            "typeSelector": null,
-                            "subclassSelectors": [
-                              {
-                                "type": "ClassSelector",
+                              },
+                              "nestingSelector": {
+                                "type": "NestingSelector",
                                 "span": {
-                                  "start": 296,
-                                  "end": 300,
+                                  "start": 295,
+                                  "end": 296,
                                   "ctxt": 0
-                                },
-                                "text": {
-                                  "type": "Ident",
+                                }
+                              },
+                              "typeSelector": null,
+                              "subclassSelectors": [
+                                {
+                                  "type": "ClassSelector",
                                   "span": {
-                                    "start": 297,
+                                    "start": 296,
                                     "end": 300,
                                     "ctxt": 0
                                   },
-                                  "value": "baz",
-                                  "raw": "baz"
+                                  "text": {
+                                    "type": "Ident",
+                                    "span": {
+                                      "start": 297,
+                                      "end": 300,
+                                      "ctxt": 0
+                                    },
+                                    "value": "baz",
+                                    "raw": "baz"
+                                  }
                                 }
-                              }
-                            ]
-                          }
-                        ]
+                              ]
+                            }
+                          ]
+                        }
                       }
                     ]
                   },

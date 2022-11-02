@@ -29,9 +29,14 @@
     : ^
     `----
 
+  x Expected whitespace, semicolon, EOF, at-keyword, '&' or ident token
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:39:5]
+ 39 | & test;
+    : ^
+    `----
+
   x Unexpected end of file, but expected '{'
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:39:5]
  39 | & test;
-    : ^^^^^^^^
- 40 | }
+    : ^^^^^^
     `----

@@ -22,3 +22,33 @@
  1 | <!-- 123 -->
    :      ^^^
    `----
+
+  x Unexpected end of file, but expected '{'
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:5:1]
+  5 | ,-> <!--
+  6 | |   
+  7 | |   test
+  8 | |   
+  9 | `-> -->
+ 10 |     }
+    `----
+
+  x Unexpected end of file, but expected '{'
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:14:1]
+ 14 | ,-> <!--
+ 15 | |   
+ 16 | |   test
+ 17 | |   
+ 18 | |   -->
+ 19 | |   
+ 20 | `->     color: blue;
+    `----
+
+  x Unexpected end of file, but expected '{'
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:25:1]
+ 25 | ,-> <!--
+ 26 | |   
+ 27 | |   test
+ 28 | |   
+ 29 | `-> -->;
+    `----
