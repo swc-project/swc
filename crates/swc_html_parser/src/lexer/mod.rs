@@ -575,7 +575,7 @@ where
             tag_name: String::with_capacity(19),
             raw_tag_name: Some(String::with_capacity(19)),
             is_self_closing: false,
-            attributes: Vec::with_capacity(255),
+            attributes: Vec::with_capacity(16),
         });
     }
 
@@ -586,7 +586,8 @@ where
             tag_name: String::with_capacity(19),
             raw_tag_name: Some(String::with_capacity(19)),
             is_self_closing: false,
-            attributes: Vec::with_capacity(255),
+            // In valid HTML code closed tags do not have attributes
+            attributes: vec![],
         });
     }
 
