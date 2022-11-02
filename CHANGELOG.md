@@ -98,6 +98,9 @@
 - **(es)** Enable tests for fixed issues (#6311) ([5b02e24](https://github.com/swc-project/swc/commit/5b02e2450d17afefc3004df31397329fcf60f3bf))
 
 
+- **(es/compat)** Add execution tests (#6312) ([0f9d930](https://github.com/swc-project/swc/commit/0f9d930f738322119e7ade40d815f21ba398b152))
+
+
 - **(es/minifier)** Add a test for `??` operator (#6282) ([0376da7](https://github.com/swc-project/swc/commit/0376da73c6113ade5945321b7c3abe257ce3b83c))
 
 ## [1.3.11] - 2022-10-26
