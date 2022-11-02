@@ -1,8 +1,6 @@
-(function () {
-    function f() {
-        var o = { a: "PASS" },
-            { a: x } = o;
-        console.log(x);
-    }
-    f();
+(function() {
+    var { a: x  } = {
+        a: "PASS"
+    };
+    console.log(x);
 })();
