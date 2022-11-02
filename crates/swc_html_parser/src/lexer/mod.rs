@@ -178,7 +178,7 @@ where
             return_state: State::Data,
             errors: vec![],
             last_start_tag_name: None,
-            pending_tokens: VecDeque::new(),
+            pending_tokens: VecDeque::with_capacity(16),
             current_doctype_token: None,
             doctype_raw: None,
             current_comment_token: None,
