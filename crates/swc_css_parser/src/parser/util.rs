@@ -73,8 +73,12 @@ where
 
     pub(super) fn try_to_parse_legacy_nesting(&mut self) -> Option<QualifiedRule> {
         let state = self.input.state();
-        let ctx = Ctx { ..self.ctx };
-        let qualified_rule = self.with_ctx(ctx).parse_as::<QualifiedRule>();
+        let qualified_rule = self
+            .with_ctx(Ctx {
+                mixed_with_declarations: true,
+                ..self.ctx
+            })
+            .parse_as::<QualifiedRule>();
 
         match qualified_rule {
             Ok(qualified_rule) => Some(qualified_rule),

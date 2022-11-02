@@ -484,7 +484,14 @@ where
                 // Consume a declaration from the temporary list. If anything was returned, append
                 // it to decls.
                 tok!("ident") | tok!("function") => {
-                    if self.config.legacy_nesting && is!(self, "ident") {
+                    // Legacy nested parsing conflict with custom properties, but selectors can't
+                    // start with `--`, so it is safe to ignore them.
+                    //
+                    // Constructions like `a { prop: {value}; }` still affected this problem, but
+                    // `{`/`}` doesn't used in declarations
+                    if self.config.legacy_nesting
+                        && matches!(self.input.cur(), Some(Token::Ident { value, .. }) if !value.starts_with("--"))
+                    {
                         if let Some(legacy_nested) = self.try_to_parse_legacy_nesting() {
                             rules.push(StyleBlock::QualifiedRule(Box::new(legacy_nested)));
 
@@ -525,11 +532,12 @@ where
                 // declarations set to true. If anything was returned, append it to rules.
                 _ => {
                     let state = self.input.state();
-                    let ctx = Ctx {
-                        mixed_with_declarations: true,
-                        ..self.ctx
-                    };
-                    let qualified_rule = self.with_ctx(ctx).parse_as::<Box<QualifiedRule>>();
+                    let qualified_rule = self
+                        .with_ctx(Ctx {
+                            mixed_with_declarations: true,
+                            ..self.ctx
+                        })
+                        .parse_as::<Box<QualifiedRule>>();
 
                     match qualified_rule {
                         Ok(i) => rules.push(StyleBlock::QualifiedRule(i)),
@@ -548,7 +556,7 @@ where
                                 children: vec![],
                             };
 
-                            // TODO verify error recovery (copied from prev spev)
+                            // TODO verify error recovery (copied from prev spec)
                             while !is_one_of!(self, ";", EOF) {
                                 let component_value = self.parse_as::<ComponentValue>()?;
 
