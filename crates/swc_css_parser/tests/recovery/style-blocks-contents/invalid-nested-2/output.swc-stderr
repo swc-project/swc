@@ -1,12 +1,12 @@
 
-  x Expected whitespace, semicolon, EOF, at-keyword, '&' or ident token
-   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:3:5]
- 3 | & test;
-   : ^
-   `----
-
   x Unexpected end of file, but expected '{'
    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:3:5]
  3 | & test;
    : ^^^^^^
+   `----
+
+  x Unexpected token
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:3:5]
+ 3 | & test;
+   : ^
    `----

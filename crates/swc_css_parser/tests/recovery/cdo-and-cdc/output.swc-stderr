@@ -1,22 +1,4 @@
 
-  x Expected whitespace, semicolon, EOF, at-keyword, '&' or ident token
-   ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:5:1]
- 5 | <!--
-   : ^^^^
-   `----
-
-  x Expected whitespace, semicolon, EOF, at-keyword, '&' or ident token
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:14:1]
- 14 | <!--
-    : ^^^^
-    `----
-
-  x Expected whitespace, semicolon, EOF, at-keyword, '&' or ident token
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:25:1]
- 25 | <!--
-    : ^^^^
-    `----
-
   x Invalid selector
    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:1:1]
  1 | <!-- 123 -->
@@ -51,4 +33,22 @@
  27 | |   test
  28 | |   
  29 | `-> -->;
+    `----
+
+  x Unexpected token
+   ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:5:1]
+ 5 | <!--
+   : ^^^^
+   `----
+
+  x Unexpected token
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:14:1]
+ 14 | <!--
+    : ^^^^
+    `----
+
+  x Unexpected token
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:25:1]
+ 25 | <!--
+    : ^^^^
     `----

@@ -542,12 +542,8 @@ where
 
                             let span = self.input.cur_span();
 
-                            self.errors.push(Error::new(
-                                span,
-                                ErrorKind::Expected(
-                                    "whitespace, semicolon, EOF, at-keyword, '&' or ident token",
-                                ),
-                            ));
+                            self.errors
+                                .push(Error::new(span, ErrorKind::Unexpected("token")));
 
                             // For recovery mode
                             let mut list_of_component_values = ListOfComponentValues {
@@ -704,9 +700,21 @@ where
     fn parse(&mut self) -> PResult<Declaration> {
         // To consume a declaration:
 
-        // Consume the next input token. Create a new declaration with its name set
-        // to the value of the current input token and its value initially set to an
-        // empty list.
+        // Let decl be a new declaration, with an initially empty name and a value set
+        // to an empty list.
+
+        // TODO improve me
+        // Consume a component value.
+        // <ident-token>
+        // Set decl’s name to the value of the <ident-token>.
+        //
+        // anything else
+        // This is a parse error.
+        //
+        // While the next input token is anything but a <semicolon-token> or
+        // <eof-token>, consume a component value and throw it away.
+        //
+        // Return nothing.
         let span = self.input.cur_span();
         let is_dashed_ident = match cur!(self) {
             Token::Ident { value, .. } => value.starts_with("--"),
@@ -726,19 +734,19 @@ where
             important: None,
         };
 
-        // 1. While the next input token is a <whitespace-token>, consume the next input
+        // 2. While the next input token is a <whitespace-token>, consume the next input
         // token.
         self.input.skip_ws();
 
-        // 2. If the next input token is anything other than a <colon-token>, this is a
+        // 3. If the next input token is anything other than a <colon-token>, this is a
         // parse error. Return nothing. Otherwise, consume the next input token.
         expect!(self, ":");
 
-        // 3. While the next input token is a <whitespace-token>, consume the next input
+        // 4. While the next input token is a <whitespace-token>, consume the next input
         // token.
         self.input.skip_ws();
 
-        // 4. As long as the next input token is anything other than an <EOF-token>,
+        // 5. As long as the next input token is anything other than an <EOF-token>,
         // consume a component value and append it to the declaration’s value.
         let mut last_whitespaces = (0, 0, 0);
         let mut exclamation_point_span = None;
@@ -824,7 +832,7 @@ where
             declaration.value.push(component_value);
         }
 
-        // 5. If the last two non-<whitespace-token>s in the declaration’s value are a
+        // 6. If the last two non-<whitespace-token>s in the declaration’s value are a
         // <delim-token> with the value "!" followed by an <ident-token> with a value
         // that is an ASCII case-insensitive match for "important", remove them from the
         // declaration’s value and set the declaration’s important flag to true.
@@ -851,7 +859,7 @@ where
             declaration.important = Some(ImportantFlag { span, value });
         }
 
-        // 6. While the last token in the declaration’s value is a <whitespace-token>,
+        // 7. While the last token in the declaration’s value is a <whitespace-token>,
         // remove that token.
         let len = if declaration.important.is_some() {
             declaration.value.len()
@@ -868,7 +876,7 @@ where
         if is_dashed_ident {
             // Don't parse custom properties
             //
-            // 7. Return the declaration.
+            // 8. Return the declaration.
             return Ok(declaration);
         }
 
@@ -898,7 +906,7 @@ where
             }
         };
 
-        // 7. Return the declaration.
+        // 8. Return the declaration.
         Ok(declaration)
     }
 }
