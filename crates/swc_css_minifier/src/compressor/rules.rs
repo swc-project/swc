@@ -155,6 +155,21 @@ impl Compressor {
         }
     }
 
+    fn merge_relative_selector_list(
+        &self,
+        left: &RelativeSelectorList,
+        right: &RelativeSelectorList,
+    ) -> RelativeSelectorList {
+        let mut children = left.children.clone();
+
+        children.extend(right.children.clone());
+
+        RelativeSelectorList {
+            span: Span::new(left.span_lo(), right.span_hi(), SyntaxContext::empty()),
+            children,
+        }
+    }
+
     fn merge_simple_block(&self, left: &SimpleBlock, right: &SimpleBlock) -> SimpleBlock {
         let mut value = left.value.clone();
 
@@ -168,21 +183,31 @@ impl Compressor {
     }
 
     fn can_merge_qualified_rules(&self, left: &QualifiedRule, right: &QualifiedRule) -> bool {
-        let left_selector_list = match &left.prelude {
-            QualifiedRulePrelude::SelectorList(selector_list) => selector_list,
-            _ => return false,
-        };
-        let right_selector_list = match &right.prelude {
-            QualifiedRulePrelude::SelectorList(selector_list) => selector_list,
-            _ => return false,
-        };
+        match (&left.prelude, &right.prelude) {
+            (
+                QualifiedRulePrelude::SelectorList(left_selector_list),
+                QualifiedRulePrelude::SelectorList(right_selector_list),
+            ) => {
+                let mut checker = CompatibilityChecker::default();
 
-        let mut checker = CompatibilityChecker::default();
+                left_selector_list.visit_with(&mut checker);
+                right_selector_list.visit_with(&mut checker);
 
-        left_selector_list.visit_with(&mut checker);
-        right_selector_list.visit_with(&mut checker);
+                checker.allow_to_merge
+            }
+            (
+                QualifiedRulePrelude::RelativeSelectorList(left_relative_selector_list),
+                QualifiedRulePrelude::RelativeSelectorList(right_relative_selector_list),
+            ) => {
+                let mut checker = CompatibilityChecker::default();
 
-        checker.allow_to_merge
+                left_relative_selector_list.visit_with(&mut checker);
+                right_relative_selector_list.visit_with(&mut checker);
+
+                checker.allow_to_merge
+            }
+            _ => false,
+        }
     }
 
     fn try_merge_qualified_rules(
@@ -197,26 +222,50 @@ impl Compressor {
         // Merge when declarations are exactly equal
         // e.g. h1 { color: red } h2 { color: red }
         if left.block.eq_ignore_span(&right.block) {
-            if let (
-                QualifiedRulePrelude::SelectorList(prev_selector_list),
-                QualifiedRulePrelude::SelectorList(current_selector_list),
-            ) = (&left.prelude, &right.prelude)
-            {
-                let selector_list =
-                    self.merge_selector_list(prev_selector_list, current_selector_list);
-                let mut qualified_rule = QualifiedRule {
-                    span: Span::new(
-                        left.span.span_lo(),
-                        right.span.span_lo(),
-                        SyntaxContext::empty(),
-                    ),
-                    prelude: QualifiedRulePrelude::SelectorList(selector_list),
-                    block: left.block.clone(),
-                };
+            match (&left.prelude, &right.prelude) {
+                (
+                    QualifiedRulePrelude::SelectorList(prev_selector_list),
+                    QualifiedRulePrelude::SelectorList(current_selector_list),
+                ) => {
+                    let selector_list =
+                        self.merge_selector_list(prev_selector_list, current_selector_list);
+                    let mut qualified_rule = QualifiedRule {
+                        span: Span::new(
+                            left.span.span_lo(),
+                            right.span.span_lo(),
+                            SyntaxContext::empty(),
+                        ),
+                        prelude: QualifiedRulePrelude::SelectorList(selector_list),
+                        block: left.block.clone(),
+                    };
 
-                qualified_rule.visit_mut_children_with(self);
+                    qualified_rule.visit_mut_children_with(self);
 
-                return Some(qualified_rule);
+                    return Some(qualified_rule);
+                }
+                (
+                    QualifiedRulePrelude::RelativeSelectorList(prev_relative_selector_list),
+                    QualifiedRulePrelude::RelativeSelectorList(current_relative_selector_list),
+                ) => {
+                    let relative_selector_list = self.merge_relative_selector_list(
+                        prev_relative_selector_list,
+                        current_relative_selector_list,
+                    );
+                    let mut qualified_rule = QualifiedRule {
+                        span: Span::new(
+                            left.span.span_lo(),
+                            right.span.span_lo(),
+                            SyntaxContext::empty(),
+                        ),
+                        prelude: QualifiedRulePrelude::RelativeSelectorList(relative_selector_list),
+                        block: left.block.clone(),
+                    };
+
+                    qualified_rule.visit_mut_children_with(self);
+
+                    return Some(qualified_rule);
+                }
+                _ => {}
             }
         }
 
