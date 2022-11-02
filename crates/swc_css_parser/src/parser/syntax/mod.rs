@@ -48,10 +48,9 @@ where
 
         // Repeatedly consume the next input token:
         loop {
-            // TODO: remove `}`
             // <EOF-token>
             // Return the list of rules.
-            if is_one_of!(self, EOF, "}") {
+            if is!(self, EOF) {
                 return Ok(rules);
             }
 
@@ -99,7 +98,7 @@ where
                                 children: vec![],
                             };
 
-                            while !is_one_of!(self, "}", EOF) {
+                            while !is_one_of!(self, EOF) {
                                 let component_value = self.parse_as::<ComponentValue>()?;
 
                                 list_of_component_values.children.push(component_value);
