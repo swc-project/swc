@@ -347,8 +347,6 @@ impl Pure<'_> {
         if &*method.sym == "toString" {
             if let Some(base) = args
                 .first()
-                // https://tc39.es/ecma262/multipage/numbers-and-dates.html#sec-number.prototype.tofixed
-                // 3. Assert: If fractionDigits is undefined, then f is 0.
                 .map_or(Some(10f64), |arg| eval_as_number(&self.expr_ctx, &arg.expr))
             {
                 if num.value.fract() == 0.0 && (2.0..=36.0).contains(&base) && base.fract() == 0.0 {
