@@ -1,3 +1,4 @@
+use radix_fmt::Radix;
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, Spanned, SyntaxContext};
 use swc_ecma_ast::*;
@@ -320,22 +321,45 @@ impl Pure<'_> {
                 // 3. Assert: If fractionDigits is undefined, then f is 0.
                 .map_or(Some(0f64), |arg| eval_as_number(&self.expr_ctx, &arg.expr))
             {
-                let precision = precision.floor() as usize;
-                let value = num_to_fixed(num.value, precision + 1);
+                if precision.fract() == 0.0 {
+                    let precision = precision.floor() as usize;
+                    let value = num_to_fixed(num.value, precision + 1);
 
-                self.changed = true;
-                report_change!(
-                    "evaluate: Evaluating `{}.toFixed({})` as `{}`",
-                    num,
-                    precision,
-                    value
-                );
+                    self.changed = true;
+                    report_change!(
+                        "evaluate: Evaluating `{}.toFixed({})` as `{}`",
+                        num,
+                        precision,
+                        value
+                    );
 
-                *e = Expr::Lit(Lit::Str(Str {
-                    span: e.span(),
-                    raw: None,
-                    value: value.into(),
-                }))
+                    *e = Expr::Lit(Lit::Str(Str {
+                        span: e.span(),
+                        raw: None,
+                        value: value.into(),
+                    }));
+                }
+            }
+
+            return;
+        }
+
+        if &*method.sym == "toString" {
+            if let Some(base) = args
+                .first()
+                .map_or(Some(10f64), |arg| eval_as_number(&self.expr_ctx, &arg.expr))
+            {
+                if num.value.fract() == 0.0 && (2.0..=36.0).contains(&base) && base.fract() == 0.0 {
+                    let base = base.floor() as u8;
+
+                    self.changed = true;
+                    let value = Radix::new(num.value as usize, base).to_string().into();
+                    *e = Expr::Lit(Lit::Str(Str {
+                        span: e.span(),
+                        raw: None,
+                        value,
+                    }))
+                }
             }
         }
     }
