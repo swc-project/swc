@@ -43,7 +43,7 @@ fn imports(input: PathBuf) {
 
 #[testing::fixture("tests/fixture/**/*.css", exclude("compiled\\.css"))]
 fn compile(input: PathBuf) {
-    testing::run_test(false, |cm, handler| {
+    testing::run_test(false, |cm, _| {
         let fm = cm.load_file(&input).unwrap();
         let mut errors = vec![];
         let mut ss = swc_css_parser::parse_file(
