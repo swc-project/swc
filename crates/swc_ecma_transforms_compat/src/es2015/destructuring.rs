@@ -160,8 +160,9 @@ impl AssignFolder {
                 if is_literal(&init) {
                     match *init {
                         Expr::Array(arr)
-                            if elems.len() == arr.elems.len()
-                                || (elems.len() < arr.elems.len() && has_rest_pat(&elems)) =>
+                            if !elems.is_empty()
+                                && (elems.len() == arr.elems.len()
+                                    || (elems.len() < arr.elems.len() && has_rest_pat(&elems))) =>
                         {
                             let mut arr_elems = Some(arr.elems.into_iter());
                             elems.into_iter().for_each(|p| match p {
