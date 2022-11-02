@@ -621,15 +621,13 @@ where
         }
     }
 
-    fn append_name_to_attribute(&mut self, c: char, raw_c: Option<char>) {
+    fn append_name_to_attribute(&mut self, c: char, raw_c: char) {
         if let Some(Tag { attributes, .. }) = &mut self.current_tag_token {
             if let Some(attribute) = attributes.last_mut() {
                 attribute.name.push(c);
 
-                if let Some(raw_c) = raw_c {
-                    if let Some(raw_name) = &mut attribute.raw_name {
-                        raw_name.push(raw_c);
-                    }
+                if let Some(raw_name) = &mut attribute.raw_name {
+                    raw_name.push(raw_c);
                 }
             }
         }
@@ -2168,7 +2166,7 @@ where
                     Some(c @ '=') => {
                         self.emit_error(ErrorKind::UnexpectedEqualsSignBeforeAttributeName);
                         self.start_new_attribute();
-                        self.append_name_to_attribute(c, Some(c));
+                        self.append_name_to_attribute(c, c);
                         self.state = State::AttributeName;
                     }
                     // Anything else
@@ -2184,7 +2182,7 @@ where
             // https://html.spec.whatwg.org/multipage/parsing.html#attribute-name-state
             State::AttributeName => {
                 let anything_else = |lexer: &mut Lexer<I>, c: char| {
-                    lexer.append_name_to_attribute(c, Some(c));
+                    lexer.append_name_to_attribute(c, c);
                 };
 
                 // Consume the next input character:
@@ -2215,14 +2213,14 @@ where
                     // Append the lowercase version of the current input character (add 0x0020
                     // to the character's code point) to the current attribute's name.
                     Some(c) if is_ascii_upper_alpha(c) => {
-                        self.append_name_to_attribute(c.to_ascii_lowercase(), Some(c));
+                        self.append_name_to_attribute(c.to_ascii_lowercase(), c);
                     }
                     // U+0000 NULL
                     // This is an unexpected-null-character parse error. Append a U+FFFD
                     // REPLACEMENT CHARACTER character to the current attribute's name.
                     Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-                        self.append_name_to_attribute(REPLACEMENT_CHARACTER, Some(c));
+                        self.append_name_to_attribute(REPLACEMENT_CHARACTER, c);
                     }
                     // U+0022 QUOTATION MARK (")
                     // U+0027 APOSTROPHE (')
