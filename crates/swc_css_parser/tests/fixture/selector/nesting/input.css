@@ -165,3 +165,12 @@ article {
     & { color: blue; }
     color: red;
 }
+
+.foo {
+    color: red;
+    @media (min-width: 480px) {
+        & h1, & h2 {
+            color: blue;
+        }
+    }
+}
