@@ -5,6 +5,17 @@
 
 
 
+- **(es/compat)** Fix destructuring of an empty array (#6314) ([3bea6f7](https://github.com/swc-project/swc/commit/3bea6f7248826a3865a2148ce65c6cbaa9d03790))
+
+
+- **(es/helpers)** Fix `toArray` (#6318) ([e34c25e](https://github.com/swc-project/swc/commit/e34c25e40dc9f4998b31eed6b2a1efc43b87b205))
+
+## [1.3.12] - 2022-11-02
+
+### Bug Fixes
+
+
+
 - **(common)** Remove `&mut` from `build_source_map_from` (#6276) ([47d7fca](https://github.com/swc-project/swc/commit/47d7fcaaedb97d1ce28727de6c22698fc2d0d11b))
 
 
