@@ -678,47 +678,53 @@ where
     }
 
     fn emit_tag_token(&mut self) {
-        if let Some(mut current_tag_token) = self.current_tag_token.take() {
+        if let Some(current_tag_token) = self.current_tag_token.take() {
+            let is_empty = current_tag_token.attributes.is_empty();
+
+            let attributes = if !is_empty {
+                let mut already_seen: AHashSet<JsWord> = Default::default();
+
+                current_tag_token
+                    .attributes
+                    .into_iter()
+                    .map(|attribute| {
+                        let name: JsWord = JsWord::from(attribute.name);
+
+                        if already_seen.contains(&name) {
+                            self.errors
+                                .push(Error::new(attribute.span, ErrorKind::DuplicateAttribute));
+                        }
+
+                        already_seen.insert(name.clone());
+
+                        AttributeToken {
+                            span: attribute.span,
+                            name,
+                            raw_name: attribute.raw_name.map(Atom::new),
+                            value: attribute.value.map(JsWord::from),
+                            raw_value: attribute.raw_value.map(Atom::new),
+                        }
+                    })
+                    .collect()
+            } else {
+                vec![]
+            };
+
             match current_tag_token.kind {
                 TagKind::Start => {
                     self.last_start_tag_name = Some(current_tag_token.tag_name.clone().into());
-
-                    let mut already_seen: AHashSet<JsWord> = Default::default();
 
                     let start_tag_token = Token::StartTag {
                         tag_name: current_tag_token.tag_name.into(),
                         raw_tag_name: current_tag_token.raw_tag_name.map(Atom::new),
                         is_self_closing: current_tag_token.is_self_closing,
-                        attributes: current_tag_token
-                            .attributes
-                            .drain(..)
-                            .map(|attribute| {
-                                let name: JsWord = JsWord::from(attribute.name);
-
-                                if already_seen.contains(&name) {
-                                    self.errors.push(Error::new(
-                                        attribute.span,
-                                        ErrorKind::DuplicateAttribute,
-                                    ));
-                                }
-
-                                already_seen.insert(name.clone());
-
-                                AttributeToken {
-                                    span: attribute.span,
-                                    name,
-                                    raw_name: attribute.raw_name.map(Atom::new),
-                                    value: attribute.value.map(JsWord::from),
-                                    raw_value: attribute.raw_value.map(Atom::new),
-                                }
-                            })
-                            .collect(),
+                        attributes,
                     };
 
                     self.emit_token(start_tag_token);
                 }
                 TagKind::End => {
-                    if !current_tag_token.attributes.is_empty() {
+                    if !is_empty {
                         self.emit_error(ErrorKind::EndTagWithAttributes);
                     }
 
@@ -726,36 +732,11 @@ where
                         self.emit_error(ErrorKind::EndTagWithTrailingSolidus);
                     }
 
-                    let mut already_seen: AHashSet<JsWord> = Default::default();
-
                     let end_tag_token = Token::EndTag {
                         tag_name: current_tag_token.tag_name.into(),
                         raw_tag_name: current_tag_token.raw_tag_name.map(Atom::new),
                         is_self_closing: current_tag_token.is_self_closing,
-                        attributes: current_tag_token
-                            .attributes
-                            .drain(..)
-                            .map(|attribute| {
-                                let name: JsWord = JsWord::from(attribute.name);
-
-                                if already_seen.contains(&name) {
-                                    self.errors.push(Error::new(
-                                        attribute.span,
-                                        ErrorKind::DuplicateAttribute,
-                                    ));
-                                }
-
-                                already_seen.insert(name.clone());
-
-                                AttributeToken {
-                                    span: attribute.span,
-                                    name,
-                                    raw_name: attribute.raw_name.map(Atom::new),
-                                    value: attribute.value.map(JsWord::from),
-                                    raw_value: attribute.raw_value.map(Atom::new),
-                                }
-                            })
-                            .collect(),
+                        attributes,
                     };
 
                     self.emit_token(end_tag_token);
