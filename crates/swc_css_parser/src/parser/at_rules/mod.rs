@@ -184,53 +184,16 @@ where
                         Token::Function { value, .. }
                             if *value.to_ascii_lowercase() == *"layer" =>
                         {
-                            let span = self.input.cur_span();
-
                             let ctx = Ctx {
                                 in_import_at_rule: true,
                                 block_contents_grammar: BlockContentsGrammar::DeclarationValue,
                                 ..self.ctx
                             };
-
                             let func = self.with_ctx(ctx).parse_as::<Function>()?;
 
                             self.input.skip_ws();
 
-                            if func.value.len() != 1 {
-                                return Err(Error::new(
-                                    span,
-                                    ErrorKind::Expected(
-                                        "layer function inside @import expected to have exactly \
-                                         one ident argument",
-                                    ),
-                                ));
-                            } else if let ComponentValue::LayerName(LayerName {
-                                name: name_raw,
-                                ..
-                            }) = &func.value[0]
-                            {
-                                self.input.skip_ws();
-
-                                if name_raw.is_empty() {
-                                    return Err(Error::new(
-                                        span,
-                                        ErrorKind::Expected(
-                                            "layer function inside @import expected to have \
-                                             exactly one ident argument",
-                                        ),
-                                    ));
-                                } else {
-                                    Some(Box::new(ImportPreludeLayerName::Function(func)))
-                                }
-                            } else {
-                                return Err(Error::new(
-                                    span,
-                                    ErrorKind::Expected(
-                                        "layer function inside @import expected to have exactly \
-                                         one ident argument",
-                                    ),
-                                ));
-                            }
+                            Some(Box::new(ImportPreludeLayerName::Function(func)))
                         }
                         _ => None,
                     }
@@ -516,7 +479,6 @@ where
                         in_container_at_rule: true,
                         ..self.ctx
                     };
-
                     let style_blocks = self.with_ctx(ctx).parse_as::<Vec<StyleBlock>>()?;
                     let style_blocks: Vec<ComponentValue> = style_blocks
                         .into_iter()
@@ -586,12 +548,11 @@ where
                 declaration_list
             }
             js_word!("font-feature-values") => {
-                let declaration_list = self
-                    .with_ctx(Ctx {
-                        in_font_feature_values_at_rule: true,
-                        ..self.ctx
-                    })
-                    .parse_as::<Vec<DeclarationOrAtRule>>()?;
+                let ctx = Ctx {
+                    in_font_feature_values_at_rule: true,
+                    ..self.ctx
+                };
+                let declaration_list = self.with_ctx(ctx).parse_as::<Vec<DeclarationOrAtRule>>()?;
                 let declaration_list: Vec<ComponentValue> = declaration_list
                     .into_iter()
                     .map(ComponentValue::DeclarationOrAtRule)
@@ -642,7 +603,6 @@ where
                     ..self.ctx
                 };
                 let rule_list = self.with_ctx(ctx).parse_as::<Vec<Rule>>()?;
-
                 let rule_list: Vec<ComponentValue> = rule_list
                     .into_iter()
                     .map(|rule| match rule {
@@ -1234,20 +1194,15 @@ where
         match cur!(self) {
             tok!("function") => {
                 let ctx = Ctx {
-                    block_contents_grammar: BlockContentsGrammar::NoGrammar,
+                    block_contents_grammar: BlockContentsGrammar::DeclarationList,
                     ..self.ctx
                 };
-
                 let function = self.with_ctx(ctx).parse_as::<Function>()?;
 
                 Ok(GeneralEnclosed::Function(function))
             }
             tok!("(") => {
-                let ctx = Ctx {
-                    block_contents_grammar: BlockContentsGrammar::NoGrammar,
-                    ..self.ctx
-                };
-                let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
+                let block = self.parse_as::<SimpleBlock>()?;
 
                 if let Some(first) = block.value.get(0) {
                     match first {
@@ -1310,7 +1265,6 @@ where
                         block_contents_grammar: BlockContentsGrammar::DeclarationValue,
                         ..self.ctx
                     };
-
                     let function = self.with_ctx(ctx).parse_as::<Function>()?;
 
                     Ok(DocumentPreludeMatchingFunction::Function(function))
@@ -1897,10 +1851,9 @@ where
                     block_contents_grammar: BlockContentsGrammar::DeclarationValue,
                     ..self.ctx
                 };
+                let function = self.with_ctx(ctx).parse_as::<Function>()?;
 
-                Ok(MediaFeatureValue::Function(
-                    self.with_ctx(ctx).parse_as::<Function>()?,
-                ))
+                Ok(MediaFeatureValue::Function(function))
             }
             _ => Err(Error::new(
                 span,
@@ -2051,32 +2004,12 @@ where
         let start = self.input.cur_span().lo;
         let mut name = vec![];
 
-        let entered = is!(self, Ident);
-
         while is!(self, Ident) {
-            let span = self.input.cur_span();
-            let token = bump!(self);
-            let ident = match token {
-                Token::Ident { value, raw } => Ident {
-                    span,
-                    value,
-                    raw: Some(raw),
-                },
-                _ => {
-                    unreachable!();
-                }
-            };
-
-            name.push(ident);
+            name.push(self.parse()?);
 
             if is!(self, ".") {
                 eat!(self, ".");
             }
-        }
-
-        if !entered {
-            // if first argument is not ident, without bump! will cause infinite loop
-            bump!(self);
         }
 
         Ok(LayerName {
@@ -2517,10 +2450,9 @@ where
                     block_contents_grammar: BlockContentsGrammar::DeclarationValue,
                     ..self.ctx
                 };
+                let function = self.with_ctx(ctx).parse_as::<Function>()?;
 
-                Ok(SizeFeatureValue::Function(
-                    self.with_ctx(ctx).parse_as::<Function>()?,
-                ))
+                Ok(SizeFeatureValue::Function(function))
             }
             _ => Err(Error::new(
                 span,

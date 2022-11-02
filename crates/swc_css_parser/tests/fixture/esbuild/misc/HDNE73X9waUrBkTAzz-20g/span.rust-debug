@@ -74,19 +74,19 @@
   x ComponentValue
    ,-[$DIR/tests/fixture/esbuild/misc/HDNE73X9waUrBkTAzz-20g/input.css:1:1]
  1 | a { value: #h\61sh }
-   :     ^^^^^^^^^^^^^^
+   :     ^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
    ,-[$DIR/tests/fixture/esbuild/misc/HDNE73X9waUrBkTAzz-20g/input.css:1:1]
  1 | a { value: #h\61sh }
-   :     ^^^^^^^^^^^^^^
+   :     ^^^^^^^^^^^^^^^
    `----
 
   x Declaration
    ,-[$DIR/tests/fixture/esbuild/misc/HDNE73X9waUrBkTAzz-20g/input.css:1:1]
  1 | a { value: #h\61sh }
-   :     ^^^^^^^^^^^^^^
+   :     ^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName

@@ -123,58 +123,10 @@
    :             ^^^
    `----
 
-  x CalcSum
+  x Dimension { value: 2.0, raw_value: Atom('2' type=inline), unit: Atom('px' type=static), raw_unit: Atom('px' type=static), type_flag: Integer }
    ,-[$DIR/tests/recovery/function/calc/space/input.css:2:5]
  2 | width: calc(2px+1px);
    :             ^^^
-   `----
-
-  x CalcProductOrOperator
-   ,-[$DIR/tests/recovery/function/calc/space/input.css:2:5]
- 2 | width: calc(2px+1px);
-   :             ^^^
-   `----
-
-  x CalcProduct
-   ,-[$DIR/tests/recovery/function/calc/space/input.css:2:5]
- 2 | width: calc(2px+1px);
-   :             ^^^
-   `----
-
-  x CalcValueOrOperator
-   ,-[$DIR/tests/recovery/function/calc/space/input.css:2:5]
- 2 | width: calc(2px+1px);
-   :             ^^^
-   `----
-
-  x CalcValue
-   ,-[$DIR/tests/recovery/function/calc/space/input.css:2:5]
- 2 | width: calc(2px+1px);
-   :             ^^^
-   `----
-
-  x Dimension
-   ,-[$DIR/tests/recovery/function/calc/space/input.css:2:5]
- 2 | width: calc(2px+1px);
-   :             ^^^
-   `----
-
-  x Length
-   ,-[$DIR/tests/recovery/function/calc/space/input.css:2:5]
- 2 | width: calc(2px+1px);
-   :             ^^^
-   `----
-
-  x Number
-   ,-[$DIR/tests/recovery/function/calc/space/input.css:2:5]
- 2 | width: calc(2px+1px);
-   :             ^
-   `----
-
-  x Ident
-   ,-[$DIR/tests/recovery/function/calc/space/input.css:2:5]
- 2 | width: calc(2px+1px);
-   :              ^^
    `----
 
   x ComponentValue
@@ -183,56 +135,8 @@
    :                ^^^^
    `----
 
-  x CalcSum
+  x Dimension { value: 1.0, raw_value: Atom('+1' type=inline), unit: Atom('px' type=static), raw_unit: Atom('px' type=static), type_flag: Integer }
    ,-[$DIR/tests/recovery/function/calc/space/input.css:2:5]
  2 | width: calc(2px+1px);
    :                ^^^^
-   `----
-
-  x CalcProductOrOperator
-   ,-[$DIR/tests/recovery/function/calc/space/input.css:2:5]
- 2 | width: calc(2px+1px);
-   :                ^^^^
-   `----
-
-  x CalcProduct
-   ,-[$DIR/tests/recovery/function/calc/space/input.css:2:5]
- 2 | width: calc(2px+1px);
-   :                ^^^^
-   `----
-
-  x CalcValueOrOperator
-   ,-[$DIR/tests/recovery/function/calc/space/input.css:2:5]
- 2 | width: calc(2px+1px);
-   :                ^^^^
-   `----
-
-  x CalcValue
-   ,-[$DIR/tests/recovery/function/calc/space/input.css:2:5]
- 2 | width: calc(2px+1px);
-   :                ^^^^
-   `----
-
-  x Dimension
-   ,-[$DIR/tests/recovery/function/calc/space/input.css:2:5]
- 2 | width: calc(2px+1px);
-   :                ^^^^
-   `----
-
-  x Length
-   ,-[$DIR/tests/recovery/function/calc/space/input.css:2:5]
- 2 | width: calc(2px+1px);
-   :                ^^^^
-   `----
-
-  x Number
-   ,-[$DIR/tests/recovery/function/calc/space/input.css:2:5]
- 2 | width: calc(2px+1px);
-   :                ^^
-   `----
-
-  x Ident
-   ,-[$DIR/tests/recovery/function/calc/space/input.css:2:5]
- 2 | width: calc(2px+1px);
-   :                  ^^
    `----

@@ -101,18 +101,21 @@
    ,-[$DIR/tests/recovery/value/quotes/input.css:2:5]
  2 | ,-> content: "tes
  3 | `->     t";
+ 4 |     }
    `----
 
   x StyleBlock
    ,-[$DIR/tests/recovery/value/quotes/input.css:2:5]
  2 | ,-> content: "tes
  3 | `->     t";
+ 4 |     }
    `----
 
   x Declaration
    ,-[$DIR/tests/recovery/value/quotes/input.css:2:5]
  2 | ,-> content: "tes
  3 | `->     t";
+ 4 |     }
    `----
 
   x DeclarationName

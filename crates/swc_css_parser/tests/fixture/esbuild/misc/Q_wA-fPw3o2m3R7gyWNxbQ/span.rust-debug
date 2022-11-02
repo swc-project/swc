@@ -92,19 +92,19 @@
   x ComponentValue
    ,-[$DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:1]
  1 | a:after { content: '\invalid' }
-   :           ^^^^^^^^^^^^^^^^^^^
+   :           ^^^^^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
    ,-[$DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:1]
  1 | a:after { content: '\invalid' }
-   :           ^^^^^^^^^^^^^^^^^^^
+   :           ^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
    ,-[$DIR/tests/fixture/esbuild/misc/Q_wA-fPw3o2m3R7gyWNxbQ/input.css:1:1]
  1 | a:after { content: '\invalid' }
-   :           ^^^^^^^^^^^^^^^^^^^
+   :           ^^^^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName

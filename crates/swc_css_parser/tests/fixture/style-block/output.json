@@ -1681,7 +1681,7 @@
                         "type": "Declaration",
                         "span": {
                           "start": 605,
-                          "end": 615,
+                          "end": 616,
                           "ctxt": 0
                         },
                         "name": {
@@ -2051,7 +2051,7 @@
                         "type": "Declaration",
                         "span": {
                           "start": 736,
-                          "end": 746,
+                          "end": 747,
                           "ctxt": 0
                         },
                         "name": {
@@ -2536,7 +2536,7 @@
                         "type": "Declaration",
                         "span": {
                           "start": 906,
-                          "end": 916,
+                          "end": 917,
                           "ctxt": 0
                         },
                         "name": {
@@ -3525,7 +3525,7 @@
             "type": "Declaration",
             "span": {
               "start": 1218,
-              "end": 1235,
+              "end": 1237,
               "ctxt": 0
             },
             "name": {
@@ -4236,7 +4236,7 @@
             "type": "Declaration",
             "span": {
               "start": 1375,
-              "end": 1439,
+              "end": 1440,
               "ctxt": 0
             },
             "name": {

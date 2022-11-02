@@ -1538,19 +1538,22 @@
   x ComponentValue
     ,-[$DIR/tests/fixture/value/escaped/input.css:28:5]
  28 | \62 olor: red
-    : ^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^
+ 29 | }
     `----
 
   x StyleBlock
     ,-[$DIR/tests/fixture/value/escaped/input.css:28:5]
  28 | \62 olor: red
-    : ^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^
+ 29 | }
     `----
 
   x Declaration
     ,-[$DIR/tests/fixture/value/escaped/input.css:28:5]
  28 | \62 olor: red
-    : ^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^
+ 29 | }
     `----
 
   x DeclarationName

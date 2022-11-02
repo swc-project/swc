@@ -87,13 +87,13 @@
   x ComponentValue
    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:2:9]
  2 | @page :first { margin: 0 }
-   :                ^^^^^^^^^
+   :                ^^^^^^^^^^
    `----
 
   x Declaration
    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:2:9]
  2 | @page :first { margin: 0 }
-   :                ^^^^^^^^^
+   :                ^^^^^^^^^^
    `----
 
   x DeclarationName
@@ -243,13 +243,13 @@
   x ComponentValue
    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:4:13]
  4 | @top-left-corner { content: 'tlc' }
-   :                    ^^^^^^^^^^^^^^
+   :                    ^^^^^^^^^^^^^^^
    `----
 
   x Declaration
    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:4:13]
  4 | @top-left-corner { content: 'tlc' }
-   :                    ^^^^^^^^^^^^^^
+   :                    ^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
@@ -315,13 +315,13 @@
   x ComponentValue
    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:13]
  5 | @top-left { content: 'tl' }
-   :             ^^^^^^^^^^^^^
+   :             ^^^^^^^^^^^^^^
    `----
 
   x Declaration
    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:13]
  5 | @top-left { content: 'tl' }
-   :             ^^^^^^^^^^^^^
+   :             ^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
@@ -387,13 +387,13 @@
   x ComponentValue
    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:13]
  6 | @top-center { content: 'tc' }
-   :               ^^^^^^^^^^^^^
+   :               ^^^^^^^^^^^^^^
    `----
 
   x Declaration
    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:13]
  6 | @top-center { content: 'tc' }
-   :               ^^^^^^^^^^^^^
+   :               ^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
@@ -459,13 +459,13 @@
   x ComponentValue
    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:13]
  7 | @top-right { content: 'tr' }
-   :              ^^^^^^^^^^^^^
+   :              ^^^^^^^^^^^^^^
    `----
 
   x Declaration
    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:13]
  7 | @top-right { content: 'tr' }
-   :              ^^^^^^^^^^^^^
+   :              ^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
@@ -531,13 +531,13 @@
   x ComponentValue
    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:13]
  8 | @top-right-corner { content: 'trc' }
-   :                     ^^^^^^^^^^^^^^
+   :                     ^^^^^^^^^^^^^^^
    `----
 
   x Declaration
    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:13]
  8 | @top-right-corner { content: 'trc' }
-   :                     ^^^^^^^^^^^^^^
+   :                     ^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
@@ -603,13 +603,13 @@
   x ComponentValue
    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:13]
  9 | @bottom-left-corner { content: 'blc' }
-   :                       ^^^^^^^^^^^^^^
+   :                       ^^^^^^^^^^^^^^^
    `----
 
   x Declaration
    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:13]
  9 | @bottom-left-corner { content: 'blc' }
-   :                       ^^^^^^^^^^^^^^
+   :                       ^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
@@ -675,13 +675,13 @@
   x ComponentValue
     ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:13]
  10 | @bottom-left { content: 'bl' }
-    :                ^^^^^^^^^^^^^
+    :                ^^^^^^^^^^^^^^
     `----
 
   x Declaration
     ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:13]
  10 | @bottom-left { content: 'bl' }
-    :                ^^^^^^^^^^^^^
+    :                ^^^^^^^^^^^^^^
     `----
 
   x DeclarationName
@@ -747,13 +747,13 @@
   x ComponentValue
     ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:13]
  11 | @bottom-center { content: 'bc' }
-    :                  ^^^^^^^^^^^^^
+    :                  ^^^^^^^^^^^^^^
     `----
 
   x Declaration
     ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:13]
  11 | @bottom-center { content: 'bc' }
-    :                  ^^^^^^^^^^^^^
+    :                  ^^^^^^^^^^^^^^
     `----
 
   x DeclarationName
@@ -819,13 +819,13 @@
   x ComponentValue
     ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:13]
  12 | @bottom-right { content: 'br' }
-    :                 ^^^^^^^^^^^^^
+    :                 ^^^^^^^^^^^^^^
     `----
 
   x Declaration
     ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:13]
  12 | @bottom-right { content: 'br' }
-    :                 ^^^^^^^^^^^^^
+    :                 ^^^^^^^^^^^^^^
     `----
 
   x DeclarationName
@@ -891,13 +891,13 @@
   x ComponentValue
     ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:13]
  13 | @bottom-right-corner { content: 'brc' }
-    :                        ^^^^^^^^^^^^^^
+    :                        ^^^^^^^^^^^^^^^
     `----
 
   x Declaration
     ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:13]
  13 | @bottom-right-corner { content: 'brc' }
-    :                        ^^^^^^^^^^^^^^
+    :                        ^^^^^^^^^^^^^^^
     `----
 
   x DeclarationName
@@ -963,13 +963,13 @@
   x ComponentValue
     ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:13]
  14 | @left-top { content: 'lt' }
-    :             ^^^^^^^^^^^^^
+    :             ^^^^^^^^^^^^^^
     `----
 
   x Declaration
     ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:13]
  14 | @left-top { content: 'lt' }
-    :             ^^^^^^^^^^^^^
+    :             ^^^^^^^^^^^^^^
     `----
 
   x DeclarationName
@@ -1035,13 +1035,13 @@
   x ComponentValue
     ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:13]
  15 | @left-middle { content: 'lm' }
-    :                ^^^^^^^^^^^^^
+    :                ^^^^^^^^^^^^^^
     `----
 
   x Declaration
     ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:13]
  15 | @left-middle { content: 'lm' }
-    :                ^^^^^^^^^^^^^
+    :                ^^^^^^^^^^^^^^
     `----
 
   x DeclarationName
@@ -1107,13 +1107,13 @@
   x ComponentValue
     ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:13]
  16 | @left-bottom { content: 'lb' }
-    :                ^^^^^^^^^^^^^
+    :                ^^^^^^^^^^^^^^
     `----
 
   x Declaration
     ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:13]
  16 | @left-bottom { content: 'lb' }
-    :                ^^^^^^^^^^^^^
+    :                ^^^^^^^^^^^^^^
     `----
 
   x DeclarationName
@@ -1179,13 +1179,13 @@
   x ComponentValue
     ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:13]
  17 | @right-top { content: 'rt' }
-    :              ^^^^^^^^^^^^^
+    :              ^^^^^^^^^^^^^^
     `----
 
   x Declaration
     ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:13]
  17 | @right-top { content: 'rt' }
-    :              ^^^^^^^^^^^^^
+    :              ^^^^^^^^^^^^^^
     `----
 
   x DeclarationName
@@ -1251,13 +1251,13 @@
   x ComponentValue
     ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:13]
  18 | @right-middle { content: 'rm' }
-    :                 ^^^^^^^^^^^^^
+    :                 ^^^^^^^^^^^^^^
     `----
 
   x Declaration
     ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:13]
  18 | @right-middle { content: 'rm' }
-    :                 ^^^^^^^^^^^^^
+    :                 ^^^^^^^^^^^^^^
     `----
 
   x DeclarationName
@@ -1323,13 +1323,13 @@
   x ComponentValue
     ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:13]
  19 | @right-bottom { content: 'rb' }
-    :                 ^^^^^^^^^^^^^
+    :                 ^^^^^^^^^^^^^^
     `----
 
   x Declaration
     ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:13]
  19 | @right-bottom { content: 'rb' }
-    :                 ^^^^^^^^^^^^^
+    :                 ^^^^^^^^^^^^^^
     `----
 
   x DeclarationName

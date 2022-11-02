@@ -378,13 +378,15 @@
   x ComponentValue
     ,-[$DIR/tests/fixture/declaration-list/input.css:18:5]
  18 | prop1: value
-    : ^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^
+ 19 | }
     `----
 
   x Declaration
     ,-[$DIR/tests/fixture/declaration-list/input.css:18:5]
  18 | prop1: value
-    : ^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^
+ 19 | }
     `----
 
   x DeclarationName
@@ -489,13 +491,15 @@
   x ComponentValue
     ,-[$DIR/tests/fixture/declaration-list/input.css:22:5]
  22 | prop1: value;;;prop2: value
-    :                ^^^^^^^^^^^^
+    :                ^^^^^^^^^^^^^
+ 23 | }
     `----
 
   x Declaration
     ,-[$DIR/tests/fixture/declaration-list/input.css:22:5]
  22 | prop1: value;;;prop2: value
-    :                ^^^^^^^^^^^^
+    :                ^^^^^^^^^^^^^
+ 23 | }
     `----
 
   x DeclarationName

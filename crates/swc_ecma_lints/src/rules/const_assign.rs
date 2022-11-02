@@ -108,11 +108,13 @@ impl Visit for ConstAssign {
         program.visit_children_with(self);
     }
 
-    fn visit_var_decl(&mut self, var_decl: &VarDecl) {
+    fn visit_var_declarator(&mut self, var_declarator: &VarDeclarator) {
         let old_is_pat_decl = self.is_pat_decl;
         self.is_pat_decl = true;
-        var_decl.visit_children_with(self);
+        var_declarator.name.visit_with(self);
         self.is_pat_decl = old_is_pat_decl;
+
+        var_declarator.init.visit_with(self);
     }
 }
 

@@ -11,6 +11,24 @@ impl<I> Parser<I>
 where
     I: ParserInput,
 {
+    pub(super) fn parse_generic_values(&mut self) -> PResult<Vec<ComponentValue>> {
+        let mut values = vec![];
+
+        loop {
+            self.input.skip_ws();
+
+            if is!(self, EOF) {
+                break;
+            }
+
+            let component_value = self.parse_generic_value()?;
+
+            values.push(component_value);
+        }
+
+        Ok(values)
+    }
+
     pub(super) fn parse_generic_value(&mut self) -> PResult<ComponentValue> {
         self.input.skip_ws();
 
@@ -75,30 +93,12 @@ where
             }
 
             tok!("[") | tok!("(") | tok!("{") => {
-                let ctx = Ctx {
-                    block_contents_grammar: BlockContentsGrammar::NoGrammar,
-                    ..self.ctx
-                };
-                let mut block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
+                let mut block = self.parse_as::<SimpleBlock>()?;
                 let locv = self.create_locv(block.value);
 
-                block.value = match self.parse_according_to_grammar(&locv, |parser| {
-                    let mut values = vec![];
-
-                    loop {
-                        parser.input.skip_ws();
-
-                        if is!(parser, EOF) {
-                            break;
-                        }
-
-                        let component_value = parser.parse_generic_value()?;
-
-                        values.push(component_value);
-                    }
-
-                    Ok(values)
-                }) {
+                block.value = match self
+                    .parse_according_to_grammar(&locv, |parser| parser.parse_generic_values())
+                {
                     Ok(values) => values,
                     Err(err) => {
                         if *err.kind() != ErrorKind::Ignore {
@@ -279,6 +279,12 @@ where
                 values.push(calc_sum);
 
                 self.input.skip_ws();
+
+                if !is!(self, EOF) {
+                    let span = self.input.cur_span();
+
+                    return Err(Error::new(span, ErrorKind::Unexpected("value")));
+                }
             }
             "min" | "max" | "hypot" => {
                 self.input.skip_ws();
@@ -301,6 +307,12 @@ where
                     let calc_sum = ComponentValue::CalcSum(self.parse()?);
 
                     values.push(calc_sum);
+                }
+
+                if !is!(self, EOF) {
+                    let span = self.input.cur_span();
+
+                    return Err(Error::new(span, ErrorKind::Unexpected("value")));
                 }
             }
             "clamp" => {
@@ -703,6 +715,10 @@ where
                 }
 
                 if is_legacy_syntax {
+                    if has_variable && is!(self, EOF) {
+                        return Ok(values);
+                    }
+
                     match cur!(self) {
                         tok!(",") => {
                             values.push(ComponentValue::Delimiter(self.parse()?));
@@ -1588,6 +1604,10 @@ where
 
                 if is_custom_params {
                     loop {
+                        if is!(self, EOF) {
+                            break;
+                        }
+
                         let number_or_percentage_or_none = match cur!(self) {
                             tok!("number") => ComponentValue::Number(self.parse()?),
                             tok!("percentage") if !is_xyz => {
@@ -1807,16 +1827,40 @@ where
             "layer" if self.ctx.in_import_at_rule => {
                 self.input.skip_ws();
 
+                if is!(self, EOF) {
+                    let span = self.input.cur_span();
+
+                    return Err(Error::new(
+                        span,
+                        ErrorKind::Expected(
+                            "layer function inside @import expected to have exactly one ident \
+                             argument",
+                        ),
+                    ));
+                }
+
                 let layer_name = self.parse_as::<LayerName>()?;
 
                 values.push(ComponentValue::LayerName(layer_name));
 
                 self.input.skip_ws();
+
+                if !is!(self, EOF) {
+                    let span = self.input.cur_span();
+
+                    return Err(Error::new(
+                        span,
+                        ErrorKind::Expected(
+                            "layer function inside @import expected to have exactly one ident \
+                             argument",
+                        ),
+                    ));
+                }
             }
             _ => loop {
                 self.input.skip_ws();
 
-                if is!(self, ")") {
+                if is!(self, EOF) {
                     break;
                 }
 
@@ -1825,6 +1869,7 @@ where
                     None => {
                         if is_one_of!(self, ";", ":") {
                             let tok = self.input.bump().unwrap();
+
                             ComponentValue::PreservedToken(tok)
                         } else {
                             return Err(Error::new(
@@ -3301,6 +3346,10 @@ where
         loop {
             self.input.skip_ws();
 
+            if is!(self, EOF) {
+                break;
+            }
+
             match cur!(self) {
                 tok!("+") | tok!("-") => {
                     let operator = CalcProductOrOperator::Operator(self.parse()?);
@@ -3367,6 +3416,10 @@ where
 
         loop {
             self.input.skip_ws();
+
+            if is!(self, EOF) {
+                break;
+            }
 
             match cur!(self) {
                 tok!("*") | tok!("/") => {

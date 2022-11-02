@@ -123,58 +123,10 @@
    :            ^^^^^
    `----
 
-  x CalcSum
+  x Dimension { value: 500.0, raw_value: Atom('500' type=inline), unit: Atom('px' type=static), raw_unit: Atom('px' type=static), type_flag: Integer }
    ,-[$DIR/tests/recovery/function/unclosed/input.css:2:5]
  2 | width: min(500px;
    :            ^^^^^
-   `----
-
-  x CalcProductOrOperator
-   ,-[$DIR/tests/recovery/function/unclosed/input.css:2:5]
- 2 | width: min(500px;
-   :            ^^^^^
-   `----
-
-  x CalcProduct
-   ,-[$DIR/tests/recovery/function/unclosed/input.css:2:5]
- 2 | width: min(500px;
-   :            ^^^^^
-   `----
-
-  x CalcValueOrOperator
-   ,-[$DIR/tests/recovery/function/unclosed/input.css:2:5]
- 2 | width: min(500px;
-   :            ^^^^^
-   `----
-
-  x CalcValue
-   ,-[$DIR/tests/recovery/function/unclosed/input.css:2:5]
- 2 | width: min(500px;
-   :            ^^^^^
-   `----
-
-  x Dimension
-   ,-[$DIR/tests/recovery/function/unclosed/input.css:2:5]
- 2 | width: min(500px;
-   :            ^^^^^
-   `----
-
-  x Length
-   ,-[$DIR/tests/recovery/function/unclosed/input.css:2:5]
- 2 | width: min(500px;
-   :            ^^^^^
-   `----
-
-  x Number
-   ,-[$DIR/tests/recovery/function/unclosed/input.css:2:5]
- 2 | width: min(500px;
-   :            ^^^
-   `----
-
-  x Ident
-   ,-[$DIR/tests/recovery/function/unclosed/input.css:2:5]
- 2 | width: min(500px;
-   :               ^^
    `----
 
   x ComponentValue

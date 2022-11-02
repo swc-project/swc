@@ -3151,7 +3151,8 @@
  52 | ,-> --small-icon: {
  53 | |           width: 16px;
  54 | |           height: 16px;
- 55 | `->     }
+ 55 | |       }
+ 56 | `->     ;
     `----
 
   x StyleBlock
@@ -3159,7 +3160,8 @@
  52 | ,-> --small-icon: {
  53 | |           width: 16px;
  54 | |           height: 16px;
- 55 | `->     }
+ 55 | |       }
+ 56 | `->     ;
     `----
 
   x Declaration
@@ -3167,7 +3169,8 @@
  52 | ,-> --small-icon: {
  53 | |           width: 16px;
  54 | |           height: 16px;
- 55 | `->     }
+ 55 | |       }
+ 56 | `->     ;
     `----
 
   x DeclarationName

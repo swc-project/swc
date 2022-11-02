@@ -518,3 +518,13 @@
     : |
     : `-- cannot reassign
     `----
+
+  x cannot reassign to a variable declared with `const`
+    ,-[36:3]
+ 36 | const e = 100;
+    :       |
+    :       `-- const variable was declared here
+ 37 |   e = 200;
+    :   |
+    :   `-- cannot reassign
+    `----

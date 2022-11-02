@@ -7534,7 +7534,7 @@
   x Declaration
      ,-[$DIR/tests/fixture/at-rule/import/input.css:140:1]
  140 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
-     :                                                                          ^^^^^^^^^^^^^^^^^^^^^^
+     :                                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
   x DeclarationName
@@ -8962,7 +8962,7 @@
   x Declaration
      ,-[$DIR/tests/fixture/at-rule/import/input.css:153:1]
  153 | @import url('./test.css') supports(   display   :    grid   );
-     :                                       ^^^^^^^^^^^^^^^^^^^
+     :                                       ^^^^^^^^^^^^^^^^^^^^^^
      `----
 
   x DeclarationName

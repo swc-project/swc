@@ -408,19 +408,19 @@
   x ComponentValue
    ,-[$DIR/tests/fixture/selector/nesting/input.css:4:9]
  4 | &.c { text-transform:uppercase }
-   :       ^^^^^^^^^^^^^^^^^^^^^^^^
+   :       ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
    ,-[$DIR/tests/fixture/selector/nesting/input.css:4:9]
  4 | &.c { text-transform:uppercase }
-   :       ^^^^^^^^^^^^^^^^^^^^^^^^
+   :       ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
    ,-[$DIR/tests/fixture/selector/nesting/input.css:4:9]
  4 | &.c { text-transform:uppercase }
-   :       ^^^^^^^^^^^^^^^^^^^^^^^^
+   :       ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
@@ -594,19 +594,19 @@
   x ComponentValue
    ,-[$DIR/tests/fixture/selector/nesting/input.css:5:9]
  5 | &:first-child, &:first-child + td { border:1px solid black }
-   :                                     ^^^^^^^^^^^^^^^^^^^^^^
+   :                                     ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
    ,-[$DIR/tests/fixture/selector/nesting/input.css:5:9]
  5 | &:first-child, &:first-child + td { border:1px solid black }
-   :                                     ^^^^^^^^^^^^^^^^^^^^^^
+   :                                     ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
    ,-[$DIR/tests/fixture/selector/nesting/input.css:5:9]
  5 | &:first-child, &:first-child + td { border:1px solid black }
-   :                                     ^^^^^^^^^^^^^^^^^^^^^^
+   :                                     ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName

@@ -74,19 +74,19 @@
   x ComponentValue
    ,-[$DIR/tests/fixture/esbuild/misc/485Ns9qQHa89OJU5Lhjx-Q/input.css:1:1]
  1 | a { value: \69 dent }
-   :     ^^^^^^^^^^^^^^^
+   :     ^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
    ,-[$DIR/tests/fixture/esbuild/misc/485Ns9qQHa89OJU5Lhjx-Q/input.css:1:1]
  1 | a { value: \69 dent }
-   :     ^^^^^^^^^^^^^^^
+   :     ^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
    ,-[$DIR/tests/fixture/esbuild/misc/485Ns9qQHa89OJU5Lhjx-Q/input.css:1:1]
  1 | a { value: \69 dent }
-   :     ^^^^^^^^^^^^^^^
+   :     ^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
