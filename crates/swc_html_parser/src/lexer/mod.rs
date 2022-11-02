@@ -548,24 +548,24 @@ where
     }
 
     fn emit_doctype_token(&mut self) {
-        let current_doctype_token = self.current_doctype_token.take().unwrap();
+        if let Some(current_doctype_token) = self.current_doctype_token.take() {
+            let raw = match self.doctype_raw.take() {
+                Some(raw) => raw,
+                _ => {
+                    unreachable!();
+                }
+            };
 
-        let raw = match self.doctype_raw.take() {
-            Some(raw) => raw,
-            _ => {
-                unreachable!();
-            }
-        };
+            let token = Token::Doctype {
+                name: current_doctype_token.name.map(JsWord::from),
+                force_quirks: current_doctype_token.force_quirks,
+                public_id: current_doctype_token.public_id.map(JsWord::from),
+                system_id: current_doctype_token.system_id.map(JsWord::from),
+                raw: Some(Atom::new(raw)),
+            };
 
-        let token = Token::Doctype {
-            name: current_doctype_token.name.map(JsWord::from),
-            force_quirks: current_doctype_token.force_quirks,
-            public_id: current_doctype_token.public_id.map(JsWord::from),
-            system_id: current_doctype_token.system_id.map(JsWord::from),
-            raw: Some(Atom::new(raw)),
-        };
-
-        self.emit_token(token);
+            self.emit_token(token);
+        }
     }
 
     fn create_start_tag_token(&mut self) {
