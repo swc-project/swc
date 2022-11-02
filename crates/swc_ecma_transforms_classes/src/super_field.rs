@@ -124,7 +124,7 @@ impl<'a> VisitMut for SuperFieldAccessFolder<'a> {
                 right,
                 ..
             }) if is_assign_to_super_prop(left) => {
-                right.visit_mut_children_with(self);
+                right.visit_mut_with(self);
                 self.visit_mut_super_member_set(n)
             }
             Expr::Assign(AssignExpr { left, right, .. }) if is_assign_to_super_prop(left) => {
