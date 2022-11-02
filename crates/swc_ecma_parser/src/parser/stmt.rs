@@ -2492,4 +2492,11 @@ const foo;"#;
 
         test_parser(src, Default::default(), |p| p.parse_script());
     }
+
+    #[test]
+    fn issue_6301_await_expr_stmt_1() {
+        let src = "try { await, await; } catch { console.log('caught'); }";
+
+        test_parser(src, Default::default(), |p| p.parse_script());
+    }
 }

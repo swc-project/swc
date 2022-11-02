@@ -379,7 +379,7 @@ impl<I: Tokens> Parser<I> {
 
         let span = span!(self, start);
 
-        if is_one_of!(self, ')', ']', ';') && !self.ctx().in_async {
+        if is_one_of!(self, ')', ']', ';', ',') && !self.ctx().in_async {
             if ctx.in_async || ctx.module {
                 self.emit_err(span, SyntaxError::InvalidIdentInAsync);
             }
