@@ -6,7 +6,12 @@ use swc_core::{
         js_sys::{JsString, Promise},
         noop, Options, ParseOptions, SourceMapsConfig,
     },
-    common::{comments, errors::Handler, sync::Lrc, FileName, Mark, SourceMap, GLOBALS},
+    common::{
+        comments::{self, SingleThreadedComments},
+        errors::Handler,
+        sync::Lrc,
+        FileName, Mark, SourceMap, GLOBALS,
+    },
     ecma::{
         ast::{EsVersion, Program},
         transforms::base::resolver,
@@ -174,14 +179,16 @@ pub fn transform_sync(
                     );
                     let cm = c.cm.clone();
                     let file = fm.clone();
+                    let comments = SingleThreadedComments::default();
                     anyhow::Context::context(
                         c.process_js_with_custom_pass(
                             fm,
                             None,
                             handler,
                             &opts,
-                            |_, _| noop(),
-                            |_, _| noop(),
+                            comments,
+                            |_| noop(),
+                            |_| noop(),
                         ),
                         "failed to process js file",
                     )?
