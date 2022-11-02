@@ -126,7 +126,7 @@
  123 | |   @import url(package/first.css);
  124 | |   @import url(package/second.css);
  125 | |   
- 126 | |   /*@import url("./test.css") supports();*/
+ 126 | |   @import url("./test.css") supports();
  127 | |   /*@import url("./test.css") supports(unknown);*/
  128 | |   @import url("./test.css") supports(display: flex);
  129 | |   @import url("./test.css") supports(display: flex !important);
@@ -165,11 +165,9 @@
  162 | |   @import url("tabs.css") layer(framework.component);
  163 | |   @import url("override.css") layer;
  164 | |   
- 165 | |   /*@import url("./test.css") unknown(default) unknown(display: flex) unknown;*/
- 166 | |   
- 167 | |   /*.foo {*/
- 168 | |   /*    @import 'path.css';*/
- 169 | `-> /*}*/
+ 165 | |   /*.foo {*/
+ 166 | |   /*    @import 'path.css';*/
+ 167 | `-> /*}*/
      `----
 
   x Rule
@@ -5795,6 +5793,30 @@
      ,-[$DIR/tests/fixture/at-rule/import/input.css:124:1]
  124 | @import url(package/second.css);
      :             ^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Rule
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:126:1]
+ 126 | @import url("./test.css") supports();
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x AtRule
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:126:1]
+ 126 | @import url("./test.css") supports();
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x AtRuleName
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:126:1]
+ 126 | @import url("./test.css") supports();
+     :  ^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:126:1]
+ 126 | @import url("./test.css") supports();
+     :  ^^^^^^
      `----
 
   x Rule

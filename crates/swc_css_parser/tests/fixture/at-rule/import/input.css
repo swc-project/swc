@@ -123,7 +123,7 @@ st.css');
 @import url(package/first.css);
 @import url(package/second.css);
 
-/*@import url("./test.css") supports();*/
+@import url("./test.css") supports();
 /*@import url("./test.css") supports(unknown);*/
 @import url("./test.css") supports(display: flex);
 @import url("./test.css") supports(display: flex !important);
@@ -161,8 +161,6 @@ st.css');
 @import url(base-headings.css) layer;
 @import url("tabs.css") layer(framework.component);
 @import url("override.css") layer;
-
-/*@import url("./test.css") unknown(default) unknown(display: flex) unknown;*/
 
 /*.foo {*/
 /*    @import 'path.css';*/

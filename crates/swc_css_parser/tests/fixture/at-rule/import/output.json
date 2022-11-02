@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 6468,
+    "end": 6384,
     "ctxt": 0
   },
   "rules": [
@@ -6712,15 +6712,35 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 3794,
-        "end": 3844,
+        "start": 3703,
+        "end": 3740,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 3795,
-          "end": 3801,
+          "start": 3704,
+          "end": 3710,
+          "ctxt": 0
+        },
+        "value": "import",
+        "raw": "import"
+      },
+      "prelude": null,
+      "block": null
+    },
+    {
+      "type": "AtRule",
+      "span": {
+        "start": 3790,
+        "end": 3840,
+        "ctxt": 0
+      },
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 3791,
+          "end": 3797,
           "ctxt": 0
         },
         "value": "import",
@@ -6729,22 +6749,22 @@
       "prelude": {
         "type": "ImportPrelude",
         "span": {
-          "start": 3802,
-          "end": 3843,
+          "start": 3798,
+          "end": 3839,
           "ctxt": 0
         },
         "href": {
           "type": "Url",
           "span": {
-            "start": 3802,
-            "end": 3819,
+            "start": 3798,
+            "end": 3815,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 3802,
-              "end": 3805,
+              "start": 3798,
+              "end": 3801,
               "ctxt": 0
             },
             "value": "url",
@@ -6753,8 +6773,8 @@
           "value": {
             "type": "String",
             "span": {
-              "start": 3806,
-              "end": 3818,
+              "start": 3802,
+              "end": 3814,
               "ctxt": 0
             },
             "value": "./test.css",
@@ -6766,15 +6786,15 @@
         "supports": {
           "type": "Declaration",
           "span": {
-            "start": 3829,
-            "end": 3842,
+            "start": 3825,
+            "end": 3838,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 3829,
-              "end": 3836,
+              "start": 3825,
+              "end": 3832,
               "ctxt": 0
             },
             "value": "display",
@@ -6784,8 +6804,8 @@
             {
               "type": "Ident",
               "span": {
-                "start": 3838,
-                "end": 3842,
+                "start": 3834,
+                "end": 3838,
                 "ctxt": 0
               },
               "value": "flex",
@@ -6801,15 +6821,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 3845,
-        "end": 3906,
+        "start": 3841,
+        "end": 3902,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 3846,
-          "end": 3852,
+          "start": 3842,
+          "end": 3848,
           "ctxt": 0
         },
         "value": "import",
@@ -6818,22 +6838,22 @@
       "prelude": {
         "type": "ImportPrelude",
         "span": {
-          "start": 3853,
-          "end": 3905,
+          "start": 3849,
+          "end": 3901,
           "ctxt": 0
         },
         "href": {
           "type": "Url",
           "span": {
-            "start": 3853,
-            "end": 3870,
+            "start": 3849,
+            "end": 3866,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 3853,
-              "end": 3856,
+              "start": 3849,
+              "end": 3852,
               "ctxt": 0
             },
             "value": "url",
@@ -6842,8 +6862,8 @@
           "value": {
             "type": "String",
             "span": {
-              "start": 3857,
-              "end": 3869,
+              "start": 3853,
+              "end": 3865,
               "ctxt": 0
             },
             "value": "./test.css",
@@ -6855,15 +6875,15 @@
         "supports": {
           "type": "Declaration",
           "span": {
-            "start": 3880,
-            "end": 3904,
+            "start": 3876,
+            "end": 3900,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 3880,
-              "end": 3887,
+              "start": 3876,
+              "end": 3883,
               "ctxt": 0
             },
             "value": "display",
@@ -6873,8 +6893,8 @@
             {
               "type": "Ident",
               "span": {
-                "start": 3889,
-                "end": 3893,
+                "start": 3885,
+                "end": 3889,
                 "ctxt": 0
               },
               "value": "flex",
@@ -6884,15 +6904,15 @@
           "important": {
             "type": "ImportantFlag",
             "span": {
-              "start": 3894,
-              "end": 3904,
+              "start": 3890,
+              "end": 3900,
               "ctxt": 0
             },
             "value": {
               "type": "Ident",
               "span": {
-                "start": 3895,
-                "end": 3904,
+                "start": 3891,
+                "end": 3900,
                 "ctxt": 0
               },
               "value": "important",
@@ -6907,15 +6927,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 3907,
-        "end": 3987,
+        "start": 3903,
+        "end": 3983,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 3908,
-          "end": 3914,
+          "start": 3904,
+          "end": 3910,
           "ctxt": 0
         },
         "value": "import",
@@ -6924,22 +6944,22 @@
       "prelude": {
         "type": "ImportPrelude",
         "span": {
-          "start": 3915,
-          "end": 3986,
+          "start": 3911,
+          "end": 3982,
           "ctxt": 0
         },
         "href": {
           "type": "Url",
           "span": {
-            "start": 3915,
-            "end": 3932,
+            "start": 3911,
+            "end": 3928,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 3915,
-              "end": 3918,
+              "start": 3911,
+              "end": 3914,
               "ctxt": 0
             },
             "value": "url",
@@ -6948,8 +6968,8 @@
           "value": {
             "type": "String",
             "span": {
-              "start": 3919,
-              "end": 3931,
+              "start": 3915,
+              "end": 3927,
               "ctxt": 0
             },
             "value": "./test.css",
@@ -6961,15 +6981,15 @@
         "supports": {
           "type": "Declaration",
           "span": {
-            "start": 3942,
-            "end": 3955,
+            "start": 3938,
+            "end": 3951,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 3942,
-              "end": 3949,
+              "start": 3938,
+              "end": 3945,
               "ctxt": 0
             },
             "value": "display",
@@ -6979,8 +6999,8 @@
             {
               "type": "Ident",
               "span": {
-                "start": 3951,
-                "end": 3955,
+                "start": 3947,
+                "end": 3951,
                 "ctxt": 0
               },
               "value": "flex",
@@ -6992,59 +7012,59 @@
         "media": {
           "type": "MediaQueryList",
           "span": {
-            "start": 3957,
-            "end": 3986,
+            "start": 3953,
+            "end": 3982,
             "ctxt": 0
           },
           "queries": [
             {
               "type": "MediaQuery",
               "span": {
-                "start": 3957,
-                "end": 3986,
+                "start": 3953,
+                "end": 3982,
                 "ctxt": 0
               },
               "modifier": null,
               "mediaType": {
                 "type": "Ident",
                 "span": {
-                  "start": 3957,
+                  "start": 3953,
+                  "end": 3959,
+                  "ctxt": 0
+                },
+                "value": "screen",
+                "raw": "screen"
+              },
+              "keyword": {
+                "type": "Ident",
+                "span": {
+                  "start": 3960,
                   "end": 3963,
                   "ctxt": 0
                 },
-                "value": "screen",
-                "raw": "screen"
-              },
-              "keyword": {
-                "type": "Ident",
-                "span": {
-                  "start": 3964,
-                  "end": 3967,
-                  "ctxt": 0
-                },
                 "value": "and",
                 "raw": "and"
               },
               "condition": {
                 "type": "MediaConditionWithoutOr",
                 "span": {
-                  "start": 3968,
-                  "end": 3986,
+                  "start": 3964,
+                  "end": 3982,
                   "ctxt": 0
                 },
                 "conditions": [
                   {
                     "type": "MediaFeaturePlain",
                     "span": {
-                      "start": 3968,
-                      "end": 3986,
+                      "start": 3964,
+                      "end": 3982,
                       "ctxt": 0
                     },
                     "name": {
                       "type": "Ident",
                       "span": {
-                        "start": 3969,
-                        "end": 3978,
+                        "start": 3965,
+                        "end": 3974,
                         "ctxt": 0
                       },
                       "value": "min-width",
@@ -7053,15 +7073,15 @@
                     "value": {
                       "type": "Length",
                       "span": {
-                        "start": 3980,
-                        "end": 3985,
+                        "start": 3976,
+                        "end": 3981,
                         "ctxt": 0
                       },
                       "value": {
                         "type": "Number",
                         "span": {
-                          "start": 3980,
-                          "end": 3983,
+                          "start": 3976,
+                          "end": 3979,
                           "ctxt": 0
                         },
                         "value": 400.0,
@@ -7070,8 +7090,8 @@
                       "unit": {
                         "type": "Ident",
                         "span": {
-                          "start": 3983,
-                          "end": 3985,
+                          "start": 3979,
+                          "end": 3981,
                           "ctxt": 0
                         },
                         "value": "px",
@@ -7090,15 +7110,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 3988,
-        "end": 4020,
+        "start": 3984,
+        "end": 4016,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 3989,
-          "end": 3995,
+          "start": 3985,
+          "end": 3991,
           "ctxt": 0
         },
         "value": "import",
@@ -7107,22 +7127,22 @@
       "prelude": {
         "type": "ImportPrelude",
         "span": {
-          "start": 3996,
-          "end": 4019,
+          "start": 3992,
+          "end": 4015,
           "ctxt": 0
         },
         "href": {
           "type": "Url",
           "span": {
-            "start": 3996,
-            "end": 4013,
+            "start": 3992,
+            "end": 4009,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 3996,
-              "end": 3999,
+              "start": 3992,
+              "end": 3995,
               "ctxt": 0
             },
             "value": "url",
@@ -7131,8 +7151,8 @@
           "value": {
             "type": "String",
             "span": {
-              "start": 4000,
-              "end": 4012,
+              "start": 3996,
+              "end": 4008,
               "ctxt": 0
             },
             "value": "./test.css",
@@ -7143,8 +7163,8 @@
         "layerName": {
           "type": "Ident",
           "span": {
-            "start": 4014,
-            "end": 4019,
+            "start": 4010,
+            "end": 4015,
             "ctxt": 0
           },
           "value": "layer",
@@ -7158,15 +7178,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 4021,
-        "end": 4062,
+        "start": 4017,
+        "end": 4058,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 4022,
-          "end": 4028,
+          "start": 4018,
+          "end": 4024,
           "ctxt": 0
         },
         "value": "import",
@@ -7175,22 +7195,22 @@
       "prelude": {
         "type": "ImportPrelude",
         "span": {
-          "start": 4029,
-          "end": 4061,
+          "start": 4025,
+          "end": 4057,
           "ctxt": 0
         },
         "href": {
           "type": "Url",
           "span": {
-            "start": 4029,
-            "end": 4046,
+            "start": 4025,
+            "end": 4042,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 4029,
-              "end": 4032,
+              "start": 4025,
+              "end": 4028,
               "ctxt": 0
             },
             "value": "url",
@@ -7199,8 +7219,8 @@
           "value": {
             "type": "String",
             "span": {
-              "start": 4033,
-              "end": 4045,
+              "start": 4029,
+              "end": 4041,
               "ctxt": 0
             },
             "value": "./test.css",
@@ -7211,15 +7231,15 @@
         "layerName": {
           "type": "Function",
           "span": {
-            "start": 4047,
-            "end": 4061,
+            "start": 4043,
+            "end": 4057,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 4047,
-              "end": 4052,
+              "start": 4043,
+              "end": 4048,
               "ctxt": 0
             },
             "value": "layer",
@@ -7229,16 +7249,16 @@
             {
               "type": "LayerName",
               "span": {
-                "start": 4053,
-                "end": 4060,
+                "start": 4049,
+                "end": 4056,
                 "ctxt": 0
               },
               "name": [
                 {
                   "type": "Ident",
                   "span": {
-                    "start": 4053,
-                    "end": 4060,
+                    "start": 4049,
+                    "end": 4056,
                     "ctxt": 0
                   },
                   "value": "default",
@@ -7256,15 +7276,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 4063,
-        "end": 4158,
+        "start": 4059,
+        "end": 4154,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 4064,
-          "end": 4070,
+          "start": 4060,
+          "end": 4066,
           "ctxt": 0
         },
         "value": "import",
@@ -7273,22 +7293,22 @@
       "prelude": {
         "type": "ImportPrelude",
         "span": {
-          "start": 4071,
-          "end": 4157,
+          "start": 4067,
+          "end": 4153,
           "ctxt": 0
         },
         "href": {
           "type": "Url",
           "span": {
-            "start": 4071,
-            "end": 4088,
+            "start": 4067,
+            "end": 4084,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 4071,
-              "end": 4074,
+              "start": 4067,
+              "end": 4070,
               "ctxt": 0
             },
             "value": "url",
@@ -7297,8 +7317,8 @@
           "value": {
             "type": "String",
             "span": {
-              "start": 4075,
-              "end": 4087,
+              "start": 4071,
+              "end": 4083,
               "ctxt": 0
             },
             "value": "./test.css",
@@ -7309,15 +7329,15 @@
         "layerName": {
           "type": "Function",
           "span": {
-            "start": 4089,
-            "end": 4103,
+            "start": 4085,
+            "end": 4099,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 4089,
-              "end": 4094,
+              "start": 4085,
+              "end": 4090,
               "ctxt": 0
             },
             "value": "layer",
@@ -7327,16 +7347,16 @@
             {
               "type": "LayerName",
               "span": {
-                "start": 4095,
-                "end": 4102,
+                "start": 4091,
+                "end": 4098,
                 "ctxt": 0
               },
               "name": [
                 {
                   "type": "Ident",
                   "span": {
-                    "start": 4095,
-                    "end": 4102,
+                    "start": 4091,
+                    "end": 4098,
                     "ctxt": 0
                   },
                   "value": "default",
@@ -7349,15 +7369,15 @@
         "supports": {
           "type": "Declaration",
           "span": {
-            "start": 4113,
-            "end": 4126,
+            "start": 4109,
+            "end": 4122,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 4113,
-              "end": 4120,
+              "start": 4109,
+              "end": 4116,
               "ctxt": 0
             },
             "value": "display",
@@ -7367,8 +7387,8 @@
             {
               "type": "Ident",
               "span": {
-                "start": 4122,
-                "end": 4126,
+                "start": 4118,
+                "end": 4122,
                 "ctxt": 0
               },
               "value": "flex",
@@ -7380,59 +7400,59 @@
         "media": {
           "type": "MediaQueryList",
           "span": {
-            "start": 4128,
-            "end": 4157,
+            "start": 4124,
+            "end": 4153,
             "ctxt": 0
           },
           "queries": [
             {
               "type": "MediaQuery",
               "span": {
-                "start": 4128,
-                "end": 4157,
+                "start": 4124,
+                "end": 4153,
                 "ctxt": 0
               },
               "modifier": null,
               "mediaType": {
                 "type": "Ident",
                 "span": {
-                  "start": 4128,
+                  "start": 4124,
+                  "end": 4130,
+                  "ctxt": 0
+                },
+                "value": "screen",
+                "raw": "screen"
+              },
+              "keyword": {
+                "type": "Ident",
+                "span": {
+                  "start": 4131,
                   "end": 4134,
                   "ctxt": 0
                 },
-                "value": "screen",
-                "raw": "screen"
-              },
-              "keyword": {
-                "type": "Ident",
-                "span": {
-                  "start": 4135,
-                  "end": 4138,
-                  "ctxt": 0
-                },
                 "value": "and",
                 "raw": "and"
               },
               "condition": {
                 "type": "MediaConditionWithoutOr",
                 "span": {
-                  "start": 4139,
-                  "end": 4157,
+                  "start": 4135,
+                  "end": 4153,
                   "ctxt": 0
                 },
                 "conditions": [
                   {
                     "type": "MediaFeaturePlain",
                     "span": {
-                      "start": 4139,
-                      "end": 4157,
+                      "start": 4135,
+                      "end": 4153,
                       "ctxt": 0
                     },
                     "name": {
                       "type": "Ident",
                       "span": {
-                        "start": 4140,
-                        "end": 4149,
+                        "start": 4136,
+                        "end": 4145,
                         "ctxt": 0
                       },
                       "value": "min-width",
@@ -7441,15 +7461,15 @@
                     "value": {
                       "type": "Length",
                       "span": {
-                        "start": 4151,
-                        "end": 4156,
+                        "start": 4147,
+                        "end": 4152,
                         "ctxt": 0
                       },
                       "value": {
                         "type": "Number",
                         "span": {
-                          "start": 4151,
-                          "end": 4154,
+                          "start": 4147,
+                          "end": 4150,
                           "ctxt": 0
                         },
                         "value": 400.0,
@@ -7458,8 +7478,8 @@
                       "unit": {
                         "type": "Ident",
                         "span": {
-                          "start": 4154,
-                          "end": 4156,
+                          "start": 4150,
+                          "end": 4152,
                           "ctxt": 0
                         },
                         "value": "px",
@@ -7478,15 +7498,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 4159,
-        "end": 4245,
+        "start": 4155,
+        "end": 4241,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 4160,
-          "end": 4166,
+          "start": 4156,
+          "end": 4162,
           "ctxt": 0
         },
         "value": "import",
@@ -7495,22 +7515,22 @@
       "prelude": {
         "type": "ImportPrelude",
         "span": {
-          "start": 4167,
-          "end": 4244,
+          "start": 4163,
+          "end": 4240,
           "ctxt": 0
         },
         "href": {
           "type": "Url",
           "span": {
-            "start": 4167,
-            "end": 4184,
+            "start": 4163,
+            "end": 4180,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 4167,
-              "end": 4170,
+              "start": 4163,
+              "end": 4166,
               "ctxt": 0
             },
             "value": "url",
@@ -7519,8 +7539,8 @@
           "value": {
             "type": "String",
             "span": {
-              "start": 4171,
-              "end": 4183,
+              "start": 4167,
+              "end": 4179,
               "ctxt": 0
             },
             "value": "./test.css",
@@ -7531,8 +7551,8 @@
         "layerName": {
           "type": "Ident",
           "span": {
-            "start": 4185,
-            "end": 4190,
+            "start": 4181,
+            "end": 4186,
             "ctxt": 0
           },
           "value": "layer",
@@ -7541,15 +7561,15 @@
         "supports": {
           "type": "Declaration",
           "span": {
-            "start": 4200,
-            "end": 4213,
+            "start": 4196,
+            "end": 4209,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 4200,
-              "end": 4207,
+              "start": 4196,
+              "end": 4203,
               "ctxt": 0
             },
             "value": "display",
@@ -7559,8 +7579,8 @@
             {
               "type": "Ident",
               "span": {
-                "start": 4209,
-                "end": 4213,
+                "start": 4205,
+                "end": 4209,
                 "ctxt": 0
               },
               "value": "flex",
@@ -7572,59 +7592,59 @@
         "media": {
           "type": "MediaQueryList",
           "span": {
-            "start": 4215,
-            "end": 4244,
+            "start": 4211,
+            "end": 4240,
             "ctxt": 0
           },
           "queries": [
             {
               "type": "MediaQuery",
               "span": {
-                "start": 4215,
-                "end": 4244,
+                "start": 4211,
+                "end": 4240,
                 "ctxt": 0
               },
               "modifier": null,
               "mediaType": {
                 "type": "Ident",
                 "span": {
-                  "start": 4215,
+                  "start": 4211,
+                  "end": 4217,
+                  "ctxt": 0
+                },
+                "value": "screen",
+                "raw": "screen"
+              },
+              "keyword": {
+                "type": "Ident",
+                "span": {
+                  "start": 4218,
                   "end": 4221,
                   "ctxt": 0
                 },
-                "value": "screen",
-                "raw": "screen"
-              },
-              "keyword": {
-                "type": "Ident",
-                "span": {
-                  "start": 4222,
-                  "end": 4225,
-                  "ctxt": 0
-                },
                 "value": "and",
                 "raw": "and"
               },
               "condition": {
                 "type": "MediaConditionWithoutOr",
                 "span": {
-                  "start": 4226,
-                  "end": 4244,
+                  "start": 4222,
+                  "end": 4240,
                   "ctxt": 0
                 },
                 "conditions": [
                   {
                     "type": "MediaFeaturePlain",
                     "span": {
-                      "start": 4226,
-                      "end": 4244,
+                      "start": 4222,
+                      "end": 4240,
                       "ctxt": 0
                     },
                     "name": {
                       "type": "Ident",
                       "span": {
-                        "start": 4227,
-                        "end": 4236,
+                        "start": 4223,
+                        "end": 4232,
                         "ctxt": 0
                       },
                       "value": "min-width",
@@ -7633,15 +7653,15 @@
                     "value": {
                       "type": "Length",
                       "span": {
-                        "start": 4238,
-                        "end": 4243,
+                        "start": 4234,
+                        "end": 4239,
                         "ctxt": 0
                       },
                       "value": {
                         "type": "Number",
                         "span": {
-                          "start": 4238,
-                          "end": 4241,
+                          "start": 4234,
+                          "end": 4237,
                           "ctxt": 0
                         },
                         "value": 400.0,
@@ -7650,8 +7670,8 @@
                       "unit": {
                         "type": "Ident",
                         "span": {
-                          "start": 4241,
-                          "end": 4243,
+                          "start": 4237,
+                          "end": 4239,
                           "ctxt": 0
                         },
                         "value": "px",
@@ -7670,15 +7690,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 4246,
-        "end": 4332,
+        "start": 4242,
+        "end": 4328,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 4247,
-          "end": 4253,
+          "start": 4243,
+          "end": 4249,
           "ctxt": 0
         },
         "value": "import",
@@ -7687,22 +7707,22 @@
       "prelude": {
         "type": "ImportPrelude",
         "span": {
-          "start": 4254,
-          "end": 4331,
+          "start": 4250,
+          "end": 4327,
           "ctxt": 0
         },
         "href": {
           "type": "Url",
           "span": {
-            "start": 4254,
-            "end": 4271,
+            "start": 4250,
+            "end": 4267,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 4254,
-              "end": 4257,
+              "start": 4250,
+              "end": 4253,
               "ctxt": 0
             },
             "value": "url",
@@ -7711,8 +7731,8 @@
           "value": {
             "type": "String",
             "span": {
-              "start": 4258,
-              "end": 4270,
+              "start": 4254,
+              "end": 4266,
               "ctxt": 0
             },
             "value": "./test.css",
@@ -7723,8 +7743,8 @@
         "layerName": {
           "type": "Ident",
           "span": {
-            "start": 4272,
-            "end": 4277,
+            "start": 4268,
+            "end": 4273,
             "ctxt": 0
           },
           "value": "layer",
@@ -7733,15 +7753,15 @@
         "supports": {
           "type": "Declaration",
           "span": {
-            "start": 4287,
-            "end": 4300,
+            "start": 4283,
+            "end": 4296,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 4287,
-              "end": 4294,
+              "start": 4283,
+              "end": 4290,
               "ctxt": 0
             },
             "value": "display",
@@ -7751,8 +7771,8 @@
             {
               "type": "Ident",
               "span": {
-                "start": 4296,
-                "end": 4300,
+                "start": 4292,
+                "end": 4296,
                 "ctxt": 0
               },
               "value": "flex",
@@ -7764,24 +7784,24 @@
         "media": {
           "type": "MediaQueryList",
           "span": {
-            "start": 4302,
-            "end": 4331,
+            "start": 4298,
+            "end": 4327,
             "ctxt": 0
           },
           "queries": [
             {
               "type": "MediaQuery",
               "span": {
-                "start": 4302,
-                "end": 4331,
+                "start": 4298,
+                "end": 4327,
                 "ctxt": 0
               },
               "modifier": null,
               "mediaType": {
                 "type": "Ident",
                 "span": {
-                  "start": 4302,
-                  "end": 4308,
+                  "start": 4298,
+                  "end": 4304,
                   "ctxt": 0
                 },
                 "value": "screen",
@@ -7790,8 +7810,8 @@
               "keyword": {
                 "type": "Ident",
                 "span": {
-                  "start": 4309,
-                  "end": 4312,
+                  "start": 4305,
+                  "end": 4308,
                   "ctxt": 0
                 },
                 "value": "and",
@@ -7800,23 +7820,23 @@
               "condition": {
                 "type": "MediaConditionWithoutOr",
                 "span": {
-                  "start": 4313,
-                  "end": 4331,
+                  "start": 4309,
+                  "end": 4327,
                   "ctxt": 0
                 },
                 "conditions": [
                   {
                     "type": "MediaFeaturePlain",
                     "span": {
-                      "start": 4313,
-                      "end": 4331,
+                      "start": 4309,
+                      "end": 4327,
                       "ctxt": 0
                     },
                     "name": {
                       "type": "Ident",
                       "span": {
-                        "start": 4314,
-                        "end": 4323,
+                        "start": 4310,
+                        "end": 4319,
                         "ctxt": 0
                       },
                       "value": "min-width",
@@ -7825,15 +7845,15 @@
                     "value": {
                       "type": "Length",
                       "span": {
-                        "start": 4325,
-                        "end": 4330,
+                        "start": 4321,
+                        "end": 4326,
                         "ctxt": 0
                       },
                       "value": {
                         "type": "Number",
                         "span": {
-                          "start": 4325,
-                          "end": 4328,
+                          "start": 4321,
+                          "end": 4324,
                           "ctxt": 0
                         },
                         "value": 400.0,
@@ -7842,8 +7862,8 @@
                       "unit": {
                         "type": "Ident",
                         "span": {
-                          "start": 4328,
-                          "end": 4330,
+                          "start": 4324,
+                          "end": 4326,
                           "ctxt": 0
                         },
                         "value": "px",
@@ -7862,15 +7882,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 4333,
-        "end": 4365,
+        "start": 4329,
+        "end": 4361,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 4334,
-          "end": 4340,
+          "start": 4330,
+          "end": 4336,
           "ctxt": 0
         },
         "value": "import",
@@ -7879,22 +7899,22 @@
       "prelude": {
         "type": "ImportPrelude",
         "span": {
-          "start": 4341,
-          "end": 4364,
+          "start": 4337,
+          "end": 4360,
           "ctxt": 0
         },
         "href": {
           "type": "Url",
           "span": {
-            "start": 4341,
-            "end": 4358,
+            "start": 4337,
+            "end": 4354,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 4341,
-              "end": 4344,
+              "start": 4337,
+              "end": 4340,
               "ctxt": 0
             },
             "value": "url",
@@ -7903,8 +7923,8 @@
           "value": {
             "type": "String",
             "span": {
-              "start": 4345,
-              "end": 4357,
+              "start": 4341,
+              "end": 4353,
               "ctxt": 0
             },
             "value": "./test.css",
@@ -7915,8 +7935,8 @@
         "layerName": {
           "type": "Ident",
           "span": {
-            "start": 4359,
-            "end": 4364,
+            "start": 4355,
+            "end": 4360,
             "ctxt": 0
           },
           "value": "layer",
@@ -7930,15 +7950,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 4366,
-        "end": 4464,
+        "start": 4362,
+        "end": 4460,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 4367,
-          "end": 4373,
+          "start": 4363,
+          "end": 4369,
           "ctxt": 0
         },
         "value": "import",
@@ -7947,22 +7967,22 @@
       "prelude": {
         "type": "ImportPrelude",
         "span": {
-          "start": 4374,
-          "end": 4463,
+          "start": 4370,
+          "end": 4459,
           "ctxt": 0
         },
         "href": {
           "type": "Url",
           "span": {
-            "start": 4374,
-            "end": 4409,
+            "start": 4370,
+            "end": 4405,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 4374,
-              "end": 4377,
+              "start": 4370,
+              "end": 4373,
               "ctxt": 0
             },
             "value": "url",
@@ -7971,8 +7991,8 @@
           "value": {
             "type": "String",
             "span": {
-              "start": 4378,
-              "end": 4408,
+              "start": 4374,
+              "end": 4404,
               "ctxt": 0
             },
             "value": "http://example.com/style.css",
@@ -7984,15 +8004,15 @@
         "supports": {
           "type": "Declaration",
           "span": {
-            "start": 4419,
-            "end": 4432,
+            "start": 4415,
+            "end": 4428,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 4419,
-              "end": 4426,
+              "start": 4415,
+              "end": 4422,
               "ctxt": 0
             },
             "value": "display",
@@ -8002,8 +8022,8 @@
             {
               "type": "Ident",
               "span": {
-                "start": 4428,
-                "end": 4432,
+                "start": 4424,
+                "end": 4428,
                 "ctxt": 0
               },
               "value": "flex",
@@ -8015,24 +8035,24 @@
         "media": {
           "type": "MediaQueryList",
           "span": {
-            "start": 4434,
-            "end": 4463,
+            "start": 4430,
+            "end": 4459,
             "ctxt": 0
           },
           "queries": [
             {
               "type": "MediaQuery",
               "span": {
-                "start": 4434,
-                "end": 4463,
+                "start": 4430,
+                "end": 4459,
                 "ctxt": 0
               },
               "modifier": null,
               "mediaType": {
                 "type": "Ident",
                 "span": {
-                  "start": 4434,
-                  "end": 4440,
+                  "start": 4430,
+                  "end": 4436,
                   "ctxt": 0
                 },
                 "value": "screen",
@@ -8041,8 +8061,8 @@
               "keyword": {
                 "type": "Ident",
                 "span": {
-                  "start": 4441,
-                  "end": 4444,
+                  "start": 4437,
+                  "end": 4440,
                   "ctxt": 0
                 },
                 "value": "and",
@@ -8051,23 +8071,23 @@
               "condition": {
                 "type": "MediaConditionWithoutOr",
                 "span": {
-                  "start": 4445,
-                  "end": 4463,
+                  "start": 4441,
+                  "end": 4459,
                   "ctxt": 0
                 },
                 "conditions": [
                   {
                     "type": "MediaFeaturePlain",
                     "span": {
-                      "start": 4445,
-                      "end": 4463,
+                      "start": 4441,
+                      "end": 4459,
                       "ctxt": 0
                     },
                     "name": {
                       "type": "Ident",
                       "span": {
-                        "start": 4446,
-                        "end": 4455,
+                        "start": 4442,
+                        "end": 4451,
                         "ctxt": 0
                       },
                       "value": "min-width",
@@ -8076,15 +8096,15 @@
                     "value": {
                       "type": "Length",
                       "span": {
-                        "start": 4457,
-                        "end": 4462,
+                        "start": 4453,
+                        "end": 4458,
                         "ctxt": 0
                       },
                       "value": {
                         "type": "Number",
                         "span": {
-                          "start": 4457,
-                          "end": 4460,
+                          "start": 4453,
+                          "end": 4456,
                           "ctxt": 0
                         },
                         "value": 400.0,
@@ -8093,8 +8113,8 @@
                       "unit": {
                         "type": "Ident",
                         "span": {
-                          "start": 4460,
-                          "end": 4462,
+                          "start": 4456,
+                          "end": 4458,
                           "ctxt": 0
                         },
                         "value": "px",
@@ -8113,15 +8133,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 4465,
-        "end": 4556,
+        "start": 4461,
+        "end": 4552,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 4466,
-          "end": 4472,
+          "start": 4462,
+          "end": 4468,
           "ctxt": 0
         },
         "value": "import",
@@ -8130,22 +8150,22 @@
       "prelude": {
         "type": "ImportPrelude",
         "span": {
-          "start": 4473,
-          "end": 4555,
+          "start": 4469,
+          "end": 4551,
           "ctxt": 0
         },
         "href": {
           "type": "Url",
           "span": {
-            "start": 4473,
-            "end": 4490,
+            "start": 4469,
+            "end": 4486,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 4473,
-              "end": 4476,
+              "start": 4469,
+              "end": 4472,
               "ctxt": 0
             },
             "value": "url",
@@ -8154,8 +8174,8 @@
           "value": {
             "type": "String",
             "span": {
-              "start": 4477,
-              "end": 4489,
+              "start": 4473,
+              "end": 4485,
               "ctxt": 0
             },
             "value": "./test.css",
@@ -8166,15 +8186,15 @@
         "layerName": {
           "type": "Function",
           "span": {
-            "start": 4490,
-            "end": 4504,
+            "start": 4486,
+            "end": 4500,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 4490,
-              "end": 4495,
+              "start": 4486,
+              "end": 4491,
               "ctxt": 0
             },
             "value": "layer",
@@ -8184,16 +8204,16 @@
             {
               "type": "LayerName",
               "span": {
-                "start": 4496,
-                "end": 4503,
+                "start": 4492,
+                "end": 4499,
                 "ctxt": 0
               },
               "name": [
                 {
                   "type": "Ident",
                   "span": {
-                    "start": 4496,
-                    "end": 4503,
+                    "start": 4492,
+                    "end": 4499,
                     "ctxt": 0
                   },
                   "value": "default",
@@ -8206,15 +8226,15 @@
         "supports": {
           "type": "Declaration",
           "span": {
-            "start": 4513,
-            "end": 4526,
+            "start": 4509,
+            "end": 4522,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 4513,
-              "end": 4520,
+              "start": 4509,
+              "end": 4516,
               "ctxt": 0
             },
             "value": "display",
@@ -8224,8 +8244,8 @@
             {
               "type": "Ident",
               "span": {
-                "start": 4522,
-                "end": 4526,
+                "start": 4518,
+                "end": 4522,
                 "ctxt": 0
               },
               "value": "flex",
@@ -8237,24 +8257,24 @@
         "media": {
           "type": "MediaQueryList",
           "span": {
-            "start": 4527,
-            "end": 4555,
+            "start": 4523,
+            "end": 4551,
             "ctxt": 0
           },
           "queries": [
             {
               "type": "MediaQuery",
               "span": {
-                "start": 4527,
-                "end": 4555,
+                "start": 4523,
+                "end": 4551,
                 "ctxt": 0
               },
               "modifier": null,
               "mediaType": {
                 "type": "Ident",
                 "span": {
-                  "start": 4527,
-                  "end": 4533,
+                  "start": 4523,
+                  "end": 4529,
                   "ctxt": 0
                 },
                 "value": "screen",
@@ -8263,8 +8283,8 @@
               "keyword": {
                 "type": "Ident",
                 "span": {
-                  "start": 4534,
-                  "end": 4537,
+                  "start": 4530,
+                  "end": 4533,
                   "ctxt": 0
                 },
                 "value": "and",
@@ -8273,23 +8293,23 @@
               "condition": {
                 "type": "MediaConditionWithoutOr",
                 "span": {
-                  "start": 4538,
-                  "end": 4555,
+                  "start": 4534,
+                  "end": 4551,
                   "ctxt": 0
                 },
                 "conditions": [
                   {
                     "type": "MediaFeaturePlain",
                     "span": {
-                      "start": 4538,
-                      "end": 4555,
+                      "start": 4534,
+                      "end": 4551,
                       "ctxt": 0
                     },
                     "name": {
                       "type": "Ident",
                       "span": {
-                        "start": 4539,
-                        "end": 4548,
+                        "start": 4535,
+                        "end": 4544,
                         "ctxt": 0
                       },
                       "value": "min-width",
@@ -8298,15 +8318,15 @@
                     "value": {
                       "type": "Length",
                       "span": {
-                        "start": 4549,
-                        "end": 4554,
+                        "start": 4545,
+                        "end": 4550,
                         "ctxt": 0
                       },
                       "value": {
                         "type": "Number",
                         "span": {
-                          "start": 4549,
-                          "end": 4552,
+                          "start": 4545,
+                          "end": 4548,
                           "ctxt": 0
                         },
                         "value": 400.0,
@@ -8315,8 +8335,8 @@
                       "unit": {
                         "type": "Ident",
                         "span": {
-                          "start": 4552,
-                          "end": 4554,
+                          "start": 4548,
+                          "end": 4550,
                           "ctxt": 0
                         },
                         "value": "px",
@@ -8335,15 +8355,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 4557,
-        "end": 4612,
+        "start": 4553,
+        "end": 4608,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 4558,
-          "end": 4564,
+          "start": 4554,
+          "end": 4560,
           "ctxt": 0
         },
         "value": "import",
@@ -8352,22 +8372,22 @@
       "prelude": {
         "type": "ImportPrelude",
         "span": {
-          "start": 4565,
-          "end": 4611,
+          "start": 4561,
+          "end": 4607,
           "ctxt": 0
         },
         "href": {
           "type": "Url",
           "span": {
-            "start": 4565,
-            "end": 4582,
+            "start": 4561,
+            "end": 4578,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 4565,
-              "end": 4568,
+              "start": 4561,
+              "end": 4564,
               "ctxt": 0
             },
             "value": "url",
@@ -8376,8 +8396,8 @@
           "value": {
             "type": "String",
             "span": {
-              "start": 4569,
-              "end": 4581,
+              "start": 4565,
+              "end": 4577,
               "ctxt": 0
             },
             "value": "./test.css",
@@ -8390,24 +8410,24 @@
         "media": {
           "type": "MediaQueryList",
           "span": {
-            "start": 4582,
-            "end": 4611,
+            "start": 4578,
+            "end": 4607,
             "ctxt": 0
           },
           "queries": [
             {
               "type": "MediaQuery",
               "span": {
-                "start": 4582,
-                "end": 4611,
+                "start": 4578,
+                "end": 4607,
                 "ctxt": 0
               },
               "modifier": null,
               "mediaType": {
                 "type": "Ident",
                 "span": {
-                  "start": 4582,
-                  "end": 4588,
+                  "start": 4578,
+                  "end": 4584,
                   "ctxt": 0
                 },
                 "value": "screen",
@@ -8416,8 +8436,8 @@
               "keyword": {
                 "type": "Ident",
                 "span": {
-                  "start": 4589,
-                  "end": 4592,
+                  "start": 4585,
+                  "end": 4588,
                   "ctxt": 0
                 },
                 "value": "and",
@@ -8426,23 +8446,23 @@
               "condition": {
                 "type": "MediaConditionWithoutOr",
                 "span": {
-                  "start": 4593,
-                  "end": 4611,
+                  "start": 4589,
+                  "end": 4607,
                   "ctxt": 0
                 },
                 "conditions": [
                   {
                     "type": "MediaFeaturePlain",
                     "span": {
-                      "start": 4593,
-                      "end": 4611,
+                      "start": 4589,
+                      "end": 4607,
                       "ctxt": 0
                     },
                     "name": {
                       "type": "Ident",
                       "span": {
-                        "start": 4594,
-                        "end": 4603,
+                        "start": 4590,
+                        "end": 4599,
                         "ctxt": 0
                       },
                       "value": "min-width",
@@ -8451,15 +8471,15 @@
                     "value": {
                       "type": "Length",
                       "span": {
-                        "start": 4605,
-                        "end": 4610,
+                        "start": 4601,
+                        "end": 4606,
                         "ctxt": 0
                       },
                       "value": {
                         "type": "Number",
                         "span": {
-                          "start": 4605,
-                          "end": 4608,
+                          "start": 4601,
+                          "end": 4604,
                           "ctxt": 0
                         },
                         "value": 400.0,
@@ -8468,8 +8488,8 @@
                       "unit": {
                         "type": "Ident",
                         "span": {
-                          "start": 4608,
-                          "end": 4610,
+                          "start": 4604,
+                          "end": 4606,
                           "ctxt": 0
                         },
                         "value": "px",
@@ -8488,15 +8508,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 4613,
-        "end": 4776,
+        "start": 4609,
+        "end": 4772,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 4614,
-          "end": 4620,
+          "start": 4610,
+          "end": 4616,
           "ctxt": 0
         },
         "value": "import",
@@ -8505,22 +8525,22 @@
       "prelude": {
         "type": "ImportPrelude",
         "span": {
-          "start": 4621,
-          "end": 4775,
+          "start": 4617,
+          "end": 4771,
           "ctxt": 0
         },
         "href": {
           "type": "Url",
           "span": {
-            "start": 4621,
-            "end": 4638,
+            "start": 4617,
+            "end": 4634,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 4621,
-              "end": 4624,
+              "start": 4617,
+              "end": 4620,
               "ctxt": 0
             },
             "value": "url",
@@ -8529,8 +8549,8 @@
           "value": {
             "type": "String",
             "span": {
-              "start": 4625,
-              "end": 4637,
+              "start": 4621,
+              "end": 4633,
               "ctxt": 0
             },
             "value": "./test.css",
@@ -8541,15 +8561,15 @@
         "layerName": {
           "type": "Function",
           "span": {
-            "start": 4643,
-            "end": 4667,
+            "start": 4639,
+            "end": 4663,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 4643,
-              "end": 4648,
+              "start": 4639,
+              "end": 4644,
               "ctxt": 0
             },
             "value": "layer",
@@ -8559,16 +8579,16 @@
             {
               "type": "LayerName",
               "span": {
-                "start": 4654,
-                "end": 4661,
+                "start": 4650,
+                "end": 4657,
                 "ctxt": 0
               },
               "name": [
                 {
                   "type": "Ident",
                   "span": {
-                    "start": 4654,
-                    "end": 4661,
+                    "start": 4650,
+                    "end": 4657,
                     "ctxt": 0
                   },
                   "value": "default",
@@ -8581,15 +8601,15 @@
         "supports": {
           "type": "Declaration",
           "span": {
-            "start": 4686,
-            "end": 4713,
+            "start": 4682,
+            "end": 4709,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 4686,
-              "end": 4693,
+              "start": 4682,
+              "end": 4689,
               "ctxt": 0
             },
             "value": "display",
@@ -8599,8 +8619,8 @@
             {
               "type": "Ident",
               "span": {
-                "start": 4704,
-                "end": 4708,
+                "start": 4700,
+                "end": 4704,
                 "ctxt": 0
               },
               "value": "flex",
@@ -8612,24 +8632,24 @@
         "media": {
           "type": "MediaQueryList",
           "span": {
-            "start": 4719,
-            "end": 4775,
+            "start": 4715,
+            "end": 4771,
             "ctxt": 0
           },
           "queries": [
             {
               "type": "MediaQuery",
               "span": {
-                "start": 4719,
-                "end": 4775,
+                "start": 4715,
+                "end": 4771,
                 "ctxt": 0
               },
               "modifier": null,
               "mediaType": {
                 "type": "Ident",
                 "span": {
-                  "start": 4719,
-                  "end": 4725,
+                  "start": 4715,
+                  "end": 4721,
                   "ctxt": 0
                 },
                 "value": "screen",
@@ -8638,8 +8658,8 @@
               "keyword": {
                 "type": "Ident",
                 "span": {
-                  "start": 4730,
-                  "end": 4733,
+                  "start": 4726,
+                  "end": 4729,
                   "ctxt": 0
                 },
                 "value": "and",
@@ -8648,23 +8668,23 @@
               "condition": {
                 "type": "MediaConditionWithoutOr",
                 "span": {
-                  "start": 4738,
-                  "end": 4775,
+                  "start": 4734,
+                  "end": 4771,
                   "ctxt": 0
                 },
                 "conditions": [
                   {
                     "type": "MediaFeaturePlain",
                     "span": {
-                      "start": 4738,
-                      "end": 4775,
+                      "start": 4734,
+                      "end": 4771,
                       "ctxt": 0
                     },
                     "name": {
                       "type": "Ident",
                       "span": {
-                        "start": 4744,
-                        "end": 4753,
+                        "start": 4740,
+                        "end": 4749,
                         "ctxt": 0
                       },
                       "value": "min-width",
@@ -8673,15 +8693,15 @@
                     "value": {
                       "type": "Length",
                       "span": {
-                        "start": 4764,
-                        "end": 4769,
+                        "start": 4760,
+                        "end": 4765,
                         "ctxt": 0
                       },
                       "value": {
                         "type": "Number",
                         "span": {
-                          "start": 4764,
-                          "end": 4767,
+                          "start": 4760,
+                          "end": 4763,
                           "ctxt": 0
                         },
                         "value": 400.0,
@@ -8690,8 +8710,8 @@
                       "unit": {
                         "type": "Ident",
                         "span": {
-                          "start": 4767,
-                          "end": 4769,
+                          "start": 4763,
+                          "end": 4765,
                           "ctxt": 0
                         },
                         "value": "px",
@@ -8710,15 +8730,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 4777,
-        "end": 4872,
+        "start": 4773,
+        "end": 4868,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 4778,
-          "end": 4784,
+          "start": 4774,
+          "end": 4780,
           "ctxt": 0
         },
         "value": "import",
@@ -8727,22 +8747,22 @@
       "prelude": {
         "type": "ImportPrelude",
         "span": {
-          "start": 4785,
-          "end": 4871,
+          "start": 4781,
+          "end": 4867,
           "ctxt": 0
         },
         "href": {
           "type": "Url",
           "span": {
-            "start": 4785,
-            "end": 4802,
+            "start": 4781,
+            "end": 4798,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 4785,
-              "end": 4788,
+              "start": 4781,
+              "end": 4784,
               "ctxt": 0
             },
             "value": "url",
@@ -8751,8 +8771,8 @@
           "value": {
             "type": "String",
             "span": {
-              "start": 4789,
-              "end": 4801,
+              "start": 4785,
+              "end": 4797,
               "ctxt": 0
             },
             "value": "./test.css",
@@ -8763,15 +8783,15 @@
         "layerName": {
           "type": "Function",
           "span": {
-            "start": 4803,
-            "end": 4817,
+            "start": 4799,
+            "end": 4813,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 4803,
-              "end": 4808,
+              "start": 4799,
+              "end": 4804,
               "ctxt": 0
             },
             "value": "LAYER",
@@ -8781,16 +8801,16 @@
             {
               "type": "LayerName",
               "span": {
-                "start": 4809,
-                "end": 4816,
+                "start": 4805,
+                "end": 4812,
                 "ctxt": 0
               },
               "name": [
                 {
                   "type": "Ident",
                   "span": {
-                    "start": 4809,
-                    "end": 4816,
+                    "start": 4805,
+                    "end": 4812,
                     "ctxt": 0
                   },
                   "value": "DEFAULT",
@@ -8803,15 +8823,15 @@
         "supports": {
           "type": "Declaration",
           "span": {
-            "start": 4827,
-            "end": 4840,
+            "start": 4823,
+            "end": 4836,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 4827,
-              "end": 4834,
+              "start": 4823,
+              "end": 4830,
               "ctxt": 0
             },
             "value": "DISPLAY",
@@ -8821,8 +8841,8 @@
             {
               "type": "Ident",
               "span": {
-                "start": 4836,
-                "end": 4840,
+                "start": 4832,
+                "end": 4836,
                 "ctxt": 0
               },
               "value": "FLEX",
@@ -8834,24 +8854,24 @@
         "media": {
           "type": "MediaQueryList",
           "span": {
-            "start": 4842,
-            "end": 4871,
+            "start": 4838,
+            "end": 4867,
             "ctxt": 0
           },
           "queries": [
             {
               "type": "MediaQuery",
               "span": {
-                "start": 4842,
-                "end": 4871,
+                "start": 4838,
+                "end": 4867,
                 "ctxt": 0
               },
               "modifier": null,
               "mediaType": {
                 "type": "Ident",
                 "span": {
-                  "start": 4842,
-                  "end": 4848,
+                  "start": 4838,
+                  "end": 4844,
                   "ctxt": 0
                 },
                 "value": "SCREEN",
@@ -8860,8 +8880,8 @@
               "keyword": {
                 "type": "Ident",
                 "span": {
-                  "start": 4849,
-                  "end": 4852,
+                  "start": 4845,
+                  "end": 4848,
                   "ctxt": 0
                 },
                 "value": "AND",
@@ -8870,23 +8890,23 @@
               "condition": {
                 "type": "MediaConditionWithoutOr",
                 "span": {
-                  "start": 4853,
-                  "end": 4871,
+                  "start": 4849,
+                  "end": 4867,
                   "ctxt": 0
                 },
                 "conditions": [
                   {
                     "type": "MediaFeaturePlain",
                     "span": {
-                      "start": 4853,
-                      "end": 4871,
+                      "start": 4849,
+                      "end": 4867,
                       "ctxt": 0
                     },
                     "name": {
                       "type": "Ident",
                       "span": {
-                        "start": 4854,
-                        "end": 4863,
+                        "start": 4850,
+                        "end": 4859,
                         "ctxt": 0
                       },
                       "value": "MIN-WIDTH",
@@ -8895,15 +8915,15 @@
                     "value": {
                       "type": "Length",
                       "span": {
-                        "start": 4865,
-                        "end": 4870,
+                        "start": 4861,
+                        "end": 4866,
                         "ctxt": 0
                       },
                       "value": {
                         "type": "Number",
                         "span": {
-                          "start": 4865,
-                          "end": 4868,
+                          "start": 4861,
+                          "end": 4864,
                           "ctxt": 0
                         },
                         "value": 400.0,
@@ -8912,8 +8932,8 @@
                       "unit": {
                         "type": "Ident",
                         "span": {
-                          "start": 4868,
-                          "end": 4870,
+                          "start": 4864,
+                          "end": 4866,
                           "ctxt": 0
                         },
                         "value": "PX",
@@ -8932,15 +8952,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 4873,
-        "end": 5165,
+        "start": 4869,
+        "end": 5161,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 4874,
-          "end": 4880,
+          "start": 4870,
+          "end": 4876,
           "ctxt": 0
         },
         "value": "import",
@@ -8949,22 +8969,22 @@
       "prelude": {
         "type": "ImportPrelude",
         "span": {
-          "start": 4881,
-          "end": 5164,
+          "start": 4877,
+          "end": 5160,
           "ctxt": 0
         },
         "href": {
           "type": "Url",
           "span": {
-            "start": 4881,
-            "end": 4898,
+            "start": 4877,
+            "end": 4894,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 4881,
-              "end": 4884,
+              "start": 4877,
+              "end": 4880,
               "ctxt": 0
             },
             "value": "url",
@@ -8973,8 +8993,8 @@
           "value": {
             "type": "String",
             "span": {
-              "start": 4885,
-              "end": 4897,
+              "start": 4881,
+              "end": 4893,
               "ctxt": 0
             },
             "value": "./test.css",
@@ -8985,15 +9005,15 @@
         "layerName": {
           "type": "Function",
           "span": {
-            "start": 4913,
-            "end": 4953,
+            "start": 4909,
+            "end": 4949,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 4913,
-              "end": 4918,
+              "start": 4909,
+              "end": 4914,
               "ctxt": 0
             },
             "value": "layer",
@@ -9003,16 +9023,16 @@
             {
               "type": "LayerName",
               "span": {
-                "start": 4932,
-                "end": 4939,
+                "start": 4928,
+                "end": 4935,
                 "ctxt": 0
               },
               "name": [
                 {
                   "type": "Ident",
                   "span": {
-                    "start": 4932,
-                    "end": 4939,
+                    "start": 4928,
+                    "end": 4935,
                     "ctxt": 0
                   },
                   "value": "default",
@@ -9025,15 +9045,15 @@
         "supports": {
           "type": "Declaration",
           "span": {
-            "start": 4990,
-            "end": 5029,
+            "start": 4986,
+            "end": 5025,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 4990,
-              "end": 4997,
+              "start": 4986,
+              "end": 4993,
               "ctxt": 0
             },
             "value": "display",
@@ -9043,8 +9063,8 @@
             {
               "type": "Ident",
               "span": {
-                "start": 5025,
-                "end": 5029,
+                "start": 5021,
+                "end": 5025,
                 "ctxt": 0
               },
               "value": "flex",
@@ -9056,24 +9076,24 @@
         "media": {
           "type": "MediaQueryList",
           "span": {
-            "start": 5057,
-            "end": 5164,
+            "start": 5053,
+            "end": 5160,
             "ctxt": 0
           },
           "queries": [
             {
               "type": "MediaQuery",
               "span": {
-                "start": 5057,
-                "end": 5164,
+                "start": 5053,
+                "end": 5160,
                 "ctxt": 0
               },
               "modifier": null,
               "mediaType": {
                 "type": "Ident",
                 "span": {
-                  "start": 5057,
-                  "end": 5063,
+                  "start": 5053,
+                  "end": 5059,
                   "ctxt": 0
                 },
                 "value": "screen",
@@ -9082,8 +9102,8 @@
               "keyword": {
                 "type": "Ident",
                 "span": {
-                  "start": 5077,
-                  "end": 5080,
+                  "start": 5073,
+                  "end": 5076,
                   "ctxt": 0
                 },
                 "value": "and",
@@ -9092,23 +9112,23 @@
               "condition": {
                 "type": "MediaConditionWithoutOr",
                 "span": {
-                  "start": 5094,
-                  "end": 5164,
+                  "start": 5090,
+                  "end": 5160,
                   "ctxt": 0
                 },
                 "conditions": [
                   {
                     "type": "MediaFeaturePlain",
                     "span": {
-                      "start": 5094,
-                      "end": 5164,
+                      "start": 5090,
+                      "end": 5160,
                       "ctxt": 0
                     },
                     "name": {
                       "type": "Ident",
                       "span": {
-                        "start": 5108,
-                        "end": 5117,
+                        "start": 5104,
+                        "end": 5113,
                         "ctxt": 0
                       },
                       "value": "min-width",
@@ -9117,15 +9137,15 @@
                     "value": {
                       "type": "Length",
                       "span": {
-                        "start": 5145,
-                        "end": 5150,
+                        "start": 5141,
+                        "end": 5146,
                         "ctxt": 0
                       },
                       "value": {
                         "type": "Number",
                         "span": {
-                          "start": 5145,
-                          "end": 5148,
+                          "start": 5141,
+                          "end": 5144,
                           "ctxt": 0
                         },
                         "value": 400.0,
@@ -9134,8 +9154,8 @@
                       "unit": {
                         "type": "Ident",
                         "span": {
-                          "start": 5148,
-                          "end": 5150,
+                          "start": 5144,
+                          "end": 5146,
                           "ctxt": 0
                         },
                         "value": "px",
@@ -9154,15 +9174,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 5166,
-        "end": 5202,
+        "start": 5162,
+        "end": 5198,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 5167,
-          "end": 5173,
+          "start": 5163,
+          "end": 5169,
           "ctxt": 0
         },
         "value": "import",
@@ -9171,32 +9191,32 @@
       "prelude": {
         "type": "ImportPrelude",
         "span": {
-          "start": 5174,
-          "end": 5188,
+          "start": 5170,
+          "end": 5184,
           "ctxt": 0
         },
         "href": {
           "type": "Url",
           "span": {
-            "start": 5174,
-            "end": 5187,
+            "start": 5170,
+            "end": 5183,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
+            "span": {
+              "start": 5170,
+              "end": 5173,
+              "ctxt": 0
+            },
+            "value": "url",
+            "raw": "url"
+          },
+          "value": {
+            "type": "UrlValueRaw",
             "span": {
               "start": 5174,
-              "end": 5177,
-              "ctxt": 0
-            },
-            "value": "url",
-            "raw": "url"
-          },
-          "value": {
-            "type": "UrlValueRaw",
-            "span": {
-              "start": 5178,
-              "end": 5186,
+              "end": 5182,
               "ctxt": 0
             },
             "value": "test.css",
@@ -9215,15 +9235,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 5203,
-        "end": 5253,
+        "start": 5199,
+        "end": 5249,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 5204,
-          "end": 5210,
+          "start": 5200,
+          "end": 5206,
           "ctxt": 0
         },
         "value": "import",
@@ -9232,32 +9252,32 @@
       "prelude": {
         "type": "ImportPrelude",
         "span": {
-          "start": 5225,
-          "end": 5239,
+          "start": 5221,
+          "end": 5235,
           "ctxt": 0
         },
         "href": {
           "type": "Url",
           "span": {
-            "start": 5225,
-            "end": 5238,
+            "start": 5221,
+            "end": 5234,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
+            "span": {
+              "start": 5221,
+              "end": 5224,
+              "ctxt": 0
+            },
+            "value": "url",
+            "raw": "url"
+          },
+          "value": {
+            "type": "UrlValueRaw",
             "span": {
               "start": 5225,
-              "end": 5228,
-              "ctxt": 0
-            },
-            "value": "url",
-            "raw": "url"
-          },
-          "value": {
-            "type": "UrlValueRaw",
-            "span": {
-              "start": 5229,
-              "end": 5237,
+              "end": 5233,
               "ctxt": 0
             },
             "value": "test.css",
@@ -9276,15 +9296,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 5254,
-        "end": 5324,
+        "start": 5250,
+        "end": 5320,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 5255,
-          "end": 5261,
+          "start": 5251,
+          "end": 5257,
           "ctxt": 0
         },
         "value": "import",
@@ -9293,22 +9313,22 @@
       "prelude": {
         "type": "ImportPrelude",
         "span": {
-          "start": 5262,
-          "end": 5323,
+          "start": 5258,
+          "end": 5319,
           "ctxt": 0
         },
         "href": {
           "type": "Url",
           "span": {
-            "start": 5262,
-            "end": 5275,
+            "start": 5258,
+            "end": 5271,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 5262,
-              "end": 5265,
+              "start": 5258,
+              "end": 5261,
               "ctxt": 0
             },
             "value": "url",
@@ -9317,8 +9337,8 @@
           "value": {
             "type": "UrlValueRaw",
             "span": {
-              "start": 5266,
-              "end": 5274,
+              "start": 5262,
+              "end": 5270,
               "ctxt": 0
             },
             "value": "test.css",
@@ -9333,59 +9353,59 @@
         "media": {
           "type": "MediaQueryList",
           "span": {
-            "start": 5290,
-            "end": 5323,
+            "start": 5286,
+            "end": 5319,
             "ctxt": 0
           },
           "queries": [
             {
               "type": "MediaQuery",
               "span": {
-                "start": 5290,
-                "end": 5323,
+                "start": 5286,
+                "end": 5319,
                 "ctxt": 0
               },
               "modifier": null,
               "mediaType": {
                 "type": "Ident",
                 "span": {
-                  "start": 5290,
+                  "start": 5286,
+                  "end": 5291,
+                  "ctxt": 0
+                },
+                "value": "print",
+                "raw": "print"
+              },
+              "keyword": {
+                "type": "Ident",
+                "span": {
+                  "start": 5292,
                   "end": 5295,
                   "ctxt": 0
                 },
-                "value": "print",
-                "raw": "print"
-              },
-              "keyword": {
-                "type": "Ident",
-                "span": {
-                  "start": 5296,
-                  "end": 5299,
-                  "ctxt": 0
-                },
                 "value": "and",
                 "raw": "and"
               },
               "condition": {
                 "type": "MediaConditionWithoutOr",
                 "span": {
-                  "start": 5300,
-                  "end": 5323,
+                  "start": 5296,
+                  "end": 5319,
                   "ctxt": 0
                 },
                 "conditions": [
                   {
                     "type": "MediaFeaturePlain",
                     "span": {
-                      "start": 5300,
-                      "end": 5323,
+                      "start": 5296,
+                      "end": 5319,
                       "ctxt": 0
                     },
                     "name": {
                       "type": "Ident",
                       "span": {
-                        "start": 5301,
-                        "end": 5312,
+                        "start": 5297,
+                        "end": 5308,
                         "ctxt": 0
                       },
                       "value": "orientation",
@@ -9394,8 +9414,8 @@
                     "value": {
                       "type": "Ident",
                       "span": {
-                        "start": 5313,
-                        "end": 5322,
+                        "start": 5309,
+                        "end": 5318,
                         "ctxt": 0
                       },
                       "value": "landscape",
@@ -9413,15 +9433,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 5325,
-        "end": 5409,
+        "start": 5321,
+        "end": 5405,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 5326,
-          "end": 5332,
+          "start": 5322,
+          "end": 5328,
           "ctxt": 0
         },
         "value": "import",
@@ -9430,22 +9450,22 @@
       "prelude": {
         "type": "ImportPrelude",
         "span": {
-          "start": 5347,
-          "end": 5408,
+          "start": 5343,
+          "end": 5404,
           "ctxt": 0
         },
         "href": {
           "type": "Url",
           "span": {
-            "start": 5347,
-            "end": 5360,
+            "start": 5343,
+            "end": 5356,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 5347,
-              "end": 5350,
+              "start": 5343,
+              "end": 5346,
               "ctxt": 0
             },
             "value": "url",
@@ -9454,8 +9474,8 @@
           "value": {
             "type": "UrlValueRaw",
             "span": {
-              "start": 5351,
-              "end": 5359,
+              "start": 5347,
+              "end": 5355,
               "ctxt": 0
             },
             "value": "test.css",
@@ -9470,24 +9490,24 @@
         "media": {
           "type": "MediaQueryList",
           "span": {
-            "start": 5375,
-            "end": 5408,
+            "start": 5371,
+            "end": 5404,
             "ctxt": 0
           },
           "queries": [
             {
               "type": "MediaQuery",
               "span": {
-                "start": 5375,
-                "end": 5408,
+                "start": 5371,
+                "end": 5404,
                 "ctxt": 0
               },
               "modifier": null,
               "mediaType": {
                 "type": "Ident",
                 "span": {
-                  "start": 5375,
-                  "end": 5380,
+                  "start": 5371,
+                  "end": 5376,
                   "ctxt": 0
                 },
                 "value": "print",
@@ -9496,8 +9516,8 @@
               "keyword": {
                 "type": "Ident",
                 "span": {
-                  "start": 5381,
-                  "end": 5384,
+                  "start": 5377,
+                  "end": 5380,
                   "ctxt": 0
                 },
                 "value": "and",
@@ -9506,23 +9526,23 @@
               "condition": {
                 "type": "MediaConditionWithoutOr",
                 "span": {
-                  "start": 5385,
-                  "end": 5408,
+                  "start": 5381,
+                  "end": 5404,
                   "ctxt": 0
                 },
                 "conditions": [
                   {
                     "type": "MediaFeaturePlain",
                     "span": {
-                      "start": 5385,
-                      "end": 5408,
+                      "start": 5381,
+                      "end": 5404,
                       "ctxt": 0
                     },
                     "name": {
                       "type": "Ident",
                       "span": {
-                        "start": 5386,
-                        "end": 5397,
+                        "start": 5382,
+                        "end": 5393,
                         "ctxt": 0
                       },
                       "value": "orientation",
@@ -9531,8 +9551,8 @@
                     "value": {
                       "type": "Ident",
                       "span": {
-                        "start": 5398,
-                        "end": 5407,
+                        "start": 5394,
+                        "end": 5403,
                         "ctxt": 0
                       },
                       "value": "landscape",
@@ -9550,15 +9570,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 5411,
-        "end": 5484,
+        "start": 5407,
+        "end": 5480,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 5412,
-          "end": 5418,
+          "start": 5408,
+          "end": 5414,
           "ctxt": 0
         },
         "value": "import",
@@ -9567,22 +9587,22 @@
       "prelude": {
         "type": "ImportPrelude",
         "span": {
-          "start": 5419,
-          "end": 5483,
+          "start": 5415,
+          "end": 5479,
           "ctxt": 0
         },
         "href": {
           "type": "Url",
           "span": {
-            "start": 5419,
-            "end": 5454,
+            "start": 5415,
+            "end": 5450,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 5419,
-              "end": 5422,
+              "start": 5415,
+              "end": 5418,
               "ctxt": 0
             },
             "value": "url",
@@ -9591,8 +9611,8 @@
           "value": {
             "type": "String",
             "span": {
-              "start": 5423,
-              "end": 5453,
+              "start": 5419,
+              "end": 5449,
               "ctxt": 0
             },
             "value": "./deep-import-with-media.css",
@@ -9605,16 +9625,16 @@
         "media": {
           "type": "MediaQueryList",
           "span": {
-            "start": 5455,
-            "end": 5483,
+            "start": 5451,
+            "end": 5479,
             "ctxt": 0
           },
           "queries": [
             {
               "type": "MediaQuery",
               "span": {
-                "start": 5455,
-                "end": 5483,
+                "start": 5451,
+                "end": 5479,
                 "ctxt": 0
               },
               "modifier": null,
@@ -9623,23 +9643,23 @@
               "condition": {
                 "type": "MediaCondition",
                 "span": {
-                  "start": 5455,
-                  "end": 5483,
+                  "start": 5451,
+                  "end": 5479,
                   "ctxt": 0
                 },
                 "conditions": [
                   {
                     "type": "MediaFeaturePlain",
                     "span": {
-                      "start": 5455,
-                      "end": 5483,
+                      "start": 5451,
+                      "end": 5479,
                       "ctxt": 0
                     },
                     "name": {
                       "type": "Ident",
                       "span": {
-                        "start": 5456,
-                        "end": 5476,
+                        "start": 5452,
+                        "end": 5472,
                         "ctxt": 0
                       },
                       "value": "prefers-color-scheme",
@@ -9648,8 +9668,8 @@
                     "value": {
                       "type": "Ident",
                       "span": {
-                        "start": 5478,
-                        "end": 5482,
+                        "start": 5474,
+                        "end": 5478,
                         "ctxt": 0
                       },
                       "value": "dark",
@@ -9667,15 +9687,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 5485,
-        "end": 5551,
+        "start": 5481,
+        "end": 5547,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 5486,
-          "end": 5492,
+          "start": 5482,
+          "end": 5488,
           "ctxt": 0
         },
         "value": "import",
@@ -9684,22 +9704,22 @@
       "prelude": {
         "type": "ImportPrelude",
         "span": {
-          "start": 5493,
-          "end": 5550,
+          "start": 5489,
+          "end": 5546,
           "ctxt": 0
         },
         "href": {
           "type": "Url",
           "span": {
-            "start": 5493,
-            "end": 5526,
+            "start": 5489,
+            "end": 5522,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 5493,
-              "end": 5496,
+              "start": 5489,
+              "end": 5492,
               "ctxt": 0
             },
             "value": "url",
@@ -9708,8 +9728,8 @@
           "value": {
             "type": "String",
             "span": {
-              "start": 5497,
-              "end": 5525,
+              "start": 5493,
+              "end": 5521,
               "ctxt": 0
             },
             "value": "./import-with-supports.css",
@@ -9721,15 +9741,15 @@
         "supports": {
           "type": "Declaration",
           "span": {
-            "start": 5536,
-            "end": 5549,
+            "start": 5532,
+            "end": 5545,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 5536,
-              "end": 5543,
+              "start": 5532,
+              "end": 5539,
               "ctxt": 0
             },
             "value": "display",
@@ -9739,8 +9759,8 @@
             {
               "type": "Ident",
               "span": {
-                "start": 5545,
-                "end": 5549,
+                "start": 5541,
+                "end": 5545,
                 "ctxt": 0
               },
               "value": "flex",
@@ -9756,15 +9776,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 5552,
-        "end": 5622,
+        "start": 5548,
+        "end": 5618,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 5553,
-          "end": 5559,
+          "start": 5549,
+          "end": 5555,
           "ctxt": 0
         },
         "value": "import",
@@ -9773,22 +9793,22 @@
       "prelude": {
         "type": "ImportPrelude",
         "span": {
-          "start": 5560,
-          "end": 5621,
+          "start": 5556,
+          "end": 5617,
           "ctxt": 0
         },
         "href": {
           "type": "Url",
           "span": {
-            "start": 5560,
-            "end": 5593,
+            "start": 5556,
+            "end": 5589,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 5560,
-              "end": 5563,
+              "start": 5556,
+              "end": 5559,
               "ctxt": 0
             },
             "value": "url",
@@ -9797,8 +9817,8 @@
           "value": {
             "type": "String",
             "span": {
-              "start": 5564,
-              "end": 5592,
+              "start": 5560,
+              "end": 5588,
               "ctxt": 0
             },
             "value": "./import-with-supports.css",
@@ -9810,31 +9830,31 @@
         "supports": {
           "type": "SupportsCondition",
           "span": {
-            "start": 5603,
-            "end": 5620,
+            "start": 5599,
+            "end": 5616,
             "ctxt": 0
           },
           "conditions": [
             {
               "type": "SupportsCondition",
               "span": {
-                "start": 5604,
-                "end": 5619,
+                "start": 5600,
+                "end": 5615,
                 "ctxt": 0
               },
               "conditions": [
                 {
                   "type": "Declaration",
                   "span": {
-                    "start": 5605,
-                    "end": 5618,
+                    "start": 5601,
+                    "end": 5614,
                     "ctxt": 0
                   },
                   "name": {
                     "type": "Ident",
                     "span": {
-                      "start": 5605,
-                      "end": 5612,
+                      "start": 5601,
+                      "end": 5608,
                       "ctxt": 0
                     },
                     "value": "display",
@@ -9844,8 +9864,8 @@
                     {
                       "type": "Ident",
                       "span": {
-                        "start": 5614,
-                        "end": 5618,
+                        "start": 5610,
+                        "end": 5614,
                         "ctxt": 0
                       },
                       "value": "flex",
@@ -9865,15 +9885,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 5623,
-        "end": 5694,
+        "start": 5619,
+        "end": 5690,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 5624,
-          "end": 5630,
+          "start": 5620,
+          "end": 5626,
           "ctxt": 0
         },
         "value": "import",
@@ -9882,22 +9902,22 @@
       "prelude": {
         "type": "ImportPrelude",
         "span": {
-          "start": 5631,
-          "end": 5693,
+          "start": 5627,
+          "end": 5689,
           "ctxt": 0
         },
         "href": {
           "type": "Url",
           "span": {
-            "start": 5631,
-            "end": 5669,
+            "start": 5627,
+            "end": 5665,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 5631,
-              "end": 5634,
+              "start": 5627,
+              "end": 5630,
               "ctxt": 0
             },
             "value": "url",
@@ -9906,8 +9926,8 @@
           "value": {
             "type": "String",
             "span": {
-              "start": 5635,
-              "end": 5668,
+              "start": 5631,
+              "end": 5664,
               "ctxt": 0
             },
             "value": "./deep-import-with-supports.css",
@@ -9919,15 +9939,15 @@
         "supports": {
           "type": "Declaration",
           "span": {
-            "start": 5679,
-            "end": 5692,
+            "start": 5675,
+            "end": 5688,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 5679,
-              "end": 5686,
+              "start": 5675,
+              "end": 5682,
               "ctxt": 0
             },
             "value": "display",
@@ -9937,8 +9957,8 @@
             {
               "type": "Ident",
               "span": {
-                "start": 5688,
-                "end": 5692,
+                "start": 5684,
+                "end": 5688,
                 "ctxt": 0
               },
               "value": "flex",
@@ -9954,15 +9974,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 5695,
-        "end": 5745,
+        "start": 5691,
+        "end": 5741,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 5696,
-          "end": 5702,
+          "start": 5692,
+          "end": 5698,
           "ctxt": 0
         },
         "value": "import",
@@ -9971,32 +9991,32 @@
       "prelude": {
         "type": "ImportPrelude",
         "span": {
-          "start": 5703,
-          "end": 5744,
+          "start": 5699,
+          "end": 5740,
           "ctxt": 0
         },
         "href": {
           "type": "Url",
           "span": {
-            "start": 5703,
-            "end": 5720,
+            "start": 5699,
+            "end": 5716,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
+            "span": {
+              "start": 5699,
+              "end": 5702,
+              "ctxt": 0
+            },
+            "value": "url",
+            "raw": "url"
+          },
+          "value": {
+            "type": "String",
             "span": {
               "start": 5703,
-              "end": 5706,
-              "ctxt": 0
-            },
-            "value": "url",
-            "raw": "url"
-          },
-          "value": {
-            "type": "String",
-            "span": {
-              "start": 5707,
-              "end": 5719,
+              "end": 5715,
               "ctxt": 0
             },
             "value": "./test.css",
@@ -10008,15 +10028,15 @@
         "supports": {
           "type": "Declaration",
           "span": {
-            "start": 5730,
-            "end": 5743,
+            "start": 5726,
+            "end": 5739,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 5730,
-              "end": 5737,
+              "start": 5726,
+              "end": 5733,
               "ctxt": 0
             },
             "value": "display",
@@ -10026,8 +10046,8 @@
             {
               "type": "Ident",
               "span": {
-                "start": 5739,
-                "end": 5743,
+                "start": 5735,
+                "end": 5739,
                 "ctxt": 0
               },
               "value": "grid",
@@ -10043,15 +10063,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 5746,
-        "end": 5808,
+        "start": 5742,
+        "end": 5804,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 5747,
-          "end": 5753,
+          "start": 5743,
+          "end": 5749,
           "ctxt": 0
         },
         "value": "import",
@@ -10060,32 +10080,32 @@
       "prelude": {
         "type": "ImportPrelude",
         "span": {
-          "start": 5754,
-          "end": 5807,
+          "start": 5750,
+          "end": 5803,
           "ctxt": 0
         },
         "href": {
           "type": "Url",
           "span": {
-            "start": 5754,
-            "end": 5771,
+            "start": 5750,
+            "end": 5767,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
+            "span": {
+              "start": 5750,
+              "end": 5753,
+              "ctxt": 0
+            },
+            "value": "url",
+            "raw": "url"
+          },
+          "value": {
+            "type": "String",
             "span": {
               "start": 5754,
-              "end": 5757,
-              "ctxt": 0
-            },
-            "value": "url",
-            "raw": "url"
-          },
-          "value": {
-            "type": "String",
-            "span": {
-              "start": 5758,
-              "end": 5770,
+              "end": 5766,
               "ctxt": 0
             },
             "value": "./test.css",
@@ -10097,15 +10117,15 @@
         "supports": {
           "type": "Declaration",
           "span": {
-            "start": 5784,
-            "end": 5806,
+            "start": 5780,
+            "end": 5802,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 5784,
-              "end": 5791,
+              "start": 5780,
+              "end": 5787,
               "ctxt": 0
             },
             "value": "display",
@@ -10115,8 +10135,8 @@
             {
               "type": "Ident",
               "span": {
-                "start": 5799,
-                "end": 5803,
+                "start": 5795,
+                "end": 5799,
                 "ctxt": 0
               },
               "value": "grid",
@@ -10132,15 +10152,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 5809,
-        "end": 5915,
+        "start": 5805,
+        "end": 5911,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 5810,
-          "end": 5816,
+          "start": 5806,
+          "end": 5812,
           "ctxt": 0
         },
         "value": "import",
@@ -10149,22 +10169,22 @@
       "prelude": {
         "type": "ImportPrelude",
         "span": {
-          "start": 5817,
-          "end": 5914,
+          "start": 5813,
+          "end": 5910,
           "ctxt": 0
         },
         "href": {
           "type": "Url",
           "span": {
-            "start": 5817,
-            "end": 5860,
+            "start": 5813,
+            "end": 5856,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 5817,
-              "end": 5820,
+              "start": 5813,
+              "end": 5816,
               "ctxt": 0
             },
             "value": "url",
@@ -10173,8 +10193,8 @@
           "value": {
             "type": "String",
             "span": {
-              "start": 5821,
-              "end": 5859,
+              "start": 5817,
+              "end": 5855,
               "ctxt": 0
             },
             "value": "./import-with-supports-and-media.css",
@@ -10186,15 +10206,15 @@
         "supports": {
           "type": "Declaration",
           "span": {
-            "start": 5870,
-            "end": 5883,
+            "start": 5866,
+            "end": 5879,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 5870,
-              "end": 5877,
+              "start": 5866,
+              "end": 5873,
               "ctxt": 0
             },
             "value": "display",
@@ -10204,8 +10224,8 @@
             {
               "type": "Ident",
               "span": {
-                "start": 5879,
-                "end": 5883,
+                "start": 5875,
+                "end": 5879,
                 "ctxt": 0
               },
               "value": "flex",
@@ -10217,24 +10237,24 @@
         "media": {
           "type": "MediaQueryList",
           "span": {
-            "start": 5885,
-            "end": 5914,
+            "start": 5881,
+            "end": 5910,
             "ctxt": 0
           },
           "queries": [
             {
               "type": "MediaQuery",
               "span": {
-                "start": 5885,
-                "end": 5914,
+                "start": 5881,
+                "end": 5910,
                 "ctxt": 0
               },
               "modifier": null,
               "mediaType": {
                 "type": "Ident",
                 "span": {
-                  "start": 5885,
-                  "end": 5891,
+                  "start": 5881,
+                  "end": 5887,
                   "ctxt": 0
                 },
                 "value": "screen",
@@ -10243,8 +10263,8 @@
               "keyword": {
                 "type": "Ident",
                 "span": {
-                  "start": 5892,
-                  "end": 5895,
+                  "start": 5888,
+                  "end": 5891,
                   "ctxt": 0
                 },
                 "value": "and",
@@ -10253,23 +10273,23 @@
               "condition": {
                 "type": "MediaConditionWithoutOr",
                 "span": {
-                  "start": 5896,
-                  "end": 5914,
+                  "start": 5892,
+                  "end": 5910,
                   "ctxt": 0
                 },
                 "conditions": [
                   {
                     "type": "MediaFeaturePlain",
                     "span": {
-                      "start": 5896,
-                      "end": 5914,
+                      "start": 5892,
+                      "end": 5910,
                       "ctxt": 0
                     },
                     "name": {
                       "type": "Ident",
                       "span": {
-                        "start": 5897,
-                        "end": 5906,
+                        "start": 5893,
+                        "end": 5902,
                         "ctxt": 0
                       },
                       "value": "min-width",
@@ -10278,15 +10298,15 @@
                     "value": {
                       "type": "Length",
                       "span": {
-                        "start": 5908,
-                        "end": 5913,
+                        "start": 5904,
+                        "end": 5909,
                         "ctxt": 0
                       },
                       "value": {
                         "type": "Number",
                         "span": {
-                          "start": 5908,
-                          "end": 5911,
+                          "start": 5904,
+                          "end": 5907,
                           "ctxt": 0
                         },
                         "value": 400.0,
@@ -10295,8 +10315,8 @@
                       "unit": {
                         "type": "Ident",
                         "span": {
-                          "start": 5911,
-                          "end": 5913,
+                          "start": 5907,
+                          "end": 5909,
                           "ctxt": 0
                         },
                         "value": "px",
@@ -10315,15 +10335,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 5916,
-        "end": 5959,
+        "start": 5912,
+        "end": 5955,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 5917,
-          "end": 5923,
+          "start": 5913,
+          "end": 5919,
           "ctxt": 0
         },
         "value": "import",
@@ -10332,22 +10352,22 @@
       "prelude": {
         "type": "ImportPrelude",
         "span": {
-          "start": 5924,
-          "end": 5958,
+          "start": 5920,
+          "end": 5954,
           "ctxt": 0
         },
         "href": {
           "type": "Url",
           "span": {
-            "start": 5924,
-            "end": 5941,
+            "start": 5920,
+            "end": 5937,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 5924,
-              "end": 5927,
+              "start": 5920,
+              "end": 5923,
               "ctxt": 0
             },
             "value": "url",
@@ -10356,8 +10376,8 @@
           "value": {
             "type": "String",
             "span": {
-              "start": 5928,
-              "end": 5940,
+              "start": 5924,
+              "end": 5936,
               "ctxt": 0
             },
             "value": "./test.css",
@@ -10368,15 +10388,15 @@
         "layerName": {
           "type": "Function",
           "span": {
-            "start": 5942,
-            "end": 5958,
+            "start": 5938,
+            "end": 5954,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 5942,
-              "end": 5947,
+              "start": 5938,
+              "end": 5943,
               "ctxt": 0
             },
             "value": "layer",
@@ -10386,16 +10406,16 @@
             {
               "type": "LayerName",
               "span": {
-                "start": 5948,
-                "end": 5957,
+                "start": 5944,
+                "end": 5953,
                 "ctxt": 0
               },
               "name": [
                 {
                   "type": "Ident",
                   "span": {
-                    "start": 5948,
-                    "end": 5957,
+                    "start": 5944,
+                    "end": 5953,
                     "ctxt": 0
                   },
                   "value": "framework",
@@ -10413,15 +10433,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 5960,
-        "end": 6023,
+        "start": 5956,
+        "end": 6019,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 5961,
-          "end": 5967,
+          "start": 5957,
+          "end": 5963,
           "ctxt": 0
         },
         "value": "import",
@@ -10430,22 +10450,22 @@
       "prelude": {
         "type": "ImportPrelude",
         "span": {
-          "start": 5968,
-          "end": 6022,
+          "start": 5964,
+          "end": 6018,
           "ctxt": 0
         },
         "href": {
           "type": "Url",
           "span": {
-            "start": 5968,
-            "end": 6007,
+            "start": 5964,
+            "end": 6003,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 5968,
-              "end": 5971,
+              "start": 5964,
+              "end": 5967,
               "ctxt": 0
             },
             "value": "url",
@@ -10454,8 +10474,8 @@
           "value": {
             "type": "String",
             "span": {
-              "start": 5972,
-              "end": 6006,
+              "start": 5968,
+              "end": 6002,
               "ctxt": 0
             },
             "value": "./import-multiple-with-layer.css",
@@ -10466,15 +10486,15 @@
         "layerName": {
           "type": "Function",
           "span": {
-            "start": 6008,
-            "end": 6022,
+            "start": 6004,
+            "end": 6018,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 6008,
-              "end": 6013,
+              "start": 6004,
+              "end": 6009,
               "ctxt": 0
             },
             "value": "layer",
@@ -10484,16 +10504,16 @@
             {
               "type": "LayerName",
               "span": {
-                "start": 6014,
-                "end": 6021,
+                "start": 6010,
+                "end": 6017,
                 "ctxt": 0
               },
               "name": [
                 {
                   "type": "Ident",
                   "span": {
-                    "start": 6014,
-                    "end": 6021,
+                    "start": 6010,
+                    "end": 6017,
                     "ctxt": 0
                   },
                   "value": "default",
@@ -10511,15 +10531,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 6024,
-        "end": 6078,
+        "start": 6020,
+        "end": 6074,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 6025,
-          "end": 6031,
+          "start": 6021,
+          "end": 6027,
           "ctxt": 0
         },
         "value": "import",
@@ -10528,22 +10548,22 @@
       "prelude": {
         "type": "ImportPrelude",
         "span": {
-          "start": 6032,
-          "end": 6077,
+          "start": 6028,
+          "end": 6073,
           "ctxt": 0
         },
         "href": {
           "type": "Url",
           "span": {
-            "start": 6032,
-            "end": 6065,
+            "start": 6028,
+            "end": 6061,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 6032,
-              "end": 6035,
+              "start": 6028,
+              "end": 6031,
               "ctxt": 0
             },
             "value": "url",
@@ -10552,8 +10572,8 @@
           "value": {
             "type": "String",
             "span": {
-              "start": 6036,
-              "end": 6064,
+              "start": 6032,
+              "end": 6060,
               "ctxt": 0
             },
             "value": "./import-unnamed-layer.css",
@@ -10564,15 +10584,15 @@
         "layerName": {
           "type": "Function",
           "span": {
-            "start": 6066,
-            "end": 6077,
+            "start": 6062,
+            "end": 6073,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 6066,
-              "end": 6071,
+              "start": 6062,
+              "end": 6067,
               "ctxt": 0
             },
             "value": "layer",
@@ -10582,16 +10602,16 @@
             {
               "type": "LayerName",
               "span": {
-                "start": 6072,
-                "end": 6076,
+                "start": 6068,
+                "end": 6072,
                 "ctxt": 0
               },
               "name": [
                 {
                   "type": "Ident",
                   "span": {
-                    "start": 6072,
-                    "end": 6076,
+                    "start": 6068,
+                    "end": 6072,
                     "ctxt": 0
                   },
                   "value": "base",
@@ -10609,15 +10629,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 6079,
-        "end": 6170,
+        "start": 6075,
+        "end": 6166,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 6080,
-          "end": 6086,
+          "start": 6076,
+          "end": 6082,
           "ctxt": 0
         },
         "value": "import",
@@ -10626,22 +10646,22 @@
       "prelude": {
         "type": "ImportPrelude",
         "span": {
-          "start": 6087,
-          "end": 6169,
+          "start": 6083,
+          "end": 6165,
           "ctxt": 0
         },
         "href": {
           "type": "Url",
           "span": {
-            "start": 6087,
-            "end": 6130,
+            "start": 6083,
+            "end": 6126,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 6087,
-              "end": 6090,
+              "start": 6083,
+              "end": 6086,
               "ctxt": 0
             },
             "value": "url",
@@ -10650,8 +10670,8 @@
           "value": {
             "type": "String",
             "span": {
-              "start": 6091,
-              "end": 6129,
+              "start": 6087,
+              "end": 6125,
               "ctxt": 0
             },
             "value": "./import-with-layer-and-supports.css",
@@ -10662,15 +10682,15 @@
         "layerName": {
           "type": "Function",
           "span": {
-            "start": 6131,
-            "end": 6145,
+            "start": 6127,
+            "end": 6141,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 6131,
-              "end": 6136,
+              "start": 6127,
+              "end": 6132,
               "ctxt": 0
             },
             "value": "layer",
@@ -10680,16 +10700,16 @@
             {
               "type": "LayerName",
               "span": {
-                "start": 6137,
-                "end": 6144,
+                "start": 6133,
+                "end": 6140,
                 "ctxt": 0
               },
               "name": [
                 {
                   "type": "Ident",
                   "span": {
-                    "start": 6137,
-                    "end": 6144,
+                    "start": 6133,
+                    "end": 6140,
                     "ctxt": 0
                   },
                   "value": "default",
@@ -10702,15 +10722,15 @@
         "supports": {
           "type": "Declaration",
           "span": {
-            "start": 6155,
-            "end": 6168,
+            "start": 6151,
+            "end": 6164,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 6155,
-              "end": 6162,
+              "start": 6151,
+              "end": 6158,
               "ctxt": 0
             },
             "value": "display",
@@ -10720,8 +10740,8 @@
             {
               "type": "Ident",
               "span": {
-                "start": 6164,
-                "end": 6168,
+                "start": 6160,
+                "end": 6164,
                 "ctxt": 0
               },
               "value": "flex",
@@ -10737,15 +10757,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 6172,
-        "end": 6216,
+        "start": 6168,
+        "end": 6212,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 6173,
-          "end": 6179,
+          "start": 6169,
+          "end": 6175,
           "ctxt": 0
         },
         "value": "import",
@@ -10754,22 +10774,22 @@
       "prelude": {
         "type": "ImportPrelude",
         "span": {
-          "start": 6180,
-          "end": 6215,
+          "start": 6176,
+          "end": 6211,
           "ctxt": 0
         },
         "href": {
           "type": "Url",
           "span": {
-            "start": 6180,
-            "end": 6203,
+            "start": 6176,
+            "end": 6199,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 6180,
-              "end": 6183,
+              "start": 6176,
+              "end": 6179,
               "ctxt": 0
             },
             "value": "url",
@@ -10778,8 +10798,8 @@
           "value": {
             "type": "UrlValueRaw",
             "span": {
-              "start": 6184,
-              "end": 6202,
+              "start": 6180,
+              "end": 6198,
               "ctxt": 0
             },
             "value": "bootstrap-base.css",
@@ -10792,15 +10812,15 @@
         "layerName": {
           "type": "Function",
           "span": {
-            "start": 6204,
-            "end": 6215,
+            "start": 6200,
+            "end": 6211,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 6204,
-              "end": 6209,
+              "start": 6200,
+              "end": 6205,
               "ctxt": 0
             },
             "value": "layer",
@@ -10810,16 +10830,16 @@
             {
               "type": "LayerName",
               "span": {
-                "start": 6210,
-                "end": 6214,
+                "start": 6206,
+                "end": 6210,
                 "ctxt": 0
               },
               "name": [
                 {
                   "type": "Ident",
                   "span": {
-                    "start": 6210,
-                    "end": 6214,
+                    "start": 6206,
+                    "end": 6210,
                     "ctxt": 0
                   },
                   "value": "base",
@@ -10837,15 +10857,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 6217,
-        "end": 6254,
+        "start": 6213,
+        "end": 6250,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 6218,
-          "end": 6224,
+          "start": 6214,
+          "end": 6220,
           "ctxt": 0
         },
         "value": "import",
@@ -10854,22 +10874,22 @@
       "prelude": {
         "type": "ImportPrelude",
         "span": {
-          "start": 6225,
-          "end": 6253,
+          "start": 6221,
+          "end": 6249,
           "ctxt": 0
         },
         "href": {
           "type": "Url",
           "span": {
-            "start": 6225,
-            "end": 6247,
+            "start": 6221,
+            "end": 6243,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 6225,
-              "end": 6228,
+              "start": 6221,
+              "end": 6224,
               "ctxt": 0
             },
             "value": "url",
@@ -10878,8 +10898,8 @@
           "value": {
             "type": "UrlValueRaw",
             "span": {
-              "start": 6229,
-              "end": 6246,
+              "start": 6225,
+              "end": 6242,
               "ctxt": 0
             },
             "value": "base-headings.css",
@@ -10892,8 +10912,8 @@
         "layerName": {
           "type": "Ident",
           "span": {
-            "start": 6248,
-            "end": 6253,
+            "start": 6244,
+            "end": 6249,
             "ctxt": 0
           },
           "value": "layer",
@@ -10907,15 +10927,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 6255,
-        "end": 6306,
+        "start": 6251,
+        "end": 6302,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 6256,
-          "end": 6262,
+          "start": 6252,
+          "end": 6258,
           "ctxt": 0
         },
         "value": "import",
@@ -10924,22 +10944,22 @@
       "prelude": {
         "type": "ImportPrelude",
         "span": {
-          "start": 6263,
-          "end": 6305,
+          "start": 6259,
+          "end": 6301,
           "ctxt": 0
         },
         "href": {
           "type": "Url",
           "span": {
-            "start": 6263,
-            "end": 6278,
+            "start": 6259,
+            "end": 6274,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 6263,
-              "end": 6266,
+              "start": 6259,
+              "end": 6262,
               "ctxt": 0
             },
             "value": "url",
@@ -10948,8 +10968,8 @@
           "value": {
             "type": "String",
             "span": {
-              "start": 6267,
-              "end": 6277,
+              "start": 6263,
+              "end": 6273,
               "ctxt": 0
             },
             "value": "tabs.css",
@@ -10960,15 +10980,15 @@
         "layerName": {
           "type": "Function",
           "span": {
-            "start": 6279,
-            "end": 6305,
+            "start": 6275,
+            "end": 6301,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 6279,
-              "end": 6284,
+              "start": 6275,
+              "end": 6280,
               "ctxt": 0
             },
             "value": "layer",
@@ -10978,16 +10998,16 @@
             {
               "type": "LayerName",
               "span": {
-                "start": 6285,
-                "end": 6304,
+                "start": 6281,
+                "end": 6300,
                 "ctxt": 0
               },
               "name": [
                 {
                   "type": "Ident",
                   "span": {
-                    "start": 6285,
-                    "end": 6294,
+                    "start": 6281,
+                    "end": 6290,
                     "ctxt": 0
                   },
                   "value": "framework",
@@ -10996,8 +11016,8 @@
                 {
                   "type": "Ident",
                   "span": {
-                    "start": 6295,
-                    "end": 6304,
+                    "start": 6291,
+                    "end": 6300,
                     "ctxt": 0
                   },
                   "value": "component",
@@ -11015,15 +11035,15 @@
     {
       "type": "AtRule",
       "span": {
-        "start": 6307,
-        "end": 6341,
+        "start": 6303,
+        "end": 6337,
         "ctxt": 0
       },
       "name": {
         "type": "Ident",
         "span": {
-          "start": 6308,
-          "end": 6314,
+          "start": 6304,
+          "end": 6310,
           "ctxt": 0
         },
         "value": "import",
@@ -11032,22 +11052,22 @@
       "prelude": {
         "type": "ImportPrelude",
         "span": {
-          "start": 6315,
-          "end": 6340,
+          "start": 6311,
+          "end": 6336,
           "ctxt": 0
         },
         "href": {
           "type": "Url",
           "span": {
-            "start": 6315,
-            "end": 6334,
+            "start": 6311,
+            "end": 6330,
             "ctxt": 0
           },
           "name": {
             "type": "Ident",
             "span": {
-              "start": 6315,
-              "end": 6318,
+              "start": 6311,
+              "end": 6314,
               "ctxt": 0
             },
             "value": "url",
@@ -11056,8 +11076,8 @@
           "value": {
             "type": "String",
             "span": {
-              "start": 6319,
-              "end": 6333,
+              "start": 6315,
+              "end": 6329,
               "ctxt": 0
             },
             "value": "override.css",
@@ -11068,8 +11088,8 @@
         "layerName": {
           "type": "Ident",
           "span": {
-            "start": 6335,
-            "end": 6340,
+            "start": 6331,
+            "end": 6336,
             "ctxt": 0
           },
           "value": "layer",

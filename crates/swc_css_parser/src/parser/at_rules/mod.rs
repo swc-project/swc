@@ -210,6 +210,10 @@ where
 
                             self.input.skip_ws();
 
+                            if is!(self, ")") {
+                                return Ok(None);
+                            }
+
                             let supports =
                                 if is_case_insensitive_ident!(self, "not") || is!(self, "(") {
                                     ImportPreludeSupportsType::SupportsCondition(self.parse()?)
