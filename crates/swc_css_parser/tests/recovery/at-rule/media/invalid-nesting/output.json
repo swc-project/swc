@@ -121,7 +121,7 @@
             "type": "ListOfComponentValues",
             "span": {
               "start": 33,
-              "end": 57,
+              "end": 58,
               "ctxt": 0
             },
             "children": [
@@ -186,6 +186,19 @@
                   "ctxt": 0
                 },
                 "token": "Semi"
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 57,
+                  "end": 58,
+                  "ctxt": 0
+                },
+                "token": {
+                  "WhiteSpace": {
+                    "value": "\n"
+                  }
+                }
               }
             ]
           }

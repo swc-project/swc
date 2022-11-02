@@ -14,6 +14,8 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<Stylesheet> {
+        // Create a new stylesheet, with its location set to location (or null, if
+        // location was not passed).
         let start = self.input.cur_span();
 
         // Consume a list of rules from input, with the top-level flag set, and set the
@@ -92,28 +94,21 @@ where
                             self.input.reset(&state);
 
                             let span = self.input.cur_span();
-                            let mut children = vec![];
+                            let mut list_of_component_values = ListOfComponentValues {
+                                span: Default::default(),
+                                children: vec![],
+                            };
 
-                            while !is_one_of!(self, EOF, "}") {
-                                if let Some(token_and_span) = self.input.bump() {
-                                    children.push(ComponentValue::PreservedToken(token_and_span));
-                                }
+                            while !is_one_of!(self, "}", EOF) {
+                                let component_value = self.parse_as::<ComponentValue>()?;
 
-                                if is!(self, ";") {
-                                    if let Some(token_and_span) = self.input.bump() {
-                                        children
-                                            .push(ComponentValue::PreservedToken(token_and_span));
-                                    }
-
-                                    break;
-                                }
+                                list_of_component_values.children.push(component_value);
                             }
 
+                            list_of_component_values.span = span!(self, span.lo);
+
                             rules.push(Rule::ListOfComponentValues(Box::new(
-                                ListOfComponentValues {
-                                    span: span!(self, span.lo),
-                                    children,
-                                },
+                                list_of_component_values,
                             )));
                         }
                     };
