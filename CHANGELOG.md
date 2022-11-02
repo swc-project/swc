@@ -32,6 +32,9 @@
 - **(es/minifier)** Fix infinite loop (#6300) ([655f674](https://github.com/swc-project/swc/commit/655f6744c550b4f0963ef090bf45a6eae2d273f6))
 
 
+- **(es/minifier)** Don't drop an inlined parameter as a duplicate (#6293) ([dd797f7](https://github.com/swc-project/swc/commit/dd797f7f1590401c309efce76a86719c24cd6b2b))
+
+
 - **(es/typescript)** Fix stack overflow (#6250) ([28ec6e8](https://github.com/swc-project/swc/commit/28ec6e8fc70cf74722c93353c03e4fdedb21954a))
 
 
@@ -90,6 +93,9 @@
 
 
 - **(css/parser)** Add tests for refactoring (#6262) ([4c293f9](https://github.com/swc-project/swc/commit/4c293f965b380e49790cdf4fd8c1e1cb3845e9c5))
+
+
+- **(es)** Enable tests for fixed issues (#6311) ([5b02e24](https://github.com/swc-project/swc/commit/5b02e2450d17afefc3004df31397329fcf60f3bf))
 
 
 - **(es/minifier)** Add a test for `??` operator (#6282) ([0376da7](https://github.com/swc-project/swc/commit/0376da73c6113ade5945321b7c3abe257ce3b83c))

@@ -492,7 +492,7 @@ where
             prepend_stmts(stmts, self.prepend_stmts.drain(..).map(T::from_stmt));
         }
 
-        if self.append_stmts.is_empty() {
+        if !self.append_stmts.is_empty() {
             stmts.extend(self.append_stmts.drain(..).map(T::from_stmt));
         }
 
