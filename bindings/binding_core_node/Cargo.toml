@@ -38,7 +38,7 @@ __plugin_transform_vtest = [
 napi-build = { version = "2" }
 
 [dependencies]
-anyhow = "1"
+anyhow = "1.0.66"
 backtrace = "0.3"
 napi = { version = "2", default-features = false, features = [
   "napi3",
@@ -51,12 +51,12 @@ node_macro_deps = { path = "../node_macro_deps" }
 path-clean = "0.1"
 serde = { version = "1", features = ["derive"] }
 serde_json = { version = "1", features = ["unbounded_depth"] }
-tracing = { version = "0.1.32", features = ["release_max_level_info"] }
+tracing = { version = "0.1.37", features = ["release_max_level_info"] }
 tracing-chrome = "0.5.0"
 tracing-futures = "0.2.5"
 tracing-subscriber = { version = "0.3.9", features = ["env-filter"] }
 
-swc_core = { version = "0.40.19", features = [
+swc_core = { version = "0.40.40", features = [
   "ecma_ast",
   "common_concurrent",
   "bundler",
