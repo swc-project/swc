@@ -70,6 +70,12 @@
 
 - **(common)** Switch to `new_debug_unreachable` (#6265) ([2f61332](https://github.com/swc-project/swc/commit/2f613321779cfa7a3ccb9d3fd6c7789459723f0f))
 
+### Performance
+
+
+
+- **(html/parser)** Refactor (#6313) ([3a90657](https://github.com/swc-project/swc/commit/3a9065799dca18e3876ef0e0c456da68c648a6e8))
+
 ### Refactor
 
 
