@@ -305,17 +305,15 @@ where
 {
     fn parse(&mut self) -> PResult<QualifiedRule> {
         // To consume a qualified rule:
-        let create_prelude = |p: &mut Parser<I>,
-                              list: Vec<ComponentValue>|
-         -> PResult<QualifiedRulePrelude> {
-            let list_of_component_values = p.create_locv(list);
+        let create_prelude =
+            |p: &mut Parser<I>, list: Vec<ComponentValue>| -> PResult<QualifiedRulePrelude> {
+                let list_of_component_values = p.create_locv(list);
 
-            if p.ctx.in_keyframes_at_rule {
-                Ok(QualifiedRulePrelude::ListOfComponentValues(
-                    list_of_component_values,
-                ))
-            } else {
-                if p.ctx.mixed_with_declarations {
+                if p.ctx.in_keyframes_at_rule {
+                    Ok(QualifiedRulePrelude::ListOfComponentValues(
+                        list_of_component_values,
+                    ))
+                } else if p.ctx.mixed_with_declarations {
                     match p.parse_according_to_grammar::<RelativeSelectorList>(
                         &list_of_component_values,
                         |parser| parser.parse(),
@@ -346,8 +344,7 @@ where
                         }
                     }
                 }
-            }
-        };
+            };
 
         let span = self.input.cur_span();
         // Create a new qualified rule with its prelude initially set to an empty list,
@@ -487,7 +484,7 @@ where
                 // Consume a declaration from the temporary list. If anything was returned, append
                 // it to decls.
                 tok!("ident") | tok!("function") => {
-                    if self.config.legacy_nesting {
+                    if self.config.legacy_nesting && is!(self, "ident") {
                         if let Some(legacy_nested) = self.try_to_parse_legacy_nesting() {
                             rules.push(StyleBlock::QualifiedRule(Box::new(legacy_nested)));
 
