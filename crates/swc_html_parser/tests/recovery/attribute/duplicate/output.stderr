@@ -11,12 +11,6 @@
    :                                  ^^^^^^^^^^^^^^
    `----
 
-  x End tag with attributes
-   ,-[$DIR/tests/recovery/attribute/duplicate/input.html:8:1]
- 8 | <div></div class="test" class="test-1" class="test-2">
-   :                                                      ^
-   `----
-
   x Duplicate attribute
    ,-[$DIR/tests/recovery/attribute/duplicate/input.html:8:1]
  8 | <div></div class="test" class="test-1" class="test-2">
@@ -27,6 +21,12 @@
    ,-[$DIR/tests/recovery/attribute/duplicate/input.html:8:1]
  8 | <div></div class="test" class="test-1" class="test-2">
    :                                        ^^^^^^^^^^^^^^
+   `----
+
+  x End tag with attributes
+   ,-[$DIR/tests/recovery/attribute/duplicate/input.html:8:1]
+ 8 | <div></div class="test" class="test-1" class="test-2">
+   :                                                      ^
    `----
 
   x End tag with trailing solidus
