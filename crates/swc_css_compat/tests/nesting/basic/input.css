@@ -67,3 +67,40 @@ figure {
     color: blue;
     &__bar { color: red; }
 }
+
+
+.foo {
+    color: red;
+
+    > bar {
+        color: green;
+
+        > baz {
+            color: blue;
+        }
+    }
+}
+
+.foo {
+    color: red;
+
+    & > bar {
+        color: green;
+
+        & > baz {
+            color: blue;
+        }
+    }
+}
+
+.foo {
+    color: red;
+
+    &.bar {
+        color: green;
+
+        &.one, &.two {
+            color: blue;
+        }
+    }
+}
