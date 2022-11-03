@@ -2485,4 +2485,46 @@ const foo;"#;
 
         test_parser(src, Default::default(), |p| p.parse_script());
     }
+
+    #[test]
+    fn issue_6301_await_expr_stmt() {
+        let src = "try { await; } catch { console.log('caught'); }";
+
+        test_parser(src, Default::default(), |p| p.parse_script());
+    }
+
+    #[test]
+    fn issue_6301_await_expr_stmt_1() {
+        let src = "try { await, await; } catch { console.log('caught'); }";
+
+        test_parser(src, Default::default(), |p| p.parse_script());
+    }
+
+    #[test]
+    fn issue_6301_await_expr_stmt_2() {
+        let src = "function test() { await; }";
+
+        test_parser(src, Default::default(), |p| p.parse_script());
+    }
+
+    #[test]
+    fn issue_6301_await_expr_stmt_3() {
+        let src = "function test() { await, await; }";
+
+        test_parser(src, Default::default(), |p| p.parse_script());
+    }
+
+    #[test]
+    fn issue_6301_await_expr_stmt_4() {
+        let src = "function test() { [await]; }";
+
+        test_parser(src, Default::default(), |p| p.parse_script());
+    }
+
+    #[test]
+    fn issue_6301_await_expr_stmt_5() {
+        let src = "function test() { (await); }";
+
+        test_parser(src, Default::default(), |p| p.parse_script());
+    }
 }
