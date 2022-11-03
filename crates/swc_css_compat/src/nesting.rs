@@ -156,6 +156,14 @@ impl NestingHandler {
                     children: Default::default(),
                 };
 
+                let is_non_relative = relative_selector.combinator.is_none()
+                    && relative_selector.selector.children.iter().any(|s| match s {
+                        ComplexSelectorChildren::CompoundSelector(s) => {
+                            s.nesting_selector.is_some()
+                        }
+                        _ => false,
+                    });
+
                 if let Some(combinator) = &relative_selector.combinator {
                     complex_selector
                         .children
@@ -163,6 +171,16 @@ impl NestingHandler {
                     complex_selector
                         .children
                         .push(ComplexSelectorChildren::Combinator(combinator.clone()))
+                } else if !is_non_relative {
+                    complex_selector
+                        .children
+                        .extend(base_complex.children.clone());
+                    complex_selector
+                        .children
+                        .push(ComplexSelectorChildren::Combinator(Combinator {
+                            span: DUMMY_SP,
+                            value: CombinatorValue::Descendant,
+                        }))
                 }
 
                 for relative_complex_selector_children in &relative_selector.selector.children {

@@ -154,7 +154,7 @@ __bar.foo {
 .foo {
   color: red;
 }
-:not(&) {
+.foo :not(&) {
   color: blue;
 }
 .foo {
@@ -278,5 +278,23 @@ article {
 .foo:hover, 
 .foo::before:hover, 
 .foo::after:hover {
+  color: blue;
+}
+.foo {
+  color: red;
+}
+.foo .bar {
+  color: blue;
+}
+.foo {
+  color: red;
+}
+.foo [test="test"] {
+  color: blue;
+}
+.foo {
+  color: red;
+}
+.foo #id {
   color: blue;
 }

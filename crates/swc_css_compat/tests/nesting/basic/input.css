@@ -283,3 +283,26 @@ article {
     &:hover { color: blue; }
 }
 
+.foo {
+    color: red;
+
+    .bar {
+        color: blue;
+    }
+}
+
+.foo {
+    color: red;
+
+    [test="test"] {
+        color: blue;
+    }
+}
+
+.foo {
+    color: red;
+
+    #id {
+        color: blue;
+    }
+}
