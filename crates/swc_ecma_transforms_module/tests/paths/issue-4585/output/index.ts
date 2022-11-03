@@ -1,1 +1,1 @@
-import "./src/feat.js";
+import "./src/feat.ts";
