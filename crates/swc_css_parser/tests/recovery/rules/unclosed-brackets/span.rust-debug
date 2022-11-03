@@ -1,0 +1,430 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:1:1]
+ 1 | ,-> .class[attr= {
+ 2 | |   
+ 3 | |   }
+ 4 | |   
+ 5 | |   .class { color: red }
+ 6 | |   
+ 7 | `-> .class { color: blue }
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:1:1]
+ 1 | ,-> .class[attr= {
+ 2 | |   
+ 3 | |   }
+ 4 | |   
+ 5 | |   .class { color: red }
+ 6 | |   
+ 7 | `-> .class { color: blue }
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:1:1]
+ 1 | .class[attr= {
+   : ^
+   `----
+
+  x Delim { value: '.' }
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:1:1]
+ 1 | .class[attr= {
+   : ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:1:1]
+ 1 | .class[attr= {
+   :  ^^^^^
+   `----
+
+  x Ident { value: Atom('class' type=static), raw: Atom('class' type=static) }
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:1:1]
+ 1 | .class[attr= {
+   :  ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:1:1]
+ 1 | ,-> .class[attr= {
+ 2 | |   
+ 3 | |   }
+ 4 | |   
+ 5 | |   .class { color: red }
+ 6 | |   
+ 7 | `-> .class { color: blue }
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:1:1]
+ 1 | ,-> .class[attr= {
+ 2 | |   
+ 3 | |   }
+ 4 | |   
+ 5 | |   .class { color: red }
+ 6 | |   
+ 7 | `-> .class { color: blue }
+   `----
+
+  x LBracket
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:1:1]
+ 1 | .class[attr= {
+   :       ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:1:1]
+ 1 | .class[attr= {
+   :        ^^^^
+   `----
+
+  x Ident { value: Atom('attr' type=inline), raw: Atom('attr' type=inline) }
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:1:1]
+ 1 | .class[attr= {
+   :        ^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:1:1]
+ 1 | .class[attr= {
+   :            ^
+   `----
+
+  x Delim { value: '=' }
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:1:1]
+ 1 | .class[attr= {
+   :            ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:1:1]
+ 1 | .class[attr= {
+   :             ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:1:1]
+ 1 | .class[attr= {
+   :             ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:1:1]
+ 1 | ,-> .class[attr= {
+ 2 | |   
+ 3 | `-> }
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:1:1]
+ 1 | ,-> .class[attr= {
+ 2 | |   
+ 3 | `-> }
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:1:1]
+ 1 | .class[attr= {
+   :              ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:1:1]
+ 1 | ,-> .class[attr= {
+ 2 | `-> 
+ 3 |     }
+   `----
+
+  x WhiteSpace { value: Atom('
+  | 
+  | ' type=inline) }
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:1:1]
+ 1 | ,-> .class[attr= {
+ 2 | `-> 
+ 3 |     }
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:3:1]
+ 3 | ,-> }
+ 4 | `-> 
+ 5 |     .class { color: red }
+   `----
+
+  x WhiteSpace { value: Atom('
+  | 
+  | ' type=inline) }
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:3:1]
+ 3 | ,-> }
+ 4 | `-> 
+ 5 |     .class { color: red }
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:5:1]
+ 5 | .class { color: red }
+   : ^
+   `----
+
+  x Delim { value: '.' }
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:5:1]
+ 5 | .class { color: red }
+   : ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:5:1]
+ 5 | .class { color: red }
+   :  ^^^^^
+   `----
+
+  x Ident { value: Atom('class' type=static), raw: Atom('class' type=static) }
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:5:1]
+ 5 | .class { color: red }
+   :  ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:5:1]
+ 5 | .class { color: red }
+   :       ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:5:1]
+ 5 | .class { color: red }
+   :       ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:5:1]
+ 5 | .class { color: red }
+   :        ^^^^^^^^^^^^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:5:1]
+ 5 | .class { color: red }
+   :        ^^^^^^^^^^^^^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:5:1]
+ 5 | .class { color: red }
+   :        ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:5:1]
+ 5 | .class { color: red }
+   :         ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:5:1]
+ 5 | .class { color: red }
+   :         ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:5:1]
+ 5 | .class { color: red }
+   :          ^^^^^
+   `----
+
+  x Ident { value: Atom('color' type=static), raw: Atom('color' type=static) }
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:5:1]
+ 5 | .class { color: red }
+   :          ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:5:1]
+ 5 | .class { color: red }
+   :               ^
+   `----
+
+  x Colon
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:5:1]
+ 5 | .class { color: red }
+   :               ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:5:1]
+ 5 | .class { color: red }
+   :                ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:5:1]
+ 5 | .class { color: red }
+   :                ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:5:1]
+ 5 | .class { color: red }
+   :                 ^^^
+   `----
+
+  x Ident { value: Atom('red' type=inline), raw: Atom('red' type=inline) }
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:5:1]
+ 5 | .class { color: red }
+   :                 ^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:5:1]
+ 5 | .class { color: red }
+   :                    ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:5:1]
+ 5 | .class { color: red }
+   :                    ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:5:1]
+ 5 | ,-> .class { color: red }
+ 6 | `-> 
+ 7 |     .class { color: blue }
+   `----
+
+  x WhiteSpace { value: Atom('
+  | 
+  | ' type=inline) }
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:5:1]
+ 5 | ,-> .class { color: red }
+ 6 | `-> 
+ 7 |     .class { color: blue }
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:7:1]
+ 7 | .class { color: blue }
+   : ^
+   `----
+
+  x Delim { value: '.' }
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:7:1]
+ 7 | .class { color: blue }
+   : ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:7:1]
+ 7 | .class { color: blue }
+   :  ^^^^^
+   `----
+
+  x Ident { value: Atom('class' type=static), raw: Atom('class' type=static) }
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:7:1]
+ 7 | .class { color: blue }
+   :  ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:7:1]
+ 7 | .class { color: blue }
+   :       ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:7:1]
+ 7 | .class { color: blue }
+   :       ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:7:1]
+ 7 | .class { color: blue }
+   :        ^^^^^^^^^^^^^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:7:1]
+ 7 | .class { color: blue }
+   :        ^^^^^^^^^^^^^^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:7:1]
+ 7 | .class { color: blue }
+   :        ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:7:1]
+ 7 | .class { color: blue }
+   :         ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:7:1]
+ 7 | .class { color: blue }
+   :         ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:7:1]
+ 7 | .class { color: blue }
+   :          ^^^^^
+   `----
+
+  x Ident { value: Atom('color' type=static), raw: Atom('color' type=static) }
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:7:1]
+ 7 | .class { color: blue }
+   :          ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:7:1]
+ 7 | .class { color: blue }
+   :               ^
+   `----
+
+  x Colon
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:7:1]
+ 7 | .class { color: blue }
+   :               ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:7:1]
+ 7 | .class { color: blue }
+   :                ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:7:1]
+ 7 | .class { color: blue }
+   :                ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:7:1]
+ 7 | .class { color: blue }
+   :                 ^^^^
+   `----
+
+  x Ident { value: Atom('blue' type=inline), raw: Atom('blue' type=inline) }
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:7:1]
+ 7 | .class { color: blue }
+   :                 ^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:7:1]
+ 7 | .class { color: blue }
+   :                     ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:7:1]
+ 7 | .class { color: blue }
+   :                     ^
+   `----
