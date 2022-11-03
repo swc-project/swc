@@ -104,3 +104,15 @@ figure {
         }
     }
 }
+
+.foo {
+    color: red;
+
+    & > bar-1, & > bar-2 {
+        color: green;
+
+        > baz-1, > baz-2 {
+            color: blue;
+        }
+    }
+}
