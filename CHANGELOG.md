@@ -13,18 +13,13 @@
 
 - **(ci)** Fix CI (#6340) ([6094994](https://github.com/swc-project/swc/commit/60949946296c5f999fbbf704281e9e3bc863ce5f))
 
+### Testing
+
+
+
+- **(es/resolver)** Add a test about hoisting of functions in a switch (#6341) ([2513862](https://github.com/swc-project/swc/commit/25138624a6ec8d55b247db8b36aa56e2a5b4f966))
+
 ## [1.3.14] - 2022-11-03
-
-### Miscellaneous Tasks
-
-
-
-- **(ci)** Fix publish action ([2737143](https://github.com/swc-project/swc/commit/27371431a9c4f0881beaced6c5e131af546f038d))
-
-
-- **(ci)** Fix publish action ([13b4d31](https://github.com/swc-project/swc/commit/13b4d317a5fc595f7446250ca9da570e3586cff4))
-
-## [1.3.13] - 2022-11-03
 
 ### Bug Fixes
 
@@ -100,6 +95,12 @@
 
 
 - **(ci)** Enforce clippy for all targets (#6299) ([0967e8f](https://github.com/swc-project/swc/commit/0967e8f06d81e498de5c830b766906e5aaaff2fc))
+
+
+- **(ci)** Fix publish action ([2737143](https://github.com/swc-project/swc/commit/27371431a9c4f0881beaced6c5e131af546f038d))
+
+
+- **(ci)** Fix publish action ([13b4d31](https://github.com/swc-project/swc/commit/13b4d317a5fc595f7446250ca9da570e3586cff4))
 
 
 - **(common)** Switch to `new_debug_unreachable` (#6265) ([2f61332](https://github.com/swc-project/swc/commit/2f613321779cfa7a3ccb9d3fd6c7789459723f0f))
