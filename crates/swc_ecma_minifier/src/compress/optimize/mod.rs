@@ -1,4 +1,4 @@
-use std::{iter::once, mem::take};
+use std::iter::once;
 
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::{js_word, JsWord};
@@ -19,7 +19,7 @@ use Value::Known;
 
 use self::{
     unused::PropertyAccessOpts,
-    util::{extract_class_side_effect, Finalizer, NormalMultiReplacer},
+    util::{extract_class_side_effect, Finalizer, NormalMultiReplacer, SynthesizedStmts},
 };
 use super::util::{drop_invalid_stmts, is_fine_for_if_cons};
 #[cfg(feature = "debug")]
@@ -1383,8 +1383,8 @@ where
         let mut old_prepend_stmts = self.prepend_stmts.take();
         let old_append_stmts = self.append_stmts.take();
         n.visit_mut_with(self);
-        old_prepend_stmts.append(&mut *self.prepend_stmts);
-        old_prepend_stmts.append(&mut *self.append_stmts);
+        old_prepend_stmts.append(&mut self.prepend_stmts);
+        old_prepend_stmts.append(&mut self.append_stmts);
 
         self.prepend_stmts = old_prepend_stmts;
         self.append_stmts = old_append_stmts;
@@ -2423,11 +2423,15 @@ where
                 // We use var decl with no declarator to indicate we dropped an decl.
                 Stmt::Decl(Decl::Var(v)) if v.decls.is_empty() => {
                     *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                    self.prepend_stmts = old_prepend;
+                    self.append_stmts = old_append;
                     return;
                 }
                 Stmt::Expr(es) => {
                     if es.expr.is_invalid() {
                         *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                        self.prepend_stmts = old_prepend;
+                        self.append_stmts = old_append;
                         return;
                     }
                 }
@@ -2459,6 +2463,8 @@ where
             Stmt::Decl(Decl::Var(v)) if v.decls.is_empty() => {
                 s.take();
                 if self.prepend_stmts.is_empty() && self.append_stmts.is_empty() {
+                    self.prepend_stmts = old_prepend;
+                    self.append_stmts = old_append;
                     return;
                 }
             }
@@ -3060,44 +3066,5 @@ fn is_left_access_to_arguments(l: &PatOrExpr) -> bool {
             Pat::Expr(e) => is_expr_access_to_arguments(e),
             _ => false,
         },
-    }
-}
-
-#[derive(Debug, Default, PartialEq, Eq)]
-struct SynthesizedStmts(Vec<Stmt>);
-
-impl SynthesizedStmts {
-    fn take_stmts(&mut self) -> Vec<Stmt> {
-        take(&mut self.0)
-    }
-}
-
-impl std::ops::Deref for SynthesizedStmts {
-    type Target = Vec<Stmt>;
-
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-
-impl std::ops::DerefMut for SynthesizedStmts {
-    fn deref_mut(&mut self) -> &mut Self::Target {
-        &mut self.0
-    }
-}
-
-impl Take for SynthesizedStmts {
-    fn dummy() -> Self {
-        Self(Take::dummy())
-    }
-}
-
-impl Drop for SynthesizedStmts {
-    fn drop(&mut self) {
-        if !self.0.is_empty() {
-            if !std::thread::panicking() {
-                panic!("We should not drop synthesized stmts");
-            }
-        }
     }
 }

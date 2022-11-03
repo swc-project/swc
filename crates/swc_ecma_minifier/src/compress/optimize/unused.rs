@@ -759,9 +759,14 @@ where
         for d in var.decls.iter_mut() {
             if d.init.is_none() {
                 if let Pat::Ident(name) = &d.name {
-                    if let Some(usage) = self.data.vars.get(&name.to_id()) {
-                        if usage.is_fn_local && usage.declared_as_fn_param {
+                    if let Some(usage) = self.data.vars.get_mut(&name.to_id()) {
+                        if usage.is_fn_local
+                            && usage.declared_as_fn_param
+                            && usage.declared_count >= 2
+                        {
                             d.name.take();
+                            usage.declared_count -= 1;
+
                             report_change!(
                                 "Removing a variable statement because it's a function parameter"
                             );

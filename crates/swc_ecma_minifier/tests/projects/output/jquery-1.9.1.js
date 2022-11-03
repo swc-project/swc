@@ -440,7 +440,7 @@
         }
     }
     function internalRemoveData(elem, name1, pvt) {
-        if (jQuery.acceptData(elem)) {
+        if (!!jQuery.acceptData(elem)) {
             var i, l, thisCache, isNode = elem.nodeType, cache = isNode ? jQuery.cache : elem, id = isNode ? elem[jQuery.expando] : jQuery.expando;
             if (cache[id]) {
                 if (name1 && (thisCache = pvt ? cache[id] : cache[id].data)) {

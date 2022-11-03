@@ -1112,6 +1112,12 @@ impl<'a> VisitMut for Resolver<'a> {
         });
     }
 
+    fn visit_mut_switch_case(&mut self, n: &mut SwitchCase) {
+        n.cons.visit_mut_with(self);
+
+        n.test.visit_mut_with(self);
+    }
+
     fn visit_mut_ts_as_expr(&mut self, n: &mut TsAsExpr) {
         if self.config.handle_types {
             n.type_ann.visit_mut_with(self);
