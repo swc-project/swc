@@ -8228,48 +8228,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:113:5]
- 113 | color: red;
-     : ^^^^^^^^^^
-     `----
-
-  x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:113:5]
- 113 | color: red;
-     : ^^^^^^^^^^
-     `----
-
-  x Declaration
-     ,-[$DIR/tests/recovery/hacks/input.css:113:5]
- 113 | color: red;
-     : ^^^^^^^^^^
-     `----
-
-  x DeclarationName
-     ,-[$DIR/tests/recovery/hacks/input.css:113:5]
- 113 | color: red;
-     : ^^^^^
-     `----
-
-  x Ident
-     ,-[$DIR/tests/recovery/hacks/input.css:113:5]
- 113 | color: red;
-     : ^^^^^
-     `----
-
-  x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:113:5]
- 113 | color: red;
-     :        ^^^
-     `----
-
-  x Ident
-     ,-[$DIR/tests/recovery/hacks/input.css:113:5]
- 113 | color: red;
-     :        ^^^
-     `----
-
-  x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:112:5]
  112 | &property: value;
      : ^^^^^^^^^^^^^^^^^
@@ -8351,6 +8309,48 @@
      ,-[$DIR/tests/recovery/hacks/input.css:112:5]
  112 | &property: value;
      :                 ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/recovery/hacks/input.css:113:5]
+ 113 | color: red;
+     : ^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/recovery/hacks/input.css:113:5]
+ 113 | color: red;
+     : ^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/recovery/hacks/input.css:113:5]
+ 113 | color: red;
+     : ^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/recovery/hacks/input.css:113:5]
+ 113 | color: red;
+     : ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/recovery/hacks/input.css:113:5]
+ 113 | color: red;
+     : ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/recovery/hacks/input.css:113:5]
+ 113 | color: red;
+     :        ^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/recovery/hacks/input.css:113:5]
+ 113 | color: red;
+     :        ^^^
      `----
 
   x Rule

@@ -93,6 +93,10 @@ where
                 emit!(self, n);
                 formatting_space!(self);
             }
+            QualifiedRulePrelude::RelativeSelectorList(n) => {
+                emit!(self, n);
+                formatting_space!(self);
+            }
             QualifiedRulePrelude::ListOfComponentValues(n) => {
                 emit!(
                     &mut *self.with_ctx(Ctx {

@@ -119,8 +119,9 @@ define!({
     }
 
     pub enum QualifiedRulePrelude {
-        ListOfComponentValues(ListOfComponentValues),
         SelectorList(SelectorList),
+        RelativeSelectorList(RelativeSelectorList),
+        ListOfComponentValues(ListOfComponentValues),
     }
 
     pub enum StyleBlock {
