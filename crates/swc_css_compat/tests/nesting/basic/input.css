@@ -116,3 +116,170 @@ figure {
         }
     }
 }
+
+.foo {
+    color: blue;
+    & > .bar { color: red; }
+    > .baz { color: green; }
+}
+
+.foo {
+    color: blue;
+    &.bar { color: red; }
+}
+
+.foo, .bar {
+    color: blue;
+    + .baz, &.qux { color: red; }
+}
+
+.foo {
+    color: blue;
+    & .bar & .baz & .qux { color: red; }
+}
+
+.foo {
+    color: red;
+    .parent & {
+        color: blue;
+    }
+}
+
+/* TODO FIX ME */
+.foo {
+    color: red;
+    :not(&) {
+        color: blue;
+    }
+}
+
+.foo {
+    color: red;
+    + .bar + & { color: blue; }
+}
+
+.foo {
+    color: blue;
+    & { padding: 2ch; }
+}
+
+.error, #id {
+    &:hover > .baz { color: red; }
+}
+
+.ancestor .el {
+    .other-ancestor & { color: red; }
+}
+
+figure {
+    margin: 0;
+
+    > figcaption {
+        background: hsl(0 0% 0% / 50%);
+
+        > p {
+            font-size: .9rem;
+        }
+    }
+}
+
+/* TODO FIX ME */
+@layer base {
+    html {
+        block-size: 100%;
+
+        & body {
+            min-block-size: 100%;
+        }
+    }
+}
+
+/* TODO FIX ME */
+@layer base {
+    html {
+        block-size: 100%;
+
+        @layer base.support {
+            & body {
+                min-block-size: 100%;
+            }
+        }
+    }
+}
+
+.foo {
+    display: grid;
+
+    @media (orientation: landscape) {
+        grid-auto-flow: column;
+    }
+}
+
+/* TODO FIX ME */
+.foo {
+    display: grid;
+
+    @media (orientation: landscape) {
+        grid-auto-flow: column;
+
+        @media (min-width > 1024px) {
+            max-inline-size: 1024px;
+        }
+    }
+}
+
+.foo {
+    display: grid;
+
+    @supports (grid-auto-flow: column) {
+        grid-auto-flow: column;
+    }
+}
+
+/* TODO FIX ME */
+.foo {
+    display: grid;
+
+    @supports (grid-auto-flow: column) {
+        grid-auto-flow: column;
+
+        @supports (max-inline-size: 1024px) {
+            max-inline-size: 1024px;
+        }
+    }
+}
+
+.foo {
+    display: grid;
+
+    @container (min-width: 700px) {
+        grid-auto-flow: column;
+    }
+}
+
+/* TODO FIX ME */
+.foo {
+    display: grid;
+
+    @container (min-width: 700px) {
+        grid-auto-flow: column;
+
+        @container (min-width: 400px) {
+            max-inline-size: 1024px;
+        }
+    }
+}
+
+article {
+    color: green;
+    & { color: blue; }
+    color: red;
+}
+
+/* TODO FIX ME */
+.foo, .foo::before, .foo::after {
+    color: red;
+
+    &:hover { color: blue; }
+}
+

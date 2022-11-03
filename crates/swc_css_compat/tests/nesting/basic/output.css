@@ -31,8 +31,8 @@ table.colortable th {
   color: blue;
 }
 .foo + .baz, 
-.bar + .baz, 
 .foo.qux, 
+.bar + .baz, 
 .bar.qux {
   color: red;
 }
@@ -72,4 +72,211 @@ figure > figcaption > p {
 }
 __bar.foo {
   color: red;
+}
+.foo {
+  color: red;
+}
+.foo > bar {
+  color: green;
+}
+.foo > bar > baz {
+  color: blue;
+}
+.foo {
+  color: red;
+}
+.foo > bar {
+  color: green;
+}
+.foo > bar > baz {
+  color: blue;
+}
+.foo {
+  color: red;
+}
+.foo.bar {
+  color: green;
+}
+.foo.bar.one, 
+.foo.bar.two {
+  color: blue;
+}
+.foo {
+  color: red;
+}
+.foo > bar-1, 
+.foo > bar-2 {
+  color: green;
+}
+.foo > bar-1 > baz-1, 
+.foo > bar-1 > baz-2, 
+.foo > bar-2 > baz-1, 
+.foo > bar-2 > baz-2 {
+  color: blue;
+}
+.foo {
+  color: blue;
+}
+.foo > .bar {
+  color: red;
+}
+.foo > .baz {
+  color: green;
+}
+.foo {
+  color: blue;
+}
+.foo.bar {
+  color: red;
+}
+.foo, 
+.bar {
+  color: blue;
+}
+.foo + .baz, 
+.foo.qux, 
+.bar + .baz, 
+.bar.qux {
+  color: red;
+}
+.foo {
+  color: blue;
+}
+.foo .bar .foo .baz .foo .qux {
+  color: red;
+}
+.foo {
+  color: red;
+}
+.parent .foo {
+  color: blue;
+}
+.foo {
+  color: red;
+}
+:not(&) {
+  color: blue;
+}
+.foo {
+  color: red;
+}
+.foo + .bar + .foo {
+  color: blue;
+}
+.foo {
+  color: blue;
+}
+.foo {
+  padding: 2ch;
+}
+.error, 
+#id {}
+.error:hover > .baz, 
+#id:hover > .baz {
+  color: red;
+}
+.ancestor .el {}
+.other-ancestor .ancestor .el {
+  color: red;
+}
+figure {
+  margin: 0;
+}
+figure > figcaption {
+  background: hsl(0 0% 0% / 50%);
+}
+figure > figcaption > p {
+  font-size: .9rem;
+}
+@layer base {
+  html {
+    block-size: 100%;
+    & body {
+      min-block-size: 100%;
+    }
+  }
+}
+@layer base {
+  html {
+    block-size: 100%;
+    @layer base.support {
+      & body {
+        min-block-size: 100%;
+      }
+    }
+  }
+}
+.foo {
+  display: grid;
+}
+@media (orientation: landscape) {
+  .foo {
+    grid-auto-flow: column;
+  }
+}
+.foo {
+  display: grid;
+}
+@media (orientation: landscape) {
+  .foo {
+    grid-auto-flow: column;
+    @media (min-width > 1024px) {
+      max-inline-size: 1024px;
+    }
+  }
+}
+.foo {
+  display: grid;
+}
+@supports (grid-auto-flow: column) {
+  .foo {
+    grid-auto-flow: column;
+  }
+}
+.foo {
+  display: grid;
+}
+@supports (grid-auto-flow: column) {
+  .foo {
+    grid-auto-flow: column;
+    @supports (max-inline-size: 1024px) {
+      max-inline-size: 1024px;
+    }
+  }
+}
+.foo {
+  display: grid;
+}
+@container (min-width: 700px) {
+  .foo {
+    grid-auto-flow: column;
+  }
+}
+.foo {
+  display: grid;
+}
+@container (min-width: 700px) {
+  .foo {
+    grid-auto-flow: column;
+    @container (min-width: 400px) {
+      max-inline-size: 1024px;
+    }
+  }
+}
+article {
+  color: green;
+  color: red;
+}
+article {
+  color: blue;
+}
+.foo, 
+.foo::before, 
+.foo::after {
+  color: red;
+}
+.foo:hover, 
+.foo::before:hover, 
+.foo::after:hover {
+  color: blue;
 }
