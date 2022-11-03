@@ -19,6 +19,9 @@
 
 - **(css/parser)** Improve error recovery (#6336) ([0bc682f](https://github.com/swc-project/swc/commit/0bc682f5290cd9c9b1ad2b41ece529814e9699d0))
 
+
+- **(css/parser)** Support new nesting spec (#6337) ([e0967ef](https://github.com/swc-project/swc/commit/e0967efa6eb640341e640b2703b7a96da2f5acdb))
+
 ### Miscellaneous Tasks
 
 
