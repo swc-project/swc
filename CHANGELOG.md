@@ -20,6 +20,12 @@
 - **(es/compat)** Fix `new.target` in a nested scope (#6296) ([aa18612](https://github.com/swc-project/swc/commit/aa18612e62eee6f0fd1977c10aa2102ce113e6e4))
 
 
+- **(es/compat)** Fix destructuring of an empty array (#6314) ([3bea6f7](https://github.com/swc-project/swc/commit/3bea6f7248826a3865a2148ce65c6cbaa9d03790))
+
+
+- **(es/helpers)** Fix `toArray` (#6318) ([e34c25e](https://github.com/swc-project/swc/commit/e34c25e40dc9f4998b31eed6b2a1efc43b87b205))
+
+
 - **(es/lints)** Fix `const-assign` in function expressions (#6294) ([a27392a](https://github.com/swc-project/swc/commit/a27392a251360ff1ddfab240399d5c1e317335bc))
 
 
@@ -27,6 +33,15 @@
 
 
 - **(es/minifier)** Don't inline regex for IIFEs (#6283) ([4eab2ed](https://github.com/swc-project/swc/commit/4eab2ed2fc5d3eed2c397b81c780f87144106905))
+
+
+- **(es/minifier)** Fix infinite loop (#6300) ([655f674](https://github.com/swc-project/swc/commit/655f6744c550b4f0963ef090bf45a6eae2d273f6))
+
+
+- **(es/minifier)** Don't drop an inlined parameter as a duplicate (#6293) ([dd797f7](https://github.com/swc-project/swc/commit/dd797f7f1590401c309efce76a86719c24cd6b2b))
+
+
+- **(es/resolver)** Change order for switch cases (#6317) ([2737aea](https://github.com/swc-project/swc/commit/2737aea312e0b182413401d34e5ce1614a7bd6df))
 
 
 - **(es/typescript)** Fix stack overflow (#6250) ([28ec6e8](https://github.com/swc-project/swc/commit/28ec6e8fc70cf74722c93353c03e4fdedb21954a))
@@ -47,6 +62,9 @@
 - **(es/minfiier)** Compute more with sequential inliner (#6169) ([743a1aa](https://github.com/swc-project/swc/commit/743a1aab4fc8abf0ee002520cf88680fb4e14d2f))
 
 
+- **(es/minifier)** Implement trivial optimizations (#6256) ([5d52ae9](https://github.com/swc-project/swc/commit/5d52ae971ee3c557898903a0de44a2f9ef66a0ce))
+
+
 - **(html/minifier)** Handle `crossorigin` (#6261) ([782da5c](https://github.com/swc-project/swc/commit/782da5c83aa2d84e2b25d59272703300b670b88d))
 
 
@@ -60,6 +78,12 @@
 
 
 - **(common)** Switch to `new_debug_unreachable` (#6265) ([2f61332](https://github.com/swc-project/swc/commit/2f613321779cfa7a3ccb9d3fd6c7789459723f0f))
+
+### Performance
+
+
+
+- **(html/parser)** Refactor (#6313) ([3a90657](https://github.com/swc-project/swc/commit/3a9065799dca18e3876ef0e0c456da68c648a6e8))
 
 ### Refactor
 
@@ -84,6 +108,12 @@
 
 
 - **(css/parser)** Add tests for refactoring (#6262) ([4c293f9](https://github.com/swc-project/swc/commit/4c293f965b380e49790cdf4fd8c1e1cb3845e9c5))
+
+
+- **(es)** Enable tests for fixed issues (#6311) ([5b02e24](https://github.com/swc-project/swc/commit/5b02e2450d17afefc3004df31397329fcf60f3bf))
+
+
+- **(es/compat)** Add execution tests (#6312) ([0f9d930](https://github.com/swc-project/swc/commit/0f9d930f738322119e7ade40d815f21ba398b152))
 
 
 - **(es/minifier)** Add a test for `??` operator (#6282) ([0376da7](https://github.com/swc-project/swc/commit/0376da73c6113ade5945321b7c3abe257ce3b83c))

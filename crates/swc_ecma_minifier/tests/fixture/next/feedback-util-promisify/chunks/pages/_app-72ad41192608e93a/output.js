@@ -185,7 +185,7 @@
                             return t;
                         }
                         function checked(e) {
-                            if (e >= 2147483647) throw RangeError("Attempt to allocate Buffer larger than maximum size: 0x" + 2147483647..toString(16) + " bytes");
+                            if (e >= 2147483647) throw RangeError("Attempt to allocate Buffer larger than maximum size: 0x7fffffff bytes");
                             return 0 | e;
                         }
                         function byteLength(e, r) {

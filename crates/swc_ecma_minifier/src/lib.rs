@@ -38,12 +38,7 @@
 #![allow(clippy::match_like_matches_macro)]
 
 use once_cell::sync::Lazy;
-use swc_common::{
-    comments::Comments,
-    pass::{Repeat, Repeated},
-    sync::Lrc,
-    SourceMap, SyntaxContext,
-};
+use swc_common::{comments::Comments, pass::Repeated, sync::Lrc, SourceMap, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_visit::VisitMutWith;
@@ -230,17 +225,27 @@ pub fn optimize(
         let _timer = timer!("postcompress");
 
         m.visit_mut_with(&mut postcompress_optimizer(options));
-        m.visit_mut_with(&mut Repeat::new(pure_optimizer(
-            options,
-            None,
-            marks,
-            PureOptimizerConfig {
-                force_str_for_tpl: Minification::force_str_for_tpl(),
-                enable_join_vars: true,
-                #[cfg(feature = "debug")]
-                debug_infinite_loop: false,
-            },
-        )));
+
+        let mut pass = 0;
+        loop {
+            pass += 1;
+
+            let mut v = pure_optimizer(
+                options,
+                None,
+                marks,
+                PureOptimizerConfig {
+                    force_str_for_tpl: Minification::force_str_for_tpl(),
+                    enable_join_vars: true,
+                    #[cfg(feature = "debug")]
+                    debug_infinite_loop: false,
+                },
+            );
+            m.visit_mut_with(&mut v);
+            if !v.changed() || options.passes <= pass {
+                break;
+            }
+        }
     }
 
     if let Some(ref mut _t) = timings {

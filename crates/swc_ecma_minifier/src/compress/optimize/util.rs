@@ -1,4 +1,7 @@
-use std::ops::{Deref, DerefMut};
+use std::{
+    mem::take,
+    ops::{Deref, DerefMut},
+};
 
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::js_word;
@@ -528,6 +531,59 @@ impl VisitMut for ExprReplacer {
                     key: PropName::Ident(i.clone()),
                     value,
                 });
+            }
+        }
+    }
+}
+
+#[derive(Debug, Default, PartialEq, Eq)]
+pub(super) struct SynthesizedStmts(Vec<Stmt>);
+
+impl SynthesizedStmts {
+    pub fn take_stmts(&mut self) -> Vec<Stmt> {
+        take(&mut self.0)
+    }
+}
+
+impl std::ops::Deref for SynthesizedStmts {
+    type Target = Vec<Stmt>;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+
+impl SynthesizedStmts {
+    pub fn push(&mut self, stmt: Stmt) {
+        self.0.push(stmt);
+    }
+
+    pub fn extend(&mut self, stmts: impl IntoIterator<Item = Stmt>) {
+        self.0.extend(stmts);
+    }
+
+    pub fn append(&mut self, other: &mut SynthesizedStmts) {
+        self.0.append(&mut other.0);
+    }
+}
+
+impl std::ops::DerefMut for SynthesizedStmts {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.0
+    }
+}
+
+impl Take for SynthesizedStmts {
+    fn dummy() -> Self {
+        Self(Take::dummy())
+    }
+}
+
+impl Drop for SynthesizedStmts {
+    fn drop(&mut self) {
+        if !self.0.is_empty() {
+            if !std::thread::panicking() {
+                panic!("We should not drop synthesized stmts");
             }
         }
     }
