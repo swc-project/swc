@@ -34,15 +34,12 @@
             "defaults": true,
             "additional": [
                 "x86_64-unknown-linux-musl",
-                "x86_64-unknown-freebsd",
                 "i686-pc-windows-msvc",
                 "aarch64-unknown-linux-gnu",
                 "armv7-unknown-linux-gnueabihf",
                 "aarch64-apple-darwin",
-                "aarch64-linux-android",
                 "aarch64-unknown-linux-musl",
-                "aarch64-pc-windows-msvc",
-                "armv7-linux-androideabi"
+                "aarch64-pc-windows-msvc"
             ]
         }
     },
@@ -144,11 +141,8 @@
         "url": "https://opencollective.com/swc"
     },
     "optionalDependencies": {
-        "@swc/core-android-arm-eabi": "1.2.146",
-        "@swc/core-android-arm64": "1.2.146",
         "@swc/core-darwin-arm64": "1.2.146",
         "@swc/core-darwin-x64": "1.2.146",
-        "@swc/core-freebsd-x64": "1.2.146",
         "@swc/core-linux-arm-gnueabihf": "1.2.146",
         "@swc/core-linux-arm64-gnu": "1.2.146",
         "@swc/core-linux-arm64-musl": "1.2.146",
