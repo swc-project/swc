@@ -8,6 +8,9 @@
 - **(es/compat)** Fix chained op-assignment of super properties  (#6319) ([064baa3](https://github.com/swc-project/swc/commit/064baa3052425dca7db869195252acee0f1350b6))
 
 
+- **(es/modules)** Preserve extensions (#6339) ([91e863c](https://github.com/swc-project/swc/commit/91e863c8dff55e8742695eb5ec4c2cbe9b667177))
+
+
 - **(es/parser)** Fix parsing of `await` (#6316) ([28af15e](https://github.com/swc-project/swc/commit/28af15e4757c77e1cc9c75e99abcdad23b87da5f))
 
 ### Features
