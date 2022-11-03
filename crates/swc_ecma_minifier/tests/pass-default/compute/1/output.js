@@ -1,1 +1,1 @@
-console.log(1588444911..toString(16));
+console.log("5eadbeef");

@@ -1,0 +1,17 @@
+{
+    "jsc": {
+        "baseUrl": "./src",
+        "paths": {
+            "@modules/*": [
+                "./modules/*"
+            ]
+        },
+        "target": "es2020",
+        "parser": {
+            "syntax": "typescript"
+        }
+    },
+    "module": {
+        "type": "es6"
+    }
+}
