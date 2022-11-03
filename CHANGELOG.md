@@ -5,20 +5,6 @@
 
 
 
-- **(es/compat)** Fix destructuring of an empty array (#6314) ([3bea6f7](https://github.com/swc-project/swc/commit/3bea6f7248826a3865a2148ce65c6cbaa9d03790))
-
-
-- **(es/helpers)** Fix `toArray` (#6318) ([e34c25e](https://github.com/swc-project/swc/commit/e34c25e40dc9f4998b31eed6b2a1efc43b87b205))
-
-
-- **(es/resolver)** Change order for switch cases (#6317) ([2737aea](https://github.com/swc-project/swc/commit/2737aea312e0b182413401d34e5ce1614a7bd6df))
-
-## [1.3.12] - 2022-11-02
-
-### Bug Fixes
-
-
-
 - **(common)** Remove `&mut` from `build_source_map_from` (#6276) ([47d7fca](https://github.com/swc-project/swc/commit/47d7fcaaedb97d1ce28727de6c22698fc2d0d11b))
 
 
@@ -34,6 +20,12 @@
 - **(es/compat)** Fix `new.target` in a nested scope (#6296) ([aa18612](https://github.com/swc-project/swc/commit/aa18612e62eee6f0fd1977c10aa2102ce113e6e4))
 
 
+- **(es/compat)** Fix destructuring of an empty array (#6314) ([3bea6f7](https://github.com/swc-project/swc/commit/3bea6f7248826a3865a2148ce65c6cbaa9d03790))
+
+
+- **(es/helpers)** Fix `toArray` (#6318) ([e34c25e](https://github.com/swc-project/swc/commit/e34c25e40dc9f4998b31eed6b2a1efc43b87b205))
+
+
 - **(es/lints)** Fix `const-assign` in function expressions (#6294) ([a27392a](https://github.com/swc-project/swc/commit/a27392a251360ff1ddfab240399d5c1e317335bc))
 
 
@@ -47,6 +39,9 @@
 
 
 - **(es/minifier)** Don't drop an inlined parameter as a duplicate (#6293) ([dd797f7](https://github.com/swc-project/swc/commit/dd797f7f1590401c309efce76a86719c24cd6b2b))
+
+
+- **(es/resolver)** Change order for switch cases (#6317) ([2737aea](https://github.com/swc-project/swc/commit/2737aea312e0b182413401d34e5ce1614a7bd6df))
 
 
 - **(es/typescript)** Fix stack overflow (#6250) ([28ec6e8](https://github.com/swc-project/swc/commit/28ec6e8fc70cf74722c93353c03e4fdedb21954a))
