@@ -4,8 +4,7 @@ use swc_common::{ast_node, EqIgnoreSpan, Span};
 use crate::{
     AlphaValue, AtRule, CalcSum, CmykComponent, Color, ComplexSelector, DashedIdent, Delimiter,
     Dimension, Hue, Ident, Integer, KeyframeBlock, LayerName, Number, Percentage, Ratio,
-    RelativeSelectorList, SelectorList, Str, TokenAndSpan, UnicodeRange, Url,
-    SelectorList, Str, SupportsCondition, TokenAndSpan, UnicodeRange, Url,
+    RelativeSelectorList, SelectorList, Str, SupportsCondition, TokenAndSpan, UnicodeRange, Url,
 };
 
 #[ast_node("Stylesheet")]
