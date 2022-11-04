@@ -609,7 +609,10 @@ impl Minifier<'_> {
     }
 
     fn is_default_attribute_value(&self, element: &Element, attribute: &Attribute) -> bool {
-        let attribute_value = attribute.value.as_ref().unwrap();
+        let attribute_value = match &attribute.value {
+            Some(value) => value,
+            _ => return false,
+        };
 
         match element.namespace {
             Namespace::HTML | Namespace::SVG => {
@@ -1370,7 +1373,12 @@ impl Minifier<'_> {
                                 true
                             }
                         }
-                        _ => true,
+                        _ => !self.is_default_attribute_value(left, attribute),
+                    })
+                    .map(|mut attribute| {
+                        self.minify_attribute(left, &mut attribute);
+
+                        attribute
                     })
                     .collect::<Vec<Attribute>>();
 
@@ -1403,7 +1411,12 @@ impl Minifier<'_> {
                                 true
                             }
                         }
-                        _ => true,
+                        _ => !self.is_default_attribute_value(right, attribute),
+                    })
+                    .map(|mut attribute| {
+                        self.minify_attribute(right, &mut attribute);
+
+                        attribute
                     })
                     .collect::<Vec<Attribute>>();
 
