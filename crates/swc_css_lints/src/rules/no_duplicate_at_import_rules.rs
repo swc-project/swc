@@ -78,17 +78,17 @@ impl Visit for NoDuplicateAtImportRules {
                     imports.insert(pair);
                     imports
                 });
-            } else {
-                let pair = (href.clone(), None);
-
-                if self.imports.contains(&pair) {
-                    if let Some(at_rule) = &self.import_at_rules {
-                        self.ctx.report(at_rule, build_message(href));
-                    }
-                }
-
-                self.imports.insert(pair);
             }
+        } else {
+            let pair = (href.clone(), None);
+
+            if self.imports.contains(&pair) {
+                if let Some(at_rule) = &self.import_at_rules {
+                    self.ctx.report(at_rule, build_message(href));
+                }
+            }
+
+            self.imports.insert(pair);
         }
 
         import_prelude.visit_children_with(self);
