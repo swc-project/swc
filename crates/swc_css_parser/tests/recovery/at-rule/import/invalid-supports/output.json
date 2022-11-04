@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 30,
+    "end": 46,
     "ctxt": 0
   },
   "rules": [
@@ -10,7 +10,7 @@
       "type": "AtRule",
       "span": {
         "start": 1,
-        "end": 30,
+        "end": 45,
         "ctxt": 0
       },
       "name": {
@@ -27,14 +27,14 @@
         "type": "ImportPrelude",
         "span": {
           "start": 9,
-          "end": 29,
+          "end": 44,
           "ctxt": 0
         },
         "href": {
           "type": "Url",
           "span": {
             "start": 9,
-            "end": 23,
+            "end": 26,
             "ctxt": 0
           },
           "name": {
@@ -51,11 +51,11 @@
             "type": "String",
             "span": {
               "start": 13,
-              "end": 22,
+              "end": 25,
               "ctxt": 0
             },
-            "value": "foo.css",
-            "raw": "\"foo.css\""
+            "value": "./test.css",
+            "raw": "\"./test.css\""
           },
           "modifiers": []
         },
@@ -63,42 +63,45 @@
         "importConditions": {
           "type": "ImportCondition",
           "span": {
-            "start": 24,
-            "end": 29,
+            "start": 27,
+            "end": 44,
             "ctxt": 0
           },
-          "supports": null,
-          "media": {
-            "type": "MediaQueryList",
+          "supports": {
+            "type": "Function",
             "span": {
-              "start": 24,
-              "end": 29,
+              "start": 27,
+              "end": 44,
               "ctxt": 0
             },
-            "queries": [
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 27,
+                "end": 35,
+                "ctxt": 0
+              },
+              "value": "supports",
+              "raw": "supports"
+            },
+            "value": [
               {
-                "type": "MediaQuery",
+                "type": "PreservedToken",
                 "span": {
-                  "start": 24,
-                  "end": 29,
+                  "start": 36,
+                  "end": 43,
                   "ctxt": 0
                 },
-                "modifier": null,
-                "mediaType": {
-                  "type": "Ident",
-                  "span": {
-                    "start": 24,
-                    "end": 29,
-                    "ctxt": 0
-                  },
-                  "value": "print",
-                  "raw": "print"
-                },
-                "keyword": null,
-                "condition": null
+                "token": {
+                  "Ident": {
+                    "value": "unknown",
+                    "raw": "unknown"
+                  }
+                }
               }
             ]
-          }
+          },
+          "media": null
         }
       },
       "block": null

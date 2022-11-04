@@ -51,6 +51,8 @@ define!({
         CalcSum(CalcSum),
         ComplexSelector(ComplexSelector),
         LayerName(LayerName),
+        SupportsCondition(SupportsCondition),
+        Declaration(Declaration),
     }
 
     pub struct Ident {
@@ -568,25 +570,25 @@ define!({
 
     pub struct ImportPrelude {
         pub span: Span,
-        pub href: Box<ImportPreludeHref>,
-        pub layer_name: Option<Box<ImportPreludeLayerName>>,
-        pub supports: Option<Box<ImportPreludeSupportsType>>,
-        pub media: Option<Box<MediaQueryList>>,
+        pub href: Box<ImportHref>,
+        pub layer_name: Option<Box<ImportLayerName>>,
+        pub import_conditions: Option<Box<ImportConditions>>,
     }
 
-    pub enum ImportPreludeHref {
+    pub enum ImportHref {
         Url(Url),
         Str(Str),
     }
 
-    pub enum ImportPreludeLayerName {
+    pub enum ImportLayerName {
         Ident(Ident),
         Function(Function),
     }
 
-    pub enum ImportPreludeSupportsType {
-        SupportsCondition(SupportsCondition),
-        Declaration(Box<Declaration>),
+    pub struct ImportConditions {
+        pub span: Span,
+        pub supports: Option<Box<Function>>,
+        pub media: Option<Box<MediaQueryList>>,
     }
 
     pub struct NamespacePrelude {

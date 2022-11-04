@@ -159,9 +159,10 @@ where
 
                 let span = self.input.cur_span();
                 let href = Box::new(match cur!(self) {
-                    tok!("string") => ImportPreludeHref::Str(self.parse()?),
-                    tok!("url") => ImportPreludeHref::Url(self.parse()?),
-                    tok!("function") => ImportPreludeHref::Url(self.parse()?),
+                    tok!("string") => ImportHref::Str(self.parse()?),
+                    tok!("url") => ImportHref::Url(self.parse()?),
+                    // TODO why we need it?
+                    tok!("function") => ImportHref::Url(self.parse()?),
                     _ => {
                         return Err(Error::new(
                             span,
@@ -175,7 +176,7 @@ where
                 let layer_name = if !is!(self, EOF) {
                     match cur!(self) {
                         Token::Ident { value, .. } if *value.to_ascii_lowercase() == *"layer" => {
-                            let name = ImportPreludeLayerName::Ident(self.parse()?);
+                            let name = ImportLayerName::Ident(self.parse()?);
 
                             self.input.skip_ws();
 
@@ -193,7 +194,7 @@ where
 
                             self.input.skip_ws();
 
-                            Some(Box::new(ImportPreludeLayerName::Function(func)))
+                            Some(Box::new(ImportLayerName::Function(func)))
                         }
                         _ => None,
                     }
@@ -201,44 +202,8 @@ where
                     None
                 };
 
-                let supports = if !is!(self, EOF) {
-                    match cur!(self) {
-                        Token::Function { value, .. }
-                            if *value.to_ascii_lowercase() == *"supports" =>
-                        {
-                            bump!(self);
-
-                            self.input.skip_ws();
-
-                            if is!(self, ")") {
-                                return Ok(None);
-                            }
-
-                            let supports =
-                                if is_case_insensitive_ident!(self, "not") || is!(self, "(") {
-                                    ImportPreludeSupportsType::SupportsCondition(self.parse()?)
-                                } else {
-                                    ImportPreludeSupportsType::Declaration(self.parse()?)
-                                };
-
-                            expect!(self, ")");
-
-                            self.input.skip_ws();
-
-                            Some(Box::new(supports))
-                        }
-                        _ => None,
-                    }
-                } else {
-                    None
-                };
-
-                let media = if !is!(self, EOF) {
-                    let media_query_list = self.parse()?;
-
-                    self.input.skip_ws();
-
-                    Some(media_query_list)
+                let import_conditions = if !is!(self, EOF) {
+                    Some(self.parse()?)
                 } else {
                     None
                 };
@@ -247,8 +212,7 @@ where
                     span: span!(self, span.lo),
                     href,
                     layer_name,
-                    supports,
-                    media,
+                    import_conditions,
                 });
 
                 Some(prelude)
@@ -805,6 +769,51 @@ where
         };
 
         Ok(block_contents)
+    }
+}
+
+impl<I> Parse<ImportConditions> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<ImportConditions> {
+        let span = self.input.cur_span();
+
+        let supports = if !is!(self, EOF) {
+            match cur!(self) {
+                Token::Function { value, .. } if *value.to_ascii_lowercase() == *"supports" => {
+                    let ctx = Ctx {
+                        in_import_at_rule: true,
+                        block_contents_grammar: BlockContentsGrammar::DeclarationValue,
+                        ..self.ctx
+                    };
+                    let func = self.with_ctx(ctx).parse_as::<Function>()?;
+
+                    self.input.skip_ws();
+
+                    Some(Box::new(func))
+                }
+                _ => None,
+            }
+        } else {
+            None
+        };
+
+        let media = if !is!(self, EOF) {
+            let media_query_list = self.parse()?;
+
+            self.input.skip_ws();
+
+            Some(media_query_list)
+        } else {
+            None
+        };
+
+        Ok(ImportConditions {
+            span: span!(self, span.lo),
+            supports,
+            media,
+        })
     }
 }
 

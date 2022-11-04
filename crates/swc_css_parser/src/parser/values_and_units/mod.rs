@@ -1857,6 +1857,28 @@ where
                     ));
                 }
             }
+            "supports" if self.ctx.in_import_at_rule => {
+                self.input.skip_ws();
+
+                if !is!(self, EOF) {
+                    let state = self.input.state();
+
+                    match self.parse() {
+                        Ok(declaration) => {
+                            values.push(ComponentValue::Declaration(declaration));
+
+                            self.input.skip_ws();
+                        }
+                        Err(_) => {
+                            self.input.reset(&state);
+
+                            let supports_conditions = self.parse()?;
+
+                            values.push(ComponentValue::SupportsCondition(supports_conditions));
+                        }
+                    }
+                }
+            }
             _ => loop {
                 self.input.skip_ws();
 
