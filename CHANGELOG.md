@@ -8,6 +8,9 @@
 - **(es/compat)** Fix chained op-assignment of super properties  (#6319) ([064baa3](https://github.com/swc-project/swc/commit/064baa3052425dca7db869195252acee0f1350b6))
 
 
+- **(es/compat)** Handle super access in a private static property (#6361) ([6cc9e90](https://github.com/swc-project/swc/commit/6cc9e90ef4eaa658919237fb183ee3bbce286968))
+
+
 - **(es/fixer)** Handle more expressions in postfix operator (#6359) ([8123bf0](https://github.com/swc-project/swc/commit/8123bf09b58785f1e972b1e31b312a00d5535f4e))
 
 
