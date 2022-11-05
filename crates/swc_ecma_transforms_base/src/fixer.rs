@@ -431,6 +431,7 @@ impl VisitMut for Fixer<'_> {
                 | Expr::Assign(_)
                 | Expr::Seq(_)
                 | Expr::Cond(_)
+                | Expr::TaggedTpl(_)
                 | Expr::Update(UpdateExpr { prefix: false, .. }) => {}
                 _ => self.ctx = Context::FreeExpr,
             }
