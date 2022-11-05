@@ -122,7 +122,7 @@ impl<I: Tokens> Parser<I> {
             let expr = left;
             let node = {
                 let type_ann = self.next_then_parse_ts_type()?;
-                Box::new(Expr::TsAs(TsAsExpr {
+                Box::new(Expr::TsSatisfaction(TsSatisfactionExpr {
                     span: span!(self, start),
                     expr,
                     type_ann,
