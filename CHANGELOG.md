@@ -8,6 +8,9 @@
 - **(es/compat)** Fix chained op-assignment of super properties  (#6319) ([064baa3](https://github.com/swc-project/swc/commit/064baa3052425dca7db869195252acee0f1350b6))
 
 
+- **(es/fixer)** Handle more expressions in postfix operator (#6359) ([8123bf0](https://github.com/swc-project/swc/commit/8123bf09b58785f1e972b1e31b312a00d5535f4e))
+
+
 - **(es/modules)** Preserve extensions (#6339) ([91e863c](https://github.com/swc-project/swc/commit/91e863c8dff55e8742695eb5ec4c2cbe9b667177))
 
 
