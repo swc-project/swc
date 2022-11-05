@@ -166,3 +166,14 @@ function foo(opts) {
 }
 "#
 );
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    issue_6328,
+    "switch ( 0 ) { case 0 ?? 0 : }",
+    r#"
+    var ref;
+    switch ( 0 ) { case (ref = 0) !== null && ref !== void 0 ? ref : 0: }
+"#
+);
