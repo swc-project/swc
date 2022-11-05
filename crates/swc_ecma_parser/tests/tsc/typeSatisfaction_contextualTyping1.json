@@ -167,7 +167,7 @@
             "typeAnnotation": null
           },
           "init": {
-            "type": "TsSatisfactionExpr",
+            "type": "TsSatisfiesExpression",
             "span": {
               "start": 71,
               "end": 153,

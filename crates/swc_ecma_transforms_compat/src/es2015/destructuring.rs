@@ -1210,7 +1210,7 @@ fn can_be_null(e: &Expr) -> bool {
         | Expr::TsTypeAssertion(TsTypeAssertion { ref expr, .. })
         | Expr::TsConstAssertion(TsConstAssertion { ref expr, .. })
         | Expr::TsInstantiation(TsInstantiation { ref expr, .. })
-        | Expr::TsSatisfaction(TsSatisfactionExpr { ref expr, .. }) => can_be_null(expr),
+        | Expr::TsSatisfies(TsSatisfiesExpr { ref expr, .. }) => can_be_null(expr),
 
         Expr::Invalid(..) => unreachable!(),
     }

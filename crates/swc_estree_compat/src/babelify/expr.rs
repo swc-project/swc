@@ -157,7 +157,7 @@ impl Babelify for Expr {
                 "illegal conversion: Cannot convert {:?} to ExprOutput - babel has no equivalent",
                 &self
             ),
-            Expr::TsSatisfaction(_) => panic!(
+            Expr::TsSatisfies(_) => panic!(
                 "illegal conversion: Cannot convert {:?} to ExprOutput - babel has no equivalent",
                 &self
             ),

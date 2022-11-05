@@ -19,4 +19,4 @@ fail_todo!(TsTypeParamDecl);
 fail_todo!(TsExprWithTypeArgs);
 fail_todo!(TsIndexSignature);
 fail_todo!(TsParamProp);
-fail_todo!(TsSatisfactionExpr);
+fail_todo!(TsSatisfiesExpr);
