@@ -430,7 +430,8 @@ impl VisitMut for Fixer<'_> {
                 | Expr::Bin(_)
                 | Expr::Assign(_)
                 | Expr::Seq(_)
-                | Expr::Cond(_) => (),
+                | Expr::Cond(_)
+                | Expr::Update(UpdateExpr { prefix: false, .. }) => {}
                 _ => self.ctx = Context::FreeExpr,
             }
         }
