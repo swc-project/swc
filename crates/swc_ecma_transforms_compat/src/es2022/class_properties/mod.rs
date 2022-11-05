@@ -677,6 +677,22 @@ impl<C: Comments> ClassProperties<C> {
 
                     if let Some(value) = &mut prop.value {
                         value.visit_mut_with(&mut NewTargetInProp);
+
+                        if prop.is_static {
+                            value.visit_mut_with(&mut SuperFieldAccessFolder {
+                                class_name: &class_ident,
+                                vars: &mut vars,
+                                constructor_this_mark: None,
+                                is_static: true,
+                                folding_constructor: false,
+                                in_injected_define_property_call: false,
+                                in_nested_scope: false,
+                                this_alias_mark: None,
+                                constant_super: self.c.constant_super,
+                                super_class: &super_ident,
+                                in_pat: false,
+                            });
+                        }
                         vars.extend(visit_private_in_expr(&mut *value, &self.private, self.c));
                     }
 
