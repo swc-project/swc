@@ -14,6 +14,9 @@
 - **(es/fixer)** Handle more expressions in postfix operator (#6359) ([8123bf0](https://github.com/swc-project/swc/commit/8123bf09b58785f1e972b1e31b312a00d5535f4e))
 
 
+- **(es/lints)** Disallow reassignment to a class (#6362) ([3793e83](https://github.com/swc-project/swc/commit/3793e83fbb89d7710c3b85862b895ef7c78053cf))
+
+
 - **(es/modules)** Preserve extensions (#6339) ([91e863c](https://github.com/swc-project/swc/commit/91e863c8dff55e8742695eb5ec4c2cbe9b667177))
 
 
