@@ -14,6 +14,9 @@
 - **(es/compat)** Handle a nullish coalescing in a switch case (#6363) ([2de45fb](https://github.com/swc-project/swc/commit/2de45fb0f7f0afbf2a15a6a27776a43faacebffc))
 
 
+- **(es/compat)** Fix `this` in computed class method names (#6364) ([9820122](https://github.com/swc-project/swc/commit/982012289fe4e40d3404f17f55d96b1ea32c796f))
+
+
 - **(es/fixer)** Handle more expressions in postfix operator (#6359) ([8123bf0](https://github.com/swc-project/swc/commit/8123bf09b58785f1e972b1e31b312a00d5535f4e))
 
 
