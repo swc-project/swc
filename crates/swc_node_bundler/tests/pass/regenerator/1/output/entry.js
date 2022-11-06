@@ -40,7 +40,10 @@ var __generator = this && this.__generator || function(thisArg, body) {
     return g = {
         next: verb(0),
         "throw": verb(1),
-        "return": verb(2)
+        "return": verb(2),
+        toString: function() {
+            return "[object Generator]";
+        }
     }, typeof Symbol === "function" && (g[Symbol.iterator] = function() {
         return this;
     }), g;
