@@ -37,9 +37,9 @@ Object.defineProperty(exports, \\"__esModule\\", {
     value: true
 });
 const _interopRequireWildcard = require(\\"@swc/helpers/lib/_interop_require_wildcard.js\\").default;
-const _b = require(\\"../packages/b/src/index\\");
+const _b = require(\\"../packages/b/src/index.ts\\");
 async function display() {
-    const displayA = await Promise.resolve().then(()=>/*#__PURE__*/ _interopRequireWildcard(require(\\"../packages/a/src/index\\"))).then((c)=>c.displayA);
+    const displayA = await Promise.resolve().then(()=>/*#__PURE__*/ _interopRequireWildcard(require(\\"../packages/a/src/index.ts\\"))).then((c)=>c.displayA);
     console.log(displayA());
     console.log((0, _b.displayB)());
 }
