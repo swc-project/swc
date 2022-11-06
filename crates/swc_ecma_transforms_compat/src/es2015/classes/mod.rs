@@ -7,9 +7,9 @@ use swc_ecma_transforms_base::{helper, native::is_native, perf::Check};
 use swc_ecma_transforms_classes::super_field::SuperFieldAccessFolder;
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
-    alias_if_required, default_constructor, is_valid_ident, is_valid_prop_ident, prepend_stmt,
-    private_ident, prop_name_to_expr, quote_expr, quote_ident, quote_str, replace_ident,
-    ExprFactory, IdentExt, IsDirective, ModuleItemLike, StmtLike,
+    alias_if_required, contains_this_expr, default_constructor, is_valid_ident,
+    is_valid_prop_ident, prepend_stmt, private_ident, prop_name_to_expr, quote_expr, quote_ident,
+    quote_str, replace_ident, ExprFactory, IdentExt, IsDirective, ModuleItemLike, StmtLike,
 };
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
@@ -535,7 +535,6 @@ where
         let class_name = class_name.unwrap_or_else(|| quote_ident!("_class"));
         let mut stmts = vec![];
 
-        let mut priv_methods = vec![];
         let mut methods = vec![];
         let mut constructor = None;
         for member in class.body {
@@ -547,7 +546,9 @@ where
                         constructor = Some(c)
                     }
                 }
-                ClassMember::PrivateMethod(m) => priv_methods.push(m),
+                ClassMember::PrivateMethod(_) => unreachable!(
+                    "classes pass: private method\nclass_properties pass should remove this"
+                ),
                 ClassMember::Method(m) => methods.push(m),
 
                 ClassMember::ClassProp(..) => {
@@ -773,7 +774,6 @@ where
         }
 
         // convert class methods
-        // stmts.extend(self.fold_class_methods(class_name.clone(), priv_methods));
         stmts.extend(self.fold_class_methods(&class_name, &super_class_ident, methods));
 
         if stmts.first().map(|v| !v.is_use_strict()).unwrap_or(false) && !self.in_strict {
@@ -1009,11 +1009,13 @@ where
         for mut m in methods {
             let key = HashKey::from(&m.key);
             let key_is_pure = is_pure_prop_name(&m.key);
+            // class is always strict, however computed key is not part of class
+            let key_contain_this = !self.in_strict && contains_this_expr(&m.key);
             let key_prop = Box::new(m.key.clone());
             let computed = matches!(m.key, PropName::Computed(..));
             let prop_name = prop_name_to_expr(m.key);
 
-            let key_prop = if should_extract && !key_is_pure {
+            let key_prop = if should_extract && !key_is_pure || key_contain_this {
                 let ident = private_ident!("_prop");
 
                 self.params.push(ident.clone().into());
