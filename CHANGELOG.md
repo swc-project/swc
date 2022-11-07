@@ -8,6 +8,21 @@
 - **(es/compat)** Fix chained op-assignment of super properties  (#6319) ([064baa3](https://github.com/swc-project/swc/commit/064baa3052425dca7db869195252acee0f1350b6))
 
 
+- **(es/compat)** Handle super access in a private static property (#6361) ([6cc9e90](https://github.com/swc-project/swc/commit/6cc9e90ef4eaa658919237fb183ee3bbce286968))
+
+
+- **(es/compat)** Handle a nullish coalescing in a switch case (#6363) ([2de45fb](https://github.com/swc-project/swc/commit/2de45fb0f7f0afbf2a15a6a27776a43faacebffc))
+
+
+- **(es/compat)** Fix `this` in computed class method names (#6364) ([9820122](https://github.com/swc-project/swc/commit/982012289fe4e40d3404f17f55d96b1ea32c796f))
+
+
+- **(es/fixer)** Handle more expressions in postfix operator (#6359) ([8123bf0](https://github.com/swc-project/swc/commit/8123bf09b58785f1e972b1e31b312a00d5535f4e))
+
+
+- **(es/lints)** Disallow reassignment to a class (#6362) ([3793e83](https://github.com/swc-project/swc/commit/3793e83fbb89d7710c3b85862b895ef7c78053cf))
+
+
 - **(es/modules)** Preserve extensions (#6339) ([91e863c](https://github.com/swc-project/swc/commit/91e863c8dff55e8742695eb5ec4c2cbe9b667177))
 
 

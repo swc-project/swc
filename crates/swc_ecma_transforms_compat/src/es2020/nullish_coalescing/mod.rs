@@ -74,8 +74,10 @@ impl VisitMut for NullishCoalescing {
 
     /// Prevents #1123
     fn visit_mut_switch_case(&mut self, s: &mut SwitchCase) {
+        // Prevents #6328
+        s.test.visit_mut_with(self);
         let old_vars = self.vars.take();
-        s.visit_mut_children_with(self);
+        s.cons.visit_mut_with(self);
         self.vars = old_vars;
     }
 
