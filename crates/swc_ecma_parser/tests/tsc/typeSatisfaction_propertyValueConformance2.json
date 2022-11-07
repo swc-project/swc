@@ -681,7 +681,7 @@
             "typeAnnotation": null
           },
           "init": {
-            "type": "TsAsExpression",
+            "type": "TsSatisfiesExpression",
             "span": {
               "start": 457,
               "end": 504,

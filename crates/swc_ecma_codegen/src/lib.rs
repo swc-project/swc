@@ -794,7 +794,7 @@ where
             Expr::TsInstantiation(ref n) => emit!(n),
             Expr::OptChain(ref n) => emit!(n),
             Expr::Invalid(ref n) => emit!(n),
-            Expr::TsSatisfaction(n) => {
+            Expr::TsSatisfies(n) => {
                 emit!(n)
             }
         }

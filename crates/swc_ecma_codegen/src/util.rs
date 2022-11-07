@@ -142,9 +142,7 @@ impl StartsWithAlphaNum for Expr {
             | Expr::TsAs(TsAsExpr { ref expr, .. })
             | Expr::TsConstAssertion(TsConstAssertion { ref expr, .. })
             | Expr::TsInstantiation(TsInstantiation { ref expr, .. })
-            | Expr::TsSatisfaction(TsSatisfactionExpr { ref expr, .. }) => {
-                expr.starts_with_alpha_num()
-            }
+            | Expr::TsSatisfies(TsSatisfiesExpr { ref expr, .. }) => expr.starts_with_alpha_num(),
 
             Expr::OptChain(OptChainExpr {
                 base: OptChainBase::Member(MemberExpr { obj: expr, .. }),

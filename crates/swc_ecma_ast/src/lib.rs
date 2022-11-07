@@ -68,7 +68,7 @@ pub use self::{
         TsKeywordType, TsKeywordTypeKind, TsLit, TsLitType, TsMappedType, TsMethodSignature,
         TsModuleBlock, TsModuleDecl, TsModuleName, TsModuleRef, TsNamespaceBody, TsNamespaceDecl,
         TsNamespaceExportDecl, TsNonNullExpr, TsOptionalType, TsParamProp, TsParamPropParam,
-        TsParenthesizedType, TsPropertySignature, TsQualifiedName, TsRestType, TsSatisfactionExpr,
+        TsParenthesizedType, TsPropertySignature, TsQualifiedName, TsRestType, TsSatisfiesExpr,
         TsSetterSignature, TsThisType, TsThisTypeOrIdent, TsTplLitType, TsTupleElement,
         TsTupleType, TsType, TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion, TsTypeElement, TsTypeLit,
         TsTypeOperator, TsTypeOperatorOp, TsTypeParam, TsTypeParamDecl, TsTypeParamInstantiation,
