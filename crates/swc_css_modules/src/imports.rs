@@ -2,8 +2,8 @@
 
 use swc_atoms::{js_word, JsWord};
 use swc_css_ast::{
-    ComponentValue, Declaration, DeclarationName, Ident, ImportPrelude, ImportPreludeHref,
-    Stylesheet, UrlValue,
+    ComponentValue, Declaration, DeclarationName, Ident, ImportHref, ImportPrelude, Stylesheet,
+    UrlValue,
 };
 use swc_css_visit::{Visit, VisitWith};
 
@@ -26,7 +26,7 @@ impl Visit for Analyzer {
         n.visit_children_with(self);
 
         match &*n.href {
-            ImportPreludeHref::Url(u) => {
+            ImportHref::Url(u) => {
                 if let Some(s) = &u.value {
                     match &**s {
                         UrlValue::Str(s) => {
@@ -38,7 +38,7 @@ impl Visit for Analyzer {
                     }
                 }
             }
-            ImportPreludeHref::Str(s) => {
+            ImportHref::Str(s) => {
                 self.imports.push(s.value.clone());
             }
         }
