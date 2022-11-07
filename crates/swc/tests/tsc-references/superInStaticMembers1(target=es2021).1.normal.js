@@ -71,7 +71,7 @@ var __ = {
         var { Reflect  } = {
             Reflect: null
         }; // collision (es2015-es2021 only)
-        super.w();
+        _get(_get_prototype_of(C), "w", C).call(C);
     })()
 };
 var __1 = {
@@ -80,14 +80,14 @@ var __1 = {
         var [Reflect] = [
             null
         ]; // collision (es2015-es2021 only)
-        super.w();
+        _get(_get_prototype_of(C), "w", C).call(C);
     })()
 };
 var __2 = {
     writable: true,
     value: (()=>{
         var Reflect; // collision (es2015-es2021 only)
-        super.w();
+        _get(_get_prototype_of(C), "w", C).call(C);
     })()
 };
 var __3 = {
@@ -95,14 +95,14 @@ var __3 = {
     value: (()=>{
         class Reflect {
         } // collision (es2015-es2021 only)
-        super.w();
+        _get(_get_prototype_of(C), "w", C).call(C);
     })()
 };
 var __4 = {
     writable: true,
     value: (()=>{
         function Reflect() {} // collision (es2015-es2021 only)
-        super.w();
+        _get(_get_prototype_of(C), "w", C).call(C);
     })()
 };
 var __5 = {
@@ -111,7 +111,7 @@ var __5 = {
         let Reflect// collision (es2015-es2021 only)
         ;
         (function(Reflect) {})(Reflect || (Reflect = {}));
-        super.w();
+        _get(_get_prototype_of(C), "w", C).call(C);
     })()
 };
 var __6 = {
@@ -120,19 +120,19 @@ var __6 = {
         let Reflect// collision (es2015-es2021 only)
         ;
         (function(Reflect) {})(Reflect || (Reflect = {}));
-        super.w();
+        _get(_get_prototype_of(C), "w", C).call(C);
     })()
 };
 var __7 = {
     writable: true,
     value: (()=>{
-        super.w();
+        _get(_get_prototype_of(C), "w", C).call(C);
     })()
 };
 var __8 = {
     writable: true,
     value: (()=>{
-        super.w();
+        _get(_get_prototype_of(C), "w", C).call(C);
     })()
 };
 var __9 = {
@@ -141,7 +141,7 @@ var __9 = {
         (class Reflect {
         } // no collision
         );
-        super.w();
+        _get(_get_prototype_of(C), "w", C).call(C);
     })()
 };
 var __10 = {
@@ -149,7 +149,7 @@ var __10 = {
     value: (()=>{
         (function Reflect() {} // no collision
         );
-        super.w();
+        _get(_get_prototype_of(C), "w", C).call(C);
     })()
 };
 export { };
@@ -182,17 +182,21 @@ class C extends B {
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [varInContainingScopeStaticBlock1.ts]
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 var Reflect = null; // collision (es2015-es2021 only)
 class C extends B {
 }
 var __ = {
     writable: true,
     value: (()=>{
-        super.w();
+        _get(_get_prototype_of(C), "w", C).call(C);
     })()
 };
 export { };
 //// [varInContainingScopeStaticBlock2.ts]
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 var { Reflect  } = {
     Reflect: null
 }; // collision (es2015-es2021 only)
@@ -201,11 +205,13 @@ class C extends B {
 var __ = {
     writable: true,
     value: (()=>{
-        super.w();
+        _get(_get_prototype_of(C), "w", C).call(C);
     })()
 };
 export { };
 //// [varInContainingScopeStaticBlock3.ts]
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 var [Reflect] = [
     null
 ]; // collision (es2015-es2021 only)
@@ -214,7 +220,7 @@ class C extends B {
 var __ = {
     writable: true,
     value: (()=>{
-        super.w();
+        _get(_get_prototype_of(C), "w", C).call(C);
     })()
 };
 export { };
@@ -228,6 +234,8 @@ class C extends B {
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [classDeclInContainingScopeStaticBlock.ts]
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 class Reflect {
 } // collision (es2015-es2021 only)
 class C extends B {
@@ -235,7 +243,7 @@ class C extends B {
 var __ = {
     writable: true,
     value: (()=>{
-        super.w();
+        _get(_get_prototype_of(C), "w", C).call(C);
     })()
 };
 export { };
@@ -248,13 +256,15 @@ class C extends B {
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [funcDeclInContainingScopeStaticBlock.ts]
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 function Reflect() {} // collision (es2015-es2021 only)
 class C extends B {
 }
 var __ = {
     writable: true,
     value: (()=>{
-        super.w();
+        _get(_get_prototype_of(C), "w", C).call(C);
     })()
 };
 export { };
@@ -266,12 +276,14 @@ class C extends B {
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [valueNamespaceInContainingScopeStaticBlock.ts]
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 class C extends B {
 }
 var __ = {
     writable: true,
     value: (()=>{
-        super.w();
+        _get(_get_prototype_of(C), "w", C).call(C);
     })()
 };
 export { };
@@ -286,6 +298,8 @@ class C extends B {
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [enumInContainingScopeStaticBlock.ts]
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 var Reflect// collision (es2015-es2021 only)
 ;
 (function(Reflect) {})(Reflect || (Reflect = {}));
@@ -294,7 +308,7 @@ class C extends B {
 var __ = {
     writable: true,
     value: (()=>{
-        super.w();
+        _get(_get_prototype_of(C), "w", C).call(C);
     })()
 };
 export { };
@@ -309,6 +323,8 @@ class C extends B {
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [constEnumInContainingScopeStaticBlock.ts]
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 var Reflect// collision (es2015-es2021 only)
 ;
 (function(Reflect) {})(Reflect || (Reflect = {}));
@@ -317,7 +333,7 @@ class C extends B {
 var __ = {
     writable: true,
     value: (()=>{
-        super.w();
+        _get(_get_prototype_of(C), "w", C).call(C);
     })()
 };
 export { };
@@ -329,12 +345,14 @@ class C extends B {
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [namespaceImportInContainingScopeStaticBlock.ts]
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 class C extends B {
 }
 var __ = {
     writable: true,
     value: (()=>{
-        super.w();
+        _get(_get_prototype_of(C), "w", C).call(C);
     })()
 };
 export { };
@@ -346,12 +364,14 @@ class C extends B {
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [namedImportInContainingScopeStaticBlock.ts]
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 class C extends B {
 }
 var __ = {
     writable: true,
     value: (()=>{
-        super.w();
+        _get(_get_prototype_of(C), "w", C).call(C);
     })()
 };
 export { };
@@ -363,12 +383,14 @@ class C extends B {
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [namedImportOfInterfaceInContainingScopeStaticBlock.ts]
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 class C extends B {
 }
 var __ = {
     writable: true,
     value: (()=>{
-        super.w();
+        _get(_get_prototype_of(C), "w", C).call(C);
     })()
 };
 export { };
@@ -380,12 +402,14 @@ class C extends B {
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [namedImportOfUninstantiatedNamespaceInContainingScopeStaticBlock.ts]
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 class C extends B {
 }
 var __ = {
     writable: true,
     value: (()=>{
-        super.w();
+        _get(_get_prototype_of(C), "w", C).call(C);
     })()
 };
 export { };
@@ -397,12 +421,14 @@ class C extends B {
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [namedImportOfConstEnumInContainingScopeStaticBlock.ts]
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 class C extends B {
 }
 var __ = {
     writable: true,
     value: (()=>{
-        super.w();
+        _get(_get_prototype_of(C), "w", C).call(C);
     })()
 };
 export { };
@@ -414,12 +440,14 @@ class C extends B {
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [typeOnlyNamedImportInContainingScopeStaticBlock.ts]
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 class C extends B {
 }
 var __ = {
     writable: true,
     value: (()=>{
-        super.w();
+        _get(_get_prototype_of(C), "w", C).call(C);
     })()
 };
 export { };
@@ -431,12 +459,14 @@ class C extends B {
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [defaultImportInContainingScopeStaticBlock.ts]
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 class C extends B {
 }
 var __ = {
     writable: true,
     value: (()=>{
-        super.w();
+        _get(_get_prototype_of(C), "w", C).call(C);
     })()
 };
 export { };
@@ -448,12 +478,14 @@ class C extends B {
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [typeOnlyDefaultImportInContainingScopeStaticBlock.ts]
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 class C extends B {
 }
 var __ = {
     writable: true,
     value: (()=>{
-        super.w();
+        _get(_get_prototype_of(C), "w", C).call(C);
     })()
 };
 export { };
@@ -465,12 +497,14 @@ class C extends B {
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [typeInContainingScopeStaticBlock.ts]
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 class C extends B {
 }
 var __ = {
     writable: true,
     value: (()=>{
-        super.w();
+        _get(_get_prototype_of(C), "w", C).call(C);
     })()
 };
 export { };
@@ -482,12 +516,14 @@ class C extends B {
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [interfaceInContainingScopeStaticBlock.ts]
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 class C extends B {
 }
 var __ = {
     writable: true,
     value: (()=>{
-        super.w();
+        _get(_get_prototype_of(C), "w", C).call(C);
     })()
 };
 export { };
@@ -499,12 +535,14 @@ class C extends B {
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [uninstantiatedNamespaceInContainingScopeStaticBlock.ts]
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 class C extends B {
 }
 var __ = {
     writable: true,
     value: (()=>{
-        super.w();
+        _get(_get_prototype_of(C), "w", C).call(C);
     })()
 };
 export { };
@@ -518,6 +556,8 @@ class C extends B {
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [classExprInContainingScopeStaticBlock.ts]
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 (class Reflect {
 }); // no collision
 class C extends B {
@@ -525,7 +565,7 @@ class C extends B {
 var __ = {
     writable: true,
     value: (()=>{
-        super.w();
+        _get(_get_prototype_of(C), "w", C).call(C);
     })()
 };
 export { };
@@ -544,6 +584,8 @@ _Reflect = class Reflect {
 }, _Reflect;
 export { };
 //// [inContainingClassExprStaticBlock.ts]
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 var _Reflect, __;
 _Reflect = class Reflect {
 }, __ = {
@@ -554,7 +596,7 @@ _Reflect = class Reflect {
         var __ = {
             writable: true,
             value: (()=>{
-                super.w();
+                _get(_get_prototype_of(C), "w", C).call(C);
             })()
         };
     })()
@@ -569,13 +611,15 @@ class C extends B {
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [funcExprInContainingScopeStaticBlock.ts]
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 (function Reflect() {}); // no collision
 class C extends B {
 }
 var __ = {
     writable: true,
     value: (()=>{
-        super.w();
+        _get(_get_prototype_of(C), "w", C).call(C);
     })()
 };
 export { };
@@ -589,13 +633,15 @@ import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 });
 export { };
 //// [inContainingFuncExprStaticBlock.ts]
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 (function Reflect() {
     class C extends B {
     }
     var __ = {
         writable: true,
         value: (()=>{
-            super.w();
+            _get(_get_prototype_of(C), "w", C).call(C);
         })()
     };
 });

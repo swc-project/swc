@@ -1489,7 +1489,7 @@ pub trait ExprExt {
             | Expr::TsNonNull(TsNonNullExpr { ref expr, .. })
             | Expr::TsTypeAssertion(TsTypeAssertion { ref expr, .. })
             | Expr::TsInstantiation(TsInstantiation { ref expr, .. })
-            | Expr::TsSatisfaction(TsSatisfactionExpr { ref expr, .. }) => {
+            | Expr::TsSatisfies(TsSatisfiesExpr { ref expr, .. }) => {
                 expr.may_have_side_effects(ctx)
             }
 
@@ -2454,7 +2454,7 @@ impl ExprCtx {
             | Expr::TsAs(TsAsExpr { expr, .. })
             | Expr::TsConstAssertion(TsConstAssertion { expr, .. })
             | Expr::TsInstantiation(TsInstantiation { expr, .. })
-            | Expr::TsSatisfaction(TsSatisfactionExpr { expr, .. }) => {
+            | Expr::TsSatisfies(TsSatisfiesExpr { expr, .. }) => {
                 self.extract_side_effects_to(to, *expr)
             }
             Expr::OptChain(OptChainExpr { base: child, .. }) => {

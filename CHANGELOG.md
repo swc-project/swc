@@ -8,16 +8,37 @@
 - **(es/compat)** Fix chained op-assignment of super properties  (#6319) ([064baa3](https://github.com/swc-project/swc/commit/064baa3052425dca7db869195252acee0f1350b6))
 
 
+- **(es/compat)** Handle super access in a private static property (#6361) ([6cc9e90](https://github.com/swc-project/swc/commit/6cc9e90ef4eaa658919237fb183ee3bbce286968))
+
+
+- **(es/compat)** Handle a nullish coalescing in a switch case (#6363) ([2de45fb](https://github.com/swc-project/swc/commit/2de45fb0f7f0afbf2a15a6a27776a43faacebffc))
+
+
+- **(es/compat)** Fix `this` in computed class method names (#6364) ([9820122](https://github.com/swc-project/swc/commit/982012289fe4e40d3404f17f55d96b1ea32c796f))
+
+
+- **(es/fixer)** Handle more expressions in postfix operator (#6359) ([8123bf0](https://github.com/swc-project/swc/commit/8123bf09b58785f1e972b1e31b312a00d5535f4e))
+
+
+- **(es/lints)** Disallow reassignment to a class (#6362) ([3793e83](https://github.com/swc-project/swc/commit/3793e83fbb89d7710c3b85862b895ef7c78053cf))
+
+
 - **(es/modules)** Preserve extensions (#6339) ([91e863c](https://github.com/swc-project/swc/commit/91e863c8dff55e8742695eb5ec4c2cbe9b667177))
 
 
 - **(es/parser)** Fix parsing of `await` (#6316) ([28af15e](https://github.com/swc-project/swc/commit/28af15e4757c77e1cc9c75e99abcdad23b87da5f))
+
+
+- **(es/parser)** Fix parsing of TS `satisfies` expressions (#6354) ([f6faeb3](https://github.com/swc-project/swc/commit/f6faeb3bad6c2df2007e6565e646219b778b9db6))
 
 ### Features
 
 
 
 - **(css/parser)** Improve error recovery (#6336) ([0bc682f](https://github.com/swc-project/swc/commit/0bc682f5290cd9c9b1ad2b41ece529814e9699d0))
+
+
+- **(css/parser)** Support new nesting spec (#6337) ([e0967ef](https://github.com/swc-project/swc/commit/e0967efa6eb640341e640b2703b7a96da2f5acdb))
 
 ### Miscellaneous Tasks
 

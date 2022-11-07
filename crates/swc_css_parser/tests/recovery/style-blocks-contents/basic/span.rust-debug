@@ -221,7 +221,13 @@
  7 | `->     }
    `----
 
-  x SelectorList
+  x RelativeSelectorList
+   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:4:5]
+ 4 | &.foo {
+   : ^^^^^
+   `----
+
+  x RelativeSelector
    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:4:5]
  4 | &.foo {
    : ^^^^^
@@ -572,7 +578,13 @@
  15 | `->         }
     `----
 
-  x SelectorList
+  x RelativeSelectorList
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:12:9]
+ 12 | & .class {
+    : ^^^^^^^^
+    `----
+
+  x RelativeSelector
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:12:9]
  12 | & .class {
     : ^^^^^^^^
@@ -911,7 +923,13 @@
  25 | `->     }
     `----
 
-  x SelectorList
+  x RelativeSelectorList
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:22:5]
+ 22 | &.foo {
+    : ^^^^^
+    `----
+
+  x RelativeSelector
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:22:5]
  22 | &.foo {
     : ^^^^^
@@ -1243,7 +1261,13 @@
  33 | `->         }
     `----
 
-  x SelectorList
+  x RelativeSelectorList
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:30:9]
+ 30 | & .class {
+    : ^^^^^^^^
+    `----
+
+  x RelativeSelector
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:30:9]
  30 | & .class {
     : ^^^^^^^^
@@ -1647,7 +1671,13 @@
  46 | `->     }
     `----
 
-  x SelectorList
+  x RelativeSelectorList
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:44:5]
+ 44 | &.foo {
+    : ^^^^^
+    `----
+
+  x RelativeSelector
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:44:5]
  44 | &.foo {
     : ^^^^^

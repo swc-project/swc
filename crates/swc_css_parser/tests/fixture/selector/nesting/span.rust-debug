@@ -1,76 +1,183 @@
 
   x Stylesheet
-    ,-[$DIR/tests/fixture/selector/nesting/input.css:1:1]
-  1 | ,-> table.colortable {
-  2 | |       & td {
-  3 | |           text-align: center;
-  4 | |           &.c { text-transform:uppercase }
-  5 | |           &:first-child, &:first-child + td { border:1px solid black }
-  6 | |       }
-  7 | |   
-  8 | |       & th {
-  9 | |         text-align:center;
- 10 | |         background:black;
- 11 | |         color:white;
- 12 | |       }
- 13 | |   }
- 14 | |   
- 15 | |   .foo {
- 16 | |       color: blue;
- 17 | |       & > .bar { color: red; }
- 18 | |   }
- 19 | |   
- 20 | |   .foo {
- 21 | |       color: blue;
- 22 | |       &.bar { color: red; }
- 23 | |   }
- 24 | |   
- 25 | |   .foo, .bar {
- 26 | |       color: blue;
- 27 | |       & + .baz, &.qux { color: red; }
- 28 | |   }
- 29 | |   
- 30 | |   .foo {
- 31 | |       color: blue;
- 32 | |       & .bar & .baz & .qux { color: red; }
- 33 | |   }
- 34 | |   
- 35 | |   .foo {
- 36 | |       color: blue;
- 37 | |       & { padding: 2ch; }
- 38 | |   }
- 39 | |   
- 40 | |   /* TODO fix me */
- 41 | |   /*.foo {*/
- 42 | |   /*    color: blue;*/
- 43 | |   /*    && { padding: 2ch; }*/
- 44 | |   /*}*/
- 45 | |   
- 46 | |   .error, #test {
- 47 | |       &:hover > .baz { color: red; }
- 48 | |   }
- 49 | |   
- 50 | |   .foo {
- 51 | |       &:is(.bar, &.baz) { color: red; }
- 52 | |   }
- 53 | |   
- 54 | |   figure {
- 55 | |       margin: 0;
- 56 | |   
- 57 | |       & > figcaption {
- 58 | |           background: hsl(0 0% 0% / 50%);
- 59 | |   
- 60 | |           & > p {
- 61 | |                 font-size: .9rem;
- 62 | |           }
- 63 | |       }
- 64 | |   }
- 65 | |   
- 66 | |   .foo {
- 67 | |       color: blue;
- 68 | |       &__bar { color: red; }
- 69 | `-> }
-    `----
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:1:1]
+   1 | ,-> table.colortable {
+   2 | |       & td {
+   3 | |           text-align: center;
+   4 | |           &.c { text-transform:uppercase }
+   5 | |           &:first-child, &:first-child + td { border:1px solid black }
+   6 | |       }
+   7 | |   
+   8 | |       & th {
+   9 | |         text-align:center;
+  10 | |         background:black;
+  11 | |         color:white;
+  12 | |       }
+  13 | |   }
+  14 | |   
+  15 | |   .foo {
+  16 | |       color: blue;
+  17 | |       & > .bar { color: red; }
+  18 | |   }
+  19 | |   
+  20 | |   .foo {
+  21 | |       color: blue;
+  22 | |       &.bar { color: red; }
+  23 | |   }
+  24 | |   
+  25 | |   .foo, .bar {
+  26 | |       color: blue;
+  27 | |       & + .baz, &.qux { color: red; }
+  28 | |   }
+  29 | |   
+  30 | |   .foo {
+  31 | |       color: blue;
+  32 | |       & .bar & .baz & .qux { color: red; }
+  33 | |   }
+  34 | |   
+  35 | |   .foo {
+  36 | |       color: blue;
+  37 | |       & { padding: 2ch; }
+  38 | |   }
+  39 | |   
+  40 | |   /* TODO fix me */
+  41 | |   /*.foo {*/
+  42 | |   /*    color: blue;*/
+  43 | |   /*    && { padding: 2ch; }*/
+  44 | |   /*}*/
+  45 | |   
+  46 | |   .error, #test {
+  47 | |       &:hover > .baz { color: red; }
+  48 | |   }
+  49 | |   
+  50 | |   .foo {
+  51 | |       &:is(.bar, &.baz) { color: red; }
+  52 | |   }
+  53 | |   
+  54 | |   figure {
+  55 | |       margin: 0;
+  56 | |   
+  57 | |       & > figcaption {
+  58 | |           background: hsl(0 0% 0% / 50%);
+  59 | |   
+  60 | |           & > p {
+  61 | |                 font-size: .9rem;
+  62 | |           }
+  63 | |       }
+  64 | |   }
+  65 | |   
+  66 | |   .foo {
+  67 | |       color: blue;
+  68 | |       &__bar { color: red; }
+  69 | |   }
+  70 | |   
+  71 | |   .foo {
+  72 | |       color: red;
+  73 | |   
+  74 | |       .bar {
+  75 | |           color: blue;
+  76 | |       }
+  77 | |   }
+  78 | |   
+  79 | |   .foo {
+  80 | |       color: red;
+  81 | |   
+  82 | |       + .bar {
+  83 | |           color: blue;
+  84 | |       }
+  85 | |   }
+  86 | |   
+  87 | |   .foo {
+  88 | |       color: blue;
+  89 | |       & > .bar { color: red; }
+  90 | |       > .baz { color: green; }
+  91 | |   }
+  92 | |   
+  93 | |   div {
+  94 | |       color: red;
+  95 | |   
+  96 | |       & input { margin: 1em; }
+  97 | |       /* valid, no longer starts with an identifier */
+  98 | |   
+  99 | |       :is(input) { margin: 1em; }
+ 100 | |       /* valid, starts with a colon,
+ 101 | |          and equivalent to the previous rule. */
+ 102 | |   }
+ 103 | |   
+ 104 | |   .foo, .bar {
+ 105 | |       color: blue;
+ 106 | |       + .baz, &.qux { color: red; }
+ 107 | |   }
+ 108 | |   
+ 109 | |   .foo {
+ 110 | |       color: blue;
+ 111 | |       & .bar & .baz & .qux { color: red; }
+ 112 | |   }
+ 113 | |   
+ 114 | |   .foo {
+ 115 | |       color: red;
+ 116 | |       .parent & {
+ 117 | |           color: blue;
+ 118 | |       }
+ 119 | |   }
+ 120 | |   
+ 121 | |   .foo {
+ 122 | |       color: red;
+ 123 | |       :not(&) {
+ 124 | |           color: blue;
+ 125 | |       }
+ 126 | |   }
+ 127 | |   
+ 128 | |   .foo {
+ 129 | |       color: red;
+ 130 | |       + .bar + & { color: blue; }
+ 131 | |   }
+ 132 | |   
+ 133 | |   .ancestor .el {
+ 134 | |       .other-ancestor & { color: red; }
+ 135 | |   }
+ 136 | |   
+ 137 | |   .foo {
+ 138 | |       & :is(.bar, &.baz) { color: red; }
+ 139 | |   }
+ 140 | |   
+ 141 | |   @layer base {
+ 142 | |       html {
+ 143 | |           block-size: 100%;
+ 144 | |   
+ 145 | |           & body {
+ 146 | |               min-block-size: 100%;
+ 147 | |           }
+ 148 | |       }
+ 149 | |   }
+ 150 | |   
+ 151 | |   @layer base {
+ 152 | |       html {
+ 153 | |           block-size: 100%;
+ 154 | |   
+ 155 | |           @layer base.support {
+ 156 | |               & body {
+ 157 | |                   min-block-size: 100%;
+ 158 | |               }
+ 159 | |           }
+ 160 | |       }
+ 161 | |   }
+ 162 | |   
+ 163 | |   article {
+ 164 | |       color: green;
+ 165 | |       & { color: blue; }
+ 166 | |       color: red;
+ 167 | |   }
+ 168 | |   
+ 169 | |   .foo {
+ 170 | |       color: red;
+ 171 | |       @media (min-width: 480px) {
+ 172 | |           & h1, & h2 {
+ 173 | |               color: blue;
+ 174 | |           }
+ 175 | |       }
+ 176 | `-> }
+     `----
 
   x Rule
     ,-[$DIR/tests/fixture/selector/nesting/input.css:1:1]
@@ -216,7 +323,13 @@
  6 | `->     }
    `----
 
-  x SelectorList
+  x RelativeSelectorList
+   ,-[$DIR/tests/fixture/selector/nesting/input.css:2:5]
+ 2 | & td {
+   : ^^^^
+   `----
+
+  x RelativeSelector
    ,-[$DIR/tests/fixture/selector/nesting/input.css:2:5]
  2 | & td {
    : ^^^^
@@ -351,7 +464,13 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x SelectorList
+  x RelativeSelectorList
+   ,-[$DIR/tests/fixture/selector/nesting/input.css:4:9]
+ 4 | &.c { text-transform:uppercase }
+   : ^^^
+   `----
+
+  x RelativeSelector
    ,-[$DIR/tests/fixture/selector/nesting/input.css:4:9]
  4 | &.c { text-transform:uppercase }
    : ^^^
@@ -465,10 +584,16 @@
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x SelectorList
+  x RelativeSelectorList
    ,-[$DIR/tests/fixture/selector/nesting/input.css:5:9]
  5 | &:first-child, &:first-child + td { border:1px solid black }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x RelativeSelector
+   ,-[$DIR/tests/fixture/selector/nesting/input.css:5:9]
+ 5 | &:first-child, &:first-child + td { border:1px solid black }
+   : ^^^^^^^^^^^^^
    `----
 
   x ComplexSelector
@@ -505,6 +630,12 @@
    ,-[$DIR/tests/fixture/selector/nesting/input.css:5:9]
  5 | &:first-child, &:first-child + td { border:1px solid black }
    :   ^^^^^^^^^^^
+   `----
+
+  x RelativeSelector
+   ,-[$DIR/tests/fixture/selector/nesting/input.css:5:9]
+ 5 | &:first-child, &:first-child + td { border:1px solid black }
+   :                ^^^^^^^^^^^^^^^^^^
    `----
 
   x ComplexSelector
@@ -702,7 +833,13 @@
  12 | `->     }
     `----
 
-  x SelectorList
+  x RelativeSelectorList
+   ,-[$DIR/tests/fixture/selector/nesting/input.css:8:5]
+ 8 | & th {
+   : ^^^^
+   `----
+
+  x RelativeSelector
    ,-[$DIR/tests/fixture/selector/nesting/input.css:8:5]
  8 | & th {
    : ^^^^
@@ -1029,7 +1166,13 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x SelectorList
+  x RelativeSelectorList
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:17:5]
+ 17 | & > .bar { color: red; }
+    : ^^^^^^^^
+    `----
+
+  x RelativeSelector
     ,-[$DIR/tests/fixture/selector/nesting/input.css:17:5]
  17 | & > .bar { color: red; }
     : ^^^^^^^^
@@ -1263,7 +1406,13 @@
     : ^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x SelectorList
+  x RelativeSelectorList
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:22:5]
+ 22 | &.bar { color: red; }
+    : ^^^^^
+    `----
+
+  x RelativeSelector
     ,-[$DIR/tests/fixture/selector/nesting/input.css:22:5]
  22 | &.bar { color: red; }
     : ^^^^^
@@ -1515,10 +1664,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x SelectorList
+  x RelativeSelectorList
     ,-[$DIR/tests/fixture/selector/nesting/input.css:27:5]
  27 | & + .baz, &.qux { color: red; }
     : ^^^^^^^^^^^^^^^
+    `----
+
+  x RelativeSelector
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:27:5]
+ 27 | & + .baz, &.qux { color: red; }
+    : ^^^^^^^^
     `----
 
   x ComplexSelector
@@ -1567,6 +1722,12 @@
     ,-[$DIR/tests/fixture/selector/nesting/input.css:27:5]
  27 | & + .baz, &.qux { color: red; }
     :      ^^^
+    `----
+
+  x RelativeSelector
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:27:5]
+ 27 | & + .baz, &.qux { color: red; }
+    :           ^^^^^
     `----
 
   x ComplexSelector
@@ -1785,7 +1946,13 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x SelectorList
+  x RelativeSelectorList
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:32:5]
+ 32 | & .bar & .baz & .qux { color: red; }
+    : ^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x RelativeSelector
     ,-[$DIR/tests/fixture/selector/nesting/input.css:32:5]
  32 | & .bar & .baz & .qux { color: red; }
     : ^^^^^^^^^^^^^^^^^^^^
@@ -2115,7 +2282,13 @@
     : ^^^^^^^^^^^^^^^^^^^
     `----
 
-  x SelectorList
+  x RelativeSelectorList
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:37:5]
+ 37 | & { padding: 2ch; }
+    : ^
+    `----
+
+  x RelativeSelector
     ,-[$DIR/tests/fixture/selector/nesting/input.css:37:5]
  37 | & { padding: 2ch; }
     : ^
@@ -2322,7 +2495,13 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x SelectorList
+  x RelativeSelectorList
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:47:5]
+ 47 | &:hover > .baz { color: red; }
+    : ^^^^^^^^^^^^^^
+    `----
+
+  x RelativeSelector
     ,-[$DIR/tests/fixture/selector/nesting/input.css:47:5]
  47 | &:hover > .baz { color: red; }
     : ^^^^^^^^^^^^^^
@@ -2529,7 +2708,13 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x SelectorList
+  x RelativeSelectorList
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:51:5]
+ 51 | &:is(.bar, &.baz) { color: red; }
+    : ^^^^^^^^^^^^^^^^^
+    `----
+
+  x RelativeSelector
     ,-[$DIR/tests/fixture/selector/nesting/input.css:51:5]
  51 | &:is(.bar, &.baz) { color: red; }
     : ^^^^^^^^^^^^^^^^^
@@ -2871,7 +3056,13 @@
  63 | `->     }
     `----
 
-  x SelectorList
+  x RelativeSelectorList
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:57:5]
+ 57 | & > figcaption {
+    : ^^^^^^^^^^^^^^
+    `----
+
+  x RelativeSelector
     ,-[$DIR/tests/fixture/selector/nesting/input.css:57:5]
  57 | & > figcaption {
     : ^^^^^^^^^^^^^^
@@ -3113,7 +3304,13 @@
  62 | `->         }
     `----
 
-  x SelectorList
+  x RelativeSelectorList
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:60:9]
+ 60 | & > p {
+    : ^^^^^
+    `----
+
+  x RelativeSelector
     ,-[$DIR/tests/fixture/selector/nesting/input.css:60:9]
  60 | & > p {
     : ^^^^^
@@ -3372,7 +3569,13 @@
     : ^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x SelectorList
+  x RelativeSelectorList
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:68:5]
+ 68 | &__bar { color: red; }
+    : ^^^^^^
+    `----
+
+  x RelativeSelector
     ,-[$DIR/tests/fixture/selector/nesting/input.css:68:5]
  68 | &__bar { color: red; }
     : ^^^^^^
@@ -3473,3 +3676,4735 @@
  68 | &__bar { color: red; }
     :                 ^^^
     `----
+
+  x Rule
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:71:1]
+ 71 | ,-> .foo {
+ 72 | |       color: red;
+ 73 | |   
+ 74 | |       .bar {
+ 75 | |           color: blue;
+ 76 | |       }
+ 77 | `-> }
+    `----
+
+  x QualifiedRule
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:71:1]
+ 71 | ,-> .foo {
+ 72 | |       color: red;
+ 73 | |   
+ 74 | |       .bar {
+ 75 | |           color: blue;
+ 76 | |       }
+ 77 | `-> }
+    `----
+
+  x SelectorList
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:71:1]
+ 71 | .foo {
+    : ^^^^
+    `----
+
+  x ComplexSelector
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:71:1]
+ 71 | .foo {
+    : ^^^^
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:71:1]
+ 71 | .foo {
+    : ^^^^
+    `----
+
+  x SubclassSelector
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:71:1]
+ 71 | .foo {
+    : ^^^^
+    `----
+
+  x ClassSelector
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:71:1]
+ 71 | .foo {
+    : ^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:71:1]
+ 71 | .foo {
+    :  ^^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:71:1]
+ 71 | ,-> .foo {
+ 72 | |       color: red;
+ 73 | |   
+ 74 | |       .bar {
+ 75 | |           color: blue;
+ 76 | |       }
+ 77 | `-> }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:71:1]
+ 71 | .foo {
+    :      ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:72:5]
+ 72 | color: red;
+    : ^^^^^^^^^^
+    `----
+
+  x StyleBlock
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:72:5]
+ 72 | color: red;
+    : ^^^^^^^^^^
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:72:5]
+ 72 | color: red;
+    : ^^^^^^^^^^
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:72:5]
+ 72 | color: red;
+    : ^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:72:5]
+ 72 | color: red;
+    : ^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:72:5]
+ 72 | color: red;
+    :        ^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:72:5]
+ 72 | color: red;
+    :        ^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:74:5]
+ 74 | ,-> .bar {
+ 75 | |           color: blue;
+ 76 | `->     }
+    `----
+
+  x StyleBlock
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:74:5]
+ 74 | ,-> .bar {
+ 75 | |           color: blue;
+ 76 | `->     }
+    `----
+
+  x QualifiedRule
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:74:5]
+ 74 | ,-> .bar {
+ 75 | |           color: blue;
+ 76 | `->     }
+    `----
+
+  x RelativeSelectorList
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:74:5]
+ 74 | .bar {
+    : ^^^^
+    `----
+
+  x RelativeSelector
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:74:5]
+ 74 | .bar {
+    : ^^^^
+    `----
+
+  x ComplexSelector
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:74:5]
+ 74 | .bar {
+    : ^^^^
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:74:5]
+ 74 | .bar {
+    : ^^^^
+    `----
+
+  x SubclassSelector
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:74:5]
+ 74 | .bar {
+    : ^^^^
+    `----
+
+  x ClassSelector
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:74:5]
+ 74 | .bar {
+    : ^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:74:5]
+ 74 | .bar {
+    :  ^^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:74:5]
+ 74 | ,-> .bar {
+ 75 | |           color: blue;
+ 76 | `->     }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:74:5]
+ 74 | .bar {
+    :      ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:75:9]
+ 75 | color: blue;
+    : ^^^^^^^^^^^
+    `----
+
+  x StyleBlock
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:75:9]
+ 75 | color: blue;
+    : ^^^^^^^^^^^
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:75:9]
+ 75 | color: blue;
+    : ^^^^^^^^^^^
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:75:9]
+ 75 | color: blue;
+    : ^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:75:9]
+ 75 | color: blue;
+    : ^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:75:9]
+ 75 | color: blue;
+    :        ^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:75:9]
+ 75 | color: blue;
+    :        ^^^^
+    `----
+
+  x Rule
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:79:1]
+ 79 | ,-> .foo {
+ 80 | |       color: red;
+ 81 | |   
+ 82 | |       + .bar {
+ 83 | |           color: blue;
+ 84 | |       }
+ 85 | `-> }
+    `----
+
+  x QualifiedRule
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:79:1]
+ 79 | ,-> .foo {
+ 80 | |       color: red;
+ 81 | |   
+ 82 | |       + .bar {
+ 83 | |           color: blue;
+ 84 | |       }
+ 85 | `-> }
+    `----
+
+  x SelectorList
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:79:1]
+ 79 | .foo {
+    : ^^^^
+    `----
+
+  x ComplexSelector
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:79:1]
+ 79 | .foo {
+    : ^^^^
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:79:1]
+ 79 | .foo {
+    : ^^^^
+    `----
+
+  x SubclassSelector
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:79:1]
+ 79 | .foo {
+    : ^^^^
+    `----
+
+  x ClassSelector
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:79:1]
+ 79 | .foo {
+    : ^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:79:1]
+ 79 | .foo {
+    :  ^^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:79:1]
+ 79 | ,-> .foo {
+ 80 | |       color: red;
+ 81 | |   
+ 82 | |       + .bar {
+ 83 | |           color: blue;
+ 84 | |       }
+ 85 | `-> }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:79:1]
+ 79 | .foo {
+    :      ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:80:5]
+ 80 | color: red;
+    : ^^^^^^^^^^
+    `----
+
+  x StyleBlock
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:80:5]
+ 80 | color: red;
+    : ^^^^^^^^^^
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:80:5]
+ 80 | color: red;
+    : ^^^^^^^^^^
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:80:5]
+ 80 | color: red;
+    : ^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:80:5]
+ 80 | color: red;
+    : ^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:80:5]
+ 80 | color: red;
+    :        ^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:80:5]
+ 80 | color: red;
+    :        ^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:82:5]
+ 82 | ,-> + .bar {
+ 83 | |           color: blue;
+ 84 | `->     }
+    `----
+
+  x StyleBlock
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:82:5]
+ 82 | ,-> + .bar {
+ 83 | |           color: blue;
+ 84 | `->     }
+    `----
+
+  x QualifiedRule
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:82:5]
+ 82 | ,-> + .bar {
+ 83 | |           color: blue;
+ 84 | `->     }
+    `----
+
+  x RelativeSelectorList
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:82:5]
+ 82 | + .bar {
+    : ^^^^^^
+    `----
+
+  x RelativeSelector
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:82:5]
+ 82 | + .bar {
+    : ^^^^^^
+    `----
+
+  x Combinator
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:82:5]
+ 82 | + .bar {
+    : ^
+    `----
+
+  x ComplexSelector
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:82:5]
+ 82 | + .bar {
+    :   ^^^^
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:82:5]
+ 82 | + .bar {
+    :   ^^^^
+    `----
+
+  x SubclassSelector
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:82:5]
+ 82 | + .bar {
+    :   ^^^^
+    `----
+
+  x ClassSelector
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:82:5]
+ 82 | + .bar {
+    :   ^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:82:5]
+ 82 | + .bar {
+    :    ^^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:82:5]
+ 82 | ,-> + .bar {
+ 83 | |           color: blue;
+ 84 | `->     }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:82:5]
+ 82 | + .bar {
+    :        ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:83:9]
+ 83 | color: blue;
+    : ^^^^^^^^^^^
+    `----
+
+  x StyleBlock
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:83:9]
+ 83 | color: blue;
+    : ^^^^^^^^^^^
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:83:9]
+ 83 | color: blue;
+    : ^^^^^^^^^^^
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:83:9]
+ 83 | color: blue;
+    : ^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:83:9]
+ 83 | color: blue;
+    : ^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:83:9]
+ 83 | color: blue;
+    :        ^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:83:9]
+ 83 | color: blue;
+    :        ^^^^
+    `----
+
+  x Rule
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:87:1]
+ 87 | ,-> .foo {
+ 88 | |       color: blue;
+ 89 | |       & > .bar { color: red; }
+ 90 | |       > .baz { color: green; }
+ 91 | `-> }
+    `----
+
+  x QualifiedRule
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:87:1]
+ 87 | ,-> .foo {
+ 88 | |       color: blue;
+ 89 | |       & > .bar { color: red; }
+ 90 | |       > .baz { color: green; }
+ 91 | `-> }
+    `----
+
+  x SelectorList
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:87:1]
+ 87 | .foo {
+    : ^^^^
+    `----
+
+  x ComplexSelector
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:87:1]
+ 87 | .foo {
+    : ^^^^
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:87:1]
+ 87 | .foo {
+    : ^^^^
+    `----
+
+  x SubclassSelector
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:87:1]
+ 87 | .foo {
+    : ^^^^
+    `----
+
+  x ClassSelector
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:87:1]
+ 87 | .foo {
+    : ^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:87:1]
+ 87 | .foo {
+    :  ^^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:87:1]
+ 87 | ,-> .foo {
+ 88 | |       color: blue;
+ 89 | |       & > .bar { color: red; }
+ 90 | |       > .baz { color: green; }
+ 91 | `-> }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:87:1]
+ 87 | .foo {
+    :      ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:88:5]
+ 88 | color: blue;
+    : ^^^^^^^^^^^
+    `----
+
+  x StyleBlock
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:88:5]
+ 88 | color: blue;
+    : ^^^^^^^^^^^
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:88:5]
+ 88 | color: blue;
+    : ^^^^^^^^^^^
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:88:5]
+ 88 | color: blue;
+    : ^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:88:5]
+ 88 | color: blue;
+    : ^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:88:5]
+ 88 | color: blue;
+    :        ^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:88:5]
+ 88 | color: blue;
+    :        ^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:89:5]
+ 89 | & > .bar { color: red; }
+    : ^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x StyleBlock
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:89:5]
+ 89 | & > .bar { color: red; }
+    : ^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x QualifiedRule
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:89:5]
+ 89 | & > .bar { color: red; }
+    : ^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x RelativeSelectorList
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:89:5]
+ 89 | & > .bar { color: red; }
+    : ^^^^^^^^
+    `----
+
+  x RelativeSelector
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:89:5]
+ 89 | & > .bar { color: red; }
+    : ^^^^^^^^
+    `----
+
+  x ComplexSelector
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:89:5]
+ 89 | & > .bar { color: red; }
+    : ^^^^^^^^
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:89:5]
+ 89 | & > .bar { color: red; }
+    : ^
+    `----
+
+  x NestingSelector
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:89:5]
+ 89 | & > .bar { color: red; }
+    : ^
+    `----
+
+  x Combinator
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:89:5]
+ 89 | & > .bar { color: red; }
+    :   ^
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:89:5]
+ 89 | & > .bar { color: red; }
+    :     ^^^^
+    `----
+
+  x SubclassSelector
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:89:5]
+ 89 | & > .bar { color: red; }
+    :     ^^^^
+    `----
+
+  x ClassSelector
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:89:5]
+ 89 | & > .bar { color: red; }
+    :     ^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:89:5]
+ 89 | & > .bar { color: red; }
+    :      ^^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:89:5]
+ 89 | & > .bar { color: red; }
+    :          ^^^^^^^^^^^^^^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:89:5]
+ 89 | & > .bar { color: red; }
+    :          ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:89:5]
+ 89 | & > .bar { color: red; }
+    :            ^^^^^^^^^^
+    `----
+
+  x StyleBlock
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:89:5]
+ 89 | & > .bar { color: red; }
+    :            ^^^^^^^^^^
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:89:5]
+ 89 | & > .bar { color: red; }
+    :            ^^^^^^^^^^
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:89:5]
+ 89 | & > .bar { color: red; }
+    :            ^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:89:5]
+ 89 | & > .bar { color: red; }
+    :            ^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:89:5]
+ 89 | & > .bar { color: red; }
+    :                   ^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:89:5]
+ 89 | & > .bar { color: red; }
+    :                   ^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:90:5]
+ 90 | > .baz { color: green; }
+    : ^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x StyleBlock
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:90:5]
+ 90 | > .baz { color: green; }
+    : ^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x QualifiedRule
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:90:5]
+ 90 | > .baz { color: green; }
+    : ^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x RelativeSelectorList
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:90:5]
+ 90 | > .baz { color: green; }
+    : ^^^^^^
+    `----
+
+  x RelativeSelector
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:90:5]
+ 90 | > .baz { color: green; }
+    : ^^^^^^
+    `----
+
+  x Combinator
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:90:5]
+ 90 | > .baz { color: green; }
+    : ^
+    `----
+
+  x ComplexSelector
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:90:5]
+ 90 | > .baz { color: green; }
+    :   ^^^^
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:90:5]
+ 90 | > .baz { color: green; }
+    :   ^^^^
+    `----
+
+  x SubclassSelector
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:90:5]
+ 90 | > .baz { color: green; }
+    :   ^^^^
+    `----
+
+  x ClassSelector
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:90:5]
+ 90 | > .baz { color: green; }
+    :   ^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:90:5]
+ 90 | > .baz { color: green; }
+    :    ^^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:90:5]
+ 90 | > .baz { color: green; }
+    :        ^^^^^^^^^^^^^^^^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:90:5]
+ 90 | > .baz { color: green; }
+    :        ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:90:5]
+ 90 | > .baz { color: green; }
+    :          ^^^^^^^^^^^^
+    `----
+
+  x StyleBlock
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:90:5]
+ 90 | > .baz { color: green; }
+    :          ^^^^^^^^^^^^
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:90:5]
+ 90 | > .baz { color: green; }
+    :          ^^^^^^^^^^^^
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:90:5]
+ 90 | > .baz { color: green; }
+    :          ^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:90:5]
+ 90 | > .baz { color: green; }
+    :          ^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:90:5]
+ 90 | > .baz { color: green; }
+    :                 ^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:90:5]
+ 90 | > .baz { color: green; }
+    :                 ^^^^^
+    `----
+
+  x Rule
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:93:1]
+  93 | ,-> div {
+  94 | |       color: red;
+  95 | |   
+  96 | |       & input { margin: 1em; }
+  97 | |       /* valid, no longer starts with an identifier */
+  98 | |   
+  99 | |       :is(input) { margin: 1em; }
+ 100 | |       /* valid, starts with a colon,
+ 101 | |          and equivalent to the previous rule. */
+ 102 | `-> }
+     `----
+
+  x QualifiedRule
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:93:1]
+  93 | ,-> div {
+  94 | |       color: red;
+  95 | |   
+  96 | |       & input { margin: 1em; }
+  97 | |       /* valid, no longer starts with an identifier */
+  98 | |   
+  99 | |       :is(input) { margin: 1em; }
+ 100 | |       /* valid, starts with a colon,
+ 101 | |          and equivalent to the previous rule. */
+ 102 | `-> }
+     `----
+
+  x SelectorList
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:93:1]
+ 93 | div {
+    : ^^^
+    `----
+
+  x ComplexSelector
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:93:1]
+ 93 | div {
+    : ^^^
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:93:1]
+ 93 | div {
+    : ^^^
+    `----
+
+  x TypeSelector
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:93:1]
+ 93 | div {
+    : ^^^
+    `----
+
+  x TagNameSelector
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:93:1]
+ 93 | div {
+    : ^^^
+    `----
+
+  x WqName
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:93:1]
+ 93 | div {
+    : ^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:93:1]
+ 93 | div {
+    : ^^^
+    `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:93:1]
+  93 | ,-> div {
+  94 | |       color: red;
+  95 | |   
+  96 | |       & input { margin: 1em; }
+  97 | |       /* valid, no longer starts with an identifier */
+  98 | |   
+  99 | |       :is(input) { margin: 1em; }
+ 100 | |       /* valid, starts with a colon,
+ 101 | |          and equivalent to the previous rule. */
+ 102 | `-> }
+     `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:93:1]
+ 93 | div {
+    :     ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:94:5]
+ 94 | color: red;
+    : ^^^^^^^^^^
+    `----
+
+  x StyleBlock
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:94:5]
+ 94 | color: red;
+    : ^^^^^^^^^^
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:94:5]
+ 94 | color: red;
+    : ^^^^^^^^^^
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:94:5]
+ 94 | color: red;
+    : ^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:94:5]
+ 94 | color: red;
+    : ^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:94:5]
+ 94 | color: red;
+    :        ^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:94:5]
+ 94 | color: red;
+    :        ^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:96:5]
+ 96 | & input { margin: 1em; }
+    : ^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x StyleBlock
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:96:5]
+ 96 | & input { margin: 1em; }
+    : ^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x QualifiedRule
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:96:5]
+ 96 | & input { margin: 1em; }
+    : ^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x RelativeSelectorList
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:96:5]
+ 96 | & input { margin: 1em; }
+    : ^^^^^^^
+    `----
+
+  x RelativeSelector
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:96:5]
+ 96 | & input { margin: 1em; }
+    : ^^^^^^^
+    `----
+
+  x ComplexSelector
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:96:5]
+ 96 | & input { margin: 1em; }
+    : ^^^^^^^
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:96:5]
+ 96 | & input { margin: 1em; }
+    : ^
+    `----
+
+  x NestingSelector
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:96:5]
+ 96 | & input { margin: 1em; }
+    : ^
+    `----
+
+  x Combinator
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:96:5]
+ 96 | & input { margin: 1em; }
+    :  ^
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:96:5]
+ 96 | & input { margin: 1em; }
+    :   ^^^^^
+    `----
+
+  x TypeSelector
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:96:5]
+ 96 | & input { margin: 1em; }
+    :   ^^^^^
+    `----
+
+  x TagNameSelector
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:96:5]
+ 96 | & input { margin: 1em; }
+    :   ^^^^^
+    `----
+
+  x WqName
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:96:5]
+ 96 | & input { margin: 1em; }
+    :   ^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:96:5]
+ 96 | & input { margin: 1em; }
+    :   ^^^^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:96:5]
+ 96 | & input { margin: 1em; }
+    :         ^^^^^^^^^^^^^^^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:96:5]
+ 96 | & input { margin: 1em; }
+    :         ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:96:5]
+ 96 | & input { margin: 1em; }
+    :           ^^^^^^^^^^^
+    `----
+
+  x StyleBlock
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:96:5]
+ 96 | & input { margin: 1em; }
+    :           ^^^^^^^^^^^
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:96:5]
+ 96 | & input { margin: 1em; }
+    :           ^^^^^^^^^^^
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:96:5]
+ 96 | & input { margin: 1em; }
+    :           ^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:96:5]
+ 96 | & input { margin: 1em; }
+    :           ^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:96:5]
+ 96 | & input { margin: 1em; }
+    :                   ^^^
+    `----
+
+  x Dimension
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:96:5]
+ 96 | & input { margin: 1em; }
+    :                   ^^^
+    `----
+
+  x Length
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:96:5]
+ 96 | & input { margin: 1em; }
+    :                   ^^^
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:96:5]
+ 96 | & input { margin: 1em; }
+    :                   ^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:96:5]
+ 96 | & input { margin: 1em; }
+    :                    ^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:99:5]
+ 99 | :is(input) { margin: 1em; }
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x StyleBlock
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:99:5]
+ 99 | :is(input) { margin: 1em; }
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x QualifiedRule
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:99:5]
+ 99 | :is(input) { margin: 1em; }
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x RelativeSelectorList
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:99:5]
+ 99 | :is(input) { margin: 1em; }
+    : ^^^^^^^^^^
+    `----
+
+  x RelativeSelector
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:99:5]
+ 99 | :is(input) { margin: 1em; }
+    : ^^^^^^^^^^
+    `----
+
+  x ComplexSelector
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:99:5]
+ 99 | :is(input) { margin: 1em; }
+    : ^^^^^^^^^^
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:99:5]
+ 99 | :is(input) { margin: 1em; }
+    : ^^^^^^^^^^
+    `----
+
+  x SubclassSelector
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:99:5]
+ 99 | :is(input) { margin: 1em; }
+    : ^^^^^^^^^^
+    `----
+
+  x PseudoClassSelector
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:99:5]
+ 99 | :is(input) { margin: 1em; }
+    : ^^^^^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:99:5]
+ 99 | :is(input) { margin: 1em; }
+    :  ^^
+    `----
+
+  x PseudoClassSelectorChildren
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:99:5]
+ 99 | :is(input) { margin: 1em; }
+    :     ^^^^^
+    `----
+
+  x ForgivingSelectorList
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:99:5]
+ 99 | :is(input) { margin: 1em; }
+    :     ^^^^^
+    `----
+
+  x ComplexSelector
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:99:5]
+ 99 | :is(input) { margin: 1em; }
+    :     ^^^^^
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:99:5]
+ 99 | :is(input) { margin: 1em; }
+    :     ^^^^^
+    `----
+
+  x TypeSelector
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:99:5]
+ 99 | :is(input) { margin: 1em; }
+    :     ^^^^^
+    `----
+
+  x TagNameSelector
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:99:5]
+ 99 | :is(input) { margin: 1em; }
+    :     ^^^^^
+    `----
+
+  x WqName
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:99:5]
+ 99 | :is(input) { margin: 1em; }
+    :     ^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:99:5]
+ 99 | :is(input) { margin: 1em; }
+    :     ^^^^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:99:5]
+ 99 | :is(input) { margin: 1em; }
+    :            ^^^^^^^^^^^^^^^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:99:5]
+ 99 | :is(input) { margin: 1em; }
+    :            ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:99:5]
+ 99 | :is(input) { margin: 1em; }
+    :              ^^^^^^^^^^^
+    `----
+
+  x StyleBlock
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:99:5]
+ 99 | :is(input) { margin: 1em; }
+    :              ^^^^^^^^^^^
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:99:5]
+ 99 | :is(input) { margin: 1em; }
+    :              ^^^^^^^^^^^
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:99:5]
+ 99 | :is(input) { margin: 1em; }
+    :              ^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:99:5]
+ 99 | :is(input) { margin: 1em; }
+    :              ^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:99:5]
+ 99 | :is(input) { margin: 1em; }
+    :                      ^^^
+    `----
+
+  x Dimension
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:99:5]
+ 99 | :is(input) { margin: 1em; }
+    :                      ^^^
+    `----
+
+  x Length
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:99:5]
+ 99 | :is(input) { margin: 1em; }
+    :                      ^^^
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:99:5]
+ 99 | :is(input) { margin: 1em; }
+    :                      ^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:99:5]
+ 99 | :is(input) { margin: 1em; }
+    :                       ^^
+    `----
+
+  x Rule
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:104:1]
+ 104 | ,-> .foo, .bar {
+ 105 | |       color: blue;
+ 106 | |       + .baz, &.qux { color: red; }
+ 107 | `-> }
+     `----
+
+  x QualifiedRule
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:104:1]
+ 104 | ,-> .foo, .bar {
+ 105 | |       color: blue;
+ 106 | |       + .baz, &.qux { color: red; }
+ 107 | `-> }
+     `----
+
+  x SelectorList
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:104:1]
+ 104 | .foo, .bar {
+     : ^^^^^^^^^^
+     `----
+
+  x ComplexSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:104:1]
+ 104 | .foo, .bar {
+     : ^^^^
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:104:1]
+ 104 | .foo, .bar {
+     : ^^^^
+     `----
+
+  x SubclassSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:104:1]
+ 104 | .foo, .bar {
+     : ^^^^
+     `----
+
+  x ClassSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:104:1]
+ 104 | .foo, .bar {
+     : ^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:104:1]
+ 104 | .foo, .bar {
+     :  ^^^
+     `----
+
+  x ComplexSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:104:1]
+ 104 | .foo, .bar {
+     :       ^^^^
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:104:1]
+ 104 | .foo, .bar {
+     :       ^^^^
+     `----
+
+  x SubclassSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:104:1]
+ 104 | .foo, .bar {
+     :       ^^^^
+     `----
+
+  x ClassSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:104:1]
+ 104 | .foo, .bar {
+     :       ^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:104:1]
+ 104 | .foo, .bar {
+     :        ^^^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:104:1]
+ 104 | ,-> .foo, .bar {
+ 105 | |       color: blue;
+ 106 | |       + .baz, &.qux { color: red; }
+ 107 | `-> }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:104:1]
+ 104 | .foo, .bar {
+     :            ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:105:5]
+ 105 | color: blue;
+     : ^^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:105:5]
+ 105 | color: blue;
+     : ^^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:105:5]
+ 105 | color: blue;
+     : ^^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:105:5]
+ 105 | color: blue;
+     : ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:105:5]
+ 105 | color: blue;
+     : ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:105:5]
+ 105 | color: blue;
+     :        ^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:105:5]
+ 105 | color: blue;
+     :        ^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:106:5]
+ 106 | + .baz, &.qux { color: red; }
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:106:5]
+ 106 | + .baz, &.qux { color: red; }
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x QualifiedRule
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:106:5]
+ 106 | + .baz, &.qux { color: red; }
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x RelativeSelectorList
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:106:5]
+ 106 | + .baz, &.qux { color: red; }
+     : ^^^^^^^^^^^^^
+     `----
+
+  x RelativeSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:106:5]
+ 106 | + .baz, &.qux { color: red; }
+     : ^^^^^^
+     `----
+
+  x Combinator
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:106:5]
+ 106 | + .baz, &.qux { color: red; }
+     : ^
+     `----
+
+  x ComplexSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:106:5]
+ 106 | + .baz, &.qux { color: red; }
+     :   ^^^^
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:106:5]
+ 106 | + .baz, &.qux { color: red; }
+     :   ^^^^
+     `----
+
+  x SubclassSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:106:5]
+ 106 | + .baz, &.qux { color: red; }
+     :   ^^^^
+     `----
+
+  x ClassSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:106:5]
+ 106 | + .baz, &.qux { color: red; }
+     :   ^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:106:5]
+ 106 | + .baz, &.qux { color: red; }
+     :    ^^^
+     `----
+
+  x RelativeSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:106:5]
+ 106 | + .baz, &.qux { color: red; }
+     :         ^^^^^
+     `----
+
+  x ComplexSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:106:5]
+ 106 | + .baz, &.qux { color: red; }
+     :         ^^^^^
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:106:5]
+ 106 | + .baz, &.qux { color: red; }
+     :         ^^^^^
+     `----
+
+  x NestingSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:106:5]
+ 106 | + .baz, &.qux { color: red; }
+     :         ^
+     `----
+
+  x SubclassSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:106:5]
+ 106 | + .baz, &.qux { color: red; }
+     :          ^^^^
+     `----
+
+  x ClassSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:106:5]
+ 106 | + .baz, &.qux { color: red; }
+     :          ^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:106:5]
+ 106 | + .baz, &.qux { color: red; }
+     :           ^^^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:106:5]
+ 106 | + .baz, &.qux { color: red; }
+     :               ^^^^^^^^^^^^^^^
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:106:5]
+ 106 | + .baz, &.qux { color: red; }
+     :               ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:106:5]
+ 106 | + .baz, &.qux { color: red; }
+     :                 ^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:106:5]
+ 106 | + .baz, &.qux { color: red; }
+     :                 ^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:106:5]
+ 106 | + .baz, &.qux { color: red; }
+     :                 ^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:106:5]
+ 106 | + .baz, &.qux { color: red; }
+     :                 ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:106:5]
+ 106 | + .baz, &.qux { color: red; }
+     :                 ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:106:5]
+ 106 | + .baz, &.qux { color: red; }
+     :                        ^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:106:5]
+ 106 | + .baz, &.qux { color: red; }
+     :                        ^^^
+     `----
+
+  x Rule
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:109:1]
+ 109 | ,-> .foo {
+ 110 | |       color: blue;
+ 111 | |       & .bar & .baz & .qux { color: red; }
+ 112 | `-> }
+     `----
+
+  x QualifiedRule
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:109:1]
+ 109 | ,-> .foo {
+ 110 | |       color: blue;
+ 111 | |       & .bar & .baz & .qux { color: red; }
+ 112 | `-> }
+     `----
+
+  x SelectorList
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:109:1]
+ 109 | .foo {
+     : ^^^^
+     `----
+
+  x ComplexSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:109:1]
+ 109 | .foo {
+     : ^^^^
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:109:1]
+ 109 | .foo {
+     : ^^^^
+     `----
+
+  x SubclassSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:109:1]
+ 109 | .foo {
+     : ^^^^
+     `----
+
+  x ClassSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:109:1]
+ 109 | .foo {
+     : ^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:109:1]
+ 109 | .foo {
+     :  ^^^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:109:1]
+ 109 | ,-> .foo {
+ 110 | |       color: blue;
+ 111 | |       & .bar & .baz & .qux { color: red; }
+ 112 | `-> }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:109:1]
+ 109 | .foo {
+     :      ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:110:5]
+ 110 | color: blue;
+     : ^^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:110:5]
+ 110 | color: blue;
+     : ^^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:110:5]
+ 110 | color: blue;
+     : ^^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:110:5]
+ 110 | color: blue;
+     : ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:110:5]
+ 110 | color: blue;
+     : ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:110:5]
+ 110 | color: blue;
+     :        ^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:110:5]
+ 110 | color: blue;
+     :        ^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:111:5]
+ 111 | & .bar & .baz & .qux { color: red; }
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:111:5]
+ 111 | & .bar & .baz & .qux { color: red; }
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x QualifiedRule
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:111:5]
+ 111 | & .bar & .baz & .qux { color: red; }
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x RelativeSelectorList
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:111:5]
+ 111 | & .bar & .baz & .qux { color: red; }
+     : ^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x RelativeSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:111:5]
+ 111 | & .bar & .baz & .qux { color: red; }
+     : ^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x ComplexSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:111:5]
+ 111 | & .bar & .baz & .qux { color: red; }
+     : ^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:111:5]
+ 111 | & .bar & .baz & .qux { color: red; }
+     : ^
+     `----
+
+  x NestingSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:111:5]
+ 111 | & .bar & .baz & .qux { color: red; }
+     : ^
+     `----
+
+  x Combinator
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:111:5]
+ 111 | & .bar & .baz & .qux { color: red; }
+     :  ^
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:111:5]
+ 111 | & .bar & .baz & .qux { color: red; }
+     :   ^^^^
+     `----
+
+  x SubclassSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:111:5]
+ 111 | & .bar & .baz & .qux { color: red; }
+     :   ^^^^
+     `----
+
+  x ClassSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:111:5]
+ 111 | & .bar & .baz & .qux { color: red; }
+     :   ^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:111:5]
+ 111 | & .bar & .baz & .qux { color: red; }
+     :    ^^^
+     `----
+
+  x Combinator
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:111:5]
+ 111 | & .bar & .baz & .qux { color: red; }
+     :       ^
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:111:5]
+ 111 | & .bar & .baz & .qux { color: red; }
+     :        ^
+     `----
+
+  x NestingSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:111:5]
+ 111 | & .bar & .baz & .qux { color: red; }
+     :        ^
+     `----
+
+  x Combinator
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:111:5]
+ 111 | & .bar & .baz & .qux { color: red; }
+     :         ^
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:111:5]
+ 111 | & .bar & .baz & .qux { color: red; }
+     :          ^^^^
+     `----
+
+  x SubclassSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:111:5]
+ 111 | & .bar & .baz & .qux { color: red; }
+     :          ^^^^
+     `----
+
+  x ClassSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:111:5]
+ 111 | & .bar & .baz & .qux { color: red; }
+     :          ^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:111:5]
+ 111 | & .bar & .baz & .qux { color: red; }
+     :           ^^^
+     `----
+
+  x Combinator
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:111:5]
+ 111 | & .bar & .baz & .qux { color: red; }
+     :              ^
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:111:5]
+ 111 | & .bar & .baz & .qux { color: red; }
+     :               ^
+     `----
+
+  x NestingSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:111:5]
+ 111 | & .bar & .baz & .qux { color: red; }
+     :               ^
+     `----
+
+  x Combinator
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:111:5]
+ 111 | & .bar & .baz & .qux { color: red; }
+     :                ^
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:111:5]
+ 111 | & .bar & .baz & .qux { color: red; }
+     :                 ^^^^
+     `----
+
+  x SubclassSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:111:5]
+ 111 | & .bar & .baz & .qux { color: red; }
+     :                 ^^^^
+     `----
+
+  x ClassSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:111:5]
+ 111 | & .bar & .baz & .qux { color: red; }
+     :                 ^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:111:5]
+ 111 | & .bar & .baz & .qux { color: red; }
+     :                  ^^^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:111:5]
+ 111 | & .bar & .baz & .qux { color: red; }
+     :                      ^^^^^^^^^^^^^^^
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:111:5]
+ 111 | & .bar & .baz & .qux { color: red; }
+     :                      ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:111:5]
+ 111 | & .bar & .baz & .qux { color: red; }
+     :                        ^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:111:5]
+ 111 | & .bar & .baz & .qux { color: red; }
+     :                        ^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:111:5]
+ 111 | & .bar & .baz & .qux { color: red; }
+     :                        ^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:111:5]
+ 111 | & .bar & .baz & .qux { color: red; }
+     :                        ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:111:5]
+ 111 | & .bar & .baz & .qux { color: red; }
+     :                        ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:111:5]
+ 111 | & .bar & .baz & .qux { color: red; }
+     :                               ^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:111:5]
+ 111 | & .bar & .baz & .qux { color: red; }
+     :                               ^^^
+     `----
+
+  x Rule
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:114:1]
+ 114 | ,-> .foo {
+ 115 | |       color: red;
+ 116 | |       .parent & {
+ 117 | |           color: blue;
+ 118 | |       }
+ 119 | `-> }
+     `----
+
+  x QualifiedRule
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:114:1]
+ 114 | ,-> .foo {
+ 115 | |       color: red;
+ 116 | |       .parent & {
+ 117 | |           color: blue;
+ 118 | |       }
+ 119 | `-> }
+     `----
+
+  x SelectorList
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:114:1]
+ 114 | .foo {
+     : ^^^^
+     `----
+
+  x ComplexSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:114:1]
+ 114 | .foo {
+     : ^^^^
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:114:1]
+ 114 | .foo {
+     : ^^^^
+     `----
+
+  x SubclassSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:114:1]
+ 114 | .foo {
+     : ^^^^
+     `----
+
+  x ClassSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:114:1]
+ 114 | .foo {
+     : ^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:114:1]
+ 114 | .foo {
+     :  ^^^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:114:1]
+ 114 | ,-> .foo {
+ 115 | |       color: red;
+ 116 | |       .parent & {
+ 117 | |           color: blue;
+ 118 | |       }
+ 119 | `-> }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:114:1]
+ 114 | .foo {
+     :      ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:115:5]
+ 115 | color: red;
+     : ^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:115:5]
+ 115 | color: red;
+     : ^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:115:5]
+ 115 | color: red;
+     : ^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:115:5]
+ 115 | color: red;
+     : ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:115:5]
+ 115 | color: red;
+     : ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:115:5]
+ 115 | color: red;
+     :        ^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:115:5]
+ 115 | color: red;
+     :        ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:116:5]
+ 116 | ,-> .parent & {
+ 117 | |           color: blue;
+ 118 | `->     }
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:116:5]
+ 116 | ,-> .parent & {
+ 117 | |           color: blue;
+ 118 | `->     }
+     `----
+
+  x QualifiedRule
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:116:5]
+ 116 | ,-> .parent & {
+ 117 | |           color: blue;
+ 118 | `->     }
+     `----
+
+  x RelativeSelectorList
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:116:5]
+ 116 | .parent & {
+     : ^^^^^^^^^
+     `----
+
+  x RelativeSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:116:5]
+ 116 | .parent & {
+     : ^^^^^^^^^
+     `----
+
+  x ComplexSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:116:5]
+ 116 | .parent & {
+     : ^^^^^^^^^
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:116:5]
+ 116 | .parent & {
+     : ^^^^^^^
+     `----
+
+  x SubclassSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:116:5]
+ 116 | .parent & {
+     : ^^^^^^^
+     `----
+
+  x ClassSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:116:5]
+ 116 | .parent & {
+     : ^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:116:5]
+ 116 | .parent & {
+     :  ^^^^^^
+     `----
+
+  x Combinator
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:116:5]
+ 116 | .parent & {
+     :        ^
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:116:5]
+ 116 | .parent & {
+     :         ^
+     `----
+
+  x NestingSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:116:5]
+ 116 | .parent & {
+     :         ^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:116:5]
+ 116 | ,-> .parent & {
+ 117 | |           color: blue;
+ 118 | `->     }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:116:5]
+ 116 | .parent & {
+     :           ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:117:9]
+ 117 | color: blue;
+     : ^^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:117:9]
+ 117 | color: blue;
+     : ^^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:117:9]
+ 117 | color: blue;
+     : ^^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:117:9]
+ 117 | color: blue;
+     : ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:117:9]
+ 117 | color: blue;
+     : ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:117:9]
+ 117 | color: blue;
+     :        ^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:117:9]
+ 117 | color: blue;
+     :        ^^^^
+     `----
+
+  x Rule
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:121:1]
+ 121 | ,-> .foo {
+ 122 | |       color: red;
+ 123 | |       :not(&) {
+ 124 | |           color: blue;
+ 125 | |       }
+ 126 | `-> }
+     `----
+
+  x QualifiedRule
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:121:1]
+ 121 | ,-> .foo {
+ 122 | |       color: red;
+ 123 | |       :not(&) {
+ 124 | |           color: blue;
+ 125 | |       }
+ 126 | `-> }
+     `----
+
+  x SelectorList
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:121:1]
+ 121 | .foo {
+     : ^^^^
+     `----
+
+  x ComplexSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:121:1]
+ 121 | .foo {
+     : ^^^^
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:121:1]
+ 121 | .foo {
+     : ^^^^
+     `----
+
+  x SubclassSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:121:1]
+ 121 | .foo {
+     : ^^^^
+     `----
+
+  x ClassSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:121:1]
+ 121 | .foo {
+     : ^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:121:1]
+ 121 | .foo {
+     :  ^^^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:121:1]
+ 121 | ,-> .foo {
+ 122 | |       color: red;
+ 123 | |       :not(&) {
+ 124 | |           color: blue;
+ 125 | |       }
+ 126 | `-> }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:121:1]
+ 121 | .foo {
+     :      ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:122:5]
+ 122 | color: red;
+     : ^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:122:5]
+ 122 | color: red;
+     : ^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:122:5]
+ 122 | color: red;
+     : ^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:122:5]
+ 122 | color: red;
+     : ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:122:5]
+ 122 | color: red;
+     : ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:122:5]
+ 122 | color: red;
+     :        ^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:122:5]
+ 122 | color: red;
+     :        ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:123:5]
+ 123 | ,-> :not(&) {
+ 124 | |           color: blue;
+ 125 | `->     }
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:123:5]
+ 123 | ,-> :not(&) {
+ 124 | |           color: blue;
+ 125 | `->     }
+     `----
+
+  x QualifiedRule
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:123:5]
+ 123 | ,-> :not(&) {
+ 124 | |           color: blue;
+ 125 | `->     }
+     `----
+
+  x RelativeSelectorList
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:123:5]
+ 123 | :not(&) {
+     : ^^^^^^^
+     `----
+
+  x RelativeSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:123:5]
+ 123 | :not(&) {
+     : ^^^^^^^
+     `----
+
+  x ComplexSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:123:5]
+ 123 | :not(&) {
+     : ^^^^^^^
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:123:5]
+ 123 | :not(&) {
+     : ^^^^^^^
+     `----
+
+  x SubclassSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:123:5]
+ 123 | :not(&) {
+     : ^^^^^^^
+     `----
+
+  x PseudoClassSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:123:5]
+ 123 | :not(&) {
+     : ^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:123:5]
+ 123 | :not(&) {
+     :  ^^^
+     `----
+
+  x PseudoClassSelectorChildren
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:123:5]
+ 123 | :not(&) {
+     :      ^
+     `----
+
+  x SelectorList
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:123:5]
+ 123 | :not(&) {
+     :      ^
+     `----
+
+  x ComplexSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:123:5]
+ 123 | :not(&) {
+     :      ^
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:123:5]
+ 123 | :not(&) {
+     :      ^
+     `----
+
+  x NestingSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:123:5]
+ 123 | :not(&) {
+     :      ^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:123:5]
+ 123 | ,-> :not(&) {
+ 124 | |           color: blue;
+ 125 | `->     }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:123:5]
+ 123 | :not(&) {
+     :         ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:124:9]
+ 124 | color: blue;
+     : ^^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:124:9]
+ 124 | color: blue;
+     : ^^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:124:9]
+ 124 | color: blue;
+     : ^^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:124:9]
+ 124 | color: blue;
+     : ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:124:9]
+ 124 | color: blue;
+     : ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:124:9]
+ 124 | color: blue;
+     :        ^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:124:9]
+ 124 | color: blue;
+     :        ^^^^
+     `----
+
+  x Rule
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:128:1]
+ 128 | ,-> .foo {
+ 129 | |       color: red;
+ 130 | |       + .bar + & { color: blue; }
+ 131 | `-> }
+     `----
+
+  x QualifiedRule
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:128:1]
+ 128 | ,-> .foo {
+ 129 | |       color: red;
+ 130 | |       + .bar + & { color: blue; }
+ 131 | `-> }
+     `----
+
+  x SelectorList
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:128:1]
+ 128 | .foo {
+     : ^^^^
+     `----
+
+  x ComplexSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:128:1]
+ 128 | .foo {
+     : ^^^^
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:128:1]
+ 128 | .foo {
+     : ^^^^
+     `----
+
+  x SubclassSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:128:1]
+ 128 | .foo {
+     : ^^^^
+     `----
+
+  x ClassSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:128:1]
+ 128 | .foo {
+     : ^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:128:1]
+ 128 | .foo {
+     :  ^^^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:128:1]
+ 128 | ,-> .foo {
+ 129 | |       color: red;
+ 130 | |       + .bar + & { color: blue; }
+ 131 | `-> }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:128:1]
+ 128 | .foo {
+     :      ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:129:5]
+ 129 | color: red;
+     : ^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:129:5]
+ 129 | color: red;
+     : ^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:129:5]
+ 129 | color: red;
+     : ^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:129:5]
+ 129 | color: red;
+     : ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:129:5]
+ 129 | color: red;
+     : ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:129:5]
+ 129 | color: red;
+     :        ^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:129:5]
+ 129 | color: red;
+     :        ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:130:5]
+ 130 | + .bar + & { color: blue; }
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:130:5]
+ 130 | + .bar + & { color: blue; }
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x QualifiedRule
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:130:5]
+ 130 | + .bar + & { color: blue; }
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x RelativeSelectorList
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:130:5]
+ 130 | + .bar + & { color: blue; }
+     : ^^^^^^^^^^
+     `----
+
+  x RelativeSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:130:5]
+ 130 | + .bar + & { color: blue; }
+     : ^^^^^^^^^^
+     `----
+
+  x Combinator
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:130:5]
+ 130 | + .bar + & { color: blue; }
+     : ^
+     `----
+
+  x ComplexSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:130:5]
+ 130 | + .bar + & { color: blue; }
+     :   ^^^^^^^^
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:130:5]
+ 130 | + .bar + & { color: blue; }
+     :   ^^^^
+     `----
+
+  x SubclassSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:130:5]
+ 130 | + .bar + & { color: blue; }
+     :   ^^^^
+     `----
+
+  x ClassSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:130:5]
+ 130 | + .bar + & { color: blue; }
+     :   ^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:130:5]
+ 130 | + .bar + & { color: blue; }
+     :    ^^^
+     `----
+
+  x Combinator
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:130:5]
+ 130 | + .bar + & { color: blue; }
+     :        ^
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:130:5]
+ 130 | + .bar + & { color: blue; }
+     :          ^
+     `----
+
+  x NestingSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:130:5]
+ 130 | + .bar + & { color: blue; }
+     :          ^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:130:5]
+ 130 | + .bar + & { color: blue; }
+     :            ^^^^^^^^^^^^^^^^
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:130:5]
+ 130 | + .bar + & { color: blue; }
+     :            ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:130:5]
+ 130 | + .bar + & { color: blue; }
+     :              ^^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:130:5]
+ 130 | + .bar + & { color: blue; }
+     :              ^^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:130:5]
+ 130 | + .bar + & { color: blue; }
+     :              ^^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:130:5]
+ 130 | + .bar + & { color: blue; }
+     :              ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:130:5]
+ 130 | + .bar + & { color: blue; }
+     :              ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:130:5]
+ 130 | + .bar + & { color: blue; }
+     :                     ^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:130:5]
+ 130 | + .bar + & { color: blue; }
+     :                     ^^^^
+     `----
+
+  x Rule
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:133:1]
+ 133 | ,-> .ancestor .el {
+ 134 | |       .other-ancestor & { color: red; }
+ 135 | `-> }
+     `----
+
+  x QualifiedRule
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:133:1]
+ 133 | ,-> .ancestor .el {
+ 134 | |       .other-ancestor & { color: red; }
+ 135 | `-> }
+     `----
+
+  x SelectorList
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:133:1]
+ 133 | .ancestor .el {
+     : ^^^^^^^^^^^^^
+     `----
+
+  x ComplexSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:133:1]
+ 133 | .ancestor .el {
+     : ^^^^^^^^^^^^^
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:133:1]
+ 133 | .ancestor .el {
+     : ^^^^^^^^^
+     `----
+
+  x SubclassSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:133:1]
+ 133 | .ancestor .el {
+     : ^^^^^^^^^
+     `----
+
+  x ClassSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:133:1]
+ 133 | .ancestor .el {
+     : ^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:133:1]
+ 133 | .ancestor .el {
+     :  ^^^^^^^^
+     `----
+
+  x Combinator
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:133:1]
+ 133 | .ancestor .el {
+     :          ^
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:133:1]
+ 133 | .ancestor .el {
+     :           ^^^
+     `----
+
+  x SubclassSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:133:1]
+ 133 | .ancestor .el {
+     :           ^^^
+     `----
+
+  x ClassSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:133:1]
+ 133 | .ancestor .el {
+     :           ^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:133:1]
+ 133 | .ancestor .el {
+     :            ^^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:133:1]
+ 133 | ,-> .ancestor .el {
+ 134 | |       .other-ancestor & { color: red; }
+ 135 | `-> }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:133:1]
+ 133 | .ancestor .el {
+     :               ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:134:5]
+ 134 | .other-ancestor & { color: red; }
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:134:5]
+ 134 | .other-ancestor & { color: red; }
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x QualifiedRule
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:134:5]
+ 134 | .other-ancestor & { color: red; }
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x RelativeSelectorList
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:134:5]
+ 134 | .other-ancestor & { color: red; }
+     : ^^^^^^^^^^^^^^^^^
+     `----
+
+  x RelativeSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:134:5]
+ 134 | .other-ancestor & { color: red; }
+     : ^^^^^^^^^^^^^^^^^
+     `----
+
+  x ComplexSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:134:5]
+ 134 | .other-ancestor & { color: red; }
+     : ^^^^^^^^^^^^^^^^^
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:134:5]
+ 134 | .other-ancestor & { color: red; }
+     : ^^^^^^^^^^^^^^^
+     `----
+
+  x SubclassSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:134:5]
+ 134 | .other-ancestor & { color: red; }
+     : ^^^^^^^^^^^^^^^
+     `----
+
+  x ClassSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:134:5]
+ 134 | .other-ancestor & { color: red; }
+     : ^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:134:5]
+ 134 | .other-ancestor & { color: red; }
+     :  ^^^^^^^^^^^^^^
+     `----
+
+  x Combinator
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:134:5]
+ 134 | .other-ancestor & { color: red; }
+     :                ^
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:134:5]
+ 134 | .other-ancestor & { color: red; }
+     :                 ^
+     `----
+
+  x NestingSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:134:5]
+ 134 | .other-ancestor & { color: red; }
+     :                 ^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:134:5]
+ 134 | .other-ancestor & { color: red; }
+     :                   ^^^^^^^^^^^^^^^
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:134:5]
+ 134 | .other-ancestor & { color: red; }
+     :                   ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:134:5]
+ 134 | .other-ancestor & { color: red; }
+     :                     ^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:134:5]
+ 134 | .other-ancestor & { color: red; }
+     :                     ^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:134:5]
+ 134 | .other-ancestor & { color: red; }
+     :                     ^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:134:5]
+ 134 | .other-ancestor & { color: red; }
+     :                     ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:134:5]
+ 134 | .other-ancestor & { color: red; }
+     :                     ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:134:5]
+ 134 | .other-ancestor & { color: red; }
+     :                            ^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:134:5]
+ 134 | .other-ancestor & { color: red; }
+     :                            ^^^
+     `----
+
+  x Rule
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:137:1]
+ 137 | ,-> .foo {
+ 138 | |       & :is(.bar, &.baz) { color: red; }
+ 139 | `-> }
+     `----
+
+  x QualifiedRule
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:137:1]
+ 137 | ,-> .foo {
+ 138 | |       & :is(.bar, &.baz) { color: red; }
+ 139 | `-> }
+     `----
+
+  x SelectorList
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:137:1]
+ 137 | .foo {
+     : ^^^^
+     `----
+
+  x ComplexSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:137:1]
+ 137 | .foo {
+     : ^^^^
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:137:1]
+ 137 | .foo {
+     : ^^^^
+     `----
+
+  x SubclassSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:137:1]
+ 137 | .foo {
+     : ^^^^
+     `----
+
+  x ClassSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:137:1]
+ 137 | .foo {
+     : ^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:137:1]
+ 137 | .foo {
+     :  ^^^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:137:1]
+ 137 | ,-> .foo {
+ 138 | |       & :is(.bar, &.baz) { color: red; }
+ 139 | `-> }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:137:1]
+ 137 | .foo {
+     :      ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:138:5]
+ 138 | & :is(.bar, &.baz) { color: red; }
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:138:5]
+ 138 | & :is(.bar, &.baz) { color: red; }
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x QualifiedRule
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:138:5]
+ 138 | & :is(.bar, &.baz) { color: red; }
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x RelativeSelectorList
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:138:5]
+ 138 | & :is(.bar, &.baz) { color: red; }
+     : ^^^^^^^^^^^^^^^^^^
+     `----
+
+  x RelativeSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:138:5]
+ 138 | & :is(.bar, &.baz) { color: red; }
+     : ^^^^^^^^^^^^^^^^^^
+     `----
+
+  x ComplexSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:138:5]
+ 138 | & :is(.bar, &.baz) { color: red; }
+     : ^^^^^^^^^^^^^^^^^^
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:138:5]
+ 138 | & :is(.bar, &.baz) { color: red; }
+     : ^
+     `----
+
+  x NestingSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:138:5]
+ 138 | & :is(.bar, &.baz) { color: red; }
+     : ^
+     `----
+
+  x Combinator
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:138:5]
+ 138 | & :is(.bar, &.baz) { color: red; }
+     :  ^
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:138:5]
+ 138 | & :is(.bar, &.baz) { color: red; }
+     :   ^^^^^^^^^^^^^^^^
+     `----
+
+  x SubclassSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:138:5]
+ 138 | & :is(.bar, &.baz) { color: red; }
+     :   ^^^^^^^^^^^^^^^^
+     `----
+
+  x PseudoClassSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:138:5]
+ 138 | & :is(.bar, &.baz) { color: red; }
+     :   ^^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:138:5]
+ 138 | & :is(.bar, &.baz) { color: red; }
+     :    ^^
+     `----
+
+  x PseudoClassSelectorChildren
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:138:5]
+ 138 | & :is(.bar, &.baz) { color: red; }
+     :       ^^^^^^^^^^^
+     `----
+
+  x ForgivingSelectorList
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:138:5]
+ 138 | & :is(.bar, &.baz) { color: red; }
+     :       ^^^^^^^^^^^
+     `----
+
+  x ComplexSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:138:5]
+ 138 | & :is(.bar, &.baz) { color: red; }
+     :       ^^^^
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:138:5]
+ 138 | & :is(.bar, &.baz) { color: red; }
+     :       ^^^^
+     `----
+
+  x SubclassSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:138:5]
+ 138 | & :is(.bar, &.baz) { color: red; }
+     :       ^^^^
+     `----
+
+  x ClassSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:138:5]
+ 138 | & :is(.bar, &.baz) { color: red; }
+     :       ^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:138:5]
+ 138 | & :is(.bar, &.baz) { color: red; }
+     :        ^^^
+     `----
+
+  x ComplexSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:138:5]
+ 138 | & :is(.bar, &.baz) { color: red; }
+     :             ^^^^^
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:138:5]
+ 138 | & :is(.bar, &.baz) { color: red; }
+     :             ^^^^^
+     `----
+
+  x NestingSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:138:5]
+ 138 | & :is(.bar, &.baz) { color: red; }
+     :             ^
+     `----
+
+  x SubclassSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:138:5]
+ 138 | & :is(.bar, &.baz) { color: red; }
+     :              ^^^^
+     `----
+
+  x ClassSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:138:5]
+ 138 | & :is(.bar, &.baz) { color: red; }
+     :              ^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:138:5]
+ 138 | & :is(.bar, &.baz) { color: red; }
+     :               ^^^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:138:5]
+ 138 | & :is(.bar, &.baz) { color: red; }
+     :                    ^^^^^^^^^^^^^^^
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:138:5]
+ 138 | & :is(.bar, &.baz) { color: red; }
+     :                    ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:138:5]
+ 138 | & :is(.bar, &.baz) { color: red; }
+     :                      ^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:138:5]
+ 138 | & :is(.bar, &.baz) { color: red; }
+     :                      ^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:138:5]
+ 138 | & :is(.bar, &.baz) { color: red; }
+     :                      ^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:138:5]
+ 138 | & :is(.bar, &.baz) { color: red; }
+     :                      ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:138:5]
+ 138 | & :is(.bar, &.baz) { color: red; }
+     :                      ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:138:5]
+ 138 | & :is(.bar, &.baz) { color: red; }
+     :                             ^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:138:5]
+ 138 | & :is(.bar, &.baz) { color: red; }
+     :                             ^^^
+     `----
+
+  x Rule
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:141:1]
+ 141 | ,-> @layer base {
+ 142 | |       html {
+ 143 | |           block-size: 100%;
+ 144 | |   
+ 145 | |           & body {
+ 146 | |               min-block-size: 100%;
+ 147 | |           }
+ 148 | |       }
+ 149 | `-> }
+     `----
+
+  x AtRule
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:141:1]
+ 141 | ,-> @layer base {
+ 142 | |       html {
+ 143 | |           block-size: 100%;
+ 144 | |   
+ 145 | |           & body {
+ 146 | |               min-block-size: 100%;
+ 147 | |           }
+ 148 | |       }
+ 149 | `-> }
+     `----
+
+  x AtRuleName
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:141:1]
+ 141 | @layer base {
+     :  ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:141:1]
+ 141 | @layer base {
+     :  ^^^^^
+     `----
+
+  x LayerPrelude
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:141:1]
+ 141 | @layer base {
+     :        ^^^^
+     `----
+
+  x LayerName
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:141:1]
+ 141 | @layer base {
+     :        ^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:141:1]
+ 141 | @layer base {
+     :        ^^^^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:141:1]
+ 141 | ,-> @layer base {
+ 142 | |       html {
+ 143 | |           block-size: 100%;
+ 144 | |   
+ 145 | |           & body {
+ 146 | |               min-block-size: 100%;
+ 147 | |           }
+ 148 | |       }
+ 149 | `-> }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:141:1]
+ 141 | @layer base {
+     :             ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:142:5]
+ 142 | ,-> html {
+ 143 | |           block-size: 100%;
+ 144 | |   
+ 145 | |           & body {
+ 146 | |               min-block-size: 100%;
+ 147 | |           }
+ 148 | `->     }
+     `----
+
+  x Rule
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:142:5]
+ 142 | ,-> html {
+ 143 | |           block-size: 100%;
+ 144 | |   
+ 145 | |           & body {
+ 146 | |               min-block-size: 100%;
+ 147 | |           }
+ 148 | `->     }
+     `----
+
+  x QualifiedRule
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:142:5]
+ 142 | ,-> html {
+ 143 | |           block-size: 100%;
+ 144 | |   
+ 145 | |           & body {
+ 146 | |               min-block-size: 100%;
+ 147 | |           }
+ 148 | `->     }
+     `----
+
+  x SelectorList
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:142:5]
+ 142 | html {
+     : ^^^^
+     `----
+
+  x ComplexSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:142:5]
+ 142 | html {
+     : ^^^^
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:142:5]
+ 142 | html {
+     : ^^^^
+     `----
+
+  x TypeSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:142:5]
+ 142 | html {
+     : ^^^^
+     `----
+
+  x TagNameSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:142:5]
+ 142 | html {
+     : ^^^^
+     `----
+
+  x WqName
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:142:5]
+ 142 | html {
+     : ^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:142:5]
+ 142 | html {
+     : ^^^^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:142:5]
+ 142 | ,-> html {
+ 143 | |           block-size: 100%;
+ 144 | |   
+ 145 | |           & body {
+ 146 | |               min-block-size: 100%;
+ 147 | |           }
+ 148 | `->     }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:142:5]
+ 142 | html {
+     :      ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:143:9]
+ 143 | block-size: 100%;
+     : ^^^^^^^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:143:9]
+ 143 | block-size: 100%;
+     : ^^^^^^^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:143:9]
+ 143 | block-size: 100%;
+     : ^^^^^^^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:143:9]
+ 143 | block-size: 100%;
+     : ^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:143:9]
+ 143 | block-size: 100%;
+     : ^^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:143:9]
+ 143 | block-size: 100%;
+     :             ^^^^
+     `----
+
+  x Percentage
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:143:9]
+ 143 | block-size: 100%;
+     :             ^^^^
+     `----
+
+  x Number
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:143:9]
+ 143 | block-size: 100%;
+     :             ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:145:9]
+ 145 | ,-> & body {
+ 146 | |               min-block-size: 100%;
+ 147 | `->         }
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:145:9]
+ 145 | ,-> & body {
+ 146 | |               min-block-size: 100%;
+ 147 | `->         }
+     `----
+
+  x QualifiedRule
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:145:9]
+ 145 | ,-> & body {
+ 146 | |               min-block-size: 100%;
+ 147 | `->         }
+     `----
+
+  x RelativeSelectorList
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:145:9]
+ 145 | & body {
+     : ^^^^^^
+     `----
+
+  x RelativeSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:145:9]
+ 145 | & body {
+     : ^^^^^^
+     `----
+
+  x ComplexSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:145:9]
+ 145 | & body {
+     : ^^^^^^
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:145:9]
+ 145 | & body {
+     : ^
+     `----
+
+  x NestingSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:145:9]
+ 145 | & body {
+     : ^
+     `----
+
+  x Combinator
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:145:9]
+ 145 | & body {
+     :  ^
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:145:9]
+ 145 | & body {
+     :   ^^^^
+     `----
+
+  x TypeSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:145:9]
+ 145 | & body {
+     :   ^^^^
+     `----
+
+  x TagNameSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:145:9]
+ 145 | & body {
+     :   ^^^^
+     `----
+
+  x WqName
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:145:9]
+ 145 | & body {
+     :   ^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:145:9]
+ 145 | & body {
+     :   ^^^^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:145:9]
+ 145 | ,-> & body {
+ 146 | |               min-block-size: 100%;
+ 147 | `->         }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:145:9]
+ 145 | & body {
+     :        ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:146:13]
+ 146 | min-block-size: 100%;
+     : ^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:146:13]
+ 146 | min-block-size: 100%;
+     : ^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:146:13]
+ 146 | min-block-size: 100%;
+     : ^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:146:13]
+ 146 | min-block-size: 100%;
+     : ^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:146:13]
+ 146 | min-block-size: 100%;
+     : ^^^^^^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:146:13]
+ 146 | min-block-size: 100%;
+     :                 ^^^^
+     `----
+
+  x Percentage
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:146:13]
+ 146 | min-block-size: 100%;
+     :                 ^^^^
+     `----
+
+  x Number
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:146:13]
+ 146 | min-block-size: 100%;
+     :                 ^^^
+     `----
+
+  x Rule
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:151:1]
+ 151 | ,-> @layer base {
+ 152 | |       html {
+ 153 | |           block-size: 100%;
+ 154 | |   
+ 155 | |           @layer base.support {
+ 156 | |               & body {
+ 157 | |                   min-block-size: 100%;
+ 158 | |               }
+ 159 | |           }
+ 160 | |       }
+ 161 | `-> }
+     `----
+
+  x AtRule
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:151:1]
+ 151 | ,-> @layer base {
+ 152 | |       html {
+ 153 | |           block-size: 100%;
+ 154 | |   
+ 155 | |           @layer base.support {
+ 156 | |               & body {
+ 157 | |                   min-block-size: 100%;
+ 158 | |               }
+ 159 | |           }
+ 160 | |       }
+ 161 | `-> }
+     `----
+
+  x AtRuleName
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:151:1]
+ 151 | @layer base {
+     :  ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:151:1]
+ 151 | @layer base {
+     :  ^^^^^
+     `----
+
+  x LayerPrelude
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:151:1]
+ 151 | @layer base {
+     :        ^^^^
+     `----
+
+  x LayerName
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:151:1]
+ 151 | @layer base {
+     :        ^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:151:1]
+ 151 | @layer base {
+     :        ^^^^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:151:1]
+ 151 | ,-> @layer base {
+ 152 | |       html {
+ 153 | |           block-size: 100%;
+ 154 | |   
+ 155 | |           @layer base.support {
+ 156 | |               & body {
+ 157 | |                   min-block-size: 100%;
+ 158 | |               }
+ 159 | |           }
+ 160 | |       }
+ 161 | `-> }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:151:1]
+ 151 | @layer base {
+     :             ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:152:5]
+ 152 | ,-> html {
+ 153 | |           block-size: 100%;
+ 154 | |   
+ 155 | |           @layer base.support {
+ 156 | |               & body {
+ 157 | |                   min-block-size: 100%;
+ 158 | |               }
+ 159 | |           }
+ 160 | `->     }
+     `----
+
+  x Rule
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:152:5]
+ 152 | ,-> html {
+ 153 | |           block-size: 100%;
+ 154 | |   
+ 155 | |           @layer base.support {
+ 156 | |               & body {
+ 157 | |                   min-block-size: 100%;
+ 158 | |               }
+ 159 | |           }
+ 160 | `->     }
+     `----
+
+  x QualifiedRule
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:152:5]
+ 152 | ,-> html {
+ 153 | |           block-size: 100%;
+ 154 | |   
+ 155 | |           @layer base.support {
+ 156 | |               & body {
+ 157 | |                   min-block-size: 100%;
+ 158 | |               }
+ 159 | |           }
+ 160 | `->     }
+     `----
+
+  x SelectorList
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:152:5]
+ 152 | html {
+     : ^^^^
+     `----
+
+  x ComplexSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:152:5]
+ 152 | html {
+     : ^^^^
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:152:5]
+ 152 | html {
+     : ^^^^
+     `----
+
+  x TypeSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:152:5]
+ 152 | html {
+     : ^^^^
+     `----
+
+  x TagNameSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:152:5]
+ 152 | html {
+     : ^^^^
+     `----
+
+  x WqName
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:152:5]
+ 152 | html {
+     : ^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:152:5]
+ 152 | html {
+     : ^^^^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:152:5]
+ 152 | ,-> html {
+ 153 | |           block-size: 100%;
+ 154 | |   
+ 155 | |           @layer base.support {
+ 156 | |               & body {
+ 157 | |                   min-block-size: 100%;
+ 158 | |               }
+ 159 | |           }
+ 160 | `->     }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:152:5]
+ 152 | html {
+     :      ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:153:9]
+ 153 | block-size: 100%;
+     : ^^^^^^^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:153:9]
+ 153 | block-size: 100%;
+     : ^^^^^^^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:153:9]
+ 153 | block-size: 100%;
+     : ^^^^^^^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:153:9]
+ 153 | block-size: 100%;
+     : ^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:153:9]
+ 153 | block-size: 100%;
+     : ^^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:153:9]
+ 153 | block-size: 100%;
+     :             ^^^^
+     `----
+
+  x Percentage
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:153:9]
+ 153 | block-size: 100%;
+     :             ^^^^
+     `----
+
+  x Number
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:153:9]
+ 153 | block-size: 100%;
+     :             ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:155:9]
+ 155 | ,-> @layer base.support {
+ 156 | |               & body {
+ 157 | |                   min-block-size: 100%;
+ 158 | |               }
+ 159 | `->         }
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:155:9]
+ 155 | ,-> @layer base.support {
+ 156 | |               & body {
+ 157 | |                   min-block-size: 100%;
+ 158 | |               }
+ 159 | `->         }
+     `----
+
+  x AtRule
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:155:9]
+ 155 | ,-> @layer base.support {
+ 156 | |               & body {
+ 157 | |                   min-block-size: 100%;
+ 158 | |               }
+ 159 | `->         }
+     `----
+
+  x AtRuleName
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:155:9]
+ 155 | @layer base.support {
+     :  ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:155:9]
+ 155 | @layer base.support {
+     :  ^^^^^
+     `----
+
+  x LayerPrelude
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:155:9]
+ 155 | @layer base.support {
+     :        ^^^^^^^^^^^^
+     `----
+
+  x LayerName
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:155:9]
+ 155 | @layer base.support {
+     :        ^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:155:9]
+ 155 | @layer base.support {
+     :        ^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:155:9]
+ 155 | @layer base.support {
+     :             ^^^^^^^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:155:9]
+ 155 | ,-> @layer base.support {
+ 156 | |               & body {
+ 157 | |                   min-block-size: 100%;
+ 158 | |               }
+ 159 | `->         }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:155:9]
+ 155 | @layer base.support {
+     :                     ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:156:13]
+ 156 | ,-> & body {
+ 157 | |                   min-block-size: 100%;
+ 158 | `->             }
+     `----
+
+  x Rule
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:156:13]
+ 156 | ,-> & body {
+ 157 | |                   min-block-size: 100%;
+ 158 | `->             }
+     `----
+
+  x QualifiedRule
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:156:13]
+ 156 | ,-> & body {
+ 157 | |                   min-block-size: 100%;
+ 158 | `->             }
+     `----
+
+  x SelectorList
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:156:13]
+ 156 | & body {
+     : ^^^^^^
+     `----
+
+  x ComplexSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:156:13]
+ 156 | & body {
+     : ^^^^^^
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:156:13]
+ 156 | & body {
+     : ^
+     `----
+
+  x NestingSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:156:13]
+ 156 | & body {
+     : ^
+     `----
+
+  x Combinator
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:156:13]
+ 156 | & body {
+     :  ^
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:156:13]
+ 156 | & body {
+     :   ^^^^
+     `----
+
+  x TypeSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:156:13]
+ 156 | & body {
+     :   ^^^^
+     `----
+
+  x TagNameSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:156:13]
+ 156 | & body {
+     :   ^^^^
+     `----
+
+  x WqName
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:156:13]
+ 156 | & body {
+     :   ^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:156:13]
+ 156 | & body {
+     :   ^^^^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:156:13]
+ 156 | ,-> & body {
+ 157 | |                   min-block-size: 100%;
+ 158 | `->             }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:156:13]
+ 156 | & body {
+     :        ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:157:17]
+ 157 | min-block-size: 100%;
+     : ^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:157:17]
+ 157 | min-block-size: 100%;
+     : ^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:157:17]
+ 157 | min-block-size: 100%;
+     : ^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:157:17]
+ 157 | min-block-size: 100%;
+     : ^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:157:17]
+ 157 | min-block-size: 100%;
+     : ^^^^^^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:157:17]
+ 157 | min-block-size: 100%;
+     :                 ^^^^
+     `----
+
+  x Percentage
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:157:17]
+ 157 | min-block-size: 100%;
+     :                 ^^^^
+     `----
+
+  x Number
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:157:17]
+ 157 | min-block-size: 100%;
+     :                 ^^^
+     `----
+
+  x Rule
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:163:1]
+ 163 | ,-> article {
+ 164 | |       color: green;
+ 165 | |       & { color: blue; }
+ 166 | |       color: red;
+ 167 | `-> }
+     `----
+
+  x QualifiedRule
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:163:1]
+ 163 | ,-> article {
+ 164 | |       color: green;
+ 165 | |       & { color: blue; }
+ 166 | |       color: red;
+ 167 | `-> }
+     `----
+
+  x SelectorList
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:163:1]
+ 163 | article {
+     : ^^^^^^^
+     `----
+
+  x ComplexSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:163:1]
+ 163 | article {
+     : ^^^^^^^
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:163:1]
+ 163 | article {
+     : ^^^^^^^
+     `----
+
+  x TypeSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:163:1]
+ 163 | article {
+     : ^^^^^^^
+     `----
+
+  x TagNameSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:163:1]
+ 163 | article {
+     : ^^^^^^^
+     `----
+
+  x WqName
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:163:1]
+ 163 | article {
+     : ^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:163:1]
+ 163 | article {
+     : ^^^^^^^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:163:1]
+ 163 | ,-> article {
+ 164 | |       color: green;
+ 165 | |       & { color: blue; }
+ 166 | |       color: red;
+ 167 | `-> }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:163:1]
+ 163 | article {
+     :         ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:164:5]
+ 164 | color: green;
+     : ^^^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:164:5]
+ 164 | color: green;
+     : ^^^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:164:5]
+ 164 | color: green;
+     : ^^^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:164:5]
+ 164 | color: green;
+     : ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:164:5]
+ 164 | color: green;
+     : ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:164:5]
+ 164 | color: green;
+     :        ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:164:5]
+ 164 | color: green;
+     :        ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:166:5]
+ 166 | color: red;
+     : ^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:166:5]
+ 166 | color: red;
+     : ^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:166:5]
+ 166 | color: red;
+     : ^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:166:5]
+ 166 | color: red;
+     : ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:166:5]
+ 166 | color: red;
+     : ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:166:5]
+ 166 | color: red;
+     :        ^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:166:5]
+ 166 | color: red;
+     :        ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:165:5]
+ 165 | & { color: blue; }
+     : ^^^^^^^^^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:165:5]
+ 165 | & { color: blue; }
+     : ^^^^^^^^^^^^^^^^^^
+     `----
+
+  x QualifiedRule
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:165:5]
+ 165 | & { color: blue; }
+     : ^^^^^^^^^^^^^^^^^^
+     `----
+
+  x RelativeSelectorList
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:165:5]
+ 165 | & { color: blue; }
+     : ^
+     `----
+
+  x RelativeSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:165:5]
+ 165 | & { color: blue; }
+     : ^
+     `----
+
+  x ComplexSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:165:5]
+ 165 | & { color: blue; }
+     : ^
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:165:5]
+ 165 | & { color: blue; }
+     : ^
+     `----
+
+  x NestingSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:165:5]
+ 165 | & { color: blue; }
+     : ^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:165:5]
+ 165 | & { color: blue; }
+     :   ^^^^^^^^^^^^^^^^
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:165:5]
+ 165 | & { color: blue; }
+     :   ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:165:5]
+ 165 | & { color: blue; }
+     :     ^^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:165:5]
+ 165 | & { color: blue; }
+     :     ^^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:165:5]
+ 165 | & { color: blue; }
+     :     ^^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:165:5]
+ 165 | & { color: blue; }
+     :     ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:165:5]
+ 165 | & { color: blue; }
+     :     ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:165:5]
+ 165 | & { color: blue; }
+     :            ^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:165:5]
+ 165 | & { color: blue; }
+     :            ^^^^
+     `----
+
+  x Rule
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:169:1]
+ 169 | ,-> .foo {
+ 170 | |       color: red;
+ 171 | |       @media (min-width: 480px) {
+ 172 | |           & h1, & h2 {
+ 173 | |               color: blue;
+ 174 | |           }
+ 175 | |       }
+ 176 | `-> }
+     `----
+
+  x QualifiedRule
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:169:1]
+ 169 | ,-> .foo {
+ 170 | |       color: red;
+ 171 | |       @media (min-width: 480px) {
+ 172 | |           & h1, & h2 {
+ 173 | |               color: blue;
+ 174 | |           }
+ 175 | |       }
+ 176 | `-> }
+     `----
+
+  x SelectorList
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:169:1]
+ 169 | .foo {
+     : ^^^^
+     `----
+
+  x ComplexSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:169:1]
+ 169 | .foo {
+     : ^^^^
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:169:1]
+ 169 | .foo {
+     : ^^^^
+     `----
+
+  x SubclassSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:169:1]
+ 169 | .foo {
+     : ^^^^
+     `----
+
+  x ClassSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:169:1]
+ 169 | .foo {
+     : ^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:169:1]
+ 169 | .foo {
+     :  ^^^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:169:1]
+ 169 | ,-> .foo {
+ 170 | |       color: red;
+ 171 | |       @media (min-width: 480px) {
+ 172 | |           & h1, & h2 {
+ 173 | |               color: blue;
+ 174 | |           }
+ 175 | |       }
+ 176 | `-> }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:169:1]
+ 169 | .foo {
+     :      ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:170:5]
+ 170 | color: red;
+     : ^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:170:5]
+ 170 | color: red;
+     : ^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:170:5]
+ 170 | color: red;
+     : ^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:170:5]
+ 170 | color: red;
+     : ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:170:5]
+ 170 | color: red;
+     : ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:170:5]
+ 170 | color: red;
+     :        ^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:170:5]
+ 170 | color: red;
+     :        ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:171:5]
+ 171 | ,-> @media (min-width: 480px) {
+ 172 | |           & h1, & h2 {
+ 173 | |               color: blue;
+ 174 | |           }
+ 175 | `->     }
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:171:5]
+ 171 | ,-> @media (min-width: 480px) {
+ 172 | |           & h1, & h2 {
+ 173 | |               color: blue;
+ 174 | |           }
+ 175 | `->     }
+     `----
+
+  x AtRule
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:171:5]
+ 171 | ,-> @media (min-width: 480px) {
+ 172 | |           & h1, & h2 {
+ 173 | |               color: blue;
+ 174 | |           }
+ 175 | `->     }
+     `----
+
+  x AtRuleName
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:171:5]
+ 171 | @media (min-width: 480px) {
+     :  ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:171:5]
+ 171 | @media (min-width: 480px) {
+     :  ^^^^^
+     `----
+
+  x MediaQueryList
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:171:5]
+ 171 | @media (min-width: 480px) {
+     :        ^^^^^^^^^^^^^^^^^^
+     `----
+
+  x MediaQuery
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:171:5]
+ 171 | @media (min-width: 480px) {
+     :        ^^^^^^^^^^^^^^^^^^
+     `----
+
+  x MediaCondition
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:171:5]
+ 171 | @media (min-width: 480px) {
+     :        ^^^^^^^^^^^^^^^^^^
+     `----
+
+  x MediaConditionAllType
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:171:5]
+ 171 | @media (min-width: 480px) {
+     :        ^^^^^^^^^^^^^^^^^^
+     `----
+
+  x MediaInParens
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:171:5]
+ 171 | @media (min-width: 480px) {
+     :        ^^^^^^^^^^^^^^^^^^
+     `----
+
+  x MediaFeature
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:171:5]
+ 171 | @media (min-width: 480px) {
+     :        ^^^^^^^^^^^^^^^^^^
+     `----
+
+  x MediaFeaturePlain
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:171:5]
+ 171 | @media (min-width: 480px) {
+     :        ^^^^^^^^^^^^^^^^^^
+     `----
+
+  x MediaFeatureName
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:171:5]
+ 171 | @media (min-width: 480px) {
+     :         ^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:171:5]
+ 171 | @media (min-width: 480px) {
+     :         ^^^^^^^^^
+     `----
+
+  x MediaFeatureValue
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:171:5]
+ 171 | @media (min-width: 480px) {
+     :                    ^^^^^
+     `----
+
+  x Dimension
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:171:5]
+ 171 | @media (min-width: 480px) {
+     :                    ^^^^^
+     `----
+
+  x Length
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:171:5]
+ 171 | @media (min-width: 480px) {
+     :                    ^^^^^
+     `----
+
+  x Number
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:171:5]
+ 171 | @media (min-width: 480px) {
+     :                    ^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:171:5]
+ 171 | @media (min-width: 480px) {
+     :                       ^^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:171:5]
+ 171 | ,-> @media (min-width: 480px) {
+ 172 | |           & h1, & h2 {
+ 173 | |               color: blue;
+ 174 | |           }
+ 175 | `->     }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:171:5]
+ 171 | @media (min-width: 480px) {
+     :                           ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:172:9]
+ 172 | ,-> & h1, & h2 {
+ 173 | |               color: blue;
+ 174 | `->         }
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:172:9]
+ 172 | ,-> & h1, & h2 {
+ 173 | |               color: blue;
+ 174 | `->         }
+     `----
+
+  x QualifiedRule
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:172:9]
+ 172 | ,-> & h1, & h2 {
+ 173 | |               color: blue;
+ 174 | `->         }
+     `----
+
+  x RelativeSelectorList
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:172:9]
+ 172 | & h1, & h2 {
+     : ^^^^^^^^^^
+     `----
+
+  x RelativeSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:172:9]
+ 172 | & h1, & h2 {
+     : ^^^^
+     `----
+
+  x ComplexSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:172:9]
+ 172 | & h1, & h2 {
+     : ^^^^
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:172:9]
+ 172 | & h1, & h2 {
+     : ^
+     `----
+
+  x NestingSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:172:9]
+ 172 | & h1, & h2 {
+     : ^
+     `----
+
+  x Combinator
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:172:9]
+ 172 | & h1, & h2 {
+     :  ^
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:172:9]
+ 172 | & h1, & h2 {
+     :   ^^
+     `----
+
+  x TypeSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:172:9]
+ 172 | & h1, & h2 {
+     :   ^^
+     `----
+
+  x TagNameSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:172:9]
+ 172 | & h1, & h2 {
+     :   ^^
+     `----
+
+  x WqName
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:172:9]
+ 172 | & h1, & h2 {
+     :   ^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:172:9]
+ 172 | & h1, & h2 {
+     :   ^^
+     `----
+
+  x RelativeSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:172:9]
+ 172 | & h1, & h2 {
+     :       ^^^^
+     `----
+
+  x ComplexSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:172:9]
+ 172 | & h1, & h2 {
+     :       ^^^^
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:172:9]
+ 172 | & h1, & h2 {
+     :       ^
+     `----
+
+  x NestingSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:172:9]
+ 172 | & h1, & h2 {
+     :       ^
+     `----
+
+  x Combinator
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:172:9]
+ 172 | & h1, & h2 {
+     :        ^
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:172:9]
+ 172 | & h1, & h2 {
+     :         ^^
+     `----
+
+  x TypeSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:172:9]
+ 172 | & h1, & h2 {
+     :         ^^
+     `----
+
+  x TagNameSelector
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:172:9]
+ 172 | & h1, & h2 {
+     :         ^^
+     `----
+
+  x WqName
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:172:9]
+ 172 | & h1, & h2 {
+     :         ^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:172:9]
+ 172 | & h1, & h2 {
+     :         ^^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:172:9]
+ 172 | ,-> & h1, & h2 {
+ 173 | |               color: blue;
+ 174 | `->         }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:172:9]
+ 172 | & h1, & h2 {
+     :            ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:173:13]
+ 173 | color: blue;
+     : ^^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:173:13]
+ 173 | color: blue;
+     : ^^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:173:13]
+ 173 | color: blue;
+     : ^^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:173:13]
+ 173 | color: blue;
+     : ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:173:13]
+ 173 | color: blue;
+     : ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:173:13]
+ 173 | color: blue;
+     :        ^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/selector/nesting/input.css:173:13]
+ 173 | color: blue;
+     :        ^^^^
+     `----

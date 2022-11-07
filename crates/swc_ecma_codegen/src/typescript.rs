@@ -40,7 +40,7 @@ where
     }
 
     #[emitter]
-    fn emit_ts_satisfaction_expr(&mut self, n: &TsSatisfactionExpr) -> Result {
+    fn emit_ts_satisfies_expr(&mut self, n: &TsSatisfiesExpr) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         emit!(n.expr);

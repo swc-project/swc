@@ -1115,7 +1115,13 @@
  29 | `->         }
     `----
 
-  x SelectorList
+  x RelativeSelectorList
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:27:9]
+ 27 | &.baz {
+    : ^^^^^
+    `----
+
+  x RelativeSelector
     ,-[$DIR/tests/fixture/at-rule/nest/input.css:27:9]
  27 | &.baz {
     : ^^^^^

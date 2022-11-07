@@ -1456,10 +1456,16 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x SelectorList
+  x RelativeSelectorList
     ,-[$DIR/tests/fixture/style-block/input.css:33:9]
  33 | & h1, & h2 { color: blue; }
     : ^^^^^^^^^^
+    `----
+
+  x RelativeSelector
+    ,-[$DIR/tests/fixture/style-block/input.css:33:9]
+ 33 | & h1, & h2 { color: blue; }
+    : ^^^^
     `----
 
   x ComplexSelector
@@ -1514,6 +1520,12 @@
     ,-[$DIR/tests/fixture/style-block/input.css:33:9]
  33 | & h1, & h2 { color: blue; }
     :   ^^
+    `----
+
+  x RelativeSelector
+    ,-[$DIR/tests/fixture/style-block/input.css:33:9]
+ 33 | & h1, & h2 { color: blue; }
+    :       ^^^^
     `----
 
   x ComplexSelector
@@ -1879,7 +1891,13 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x SelectorList
+  x RelativeSelectorList
+    ,-[$DIR/tests/fixture/style-block/input.css:41:9]
+ 41 | & .class { color: red }
+    : ^^^^^^^^
+    `----
+
+  x RelativeSelector
     ,-[$DIR/tests/fixture/style-block/input.css:41:9]
  41 | & .class { color: red }
     : ^^^^^^^^
@@ -2290,7 +2308,13 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x SelectorList
+  x RelativeSelectorList
+    ,-[$DIR/tests/fixture/style-block/input.css:51:9]
+ 51 | & .class { color: red }
+    : ^^^^^^^^
+    `----
+
+  x RelativeSelector
     ,-[$DIR/tests/fixture/style-block/input.css:51:9]
  51 | & .class { color: red }
     : ^^^^^^^^
@@ -2554,7 +2578,13 @@
  60 | `->     }
     `----
 
-  x SelectorList
+  x RelativeSelectorList
+    ,-[$DIR/tests/fixture/style-block/input.css:58:5]
+ 58 | &.foo {
+    : ^^^^^
+    `----
+
+  x RelativeSelector
     ,-[$DIR/tests/fixture/style-block/input.css:58:5]
  58 | &.foo {
     : ^^^^^
@@ -2831,7 +2861,13 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x SelectorList
+  x RelativeSelectorList
+    ,-[$DIR/tests/fixture/style-block/input.css:65:9]
+ 65 | & .class { color: red }
+    : ^^^^^^^^
+    `----
+
+  x RelativeSelector
     ,-[$DIR/tests/fixture/style-block/input.css:65:9]
  65 | & .class { color: red }
     : ^^^^^^^^
