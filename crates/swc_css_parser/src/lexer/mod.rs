@@ -730,8 +730,7 @@ where
                         l.reconsume();
 
                         return Ok(Token::BadString {
-                            value: (&**buf).into(),
-                            raw: (&**raw).into(),
+                            raw_value: (&**raw).into(),
                         });
                     }
 

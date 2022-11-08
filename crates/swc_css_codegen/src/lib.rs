@@ -1978,8 +1978,8 @@ where
 
                 write_raw!(self, span, &function);
             }
-            Token::BadString { raw, .. } => {
-                write_str!(self, span, raw);
+            Token::BadString { raw_value } => {
+                write_str!(self, span, raw_value);
             }
             Token::String { raw, .. } => {
                 write_str!(self, span, raw);

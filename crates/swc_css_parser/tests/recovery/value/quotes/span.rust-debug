@@ -136,7 +136,7 @@
    :          ^^^^
    `----
 
-  x BadString { value: Atom('tes' type=inline), raw: Atom('"tes' type=inline) }
+  x BadString { raw_value: Atom('"tes' type=inline) }
    ,-[$DIR/tests/recovery/value/quotes/input.css:2:5]
  2 | content: "tes
    :          ^^^^
@@ -173,7 +173,7 @@
    :  ^^
    `----
 
-  x BadString { value: Atom(';' type=inline), raw: Atom('";' type=inline) }
+  x BadString { raw_value: Atom('";' type=inline) }
    ,-[$DIR/tests/recovery/value/quotes/input.css:3:5]
  3 | t";
    :  ^^
