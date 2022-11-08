@@ -1,29 +1,29 @@
 
-  x Expected ident token at first position in <general-enclosed>
+  x Expected ident at first position in <general-enclosed>
    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:7:1]
  7 | @supports ({"example": 1}) {
    :           ^^^^^^^^^^^^^^^^
    `----
 
-  x Expected ident token at first position in <general-enclosed>
+  x Expected ident at first position in <general-enclosed>
     ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:11:1]
  11 | @supports (("example": 1)) {
     :           ^^^^^^^^^^^^^^^^
     `----
 
-  x Expected ident token at first position in <general-enclosed>
+  x Expected ident at first position in <general-enclosed>
     ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:15:1]
  15 | @supports ([]) {
     :           ^^^^
     `----
 
-  x Expected ident token at first position in <general-enclosed>
+  x Expected ident at first position in <general-enclosed>
     ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:19:1]
  19 | @supports ([color: red]) {
     :           ^^^^^^^^^^^^^^
     `----
 
-  x Expected ident token at first position in <general-enclosed>
+  x Expected ident at first position in <general-enclosed>
     ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
     :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

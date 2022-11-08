@@ -1227,16 +1227,25 @@ where
             tok!("(") => {
                 let block = self.parse_as::<SimpleBlock>()?;
 
-                if let Some(first) = block.value.get(0) {
-                    match first {
+                let mut found_ident = false;
+
+                for component_value in &block.value {
+                    match component_value {
                         ComponentValue::PreservedToken(token_and_span) => {
                             match token_and_span.token {
-                                Token::Ident { .. } => {}
+                                Token::WhiteSpace { .. } => {
+                                    continue;
+                                }
+                                Token::Ident { .. } => {
+                                    found_ident = true;
+
+                                    break;
+                                }
                                 _ => {
                                     return Err(Error::new(
                                         block.span,
                                         ErrorKind::Expected(
-                                            "ident token at first position in <general-enclosed>",
+                                            "ident at first position in <general-enclosed>",
                                         ),
                                     ));
                                 }
@@ -1246,11 +1255,18 @@ where
                             return Err(Error::new(
                                 block.span,
                                 ErrorKind::Expected(
-                                    "ident token at first position in <general-enclosed>",
+                                    "ident at first position in <general-enclosed>",
                                 ),
                             ));
                         }
                     }
+                }
+
+                if !found_ident {
+                    return Err(Error::new(
+                        block.span,
+                        ErrorKind::Expected("ident at first position in <general-enclosed>"),
+                    ));
                 }
 
                 Ok(GeneralEnclosed::SimpleBlock(block))
@@ -1258,10 +1274,7 @@ where
             _ => {
                 let span = self.input.cur_span();
 
-                Err(Error::new(
-                    span,
-                    ErrorKind::Expected("function or '(' token"),
-                ))
+                Err(Error::new(span, ErrorKind::Expected("function or '('")))
             }
         }
     }

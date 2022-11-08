@@ -149,3 +149,21 @@
 @supports (--var) {
     * { background: red; }
 }
+
+@supports (   selector(   col || td   )   ) {
+    col.selected || td {
+        background: tan;
+    }
+}
+
+@supports (   func("example": 1)   ) {
+    * { background: red; }
+}
+
+@supports (   --var   ) {
+    * { background: red; }
+}
+
+@supports (   --var   "test"   ) {
+    * { background: red; }
+}
