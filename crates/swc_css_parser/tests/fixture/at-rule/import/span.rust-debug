@@ -166,9 +166,12 @@
  163 | |   @import url("fallback-layout.css") supports(not (display: flex));
  164 | |   @import url("narrow.css") supports(display: flex) screen and (max-width: 400px);
  165 | |   
- 166 | |   /*.foo {*/
- 167 | |   /*    @import 'path.css';*/
- 168 | `-> /*}*/
+ 166 | |   @import "test.css" supports(   display: flex   );
+ 167 | |   @import url("tabs.css") layer(   framework.component   );
+ 168 | |   
+ 169 | |   /*.foo {*/
+ 170 | |   /*    @import 'path.css';*/
+ 171 | `-> /*}*/
      `----
 
   x Rule
@@ -10600,4 +10603,166 @@
      ,-[$DIR/tests/fixture/at-rule/import/input.css:164:1]
  164 | @import url("narrow.css") supports(display: flex) screen and (max-width: 400px);
      :                                                                             ^^
+     `----
+
+  x Rule
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:166:1]
+ 166 | @import "test.css" supports(   display: flex   );
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x AtRule
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:166:1]
+ 166 | @import "test.css" supports(   display: flex   );
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x AtRuleName
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:166:1]
+ 166 | @import "test.css" supports(   display: flex   );
+     :  ^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:166:1]
+ 166 | @import "test.css" supports(   display: flex   );
+     :  ^^^^^^
+     `----
+
+  x Str
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:166:1]
+ 166 | @import "test.css" supports(   display: flex   );
+     :         ^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:166:1]
+ 166 | @import "test.css" supports(   display: flex   );
+     :                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:166:1]
+ 166 | @import "test.css" supports(   display: flex   );
+     :                    ^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:166:1]
+ 166 | @import "test.css" supports(   display: flex   );
+     :                                ^^^^^^^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:166:1]
+ 166 | @import "test.css" supports(   display: flex   );
+     :                                ^^^^^^^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:166:1]
+ 166 | @import "test.css" supports(   display: flex   );
+     :                                ^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:166:1]
+ 166 | @import "test.css" supports(   display: flex   );
+     :                                ^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:166:1]
+ 166 | @import "test.css" supports(   display: flex   );
+     :                                         ^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:166:1]
+ 166 | @import "test.css" supports(   display: flex   );
+     :                                         ^^^^
+     `----
+
+  x Rule
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:167:1]
+ 167 | @import url("tabs.css") layer(   framework.component   );
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x AtRule
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:167:1]
+ 167 | @import url("tabs.css") layer(   framework.component   );
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x AtRuleName
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:167:1]
+ 167 | @import url("tabs.css") layer(   framework.component   );
+     :  ^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:167:1]
+ 167 | @import url("tabs.css") layer(   framework.component   );
+     :  ^^^^^^
+     `----
+
+  x Url
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:167:1]
+ 167 | @import url("tabs.css") layer(   framework.component   );
+     :         ^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:167:1]
+ 167 | @import url("tabs.css") layer(   framework.component   );
+     :         ^^^
+     `----
+
+  x UrlValue
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:167:1]
+ 167 | @import url("tabs.css") layer(   framework.component   );
+     :             ^^^^^^^^^^
+     `----
+
+  x Str
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:167:1]
+ 167 | @import url("tabs.css") layer(   framework.component   );
+     :             ^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:167:1]
+ 167 | @import url("tabs.css") layer(   framework.component   );
+     :                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:167:1]
+ 167 | @import url("tabs.css") layer(   framework.component   );
+     :                         ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:167:1]
+ 167 | @import url("tabs.css") layer(   framework.component   );
+     :                                  ^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x LayerName
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:167:1]
+ 167 | @import url("tabs.css") layer(   framework.component   );
+     :                                  ^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:167:1]
+ 167 | @import url("tabs.css") layer(   framework.component   );
+     :                                  ^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:167:1]
+ 167 | @import url("tabs.css") layer(   framework.component   );
+     :                                            ^^^^^^^^^
      `----
