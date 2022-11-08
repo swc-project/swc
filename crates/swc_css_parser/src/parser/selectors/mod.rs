@@ -12,8 +12,6 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<SelectorList> {
-        self.input.skip_ws();
-
         let child: ComplexSelector = self.parse()?;
         let mut children = vec![child];
 
@@ -935,6 +933,8 @@ where
                             ));
                         }
                         "not" | "matches" => {
+                            self.input.skip_ws();
+
                             let selector_list = self.parse()?;
 
                             children.push(PseudoClassSelectorChildren::SelectorList(selector_list));
