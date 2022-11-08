@@ -5,6 +5,9 @@
 
 
 
+- **(css/parser)** Fix parsing of `supports()` (#6333) ([f483224](https://github.com/swc-project/swc/commit/f4832247bc5a831658d8a6c15678eaf6412fa0c1))
+
+
 - **(es/compat)** Fix chained op-assignment of super properties  (#6319) ([064baa3](https://github.com/swc-project/swc/commit/064baa3052425dca7db869195252acee0f1350b6))
 
 
