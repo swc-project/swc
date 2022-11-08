@@ -1170,13 +1170,21 @@ where
 
                 self.input.skip_ws();
 
-                let declaration = self.parse()?;
+                let declaration = match self.try_to_parse_declaration_in_parens() {
+                    Some(declaration) => declaration,
+                    None => {
+                        let span = self.input.cur_span();
 
-                self.input.skip_ws();
+                        return Err(Error::new(
+                            span,
+                            ErrorKind::Expected("declaration in parens"),
+                        ));
+                    }
+                };
 
                 expect!(self, ")");
 
-                Ok(SupportsFeature::Declaration(declaration))
+                Ok(SupportsFeature::Declaration(Box::new(declaration)))
             }
             Token::Function { value, .. } if &*value.to_ascii_lowercase() == "selector" => {
                 // TODO improve me

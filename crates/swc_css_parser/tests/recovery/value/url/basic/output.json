@@ -126,7 +126,7 @@
             "type": "Declaration",
             "span": {
               "start": 60,
-              "end": 86,
+              "end": 87,
               "ctxt": 0
             },
             "name": {
@@ -154,6 +154,15 @@
                     "raw_value": "var(--foo"
                   }
                 }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 86,
+                  "end": 87,
+                  "ctxt": 0
+                },
+                "token": "RParen"
               }
             ],
             "important": null
@@ -520,7 +529,7 @@
             "type": "Declaration",
             "span": {
               "start": 305,
-              "end": 347,
+              "end": 349,
               "ctxt": 0
             },
             "name": {
@@ -548,6 +557,24 @@
                     "raw_value": "image.png param(var(--url"
                   }
                 }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 347,
+                  "end": 348,
+                  "ctxt": 0
+                },
+                "token": "RParen"
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 348,
+                  "end": 349,
+                  "ctxt": 0
+                },
+                "token": "RParen"
               }
             ],
             "important": null

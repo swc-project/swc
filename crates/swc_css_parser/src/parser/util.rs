@@ -7,6 +7,8 @@ use super::{
     input::{Input, InputType, ParserInput},
     Ctx, PResult, Parse, Parser,
 };
+use super::{input::ParserInput, Ctx, PResult, Parse, Parser};
+use crate::{parser::input::ListOfComponentValuesInput, Error};
 
 impl<I> Parser<I>
 where
@@ -89,6 +91,29 @@ where
 
                 None
             }
+        }
+    }
+
+    pub(super) fn try_to_parse_declaration_in_parens(&mut self) -> Option<Declaration> {
+        let mut temporary_list = ListOfComponentValues {
+            span: Default::default(),
+            children: vec![],
+        };
+
+        while !is_one_of!(self, ")", EOF) {
+            let component_value = match self.parse_as::<ComponentValue>() {
+                Ok(component_value) => component_value,
+                Err(_) => return None,
+            };
+
+            temporary_list.children.push(component_value);
+        }
+
+        match self
+            .parse_according_to_grammar::<Declaration>(&temporary_list, |parser| parser.parse_as())
+        {
+            Ok(decl) => Some(decl),
+            Err(_) => None,
         }
     }
 }
