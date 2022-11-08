@@ -283,8 +283,6 @@ impl VisitMut for NormalizeTest {
     fn visit_mut_url_value_raw(&mut self, n: &mut UrlValueRaw) {
         n.visit_mut_children_with(self);
 
-        n.before = None;
-        n.after = None;
         n.raw = None;
     }
 

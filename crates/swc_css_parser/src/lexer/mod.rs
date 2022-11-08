@@ -780,15 +780,17 @@ where
 
     // This section describes how to consume a url token from a stream of code
     // points. It returns either a <url-token> or a <bad-url-token>.
-    fn read_url(&mut self, name: (JsWord, JsWord), mut before: String) -> LexResult<Token> {
+    fn read_url(&mut self, name: (JsWord, JsWord), before: String) -> LexResult<Token> {
         // Initially create a <url-token> with its value set to the empty string.
         self.with_buf_and_raw_buf(|l, out, raw| {
+            raw.push_str(&before);
+
             // Consume as much whitespace as possible.
             while let Some(c) = l.next() {
                 if is_whitespace(c) {
                     l.consume();
 
-                    before.push(c);
+                    raw.push(c);
                 } else {
                     break;
                 }
@@ -807,8 +809,6 @@ where
                             raw_name: name.1,
                             value: (&**out).into(),
                             raw_value: (&**raw).into(),
-                            before: before.into(),
-                            after: js_word!(""),
                         });
                     }
 
@@ -822,8 +822,6 @@ where
                             raw_name: name.1,
                             value: (&**out).into(),
                             raw_value: (&**raw).into(),
-                            before: before.into(),
-                            after: js_word!(""),
                         });
                     }
 
@@ -853,25 +851,25 @@ where
                             Some(')') => {
                                 l.consume();
 
-                                return Ok(Token::Url {
-                                    name: name.0,
-                                    raw_name: name.1,
-                                    value: (&**out).into(),
-                                    raw_value: (&**raw).into(),
-                                    before: before.into(),
-                                    after: whitespaces.into(),
-                                });
-                            }
-                            None => {
-                                l.emit_error(ErrorKind::UnterminatedUrl);
+                                raw.push_str(&whitespaces);
 
                                 return Ok(Token::Url {
                                     name: name.0,
                                     raw_name: name.1,
                                     value: (&**out).into(),
                                     raw_value: (&**raw).into(),
-                                    before: before.into(),
-                                    after: whitespaces.into(),
+                                });
+                            }
+                            None => {
+                                l.emit_error(ErrorKind::UnterminatedUrl);
+
+                                raw.push_str(&whitespaces);
+
+                                return Ok(Token::Url {
+                                    name: name.0,
+                                    raw_name: name.1,
+                                    value: (&**out).into(),
+                                    raw_value: (&**raw).into(),
                                 });
                             }
                             _ => {}
@@ -890,8 +888,8 @@ where
                         return Ok(Token::BadUrl {
                             name: name.0,
                             raw_name: name.1,
-                            value: (before.clone() + (&**raw)).into(),
-                            raw_value: (before.clone() + (&**raw)).into(),
+                            value: (&**raw).into(),
+                            raw_value: (&**raw).into(),
                         });
                     }
 
@@ -914,8 +912,8 @@ where
                         return Ok(Token::BadUrl {
                             name: name.0,
                             raw_name: name.1,
-                            value: (before.clone() + (&**raw)).into(),
-                            raw_value: (before.clone() + (&**raw)).into(),
+                            value: (&**raw).into(),
+                            raw_value: (&**raw).into(),
                         });
                     }
 
@@ -946,8 +944,8 @@ where
                             return Ok(Token::BadUrl {
                                 name: name.0,
                                 raw_name: name.1,
-                                value: (before.clone() + (&**raw)).into(),
-                                raw_value: (before.clone() + (&**raw)).into(),
+                                value: (&**raw).into(),
+                                raw_value: (&**raw).into(),
                             });
                         }
                     }

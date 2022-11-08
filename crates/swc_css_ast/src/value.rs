@@ -432,11 +432,7 @@ pub struct UrlValueRaw {
     #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub value: JsWord,
     #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-    pub before: Option<JsWord>,
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub raw: Option<JsWord>,
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-    pub after: Option<JsWord>,
 }
 
 #[ast_node]

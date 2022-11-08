@@ -2870,8 +2870,6 @@ where
                 raw_name,
                 value,
                 raw_value,
-                before,
-                after,
             } => {
                 let name_length = raw_name.len() as u32;
                 let name = Ident {
@@ -2890,9 +2888,7 @@ where
                         Default::default(),
                     ),
                     value,
-                    before: Some(before),
                     raw: Some(raw_value),
-                    after: Some(after),
                 })));
 
                 Ok(Url {

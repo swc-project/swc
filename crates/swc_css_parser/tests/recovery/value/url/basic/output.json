@@ -202,9 +202,7 @@
                     "ctxt": 0
                   },
                   "value": "image.png�",
-                  "before": "",
-                  "raw": "image.png\\999999",
-                  "after": ""
+                  "raw": "image.png\\999999"
                 },
                 "modifiers": null
               }
@@ -254,9 +252,7 @@
                     "ctxt": 0
                   },
                   "value": "image.png�",
-                  "before": "",
-                  "raw": "image.png\\0",
-                  "after": ""
+                  "raw": "image.png\\0"
                 },
                 "modifiers": null
               }
@@ -306,9 +302,7 @@
                     "ctxt": 0
                   },
                   "value": "image.png�",
-                  "before": "",
-                  "raw": "image.png\\D800",
-                  "after": ""
+                  "raw": "image.png\\D800"
                 },
                 "modifiers": null
               }
@@ -358,9 +352,7 @@
                     "ctxt": 0
                   },
                   "value": "image.png�",
-                  "before": "",
-                  "raw": "image.png\\DFFF",
-                  "after": ""
+                  "raw": "image.png\\DFFF"
                 },
                 "modifiers": null
               }
@@ -410,9 +402,7 @@
                     "ctxt": 0
                   },
                   "value": "image.png�",
-                  "before": "",
-                  "raw": "image.png\\11FFFF",
-                  "after": ""
+                  "raw": "image.png\\11FFFF"
                 },
                 "modifiers": null
               }

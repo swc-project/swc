@@ -55,9 +55,7 @@
               "ctxt": 0
             },
             "value": "foo.css",
-            "before": "",
-            "raw": "foo.css",
-            "after": ""
+            "raw": "foo.css"
           },
           "modifiers": null
         },
