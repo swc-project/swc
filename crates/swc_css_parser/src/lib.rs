@@ -11,7 +11,7 @@ use crate::{
     error::Error,
     lexer::Lexer,
     parser::{
-        input::{Tokens, TokensInput},
+        input::{Input, Tokens},
         PResult, Parser, ParserConfig,
     },
 };
@@ -89,9 +89,9 @@ pub fn parse_tokens<'a, T>(
     errors: &mut Vec<Error>,
 ) -> PResult<T>
 where
-    Parser<TokensInput<'a>>: Parse<T>,
+    Parser<Input<'a>>: Parse<T>,
 {
-    let lexer = TokensInput::new(tokens);
+    let lexer = Input::new(tokens);
     let mut parser = Parser::new(lexer, config);
 
     let res = parser.parse();

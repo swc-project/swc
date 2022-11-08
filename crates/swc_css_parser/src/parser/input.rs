@@ -189,7 +189,7 @@ pub struct TokensState {
 }
 
 #[derive(Debug, Clone)]
-pub struct TokensInput<'a> {
+pub struct Input<'a> {
     tokens: &'a Tokens,
     idx: usize,
 }
@@ -200,9 +200,9 @@ pub struct Tokens {
     pub tokens: Vec<TokenAndSpan>,
 }
 
-impl<'a> TokensInput<'a> {
+impl<'a> Input<'a> {
     pub fn new(tokens: &'a Tokens) -> Self {
-        TokensInput { tokens, idx: 0 }
+        Input { tokens, idx: 0 }
     }
 
     fn cur(&mut self) -> PResult<&TokenAndSpan> {
@@ -220,7 +220,7 @@ impl<'a> TokensInput<'a> {
     }
 }
 
-impl<'a> ParserInput for TokensInput<'a> {
+impl<'a> ParserInput for Input<'a> {
     type State = TokensState;
 
     fn start_pos(&mut self) -> BytePos {
@@ -255,7 +255,7 @@ impl<'a> ParserInput for TokensInput<'a> {
     }
 }
 
-impl<'a> Iterator for TokensInput<'a> {
+impl<'a> Iterator for Input<'a> {
     type Item = TokenAndSpan;
 
     fn next(&mut self) -> Option<Self::Item> {
