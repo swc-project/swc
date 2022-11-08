@@ -131,10 +131,7 @@
  5 | `->     );
    `----
 
-  x BadUrl { name: Atom('url' type=static), raw_name: Atom('url' type=static), value: Atom('
-  |         /* test */
-  |         test.png
-  |     ' type=dynamic), raw_value: Atom('
+  x BadUrl { name: Atom('url' type=static), raw_name: Atom('url' type=static), raw_value: Atom('
   |         /* test */
   |         test.png
   |     ' type=dynamic) }

@@ -112,8 +112,6 @@ pub enum Token {
         #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         raw_name: JsWord,
         #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-        value: JsWord,
-        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         raw_value: JsWord,
     },
 
@@ -233,12 +231,10 @@ impl Hash for Token {
             Token::BadUrl {
                 name,
                 raw_name,
-                value,
                 raw_value,
             } => {
                 name.hash(state);
                 raw_name.hash(state);
-                value.hash(state);
                 raw_value.hash(state);
             }
             Token::Delim { value } => {

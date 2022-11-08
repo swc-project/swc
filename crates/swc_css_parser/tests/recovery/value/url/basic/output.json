@@ -151,7 +151,6 @@
                   "BadUrl": {
                     "name": "url",
                     "raw_name": "url",
-                    "value": "var(--foo",
                     "raw_value": "var(--foo"
                   }
                 }
@@ -546,7 +545,6 @@
                   "BadUrl": {
                     "name": "url",
                     "raw_name": "url",
-                    "value": "image.png param(var(--url",
                     "raw_value": "image.png param(var(--url"
                   }
                 }

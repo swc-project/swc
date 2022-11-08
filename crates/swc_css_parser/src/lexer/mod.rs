@@ -888,7 +888,6 @@ where
                         return Ok(Token::BadUrl {
                             name: name.0,
                             raw_name: name.1,
-                            value: (&**raw).into(),
                             raw_value: (&**raw).into(),
                         });
                     }
@@ -912,7 +911,6 @@ where
                         return Ok(Token::BadUrl {
                             name: name.0,
                             raw_name: name.1,
-                            value: (&**raw).into(),
                             raw_value: (&**raw).into(),
                         });
                     }
@@ -944,7 +942,6 @@ where
                             return Ok(Token::BadUrl {
                                 name: name.0,
                                 raw_name: name.1,
-                                value: (&**raw).into(),
                                 raw_value: (&**raw).into(),
                             });
                         }

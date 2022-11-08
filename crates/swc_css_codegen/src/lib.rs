@@ -2003,7 +2003,7 @@ where
                 raw_value,
                 ..
             } => {
-                let mut bad_url = String::with_capacity(raw_name.len() + raw_value.len() + 2);
+                let mut bad_url = String::with_capacity(raw_value.len() + 2);
 
                 bad_url.push_str(raw_name);
                 bad_url.push('(');
