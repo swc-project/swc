@@ -1055,10 +1055,10 @@ pub struct TsNonNullExpr {
     pub expr: Box<Expr>,
 }
 
-#[ast_node("TsSatisfactionExpr")]
+#[ast_node("TsSatisfiesExpression")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-pub struct TsSatisfactionExpr {
+pub struct TsSatisfiesExpr {
     pub span: Span,
     #[serde(rename = "expression")]
     pub expr: Box<Expr>,

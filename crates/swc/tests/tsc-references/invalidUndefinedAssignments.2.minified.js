@@ -1,5 +1,11 @@
 //// [invalidUndefinedAssignments.ts]
-var x, E, M;
-!function(E) {
-    E[E.A = 0] = "A";
-}(E || (E = {})), (E = x).A = x, I = x, (M || (M = {})).x = 1, M = x;
+//! 
+//!   x cannot reassign to a class
+//!    ,-[7:1]
+//!  7 | class C { foo: string }
+//!    :       |
+//!    :       `-- class name
+//!  8 | var f: C;
+//!  9 | C = x;
+//!    : ^
+//!    `----

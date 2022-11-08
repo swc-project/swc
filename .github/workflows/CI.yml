@@ -717,6 +717,7 @@ jobs:
         run: |
           echo '[patch.crates-io]' >> bindings/Cargo.toml
           ./scripts/cargo/patch-section.sh >> bindings/Cargo.toml
+          cd bindings && cargo update
 
       - name: Cache
         uses: actions/cache@v3
@@ -777,6 +778,7 @@ jobs:
         run: |
           echo '[patch.crates-io]' >> bindings/Cargo.toml
           ./scripts/cargo/patch-section.sh >> bindings/Cargo.toml
+          cd bindings && cargo update
 
       - name: Prepare
         run: |

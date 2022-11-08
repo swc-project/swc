@@ -290,7 +290,7 @@
             "typeAnnotation": null
           },
           "init": {
-            "type": "TsAsExpression",
+            "type": "TsSatisfiesExpression",
             "span": {
               "start": 110,
               "end": 131,
@@ -382,7 +382,7 @@
             "typeAnnotation": null
           },
           "init": {
-            "type": "TsAsExpression",
+            "type": "TsSatisfiesExpression",
             "span": {
               "start": 150,
               "end": 177,
@@ -497,7 +497,7 @@
             "typeAnnotation": null
           },
           "init": {
-            "type": "TsAsExpression",
+            "type": "TsSatisfiesExpression",
             "span": {
               "start": 199,
               "end": 215,
@@ -591,7 +591,7 @@
             }
           },
           "init": {
-            "type": "TsAsExpression",
+            "type": "TsSatisfiesExpression",
             "span": {
               "start": 242,
               "end": 265,
@@ -683,7 +683,7 @@
             "typeAnnotation": null
           },
           "init": {
-            "type": "TsAsExpression",
+            "type": "TsSatisfiesExpression",
             "span": {
               "start": 284,
               "end": 318,
@@ -827,7 +827,7 @@
             "typeAnnotation": null
           },
           "init": {
-            "type": "TsAsExpression",
+            "type": "TsSatisfiesExpression",
             "span": {
               "start": 338,
               "end": 371,
@@ -1021,7 +1021,7 @@
             "typeAnnotation": null
           },
           "init": {
-            "type": "TsAsExpression",
+            "type": "TsSatisfiesExpression",
             "span": {
               "start": 413,
               "end": 438,
@@ -1113,7 +1113,7 @@
             "typeAnnotation": null
           },
           "init": {
-            "type": "TsAsExpression",
+            "type": "TsSatisfiesExpression",
             "span": {
               "start": 449,
               "end": 485,

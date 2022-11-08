@@ -18,7 +18,6 @@ import _get from "@swc/helpers/src/_get.mjs";
 import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-var _this = this, _superprop_get_w = ()=>super.w;
 var C = /*#__PURE__*/ function(B1) {
     "use strict";
     _inherits(C, B1);
@@ -93,21 +92,21 @@ var __ = {
         var Reflect = {
             Reflect: null
         }.Reflect; // collision (es2015-es2021 only)
-        _superprop_get_w().call(_this);
+        _get(_get_prototype_of(C), "w", C).call(C);
     }()
 };
 var __1 = {
     writable: true,
     value: function() {
         var Reflect = null; // collision (es2015-es2021 only)
-        _superprop_get_w().call(_this);
+        _get(_get_prototype_of(C), "w", C).call(C);
     }()
 };
 var __2 = {
     writable: true,
     value: function() {
         var Reflect; // collision (es2015-es2021 only)
-        _superprop_get_w().call(_this);
+        _get(_get_prototype_of(C), "w", C).call(C);
     }()
 };
 var __3 = {
@@ -118,7 +117,7 @@ var __3 = {
             _class_call_check(this, Reflect);
         } // collision (es2015-es2021 only)
         ;
-        _superprop_get_w().call(_this);
+        _get(_get_prototype_of(C), "w", C).call(C);
     }()
 };
 var __4 = {
@@ -126,7 +125,7 @@ var __4 = {
     value: function() {
         var Reflect = function Reflect() {} // collision (es2015-es2021 only)
         ;
-        _superprop_get_w().call(_this);
+        _get(_get_prototype_of(C), "w", C).call(C);
     }()
 };
 var __5 = {
@@ -135,7 +134,7 @@ var __5 = {
         var Reflect// collision (es2015-es2021 only)
         ;
         (function(Reflect) {})(Reflect || (Reflect = {}));
-        _superprop_get_w().call(_this);
+        _get(_get_prototype_of(C), "w", C).call(C);
     }()
 };
 var __6 = {
@@ -144,19 +143,19 @@ var __6 = {
         var Reflect// collision (es2015-es2021 only)
         ;
         (function(Reflect) {})(Reflect || (Reflect = {}));
-        _superprop_get_w().call(_this);
+        _get(_get_prototype_of(C), "w", C).call(C);
     }()
 };
 var __7 = {
     writable: true,
     value: function() {
-        _superprop_get_w().call(_this);
+        _get(_get_prototype_of(C), "w", C).call(C);
     }()
 };
 var __8 = {
     writable: true,
     value: function() {
-        _superprop_get_w().call(_this);
+        _get(_get_prototype_of(C), "w", C).call(C);
     }()
 };
 var __9 = {
@@ -167,7 +166,7 @@ var __9 = {
             _class_call_check(this, Reflect);
         } // no collision
         );
-        _superprop_get_w().call(_this);
+        _get(_get_prototype_of(C), "w", C).call(C);
     }()
 };
 var __10 = {
@@ -175,7 +174,7 @@ var __10 = {
     value: function() {
         (function Reflect() {} // no collision
         );
-        _superprop_get_w().call(_this);
+        _get(_get_prototype_of(C), "w", C).call(C);
     }()
 };
 export { };
@@ -240,9 +239,10 @@ C._ = _get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [varInContainingScopeStaticBlock1.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-var _this = this, _superprop_get_w = ()=>super.w;
 var Reflect = null; // collision (es2015-es2021 only)
 var C = /*#__PURE__*/ function(B1) {
     "use strict";
@@ -257,15 +257,16 @@ var C = /*#__PURE__*/ function(B1) {
 var __ = {
     writable: true,
     value: function() {
-        _superprop_get_w().call(_this);
+        _get(_get_prototype_of(C), "w", C).call(C);
     }()
 };
 export { };
 //// [varInContainingScopeStaticBlock2.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-var _this = this, _superprop_get_w = ()=>super.w;
 var Reflect = {
     Reflect: null
 }.Reflect; // collision (es2015-es2021 only)
@@ -282,15 +283,16 @@ var C = /*#__PURE__*/ function(B1) {
 var __ = {
     writable: true,
     value: function() {
-        _superprop_get_w().call(_this);
+        _get(_get_prototype_of(C), "w", C).call(C);
     }()
 };
 export { };
 //// [varInContainingScopeStaticBlock3.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-var _this = this, _superprop_get_w = ()=>super.w;
 var Reflect = null; // collision (es2015-es2021 only)
 var C = /*#__PURE__*/ function(B1) {
     "use strict";
@@ -305,7 +307,7 @@ var C = /*#__PURE__*/ function(B1) {
 var __ = {
     writable: true,
     value: function() {
-        _superprop_get_w().call(_this);
+        _get(_get_prototype_of(C), "w", C).call(C);
     }()
 };
 export { };
@@ -334,9 +336,10 @@ C._ = _get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [classDeclInContainingScopeStaticBlock.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-var _this = this, _superprop_get_w = ()=>super.w;
 var Reflect = function Reflect() {
     "use strict";
     _class_call_check(this, Reflect);
@@ -355,7 +358,7 @@ var C = /*#__PURE__*/ function(B1) {
 var __ = {
     writable: true,
     value: function() {
-        _superprop_get_w().call(_this);
+        _get(_get_prototype_of(C), "w", C).call(C);
     }()
 };
 export { };
@@ -380,9 +383,10 @@ C._ = _get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [funcDeclInContainingScopeStaticBlock.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-var _this = this, _superprop_get_w = ()=>super.w;
 function Reflect() {} // collision (es2015-es2021 only)
 var C = /*#__PURE__*/ function(B1) {
     "use strict";
@@ -397,7 +401,7 @@ var C = /*#__PURE__*/ function(B1) {
 var __ = {
     writable: true,
     value: function() {
-        _superprop_get_w().call(_this);
+        _get(_get_prototype_of(C), "w", C).call(C);
     }()
 };
 export { };
@@ -421,9 +425,10 @@ C._ = _get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [valueNamespaceInContainingScopeStaticBlock.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-var _this = this, _superprop_get_w = ()=>super.w;
 var C = /*#__PURE__*/ function(B1) {
     "use strict";
     _inherits(C, B1);
@@ -437,7 +442,7 @@ var C = /*#__PURE__*/ function(B1) {
 var __ = {
     writable: true,
     value: function() {
-        _superprop_get_w().call(_this);
+        _get(_get_prototype_of(C), "w", C).call(C);
     }()
 };
 export { };
@@ -464,9 +469,10 @@ C._ = _get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [enumInContainingScopeStaticBlock.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-var _this = this, _superprop_get_w = ()=>super.w;
 var Reflect// collision (es2015-es2021 only)
 ;
 (function(Reflect) {})(Reflect || (Reflect = {}));
@@ -483,7 +489,7 @@ var C = /*#__PURE__*/ function(B1) {
 var __ = {
     writable: true,
     value: function() {
-        _superprop_get_w().call(_this);
+        _get(_get_prototype_of(C), "w", C).call(C);
     }()
 };
 export { };
@@ -510,9 +516,10 @@ C._ = _get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [constEnumInContainingScopeStaticBlock.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-var _this = this, _superprop_get_w = ()=>super.w;
 var Reflect// collision (es2015-es2021 only)
 ;
 (function(Reflect) {})(Reflect || (Reflect = {}));
@@ -529,7 +536,7 @@ var C = /*#__PURE__*/ function(B1) {
 var __ = {
     writable: true,
     value: function() {
-        _superprop_get_w().call(_this);
+        _get(_get_prototype_of(C), "w", C).call(C);
     }()
 };
 export { };
@@ -553,9 +560,10 @@ C._ = _get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [namespaceImportInContainingScopeStaticBlock.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-var _this = this, _superprop_get_w = ()=>super.w;
 var C = /*#__PURE__*/ function(B1) {
     "use strict";
     _inherits(C, B1);
@@ -569,7 +577,7 @@ var C = /*#__PURE__*/ function(B1) {
 var __ = {
     writable: true,
     value: function() {
-        _superprop_get_w().call(_this);
+        _get(_get_prototype_of(C), "w", C).call(C);
     }()
 };
 export { };
@@ -593,9 +601,10 @@ C._ = _get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [namedImportInContainingScopeStaticBlock.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-var _this = this, _superprop_get_w = ()=>super.w;
 var C = /*#__PURE__*/ function(B1) {
     "use strict";
     _inherits(C, B1);
@@ -609,7 +618,7 @@ var C = /*#__PURE__*/ function(B1) {
 var __ = {
     writable: true,
     value: function() {
-        _superprop_get_w().call(_this);
+        _get(_get_prototype_of(C), "w", C).call(C);
     }()
 };
 export { };
@@ -633,9 +642,10 @@ C._ = _get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [namedImportOfInterfaceInContainingScopeStaticBlock.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-var _this = this, _superprop_get_w = ()=>super.w;
 var C = /*#__PURE__*/ function(B1) {
     "use strict";
     _inherits(C, B1);
@@ -649,7 +659,7 @@ var C = /*#__PURE__*/ function(B1) {
 var __ = {
     writable: true,
     value: function() {
-        _superprop_get_w().call(_this);
+        _get(_get_prototype_of(C), "w", C).call(C);
     }()
 };
 export { };
@@ -673,9 +683,10 @@ C._ = _get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [namedImportOfUninstantiatedNamespaceInContainingScopeStaticBlock.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-var _this = this, _superprop_get_w = ()=>super.w;
 var C = /*#__PURE__*/ function(B1) {
     "use strict";
     _inherits(C, B1);
@@ -689,7 +700,7 @@ var C = /*#__PURE__*/ function(B1) {
 var __ = {
     writable: true,
     value: function() {
-        _superprop_get_w().call(_this);
+        _get(_get_prototype_of(C), "w", C).call(C);
     }()
 };
 export { };
@@ -713,9 +724,10 @@ C._ = _get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [namedImportOfConstEnumInContainingScopeStaticBlock.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-var _this = this, _superprop_get_w = ()=>super.w;
 var C = /*#__PURE__*/ function(B1) {
     "use strict";
     _inherits(C, B1);
@@ -729,7 +741,7 @@ var C = /*#__PURE__*/ function(B1) {
 var __ = {
     writable: true,
     value: function() {
-        _superprop_get_w().call(_this);
+        _get(_get_prototype_of(C), "w", C).call(C);
     }()
 };
 export { };
@@ -753,9 +765,10 @@ C._ = _get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [typeOnlyNamedImportInContainingScopeStaticBlock.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-var _this = this, _superprop_get_w = ()=>super.w;
 var C = /*#__PURE__*/ function(B1) {
     "use strict";
     _inherits(C, B1);
@@ -769,7 +782,7 @@ var C = /*#__PURE__*/ function(B1) {
 var __ = {
     writable: true,
     value: function() {
-        _superprop_get_w().call(_this);
+        _get(_get_prototype_of(C), "w", C).call(C);
     }()
 };
 export { };
@@ -793,9 +806,10 @@ C._ = _get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [defaultImportInContainingScopeStaticBlock.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-var _this = this, _superprop_get_w = ()=>super.w;
 var C = /*#__PURE__*/ function(B1) {
     "use strict";
     _inherits(C, B1);
@@ -809,7 +823,7 @@ var C = /*#__PURE__*/ function(B1) {
 var __ = {
     writable: true,
     value: function() {
-        _superprop_get_w().call(_this);
+        _get(_get_prototype_of(C), "w", C).call(C);
     }()
 };
 export { };
@@ -833,9 +847,10 @@ C._ = _get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [typeOnlyDefaultImportInContainingScopeStaticBlock.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-var _this = this, _superprop_get_w = ()=>super.w;
 var C = /*#__PURE__*/ function(B1) {
     "use strict";
     _inherits(C, B1);
@@ -849,7 +864,7 @@ var C = /*#__PURE__*/ function(B1) {
 var __ = {
     writable: true,
     value: function() {
-        _superprop_get_w().call(_this);
+        _get(_get_prototype_of(C), "w", C).call(C);
     }()
 };
 export { };
@@ -873,9 +888,10 @@ C._ = _get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [typeInContainingScopeStaticBlock.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-var _this = this, _superprop_get_w = ()=>super.w;
 var C = /*#__PURE__*/ function(B1) {
     "use strict";
     _inherits(C, B1);
@@ -889,7 +905,7 @@ var C = /*#__PURE__*/ function(B1) {
 var __ = {
     writable: true,
     value: function() {
-        _superprop_get_w().call(_this);
+        _get(_get_prototype_of(C), "w", C).call(C);
     }()
 };
 export { };
@@ -913,9 +929,10 @@ C._ = _get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [interfaceInContainingScopeStaticBlock.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-var _this = this, _superprop_get_w = ()=>super.w;
 var C = /*#__PURE__*/ function(B1) {
     "use strict";
     _inherits(C, B1);
@@ -929,7 +946,7 @@ var C = /*#__PURE__*/ function(B1) {
 var __ = {
     writable: true,
     value: function() {
-        _superprop_get_w().call(_this);
+        _get(_get_prototype_of(C), "w", C).call(C);
     }()
 };
 export { };
@@ -953,9 +970,10 @@ C._ = _get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [uninstantiatedNamespaceInContainingScopeStaticBlock.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-var _this = this, _superprop_get_w = ()=>super.w;
 var C = /*#__PURE__*/ function(B1) {
     "use strict";
     _inherits(C, B1);
@@ -969,7 +987,7 @@ var C = /*#__PURE__*/ function(B1) {
 var __ = {
     writable: true,
     value: function() {
-        _superprop_get_w().call(_this);
+        _get(_get_prototype_of(C), "w", C).call(C);
     }()
 };
 export { };
@@ -997,9 +1015,10 @@ C._ = _get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [classExprInContainingScopeStaticBlock.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-var _this = this, _superprop_get_w = ()=>super.w;
 (function Reflect() {
     "use strict";
     _class_call_check(this, Reflect);
@@ -1017,7 +1036,7 @@ var C = /*#__PURE__*/ function(B1) {
 var __ = {
     writable: true,
     value: function() {
-        _superprop_get_w().call(_this);
+        _get(_get_prototype_of(C), "w", C).call(C);
     }()
 };
 export { };
@@ -1050,9 +1069,10 @@ _Reflect = function Reflect() {
 export { };
 //// [inContainingClassExprStaticBlock.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-var _this = this, _superprop_get_w = ()=>super.w;
 var _Reflect, __;
 _Reflect = function Reflect() {
     "use strict";
@@ -1073,7 +1093,7 @@ _Reflect = function Reflect() {
         var __ = {
             writable: true,
             value: function() {
-                _superprop_get_w().call(_this);
+                _get(_get_prototype_of(C), "w", C).call(C);
             }()
         };
     }()
@@ -1100,9 +1120,10 @@ C._ = _get(_get_prototype_of(C), "w", C).call(C);
 export { };
 //// [funcExprInContainingScopeStaticBlock.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-var _this = this, _superprop_get_w = ()=>super.w;
 (function Reflect() {}); // no collision
 var C = /*#__PURE__*/ function(B1) {
     "use strict";
@@ -1117,7 +1138,7 @@ var C = /*#__PURE__*/ function(B1) {
 var __ = {
     writable: true,
     value: function() {
-        _superprop_get_w().call(_this);
+        _get(_get_prototype_of(C), "w", C).call(C);
     }()
 };
 export { };
@@ -1143,10 +1164,11 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
 export { };
 //// [inContainingFuncExprStaticBlock.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
 (function Reflect() {
-    var _this = this, _superprop_get_w = ()=>super.w;
     var C = /*#__PURE__*/ function(B1) {
         "use strict";
         _inherits(C, B1);
@@ -1160,7 +1182,7 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
     var __ = {
         writable: true,
         value: function() {
-            _superprop_get_w().call(_this);
+            _get(_get_prototype_of(C), "w", C).call(C);
         }()
     };
 });

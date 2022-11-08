@@ -6652,3 +6652,18 @@ fn exec(input: PathBuf) {
         &src,
     );
 }
+
+test!(
+    syntax(),
+    |t| class_properties(Some(t.comments.clone()), Default::default()),
+    issue_6305,
+    "class x { static #x = super.x = 0 }",
+    r#"
+class x {
+}
+var _x = {
+    writable: true,
+    value: _set(_getPrototypeOf(x), "x", 0, x, true)
+};
+"#
+);
