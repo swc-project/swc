@@ -59,8 +59,7 @@
           },
           "value": []
         },
-        "supports": null,
-        "media": null
+        "importConditions": null
       },
       "block": null
     },
@@ -132,8 +131,7 @@
             }
           ]
         },
-        "supports": null,
-        "media": null
+        "importConditions": null
       },
       "block": null
     },
@@ -241,8 +239,7 @@
             }
           ]
         },
-        "supports": null,
-        "media": null
+        "importConditions": null
       },
       "block": null
     }

@@ -62,8 +62,7 @@
           "modifiers": null
         },
         "layerName": null,
-        "supports": null,
-        "media": null
+        "importConditions": null
       },
       "block": null
     }

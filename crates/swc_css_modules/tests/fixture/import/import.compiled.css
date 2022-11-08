@@ -143,7 +143,7 @@ st.css');
 @import url("./test.css") layer(default) supports(display: flex) screen and (min-width: 400px);
 @import url("./test.css") screen and (min-width: 400px);
 @import url("./test.css") layer(default) supports(display: flex) screen and (min-width: 400px);
-@import url("./test.css") LAYER(DEFAULT) supports(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
+@import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
 @import url("./test.css") layer(default) supports(display: flex) screen and (min-width: 400px);
 @import url(test.css);
 @import url(test.css);

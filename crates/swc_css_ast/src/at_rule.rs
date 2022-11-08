@@ -152,15 +152,14 @@ pub enum KeyframeSelector {
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct ImportPrelude {
     pub span: Span,
-    pub href: Box<ImportPreludeHref>,
-    pub layer_name: Option<Box<ImportPreludeLayerName>>,
-    pub supports: Option<Box<ImportPreludeSupportsType>>,
-    pub media: Option<Box<MediaQueryList>>,
+    pub href: Box<ImportHref>,
+    pub layer_name: Option<Box<ImportLayerName>>,
+    pub import_conditions: Option<Box<ImportConditions>>,
 }
 
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
-pub enum ImportPreludeHref {
+pub enum ImportHref {
     #[tag("Url")]
     Url(Url),
     #[tag("Str")]
@@ -169,20 +168,19 @@ pub enum ImportPreludeHref {
 
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
-pub enum ImportPreludeLayerName {
+pub enum ImportLayerName {
     #[tag("Ident")]
     Ident(Ident),
     #[tag("Function")]
     Function(Function),
 }
 
-#[ast_node]
-#[derive(Eq, Hash, Is, EqIgnoreSpan)]
-pub enum ImportPreludeSupportsType {
-    #[tag("SupportsCondition")]
-    SupportsCondition(SupportsCondition),
-    #[tag("Declaration")]
-    Declaration(Box<Declaration>),
+#[ast_node("ImportCondition")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+pub struct ImportConditions {
+    pub span: Span,
+    pub supports: Option<Box<Function>>,
+    pub media: Option<Box<MediaQueryList>>,
 }
 
 #[ast_node("NamespacePrelude")]

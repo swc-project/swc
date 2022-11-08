@@ -4,7 +4,7 @@ use swc_common::{ast_node, EqIgnoreSpan, Span};
 use crate::{
     AlphaValue, AtRule, CalcSum, CmykComponent, Color, ComplexSelector, DashedIdent, Delimiter,
     Dimension, Hue, Ident, Integer, KeyframeBlock, LayerName, Number, Percentage, Ratio,
-    RelativeSelectorList, SelectorList, Str, TokenAndSpan, UnicodeRange, Url,
+    RelativeSelectorList, SelectorList, Str, SupportsCondition, TokenAndSpan, UnicodeRange, Url,
 };
 
 #[ast_node("Stylesheet")]
@@ -143,6 +143,10 @@ pub enum ComponentValue {
     ComplexSelector(ComplexSelector),
     #[tag("LayerName")]
     LayerName(LayerName),
+    #[tag("SupportsCondition")]
+    SupportsCondition(SupportsCondition),
+    #[tag("Declaration")]
+    Declaration(Declaration),
 }
 
 #[ast_node]

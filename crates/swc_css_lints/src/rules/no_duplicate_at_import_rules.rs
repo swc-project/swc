@@ -45,8 +45,8 @@ impl Visit for NoDuplicateAtImportRules {
 
     fn visit_import_prelude(&mut self, import_prelude: &ImportPrelude) {
         let href = match &*import_prelude.href {
-            ImportPreludeHref::Str(Str { value, .. }) => value,
-            ImportPreludeHref::Url(Url {
+            ImportHref::Str(Str { value, .. }) => value,
+            ImportHref::Url(Url {
                 value: Some(value), ..
             }) => match &**value {
                 UrlValue::Raw(UrlValueRaw { value, .. }) => value,
@@ -59,24 +59,26 @@ impl Visit for NoDuplicateAtImportRules {
             }
         };
 
-        if let Some(queries) = import_prelude.media.as_ref().map(|media| &media.queries) {
-            queries.iter().fold(&mut self.imports, |imports, query| {
-                let media = query.media_type.as_ref().map(|ident| {
-                    let MediaType::Ident(Ident { value, .. }) = ident;
+        if let Some(import_conditions) = &import_prelude.import_conditions {
+            if let Some(queries) = import_conditions.media.as_ref().map(|media| &media.queries) {
+                queries.iter().fold(&mut self.imports, |imports, query| {
+                    let media = query.media_type.as_ref().map(|ident| {
+                        let MediaType::Ident(Ident { value, .. }) = ident;
 
-                    value.clone()
-                });
-                let pair = (href.clone(), media);
+                        value.clone()
+                    });
+                    let pair = (href.clone(), media);
 
-                if imports.contains(&pair) {
-                    if let Some(at_rule) = &self.import_at_rules {
-                        self.ctx.report(at_rule, build_message(href));
+                    if imports.contains(&pair) {
+                        if let Some(at_rule) = &self.import_at_rules {
+                            self.ctx.report(at_rule, build_message(href));
+                        }
                     }
-                }
 
-                imports.insert(pair);
-                imports
-            });
+                    imports.insert(pair);
+                    imports
+                });
+            }
         } else {
             let pair = (href.clone(), None);
 

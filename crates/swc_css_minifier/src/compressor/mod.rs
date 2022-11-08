@@ -139,10 +139,10 @@ impl VisitMut for Compressor {
         self.compress_keyframes_at_rule(n);
     }
 
-    fn visit_mut_import_prelude_href(&mut self, n: &mut ImportPreludeHref) {
+    fn visit_mut_import_href(&mut self, n: &mut ImportHref) {
         n.visit_mut_children_with(self);
 
-        self.compress_import_prelude_href(n);
+        self.compress_import_href(n);
     }
 
     fn visit_mut_media_query_list(&mut self, n: &mut MediaQueryList) {

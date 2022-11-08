@@ -701,19 +701,21 @@ impl VisitMut for Prefixer {
         }
     }
 
-    fn visit_mut_import_prelude(&mut self, import_prelude: &mut ImportPrelude) {
-        import_prelude.visit_mut_children_with(self);
+    fn visit_mut_import_conditions(&mut self, import_conditions: &mut ImportConditions) {
+        import_conditions.visit_mut_children_with(self);
 
+        // ComponentValue::Declaration(declaration)
         if !self.added_declarations.is_empty() {
-            if let Some(ImportPreludeSupportsType::Declaration(declaration)) =
-                import_prelude.supports.take().map(|v| *v)
-            {
-                let span = declaration.span;
+            if let Some(supports) = import_conditions.supports.take() {
                 let mut conditions = Vec::with_capacity(1 + self.added_declarations.len());
 
-                conditions.push(SupportsConditionType::SupportsInParens(
-                    SupportsInParens::Feature(SupportsFeature::Declaration(declaration)),
-                ));
+                if let Some(ComponentValue::Declaration(declaration)) = supports.value.get(0) {
+                    conditions.push(SupportsConditionType::SupportsInParens(
+                        SupportsInParens::Feature(SupportsFeature::Declaration(Box::new(
+                            declaration.clone(),
+                        ))),
+                    ));
+                }
 
                 for n in take(&mut self.added_declarations) {
                     let supports_condition_type = SupportsConditionType::Or(SupportsOr {
@@ -727,10 +729,14 @@ impl VisitMut for Prefixer {
                     conditions.push(supports_condition_type);
                 }
 
-                import_prelude.supports =
-                    Some(Box::new(ImportPreludeSupportsType::SupportsCondition(
-                        SupportsCondition { span, conditions },
-                    )));
+                import_conditions.supports = Some(Box::new(Function {
+                    span: supports.span,
+                    name: supports.name,
+                    value: vec![ComponentValue::SupportsCondition(SupportsCondition {
+                        span: DUMMY_SP,
+                        conditions,
+                    })],
+                }));
             }
         }
     }
