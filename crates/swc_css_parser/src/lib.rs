@@ -11,7 +11,7 @@ use crate::{
     error::Error,
     lexer::Lexer,
     parser::{
-        input::{Input, Tokens},
+        input::{Input, InputType, Tokens},
         PResult, Parser, ParserConfig,
     },
 };
@@ -91,7 +91,7 @@ pub fn parse_tokens<'a, T>(
 where
     Parser<Input<'a>>: Parse<T>,
 {
-    let lexer = Input::new(tokens);
+    let lexer = Input::new(InputType::Tokens(tokens));
     let mut parser = Parser::new(lexer, config);
 
     let res = parser.parse();

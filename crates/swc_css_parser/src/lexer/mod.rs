@@ -140,7 +140,7 @@ where
 {
     type State = LexerState;
 
-    fn start_pos(&mut self) -> swc_common::BytePos {
+    fn start_pos(&mut self) -> BytePos {
         self.input.cur_pos()
     }
 
