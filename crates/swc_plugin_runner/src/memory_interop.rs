@@ -32,14 +32,15 @@ where
     let serialized_len = serialized_bytes.as_ptr().1;
 
     let ptr_start: i32 = get_allocated_ptr(serialized_len);
-    let ptr_start_size: u32 = ptr_start.try_into().expect(format!(
-        "Should be able to convert the value {} to u32",
-        ptr_start.to_string()
-    ));
-    let serialized_len_size: u32 = serialized_len.try_into().expect(format!(
-        "Should be able to convert the value {} to u32",
-        serialized_len.to_string()
-    ));
+    let ptr_start_size: u32 = ptr_start
+        .try_into()
+        .unwrap_or_else(|_| panic!("Should be able to convert the value {} to u32", ptr_start));
+    let serialized_len_size: u32 = serialized_len.try_into().unwrap_or_else(|_| {
+        panic!(
+            "Should be able to convert the value {} to u32",
+            serialized_len
+        )
+    });
 
     // Note: it's important to get a view from memory _after_ alloc completes
     let view = memory.view::<u8>();
