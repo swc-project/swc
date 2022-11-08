@@ -1096,7 +1096,7 @@ where
                     }
                 }
 
-                if !is_one_of!(self, EOF, ")", "/") {
+                if !is_one_of!(self, EOF, "/") {
                     match function_name {
                         "hwb" => {
                             let percentage_or_none = self.try_parse_variable_function(
@@ -1229,7 +1229,7 @@ where
                     }
                 }
 
-                if !is_one_of!(self, EOF, ")", "/") {
+                if !is_one_of!(self, EOF, "/") {
                     match function_name {
                         "hwb" => {
                             let percentage_or_none = self.try_parse_variable_function(
@@ -1416,7 +1416,7 @@ where
                     }
                 }
 
-                if !is_one_of!(self, EOF, ")", "/") && function_name == "device-cmyk" {
+                if !is_one_of!(self, EOF, "/") && function_name == "device-cmyk" {
                     let cmyk_component = self.try_parse_variable_function(
                         |parser, _| Ok(Some(ComponentValue::CmykComponent(parser.parse()?))),
                         &mut has_variable,
