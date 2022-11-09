@@ -1,4 +1,4 @@
-class PartWriter__1 {
+class PartWriter__1 implements Deno.Writer {
     constructor(private writer__3: Deno.Writer, readonly boundary__3: string, public headers__3: Headers, isFirstBoundary__3: boolean){
         let buf__3 = "";
         if (isFirstBoundary__3) {
