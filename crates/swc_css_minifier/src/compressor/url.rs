@@ -46,9 +46,7 @@ impl Compressor {
             url.value = Some(Box::new(UrlValue::Raw(UrlValueRaw {
                 span: *span,
                 value: escaped.into(),
-                before: None,
                 raw: None,
-                after: None,
             })));
         }
     }
