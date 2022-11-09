@@ -55,6 +55,12 @@
 
 - **(ci)** Fix CI (#6340) ([6094994](https://github.com/swc-project/swc/commit/60949946296c5f999fbbf704281e9e3bc863ce5f))
 
+### Refactor
+
+
+
+- **(css/parser)** Avoid unnecessary checks (#6383) ([4d49b9f](https://github.com/swc-project/swc/commit/4d49b9f61f226551d96e8e3210702366a5a1b885))
+
 ### Testing
 
 
