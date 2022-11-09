@@ -2024,7 +2024,12 @@ impl Minifier<'_> {
             }
         }
 
-        let program = swc_ecma_visit::FoldWith::fold_with(
+        swc_ecma_visit::VisitMutWith::visit_mut_with(
+            &mut left_program,
+            &mut swc_ecma_transforms_base::hygiene::hygiene(),
+        );
+
+        let left_program = swc_ecma_visit::FoldWith::fold_with(
             left_program,
             &mut swc_ecma_transforms_base::fixer::fixer(Some(&comments)),
         );
@@ -2051,7 +2056,7 @@ impl Minifier<'_> {
                 wr,
             };
 
-            emitter.emit_program(&program).unwrap();
+            emitter.emit_program(&left_program).unwrap();
         }
 
         let code = match String::from_utf8(buf) {
