@@ -1,0 +1,236 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/recovery/simple-block/unclosed/input.css:1:1]
+ 1 | ,-> a {
+ 2 | |       color: red;
+ 3 | |       .class {
+ 4 | `->         color: blue
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/simple-block/unclosed/input.css:1:1]
+ 1 | ,-> a {
+ 2 | |       color: red;
+ 3 | |       .class {
+ 4 | `->         color: blue
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/recovery/simple-block/unclosed/input.css:1:1]
+ 1 | ,-> a {
+ 2 | |       color: red;
+ 3 | |       .class {
+ 4 | `->         color: blue
+   `----
+
+  x SelectorList
+   ,-[$DIR/tests/recovery/simple-block/unclosed/input.css:1:1]
+ 1 | a {
+   : ^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/recovery/simple-block/unclosed/input.css:1:1]
+ 1 | a {
+   : ^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/recovery/simple-block/unclosed/input.css:1:1]
+ 1 | a {
+   : ^
+   `----
+
+  x TypeSelector
+   ,-[$DIR/tests/recovery/simple-block/unclosed/input.css:1:1]
+ 1 | a {
+   : ^
+   `----
+
+  x TagNameSelector
+   ,-[$DIR/tests/recovery/simple-block/unclosed/input.css:1:1]
+ 1 | a {
+   : ^
+   `----
+
+  x WqName
+   ,-[$DIR/tests/recovery/simple-block/unclosed/input.css:1:1]
+ 1 | a {
+   : ^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/simple-block/unclosed/input.css:1:1]
+ 1 | a {
+   : ^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/simple-block/unclosed/input.css:1:1]
+ 1 | ,-> a {
+ 2 | |       color: red;
+ 3 | |       .class {
+ 4 | `->         color: blue
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/recovery/simple-block/unclosed/input.css:1:1]
+ 1 | a {
+   :   ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/simple-block/unclosed/input.css:2:5]
+ 2 | color: red;
+   : ^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/simple-block/unclosed/input.css:2:5]
+ 2 | color: red;
+   : ^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/simple-block/unclosed/input.css:2:5]
+ 2 | color: red;
+   : ^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/simple-block/unclosed/input.css:2:5]
+ 2 | color: red;
+   : ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/simple-block/unclosed/input.css:2:5]
+ 2 | color: red;
+   : ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/simple-block/unclosed/input.css:2:5]
+ 2 | color: red;
+   :        ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/simple-block/unclosed/input.css:2:5]
+ 2 | color: red;
+   :        ^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/simple-block/unclosed/input.css:3:5]
+ 3 | ,-> .class {
+ 4 | `->         color: blue
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/simple-block/unclosed/input.css:3:5]
+ 3 | ,-> .class {
+ 4 | `->         color: blue
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/recovery/simple-block/unclosed/input.css:3:5]
+ 3 | ,-> .class {
+ 4 | `->         color: blue
+   `----
+
+  x RelativeSelectorList
+   ,-[$DIR/tests/recovery/simple-block/unclosed/input.css:3:5]
+ 3 | .class {
+   : ^^^^^^
+   `----
+
+  x RelativeSelector
+   ,-[$DIR/tests/recovery/simple-block/unclosed/input.css:3:5]
+ 3 | .class {
+   : ^^^^^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/recovery/simple-block/unclosed/input.css:3:5]
+ 3 | .class {
+   : ^^^^^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/recovery/simple-block/unclosed/input.css:3:5]
+ 3 | .class {
+   : ^^^^^^
+   `----
+
+  x SubclassSelector
+   ,-[$DIR/tests/recovery/simple-block/unclosed/input.css:3:5]
+ 3 | .class {
+   : ^^^^^^
+   `----
+
+  x ClassSelector
+   ,-[$DIR/tests/recovery/simple-block/unclosed/input.css:3:5]
+ 3 | .class {
+   : ^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/simple-block/unclosed/input.css:3:5]
+ 3 | .class {
+   :  ^^^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/simple-block/unclosed/input.css:3:5]
+ 3 | ,-> .class {
+ 4 | `->         color: blue
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/recovery/simple-block/unclosed/input.css:3:5]
+ 3 | .class {
+   :        ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/simple-block/unclosed/input.css:4:9]
+ 4 | color: blue
+   : ^^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/simple-block/unclosed/input.css:4:9]
+ 4 | color: blue
+   : ^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/simple-block/unclosed/input.css:4:9]
+ 4 | color: blue
+   : ^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/simple-block/unclosed/input.css:4:9]
+ 4 | color: blue
+   : ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/simple-block/unclosed/input.css:4:9]
+ 4 | color: blue
+   : ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/simple-block/unclosed/input.css:4:9]
+ 4 | color: blue
+   :        ^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/simple-block/unclosed/input.css:4:9]
+ 4 | color: blue
+   :        ^^^^
+   `----

@@ -1,6 +1,6 @@
 
   x Expected Declaration value
-   ,-[$DIR/tests/recovery/function-token/input.css:2:5]
+   ,-[$DIR/tests/recovery/function/nested-unclosed/input.css:2:5]
  2 | prop: url("test") :
    :                   ^
    `----
