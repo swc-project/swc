@@ -1447,7 +1447,7 @@ impl Minifier<'_> {
                     acc.push_str(&text.data);
 
                     if is_script_tag {
-                        acc.push(';');
+                        acc.push_str("\n;");
                     }
 
                     acc
