@@ -1,0 +1,148 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/recovery/declaration/wrong-name/input.css:1:1]
+ 1 | ,-> a {
+ 2 | |       20: red;
+ 3 | `-> }
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/declaration/wrong-name/input.css:1:1]
+ 1 | ,-> a {
+ 2 | |       20: red;
+ 3 | `-> }
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/recovery/declaration/wrong-name/input.css:1:1]
+ 1 | ,-> a {
+ 2 | |       20: red;
+ 3 | `-> }
+   `----
+
+  x SelectorList
+   ,-[$DIR/tests/recovery/declaration/wrong-name/input.css:1:1]
+ 1 | a {
+   : ^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/recovery/declaration/wrong-name/input.css:1:1]
+ 1 | a {
+   : ^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/recovery/declaration/wrong-name/input.css:1:1]
+ 1 | a {
+   : ^
+   `----
+
+  x TypeSelector
+   ,-[$DIR/tests/recovery/declaration/wrong-name/input.css:1:1]
+ 1 | a {
+   : ^
+   `----
+
+  x TagNameSelector
+   ,-[$DIR/tests/recovery/declaration/wrong-name/input.css:1:1]
+ 1 | a {
+   : ^
+   `----
+
+  x WqName
+   ,-[$DIR/tests/recovery/declaration/wrong-name/input.css:1:1]
+ 1 | a {
+   : ^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/declaration/wrong-name/input.css:1:1]
+ 1 | a {
+   : ^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/declaration/wrong-name/input.css:1:1]
+ 1 | ,-> a {
+ 2 | |       20: red;
+ 3 | `-> }
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/recovery/declaration/wrong-name/input.css:1:1]
+ 1 | a {
+   :   ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/declaration/wrong-name/input.css:2:5]
+ 2 | 20: red;
+   : ^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/declaration/wrong-name/input.css:2:5]
+ 2 | 20: red;
+   : ^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/declaration/wrong-name/input.css:2:5]
+ 2 | 20: red;
+   : ^^
+   `----
+
+  x Number { value: 20.0, raw: Atom('20' type=inline), type_flag: Integer }
+   ,-[$DIR/tests/recovery/declaration/wrong-name/input.css:2:5]
+ 2 | 20: red;
+   : ^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/declaration/wrong-name/input.css:2:5]
+ 2 | 20: red;
+   :   ^
+   `----
+
+  x Colon
+   ,-[$DIR/tests/recovery/declaration/wrong-name/input.css:2:5]
+ 2 | 20: red;
+   :   ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/declaration/wrong-name/input.css:2:5]
+ 2 | 20: red;
+   :    ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/declaration/wrong-name/input.css:2:5]
+ 2 | 20: red;
+   :    ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/declaration/wrong-name/input.css:2:5]
+ 2 | 20: red;
+   :     ^^^
+   `----
+
+  x Ident { value: Atom('red' type=inline), raw: Atom('red' type=inline) }
+   ,-[$DIR/tests/recovery/declaration/wrong-name/input.css:2:5]
+ 2 | 20: red;
+   :     ^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/declaration/wrong-name/input.css:2:5]
+ 2 | 20: red;
+   :        ^
+   `----
+
+  x Semi
+   ,-[$DIR/tests/recovery/declaration/wrong-name/input.css:2:5]
+ 2 | 20: red;
+   :        ^
+   `----

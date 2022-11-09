@@ -718,7 +718,7 @@ where
         let is_dashed_ident = match cur!(self) {
             Token::Ident { value, .. } => value.starts_with("--"),
             _ => {
-                return Err(Error::new(span, ErrorKind::Expected("Ident")));
+                return Err(Error::new(span, ErrorKind::Expected("ident")));
             }
         };
         let name = if is_dashed_ident {
