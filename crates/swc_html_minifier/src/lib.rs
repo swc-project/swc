@@ -1448,30 +1448,39 @@ impl Minifier<'_> {
             && matches!(right.namespace, Namespace::HTML | Namespace::SVG)
             && right.tag_name == js_word!("script");
 
-        let mut data = String::new();
+        // `script`/`style` elements should have only one text child
+        let left_data = match left.children.get(0) {
+            Some(Child::Text(left)) => left.data.to_string(),
+            None => String::new(),
+            _ => return None,
+        };
 
-        for item in left.children.iter().chain(right.children.iter()) {
-            match item {
-                Child::Text(text) if text.data.len() > 0 => {
-                    if is_script_tag {
-                        match self
-                            .merge_content_of_script_elements(data.clone(), text.data.to_string())
-                        {
-                            Some(minified) => {
-                                data = minified;
-                            }
-                            _ => {
-                                return None;
-                            }
-                        }
-                    } else {
-                        data.push_str(&text.data);
-                    }
+        let right_data = match right.children.get(0) {
+            Some(Child::Text(right)) => right.data.to_string(),
+            None => String::new(),
+            _ => return None,
+        };
+
+        let mut data = String::with_capacity(left_data.len() + right_data.len());
+
+        if is_script_tag {
+            let is_modules = if is_script_tag {
+                left.attributes.iter().any(|attribute| matches!(&attribute.value, Some(value) if value.trim().to_ascii_lowercase() == "module"))
+            } else {
+                false
+            };
+
+            match self.merge_js(left_data, right_data, is_modules) {
+                Some(minified) => {
+                    data.push_str(&minified);
                 }
                 _ => {
                     return None;
                 }
             }
+        } else {
+            data.push_str(&left_data);
+            data.push_str(&right_data);
         }
 
         if data.is_empty() {
@@ -1939,7 +1948,7 @@ impl Minifier<'_> {
         }
     }
 
-    fn merge_content_of_script_elements(&self, left: String, right: String) -> Option<String> {
+    fn merge_js(&self, left: String, right: String, is_modules: bool) -> Option<String> {
         let comments = SingleThreadedComments::default();
         let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
 
@@ -1947,17 +1956,31 @@ impl Minifier<'_> {
         let mut left_errors: Vec<_> = vec![];
         let left_fm = cm.new_source_file(FileName::Anon, left);
         let syntax = swc_ecma_parser::Syntax::default();
-        let target = swc_ecma_ast::EsVersion::latest();
+        // TODO improve me using options
+        let target = swc_ecma_ast::EsVersion::default();
 
-        let mut left_program = match swc_ecma_parser::parse_file_as_module(
-            &left_fm,
-            syntax,
-            target,
-            Some(&comments),
-            &mut left_errors,
-        ) {
-            Ok(module) => swc_ecma_ast::Program::Module(module),
-            Err(_) => return None,
+        let mut left_program = if is_modules {
+            match swc_ecma_parser::parse_file_as_module(
+                &left_fm,
+                syntax,
+                target,
+                Some(&comments),
+                &mut left_errors,
+            ) {
+                Ok(module) => swc_ecma_ast::Program::Module(module),
+                _ => return None,
+            }
+        } else {
+            match swc_ecma_parser::parse_file_as_script(
+                &left_fm,
+                syntax,
+                target,
+                Some(&comments),
+                &mut left_errors,
+            ) {
+                Ok(script) => swc_ecma_ast::Program::Script(script),
+                _ => return None,
+            }
         };
 
         // Avoid compress potential invalid JS
@@ -1981,15 +2004,28 @@ impl Minifier<'_> {
         let mut right_errors: Vec<_> = vec![];
         let right_fm = cm.new_source_file(FileName::Anon, right);
 
-        let mut right_program = match swc_ecma_parser::parse_file_as_module(
-            &right_fm,
-            syntax,
-            target,
-            Some(&comments),
-            &mut right_errors,
-        ) {
-            Ok(module) => swc_ecma_ast::Program::Module(module),
-            Err(_) => return None,
+        let mut right_program = if is_modules {
+            match swc_ecma_parser::parse_file_as_module(
+                &right_fm,
+                syntax,
+                target,
+                Some(&comments),
+                &mut right_errors,
+            ) {
+                Ok(module) => swc_ecma_ast::Program::Module(module),
+                _ => return None,
+            }
+        } else {
+            match swc_ecma_parser::parse_file_as_script(
+                &right_fm,
+                syntax,
+                target,
+                Some(&comments),
+                &mut right_errors,
+            ) {
+                Ok(script) => swc_ecma_ast::Program::Script(script),
+                _ => return None,
+            }
         };
 
         // Avoid compress potential invalid JS
@@ -2019,15 +2055,22 @@ impl Minifier<'_> {
                     unreachable!();
                 }
             },
-            _ => {
-                unreachable!();
-            }
+            swc_ecma_ast::Program::Script(left_program) => match right_program {
+                swc_ecma_ast::Program::Script(right_program) => {
+                    left_program.body.extend(right_program.body);
+                }
+                _ => {
+                    unreachable!();
+                }
+            },
         }
 
-        swc_ecma_visit::VisitMutWith::visit_mut_with(
-            &mut left_program,
-            &mut swc_ecma_transforms_base::hygiene::hygiene(),
-        );
+        if is_modules {
+            swc_ecma_visit::VisitMutWith::visit_mut_with(
+                &mut left_program,
+                &mut swc_ecma_transforms_base::hygiene::hygiene(),
+            );
+        }
 
         let left_program = swc_ecma_visit::FoldWith::fold_with(
             left_program,
@@ -2118,9 +2161,6 @@ impl Minifier<'_> {
             return None;
         }
 
-        let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::new();
-
         if let Some(compress_options) = &mut options.minifier.compress {
             compress_options.module = is_module;
         } else {
@@ -2129,6 +2169,9 @@ impl Minifier<'_> {
                 ..Default::default()
             });
         }
+
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
 
         swc_ecma_visit::VisitMutWith::visit_mut_with(
             &mut program,
@@ -2144,6 +2187,7 @@ impl Minifier<'_> {
                 None
             },
             None,
+            // TODO allow to keep `var`/function/etc on top level
             &options.minifier,
             &swc_ecma_minifier::option::ExtraOptions {
                 unresolved_mark,
