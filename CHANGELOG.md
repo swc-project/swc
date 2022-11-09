@@ -23,6 +23,9 @@
 - **(es/fixer)** Handle more expressions in postfix operator (#6359) ([8123bf0](https://github.com/swc-project/swc/commit/8123bf09b58785f1e972b1e31b312a00d5535f4e))
 
 
+- **(es/helpers)** Fix import `_typeof` in `__decorate` (#6377) ([25333b9](https://github.com/swc-project/swc/commit/25333b989efb86297a895fe44f4f6ddbb2357daa))
+
+
 - **(es/lints)** Disallow reassignment to a class (#6362) ([3793e83](https://github.com/swc-project/swc/commit/3793e83fbb89d7710c3b85862b895ef7c78053cf))
 
 
