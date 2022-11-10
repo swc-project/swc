@@ -130,9 +130,7 @@
                     "ctxt": 0
                   },
                   "value": "abc",
-                  "before": "",
-                  "raw": "\\61 bc",
-                  "after": ""
+                  "raw": "\\61 bc"
                 },
                 "modifiers": null
               }

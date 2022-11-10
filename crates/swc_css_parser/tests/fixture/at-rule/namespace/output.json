@@ -141,9 +141,7 @@
               "ctxt": 0
             },
             "value": "http://www.w3.org/1999/xhtml",
-            "before": "",
-            "raw": "http://www.w3.org/1999/xhtml",
-            "after": ""
+            "raw": "http://www.w3.org/1999/xhtml"
           },
           "modifiers": null
         }
@@ -266,9 +264,7 @@
               "ctxt": 0
             },
             "value": "http://www.w3.org/2000/svg",
-            "before": "",
-            "raw": "http://www.w3.org/2000/svg",
-            "after": ""
+            "raw": "http://www.w3.org/2000/svg"
           },
           "modifiers": null
         }

@@ -107,7 +107,7 @@
    :       ^
    `----
 
-  x BadString { value: Atom('' type=static), raw: Atom('"' type=inline) }
+  x BadString { raw_value: Atom('"' type=inline) }
    ,-[$DIR/tests/recovery/value/string/newline/input.css:2:5]
  2 | prop: "
    :       ^

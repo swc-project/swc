@@ -119,8 +119,7 @@
  3 | `->     png);
    `----
 
-  x BadUrl { name: Atom('url' type=static), raw_name: Atom('url' type=static), value: Atom('image.
-  |     png' type=dynamic), raw_value: Atom('image.
+  x BadUrl { name: Atom('url' type=static), raw_name: Atom('url' type=static), raw_value: Atom('image.
   |     png' type=dynamic) }
    ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:2:5]
  2 | ,-> background: url(image.
