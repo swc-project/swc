@@ -805,9 +805,9 @@ where
                     Some(')') => {
                         return Ok(Token::Url {
                             name: name.0,
-                            raw_name: name.1,
+                            raw_name: Atom::new(&*name.1),
                             value: (&**out).into(),
-                            raw_value: (&**raw).into(),
+                            raw_value: Atom::new(&**raw),
                         });
                     }
 
@@ -818,7 +818,7 @@ where
 
                         return Ok(Token::Url {
                             name: name.0,
-                            raw_name: name.1,
+                            raw_name: Atom::new(&*name.1),
                             value: (&**out).into(),
                             raw_value: (&**raw).into(),
                         });
@@ -854,7 +854,7 @@ where
 
                                 return Ok(Token::Url {
                                     name: name.0,
-                                    raw_name: name.1,
+                                    raw_name: Atom::new(&*name.1),
                                     value: (&**out).into(),
                                     raw_value: (&**raw).into(),
                                 });
@@ -866,7 +866,7 @@ where
 
                                 return Ok(Token::Url {
                                     name: name.0,
-                                    raw_name: name.1,
+                                    raw_name: Atom::new(&*name.1),
                                     value: (&**out).into(),
                                     raw_value: (&**raw).into(),
                                 });

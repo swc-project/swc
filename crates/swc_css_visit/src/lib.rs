@@ -288,7 +288,7 @@ define!({
     pub struct UrlValueRaw {
         pub span: Span,
         pub value: JsWord,
-        pub raw: Option<JsWord>,
+        pub raw: Option<Atom>,
     }
 
     pub enum UrlModifier {

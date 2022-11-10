@@ -94,12 +94,10 @@ pub enum Token {
     Url {
         #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         name: JsWord,
-        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-        raw_name: JsWord,
+        raw_name: Atom,
         #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         value: JsWord,
-        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-        raw_value: JsWord,
+        raw_value: Atom,
     },
 
     BadUrl {

@@ -1,3 +1,4 @@
+use swc_atoms::JsWord;
 use swc_common::{BytePos, Span};
 use swc_css_ast::*;
 
@@ -2865,16 +2866,12 @@ where
             } => {
                 let name_length = raw_name.len() as u32;
                 let name = Ident {
-                    span: swc_common::Span::new(
-                        span.lo,
-                        span.lo + BytePos(name_length),
-                        Default::default(),
-                    ),
+                    span: Span::new(span.lo, span.lo + BytePos(name_length), Default::default()),
                     value: name,
-                    raw: Some(raw_name),
+                    raw: Some(JsWord::from(&*raw_name)),
                 };
                 let value = Some(Box::new(UrlValue::Raw(UrlValueRaw {
-                    span: swc_common::Span::new(
+                    span: Span::new(
                         span.lo + BytePos(name_length + 1),
                         span.hi - BytePos(1),
                         Default::default(),
