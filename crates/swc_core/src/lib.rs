@@ -178,6 +178,12 @@ pub mod css {
         pub use swc_css_ast::*;
     }
 
+    #[cfg(feature = "css_modules")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "css_modules")))]
+    pub mod modules {
+        pub use swc_css_modules::*;
+    }
+
     #[cfg(feature = "css_codegen")]
     #[cfg_attr(docsrs, doc(cfg(feature = "css_codegen")))]
     pub mod codegen {
