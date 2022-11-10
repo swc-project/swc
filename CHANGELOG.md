@@ -46,6 +46,12 @@
 
 - **(es/resolver)** Resolve interfaces correctly (#6387) ([6b876c4](https://github.com/swc-project/swc/commit/6b876c4c4ff618cc6652f3178284c596d24400f3))
 
+### Documentation
+
+
+
+- **(contributing)** Change feature flags for running all tests (#6396) ([6e443d4](https://github.com/swc-project/swc/commit/6e443d4409c3a5692df1698aee2412d69c3f4925))
+
 ### Features
 
 
