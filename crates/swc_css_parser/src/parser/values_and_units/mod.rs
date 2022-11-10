@@ -2250,20 +2250,12 @@ where
                 Ok(Length {
                     span,
                     value: Number {
-                        span: swc_common::Span::new(
-                            span.lo,
-                            span.hi - BytePos(unit_len),
-                            Default::default(),
-                        ),
+                        span: Span::new(span.lo, span.hi - BytePos(unit_len), Default::default()),
                         value,
                         raw: Some(raw_value),
                     },
                     unit: Ident {
-                        span: swc_common::Span::new(
-                            span.hi - BytePos(unit_len),
-                            span.hi,
-                            Default::default(),
-                        ),
+                        span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
                         value: unit,
                         raw: Some(raw_unit),
                     },
@@ -2307,20 +2299,12 @@ where
                 Ok(Angle {
                     span,
                     value: Number {
-                        span: swc_common::Span::new(
-                            span.lo,
-                            span.hi - BytePos(unit_len),
-                            Default::default(),
-                        ),
+                        span: Span::new(span.lo, span.hi - BytePos(unit_len), Default::default()),
                         value,
                         raw: Some(raw_value),
                     },
                     unit: Ident {
-                        span: swc_common::Span::new(
-                            span.hi - BytePos(unit_len),
-                            span.hi,
-                            Default::default(),
-                        ),
+                        span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
                         value: unit,
                         raw: Some(raw_unit),
                     },
@@ -2361,20 +2345,12 @@ where
                 Ok(Time {
                     span,
                     value: Number {
-                        span: swc_common::Span::new(
-                            span.lo,
-                            span.hi - BytePos(unit_len),
-                            Default::default(),
-                        ),
+                        span: Span::new(span.lo, span.hi - BytePos(unit_len), Default::default()),
                         value,
                         raw: Some(raw_value),
                     },
                     unit: Ident {
-                        span: swc_common::Span::new(
-                            span.hi - BytePos(unit_len),
-                            span.hi,
-                            Default::default(),
-                        ),
+                        span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
                         value: unit,
                         raw: Some(raw_unit),
                     },
@@ -2415,20 +2391,12 @@ where
                 Ok(Frequency {
                     span,
                     value: Number {
-                        span: swc_common::Span::new(
-                            span.lo,
-                            span.hi - BytePos(unit_len),
-                            Default::default(),
-                        ),
+                        span: Span::new(span.lo, span.hi - BytePos(unit_len), Default::default()),
                         value,
                         raw: Some(raw_value),
                     },
                     unit: Ident {
-                        span: swc_common::Span::new(
-                            span.hi - BytePos(unit_len),
-                            span.hi,
-                            Default::default(),
-                        ),
+                        span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
                         value: unit,
                         raw: Some(raw_unit),
                     },
@@ -2472,20 +2440,12 @@ where
                 Ok(Resolution {
                     span,
                     value: Number {
-                        span: swc_common::Span::new(
-                            span.lo,
-                            span.hi - BytePos(unit_len),
-                            Default::default(),
-                        ),
+                        span: Span::new(span.lo, span.hi - BytePos(unit_len), Default::default()),
                         value,
                         raw: Some(raw_value),
                     },
                     unit: Ident {
-                        span: swc_common::Span::new(
-                            span.hi - BytePos(unit_len),
-                            span.hi,
-                            Default::default(),
-                        ),
+                        span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
                         value: unit,
                         raw: Some(raw_unit),
                     },
@@ -2526,20 +2486,12 @@ where
                 Ok(Flex {
                     span,
                     value: Number {
-                        span: swc_common::Span::new(
-                            span.lo,
-                            span.hi - BytePos(unit_len),
-                            Default::default(),
-                        ),
+                        span: Span::new(span.lo, span.hi - BytePos(unit_len), Default::default()),
                         value,
                         raw: Some(raw_value),
                     },
                     unit: Ident {
-                        span: swc_common::Span::new(
-                            span.hi - BytePos(unit_len),
-                            span.hi,
-                            Default::default(),
-                        ),
+                        span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
                         value: unit,
                         raw: Some(raw_unit),
                     },
