@@ -79,6 +79,9 @@
 
 - **(css/parser)** Union input types (#6385) ([434a765](https://github.com/swc-project/swc/commit/434a7657ed7d1705c90711853b1dcdf3579528c8))
 
+
+- **(css/parser)** Skip whitespaces in correct places (#6382) ([56bc6b8](https://github.com/swc-project/swc/commit/56bc6b87948a41ccf8e6e7ac2da0c19ead2b451b))
+
 ### Testing
 
 
