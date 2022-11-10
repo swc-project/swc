@@ -171,9 +171,7 @@
               "ctxt": 0
             },
             "value": "./style.css",
-            "before": "",
-            "raw": "./style.css",
-            "after": ""
+            "raw": "./style.css"
           },
           "modifiers": null
         },
@@ -367,9 +365,7 @@
               "ctxt": 0
             },
             "value": "./style.css",
-            "before": "",
-            "raw": "./style.css",
-            "after": ""
+            "raw": "./style.css"
           },
           "modifiers": null
         },
@@ -1881,9 +1877,7 @@
               "ctxt": 0
             },
             "value": "test.css",
-            "before": "",
-            "raw": "test.css",
-            "after": ""
+            "raw": "test.css"
           },
           "modifiers": null
         },
@@ -2057,9 +2051,7 @@
               "ctxt": 0
             },
             "value": "test.css",
-            "before": "",
-            "raw": "test.css",
-            "after": ""
+            "raw": "test.css"
           },
           "modifiers": null
         },
@@ -2117,9 +2109,7 @@
               "ctxt": 0
             },
             "value": "test.css",
-            "before": "",
-            "raw": "test.css",
-            "after": ""
+            "raw": "test.css"
           },
           "modifiers": null
         },
@@ -2177,9 +2167,7 @@
               "ctxt": 0
             },
             "value": "test.css",
-            "before": "",
-            "raw": "test.css",
-            "after": " "
+            "raw": "test.css "
           },
           "modifiers": null
         },
@@ -2237,9 +2225,7 @@
               "ctxt": 0
             },
             "value": "test.css",
-            "before": " ",
-            "raw": "test.css",
-            "after": ""
+            "raw": " test.css"
           },
           "modifiers": null
         },
@@ -2297,9 +2283,7 @@
               "ctxt": 0
             },
             "value": "test.css",
-            "before": " ",
-            "raw": "test.css",
-            "after": " "
+            "raw": " test.css "
           },
           "modifiers": null
         },
@@ -2357,9 +2341,7 @@
               "ctxt": 0
             },
             "value": "test.css",
-            "before": "\n",
-            "raw": "test.css",
-            "after": "\n"
+            "raw": "\ntest.css\n"
           },
           "modifiers": null
         },
@@ -2417,9 +2399,7 @@
               "ctxt": 0
             },
             "value": "",
-            "before": "",
-            "raw": "",
-            "after": ""
+            "raw": ""
           },
           "modifiers": null
         },
@@ -2827,9 +2807,7 @@
               "ctxt": 0
             },
             "value": "",
-            "before": "",
-            "raw": "",
-            "after": ""
+            "raw": ""
           },
           "modifiers": null
         },
@@ -3003,9 +2981,7 @@
               "ctxt": 0
             },
             "value": "test.css",
-            "before": "",
-            "raw": "test.css",
-            "after": ""
+            "raw": "test.css"
           },
           "modifiers": null
         },
@@ -3148,9 +3124,7 @@
               "ctxt": 0
             },
             "value": "test.css",
-            "before": "",
-            "raw": "test.css",
-            "after": ""
+            "raw": "test.css"
           },
           "modifiers": null
         },
@@ -3293,9 +3267,7 @@
               "ctxt": 0
             },
             "value": "test.css",
-            "before": "",
-            "raw": "test.css",
-            "after": ""
+            "raw": "test.css"
           },
           "modifiers": null
         },
@@ -3438,9 +3410,7 @@
               "ctxt": 0
             },
             "value": "test.css",
-            "before": "",
-            "raw": "test.css",
-            "after": ""
+            "raw": "test.css"
           },
           "modifiers": null
         },
@@ -3583,9 +3553,7 @@
               "ctxt": 0
             },
             "value": "test.css",
-            "before": "",
-            "raw": "test.css",
-            "after": ""
+            "raw": "test.css"
           },
           "modifiers": null
         },
@@ -3786,9 +3754,7 @@
               "ctxt": 0
             },
             "value": "~package/test.css",
-            "before": "",
-            "raw": "~package/test.css",
-            "after": ""
+            "raw": "~package/test.css"
           },
           "modifiers": null
         },
@@ -4136,9 +4102,7 @@
               "ctxt": 0
             },
             "value": "~package/tilde.css",
-            "before": "",
-            "raw": "~package/tilde.css",
-            "after": ""
+            "raw": "~package/tilde.css"
           },
           "modifiers": null
         },
@@ -4196,9 +4160,7 @@
               "ctxt": 0
             },
             "value": "~aliasesImport/alias.css",
-            "before": "",
-            "raw": "~aliasesImport/alias.css",
-            "after": ""
+            "raw": "~aliasesImport/alias.css"
           },
           "modifiers": null
         },
@@ -4314,9 +4276,7 @@
               "ctxt": 0
             },
             "value": "./test.css",
-            "before": "",
-            "raw": "./test.css",
-            "after": ""
+            "raw": "./test.css"
           },
           "modifiers": null
         },
@@ -5247,9 +5207,7 @@
               "ctxt": 0
             },
             "value": "./test test.css",
-            "before": "",
-            "raw": "./test\\ test.css",
-            "after": ""
+            "raw": "./test\\ test.css"
           },
           "modifiers": null
         },
@@ -5307,9 +5265,7 @@
               "ctxt": 0
             },
             "value": "./test%20test.css",
-            "before": "",
-            "raw": "./t\\65st%20test.css",
-            "after": ""
+            "raw": "./t\\65st%20test.css"
           },
           "modifiers": null
         },
@@ -5561,9 +5517,7 @@
               "ctxt": 0
             },
             "value": "test.css",
-            "before": "                 ",
-            "raw": "test.css",
-            "after": "                      "
+            "raw": "                 test.css                      "
           },
           "modifiers": null
         },
@@ -5718,9 +5672,7 @@
               "ctxt": 0
             },
             "value": "test.css?foo=bar",
-            "before": "",
-            "raw": "test.css?foo=bar",
-            "after": ""
+            "raw": "test.css?foo=bar"
           },
           "modifiers": null
         },
@@ -5778,9 +5730,7 @@
               "ctxt": 0
             },
             "value": "test.css?foo=bar#hash",
-            "before": "",
-            "raw": "test.css?foo=bar#hash",
-            "after": ""
+            "raw": "test.css?foo=bar#hash"
           },
           "modifiers": null
         },
@@ -5838,9 +5788,7 @@
               "ctxt": 0
             },
             "value": "test.css?#hash",
-            "before": "",
-            "raw": "test.css?#hash",
-            "after": ""
+            "raw": "test.css?#hash"
           },
           "modifiers": null
         },
@@ -6441,9 +6389,7 @@
               "ctxt": 0
             },
             "value": "./test.css",
-            "before": "   ",
-            "raw": "./test.css",
-            "after": "   "
+            "raw": "   ./test.css   "
           },
           "modifiers": null
         },
@@ -6714,9 +6660,7 @@
               "ctxt": 0
             },
             "value": "data:text/css;charset=utf-8,a%20%7B%0D%0A%20%20color%3A%20red%3B%0D%0A%7D",
-            "before": "",
-            "raw": "data:text/css;charset=utf-8,a%20%7B%0D%0A%20%20color%3A%20red%3B%0D%0A%7D",
-            "after": ""
+            "raw": "data:text/css;charset=utf-8,a%20%7B%0D%0A%20%20color%3A%20red%3B%0D%0A%7D"
           },
           "modifiers": null
         },
@@ -6774,9 +6718,7 @@
               "ctxt": 0
             },
             "value": "package/first.css",
-            "before": "",
-            "raw": "package/first.css",
-            "after": ""
+            "raw": "package/first.css"
           },
           "modifiers": null
         },
@@ -6834,9 +6776,7 @@
               "ctxt": 0
             },
             "value": "package/second.css",
-            "before": "",
-            "raw": "package/second.css",
-            "after": ""
+            "raw": "package/second.css"
           },
           "modifiers": null
         },
@@ -9734,9 +9674,7 @@
               "ctxt": 0
             },
             "value": "test.css",
-            "before": "",
-            "raw": "test.css",
-            "after": ""
+            "raw": "test.css"
           },
           "modifiers": null
         },
@@ -9794,9 +9732,7 @@
               "ctxt": 0
             },
             "value": "test.css",
-            "before": "",
-            "raw": "test.css",
-            "after": ""
+            "raw": "test.css"
           },
           "modifiers": null
         },
@@ -9854,9 +9790,7 @@
               "ctxt": 0
             },
             "value": "test.css",
-            "before": "",
-            "raw": "test.css",
-            "after": ""
+            "raw": "test.css"
           },
           "modifiers": null
         },
@@ -9999,9 +9933,7 @@
               "ctxt": 0
             },
             "value": "test.css",
-            "before": "",
-            "raw": "test.css",
-            "after": ""
+            "raw": "test.css"
           },
           "modifiers": null
         },
@@ -11532,9 +11464,7 @@
               "ctxt": 0
             },
             "value": "bootstrap-base.css",
-            "before": "",
-            "raw": "bootstrap-base.css",
-            "after": ""
+            "raw": "bootstrap-base.css"
           },
           "modifiers": null
         },
@@ -11631,9 +11561,7 @@
               "ctxt": 0
             },
             "value": "base-headings.css",
-            "before": "",
-            "raw": "base-headings.css",
-            "after": ""
+            "raw": "base-headings.css"
           },
           "modifiers": null
         },

@@ -1541,8 +1541,7 @@
     :          ^^^^^^^^^^^^
     `----
 
-  x Url { name: Atom('url' type=static), raw_name: Atom('url' type=static), before: Atom('' type=static), after: Atom('' type=static), value: Atom('foo.png' type=inline), raw_value: Atom('foo.png'
-  | type=inline) }
+  x Url { name: Atom('url' type=static), raw_name: Atom('url' type=static), value: Atom('foo.png' type=inline), raw_value: Atom('foo.png' type=inline) }
     ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:15:1]
  15 | :unknown(url(foo.png)) {}
     :          ^^^^^^^^^^^^

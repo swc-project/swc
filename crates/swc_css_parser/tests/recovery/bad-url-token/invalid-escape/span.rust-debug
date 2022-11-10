@@ -115,8 +115,7 @@
  3 | `->     );
    `----
 
-  x BadUrl { name: Atom('url' type=static), raw_name: Atom('url' type=static), value: Atom('image.png\
-  |     ' type=dynamic), raw_value: Atom('image.png\
+  x BadUrl { name: Atom('url' type=static), raw_name: Atom('url' type=static), raw_value: Atom('image.png\
   |     ' type=dynamic) }
    ,-[$DIR/tests/recovery/bad-url-token/invalid-escape/input.css:2:5]
  2 | ,-> background: url(image.png\

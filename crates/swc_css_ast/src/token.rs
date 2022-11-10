@@ -89,9 +89,7 @@ pub enum Token {
 
     BadString {
         #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-        value: JsWord,
-        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-        raw: JsWord,
+        raw_value: JsWord,
     },
 
     /// `url(value)`
@@ -100,10 +98,6 @@ pub enum Token {
         name: JsWord,
         #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         raw_name: JsWord,
-        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-        before: JsWord,
-        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-        after: JsWord,
         #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         value: JsWord,
         #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
@@ -115,8 +109,6 @@ pub enum Token {
         name: JsWord,
         #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         raw_name: JsWord,
-        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-        value: JsWord,
         #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         raw_value: JsWord,
     },
@@ -213,10 +205,12 @@ impl Hash for Token {
             Token::Ident { value, raw }
             | Token::Function { value, raw }
             | Token::AtKeyword { value, raw }
-            | Token::String { value, raw }
-            | Token::BadString { value, raw } => {
+            | Token::String { value, raw } => {
                 value.hash(state);
                 raw.hash(state);
+            }
+            Token::BadString { raw_value } => {
+                raw_value.hash(state);
             }
             Token::Hash { value, raw, is_id } => {
                 value.hash(state);
@@ -226,27 +220,21 @@ impl Hash for Token {
             Token::Url {
                 name,
                 raw_name,
-                before,
-                after,
                 value,
                 raw_value,
             } => {
                 name.hash(state);
                 raw_name.hash(state);
-                before.hash(state);
-                after.hash(state);
                 value.hash(state);
                 raw_value.hash(state);
             }
             Token::BadUrl {
                 name,
                 raw_name,
-                value,
                 raw_value,
             } => {
                 name.hash(state);
                 raw_name.hash(state);
-                value.hash(state);
                 raw_value.hash(state);
             }
             Token::Delim { value } => {

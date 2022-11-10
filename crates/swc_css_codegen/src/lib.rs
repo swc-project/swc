@@ -1978,8 +1978,8 @@ where
 
                 write_raw!(self, span, &function);
             }
-            Token::BadString { raw, .. } => {
-                write_str!(self, span, raw);
+            Token::BadString { raw_value } => {
+                write_str!(self, span, raw_value);
             }
             Token::String { raw, .. } => {
                 write_str!(self, span, raw);
@@ -1987,19 +1987,13 @@ where
             Token::Url {
                 raw_name,
                 raw_value,
-                before,
-                after,
                 ..
             } => {
-                let mut url = String::with_capacity(
-                    raw_name.len() + before.len() + raw_value.len() + after.len() + 2,
-                );
+                let mut url = String::with_capacity(raw_name.len() + raw_value.len() + 2);
 
                 url.push_str(raw_name);
                 url.push('(');
-                url.push_str(before);
                 url.push_str(raw_value);
-                url.push_str(after);
                 url.push(')');
 
                 write_str!(self, span, &url);
@@ -2009,7 +2003,7 @@ where
                 raw_value,
                 ..
             } => {
-                let mut bad_url = String::with_capacity(raw_name.len() + raw_value.len() + 2);
+                let mut bad_url = String::with_capacity(raw_value.len() + 2);
 
                 bad_url.push_str(raw_name);
                 bad_url.push('(');
@@ -2097,12 +2091,10 @@ where
             url.push_str(&n.value);
 
             write_str!(self, n.span, &url);
-        } else if let (Some(before), Some(raw), Some(after)) = (&n.before, &n.raw, &n.after) {
-            let mut url = String::with_capacity(before.len() + raw.len() + after.len());
+        } else if let Some(raw) = &n.raw {
+            let mut url = String::with_capacity(raw.len());
 
-            url.push_str(before);
             url.push_str(raw);
-            url.push_str(after);
 
             write_str!(self, n.span, &url);
         } else {

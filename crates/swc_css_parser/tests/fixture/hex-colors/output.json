@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 257,
+    "end": 274,
     "ctxt": 0
   },
   "rules": [
@@ -10,7 +10,7 @@
       "type": "QualifiedRule",
       "span": {
         "start": 1,
-        "end": 256,
+        "end": 273,
         "ctxt": 0
       },
       "prelude": {
@@ -74,7 +74,7 @@
         "type": "SimpleBlock",
         "span": {
           "start": 3,
-          "end": 256,
+          "end": 273,
           "ctxt": 0
         },
         "name": {
@@ -548,6 +548,37 @@
                 },
                 "value": "xyz",
                 "raw": "xyz"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 257,
+              "end": 270,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 257,
+                "end": 262,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "HexColor",
+                "span": {
+                  "start": 264,
+                  "end": 270,
+                  "ctxt": 0
+                },
+                "value": "aaa",
+                "raw": "aa\\61"
               }
             ],
             "important": null

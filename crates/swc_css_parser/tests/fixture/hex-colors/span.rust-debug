@@ -17,7 +17,8 @@
  14 | |     color: #FF;
  15 | |     color: #123456789;
  16 | |     color: #xyz;
- 17 | `-> }
+ 17 | |     color: #aa\61;
+ 18 | `-> }
     `----
 
   x Rule
@@ -38,7 +39,8 @@
  14 | |     color: #FF;
  15 | |     color: #123456789;
  16 | |     color: #xyz;
- 17 | `-> }
+ 17 | |     color: #aa\61;
+ 18 | `-> }
     `----
 
   x QualifiedRule
@@ -59,7 +61,8 @@
  14 | |     color: #FF;
  15 | |     color: #123456789;
  16 | |     color: #xyz;
- 17 | `-> }
+ 17 | |     color: #aa\61;
+ 18 | `-> }
     `----
 
   x SelectorList
@@ -122,7 +125,8 @@
  14 | |     color: #FF;
  15 | |     color: #123456789;
  16 | |     color: #xyz;
- 17 | `-> }
+ 17 | |     color: #aa\61;
+ 18 | `-> }
     `----
 
   x LBrace
@@ -849,4 +853,52 @@
     ,-[$DIR/tests/fixture/hex-colors/input.css:16:3]
  16 | color: #xyz;
     :        ^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/hex-colors/input.css:17:3]
+ 17 | color: #aa\61;
+    : ^^^^^^^^^^^^^
+    `----
+
+  x StyleBlock
+    ,-[$DIR/tests/fixture/hex-colors/input.css:17:3]
+ 17 | color: #aa\61;
+    : ^^^^^^^^^^^^^
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/hex-colors/input.css:17:3]
+ 17 | color: #aa\61;
+    : ^^^^^^^^^^^^^
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/hex-colors/input.css:17:3]
+ 17 | color: #aa\61;
+    : ^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/hex-colors/input.css:17:3]
+ 17 | color: #aa\61;
+    : ^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/hex-colors/input.css:17:3]
+ 17 | color: #aa\61;
+    :        ^^^^^^
+    `----
+
+  x Color
+    ,-[$DIR/tests/fixture/hex-colors/input.css:17:3]
+ 17 | color: #aa\61;
+    :        ^^^^^^
+    `----
+
+  x HexColor
+    ,-[$DIR/tests/fixture/hex-colors/input.css:17:3]
+ 17 | color: #aa\61;
+    :        ^^^^^^
     `----

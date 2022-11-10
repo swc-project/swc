@@ -130,9 +130,7 @@
                     "ctxt": 0
                   },
                   "value": "https://example.com/image.png",
-                  "before": "",
-                  "raw": "https://example.com/image.png",
-                  "after": ""
+                  "raw": "https://example.com/image.png"
                 },
                 "modifiers": null
               }
@@ -182,9 +180,7 @@
                     "ctxt": 0
                   },
                   "value": "https://example.com/image.png",
-                  "before": "",
-                  "raw": "https://example.com/image.png",
-                  "after": ""
+                  "raw": "https://example.com/image.png"
                 },
                 "modifiers": null
               }
@@ -234,9 +230,7 @@
                     "ctxt": 0
                   },
                   "value": "https://example.com/image.png",
-                  "before": "",
-                  "raw": "https://example.com/image.png",
-                  "after": ""
+                  "raw": "https://example.com/image.png"
                 },
                 "modifiers": null
               }
@@ -486,9 +480,7 @@
                     "ctxt": 0
                   },
                   "value": "data:image/png;base64,iRxVB0",
-                  "before": "",
-                  "raw": "data:image/png;base64,iRxVB0",
-                  "after": ""
+                  "raw": "data:image/png;base64,iRxVB0"
                 },
                 "modifiers": null
               }
@@ -538,9 +530,7 @@
                     "ctxt": 0
                   },
                   "value": "#IDofSVGpath",
-                  "before": "",
-                  "raw": "#IDofSVGpath",
-                  "after": ""
+                  "raw": "#IDofSVGpath"
                 },
                 "modifiers": null
               }
@@ -873,9 +863,7 @@
                     "ctxt": 0
                   },
                   "value": "",
-                  "before": "",
-                  "raw": "",
-                  "after": ""
+                  "raw": ""
                 },
                 "modifiers": null
               }
@@ -1232,9 +1220,7 @@
                     "ctxt": 0
                   },
                   "value": "https://example.com/image.png",
-                  "before": "   ",
-                  "raw": "https://example.com/image.png",
-                  "after": "   "
+                  "raw": "   https://example.com/image.png   "
                 },
                 "modifiers": null
               }
@@ -1284,9 +1270,7 @@
                     "ctxt": 0
                   },
                   "value": "https://example.com/image.png",
-                  "before": "   ",
-                  "raw": "https://example.com/image.png",
-                  "after": "   "
+                  "raw": "   https://example.com/image.png   "
                 },
                 "modifiers": null
               }
@@ -1336,9 +1320,7 @@
                     "ctxt": 0
                   },
                   "value": "https://example.com/image.png",
-                  "before": "   \n                    ",
-                  "raw": "https://example.com/image.png",
-                  "after": "   \n    "
+                  "raw": "   \n                    https://example.com/image.png   \n    "
                 },
                 "modifiers": null
               }
@@ -1388,9 +1370,7 @@
                     "ctxt": 0
                   },
                   "value": "https://example.com/image.png",
-                  "before": "\n\n\n",
-                  "raw": "https://example.com/image.png",
-                  "after": "\n\n\n"
+                  "raw": "\n\n\nhttps://example.com/image.png\n\n\n"
                 },
                 "modifiers": null
               }
@@ -1440,9 +1420,7 @@
                     "ctxt": 0
                   },
                   "value": "https://example.com/ima)ge.png",
-                  "before": "",
-                  "raw": "https://example.com/ima\\)ge.png",
-                  "after": ""
+                  "raw": "https://example.com/ima\\)ge.png"
                 },
                 "modifiers": null
               }
