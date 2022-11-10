@@ -56,7 +56,7 @@
    :        ^^^^^^^^^
    `----
 
-  x Ident { value: Atom('framework' type=dynamic), raw: Atom('framework' type=dynamic) }
+  x Ident { value: Atom('framework' type=dynamic), raw: "framework" }
    ,-[$DIR/tests/recovery/at-rule/layer/block/input.css:1:1]
  1 | @layer framework, override   ,    foo   {
    :        ^^^^^^^^^
@@ -92,7 +92,7 @@
    :                   ^^^^^^^^
    `----
 
-  x Ident { value: Atom('override' type=static), raw: Atom('override' type=static) }
+  x Ident { value: Atom('override' type=static), raw: "override" }
    ,-[$DIR/tests/recovery/at-rule/layer/block/input.css:1:1]
  1 | @layer framework, override   ,    foo   {
    :                   ^^^^^^^^
@@ -140,7 +140,7 @@
    :                                   ^^^
    `----
 
-  x Ident { value: Atom('foo' type=inline), raw: Atom('foo' type=inline) }
+  x Ident { value: Atom('foo' type=inline), raw: "foo" }
    ,-[$DIR/tests/recovery/at-rule/layer/block/input.css:1:1]
  1 | @layer framework, override   ,    foo   {
    :                                   ^^^

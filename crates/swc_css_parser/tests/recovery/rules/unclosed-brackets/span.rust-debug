@@ -39,7 +39,7 @@
    :  ^^^^^
    `----
 
-  x Ident { value: Atom('class' type=static), raw: Atom('class' type=static) }
+  x Ident { value: Atom('class' type=static), raw: "class" }
    ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:1:1]
  1 | .class[attr= {
    :  ^^^^^
@@ -79,7 +79,7 @@
    :        ^^^^
    `----
 
-  x Ident { value: Atom('attr' type=inline), raw: Atom('attr' type=inline) }
+  x Ident { value: Atom('attr' type=inline), raw: "attr" }
    ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:1:1]
  1 | .class[attr= {
    :        ^^^^
@@ -175,7 +175,7 @@
    :  ^^^^^
    `----
 
-  x Ident { value: Atom('class' type=static), raw: Atom('class' type=static) }
+  x Ident { value: Atom('class' type=static), raw: "class" }
    ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:5:1]
  5 | .class { color: red }
    :  ^^^^^
@@ -229,7 +229,7 @@
    :          ^^^^^
    `----
 
-  x Ident { value: Atom('color' type=static), raw: Atom('color' type=static) }
+  x Ident { value: Atom('color' type=static), raw: "color" }
    ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:5:1]
  5 | .class { color: red }
    :          ^^^^^
@@ -265,7 +265,7 @@
    :                 ^^^
    `----
 
-  x Ident { value: Atom('red' type=inline), raw: Atom('red' type=inline) }
+  x Ident { value: Atom('red' type=inline), raw: "red" }
    ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:5:1]
  5 | .class { color: red }
    :                 ^^^
@@ -315,7 +315,7 @@
    :  ^^^^^
    `----
 
-  x Ident { value: Atom('class' type=static), raw: Atom('class' type=static) }
+  x Ident { value: Atom('class' type=static), raw: "class" }
    ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:7:1]
  7 | .class { color: blue }
    :  ^^^^^
@@ -369,7 +369,7 @@
    :          ^^^^^
    `----
 
-  x Ident { value: Atom('color' type=static), raw: Atom('color' type=static) }
+  x Ident { value: Atom('color' type=static), raw: "color" }
    ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:7:1]
  7 | .class { color: blue }
    :          ^^^^^
@@ -405,7 +405,7 @@
    :                 ^^^^
    `----
 
-  x Ident { value: Atom('blue' type=inline), raw: Atom('blue' type=inline) }
+  x Ident { value: Atom('blue' type=inline), raw: "blue" }
    ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:7:1]
  7 | .class { color: blue }
    :                 ^^^^

@@ -311,7 +311,7 @@
    :         ^^^^
    `----
 
-  x Number { value: 1987.0, raw: Atom('1987' type=inline), type_flag: Integer }
+  x Number { value: 1987.0, raw: "1987", type_flag: Integer }
    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:5:5]
  5 | --test: 1987;
    :         ^^^^
@@ -353,7 +353,7 @@
    :               ^^^
    `----
 
-  x Percentage { value: 25.0, raw: Atom('25' type=inline) }
+  x Percentage { value: 25.0, raw: "25" }
    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:6:5]
  6 | --percentage: 25%;
    :               ^^^
@@ -395,7 +395,7 @@
    :           ^^
    `----
 
-  x Number { value: 37.0, raw: Atom('37' type=inline), type_flag: Integer }
+  x Number { value: 37.0, raw: "37", type_flag: Integer }
    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:7:5]
  7 | --number: 37;
    :           ^^
@@ -437,7 +437,7 @@
    :           ^^^^
    `----
 
-  x Dimension { value: 12.0, raw_value: Atom('12' type=inline), unit: Atom('em' type=static), raw_unit: Atom('em' type=static), type_flag: Integer }
+  x Dimension { value: 12.0, raw_value: "12", unit: Atom('em' type=static), raw_unit: "em", type_flag: Integer }
    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:8:5]
  8 | --length: 12em;
    :           ^^^^
@@ -479,7 +479,7 @@
    :         ^^^^
    `----
 
-  x Dimension { value: 75.0, raw_value: Atom('75' type=inline), unit: Atom('ms' type=static), raw_unit: Atom('ms' type=static), type_flag: Integer }
+  x Dimension { value: 75.0, raw_value: "75", unit: Atom('ms' type=static), raw_unit: "ms", type_flag: Integer }
    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:9:5]
  9 | --time: 75ms;
    :         ^^^^
@@ -815,7 +815,7 @@
     :                       ^^^^^^^
     `----
 
-  x AtKeyword { value: Atom('foobar' type=inline), raw: Atom('foobar' type=inline) }
+  x AtKeyword { value: Atom('foobar' type=inline), raw: "foobar" }
     ,-[$DIR/tests/fixture/rome/custom-properties/input.css:15:5]
  15 | --at-keyword-unknown: @foobar;
     :                       ^^^^^^^
@@ -857,7 +857,7 @@
     :                     ^^^^^^
     `----
 
-  x AtKeyword { value: Atom('media' type=static), raw: Atom('media' type=static) }
+  x AtKeyword { value: Atom('media' type=static), raw: "media" }
     ,-[$DIR/tests/fixture/rome/custom-properties/input.css:16:5]
  16 | --at-keyword-known: @media;
     :                     ^^^^^^
@@ -899,7 +899,7 @@
     :                             ^^^^^^^
     `----
 
-  x AtKeyword { value: Atom('foobar' type=inline), raw: Atom('foobar' type=inline) }
+  x AtKeyword { value: Atom('foobar' type=inline), raw: "foobar" }
     ,-[$DIR/tests/fixture/rome/custom-properties/input.css:17:5]
  17 | --at-keyword-unknown-block: @foobar {};
     :                             ^^^^^^^
@@ -971,7 +971,7 @@
     :                           ^^^^^^
     `----
 
-  x AtKeyword { value: Atom('media' type=static), raw: Atom('media' type=static) }
+  x AtKeyword { value: Atom('media' type=static), raw: "media" }
     ,-[$DIR/tests/fixture/rome/custom-properties/input.css:18:5]
  18 | --at-keyword-known-block: @media {};
     :                           ^^^^^^

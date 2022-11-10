@@ -111,7 +111,7 @@
    : ^^^^^
    `----
 
-  x Ident { value: Atom('color' type=static), raw: Atom('color' type=static) }
+  x Ident { value: Atom('color' type=static), raw: "color" }
    ,-[$DIR/tests/recovery/at-rule/media/wrong-stylesheet/input.css:2:5]
  2 | color: teal;
    : ^^^^^
@@ -147,7 +147,7 @@
    :        ^^^^
    `----
 
-  x Ident { value: Atom('teal' type=inline), raw: Atom('teal' type=inline) }
+  x Ident { value: Atom('teal' type=inline), raw: "teal" }
    ,-[$DIR/tests/recovery/at-rule/media/wrong-stylesheet/input.css:2:5]
  2 | color: teal;
    :        ^^^^
@@ -183,7 +183,7 @@
    : ^^^^
    `----
 
-  x Ident { value: Atom('main' type=static), raw: Atom('main' type=static) }
+  x Ident { value: Atom('main' type=static), raw: "main" }
    ,-[$DIR/tests/recovery/at-rule/media/wrong-stylesheet/input.css:3:5]
  3 | main {
    : ^^^^

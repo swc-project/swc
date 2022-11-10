@@ -165,7 +165,7 @@
    :                                   ^^^^^^^^^
    `----
 
-  x Ident { value: Atom('col-start' type=dynamic), raw: Atom('col-start' type=dynamic) }
+  x Ident { value: Atom('col-start' type=dynamic), raw: "col-start" }
    ,-[$DIR/tests/recovery/simple-block/unclosed-in-function/input.css:2:5]
  2 | grid-template-columns: repeat(4, [col-start);
    :                                   ^^^^^^^^^

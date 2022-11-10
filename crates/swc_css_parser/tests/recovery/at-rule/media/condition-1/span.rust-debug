@@ -65,7 +65,7 @@
    :         ^^^^^^
    `----
 
-  x Ident { value: Atom('update' type=inline), raw: Atom('update' type=inline) }
+  x Ident { value: Atom('update' type=inline), raw: "update" }
    ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
  1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
    :         ^^^^^^
@@ -101,7 +101,7 @@
    :                 ^^^^
    `----
 
-  x Ident { value: Atom('slow' type=inline), raw: Atom('slow' type=inline) }
+  x Ident { value: Atom('slow' type=inline), raw: "slow" }
    ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
  1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
    :                 ^^^^
@@ -125,7 +125,7 @@
    :                       ^^^
    `----
 
-  x Ident { value: Atom('and' type=static), raw: Atom('and' type=static) }
+  x Ident { value: Atom('and' type=static), raw: "and" }
    ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
  1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
    :                       ^^^
@@ -167,7 +167,7 @@
    :                            ^^^^^
    `----
 
-  x Ident { value: Atom('hover' type=inline), raw: Atom('hover' type=inline) }
+  x Ident { value: Atom('hover' type=inline), raw: "hover" }
    ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
  1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
    :                            ^^^^^
@@ -203,7 +203,7 @@
    :                                   ^^^^
    `----
 
-  x Ident { value: Atom('none' type=static), raw: Atom('none' type=static) }
+  x Ident { value: Atom('none' type=static), raw: "none" }
    ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
  1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
    :                                   ^^^^
@@ -227,7 +227,7 @@
    :                                         ^^^^^^^
    `----
 
-  x Ident { value: Atom('unknown' type=static), raw: Atom('unknown' type=static) }
+  x Ident { value: Atom('unknown' type=static), raw: "unknown" }
    ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
  1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
    :                                         ^^^^^^^
@@ -269,7 +269,7 @@
    :                                                  ^^^^^
    `----
 
-  x Ident { value: Atom('color' type=static), raw: Atom('color' type=static) }
+  x Ident { value: Atom('color' type=static), raw: "color" }
    ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
  1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
    :                                                  ^^^^^
@@ -305,7 +305,7 @@
    :                                                         ^
    `----
 
-  x Number { value: 1.0, raw: Atom('1' type=inline), type_flag: Integer }
+  x Number { value: 1.0, raw: "1", type_flag: Integer }
    ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
  1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
    :                                                         ^

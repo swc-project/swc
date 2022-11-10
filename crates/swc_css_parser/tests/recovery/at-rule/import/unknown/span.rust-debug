@@ -107,7 +107,7 @@
    :                                   ^^^^^^^
    `----
 
-  x Ident { value: Atom('default' type=static), raw: Atom('default' type=static) }
+  x Ident { value: Atom('default' type=static), raw: "default" }
    ,-[$DIR/tests/recovery/at-rule/import/unknown/input.css:1:1]
  1 | @import url("./test.css") unknown(default) unknown(display: flex) unknown;
    :                                   ^^^^^^^
@@ -149,7 +149,7 @@
    :                                                    ^^^^^^^
    `----
 
-  x Ident { value: Atom('display' type=static), raw: Atom('display' type=static) }
+  x Ident { value: Atom('display' type=static), raw: "display" }
    ,-[$DIR/tests/recovery/at-rule/import/unknown/input.css:1:1]
  1 | @import url("./test.css") unknown(default) unknown(display: flex) unknown;
    :                                                    ^^^^^^^
@@ -185,7 +185,7 @@
    :                                                             ^^^^
    `----
 
-  x Ident { value: Atom('flex' type=static), raw: Atom('flex' type=static) }
+  x Ident { value: Atom('flex' type=static), raw: "flex" }
    ,-[$DIR/tests/recovery/at-rule/import/unknown/input.css:1:1]
  1 | @import url("./test.css") unknown(default) unknown(display: flex) unknown;
    :                                                             ^^^^
@@ -209,7 +209,7 @@
    :                                                                   ^^^^^^^
    `----
 
-  x Ident { value: Atom('unknown' type=static), raw: Atom('unknown' type=static) }
+  x Ident { value: Atom('unknown' type=static), raw: "unknown" }
    ,-[$DIR/tests/recovery/at-rule/import/unknown/input.css:1:1]
  1 | @import url("./test.css") unknown(default) unknown(display: flex) unknown;
    :                                                                   ^^^^^^^

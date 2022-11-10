@@ -1431,7 +1431,7 @@
     :               ^
     `----
 
-  x Ident { value: Atom('a' type=static), raw: Atom('a' type=static) }
+  x Ident { value: Atom('a' type=static), raw: "a" }
     ,-[$DIR/tests/fixture/rome/selectors/input.css:38:1]
  38 | ::pseudo-elem(a, b) {
     :               ^
@@ -1467,7 +1467,7 @@
     :                  ^
     `----
 
-  x Ident { value: Atom('b' type=static), raw: Atom('b' type=static) }
+  x Ident { value: Atom('b' type=static), raw: "b" }
     ,-[$DIR/tests/fixture/rome/selectors/input.css:38:1]
  38 | ::pseudo-elem(a, b) {
     :                  ^

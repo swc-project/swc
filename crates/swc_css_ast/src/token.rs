@@ -52,23 +52,20 @@ pub enum Token {
     Ident {
         #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         value: JsWord,
-        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-        raw: JsWord,
+        raw: Atom,
     },
 
     Function {
         #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         value: JsWord,
-        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-        raw: JsWord,
+        raw: Atom,
     },
 
     /// `@`
     AtKeyword {
         #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         value: JsWord,
-        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-        raw: JsWord,
+        raw: Atom,
     },
 
     /// `#`
@@ -127,8 +124,7 @@ pub enum Token {
         raw_value: Atom,
         #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         unit: JsWord,
-        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-        raw_unit: JsWord,
+        raw_unit: Atom,
         #[serde(rename = "type")]
         type_flag: NumberType,
     },
@@ -193,11 +189,8 @@ impl Hash for Token {
         match self {
             Token::Ident { value, raw }
             | Token::Function { value, raw }
-            | Token::AtKeyword { value, raw } => {
-                value.hash(state);
-                raw.hash(state);
-            }
-            Token::String { value, raw } => {
+            | Token::AtKeyword { value, raw }
+            | Token::String { value, raw } => {
                 value.hash(state);
                 raw.hash(state);
             }

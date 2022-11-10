@@ -1,6 +1,6 @@
 use std::{fmt::Debug, mem::take};
 
-use swc_atoms::JsWord;
+use swc_atoms::{Atom, JsWord};
 use swc_common::{BytePos, Span, Spanned, SyntaxContext};
 use swc_css_ast::{ComponentValue, ListOfComponentValues, Token, TokenAndSpan};
 
@@ -222,7 +222,7 @@ pub enum InputType<'a> {
 #[derive(Debug)]
 pub enum TokenOrBlock {
     Token(TokenAndSpan),
-    Function(Span, JsWord, JsWord),
+    Function(Span, JsWord, Atom),
     LBracket(Span),
     LParen(Span),
     LBrace(Span),
@@ -280,7 +280,7 @@ impl<'a> Input<'a> {
                         function.name.value.clone(),
                         match &function.name.raw {
                             Some(raw) => raw.clone(),
-                            _ => function.name.value.clone(),
+                            _ => Atom::from(function.name.value.clone()),
                         },
                     ));
                 }

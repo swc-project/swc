@@ -53,7 +53,7 @@
    :       ^^^^
    `----
 
-  x Ident { value: Atom('Page' type=inline), raw: Atom('Page' type=inline) }
+  x Ident { value: Atom('Page' type=inline), raw: "Page" }
    ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:1:1]
  1 | @page Page: blank {
    :       ^^^^
@@ -89,7 +89,7 @@
    :             ^^^^^
    `----
 
-  x Ident { value: Atom('blank' type=inline), raw: Atom('blank' type=inline) }
+  x Ident { value: Atom('blank' type=inline), raw: "blank" }
    ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:1:1]
  1 | @page Page: blank {
    :             ^^^^^

@@ -160,7 +160,7 @@
    : ^
    `----
 
-  x Ident { value: Atom('t' type=inline), raw: Atom('t' type=inline) }
+  x Ident { value: Atom('t' type=inline), raw: "t" }
    ,-[$DIR/tests/recovery/value/quotes/input.css:3:5]
  3 | t";
    : ^

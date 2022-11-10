@@ -5546,7 +5546,7 @@
     :            ^^^^^
     `----
 
-  x Ident { value: Atom('ident' type=inline), raw: Atom('ident' type=inline) }
+  x Ident { value: Atom('ident' type=inline), raw: "ident" }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:65:1]
  65 | @supports (ident "str") {
     :            ^^^^^
@@ -5759,7 +5759,7 @@
     :             ^^^^^
     `----
 
-  x Ident { value: Atom('ident' type=inline), raw: Atom('ident' type=inline) }
+  x Ident { value: Atom('ident' type=inline), raw: "ident" }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:69:1]
  69 | @supports ((ident "str")) {
     :             ^^^^^
@@ -5966,7 +5966,7 @@
     :                ^^
     `----
 
-  x Number { value: 10.0, raw: Atom('10' type=inline), type_flag: Integer }
+  x Number { value: 10.0, raw: "10", type_flag: Integer }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:73:1]
  73 | @supports func(10, 20, 40) {
     :                ^^
@@ -6002,7 +6002,7 @@
     :                    ^^
     `----
 
-  x Number { value: 20.0, raw: Atom('20' type=inline), type_flag: Integer }
+  x Number { value: 20.0, raw: "20", type_flag: Integer }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:73:1]
  73 | @supports func(10, 20, 40) {
     :                    ^^
@@ -6038,7 +6038,7 @@
     :                        ^^
     `----
 
-  x Number { value: 40.0, raw: Atom('40' type=inline), type_flag: Integer }
+  x Number { value: 40.0, raw: "40", type_flag: Integer }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:73:1]
  73 | @supports func(10, 20, 40) {
     :                        ^^
@@ -6227,7 +6227,7 @@
     :                 ^^
     `----
 
-  x Number { value: 10.0, raw: Atom('10' type=inline), type_flag: Integer }
+  x Number { value: 10.0, raw: "10", type_flag: Integer }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:77:1]
  77 | @supports (func(10, 20, 40)) {
     :                 ^^
@@ -6263,7 +6263,7 @@
     :                     ^^
     `----
 
-  x Number { value: 20.0, raw: Atom('20' type=inline), type_flag: Integer }
+  x Number { value: 20.0, raw: "20", type_flag: Integer }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:77:1]
  77 | @supports (func(10, 20, 40)) {
     :                     ^^
@@ -6299,7 +6299,7 @@
     :                         ^^
     `----
 
-  x Number { value: 40.0, raw: Atom('40' type=inline), type_flag: Integer }
+  x Number { value: 40.0, raw: "40", type_flag: Integer }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:77:1]
  77 | @supports (func(10, 20, 40)) {
     :                         ^^
@@ -6500,7 +6500,7 @@
     :                       ^^
     `----
 
-  x Number { value: 10.0, raw: Atom('10' type=inline), type_flag: Integer }
+  x Number { value: 10.0, raw: "10", type_flag: Integer }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:81:1]
  81 | @supports (   func(   10   ,   20   ,   40   )  ) {
     :                       ^^
@@ -6548,7 +6548,7 @@
     :                                ^^
     `----
 
-  x Number { value: 20.0, raw: Atom('20' type=inline), type_flag: Integer }
+  x Number { value: 20.0, raw: "20", type_flag: Integer }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:81:1]
  81 | @supports (   func(   10   ,   20   ,   40   )  ) {
     :                                ^^
@@ -6596,7 +6596,7 @@
     :                                         ^^
     `----
 
-  x Number { value: 40.0, raw: Atom('40' type=inline), type_flag: Integer }
+  x Number { value: 40.0, raw: "40", type_flag: Integer }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:81:1]
  81 | @supports (   func(   10   ,   20   ,   40   )  ) {
     :                                         ^^
@@ -6909,7 +6909,7 @@
     :                   ^^^^
     `----
 
-  x Ident { value: Atom('anim' type=inline), raw: Atom('anim' type=inline) }
+  x Ident { value: Atom('anim' type=inline), raw: "anim" }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:86:5]
  86 | @-custom-keyframe anim {
     :                   ^^^^
@@ -6963,7 +6963,7 @@
     : ^^^^
     `----
 
-  x Ident { value: Atom('from' type=static), raw: Atom('from' type=static) }
+  x Ident { value: Atom('from' type=static), raw: "from" }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:87:9]
  87 | from {
     : ^^^^
@@ -7019,7 +7019,7 @@
     : ^^^^^
     `----
 
-  x Ident { value: Atom('color' type=static), raw: Atom('color' type=static) }
+  x Ident { value: Atom('color' type=static), raw: "color" }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:88:13]
  88 | color: black;
     : ^^^^^
@@ -7055,7 +7055,7 @@
     :        ^^^^^
     `----
 
-  x Ident { value: Atom('black' type=inline), raw: Atom('black' type=inline) }
+  x Ident { value: Atom('black' type=inline), raw: "black" }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:88:13]
  88 | color: black;
     :        ^^^^^
@@ -7103,7 +7103,7 @@
     : ^^
     `----
 
-  x Ident { value: Atom('to' type=static), raw: Atom('to' type=static) }
+  x Ident { value: Atom('to' type=static), raw: "to" }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:90:9]
  90 | to {
     : ^^
@@ -7159,7 +7159,7 @@
     : ^^^^^
     `----
 
-  x Ident { value: Atom('color' type=static), raw: Atom('color' type=static) }
+  x Ident { value: Atom('color' type=static), raw: "color" }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:91:13]
  91 | color: white
     : ^^^^^
@@ -7195,7 +7195,7 @@
     :        ^^^^^
     `----
 
-  x Ident { value: Atom('white' type=inline), raw: Atom('white' type=inline) }
+  x Ident { value: Atom('white' type=inline), raw: "white" }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:91:13]
  91 | color: white
     :        ^^^^^
@@ -7287,7 +7287,7 @@
     :            ^^^^^
     `----
 
-  x Ident { value: Atom('--var' type=inline), raw: Atom('--var' type=inline) }
+  x Ident { value: Atom('--var' type=inline), raw: "--var" }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:96:1]
  96 | @supports (--var) {
     :            ^^^^^
@@ -7486,7 +7486,7 @@
      :                   ^^^^^
      `----
 
-  x Ident { value: Atom('green' type=inline), raw: Atom('green' type=inline) }
+  x Ident { value: Atom('green' type=inline), raw: "green" }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:100:1]
  100 | @supports (--foo: green) {
      :                   ^^^^^
@@ -8903,7 +8903,7 @@
      :                   ^^^^
      `----
 
-  x Ident { value: Atom('anim' type=inline), raw: Atom('anim' type=inline) }
+  x Ident { value: Atom('anim' type=inline), raw: "anim" }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:123:5]
  123 | @-custom-keyframe anim {
      :                   ^^^^
@@ -8957,7 +8957,7 @@
      : ^^^^
      `----
 
-  x Ident { value: Atom('from' type=static), raw: Atom('from' type=static) }
+  x Ident { value: Atom('from' type=static), raw: "from" }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:124:9]
  124 | from {
      : ^^^^
@@ -9013,7 +9013,7 @@
      : ^^^^^
      `----
 
-  x Ident { value: Atom('color' type=static), raw: Atom('color' type=static) }
+  x Ident { value: Atom('color' type=static), raw: "color" }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:125:13]
  125 | color: black;
      : ^^^^^
@@ -9049,7 +9049,7 @@
      :        ^^^^^
      `----
 
-  x Ident { value: Atom('black' type=inline), raw: Atom('black' type=inline) }
+  x Ident { value: Atom('black' type=inline), raw: "black" }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:125:13]
  125 | color: black;
      :        ^^^^^
@@ -9097,7 +9097,7 @@
      : ^^
      `----
 
-  x Ident { value: Atom('to' type=static), raw: Atom('to' type=static) }
+  x Ident { value: Atom('to' type=static), raw: "to" }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:127:9]
  127 | to {
      : ^^
@@ -9153,7 +9153,7 @@
      : ^^^^^
      `----
 
-  x Ident { value: Atom('color' type=static), raw: Atom('color' type=static) }
+  x Ident { value: Atom('color' type=static), raw: "color" }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:128:13]
  128 | color: white
      : ^^^^^
@@ -9189,7 +9189,7 @@
      :        ^^^^^
      `----
 
-  x Ident { value: Atom('white' type=inline), raw: Atom('white' type=inline) }
+  x Ident { value: Atom('white' type=inline), raw: "white" }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:128:13]
  128 | color: white
      :        ^^^^^
@@ -9919,7 +9919,7 @@
      :                            ^
      `----
 
-  x Number { value: 1.0, raw: Atom('1' type=inline), type_flag: Integer }
+  x Number { value: 1.0, raw: "1", type_flag: Integer }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:145:1]
  145 | @supports (func("example": 1)) {
      :                            ^
@@ -10102,7 +10102,7 @@
      :            ^^^^^
      `----
 
-  x Ident { value: Atom('--var' type=inline), raw: Atom('--var' type=inline) }
+  x Ident { value: Atom('--var' type=inline), raw: "--var" }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:149:1]
  149 | @supports (--var) {
      :            ^^^^^
@@ -10664,7 +10664,7 @@
      :                               ^
      `----
 
-  x Number { value: 1.0, raw: Atom('1' type=inline), type_flag: Integer }
+  x Number { value: 1.0, raw: "1", type_flag: Integer }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:159:1]
  159 | @supports (   func("example": 1)   ) {
      :                               ^
@@ -10859,7 +10859,7 @@
      :               ^^^^^
      `----
 
-  x Ident { value: Atom('--var' type=inline), raw: Atom('--var' type=inline) }
+  x Ident { value: Atom('--var' type=inline), raw: "--var" }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:163:1]
  163 | @supports (   --var   ) {
      :               ^^^^^
@@ -11066,7 +11066,7 @@
      :               ^^^^^
      `----
 
-  x Ident { value: Atom('--var' type=inline), raw: Atom('--var' type=inline) }
+  x Ident { value: Atom('--var' type=inline), raw: "--var" }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:167:1]
  167 | @supports (   --var   "test"   ) {
      :               ^^^^^

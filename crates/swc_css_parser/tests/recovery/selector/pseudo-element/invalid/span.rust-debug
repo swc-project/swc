@@ -23,7 +23,7 @@
    : ^
    `----
 
-  x Ident { value: Atom('a' type=static), raw: Atom('a' type=static) }
+  x Ident { value: Atom('a' type=static), raw: "a" }
    ,-[$DIR/tests/recovery/selector/pseudo-element/invalid/input.css:1:1]
  1 | a::1 {
    : ^
@@ -59,7 +59,7 @@
    :    ^
    `----
 
-  x Number { value: 1.0, raw: Atom('1' type=inline), type_flag: Integer }
+  x Number { value: 1.0, raw: "1", type_flag: Integer }
    ,-[$DIR/tests/recovery/selector/pseudo-element/invalid/input.css:1:1]
  1 | a::1 {
    :    ^

@@ -65,7 +65,7 @@
    :               ^^^^
    `----
 
-  x Ident { value: Atom('test' type=inline), raw: Atom('test' type=inline) }
+  x Ident { value: Atom('test' type=inline), raw: "test" }
    ,-[$DIR/tests/recovery/at-rule/import/no-url/input.css:1:1]
  1 | @import nourl(test);
    :               ^^^^
@@ -113,7 +113,7 @@
    :         ^^^
    `----
 
-  x Number { value: 123.0, raw: Atom('123' type=inline), type_flag: Integer }
+  x Number { value: 123.0, raw: "123", type_flag: Integer }
    ,-[$DIR/tests/recovery/at-rule/import/no-url/input.css:2:1]
  2 | @import 123;
    :         ^^^

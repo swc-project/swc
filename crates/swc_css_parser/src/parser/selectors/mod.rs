@@ -1,4 +1,3 @@
-use swc_atoms::JsWord;
 use swc_common::{BytePos, Span, Spanned};
 use swc_css_ast::*;
 
@@ -630,7 +629,7 @@ where
                 Ident {
                     span,
                     value,
-                    raw: Some(JsWord::from(&*raw)),
+                    raw: Some(raw),
                 }
             }
             _ => {

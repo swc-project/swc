@@ -41,7 +41,7 @@
    :  ^^^^
    `----
 
-  x Ident { value: Atom('href' type=static), raw: Atom('href' type=static) }
+  x Ident { value: Atom('href' type=static), raw: "href" }
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-2/input.css:1:1]
  1 | [href#="test"] {}
    :  ^^^^

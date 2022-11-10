@@ -79,7 +79,7 @@
    : ^^^^^^^
    `----
 
-  x Ident { value: Atom('content' type=static), raw: Atom('content' type=static) }
+  x Ident { value: Atom('content' type=static), raw: "content" }
    ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:2:5]
  2 | content: "foo";
    : ^^^^^^^
@@ -151,7 +151,7 @@
    : ^^^^^
    `----
 
-  x Ident { value: Atom('color' type=static), raw: Atom('color' type=static) }
+  x Ident { value: Atom('color' type=static), raw: "color" }
    ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:3:5]
  3 | color: blue;
    : ^^^^^
@@ -187,7 +187,7 @@
    :        ^^^^
    `----
 
-  x Ident { value: Atom('blue' type=inline), raw: Atom('blue' type=inline) }
+  x Ident { value: Atom('blue' type=inline), raw: "blue" }
    ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:3:5]
  3 | color: blue;
    :        ^^^^

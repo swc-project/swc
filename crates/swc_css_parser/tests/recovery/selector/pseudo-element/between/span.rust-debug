@@ -62,7 +62,7 @@
    :    ^^^
    `----
 
-  x Ident { value: Atom('foo' type=inline), raw: Atom('foo' type=inline) }
+  x Ident { value: Atom('foo' type=inline), raw: "foo" }
    ,-[$DIR/tests/recovery/selector/pseudo-element/between/input.css:1:1]
  1 | : :foo {
    :    ^^^

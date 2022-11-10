@@ -26,7 +26,7 @@
    : ^
    `----
 
-  x Ident { value: Atom('a' type=static), raw: Atom('a' type=static) }
+  x Ident { value: Atom('a' type=static), raw: "a" }
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-3/input.css:1:1]
  1 | a[title * = "title" i ] {
    : ^
@@ -56,7 +56,7 @@
    :   ^^^^^
    `----
 
-  x Ident { value: Atom('title' type=static), raw: Atom('title' type=static) }
+  x Ident { value: Atom('title' type=static), raw: "title" }
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-3/input.css:1:1]
  1 | a[title * = "title" i ] {
    :   ^^^^^
@@ -152,7 +152,7 @@
    :                     ^
    `----
 
-  x Ident { value: Atom('i' type=static), raw: Atom('i' type=static) }
+  x Ident { value: Atom('i' type=static), raw: "i" }
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-3/input.css:1:1]
  1 | a[title * = "title" i ] {
    :                     ^

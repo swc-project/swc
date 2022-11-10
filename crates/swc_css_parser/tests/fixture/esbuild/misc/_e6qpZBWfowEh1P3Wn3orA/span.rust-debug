@@ -59,7 +59,7 @@
    :         ^^^^^^^
    `----
 
-  x Ident { value: Atom('class' type=static), raw: Atom('cl\61ss' type=inline) }
+  x Ident { value: Atom('class' type=static), raw: "cl\\61ss" }
    ,-[$DIR/tests/fixture/esbuild/misc/_e6qpZBWfowEh1P3Wn3orA/input.css:1:1]
  1 | :pseudo(cl\61ss) {}
    :         ^^^^^^^

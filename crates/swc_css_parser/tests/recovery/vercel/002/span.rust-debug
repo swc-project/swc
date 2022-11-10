@@ -255,7 +255,7 @@
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x Ident { value: Atom('__styled-jsx-placeholder__7vw' type=dynamic), raw: Atom('__styled-jsx-placeholder__7vw' type=dynamic) }
+  x Ident { value: Atom('__styled-jsx-placeholder__7vw' type=dynamic), raw: "__styled-jsx-placeholder__7vw" }
    ,-[$DIR/tests/recovery/vercel/002/input.css:4:5]
  4 | margin: 0 calc(__styled-jsx-placeholder__7vw - __styled-jsx-placeholder__7px);
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -303,7 +303,7 @@
    :                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x Ident { value: Atom('__styled-jsx-placeholder__7px' type=dynamic), raw: Atom('__styled-jsx-placeholder__7px' type=dynamic) }
+  x Ident { value: Atom('__styled-jsx-placeholder__7px' type=dynamic), raw: "__styled-jsx-placeholder__7px" }
    ,-[$DIR/tests/recovery/vercel/002/input.css:4:5]
  4 | margin: 0 calc(__styled-jsx-placeholder__7vw - __styled-jsx-placeholder__7px);
    :                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

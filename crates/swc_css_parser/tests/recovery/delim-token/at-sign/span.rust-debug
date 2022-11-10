@@ -135,7 +135,7 @@
    :          ^^^
    `----
 
-  x Ident { value: Atom('red' type=inline), raw: Atom('red' type=inline) }
+  x Ident { value: Atom('red' type=inline), raw: "red" }
    ,-[$DIR/tests/recovery/delim-token/at-sign/input.css:2:5]
  2 | color: @ red;
    :          ^^^

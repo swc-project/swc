@@ -69,7 +69,7 @@
    : ^
    `----
 
-  x Ident { value: Atom('a' type=static), raw: Atom('a' type=static) }
+  x Ident { value: Atom('a' type=static), raw: "a" }
    ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:1]
  2 | a: b;
    : ^
@@ -105,7 +105,7 @@
    :    ^
    `----
 
-  x Ident { value: Atom('b' type=static), raw: Atom('b' type=static) }
+  x Ident { value: Atom('b' type=static), raw: "b" }
    ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:1]
  2 | a: b;
    :    ^
@@ -143,7 +143,7 @@
    : ^
    `----
 
-  x Ident { value: Atom('c' type=inline), raw: Atom('c' type=inline) }
+  x Ident { value: Atom('c' type=inline), raw: "c" }
    ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:3:1]
  3 | c: d;
    : ^
@@ -179,7 +179,7 @@
    :    ^
    `----
 
-  x Ident { value: Atom('d' type=inline), raw: Atom('d' type=inline) }
+  x Ident { value: Atom('d' type=inline), raw: "d" }
    ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:3:1]
  3 | c: d;
    :    ^

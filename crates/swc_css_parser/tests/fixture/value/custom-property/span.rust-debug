@@ -331,7 +331,7 @@
    :     ^^^^^
    `----
 
-  x Ident { value: Atom('value' type=inline), raw: Atom('value' type=inline) }
+  x Ident { value: Atom('value' type=inline), raw: "value" }
    ,-[$DIR/tests/fixture/value/custom-property/input.css:2:5]
  2 | ---:value;
    :     ^^^^^
@@ -373,7 +373,7 @@
    :             ^^^^^
    `----
 
-  x Ident { value: Atom('value' type=inline), raw: Atom('value' type=inline) }
+  x Ident { value: Atom('value' type=inline), raw: "value" }
    ,-[$DIR/tests/fixture/value/custom-property/input.css:4:5]
  4 | --important:value!important;
    :             ^^^^^
@@ -427,7 +427,7 @@
    :               ^^^^^
    `----
 
-  x Ident { value: Atom('value' type=inline), raw: Atom('value' type=inline) }
+  x Ident { value: Atom('value' type=inline), raw: "value" }
    ,-[$DIR/tests/fixture/value/custom-property/input.css:5:5]
  5 | --important1: value!important;
    :               ^^^^^
@@ -481,7 +481,7 @@
    :               ^^^^^
    `----
 
-  x Ident { value: Atom('value' type=inline), raw: Atom('value' type=inline) }
+  x Ident { value: Atom('value' type=inline), raw: "value" }
    ,-[$DIR/tests/fixture/value/custom-property/input.css:6:5]
  6 | --important2: value !important;
    :               ^^^^^
@@ -535,7 +535,7 @@
    :              ^^^^^
    `----
 
-  x Ident { value: Atom('value' type=inline), raw: Atom('value' type=inline) }
+  x Ident { value: Atom('value' type=inline), raw: "value" }
    ,-[$DIR/tests/fixture/value/custom-property/input.css:7:5]
  7 | --important3:value !important;
    :              ^^^^^
@@ -607,7 +607,7 @@
    :                    ^
    `----
 
-  x Number { value: 1.0, raw: Atom('1' type=inline), type_flag: Integer }
+  x Number { value: 1.0, raw: "1", type_flag: Integer }
    ,-[$DIR/tests/fixture/value/custom-property/input.css:8:5]
  8 | --important4: calc(1)!important;
    :                    ^
@@ -835,7 +835,7 @@
     :                 ^^^^^
     `----
 
-  x Ident { value: Atom('ident' type=inline), raw: Atom('ident' type=inline) }
+  x Ident { value: Atom('ident' type=inline), raw: "ident" }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:16:5]
  16 | --no-whitespace:ident;
     :                 ^^^^^
@@ -877,7 +877,7 @@
     :           ^
     `----
 
-  x Number { value: 1.0, raw: Atom('1' type=inline), type_flag: Integer }
+  x Number { value: 1.0, raw: "1", type_flag: Integer }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:17:5]
  17 | --number: 1;
     :           ^
@@ -919,7 +919,7 @@
     :         ^^^^^
     `----
 
-  x Dimension { value: 100.0, raw_value: Atom('100' type=inline), unit: Atom('vw' type=static), raw_unit: Atom('vw' type=static), type_flag: Integer }
+  x Dimension { value: 100.0, raw_value: "100", unit: Atom('vw' type=static), raw_unit: "vw", type_flag: Integer }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:18:5]
  18 | --unit: 100vw;
     :         ^^^^^
@@ -1021,7 +1021,7 @@
     :                  ^
     `----
 
-  x Number { value: 1.0, raw: Atom('1' type=inline), type_flag: Integer }
+  x Number { value: 1.0, raw: "1", type_flag: Integer }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:21:5]
  21 | --function: calc(1 + 1);
     :                  ^
@@ -1069,7 +1069,7 @@
     :                      ^
     `----
 
-  x Number { value: 1.0, raw: Atom('1' type=inline), type_flag: Integer }
+  x Number { value: 1.0, raw: "1", type_flag: Integer }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:21:5]
  21 | --function: calc(1 + 1);
     :                      ^
@@ -1129,7 +1129,7 @@
     :                 ^^^^^^
     `----
 
-  x Ident { value: Atom('--unit' type=inline), raw: Atom('--unit' type=inline) }
+  x Ident { value: Atom('--unit' type=inline), raw: "--unit" }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:22:5]
  22 | --variable: var(--unit);
     :                 ^^^^^^
@@ -1273,7 +1273,7 @@
     :                  ^
     `----
 
-  x Number { value: 1.0, raw: Atom('1' type=inline), type_flag: Integer }
+  x Number { value: 1.0, raw: "1", type_flag: Integer }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:27:5]
  27 | --square-block: [1, 2, 3];
     :                  ^
@@ -1309,7 +1309,7 @@
     :                     ^
     `----
 
-  x Number { value: 2.0, raw: Atom('2' type=inline), type_flag: Integer }
+  x Number { value: 2.0, raw: "2", type_flag: Integer }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:27:5]
  27 | --square-block: [1, 2, 3];
     :                     ^
@@ -1345,7 +1345,7 @@
     :                        ^
     `----
 
-  x Number { value: 3.0, raw: Atom('3' type=inline), type_flag: Integer }
+  x Number { value: 3.0, raw: "3", type_flag: Integer }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:27:5]
  27 | --square-block: [1, 2, 3];
     :                        ^
@@ -1501,7 +1501,7 @@
     :                 ^
     `----
 
-  x Number { value: 1.0, raw: Atom('1' type=inline), type_flag: Integer }
+  x Number { value: 1.0, raw: "1", type_flag: Integer }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:30:5]
  30 | --round-block: (1, 2, 3);
     :                 ^
@@ -1537,7 +1537,7 @@
     :                    ^
     `----
 
-  x Number { value: 2.0, raw: Atom('2' type=inline), type_flag: Integer }
+  x Number { value: 2.0, raw: "2", type_flag: Integer }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:30:5]
  30 | --round-block: (1, 2, 3);
     :                    ^
@@ -1573,7 +1573,7 @@
     :                       ^
     `----
 
-  x Number { value: 3.0, raw: Atom('3' type=inline), type_flag: Integer }
+  x Number { value: 3.0, raw: "3", type_flag: Integer }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:30:5]
  30 | --round-block: (1, 2, 3);
     :                       ^
@@ -1729,7 +1729,7 @@
     :                   ^
     `----
 
-  x Number { value: 1.0, raw: Atom('1' type=inline), type_flag: Integer }
+  x Number { value: 1.0, raw: "1", type_flag: Integer }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:33:5]
  33 | --bracket-block: {1, 2, 3};
     :                   ^
@@ -1765,7 +1765,7 @@
     :                      ^
     `----
 
-  x Number { value: 2.0, raw: Atom('2' type=inline), type_flag: Integer }
+  x Number { value: 2.0, raw: "2", type_flag: Integer }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:33:5]
  33 | --bracket-block: {1, 2, 3};
     :                      ^
@@ -1801,7 +1801,7 @@
     :                         ^
     `----
 
-  x Number { value: 3.0, raw: Atom('3' type=inline), type_flag: Integer }
+  x Number { value: 3.0, raw: "3", type_flag: Integer }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:33:5]
  33 | --bracket-block: {1, 2, 3};
     :                         ^
@@ -1957,7 +1957,7 @@
     :          ^
     `----
 
-  x Number { value: 1.0, raw: Atom('1' type=inline), type_flag: Integer }
+  x Number { value: 1.0, raw: "1", type_flag: Integer }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:38:5]
  38 | --JSON: [1, "2", {"three": {"a":1}}, [4]];
     :          ^
@@ -2125,7 +2125,7 @@
     :                                 ^
     `----
 
-  x Number { value: 1.0, raw: Atom('1' type=inline), type_flag: Integer }
+  x Number { value: 1.0, raw: "1", type_flag: Integer }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:38:5]
  38 | --JSON: [1, "2", {"three": {"a":1}}, [4]];
     :                                 ^
@@ -2179,7 +2179,7 @@
     :                                       ^
     `----
 
-  x Number { value: 4.0, raw: Atom('4' type=inline), type_flag: Integer }
+  x Number { value: 4.0, raw: "4", type_flag: Integer }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:38:5]
  38 | --JSON: [1, "2", {"three": {"a":1}}, [4]];
     :                                       ^
@@ -2239,7 +2239,7 @@
     :                        ^^^^
     `----
 
-  x Ident { value: Atom('rule' type=inline), raw: Atom('rule' type=inline) }
+  x Ident { value: Atom('rule' type=inline), raw: "rule" }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:39:5]
  39 | --javascript: function(rule) { console.log(rule) };
     :                        ^^^^
@@ -2293,7 +2293,7 @@
     :                                ^^^^^^^
     `----
 
-  x Ident { value: Atom('console' type=inline), raw: Atom('console' type=inline) }
+  x Ident { value: Atom('console' type=inline), raw: "console" }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:39:5]
  39 | --javascript: function(rule) { console.log(rule) };
     :                                ^^^^^^^
@@ -2335,7 +2335,7 @@
     :                                            ^^^^
     `----
 
-  x Ident { value: Atom('rule' type=inline), raw: Atom('rule' type=inline) }
+  x Ident { value: Atom('rule' type=inline), raw: "rule" }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:39:5]
  39 | --javascript: function(rule) { console.log(rule) };
     :                                            ^^^^
@@ -2803,7 +2803,7 @@
     :                    ^^^^^^^^^
     `----
 
-  x Ident { value: Atom('important' type=static), raw: Atom('important' type=static) }
+  x Ident { value: Atom('important' type=static), raw: "important" }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:45:5]
  45 | --fake-important:{!important};
     :                    ^^^^^^^^^
@@ -3005,7 +3005,7 @@
     : ^^^^^
     `----
 
-  x Ident { value: Atom('width' type=inline), raw: Atom('width' type=inline) }
+  x Ident { value: Atom('width' type=inline), raw: "width" }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:49:9]
  49 | width: 0;
     : ^^^^^
@@ -3041,7 +3041,7 @@
     :        ^
     `----
 
-  x Number { value: 0.0, raw: Atom('0' type=inline), type_flag: Integer }
+  x Number { value: 0.0, raw: "0", type_flag: Integer }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:49:9]
  49 | width: 0;
     :        ^
@@ -3077,7 +3077,7 @@
     : ^^^^^^
     `----
 
-  x Ident { value: Atom('height' type=inline), raw: Atom('height' type=inline) }
+  x Ident { value: Atom('height' type=inline), raw: "height" }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:50:9]
  50 | height: 0;
     : ^^^^^^
@@ -3113,7 +3113,7 @@
     :         ^
     `----
 
-  x Number { value: 0.0, raw: Atom('0' type=inline), type_flag: Integer }
+  x Number { value: 0.0, raw: "0", type_flag: Integer }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:50:9]
  50 | height: 0;
     :         ^
@@ -3222,7 +3222,7 @@
     : ^^^^^
     `----
 
-  x Ident { value: Atom('width' type=inline), raw: Atom('width' type=inline) }
+  x Ident { value: Atom('width' type=inline), raw: "width" }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:53:9]
  53 | width: 16px;
     : ^^^^^
@@ -3258,7 +3258,7 @@
     :        ^^^^
     `----
 
-  x Dimension { value: 16.0, raw_value: Atom('16' type=inline), unit: Atom('px' type=static), raw_unit: Atom('px' type=static), type_flag: Integer }
+  x Dimension { value: 16.0, raw_value: "16", unit: Atom('px' type=static), raw_unit: "px", type_flag: Integer }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:53:9]
  53 | width: 16px;
     :        ^^^^
@@ -3294,7 +3294,7 @@
     : ^^^^^^
     `----
 
-  x Ident { value: Atom('height' type=inline), raw: Atom('height' type=inline) }
+  x Ident { value: Atom('height' type=inline), raw: "height" }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:54:9]
  54 | height: 16px;
     : ^^^^^^
@@ -3330,7 +3330,7 @@
     :         ^^^^
     `----
 
-  x Dimension { value: 16.0, raw_value: Atom('16' type=inline), unit: Atom('px' type=static), raw_unit: Atom('px' type=static), type_flag: Integer }
+  x Dimension { value: 16.0, raw_value: "16", unit: Atom('px' type=static), raw_unit: "px", type_flag: Integer }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:54:9]
  54 | height: 16px;
     :         ^^^^
@@ -3456,7 +3456,7 @@
     :           ^
     `----
 
-  x Number { value: 1.0, raw: Atom('1' type=inline), type_flag: Integer }
+  x Number { value: 1.0, raw: "1", type_flag: Integer }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:59:1]
  59 | :root{--a:1}
     :           ^
@@ -3747,7 +3747,7 @@
     :         ^^^^^
     `----
 
-  x Ident { value: Atom('value' type=inline), raw: Atom('value' type=inline) }
+  x Ident { value: Atom('value' type=inline), raw: "value" }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:66:5]
  66 | --var:  value;
     :         ^^^^^

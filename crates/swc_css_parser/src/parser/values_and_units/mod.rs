@@ -1,4 +1,3 @@
-use swc_atoms::JsWord;
 use swc_common::{BytePos, Span};
 use swc_css_ast::*;
 
@@ -2065,7 +2064,7 @@ where
             Token::Ident { value, raw } => {
                 match &*value.to_ascii_lowercase() {
                     "initial" | "inherit" | "unset" | "revert" | "default" => {
-                        return Err(Error::new(span, ErrorKind::InvalidCustomIdent(raw)));
+                        return Err(Error::new(span, ErrorKind::InvalidCustomIdent(value)));
                     }
                     _ => {}
                 }
@@ -2868,7 +2867,7 @@ where
                 let name = Ident {
                     span: Span::new(span.lo, span.lo + BytePos(name_length), Default::default()),
                     value: name,
-                    raw: Some(JsWord::from(&*raw_name)),
+                    raw: Some(raw_name),
                 };
                 let value = Some(Box::new(UrlValue::Raw(UrlValueRaw {
                     span: Span::new(

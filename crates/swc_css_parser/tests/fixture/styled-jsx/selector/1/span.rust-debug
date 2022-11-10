@@ -74,7 +74,7 @@
    :          ^^^
    `----
 
-  x Ident { value: Atom('foo' type=inline), raw: Atom('foo' type=inline) }
+  x Ident { value: Atom('foo' type=inline), raw: "foo" }
    ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
  1 | :global(.foo + a) {
    :          ^^^
@@ -122,7 +122,7 @@
    :                ^
    `----
 
-  x Ident { value: Atom('a' type=static), raw: Atom('a' type=static) }
+  x Ident { value: Atom('a' type=static), raw: "a" }
    ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
  1 | :global(.foo + a) {
    :                ^

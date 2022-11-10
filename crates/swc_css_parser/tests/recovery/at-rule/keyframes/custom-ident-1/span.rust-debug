@@ -47,7 +47,7 @@
    :            ^^^^
    `----
 
-  x Ident { value: Atom('None' type=inline), raw: Atom('None' type=inline) }
+  x Ident { value: Atom('None' type=inline), raw: "None" }
    ,-[$DIR/tests/recovery/at-rule/keyframes/custom-ident-1/input.css:1:1]
  1 | @keyframes None {}
    :            ^^^^

@@ -62,7 +62,7 @@
    :        ^^^^^^^
    `----
 
-  x Ident { value: Atom('unknown' type=static), raw: Atom('unknown' type=static) }
+  x Ident { value: Atom('unknown' type=static), raw: "unknown" }
    ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:1:1]
  1 | @page :unknown {
    :        ^^^^^^^

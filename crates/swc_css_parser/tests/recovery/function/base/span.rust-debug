@@ -153,7 +153,7 @@
    :            ^
    `----
 
-  x Number { value: 1.0, raw: Atom('1' type=inline), type_flag: Integer }
+  x Number { value: 1.0, raw: "1", type_flag: Integer }
    ,-[$DIR/tests/recovery/function/base/input.css:2:5]
  2 | prop: func(1 + 2);
    :            ^
@@ -201,7 +201,7 @@
    :                ^
    `----
 
-  x Number { value: 2.0, raw: Atom('2' type=inline), type_flag: Integer }
+  x Number { value: 2.0, raw: "2", type_flag: Integer }
    ,-[$DIR/tests/recovery/function/base/input.css:2:5]
  2 | prop: func(1 + 2);
    :                ^
@@ -261,7 +261,7 @@
    :            ^^^^^
    `----
 
-  x Ident { value: Atom('ident' type=inline), raw: Atom('ident' type=inline) }
+  x Ident { value: Atom('ident' type=inline), raw: "ident" }
    ,-[$DIR/tests/recovery/function/base/input.css:3:5]
  3 | prop: func(ident.ident);
    :            ^^^^^
@@ -285,7 +285,7 @@
    :                  ^^^^^
    `----
 
-  x Ident { value: Atom('ident' type=inline), raw: Atom('ident' type=inline) }
+  x Ident { value: Atom('ident' type=inline), raw: "ident" }
    ,-[$DIR/tests/recovery/function/base/input.css:3:5]
  3 | prop: func(ident.ident);
    :                  ^^^^^
@@ -357,7 +357,7 @@
    :                ^^^^^
    `----
 
-  x Ident { value: Atom('ident' type=inline), raw: Atom('ident' type=inline) }
+  x Ident { value: Atom('ident' type=inline), raw: "ident" }
    ,-[$DIR/tests/recovery/function/base/input.css:4:5]
  4 | prop: func3(   ident.ident   );
    :                ^^^^^
@@ -381,7 +381,7 @@
    :                      ^^^^^
    `----
 
-  x Ident { value: Atom('ident' type=inline), raw: Atom('ident' type=inline) }
+  x Ident { value: Atom('ident' type=inline), raw: "ident" }
    ,-[$DIR/tests/recovery/function/base/input.css:4:5]
  4 | prop: func3(   ident.ident   );
    :                      ^^^^^
@@ -675,7 +675,7 @@
    :              ^^^
    `----
 
-  x Ident { value: Atom('foo' type=inline), raw: Atom('foo' type=inline) }
+  x Ident { value: Atom('foo' type=inline), raw: "foo" }
    ,-[$DIR/tests/recovery/function/base/input.css:7:5]
  7 | prop: func({ foo: bar });
    :              ^^^
@@ -711,7 +711,7 @@
    :                   ^^^
    `----
 
-  x Ident { value: Atom('bar' type=inline), raw: Atom('bar' type=inline) }
+  x Ident { value: Atom('bar' type=inline), raw: "bar" }
    ,-[$DIR/tests/recovery/function/base/input.css:7:5]
  7 | prop: func({ foo: bar });
    :                   ^^^

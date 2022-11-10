@@ -814,7 +814,7 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x Ident { value: Atom('__styled-jsx-placeholder__7' type=dynamic), raw: Atom('__styled-jsx-placeholder__7' type=dynamic) }
+  x Ident { value: Atom('__styled-jsx-placeholder__7' type=dynamic), raw: "__styled-jsx-placeholder__7" }
     ,-[$DIR/tests/recovery/vercel/001/input.css:14:5]
  14 | __styled-jsx-placeholder__7
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^

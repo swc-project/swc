@@ -198,7 +198,7 @@
    : ^
    `----
 
-  x Ident { value: Atom('a' type=static), raw: Atom('a' type=static) }
+  x Ident { value: Atom('a' type=static), raw: "a" }
    ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:5:1]
  5 | a { color: blue }
    : ^
