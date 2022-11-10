@@ -76,6 +76,9 @@
 
 - **(css/parser)** Avoid unnecessary checks (#6383) ([4d49b9f](https://github.com/swc-project/swc/commit/4d49b9f61f226551d96e8e3210702366a5a1b885))
 
+
+- **(css/parser)** Union input types (#6385) ([434a765](https://github.com/swc-project/swc/commit/434a7657ed7d1705c90711853b1dcdf3579528c8))
+
 ### Testing
 
 
