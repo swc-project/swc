@@ -135,16 +135,16 @@ function f5() {
     ];
 }
 function f6() {
-    var ref = {
+    var _ref = {
         c1: false,
         c2: 1,
         c3: "bar"
-    }, _c1 = ref.c1, c1 = _c1 === void 0 ? true : _c1, _c2 = ref.c2, c2 = _c2 === void 0 ? 0 : _c2, _c3 = ref.c3, c3 = _c3 === void 0 ? "foo" : _c3;
-    var ref1 = {
+    }, _ref_c1 = _ref.c1, c1 = _ref_c1 === void 0 ? true : _ref_c1, _ref_c2 = _ref.c2, c2 = _ref_c2 === void 0 ? 0 : _ref_c2, _ref_c3 = _ref.c3, c3 = _ref_c3 === void 0 ? "foo" : _ref_c3;
+    var _ref1 = {
         x1: false,
         x2: 1,
         x3: "bar"
-    }, _x1 = ref1.x1, x1 = _x1 === void 0 ? true : _x1, _x2 = ref1.x2, x2 = _x2 === void 0 ? 0 : _x2, _x3 = ref1.x3, x3 = _x3 === void 0 ? "foo" : _x3;
+    }, _ref_x1 = _ref1.x1, x1 = _ref_x1 === void 0 ? true : _ref_x1, _ref_x2 = _ref1.x2, x2 = _ref_x2 === void 0 ? 0 : _ref_x2, _ref_x3 = _ref1.x3, x3 = _ref_x3 === void 0 ? "foo" : _ref_x3;
 }
 function f10() {
     return "hello";

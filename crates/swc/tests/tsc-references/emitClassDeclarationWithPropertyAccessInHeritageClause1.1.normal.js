@@ -11,9 +11,9 @@ function foo() {
         B: B
     };
 }
-var C = /*#__PURE__*/ function(_B) {
+var C = /*#__PURE__*/ function(_foo_B) {
     "use strict";
-    _inherits(C, _B);
+    _inherits(C, _foo_B);
     var _super = _create_super(C);
     function C() {
         _class_call_check(this, C);

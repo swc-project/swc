@@ -42,9 +42,9 @@ var M;
 //'this' as a type argument
 function genericFunc(x) {}
 genericFunc(undefined); // Should be an error
-var ErrClass3 = /*#__PURE__*/ function(_superClass) {
+var ErrClass3 = /*#__PURE__*/ function(_this) {
     "use strict";
-    _inherits(ErrClass3, _superClass);
+    _inherits(ErrClass3, _this);
     var _super = _create_super(ErrClass3);
     function ErrClass3() {
         _class_call_check(this, ErrClass3);

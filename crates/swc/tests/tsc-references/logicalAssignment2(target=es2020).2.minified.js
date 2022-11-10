@@ -1,3 +1,3 @@
 //// [logicalAssignment2.ts]
-var _a, _b, _c, _foo, _foo1, _foo2, _ref, _ref1, _ref2;
-(_a = a).baz && (_a.baz = result.baz), (_b = b).baz || (_b.baz = result.baz), (_c = c).baz ?? (_c.baz = result.baz), (_foo = a.foo).baz && (_foo.baz = result.foo.baz), (_foo1 = b.foo).baz || (_foo1.baz = result.foo.baz), (_foo2 = c.foo).baz ?? (_foo2.baz = result.foo.baz), (_ref = a.foo.bar()).baz && (_ref.baz = result.foo.bar().baz), (_ref1 = b.foo.bar()).baz || (_ref1.baz = result.foo.bar().baz), (_ref2 = c.foo.bar()).baz ?? (_ref2.baz = result.foo.bar().baz);
+var _a, _b, _c, _a_foo, _b_foo, _c_foo, _a_foo_bar, _b_foo_bar, _c_foo_bar;
+(_a = a).baz && (_a.baz = result.baz), (_b = b).baz || (_b.baz = result.baz), (_c = c).baz ?? (_c.baz = result.baz), (_a_foo = a.foo).baz && (_a_foo.baz = result.foo.baz), (_b_foo = b.foo).baz || (_b_foo.baz = result.foo.baz), (_c_foo = c.foo).baz ?? (_c_foo.baz = result.foo.baz), (_a_foo_bar = a.foo.bar()).baz && (_a_foo_bar.baz = result.foo.bar().baz), (_b_foo_bar = b.foo.bar()).baz || (_b_foo_bar.baz = result.foo.bar().baz), (_c_foo_bar = c.foo.bar()).baz ?? (_c_foo_bar.baz = result.foo.bar().baz);

@@ -12,9 +12,9 @@ Object.defineProperty(exports, "__esModule", {
         return App;
     }
 });
-var _classCallCheck = require("@swc/helpers/lib/_class_call_check.js").default, _inherits = require("@swc/helpers/lib/_inherits.js").default, _interopRequireWildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default, _createSuper = require("@swc/helpers/lib/_create_super.js").default, _react = _interopRequireWildcard(require("react")), _button = require("./button"), App = function(_Component) {
+var _classCallCheck = require("@swc/helpers/lib/_class_call_check.js").default, _inherits = require("@swc/helpers/lib/_inherits.js").default, _interopRequireWildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default, _createSuper = require("@swc/helpers/lib/_create_super.js").default, _react = _interopRequireWildcard(require("react")), _button = require("./button"), App = function(_React_Component) {
     "use strict";
-    _inherits(App, _Component);
+    _inherits(App, _React_Component);
     var _super = _createSuper(App);
     function App() {
         return _classCallCheck(this, App), _super.apply(this, arguments);
@@ -33,9 +33,9 @@ Object.defineProperty(exports, "__esModule", {
         return Button;
     }
 });
-var _classCallCheck = require("@swc/helpers/lib/_class_call_check.js").default, _inherits = require("@swc/helpers/lib/_inherits.js").default, _interopRequireWildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default, _createSuper = require("@swc/helpers/lib/_create_super.js").default, _react = _interopRequireWildcard(require("react")), Button = function(_Component) {
+var _classCallCheck = require("@swc/helpers/lib/_class_call_check.js").default, _inherits = require("@swc/helpers/lib/_inherits.js").default, _interopRequireWildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default, _createSuper = require("@swc/helpers/lib/_create_super.js").default, _react = _interopRequireWildcard(require("react")), Button = function(_React_Component) {
     "use strict";
-    _inherits(Button, _Component);
+    _inherits(Button, _React_Component);
     var _super = _createSuper(Button);
     function Button() {
         return _classCallCheck(this, Button), _super.apply(this, arguments);

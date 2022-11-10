@@ -21,9 +21,9 @@ var _classCallCheck = require("@swc/helpers/lib/_class_call_check.js").default;
 var _inherits = require("@swc/helpers/lib/_inherits.js").default;
 var _createSuper = require("@swc/helpers/lib/_create_super.js").default;
 var foo2 = require("./foo2");
-var x = /*#__PURE__*/ function(_x) {
+var x = /*#__PURE__*/ function(_foo2_x) {
     "use strict";
-    _inherits(x, _x);
+    _inherits(x, _foo2_x);
     var _super = _createSuper(x);
     function x() {
         _classCallCheck(this, x);

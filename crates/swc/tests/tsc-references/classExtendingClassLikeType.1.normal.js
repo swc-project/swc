@@ -13,9 +13,9 @@ var D0 = /*#__PURE__*/ function(Base1) {
     }
     return D0;
 }(Base);
-var D1 = /*#__PURE__*/ function(_superClass) {
+var D1 = /*#__PURE__*/ function(_getBase) {
     "use strict";
-    _inherits(D1, _superClass);
+    _inherits(D1, _getBase);
     var _super = _create_super(D1);
     function D1() {
         _class_call_check(this, D1);
@@ -27,9 +27,9 @@ var D1 = /*#__PURE__*/ function(_superClass) {
     }
     return D1;
 }(getBase());
-var D2 = /*#__PURE__*/ function(_superClass) {
+var D2 = /*#__PURE__*/ function(_getBase) {
     "use strict";
-    _inherits(D2, _superClass);
+    _inherits(D2, _getBase);
     var _super = _create_super(D2);
     function D2() {
         _class_call_check(this, D2);
@@ -42,9 +42,9 @@ var D2 = /*#__PURE__*/ function(_superClass) {
     }
     return D2;
 }(getBase());
-var D3 = /*#__PURE__*/ function(_superClass) {
+var D3 = /*#__PURE__*/ function(_getBase) {
     "use strict";
-    _inherits(D3, _superClass);
+    _inherits(D3, _getBase);
     var _super = _create_super(D3);
     function D3() {
         _class_call_check(this, D3);
@@ -57,9 +57,9 @@ var D3 = /*#__PURE__*/ function(_superClass) {
     return D3;
 }(getBase());
 // Error, no constructors with three type arguments
-var D4 = /*#__PURE__*/ function(_superClass) {
+var D4 = /*#__PURE__*/ function(_getBase) {
     "use strict";
-    _inherits(D4, _superClass);
+    _inherits(D4, _getBase);
     var _super = _create_super(D4);
     function D4() {
         _class_call_check(this, D4);
@@ -68,9 +68,9 @@ var D4 = /*#__PURE__*/ function(_superClass) {
     return D4;
 }(getBase());
 // Error, constructor return types differ
-var D5 = /*#__PURE__*/ function(_superClass) {
+var D5 = /*#__PURE__*/ function(_getBadBase) {
     "use strict";
-    _inherits(D5, _superClass);
+    _inherits(D5, _getBadBase);
     var _super = _create_super(D5);
     function D5() {
         _class_call_check(this, D5);

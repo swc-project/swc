@@ -4,8 +4,8 @@ var K = {
     a: "a",
     b: "b"
 };
-var ref = function() {
+var _ref = function() {
     var _obj;
     return _obj = {}, _define_property(_obj, K.a, 1), _define_property(_obj, K.b, 1), _obj;
-}(), aVal = ref[K.a], bVal = ref[K.b];
+}(), aVal = _ref[K.a], bVal = _ref[K.b];
 console.log(aVal, bVal);

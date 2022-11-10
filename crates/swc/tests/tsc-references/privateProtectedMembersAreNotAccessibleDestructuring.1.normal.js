@@ -10,8 +10,8 @@ var K = /*#__PURE__*/ function() {
     var _proto = K.prototype;
     _proto.privateMethod = function privateMethod() {};
     _proto.m = function m() {
-        var ref = this, a = ref.priv, b = ref.prot; // ok
-        var ref1 = new K(), priv = ref1.priv, prot = ref1.prot; // ok
+        var _this = this, a = _this.priv, b = _this.prot; // ok
+        var _ref = new K(), priv = _ref.priv, prot = _ref.prot; // ok
     };
     return K;
 }();
@@ -25,8 +25,8 @@ var C = /*#__PURE__*/ function(K) {
     }
     var _proto = C.prototype;
     _proto.m2 = function m2() {
-        var ref = this, a = ref.priv; // error
-        var ref1 = this, b = ref1.prot; // ok
+        var _this = this, a = _this.priv; // error
+        var _this1 = this, b = _this1.prot; // ok
     };
     return C;
 }(K);

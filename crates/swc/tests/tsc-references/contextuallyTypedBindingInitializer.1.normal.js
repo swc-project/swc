@@ -1,8 +1,8 @@
 //// [contextuallyTypedBindingInitializer.ts]
 function f(param) {
-    var _show = param.show, show = _show === void 0 ? function(v) {
+    var _param_show = param.show, show = _param_show === void 0 ? function(v) {
         return v.toString();
-    } : _show;
+    } : _param_show;
 }
 function f2(param) {
     var tmp = param["show"], showRename = tmp === void 0 ? function(v) {
@@ -15,25 +15,25 @@ function f3(param) {
     } : tmp;
 }
 function ff(param) {
-    var _nested = param.nested, nested = _nested === void 0 ? {
+    var _param_nested = param.nested, nested = _param_nested === void 0 ? {
         show: function(v) {
             return v.toString();
         }
-    } : _nested;
+    } : _param_nested;
 }
 function g(param) {
-    var _prop = param.prop, prop = _prop === void 0 ? [
+    var _param_prop = param.prop, prop = _param_prop === void 0 ? [
         "hello",
         1234
-    ] : _prop;
+    ] : _param_prop;
 }
 function h(param) {
-    var _prop = param.prop, prop = _prop === void 0 ? "foo" : _prop;
+    var _param_prop = param.prop, prop = _param_prop === void 0 ? "foo" : _param_prop;
 }
-var ref = {
+var _ref = {
     stringIdentity: function(x) {
         return x;
     }
-}, tmp = ref.stringIdentity, id = tmp === void 0 ? function(arg) {
+}, tmp = _ref.stringIdentity, id = tmp === void 0 ? function(arg) {
     return arg;
 } : tmp;

@@ -1,7 +1,7 @@
 use swc_ecma_parser::{EsConfig, Syntax};
+use swc_ecma_transforms_compat::es2020::nullish_coalescing::{nullish_coalescing, Config};
 use swc_ecma_transforms_testing::{test, test_exec};
-
-use super::*;
+use swc_ecma_visit::Fold;
 
 fn tr(c: Config) -> impl Fold {
     nullish_coalescing(c)
@@ -48,9 +48,8 @@ test!(
  function foo(foo, qux = foo.bar ?? "qux") {}
 "#,
     r#"
-var _bar;
-function foo(foo, qux = (_bar = foo.bar) !== null && _bar !== void 0 ? _bar : "qux") {
-}
+var _foo_bar;
+function foo(foo, qux = (_foo_bar = foo.bar) !== null && _foo_bar !== void 0 ? _foo_bar : "qux") {}
 "#
 );
 
@@ -66,9 +65,9 @@ function foo(opts) {
 "#,
     r#"
 function foo(opts) {
-  var _foo;
+  var _opts_foo;
 
-  var foo = (_foo = opts.foo) !== null && _foo !== void 0 ? _foo : "default";
+  var foo = (_opts_foo = opts.foo) !== null && _opts_foo !== void 0 ? _opts_foo : "default";
 }
 "#
 );
@@ -100,8 +99,8 @@ function foo() {
 "#,
     r#"
 function foo() {
-    var ref;
-    var foo = (ref = this) !== null && ref !== void 0 ? ref : {
+    var _this;
+    var foo = (_this = this) !== null && _this !== void 0 ? _this : {
     };
 }
 
@@ -131,8 +130,8 @@ test!(
     "
     const a = {
     };
-    var _b;
-    _b = (_b = a.b) !== null && _b !== void 0 ? _b : a.b = '1';
+    var _a_b;
+    _a_b = (_a_b = a.b) !== null && _a_b !== void 0 ? _a_b : a.b = '1';
     "
 );
 
@@ -160,9 +159,9 @@ function foo(opts) {
 "#,
     r#"
 function foo(opts) {
-  var _foo;
+  var _opts_foo;
 
-  var foo = (_foo = opts.foo) != null ? _foo : "default";
+  var foo = (_opts_foo = opts.foo) != null ? _opts_foo : "default";
 }
 "#
 );
@@ -173,7 +172,7 @@ test!(
     issue_6328,
     "switch ( 0 ) { case 0 ?? 0 : }",
     r#"
-    var ref;
-    switch ( 0 ) { case (ref = 0) !== null && ref !== void 0 ? ref : 0: }
+    var _ref;
+    switch ( 0 ) { case (_ref = 0) !== null && _ref !== void 0 ? _ref : 0: }
 "#
 );

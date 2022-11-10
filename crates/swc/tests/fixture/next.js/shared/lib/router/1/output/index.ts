@@ -10,7 +10,7 @@ var Router = /*#__PURE__*/ function() {
     _proto.change = function change(method, url, as, options, forcedScroll) {
         var _this = this;
         return _async_to_generator(function() {
-            var shouldResolveHref, prevLocale, parsedAs, localePathResult, didNavigate, ref, detectedDomain, asNoBasePath, _shallow, shallow, routeProps, cleanedAs, localeChange, parsed, pathname, query, pages, rewrites, ref1, err, resolvedAs, rewritesResult, route, parsedAs1, asPathname, routeRegex, routeMatch, shouldInterpolate, interpolatedAs, missingParams, ref2, ref3, routeInfo, error, props, __N_SSG, __N_SSP, destination, parsedHref, ref4, newUrl, newAs, notFoundRoute, _, isValidShallowRoute, _scroll, shouldScroll, resetScroll, err1;
+            var shouldResolveHref, prevLocale, parsedAs, localePathResult, didNavigate, _this_locales, detectedDomain, asNoBasePath, _options_shallow, shallow, routeProps, cleanedAs, localeChange, parsed, pathname, query, pages, rewrites, ref, err, resolvedAs, rewritesResult, route, parsedAs1, asPathname, routeRegex, routeMatch, shouldInterpolate, interpolatedAs, missingParams, _self___NEXT_DATA___props, _self___NEXT_DATA___props_pageProps, routeInfo, error, props, __N_SSG, __N_SSP, destination, parsedHref, _prepareUrlAs, newUrl, newAs, notFoundRoute, _, isValidShallowRoute, _options_scroll, shouldScroll, resetScroll, err1;
             return _ts_generator(this, function(_state) {
                 switch(_state.label){
                     case 0:
@@ -47,7 +47,7 @@ var Router = /*#__PURE__*/ function() {
                             if (process.env.__NEXT_I18N_SUPPORT) {
                                 ;
                                 // if the locale isn't configured hard navigate to show 404 page
-                                if (!((ref = _this.locales) === null || ref === void 0 ? void 0 : ref.includes(_this.locale))) {
+                                if (!((_this_locales = _this.locales) === null || _this_locales === void 0 ? void 0 : _this_locales.includes(_this.locale))) {
                                     parsedAs.pathname = addLocale(parsedAs.pathname, _this.locale);
                                     window.location.href = formatWithValidation(parsedAs);
                                     // this was previously a return but was removed in favor
@@ -83,7 +83,7 @@ var Router = /*#__PURE__*/ function() {
                         if (ST) {
                             performance.mark("routeChange");
                         }
-                        _shallow = options.shallow, shallow = _shallow === void 0 ? false : _shallow;
+                        _options_shallow = options.shallow, shallow = _options_shallow === void 0 ? false : _options_shallow;
                         routeProps = {
                             shallow: shallow
                         };
@@ -133,7 +133,7 @@ var Router = /*#__PURE__*/ function() {
                             getClientBuildManifest()
                         ];
                     case 3:
-                        ref1 = _state.sent(), rewrites = ref1.__rewrites, ref1;
+                        ref = _state.sent(), rewrites = ref.__rewrites, ref;
                         return [
                             3,
                             5
@@ -251,7 +251,7 @@ var Router = /*#__PURE__*/ function() {
                             if (destination.startsWith("/") && props.pageProps.__N_REDIRECT_BASE_PATH !== false) {
                                 parsedHref = parseRelativeUrl(destination);
                                 parsedHref.pathname = resolveDynamicRoute(parsedHref.pathname, pages);
-                                ref4 = prepareUrlAs(_this, destination, destination), newUrl = ref4.url, newAs = ref4.as;
+                                _prepareUrlAs = prepareUrlAs(_this, destination, destination), newUrl = _prepareUrlAs.url, newAs = _prepareUrlAs.as;
                                 return [
                                     2,
                                     _this.change(method, newUrl, newAs, options)
@@ -307,13 +307,13 @@ var Router = /*#__PURE__*/ function() {
                     case 13:
                         Router.events.emit("beforeHistoryChange", as, routeProps);
                         _this.changeState(method, url, as, options);
-                        if (options._h && pathname === "/_error" && ((ref2 = self.__NEXT_DATA__.props) === null || ref2 === void 0 ? void 0 : (ref3 = ref2.pageProps) === null || ref3 === void 0 ? void 0 : ref3.statusCode) === 500 && (props === null || props === void 0 ? void 0 : props.pageProps)) {
+                        if (options._h && pathname === "/_error" && ((_self___NEXT_DATA___props = self.__NEXT_DATA__.props) === null || _self___NEXT_DATA___props === void 0 ? void 0 : (_self___NEXT_DATA___props_pageProps = _self___NEXT_DATA___props.pageProps) === null || _self___NEXT_DATA___props_pageProps === void 0 ? void 0 : _self___NEXT_DATA___props_pageProps.statusCode) === 500 && (props === null || props === void 0 ? void 0 : props.pageProps)) {
                             // ensure statusCode is still correct for static 500 page
                             // when updating query information
                             props.pageProps.statusCode = 500;
                         }
                         isValidShallowRoute = options.shallow && _this.route === route;
-                        shouldScroll = (_scroll = options.scroll) !== null && _scroll !== void 0 ? _scroll : !isValidShallowRoute;
+                        shouldScroll = (_options_scroll = options.scroll) !== null && _options_scroll !== void 0 ? _options_scroll : !isValidShallowRoute;
                         resetScroll = shouldScroll ? {
                             x: 0,
                             y: 0

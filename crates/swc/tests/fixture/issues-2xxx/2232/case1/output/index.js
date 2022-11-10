@@ -13,9 +13,9 @@ var Foo = /*#__PURE__*/ function() {
             key: "sendSomeMessage",
             value: function sendSomeMessage(_parent, _param, _param1) {
                 return _async_to_generator(function() {
-                    var _input, toNumber, messageBody, all, dataSources;
+                    var _param_input, toNumber, messageBody, all, dataSources;
                     return _ts_generator(this, function(_state) {
-                        _input = _param.input, toNumber = _input.toNumber, messageBody = _input.messageBody, all = _object_without_properties(_param.input, [
+                        _param_input = _param.input, toNumber = _param_input.toNumber, messageBody = _param_input.messageBody, all = _object_without_properties(_param.input, [
                             "toNumber",
                             "messageBody"
                         ]), dataSources = _param1.dataSources;

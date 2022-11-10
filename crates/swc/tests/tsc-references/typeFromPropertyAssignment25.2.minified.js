@@ -6,9 +6,9 @@ var Common = {};
 Common.I = function _class() {
     "use strict";
     _class_call_check(this, _class), this.i = 1;
-}, Common.O = function(_I) {
+}, Common.O = function(_Common_I) {
     "use strict";
-    _inherits(_class, _I);
+    _inherits(_class, _Common_I);
     var _super = _create_super(_class);
     function _class() {
         var _this;
