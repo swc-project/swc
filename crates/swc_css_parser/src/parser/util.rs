@@ -3,8 +3,10 @@ use std::ops::{Deref, DerefMut};
 use swc_common::{Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_css_ast::*;
 
-use super::{input::ParserInput, Ctx, PResult, Parse, Parser};
-use crate::parser::input::ListOfComponentValuesInput;
+use super::{
+    input::{Input, InputType, ParserInput},
+    Ctx, PResult, Parse, Parser,
+};
 
 impl<I> Parser<I>
 where
@@ -60,9 +62,9 @@ where
     pub(super) fn parse_according_to_grammar<T>(
         &mut self,
         list_of_component_values: &ListOfComponentValues,
-        op: impl FnOnce(&mut Parser<ListOfComponentValuesInput>) -> PResult<T>,
+        op: impl FnOnce(&mut Parser<Input>) -> PResult<T>,
     ) -> PResult<T> {
-        let lexer = ListOfComponentValuesInput::new(list_of_component_values);
+        let lexer = Input::new(InputType::ListOfComponentValues(list_of_component_values));
         let mut parser = Parser::new(lexer, self.config);
         let res = op(&mut parser.with_ctx(self.ctx));
 
