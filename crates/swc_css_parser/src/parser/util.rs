@@ -5,10 +5,8 @@ use swc_css_ast::*;
 
 use super::{
     input::{Input, InputType, ParserInput},
-    Ctx, PResult, Parse, Parser,
+    Ctx, Error, PResult, Parse, Parser,
 };
-use super::{input::ParserInput, Ctx, PResult, Parse, Parser};
-use crate::{parser::input::ListOfComponentValuesInput, Error};
 
 impl<I> Parser<I>
 where
