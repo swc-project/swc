@@ -8,6 +8,9 @@
 - **(css/parser)** Fix parsing of `supports()` (#6333) ([f483224](https://github.com/swc-project/swc/commit/f4832247bc5a831658d8a6c15678eaf6412fa0c1))
 
 
+- **(css/parser)** Fix parsing of `<general-enclosed>` (#6380) ([d18eaf1](https://github.com/swc-project/swc/commit/d18eaf169858705975f3954e89177532ff39b125))
+
+
 - **(es)** Use `unresolved_mark` for preset-env (#6386) ([156f370](https://github.com/swc-project/swc/commit/156f370af935f563129fa9952fa2f8c3a865e5de))
 
 
