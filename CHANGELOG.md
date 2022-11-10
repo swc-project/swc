@@ -55,6 +55,9 @@
 
 - **(html/minifier)** Improve merging of group elements (#6349) ([34b3710](https://github.com/swc-project/swc/commit/34b3710c9ca85bf65ec3cf23d2d3ae838d218f52))
 
+
+- **(swc_core)** Expose `swc_css_modules` (#6394) ([26b21b1](https://github.com/swc-project/swc/commit/26b21b1d21e1f8d538bfb3c54dd1d528d8586ad2))
+
 ### Miscellaneous Tasks
 
 
