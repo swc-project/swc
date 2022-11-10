@@ -886,8 +886,8 @@ where
 
                         return Ok(Token::BadUrl {
                             name: name.0,
-                            raw_name: name.1,
-                            raw_value: (&**raw).into(),
+                            raw_name: Atom::new(&*name.1),
+                            raw_value: Atom::new(&**raw),
                         });
                     }
 
@@ -909,8 +909,8 @@ where
 
                         return Ok(Token::BadUrl {
                             name: name.0,
-                            raw_name: name.1,
-                            raw_value: (&**raw).into(),
+                            raw_name: Atom::new(&*name.1),
+                            raw_value: Atom::new(&**raw),
                         });
                     }
 
@@ -940,8 +940,8 @@ where
 
                             return Ok(Token::BadUrl {
                                 name: name.0,
-                                raw_name: name.1,
-                                raw_value: (&**raw).into(),
+                                raw_name: Atom::new(&*name.1),
+                                raw_value: Atom::new(&**raw),
                             });
                         }
                     }

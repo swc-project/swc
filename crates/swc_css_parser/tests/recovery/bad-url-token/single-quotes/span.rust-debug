@@ -115,7 +115,7 @@
    :             ^^^^^^^^^^^^^^^
    `----
 
-  x BadUrl { name: Atom('url' type=static), raw_name: Atom('url' type=static), raw_value: Atom('image'.png' type=dynamic) }
+  x BadUrl { name: Atom('url' type=static), raw_name: "url", raw_value: "image'.png" }
    ,-[$DIR/tests/recovery/bad-url-token/single-quotes/input.css:2:5]
  2 | background: url(image'.png);
    :             ^^^^^^^^^^^^^^^
