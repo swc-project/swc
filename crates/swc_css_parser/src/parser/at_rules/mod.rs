@@ -976,8 +976,6 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<SupportsCondition> {
-        self.input.skip_ws();
-
         let start_pos = self.input.cur_span().lo;
         let mut last_pos;
         let mut conditions = vec![];
@@ -1132,7 +1130,11 @@ where
                 let mut parse_condition = || {
                     expect!(self, "(");
 
+                    self.input.skip_ws();
+
                     let condition = self.parse()?;
+
+                    self.input.skip_ws();
 
                     expect!(self, ")");
 
@@ -1297,8 +1299,6 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<MediaQueryList> {
-        self.input.skip_ws();
-
         let query = self.parse()?;
         let mut queries = vec![query];
 
@@ -1438,8 +1438,6 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<MediaCondition> {
-        self.input.skip_ws();
-
         let start_pos = self.input.cur_span().lo;
         let mut last_pos;
         let mut conditions = vec![];
@@ -1494,8 +1492,6 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<MediaConditionWithoutOr> {
-        self.input.skip_ws();
-
         let start_pos = self.input.cur_span().lo;
         let mut last_pos;
         let mut conditions = vec![];
@@ -1640,7 +1636,11 @@ where
                 let mut parse_media_condition = || {
                     expect!(self, "(");
 
+                    self.input.skip_ws();
+
                     let media_condition = self.parse()?;
+
+                    self.input.skip_ws();
 
                     expect!(self, ")");
 
@@ -1923,8 +1923,6 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<PageSelector> {
-        self.input.skip_ws();
-
         let span = self.input.cur_span();
 
         let page_type = if is!(self, Ident) {

@@ -2912,7 +2912,7 @@ where
                 }
 
                 let name = Ident {
-                    span: swc_common::Span::new(span.lo, span.hi - BytePos(1), Default::default()),
+                    span: Span::new(span.lo, span.hi - BytePos(1), Default::default()),
                     value: function_name,
                     raw: Some(raw_function_name),
                 };
