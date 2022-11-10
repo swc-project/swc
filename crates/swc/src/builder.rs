@@ -202,7 +202,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
         // compat
         let compat_pass = if let Some(env) = self.env {
             Either::Left(swc_ecma_preset_env::preset_env(
-                self.top_level_mark,
+                self.unresolved_mark,
                 comments,
                 env,
                 self.assumptions,

@@ -116,7 +116,6 @@
                   "BadUrl": {
                     "name": "url",
                     "raw_name": "url",
-                    "value": "image(.png",
                     "raw_value": "image(.png"
                   }
                 }

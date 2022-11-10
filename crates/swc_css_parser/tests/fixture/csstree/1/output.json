@@ -1835,9 +1835,7 @@
                     "ctxt": 0
                   },
                   "value": "path/to.png",
-                  "before": "",
-                  "raw": "path/to.png",
-                  "after": ""
+                  "raw": "path/to.png"
                 },
                 "modifiers": null
               },

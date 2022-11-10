@@ -589,9 +589,7 @@
                 "ctxt": 0
               },
               "value": "https://www.example.com/",
-              "before": "",
-              "raw": "https://www.example.com/",
-              "after": ""
+              "raw": "https://www.example.com/"
             },
             "modifiers": null
           }

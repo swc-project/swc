@@ -189,7 +189,7 @@
    :             ^^^^^^^^^^^^^^
    `----
 
-  x BadUrl { name: Atom('url' type=static), raw_name: Atom('url' type=static), value: Atom('var(--foo' type=dynamic), raw_value: Atom('var(--foo' type=dynamic) }
+  x BadUrl { name: Atom('url' type=static), raw_name: Atom('url' type=static), raw_value: Atom('var(--foo' type=dynamic) }
    ,-[$DIR/tests/recovery/value/url/basic/input.css:3:5]
  3 | background: url(var(--foo));
    :             ^^^^^^^^^^^^^^
@@ -636,7 +636,7 @@
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x BadUrl { name: Atom('url' type=static), raw_name: Atom('url' type=static), value: Atom('image.png param(var(--url' type=dynamic), raw_value: Atom('image.png param(var(--url' type=dynamic) }
+  x BadUrl { name: Atom('url' type=static), raw_name: Atom('url' type=static), raw_value: Atom('image.png param(var(--url' type=dynamic) }
     ,-[$DIR/tests/recovery/value/url/basic/input.css:13:5]
  13 | background: url(image.png param(var(--url)));
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

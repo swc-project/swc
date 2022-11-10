@@ -8,6 +8,9 @@
 - **(css/parser)** Fix parsing of `supports()` (#6333) ([f483224](https://github.com/swc-project/swc/commit/f4832247bc5a831658d8a6c15678eaf6412fa0c1))
 
 
+- **(es)** Use `unresolved_mark` for preset-env (#6386) ([156f370](https://github.com/swc-project/swc/commit/156f370af935f563129fa9952fa2f8c3a865e5de))
+
+
 - **(es/compat)** Fix chained op-assignment of super properties  (#6319) ([064baa3](https://github.com/swc-project/swc/commit/064baa3052425dca7db869195252acee0f1350b6))
 
 
@@ -23,6 +26,9 @@
 - **(es/fixer)** Handle more expressions in postfix operator (#6359) ([8123bf0](https://github.com/swc-project/swc/commit/8123bf09b58785f1e972b1e31b312a00d5535f4e))
 
 
+- **(es/helpers)** Fix import `_typeof` in `__decorate` (#6377) ([25333b9](https://github.com/swc-project/swc/commit/25333b989efb86297a895fe44f4f6ddbb2357daa))
+
+
 - **(es/lints)** Disallow reassignment to a class (#6362) ([3793e83](https://github.com/swc-project/swc/commit/3793e83fbb89d7710c3b85862b895ef7c78053cf))
 
 
@@ -33,6 +39,9 @@
 
 
 - **(es/parser)** Fix parsing of TS `satisfies` expressions (#6354) ([f6faeb3](https://github.com/swc-project/swc/commit/f6faeb3bad6c2df2007e6565e646219b778b9db6))
+
+
+- **(es/resolver)** Resolve interfaces correctly (#6387) ([6b876c4](https://github.com/swc-project/swc/commit/6b876c4c4ff618cc6652f3178284c596d24400f3))
 
 ### Features
 
@@ -46,11 +55,29 @@
 
 - **(html/minifier)** Improve merging of group elements (#6349) ([34b3710](https://github.com/swc-project/swc/commit/34b3710c9ca85bf65ec3cf23d2d3ae838d218f52))
 
+
+- **(swc_core)** Expose `swc_css_modules` (#6394) ([26b21b1](https://github.com/swc-project/swc/commit/26b21b1d21e1f8d538bfb3c54dd1d528d8586ad2))
+
 ### Miscellaneous Tasks
 
 
 
 - **(ci)** Fix CI (#6340) ([6094994](https://github.com/swc-project/swc/commit/60949946296c5f999fbbf704281e9e3bc863ce5f))
+
+### Performance
+
+
+
+- **(css)** Reduce size of tokens (#6384) ([bea6cce](https://github.com/swc-project/swc/commit/bea6cce0c6442891e6cfe3df5982c13ea3dda5a3))
+
+### Refactor
+
+
+
+- **(css/parser)** Avoid unnecessary checks (#6383) ([4d49b9f](https://github.com/swc-project/swc/commit/4d49b9f61f226551d96e8e3210702366a5a1b885))
+
+
+- **(css/parser)** Union input types (#6385) ([434a765](https://github.com/swc-project/swc/commit/434a7657ed7d1705c90711853b1dcdf3579528c8))
 
 ### Testing
 

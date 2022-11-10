@@ -400,7 +400,9 @@ impl VisitMut for Compressor {
                 | Token::Function { value, .. }
                 | Token::AtKeyword { value, .. }
                 | Token::String { value, .. }
-                | Token::BadString { value, .. }
+                | Token::BadString {
+                    raw_value: value, ..
+                }
                 | Token::Dimension { unit: value, .. }
                     if !contains_only_ascii_characters(value) =>
                 {
