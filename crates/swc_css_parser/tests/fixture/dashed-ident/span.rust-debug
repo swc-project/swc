@@ -120,7 +120,7 @@
    :               ^^^^
    `----
 
-  x Hash { is_id: false, value: Atom('06c' type=inline), raw: Atom('06c' type=inline) }
+  x Hash { is_id: false, value: Atom('06c' type=inline), raw: "06c" }
    ,-[$DIR/tests/fixture/dashed-ident/input.css:2:5]
  2 | --main-color: #06c;
    :               ^^^^
@@ -162,7 +162,7 @@
    :                 ^^^^
    `----
 
-  x Hash { is_id: false, value: Atom('006' type=inline), raw: Atom('006' type=inline) }
+  x Hash { is_id: false, value: Atom('006' type=inline), raw: "006" }
    ,-[$DIR/tests/fixture/dashed-ident/input.css:3:5]
  3 | --accent-color: #006;
    :                 ^^^^

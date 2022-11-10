@@ -10531,7 +10531,7 @@
      : ^^^^^^^^^
      `----
 
-  x Hash { is_id: true, value: Atom('property' type=static), raw: Atom('property' type=static) }
+  x Hash { is_id: true, value: Atom('property' type=static), raw: "property" }
      ,-[$DIR/tests/recovery/hacks/input.css:160:5]
  160 | #property: value;
      : ^^^^^^^^^

@@ -1,6 +1,6 @@
 use std::{cell::RefCell, char::REPLACEMENT_CHARACTER, rc::Rc};
 
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::{js_word, Atom, JsWord};
 use swc_common::{input::Input, BytePos, Span};
 use swc_css_ast::{NumberType, Token, TokenAndSpan};
 
@@ -301,7 +301,7 @@ where
                             ..
                         } => {
                             *value = ident_sequence.0;
-                            *raw = ident_sequence.1;
+                            *raw = Atom::new(&*ident_sequence.1);
                         }
                         _ => {
                             unreachable!();

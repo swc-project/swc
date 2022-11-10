@@ -164,8 +164,7 @@ pub struct HexColor {
     #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub value: JsWord,
     /// Does **not** include `#`
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-    pub raw: Option<JsWord>,
+    pub raw: Option<Atom>,
 }
 
 #[ast_node]

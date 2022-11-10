@@ -961,7 +961,7 @@
     :          ^^^^
     `----
 
-  x Hash { is_id: false, value: Atom('06c' type=inline), raw: Atom('06c' type=inline) }
+  x Hash { is_id: false, value: Atom('06c' type=inline), raw: "06c" }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:19:5]
  19 | --color: #06c;
     :          ^^^^

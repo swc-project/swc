@@ -171,7 +171,7 @@ define!({
     pub struct HexColor {
         pub span: Span,
         pub value: JsWord,
-        pub raw: Option<JsWord>,
+        pub raw: Option<Atom>,
     }
 
     pub enum AlphaValue {

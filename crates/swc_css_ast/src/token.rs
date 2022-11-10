@@ -76,8 +76,7 @@ pub enum Token {
         is_id: bool,
         #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         value: JsWord,
-        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-        raw: JsWord,
+        raw: Atom,
     },
 
     String {
