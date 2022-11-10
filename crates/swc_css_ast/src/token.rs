@@ -87,8 +87,7 @@ pub enum Token {
     },
 
     BadString {
-        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-        raw_value: JsWord,
+        raw_value: Atom,
     },
 
     /// `url(value)`
