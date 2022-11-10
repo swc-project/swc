@@ -115,6 +115,8 @@ where
             Ok(decl) => Some(decl),
             Err(_) => None,
         }
+    }
+
     pub(super) fn parse_declaration_from_temporary_list(
         &mut self,
         temporary_list: &ListOfComponentValues,
