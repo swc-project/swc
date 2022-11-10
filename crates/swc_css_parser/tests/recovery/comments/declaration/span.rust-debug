@@ -136,7 +136,7 @@
    :           ^^^^^^
    `----
 
-  x String { value: Atom('test' type=inline), raw: Atom('"test"' type=inline) }
+  x String { value: Atom('test' type=inline), raw: "\"test\"" }
    ,-[$DIR/tests/recovery/comments/declaration/input.css:2:5]
  2 | prop: url("test") /* comment */   /* comment */
    :           ^^^^^^

@@ -229,7 +229,7 @@
    :                                                                 ^^^^^^^^^
    `----
 
-  x String { value: Atom('#4f4f4f' type=inline), raw: Atom(''#4f4f4f'' type=dynamic) }
+  x String { value: Atom('#4f4f4f' type=inline), raw: "'#4f4f4f'" }
    ,-[$DIR/tests/recovery/ie-progid/input.css:2:5]
  2 | filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#4f4f4f',endColorstr='#292929',GradientType=0);
    :                                                                 ^^^^^^^^^
@@ -277,7 +277,7 @@
    :                                                                                       ^^^^^^^^^
    `----
 
-  x String { value: Atom('#292929' type=inline), raw: Atom(''#292929'' type=dynamic) }
+  x String { value: Atom('#292929' type=inline), raw: "'#292929'" }
    ,-[$DIR/tests/recovery/ie-progid/input.css:2:5]
  2 | filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#4f4f4f',endColorstr='#292929',GradientType=0);
    :                                                                                       ^^^^^^^^^

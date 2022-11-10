@@ -185,7 +185,7 @@
    :        ^^^^^
    `----
 
-  x String { value: Atom('bar' type=inline), raw: Atom(''bar'' type=inline) }
+  x String { value: Atom('bar' type=inline), raw: "'bar'" }
    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:2:5]
  2 | --foo: 'bar';
    :        ^^^^^
@@ -227,7 +227,7 @@
    :               ^^^^^
    `----
 
-  x String { value: Atom('foo' type=inline), raw: Atom('"foo"' type=inline) }
+  x String { value: Atom('foo' type=inline), raw: "\"foo\"" }
    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:3:5]
  3 | --lore-ipsum: "foo";
    :               ^^^^^
@@ -269,7 +269,7 @@
    :          ^^^^^^^
    `----
 
-  x String { value: Atom('abort' type=inline), raw: Atom('"abort"' type=inline) }
+  x String { value: Atom('abort' type=inline), raw: "\"abort\"" }
    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:4:5]
  4 | --FANCY: "abort";
    :          ^^^^^^^

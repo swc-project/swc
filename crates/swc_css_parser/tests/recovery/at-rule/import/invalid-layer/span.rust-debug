@@ -96,7 +96,7 @@
    :                         ^^^^^^^^^
    `----
 
-  x String { value: Atom('invalid' type=inline), raw: Atom('"invalid"' type=dynamic) }
+  x String { value: Atom('invalid' type=inline), raw: "\"invalid\"" }
    ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:2:1]
  2 | @import "foo.css" layer("invalid");
    :                         ^^^^^^^^^

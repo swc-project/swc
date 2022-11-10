@@ -16788,7 +16788,7 @@
      :                    ^^^^^
      `----
 
-  x String { value: Atom('bar' type=inline), raw: Atom('"bar"' type=inline) }
+  x String { value: Atom('bar' type=inline), raw: "\"bar\"" }
      ,-[$DIR/tests/fixture/at-rule/media/input.css:144:1]
  144 | @media (height foo("bar")) {}
      :                    ^^^^^

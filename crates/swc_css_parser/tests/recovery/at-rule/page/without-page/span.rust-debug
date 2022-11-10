@@ -115,7 +115,7 @@
    :          ^^^^^
    `----
 
-  x String { value: Atom('foo' type=inline), raw: Atom('"foo"' type=inline) }
+  x String { value: Atom('foo' type=inline), raw: "\"foo\"" }
    ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:2:5]
  2 | content: "foo";
    :          ^^^^^

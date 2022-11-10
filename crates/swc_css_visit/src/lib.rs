@@ -82,7 +82,7 @@ define!({
     pub struct Str {
         pub span: Span,
         pub value: JsWord,
-        pub raw: Option<JsWord>,
+        pub raw: Option<Atom>,
     }
 
     pub struct Integer {

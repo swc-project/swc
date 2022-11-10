@@ -82,8 +82,7 @@ pub enum Token {
     String {
         #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         value: JsWord,
-        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-        raw: JsWord,
+        raw: Atom,
     },
 
     BadString {
@@ -197,8 +196,11 @@ impl Hash for Token {
         match self {
             Token::Ident { value, raw }
             | Token::Function { value, raw }
-            | Token::AtKeyword { value, raw }
-            | Token::String { value, raw } => {
+            | Token::AtKeyword { value, raw } => {
+                value.hash(state);
+                raw.hash(state);
+            }
+            Token::String { value, raw } => {
                 value.hash(state);
                 raw.hash(state);
             }

@@ -65,7 +65,7 @@
    :         ^^^^^^^^^^^
    `----
 
-  x String { value: Atom('min-width' type=dynamic), raw: Atom('"min-width"' type=dynamic) }
+  x String { value: Atom('min-width' type=dynamic), raw: "\"min-width\"" }
    ,-[$DIR/tests/recovery/at-rule/media/feature-name/input.css:1:1]
  1 | @media ("min-width": 20px) {}
    :         ^^^^^^^^^^^

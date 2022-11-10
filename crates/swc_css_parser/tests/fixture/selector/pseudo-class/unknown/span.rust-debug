@@ -1289,7 +1289,7 @@
     :          ^^^^^^^^
     `----
 
-  x String { value: Atom('string' type=static), raw: Atom('"string"' type=dynamic) }
+  x String { value: Atom('string' type=static), raw: "\"string\"" }
     ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:12:1]
  12 | :unknown("string") {}
     :          ^^^^^^^^
@@ -1361,7 +1361,7 @@
     :          ^^^^^^^^
     `----
 
-  x String { value: Atom('string' type=static), raw: Atom('"string"' type=dynamic) }
+  x String { value: Atom('string' type=static), raw: "\"string\"" }
     ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:13:1]
  13 | :unknown("string", foo) {}
     :          ^^^^^^^^
@@ -1469,7 +1469,7 @@
     :          ^^^^^^^^
     `----
 
-  x String { value: Atom('string' type=static), raw: Atom(''string'' type=dynamic) }
+  x String { value: Atom('string' type=static), raw: "'string'" }
     ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:14:1]
  14 | :unknown('string') {}
     :          ^^^^^^^^
@@ -1541,7 +1541,7 @@
     :          ^^^^^^^^^^^^
     `----
 
-  x Url { name: Atom('url' type=static), raw_name: Atom('url' type=static), value: Atom('foo.png' type=inline), raw_value: Atom('foo.png' type=inline) }
+  x Url { name: Atom('url' type=static), raw_name: "url", value: Atom('foo.png' type=inline), raw_value: "foo.png" }
     ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:15:1]
  15 | :unknown(url(foo.png)) {}
     :          ^^^^^^^^^^^^

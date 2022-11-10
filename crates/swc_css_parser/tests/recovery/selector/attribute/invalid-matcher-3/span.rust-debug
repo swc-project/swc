@@ -128,7 +128,7 @@
    :             ^^^^^^^
    `----
 
-  x String { value: Atom('title' type=static), raw: Atom('"title"' type=inline) }
+  x String { value: Atom('title' type=static), raw: "\"title\"" }
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-3/input.css:1:1]
  1 | a[title * = "title" i ] {
    :             ^^^^^^^

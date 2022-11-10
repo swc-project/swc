@@ -4937,7 +4937,7 @@
     :                      ^^^^^^^^^^^
     `----
 
-  x String { value: Atom('.minwidth' type=dynamic), raw: Atom('".minwidth"' type=dynamic) }
+  x String { value: Atom('.minwidth' type=dynamic), raw: "\".minwidth\"" }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:51:1]
  51 | @supports (--element(".minwidth")) {
     :                      ^^^^^^^^^^^
@@ -5570,7 +5570,7 @@
     :                  ^^^^^
     `----
 
-  x String { value: Atom('str' type=inline), raw: Atom('"str"' type=inline) }
+  x String { value: Atom('str' type=inline), raw: "\"str\"" }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:65:1]
  65 | @supports (ident "str") {
     :                  ^^^^^
@@ -5783,7 +5783,7 @@
     :                   ^^^^^
     `----
 
-  x String { value: Atom('str' type=inline), raw: Atom('"str"' type=inline) }
+  x String { value: Atom('str' type=inline), raw: "\"str\"" }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:69:1]
  69 | @supports ((ident "str")) {
     :                   ^^^^^
@@ -9883,7 +9883,7 @@
      :                 ^^^^^^^^^
      `----
 
-  x String { value: Atom('example' type=inline), raw: Atom('"example"' type=dynamic) }
+  x String { value: Atom('example' type=inline), raw: "\"example\"" }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:145:1]
  145 | @supports (func("example": 1)) {
      :                 ^^^^^^^^^
@@ -10628,7 +10628,7 @@
      :                    ^^^^^^^^^
      `----
 
-  x String { value: Atom('example' type=inline), raw: Atom('"example"' type=dynamic) }
+  x String { value: Atom('example' type=inline), raw: "\"example\"" }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:159:1]
  159 | @supports (   func("example": 1)   ) {
      :                    ^^^^^^^^^
@@ -11090,7 +11090,7 @@
      :                       ^^^^^^
      `----
 
-  x String { value: Atom('test' type=inline), raw: Atom('"test"' type=inline) }
+  x String { value: Atom('test' type=inline), raw: "\"test\"" }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:167:1]
  167 | @supports (   --var   "test"   ) {
      :                       ^^^^^^

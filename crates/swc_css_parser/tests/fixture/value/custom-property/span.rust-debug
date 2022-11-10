@@ -1171,7 +1171,7 @@
     :           ^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x String { value: Atom('single quoted string' type=dynamic), raw: Atom(''single quoted string'' type=dynamic) }
+  x String { value: Atom('single quoted string' type=dynamic), raw: "'single quoted string'" }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:24:5]
  24 | --string: 'single quoted string';
     :           ^^^^^^^^^^^^^^^^^^^^^^
@@ -1213,7 +1213,7 @@
     :           ^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x String { value: Atom('double quoted string' type=dynamic), raw: Atom('"double quoted string"' type=dynamic) }
+  x String { value: Atom('double quoted string' type=dynamic), raw: "\"double quoted string\"" }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:25:5]
  25 | --string: "double quoted string";
     :           ^^^^^^^^^^^^^^^^^^^^^^
@@ -1993,7 +1993,7 @@
     :             ^^^
     `----
 
-  x String { value: Atom('2' type=inline), raw: Atom('"2"' type=inline) }
+  x String { value: Atom('2' type=inline), raw: "\"2\"" }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:38:5]
  38 | --JSON: [1, "2", {"three": {"a":1}}, [4]];
     :             ^^^
@@ -2047,7 +2047,7 @@
     :                   ^^^^^^^
     `----
 
-  x String { value: Atom('three' type=inline), raw: Atom('"three"' type=inline) }
+  x String { value: Atom('three' type=inline), raw: "\"three\"" }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:38:5]
  38 | --JSON: [1, "2", {"three": {"a":1}}, [4]];
     :                   ^^^^^^^
@@ -2101,7 +2101,7 @@
     :                             ^^^
     `----
 
-  x String { value: Atom('a' type=static), raw: Atom('"a"' type=inline) }
+  x String { value: Atom('a' type=static), raw: "\"a\"" }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:38:5]
  38 | --JSON: [1, "2", {"three": {"a":1}}, [4]];
     :                             ^^^

@@ -206,7 +206,7 @@
    :          ^^^^^^
    `----
 
-  x String { value: Atom('blah' type=inline), raw: Atom('"blah"' type=inline) }
+  x String { value: Atom('blah' type=inline), raw: "\"blah\"" }
    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:3:1]
  3 | @unknown "blah";
    :          ^^^^^^

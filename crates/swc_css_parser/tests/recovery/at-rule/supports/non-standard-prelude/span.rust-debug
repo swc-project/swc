@@ -100,7 +100,7 @@
    :                      ^^^^^^^^^^^
    `----
 
-  x String { value: Atom('.minwidth' type=dynamic), raw: Atom('".minwidth"' type=dynamic) }
+  x String { value: Atom('.minwidth' type=dynamic), raw: "\".minwidth\"" }
    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:1:1]
  1 | @supports (--element(".minwidth", { "minWidth": 300 })) {
    :                      ^^^^^^^^^^^
@@ -166,7 +166,7 @@
    :                                     ^^^^^^^^^^
    `----
 
-  x String { value: Atom('minWidth' type=dynamic), raw: Atom('"minWidth"' type=dynamic) }
+  x String { value: Atom('minWidth' type=dynamic), raw: "\"minWidth\"" }
    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:1:1]
  1 | @supports (--element(".minwidth", { "minWidth": 300 })) {
    :                                     ^^^^^^^^^^
@@ -433,7 +433,7 @@
    :             ^^^^^^^^^
    `----
 
-  x String { value: Atom('example' type=inline), raw: Atom('"example"' type=dynamic) }
+  x String { value: Atom('example' type=inline), raw: "\"example\"" }
    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:7:1]
  7 | @supports ({"example": 1}) {
    :             ^^^^^^^^^
@@ -682,7 +682,7 @@
     :             ^^^^^^^^^
     `----
 
-  x String { value: Atom('example' type=inline), raw: Atom('"example"' type=dynamic) }
+  x String { value: Atom('example' type=inline), raw: "\"example\"" }
     ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:11:1]
  11 | @supports (("example": 1)) {
     :             ^^^^^^^^^

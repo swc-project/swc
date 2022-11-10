@@ -65,7 +65,7 @@
    :       ^^^^^^
    `----
 
-  x String { value: Atom('test' type=inline), raw: Atom('"test"' type=inline) }
+  x String { value: Atom('test' type=inline), raw: "\"test\"" }
    ,-[$DIR/tests/recovery/selector/attribute/invalid-modifier/input.css:1:1]
  1 | [href="test" "z"] {}
    :       ^^^^^^
@@ -89,7 +89,7 @@
    :              ^^^
    `----
 
-  x String { value: Atom('z' type=inline), raw: Atom('"z"' type=inline) }
+  x String { value: Atom('z' type=inline), raw: "\"z\"" }
    ,-[$DIR/tests/recovery/selector/attribute/invalid-modifier/input.css:1:1]
  1 | [href="test" "z"] {}
    :              ^^^

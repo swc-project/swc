@@ -4075,7 +4075,7 @@
     :              ^^^^^^^
     `----
 
-  x String { value: Atom('a.css' type=inline), raw: Atom('"a.css"' type=inline) }
+  x String { value: Atom('a.css' type=inline), raw: "\"a.css\"" }
     ,-[$DIR/tests/fixture/style-block/input.css:98:1]
  98 | a { @unknown "a.css"; }
     :              ^^^^^^^

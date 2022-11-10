@@ -62,7 +62,7 @@
    :        ^^^^^^^^^^^
    `----
 
-  x String { value: Atom('framework' type=dynamic), raw: Atom('"framework"' type=dynamic) }
+  x String { value: Atom('framework' type=dynamic), raw: "\"framework\"" }
    ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:1:1]
  1 | @layer "framework" {
    :        ^^^^^^^^^^^
