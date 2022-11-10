@@ -1,8 +1,8 @@
 
-  x Unexpected end of file, but expected '{'
+  x Expected '{'
    ,-[$DIR/tests/recovery/declaration/wrong-name/input.css:2:5]
  2 | 20: red;
-   : ^^^^^^^
+   :        ^
    `----
 
   x Unexpected token

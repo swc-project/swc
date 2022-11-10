@@ -362,10 +362,9 @@ where
                 // Otherwise, append a <semicolon-token> to the qualified rule’s prelude.
                 tok!(";") => {
                     if self.ctx.mixed_with_declarations {
-                        return Err(Error::new(
-                            span!(self, span.lo),
-                            ErrorKind::EofButExpected("'{'"),
-                        ));
+                        let span = self.input.cur_span();
+
+                        return Err(Error::new(span, ErrorKind::Expected("'{'")));
                     } else {
                         let component_value = self.parse_as::<ComponentValue>()?;
 
@@ -669,9 +668,7 @@ where
 
                     self.errors.push(Error::new(
                         span,
-                        ErrorKind::Expected(
-                            "whitespace, semicolon, EOF, at-keyword or ident token",
-                        ),
+                        ErrorKind::Expected("whitespace, ';', '@', ident or EOF"),
                     ));
 
                     // For recovery mode
@@ -884,30 +881,31 @@ where
         }
 
         // Grammar parsing
-        let locv = self.create_locv(declaration.value);
+        let list_of_component_values = self.create_locv(declaration.value);
 
-        declaration.value = match self.parse_according_to_grammar(&locv, |parser| {
-            let mut values = vec![];
+        declaration.value =
+            match self.parse_according_to_grammar(&list_of_component_values, |parser| {
+                let mut values = vec![];
 
-            loop {
-                if is!(parser, EOF) {
-                    break;
+                loop {
+                    if is!(parser, EOF) {
+                        break;
+                    }
+
+                    values.push(parser.parse_generic_value()?);
                 }
 
-                values.push(parser.parse_generic_value()?);
-            }
+                Ok(values)
+            }) {
+                Ok(values) => values,
+                Err(err) => {
+                    if *err.kind() != ErrorKind::Ignore {
+                        self.errors.push(err);
+                    }
 
-            Ok(values)
-        }) {
-            Ok(values) => values,
-            Err(err) => {
-                if *err.kind() != ErrorKind::Ignore {
-                    self.errors.push(err);
+                    list_of_component_values.children
                 }
-
-                locv.children
-            }
-        };
+            };
 
         // 8. Return the declaration.
         Ok(declaration)
@@ -1103,6 +1101,7 @@ where
 
         function.span = span!(self, span.lo);
 
+        // Grammar parsing
         match self.ctx.block_contents_grammar {
             BlockContentsGrammar::DeclarationList => {}
             _ => {

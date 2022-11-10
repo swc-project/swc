@@ -1,4 +1,16 @@
 
+  x Expected '{'
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:20:5]
+ 20 | color: blue;
+    :            ^
+    `----
+
+  x Expected '{'
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:29:1]
+ 29 | -->;
+    :    ^
+    `----
+
   x Invalid selector
    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:1:1]
  1 | <!-- 123 -->
@@ -19,26 +31,6 @@
   8 | |   
   9 | `-> -->
  10 |     }
-    `----
-
-  x Unexpected end of file, but expected '{'
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:14:1]
- 14 | ,-> <!--
- 15 | |   
- 16 | |   test
- 17 | |   
- 18 | |   -->
- 19 | |   
- 20 | `->     color: blue;
-    `----
-
-  x Unexpected end of file, but expected '{'
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:25:1]
- 25 | ,-> <!--
- 26 | |   
- 27 | |   test
- 28 | |   
- 29 | `-> -->;
     `----
 
   x Unexpected token

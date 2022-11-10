@@ -23,13 +23,13 @@
     :            ^^^
     `----
 
-  x Expected whitespace, semicolon, EOF, at-keyword or ident token
+  x Expected whitespace, ';', '@', ident or EOF
     ,-[$DIR/tests/recovery/at-rule/font-face/input.css:10:5]
  10 | 123
     : ^^^
     `----
 
-  x Expected whitespace, semicolon, EOF, at-keyword or ident token
+  x Expected whitespace, ';', '@', ident or EOF
     ,-[$DIR/tests/recovery/at-rule/font-face/input.css:14:5]
  14 | 123;
     : ^^^
