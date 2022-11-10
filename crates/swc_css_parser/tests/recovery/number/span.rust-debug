@@ -144,8 +144,7 @@
  3 | `->     prop1: 10px
    `----
 
-  x WhiteSpace { value: Atom('
-  |     ' type=inline) }
+  x WhiteSpace { value: "\n    " }
    ,-[$DIR/tests/recovery/number/input.css:2:5]
  2 | ,-> prop: 10.10px
  3 | `->     prop1: 10px
@@ -181,7 +180,7 @@
    :       ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/number/input.css:3:5]
  3 | prop1: 10px
    :       ^
@@ -205,8 +204,7 @@
  4 | `->     prop2: 10
    `----
 
-  x WhiteSpace { value: Atom('
-  |     ' type=inline) }
+  x WhiteSpace { value: "\n    " }
    ,-[$DIR/tests/recovery/number/input.css:3:5]
  3 | ,-> prop1: 10px
  4 | `->     prop2: 10
@@ -242,7 +240,7 @@
    :       ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/number/input.css:4:5]
  4 | prop2: 10
    :       ^
@@ -266,8 +264,7 @@
  5 | `->     prop3: 10.10
    `----
 
-  x WhiteSpace { value: Atom('
-  |     ' type=inline) }
+  x WhiteSpace { value: "\n    " }
    ,-[$DIR/tests/recovery/number/input.css:4:5]
  4 | ,-> prop2: 10
  5 | `->     prop3: 10.10
@@ -303,7 +300,7 @@
    :       ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/number/input.css:5:5]
  5 | prop3: 10.10
    :       ^

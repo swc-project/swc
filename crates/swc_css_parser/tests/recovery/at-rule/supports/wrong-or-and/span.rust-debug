@@ -35,7 +35,7 @@
    :          ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :          ^
@@ -89,7 +89,7 @@
    :                                ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                ^
@@ -113,7 +113,7 @@
    :                                       ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                       ^
@@ -137,7 +137,7 @@
    :                                          ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                          ^
@@ -191,7 +191,7 @@
    :                                                           ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                                           ^
@@ -215,7 +215,7 @@
    :                                                                ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                                                ^
@@ -239,7 +239,7 @@
    :                                                                    ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                                                    ^
@@ -293,7 +293,7 @@
    :                                                                                ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                                                                ^
@@ -335,7 +335,7 @@
    :                                                                                               ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                                                                               ^

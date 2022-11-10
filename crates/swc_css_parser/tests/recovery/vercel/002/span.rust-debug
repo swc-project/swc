@@ -267,7 +267,7 @@
    :                                             ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/vercel/002/input.css:4:5]
  4 | margin: 0 calc(__styled-jsx-placeholder__7vw - __styled-jsx-placeholder__7px);
    :                                             ^
@@ -291,7 +291,7 @@
    :                                               ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/vercel/002/input.css:4:5]
  4 | margin: 0 calc(__styled-jsx-placeholder__7vw - __styled-jsx-placeholder__7px);
    :                                               ^

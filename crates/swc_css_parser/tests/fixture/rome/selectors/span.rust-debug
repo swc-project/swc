@@ -1455,7 +1455,7 @@
     :                 ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/rome/selectors/input.css:38:1]
  38 | ::pseudo-elem(a, b) {
     :                 ^

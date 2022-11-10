@@ -56,8 +56,7 @@
  2 | a: b;
    `----
 
-  x WhiteSpace { value: Atom('
-  | ' type=inline) }
+  x WhiteSpace { value: "\n" }
    ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:1:1]
  1 | @unknown{
    :          ^
@@ -94,7 +93,7 @@
    :   ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:1]
  2 | a: b;
    :   ^
@@ -131,8 +130,7 @@
  3 | c: d;
    `----
 
-  x WhiteSpace { value: Atom('
-  | ' type=inline) }
+  x WhiteSpace { value: "\n" }
    ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:1]
  2 | a: b;
    :      ^
@@ -169,7 +167,7 @@
    :   ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:3:1]
  3 | c: d;
    :   ^
@@ -206,8 +204,7 @@
  4 | }
    `----
 
-  x WhiteSpace { value: Atom('
-  | ' type=inline) }
+  x WhiteSpace { value: "\n" }
    ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:3:1]
  3 | c: d;
    :      ^

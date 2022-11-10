@@ -89,8 +89,7 @@
  3 | }
    `----
 
-  x WhiteSpace { value: Atom('
-  | ' type=inline) }
+  x WhiteSpace { value: "\n" }
    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:2:5]
  2 | invalid
    :        ^
@@ -231,8 +230,7 @@
  11 | }
     `----
 
-  x WhiteSpace { value: Atom('
-  | ' type=inline) }
+  x WhiteSpace { value: "\n" }
     ,-[$DIR/tests/recovery/at-rule/font-face/input.css:10:5]
  10 | 123
     :    ^
@@ -338,7 +336,7 @@
     :           ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/recovery/at-rule/font-face/input.css:17:1]
  17 | @font-face foo {}
     :           ^
@@ -362,7 +360,7 @@
     :               ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/recovery/at-rule/font-face/input.css:17:1]
  17 | @font-face foo {}
     :               ^
@@ -410,7 +408,7 @@
     :           ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/recovery/at-rule/font-face/input.css:19:1]
  19 | @font-face foo;
     :           ^

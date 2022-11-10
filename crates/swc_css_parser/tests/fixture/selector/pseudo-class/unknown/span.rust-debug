@@ -281,7 +281,7 @@
    :             ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:4:1]
  4 | :unknown(foo bar) {}
    :             ^
@@ -389,7 +389,7 @@
    :              ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:5:1]
  5 | :unknown(foo, bar) {}
    :              ^
@@ -593,7 +593,7 @@
    :              ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:7:1]
  7 | :unknown((foo bar)) {}
    :              ^
@@ -725,7 +725,7 @@
    :               ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:8:1]
  8 | :unknown(((foo bar))) {}
    :               ^
@@ -869,7 +869,7 @@
    :               ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:9:1]
  9 | :unknown({foo: bar}) {}
    :               ^
@@ -1013,7 +1013,7 @@
     :                ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
  10 | :unknown({{foo: bar}}) {}
     :                ^
@@ -1157,7 +1157,7 @@
     :               ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:11:1]
  11 | :unknown({foo: bar !important}) {}
     :               ^
@@ -1181,7 +1181,7 @@
     :                   ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:11:1]
  11 | :unknown({foo: bar !important}) {}
     :                   ^
@@ -1385,7 +1385,7 @@
     :                   ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:13:1]
  13 | :unknown("string", foo) {}
     :                   ^

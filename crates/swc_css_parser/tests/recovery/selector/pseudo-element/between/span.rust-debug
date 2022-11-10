@@ -38,7 +38,7 @@
    :  ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/selector/pseudo-element/between/input.css:1:1]
  1 | : :foo {
    :  ^
@@ -74,7 +74,7 @@
    :       ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/selector/pseudo-element/between/input.css:1:1]
  1 | : :foo {
    :       ^

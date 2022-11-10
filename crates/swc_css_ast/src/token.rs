@@ -5,7 +5,7 @@ use std::{
 
 use is_macro::Is;
 use serde::{Deserialize, Serialize};
-use swc_atoms::JsWord;
+use swc_atoms::{Atom, JsWord};
 use swc_common::{ast_node, EqIgnoreSpan, Span};
 
 #[ast_node("PreservedToken")]
@@ -145,8 +145,7 @@ pub enum Token {
 
     /// One or more whitespace.
     WhiteSpace {
-        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-        value: JsWord,
+        value: Atom,
     },
 
     /// `<!--`

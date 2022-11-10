@@ -2455,7 +2455,7 @@
     :             ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/csstree/1/input.css:27:9]
  27 | --custom1: { something !important };
     :             ^
@@ -2479,7 +2479,7 @@
     :                       ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/csstree/1/input.css:27:9]
  27 | --custom1: { something !important };
     :                       ^
@@ -2515,7 +2515,7 @@
     :                                  ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/csstree/1/input.css:27:9]
  27 | --custom1: { something !important };
     :                                  ^

@@ -5558,7 +5558,7 @@
     :                 ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:65:1]
  65 | @supports (ident "str") {
     :                 ^
@@ -5771,7 +5771,7 @@
     :                  ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:69:1]
  69 | @supports ((ident "str")) {
     :                  ^
@@ -5990,7 +5990,7 @@
     :                   ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:73:1]
  73 | @supports func(10, 20, 40) {
     :                   ^
@@ -6026,7 +6026,7 @@
     :                       ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:73:1]
  73 | @supports func(10, 20, 40) {
     :                       ^
@@ -6251,7 +6251,7 @@
     :                    ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:77:1]
  77 | @supports (func(10, 20, 40)) {
     :                    ^
@@ -6287,7 +6287,7 @@
     :                        ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:77:1]
  77 | @supports (func(10, 20, 40)) {
     :                        ^
@@ -6488,7 +6488,7 @@
     :                    ^^^
     `----
 
-  x WhiteSpace { value: Atom('   ' type=inline) }
+  x WhiteSpace { value: "   " }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:81:1]
  81 | @supports (   func(   10   ,   20   ,   40   )  ) {
     :                    ^^^
@@ -6512,7 +6512,7 @@
     :                         ^^^
     `----
 
-  x WhiteSpace { value: Atom('   ' type=inline) }
+  x WhiteSpace { value: "   " }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:81:1]
  81 | @supports (   func(   10   ,   20   ,   40   )  ) {
     :                         ^^^
@@ -6536,7 +6536,7 @@
     :                             ^^^
     `----
 
-  x WhiteSpace { value: Atom('   ' type=inline) }
+  x WhiteSpace { value: "   " }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:81:1]
  81 | @supports (   func(   10   ,   20   ,   40   )  ) {
     :                             ^^^
@@ -6560,7 +6560,7 @@
     :                                  ^^^
     `----
 
-  x WhiteSpace { value: Atom('   ' type=inline) }
+  x WhiteSpace { value: "   " }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:81:1]
  81 | @supports (   func(   10   ,   20   ,   40   )  ) {
     :                                  ^^^
@@ -6584,7 +6584,7 @@
     :                                      ^^^
     `----
 
-  x WhiteSpace { value: Atom('   ' type=inline) }
+  x WhiteSpace { value: "   " }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:81:1]
  81 | @supports (   func(   10   ,   20   ,   40   )  ) {
     :                                      ^^^
@@ -6608,7 +6608,7 @@
     :                                           ^^^
     `----
 
-  x WhiteSpace { value: Atom('   ' type=inline) }
+  x WhiteSpace { value: "   " }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:81:1]
  81 | @supports (   func(   10   ,   20   ,   40   )  ) {
     :                                           ^^^
@@ -6897,7 +6897,7 @@
     :                  ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:86:5]
  86 | @-custom-keyframe anim {
     :                  ^
@@ -6921,7 +6921,7 @@
     :                       ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:86:5]
  86 | @-custom-keyframe anim {
     :                       ^
@@ -6951,8 +6951,7 @@
  87 | `->         from {
     `----
 
-  x WhiteSpace { value: Atom('
-  |         ' type=dynamic) }
+  x WhiteSpace { value: "\n        " }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:86:5]
  86 | ,-> @-custom-keyframe anim {
  87 | `->         from {
@@ -6976,7 +6975,7 @@
     :     ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:87:9]
  87 | from {
     :     ^
@@ -7008,8 +7007,7 @@
  88 | `->             color: black;
     `----
 
-  x WhiteSpace { value: Atom('
-  |             ' type=dynamic) }
+  x WhiteSpace { value: "\n            " }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:87:9]
  87 | ,-> from {
  88 | `->             color: black;
@@ -7045,7 +7043,7 @@
     :       ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:88:13]
  88 | color: black;
     :       ^
@@ -7081,8 +7079,7 @@
  89 | `->         }
     `----
 
-  x WhiteSpace { value: Atom('
-  |         ' type=dynamic) }
+  x WhiteSpace { value: "\n        " }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:88:13]
  88 | ,-> color: black;
  89 | `->         }
@@ -7094,8 +7091,7 @@
  90 | `->         to {
     `----
 
-  x WhiteSpace { value: Atom('
-  |         ' type=dynamic) }
+  x WhiteSpace { value: "\n        " }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:89:9]
  89 | ,-> }
  90 | `->         to {
@@ -7119,7 +7115,7 @@
     :   ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:90:9]
  90 | to {
     :   ^
@@ -7151,8 +7147,7 @@
  91 | `->             color: white
     `----
 
-  x WhiteSpace { value: Atom('
-  |             ' type=dynamic) }
+  x WhiteSpace { value: "\n            " }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:90:9]
  90 | ,-> to {
  91 | `->             color: white
@@ -7188,7 +7183,7 @@
     :       ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:91:13]
  91 | color: white
     :       ^
@@ -7212,8 +7207,7 @@
  92 | `->         }
     `----
 
-  x WhiteSpace { value: Atom('
-  |         ' type=dynamic) }
+  x WhiteSpace { value: "\n        " }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:91:13]
  91 | ,-> color: white
  92 | `->         }
@@ -7225,8 +7219,7 @@
  93 | `->     }
     `----
 
-  x WhiteSpace { value: Atom('
-  |     ' type=inline) }
+  x WhiteSpace { value: "\n    " }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:92:9]
  92 | ,-> }
  93 | `->     }
@@ -8898,7 +8891,7 @@
      :                  ^
      `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:123:5]
  123 | @-custom-keyframe anim {
      :                  ^
@@ -8922,7 +8915,7 @@
      :                       ^
      `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:123:5]
  123 | @-custom-keyframe anim {
      :                       ^
@@ -8952,8 +8945,7 @@
  124 | `->         from {
      `----
 
-  x WhiteSpace { value: Atom('
-  |         ' type=dynamic) }
+  x WhiteSpace { value: "\n        " }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:123:5]
  123 | ,-> @-custom-keyframe anim {
  124 | `->         from {
@@ -8977,7 +8969,7 @@
      :     ^
      `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:124:9]
  124 | from {
      :     ^
@@ -9009,8 +9001,7 @@
  125 | `->             color: black;
      `----
 
-  x WhiteSpace { value: Atom('
-  |             ' type=dynamic) }
+  x WhiteSpace { value: "\n            " }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:124:9]
  124 | ,-> from {
  125 | `->             color: black;
@@ -9046,7 +9037,7 @@
      :       ^
      `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:125:13]
  125 | color: black;
      :       ^
@@ -9082,8 +9073,7 @@
  126 | `->         }
      `----
 
-  x WhiteSpace { value: Atom('
-  |         ' type=dynamic) }
+  x WhiteSpace { value: "\n        " }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:125:13]
  125 | ,-> color: black;
  126 | `->         }
@@ -9095,8 +9085,7 @@
  127 | `->         to {
      `----
 
-  x WhiteSpace { value: Atom('
-  |         ' type=dynamic) }
+  x WhiteSpace { value: "\n        " }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:126:9]
  126 | ,-> }
  127 | `->         to {
@@ -9120,7 +9109,7 @@
      :   ^
      `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:127:9]
  127 | to {
      :   ^
@@ -9152,8 +9141,7 @@
  128 | `->             color: white
      `----
 
-  x WhiteSpace { value: Atom('
-  |             ' type=dynamic) }
+  x WhiteSpace { value: "\n            " }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:127:9]
  127 | ,-> to {
  128 | `->             color: white
@@ -9189,7 +9177,7 @@
      :       ^
      `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:128:13]
  128 | color: white
      :       ^
@@ -9213,8 +9201,7 @@
  129 | `->         }
      `----
 
-  x WhiteSpace { value: Atom('
-  |         ' type=dynamic) }
+  x WhiteSpace { value: "\n        " }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:128:13]
  128 | ,-> color: white
  129 | `->         }
@@ -9226,8 +9213,7 @@
  130 | `->     }
      `----
 
-  x WhiteSpace { value: Atom('
-  |     ' type=inline) }
+  x WhiteSpace { value: "\n    " }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:129:9]
  129 | ,-> }
  130 | `->     }
@@ -9921,7 +9907,7 @@
      :                           ^
      `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:145:1]
  145 | @supports (func("example": 1)) {
      :                           ^
@@ -10666,7 +10652,7 @@
      :                              ^
      `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:159:1]
  159 | @supports (   func("example": 1)   ) {
      :                              ^
@@ -10861,7 +10847,7 @@
      :            ^^^
      `----
 
-  x WhiteSpace { value: Atom('   ' type=inline) }
+  x WhiteSpace { value: "   " }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:163:1]
  163 | @supports (   --var   ) {
      :            ^^^
@@ -10885,7 +10871,7 @@
      :                    ^^^
      `----
 
-  x WhiteSpace { value: Atom('   ' type=inline) }
+  x WhiteSpace { value: "   " }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:163:1]
  163 | @supports (   --var   ) {
      :                    ^^^
@@ -11068,7 +11054,7 @@
      :            ^^^
      `----
 
-  x WhiteSpace { value: Atom('   ' type=inline) }
+  x WhiteSpace { value: "   " }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:167:1]
  167 | @supports (   --var   "test"   ) {
      :            ^^^
@@ -11092,7 +11078,7 @@
      :                    ^^^
      `----
 
-  x WhiteSpace { value: Atom('   ' type=inline) }
+  x WhiteSpace { value: "   " }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:167:1]
  167 | @supports (   --var   "test"   ) {
      :                    ^^^
@@ -11116,7 +11102,7 @@
      :                             ^^^
      `----
 
-  x WhiteSpace { value: Atom('   ' type=inline) }
+  x WhiteSpace { value: "   " }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:167:1]
  167 | @supports (   --var   "test"   ) {
      :                             ^^^

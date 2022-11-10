@@ -165,7 +165,7 @@
    :             ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/function/base/input.css:2:5]
  2 | prop: func(1 + 2);
    :             ^
@@ -189,7 +189,7 @@
    :               ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/function/base/input.css:2:5]
  2 | prop: func(1 + 2);
    :               ^
@@ -345,7 +345,7 @@
    :             ^^^
    `----
 
-  x WhiteSpace { value: Atom('   ' type=inline) }
+  x WhiteSpace { value: "   " }
    ,-[$DIR/tests/recovery/function/base/input.css:4:5]
  4 | prop: func3(   ident.ident   );
    :             ^^^
@@ -393,7 +393,7 @@
    :                           ^^^
    `----
 
-  x WhiteSpace { value: Atom('   ' type=inline) }
+  x WhiteSpace { value: "   " }
    ,-[$DIR/tests/recovery/function/base/input.css:4:5]
  4 | prop: func3(   ident.ident   );
    :                           ^^^
@@ -663,7 +663,7 @@
    :             ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/function/base/input.css:7:5]
  7 | prop: func({ foo: bar });
    :             ^
@@ -699,7 +699,7 @@
    :                  ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/function/base/input.css:7:5]
  7 | prop: func({ foo: bar });
    :                  ^
@@ -723,7 +723,7 @@
    :                      ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/function/base/input.css:7:5]
  7 | prop: func({ foo: bar });
    :                      ^

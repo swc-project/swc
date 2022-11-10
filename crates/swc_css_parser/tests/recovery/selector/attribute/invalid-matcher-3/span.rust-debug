@@ -68,7 +68,7 @@
    :        ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-3/input.css:1:1]
  1 | a[title * = "title" i ] {
    :        ^
@@ -92,7 +92,7 @@
    :          ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-3/input.css:1:1]
  1 | a[title * = "title" i ] {
    :          ^
@@ -116,7 +116,7 @@
    :            ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-3/input.css:1:1]
  1 | a[title * = "title" i ] {
    :            ^
@@ -140,7 +140,7 @@
    :                    ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-3/input.css:1:1]
  1 | a[title * = "title" i ] {
    :                    ^
@@ -164,7 +164,7 @@
    :                      ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-3/input.css:1:1]
  1 | a[title * = "title" i ] {
    :                      ^
@@ -176,7 +176,7 @@
    :                        ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-3/input.css:1:1]
  1 | a[title * = "title" i ] {
    :                        ^

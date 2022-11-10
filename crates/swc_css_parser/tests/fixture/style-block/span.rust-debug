@@ -3714,7 +3714,7 @@
     :       ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/style-block/input.css:91:5]
  91 | @mixin mobile {
     :       ^
@@ -3738,7 +3738,7 @@
     :              ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/style-block/input.css:91:5]
  91 | @mixin mobile {
     :              ^
@@ -3763,8 +3763,7 @@
  92 | `->         height: 100px;
     `----
 
-  x WhiteSpace { value: Atom('
-  |         ' type=dynamic) }
+  x WhiteSpace { value: "\n        " }
     ,-[$DIR/tests/fixture/style-block/input.css:91:5]
  91 | ,-> @mixin mobile {
  92 | `->         height: 100px;
@@ -3800,7 +3799,7 @@
     :        ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/style-block/input.css:92:9]
  92 | height: 100px;
     :        ^
@@ -3836,8 +3835,7 @@
  93 | `->     }
     `----
 
-  x WhiteSpace { value: Atom('
-  |     ' type=inline) }
+  x WhiteSpace { value: "\n    " }
     ,-[$DIR/tests/fixture/style-block/input.css:92:9]
  92 | ,-> height: 100px;
  93 | `->     }
@@ -4065,7 +4063,7 @@
     :             ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/style-block/input.css:98:1]
  98 | a { @unknown "a.css"; }
     :             ^
@@ -4185,7 +4183,7 @@
      :             ^
      `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/style-block/input.css:100:1]
  100 | a { @unknown foo {} }
      :             ^
@@ -4209,7 +4207,7 @@
      :                 ^
      `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/style-block/input.css:100:1]
  100 | a { @unknown foo {} }
      :                 ^
@@ -4444,8 +4442,7 @@
  107 | `->         width: 0;
      `----
 
-  x WhiteSpace { value: Atom('
-  |         ' type=dynamic) }
+  x WhiteSpace { value: "\n        " }
      ,-[$DIR/tests/fixture/style-block/input.css:106:5]
  106 | ,-> --zero-size: {
  107 | `->         width: 0;
@@ -4481,7 +4478,7 @@
      :       ^
      `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/style-block/input.css:107:9]
  107 | width: 0;
      :       ^
@@ -4517,8 +4514,7 @@
  108 | `->         height: 0;
      `----
 
-  x WhiteSpace { value: Atom('
-  |         ' type=dynamic) }
+  x WhiteSpace { value: "\n        " }
      ,-[$DIR/tests/fixture/style-block/input.css:107:9]
  107 | ,-> width: 0;
  108 | `->         height: 0;
@@ -4554,7 +4550,7 @@
      :        ^
      `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/style-block/input.css:108:9]
  108 | height: 0;
      :        ^
@@ -4590,8 +4586,7 @@
  109 | `->     };
      `----
 
-  x WhiteSpace { value: Atom('
-  |     ' type=inline) }
+  x WhiteSpace { value: "\n    " }
      ,-[$DIR/tests/fixture/style-block/input.css:108:9]
  108 | ,-> height: 0;
  109 | `->     };
@@ -4664,8 +4659,7 @@
  111 | `->         width: 16px;
      `----
 
-  x WhiteSpace { value: Atom('
-  |         ' type=dynamic) }
+  x WhiteSpace { value: "\n        " }
      ,-[$DIR/tests/fixture/style-block/input.css:110:5]
  110 | ,-> --small-icon: {
  111 | `->         width: 16px;
@@ -4701,7 +4695,7 @@
      :       ^
      `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/style-block/input.css:111:9]
  111 | width: 16px;
      :       ^
@@ -4737,8 +4731,7 @@
  112 | `->         height: 16px;
      `----
 
-  x WhiteSpace { value: Atom('
-  |         ' type=dynamic) }
+  x WhiteSpace { value: "\n        " }
      ,-[$DIR/tests/fixture/style-block/input.css:111:9]
  111 | ,-> width: 16px;
  112 | `->         height: 16px;
@@ -4774,7 +4767,7 @@
      :        ^
      `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/style-block/input.css:112:9]
  112 | height: 16px;
      :        ^
@@ -4810,8 +4803,7 @@
  113 | `->     }
      `----
 
-  x WhiteSpace { value: Atom('
-  |     ' type=inline) }
+  x WhiteSpace { value: "\n    " }
      ,-[$DIR/tests/fixture/style-block/input.css:112:9]
  112 | ,-> height: 16px;
  113 | `->     }

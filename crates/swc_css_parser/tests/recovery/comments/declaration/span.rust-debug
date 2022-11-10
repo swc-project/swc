@@ -148,7 +148,7 @@
    :                  ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/comments/declaration/input.css:2:5]
  2 | prop: url("test") /* comment */   /* comment */
    :                  ^
@@ -160,7 +160,7 @@
    :                                ^^^
    `----
 
-  x WhiteSpace { value: Atom('   ' type=inline) }
+  x WhiteSpace { value: "   " }
    ,-[$DIR/tests/recovery/comments/declaration/input.css:2:5]
  2 | prop: url("test") /* comment */   /* comment */
    :                                ^^^
@@ -172,8 +172,7 @@
  3 | `->         /* comment */:
    `----
 
-  x WhiteSpace { value: Atom('
-  |         ' type=dynamic) }
+  x WhiteSpace { value: "\n        " }
    ,-[$DIR/tests/recovery/comments/declaration/input.css:2:5]
  2 | ,-> prop: url("test") /* comment */   /* comment */
  3 | `->         /* comment */:

@@ -148,8 +148,7 @@
  3 | `->     t";
    `----
 
-  x WhiteSpace { value: Atom('
-  |     ' type=inline) }
+  x WhiteSpace { value: "\n    " }
    ,-[$DIR/tests/recovery/value/quotes/input.css:2:5]
  2 | ,-> content: "tes
  3 | `->     t";

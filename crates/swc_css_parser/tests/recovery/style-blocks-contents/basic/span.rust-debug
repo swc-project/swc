@@ -313,8 +313,7 @@
  6 | `->         color: green;
    `----
 
-  x WhiteSpace { value: Atom('
-  |         ' type=dynamic) }
+  x WhiteSpace { value: "\n        " }
    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:5:9]
  5 | ,-> ident
  6 | `->         color: green;
@@ -350,7 +349,7 @@
    :       ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:6:9]
  6 | color: green;
    :       ^
@@ -684,8 +683,7 @@
  14 | `->             color: red
     `----
 
-  x WhiteSpace { value: Atom('
-  |             ' type=dynamic) }
+  x WhiteSpace { value: "\n            " }
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:13:13]
  13 | ,-> ident
  14 | `->             color: red
@@ -721,7 +719,7 @@
     :       ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:14:13]
  14 | color: red
     :       ^
@@ -745,8 +743,7 @@
  15 | `->         }
     `----
 
-  x WhiteSpace { value: Atom('
-  |         ' type=dynamic) }
+  x WhiteSpace { value: " \n        " }
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:14:13]
  14 | ,-> color: red 
  15 | `->         }
@@ -1551,7 +1548,7 @@
     :  ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:39:5]
  39 | & test;
     :  ^
@@ -1762,8 +1759,7 @@
  46 | `->     }
     `----
 
-  x WhiteSpace { value: Atom('
-  |     ' type=inline) }
+  x WhiteSpace { value: "\n    " }
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:45:9]
  45 | ,-> __ident__
  46 | `->     }

@@ -124,7 +124,7 @@
    :                                  ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:1:1]
  1 | @supports (--element(".minwidth", { "minWidth": 300 })) {
    :                                  ^
@@ -154,7 +154,7 @@
    :                                    ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:1:1]
  1 | @supports (--element(".minwidth", { "minWidth": 300 })) {
    :                                    ^
@@ -190,7 +190,7 @@
    :                                                ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:1:1]
  1 | @supports (--element(".minwidth", { "minWidth": 300 })) {
    :                                                ^
@@ -214,7 +214,7 @@
    :                                                    ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:1:1]
  1 | @supports (--element(".minwidth", { "minWidth": 300 })) {
    :                                                    ^
@@ -385,7 +385,7 @@
    :          ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:7:1]
  7 | @supports ({"example": 1}) {
    :          ^
@@ -457,7 +457,7 @@
    :                       ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:7:1]
  7 | @supports ({"example": 1}) {
    :                       ^
@@ -481,7 +481,7 @@
    :                           ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:7:1]
  7 | @supports ({"example": 1}) {
    :                           ^
@@ -634,7 +634,7 @@
     :          ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:11:1]
  11 | @supports (("example": 1)) {
     :          ^
@@ -706,7 +706,7 @@
     :                       ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:11:1]
  11 | @supports (("example": 1)) {
     :                       ^
@@ -730,7 +730,7 @@
     :                           ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:11:1]
  11 | @supports (("example": 1)) {
     :                           ^
@@ -883,7 +883,7 @@
     :          ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:15:1]
  15 | @supports ([]) {
     :          ^
@@ -931,7 +931,7 @@
     :               ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:15:1]
  15 | @supports ([]) {
     :               ^
@@ -1084,7 +1084,7 @@
     :          ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:19:1]
  19 | @supports ([color: red]) {
     :          ^
@@ -1156,7 +1156,7 @@
     :                   ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:19:1]
  19 | @supports ([color: red]) {
     :                   ^
@@ -1180,7 +1180,7 @@
     :                         ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:19:1]
  19 | @supports ([color: red]) {
     :                         ^
@@ -1333,7 +1333,7 @@
     :          ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
     :          ^
@@ -1471,7 +1471,7 @@
     :                  ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
     :                  ^
@@ -1525,7 +1525,7 @@
     :                                ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
     :                                ^
@@ -1555,7 +1555,7 @@
     :                                  ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
     :                                  ^
@@ -1579,7 +1579,7 @@
     :                                      ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
     :                                      ^
@@ -1591,7 +1591,7 @@
     :                                         ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
     :                                         ^
@@ -1603,7 +1603,7 @@
     :                                                 ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
     :                                                 ^

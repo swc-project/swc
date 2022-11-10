@@ -71,7 +71,7 @@
    :     ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/selector/pseudo-element/invalid/input.css:1:1]
  1 | a::1 {
    :     ^

@@ -2,7 +2,7 @@
 #![deny(clippy::all)]
 #![allow(clippy::ptr_arg)]
 
-use swc_atoms::JsWord;
+use swc_atoms::{Atom, JsWord};
 use swc_common::Span;
 use swc_css_ast::*;
 use swc_visit::define;

@@ -35,7 +35,7 @@
    :       ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/media/condition/input.css:1:1]
  1 | @media (update: slow) unknown (hover: none) {}
    :       ^
@@ -89,7 +89,7 @@
    :                ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/media/condition/input.css:1:1]
  1 | @media (update: slow) unknown (hover: none) {}
    :                ^
@@ -113,7 +113,7 @@
    :                      ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/media/condition/input.css:1:1]
  1 | @media (update: slow) unknown (hover: none) {}
    :                      ^
@@ -137,7 +137,7 @@
    :                              ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/media/condition/input.css:1:1]
  1 | @media (update: slow) unknown (hover: none) {}
    :                              ^
@@ -191,7 +191,7 @@
    :                                      ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/media/condition/input.css:1:1]
  1 | @media (update: slow) unknown (hover: none) {}
    :                                      ^
@@ -215,7 +215,7 @@
    :                                            ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/media/condition/input.css:1:1]
  1 | @media (update: slow) unknown (hover: none) {}
    :                                            ^

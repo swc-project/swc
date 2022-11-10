@@ -560,7 +560,7 @@
    :                  ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/fixture/function/calc/input.css:6:5]
  6 | --width: calc(10% + 30px);
    :                  ^
@@ -584,7 +584,7 @@
    :                    ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/fixture/function/calc/input.css:6:5]
  6 | --width: calc(10% + 30px);
    :                    ^

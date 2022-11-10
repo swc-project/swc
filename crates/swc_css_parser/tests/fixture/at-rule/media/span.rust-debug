@@ -16470,7 +16470,7 @@
      :               ^
      `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/at-rule/media/input.css:142:1]
  142 | @media (height << 600px) {}
      :               ^
@@ -16506,7 +16506,7 @@
      :                  ^
      `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/at-rule/media/input.css:142:1]
  142 | @media (height << 600px) {}
      :                  ^
@@ -16620,7 +16620,7 @@
      :               ^
      `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/at-rule/media/input.css:143:1]
  143 | @media (height foo bar) {}
      :               ^
@@ -16644,7 +16644,7 @@
      :                   ^
      `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/at-rule/media/input.css:143:1]
  143 | @media (height foo bar) {}
      :                   ^
@@ -16758,7 +16758,7 @@
      :               ^
      `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/at-rule/media/input.css:144:1]
  144 | @media (height foo("bar")) {}
      :               ^
@@ -16890,7 +16890,7 @@
      :               ^
      `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/at-rule/media/input.css:145:1]
  145 | @media (height + 600px) {}
      :               ^
@@ -16914,7 +16914,7 @@
      :                 ^
      `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/at-rule/media/input.css:145:1]
  145 | @media (height + 600px) {}
      :                 ^
@@ -17058,7 +17058,7 @@
      :                              ^
      `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/at-rule/media/input.css:146:1]
  146 | @media screen and (min-width: ) {}
      :                              ^
@@ -17172,7 +17172,7 @@
      :                      ^
      `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/at-rule/media/input.css:147:1]
  147 | @media (aspect-ratio: 12/) {}
      :                      ^

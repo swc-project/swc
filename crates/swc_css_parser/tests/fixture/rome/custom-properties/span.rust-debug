@@ -653,7 +653,7 @@
     :                 ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/rome/custom-properties/input.css:12:5]
  12 | --parentheses: ( );
     :                 ^
@@ -713,7 +713,7 @@
     :            ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/rome/custom-properties/input.css:13:5]
  13 | --braces: { };
     :            ^
@@ -773,7 +773,7 @@
     :              ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/rome/custom-properties/input.css:14:5]
  14 | --brackets: [ ];
     :              ^
@@ -911,7 +911,7 @@
     :                                    ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/rome/custom-properties/input.css:17:5]
  17 | --at-keyword-unknown-block: @foobar {};
     :                                    ^
@@ -983,7 +983,7 @@
     :                                 ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/rome/custom-properties/input.css:18:5]
  18 | --at-keyword-known-block: @media {};
     :                                 ^

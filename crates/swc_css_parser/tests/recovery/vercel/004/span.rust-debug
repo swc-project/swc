@@ -189,8 +189,7 @@
  4 | `->     border-radius: 7px;
    `----
 
-  x WhiteSpace { value: Atom('
-  |     ' type=inline) }
+  x WhiteSpace { value: "\n    " }
    ,-[$DIR/tests/recovery/vercel/004/input.css:3:5]
  3 | ,-> __ident__
  4 | `->     border-radius: 7px;
@@ -226,7 +225,7 @@
    :               ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/vercel/004/input.css:4:5]
  4 | border-radius: 7px;
    :               ^
@@ -372,8 +371,7 @@
  8 | `->     __ident__
    `----
 
-  x WhiteSpace { value: Atom('
-  |     ' type=inline) }
+  x WhiteSpace { value: "\n    " }
    ,-[$DIR/tests/recovery/vercel/004/input.css:7:5]
  7 | ,-> __ident__
  8 | `->     __ident__
@@ -398,8 +396,7 @@
  9 | }
    `----
 
-  x WhiteSpace { value: Atom('
-  | ' type=inline) }
+  x WhiteSpace { value: "\n" }
    ,-[$DIR/tests/recovery/vercel/004/input.css:8:5]
  8 | __ident__
    :          ^

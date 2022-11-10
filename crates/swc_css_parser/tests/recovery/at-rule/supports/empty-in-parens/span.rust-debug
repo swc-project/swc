@@ -38,7 +38,7 @@
    :          ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:1:1]
  1 | @supports (      ) {
    :          ^
@@ -68,7 +68,7 @@
    :            ^^^^^^
    `----
 
-  x WhiteSpace { value: Atom('      ' type=inline) }
+  x WhiteSpace { value: "      " }
    ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:1:1]
  1 | @supports (      ) {
    :            ^^^^^^
@@ -80,7 +80,7 @@
    :                   ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:1:1]
  1 | @supports (      ) {
    :                   ^

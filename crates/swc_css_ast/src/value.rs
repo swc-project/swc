@@ -5,7 +5,7 @@ use std::{
 
 use is_macro::Is;
 use string_enum::StringEnum;
-use swc_atoms::JsWord;
+use swc_atoms::{Atom, JsWord};
 use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span};
 
 use crate::Function;

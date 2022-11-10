@@ -202,8 +202,7 @@
  3 | }
    `----
 
-  x WhiteSpace { value: Atom('
-  | ' type=inline) }
+  x WhiteSpace { value: "\n" }
    ,-[$DIR/tests/recovery/simple-block/unclosed-in-function/input.css:2:5]
  2 | grid-template-columns: repeat(4, [col-start);
    :                                              ^
@@ -228,8 +227,7 @@
    :  ^
    `----
 
-  x WhiteSpace { value: Atom('
-  | ' type=inline) }
+  x WhiteSpace { value: "\n" }
    ,-[$DIR/tests/recovery/simple-block/unclosed-in-function/input.css:3:1]
  3 | }
    :  ^

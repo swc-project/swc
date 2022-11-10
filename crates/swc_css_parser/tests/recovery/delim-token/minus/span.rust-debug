@@ -173,7 +173,7 @@
    :         ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/delim-token/minus/input.css:3:5]
  3 | prop1: 1 - 2;
    :         ^
@@ -197,7 +197,7 @@
    :           ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/delim-token/minus/input.css:3:5]
  3 | prop1: 1 - 2;
    :           ^
@@ -281,7 +281,7 @@
    :              ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/delim-token/minus/input.css:4:5]
  4 | prop2: func(1 - 2);
    :              ^
@@ -305,7 +305,7 @@
    :                ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/delim-token/minus/input.css:4:5]
  4 | prop2: func(1 - 2);
    :                ^

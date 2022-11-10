@@ -122,7 +122,7 @@
    :         ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:2:1]
  2 | @unknown x y;
    :         ^
@@ -146,7 +146,7 @@
    :           ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:2:1]
  2 | @unknown x y;
    :           ^
@@ -194,7 +194,7 @@
    :         ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:3:1]
  3 | @unknown "blah";
    :         ^
@@ -242,7 +242,7 @@
    :         ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:4:1]
  4 | @unknown \"blah\";
    :         ^
@@ -290,7 +290,7 @@
    :         ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:5:1]
  5 | @unknown /*test*/;
    :         ^
@@ -326,7 +326,7 @@
    :         ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:6:1]
  6 | @unknown /*test*/x/*test*/ y;
    :         ^
@@ -350,7 +350,7 @@
    :                           ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:6:1]
  6 | @unknown /*test*/x/*test*/ y;
    :                           ^
@@ -398,7 +398,7 @@
    :         ^^
    `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:7:1]
  7 | @unknown  ;
    :         ^^
@@ -434,7 +434,7 @@
    :         ^^
    `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:8:1]
  8 | @unknown  x  y;
    :         ^^
@@ -458,7 +458,7 @@
    :            ^^
    `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:8:1]
  8 | @unknown  x  y;
    :            ^^
@@ -506,7 +506,7 @@
     :         ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:10:1]
  10 | @unknown {}
     :         ^
@@ -554,7 +554,7 @@
     :          ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:11:1]
  11 | @\unknown {}
     :          ^
@@ -602,7 +602,7 @@
     :         ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:12:1]
  12 | @unknown a b {}
     :         ^
@@ -626,7 +626,7 @@
     :           ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:12:1]
  12 | @unknown a b {}
     :           ^
@@ -650,7 +650,7 @@
     :             ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:12:1]
  12 | @unknown a b {}
     :             ^
@@ -698,7 +698,7 @@
     :         ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:13:1]
  13 | @unknown {p:v}
     :         ^
@@ -782,7 +782,7 @@
     :         ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:14:1]
  14 | @unknown x y {p:v}
     :         ^
@@ -806,7 +806,7 @@
     :           ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:14:1]
  14 | @unknown x y {p:v}
     :           ^
@@ -830,7 +830,7 @@
     :             ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:14:1]
  14 | @unknown x y {p:v}
     :             ^
@@ -914,7 +914,7 @@
     :         ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:15:1]
  15 | @unknown x, y x(1) {p:v}
     :         ^
@@ -950,7 +950,7 @@
     :            ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:15:1]
  15 | @unknown x, y x(1) {p:v}
     :            ^
@@ -974,7 +974,7 @@
     :              ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:15:1]
  15 | @unknown x, y x(1) {p:v}
     :              ^
@@ -1016,7 +1016,7 @@
     :                   ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:15:1]
  15 | @unknown x, y x(1) {p:v}
     :                   ^
@@ -1100,7 +1100,7 @@
     :         ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:16:1]
  16 | @unknown x, y x(1+2) {p:v}
     :         ^
@@ -1136,7 +1136,7 @@
     :            ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:16:1]
  16 | @unknown x, y x(1+2) {p:v}
     :            ^
@@ -1160,7 +1160,7 @@
     :              ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:16:1]
  16 | @unknown x, y x(1+2) {p:v}
     :              ^
@@ -1214,7 +1214,7 @@
     :                     ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:16:1]
  16 | @unknown x, y x(1+2) {p:v}
     :                     ^
@@ -1370,7 +1370,7 @@
     :         ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:18:1]
  18 | @unknown /*test*/x/*test*/ y/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
     :         ^
@@ -1394,7 +1394,7 @@
     :                           ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:18:1]
  18 | @unknown /*test*/x/*test*/ y/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}
     :                           ^
@@ -1490,7 +1490,7 @@
     :         ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:20:1]
  20 | @unknown  {  p  :  v  }
     :         ^^
@@ -1514,7 +1514,7 @@
     :            ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:20:1]
  20 | @unknown  {  p  :  v  }
     :            ^^
@@ -1538,7 +1538,7 @@
     :               ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:20:1]
  20 | @unknown  {  p  :  v  }
     :               ^^
@@ -1562,7 +1562,7 @@
     :                  ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:20:1]
  20 | @unknown  {  p  :  v  }
     :                  ^^
@@ -1586,7 +1586,7 @@
     :                     ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:20:1]
  20 | @unknown  {  p  :  v  }
     :                     ^^
@@ -1622,7 +1622,7 @@
     :         ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:21:1]
  21 | @unknown  x  y  {  p  :  v  }
     :         ^^
@@ -1646,7 +1646,7 @@
     :            ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:21:1]
  21 | @unknown  x  y  {  p  :  v  }
     :            ^^
@@ -1670,7 +1670,7 @@
     :               ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:21:1]
  21 | @unknown  x  y  {  p  :  v  }
     :               ^^
@@ -1694,7 +1694,7 @@
     :                  ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:21:1]
  21 | @unknown  x  y  {  p  :  v  }
     :                  ^^
@@ -1718,7 +1718,7 @@
     :                     ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:21:1]
  21 | @unknown  x  y  {  p  :  v  }
     :                     ^^
@@ -1742,7 +1742,7 @@
     :                        ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:21:1]
  21 | @unknown  x  y  {  p  :  v  }
     :                        ^^
@@ -1766,7 +1766,7 @@
     :                           ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:21:1]
  21 | @unknown  x  y  {  p  :  v  }
     :                           ^^
@@ -1802,7 +1802,7 @@
     :         ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
  22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
     :         ^^
@@ -1826,7 +1826,7 @@
     :            ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
  22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
     :            ^^
@@ -1850,7 +1850,7 @@
     :               ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
  22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
     :               ^^
@@ -1874,7 +1874,7 @@
     :                  ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
  22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
     :                  ^^
@@ -1904,7 +1904,7 @@
     :                      ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
  22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
     :                      ^^
@@ -1928,7 +1928,7 @@
     :                         ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
  22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
     :                         ^^
@@ -1952,7 +1952,7 @@
     :                            ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
  22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
     :                            ^^
@@ -1976,7 +1976,7 @@
     :                               ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
  22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
     :                               ^^
@@ -1988,7 +1988,7 @@
     :                                  ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
  22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
     :                                  ^^
@@ -2012,7 +2012,7 @@
     :                                     ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
  22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
     :                                     ^^
@@ -2036,7 +2036,7 @@
     :                                        ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
  22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
     :                                        ^^
@@ -2060,7 +2060,7 @@
     :                                           ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
  22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
     :                                           ^^
@@ -2084,7 +2084,7 @@
     :                                              ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:22:1]
  22 | @unknown  x  ,  y  x(  1  +  2  )  {  p  :  v  }
     :                                              ^^
@@ -2120,7 +2120,7 @@
     :         ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:24:1]
  24 | @unknown {s{p:v}}
     :         ^
@@ -2234,7 +2234,7 @@
     :         ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:25:1]
  25 | @unknown x y {s{p:v}}
     :         ^
@@ -2258,7 +2258,7 @@
     :           ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:25:1]
  25 | @unknown x y {s{p:v}}
     :           ^
@@ -2282,7 +2282,7 @@
     :             ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:25:1]
  25 | @unknown x y {s{p:v}}
     :             ^
@@ -2396,7 +2396,7 @@
     :         ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:26:1]
  26 | @unknown x, y f(1) {s{p:v}}
     :         ^
@@ -2432,7 +2432,7 @@
     :            ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:26:1]
  26 | @unknown x, y f(1) {s{p:v}}
     :            ^
@@ -2456,7 +2456,7 @@
     :              ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:26:1]
  26 | @unknown x, y f(1) {s{p:v}}
     :              ^
@@ -2498,7 +2498,7 @@
     :                   ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:26:1]
  26 | @unknown x, y f(1) {s{p:v}}
     :                   ^
@@ -2612,7 +2612,7 @@
     :         ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:27:1]
  27 | @unknown x, y f(1+2) {s{p:v}}
     :         ^
@@ -2648,7 +2648,7 @@
     :            ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:27:1]
  27 | @unknown x, y f(1+2) {s{p:v}}
     :            ^
@@ -2672,7 +2672,7 @@
     :              ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:27:1]
  27 | @unknown x, y f(1+2) {s{p:v}}
     :              ^
@@ -2726,7 +2726,7 @@
     :                     ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:27:1]
  27 | @unknown x, y f(1+2) {s{p:v}}
     :                     ^
@@ -2840,7 +2840,7 @@
     :         ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:28:1]
  28 | @unknown { .a { p: v; } .b { p: v } }
     :         ^
@@ -2864,7 +2864,7 @@
     :           ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:28:1]
  28 | @unknown { .a { p: v; } .b { p: v } }
     :           ^
@@ -2900,7 +2900,7 @@
     :              ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:28:1]
  28 | @unknown { .a { p: v; } .b { p: v } }
     :              ^
@@ -2930,7 +2930,7 @@
     :                ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:28:1]
  28 | @unknown { .a { p: v; } .b { p: v } }
     :                ^
@@ -2966,7 +2966,7 @@
     :                   ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:28:1]
  28 | @unknown { .a { p: v; } .b { p: v } }
     :                   ^
@@ -3002,7 +3002,7 @@
     :                      ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:28:1]
  28 | @unknown { .a { p: v; } .b { p: v } }
     :                      ^
@@ -3014,7 +3014,7 @@
     :                        ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:28:1]
  28 | @unknown { .a { p: v; } .b { p: v } }
     :                        ^
@@ -3050,7 +3050,7 @@
     :                           ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:28:1]
  28 | @unknown { .a { p: v; } .b { p: v } }
     :                           ^
@@ -3080,7 +3080,7 @@
     :                             ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:28:1]
  28 | @unknown { .a { p: v; } .b { p: v } }
     :                             ^
@@ -3116,7 +3116,7 @@
     :                                ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:28:1]
  28 | @unknown { .a { p: v; } .b { p: v } }
     :                                ^
@@ -3140,7 +3140,7 @@
     :                                  ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:28:1]
  28 | @unknown { .a { p: v; } .b { p: v } }
     :                                  ^
@@ -3152,7 +3152,7 @@
     :                                    ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:28:1]
  28 | @unknown { .a { p: v; } .b { p: v } }
     :                                    ^
@@ -3290,7 +3290,7 @@
     :         ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:30:1]
  30 | @unknown /*test*/x/*test*/ y/*test*/{/*test*/s/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}/*test*/}
     :         ^
@@ -3314,7 +3314,7 @@
     :                           ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:30:1]
  30 | @unknown /*test*/x/*test*/ y/*test*/{/*test*/s/*test*/{/*test*/p/*test*/:/*test*/v/*test*/}/*test*/}
     :                           ^
@@ -3440,7 +3440,7 @@
     :         ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:32:1]
  32 | @unknown  {  s  {  p  :  v  }  }
     :         ^^
@@ -3464,7 +3464,7 @@
     :            ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:32:1]
  32 | @unknown  {  s  {  p  :  v  }  }
     :            ^^
@@ -3488,7 +3488,7 @@
     :               ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:32:1]
  32 | @unknown  {  s  {  p  :  v  }  }
     :               ^^
@@ -3518,7 +3518,7 @@
     :                  ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:32:1]
  32 | @unknown  {  s  {  p  :  v  }  }
     :                  ^^
@@ -3542,7 +3542,7 @@
     :                     ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:32:1]
  32 | @unknown  {  s  {  p  :  v  }  }
     :                     ^^
@@ -3566,7 +3566,7 @@
     :                        ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:32:1]
  32 | @unknown  {  s  {  p  :  v  }  }
     :                        ^^
@@ -3590,7 +3590,7 @@
     :                           ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:32:1]
  32 | @unknown  {  s  {  p  :  v  }  }
     :                           ^^
@@ -3602,7 +3602,7 @@
     :                              ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:32:1]
  32 | @unknown  {  s  {  p  :  v  }  }
     :                              ^^
@@ -3638,7 +3638,7 @@
     :         ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:33:1]
  33 | @unknown  x  y  {  s  {  p  :  v  }  }
     :         ^^
@@ -3662,7 +3662,7 @@
     :            ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:33:1]
  33 | @unknown  x  y  {  s  {  p  :  v  }  }
     :            ^^
@@ -3686,7 +3686,7 @@
     :               ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:33:1]
  33 | @unknown  x  y  {  s  {  p  :  v  }  }
     :               ^^
@@ -3710,7 +3710,7 @@
     :                  ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:33:1]
  33 | @unknown  x  y  {  s  {  p  :  v  }  }
     :                  ^^
@@ -3734,7 +3734,7 @@
     :                     ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:33:1]
  33 | @unknown  x  y  {  s  {  p  :  v  }  }
     :                     ^^
@@ -3764,7 +3764,7 @@
     :                        ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:33:1]
  33 | @unknown  x  y  {  s  {  p  :  v  }  }
     :                        ^^
@@ -3788,7 +3788,7 @@
     :                           ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:33:1]
  33 | @unknown  x  y  {  s  {  p  :  v  }  }
     :                           ^^
@@ -3812,7 +3812,7 @@
     :                              ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:33:1]
  33 | @unknown  x  y  {  s  {  p  :  v  }  }
     :                              ^^
@@ -3836,7 +3836,7 @@
     :                                 ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:33:1]
  33 | @unknown  x  y  {  s  {  p  :  v  }  }
     :                                 ^^
@@ -3848,7 +3848,7 @@
     :                                    ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:33:1]
  33 | @unknown  x  y  {  s  {  p  :  v  }  }
     :                                    ^^
@@ -3884,7 +3884,7 @@
     :         ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:34:1]
  34 | @unknown  x  ,  y  f(  1  )  {  s  {  p  :  v  }  }
     :         ^^
@@ -3908,7 +3908,7 @@
     :            ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:34:1]
  34 | @unknown  x  ,  y  f(  1  )  {  s  {  p  :  v  }  }
     :            ^^
@@ -3932,7 +3932,7 @@
     :               ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:34:1]
  34 | @unknown  x  ,  y  f(  1  )  {  s  {  p  :  v  }  }
     :               ^^
@@ -3956,7 +3956,7 @@
     :                  ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:34:1]
  34 | @unknown  x  ,  y  f(  1  )  {  s  {  p  :  v  }  }
     :                  ^^
@@ -3986,7 +3986,7 @@
     :                      ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:34:1]
  34 | @unknown  x  ,  y  f(  1  )  {  s  {  p  :  v  }  }
     :                      ^^
@@ -4010,7 +4010,7 @@
     :                         ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:34:1]
  34 | @unknown  x  ,  y  f(  1  )  {  s  {  p  :  v  }  }
     :                         ^^
@@ -4022,7 +4022,7 @@
     :                            ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:34:1]
  34 | @unknown  x  ,  y  f(  1  )  {  s  {  p  :  v  }  }
     :                            ^^
@@ -4046,7 +4046,7 @@
     :                               ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:34:1]
  34 | @unknown  x  ,  y  f(  1  )  {  s  {  p  :  v  }  }
     :                               ^^
@@ -4070,7 +4070,7 @@
     :                                  ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:34:1]
  34 | @unknown  x  ,  y  f(  1  )  {  s  {  p  :  v  }  }
     :                                  ^^
@@ -4100,7 +4100,7 @@
     :                                     ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:34:1]
  34 | @unknown  x  ,  y  f(  1  )  {  s  {  p  :  v  }  }
     :                                     ^^
@@ -4124,7 +4124,7 @@
     :                                        ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:34:1]
  34 | @unknown  x  ,  y  f(  1  )  {  s  {  p  :  v  }  }
     :                                        ^^
@@ -4148,7 +4148,7 @@
     :                                           ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:34:1]
  34 | @unknown  x  ,  y  f(  1  )  {  s  {  p  :  v  }  }
     :                                           ^^
@@ -4172,7 +4172,7 @@
     :                                              ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:34:1]
  34 | @unknown  x  ,  y  f(  1  )  {  s  {  p  :  v  }  }
     :                                              ^^
@@ -4184,7 +4184,7 @@
     :                                                 ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:34:1]
  34 | @unknown  x  ,  y  f(  1  )  {  s  {  p  :  v  }  }
     :                                                 ^^
@@ -4220,7 +4220,7 @@
     :         ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:35:1]
  35 | @unknown  x  ,  y  f(  1    2  )  {  s  {  p  :  v  }  }
     :         ^^
@@ -4244,7 +4244,7 @@
     :            ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:35:1]
  35 | @unknown  x  ,  y  f(  1    2  )  {  s  {  p  :  v  }  }
     :            ^^
@@ -4268,7 +4268,7 @@
     :               ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:35:1]
  35 | @unknown  x  ,  y  f(  1    2  )  {  s  {  p  :  v  }  }
     :               ^^
@@ -4292,7 +4292,7 @@
     :                  ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:35:1]
  35 | @unknown  x  ,  y  f(  1    2  )  {  s  {  p  :  v  }  }
     :                  ^^
@@ -4322,7 +4322,7 @@
     :                      ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:35:1]
  35 | @unknown  x  ,  y  f(  1    2  )  {  s  {  p  :  v  }  }
     :                      ^^
@@ -4346,7 +4346,7 @@
     :                         ^^^^
     `----
 
-  x WhiteSpace { value: Atom('    ' type=inline) }
+  x WhiteSpace { value: "    " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:35:1]
  35 | @unknown  x  ,  y  f(  1    2  )  {  s  {  p  :  v  }  }
     :                         ^^^^
@@ -4370,7 +4370,7 @@
     :                              ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:35:1]
  35 | @unknown  x  ,  y  f(  1    2  )  {  s  {  p  :  v  }  }
     :                              ^^
@@ -4382,7 +4382,7 @@
     :                                 ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:35:1]
  35 | @unknown  x  ,  y  f(  1    2  )  {  s  {  p  :  v  }  }
     :                                 ^^
@@ -4406,7 +4406,7 @@
     :                                    ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:35:1]
  35 | @unknown  x  ,  y  f(  1    2  )  {  s  {  p  :  v  }  }
     :                                    ^^
@@ -4430,7 +4430,7 @@
     :                                       ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:35:1]
  35 | @unknown  x  ,  y  f(  1    2  )  {  s  {  p  :  v  }  }
     :                                       ^^
@@ -4460,7 +4460,7 @@
     :                                          ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:35:1]
  35 | @unknown  x  ,  y  f(  1    2  )  {  s  {  p  :  v  }  }
     :                                          ^^
@@ -4484,7 +4484,7 @@
     :                                             ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:35:1]
  35 | @unknown  x  ,  y  f(  1    2  )  {  s  {  p  :  v  }  }
     :                                             ^^
@@ -4508,7 +4508,7 @@
     :                                                ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:35:1]
  35 | @unknown  x  ,  y  f(  1    2  )  {  s  {  p  :  v  }  }
     :                                                ^^
@@ -4532,7 +4532,7 @@
     :                                                   ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:35:1]
  35 | @unknown  x  ,  y  f(  1    2  )  {  s  {  p  :  v  }  }
     :                                                   ^^
@@ -4544,7 +4544,7 @@
     :                                                      ^^
     `----
 
-  x WhiteSpace { value: Atom('  ' type=inline) }
+  x WhiteSpace { value: "  " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:35:1]
  35 | @unknown  x  ,  y  f(  1    2  )  {  s  {  p  :  v  }  }
     :                                                      ^^
@@ -4584,7 +4584,7 @@
     :         ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:37:1]
  37 | @unknown {
     :         ^
@@ -4610,8 +4610,7 @@
  38 | `->     --> {}
     `----
 
-  x WhiteSpace { value: Atom('
-  |     ' type=inline) }
+  x WhiteSpace { value: "\n    " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:37:1]
  37 | ,-> @unknown {
  38 | `->     --> {}
@@ -4635,7 +4634,7 @@
     :    ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:38:5]
  38 | --> {}
     :    ^
@@ -4665,8 +4664,7 @@
  39 | `->     <!-- {}
     `----
 
-  x WhiteSpace { value: Atom('
-  |     ' type=inline) }
+  x WhiteSpace { value: "\n    " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:38:5]
  38 | ,-> --> {}
  39 | `->     <!-- {}
@@ -4690,7 +4688,7 @@
     :     ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:39:5]
  39 | <!-- {}
     :     ^
@@ -4721,8 +4719,7 @@
  40 | }
     `----
 
-  x WhiteSpace { value: Atom('
-  | ' type=inline) }
+  x WhiteSpace { value: "\n" }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:39:5]
  39 | <!-- {}
     :        ^
@@ -4761,7 +4758,7 @@
     :         ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:42:1]
  42 | @unknown {
     :         ^
@@ -4786,8 +4783,7 @@
  43 | `->     @unknown {s{p:v}}
     `----
 
-  x WhiteSpace { value: Atom('
-  |     ' type=inline) }
+  x WhiteSpace { value: "\n    " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:42:1]
  42 | ,-> @unknown {
  43 | `->     @unknown {s{p:v}}
@@ -4811,7 +4807,7 @@
     :         ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:43:5]
  43 | @unknown {s{p:v}}
     :         ^
@@ -4908,8 +4904,7 @@
  44 | }
     `----
 
-  x WhiteSpace { value: Atom('
-  | ' type=inline) }
+  x WhiteSpace { value: "\n" }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:43:5]
  43 | @unknown {s{p:v}}
     :                  ^
@@ -4952,7 +4947,7 @@
     :         ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:46:1]
  46 | @unknown {
     :         ^
@@ -4979,8 +4974,7 @@
  47 | `->     @unknown {s{p:v}}
     `----
 
-  x WhiteSpace { value: Atom('
-  |     ' type=inline) }
+  x WhiteSpace { value: "\n    " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:46:1]
  46 | ,-> @unknown {
  47 | `->     @unknown {s{p:v}}
@@ -5004,7 +4998,7 @@
     :         ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:47:5]
  47 | @unknown {s{p:v}}
     :         ^
@@ -5101,9 +5095,7 @@
  49 | `->     color: red;
     `----
 
-  x WhiteSpace { value: Atom('
-  | 
-  |     ' type=dynamic) }
+  x WhiteSpace { value: "\n    \n    " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:47:5]
  47 | ,-> @unknown {s{p:v}}
  48 | |       
@@ -5140,7 +5132,7 @@
     :       ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:49:5]
  49 | color: red;
     :       ^
@@ -5177,8 +5169,7 @@
  50 | }
     `----
 
-  x WhiteSpace { value: Atom('
-  | ' type=inline) }
+  x WhiteSpace { value: "\n" }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:49:5]
  49 | color: red;
     :            ^
@@ -5332,7 +5323,7 @@
     :         ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:53:5]
  53 | @unknown {s{p:v}}
     :         ^
@@ -5446,7 +5437,7 @@
     :         ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:58:1]
  58 | @unknown x ( a , b ) ;
     :         ^
@@ -5470,7 +5461,7 @@
     :           ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:58:1]
  58 | @unknown x ( a , b ) ;
     :           ^
@@ -5500,7 +5491,7 @@
     :             ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:58:1]
  58 | @unknown x ( a , b ) ;
     :             ^
@@ -5524,7 +5515,7 @@
     :               ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:58:1]
  58 | @unknown x ( a , b ) ;
     :               ^
@@ -5548,7 +5539,7 @@
     :                 ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:58:1]
  58 | @unknown x ( a , b ) ;
     :                 ^
@@ -5572,7 +5563,7 @@
     :                   ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:58:1]
  58 | @unknown x ( a , b ) ;
     :                   ^
@@ -5584,7 +5575,7 @@
     :                     ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:58:1]
  58 | @unknown x ( a , b ) ;
     :                     ^
@@ -5620,7 +5611,7 @@
     :         ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:59:1]
  59 | @unknown x ( a , b ) { foo: bar }
     :         ^
@@ -5644,7 +5635,7 @@
     :           ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:59:1]
  59 | @unknown x ( a , b ) { foo: bar }
     :           ^
@@ -5674,7 +5665,7 @@
     :             ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:59:1]
  59 | @unknown x ( a , b ) { foo: bar }
     :             ^
@@ -5698,7 +5689,7 @@
     :               ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:59:1]
  59 | @unknown x ( a , b ) { foo: bar }
     :               ^
@@ -5722,7 +5713,7 @@
     :                 ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:59:1]
  59 | @unknown x ( a , b ) { foo: bar }
     :                 ^
@@ -5746,7 +5737,7 @@
     :                   ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:59:1]
  59 | @unknown x ( a , b ) { foo: bar }
     :                   ^
@@ -5758,7 +5749,7 @@
     :                     ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:59:1]
  59 | @unknown x ( a , b ) { foo: bar }
     :                     ^
@@ -5782,7 +5773,7 @@
     :                       ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:59:1]
  59 | @unknown x ( a , b ) { foo: bar }
     :                       ^
@@ -5818,7 +5809,7 @@
     :                            ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:59:1]
  59 | @unknown x ( a , b ) { foo: bar }
     :                            ^
@@ -5842,7 +5833,7 @@
     :                                ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:59:1]
  59 | @unknown x ( a , b ) { foo: bar }
     :                                ^
@@ -5878,7 +5869,7 @@
     :         ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:60:1]
  60 | @unknown x( a, b ) { foo: bar }
     :         ^
@@ -5908,7 +5899,7 @@
     :            ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:60:1]
  60 | @unknown x( a, b ) { foo: bar }
     :            ^
@@ -5944,7 +5935,7 @@
     :               ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:60:1]
  60 | @unknown x( a, b ) { foo: bar }
     :               ^
@@ -5968,7 +5959,7 @@
     :                 ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:60:1]
  60 | @unknown x( a, b ) { foo: bar }
     :                 ^
@@ -5980,7 +5971,7 @@
     :                   ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:60:1]
  60 | @unknown x( a, b ) { foo: bar }
     :                   ^
@@ -6004,7 +5995,7 @@
     :                     ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:60:1]
  60 | @unknown x( a, b ) { foo: bar }
     :                     ^
@@ -6040,7 +6031,7 @@
     :                          ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:60:1]
  60 | @unknown x( a, b ) { foo: bar }
     :                          ^
@@ -6064,7 +6055,7 @@
     :                              ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:60:1]
  60 | @unknown x( a, b ) { foo: bar }
     :                              ^
@@ -6100,7 +6091,7 @@
     :         ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:61:1]
  61 | @unknown x ( a + b ) ;
     :         ^
@@ -6124,7 +6115,7 @@
     :           ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:61:1]
  61 | @unknown x ( a + b ) ;
     :           ^
@@ -6154,7 +6145,7 @@
     :             ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:61:1]
  61 | @unknown x ( a + b ) ;
     :             ^
@@ -6178,7 +6169,7 @@
     :               ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:61:1]
  61 | @unknown x ( a + b ) ;
     :               ^
@@ -6202,7 +6193,7 @@
     :                 ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:61:1]
  61 | @unknown x ( a + b ) ;
     :                 ^
@@ -6226,7 +6217,7 @@
     :                   ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:61:1]
  61 | @unknown x ( a + b ) ;
     :                   ^
@@ -6238,7 +6229,7 @@
     :                     ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:61:1]
  61 | @unknown x ( a + b ) ;
     :                     ^
@@ -6274,7 +6265,7 @@
     :         ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:62:1]
  62 | @unknown x ( a - b ) ;
     :         ^
@@ -6298,7 +6289,7 @@
     :           ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:62:1]
  62 | @unknown x ( a - b ) ;
     :           ^
@@ -6328,7 +6319,7 @@
     :             ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:62:1]
  62 | @unknown x ( a - b ) ;
     :             ^
@@ -6352,7 +6343,7 @@
     :               ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:62:1]
  62 | @unknown x ( a - b ) ;
     :               ^
@@ -6376,7 +6367,7 @@
     :                 ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:62:1]
  62 | @unknown x ( a - b ) ;
     :                 ^
@@ -6400,7 +6391,7 @@
     :                   ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:62:1]
  62 | @unknown x ( a - b ) ;
     :                   ^
@@ -6412,7 +6403,7 @@
     :                     ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:62:1]
  62 | @unknown x ( a - b ) ;
     :                     ^
@@ -6448,7 +6439,7 @@
     :         ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:63:1]
  63 | @unknown x ( a * b ) ;
     :         ^
@@ -6472,7 +6463,7 @@
     :           ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:63:1]
  63 | @unknown x ( a * b ) ;
     :           ^
@@ -6502,7 +6493,7 @@
     :             ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:63:1]
  63 | @unknown x ( a * b ) ;
     :             ^
@@ -6526,7 +6517,7 @@
     :               ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:63:1]
  63 | @unknown x ( a * b ) ;
     :               ^
@@ -6550,7 +6541,7 @@
     :                 ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:63:1]
  63 | @unknown x ( a * b ) ;
     :                 ^
@@ -6574,7 +6565,7 @@
     :                   ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:63:1]
  63 | @unknown x ( a * b ) ;
     :                   ^
@@ -6586,7 +6577,7 @@
     :                     ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:63:1]
  63 | @unknown x ( a * b ) ;
     :                     ^
@@ -6622,7 +6613,7 @@
     :         ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:64:1]
  64 | @unknown x ( a / b ) ;
     :         ^
@@ -6646,7 +6637,7 @@
     :           ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:64:1]
  64 | @unknown x ( a / b ) ;
     :           ^
@@ -6676,7 +6667,7 @@
     :             ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:64:1]
  64 | @unknown x ( a / b ) ;
     :             ^
@@ -6700,7 +6691,7 @@
     :               ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:64:1]
  64 | @unknown x ( a / b ) ;
     :               ^
@@ -6724,7 +6715,7 @@
     :                 ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:64:1]
  64 | @unknown x ( a / b ) ;
     :                 ^
@@ -6748,7 +6739,7 @@
     :                   ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:64:1]
  64 | @unknown x ( a / b ) ;
     :                   ^
@@ -6760,7 +6751,7 @@
     :                     ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:64:1]
  64 | @unknown x ( a / b ) ;
     :                     ^

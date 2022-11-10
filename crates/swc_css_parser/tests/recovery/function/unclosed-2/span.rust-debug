@@ -147,7 +147,7 @@
    :                                 ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/function/unclosed-2/input.css:2:5]
  2 | grid-template-columns: repeat(4, [col-start] 12px
    :                                 ^
@@ -189,7 +189,7 @@
    :                                             ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/function/unclosed-2/input.css:2:5]
  2 | grid-template-columns: repeat(4, [col-start] 12px
    :                                             ^
@@ -214,8 +214,7 @@
  3 | }
    `----
 
-  x WhiteSpace { value: Atom('
-  | ' type=inline) }
+  x WhiteSpace { value: "\n" }
    ,-[$DIR/tests/recovery/function/unclosed-2/input.css:2:5]
  2 | grid-template-columns: repeat(4, [col-start] 12px
    :                                                  ^
@@ -240,8 +239,7 @@
    :  ^
    `----
 
-  x WhiteSpace { value: Atom('
-  | ' type=inline) }
+  x WhiteSpace { value: "\n" }
    ,-[$DIR/tests/recovery/function/unclosed-2/input.css:3:1]
  3 | }
    :  ^

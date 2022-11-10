@@ -359,7 +359,7 @@
    :                      ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/vercel/003/input.css:7:1]
  7 | .geist-list :global(> .geist-list-item) {
    :                      ^

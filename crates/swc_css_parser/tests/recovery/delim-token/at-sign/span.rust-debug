@@ -123,7 +123,7 @@
    :         ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/delim-token/at-sign/input.css:2:5]
  2 | color: @ red;
    :         ^

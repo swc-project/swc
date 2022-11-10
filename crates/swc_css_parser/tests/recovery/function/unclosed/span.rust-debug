@@ -148,8 +148,7 @@
  3 | }
    `----
 
-  x WhiteSpace { value: Atom('
-  | ' type=inline) }
+  x WhiteSpace { value: "\n" }
    ,-[$DIR/tests/recovery/function/unclosed/input.css:2:5]
  2 | width: min(500px;
    :                  ^
@@ -174,8 +173,7 @@
    :  ^
    `----
 
-  x WhiteSpace { value: Atom('
-  | ' type=inline) }
+  x WhiteSpace { value: "\n" }
    ,-[$DIR/tests/recovery/function/unclosed/input.css:3:1]
  3 | }
    :  ^
