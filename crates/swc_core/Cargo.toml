@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_core"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.40.56"
+version       = "0.40.57"
   [package.metadata.docs.rs]
   features = [
     "common_perf",
@@ -148,6 +148,7 @@ css_ast        = ["__css", "swc_css_ast"]
 css_codegen    = ["__css", "swc_css_codegen"]
 css_compat     = ["__css", "swc_css_compat"]
 css_minifier   = ["__css", "swc_css_minifier"]
+css_modules    = ["__css", "swc_css_modules"]
 css_parser     = ["__css", "swc_css_parser"]
 css_prefixer   = ["__css", "swc_css_prefixer"]
 css_utils      = ["__css", "swc_css_utils"]
@@ -326,6 +327,7 @@ swc_common                       = { optional = true, version = "0.29.13", path 
 swc_css_ast                      = { optional = true, version = "0.124.6", path = "../swc_css_ast" }
 swc_css_codegen                  = { optional = true, version = "0.134.18", path = "../swc_css_codegen" }
 swc_css_minifier                 = { optional = true, version = "0.99.19", path = "../swc_css_minifier" }
+swc_css_modules                  = { optional = true, version = "0.10.18", path = "../swc_css_modules" }
 swc_css_parser                   = { optional = true, version = "0.133.18", path = "../swc_css_parser" }
 swc_css_prefixer                 = { optional = true, version = "0.135.18", path = "../swc_css_prefixer" }
 swc_css_utils                    = { optional = true, version = "0.121.6", path = "../swc_css_utils/" }
