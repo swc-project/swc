@@ -752,8 +752,7 @@ where
         let mut important_ident = None;
 
         loop {
-            // TODO fix me `)`, workaround
-            if is_one_of!(self, EOF, ")") {
+            if is_one_of!(self, EOF) {
                 if important_ident.is_none() {
                     if let Some(span) = &exclamation_point_span {
                         // TODO improve me to `<declaration-value>`

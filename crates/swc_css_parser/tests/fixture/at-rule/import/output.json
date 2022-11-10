@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 6482,
+    "end": 6591,
     "ctxt": 0
   },
   "rules": [
@@ -12106,6 +12106,211 @@
             ]
           }
         }
+      },
+      "block": null
+    },
+    {
+      "type": "AtRule",
+      "span": {
+        "start": 6437,
+        "end": 6486,
+        "ctxt": 0
+      },
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 6438,
+          "end": 6444,
+          "ctxt": 0
+        },
+        "value": "import",
+        "raw": "import"
+      },
+      "prelude": {
+        "type": "ImportPrelude",
+        "span": {
+          "start": 6445,
+          "end": 6485,
+          "ctxt": 0
+        },
+        "href": {
+          "type": "String",
+          "span": {
+            "start": 6445,
+            "end": 6455,
+            "ctxt": 0
+          },
+          "value": "test.css",
+          "raw": "\"test.css\""
+        },
+        "layerName": null,
+        "importConditions": {
+          "type": "ImportCondition",
+          "span": {
+            "start": 6456,
+            "end": 6485,
+            "ctxt": 0
+          },
+          "supports": {
+            "type": "Function",
+            "span": {
+              "start": 6456,
+              "end": 6485,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 6456,
+                "end": 6464,
+                "ctxt": 0
+              },
+              "value": "supports",
+              "raw": "supports"
+            },
+            "value": [
+              {
+                "type": "Declaration",
+                "span": {
+                  "start": 6468,
+                  "end": 6484,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 6468,
+                    "end": 6475,
+                    "ctxt": 0
+                  },
+                  "value": "display",
+                  "raw": "display"
+                },
+                "value": [
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 6477,
+                      "end": 6481,
+                      "ctxt": 0
+                    },
+                    "value": "flex",
+                    "raw": "flex"
+                  }
+                ],
+                "important": null
+              }
+            ]
+          },
+          "media": null
+        }
+      },
+      "block": null
+    },
+    {
+      "type": "AtRule",
+      "span": {
+        "start": 6487,
+        "end": 6544,
+        "ctxt": 0
+      },
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 6488,
+          "end": 6494,
+          "ctxt": 0
+        },
+        "value": "import",
+        "raw": "import"
+      },
+      "prelude": {
+        "type": "ImportPrelude",
+        "span": {
+          "start": 6495,
+          "end": 6543,
+          "ctxt": 0
+        },
+        "href": {
+          "type": "Url",
+          "span": {
+            "start": 6495,
+            "end": 6510,
+            "ctxt": 0
+          },
+          "name": {
+            "type": "Ident",
+            "span": {
+              "start": 6495,
+              "end": 6498,
+              "ctxt": 0
+            },
+            "value": "url",
+            "raw": "url"
+          },
+          "value": {
+            "type": "String",
+            "span": {
+              "start": 6499,
+              "end": 6509,
+              "ctxt": 0
+            },
+            "value": "tabs.css",
+            "raw": "\"tabs.css\""
+          },
+          "modifiers": []
+        },
+        "layerName": {
+          "type": "Function",
+          "span": {
+            "start": 6511,
+            "end": 6543,
+            "ctxt": 0
+          },
+          "name": {
+            "type": "Ident",
+            "span": {
+              "start": 6511,
+              "end": 6516,
+              "ctxt": 0
+            },
+            "value": "layer",
+            "raw": "layer"
+          },
+          "value": [
+            {
+              "type": "LayerName",
+              "span": {
+                "start": 6520,
+                "end": 6539,
+                "ctxt": 0
+              },
+              "name": [
+                {
+                  "type": "Ident",
+                  "span": {
+                    "start": 6520,
+                    "end": 6529,
+                    "ctxt": 0
+                  },
+                  "value": "framework",
+                  "raw": "framework"
+                },
+                {
+                  "type": "Ident",
+                  "span": {
+                    "start": 6530,
+                    "end": 6539,
+                    "ctxt": 0
+                  },
+                  "value": "component",
+                  "raw": "component"
+                }
+              ]
+            }
+          ]
+        },
+        "importConditions": null
       },
       "block": null
     }
