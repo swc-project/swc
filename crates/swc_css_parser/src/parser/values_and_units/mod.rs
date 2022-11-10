@@ -2805,7 +2805,7 @@ where
         match bump!(self) {
             Token::Percentage { value, raw } => {
                 let value = Number {
-                    span: swc_common::Span::new(span.lo, span.hi - BytePos(1), Default::default()),
+                    span: Span::new(span.lo, span.hi - BytePos(1), Default::default()),
                     value,
                     raw: Some(raw),
                 };

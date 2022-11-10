@@ -88,13 +88,13 @@ define!({
     pub struct Integer {
         pub span: Span,
         pub value: i64,
-        pub raw: Option<JsWord>,
+        pub raw: Option<Atom>,
     }
 
     pub struct Number {
         pub span: Span,
         pub value: f64,
-        pub raw: Option<JsWord>,
+        pub raw: Option<Atom>,
     }
 
     pub struct Declaration {
@@ -521,9 +521,9 @@ define!({
     pub struct AnPlusBNotation {
         pub span: Span,
         pub a: Option<i32>,
-        pub a_raw: Option<JsWord>,
+        pub a_raw: Option<Atom>,
         pub b: Option<i32>,
-        pub b_raw: Option<JsWord>,
+        pub b_raw: Option<Atom>,
     }
 
     pub struct PseudoElementSelector {

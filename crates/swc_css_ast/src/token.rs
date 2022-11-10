@@ -112,22 +112,19 @@ pub enum Token {
 
     Number {
         value: f64,
-        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-        raw: JsWord,
+        raw: Atom,
         #[serde(rename = "type")]
         type_flag: NumberType,
     },
 
     Percentage {
         value: f64,
-        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-        raw: JsWord,
+        raw: Atom,
     },
 
     Dimension {
         value: f64,
-        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-        raw_value: JsWord,
+        raw_value: Atom,
         #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         unit: JsWord,
         #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]

@@ -1,6 +1,6 @@
 use is_macro::Is;
 use string_enum::StringEnum;
-use swc_atoms::JsWord;
+use swc_atoms::{Atom, JsWord};
 use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span};
 
 use crate::{Delimiter, Ident, ListOfComponentValues, Str, TokenAndSpan};
@@ -369,11 +369,9 @@ pub enum AnPlusB {
 pub struct AnPlusBNotation {
     pub span: Span,
     pub a: Option<i32>,
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-    pub a_raw: Option<JsWord>,
+    pub a_raw: Option<Atom>,
     pub b: Option<i32>,
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-    pub b_raw: Option<JsWord>,
+    pub b_raw: Option<Atom>,
 }
 
 #[ast_node("PseudoElementSelector")]

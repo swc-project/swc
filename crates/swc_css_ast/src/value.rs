@@ -324,8 +324,7 @@ pub enum TimePercentage {
 pub struct Integer {
     pub span: Span,
     pub value: i64,
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-    pub raw: Option<JsWord>,
+    pub raw: Option<Atom>,
 }
 
 impl EqIgnoreSpan for Integer {
@@ -338,8 +337,7 @@ impl EqIgnoreSpan for Integer {
 pub struct Number {
     pub span: Span,
     pub value: f64,
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-    pub raw: Option<JsWord>,
+    pub raw: Option<Atom>,
 }
 
 impl Eq for Number {}
