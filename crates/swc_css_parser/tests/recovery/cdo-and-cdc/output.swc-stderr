@@ -5,6 +5,12 @@
    :      ^^^
    `----
 
+  x Invalid selector
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:35:5]
+ 35 | <!-- .class {
+    : ^^^^
+    `----
+
   x Unexpected end of file, but expected '{'
     ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:5:1]
   5 | ,-> <!--

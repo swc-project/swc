@@ -127,16 +127,16 @@ define!({
     }
 
     pub enum StyleBlock {
-        ListOfComponentValues(ListOfComponentValues),
         AtRule(Box<AtRule>),
         Declaration(Box<Declaration>),
         QualifiedRule(Box<QualifiedRule>),
+        ListOfComponentValues(Box<ListOfComponentValues>),
     }
 
     pub enum DeclarationOrAtRule {
         Declaration(Box<Declaration>),
         AtRule(Box<AtRule>),
-        ListOfComponentValues(ListOfComponentValues),
+        ListOfComponentValues(Box<ListOfComponentValues>),
     }
 
     pub enum DelimiterValue {
