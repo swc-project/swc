@@ -375,30 +375,17 @@ where
                 // Consume a simple block and assign it to the qualified rule’s block. Return the
                 // qualified rule.
                 tok!("{") => {
-                    let mut block = self.parse_as::<SimpleBlock>()?;
-
-                    block.value = match self.ctx.block_contents_grammar {
-                        BlockContentsGrammar::DeclarationList => self
-                            .parse_according_to_grammar(&self.create_locv(block.value), |parser| {
-                                parser.parse_as::<Vec<DeclarationOrAtRule>>()
-                            })?
-                            .into_iter()
-                            .map(ComponentValue::DeclarationOrAtRule)
-                            .collect(),
-                        _ => self
-                            .parse_according_to_grammar(&self.create_locv(block.value), |parser| {
-                                parser.parse_as::<Vec<StyleBlock>>()
-                            })?
-                            .into_iter()
-                            .map(ComponentValue::StyleBlock)
-                            .collect(),
-                    };
-
-                    return Ok(QualifiedRule {
+                    let block = self.parse_as::<SimpleBlock>()?;
+                    let mut qualified_rule = QualifiedRule {
                         span: span!(self, span.lo),
                         prelude: create_prelude(self, prelude)?,
                         block,
-                    });
+                    };
+
+                    // Canonicalization against a grammar
+                    qualified_rule = self.canonicalize_qualified_rule_block(qualified_rule)?;
+
+                    return Ok(qualified_rule);
                 }
                 // Reconsume the current input token. Consume a component value. Append the returned
                 // value to the qualified rule’s prelude.
@@ -906,6 +893,8 @@ where
                     list_of_component_values.children
                 }
             };
+        // Canonicalization against a grammar
+        declaration = self.canonicalize_declaration_value(declaration)?;
 
         // 8. Return the declaration.
         Ok(declaration)
@@ -1055,9 +1044,8 @@ where
                 unreachable!()
             }
         };
-        let function_name = &*ident.0.to_ascii_lowercase();
         let name = Ident {
-            span: swc_common::Span::new(span.lo, span.hi - BytePos(1), Default::default()),
+            span: Span::new(span.lo, span.hi - BytePos(1), Default::default()),
             value: ident.0,
             raw: Some(ident.1),
         };
@@ -1121,6 +1109,8 @@ where
                 };
             }
         }
+        // Canonicalization against a grammar
+        function = self.canonicalize_function_value(function)?;
 
         return Ok(function);
     }

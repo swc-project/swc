@@ -8,6 +8,7 @@ use super::{
     Ctx, Error, PResult, Parse, Parser,
 };
 use crate::parser::BlockContentsGrammar;
+use crate::{error::ErrorKind, parser::BlockContentsGrammar};
 
 impl<I> Parser<I>
 where
@@ -72,6 +73,93 @@ where
         self.errors.extend(parser.take_errors());
 
         res
+    }
+
+    pub(super) fn canonicalize_qualified_rule_block(
+        &mut self,
+        mut qualified_rule: QualifiedRule,
+    ) -> PResult<QualifiedRule> {
+        qualified_rule.block.value = match self.ctx.block_contents_grammar {
+            BlockContentsGrammar::DeclarationList => self
+                .parse_according_to_grammar(
+                    &self.create_locv(qualified_rule.block.value),
+                    |parser| parser.parse_as::<Vec<DeclarationOrAtRule>>(),
+                )?
+                .into_iter()
+                .map(ComponentValue::DeclarationOrAtRule)
+                .collect(),
+            _ => self
+                .parse_according_to_grammar(
+                    &self.create_locv(qualified_rule.block.value),
+                    |parser| parser.parse_as::<Vec<StyleBlock>>(),
+                )?
+                .into_iter()
+                .map(ComponentValue::StyleBlock)
+                .collect(),
+        };
+
+        Ok(qualified_rule)
+    }
+
+    pub(super) fn canonicalize_function_value(
+        &mut self,
+        mut function: Function,
+    ) -> PResult<Function> {
+        match self.ctx.block_contents_grammar {
+            BlockContentsGrammar::DeclarationList => {}
+            _ => {
+                let function_name = function.name.value.to_ascii_lowercase();
+
+                let locv = self.create_locv(function.value);
+
+                function.value = match self.parse_according_to_grammar(&locv, |parser| {
+                    parser.parse_function_values(&*function_name)
+                }) {
+                    Ok(values) => values,
+                    Err(err) => {
+                        if *err.kind() != ErrorKind::Ignore {
+                            self.errors.push(err);
+                        }
+
+                        locv.children
+                    }
+                };
+            }
+        }
+
+        Ok(function)
+    }
+
+    pub(super) fn canonicalize_declaration_value(
+        &mut self,
+        mut declaration: Declaration,
+    ) -> PResult<Declaration> {
+        let locv = self.create_locv(declaration.value);
+
+        declaration.value = match self.parse_according_to_grammar(&locv, |parser| {
+            let mut values = vec![];
+
+            loop {
+                if is!(parser, EOF) {
+                    break;
+                }
+
+                values.push(parser.parse_generic_value()?);
+            }
+
+            Ok(values)
+        }) {
+            Ok(values) => values,
+            Err(err) => {
+                if *err.kind() != ErrorKind::Ignore {
+                    self.errors.push(err);
+                }
+
+                locv.children
+            }
+        };
+
+        Ok(declaration)
     }
 
     pub(super) fn try_to_parse_legacy_nesting(&mut self) -> Option<QualifiedRule> {
