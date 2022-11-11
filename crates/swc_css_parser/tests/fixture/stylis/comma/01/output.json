@@ -148,9 +148,7 @@
                         "ctxt": 0
                       },
                       "value": "foo.jpg",
-                      "before": "",
-                      "raw": "foo.jpg",
-                      "after": ""
+                      "raw": "foo.jpg"
                     },
                     "modifiers": null
                   },

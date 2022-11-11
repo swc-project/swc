@@ -9,8 +9,8 @@ try {
         var _iteratorNormalCompletion = !0, _didIteratorError = !1, _iteratorError = void 0;
         try {
             for(var _step1, _iterator = comp.c[Symbol.iterator](); !(_iteratorNormalCompletion = (_step1 = _iterator.next()).done); _iteratorNormalCompletion = !0){
-                var ref, item = _step1.value;
-                item.v = !!(null === (ref = item.t) || void 0 === ref ? void 0 : ref.length);
+                var _item_t, item = _step1.value;
+                item.v = !!(null === (_item_t = item.t) || void 0 === _item_t ? void 0 : _item_t.length);
             }
         } catch (err) {
             _didIteratorError = !0, _iteratorError = err;

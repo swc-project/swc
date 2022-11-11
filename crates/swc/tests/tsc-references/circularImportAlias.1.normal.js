@@ -7,9 +7,9 @@ var B;
 (function(B) {
     var a = A;
     B.a = a;
-    var D = /*#__PURE__*/ function(_C) {
+    var D = /*#__PURE__*/ function(_a_C) {
         "use strict";
-        _inherits(D, _C);
+        _inherits(D, _a_C);
         var _super = _create_super(D);
         function D() {
             _class_call_check(this, D);

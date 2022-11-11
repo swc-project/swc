@@ -176,9 +176,9 @@ export var Foo = function() {
 class HomePage extends React.Component {}
 "#,
         r#"
-        var HomePage = /*#__PURE__*/function (_Component) {
+        var HomePage = /*#__PURE__*/function (_React_Component) {
             "use strict";
-            _inherits(HomePage, _Component);
+            _inherits(HomePage, _React_Component);
 
             var _super = _createSuper(HomePage);
 

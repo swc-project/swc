@@ -7,8 +7,8 @@ var _x = x;
 var C = function C() {
     _class_call_check(this, C);
     this[_x] = true;
-    var ref = {
+    var _ref = {
         a: 1,
         b: 2
-    }, a = ref.a, b = ref.b;
+    }, a = _ref.a, b = _ref.b;
 };

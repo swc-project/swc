@@ -1,12 +1,12 @@
 //// [arrayLiterals3.ts]
 import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
-var ref = [
+var _ref = [
     1,
     2,
     "string",
     !0
 ];
-ref[0], ref[1];
+_ref[0], _ref[1];
 var temp1 = [
     1,
     2,

@@ -1231,6 +1231,19 @@ where
             emit!(node.super_type_params);
         }
 
+        if !node.implements.is_empty() {
+            space!();
+            keyword!("implements");
+
+            space!();
+
+            self.emit_list(
+                node.span,
+                Some(&node.implements),
+                ListFormat::ClassHeritageClauses,
+            )?;
+        }
+
         formatting_space!();
 
         punct!("{");

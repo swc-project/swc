@@ -7,7 +7,7 @@ import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
 var x = "p";
 var _x = x;
-var __x = _x;
+var _x1 = _x;
 var A = /*#__PURE__*/ function() {
     "use strict";
     function A(y) {
@@ -16,7 +16,7 @@ var A = /*#__PURE__*/ function() {
         _define_property(this, "b", void 0);
         _define_property(this, "c", void 0);
         _define_property(this, "computed", void 0);
-        _define_property(this, __x, void 0);
+        _define_property(this, _x1, void 0);
         _define_property(this, "z", void 0);
         _define_property(this, "y", void 0);
         this.y = y;

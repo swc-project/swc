@@ -115,7 +115,31 @@
  112 | |           height: 16px;
  113 | |       }
  114 | |   ;
- 115 | `-> }
+ 115 | |   }
+ 116 | |   
+ 117 | |   a {
+ 118 | |       color: red;
+ 119 | |   
+ 120 | |       .class {
+ 121 | |           color: green;
+ 122 | |       }
+ 123 | |   
+ 124 | |       color: blue;
+ 125 | |   }
+ 126 | |   
+ 127 | |   .foo {
+ 128 | |       color: red;
+ 129 | |   
+ 130 | |       + .bar {
+ 131 | |           color: blue;
+ 132 | |       }
+ 133 | |   }
+ 134 | |   
+ 135 | |   article {
+ 136 | |       color: green;
+ 137 | |       & { color: blue; }
+ 138 | |       color: red;
+ 139 | `-> }
      `----
 
   x Rule
@@ -3714,7 +3738,7 @@
     :       ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/style-block/input.css:91:5]
  91 | @mixin mobile {
     :       ^
@@ -3726,7 +3750,7 @@
     :        ^^^^^^
     `----
 
-  x Ident { value: Atom('mobile' type=inline), raw: Atom('mobile' type=inline) }
+  x Ident { value: Atom('mobile' type=inline), raw: "mobile" }
     ,-[$DIR/tests/fixture/style-block/input.css:91:5]
  91 | @mixin mobile {
     :        ^^^^^^
@@ -3738,7 +3762,7 @@
     :              ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/style-block/input.css:91:5]
  91 | @mixin mobile {
     :              ^
@@ -3763,8 +3787,7 @@
  92 | `->         height: 100px;
     `----
 
-  x WhiteSpace { value: Atom('
-  |         ' type=dynamic) }
+  x WhiteSpace { value: "\n        " }
     ,-[$DIR/tests/fixture/style-block/input.css:91:5]
  91 | ,-> @mixin mobile {
  92 | `->         height: 100px;
@@ -3776,7 +3799,7 @@
     : ^^^^^^
     `----
 
-  x Ident { value: Atom('height' type=inline), raw: Atom('height' type=inline) }
+  x Ident { value: Atom('height' type=inline), raw: "height" }
     ,-[$DIR/tests/fixture/style-block/input.css:92:9]
  92 | height: 100px;
     : ^^^^^^
@@ -3800,7 +3823,7 @@
     :        ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/style-block/input.css:92:9]
  92 | height: 100px;
     :        ^
@@ -3812,7 +3835,7 @@
     :         ^^^^^
     `----
 
-  x Dimension { value: 100.0, raw_value: Atom('100' type=inline), unit: Atom('px' type=static), raw_unit: Atom('px' type=static), type_flag: Integer }
+  x Dimension { value: 100.0, raw_value: "100", unit: Atom('px' type=static), raw_unit: "px", type_flag: Integer }
     ,-[$DIR/tests/fixture/style-block/input.css:92:9]
  92 | height: 100px;
     :         ^^^^^
@@ -3836,8 +3859,7 @@
  93 | `->     }
     `----
 
-  x WhiteSpace { value: Atom('
-  |     ' type=inline) }
+  x WhiteSpace { value: "\n    " }
     ,-[$DIR/tests/fixture/style-block/input.css:92:9]
  92 | ,-> height: 100px;
  93 | `->     }
@@ -4065,7 +4087,7 @@
     :             ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/style-block/input.css:98:1]
  98 | a { @unknown "a.css"; }
     :             ^
@@ -4077,7 +4099,7 @@
     :              ^^^^^^^
     `----
 
-  x String { value: Atom('a.css' type=inline), raw: Atom('"a.css"' type=inline) }
+  x String { value: Atom('a.css' type=inline), raw: "\"a.css\"" }
     ,-[$DIR/tests/fixture/style-block/input.css:98:1]
  98 | a { @unknown "a.css"; }
     :              ^^^^^^^
@@ -4185,7 +4207,7 @@
      :             ^
      `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/style-block/input.css:100:1]
  100 | a { @unknown foo {} }
      :             ^
@@ -4197,7 +4219,7 @@
      :              ^^^
      `----
 
-  x Ident { value: Atom('foo' type=inline), raw: Atom('foo' type=inline) }
+  x Ident { value: Atom('foo' type=inline), raw: "foo" }
      ,-[$DIR/tests/fixture/style-block/input.css:100:1]
  100 | a { @unknown foo {} }
      :              ^^^
@@ -4209,7 +4231,7 @@
      :                 ^
      `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/style-block/input.css:100:1]
  100 | a { @unknown foo {} }
      :                 ^
@@ -4444,8 +4466,7 @@
  107 | `->         width: 0;
      `----
 
-  x WhiteSpace { value: Atom('
-  |         ' type=dynamic) }
+  x WhiteSpace { value: "\n        " }
      ,-[$DIR/tests/fixture/style-block/input.css:106:5]
  106 | ,-> --zero-size: {
  107 | `->         width: 0;
@@ -4457,7 +4478,7 @@
      : ^^^^^
      `----
 
-  x Ident { value: Atom('width' type=inline), raw: Atom('width' type=inline) }
+  x Ident { value: Atom('width' type=inline), raw: "width" }
      ,-[$DIR/tests/fixture/style-block/input.css:107:9]
  107 | width: 0;
      : ^^^^^
@@ -4481,7 +4502,7 @@
      :       ^
      `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/style-block/input.css:107:9]
  107 | width: 0;
      :       ^
@@ -4493,7 +4514,7 @@
      :        ^
      `----
 
-  x Number { value: 0.0, raw: Atom('0' type=inline), type_flag: Integer }
+  x Number { value: 0.0, raw: "0", type_flag: Integer }
      ,-[$DIR/tests/fixture/style-block/input.css:107:9]
  107 | width: 0;
      :        ^
@@ -4517,8 +4538,7 @@
  108 | `->         height: 0;
      `----
 
-  x WhiteSpace { value: Atom('
-  |         ' type=dynamic) }
+  x WhiteSpace { value: "\n        " }
      ,-[$DIR/tests/fixture/style-block/input.css:107:9]
  107 | ,-> width: 0;
  108 | `->         height: 0;
@@ -4530,7 +4550,7 @@
      : ^^^^^^
      `----
 
-  x Ident { value: Atom('height' type=inline), raw: Atom('height' type=inline) }
+  x Ident { value: Atom('height' type=inline), raw: "height" }
      ,-[$DIR/tests/fixture/style-block/input.css:108:9]
  108 | height: 0;
      : ^^^^^^
@@ -4554,7 +4574,7 @@
      :        ^
      `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/style-block/input.css:108:9]
  108 | height: 0;
      :        ^
@@ -4566,7 +4586,7 @@
      :         ^
      `----
 
-  x Number { value: 0.0, raw: Atom('0' type=inline), type_flag: Integer }
+  x Number { value: 0.0, raw: "0", type_flag: Integer }
      ,-[$DIR/tests/fixture/style-block/input.css:108:9]
  108 | height: 0;
      :         ^
@@ -4590,8 +4610,7 @@
  109 | `->     };
      `----
 
-  x WhiteSpace { value: Atom('
-  |     ' type=inline) }
+  x WhiteSpace { value: "\n    " }
      ,-[$DIR/tests/fixture/style-block/input.css:108:9]
  108 | ,-> height: 0;
  109 | `->     };
@@ -4664,8 +4683,7 @@
  111 | `->         width: 16px;
      `----
 
-  x WhiteSpace { value: Atom('
-  |         ' type=dynamic) }
+  x WhiteSpace { value: "\n        " }
      ,-[$DIR/tests/fixture/style-block/input.css:110:5]
  110 | ,-> --small-icon: {
  111 | `->         width: 16px;
@@ -4677,7 +4695,7 @@
      : ^^^^^
      `----
 
-  x Ident { value: Atom('width' type=inline), raw: Atom('width' type=inline) }
+  x Ident { value: Atom('width' type=inline), raw: "width" }
      ,-[$DIR/tests/fixture/style-block/input.css:111:9]
  111 | width: 16px;
      : ^^^^^
@@ -4701,7 +4719,7 @@
      :       ^
      `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/style-block/input.css:111:9]
  111 | width: 16px;
      :       ^
@@ -4713,7 +4731,7 @@
      :        ^^^^
      `----
 
-  x Dimension { value: 16.0, raw_value: Atom('16' type=inline), unit: Atom('px' type=static), raw_unit: Atom('px' type=static), type_flag: Integer }
+  x Dimension { value: 16.0, raw_value: "16", unit: Atom('px' type=static), raw_unit: "px", type_flag: Integer }
      ,-[$DIR/tests/fixture/style-block/input.css:111:9]
  111 | width: 16px;
      :        ^^^^
@@ -4737,8 +4755,7 @@
  112 | `->         height: 16px;
      `----
 
-  x WhiteSpace { value: Atom('
-  |         ' type=dynamic) }
+  x WhiteSpace { value: "\n        " }
      ,-[$DIR/tests/fixture/style-block/input.css:111:9]
  111 | ,-> width: 16px;
  112 | `->         height: 16px;
@@ -4750,7 +4767,7 @@
      : ^^^^^^
      `----
 
-  x Ident { value: Atom('height' type=inline), raw: Atom('height' type=inline) }
+  x Ident { value: Atom('height' type=inline), raw: "height" }
      ,-[$DIR/tests/fixture/style-block/input.css:112:9]
  112 | height: 16px;
      : ^^^^^^
@@ -4774,7 +4791,7 @@
      :        ^
      `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/style-block/input.css:112:9]
  112 | height: 16px;
      :        ^
@@ -4786,7 +4803,7 @@
      :         ^^^^
      `----
 
-  x Dimension { value: 16.0, raw_value: Atom('16' type=inline), unit: Atom('px' type=static), raw_unit: Atom('px' type=static), type_flag: Integer }
+  x Dimension { value: 16.0, raw_value: "16", unit: Atom('px' type=static), raw_unit: "px", type_flag: Integer }
      ,-[$DIR/tests/fixture/style-block/input.css:112:9]
  112 | height: 16px;
      :         ^^^^
@@ -4810,9 +4827,799 @@
  113 | `->     }
      `----
 
-  x WhiteSpace { value: Atom('
-  |     ' type=inline) }
+  x WhiteSpace { value: "\n    " }
      ,-[$DIR/tests/fixture/style-block/input.css:112:9]
  112 | ,-> height: 16px;
  113 | `->     }
+     `----
+
+  x Rule
+     ,-[$DIR/tests/fixture/style-block/input.css:117:1]
+ 117 | ,-> a {
+ 118 | |       color: red;
+ 119 | |   
+ 120 | |       .class {
+ 121 | |           color: green;
+ 122 | |       }
+ 123 | |   
+ 124 | |       color: blue;
+ 125 | `-> }
+     `----
+
+  x QualifiedRule
+     ,-[$DIR/tests/fixture/style-block/input.css:117:1]
+ 117 | ,-> a {
+ 118 | |       color: red;
+ 119 | |   
+ 120 | |       .class {
+ 121 | |           color: green;
+ 122 | |       }
+ 123 | |   
+ 124 | |       color: blue;
+ 125 | `-> }
+     `----
+
+  x SelectorList
+     ,-[$DIR/tests/fixture/style-block/input.css:117:1]
+ 117 | a {
+     : ^
+     `----
+
+  x ComplexSelector
+     ,-[$DIR/tests/fixture/style-block/input.css:117:1]
+ 117 | a {
+     : ^
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/style-block/input.css:117:1]
+ 117 | a {
+     : ^
+     `----
+
+  x TypeSelector
+     ,-[$DIR/tests/fixture/style-block/input.css:117:1]
+ 117 | a {
+     : ^
+     `----
+
+  x TagNameSelector
+     ,-[$DIR/tests/fixture/style-block/input.css:117:1]
+ 117 | a {
+     : ^
+     `----
+
+  x WqName
+     ,-[$DIR/tests/fixture/style-block/input.css:117:1]
+ 117 | a {
+     : ^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/style-block/input.css:117:1]
+ 117 | a {
+     : ^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/style-block/input.css:117:1]
+ 117 | ,-> a {
+ 118 | |       color: red;
+ 119 | |   
+ 120 | |       .class {
+ 121 | |           color: green;
+ 122 | |       }
+ 123 | |   
+ 124 | |       color: blue;
+ 125 | `-> }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/style-block/input.css:117:1]
+ 117 | a {
+     :   ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/style-block/input.css:118:5]
+ 118 | color: red;
+     : ^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/style-block/input.css:118:5]
+ 118 | color: red;
+     : ^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/style-block/input.css:118:5]
+ 118 | color: red;
+     : ^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/style-block/input.css:118:5]
+ 118 | color: red;
+     : ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/style-block/input.css:118:5]
+ 118 | color: red;
+     : ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/style-block/input.css:118:5]
+ 118 | color: red;
+     :        ^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/style-block/input.css:118:5]
+ 118 | color: red;
+     :        ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/style-block/input.css:124:5]
+ 124 | color: blue;
+     : ^^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/style-block/input.css:124:5]
+ 124 | color: blue;
+     : ^^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/style-block/input.css:124:5]
+ 124 | color: blue;
+     : ^^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/style-block/input.css:124:5]
+ 124 | color: blue;
+     : ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/style-block/input.css:124:5]
+ 124 | color: blue;
+     : ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/style-block/input.css:124:5]
+ 124 | color: blue;
+     :        ^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/style-block/input.css:124:5]
+ 124 | color: blue;
+     :        ^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/style-block/input.css:120:5]
+ 120 | ,-> .class {
+ 121 | |           color: green;
+ 122 | `->     }
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/style-block/input.css:120:5]
+ 120 | ,-> .class {
+ 121 | |           color: green;
+ 122 | `->     }
+     `----
+
+  x QualifiedRule
+     ,-[$DIR/tests/fixture/style-block/input.css:120:5]
+ 120 | ,-> .class {
+ 121 | |           color: green;
+ 122 | `->     }
+     `----
+
+  x RelativeSelectorList
+     ,-[$DIR/tests/fixture/style-block/input.css:120:5]
+ 120 | .class {
+     : ^^^^^^
+     `----
+
+  x RelativeSelector
+     ,-[$DIR/tests/fixture/style-block/input.css:120:5]
+ 120 | .class {
+     : ^^^^^^
+     `----
+
+  x ComplexSelector
+     ,-[$DIR/tests/fixture/style-block/input.css:120:5]
+ 120 | .class {
+     : ^^^^^^
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/style-block/input.css:120:5]
+ 120 | .class {
+     : ^^^^^^
+     `----
+
+  x SubclassSelector
+     ,-[$DIR/tests/fixture/style-block/input.css:120:5]
+ 120 | .class {
+     : ^^^^^^
+     `----
+
+  x ClassSelector
+     ,-[$DIR/tests/fixture/style-block/input.css:120:5]
+ 120 | .class {
+     : ^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/style-block/input.css:120:5]
+ 120 | .class {
+     :  ^^^^^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/style-block/input.css:120:5]
+ 120 | ,-> .class {
+ 121 | |           color: green;
+ 122 | `->     }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/style-block/input.css:120:5]
+ 120 | .class {
+     :        ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/style-block/input.css:121:9]
+ 121 | color: green;
+     : ^^^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/style-block/input.css:121:9]
+ 121 | color: green;
+     : ^^^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/style-block/input.css:121:9]
+ 121 | color: green;
+     : ^^^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/style-block/input.css:121:9]
+ 121 | color: green;
+     : ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/style-block/input.css:121:9]
+ 121 | color: green;
+     : ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/style-block/input.css:121:9]
+ 121 | color: green;
+     :        ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/style-block/input.css:121:9]
+ 121 | color: green;
+     :        ^^^^^
+     `----
+
+  x Rule
+     ,-[$DIR/tests/fixture/style-block/input.css:127:1]
+ 127 | ,-> .foo {
+ 128 | |       color: red;
+ 129 | |   
+ 130 | |       + .bar {
+ 131 | |           color: blue;
+ 132 | |       }
+ 133 | `-> }
+     `----
+
+  x QualifiedRule
+     ,-[$DIR/tests/fixture/style-block/input.css:127:1]
+ 127 | ,-> .foo {
+ 128 | |       color: red;
+ 129 | |   
+ 130 | |       + .bar {
+ 131 | |           color: blue;
+ 132 | |       }
+ 133 | `-> }
+     `----
+
+  x SelectorList
+     ,-[$DIR/tests/fixture/style-block/input.css:127:1]
+ 127 | .foo {
+     : ^^^^
+     `----
+
+  x ComplexSelector
+     ,-[$DIR/tests/fixture/style-block/input.css:127:1]
+ 127 | .foo {
+     : ^^^^
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/style-block/input.css:127:1]
+ 127 | .foo {
+     : ^^^^
+     `----
+
+  x SubclassSelector
+     ,-[$DIR/tests/fixture/style-block/input.css:127:1]
+ 127 | .foo {
+     : ^^^^
+     `----
+
+  x ClassSelector
+     ,-[$DIR/tests/fixture/style-block/input.css:127:1]
+ 127 | .foo {
+     : ^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/style-block/input.css:127:1]
+ 127 | .foo {
+     :  ^^^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/style-block/input.css:127:1]
+ 127 | ,-> .foo {
+ 128 | |       color: red;
+ 129 | |   
+ 130 | |       + .bar {
+ 131 | |           color: blue;
+ 132 | |       }
+ 133 | `-> }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/style-block/input.css:127:1]
+ 127 | .foo {
+     :      ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/style-block/input.css:128:5]
+ 128 | color: red;
+     : ^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/style-block/input.css:128:5]
+ 128 | color: red;
+     : ^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/style-block/input.css:128:5]
+ 128 | color: red;
+     : ^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/style-block/input.css:128:5]
+ 128 | color: red;
+     : ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/style-block/input.css:128:5]
+ 128 | color: red;
+     : ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/style-block/input.css:128:5]
+ 128 | color: red;
+     :        ^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/style-block/input.css:128:5]
+ 128 | color: red;
+     :        ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/style-block/input.css:130:5]
+ 130 | ,-> + .bar {
+ 131 | |           color: blue;
+ 132 | `->     }
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/style-block/input.css:130:5]
+ 130 | ,-> + .bar {
+ 131 | |           color: blue;
+ 132 | `->     }
+     `----
+
+  x QualifiedRule
+     ,-[$DIR/tests/fixture/style-block/input.css:130:5]
+ 130 | ,-> + .bar {
+ 131 | |           color: blue;
+ 132 | `->     }
+     `----
+
+  x RelativeSelectorList
+     ,-[$DIR/tests/fixture/style-block/input.css:130:5]
+ 130 | + .bar {
+     : ^^^^^^
+     `----
+
+  x RelativeSelector
+     ,-[$DIR/tests/fixture/style-block/input.css:130:5]
+ 130 | + .bar {
+     : ^^^^^^
+     `----
+
+  x Combinator
+     ,-[$DIR/tests/fixture/style-block/input.css:130:5]
+ 130 | + .bar {
+     : ^
+     `----
+
+  x ComplexSelector
+     ,-[$DIR/tests/fixture/style-block/input.css:130:5]
+ 130 | + .bar {
+     :   ^^^^
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/style-block/input.css:130:5]
+ 130 | + .bar {
+     :   ^^^^
+     `----
+
+  x SubclassSelector
+     ,-[$DIR/tests/fixture/style-block/input.css:130:5]
+ 130 | + .bar {
+     :   ^^^^
+     `----
+
+  x ClassSelector
+     ,-[$DIR/tests/fixture/style-block/input.css:130:5]
+ 130 | + .bar {
+     :   ^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/style-block/input.css:130:5]
+ 130 | + .bar {
+     :    ^^^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/style-block/input.css:130:5]
+ 130 | ,-> + .bar {
+ 131 | |           color: blue;
+ 132 | `->     }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/style-block/input.css:130:5]
+ 130 | + .bar {
+     :        ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/style-block/input.css:131:9]
+ 131 | color: blue;
+     : ^^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/style-block/input.css:131:9]
+ 131 | color: blue;
+     : ^^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/style-block/input.css:131:9]
+ 131 | color: blue;
+     : ^^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/style-block/input.css:131:9]
+ 131 | color: blue;
+     : ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/style-block/input.css:131:9]
+ 131 | color: blue;
+     : ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/style-block/input.css:131:9]
+ 131 | color: blue;
+     :        ^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/style-block/input.css:131:9]
+ 131 | color: blue;
+     :        ^^^^
+     `----
+
+  x Rule
+     ,-[$DIR/tests/fixture/style-block/input.css:135:1]
+ 135 | ,-> article {
+ 136 | |       color: green;
+ 137 | |       & { color: blue; }
+ 138 | |       color: red;
+ 139 | `-> }
+     `----
+
+  x QualifiedRule
+     ,-[$DIR/tests/fixture/style-block/input.css:135:1]
+ 135 | ,-> article {
+ 136 | |       color: green;
+ 137 | |       & { color: blue; }
+ 138 | |       color: red;
+ 139 | `-> }
+     `----
+
+  x SelectorList
+     ,-[$DIR/tests/fixture/style-block/input.css:135:1]
+ 135 | article {
+     : ^^^^^^^
+     `----
+
+  x ComplexSelector
+     ,-[$DIR/tests/fixture/style-block/input.css:135:1]
+ 135 | article {
+     : ^^^^^^^
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/style-block/input.css:135:1]
+ 135 | article {
+     : ^^^^^^^
+     `----
+
+  x TypeSelector
+     ,-[$DIR/tests/fixture/style-block/input.css:135:1]
+ 135 | article {
+     : ^^^^^^^
+     `----
+
+  x TagNameSelector
+     ,-[$DIR/tests/fixture/style-block/input.css:135:1]
+ 135 | article {
+     : ^^^^^^^
+     `----
+
+  x WqName
+     ,-[$DIR/tests/fixture/style-block/input.css:135:1]
+ 135 | article {
+     : ^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/style-block/input.css:135:1]
+ 135 | article {
+     : ^^^^^^^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/style-block/input.css:135:1]
+ 135 | ,-> article {
+ 136 | |       color: green;
+ 137 | |       & { color: blue; }
+ 138 | |       color: red;
+ 139 | `-> }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/style-block/input.css:135:1]
+ 135 | article {
+     :         ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/style-block/input.css:136:5]
+ 136 | color: green;
+     : ^^^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/style-block/input.css:136:5]
+ 136 | color: green;
+     : ^^^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/style-block/input.css:136:5]
+ 136 | color: green;
+     : ^^^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/style-block/input.css:136:5]
+ 136 | color: green;
+     : ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/style-block/input.css:136:5]
+ 136 | color: green;
+     : ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/style-block/input.css:136:5]
+ 136 | color: green;
+     :        ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/style-block/input.css:136:5]
+ 136 | color: green;
+     :        ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/style-block/input.css:138:5]
+ 138 | color: red;
+     : ^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/style-block/input.css:138:5]
+ 138 | color: red;
+     : ^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/style-block/input.css:138:5]
+ 138 | color: red;
+     : ^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/style-block/input.css:138:5]
+ 138 | color: red;
+     : ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/style-block/input.css:138:5]
+ 138 | color: red;
+     : ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/style-block/input.css:138:5]
+ 138 | color: red;
+     :        ^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/style-block/input.css:138:5]
+ 138 | color: red;
+     :        ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/style-block/input.css:137:5]
+ 137 | & { color: blue; }
+     : ^^^^^^^^^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/style-block/input.css:137:5]
+ 137 | & { color: blue; }
+     : ^^^^^^^^^^^^^^^^^^
+     `----
+
+  x QualifiedRule
+     ,-[$DIR/tests/fixture/style-block/input.css:137:5]
+ 137 | & { color: blue; }
+     : ^^^^^^^^^^^^^^^^^^
+     `----
+
+  x RelativeSelectorList
+     ,-[$DIR/tests/fixture/style-block/input.css:137:5]
+ 137 | & { color: blue; }
+     : ^
+     `----
+
+  x RelativeSelector
+     ,-[$DIR/tests/fixture/style-block/input.css:137:5]
+ 137 | & { color: blue; }
+     : ^
+     `----
+
+  x ComplexSelector
+     ,-[$DIR/tests/fixture/style-block/input.css:137:5]
+ 137 | & { color: blue; }
+     : ^
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/style-block/input.css:137:5]
+ 137 | & { color: blue; }
+     : ^
+     `----
+
+  x NestingSelector
+     ,-[$DIR/tests/fixture/style-block/input.css:137:5]
+ 137 | & { color: blue; }
+     : ^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/style-block/input.css:137:5]
+ 137 | & { color: blue; }
+     :   ^^^^^^^^^^^^^^^^
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/style-block/input.css:137:5]
+ 137 | & { color: blue; }
+     :   ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/style-block/input.css:137:5]
+ 137 | & { color: blue; }
+     :     ^^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/style-block/input.css:137:5]
+ 137 | & { color: blue; }
+     :     ^^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/style-block/input.css:137:5]
+ 137 | & { color: blue; }
+     :     ^^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/style-block/input.css:137:5]
+ 137 | & { color: blue; }
+     :     ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/style-block/input.css:137:5]
+ 137 | & { color: blue; }
+     :     ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/style-block/input.css:137:5]
+ 137 | & { color: blue; }
+     :            ^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/style-block/input.css:137:5]
+ 137 | & { color: blue; }
+     :            ^^^^
      `----

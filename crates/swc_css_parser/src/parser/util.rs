@@ -3,8 +3,11 @@ use std::ops::{Deref, DerefMut};
 use swc_common::{Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_css_ast::*;
 
-use super::{input::ParserInput, Ctx, PResult, Parse, Parser};
-use crate::parser::input::ListOfComponentValuesInput;
+use super::{
+    input::{Input, InputType, ParserInput},
+    Ctx, Error, PResult, Parse, Parser,
+};
+use crate::parser::BlockContentsGrammar;
 
 impl<I> Parser<I>
 where
@@ -60,9 +63,9 @@ where
     pub(super) fn parse_according_to_grammar<T>(
         &mut self,
         list_of_component_values: &ListOfComponentValues,
-        op: impl FnOnce(&mut Parser<ListOfComponentValuesInput>) -> PResult<T>,
+        op: impl FnOnce(&mut Parser<Input>) -> PResult<T>,
     ) -> PResult<T> {
-        let lexer = ListOfComponentValuesInput::new(list_of_component_values);
+        let lexer = Input::new(InputType::ListOfComponentValues(list_of_component_values));
         let mut parser = Parser::new(lexer, self.config);
         let res = op(&mut parser.with_ctx(self.ctx));
 
@@ -75,6 +78,7 @@ where
         let state = self.input.state();
         let qualified_rule = self
             .with_ctx(Ctx {
+                block_contents_grammar: BlockContentsGrammar::StyleBlock,
                 mixed_with_declarations: true,
                 ..self.ctx
             })
@@ -88,6 +92,36 @@ where
                 None
             }
         }
+    }
+
+    pub(super) fn try_to_parse_declaration_in_parens(&mut self) -> Option<Declaration> {
+        let mut temporary_list = ListOfComponentValues {
+            span: Default::default(),
+            children: vec![],
+        };
+
+        while !is_one_of!(self, ")", EOF) {
+            let component_value = match self.parse_as::<ComponentValue>() {
+                Ok(component_value) => component_value,
+                Err(_) => return None,
+            };
+
+            temporary_list.children.push(component_value);
+        }
+
+        match self
+            .parse_according_to_grammar::<Declaration>(&temporary_list, |parser| parser.parse_as())
+        {
+            Ok(decl) => Some(decl),
+            Err(_) => None,
+        }
+    }
+
+    pub(super) fn parse_declaration_from_temporary_list(
+        &mut self,
+        temporary_list: &ListOfComponentValues,
+    ) -> PResult<Declaration> {
+        self.parse_according_to_grammar::<Declaration>(temporary_list, |parser| parser.parse_as())
     }
 }
 

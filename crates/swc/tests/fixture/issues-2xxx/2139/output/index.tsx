@@ -8,7 +8,7 @@ class ReusablePayments extends PureComponent {
         }
     }
     setDefaultReusablePayment(skipPaymentSource) {
-        var _props = this.props, reusablePaymentSources = _props.reusablePaymentSources, selectedReusablePayment = _props.selectedReusablePayment, onChange = _props.onChange;
+        var _this_props = this.props, reusablePaymentSources = _this_props.reusablePaymentSources, selectedReusablePayment = _this_props.selectedReusablePayment, onChange = _this_props.onChange;
         var validReusablePaymentSources = reusablePaymentSources.filter((ps)=>ps.__typename === "StripePaymentSource" && ps !== skipPaymentSource);
         if (selectedReusablePayment === null) {
             return;
@@ -25,7 +25,7 @@ class ReusablePayments extends PureComponent {
         onChange(ps || validReusablePaymentSources[0]);
     }
     render() {
-        var _props = this.props, selectedReusablePayment = _props.selectedReusablePayment, reusablePaymentSources = _props.reusablePaymentSources;
+        var _this_props = this.props, selectedReusablePayment = _this_props.selectedReusablePayment, reusablePaymentSources = _this_props.reusablePaymentSources;
         var stripePaymentSources = reusablePaymentSources.filter((ps)=>ps.__typename === "StripePaymentSource");
         if (!stripePaymentSources.length) {
             return null;
@@ -85,7 +85,7 @@ class ReusablePayments extends PureComponent {
             return this.props.onChange(selected);
         };
         this.handleDeletePaymentSource = (id, deletePaymentSource)=>{
-            var _props = this.props, selectedReusablePayment = _props.selectedReusablePayment, onChange = _props.onChange;
+            var _this_props = this.props, selectedReusablePayment = _this_props.selectedReusablePayment, onChange = _this_props.onChange;
             if (onChange && selectedReusablePayment && selectedReusablePayment.id === id) {
                 this.setDefaultReusablePayment(selectedReusablePayment);
             }

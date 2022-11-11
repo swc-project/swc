@@ -6,7 +6,7 @@ var Base = function Base() {
     "use strict";
     _class_call_check(this, Base);
 };
-var tmp = (super(), "prop");
+var _tmp = (super(), "prop");
 var C = /*#__PURE__*/ function(Base) {
     "use strict";
     _inherits(C, Base);
@@ -16,6 +16,6 @@ var C = /*#__PURE__*/ function(Base) {
         return _super.apply(this, arguments);
     }
     var _proto = C.prototype;
-    _proto[tmp] = function() {};
+    _proto[_tmp] = function() {};
     return C;
 }(Base);

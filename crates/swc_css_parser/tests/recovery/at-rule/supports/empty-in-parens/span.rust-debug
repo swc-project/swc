@@ -1,0 +1,202 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:1:1]
+ 1 | ,-> @supports (      ) {
+ 2 | |       * { background: red; }
+ 3 | `-> }
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:1:1]
+ 1 | ,-> @supports (      ) {
+ 2 | |       * { background: red; }
+ 3 | `-> }
+   `----
+
+  x AtRule
+   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:1:1]
+ 1 | ,-> @supports (      ) {
+ 2 | |       * { background: red; }
+ 3 | `-> }
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:1:1]
+ 1 | @supports (      ) {
+   :  ^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:1:1]
+ 1 | @supports (      ) {
+   :  ^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:1:1]
+ 1 | @supports (      ) {
+   :          ^
+   `----
+
+  x WhiteSpace { value: " " }
+   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:1:1]
+ 1 | @supports (      ) {
+   :          ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:1:1]
+ 1 | @supports (      ) {
+   :           ^^^^^^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:1:1]
+ 1 | @supports (      ) {
+   :           ^^^^^^^^
+   `----
+
+  x LParen
+   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:1:1]
+ 1 | @supports (      ) {
+   :           ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:1:1]
+ 1 | @supports (      ) {
+   :            ^^^^^^
+   `----
+
+  x WhiteSpace { value: "      " }
+   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:1:1]
+ 1 | @supports (      ) {
+   :            ^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:1:1]
+ 1 | @supports (      ) {
+   :                   ^
+   `----
+
+  x WhiteSpace { value: " " }
+   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:1:1]
+ 1 | @supports (      ) {
+   :                   ^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:1:1]
+ 1 | ,-> @supports (      ) {
+ 2 | |       * { background: red; }
+ 3 | `-> }
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:1:1]
+ 1 | @supports (      ) {
+   :                    ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:2:5]
+ 2 | * { background: red; }
+   : ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:2:5]
+ 2 | * { background: red; }
+   : ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:2:5]
+ 2 | * { background: red; }
+   : ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x SelectorList
+   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:2:5]
+ 2 | * { background: red; }
+   : ^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:2:5]
+ 2 | * { background: red; }
+   : ^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:2:5]
+ 2 | * { background: red; }
+   : ^
+   `----
+
+  x TypeSelector
+   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:2:5]
+ 2 | * { background: red; }
+   : ^
+   `----
+
+  x UniversalSelector
+   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:2:5]
+ 2 | * { background: red; }
+   : ^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:2:5]
+ 2 | * { background: red; }
+   :   ^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:2:5]
+ 2 | * { background: red; }
+   :   ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:2:5]
+ 2 | * { background: red; }
+   :     ^^^^^^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:2:5]
+ 2 | * { background: red; }
+   :     ^^^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:2:5]
+ 2 | * { background: red; }
+   :     ^^^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:2:5]
+ 2 | * { background: red; }
+   :     ^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:2:5]
+ 2 | * { background: red; }
+   :     ^^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:2:5]
+ 2 | * { background: red; }
+   :                 ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:2:5]
+ 2 | * { background: red; }
+   :                 ^^^
+   `----

@@ -35,7 +35,7 @@
    :           ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/keyframes/empty-name/input.css:1:1]
  1 | @keyframes {}
    :           ^

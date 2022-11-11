@@ -6,9 +6,9 @@ First.Item = function I() {
     "use strict";
     _class_call_check(this, I);
 };
-Common.Object = /*#__PURE__*/ function(_Item) {
+Common.Object = /*#__PURE__*/ function(_First_Item) {
     "use strict";
-    _inherits(_class, _Item);
+    _inherits(_class, _First_Item);
     var _super = _create_super(_class);
     function _class() {
         _class_call_check(this, _class);
@@ -16,9 +16,9 @@ Common.Object = /*#__PURE__*/ function(_Item) {
     }
     return _class;
 }(First.Item);
-Workspace.Object = /*#__PURE__*/ function(_Object) {
+Workspace.Object = /*#__PURE__*/ function(_Common_Object) {
     "use strict";
-    _inherits(_class, _Object);
+    _inherits(_class, _Common_Object);
     var _super = _create_super(_class);
     function _class() {
         _class_call_check(this, _class);

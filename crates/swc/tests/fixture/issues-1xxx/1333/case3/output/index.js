@@ -59,8 +59,8 @@ class RequestHandler {
             ].includes(p) ? match : `/${p}/:id`).replace(/\/reactions\/[^/]+/g, "/reactions/:id").replace(/\/webhooks\/(\d+)\/[\w-]{64,}/, "webhooks/$1/:token").replace(/\?.*$/, "");
         let ending = ";";
         if (method === "delete" && route.endsWith("/message/:id")) {
-            var ref;
-            const id = (ref = /\d{16,19}$/.exec(route)) === null || ref === void 0 ? void 0 : ref[0];
+            var _exec;
+            const id = (_exec = /\d{16,19}$/.exec(route)) === null || _exec === void 0 ? void 0 : _exec[0];
             const snowflake = _utils.Snowflake.deconstruct(id);
             if (Date.now() - snowflake.timestamp > 1000 * 60 * 60 * 24 * 14) {
                 ending += "deletes-old";
@@ -73,8 +73,8 @@ class RequestHandler {
      * @param {Response} res
      * @return {* | Promise<any>}
      */ static async parseResponse(res) {
-        var ref;
-        if ((ref = res.headers.get("Content-Type")) === null || ref === void 0 ? void 0 : ref.startsWith("application/json")) {
+        var _res_headers_get;
+        if ((_res_headers_get = res.headers.get("Content-Type")) === null || _res_headers_get === void 0 ? void 0 : _res_headers_get.startsWith("application/json")) {
             return await res.json();
         }
         return res.buffer();

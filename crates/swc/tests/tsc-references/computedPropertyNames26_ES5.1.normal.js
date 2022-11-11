@@ -14,7 +14,7 @@ var Base = /*#__PURE__*/ function() {
     };
     return Base;
 }();
-var tmp = _define_property({}, super.bar(), 1)[0];
+var _ = _define_property({}, super.bar(), 1)[0];
 var C = /*#__PURE__*/ function(Base) {
     "use strict";
     _inherits(C, Base);
@@ -24,6 +24,6 @@ var C = /*#__PURE__*/ function(Base) {
         return _super.apply(this, arguments);
     }
     var _proto = C.prototype;
-    _proto[tmp] = function() {};
+    _proto[_] = function() {};
     return C;
 }(Base);

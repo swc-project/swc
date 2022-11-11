@@ -35,23 +35,23 @@ function foo() {
         3
     ];
 }
-var ref = _sliced_to_array(foo(), 2), b6 = ref[0], b7 = ref[1];
-var ref1 = _to_array(foo()), b8 = ref1.slice(0);
+var _foo = _sliced_to_array(foo(), 2), b6 = _foo[0], b7 = _foo[1];
+var _foo1 = _to_array(foo()), b8 = _foo1.slice(0);
 //      S is not a tuple- like type and the numeric index signature type of S is assignable to the target given in E.
 var temp = [
     1,
     2,
     3
 ];
-var ref2 = _sliced_to_array(_to_consumable_array(temp), 2), c0 = ref2[0], c1 = ref2[1];
-var ref3 = [], c2 = ref3[0];
-var ref4 = [], c3 = ref4[0], ref5 = [], c4 = ref5[0];
+var _$_to_consumable_array = _sliced_to_array(_to_consumable_array(temp), 2), c0 = _$_to_consumable_array[0], c1 = _$_to_consumable_array[1];
+var _ref = [], c2 = _ref[0];
+var _ref1 = [], c3 = _ref1[0], _ref2 = [], c4 = _ref2[0];
 var c5 = 1, c6 = true;
-var ref6 = [
+var _ref3 = [
     1,
     2,
     3
-], c7 = ref6[1];
+], c7 = _ref3[1];
 var c8 = 4;
 var c9 = 4;
 var c10 = [

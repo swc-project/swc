@@ -295,9 +295,7 @@
                     "ctxt": 0
                   },
                   "value": "a;a",
-                  "before": "",
-                  "raw": "a;a",
-                  "after": ""
+                  "raw": "a;a"
                 },
                 "modifiers": null
               }
@@ -347,9 +345,7 @@
                     "ctxt": 0
                   },
                   "value": "a/*",
-                  "before": "",
-                  "raw": "a/*",
-                  "after": ""
+                  "raw": "a/*"
                 },
                 "modifiers": null
               }

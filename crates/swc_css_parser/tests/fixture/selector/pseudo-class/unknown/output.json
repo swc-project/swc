@@ -1771,8 +1771,6 @@
                           "Url": {
                             "name": "url",
                             "raw_name": "url",
-                            "before": "",
-                            "after": "",
                             "value": "foo.png",
                             "raw_value": "foo.png"
                           }

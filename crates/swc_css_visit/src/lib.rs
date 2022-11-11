@@ -2,7 +2,7 @@
 #![deny(clippy::all)]
 #![allow(clippy::ptr_arg)]
 
-use swc_atoms::JsWord;
+use swc_atoms::{Atom, JsWord};
 use swc_common::Span;
 use swc_css_ast::*;
 use swc_visit::define;
@@ -58,43 +58,43 @@ define!({
     pub struct Ident {
         pub span: Span,
         pub value: JsWord,
-        pub raw: Option<JsWord>,
+        pub raw: Option<Atom>,
     }
 
     pub struct CustomIdent {
         pub span: Span,
         pub value: JsWord,
-        pub raw: Option<JsWord>,
+        pub raw: Option<Atom>,
     }
 
     pub struct CustomPropertyName {
         pub span: Span,
         pub value: JsWord,
-        pub raw: Option<JsWord>,
+        pub raw: Option<Atom>,
     }
 
     pub struct DashedIdent {
         pub span: Span,
         pub value: JsWord,
-        pub raw: Option<JsWord>,
+        pub raw: Option<Atom>,
     }
 
     pub struct Str {
         pub span: Span,
         pub value: JsWord,
-        pub raw: Option<JsWord>,
+        pub raw: Option<Atom>,
     }
 
     pub struct Integer {
         pub span: Span,
         pub value: i64,
-        pub raw: Option<JsWord>,
+        pub raw: Option<Atom>,
     }
 
     pub struct Number {
         pub span: Span,
         pub value: f64,
-        pub raw: Option<JsWord>,
+        pub raw: Option<Atom>,
     }
 
     pub struct Declaration {
@@ -127,16 +127,16 @@ define!({
     }
 
     pub enum StyleBlock {
-        ListOfComponentValues(ListOfComponentValues),
         AtRule(Box<AtRule>),
         Declaration(Box<Declaration>),
         QualifiedRule(Box<QualifiedRule>),
+        ListOfComponentValues(Box<ListOfComponentValues>),
     }
 
     pub enum DeclarationOrAtRule {
         Declaration(Box<Declaration>),
         AtRule(Box<AtRule>),
-        ListOfComponentValues(ListOfComponentValues),
+        ListOfComponentValues(Box<ListOfComponentValues>),
     }
 
     pub enum DelimiterValue {
@@ -171,7 +171,7 @@ define!({
     pub struct HexColor {
         pub span: Span,
         pub value: JsWord,
-        pub raw: Option<JsWord>,
+        pub raw: Option<Atom>,
     }
 
     pub enum AlphaValue {
@@ -288,9 +288,7 @@ define!({
     pub struct UrlValueRaw {
         pub span: Span,
         pub value: JsWord,
-        pub before: Option<JsWord>,
-        pub raw: Option<JsWord>,
-        pub after: Option<JsWord>,
+        pub raw: Option<Atom>,
     }
 
     pub enum UrlModifier {
@@ -523,9 +521,9 @@ define!({
     pub struct AnPlusBNotation {
         pub span: Span,
         pub a: Option<i32>,
-        pub a_raw: Option<JsWord>,
+        pub a_raw: Option<Atom>,
         pub b: Option<i32>,
-        pub b_raw: Option<JsWord>,
+        pub b_raw: Option<Atom>,
     }
 
     pub struct PseudoElementSelector {
@@ -544,7 +542,7 @@ define!({
     pub struct CustomHighlightName {
         pub span: Span,
         pub value: JsWord,
-        pub raw: Option<JsWord>,
+        pub raw: Option<Atom>,
     }
 
     pub struct IdSelector {
@@ -995,7 +993,7 @@ define!({
     pub struct ExtensionName {
         pub span: Span,
         pub value: JsWord,
-        pub raw: Option<JsWord>,
+        pub raw: Option<Atom>,
     }
 
     pub struct CustomMediaQuery {

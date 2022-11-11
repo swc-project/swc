@@ -1,6 +1,6 @@
 use std::{cell::RefCell, char::REPLACEMENT_CHARACTER, rc::Rc};
 
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::{js_word, Atom, JsWord};
 use swc_common::{input::Input, BytePos, Span};
 use swc_css_ast::{NumberType, Token, TokenAndSpan};
 
@@ -140,7 +140,7 @@ where
 {
     type State = LexerState;
 
-    fn start_pos(&mut self) -> swc_common::BytePos {
+    fn start_pos(&mut self) -> BytePos {
         self.input.cur_pos()
     }
 
@@ -559,9 +559,9 @@ where
             // unit set initially to the empty string.
             let mut token = Token::Dimension {
                 value: number.0,
-                raw_value: number.1.into(),
+                raw_value: number.1,
                 unit: js_word!(""),
-                raw_unit: js_word!(""),
+                raw_unit: "".into(),
                 type_flag: number.2,
             };
 
@@ -592,7 +592,7 @@ where
 
             return Ok(Token::Percentage {
                 value: number.0,
-                raw: number.1.into(),
+                raw: number.1,
             });
         }
 
@@ -600,7 +600,7 @@ where
         // number, and return it.
         Ok(Token::Number {
             value: number.0,
-            raw: number.1.into(),
+            raw: number.1,
             type_flag: number.2,
         })
     }
@@ -730,8 +730,7 @@ where
                         l.reconsume();
 
                         return Ok(Token::BadString {
-                            value: (&**buf).into(),
-                            raw: (&**raw).into(),
+                            raw_value: (&**raw).into(),
                         });
                     }
 
@@ -780,15 +779,17 @@ where
 
     // This section describes how to consume a url token from a stream of code
     // points. It returns either a <url-token> or a <bad-url-token>.
-    fn read_url(&mut self, name: (JsWord, JsWord), mut before: String) -> LexResult<Token> {
+    fn read_url(&mut self, name: (JsWord, Atom), before: String) -> LexResult<Token> {
         // Initially create a <url-token> with its value set to the empty string.
         self.with_buf_and_raw_buf(|l, out, raw| {
+            raw.push_str(&before);
+
             // Consume as much whitespace as possible.
             while let Some(c) = l.next() {
                 if is_whitespace(c) {
                     l.consume();
 
-                    before.push(c);
+                    raw.push(c);
                 } else {
                     break;
                 }
@@ -807,8 +808,6 @@ where
                             raw_name: name.1,
                             value: (&**out).into(),
                             raw_value: (&**raw).into(),
-                            before: before.into(),
-                            after: js_word!(""),
                         });
                     }
 
@@ -822,8 +821,6 @@ where
                             raw_name: name.1,
                             value: (&**out).into(),
                             raw_value: (&**raw).into(),
-                            before: before.into(),
-                            after: js_word!(""),
                         });
                     }
 
@@ -853,25 +850,25 @@ where
                             Some(')') => {
                                 l.consume();
 
-                                return Ok(Token::Url {
-                                    name: name.0,
-                                    raw_name: name.1,
-                                    value: (&**out).into(),
-                                    raw_value: (&**raw).into(),
-                                    before: before.into(),
-                                    after: whitespaces.into(),
-                                });
-                            }
-                            None => {
-                                l.emit_error(ErrorKind::UnterminatedUrl);
+                                raw.push_str(&whitespaces);
 
                                 return Ok(Token::Url {
                                     name: name.0,
                                     raw_name: name.1,
                                     value: (&**out).into(),
                                     raw_value: (&**raw).into(),
-                                    before: before.into(),
-                                    after: whitespaces.into(),
+                                });
+                            }
+                            None => {
+                                l.emit_error(ErrorKind::UnterminatedUrl);
+
+                                raw.push_str(&whitespaces);
+
+                                return Ok(Token::Url {
+                                    name: name.0,
+                                    raw_name: name.1,
+                                    value: (&**out).into(),
+                                    raw_value: (&**raw).into(),
                                 });
                             }
                             _ => {}
@@ -890,8 +887,7 @@ where
                         return Ok(Token::BadUrl {
                             name: name.0,
                             raw_name: name.1,
-                            value: (before.clone() + (&**raw)).into(),
-                            raw_value: (before.clone() + (&**raw)).into(),
+                            raw_value: (&**raw).into(),
                         });
                     }
 
@@ -914,8 +910,7 @@ where
                         return Ok(Token::BadUrl {
                             name: name.0,
                             raw_name: name.1,
-                            value: (before.clone() + (&**raw)).into(),
-                            raw_value: (before.clone() + (&**raw)).into(),
+                            raw_value: (&**raw).into(),
                         });
                     }
 
@@ -946,8 +941,7 @@ where
                             return Ok(Token::BadUrl {
                                 name: name.0,
                                 raw_name: name.1,
-                                value: (before.clone() + (&**raw)).into(),
-                                raw_value: (before.clone() + (&**raw)).into(),
+                                raw_value: (&**raw).into(),
                             });
                         }
                     }
@@ -1184,7 +1178,7 @@ where
     // This section describes how to consume an ident sequence from a stream of code
     // points. It returns a string containing the largest name that can be formed
     // from adjacent code points in the stream, starting from the first.
-    fn read_ident_sequence(&mut self) -> LexResult<(JsWord, JsWord)> {
+    fn read_ident_sequence(&mut self) -> LexResult<(JsWord, Atom)> {
         self.with_buf_and_raw_buf(|l, buf, raw| {
             // Let result initially be an empty string.
             // Done above
@@ -1225,10 +1219,9 @@ where
 
     // This section describes how to consume a number from a stream of code points.
     // It returns a numeric value, and a type which is either "integer" or "number".
-    fn read_number(&mut self) -> LexResult<(f64, String, NumberType)> {
-        let parsed =
+    fn read_number(&mut self) -> LexResult<(f64, Atom, NumberType)> {
+        let parsed: (Atom, NumberType) = self.with_buf(|l, out| {
             // Initially set type to "integer". Let repr be the empty string.
-            self.with_buf(|l, out| {
             let mut type_flag = NumberType::Integer;
 
             // If the next input code point is U+002B PLUS SIGN (+) or U+002D HYPHEN-MINUS
@@ -1330,7 +1323,7 @@ where
         })?;
 
         // Convert repr to a number, and set the value to the returned value.
-        let value = lexical::parse(&parsed.0).unwrap_or_else(|err| {
+        let value = lexical::parse(&*parsed.0).unwrap_or_else(|err| {
             unreachable!("failed to parse `{}` using lexical: {:?}", parsed.0, err)
         });
 

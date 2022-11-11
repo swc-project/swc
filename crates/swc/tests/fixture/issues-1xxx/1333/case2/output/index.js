@@ -271,9 +271,9 @@ class Shard extends _utils.Emitter {
      * Called whenever the websocket opens.
      * @private
      */ _open() {
-        var ref;
+        var _class_private_field_get;
         this.status = _utils.Status.HANDSHAKING;
-        this._debug(`Connected. ${(ref = _classPrivateFieldGet(this, _ws1)) === null || ref === void 0 ? void 0 : ref.url} in ${Date.now() - this.connectedAt}`);
+        this._debug(`Connected. ${(_class_private_field_get = _classPrivateFieldGet(this, _ws1)) === null || _class_private_field_get === void 0 ? void 0 : _class_private_field_get.url} in ${Date.now() - this.connectedAt}`);
         if (_classPrivateFieldGet(this, _queue).length) {
             this._debug(`${_classPrivateFieldGet(this, _queue).length} packets waiting... sending all now.`);
             while(_classPrivateFieldGet(this, _queue).length){
@@ -300,8 +300,8 @@ class Shard extends _utils.Emitter {
      * @param {WebSocket.CloseEvent} evt
      * @private
      */ _close(evt) {
-        var ref;
-        const reason = (ref = evt.reason || _utils.GatewayCloseCode[evt.code]) !== null && ref !== void 0 ? ref : "unknown";
+        var _ref;
+        const reason = (_ref = evt.reason || _utils.GatewayCloseCode[evt.code]) !== null && _ref !== void 0 ? _ref : "unknown";
         this._debug(`Closed; Code = ${evt.code}, Clean? = ${evt.wasClean}, Reason = ${reason}`);
         if (_classPrivateFieldGet(this, _seq) !== -1) {
             _classPrivateFieldSet(this, _closingSeq, _classPrivateFieldGet(this, _seq));

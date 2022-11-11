@@ -1,10 +1,10 @@
 //// [typeOfThisInStaticMembers12.ts]
 var _Inner;
-let _c, _c1;
+let _this_c, _this_c1;
 class C {
 }
-C.c = "foo", C.bar = (_c = C.c, _c1 = C.c, (_Inner = class {
+C.c = "foo", C.bar = (_this_c = C.c, _this_c1 = C.c, (_Inner = class {
     constructor(){
-        this[_c1] = 123;
+        this[_this_c1] = 123;
     }
-})[_c] = 123, _Inner);
+})[_this_c] = 123, _Inner);

@@ -2,8 +2,8 @@
 var M;
 import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
 function f14(param) {
-    var _param = _sliced_to_array(param, 2), ref = (_param[0], _sliced_to_array(_param[1], 2)), ref1 = (ref[0], ref[1]);
-    ref1.x, ref1.y;
+    var _param = _sliced_to_array(param, 2), _param_ = (_param[0], _sliced_to_array(_param[1], 2)), _param__ = (_param_[0], _param_[1]);
+    _param__.x, _param__.y;
 }
 function f17(param) {
     param.a, param.b, param.c;

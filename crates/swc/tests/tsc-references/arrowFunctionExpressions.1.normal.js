@@ -48,15 +48,15 @@ var p7 = function(param) {
     var b = param.a.b;
 };
 var p8 = function(param) {
-    var _a = param.a, a = _a === void 0 ? 1 : _a;
+    var _param_a = param.a, a = _param_a === void 0 ? 1 : _param_a;
 };
 var p9 = function(param) {
-    var tmp = param.a, ref = tmp === void 0 ? {
+    var tmp = param.a, _ref = tmp === void 0 ? {
         b: 1
-    } : tmp, _b = ref.b, b = _b === void 0 ? 1 : _b;
+    } : tmp, _ref_b = _ref.b, b = _ref_b === void 0 ? 1 : _ref_b;
 };
 var p10 = function(param) {
-    var _param = _sliced_to_array(param, 1), ref = _param[0], value = ref.value, done = ref.done;
+    var _param = _sliced_to_array(param, 1), _param_ = _param[0], value = _param_.value, done = _param_.done;
 };
 // Arrow function used in class member initializer
 // Arrow function used in class member function

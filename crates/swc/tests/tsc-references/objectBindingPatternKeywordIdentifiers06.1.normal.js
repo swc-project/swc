@@ -1,4 +1,4 @@
 //// [objectBindingPatternKeywordIdentifiers06.ts]
-var ref = {
+var _ref = {
     as: 1
-}, as = ref.as;
+}, as = _ref.as;

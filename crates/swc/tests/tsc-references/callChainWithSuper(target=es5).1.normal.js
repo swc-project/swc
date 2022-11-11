@@ -24,12 +24,12 @@ var Derived = /*#__PURE__*/ function(Base) {
     }
     var _proto = Derived.prototype;
     _proto.method1 = function method1() {
-        var ref;
-        return (ref = _get(_get_prototype_of(Derived.prototype), "method", this)) === null || ref === void 0 ? void 0 : ref.call(this);
+        var _super_method;
+        return (_super_method = _get(_get_prototype_of(Derived.prototype), "method", this)) === null || _super_method === void 0 ? void 0 : _super_method.call(this);
     };
     _proto.method2 = function method2() {
-        var ref;
-        return (ref = _get(_get_prototype_of(Derived.prototype), "method", this)) === null || ref === void 0 ? void 0 : ref.call(this);
+        var _super_method;
+        return (_super_method = _get(_get_prototype_of(Derived.prototype), "method", this)) === null || _super_method === void 0 ? void 0 : _super_method.call(this);
     };
     return Derived;
 }(Base);

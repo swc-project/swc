@@ -5,7 +5,7 @@ import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-var _obj, _obj1, _obj2, _obj3, _instance, _obj4, _instance1, _obj5, _obj6, _obj7, _obj8, _instance2, _obj9, _instance3, _instance4, _instance5, _instance6;
+var _obj, _obj1, _obj2, _obj3, _foo_apply, _obj4, _foo_apply1, _obj5, _obj6, _obj7, _obj8, _foo_apply2, _obj9, _foo_apply3, _xa_, _xa_1, _xa_2;
 function foo(x, y) {
     for(var _len = arguments.length, z = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
         z[_key - 2] = arguments[_key];
@@ -41,17 +41,17 @@ obj.foo(1, 2, "abc");
     1,
     2
 ].concat(_to_consumable_array(a))).foo(1, 2, "abc");
-(_instance = (_obj3 = obj).foo.apply(_obj3, [
+(_foo_apply = (_obj3 = obj).foo.apply(_obj3, [
     1,
     2
-].concat(_to_consumable_array(a)))).foo.apply(_instance, [
+].concat(_to_consumable_array(a)))).foo.apply(_foo_apply, [
     1,
     2
 ].concat(_to_consumable_array(a)));
-(_instance1 = (_obj4 = obj).foo.apply(_obj4, [
+(_foo_apply1 = (_obj4 = obj).foo.apply(_obj4, [
     1,
     2
-].concat(_to_consumable_array(a)))).foo.apply(_instance1, [
+].concat(_to_consumable_array(a)))).foo.apply(_foo_apply1, [
     1,
     2
 ].concat(_to_consumable_array(a), [
@@ -72,34 +72,34 @@ obj.foo(1, 2, "abc");
     1,
     2
 ].concat(_to_consumable_array(a))).foo(1, 2, "abc");
-(_instance2 = (_obj8 = obj).foo.apply(_obj8, [
+(_foo_apply2 = (_obj8 = obj).foo.apply(_obj8, [
     1,
     2
-].concat(_to_consumable_array(a)))).foo.apply(_instance2, [
+].concat(_to_consumable_array(a)))).foo.apply(_foo_apply2, [
     1,
     2
 ].concat(_to_consumable_array(a)));
-(_instance3 = (_obj9 = obj).foo.apply(_obj9, [
+(_foo_apply3 = (_obj9 = obj).foo.apply(_obj9, [
     1,
     2
-].concat(_to_consumable_array(a)))).foo.apply(_instance3, [
+].concat(_to_consumable_array(a)))).foo.apply(_foo_apply3, [
     1,
     2
 ].concat(_to_consumable_array(a), [
     "abc"
 ]));
 xa[1].foo(1, 2, "abc");
-(_instance4 = xa[1]).foo.apply(_instance4, [
+(_xa_ = xa[1]).foo.apply(_xa_, [
     1,
     2
 ].concat(_to_consumable_array(a)));
-(_instance5 = xa[1]).foo.apply(_instance5, [
+(_xa_1 = xa[1]).foo.apply(_xa_1, [
     1,
     2
 ].concat(_to_consumable_array(a), [
     "abc"
 ]));
-(_instance6 = xa[1]).foo.apply(_instance6, [
+(_xa_2 = xa[1]).foo.apply(_xa_2, [
     1,
     2,
     "abc"
@@ -140,9 +140,9 @@ var D = /*#__PURE__*/ function(C) {
     }
     var _proto = D.prototype;
     _proto.foo = function foo() {
-        var _instance;
+        var _$_get;
         _get(_get_prototype_of(D.prototype), "foo", this).call(this, 1, 2);
-        (_instance = _get(_get_prototype_of(D.prototype), "foo", this)).call.apply(_instance, [
+        (_$_get = _get(_get_prototype_of(D.prototype), "foo", this)).call.apply(_$_get, [
             this,
             1,
             2
