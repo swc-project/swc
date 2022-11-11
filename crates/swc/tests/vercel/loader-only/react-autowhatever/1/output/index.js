@@ -29,7 +29,7 @@ var ItemsList = /*#__PURE__*/ function(Component) {
     };
     _proto.render = function render() {
         var _this = this;
-        var _props = this.props, items = _props.items, itemProps = _props.itemProps, renderItem = _props.renderItem, renderItemData = _props.renderItemData, sectionIndex = _props.sectionIndex, highlightedItemIndex = _props.highlightedItemIndex, getItemId = _props.getItemId, theme = _props.theme, keyPrefix = _props.keyPrefix;
+        var _this_props = this.props, items = _this_props.items, itemProps = _this_props.itemProps, renderItem = _this_props.renderItem, renderItemData = _this_props.renderItemData, sectionIndex = _this_props.sectionIndex, highlightedItemIndex = _this_props.highlightedItemIndex, getItemId = _this_props.getItemId, theme = _this_props.theme, keyPrefix = _this_props.keyPrefix;
         var sectionPrefix = sectionIndex === null ? keyPrefix : "".concat(keyPrefix, "section-").concat(sectionIndex, "-");
         var isItemPropsFunction = typeof itemProps === "function";
         return /*#__PURE__*/ _jsx("ul", _object_spread_props(_object_spread({

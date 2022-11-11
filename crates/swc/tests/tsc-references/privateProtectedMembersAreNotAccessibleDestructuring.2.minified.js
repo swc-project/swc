@@ -10,8 +10,8 @@ var k = new (function() {
     var _proto = K.prototype;
     return _proto.privateMethod = function() {}, _proto.m = function() {
         this.priv, this.prot;
-        var ref = new K();
-        ref.priv, ref.prot;
+        var _ref = new K();
+        _ref.priv, _ref.prot;
     }, K;
 }())();
 k.priv, k.prot, k.privateMethod, k.priv, k.prot, k.privateMethod;

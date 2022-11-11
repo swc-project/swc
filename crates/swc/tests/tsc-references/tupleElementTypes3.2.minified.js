@@ -1,6 +1,6 @@
 //// [tupleElementTypes3.ts]
-var ref = [
+var _ref = [
     0,
     void 0
 ];
-ref[0], ref[1];
+_ref[0], _ref[1];

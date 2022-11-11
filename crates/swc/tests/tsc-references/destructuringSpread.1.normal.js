@@ -7,13 +7,13 @@ var x = _object_spread_props(_object_spread({}, {}), {
 var y = _object_spread({
     y: 0
 }, {}).y;
-var ref = _object_spread({
+var _$_object_spread = _object_spread({
     z: 0
 }, {
     a: 0,
     b: 0
-}), z = ref.z, a = ref.a, b = ref.b;
-var ref1 = _object_spread_props(_object_spread({}, _object_spread_props(_object_spread({}, _object_spread_props(_object_spread({}, {
+}), z = _$_object_spread.z, a = _$_object_spread.a, b = _$_object_spread.b;
+var _$_object_spread_props = _object_spread_props(_object_spread({}, _object_spread_props(_object_spread({}, _object_spread_props(_object_spread({}, {
     c: 0
 }), {
     d: 0
@@ -21,4 +21,4 @@ var ref1 = _object_spread_props(_object_spread({}, _object_spread_props(_object_
     e: 0
 })), {
     f: 0
-}), c = ref1.c, d = ref1.d, e = ref1.e, f = ref1.f, g = ref1.g;
+}), c = _$_object_spread_props.c, d = _$_object_spread_props.d, e = _$_object_spread_props.e, f = _$_object_spread_props.f, g = _$_object_spread_props.g;

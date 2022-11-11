@@ -60,23 +60,22 @@ function test(foo) {
 "use strict";
 
 function test(foo) {
-  var ref, ref1, ref2, ref3, _obj, ref4, _obj1, ref5, ref6, ref7, ref8, ref9;
-
+  var _foo_bar, _foo_get, _foo_bar1, _foo_bar2, _foo_bar3, _foo_bar_baz, _foo_bar4, _foo_bar_baz1, _foo_bar5, _foo_bar6, _foo_bar7, _foo_bar8;
   foo == null ? void 0 : foo.bar;
-  foo == null ? void 0 : (ref = foo.bar) == null ? void 0 : ref.baz;
+  foo == null ? void 0 : (_foo_bar = foo.bar) == null ? void 0 : _foo_bar.baz;
   foo == null ? void 0 : foo(foo);
   foo == null ? void 0 : foo.bar();
-  (ref1 = foo.get(bar)) == null ? void 0 : ref1();
-  (ref2 = foo.bar()) == null ? void 0 : ref2();
-  (ref3 = foo[bar]()) == null ? void 0 : ref3();
-  (ref4 = (_obj = foo.bar()).baz) == null ? void 0 : ref4.call(_obj);
-  (ref5 = (_obj1 = foo[bar]()).baz) == null ? void 0 : ref5.call(_obj1);
+  (_foo_get = foo.get(bar)) == null ? void 0 : _foo_get();
+  (_foo_bar1 = foo.bar()) == null ? void 0 : _foo_bar1();
+  (_foo_bar2 = foo[bar]()) == null ? void 0 : _foo_bar2();
+  (_foo_bar_baz = (_foo_bar3 = foo.bar()).baz) == null ? void 0 : _foo_bar_baz.call(_foo_bar3);
+  (_foo_bar_baz1 = (_foo_bar4 = foo[bar]()).baz) == null ? void 0 : _foo_bar_baz1.call(_foo_bar4);
   foo.bar == null ? void 0 : foo.bar(foo.bar, false);
   foo == null ? void 0 : foo.bar == null ? void 0 : foo.bar(foo.bar, true);
-  (ref6 = foo.bar) == null ? void 0 : ref6.baz(foo.bar, false);
-  foo == null ? void 0 : (ref7 = foo.bar) == null ? void 0 : ref7.baz(foo.bar, true);
-  (ref8 = foo.bar) == null ? void 0 : ref8.baz == null ? void 0 : ref8.baz(foo.bar, false);
-  foo == null ? void 0 : (ref9 = foo.bar) == null ? void 0 : ref9.baz == null ? void 0 : ref9.baz(foo.bar, true);
+  (_foo_bar5 = foo.bar) == null ? void 0 : _foo_bar5.baz(foo.bar, false);
+  foo == null ? void 0 : (_foo_bar6 = foo.bar) == null ? void 0 : _foo_bar6.baz(foo.bar, true);
+  (_foo_bar7 = foo.bar) == null ? void 0 : _foo_bar7.baz == null ? void 0 : _foo_bar7.baz(foo.bar, false);
+  foo == null ? void 0 : (_foo_bar8 = foo.bar) == null ? void 0 : _foo_bar8.baz == null ? void 0 : _foo_bar8.baz(foo.bar, true);
 }
 "#
 );
@@ -119,10 +118,10 @@ eval?.("console.log()");
 window.eval?.("console.log()");
 "#,
     r#"
-var ref;
+var _window_eval;
 eval === null || eval === void 0 ? void 0 : (0, eval)();
 eval === null || eval === void 0 ? void 0 : (0, eval)("console.log()");
-(ref = window.eval) === null || ref === void 0 ? void 0 : ref.call(window, "console.log()");
+(_window_eval = window.eval) === null || _window_eval === void 0 ? void 0 : _window_eval.call(window, "console.log()");
 "#
 );
 
@@ -284,23 +283,21 @@ val = obj?.a?.b;
     r#"
 "use strict";
 
-var ref, ref1, ref2;
-
+var _obj_a, _obj_b, _obj_a1;
 const obj = {
-  a: {
-    b: {
-      c: {
-        d: 2
-      }
+    a: {
+        b: {
+            c: {
+                d: 2
+            }
+        }
     }
-  }
 };
 const a = obj === null || obj === void 0 ? void 0 : obj.a;
-const b = obj === null || obj === void 0 ? void 0 : (ref = obj.a) === null || ref === void 0 ? void 0 : ref.b;
-const bad = obj === null || obj === void 0 ? void 0 : (ref1 = obj.b) === null || ref1 === void 0 ? void 0 : ref1.b;
+const b = obj === null || obj === void 0 ? void 0 : (_obj_a = obj.a) === null || _obj_a === void 0 ? void 0 : _obj_a.b;
+const bad = obj === null || obj === void 0 ? void 0 : (_obj_b = obj.b) === null || _obj_b === void 0 ? void 0 : _obj_b.b;
 let val;
-val = obj === null || obj === void 0 ? void 0 : (ref2 = obj.a) === null || ref2 === void 0 ? void 0 : ref2.b;
-
+val = obj === null || obj === void 0 ? void 0 : (_obj_a1 = obj.a) === null || _obj_a1 === void 0 ? void 0 : _obj_a1.b;
 "#
 );
 
@@ -335,17 +332,17 @@ function test(foo) {
 "#,
     r#"
 function test(foo) {
-    var ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7, ref8;
+    var _foo_bar, _foo_bar1, _foo_bar2, _foo_bar3, _foo_bar4, _foo_bar5, _foo_bar_baz, _foo_bar6, _foo_bar_baz1;
     foo === null || foo === void 0 ? void 0 : foo.bar;
-    foo === null || foo === void 0 ? void 0 : (ref = foo.bar) === null || ref === void 0 ? void 0 : ref.baz;
+    foo === null || foo === void 0 ? void 0 : (_foo_bar = foo.bar) === null || _foo_bar === void 0 ? void 0 : _foo_bar.baz;
     foo === null || foo === void 0 ? void 0 : foo(foo);
     foo === null || foo === void 0 ? void 0 : foo.bar();
-    (ref1 = foo.bar) === null || ref1 === void 0 ? void 0 : ref1.call(foo, foo.bar, false);
-    foo === null || foo === void 0 ? void 0 : (ref2 = foo.bar) === null || ref2 === void 0 ? void 0 : ref2.call(foo, foo.bar, true);
-    (ref3 = foo.bar) === null || ref3 === void 0 ? void 0 : ref3.baz(foo.bar, false);
-    foo === null || foo === void 0 ? void 0 : (ref4 = foo.bar) === null || ref4 === void 0 ? void 0 : ref4.baz(foo.bar, true);
-    (ref5 = foo.bar) === null || ref5 === void 0 ? void 0 : (ref6 = ref5.baz) === null || ref6 === void 0 ? void 0 : ref6.call(ref5, foo.bar, false);
-    foo === null || foo === void 0 ? void 0 : (ref7 = foo.bar) === null || ref7 === void 0 ? void 0 : (ref8 = ref7.baz) === null || ref8 === void 0 ? void 0 : ref8.call(ref7, foo.bar, true);
+    (_foo_bar1 = foo.bar) === null || _foo_bar1 === void 0 ? void 0 : _foo_bar1.call(foo, foo.bar, false);
+    foo === null || foo === void 0 ? void 0 : (_foo_bar2 = foo.bar) === null || _foo_bar2 === void 0 ? void 0 : _foo_bar2.call(foo, foo.bar, true);
+    (_foo_bar3 = foo.bar) === null || _foo_bar3 === void 0 ? void 0 : _foo_bar3.baz(foo.bar, false);
+    foo === null || foo === void 0 ? void 0 : (_foo_bar4 = foo.bar) === null || _foo_bar4 === void 0 ? void 0 : _foo_bar4.baz(foo.bar, true);
+    (_foo_bar5 = foo.bar) === null || _foo_bar5 === void 0 ? void 0 : (_foo_bar_baz = _foo_bar5.baz) === null || _foo_bar_baz === void 0 ? void 0 : _foo_bar_baz.call(_foo_bar5, foo.bar, false);
+    foo === null || foo === void 0 ? void 0 : (_foo_bar6 = foo.bar) === null || _foo_bar6 === void 0 ? void 0 : (_foo_bar_baz1 = _foo_bar6.baz) === null || _foo_bar_baz1 === void 0 ? void 0 : _foo_bar_baz1.call(_foo_bar6, foo.bar, true);
 }
 "#
 );
@@ -362,16 +359,13 @@ street = user.address?.street
 test(a?.b,  1);
 
 (a?.b, 2);
-
 "#,
     r#"
-var ref, ref1;
-
-var street = (ref = user.address) === null || ref === void 0 ? void 0 : ref.street;
-street = (ref1 = user.address) === null || ref1 === void 0 ? void 0 : ref1.street;
+var _user_address, _user_address1;
+var street = (_user_address = user.address) === null || _user_address === void 0 ? void 0 : _user_address.street;
+street = (_user_address1 = user.address) === null || _user_address1 === void 0 ? void 0 : _user_address1.street;
 test(a === null || a === void 0 ? void 0 : a.b, 1);
 a === null || a === void 0 ? void 0 : a.b, 2;
-
 "#
 );
 
@@ -439,17 +433,17 @@ orders[client.key]?.price;
 
 "#,
     r#"
-var ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7;
+var _ref, _a_b, _ref1, _a_b_c, _a_b_c_d, _orders_, _orders_client_key, _c;
 foo === null || foo === void 0 ? void 0 : foo.bar;
-(ref = a === null || a === void 0 ? void 0 : a.b.c) === null || ref === void 0 ? void 0 : ref.d.e;
-(ref2 = (ref1 = a.b) === null || ref1 === void 0 ? void 0 : ref1.c.d) === null || ref2 === void 0 ? void 0 : ref2.e;
-(ref3 = a.b.c) === null || ref3 === void 0 ? void 0 : (ref4 = ref3.d) === null || ref4 === void 0 ? void 0 : ref4.e;
+(_ref = a === null || a === void 0 ? void 0 : a.b.c) === null || _ref === void 0 ? void 0 : _ref.d.e;
+(_ref1 = (_a_b = a.b) === null || _a_b === void 0 ? void 0 : _a_b.c.d) === null || _ref1 === void 0 ? void 0 : _ref1.e;
+(_a_b_c = a.b.c) === null || _a_b_c === void 0 ? void 0 : (_a_b_c_d = _a_b_c.d) === null || _a_b_c_d === void 0 ? void 0 : _a_b_c_d.e;
 orders === null || orders === void 0 ? void 0 : orders[0].price;
-orders === null || orders === void 0 ? void 0 : (ref5 = orders[0]) === null || ref5 === void 0 ? void 0 : ref5.price;
+orders === null || orders === void 0 ? void 0 : (_orders_ = orders[0]) === null || _orders_ === void 0 ? void 0 : _orders_.price;
 orders[client === null || client === void 0 ? void 0 : client.key].price;
-(ref6 = orders[client.key]) === null || ref6 === void 0 ? void 0 : ref6.price;
+(_orders_client_key = orders[client.key]) === null || _orders_client_key === void 0 ? void 0 : _orders_client_key.price;
 (0, a === null || a === void 0 ? void 0 : a.b).c;
-(0, (ref7 = (0, a === null || a === void 0 ? void 0 : a.b).c) === null || ref7 === void 0 ? void 0 : ref7.d).e;
+(0, (_c = (0, a === null || a === void 0 ? void 0 : a.b).c) === null || _c === void 0 ? void 0 : _c.d).e;
 "#
 );
 
@@ -479,18 +473,16 @@ test = +obj?.b?.b;
     r#"
 "use strict";
 
-var ref, ref1, ref2;
-
+var _obj_a, _obj_b, _obj_b1;
 const obj = {
-  a: {
-    b: 0
-  }
+    a: {
+        b: 0
+    }
 };
-let test = +(obj === null || obj === void 0 ? void 0 : (ref = obj.a) === null || ref === void 0 ? void 0 : ref.b);
+let test = +(obj === null || obj === void 0 ? void 0 : (_obj_a = obj.a) === null || _obj_a === void 0 ? void 0 : _obj_a.b);
 test = +(obj === null || obj === void 0 ? void 0 : obj.a.b);
-test = +(obj === null || obj === void 0 ? void 0 : (ref1 = obj.b) === null || ref1 === void 0 ? void 0 : ref1.b);
-test = +(obj === null || obj === void 0 ? void 0 : (ref2 = obj.b) === null || ref2 === void 0 ? void 0 : ref2.b);
-
+test = +(obj === null || obj === void 0 ? void 0 : (_obj_b = obj.b) === null || _obj_b === void 0 ? void 0 : _obj_b.b);
+test = +(obj === null || obj === void 0 ? void 0 : (_obj_b1 = obj.b) === null || _obj_b1 === void 0 ? void 0 : _obj_b1.b);
 "#
 );
 
@@ -526,18 +518,19 @@ foo?.bar()?.()
 
 "#,
     r#"
-var ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7, ref8, ref9;
+var _foo_bar, _foo_bar1, _foo, _foo_bar2, _foo_bar3, _foo_bar_call, _foo_bar4, _foo_bar5, _foo_bar_call1, _ref;
 foo === null || foo === void 0 ? void 0 : foo(foo);
 foo === null || foo === void 0 ? void 0 : foo.bar();
-(ref = foo.bar) === null || ref === void 0 ? void 0 : ref.call(foo, foo.bar, false);
-foo === null || foo === void 0 ? void 0 : (ref1 = foo.bar) === null || ref1 === void 0 ? void 0 : ref1.call(foo, foo.bar, true);
+(_foo_bar = foo.bar) === null || _foo_bar === void 0 ? void 0 : _foo_bar.call(foo, foo.bar, false);
+foo === null || foo === void 0 ? void 0 : (_foo_bar1 = foo.bar) === null || _foo_bar1 === void 0 ? void 0 : _foo_bar1.call(foo, foo.bar, true);
 foo === null || foo === void 0 ? void 0 : foo().bar;
-foo === null || foo === void 0 ? void 0 : (ref2 = foo()) === null || ref2 === void 0 ? void 0 : ref2.bar;
-(ref3 = foo.bar) === null || ref3 === void 0 ? void 0 : ref3.call(foo).baz;
-(ref4 = foo.bar) === null || ref4 === void 0 ? void 0 : (ref5 = ref4.call(foo)) === null || ref5 === void 0 ? void 0 : ref5.baz;
-foo === null || foo === void 0 ? void 0 : (ref6 = foo.bar) === null || ref6 === void 0 ? void 0 : ref6.call(foo).baz;
-foo === null || foo === void 0 ? void 0 : (ref7 = foo.bar) === null || ref7 === void 0 ? void 0 : (ref8 = ref7.call(foo)) === null || ref8 === void 0 ? void 0 : ref8.baz;
-(ref9 = foo === null || foo === void 0 ? void 0 : foo.bar()) === null || ref9 === void 0 ? void 0 : ref9();"#
+foo === null || foo === void 0 ? void 0 : (_foo = foo()) === null || _foo === void 0 ? void 0 : _foo.bar;
+(_foo_bar2 = foo.bar) === null || _foo_bar2 === void 0 ? void 0 : _foo_bar2.call(foo).baz;
+(_foo_bar3 = foo.bar) === null || _foo_bar3 === void 0 ? void 0 : (_foo_bar_call = _foo_bar3.call(foo)) === null || _foo_bar_call === void 0 ? void 0 : _foo_bar_call.baz;
+foo === null || foo === void 0 ? void 0 : (_foo_bar4 = foo.bar) === null || _foo_bar4 === void 0 ? void 0 : _foo_bar4.call(foo).baz;
+foo === null || foo === void 0 ? void 0 : (_foo_bar5 = foo.bar) === null || _foo_bar5 === void 0 ? void 0 : (_foo_bar_call1 = _foo_bar5.call(foo)) === null || _foo_bar_call1 === void 0 ? void 0 : _foo_bar_call1.baz;
+(_ref = foo === null || foo === void 0 ? void 0 : foo.bar()) === null || _ref === void 0 ? void 0 : _ref();
+"#
 );
 
 // general_unary_exec
@@ -605,18 +598,16 @@ delete obj?.a;
     r#"
 "use strict";
 
-var ref, ref1;
-
+var _obj_a, _obj_b;
 const obj = {
-  a: {
-    b: 0
-  }
+    a: {
+        b: 0
+    }
 };
-let test = obj === null || obj === void 0 ? void 0 : (ref = obj.a) === null || ref === void 0 ? void 0 : delete ref.b;
+let test = obj === null || obj === void 0 ? void 0 : (_obj_a = obj.a) === null || _obj_a === void 0 ? void 0 : delete _obj_a.b;
 test = obj === null || obj === void 0 ? void 0 : delete obj.a.b;
-test = obj === null || obj === void 0 ? void 0 : (ref1 = obj.b) === null || ref1 === void 0 ? void 0 : delete ref1.b;
+test = obj === null || obj === void 0 ? void 0 : (_obj_b = obj.b) === null || _obj_b === void 0 ? void 0 : delete _obj_b.b;
 obj === null || obj === void 0 ? void 0 : delete obj.a;
-
 "#
 );
 
@@ -699,16 +690,13 @@ class Base {
   method() {
     return 'Hello!';
   }
-
 }
 
 class Derived extends Base {
   method() {
-    var ref;
-
-    return (ref = super.method) === null || ref === void 0 ? void 0 : ref.call(this);
+    var _super_method;
+    return (_super_method = super.method) === null || _super_method === void 0 ? void 0 : _super_method.call(this);
   }
-
 }
 
 "#
@@ -727,9 +715,9 @@ test!(
     |_| tr(Default::default()),
     simple_2,
     "obj?.a?.b",
-    "var ref;
-obj === null || obj === void 0 ? void 0 : (ref = obj.a) === null || ref === void 0 ? void 0 : \
-     ref.b;"
+    "var _obj_a;
+    obj === null || obj === void 0 ? void 0 : (_obj_a = obj.a) === null || _obj_a === void 0 ? \
+     void 0 : _obj_a.b;"
 );
 
 test!(
@@ -737,9 +725,9 @@ test!(
     |_| tr(Default::default()),
     simple_3,
     "obj?.a?.b.c",
-    "var ref;
-obj === null || obj === void 0 ? void 0 : (ref = obj.a) === null || ref === void 0 ? void 0 : \
-     ref.b.c;"
+    "var _obj_a;
+    obj === null || obj === void 0 ? void 0 : (_obj_a = obj.a) === null || _obj_a === void 0 ? \
+     void 0 : _obj_a.b.c;"
 );
 
 test!(
@@ -747,9 +735,9 @@ test!(
     |_| tr(Default::default()),
     call_1,
     "obj?.a?.b()",
-    "var ref;
-obj === null || obj === void 0 ? void 0 : (ref = obj.a) === null || ref === void 0 ? void 0 : \
-     ref.b();",
+    "var _obj_a;
+    obj === null || obj === void 0 ? void 0 : (_obj_a = obj.a) === null || _obj_a === void 0 ? \
+     void 0 : _obj_a.b();",
     ok_if_code_eq
 );
 
@@ -758,15 +746,10 @@ test!(
     |_| tr(Default::default()),
     call_2,
     "a?.b?.c?.()",
-    "var ref, ref1;
+    "var _a_b, _a_b_c;
 
-a === null || a === void 0
-  ? void 0
-  : (ref = a.b) === null || ref === void 0
-    ? void 0
-    : (ref1 = ref.c) === null || ref1 === void 0
-      ? void 0
-      : ref1.call(ref);"
+    a === null || a === void 0 ? void 0 : (_a_b = a.b) === null || _a_b === void 0 ? void 0 : \
+     (_a_b_c = _a_b.c) === null || _a_b_c === void 0 ? void 0 : _a_b_c.call(_a_b);"
 );
 
 test!(
@@ -774,8 +757,8 @@ test!(
     |_| tr(Default::default()),
     issue_732_1,
     "test.a?.b.c.d",
-    "var ref;
-(ref = test.a) === null || ref === void 0 ? void 0 : ref.b.c.d"
+    "var _test_a;
+    (_test_a = test.a) === null || _test_a === void 0 ? void 0 : _test_a.b.c.d;"
 );
 
 test!(
@@ -783,8 +766,8 @@ test!(
     |_| tr(Default::default()),
     issue_732_2,
     "test.a?.b.c",
-    "var ref;
-(ref = test.a) === null || ref === void 0 ? void 0 : ref.b.c;"
+    "var _test_a;
+    (_test_a = test.a) === null || _test_a === void 0 ? void 0 : _test_a.b.c;"
 );
 
 test!(
@@ -792,8 +775,8 @@ test!(
     |_| tr(Default::default()),
     issue_732_3,
     "test.a?.b.c.d.e.f.g.h.i",
-    "var ref;
-(ref = test.a) === null || ref === void 0 ? void 0 : ref.b.c.d.e.f.g.h.i"
+    "var _test_a;
+    (_test_a = test.a) === null || _test_a === void 0 ? void 0 : _test_a.b.c.d.e.f.g.h.i;"
 );
 
 // https://github.com/Brooooooklyn/swc-node/issues/62
@@ -802,8 +785,8 @@ test!(
     |_| tr(Default::default()),
     swc_node_issue_62,
     "a.focus?.()",
-    "var ref;
-    (ref = a.focus) === null || ref === void 0 ? void 0 : ref.call(a);"
+    "var _a_focus;
+    (_a_focus = a.focus) === null || _a_focus === void 0 ? void 0 : _a_focus.call(a);"
 );
 
 test!(
@@ -851,9 +834,10 @@ test!(
 obj?.a?.b?.c()
 ",
     "
-    var ref, ref1;
-obj === null || obj === void 0 ? void 0 : (ref = obj.a) === null || ref === void 0 ? void 0 : \
-     (ref1 = ref.b) === null || ref1 === void 0 ? void 0 : ref1.c();"
+var _obj_a, _obj_a_b;
+obj === null || obj === void 0 ? void 0 : (_obj_a = obj.a) === null || _obj_a === void 0 ? void 0 \
+     : (_obj_a_b = _obj_a.b) === null || _obj_a_b === void 0 ? void 0 : _obj_a_b.c();
+"
 );
 
 test!(
@@ -864,9 +848,10 @@ test!(
 expect(obj?.a?.b?.c()).toBe(2)
 ",
     "
-  var ref, ref1;
-expect(obj === null || obj === void 0 ? void 0 : (ref = obj.a) === null || ref === void 0 ? void 0 \
-     : (ref1 = ref.b) === null || ref1 === void 0 ? void 0 : ref1.c()).toBe(2);
+var _obj_a, _obj_a_b;
+expect(obj === null || obj === void 0 ? void 0 : (_obj_a = obj.a) === null || _obj_a === void 0 ? \
+     void 0 : (_obj_a_b = _obj_a.b) === null || _obj_a_b === void 0 ? void 0 : \
+     _obj_a_b.c()).toBe(2);
 "
 );
 
@@ -923,10 +908,10 @@ test!(
     const patch = PATCHES.get(ident)?.();
     "#,
     r#"
-    var ref;
+    var _PATCHES_get;
     const PATCHES = new Map();
     const ident = 'foo';
-    const patch = (ref = PATCHES.get(ident)) === null || ref === void 0 ? void 0 : ref();
+    const patch = (_PATCHES_get = PATCHES.get(ident)) === null || _PATCHES_get === void 0 ? void 0 : _PATCHES_get();
     "#
 );
 
@@ -936,8 +921,8 @@ test!(
     pr_2791,
     r#"UNCONFIRMED_CALLBACK_MAP.get(pid)?.(error, response)"#,
     r#"
-var ref;
-(ref = UNCONFIRMED_CALLBACK_MAP.get(pid)) === null || ref === void 0 ? void 0 : ref(error, response)
+var _UNCONFIRMED_CALLBACK_MAP_get;
+(_UNCONFIRMED_CALLBACK_MAP_get = UNCONFIRMED_CALLBACK_MAP.get(pid)) === null || _UNCONFIRMED_CALLBACK_MAP_get === void 0 ? void 0 : _UNCONFIRMED_CALLBACK_MAP_get(error, response);
   "#
 );
 
@@ -954,13 +939,13 @@ test!(
     ",
     "
     function bug() {
-        const arrowFn = (arg)=>{
-            var _object, ref;
-            return (ref = (_object = this.object)[arg]) === null || ref === void 0 ? void 0 : \
-     ref.call(_object);
-        };
+      const arrowFn = (arg)=>{
+          var _this_object, _this_object_arg;
+          return (_this_object_arg = (_this_object = this.object)[arg]) === null || \
+     _this_object_arg === void 0 ? void 0 : _this_object_arg.call(_this_object)
+      };
     }
-    bug();
+    bug();  
     "
 );
 

@@ -6,8 +6,8 @@ function f(a) {
 }
 function _f() {
     _f = _wrap_async_generator(function*(a) {
-        var _b;
-        let c = (_b = a.b) !== null && _b !== void 0 ? _b : 10;
+        var _a_b;
+        let c = (_a_b = a.b) !== null && _a_b !== void 0 ? _a_b : 10;
         while(c){
             yield c--;
         }

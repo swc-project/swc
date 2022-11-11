@@ -76,9 +76,9 @@ test!(
 class HomePage extends React.Component {}
 "#,
     r#"
-let HomePage = function(_Component) {
+let HomePage = function(_React_Component) {
     "use strict";
-    _inherits(HomePage, _Component);
+    _inherits(HomePage, _React_Component);
     var _super = _createSuper(HomePage);
     function HomePage() {
         _classCallCheck(this, HomePage);
@@ -4479,10 +4479,10 @@ class BaseController2 extends Chaplin.Controller.Another {
     r#"
 var BaseController =
 /*#__PURE__*/
-function (_Controller) {
+function (_Chaplin_Controller) {
   "use strict";
 
-  _inherits(BaseController, _Controller);
+  _inherits(BaseController, _Chaplin_Controller);
   var _super = _createSuper(BaseController);
   function BaseController() {
     _classCallCheck(this, BaseController);
@@ -4494,10 +4494,10 @@ function (_Controller) {
 
 var BaseController2 =
 /*#__PURE__*/
-function (_Another) {
+function (_Chaplin_Controller_Another) {
   "use strict";
 
-  _inherits(BaseController2, _Another);
+  _inherits(BaseController2, _Chaplin_Controller_Another);
   var _super = _createSuper(BaseController2);
   function BaseController2() {
     _classCallCheck(this, BaseController2);
@@ -7252,27 +7252,27 @@ class BaseController extends Chaplin.Controller { }
 class BaseController2 extends Chaplin.Controller.Another { }
 "#,
     r#"
-let BaseController = /*#__PURE__*/function (_Controller) {
+let BaseController = /*#__PURE__*/function (_Chaplin_Controller) {
   "use strict";
 
-  _inherits(BaseController, _Controller);
+  _inherits(BaseController, _Chaplin_Controller);
 
   function BaseController() {
     _classCallCheck(this, BaseController);
-    return _Controller.apply(this, arguments);
+    return _Chaplin_Controller.apply(this, arguments);
   }
 
   return BaseController;
 }(Chaplin.Controller);
 
-let BaseController2 = /*#__PURE__*/function (_Another) {
+let BaseController2 = /*#__PURE__*/function (_Chaplin_Controller_Another) {
   "use strict";
 
-  _inherits(BaseController2, _Another);
+  _inherits(BaseController2, _Chaplin_Controller_Another);
 
   function BaseController2() {
     _classCallCheck(this, BaseController2);
-    return _Another.apply(this, arguments);
+    return _Chaplin_Controller_Another.apply(this, arguments);
   }
 
   return BaseController2;

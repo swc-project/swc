@@ -13,7 +13,7 @@ var Base = /*#__PURE__*/ function() {
     };
     return Base;
 }();
-var tmp = super.bar();
+var _super_bar = super.bar();
 var C = /*#__PURE__*/ function(Base) {
     "use strict";
     _inherits(C, Base);
@@ -23,6 +23,6 @@ var C = /*#__PURE__*/ function(Base) {
         return _super.apply(this, arguments);
     }
     var _proto = C.prototype;
-    _proto[tmp] = function() {};
+    _proto[_super_bar] = function() {};
     return C;
 }(Base);

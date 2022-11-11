@@ -1,6 +1,6 @@
 //// [callChain.ts]
-var _o2, _o21, _o22, _o23, _ref, _ref1, _ref2, _ref3, _ref4, _ref5;
-var ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7, ref8, ref9, ref10, ref11, ref12;
+var _o2, _o21, _o22, _o23, _o3_b, _o3_b1, _o3_b2, _o3_b3, _o3_b4, _o3_b5;
+var _o3_b6, _o3_b7, _o3_b8, _o3_b9, _o3_b10, _o3_b11, _o3_b12, _o3_b13, _o3_b14, _o3_b15, _o3_b16, _o3_b17, _o5;
 o1 === null || o1 === void 0 ? void 0 : o1();
 o1 === null || o1 === void 0 ? void 0 : o1(1);
 o1 === null || o1 === void 0 ? void 0 : o1.apply(void 0, [
@@ -37,42 +37,42 @@ o2 === null || o2 === void 0 ? void 0 : (_o23 = o2)["b"].apply(_o23, [
     3,
     4
 ]);
-(ref = o3.b) === null || ref === void 0 ? void 0 : ref.call(o3).c;
-(ref1 = o3.b) === null || ref1 === void 0 ? void 0 : ref1.call(o3, 1).c;
-(ref2 = o3.b) === null || ref2 === void 0 ? void 0 : (_ref = ref2).call.apply(_ref, [
+(_o3_b6 = o3.b) === null || _o3_b6 === void 0 ? void 0 : _o3_b6.call(o3).c;
+(_o3_b7 = o3.b) === null || _o3_b7 === void 0 ? void 0 : _o3_b7.call(o3, 1).c;
+(_o3_b8 = o3.b) === null || _o3_b8 === void 0 ? void 0 : (_o3_b = _o3_b8).call.apply(_o3_b, [
     o3,
     1,
     2
 ]).c;
-(ref3 = o3.b) === null || ref3 === void 0 ? void 0 : (_ref1 = ref3).call.apply(_ref1, [
+(_o3_b9 = o3.b) === null || _o3_b9 === void 0 ? void 0 : (_o3_b1 = _o3_b9).call.apply(_o3_b1, [
     o3,
     1,
     2,
     3,
     4
 ]).c;
-(ref4 = o3.b) === null || ref4 === void 0 ? void 0 : ref4.call(o3)["c"];
-(ref5 = o3.b) === null || ref5 === void 0 ? void 0 : ref5.call(o3, 1)["c"];
-(ref6 = o3.b) === null || ref6 === void 0 ? void 0 : (_ref2 = ref6).call.apply(_ref2, [
+(_o3_b10 = o3.b) === null || _o3_b10 === void 0 ? void 0 : _o3_b10.call(o3)["c"];
+(_o3_b11 = o3.b) === null || _o3_b11 === void 0 ? void 0 : _o3_b11.call(o3, 1)["c"];
+(_o3_b12 = o3.b) === null || _o3_b12 === void 0 ? void 0 : (_o3_b2 = _o3_b12).call.apply(_o3_b2, [
     o3,
     1,
     2
 ])["c"];
-(ref7 = o3.b) === null || ref7 === void 0 ? void 0 : (_ref3 = ref7).call.apply(_ref3, [
+(_o3_b13 = o3.b) === null || _o3_b13 === void 0 ? void 0 : (_o3_b3 = _o3_b13).call.apply(_o3_b3, [
     o3,
     1,
     2,
     3,
     4
 ])["c"];
-(ref8 = o3["b"]) === null || ref8 === void 0 ? void 0 : ref8.call(o3).c;
-(ref9 = o3["b"]) === null || ref9 === void 0 ? void 0 : ref9.call(o3, 1).c;
-(ref10 = o3["b"]) === null || ref10 === void 0 ? void 0 : (_ref4 = ref10).call.apply(_ref4, [
+(_o3_b14 = o3["b"]) === null || _o3_b14 === void 0 ? void 0 : _o3_b14.call(o3).c;
+(_o3_b15 = o3["b"]) === null || _o3_b15 === void 0 ? void 0 : _o3_b15.call(o3, 1).c;
+(_o3_b16 = o3["b"]) === null || _o3_b16 === void 0 ? void 0 : (_o3_b4 = _o3_b16).call.apply(_o3_b4, [
     o3,
     1,
     2
 ]).c;
-(ref11 = o3["b"]) === null || ref11 === void 0 ? void 0 : (_ref5 = ref11).call.apply(_ref5, [
+(_o3_b17 = o3["b"]) === null || _o3_b17 === void 0 ? void 0 : (_o3_b5 = _o3_b17).call.apply(_o3_b5, [
     o3,
     1,
     2,
@@ -80,7 +80,7 @@ o2 === null || o2 === void 0 ? void 0 : (_o23 = o2)["b"].apply(_o23, [
     4
 ]).c;
 var v = o4 === null || o4 === void 0 ? void 0 : o4(incr);
-(ref12 = o5()) === null || ref12 === void 0 ? void 0 : ref12();
+(_o5 = o5()) === null || _o5 === void 0 ? void 0 : _o5();
 // GH#36031
 o2 === null || o2 === void 0 ? void 0 : o2.b().toString;
 o2 === null || o2 === void 0 ? void 0 : o2.b().toString;

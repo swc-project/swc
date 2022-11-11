@@ -7,9 +7,9 @@ class Foo {
     getValue(x) {
         const obj = this;
         var _y = /*#__PURE__*/ new WeakMap();
-        let tmp = _class_private_field_get(obj, _name);
+        let _class_private_field_get1 = _class_private_field_get(obj, _name);
         class Bar {
-            [tmp]() {
+            [_class_private_field_get1]() {
                 return x + _class_private_field_get(this, _y);
             }
             constructor(){

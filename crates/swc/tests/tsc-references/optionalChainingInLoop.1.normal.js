@@ -12,8 +12,8 @@ try {
         try {
             for(var _iterator = comp.c[Symbol.iterator](), _step1; !(_iteratorNormalCompletion = (_step1 = _iterator.next()).done); _iteratorNormalCompletion = true){
                 var item = _step1.value;
-                var ref;
-                item.v = !!((ref = item.t) === null || ref === void 0 ? void 0 : ref.length);
+                var _item_t;
+                item.v = !!((_item_t = item.t) === null || _item_t === void 0 ? void 0 : _item_t.length);
             }
         } catch (err) {
             _didIteratorError = true;

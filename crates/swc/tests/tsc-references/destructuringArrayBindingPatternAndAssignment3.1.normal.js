@@ -1,14 +1,14 @@
 //// [destructuringArrayBindingPatternAndAssignment3.ts]
 import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
-var ref = [
+var _ref = [
     1
-], a = ref[0], tmp = ref[1], b = tmp === void 0 ? a : tmp; // ok
-var ref1 = [
+], a = _ref[0], tmp = _ref[1], b = tmp === void 0 ? a : tmp; // ok
+var _ref1 = [
     1
-], c = ref1[0], tmp1 = ref1[1], d = tmp1 === void 0 ? c : tmp1, tmp2 = ref1[2], e = tmp2 === void 0 ? e : tmp2; // error for e = e
-var ref2 = [
+], c = _ref1[0], tmp1 = _ref1[1], d = tmp1 === void 0 ? c : tmp1, tmp2 = _ref1[2], e = tmp2 === void 0 ? e : tmp2; // error for e = e
+var _ref2 = [
     1
-], f = ref2[0], tmp3 = ref2[1], g = tmp3 === void 0 ? f : tmp3, tmp4 = ref2[2], h = tmp4 === void 0 ? i : tmp4, tmp5 = ref2[3], i = tmp5 === void 0 ? f : tmp5; // error for h = i
+], f = _ref2[0], tmp3 = _ref2[1], g = tmp3 === void 0 ? f : tmp3, tmp4 = _ref2[2], h = tmp4 === void 0 ? i : tmp4, tmp5 = _ref2[3], i = tmp5 === void 0 ? f : tmp5; // error for h = i
 (function(param) {
     var _param = _sliced_to_array(param, 2), a = _param[0], tmp = _param[1], b = tmp === void 0 ? a : tmp;
 })([

@@ -1,6 +1,6 @@
 //// [wideningTuples6.ts]
-var ref = [
+var _ref = [
     void 0,
     null
 ];
-ref[0], ref[1];
+_ref[0], _ref[1];

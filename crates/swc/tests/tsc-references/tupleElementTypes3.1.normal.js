@@ -1,5 +1,5 @@
 //// [tupleElementTypes3.ts]
-var ref = [
+var _ref = [
     0,
     undefined
-], a = ref[0], b = ref[1];
+], a = _ref[0], b = _ref[1];

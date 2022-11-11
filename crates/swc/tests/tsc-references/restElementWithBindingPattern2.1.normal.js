@@ -1,5 +1,5 @@
 //// [restElementWithBindingPattern2.ts]
-var ref = [
+var _ref = [
     0,
     1
-], a = ref[0], b = ref.b;
+], a = _ref[0], b = _ref.b;

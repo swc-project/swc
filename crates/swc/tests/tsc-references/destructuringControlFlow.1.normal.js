@@ -36,7 +36,7 @@ function f4() {
     var ref1;
     ref1 = 0, x = ref1["x" + ""], ref1; // Errpr
 }
-var ref = [
+var _ref = [
     "foo"
-], key = ref[0], value = ref[1];
+], key = _ref[0], value = _ref[1];
 value.toUpperCase(); // Error

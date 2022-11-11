@@ -63,9 +63,9 @@ function f6(x) {
     x.p; // Ok, public if any constituent is public
 }
 // Can't derive from type with inaccessible properties
-var C1 = /*#__PURE__*/ function(_superClass) {
+var C1 = /*#__PURE__*/ function(_Mix) {
     "use strict";
-    _inherits(C1, _superClass);
+    _inherits(C1, _Mix);
     var _super = _create_super(C1);
     function C1() {
         _class_call_check(this, C1);
@@ -73,9 +73,9 @@ var C1 = /*#__PURE__*/ function(_superClass) {
     }
     return C1;
 }(Mix(Private, Private2));
-var C2 = /*#__PURE__*/ function(_superClass) {
+var C2 = /*#__PURE__*/ function(_Mix) {
     "use strict";
-    _inherits(C2, _superClass);
+    _inherits(C2, _Mix);
     var _super = _create_super(C2);
     function C2() {
         _class_call_check(this, C2);
@@ -83,9 +83,9 @@ var C2 = /*#__PURE__*/ function(_superClass) {
     }
     return C2;
 }(Mix(Private, Protected));
-var C3 = /*#__PURE__*/ function(_superClass) {
+var C3 = /*#__PURE__*/ function(_Mix) {
     "use strict";
-    _inherits(C3, _superClass);
+    _inherits(C3, _Mix);
     var _super = _create_super(C3);
     function C3() {
         _class_call_check(this, C3);
@@ -93,9 +93,9 @@ var C3 = /*#__PURE__*/ function(_superClass) {
     }
     return C3;
 }(Mix(Private, Public));
-var C4 = /*#__PURE__*/ function(_superClass) {
+var C4 = /*#__PURE__*/ function(_Mix) {
     "use strict";
-    _inherits(C4, _superClass);
+    _inherits(C4, _Mix);
     var _super = _create_super(C4);
     function C4() {
         _class_call_check(this, C4);
@@ -114,9 +114,9 @@ var C4 = /*#__PURE__*/ function(_superClass) {
     };
     return C4;
 }(Mix(Protected, Protected2));
-var C5 = /*#__PURE__*/ function(_superClass) {
+var C5 = /*#__PURE__*/ function(_Mix) {
     "use strict";
-    _inherits(C5, _superClass);
+    _inherits(C5, _Mix);
     var _super = _create_super(C5);
     function C5() {
         _class_call_check(this, C5);
@@ -135,9 +135,9 @@ var C5 = /*#__PURE__*/ function(_superClass) {
     };
     return C5;
 }(Mix(Protected, Public));
-var C6 = /*#__PURE__*/ function(_superClass) {
+var C6 = /*#__PURE__*/ function(_Mix) {
     "use strict";
-    _inherits(C6, _superClass);
+    _inherits(C6, _Mix);
     var _super = _create_super(C6);
     function C6() {
         _class_call_check(this, C6);

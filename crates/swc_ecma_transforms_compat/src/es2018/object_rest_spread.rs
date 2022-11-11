@@ -363,7 +363,7 @@ impl VisitMut for ObjectRest {
                 Pat::Ident(ref i) => (i.id.clone(), false),
 
                 _ => match decl.init {
-                    Some(ref e) => alias_if_required(e, "_ref"),
+                    Some(ref e) => alias_if_required(e, "ref"),
                     _ => (private_ident!("_ref"), true),
                 },
             };

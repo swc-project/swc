@@ -5,5 +5,5 @@
  */ /**
  * @param {Foo} [options]
  */ function f(param) {
-    var _a = param.a, a = _a === void 0 ? "a" : _a;
+    var _param_a = param.a, a = _param_a === void 0 ? "a" : _param_a;
 }

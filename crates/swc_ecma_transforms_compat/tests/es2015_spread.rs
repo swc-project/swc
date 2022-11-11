@@ -250,8 +250,8 @@ var obj = {
 
 switch (true) {
   case true:
-    var _obj;
-    (_obj = obj.obj).fn.apply(_obj, _toConsumableArray(args));
+    var _obj_obj;
+    (_obj_obj = obj.obj).fn.apply(_obj_obj, _toConsumableArray(args));
 
     break;
 }
@@ -285,11 +285,11 @@ foob.test.add(foo, bar, ...numbers);
 
 "#,
     r#"
-var _foob, _test;
+var _foob, _foob_test;
 
 (_foob = foob).add.apply(_foob, [foo, bar].concat(_toConsumableArray(numbers)));
 
-(_test = foob.test).add.apply(_test, [foo, bar].concat(_toConsumableArray(numbers)));
+(_foob_test = foob.test).add.apply(_foob_test, [foo, bar].concat(_toConsumableArray(numbers)));
 
 "#
 );
@@ -592,9 +592,9 @@ foob.test.add(foo, bar, ...numbers);
 
 "#,
     r#"
-var _foob, _test;
+var _foob, _foob_test;
 (_foob = foob).add.apply(_foob, [foo, bar].concat(_toConsumableArray(numbers)));
-(_test = foob.test).add.apply(_test, [foo, bar].concat(_toConsumableArray(numbers)))
+(_foob_test = foob.test).add.apply(_foob_test, [foo, bar].concat(_toConsumableArray(numbers)))
 "#
 );
 
@@ -728,9 +728,9 @@ foob.test.add(...numbers);
 
 "#,
     r#"
-var _foob, _test;
+var _foob, _foob_test;
 (_foob = foob).add.apply(_foob, _toConsumableArray(numbers));
-(_test = foob.test).add.apply(_test, _toConsumableArray(numbers));
+(_foob_test = foob.test).add.apply(_foob_test, _toConsumableArray(numbers));
 "#
 );
 

@@ -2,9 +2,9 @@
 import _class_static_private_field_spec_get from "@swc/helpers/src/_class_static_private_field_spec_get.mjs";
 class A {
     test() {
-        var ref;
+        var _class_static_private_field_spec_get1;
         _class_static_private_field_spec_get(A, A, _fieldFunc).call(A);
-        (ref = _class_static_private_field_spec_get(A, A, _fieldFunc)) === null || ref === void 0 ? void 0 : ref.call(A);
+        (_class_static_private_field_spec_get1 = _class_static_private_field_spec_get(A, A, _fieldFunc)) === null || _class_static_private_field_spec_get1 === void 0 ? void 0 : _class_static_private_field_spec_get1.call(A);
         const func = _class_static_private_field_spec_get(A, A, _fieldFunc);
         func();
         new (_class_static_private_field_spec_get(A, A, _fieldFunc))();

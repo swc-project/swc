@@ -1,5 +1,5 @@
 //// [callWithSpread.ts]
-var _instance, _instance1, _instance2, _instance3, _instance4, _instance5, _instance6, a, obj, xa;
+var _foo_apply, _foo_apply1, _foo_apply2, _foo_apply3, _xa_, _xa_1, _xa_2, a, obj, xa;
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _get from "@swc/helpers/src/_get.mjs";
 import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
@@ -28,16 +28,16 @@ foo(1, 2, "abc"), foo.apply(void 0, [
 ])), obj.foo.apply(obj, [
     1,
     2
-].concat(_to_consumable_array(a))).foo(1, 2, "abc"), (_instance = obj.foo.apply(obj, [
+].concat(_to_consumable_array(a))).foo(1, 2, "abc"), (_foo_apply = obj.foo.apply(obj, [
     1,
     2
-].concat(_to_consumable_array(a)))).foo.apply(_instance, [
+].concat(_to_consumable_array(a)))).foo.apply(_foo_apply, [
     1,
     2
-].concat(_to_consumable_array(a))), (_instance1 = obj.foo.apply(obj, [
+].concat(_to_consumable_array(a))), (_foo_apply1 = obj.foo.apply(obj, [
     1,
     2
-].concat(_to_consumable_array(a)))).foo.apply(_instance1, [
+].concat(_to_consumable_array(a)))).foo.apply(_foo_apply1, [
     1,
     2
 ].concat(_to_consumable_array(a), [
@@ -53,29 +53,29 @@ foo(1, 2, "abc"), foo.apply(void 0, [
 ])), obj.foo.apply(obj, [
     1,
     2
-].concat(_to_consumable_array(a))).foo(1, 2, "abc"), (_instance2 = obj.foo.apply(obj, [
+].concat(_to_consumable_array(a))).foo(1, 2, "abc"), (_foo_apply2 = obj.foo.apply(obj, [
     1,
     2
-].concat(_to_consumable_array(a)))).foo.apply(_instance2, [
+].concat(_to_consumable_array(a)))).foo.apply(_foo_apply2, [
     1,
     2
-].concat(_to_consumable_array(a))), (_instance3 = obj.foo.apply(obj, [
+].concat(_to_consumable_array(a))), (_foo_apply3 = obj.foo.apply(obj, [
     1,
     2
-].concat(_to_consumable_array(a)))).foo.apply(_instance3, [
-    1,
-    2
-].concat(_to_consumable_array(a), [
-    "abc"
-])), xa[1].foo(1, 2, "abc"), (_instance4 = xa[1]).foo.apply(_instance4, [
-    1,
-    2
-].concat(_to_consumable_array(a))), (_instance5 = xa[1]).foo.apply(_instance5, [
+].concat(_to_consumable_array(a)))).foo.apply(_foo_apply3, [
     1,
     2
 ].concat(_to_consumable_array(a), [
     "abc"
-])), (_instance6 = xa[1]).foo.apply(_instance6, [
+])), xa[1].foo(1, 2, "abc"), (_xa_ = xa[1]).foo.apply(_xa_, [
+    1,
+    2
+].concat(_to_consumable_array(a))), (_xa_1 = xa[1]).foo.apply(_xa_1, [
+    1,
+    2
+].concat(_to_consumable_array(a), [
+    "abc"
+])), (_xa_2 = xa[1]).foo.apply(_xa_2, [
     1,
     2,
     "abc"

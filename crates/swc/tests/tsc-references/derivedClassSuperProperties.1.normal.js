@@ -348,8 +348,8 @@ var DerivedWithClassDeclarationExtendingMember = /*#__PURE__*/ function(Base) {
     function DerivedWithClassDeclarationExtendingMember() {
         _class_call_check(this, DerivedWithClassDeclarationExtendingMember);
         var _this;
-        var InnerClass = /*#__PURE__*/ function(_memberClass) {
-            _inherits(InnerClass, _memberClass);
+        var InnerClass = /*#__PURE__*/ function(_this_memberClass) {
+            _inherits(InnerClass, _this_memberClass);
             var _super = _create_super(InnerClass);
             function InnerClass() {
                 _class_call_check(this, InnerClass);
@@ -407,8 +407,8 @@ var DerivedWithClassExpressionExtendingMember = /*#__PURE__*/ function(Base) {
     function DerivedWithClassExpressionExtendingMember() {
         _class_call_check(this, DerivedWithClassExpressionExtendingMember);
         var _this;
-        console.log(/*#__PURE__*/ function(_memberClass) {
-            _inherits(_class, _memberClass);
+        console.log(/*#__PURE__*/ function(_this_memberClass) {
+            _inherits(_class, _this_memberClass);
             var _super = _create_super(_class);
             function _class() {
                 _class_call_check(this, _class);

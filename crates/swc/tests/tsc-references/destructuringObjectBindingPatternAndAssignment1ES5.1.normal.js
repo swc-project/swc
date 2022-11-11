@@ -11,24 +11,24 @@ var a2 = {}.a2;
 var b1 = {
     b1: 1
 }.b1;
-var ref = {
+var _ref = {
     b2: {
         b21: "world"
     }
-}, tmp = ref.b2, b21 = (tmp === void 0 ? {
+}, tmp = _ref.b2, b21 = (tmp === void 0 ? {
     b21: "string"
 } : tmp).b21;
-var ref1 = {
+var _ref1 = {
     1: "string"
-}, b3 = ref1[1];
-var ref2 = {
+}, b3 = _ref1[1];
+var _ref2 = {
     b4: 100000
-}, _b4 = ref2.b4, b4 = _b4 === void 0 ? 1 : _b4;
-var ref3 = {
+}, _ref_b4 = _ref2.b4, b4 = _ref_b4 === void 0 ? 1 : _ref_b4;
+var _ref3 = {
     b5: {
         b52: b52
     }
-}, b52 = ref3.b5.b52;
+}, b52 = _ref3.b5.b52;
 function foo() {
     return {
         1: true
@@ -39,12 +39,12 @@ function bar() {
         2: true
     };
 }
-var ref4 = foo(), c0 = ref4[1];
-var ref5 = bar(), c1 = ref5[1];
+var _foo = foo(), c0 = _foo[1];
+var _bar = bar(), c1 = _bar[1];
 function foo1() {
     return {
         "prop1": 2
     };
 }
-var ref6 = foo1(), d1 = ref6["prop1"];
-var ref7 = foo1(), d1 = ref7["prop2"];
+var _foo1 = foo1(), d1 = _foo1["prop1"];
+var _foo11 = foo1(), d1 = _foo11["prop2"];

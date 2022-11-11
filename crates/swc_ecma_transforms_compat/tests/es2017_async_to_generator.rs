@@ -142,7 +142,7 @@ function foo(param) {
 }
 function _foo() {
     _foo = _asyncToGenerator(function*(param) {
-        let a = param.a, _b = param.b, b = _b === void 0 ? mandatory("b") : _b;
+        let a = param.a, _param_b = param.b, b = _param_b === void 0 ? mandatory("b") : _param_b;
         return Promise.resolve(b);
     });
     return _foo.apply(this, arguments);
@@ -1485,8 +1485,8 @@ function foo(_) {
 function _foo() {
   _foo = _asyncToGenerator(function* (param) {
     let a = param.a,
-        _b = param.b,
-        b = _b === void 0 ? mandatory("b") : _b;
+        _param_b = param.b,
+        b = _param_b === void 0 ? mandatory("b") : _param_b;
     return Promise.resolve(b);
   });
   return _foo.apply(this, arguments);
