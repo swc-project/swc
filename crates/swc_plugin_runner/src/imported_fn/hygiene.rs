@@ -33,7 +33,7 @@ pub fn mark_is_descendant_of_proxy(
     env: &BaseHostEnvironment,
     self_mark: u32,
     ancestor: u32,
-    allocated_ptr: i32,
+    allocated_ptr: u32,
 ) {
     let self_mark = Mark::from_u32(self_mark);
     let ancestor = Mark::from_u32(ancestor);
@@ -50,7 +50,7 @@ pub fn mark_is_descendant_of_proxy(
 }
 
 #[tracing::instrument(level = "info", skip_all)]
-pub fn mark_least_ancestor_proxy(env: &BaseHostEnvironment, a: u32, b: u32, allocated_ptr: i32) {
+pub fn mark_least_ancestor_proxy(env: &BaseHostEnvironment, a: u32, b: u32, allocated_ptr: u32) {
     let a = Mark::from_u32(a);
     let b = Mark::from_u32(b);
 
@@ -76,7 +76,7 @@ pub fn syntax_context_apply_mark_proxy(self_syntax_context: u32, mark: u32) -> u
 pub fn syntax_context_remove_mark_proxy(
     env: &BaseHostEnvironment,
     self_mark: u32,
-    allocated_ptr: i32,
+    allocated_ptr: u32,
 ) {
     let mut self_mark = SyntaxContext::from_u32(self_mark);
 

@@ -22,8 +22,8 @@ extern "C" {
     fn __lookup_char_pos_source_map_proxy(
         byte_pos: u32,
         should_include_source_file: i32,
-        allocated_ret_ptr: i32,
-    ) -> i32;
+        allocated_ret_ptr: u32,
+    ) -> u32;
     fn __doctest_offset_line_proxy(orig: u32) -> u32;
     fn __merge_spans_proxy(
         lhs_lo: u32,
@@ -32,28 +32,28 @@ extern "C" {
         rhs_lo: u32,
         rhs_hi: u32,
         rhs_ctxt: u32,
-        allocated_ptr: i32,
-    ) -> i32;
+        allocated_ptr: u32,
+    ) -> u32;
     fn __span_to_string_proxy(
         span_lo: u32,
         span_hi: u32,
         span_ctxt: u32,
-        allocated_ret_ptr: i32,
-    ) -> i32;
+        allocated_ret_ptr: u32,
+    ) -> u32;
     fn __span_to_filename_proxy(
         span_lo: u32,
         span_hi: u32,
         span_ctxt: u32,
-        allocated_ret_ptr: i32,
-    ) -> i32;
+        allocated_ret_ptr: u32,
+    ) -> u32;
     fn __span_to_lines_proxy(
         span_lo: u32,
         span_hi: u32,
         span_ctxt: u32,
         should_request_source_file: i32,
-        allocated_ret_ptr: i32,
-    ) -> i32;
-    fn __lookup_byte_offset_proxy(byte_pos: u32, allocated_ret_ptr: i32) -> i32;
+        allocated_ret_ptr: u32,
+    ) -> u32;
+    fn __lookup_byte_offset_proxy(byte_pos: u32, allocated_ret_ptr: u32) -> u32;
 }
 
 #[cfg(feature = "__plugin_mode")]

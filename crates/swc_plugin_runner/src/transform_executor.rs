@@ -21,16 +21,16 @@ use crate::memory_interop::write_into_memory_view;
 /// A struct encapsule executing a plugin's transform interop to its teardown
 pub struct TransformExecutor {
     // Main transform interface plugin exports
-    exported_plugin_transform: wasmer::NativeFunc<(i32, i32, u32, i32), i32>,
+    exported_plugin_transform: wasmer::NativeFunc<(u32, u32, u32, u32), u32>,
     // `__free` function automatically exported via swc_plugin sdk to allow deallocation in guest
     // memory space
-    exported_plugin_free: wasmer::NativeFunc<(i32, i32), i32>,
+    exported_plugin_free: wasmer::NativeFunc<(u32, u32), u32>,
     // `__alloc` function automatically exported via swc_plugin sdk to allow allocation in guest
     // memory space
-    exported_plugin_alloc: wasmer::NativeFunc<u32, i32>,
+    exported_plugin_alloc: wasmer::NativeFunc<u32, u32>,
     instance: Instance,
     // Reference to the pointers successfully allocated which'll be freed by Drop.
-    allocated_ptr_vec: Vec<(i32, i32)>,
+    allocated_ptr_vec: Vec<(u32, u32)>,
     transform_result: Arc<Mutex<Vec<u8>>>,
     // diagnostic metadata for the swc_core plugin binary uses.
     pub plugin_core_diag: PluginCorePkgDiagnostics,
@@ -81,15 +81,15 @@ impl TransformExecutor {
         let tracker = TransformExecutor {
             exported_plugin_transform: instance
                 .exports
-                .get_native_function::<(i32, i32, u32, i32), i32>(
+                .get_native_function::<(u32, u32, u32, u32), u32>(
                     "__transform_plugin_process_impl",
                 )?,
             exported_plugin_free: instance
                 .exports
-                .get_native_function::<(i32, i32), i32>("__free")?,
+                .get_native_function::<(u32, u32), u32>("__free")?,
             exported_plugin_alloc: instance
                 .exports
-                .get_native_function::<u32, i32>("__alloc")?,
+                .get_native_function::<u32, u32>("__alloc")?,
             instance,
             allocated_ptr_vec: Vec::with_capacity(3),
             transform_result,
@@ -105,7 +105,7 @@ impl TransformExecutor {
     fn write_bytes_into_guest(
         &mut self,
         serialized_bytes: &PluginSerializedBytes,
-    ) -> Result<(i32, i32), Error> {
+    ) -> Result<(u32, u32), Error> {
         let memory = self.instance.exports.get_memory("memory")?;
 
         let ptr = write_into_memory_view(memory, serialized_bytes, |serialized_len| {
@@ -122,7 +122,7 @@ impl TransformExecutor {
     /// bytes.
     fn read_transformed_result_bytes_from_guest(
         &mut self,
-        returned_ptr_result: i32,
+        returned_ptr_result: u32,
     ) -> Result<PluginSerializedBytes, Error> {
         let transformed_result = &(*self.transform_result.lock());
         let ret = PluginSerializedBytes::from_slice(&transformed_result[..]);
@@ -187,7 +187,7 @@ impl TransformExecutor {
         unresolved_mark: swc_common::Mark,
         should_enable_comments_proxy: bool,
     ) -> Result<PluginSerializedBytes, Error> {
-        let should_enable_comments_proxy = i32::from(should_enable_comments_proxy);
+        let should_enable_comments_proxy = u32::from(should_enable_comments_proxy);
         let guest_program_ptr = self.write_bytes_into_guest(program)?;
 
         let result = self.exported_plugin_transform.call(
