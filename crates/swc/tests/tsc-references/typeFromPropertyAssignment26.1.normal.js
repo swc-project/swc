@@ -9,9 +9,9 @@ UI.TreeElement = function _class() {
     this.treeOutline = 12;
 };
 UI.context = new UI.TreeElement();
-var C = /*#__PURE__*/ function(_TreeElement) {
+var C = /*#__PURE__*/ function(_UI_TreeElement) {
     "use strict";
-    _inherits(C, _TreeElement);
+    _inherits(C, _UI_TreeElement);
     var _super = _create_super(C);
     function C() {
         _class_call_check(this, C);

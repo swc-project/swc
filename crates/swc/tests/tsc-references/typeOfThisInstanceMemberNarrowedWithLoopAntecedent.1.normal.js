@@ -23,13 +23,13 @@ var SomeClass2 = /*#__PURE__*/ function() {
     }
     var _proto = SomeClass2.prototype;
     _proto.method = function method() {
-        var ref;
+        var _this_state;
         var c = false;
         while(c){}
         if (this.state.type === "numberVariant") {
             this.state.data;
         }
-        var n = (ref = this.state) === null || ref === void 0 ? void 0 : ref.data; // This should be an error
+        var n = (_this_state = this.state) === null || _this_state === void 0 ? void 0 : _this_state.data; // This should be an error
     };
     return SomeClass2;
 }();

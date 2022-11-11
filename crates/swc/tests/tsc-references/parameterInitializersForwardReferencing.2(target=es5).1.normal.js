@@ -4,7 +4,7 @@ import _object_without_properties from "@swc/helpers/src/_object_without_propert
 function a() {}
 function b() {
     var _param = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : a();
-    var _b = _param.b, b = _b === void 0 ? a() : _b, x = _object_without_properties(_param, [
+    var _param_b = _param.b, b = _param_b === void 0 ? a() : _param_b, x = _object_without_properties(_param, [
         "b"
     ]);
     var _$a;

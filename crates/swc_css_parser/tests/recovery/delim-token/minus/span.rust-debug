@@ -161,7 +161,7 @@
    :        ^
    `----
 
-  x Number { value: 1.0, raw: Atom('1' type=inline), type_flag: Integer }
+  x Number { value: 1.0, raw: "1", type_flag: Integer }
    ,-[$DIR/tests/recovery/delim-token/minus/input.css:3:5]
  3 | prop1: 1 - 2;
    :        ^
@@ -173,7 +173,7 @@
    :         ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/delim-token/minus/input.css:3:5]
  3 | prop1: 1 - 2;
    :         ^
@@ -197,7 +197,7 @@
    :           ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/delim-token/minus/input.css:3:5]
  3 | prop1: 1 - 2;
    :           ^
@@ -209,7 +209,7 @@
    :            ^
    `----
 
-  x Number { value: 2.0, raw: Atom('2' type=inline), type_flag: Integer }
+  x Number { value: 2.0, raw: "2", type_flag: Integer }
    ,-[$DIR/tests/recovery/delim-token/minus/input.css:3:5]
  3 | prop1: 1 - 2;
    :            ^
@@ -269,7 +269,7 @@
    :             ^
    `----
 
-  x Number { value: 1.0, raw: Atom('1' type=inline), type_flag: Integer }
+  x Number { value: 1.0, raw: "1", type_flag: Integer }
    ,-[$DIR/tests/recovery/delim-token/minus/input.css:4:5]
  4 | prop2: func(1 - 2);
    :             ^
@@ -281,7 +281,7 @@
    :              ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/delim-token/minus/input.css:4:5]
  4 | prop2: func(1 - 2);
    :              ^
@@ -305,7 +305,7 @@
    :                ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/delim-token/minus/input.css:4:5]
  4 | prop2: func(1 - 2);
    :                ^
@@ -317,7 +317,7 @@
    :                 ^
    `----
 
-  x Number { value: 2.0, raw: Atom('2' type=inline), type_flag: Integer }
+  x Number { value: 2.0, raw: "2", type_flag: Integer }
    ,-[$DIR/tests/recovery/delim-token/minus/input.css:4:5]
  4 | prop2: func(1 - 2);
    :                 ^

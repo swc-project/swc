@@ -7,9 +7,9 @@ use swc_common::{errors::Handler, input::SourceFileInput, Span, Spanned};
 use swc_css_ast::*;
 use swc_css_parser::{
     lexer::Lexer,
-    parse_tokens,
+    parse_input,
     parser::{
-        input::{ParserInput, Tokens},
+        input::{InputType, ParserInput, Tokens},
         PResult, Parser, ParserConfig,
     },
 };
@@ -79,7 +79,8 @@ fn stylesheet_test_tokens(input: PathBuf, config: ParserConfig) {
             }
         };
 
-        let stylesheet: PResult<Stylesheet> = parse_tokens(&tokens, config, &mut errors);
+        let stylesheet: PResult<Stylesheet> =
+            parse_input(InputType::Tokens(&tokens), config, &mut errors);
 
         for err in &errors {
             err.to_diagnostics(&handler).emit();
@@ -204,7 +205,8 @@ fn stylesheet_recovery_test_tokens(input: PathBuf, config: ParserConfig) {
 
         let mut parser_errors = vec![];
 
-        let stylesheet: PResult<Stylesheet> = parse_tokens(&tokens, config, &mut parser_errors);
+        let stylesheet: PResult<Stylesheet> =
+            parse_input(InputType::Tokens(&tokens), config, &mut parser_errors);
 
         parser_errors.extend(lexer_errors);
         parser_errors.sort_by(|a, b| a.message().cmp(&b.message()));

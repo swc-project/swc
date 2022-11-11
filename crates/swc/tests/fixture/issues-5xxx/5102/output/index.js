@@ -4,22 +4,22 @@ var a = function a() {
     "use strict";
     _class_call_check(this, a);
 };
-var ref = [
+var _ref = [
     function _class() {
         "use strict";
         _class_call_check(this, _class);
     }
-], b = ref[0];
-var ref1 = [], tmp = ref1[0], c = tmp === void 0 ? function c() {
+], b = _ref[0];
+var _ref1 = [], tmp = _ref1[0], c = tmp === void 0 ? function c() {
     "use strict";
     _class_call_check(this, c);
 } : tmp;
-var ref2 = [
+var _ref2 = [
     function _class() {
         "use strict";
         _class_call_check(this, _class);
     }
-], tmp1 = ref2[0], d = tmp1 === void 0 ? function d() {
+], tmp1 = _ref2[0], d = tmp1 === void 0 ? function d() {
     "use strict";
     _class_call_check(this, d);
 } : tmp1;
@@ -29,20 +29,20 @@ var e = {
         _class_call_check(this, e);
     }
 }.e;
-var ref3 = {}, _f = ref3.f, f = _f === void 0 ? function f() {
+var _ref3 = {}, _ref_f = _ref3.f, f = _ref_f === void 0 ? function f() {
     "use strict";
     _class_call_check(this, f);
-} : _f;
-var ref4 = {
+} : _ref_f;
+var _ref4 = {
     g: function g() {
         "use strict";
         _class_call_check(this, g);
     }
-}, _g = ref4.g, g = _g === void 0 ? function g() {
+}, _ref_g = _ref4.g, g = _ref_g === void 0 ? function g() {
     "use strict";
     _class_call_check(this, g);
-} : _g;
-var ref5 = {}, tmp2 = ref5._, h = tmp2 === void 0 ? function h() {
+} : _ref_g;
+var _ref5 = {}, tmp2 = _ref5._, h = tmp2 === void 0 ? function h() {
     "use strict";
     _class_call_check(this, h);
 } : tmp2;

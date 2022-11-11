@@ -6,19 +6,19 @@ var _undefined = _sliced_to_array(void 0, 2);
 _undefined[0], _undefined[1];
 var _undefined1 = _sliced_to_array(void 0, 2);
 _undefined1[0], _undefined1[1];
-var ref = _sliced_to_array([
+var _foo = _sliced_to_array([
     1,
     2,
     3
 ], 2);
-ref[0], ref[1], _to_array([
+_foo[0], _foo[1], _to_array([
     1,
     2,
     3
 ]).slice(0);
-var ref1 = _sliced_to_array(_to_consumable_array([
+var _$_to_consumable_array = _sliced_to_array(_to_consumable_array([
     1,
     2,
     3
 ]), 2);
-ref1[0], ref1[1];
+_$_to_consumable_array[0], _$_to_consumable_array[1];

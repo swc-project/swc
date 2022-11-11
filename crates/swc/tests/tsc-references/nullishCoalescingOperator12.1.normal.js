@@ -2,5 +2,5 @@
 const obj = {
     arr: []
 };
-var ref;
-for (const i of (ref = obj === null || obj === void 0 ? void 0 : obj.arr) !== null && ref !== void 0 ? ref : []){}
+var _ref;
+for (const i of (_ref = obj === null || obj === void 0 ? void 0 : obj.arr) !== null && _ref !== void 0 ? _ref : []){}

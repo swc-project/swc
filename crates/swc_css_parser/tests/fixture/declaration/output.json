@@ -782,9 +782,7 @@
                     "ctxt": 0
                   },
                   "value": "value",
-                  "before": "",
-                  "raw": "value",
-                  "after": ""
+                  "raw": "value"
                 },
                 "modifiers": null
               },
@@ -813,9 +811,7 @@
                     "ctxt": 0
                   },
                   "value": "value",
-                  "before": "",
-                  "raw": "value",
-                  "after": ""
+                  "raw": "value"
                 },
                 "modifiers": null
               }

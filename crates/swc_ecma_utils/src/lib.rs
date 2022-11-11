@@ -1912,27 +1912,62 @@ impl Visit for LiteralVisitor {
 
 /// Used to determine super_class_ident
 pub fn alias_ident_for(expr: &Expr, default: &str) -> Ident {
-    fn sym(expr: &Expr, default: &str) -> JsWord {
+    fn sym(expr: &Expr) -> Option<String> {
         match expr {
+            Expr::Lit(Lit::Str(s)) => Some(s.value.to_string()),
+            Expr::This(_) => Some("this".to_string()),
+
             Expr::Ident(ident)
-            | Expr::Member(MemberExpr {
-                prop: MemberProp::Ident(ident),
-                ..
+            | Expr::Fn(FnExpr {
+                ident: Some(ident), ..
             })
             | Expr::Class(ClassExpr {
                 ident: Some(ident), ..
-            }) => format!("_{}", ident.sym).into(),
-            Expr::Member(MemberExpr {
-                prop: MemberProp::Computed(computed),
-                ..
-            }) => sym(&computed.expr, default),
+            }) => Some(ident.sym.to_string()),
 
-            _ => default.into(),
+            Expr::Call(CallExpr {
+                callee: Callee::Expr(expr),
+                ..
+            }) => sym(expr),
+
+            Expr::SuperProp(SuperPropExpr {
+                prop: SuperProp::Ident(ident),
+                ..
+            }) => Some(format!("super_{}", ident.sym)),
+
+            Expr::SuperProp(SuperPropExpr {
+                prop: SuperProp::Computed(ComputedPropName { expr, .. }),
+                ..
+            }) => Some(format!("super_{}", sym(expr).unwrap_or_default())),
+
+            Expr::Member(MemberExpr {
+                prop: MemberProp::Ident(ident),
+                obj,
+                ..
+            }) => Some(format!("{}_{}", sym(obj).unwrap_or_default(), ident.sym)),
+
+            Expr::Member(MemberExpr {
+                prop: MemberProp::Computed(ComputedPropName { expr, .. }),
+                obj,
+                ..
+            }) => Some(format!(
+                "{}_{}",
+                sym(obj).unwrap_or_default(),
+                sym(expr).unwrap_or_default()
+            )),
+
+            _ => None,
         }
     }
 
     let span = expr.span().apply_mark(Mark::fresh(Mark::root()));
-    quote_ident!(span, sym(expr, default))
+
+    let mut sym = sym(expr).unwrap_or_else(|| default.to_string());
+
+    if !sym.starts_with('_') {
+        sym = format!("_{}", sym)
+    }
+    quote_ident!(span, sym)
 }
 
 /// Returns `(ident, aliased)`

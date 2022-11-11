@@ -976,8 +976,6 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<SupportsCondition> {
-        self.input.skip_ws();
-
         let start_pos = self.input.cur_span().lo;
         let mut last_pos;
         let mut conditions = vec![];
@@ -1132,7 +1130,11 @@ where
                 let mut parse_condition = || {
                     expect!(self, "(");
 
+                    self.input.skip_ws();
+
                     let condition = self.parse()?;
+
+                    self.input.skip_ws();
 
                     expect!(self, ")");
 
@@ -1168,13 +1170,21 @@ where
 
                 self.input.skip_ws();
 
-                let declaration = self.parse()?;
+                let declaration = match self.try_to_parse_declaration_in_parens() {
+                    Some(declaration) => declaration,
+                    None => {
+                        let span = self.input.cur_span();
 
-                self.input.skip_ws();
+                        return Err(Error::new(
+                            span,
+                            ErrorKind::Expected("declaration in parens"),
+                        ));
+                    }
+                };
 
                 expect!(self, ")");
 
-                Ok(SupportsFeature::Declaration(declaration))
+                Ok(SupportsFeature::Declaration(Box::new(declaration)))
             }
             Token::Function { value, .. } if &*value.to_ascii_lowercase() == "selector" => {
                 // TODO improve me
@@ -1217,16 +1227,25 @@ where
             tok!("(") => {
                 let block = self.parse_as::<SimpleBlock>()?;
 
-                if let Some(first) = block.value.get(0) {
-                    match first {
+                let mut found_ident = false;
+
+                for component_value in &block.value {
+                    match component_value {
                         ComponentValue::PreservedToken(token_and_span) => {
                             match token_and_span.token {
-                                Token::Ident { .. } => {}
+                                Token::WhiteSpace { .. } => {
+                                    continue;
+                                }
+                                Token::Ident { .. } => {
+                                    found_ident = true;
+
+                                    break;
+                                }
                                 _ => {
                                     return Err(Error::new(
                                         block.span,
                                         ErrorKind::Expected(
-                                            "ident token at first position in <general-enclosed>",
+                                            "ident at first position in <general-enclosed>",
                                         ),
                                     ));
                                 }
@@ -1236,11 +1255,18 @@ where
                             return Err(Error::new(
                                 block.span,
                                 ErrorKind::Expected(
-                                    "ident token at first position in <general-enclosed>",
+                                    "ident at first position in <general-enclosed>",
                                 ),
                             ));
                         }
                     }
+                }
+
+                if !found_ident {
+                    return Err(Error::new(
+                        block.span,
+                        ErrorKind::Expected("ident at first position in <general-enclosed>"),
+                    ));
                 }
 
                 Ok(GeneralEnclosed::SimpleBlock(block))
@@ -1248,10 +1274,7 @@ where
             _ => {
                 let span = self.input.cur_span();
 
-                Err(Error::new(
-                    span,
-                    ErrorKind::Expected("function or '(' token"),
-                ))
+                Err(Error::new(span, ErrorKind::Expected("function or '('")))
             }
         }
     }
@@ -1297,8 +1320,6 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<MediaQueryList> {
-        self.input.skip_ws();
-
         let query = self.parse()?;
         let mut queries = vec![query];
 
@@ -1438,8 +1459,6 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<MediaCondition> {
-        self.input.skip_ws();
-
         let start_pos = self.input.cur_span().lo;
         let mut last_pos;
         let mut conditions = vec![];
@@ -1494,8 +1513,6 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<MediaConditionWithoutOr> {
-        self.input.skip_ws();
-
         let start_pos = self.input.cur_span().lo;
         let mut last_pos;
         let mut conditions = vec![];
@@ -1640,7 +1657,11 @@ where
                 let mut parse_media_condition = || {
                     expect!(self, "(");
 
+                    self.input.skip_ws();
+
                     let media_condition = self.parse()?;
+
+                    self.input.skip_ws();
 
                     expect!(self, ")");
 
@@ -1923,8 +1944,6 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<PageSelector> {
-        self.input.skip_ws();
-
         let span = self.input.cur_span();
 
         let page_type = if is!(self, Ident) {

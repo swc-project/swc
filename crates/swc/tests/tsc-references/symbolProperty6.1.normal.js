@@ -1,11 +1,11 @@
 //// [symbolProperty6.ts]
-let _iterator = Symbol.iterator, _toPrimitive = Symbol.toPrimitive, _toStringTag = Symbol.toStringTag;
+let _Symbol_iterator = Symbol.iterator, _Symbol_toPrimitive = Symbol.toPrimitive, _Symbol_toStringTag = Symbol.toStringTag;
 class C {
-    [_toPrimitive]() {}
-    get [_toStringTag]() {
+    [_Symbol_toPrimitive]() {}
+    get [_Symbol_toStringTag]() {
         return 0;
     }
     constructor(){
-        this[_iterator] = 0;
+        this[_Symbol_iterator] = 0;
     }
 }

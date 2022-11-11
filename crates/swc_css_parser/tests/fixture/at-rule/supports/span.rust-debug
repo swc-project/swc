@@ -151,7 +151,25 @@
  148 | |   
  149 | |   @supports (--var) {
  150 | |       * { background: red; }
- 151 | `-> }
+ 151 | |   }
+ 152 | |   
+ 153 | |   @supports (   selector(   col || td   )   ) {
+ 154 | |       col.selected || td {
+ 155 | |           background: tan;
+ 156 | |       }
+ 157 | |   }
+ 158 | |   
+ 159 | |   @supports (   func("example": 1)   ) {
+ 160 | |       * { background: red; }
+ 161 | |   }
+ 162 | |   
+ 163 | |   @supports (   --var   ) {
+ 164 | |       * { background: red; }
+ 165 | |   }
+ 166 | |   
+ 167 | |   @supports (   --var   "test"   ) {
+ 168 | |       * { background: red; }
+ 169 | `-> }
      `----
 
   x Rule
@@ -4919,7 +4937,7 @@
     :                      ^^^^^^^^^^^
     `----
 
-  x String { value: Atom('.minwidth' type=dynamic), raw: Atom('".minwidth"' type=dynamic) }
+  x String { value: Atom('.minwidth' type=dynamic), raw: "\".minwidth\"" }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:51:1]
  51 | @supports (--element(".minwidth")) {
     :                      ^^^^^^^^^^^
@@ -5528,7 +5546,7 @@
     :            ^^^^^
     `----
 
-  x Ident { value: Atom('ident' type=inline), raw: Atom('ident' type=inline) }
+  x Ident { value: Atom('ident' type=inline), raw: "ident" }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:65:1]
  65 | @supports (ident "str") {
     :            ^^^^^
@@ -5540,7 +5558,7 @@
     :                 ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:65:1]
  65 | @supports (ident "str") {
     :                 ^
@@ -5552,7 +5570,7 @@
     :                  ^^^^^
     `----
 
-  x String { value: Atom('str' type=inline), raw: Atom('"str"' type=inline) }
+  x String { value: Atom('str' type=inline), raw: "\"str\"" }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:65:1]
  65 | @supports (ident "str") {
     :                  ^^^^^
@@ -5741,7 +5759,7 @@
     :             ^^^^^
     `----
 
-  x Ident { value: Atom('ident' type=inline), raw: Atom('ident' type=inline) }
+  x Ident { value: Atom('ident' type=inline), raw: "ident" }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:69:1]
  69 | @supports ((ident "str")) {
     :             ^^^^^
@@ -5753,7 +5771,7 @@
     :                  ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:69:1]
  69 | @supports ((ident "str")) {
     :                  ^
@@ -5765,7 +5783,7 @@
     :                   ^^^^^
     `----
 
-  x String { value: Atom('str' type=inline), raw: Atom('"str"' type=inline) }
+  x String { value: Atom('str' type=inline), raw: "\"str\"" }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:69:1]
  69 | @supports ((ident "str")) {
     :                   ^^^^^
@@ -5948,7 +5966,7 @@
     :                ^^
     `----
 
-  x Number { value: 10.0, raw: Atom('10' type=inline), type_flag: Integer }
+  x Number { value: 10.0, raw: "10", type_flag: Integer }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:73:1]
  73 | @supports func(10, 20, 40) {
     :                ^^
@@ -5972,7 +5990,7 @@
     :                   ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:73:1]
  73 | @supports func(10, 20, 40) {
     :                   ^
@@ -5984,7 +6002,7 @@
     :                    ^^
     `----
 
-  x Number { value: 20.0, raw: Atom('20' type=inline), type_flag: Integer }
+  x Number { value: 20.0, raw: "20", type_flag: Integer }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:73:1]
  73 | @supports func(10, 20, 40) {
     :                    ^^
@@ -6008,7 +6026,7 @@
     :                       ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:73:1]
  73 | @supports func(10, 20, 40) {
     :                       ^
@@ -6020,7 +6038,7 @@
     :                        ^^
     `----
 
-  x Number { value: 40.0, raw: Atom('40' type=inline), type_flag: Integer }
+  x Number { value: 40.0, raw: "40", type_flag: Integer }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:73:1]
  73 | @supports func(10, 20, 40) {
     :                        ^^
@@ -6209,7 +6227,7 @@
     :                 ^^
     `----
 
-  x Number { value: 10.0, raw: Atom('10' type=inline), type_flag: Integer }
+  x Number { value: 10.0, raw: "10", type_flag: Integer }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:77:1]
  77 | @supports (func(10, 20, 40)) {
     :                 ^^
@@ -6233,7 +6251,7 @@
     :                    ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:77:1]
  77 | @supports (func(10, 20, 40)) {
     :                    ^
@@ -6245,7 +6263,7 @@
     :                     ^^
     `----
 
-  x Number { value: 20.0, raw: Atom('20' type=inline), type_flag: Integer }
+  x Number { value: 20.0, raw: "20", type_flag: Integer }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:77:1]
  77 | @supports (func(10, 20, 40)) {
     :                     ^^
@@ -6269,7 +6287,7 @@
     :                        ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:77:1]
  77 | @supports (func(10, 20, 40)) {
     :                        ^
@@ -6281,7 +6299,7 @@
     :                         ^^
     `----
 
-  x Number { value: 40.0, raw: Atom('40' type=inline), type_flag: Integer }
+  x Number { value: 40.0, raw: "40", type_flag: Integer }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:77:1]
  77 | @supports (func(10, 20, 40)) {
     :                         ^^
@@ -6470,7 +6488,7 @@
     :                    ^^^
     `----
 
-  x WhiteSpace { value: Atom('   ' type=inline) }
+  x WhiteSpace { value: "   " }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:81:1]
  81 | @supports (   func(   10   ,   20   ,   40   )  ) {
     :                    ^^^
@@ -6482,7 +6500,7 @@
     :                       ^^
     `----
 
-  x Number { value: 10.0, raw: Atom('10' type=inline), type_flag: Integer }
+  x Number { value: 10.0, raw: "10", type_flag: Integer }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:81:1]
  81 | @supports (   func(   10   ,   20   ,   40   )  ) {
     :                       ^^
@@ -6494,7 +6512,7 @@
     :                         ^^^
     `----
 
-  x WhiteSpace { value: Atom('   ' type=inline) }
+  x WhiteSpace { value: "   " }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:81:1]
  81 | @supports (   func(   10   ,   20   ,   40   )  ) {
     :                         ^^^
@@ -6518,7 +6536,7 @@
     :                             ^^^
     `----
 
-  x WhiteSpace { value: Atom('   ' type=inline) }
+  x WhiteSpace { value: "   " }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:81:1]
  81 | @supports (   func(   10   ,   20   ,   40   )  ) {
     :                             ^^^
@@ -6530,7 +6548,7 @@
     :                                ^^
     `----
 
-  x Number { value: 20.0, raw: Atom('20' type=inline), type_flag: Integer }
+  x Number { value: 20.0, raw: "20", type_flag: Integer }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:81:1]
  81 | @supports (   func(   10   ,   20   ,   40   )  ) {
     :                                ^^
@@ -6542,7 +6560,7 @@
     :                                  ^^^
     `----
 
-  x WhiteSpace { value: Atom('   ' type=inline) }
+  x WhiteSpace { value: "   " }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:81:1]
  81 | @supports (   func(   10   ,   20   ,   40   )  ) {
     :                                  ^^^
@@ -6566,7 +6584,7 @@
     :                                      ^^^
     `----
 
-  x WhiteSpace { value: Atom('   ' type=inline) }
+  x WhiteSpace { value: "   " }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:81:1]
  81 | @supports (   func(   10   ,   20   ,   40   )  ) {
     :                                      ^^^
@@ -6578,7 +6596,7 @@
     :                                         ^^
     `----
 
-  x Number { value: 40.0, raw: Atom('40' type=inline), type_flag: Integer }
+  x Number { value: 40.0, raw: "40", type_flag: Integer }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:81:1]
  81 | @supports (   func(   10   ,   20   ,   40   )  ) {
     :                                         ^^
@@ -6590,7 +6608,7 @@
     :                                           ^^^
     `----
 
-  x WhiteSpace { value: Atom('   ' type=inline) }
+  x WhiteSpace { value: "   " }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:81:1]
  81 | @supports (   func(   10   ,   20   ,   40   )  ) {
     :                                           ^^^
@@ -6879,7 +6897,7 @@
     :                  ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:86:5]
  86 | @-custom-keyframe anim {
     :                  ^
@@ -6891,7 +6909,7 @@
     :                   ^^^^
     `----
 
-  x Ident { value: Atom('anim' type=inline), raw: Atom('anim' type=inline) }
+  x Ident { value: Atom('anim' type=inline), raw: "anim" }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:86:5]
  86 | @-custom-keyframe anim {
     :                   ^^^^
@@ -6903,7 +6921,7 @@
     :                       ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:86:5]
  86 | @-custom-keyframe anim {
     :                       ^
@@ -6933,8 +6951,7 @@
  87 | `->         from {
     `----
 
-  x WhiteSpace { value: Atom('
-  |         ' type=dynamic) }
+  x WhiteSpace { value: "\n        " }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:86:5]
  86 | ,-> @-custom-keyframe anim {
  87 | `->         from {
@@ -6946,7 +6963,7 @@
     : ^^^^
     `----
 
-  x Ident { value: Atom('from' type=static), raw: Atom('from' type=static) }
+  x Ident { value: Atom('from' type=static), raw: "from" }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:87:9]
  87 | from {
     : ^^^^
@@ -6958,7 +6975,7 @@
     :     ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:87:9]
  87 | from {
     :     ^
@@ -6990,8 +7007,7 @@
  88 | `->             color: black;
     `----
 
-  x WhiteSpace { value: Atom('
-  |             ' type=dynamic) }
+  x WhiteSpace { value: "\n            " }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:87:9]
  87 | ,-> from {
  88 | `->             color: black;
@@ -7003,7 +7019,7 @@
     : ^^^^^
     `----
 
-  x Ident { value: Atom('color' type=static), raw: Atom('color' type=static) }
+  x Ident { value: Atom('color' type=static), raw: "color" }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:88:13]
  88 | color: black;
     : ^^^^^
@@ -7027,7 +7043,7 @@
     :       ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:88:13]
  88 | color: black;
     :       ^
@@ -7039,7 +7055,7 @@
     :        ^^^^^
     `----
 
-  x Ident { value: Atom('black' type=inline), raw: Atom('black' type=inline) }
+  x Ident { value: Atom('black' type=inline), raw: "black" }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:88:13]
  88 | color: black;
     :        ^^^^^
@@ -7063,8 +7079,7 @@
  89 | `->         }
     `----
 
-  x WhiteSpace { value: Atom('
-  |         ' type=dynamic) }
+  x WhiteSpace { value: "\n        " }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:88:13]
  88 | ,-> color: black;
  89 | `->         }
@@ -7076,8 +7091,7 @@
  90 | `->         to {
     `----
 
-  x WhiteSpace { value: Atom('
-  |         ' type=dynamic) }
+  x WhiteSpace { value: "\n        " }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:89:9]
  89 | ,-> }
  90 | `->         to {
@@ -7089,7 +7103,7 @@
     : ^^
     `----
 
-  x Ident { value: Atom('to' type=static), raw: Atom('to' type=static) }
+  x Ident { value: Atom('to' type=static), raw: "to" }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:90:9]
  90 | to {
     : ^^
@@ -7101,7 +7115,7 @@
     :   ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:90:9]
  90 | to {
     :   ^
@@ -7133,8 +7147,7 @@
  91 | `->             color: white
     `----
 
-  x WhiteSpace { value: Atom('
-  |             ' type=dynamic) }
+  x WhiteSpace { value: "\n            " }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:90:9]
  90 | ,-> to {
  91 | `->             color: white
@@ -7146,7 +7159,7 @@
     : ^^^^^
     `----
 
-  x Ident { value: Atom('color' type=static), raw: Atom('color' type=static) }
+  x Ident { value: Atom('color' type=static), raw: "color" }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:91:13]
  91 | color: white
     : ^^^^^
@@ -7170,7 +7183,7 @@
     :       ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:91:13]
  91 | color: white
     :       ^
@@ -7182,7 +7195,7 @@
     :        ^^^^^
     `----
 
-  x Ident { value: Atom('white' type=inline), raw: Atom('white' type=inline) }
+  x Ident { value: Atom('white' type=inline), raw: "white" }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:91:13]
  91 | color: white
     :        ^^^^^
@@ -7194,8 +7207,7 @@
  92 | `->         }
     `----
 
-  x WhiteSpace { value: Atom('
-  |         ' type=dynamic) }
+  x WhiteSpace { value: "\n        " }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:91:13]
  91 | ,-> color: white
  92 | `->         }
@@ -7207,8 +7219,7 @@
  93 | `->     }
     `----
 
-  x WhiteSpace { value: Atom('
-  |     ' type=inline) }
+  x WhiteSpace { value: "\n    " }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:92:9]
  92 | ,-> }
  93 | `->     }
@@ -7276,7 +7287,7 @@
     :            ^^^^^
     `----
 
-  x Ident { value: Atom('--var' type=inline), raw: Atom('--var' type=inline) }
+  x Ident { value: Atom('--var' type=inline), raw: "--var" }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:96:1]
  96 | @supports (--var) {
     :            ^^^^^
@@ -7475,7 +7486,7 @@
      :                   ^^^^^
      `----
 
-  x Ident { value: Atom('green' type=inline), raw: Atom('green' type=inline) }
+  x Ident { value: Atom('green' type=inline), raw: "green" }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:100:1]
  100 | @supports (--foo: green) {
      :                   ^^^^^
@@ -8880,7 +8891,7 @@
      :                  ^
      `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:123:5]
  123 | @-custom-keyframe anim {
      :                  ^
@@ -8892,7 +8903,7 @@
      :                   ^^^^
      `----
 
-  x Ident { value: Atom('anim' type=inline), raw: Atom('anim' type=inline) }
+  x Ident { value: Atom('anim' type=inline), raw: "anim" }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:123:5]
  123 | @-custom-keyframe anim {
      :                   ^^^^
@@ -8904,7 +8915,7 @@
      :                       ^
      `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:123:5]
  123 | @-custom-keyframe anim {
      :                       ^
@@ -8934,8 +8945,7 @@
  124 | `->         from {
      `----
 
-  x WhiteSpace { value: Atom('
-  |         ' type=dynamic) }
+  x WhiteSpace { value: "\n        " }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:123:5]
  123 | ,-> @-custom-keyframe anim {
  124 | `->         from {
@@ -8947,7 +8957,7 @@
      : ^^^^
      `----
 
-  x Ident { value: Atom('from' type=static), raw: Atom('from' type=static) }
+  x Ident { value: Atom('from' type=static), raw: "from" }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:124:9]
  124 | from {
      : ^^^^
@@ -8959,7 +8969,7 @@
      :     ^
      `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:124:9]
  124 | from {
      :     ^
@@ -8991,8 +9001,7 @@
  125 | `->             color: black;
      `----
 
-  x WhiteSpace { value: Atom('
-  |             ' type=dynamic) }
+  x WhiteSpace { value: "\n            " }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:124:9]
  124 | ,-> from {
  125 | `->             color: black;
@@ -9004,7 +9013,7 @@
      : ^^^^^
      `----
 
-  x Ident { value: Atom('color' type=static), raw: Atom('color' type=static) }
+  x Ident { value: Atom('color' type=static), raw: "color" }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:125:13]
  125 | color: black;
      : ^^^^^
@@ -9028,7 +9037,7 @@
      :       ^
      `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:125:13]
  125 | color: black;
      :       ^
@@ -9040,7 +9049,7 @@
      :        ^^^^^
      `----
 
-  x Ident { value: Atom('black' type=inline), raw: Atom('black' type=inline) }
+  x Ident { value: Atom('black' type=inline), raw: "black" }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:125:13]
  125 | color: black;
      :        ^^^^^
@@ -9064,8 +9073,7 @@
  126 | `->         }
      `----
 
-  x WhiteSpace { value: Atom('
-  |         ' type=dynamic) }
+  x WhiteSpace { value: "\n        " }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:125:13]
  125 | ,-> color: black;
  126 | `->         }
@@ -9077,8 +9085,7 @@
  127 | `->         to {
      `----
 
-  x WhiteSpace { value: Atom('
-  |         ' type=dynamic) }
+  x WhiteSpace { value: "\n        " }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:126:9]
  126 | ,-> }
  127 | `->         to {
@@ -9090,7 +9097,7 @@
      : ^^
      `----
 
-  x Ident { value: Atom('to' type=static), raw: Atom('to' type=static) }
+  x Ident { value: Atom('to' type=static), raw: "to" }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:127:9]
  127 | to {
      : ^^
@@ -9102,7 +9109,7 @@
      :   ^
      `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:127:9]
  127 | to {
      :   ^
@@ -9134,8 +9141,7 @@
  128 | `->             color: white
      `----
 
-  x WhiteSpace { value: Atom('
-  |             ' type=dynamic) }
+  x WhiteSpace { value: "\n            " }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:127:9]
  127 | ,-> to {
  128 | `->             color: white
@@ -9147,7 +9153,7 @@
      : ^^^^^
      `----
 
-  x Ident { value: Atom('color' type=static), raw: Atom('color' type=static) }
+  x Ident { value: Atom('color' type=static), raw: "color" }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:128:13]
  128 | color: white
      : ^^^^^
@@ -9171,7 +9177,7 @@
      :       ^
      `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:128:13]
  128 | color: white
      :       ^
@@ -9183,7 +9189,7 @@
      :        ^^^^^
      `----
 
-  x Ident { value: Atom('white' type=inline), raw: Atom('white' type=inline) }
+  x Ident { value: Atom('white' type=inline), raw: "white" }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:128:13]
  128 | color: white
      :        ^^^^^
@@ -9195,8 +9201,7 @@
  129 | `->         }
      `----
 
-  x WhiteSpace { value: Atom('
-  |         ' type=dynamic) }
+  x WhiteSpace { value: "\n        " }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:128:13]
  128 | ,-> color: white
  129 | `->         }
@@ -9208,8 +9213,7 @@
  130 | `->     }
      `----
 
-  x WhiteSpace { value: Atom('
-  |     ' type=inline) }
+  x WhiteSpace { value: "\n    " }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:129:9]
  129 | ,-> }
  130 | `->     }
@@ -9879,7 +9883,7 @@
      :                 ^^^^^^^^^
      `----
 
-  x String { value: Atom('example' type=inline), raw: Atom('"example"' type=dynamic) }
+  x String { value: Atom('example' type=inline), raw: "\"example\"" }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:145:1]
  145 | @supports (func("example": 1)) {
      :                 ^^^^^^^^^
@@ -9903,7 +9907,7 @@
      :                           ^
      `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:145:1]
  145 | @supports (func("example": 1)) {
      :                           ^
@@ -9915,7 +9919,7 @@
      :                            ^
      `----
 
-  x Number { value: 1.0, raw: Atom('1' type=inline), type_flag: Integer }
+  x Number { value: 1.0, raw: "1", type_flag: Integer }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:145:1]
  145 | @supports (func("example": 1)) {
      :                            ^
@@ -10098,7 +10102,7 @@
      :            ^^^^^
      `----
 
-  x Ident { value: Atom('--var' type=inline), raw: Atom('--var' type=inline) }
+  x Ident { value: Atom('--var' type=inline), raw: "--var" }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:149:1]
  149 | @supports (--var) {
      :            ^^^^^
@@ -10216,5 +10220,1005 @@
   x Ident
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:150:5]
  150 | * { background: red; }
+     :                 ^^^
+     `----
+
+  x Rule
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:153:1]
+ 153 | ,-> @supports (   selector(   col || td   )   ) {
+ 154 | |       col.selected || td {
+ 155 | |           background: tan;
+ 156 | |       }
+ 157 | `-> }
+     `----
+
+  x AtRule
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:153:1]
+ 153 | ,-> @supports (   selector(   col || td   )   ) {
+ 154 | |       col.selected || td {
+ 155 | |           background: tan;
+ 156 | |       }
+ 157 | `-> }
+     `----
+
+  x AtRuleName
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:153:1]
+ 153 | @supports (   selector(   col || td   )   ) {
+     :  ^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:153:1]
+ 153 | @supports (   selector(   col || td   )   ) {
+     :  ^^^^^^^^
+     `----
+
+  x SupportsCondition
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:153:1]
+ 153 | @supports (   selector(   col || td   )   ) {
+     :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x SupportsConditionType
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:153:1]
+ 153 | @supports (   selector(   col || td   )   ) {
+     :               ^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x SupportsInParens
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:153:1]
+ 153 | @supports (   selector(   col || td   )   ) {
+     :               ^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x SupportsCondition
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:153:1]
+ 153 | @supports (   selector(   col || td   )   ) {
+     :               ^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x SupportsFeature
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:153:1]
+ 153 | @supports (   selector(   col || td   )   ) {
+     :               ^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:153:1]
+ 153 | @supports (   selector(   col || td   )   ) {
+     :               ^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:153:1]
+ 153 | @supports (   selector(   col || td   )   ) {
+     :               ^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:153:1]
+ 153 | @supports (   selector(   col || td   )   ) {
+     :                           ^^^^^^^^^
+     `----
+
+  x ComplexSelector
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:153:1]
+ 153 | @supports (   selector(   col || td   )   ) {
+     :                           ^^^^^^^^^
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:153:1]
+ 153 | @supports (   selector(   col || td   )   ) {
+     :                           ^^^
+     `----
+
+  x TypeSelector
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:153:1]
+ 153 | @supports (   selector(   col || td   )   ) {
+     :                           ^^^
+     `----
+
+  x TagNameSelector
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:153:1]
+ 153 | @supports (   selector(   col || td   )   ) {
+     :                           ^^^
+     `----
+
+  x WqName
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:153:1]
+ 153 | @supports (   selector(   col || td   )   ) {
+     :                           ^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:153:1]
+ 153 | @supports (   selector(   col || td   )   ) {
+     :                           ^^^
+     `----
+
+  x Combinator
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:153:1]
+ 153 | @supports (   selector(   col || td   )   ) {
+     :                               ^^
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:153:1]
+ 153 | @supports (   selector(   col || td   )   ) {
+     :                                  ^^
+     `----
+
+  x TypeSelector
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:153:1]
+ 153 | @supports (   selector(   col || td   )   ) {
+     :                                  ^^
+     `----
+
+  x TagNameSelector
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:153:1]
+ 153 | @supports (   selector(   col || td   )   ) {
+     :                                  ^^
+     `----
+
+  x WqName
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:153:1]
+ 153 | @supports (   selector(   col || td   )   ) {
+     :                                  ^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:153:1]
+ 153 | @supports (   selector(   col || td   )   ) {
+     :                                  ^^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:153:1]
+ 153 | ,-> @supports (   selector(   col || td   )   ) {
+ 154 | |       col.selected || td {
+ 155 | |           background: tan;
+ 156 | |       }
+ 157 | `-> }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:153:1]
+ 153 | @supports (   selector(   col || td   )   ) {
+     :                                             ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:154:5]
+ 154 | ,-> col.selected || td {
+ 155 | |           background: tan;
+ 156 | `->     }
+     `----
+
+  x Rule
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:154:5]
+ 154 | ,-> col.selected || td {
+ 155 | |           background: tan;
+ 156 | `->     }
+     `----
+
+  x QualifiedRule
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:154:5]
+ 154 | ,-> col.selected || td {
+ 155 | |           background: tan;
+ 156 | `->     }
+     `----
+
+  x SelectorList
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:154:5]
+ 154 | col.selected || td {
+     : ^^^^^^^^^^^^^^^^^^
+     `----
+
+  x ComplexSelector
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:154:5]
+ 154 | col.selected || td {
+     : ^^^^^^^^^^^^^^^^^^
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:154:5]
+ 154 | col.selected || td {
+     : ^^^^^^^^^^^^
+     `----
+
+  x TypeSelector
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:154:5]
+ 154 | col.selected || td {
+     : ^^^
+     `----
+
+  x TagNameSelector
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:154:5]
+ 154 | col.selected || td {
+     : ^^^
+     `----
+
+  x WqName
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:154:5]
+ 154 | col.selected || td {
+     : ^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:154:5]
+ 154 | col.selected || td {
+     : ^^^
+     `----
+
+  x SubclassSelector
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:154:5]
+ 154 | col.selected || td {
+     :    ^^^^^^^^^
+     `----
+
+  x ClassSelector
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:154:5]
+ 154 | col.selected || td {
+     :    ^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:154:5]
+ 154 | col.selected || td {
+     :     ^^^^^^^^
+     `----
+
+  x Combinator
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:154:5]
+ 154 | col.selected || td {
+     :              ^^
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:154:5]
+ 154 | col.selected || td {
+     :                 ^^
+     `----
+
+  x TypeSelector
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:154:5]
+ 154 | col.selected || td {
+     :                 ^^
+     `----
+
+  x TagNameSelector
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:154:5]
+ 154 | col.selected || td {
+     :                 ^^
+     `----
+
+  x WqName
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:154:5]
+ 154 | col.selected || td {
+     :                 ^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:154:5]
+ 154 | col.selected || td {
+     :                 ^^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:154:5]
+ 154 | ,-> col.selected || td {
+ 155 | |           background: tan;
+ 156 | `->     }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:154:5]
+ 154 | col.selected || td {
+     :                    ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:155:9]
+ 155 | background: tan;
+     : ^^^^^^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:155:9]
+ 155 | background: tan;
+     : ^^^^^^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:155:9]
+ 155 | background: tan;
+     : ^^^^^^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:155:9]
+ 155 | background: tan;
+     : ^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:155:9]
+ 155 | background: tan;
+     : ^^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:155:9]
+ 155 | background: tan;
+     :             ^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:155:9]
+ 155 | background: tan;
+     :             ^^^
+     `----
+
+  x Rule
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:159:1]
+ 159 | ,-> @supports (   func("example": 1)   ) {
+ 160 | |       * { background: red; }
+ 161 | `-> }
+     `----
+
+  x AtRule
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:159:1]
+ 159 | ,-> @supports (   func("example": 1)   ) {
+ 160 | |       * { background: red; }
+ 161 | `-> }
+     `----
+
+  x AtRuleName
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:159:1]
+ 159 | @supports (   func("example": 1)   ) {
+     :  ^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:159:1]
+ 159 | @supports (   func("example": 1)   ) {
+     :  ^^^^^^^^
+     `----
+
+  x SupportsCondition
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:159:1]
+ 159 | @supports (   func("example": 1)   ) {
+     :           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x SupportsConditionType
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:159:1]
+ 159 | @supports (   func("example": 1)   ) {
+     :               ^^^^^^^^^^^^^^^^^^
+     `----
+
+  x SupportsInParens
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:159:1]
+ 159 | @supports (   func("example": 1)   ) {
+     :               ^^^^^^^^^^^^^^^^^^
+     `----
+
+  x SupportsCondition
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:159:1]
+ 159 | @supports (   func("example": 1)   ) {
+     :               ^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:159:1]
+ 159 | @supports (   func("example": 1)   ) {
+     :               ^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:159:1]
+ 159 | @supports (   func("example": 1)   ) {
+     :               ^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:159:1]
+ 159 | @supports (   func("example": 1)   ) {
+     :                    ^^^^^^^^^
+     `----
+
+  x String { value: Atom('example' type=inline), raw: "\"example\"" }
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:159:1]
+ 159 | @supports (   func("example": 1)   ) {
+     :                    ^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:159:1]
+ 159 | @supports (   func("example": 1)   ) {
+     :                             ^
+     `----
+
+  x Colon
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:159:1]
+ 159 | @supports (   func("example": 1)   ) {
+     :                             ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:159:1]
+ 159 | @supports (   func("example": 1)   ) {
+     :                              ^
+     `----
+
+  x WhiteSpace { value: " " }
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:159:1]
+ 159 | @supports (   func("example": 1)   ) {
+     :                              ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:159:1]
+ 159 | @supports (   func("example": 1)   ) {
+     :                               ^
+     `----
+
+  x Number { value: 1.0, raw: "1", type_flag: Integer }
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:159:1]
+ 159 | @supports (   func("example": 1)   ) {
+     :                               ^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:159:1]
+ 159 | ,-> @supports (   func("example": 1)   ) {
+ 160 | |       * { background: red; }
+ 161 | `-> }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:159:1]
+ 159 | @supports (   func("example": 1)   ) {
+     :                                      ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:160:5]
+ 160 | * { background: red; }
+     : ^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Rule
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:160:5]
+ 160 | * { background: red; }
+     : ^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x QualifiedRule
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:160:5]
+ 160 | * { background: red; }
+     : ^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x SelectorList
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:160:5]
+ 160 | * { background: red; }
+     : ^
+     `----
+
+  x ComplexSelector
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:160:5]
+ 160 | * { background: red; }
+     : ^
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:160:5]
+ 160 | * { background: red; }
+     : ^
+     `----
+
+  x TypeSelector
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:160:5]
+ 160 | * { background: red; }
+     : ^
+     `----
+
+  x UniversalSelector
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:160:5]
+ 160 | * { background: red; }
+     : ^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:160:5]
+ 160 | * { background: red; }
+     :   ^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:160:5]
+ 160 | * { background: red; }
+     :   ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:160:5]
+ 160 | * { background: red; }
+     :     ^^^^^^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:160:5]
+ 160 | * { background: red; }
+     :     ^^^^^^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:160:5]
+ 160 | * { background: red; }
+     :     ^^^^^^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:160:5]
+ 160 | * { background: red; }
+     :     ^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:160:5]
+ 160 | * { background: red; }
+     :     ^^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:160:5]
+ 160 | * { background: red; }
+     :                 ^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:160:5]
+ 160 | * { background: red; }
+     :                 ^^^
+     `----
+
+  x Rule
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:163:1]
+ 163 | ,-> @supports (   --var   ) {
+ 164 | |       * { background: red; }
+ 165 | `-> }
+     `----
+
+  x AtRule
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:163:1]
+ 163 | ,-> @supports (   --var   ) {
+ 164 | |       * { background: red; }
+ 165 | `-> }
+     `----
+
+  x AtRuleName
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:163:1]
+ 163 | @supports (   --var   ) {
+     :  ^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:163:1]
+ 163 | @supports (   --var   ) {
+     :  ^^^^^^^^
+     `----
+
+  x SupportsCondition
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:163:1]
+ 163 | @supports (   --var   ) {
+     :           ^^^^^^^^^^^^^
+     `----
+
+  x SupportsConditionType
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:163:1]
+ 163 | @supports (   --var   ) {
+     :           ^^^^^^^^^^^^^
+     `----
+
+  x SupportsInParens
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:163:1]
+ 163 | @supports (   --var   ) {
+     :           ^^^^^^^^^^^^^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:163:1]
+ 163 | @supports (   --var   ) {
+     :           ^^^^^^^^^^^^^
+     `----
+
+  x LParen
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:163:1]
+ 163 | @supports (   --var   ) {
+     :           ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:163:1]
+ 163 | @supports (   --var   ) {
+     :            ^^^
+     `----
+
+  x WhiteSpace { value: "   " }
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:163:1]
+ 163 | @supports (   --var   ) {
+     :            ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:163:1]
+ 163 | @supports (   --var   ) {
+     :               ^^^^^
+     `----
+
+  x Ident { value: Atom('--var' type=inline), raw: "--var" }
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:163:1]
+ 163 | @supports (   --var   ) {
+     :               ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:163:1]
+ 163 | @supports (   --var   ) {
+     :                    ^^^
+     `----
+
+  x WhiteSpace { value: "   " }
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:163:1]
+ 163 | @supports (   --var   ) {
+     :                    ^^^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:163:1]
+ 163 | ,-> @supports (   --var   ) {
+ 164 | |       * { background: red; }
+ 165 | `-> }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:163:1]
+ 163 | @supports (   --var   ) {
+     :                         ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:164:5]
+ 164 | * { background: red; }
+     : ^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Rule
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:164:5]
+ 164 | * { background: red; }
+     : ^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x QualifiedRule
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:164:5]
+ 164 | * { background: red; }
+     : ^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x SelectorList
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:164:5]
+ 164 | * { background: red; }
+     : ^
+     `----
+
+  x ComplexSelector
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:164:5]
+ 164 | * { background: red; }
+     : ^
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:164:5]
+ 164 | * { background: red; }
+     : ^
+     `----
+
+  x TypeSelector
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:164:5]
+ 164 | * { background: red; }
+     : ^
+     `----
+
+  x UniversalSelector
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:164:5]
+ 164 | * { background: red; }
+     : ^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:164:5]
+ 164 | * { background: red; }
+     :   ^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:164:5]
+ 164 | * { background: red; }
+     :   ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:164:5]
+ 164 | * { background: red; }
+     :     ^^^^^^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:164:5]
+ 164 | * { background: red; }
+     :     ^^^^^^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:164:5]
+ 164 | * { background: red; }
+     :     ^^^^^^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:164:5]
+ 164 | * { background: red; }
+     :     ^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:164:5]
+ 164 | * { background: red; }
+     :     ^^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:164:5]
+ 164 | * { background: red; }
+     :                 ^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:164:5]
+ 164 | * { background: red; }
+     :                 ^^^
+     `----
+
+  x Rule
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:167:1]
+ 167 | ,-> @supports (   --var   "test"   ) {
+ 168 | |       * { background: red; }
+ 169 | `-> }
+     `----
+
+  x AtRule
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:167:1]
+ 167 | ,-> @supports (   --var   "test"   ) {
+ 168 | |       * { background: red; }
+ 169 | `-> }
+     `----
+
+  x AtRuleName
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:167:1]
+ 167 | @supports (   --var   "test"   ) {
+     :  ^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:167:1]
+ 167 | @supports (   --var   "test"   ) {
+     :  ^^^^^^^^
+     `----
+
+  x SupportsCondition
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:167:1]
+ 167 | @supports (   --var   "test"   ) {
+     :           ^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x SupportsConditionType
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:167:1]
+ 167 | @supports (   --var   "test"   ) {
+     :           ^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x SupportsInParens
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:167:1]
+ 167 | @supports (   --var   "test"   ) {
+     :           ^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:167:1]
+ 167 | @supports (   --var   "test"   ) {
+     :           ^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x LParen
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:167:1]
+ 167 | @supports (   --var   "test"   ) {
+     :           ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:167:1]
+ 167 | @supports (   --var   "test"   ) {
+     :            ^^^
+     `----
+
+  x WhiteSpace { value: "   " }
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:167:1]
+ 167 | @supports (   --var   "test"   ) {
+     :            ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:167:1]
+ 167 | @supports (   --var   "test"   ) {
+     :               ^^^^^
+     `----
+
+  x Ident { value: Atom('--var' type=inline), raw: "--var" }
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:167:1]
+ 167 | @supports (   --var   "test"   ) {
+     :               ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:167:1]
+ 167 | @supports (   --var   "test"   ) {
+     :                    ^^^
+     `----
+
+  x WhiteSpace { value: "   " }
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:167:1]
+ 167 | @supports (   --var   "test"   ) {
+     :                    ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:167:1]
+ 167 | @supports (   --var   "test"   ) {
+     :                       ^^^^^^
+     `----
+
+  x String { value: Atom('test' type=inline), raw: "\"test\"" }
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:167:1]
+ 167 | @supports (   --var   "test"   ) {
+     :                       ^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:167:1]
+ 167 | @supports (   --var   "test"   ) {
+     :                             ^^^
+     `----
+
+  x WhiteSpace { value: "   " }
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:167:1]
+ 167 | @supports (   --var   "test"   ) {
+     :                             ^^^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:167:1]
+ 167 | ,-> @supports (   --var   "test"   ) {
+ 168 | |       * { background: red; }
+ 169 | `-> }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:167:1]
+ 167 | @supports (   --var   "test"   ) {
+     :                                  ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:168:5]
+ 168 | * { background: red; }
+     : ^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Rule
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:168:5]
+ 168 | * { background: red; }
+     : ^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x QualifiedRule
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:168:5]
+ 168 | * { background: red; }
+     : ^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x SelectorList
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:168:5]
+ 168 | * { background: red; }
+     : ^
+     `----
+
+  x ComplexSelector
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:168:5]
+ 168 | * { background: red; }
+     : ^
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:168:5]
+ 168 | * { background: red; }
+     : ^
+     `----
+
+  x TypeSelector
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:168:5]
+ 168 | * { background: red; }
+     : ^
+     `----
+
+  x UniversalSelector
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:168:5]
+ 168 | * { background: red; }
+     : ^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:168:5]
+ 168 | * { background: red; }
+     :   ^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:168:5]
+ 168 | * { background: red; }
+     :   ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:168:5]
+ 168 | * { background: red; }
+     :     ^^^^^^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:168:5]
+ 168 | * { background: red; }
+     :     ^^^^^^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:168:5]
+ 168 | * { background: red; }
+     :     ^^^^^^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:168:5]
+ 168 | * { background: red; }
+     :     ^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:168:5]
+ 168 | * { background: red; }
+     :     ^^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:168:5]
+ 168 | * { background: red; }
+     :                 ^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:168:5]
+ 168 | * { background: red; }
      :                 ^^^
      `----

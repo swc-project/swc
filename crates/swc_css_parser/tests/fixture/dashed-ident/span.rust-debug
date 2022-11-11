@@ -120,7 +120,7 @@
    :               ^^^^
    `----
 
-  x Hash { is_id: false, value: Atom('06c' type=inline), raw: Atom('06c' type=inline) }
+  x Hash { is_id: false, value: Atom('06c' type=inline), raw: "06c" }
    ,-[$DIR/tests/fixture/dashed-ident/input.css:2:5]
  2 | --main-color: #06c;
    :               ^^^^
@@ -162,7 +162,7 @@
    :                 ^^^^
    `----
 
-  x Hash { is_id: false, value: Atom('006' type=inline), raw: Atom('006' type=inline) }
+  x Hash { is_id: false, value: Atom('006' type=inline), raw: "006" }
    ,-[$DIR/tests/fixture/dashed-ident/input.css:3:5]
  3 | --accent-color: #006;
    :                 ^^^^
@@ -267,7 +267,7 @@
    :             ^^^^
    `----
 
-  x Ident { value: Atom('blue' type=inline), raw: Atom('blue' type=inline) }
+  x Ident { value: Atom('blue' type=inline), raw: "blue" }
    ,-[$DIR/tests/fixture/dashed-ident/input.css:7:5]
  7 | --fg-color: blue;
    :             ^^^^
@@ -462,7 +462,7 @@
     :          ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/dashed-ident/input.css:14:1]
  14 | @--custom {}
     :          ^
@@ -510,7 +510,7 @@
     :                   ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/dashed-ident/input.css:15:1]
  15 | @--library1-custom {}
     :                   ^

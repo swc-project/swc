@@ -15,10 +15,10 @@ for (let _ref of array){
 let xx;
 let rrestOff;
 for (var _ref1 of array){
-    var __ref;
-    __ref = _ref1, rrestOff = _object_without_properties(__ref, [
+    var _ref2;
+    _ref2 = _ref1, rrestOff = _object_without_properties(_ref2, [
         "x"
-    ]), ({ x: xx  } = __ref), __ref;
+    ]), ({ x: xx  } = _ref2), _ref2;
     [
         xx,
         rrestOff

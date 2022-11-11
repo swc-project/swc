@@ -102,7 +102,7 @@ test!(
     default_before_last,
     r#"function foo({x,y} = "foo", b) {}"#,
     r#"function foo() {
-      var ref = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : "foo", x = ref.x, y = ref.y, b = arguments.length > 1 ? arguments[1] : void 0;
+      var _ref = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : "foo", x = _ref.x, y = _ref.y, b = arguments.length > 1 ? arguments[1] : void 0;
 }"#
 );
 
@@ -300,10 +300,10 @@ test!(
   a5,
   {a6, a7} = {}) {}"#,
     "function fn(a1) {
-    var a2 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 4, ref = \
-     arguments.length > 2 ? arguments[2] : void 0, a3 = ref.a3, a4 = ref.a4, a5 = \
-     arguments.length > 3 ? arguments[3] : void 0, ref1 = arguments.length > 4 && arguments[4] \
-     !== void 0 ? arguments[4] : {}, a6 = ref1.a6, a7 = ref1.a7;
+    var a2 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 4, _ref = \
+     arguments.length > 2 ? arguments[2] : void 0, a3 = _ref.a3, a4 = _ref.a4, a5 = \
+     arguments.length > 3 ? arguments[3] : void 0, _ref1 = arguments.length > 4 && arguments[4] \
+     !== void 0 ? arguments[4] : {}, a6 = _ref1.a6, a7 = _ref1.a7;
 }
 "
 );
@@ -421,14 +421,14 @@ set arr([x, y] = []) {
 };"#,
     "var obj = {
       set obj (param){
-        var ref = param === void 0 ? {} : param, a = ref.a, b = ref.b;
+        var _ref = param === void 0 ? {} : param, a = _ref.a, b = _ref.b;
         this.num = {
             a,
             b
         };
     },
     set arr (param){
-        var ref1 = _slicedToArray(param === void 0 ? [] : param, 2), x = ref1[0], y = ref1[1];
+        var _ref1 = _slicedToArray(param === void 0 ? [] : param, 2), x = _ref1[0], y = _ref1[1];
         this.num = {
             x,
             y
@@ -476,7 +476,7 @@ function t(x = "default", { a, b }, ...args) {
 }"#,
     r#"// #3861
 function t() {
-    var x = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : "default", ref = arguments.length > 1 ? arguments[1] : void 0, a = ref.a, b = ref.b;
+    var x = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : "default", _ref = arguments.length > 1 ? arguments[1] : void 0, a = _ref.a, b = _ref.b;
     for(var _len = arguments.length, args = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
         args[_key - 2] = arguments[_key];
     }
@@ -1305,7 +1305,7 @@ test!(
     for(var _len = arguments.length, _tmp = new Array(_len), _key = 0; _key < _len; _key++){
         _tmp[_key] = arguments[_key];
     }
-    var __tmp = _slicedToArray(_tmp, 1), a = __tmp[0];
+    var _tmp1 = _slicedToArray(_tmp, 1), a = _tmp1[0];
 }"#
 );
 
@@ -2035,8 +2035,8 @@ test!(
     fn_len_complex_assign,
     "function test({a: b} = {}) {}",
     "function test(param) {
-      var ref = param === void 0 ? {} : param,
-          b = ref.a;
+      var _ref = param === void 0 ? {} : param,
+          b = _ref.a;
     }"
 );
 
@@ -2048,8 +2048,8 @@ test!(
     fn_len_default_array_destructuring,
     "function t([,,a] = [1,2,3]) { return a }",
     "function t(param) {
-      var ref = _slicedToArray(param === void 0 ? [1, 2, 3] : param, 3),
-          a = ref[2];
+      var _ref = _slicedToArray(param === void 0 ? [1, 2, 3] : param, 3),
+          a = _ref[2];
 
       return a;
     }"
@@ -2205,9 +2205,9 @@ test!(
       var a3 = param.a3,
           a4 = param.a4;
 
-      var ref = param1 === void 0 ? {} : param1,
-          a6 = ref.a6,
-          a7 = ref.a7;
+      var _ref = param1 === void 0 ? {} : param1,
+          a6 = _ref.a6,
+          a7 = _ref.a7;
     }
 "#
 );

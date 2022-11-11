@@ -41,7 +41,7 @@
    :  ^^^^
    `----
 
-  x Ident { value: Atom('href' type=static), raw: Atom('href' type=static) }
+  x Ident { value: Atom('href' type=static), raw: "href" }
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher/input.css:1:1]
  1 | [href==".org"] {}
    :  ^^^^
@@ -77,7 +77,7 @@
    :        ^^^^^^
    `----
 
-  x String { value: Atom('.org' type=inline), raw: Atom('".org"' type=inline) }
+  x String { value: Atom('.org' type=inline), raw: "\".org\"" }
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher/input.css:1:1]
  1 | [href==".org"] {}
    :        ^^^^^^
@@ -89,7 +89,7 @@
    :               ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher/input.css:1:1]
  1 | [href==".org"] {}
    :               ^

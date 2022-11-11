@@ -1,5 +1,5 @@
 //// [for-of30.ts]
-let _iterator = Symbol.iterator;
+let _Symbol_iterator = Symbol.iterator;
 for (var v of new class {
     next() {
         return {
@@ -7,7 +7,7 @@ for (var v of new class {
             value: ""
         };
     }
-    [_iterator]() {
+    [_Symbol_iterator]() {
         return this;
     }
     constructor(){

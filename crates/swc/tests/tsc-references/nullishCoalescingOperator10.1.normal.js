@@ -1,3 +1,3 @@
 //// [nullishCoalescingOperator10.ts]
-var ref;
-var gg = (ref = f()) !== null && ref !== void 0 ? ref : "foo";
+var _f;
+var gg = (_f = f()) !== null && _f !== void 0 ? _f : "foo";

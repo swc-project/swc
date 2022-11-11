@@ -1,3 +1,3 @@
 //// [nullishCoalescingOperator8.ts]
-var ref, ref1;
-a.p, a.m(), null !== (ref1 = null !== (ref = a.m()) && void 0 !== ref ? ref : b.p) && void 0 !== ref1 || b.m();
+var _a_m, _ref;
+a.p, a.m(), null !== (_ref = null !== (_a_m = a.m()) && void 0 !== _a_m ? _a_m : b.p) && void 0 !== _ref || b.m();

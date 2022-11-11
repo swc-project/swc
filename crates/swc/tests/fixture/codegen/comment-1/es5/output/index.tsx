@@ -1,6 +1,6 @@
 import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
 function a(param) {
-    var _b = param.b, b = _b === void 0 ? [] : _b;
+    var _param_b = param.b, b = _param_b === void 0 ? [] : _param_b;
     var t = useMemo(function() {
         return(// Cmt1
         _to_consumable_array(a.slice(0, 1)).concat(// Cmt2

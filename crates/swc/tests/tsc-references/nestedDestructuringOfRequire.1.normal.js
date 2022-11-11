@@ -5,6 +5,6 @@ var chalk = {
 };
 module.exports.chalk = chalk;
 //// [main.js]
-var ref = require("./mod1"), grey = ref.chalk.grey;
+var _require = require("./mod1"), grey = _require.chalk.grey;
 grey;
 chalk;

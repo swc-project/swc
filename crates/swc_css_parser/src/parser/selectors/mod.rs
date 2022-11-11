@@ -12,8 +12,6 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<SelectorList> {
-        self.input.skip_ws();
-
         let child: ComplexSelector = self.parse()?;
         let mut children = vec![child];
 
@@ -126,8 +124,6 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<CompoundSelectorList> {
-        self.input.skip_ws();
-
         let child: CompoundSelector = self.parse()?;
         let mut children = vec![child];
 
@@ -170,8 +166,6 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<RelativeSelectorList> {
-        self.input.skip_ws();
-
         let child: RelativeSelector = self.parse()?;
         let mut children = vec![child];
 
@@ -293,7 +287,7 @@ where
             self.input.skip_ws();
 
             // TODO should be refactor after grammar parsing
-            if is_one_of!(self, EOF, ",", "{", ")") {
+            if is_one_of!(self, EOF, ",", ")") {
                 break;
             }
 
@@ -859,13 +853,21 @@ where
 
                     match &*names.0.to_ascii_lowercase() {
                         "local" | "global" if self.config.css_modules => {
+                            self.input.skip_ws();
+
                             let selector_list = self.parse()?;
+
+                            self.input.skip_ws();
 
                             children
                                 .push(PseudoClassSelectorChildren::ComplexSelector(selector_list));
                         }
                         "-moz-any" | "-webkit-any" => {
+                            self.input.skip_ws();
+
                             let compound_selector_list = self.parse()?;
+
+                            self.input.skip_ws();
 
                             children.push(PseudoClassSelectorChildren::CompoundSelectorList(
                                 compound_selector_list,
@@ -876,9 +878,9 @@ where
 
                             let ident = self.parse()?;
 
-                            children.push(PseudoClassSelectorChildren::Ident(ident));
-
                             self.input.skip_ws();
+
+                            children.push(PseudoClassSelectorChildren::Ident(ident));
                         }
                         "lang" => {
                             self.input.skip_ws();
@@ -928,14 +930,22 @@ where
                             }
                         }
                         "current" | "past" | "future" => {
+                            self.input.skip_ws();
+
                             let compound_selector_list = self.parse()?;
+
+                            self.input.skip_ws();
 
                             children.push(PseudoClassSelectorChildren::CompoundSelectorList(
                                 compound_selector_list,
                             ));
                         }
                         "not" | "matches" => {
+                            self.input.skip_ws();
+
                             let selector_list = self.parse()?;
+
+                            self.input.skip_ws();
 
                             children.push(PseudoClassSelectorChildren::SelectorList(selector_list));
                         }
@@ -974,10 +984,10 @@ where
 
                                 let selector_list = self.parse()?;
 
+                                self.input.skip_ws();
+
                                 children
                                     .push(PseudoClassSelectorChildren::SelectorList(selector_list));
-
-                                self.input.skip_ws();
                             }
                         }
                         "host" | "host-context" => {
@@ -985,11 +995,11 @@ where
 
                             let compound_selector = self.parse()?;
 
+                            self.input.skip_ws();
+
                             children.push(PseudoClassSelectorChildren::CompoundSelector(
                                 compound_selector,
                             ));
-
-                            self.input.skip_ws();
                         }
                         _ => {
                             return Err(Error::new(span, ErrorKind::Ignore));

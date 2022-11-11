@@ -21,19 +21,19 @@ function ff(param) {
         }
     } : tmp;
 }
-var ref = {
+var _ref = {
     stringIdentity: function(x) {
         return x;
     }
-}, tmp = ref.stringIdentity, id = tmp === void 0 ? function(arg) {
+}, tmp = _ref.stringIdentity, id = tmp === void 0 ? function(arg) {
     return arg.length;
 } : tmp;
 function g(param) {
-    var _prop = param.prop, prop = _prop === void 0 ? [
+    var _param_prop = param.prop, prop = _param_prop === void 0 ? [
         101,
         1234
-    ] : _prop;
+    ] : _param_prop;
 }
 function h(param) {
-    var _prop = param.prop, prop = _prop === void 0 ? "baz" : _prop;
+    var _param_prop = param.prop, prop = _param_prop === void 0 ? "baz" : _param_prop;
 }

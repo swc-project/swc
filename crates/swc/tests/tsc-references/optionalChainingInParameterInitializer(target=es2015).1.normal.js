@@ -1,5 +1,5 @@
 //// [optionalChainingInParameterInitializer.ts]
 // https://github.com/microsoft/TypeScript/issues/36295
-var ref;
+var _a;
 const a = ()=>undefined;
-((b = (ref = a()) === null || ref === void 0 ? void 0 : ref.d)=>{})();
+((b = (_a = a()) === null || _a === void 0 ? void 0 : _a.d)=>{})();

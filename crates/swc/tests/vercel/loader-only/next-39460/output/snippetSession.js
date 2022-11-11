@@ -193,7 +193,7 @@ export var OneSnippet = /*#__PURE__*/ function() {
                 // change stickness to never grow when typing at its edges
                 // so that in-active tabstops never grow
                 for(var _iterator2 = _this._placeholderDecorations[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true){
-                    var _value = _sliced_to_array(_step2.value, 2), placeholder1 = _value[0], id2 = _value[1];
+                    var _step_value = _sliced_to_array(_step2.value, 2), placeholder1 = _step_value[0], id2 = _step_value[1];
                     if (!activePlaceholders.has(placeholder1)) {
                         accessor.changeDecorationOptions(id2, placeholder1.isFinalTabstop ? OneSnippet._decor.inactiveFinal : OneSnippet._decor.inactive);
                     }
@@ -468,7 +468,7 @@ export var SnippetSession = /*#__PURE__*/ function() {
             return;
         }
         // make insert edit and start with first selections
-        var ref = SnippetSession.createEditsAndSnippets(this._editor, this._template, this._options.overwriteBefore, this._options.overwriteAfter, false, this._options.adjustWhitespace, this._options.clipboardText, this._options.overtypingCapturer), edits = ref.edits, snippets = ref.snippets;
+        var _SnippetSession_createEditsAndSnippets = SnippetSession.createEditsAndSnippets(this._editor, this._template, this._options.overwriteBefore, this._options.overwriteAfter, false, this._options.adjustWhitespace, this._options.clipboardText, this._options.overtypingCapturer), edits = _SnippetSession_createEditsAndSnippets.edits, snippets = _SnippetSession_createEditsAndSnippets.snippets;
         this._snippets = snippets;
         this._editor.executeEdits("snippet", edits, function(undoEdits) {
             if (_this._snippets[0].hasPlaceholder) {
@@ -495,7 +495,7 @@ export var SnippetSession = /*#__PURE__*/ function() {
             this._snippets[0]._placeholderGroupsIdx,
             template
         ]);
-        var ref = SnippetSession.createEditsAndSnippets(this._editor, template, options.overwriteBefore, options.overwriteAfter, true, options.adjustWhitespace, options.clipboardText, options.overtypingCapturer), edits = ref.edits, snippets = ref.snippets;
+        var _SnippetSession_createEditsAndSnippets = SnippetSession.createEditsAndSnippets(this._editor, template, options.overwriteBefore, options.overwriteAfter, true, options.adjustWhitespace, options.clipboardText, options.overtypingCapturer), edits = _SnippetSession_createEditsAndSnippets.edits, snippets = _SnippetSession_createEditsAndSnippets.snippets;
         this._editor.executeEdits("snippet", edits, function(undoEdits) {
             var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
             try {
@@ -590,7 +590,7 @@ export var SnippetSession = /*#__PURE__*/ function() {
                     var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
                     try {
                         for(var _iterator = possibleSelections[Symbol.iterator](), _step1; !(_iteratorNormalCompletion = (_step1 = _iterator.next()).done); _iteratorNormalCompletion = true){
-                            var _value = _sliced_to_array(_step1.value, 2), index = _value[0], ranges = _value[1];
+                            var _step_value = _sliced_to_array(_step1.value, 2), index = _step_value[0], ranges = _step_value[1];
                             ranges.sort(Range.compareRangesUsingStarts);
                             var _iteratorNormalCompletion1 = true, _didIteratorError1 = false, _iteratorError1 = undefined;
                             try {
@@ -670,7 +670,7 @@ export var SnippetSession = /*#__PURE__*/ function() {
         var _iteratorNormalCompletion1 = true, _didIteratorError1 = false, _iteratorError1 = undefined;
         try {
             for(var _iterator1 = allPossibleSelections[Symbol.iterator](), _step1; !(_iteratorNormalCompletion1 = (_step1 = _iterator1.next()).done); _iteratorNormalCompletion1 = true){
-                var _value = _sliced_to_array(_step1.value, 2), index = _value[0], ranges = _value[1];
+                var _step_value = _sliced_to_array(_step1.value, 2), index = _step_value[0], ranges = _step_value[1];
                 if (ranges.length !== selections.length) {
                     allPossibleSelections.delete(index);
                     continue;
@@ -805,7 +805,7 @@ export var SnippetSession = /*#__PURE__*/ function() {
         var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
         try {
             for(var _iterator = indexedSelections[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true){
-                var _value = _step.value, selection = _value.selection, idx = _value.idx;
+                var _step_value = _step.value, selection = _step_value.selection, idx = _step_value.idx;
                 // extend selection with the `overwriteBefore` and `overwriteAfter` and then
                 // compare if this matches the extensions of the primary selection
                 var extensionBefore = SnippetSession.adjustSelection(model, selection, overwriteBefore, 0);

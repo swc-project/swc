@@ -407,7 +407,7 @@
     : ^^^^
     `----
 
-  x Ident { value: Atom('test' type=inline), raw: Atom('test' type=inline) }
+  x Ident { value: Atom('test' type=inline), raw: "test" }
     ,-[$DIR/tests/recovery/declaration/basic/input.css:12:5]
  12 | test;
     : ^^^^

@@ -197,7 +197,7 @@
    :          ^^^
    `----
 
-  x Ident { value: Atom('foo' type=inline), raw: Atom('foo' type=inline) }
+  x Ident { value: Atom('foo' type=inline), raw: "foo" }
    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:3:1]
  3 | :unknown(foo) {}
    :          ^^^
@@ -269,7 +269,7 @@
    :          ^^^
    `----
 
-  x Ident { value: Atom('foo' type=inline), raw: Atom('foo' type=inline) }
+  x Ident { value: Atom('foo' type=inline), raw: "foo" }
    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:4:1]
  4 | :unknown(foo bar) {}
    :          ^^^
@@ -281,7 +281,7 @@
    :             ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:4:1]
  4 | :unknown(foo bar) {}
    :             ^
@@ -293,7 +293,7 @@
    :              ^^^
    `----
 
-  x Ident { value: Atom('bar' type=inline), raw: Atom('bar' type=inline) }
+  x Ident { value: Atom('bar' type=inline), raw: "bar" }
    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:4:1]
  4 | :unknown(foo bar) {}
    :              ^^^
@@ -365,7 +365,7 @@
    :          ^^^
    `----
 
-  x Ident { value: Atom('foo' type=inline), raw: Atom('foo' type=inline) }
+  x Ident { value: Atom('foo' type=inline), raw: "foo" }
    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:5:1]
  5 | :unknown(foo, bar) {}
    :          ^^^
@@ -389,7 +389,7 @@
    :              ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:5:1]
  5 | :unknown(foo, bar) {}
    :              ^
@@ -401,7 +401,7 @@
    :               ^^^
    `----
 
-  x Ident { value: Atom('bar' type=inline), raw: Atom('bar' type=inline) }
+  x Ident { value: Atom('bar' type=inline), raw: "bar" }
    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:5:1]
  5 | :unknown(foo, bar) {}
    :               ^^^
@@ -485,7 +485,7 @@
    :           ^^^
    `----
 
-  x Ident { value: Atom('foo' type=inline), raw: Atom('foo' type=inline) }
+  x Ident { value: Atom('foo' type=inline), raw: "foo" }
    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:6:1]
  6 | :unknown([foo]) {}
    :           ^^^
@@ -581,7 +581,7 @@
    :           ^^^
    `----
 
-  x Ident { value: Atom('foo' type=inline), raw: Atom('foo' type=inline) }
+  x Ident { value: Atom('foo' type=inline), raw: "foo" }
    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:7:1]
  7 | :unknown((foo bar)) {}
    :           ^^^
@@ -593,7 +593,7 @@
    :              ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:7:1]
  7 | :unknown((foo bar)) {}
    :              ^
@@ -605,7 +605,7 @@
    :               ^^^
    `----
 
-  x Ident { value: Atom('bar' type=inline), raw: Atom('bar' type=inline) }
+  x Ident { value: Atom('bar' type=inline), raw: "bar" }
    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:7:1]
  7 | :unknown((foo bar)) {}
    :               ^^^
@@ -713,7 +713,7 @@
    :            ^^^
    `----
 
-  x Ident { value: Atom('foo' type=inline), raw: Atom('foo' type=inline) }
+  x Ident { value: Atom('foo' type=inline), raw: "foo" }
    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:8:1]
  8 | :unknown(((foo bar))) {}
    :            ^^^
@@ -725,7 +725,7 @@
    :               ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:8:1]
  8 | :unknown(((foo bar))) {}
    :               ^
@@ -737,7 +737,7 @@
    :                ^^^
    `----
 
-  x Ident { value: Atom('bar' type=inline), raw: Atom('bar' type=inline) }
+  x Ident { value: Atom('bar' type=inline), raw: "bar" }
    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:8:1]
  8 | :unknown(((foo bar))) {}
    :                ^^^
@@ -845,7 +845,7 @@
    :           ^^^
    `----
 
-  x Ident { value: Atom('foo' type=inline), raw: Atom('foo' type=inline) }
+  x Ident { value: Atom('foo' type=inline), raw: "foo" }
    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:9:1]
  9 | :unknown({foo: bar}) {}
    :           ^^^
@@ -869,7 +869,7 @@
    :               ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:9:1]
  9 | :unknown({foo: bar}) {}
    :               ^
@@ -881,7 +881,7 @@
    :                ^^^
    `----
 
-  x Ident { value: Atom('bar' type=inline), raw: Atom('bar' type=inline) }
+  x Ident { value: Atom('bar' type=inline), raw: "bar" }
    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:9:1]
  9 | :unknown({foo: bar}) {}
    :                ^^^
@@ -989,7 +989,7 @@
     :            ^^^
     `----
 
-  x Ident { value: Atom('foo' type=inline), raw: Atom('foo' type=inline) }
+  x Ident { value: Atom('foo' type=inline), raw: "foo" }
     ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
  10 | :unknown({{foo: bar}}) {}
     :            ^^^
@@ -1013,7 +1013,7 @@
     :                ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
  10 | :unknown({{foo: bar}}) {}
     :                ^
@@ -1025,7 +1025,7 @@
     :                 ^^^
     `----
 
-  x Ident { value: Atom('bar' type=inline), raw: Atom('bar' type=inline) }
+  x Ident { value: Atom('bar' type=inline), raw: "bar" }
     ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
  10 | :unknown({{foo: bar}}) {}
     :                 ^^^
@@ -1133,7 +1133,7 @@
     :           ^^^
     `----
 
-  x Ident { value: Atom('foo' type=inline), raw: Atom('foo' type=inline) }
+  x Ident { value: Atom('foo' type=inline), raw: "foo" }
     ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:11:1]
  11 | :unknown({foo: bar !important}) {}
     :           ^^^
@@ -1157,7 +1157,7 @@
     :               ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:11:1]
  11 | :unknown({foo: bar !important}) {}
     :               ^
@@ -1169,7 +1169,7 @@
     :                ^^^
     `----
 
-  x Ident { value: Atom('bar' type=inline), raw: Atom('bar' type=inline) }
+  x Ident { value: Atom('bar' type=inline), raw: "bar" }
     ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:11:1]
  11 | :unknown({foo: bar !important}) {}
     :                ^^^
@@ -1181,7 +1181,7 @@
     :                   ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:11:1]
  11 | :unknown({foo: bar !important}) {}
     :                   ^
@@ -1205,7 +1205,7 @@
     :                     ^^^^^^^^^
     `----
 
-  x Ident { value: Atom('important' type=static), raw: Atom('important' type=static) }
+  x Ident { value: Atom('important' type=static), raw: "important" }
     ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:11:1]
  11 | :unknown({foo: bar !important}) {}
     :                     ^^^^^^^^^
@@ -1289,7 +1289,7 @@
     :          ^^^^^^^^
     `----
 
-  x String { value: Atom('string' type=static), raw: Atom('"string"' type=dynamic) }
+  x String { value: Atom('string' type=static), raw: "\"string\"" }
     ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:12:1]
  12 | :unknown("string") {}
     :          ^^^^^^^^
@@ -1361,7 +1361,7 @@
     :          ^^^^^^^^
     `----
 
-  x String { value: Atom('string' type=static), raw: Atom('"string"' type=dynamic) }
+  x String { value: Atom('string' type=static), raw: "\"string\"" }
     ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:13:1]
  13 | :unknown("string", foo) {}
     :          ^^^^^^^^
@@ -1385,7 +1385,7 @@
     :                   ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:13:1]
  13 | :unknown("string", foo) {}
     :                   ^
@@ -1397,7 +1397,7 @@
     :                    ^^^
     `----
 
-  x Ident { value: Atom('foo' type=inline), raw: Atom('foo' type=inline) }
+  x Ident { value: Atom('foo' type=inline), raw: "foo" }
     ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:13:1]
  13 | :unknown("string", foo) {}
     :                    ^^^
@@ -1469,7 +1469,7 @@
     :          ^^^^^^^^
     `----
 
-  x String { value: Atom('string' type=static), raw: Atom(''string'' type=dynamic) }
+  x String { value: Atom('string' type=static), raw: "'string'" }
     ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:14:1]
  14 | :unknown('string') {}
     :          ^^^^^^^^
@@ -1541,8 +1541,7 @@
     :          ^^^^^^^^^^^^
     `----
 
-  x Url { name: Atom('url' type=static), raw_name: Atom('url' type=static), before: Atom('' type=static), after: Atom('' type=static), value: Atom('foo.png' type=inline), raw_value: Atom('foo.png'
-  | type=inline) }
+  x Url { name: Atom('url' type=static), raw_name: "url", value: Atom('foo.png' type=inline), raw_value: "foo.png" }
     ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:15:1]
  15 | :unknown(url(foo.png)) {}
     :          ^^^^^^^^^^^^

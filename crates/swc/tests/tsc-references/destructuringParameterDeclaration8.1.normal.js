@@ -2,7 +2,7 @@
 // explicit type annotation should cause `method` to have type 'x' | 'y'
 // both inside and outside `test`.
 function test(param) {
-    var _method = param.method, method = _method === void 0 ? "z" : _method, _nested = param.nested, _p = _nested.p, p = _p === void 0 ? "c" : _p;
+    var _param_method = param.method, method = _param_method === void 0 ? "z" : _param_method, _param_nested = param.nested, _param_nested_p = _param_nested.p, p = _param_nested_p === void 0 ? "c" : _param_nested_p;
     method;
     p;
 }

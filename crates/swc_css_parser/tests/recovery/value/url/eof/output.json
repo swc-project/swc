@@ -130,9 +130,7 @@
                     "ctxt": 0
                   },
                   "value": "foo.png",
-                  "before": "",
-                  "raw": "foo.png",
-                  "after": ""
+                  "raw": "foo.png"
                 },
                 "modifiers": null
               }

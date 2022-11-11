@@ -38,7 +38,7 @@ var k = {
     something: function something() {}
 };
 function run(options) {
-    var _something;
-    var something = (_something = options.something) !== null && _something !== void 0 ? _something : val.something;
+    var _options_something;
+    var something = (_options_something = options.something) !== null && _options_something !== void 0 ? _options_something : val.something;
     something("");
 }

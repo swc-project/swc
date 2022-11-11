@@ -35,7 +35,7 @@
    :       ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/media/feature-range-2/input.css:1:1]
  1 | @media (400px > "width" > 700px) {}
    :       ^
@@ -65,7 +65,7 @@
    :         ^^^^^
    `----
 
-  x Dimension { value: 400.0, raw_value: Atom('400' type=inline), unit: Atom('px' type=static), raw_unit: Atom('px' type=static), type_flag: Integer }
+  x Dimension { value: 400.0, raw_value: "400", unit: Atom('px' type=static), raw_unit: "px", type_flag: Integer }
    ,-[$DIR/tests/recovery/at-rule/media/feature-range-2/input.css:1:1]
  1 | @media (400px > "width" > 700px) {}
    :         ^^^^^
@@ -77,7 +77,7 @@
    :              ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/media/feature-range-2/input.css:1:1]
  1 | @media (400px > "width" > 700px) {}
    :              ^
@@ -101,7 +101,7 @@
    :                ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/media/feature-range-2/input.css:1:1]
  1 | @media (400px > "width" > 700px) {}
    :                ^
@@ -113,7 +113,7 @@
    :                 ^^^^^^^
    `----
 
-  x String { value: Atom('width' type=inline), raw: Atom('"width"' type=inline) }
+  x String { value: Atom('width' type=inline), raw: "\"width\"" }
    ,-[$DIR/tests/recovery/at-rule/media/feature-range-2/input.css:1:1]
  1 | @media (400px > "width" > 700px) {}
    :                 ^^^^^^^
@@ -125,7 +125,7 @@
    :                        ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/media/feature-range-2/input.css:1:1]
  1 | @media (400px > "width" > 700px) {}
    :                        ^
@@ -149,7 +149,7 @@
    :                          ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/media/feature-range-2/input.css:1:1]
  1 | @media (400px > "width" > 700px) {}
    :                          ^
@@ -161,7 +161,7 @@
    :                           ^^^^^
    `----
 
-  x Dimension { value: 700.0, raw_value: Atom('700' type=inline), unit: Atom('px' type=static), raw_unit: Atom('px' type=static), type_flag: Integer }
+  x Dimension { value: 700.0, raw_value: "700", unit: Atom('px' type=static), raw_unit: "px", type_flag: Integer }
    ,-[$DIR/tests/recovery/at-rule/media/feature-range-2/input.css:1:1]
  1 | @media (400px > "width" > 700px) {}
    :                           ^^^^^
@@ -173,7 +173,7 @@
    :                                 ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/media/feature-range-2/input.css:1:1]
  1 | @media (400px > "width" > 700px) {}
    :                                 ^

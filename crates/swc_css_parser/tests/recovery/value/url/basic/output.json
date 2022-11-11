@@ -126,7 +126,7 @@
             "type": "Declaration",
             "span": {
               "start": 60,
-              "end": 86,
+              "end": 87,
               "ctxt": 0
             },
             "name": {
@@ -151,10 +151,18 @@
                   "BadUrl": {
                     "name": "url",
                     "raw_name": "url",
-                    "value": "var(--foo",
                     "raw_value": "var(--foo"
                   }
                 }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 86,
+                  "end": 87,
+                  "ctxt": 0
+                },
+                "token": "RParen"
               }
             ],
             "important": null
@@ -202,9 +210,7 @@
                     "ctxt": 0
                   },
                   "value": "image.png�",
-                  "before": "",
-                  "raw": "image.png\\999999",
-                  "after": ""
+                  "raw": "image.png\\999999"
                 },
                 "modifiers": null
               }
@@ -254,9 +260,7 @@
                     "ctxt": 0
                   },
                   "value": "image.png�",
-                  "before": "",
-                  "raw": "image.png\\0",
-                  "after": ""
+                  "raw": "image.png\\0"
                 },
                 "modifiers": null
               }
@@ -306,9 +310,7 @@
                     "ctxt": 0
                   },
                   "value": "image.png�",
-                  "before": "",
-                  "raw": "image.png\\D800",
-                  "after": ""
+                  "raw": "image.png\\D800"
                 },
                 "modifiers": null
               }
@@ -358,9 +360,7 @@
                     "ctxt": 0
                   },
                   "value": "image.png�",
-                  "before": "",
-                  "raw": "image.png\\DFFF",
-                  "after": ""
+                  "raw": "image.png\\DFFF"
                 },
                 "modifiers": null
               }
@@ -410,9 +410,7 @@
                     "ctxt": 0
                   },
                   "value": "image.png�",
-                  "before": "",
-                  "raw": "image.png\\11FFFF",
-                  "after": ""
+                  "raw": "image.png\\11FFFF"
                 },
                 "modifiers": null
               }
@@ -531,7 +529,7 @@
             "type": "Declaration",
             "span": {
               "start": 305,
-              "end": 347,
+              "end": 349,
               "ctxt": 0
             },
             "name": {
@@ -556,10 +554,27 @@
                   "BadUrl": {
                     "name": "url",
                     "raw_name": "url",
-                    "value": "image.png param(var(--url",
                     "raw_value": "image.png param(var(--url"
                   }
                 }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 347,
+                  "end": 348,
+                  "ctxt": 0
+                },
+                "token": "RParen"
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 348,
+                  "end": 349,
+                  "ctxt": 0
+                },
+                "token": "RParen"
               }
             ],
             "important": null

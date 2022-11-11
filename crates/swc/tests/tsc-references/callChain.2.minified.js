@@ -1,5 +1,5 @@
 //// [callChain.ts]
-var _o2, _o21, _o22, _o23, ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7, ref8, ref9, ref10, ref11, ref12;
+var _o2, _o21, _o22, _o23, _o3_b, _o3_b1, _o3_b2, _o3_b3, _o3_b4, _o3_b5, _o3_b6, _o3_b7, _o3_b8, _o3_b9, _o3_b10, _o3_b11, _o5;
 null == o1 || o1(), null == o1 || o1(1), null == o1 || o1.apply(void 0, [
     1,
     2
@@ -24,34 +24,34 @@ null == o1 || o1(), null == o1 || o1(1), null == o1 || o1.apply(void 0, [
     2,
     3,
     4
-]), null === (ref = o3.b) || void 0 === ref || ref.call(o3).c, null === (ref1 = o3.b) || void 0 === ref1 || ref1.call(o3, 1).c, null === (ref2 = o3.b) || void 0 === ref2 || ref2.call.apply(ref2, [
+]), null === (_o3_b = o3.b) || void 0 === _o3_b || _o3_b.call(o3).c, null === (_o3_b1 = o3.b) || void 0 === _o3_b1 || _o3_b1.call(o3, 1).c, null === (_o3_b2 = o3.b) || void 0 === _o3_b2 || _o3_b2.call.apply(_o3_b2, [
     o3,
     1,
     2
-]).c, null === (ref3 = o3.b) || void 0 === ref3 || ref3.call.apply(ref3, [
+]).c, null === (_o3_b3 = o3.b) || void 0 === _o3_b3 || _o3_b3.call.apply(_o3_b3, [
     o3,
     1,
     2,
     3,
     4
-]).c, null === (ref4 = o3.b) || void 0 === ref4 || ref4.call(o3).c, null === (ref5 = o3.b) || void 0 === ref5 || ref5.call(o3, 1).c, null === (ref6 = o3.b) || void 0 === ref6 || ref6.call.apply(ref6, [
+]).c, null === (_o3_b4 = o3.b) || void 0 === _o3_b4 || _o3_b4.call(o3).c, null === (_o3_b5 = o3.b) || void 0 === _o3_b5 || _o3_b5.call(o3, 1).c, null === (_o3_b6 = o3.b) || void 0 === _o3_b6 || _o3_b6.call.apply(_o3_b6, [
     o3,
     1,
     2
-]).c, null === (ref7 = o3.b) || void 0 === ref7 || ref7.call.apply(ref7, [
+]).c, null === (_o3_b7 = o3.b) || void 0 === _o3_b7 || _o3_b7.call.apply(_o3_b7, [
     o3,
     1,
     2,
     3,
     4
-]).c, null === (ref8 = o3.b) || void 0 === ref8 || ref8.call(o3).c, null === (ref9 = o3.b) || void 0 === ref9 || ref9.call(o3, 1).c, null === (ref10 = o3.b) || void 0 === ref10 || ref10.call.apply(ref10, [
+]).c, null === (_o3_b8 = o3.b) || void 0 === _o3_b8 || _o3_b8.call(o3).c, null === (_o3_b9 = o3.b) || void 0 === _o3_b9 || _o3_b9.call(o3, 1).c, null === (_o3_b10 = o3.b) || void 0 === _o3_b10 || _o3_b10.call.apply(_o3_b10, [
     o3,
     1,
     2
-]).c, null === (ref11 = o3.b) || void 0 === ref11 || ref11.call.apply(ref11, [
+]).c, null === (_o3_b11 = o3.b) || void 0 === _o3_b11 || _o3_b11.call.apply(_o3_b11, [
     o3,
     1,
     2,
     3,
     4
-]).c, null == o4 || o4(incr), null === (ref12 = o5()) || void 0 === ref12 || ref12(), null == o2 || o2.b().toString, null == o2 || o2.b().toString;
+]).c, null == o4 || o4(incr), null === (_o5 = o5()) || void 0 === _o5 || _o5(), null == o2 || o2.b().toString, null == o2 || o2.b().toString;

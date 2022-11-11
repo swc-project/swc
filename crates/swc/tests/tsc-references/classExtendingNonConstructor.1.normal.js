@@ -46,9 +46,9 @@ var C4 = /*#__PURE__*/ function(_superClass) {
     }
     return C4;
 }(42);
-var C5 = /*#__PURE__*/ function(_superClass) {
+var C5 = /*#__PURE__*/ function(_hello) {
     "use strict";
-    _inherits(C5, _superClass);
+    _inherits(C5, _hello);
     var _super = _create_super(C5);
     function C5() {
         _class_call_check(this, C5);

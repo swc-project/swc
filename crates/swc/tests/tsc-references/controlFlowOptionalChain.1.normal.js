@@ -2,7 +2,7 @@
 // assignments in shortcutting chain
 import _instanceof from "@swc/helpers/src/_instanceof.mjs";
 import _type_of from "@swc/helpers/src/_type_of.mjs";
-var ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7, ref8;
+var _o4_x, _o4_x1, _o5_x, _ref, _o5_x1, _o5_x2, _o5_x3, _ref1, _arr_i;
 var a;
 o === null || o === void 0 ? void 0 : o[a = 1];
 a.toString();
@@ -54,42 +54,42 @@ if ((o3 === null || o3 === void 0 ? void 0 : o3.x) === 1) {
 o3;
 o3 === null || o3 === void 0 ? void 0 : o3.x;
 o3.x;
-if ((ref = o4.x) === null || ref === void 0 ? void 0 : ref.y) {
-    var ref9;
+if ((_o4_x = o4.x) === null || _o4_x === void 0 ? void 0 : _o4_x.y) {
+    var _o4_x2;
     o4.x; // { y: boolean }
     o4.x.y; // true
-    (ref9 = o4.x) === null || ref9 === void 0 ? void 0 : ref9.y; // true
+    (_o4_x2 = o4.x) === null || _o4_x2 === void 0 ? void 0 : _o4_x2.y; // true
 } else {
-    var ref10;
+    var _o4_x3;
     o4.x;
-    (ref10 = o4.x) === null || ref10 === void 0 ? void 0 : ref10.y;
+    (_o4_x3 = o4.x) === null || _o4_x3 === void 0 ? void 0 : _o4_x3.y;
     o4.x.y;
 }
 o4.x;
-(ref1 = o4.x) === null || ref1 === void 0 ? void 0 : ref1.y;
+(_o4_x1 = o4.x) === null || _o4_x1 === void 0 ? void 0 : _o4_x1.y;
 o4.x.y;
-if ((ref3 = (ref2 = o5.x) === null || ref2 === void 0 ? void 0 : ref2.y.z) === null || ref3 === void 0 ? void 0 : ref3.w) {
-    var ref11, ref12, ref13, ref14;
+if ((_ref = (_o5_x = o5.x) === null || _o5_x === void 0 ? void 0 : _o5_x.y.z) === null || _ref === void 0 ? void 0 : _ref.w) {
+    var _o5_x_y_z, _o5_x4, _o5_x5, _ref2;
     o5.x;
     o5.x.y;
     o5.x.y.z;
     o5.x.y.z.w; // true
-    (ref11 = o5.x.y.z) === null || ref11 === void 0 ? void 0 : ref11.w; // true
-    (ref12 = o5.x) === null || ref12 === void 0 ? void 0 : ref12.y.z.w; // true
-    (ref14 = (ref13 = o5.x) === null || ref13 === void 0 ? void 0 : ref13.y.z) === null || ref14 === void 0 ? void 0 : ref14.w; // true
+    (_o5_x_y_z = o5.x.y.z) === null || _o5_x_y_z === void 0 ? void 0 : _o5_x_y_z.w; // true
+    (_o5_x4 = o5.x) === null || _o5_x4 === void 0 ? void 0 : _o5_x4.y.z.w; // true
+    (_ref2 = (_o5_x5 = o5.x) === null || _o5_x5 === void 0 ? void 0 : _o5_x5.y.z) === null || _ref2 === void 0 ? void 0 : _ref2.w; // true
 } else {
-    var ref15, ref16, ref17, ref18;
+    var _o5_x6, _o5_x7, _o5_x8, _ref3;
     o5.x;
-    (ref15 = o5.x) === null || ref15 === void 0 ? void 0 : ref15.y;
-    (ref16 = o5.x) === null || ref16 === void 0 ? void 0 : ref16.y.z;
-    (ref18 = (ref17 = o5.x) === null || ref17 === void 0 ? void 0 : ref17.y.z) === null || ref18 === void 0 ? void 0 : ref18.w;
+    (_o5_x6 = o5.x) === null || _o5_x6 === void 0 ? void 0 : _o5_x6.y;
+    (_o5_x7 = o5.x) === null || _o5_x7 === void 0 ? void 0 : _o5_x7.y.z;
+    (_ref3 = (_o5_x8 = o5.x) === null || _o5_x8 === void 0 ? void 0 : _o5_x8.y.z) === null || _ref3 === void 0 ? void 0 : _ref3.w;
     o5.x.y;
     o5.x.y.z.w;
 }
 o5.x;
-(ref4 = o5.x) === null || ref4 === void 0 ? void 0 : ref4.y;
-(ref5 = o5.x) === null || ref5 === void 0 ? void 0 : ref5.y.z;
-(ref7 = (ref6 = o5.x) === null || ref6 === void 0 ? void 0 : ref6.y.z) === null || ref7 === void 0 ? void 0 : ref7.w;
+(_o5_x1 = o5.x) === null || _o5_x1 === void 0 ? void 0 : _o5_x1.y;
+(_o5_x2 = o5.x) === null || _o5_x2 === void 0 ? void 0 : _o5_x2.y.z;
+(_ref1 = (_o5_x3 = o5.x) === null || _o5_x3 === void 0 ? void 0 : _o5_x3.y.z) === null || _ref1 === void 0 ? void 0 : _ref1.w;
 o5.x.y;
 o5.x.y.z.w;
 if (o6 === null || o6 === void 0 ? void 0 : o6.f()) {
@@ -452,8 +452,8 @@ function getArea(shape) {
     }
 }
 function extractCoordinates(f1) {
-    var ref;
-    if (((ref = f1.geometry) === null || ref === void 0 ? void 0 : ref.type) !== "test") {
+    var _f_geometry;
+    if (((_f_geometry = f1.geometry) === null || _f_geometry === void 0 ? void 0 : _f_geometry.type) !== "test") {
         return [];
     }
     return f1.geometry.coordinates;
@@ -473,10 +473,10 @@ someFunction(someObject);
 someFunction(undefined);
 // Repro from #35970
 var i = 0;
-while(((ref8 = arr[i]) === null || ref8 === void 0 ? void 0 : ref8.tag) === "left"){
-    var ref19;
+while(((_arr_i = arr[i]) === null || _arr_i === void 0 ? void 0 : _arr_i.tag) === "left"){
+    var _arr_i1;
     i += 1;
-    if (((ref19 = arr[i]) === null || ref19 === void 0 ? void 0 : ref19.tag) === "right") {
+    if (((_arr_i1 = arr[i]) === null || _arr_i1 === void 0 ? void 0 : _arr_i1.tag) === "right") {
         console.log("I should ALSO be reachable");
     }
 }

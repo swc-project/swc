@@ -2,7 +2,7 @@
 var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
 try {
     for(var _iterator = X[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true){
-        var _value = _step.value, a = _value.a, b = _value.b;
+        var _step_value = _step.value, a = _step_value.a, b = _step_value.b;
     }
 } catch (err) {
     _didIteratorError = true;

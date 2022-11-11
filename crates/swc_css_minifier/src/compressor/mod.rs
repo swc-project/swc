@@ -400,10 +400,20 @@ impl VisitMut for Compressor {
                 | Token::Function { value, .. }
                 | Token::AtKeyword { value, .. }
                 | Token::String { value, .. }
-                | Token::BadString { value, .. }
-                | Token::Dimension { unit: value, .. }
+                | Token::Url { value, .. }
                     if !contains_only_ascii_characters(value) =>
                 {
+                    self.need_utf8_at_rule = true;
+                }
+                Token::BadString {
+                    raw_value: value, ..
+                }
+                | Token::BadUrl {
+                    raw_value: value, ..
+                } if !contains_only_ascii_characters(value) => {
+                    self.need_utf8_at_rule = true;
+                }
+                Token::Dimension { unit: value, .. } if !contains_only_ascii_characters(value) => {
                     self.need_utf8_at_rule = true;
                 }
                 _ => {}

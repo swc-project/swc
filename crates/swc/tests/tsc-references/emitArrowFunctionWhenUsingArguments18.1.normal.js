@@ -1,9 +1,9 @@
 //// [emitArrowFunctionWhenUsingArguments18.ts]
 function f() {
     var _arguments = arguments;
-    var ref = {
+    var _ref = {
         arguments: arguments
-    }, args = ref.arguments;
+    }, args = _ref.arguments;
     if (Math.random()) {
         return function() {
             return _arguments;

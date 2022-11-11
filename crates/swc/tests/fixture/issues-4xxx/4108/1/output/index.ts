@@ -484,7 +484,7 @@ export var sendTransaction = function() {
 }();
 export var sendTransactionWithRetry = function() {
     var _ref = _async_to_generator(function(connection, wallet, instructions, signers) {
-        var commitment, includesFeePayer, block, beforeSend, transaction, _tmp, _transaction, _transaction1, _transaction2, ref, txid, slot;
+        var commitment, includesFeePayer, block, beforeSend, transaction, _tmp, _transaction, _transaction1, _transaction2, _ref, txid, slot;
         var _arguments = arguments;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
@@ -550,7 +550,7 @@ export var sendTransactionWithRetry = function() {
                         })
                     ];
                 case 5:
-                    ref = _state.sent(), txid = ref.txid, slot = ref.slot;
+                    _ref = _state.sent(), txid = _ref.txid, slot = _ref.slot;
                     return [
                         2,
                         {
@@ -574,11 +574,11 @@ export function sendSignedTransaction(_) {
 }
 function _sendSignedTransaction() {
     _sendSignedTransaction = _async_to_generator(function(param) {
-        var signedTransaction, connection, _timeout, timeout, rawTransaction, startTime, slot, txid, done, confirmation, err, simulateResult, e, i, line;
+        var signedTransaction, connection, _param_timeout, timeout, rawTransaction, startTime, slot, txid, done, confirmation, err, simulateResult, e, i, line;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
                 case 0:
-                    signedTransaction = param.signedTransaction, connection = param.connection, _timeout = param.timeout, timeout = _timeout === void 0 ? DEFAULT_TIMEOUT : _timeout;
+                    signedTransaction = param.signedTransaction, connection = param.connection, _param_timeout = param.timeout, timeout = _param_timeout === void 0 ? DEFAULT_TIMEOUT : _param_timeout;
                     rawTransaction = signedTransaction.serialize();
                     startTime = getUnixTs();
                     slot = 0;
