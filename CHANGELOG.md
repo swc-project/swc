@@ -79,6 +79,9 @@
 
 - **(css)** Reduce size of tokens (#6384) ([bea6cce](https://github.com/swc-project/swc/commit/bea6cce0c6442891e6cfe3df5982c13ea3dda5a3))
 
+
+- **(css/ast)** Use `Atom` for `raw` values (#6401) ([ec2c021](https://github.com/swc-project/swc/commit/ec2c021255f36f94352b70070d103e320fefe29b))
+
 ### Refactor
 
 
