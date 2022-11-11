@@ -1,5 +1,6 @@
 use std::ops::{Deref, DerefMut};
 
+use swc_atoms::js_word;
 use swc_common::{Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_css_ast::*;
 
@@ -75,6 +76,154 @@ where
         res
     }
 
+    pub(super) fn canonicalize_at_rule_prelude(&mut self, mut at_rule: AtRule) -> PResult<AtRule> {
+        let normalized_at_rule_name = match &at_rule.name {
+            AtRuleName::Ident(Ident { value, .. }) => value.to_ascii_lowercase(),
+            AtRuleName::DashedIdent(_) => return Ok(at_rule),
+        };
+
+        let list_of_component_values = match at_rule.prelude {
+            Some(at_rule_prelude) => match *at_rule_prelude {
+                AtRulePrelude::ListOfComponentValues(list_of_component_values) => {
+                    list_of_component_values
+                }
+                _ => {
+                    unreachable!();
+                }
+            },
+            _ => {
+                unreachable!();
+            }
+        };
+
+        at_rule.prelude = match self
+            .parse_according_to_grammar(&list_of_component_values, |parser| {
+                parser.parse_at_rule_prelude(&normalized_at_rule_name)
+            }) {
+            Ok(at_rule_prelude) => match at_rule_prelude {
+                Some(AtRulePrelude::LayerPrelude(LayerPrelude::NameList(name_list)))
+                    if name_list.name_list.len() > 1 && at_rule.block.is_some() =>
+                {
+                    self.errors.push(Error::new(
+                        name_list.span,
+                        ErrorKind::Expected("only one name"),
+                    ));
+
+                    Some(Box::new(AtRulePrelude::ListOfComponentValues(
+                        list_of_component_values,
+                    )))
+                }
+                None if *normalized_at_rule_name == js_word!("layer")
+                    && at_rule.block.is_none() =>
+                {
+                    self.errors.push(Error::new(
+                        at_rule.span,
+                        ErrorKind::Expected("at least one name"),
+                    ));
+
+                    Some(Box::new(AtRulePrelude::ListOfComponentValues(
+                        list_of_component_values,
+                    )))
+                }
+                _ => at_rule_prelude.map(Box::new),
+            },
+            Err(err) => {
+                if *err.kind() != ErrorKind::Ignore {
+                    self.errors.push(err);
+                }
+
+                if !list_of_component_values.children.is_empty() {
+                    Some(Box::new(AtRulePrelude::ListOfComponentValues(
+                        list_of_component_values,
+                    )))
+                } else {
+                    None
+                }
+            }
+        };
+
+        Ok(at_rule)
+    }
+
+    pub(super) fn canonicalize_at_rule_block(&mut self, mut at_rule: AtRule) -> PResult<AtRule> {
+        let normalized_at_rule_name = match &at_rule.name {
+            AtRuleName::Ident(Ident { value, .. }) => value.to_ascii_lowercase(),
+            AtRuleName::DashedIdent(_) => return Ok(at_rule),
+        };
+
+        let mut block = match at_rule.block {
+            Some(simple_block) => simple_block,
+            _ => {
+                unreachable!();
+            }
+        };
+
+        let list_of_component_values = self.create_locv(block.value);
+
+        block.value = match self.parse_according_to_grammar(&list_of_component_values, |parser| {
+            parser.parse_at_rule_block(&normalized_at_rule_name)
+        }) {
+            Ok(block_contents) => block_contents,
+            Err(err) => {
+                if *err.kind() != ErrorKind::Ignore {
+                    self.errors.push(err);
+                }
+
+                list_of_component_values.children
+            }
+        };
+
+        at_rule.block = Some(block);
+
+        Ok(at_rule)
+    }
+
+    pub(super) fn canonicalize_qualified_rule_prelude(
+        &mut self,
+        mut qualified_rule: QualifiedRule,
+    ) -> PResult<QualifiedRule> {
+        let list_of_component_values = match qualified_rule.prelude {
+            QualifiedRulePrelude::ListOfComponentValues(list_of_component_values) => {
+                list_of_component_values
+            }
+            _ => {
+                unreachable!();
+            }
+        };
+
+        qualified_rule.prelude = if self.ctx.in_keyframes_at_rule {
+            QualifiedRulePrelude::ListOfComponentValues(list_of_component_values)
+        } else if self.ctx.mixed_with_declarations {
+            match self.parse_according_to_grammar::<RelativeSelectorList>(
+                &list_of_component_values,
+                |parser| parser.parse(),
+            ) {
+                Ok(relative_selector_list) => {
+                    QualifiedRulePrelude::RelativeSelectorList(relative_selector_list)
+                }
+                Err(err) => {
+                    self.errors.push(err);
+
+                    QualifiedRulePrelude::ListOfComponentValues(list_of_component_values)
+                }
+            }
+        } else {
+            match self
+                .parse_according_to_grammar::<SelectorList>(&list_of_component_values, |parser| {
+                    parser.parse()
+                }) {
+                Ok(selector_list) => QualifiedRulePrelude::SelectorList(selector_list),
+                Err(err) => {
+                    self.errors.push(err);
+
+                    QualifiedRulePrelude::ListOfComponentValues(list_of_component_values)
+                }
+            }
+        };
+
+        Ok(qualified_rule)
+    }
+
     pub(super) fn canonicalize_qualified_rule_block(
         &mut self,
         mut qualified_rule: QualifiedRule,
@@ -113,7 +262,7 @@ where
                 let locv = self.create_locv(function.value);
 
                 function.value = match self.parse_according_to_grammar(&locv, |parser| {
-                    parser.parse_function_values(&*function_name)
+                    parser.parse_function_values(&function_name)
                 }) {
                     Ok(values) => values,
                     Err(err) => {

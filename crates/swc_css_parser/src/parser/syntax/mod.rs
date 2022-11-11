@@ -134,24 +134,18 @@ where
                 unreachable!()
             }
         };
-        let (normalized_at_rule_name, name) = if at_keyword_name.0.starts_with("--") {
-            (
-                at_keyword_name.0.to_ascii_lowercase(),
-                AtRuleName::DashedIdent(DashedIdent {
-                    span: Span::new(span.lo + BytePos(1), span.hi, Default::default()),
-                    value: at_keyword_name.0,
-                    raw: Some(at_keyword_name.1),
-                }),
-            )
+        let name = if at_keyword_name.0.starts_with("--") {
+            AtRuleName::DashedIdent(DashedIdent {
+                span: Span::new(span.lo + BytePos(1), span.hi, Default::default()),
+                value: at_keyword_name.0,
+                raw: Some(at_keyword_name.1),
+            })
         } else {
-            (
-                at_keyword_name.0.to_ascii_lowercase(),
-                AtRuleName::Ident(Ident {
-                    span: Span::new(span.lo + BytePos(1), span.hi, Default::default()),
-                    value: at_keyword_name.0,
-                    raw: Some(at_keyword_name.1),
-                }),
-            )
+            AtRuleName::Ident(Ident {
+                span: Span::new(span.lo + BytePos(1), span.hi, Default::default()),
+                value: at_keyword_name.0,
+                raw: Some(at_keyword_name.1),
+            })
         };
         let mut prelude = vec![];
         let mut at_rule = AtRule {
@@ -181,102 +175,30 @@ where
                 tok!(";") => {
                     self.input.bump();
 
-                    let list_of_component_values = self.create_locv(prelude);
-
-                    at_rule.prelude = match self
-                        .parse_according_to_grammar(&list_of_component_values, |parser| {
-                            parser.parse_at_rule_prelude(&normalized_at_rule_name)
-                        }) {
-                        Ok(at_rule_prelude) => match at_rule_prelude {
-                            None if normalized_at_rule_name == js_word!("layer") => {
-                                self.errors.push(Error::new(
-                                    span,
-                                    ErrorKind::Expected("at least one name"),
-                                ));
-
-                                Some(Box::new(AtRulePrelude::ListOfComponentValues(
-                                    list_of_component_values,
-                                )))
-                            }
-                            _ => at_rule_prelude.map(Box::new),
-                        },
-                        Err(err) => {
-                            if *err.kind() != ErrorKind::Ignore {
-                                self.errors.push(err);
-                            }
-
-                            if !list_of_component_values.children.is_empty() {
-                                Some(Box::new(AtRulePrelude::ListOfComponentValues(
-                                    list_of_component_values,
-                                )))
-                            } else {
-                                None
-                            }
-                        }
-                    };
+                    at_rule.prelude = Some(Box::new(AtRulePrelude::ListOfComponentValues(
+                        self.create_locv(prelude),
+                    )));
                     at_rule.span = span!(self, span.lo);
+
+                    // Canonicalization against a grammar
+                    at_rule = self.canonicalize_at_rule_prelude(at_rule)?;
 
                     return Ok(at_rule);
                 }
                 // <{-token>
                 // Consume a simple block and assign it to the at-rule’s block. Return the at-rule.
                 tok!("{") => {
-                    let mut block = self.parse_as::<SimpleBlock>()?;
+                    let block = self.parse_as::<SimpleBlock>()?;
 
-                    let list_of_component_values = self.create_locv(prelude);
-
-                    at_rule.prelude = match self
-                        .parse_according_to_grammar(&list_of_component_values, |parser| {
-                            parser.parse_at_rule_prelude(&normalized_at_rule_name)
-                        }) {
-                        Ok(at_rule_prelude) => match at_rule_prelude {
-                            Some(AtRulePrelude::LayerPrelude(LayerPrelude::NameList(
-                                name_list,
-                            ))) if name_list.name_list.len() > 1 => {
-                                self.errors.push(Error::new(
-                                    name_list.span,
-                                    ErrorKind::Expected("only one name"),
-                                ));
-
-                                Some(Box::new(AtRulePrelude::ListOfComponentValues(
-                                    list_of_component_values,
-                                )))
-                            }
-                            _ => at_rule_prelude.map(Box::new),
-                        },
-                        Err(err) => {
-                            if *err.kind() != ErrorKind::Ignore {
-                                self.errors.push(err);
-                            }
-
-                            if !list_of_component_values.children.is_empty() {
-                                Some(Box::new(AtRulePrelude::ListOfComponentValues(
-                                    list_of_component_values,
-                                )))
-                            } else {
-                                None
-                            }
-                        }
-                    };
-
-                    at_rule.block = match self.parse_according_to_grammar(
-                        &self.create_locv(block.value.clone()),
-                        |parser| parser.parse_at_rule_block(&normalized_at_rule_name),
-                    ) {
-                        Ok(block_contents) => {
-                            block.value = block_contents;
-
-                            Some(block)
-                        }
-                        Err(err) => {
-                            if *err.kind() != ErrorKind::Ignore {
-                                self.errors.push(err);
-                            }
-
-                            Some(block)
-                        }
-                    };
+                    at_rule.prelude = Some(Box::new(AtRulePrelude::ListOfComponentValues(
+                        self.create_locv(prelude),
+                    )));
+                    at_rule.block = Some(block);
                     at_rule.span = span!(self, span.lo);
+
+                    // Canonicalization against a grammar
+                    at_rule = self.canonicalize_at_rule_prelude(at_rule)?;
+                    at_rule = self.canonicalize_at_rule_block(at_rule)?;
 
                     return Ok(at_rule);
                 }
@@ -299,50 +221,10 @@ where
 {
     fn parse(&mut self) -> PResult<QualifiedRule> {
         // To consume a qualified rule:
-        let create_prelude =
-            |p: &mut Parser<I>, list: Vec<ComponentValue>| -> PResult<QualifiedRulePrelude> {
-                let list_of_component_values = p.create_locv(list);
 
-                if p.ctx.in_keyframes_at_rule {
-                    Ok(QualifiedRulePrelude::ListOfComponentValues(
-                        list_of_component_values,
-                    ))
-                } else if p.ctx.mixed_with_declarations {
-                    match p.parse_according_to_grammar::<RelativeSelectorList>(
-                        &list_of_component_values,
-                        |parser| parser.parse(),
-                    ) {
-                        Ok(relative_selector_list) => Ok(
-                            QualifiedRulePrelude::RelativeSelectorList(relative_selector_list),
-                        ),
-                        Err(err) => {
-                            p.errors.push(err);
-
-                            Ok(QualifiedRulePrelude::ListOfComponentValues(
-                                list_of_component_values,
-                            ))
-                        }
-                    }
-                } else {
-                    match p.parse_according_to_grammar::<SelectorList>(
-                        &list_of_component_values,
-                        |parser| parser.parse(),
-                    ) {
-                        Ok(selector_list) => Ok(QualifiedRulePrelude::SelectorList(selector_list)),
-                        Err(err) => {
-                            p.errors.push(err);
-
-                            Ok(QualifiedRulePrelude::ListOfComponentValues(
-                                list_of_component_values,
-                            ))
-                        }
-                    }
-                }
-            };
-
-        let span = self.input.cur_span();
         // Create a new qualified rule with its prelude initially set to an empty list,
         // and its value initially set to nothing.
+        let span = self.input.cur_span();
         let mut prelude = vec![];
 
         // Repeatedly consume the next input token:
@@ -378,11 +260,14 @@ where
                     let block = self.parse_as::<SimpleBlock>()?;
                     let mut qualified_rule = QualifiedRule {
                         span: span!(self, span.lo),
-                        prelude: create_prelude(self, prelude)?,
+                        prelude: QualifiedRulePrelude::ListOfComponentValues(
+                            self.create_locv(prelude),
+                        ),
                         block,
                     };
 
                     // Canonicalization against a grammar
+                    qualified_rule = self.canonicalize_qualified_rule_prelude(qualified_rule)?;
                     qualified_rule = self.canonicalize_qualified_rule_block(qualified_rule)?;
 
                     return Ok(qualified_rule);
