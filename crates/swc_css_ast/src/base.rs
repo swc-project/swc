@@ -49,14 +49,14 @@ pub enum QualifiedRulePrelude {
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum StyleBlock {
-    #[tag("ListOfComponentValues")]
-    ListOfComponentValues(ListOfComponentValues),
     #[tag("AtRule")]
     AtRule(Box<AtRule>),
     #[tag("Declaration")]
     Declaration(Box<Declaration>),
     #[tag("QualifiedRule")]
     QualifiedRule(Box<QualifiedRule>),
+    #[tag("ListOfComponentValues")]
+    ListOfComponentValues(Box<ListOfComponentValues>),
 }
 
 #[ast_node("SimpleBlock")]
@@ -158,7 +158,7 @@ pub enum DeclarationOrAtRule {
     AtRule(Box<AtRule>),
     // For recovery mode
     #[tag("ListOfComponentValues")]
-    ListOfComponentValues(ListOfComponentValues),
+    ListOfComponentValues(Box<ListOfComponentValues>),
 }
 
 #[ast_node("Declaration")]

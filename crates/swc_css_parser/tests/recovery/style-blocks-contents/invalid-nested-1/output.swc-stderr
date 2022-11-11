@@ -1,0 +1,6 @@
+
+  x Expected ":"
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-1/input.css:4:5]
+ 4 | input {
+   :       ^
+   `----

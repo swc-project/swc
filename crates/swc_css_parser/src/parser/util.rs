@@ -7,6 +7,7 @@ use super::{
     input::{Input, InputType, ParserInput},
     Ctx, Error, PResult, Parse, Parser,
 };
+use crate::parser::BlockContentsGrammar;
 
 impl<I> Parser<I>
 where
@@ -77,6 +78,7 @@ where
         let state = self.input.state();
         let qualified_rule = self
             .with_ctx(Ctx {
+                block_contents_grammar: BlockContentsGrammar::StyleBlock,
                 mixed_with_declarations: true,
                 ..self.ctx
             })
@@ -113,6 +115,13 @@ where
             Ok(decl) => Some(decl),
             Err(_) => None,
         }
+    }
+
+    pub(super) fn parse_declaration_from_temporary_list(
+        &mut self,
+        temporary_list: &ListOfComponentValues,
+    ) -> PResult<Declaration> {
+        self.parse_according_to_grammar::<Declaration>(temporary_list, |parser| parser.parse_as())
     }
 }
 

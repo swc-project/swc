@@ -1,0 +1,12 @@
+
+  x Expected Declaration value
+   ,-[$DIR/tests/recovery/declaration/important-1/input.css:2:5]
+ 2 | color: red !importan;
+   :            ^
+   `----
+
+  x Unexpected '!' in <declaration-value>
+   ,-[$DIR/tests/recovery/declaration/important-1/input.css:2:5]
+ 2 | color: red !importan;
+   :            ^
+   `----

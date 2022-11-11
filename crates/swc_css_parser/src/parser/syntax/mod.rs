@@ -362,10 +362,9 @@ where
                 // Otherwise, append a <semicolon-token> to the qualified rule’s prelude.
                 tok!(";") => {
                     if self.ctx.mixed_with_declarations {
-                        return Err(Error::new(
-                            span!(self, span.lo),
-                            ErrorKind::EofButExpected("'{'"),
-                        ));
+                        let span = self.input.cur_span();
+
+                        return Err(Error::new(span, ErrorKind::Expected("'{'")));
                     } else {
                         let component_value = self.parse_as::<ComponentValue>()?;
 
@@ -505,19 +504,17 @@ where
                         temporary_list.children.push(component_value);
                     }
 
-                    let decl_or_list_of_component_values = match self
-                        .parse_according_to_grammar::<Declaration>(&temporary_list, |parser| {
-                            parser.parse_as()
-                        }) {
-                        Ok(decl) => StyleBlock::Declaration(Box::new(decl)),
-                        Err(err) => {
-                            self.errors.push(err);
+                    let decl_or_list_of_component_values =
+                        match self.parse_declaration_from_temporary_list(&temporary_list) {
+                            Ok(decl) => StyleBlock::Declaration(Box::new(decl)),
+                            Err(err) => {
+                                self.errors.push(err);
 
-                            temporary_list.span = span!(self, span.lo);
+                                temporary_list.span = span!(self, span.lo);
 
-                            StyleBlock::ListOfComponentValues(temporary_list)
-                        }
-                    };
+                                StyleBlock::ListOfComponentValues(Box::new(temporary_list))
+                            }
+                        };
 
                     declarations.push(decl_or_list_of_component_values);
                 }
@@ -528,6 +525,7 @@ where
                     let state = self.input.state();
                     let qualified_rule = self
                         .with_ctx(Ctx {
+                            block_contents_grammar: BlockContentsGrammar::StyleBlock,
                             mixed_with_declarations: true,
                             ..self.ctx
                         })
@@ -550,7 +548,6 @@ where
                                 children: vec![],
                             };
 
-                            // TODO verify error recovery (copied from prev spec)
                             while !is_one_of!(self, ";", EOF) {
                                 let component_value = self.parse_as::<ComponentValue>()?;
 
@@ -559,8 +556,9 @@ where
 
                             list_of_component_values.span = span!(self, span.lo);
 
-                            declarations
-                                .push(StyleBlock::ListOfComponentValues(list_of_component_values));
+                            declarations.push(StyleBlock::ListOfComponentValues(Box::new(
+                                list_of_component_values,
+                            )));
                         }
                     };
                 }
@@ -615,7 +613,14 @@ where
                 // Reconsume the current input token. Consume an at-rule. Append the returned rule
                 // to the list of declarations.
                 tok!("@") => {
-                    declarations.push(DeclarationOrAtRule::AtRule(self.parse()?));
+                    let at_rule = self
+                        .with_ctx(Ctx {
+                            block_contents_grammar: BlockContentsGrammar::DeclarationList,
+                            ..self.ctx
+                        })
+                        .parse_as::<AtRule>()?;
+
+                    declarations.push(DeclarationOrAtRule::AtRule(Box::new(at_rule)));
                 }
                 // <ident-token>
                 // Initialize a temporary list initially filled with the current input token. As
@@ -625,9 +630,10 @@ where
                 // it to the list of declarations.
                 tok!("ident") => {
                     let span = self.input.cur_span();
+                    let cur = self.input.bump().unwrap();
                     let mut temporary_list = ListOfComponentValues {
                         span: Default::default(),
-                        children: vec![],
+                        children: vec![ComponentValue::PreservedToken(cur)],
                     };
 
                     while !is_one_of!(self, ";", EOF) {
@@ -636,19 +642,17 @@ where
                         temporary_list.children.push(component_value);
                     }
 
-                    let decl_or_list_of_component_values = match self
-                        .parse_according_to_grammar::<Declaration>(&temporary_list, |parser| {
-                            parser.parse_as()
-                        }) {
-                        Ok(decl) => DeclarationOrAtRule::Declaration(Box::new(decl)),
-                        Err(err) => {
-                            self.errors.push(err);
+                    let decl_or_list_of_component_values =
+                        match self.parse_declaration_from_temporary_list(&temporary_list) {
+                            Ok(decl) => DeclarationOrAtRule::Declaration(Box::new(decl)),
+                            Err(err) => {
+                                self.errors.push(err);
 
-                            temporary_list.span = span!(self, span.lo);
+                                temporary_list.span = span!(self, span.lo);
 
-                            DeclarationOrAtRule::ListOfComponentValues(temporary_list)
-                        }
-                    };
+                                DeclarationOrAtRule::ListOfComponentValues(Box::new(temporary_list))
+                            }
+                        };
 
                     declarations.push(decl_or_list_of_component_values);
                 }
@@ -664,9 +668,7 @@ where
 
                     self.errors.push(Error::new(
                         span,
-                        ErrorKind::Expected(
-                            "whitespace, semicolon, EOF, at-keyword or ident token",
-                        ),
+                        ErrorKind::Expected("whitespace, ';', '@', ident or EOF"),
                     ));
 
                     // For recovery mode
@@ -683,9 +685,9 @@ where
 
                     list_of_component_values.span = span!(self, span.lo);
 
-                    declarations.push(DeclarationOrAtRule::ListOfComponentValues(
+                    declarations.push(DeclarationOrAtRule::ListOfComponentValues(Box::new(
                         list_of_component_values,
-                    ));
+                    )));
                 }
             }
         }
@@ -718,7 +720,7 @@ where
         let is_dashed_ident = match cur!(self) {
             Token::Ident { value, .. } => value.starts_with("--"),
             _ => {
-                return Err(Error::new(span, ErrorKind::Expected("Ident")));
+                return Err(Error::new(span, ErrorKind::Expected("ident")));
             }
         };
         let name = if is_dashed_ident {
@@ -879,30 +881,31 @@ where
         }
 
         // Grammar parsing
-        let locv = self.create_locv(declaration.value);
+        let list_of_component_values = self.create_locv(declaration.value);
 
-        declaration.value = match self.parse_according_to_grammar(&locv, |parser| {
-            let mut values = vec![];
+        declaration.value =
+            match self.parse_according_to_grammar(&list_of_component_values, |parser| {
+                let mut values = vec![];
 
-            loop {
-                if is!(parser, EOF) {
-                    break;
+                loop {
+                    if is!(parser, EOF) {
+                        break;
+                    }
+
+                    values.push(parser.parse_generic_value()?);
                 }
 
-                values.push(parser.parse_generic_value()?);
-            }
+                Ok(values)
+            }) {
+                Ok(values) => values,
+                Err(err) => {
+                    if *err.kind() != ErrorKind::Ignore {
+                        self.errors.push(err);
+                    }
 
-            Ok(values)
-        }) {
-            Ok(values) => values,
-            Err(err) => {
-                if *err.kind() != ErrorKind::Ignore {
-                    self.errors.push(err);
+                    list_of_component_values.children
                 }
-
-                locv.children
-            }
-        };
+            };
 
         // 8. Return the declaration.
         Ok(declaration)
@@ -1098,6 +1101,7 @@ where
 
         function.span = span!(self, span.lo);
 
+        // Grammar parsing
         match self.ctx.block_contents_grammar {
             BlockContentsGrammar::DeclarationList => {}
             _ => {
