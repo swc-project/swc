@@ -111,7 +111,7 @@
    :        ^^^
    `----
 
-  x Ident { value: Atom('red' type=inline), raw: Atom('red' type=inline) }
+  x Ident { value: Atom('red' type=inline), raw: "red" }
    ,-[$DIR/tests/recovery/declaration/important-1/input.css:2:5]
  2 | color: red !importan;
    :        ^^^
@@ -123,7 +123,7 @@
    :           ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/declaration/important-1/input.css:2:5]
  2 | color: red !importan;
    :           ^
@@ -147,7 +147,7 @@
    :             ^^^^^^^^
    `----
 
-  x Ident { value: Atom('importan' type=dynamic), raw: Atom('importan' type=dynamic) }
+  x Ident { value: Atom('importan' type=dynamic), raw: "importan" }
    ,-[$DIR/tests/recovery/declaration/important-1/input.css:2:5]
  2 | color: red !importan;
    :             ^^^^^^^^

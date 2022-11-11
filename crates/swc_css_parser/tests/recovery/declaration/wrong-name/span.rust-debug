@@ -93,7 +93,7 @@
    : ^^
    `----
 
-  x Number { value: 20.0, raw: Atom('20' type=inline), type_flag: Integer }
+  x Number { value: 20.0, raw: "20", type_flag: Integer }
    ,-[$DIR/tests/recovery/declaration/wrong-name/input.css:2:5]
  2 | 20: red;
    : ^^
@@ -117,7 +117,7 @@
    :    ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/declaration/wrong-name/input.css:2:5]
  2 | 20: red;
    :    ^
@@ -129,7 +129,7 @@
    :     ^^^
    `----
 
-  x Ident { value: Atom('red' type=inline), raw: Atom('red' type=inline) }
+  x Ident { value: Atom('red' type=inline), raw: "red" }
    ,-[$DIR/tests/recovery/declaration/wrong-name/input.css:2:5]
  2 | 20: red;
    :     ^^^

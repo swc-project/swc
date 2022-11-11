@@ -975,7 +975,7 @@
     :     ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:35:5]
  35 | <!-- .class {
     :     ^
@@ -999,7 +999,7 @@
     :       ^^^^^
     `----
 
-  x Ident { value: Atom('class' type=static), raw: Atom('class' type=static) }
+  x Ident { value: Atom('class' type=static), raw: "class" }
     ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:35:5]
  35 | <!-- .class {
     :       ^^^^^
@@ -1011,7 +1011,7 @@
     :            ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:35:5]
  35 | <!-- .class {
     :            ^
