@@ -31,11 +31,11 @@ pub struct TransformPluginProgramMetadata {
 
 #[cfg(target_arch = "wasm32")] // Allow testing
 extern "C" {
-    fn __copy_context_key_to_host_env(bytes_ptr: i32, bytes_ptr_len: i32);
-    fn __get_transform_plugin_config(allocated_ret_ptr: i32) -> i32;
-    fn __get_transform_context(key: u32, allocated_ret_ptr: i32) -> i32;
-    fn __get_experimental_transform_context(allocated_ret_ptr: i32) -> i32;
-    fn __get_raw_experiemtal_transform_context(allocated_ret_ptr: i32) -> i32;
+    fn __copy_context_key_to_host_env(bytes_ptr: u32, bytes_ptr_len: u32);
+    fn __get_transform_plugin_config(allocated_ret_ptr: u32) -> u32;
+    fn __get_transform_context(key: u32, allocated_ret_ptr: u32) -> u32;
+    fn __get_experimental_transform_context(allocated_ret_ptr: u32) -> u32;
+    fn __get_raw_experiemtal_transform_context(allocated_ret_ptr: u32) -> u32;
 }
 
 #[cfg(feature = "__plugin_mode")]
@@ -86,7 +86,7 @@ impl TransformPluginProgramMetadata {
             )
             .expect("Should be serializable");
             let (key_ptr, key_ptr_len) = serialized.as_ptr();
-            __copy_context_key_to_host_env(key_ptr as i32, key_ptr_len as i32);
+            __copy_context_key_to_host_env(key_ptr as u32, key_ptr_len as u32);
 
             __get_experimental_transform_context(serialized_ptr)
         });
