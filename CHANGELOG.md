@@ -62,6 +62,9 @@
 - **(css/parser)** Support new nesting spec (#6337) ([e0967ef](https://github.com/swc-project/swc/commit/e0967efa6eb640341e640b2703b7a96da2f5acdb))
 
 
+- **(es/utils)** Use more unique names for aliases (#6399) ([574502a](https://github.com/swc-project/swc/commit/574502a81684e42e2ee60e362544d32d8ddf717d))
+
+
 - **(html/minifier)** Improve merging of group elements (#6349) ([34b3710](https://github.com/swc-project/swc/commit/34b3710c9ca85bf65ec3cf23d2d3ae838d218f52))
 
 
