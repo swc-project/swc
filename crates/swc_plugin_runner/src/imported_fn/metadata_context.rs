@@ -16,7 +16,7 @@ pub struct MetadataContextHostEnvironment {
     /// Attached imported fn `__alloc` to the hostenvironment to allow any other
     /// imported fn can allocate guest's memory space from host runtime.
     #[wasmer(export(name = "__alloc"))]
-    pub alloc_guest_memory: LazyInit<NativeFunc<u32, i32>>,
+    pub alloc_guest_memory: LazyInit<NativeFunc<u32, u32>>,
     pub metadata_context: Arc<TransformPluginMetadataContext>,
     pub transform_plugin_config: Option<serde_json::Value>,
     /// A buffer to string key to the context plugin need to pass to the host.
@@ -44,8 +44,8 @@ impl MetadataContextHostEnvironment {
 #[tracing::instrument(level = "info", skip_all)]
 pub fn copy_context_key_to_host_env(
     env: &MetadataContextHostEnvironment,
-    bytes_ptr: i32,
-    bytes_ptr_len: i32,
+    bytes_ptr: u32,
+    bytes_ptr_len: u32,
 ) {
     if let Some(memory) = env.memory_ref() {
         (*env.mutable_context_key_buffer.lock()) =
@@ -56,7 +56,7 @@ pub fn copy_context_key_to_host_env(
 #[tracing::instrument(level = "info", skip_all)]
 pub fn get_transform_plugin_config(
     env: &MetadataContextHostEnvironment,
-    allocated_ret_ptr: i32,
+    allocated_ret_ptr: u32,
 ) -> i32 {
     if let Some(memory) = env.memory_ref() {
         if let Some(alloc_guest_memory) = env.alloc_guest_memory_ref() {
@@ -88,7 +88,7 @@ pub fn get_transform_plugin_config(
 pub fn get_transform_context(
     env: &MetadataContextHostEnvironment,
     key: u32,
-    allocated_ret_ptr: i32,
+    allocated_ret_ptr: u32,
 ) -> i32 {
     if let Some(memory) = env.memory_ref() {
         if let Some(alloc_guest_memory) = env.alloc_guest_memory_ref() {
@@ -117,7 +117,7 @@ pub fn get_transform_context(
 #[tracing::instrument(level = "info", skip_all)]
 pub fn get_experimental_transform_context(
     env: &MetadataContextHostEnvironment,
-    allocated_ret_ptr: i32,
+    allocated_ret_ptr: u32,
 ) -> i32 {
     if let Some(memory) = env.memory_ref() {
         if let Some(alloc_guest_memory) = env.alloc_guest_memory_ref() {
@@ -153,7 +153,7 @@ pub fn get_experimental_transform_context(
 #[tracing::instrument(level = "info", skip_all)]
 pub fn get_raw_experiemtal_transform_context(
     env: &MetadataContextHostEnvironment,
-    allocated_ret_ptr: i32,
+    allocated_ret_ptr: u32,
 ) -> i32 {
     if let Some(memory) = env.memory_ref() {
         let experimental_context = &env.metadata_context.experimental;

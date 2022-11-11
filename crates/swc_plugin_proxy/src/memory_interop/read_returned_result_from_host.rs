@@ -11,7 +11,7 @@ use swc_common::plugin::serialized::{
     feature = "__rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
-pub struct AllocatedBytesPtr(pub i32, pub i32);
+pub struct AllocatedBytesPtr(pub u32, pub u32);
 
 #[cfg(not(feature = "__rkyv"))]
 fn read_returned_result_from_host_inner<F>(f: F) -> Option<AllocatedBytesPtr> {
@@ -31,7 +31,7 @@ fn read_returned_result_from_host_inner<F>(f: F) -> Option<AllocatedBytesPtr> {
 #[tracing::instrument(level = "info", skip_all)]
 fn read_returned_result_from_host_inner<F>(f: F) -> Option<AllocatedBytesPtr>
 where
-    F: FnOnce(i32) -> i32,
+    F: FnOnce(u32) -> u32,
 {
     // Allocate AllocatedBytesPtr to get return value from the host
     let allocated_bytes_ptr = AllocatedBytesPtr(0, 0);
@@ -78,7 +78,7 @@ pub fn read_returned_result_from_host<F, R>(f: F) -> Option<R> {
 #[tracing::instrument(level = "info", skip_all)]
 pub fn read_returned_result_from_host<F, R>(f: F) -> Option<R>
 where
-    F: FnOnce(i32) -> i32,
+    F: FnOnce(u32) -> u32,
     R: rkyv::Archive,
     R::Archived: rkyv::Deserialize<R, rkyv::de::deserializers::SharedDeserializeMap>,
 {
@@ -110,7 +110,7 @@ pub fn read_returned_result_from_host_fallible<F, R>(f: F) -> Option<R> {
 #[tracing::instrument(level = "info", skip_all)]
 pub fn read_returned_result_from_host_fallible<F, R>(f: F) -> Option<R>
 where
-    F: FnOnce(i32) -> i32,
+    F: FnOnce(u32) -> u32,
     R: rkyv::Archive,
     R::Archived: rkyv::Deserialize<R, rkyv::de::deserializers::SharedDeserializeMap>,
 {
@@ -138,7 +138,7 @@ where
     let allocated_returned_value_ptr: AllocatedBytesPtr = unsafe {
         deserialize_from_ptr(
             serialized_allocated_bytes_raw_ptr,
-            serialized_allocated_bytes_raw_ptr_size as i32,
+            serialized_allocated_bytes_raw_ptr_size as u32,
         )
         .expect("Should able to deserialize AllocatedBytesPtr")
     };

@@ -20,7 +20,7 @@ pub struct CommentHostEnvironment {
     /// Attached imported fn `__alloc` to the hostenvironment to allow any other
     /// imported fn can allocate guest's memory space from host runtime.
     #[wasmer(export(name = "__alloc"))]
-    pub alloc_guest_memory: LazyInit<NativeFunc<u32, i32>>,
+    pub alloc_guest_memory: LazyInit<NativeFunc<u32, u32>>,
     /// A buffer to `Comment`, or `Vec<Comment>` plugin need to pass to the host
     /// to perform mutable comment operations like `add_leading, or
     /// add_leading_comments`. This is vec to serialized bytes, doesn't
@@ -42,7 +42,7 @@ impl CommentHostEnvironment {
 /// Copy given serialized byte into host's comment buffer, subsequent proxy call
 /// in the host can read it.
 #[tracing::instrument(level = "info", skip_all)]
-pub fn copy_comment_to_host_env(env: &CommentHostEnvironment, bytes_ptr: i32, bytes_ptr_len: i32) {
+pub fn copy_comment_to_host_env(env: &CommentHostEnvironment, bytes_ptr: u32, bytes_ptr_len: u32) {
     if let Some(memory) = env.memory_ref() {
         (*env.mutable_comment_buffer.lock()) =
             copy_bytes_into_host(memory, bytes_ptr, bytes_ptr_len);
@@ -90,7 +90,7 @@ where
 #[tracing::instrument(level = "info", skip_all)]
 fn unwrap_comments_storage_with_env<F, R>(env: &CommentHostEnvironment, f: F, default: R) -> R
 where
-    F: FnOnce(&SingleThreadedComments, &Memory, &NativeFunc<u32, i32>) -> R,
+    F: FnOnce(&SingleThreadedComments, &Memory, &NativeFunc<u32, u32>) -> R,
 {
     if let Some(memory) = env.memory_ref() {
         if let Some(alloc_guest_memory) = env.alloc_guest_memory_ref() {
@@ -162,7 +162,7 @@ pub fn move_leading_comments_proxy(from_byte_pos: u32, to_byte_pos: u32) {
 pub fn take_leading_comments_proxy(
     env: &CommentHostEnvironment,
     byte_pos: u32,
-    allocated_ret_ptr: i32,
+    allocated_ret_ptr: u32,
 ) -> i32 {
     unwrap_comments_storage_with_env(
         env,
@@ -197,7 +197,7 @@ pub fn take_leading_comments_proxy(
 pub fn get_leading_comments_proxy(
     env: &CommentHostEnvironment,
     byte_pos: u32,
-    allocated_ret_ptr: i32,
+    allocated_ret_ptr: u32,
 ) -> i32 {
     unwrap_comments_storage_with_env(
         env,
@@ -266,7 +266,7 @@ pub fn move_trailing_comments_proxy(from_byte_pos: u32, to_byte_pos: u32) {
 pub fn take_trailing_comments_proxy(
     env: &CommentHostEnvironment,
     byte_pos: u32,
-    allocated_ret_ptr: i32,
+    allocated_ret_ptr: u32,
 ) -> i32 {
     unwrap_comments_storage_with_env(
         env,
@@ -296,7 +296,7 @@ pub fn take_trailing_comments_proxy(
 pub fn get_trailing_comments_proxy(
     env: &CommentHostEnvironment,
     byte_pos: u32,
-    allocated_ret_ptr: i32,
+    allocated_ret_ptr: u32,
 ) -> i32 {
     unwrap_comments_storage_with_env(
         env,

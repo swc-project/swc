@@ -19,7 +19,7 @@ pub struct SourceMapHostEnvironment {
     /// Attached imported fn `__alloc` to the hostenvironment to allow any other
     /// imported fn can allocate guest's memory space from host runtime.
     #[wasmer(export(name = "__alloc"))]
-    pub alloc_guest_memory: LazyInit<NativeFunc<u32, i32>>,
+    pub alloc_guest_memory: LazyInit<NativeFunc<u32, u32>>,
     pub source_map: Arc<Mutex<Arc<SourceMap>>>,
     /// A buffer to non-determined size of return value from the host.
     pub mutable_source_map_buffer: Arc<Mutex<Vec<u8>>>,
@@ -47,7 +47,7 @@ pub fn lookup_char_pos_proxy(
     env: &SourceMapHostEnvironment,
     byte_pos: u32,
     should_include_source_file: i32,
-    allocated_ret_ptr: i32,
+    allocated_ret_ptr: u32,
 ) -> i32 {
     if let Some(memory) = env.memory_ref() {
         let original_loc = (env.source_map.lock()).lookup_char_pos(BytePos(byte_pos));
@@ -96,7 +96,7 @@ pub fn merge_spans_proxy(
     rhs_lo: u32,
     rhs_hi: u32,
     rhs_ctxt: u32,
-    allocated_ptr: i32,
+    allocated_ptr: u32,
 ) -> i32 {
     if let Some(memory) = env.memory_ref() {
         let sp_lhs = Span {
@@ -132,7 +132,7 @@ pub fn span_to_lines_proxy(
     span_hi: u32,
     span_ctxt: u32,
     should_request_source_file: i32,
-    allocated_ret_ptr: i32,
+    allocated_ret_ptr: u32,
 ) -> i32 {
     if let Some(memory) = env.memory_ref() {
         let span = Span {
@@ -175,7 +175,7 @@ pub fn span_to_lines_proxy(
 pub fn lookup_byte_offset_proxy(
     env: &SourceMapHostEnvironment,
     byte_pos: u32,
-    allocated_ret_ptr: i32,
+    allocated_ret_ptr: u32,
 ) -> i32 {
     if let Some(memory) = env.memory_ref() {
         let byte_pos = BytePos(byte_pos);
@@ -206,7 +206,7 @@ pub fn span_to_string_proxy(
     span_lo: u32,
     span_hi: u32,
     span_ctxt: u32,
-    allocated_ret_ptr: i32,
+    allocated_ret_ptr: u32,
 ) -> i32 {
     if let Some(memory) = env.memory_ref() {
         let span = Span {
@@ -240,7 +240,7 @@ pub fn span_to_filename_proxy(
     span_lo: u32,
     span_hi: u32,
     span_ctxt: u32,
-    allocated_ret_ptr: i32,
+    allocated_ret_ptr: u32,
 ) -> i32 {
     if let Some(memory) = env.memory_ref() {
         let span = Span {

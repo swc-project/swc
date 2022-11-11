@@ -123,7 +123,7 @@ impl PluginSerializedBytes {
 #[tracing::instrument(level = "info", skip_all)]
 pub unsafe fn deserialize_from_ptr<W>(
     raw_allocated_ptr: *const u8,
-    raw_allocated_ptr_len: i32,
+    raw_allocated_ptr_len: u32,
 ) -> Result<W, Error>
 where
     W: rkyv::Archive,
@@ -147,7 +147,7 @@ where
 #[tracing::instrument(level = "info", skip_all)]
 pub unsafe fn deserialize_from_ptr_into_fallible<W>(
     raw_allocated_ptr: *const u8,
-    raw_allocated_ptr_len: i32,
+    raw_allocated_ptr_len: u32,
 ) -> Result<W, Error>
 where
     W: rkyv::Archive,
