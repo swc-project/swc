@@ -1988,16 +1988,12 @@ impl Minifier<'_> {
             return None;
         }
 
-        let left_unresolved_mark = Mark::new();
+        let unresolved_mark = Mark::new();
         let left_top_level_mark = Mark::new();
 
         swc_ecma_visit::VisitMutWith::visit_mut_with(
             &mut left_program,
-            &mut swc_ecma_transforms_base::resolver(
-                left_unresolved_mark,
-                left_top_level_mark,
-                false,
-            ),
+            &mut swc_ecma_transforms_base::resolver(unresolved_mark, left_top_level_mark, false),
         );
 
         // Right
@@ -2033,16 +2029,11 @@ impl Minifier<'_> {
             return None;
         }
 
-        let right_unresolved_mark = Mark::new();
         let right_top_level_mark = Mark::new();
 
         swc_ecma_visit::VisitMutWith::visit_mut_with(
             &mut right_program,
-            &mut swc_ecma_transforms_base::resolver(
-                right_unresolved_mark,
-                right_top_level_mark,
-                false,
-            ),
+            &mut swc_ecma_transforms_base::resolver(unresolved_mark, right_top_level_mark, false),
         );
 
         // Merge
