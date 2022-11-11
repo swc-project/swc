@@ -229,10 +229,17 @@ where
         mut qualified_rule: QualifiedRule,
     ) -> PResult<QualifiedRule> {
         qualified_rule.block.value = match self.ctx.block_contents_grammar {
-            BlockContentsGrammar::DeclarationList => self
+            BlockContentsGrammar::RuleList if self.ctx.in_keyframes_at_rule => self
                 .parse_according_to_grammar(
                     &self.create_locv(qualified_rule.block.value),
-                    |parser| parser.parse_as::<Vec<DeclarationOrAtRule>>(),
+                    |parser| {
+                        parser
+                            .with_ctx(Ctx {
+                                block_contents_grammar: BlockContentsGrammar::DeclarationList,
+                                ..parser.ctx
+                            })
+                            .parse_as::<Vec<DeclarationOrAtRule>>()
+                    },
                 )?
                 .into_iter()
                 .map(ComponentValue::DeclarationOrAtRule)
@@ -240,7 +247,14 @@ where
             _ => self
                 .parse_according_to_grammar(
                     &self.create_locv(qualified_rule.block.value),
-                    |parser| parser.parse_as::<Vec<StyleBlock>>(),
+                    |parser| {
+                        parser
+                            .with_ctx(Ctx {
+                                block_contents_grammar: BlockContentsGrammar::StyleBlock,
+                                ..parser.ctx
+                            })
+                            .parse_as::<Vec<StyleBlock>>()
+                    },
                 )?
                 .into_iter()
                 .map(ComponentValue::StyleBlock)

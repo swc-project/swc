@@ -330,12 +330,7 @@ where
                 // Reconsume the current input token. Consume an at-rule, and append the result to
                 // rules.
                 tok!("@") => {
-                    let at_rule = self
-                        .with_ctx(Ctx {
-                            block_contents_grammar: BlockContentsGrammar::StyleBlock,
-                            ..self.ctx
-                        })
-                        .parse_as::<AtRule>()?;
+                    let at_rule = self.parse()?;
 
                     rules.push(StyleBlock::AtRule(Box::new(at_rule)));
                 }

@@ -565,7 +565,7 @@ where
             | js_word!("-o-keyframes")
             | js_word!("-ms-keyframes") => {
                 let ctx = Ctx {
-                    block_contents_grammar: BlockContentsGrammar::DeclarationList,
+                    block_contents_grammar: BlockContentsGrammar::RuleList,
                     is_top_level: false,
                     in_keyframes_at_rule: true,
                     ..self.ctx
