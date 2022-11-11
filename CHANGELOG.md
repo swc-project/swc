@@ -97,6 +97,9 @@
 
 - **(css/parser)** Skip whitespaces in correct places (#6382) ([56bc6b8](https://github.com/swc-project/swc/commit/56bc6b87948a41ccf8e6e7ac2da0c19ead2b451b))
 
+
+- **(css/parser)** Refactor parser (#6395) ([983ab91](https://github.com/swc-project/swc/commit/983ab9143514a08f3448062ab6b0e97dec31e679))
+
 ### Testing
 
 
