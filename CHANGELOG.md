@@ -44,6 +44,9 @@
 - **(es/parser)** Fix parsing of TS `satisfies` expressions (#6354) ([f6faeb3](https://github.com/swc-project/swc/commit/f6faeb3bad6c2df2007e6565e646219b778b9db6))
 
 
+- **(es/plugin)** Print more details on pointer conversion failures (#6378) ([b6c1cc4](https://github.com/swc-project/swc/commit/b6c1cc49e142cba6715ac2f7099c3102ffe9273c))
+
+
 - **(es/resolver)** Resolve interfaces correctly (#6387) ([6b876c4](https://github.com/swc-project/swc/commit/6b876c4c4ff618cc6652f3178284c596d24400f3))
 
 
