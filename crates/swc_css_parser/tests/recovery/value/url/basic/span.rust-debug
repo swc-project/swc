@@ -147,7 +147,7 @@
    :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x String { value: Atom('http://www.example.com/pinkish.gif' type=dynamic), raw: Atom('"http://www.example.com/pinkish.gif"' type=dynamic) }
+  x String { value: Atom('http://www.example.com/pinkish.gif' type=dynamic), raw: "\"http://www.example.com/pinkish.gif\"" }
    ,-[$DIR/tests/recovery/value/url/basic/input.css:2:5]
  2 | --foo: "http://www.example.com/pinkish.gif";
    :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -189,7 +189,7 @@
    :             ^^^^^^^^^^^^^^
    `----
 
-  x BadUrl { name: Atom('url' type=static), raw_name: Atom('url' type=static), raw_value: Atom('var(--foo' type=dynamic) }
+  x BadUrl { name: Atom('url' type=static), raw_name: "url", raw_value: "var(--foo" }
    ,-[$DIR/tests/recovery/value/url/basic/input.css:3:5]
  3 | background: url(var(--foo));
    :             ^^^^^^^^^^^^^^
@@ -648,7 +648,7 @@
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x BadUrl { name: Atom('url' type=static), raw_name: Atom('url' type=static), raw_value: Atom('image.png param(var(--url' type=dynamic) }
+  x BadUrl { name: Atom('url' type=static), raw_name: "url", raw_value: "image.png param(var(--url" }
     ,-[$DIR/tests/recovery/value/url/basic/input.css:13:5]
  13 | background: url(image.png param(var(--url)));
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -795,7 +795,7 @@
     :                 ^^^^^
     `----
 
-  x String { value: Atom('foo' type=inline), raw: Atom('"foo"' type=inline) }
+  x String { value: Atom('foo' type=inline), raw: "\"foo\"" }
     ,-[$DIR/tests/recovery/value/url/basic/input.css:17:5]
  17 | background: url("foo", "bar");
     :                 ^^^^^
@@ -819,7 +819,7 @@
     :                       ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/recovery/value/url/basic/input.css:17:5]
  17 | background: url("foo", "bar");
     :                       ^
@@ -831,7 +831,7 @@
     :                        ^^^^^
     `----
 
-  x String { value: Atom('bar' type=inline), raw: Atom('"bar"' type=inline) }
+  x String { value: Atom('bar' type=inline), raw: "\"bar\"" }
     ,-[$DIR/tests/recovery/value/url/basic/input.css:17:5]
  17 | background: url("foo", "bar");
     :                        ^^^^^

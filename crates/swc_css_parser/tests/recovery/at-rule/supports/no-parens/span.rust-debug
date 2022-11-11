@@ -35,7 +35,7 @@
    :          ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/supports/no-parens/input.css:1:1]
  1 | @supports display: flex {}
    :          ^
@@ -47,7 +47,7 @@
    :           ^^^^^^^
    `----
 
-  x Ident { value: Atom('display' type=static), raw: Atom('display' type=static) }
+  x Ident { value: Atom('display' type=static), raw: "display" }
    ,-[$DIR/tests/recovery/at-rule/supports/no-parens/input.css:1:1]
  1 | @supports display: flex {}
    :           ^^^^^^^
@@ -71,7 +71,7 @@
    :                   ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/supports/no-parens/input.css:1:1]
  1 | @supports display: flex {}
    :                   ^
@@ -83,7 +83,7 @@
    :                    ^^^^
    `----
 
-  x Ident { value: Atom('flex' type=static), raw: Atom('flex' type=static) }
+  x Ident { value: Atom('flex' type=static), raw: "flex" }
    ,-[$DIR/tests/recovery/at-rule/supports/no-parens/input.css:1:1]
  1 | @supports display: flex {}
    :                    ^^^^
@@ -95,7 +95,7 @@
    :                        ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/supports/no-parens/input.css:1:1]
  1 | @supports display: flex {}
    :                        ^

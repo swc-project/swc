@@ -53,7 +53,7 @@
    :   ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/qualified-rule/double-slash-comment/input.css:1:1]
  1 | // test
    :   ^
@@ -65,7 +65,7 @@
    :    ^^^^
    `----
 
-  x Ident { value: Atom('test' type=inline), raw: Atom('test' type=inline) }
+  x Ident { value: Atom('test' type=inline), raw: "test" }
    ,-[$DIR/tests/recovery/qualified-rule/double-slash-comment/input.css:1:1]
  1 | // test
    :    ^^^^
@@ -78,8 +78,7 @@
  2 | a {
    `----
 
-  x WhiteSpace { value: Atom('
-  | ' type=inline) }
+  x WhiteSpace { value: "\n" }
    ,-[$DIR/tests/recovery/qualified-rule/double-slash-comment/input.css:1:1]
  1 | // test
    :        ^
@@ -92,7 +91,7 @@
    : ^
    `----
 
-  x Ident { value: Atom('a' type=static), raw: Atom('a' type=static) }
+  x Ident { value: Atom('a' type=static), raw: "a" }
    ,-[$DIR/tests/recovery/qualified-rule/double-slash-comment/input.css:2:1]
  2 | a {
    : ^
@@ -104,7 +103,7 @@
    :  ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/qualified-rule/double-slash-comment/input.css:2:1]
  2 | a {
    :  ^

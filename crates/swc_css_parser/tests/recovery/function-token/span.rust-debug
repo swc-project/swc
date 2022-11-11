@@ -132,7 +132,7 @@
    :           ^^^^^^
    `----
 
-  x String { value: Atom('test' type=inline), raw: Atom('"test"' type=inline) }
+  x String { value: Atom('test' type=inline), raw: "\"test\"" }
    ,-[$DIR/tests/recovery/function-token/input.css:2:5]
  2 | prop: url("test") :
    :           ^^^^^^
@@ -144,7 +144,7 @@
    :                  ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/function-token/input.css:2:5]
  2 | prop: url("test") :
    :                  ^

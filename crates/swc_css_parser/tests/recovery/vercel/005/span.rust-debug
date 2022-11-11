@@ -117,7 +117,7 @@
    : ^^^^^^^^^
    `----
 
-  x Ident { value: Atom('__ident__' type=dynamic), raw: Atom('__ident__' type=dynamic) }
+  x Ident { value: Atom('__ident__' type=dynamic), raw: "__ident__" }
    ,-[$DIR/tests/recovery/vercel/005/input.css:3:5]
  3 | __ident__
    : ^^^^^^^^^
@@ -129,8 +129,7 @@
  4 | `->     border-radius: 7px;
    `----
 
-  x WhiteSpace { value: Atom('
-  |     ' type=inline) }
+  x WhiteSpace { value: "\n    " }
    ,-[$DIR/tests/recovery/vercel/005/input.css:3:5]
  3 | ,-> __ident__
  4 | `->     border-radius: 7px;
@@ -142,7 +141,7 @@
    : ^^^^^^^^^^^^^
    `----
 
-  x Ident { value: Atom('border-radius' type=dynamic), raw: Atom('border-radius' type=dynamic) }
+  x Ident { value: Atom('border-radius' type=dynamic), raw: "border-radius" }
    ,-[$DIR/tests/recovery/vercel/005/input.css:4:5]
  4 | border-radius: 7px;
    : ^^^^^^^^^^^^^
@@ -166,7 +165,7 @@
    :               ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/vercel/005/input.css:4:5]
  4 | border-radius: 7px;
    :               ^
@@ -178,7 +177,7 @@
    :                ^^^
    `----
 
-  x Dimension { value: 7.0, raw_value: Atom('7' type=inline), unit: Atom('px' type=static), raw_unit: Atom('px' type=static), type_flag: Integer }
+  x Dimension { value: 7.0, raw_value: "7", unit: Atom('px' type=static), raw_unit: "px", type_flag: Integer }
    ,-[$DIR/tests/recovery/vercel/005/input.css:4:5]
  4 | border-radius: 7px;
    :                ^^^
@@ -281,7 +280,7 @@
    : ^^^^^^^^^
    `----
 
-  x Ident { value: Atom('__ident__' type=dynamic), raw: Atom('__ident__' type=dynamic) }
+  x Ident { value: Atom('__ident__' type=dynamic), raw: "__ident__" }
    ,-[$DIR/tests/recovery/vercel/005/input.css:7:5]
  7 | __ident__
    : ^^^^^^^^^
@@ -293,8 +292,7 @@
  8 | `->     __ident__
    `----
 
-  x WhiteSpace { value: Atom('
-  |     ' type=inline) }
+  x WhiteSpace { value: "\n    " }
    ,-[$DIR/tests/recovery/vercel/005/input.css:7:5]
  7 | ,-> __ident__
  8 | `->     __ident__
@@ -306,7 +304,7 @@
    : ^^^^^^^^^
    `----
 
-  x Ident { value: Atom('__ident__' type=dynamic), raw: Atom('__ident__' type=dynamic) }
+  x Ident { value: Atom('__ident__' type=dynamic), raw: "__ident__" }
    ,-[$DIR/tests/recovery/vercel/005/input.css:8:5]
  8 | __ident__
    : ^^^^^^^^^
@@ -319,8 +317,7 @@
  9 | }
    `----
 
-  x WhiteSpace { value: Atom('
-  | ' type=inline) }
+  x WhiteSpace { value: "\n" }
    ,-[$DIR/tests/recovery/vercel/005/input.css:8:5]
  8 | __ident__
    :          ^

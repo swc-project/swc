@@ -77,7 +77,7 @@
    : ^^
    `----
 
-  x Number { value: 10.0, raw: Atom('10' type=inline), type_flag: Integer }
+  x Number { value: 10.0, raw: "10", type_flag: Integer }
    ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-number/input.css:2:5]
  2 | 10 {
    : ^^
@@ -89,7 +89,7 @@
    :   ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-number/input.css:2:5]
  2 | 10 {
    :   ^

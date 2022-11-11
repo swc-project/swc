@@ -2064,7 +2064,7 @@ where
             Token::Ident { value, raw } => {
                 match &*value.to_ascii_lowercase() {
                     "initial" | "inherit" | "unset" | "revert" | "default" => {
-                        return Err(Error::new(span, ErrorKind::InvalidCustomIdent(raw)));
+                        return Err(Error::new(span, ErrorKind::InvalidCustomIdent(value)));
                     }
                     _ => {}
                 }
@@ -2250,20 +2250,12 @@ where
                 Ok(Length {
                     span,
                     value: Number {
-                        span: swc_common::Span::new(
-                            span.lo,
-                            span.hi - BytePos(unit_len),
-                            Default::default(),
-                        ),
+                        span: Span::new(span.lo, span.hi - BytePos(unit_len), Default::default()),
                         value,
                         raw: Some(raw_value),
                     },
                     unit: Ident {
-                        span: swc_common::Span::new(
-                            span.hi - BytePos(unit_len),
-                            span.hi,
-                            Default::default(),
-                        ),
+                        span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
                         value: unit,
                         raw: Some(raw_unit),
                     },
@@ -2307,20 +2299,12 @@ where
                 Ok(Angle {
                     span,
                     value: Number {
-                        span: swc_common::Span::new(
-                            span.lo,
-                            span.hi - BytePos(unit_len),
-                            Default::default(),
-                        ),
+                        span: Span::new(span.lo, span.hi - BytePos(unit_len), Default::default()),
                         value,
                         raw: Some(raw_value),
                     },
                     unit: Ident {
-                        span: swc_common::Span::new(
-                            span.hi - BytePos(unit_len),
-                            span.hi,
-                            Default::default(),
-                        ),
+                        span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
                         value: unit,
                         raw: Some(raw_unit),
                     },
@@ -2361,20 +2345,12 @@ where
                 Ok(Time {
                     span,
                     value: Number {
-                        span: swc_common::Span::new(
-                            span.lo,
-                            span.hi - BytePos(unit_len),
-                            Default::default(),
-                        ),
+                        span: Span::new(span.lo, span.hi - BytePos(unit_len), Default::default()),
                         value,
                         raw: Some(raw_value),
                     },
                     unit: Ident {
-                        span: swc_common::Span::new(
-                            span.hi - BytePos(unit_len),
-                            span.hi,
-                            Default::default(),
-                        ),
+                        span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
                         value: unit,
                         raw: Some(raw_unit),
                     },
@@ -2415,20 +2391,12 @@ where
                 Ok(Frequency {
                     span,
                     value: Number {
-                        span: swc_common::Span::new(
-                            span.lo,
-                            span.hi - BytePos(unit_len),
-                            Default::default(),
-                        ),
+                        span: Span::new(span.lo, span.hi - BytePos(unit_len), Default::default()),
                         value,
                         raw: Some(raw_value),
                     },
                     unit: Ident {
-                        span: swc_common::Span::new(
-                            span.hi - BytePos(unit_len),
-                            span.hi,
-                            Default::default(),
-                        ),
+                        span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
                         value: unit,
                         raw: Some(raw_unit),
                     },
@@ -2472,20 +2440,12 @@ where
                 Ok(Resolution {
                     span,
                     value: Number {
-                        span: swc_common::Span::new(
-                            span.lo,
-                            span.hi - BytePos(unit_len),
-                            Default::default(),
-                        ),
+                        span: Span::new(span.lo, span.hi - BytePos(unit_len), Default::default()),
                         value,
                         raw: Some(raw_value),
                     },
                     unit: Ident {
-                        span: swc_common::Span::new(
-                            span.hi - BytePos(unit_len),
-                            span.hi,
-                            Default::default(),
-                        ),
+                        span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
                         value: unit,
                         raw: Some(raw_unit),
                     },
@@ -2526,20 +2486,12 @@ where
                 Ok(Flex {
                     span,
                     value: Number {
-                        span: swc_common::Span::new(
-                            span.lo,
-                            span.hi - BytePos(unit_len),
-                            Default::default(),
-                        ),
+                        span: Span::new(span.lo, span.hi - BytePos(unit_len), Default::default()),
                         value,
                         raw: Some(raw_value),
                     },
                     unit: Ident {
-                        span: swc_common::Span::new(
-                            span.hi - BytePos(unit_len),
-                            span.hi,
-                            Default::default(),
-                        ),
+                        span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
                         value: unit,
                         raw: Some(raw_unit),
                     },
@@ -2576,20 +2528,12 @@ where
                 Ok(UnknownDimension {
                     span,
                     value: Number {
-                        span: swc_common::Span::new(
-                            span.lo,
-                            span.hi - BytePos(unit_len),
-                            Default::default(),
-                        ),
+                        span: Span::new(span.lo, span.hi - BytePos(unit_len), Default::default()),
                         value,
                         raw: Some(raw_value),
                     },
                     unit: Ident {
-                        span: swc_common::Span::new(
-                            span.hi - BytePos(unit_len),
-                            span.hi,
-                            Default::default(),
-                        ),
+                        span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
                         value: unit,
                         raw: Some(raw_unit),
                     },
@@ -2812,7 +2756,7 @@ where
         match bump!(self) {
             Token::Percentage { value, raw } => {
                 let value = Number {
-                    span: swc_common::Span::new(span.lo, span.hi - BytePos(1), Default::default()),
+                    span: Span::new(span.lo, span.hi - BytePos(1), Default::default()),
                     value,
                     raw: Some(raw),
                 };
@@ -2873,16 +2817,12 @@ where
             } => {
                 let name_length = raw_name.len() as u32;
                 let name = Ident {
-                    span: swc_common::Span::new(
-                        span.lo,
-                        span.lo + BytePos(name_length),
-                        Default::default(),
-                    ),
+                    span: Span::new(span.lo, span.lo + BytePos(name_length), Default::default()),
                     value: name,
                     raw: Some(raw_name),
                 };
                 let value = Some(Box::new(UrlValue::Raw(UrlValueRaw {
-                    span: swc_common::Span::new(
+                    span: Span::new(
                         span.lo + BytePos(name_length + 1),
                         span.hi - BytePos(1),
                         Default::default(),
