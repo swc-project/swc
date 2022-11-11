@@ -123,7 +123,7 @@
    :            ^^^^^
    `----
 
-  x Dimension { value: 500.0, raw_value: Atom('500' type=inline), unit: Atom('px' type=static), raw_unit: Atom('px' type=static), type_flag: Integer }
+  x Dimension { value: 500.0, raw_value: "500", unit: Atom('px' type=static), raw_unit: "px", type_flag: Integer }
    ,-[$DIR/tests/recovery/function/unclosed/input.css:2:5]
  2 | width: min(500px;
    :            ^^^^^
@@ -148,8 +148,7 @@
  3 | }
    `----
 
-  x WhiteSpace { value: Atom('
-  | ' type=inline) }
+  x WhiteSpace { value: "\n" }
    ,-[$DIR/tests/recovery/function/unclosed/input.css:2:5]
  2 | width: min(500px;
    :                  ^
@@ -174,8 +173,7 @@
    :  ^
    `----
 
-  x WhiteSpace { value: Atom('
-  | ' type=inline) }
+  x WhiteSpace { value: "\n" }
    ,-[$DIR/tests/recovery/function/unclosed/input.css:3:1]
  3 | }
    :  ^

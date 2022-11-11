@@ -41,7 +41,7 @@
    :  ^^^^
    `----
 
-  x Ident { value: Atom('href' type=static), raw: Atom('href' type=static) }
+  x Ident { value: Atom('href' type=static), raw: "href" }
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-1/input.css:1:1]
  1 | [href=] {}
    :  ^^^^
@@ -65,7 +65,7 @@
    :        ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-1/input.css:1:1]
  1 | [href=] {}
    :        ^

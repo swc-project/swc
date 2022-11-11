@@ -111,7 +111,7 @@
    :                   ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x BadUrl { name: Atom('url' type=static), raw_name: Atom('url' type=static), raw_value: Atom('   ./image.jpg  a  ' type=dynamic) }
+  x BadUrl { name: Atom('url' type=static), raw_name: "url", raw_value: "   ./image.jpg  a  " }
    ,-[$DIR/tests/recovery/bad-url-token/whitespace-in-middle/input.css:2:5]
  2 | background-image: url(   ./image.jpg  a  );
    :                   ^^^^^^^^^^^^^^^^^^^^^^^^

@@ -35,7 +35,7 @@
    :         ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/fixture/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:1:1]
  1 | @unknown x;
    :         ^
@@ -47,7 +47,7 @@
    :          ^
    `----
 
-  x Ident { value: Atom('x' type=static), raw: Atom('x' type=static) }
+  x Ident { value: Atom('x' type=static), raw: "x" }
    ,-[$DIR/tests/fixture/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:1:1]
  1 | @unknown x;
    :          ^

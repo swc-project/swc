@@ -35,7 +35,7 @@
    :       ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
  1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
    :       ^
@@ -47,7 +47,7 @@
    :        ^^^^^^
    `----
 
-  x Ident { value: Atom('screen' type=inline), raw: Atom('screen' type=inline) }
+  x Ident { value: Atom('screen' type=inline), raw: "screen" }
    ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
  1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
    :        ^^^^^^
@@ -59,7 +59,7 @@
    :              ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
  1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
    :              ^
@@ -71,7 +71,7 @@
    :               ^^^
    `----
 
-  x Ident { value: Atom('and' type=static), raw: Atom('and' type=static) }
+  x Ident { value: Atom('and' type=static), raw: "and" }
    ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
  1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
    :               ^^^
@@ -83,7 +83,7 @@
    :                  ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
  1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
    :                  ^
@@ -113,7 +113,7 @@
    :                    ^^^^^^^^^
    `----
 
-  x Ident { value: Atom('min-width' type=dynamic), raw: Atom('min-width' type=dynamic) }
+  x Ident { value: Atom('min-width' type=dynamic), raw: "min-width" }
    ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
  1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
    :                    ^^^^^^^^^
@@ -137,7 +137,7 @@
    :                              ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
  1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
    :                              ^
@@ -149,7 +149,7 @@
    :                               ^^^^^
    `----
 
-  x Dimension { value: 900.0, raw_value: Atom('900' type=inline), unit: Atom('px' type=static), raw_unit: Atom('px' type=static), type_flag: Integer }
+  x Dimension { value: 900.0, raw_value: "900", unit: Atom('px' type=static), raw_unit: "px", type_flag: Integer }
    ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
  1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
    :                               ^^^^^
@@ -161,7 +161,7 @@
    :                                     ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
  1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
    :                                     ^
@@ -173,7 +173,7 @@
    :                                      ^^
    `----
 
-  x Ident { value: Atom('or' type=static), raw: Atom('or' type=static) }
+  x Ident { value: Atom('or' type=static), raw: "or" }
    ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
  1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
    :                                      ^^
@@ -185,7 +185,7 @@
    :                                        ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
  1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
    :                                        ^
@@ -215,7 +215,7 @@
    :                                          ^^^^^^^^^
    `----
 
-  x Ident { value: Atom('min-width' type=dynamic), raw: Atom('min-width' type=dynamic) }
+  x Ident { value: Atom('min-width' type=dynamic), raw: "min-width" }
    ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
  1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
    :                                          ^^^^^^^^^
@@ -239,7 +239,7 @@
    :                                                    ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
  1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
    :                                                    ^
@@ -251,7 +251,7 @@
    :                                                     ^^^^^^
    `----
 
-  x Dimension { value: 1200.0, raw_value: Atom('1200' type=inline), unit: Atom('px' type=static), raw_unit: Atom('px' type=static), type_flag: Integer }
+  x Dimension { value: 1200.0, raw_value: "1200", unit: Atom('px' type=static), raw_unit: "px", type_flag: Integer }
    ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
  1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
    :                                                     ^^^^^^
@@ -263,7 +263,7 @@
    :                                                            ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
  1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
    :                                                            ^

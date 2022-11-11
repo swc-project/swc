@@ -41,7 +41,7 @@
    :          ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:1:1]
  1 | @top-left {
    :          ^
@@ -67,8 +67,7 @@
  2 | `->     content: "foo";
    `----
 
-  x WhiteSpace { value: Atom('
-  |     ' type=inline) }
+  x WhiteSpace { value: "\n    " }
    ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:1:1]
  1 | ,-> @top-left {
  2 | `->     content: "foo";
@@ -80,7 +79,7 @@
    : ^^^^^^^
    `----
 
-  x Ident { value: Atom('content' type=static), raw: Atom('content' type=static) }
+  x Ident { value: Atom('content' type=static), raw: "content" }
    ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:2:5]
  2 | content: "foo";
    : ^^^^^^^
@@ -104,7 +103,7 @@
    :         ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:2:5]
  2 | content: "foo";
    :         ^
@@ -116,7 +115,7 @@
    :          ^^^^^
    `----
 
-  x String { value: Atom('foo' type=inline), raw: Atom('"foo"' type=inline) }
+  x String { value: Atom('foo' type=inline), raw: "\"foo\"" }
    ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:2:5]
  2 | content: "foo";
    :          ^^^^^
@@ -140,8 +139,7 @@
  3 | `->     color: blue;
    `----
 
-  x WhiteSpace { value: Atom('
-  |     ' type=inline) }
+  x WhiteSpace { value: "\n    " }
    ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:2:5]
  2 | ,-> content: "foo";
  3 | `->     color: blue;
@@ -153,7 +151,7 @@
    : ^^^^^
    `----
 
-  x Ident { value: Atom('color' type=static), raw: Atom('color' type=static) }
+  x Ident { value: Atom('color' type=static), raw: "color" }
    ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:3:5]
  3 | color: blue;
    : ^^^^^
@@ -177,7 +175,7 @@
    :       ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:3:5]
  3 | color: blue;
    :       ^
@@ -189,7 +187,7 @@
    :        ^^^^
    `----
 
-  x Ident { value: Atom('blue' type=inline), raw: Atom('blue' type=inline) }
+  x Ident { value: Atom('blue' type=inline), raw: "blue" }
    ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:3:5]
  3 | color: blue;
    :        ^^^^
@@ -214,8 +212,7 @@
  4 | }
    `----
 
-  x WhiteSpace { value: Atom('
-  | ' type=inline) }
+  x WhiteSpace { value: "\n" }
    ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:3:5]
  3 | color: blue;
    :             ^
