@@ -46,6 +46,9 @@
 
 - **(es/resolver)** Resolve interfaces correctly (#6387) ([6b876c4](https://github.com/swc-project/swc/commit/6b876c4c4ff618cc6652f3178284c596d24400f3))
 
+
+- **(html/minifier)** Fix merging of scripts (#6393) ([a923e52](https://github.com/swc-project/swc/commit/a923e52d8fcc4b5f789be16aeb9265b23848e12b))
+
 ### Documentation
 
 
