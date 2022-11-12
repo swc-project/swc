@@ -286,7 +286,13 @@ impl AssignFolder {
                 //
 
                 let expr = helper_expr!(object_destructuring_empty, "object_destructuring_empty")
-                    .as_call(DUMMY_SP, vec![decl.init.expect("REASON").as_arg()]);
+                    .as_call(
+                        DUMMY_SP,
+                        vec![decl
+                            .init
+                            .expect("destructuring must be initialized")
+                            .as_arg()],
+                    );
 
                 let var_decl = VarDeclarator {
                     span: DUMMY_SP,
@@ -774,6 +780,13 @@ impl VisitMut for AssignFolder {
                         span: DUMMY_SP,
                         exprs,
                     })
+                }
+                Pat::Object(ObjectPat { props, .. }) if props.is_empty() => {
+                    let mut right = right.take();
+                    right.visit_mut_with(self);
+
+                    *expr = helper_expr!(object_destructuring_empty, "object_destructuring_empty")
+                        .as_call(DUMMY_SP, vec![right.as_arg()]);
                 }
                 Pat::Object(ObjectPat { span, props, .. }) => {
                     if props.len() == 1 {
