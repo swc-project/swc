@@ -285,7 +285,7 @@ impl AssignFolder {
                 //      _objectDestructuringEmpty(_ref);
                 //
 
-                let expr = helper_expr!(object_destructuring_empty, "object_destructuring_empty")
+                let expr = helper_expr!(object_destructuring_empty, "objectDestructuringEmpty")
                     .as_call(
                         DUMMY_SP,
                         vec![decl
@@ -785,7 +785,7 @@ impl VisitMut for AssignFolder {
                     let mut right = right.take();
                     right.visit_mut_with(self);
 
-                    *expr = helper_expr!(object_destructuring_empty, "object_destructuring_empty")
+                    *expr = helper_expr!(object_destructuring_empty, "objectDestructuringEmpty")
                         .as_call(DUMMY_SP, vec![right.as_arg()]);
                 }
                 Pat::Object(ObjectPat { span, props, .. }) => {
