@@ -1964,6 +1964,10 @@ pub fn alias_ident_for(expr: &Expr, default: &str) -> Ident {
 
     let mut sym = sym(expr).unwrap_or_else(|| default.to_string());
 
+    if let Err(s) = Ident::verify_symbol(&sym) {
+        sym = s;
+    }
+
     if !sym.starts_with('_') {
         sym = format!("_{}", sym)
     }
