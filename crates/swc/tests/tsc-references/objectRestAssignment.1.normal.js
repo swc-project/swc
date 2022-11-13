@@ -1,5 +1,6 @@
 //// [objectRestAssignment.ts]
 import _extends from "@swc/helpers/src/_extends.mjs";
+import _object_destructuring_empty from "@swc/helpers/src/_object_destructuring_empty.mjs";
 import _object_without_properties from "@swc/helpers/src/_object_without_properties.mjs";
 let ka;
 let nested;
@@ -16,14 +17,14 @@ _complex = complex, nested = _object_without_properties(_complex.x, [
 // should be:
 let overEmit;
 // var _g = overEmit.a, [_h, ...y] = _g, nested2 = __rest(_h, []), _j = overEmit.b, { z } = _j, c = __rest(_j, ["z"]), rest2 = __rest(overEmit, ["a", "b"]);
-var { a: [{}, ...y] , b: { z  }  } = overEmit, nested2 = _extends({}, overEmit.a[0]), c = _object_without_properties(overEmit.b, [
+var { a: [{}, ...y] , b: { z  }  } = overEmit, nested2 = _extends({}, _object_destructuring_empty(overEmit.a[0])), c = _object_without_properties(overEmit.b, [
     "z"
 ]), rest2 = _object_without_properties(overEmit, [
     "a",
     "b"
 ]);
 var _overEmit;
-_overEmit = overEmit, nested2 = _extends({}, _overEmit.a[0]), c = _object_without_properties(_overEmit.b, [
+_overEmit = overEmit, nested2 = _extends({}, _object_destructuring_empty(_overEmit.a[0])), c = _object_without_properties(_overEmit.b, [
     "z"
 ]), rest2 = _object_without_properties(_overEmit, [
     "a",

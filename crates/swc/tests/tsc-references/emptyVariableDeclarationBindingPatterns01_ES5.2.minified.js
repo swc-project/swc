@@ -1,26 +1,13 @@
 //// [emptyVariableDeclarationBindingPatterns01_ES5.ts]
+import _object_destructuring_empty from "@swc/helpers/src/_object_destructuring_empty.mjs";
 import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
-import _throw from "@swc/helpers/src/_throw.mjs";
 !function() {
-    var a, a = null !== a ? a : _throw(new TypeError("Cannot destructure undefined")), a = null !== a ? a : _throw(new TypeError("Cannot destructure undefined")), a = null !== a ? a : _throw(new TypeError("Cannot destructure undefined"));
-    _sliced_to_array(a, 0), _sliced_to_array(a, 0), _sliced_to_array(a, 0);
-    var a = null !== a ? a : _throw(new TypeError("Cannot destructure undefined"));
-    _sliced_to_array(a, 0);
-    var a = null !== a ? a : _throw(new TypeError("Cannot destructure undefined"));
-    _sliced_to_array(a, 0);
-    var a = null !== a ? a : _throw(new TypeError("Cannot destructure undefined"));
-    _sliced_to_array(a, 0);
-    var _a_p1 = a.p1, _a_p1 = null !== _a_p1 ? _a_p1 : _throw(new TypeError("Cannot destructure undefined"));
-    _sliced_to_array(a.p2, 0);
-    var _a_p11 = a.p1, _a_p11 = null !== _a_p11 ? _a_p11 : _throw(new TypeError("Cannot destructure undefined"));
-    _sliced_to_array(a.p2, 0);
-    var _a_p12 = a.p1, _a_p12 = null !== _a_p12 ? _a_p12 : _throw(new TypeError("Cannot destructure undefined"));
-    _sliced_to_array(a.p2, 0);
-    var _ref = {}, _ref = null !== _ref ? _ref : _throw(new TypeError("Cannot destructure undefined")), _ref1 = {}, _ref1 = null !== _ref1 ? _ref1 : _throw(new TypeError("Cannot destructure undefined"));
+    var a;
+    _object_destructuring_empty(a), _object_destructuring_empty(a), _object_destructuring_empty(a), _sliced_to_array(a, 0), _sliced_to_array(a, 0), _sliced_to_array(a, 0), _object_destructuring_empty(a), _sliced_to_array(a, 0), _object_destructuring_empty(a), _sliced_to_array(a, 0), _object_destructuring_empty(a), _sliced_to_array(a, 0), _object_destructuring_empty(a.p1), _sliced_to_array(a.p2, 0), _object_destructuring_empty(a.p1), _sliced_to_array(a.p2, 0), _object_destructuring_empty(a.p1), _sliced_to_array(a.p2, 0), _object_destructuring_empty({}), _object_destructuring_empty({});
 }(), function() {
     var ns = [], _iteratorNormalCompletion = !0, _didIteratorError = !1, _iteratorError = void 0;
     try {
-        for(var _step, _iterator = ns[Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = !0)var _step_value = _step.value, _step_value = null !== _step_value ? _step_value : _throw(new TypeError("Cannot destructure undefined"));
+        for(var _step, _iterator = ns[Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = !0)_object_destructuring_empty(_step.value);
     } catch (err) {
         _didIteratorError = !0, _iteratorError = err;
     } finally{
@@ -32,7 +19,7 @@ import _throw from "@swc/helpers/src/_throw.mjs";
     }
     var _iteratorNormalCompletion1 = !0, _didIteratorError1 = !1, _iteratorError1 = void 0;
     try {
-        for(var _step1, _iterator1 = ns[Symbol.iterator](); !(_iteratorNormalCompletion1 = (_step1 = _iterator1.next()).done); _iteratorNormalCompletion1 = !0)var _step_value1 = _step1.value, _step_value1 = null !== _step_value1 ? _step_value1 : _throw(new TypeError("Cannot destructure undefined"));
+        for(var _step1, _iterator1 = ns[Symbol.iterator](); !(_iteratorNormalCompletion1 = (_step1 = _iterator1.next()).done); _iteratorNormalCompletion1 = !0)_object_destructuring_empty(_step1.value);
     } catch (err) {
         _didIteratorError1 = !0, _iteratorError1 = err;
     } finally{
@@ -44,7 +31,7 @@ import _throw from "@swc/helpers/src/_throw.mjs";
     }
     var _iteratorNormalCompletion2 = !0, _didIteratorError2 = !1, _iteratorError2 = void 0;
     try {
-        for(var _step2, _iterator2 = ns[Symbol.iterator](); !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = !0)var _step_value2 = _step2.value, _step_value2 = null !== _step_value2 ? _step_value2 : _throw(new TypeError("Cannot destructure undefined"));
+        for(var _step2, _iterator2 = ns[Symbol.iterator](); !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = !0)_object_destructuring_empty(_step2.value);
     } catch (err) {
         _didIteratorError2 = !0, _iteratorError2 = err;
     } finally{

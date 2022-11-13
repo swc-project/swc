@@ -2,6 +2,7 @@
 import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
 import _class_private_field_set from "@swc/helpers/src/_class_private_field_set.mjs";
 import _extends from "@swc/helpers/src/_extends.mjs";
+import _object_destructuring_empty from "@swc/helpers/src/_object_destructuring_empty.mjs";
 import _write_only_error from "@swc/helpers/src/_write_only_error.mjs";
 import _class_private_field_destructure from "@swc/helpers/src/_class_private_field_destructure.mjs";
 var _value = new WeakMap(), _valueRest = new WeakMap(), _valueOne = new WeakMap(), _valueCompound = new WeakMap();
@@ -22,13 +23,13 @@ new class {
             o: {
                 foo
             }
-        }), _class_private_field_destructure(this, _value).value = _extends({}, {
+        }), _class_private_field_destructure(this, _value).value = _extends({}, _object_destructuring_empty({
             foo
-        }), ({ foo: _write_only_error("#value").foo  } = {
+        })), ({ foo: _write_only_error("#value").foo  } = {
             foo
-        }), _write_only_error("#value").foo = _extends({}, {
+        }), _write_only_error("#value").foo = _extends({}, _object_destructuring_empty({
             foo
-        }.foo), _write_only_error("#value"), [_class_private_field_destructure(this, _valueOne).value, ..._class_private_field_destructure(this, _valueRest).value] = [
+        }.foo)), _write_only_error("#value"), [_class_private_field_destructure(this, _valueOne).value, ..._class_private_field_destructure(this, _valueRest).value] = [
             1,
             2,
             3

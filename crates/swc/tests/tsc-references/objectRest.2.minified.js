@@ -1,13 +1,14 @@
 //// [objectRest.ts]
 let nestedrest, complex;
 import _extends from "@swc/helpers/src/_extends.mjs";
+import _object_destructuring_empty from "@swc/helpers/src/_object_destructuring_empty.mjs";
 import _object_without_properties from "@swc/helpers/src/_object_without_properties.mjs";
 import _to_property_key from "@swc/helpers/src/_to_property_key.mjs";
 var _tmp, _o, o = {
     a: 1,
     b: 'no'
 };
-_extends({}, o);
+_extends({}, _object_destructuring_empty(o));
 var { a  } = o;
 _object_without_properties(o, [
     "a"
@@ -33,7 +34,7 @@ _object_without_properties(o2, [
     "d"
 ]);
 var { x , n1: { y , n2: { z  }  }  } = nestedrest;
-_extends({}, nestedrest.n1.n2.n3), _object_without_properties(nestedrest, [
+_extends({}, _object_destructuring_empty(nestedrest.n1.n2.n3)), _object_without_properties(nestedrest, [
     "x",
     "n1"
 ]);

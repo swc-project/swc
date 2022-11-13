@@ -1,6 +1,6 @@
 //// [declarationsAndAssignments.ts]
+import _object_destructuring_empty from "@swc/helpers/src/_object_destructuring_empty.mjs";
 import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
-import _throw from "@swc/helpers/src/_throw.mjs";
 import _to_array from "@swc/helpers/src/_to_array.mjs";
 function f0() {
     var _ref = [
@@ -33,10 +33,10 @@ function f1() {
     var z;
 }
 function f2() {
-    var _ref = {
+    var ref = _object_destructuring_empty({
         x: 5,
         y: "hello"
-    }, _ref = _ref !== null ? _ref : _throw(new TypeError("Cannot destructure undefined")); // Ok, empty binding pattern means nothing
+    }); // Ok, empty binding pattern means nothing
     var x = {
         x: 5,
         y: "hello"
@@ -45,24 +45,24 @@ function f2() {
         x: 5,
         y: "hello"
     }.y; // Error, no x in target
+    var _ref = {
+        x: 5,
+        y: "hello"
+    }, x = _ref.x, y = _ref.y;
+    var x;
+    var y;
     var _ref1 = {
         x: 5,
         y: "hello"
-    }, x = _ref1.x, y = _ref1.y;
-    var x;
-    var y;
+    }, a = _ref1.x; // Error, no y in target
     var _ref2 = {
         x: 5,
         y: "hello"
-    }, a = _ref2.x; // Error, no y in target
+    }, b = _ref2.y; // Error, no x in target
     var _ref3 = {
         x: 5,
         y: "hello"
-    }, b = _ref3.y; // Error, no x in target
-    var _ref4 = {
-        x: 5,
-        y: "hello"
-    }, a = _ref4.x, b = _ref4.y;
+    }, a = _ref3.x, b = _ref3.y;
     var a;
     var b;
 }
