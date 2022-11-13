@@ -5,6 +5,14 @@
 
 
 
+- **(es/utils)** Verify the name of an alias (#6423) ([68ffc5b](https://github.com/swc-project/swc/commit/68ffc5bc3e676340cda1ee76265e12420d52473e))
+
+## [1.3.15] - 2022-11-12
+
+### Bug Fixes
+
+
+
 - **(css/parser)** Fix parsing of `supports()` (#6333) ([f483224](https://github.com/swc-project/swc/commit/f4832247bc5a831658d8a6c15678eaf6412fa0c1))
 
 
