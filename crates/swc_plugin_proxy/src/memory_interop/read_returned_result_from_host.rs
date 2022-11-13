@@ -26,8 +26,7 @@ fn read_returned_result_from_host_inner<F>(f: F) -> Option<AllocatedBytesPtr> {
 ///
 /// Returns a struct AllocatedBytesPtr to the ptr for actual return value if
 /// host fn allocated return value, None otherwise.
-#[cfg(feature = "__rkyv")]
-#[cfg_attr(not(target_arch = "wasm32"), allow(unused))]
+#[cfg(all(feature = "__rkyv", feature = "__plugin_mode", target_arch = "wasm32"))]
 #[tracing::instrument(level = "info", skip_all)]
 fn read_returned_result_from_host_inner<F>(f: F) -> Option<AllocatedBytesPtr>
 where
@@ -40,17 +39,14 @@ where
     let (serialized_allocated_bytes_raw_ptr, serialized_allocated_bytes_raw_ptr_size) =
         serialized_allocated_bytes_ptr.as_ptr();
 
-    #[cfg(target_arch = "wasm32")]
-    {
-        let ret = f(serialized_allocated_bytes_raw_ptr as _);
+    let ret = f(serialized_allocated_bytes_raw_ptr as _);
 
-        // Host fn call completes: by contract in host proxy, if return value is 0
-        // we know there's no value to read. Otherwise, we know host filled in
-        // AllocatedBytesPtr to the pointer for the actual value for the
-        // results.
-        if ret == 0 {
-            return None;
-        }
+    // Host fn call completes: by contract in host proxy, if return value is 0
+    // we know there's no value to read. Otherwise, we know host filled in
+    // AllocatedBytesPtr to the pointer for the actual value for the
+    // results.
+    if ret == 0 {
+        return None;
     }
 
     // Return reconstructted AllocatedBytesPtr to reveal ptr to the allocated bytes
@@ -73,7 +69,7 @@ pub fn read_returned_result_from_host<F, R>(f: F) -> Option<R> {
 /// Performs deserialization to the actual return value type from returned ptr.
 ///
 /// This fn is for the Infallible types works for most of the cases.
-#[cfg(feature = "__rkyv")]
+#[cfg(all(feature = "__rkyv", feature = "__plugin_mode", target_arch = "wasm32"))]
 #[cfg_attr(not(target_arch = "wasm32"), allow(unused))]
 #[tracing::instrument(level = "info", skip_all)]
 pub fn read_returned_result_from_host<F, R>(f: F) -> Option<R>
@@ -105,8 +101,7 @@ pub fn read_returned_result_from_host_fallible<F, R>(f: F) -> Option<R> {
 /// this is for the `Fallible` struct to deserialize. If a struct contains
 /// shared pointers like Arc, Rc rkyv requires trait bounds to the
 /// SharedSerializeRegistry which cannot be infallible.
-#[cfg(feature = "__rkyv")]
-#[cfg_attr(not(target_arch = "wasm32"), allow(unused))]
+#[cfg(all(feature = "__rkyv", target_arch = "wasm32"))]
 #[tracing::instrument(level = "info", skip_all)]
 pub fn read_returned_result_from_host_fallible<F, R>(f: F) -> Option<R>
 where
@@ -121,17 +116,14 @@ where
     let (serialized_allocated_bytes_raw_ptr, serialized_allocated_bytes_raw_ptr_size) =
         serialized_allocated_bytes_ptr.as_ptr();
 
-    #[cfg(target_arch = "wasm32")]
-    {
-        let ret = f(serialized_allocated_bytes_raw_ptr as _);
+    let ret = f(serialized_allocated_bytes_raw_ptr as _);
 
-        // Host fn call completes: by contract in host proxy, if return value is 0
-        // we know there's no value to read. Otherwise, we know host filled in
-        // AllocatedBytesPtr to the pointer for the actual value for the
-        // results.
-        if ret == 0 {
-            return None;
-        }
+    // Host fn call completes: by contract in host proxy, if return value is 0
+    // we know there's no value to read. Otherwise, we know host filled in
+    // AllocatedBytesPtr to the pointer for the actual value for the
+    // results.
+    if ret == 0 {
+        return None;
     }
 
     // Now reconstruct AllocatedBytesPtr to reveal ptr to the allocated bytes

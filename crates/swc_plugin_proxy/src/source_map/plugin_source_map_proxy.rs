@@ -13,8 +13,7 @@ use swc_common::{sync::OnceCell, CharPos, FileLines, SourceFile};
 use swc_ecma_ast::SourceMapperExt;
 use swc_trace_macro::swc_trace;
 
-#[cfg(feature = "__plugin_mode")]
-#[cfg_attr(not(target_arch = "wasm32"), allow(unused))]
+#[cfg(all(feature = "__rkyv", feature = "__plugin_mode", target_arch = "wasm32"))]
 use crate::memory_interop::read_returned_result_from_host_fallible;
 
 #[cfg(target_arch = "wasm32")]
@@ -65,7 +64,7 @@ pub struct PluginSourceMapProxy {
     pub source_file: OnceCell<swc_common::sync::Lrc<SourceFile>>,
 }
 
-#[cfg(feature = "__plugin_mode")]
+#[cfg(all(feature = "__rkyv", feature = "__plugin_mode", target_arch = "wasm32"))]
 #[swc_trace]
 impl PluginSourceMapProxy {
     /*
