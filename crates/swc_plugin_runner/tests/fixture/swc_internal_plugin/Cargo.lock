@@ -113,6 +113,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b41b7ea54a0c9d92199de89e20e58d49f02f8e699814ef3fdf266f6f748d15c7"
 
 [[package]]
+name = "base64"
+version = "0.13.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9e1b586273c5702936fe7b7d6896644d8be71e6314cfe09d3167c95f712589e8"
+
+[[package]]
 name = "better_scoped_tls"
 version = "0.1.0"
 dependencies = [
@@ -229,15 +235,6 @@ dependencies = [
  "darling_core",
  "quote",
  "syn",
-]
-
-[[package]]
-name = "debug_unreachable"
-version = "0.1.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9a032eac705ca39214d169f83e3d3da290af06d8d1d344d1baad2fd002dca4b3"
-dependencies = [
- "unreachable",
 ]
 
 [[package]]
@@ -1157,7 +1154,7 @@ version = "6.0.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a2ca89636b276071e7276488131f531dbf43ad1c19bc4bd5a04f6a0ce1ddc138"
 dependencies = [
- "base64",
+ "base64 0.11.0",
  "if_chain",
  "lazy_static",
  "regex",
@@ -1207,7 +1204,7 @@ dependencies = [
 
 [[package]]
 name = "string_enum"
-version = "0.3.1"
+version = "0.3.2"
 dependencies = [
  "pmutil",
  "proc-macro2",
@@ -1252,7 +1249,7 @@ dependencies = [
 
 [[package]]
 name = "swc_atoms"
-version = "0.4.17"
+version = "0.4.24"
 dependencies = [
  "once_cell",
  "rkyv",
@@ -1265,7 +1262,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.28.10"
+version = "0.29.14"
 dependencies = [
  "ahash",
  "anyhow",
@@ -1273,9 +1270,9 @@ dependencies = [
  "atty",
  "better_scoped_tls",
  "cfg-if",
- "debug_unreachable",
  "either",
  "from_variant",
+ "new_debug_unreachable",
  "num-bigint",
  "once_cell",
  "parking_lot",
@@ -1283,6 +1280,7 @@ dependencies = [
  "rustc-hash",
  "serde",
  "siphasher",
+ "sourcemap",
  "string_cache",
  "swc_atoms",
  "swc_eq_ignore_macros",
@@ -1295,7 +1293,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.26.0"
+version = "0.43.3"
 dependencies = [
  "once_cell",
  "swc_atoms",
@@ -1313,7 +1311,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.93.0"
+version = "0.94.19"
 dependencies = [
  "bitflags",
  "is-macro",
@@ -1329,7 +1327,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.126.0"
+version = "0.127.31"
 dependencies = [
  "memchr",
  "num-bigint",
@@ -1357,7 +1355,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.121.0"
+version = "0.122.26"
 dependencies = [
  "either",
  "enum_kind",
@@ -1374,7 +1372,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_quote_macros"
-version = "0.32.0"
+version = "0.33.27"
 dependencies = [
  "anyhow",
  "pmutil",
@@ -1390,22 +1388,17 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_testing"
-version = "0.19.0"
+version = "0.20.7"
 dependencies = [
  "anyhow",
  "hex",
  "sha-1",
- "swc_atoms",
- "swc_common",
- "swc_ecma_ast",
- "swc_ecma_codegen",
- "testing",
  "tracing",
 ]
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.110.0"
+version = "0.111.47"
 dependencies = [
  "better_scoped_tls",
  "bitflags",
@@ -1425,14 +1418,16 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_testing"
-version = "0.112.0"
+version = "0.114.33"
 dependencies = [
  "ansi_term",
  "anyhow",
+ "base64 0.13.1",
  "hex",
  "serde",
  "serde_json",
  "sha-1",
+ "sourcemap",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -1447,7 +1442,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.104.0"
+version = "0.105.33"
 dependencies = [
  "indexmap",
  "num_cpus",
@@ -1462,7 +1457,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_visit"
-version = "0.79.0"
+version = "0.80.19"
 dependencies = [
  "num-bigint",
  "swc_atoms",
@@ -1484,7 +1479,7 @@ dependencies = [
 
 [[package]]
 name = "swc_error_reporters"
-version = "0.12.10"
+version = "0.13.14"
 dependencies = [
  "anyhow",
  "miette",
@@ -1520,7 +1515,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_macro"
-version = "0.9.8"
+version = "0.9.9"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -1529,7 +1524,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_proxy"
-version = "0.21.0"
+version = "0.22.19"
 dependencies = [
  "better_scoped_tls",
  "rkyv",
@@ -1614,7 +1609,7 @@ dependencies = [
 
 [[package]]
 name = "testing"
-version = "0.30.10"
+version = "0.31.14"
 dependencies = [
  "ansi_term",
  "difference",
@@ -1837,15 +1832,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3ed742d4ea2bd1176e236172c8429aaf54486e7ac098db29ffe6529e0ce50973"
 
 [[package]]
-name = "unreachable"
-version = "0.1.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1f2ae5ddb18e1c92664717616dd9549dde73f539f01bd7b77c2edb2446bdff91"
-dependencies = [
- "void",
-]
-
-[[package]]
 name = "url"
 version = "2.2.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1883,12 +1869,6 @@ name = "version_check"
 version = "0.9.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "49874b5167b65d7193b8aba1567f5c7d93d001cafc34600cee003eda787e483f"
-
-[[package]]
-name = "void"
-version = "1.0.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6a02e4885ed3bc0f2de90ea6dd45ebcbb66dacffe03547fadbb0eeae2770887d"
 
 [[package]]
 name = "wasi"
