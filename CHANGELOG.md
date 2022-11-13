@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(es/compat)** Improve `destructuring` pass (#6412) ([6728603](https://github.com/swc-project/swc/commit/67286032b1bd75ef1dac51201fe5ff65143f565a))
+
 ### Refactor
 
 
