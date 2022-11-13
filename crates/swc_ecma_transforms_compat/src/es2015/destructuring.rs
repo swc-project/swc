@@ -4,7 +4,7 @@ use serde::Deserialize;
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{helper, perf::Check};
+use swc_ecma_transforms_base::{helper, helper_expr, perf::Check};
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
     alias_ident_for, alias_if_required, has_rest_pat, is_literal, member_expr, private_ident,
@@ -275,16 +275,6 @@ impl AssignFolder {
                 }
             }
             Pat::Object(ObjectPat { span, props, .. }) if props.is_empty() => {
-                let (ident, aliased) = alias_if_required(decl.init.as_ref().unwrap(), "ref");
-                if aliased {
-                    decls.push(VarDeclarator {
-                        span: DUMMY_SP,
-                        name: ident.clone().into(),
-                        init: decl.init,
-                        definite: false,
-                    });
-                }
-
                 // We should convert
                 //
                 //      var {} = null;
@@ -294,39 +284,24 @@ impl AssignFolder {
                 //      var _ref = null;
                 //      _objectDestructuringEmpty(_ref);
                 //
-                decls.push(VarDeclarator {
-                    span,
-                    name: ident.clone().into(),
-                    init: Some(Box::new(Expr::Cond(CondExpr {
-                        span: DUMMY_SP,
-                        test: Box::new(Expr::Bin(BinExpr {
-                            span: DUMMY_SP,
-                            left: Box::new(Expr::Ident(ident.clone())),
-                            op: op!("!=="),
-                            right: Null { span: DUMMY_SP }.into(),
-                        })),
-                        cons: Box::new(Expr::Ident(ident)),
-                        alt: Box::new(Expr::Call(CallExpr {
-                            span: DUMMY_SP,
-                            callee: helper!(throw, "throw"),
-                            args: vec![
-                                // new TypeError("Cannot destructure undefined")
-                                NewExpr {
-                                    span: DUMMY_SP,
-                                    callee: Box::new(Expr::Ident(Ident::new(
-                                        "TypeError".into(),
-                                        DUMMY_SP,
-                                    ))),
-                                    args: Some(vec!["Cannot destructure undefined".as_arg()]),
-                                    type_args: Default::default(),
-                                }
-                                .as_arg(),
-                            ],
-                            type_args: Default::default(),
-                        })),
-                    }))),
+
+                let expr = helper_expr!(object_destructuring_empty, "objectDestructuringEmpty")
+                    .as_call(
+                        DUMMY_SP,
+                        vec![decl
+                            .init
+                            .expect("destructuring must be initialized")
+                            .as_arg()],
+                    );
+
+                let var_decl = VarDeclarator {
+                    span: DUMMY_SP,
+                    name: private_ident!(span, "ref").into(),
+                    init: Some(Box::new(expr)),
                     definite: false,
-                })
+                };
+
+                decls.push(var_decl);
             }
 
             Pat::Object(ObjectPat { props, .. }) => {
@@ -805,6 +780,13 @@ impl VisitMut for AssignFolder {
                         span: DUMMY_SP,
                         exprs,
                     })
+                }
+                Pat::Object(ObjectPat { props, .. }) if props.is_empty() => {
+                    let mut right = right.take();
+                    right.visit_mut_with(self);
+
+                    *expr = helper_expr!(object_destructuring_empty, "objectDestructuringEmpty")
+                        .as_call(DUMMY_SP, vec![right.as_arg()]);
                 }
                 Pat::Object(ObjectPat { span, props, .. }) => {
                     if props.len() == 1 {

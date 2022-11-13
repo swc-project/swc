@@ -1,3 +1,3 @@
 //// [destructuringVoid.ts]
-import _throw from "@swc/helpers/src/_throw.mjs";
-var v = v !== null ? v : _throw(new TypeError("Cannot destructure undefined"));
+import _object_destructuring_empty from "@swc/helpers/src/_object_destructuring_empty.mjs";
+var ref = _object_destructuring_empty(v);

@@ -36,8 +36,7 @@ test!(
 }",
     "class Foo{
     constructor(_param){
-        var bar = _extends({
-        }, _param);
+      var bar = _extends({}, _objectDestructuringEmpty(_param));
     }
 }"
 );
@@ -102,7 +101,7 @@ function foo([{...bar}]) {
 "#,
     r#"
 function foo([_param]) {
-  var bar = _extends({}, _param);
+  var bar = _extends({}, _objectDestructuringEmpty(_param));
 }
 
 "#
@@ -193,7 +192,7 @@ try {} catch({ b }) {}
 try {
 } catch (_param) {
     var a34 = _extends({
-    }, _param);
+    }, _objectDestructuringEmpty(_param));
 }
 try {
 } catch (_param1) {
@@ -500,13 +499,13 @@ var _tmp;
 const _ref = {
 }, _key = (_param)=>{
     var rest = _extends({
-    }, _param);
+    }, _objectDestructuringEmpty(_param));
     let b = _extends({
-    }, {
-    });
+    }, _objectDestructuringEmpty({
+    }));
 }, _key1 = (_tmp = {
 }, d = _extends({
-}, _tmp), _tmp), { [_key]: a , [_key1]: c  } = _ref;
+}, _objectDestructuringEmpty(_tmp)), _tmp), { [_key]: a , [_key1]: c  } = _ref;
 
 "#
 );
@@ -523,7 +522,7 @@ const {
   },
   c = ({ ...d } = {}),
 } = {};
-a()
+a({})
 expect(c).toEqual({})
 expect(d).toEqual({})
 "#
@@ -546,13 +545,13 @@ var _tmp;
 const _ref = {
 }, { a =(_param)=>{
     var rest = _extends({
-    }, _param);
+    }, _objectDestructuringEmpty(_param));
     let b = _extends({
-    }, {
-    });
+    }, _objectDestructuringEmpty({
+    }));
 } , c =(_tmp = {
 }, d = _extends({
-}, _tmp), _tmp)  } = _ref;
+}, _objectDestructuringEmpty(_tmp)), _tmp)  } = _ref;
 
 "#
 );
@@ -594,7 +593,7 @@ test!(
 const { a: { ...bar }, b: { ...baz }, ...foo } = obj;
 "#,
     r#"
-const bar = _extends({}, obj.a), baz = _extends({}, obj.b), foo =
+const bar = _extends({}, _objectDestructuringEmpty(obj.a)), baz = _extends({}, _objectDestructuringEmpty(obj.b)), foo =
     _objectWithoutProperties(obj, ["a", "b"]);
 "#
 );
@@ -835,7 +834,7 @@ function b3({ b }) {}
 "#,
     r#"
 function a(_param) {
-  var a34 = _extends({}, _param);
+  var a34 = _extends({}, _objectDestructuringEmpty(_param));
 }
 
 function a2(_param) {
@@ -887,7 +886,7 @@ function a7(_param = {
 
 function a8([_param]) {
     var a1 = _extends({
-    }, _param);
+    }, _objectDestructuringEmpty(_param));
 }
 
 function a9([_param]) {
@@ -895,7 +894,7 @@ function a9([_param]) {
 }
 
 function a10([a1, _param]) {
-  var a2 = _extends({}, _param);
+  var a2 = _extends({}, _objectDestructuringEmpty(_param));
 }
 
 // Unchanged
@@ -996,15 +995,15 @@ const {w3, x3, y3, ...z4} = z;
 "#,
     r#"
 var z = {};
-var x = _extends({}, z);
+var x = _extends({}, _objectDestructuringEmpty(z));
 var a = _extends({
-}, {
+}, _objectDestructuringEmpty({
     a: 1
-});
+}));
 var x = _extends({
-}, a.b);
+}, _objectDestructuringEmpty(a.b));
 var x = _extends({
-}, a());
+}, _objectDestructuringEmpty(a()));
 var {
   x1
 } = z,
@@ -1051,7 +1050,7 @@ let {
   }
 } = complex,
     asdf = _objectWithoutProperties(complex.x, ["a", d].map(_toPropertyKey)),
-    d = _extends({}, complex.y),
+    d = _extends({}, _objectDestructuringEmpty(complex.y)),
     g = _objectWithoutProperties(complex, ["x", "y"]);
 "#
 );
@@ -1064,7 +1063,7 @@ test!(
 let { x4: { ...y4 } } = z;
 "#,
     r#"
-let y4 = _extends({}, z.x4);
+let y4 = _extends({}, _objectDestructuringEmpty(z.x4));
 "#
 );
 
@@ -1656,7 +1655,7 @@ const {
 } = a,
       y = _objectWithoutProperties(a, ["x"]),
       z = foo(y);
-const s = _extends({}, r),
+const s = _extends({}, _objectDestructuringEmpty(r)),
       t = foo(s); // ordering is preserved
 
 var l = foo(),
@@ -3046,7 +3045,7 @@ test!(
     var counter = 0;
     for (var _ref of [{ x: 1, y: 2 }]) {
         var _ref1;
-        _ref1 = _ref, src.y = _extends({}, _ref1), _ref1;
+        _ref1 = _ref, src.y = _extends({}, _objectDestructuringEmpty(_ref1)), _ref1;
         expect(src.y.x).toEqual(1);
         expect(src.y.y).toEqual(2);
 

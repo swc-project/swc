@@ -392,7 +392,12 @@ impl VisitMut for ObjectRest {
                                         props: vec![],
                                     }
                                     .as_arg(),
-                                    init.as_arg(),
+                                    helper_expr!(
+                                        object_destructuring_empty,
+                                        "objectDestructuringEmpty"
+                                    )
+                                    .as_call(DUMMY_SP, vec![init.as_arg()])
+                                    .as_arg(),
                                 ],
                                 type_args: Default::default(),
                             }))),
@@ -951,7 +956,9 @@ fn object_without_properties(
                     props: vec![],
                 }
                 .as_arg(),
-                obj.as_arg(),
+                helper_expr!(object_destructuring_empty, "objectDestructuringEmpty")
+                    .as_call(DUMMY_SP, vec![obj.as_arg()])
+                    .as_arg(),
             ],
             type_args: Default::default(),
         });

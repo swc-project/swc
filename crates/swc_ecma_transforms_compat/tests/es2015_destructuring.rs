@@ -1114,7 +1114,7 @@ test_exec!(
     r#"
 expect(function () {
   var {} = null;
-}).toThrow("Cannot destructure undefined");
+}).toThrow("Cannot destructure null");
 
 "#
 );
@@ -1540,7 +1540,7 @@ var { [x]: x, ...y } = z;
     r#"
 var z = {};
 var x = _extends({
-}, z);
+}, _objectDestructuringEmpty(z));
 var x = z.x,
     y = _objectWithoutProperties(z, ["x"]);
 var x = z[x],

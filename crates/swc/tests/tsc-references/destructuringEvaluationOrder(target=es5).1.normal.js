@@ -1,9 +1,9 @@
 //// [destructuringEvaluationOrder.ts]
 // https://github.com/microsoft/TypeScript/issues/39205
 import _extends from "@swc/helpers/src/_extends.mjs";
+import _object_destructuring_empty from "@swc/helpers/src/_object_destructuring_empty.mjs";
 import _object_without_properties from "@swc/helpers/src/_object_without_properties.mjs";
 import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
-import _throw from "@swc/helpers/src/_throw.mjs";
 import _to_property_key from "@swc/helpers/src/_to_property_key.mjs";
 var trace = [];
 var order = function(n) {
@@ -25,4 +25,4 @@ var _ref5 = [
     {
         x: 1
     }
-], _ref6 = _sliced_to_array(_ref5, 2), _ref_ = _ref6[0], _ref_ = _ref_ !== null ? _ref_ : _throw(new TypeError("Cannot destructure undefined")), tmp3 = _ref6[1], b = tmp3 === void 0 ? a : tmp3, a = _extends({}, _ref5[0]);
+], _ref6 = _sliced_to_array(_ref5, 2), ref = _object_destructuring_empty(_ref6[0]), tmp3 = _ref6[1], b = tmp3 === void 0 ? a : tmp3, a = _extends({}, _object_destructuring_empty(_ref5[0]));

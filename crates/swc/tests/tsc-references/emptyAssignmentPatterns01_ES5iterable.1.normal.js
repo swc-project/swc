@@ -1,7 +1,7 @@
 //// [emptyAssignmentPatterns01_ES5iterable.ts]
+import _object_destructuring_empty from "@swc/helpers/src/_object_destructuring_empty.mjs";
 import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
 var a;
+_object_destructuring_empty(a);
 var ref;
-ref = a, ref;
-var ref1;
-ref1 = _sliced_to_array(a, 0), ref1;
+ref = _sliced_to_array(a, 0), ref;

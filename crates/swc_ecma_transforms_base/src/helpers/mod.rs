@@ -283,6 +283,7 @@ define_helpers!(Helpers {
     new_arrow_check: (),
     non_iterable_rest: (),
     non_iterable_spread: (),
+    object_destructuring_empty: (),
     object_spread: (define_property),
     object_spread_props: (),
     object_without_properties: (object_without_properties_loose),
