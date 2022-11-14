@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_core"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.43.7"
+version       = "0.43.8"
   [package.metadata.docs.rs]
   features = [
     "common_perf",
@@ -318,7 +318,7 @@ wasmer      = { optional = true, version = "2.3.0", default-features = false }
 wasmer-wasi = { optional = true, version = "2.3.0", default-features = false }
 
 # swc_* dependencies
-binding_macros                   = { optional = true, version = "0.20.91", path = "../binding_macros" }
+binding_macros                   = { optional = true, version = "0.20.92", path = "../binding_macros" }
 swc                              = { optional = true, version = "0.232.91", path = "../swc" }
 swc_atoms                        = { optional = true, version = "0.4.24", path = "../swc_atoms" }
 swc_bundler                      = { optional = true, version = "0.192.79", path = "../swc_bundler" }

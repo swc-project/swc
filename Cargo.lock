@@ -168,7 +168,7 @@ dependencies = [
 
 [[package]]
 name = "binding_macros"
-version = "0.20.91"
+version = "0.20.92"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -3164,7 +3164,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.43.7"
+version = "0.43.8"
 dependencies = [
  "binding_macros",
  "once_cell",

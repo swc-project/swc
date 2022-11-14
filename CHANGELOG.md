@@ -17,6 +17,9 @@
 
 
 
+- **(bindings)** Deprecate `JsValue::*_serde` (#6436) ([1dd8b3d](https://github.com/swc-project/swc/commit/1dd8b3d9d5393fa382345dce3d6977f7d4b5aa63))
+
+
 - **(es/plugins)** Simplify `read_result_*` (#6426) ([7a1c2a1](https://github.com/swc-project/swc/commit/7a1c2a1e2ca98cb897899b1a5def7dba7b6a8b5c))
 
 ## [1.3.16] - 2022-11-13
