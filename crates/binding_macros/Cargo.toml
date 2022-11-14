@@ -40,8 +40,9 @@ anyhow = { optional = true, version = "1.0.58" }
 console_error_panic_hook = { optional = true, version = "0.1.7" }
 js-sys = { optional = true, version = "0.3.59" }
 once_cell = { optional = true, version = "1.13.0" }
+serde = { optional = true, version = "1", features = ["derive"] }
 wasm-bindgen = { optional = true, version = "0.2.82", features = [
-  "serde-serialize",
   "enable-interning",
 ] }
 wasm-bindgen-futures = { optional = true, version = "0.4.32" }
+serde-wasm-bindgen = { optional = true, version = "0.4.5" }
