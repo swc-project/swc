@@ -121,7 +121,7 @@ where
 
             if let Some(orig_ext) = orig_ext {
                 let use_orig = if let Some(ext) = p.extension() {
-                    ext == "ts" || ext == "tsx"
+                    (ext == "ts" || ext == "tsx") && p.is_file()
                 } else {
                     false
                 };
