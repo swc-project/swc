@@ -1,6 +1,7 @@
 use std::{fs::read_to_string, path::PathBuf};
 
-use swc_common::{chain, comments::SingleThreadedComments, Mark};
+use swc_common::{chain, comments::SingleThreadedComments, Mark, SyntaxContext};
+use swc_ecma_ast::{Ident, PropName, TsQualifiedName};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::{
@@ -9,7 +10,7 @@ use swc_ecma_transforms_compat::{
     es2017::async_to_generator,
 };
 use swc_ecma_transforms_testing::{compare_stdout, test, test_exec, test_fixture, Tester};
-use swc_ecma_visit::Fold;
+use swc_ecma_visit::{as_folder, visit_mut_obj_and_computed, Fold, VisitMut, VisitMutWith};
 
 fn tr() -> impl Fold {
     let unresolved_mark = Mark::new();
@@ -1108,11 +1109,41 @@ fn fixture(input: PathBuf) {
             let unresolved_mark = Mark::new();
             chain!(
                 resolver(unresolved_mark, Mark::new(), false),
-                block_scoping(unresolved_mark)
+                block_scoping(unresolved_mark),
+                as_folder(TsHygiene { unresolved_mark })
             )
         },
         &input,
         &output,
         Default::default(),
     );
+}
+
+struct TsHygiene {
+    unresolved_mark: Mark,
+}
+
+impl VisitMut for TsHygiene {
+    visit_mut_obj_and_computed!();
+
+    fn visit_mut_ident(&mut self, i: &mut Ident) {
+        if SyntaxContext::empty().apply_mark(self.unresolved_mark) == i.span.ctxt {
+            println!("ts_hygiene: {} is unresolved", i.sym);
+            return;
+        }
+
+        let ctxt = format!("{:?}", i.span.ctxt).replace('#', "");
+        i.sym = format!("{}__{}", i.sym, ctxt).into();
+        i.span = i.span.with_ctxt(SyntaxContext::empty());
+    }
+
+    fn visit_mut_prop_name(&mut self, n: &mut PropName) {
+        if let PropName::Computed(n) = n {
+            n.visit_mut_with(self);
+        }
+    }
+
+    fn visit_mut_ts_qualified_name(&mut self, q: &mut TsQualifiedName) {
+        q.left.visit_mut_with(self);
+    }
 }
