@@ -7,8 +7,17 @@
 
 - **(es/compat)** Improve `destructuring` pass (#6412) ([6728603](https://github.com/swc-project/swc/commit/67286032b1bd75ef1dac51201fe5ff65143f565a))
 
+
+- **(es/compat)** Fix span hygiene of function naming pass (#6345) ([81a4bb3](https://github.com/swc-project/swc/commit/81a4bb304a2790dab9448c88887a78430792ed38))
+
+
+- **(es/modules)** Fix `jsc.paths` of `.ts` imports (#6431) ([9c9c3eb](https://github.com/swc-project/swc/commit/9c9c3ebd2c9c4141e3449e19926636a77741980a))
+
 ### Refactor
 
+
+
+- **(bindings)** Deprecate `JsValue::*_serde` (#6436) ([1dd8b3d](https://github.com/swc-project/swc/commit/1dd8b3d9d5393fa382345dce3d6977f7d4b5aa63))
 
 
 - **(es/plugins)** Simplify `read_result_*` (#6426) ([7a1c2a1](https://github.com/swc-project/swc/commit/7a1c2a1e2ca98cb897899b1a5def7dba7b6a8b5c))

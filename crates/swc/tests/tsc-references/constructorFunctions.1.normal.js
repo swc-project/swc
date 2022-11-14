@@ -7,7 +7,7 @@ function C1() {
 }
 var c1_v1 = C1();
 var c1_v2 = new C1();
-var C2 = function() {
+var C2 = function C21() {
     if (!_instanceof(this, C2)) return new C2();
     this.x = 1;
 };
@@ -18,7 +18,7 @@ var c2_v2 = new C2();
 }
 var c3_v1 = C3(); // error: @class tag requires 'new'
 var c3_v2 = new C3();
-/** @class */ var C4 = function() {
+/** @class */ var C4 = function C41() {
     if (!_instanceof(this, C4)) return new C4();
 };
 var c4_v1 = C4(); // error: @class tag requires 'new'
