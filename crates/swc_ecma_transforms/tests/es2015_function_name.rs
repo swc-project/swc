@@ -110,7 +110,7 @@ expect(Foo.name).toBe('Foo');
 "#,
     r#"
 var Foo = function() {
-  var Foo = function() {
+  var Foo = function Foo1() {
    _classCallCheck(this, Foo);
   };
   _defineProperty(Foo, 'num', 0);
@@ -137,7 +137,7 @@ test!(
 
   return extendStatics(d, b);
 };",
-    "var extendStatics = function (d, b) {
+    "var extendStatics = function extendStatics1(d, b) {
       extendStatics = Object.setPrototypeOf || ({
         __proto__: []
       }) instanceof Array && function (d, b) {
