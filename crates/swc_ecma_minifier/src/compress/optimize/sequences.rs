@@ -804,6 +804,11 @@ where
     /// TODO(kdy1): Check for side effects and call merge_sequential_expr more
     /// if expressions between a and b are side-effect-free.
     fn merge_sequences_in_exprs(&mut self, exprs: &mut Vec<Mergable>) -> Result<(), ()> {
+        // Fast-path
+        if exprs.len() <= 1 {
+            return Ok(());
+        }
+
         #[cfg(feature = "debug")]
         let _tracing = {
             Some(
