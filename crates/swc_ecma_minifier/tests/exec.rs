@@ -10369,8 +10369,8 @@ fn issue_6419_1() {
             var obj = {
                 state: state
             };
-            log(first)
-            log(obj.state());
+            console.log(first)
+            console.log(obj.state());
             function state() {
                 return on ? "ON" : "OFF";
             }
