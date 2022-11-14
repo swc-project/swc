@@ -81,12 +81,15 @@ pub fn minify_sync(s: JsString, opts: JsValue) -> Result<JsValue, JsValue> {
             let opts = if opts.is_null() || opts.is_undefined() {
                 Default::default()
             } else {
-                anyhow::Context::context(opts.into_serde(), "failed to parse options")?
+                serde_wasm_bindgen::from_value(opts)
+                    .map_err(|e| anyhow::anyhow!("failed to parse options: {}", e))?
             };
             let fm = c.cm.new_source_file(FileName::Anon, s.into());
             let program =
                 anyhow::Context::context(c.minify(fm, handler, &opts), "failed to minify file")?;
-            anyhow::Context::context(JsValue::from_serde(&program), "failed to serialize json")
+
+            serde_wasm_bindgen::to_value(&program)
+                .map_err(|e| anyhow::anyhow!("failed to deserialize program: {}", e))
         })
     })
     .map_err(|e| convert_err(e, None))
@@ -106,7 +109,8 @@ pub fn parse_sync(s: JsString, opts: JsValue) -> Result<JsValue, JsValue> {
                 let opts: ParseOptions = if opts.is_null() || opts.is_undefined() {
                     Default::default()
                 } else {
-                    anyhow::Context::context(opts.into_serde(), "failed to parse options")?
+                    serde_wasm_bindgen::from_value(opts)
+                        .map_err(|e| anyhow::anyhow!("failed to parse options: {}", e))?
                 };
                 let fm = c.cm.new_source_file(FileName::Anon, s.into());
                 let cmts = c.comments().clone();
@@ -133,7 +137,8 @@ pub fn parse_sync(s: JsString, opts: JsValue) -> Result<JsValue, JsValue> {
                     opts.syntax.typescript(),
                 ));
 
-                anyhow::Context::context(JsValue::from_serde(&program), "failed to serialize json")
+                serde_wasm_bindgen::to_value(&program)
+                    .map_err(|e| anyhow::anyhow!("failed to serialize json: {}", e))
             })
         })
     })
@@ -160,9 +165,9 @@ pub fn transform_sync(
     let opts: Options = if opts.is_null() || opts.is_undefined() {
         Default::default()
     } else {
-        anyhow::Context::context(opts.into_serde(), "failed to parse options")
-            .map_err(|e| convert_err(e, None))?
+        serde_wasm_bindgen::from_value(opts)?
     };
+
     let error_format = opts.experimental.error_format.unwrap_or_default();
     try_with_handler(c.cm.clone(), Default::default(), |handler| {
         c.run(|| {
@@ -193,9 +198,13 @@ pub fn transform_sync(
                         "failed to process js file",
                     )?
                 }
-                Err(v) => unsafe { c.process_js(handler, v.into_serde().expect(""), &opts)? },
+                Err(v) => {
+                    c.process_js(handler, serde_wasm_bindgen::from_value(v).expect(""), &opts)?
+                },
             };
-            anyhow::Context::context(JsValue::from_serde(&out), "failed to serialize json")
+
+            serde_wasm_bindgen::to_value(&out)
+                .map_err(|e| anyhow::anyhow!("failed to serialize json: {}", e))
         })
     })
     .map_err(|e| convert_err(e, Some(error_format)))
@@ -218,10 +227,13 @@ pub fn print_sync(s: JsValue, opts: JsValue) -> Result<JsValue, JsValue> {
             let opts: Options = if opts.is_null() || opts.is_undefined() {
                 Default::default()
             } else {
-                anyhow::Context::context(opts.into_serde(), "failed to parse options")?
+                serde_wasm_bindgen::from_value(opts)
+                    .map_err(|e| anyhow::anyhow!("failed to parse options: {}", e))?
             };
-            let program: Program =
-                anyhow::Context::context(s.into_serde(), "failed to deserialize program")?;
+
+            let program: Program = serde_wasm_bindgen::from_value(s)
+                .map_err(|e| anyhow::anyhow!("failed to deserialize program: {}", e))?;
+
             let s = anyhow::Context::context(
                 c.print(
                     &program,
@@ -241,7 +253,9 @@ pub fn print_sync(s: JsValue, opts: JsValue) -> Result<JsValue, JsValue> {
                 ),
                 "failed to print code",
             )?;
-            anyhow::Context::context(JsValue::from_serde(&s), "failed to serialize json")
+
+            serde_wasm_bindgen::to_value(&s)
+                .map_err(|e| anyhow::anyhow!("failed to serialize json: {}", e))
         })
     })
     .map_err(|e| convert_err(e, None))
