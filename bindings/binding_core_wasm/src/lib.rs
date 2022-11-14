@@ -1,4 +1,6 @@
 use anyhow::Error;
+use serde::Serialize;
+use serde_wasm_bindgen::Serializer;
 use swc_core::{
     base::HandlerOpts,
     binding_macros::wasm::{
@@ -20,6 +22,12 @@ use swc_core::{
 };
 use wasm_bindgen::{prelude::*, JsCast};
 mod types;
+
+// A serializer with options to provide backward compat for the input / output
+// from the bindgen generated swc interfaces.
+const COMPAT_SERIALIZER: Serializer = Serializer::new()
+    .serialize_maps_as_objects(true)
+    .serialize_missing_as_null(true);
 
 /// Custom interface definitions for the @swc/wasm's public interface instead of
 /// auto generated one, which is not reflecting most of types in detail.
@@ -88,8 +96,9 @@ pub fn minify_sync(s: JsString, opts: JsValue) -> Result<JsValue, JsValue> {
             let program =
                 anyhow::Context::context(c.minify(fm, handler, &opts), "failed to minify file")?;
 
-            serde_wasm_bindgen::to_value(&program)
-                .map_err(|e| anyhow::anyhow!("failed to deserialize program: {}", e))
+            program
+                .serialize(&COMPAT_SERIALIZER)
+                .map_err(|e| anyhow::anyhow!("failed to serialize program: {}", e))
         })
     })
     .map_err(|e| convert_err(e, None))
@@ -137,8 +146,9 @@ pub fn parse_sync(s: JsString, opts: JsValue) -> Result<JsValue, JsValue> {
                     opts.syntax.typescript(),
                 ));
 
-                serde_wasm_bindgen::to_value(&program)
-                    .map_err(|e| anyhow::anyhow!("failed to serialize json: {}", e))
+                program
+                    .serialize(&COMPAT_SERIALIZER)
+                    .map_err(|e| anyhow::anyhow!("failed to serialize program: {}", e))
             })
         })
     })
@@ -199,12 +209,12 @@ pub fn transform_sync(
                     )?
                 }
                 Err(v) => {
-                    c.process_js(handler, serde_wasm_bindgen::from_value(v).expect(""), &opts)?
-                },
+                    c.process_js(handler, serde_wasm_bindgen::from_value(v).expect("Should able to deserialize into program"), &opts)?
+                }
             };
 
-            serde_wasm_bindgen::to_value(&out)
-                .map_err(|e| anyhow::anyhow!("failed to serialize json: {}", e))
+            out.serialize(&COMPAT_SERIALIZER)
+                .map_err(|e| anyhow::anyhow!("failed to serialize transform result: {}", e))
         })
     })
     .map_err(|e| convert_err(e, Some(error_format)))
