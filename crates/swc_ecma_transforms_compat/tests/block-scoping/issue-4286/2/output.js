@@ -1,10 +1,10 @@
-var _loop = function(i) {
+var _loop__3 = function(i__1) {
     Promise.resolve().then(()=>{
-        console.log(`async: ${i}`);
+        console.log(`async: ${i__1}`);
     });
 };
-for (var i of [
+for (var i__1 of [
     1,
     2,
     3
-])_loop(i);
+])_loop__3(i__1);
