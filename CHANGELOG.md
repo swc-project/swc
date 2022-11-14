@@ -7,6 +7,9 @@
 
 - **(es/compat)** Improve `destructuring` pass (#6412) ([6728603](https://github.com/swc-project/swc/commit/67286032b1bd75ef1dac51201fe5ff65143f565a))
 
+
+- **(es/modules)** Fix `jsc.paths` of `.ts` imports (#6431) ([9c9c3eb](https://github.com/swc-project/swc/commit/9c9c3ebd2c9c4141e3449e19926636a77741980a))
+
 ### Refactor
 
 

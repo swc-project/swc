@@ -9,7 +9,7 @@ include       = ["Cargo.toml", "build.rs", "src/**/*.rs", "src/**/*.js"]
 license       = "Apache-2.0"
 name          = "swc_bundler"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.192.77"
+version       = "0.192.78"
 
   [package.metadata.docs.rs]
   all-features = true
@@ -44,7 +44,7 @@ swc_ecma_codegen                 = { version = "0.127.31", path = "../swc_ecma_c
 swc_ecma_loader                  = { version = "0.41.15", path = "../swc_ecma_loader" }
 swc_ecma_parser                  = { version = "0.122.26", path = "../swc_ecma_parser" }
 swc_ecma_transforms_base         = { version = "0.111.47", path = "../swc_ecma_transforms_base" }
-swc_ecma_transforms_optimization = { version = "0.167.47", path = "../swc_ecma_transforms_optimization" }
+swc_ecma_transforms_optimization = { version = "0.167.48", path = "../swc_ecma_transforms_optimization" }
 swc_ecma_utils                   = { version = "0.105.33", path = "../swc_ecma_utils" }
 swc_ecma_visit                   = { version = "0.80.19", path = "../swc_ecma_visit" }
 swc_fast_graph                   = { version = "0.17.15", path = "../swc_fast_graph/" }
@@ -61,12 +61,12 @@ swc_ecma_loader = { version = "0.41.15", path = "../swc_ecma_loader", features =
   "node",
   "cache",
 ] }
-swc_ecma_minifier = { version = "0.159.77", path = "../swc_ecma_minifier", features = [
+swc_ecma_minifier = { version = "0.159.78", path = "../swc_ecma_minifier", features = [
   "concurrent",
 ] }
 swc_ecma_transforms_proposal = { version = "0.144.40", path = "../swc_ecma_transforms_proposal" }
-swc_ecma_transforms_react = { version = "0.155.41", path = "../swc_ecma_transforms_react" }
-swc_ecma_transforms_typescript = { version = "0.159.43", path = "../swc_ecma_transforms_typescript" }
+swc_ecma_transforms_react = { version = "0.155.42", path = "../swc_ecma_transforms_react" }
+swc_ecma_transforms_typescript = { version = "0.159.44", path = "../swc_ecma_transforms_typescript" }
 swc_node_base = { version = "0.5.8", path = "../swc_node_base" }
 tempfile = "3.1.0"
 testing = { version = "0.31.14", path = "../testing" }
