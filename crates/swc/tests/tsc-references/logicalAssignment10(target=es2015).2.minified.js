@@ -1,5 +1,5 @@
 //// [logicalAssignment10.ts]
-var _obj, _ref, _ref1, _ref2, ref, ref1, count = 0, obj = {};
-null !== (ref = (_obj = obj)[_ref = ++count]) && void 0 !== ref || (_obj[_ref] = ++count), null !== (ref1 = (_ref1 = ({
+var _obj, _incr, _oobj_obj, _incr1, _, _1, count = 0, obj = {};
+null !== (_ = (_obj = obj)[_incr = ++count]) && void 0 !== _ || (_obj[_incr] = ++count), null !== (_1 = (_oobj_obj = ({
     obj
-}).obj)[_ref2 = ++count]) && void 0 !== ref1 || (_ref1[_ref2] = ++count);
+}).obj)[_incr1 = ++count]) && void 0 !== _1 || (_oobj_obj[_incr1] = ++count);

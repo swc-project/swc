@@ -5,7 +5,7 @@ use std::{
 
 use is_macro::Is;
 use string_enum::StringEnum;
-use swc_atoms::JsWord;
+use swc_atoms::{Atom, JsWord};
 use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span};
 
 use crate::Function;
@@ -16,8 +16,7 @@ pub struct Ident {
     pub span: Span,
     #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub value: JsWord,
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-    pub raw: Option<JsWord>,
+    pub raw: Option<Atom>,
 }
 
 impl EqIgnoreSpan for Ident {
@@ -42,8 +41,7 @@ pub struct CustomIdent {
     pub span: Span,
     #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub value: JsWord,
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-    pub raw: Option<JsWord>,
+    pub raw: Option<Atom>,
 }
 
 impl EqIgnoreSpan for CustomIdent {
@@ -58,8 +56,7 @@ pub struct DashedIdent {
     pub span: Span,
     #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub value: JsWord,
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-    pub raw: Option<JsWord>,
+    pub raw: Option<Atom>,
 }
 
 impl EqIgnoreSpan for DashedIdent {
@@ -74,8 +71,7 @@ pub struct CustomPropertyName {
     pub span: Span,
     #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub value: JsWord,
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-    pub raw: Option<JsWord>,
+    pub raw: Option<Atom>,
 }
 
 impl EqIgnoreSpan for CustomPropertyName {
@@ -91,8 +87,7 @@ pub struct Str {
     pub span: Span,
     #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub value: JsWord,
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-    pub raw: Option<JsWord>,
+    pub raw: Option<Atom>,
 }
 
 impl EqIgnoreSpan for Str {
@@ -164,8 +159,7 @@ pub struct HexColor {
     #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub value: JsWord,
     /// Does **not** include `#`
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-    pub raw: Option<JsWord>,
+    pub raw: Option<Atom>,
 }
 
 #[ast_node]
@@ -326,8 +320,7 @@ pub enum TimePercentage {
 pub struct Integer {
     pub span: Span,
     pub value: i64,
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-    pub raw: Option<JsWord>,
+    pub raw: Option<Atom>,
 }
 
 impl EqIgnoreSpan for Integer {
@@ -340,8 +333,7 @@ impl EqIgnoreSpan for Integer {
 pub struct Number {
     pub span: Span,
     pub value: f64,
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-    pub raw: Option<JsWord>,
+    pub raw: Option<Atom>,
 }
 
 impl Eq for Number {}
@@ -431,12 +423,7 @@ pub struct UrlValueRaw {
     pub span: Span,
     #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub value: JsWord,
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-    pub before: Option<JsWord>,
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-    pub raw: Option<JsWord>,
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-    pub after: Option<JsWord>,
+    pub raw: Option<Atom>,
 }
 
 #[ast_node]

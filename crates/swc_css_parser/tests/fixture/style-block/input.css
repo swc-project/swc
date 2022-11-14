@@ -113,3 +113,27 @@ a/**/
     }
 ;
 }
+
+a {
+    color: red;
+
+    .class {
+        color: green;
+    }
+
+    color: blue;
+}
+
+.foo {
+    color: red;
+
+    + .bar {
+        color: blue;
+    }
+}
+
+article {
+    color: green;
+    & { color: blue; }
+    color: red;
+}

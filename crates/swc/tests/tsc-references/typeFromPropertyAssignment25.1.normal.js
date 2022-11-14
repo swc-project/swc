@@ -8,9 +8,9 @@ Common.I = function _class() {
     _class_call_check(this, _class);
     this.i = 1;
 };
-Common.O = /*#__PURE__*/ function(_I) {
+Common.O = /*#__PURE__*/ function(_Common_I) {
     "use strict";
-    _inherits(_class, _I);
+    _inherits(_class, _Common_I);
     var _super = _create_super(_class);
     function _class() {
         _class_call_check(this, _class);

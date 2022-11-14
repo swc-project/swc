@@ -3,8 +3,8 @@ use swc_css_ast::*;
 use super::Compressor;
 
 impl Compressor {
-    pub(super) fn compress_import_prelude_href(&mut self, import_href: &mut ImportPreludeHref) {
-        if let ImportPreludeHref::Url(Url {
+    pub(super) fn compress_import_href(&mut self, import_href: &mut ImportHref) {
+        if let ImportHref::Url(Url {
             value: Some(value),
             modifiers,
             span,
@@ -22,7 +22,7 @@ impl Compressor {
                 UrlValue::Raw(UrlValueRaw { value, .. }) => value,
             };
 
-            *import_href = ImportPreludeHref::Str(Str {
+            *import_href = ImportHref::Str(Str {
                 span: *span,
                 value: (&*new_value).into(),
                 raw: None,

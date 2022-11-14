@@ -127,6 +127,66 @@
    `----
 
   x ComponentValue
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:3:5]
+ 3 | & test;
+   : ^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:3:5]
+ 3 | & test;
+   : ^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:3:5]
+ 3 | & test;
+   : ^
+   `----
+
+  x Delim { value: '&' }
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:3:5]
+ 3 | & test;
+   : ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:3:5]
+ 3 | & test;
+   :  ^
+   `----
+
+  x WhiteSpace { value: " " }
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:3:5]
+ 3 | & test;
+   :  ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:3:5]
+ 3 | & test;
+   :   ^^^^
+   `----
+
+  x Ident { value: Atom('test' type=inline), raw: "test" }
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:3:5]
+ 3 | & test;
+   :   ^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:3:5]
+ 3 | & test;
+   :       ^
+   `----
+
+  x Semi
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:3:5]
+ 3 | & test;
+   :       ^
+   `----
+
+  x ComponentValue
    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:4:5]
  4 | background: red
    : ^^^^^^^^^^^^^^^^
@@ -169,66 +229,6 @@
    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:4:5]
  4 | background: red
    :             ^^^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:3:5]
- 3 | & test;
-   : ^^^^^^^
-   `----
-
-  x StyleBlock
-   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:3:5]
- 3 | & test;
-   : ^^^^^^^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:3:5]
- 3 | & test;
-   : ^
-   `----
-
-  x Delim { value: '&' }
-   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:3:5]
- 3 | & test;
-   : ^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:3:5]
- 3 | & test;
-   :  ^
-   `----
-
-  x WhiteSpace { value: Atom(' ' type=inline) }
-   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:3:5]
- 3 | & test;
-   :  ^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:3:5]
- 3 | & test;
-   :   ^^^^
-   `----
-
-  x Ident { value: Atom('test' type=inline), raw: Atom('test' type=inline) }
-   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:3:5]
- 3 | & test;
-   :   ^^^^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:3:5]
- 3 | & test;
-   :       ^
-   `----
-
-  x Semi
-   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:3:5]
- 3 | & test;
-   :       ^
    `----
 
   x Rule
@@ -411,7 +411,13 @@
    : ^^^^^^^^^^^^^^^^^^
    `----
 
-  x SelectorList
+  x RelativeSelectorList
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:9:5]
+ 9 | & { color: blue; }
+   : ^
+   `----
+
+  x RelativeSelector
    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:9:5]
  9 | & { color: blue; }
    : ^
@@ -507,7 +513,13 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x SelectorList
+  x RelativeSelectorList
+    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:11:5]
+ 11 | &.foo { color: yellow; } /* valid! */
+    : ^^^^^
+    `----
+
+  x RelativeSelector
     ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:11:5]
  11 | &.foo { color: yellow; } /* valid! */
     : ^^^^^

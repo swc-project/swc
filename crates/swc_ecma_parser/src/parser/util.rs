@@ -315,7 +315,7 @@ pub(super) trait ExprExt {
             | Expr::TsTypeAssertion(TsTypeAssertion { ref expr, .. })
             | Expr::TsAs(TsAsExpr { ref expr, .. })
             | Expr::TsInstantiation(TsInstantiation { ref expr, .. })
-            | Expr::TsSatisfaction(TsSatisfactionExpr { ref expr, .. }) => {
+            | Expr::TsSatisfies(TsSatisfiesExpr { ref expr, .. }) => {
                 expr.is_valid_simple_assignment_target(strict)
             }
 

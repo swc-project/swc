@@ -38,9 +38,9 @@ test!(
     |_| tr(),
     issue_2821,
     r#"const [x, y, ...z] = [1];"#,
-    r#"const ref = [
+    r#"const _ref = [
     1
-], x = ref[0], y = ref[1], z = ref.slice(2)"#,
+], x = _ref[0], y = _ref[1], z = _ref.slice(2)"#,
     ok_if_code_eq
 );
 
@@ -257,8 +257,8 @@ test!(
     array_pat_assign_prop_binding_6,
     "const [foo = 1] = [];",
     "
-const ref = [],
-    tmp = ref[0],
+const _ref = [],
+    tmp = _ref[0],
     foo = tmp === void 0 ? 1 : tmp;
 "
 );
@@ -269,8 +269,8 @@ test!(
     array_pat_assign_prop_binding_7,
     "const [foo = 1] = [1, 2];",
     "
-const ref = [1, 2],
-    tmp = ref[0],
+const _ref = [1, 2],
+    tmp = _ref[0],
     foo = tmp === void 0 ? 1 : tmp;
 "
 );
@@ -306,9 +306,9 @@ test!(
     object_pat_assign_prop_2,
     "const {code = 1} = {}",
     "
-const ref = {},
-  _code = ref.code,
-  code = _code === void 0 ? 1 : _code;
+const _ref = {},
+  _ref_code = _ref.code,
+  code = _ref_code === void 0 ? 1 : _ref_code;
 "
 );
 
@@ -329,8 +329,8 @@ test!(
     object_pat_assign_prop_binding_2,
     "const {foo: bar = 1} = {}",
     "
-const ref = {},
-  tmp = ref.foo,
+const _ref = {},
+  tmp = _ref.foo,
   bar = tmp === void 0 ? 1 : tmp;
 "
 );
@@ -392,7 +392,7 @@ test!(
     |_| tr(),
     obj_assign_pat,
     r#"let { a = 1 } = foo"#,
-    r#"let _a = foo.a, a = _a === void 0 ? 1 : _a;"#
+    r#"let _foo_a = foo.a, a = _foo_a === void 0 ? 1 : _foo_a;"#
 );
 
 test!(
@@ -411,7 +411,7 @@ test!(
     |_| tr(),
     array1,
     r#"var [a, [b], [c]] = ["hello", [", ", "junk"], ["world"]];"#,
-    r#"var a = "hello", ref = [", ", "junk"], b = ref[0], c = "world";"#
+    r#"var a = "hello", _ref = [", ", "junk"], b = _ref[0], c = "world";"#
 );
 
 test!(
@@ -478,8 +478,8 @@ test!(
     |_| tr(),
     empty,
     r#"var [, a, [b], [c], d] = ["foo", "hello", [", ", "junk"], ["world"]];"#,
-    r#"var ref = ["foo", "hello", [", ", "junk"], ["world"]], a = ref[1], ref1 = ref[2],
-     b = ref1[0], ref2 = ref[3], c = ref2[0], d = ref[4];
+    r#"var _ref = ["foo", "hello", [", ", "junk"], ["world"]], a = _ref[1], _ref_ = _ref[2],
+     b = _ref_[0], _ref_1 = _ref[3], c = _ref_1[0], d = _ref[4];
 "#
 );
 
@@ -557,11 +557,11 @@ test!(
     export_variable_issue_2858_1,
     r#"export const { a: a2, b: b2 } = { a: 1, b: 2 };"#,
     r#"
-var ref = {
+var _ref = {
     a: 1,
     b: 2,
 };
-export const a2 = ref.a, b2 = ref.b;
+export const a2 = _ref.a, b2 = _ref.b;
 "#
 );
 
@@ -571,10 +571,10 @@ test!(
     export_variable_issue_2858_2,
     r#"export const { a: b } = { a: 1 }"#,
     r#"
-var ref = {
+var _ref = {
     a: 1
 };
-export const b = ref.a;
+export const b = _ref.a;
 "#
 );
 
@@ -590,16 +590,16 @@ export const {
 } = { a: 1, b: { c: 1 } };
 "#,
     r#"
-var ref = {
+var _ref = {
     a: 1,
     b: {
       c: 1,
     },
   },
-  _b = ref.b;
-export const a1 = ref.a,
-  b1 = ref.b,
-  c1 = _b.c;
+  _ref_b = _ref.b;
+export const a1 = _ref.a,
+  b1 = _ref.b,
+  c1 = _ref_b.c;
 "#
 );
 
@@ -1114,7 +1114,7 @@ test_exec!(
     r#"
 expect(function () {
   var {} = null;
-}).toThrow("Cannot destructure undefined");
+}).toThrow("Cannot destructure null");
 
 "#
 );
@@ -1360,9 +1360,9 @@ console.log(unpackArray(["hello", ", ", "world"], [1, 2, 3]));
 "#,
     r#"
 function somethingAdvanced(param, p2, p3) {
-  var tmp = param.topLeft, ref = tmp === void 0 ? {
-    } : tmp, x1 = ref.x, y1 = ref.y, tmp1 = param.bottomRight, ref1 = tmp1 === void 0 ? {
-    } : tmp1, x2 = ref1.x, y2 = ref1.y;
+  var tmp = param.topLeft, _ref = tmp === void 0 ? {
+    } : tmp, x1 = _ref.x, y1 = _ref.y, tmp1 = param.bottomRight, _ref1 = tmp1 === void 0 ? {
+    } : tmp1, x2 = _ref1.x, y2 = _ref1.y;
 }
 
 function unpackObject(param) {
@@ -1442,31 +1442,31 @@ test!(
     var a = 1,
         b = 2,
         c = [3, 4];
-    var ref = [1, 2, 3],
-        a = ref[0],
-        b = ref[1];
-    var ref1 = [1, 2, 3],
-        a = ref1[0],
-        b = ref1[1];
-    var ref2 = [a, b],
-        a = ref2[0],
-        b = ref2[1];
-    var ref3;
-    ref3 = [a[1], a[0]], a[0] = ref3[0], a[1] = ref3[1], ref3;
+    var _ref = [1, 2, 3],
+        a = _ref[0],
+        b = _ref[1];
+    var _ref1 = [1, 2, 3],
+        a = _ref1[0],
+        b = _ref1[1];
+    var _ref2 = [a, b],
+        a = _ref2[0],
+        b = _ref2[1];
+    var ref;
+    ref = [a[1], a[0]], a[0] = ref[0], a[1] = ref[1], ref;
 
 
-    var ref4 = _slicedToArray(_toConsumableArray(foo).concat([bar]), 2), a = ref4[0], b = ref4[1];
+    var _toConsumableArray_concat = _slicedToArray(_toConsumableArray(foo).concat([bar]), 2), a = _toConsumableArray_concat[0], b = _toConsumableArray_concat[1];
     // TODO: var ref4 = _toConsumableArray(foo).concat([bar]), a = ref4[0], b = ref4[1];
 
-var ref5 = [foo(), bar],
-    a = ref5[0],
-    b = ref5[1];
-var ref6 = [clazz.foo(), bar],
-    a = ref6[0],
-    b = ref6[1];
-var ref7 = [clazz.foo, bar],
-    a = ref7[0],
-    b = ref7[1];
+var _ref3 = [foo(), bar],
+    a = _ref3[0],
+    b = _ref3[1];
+var _ref4 = [clazz.foo(), bar],
+    a = _ref4[0],
+    b = _ref4[1];
+var _ref5 = [clazz.foo, bar],
+    a = _ref5[0],
+    b = _ref5[1];
 var a,
     b = 2;
 a = 1, b = 2;
@@ -1540,7 +1540,7 @@ var { [x]: x, ...y } = z;
     r#"
 var z = {};
 var x = _extends({
-}, z);
+}, _objectDestructuringEmpty(z));
 var x = z.x,
     y = _objectWithoutProperties(z, ["x"]);
 var x = z[x],
@@ -1627,16 +1627,15 @@ var { 3: foo, 5: bar } = [0, 1, 2, 3, 4, 5, 6];
 "#,
     r#"
 var rect = {};
-var _topLeft = rect.topLeft,
-    x1 = _topLeft.x,
-    y1 = _topLeft.y,
-    _bottomRight = rect.bottomRight,
-    x2 = _bottomRight.x,
-    y2 = _bottomRight.y;
-var ref = [0, 1, 2, 3, 4, 5, 6],
-    foo = ref[3],
-    bar = ref[5];
-
+var _rect_topLeft = rect.topLeft,
+    x1 = _rect_topLeft.x,
+    y1 = _rect_topLeft.y,
+    _rect_bottomRight = rect.bottomRight,
+    x2 = _rect_bottomRight.x,
+    y2 = _rect_bottomRight.y;
+var _ref = [0, 1, 2, 3, 4, 5, 6],
+    foo = _ref[3],
+    bar = _ref[5];
 "#
 );
 
@@ -1705,13 +1704,12 @@ var {topLeft: [x1, y1], bottomRight: [x2, y2] } = rect;
     r#"
 var rect = {};
 
-var _topLeft = _slicedToArray(rect.topLeft, 2),
-    x1 = _topLeft[0],
-    y1 = _topLeft[1],
-    _bottomRight = _slicedToArray(rect.bottomRight, 2),
-    x2 = _bottomRight[0],
-    y2 = _bottomRight[1];
-
+var _rect_topLeft = _slicedToArray(rect.topLeft, 2),
+    x1 = _rect_topLeft[0],
+    y1 = _rect_topLeft[1],
+    _rect_bottomRight = _slicedToArray(rect.bottomRight, 2),
+    x2 = _rect_bottomRight[0],
+    y2 = _rect_bottomRight[1];
 "#
 );
 
@@ -1779,17 +1777,17 @@ var [a, [b], [c]] = ["hello", [", ", "junk"], ["world"]];
 "#,
     r#"
 var a = "hello",
+    _ref = [", ", "junk"],
+    b = _ref[0],
+    c = "world";
+var ref, ref1;
+    a = "hello",
     ref = [", ", "junk"],
     b = ref[0],
-    c = "world";
-var ref1, ref2;
-    a = "hello",
-    ref1 = [", ", "junk"],
-    b = ref1[0],
-    ref1,
-    ref2 = ["world"],
-    c = ref2[0],
-    ref2;
+    ref,
+    ref1 = ["world"],
+    c = ref1[0],
+    ref1;
 "#
 );
 
@@ -1854,14 +1852,14 @@ const {
     r#"
 var input = {};
 
-var key = prefix + 'state',
-    key1 = `${prefix}consents`,
+var _key = prefix + 'state',
+    _key1 = `${prefix}consents`,
     givenName = input.given_name,
     lastName = input['last_name'],
     country = input[`country`],
-    state = input[key],
-    consents = input[key1],
-    rest = _objectWithoutProperties(input, ["given_name", 'last_name', `country`, key, key1].map(_toPropertyKey));
+    state = input[_key],
+    consents = input[_key1],
+    rest = _objectWithoutProperties(input, ["given_name", 'last_name', `country`, _key, _key1].map(_toPropertyKey));
 
 
 "#
@@ -2030,7 +2028,7 @@ test!(
     const [ { a: a_ = 1 } ] = b
     ",
     "
-    const ref = b[0], tmp = ref.a, a_ = tmp === void 0 ? 1 : tmp;
+    const _b_ = b[0], tmp = _b_.a, a_ = tmp === void 0 ? 1 : tmp;
     "
 );
 
@@ -2045,7 +2043,8 @@ test!(
     ",
     "
     async function f(a, b) {
-        const ref = JSON.parse(b), ref1 = ref[0], tmp = ref1.a, a_ = tmp === void 0 ? 1 : tmp;
+        const _JSON_parse = JSON.parse(b), _JSON_parse_ = _JSON_parse[0], tmp = _JSON_parse_.a, a_ \
+     = tmp === void 0 ? 1 : tmp;
     }
     "
 );
@@ -2209,8 +2208,8 @@ test!(
         yield 2;
     }
     let bar = foo();
-    const ref = [,bar.next().value], tmp = ref[0],
-    x = tmp === void 0 ? bar.next().value : tmp, y = ref[1];
+    const _ref = [,bar.next().value], tmp = _ref[0],
+    x = tmp === void 0 ? bar.next().value : tmp, y = _ref[1];
     console.log(x, y);"
 );
 
@@ -2267,7 +2266,7 @@ test!(
     |_| tr(),
     issue_6304,
     "let [] = [];",
-    "let ref = [];"
+    "let _ref = [];"
 );
 
 test!(
@@ -2275,7 +2274,7 @@ test!(
     |_| tr(),
     issue_6304_1,
     "let [] = [,];",
-    "let ref = [,];"
+    "let _ref = [,];"
 );
 
 test!(
@@ -2283,5 +2282,5 @@ test!(
     |_| tr(),
     issue_6304_2,
     "let [] = [...[1, 2, 3]];",
-    "let ref = [...[1, 2, 3]];"
+    "let _ref = [...[1, 2, 3]];"
 );

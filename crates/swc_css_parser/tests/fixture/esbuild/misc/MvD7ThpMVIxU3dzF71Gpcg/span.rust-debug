@@ -59,7 +59,7 @@
    :     ^
    `----
 
-  x Ident { value: Atom('c' type=inline), raw: Atom('c' type=inline) }
+  x Ident { value: Atom('c' type=inline), raw: "c" }
    ,-[$DIR/tests/fixture/esbuild/misc/MvD7ThpMVIxU3dzF71Gpcg/input.css:1:1]
  1 | ::b(c) {}
    :     ^

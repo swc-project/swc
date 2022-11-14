@@ -1,5 +1,5 @@
 
-  x Expected ident token at first position in <general-enclosed>
+  x Expected ident at first position in <general-enclosed>
    ,-[$DIR/tests/recovery/at-rule/media/feature-range-2/input.css:1:1]
  1 | @media (400px > "width" > 700px) {}
    :        ^^^^^^^^^^^^^^^^^^^^^^^^^

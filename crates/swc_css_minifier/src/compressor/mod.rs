@@ -139,10 +139,10 @@ impl VisitMut for Compressor {
         self.compress_keyframes_at_rule(n);
     }
 
-    fn visit_mut_import_prelude_href(&mut self, n: &mut ImportPreludeHref) {
+    fn visit_mut_import_href(&mut self, n: &mut ImportHref) {
         n.visit_mut_children_with(self);
 
-        self.compress_import_prelude_href(n);
+        self.compress_import_href(n);
     }
 
     fn visit_mut_media_query_list(&mut self, n: &mut MediaQueryList) {
@@ -400,10 +400,20 @@ impl VisitMut for Compressor {
                 | Token::Function { value, .. }
                 | Token::AtKeyword { value, .. }
                 | Token::String { value, .. }
-                | Token::BadString { value, .. }
-                | Token::Dimension { unit: value, .. }
+                | Token::Url { value, .. }
                     if !contains_only_ascii_characters(value) =>
                 {
+                    self.need_utf8_at_rule = true;
+                }
+                Token::BadString {
+                    raw_value: value, ..
+                }
+                | Token::BadUrl {
+                    raw_value: value, ..
+                } if !contains_only_ascii_characters(value) => {
+                    self.need_utf8_at_rule = true;
+                }
+                Token::Dimension { unit: value, .. } if !contains_only_ascii_characters(value) => {
                     self.need_utf8_at_rule = true;
                 }
                 _ => {}

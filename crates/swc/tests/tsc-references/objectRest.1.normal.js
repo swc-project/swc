@@ -1,12 +1,13 @@
 //// [objectRest.ts]
 import _extends from "@swc/helpers/src/_extends.mjs";
+import _object_destructuring_empty from "@swc/helpers/src/_object_destructuring_empty.mjs";
 import _object_without_properties from "@swc/helpers/src/_object_without_properties.mjs";
 import _to_property_key from "@swc/helpers/src/_to_property_key.mjs";
 var o = {
     a: 1,
     b: 'no'
 };
-var clone = _extends({}, o);
+var clone = _extends({}, _object_destructuring_empty(o));
 var { a  } = o, justB = _object_without_properties(o, [
     "a"
 ]);
@@ -31,7 +32,7 @@ var { d: renamed  } = o2, d = _object_without_properties(o2, [
     "d"
 ]);
 let nestedrest;
-var { x , n1: { y , n2: { z  }  }  } = nestedrest, nr = _extends({}, nestedrest.n1.n2.n3), restrest = _object_without_properties(nestedrest, [
+var { x , n1: { y , n2: { z  }  }  } = nestedrest, nr = _extends({}, _object_destructuring_empty(nestedrest.n1.n2.n3)), restrest = _object_without_properties(nestedrest, [
     "x",
     "n1"
 ]);

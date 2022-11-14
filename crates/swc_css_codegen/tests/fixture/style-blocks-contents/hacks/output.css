@@ -83,8 +83,8 @@ body:first-of-type .selector {}
   $property: value;color: red;
 }
 .selector {
-  color: red;
-  &property: value;}
+  &property: value;color: red;
+}
 .selector {
   *property: value;color: red;
 }

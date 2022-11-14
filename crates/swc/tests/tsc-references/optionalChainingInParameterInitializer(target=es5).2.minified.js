@@ -1,5 +1,5 @@
 //// [optionalChainingInParameterInitializer.ts]
-var ref, a = function() {};
+var _a, a = function() {};
 !function() {
-    arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : null === (ref = a()) || void 0 === ref || ref.d;
+    arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : null === (_a = a()) || void 0 === _a || _a.d;
 }();

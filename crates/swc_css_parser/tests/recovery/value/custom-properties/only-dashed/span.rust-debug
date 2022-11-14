@@ -91,7 +91,7 @@
    : ^^
    `----
 
-  x Ident { value: Atom('--' type=inline), raw: Atom('--' type=inline) }
+  x Ident { value: Atom('--' type=inline), raw: "--" }
    ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:2:5]
  2 | --:value;
    : ^^
@@ -115,7 +115,7 @@
    :    ^^^^^
    `----
 
-  x Ident { value: Atom('value' type=inline), raw: Atom('value' type=inline) }
+  x Ident { value: Atom('value' type=inline), raw: "value" }
    ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:2:5]
  2 | --:value;
    :    ^^^^^
@@ -232,7 +232,7 @@
    :                ^^
    `----
 
-  x Ident { value: Atom('--' type=inline), raw: Atom('--' type=inline) }
+  x Ident { value: Atom('--' type=inline), raw: "--" }
    ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:6:5]
  6 | counter-reset: -- --a -a;
    :                ^^
@@ -244,7 +244,7 @@
    :                  ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:6:5]
  6 | counter-reset: -- --a -a;
    :                  ^
@@ -256,7 +256,7 @@
    :                   ^^^
    `----
 
-  x Ident { value: Atom('--a' type=inline), raw: Atom('--a' type=inline) }
+  x Ident { value: Atom('--a' type=inline), raw: "--a" }
    ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:6:5]
  6 | counter-reset: -- --a -a;
    :                   ^^^
@@ -268,7 +268,7 @@
    :                      ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:6:5]
  6 | counter-reset: -- --a -a;
    :                      ^
@@ -280,7 +280,7 @@
    :                       ^^
    `----
 
-  x Ident { value: Atom('-a' type=inline), raw: Atom('-a' type=inline) }
+  x Ident { value: Atom('-a' type=inline), raw: "-a" }
    ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:6:5]
  6 | counter-reset: -- --a -a;
    :                       ^^

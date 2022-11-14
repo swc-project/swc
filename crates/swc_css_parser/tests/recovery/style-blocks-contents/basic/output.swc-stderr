@@ -29,9 +29,14 @@
     : ^
     `----
 
-  x Unexpected end of file, but expected '{'
+  x Expected '{'
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:39:5]
  39 | & test;
-    : ^^^^^^^^
- 40 | }
+    :       ^
+    `----
+
+  x Unexpected token
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:39:5]
+ 39 | & test;
+    : ^
     `----

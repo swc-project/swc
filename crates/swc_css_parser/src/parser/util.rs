@@ -3,8 +3,11 @@ use std::ops::{Deref, DerefMut};
 use swc_common::{Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_css_ast::*;
 
-use super::{input::ParserInput, Ctx, PResult, Parse, Parser};
-use crate::parser::input::ListOfComponentValuesInput;
+use super::{
+    input::{Input, InputType, ParserInput},
+    Ctx, Error, PResult, Parse, Parser,
+};
+use crate::parser::BlockContentsGrammar;
 
 impl<I> Parser<I>
 where
@@ -60,9 +63,9 @@ where
     pub(super) fn parse_according_to_grammar<T>(
         &mut self,
         list_of_component_values: &ListOfComponentValues,
-        op: impl FnOnce(&mut Parser<ListOfComponentValuesInput>) -> PResult<T>,
+        op: impl FnOnce(&mut Parser<Input>) -> PResult<T>,
     ) -> PResult<T> {
-        let lexer = ListOfComponentValuesInput::new(list_of_component_values);
+        let lexer = Input::new(InputType::ListOfComponentValues(list_of_component_values));
         let mut parser = Parser::new(lexer, self.config);
         let res = op(&mut parser.with_ctx(self.ctx));
 
@@ -73,11 +76,13 @@ where
 
     pub(super) fn try_to_parse_legacy_nesting(&mut self) -> Option<QualifiedRule> {
         let state = self.input.state();
-        let ctx = Ctx {
-            is_trying_legacy_nesting: true,
-            ..self.ctx
-        };
-        let qualified_rule = self.with_ctx(ctx).parse_as::<QualifiedRule>();
+        let qualified_rule = self
+            .with_ctx(Ctx {
+                block_contents_grammar: BlockContentsGrammar::StyleBlock,
+                mixed_with_declarations: true,
+                ..self.ctx
+            })
+            .parse_as::<QualifiedRule>();
 
         match qualified_rule {
             Ok(qualified_rule) => Some(qualified_rule),
@@ -89,82 +94,34 @@ where
         }
     }
 
-    pub(super) fn legacy_nested_selector_list_to_modern_selector_list(
-        &mut self,
-        mut selector_list: SelectorList,
-    ) -> PResult<SelectorList> {
-        for s in selector_list.children.iter_mut() {
-            if s.children.iter().any(|s| match s {
-                ComplexSelectorChildren::CompoundSelector(s) => s.nesting_selector.is_some(),
-                _ => false,
-            }) {
-                continue;
-            }
-
-            s.children.insert(
-                0,
-                ComplexSelectorChildren::CompoundSelector(CompoundSelector {
-                    span: DUMMY_SP,
-                    nesting_selector: Some(NestingSelector { span: DUMMY_SP }),
-                    type_selector: Default::default(),
-                    subclass_selectors: Default::default(),
-                }),
-            );
-            s.children.insert(
-                1,
-                ComplexSelectorChildren::Combinator(Combinator {
-                    span: DUMMY_SP,
-                    value: CombinatorValue::Descendant,
-                }),
-            );
-        }
-
-        Ok(selector_list)
-    }
-
-    pub(super) fn legacy_relative_selector_list_to_modern_selector_list(
-        &mut self,
-        relative_selector_list: RelativeSelectorList,
-    ) -> PResult<SelectorList> {
-        let mut selector_list = SelectorList {
-            span: relative_selector_list.span,
-            children: Vec::with_capacity(relative_selector_list.children.len()),
+    pub(super) fn try_to_parse_declaration_in_parens(&mut self) -> Option<Declaration> {
+        let mut temporary_list = ListOfComponentValues {
+            span: Default::default(),
+            children: vec![],
         };
 
-        for relative_selector in relative_selector_list.children.into_iter() {
-            let mut complex_selector = relative_selector.selector.clone();
+        while !is_one_of!(self, ")", EOF) {
+            let component_value = match self.parse_as::<ComponentValue>() {
+                Ok(component_value) => component_value,
+                Err(_) => return None,
+            };
 
-            complex_selector.children.insert(
-                0,
-                ComplexSelectorChildren::CompoundSelector(CompoundSelector {
-                    span: DUMMY_SP,
-                    nesting_selector: Some(NestingSelector { span: DUMMY_SP }),
-                    type_selector: Default::default(),
-                    subclass_selectors: Default::default(),
-                }),
-            );
-
-            match relative_selector.combinator {
-                Some(combinator) => {
-                    complex_selector
-                        .children
-                        .insert(1, ComplexSelectorChildren::Combinator(combinator));
-                }
-                _ => {
-                    complex_selector.children.insert(
-                        1,
-                        ComplexSelectorChildren::Combinator(Combinator {
-                            span: DUMMY_SP,
-                            value: CombinatorValue::Descendant,
-                        }),
-                    );
-                }
-            }
-
-            selector_list.children.push(complex_selector);
+            temporary_list.children.push(component_value);
         }
 
-        Ok(selector_list)
+        match self
+            .parse_according_to_grammar::<Declaration>(&temporary_list, |parser| parser.parse_as())
+        {
+            Ok(decl) => Some(decl),
+            Err(_) => None,
+        }
+    }
+
+    pub(super) fn parse_declaration_from_temporary_list(
+        &mut self,
+        temporary_list: &ListOfComponentValues,
+    ) -> PResult<Declaration> {
+        self.parse_according_to_grammar::<Declaration>(temporary_list, |parser| parser.parse_as())
     }
 }
 

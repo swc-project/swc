@@ -5,14 +5,14 @@ class Base {
 }
 class Derived extends Base {
     method() {
-        var ref;
-        return (ref = super.method) === null || ref === void 0 ? void 0 : ref.call(this);
+        var _super_method;
+        return (_super_method = super.method) === null || _super_method === void 0 ? void 0 : _super_method.call(this);
     }
     asyncMethod() {
         var _this = this, _superprop_get_method = ()=>super.method;
         return _async_to_generator(function*() {
-            var ref;
-            return (ref = _superprop_get_method()) === null || ref === void 0 ? void 0 : ref.call(_this);
+            var _super_method;
+            return (_super_method = _superprop_get_method()) === null || _super_method === void 0 ? void 0 : _super_method.call(_this);
         })();
     }
 }

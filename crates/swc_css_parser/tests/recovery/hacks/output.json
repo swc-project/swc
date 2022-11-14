@@ -8523,37 +8523,6 @@
         },
         "value": [
           {
-            "type": "Declaration",
-            "span": {
-              "start": 2568,
-              "end": 2578,
-              "ctxt": 0
-            },
-            "name": {
-              "type": "Ident",
-              "span": {
-                "start": 2568,
-                "end": 2573,
-                "ctxt": 0
-              },
-              "value": "color",
-              "raw": "color"
-            },
-            "value": [
-              {
-                "type": "Ident",
-                "span": {
-                  "start": 2575,
-                  "end": 2578,
-                  "ctxt": 0
-                },
-                "value": "red",
-                "raw": "red"
-              }
-            ],
-            "important": null
-          },
-          {
             "type": "ListOfComponentValues",
             "span": {
               "start": 2546,
@@ -8634,6 +8603,37 @@
                 "token": "Semi"
               }
             ]
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 2568,
+              "end": 2578,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 2568,
+                "end": 2573,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Ident",
+                "span": {
+                  "start": 2575,
+                  "end": 2578,
+                  "ctxt": 0
+                },
+                "value": "red",
+                "raw": "red"
+              }
+            ],
+            "important": null
           }
         ]
       }

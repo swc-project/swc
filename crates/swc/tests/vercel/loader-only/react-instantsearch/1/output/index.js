@@ -72,7 +72,7 @@ function serializeQueryParameters(parameters) {
  * @param {number} stalledSearchDelay - time (in ms) after the search is stalled
  * @return {InstantSearchManager} a new instance of InstantSearchManager
  */ export default function createInstantSearchManager(param) {
-    var indexName = param.indexName, _initialState = param.initialState, initialState = _initialState === void 0 ? {} : _initialState, searchClient = param.searchClient, resultsState = param.resultsState, stalledSearchDelay = param.stalledSearchDelay;
+    var indexName = param.indexName, _param_initialState = param.initialState, initialState = _param_initialState === void 0 ? {} : _param_initialState, searchClient = param.searchClient, resultsState = param.resultsState, stalledSearchDelay = param.stalledSearchDelay;
     var createStore = function createStore(initialState) {
         var state = initialState;
         var listeners = [];
@@ -160,7 +160,7 @@ function serializeQueryParameters(parameters) {
     };
     var search = function search() {
         if (!skip) {
-            var ref = getSearchParameters(helper.state), mainParameters = ref.mainParameters, derivedParameters = ref.derivedParameters;
+            var _getSearchParameters = getSearchParameters(helper.state), mainParameters = _getSearchParameters.mainParameters, derivedParameters = _getSearchParameters.derivedParameters;
             // We have to call `slice` because the method `detach` on the derived
             // helpers mutates the value `derivedHelpers`. The `forEach` loop does
             // not iterate on each value and we're not able to correctly clear the
@@ -247,15 +247,15 @@ function serializeQueryParameters(parameters) {
     };
     var handleNewSearch = function handleNewSearch() {
         if (!stalledSearchTimer) {
-            var _tmp;
-            _tmp = setTimeout(function() {
-                var _ref = store.getState(), resultsFacetValues = _ref.resultsFacetValues, partialState = _object_without_properties(_ref, [
+            var _setTimeout;
+            _setTimeout = setTimeout(function() {
+                var _store_getState = store.getState(), resultsFacetValues = _store_getState.resultsFacetValues, partialState = _object_without_properties(_store_getState, [
                     "resultsFacetValues"
                 ]);
                 store.setState(_object_spread_props(_object_spread({}, partialState), {
                     isSearchStalled: true
                 }));
-            }, stalledSearchDelay), stalledSearchTimer = _tmp, _tmp;
+            }, stalledSearchDelay), stalledSearchTimer = _setTimeout, _setTimeout;
         }
     };
     var hydrateSearchClient = function hydrateSearchClient(client, results) {
@@ -427,7 +427,7 @@ function serializeQueryParameters(parameters) {
         search();
     };
     var onSearchForFacetValues = function onSearchForFacetValues(param) {
-        var facetName = param.facetName, query = param.query, _maxFacetHits = param.maxFacetHits, maxFacetHits = _maxFacetHits === void 0 ? 10 : _maxFacetHits;
+        var facetName = param.facetName, query = param.query, _param_maxFacetHits = param.maxFacetHits, maxFacetHits = _param_maxFacetHits === void 0 ? 10 : _param_maxFacetHits;
         // The values 1, 100 are the min / max values that the engine accepts.
         // see: https://www.algolia.com/doc/api-reference/api-parameters/maxFacetHits
         var maxFacetHitsWithinRange = Math.max(1, Math.min(maxFacetHits, 100));

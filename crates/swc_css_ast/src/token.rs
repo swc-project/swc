@@ -5,7 +5,7 @@ use std::{
 
 use is_macro::Is;
 use serde::{Deserialize, Serialize};
-use swc_atoms::JsWord;
+use swc_atoms::{Atom, JsWord};
 use swc_common::{ast_node, EqIgnoreSpan, Span};
 
 #[ast_node("PreservedToken")]
@@ -52,23 +52,20 @@ pub enum Token {
     Ident {
         #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         value: JsWord,
-        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-        raw: JsWord,
+        raw: Atom,
     },
 
     Function {
         #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         value: JsWord,
-        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-        raw: JsWord,
+        raw: Atom,
     },
 
     /// `@`
     AtKeyword {
         #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         value: JsWord,
-        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-        raw: JsWord,
+        raw: Atom,
     },
 
     /// `#`
@@ -76,49 +73,34 @@ pub enum Token {
         is_id: bool,
         #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         value: JsWord,
-        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-        raw: JsWord,
+        raw: Atom,
     },
 
     String {
         #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         value: JsWord,
-        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-        raw: JsWord,
+        raw: Atom,
     },
 
     BadString {
-        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-        value: JsWord,
-        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-        raw: JsWord,
+        raw_value: Atom,
     },
 
     /// `url(value)`
     Url {
         #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         name: JsWord,
-        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-        raw_name: JsWord,
-        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-        before: JsWord,
-        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-        after: JsWord,
+        raw_name: Atom,
         #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         value: JsWord,
-        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-        raw_value: JsWord,
+        raw_value: Atom,
     },
 
     BadUrl {
         #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         name: JsWord,
-        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-        raw_name: JsWord,
-        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-        value: JsWord,
-        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-        raw_value: JsWord,
+        raw_name: Atom,
+        raw_value: Atom,
     },
 
     Delim {
@@ -127,34 +109,29 @@ pub enum Token {
 
     Number {
         value: f64,
-        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-        raw: JsWord,
+        raw: Atom,
         #[serde(rename = "type")]
         type_flag: NumberType,
     },
 
     Percentage {
         value: f64,
-        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-        raw: JsWord,
+        raw: Atom,
     },
 
     Dimension {
         value: f64,
-        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-        raw_value: JsWord,
+        raw_value: Atom,
         #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         unit: JsWord,
-        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-        raw_unit: JsWord,
+        raw_unit: Atom,
         #[serde(rename = "type")]
         type_flag: NumberType,
     },
 
     /// One or more whitespace.
     WhiteSpace {
-        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-        value: JsWord,
+        value: Atom,
     },
 
     /// `<!--`
@@ -213,10 +190,12 @@ impl Hash for Token {
             Token::Ident { value, raw }
             | Token::Function { value, raw }
             | Token::AtKeyword { value, raw }
-            | Token::String { value, raw }
-            | Token::BadString { value, raw } => {
+            | Token::String { value, raw } => {
                 value.hash(state);
                 raw.hash(state);
+            }
+            Token::BadString { raw_value } => {
+                raw_value.hash(state);
             }
             Token::Hash { value, raw, is_id } => {
                 value.hash(state);
@@ -226,27 +205,21 @@ impl Hash for Token {
             Token::Url {
                 name,
                 raw_name,
-                before,
-                after,
                 value,
                 raw_value,
             } => {
                 name.hash(state);
                 raw_name.hash(state);
-                before.hash(state);
-                after.hash(state);
                 value.hash(state);
                 raw_value.hash(state);
             }
             Token::BadUrl {
                 name,
                 raw_name,
-                value,
                 raw_value,
             } => {
                 name.hash(state);
                 raw_name.hash(state);
-                value.hash(state);
                 raw_value.hash(state);
             }
             Token::Delim { value } => {

@@ -570,7 +570,7 @@
     :        ^^^
     `----
 
-  x Ident { value: Atom('bar' type=inline), raw: Atom('bar' type=inline) }
+  x Ident { value: Atom('bar' type=inline), raw: "bar" }
     ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:15:5]
  15 | --foo: bar;
     :        ^^^
@@ -678,7 +678,7 @@
     :        ^^^
     `----
 
-  x Ident { value: Atom('bar' type=inline), raw: Atom('bar' type=inline) }
+  x Ident { value: Atom('bar' type=inline), raw: "bar" }
     ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:19:5]
  19 | --foo: bar;
     :        ^^^

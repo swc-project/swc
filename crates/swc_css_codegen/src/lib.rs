@@ -93,6 +93,10 @@ where
                 emit!(self, n);
                 formatting_space!(self);
             }
+            QualifiedRulePrelude::RelativeSelectorList(n) => {
+                emit!(self, n);
+                formatting_space!(self);
+            }
             QualifiedRulePrelude::ListOfComponentValues(n) => {
                 emit!(
                     &mut *self.with_ctx(Ctx {
@@ -206,10 +210,10 @@ where
             }
             AtRulePrelude::ImportPrelude(n) => {
                 match &*n.href {
-                    ImportPreludeHref::Url(_) => {
+                    ImportHref::Url(_) => {
                         space!(self);
                     }
-                    ImportPreludeHref::Str(_) => {
+                    ImportHref::Str(_) => {
                         formatting_space!(self);
                     }
                 }
@@ -331,68 +335,69 @@ where
     }
 
     #[emitter]
-    fn emit_import_prelude_supports_type(&mut self, n: &ImportPreludeSupportsType) -> Result {
-        match n {
-            ImportPreludeSupportsType::SupportsCondition(n) => emit!(self, n),
-            ImportPreludeSupportsType::Declaration(n) => emit!(self, n),
-        }
-    }
-
-    #[emitter]
     fn emit_import_prelude(&mut self, n: &ImportPrelude) -> Result {
         emit!(self, n.href);
 
-        if let Some(layer_name) = &n.layer_name {
+        if n.layer_name.is_some() || n.import_conditions.is_some() {
             formatting_space!(self);
+        }
+
+        if let Some(layer_name) = &n.layer_name {
             emit!(self, layer_name);
 
-            if self.config.minify && (n.supports.is_some() || n.media.is_some()) {
-                if let ImportPreludeLayerName::Ident(_) = &**layer_name {
+            if n.import_conditions.is_some() {
+                if let ImportLayerName::Ident(_) = &**layer_name {
                     space!(self);
+                } else {
+                    formatting_space!(self);
                 }
             }
         }
 
-        if let Some(supports) = &n.supports {
-            formatting_space!(self);
-            write_raw!(self, "supports");
-            write_raw!(self, "(");
-            emit!(self, supports);
-            write_raw!(self, ")");
-        }
+        emit!(self, n.import_conditions);
+    }
 
-        if let Some(media) = &n.media {
-            formatting_space!(self);
-            emit!(self, media);
+    #[emitter]
+    fn emit_import_prelude_href(&mut self, n: &ImportHref) -> Result {
+        match n {
+            ImportHref::Url(n) => emit!(self, n),
+            ImportHref::Str(n) => emit!(self, n),
         }
     }
 
     #[emitter]
-    fn emit_import_prelude_href(&mut self, n: &ImportPreludeHref) -> Result {
+    fn emit_import_layer_name(&mut self, n: &ImportLayerName) -> Result {
         match n {
-            ImportPreludeHref::Url(n) => emit!(self, n),
-            ImportPreludeHref::Str(n) => emit!(self, n),
-        }
-    }
-
-    #[emitter]
-    fn emit_import_layer_name(&mut self, n: &ImportPreludeLayerName) -> Result {
-        match n {
-            ImportPreludeLayerName::Ident(n) => emit!(self, n),
-            ImportPreludeLayerName::Function(n) if n.value.is_empty() => {
+            ImportLayerName::Ident(n) => emit!(self, n),
+            ImportLayerName::Function(n) if n.value.is_empty() => {
                 // Never emit `layer()`
                 emit!(
                     self,
                     AtRuleName::Ident(swc_css_ast::Ident {
                         span: n.span,
                         value: js_word!("layer"),
-                        raw: Some(js_word!("layer"))
+                        raw: None
                     })
                 )
             }
-            ImportPreludeLayerName::Function(n) => {
+            ImportLayerName::Function(n) => {
                 emit!(self, n)
             }
+        }
+    }
+
+    #[emitter]
+    fn emit_import_conditions(&mut self, n: &ImportConditions) -> Result {
+        if let Some(supports) = &n.supports {
+            emit!(self, supports);
+
+            if n.media.is_some() {
+                formatting_space!(self);
+            }
+        }
+
+        if let Some(media) = &n.media {
+            emit!(self, media);
         }
     }
 
@@ -1402,6 +1407,8 @@ where
             ComponentValue::CalcSum(n) => emit!(self, n),
             ComponentValue::ComplexSelector(n) => emit!(self, n),
             ComponentValue::LayerName(n) => emit!(self, n),
+            ComponentValue::Declaration(n) => emit!(self, n),
+            ComponentValue::SupportsCondition(n) => emit!(self, n),
         }
     }
 
@@ -1971,8 +1978,8 @@ where
 
                 write_raw!(self, span, &function);
             }
-            Token::BadString { raw, .. } => {
-                write_str!(self, span, raw);
+            Token::BadString { raw_value } => {
+                write_str!(self, span, raw_value);
             }
             Token::String { raw, .. } => {
                 write_str!(self, span, raw);
@@ -1980,19 +1987,13 @@ where
             Token::Url {
                 raw_name,
                 raw_value,
-                before,
-                after,
                 ..
             } => {
-                let mut url = String::with_capacity(
-                    raw_name.len() + before.len() + raw_value.len() + after.len() + 2,
-                );
+                let mut url = String::with_capacity(raw_name.len() + raw_value.len() + 2);
 
                 url.push_str(raw_name);
                 url.push('(');
-                url.push_str(before);
                 url.push_str(raw_value);
-                url.push_str(after);
                 url.push(')');
 
                 write_str!(self, span, &url);
@@ -2002,7 +2003,7 @@ where
                 raw_value,
                 ..
             } => {
-                let mut bad_url = String::with_capacity(raw_name.len() + raw_value.len() + 2);
+                let mut bad_url = String::with_capacity(raw_value.len() + 2);
 
                 bad_url.push_str(raw_name);
                 bad_url.push('(');
@@ -2090,12 +2091,10 @@ where
             url.push_str(&n.value);
 
             write_str!(self, n.span, &url);
-        } else if let (Some(before), Some(raw), Some(after)) = (&n.before, &n.raw, &n.after) {
-            let mut url = String::with_capacity(before.len() + raw.len() + after.len());
+        } else if let Some(raw) = &n.raw {
+            let mut url = String::with_capacity(raw.len());
 
-            url.push_str(before);
             url.push_str(raw);
-            url.push_str(after);
 
             write_str!(self, n.span, &url);
         } else {

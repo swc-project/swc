@@ -1,7 +1,12 @@
 
-  x Unexpected end of file, but expected '{'
+  x Expected '{'
    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested/input.css:3:5]
- 3 | ,-> & test;
- 4 | `->     background: red;
- 5 |     }
+ 3 | & test;
+   :       ^
+   `----
+
+  x Unexpected token
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested/input.css:3:5]
+ 3 | & test;
+   : ^
    `----

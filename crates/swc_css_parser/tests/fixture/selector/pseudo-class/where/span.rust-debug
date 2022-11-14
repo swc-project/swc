@@ -3905,7 +3905,7 @@
     :            ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:26:1]
  26 | h1:where(<> p) {}
     :            ^
@@ -3917,7 +3917,7 @@
     :             ^
     `----
 
-  x Ident { value: Atom('p' type=static), raw: Atom('p' type=static) }
+  x Ident { value: Atom('p' type=static), raw: "p" }
     ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:26:1]
  26 | h1:where(<> p) {}
     :             ^
@@ -4061,7 +4061,7 @@
     :            ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:27:1]
  27 | h1:where(a, <> p) {}
     :            ^
@@ -4097,7 +4097,7 @@
     :               ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:27:1]
  27 | h1:where(a, <> p) {}
     :               ^
@@ -4109,7 +4109,7 @@
     :                ^
     `----
 
-  x Ident { value: Atom('p' type=static), raw: Atom('p' type=static) }
+  x Ident { value: Atom('p' type=static), raw: "p" }
     ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:27:1]
  27 | h1:where(a, <> p) {}
     :                ^
@@ -4241,7 +4241,7 @@
     :            ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:28:1]
  28 | h1:where(<> p,a) {}
     :            ^
@@ -4253,7 +4253,7 @@
     :             ^
     `----
 
-  x Ident { value: Atom('p' type=static), raw: Atom('p' type=static) }
+  x Ident { value: Atom('p' type=static), raw: "p" }
     ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:28:1]
  28 | h1:where(<> p,a) {}
     :             ^
@@ -4433,7 +4433,7 @@
     :            ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:29:1]
  29 | h1:where(a, <> p,a) {}
     :            ^
@@ -4469,7 +4469,7 @@
     :               ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:29:1]
  29 | h1:where(a, <> p,a) {}
     :               ^
@@ -4481,7 +4481,7 @@
     :                ^
     `----
 
-  x Ident { value: Atom('p' type=static), raw: Atom('p' type=static) }
+  x Ident { value: Atom('p' type=static), raw: "p" }
     ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:29:1]
  29 | h1:where(a, <> p,a) {}
     :                ^

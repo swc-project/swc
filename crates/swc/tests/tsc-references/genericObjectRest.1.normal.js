@@ -1,10 +1,11 @@
 //// [genericObjectRest.ts]
 import _extends from "@swc/helpers/src/_extends.mjs";
+import _object_destructuring_empty from "@swc/helpers/src/_object_destructuring_empty.mjs";
 import _object_without_properties from "@swc/helpers/src/_object_without_properties.mjs";
 import _to_property_key from "@swc/helpers/src/_to_property_key.mjs";
 const a = 'a';
 function f1(obj) {
-    let r0 = _extends({}, obj);
+    let r0 = _extends({}, _object_destructuring_empty(obj));
     let { a: a1  } = obj, r1 = _object_without_properties(obj, [
         "a"
     ]);

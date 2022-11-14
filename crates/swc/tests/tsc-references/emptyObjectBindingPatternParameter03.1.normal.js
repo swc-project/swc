@@ -1,6 +1,6 @@
 //// [emptyObjectBindingPatternParameter03.ts]
-import _throw from "@swc/helpers/src/_throw.mjs";
+import _object_destructuring_empty from "@swc/helpers/src/_object_destructuring_empty.mjs";
 function f(param, a) {
-    var param = param !== null ? param : _throw(new TypeError("Cannot destructure undefined"));
+    var ref = _object_destructuring_empty(param);
     var x, y, z;
 }

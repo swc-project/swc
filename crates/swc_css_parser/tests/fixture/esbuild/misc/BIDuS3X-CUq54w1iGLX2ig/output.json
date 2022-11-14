@@ -60,37 +60,45 @@
           "modifiers": []
         },
         "layerName": null,
-        "supports": null,
-        "media": {
-          "type": "MediaQueryList",
+        "importConditions": {
+          "type": "ImportCondition",
           "span": {
             "start": 24,
             "end": 29,
             "ctxt": 0
           },
-          "queries": [
-            {
-              "type": "MediaQuery",
-              "span": {
-                "start": 24,
-                "end": 29,
-                "ctxt": 0
-              },
-              "modifier": null,
-              "mediaType": {
-                "type": "Ident",
+          "supports": null,
+          "media": {
+            "type": "MediaQueryList",
+            "span": {
+              "start": 24,
+              "end": 29,
+              "ctxt": 0
+            },
+            "queries": [
+              {
+                "type": "MediaQuery",
                 "span": {
                   "start": 24,
                   "end": 29,
                   "ctxt": 0
                 },
-                "value": "print",
-                "raw": "print"
-              },
-              "keyword": null,
-              "condition": null
-            }
-          ]
+                "modifier": null,
+                "mediaType": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 24,
+                    "end": 29,
+                    "ctxt": 0
+                  },
+                  "value": "print",
+                  "raw": "print"
+                },
+                "keyword": null,
+                "condition": null
+              }
+            ]
+          }
         }
       },
       "block": null

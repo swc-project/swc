@@ -794,7 +794,7 @@ where
             Expr::TsInstantiation(ref n) => emit!(n),
             Expr::OptChain(ref n) => emit!(n),
             Expr::Invalid(ref n) => emit!(n),
-            Expr::TsSatisfaction(n) => {
+            Expr::TsSatisfies(n) => {
                 emit!(n)
             }
         }
@@ -1229,6 +1229,19 @@ where
             }
             emit!(node.super_class);
             emit!(node.super_type_params);
+        }
+
+        if !node.implements.is_empty() {
+            space!();
+            keyword!("implements");
+
+            space!();
+
+            self.emit_list(
+                node.span,
+                Some(&node.implements),
+                ListFormat::ClassHeritageClauses,
+            )?;
         }
 
         formatting_space!();

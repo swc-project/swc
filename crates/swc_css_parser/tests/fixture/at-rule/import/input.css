@@ -123,8 +123,7 @@ st.css');
 @import url(package/first.css);
 @import url(package/second.css);
 
-/*@import url("./test.css") supports();*/
-/*@import url("./test.css") supports(unknown);*/
+@import url("./test.css") supports();
 @import url("./test.css") supports(display: flex);
 @import url("./test.css") supports(display: flex !important);
 @import url("./test.css") supports(display: flex) screen and (min-width: 400px);
@@ -161,8 +160,11 @@ st.css');
 @import url(base-headings.css) layer;
 @import url("tabs.css") layer(framework.component);
 @import url("override.css") layer;
+@import url("fallback-layout.css") supports(not (display: flex));
+@import url("narrow.css") supports(display: flex) screen and (max-width: 400px);
 
-/*@import url("./test.css") unknown(default) unknown(display: flex) unknown;*/
+@import "test.css" supports(   display: flex   );
+@import url("tabs.css") layer(   framework.component   );
 
 /*.foo {*/
 /*    @import 'path.css';*/

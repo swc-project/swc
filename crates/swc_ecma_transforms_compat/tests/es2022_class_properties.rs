@@ -1037,20 +1037,20 @@ var foo = "foo";
 var bar = ()=>{
 };
 var four = 4;
-var _ref = one(),
-    _ref1 = 2 * 4 + 7,
-    _ref2 = 2 * four + 7,
-    _ref3 = 2 * four + seven,
+var _one = one(),
+    _ref = 2 * 4 + 7,
+    _ref1 = 2 * four + 7,
+    _ref2 = 2 * four + seven,
     _undefined = undefined,
-    _ref4 = void 0,
-    tmp = computed(),
-    tmp1 = computed(),
-    tmp2 = "test" + one,
-    _ref5 = /regex/,
+    _ref3 = void 0,
+    _computed = computed(),
+    _computed1 = computed(),
+    _tmp = "test" + one,
+    _ref4 = /regex/,
     _foo = foo,
     _bar = bar,
     _baz = baz,
-    _ref6 = `template${expression}`;
+    _ref5 = `template${expression}`;
 
 
 var MyClass = function() {
@@ -1059,13 +1059,13 @@ var MyClass = function() {
         _classCallCheck(this, MyClass);
         _defineProperty(this, null, "null");
         _defineProperty(this, _undefined, "undefined");
-        _defineProperty(this, _ref4, "void 0");
-        _defineProperty(this, _ref5, "regex");
+        _defineProperty(this, _ref3, "void 0");
+        _defineProperty(this, _ref4, "regex");
         _defineProperty(this, _foo, "foo");
         _defineProperty(this, _bar, "bar");
         _defineProperty(this, _baz, "baz");
         _defineProperty(this, `template`, "template");
-        _defineProperty(this, _ref6, "template-with-expression");
+        _defineProperty(this, _ref5, "template-with-expression");
     }
     _createClass(MyClass, [{
              key: "whatever", get: function () {
@@ -1074,13 +1074,13 @@ var MyClass = function() {
              key: "whatever", set: function (value) {
                 }
         }, {
-             key: tmp, get: function () {
+             key: _computed, get: function () {
                 }
         }, {
-             key: tmp1, set: function (value) {
+             key: _computed1, set: function (value) {
                 }
         }, {
-             key: tmp2, value: function () {
+             key: _tmp, value: function () {
                 }
         }], [{
              key: 10, value: function () {
@@ -1088,11 +1088,10 @@ var MyClass = function() {
         }]);
     return MyClass;
 }();
-_defineProperty(MyClass, _ref, "test");
+_defineProperty(MyClass, _one, "test");
+_defineProperty(MyClass, _ref, "247");
 _defineProperty(MyClass, _ref1, "247");
 _defineProperty(MyClass, _ref2, "247");
-_defineProperty(MyClass, _ref3, "247");
-
 "#
 );
 
@@ -1452,8 +1451,8 @@ var Outer = function Outer() {
     value: void 0
   });
 
-  var Test = function (_superClass) {
-    _inherits(Test, _superClass);
+  var Test = function (_classPrivateFieldGet1) {
+    _inherits(Test, _classPrivateFieldGet1);
     var _super = _createSuper(Test);
     function Test() {
       _classCallCheck(this, Test);
@@ -1899,11 +1898,11 @@ var Outer = function (Hello) {
     _classCallCheck(this, Outer);
     var _this = _super.call(this);
 
-    var _ref = _get((_assertThisInitialized(_this), _getPrototypeOf(Outer.prototype)), "toString", _this).call(_this);
+    var _super_toString = _get((_assertThisInitialized(_this), _getPrototypeOf(Outer.prototype)), "toString", _this).call(_this);
 
     var Inner = function Inner() {
       _classCallCheck(this, Inner);
-      _defineProperty(this, _ref, 'hello');
+      _defineProperty(this, _super_toString, 'hello');
     };
 
     return _possibleConstructorReturn(_this, new Inner());
@@ -2036,11 +2035,11 @@ function () {
   _createClass(Foo, [{
     key: "test",
     value: function test(other) {
-      var _obj;
+      var _other_obj;
 
       _classPrivateFieldSet(this, _foo, _classPrivateFieldGet(this, _foo) + 1);
       _classPrivateFieldSet(this, _foo, 2);
-      _classPrivateFieldSet(_obj = other.obj, _foo, _classPrivateFieldGet(_obj, _foo) + 1);
+      _classPrivateFieldSet(_other_obj = other.obj, _foo, _classPrivateFieldGet(_other_obj, _foo) + 1);
       _classPrivateFieldSet(other.obj, _foo, 2);
     }
   }]);
@@ -2350,10 +2349,10 @@ var Foo = function () {
   _createClass(Foo, [{
     key: "test",
     value: function test(other) {
-      var _obj;
+      var _other_obj;
 
       _classPrivateFieldGet(this, _foo).call(this);
-      _classPrivateFieldGet(_obj = other.obj, _foo).call(_obj);
+      _classPrivateFieldGet(_other_obj = other.obj, _foo).call(_other_obj);
     }
   }]);
   return Foo;
@@ -4081,9 +4080,9 @@ new SuperClass(); // ensure ComputedKey Method is still transformed
 class ComputedMethod extends Obj {
   constructor() {
     var _temp;
-    let tmp = (_temp = super(), _defineProperty(this, "field", 1), _temp);
+    let _tmp = (_temp = super(), _defineProperty(this, "field", 1), _temp);
     class B extends Obj {
-      [tmp]() {}
+      [_tmp]() {}
 
       constructor() {
         super();
@@ -4767,11 +4766,11 @@ const createClass = (k) => class { [k()] = 2 };
 "#,
     r#"
 var createClass = (k)=>{
-    var _ref = k();
+    var _k = k();
     var _class = function _class() {
         "use strict";
         _classCallCheck(this, _class);
-        _defineProperty(this, _ref, 2);
+        _defineProperty(this, _k, 2);
     };
     return _class;
 };
@@ -5397,9 +5396,9 @@ export class Node {
     }
 }
 function bar(parent) {
-    var _baz1;
+    var _parent_baz;
     _classPrivateMethodGet(parent, _baz, baz).call(parent, this);
-    _classPrivateMethodGet(_baz1 = parent.baz, _baz, baz).call(_baz1, this);
+    _classPrivateMethodGet(_parent_baz = parent.baz, _baz, baz).call(_parent_baz, this);
 }
 function baz(child) {}
 "
@@ -6182,30 +6181,31 @@ class MyClass {
 const foo = "foo";
 const bar = ()=>{};
 const four = 4;
-let _ref = one(), _ref1 = 2 * 4 + 7, _ref2 = 2 * four + 7, _ref3 = 2 * four + seven, _undefined = undefined, _ref4 = void 0, tmp = computed(), tmp1 = computed(), tmp2 = "test" + one, _ref5 = /regex/, _foo = foo, _bar = bar, _baz = baz, _ref6 = `template${expression}`;
+let _one = one(), _ref = 2 * 4 + 7, _ref1 = 2 * four + 7, _ref2 = 2 * four + seven, _undefined = undefined, _ref3 = void 0, _computed = computed(), _computed1 = computed(), _tmp = "test" + one, _ref4 = /regex/, _foo = foo, _bar = bar, _baz = baz, _ref5 = `template${expression}`;
 class MyClass {
     get ["whatever"]() {}
     set ["whatever"](value) {}
-    get [tmp]() {}
-    set [tmp1](value) {}
-    [tmp2]() {}
+    get [_computed]() {}
+    set [_computed1](value) {}
+    [_tmp]() {}
     static [10]() {}
     constructor(){
         this[null] = "null";
         this[_undefined] = "undefined";
-        this[_ref4] = "void 0";
-        this[_ref5] = "regex";
+        this[_ref3] = "void 0";
+        this[_ref4] = "regex";
         this[_foo] = "foo";
         this[_bar] = "bar";
         this[_baz] = "baz";
         this[`template`] = "template";
-        this[_ref6] = "template-with-expression";
+        this[_ref5] = "template-with-expression";
     }
 }
-MyClass[_ref] = "test";
+MyClass[_one] = "test";
+MyClass[_ref] = "247";
 MyClass[_ref1] = "247";
 MyClass[_ref2] = "247";
-MyClass[_ref3] = "247";
+
 "#
 );
 
@@ -6652,3 +6652,18 @@ fn exec(input: PathBuf) {
         &src,
     );
 }
+
+test!(
+    syntax(),
+    |t| class_properties(Some(t.comments.clone()), Default::default()),
+    issue_6305,
+    "class x { static #x = super.x = 0 }",
+    r#"
+class x {
+}
+var _x = {
+    writable: true,
+    value: _set(_getPrototypeOf(x), "x", 0, x, true)
+};
+"#
+);

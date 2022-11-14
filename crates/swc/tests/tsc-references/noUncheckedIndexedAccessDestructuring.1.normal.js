@@ -1,5 +1,6 @@
 //// [noUncheckedIndexedAccessDestructuring.ts]
 import _extends from "@swc/helpers/src/_extends.mjs";
+import _object_destructuring_empty from "@swc/helpers/src/_object_destructuring_empty.mjs";
 import _object_without_properties from "@swc/helpers/src/_object_without_properties.mjs";
 import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
 import _to_array from "@swc/helpers/src/_to_array.mjs";
@@ -15,7 +16,7 @@ var _strArray2 = _to_array(strArray), s3 = _strArray2.slice(2);
 s3.push(undefined); // Should error, 'undefined' not part of s2's element type
 var t1 = strMap.t1;
 t1.toString(); // Should error, t1 possibly undefined
-var t2 = _extends({}, strMap);
+var t2 = _extends({}, _object_destructuring_empty(strMap));
 t2.z.toString(); // Should error
 {
     var x = numMapPoint.x, y = numMapPoint.y, z = numMapPoint.z;

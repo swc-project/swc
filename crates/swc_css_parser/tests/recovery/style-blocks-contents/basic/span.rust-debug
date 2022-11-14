@@ -221,7 +221,13 @@
  7 | `->     }
    `----
 
-  x SelectorList
+  x RelativeSelectorList
+   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:4:5]
+ 4 | &.foo {
+   : ^^^^^
+   `----
+
+  x RelativeSelector
    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:4:5]
  4 | &.foo {
    : ^^^^^
@@ -295,7 +301,7 @@
    : ^^^^^
    `----
 
-  x Ident { value: Atom('ident' type=inline), raw: Atom('ident' type=inline) }
+  x Ident { value: Atom('ident' type=inline), raw: "ident" }
    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:5:9]
  5 | ident
    : ^^^^^
@@ -307,8 +313,7 @@
  6 | `->         color: green;
    `----
 
-  x WhiteSpace { value: Atom('
-  |         ' type=dynamic) }
+  x WhiteSpace { value: "\n        " }
    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:5:9]
  5 | ,-> ident
  6 | `->         color: green;
@@ -320,7 +325,7 @@
    : ^^^^^
    `----
 
-  x Ident { value: Atom('color' type=static), raw: Atom('color' type=static) }
+  x Ident { value: Atom('color' type=static), raw: "color" }
    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:6:9]
  6 | color: green;
    : ^^^^^
@@ -344,7 +349,7 @@
    :       ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:6:9]
  6 | color: green;
    :       ^
@@ -356,7 +361,7 @@
    :        ^^^^^
    `----
 
-  x Ident { value: Atom('green' type=inline), raw: Atom('green' type=inline) }
+  x Ident { value: Atom('green' type=inline), raw: "green" }
    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:6:9]
  6 | color: green;
    :        ^^^^^
@@ -572,7 +577,13 @@
  15 | `->         }
     `----
 
-  x SelectorList
+  x RelativeSelectorList
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:12:9]
+ 12 | & .class {
+    : ^^^^^^^^
+    `----
+
+  x RelativeSelector
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:12:9]
  12 | & .class {
     : ^^^^^^^^
@@ -660,7 +671,7 @@
     : ^^^^^
     `----
 
-  x Ident { value: Atom('ident' type=inline), raw: Atom('ident' type=inline) }
+  x Ident { value: Atom('ident' type=inline), raw: "ident" }
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:13:13]
  13 | ident
     : ^^^^^
@@ -672,8 +683,7 @@
  14 | `->             color: red
     `----
 
-  x WhiteSpace { value: Atom('
-  |             ' type=dynamic) }
+  x WhiteSpace { value: "\n            " }
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:13:13]
  13 | ,-> ident
  14 | `->             color: red
@@ -685,7 +695,7 @@
     : ^^^^^
     `----
 
-  x Ident { value: Atom('color' type=static), raw: Atom('color' type=static) }
+  x Ident { value: Atom('color' type=static), raw: "color" }
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:14:13]
  14 | color: red
     : ^^^^^
@@ -709,7 +719,7 @@
     :       ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:14:13]
  14 | color: red
     :       ^
@@ -721,7 +731,7 @@
     :        ^^^
     `----
 
-  x Ident { value: Atom('red' type=inline), raw: Atom('red' type=inline) }
+  x Ident { value: Atom('red' type=inline), raw: "red" }
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:14:13]
  14 | color: red
     :        ^^^
@@ -733,8 +743,7 @@
  15 | `->         }
     `----
 
-  x WhiteSpace { value: Atom('
-  |         ' type=dynamic) }
+  x WhiteSpace { value: " \n        " }
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:14:13]
  14 | ,-> color: red 
  15 | `->         }
@@ -911,7 +920,13 @@
  25 | `->     }
     `----
 
-  x SelectorList
+  x RelativeSelectorList
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:22:5]
+ 22 | &.foo {
+    : ^^^^^
+    `----
+
+  x RelativeSelector
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:22:5]
  22 | &.foo {
     : ^^^^^
@@ -985,7 +1000,7 @@
     : ^^^^^
     `----
 
-  x Ident { value: Atom('ident' type=inline), raw: Atom('ident' type=inline) }
+  x Ident { value: Atom('ident' type=inline), raw: "ident" }
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:23:9]
  23 | ident;
     : ^^^^^
@@ -1243,7 +1258,13 @@
  33 | `->         }
     `----
 
-  x SelectorList
+  x RelativeSelectorList
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:30:9]
+ 30 | & .class {
+    : ^^^^^^^^
+    `----
+
+  x RelativeSelector
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:30:9]
  30 | & .class {
     : ^^^^^^^^
@@ -1329,7 +1350,7 @@
     : ^^^^^
     `----
 
-  x Ident { value: Atom('ident' type=inline), raw: Atom('ident' type=inline) }
+  x Ident { value: Atom('ident' type=inline), raw: "ident" }
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:31:13]
  31 | ident;
     : ^^^^^
@@ -1527,7 +1548,7 @@
     :  ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:39:5]
  39 | & test;
     :  ^
@@ -1539,7 +1560,7 @@
     :   ^^^^
     `----
 
-  x Ident { value: Atom('test' type=inline), raw: Atom('test' type=inline) }
+  x Ident { value: Atom('test' type=inline), raw: "test" }
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:39:5]
  39 | & test;
     :   ^^^^
@@ -1647,7 +1668,13 @@
  46 | `->     }
     `----
 
-  x SelectorList
+  x RelativeSelectorList
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:44:5]
+ 44 | &.foo {
+    : ^^^^^
+    `----
+
+  x RelativeSelector
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:44:5]
  44 | &.foo {
     : ^^^^^
@@ -1720,7 +1747,7 @@
     : ^^^^^^^^^
     `----
 
-  x Ident { value: Atom('__ident__' type=dynamic), raw: Atom('__ident__' type=dynamic) }
+  x Ident { value: Atom('__ident__' type=dynamic), raw: "__ident__" }
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:45:9]
  45 | __ident__
     : ^^^^^^^^^
@@ -1732,8 +1759,7 @@
  46 | `->     }
     `----
 
-  x WhiteSpace { value: Atom('
-  |     ' type=inline) }
+  x WhiteSpace { value: "\n    " }
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:45:9]
  45 | ,-> __ident__
  46 | `->     }

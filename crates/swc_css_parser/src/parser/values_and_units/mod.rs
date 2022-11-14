@@ -1096,7 +1096,7 @@ where
                     }
                 }
 
-                if !is_one_of!(self, EOF, ")", "/") {
+                if !is_one_of!(self, EOF, "/") {
                     match function_name {
                         "hwb" => {
                             let percentage_or_none = self.try_parse_variable_function(
@@ -1229,7 +1229,7 @@ where
                     }
                 }
 
-                if !is_one_of!(self, EOF, ")", "/") {
+                if !is_one_of!(self, EOF, "/") {
                     match function_name {
                         "hwb" => {
                             let percentage_or_none = self.try_parse_variable_function(
@@ -1416,7 +1416,7 @@ where
                     }
                 }
 
-                if !is_one_of!(self, EOF, ")", "/") && function_name == "device-cmyk" {
+                if !is_one_of!(self, EOF, "/") && function_name == "device-cmyk" {
                     let cmyk_component = self.try_parse_variable_function(
                         |parser, _| Ok(Some(ComponentValue::CmykComponent(parser.parse()?))),
                         &mut has_variable,
@@ -1857,6 +1857,28 @@ where
                     ));
                 }
             }
+            "supports" if self.ctx.in_import_at_rule => {
+                self.input.skip_ws();
+
+                if !is!(self, EOF) {
+                    let state = self.input.state();
+
+                    match self.parse() {
+                        Ok(declaration) => {
+                            values.push(ComponentValue::Declaration(declaration));
+
+                            self.input.skip_ws();
+                        }
+                        Err(_) => {
+                            self.input.reset(&state);
+
+                            let supports_conditions = self.parse()?;
+
+                            values.push(ComponentValue::SupportsCondition(supports_conditions));
+                        }
+                    }
+                }
+            }
             _ => loop {
                 self.input.skip_ws();
 
@@ -2042,7 +2064,7 @@ where
             Token::Ident { value, raw } => {
                 match &*value.to_ascii_lowercase() {
                     "initial" | "inherit" | "unset" | "revert" | "default" => {
-                        return Err(Error::new(span, ErrorKind::InvalidCustomIdent(raw)));
+                        return Err(Error::new(span, ErrorKind::InvalidCustomIdent(value)));
                     }
                     _ => {}
                 }
@@ -2228,20 +2250,12 @@ where
                 Ok(Length {
                     span,
                     value: Number {
-                        span: swc_common::Span::new(
-                            span.lo,
-                            span.hi - BytePos(unit_len),
-                            Default::default(),
-                        ),
+                        span: Span::new(span.lo, span.hi - BytePos(unit_len), Default::default()),
                         value,
                         raw: Some(raw_value),
                     },
                     unit: Ident {
-                        span: swc_common::Span::new(
-                            span.hi - BytePos(unit_len),
-                            span.hi,
-                            Default::default(),
-                        ),
+                        span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
                         value: unit,
                         raw: Some(raw_unit),
                     },
@@ -2285,20 +2299,12 @@ where
                 Ok(Angle {
                     span,
                     value: Number {
-                        span: swc_common::Span::new(
-                            span.lo,
-                            span.hi - BytePos(unit_len),
-                            Default::default(),
-                        ),
+                        span: Span::new(span.lo, span.hi - BytePos(unit_len), Default::default()),
                         value,
                         raw: Some(raw_value),
                     },
                     unit: Ident {
-                        span: swc_common::Span::new(
-                            span.hi - BytePos(unit_len),
-                            span.hi,
-                            Default::default(),
-                        ),
+                        span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
                         value: unit,
                         raw: Some(raw_unit),
                     },
@@ -2339,20 +2345,12 @@ where
                 Ok(Time {
                     span,
                     value: Number {
-                        span: swc_common::Span::new(
-                            span.lo,
-                            span.hi - BytePos(unit_len),
-                            Default::default(),
-                        ),
+                        span: Span::new(span.lo, span.hi - BytePos(unit_len), Default::default()),
                         value,
                         raw: Some(raw_value),
                     },
                     unit: Ident {
-                        span: swc_common::Span::new(
-                            span.hi - BytePos(unit_len),
-                            span.hi,
-                            Default::default(),
-                        ),
+                        span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
                         value: unit,
                         raw: Some(raw_unit),
                     },
@@ -2393,20 +2391,12 @@ where
                 Ok(Frequency {
                     span,
                     value: Number {
-                        span: swc_common::Span::new(
-                            span.lo,
-                            span.hi - BytePos(unit_len),
-                            Default::default(),
-                        ),
+                        span: Span::new(span.lo, span.hi - BytePos(unit_len), Default::default()),
                         value,
                         raw: Some(raw_value),
                     },
                     unit: Ident {
-                        span: swc_common::Span::new(
-                            span.hi - BytePos(unit_len),
-                            span.hi,
-                            Default::default(),
-                        ),
+                        span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
                         value: unit,
                         raw: Some(raw_unit),
                     },
@@ -2450,20 +2440,12 @@ where
                 Ok(Resolution {
                     span,
                     value: Number {
-                        span: swc_common::Span::new(
-                            span.lo,
-                            span.hi - BytePos(unit_len),
-                            Default::default(),
-                        ),
+                        span: Span::new(span.lo, span.hi - BytePos(unit_len), Default::default()),
                         value,
                         raw: Some(raw_value),
                     },
                     unit: Ident {
-                        span: swc_common::Span::new(
-                            span.hi - BytePos(unit_len),
-                            span.hi,
-                            Default::default(),
-                        ),
+                        span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
                         value: unit,
                         raw: Some(raw_unit),
                     },
@@ -2504,20 +2486,12 @@ where
                 Ok(Flex {
                     span,
                     value: Number {
-                        span: swc_common::Span::new(
-                            span.lo,
-                            span.hi - BytePos(unit_len),
-                            Default::default(),
-                        ),
+                        span: Span::new(span.lo, span.hi - BytePos(unit_len), Default::default()),
                         value,
                         raw: Some(raw_value),
                     },
                     unit: Ident {
-                        span: swc_common::Span::new(
-                            span.hi - BytePos(unit_len),
-                            span.hi,
-                            Default::default(),
-                        ),
+                        span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
                         value: unit,
                         raw: Some(raw_unit),
                     },
@@ -2554,20 +2528,12 @@ where
                 Ok(UnknownDimension {
                     span,
                     value: Number {
-                        span: swc_common::Span::new(
-                            span.lo,
-                            span.hi - BytePos(unit_len),
-                            Default::default(),
-                        ),
+                        span: Span::new(span.lo, span.hi - BytePos(unit_len), Default::default()),
                         value,
                         raw: Some(raw_value),
                     },
                     unit: Ident {
-                        span: swc_common::Span::new(
-                            span.hi - BytePos(unit_len),
-                            span.hi,
-                            Default::default(),
-                        ),
+                        span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
                         value: unit,
                         raw: Some(raw_unit),
                     },
@@ -2790,7 +2756,7 @@ where
         match bump!(self) {
             Token::Percentage { value, raw } => {
                 let value = Number {
-                    span: swc_common::Span::new(span.lo, span.hi - BytePos(1), Default::default()),
+                    span: Span::new(span.lo, span.hi - BytePos(1), Default::default()),
                     value,
                     raw: Some(raw),
                 };
@@ -2848,29 +2814,21 @@ where
                 raw_name,
                 value,
                 raw_value,
-                before,
-                after,
             } => {
                 let name_length = raw_name.len() as u32;
                 let name = Ident {
-                    span: swc_common::Span::new(
-                        span.lo,
-                        span.lo + BytePos(name_length),
-                        Default::default(),
-                    ),
+                    span: Span::new(span.lo, span.lo + BytePos(name_length), Default::default()),
                     value: name,
                     raw: Some(raw_name),
                 };
                 let value = Some(Box::new(UrlValue::Raw(UrlValueRaw {
-                    span: swc_common::Span::new(
+                    span: Span::new(
                         span.lo + BytePos(name_length + 1),
                         span.hi - BytePos(1),
                         Default::default(),
                     ),
                     value,
-                    before: Some(before),
                     raw: Some(raw_value),
-                    after: Some(after),
                 })));
 
                 Ok(Url {
@@ -2894,7 +2852,7 @@ where
                 }
 
                 let name = Ident {
-                    span: swc_common::Span::new(span.lo, span.hi - BytePos(1), Default::default()),
+                    span: Span::new(span.lo, span.hi - BytePos(1), Default::default()),
                     value: function_name,
                     raw: Some(raw_function_name),
                 };

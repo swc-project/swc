@@ -6,9 +6,9 @@ import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
 import _ts_generator from "@swc/helpers/src/_ts_generator.mjs";
 import * as React from "react";
-var AsyncLoader = /*#__PURE__*/ function(_Component) {
+var AsyncLoader = /*#__PURE__*/ function(_React_Component) {
     "use strict";
-    _inherits(AsyncLoader, _Component);
+    _inherits(AsyncLoader, _React_Component);
     var _super = _create_super(AsyncLoader);
     function AsyncLoader() {
         _class_call_check(this, AsyncLoader);

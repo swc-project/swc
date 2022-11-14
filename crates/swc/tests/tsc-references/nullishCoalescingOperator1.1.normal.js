@@ -32,8 +32,8 @@ if (maybeBool !== null && maybeBool !== void 0 ? maybeBool : true) {
 } else {
     foo();
 }
-var ref;
-if ((ref = false) !== null && ref !== void 0 ? ref : true) {
+var _ref;
+if ((_ref = false) !== null && _ref !== void 0 ? _ref : true) {
     foo();
 } else {
     foo();

@@ -326,7 +326,7 @@
    :                          ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:7:1]
  7 | .removed-214123 :global(> .removed-214123-item) {
    :                          ^
@@ -350,7 +350,7 @@
    :                            ^^^^^^^^^^^^^^^^^^^
    `----
 
-  x Ident { value: Atom('removed-214123-item' type=dynamic), raw: Atom('removed-214123-item' type=dynamic) }
+  x Ident { value: Atom('removed-214123-item' type=dynamic), raw: "removed-214123-item" }
    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:7:1]
  7 | .removed-214123 :global(> .removed-214123-item) {
    :                            ^^^^^^^^^^^^^^^^^^^
@@ -492,7 +492,7 @@
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x Ident { value: Atom('__styled-jsx-placeholder__2' type=dynamic), raw: Atom('__styled-jsx-placeholder__2' type=dynamic) }
+  x Ident { value: Atom('__styled-jsx-placeholder__2' type=dynamic), raw: "__styled-jsx-placeholder__2" }
     ,-[$DIR/tests/recovery/styled-jsx/1/input.css:10:5]
  10 | flex-basis: __styled-jsx-placeholder__2%;
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -726,7 +726,7 @@
     :                          ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/recovery/styled-jsx/1/input.css:15:5]
  15 | .removed-214123 :global(> .removed-214123-item) {
     :                          ^
@@ -750,7 +750,7 @@
     :                            ^^^^^^^^^^^^^^^^^^^
     `----
 
-  x Ident { value: Atom('removed-214123-item' type=dynamic), raw: Atom('removed-214123-item' type=dynamic) }
+  x Ident { value: Atom('removed-214123-item' type=dynamic), raw: "removed-214123-item" }
     ,-[$DIR/tests/recovery/styled-jsx/1/input.css:15:5]
  15 | .removed-214123 :global(> .removed-214123-item) {
     :                            ^^^^^^^^^^^^^^^^^^^
@@ -805,7 +805,7 @@
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x Ident { value: Atom('__styled-jsx-placeholder__3' type=dynamic), raw: Atom('__styled-jsx-placeholder__3' type=dynamic) }
+  x Ident { value: Atom('__styled-jsx-placeholder__3' type=dynamic), raw: "__styled-jsx-placeholder__3" }
     ,-[$DIR/tests/recovery/styled-jsx/1/input.css:16:9]
  16 | flex-basis: __styled-jsx-placeholder__3%;
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -997,7 +997,7 @@
     :                          ^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/recovery/styled-jsx/1/input.css:21:5]
  21 | .removed-214123 :global(> .removed-214123-item) {
     :                          ^
@@ -1021,7 +1021,7 @@
     :                            ^^^^^^^^^^^^^^^^^^^
     `----
 
-  x Ident { value: Atom('removed-214123-item' type=dynamic), raw: Atom('removed-214123-item' type=dynamic) }
+  x Ident { value: Atom('removed-214123-item' type=dynamic), raw: "removed-214123-item" }
     ,-[$DIR/tests/recovery/styled-jsx/1/input.css:21:5]
  21 | .removed-214123 :global(> .removed-214123-item) {
     :                            ^^^^^^^^^^^^^^^^^^^
@@ -1076,7 +1076,7 @@
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x Ident { value: Atom('__styled-jsx-placeholder__4' type=dynamic), raw: Atom('__styled-jsx-placeholder__4' type=dynamic) }
+  x Ident { value: Atom('__styled-jsx-placeholder__4' type=dynamic), raw: "__styled-jsx-placeholder__4" }
     ,-[$DIR/tests/recovery/styled-jsx/1/input.css:22:9]
  22 | flex-basis: __styled-jsx-placeholder__4%;
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^

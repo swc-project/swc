@@ -28,7 +28,7 @@ try {
         }
     ];
 } catch (param2) {
-    var _param1 = _sliced_to_array(param2, 1), ref = _param1[0], _x = _sliced_to_array(ref.x, 1), y = _x[0], z = ref.z;
+    var _param1 = _sliced_to_array(param2, 1), _param_ = _param1[0], _param__x = _sliced_to_array(_param_.x, 1), y = _param__x[0], z = _param_.z;
     y + z;
 }
 // Test of comment ranges. A fix to GH#11755 should update this.

@@ -73,7 +73,7 @@
    : ^^^^
    `----
 
-  x Ident { value: Atom('form' type=static), raw: Atom('form' type=static) }
+  x Ident { value: Atom('form' type=static), raw: "form" }
    ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:2:5]
  2 | form {}
    : ^^^^
@@ -85,7 +85,7 @@
    :     ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:2:5]
  2 | form {}
    :     ^
@@ -154,7 +154,7 @@
    : ^^
    `----
 
-  x Ident { value: Atom('ot' type=inline), raw: Atom('ot' type=inline) }
+  x Ident { value: Atom('ot' type=inline), raw: "ot" }
    ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:6:5]
  6 | ot {}
    : ^^
@@ -166,7 +166,7 @@
    :   ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:6:5]
  6 | ot {}
    :   ^

@@ -3,12 +3,12 @@
 import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
 import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
 function foo(param) {
-    var _x = _sliced_to_array(param.x, 2), a = _x[0], b = _x[1], _y = param.y, c = _y.c, d = _y.d, e = _y.e;
+    var _param_x = _sliced_to_array(param.x, 2), a = _param_x[0], b = _param_x[1], _param_y = param.y, c = _param_y.c, d = _param_y.d, e = _param_y.e;
 }
 function bar(param) {
-    var _x = _sliced_to_array(param.x, 2), a = _x[0], tmp = _x[1], b = tmp === void 0 ? 10 : tmp, _y = param.y, c = _y.c, d = _y.d, _e = _y.e, e = _e === void 0 ? {
+    var _param_x = _sliced_to_array(param.x, 2), a = _param_x[0], tmp = _param_x[1], b = tmp === void 0 ? 10 : tmp, _param_y = param.y, c = _param_y.c, d = _param_y.d, _param_y_e = _param_y.e, e = _param_y_e === void 0 ? {
         f: 1
-    } : _e;
+    } : _param_y_e;
 }
 function baz(x) {}
 var o = {

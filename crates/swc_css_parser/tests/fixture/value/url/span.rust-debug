@@ -1293,7 +1293,7 @@
     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x String { value: Atom('http://www.example.com/pinkish.gif' type=dynamic), raw: Atom('"http://www.example.com/pinkish.gif"' type=dynamic) }
+  x String { value: Atom('http://www.example.com/pinkish.gif' type=dynamic), raw: "\"http://www.example.com/pinkish.gif\"" }
     ,-[$DIR/tests/fixture/value/url/input.css:21:5]
  21 | --foo: "http://www.example.com/pinkish.gif";
     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

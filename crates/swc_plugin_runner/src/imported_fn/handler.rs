@@ -6,7 +6,7 @@ use swc_common::{
 use crate::{host_environment::BaseHostEnvironment, memory_interop::copy_bytes_into_host};
 
 #[tracing::instrument(level = "info", skip_all)]
-pub fn emit_diagnostics(env: &BaseHostEnvironment, bytes_ptr: i32, bytes_ptr_len: i32) {
+pub fn emit_diagnostics(env: &BaseHostEnvironment, bytes_ptr: u32, bytes_ptr_len: u32) {
     if let Some(memory) = env.memory_ref() {
         if HANDLER.is_set() {
             HANDLER.with(|handler| {

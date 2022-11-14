@@ -31,9 +31,9 @@ fn handle_func(func: ItemFn) -> TokenStream {
         // Refer swc_plugin_runner for the actual implementation.
         #[cfg(target_arch = "wasm32")] // Allow testing
         extern "C" {
-            fn __set_transform_result(bytes_ptr: i32, bytes_ptr_len: i32);
-            fn __set_transform_plugin_core_pkg_diagnostics(bytes_ptr: i32, bytes_ptr_len: i32);
-            fn __emit_diagnostics(bytes_ptr: i32, bytes_ptr_len: i32);
+            fn __set_transform_result(bytes_ptr: u32, bytes_ptr_len: u32);
+            fn __set_transform_plugin_core_pkg_diagnostics(bytes_ptr: u32, bytes_ptr_len: u32);
+            fn __emit_diagnostics(bytes_ptr: u32, bytes_ptr_len: u32);
         }
 
         /// An emitter for the Diagnostic in plugin's context by borrowing host's
@@ -52,7 +52,7 @@ fn handle_func(func: ItemFn) -> TokenStream {
 
                 #[cfg(target_arch = "wasm32")] // Allow testing
                 unsafe {
-                    __emit_diagnostics(ptr as i32, len as i32);
+                    __emit_diagnostics(ptr as u32, len as u32);
                 }
             }
         }
@@ -60,7 +60,7 @@ fn handle_func(func: ItemFn) -> TokenStream {
 
         /// Call hosts's imported fn to set transform results.
         /// __set_transform_result is host side imported fn, which read and copies guest's byte into host.
-        fn send_transform_result_to_host(bytes_ptr: i32, bytes_ptr_len: i32) {
+        fn send_transform_result_to_host(bytes_ptr: u32, bytes_ptr_len: u32) {
             #[cfg(target_arch = "wasm32")] // Allow testing
             unsafe {
                 __set_transform_result(bytes_ptr, bytes_ptr_len);
@@ -68,19 +68,19 @@ fn handle_func(func: ItemFn) -> TokenStream {
         }
 
         /// Internal function plugin_macro uses to create ptr to PluginError.
-        fn construct_error_ptr(plugin_error: swc_core::common::plugin::serialized::PluginError) -> i32 {
+        fn construct_error_ptr(plugin_error: swc_core::common::plugin::serialized::PluginError) -> u32 {
             let ret = swc_core::common::plugin::serialized::PluginSerializedBytes::try_serialize(&plugin_error).expect("Should able to serialize PluginError");
             let (ptr, len) = ret.as_ptr();
 
             send_transform_result_to_host(
                 ptr as _,
-                len as i32
+                len as u32
             );
             1
         }
 
         #[no_mangle]
-        pub fn #transform_core_pkg_diag_ident() -> i32 {
+        pub fn #transform_core_pkg_diag_ident() -> u32 {
             let schema_version = swc_core::common::plugin::PLUGIN_TRANSFORM_AST_SCHEMA_VERSION;
             let core_pkg_diag = swc_core::diagnostics::get_core_engine_diagnostics();
 
@@ -99,7 +99,7 @@ fn handle_func(func: ItemFn) -> TokenStream {
 
             #[cfg(target_arch = "wasm32")] // Allow testing
             unsafe {
-                __set_transform_plugin_core_pkg_diagnostics(serialized_result_ptr as _, serialized_result_ptr_len as i32);
+                __set_transform_plugin_core_pkg_diagnostics(serialized_result_ptr as _, serialized_result_ptr_len as u32);
             }
             0
         }
@@ -110,8 +110,8 @@ fn handle_func(func: ItemFn) -> TokenStream {
         // serialization of PluginError itself should succeed.
         #[no_mangle]
         pub fn #transform_process_impl_ident(
-            ast_ptr: *const u8, ast_ptr_len: i32,
-            unresolved_mark: i32, should_enable_comments_proxy: i32) -> i32 {
+            ast_ptr: *const u8, ast_ptr_len: u32,
+            unresolved_mark: u32, should_enable_comments_proxy: i32) -> u32 {
             // Reconstruct `Program` & config string from serialized program
             // Host (SWC) should allocate memory, copy bytes and pass ptr to plugin.
             let program = unsafe { swc_core::common::plugin::serialized::deserialize_from_ptr(ast_ptr, ast_ptr_len) };
@@ -160,7 +160,7 @@ fn handle_func(func: ItemFn) -> TokenStream {
             let serialized_result = serialized_result.expect("Should be a realized transformed program");
             let (serialized_result_ptr, serialized_result_ptr_len) = serialized_result.as_ptr();
 
-            send_transform_result_to_host(serialized_result_ptr as _, serialized_result_ptr_len as i32);
+            send_transform_result_to_host(serialized_result_ptr as _, serialized_result_ptr_len as u32);
             0
         }
     };

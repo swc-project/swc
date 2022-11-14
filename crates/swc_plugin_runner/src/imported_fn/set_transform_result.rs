@@ -33,8 +33,8 @@ impl TransformResultHostEnvironment {
 #[tracing::instrument(level = "info", skip_all)]
 pub fn set_transform_result(
     env: &TransformResultHostEnvironment,
-    bytes_ptr: i32,
-    bytes_ptr_len: i32,
+    bytes_ptr: u32,
+    bytes_ptr_len: u32,
 ) {
     if let Some(memory) = env.memory_ref() {
         (*env.transform_result.lock()) = copy_bytes_into_host(memory, bytes_ptr, bytes_ptr_len);

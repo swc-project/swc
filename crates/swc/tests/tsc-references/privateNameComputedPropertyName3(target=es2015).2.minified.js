@@ -6,9 +6,9 @@ var _name = new WeakMap();
 console.log(new class {
     getValue(x) {
         var _y = new WeakMap();
-        let tmp = _class_private_field_get(this, _name);
+        let _class_private_field_get1 = _class_private_field_get(this, _name);
         return new class {
-            [tmp]() {
+            [_class_private_field_get1]() {
                 return x + _class_private_field_get(this, _y);
             }
             constructor(){

@@ -4,7 +4,7 @@ use swc_common::{ast_node, EqIgnoreSpan, Span};
 use crate::{
     AlphaValue, AtRule, CalcSum, CmykComponent, Color, ComplexSelector, DashedIdent, Delimiter,
     Dimension, Hue, Ident, Integer, KeyframeBlock, LayerName, Number, Percentage, Ratio,
-    SelectorList, Str, TokenAndSpan, UnicodeRange, Url,
+    RelativeSelectorList, SelectorList, Str, SupportsCondition, TokenAndSpan, UnicodeRange, Url,
 };
 
 #[ast_node("Stylesheet")]
@@ -38,23 +38,25 @@ pub struct QualifiedRule {
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum QualifiedRulePrelude {
-    #[tag("ListOfComponentValues")]
-    ListOfComponentValues(ListOfComponentValues),
     #[tag("SelectorList")]
     SelectorList(SelectorList),
+    #[tag("RelativeSelectorList")]
+    RelativeSelectorList(RelativeSelectorList),
+    #[tag("ListOfComponentValues")]
+    ListOfComponentValues(ListOfComponentValues),
 }
 
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum StyleBlock {
-    #[tag("ListOfComponentValues")]
-    ListOfComponentValues(ListOfComponentValues),
     #[tag("AtRule")]
     AtRule(Box<AtRule>),
     #[tag("Declaration")]
     Declaration(Box<Declaration>),
     #[tag("QualifiedRule")]
     QualifiedRule(Box<QualifiedRule>),
+    #[tag("ListOfComponentValues")]
+    ListOfComponentValues(Box<ListOfComponentValues>),
 }
 
 #[ast_node("SimpleBlock")]
@@ -141,6 +143,10 @@ pub enum ComponentValue {
     ComplexSelector(ComplexSelector),
     #[tag("LayerName")]
     LayerName(LayerName),
+    #[tag("SupportsCondition")]
+    SupportsCondition(SupportsCondition),
+    #[tag("Declaration")]
+    Declaration(Declaration),
 }
 
 #[ast_node]
@@ -152,7 +158,7 @@ pub enum DeclarationOrAtRule {
     AtRule(Box<AtRule>),
     // For recovery mode
     #[tag("ListOfComponentValues")]
-    ListOfComponentValues(ListOfComponentValues),
+    ListOfComponentValues(Box<ListOfComponentValues>),
 }
 
 #[ast_node("Declaration")]

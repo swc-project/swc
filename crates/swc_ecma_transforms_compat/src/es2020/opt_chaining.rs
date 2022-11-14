@@ -7,7 +7,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Check;
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
-    alias_if_required, opt_chain_test, prepend_stmt, private_ident, undefined, ExprFactory,
+    alias_ident_for, alias_if_required, opt_chain_test, prepend_stmt, undefined, ExprFactory,
     IntoIndirectCall, StmtLike,
 };
 use swc_ecma_visit::{
@@ -389,7 +389,7 @@ impl OptChaining {
                 let (left, right, alt) = match &mut **obj {
                     Expr::Ident(..) => (obj.clone(), obj.clone(), Box::new(e.base.take().into())),
                     _ => {
-                        let i = private_ident!(obj_span, "ref");
+                        let i = alias_ident_for(obj, "ref");
                         self.vars_without_init.push(VarDeclarator {
                             span: obj_span,
                             definite: false,
@@ -462,6 +462,9 @@ impl OptChaining {
                         } else {
                             (Ident::dummy(), false)
                         };
+
+                        let tmp = alias_ident_for(&call.callee, "ref");
+
                         let obj_expr = if !is_super_access && aliased {
                             self.vars_without_init.push(VarDeclarator {
                                 span: obj_span,
@@ -492,8 +495,6 @@ impl OptChaining {
                         } else {
                             call.callee.take()
                         };
-
-                        let tmp = private_ident!(obj_span, "ref");
 
                         self.vars_without_init.push(VarDeclarator {
                             span: obj_span,

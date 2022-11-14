@@ -16458,7 +16458,7 @@
      :         ^^^^^^
      `----
 
-  x Ident { value: Atom('height' type=inline), raw: Atom('height' type=inline) }
+  x Ident { value: Atom('height' type=inline), raw: "height" }
      ,-[$DIR/tests/fixture/at-rule/media/input.css:142:1]
  142 | @media (height << 600px) {}
      :         ^^^^^^
@@ -16470,7 +16470,7 @@
      :               ^
      `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/at-rule/media/input.css:142:1]
  142 | @media (height << 600px) {}
      :               ^
@@ -16506,7 +16506,7 @@
      :                  ^
      `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/at-rule/media/input.css:142:1]
  142 | @media (height << 600px) {}
      :                  ^
@@ -16518,7 +16518,7 @@
      :                   ^^^^^
      `----
 
-  x Dimension { value: 600.0, raw_value: Atom('600' type=inline), unit: Atom('px' type=static), raw_unit: Atom('px' type=static), type_flag: Integer }
+  x Dimension { value: 600.0, raw_value: "600", unit: Atom('px' type=static), raw_unit: "px", type_flag: Integer }
      ,-[$DIR/tests/fixture/at-rule/media/input.css:142:1]
  142 | @media (height << 600px) {}
      :                   ^^^^^
@@ -16608,7 +16608,7 @@
      :         ^^^^^^
      `----
 
-  x Ident { value: Atom('height' type=inline), raw: Atom('height' type=inline) }
+  x Ident { value: Atom('height' type=inline), raw: "height" }
      ,-[$DIR/tests/fixture/at-rule/media/input.css:143:1]
  143 | @media (height foo bar) {}
      :         ^^^^^^
@@ -16620,7 +16620,7 @@
      :               ^
      `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/at-rule/media/input.css:143:1]
  143 | @media (height foo bar) {}
      :               ^
@@ -16632,7 +16632,7 @@
      :                ^^^
      `----
 
-  x Ident { value: Atom('foo' type=inline), raw: Atom('foo' type=inline) }
+  x Ident { value: Atom('foo' type=inline), raw: "foo" }
      ,-[$DIR/tests/fixture/at-rule/media/input.css:143:1]
  143 | @media (height foo bar) {}
      :                ^^^
@@ -16644,7 +16644,7 @@
      :                   ^
      `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/at-rule/media/input.css:143:1]
  143 | @media (height foo bar) {}
      :                   ^
@@ -16656,7 +16656,7 @@
      :                    ^^^
      `----
 
-  x Ident { value: Atom('bar' type=inline), raw: Atom('bar' type=inline) }
+  x Ident { value: Atom('bar' type=inline), raw: "bar" }
      ,-[$DIR/tests/fixture/at-rule/media/input.css:143:1]
  143 | @media (height foo bar) {}
      :                    ^^^
@@ -16746,7 +16746,7 @@
      :         ^^^^^^
      `----
 
-  x Ident { value: Atom('height' type=inline), raw: Atom('height' type=inline) }
+  x Ident { value: Atom('height' type=inline), raw: "height" }
      ,-[$DIR/tests/fixture/at-rule/media/input.css:144:1]
  144 | @media (height foo("bar")) {}
      :         ^^^^^^
@@ -16758,7 +16758,7 @@
      :               ^
      `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/at-rule/media/input.css:144:1]
  144 | @media (height foo("bar")) {}
      :               ^
@@ -16788,7 +16788,7 @@
      :                    ^^^^^
      `----
 
-  x String { value: Atom('bar' type=inline), raw: Atom('"bar"' type=inline) }
+  x String { value: Atom('bar' type=inline), raw: "\"bar\"" }
      ,-[$DIR/tests/fixture/at-rule/media/input.css:144:1]
  144 | @media (height foo("bar")) {}
      :                    ^^^^^
@@ -16878,7 +16878,7 @@
      :         ^^^^^^
      `----
 
-  x Ident { value: Atom('height' type=inline), raw: Atom('height' type=inline) }
+  x Ident { value: Atom('height' type=inline), raw: "height" }
      ,-[$DIR/tests/fixture/at-rule/media/input.css:145:1]
  145 | @media (height + 600px) {}
      :         ^^^^^^
@@ -16890,7 +16890,7 @@
      :               ^
      `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/at-rule/media/input.css:145:1]
  145 | @media (height + 600px) {}
      :               ^
@@ -16914,7 +16914,7 @@
      :                 ^
      `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/at-rule/media/input.css:145:1]
  145 | @media (height + 600px) {}
      :                 ^
@@ -16926,7 +16926,7 @@
      :                  ^^^^^
      `----
 
-  x Dimension { value: 600.0, raw_value: Atom('600' type=inline), unit: Atom('px' type=static), raw_unit: Atom('px' type=static), type_flag: Integer }
+  x Dimension { value: 600.0, raw_value: "600", unit: Atom('px' type=static), raw_unit: "px", type_flag: Integer }
      ,-[$DIR/tests/fixture/at-rule/media/input.css:145:1]
  145 | @media (height + 600px) {}
      :                  ^^^^^
@@ -17034,7 +17034,7 @@
      :                    ^^^^^^^^^
      `----
 
-  x Ident { value: Atom('min-width' type=dynamic), raw: Atom('min-width' type=dynamic) }
+  x Ident { value: Atom('min-width' type=dynamic), raw: "min-width" }
      ,-[$DIR/tests/fixture/at-rule/media/input.css:146:1]
  146 | @media screen and (min-width: ) {}
      :                    ^^^^^^^^^
@@ -17058,7 +17058,7 @@
      :                              ^
      `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/at-rule/media/input.css:146:1]
  146 | @media screen and (min-width: ) {}
      :                              ^
@@ -17148,7 +17148,7 @@
      :         ^^^^^^^^^^^^
      `----
 
-  x Ident { value: Atom('aspect-ratio' type=dynamic), raw: Atom('aspect-ratio' type=dynamic) }
+  x Ident { value: Atom('aspect-ratio' type=dynamic), raw: "aspect-ratio" }
      ,-[$DIR/tests/fixture/at-rule/media/input.css:147:1]
  147 | @media (aspect-ratio: 12/) {}
      :         ^^^^^^^^^^^^
@@ -17172,7 +17172,7 @@
      :                      ^
      `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/at-rule/media/input.css:147:1]
  147 | @media (aspect-ratio: 12/) {}
      :                      ^
@@ -17184,7 +17184,7 @@
      :                       ^^
      `----
 
-  x Number { value: 12.0, raw: Atom('12' type=inline), type_flag: Integer }
+  x Number { value: 12.0, raw: "12", type_flag: Integer }
      ,-[$DIR/tests/fixture/at-rule/media/input.css:147:1]
  147 | @media (aspect-ratio: 12/) {}
      :                       ^^
@@ -17286,7 +17286,7 @@
      :             ^^^^^
      `----
 
-  x Dimension { value: 100.0, raw_value: Atom('100' type=inline), unit: Atom('px' type=static), raw_unit: Atom('px' type=static), type_flag: Integer }
+  x Dimension { value: 100.0, raw_value: "100", unit: Atom('px' type=static), raw_unit: "px", type_flag: Integer }
      ,-[$DIR/tests/fixture/at-rule/media/input.css:148:1]
  148 | @media func(100px) {}
      :             ^^^^^
@@ -17394,7 +17394,7 @@
      :                        ^^^^^
      `----
 
-  x Dimension { value: 100.0, raw_value: Atom('100' type=inline), unit: Atom('px' type=static), raw_unit: Atom('px' type=static), type_flag: Integer }
+  x Dimension { value: 100.0, raw_value: "100", unit: Atom('px' type=static), raw_unit: "px", type_flag: Integer }
      ,-[$DIR/tests/fixture/at-rule/media/input.css:149:1]
  149 | @media screen and func(100px) {}
      :                        ^^^^^

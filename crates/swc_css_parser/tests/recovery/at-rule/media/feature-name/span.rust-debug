@@ -35,7 +35,7 @@
    :       ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/media/feature-name/input.css:1:1]
  1 | @media ("min-width": 20px) {}
    :       ^
@@ -65,7 +65,7 @@
    :         ^^^^^^^^^^^
    `----
 
-  x String { value: Atom('min-width' type=dynamic), raw: Atom('"min-width"' type=dynamic) }
+  x String { value: Atom('min-width' type=dynamic), raw: "\"min-width\"" }
    ,-[$DIR/tests/recovery/at-rule/media/feature-name/input.css:1:1]
  1 | @media ("min-width": 20px) {}
    :         ^^^^^^^^^^^
@@ -89,7 +89,7 @@
    :                     ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/media/feature-name/input.css:1:1]
  1 | @media ("min-width": 20px) {}
    :                     ^
@@ -101,7 +101,7 @@
    :                      ^^^^
    `----
 
-  x Dimension { value: 20.0, raw_value: Atom('20' type=inline), unit: Atom('px' type=static), raw_unit: Atom('px' type=static), type_flag: Integer }
+  x Dimension { value: 20.0, raw_value: "20", unit: Atom('px' type=static), raw_unit: "px", type_flag: Integer }
    ,-[$DIR/tests/recovery/at-rule/media/feature-name/input.css:1:1]
  1 | @media ("min-width": 20px) {}
    :                      ^^^^
@@ -113,7 +113,7 @@
    :                           ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/media/feature-name/input.css:1:1]
  1 | @media ("min-width": 20px) {}
    :                           ^

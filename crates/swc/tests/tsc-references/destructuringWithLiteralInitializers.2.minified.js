@@ -1,44 +1,44 @@
 //// [destructuringWithLiteralInitializers.ts]
 import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
 function f4() {
-    var ref = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {
+    var _ref = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {
         x: 0,
         y: 0
     };
-    ref.x, ref.y;
+    _ref.x, _ref.y;
 }
 function f5() {
-    var ref = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {
+    var _ref = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {
         x: 0
     };
-    ref.x, ref.y;
+    _ref.x, _ref.y;
 }
 function f6() {
-    var ref = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {};
-    ref.x, ref.y;
+    var _ref = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {};
+    _ref.x, _ref.y;
 }
 function f7() {
-    var ref = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {
+    var _ref = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {
         a: {}
-    }, _a = ref.a;
-    _a.x, _a.y;
+    }, _ref_a = _ref.a;
+    _ref_a.x, _ref_a.y;
 }
 function g3() {
-    var ref = _sliced_to_array(arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : [
+    var _ref = _sliced_to_array(arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : [
         0,
         0
     ], 2);
-    ref[0], ref[1];
+    _ref[0], _ref[1];
 }
 function g4() {
-    var ref = _sliced_to_array(arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : [
+    var _ref = _sliced_to_array(arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : [
         0
     ], 2);
-    ref[0], ref[1];
+    _ref[0], _ref[1];
 }
 function g5() {
-    var ref = _sliced_to_array(arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : [], 2);
-    ref[0], ref[1];
+    var _ref = _sliced_to_array(arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : [], 2);
+    _ref[0], _ref[1];
 }
 !function(param) {
     param.x, param.y;

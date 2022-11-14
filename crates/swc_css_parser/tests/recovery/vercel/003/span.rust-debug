@@ -359,7 +359,7 @@
    :                      ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/vercel/003/input.css:7:1]
  7 | .geist-list :global(> .geist-list-item) {
    :                      ^
@@ -383,7 +383,7 @@
    :                        ^^^^^^^^^^^^^^^
    `----
 
-  x Ident { value: Atom('geist-list-item' type=dynamic), raw: Atom('geist-list-item' type=dynamic) }
+  x Ident { value: Atom('geist-list-item' type=dynamic), raw: "geist-list-item" }
    ,-[$DIR/tests/recovery/vercel/003/input.css:7:1]
  7 | .geist-list :global(> .geist-list-item) {
    :                        ^^^^^^^^^^^^^^^
@@ -525,7 +525,7 @@
     :             ^^^^^^^^^
     `----
 
-  x Ident { value: Atom('__ident__' type=dynamic), raw: Atom('__ident__' type=dynamic) }
+  x Ident { value: Atom('__ident__' type=dynamic), raw: "__ident__" }
     ,-[$DIR/tests/recovery/vercel/003/input.css:10:5]
  10 | flex-basis: __ident__%;
     :             ^^^^^^^^^

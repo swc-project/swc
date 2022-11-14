@@ -16,12 +16,12 @@ var a1 = [
 // The resulting type an array literal expression is determined as follows:
 //     - If the array literal contains no spread elements and is an array assignment pattern in a destructuring assignment (section 4.17.1),
 //       the resulting type is a tuple type constructed from the types of the element expressions.
-var ref = [
+var _ref = [
     1,
     2,
     "string",
     true
-], b1 = ref[0], b2 = ref[1];
+], b1 = _ref[0], b2 = _ref[1];
 // The resulting type an array literal expression is determined as follows:
 //      - the resulting type is an array type with an element type that is the union of the types of the
 //        non - spread element expressions and the numeric index signature types of the spread element expressions

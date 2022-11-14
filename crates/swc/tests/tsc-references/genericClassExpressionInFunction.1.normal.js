@@ -45,9 +45,9 @@ function B3() {
     }(A);
 }
 // extends can call B
-var K = /*#__PURE__*/ function(_superClass) {
+var K = /*#__PURE__*/ function(_B1) {
     "use strict";
-    _inherits(K, _superClass);
+    _inherits(K, _B1);
     var _super = _create_super(K);
     function K() {
         _class_call_check(this, K);

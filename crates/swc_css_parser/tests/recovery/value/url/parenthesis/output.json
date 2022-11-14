@@ -116,7 +116,6 @@
                   "BadUrl": {
                     "name": "url",
                     "raw_name": "url",
-                    "value": "test\\);\n}",
                     "raw_value": "test\\);\n}"
                   }
                 }

@@ -13,7 +13,7 @@ var __ = {
     writable: true,
     value: (()=>{
         C.b;
-        super.b;
-        super.a;
+        _get(_get_prototype_of(C), "b", C);
+        _get(_get_prototype_of(C), "a", C);
     })()
 };

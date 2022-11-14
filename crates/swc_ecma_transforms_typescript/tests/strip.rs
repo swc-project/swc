@@ -3342,11 +3342,11 @@ test!(
     r#"
     const normalizedQuestionSet = {
     };
-    var _submissionIds;
-    const submissions = ((_submissionIds = normalizedQuestionSet.submissionIds) !== null && _submissionIds !== void 0 ? _submissionIds : []).map((id, index)=>{
+    var _normalizedQuestionSet_submissionIds;
+    const submissions = ((_normalizedQuestionSet_submissionIds = normalizedQuestionSet.submissionIds) !== null && _normalizedQuestionSet_submissionIds !== void 0 ? _normalizedQuestionSet_submissionIds : []).map((id, index)=>{
         const submission = normalizedQuestionSet.submissions?.[id];
-        var _answers;
-        const submissionAnswers = ((_answers = submission.answers) !== null && _answers !== void 0 ? _answers : []).map((answerId)=>normalizedQuestionSet.answers?.[answerId]
+        var _submission_answers;
+        const submissionAnswers = ((_submission_answers = submission.answers) !== null && _submission_answers !== void 0 ? _submission_answers : []).map((answerId)=>normalizedQuestionSet.answers?.[answerId]
         );
         console.log(id, index);
         return {
@@ -3832,9 +3832,9 @@ to!(
     }
     ",
     "
-    let _ref = (console.log(1), 'a'), _ref1 = (console.log(2), 'b'), tmp = (console.log(3), 'c');
+    let _ref = (console.log(1), 'a'), _ref1 = (console.log(2), 'b'), _tmp = (console.log(3), 'c');
     class A {
-        [tmp]() {}
+        [_tmp]() {}
         constructor() {
             this[_ref] = 1;
         }
@@ -4556,18 +4556,18 @@ let b = class {
 }
     ",
     "
-let _key;
-let _key1 = console.log(123);
+let _console_log;
+let _console_log1 = console.log(123);
 class A {
     constructor(a = 1){
         this.a = a;
-        this[_key1] = 456;
+        this[_console_log1] = 456;
     }
 }
-let b = (_key = console.log(456), class {
+let b = (_console_log = console.log(456), class {
     constructor(a = 1){
         this.a = a;
-        this[_key] = 123;
+        this[_console_log] = 123;
     }
 });
 "

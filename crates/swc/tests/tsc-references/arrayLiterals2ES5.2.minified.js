@@ -19,12 +19,12 @@ var a0 = [
 ].concat(_to_consumable_array(a0)), _to_consumable_array(a0).concat([
     , 
 ]);
-var ref = [
+var _ref = [
     1,
     2,
     !0
 ];
-ref[0], ref[1];
+_ref[0], _ref[1];
 var temp = [
     "s",
     "t",

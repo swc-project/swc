@@ -14,19 +14,19 @@ use crate::memory_interop::read_returned_result_from_host;
 
 #[cfg(target_arch = "wasm32")]
 extern "C" {
-    fn __copy_comment_to_host_env(bytes_ptr: i32, bytes_ptr_len: i32);
+    fn __copy_comment_to_host_env(bytes_ptr: u32, bytes_ptr_len: u32);
     fn __add_leading_comment_proxy(byte_pos: u32);
     fn __add_leading_comments_proxy(byte_pos: u32);
-    fn __has_leading_comments_proxy(byte_pos: u32) -> i32;
+    fn __has_leading_comments_proxy(byte_pos: u32) -> u32;
     fn __move_leading_comments_proxy(from_byte_pos: u32, to_byte_pos: u32);
-    fn __take_leading_comments_proxy(byte_pos: u32, allocated_ret_ptr: i32) -> i32;
-    fn __get_leading_comments_proxy(byte_pos: u32, allocated_ret_ptr: i32) -> i32;
+    fn __take_leading_comments_proxy(byte_pos: u32, allocated_ret_ptr: u32) -> u32;
+    fn __get_leading_comments_proxy(byte_pos: u32, allocated_ret_ptr: u32) -> u32;
     fn __add_trailing_comment_proxy(byte_pos: u32);
     fn __add_trailing_comments_proxy(byte_pos: u32);
-    fn __has_trailing_comments_proxy(byte_pos: u32) -> i32;
+    fn __has_trailing_comments_proxy(byte_pos: u32) -> u32;
     fn __move_trailing_comments_proxy(from_byte_pos: u32, to_byte_pos: u32);
-    fn __take_trailing_comments_proxy(byte_pos: u32, allocated_ret_ptr: i32) -> i32;
-    fn __get_trailing_comments_proxy(byte_pos: u32, allocated_ret_ptr: i32) -> i32;
+    fn __take_trailing_comments_proxy(byte_pos: u32, allocated_ret_ptr: u32) -> u32;
+    fn __get_trailing_comments_proxy(byte_pos: u32, allocated_ret_ptr: u32) -> u32;
     fn __add_pure_comment_proxy(byte_pos: u32);
 }
 
@@ -65,7 +65,7 @@ impl PluginCommentsProxy {
                 // CommentHostEnvironment's buffer, subsequent proxy call will read &
                 // deserialize it.
                 __copy_comment_to_host_env(
-                    serialized_comment_ptr as i32,
+                    serialized_comment_ptr as u32,
                     serialized_comment_ptr_len
                         .try_into()
                         .expect("Should able to convert ptr length"),

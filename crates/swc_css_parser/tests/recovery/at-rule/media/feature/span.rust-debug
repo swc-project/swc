@@ -35,7 +35,7 @@
    :       ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/media/feature/input.css:1:1]
  1 | @media screen and {}
    :       ^
@@ -47,7 +47,7 @@
    :        ^^^^^^
    `----
 
-  x Ident { value: Atom('screen' type=inline), raw: Atom('screen' type=inline) }
+  x Ident { value: Atom('screen' type=inline), raw: "screen" }
    ,-[$DIR/tests/recovery/at-rule/media/feature/input.css:1:1]
  1 | @media screen and {}
    :        ^^^^^^
@@ -59,7 +59,7 @@
    :              ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/media/feature/input.css:1:1]
  1 | @media screen and {}
    :              ^
@@ -71,7 +71,7 @@
    :               ^^^
    `----
 
-  x Ident { value: Atom('and' type=static), raw: Atom('and' type=static) }
+  x Ident { value: Atom('and' type=static), raw: "and" }
    ,-[$DIR/tests/recovery/at-rule/media/feature/input.css:1:1]
  1 | @media screen and {}
    :               ^^^
@@ -83,7 +83,7 @@
    :                  ^
    `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/media/feature/input.css:1:1]
  1 | @media screen and {}
    :                  ^

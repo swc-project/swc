@@ -1,11 +1,11 @@
 //// [missingAndExcessProperties.ts]
 // Missing properties
-import _throw from "@swc/helpers/src/_throw.mjs";
+import _object_destructuring_empty from "@swc/helpers/src/_object_destructuring_empty.mjs";
 function f1() {
-    var ref = {}, x = ref.x, y = ref.y;
-    var ref1 = {}, _x = ref1.x, x = _x === void 0 ? 1 : _x, y = ref1.y;
-    var ref2 = {}, x = ref2.x, _y = ref2.y, y = _y === void 0 ? 1 : _y;
-    var ref3 = {}, _x1 = ref3.x, x = _x1 === void 0 ? 1 : _x1, _y1 = ref3.y, y = _y1 === void 0 ? 1 : _y1;
+    var _ref = {}, x = _ref.x, y = _ref.y;
+    var _ref1 = {}, _ref_x = _ref1.x, x = _ref_x === void 0 ? 1 : _ref_x, y = _ref1.y;
+    var _ref2 = {}, x = _ref2.x, _ref_y = _ref2.y, y = _ref_y === void 0 ? 1 : _ref_y;
+    var _ref3 = {}, _ref_x1 = _ref3.x, x = _ref_x1 === void 0 ? 1 : _ref_x1, _ref_y1 = _ref3.y, y = _ref_y1 === void 0 ? 1 : _ref_y1;
 }
 // Missing properties
 function f2() {
@@ -21,10 +21,10 @@ function f2() {
 }
 // Excess properties
 function f3() {
-    var ref = {
+    var ref = _object_destructuring_empty({
         x: 0,
         y: 0
-    }, ref = ref !== null ? ref : _throw(new TypeError("Cannot destructure undefined"));
+    });
     var x = {
         x: 0,
         y: 0
@@ -33,19 +33,18 @@ function f3() {
         x: 0,
         y: 0
     }.y;
-    var ref1 = {
+    var _ref = {
         x: 0,
         y: 0
-    }, x = ref1.x, y = ref1.y;
+    }, x = _ref.x, y = _ref.y;
 }
 // Excess properties
 function f4() {
     var x, y;
-    var ref;
-    ref = {
+    _object_destructuring_empty({
         x: 0,
         y: 0
-    }, ref;
+    });
     x = ({
         x: 0,
         y: 0
@@ -54,9 +53,9 @@ function f4() {
         x: 0,
         y: 0
     }).y;
-    var ref1;
-    ref1 = {
+    var ref;
+    ref = {
         x: 0,
         y: 0
-    }, x = ref1.x, y = ref1.y, ref1;
+    }, x = ref.x, y = ref.y, ref;
 }
