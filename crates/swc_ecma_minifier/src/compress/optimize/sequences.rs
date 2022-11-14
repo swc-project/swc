@@ -897,17 +897,21 @@ where
 
                     // Merge sequentially
 
-                    if self.merge_sequential_expr(
-                        a,
-                        match &mut a2[j - idx] {
-                            Mergable::Var(b) => match b.init.as_deref_mut() {
+                    let b = match &mut a2[j - idx] {
+                        Mergable::Var(b) => {
+                            if !self.is_pat_skippable_for_seq(Some(a), &b.name) {
+                                continue;
+                            }
+
+                            match b.init.as_deref_mut() {
                                 Some(v) => v,
                                 None => continue,
-                            },
-                            Mergable::Expr(e) => e,
-                            Mergable::FnDecl(..) => continue,
-                        },
-                    )? {
+                            }
+                        }
+                        Mergable::Expr(e) => e,
+                        Mergable::FnDecl(..) => continue,
+                    };
+                    if self.merge_sequential_expr(a, b)? {
                         did_work = true;
                         break;
                     }
@@ -1008,7 +1012,8 @@ where
 
     fn is_pat_skippable_for_seq(&mut self, a: Option<&Mergable>, p: &Pat) -> bool {
         match p {
-            Pat::Ident(_) => true,
+            // Delegate
+            Pat::Ident(i) => self.is_skippable_for_seq(a, &Expr::Ident(i.id.clone())),
             Pat::Invalid(_) => false,
 
             Pat::Array(p) => {
