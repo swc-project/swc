@@ -269,15 +269,7 @@ impl Pure<'_> {
                 );
             }
 
-            match stmts[idx].as_stmt() {
-                Some(Stmt::Return(ReturnStmt { arg: None, .. })) => {
-                    // Exclude return
-                    new_stmts.extend(stmts.drain(..idx));
-                }
-                _ => {
-                    new_stmts.extend(stmts.drain(..=idx));
-                }
-            }
+            new_stmts.extend(stmts.drain(..=idx));
 
             new_stmts.extend(hoisted_fns);
 
