@@ -6,6 +6,8 @@ use anyhow::Error;
 #[doc(hidden)]
 pub use js_sys;
 use once_cell::sync::Lazy;
+use serde::Serialize;
+use serde_wasm_bindgen::Serializer;
 use swc::{config::ErrorFormat, Compiler};
 #[doc(hidden)]
 pub use swc::{
@@ -23,6 +25,12 @@ pub use swc_ecma_transforms::pass::noop;
 pub use wasm_bindgen::{JsCast, JsValue};
 #[doc(hidden)]
 pub use wasm_bindgen_futures::future_to_promise;
+
+// A serializer with options to provide backward compat for the input / output
+// from the bindgen generated swc interfaces.
+const COMPAT_SERIALIZER: Serializer = Serializer::new()
+    .serialize_maps_as_objects(true)
+    .serialize_missing_as_null(true);
 
 /// Get global sourcemap
 pub fn compiler() -> Arc<Compiler> {
@@ -66,13 +74,16 @@ macro_rules! build_minify_sync {
                   let opts = if opts.is_null() || opts.is_undefined() {
                       Default::default()
                   } else {
-                    $crate::wasm::anyhow::Context::context(opts.into_serde(), "failed to parse options")?
+                    $crate::wasm::serde_wasm_bindgen::from_value(opts)
+                      .map_err(|e| $crate::wasm::anyhow::anyhow!("failed to parse options: {}", e))?
                   };
 
                   let fm = c.cm.new_source_file($crate::wasm::FileName::Anon, s.into());
                   let program = $crate::wasm::anyhow::Context::context(c.minify(fm, handler, &opts), "failed to minify file")?;
 
-                  $crate::wasm::anyhow::Context::context($crate::wasm::JsValue::from_serde(&program), "failed to serialize json")
+                  program
+                    .serialize(&COMPAT_SERIALIZER)
+                    .map_err(|e| $crate::wasm::anyhow::anyhow!("failed to serialize program: {}", e))
               })
           },
       )
@@ -115,7 +126,8 @@ macro_rules! build_parse_sync {
                   let opts: $crate::wasm::ParseOptions = if opts.is_null() || opts.is_undefined() {
                       Default::default()
                   } else {
-                      $crate::wasm::anyhow::Context::context(opts.into_serde(), "failed to parse options")?
+                      $crate::wasm::serde_wasm_bindgen::from_value(opts)
+                        .map_err(|e| $crate::wasm::anyhow::anyhow!("failed to parse options: {}", e))?
                   };
 
                   let fm = c.cm.new_source_file($crate::wasm::FileName::Anon, s.into());
@@ -140,7 +152,9 @@ macro_rules! build_parse_sync {
                       "failed to parse code"
                   )?;
 
-                  $crate::wasm::anyhow::Context::context($crate::wasm::JsValue::from_serde(&program), "failed to serialize json")
+                  program
+                    .serialize(&COMPAT_SERIALIZER)
+                    .map_err(|e| $crate::wasm::anyhow::anyhow!("failed to serialize program: {}", e))
               })
           },
       )
@@ -183,10 +197,12 @@ macro_rules! build_print_sync {
                   let opts: $crate::wasm::Options = if opts.is_null() || opts.is_undefined() {
                       Default::default()
                   } else {
-                    $crate::wasm::anyhow::Context::context(opts.into_serde(), "failed to parse options")?
+                    $crate::wasm::serde_wasm_bindgen::from_value(opts)
+                      .map_err(|e| $crate::wasm::anyhow::anyhow!("failed to parse options: {}", e))?
                   };
 
-                  let program: $crate::wasm::Program = $crate::wasm::anyhow::Context::context(s.into_serde(), "failed to deserialize program")?;
+                  let program: $crate::wasm::Program = $crate::wasm::serde_wasm_bindgen::from_value(s)
+                    .map_err(|e| $crate::wasm::anyhow::anyhow!("failed to deserialize program: {}", e))?;
                   let s = $crate::wasm::anyhow::Context::context(c
                     .print(
                         &program,
@@ -205,7 +221,9 @@ macro_rules! build_print_sync {
                         false,
                     ),"failed to print code")?;
 
-                    $crate::wasm::anyhow::Context::context(JsValue::from_serde(&s), "failed to serialize json")
+                    program
+                      .serialize(&COMPAT_SERIALIZER)
+                      .map_err(|e| $crate::wasm::anyhow::anyhow!("failed to serialize program: {}", e))
               })
           },
       )
@@ -281,9 +299,7 @@ macro_rules! build_transform_sync {
                         buffer
                     };
 
-                    let bytes: Vec<u8> = data
-                        .into_serde()
-                        .expect("Could not read byte from plugin resolver");
+                    let bytes: Vec<u8> = $crate::wasm::serde_wasm_bindgen::from_value(data).expect("Could not read byte from plugin resolver");
 
                     // In here we 'inject' externally loaded bytes into the cache, so
                     // remaining plugin_runner execution path works as much as
@@ -296,8 +312,7 @@ macro_rules! build_transform_sync {
         let opts: $crate::wasm::Options = if opts.is_null() || opts.is_undefined() {
             Default::default()
         } else {
-          $crate::wasm::anyhow::Context::context(opts.into_serde(), "failed to parse options")
-                .map_err(|e| $crate::wasm::convert_err(e, None))?
+          $crate::wasm::serde_wasm_bindgen::from_value(opts)?
         };
 
         let error_format = opts.experimental.error_format.unwrap_or_default();
@@ -333,11 +348,12 @@ macro_rules! build_transform_sync {
                           ), "failed to process js file"
                           )?
                       }
-                      Err(v) => unsafe { c.process_js(handler, v.into_serde().expect(""), &opts)? },
+                      Err(v) => unsafe { c.process_js(handler, $crate::wasm::serde_wasm_bindgen::from_value(v).expect(""), &opts)? },
                   };
 
-                  $crate::wasm::anyhow::Context::context($crate::wasm::JsValue::from_serde(&out),
-                                                          "failed to serialize json")
+                  out
+                    .serialize(&COMPAT_SERIALIZER)
+                    .map_err(|e| $crate::wasm::anyhow::anyhow!("failed to serialize transform result: {}", e))
               })
             },
         )
