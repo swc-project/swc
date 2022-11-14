@@ -6,6 +6,8 @@ use anyhow::Error;
 #[doc(hidden)]
 pub use js_sys;
 use once_cell::sync::Lazy;
+use serde::Serialize;
+use serde_wasm_bindgen::Serializer;
 use swc::{config::ErrorFormat, Compiler};
 #[doc(hidden)]
 pub use swc::{
@@ -23,6 +25,12 @@ pub use swc_ecma_transforms::pass::noop;
 pub use wasm_bindgen::{JsCast, JsValue};
 #[doc(hidden)]
 pub use wasm_bindgen_futures::future_to_promise;
+
+// A serializer with options to provide backward compat for the input / output
+// from the bindgen generated swc interfaces.
+const COMPAT_SERIALIZER: Serializer = Serializer::new()
+    .serialize_maps_as_objects(true)
+    .serialize_missing_as_null(true);
 
 /// Get global sourcemap
 pub fn compiler() -> Arc<Compiler> {
@@ -73,8 +81,9 @@ macro_rules! build_minify_sync {
                   let fm = c.cm.new_source_file($crate::wasm::FileName::Anon, s.into());
                   let program = $crate::wasm::anyhow::Context::context(c.minify(fm, handler, &opts), "failed to minify file")?;
 
-                  $crate::wasm::serde_wasm_bindgen::to_value(&program)
-                    .map_err(|e| $crate::wasm::anyhow::anyhow!("failed to deserialize program: {}", e))
+                  program
+                    .serialize(&COMPAT_SERIALIZER)
+                    .map_err(|e| $crate::wasm::anyhow::anyhow!("failed to serialize program: {}", e))
               })
           },
       )
@@ -143,8 +152,9 @@ macro_rules! build_parse_sync {
                       "failed to parse code"
                   )?;
 
-                  $crate::wasm::serde_wasm_bindgen::to_value(&program)
-                    .map_err(|e| $crate::wasm::anyhow::anyhow!("failed to deserialize program: {}", e))
+                  program
+                    .serialize(&COMPAT_SERIALIZER)
+                    .map_err(|e| $crate::wasm::anyhow::anyhow!("failed to serialize program: {}", e))
               })
           },
       )
@@ -211,8 +221,9 @@ macro_rules! build_print_sync {
                         false,
                     ),"failed to print code")?;
 
-                    $crate::wasm::serde_wasm_bindgen::to_value(&s)
-                      .map_err(|e| $crate::wasm::anyhow::anyhow!("failed to serialize json: {}", e))
+                    program
+                      .serialize(&COMPAT_SERIALIZER)
+                      .map_err(|e| $crate::wasm::anyhow::anyhow!("failed to serialize program: {}", e))
               })
           },
       )
@@ -340,8 +351,9 @@ macro_rules! build_transform_sync {
                       Err(v) => unsafe { c.process_js(handler, $crate::wasm::serde_wasm_bindgen::from_value(v).expect(""), &opts)? },
                   };
 
-                  $crate::wasm::serde_wasm_bindgen::to_value(&out)
-                    .map_err(|e| $crate::wasm::anyhow::anyhow!("failed to serialize json: {}", e))
+                  out
+                    .serialize(&COMPAT_SERIALIZER)
+                    .map_err(|e| $crate::wasm::anyhow::anyhow!("failed to serialize transform result: {}", e))
               })
             },
         )
