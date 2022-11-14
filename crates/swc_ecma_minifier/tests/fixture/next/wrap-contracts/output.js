@@ -636,7 +636,7 @@
                     isNegNum && (num = -num), assert('number' == typeof num), assert(num < 0x4000000);
                     for(var carry = 0, i = 0; i < this.length; i++){
                         var w = (0 | this.words[i]) * num, lo = (0x3ffffff & w) + (0x3ffffff & carry);
-                        carry >>= 26, carry = (w / 0x4000000 | 0) + (lo >>> 26), this.words[i] = 0x3ffffff & lo;
+                        carry >>= 26, carry += (w / 0x4000000 | 0) + (lo >>> 26), this.words[i] = 0x3ffffff & lo;
                     }
                     return 0 !== carry && (this.words[i] = carry, this.length++), isNegNum ? this.ineg() : this;
                 }, BN.prototype.muln = function(num) {
@@ -7909,7 +7909,7 @@
                     assert('number' == typeof num), assert(num < 0x4000000);
                     for(var carry = 0, i = 0; i < this.length; i++){
                         var w = (0 | this.words[i]) * num, lo = (0x3ffffff & w) + (0x3ffffff & carry);
-                        carry >>= 26, carry = (w / 0x4000000 | 0) + (lo >>> 26), this.words[i] = 0x3ffffff & lo;
+                        carry >>= 26, carry += (w / 0x4000000 | 0) + (lo >>> 26), this.words[i] = 0x3ffffff & lo;
                     }
                     return 0 !== carry && (this.words[i] = carry, this.length++), this;
                 }, BN.prototype.muln = function(num) {
@@ -18960,7 +18960,7 @@
                                     let i = 0;
                                     for(; i < maximumValuesToStringify - 1; i++){
                                         const tmp = stringifyFnReplacer(i, value, stack, replacer, spacer, indentation);
-                                        res = (void 0 !== tmp ? tmp : 'null') + join;
+                                        res += (void 0 !== tmp ? tmp : 'null') + join;
                                     }
                                     const tmp1 = stringifyFnReplacer(i, value, stack, replacer, spacer, indentation);
                                     if (res += void 0 !== tmp1 ? tmp1 : 'null', value.length - 1 > maximumBreadth) {
@@ -19013,7 +19013,7 @@
                                     let i = 0;
                                     for(; i < maximumValuesToStringify - 1; i++){
                                         const tmp = stringifyArrayReplacer(i, value[i], stack, replacer, spacer, indentation);
-                                        res = (void 0 !== tmp ? tmp : 'null') + join;
+                                        res += (void 0 !== tmp ? tmp : 'null') + join;
                                     }
                                     const tmp1 = stringifyArrayReplacer(i, value[i], stack, replacer, spacer, indentation);
                                     if (res += void 0 !== tmp1 ? tmp1 : 'null', value.length - 1 > maximumBreadth) {
@@ -19063,7 +19063,7 @@
                                     let i = 0;
                                     for(; i < maximumValuesToStringify - 1; i++){
                                         const tmp = stringifyIndent(i, value[i], stack, spacer, indentation);
-                                        res = (void 0 !== tmp ? tmp : 'null') + join;
+                                        res += (void 0 !== tmp ? tmp : 'null') + join;
                                     }
                                     const tmp1 = stringifyIndent(i, value[i], stack, spacer, indentation);
                                     if (res += void 0 !== tmp1 ? tmp1 : 'null', value.length - 1 > maximumBreadth) {
@@ -19119,7 +19119,7 @@
                                     let i = 0;
                                     for(; i < maximumValuesToStringify - 1; i++){
                                         const tmp = stringifySimple(i, value[i], stack);
-                                        res = (void 0 !== tmp ? tmp : 'null') + ',';
+                                        res += (void 0 !== tmp ? tmp : 'null') + ',';
                                     }
                                     const tmp1 = stringifySimple(i, value[i], stack);
                                     if (res += void 0 !== tmp1 ? tmp1 : 'null', value.length - 1 > maximumBreadth) {
