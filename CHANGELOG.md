@@ -5,6 +5,9 @@
 
 
 
+- **(bindings)** Revert #6436 (#6444) ([948e35b](https://github.com/swc-project/swc/commit/948e35bcd66b98c460d67b4d58f536ea4d3d5992))
+
+
 - **(css/parser)** Fix a bug with scope in block (#6402) ([3d7545d](https://github.com/swc-project/swc/commit/3d7545d89bf6a7675cd511217b6c024889476fc8))
 
 
