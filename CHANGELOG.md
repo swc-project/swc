@@ -7,6 +7,12 @@
 
 - **(es/minifier)** Fix code for dropping unreachable statements (#6429) ([bb544ba](https://github.com/swc-project/swc/commit/bb544ba2f58531e2cf984bbbaf2f819a1e4d8ada))
 
+### Features
+
+
+
+- **(css/parser)** Add `parse_string_input` (#6441) ([9600308](https://github.com/swc-project/swc/commit/9600308108daa60c142a5a6fddc9c6ef94c12b80))
+
 ## [1.3.17] - 2022-11-15
 
 ### Bug Fixes
