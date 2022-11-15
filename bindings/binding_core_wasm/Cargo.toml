@@ -29,10 +29,9 @@ swc_core = { version = "0.43.3", features = [
 ] }
 tracing = { version = "0.1.37", features = ["max_level_off"] }
 wasm-bindgen = { version = "0.2.82", features = [
+  "serde-serialize",
   "enable-interning",
 ] }
-serde = { version = "1", features = ["derive"] }
-serde-wasm-bindgen = "0.4.5"
 
 [package.metadata.wasm-pack.profile.release]
 wasm-opt = false
