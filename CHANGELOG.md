@@ -5,6 +5,9 @@
 
 
 
+- **(css/parser)** Fix a bug with scope in block (#6402) ([3d7545d](https://github.com/swc-project/swc/commit/3d7545d89bf6a7675cd511217b6c024889476fc8))
+
+
 - **(es/compat)** Improve `destructuring` pass (#6412) ([6728603](https://github.com/swc-project/swc/commit/67286032b1bd75ef1dac51201fe5ff65143f565a))
 
 

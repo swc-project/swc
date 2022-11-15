@@ -3164,7 +3164,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.43.9"
+version = "0.43.10"
 dependencies = [
  "binding_macros",
  "once_cell",
@@ -3214,7 +3214,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css"
-version = "0.140.1"
+version = "0.140.2"
 dependencies = [
  "swc_css_ast",
  "swc_css_codegen",
@@ -3242,7 +3242,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_codegen"
-version = "0.137.1"
+version = "0.137.2"
 dependencies = [
  "auto_impl",
  "bitflags",
@@ -3271,7 +3271,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_compat"
-version = "0.12.1"
+version = "0.12.2"
 dependencies = [
  "once_cell",
  "serde",
@@ -3288,7 +3288,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_lints"
-version = "0.46.1"
+version = "0.46.2"
 dependencies = [
  "auto_impl",
  "parking_lot",
@@ -3307,7 +3307,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_minifier"
-version = "0.102.1"
+version = "0.102.2"
 dependencies = [
  "criterion",
  "serde",
@@ -3324,7 +3324,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_modules"
-version = "0.13.1"
+version = "0.13.2"
 dependencies = [
  "rustc-hash",
  "serde",
@@ -3341,7 +3341,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_parser"
-version = "0.136.1"
+version = "0.136.2"
 dependencies = [
  "bitflags",
  "criterion",
@@ -3358,7 +3358,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_prefixer"
-version = "0.138.1"
+version = "0.138.2"
 dependencies = [
  "once_cell",
  "preset_env_base",
@@ -4043,7 +4043,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html"
-version = "0.96.7"
+version = "0.96.8"
 dependencies = [
  "swc_html_ast",
  "swc_html_codegen",
@@ -4095,7 +4095,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "0.93.7"
+version = "0.93.8"
 dependencies = [
  "criterion",
  "once_cell",
