@@ -16,6 +16,12 @@
 
 - **(es/modules)** Fix `jsc.paths` of `.ts` imports (#6431) ([9c9c3eb](https://github.com/swc-project/swc/commit/9c9c3ebd2c9c4141e3449e19926636a77741980a))
 
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Ensure to honor node package manager (#6437) ([8ca3cc7](https://github.com/swc-project/swc/commit/8ca3cc7875b1fc3fc4db107980f59de46b4e6c81))
+
 ### Refactor
 
 
