@@ -142,6 +142,7 @@ jobs:
       - name: Install node dependencies
         shell: bash
         run: |
+          corepack enable
           yarn
 
       # Ensure that all components are compilable.
@@ -166,12 +167,13 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: "16"
+          node-version: "18"
           cache: "yarn"
 
       - name: Install node dependencies
         shell: bash
         run: |
+          corepack enable
           yarn
 
       - name: Build
