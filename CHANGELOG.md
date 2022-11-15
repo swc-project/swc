@@ -5,6 +5,14 @@
 
 
 
+- **(es/minifier)** Fix code for dropping unreachable statements (#6429) ([bb544ba](https://github.com/swc-project/swc/commit/bb544ba2f58531e2cf984bbbaf2f819a1e4d8ada))
+
+## [1.3.17] - 2022-11-15
+
+### Bug Fixes
+
+
+
 - **(bindings)** Revert #6436 (#6444) ([948e35b](https://github.com/swc-project/swc/commit/948e35bcd66b98c460d67b4d58f536ea4d3d5992))
 
 
