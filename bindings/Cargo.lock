@@ -188,9 +188,9 @@ dependencies = [
 
 [[package]]
 name = "binding_macros"
-version = "0.20.94"
+version = "0.20.95"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "659268d51640ba243f36fe5140dae1cfcc36838d64f0b7b6f7c5dc9dd19b70a3"
+checksum = "3a73792f48f2f902c06a8d81c4e71f463ce939a79a3852bde337175034fc9673"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -2592,9 +2592,9 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.43.11"
+version = "0.43.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "85c23a92f00c6f5fe3dd2c8c3ba6f550e4d8f984b9178714955a68ec8882ecbd"
+checksum = "9b07055c689f8445d8f5122016856b7811e90d5f83bd2c95d84cc9b62023f4ba"
 dependencies = [
  "binding_macros",
  "swc",
