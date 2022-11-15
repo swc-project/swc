@@ -32,9 +32,7 @@ where
     let serialized_len = serialized_bytes.as_ptr().1;
 
     let ptr_start: u32 = get_allocated_ptr(serialized_len);
-    let ptr_start_size: u32 = ptr_start
-        .try_into()
-        .unwrap_or_else(|_| panic!("Should be able to convert the value {} to u32", ptr_start));
+    let ptr_start_size: u32 = ptr_start;
     let serialized_len_size: u32 = serialized_len.try_into().unwrap_or_else(|_| {
         panic!(
             "Should be able to convert the value {} to u32",
