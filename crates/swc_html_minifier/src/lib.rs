@@ -1827,32 +1827,29 @@ impl Minifier<'_> {
 
             let result = child_will_be_retained(&mut child, &mut new_children, children);
 
-            if result {
-                if self.options.remove_empty_metadata_elements
-                    && self.is_empty_metadata_element(&child)
-                {
-                    let need_continue = {
-                        let next_element = if let Some(Child::Element(element)) = children.get(0) {
-                            Some(element)
-                        } else if let Some(Child::Element(element)) = children.get(1) {
-                            Some(element)
-                        } else {
-                            None
-                        };
+            if self.options.remove_empty_metadata_elements {
+                if let Some(last_child @ Child::Element(_)) = new_children.last() {
+                    if self.is_empty_metadata_element(last_child) {
+                        new_children.pop();
 
-                        if let Some(element) = next_element {
-                            self.options.merge_metadata_elements
-                                && !self.allow_elements_to_merge(Some(&child), element)
-                        } else {
-                            true
+                        if let Child::Text(text) = &mut child {
+                            if let Some(Child::Text(prev_text)) = new_children.last_mut() {
+                                let mut new_data =
+                                    String::with_capacity(prev_text.data.len() + text.data.len());
+
+                                new_data.push_str(&prev_text.data);
+                                new_data.push_str(&text.data);
+
+                                text.data = new_data.into();
+
+                                new_children.pop();
+                            }
                         }
-                    };
-
-                    if need_continue {
-                        continue;
                     }
                 }
+            }
 
+            if result {
                 new_children.push(child);
             }
         }
