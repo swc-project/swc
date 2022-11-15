@@ -48,7 +48,7 @@ fn prepare(i: Ident) -> Ident {
         return private_ident!(i.span, format!("_{}", i.sym));
     }
 
-    i
+    private_ident!(i.span, i.sym)
 }
 
 #[swc_trace]

@@ -5,10 +5,37 @@
 
 
 
+- **(bindings)** Revert #6436 (#6444) ([948e35b](https://github.com/swc-project/swc/commit/948e35bcd66b98c460d67b4d58f536ea4d3d5992))
+
+
+- **(css/parser)** Fix a bug with scope in block (#6402) ([3d7545d](https://github.com/swc-project/swc/commit/3d7545d89bf6a7675cd511217b6c024889476fc8))
+
+
 - **(es/compat)** Improve `destructuring` pass (#6412) ([6728603](https://github.com/swc-project/swc/commit/67286032b1bd75ef1dac51201fe5ff65143f565a))
+
+
+- **(es/compat)** Fix span hygiene of function naming pass (#6345) ([81a4bb3](https://github.com/swc-project/swc/commit/81a4bb304a2790dab9448c88887a78430792ed38))
+
+
+- **(es/minifier)** Preserve op of the op-assignments in seq inliner (#6428) ([5fd7ab8](https://github.com/swc-project/swc/commit/5fd7ab87b69ed99bee1dfdbe39ed2182e0182a75))
+
+
+- **(es/minifier)** Change the default of `mangle.toplevel` to false (#6439) ([99934b0](https://github.com/swc-project/swc/commit/99934b09f70f9fb594e3291a9d96b79685919b13))
+
+
+- **(es/modules)** Fix `jsc.paths` of `.ts` imports (#6431) ([9c9c3eb](https://github.com/swc-project/swc/commit/9c9c3ebd2c9c4141e3449e19926636a77741980a))
+
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Ensure to honor node package manager (#6437) ([8ca3cc7](https://github.com/swc-project/swc/commit/8ca3cc7875b1fc3fc4db107980f59de46b4e6c81))
 
 ### Refactor
 
+
+
+- **(bindings)** Deprecate `JsValue::*_serde` (#6436) ([1dd8b3d](https://github.com/swc-project/swc/commit/1dd8b3d9d5393fa382345dce3d6977f7d4b5aa63))
 
 
 - **(es/plugins)** Simplify `read_result_*` (#6426) ([7a1c2a1](https://github.com/swc-project/swc/commit/7a1c2a1e2ca98cb897899b1a5def7dba7b6a8b5c))

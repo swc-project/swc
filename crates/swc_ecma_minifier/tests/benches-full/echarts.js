@@ -5298,7 +5298,7 @@
                     var width = data[i++], height = data[i++];
                     if (x1 = x0 + width, y1 = y0 + height, isStroke) {
                         if (containStroke(x0, y0, x1, y0, lineWidth, x, y) || containStroke(x1, y0, x1, y1, lineWidth, x, y) || containStroke(x1, y1, x0, y1, lineWidth, x, y) || containStroke(x0, y1, x0, y0, lineWidth, x, y)) return !0;
-                    } else w = windingLine(x1, y0, x1, y1, x, y) + windingLine(x0, y1, x0, y0, x, y);
+                    } else w += windingLine(x1, y0, x1, y1, x, y) + windingLine(x0, y1, x0, y0, x, y);
                     break;
                 case CMD$1.Z:
                     if (isStroke) {
@@ -34777,7 +34777,7 @@
             var blockMetaList = result1.meta, buttonContainer = document.createElement('div');
             buttonContainer.style.cssText = 'position:absolute;bottom:0;left:0;right:0;';
             var buttonStyle = "float:right;margin-right:20px;border:none;cursor:pointer;padding:2px 5px;font-size:12px;border-radius:3px", closeButton = document.createElement('div'), refreshButton = document.createElement('div');
-            buttonStyle = ';background-color:' + model.get('buttonColor') + ';color:' + model.get('buttonTextColor');
+            buttonStyle += ';background-color:' + model.get('buttonColor') + ';color:' + model.get('buttonTextColor');
             var self1 = this;
             function close() {
                 container.removeChild(root), self1._dom = null;

@@ -2121,7 +2121,7 @@
             },
             _create: function() {
                 var listviewClasses = "";
-                listviewClasses += this.options.inset ? " ui-listview-inset" : "", this.options.inset && (listviewClasses = (this.options.corners ? " ui-corner-all" : "") + (this.options.shadow ? " ui-shadow" : "")), this.element.addClass(" ui-listview" + listviewClasses), this.refresh(!0);
+                listviewClasses += this.options.inset ? " ui-listview-inset" : "", this.options.inset && (listviewClasses += (this.options.corners ? " ui-corner-all" : "") + (this.options.shadow ? " ui-shadow" : "")), this.element.addClass(" ui-listview" + listviewClasses), this.refresh(!0);
             },
             _findFirstElementByTagName: function(ele, nextProp, lcName, ucName) {
                 var dict = {};

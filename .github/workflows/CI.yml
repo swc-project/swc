@@ -142,6 +142,7 @@ jobs:
       - name: Install node dependencies
         shell: bash
         run: |
+          corepack enable
           yarn
 
       # Ensure that all components are compilable.
@@ -161,17 +162,24 @@ jobs:
         with:
           profile: minimal
 
+      - name: Patch
+        run: |
+          echo '[patch.crates-io]' >> bindings/Cargo.toml
+          ./scripts/cargo/patch-section.sh >> bindings/Cargo.toml
+          cd bindings && cargo update
+
       - name: Install wasm-pack
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
       - uses: actions/setup-node@v3
         with:
-          node-version: "16"
+          node-version: "18"
           cache: "yarn"
 
       - name: Install node dependencies
         shell: bash
         run: |
+          corepack enable
           yarn
 
       - name: Build

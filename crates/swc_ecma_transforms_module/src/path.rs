@@ -113,10 +113,22 @@ where
 {
     fn resolve_import(&self, base: &FileName, module_specifier: &str) -> Result<JsWord, Error> {
         fn to_specifier(target_path: &str, orig_ext: Option<&str>) -> JsWord {
-            let p = PathBuf::from(target_path);
+            let mut p = PathBuf::from(target_path);
 
             if cfg!(debug_assertions) {
                 trace!("to_specifier: orig_ext={:?}", orig_ext);
+            }
+
+            if let Some(orig_ext) = orig_ext {
+                let use_orig = if let Some(ext) = p.extension() {
+                    (ext == "ts" || ext == "tsx") && p.is_file()
+                } else {
+                    false
+                };
+
+                if use_orig {
+                    p.set_extension(orig_ext);
+                }
             }
 
             p.display().to_string().into()
