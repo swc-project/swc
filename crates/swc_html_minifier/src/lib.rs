@@ -611,10 +611,7 @@ impl Minifier<'_> {
     fn is_type_text_css(&self, value: &JsWord) -> bool {
         let value = value.trim().to_ascii_lowercase();
 
-        match &*value {
-            "text/css" => true,
-            _ => false,
-        }
+        matches!(&*value, "text/css")
     }
 
     fn is_default_attribute_value(&self, element: &Element, attribute: &Attribute) -> bool {
