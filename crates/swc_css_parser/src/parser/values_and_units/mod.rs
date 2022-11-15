@@ -266,6 +266,7 @@ where
         Ok(tokens)
     }
 
+    // TODO use `JsWord`
     pub fn parse_function_values(&mut self, function_name: &str) -> PResult<Vec<ComponentValue>> {
         let mut values = vec![];
 
