@@ -747,32 +747,6 @@ where
             return Ok(declaration);
         }
 
-        // Grammar parsing
-        let list_of_component_values = self.create_locv(declaration.value);
-
-        declaration.value =
-            match self.parse_according_to_grammar(&list_of_component_values, |parser| {
-                let mut values = vec![];
-
-                loop {
-                    if is!(parser, EOF) {
-                        break;
-                    }
-
-                    values.push(parser.parse_generic_value()?);
-                }
-
-                Ok(values)
-            }) {
-                Ok(values) => values,
-                Err(err) => {
-                    if *err.kind() != ErrorKind::Ignore {
-                        self.errors.push(err);
-                    }
-
-                    list_of_component_values.children
-                }
-            };
         // Canonicalization against a grammar
         declaration = self.canonicalize_declaration_value(declaration)?;
 
@@ -969,26 +943,6 @@ where
 
         function.span = span!(self, span.lo);
 
-        // Grammar parsing
-        match self.ctx.block_contents_grammar {
-            BlockContentsGrammar::DeclarationList => {}
-            _ => {
-                let locv = self.create_locv(function.value);
-
-                function.value = match self.parse_according_to_grammar(&locv, |parser| {
-                    parser.parse_function_values(function_name)
-                }) {
-                    Ok(values) => values,
-                    Err(err) => {
-                        if *err.kind() != ErrorKind::Ignore {
-                            self.errors.push(err);
-                        }
-
-                        locv.children
-                    }
-                };
-            }
-        }
         // Canonicalization against a grammar
         function = self.canonicalize_function_value(function)?;
 

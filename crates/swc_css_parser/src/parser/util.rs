@@ -8,7 +8,6 @@ use super::{
     input::{Input, InputType, ParserInput},
     Ctx, Error, PResult, Parse, Parser,
 };
-use crate::parser::BlockContentsGrammar;
 use crate::{error::ErrorKind, parser::BlockContentsGrammar};
 
 impl<I> Parser<I>
