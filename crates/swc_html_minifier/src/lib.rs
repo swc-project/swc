@@ -608,6 +608,15 @@ impl Minifier<'_> {
         }
     }
 
+    fn is_type_text_css(&self, value: &JsWord) -> bool {
+        let value = value.trim().to_ascii_lowercase();
+
+        match &*value {
+            "text/css" => true,
+            _ => false,
+        }
+    }
+
     fn is_default_attribute_value(&self, element: &Element, attribute: &Attribute) -> bool {
         let attribute_value = match &attribute.value {
             Some(value) => value,
@@ -652,7 +661,7 @@ impl Minifier<'_> {
                     },
                     js_word!("link") => {
                         if attribute.name == js_word!("type")
-                            && &*attribute_value.trim().to_ascii_lowercase() == "text/css"
+                            && self.is_type_text_css(attribute_value)
                         {
                             return true;
                         }
@@ -1305,9 +1314,38 @@ impl Minifier<'_> {
 
     fn is_empty_metadata_element(&self, child: &Child) -> bool {
         if let Child::Element(element) = child {
-            if (!self.is_element_displayed(element)
-                || (matches!(element.namespace, Namespace::HTML | Namespace::SVG)
-                    && element.tag_name == js_word!("script"))
+            if matches!(element.namespace, Namespace::HTML | Namespace::SVG)
+                && element.tag_name == js_word!("style")
+                && self.is_empty_children(&element.children)
+            {
+                if element.attributes.is_empty() {
+                    return true;
+                }
+
+                if element.attributes.len() == 1 {
+                    return element.attributes.iter().all(|attr| {
+                        attr.name == js_word!("type")
+                            && attr.value.is_some()
+                            && self.is_type_text_css(attr.value.as_ref().unwrap())
+                    });
+                }
+            } else if matches!(element.namespace, Namespace::HTML | Namespace::SVG)
+                && element.tag_name == js_word!("script")
+                && self.is_empty_children(&element.children)
+            {
+                if element.attributes.is_empty() {
+                    return true;
+                }
+
+                if element.attributes.len() == 1 {
+                    return element.attributes.iter().all(|attr| {
+                        attr.name == js_word!("type")
+                            && attr.value.is_some()
+                            && (attr.value == Some(js_word!("module"))
+                                || self.is_type_text_javascript(attr.value.as_ref().unwrap()))
+                    });
+                }
+            } else if (!self.is_element_displayed(element)
                 || (element.namespace == Namespace::HTML
                     && element.tag_name == js_word!("noscript")))
                 && element.attributes.is_empty()
@@ -1360,7 +1398,7 @@ impl Minifier<'_> {
                         }
                         js_word!("type") => {
                             if let Some(value) = &attribute.value {
-                                if (is_style_tag && value.trim().to_ascii_lowercase() == "text/css")
+                                if (is_style_tag && self.is_type_text_css(value))
                                     || (is_script_tag && self.is_type_text_javascript(value))
                                 {
                                     false
@@ -1402,7 +1440,7 @@ impl Minifier<'_> {
                         }
                         js_word!("type") => {
                             if let Some(value) = &attribute.value {
-                                if (is_style_tag && value.trim().to_ascii_lowercase() == "text/css")
+                                if (is_style_tag && self.is_type_text_css(value))
                                     || (is_script_tag && self.is_type_text_javascript(value))
                                 {
                                     false
@@ -3005,21 +3043,14 @@ impl VisitMut for Minifier<'_> {
 
                     for attribute in &current_element.attributes {
                         if attribute.name == js_word!("type") && attribute.value.is_some() {
-                            type_attribute_value = Some(
-                                attribute
-                                    .value
-                                    .as_ref()
-                                    .unwrap()
-                                    .trim()
-                                    .to_ascii_lowercase(),
-                            );
+                            type_attribute_value = Some(attribute.value.as_ref().unwrap());
 
                             break;
                         }
                     }
 
                     if type_attribute_value.is_none()
-                        || type_attribute_value == Some("text/css".into())
+                        || self.is_type_text_css(type_attribute_value.as_ref().unwrap())
                     {
                         text_type = Some(MinifierType::Css)
                     }
