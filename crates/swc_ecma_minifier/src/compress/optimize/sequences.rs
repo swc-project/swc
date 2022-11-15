@@ -2305,7 +2305,7 @@ where
                                     );
                                     self.changed = true;
 
-                                    b.op = op!("=");
+                                    b.op = a_op;
 
                                     let to = take_a!(true, true);
 

@@ -6848,7 +6848,7 @@
                                                     var styleValue = styles[styleName];
                                                     if (null != styleValue) {
                                                         var isCustomProperty = 0 === styleName.indexOf("--");
-                                                        serialized = delimiter + (isCustomProperty ? styleName : styleName.replace(uppercasePattern, "-$1").toLowerCase().replace(msPattern, "-ms-")) + ":" + dangerousStyleValue(styleName, styleValue, isCustomProperty), delimiter = ";";
+                                                        serialized += delimiter + (isCustomProperty ? styleName : styleName.replace(uppercasePattern, "-$1").toLowerCase().replace(msPattern, "-ms-")) + ":" + dangerousStyleValue(styleName, styleValue, isCustomProperty), delimiter = ";";
                                                     }
                                                 }
                                                 return serialized || null;

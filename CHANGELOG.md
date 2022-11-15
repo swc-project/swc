@@ -11,10 +11,16 @@
 - **(es/compat)** Fix span hygiene of function naming pass (#6345) ([81a4bb3](https://github.com/swc-project/swc/commit/81a4bb304a2790dab9448c88887a78430792ed38))
 
 
+- **(es/minifier)** Preserve op of the op-assignments in seq inliner (#6428) ([5fd7ab8](https://github.com/swc-project/swc/commit/5fd7ab87b69ed99bee1dfdbe39ed2182e0182a75))
+
+
 - **(es/modules)** Fix `jsc.paths` of `.ts` imports (#6431) ([9c9c3eb](https://github.com/swc-project/swc/commit/9c9c3ebd2c9c4141e3449e19926636a77741980a))
 
 ### Refactor
 
+
+
+- **(bindings)** Deprecate `JsValue::*_serde` (#6436) ([1dd8b3d](https://github.com/swc-project/swc/commit/1dd8b3d9d5393fa382345dce3d6977f7d4b5aa63))
 
 
 - **(es/plugins)** Simplify `read_result_*` (#6426) ([7a1c2a1](https://github.com/swc-project/swc/commit/7a1c2a1e2ca98cb897899b1a5def7dba7b6a8b5c))
