@@ -1215,7 +1215,7 @@ where
                         self.reconsume_in_state(State::Data);
                     }
                     // U+003F QUESTION MARK(?)
-                    // Switch to the pi after state.
+                    // Switch to the pi target question.
                     Some('?') => {
                         self.state = State::PiTargetQuestion;
                     }
@@ -1231,6 +1231,7 @@ where
             State::PiTargetQuestion => {
                 // Consume the next input character:
                 match self.consume_next_char() {
+                    // U+003E GREATER-THAN SIGN (>)
                     Some('>') => {
                         self.reconsume_in_state(State::PiEnd);
                     }
