@@ -6,21 +6,28 @@ use anyhow::Error;
 #[doc(hidden)]
 pub use js_sys;
 use once_cell::sync::Lazy;
-use serde::Serialize;
+#[doc(hidden)]
+pub use serde_wasm_bindgen;
 use serde_wasm_bindgen::Serializer;
-use swc::{config::ErrorFormat, Compiler};
+use swc::{config::ErrorFormat, Compiler, HandlerOpts};
 #[doc(hidden)]
 pub use swc::{
     config::{Options, ParseOptions, SourceMapsConfig},
     try_with_handler,
 };
 #[doc(hidden)]
-pub use swc_common::{comments, FileName};
-use swc_common::{FilePathMapping, SourceMap};
+pub use swc_common::{
+    comments::{self, SingleThreadedComments},
+    errors::Handler,
+    FileName, Mark, GLOBALS,
+};
+use swc_common::{sync::Lrc, FilePathMapping, SourceMap};
 #[doc(hidden)]
 pub use swc_ecma_ast::{EsVersion, Program};
 #[doc(hidden)]
-pub use swc_ecma_transforms::pass::noop;
+pub use swc_ecma_transforms::{pass::noop, resolver};
+#[doc(hidden)]
+pub use swc_ecma_visit::VisitMutWith;
 #[doc(hidden)]
 pub use wasm_bindgen::{JsCast, JsValue};
 #[doc(hidden)]
@@ -28,9 +35,31 @@ pub use wasm_bindgen_futures::future_to_promise;
 
 // A serializer with options to provide backward compat for the input / output
 // from the bindgen generated swc interfaces.
-const COMPAT_SERIALIZER: Serializer = Serializer::new()
-    .serialize_maps_as_objects(true)
-    .serialize_missing_as_null(true);
+#[doc(hidden)]
+pub fn compat_serializer() -> Arc<Serializer> {
+    static V: Lazy<Arc<Serializer>> = Lazy::new(|| {
+        let s = Serializer::new()
+            .serialize_maps_as_objects(true)
+            .serialize_missing_as_null(true);
+        Arc::new(s)
+    });
+
+    V.clone()
+}
+
+#[doc(hidden)]
+pub fn try_with_handler_globals<F, Ret>(
+    cm: Lrc<SourceMap>,
+    config: HandlerOpts,
+    op: F,
+) -> Result<Ret, Error>
+where
+    F: FnOnce(&Handler) -> Result<Ret, Error>,
+{
+    GLOBALS.set(&Default::default(), || {
+        swc::try_with_handler(cm, config, op)
+    })
+}
 
 /// Get global sourcemap
 pub fn compiler() -> Arc<Compiler> {
@@ -64,9 +93,11 @@ macro_rules! build_minify_sync {
   ($(#[$m:meta])*, $opt: expr) => {
     $(#[$m])*
     pub fn minify_sync(s: $crate::wasm::js_sys::JsString, opts: $crate::wasm::JsValue) -> Result<$crate::wasm::JsValue, $crate::wasm::JsValue> {
+      use serde::Serialize;
+
       let c = $crate::wasm::compiler();
 
-      $crate::wasm::try_with_handler(
+      $crate::wasm::try_with_handler_globals(
           c.cm.clone(),
           $opt,
           |handler| {
@@ -82,7 +113,7 @@ macro_rules! build_minify_sync {
                   let program = $crate::wasm::anyhow::Context::context(c.minify(fm, handler, &opts), "failed to minify file")?;
 
                   program
-                    .serialize(&COMPAT_SERIALIZER)
+                    .serialize($crate::wasm::compat_serializer().as_ref())
                     .map_err(|e| $crate::wasm::anyhow::anyhow!("failed to serialize program: {}", e))
               })
           },
@@ -116,9 +147,12 @@ macro_rules! build_parse_sync {
   ($(#[$m:meta])*, $opt: expr) => {
     $(#[$m])*
     pub fn parse_sync(s: $crate::wasm::js_sys::JsString, opts: $crate::wasm::JsValue) -> Result<$crate::wasm::JsValue, $crate::wasm::JsValue> {
+      use serde::Serialize;
+      use $crate::wasm::VisitMutWith;
+
       let c = $crate::wasm::compiler();
 
-      $crate::wasm::try_with_handler(
+      $crate::wasm::try_with_handler_globals(
           c.cm.clone(),
           $opt,
           |handler| {
@@ -139,9 +173,8 @@ macro_rules! build_parse_sync {
                       None
                   };
 
-                  let program = $crate::wasm::anyhow::Context::context(
-                    c
-                      .parse_js(
+                  let mut program = $crate::wasm::anyhow::Context::context(
+                    c.parse_js(
                           fm,
                           handler,
                           opts.target,
@@ -152,8 +185,14 @@ macro_rules! build_parse_sync {
                       "failed to parse code"
                   )?;
 
+                  program.visit_mut_with(&mut $crate::wasm::resolver(
+                    $crate::wasm::Mark::new(),
+                    $crate::wasm::Mark::new(),
+                    opts.syntax.typescript(),
+                  ));
+
                   program
-                    .serialize(&COMPAT_SERIALIZER)
+                    .serialize($crate::wasm::compat_serializer().as_ref())
                     .map_err(|e| $crate::wasm::anyhow::anyhow!("failed to serialize program: {}", e))
               })
           },
@@ -189,7 +228,7 @@ macro_rules! build_print_sync {
     pub fn print_sync(s: $crate::wasm::JsValue, opts: $crate::wasm::JsValue) -> Result<$crate::wasm::JsValue, $crate::wasm::JsValue> {
       let c = $crate::wasm::compiler();
 
-      $crate::wasm::try_with_handler(
+      $crate::wasm::try_with_handler_globals(
           c.cm.clone(),
           $opt,
           |_handler| {
@@ -221,9 +260,8 @@ macro_rules! build_print_sync {
                         false,
                     ),"failed to print code")?;
 
-                    program
-                      .serialize(&COMPAT_SERIALIZER)
-                      .map_err(|e| $crate::wasm::anyhow::anyhow!("failed to serialize program: {}", e))
+                    serde_wasm_bindgen::to_value(&s)
+                    .map_err(|e| anyhow::anyhow!("failed to serialize json: {}", e))
               })
           },
       )
@@ -252,7 +290,7 @@ macro_rules! build_print {
 #[macro_export]
 macro_rules! build_transform_sync {
   ($(#[$m:meta])*) => {
-    build_transform_sync!($(#[$m])*, |_, _| $crate::wasm::noop(), |_, _| $crate::wasm::noop(), Default::default());
+    build_transform_sync!($(#[$m])*, |_| $crate::wasm::noop(), |_| $crate::wasm::noop(), Default::default());
   };
   ($(#[$m:meta])*, $before_pass: expr, $after_pass: expr) => {
     build_transform_sync!($(#[$m])*, $before_pass, $after_pass, Default::default());
@@ -265,6 +303,8 @@ macro_rules! build_transform_sync {
         opts: $crate::wasm::JsValue,
         experimental_plugin_bytes_resolver: $crate::wasm::JsValue,
     ) -> Result<$crate::wasm::JsValue, $crate::wasm::JsValue> {
+        use serde::Serialize;
+
         let c = $crate::wasm::compiler();
 
         #[cfg(feature = "plugin")]
@@ -316,8 +356,7 @@ macro_rules! build_transform_sync {
         };
 
         let error_format = opts.experimental.error_format.unwrap_or_default();
-
-        $crate::wasm::try_with_handler(
+        $crate::wasm::try_with_handler_globals(
             c.cm.clone(),
             $opt,
             |handler| {
@@ -335,14 +374,14 @@ macro_rules! build_transform_sync {
                           );
                           let cm = c.cm.clone();
                           let file = fm.clone();
-
+                          let comments = $crate::wasm::SingleThreadedComments::default();
                           $crate::wasm::anyhow::Context::context(
                             c.process_js_with_custom_pass(
                               fm,
                               None,
                               handler,
                               &opts,
-                              Default::default(),
+                              comments,
                               $before_pass,
                               $after_pass,
                           ), "failed to process js file"
@@ -352,7 +391,7 @@ macro_rules! build_transform_sync {
                   };
 
                   out
-                    .serialize(&COMPAT_SERIALIZER)
+                    .serialize($crate::wasm::compat_serializer().as_ref())
                     .map_err(|e| $crate::wasm::anyhow::anyhow!("failed to serialize transform result: {}", e))
               })
             },
