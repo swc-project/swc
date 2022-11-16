@@ -23,7 +23,7 @@ plugin = ["swc_core/plugin_transform_host_js"]
 anyhow = "1.0.66"
 serde = {version = "1", features = ["derive"]}
 serde-wasm-bindgen = "0.4.5"
-swc_core = { version = "0.43.12", features = [
+swc_core = { version = "0.43.15", features = [
   "common_perf",
   "binding_macro_wasm",
   "ecma_transforms",
