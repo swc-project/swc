@@ -123,11 +123,11 @@ optimized_out!(simple_const, "{const x = 1}");
 
 noop!(assign_op, "x *= 2; use(x)");
 
-optimized_out!(import_default_unused, "import foo from 'foo'");
+noop!(import_default_unused, "import foo from 'foo'");
 
-optimized_out!(import_specific_unused, "import {foo} from 'foo'");
+noop!(import_specific_unused, "import {foo} from 'foo'");
 
-optimized_out!(import_mixed_unused, "import foo, { bar } from 'foo'");
+noop!(import_mixed_unused, "import foo, { bar } from 'foo'");
 
 noop!(export_named, "export { x };");
 
@@ -138,10 +138,9 @@ noop!(
     "import foo from 'src'; export { foo }; "
 );
 
-to!(
+noop!(
     import_unused_export_named,
-    "import foo, { bar } from 'src'; export { foo }; ",
-    "import foo from 'src'; export { foo }; "
+    "import foo, { bar } from 'src'; export { foo }; "
 );
 
 noop!(
@@ -197,6 +196,7 @@ to!(
       },
   ]",
     "import {
+    INSTAGRAM_CHECK_PATTERN,
     RESOURCE_FACEBOOK,
     RESOURCE_INSTAGRAM,
     RESOURCE_WEBSITE,
@@ -244,6 +244,7 @@ to!(
 
 resources.map(console.log.bind(console));",
     "import {
+    INSTAGRAM_CHECK_PATTERN,
     RESOURCE_FACEBOOK,
     RESOURCE_INSTAGRAM,
     RESOURCE_WEBSITE,
