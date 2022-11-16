@@ -13,6 +13,9 @@
 
 - **(html/minifier)** Fix script/style merging (#6443) ([1dfd8ce](https://github.com/swc-project/swc/commit/1dfd8cef88b16180e6525b524637fd3eb627b857))
 
+
+- **(xml/parser)** Fix parsing of pi (#6450) ([6388920](https://github.com/swc-project/swc/commit/638892071a8713a278c114aae6fedc74f77a8cc0))
+
 ### Features
 
 
