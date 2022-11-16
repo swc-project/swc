@@ -132,6 +132,7 @@ pub(crate) fn invoke(module: &Module) {
         }
     } else {
         let output = Command::new("node")
+            .arg("--input-type=module")
             .arg("-e")
             .arg(&code)
             .output()
