@@ -11,6 +11,7 @@ crate-type = ["cdylib"]
 
 [features]
 default = ["swc_v1"]
+plugin  = []
 swc_v1  = []
 
 [dependencies]
