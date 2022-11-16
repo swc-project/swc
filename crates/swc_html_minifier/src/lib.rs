@@ -1969,11 +1969,7 @@ impl Minifier<'_> {
         match &self.options.minify_js {
             MinifyJsOption::Bool(_) => JsOptions {
                 parser: JsParserOptions::default(),
-                minifier: swc_ecma_minifier::option::MinifyOptions {
-                    compress: Some(swc_ecma_minifier::option::CompressOptions::default()),
-                    mangle: Some(swc_ecma_minifier::option::MangleOptions::default()),
-                    ..Default::default()
-                },
+                minifier: swc_ecma_minifier::option::MinifyOptions::default(),
                 codegen: swc_ecma_codegen::Config::default(),
             },
             MinifyJsOption::Options(js_options) => *js_options.clone(),
