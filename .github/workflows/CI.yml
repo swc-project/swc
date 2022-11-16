@@ -162,6 +162,12 @@ jobs:
         with:
           profile: minimal
 
+      - name: Patch
+        run: |
+          echo '[patch.crates-io]' >> bindings/Cargo.toml
+          ./scripts/cargo/patch-section.sh >> bindings/Cargo.toml
+          cd bindings && cargo update
+
       - name: Install wasm-pack
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 

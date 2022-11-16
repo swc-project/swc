@@ -5,6 +5,26 @@
 
 
 
+- **(es/minifier)** Fix code for dropping unreachable statements (#6429) ([bb544ba](https://github.com/swc-project/swc/commit/bb544ba2f58531e2cf984bbbaf2f819a1e4d8ada))
+
+
+- **(es/plugins/proxy)** Adjust import with compile time flags (#6451) ([f14b156](https://github.com/swc-project/swc/commit/f14b156a60bd6b54b08b17e76accb5c108d27679))
+
+### Features
+
+
+
+- **(css/parser)** Add `parse_string_input` (#6441) ([9600308](https://github.com/swc-project/swc/commit/9600308108daa60c142a5a6fddc9c6ef94c12b80))
+
+## [1.3.17] - 2022-11-15
+
+### Bug Fixes
+
+
+
+- **(bindings)** Revert #6436 (#6444) ([948e35b](https://github.com/swc-project/swc/commit/948e35bcd66b98c460d67b4d58f536ea4d3d5992))
+
+
 - **(css/parser)** Fix a bug with scope in block (#6402) ([3d7545d](https://github.com/swc-project/swc/commit/3d7545d89bf6a7675cd511217b6c024889476fc8))
 
 

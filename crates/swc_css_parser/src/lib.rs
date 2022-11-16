@@ -49,7 +49,22 @@ pub fn parse_file<'a, T>(
 where
     Parser<Lexer<StringInput<'a>>>: Parse<T>,
 {
-    let lexer = Lexer::new(StringInput::from(fm), config);
+    parse_string_input(StringInput::from(fm), config, errors)
+}
+
+/// Parse a given [StringInput] as `T`.
+///
+/// If there are syntax errors but if it was recoverable, it will be appended
+/// to `errors`.
+pub fn parse_string_input<'a, T>(
+    input: StringInput<'a>,
+    config: ParserConfig,
+    errors: &mut Vec<Error>,
+) -> PResult<T>
+where
+    Parser<Lexer<StringInput<'a>>>: Parse<T>,
+{
+    let lexer = Lexer::new(input, config);
     let mut parser = Parser::new(lexer, config);
 
     let res = parser.parse();
