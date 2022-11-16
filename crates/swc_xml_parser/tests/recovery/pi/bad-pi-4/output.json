@@ -1,0 +1,20 @@
+{
+  "type": "Document",
+  "span": {
+    "start": 1,
+    "end": 21,
+    "ctxt": 0
+  },
+  "children": [
+    {
+      "type": "ProcessingInstruction",
+      "span": {
+        "start": 1,
+        "end": 21,
+        "ctxt": 0
+      },
+      "target": "",
+      "data": "xml version='1.0'"
+    }
+  ]
+}
