@@ -3,11 +3,11 @@ use swc_common::Mark;
 #[cfg(feature = "__plugin_mode")]
 use swc_trace_macro::swc_trace;
 
+#[cfg(all(feature = "__rkyv", feature = "__plugin_mode", target_arch = "wasm32"))]
+use crate::memory_interop::read_returned_result_from_host;
 #[cfg(feature = "__plugin_mode")]
 #[cfg_attr(not(target_arch = "wasm32"), allow(unused))]
-use crate::{
-    memory_interop::read_returned_result_from_host, PluginCommentsProxy, PluginSourceMapProxy,
-};
+use crate::{PluginCommentsProxy, PluginSourceMapProxy};
 
 //#[cfg_attr(not(target_arch = "wasm32"), allow(unused))]
 //use crate::memory_interop::read_returned_result_from_host;
