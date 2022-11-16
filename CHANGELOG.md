@@ -7,6 +7,9 @@
 
 - **(es/minifier)** Fix code for dropping unreachable statements (#6429) ([bb544ba](https://github.com/swc-project/swc/commit/bb544ba2f58531e2cf984bbbaf2f819a1e4d8ada))
 
+
+- **(es/plugins/proxy)** Adjust import with compile time flags (#6451) ([f14b156](https://github.com/swc-project/swc/commit/f14b156a60bd6b54b08b17e76accb5c108d27679))
+
 ### Features
 
 
