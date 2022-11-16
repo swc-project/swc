@@ -129,6 +129,8 @@ where
                 if use_orig {
                     p.set_extension(orig_ext);
                 }
+            } else {
+                p.set_extension("");
             }
 
             p.display().to_string().into()
