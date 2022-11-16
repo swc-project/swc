@@ -168,7 +168,7 @@ dependencies = [
 
 [[package]]
 name = "binding_macros"
-version = "0.20.96"
+version = "0.20.97"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -2976,7 +2976,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.232.94"
+version = "0.232.95"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3162,7 +3162,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.43.13"
+version = "0.43.14"
 dependencies = [
  "binding_macros",
  "once_cell",
@@ -3993,7 +3993,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.154.94"
+version = "0.154.95"
 dependencies = [
  "ahash",
  "anyhow",
@@ -4041,7 +4041,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html"
-version = "0.96.10"
+version = "0.96.11"
 dependencies = [
  "swc_html_ast",
  "swc_html_codegen",
@@ -4093,7 +4093,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "0.93.10"
+version = "0.93.11"
 dependencies = [
  "criterion",
  "once_cell",
@@ -4179,7 +4179,7 @@ dependencies = [
 
 [[package]]
 name = "swc_node_bundler"
-version = "0.18.94"
+version = "0.18.95"
 dependencies = [
  "anyhow",
  "dashmap",
@@ -4247,7 +4247,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_proxy"
-version = "0.22.20"
+version = "0.22.21"
 dependencies = [
  "better_scoped_tls",
  "rkyv",
@@ -4260,7 +4260,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_runner"
-version = "0.77.32"
+version = "0.77.33"
 dependencies = [
  "anyhow",
  "criterion",
@@ -4329,7 +4329,7 @@ dependencies = [
 
 [[package]]
 name = "swc_xml"
-version = "0.4.16"
+version = "0.5.0"
 dependencies = [
  "swc_xml_ast",
  "swc_xml_codegen",
@@ -4350,7 +4350,7 @@ dependencies = [
 
 [[package]]
 name = "swc_xml_codegen"
-version = "0.4.16"
+version = "0.5.0"
 dependencies = [
  "auto_impl",
  "bitflags",
@@ -4377,7 +4377,7 @@ dependencies = [
 
 [[package]]
 name = "swc_xml_parser"
-version = "0.4.16"
+version = "0.5.0"
 dependencies = [
  "serde",
  "serde_json",

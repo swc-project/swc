@@ -22,11 +22,11 @@ macro_rules! write_multiline_raw {
     }};
 }
 
-macro_rules! newline {
-    ($g:expr) => {{
-        $g.wr.write_newline()?;
-    }};
-}
+// macro_rules! newline {
+//     ($g:expr) => {{
+//         $g.wr.write_newline()?;
+//     }};
+// }
 
 macro_rules! formatting_newline {
     ($g:expr) => {{

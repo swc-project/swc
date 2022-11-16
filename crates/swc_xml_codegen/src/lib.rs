@@ -285,8 +285,6 @@ where
         processing_instruction.push_str("?>");
 
         write_multiline_raw!(self, n.span, &processing_instruction);
-        // TODO only for top instructions
-        newline!(self);
     }
 
     fn create_context_for_element(&self, n: &Element) -> Ctx {
