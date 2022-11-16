@@ -380,9 +380,7 @@ impl OptChaining {
             _ => {}
         }
 
-        e.base.visit_mut_children_with(self);
-
-        match &mut e.base {
+        let mut base = match &mut e.base {
             OptChainBase::Member(MemberExpr { obj, prop, .. }) => {
                 let obj_span = obj.span();
 
@@ -548,7 +546,11 @@ impl OptChaining {
                     alt,
                 }
             }
-        }
+        };
+
+        base.visit_mut_with(self);
+
+        base
     }
 }
 #[derive(Default)]
