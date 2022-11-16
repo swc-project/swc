@@ -1,0 +1,28 @@
+[workspace]
+
+[package]
+edition = "2021"
+name    = "stub_wasm"
+publish = false
+version = "0.1.0"
+
+[lib]
+crate-type = ["cdylib"]
+
+[features]
+default = ["swc_v1"]
+swc_v1  = []
+
+[dependencies]
+anyhow = "1.0.66"
+serde = { version = "1", features = ["derive"] }
+serde-wasm-bindgen = "0.4.5"
+swc_core = { path = "../../../../swc_core", features = [
+  "common_perf",
+  "binding_macro_wasm",
+  "ecma_transforms",
+  "ecma_visit",
+  "plugin_transform_host_js",
+] }
+tracing = { version = "0.1.37", features = ["max_level_off"] }
+wasm-bindgen = { version = "0.2.82", features = ["enable-interning"] }
