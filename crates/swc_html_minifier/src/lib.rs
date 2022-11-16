@@ -1956,8 +1956,8 @@ impl Minifier<'_> {
         let mut left_errors: Vec<_> = vec![];
         let left_fm = cm.new_source_file(FileName::Anon, left);
         let syntax = swc_ecma_parser::Syntax::default();
-        // TODO improve me using options
-        let target = swc_ecma_ast::EsVersion::default();
+        // Use the latest target for merging
+        let target = swc_ecma_ast::EsVersion::latest();
 
         let mut left_program = if is_modules {
             match swc_ecma_parser::parse_file_as_module(
