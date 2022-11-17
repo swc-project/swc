@@ -191,7 +191,7 @@ impl VisitMut for InfoMarker<'_> {
 
     fn visit_mut_lit(&mut self, _: &mut Lit) {}
 
-    fn visit_mut_module(&mut self, n: &mut Module) {
+    fn visit_mut_script(&mut self, n: &mut Script) {
         n.visit_mut_children_with(self);
 
         if self.state.is_bundle {
@@ -202,7 +202,7 @@ impl VisitMut for InfoMarker<'_> {
         }
     }
 
-    fn visit_mut_script(&mut self, n: &mut Script) {
+    fn visit_mut_module(&mut self, n: &mut Module) {
         n.visit_mut_children_with(self);
 
         if self.state.is_bundle {
