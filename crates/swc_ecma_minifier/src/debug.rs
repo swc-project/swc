@@ -66,7 +66,7 @@ where
 ///
 /// If the cargo feature `debug` is disabled or the environment variable
 /// `SWC_RUN` is not `1`, this function is noop.
-pub(crate) fn invoke(module: &Module) {
+pub(crate) fn invoke_module(module: &Module) {
     debug_assert_valid(module);
 
     let _noop_sub = tracing::subscriber::set_default(tracing::subscriber::NoSubscriber::default());
@@ -133,6 +133,97 @@ pub(crate) fn invoke(module: &Module) {
     } else {
         let output = Command::new("node")
             .arg("--input-type=module")
+            .arg("-e")
+            .arg(&code)
+            .output()
+            .expect("[SWC_RUN] failed to validate code using `node`");
+        if !output.status.success() {
+            panic!(
+                "[SWC_RUN] Failed to validate code:\n{}\n===== ===== ===== ===== =====\n{}\n{}",
+                code,
+                String::from_utf8_lossy(&output.stdout),
+                String::from_utf8_lossy(&output.stderr),
+            );
+        }
+
+        tracing::info!(
+            "[SWC_RUN]\n{}\n{}",
+            code,
+            String::from_utf8_lossy(&output.stdout)
+        )
+    }
+}
+
+/// Invokes code using node.js.
+///
+/// If the cargo feature `debug` is disabled or the environment variable
+/// `SWC_RUN` is not `1`, this function is noop.
+pub(crate) fn invoke_script(script: &Script) {
+    debug_assert_valid(script);
+
+    let _noop_sub = tracing::subscriber::set_default(tracing::subscriber::NoSubscriber::default());
+
+    let should_run =
+        cfg!(debug_assertions) && cfg!(feature = "debug") && option_env!("SWC_RUN") == Some("1");
+    let should_check = cfg!(debug_assertions) && option_env!("SWC_CHECK") == Some("1");
+
+    if !should_run && !should_check {
+        return;
+    }
+
+    let script = script
+        .clone()
+        .fold_with(&mut hygiene())
+        .fold_with(&mut fixer(None));
+    let script = drop_span(script);
+
+    let mut buf = vec![];
+    let cm = Lrc::new(SourceMap::default());
+
+    {
+        let mut emitter = Emitter {
+            cfg: Default::default(),
+            cm: cm.clone(),
+            comments: None,
+            wr: Box::new(JsWriter::new(cm, "\n", &mut buf, None)),
+        };
+
+        emitter.emit_script(&script).unwrap();
+    }
+
+    let code = String::from_utf8(buf).unwrap();
+
+    debug!("Validating with node.js:\n{}", code);
+
+    if should_check {
+        let mut child = Command::new("node")
+            .arg("-")
+            .arg("--check")
+            .stdin(Stdio::piped())
+            .stdout(Stdio::piped())
+            .stderr(Stdio::piped())
+            .spawn()
+            .expect("failed to spawn node");
+
+        {
+            let child_stdin = child.stdin.as_mut().unwrap();
+            child_stdin
+                .write_all(code.as_bytes())
+                .expect("failed to write");
+        }
+
+        let output = child.wait_with_output().expect("failed to check syntax");
+
+        if !output.status.success() {
+            panic!(
+                "[SWC_CHECK] Failed to validate code:\n{}\n===== ===== ===== ===== =====\n{}\n{}",
+                code,
+                String::from_utf8_lossy(&output.stdout),
+                String::from_utf8_lossy(&output.stderr),
+            );
+        }
+    } else {
+        let output = Command::new("node")
             .arg("-e")
             .arg(&code)
             .output()

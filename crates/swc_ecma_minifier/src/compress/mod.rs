@@ -340,6 +340,10 @@ where
         self.optimize_unit_repeatedly(n);
     }
 
+    fn visit_mut_script(&mut self, n: &mut Script) {
+        self.optimize_unit_repeatedly(n);
+    }
+
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
         stmts.retain(|stmt| match stmt {
             ModuleItem::Stmt(Stmt::Empty(..)) => false,

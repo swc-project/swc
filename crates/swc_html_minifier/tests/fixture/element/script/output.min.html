@@ -27,7 +27,7 @@
 
         var   q    =   "WRONG"   ;
 
-        </script><script>let t="testtest";alert("<!--");alert("<!-- foo -->");alert("-->");alert("testtest");function e(){var t=1,e=2;alert(t+" "+e)}</script><h2>Party coffee cake recipe</h2>
+        </script><script>let t="testtest";function e(){alert("1 2")}alert("<!--"),alert("<!-- foo -->"),alert("-->"),alert("testtest")</script><h2>Party coffee cake recipe</h2>
     <p>
         <i>by Mary Stone, 2018-03-10</i>
     </p>
@@ -54,10 +54,10 @@
             alert('test')
         </script>
     </math>
-    <script blocking="a render">console.log("block")</script><script>(function(t){var t="test"+Math.random()+t,r=1,o=2+Math.random();alert(r+" "+o);console.log(Math.random())})("test");window.jQuery||document.write('<script src="jquery.js"><\/script>')</script>
+    <script blocking="a render">console.log("block")</script><script>!function(t){var t="test"+Math.random()+t;alert("1 "+(2+Math.random())),console.log(Math.random())}("test"),window.jQuery||document.write('<script src="jquery.js"><\/script>')</script>
     <div>test</div>
     
     <div>topLevel - script</div>
-    <script>var o=function o(){let o="bar";if(o){o+="baz"}console.log(o)}</script>
+    <script>var o=function(){let o="bar";o&&(o+="baz"),console.log(o)}</script>
     <div>topLevel - module</div>
     <script type=module>var topLevel=function(){let o="bar";o&&(o+="baz"),console.log(o)}</script>
