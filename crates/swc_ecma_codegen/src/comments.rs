@@ -12,17 +12,21 @@ macro_rules! write_comments {
         for cmt in cmts.iter() {
             match cmt.kind {
                 CommentKind::Line => {
-                    if $prefix_space {
+                    if $prefix_space && !$e.cfg.minify {
                         $e.wr.write_comment(" ")?;
                     }
+
                     srcmap!($e, cmt, true);
+
                     $e.wr.write_comment("//")?;
                     $e.wr.write_comment(&cmt.text)?;
+
                     srcmap!($e, cmt, false);
+
                     $e.wr.write_line()?;
                 }
                 CommentKind::Block => {
-                    if $prefix_space {
+                    if $prefix_space && !$e.cfg.minify {
                         $e.wr.write_comment(" ")?;
                     }
 
@@ -39,7 +43,9 @@ macro_rules! write_comments {
                     }
                     $e.wr.write_comment("*/")?;
 
-                    $e.wr.write_space()?;
+                    if !$e.cfg.minify {
+                        $e.wr.write_space()?;
+                    }
                 }
             }
         }
