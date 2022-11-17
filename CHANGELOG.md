@@ -7,6 +7,12 @@
 
 - **(es/minifier)** Preserve unused imported specifiers (#6458) ([dabea71](https://github.com/swc-project/swc/commit/dabea71c4461a96836e4456bd2c6bbcf07f238a4))
 
+### Features
+
+
+
+- **(html/minifier)** Remove empty script and style tags with attributes (#6447) ([7441721](https://github.com/swc-project/swc/commit/74417217a98bb26dcce7f913bb8ee35b538f0d06))
+
 ## [1.3.18] - 2022-11-16
 
 ### Bug Fixes
