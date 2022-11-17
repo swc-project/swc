@@ -1,4 +1,5 @@
 //// [numericIndexingResults.ts]
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 c["1"], c["2"], c["3"], c[1], c[2], c[3], i["1"], i["2"], i["3"], i[1], i[2], i[3], a["1"], a["2"], a["3"], a[1], a[2], a[3];
 var c, i, a, b = {
     1: "",

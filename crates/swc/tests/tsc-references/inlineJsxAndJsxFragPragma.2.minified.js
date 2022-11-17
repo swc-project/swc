@@ -16,7 +16,7 @@ import { Fragment } from "./renderer";
 import "./renderer";
 React.Fragment;
 //// [preacty-no-fragment.tsx]
-import { h } from "./renderer";
+import { h, Fragment } from "./renderer";
 //// [snabbdomy-no-fragment.tsx]
 import { jsx } from "./renderer";
 //// [preacty-only-component.tsx]

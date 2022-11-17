@@ -812,27 +812,6 @@ impl VisitMut for TreeShaker {
         }
     }
 
-    fn visit_mut_import_specifiers(&mut self, ss: &mut Vec<ImportSpecifier>) {
-        ss.retain(|s| {
-            let local = match s {
-                ImportSpecifier::Named(l) => &l.local,
-                ImportSpecifier::Default(l) => &l.local,
-                ImportSpecifier::Namespace(l) => &l.local,
-            };
-
-            if self.can_drop_binding(local.to_id(), false) {
-                debug!(
-                    "Dropping import specifier `{}` because it's not used",
-                    local
-                );
-                self.changed = true;
-                return false;
-            }
-
-            true
-        });
-    }
-
     fn visit_mut_module(&mut self, m: &mut Module) {
         debug_assert_valid(m);
 
@@ -896,23 +875,7 @@ impl VisitMut for TreeShaker {
     }
 
     fn visit_mut_module_item(&mut self, n: &mut ModuleItem) {
-        match n {
-            ModuleItem::ModuleDecl(ModuleDecl::Import(i)) => {
-                let is_for_side_effect = i.specifiers.is_empty();
-
-                i.visit_mut_with(self);
-
-                if !is_for_side_effect && i.specifiers.is_empty() {
-                    debug!("Dropping an import because it's not used");
-                    self.changed = true;
-                    *n = ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }));
-                }
-            }
-            _ => {
-                n.visit_mut_children_with(self);
-            }
-        }
-
+        n.visit_mut_children_with(self);
         debug_assert_valid(n);
     }
 
