@@ -121,6 +121,13 @@ impl Visit for Preserver {
 
     fn visit_ident(&mut self, _: &Ident) {}
 
+    fn visit_script(&mut self, n: &Script) {
+        for n in n.body.iter() {
+            self.in_top_level = true;
+            n.visit_with(self);
+        }
+    }
+
     fn visit_module_items(&mut self, n: &[ModuleItem]) {
         for n in n {
             self.in_top_level = true;
