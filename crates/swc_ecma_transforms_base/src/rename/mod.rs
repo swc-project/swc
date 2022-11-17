@@ -242,12 +242,11 @@ where
 
         if contains_eval(s, true) {
             s.visit_mut_children_with(self);
-            return;
+        } else {
+            let map = self.get_map(s, false, true);
+
+            s.visit_mut_with(&mut rename_with_config(&map, self.config.clone()));
         }
-
-        let map = self.get_map(s, false, true);
-
-        s.visit_mut_with(&mut rename_with_config(&map, self.config.clone()));
     }
 }
 
