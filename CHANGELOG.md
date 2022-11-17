@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es/minifier)** Preserve unused imported specifiers (#6458) ([dabea71](https://github.com/swc-project/swc/commit/dabea71c4461a96836e4456bd2c6bbcf07f238a4))
+
 ## [1.3.18] - 2022-11-16
 
 ### Bug Fixes
