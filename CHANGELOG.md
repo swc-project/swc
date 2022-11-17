@@ -14,6 +14,9 @@
 
 
 
+- **(es/minifier)** Support script fully (#6455) ([4d7b920](https://github.com/swc-project/swc/commit/4d7b920bd4521aacd7e4b77e3f2973a30c8ab5e9))
+
+
 - **(html/minifier)** Remove empty script and style tags with attributes (#6447) ([7441721](https://github.com/swc-project/swc/commit/74417217a98bb26dcce7f913bb8ee35b538f0d06))
 
 ## [1.3.18] - 2022-11-16
