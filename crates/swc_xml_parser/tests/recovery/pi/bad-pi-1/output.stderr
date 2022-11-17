@@ -1,0 +1,6 @@
+
+  x No target name
+   ,-[$DIR/tests/recovery/pi/bad-pi-1/input.xml:2:5]
+ 2 | <??xml
+   :   ^
+   `----

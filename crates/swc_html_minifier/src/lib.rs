@@ -608,6 +608,12 @@ impl Minifier<'_> {
         }
     }
 
+    fn is_type_text_css(&self, value: &JsWord) -> bool {
+        let value = value.trim().to_ascii_lowercase();
+
+        matches!(&*value, "text/css")
+    }
+
     fn is_default_attribute_value(&self, element: &Element, attribute: &Attribute) -> bool {
         let attribute_value = match &attribute.value {
             Some(value) => value,
@@ -652,7 +658,7 @@ impl Minifier<'_> {
                     },
                     js_word!("link") => {
                         if attribute.name == js_word!("type")
-                            && &*attribute_value.trim().to_ascii_lowercase() == "text/css"
+                            && self.is_type_text_css(attribute_value)
                         {
                             return true;
                         }
@@ -1305,9 +1311,38 @@ impl Minifier<'_> {
 
     fn is_empty_metadata_element(&self, child: &Child) -> bool {
         if let Child::Element(element) = child {
-            if (!self.is_element_displayed(element)
-                || (matches!(element.namespace, Namespace::HTML | Namespace::SVG)
-                    && element.tag_name == js_word!("script"))
+            if matches!(element.namespace, Namespace::HTML | Namespace::SVG)
+                && element.tag_name == js_word!("style")
+                && self.is_empty_children(&element.children)
+            {
+                if element.attributes.is_empty() {
+                    return true;
+                }
+
+                if element.attributes.len() == 1 {
+                    return element.attributes.iter().all(|attr| {
+                        attr.name == js_word!("type")
+                            && attr.value.is_some()
+                            && self.is_type_text_css(attr.value.as_ref().unwrap())
+                    });
+                }
+            } else if matches!(element.namespace, Namespace::HTML | Namespace::SVG)
+                && element.tag_name == js_word!("script")
+                && self.is_empty_children(&element.children)
+            {
+                if element.attributes.is_empty() {
+                    return true;
+                }
+
+                if element.attributes.len() == 1 {
+                    return element.attributes.iter().all(|attr| {
+                        attr.name == js_word!("type")
+                            && attr.value.is_some()
+                            && (attr.value == Some(js_word!("module"))
+                                || self.is_type_text_javascript(attr.value.as_ref().unwrap()))
+                    });
+                }
+            } else if (!self.is_element_displayed(element)
                 || (element.namespace == Namespace::HTML
                     && element.tag_name == js_word!("noscript")))
                 && element.attributes.is_empty()
@@ -1360,7 +1395,7 @@ impl Minifier<'_> {
                         }
                         js_word!("type") => {
                             if let Some(value) = &attribute.value {
-                                if (is_style_tag && value.trim().to_ascii_lowercase() == "text/css")
+                                if (is_style_tag && self.is_type_text_css(value))
                                     || (is_script_tag && self.is_type_text_javascript(value))
                                 {
                                     false
@@ -1402,7 +1437,7 @@ impl Minifier<'_> {
                         }
                         js_word!("type") => {
                             if let Some(value) = &attribute.value {
-                                if (is_style_tag && value.trim().to_ascii_lowercase() == "text/css")
+                                if (is_style_tag && self.is_type_text_css(value))
                                     || (is_script_tag && self.is_type_text_javascript(value))
                                 {
                                     false
@@ -1827,32 +1862,29 @@ impl Minifier<'_> {
 
             let result = child_will_be_retained(&mut child, &mut new_children, children);
 
-            if result {
-                if self.options.remove_empty_metadata_elements
-                    && self.is_empty_metadata_element(&child)
-                {
-                    let need_continue = {
-                        let next_element = if let Some(Child::Element(element)) = children.get(0) {
-                            Some(element)
-                        } else if let Some(Child::Element(element)) = children.get(1) {
-                            Some(element)
-                        } else {
-                            None
-                        };
+            if self.options.remove_empty_metadata_elements {
+                if let Some(last_child @ Child::Element(_)) = new_children.last() {
+                    if self.is_empty_metadata_element(last_child) {
+                        new_children.pop();
 
-                        if let Some(element) = next_element {
-                            self.options.merge_metadata_elements
-                                && !self.allow_elements_to_merge(Some(&child), element)
-                        } else {
-                            true
+                        if let Child::Text(text) = &mut child {
+                            if let Some(Child::Text(prev_text)) = new_children.last_mut() {
+                                let mut new_data =
+                                    String::with_capacity(prev_text.data.len() + text.data.len());
+
+                                new_data.push_str(&prev_text.data);
+                                new_data.push_str(&text.data);
+
+                                text.data = new_data.into();
+
+                                new_children.pop();
+                            }
                         }
-                    };
-
-                    if need_continue {
-                        continue;
                     }
                 }
+            }
 
+            if result {
                 new_children.push(child);
             }
         }
@@ -3008,21 +3040,14 @@ impl VisitMut for Minifier<'_> {
 
                     for attribute in &current_element.attributes {
                         if attribute.name == js_word!("type") && attribute.value.is_some() {
-                            type_attribute_value = Some(
-                                attribute
-                                    .value
-                                    .as_ref()
-                                    .unwrap()
-                                    .trim()
-                                    .to_ascii_lowercase(),
-                            );
+                            type_attribute_value = Some(attribute.value.as_ref().unwrap());
 
                             break;
                         }
                     }
 
                     if type_attribute_value.is_none()
-                        || type_attribute_value == Some("text/css".into())
+                        || self.is_type_text_css(type_attribute_value.as_ref().unwrap())
                     {
                         text_type = Some(MinifierType::Css)
                     }

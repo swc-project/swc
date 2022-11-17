@@ -8,8 +8,7 @@ use swc_common::{
 #[cfg(feature = "__plugin_mode")]
 use swc_trace_macro::swc_trace;
 
-#[cfg(feature = "__plugin_mode")]
-#[cfg_attr(not(target_arch = "wasm32"), allow(unused))]
+#[cfg(all(feature = "__rkyv", feature = "__plugin_mode", target_arch = "wasm32"))]
 use crate::memory_interop::read_returned_result_from_host;
 
 #[cfg(target_arch = "wasm32")]

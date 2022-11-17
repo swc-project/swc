@@ -1,0 +1,6 @@
+
+  x Missing whitespace before '?'
+   ,-[$DIR/tests/recovery/pi/bad-pi-5/input.xml:2:5]
+ 2 | <?fo?o?>
+   :     ^
+   `----
