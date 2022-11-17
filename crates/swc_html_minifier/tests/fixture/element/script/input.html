@@ -186,5 +186,32 @@
     <script>window.jQuery || document.write('<script src="jquery.js"><\/script>')</script>
     <div>test</div>
     <script></script>
+    <div>topLevel - script</div>
+    <script>
+        /* Should keep top level stuff */
+        var topLevel = function test() {
+            let foo = "bar";
+
+            if (foo) {
+                foo += "baz";
+            }
+
+            console.log(foo);
+        };
+    </script>
+    <div>topLevel - module</div>
+    <script type="module">
+        /* Should keep top level stuff */
+        var topLevel = function test() {
+            let foo = "bar";
+
+            if (foo) {
+                foo += "baz";
+            }
+
+            console.log(foo);
+        };
+    </script>
+
 </body>
 </html>
