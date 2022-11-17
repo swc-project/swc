@@ -5,6 +5,9 @@
 
 
 
+- **(es/compat)** Fix consecutive optional call (#6461) ([f7072db](https://github.com/swc-project/swc/commit/f7072dbb7eb768e2a4dad5aa9f2ac6c6bacf560e))
+
+
 - **(es/minifier)** Preserve unused imported specifiers (#6458) ([dabea71](https://github.com/swc-project/swc/commit/dabea71c4461a96836e4456bd2c6bbcf07f238a4))
 
 ### Features
