@@ -191,14 +191,13 @@ describe("should remove comments", () => {
         );
     });
 
-    it("should preserve licnese", async () => {
+    it("should preserve license", async () => {
         const { code } = await swc.minify(
             `
         (function(){
             /**
              * @license
-             */
-            const longName = Math.random() + '_' + Math.random();
+             */const longName = Math.random() + '_' + Math.random();
             console.log(longName);
         })()
         `,
@@ -216,7 +215,7 @@ describe("should remove comments", () => {
                          */ const o=Math.random()+\\"_\\"+Math.random();console.log(o)})();"
         `);
     });
-    it("should remove comment near to  licnese", async () => {
+    it("should remove comment near to license", async () => {
         const { code } = await swc.minify(
             `
         (function(){
@@ -225,8 +224,7 @@ describe("should remove comments", () => {
              */
              /*
               * 1
-              */
-            const longName = Math.random() + '_' + Math.random();
+              */const longName = Math.random() + '_' + Math.random();
             console.log(longName);
         })()
         `,
