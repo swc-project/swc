@@ -188,6 +188,7 @@
     <script></script>
     <div>topLevel - script</div>
     <script>
+        /* Should keep top level stuff */
         var topLevel = function test() {
             let foo = "bar";
 
@@ -200,6 +201,7 @@
     </script>
     <div>topLevel - module</div>
     <script type="module">
+        /* Should keep top level stuff */
         var topLevel = function test() {
             let foo = "bar";
 

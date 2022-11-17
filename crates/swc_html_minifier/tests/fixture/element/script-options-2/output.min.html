@@ -1,0 +1,5 @@
+<!doctype html><html lang=en><title>Document</title><div>Script:</div>
+<script>/* Should mangle top level stuff */ var o=function(){let o="bar";o&&(o+="baz"),console.log(o)}</script>
+
+<div>Module:</div>
+<script type=module>/* Should mangle top level stuff */ var o=function(){let o="bar";o&&(o+="baz"),console.log(o)}</script>

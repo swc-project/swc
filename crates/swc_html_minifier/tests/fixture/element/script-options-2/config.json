@@ -1,0 +1,17 @@
+{
+  "minifyJs": {
+    "parser": {
+      "comments": true,
+      "syntax": "ecmascript",
+      "target": "es2022"
+    },
+    "minifier": {
+      "mangle": {
+        "topLevel": true
+      }
+    },
+    "codegen": {
+      "asciiOnly": true
+    }
+  }
+}
