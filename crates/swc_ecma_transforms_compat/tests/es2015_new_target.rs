@@ -109,33 +109,6 @@ fn fixture(input: PathBuf) {
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| new_target(),
-    edge_13,
-    r#"
-class A {
-    foo() {
-        return () => new.target
-    }
-
-    constructor() {
-        () => new.target
-    }
-}
-"#,
-    r#"
-class A {
-    foo() {
-        return ()=>void 0;
-    }
-    constructor(){
-        ()=>this.constructor;
-    }
-}
-"#
-);
-
-test!(
-    ::swc_ecma_parser::Syntax::default(),
     |t| chain!(
         classes(Some(t.comments.clone()), Default::default()),
         new_target()
