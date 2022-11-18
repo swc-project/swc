@@ -337,13 +337,11 @@ impl<I: Tokens> Parser<I> {
 
                     self.input.set_next_regexp(Some(start));
 
-                    let token = self.input.cur();
+                    if let Some(Token::Regex(..)) = self.input.cur() {
+                        self.input.set_next_regexp(None);
 
-                    match token {
-                        Some(Token::Regex(..)) => match bump!(self) {
+                        match bump!(self) {
                             Token::Regex(exp, flags) => {
-                                self.input.set_next_regexp(None);
-
                                 let span = span!(self, start);
 
                                 let mut flags_count = flags.chars().fold(
@@ -375,8 +373,7 @@ impl<I: Tokens> Parser<I> {
                                 }))));
                             }
                             _ => unreachable!(),
-                        },
-                        _ => {}
+                        }
                     }
                 }
 
