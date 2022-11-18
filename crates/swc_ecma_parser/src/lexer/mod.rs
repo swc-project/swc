@@ -1114,7 +1114,11 @@ impl<'a, I: Input> Lexer<'a, I> {
     }
 
     /// Expects current char to be '/'
-    fn read_regexp(&mut self) -> LexResult<Token> {
+    fn read_regexp(&mut self, start: BytePos) -> LexResult<Token> {
+        self.input.reset_to(start);
+
+        debug_assert_eq!(self.cur(), Some('/'));
+
         let start = self.cur_pos();
 
         self.bump();
@@ -1283,8 +1287,8 @@ impl<'a, I: Input> Lexer<'a, I> {
     }
 
     #[inline]
-    pub fn set_next_regexp(&mut self, value: bool) {
-        self.state.next_regexp = value;
+    pub fn set_next_regexp(&mut self, start: Option<BytePos>) {
+        self.state.next_regexp = start;
     }
 }
 
