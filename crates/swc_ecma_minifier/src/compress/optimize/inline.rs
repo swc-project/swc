@@ -184,7 +184,7 @@ where
                         .data
                         .vars
                         .get(&id.to_id())
-                        .filter(|a| !a.reassigned() && a.declared)
+                        .filter(|a| !a.reassigned() && a.declared && !a.used_above_decl)
                         .is_some(),
 
                     Expr::Lit(lit) => match lit {
