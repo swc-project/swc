@@ -695,12 +695,6 @@ impl<'a, I: Input> Lexer<'a, I> {
     #[inline(never)]
     fn read_slash(&mut self) -> LexResult<Option<Token>> {
         debug_assert_eq!(self.cur(), Some('/'));
-        // let start = self.cur_pos();
-
-        // Regex
-        if self.state.is_expr_allowed {
-            return self.read_regexp().map(Some);
-        }
 
         // Divide operator
         self.bump();
@@ -1121,12 +1115,12 @@ impl<'a, I: Input> Lexer<'a, I> {
 
     /// Expects current char to be '/'
     fn read_regexp(&mut self) -> LexResult<Token> {
-        debug_assert_eq!(self.cur(), Some('/'));
         let start = self.cur_pos();
+
         self.bump();
 
         let (mut escaped, mut in_class) = (false, false);
-        // let content_start = self.cur_pos();
+
         let content = self.with_buf(|l, buf| {
             while let Some(c) = l.cur() {
                 // This is ported from babel.
@@ -1286,6 +1280,11 @@ impl<'a, I: Input> Lexer<'a, I> {
     #[inline]
     pub fn set_expr_allowed(&mut self, allow: bool) {
         self.state.is_expr_allowed = allow;
+    }
+
+    #[inline]
+    pub fn set_regexp_allowed(&mut self, allow: bool) {
+        self.state.is_regexp_allowed = allow;
     }
 }
 
