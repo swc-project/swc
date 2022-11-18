@@ -238,15 +238,6 @@ impl Syntax {
         }
     }
 
-    pub fn private_in_object(self) -> bool {
-        match self {
-            Syntax::Es(EsConfig {
-                private_in_object, ..
-            }) => private_in_object,
-            Syntax::Typescript(_) => true,
-        }
-    }
-
     pub(crate) fn allow_super_outside_method(self) -> bool {
         match self {
             Syntax::Es(EsConfig {
@@ -320,9 +311,6 @@ pub struct EsConfig {
     /// Stage 3.
     #[serde(default)]
     pub import_assertions: bool,
-
-    #[serde(default, rename = "privateInObject")]
-    pub private_in_object: bool,
 
     #[serde(default, rename = "allowSuperOutsideMethod")]
     pub allow_super_outside_method: bool,
