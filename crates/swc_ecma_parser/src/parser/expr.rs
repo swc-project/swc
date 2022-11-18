@@ -335,15 +335,15 @@ impl<I: Tokens> Parser<I> {
                 tok!('/') | tok!("/=") => {
                     bump!(self);
 
-                    self.input.set_regexp_allowed(true);
+                    self.input.set_next_regexp(true);
 
                     let token = self.input.cur();
-
-                    self.input.set_regexp_allowed(false);
 
                     match token {
                         Some(Token::Regex(..)) => match bump!(self) {
                             Token::Regex(exp, flags) => {
+                                self.input.set_next_regexp(false);
+
                                 let span = span!(self, start);
 
                                 let mut flags_count = flags.chars().fold(

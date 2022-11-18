@@ -22,7 +22,7 @@ use crate::{
 #[derive(Clone)]
 pub(super) struct State {
     pub is_expr_allowed: bool,
-    pub is_regexp_allowed: bool,
+    pub next_regexp: bool,
     /// if line break exists between previous token and new token?
     pub had_line_break: bool,
     /// TODO: Remove this field.
@@ -154,8 +154,8 @@ impl<I: Input> Tokens for Lexer<'_, I> {
     }
 
     #[inline]
-    fn set_regexp_allowed(&mut self, allow: bool) {
-        self.state.is_regexp_allowed = allow;
+    fn set_next_regexp(&mut self, value: bool) {
+        self.state.next_regexp = value;
     }
 
     #[inline]
@@ -197,7 +197,7 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
         let mut start = self.cur_pos();
 
         let res = (|| -> Result<Option<_>, _> {
-            if self.state.is_regexp_allowed {
+            if self.state.next_regexp {
                 if let Ok(regexp) = self.read_regexp() {
                     return Ok(Some(regexp));
                 }
@@ -375,7 +375,7 @@ impl State {
 
         State {
             is_expr_allowed: true,
-            is_regexp_allowed: false,
+            next_regexp: false,
             is_first: true,
             had_line_break: false,
             prev_hi: start_pos,

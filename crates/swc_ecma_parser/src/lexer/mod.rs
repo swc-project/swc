@@ -1283,8 +1283,8 @@ impl<'a, I: Input> Lexer<'a, I> {
     }
 
     #[inline]
-    pub fn set_regexp_allowed(&mut self, allow: bool) {
-        self.state.is_regexp_allowed = allow;
+    pub fn set_next_regexp(&mut self, value: bool) {
+        self.state.next_regexp = value;
     }
 }
 
