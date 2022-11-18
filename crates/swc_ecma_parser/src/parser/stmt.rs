@@ -2527,4 +2527,18 @@ const foo;"#;
 
         test_parser(src, Default::default(), |p| p.parse_script());
     }
+
+    #[test]
+    fn issue_6322() {
+        let src = "for ( ; { } / 1 ; ) ;";
+
+        test_parser(src, Default::default(), |p| p.parse_script());
+    }
+
+    #[test]
+    fn issue_6323() {
+        let src = "let x = 0 < { } / 0 ;";
+
+        test_parser(src, Default::default(), |p| p.parse_script());
+    }
 }

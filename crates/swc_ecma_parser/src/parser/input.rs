@@ -24,6 +24,8 @@ pub trait Tokens: Clone + Iterator<Item = TokenAndSpan> {
     }
 
     fn set_expr_allowed(&mut self, allow: bool);
+    fn set_next_regexp(&mut self, start: Option<BytePos>);
+
     fn token_context(&self) -> &lexer::TokenContexts;
     fn token_context_mut(&mut self) -> &mut lexer::TokenContexts;
     fn set_token_context(&mut self, _c: lexer::TokenContexts);
@@ -109,6 +111,8 @@ impl Tokens for TokensInput {
     }
 
     fn set_expr_allowed(&mut self, _: bool) {}
+
+    fn set_next_regexp(&mut self, _: Option<BytePos>) {}
 
     fn token_context(&self) -> &TokenContexts {
         &self.token_ctx
@@ -220,6 +224,10 @@ impl<I: Tokens> Tokens for Capturing<I> {
 
     fn set_expr_allowed(&mut self, allow: bool) {
         self.inner.set_expr_allowed(allow)
+    }
+
+    fn set_next_regexp(&mut self, start: Option<BytePos>) {
+        self.inner.set_next_regexp(start);
     }
 
     fn token_context(&self) -> &TokenContexts {
@@ -465,6 +473,11 @@ impl<I: Tokens> Buffer<I> {
     #[inline]
     pub(crate) fn set_expr_allowed(&mut self, allow: bool) {
         self.iter.set_expr_allowed(allow)
+    }
+
+    #[inline]
+    pub fn set_next_regexp(&mut self, start: Option<BytePos>) {
+        self.iter.set_next_regexp(start);
     }
 
     #[inline]
