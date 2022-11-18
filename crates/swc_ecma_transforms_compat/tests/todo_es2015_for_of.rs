@@ -7,7 +7,9 @@ use swc_ecma_transforms_compat::es2015::{
     self,
     for_of::{for_of, Config},
 };
-use swc_ecma_transforms_testing::{compare_stdout, test, test_exec};
+use swc_ecma_transforms_testing::{
+    compare_stdout, test, test_exec, test_fixture, FixtureTestConfig,
+};
 
 fn syntax() -> Syntax {
     Default::default()
@@ -626,6 +628,31 @@ fn exec(input: PathBuf) {
             )
         },
         &input,
+    );
+}
+
+#[testing::fixture("tests/for-of/**/input.js")]
+fn fixture(input: PathBuf) {
+    let output = input.with_extension("output.js");
+
+    test_fixture(
+        Syntax::default(),
+        &|_| {
+            let top_level_mark = Mark::new();
+
+            chain!(
+                resolver(Mark::new(), top_level_mark, false),
+                for_of(Config {
+                    assume_array: false,
+                    ..Default::default()
+                })
+            )
+        },
+        &input,
+        &output,
+        FixtureTestConfig {
+            ..Default::default()
+        },
     );
 }
 
