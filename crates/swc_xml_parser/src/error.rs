@@ -92,6 +92,10 @@ impl Error {
                 "Unexpected colon before attribute name".into()
             }
             ErrorKind::UnexpectedSolidusInTag => "Unexpected solidus in tag".into(),
+            ErrorKind::NoTargetNameInProcessingInstruction => "No target name".into(),
+            ErrorKind::MissingWhitespaceBeforeQuestionInProcessingInstruction => {
+                "Missing whitespace before '?'".into()
+            }
 
             // Parser errors
             ErrorKind::UnexpectedTokenInStartPhase => "Unexpected token in start phase".into(),
@@ -154,6 +158,8 @@ pub enum ErrorKind {
     UnexpectedCharacterAfterDoctypeSystemIdentifier,
     UnexpectedColonBeforeAttributeName,
     UnexpectedSolidusInTag,
+    NoTargetNameInProcessingInstruction,
+    MissingWhitespaceBeforeQuestionInProcessingInstruction,
 
     // Parser errors
     UnexpectedTokenInStartPhase,

@@ -87,7 +87,7 @@ pub(crate) static HEAVY_TASK_PARALLELS: Lazy<usize> = Lazy::new(|| *CPU_COUNT * 
 pub(crate) static LIGHT_TASK_PARALLELS: Lazy<usize> = Lazy::new(|| *CPU_COUNT * 100);
 
 pub fn optimize(
-    mut m: Program,
+    mut n: Program,
     _cm: Lrc<SourceMap>,
     comments: Option<&dyn Comments>,
     mut timings: Option<&mut Timings>,
@@ -99,7 +99,7 @@ pub fn optimize(
     let mut marks = Marks::new();
     marks.unresolved_mark = extra.unresolved_mark;
 
-    debug_assert_valid(&m);
+    debug_assert_valid(&n);
 
     if let Some(defs) = options.compress.as_ref().map(|c| &c.global_defs) {
         let _timer = timer!("inline global defs");
@@ -111,7 +111,7 @@ pub fn optimize(
 
         if !defs.is_empty() {
             let defs = defs.iter().map(|(k, v)| (k.clone(), v.clone())).collect();
-            m.visit_mut_with(&mut global_defs::globals_defs(
+            n.visit_mut_with(&mut global_defs::globals_defs(
                 defs,
                 extra.unresolved_mark,
                 extra.top_level_mark,
@@ -119,7 +119,7 @@ pub fn optimize(
         }
     }
 
-    let module_info = match &m {
+    let module_info = match &n {
         Program::Script(_) => ModuleInfo::default(),
         Program::Module(m) => ModuleInfo {
             blackbox_imports: m
@@ -162,20 +162,20 @@ pub fn optimize(
     if let Some(_options) = &options.compress {
         let _timer = timer!("precompress");
 
-        m.visit_mut_with(&mut precompress_optimizer());
-        debug_assert_valid(&m);
+        n.visit_mut_with(&mut precompress_optimizer());
+        debug_assert_valid(&n);
     }
 
     if options.compress.is_some() {
-        m.visit_mut_with(&mut info_marker(
+        n.visit_mut_with(&mut info_marker(
             options.compress.as_ref(),
             comments,
             marks,
             extra.unresolved_mark,
         ));
-        debug_assert_valid(&m);
+        debug_assert_valid(&n);
     }
-    m.visit_mut_with(&mut unique_scope());
+    n.visit_mut_with(&mut unique_scope());
 
     if options.wrap {
         // TODO: wrap_common_js
@@ -191,8 +191,8 @@ pub fn optimize(
     }
     if let Some(options) = &options.compress {
         if options.unused {
-            perform_dce(&mut m, options, extra);
-            debug_assert_valid(&m);
+            perform_dce(&mut n, options, extra);
+            debug_assert_valid(&n);
         }
     }
 
@@ -207,7 +207,7 @@ pub fn optimize(
     if options.rename && DISABLE_BUGGY_PASSES {
         // toplevel.figure_out_scope(options.mangle);
         // TODO: Pass `options.mangle` to name expander.
-        m.visit_mut_with(&mut name_expander());
+        n.visit_mut_with(&mut name_expander());
     }
 
     if let Some(ref mut t) = timings {
@@ -217,14 +217,14 @@ pub fn optimize(
         {
             let _timer = timer!("compress ast");
 
-            m.visit_mut_with(&mut compressor(&module_info, marks, options, &Minification))
+            n.visit_mut_with(&mut compressor(&module_info, marks, options, &Minification))
         }
 
         // Again, we don't need to validate ast
 
         let _timer = timer!("postcompress");
 
-        m.visit_mut_with(&mut postcompress_optimizer(options));
+        n.visit_mut_with(&mut postcompress_optimizer(options));
 
         let mut pass = 0;
         loop {
@@ -241,7 +241,7 @@ pub fn optimize(
                     debug_infinite_loop: false,
                 },
             );
-            m.visit_mut_with(&mut v);
+            n.visit_mut_with(&mut v);
             if !v.changed() || options.passes <= pass {
                 break;
             }
@@ -263,30 +263,30 @@ pub fn optimize(
         let _timer = timer!("mangle names");
         // TODO: base54.reset();
 
-        let preserved = idents_to_preserve(mangle.clone(), &m);
+        let preserved = idents_to_preserve(mangle.clone(), &n);
 
         let chars = CharFreq::compute(
-            &m,
+            &n,
             &preserved,
             SyntaxContext::empty().apply_mark(marks.unresolved_mark),
         )
         .compile();
 
-        m.visit_mut_with(&mut name_mangler(mangle.clone(), preserved, chars));
+        n.visit_mut_with(&mut name_mangler(mangle.clone(), preserved, chars));
 
         if let Some(property_mangle_options) = &mangle.props {
-            mangle_properties(&mut m, &module_info, property_mangle_options.clone(), chars);
+            mangle_properties(&mut n, &module_info, property_mangle_options.clone(), chars);
         }
     }
 
-    m.visit_mut_with(&mut merge_exports());
+    n.visit_mut_with(&mut merge_exports());
 
     if let Some(ref mut t) = timings {
         t.section("hygiene");
         t.end_section();
     }
 
-    m
+    n
 }
 
 fn perform_dce(m: &mut Program, options: &CompressOptions, extra: &ExtraOptions) {

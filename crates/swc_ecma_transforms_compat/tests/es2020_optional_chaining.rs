@@ -433,11 +433,11 @@ orders[client.key]?.price;
 
 "#,
     r#"
-var _ref, _a_b, _ref1, _a_b_c, _a_b_c_d, _orders_, _orders_client_key, _c;
+var _a_b_c, _a_b_c_d, _a_b, _a_b_c1, _a_b_c_d1, _orders_, _orders_client_key, _c;
 foo === null || foo === void 0 ? void 0 : foo.bar;
-(_ref = a === null || a === void 0 ? void 0 : a.b.c) === null || _ref === void 0 ? void 0 : _ref.d.e;
-(_ref1 = (_a_b = a.b) === null || _a_b === void 0 ? void 0 : _a_b.c.d) === null || _ref1 === void 0 ? void 0 : _ref1.e;
-(_a_b_c = a.b.c) === null || _a_b_c === void 0 ? void 0 : (_a_b_c_d = _a_b_c.d) === null || _a_b_c_d === void 0 ? void 0 : _a_b_c_d.e;
+(_a_b_c = a === null || a === void 0 ? void 0 : a.b.c) === null || _a_b_c === void 0 ? void 0 : _a_b_c.d.e;
+(_a_b_c_d = (_a_b = a.b) === null || _a_b === void 0 ? void 0 : _a_b.c.d) === null || _a_b_c_d === void 0 ? void 0 : _a_b_c_d.e;
+(_a_b_c1 = a.b.c) === null || _a_b_c1 === void 0 ? void 0 : (_a_b_c_d1 = _a_b_c1.d) === null || _a_b_c_d1 === void 0 ? void 0 : _a_b_c_d1.e;
 orders === null || orders === void 0 ? void 0 : orders[0].price;
 orders === null || orders === void 0 ? void 0 : (_orders_ = orders[0]) === null || _orders_ === void 0 ? void 0 : _orders_.price;
 orders[client === null || client === void 0 ? void 0 : client.key].price;
@@ -518,7 +518,7 @@ foo?.bar()?.()
 
 "#,
     r#"
-var _foo_bar, _foo_bar1, _foo, _foo_bar2, _foo_bar3, _foo_bar_call, _foo_bar4, _foo_bar5, _foo_bar_call1, _ref;
+var _foo_bar, _foo_bar1, _foo, _foo_bar2, _foo_bar3, _foo_bar_call, _foo_bar4, _foo_bar5, _foo_bar_call1, _foo_bar6;
 foo === null || foo === void 0 ? void 0 : foo(foo);
 foo === null || foo === void 0 ? void 0 : foo.bar();
 (_foo_bar = foo.bar) === null || _foo_bar === void 0 ? void 0 : _foo_bar.call(foo, foo.bar, false);
@@ -529,7 +529,7 @@ foo === null || foo === void 0 ? void 0 : (_foo = foo()) === null || _foo === vo
 (_foo_bar3 = foo.bar) === null || _foo_bar3 === void 0 ? void 0 : (_foo_bar_call = _foo_bar3.call(foo)) === null || _foo_bar_call === void 0 ? void 0 : _foo_bar_call.baz;
 foo === null || foo === void 0 ? void 0 : (_foo_bar4 = foo.bar) === null || _foo_bar4 === void 0 ? void 0 : _foo_bar4.call(foo).baz;
 foo === null || foo === void 0 ? void 0 : (_foo_bar5 = foo.bar) === null || _foo_bar5 === void 0 ? void 0 : (_foo_bar_call1 = _foo_bar5.call(foo)) === null || _foo_bar_call1 === void 0 ? void 0 : _foo_bar_call1.baz;
-(_ref = foo === null || foo === void 0 ? void 0 : foo.bar()) === null || _ref === void 0 ? void 0 : _ref();
+(_foo_bar6 = foo === null || foo === void 0 ? void 0 : foo.bar()) === null || _foo_bar6 === void 0 ? void 0 : _foo_bar6();
 "#
 );
 
@@ -947,6 +947,13 @@ test!(
     }
     bug();  
     "
+);
+
+test_exec!(
+    syntax(),
+    |_| tr(Default::default()),
+    issue_6346,
+    "expect([1]?.filter(() => true).map?.(() => 2)).toEqual([2]);"
 );
 
 test_exec!(

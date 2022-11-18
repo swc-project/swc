@@ -8,5 +8,5 @@
         <circle onmouseover='alert("test")' cx=50 cy=50 r=30 style=fill:url(#gradient) />
     </svg>
     <div type=text onmouseover=myFunction()>test</div>
-    <a href=https://datacadamia.com onclick="console.log(`Navigation to ${this.href} cancelled`);return false">Click me</a>
-    <a href=https://datacadamia.com onclick="console.log(`Navigation to ${this.href} cancelled`);return false">Click me</a>
+    <a href=https://datacadamia.com onclick="return console.log(`Navigation to ${this.href} cancelled`),!1">Click me</a>
+    <a href=https://datacadamia.com onclick="return console.log(`Navigation to ${this.href} cancelled`),!1">Click me</a>

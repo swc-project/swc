@@ -1,4 +1,5 @@
 //// [restTuplesFromContextualTypes.ts]
+import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
 import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
 (function(a, b, c) {}).apply(this, _to_consumable_array(t1)), (function() {
     for(var _len = arguments.length, x = Array(_len), _key = 0; _key < _len; _key++)x[_key] = arguments[_key];

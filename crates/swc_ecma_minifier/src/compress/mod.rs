@@ -336,6 +336,10 @@ where
 {
     noop_visit_mut_type!();
 
+    fn visit_mut_script(&mut self, n: &mut Script) {
+        self.optimize_unit_repeatedly(n);
+    }
+
     fn visit_mut_module(&mut self, n: &mut Module) {
         self.optimize_unit_repeatedly(n);
     }

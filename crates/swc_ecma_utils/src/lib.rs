@@ -1925,7 +1925,11 @@ pub fn alias_ident_for(expr: &Expr, default: &str) -> Ident {
                 ident: Some(ident), ..
             }) => Some(ident.sym.to_string()),
 
-            Expr::Call(CallExpr {
+            Expr::OptChain(OptChainExpr {
+                base: OptChainBase::Call(OptCall { callee: expr, .. }),
+                ..
+            })
+            | Expr::Call(CallExpr {
                 callee: Callee::Expr(expr),
                 ..
             }) => sym(expr),
@@ -1940,13 +1944,31 @@ pub fn alias_ident_for(expr: &Expr, default: &str) -> Ident {
                 ..
             }) => Some(format!("super_{}", sym(expr).unwrap_or_default())),
 
-            Expr::Member(MemberExpr {
+            Expr::OptChain(OptChainExpr {
+                base:
+                    OptChainBase::Member(MemberExpr {
+                        prop: MemberProp::Ident(ident),
+                        obj,
+                        ..
+                    }),
+                ..
+            })
+            | Expr::Member(MemberExpr {
                 prop: MemberProp::Ident(ident),
                 obj,
                 ..
             }) => Some(format!("{}_{}", sym(obj).unwrap_or_default(), ident.sym)),
 
-            Expr::Member(MemberExpr {
+            Expr::OptChain(OptChainExpr {
+                base:
+                    OptChainBase::Member(MemberExpr {
+                        prop: MemberProp::Computed(ComputedPropName { expr, .. }),
+                        obj,
+                        ..
+                    }),
+                ..
+            })
+            | Expr::Member(MemberExpr {
                 prop: MemberProp::Computed(ComputedPropName { expr, .. }),
                 obj,
                 ..

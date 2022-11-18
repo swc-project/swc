@@ -19,9 +19,10 @@ pub enum State {
     EndTagNameAfter,
     Pi,
     PiTarget,
+    PiTargetQuestion,
     PiTargetAfter,
     PiData,
-    PiAfter,
+    PiEnd,
     MarkupDeclaration,
     CommentStart,
     CommentStartDash,
@@ -1166,15 +1167,26 @@ where
                     // U+000A LINE FEED (LF)
                     // U+0020 SPACE
                     // EOF
-                    // Parse error. Reprocess the current input character in the bogus comment
-                    // state.
+                    // Parse error.
+                    // Switch to the pi target after state.
                     Some(c) if is_spacy_except_ff(c) => {
                         self.emit_error(ErrorKind::InvalidCharacterOfProcessingInstruction);
-                        self.reconsume_in_state(State::BogusComment);
+                        self.create_processing_instruction_token();
+                        self.state = State::PiTargetAfter;
                     }
                     None => {
-                        self.emit_error(ErrorKind::EofInTag);
-                        self.reconsume_in_state(State::BogusComment);
+                        self.emit_error(ErrorKind::EofInProcessingInstruction);
+                        self.create_processing_instruction_token();
+                        self.emit_current_processing_instruction();
+                        self.reconsume_in_state(State::Data);
+                    }
+                    // U+003F QUESTION MARK(?)
+                    // Emit error
+                    // Reprocess the current input character in the pi end state (recovery mode).
+                    Some('?') => {
+                        self.emit_error(ErrorKind::NoTargetNameInProcessingInstruction);
+                        self.create_processing_instruction_token();
+                        self.state = State::PiEnd;
                     }
                     Some(c) => {
                         self.validate_input_stream_character(c);
@@ -1190,7 +1202,7 @@ where
                     // U+0009 CHARACTER TABULATION (tab)
                     // U+000A LINE FEED (LF)
                     // U+0020 SPACE
-                    // Switch to the before attribute name state.
+                    // Switch to the pi target state.
                     Some(c) if is_spacy_except_ff(c) => {
                         self.state = State::PiTargetAfter;
                     }
@@ -1203,9 +1215,9 @@ where
                         self.reconsume_in_state(State::Data);
                     }
                     // U+003F QUESTION MARK(?)
-                    // Switch to the pi after state.
+                    // Switch to the pi target question.
                     Some('?') => {
-                        self.state = State::PiAfter;
+                        self.state = State::PiTargetQuestion;
                     }
                     // Anything else
                     // Append the current input character to the processing instruction target and
@@ -1213,6 +1225,27 @@ where
                     Some(c) => {
                         self.validate_input_stream_character(c);
                         self.set_processing_instruction_token(Some(c), None);
+                    }
+                }
+            }
+            State::PiTargetQuestion => {
+                // Consume the next input character:
+                match self.consume_next_char() {
+                    // U+003E GREATER-THAN SIGN (>)
+                    Some('>') => {
+                        self.reconsume_in_state(State::PiEnd);
+                    }
+                    _ => {
+                        self.errors.push(Error::new(
+                            Span::new(
+                                self.cur_pos - BytePos(1),
+                                self.input.cur_pos() - BytePos(1),
+                                Default::default(),
+                            ),
+                            ErrorKind::MissingWhitespaceBeforeQuestionInProcessingInstruction,
+                        ));
+                        self.set_processing_instruction_token(None, Some('?'));
+                        self.reconsume_in_state(State::PiData);
                     }
                 }
             }
@@ -1239,7 +1272,7 @@ where
                     // U+003F QUESTION MARK(?)
                     // Switch to the pi after state.
                     Some('?') => {
-                        self.state = State::PiAfter;
+                        self.state = State::PiEnd;
                     }
                     // EOF
                     // Parse error. Emit the current processing instruction token and then reprocess
@@ -1258,7 +1291,7 @@ where
                     }
                 }
             }
-            State::PiAfter => {
+            State::PiEnd => {
                 // Consume the next input character:
                 match self.consume_next_char() {
                     // U+003E GREATER-THAN SIGN (>)
@@ -1267,15 +1300,18 @@ where
                         self.emit_current_processing_instruction();
                         self.state = State::Data;
                     }
-                    // U+003F QUESTION MARK(?)
-                    // Append the current input character to the PI’s data and stay in the current
-                    // state.
-                    Some(c @ '?') => {
-                        self.set_processing_instruction_token(None, Some(c));
+                    // EOF
+                    // Parse error. Emit the current processing instruction token and then reprocess
+                    // the current input character in the data state.
+                    None => {
+                        self.emit_error(ErrorKind::EofInProcessingInstruction);
+                        self.emit_current_processing_instruction();
+                        self.reconsume_in_state(State::Data);
                     }
                     // Anything else
                     // Reprocess the current input character in the pi data state.
                     _ => {
+                        self.set_processing_instruction_token(None, Some('?'));
                         self.reconsume_in_state(State::PiData);
                     }
                 }

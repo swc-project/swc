@@ -1,0 +1,472 @@
+{
+  "type": "Document",
+  "span": {
+    "start": 1,
+    "end": 648,
+    "ctxt": 0
+  },
+  "children": [
+    {
+      "type": "Element",
+      "span": {
+        "start": 1,
+        "end": 648,
+        "ctxt": 0
+      },
+      "tagName": "root",
+      "attributes": [],
+      "children": [
+        {
+          "type": "Text",
+          "span": {
+            "start": 7,
+            "end": 12,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "ProcessingInstruction",
+          "span": {
+            "start": 12,
+            "end": 23,
+            "ctxt": 0
+          },
+          "target": "xslt",
+          "data": "ma"
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 23,
+            "end": 28,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "ProcessingInstruction",
+          "span": {
+            "start": 28,
+            "end": 50,
+            "ctxt": 0
+          },
+          "target": "xslt\n",
+          "data": "m"
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 50,
+            "end": 55,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "ProcessingInstruction",
+          "span": {
+            "start": 55,
+            "end": 63,
+            "ctxt": 0
+          },
+          "target": "xslt",
+          "data": ""
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 63,
+            "end": 68,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "ProcessingInstruction",
+          "span": {
+            "start": 68,
+            "end": 77,
+            "ctxt": 0
+          },
+          "target": "xslt",
+          "data": ""
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 77,
+            "end": 82,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "ProcessingInstruction",
+          "span": {
+            "start": 82,
+            "end": 100,
+            "ctxt": 0
+          },
+          "target": "xml-stylesheet",
+          "data": ""
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 100,
+            "end": 105,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "ProcessingInstruction",
+          "span": {
+            "start": 105,
+            "end": 126,
+            "ctxt": 0
+          },
+          "target": "foo",
+          "data": "version=\"1.0\""
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 126,
+            "end": 131,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "ProcessingInstruction",
+          "span": {
+            "start": 131,
+            "end": 152,
+            "ctxt": 0
+          },
+          "target": "foo",
+          "data": "version='1.0'"
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 152,
+            "end": 157,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "ProcessingInstruction",
+          "span": {
+            "start": 157,
+            "end": 195,
+            "ctxt": 0
+          },
+          "target": "foo",
+          "data": "version='1.0' encoding=\"UTF-8\""
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 195,
+            "end": 200,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "ProcessingInstruction",
+          "span": {
+            "start": 200,
+            "end": 238,
+            "ctxt": 0
+          },
+          "target": "foo",
+          "data": "version='1.0' encoding='UTF-8'"
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 238,
+            "end": 243,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "ProcessingInstruction",
+          "span": {
+            "start": 243,
+            "end": 281,
+            "ctxt": 0
+          },
+          "target": "foo",
+          "data": "version='1.0' encoding='utf-8'"
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 281,
+            "end": 286,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "ProcessingInstruction",
+          "span": {
+            "start": 286,
+            "end": 325,
+            "ctxt": 0
+          },
+          "target": "foo",
+          "data": "version='1.0' encoding='EUC-JP'"
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 325,
+            "end": 330,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "ProcessingInstruction",
+          "span": {
+            "start": 330,
+            "end": 385,
+            "ctxt": 0
+          },
+          "target": "foo",
+          "data": "version='1.0' encoding='UTF-8' standalone='yes'"
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 385,
+            "end": 390,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "ProcessingInstruction",
+          "span": {
+            "start": 390,
+            "end": 444,
+            "ctxt": 0
+          },
+          "target": "foo",
+          "data": "version='1.0' encoding='UTF-8' standalone='no'"
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 444,
+            "end": 449,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "ProcessingInstruction",
+          "span": {
+            "start": 449,
+            "end": 486,
+            "ctxt": 0
+          },
+          "target": "foo",
+          "data": "version='1.0' standalone='no'"
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 486,
+            "end": 491,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "ProcessingInstruction",
+          "span": {
+            "start": 491,
+            "end": 529,
+            "ctxt": 0
+          },
+          "target": "foo",
+          "data": "version='1.0' standalone='no' "
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 529,
+            "end": 534,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "ProcessingInstruction",
+          "span": {
+            "start": 534,
+            "end": 541,
+            "ctxt": 0
+          },
+          "target": "foo",
+          "data": ""
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 541,
+            "end": 546,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "ProcessingInstruction",
+          "span": {
+            "start": 546,
+            "end": 555,
+            "ctxt": 0
+          },
+          "target": "f",
+          "data": "?oo"
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 555,
+            "end": 560,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "ProcessingInstruction",
+          "span": {
+            "start": 560,
+            "end": 570,
+            "ctxt": 0
+          },
+          "target": "f",
+          "data": "?oo?"
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 570,
+            "end": 575,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "ProcessingInstruction",
+          "span": {
+            "start": 575,
+            "end": 586,
+            "ctxt": 0
+          },
+          "target": "f",
+          "data": "?????"
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 586,
+            "end": 591,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "ProcessingInstruction",
+          "span": {
+            "start": 591,
+            "end": 604,
+            "ctxt": 0
+          },
+          "target": "test",
+          "data": "aaa "
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 604,
+            "end": 609,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "ProcessingInstruction",
+          "span": {
+            "start": 609,
+            "end": 620,
+            "ctxt": 0
+          },
+          "target": "test",
+          "data": "? "
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 620,
+            "end": 625,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "ProcessingInstruction",
+          "span": {
+            "start": 625,
+            "end": 640,
+            "ctxt": 0
+          },
+          "target": "test",
+          "data": "a a a "
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 640,
+            "end": 641,
+            "ctxt": 0
+          },
+          "data": "\n",
+          "raw": "\n"
+        }
+      ]
+    }
+  ]
+}
