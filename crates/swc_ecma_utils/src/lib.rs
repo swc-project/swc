@@ -1381,16 +1381,16 @@ pub trait ExprExt {
                                 PropOrSpread::Spread(_) => true,
                                 PropOrSpread::Prop(prop) => match prop.as_ref() {
                                     Prop::Shorthand(ident) => ident.sym == js_word!("__proto__"),
-                                    Prop::KeyValue(KeyValueProp { key, value, .. }) => match key {
+                                    Prop::KeyValue(KeyValueProp { key, .. }) => match key {
                                         PropName::Ident(ident) => {
                                             ident.sym == js_word!("__proto__")
                                         }
-                                        PropName::Str(str) => str.value == js_word!("__proto__"),
+                                        PropName::Str(s) => s.value == js_word!("__proto__"),
                                         PropName::Computed(_) => true,
                                         _ => false,
                                     },
                                     Prop::Getter(..) | Prop::Setter(..) => true,
-                                    Prop::Method(prop) => true,
+                                    Prop::Method(_) => true,
                                     Prop::Assign(_) => {
                                         unreachable!("This is **invalid** for object literal")
                                     }
