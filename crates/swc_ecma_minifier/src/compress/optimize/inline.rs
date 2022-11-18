@@ -184,7 +184,12 @@ where
                         .data
                         .vars
                         .get(&id.to_id())
-                        .filter(|a| !a.reassigned() && a.declared && !a.used_above_decl)
+                        .filter(|a| {
+                            !a.reassigned() && a.declared && {
+                                // Function declarations are hoisted
+                                !a.used_above_decl || !a.declared_as_fn_decl
+                            }
+                        })
                         .is_some(),
 
                     Expr::Lit(lit) => match lit {
