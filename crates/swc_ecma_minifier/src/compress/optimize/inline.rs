@@ -187,6 +187,10 @@ where
                         .filter(|a| {
                             !a.reassigned() && a.declared && {
                                 // Function declarations are hoisted
+                                //
+                                // As we copy expressions, this can cause a problem.
+                                // See https://github.com/swc-project/swc/issues/6463
+                                //
                                 // We check callee_count of `usage` because we copy simple functions
                                 !a.used_above_decl
                                     || !a.declared_as_fn_decl
