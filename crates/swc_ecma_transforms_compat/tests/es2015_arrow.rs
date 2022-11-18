@@ -260,57 +260,6 @@ var a = {
 "#
 );
 
-test!(
-    ::swc_ecma_parser::Syntax::default(),
-    |_| tr(),
-    this_in_params,
-    r#"
-export const getBadgeBorderRadius = (text = this, color = arguments) => {
-  return (text && style) || {}
-}"#,
-    r#"
-var _this = this, _arguments = arguments;
-export const getBadgeBorderRadius = function(text = _this, color = _arguments) {
-  return text && style || {
-  };
-};
-"#
-);
-
-test!(
-    ::swc_ecma_parser::Syntax::default(),
-    |_| arrow(Mark::new()),
-    getter_setter,
-    r#"
-const a = () => ({
-  get this() { this;arguments },
-  set arguments(a = this) { this;arguments },
-  get [this]() { this;arguments },
-})
-"#,
-    r#"
-var _this = this;
-const a = function () {
-  return {
-    get this() {
-      this;
-      arguments;
-    },
-
-    set arguments(a = this) {
-      this;
-      arguments;
-    },
-
-    get [_this] () {
-        this;
-        arguments;
-    }
-  };
-};
-"#
-);
-
 #[testing::fixture("tests/arrow/**/input.js")]
 fn fixture(input: PathBuf) {
     let output = input.with_file_name("output.js");
