@@ -311,55 +311,6 @@ const a = function () {
 "#
 );
 
-test!(
-    ::swc_ecma_parser::Syntax::default(),
-    |_| arrow(Mark::new()),
-    method_computed,
-    r#"
-const a = () => ({
-  [this](a = this) { this;arguments },
-})
-const b = () => class {
-  static [this]() {}
-  [arguments]() {}
-}
-"#,
-    r#"
-var _this = this;
-const a = function () {
-  return {
-    [_this](a = this) {
-      this;
-      arguments;
-    }
-  };
-};
-const b = function() {
-  return class {
-      static [this]() {}
-      [arguments]() {
-      }
-  };
-};
-"#
-);
-
-test!(
-    ::swc_ecma_parser::Syntax::default(),
-    |_| arrow(Mark::new()),
-    chrome_46,
-    "function foo() {
-      const a = (a) => new.target
-    }",
-    "function foo() {
-      var _newtarget = new.target;
-
-      const a = function (a) {
-        return _newtarget;
-      };
-    }"
-);
-
 #[testing::fixture("tests/arrow/**/input.js")]
 fn fixture(input: PathBuf) {
     let output = input.with_file_name("output.js");
