@@ -55,42 +55,6 @@ compare_stdout!(
 test!(
     ::swc_ecma_parser::Syntax::default(),
     |_| arrow(Mark::new()),
-    arguments_member,
-    r#"
-  function test() {
-    return (foo) => {
-      return foo.arguments;
-    }
-  }"#,
-    r#"
-  function test() {
-    return function(foo) {
-      return foo.arguments;
-    };
-  }"#
-);
-
-test!(
-    ::swc_ecma_parser::Syntax::default(),
-    |_| arrow(Mark::new()),
-    arguments_fn_expr,
-    r#"
-  function test() {
-    return function() {
-      return arguments[0];
-    };
-  }"#,
-    r#"
-  function test() {
-    return function() {
-      return arguments[0];
-    };
-  }"#
-);
-
-test!(
-    ::swc_ecma_parser::Syntax::default(),
-    |_| arrow(Mark::new()),
     issue_2212_1,
     "const foo = () => this",
     "
