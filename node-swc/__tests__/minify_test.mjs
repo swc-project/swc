@@ -213,7 +213,7 @@ describe("should remove comments", () => {
         expect(code).toMatchInlineSnapshot(`
             "(function(){/**
                          * @license
-                         */const o=Math.random()+\\"_\\"+Math.random();console.log(o)})();"
+                         */ const o=Math.random()+\\"_\\"+Math.random();console.log(o)})();"
         `);
     });
     it("should remove comment near to license", async () => {
@@ -241,7 +241,7 @@ describe("should remove comments", () => {
         expect(code).toMatchInlineSnapshot(`
             "(function(){/**
                          * @license
-                         */const o=Math.random()+\\"_\\"+Math.random();console.log(o)})();"
+                         */ const o=Math.random()+\\"_\\"+Math.random();console.log(o)})();"
         `);
     });
 });
