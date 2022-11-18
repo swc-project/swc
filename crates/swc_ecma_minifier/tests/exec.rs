@@ -10358,3 +10358,19 @@ fn issue_6279_2() {
         "###,
     );
 }
+
+#[test]
+fn issue_6463_1() {
+    run_default_exec_test(
+        r###"
+            var foo_1 = foo;
+
+            function foo() {
+                console.log("foo");
+            }
+
+            foo_1();
+            foo_1();
+        "###,
+    );
+}
