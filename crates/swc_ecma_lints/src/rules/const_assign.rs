@@ -11,8 +11,7 @@ pub fn const_assign() -> Box<dyn Rule> {
 #[derive(Debug, Default)]
 struct ConstAssign {
     const_vars: AHashMap<Id, Span>,
-    import_bindings: AHashMap<Id, Span>,
-    classes: AHashMap<Id, Span>,
+    import_binding: AHashMap<Id, Span>,
 
     is_pat_decl: bool,
 }
@@ -41,20 +40,11 @@ impl ConstAssign {
             });
         }
 
-        if let Some(&binding_span) = self.import_bindings.get(&id.to_id()) {
+        if let Some(&binding_span) = self.import_binding.get(&id.to_id()) {
             HANDLER.with(|handler| {
                 handler
                     .struct_span_err(id.span, "cannot reassign to an imported binding")
                     .span_label(binding_span, "imported binding")
-                    .emit();
-            });
-        }
-
-        if let Some(&binding_span) = self.classes.get(&id.to_id()) {
-            HANDLER.with(|handler| {
-                handler
-                    .struct_span_err(id.span, "cannot reassign to a class")
-                    .span_label(binding_span, "class name")
                     .emit();
             });
         }
@@ -73,8 +63,7 @@ impl Visit for ConstAssign {
     fn visit_module(&mut self, program: &Module) {
         program.visit_children_with(&mut Collector {
             const_vars: &mut self.const_vars,
-            import_bindings: &mut self.import_bindings,
-            classes: &mut self.classes,
+            import_binding: &mut self.import_binding,
             var_decl_kind: None,
         });
 
@@ -112,8 +101,7 @@ impl Visit for ConstAssign {
             const_vars: &mut self.const_vars,
             // I don't believe that import stmt exists in Script
             // But it's ok. Let's pass it in.
-            import_bindings: &mut self.import_bindings,
-            classes: &mut self.classes,
+            import_binding: &mut self.import_binding,
             var_decl_kind: None,
         });
 
@@ -132,8 +120,7 @@ impl Visit for ConstAssign {
 
 struct Collector<'a> {
     const_vars: &'a mut AHashMap<Id, Span>,
-    import_bindings: &'a mut AHashMap<Id, Span>,
-    classes: &'a mut AHashMap<Id, Span>,
+    import_binding: &'a mut AHashMap<Id, Span>,
 
     var_decl_kind: Option<VarDeclKind>,
 }
@@ -146,7 +133,7 @@ impl Visit for Collector<'_> {
             ImportSpecifier::Named(ImportNamedSpecifier { local, .. })
             | ImportSpecifier::Default(ImportDefaultSpecifier { local, .. })
             | ImportSpecifier::Namespace(ImportStarAsSpecifier { local, .. }) => {
-                self.import_bindings.insert(local.to_id(), local.span);
+                self.import_binding.insert(local.to_id(), local.span);
             }
         }
     }
@@ -185,18 +172,5 @@ impl Visit for Collector<'_> {
         var_decl.visit_children_with(self);
 
         self.var_decl_kind = old_var_decl_kind;
-    }
-
-    fn visit_class_decl(&mut self, class: &ClassDecl) {
-        *self.classes.entry(class.ident.to_id()).or_default() = class.ident.span;
-
-        class.visit_children_with(self);
-    }
-
-    fn visit_class_expr(&mut self, class: &ClassExpr) {
-        if let Some(ident) = &class.ident {
-            *self.classes.entry(ident.to_id()).or_default() = ident.span;
-        }
-        class.visit_children_with(self);
     }
 }

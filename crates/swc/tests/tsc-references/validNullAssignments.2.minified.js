@@ -1,12 +1,6 @@
 //// [validNullAssignments.ts]
-//! 
-//!   x cannot reassign to a class
-//!     ,-[12:1]
-//!  12 | class C { foo: string }
-//!     :       |
-//!     :       `-- class name
-//!  13 | var f: C;
-//!  14 | f = null; // ok
-//!  15 | C = null; // error
-//!     : ^
-//!     `----
+var E, M;
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+!function(E) {
+    E[E.A = 0] = "A";
+}(E || (E = {})), E.A = null, I = null, (M || (M = {})).x = 1, M = null;
