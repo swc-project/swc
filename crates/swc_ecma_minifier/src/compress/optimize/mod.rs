@@ -2573,7 +2573,6 @@ where
                 if can_be_removed {
                     self.changed = true;
                     report_change!("unused: Dropping an expression without side effect");
-                    tracing::debug!("unused: Dropping \n{}\n", dump(&*expr, false));
                     dump_change_detail!("unused: Dropping \n{}\n", dump(&*expr, false));
                     *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
                     return;
