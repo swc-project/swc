@@ -1,0 +1,302 @@
+{
+  "type": "Document",
+  "span": {
+    "start": 1,
+    "end": 264,
+    "ctxt": 0
+  },
+  "children": [
+    {
+      "type": "ProcessingInstruction",
+      "span": {
+        "start": 1,
+        "end": 39,
+        "ctxt": 0
+      },
+      "target": "xml",
+      "data": "version=\"1.0\" encoding=\"UTF-8\""
+    },
+    {
+      "type": "Element",
+      "span": {
+        "start": 40,
+        "end": 262,
+        "ctxt": 0
+      },
+      "tagName": "root",
+      "attributes": [],
+      "children": [
+        {
+          "type": "Text",
+          "span": {
+            "start": 46,
+            "end": 51,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "Comment",
+          "span": {
+            "start": 51,
+            "end": 65,
+            "ctxt": 0
+          },
+          "data": "comment",
+          "raw": "<!--comment-->"
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 65,
+            "end": 70,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "Comment",
+          "span": {
+            "start": 70,
+            "end": 83,
+            "ctxt": 0
+          },
+          "data": "<head>",
+          "raw": "<!--<head>-->"
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 83,
+            "end": 88,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "Comment",
+          "span": {
+            "start": 88,
+            "end": 99,
+            "ctxt": 0
+          },
+          "data": "<!-x",
+          "raw": "<!--<!-x-->"
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 99,
+            "end": 104,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "Comment",
+          "span": {
+            "start": 104,
+            "end": 114,
+            "ctxt": 0
+          },
+          "data": "<!x",
+          "raw": "<!--<!x-->"
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 114,
+            "end": 119,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "Comment",
+          "span": {
+            "start": 119,
+            "end": 130,
+            "ctxt": 0
+          },
+          "data": "<<!x",
+          "raw": "<!--<<!x-->"
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 130,
+            "end": 135,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "Comment",
+          "span": {
+            "start": 135,
+            "end": 147,
+            "ctxt": 0
+          },
+          "data": "<<!-x",
+          "raw": "<!--<<!-x-->"
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 147,
+            "end": 152,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "Comment",
+          "span": {
+            "start": 152,
+            "end": 161,
+            "ctxt": 0
+          },
+          "data": "<x",
+          "raw": "<!--<x-->"
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 161,
+            "end": 166,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "Comment",
+          "span": {
+            "start": 166,
+            "end": 175,
+            "ctxt": 0
+          },
+          "data": "<>",
+          "raw": "<!--<>-->"
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 175,
+            "end": 180,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "Comment",
+          "span": {
+            "start": 180,
+            "end": 188,
+            "ctxt": 0
+          },
+          "data": "<",
+          "raw": "<!--<-->"
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 188,
+            "end": 193,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "Comment",
+          "span": {
+            "start": 193,
+            "end": 202,
+            "ctxt": 0
+          },
+          "data": "<!",
+          "raw": "<!--<!-->"
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 202,
+            "end": 207,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "Comment",
+          "span": {
+            "start": 207,
+            "end": 214,
+            "ctxt": 0
+          },
+          "data": "",
+          "raw": "<!---->"
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 214,
+            "end": 219,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "Comment",
+          "span": {
+            "start": 219,
+            "end": 232,
+            "ctxt": 0
+          },
+          "data": "-a->-a",
+          "raw": "<!---a->-a-->"
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 232,
+            "end": 237,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "Comment",
+          "span": {
+            "start": 237,
+            "end": 254,
+            "ctxt": 0
+          },
+          "data": "-<!-test->",
+          "raw": "<!---<!-test->-->"
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 254,
+            "end": 255,
+            "ctxt": 0
+          },
+          "data": "\n",
+          "raw": "\n"
+        }
+      ]
+    }
+  ]
+}

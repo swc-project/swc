@@ -121,13 +121,17 @@ where
 
             if let Some(orig_ext) = orig_ext {
                 let use_orig = if let Some(ext) = p.extension() {
-                    (ext == "ts" || ext == "tsx") && p.is_file()
+                    ext == "ts" || ext == "tsx"
                 } else {
                     false
                 };
 
                 if use_orig {
-                    p.set_extension(orig_ext);
+                    if matches!(orig_ext, "js" | "mjs" | "cjs" | "jsx") {
+                        p.set_extension(orig_ext);
+                    } else {
+                        p.set_extension("");
+                    }
                 }
             } else {
                 p.set_extension("");

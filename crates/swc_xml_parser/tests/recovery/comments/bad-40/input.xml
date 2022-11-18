@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<foo>
+    <!-- def='NT-Char'--><!-->Char</nt>* ']]&gt;' <nt def='NT-Char'>Char</nt>*))
+']]&gt;'</rhs>
+<com>CDATA sections</com>
+<rhs>| '&lt;!DOCTYPE'
+(<nt def="NT-Char">Char</nt> - ('[' | ']'))+
+('['
+<nt def="NT-simpleDTD">simpleDTD</nt>*
+']')? '&gt;'</rhs>
+<com>doc type declaration</com>
+<prod id="NT-simpleDTD"><lhs>simpleDTD</lhs>
+<rhs>'&lt;!&como;'
+(<nt def='NT-Char'>Char</nt>* -
+(<nt def='NT-Char'>Char</nt>* '&comc;' <nt def='NT-Char'>Char</nt>*))
+'&comc;&gt;'</rhs>-->
+</foo>

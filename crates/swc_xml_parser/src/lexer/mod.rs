@@ -1656,6 +1656,7 @@ where
                     // Append a U+002D HYPHEN-MINUS character (-) to the comment token's data.
                     Some(c @ '-') => {
                         self.append_to_comment_token(c, c);
+                        self.emit_error(ErrorKind::DoubleHyphenWithInComment);
                     }
                     // EOF
                     // This is an eof-in-comment parse error. Emit the current comment token.
