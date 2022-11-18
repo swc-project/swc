@@ -17,6 +17,9 @@
 - **(es/modules)** Remove wrong check for `jsc.paths` (#6470) ([072bd13](https://github.com/swc-project/swc/commit/072bd130239579566d319a47156c570277cebb1b))
 
 
+- **(es/parser)** Fix parsing of regexp (#6469) ([3e702b9](https://github.com/swc-project/swc/commit/3e702b9804a07f610948f731bbb8cfdcec8065a5))
+
+
 - **(xml/parser)** Fix parsing of comments (#6449) ([3a0d98b](https://github.com/swc-project/swc/commit/3a0d98b6e986dd175b64534bc99c2a59a99b97d0))
 
 ### Features
