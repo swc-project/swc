@@ -127,7 +127,11 @@ where
                 };
 
                 if use_orig {
-                    p.set_extension(orig_ext);
+                    if matches!(orig_ext, "js" | "mjs" | "cjs" | "jsx") {
+                        p.set_extension(orig_ext);
+                    } else {
+                        p.set_extension("");
+                    }
                 }
             } else {
                 p.set_extension("");
