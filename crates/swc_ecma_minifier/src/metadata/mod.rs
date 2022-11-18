@@ -191,12 +191,23 @@ impl VisitMut for InfoMarker<'_> {
 
     fn visit_mut_lit(&mut self, _: &mut Lit) {}
 
-    fn visit_mut_module(&mut self, m: &mut Module) {
-        m.visit_mut_children_with(self);
+    fn visit_mut_script(&mut self, n: &mut Script) {
+        n.visit_mut_children_with(self);
 
         if self.state.is_bundle {
             tracing::info!("Running minifier in the bundle mode");
-            m.span = m.span.apply_mark(self.marks.bundle_of_standalone);
+            n.span = n.span.apply_mark(self.marks.bundle_of_standalone);
+        } else {
+            tracing::info!("Running minifier in the normal mode");
+        }
+    }
+
+    fn visit_mut_module(&mut self, n: &mut Module) {
+        n.visit_mut_children_with(self);
+
+        if self.state.is_bundle {
+            tracing::info!("Running minifier in the bundle mode");
+            n.span = n.span.apply_mark(self.marks.bundle_of_standalone);
         } else {
             tracing::info!("Running minifier in the normal mode");
         }

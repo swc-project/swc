@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Document</title>
+</head>
+<body>
+
+<div>Script:</div>
+<script>
+    /* Should mangle top level stuff */
+    var topLevel = function test() {
+        let foo = "bar";
+
+        if (foo) {
+            foo += "baz";
+        }
+
+        console.log(foo);
+    };
+</script>
+
+<div>Module:</div>
+<script type="module">
+    /* Should mangle top level stuff */
+    var topLevel = function test() {
+        let foo = "bar";
+
+        if (foo) {
+            foo += "baz";
+        }
+
+        console.log(foo);
+    };
+</script>
+</body>
+</html>

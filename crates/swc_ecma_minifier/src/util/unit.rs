@@ -69,7 +69,42 @@ impl CompileUnit for Module {
     {
         self.visit_mut_with(&mut *visitor);
 
-        crate::debug::invoke(self);
+        crate::debug::invoke_module(self);
+    }
+
+    fn remove_mark(&mut self) -> Mark {
+        Mark::root()
+    }
+}
+
+impl CompileUnit for Script {
+    fn is_module() -> bool {
+        false
+    }
+
+    fn force_dump(&self) -> String {
+        let _noop_sub =
+            tracing::subscriber::set_default(tracing::subscriber::NoSubscriber::default());
+
+        dump(
+            &self
+                .clone()
+                .fold_with(&mut fixer(None))
+                .fold_with(&mut hygiene())
+                .fold_with(&mut as_folder(DropSpan {
+                    preserve_ctxt: false,
+                })),
+            true,
+        )
+    }
+
+    fn apply<V>(&mut self, visitor: &mut V)
+    where
+        V: VisitMut,
+    {
+        self.visit_mut_with(&mut *visitor);
+
+        crate::debug::invoke_script(self);
     }
 
     fn remove_mark(&mut self) -> Mark {

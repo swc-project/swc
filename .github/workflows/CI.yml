@@ -641,6 +641,7 @@ jobs:
       - name: Run cargo test (core)
         if: matrix.settings.crate == 'swc_core'
         run: |
+          rustup target add wasm32-unknown-unknown
           cargo test -p swc_core --features ecma_quote --features common --features ecma_utils
 
       - name: Run cargo test (binding_core_wasm)

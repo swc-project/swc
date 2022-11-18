@@ -1150,6 +1150,14 @@ where
         n.visit_children_with(&mut *self.with_ctx(ctx))
     }
 
+    fn visit_script(&mut self, n: &Script) {
+        let ctx = Ctx {
+            skip_standalone: true,
+            ..self.ctx
+        };
+        n.visit_children_with(&mut *self.with_ctx(ctx))
+    }
+
     fn visit_named_export(&mut self, n: &NamedExport) {
         if n.src.is_some() {
             return;
