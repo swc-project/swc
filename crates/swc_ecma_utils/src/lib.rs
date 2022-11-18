@@ -1375,18 +1375,29 @@ pub trait ExprExt {
                         }
                     }
                     Expr::Object(obj) => {
-                        let is_static_accessor = |prop: &PropOrSpread| {
-                            if let PropOrSpread::Prop(prop) = prop {
-                                if let Prop::Getter(_) | Prop::Setter(_) = &**prop {
-                                    true
-                                } else {
-                                    false
-                                }
-                            } else {
-                                false
+                        let is_prop_could_has_side_effect = |prop: &PropOrSpread| {
+                            match prop {
+                                // ({ ...{ __proto__: { get foo() { a = 1; } }  } }).foo
+                                PropOrSpread::Spread(_) => true,
+                                PropOrSpread::Prop(prop) => match prop.as_ref() {
+                                    Prop::Shorthand(ident) => ident.sym == js_word!("__proto__"),
+                                    Prop::KeyValue(KeyValueProp { key, value, .. }) => match key {
+                                        PropName::Ident(ident) => {
+                                            ident.sym == js_word!("__proto__")
+                                        }
+                                        PropName::Str(str) => str.value == js_word!("__proto__"),
+                                        PropName::Computed(_) => true,
+                                        _ => false,
+                                    },
+                                    Prop::Getter(..) | Prop::Setter(..) => true,
+                                    Prop::Method(prop) => true,
+                                    Prop::Assign(_) => {
+                                        unreachable!("This is **invalid** for object literal")
+                                    }
+                                },
                             }
                         };
-                        if obj.props.iter().any(is_static_accessor) {
+                        if obj.props.iter().any(is_prop_could_has_side_effect) {
                             return true;
                         }
                     }

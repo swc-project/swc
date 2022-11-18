@@ -1918,6 +1918,7 @@ where
             #[cfg(feature = "debug")]
             let start = dump(&n.expr, true);
 
+            // Fix https://github.com/swc-project/swc/issues/6422
             let is_object_lit_with_spread = n
                 .expr
                 .as_object()
@@ -2572,6 +2573,7 @@ where
                 if can_be_removed {
                     self.changed = true;
                     report_change!("unused: Dropping an expression without side effect");
+                    tracing::debug!("unused: Dropping \n{}\n", dump(&*expr, false));
                     dump_change_detail!("unused: Dropping \n{}\n", dump(&*expr, false));
                     *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
                     return;
