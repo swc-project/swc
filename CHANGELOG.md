@@ -19,6 +19,12 @@
 
 - **(html/minifier)** Remove empty script and style tags with attributes (#6447) ([7441721](https://github.com/swc-project/swc/commit/74417217a98bb26dcce7f913bb8ee35b538f0d06))
 
+### Refactor
+
+
+
+- **(bindings)** Deprecate `jsvalue::*_serde` (#6462) ([dd4b9e8](https://github.com/swc-project/swc/commit/dd4b9e87de93294ed402c357745a2e0d268b34ef))
+
 ## [1.3.18] - 2022-11-16
 
 ### Bug Fixes
