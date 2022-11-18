@@ -9,7 +9,9 @@ use swc_ecma_transforms_compat::{
     es2016, es2017, es2018, es2022,
     es2022::class_properties,
 };
-use swc_ecma_transforms_testing::{compare_stdout, test, test_exec, test_fixture, Tester};
+use swc_ecma_transforms_testing::{
+    compare_stdout, test, test_exec, test_fixture, FixtureTestConfig, Tester,
+};
 use swc_ecma_visit::Fold;
 
 fn syntax() -> Syntax {
@@ -6782,7 +6784,10 @@ fn fixture(input: PathBuf) {
         },
         &input,
         &output,
-        Default::default(),
+        FixtureTestConfig {
+            sourcemap: true,
+            ..Default::default()
+        },
     );
 }
 
