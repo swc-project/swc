@@ -15,60 +15,6 @@ fn tr() -> impl Fold {
 test!(
     ::swc_ecma_parser::Syntax::default(),
     |_| arrow(Mark::new()),
-    inside_call,
-    r#"arr.map(i => i + 1);"#,
-    r#"arr.map(function (i) {
-  return i + 1;
-});"#
-);
-
-test!(
-    ::swc_ecma_parser::Syntax::default(),
-    |_| arrow(Mark::new()),
-    multiple_arguments,
-    r#"var t = (i, x) => i * x;"#,
-    r#"var t = function (i, x) {
-  return i * x;
-};"#
-);
-
-// test!(::swc_ecma_parser::Syntax::default(),
-//     |_| arrow(Mark::new()),
-//     nested,
-//     r#"module.exports = {
-//   init: function () {
-//     return new Promise((resolve, reject) => {
-//       MongoClient.connect(config.mongodb, (err, db) => {
-//         if (err) {
-//           return reject(err);
-//         }
-//         this.db = db;
-//         resolve(this);
-//       });
-//     });
-//   }
-// };"#,
-//     r#"module.exports = {
-//   init: function () {
-//     var _this = this;
-
-//     return new Promise(function (resolve, reject) {
-//       MongoClient.connect(config.mongodb, function (err, db) {
-//         if (err) {
-//           return reject(err);
-//         }
-
-//         _this.db = db;
-//         resolve(_this);
-//       });
-//     });
-//   }
-// };"#
-// );
-
-test!(
-    ::swc_ecma_parser::Syntax::default(),
-    |_| arrow(Mark::new()),
     paren_insertion,
     r#"var t = i => i * 5;"#,
     r#"var t = function (i) {
