@@ -15,26 +15,6 @@ fn tr() -> impl Fold {
 test!(
     ::swc_ecma_parser::Syntax::default(),
     |_| arrow(Mark::new()),
-    destructuring,
-    r#"let foo = ({bar}) => undefined;"#,
-    r#"let foo = function ({bar}) {
-	return undefined;
-}"#
-);
-
-test!(
-    ::swc_ecma_parser::Syntax::default(),
-    |_| arrow(Mark::new()),
-    basic,
-    r#"let echo = (bar) => bar"#,
-    r#"let echo = function(bar) {
-        return bar;
-    }"#
-);
-
-test!(
-    ::swc_ecma_parser::Syntax::default(),
-    |_| arrow(Mark::new()),
     empty_arguments,
     r#"var t = () => 5 + 5;"#,
     r#"var t = function () {
