@@ -362,3 +362,6 @@ swc_plugin_runner = { optional = true, version = "0.77.33", path = "../swc_plugi
 
 [build-dependencies]
 vergen = { version = "7.3.2", default-features = false, features = ["cargo"] }
+
+[dev-dependencies]
+anyhow = "1.0.66"
