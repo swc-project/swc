@@ -8,6 +8,9 @@
 - **(es/compat)** Fix consecutive optional call (#6461) ([f7072db](https://github.com/swc-project/swc/commit/f7072dbb7eb768e2a4dad5aa9f2ac6c6bacf560e))
 
 
+- **(es/lints)** Revert check for reassignment to classes (#6472) ([ca20d94](https://github.com/swc-project/swc/commit/ca20d94a7492198b450755a9d5033fb6404737f9))
+
+
 - **(es/minifier)** Preserve unused imported specifiers (#6458) ([dabea71](https://github.com/swc-project/swc/commit/dabea71c4461a96836e4456bd2c6bbcf07f238a4))
 
 
