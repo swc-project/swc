@@ -1,0 +1,397 @@
+
+  x Document
+    ,-[$DIR/tests/fixture/comments/input.xml:1:1]
+  1 | ,-> <?xml version="1.0" encoding="UTF-8"?>
+  2 | |   <root>
+  3 | |       <!--comment-->
+  4 | |       <!--<head>-->
+  5 | |       <!--<!-x-->
+  6 | |       <!--<!x-->
+  7 | |       <!--<<!x-->
+  8 | |       <!--<<!-x-->
+  9 | |       <!--<x-->
+ 10 | |       <!--<>-->
+ 11 | |       <!--<-->
+ 12 | |       <!--<!-->
+ 13 | |       <!---->
+ 14 | |       <!---a->-a-->
+ 15 | |       <!---<!-test->-->
+ 16 | |   </root>
+ 17 | `-> 
+    `----
+
+  x Child
+   ,-[$DIR/tests/fixture/comments/input.xml:1:1]
+ 1 | <?xml version="1.0" encoding="UTF-8"?>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x ProcessingInstruction
+   ,-[$DIR/tests/fixture/comments/input.xml:1:1]
+ 1 | <?xml version="1.0" encoding="UTF-8"?>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+    ,-[$DIR/tests/fixture/comments/input.xml:2:1]
+  2 | ,-> <root>
+  3 | |       <!--comment-->
+  4 | |       <!--<head>-->
+  5 | |       <!--<!-x-->
+  6 | |       <!--<!x-->
+  7 | |       <!--<<!x-->
+  8 | |       <!--<<!-x-->
+  9 | |       <!--<x-->
+ 10 | |       <!--<>-->
+ 11 | |       <!--<-->
+ 12 | |       <!--<!-->
+ 13 | |       <!---->
+ 14 | |       <!---a->-a-->
+ 15 | |       <!---<!-test->-->
+ 16 | `-> </root>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/comments/input.xml:2:1]
+  2 | ,-> <root>
+  3 | |       <!--comment-->
+  4 | |       <!--<head>-->
+  5 | |       <!--<!-x-->
+  6 | |       <!--<!x-->
+  7 | |       <!--<<!x-->
+  8 | |       <!--<<!-x-->
+  9 | |       <!--<x-->
+ 10 | |       <!--<>-->
+ 11 | |       <!--<-->
+ 12 | |       <!--<!-->
+ 13 | |       <!---->
+ 14 | |       <!---a->-a-->
+ 15 | |       <!---<!-test->-->
+ 16 | `-> </root>
+    `----
+
+  x Child
+   ,-[$DIR/tests/fixture/comments/input.xml:2:1]
+ 2 | ,-> <root>
+ 3 | `->     <!--comment-->
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/comments/input.xml:2:1]
+ 2 | ,-> <root>
+ 3 | `->     <!--comment-->
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/comments/input.xml:3:5]
+ 3 | <!--comment-->
+   : ^^^^^^^^^^^^^^
+   `----
+
+  x Comment
+   ,-[$DIR/tests/fixture/comments/input.xml:3:5]
+ 3 | <!--comment-->
+   : ^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/comments/input.xml:3:5]
+ 3 | ,-> <!--comment-->
+ 4 | `->     <!--<head>-->
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/comments/input.xml:3:5]
+ 3 | ,-> <!--comment-->
+ 4 | `->     <!--<head>-->
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/comments/input.xml:4:5]
+ 4 | <!--<head>-->
+   : ^^^^^^^^^^^^^
+   `----
+
+  x Comment
+   ,-[$DIR/tests/fixture/comments/input.xml:4:5]
+ 4 | <!--<head>-->
+   : ^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/comments/input.xml:4:5]
+ 4 | ,-> <!--<head>-->
+ 5 | `->     <!--<!-x-->
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/comments/input.xml:4:5]
+ 4 | ,-> <!--<head>-->
+ 5 | `->     <!--<!-x-->
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/comments/input.xml:5:5]
+ 5 | <!--<!-x-->
+   : ^^^^^^^^^^^
+   `----
+
+  x Comment
+   ,-[$DIR/tests/fixture/comments/input.xml:5:5]
+ 5 | <!--<!-x-->
+   : ^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/comments/input.xml:5:5]
+ 5 | ,-> <!--<!-x-->
+ 6 | `->     <!--<!x-->
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/comments/input.xml:5:5]
+ 5 | ,-> <!--<!-x-->
+ 6 | `->     <!--<!x-->
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/comments/input.xml:6:5]
+ 6 | <!--<!x-->
+   : ^^^^^^^^^^
+   `----
+
+  x Comment
+   ,-[$DIR/tests/fixture/comments/input.xml:6:5]
+ 6 | <!--<!x-->
+   : ^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/comments/input.xml:6:5]
+ 6 | ,-> <!--<!x-->
+ 7 | `->     <!--<<!x-->
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/comments/input.xml:6:5]
+ 6 | ,-> <!--<!x-->
+ 7 | `->     <!--<<!x-->
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/comments/input.xml:7:5]
+ 7 | <!--<<!x-->
+   : ^^^^^^^^^^^
+   `----
+
+  x Comment
+   ,-[$DIR/tests/fixture/comments/input.xml:7:5]
+ 7 | <!--<<!x-->
+   : ^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/comments/input.xml:7:5]
+ 7 | ,-> <!--<<!x-->
+ 8 | `->     <!--<<!-x-->
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/comments/input.xml:7:5]
+ 7 | ,-> <!--<<!x-->
+ 8 | `->     <!--<<!-x-->
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/comments/input.xml:8:5]
+ 8 | <!--<<!-x-->
+   : ^^^^^^^^^^^^
+   `----
+
+  x Comment
+   ,-[$DIR/tests/fixture/comments/input.xml:8:5]
+ 8 | <!--<<!-x-->
+   : ^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/comments/input.xml:8:5]
+ 8 | ,-> <!--<<!-x-->
+ 9 | `->     <!--<x-->
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/comments/input.xml:8:5]
+ 8 | ,-> <!--<<!-x-->
+ 9 | `->     <!--<x-->
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/comments/input.xml:9:5]
+ 9 | <!--<x-->
+   : ^^^^^^^^^
+   `----
+
+  x Comment
+   ,-[$DIR/tests/fixture/comments/input.xml:9:5]
+ 9 | <!--<x-->
+   : ^^^^^^^^^
+   `----
+
+  x Child
+    ,-[$DIR/tests/fixture/comments/input.xml:9:5]
+  9 | ,-> <!--<x-->
+ 10 | `->     <!--<>-->
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/comments/input.xml:9:5]
+  9 | ,-> <!--<x-->
+ 10 | `->     <!--<>-->
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/comments/input.xml:10:5]
+ 10 | <!--<>-->
+    : ^^^^^^^^^
+    `----
+
+  x Comment
+    ,-[$DIR/tests/fixture/comments/input.xml:10:5]
+ 10 | <!--<>-->
+    : ^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/comments/input.xml:10:5]
+ 10 | ,-> <!--<>-->
+ 11 | `->     <!--<-->
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/comments/input.xml:10:5]
+ 10 | ,-> <!--<>-->
+ 11 | `->     <!--<-->
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/comments/input.xml:11:5]
+ 11 | <!--<-->
+    : ^^^^^^^^
+    `----
+
+  x Comment
+    ,-[$DIR/tests/fixture/comments/input.xml:11:5]
+ 11 | <!--<-->
+    : ^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/comments/input.xml:11:5]
+ 11 | ,-> <!--<-->
+ 12 | `->     <!--<!-->
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/comments/input.xml:11:5]
+ 11 | ,-> <!--<-->
+ 12 | `->     <!--<!-->
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/comments/input.xml:12:5]
+ 12 | <!--<!-->
+    : ^^^^^^^^^
+    `----
+
+  x Comment
+    ,-[$DIR/tests/fixture/comments/input.xml:12:5]
+ 12 | <!--<!-->
+    : ^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/comments/input.xml:12:5]
+ 12 | ,-> <!--<!-->
+ 13 | `->     <!---->
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/comments/input.xml:12:5]
+ 12 | ,-> <!--<!-->
+ 13 | `->     <!---->
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/comments/input.xml:13:5]
+ 13 | <!---->
+    : ^^^^^^^
+    `----
+
+  x Comment
+    ,-[$DIR/tests/fixture/comments/input.xml:13:5]
+ 13 | <!---->
+    : ^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/comments/input.xml:13:5]
+ 13 | ,-> <!---->
+ 14 | `->     <!---a->-a-->
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/comments/input.xml:13:5]
+ 13 | ,-> <!---->
+ 14 | `->     <!---a->-a-->
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/comments/input.xml:14:5]
+ 14 | <!---a->-a-->
+    : ^^^^^^^^^^^^^
+    `----
+
+  x Comment
+    ,-[$DIR/tests/fixture/comments/input.xml:14:5]
+ 14 | <!---a->-a-->
+    : ^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/comments/input.xml:14:5]
+ 14 | ,-> <!---a->-a-->
+ 15 | `->     <!---<!-test->-->
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/comments/input.xml:14:5]
+ 14 | ,-> <!---a->-a-->
+ 15 | `->     <!---<!-test->-->
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/comments/input.xml:15:5]
+ 15 | <!---<!-test->-->
+    : ^^^^^^^^^^^^^^^^^
+    `----
+
+  x Comment
+    ,-[$DIR/tests/fixture/comments/input.xml:15:5]
+ 15 | <!---<!-test->-->
+    : ^^^^^^^^^^^^^^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/comments/input.xml:15:5]
+ 15 | <!---<!-test->-->
+    :                  ^
+ 16 | </root>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/comments/input.xml:15:5]
+ 15 | <!---<!-test->-->
+    :                  ^
+ 16 | </root>
+    `----
