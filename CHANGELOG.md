@@ -19,6 +19,9 @@
 
 - **(html/minifier)** Remove empty script and style tags with attributes (#6447) ([7441721](https://github.com/swc-project/swc/commit/74417217a98bb26dcce7f913bb8ee35b538f0d06))
 
+
+- **(html/minifier)** Use the latest `EsVersion` (#6453) ([7f6bf59](https://github.com/swc-project/swc/commit/7f6bf59a98710ce7964e99ab621a68dc729c021d))
+
 ### Refactor
 
 
