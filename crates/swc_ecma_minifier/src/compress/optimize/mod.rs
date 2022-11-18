@@ -1918,15 +1918,22 @@ where
             #[cfg(feature = "debug")]
             let start = dump(&n.expr, true);
 
-            let expr = self.ignore_return_value(&mut n.expr);
-            n.expr = expr.map(Box::new).unwrap_or_else(|| {
-                report_change!("visit_mut_expr_stmt: Dropped an expression statement");
+            let is_object_lit_with_spread = n
+                .expr
+                .as_object()
+                .map(|object_lit| object_lit.props.iter().any(|prop| prop.is_spread()))
+                .unwrap_or(false);
 
-                #[cfg(feature = "debug")]
-                dump_change_detail!("Removed {}", start);
+            if !is_object_lit_with_spread {
+                let expr = self.ignore_return_value(&mut n.expr);
+                n.expr = expr.map(Box::new).unwrap_or_else(|| {
+                    report_change!("visit_mut_expr_stmt: Dropped an expression statement");
+                    #[cfg(feature = "debug")]
+                    dump_change_detail!("Removed {}", start);
 
-                undefined(DUMMY_SP)
-            });
+                    undefined(DUMMY_SP)
+                });
+            }
         } else {
             match &mut *n.expr {
                 Expr::Seq(e) => {
