@@ -54,93 +54,6 @@ compare_stdout!(
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| arrow(Mark::new()),
-    issue_2212_1,
-    "const foo = () => this",
-    "
-    var _this = this;
-    const foo = function() {
-        return _this;
-    };
-    "
-);
-
-test!(
-    ::swc_ecma_parser::Syntax::default(),
-    |_| arrow(Mark::new()),
-    issue_2212_2,
-    "
-    const foo = function (){
-        () => () => () => this
-    }
-    ",
-    "
-    const foo = function() {
-      var _this = this;
-      (function() {
-          return function() {
-              return function() {
-                  return _this;
-              };
-          };
-      });
-    };
-    "
-);
-
-test!(
-    ::swc_ecma_parser::Syntax::default(),
-    |_| arrow(Mark::new()),
-    fixture_this,
-    r#"
-function b() {
-  var t = x => this.x + x;
-}
-
-class Foo extends (function(){}) {
-  constructor(){
-    var foo = () => this;
-
-    if (true){
-        console.log(super(), foo());
-    } else {
-        super();
-        console.log(foo());
-    }
-  }
-}
-"#,
-    r#"
-function b() {
-  var _this = this;
-
-  var t = function (x) {
-    return _this.x + x;
-  };
-}
-
-class Foo extends function () {} {
-  constructor() {
-    var _this;
-
-    var foo = function () {
-      return _this;
-    };
-
-    if (true) {
-      console.log((super(), _this = this), foo());
-    } else {
-      super(), _this = this;
-      console.log(foo());
-    }
-  }
-
-}
-"#
-);
-
-test!(
-    ::swc_ecma_parser::Syntax::default(),
     |_| tr(),
     fixture_arguments,
     r#"
@@ -201,26 +114,6 @@ let foo1 = function () {
 let bar1 = function () {
   return _arguments;
 }
-"#
-);
-
-test!(
-    ::swc_ecma_parser::Syntax::default(),
-    |_| arrow(Mark::new()),
-    computed_props,
-    r#"
-var a = {
-  [(() => this)()]: 123
-}
-"#,
-    r#"
-var _this = this;
-
-var a = {
-  [function () {
-    return _this;
-  }()]: 123
-};
 "#
 );
 
