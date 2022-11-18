@@ -15,16 +15,6 @@ fn tr() -> impl Fold {
 test!(
     ::swc_ecma_parser::Syntax::default(),
     |_| arrow(Mark::new()),
-    expression,
-    r#"arr.map(x => x * x);"#,
-    r#"arr.map(function (x) {
-  return x * x;
-});"#
-);
-
-test!(
-    ::swc_ecma_parser::Syntax::default(),
-    |_| arrow(Mark::new()),
     inside_call,
     r#"arr.map(i => i + 1);"#,
     r#"arr.map(function (i) {
