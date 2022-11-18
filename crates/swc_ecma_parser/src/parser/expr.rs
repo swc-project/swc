@@ -376,9 +376,7 @@ impl<I: Tokens> Parser<I> {
                             }
                             _ => unreachable!(),
                         },
-                        _ => {
-                            unreachable!();
-                        }
+                        _ => {}
                     }
                 }
 
