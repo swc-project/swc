@@ -14,6 +14,9 @@
 - **(es/minifier)** Preserve unused imported specifiers (#6458) ([dabea71](https://github.com/swc-project/swc/commit/dabea71c4461a96836e4456bd2c6bbcf07f238a4))
 
 
+- **(es/minifier)** Abort inliner on fn declarations used multiple time (#6473) ([15ad2c2](https://github.com/swc-project/swc/commit/15ad2c256880bea01931203ec7adfa61c9ca13be))
+
+
 - **(es/modules)** Remove wrong check for `jsc.paths` (#6470) ([072bd13](https://github.com/swc-project/swc/commit/072bd130239579566d319a47156c570277cebb1b))
 
 
