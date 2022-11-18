@@ -81,6 +81,7 @@ impl Error {
                 "Missing whitespace between doctype public and system identifiers".into()
             }
             ErrorKind::NestedComment => "Nested comment".into(),
+            ErrorKind::DoubleHyphenWithInComment => "Double hyper within comment".into(),
             ErrorKind::NoncharacterInInputStream => "Noncharacter in input stream".into(),
             ErrorKind::SurrogateInInputStream => "Surrogate in input stream".into(),
             ErrorKind::SurrogateCharacterReference => "Surrogate character reference".into(),
@@ -150,6 +151,7 @@ pub enum ErrorKind {
     MissingWhitespaceBeforeDoctypeName,
     MissingWhitespaceBetweenDoctypePublicAndSystemIdentifiers,
     NestedComment,
+    DoubleHyphenWithInComment,
     NoncharacterInInputStream,
     SurrogateInInputStream,
     SurrogateCharacterReference,

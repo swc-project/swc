@@ -1,7 +1,0 @@
-
-  x cannot reassign to a class
-   ,----
- 1 | class X { static y = X = 0 }
-   :       |              ^
-   :       `-- class name
-   `----

@@ -1,11 +1,6 @@
 //// [invalidUndefinedAssignments.ts]
-//! 
-//!   x cannot reassign to a class
-//!    ,-[7:1]
-//!  7 | class C { foo: string }
-//!    :       |
-//!    :       `-- class name
-//!  8 | var f: C;
-//!  9 | C = x;
-//!    : ^
-//!    `----
+var x, E, M;
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+!function(E) {
+    E[E.A = 0] = "A";
+}(E || (E = {})), (E = x).A = x, I = x, (M || (M = {})).x = 1, M = x;

@@ -1,1 +1,1 @@
-import "./src/rel.decorator.ts";
+import "./src/rel.decorator";
