@@ -198,9 +198,7 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
 
         let res = (|| -> Result<Option<_>, _> {
             if let Some(start) = self.state.next_regexp {
-                if let Ok(regexp) = self.read_regexp(start) {
-                    return Ok(Some(regexp));
-                }
+                return Ok(Some(self.read_regexp(start)?));
             }
 
             if self.state.is_first {

@@ -1130,7 +1130,9 @@ impl<'a, I: Input> Lexer<'a, I> {
                 // This is ported from babel.
                 // Seems like regexp literal cannot contain linebreak.
                 if c.is_line_terminator() {
-                    l.error(start, SyntaxError::UnterminatedRegExp)?;
+                    let span = l.span(start);
+
+                    return Err(Error::new(span, SyntaxError::UnterminatedRegExp));
                 }
 
                 if escaped {
@@ -1143,20 +1145,22 @@ impl<'a, I: Input> Lexer<'a, I> {
                         '/' if !in_class => break,
                         _ => {}
                     }
+
                     escaped = c == '\\';
                 }
+
                 l.bump();
                 buf.push(c);
             }
 
             Ok(Atom::new(&**buf))
         })?;
-        // let content_span = Span::new(content_start, self.cur_pos(),
-        // Default::default());
 
         // input is terminated without following `/`
         if !self.is(b'/') {
-            self.error(start, SyntaxError::UnterminatedRegExp)?;
+            let span = self.span(start);
+
+            return Err(Error::new(span, SyntaxError::UnterminatedRegExp));
         }
 
         self.bump(); // '/'
