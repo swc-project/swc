@@ -187,7 +187,10 @@ where
                         .filter(|a| {
                             !a.reassigned() && a.declared && {
                                 // Function declarations are hoisted
-                                !a.used_above_decl || !a.declared_as_fn_decl
+                                // We check callee_count of `usage` because we copy simple functions
+                                !a.used_above_decl
+                                    || !a.declared_as_fn_decl
+                                    || usage.callee_count == 0
                             }
                         })
                         .is_some(),
