@@ -29,6 +29,8 @@ pub enum Child {
     Element(Element),
     #[tag("Text")]
     Text(Text),
+    #[tag("CDATASection")]
+    CDATASection(CDATASection),
     #[tag("Comment")]
     Comment(Comment),
     #[tag("ProcessingInstruction")]
@@ -85,6 +87,14 @@ pub struct Attribute {
 #[ast_node("Text")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct Text {
+    pub span: Span,
+    pub data: JsWord,
+    pub raw: Option<JsWord>,
+}
+
+#[ast_node("CDATASection")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+pub struct CDATASection {
     pub span: Span,
     pub data: JsWord,
     pub raw: Option<JsWord>,
