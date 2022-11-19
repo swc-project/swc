@@ -1376,21 +1376,31 @@ pub trait ExprExt {
                     }
                     Expr::Object(obj) => {
                         let can_have_side_effect = |prop: &PropOrSpread| match prop {
-                            PropOrSpread::Spread(_) => true,
-                            PropOrSpread::Prop(prop) => match prop.as_ref() {
-                                Prop::Shorthand(i) => i.sym == js_word!("__proto__"),
-                                Prop::KeyValue(KeyValueProp { key, .. }) => match key {
-                                    PropName::Ident(i) => i.sym == js_word!("__proto__"),
-                                    PropName::Str(s) => s.value == js_word!("__proto__"),
-                                    PropName::Computed(_) => true,
+                            PropOrSpread::Spread(_) | PropOrSpread::Prop(prop) => {
+                                match prop.as_ref() {
+                                    Prop::Getter(_)
+                                    | Prop::Setter(_)
+                                    | Prop::Method(_)
+                                    | Prop::Shorthand(Ident {
+                                        sym: js_word!("__proto__"),
+                                        ..
+                                    })
+                                    | Prop::KeyValue(KeyValueProp {
+                                        key:
+                                            PropName::Ident(Ident {
+                                                sym: js_word!("__proto__"),
+                                                ..
+                                            })
+                                            | PropName::Str(Str {
+                                                value: js_word!("__proto__"),
+                                                ..
+                                            })
+                                            | PropName::Computed(_),
+                                        ..
+                                    }) => true,
                                     _ => false,
-                                },
-                                Prop::Getter(..) | Prop::Setter(..) => true,
-                                Prop::Method(_) => true,
-                                Prop::Assign(_) => {
-                                    unreachable!("This is **invalid** for object literal")
                                 }
-                            },
+                            }
                         };
                         if obj.props.iter().any(can_have_side_effect) {
                             return true;
