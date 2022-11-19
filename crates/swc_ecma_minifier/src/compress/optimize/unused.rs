@@ -473,10 +473,22 @@ where
         }
 
         match decl {
-            Decl::Class(ClassDecl { ident, .. }) => {
+            Decl::Class(ClassDecl { ident, class, .. }) => {
                 if ident.sym == js_word!("arguments") {
                     return;
                 }
+
+                // Fix https://github.com/swc-project/swc/issues/5588
+                let may_have_side_effect = class.body.iter().any(|m| match m {
+                    ClassMember::ClassProp(p) => p.is_static && p.value.is_some(),
+                    ClassMember::PrivateProp(p) => p.is_static && p.value.is_some(),
+                    ClassMember::StaticBlock(_) => true,
+                    _ => true,
+                });
+                if may_have_side_effect {
+                    return;
+                }
+
                 // If it is not used, drop it.
                 if self
                     .data
