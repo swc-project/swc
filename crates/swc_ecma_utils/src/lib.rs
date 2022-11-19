@@ -1375,7 +1375,7 @@ pub trait ExprExt {
                         }
                     }
                     Expr::Object(obj) => {
-                        let is_prop_could_has_side_effect = |prop: &PropOrSpread| {
+                        let can_have_side_effect = |prop: &PropOrSpread| {
                             match prop {
                                 // ({ ...{ __proto__: { get foo() { a = 1; } }  } }).foo
                                 PropOrSpread::Spread(_) => true,
@@ -1397,7 +1397,7 @@ pub trait ExprExt {
                                 },
                             }
                         };
-                        if obj.props.iter().any(is_prop_could_has_side_effect) {
+                        if obj.props.iter().any(can_have_side_effect) {
                             return true;
                         }
                     }
