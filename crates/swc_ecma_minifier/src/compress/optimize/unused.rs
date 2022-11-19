@@ -480,10 +480,10 @@ where
 
                 // Fix https://github.com/swc-project/swc/issues/5588
                 let may_have_side_effect = class.body.iter().any(|m| match m {
-                    ClassMember::ClassProp(p) => p.is_static && p.value.is_some(),
-                    ClassMember::PrivateProp(p) => p.is_static && p.value.is_some(),
-                    ClassMember::StaticBlock(_) => true,
-                    _ => true,
+                    ClassMember::ClassProp(m) => m.is_static && m.value.is_some(),
+                    ClassMember::PrivateProp(m) => m.is_static && m.value.is_some(),
+                    ClassMember::StaticBlock(m) => !m.body.stmts.is_empty(),
+                    _ => false,
                 });
                 if may_have_side_effect {
                     return;
