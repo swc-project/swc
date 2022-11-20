@@ -163,6 +163,7 @@ jobs:
           profile: minimal
 
       - name: Patch
+        shell: bash
         run: |
           echo '[patch.crates-io]' >> bindings/Cargo.toml
           ./scripts/cargo/patch-section.sh >> bindings/Cargo.toml
@@ -722,6 +723,7 @@ jobs:
           cache: "yarn"
 
       - name: Patch
+        shell: bash
         run: |
           echo '[patch.crates-io]' >> bindings/Cargo.toml
           ./scripts/cargo/patch-section.sh >> bindings/Cargo.toml
@@ -783,6 +785,7 @@ jobs:
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
       - name: Patch
+        shell: bash
         run: |
           echo '[patch.crates-io]' >> bindings/Cargo.toml
           ./scripts/cargo/patch-section.sh >> bindings/Cargo.toml
