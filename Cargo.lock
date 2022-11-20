@@ -217,8 +217,7 @@ dependencies = [
 [[package]]
 name = "browserslist-rs"
 version = "0.11.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7c689fb4e42bd511c1927856b078d8a582690f5be196199d1c9005b9d4feae8c"
+source = "git+https://github.com/kwonoj/browserslist-rs?rev=bd47b8e17c937d15ed75fe9c3522ef0ac94ffcd9#bd47b8e17c937d15ed75fe9c3522ef0ac94ffcd9"
 dependencies = [
  "ahash",
  "anyhow",
@@ -4924,8 +4923,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "eaf9f5aceeec8be17c128b2e93e031fb8a4d469bb9c4ae2d7dc1888b26887268"
 dependencies = [
  "cfg-if 1.0.0",
- "serde",
- "serde_json",
  "wasm-bindgen-macro",
 ]
 
