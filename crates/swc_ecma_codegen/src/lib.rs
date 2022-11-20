@@ -810,7 +810,11 @@ where
 
         match n.base {
             OptChainBase::Member(ref e) => {
-                emit!(e.obj);
+                if let Expr::New(new) = &*e.obj {
+                    self.emit_new(new, false)?;
+                } else {
+                    emit!(e.obj);
+                }
                 punct!("?.");
 
                 match &e.prop {
@@ -820,11 +824,7 @@ where
                 }
             }
             OptChainBase::Call(ref e) => {
-                if let Expr::New(new) = &*e.callee {
-                    self.emit_new(new, false)?;
-                } else {
-                    emit!(e.callee);
-                }
+                emit!(e.callee);
                 punct!("?.");
 
                 punct!("(");
