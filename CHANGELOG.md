@@ -1,6 +1,14 @@
 # Changelog
 ## [unreleased]
 
+### Features
+
+
+
+- **(es/codegen)** Skip whitespaces for comments in minify mode (#6465) ([08a9e21](https://github.com/swc-project/swc/commit/08a9e21b36a3fbb03d4b5ae621c94e76ae6ab54f))
+
+## [1.3.19] - 2022-11-20
+
 ### Bug Fixes
 
 
