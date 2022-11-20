@@ -17,7 +17,6 @@ use swc_ecma_minifier::option::{terser::TerserTopLevelOptions, MinifyOptions};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::{
     compat,
-    compat::es2022::private_in_object,
     feature::{enable_available_feature_from_es_version, FeatureFlag},
     fixer::{fixer, paren_remover},
     helpers, hygiene,
@@ -330,7 +329,6 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                 paren_remover(comments.map(|v| v as &dyn Comments)),
                 self.fixer
             ),
-            Optional::new(private_in_object(), syntax.private_in_object()),
             compat_pass,
             // module / helper
             Optional::new(

@@ -1009,7 +1009,6 @@ impl Compiler {
                         decorators: true,
                         decorators_before_export: true,
                         import_assertions: true,
-                        private_in_object: true,
                         ..Default::default()
                     }),
                     IsModule::Bool(true),
