@@ -12,4 +12,4 @@ function toLine {
 
 export -f toLine
 
-$SCRIPT_DIR/list-crates.sh | jq '[.name, .manifest_path] | @tsv' | xargs -L 1 -I {} bash -c 'toLine "$@"' _ {}
+$SCRIPT_DIR/list-crates.sh | jq '[.name, .manifest_path] | @tsv' | xargs -I {} bash -c 'toLine "$@"' _ {}
