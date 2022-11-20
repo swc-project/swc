@@ -725,8 +725,8 @@ jobs:
       - name: Patch
         shell: bash
         run: |
-          echo '[patch.crates-io]' >> bindings/Cargo.toml
-          ./scripts/cargo/patch-section.sh >> bindings/Cargo.toml
+          echo '[patch.crates-io]' > tee /dev/stderr >> bindings/Cargo.toml
+          ./scripts/cargo/patch-section.sh > tee /dev/stderr >> bindings/Cargo.toml
           cd bindings && cargo update
 
       - name: Cache
