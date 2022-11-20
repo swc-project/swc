@@ -487,7 +487,7 @@ impl<I: Tokens> Parser<I> {
             }
         }
 
-        if self.input.syntax().private_in_object() && eat!(self, '#') {
+        if eat!(self, '#') {
             let id = self.parse_ident_name()?;
             return Ok(Box::new(Expr::PrivateName(PrivateName {
                 span: span!(self, start),

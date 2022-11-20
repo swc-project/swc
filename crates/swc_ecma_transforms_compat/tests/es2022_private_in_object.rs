@@ -2,7 +2,6 @@ use std::path::PathBuf;
 
 use serde::Deserialize;
 use swc_common::chain;
-use swc_ecma_parser::{EsConfig, Syntax};
 use swc_ecma_transforms_base::pass::noop;
 use swc_ecma_transforms_compat::{
     es2015::classes,
@@ -32,10 +31,7 @@ fn fixture(input: PathBuf) {
 
     let output = parent.join("output.js");
     test_fixture(
-        Syntax::Es(EsConfig {
-            private_in_object: true,
-            ..Default::default()
-        }),
+        Default::default(),
         &|t| {
             let mut pass: Box<dyn Fold> = Box::new(noop());
 
