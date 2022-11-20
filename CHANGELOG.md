@@ -8,7 +8,25 @@
 - **(es/compat)** Fix consecutive optional call (#6461) ([f7072db](https://github.com/swc-project/swc/commit/f7072dbb7eb768e2a4dad5aa9f2ac6c6bacf560e))
 
 
+- **(es/lints)** Revert check for reassignment to classes (#6472) ([ca20d94](https://github.com/swc-project/swc/commit/ca20d94a7492198b450755a9d5033fb6404737f9))
+
+
 - **(es/minifier)** Preserve unused imported specifiers (#6458) ([dabea71](https://github.com/swc-project/swc/commit/dabea71c4461a96836e4456bd2c6bbcf07f238a4))
+
+
+- **(es/minifier)** Abort inliner on fn declarations used multiple time (#6473) ([15ad2c2](https://github.com/swc-project/swc/commit/15ad2c256880bea01931203ec7adfa61c9ca13be))
+
+
+- **(es/minifier)** Avoid dropping statements which has side-effects (#6476) ([9154bbc](https://github.com/swc-project/swc/commit/9154bbc1117f91dd53fdf87c7eab29db90149376))
+
+
+- **(es/modules)** Remove wrong check for `jsc.paths` (#6470) ([072bd13](https://github.com/swc-project/swc/commit/072bd130239579566d319a47156c570277cebb1b))
+
+
+- **(es/parser)** Fix parsing of regexp (#6469) ([3e702b9](https://github.com/swc-project/swc/commit/3e702b9804a07f610948f731bbb8cfdcec8065a5))
+
+
+- **(xml/parser)** Fix parsing of comments (#6449) ([3a0d98b](https://github.com/swc-project/swc/commit/3a0d98b6e986dd175b64534bc99c2a59a99b97d0))
 
 ### Features
 
@@ -18,6 +36,15 @@
 
 
 - **(html/minifier)** Remove empty script and style tags with attributes (#6447) ([7441721](https://github.com/swc-project/swc/commit/74417217a98bb26dcce7f913bb8ee35b538f0d06))
+
+
+- **(html/minifier)** Use the latest `EsVersion` (#6453) ([7f6bf59](https://github.com/swc-project/swc/commit/7f6bf59a98710ce7964e99ab621a68dc729c021d))
+
+### Refactor
+
+
+
+- **(bindings)** Deprecate `jsvalue::*_serde` (#6462) ([dd4b9e8](https://github.com/swc-project/swc/commit/dd4b9e87de93294ed402c357745a2e0d268b34ef))
 
 ## [1.3.18] - 2022-11-16
 

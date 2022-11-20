@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8">
+| <foo>
+|   "
+    "
+|   <!--  def='NT-Char' -->
+|   <!--  -->
+|   "Char* ']]&gt;' "
+|   <nt>
+|     def="NT-Char"
+|     "Char"
+|   "*))
+']]&gt;'
+"
+|   <com>
+|     "CDATA sections"
+|   "
+"
+|   <rhs>
+|     "| '&lt;!DOCTYPE'
+("
+|     <nt>
+|       def="NT-Char"
+|       "Char"
+|     " - ('[' | ']'))+
+('['
+"
+|     <nt>
+|       def="NT-simpleDTD"
+|       "simpleDTD"
+|     "*
+']')? '&gt;'"
+|   "
+"
+|   <com>
+|     "doc type declaration"
+|   "
+"
+|   <prod>
+|     id="NT-simpleDTD"
+|     <lhs>
+|       "simpleDTD"
+|     "
+"
+|     <rhs>
+|       "'&lt;!&como;'
+("
+|       <nt>
+|         def="NT-Char"
+|         "Char"
+|       "* -
+("
+|       <nt>
+|         def="NT-Char"
+|         "Char"
+|       "* '&comc;' "
+|       <nt>
+|         def="NT-Char"
+|         "Char"
+|       "*))
+'&comc;&gt;'"
+|     "-->
+"

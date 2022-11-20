@@ -695,12 +695,6 @@ impl<'a, I: Input> Lexer<'a, I> {
     #[inline(never)]
     fn read_slash(&mut self) -> LexResult<Option<Token>> {
         debug_assert_eq!(self.cur(), Some('/'));
-        // let start = self.cur_pos();
-
-        // Regex
-        if self.state.is_expr_allowed {
-            return self.read_regexp().map(Some);
-        }
 
         // Divide operator
         self.bump();
@@ -1120,19 +1114,25 @@ impl<'a, I: Input> Lexer<'a, I> {
     }
 
     /// Expects current char to be '/'
-    fn read_regexp(&mut self) -> LexResult<Token> {
+    fn read_regexp(&mut self, start: BytePos) -> LexResult<Token> {
+        self.input.reset_to(start);
+
         debug_assert_eq!(self.cur(), Some('/'));
+
         let start = self.cur_pos();
+
         self.bump();
 
         let (mut escaped, mut in_class) = (false, false);
-        // let content_start = self.cur_pos();
+
         let content = self.with_buf(|l, buf| {
             while let Some(c) = l.cur() {
                 // This is ported from babel.
                 // Seems like regexp literal cannot contain linebreak.
                 if c.is_line_terminator() {
-                    l.error(start, SyntaxError::UnterminatedRegExp)?;
+                    let span = l.span(start);
+
+                    return Err(Error::new(span, SyntaxError::UnterminatedRegExp));
                 }
 
                 if escaped {
@@ -1145,20 +1145,22 @@ impl<'a, I: Input> Lexer<'a, I> {
                         '/' if !in_class => break,
                         _ => {}
                     }
+
                     escaped = c == '\\';
                 }
+
                 l.bump();
                 buf.push(c);
             }
 
             Ok(Atom::new(&**buf))
         })?;
-        // let content_span = Span::new(content_start, self.cur_pos(),
-        // Default::default());
 
         // input is terminated without following `/`
         if !self.is(b'/') {
-            self.error(start, SyntaxError::UnterminatedRegExp)?;
+            let span = self.span(start);
+
+            return Err(Error::new(span, SyntaxError::UnterminatedRegExp));
         }
 
         self.bump(); // '/'
@@ -1286,6 +1288,11 @@ impl<'a, I: Input> Lexer<'a, I> {
     #[inline]
     pub fn set_expr_allowed(&mut self, allow: bool) {
         self.state.is_expr_allowed = allow;
+    }
+
+    #[inline]
+    pub fn set_next_regexp(&mut self, start: Option<BytePos>) {
+        self.state.next_regexp = start;
     }
 }
 
