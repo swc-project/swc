@@ -824,6 +824,7 @@ where
                 }
             }
             OptChainBase::Call(ref e) => {
+                debug_assert!(!e.callee.is_new());
                 emit!(e.callee);
                 punct!("?.");
 
