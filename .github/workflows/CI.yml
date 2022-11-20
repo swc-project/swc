@@ -703,6 +703,7 @@ jobs:
       ${{ !contains(github.event.head_commit.message, 'chore: ') }}
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         os:
           - ubuntu-latest
