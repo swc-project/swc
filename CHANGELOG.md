@@ -17,6 +17,9 @@
 - **(es/minifier)** Abort inliner on fn declarations used multiple time (#6473) ([15ad2c2](https://github.com/swc-project/swc/commit/15ad2c256880bea01931203ec7adfa61c9ca13be))
 
 
+- **(es/minifier)** Avoid dropping statements which has side-effects (#6476) ([9154bbc](https://github.com/swc-project/swc/commit/9154bbc1117f91dd53fdf87c7eab29db90149376))
+
+
 - **(es/modules)** Remove wrong check for `jsc.paths` (#6470) ([072bd13](https://github.com/swc-project/swc/commit/072bd130239579566d319a47156c570277cebb1b))
 
 
