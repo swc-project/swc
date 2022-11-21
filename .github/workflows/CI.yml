@@ -1,8 +1,11 @@
 name: CI
 
 on:
-  - push
-  - pull_request
+  pull_request:
+    types: ['opened', 'reopened', 'synchronize']
+  push:
+    branches:
+      - main
 
 env:
   CI: 1
