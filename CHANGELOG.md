@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(es/codegen)** Preserve parens for `new` in optional chaining (#6484) ([1ca281a](https://github.com/swc-project/swc/commit/1ca281a6cfdbdcb4b52e7617c5e843b8458a2299))
+
 ### Features
 
 
