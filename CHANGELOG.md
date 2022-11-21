@@ -23,6 +23,9 @@
 
 
 
+- **(binding/wasm)** Use binding_macro (#6487) ([d957aac](https://github.com/swc-project/swc/commit/d957aac056bede3b813a413af49759a6ced61cb6))
+
+
 - **(es)** Remove settings related to `privateInObject` (#6468) ([c57307d](https://github.com/swc-project/swc/commit/c57307d0029e9e52dc41411c4c727da221cdfadb))
 
 ## [1.3.19] - 2022-11-20
