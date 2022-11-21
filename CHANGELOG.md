@@ -19,6 +19,9 @@
 
 - **(ci)** Reduce trigger scope for PRs (#6486) ([7fe091a](https://github.com/swc-project/swc/commit/7fe091af1f0fea7ec599edc080b00484ae15871f))
 
+
+- **(ci)** Skip benchmark for forks (#6489) ([78af96e](https://github.com/swc-project/swc/commit/78af96e5078b5a5235d3210e110a130c4f864171))
+
 ### Refactor
 
 
