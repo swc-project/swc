@@ -31,6 +31,12 @@
 
 - **(es)** Remove settings related to `privateInObject` (#6468) ([c57307d](https://github.com/swc-project/swc/commit/c57307d0029e9e52dc41411c4c727da221cdfadb))
 
+### Build
+
+
+
+- **(publish)** Upload cli binaries to github release (#6495) ([4f8af16](https://github.com/swc-project/swc/commit/4f8af1615634fb32df94e5ab462d120a52ac251c))
+
 ## [1.3.19] - 2022-11-20
 
 ### Bug Fixes
