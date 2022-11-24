@@ -170,15 +170,12 @@ macro_rules! define_helpers {
 
         impl InjectHelpers {
             fn is_helper_used(&self) -> bool{
-                let mut value = false;
 
                 HELPERS.with(|helpers|{
-                    $(
-                        value |= helpers.inner.$name.load(Ordering::Relaxed);
+                    false $(
+                      || helpers.inner.$name.load(Ordering::Relaxed)
                     )*
-                });
-
-                value
+                })
             }
 
             fn build_helpers(&self) -> Vec<Stmt> {
