@@ -3,22 +3,51 @@ export { };
 //// [renderer2.d.ts]
 export { };
 //// [component.tsx]
-//! 
-//!   x Spread children are not supported in React.
-//!    ,----
-//!  4 | export const MySFC = (props: {x: number, y: number, children?: predom.JSX.Element[]}) => <p>{props.x} + {props.y} = {props.x + props.y}{...this.props.children}</p>;
-//!    :                                                                                                                                        ^^^^^^^^^^^^^^^^^^^^^^^^
-//!    `----
-//! 
-//!   x Spread children are not supported in React.
-//!     ,----
-//!  12 | {...this.props.children}
-//!     : ^^^^^^^^^^^^^^^^^^^^^^^^
-//!     `----
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
+var _this = this;
+import { predom } from "./renderer2";
+export var MySFC = function(props) {
+    return predom.apply(void 0, [
+        "p",
+        null,
+        props.x,
+        " + ",
+        props.y,
+        " = ",
+        props.x + props.y
+    ].concat(_to_consumable_array(_this.props.children)));
+};
+export var MyClass = function() {
+    "use strict";
+    function MyClass(props) {
+        _class_call_check(this, MyClass), this.props = props;
+    }
+    return MyClass.prototype.render = function() {
+        return predom.apply(void 0, [
+            "p",
+            null,
+            this.props.x,
+            " + ",
+            this.props.y,
+            " = ",
+            this.props.x + this.props.y
+        ].concat(_to_consumable_array(this.props.children)));
+    }, MyClass;
+}();
+export var tree = predom(MySFC, {
+    x: 1,
+    y: 2
+}, predom(MyClass, {
+    x: 3,
+    y: 4
+}), predom(MyClass, {
+    x: 5,
+    y: 6
+}));
+export default predom("h", null);
 //// [index.tsx]
-//! 
-//!   x Spread children are not supported in React.
-//!     ,----
-//!  13 | return <p>{this.props.x} + {this.props.y} = {this.props.x + this.props.y}{...this.props.children}</p>;
-//!     :                                                                          ^^^^^^^^^^^^^^^^^^^^^^^^
-//!     `----
+import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
+import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
+import { dom } from "./renderer";
+import prerendered, { MySFC, MyClass, tree } from "./component";
