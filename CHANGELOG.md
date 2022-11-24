@@ -10,6 +10,9 @@
 
 - **(es/minifier)** Preserve classes with side effects in static fields (#6480) ([8d906b4](https://github.com/swc-project/swc/commit/8d906b45e56d447792df59d5fdde5ee072e2bc80))
 
+
+- **(es/react)** Allow spread children (#6505) ([90aa6c8](https://github.com/swc-project/swc/commit/90aa6c831890bf3978d9e6298a003e0652b27dce))
+
 ### Features
 
 
