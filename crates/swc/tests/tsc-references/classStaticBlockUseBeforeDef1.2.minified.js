@@ -1,2 +1,10 @@
 //// [classStaticBlockUseBeforeDef1.ts]
-this.x;
+class C {
+    static{
+        this.x = 1;
+    }
+    static y = this.x;
+    static{
+        this.z = this.y;
+    }
+}
