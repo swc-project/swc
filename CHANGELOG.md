@@ -22,6 +22,12 @@
 
 - **(ci)** Skip benchmark for forks (#6489) ([78af96e](https://github.com/swc-project/swc/commit/78af96e5078b5a5235d3210e110a130c4f864171))
 
+### Performance
+
+
+
+- **(es/helpers)** Improve fast-path for helper detection (#6502) ([b3b5526](https://github.com/swc-project/swc/commit/b3b5526be4a7b5f85c2aea22f1ced0a9896730ed))
+
 ### Refactor
 
 
