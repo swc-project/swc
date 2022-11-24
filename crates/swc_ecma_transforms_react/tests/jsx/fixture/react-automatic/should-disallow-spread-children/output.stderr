@@ -1,6 +1,0 @@
-
-  x Spread children are not supported in React.
-   ,-[input.js:1:1]
- 1 | <div>{...children}</div>;
-   :      ^^^^^^^^^^^^^
-   `----
