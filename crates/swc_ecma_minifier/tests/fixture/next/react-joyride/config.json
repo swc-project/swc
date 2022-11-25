@@ -1,3 +1,4 @@
 {
-    "defaults": false
+    "defaults": false,
+    "inline": true
 }
