@@ -1601,25 +1601,20 @@ where
                 // evaluating `[]`.
                 //
                 // See https://github.com/swc-project/swc/pull/6509
-                let used_ids = idents_used_by_ignoring_nested(obj);
-                if used_ids.len() >= 4 {
-                    // For performance
+                let ids_used_by_obj = idents_used_by_ignoring_nested(obj);
+
+                let ids_used_by_a = match a {
+                    Mergable::Var(a) => idents_used_by_ignoring_nested(&**a),
+                    Mergable::Expr(a) => idents_used_by_ignoring_nested(&**a),
+                    Mergable::FnDecl(a) => idents_used_by_ignoring_nested(&**a),
+                };
+
+                if ids_used_by_a
+                    .intersection(&ids_used_by_obj)
+                    .next()
+                    .is_some()
+                {
                     return Ok(false);
-                }
-                for id in used_ids {
-                    match a {
-                        Mergable::Var(a) => {
-                            if IdentUsageFinder::find(&id, &**a) {
-                                return Ok(false);
-                            }
-                        }
-                        Mergable::Expr(a) => {
-                            if IdentUsageFinder::find(&id, &**a) {
-                                return Ok(false);
-                            }
-                        }
-                        Mergable::FnDecl(_) => {}
-                    }
                 }
 
                 trace_op!("seq: Try prop of member (computed)");
