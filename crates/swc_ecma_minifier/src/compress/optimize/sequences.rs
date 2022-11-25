@@ -1597,13 +1597,27 @@ where
                     return Ok(false);
                 }
 
-                if let Some(a_id) = a.id() {
-                    if IdentUsageFinder::find(&a_id, obj) {
-                        // We can't merge into `[]` in some cases because `obj`
-                        // is **resolved** before evaluating `[]`.
-                        //
-                        // See https://github.com/swc-project/swc/pull/6509
-                        return Ok(false);
+                // We can't merge into `[]` in some cases because `obj` is **resolved** before
+                // evaluating `[]`.
+                //
+                // See https://github.com/swc-project/swc/pull/6509
+                let used_ids = idents_used_by_ignoring_nested(obj);
+                if used_ids.len() >= 4 {
+                    return Ok(false);
+                }
+                for id in used_ids {
+                    match a {
+                        Mergable::Var(a) => {
+                            if IdentUsageFinder::find(&id, &**a) {
+                                return Ok(false);
+                            }
+                        }
+                        Mergable::Expr(a) => {
+                            if IdentUsageFinder::find(&id, &**a) {
+                                return Ok(false);
+                            }
+                        }
+                        Mergable::FnDecl(_) => {}
                     }
                 }
 
