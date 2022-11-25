@@ -1,4 +1,5 @@
 {
+    "toplevel": true,
     "defaults": false,
     "inline": true,
     "sequences": true,
