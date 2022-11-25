@@ -1816,12 +1816,6 @@ define!({
         pub type_args: Box<TsTypeParamInstantiation>,
     }
 
-    #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-    pub struct TsSatisfiesExpr {
-        pub span: Span,
-        #[serde(rename = "expression")]
-        pub expr: Box<Expr>,
-        #[serde(rename = "typeAnnotation")]
     pub struct TsSatisfiesExpr {
         pub span: Span,
         pub expr: Box<Expr>,
