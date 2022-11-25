@@ -1602,7 +1602,7 @@ where
                 //
                 // See https://github.com/swc-project/swc/pull/6509
 
-                // We check only identifier because resolution is the problematic part.
+                // We check only for an identifier because resolution is the problematic part.
                 // Evalutation order is not a problem.
                 if let Expr::Ident(obj) = &**obj {
                     match a {
