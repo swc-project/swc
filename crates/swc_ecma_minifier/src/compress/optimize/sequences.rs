@@ -1593,7 +1593,11 @@ where
                     return Ok(true);
                 }
 
-                if obj.may_have_side_effects(&self.expr_ctx) {
+                if !self.is_skippable_for_seq(Some(a), obj) {
+                    // We can't merge into `[]` in some cases because `obj` is **resolved** before
+                    // evaluating `[]`.
+                    //
+                    // See https://github.com/swc-project/swc/pull/6509
                     return Ok(false);
                 }
 
