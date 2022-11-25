@@ -1593,12 +1593,19 @@ where
                     return Ok(true);
                 }
 
-                if !self.is_skippable_for_seq(Some(a), obj) {
-                    // We can't merge into `[]` in some cases because `obj` is **resolved** before
-                    // evaluating `[]`.
-                    //
-                    // See https://github.com/swc-project/swc/pull/6509
+                if obj.may_have_side_effects(&self.expr_ctx) {
                     return Ok(false);
+                }
+
+                if let Some(a_id) = a.id() {
+                    if IdentUsageFinder::find(&a_id, obj) {
+                        // We can't merge into `[]` in some cases because `obj`
+                        // is **resolved** before
+                        // evaluating `[]`.
+                        //
+                        // See https://github.com/swc-project/swc/pull/6509
+                        return Ok(false);
+                    }
                 }
 
                 trace_op!("seq: Try prop of member (computed)");
