@@ -1603,6 +1603,7 @@ where
                 // See https://github.com/swc-project/swc/pull/6509
                 let used_ids = idents_used_by_ignoring_nested(obj);
                 if used_ids.len() >= 4 {
+                    // For performance
                     return Ok(false);
                 }
                 for id in used_ids {
