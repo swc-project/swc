@@ -631,7 +631,7 @@
             return jQuery.isFunction(value) ? this.each(function(i) {
                 jQuery(this).toggleClass(value.call(this, i, this.className, stateVal), stateVal);
             }) : this.each(function() {
-                if ("string" === type) for(var className, i = 0, self = jQuery(this), state = stateVal, classNames = value.match(core_rnotwhite) || []; className = classNames[i++];)self[(state = isBool ? state : !self.hasClass(className)) ? "addClass" : "removeClass"](className);
+                if ("string" === type) for(var className, i = 0, self = jQuery(this), state = stateVal, classNames = value.match(core_rnotwhite) || []; className = classNames[i++];)state = isBool ? state : !self.hasClass(className), self[state ? "addClass" : "removeClass"](className);
                 else (type === core_strundefined || "boolean" === type) && (this.className && jQuery._data(this, "__className__", this.className), this.className = this.className || !1 === value ? "" : jQuery._data(this, "__className__") || "");
             });
         },
@@ -1443,7 +1443,7 @@
                         "",
                         argument
                     ], Expr.setFilters.hasOwnProperty(pseudo.toLowerCase()) ? markFunction(function(seed, matches) {
-                        for(var idx, matched = fn(seed, argument), i = matched.length; i--;)seed[idx = indexOf.call(seed, matched[i])] = !(matches[idx] = matched[i]);
+                        for(var idx, matched = fn(seed, argument), i = matched.length; i--;)idx = indexOf.call(seed, matched[i]), seed[idx] = !(matches[idx] = matched[i]);
                     }) : function(elem) {
                         return fn(elem, 0, args);
                     }) : fn;

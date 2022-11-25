@@ -1073,16 +1073,17 @@
                                 };
                             }(e);
                             "function" == typeof u.filter ? n = (0, u.filter)("", n) : c(u.filter) && (r = u.filter);
-                            var y = [];
+                            var y, l = [];
                             if ("object" != typeof n || null === n) return "";
-                            var l = p[e && e.arrayFormat in p ? e.arrayFormat : e && "indices" in e ? e.indices ? "indices" : "repeat" : "indices"];
+                            y = e && e.arrayFormat in p ? e.arrayFormat : e && "indices" in e ? e.indices ? "indices" : "repeat" : "indices";
+                            var b = p[y];
                             r || (r = Object.keys(n)), u.sort && r.sort(u.sort);
-                            for(var b = o(), g = 0; g < r.length; ++g){
-                                var h = r[g];
-                                u.skipNulls && null === n[h] || f(y, d(n[h], h, l, u.strictNullHandling, u.skipNulls, u.encode ? u.encoder : null, u.filter, u.sort, u.allowDots, u.serializeDate, u.format, u.formatter, u.encodeValuesOnly, u.charset, b));
+                            for(var g = o(), h = 0; h < r.length; ++h){
+                                var m = r[h];
+                                u.skipNulls && null === n[m] || f(l, d(n[m], m, b, u.strictNullHandling, u.skipNulls, u.encode ? u.encoder : null, u.filter, u.sort, u.allowDots, u.serializeDate, u.format, u.formatter, u.encodeValuesOnly, u.charset, g));
                             }
-                            var m = y.join(u.delimiter), v = !0 === u.addQueryPrefix ? "?" : "";
-                            return u.charsetSentinel && ("iso-8859-1" === u.charset ? v += "utf8=%26%2310003%3B&" : v += "utf8=%E2%9C%93&"), m.length > 0 ? v + m : "";
+                            var v = l.join(u.delimiter), S = !0 === u.addQueryPrefix ? "?" : "";
+                            return u.charsetSentinel && ("iso-8859-1" === u.charset ? S += "utf8=%26%2310003%3B&" : S += "utf8=%E2%9C%93&"), v.length > 0 ? S + v : "";
                         };
                     },
                     769 (t, e, r) {

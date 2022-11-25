@@ -487,7 +487,7 @@
                         "",
                         argument
                     ], Expr.setFilters.hasOwnProperty(pseudo.toLowerCase()) ? markFunction(function(seed, matches) {
-                        for(var idx, matched = fn(seed, argument), i = matched.length; i--;)seed[idx = indexOf(seed, matched[i])] = !(matches[idx] = matched[i]);
+                        for(var idx, matched = fn(seed, argument), i = matched.length; i--;)idx = indexOf(seed, matched[i]), seed[idx] = !(matches[idx] = matched[i]);
                     }) : function(elem) {
                         return fn(elem, 0, args);
                     }) : fn;
