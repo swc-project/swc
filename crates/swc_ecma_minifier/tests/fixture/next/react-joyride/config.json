@@ -1,4 +1,6 @@
 {
     "defaults": false,
-    "inline": true
+    "inline": true,
+    "sequences": true,
+    "conditionals": true
 }
