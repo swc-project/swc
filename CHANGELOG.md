@@ -13,6 +13,9 @@
 
 - **(es/react)** Allow spread children (#6505) ([90aa6c8](https://github.com/swc-project/swc/commit/90aa6c831890bf3978d9e6298a003e0652b27dce))
 
+
+- **(es/visit)** Visit TypeScript satisfies expressions (#6511) ([0cee0e1](https://github.com/swc-project/swc/commit/0cee0e1af7f8c476fe3622e687e6b953aef8cd31))
+
 ### Features
 
 
