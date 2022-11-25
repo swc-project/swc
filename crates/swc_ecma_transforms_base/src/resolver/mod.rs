@@ -1133,6 +1133,14 @@ impl<'a> VisitMut for Resolver<'a> {
         n.expr.visit_mut_with(self);
     }
 
+    fn visit_mut_ts_satisfies_expr(&mut self, n: &mut TsSatisfiesExpr) {
+        if self.config.handle_types {
+            n.type_ann.visit_mut_with(self);
+        }
+
+        n.expr.visit_mut_with(self);
+    }
+
     fn visit_mut_ts_call_signature_decl(&mut self, n: &mut TsCallSignatureDecl) {
         if !self.config.handle_types {
             return;
