@@ -126,11 +126,6 @@ impl Pure<'_> {
                 return;
             }
 
-            match &kv.key {
-                PropName::Ident(_) => {}
-                _ => return,
-            }
-
             if let Expr::Arrow(
                 m @ ArrowExpr {
                     body: BlockStmtOrExpr::BlockStmt(..),
