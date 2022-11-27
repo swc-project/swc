@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(ci)** Fix publish action for binaries (#6517) ([2ac3201](https://github.com/swc-project/swc/commit/2ac32017bad112956a781b0d003782988655409c))
+
 ## [1.3.20] - 2022-11-26
 
 ### Bug Fixes
