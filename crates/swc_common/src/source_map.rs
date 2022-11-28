@@ -27,6 +27,7 @@ use std::{
 };
 
 use once_cell::sync::Lazy;
+use rustc_hash::FxHashMap;
 #[cfg(feature = "sourcemap")]
 use sourcemap::SourceMapBuilder;
 use tracing::debug;
@@ -994,6 +995,32 @@ impl SourceMap {
         total_extra_bytes
     }
 
+    /// pre calc each multibyte_chars an absolute BytePos to a CharPos relative
+    /// to the source_file.
+    fn pre_calc_extra_bytes(&self, map: &SourceFile) -> Vec<u32> {
+        let mut prefix_sum = vec![];
+        // The number of extra bytes due to multibyte chars in the SourceFile
+        let mut total_extra_bytes = 0;
+
+        for (_, &mbc) in map.multibyte_chars.iter().enumerate() {
+            // every character is at least one byte, so we only
+            // count the actual extra bytes.
+            total_extra_bytes += mbc.bytes as u32 - 1;
+            prefix_sum.push(total_extra_bytes);
+        }
+
+        prefix_sum
+    }
+
+    fn get_extra_bytes(&self, map: &SourceFile, prefix_sum: &Vec<u32>, bpos: BytePos) -> u32 {
+        let point = map.multibyte_chars.partition_point(|x| x.pos.0 < bpos.0);
+        if point == 0 {
+            0
+        } else {
+            prefix_sum[point - 1]
+        }
+    }
+
     /// Return the index of the source_file (in self.files) which contains pos.
     ///
     /// This method exists only for optimization and it's not part of public
@@ -1183,6 +1210,7 @@ impl SourceMap {
 
         let mut prev_dst_line = u32::MAX;
 
+        let mut cache_map: FxHashMap<FileName, Vec<u32>> = FxHashMap::default();
         for (pos, lc) in mappings.iter() {
             let pos = *pos;
 
@@ -1221,7 +1249,15 @@ impl SourceMap {
             if config.skip(&f.name) {
                 continue;
             }
-
+            let cache = match cache_map.get(&f.name) {
+                Some(cache) => cache,
+                None => {
+                    let cache = self.pre_calc_extra_bytes(&f);
+                    cache_map.insert(f.name.clone(), cache);
+                    // SAFETY: we insert it above
+                    cache_map.get(&f.name).unwrap()
+                }
+            };
             let emit_columns = config.emit_columns(&f.name);
 
             if !emit_columns && lc.line == prev_dst_line {
@@ -1248,8 +1284,8 @@ impl SourceMap {
                 pos,
                 linebpos,
             );
-            let chpos = pos.to_u32() - self.calc_extra_bytes(f, &mut 0, pos);
-            let linechpos = linebpos.to_u32() - self.calc_extra_bytes(f, &mut 0, linebpos);
+            let chpos = pos.to_u32() - self.get_extra_bytes(f, cache, pos);
+            let linechpos = linebpos.to_u32() - self.get_extra_bytes(f, cache, linebpos);
 
             let mut col = max(chpos, linechpos) - min(chpos, linechpos);
 
