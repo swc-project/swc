@@ -970,6 +970,11 @@ impl SourceMap {
         // The number of extra bytes due to multibyte chars in the SourceFile
         let mut total_extra_bytes = 0;
 
+        // Next file
+        if *start >= map.multibyte_chars.len() {
+            *start = 0;
+        }
+
         for (i, &mbc) in map.multibyte_chars[*start..].iter().enumerate() {
             debug!("{}-byte char at {:?}", mbc.bytes, mbc.pos);
             if mbc.pos < bpos {
