@@ -25,8 +25,14 @@ fn main() {
     // true).skip_filename(skip_filename);
     let handler = Handler::with_emitter(true, false, Box::new(emitter));
 
-    let fm1 = cm.new_source_file(FileName::Custom("foo.js".into()), "13579".into());
-    let fm2 = cm.new_source_file(FileName::Custom("bar.js".into()), "02468".into());
+    let fm1 = cm.new_source_file(
+        FileName::Custom("foo.js".into()),
+        "13579\n12345\n13579".into(),
+    );
+    let fm2 = cm.new_source_file(
+        FileName::Custom("bar.js".into()),
+        "02468\n12345\n02468".into(),
+    );
 
     // This is a simple example.
     handler
@@ -37,7 +43,7 @@ fn main() {
     // This can be used to show configurable error with the config.
 
     handler
-        .struct_span_err(span(&fm1, 0, 3), "constraint violation")
+        .struct_span_err(span(&fm1, 6, 9), "constraint violation")
         .span_note(span(&fm2, 0, 1), "this is your config")
         .emit();
 
