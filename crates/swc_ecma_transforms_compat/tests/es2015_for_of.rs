@@ -7,80 +7,13 @@ use swc_ecma_transforms_compat::es2015::{
     self,
     for_of::{for_of, Config},
 };
-use swc_ecma_transforms_testing::{compare_stdout, test, test_exec};
+use swc_ecma_transforms_testing::{
+    compare_stdout, test, test_exec, test_fixture, FixtureTestConfig,
+};
 
 fn syntax() -> Syntax {
     Default::default()
 }
-
-test!(
-    syntax(),
-    |_| for_of(Default::default()),
-    spec_identifier,
-    r#"for (i of arr) {
-}"#,
-    r#"var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
-
-try {
-  for (var _iterator = arr[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step =
-      _iterator.next()).done); _iteratorNormalCompletion = true) {
-    i = _step.value;
-  }
-} catch (err) {
-  _didIteratorError = true;
-  _iteratorError = err;
-} finally {
-  try {
-    if (!_iteratorNormalCompletion && _iterator.return != null) {
-      _iterator.return();
-    }
-  } finally {
-    if (_didIteratorError) {
-      throw _iteratorError;
-    }
-  }
-}"#,
-    ok_if_code_eq
-);
-
-test!(
-    syntax(),
-    |_| for_of(Default::default()),
-    spec_ignore_cases,
-    r#"for (var i of foo) {
-  switch (i) {
-    case 1:
-      break;
-  }
-}"#,
-    r#"var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
-
-try {
-  for (var _iterator = foo[Symbol.iterator](), _step; !(_iteratorNormalCompletion =
-      (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-    var i = _step.value;
-
-    switch (i) {
-      case 1:
-        break;
-    }
-  }
-} catch (err) {
-  _didIteratorError = true;
-  _iteratorError = err;
-} finally {
-  try {
-    if (!_iteratorNormalCompletion && _iterator.return != null) {
-      _iterator.return();
-    }
-  } finally {
-    if (_didIteratorError) {
-      throw _iteratorError;
-    }
-  }
-}"#,
-    ok_if_code_eq
-);
 
 test!(
     syntax(),
@@ -609,7 +542,7 @@ if (true) loop: for(let _i = 0, _iter = []; _i < _iter.length; _i++){
 );
 
 #[testing::fixture("tests/for-of/**/exec.js")]
-fn fixture(input: PathBuf) {
+fn exec(input: PathBuf) {
     let input = read_to_string(&input).unwrap();
 
     compare_stdout(
@@ -629,8 +562,33 @@ fn fixture(input: PathBuf) {
     );
 }
 
+#[testing::fixture("tests/for-of/**/input.js")]
+fn fixture(input: PathBuf) {
+    let output = input.with_file_name("output.js");
+
+    test_fixture(
+        Syntax::default(),
+        &|_| {
+            let top_level_mark = Mark::new();
+
+            chain!(
+                resolver(Mark::new(), top_level_mark, false),
+                for_of(Config {
+                    assume_array: false,
+                    ..Default::default()
+                })
+            )
+        },
+        &input,
+        &output,
+        FixtureTestConfig {
+            ..Default::default()
+        },
+    );
+}
+
 #[testing::fixture("tests/for-of/**/exec.js")]
-fn fixture_es2015(input: PathBuf) {
+fn exec_es2015(input: PathBuf) {
     let input = read_to_string(&input).unwrap();
 
     compare_stdout(
