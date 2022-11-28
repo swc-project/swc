@@ -69,8 +69,8 @@ impl SourceCode for MietteSourceCode<'_> {
     fn read_span<'a>(
         &'a self,
         span: &SourceSpan,
-        _context_lines_before: usize,
-        _context_lines_after: usize,
+        context_lines_before: usize,
+        context_lines_after: usize,
     ) -> Result<Box<dyn SpanContents<'a> + 'a>, MietteError> {
         let lo = span.offset();
         let hi = lo + span.len();
