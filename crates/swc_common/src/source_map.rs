@@ -1221,6 +1221,7 @@ impl SourceMap {
                         builder.set_source_contents(src_id, Some(&f.src));
                     }
 
+                    ch_start = 0;
                     cur_file = Some(f.clone());
                     &f
                 }
