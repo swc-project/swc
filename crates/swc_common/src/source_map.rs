@@ -27,6 +27,7 @@ use std::{
 };
 
 use once_cell::sync::Lazy;
+#[cfg(feature = "sourcemap")]
 use rustc_hash::FxHashMap;
 #[cfg(feature = "sourcemap")]
 use sourcemap::SourceMapBuilder;
@@ -997,6 +998,8 @@ impl SourceMap {
 
     /// pre calc each multibyte_chars an absolute BytePos to a CharPos relative
     /// to the source_file.
+    #[cfg(feature = "sourcemap")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "sourcemap")))]
     fn pre_calc_extra_bytes(&self, map: &SourceFile) -> Vec<u32> {
         let mut prefix_sum = vec![];
         // The number of extra bytes due to multibyte chars in the SourceFile
@@ -1012,6 +1015,8 @@ impl SourceMap {
         prefix_sum
     }
 
+    #[cfg(feature = "sourcemap")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "sourcemap")))]
     fn get_extra_bytes(&self, map: &SourceFile, prefix_sum: &[u32], bpos: BytePos) -> u32 {
         let point = map.multibyte_chars.partition_point(|x| x.pos.0 < bpos.0);
         if point == 0 {
