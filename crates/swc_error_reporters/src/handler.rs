@@ -60,7 +60,7 @@ fn to_miette_reporter(color: ColorConfig) -> GraphicalReportHandler {
     match color {
         ColorConfig::Auto => {
             if cfg!(target_arch = "wasm32") {
-                return to_miette_reporter(ColorConfig::Always);
+                return to_miette_reporter(ColorConfig::Always).with_context_lines(3);
             }
 
             static ENABLE: Lazy<bool> =
