@@ -954,7 +954,7 @@ impl SourceMap {
     }
 
     fn bytepos_to_file_charpos_with(&self, map: &SourceFile, bpos: BytePos) -> CharPos {
-        let total_extra_bytes = self.calc_extra_bytes(map, &mut 0, bpos);
+        let total_extra_bytes = self.calc_extra_bytes(map, &mut 0, &mut 0, bpos);
         assert!(
             map.start_pos.to_u32() + total_extra_bytes <= bpos.to_u32(),
             "map.start_pos = {:?}; total_extra_bytes = {}; bpos = {:?}",
@@ -966,14 +966,15 @@ impl SourceMap {
     }
 
     /// Converts an absolute BytePos to a CharPos relative to the source_file.
-    fn calc_extra_bytes(&self, map: &SourceFile, start: &mut usize, bpos: BytePos) -> u32 {
+    fn calc_extra_bytes(
+        &self,
+        map: &SourceFile,
+        prev_total_extra_bytes: &mut u32,
+        start: &mut usize,
+        bpos: BytePos,
+    ) -> u32 {
         // The number of extra bytes due to multibyte chars in the SourceFile
-        let mut total_extra_bytes = 0;
-
-        // Next file
-        if *start >= map.multibyte_chars.len() {
-            *start = 0;
-        }
+        let mut total_extra_bytes = *prev_total_extra_bytes;
 
         for (i, &mbc) in map.multibyte_chars[*start..].iter().enumerate() {
             debug!("{}-byte char at {:?}", mbc.bytes, mbc.pos);
@@ -995,6 +996,8 @@ impl SourceMap {
                 break;
             }
         }
+
+        *prev_total_extra_bytes = total_extra_bytes;
 
         total_extra_bytes
     }
@@ -1188,6 +1191,7 @@ impl SourceMap {
 
         let mut prev_dst_line = u32::MAX;
 
+        let mut prev_extra_bytes = 0;
         let mut ch_start = 0;
 
         for (pos, lc) in mappings.iter() {
@@ -1221,6 +1225,7 @@ impl SourceMap {
                         builder.set_source_contents(src_id, Some(&f.src));
                     }
 
+                    prev_extra_bytes = 0;
                     ch_start = 0;
                     cur_file = Some(f.clone());
                     &f
@@ -1256,10 +1261,17 @@ impl SourceMap {
                 pos,
                 linebpos,
             );
+            let mut copied_prev_extra_bytes = prev_extra_bytes;
             let mut copied_ch_start = ch_start;
-            let chpos = pos.to_u32() - self.calc_extra_bytes(f, &mut ch_start, pos);
-            let linechpos =
-                linebpos.to_u32() - self.calc_extra_bytes(f, &mut copied_ch_start, linebpos);
+            let chpos =
+                pos.to_u32() - self.calc_extra_bytes(f, &mut prev_extra_bytes, &mut ch_start, pos);
+            let linechpos = linebpos.to_u32()
+                - self.calc_extra_bytes(
+                    f,
+                    &mut copied_prev_extra_bytes,
+                    &mut copied_ch_start,
+                    linebpos,
+                );
 
             let mut col = max(chpos, linechpos) - min(chpos, linechpos);
 
