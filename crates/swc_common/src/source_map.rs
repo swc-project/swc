@@ -1183,6 +1183,8 @@ impl SourceMap {
 
         let mut prev_dst_line = u32::MAX;
 
+        let mut ch_start = 0;
+
         for (pos, lc) in mappings.iter() {
             let pos = *pos;
 
@@ -1248,8 +1250,10 @@ impl SourceMap {
                 pos,
                 linebpos,
             );
-            let chpos = pos.to_u32() - self.calc_extra_bytes(f, &mut 0, pos);
-            let linechpos = linebpos.to_u32() - self.calc_extra_bytes(f, &mut 0, linebpos);
+            let mut copied_ch_start = ch_start;
+            let chpos = pos.to_u32() - self.calc_extra_bytes(f, &mut ch_start, pos);
+            let linechpos =
+                linebpos.to_u32() - self.calc_extra_bytes(f, &mut copied_ch_start, linebpos);
 
             let mut col = max(chpos, linechpos) - min(chpos, linechpos);
 
