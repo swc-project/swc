@@ -21,4 +21,46 @@
     
     "
 |   "
+    "
+|   <p>
+|     "<greeting>Hello, world!</greeting>"
+|   "
+    "
+|   <p>
+|     "content"
+|   "
+    "
+|   <p>
+|     "&amping"
+|   "
+    "
+|   <p>
+|     "&amping ]"
+|   "
+    "
+|   <p>
+|     "&amping]] "
+|   "
+    "
+|   <p>
+|     "<message>text</message>"
+|   "
+    "
+|   <p>
+|     "</this is malformed!</malformed</malformed & worse>"
+|   "
+    "
+|   <p>
+|     "12"
+|   "
+    "
+|   <p>
+|     "
+        data  "
+|   "
+    "
+|   <p>
+|     "bracket ]aafter"
+|   "
+
 "
