@@ -55,7 +55,6 @@ pub enum BlockContentsGrammar {
     DeclarationList,
     RuleList,
     Stylesheet,
-    DeclarationValue,
 }
 
 impl Default for BlockContentsGrammar {
