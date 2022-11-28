@@ -84,5 +84,5 @@
  16 | </p>
  17 | <p><![CDATA[bracket ]after]]></p>
     :            ^
- 18 | </body>
+ 18 | <svg viewBox="0 0 100 100">
     `----

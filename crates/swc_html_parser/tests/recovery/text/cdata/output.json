@@ -2,7 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 425,
+    "end": 620,
     "ctxt": 0
   },
   "mode": "no-quirks",
@@ -23,7 +23,7 @@
       "type": "Element",
       "span": {
         "start": 17,
-        "end": 425,
+        "end": 620,
         "ctxt": 0
       },
       "tagName": "html",
@@ -119,7 +119,7 @@
           "type": "Element",
           "span": {
             "start": 77,
-            "end": 425,
+            "end": 613,
             "ctxt": 0
           },
           "tagName": "body",
@@ -495,11 +495,195 @@
               "type": "Text",
               "span": {
                 "start": 408,
-                "end": 425,
+                "end": 409,
                 "ctxt": 0
               },
-              "data": "\n\n\n",
-              "raw": "\n\n\n"
+              "data": "\n",
+              "raw": "\n"
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 409,
+                "end": 604,
+                "ctxt": 0
+              },
+              "tagName": "svg",
+              "namespace": "http://www.w3.org/2000/svg",
+              "attributes": [
+                {
+                  "type": "Attribute",
+                  "span": {
+                    "start": 414,
+                    "end": 435,
+                    "ctxt": 0
+                  },
+                  "namespace": null,
+                  "prefix": null,
+                  "name": "viewBox",
+                  "rawName": "viewBox",
+                  "value": "0 0 100 100",
+                  "rawValue": "\"0 0 100 100\""
+                }
+              ],
+              "children": [
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 436,
+                    "end": 441,
+                    "ctxt": 0
+                  },
+                  "data": "\n    ",
+                  "raw": "\n    "
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 441,
+                    "end": 521,
+                    "ctxt": 0
+                  },
+                  "tagName": "foreignObject",
+                  "namespace": "http://www.w3.org/2000/svg",
+                  "attributes": [
+                    {
+                      "type": "Attribute",
+                      "span": {
+                        "start": 456,
+                        "end": 469,
+                        "ctxt": 0
+                      },
+                      "namespace": null,
+                      "prefix": null,
+                      "name": "width",
+                      "rawName": "width",
+                      "value": "100px",
+                      "rawValue": "\"100px\""
+                    },
+                    {
+                      "type": "Attribute",
+                      "span": {
+                        "start": 470,
+                        "end": 484,
+                        "ctxt": 0
+                      },
+                      "namespace": null,
+                      "prefix": null,
+                      "name": "height",
+                      "rawName": "height",
+                      "value": "100px",
+                      "rawValue": "\"100px\""
+                    }
+                  ],
+                  "children": [
+                    {
+                      "type": "Text",
+                      "span": {
+                        "start": 485,
+                        "end": 505,
+                        "ctxt": 0
+                      },
+                      "data": "contenta",
+                      "raw": "contenta"
+                    }
+                  ],
+                  "content": null,
+                  "isSelfClosing": false
+                },
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 521,
+                    "end": 526,
+                    "ctxt": 0
+                  },
+                  "data": "\n    ",
+                  "raw": "\n    "
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 526,
+                    "end": 558,
+                    "ctxt": 0
+                  },
+                  "tagName": "desc",
+                  "namespace": "http://www.w3.org/2000/svg",
+                  "attributes": [],
+                  "children": [
+                    {
+                      "type": "Text",
+                      "span": {
+                        "start": 532,
+                        "end": 548,
+                        "ctxt": 0
+                      },
+                      "data": "content",
+                      "raw": "content"
+                    }
+                  ],
+                  "content": null,
+                  "isSelfClosing": false
+                },
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 558,
+                    "end": 563,
+                    "ctxt": 0
+                  },
+                  "data": "\n    ",
+                  "raw": "\n    "
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 563,
+                    "end": 597,
+                    "ctxt": 0
+                  },
+                  "tagName": "title",
+                  "namespace": "http://www.w3.org/2000/svg",
+                  "attributes": [],
+                  "children": [
+                    {
+                      "type": "Text",
+                      "span": {
+                        "start": 570,
+                        "end": 586,
+                        "ctxt": 0
+                      },
+                      "data": "content",
+                      "raw": "content"
+                    }
+                  ],
+                  "content": null,
+                  "isSelfClosing": false
+                },
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 597,
+                    "end": 598,
+                    "ctxt": 0
+                  },
+                  "data": "\n",
+                  "raw": "\n"
+                }
+              ],
+              "content": null,
+              "isSelfClosing": false
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 604,
+                "end": 613,
+                "ctxt": 0
+              },
+              "data": "\n\n",
+              "raw": "\n\n"
             }
           ],
           "content": null,

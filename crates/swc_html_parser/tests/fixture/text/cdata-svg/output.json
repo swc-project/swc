@@ -2,7 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 1095,
+    "end": 964,
     "ctxt": 0
   },
   "mode": "no-quirks",
@@ -23,7 +23,7 @@
       "type": "Element",
       "span": {
         "start": 17,
-        "end": 1095,
+        "end": 964,
         "ctxt": 0
       },
       "tagName": "html",
@@ -211,7 +211,7 @@
           "type": "Element",
           "span": {
             "start": 167,
-            "end": 1088,
+            "end": 957,
             "ctxt": 0
           },
           "tagName": "body",
@@ -232,7 +232,7 @@
               "type": "Element",
               "span": {
                 "start": 174,
-                "end": 1079,
+                "end": 948,
                 "ctxt": 0
               },
               "tagName": "svg",
@@ -635,112 +635,7 @@
                   "type": "Element",
                   "span": {
                     "start": 523,
-                    "end": 573,
-                    "ctxt": 0
-                  },
-                  "tagName": "foreignObject",
-                  "namespace": "http://www.w3.org/2000/svg",
-                  "attributes": [],
-                  "children": [
-                    {
-                      "type": "Text",
-                      "span": {
-                        "start": 538,
-                        "end": 554,
-                        "ctxt": 0
-                      },
-                      "data": "content",
-                      "raw": "content"
-                    }
-                  ],
-                  "content": null,
-                  "isSelfClosing": false
-                },
-                {
-                  "type": "Text",
-                  "span": {
-                    "start": 573,
-                    "end": 578,
-                    "ctxt": 0
-                  },
-                  "data": "\n    ",
-                  "raw": "\n    "
-                },
-                {
-                  "type": "Element",
-                  "span": {
-                    "start": 578,
-                    "end": 610,
-                    "ctxt": 0
-                  },
-                  "tagName": "desc",
-                  "namespace": "http://www.w3.org/2000/svg",
-                  "attributes": [],
-                  "children": [
-                    {
-                      "type": "Text",
-                      "span": {
-                        "start": 584,
-                        "end": 600,
-                        "ctxt": 0
-                      },
-                      "data": "content",
-                      "raw": "content"
-                    }
-                  ],
-                  "content": null,
-                  "isSelfClosing": false
-                },
-                {
-                  "type": "Text",
-                  "span": {
-                    "start": 610,
-                    "end": 615,
-                    "ctxt": 0
-                  },
-                  "data": "\n    ",
-                  "raw": "\n    "
-                },
-                {
-                  "type": "Element",
-                  "span": {
-                    "start": 615,
-                    "end": 649,
-                    "ctxt": 0
-                  },
-                  "tagName": "title",
-                  "namespace": "http://www.w3.org/2000/svg",
-                  "attributes": [],
-                  "children": [
-                    {
-                      "type": "Text",
-                      "span": {
-                        "start": 622,
-                        "end": 638,
-                        "ctxt": 0
-                      },
-                      "data": "content",
-                      "raw": "content"
-                    }
-                  ],
-                  "content": null,
-                  "isSelfClosing": false
-                },
-                {
-                  "type": "Text",
-                  "span": {
-                    "start": 649,
-                    "end": 654,
-                    "ctxt": 0
-                  },
-                  "data": "\n    ",
-                  "raw": "\n    "
-                },
-                {
-                  "type": "Element",
-                  "span": {
-                    "start": 654,
-                    "end": 686,
+                    "end": 555,
                     "ctxt": 0
                   },
                   "tagName": "text",
@@ -750,8 +645,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 660,
-                        "end": 676,
+                        "start": 529,
+                        "end": 545,
                         "ctxt": 0
                       },
                       "data": "content",
@@ -764,8 +659,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 686,
-                    "end": 691,
+                    "start": 555,
+                    "end": 560,
                     "ctxt": 0
                   },
                   "data": "\n    ",
@@ -774,8 +669,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 691,
-                    "end": 723,
+                    "start": 560,
+                    "end": 592,
                     "ctxt": 0
                   },
                   "tagName": "text",
@@ -785,8 +680,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 697,
-                        "end": 713,
+                        "start": 566,
+                        "end": 582,
                         "ctxt": 0
                       },
                       "data": "&amping",
@@ -799,8 +694,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 723,
-                    "end": 728,
+                    "start": 592,
+                    "end": 597,
                     "ctxt": 0
                   },
                   "data": "\n    ",
@@ -809,8 +704,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 728,
-                    "end": 762,
+                    "start": 597,
+                    "end": 631,
                     "ctxt": 0
                   },
                   "tagName": "text",
@@ -820,8 +715,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 734,
-                        "end": 754,
+                        "start": 603,
+                        "end": 623,
                         "ctxt": 0
                       },
                       "data": "&amping ]",
@@ -834,8 +729,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 762,
-                    "end": 767,
+                    "start": 631,
+                    "end": 636,
                     "ctxt": 0
                   },
                   "data": "\n    ",
@@ -844,8 +739,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 767,
-                    "end": 802,
+                    "start": 636,
+                    "end": 671,
                     "ctxt": 0
                   },
                   "tagName": "text",
@@ -855,8 +750,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 773,
-                        "end": 792,
+                        "start": 642,
+                        "end": 661,
                         "ctxt": 0
                       },
                       "data": "&amping]] ",
@@ -869,8 +764,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 802,
-                    "end": 807,
+                    "start": 671,
+                    "end": 676,
                     "ctxt": 0
                   },
                   "data": "\n    ",
@@ -879,8 +774,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 807,
-                    "end": 855,
+                    "start": 676,
+                    "end": 724,
                     "ctxt": 0
                   },
                   "tagName": "text",
@@ -890,8 +785,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 813,
-                        "end": 845,
+                        "start": 682,
+                        "end": 714,
                         "ctxt": 0
                       },
                       "data": "<message>text</message>",
@@ -904,8 +799,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 855,
-                    "end": 860,
+                    "start": 724,
+                    "end": 729,
                     "ctxt": 0
                   },
                   "data": "\n    ",
@@ -914,8 +809,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 860,
-                    "end": 936,
+                    "start": 729,
+                    "end": 805,
                     "ctxt": 0
                   },
                   "tagName": "text",
@@ -925,8 +820,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 866,
-                        "end": 926,
+                        "start": 735,
+                        "end": 795,
                         "ctxt": 0
                       },
                       "data": "</this is malformed!</malformed</malformed & worse>",
@@ -939,8 +834,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 936,
-                    "end": 941,
+                    "start": 805,
+                    "end": 810,
                     "ctxt": 0
                   },
                   "data": "\n    ",
@@ -949,8 +844,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 941,
-                    "end": 980,
+                    "start": 810,
+                    "end": 849,
                     "ctxt": 0
                   },
                   "tagName": "text",
@@ -960,8 +855,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 947,
-                        "end": 970,
+                        "start": 816,
+                        "end": 839,
                         "ctxt": 0
                       },
                       "data": "12",
@@ -974,8 +869,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 980,
-                    "end": 985,
+                    "start": 849,
+                    "end": 854,
                     "ctxt": 0
                   },
                   "data": "\n    ",
@@ -984,8 +879,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 985,
-                    "end": 1028,
+                    "start": 854,
+                    "end": 897,
                     "ctxt": 0
                   },
                   "tagName": "text",
@@ -995,8 +890,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 991,
-                        "end": 1021,
+                        "start": 860,
+                        "end": 890,
                         "ctxt": 0
                       },
                       "data": "\n        data\n    ",
@@ -1009,8 +904,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 1028,
-                    "end": 1033,
+                    "start": 897,
+                    "end": 902,
                     "ctxt": 0
                   },
                   "data": "\n    ",
@@ -1019,8 +914,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 1033,
-                    "end": 1072,
+                    "start": 902,
+                    "end": 941,
                     "ctxt": 0
                   },
                   "tagName": "text",
@@ -1030,8 +925,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 1039,
-                        "end": 1062,
+                        "start": 908,
+                        "end": 931,
                         "ctxt": 0
                       },
                       "data": "bracket ]after",
@@ -1044,8 +939,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 1072,
-                    "end": 1073,
+                    "start": 941,
+                    "end": 942,
                     "ctxt": 0
                   },
                   "data": "\n",
@@ -1058,8 +953,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 1079,
-                "end": 1088,
+                "start": 948,
+                "end": 957,
                 "ctxt": 0
               },
               "data": "\n\n",

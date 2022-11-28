@@ -18,8 +18,13 @@
  15 | |       <![CDATA[data]]>
  16 | |   </p>
  17 | |   <p><![CDATA[bracket ]after]]></p>
- 18 | |   </body>
- 19 | `-> </html>
+ 18 | |   <svg viewBox="0 0 100 100">
+ 19 | |       <foreignObject width="100px" height="100px"><![CDATA[content]]>a</foreignObject>
+ 20 | |       <desc><![CDATA[content]]></desc>
+ 21 | |       <title><![CDATA[content]]></title>
+ 22 | |   </svg>
+ 23 | |   </body>
+ 24 | `-> </html>
     `----
 
   x Child
@@ -55,8 +60,13 @@
  15 | |       <![CDATA[data]]>
  16 | |   </p>
  17 | |   <p><![CDATA[bracket ]after]]></p>
- 18 | |   </body>
- 19 | `-> </html>
+ 18 | |   <svg viewBox="0 0 100 100">
+ 19 | |       <foreignObject width="100px" height="100px"><![CDATA[content]]>a</foreignObject>
+ 20 | |       <desc><![CDATA[content]]></desc>
+ 21 | |       <title><![CDATA[content]]></title>
+ 22 | |   </svg>
+ 23 | |   </body>
+ 24 | `-> </html>
     `----
 
   x Element
@@ -78,8 +88,13 @@
  15 | |       <![CDATA[data]]>
  16 | |   </p>
  17 | |   <p><![CDATA[bracket ]after]]></p>
- 18 | |   </body>
- 19 | `-> </html>
+ 18 | |   <svg viewBox="0 0 100 100">
+ 19 | |       <foreignObject width="100px" height="100px"><![CDATA[content]]>a</foreignObject>
+ 20 | |       <desc><![CDATA[content]]></desc>
+ 21 | |       <title><![CDATA[content]]></title>
+ 22 | |   </svg>
+ 23 | |   </body>
+ 24 | `-> </html>
     `----
 
   x Attribute
@@ -207,8 +222,13 @@
  15 | |       <![CDATA[data]]>
  16 | |   </p>
  17 | |   <p><![CDATA[bracket ]after]]></p>
- 18 | |   </body>
- 19 | `-> </html>
+ 18 | |   <svg viewBox="0 0 100 100">
+ 19 | |       <foreignObject width="100px" height="100px"><![CDATA[content]]>a</foreignObject>
+ 20 | |       <desc><![CDATA[content]]></desc>
+ 21 | |       <title><![CDATA[content]]></title>
+ 22 | |   </svg>
+ 23 | `-> </body>
+ 24 |     </html>
     `----
 
   x Element
@@ -226,8 +246,13 @@
  15 | |       <![CDATA[data]]>
  16 | |   </p>
  17 | |   <p><![CDATA[bracket ]after]]></p>
- 18 | |   </body>
- 19 | `-> </html>
+ 18 | |   <svg viewBox="0 0 100 100">
+ 19 | |       <foreignObject width="100px" height="100px"><![CDATA[content]]>a</foreignObject>
+ 20 | |       <desc><![CDATA[content]]></desc>
+ 21 | |       <title><![CDATA[content]]></title>
+ 22 | |   </svg>
+ 23 | `-> </body>
+ 24 |     </html>
     `----
 
   x Child
@@ -720,7 +745,7 @@
  16 | </p>
     :     ^
  17 | <p><![CDATA[bracket ]after]]></p>
- 18 | </body>
+ 18 | <svg viewBox="0 0 100 100">
     `----
 
   x Text
@@ -729,7 +754,7 @@
  16 | </p>
     :     ^
  17 | <p><![CDATA[bracket ]after]]></p>
- 18 | </body>
+ 18 | <svg viewBox="0 0 100 100">
     `----
 
   x Child
@@ -737,7 +762,7 @@
  16 | </p>
  17 | <p><![CDATA[bracket ]after]]></p>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 18 | </body>
+ 18 | <svg viewBox="0 0 100 100">
     `----
 
   x Element
@@ -745,7 +770,7 @@
  16 | </p>
  17 | <p><![CDATA[bracket ]after]]></p>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 18 | </body>
+ 18 | <svg viewBox="0 0 100 100">
     `----
 
   x Child
@@ -753,7 +778,7 @@
  16 | </p>
  17 | <p><![CDATA[bracket ]after]]></p>
     :    ^^^^^^^^^^^^^^^^^^^^^^^^^^
- 18 | </body>
+ 18 | <svg viewBox="0 0 100 100">
     `----
 
   x Comment
@@ -761,21 +786,247 @@
  16 | </p>
  17 | <p><![CDATA[bracket ]after]]></p>
     :    ^^^^^^^^^^^^^^^^^^^^^^^^^^
- 18 | </body>
+ 18 | <svg viewBox="0 0 100 100">
     `----
 
   x Child
     ,-[$DIR/tests/recovery/text/cdata/input.html:16:1]
- 16 |     </p>
- 17 | ,-> <p><![CDATA[bracket ]after]]></p>
- 18 | |   </body>
- 19 | `-> </html>
+ 16 | </p>
+ 17 | <p><![CDATA[bracket ]after]]></p>
+    :                                  ^
+ 18 | <svg viewBox="0 0 100 100">
+ 19 |     <foreignObject width="100px" height="100px"><![CDATA[content]]>a</foreignObject>
     `----
 
   x Text
     ,-[$DIR/tests/recovery/text/cdata/input.html:16:1]
- 16 |     </p>
- 17 | ,-> <p><![CDATA[bracket ]after]]></p>
- 18 | |   </body>
- 19 | `-> </html>
+ 16 | </p>
+ 17 | <p><![CDATA[bracket ]after]]></p>
+    :                                  ^
+ 18 | <svg viewBox="0 0 100 100">
+ 19 |     <foreignObject width="100px" height="100px"><![CDATA[content]]>a</foreignObject>
+    `----
+
+  x Child
+    ,-[$DIR/tests/recovery/text/cdata/input.html:17:1]
+ 17 |     <p><![CDATA[bracket ]after]]></p>
+ 18 | ,-> <svg viewBox="0 0 100 100">
+ 19 | |       <foreignObject width="100px" height="100px"><![CDATA[content]]>a</foreignObject>
+ 20 | |       <desc><![CDATA[content]]></desc>
+ 21 | |       <title><![CDATA[content]]></title>
+ 22 | `-> </svg>
+ 23 |     </body>
+    `----
+
+  x Element
+    ,-[$DIR/tests/recovery/text/cdata/input.html:17:1]
+ 17 |     <p><![CDATA[bracket ]after]]></p>
+ 18 | ,-> <svg viewBox="0 0 100 100">
+ 19 | |       <foreignObject width="100px" height="100px"><![CDATA[content]]>a</foreignObject>
+ 20 | |       <desc><![CDATA[content]]></desc>
+ 21 | |       <title><![CDATA[content]]></title>
+ 22 | `-> </svg>
+ 23 |     </body>
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/recovery/text/cdata/input.html:17:1]
+ 17 | <p><![CDATA[bracket ]after]]></p>
+ 18 | <svg viewBox="0 0 100 100">
+    :      ^^^^^^^^^^^^^^^^^^^^^
+ 19 |     <foreignObject width="100px" height="100px"><![CDATA[content]]>a</foreignObject>
+    `----
+
+  x Child
+    ,-[$DIR/tests/recovery/text/cdata/input.html:17:1]
+ 17 |     <p><![CDATA[bracket ]after]]></p>
+ 18 | ,-> <svg viewBox="0 0 100 100">
+ 19 | `->     <foreignObject width="100px" height="100px"><![CDATA[content]]>a</foreignObject>
+ 20 |         <desc><![CDATA[content]]></desc>
+    `----
+
+  x Text
+    ,-[$DIR/tests/recovery/text/cdata/input.html:17:1]
+ 17 |     <p><![CDATA[bracket ]after]]></p>
+ 18 | ,-> <svg viewBox="0 0 100 100">
+ 19 | `->     <foreignObject width="100px" height="100px"><![CDATA[content]]>a</foreignObject>
+ 20 |         <desc><![CDATA[content]]></desc>
+    `----
+
+  x Child
+    ,-[$DIR/tests/recovery/text/cdata/input.html:18:1]
+ 18 | <svg viewBox="0 0 100 100">
+ 19 |     <foreignObject width="100px" height="100px"><![CDATA[content]]>a</foreignObject>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 20 |     <desc><![CDATA[content]]></desc>
+    `----
+
+  x Element
+    ,-[$DIR/tests/recovery/text/cdata/input.html:18:1]
+ 18 | <svg viewBox="0 0 100 100">
+ 19 |     <foreignObject width="100px" height="100px"><![CDATA[content]]>a</foreignObject>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 20 |     <desc><![CDATA[content]]></desc>
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/recovery/text/cdata/input.html:18:1]
+ 18 | <svg viewBox="0 0 100 100">
+ 19 |     <foreignObject width="100px" height="100px"><![CDATA[content]]>a</foreignObject>
+    :                    ^^^^^^^^^^^^^
+ 20 |     <desc><![CDATA[content]]></desc>
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/recovery/text/cdata/input.html:18:1]
+ 18 | <svg viewBox="0 0 100 100">
+ 19 |     <foreignObject width="100px" height="100px"><![CDATA[content]]>a</foreignObject>
+    :                                  ^^^^^^^^^^^^^^
+ 20 |     <desc><![CDATA[content]]></desc>
+    `----
+
+  x Child
+    ,-[$DIR/tests/recovery/text/cdata/input.html:18:1]
+ 18 | <svg viewBox="0 0 100 100">
+ 19 |     <foreignObject width="100px" height="100px"><![CDATA[content]]>a</foreignObject>
+    :                                                 ^^^^^^^^^^^^^^^^^^^^
+ 20 |     <desc><![CDATA[content]]></desc>
+    `----
+
+  x Text
+    ,-[$DIR/tests/recovery/text/cdata/input.html:18:1]
+ 18 | <svg viewBox="0 0 100 100">
+ 19 |     <foreignObject width="100px" height="100px"><![CDATA[content]]>a</foreignObject>
+    :                                                 ^^^^^^^^^^^^^^^^^^^^
+ 20 |     <desc><![CDATA[content]]></desc>
+    `----
+
+  x Child
+    ,-[$DIR/tests/recovery/text/cdata/input.html:18:1]
+ 18 |     <svg viewBox="0 0 100 100">
+ 19 | ,->     <foreignObject width="100px" height="100px"><![CDATA[content]]>a</foreignObject>
+ 20 | `->     <desc><![CDATA[content]]></desc>
+ 21 |         <title><![CDATA[content]]></title>
+    `----
+
+  x Text
+    ,-[$DIR/tests/recovery/text/cdata/input.html:18:1]
+ 18 |     <svg viewBox="0 0 100 100">
+ 19 | ,->     <foreignObject width="100px" height="100px"><![CDATA[content]]>a</foreignObject>
+ 20 | `->     <desc><![CDATA[content]]></desc>
+ 21 |         <title><![CDATA[content]]></title>
+    `----
+
+  x Child
+    ,-[$DIR/tests/recovery/text/cdata/input.html:19:1]
+ 19 |     <foreignObject width="100px" height="100px"><![CDATA[content]]>a</foreignObject>
+ 20 |     <desc><![CDATA[content]]></desc>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 21 |     <title><![CDATA[content]]></title>
+    `----
+
+  x Element
+    ,-[$DIR/tests/recovery/text/cdata/input.html:19:1]
+ 19 |     <foreignObject width="100px" height="100px"><![CDATA[content]]>a</foreignObject>
+ 20 |     <desc><![CDATA[content]]></desc>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 21 |     <title><![CDATA[content]]></title>
+    `----
+
+  x Child
+    ,-[$DIR/tests/recovery/text/cdata/input.html:19:1]
+ 19 |     <foreignObject width="100px" height="100px"><![CDATA[content]]>a</foreignObject>
+ 20 |     <desc><![CDATA[content]]></desc>
+    :           ^^^^^^^^^^^^^^^^
+ 21 |     <title><![CDATA[content]]></title>
+    `----
+
+  x Text
+    ,-[$DIR/tests/recovery/text/cdata/input.html:19:1]
+ 19 |     <foreignObject width="100px" height="100px"><![CDATA[content]]>a</foreignObject>
+ 20 |     <desc><![CDATA[content]]></desc>
+    :           ^^^^^^^^^^^^^^^^
+ 21 |     <title><![CDATA[content]]></title>
+    `----
+
+  x Child
+    ,-[$DIR/tests/recovery/text/cdata/input.html:19:1]
+ 19 |         <foreignObject width="100px" height="100px"><![CDATA[content]]>a</foreignObject>
+ 20 | ,->     <desc><![CDATA[content]]></desc>
+ 21 | `->     <title><![CDATA[content]]></title>
+ 22 |     </svg>
+    `----
+
+  x Text
+    ,-[$DIR/tests/recovery/text/cdata/input.html:19:1]
+ 19 |         <foreignObject width="100px" height="100px"><![CDATA[content]]>a</foreignObject>
+ 20 | ,->     <desc><![CDATA[content]]></desc>
+ 21 | `->     <title><![CDATA[content]]></title>
+ 22 |     </svg>
+    `----
+
+  x Child
+    ,-[$DIR/tests/recovery/text/cdata/input.html:20:1]
+ 20 |     <desc><![CDATA[content]]></desc>
+ 21 |     <title><![CDATA[content]]></title>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 22 | </svg>
+    `----
+
+  x Element
+    ,-[$DIR/tests/recovery/text/cdata/input.html:20:1]
+ 20 |     <desc><![CDATA[content]]></desc>
+ 21 |     <title><![CDATA[content]]></title>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 22 | </svg>
+    `----
+
+  x Child
+    ,-[$DIR/tests/recovery/text/cdata/input.html:20:1]
+ 20 |     <desc><![CDATA[content]]></desc>
+ 21 |     <title><![CDATA[content]]></title>
+    :            ^^^^^^^^^^^^^^^^
+ 22 | </svg>
+    `----
+
+  x Text
+    ,-[$DIR/tests/recovery/text/cdata/input.html:20:1]
+ 20 |     <desc><![CDATA[content]]></desc>
+ 21 |     <title><![CDATA[content]]></title>
+    :            ^^^^^^^^^^^^^^^^
+ 22 | </svg>
+    `----
+
+  x Child
+    ,-[$DIR/tests/recovery/text/cdata/input.html:20:1]
+ 20 |     <desc><![CDATA[content]]></desc>
+ 21 |     <title><![CDATA[content]]></title>
+    :                                       ^
+ 22 | </svg>
+ 23 | </body>
+    `----
+
+  x Text
+    ,-[$DIR/tests/recovery/text/cdata/input.html:20:1]
+ 20 |     <desc><![CDATA[content]]></desc>
+ 21 |     <title><![CDATA[content]]></title>
+    :                                       ^
+ 22 | </svg>
+ 23 | </body>
+    `----
+
+  x Child
+    ,-[$DIR/tests/recovery/text/cdata/input.html:21:1]
+ 21 |         <title><![CDATA[content]]></title>
+ 22 | ,-> </svg>
+ 23 | `-> </body>
+ 24 |     </html>
+    `----
+
+  x Text
+    ,-[$DIR/tests/recovery/text/cdata/input.html:21:1]
+ 21 |         <title><![CDATA[content]]></title>
+ 22 | ,-> </svg>
+ 23 | `-> </body>
+ 24 |     </html>
     `----
