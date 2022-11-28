@@ -1,8 +1,11 @@
 
   x Use the isNaN function to compare with NaN
-   ,----
+   ,-[1:1]
  1 | if (a == NaN) {}
    :     ^^^^|^^^
    :         `-- this will always return false
+ 2 | 
+ 3 | switch (NaN as any) {
+ 4 |   case NaN as any:
    `----
   help: NaN is a special value and `NaN == NaN` is false

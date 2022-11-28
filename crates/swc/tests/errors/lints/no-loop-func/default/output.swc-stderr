@@ -1,6 +1,9 @@
 
   x the name `a` is defined multiple times
-    ,-[36:1]
+    ,-[33:1]
+ 33 | }
+ 34 | 
+ 35 | // Not ok
  36 | let a; for (let i in {}) { (function() { a; }); a = 1; }
     :     |
     :     `-- previous definition of `a` here
@@ -26,13 +29,19 @@
  56 |     var a = 0;
     :         |
     :         `-- `a` redefined here
+ 57 | 
+ 58 |     while (true) {
+ 59 |         setTimeout(() => {
     `----
 
   x the name `ee` is defined multiple times
-    ,-[49:5]
- 49 | function ee() {
-    :          ^|
-    :           `-- previous definition of `ee` here
+    ,-[46:1]
+ 46 | while (cond) {
+ 47 |     let x = 10;
+ 48 | 
+ 49 |     function ee() {
+    :              ^|
+    :               `-- previous definition of `ee` here
  50 |         alert(x);
  51 |     }
  52 | }
@@ -53,48 +62,82 @@
  67 | let { aa, bb: { bb }, cc: [cc], ...ee } = obj;
     :                                    ^|
     :                                     `-- `ee` redefined here
+ 68 | for (const k in obj) {
+ 69 |     setTimeout(() => {
+ 70 |         aa;
     `----
 
   x Function declared in a loop contains unsafe references to variable i
-    ,-[9:5]
-  9 | ,-> function x() {
+    ,-[6:1]
+  6 |     
+  7 |     // it's unsafe
+  8 |     for (var i = 0; i < 10; i += 1) {
+  9 | ,->     function x() {
  10 | |           alert(i);
  11 | `->     }
+ 12 |         x();
+ 13 |     }
     `----
 
   x Function declared in a loop contains unsafe references to variable(s) z, zz
-    ,-[29:5]
- 29 | ,-> function x() {
+    ,-[26:1]
+ 26 |     let zz = 20;
+ 27 |     
+ 28 |     for (let i = 0; i < 10; i += 1) {
+ 29 | ,->     function x() {
  30 | |           alert(z, zz);
  31 | `->     }
+ 32 |         x();
+ 33 |     }
     `----
 
   x Function declared in a loop contains unsafe references to variable a
-    ,----
+    ,-[33:1]
+ 33 | }
+ 34 | 
+ 35 | // Not ok
  36 | let a; for (let i in {}) { (function() { a; }); a = 1; }
     :                             ^^^^^^^^^^^^^^^^^
+ 37 | 
+ 38 | // interview example =)
+ 39 | for (var i = 0; i < 10; i++) {
     `----
 
   x Function declared in a loop contains unsafe references to variable i
-    ,-[40:5]
- 40 | ,-> setTimeout(() => {
+    ,-[37:1]
+ 37 |     
+ 38 |     // interview example =)
+ 39 |     for (var i = 0; i < 10; i++) {
+ 40 | ,->     setTimeout(() => {
  41 | |           console.log(i);
  42 | `->     })
+ 43 |     }
+ 44 |     
+ 45 |     // it's ok
     `----
 
   x Function declared in a loop contains unsafe references to variable a
-    ,-[59:9]
- 59 | ,-> setTimeout(() => {
+    ,-[56:1]
+ 56 |         var a = 0;
+ 57 |     
+ 58 |         while (true) {
+ 59 | ,->         setTimeout(() => {
  60 | |               a;
  61 | `->         })
+ 62 |         }
+ 63 |     }
     `----
 
   x Function declared in a loop contains unsafe references to variable(s) aa, bb, cc, ee
-    ,-[69:5]
- 69 | ,-> setTimeout(() => {
+    ,-[66:1]
+ 66 |     
+ 67 |     let { aa, bb: { bb }, cc: [cc], ...ee } = obj;
+ 68 |     for (const k in obj) {
+ 69 | ,->     setTimeout(() => {
  70 | |           aa;
  71 | |           bb;
  72 | |           cc;
  73 | |           ee;
  74 | `->     })
+ 75 |     }
     `----
