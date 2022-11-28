@@ -1,6 +1,9 @@
 
   x String must use doublequotes
-   ,----
+   ,-[1:1]
+ 1 | // prettier-ignore
  2 | var s = 'double quotes string';
    :         ^^^^^^^^^^^^^^^^^^^^^^
+ 3 | 
+ 4 | // valid cases
    `----

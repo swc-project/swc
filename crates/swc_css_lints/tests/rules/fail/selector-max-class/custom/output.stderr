@@ -3,4 +3,5 @@
    ,-[$DIR/tests/rules/fail/selector-max-class/custom/input.css:1:1]
  1 | .a.b {
    : ^^^^
+ 2 | }
    `----

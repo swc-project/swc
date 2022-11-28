@@ -27,42 +27,49 @@
    ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:1:1]
  1 | a {
    : ^
+ 2 |     color: \
    `----
 
   x ComplexSelector
    ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:1:1]
  1 | a {
    : ^
+ 2 |     color: \
    `----
 
   x CompoundSelector
    ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:1:1]
  1 | a {
    : ^
+ 2 |     color: \
    `----
 
   x TypeSelector
    ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:1:1]
  1 | a {
    : ^
+ 2 |     color: \
    `----
 
   x TagNameSelector
    ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:1:1]
  1 | a {
    : ^
+ 2 |     color: \
    `----
 
   x WqName
    ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:1:1]
  1 | a {
    : ^
+ 2 |     color: \
    `----
 
   x Ident
    ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:1:1]
  1 | a {
    : ^
+ 2 |     color: \
    `----
 
   x SimpleBlock
@@ -77,46 +84,61 @@
    ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:1:1]
  1 | a {
    :   ^
+ 2 |     color: \
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:2:5]
- 2 | ,-> color: \
+   ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:1:1]
+ 1 |     a {
+ 2 | ,->     color: \
  3 | `->     ;
+ 4 |     }
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:2:5]
- 2 | ,-> color: \
+   ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:1:1]
+ 1 |     a {
+ 2 | ,->     color: \
  3 | `->     ;
+ 4 |     }
    `----
 
   x Declaration
-   ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:2:5]
- 2 | ,-> color: \
+   ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:1:1]
+ 1 |     a {
+ 2 | ,->     color: \
  3 | `->     ;
+ 4 |     }
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:2:5]
- 2 | color: \
-   : ^^^^^
+   ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:1:1]
+ 1 | a {
+ 2 |     color: \
+   :     ^^^^^
+ 3 |     ;
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:2:5]
- 2 | color: \
-   : ^^^^^
+   ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:1:1]
+ 1 | a {
+ 2 |     color: \
+   :     ^^^^^
+ 3 |     ;
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:2:5]
- 2 | color: \
-   :        ^
+   ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:1:1]
+ 1 | a {
+ 2 |     color: \
+   :            ^
+ 3 |     ;
    `----
 
   x Delim { value: '\\' }
-   ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:2:5]
- 2 | color: \
-   :        ^
+   ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:1:1]
+ 1 | a {
+ 2 |     color: \
+   :            ^
+ 3 |     ;
    `----

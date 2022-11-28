@@ -38,6 +38,7 @@
    ,-[$DIR/tests/span/js/stmt/throw.js:1:1]
  1 | function foo() {
    :          ^^^
+ 2 |     throw 'foo';
    `----
 
   x Function
@@ -55,31 +56,41 @@
    `----
 
   x Stmt
-   ,-[$DIR/tests/span/js/stmt/throw.js:2:5]
- 2 | throw 'foo';
-   : ^^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/stmt/throw.js:1:1]
+ 1 | function foo() {
+ 2 |     throw 'foo';
+   :     ^^^^^^^^^^^^
+ 3 | }
    `----
 
   x ThrowStmt
-   ,-[$DIR/tests/span/js/stmt/throw.js:2:5]
- 2 | throw 'foo';
-   : ^^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/stmt/throw.js:1:1]
+ 1 | function foo() {
+ 2 |     throw 'foo';
+   :     ^^^^^^^^^^^^
+ 3 | }
    `----
 
   x Expr
-   ,-[$DIR/tests/span/js/stmt/throw.js:2:5]
- 2 | throw 'foo';
-   :       ^^^^^
+   ,-[$DIR/tests/span/js/stmt/throw.js:1:1]
+ 1 | function foo() {
+ 2 |     throw 'foo';
+   :           ^^^^^
+ 3 | }
    `----
 
   x Lit
-   ,-[$DIR/tests/span/js/stmt/throw.js:2:5]
- 2 | throw 'foo';
-   :       ^^^^^
+   ,-[$DIR/tests/span/js/stmt/throw.js:1:1]
+ 1 | function foo() {
+ 2 |     throw 'foo';
+   :           ^^^^^
+ 3 | }
    `----
 
   x Str
-   ,-[$DIR/tests/span/js/stmt/throw.js:2:5]
- 2 | throw 'foo';
-   :       ^^^^^
+   ,-[$DIR/tests/span/js/stmt/throw.js:1:1]
+ 1 | function foo() {
+ 2 |     throw 'foo';
+   :           ^^^^^
+ 3 | }
    `----

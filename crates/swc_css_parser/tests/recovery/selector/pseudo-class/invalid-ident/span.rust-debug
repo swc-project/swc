@@ -24,48 +24,56 @@
    ,-[$DIR/tests/recovery/selector/pseudo-class/invalid-ident/input.css:1:1]
  1 | : first-child {
    : ^
+ 2 |     
    `----
 
   x Colon
    ,-[$DIR/tests/recovery/selector/pseudo-class/invalid-ident/input.css:1:1]
  1 | : first-child {
    : ^
+ 2 |     
    `----
 
   x ComponentValue
    ,-[$DIR/tests/recovery/selector/pseudo-class/invalid-ident/input.css:1:1]
  1 | : first-child {
    :  ^
+ 2 |     
    `----
 
   x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/selector/pseudo-class/invalid-ident/input.css:1:1]
  1 | : first-child {
    :  ^
+ 2 |     
    `----
 
   x ComponentValue
    ,-[$DIR/tests/recovery/selector/pseudo-class/invalid-ident/input.css:1:1]
  1 | : first-child {
    :   ^^^^^^^^^^^
+ 2 |     
    `----
 
   x Ident { value: Atom('first-child' type=static), raw: "first-child" }
    ,-[$DIR/tests/recovery/selector/pseudo-class/invalid-ident/input.css:1:1]
  1 | : first-child {
    :   ^^^^^^^^^^^
+ 2 |     
    `----
 
   x ComponentValue
    ,-[$DIR/tests/recovery/selector/pseudo-class/invalid-ident/input.css:1:1]
  1 | : first-child {
    :              ^
+ 2 |     
    `----
 
   x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/selector/pseudo-class/invalid-ident/input.css:1:1]
  1 | : first-child {
    :              ^
+ 2 |     
    `----
 
   x SimpleBlock
@@ -79,4 +87,5 @@
    ,-[$DIR/tests/recovery/selector/pseudo-class/invalid-ident/input.css:1:1]
  1 | : first-child {
    :               ^
+ 2 |     
    `----

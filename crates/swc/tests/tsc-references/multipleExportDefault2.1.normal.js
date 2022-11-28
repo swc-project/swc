@@ -10,6 +10,7 @@
 //!  5 | ,-> export default function Foo() { }
 //!    : | ^^^^^^^^^^^^^^^^|^^^^^^^^^^^^^^^^
 //!    : |                 `-- exported more than once
+//!  6 |     
 //!    `----
 //! 
 //! Error: 

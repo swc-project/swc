@@ -8,4 +8,5 @@
 //!  2 | var orbitol = 1 + false
 //!    :     ^^^|^^^
 //!    :        `-- `orbitol` redefined here
+//!  3 | orbitol.toExponential()
 //!    `----

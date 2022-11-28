@@ -45,36 +45,42 @@
    ,-[$DIR/tests/span/js/expr/arrow-2.js:1:1]
  1 | React.useEffect(() => {
    : ^^^^^^^^^^^^^^^
+ 2 |     // @refresh reset
    `----
 
   x Expr
    ,-[$DIR/tests/span/js/expr/arrow-2.js:1:1]
  1 | React.useEffect(() => {
    : ^^^^^^^^^^^^^^^
+ 2 |     // @refresh reset
    `----
 
   x MemberExpr
    ,-[$DIR/tests/span/js/expr/arrow-2.js:1:1]
  1 | React.useEffect(() => {
    : ^^^^^^^^^^^^^^^
+ 2 |     // @refresh reset
    `----
 
   x Expr
    ,-[$DIR/tests/span/js/expr/arrow-2.js:1:1]
  1 | React.useEffect(() => {
    : ^^^^^
+ 2 |     // @refresh reset
    `----
 
   x Ident
    ,-[$DIR/tests/span/js/expr/arrow-2.js:1:1]
  1 | React.useEffect(() => {
    : ^^^^^
+ 2 |     // @refresh reset
    `----
 
   x Ident
    ,-[$DIR/tests/span/js/expr/arrow-2.js:1:1]
  1 | React.useEffect(() => {
    :       ^^^^^^^^^
+ 2 |     // @refresh reset
    `----
 
   x ExprOrSpread

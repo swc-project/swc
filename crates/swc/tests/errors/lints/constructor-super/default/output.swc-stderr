@@ -1,6 +1,9 @@
 
   x the name `A30` is defined multiple times
-    ,-[29:1]
+    ,-[26:1]
+ 26 | class A27 { constructor() { for (let i = 0; i < a.length; i++) { super(); } super(); } }
+ 27 | class A28 extends B { constructor() { return; super(); } }
+ 28 | class A29 extends B { constructor() { try { super(); } catch (e) { } } }
  29 | class A30 extends B { constructor() { try { } catch (e) { super(); } } }
     :       ^|^
     :        `-- previous definition of `A30` here
@@ -8,10 +11,16 @@
  31 | class A30 extends B { constructor() { try { super(); } catch (e) { } finally { super() } } }
     :       ^|^
     :        `-- `A30` redefined here
+ 32 | 
+ 33 | 
+ 34 | // valid
     `----
 
   x the name `A9` is defined multiple times
-    ,-[9:1]
+    ,-[6:1]
+  6 | class A6 extends (B && 5) { constructor() { super(); } }
+  7 | class A7 extends (B &&= 5) { constructor() { super(); } }
+  8 | class A8 extends (B += C) { constructor() { super(); } }
   9 | class A9 extends (B -= C) { constructor() { super(); } }
     :       ^|
     :        `-- previous definition of `A9` here
@@ -54,187 +63,365 @@
     `----
 
   x Unexpected 'super()' because 'super' is not a constructor
-   ,----
+   ,-[1:1]
  1 | class A1 extends null { constructor() { super(); } }
    :                                         ^^^^^
+ 2 | class A2 extends null { constructor() { } }
+ 3 | class A3 extends 100 { constructor() { super(); } }
+ 4 | class A4 extends 'test' { constructor() { super(); } }
    `----
 
   x Expected to call 'super()'
-   ,----
+   ,-[1:1]
+ 1 | class A1 extends null { constructor() { super(); } }
  2 | class A2 extends null { constructor() { } }
    :                         ^^^^^^^^^^^^^^^^^
+ 3 | class A3 extends 100 { constructor() { super(); } }
+ 4 | class A4 extends 'test' { constructor() { super(); } }
+ 5 | class A5 extends (B = 5) { constructor() { super(); } }
    `----
 
   x Unexpected 'super()' because 'super' is not a constructor
-   ,----
+   ,-[1:1]
+ 1 | class A1 extends null { constructor() { super(); } }
+ 2 | class A2 extends null { constructor() { } }
  3 | class A3 extends 100 { constructor() { super(); } }
    :                                        ^^^^^
+ 4 | class A4 extends 'test' { constructor() { super(); } }
+ 5 | class A5 extends (B = 5) { constructor() { super(); } }
+ 6 | class A6 extends (B && 5) { constructor() { super(); } }
    `----
 
   x Unexpected 'super()' because 'super' is not a constructor
-   ,----
+   ,-[1:1]
+ 1 | class A1 extends null { constructor() { super(); } }
+ 2 | class A2 extends null { constructor() { } }
+ 3 | class A3 extends 100 { constructor() { super(); } }
  4 | class A4 extends 'test' { constructor() { super(); } }
    :                                           ^^^^^
+ 5 | class A5 extends (B = 5) { constructor() { super(); } }
+ 6 | class A6 extends (B && 5) { constructor() { super(); } }
+ 7 | class A7 extends (B &&= 5) { constructor() { super(); } }
    `----
 
   x Unexpected 'super()' because 'super' is not a constructor
-   ,----
+   ,-[2:1]
+ 2 | class A2 extends null { constructor() { } }
+ 3 | class A3 extends 100 { constructor() { super(); } }
+ 4 | class A4 extends 'test' { constructor() { super(); } }
  5 | class A5 extends (B = 5) { constructor() { super(); } }
    :                                            ^^^^^
+ 6 | class A6 extends (B && 5) { constructor() { super(); } }
+ 7 | class A7 extends (B &&= 5) { constructor() { super(); } }
+ 8 | class A8 extends (B += C) { constructor() { super(); } }
    `----
 
   x Unexpected 'super()' because 'super' is not a constructor
-   ,----
+   ,-[3:1]
+ 3 | class A3 extends 100 { constructor() { super(); } }
+ 4 | class A4 extends 'test' { constructor() { super(); } }
+ 5 | class A5 extends (B = 5) { constructor() { super(); } }
  6 | class A6 extends (B && 5) { constructor() { super(); } }
    :                                             ^^^^^
-   `----
-
-  x Unexpected 'super()' because 'super' is not a constructor
-   ,----
  7 | class A7 extends (B &&= 5) { constructor() { super(); } }
-   :                                              ^^^^^
-   `----
-
-  x Unexpected 'super()' because 'super' is not a constructor
-   ,----
  8 | class A8 extends (B += C) { constructor() { super(); } }
-   :                                             ^^^^^
-   `----
-
-  x Unexpected 'super()' because 'super' is not a constructor
-   ,----
  9 | class A9 extends (B -= C) { constructor() { super(); } }
-   :                                             ^^^^^
    `----
 
   x Unexpected 'super()' because 'super' is not a constructor
-    ,----
+    ,-[4:1]
+  4 | class A4 extends 'test' { constructor() { super(); } }
+  5 | class A5 extends (B = 5) { constructor() { super(); } }
+  6 | class A6 extends (B && 5) { constructor() { super(); } }
+  7 | class A7 extends (B &&= 5) { constructor() { super(); } }
+    :                                              ^^^^^
+  8 | class A8 extends (B += C) { constructor() { super(); } }
+  9 | class A9 extends (B -= C) { constructor() { super(); } }
+ 10 | class A10 extends (B **= C) { constructor() { super(); } }
+    `----
+
+  x Unexpected 'super()' because 'super' is not a constructor
+    ,-[5:1]
+  5 | class A5 extends (B = 5) { constructor() { super(); } }
+  6 | class A6 extends (B && 5) { constructor() { super(); } }
+  7 | class A7 extends (B &&= 5) { constructor() { super(); } }
+  8 | class A8 extends (B += C) { constructor() { super(); } }
+    :                                             ^^^^^
+  9 | class A9 extends (B -= C) { constructor() { super(); } }
+ 10 | class A10 extends (B **= C) { constructor() { super(); } }
+ 11 | class A11 extends (B |= C) { constructor() { super(); } }
+    `----
+
+  x Unexpected 'super()' because 'super' is not a constructor
+    ,-[6:1]
+  6 | class A6 extends (B && 5) { constructor() { super(); } }
+  7 | class A7 extends (B &&= 5) { constructor() { super(); } }
+  8 | class A8 extends (B += C) { constructor() { super(); } }
+  9 | class A9 extends (B -= C) { constructor() { super(); } }
+    :                                             ^^^^^
+ 10 | class A10 extends (B **= C) { constructor() { super(); } }
+ 11 | class A11 extends (B |= C) { constructor() { super(); } }
+ 12 | class A12 extends (B &= C) { constructor() { super(); } }
+    `----
+
+  x Unexpected 'super()' because 'super' is not a constructor
+    ,-[7:1]
+  7 | class A7 extends (B &&= 5) { constructor() { super(); } }
+  8 | class A8 extends (B += C) { constructor() { super(); } }
+  9 | class A9 extends (B -= C) { constructor() { super(); } }
  10 | class A10 extends (B **= C) { constructor() { super(); } }
     :                                               ^^^^^
+ 11 | class A11 extends (B |= C) { constructor() { super(); } }
+ 12 | class A12 extends (B &= C) { constructor() { super(); } }
+ 13 | class A13 extends B { constructor() { } }
     `----
 
   x Unexpected 'super()' because 'super' is not a constructor
-    ,----
+    ,-[8:1]
+  8 | class A8 extends (B += C) { constructor() { super(); } }
+  9 | class A9 extends (B -= C) { constructor() { super(); } }
+ 10 | class A10 extends (B **= C) { constructor() { super(); } }
  11 | class A11 extends (B |= C) { constructor() { super(); } }
     :                                              ^^^^^
+ 12 | class A12 extends (B &= C) { constructor() { super(); } }
+ 13 | class A13 extends B { constructor() { } }
+ 14 | class A14 extends B { constructor() { for (var a of b) super.foo(); } }
     `----
 
   x Unexpected 'super()' because 'super' is not a constructor
-    ,----
+    ,-[9:1]
+  9 | class A9 extends (B -= C) { constructor() { super(); } }
+ 10 | class A10 extends (B **= C) { constructor() { super(); } }
+ 11 | class A11 extends (B |= C) { constructor() { super(); } }
  12 | class A12 extends (B &= C) { constructor() { super(); } }
     :                                              ^^^^^
+ 13 | class A13 extends B { constructor() { } }
+ 14 | class A14 extends B { constructor() { for (var a of b) super.foo(); } }
+ 15 | class A15 extends B { constructor() { class C extends D { constructor() { super(); } } } }
     `----
 
   x Expected to call 'super()'
-    ,----
+    ,-[10:1]
+ 10 | class A10 extends (B **= C) { constructor() { super(); } }
+ 11 | class A11 extends (B |= C) { constructor() { super(); } }
+ 12 | class A12 extends (B &= C) { constructor() { super(); } }
  13 | class A13 extends B { constructor() { } }
     :                       ^^^^^^^^^^^^^^^^^
+ 14 | class A14 extends B { constructor() { for (var a of b) super.foo(); } }
+ 15 | class A15 extends B { constructor() { class C extends D { constructor() { super(); } } } }
+ 16 | class A16 extends B { constructor() { var c = class extends D { constructor() { super(); } } } }
     `----
 
   x Expected to call 'super()'
-    ,----
+    ,-[11:1]
+ 11 | class A11 extends (B |= C) { constructor() { super(); } }
+ 12 | class A12 extends (B &= C) { constructor() { super(); } }
+ 13 | class A13 extends B { constructor() { } }
  14 | class A14 extends B { constructor() { for (var a of b) super.foo(); } }
     :                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 15 | class A15 extends B { constructor() { class C extends D { constructor() { super(); } } } }
+ 16 | class A16 extends B { constructor() { var c = class extends D { constructor() { super(); } } } }
+ 17 | class A17 extends B { constructor() { var c = () => super(); } }
     `----
 
   x Expected to call 'super()'
-    ,----
+    ,-[12:1]
+ 12 | class A12 extends (B &= C) { constructor() { super(); } }
+ 13 | class A13 extends B { constructor() { } }
+ 14 | class A14 extends B { constructor() { for (var a of b) super.foo(); } }
  15 | class A15 extends B { constructor() { class C extends D { constructor() { super(); } } } }
     :                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 16 | class A16 extends B { constructor() { var c = class extends D { constructor() { super(); } } } }
+ 17 | class A17 extends B { constructor() { var c = () => super(); } }
+ 18 | class A18 extends B { constructor() { class C extends D { constructor() { super(); } } } }
     `----
 
   x Expected to call 'super()'
-    ,----
+    ,-[13:1]
+ 13 | class A13 extends B { constructor() { } }
+ 14 | class A14 extends B { constructor() { for (var a of b) super.foo(); } }
+ 15 | class A15 extends B { constructor() { class C extends D { constructor() { super(); } } } }
  16 | class A16 extends B { constructor() { var c = class extends D { constructor() { super(); } } } }
     :                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 17 | class A17 extends B { constructor() { var c = () => super(); } }
+ 18 | class A18 extends B { constructor() { class C extends D { constructor() { super(); } } } }
+ 19 | class A19 extends B { constructor() { var C = class extends D { constructor() { super(); } } } }
     `----
 
   x Expected to call 'super()'
-    ,----
+    ,-[14:1]
+ 14 | class A14 extends B { constructor() { for (var a of b) super.foo(); } }
+ 15 | class A15 extends B { constructor() { class C extends D { constructor() { super(); } } } }
+ 16 | class A16 extends B { constructor() { var c = class extends D { constructor() { super(); } } } }
  17 | class A17 extends B { constructor() { var c = () => super(); } }
     :                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 18 | class A18 extends B { constructor() { class C extends D { constructor() { super(); } } } }
+ 19 | class A19 extends B { constructor() { var C = class extends D { constructor() { super(); } } } }
+ 20 | class A20 extends B { constructor() { super(); class C extends D { constructor() { } } } }
     `----
 
   x Expected to call 'super()'
-    ,----
+    ,-[15:1]
+ 15 | class A15 extends B { constructor() { class C extends D { constructor() { super(); } } } }
+ 16 | class A16 extends B { constructor() { var c = class extends D { constructor() { super(); } } } }
+ 17 | class A17 extends B { constructor() { var c = () => super(); } }
  18 | class A18 extends B { constructor() { class C extends D { constructor() { super(); } } } }
     :                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 19 | class A19 extends B { constructor() { var C = class extends D { constructor() { super(); } } } }
+ 20 | class A20 extends B { constructor() { super(); class C extends D { constructor() { } } } }
+ 21 | class A21 extends B { constructor() { super(); var C = class extends D { constructor() { } } } }
     `----
 
   x Expected to call 'super()'
-    ,----
+    ,-[16:1]
+ 16 | class A16 extends B { constructor() { var c = class extends D { constructor() { super(); } } } }
+ 17 | class A17 extends B { constructor() { var c = () => super(); } }
+ 18 | class A18 extends B { constructor() { class C extends D { constructor() { super(); } } } }
  19 | class A19 extends B { constructor() { var C = class extends D { constructor() { super(); } } } }
     :                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 20 | class A20 extends B { constructor() { super(); class C extends D { constructor() { } } } }
+ 21 | class A21 extends B { constructor() { super(); var C = class extends D { constructor() { } } } }
+ 22 | class A23 extends B { constructor() { if (a) super(); } }
     `----
 
   x Expected to call 'super()'
-    ,----
+    ,-[17:1]
+ 17 | class A17 extends B { constructor() { var c = () => super(); } }
+ 18 | class A18 extends B { constructor() { class C extends D { constructor() { super(); } } } }
+ 19 | class A19 extends B { constructor() { var C = class extends D { constructor() { super(); } } } }
  20 | class A20 extends B { constructor() { super(); class C extends D { constructor() { } } } }
     :                                                                    ^^^^^^^^^^^^^^^^^
+ 21 | class A21 extends B { constructor() { super(); var C = class extends D { constructor() { } } } }
+ 22 | class A23 extends B { constructor() { if (a) super(); } }
+ 23 | class A24 extends B { constructor() { x ? super() : null; } }
     `----
 
   x Expected to call 'super()'
-    ,----
+    ,-[18:1]
+ 18 | class A18 extends B { constructor() { class C extends D { constructor() { super(); } } } }
+ 19 | class A19 extends B { constructor() { var C = class extends D { constructor() { super(); } } } }
+ 20 | class A20 extends B { constructor() { super(); class C extends D { constructor() { } } } }
  21 | class A21 extends B { constructor() { super(); var C = class extends D { constructor() { } } } }
     :                                                                          ^^^^^^^^^^^^^^^^^
+ 22 | class A23 extends B { constructor() { if (a) super(); } }
+ 23 | class A24 extends B { constructor() { x ? super() : null; } }
+ 24 | class A25 extends B { constructor() { switch (x) { case 'a': super(); } } }
     `----
 
   x Lacked a call of 'super()' in some code path
-    ,----
+    ,-[19:1]
+ 19 | class A19 extends B { constructor() { var C = class extends D { constructor() { super(); } } } }
+ 20 | class A20 extends B { constructor() { super(); class C extends D { constructor() { } } } }
+ 21 | class A21 extends B { constructor() { super(); var C = class extends D { constructor() { } } } }
  22 | class A23 extends B { constructor() { if (a) super(); } }
     :                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 23 | class A24 extends B { constructor() { x ? super() : null; } }
+ 24 | class A25 extends B { constructor() { switch (x) { case 'a': super(); } } }
+ 25 | class A26 { constructor() { for (let i = 0; i < a.length; i++) { super(); } } }
     `----
 
   x Lacked a call of 'super()' in some code path
-    ,----
+    ,-[20:1]
+ 20 | class A20 extends B { constructor() { super(); class C extends D { constructor() { } } } }
+ 21 | class A21 extends B { constructor() { super(); var C = class extends D { constructor() { } } } }
+ 22 | class A23 extends B { constructor() { if (a) super(); } }
  23 | class A24 extends B { constructor() { x ? super() : null; } }
     :                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 24 | class A25 extends B { constructor() { switch (x) { case 'a': super(); } } }
+ 25 | class A26 { constructor() { for (let i = 0; i < a.length; i++) { super(); } } }
+ 26 | class A27 { constructor() { for (let i = 0; i < a.length; i++) { super(); } super(); } }
     `----
 
   x More than one call 'super()' possible into loop
-    ,----
+    ,-[22:1]
+ 22 | class A23 extends B { constructor() { if (a) super(); } }
+ 23 | class A24 extends B { constructor() { x ? super() : null; } }
+ 24 | class A25 extends B { constructor() { switch (x) { case 'a': super(); } } }
  25 | class A26 { constructor() { for (let i = 0; i < a.length; i++) { super(); } } }
     :                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 26 | class A27 { constructor() { for (let i = 0; i < a.length; i++) { super(); } super(); } }
+ 27 | class A28 extends B { constructor() { return; super(); } }
+ 28 | class A29 extends B { constructor() { try { super(); } catch (e) { } } }
     `----
 
   x More than one call 'super()' possible into loop
-    ,----
+    ,-[23:1]
+ 23 | class A24 extends B { constructor() { x ? super() : null; } }
+ 24 | class A25 extends B { constructor() { switch (x) { case 'a': super(); } } }
+ 25 | class A26 { constructor() { for (let i = 0; i < a.length; i++) { super(); } } }
  26 | class A27 { constructor() { for (let i = 0; i < a.length; i++) { super(); } super(); } }
     :                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 27 | class A28 extends B { constructor() { return; super(); } }
+ 28 | class A29 extends B { constructor() { try { super(); } catch (e) { } } }
+ 29 | class A30 extends B { constructor() { try { } catch (e) { super(); } } }
     `----
 
   x Unexpected duplicate 'super()'
-    ,----
+    ,-[23:1]
+ 23 | class A24 extends B { constructor() { x ? super() : null; } }
+ 24 | class A25 extends B { constructor() { switch (x) { case 'a': super(); } } }
+ 25 | class A26 { constructor() { for (let i = 0; i < a.length; i++) { super(); } } }
  26 | class A27 { constructor() { for (let i = 0; i < a.length; i++) { super(); } super(); } }
     :                                                                             ^^^^^
+ 27 | class A28 extends B { constructor() { return; super(); } }
+ 28 | class A29 extends B { constructor() { try { super(); } catch (e) { } } }
+ 29 | class A30 extends B { constructor() { try { } catch (e) { super(); } } }
     `----
 
   x Expected to call 'super()'
-    ,----
+    ,-[24:1]
+ 24 | class A25 extends B { constructor() { switch (x) { case 'a': super(); } } }
+ 25 | class A26 { constructor() { for (let i = 0; i < a.length; i++) { super(); } } }
+ 26 | class A27 { constructor() { for (let i = 0; i < a.length; i++) { super(); } super(); } }
  27 | class A28 extends B { constructor() { return; super(); } }
     :                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 28 | class A29 extends B { constructor() { try { super(); } catch (e) { } } }
+ 29 | class A30 extends B { constructor() { try { } catch (e) { super(); } } }
+ 30 | class A31 extends B { constructor() { try { } catch (e) { super(); } super(); } }
     `----
 
   x Lacked a call of 'super()' in some code path
-    ,----
+    ,-[25:1]
+ 25 | class A26 { constructor() { for (let i = 0; i < a.length; i++) { super(); } } }
+ 26 | class A27 { constructor() { for (let i = 0; i < a.length; i++) { super(); } super(); } }
+ 27 | class A28 extends B { constructor() { return; super(); } }
  28 | class A29 extends B { constructor() { try { super(); } catch (e) { } } }
     :                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 29 | class A30 extends B { constructor() { try { } catch (e) { super(); } } }
+ 30 | class A31 extends B { constructor() { try { } catch (e) { super(); } super(); } }
+ 31 | class A30 extends B { constructor() { try { super(); } catch (e) { } finally { super() } } }
     `----
 
   x Lacked a call of 'super()' in some code path
-    ,----
+    ,-[26:1]
+ 26 | class A27 { constructor() { for (let i = 0; i < a.length; i++) { super(); } super(); } }
+ 27 | class A28 extends B { constructor() { return; super(); } }
+ 28 | class A29 extends B { constructor() { try { super(); } catch (e) { } } }
  29 | class A30 extends B { constructor() { try { } catch (e) { super(); } } }
     :                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 30 | class A31 extends B { constructor() { try { } catch (e) { super(); } super(); } }
+ 31 | class A30 extends B { constructor() { try { super(); } catch (e) { } finally { super() } } }
     `----
 
   x Unexpected duplicate 'super()'
-    ,----
+    ,-[27:1]
+ 27 | class A28 extends B { constructor() { return; super(); } }
+ 28 | class A29 extends B { constructor() { try { super(); } catch (e) { } } }
+ 29 | class A30 extends B { constructor() { try { } catch (e) { super(); } } }
  30 | class A31 extends B { constructor() { try { } catch (e) { super(); } super(); } }
     :                                                                      ^^^^^
+ 31 | class A30 extends B { constructor() { try { super(); } catch (e) { } finally { super() } } }
+ 32 | 
     `----
 
   x Unexpected duplicate 'super()'
-    ,----
+    ,-[28:1]
+ 28 | class A29 extends B { constructor() { try { super(); } catch (e) { } } }
+ 29 | class A30 extends B { constructor() { try { } catch (e) { super(); } } }
+ 30 | class A31 extends B { constructor() { try { } catch (e) { super(); } super(); } }
  31 | class A30 extends B { constructor() { try { super(); } catch (e) { } finally { super() } } }
     :                                                                                ^^^^^
+ 32 | 
+ 33 | 
+ 34 | // valid
     `----

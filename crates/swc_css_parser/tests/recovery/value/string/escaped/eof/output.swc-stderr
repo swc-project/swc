@@ -1,12 +1,16 @@
 
   x An invalid escape
-   ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:2:5]
- 2 | color: \
-   :        ^
+   ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:1:1]
+ 1 | a {
+ 2 |     color: \
+   :            ^
+ 3 |     ;
    `----
 
   x Expected Declaration value
-   ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:2:5]
- 2 | color: \
-   :        ^
+   ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:1:1]
+ 1 | a {
+ 2 |     color: \
+   :            ^
+ 3 |     ;
    `----

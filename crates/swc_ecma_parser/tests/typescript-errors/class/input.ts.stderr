@@ -1,12 +1,16 @@
 
   x Unexpected token `!`. Expected identifier, string literal, numeric literal or [ for the computed key
-   ,-[$DIR/tests/typescript-errors/class/input.ts:2:3]
- 2 | x?!: number;
-   :   ^
+   ,-[$DIR/tests/typescript-errors/class/input.ts:1:1]
+ 1 | class C {
+ 2 |   x?!: number;
+   :     ^
+ 3 | }
    `----
 
   x Expected a semicolon
-   ,-[$DIR/tests/typescript-errors/class/input.ts:2:3]
- 2 | x?!: number;
-   :   ^
+   ,-[$DIR/tests/typescript-errors/class/input.ts:1:1]
+ 1 | class C {
+ 2 |   x?!: number;
+   :     ^
+ 3 | }
    `----

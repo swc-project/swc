@@ -1,8 +1,9 @@
 
   x Unexpected end of file, but expected ')'
-   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:2:5]
- 2 | grid-template-columns: rgb(255, 255, 255
-   :                        ^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:1:1]
+ 1 | .style {
+ 2 | 	grid-template-columns: rgb(255, 255, 255
+   :                         ^^^^^^^^^^^^^^^^^
    `----
 
   x Unexpected end of file, but expected '}'

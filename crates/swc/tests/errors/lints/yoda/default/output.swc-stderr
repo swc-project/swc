@@ -1,42 +1,72 @@
 
   x Expected literal to be on the right side of ===
-   ,----
+   ,-[1:1]
  1 | if (10 === a) {}
    :     ^^^^^^^^
+ 2 | 
+ 3 | if ('a' === a)
    `----
 
   x Expected literal to be on the right side of ===
-   ,----
+   ,-[1:1]
+ 1 | if (10 === a) {}
+ 2 | 
  3 | if ('a' === a)
    :     ^^^^^^^^^
+ 4 | 
+ 5 | if (`abc` === a) {}
    `----
 
   x Expected literal to be on the right side of ===
-   ,----
+   ,-[2:1]
+ 2 | 
+ 3 | if ('a' === a)
+ 4 | 
  5 | if (`abc` === a) {}
    :     ^^^^^^^^^^^
+ 6 | 
+ 7 | if (-10 === a) {}
    `----
 
   x Expected literal to be on the right side of ===
-   ,----
+   ,-[4:1]
+ 4 | 
+ 5 | if (`abc` === a) {}
+ 6 | 
  7 | if (-10 === a) {}
    :     ^^^^^^^^^
-   `----
-
-  x Expected literal to be on the right side of <
-   ,----
+ 8 | 
  9 | if (10 < a && a > 30) {}
-   :     ^^^^^^
    `----
 
   x Expected literal to be on the right side of <
-    ,----
+    ,-[6:1]
+  6 | 
+  7 | if (-10 === a) {}
+  8 | 
+  9 | if (10 < a && a > 30) {}
+    :     ^^^^^^
+ 10 | 
+ 11 | if (c && (10 < a && a > 30)) {}
+    `----
+
+  x Expected literal to be on the right side of <
+    ,-[8:1]
+  8 | 
+  9 | if (10 < a && a > 30) {}
+ 10 | 
  11 | if (c && (10 < a && a > 30)) {}
     :           ^^^^^^
+ 12 | 
+ 13 | // wait for rule "radix" merge
+ 14 | if (String.raw`abc` === a) {}
     `----
 
   x Expected literal to be on the right side of ===
-    ,----
+    ,-[20:1]
+ 20 | 
+ 21 | if (f() === a) {}
+ 22 | 
  23 | if ((foo === 1) && (1 === foo)) {}
     :                     ^^^^^^^^^
     `----

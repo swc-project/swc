@@ -1,18 +1,32 @@
 
   x Do not use 'new' for side effects
-   ,----
+   ,-[1:1]
  1 | new A()
    : ^^^^^^^
+ 2 | 
+ 3 | @Decorator(() => {
+ 4 |     new A()
    `----
 
   x Do not use 'new' for side effects
-   ,----
- 4 | new A()
-   : ^^^^^^^
+   ,-[1:1]
+ 1 | new A()
+ 2 | 
+ 3 | @Decorator(() => {
+ 4 |     new A()
+   :     ^^^^^^^
+ 5 | })
+ 6 | class C {
+ 7 |     public prop = new A();
    `----
 
   x Do not use 'new' for side effects
-   ,----
- 9 | new A();
-   : ^^^^^^^
-   `----
+    ,-[6:1]
+  6 | class C {
+  7 |     public prop = new A();
+  8 |     public prop2 = () => {
+  9 |         new A();
+    :         ^^^^^^^
+ 10 |     }
+ 11 | }
+    `----

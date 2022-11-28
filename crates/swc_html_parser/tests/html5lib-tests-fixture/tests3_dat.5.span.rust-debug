@@ -9,12 +9,14 @@
    ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat.5.html:1:1]
  1 | <!DOCTYPE html><html><head></head><body><pre>
    : ^^^^^^^^^^^^^^^
+ 2 | foo</pre></body></html>
    `----
 
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat.5.html:1:1]
  1 | <!DOCTYPE html><html><head></head><body><pre>
    : ^^^^^^^^^^^^^^^
+ 2 | foo</pre></body></html>
    `----
 
   x Child
@@ -33,12 +35,14 @@
    ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat.5.html:1:1]
  1 | <!DOCTYPE html><html><head></head><body><pre>
    :                      ^^^^^^^^^^^^^
+ 2 | foo</pre></body></html>
    `----
 
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat.5.html:1:1]
  1 | <!DOCTYPE html><html><head></head><body><pre>
    :                      ^^^^^^^^^^^^^
+ 2 | foo</pre></body></html>
    `----
 
   x Child
@@ -66,13 +70,15 @@
    `----
 
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat.5.html:2:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat.5.html:1:1]
+ 1 | <!DOCTYPE html><html><head></head><body><pre>
  2 | foo</pre></body></html>
    : ^^^
    `----
 
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat.5.html:2:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat.5.html:1:1]
+ 1 | <!DOCTYPE html><html><head></head><body><pre>
  2 | foo</pre></body></html>
    : ^^^
    `----

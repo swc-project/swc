@@ -1,7 +1,9 @@
 //// [parserReturnStatement2.ts]
 //! 
 //!   x Return statement is not allowed here
-//!    ,----
-//!  2 | return;
-//!    : ^^^^^^^
+//!    ,-[1:1]
+//!  1 | {
+//!  2 |    return;
+//!    :    ^^^^^^^
+//!  3 | }
 //!    `----
