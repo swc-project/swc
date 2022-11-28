@@ -10,6 +10,7 @@
 //!  5 | ,-> export default class C { }
 //!    : | ^^^^^^^^^^^^^|^^^^^^^^^^^^
 //!    : |              `-- exported more than once
+//!  6 |     
 //!    `----
 //! 
 //! Error: 

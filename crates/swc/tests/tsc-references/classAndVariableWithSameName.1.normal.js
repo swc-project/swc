@@ -8,17 +8,22 @@
 //!  2 | var C = ''; // error
 //!    :     |
 //!    :     `-- `C` redefined here
+//!  3 | 
+//!  4 | module M {
 //!    `----
 //! 
 //!   x the name `D` is defined multiple times
-//!    ,-[5:5]
-//!  5 | class D { // error
-//!    :       |
-//!    :       `-- previous definition of `D` here
-//!  6 |         bar: string;
-//!  7 |     }
-//!  8 | 
-//!  9 |     var D = 1; // error
-//!    :         |
-//!    :         `-- `D` redefined here
-//!    `----
+//!     ,-[3:1]
+//!   3 | 
+//!   4 | module M {
+//!   5 |     class D { // error
+//!     :           |
+//!     :           `-- previous definition of `D` here
+//!   6 |         bar: string;
+//!   7 |     }
+//!   8 | 
+//!   9 |     var D = 1; // error
+//!     :         |
+//!     :         `-- `D` redefined here
+//!  10 | }
+//!     `----

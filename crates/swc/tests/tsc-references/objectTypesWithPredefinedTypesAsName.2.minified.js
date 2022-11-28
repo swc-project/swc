@@ -1,25 +1,39 @@
 //// [objectTypesWithPredefinedTypesAsName.ts]
 //! 
 //!   x Invalid class name
-//!    ,----
+//!    ,-[1:1]
+//!  1 | // it is an error to use a predefined type as a type name
+//!  2 | 
 //!  3 | class any { }
 //!    :       ^^^
+//!  4 | 
+//!  5 | class number { }
 //!    `----
 //! 
 //!   x Invalid class name
-//!    ,----
+//!    ,-[3:1]
+//!  3 | class any { }
+//!  4 | 
 //!  5 | class number { }
 //!    :       ^^^^^^
+//!  6 | 
+//!  7 | class boolean { }
 //!    `----
 //! 
 //!   x Invalid class name
-//!    ,----
+//!    ,-[5:1]
+//!  5 | class number { }
+//!  6 | 
 //!  7 | class boolean { }
 //!    :       ^^^^^^^
+//!  8 | class bool { } // not a predefined type anymore
 //!    `----
 //! 
 //!   x Invalid class name
-//!     ,----
+//!     ,-[8:1]
+//!   8 | class bool { } // not a predefined type anymore
+//!   9 | 
 //!  10 | class string { }
 //!     :       ^^^^^^
+//!  11 | 
 //!     `----

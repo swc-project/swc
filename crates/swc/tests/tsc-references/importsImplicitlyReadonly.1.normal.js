@@ -34,6 +34,8 @@ var y = 1;
 //!  5 | 
 //!  6 | x = 1;     // Error
 //!    : ^
+//!  7 | y = 1;     // Error
+//!  8 | a1.x = 1;  // Error
 //!    `----
 //! 
 //!   x cannot reassign to an imported binding
@@ -48,4 +50,6 @@ var y = 1;
 //!  6 | x = 1;     // Error
 //!  7 | y = 1;     // Error
 //!    : ^
+//!  8 | a1.x = 1;  // Error
+//!  9 | a1.y = 1;  // Error
 //!    `----

@@ -13,13 +13,17 @@
 //!  6 | |   
 //!  7 | |-> }
 //!    : `---- exported more than once
+//!  8 |     
+//!  9 |     var x = 10;
 //!    `----
 //! 
 //! Error: 
 //!   > Exported identifiers must be unique
 //! 
 //!   x the name `default` is exported multiple times
-//!     ,-[5:1]
+//!     ,-[3:1]
+//!   3 |     }
+//!   4 |     
 //!   5 | ,-> export default function bar() {
 //!   6 | |   
 //!   7 | |-> }
@@ -29,6 +33,7 @@
 //!  10 | ,-> export default x;
 //!     : | ^^^^^^^^|^^^^^^^^
 //!     : |         `-- exported more than once
+//!  11 |     
 //!     `----
 //! 
 //! Error: 

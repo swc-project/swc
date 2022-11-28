@@ -1,13 +1,21 @@
 //// [emitArrowFunctionWhenUsingArguments15_ES6.ts]
 //! 
 //!   x 'eval' and 'arguments' cannot be used as a binding identifier in strict mode
-//!    ,----
-//!  3 | var arguments = "hello";
-//!    :     ^^^^^^^^^
+//!    ,-[1:1]
+//!  1 | 
+//!  2 | function f() {
+//!  3 |     var arguments = "hello";
+//!    :         ^^^^^^^^^
+//!  4 |     if (Math.random()) {
+//!  5 |         const arguments = 100;
 //!    `----
 //! 
 //!   x 'eval' and 'arguments' cannot be used as a binding identifier in strict mode
-//!    ,----
-//!  5 | const arguments = 100;
-//!    :       ^^^^^^^^^
+//!    ,-[3:1]
+//!  3 |     var arguments = "hello";
+//!  4 |     if (Math.random()) {
+//!  5 |         const arguments = 100;
+//!    :               ^^^^^^^^^
+//!  6 |         return () => arguments;
+//!  7 |     }
 //!    `----

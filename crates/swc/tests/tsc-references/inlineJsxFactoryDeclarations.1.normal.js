@@ -15,13 +15,21 @@ export var prerendered3 = /*#__PURE__*/ React.createElement("h", null);
 //// [index.tsx]
 //! 
 //!   x Expression expected
-//!    ,----
+//!    ,-[1:1]
+//!  1 | /** @jsx dom */
+//!  2 | import { dom } from "./renderer"
 //!  3 | <h></h>
 //!    :   ^
+//!  4 | export * from "./other";
+//!  5 | export * from "./othernoalias";
 //!    `----
 //! 
 //!   x Unexpected token `/`. Expected jsx identifier
-//!    ,----
+//!    ,-[1:1]
+//!  1 | /** @jsx dom */
+//!  2 | import { dom } from "./renderer"
 //!  3 | <h></h>
 //!    :     ^
+//!  4 | export * from "./other";
+//!  5 | export * from "./othernoalias";
 //!    `----

@@ -1,7 +1,9 @@
 //// [thisInInvalidContextsExternalModule.ts]
 //! 
 //!   x Export assignment cannot be used when targeting ECMAScript modules. Consider using `export default` or another module format instead.
-//!     ,----
+//!     ,-[41:1]
+//!  41 | }
+//!  42 | 
 //!  43 | export = this; // Should be an error
 //!     : ^^^^^^^^^^^^^^
 //!     `----

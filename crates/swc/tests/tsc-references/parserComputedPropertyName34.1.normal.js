@@ -1,13 +1,20 @@
 //// [parserComputedPropertyName34.ts]
 //! 
 //!   x Computed property names are not allowed in enums
-//!    ,----
-//!  3 | [e] = id++,
-//!    : ^^
+//!    ,-[1:1]
+//!  1 | enum E {
+//!  2 |     // no ASI, comma expected
+//!  3 |     [e] = id++,
+//!    :     ^^
+//!  4 |     [e2] = 1
+//!  5 | }
 //!    `----
 //! 
 //!   x Computed property names are not allowed in enums
-//!    ,----
-//!  4 | [e2] = 1
-//!    : ^^^
+//!    ,-[2:1]
+//!  2 |     // no ASI, comma expected
+//!  3 |     [e] = id++,
+//!  4 |     [e2] = 1
+//!    :     ^^^
+//!  5 | }
 //!    `----
