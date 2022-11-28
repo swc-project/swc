@@ -75,11 +75,35 @@ impl SourceCode for MietteSourceCode<'_> {
         let lo = span.offset();
         let hi = lo + span.len();
 
-        let span = Span::new(BytePos(lo as _), BytePos(hi as _), Default::default());
+        let mut span = Span::new(BytePos(lo as _), BytePos(hi as _), Default::default());
 
-        let span = self.0.span_extend_to_prev_char(span, '\n');
+        span = self
+            .0
+            .with_span_to_prev_source(span, |src| {
+                let len = src
+                    .rsplit('\n')
+                    .take(context_lines_before)
+                    .map(|s| s.len())
+                    .sum::<usize>();
 
-        let span = self.0.span_extend_to_next_char(span, '\n');
+                span.lo.0 -= len as u32;
+                span
+            })
+            .unwrap_or(span);
+
+        span = self
+            .0
+            .with_span_to_next_source(span, |src| {
+                let len = src
+                    .split('\n')
+                    .take(context_lines_after)
+                    .map(|s| s.len())
+                    .sum::<usize>();
+
+                span.lo.0 -= len as u32;
+                span
+            })
+            .unwrap_or(span);
 
         let mut src = self
             .0
