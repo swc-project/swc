@@ -3,14 +3,6 @@
         405
     ],
     {
-        8312: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
-            (window.__NEXT_P = window.__NEXT_P || []).push([
-                "/",
-                function() {
-                    return __webpack_require__(4186);
-                }
-            ]);
-        },
         4186: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.r(__webpack_exports__), __webpack_require__.d(__webpack_exports__, {
@@ -47,19 +39,6 @@
                     children: "hello"
                 });
             }
-        },
-        7160: function(module) {
-            module.exports = {
-                container: "Home_container__bCOhY",
-                main: "Home_main__nLjiQ",
-                footer: "Home_footer____T7K",
-                title: "Home_title__T09hD",
-                description: "Home_description__41Owk",
-                code: "Home_code__suPER",
-                grid: "Home_grid__GxQ85",
-                card: "Home_card___LpL1",
-                logo: "Home_logo__27_tb"
-            };
         }
     },
     function(__webpack_require__) {
