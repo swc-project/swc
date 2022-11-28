@@ -108,6 +108,9 @@ impl SourceCode for MietteSourceCode<'_> {
         span = self
             .0
             .with_snippet_of_span(span, |src| {
+                if src.lines().next().is_some() {
+                    return span;
+                }
                 let lo = src.len() - src.trim_start().len();
                 let hi = src.len() - src.trim_end().len();
 
