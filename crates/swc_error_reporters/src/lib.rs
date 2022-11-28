@@ -83,10 +83,10 @@ impl SourceCode for MietteSourceCode<'_> {
                 let len = src
                     .rsplit('\n')
                     .take(context_lines_before)
-                    .map(|s| s.len())
+                    .map(|s| s.len() + 1)
                     .sum::<usize>();
 
-                span.lo.0 -= len as u32;
+                span.lo.0 -= (len as u32) - 1;
                 span
             })
             .unwrap_or(span);
@@ -97,10 +97,10 @@ impl SourceCode for MietteSourceCode<'_> {
                 let len = src
                     .split('\n')
                     .take(context_lines_after)
-                    .map(|s| s.len())
+                    .map(|s| s.len() + 1)
                     .sum::<usize>();
 
-                span.hi.0 += len as u32;
+                span.hi.0 += (len as u32) - 1;
                 span
             })
             .unwrap_or(span);
