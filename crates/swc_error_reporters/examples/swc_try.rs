@@ -16,7 +16,7 @@ fn main() {
     let emitter = PrettyEmitter::new(
         cm.clone(),
         wr.clone(),
-        GraphicalReportHandler::new(),
+        GraphicalReportHandler::new().with_context_lines(3),
         PrettyEmitterConfig {
             skip_filename: false,
         },
