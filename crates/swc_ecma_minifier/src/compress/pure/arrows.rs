@@ -126,7 +126,7 @@ impl Pure<'_> {
             // ({foo(){}}).foo.toString()
             //
             // returns `foo(){}`
-            if !self.options.unsafe_arrows {
+            if !self.options.unsafe_methods {
                 return;
             }
 
