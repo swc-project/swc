@@ -32,7 +32,6 @@
 //!
 //! Use `fxhash` instead of `ahash` for `AHashMap` and `AHashSet`.
 #![deny(clippy::all)]
-#![deny(unused)]
 #![cfg_attr(docsrs, feature(doc_cfg))]
 
 use std::fmt::Debug;
