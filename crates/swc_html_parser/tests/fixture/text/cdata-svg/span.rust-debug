@@ -1,0 +1,1427 @@
+
+  x Document
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:1:1]
+  1 | ,-> <!DOCTYPE html>
+  2 | |   <html lang="en-US">
+  3 | |   <head>
+  4 | |       <meta charset="utf-8" />
+  5 | |       <title>SVG Demo</title>
+  6 | |       <meta name="viewport" content="width=device-width" />
+  7 | |   </head>
+  8 | |   <body>
+  9 | |   <svg viewBox="0 0 100 100">
+ 10 | |       <title>A gradient</title>
+ 11 | |       <linearGradient id="gradient">
+ 12 | |           <stop class="begin" offset="0%" />
+ 13 | |           <stop class="end" offset="100%" />
+ 14 | |       </linearGradient>
+ 15 | |       <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
+ 16 | |       <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
+ 17 | |       <foreignObject><![CDATA[content]]></foreignObject>
+ 18 | |       <desc><![CDATA[content]]></desc>
+ 19 | |       <title><![CDATA[content]]></title>
+ 20 | |       <text><![CDATA[content]]></text>
+ 21 | |       <text><![CDATA[&amping]]></text>
+ 22 | |       <text><![CDATA[&amping ]]]></text>
+ 23 | |       <text><![CDATA[&amping]] ]]></text>
+ 24 | |       <text><![CDATA[<message>text</message>]]></text>
+ 25 | |       <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
+ 26 | |       <text><![CDATA[1]]><![CDATA[2]]></text>
+ 27 | |       <text>
+ 28 | |           <![CDATA[data]]>
+ 29 | |       </text>
+ 30 | |       <text><![CDATA[bracket ]after]]></text>
+ 31 | |   </svg>
+ 32 | |   </body>
+ 33 | `-> </html>
+    `----
+
+  x Child
+   ,-[$DIR/tests/fixture/text/cdata-svg/input.html:1:1]
+ 1 | <!DOCTYPE html>
+   : ^^^^^^^^^^^^^^^
+ 2 | <html lang="en-US">
+   `----
+
+  x DocumentType
+   ,-[$DIR/tests/fixture/text/cdata-svg/input.html:1:1]
+ 1 | <!DOCTYPE html>
+   : ^^^^^^^^^^^^^^^
+ 2 | <html lang="en-US">
+   `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:1:1]
+  1 |     <!DOCTYPE html>
+  2 | ,-> <html lang="en-US">
+  3 | |   <head>
+  4 | |       <meta charset="utf-8" />
+  5 | |       <title>SVG Demo</title>
+  6 | |       <meta name="viewport" content="width=device-width" />
+  7 | |   </head>
+  8 | |   <body>
+  9 | |   <svg viewBox="0 0 100 100">
+ 10 | |       <title>A gradient</title>
+ 11 | |       <linearGradient id="gradient">
+ 12 | |           <stop class="begin" offset="0%" />
+ 13 | |           <stop class="end" offset="100%" />
+ 14 | |       </linearGradient>
+ 15 | |       <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
+ 16 | |       <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
+ 17 | |       <foreignObject><![CDATA[content]]></foreignObject>
+ 18 | |       <desc><![CDATA[content]]></desc>
+ 19 | |       <title><![CDATA[content]]></title>
+ 20 | |       <text><![CDATA[content]]></text>
+ 21 | |       <text><![CDATA[&amping]]></text>
+ 22 | |       <text><![CDATA[&amping ]]]></text>
+ 23 | |       <text><![CDATA[&amping]] ]]></text>
+ 24 | |       <text><![CDATA[<message>text</message>]]></text>
+ 25 | |       <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
+ 26 | |       <text><![CDATA[1]]><![CDATA[2]]></text>
+ 27 | |       <text>
+ 28 | |           <![CDATA[data]]>
+ 29 | |       </text>
+ 30 | |       <text><![CDATA[bracket ]after]]></text>
+ 31 | |   </svg>
+ 32 | |   </body>
+ 33 | `-> </html>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:1:1]
+  1 |     <!DOCTYPE html>
+  2 | ,-> <html lang="en-US">
+  3 | |   <head>
+  4 | |       <meta charset="utf-8" />
+  5 | |       <title>SVG Demo</title>
+  6 | |       <meta name="viewport" content="width=device-width" />
+  7 | |   </head>
+  8 | |   <body>
+  9 | |   <svg viewBox="0 0 100 100">
+ 10 | |       <title>A gradient</title>
+ 11 | |       <linearGradient id="gradient">
+ 12 | |           <stop class="begin" offset="0%" />
+ 13 | |           <stop class="end" offset="100%" />
+ 14 | |       </linearGradient>
+ 15 | |       <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
+ 16 | |       <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
+ 17 | |       <foreignObject><![CDATA[content]]></foreignObject>
+ 18 | |       <desc><![CDATA[content]]></desc>
+ 19 | |       <title><![CDATA[content]]></title>
+ 20 | |       <text><![CDATA[content]]></text>
+ 21 | |       <text><![CDATA[&amping]]></text>
+ 22 | |       <text><![CDATA[&amping ]]]></text>
+ 23 | |       <text><![CDATA[&amping]] ]]></text>
+ 24 | |       <text><![CDATA[<message>text</message>]]></text>
+ 25 | |       <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
+ 26 | |       <text><![CDATA[1]]><![CDATA[2]]></text>
+ 27 | |       <text>
+ 28 | |           <![CDATA[data]]>
+ 29 | |       </text>
+ 30 | |       <text><![CDATA[bracket ]after]]></text>
+ 31 | |   </svg>
+ 32 | |   </body>
+ 33 | `-> </html>
+    `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/text/cdata-svg/input.html:1:1]
+ 1 | <!DOCTYPE html>
+ 2 | <html lang="en-US">
+   :       ^^^^^^^^^^^^
+ 3 | <head>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/text/cdata-svg/input.html:2:1]
+ 2 |     <html lang="en-US">
+ 3 | ,-> <head>
+ 4 | |       <meta charset="utf-8" />
+ 5 | |       <title>SVG Demo</title>
+ 6 | |       <meta name="viewport" content="width=device-width" />
+ 7 | `-> </head>
+ 8 |     <body>
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/text/cdata-svg/input.html:2:1]
+ 2 |     <html lang="en-US">
+ 3 | ,-> <head>
+ 4 | |       <meta charset="utf-8" />
+ 5 | |       <title>SVG Demo</title>
+ 6 | |       <meta name="viewport" content="width=device-width" />
+ 7 | `-> </head>
+ 8 |     <body>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/text/cdata-svg/input.html:2:1]
+ 2 |     <html lang="en-US">
+ 3 | ,-> <head>
+ 4 | `->     <meta charset="utf-8" />
+ 5 |         <title>SVG Demo</title>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/text/cdata-svg/input.html:2:1]
+ 2 |     <html lang="en-US">
+ 3 | ,-> <head>
+ 4 | `->     <meta charset="utf-8" />
+ 5 |         <title>SVG Demo</title>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/text/cdata-svg/input.html:3:1]
+ 3 | <head>
+ 4 |     <meta charset="utf-8" />
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^
+ 5 |     <title>SVG Demo</title>
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/text/cdata-svg/input.html:3:1]
+ 3 | <head>
+ 4 |     <meta charset="utf-8" />
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^
+ 5 |     <title>SVG Demo</title>
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/text/cdata-svg/input.html:3:1]
+ 3 | <head>
+ 4 |     <meta charset="utf-8" />
+   :           ^^^^^^^^^^^^^^^
+ 5 |     <title>SVG Demo</title>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/text/cdata-svg/input.html:3:1]
+ 3 |     <head>
+ 4 | ,->     <meta charset="utf-8" />
+ 5 | `->     <title>SVG Demo</title>
+ 6 |         <meta name="viewport" content="width=device-width" />
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/text/cdata-svg/input.html:3:1]
+ 3 |     <head>
+ 4 | ,->     <meta charset="utf-8" />
+ 5 | `->     <title>SVG Demo</title>
+ 6 |         <meta name="viewport" content="width=device-width" />
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/text/cdata-svg/input.html:4:1]
+ 4 |     <meta charset="utf-8" />
+ 5 |     <title>SVG Demo</title>
+   :     ^^^^^^^^^^^^^^^^^^^^^^^
+ 6 |     <meta name="viewport" content="width=device-width" />
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/text/cdata-svg/input.html:4:1]
+ 4 |     <meta charset="utf-8" />
+ 5 |     <title>SVG Demo</title>
+   :     ^^^^^^^^^^^^^^^^^^^^^^^
+ 6 |     <meta name="viewport" content="width=device-width" />
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/text/cdata-svg/input.html:4:1]
+ 4 |     <meta charset="utf-8" />
+ 5 |     <title>SVG Demo</title>
+   :            ^^^^^^^^
+ 6 |     <meta name="viewport" content="width=device-width" />
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/text/cdata-svg/input.html:4:1]
+ 4 |     <meta charset="utf-8" />
+ 5 |     <title>SVG Demo</title>
+   :            ^^^^^^^^
+ 6 |     <meta name="viewport" content="width=device-width" />
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/text/cdata-svg/input.html:4:1]
+ 4 |         <meta charset="utf-8" />
+ 5 | ,->     <title>SVG Demo</title>
+ 6 | `->     <meta name="viewport" content="width=device-width" />
+ 7 |     </head>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/text/cdata-svg/input.html:4:1]
+ 4 |         <meta charset="utf-8" />
+ 5 | ,->     <title>SVG Demo</title>
+ 6 | `->     <meta name="viewport" content="width=device-width" />
+ 7 |     </head>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/text/cdata-svg/input.html:5:1]
+ 5 |     <title>SVG Demo</title>
+ 6 |     <meta name="viewport" content="width=device-width" />
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 7 | </head>
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/text/cdata-svg/input.html:5:1]
+ 5 |     <title>SVG Demo</title>
+ 6 |     <meta name="viewport" content="width=device-width" />
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 7 | </head>
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/text/cdata-svg/input.html:5:1]
+ 5 |     <title>SVG Demo</title>
+ 6 |     <meta name="viewport" content="width=device-width" />
+   :           ^^^^^^^^^^^^^^^
+ 7 | </head>
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/text/cdata-svg/input.html:5:1]
+ 5 |     <title>SVG Demo</title>
+ 6 |     <meta name="viewport" content="width=device-width" />
+   :                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 7 | </head>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/text/cdata-svg/input.html:5:1]
+ 5 |     <title>SVG Demo</title>
+ 6 |     <meta name="viewport" content="width=device-width" />
+   :                                                          ^
+ 7 | </head>
+ 8 | <body>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/text/cdata-svg/input.html:5:1]
+ 5 |     <title>SVG Demo</title>
+ 6 |     <meta name="viewport" content="width=device-width" />
+   :                                                          ^
+ 7 | </head>
+ 8 | <body>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/text/cdata-svg/input.html:6:1]
+ 6 |     <meta name="viewport" content="width=device-width" />
+ 7 | </head>
+   :        ^
+ 8 | <body>
+ 9 | <svg viewBox="0 0 100 100">
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/text/cdata-svg/input.html:6:1]
+ 6 |     <meta name="viewport" content="width=device-width" />
+ 7 | </head>
+   :        ^
+ 8 | <body>
+ 9 | <svg viewBox="0 0 100 100">
+   `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:7:1]
+  7 |     </head>
+  8 | ,-> <body>
+  9 | |   <svg viewBox="0 0 100 100">
+ 10 | |       <title>A gradient</title>
+ 11 | |       <linearGradient id="gradient">
+ 12 | |           <stop class="begin" offset="0%" />
+ 13 | |           <stop class="end" offset="100%" />
+ 14 | |       </linearGradient>
+ 15 | |       <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
+ 16 | |       <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
+ 17 | |       <foreignObject><![CDATA[content]]></foreignObject>
+ 18 | |       <desc><![CDATA[content]]></desc>
+ 19 | |       <title><![CDATA[content]]></title>
+ 20 | |       <text><![CDATA[content]]></text>
+ 21 | |       <text><![CDATA[&amping]]></text>
+ 22 | |       <text><![CDATA[&amping ]]]></text>
+ 23 | |       <text><![CDATA[&amping]] ]]></text>
+ 24 | |       <text><![CDATA[<message>text</message>]]></text>
+ 25 | |       <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
+ 26 | |       <text><![CDATA[1]]><![CDATA[2]]></text>
+ 27 | |       <text>
+ 28 | |           <![CDATA[data]]>
+ 29 | |       </text>
+ 30 | |       <text><![CDATA[bracket ]after]]></text>
+ 31 | |   </svg>
+ 32 | `-> </body>
+ 33 |     </html>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:7:1]
+  7 |     </head>
+  8 | ,-> <body>
+  9 | |   <svg viewBox="0 0 100 100">
+ 10 | |       <title>A gradient</title>
+ 11 | |       <linearGradient id="gradient">
+ 12 | |           <stop class="begin" offset="0%" />
+ 13 | |           <stop class="end" offset="100%" />
+ 14 | |       </linearGradient>
+ 15 | |       <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
+ 16 | |       <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
+ 17 | |       <foreignObject><![CDATA[content]]></foreignObject>
+ 18 | |       <desc><![CDATA[content]]></desc>
+ 19 | |       <title><![CDATA[content]]></title>
+ 20 | |       <text><![CDATA[content]]></text>
+ 21 | |       <text><![CDATA[&amping]]></text>
+ 22 | |       <text><![CDATA[&amping ]]]></text>
+ 23 | |       <text><![CDATA[&amping]] ]]></text>
+ 24 | |       <text><![CDATA[<message>text</message>]]></text>
+ 25 | |       <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
+ 26 | |       <text><![CDATA[1]]><![CDATA[2]]></text>
+ 27 | |       <text>
+ 28 | |           <![CDATA[data]]>
+ 29 | |       </text>
+ 30 | |       <text><![CDATA[bracket ]after]]></text>
+ 31 | |   </svg>
+ 32 | `-> </body>
+ 33 |     </html>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:7:1]
+  7 | </head>
+  8 | <body>
+    :       ^
+  9 | <svg viewBox="0 0 100 100">
+ 10 |     <title>A gradient</title>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:7:1]
+  7 | </head>
+  8 | <body>
+    :       ^
+  9 | <svg viewBox="0 0 100 100">
+ 10 |     <title>A gradient</title>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:8:1]
+  8 |     <body>
+  9 | ,-> <svg viewBox="0 0 100 100">
+ 10 | |       <title>A gradient</title>
+ 11 | |       <linearGradient id="gradient">
+ 12 | |           <stop class="begin" offset="0%" />
+ 13 | |           <stop class="end" offset="100%" />
+ 14 | |       </linearGradient>
+ 15 | |       <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
+ 16 | |       <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
+ 17 | |       <foreignObject><![CDATA[content]]></foreignObject>
+ 18 | |       <desc><![CDATA[content]]></desc>
+ 19 | |       <title><![CDATA[content]]></title>
+ 20 | |       <text><![CDATA[content]]></text>
+ 21 | |       <text><![CDATA[&amping]]></text>
+ 22 | |       <text><![CDATA[&amping ]]]></text>
+ 23 | |       <text><![CDATA[&amping]] ]]></text>
+ 24 | |       <text><![CDATA[<message>text</message>]]></text>
+ 25 | |       <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
+ 26 | |       <text><![CDATA[1]]><![CDATA[2]]></text>
+ 27 | |       <text>
+ 28 | |           <![CDATA[data]]>
+ 29 | |       </text>
+ 30 | |       <text><![CDATA[bracket ]after]]></text>
+ 31 | `-> </svg>
+ 32 |     </body>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:8:1]
+  8 |     <body>
+  9 | ,-> <svg viewBox="0 0 100 100">
+ 10 | |       <title>A gradient</title>
+ 11 | |       <linearGradient id="gradient">
+ 12 | |           <stop class="begin" offset="0%" />
+ 13 | |           <stop class="end" offset="100%" />
+ 14 | |       </linearGradient>
+ 15 | |       <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
+ 16 | |       <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
+ 17 | |       <foreignObject><![CDATA[content]]></foreignObject>
+ 18 | |       <desc><![CDATA[content]]></desc>
+ 19 | |       <title><![CDATA[content]]></title>
+ 20 | |       <text><![CDATA[content]]></text>
+ 21 | |       <text><![CDATA[&amping]]></text>
+ 22 | |       <text><![CDATA[&amping ]]]></text>
+ 23 | |       <text><![CDATA[&amping]] ]]></text>
+ 24 | |       <text><![CDATA[<message>text</message>]]></text>
+ 25 | |       <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
+ 26 | |       <text><![CDATA[1]]><![CDATA[2]]></text>
+ 27 | |       <text>
+ 28 | |           <![CDATA[data]]>
+ 29 | |       </text>
+ 30 | |       <text><![CDATA[bracket ]after]]></text>
+ 31 | `-> </svg>
+ 32 |     </body>
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:8:1]
+  8 | <body>
+  9 | <svg viewBox="0 0 100 100">
+    :      ^^^^^^^^^^^^^^^^^^^^^
+ 10 |     <title>A gradient</title>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:8:1]
+  8 |     <body>
+  9 | ,-> <svg viewBox="0 0 100 100">
+ 10 | `->     <title>A gradient</title>
+ 11 |         <linearGradient id="gradient">
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:8:1]
+  8 |     <body>
+  9 | ,-> <svg viewBox="0 0 100 100">
+ 10 | `->     <title>A gradient</title>
+ 11 |         <linearGradient id="gradient">
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:9:1]
+  9 | <svg viewBox="0 0 100 100">
+ 10 |     <title>A gradient</title>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^
+ 11 |     <linearGradient id="gradient">
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:9:1]
+  9 | <svg viewBox="0 0 100 100">
+ 10 |     <title>A gradient</title>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^
+ 11 |     <linearGradient id="gradient">
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:9:1]
+  9 | <svg viewBox="0 0 100 100">
+ 10 |     <title>A gradient</title>
+    :            ^^^^^^^^^^
+ 11 |     <linearGradient id="gradient">
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:9:1]
+  9 | <svg viewBox="0 0 100 100">
+ 10 |     <title>A gradient</title>
+    :            ^^^^^^^^^^
+ 11 |     <linearGradient id="gradient">
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:9:1]
+  9 |     <svg viewBox="0 0 100 100">
+ 10 | ,->     <title>A gradient</title>
+ 11 | `->     <linearGradient id="gradient">
+ 12 |             <stop class="begin" offset="0%" />
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:9:1]
+  9 |     <svg viewBox="0 0 100 100">
+ 10 | ,->     <title>A gradient</title>
+ 11 | `->     <linearGradient id="gradient">
+ 12 |             <stop class="begin" offset="0%" />
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:10:1]
+ 10 |         <title>A gradient</title>
+ 11 | ,->     <linearGradient id="gradient">
+ 12 | |           <stop class="begin" offset="0%" />
+ 13 | |           <stop class="end" offset="100%" />
+ 14 | `->     </linearGradient>
+ 15 |         <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:10:1]
+ 10 |         <title>A gradient</title>
+ 11 | ,->     <linearGradient id="gradient">
+ 12 | |           <stop class="begin" offset="0%" />
+ 13 | |           <stop class="end" offset="100%" />
+ 14 | `->     </linearGradient>
+ 15 |         <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:10:1]
+ 10 |     <title>A gradient</title>
+ 11 |     <linearGradient id="gradient">
+    :                     ^^^^^^^^^^^^^
+ 12 |         <stop class="begin" offset="0%" />
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:10:1]
+ 10 |         <title>A gradient</title>
+ 11 | ,->     <linearGradient id="gradient">
+ 12 | `->         <stop class="begin" offset="0%" />
+ 13 |             <stop class="end" offset="100%" />
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:10:1]
+ 10 |         <title>A gradient</title>
+ 11 | ,->     <linearGradient id="gradient">
+ 12 | `->         <stop class="begin" offset="0%" />
+ 13 |             <stop class="end" offset="100%" />
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:11:1]
+ 11 |     <linearGradient id="gradient">
+ 12 |         <stop class="begin" offset="0%" />
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 13 |         <stop class="end" offset="100%" />
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:11:1]
+ 11 |     <linearGradient id="gradient">
+ 12 |         <stop class="begin" offset="0%" />
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 13 |         <stop class="end" offset="100%" />
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:11:1]
+ 11 |     <linearGradient id="gradient">
+ 12 |         <stop class="begin" offset="0%" />
+    :               ^^^^^^^^^^^^^
+ 13 |         <stop class="end" offset="100%" />
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:11:1]
+ 11 |     <linearGradient id="gradient">
+ 12 |         <stop class="begin" offset="0%" />
+    :                             ^^^^^^^^^^^
+ 13 |         <stop class="end" offset="100%" />
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:11:1]
+ 11 |         <linearGradient id="gradient">
+ 12 | ,->         <stop class="begin" offset="0%" />
+ 13 | `->         <stop class="end" offset="100%" />
+ 14 |         </linearGradient>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:11:1]
+ 11 |         <linearGradient id="gradient">
+ 12 | ,->         <stop class="begin" offset="0%" />
+ 13 | `->         <stop class="end" offset="100%" />
+ 14 |         </linearGradient>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:12:1]
+ 12 |         <stop class="begin" offset="0%" />
+ 13 |         <stop class="end" offset="100%" />
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 14 |     </linearGradient>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:12:1]
+ 12 |         <stop class="begin" offset="0%" />
+ 13 |         <stop class="end" offset="100%" />
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 14 |     </linearGradient>
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:12:1]
+ 12 |         <stop class="begin" offset="0%" />
+ 13 |         <stop class="end" offset="100%" />
+    :               ^^^^^^^^^^^
+ 14 |     </linearGradient>
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:12:1]
+ 12 |         <stop class="begin" offset="0%" />
+ 13 |         <stop class="end" offset="100%" />
+    :                           ^^^^^^^^^^^^^
+ 14 |     </linearGradient>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:12:1]
+ 12 |             <stop class="begin" offset="0%" />
+ 13 | ,->         <stop class="end" offset="100%" />
+ 14 | `->     </linearGradient>
+ 15 |         <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:12:1]
+ 12 |             <stop class="begin" offset="0%" />
+ 13 | ,->         <stop class="end" offset="100%" />
+ 14 | `->     </linearGradient>
+ 15 |         <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:13:1]
+ 13 |             <stop class="end" offset="100%" />
+ 14 | ,->     </linearGradient>
+ 15 | `->     <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
+ 16 |         <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:13:1]
+ 13 |             <stop class="end" offset="100%" />
+ 14 | ,->     </linearGradient>
+ 15 | `->     <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
+ 16 |         <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:14:1]
+ 14 |     </linearGradient>
+ 15 |     <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 16 |     <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:14:1]
+ 14 |     </linearGradient>
+ 15 |     <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 16 |     <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:14:1]
+ 14 |     </linearGradient>
+ 15 |     <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
+    :           ^^^^^
+ 16 |     <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:14:1]
+ 14 |     </linearGradient>
+ 15 |     <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
+    :                 ^^^^^
+ 16 |     <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:14:1]
+ 14 |     </linearGradient>
+ 15 |     <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
+    :                       ^^^^^^^^^^^
+ 16 |     <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:14:1]
+ 14 |     </linearGradient>
+ 15 |     <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
+    :                                   ^^^^^^^^^^^^
+ 16 |     <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:14:1]
+ 14 |     </linearGradient>
+ 15 |     <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
+    :                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 16 |     <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:14:1]
+ 14 |         </linearGradient>
+ 15 | ,->     <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
+ 16 | `->     <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
+ 17 |         <foreignObject><![CDATA[content]]></foreignObject>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:14:1]
+ 14 |         </linearGradient>
+ 15 | ,->     <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
+ 16 | `->     <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
+ 17 |         <foreignObject><![CDATA[content]]></foreignObject>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:15:1]
+ 15 |     <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
+ 16 |     <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 17 |     <foreignObject><![CDATA[content]]></foreignObject>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:15:1]
+ 15 |     <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
+ 16 |     <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 17 |     <foreignObject><![CDATA[content]]></foreignObject>
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:15:1]
+ 15 |     <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
+ 16 |     <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
+    :             ^^^^^^^
+ 17 |     <foreignObject><![CDATA[content]]></foreignObject>
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:15:1]
+ 15 |     <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
+ 16 |     <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
+    :                     ^^^^^^^
+ 17 |     <foreignObject><![CDATA[content]]></foreignObject>
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:15:1]
+ 15 |     <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
+ 16 |     <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
+    :                             ^^^^^^
+ 17 |     <foreignObject><![CDATA[content]]></foreignObject>
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:15:1]
+ 15 |     <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
+ 16 |     <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
+    :                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 17 |     <foreignObject><![CDATA[content]]></foreignObject>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:15:1]
+ 15 |         <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
+ 16 | ,->     <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
+ 17 | `->     <foreignObject><![CDATA[content]]></foreignObject>
+ 18 |         <desc><![CDATA[content]]></desc>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:15:1]
+ 15 |         <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
+ 16 | ,->     <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
+ 17 | `->     <foreignObject><![CDATA[content]]></foreignObject>
+ 18 |         <desc><![CDATA[content]]></desc>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:16:1]
+ 16 |     <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
+ 17 |     <foreignObject><![CDATA[content]]></foreignObject>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 18 |     <desc><![CDATA[content]]></desc>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:16:1]
+ 16 |     <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
+ 17 |     <foreignObject><![CDATA[content]]></foreignObject>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 18 |     <desc><![CDATA[content]]></desc>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:16:1]
+ 16 |     <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
+ 17 |     <foreignObject><![CDATA[content]]></foreignObject>
+    :                    ^^^^^^^^^^^^^^^^
+ 18 |     <desc><![CDATA[content]]></desc>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:16:1]
+ 16 |     <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
+ 17 |     <foreignObject><![CDATA[content]]></foreignObject>
+    :                    ^^^^^^^^^^^^^^^^
+ 18 |     <desc><![CDATA[content]]></desc>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:16:1]
+ 16 |         <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
+ 17 | ,->     <foreignObject><![CDATA[content]]></foreignObject>
+ 18 | `->     <desc><![CDATA[content]]></desc>
+ 19 |         <title><![CDATA[content]]></title>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:16:1]
+ 16 |         <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
+ 17 | ,->     <foreignObject><![CDATA[content]]></foreignObject>
+ 18 | `->     <desc><![CDATA[content]]></desc>
+ 19 |         <title><![CDATA[content]]></title>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:17:1]
+ 17 |     <foreignObject><![CDATA[content]]></foreignObject>
+ 18 |     <desc><![CDATA[content]]></desc>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 19 |     <title><![CDATA[content]]></title>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:17:1]
+ 17 |     <foreignObject><![CDATA[content]]></foreignObject>
+ 18 |     <desc><![CDATA[content]]></desc>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 19 |     <title><![CDATA[content]]></title>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:17:1]
+ 17 |     <foreignObject><![CDATA[content]]></foreignObject>
+ 18 |     <desc><![CDATA[content]]></desc>
+    :           ^^^^^^^^^^^^^^^^
+ 19 |     <title><![CDATA[content]]></title>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:17:1]
+ 17 |     <foreignObject><![CDATA[content]]></foreignObject>
+ 18 |     <desc><![CDATA[content]]></desc>
+    :           ^^^^^^^^^^^^^^^^
+ 19 |     <title><![CDATA[content]]></title>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:17:1]
+ 17 |         <foreignObject><![CDATA[content]]></foreignObject>
+ 18 | ,->     <desc><![CDATA[content]]></desc>
+ 19 | `->     <title><![CDATA[content]]></title>
+ 20 |         <text><![CDATA[content]]></text>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:17:1]
+ 17 |         <foreignObject><![CDATA[content]]></foreignObject>
+ 18 | ,->     <desc><![CDATA[content]]></desc>
+ 19 | `->     <title><![CDATA[content]]></title>
+ 20 |         <text><![CDATA[content]]></text>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:18:1]
+ 18 |     <desc><![CDATA[content]]></desc>
+ 19 |     <title><![CDATA[content]]></title>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 20 |     <text><![CDATA[content]]></text>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:18:1]
+ 18 |     <desc><![CDATA[content]]></desc>
+ 19 |     <title><![CDATA[content]]></title>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 20 |     <text><![CDATA[content]]></text>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:18:1]
+ 18 |     <desc><![CDATA[content]]></desc>
+ 19 |     <title><![CDATA[content]]></title>
+    :            ^^^^^^^^^^^^^^^^
+ 20 |     <text><![CDATA[content]]></text>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:18:1]
+ 18 |     <desc><![CDATA[content]]></desc>
+ 19 |     <title><![CDATA[content]]></title>
+    :            ^^^^^^^^^^^^^^^^
+ 20 |     <text><![CDATA[content]]></text>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:18:1]
+ 18 |         <desc><![CDATA[content]]></desc>
+ 19 | ,->     <title><![CDATA[content]]></title>
+ 20 | `->     <text><![CDATA[content]]></text>
+ 21 |         <text><![CDATA[&amping]]></text>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:18:1]
+ 18 |         <desc><![CDATA[content]]></desc>
+ 19 | ,->     <title><![CDATA[content]]></title>
+ 20 | `->     <text><![CDATA[content]]></text>
+ 21 |         <text><![CDATA[&amping]]></text>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:19:1]
+ 19 |     <title><![CDATA[content]]></title>
+ 20 |     <text><![CDATA[content]]></text>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 21 |     <text><![CDATA[&amping]]></text>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:19:1]
+ 19 |     <title><![CDATA[content]]></title>
+ 20 |     <text><![CDATA[content]]></text>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 21 |     <text><![CDATA[&amping]]></text>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:19:1]
+ 19 |     <title><![CDATA[content]]></title>
+ 20 |     <text><![CDATA[content]]></text>
+    :           ^^^^^^^^^^^^^^^^
+ 21 |     <text><![CDATA[&amping]]></text>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:19:1]
+ 19 |     <title><![CDATA[content]]></title>
+ 20 |     <text><![CDATA[content]]></text>
+    :           ^^^^^^^^^^^^^^^^
+ 21 |     <text><![CDATA[&amping]]></text>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:19:1]
+ 19 |         <title><![CDATA[content]]></title>
+ 20 | ,->     <text><![CDATA[content]]></text>
+ 21 | `->     <text><![CDATA[&amping]]></text>
+ 22 |         <text><![CDATA[&amping ]]]></text>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:19:1]
+ 19 |         <title><![CDATA[content]]></title>
+ 20 | ,->     <text><![CDATA[content]]></text>
+ 21 | `->     <text><![CDATA[&amping]]></text>
+ 22 |         <text><![CDATA[&amping ]]]></text>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:20:1]
+ 20 |     <text><![CDATA[content]]></text>
+ 21 |     <text><![CDATA[&amping]]></text>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 22 |     <text><![CDATA[&amping ]]]></text>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:20:1]
+ 20 |     <text><![CDATA[content]]></text>
+ 21 |     <text><![CDATA[&amping]]></text>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 22 |     <text><![CDATA[&amping ]]]></text>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:20:1]
+ 20 |     <text><![CDATA[content]]></text>
+ 21 |     <text><![CDATA[&amping]]></text>
+    :           ^^^^^^^^^^^^^^^^
+ 22 |     <text><![CDATA[&amping ]]]></text>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:20:1]
+ 20 |     <text><![CDATA[content]]></text>
+ 21 |     <text><![CDATA[&amping]]></text>
+    :           ^^^^^^^^^^^^^^^^
+ 22 |     <text><![CDATA[&amping ]]]></text>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:20:1]
+ 20 |         <text><![CDATA[content]]></text>
+ 21 | ,->     <text><![CDATA[&amping]]></text>
+ 22 | `->     <text><![CDATA[&amping ]]]></text>
+ 23 |         <text><![CDATA[&amping]] ]]></text>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:20:1]
+ 20 |         <text><![CDATA[content]]></text>
+ 21 | ,->     <text><![CDATA[&amping]]></text>
+ 22 | `->     <text><![CDATA[&amping ]]]></text>
+ 23 |         <text><![CDATA[&amping]] ]]></text>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:21:1]
+ 21 |     <text><![CDATA[&amping]]></text>
+ 22 |     <text><![CDATA[&amping ]]]></text>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 23 |     <text><![CDATA[&amping]] ]]></text>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:21:1]
+ 21 |     <text><![CDATA[&amping]]></text>
+ 22 |     <text><![CDATA[&amping ]]]></text>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 23 |     <text><![CDATA[&amping]] ]]></text>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:21:1]
+ 21 |     <text><![CDATA[&amping]]></text>
+ 22 |     <text><![CDATA[&amping ]]]></text>
+    :           ^^^^^^^^^^^^^^^^^^^^
+ 23 |     <text><![CDATA[&amping]] ]]></text>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:21:1]
+ 21 |     <text><![CDATA[&amping]]></text>
+ 22 |     <text><![CDATA[&amping ]]]></text>
+    :           ^^^^^^^^^^^^^^^^^^^^
+ 23 |     <text><![CDATA[&amping]] ]]></text>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:21:1]
+ 21 |         <text><![CDATA[&amping]]></text>
+ 22 | ,->     <text><![CDATA[&amping ]]]></text>
+ 23 | `->     <text><![CDATA[&amping]] ]]></text>
+ 24 |         <text><![CDATA[<message>text</message>]]></text>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:21:1]
+ 21 |         <text><![CDATA[&amping]]></text>
+ 22 | ,->     <text><![CDATA[&amping ]]]></text>
+ 23 | `->     <text><![CDATA[&amping]] ]]></text>
+ 24 |         <text><![CDATA[<message>text</message>]]></text>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:22:1]
+ 22 |     <text><![CDATA[&amping ]]]></text>
+ 23 |     <text><![CDATA[&amping]] ]]></text>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 24 |     <text><![CDATA[<message>text</message>]]></text>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:22:1]
+ 22 |     <text><![CDATA[&amping ]]]></text>
+ 23 |     <text><![CDATA[&amping]] ]]></text>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 24 |     <text><![CDATA[<message>text</message>]]></text>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:22:1]
+ 22 |     <text><![CDATA[&amping ]]]></text>
+ 23 |     <text><![CDATA[&amping]] ]]></text>
+    :           ^^^^^^^^^^^^^^^^^^^
+ 24 |     <text><![CDATA[<message>text</message>]]></text>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:22:1]
+ 22 |     <text><![CDATA[&amping ]]]></text>
+ 23 |     <text><![CDATA[&amping]] ]]></text>
+    :           ^^^^^^^^^^^^^^^^^^^
+ 24 |     <text><![CDATA[<message>text</message>]]></text>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:22:1]
+ 22 |         <text><![CDATA[&amping ]]]></text>
+ 23 | ,->     <text><![CDATA[&amping]] ]]></text>
+ 24 | `->     <text><![CDATA[<message>text</message>]]></text>
+ 25 |         <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:22:1]
+ 22 |         <text><![CDATA[&amping ]]]></text>
+ 23 | ,->     <text><![CDATA[&amping]] ]]></text>
+ 24 | `->     <text><![CDATA[<message>text</message>]]></text>
+ 25 |         <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:23:1]
+ 23 |     <text><![CDATA[&amping]] ]]></text>
+ 24 |     <text><![CDATA[<message>text</message>]]></text>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 25 |     <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:23:1]
+ 23 |     <text><![CDATA[&amping]] ]]></text>
+ 24 |     <text><![CDATA[<message>text</message>]]></text>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 25 |     <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:23:1]
+ 23 |     <text><![CDATA[&amping]] ]]></text>
+ 24 |     <text><![CDATA[<message>text</message>]]></text>
+    :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 25 |     <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:23:1]
+ 23 |     <text><![CDATA[&amping]] ]]></text>
+ 24 |     <text><![CDATA[<message>text</message>]]></text>
+    :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 25 |     <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:23:1]
+ 23 |         <text><![CDATA[&amping]] ]]></text>
+ 24 | ,->     <text><![CDATA[<message>text</message>]]></text>
+ 25 | `->     <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
+ 26 |         <text><![CDATA[1]]><![CDATA[2]]></text>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:23:1]
+ 23 |         <text><![CDATA[&amping]] ]]></text>
+ 24 | ,->     <text><![CDATA[<message>text</message>]]></text>
+ 25 | `->     <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
+ 26 |         <text><![CDATA[1]]><![CDATA[2]]></text>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:24:1]
+ 24 |     <text><![CDATA[<message>text</message>]]></text>
+ 25 |     <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 26 |     <text><![CDATA[1]]><![CDATA[2]]></text>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:24:1]
+ 24 |     <text><![CDATA[<message>text</message>]]></text>
+ 25 |     <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 26 |     <text><![CDATA[1]]><![CDATA[2]]></text>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:24:1]
+ 24 |     <text><![CDATA[<message>text</message>]]></text>
+ 25 |     <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
+    :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 26 |     <text><![CDATA[1]]><![CDATA[2]]></text>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:24:1]
+ 24 |     <text><![CDATA[<message>text</message>]]></text>
+ 25 |     <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
+    :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 26 |     <text><![CDATA[1]]><![CDATA[2]]></text>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:24:1]
+ 24 |         <text><![CDATA[<message>text</message>]]></text>
+ 25 | ,->     <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
+ 26 | `->     <text><![CDATA[1]]><![CDATA[2]]></text>
+ 27 |         <text>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:24:1]
+ 24 |         <text><![CDATA[<message>text</message>]]></text>
+ 25 | ,->     <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
+ 26 | `->     <text><![CDATA[1]]><![CDATA[2]]></text>
+ 27 |         <text>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:25:1]
+ 25 |     <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
+ 26 |     <text><![CDATA[1]]><![CDATA[2]]></text>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 27 |     <text>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:25:1]
+ 25 |     <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
+ 26 |     <text><![CDATA[1]]><![CDATA[2]]></text>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 27 |     <text>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:25:1]
+ 25 |     <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
+ 26 |     <text><![CDATA[1]]><![CDATA[2]]></text>
+    :           ^^^^^^^^^^^^^^^^^^^^^^^
+ 27 |     <text>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:25:1]
+ 25 |     <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
+ 26 |     <text><![CDATA[1]]><![CDATA[2]]></text>
+    :           ^^^^^^^^^^^^^^^^^^^^^^^
+ 27 |     <text>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:25:1]
+ 25 |         <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
+ 26 | ,->     <text><![CDATA[1]]><![CDATA[2]]></text>
+ 27 | `->     <text>
+ 28 |             <![CDATA[data]]>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:25:1]
+ 25 |         <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
+ 26 | ,->     <text><![CDATA[1]]><![CDATA[2]]></text>
+ 27 | `->     <text>
+ 28 |             <![CDATA[data]]>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:26:1]
+ 26 |         <text><![CDATA[1]]><![CDATA[2]]></text>
+ 27 | ,->     <text>
+ 28 | |           <![CDATA[data]]>
+ 29 | `->     </text>
+ 30 |         <text><![CDATA[bracket ]after]]></text>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:26:1]
+ 26 |         <text><![CDATA[1]]><![CDATA[2]]></text>
+ 27 | ,->     <text>
+ 28 | |           <![CDATA[data]]>
+ 29 | `->     </text>
+ 30 |         <text><![CDATA[bracket ]after]]></text>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:26:1]
+ 26 |         <text><![CDATA[1]]><![CDATA[2]]></text>
+ 27 | ,->     <text>
+ 28 | |           <![CDATA[data]]>
+ 29 | `->     </text>
+ 30 |         <text><![CDATA[bracket ]after]]></text>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:26:1]
+ 26 |         <text><![CDATA[1]]><![CDATA[2]]></text>
+ 27 | ,->     <text>
+ 28 | |           <![CDATA[data]]>
+ 29 | `->     </text>
+ 30 |         <text><![CDATA[bracket ]after]]></text>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:28:1]
+ 28 |             <![CDATA[data]]>
+ 29 | ,->     </text>
+ 30 | `->     <text><![CDATA[bracket ]after]]></text>
+ 31 |     </svg>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:28:1]
+ 28 |             <![CDATA[data]]>
+ 29 | ,->     </text>
+ 30 | `->     <text><![CDATA[bracket ]after]]></text>
+ 31 |     </svg>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:29:1]
+ 29 |     </text>
+ 30 |     <text><![CDATA[bracket ]after]]></text>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 31 | </svg>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:29:1]
+ 29 |     </text>
+ 30 |     <text><![CDATA[bracket ]after]]></text>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 31 | </svg>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:29:1]
+ 29 |     </text>
+ 30 |     <text><![CDATA[bracket ]after]]></text>
+    :           ^^^^^^^^^^^^^^^^^^^^^^^
+ 31 | </svg>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:29:1]
+ 29 |     </text>
+ 30 |     <text><![CDATA[bracket ]after]]></text>
+    :           ^^^^^^^^^^^^^^^^^^^^^^^
+ 31 | </svg>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:29:1]
+ 29 |     </text>
+ 30 |     <text><![CDATA[bracket ]after]]></text>
+    :                                            ^
+ 31 | </svg>
+ 32 | </body>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:29:1]
+ 29 |     </text>
+ 30 |     <text><![CDATA[bracket ]after]]></text>
+    :                                            ^
+ 31 | </svg>
+ 32 | </body>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:30:1]
+ 30 |         <text><![CDATA[bracket ]after]]></text>
+ 31 | ,-> </svg>
+ 32 | `-> </body>
+ 33 |     </html>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:30:1]
+ 30 |         <text><![CDATA[bracket ]after]]></text>
+ 31 | ,-> </svg>
+ 32 | `-> </body>
+ 33 |     </html>
+    `----
