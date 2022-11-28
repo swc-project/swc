@@ -1762,7 +1762,7 @@ where
                     Some(c) => {
                         self.emit_character_token((']', ']'));
                         self.emit_character_token((c, c));
-                        self.reconsume_in_state(State::Cdata);
+                        self.state = State::Cdata;
                     }
                 }
             }
