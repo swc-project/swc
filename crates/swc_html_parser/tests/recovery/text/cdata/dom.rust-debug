@@ -1,0 +1,60 @@
+| <!DOCTYPE html>
+| <html>
+|   lang="en"
+|   <head>
+|     "
+    "
+|     <title>
+|       "Document"
+|     "
+"
+|   "
+"
+|   <body>
+|     "
+"
+|     <p>
+|       <!-- [CDATA[content]] -->
+|     "
+"
+|     <p>
+|       <!-- [CDATA[&amping]] -->
+|     "
+"
+|     <p>
+|       <!-- [CDATA[&amping ]]] -->
+|     "
+"
+|     <p>
+|       <!-- [CDATA[&amping]] ]] -->
+|     "
+"
+|     <p>
+|       <!-- [CDATA[<message -->
+|       "text]]>"
+|     "
+"
+|     <p>
+|       <!-- [CDATA[</this is malformed!</malformed</malformed & worse -->
+|       "]]>"
+|     "
+"
+|     <p>
+|       <!-- [CDATA[1]] -->
+|       <!-- [CDATA[2]] -->
+|     "
+"
+|     <p>
+|       "
+    "
+|       <!-- [CDATA[data]] -->
+|       "
+"
+|     "
+"
+|     <p>
+|       <!-- [CDATA[bracket ]after]] -->
+|     "
+
+
+"

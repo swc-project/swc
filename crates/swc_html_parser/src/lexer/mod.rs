@@ -134,8 +134,6 @@ struct Comment {
 
 pub(crate) type LexResult<T> = Result<T, ErrorKind>;
 
-// TODO improve `raw` for all tokens (linting + better codegen)
-
 pub struct Lexer<I>
 where
     I: Input,
