@@ -1,0 +1,1 @@
+class x { static #y = #y in x ; }

@@ -6790,6 +6790,7 @@
             path.applyTransform(m);
         }
     }
+    var subPixelOptimize$1 = subPixelOptimize;
     function animateOrSetProps(animationType, el, props, animatableModel, dataIndex, cb, during) {
         var removeOpt, animationPayload, isFrom = !1;
         'function' == typeof dataIndex ? (during = cb, cb = dataIndex, dataIndex = null) : isObject(dataIndex) && (cb = dataIndex.cb, during = dataIndex.during, isFrom = dataIndex.isFrom, removeOpt = dataIndex.removeOpt, dataIndex = dataIndex.dataIndex);
@@ -6977,7 +6978,7 @@
         subPixelOptimizeRect: function(param) {
             return subPixelOptimizeRect(param.shape, param.shape, param.style), param;
         },
-        subPixelOptimize: subPixelOptimize,
+        subPixelOptimize: subPixelOptimize$1,
         updateProps: updateProps,
         initProps: initProps,
         removeElement: removeElement,
@@ -8853,7 +8854,7 @@
                 return clone(-1 === index ? mediaDefault.option : mediaList[index].option);
             })), this._currentMediaIndices = indices, result;
         }, OptionManager;
-    }(), POSSIBLE_STYLES = [
+    }(), isObject$1 = isObject, POSSIBLE_STYLES = [
         'areaStyle',
         'lineStyle',
         'nodeStyle',
@@ -8879,7 +8880,7 @@
         convertNormalEmphasis(opt, 'itemStyle'), convertNormalEmphasis(opt, 'lineStyle'), convertNormalEmphasis(opt, 'areaStyle'), convertNormalEmphasis(opt, 'label'), convertNormalEmphasis(opt, 'labelLine'), convertNormalEmphasis(opt, 'upperLabel'), convertNormalEmphasis(opt, 'edgeLabel');
     }
     function compatTextStyle(opt, propName) {
-        var labelOptSingle = isObject(opt) && opt[propName], textStyle = isObject(labelOptSingle) && labelOptSingle.textStyle;
+        var labelOptSingle = isObject$1(opt) && opt[propName], textStyle = isObject$1(labelOptSingle) && labelOptSingle.textStyle;
         if (textStyle) {
             deprecateLog("textStyle hierarchy in " + propName + " has been removed since 4.0. All textStyle properties are configured in " + propName + " directly now.");
             for(var i = 0, len = TEXT_STYLE_OPTIONS.length; i < len; i++){
@@ -8961,8 +8962,8 @@
     function globalBackwardCompat(option, isTheme) {
         var axes;
         each(toArr(option.series), function(seriesOpt) {
-            isObject(seriesOpt) && function(seriesOpt) {
-                if (isObject(seriesOpt)) {
+            isObject$1(seriesOpt) && function(seriesOpt) {
+                if (isObject$1(seriesOpt)) {
                     compatEC2ItemStyle(seriesOpt), removeEC3NormalStatus(seriesOpt), compatTextStyle(seriesOpt, 'label'), compatTextStyle(seriesOpt, 'upperLabel'), compatTextStyle(seriesOpt, 'edgeLabel'), seriesOpt.emphasis && (compatTextStyle(seriesOpt.emphasis, 'label'), compatTextStyle(seriesOpt.emphasis, 'upperLabel'), compatTextStyle(seriesOpt.emphasis, 'edgeLabel'));
                     var markPoint = seriesOpt.markPoint;
                     markPoint && (compatEC2ItemStyle(markPoint), compatEC3CommonStyles(markPoint));
@@ -9007,7 +9008,7 @@
         }), each(toArr(option.radar), function(radarOpt) {
             compatTextStyle(radarOpt, 'name'), radarOpt.name && null == radarOpt.axisName && (radarOpt.axisName = radarOpt.name, delete radarOpt.name, deprecateLog('name property in radar component has been changed to axisName')), null != radarOpt.nameGap && null == radarOpt.axisNameGap && (radarOpt.axisNameGap = radarOpt.nameGap, delete radarOpt.nameGap, deprecateLog('nameGap property in radar component has been changed to axisNameGap'));
         }), each(toArr(option.geo), function(geoOpt) {
-            isObject(geoOpt) && (compatEC3CommonStyles(geoOpt), each(toArr(geoOpt.regions), function(regionObj) {
+            isObject$1(geoOpt) && (compatEC3CommonStyles(geoOpt), each(toArr(geoOpt.regions), function(regionObj) {
                 compatEC3CommonStyles(regionObj);
             }));
         }), each(toArr(option.timeline), function(timelineOpt) {
@@ -12866,7 +12867,7 @@
             }
             return resource.load(nameMap, nameProperty);
         }
-    }, hasWindow = 'undefined' != typeof window, PRIORITY = {
+    }, isObject$2 = isObject, hasWindow = 'undefined' != typeof window, PRIORITY = {
         PROCESSOR: {
             FILTER: 1000,
             SERIES_FILTER: 800,
@@ -12965,7 +12966,7 @@
                 disposedWarning(this.id);
                 return;
             }
-            if (isObject(notMerge) && (lazyUpdate = notMerge.lazyUpdate, silent = notMerge.silent, replaceMerge = notMerge.replaceMerge, transitionOpt = notMerge.transition, notMerge = notMerge.notMerge), this[IN_MAIN_PROCESS_KEY] = !0, !this._model || notMerge) {
+            if (isObject$2(notMerge) && (lazyUpdate = notMerge.lazyUpdate, silent = notMerge.silent, replaceMerge = notMerge.replaceMerge, transitionOpt = notMerge.transition, notMerge = notMerge.notMerge), this[IN_MAIN_PROCESS_KEY] = !0, !this._model || notMerge) {
                 var silent, replaceMerge, transitionOpt, optionManager = new OptionManager(this._api), theme = this._theme, ecModel = this._model = new GlobalModel();
                 ecModel.scheduler = this._scheduler, ecModel.init(null, null, null, theme, this._locale, optionManager);
             }
@@ -13178,7 +13179,7 @@
                 disposedWarning(this.id);
                 return;
             }
-            if (isObject(name) && (cfg = name, name = ''), name = name || 'default', this.hideLoading(), !loadingEffects[name]) {
+            if (isObject$2(name) && (cfg = name, name = ''), name = name || 'default', this.hideLoading(), !loadingEffects[name]) {
                 console.warn('Loading effects ' + name + ' not exists.');
                 return;
             }
@@ -13198,7 +13199,7 @@
                 disposedWarning(this.id);
                 return;
             }
-            if (isObject(opt) || (opt = {
+            if (isObject$2(opt) || (opt = {
                 silent: !!opt
             }), actions[payload.type] && this._model) {
                 if (this[IN_MAIN_PROCESS_KEY]) {
@@ -13688,7 +13689,7 @@
     }
     function registerAction(actionInfo, eventName, action) {
         'function' == typeof eventName && (action = eventName, eventName = '');
-        var actionType = isObject(actionInfo) ? actionInfo.type : [
+        var actionType = isObject$2(actionInfo) ? actionInfo.type : [
             actionInfo,
             actionInfo = {
                 event: eventName
@@ -13710,7 +13711,7 @@
     }
     var registeredTasks = [];
     function normalizeRegister(targetList, priority, fn, defaultPriority, visualType) {
-        if ((isFunction(priority) || isObject(priority)) && (fn = priority, priority = defaultPriority), isNaN(priority) || null == priority) throw Error('Illegal priority');
+        if ((isFunction(priority) || isObject$2(priority)) && (fn = priority, priority = defaultPriority), isNaN(priority) || null == priority) throw Error('Illegal priority');
         if (each(targetList, function(wrap) {
             assert(wrap.__raw !== fn);
         }), !(indexOf(registeredTasks, fn) >= 0)) {
@@ -14106,7 +14107,7 @@
     }
     var DataDimensionInfo = function(opt) {
         this.otherDims = {}, null != opt && extend(this, opt);
-    }, mathFloor = Math.floor, UNDEFINED = 'undefined', dataCtors = {
+    }, mathFloor = Math.floor, isObject$3 = isObject, UNDEFINED = 'undefined', dataCtors = {
         float: typeof Float64Array === UNDEFINED ? Array : Float64Array,
         int: typeof Int32Array === UNDEFINED ? Array : Int32Array,
         ordinal: Array,
@@ -14305,7 +14306,7 @@
         }, List.prototype.getCalculationInfo = function(key) {
             return this._calculationInfo[key];
         }, List.prototype.setCalculationInfo = function(key, value) {
-            isObject(key) ? extend(this._calculationInfo, key) : this._calculationInfo[key] = value;
+            isObject$3(key) ? extend(this._calculationInfo, key) : this._calculationInfo[key] = value;
         }, List.prototype.getSum = function(dim) {
             var dimData = this._storage[dim], sum = 0;
             if (dimData) for(var i = 0, len = this.count(); i < len; i++){
@@ -14525,7 +14526,7 @@
             var visual = this._visual;
             return visual && visual[key];
         }, List.prototype.setVisual = function(kvObj, val) {
-            this._visual = this._visual || {}, isObject(kvObj) ? extend(this._visual, kvObj) : this._visual[kvObj] = val;
+            this._visual = this._visual || {}, isObject$3(kvObj) ? extend(this._visual, kvObj) : this._visual[kvObj] = val;
         }, List.prototype.getItemVisual = function(idx, key) {
             var itemVisual = this._itemVisuals[idx], val = itemVisual && itemVisual[key];
             return null == val ? this.getVisual(key) : val;
@@ -14535,14 +14536,14 @@
             var itemVisuals = this._itemVisuals, itemVisual = itemVisuals[idx];
             itemVisual || (itemVisual = itemVisuals[idx] = {});
             var val = itemVisual[key];
-            return null == val && (isArray(val = this.getVisual(key)) ? val = val.slice() : isObject(val) && (val = extend({}, val)), itemVisual[key] = val), val;
+            return null == val && (isArray(val = this.getVisual(key)) ? val = val.slice() : isObject$3(val) && (val = extend({}, val)), itemVisual[key] = val), val;
         }, List.prototype.setItemVisual = function(idx, key, value) {
             var itemVisual = this._itemVisuals[idx] || {};
-            this._itemVisuals[idx] = itemVisual, isObject(key) ? extend(itemVisual, key) : itemVisual[key] = value;
+            this._itemVisuals[idx] = itemVisual, isObject$3(key) ? extend(itemVisual, key) : itemVisual[key] = value;
         }, List.prototype.clearAllVisual = function() {
             this._visual = {}, this._itemVisuals = [];
         }, List.prototype.setLayout = function(key, val) {
-            if (isObject(key)) {
+            if (isObject$3(key)) {
                 for(var name_1 in key)key.hasOwnProperty(name_1) && this.setLayout(name_1, key[name_1]);
                 return;
             }
@@ -28198,10 +28199,10 @@
                     }
                     function addBodyEnd(ends, point, start) {
                         var point1 = point.slice(), point2 = point.slice();
-                        point1[0] = subPixelOptimize(point1[0] + candleWidth / 2, 1, !1), point2[0] = subPixelOptimize(point2[0] - candleWidth / 2, 1, !0), start ? ends.push(point1, point2) : ends.push(point2, point1);
+                        point1[0] = subPixelOptimize$1(point1[0] + candleWidth / 2, 1, !1), point2[0] = subPixelOptimize$1(point2[0] - candleWidth / 2, 1, !0), start ? ends.push(point1, point2) : ends.push(point2, point1);
                     }
                     function subPixelOptimizePoint(point) {
-                        return point[0] = subPixelOptimize(point[0], 1), point;
+                        return point[0] = subPixelOptimize$1(point[0], 1), point;
                     }
                 }
             };

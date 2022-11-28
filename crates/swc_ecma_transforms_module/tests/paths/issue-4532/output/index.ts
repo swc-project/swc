@@ -1,1 +1,1 @@
-import "./rel.ts";
+import "./rel.js";

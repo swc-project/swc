@@ -416,7 +416,9 @@ fn regexp_unary_void() {
         lex(Syntax::default(), "void /test/"),
         vec![
             Void.span(0..4).lb(),
-            Regex("test".into(), "".into()).span(5..11),
+            BinOp(Div).span(5),
+            Word(Word::Ident("test".into())).span(6..10),
+            BinOp(Div).span(10),
         ]
     );
     assert_eq!(
@@ -424,7 +426,9 @@ fn regexp_unary_void() {
         vec![
             Void.span(0..4).lb(),
             LParen.span(5..6),
-            Regex("test".into(), "".into()).span(6..12),
+            BinOp(Div).span(6),
+            Word(Word::Ident("test".into())).span(7..11),
+            BinOp(Div).span(11),
             RParen.span(12..13),
         ]
     );
@@ -483,13 +487,28 @@ fn simple_regex() {
         vec![
             "x".span(0).lb(),
             Assign.span(2),
-            Regex("42".into(), "i".into(),).span(4..9),
+            BinOp(Div).span(4),
+            42.span(5..7),
+            BinOp(Div).span(7),
+            Word(Word::Ident("i".into())).span(8),
         ],
     );
 
     assert_eq!(
         lex(Syntax::default(), "/42/"),
-        vec![Regex("42".into(), "".into()).span(0..4).lb(),]
+        vec![
+            TokenAndSpan {
+                token: Token::BinOp(BinOpToken::Div),
+                had_line_break: true,
+                span: Span {
+                    lo: BytePos(1),
+                    hi: BytePos(2),
+                    ctxt: Default::default(),
+                },
+            },
+            42.span(1..3),
+            BinOp(Div).span(3)
+        ]
     );
 }
 
@@ -508,7 +527,13 @@ fn complex_regex() {
             RParen,
             LBrace,
             RBrace,
-            Regex("42".into(), "i".into(),),
+            BinOp(Div),
+            Num {
+                value: 42.0,
+                raw: Atom::new("42")
+            },
+            BinOp(Div),
+            Word(Word::Ident("i".into())),
         ]
     )
 }
@@ -595,7 +620,9 @@ fn after_if() {
             RParen.span(4),
             LBrace.span(5),
             RBrace.span(6),
-            Regex("y".into(), "".into()).span(8..11),
+            Div.span(8),
+            "y".span(9),
+            Div.span(10),
             Dot.span(11),
             "test".span(12..16),
             LParen.span(16),
@@ -639,7 +666,9 @@ fn migrated_0002() {
         vec![
             "tokenize".span(0..8).lb(),
             LParen.span(8),
-            Regex("42".into(), "".into()).span(9..13),
+            BinOp(Div).span(9),
+            42.span(10..12),
+            BinOp(Div).span(12),
             RParen.span(13),
         ],
     )
@@ -671,7 +700,9 @@ fn migrated_0004() {
             RParen.span(11),
             LBrace.span(12),
             RBrace.span(13),
-            Regex("42".into(), "".into()).span(15..19),
+            BinOp(Div).span(15),
+            42.span(16..18),
+            BinOp(Div).span(18),
         ]
     );
 }
@@ -707,7 +738,20 @@ fn migrated_0006() {
         vec![
             LBrace.span(0).lb(),
             RBrace.span(1),
-            Regex("42".into(), "".into()).span(3..7),
+            BinOp(Div).span(3),
+            TokenAndSpan {
+                token: Num {
+                    value: 42.0,
+                    raw: "42".into(),
+                },
+                had_line_break: false,
+                span: Span {
+                    lo: BytePos(5),
+                    hi: BytePos(7),
+                    ctxt: Default::default(),
+                }
+            },
+            BinOp(Div).span(6),
         ],
     )
 }

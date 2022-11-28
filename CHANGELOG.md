@@ -5,6 +5,73 @@
 
 
 
+- **(ci)** Fix publish action for binaries (#6517) ([2ac3201](https://github.com/swc-project/swc/commit/2ac32017bad112956a781b0d003782988655409c))
+
+### Testing
+
+
+
+- **(es/transforms)** Add tests about preserving top-level directives (#6518) ([5ff87af](https://github.com/swc-project/swc/commit/5ff87afa78e5bb56f2b03678577279256c18e4da))
+
+## [1.3.20] - 2022-11-26
+
+### Bug Fixes
+
+
+
+- **(es/codegen)** Preserve parens for `new` in optional chaining (#6484) ([1ca281a](https://github.com/swc-project/swc/commit/1ca281a6cfdbdcb4b52e7617c5e843b8458a2299))
+
+
+- **(es/minifier)** Preserve classes with side effects in static fields (#6480) ([8d906b4](https://github.com/swc-project/swc/commit/8d906b45e56d447792df59d5fdde5ee072e2bc80))
+
+
+- **(es/react)** Allow spread children (#6505) ([90aa6c8](https://github.com/swc-project/swc/commit/90aa6c831890bf3978d9e6298a003e0652b27dce))
+
+
+- **(es/visit)** Visit TypeScript satisfies expressions (#6511) ([0cee0e1](https://github.com/swc-project/swc/commit/0cee0e1af7f8c476fe3622e687e6b953aef8cd31))
+
+### Features
+
+
+
+- **(es/codegen)** Skip whitespaces for comments in minify mode (#6465) ([08a9e21](https://github.com/swc-project/swc/commit/08a9e21b36a3fbb03d4b5ae621c94e76ae6ab54f))
+
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Reduce trigger scope for PRs (#6486) ([7fe091a](https://github.com/swc-project/swc/commit/7fe091af1f0fea7ec599edc080b00484ae15871f))
+
+
+- **(ci)** Skip benchmark for forks (#6489) ([78af96e](https://github.com/swc-project/swc/commit/78af96e5078b5a5235d3210e110a130c4f864171))
+
+### Performance
+
+
+
+- **(es/helpers)** Improve fast-path for helper detection (#6502) ([b3b5526](https://github.com/swc-project/swc/commit/b3b5526be4a7b5f85c2aea22f1ced0a9896730ed))
+
+### Refactor
+
+
+
+- **(binding/wasm)** Use binding_macro (#6487) ([d957aac](https://github.com/swc-project/swc/commit/d957aac056bede3b813a413af49759a6ced61cb6))
+
+
+- **(es)** Remove settings related to `privateInObject` (#6468) ([c57307d](https://github.com/swc-project/swc/commit/c57307d0029e9e52dc41411c4c727da221cdfadb))
+
+### Build
+
+
+
+- **(publish)** Upload cli binaries to github release (#6495) ([4f8af16](https://github.com/swc-project/swc/commit/4f8af1615634fb32df94e5ab462d120a52ac251c))
+
+## [1.3.19] - 2022-11-20
+
+### Bug Fixes
+
+
+
 - **(es/compat)** Fix consecutive optional call (#6461) ([f7072db](https://github.com/swc-project/swc/commit/f7072dbb7eb768e2a4dad5aa9f2ac6c6bacf560e))
 
 
@@ -12,6 +79,18 @@
 
 
 - **(es/minifier)** Preserve unused imported specifiers (#6458) ([dabea71](https://github.com/swc-project/swc/commit/dabea71c4461a96836e4456bd2c6bbcf07f238a4))
+
+
+- **(es/minifier)** Abort inliner on fn declarations used multiple time (#6473) ([15ad2c2](https://github.com/swc-project/swc/commit/15ad2c256880bea01931203ec7adfa61c9ca13be))
+
+
+- **(es/minifier)** Avoid dropping statements which has side-effects (#6476) ([9154bbc](https://github.com/swc-project/swc/commit/9154bbc1117f91dd53fdf87c7eab29db90149376))
+
+
+- **(es/modules)** Remove wrong check for `jsc.paths` (#6470) ([072bd13](https://github.com/swc-project/swc/commit/072bd130239579566d319a47156c570277cebb1b))
+
+
+- **(es/parser)** Fix parsing of regexp (#6469) ([3e702b9](https://github.com/swc-project/swc/commit/3e702b9804a07f610948f731bbb8cfdcec8065a5))
 
 
 - **(xml/parser)** Fix parsing of comments (#6449) ([3a0d98b](https://github.com/swc-project/swc/commit/3a0d98b6e986dd175b64534bc99c2a59a99b97d0))

@@ -1,8 +1,11 @@
 name: CI
 
 on:
-  - push
-  - pull_request
+  pull_request:
+    types: ['opened', 'reopened', 'synchronize']
+  push:
+    branches:
+      - main
 
 env:
   CI: 1
@@ -163,6 +166,7 @@ jobs:
           profile: minimal
 
       - name: Patch
+        shell: bash
         run: |
           echo '[patch.crates-io]' >> bindings/Cargo.toml
           ./scripts/cargo/patch-section.sh >> bindings/Cargo.toml
@@ -703,6 +707,7 @@ jobs:
       ${{ !contains(github.event.head_commit.message, 'chore: ') }}
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         os:
           - ubuntu-latest
@@ -723,8 +728,10 @@ jobs:
           cache: "yarn"
 
       - name: Patch
+        shell: bash
         run: |
           echo '[patch.crates-io]' >> bindings/Cargo.toml
+          ./scripts/cargo/patch-section.sh
           ./scripts/cargo/patch-section.sh >> bindings/Cargo.toml
           cd bindings && cargo update
 
@@ -784,6 +791,7 @@ jobs:
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
       - name: Patch
+        shell: bash
         run: |
           echo '[patch.crates-io]' >> bindings/Cargo.toml
           ./scripts/cargo/patch-section.sh >> bindings/Cargo.toml

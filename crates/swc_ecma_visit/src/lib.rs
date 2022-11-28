@@ -1816,6 +1816,12 @@ define!({
         pub type_args: Box<TsTypeParamInstantiation>,
     }
 
+    pub struct TsSatisfiesExpr {
+        pub span: Span,
+        pub expr: Box<Expr>,
+        pub type_ann: Box<TsType>,
+    }
+
     pub struct ReservedUnused {
         pub span: Span,
         pub body: Option<Vec<ModuleItem>>,

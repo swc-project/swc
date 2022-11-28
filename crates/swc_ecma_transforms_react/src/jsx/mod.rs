@@ -769,14 +769,10 @@ where
             }) => return None,
             JSXElementChild::JSXElement(el) => self.jsx_elem_to_expr(*el).as_arg(),
             JSXElementChild::JSXFragment(el) => self.jsx_frag_to_expr(el).as_arg(),
-            JSXElementChild::JSXSpreadChild(JSXSpreadChild { span, .. }) => {
-                HANDLER.with(|handler| {
-                    handler
-                        .struct_span_err(span, "Spread children are not supported in React.")
-                        .emit();
-                });
-                return None;
-            }
+            JSXElementChild::JSXSpreadChild(JSXSpreadChild { span, expr, .. }) => ExprOrSpread {
+                spread: Some(span),
+                expr,
+            },
         })
     }
 
