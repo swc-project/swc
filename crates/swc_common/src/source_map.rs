@@ -1194,7 +1194,6 @@ impl SourceMap {
         let mut prev_extra_bytes = 0;
         let mut ch_start = 0;
         let mut line_prev_extra_bytes = 0;
-        let mut prev_srcmap_line = 0;
         let mut line_ch_start = 0;
 
         for (pos, lc) in mappings.iter() {
@@ -1230,6 +1229,10 @@ impl SourceMap {
 
                     prev_extra_bytes = 0;
                     ch_start = 0;
+
+                    line_prev_extra_bytes = 0;
+                    line_ch_start = 0;
+
                     cur_file = Some(f.clone());
                     &f
                 }
@@ -1256,11 +1259,6 @@ impl SourceMap {
             }
 
             let mut line = a + 1; // Line numbers start at 1
-            if line != prev_srcmap_line {
-                prev_srcmap_line = line;
-                line_ch_start = 0;
-                line_prev_extra_bytes = 0;
-            }
 
             let linebpos = f.lines[a as usize];
             debug_assert!(
