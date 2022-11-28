@@ -105,6 +105,19 @@ impl SourceCode for MietteSourceCode<'_> {
             })
             .unwrap_or(span);
 
+        span = self
+            .0
+            .with_snippet_of_span(span, |src| {
+                let lo = src.len() - src.trim_start().len();
+                let hi = src.len() - src.trim_end().len();
+
+                span.lo.0 -= lo as u32;
+                span.hi.0 -= hi as u32;
+
+                span
+            })
+            .unwrap_or(span);
+
         let mut src = self
             .0
             .with_snippet_of_span(span, |s| unsafe { transmute::<&str, &str>(s) })
