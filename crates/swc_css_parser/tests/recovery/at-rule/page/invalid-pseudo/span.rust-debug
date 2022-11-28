@@ -24,60 +24,70 @@
    ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:1:1]
  1 | @page :unknown {
    :  ^^^^
+ 2 |     margin: 2cm;
    `----
 
   x Ident
    ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:1:1]
  1 | @page :unknown {
    :  ^^^^
+ 2 |     margin: 2cm;
    `----
 
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:1:1]
  1 | @page :unknown {
    :      ^
+ 2 |     margin: 2cm;
    `----
 
   x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:1:1]
  1 | @page :unknown {
    :      ^
+ 2 |     margin: 2cm;
    `----
 
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:1:1]
  1 | @page :unknown {
    :       ^
+ 2 |     margin: 2cm;
    `----
 
   x Colon
    ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:1:1]
  1 | @page :unknown {
    :       ^
+ 2 |     margin: 2cm;
    `----
 
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:1:1]
  1 | @page :unknown {
    :        ^^^^^^^
+ 2 |     margin: 2cm;
    `----
 
   x Ident { value: Atom('unknown' type=static), raw: "unknown" }
    ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:1:1]
  1 | @page :unknown {
    :        ^^^^^^^
+ 2 |     margin: 2cm;
    `----
 
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:1:1]
  1 | @page :unknown {
    :               ^
+ 2 |     margin: 2cm;
    `----
 
   x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:1:1]
  1 | @page :unknown {
    :               ^
+ 2 |     margin: 2cm;
    `----
 
   x SimpleBlock
@@ -91,58 +101,77 @@
    ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:1:1]
  1 | @page :unknown {
    :                ^
+ 2 |     margin: 2cm;
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:2:5]
- 2 | margin: 2cm;
-   : ^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:1:1]
+ 1 | @page :unknown {
+ 2 |     margin: 2cm;
+   :     ^^^^^^^^^^^
+ 3 | }
    `----
 
   x Declaration
-   ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:2:5]
- 2 | margin: 2cm;
-   : ^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:1:1]
+ 1 | @page :unknown {
+ 2 |     margin: 2cm;
+   :     ^^^^^^^^^^^
+ 3 | }
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:2:5]
- 2 | margin: 2cm;
-   : ^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:1:1]
+ 1 | @page :unknown {
+ 2 |     margin: 2cm;
+   :     ^^^^^^
+ 3 | }
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:2:5]
- 2 | margin: 2cm;
-   : ^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:1:1]
+ 1 | @page :unknown {
+ 2 |     margin: 2cm;
+   :     ^^^^^^
+ 3 | }
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:2:5]
- 2 | margin: 2cm;
-   :         ^^^
+   ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:1:1]
+ 1 | @page :unknown {
+ 2 |     margin: 2cm;
+   :             ^^^
+ 3 | }
    `----
 
   x Dimension
-   ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:2:5]
- 2 | margin: 2cm;
-   :         ^^^
+   ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:1:1]
+ 1 | @page :unknown {
+ 2 |     margin: 2cm;
+   :             ^^^
+ 3 | }
    `----
 
   x Length
-   ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:2:5]
- 2 | margin: 2cm;
-   :         ^^^
+   ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:1:1]
+ 1 | @page :unknown {
+ 2 |     margin: 2cm;
+   :             ^^^
+ 3 | }
    `----
 
   x Number
-   ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:2:5]
- 2 | margin: 2cm;
-   :         ^
+   ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:1:1]
+ 1 | @page :unknown {
+ 2 |     margin: 2cm;
+   :             ^
+ 3 | }
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:2:5]
- 2 | margin: 2cm;
-   :          ^^
+   ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:1:1]
+ 1 | @page :unknown {
+ 2 |     margin: 2cm;
+   :              ^^
+ 3 | }
    `----

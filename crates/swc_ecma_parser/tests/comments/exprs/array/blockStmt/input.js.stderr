@@ -3,7 +3,9 @@
 
 Error: 
   >  @refresh reset
-   ,-[$DIR/tests/comments/exprs/array/blockStmt/input.js:3:1]
+   ,-[$DIR/tests/comments/exprs/array/blockStmt/input.js:2:5]
+ 2 | // @refresh reset
+   :                   ^
  3 | });
    : ^
    `----

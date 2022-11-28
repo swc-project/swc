@@ -21,24 +21,28 @@
    ,-[$DIR/tests/recovery/selector/list/input.css:1:1]
  1 | , {
    : ^
+ 2 | }
    `----
 
   x Comma
    ,-[$DIR/tests/recovery/selector/list/input.css:1:1]
  1 | , {
    : ^
+ 2 | }
    `----
 
   x ComponentValue
    ,-[$DIR/tests/recovery/selector/list/input.css:1:1]
  1 | , {
    :  ^
+ 2 | }
    `----
 
   x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/selector/list/input.css:1:1]
  1 | , {
    :  ^
+ 2 | }
    `----
 
   x SimpleBlock
@@ -51,4 +55,5 @@
    ,-[$DIR/tests/recovery/selector/list/input.css:1:1]
  1 | , {
    :   ^
+ 2 | }
    `----

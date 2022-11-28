@@ -17,16 +17,19 @@
    ,-[$DIR/tests/fixture/document/input.html:1:1]
  1 | <!DOCTYPE html>
    : ^^^^^^^^^^^^^^^
+ 2 | <html>
    `----
 
   x DocumentType
    ,-[$DIR/tests/fixture/document/input.html:1:1]
  1 | <!DOCTYPE html>
    : ^^^^^^^^^^^^^^^
+ 2 | <html>
    `----
 
   x Child
-    ,-[$DIR/tests/fixture/document/input.html:2:1]
+    ,-[$DIR/tests/fixture/document/input.html:1:1]
+  1 |     <!DOCTYPE html>
   2 | ,-> <html>
   3 | |   <body>
   4 | |   
@@ -39,7 +42,8 @@
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/document/input.html:2:1]
+    ,-[$DIR/tests/fixture/document/input.html:1:1]
+  1 |     <!DOCTYPE html>
   2 | ,-> <html>
   3 | |   <body>
   4 | |   
@@ -56,7 +60,8 @@
   x Element
 
   x Child
-    ,-[$DIR/tests/fixture/document/input.html:3:1]
+    ,-[$DIR/tests/fixture/document/input.html:2:1]
+  2 |     <html>
   3 | ,-> <body>
   4 | |   
   5 | |   <h1>My First Heading</h1>
@@ -68,7 +73,8 @@
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/document/input.html:3:1]
+    ,-[$DIR/tests/fixture/document/input.html:2:1]
+  2 |     <html>
   3 | ,-> <body>
   4 | |   
   5 | |   <h1>My First Heading</h1>
@@ -80,14 +86,16 @@
     `----
 
   x Child
-   ,-[$DIR/tests/fixture/document/input.html:3:1]
+   ,-[$DIR/tests/fixture/document/input.html:2:1]
+ 2 |     <html>
  3 | ,-> <body>
  4 | `-> 
  5 |     <h1>My First Heading</h1>
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/document/input.html:3:1]
+   ,-[$DIR/tests/fixture/document/input.html:2:1]
+ 2 |     <html>
  3 | ,-> <body>
  4 | `-> 
  5 |     <h1>My First Heading</h1>

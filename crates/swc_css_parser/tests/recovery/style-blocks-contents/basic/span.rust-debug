@@ -96,36 +96,42 @@
    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:1:1]
  1 | .class {
    : ^^^^^^
+ 2 |     color: blue;
    `----
 
   x ComplexSelector
    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:1:1]
  1 | .class {
    : ^^^^^^
+ 2 |     color: blue;
    `----
 
   x CompoundSelector
    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:1:1]
  1 | .class {
    : ^^^^^^
+ 2 |     color: blue;
    `----
 
   x SubclassSelector
    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:1:1]
  1 | .class {
    : ^^^^^^
+ 2 |     color: blue;
    `----
 
   x ClassSelector
    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:1:1]
  1 | .class {
    : ^^^^^^
+ 2 |     color: blue;
    `----
 
   x Ident
    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:1:1]
  1 | .class {
    :  ^^^^^
+ 2 |     color: blue;
    `----
 
   x SimpleBlock
@@ -153,48 +159,56 @@
    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:1:1]
  1 | .class {
    :        ^
+ 2 |     color: blue;
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:2:5]
- 2 | color: blue;
-   : ^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:1:1]
+ 1 | .class {
+ 2 |     color: blue;
+   :     ^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:2:5]
- 2 | color: blue;
-   : ^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:1:1]
+ 1 | .class {
+ 2 |     color: blue;
+   :     ^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:2:5]
- 2 | color: blue;
-   : ^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:1:1]
+ 1 | .class {
+ 2 |     color: blue;
+   :     ^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:2:5]
- 2 | color: blue;
-   : ^^^^^
+   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:1:1]
+ 1 | .class {
+ 2 |     color: blue;
+   :     ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:2:5]
- 2 | color: blue;
-   : ^^^^^
+   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:1:1]
+ 1 | .class {
+ 2 |     color: blue;
+   :     ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:2:5]
- 2 | color: blue;
-   :        ^^^^
+   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:1:1]
+ 1 | .class {
+ 2 |     color: blue;
+   :            ^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:2:5]
- 2 | color: blue;
-   :        ^^^^
+   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:1:1]
+ 1 | .class {
+ 2 |     color: blue;
+   :            ^^^^
    `----
 
   x ComponentValue
@@ -225,48 +239,56 @@
    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:4:5]
  4 | &.foo {
    : ^^^^^
+ 5 |         ident
    `----
 
   x RelativeSelector
    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:4:5]
  4 | &.foo {
    : ^^^^^
+ 5 |         ident
    `----
 
   x ComplexSelector
    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:4:5]
  4 | &.foo {
    : ^^^^^
+ 5 |         ident
    `----
 
   x CompoundSelector
    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:4:5]
  4 | &.foo {
    : ^^^^^
+ 5 |         ident
    `----
 
   x NestingSelector
    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:4:5]
  4 | &.foo {
    : ^
+ 5 |         ident
    `----
 
   x SubclassSelector
    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:4:5]
  4 | &.foo {
    :  ^^^^
+ 5 |         ident
    `----
 
   x ClassSelector
    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:4:5]
  4 | &.foo {
    :  ^^^^
+ 5 |         ident
    `----
 
   x Ident
    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:4:5]
  4 | &.foo {
    :   ^^^
+ 5 |         ident
    `----
 
   x SimpleBlock
@@ -281,102 +303,135 @@
    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:4:5]
  4 | &.foo {
    :       ^
+ 5 |         ident
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:5:9]
- 5 | ,-> ident
+   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:4:5]
+ 4 |     &.foo {
+ 5 | ,->         ident
  6 | `->         color: green;
+ 7 |         }
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:5:9]
- 5 | ,-> ident
+   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:4:5]
+ 4 |     &.foo {
+ 5 | ,->         ident
  6 | `->         color: green;
+ 7 |         }
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:5:9]
- 5 | ident
-   : ^^^^^
+   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:4:5]
+ 4 | &.foo {
+ 5 |         ident
+   :         ^^^^^
+ 6 |         color: green;
    `----
 
   x Ident { value: Atom('ident' type=inline), raw: "ident" }
-   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:5:9]
- 5 | ident
-   : ^^^^^
+   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:4:5]
+ 4 | &.foo {
+ 5 |         ident
+   :         ^^^^^
+ 6 |         color: green;
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:5:9]
- 5 | ,-> ident
+   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:4:5]
+ 4 |     &.foo {
+ 5 | ,->         ident
  6 | `->         color: green;
+ 7 |         }
    `----
 
   x WhiteSpace { value: "\n        " }
-   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:5:9]
- 5 | ,-> ident
+   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:4:5]
+ 4 |     &.foo {
+ 5 | ,->         ident
  6 | `->         color: green;
+ 7 |         }
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:6:9]
- 6 | color: green;
-   : ^^^^^
+   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:5:9]
+ 5 | ident
+ 6 |         color: green;
+   :         ^^^^^
+ 7 |     }
    `----
 
   x Ident { value: Atom('color' type=static), raw: "color" }
-   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:6:9]
- 6 | color: green;
-   : ^^^^^
+   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:5:9]
+ 5 | ident
+ 6 |         color: green;
+   :         ^^^^^
+ 7 |     }
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:6:9]
- 6 | color: green;
-   :      ^
+   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:5:9]
+ 5 | ident
+ 6 |         color: green;
+   :              ^
+ 7 |     }
    `----
 
   x Colon
-   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:6:9]
- 6 | color: green;
-   :      ^
+   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:5:9]
+ 5 | ident
+ 6 |         color: green;
+   :              ^
+ 7 |     }
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:6:9]
- 6 | color: green;
-   :       ^
+   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:5:9]
+ 5 | ident
+ 6 |         color: green;
+   :               ^
+ 7 |     }
    `----
 
   x WhiteSpace { value: " " }
-   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:6:9]
- 6 | color: green;
-   :       ^
+   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:5:9]
+ 5 | ident
+ 6 |         color: green;
+   :               ^
+ 7 |     }
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:6:9]
- 6 | color: green;
-   :        ^^^^^
+   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:5:9]
+ 5 | ident
+ 6 |         color: green;
+   :                ^^^^^
+ 7 |     }
    `----
 
   x Ident { value: Atom('green' type=inline), raw: "green" }
-   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:6:9]
- 6 | color: green;
-   :        ^^^^^
+   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:5:9]
+ 5 | ident
+ 6 |         color: green;
+   :                ^^^^^
+ 7 |     }
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:6:9]
- 6 | color: green;
-   :             ^
+   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:5:9]
+ 5 | ident
+ 6 |         color: green;
+   :                     ^
+ 7 |     }
    `----
 
   x Semi
-   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:6:9]
- 6 | color: green;
-   :             ^
+   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:5:9]
+ 5 | ident
+ 6 |         color: green;
+   :                     ^
+ 7 |     }
    `----
 
   x ComponentValue
@@ -389,6 +444,7 @@
  14 | |               color: red 
  15 | |           }
  16 | `->     }
+ 17 |     }
     `----
 
   x StyleBlock
@@ -401,6 +457,7 @@
  14 | |               color: red 
  15 | |           }
  16 | `->     }
+ 17 |     }
     `----
 
   x AtRule
@@ -413,85 +470,99 @@
  14 | |               color: red 
  15 | |           }
  16 | `->     }
+ 17 |     }
     `----
 
   x AtRuleName
-   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:9:5]
- 9 | @supports not (display: grid) {
-   :  ^^^^^^^^
-   `----
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:9:5]
+  9 | @supports not (display: grid) {
+    :  ^^^^^^^^
+ 10 |         float: right;
+    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:9:5]
- 9 | @supports not (display: grid) {
-   :  ^^^^^^^^
-   `----
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:9:5]
+  9 | @supports not (display: grid) {
+    :  ^^^^^^^^
+ 10 |         float: right;
+    `----
 
   x SupportsCondition
-   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:9:5]
- 9 | @supports not (display: grid) {
-   :           ^^^^^^^^^^^^^^^^^^^
-   `----
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:9:5]
+  9 | @supports not (display: grid) {
+    :           ^^^^^^^^^^^^^^^^^^^
+ 10 |         float: right;
+    `----
 
   x SupportsConditionType
-   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:9:5]
- 9 | @supports not (display: grid) {
-   :           ^^^^^^^^^^^^^^^^^^^
-   `----
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:9:5]
+  9 | @supports not (display: grid) {
+    :           ^^^^^^^^^^^^^^^^^^^
+ 10 |         float: right;
+    `----
 
   x SupportsNot
-   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:9:5]
- 9 | @supports not (display: grid) {
-   :           ^^^^^^^^^^^^^^^^^^^
-   `----
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:9:5]
+  9 | @supports not (display: grid) {
+    :           ^^^^^^^^^^^^^^^^^^^
+ 10 |         float: right;
+    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:9:5]
- 9 | @supports not (display: grid) {
-   :           ^^^
-   `----
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:9:5]
+  9 | @supports not (display: grid) {
+    :           ^^^
+ 10 |         float: right;
+    `----
 
   x SupportsInParens
-   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:9:5]
- 9 | @supports not (display: grid) {
-   :                ^^^^^^^^^^^^^
-   `----
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:9:5]
+  9 | @supports not (display: grid) {
+    :                ^^^^^^^^^^^^^
+ 10 |         float: right;
+    `----
 
   x SupportsFeature
-   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:9:5]
- 9 | @supports not (display: grid) {
-   :                ^^^^^^^^^^^^^
-   `----
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:9:5]
+  9 | @supports not (display: grid) {
+    :                ^^^^^^^^^^^^^
+ 10 |         float: right;
+    `----
 
   x Declaration
-   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:9:5]
- 9 | @supports not (display: grid) {
-   :                ^^^^^^^^^^^^^
-   `----
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:9:5]
+  9 | @supports not (display: grid) {
+    :                ^^^^^^^^^^^^^
+ 10 |         float: right;
+    `----
 
   x DeclarationName
-   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:9:5]
- 9 | @supports not (display: grid) {
-   :                ^^^^^^^
-   `----
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:9:5]
+  9 | @supports not (display: grid) {
+    :                ^^^^^^^
+ 10 |         float: right;
+    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:9:5]
- 9 | @supports not (display: grid) {
-   :                ^^^^^^^
-   `----
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:9:5]
+  9 | @supports not (display: grid) {
+    :                ^^^^^^^
+ 10 |         float: right;
+    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:9:5]
- 9 | @supports not (display: grid) {
-   :                         ^^^^
-   `----
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:9:5]
+  9 | @supports not (display: grid) {
+    :                         ^^^^
+ 10 |         float: right;
+    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:9:5]
- 9 | @supports not (display: grid) {
-   :                         ^^^^
-   `----
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:9:5]
+  9 | @supports not (display: grid) {
+    :                         ^^^^
+ 10 |         float: right;
+    `----
 
   x SimpleBlock
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:9:5]
@@ -503,54 +574,63 @@
  14 | |               color: red 
  15 | |           }
  16 | `->     }
+ 17 |     }
     `----
 
   x LBrace
-   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:9:5]
- 9 | @supports not (display: grid) {
-   :                               ^
-   `----
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:9:5]
+  9 | @supports not (display: grid) {
+    :                               ^
+ 10 |         float: right;
+    `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:10:9]
- 10 | float: right;
-    : ^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:9:5]
+  9 | @supports not (display: grid) {
+ 10 |         float: right;
+    :         ^^^^^^^^^^^^
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:10:9]
- 10 | float: right;
-    : ^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:9:5]
+  9 | @supports not (display: grid) {
+ 10 |         float: right;
+    :         ^^^^^^^^^^^^
     `----
 
   x Declaration
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:10:9]
- 10 | float: right;
-    : ^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:9:5]
+  9 | @supports not (display: grid) {
+ 10 |         float: right;
+    :         ^^^^^^^^^^^^
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:10:9]
- 10 | float: right;
-    : ^^^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:9:5]
+  9 | @supports not (display: grid) {
+ 10 |         float: right;
+    :         ^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:10:9]
- 10 | float: right;
-    : ^^^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:9:5]
+  9 | @supports not (display: grid) {
+ 10 |         float: right;
+    :         ^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:10:9]
- 10 | float: right;
-    :        ^^^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:9:5]
+  9 | @supports not (display: grid) {
+ 10 |         float: right;
+    :                ^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:10:9]
- 10 | float: right;
-    :        ^^^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:9:5]
+  9 | @supports not (display: grid) {
+ 10 |         float: right;
+    :                ^^^^^
     `----
 
   x ComponentValue
@@ -559,6 +639,7 @@
  13 | |               ident
  14 | |               color: red 
  15 | `->         }
+ 16 |         }
     `----
 
   x StyleBlock
@@ -567,6 +648,7 @@
  13 | |               ident
  14 | |               color: red 
  15 | `->         }
+ 16 |         }
     `----
 
   x QualifiedRule
@@ -575,66 +657,77 @@
  13 | |               ident
  14 | |               color: red 
  15 | `->         }
+ 16 |         }
     `----
 
   x RelativeSelectorList
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:12:9]
- 12 | & .class {
+ 12 | & .class { 
     : ^^^^^^^^
+ 13 |             ident
     `----
 
   x RelativeSelector
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:12:9]
- 12 | & .class {
+ 12 | & .class { 
     : ^^^^^^^^
+ 13 |             ident
     `----
 
   x ComplexSelector
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:12:9]
- 12 | & .class {
+ 12 | & .class { 
     : ^^^^^^^^
+ 13 |             ident
     `----
 
   x CompoundSelector
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:12:9]
- 12 | & .class {
+ 12 | & .class { 
     : ^
+ 13 |             ident
     `----
 
   x NestingSelector
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:12:9]
- 12 | & .class {
+ 12 | & .class { 
     : ^
+ 13 |             ident
     `----
 
   x Combinator
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:12:9]
- 12 | & .class {
+ 12 | & .class { 
     :  ^
+ 13 |             ident
     `----
 
   x CompoundSelector
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:12:9]
- 12 | & .class {
+ 12 | & .class { 
     :   ^^^^^^
+ 13 |             ident
     `----
 
   x SubclassSelector
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:12:9]
- 12 | & .class {
+ 12 | & .class { 
     :   ^^^^^^
+ 13 |             ident
     `----
 
   x ClassSelector
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:12:9]
- 12 | & .class {
+ 12 | & .class { 
     :   ^^^^^^
+ 13 |             ident
     `----
 
   x Ident
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:12:9]
- 12 | & .class {
+ 12 | & .class { 
     :    ^^^^^
+ 13 |             ident
     `----
 
   x SimpleBlock
@@ -643,110 +736,144 @@
  13 | |               ident
  14 | |               color: red 
  15 | `->         }
+ 16 |         }
     `----
 
   x LBrace
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:12:9]
- 12 | & .class {
+ 12 | & .class { 
     :          ^
+ 13 |             ident
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:13:13]
- 13 | ,-> ident
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:12:9]
+ 12 |     & .class { 
+ 13 | ,->             ident
  14 | |               color: red 
  15 | `->         }
+ 16 |         }
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:13:13]
- 13 | ,-> ident
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:12:9]
+ 12 |     & .class { 
+ 13 | ,->             ident
  14 | |               color: red 
  15 | `->         }
+ 16 |         }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:13:13]
- 13 | ident
-    : ^^^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:12:9]
+ 12 | & .class { 
+ 13 |             ident
+    :             ^^^^^
+ 14 |             color: red
     `----
 
   x Ident { value: Atom('ident' type=inline), raw: "ident" }
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:13:13]
- 13 | ident
-    : ^^^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:12:9]
+ 12 | & .class { 
+ 13 |             ident
+    :             ^^^^^
+ 14 |             color: red
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:13:13]
- 13 | ,-> ident
- 14 | `->             color: red
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:12:9]
+ 12 |     & .class { 
+ 13 | ,->             ident
+ 14 | `->             color: red 
+ 15 |             }
     `----
 
   x WhiteSpace { value: "\n            " }
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:13:13]
- 13 | ,-> ident
- 14 | `->             color: red
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:12:9]
+ 12 |     & .class { 
+ 13 | ,->             ident
+ 14 | `->             color: red 
+ 15 |             }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:14:13]
- 14 | color: red
-    : ^^^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:13:13]
+ 13 | ident
+ 14 |             color: red 
+    :             ^^^^^
+ 15 |         }
     `----
 
   x Ident { value: Atom('color' type=static), raw: "color" }
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:14:13]
- 14 | color: red
-    : ^^^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:13:13]
+ 13 | ident
+ 14 |             color: red 
+    :             ^^^^^
+ 15 |         }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:14:13]
- 14 | color: red
-    :      ^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:13:13]
+ 13 | ident
+ 14 |             color: red 
+    :                  ^
+ 15 |         }
     `----
 
   x Colon
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:14:13]
- 14 | color: red
-    :      ^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:13:13]
+ 13 | ident
+ 14 |             color: red 
+    :                  ^
+ 15 |         }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:14:13]
- 14 | color: red
-    :       ^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:13:13]
+ 13 | ident
+ 14 |             color: red 
+    :                   ^
+ 15 |         }
     `----
 
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:14:13]
- 14 | color: red
-    :       ^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:13:13]
+ 13 | ident
+ 14 |             color: red 
+    :                   ^
+ 15 |         }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:14:13]
- 14 | color: red
-    :        ^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:13:13]
+ 13 | ident
+ 14 |             color: red 
+    :                    ^^^
+ 15 |         }
     `----
 
   x Ident { value: Atom('red' type=inline), raw: "red" }
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:14:13]
- 14 | color: red
-    :        ^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:13:13]
+ 13 | ident
+ 14 |             color: red 
+    :                    ^^^
+ 15 |         }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:14:13]
- 14 | ,-> color: red 
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:13:13]
+ 13 |     ident
+ 14 | ,->             color: red 
  15 | `->         }
+ 16 |         }
     `----
 
   x WhiteSpace { value: " \n        " }
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:14:13]
- 14 | ,-> color: red 
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:13:13]
+ 13 |     ident
+ 14 | ,->             color: red 
  15 | `->         }
+ 16 |         }
     `----
 
   x Rule
@@ -795,36 +922,42 @@
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:19:1]
  19 | .class {
     : ^^^^^^
+ 20 |     color: blue;
     `----
 
   x ComplexSelector
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:19:1]
  19 | .class {
     : ^^^^^^
+ 20 |     color: blue;
     `----
 
   x CompoundSelector
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:19:1]
  19 | .class {
     : ^^^^^^
+ 20 |     color: blue;
     `----
 
   x SubclassSelector
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:19:1]
  19 | .class {
     : ^^^^^^
+ 20 |     color: blue;
     `----
 
   x ClassSelector
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:19:1]
  19 | .class {
     : ^^^^^^
+ 20 |     color: blue;
     `----
 
   x Ident
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:19:1]
  19 | .class {
     :  ^^^^^
+ 20 |     color: blue;
     `----
 
   x SimpleBlock
@@ -852,48 +985,56 @@
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:19:1]
  19 | .class {
     :        ^
+ 20 |     color: blue;
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:20:5]
- 20 | color: blue;
-    : ^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:19:1]
+ 19 | .class {
+ 20 |     color: blue;
+    :     ^^^^^^^^^^^
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:20:5]
- 20 | color: blue;
-    : ^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:19:1]
+ 19 | .class {
+ 20 |     color: blue;
+    :     ^^^^^^^^^^^
     `----
 
   x Declaration
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:20:5]
- 20 | color: blue;
-    : ^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:19:1]
+ 19 | .class {
+ 20 |     color: blue;
+    :     ^^^^^^^^^^^
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:20:5]
- 20 | color: blue;
-    : ^^^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:19:1]
+ 19 | .class {
+ 20 |     color: blue;
+    :     ^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:20:5]
- 20 | color: blue;
-    : ^^^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:19:1]
+ 19 | .class {
+ 20 |     color: blue;
+    :     ^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:20:5]
- 20 | color: blue;
-    :        ^^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:19:1]
+ 19 | .class {
+ 20 |     color: blue;
+    :            ^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:20:5]
- 20 | color: blue;
-    :        ^^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:19:1]
+ 19 | .class {
+ 20 |     color: blue;
+    :            ^^^^
     `----
 
   x ComponentValue
@@ -924,48 +1065,56 @@
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:22:5]
  22 | &.foo {
     : ^^^^^
+ 23 |         ident;
     `----
 
   x RelativeSelector
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:22:5]
  22 | &.foo {
     : ^^^^^
+ 23 |         ident;
     `----
 
   x ComplexSelector
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:22:5]
  22 | &.foo {
     : ^^^^^
+ 23 |         ident;
     `----
 
   x CompoundSelector
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:22:5]
  22 | &.foo {
     : ^^^^^
+ 23 |         ident;
     `----
 
   x NestingSelector
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:22:5]
  22 | &.foo {
     : ^
+ 23 |         ident;
     `----
 
   x SubclassSelector
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:22:5]
  22 | &.foo {
     :  ^^^^
+ 23 |         ident;
     `----
 
   x ClassSelector
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:22:5]
  22 | &.foo {
     :  ^^^^
+ 23 |         ident;
     `----
 
   x Ident
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:22:5]
  22 | &.foo {
     :   ^^^
+ 23 |         ident;
     `----
 
   x SimpleBlock
@@ -980,84 +1129,111 @@
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:22:5]
  22 | &.foo {
     :       ^
+ 23 |         ident;
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:23:9]
- 23 | ident;
-    : ^^^^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:22:5]
+ 22 | &.foo {
+ 23 |         ident;
+    :         ^^^^^^
+ 24 |         color: green;
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:23:9]
- 23 | ident;
-    : ^^^^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:22:5]
+ 22 | &.foo {
+ 23 |         ident;
+    :         ^^^^^^
+ 24 |         color: green;
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:23:9]
- 23 | ident;
-    : ^^^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:22:5]
+ 22 | &.foo {
+ 23 |         ident;
+    :         ^^^^^
+ 24 |         color: green;
     `----
 
   x Ident { value: Atom('ident' type=inline), raw: "ident" }
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:23:9]
- 23 | ident;
-    : ^^^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:22:5]
+ 22 | &.foo {
+ 23 |         ident;
+    :         ^^^^^
+ 24 |         color: green;
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:23:9]
- 23 | ident;
-    :      ^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:22:5]
+ 22 | &.foo {
+ 23 |         ident;
+    :              ^
+ 24 |         color: green;
     `----
 
   x Semi
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:23:9]
- 23 | ident;
-    :      ^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:22:5]
+ 22 | &.foo {
+ 23 |         ident;
+    :              ^
+ 24 |         color: green;
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:24:9]
- 24 | color: green;
-    : ^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:23:9]
+ 23 | ident;
+ 24 |         color: green;
+    :         ^^^^^^^^^^^^
+ 25 |     }
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:24:9]
- 24 | color: green;
-    : ^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:23:9]
+ 23 | ident;
+ 24 |         color: green;
+    :         ^^^^^^^^^^^^
+ 25 |     }
     `----
 
   x Declaration
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:24:9]
- 24 | color: green;
-    : ^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:23:9]
+ 23 | ident;
+ 24 |         color: green;
+    :         ^^^^^^^^^^^^
+ 25 |     }
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:24:9]
- 24 | color: green;
-    : ^^^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:23:9]
+ 23 | ident;
+ 24 |         color: green;
+    :         ^^^^^
+ 25 |     }
     `----
 
   x Ident
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:24:9]
- 24 | color: green;
-    : ^^^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:23:9]
+ 23 | ident;
+ 24 |         color: green;
+    :         ^^^^^
+ 25 |     }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:24:9]
- 24 | color: green;
-    :        ^^^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:23:9]
+ 23 | ident;
+ 24 |         color: green;
+    :                ^^^^^
+ 25 |     }
     `----
 
   x Ident
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:24:9]
- 24 | color: green;
-    :        ^^^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:23:9]
+ 23 | ident;
+ 24 |         color: green;
+    :                ^^^^^
+ 25 |     }
     `----
 
   x ComponentValue
@@ -1070,6 +1246,7 @@
  32 | |               color: red
  33 | |           }
  34 | `->     }
+ 35 |     }
     `----
 
   x StyleBlock
@@ -1082,6 +1259,7 @@
  32 | |               color: red
  33 | |           }
  34 | `->     }
+ 35 |     }
     `----
 
   x AtRule
@@ -1094,84 +1272,98 @@
  32 | |               color: red
  33 | |           }
  34 | `->     }
+ 35 |     }
     `----
 
   x AtRuleName
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:27:5]
  27 | @supports not (display: grid) {
     :  ^^^^^^^^
+ 28 |         float: right;
     `----
 
   x Ident
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:27:5]
  27 | @supports not (display: grid) {
     :  ^^^^^^^^
+ 28 |         float: right;
     `----
 
   x SupportsCondition
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:27:5]
  27 | @supports not (display: grid) {
     :           ^^^^^^^^^^^^^^^^^^^
+ 28 |         float: right;
     `----
 
   x SupportsConditionType
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:27:5]
  27 | @supports not (display: grid) {
     :           ^^^^^^^^^^^^^^^^^^^
+ 28 |         float: right;
     `----
 
   x SupportsNot
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:27:5]
  27 | @supports not (display: grid) {
     :           ^^^^^^^^^^^^^^^^^^^
+ 28 |         float: right;
     `----
 
   x Ident
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:27:5]
  27 | @supports not (display: grid) {
     :           ^^^
+ 28 |         float: right;
     `----
 
   x SupportsInParens
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:27:5]
  27 | @supports not (display: grid) {
     :                ^^^^^^^^^^^^^
+ 28 |         float: right;
     `----
 
   x SupportsFeature
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:27:5]
  27 | @supports not (display: grid) {
     :                ^^^^^^^^^^^^^
+ 28 |         float: right;
     `----
 
   x Declaration
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:27:5]
  27 | @supports not (display: grid) {
     :                ^^^^^^^^^^^^^
+ 28 |         float: right;
     `----
 
   x DeclarationName
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:27:5]
  27 | @supports not (display: grid) {
     :                ^^^^^^^
+ 28 |         float: right;
     `----
 
   x Ident
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:27:5]
  27 | @supports not (display: grid) {
     :                ^^^^^^^
+ 28 |         float: right;
     `----
 
   x ComponentValue
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:27:5]
  27 | @supports not (display: grid) {
     :                         ^^^^
+ 28 |         float: right;
     `----
 
   x Ident
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:27:5]
  27 | @supports not (display: grid) {
     :                         ^^^^
+ 28 |         float: right;
     `----
 
   x SimpleBlock
@@ -1184,54 +1376,63 @@
  32 | |               color: red
  33 | |           }
  34 | `->     }
+ 35 |     }
     `----
 
   x LBrace
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:27:5]
  27 | @supports not (display: grid) {
     :                               ^
+ 28 |         float: right;
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:28:9]
- 28 | float: right;
-    : ^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:27:5]
+ 27 | @supports not (display: grid) {
+ 28 |         float: right;
+    :         ^^^^^^^^^^^^
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:28:9]
- 28 | float: right;
-    : ^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:27:5]
+ 27 | @supports not (display: grid) {
+ 28 |         float: right;
+    :         ^^^^^^^^^^^^
     `----
 
   x Declaration
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:28:9]
- 28 | float: right;
-    : ^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:27:5]
+ 27 | @supports not (display: grid) {
+ 28 |         float: right;
+    :         ^^^^^^^^^^^^
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:28:9]
- 28 | float: right;
-    : ^^^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:27:5]
+ 27 | @supports not (display: grid) {
+ 28 |         float: right;
+    :         ^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:28:9]
- 28 | float: right;
-    : ^^^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:27:5]
+ 27 | @supports not (display: grid) {
+ 28 |         float: right;
+    :         ^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:28:9]
- 28 | float: right;
-    :        ^^^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:27:5]
+ 27 | @supports not (display: grid) {
+ 28 |         float: right;
+    :                ^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:28:9]
- 28 | float: right;
-    :        ^^^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:27:5]
+ 27 | @supports not (display: grid) {
+ 28 |         float: right;
+    :                ^^^^^
     `----
 
   x ComponentValue
@@ -1240,6 +1441,7 @@
  31 | |               ident;
  32 | |               color: red
  33 | `->         }
+ 34 |         }
     `----
 
   x StyleBlock
@@ -1248,6 +1450,7 @@
  31 | |               ident;
  32 | |               color: red
  33 | `->         }
+ 34 |         }
     `----
 
   x QualifiedRule
@@ -1256,66 +1459,77 @@
  31 | |               ident;
  32 | |               color: red
  33 | `->         }
+ 34 |         }
     `----
 
   x RelativeSelectorList
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:30:9]
  30 | & .class {
     : ^^^^^^^^
+ 31 |             ident;
     `----
 
   x RelativeSelector
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:30:9]
  30 | & .class {
     : ^^^^^^^^
+ 31 |             ident;
     `----
 
   x ComplexSelector
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:30:9]
  30 | & .class {
     : ^^^^^^^^
+ 31 |             ident;
     `----
 
   x CompoundSelector
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:30:9]
  30 | & .class {
     : ^
+ 31 |             ident;
     `----
 
   x NestingSelector
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:30:9]
  30 | & .class {
     : ^
+ 31 |             ident;
     `----
 
   x Combinator
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:30:9]
  30 | & .class {
     :  ^
+ 31 |             ident;
     `----
 
   x CompoundSelector
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:30:9]
  30 | & .class {
     :   ^^^^^^
+ 31 |             ident;
     `----
 
   x SubclassSelector
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:30:9]
  30 | & .class {
     :   ^^^^^^
+ 31 |             ident;
     `----
 
   x ClassSelector
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:30:9]
  30 | & .class {
     :   ^^^^^^
+ 31 |             ident;
     `----
 
   x Ident
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:30:9]
  30 | & .class {
     :    ^^^^^
+ 31 |             ident;
     `----
 
   x SimpleBlock
@@ -1324,90 +1538,118 @@
  31 | |               ident;
  32 | |               color: red
  33 | `->         }
+ 34 |         }
     `----
 
   x LBrace
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:30:9]
  30 | & .class {
     :          ^
+ 31 |             ident;
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:31:13]
- 31 | ident;
-    : ^^^^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:30:9]
+ 30 | & .class {
+ 31 |             ident;
+    :             ^^^^^^
+ 32 |             color: red
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:31:13]
- 31 | ident;
-    : ^^^^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:30:9]
+ 30 | & .class {
+ 31 |             ident;
+    :             ^^^^^^
+ 32 |             color: red
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:31:13]
- 31 | ident;
-    : ^^^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:30:9]
+ 30 | & .class {
+ 31 |             ident;
+    :             ^^^^^
+ 32 |             color: red
     `----
 
   x Ident { value: Atom('ident' type=inline), raw: "ident" }
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:31:13]
- 31 | ident;
-    : ^^^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:30:9]
+ 30 | & .class {
+ 31 |             ident;
+    :             ^^^^^
+ 32 |             color: red
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:31:13]
- 31 | ident;
-    :      ^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:30:9]
+ 30 | & .class {
+ 31 |             ident;
+    :                  ^
+ 32 |             color: red
     `----
 
   x Semi
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:31:13]
- 31 | ident;
-    :      ^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:30:9]
+ 30 | & .class {
+ 31 |             ident;
+    :                  ^
+ 32 |             color: red
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:32:13]
- 32 | ,-> color: red
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:31:13]
+ 31 |     ident;
+ 32 | ,->             color: red
  33 | `->         }
+ 34 |         }
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:32:13]
- 32 | ,-> color: red
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:31:13]
+ 31 |     ident;
+ 32 | ,->             color: red
  33 | `->         }
+ 34 |         }
     `----
 
   x Declaration
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:32:13]
- 32 | ,-> color: red
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:31:13]
+ 31 |     ident;
+ 32 | ,->             color: red
  33 | `->         }
+ 34 |         }
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:32:13]
- 32 | color: red
-    : ^^^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:31:13]
+ 31 | ident;
+ 32 |             color: red
+    :             ^^^^^
+ 33 |         }
     `----
 
   x Ident
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:32:13]
- 32 | color: red
-    : ^^^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:31:13]
+ 31 | ident;
+ 32 |             color: red
+    :             ^^^^^
+ 33 |         }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:32:13]
- 32 | color: red
-    :        ^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:31:13]
+ 31 | ident;
+ 32 |             color: red
+    :                    ^^^
+ 33 |         }
     `----
 
   x Ident
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:32:13]
- 32 | color: red
-    :        ^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:31:13]
+ 31 | ident;
+ 32 |             color: red
+    :                    ^^^
+ 33 |         }
     `----
 
   x Rule
@@ -1430,36 +1672,42 @@
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:37:1]
  37 | .class {
     : ^^^^^^
+ 38 |     color: red;
     `----
 
   x ComplexSelector
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:37:1]
  37 | .class {
     : ^^^^^^
+ 38 |     color: red;
     `----
 
   x CompoundSelector
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:37:1]
  37 | .class {
     : ^^^^^^
+ 38 |     color: red;
     `----
 
   x SubclassSelector
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:37:1]
  37 | .class {
     : ^^^^^^
+ 38 |     color: red;
     `----
 
   x ClassSelector
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:37:1]
  37 | .class {
     : ^^^^^^
+ 38 |     color: red;
     `----
 
   x Ident
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:37:1]
  37 | .class {
     :  ^^^^^
+ 38 |     color: red;
     `----
 
   x SimpleBlock
@@ -1474,108 +1722,143 @@
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:37:1]
  37 | .class {
     :        ^
+ 38 |     color: red;
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:38:5]
- 38 | color: red;
-    : ^^^^^^^^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:37:1]
+ 37 | .class {
+ 38 |     color: red;
+    :     ^^^^^^^^^^
+ 39 |     & test;
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:38:5]
- 38 | color: red;
-    : ^^^^^^^^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:37:1]
+ 37 | .class {
+ 38 |     color: red;
+    :     ^^^^^^^^^^
+ 39 |     & test;
     `----
 
   x Declaration
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:38:5]
- 38 | color: red;
-    : ^^^^^^^^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:37:1]
+ 37 | .class {
+ 38 |     color: red;
+    :     ^^^^^^^^^^
+ 39 |     & test;
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:38:5]
- 38 | color: red;
-    : ^^^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:37:1]
+ 37 | .class {
+ 38 |     color: red;
+    :     ^^^^^
+ 39 |     & test;
     `----
 
   x Ident
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:38:5]
- 38 | color: red;
-    : ^^^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:37:1]
+ 37 | .class {
+ 38 |     color: red;
+    :     ^^^^^
+ 39 |     & test;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:37:1]
+ 37 | .class {
+ 38 |     color: red;
+    :            ^^^
+ 39 |     & test;
+    `----
+
+  x Ident
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:37:1]
+ 37 | .class {
+ 38 |     color: red;
+    :            ^^^
+ 39 |     & test;
     `----
 
   x ComponentValue
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:38:5]
  38 | color: red;
-    :        ^^^
-    `----
-
-  x Ident
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:38:5]
- 38 | color: red;
-    :        ^^^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:39:5]
- 39 | & test;
-    : ^^^^^^^
+ 39 |     & test;
+    :     ^^^^^^^
+ 40 | }
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:39:5]
- 39 | & test;
-    : ^^^^^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:38:5]
+ 38 | color: red;
+ 39 |     & test;
+    :     ^^^^^^^
+ 40 | }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:39:5]
- 39 | & test;
-    : ^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:38:5]
+ 38 | color: red;
+ 39 |     & test;
+    :     ^
+ 40 | }
     `----
 
   x Delim { value: '&' }
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:39:5]
- 39 | & test;
-    : ^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:38:5]
+ 38 | color: red;
+ 39 |     & test;
+    :     ^
+ 40 | }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:39:5]
- 39 | & test;
-    :  ^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:38:5]
+ 38 | color: red;
+ 39 |     & test;
+    :      ^
+ 40 | }
     `----
 
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:39:5]
- 39 | & test;
-    :  ^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:38:5]
+ 38 | color: red;
+ 39 |     & test;
+    :      ^
+ 40 | }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:39:5]
- 39 | & test;
-    :   ^^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:38:5]
+ 38 | color: red;
+ 39 |     & test;
+    :       ^^^^
+ 40 | }
     `----
 
   x Ident { value: Atom('test' type=inline), raw: "test" }
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:39:5]
- 39 | & test;
-    :   ^^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:38:5]
+ 38 | color: red;
+ 39 |     & test;
+    :       ^^^^
+ 40 | }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:39:5]
- 39 | & test;
-    :       ^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:38:5]
+ 38 | color: red;
+ 39 |     & test;
+    :           ^
+ 40 | }
     `----
 
   x Semi
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:39:5]
- 39 | & test;
-    :       ^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:38:5]
+ 38 | color: red;
+ 39 |     & test;
+    :           ^
+ 40 | }
     `----
 
   x Rule
@@ -1600,36 +1883,42 @@
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:43:1]
  43 | .class {
     : ^^^^^^
+ 44 |     &.foo {
     `----
 
   x ComplexSelector
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:43:1]
  43 | .class {
     : ^^^^^^
+ 44 |     &.foo {
     `----
 
   x CompoundSelector
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:43:1]
  43 | .class {
     : ^^^^^^
+ 44 |     &.foo {
     `----
 
   x SubclassSelector
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:43:1]
  43 | .class {
     : ^^^^^^
+ 44 |     &.foo {
     `----
 
   x ClassSelector
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:43:1]
  43 | .class {
     : ^^^^^^
+ 44 |     &.foo {
     `----
 
   x Ident
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:43:1]
  43 | .class {
     :  ^^^^^
+ 44 |     &.foo {
     `----
 
   x SimpleBlock
@@ -1645,122 +1934,161 @@
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:43:1]
  43 | .class {
     :        ^
+ 44 |     &.foo {
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:44:5]
- 44 | ,-> &.foo {
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:43:1]
+ 43 |     .class {
+ 44 | ,->     &.foo {
  45 | |           __ident__
  46 | `->     }
+ 47 |     }
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:44:5]
- 44 | ,-> &.foo {
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:43:1]
+ 43 |     .class {
+ 44 | ,->     &.foo {
  45 | |           __ident__
  46 | `->     }
+ 47 |     }
     `----
 
   x QualifiedRule
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:44:5]
- 44 | ,-> &.foo {
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:43:1]
+ 43 |     .class {
+ 44 | ,->     &.foo {
  45 | |           __ident__
  46 | `->     }
+ 47 |     }
     `----
 
   x RelativeSelectorList
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:44:5]
- 44 | &.foo {
-    : ^^^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:43:1]
+ 43 | .class {
+ 44 |     &.foo {
+    :     ^^^^^
+ 45 |         __ident__
     `----
 
   x RelativeSelector
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:44:5]
- 44 | &.foo {
-    : ^^^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:43:1]
+ 43 | .class {
+ 44 |     &.foo {
+    :     ^^^^^
+ 45 |         __ident__
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:44:5]
- 44 | &.foo {
-    : ^^^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:43:1]
+ 43 | .class {
+ 44 |     &.foo {
+    :     ^^^^^
+ 45 |         __ident__
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:44:5]
- 44 | &.foo {
-    : ^^^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:43:1]
+ 43 | .class {
+ 44 |     &.foo {
+    :     ^^^^^
+ 45 |         __ident__
     `----
 
   x NestingSelector
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:44:5]
- 44 | &.foo {
-    : ^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:43:1]
+ 43 | .class {
+ 44 |     &.foo {
+    :     ^
+ 45 |         __ident__
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:44:5]
- 44 | &.foo {
-    :  ^^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:43:1]
+ 43 | .class {
+ 44 |     &.foo {
+    :      ^^^^
+ 45 |         __ident__
     `----
 
   x ClassSelector
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:44:5]
- 44 | &.foo {
-    :  ^^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:43:1]
+ 43 | .class {
+ 44 |     &.foo {
+    :      ^^^^
+ 45 |         __ident__
     `----
 
   x Ident
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:44:5]
- 44 | &.foo {
-    :   ^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:43:1]
+ 43 | .class {
+ 44 |     &.foo {
+    :       ^^^
+ 45 |         __ident__
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:44:5]
- 44 | ,-> &.foo {
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:43:1]
+ 43 |     .class {
+ 44 | ,->     &.foo {
  45 | |           __ident__
  46 | `->     }
+ 47 |     }
     `----
 
   x LBrace
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:44:5]
- 44 | &.foo {
-    :       ^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:43:1]
+ 43 | .class {
+ 44 |     &.foo {
+    :           ^
+ 45 |         __ident__
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:45:9]
- 45 | ,-> __ident__
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:44:5]
+ 44 |     &.foo {
+ 45 | ,->         __ident__
  46 | `->     }
+ 47 |     }
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:45:9]
- 45 | ,-> __ident__
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:44:5]
+ 44 |     &.foo {
+ 45 | ,->         __ident__
  46 | `->     }
+ 47 |     }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:45:9]
- 45 | __ident__
-    : ^^^^^^^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:44:5]
+ 44 | &.foo {
+ 45 |         __ident__
+    :         ^^^^^^^^^
+ 46 |     }
     `----
 
   x Ident { value: Atom('__ident__' type=dynamic), raw: "__ident__" }
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:45:9]
- 45 | __ident__
-    : ^^^^^^^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:44:5]
+ 44 | &.foo {
+ 45 |         __ident__
+    :         ^^^^^^^^^
+ 46 |     }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:45:9]
- 45 | ,-> __ident__
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:44:5]
+ 44 |     &.foo {
+ 45 | ,->         __ident__
  46 | `->     }
+ 47 |     }
     `----
 
   x WhiteSpace { value: "\n    " }
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:45:9]
- 45 | ,-> __ident__
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:44:5]
+ 44 |     &.foo {
+ 45 | ,->         __ident__
  46 | `->     }
+ 47 |     }
     `----

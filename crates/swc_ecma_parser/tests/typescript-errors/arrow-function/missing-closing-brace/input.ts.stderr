@@ -1,6 +1,7 @@
 
   x Expected '}', got '<eof>'
-   ,-[$DIR/tests/typescript-errors/arrow-function/missing-closing-brace/input.ts:2:3]
- 2 | console.log(5);
-   :               ^
+   ,-[$DIR/tests/typescript-errors/arrow-function/missing-closing-brace/input.ts:1:1]
+ 1 | const t = () => {
+ 2 |   console.log(5);
+   :                 ^
    `----

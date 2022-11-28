@@ -15,16 +15,19 @@
    ,-[$DIR/tests/recovery/document_type/wrong-name/input.html:1:1]
  1 | <!DOCTYPE html broken>
    : ^^^^^^^^^^^^^^^^^^^^^^
+ 2 | <html>
    `----
 
   x DocumentType
    ,-[$DIR/tests/recovery/document_type/wrong-name/input.html:1:1]
  1 | <!DOCTYPE html broken>
    : ^^^^^^^^^^^^^^^^^^^^^^
+ 2 | <html>
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/document_type/wrong-name/input.html:2:1]
+   ,-[$DIR/tests/recovery/document_type/wrong-name/input.html:1:1]
+ 1 |     <!DOCTYPE html broken>
  2 | ,-> <html>
  3 | |   <body>
  4 | |   
@@ -35,7 +38,8 @@
    `----
 
   x Element
-   ,-[$DIR/tests/recovery/document_type/wrong-name/input.html:2:1]
+   ,-[$DIR/tests/recovery/document_type/wrong-name/input.html:1:1]
+ 1 |     <!DOCTYPE html broken>
  2 | ,-> <html>
  3 | |   <body>
  4 | |   
@@ -50,7 +54,8 @@
   x Element
 
   x Child
-   ,-[$DIR/tests/recovery/document_type/wrong-name/input.html:3:1]
+   ,-[$DIR/tests/recovery/document_type/wrong-name/input.html:2:1]
+ 2 |     <html>
  3 | ,-> <body>
  4 | |   
  5 | |   <a href=https://www.w3schools.com>This is a link</a>
@@ -60,7 +65,8 @@
    `----
 
   x Element
-   ,-[$DIR/tests/recovery/document_type/wrong-name/input.html:3:1]
+   ,-[$DIR/tests/recovery/document_type/wrong-name/input.html:2:1]
+ 2 |     <html>
  3 | ,-> <body>
  4 | |   
  5 | |   <a href=https://www.w3schools.com>This is a link</a>
@@ -70,14 +76,16 @@
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/document_type/wrong-name/input.html:3:1]
+   ,-[$DIR/tests/recovery/document_type/wrong-name/input.html:2:1]
+ 2 |     <html>
  3 | ,-> <body>
  4 | `-> 
  5 |     <a href=https://www.w3schools.com>This is a link</a>
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/document_type/wrong-name/input.html:3:1]
+   ,-[$DIR/tests/recovery/document_type/wrong-name/input.html:2:1]
+ 2 |     <html>
  3 | ,-> <body>
  4 | `-> 
  5 |     <a href=https://www.w3schools.com>This is a link</a>

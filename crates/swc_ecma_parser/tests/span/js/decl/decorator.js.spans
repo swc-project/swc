@@ -50,7 +50,8 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/span/js/decl/decorator.js:4:1]
+   ,-[$DIR/tests/span/js/decl/decorator.js:3:1]
+ 3 | @baz()
  4 | class Foo {
    :       ^^^
    `----
@@ -69,88 +70,115 @@
    ,-[$DIR/tests/span/js/decl/decorator.js:1:1]
  1 | @foo
    : ^^^^
+ 2 | @bar()
    `----
 
   x Expr
    ,-[$DIR/tests/span/js/decl/decorator.js:1:1]
  1 | @foo
    :  ^^^
+ 2 | @bar()
    `----
 
   x Ident
    ,-[$DIR/tests/span/js/decl/decorator.js:1:1]
  1 | @foo
    :  ^^^
+ 2 | @bar()
+   `----
+
+  x Decorator
+   ,-[$DIR/tests/span/js/decl/decorator.js:1:1]
+ 1 | @foo
+ 2 | @bar()
+   : ^^^^^^
+ 3 | @baz()
+   `----
+
+  x Expr
+   ,-[$DIR/tests/span/js/decl/decorator.js:1:1]
+ 1 | @foo
+ 2 | @bar()
+   :  ^^^^^
+ 3 | @baz()
+   `----
+
+  x CallExpr
+   ,-[$DIR/tests/span/js/decl/decorator.js:1:1]
+ 1 | @foo
+ 2 | @bar()
+   :  ^^^^^
+ 3 | @baz()
+   `----
+
+  x Callee
+   ,-[$DIR/tests/span/js/decl/decorator.js:1:1]
+ 1 | @foo
+ 2 | @bar()
+   :  ^^^
+ 3 | @baz()
+   `----
+
+  x Expr
+   ,-[$DIR/tests/span/js/decl/decorator.js:1:1]
+ 1 | @foo
+ 2 | @bar()
+   :  ^^^
+ 3 | @baz()
+   `----
+
+  x Ident
+   ,-[$DIR/tests/span/js/decl/decorator.js:1:1]
+ 1 | @foo
+ 2 | @bar()
+   :  ^^^
+ 3 | @baz()
    `----
 
   x Decorator
    ,-[$DIR/tests/span/js/decl/decorator.js:2:1]
  2 | @bar()
+ 3 | @baz()
    : ^^^^^^
+ 4 | class Foo {
    `----
 
   x Expr
    ,-[$DIR/tests/span/js/decl/decorator.js:2:1]
  2 | @bar()
+ 3 | @baz()
    :  ^^^^^
+ 4 | class Foo {
    `----
 
   x CallExpr
    ,-[$DIR/tests/span/js/decl/decorator.js:2:1]
  2 | @bar()
+ 3 | @baz()
    :  ^^^^^
+ 4 | class Foo {
    `----
 
   x Callee
    ,-[$DIR/tests/span/js/decl/decorator.js:2:1]
  2 | @bar()
+ 3 | @baz()
    :  ^^^
+ 4 | class Foo {
    `----
 
   x Expr
    ,-[$DIR/tests/span/js/decl/decorator.js:2:1]
  2 | @bar()
+ 3 | @baz()
    :  ^^^
+ 4 | class Foo {
    `----
 
   x Ident
    ,-[$DIR/tests/span/js/decl/decorator.js:2:1]
  2 | @bar()
-   :  ^^^
-   `----
-
-  x Decorator
-   ,-[$DIR/tests/span/js/decl/decorator.js:3:1]
- 3 | @baz()
-   : ^^^^^^
-   `----
-
-  x Expr
-   ,-[$DIR/tests/span/js/decl/decorator.js:3:1]
- 3 | @baz()
-   :  ^^^^^
-   `----
-
-  x CallExpr
-   ,-[$DIR/tests/span/js/decl/decorator.js:3:1]
- 3 | @baz()
-   :  ^^^^^
-   `----
-
-  x Callee
-   ,-[$DIR/tests/span/js/decl/decorator.js:3:1]
  3 | @baz()
    :  ^^^
-   `----
-
-  x Expr
-   ,-[$DIR/tests/span/js/decl/decorator.js:3:1]
- 3 | @baz()
-   :  ^^^
-   `----
-
-  x Ident
-   ,-[$DIR/tests/span/js/decl/decorator.js:3:1]
- 3 | @baz()
-   :  ^^^
+ 4 | class Foo {
    `----

@@ -31,6 +31,7 @@
    ,-[$DIR/tests/span/js/stmt/label.js:1:1]
  1 | a: while (true) {
    : ^
+ 2 |     break a
    `----
 
   x Stmt
@@ -51,18 +52,21 @@
    ,-[$DIR/tests/span/js/stmt/label.js:1:1]
  1 | a: while (true) {
    :           ^^^^
+ 2 |     break a
    `----
 
   x Lit
    ,-[$DIR/tests/span/js/stmt/label.js:1:1]
  1 | a: while (true) {
    :           ^^^^
+ 2 |     break a
    `----
 
   x Bool
    ,-[$DIR/tests/span/js/stmt/label.js:1:1]
  1 | a: while (true) {
    :           ^^^^
+ 2 |     break a
    `----
 
   x Stmt
@@ -80,19 +84,25 @@
    `----
 
   x Stmt
-   ,-[$DIR/tests/span/js/stmt/label.js:2:5]
- 2 | break a
-   : ^^^^^^^
+   ,-[$DIR/tests/span/js/stmt/label.js:1:1]
+ 1 | a: while (true) {
+ 2 |     break a
+   :     ^^^^^^^
+ 3 | }
    `----
 
   x BreakStmt
-   ,-[$DIR/tests/span/js/stmt/label.js:2:5]
- 2 | break a
-   : ^^^^^^^
+   ,-[$DIR/tests/span/js/stmt/label.js:1:1]
+ 1 | a: while (true) {
+ 2 |     break a
+   :     ^^^^^^^
+ 3 | }
    `----
 
   x Ident
-   ,-[$DIR/tests/span/js/stmt/label.js:2:5]
- 2 | break a
-   :       ^
+   ,-[$DIR/tests/span/js/stmt/label.js:1:1]
+ 1 | a: while (true) {
+ 2 |     break a
+   :           ^
+ 3 | }
    `----

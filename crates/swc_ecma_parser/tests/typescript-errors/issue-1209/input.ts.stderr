@@ -3,4 +3,5 @@
    ,-[$DIR/tests/typescript-errors/issue-1209/input.ts:1:1]
  1 | function foo(foo = bar: number) {
    :              ^^^^^^^^^^^^^^^^^
+ 2 |   /* */
    `----

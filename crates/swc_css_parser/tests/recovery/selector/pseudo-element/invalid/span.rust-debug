@@ -21,60 +21,70 @@
    ,-[$DIR/tests/recovery/selector/pseudo-element/invalid/input.css:1:1]
  1 | a::1 {
    : ^
+ 2 | }
    `----
 
   x Ident { value: Atom('a' type=static), raw: "a" }
    ,-[$DIR/tests/recovery/selector/pseudo-element/invalid/input.css:1:1]
  1 | a::1 {
    : ^
+ 2 | }
    `----
 
   x ComponentValue
    ,-[$DIR/tests/recovery/selector/pseudo-element/invalid/input.css:1:1]
  1 | a::1 {
    :  ^
+ 2 | }
    `----
 
   x Colon
    ,-[$DIR/tests/recovery/selector/pseudo-element/invalid/input.css:1:1]
  1 | a::1 {
    :  ^
+ 2 | }
    `----
 
   x ComponentValue
    ,-[$DIR/tests/recovery/selector/pseudo-element/invalid/input.css:1:1]
  1 | a::1 {
    :   ^
+ 2 | }
    `----
 
   x Colon
    ,-[$DIR/tests/recovery/selector/pseudo-element/invalid/input.css:1:1]
  1 | a::1 {
    :   ^
+ 2 | }
    `----
 
   x ComponentValue
    ,-[$DIR/tests/recovery/selector/pseudo-element/invalid/input.css:1:1]
  1 | a::1 {
    :    ^
+ 2 | }
    `----
 
   x Number { value: 1.0, raw: "1", type_flag: Integer }
    ,-[$DIR/tests/recovery/selector/pseudo-element/invalid/input.css:1:1]
  1 | a::1 {
    :    ^
+ 2 | }
    `----
 
   x ComponentValue
    ,-[$DIR/tests/recovery/selector/pseudo-element/invalid/input.css:1:1]
  1 | a::1 {
    :     ^
+ 2 | }
    `----
 
   x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/selector/pseudo-element/invalid/input.css:1:1]
  1 | a::1 {
    :     ^
+ 2 | }
    `----
 
   x SimpleBlock
@@ -87,4 +97,5 @@
    ,-[$DIR/tests/recovery/selector/pseudo-element/invalid/input.css:1:1]
  1 | a::1 {
    :      ^
+ 2 | }
    `----

@@ -24,42 +24,49 @@
    ,-[$DIR/tests/recovery/delim-token/dollar/input.css:1:1]
  1 | a {
    : ^
+ 2 |     prop: $;
    `----
 
   x ComplexSelector
    ,-[$DIR/tests/recovery/delim-token/dollar/input.css:1:1]
  1 | a {
    : ^
+ 2 |     prop: $;
    `----
 
   x CompoundSelector
    ,-[$DIR/tests/recovery/delim-token/dollar/input.css:1:1]
  1 | a {
    : ^
+ 2 |     prop: $;
    `----
 
   x TypeSelector
    ,-[$DIR/tests/recovery/delim-token/dollar/input.css:1:1]
  1 | a {
    : ^
+ 2 |     prop: $;
    `----
 
   x TagNameSelector
    ,-[$DIR/tests/recovery/delim-token/dollar/input.css:1:1]
  1 | a {
    : ^
+ 2 |     prop: $;
    `----
 
   x WqName
    ,-[$DIR/tests/recovery/delim-token/dollar/input.css:1:1]
  1 | a {
    : ^
+ 2 |     prop: $;
    `----
 
   x Ident
    ,-[$DIR/tests/recovery/delim-token/dollar/input.css:1:1]
  1 | a {
    : ^
+ 2 |     prop: $;
    `----
 
   x SimpleBlock
@@ -73,46 +80,61 @@
    ,-[$DIR/tests/recovery/delim-token/dollar/input.css:1:1]
  1 | a {
    :   ^
+ 2 |     prop: $;
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/delim-token/dollar/input.css:2:5]
- 2 | prop: $;
-   : ^^^^^^^
+   ,-[$DIR/tests/recovery/delim-token/dollar/input.css:1:1]
+ 1 | a {
+ 2 |     prop: $;
+   :     ^^^^^^^
+ 3 | }
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/recovery/delim-token/dollar/input.css:2:5]
- 2 | prop: $;
-   : ^^^^^^^
+   ,-[$DIR/tests/recovery/delim-token/dollar/input.css:1:1]
+ 1 | a {
+ 2 |     prop: $;
+   :     ^^^^^^^
+ 3 | }
    `----
 
   x Declaration
-   ,-[$DIR/tests/recovery/delim-token/dollar/input.css:2:5]
- 2 | prop: $;
-   : ^^^^^^^
+   ,-[$DIR/tests/recovery/delim-token/dollar/input.css:1:1]
+ 1 | a {
+ 2 |     prop: $;
+   :     ^^^^^^^
+ 3 | }
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/recovery/delim-token/dollar/input.css:2:5]
- 2 | prop: $;
-   : ^^^^
+   ,-[$DIR/tests/recovery/delim-token/dollar/input.css:1:1]
+ 1 | a {
+ 2 |     prop: $;
+   :     ^^^^
+ 3 | }
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/delim-token/dollar/input.css:2:5]
- 2 | prop: $;
-   : ^^^^
+   ,-[$DIR/tests/recovery/delim-token/dollar/input.css:1:1]
+ 1 | a {
+ 2 |     prop: $;
+   :     ^^^^
+ 3 | }
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/delim-token/dollar/input.css:2:5]
- 2 | prop: $;
-   :       ^
+   ,-[$DIR/tests/recovery/delim-token/dollar/input.css:1:1]
+ 1 | a {
+ 2 |     prop: $;
+   :           ^
+ 3 | }
    `----
 
   x Delim { value: '$' }
-   ,-[$DIR/tests/recovery/delim-token/dollar/input.css:2:5]
- 2 | prop: $;
-   :       ^
+   ,-[$DIR/tests/recovery/delim-token/dollar/input.css:1:1]
+ 1 | a {
+ 2 |     prop: $;
+   :           ^
+ 3 | }
    `----

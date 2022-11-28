@@ -88,46 +88,61 @@
    ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:7:1]
  7 | {
    : ^
+ 8 |     color: red;
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:8:5]
- 8 | color: red;
-   : ^^^^^^^^^^
+   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:7:1]
+ 7 | {
+ 8 |     color: red;
+   :     ^^^^^^^^^^
+ 9 | }
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:8:5]
- 8 | color: red;
-   : ^^^^^^^^^^
+   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:7:1]
+ 7 | {
+ 8 |     color: red;
+   :     ^^^^^^^^^^
+ 9 | }
    `----
 
   x Declaration
-   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:8:5]
- 8 | color: red;
-   : ^^^^^^^^^^
+   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:7:1]
+ 7 | {
+ 8 |     color: red;
+   :     ^^^^^^^^^^
+ 9 | }
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:8:5]
- 8 | color: red;
-   : ^^^^^
+   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:7:1]
+ 7 | {
+ 8 |     color: red;
+   :     ^^^^^
+ 9 | }
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:8:5]
- 8 | color: red;
-   : ^^^^^
+   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:7:1]
+ 7 | {
+ 8 |     color: red;
+   :     ^^^^^
+ 9 | }
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:8:5]
- 8 | color: red;
-   :        ^^^
+   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:7:1]
+ 7 | {
+ 8 |     color: red;
+   :            ^^^
+ 9 | }
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:8:5]
- 8 | color: red;
-   :        ^^^
+   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:7:1]
+ 7 | {
+ 8 |     color: red;
+   :            ^^^
+ 9 | }
    `----

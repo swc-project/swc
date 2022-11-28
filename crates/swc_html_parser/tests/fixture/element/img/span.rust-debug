@@ -18,16 +18,19 @@
    ,-[$DIR/tests/fixture/element/img/input.html:1:1]
  1 | <!DOCTYPE html>
    : ^^^^^^^^^^^^^^^
+ 2 | <html>
    `----
 
   x DocumentType
    ,-[$DIR/tests/fixture/element/img/input.html:1:1]
  1 | <!DOCTYPE html>
    : ^^^^^^^^^^^^^^^
+ 2 | <html>
    `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/img/input.html:2:1]
+    ,-[$DIR/tests/fixture/element/img/input.html:1:1]
+  1 |     <!DOCTYPE html>
   2 | ,-> <html>
   3 | |   <body>
   4 | |   
@@ -41,7 +44,8 @@
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/img/input.html:2:1]
+    ,-[$DIR/tests/fixture/element/img/input.html:1:1]
+  1 |     <!DOCTYPE html>
   2 | ,-> <html>
   3 | |   <body>
   4 | |   
@@ -59,7 +63,8 @@
   x Element
 
   x Child
-    ,-[$DIR/tests/fixture/element/img/input.html:3:1]
+    ,-[$DIR/tests/fixture/element/img/input.html:2:1]
+  2 |     <html>
   3 | ,-> <body>
   4 | |   
   5 | |   <h2>HTML Images</h2>
@@ -72,7 +77,8 @@
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/img/input.html:3:1]
+    ,-[$DIR/tests/fixture/element/img/input.html:2:1]
+  2 |     <html>
   3 | ,-> <body>
   4 | |   
   5 | |   <h2>HTML Images</h2>
@@ -85,41 +91,49 @@
     `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/img/input.html:3:1]
+   ,-[$DIR/tests/fixture/element/img/input.html:2:1]
+ 2 |     <html>
  3 | ,-> <body>
  4 | `-> 
  5 |     <h2>HTML Images</h2>
+ 6 |     <p>HTML images are defined with the img tag:</p>
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/element/img/input.html:3:1]
+   ,-[$DIR/tests/fixture/element/img/input.html:2:1]
+ 2 |     <html>
  3 | ,-> <body>
  4 | `-> 
  5 |     <h2>HTML Images</h2>
+ 6 |     <p>HTML images are defined with the img tag:</p>
    `----
 
   x Child
    ,-[$DIR/tests/fixture/element/img/input.html:5:1]
  5 | <h2>HTML Images</h2>
    : ^^^^^^^^^^^^^^^^^^^^
+ 6 | <p>HTML images are defined with the img tag:</p>
    `----
 
   x Element
    ,-[$DIR/tests/fixture/element/img/input.html:5:1]
  5 | <h2>HTML Images</h2>
    : ^^^^^^^^^^^^^^^^^^^^
+ 6 | <p>HTML images are defined with the img tag:</p>
    `----
 
   x Child
    ,-[$DIR/tests/fixture/element/img/input.html:5:1]
  5 | <h2>HTML Images</h2>
    :     ^^^^^^^^^^^
+ 6 | <p>HTML images are defined with the img tag:</p>
    `----
 
   x Text
    ,-[$DIR/tests/fixture/element/img/input.html:5:1]
  5 | <h2>HTML Images</h2>
    :     ^^^^^^^^^^^
+ 6 | <p>HTML images are defined with the img tag:</p>
    `----
 
   x Child
@@ -137,38 +151,44 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/img/input.html:6:1]
+   ,-[$DIR/tests/fixture/element/img/input.html:5:1]
+ 5 | <h2>HTML Images</h2>
  6 | <p>HTML images are defined with the img tag:</p>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/element/img/input.html:6:1]
+   ,-[$DIR/tests/fixture/element/img/input.html:5:1]
+ 5 | <h2>HTML Images</h2>
  6 | <p>HTML images are defined with the img tag:</p>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/img/input.html:6:1]
+   ,-[$DIR/tests/fixture/element/img/input.html:5:1]
+ 5 | <h2>HTML Images</h2>
  6 | <p>HTML images are defined with the img tag:</p>
    :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/element/img/input.html:6:1]
+   ,-[$DIR/tests/fixture/element/img/input.html:5:1]
+ 5 | <h2>HTML Images</h2>
  6 | <p>HTML images are defined with the img tag:</p>
    :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/img/input.html:6:1]
+   ,-[$DIR/tests/fixture/element/img/input.html:5:1]
+ 5 |     <h2>HTML Images</h2>
  6 | ,-> <p>HTML images are defined with the img tag:</p>
  7 | `-> 
  8 |     <img src="w3schools.jpg" alt="W3Schools.com" width="104" height="142">
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/element/img/input.html:6:1]
+   ,-[$DIR/tests/fixture/element/img/input.html:5:1]
+ 5 |     <h2>HTML Images</h2>
  6 | ,-> <p>HTML images are defined with the img tag:</p>
  7 | `-> 
  8 |     <img src="w3schools.jpg" alt="W3Schools.com" width="104" height="142">

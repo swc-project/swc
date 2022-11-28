@@ -30,42 +30,49 @@
    ,-[$DIR/tests/line-comment/css-in-js/4/input.css:1:1]
  1 | foo {
    : ^^^
+ 2 |     color: red;
    `----
 
   x ComplexSelector
    ,-[$DIR/tests/line-comment/css-in-js/4/input.css:1:1]
  1 | foo {
    : ^^^
+ 2 |     color: red;
    `----
 
   x CompoundSelector
    ,-[$DIR/tests/line-comment/css-in-js/4/input.css:1:1]
  1 | foo {
    : ^^^
+ 2 |     color: red;
    `----
 
   x TypeSelector
    ,-[$DIR/tests/line-comment/css-in-js/4/input.css:1:1]
  1 | foo {
    : ^^^
+ 2 |     color: red;
    `----
 
   x TagNameSelector
    ,-[$DIR/tests/line-comment/css-in-js/4/input.css:1:1]
  1 | foo {
    : ^^^
+ 2 |     color: red;
    `----
 
   x WqName
    ,-[$DIR/tests/line-comment/css-in-js/4/input.css:1:1]
  1 | foo {
    : ^^^
+ 2 |     color: red;
    `----
 
   x Ident
    ,-[$DIR/tests/line-comment/css-in-js/4/input.css:1:1]
  1 | foo {
    : ^^^
+ 2 |     color: red;
    `----
 
   x SimpleBlock
@@ -81,88 +88,117 @@
    ,-[$DIR/tests/line-comment/css-in-js/4/input.css:1:1]
  1 | foo {
    :     ^
+ 2 |     color: red;
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/line-comment/css-in-js/4/input.css:2:5]
- 2 | color: red;
-   : ^^^^^^^^^^
+   ,-[$DIR/tests/line-comment/css-in-js/4/input.css:1:1]
+ 1 | foo {
+ 2 |     color: red;
+   :     ^^^^^^^^^^
+ 3 |     // Line comment
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/line-comment/css-in-js/4/input.css:2:5]
- 2 | color: red;
-   : ^^^^^^^^^^
+   ,-[$DIR/tests/line-comment/css-in-js/4/input.css:1:1]
+ 1 | foo {
+ 2 |     color: red;
+   :     ^^^^^^^^^^
+ 3 |     // Line comment
    `----
 
   x Declaration
-   ,-[$DIR/tests/line-comment/css-in-js/4/input.css:2:5]
- 2 | color: red;
-   : ^^^^^^^^^^
+   ,-[$DIR/tests/line-comment/css-in-js/4/input.css:1:1]
+ 1 | foo {
+ 2 |     color: red;
+   :     ^^^^^^^^^^
+ 3 |     // Line comment
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/line-comment/css-in-js/4/input.css:2:5]
- 2 | color: red;
-   : ^^^^^
+   ,-[$DIR/tests/line-comment/css-in-js/4/input.css:1:1]
+ 1 | foo {
+ 2 |     color: red;
+   :     ^^^^^
+ 3 |     // Line comment
    `----
 
   x Ident
-   ,-[$DIR/tests/line-comment/css-in-js/4/input.css:2:5]
- 2 | color: red;
-   : ^^^^^
+   ,-[$DIR/tests/line-comment/css-in-js/4/input.css:1:1]
+ 1 | foo {
+ 2 |     color: red;
+   :     ^^^^^
+ 3 |     // Line comment
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/line-comment/css-in-js/4/input.css:2:5]
- 2 | color: red;
-   :        ^^^
+   ,-[$DIR/tests/line-comment/css-in-js/4/input.css:1:1]
+ 1 | foo {
+ 2 |     color: red;
+   :            ^^^
+ 3 |     // Line comment
    `----
 
   x Ident
-   ,-[$DIR/tests/line-comment/css-in-js/4/input.css:2:5]
- 2 | color: red;
-   :        ^^^
+   ,-[$DIR/tests/line-comment/css-in-js/4/input.css:1:1]
+ 1 | foo {
+ 2 |     color: red;
+   :            ^^^
+ 3 |     // Line comment
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/line-comment/css-in-js/4/input.css:4:5]
- 4 | top: 0;
-   : ^^^^^^
+   ,-[$DIR/tests/line-comment/css-in-js/4/input.css:3:5]
+ 3 | // Line comment
+ 4 |     top: 0;
+   :     ^^^^^^
+ 5 | }
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/line-comment/css-in-js/4/input.css:4:5]
- 4 | top: 0;
-   : ^^^^^^
+   ,-[$DIR/tests/line-comment/css-in-js/4/input.css:3:5]
+ 3 | // Line comment
+ 4 |     top: 0;
+   :     ^^^^^^
+ 5 | }
    `----
 
   x Declaration
-   ,-[$DIR/tests/line-comment/css-in-js/4/input.css:4:5]
- 4 | top: 0;
-   : ^^^^^^
+   ,-[$DIR/tests/line-comment/css-in-js/4/input.css:3:5]
+ 3 | // Line comment
+ 4 |     top: 0;
+   :     ^^^^^^
+ 5 | }
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/line-comment/css-in-js/4/input.css:4:5]
- 4 | top: 0;
-   : ^^^
+   ,-[$DIR/tests/line-comment/css-in-js/4/input.css:3:5]
+ 3 | // Line comment
+ 4 |     top: 0;
+   :     ^^^
+ 5 | }
    `----
 
   x Ident
-   ,-[$DIR/tests/line-comment/css-in-js/4/input.css:4:5]
- 4 | top: 0;
-   : ^^^
+   ,-[$DIR/tests/line-comment/css-in-js/4/input.css:3:5]
+ 3 | // Line comment
+ 4 |     top: 0;
+   :     ^^^
+ 5 | }
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/line-comment/css-in-js/4/input.css:4:5]
- 4 | top: 0;
-   :      ^
+   ,-[$DIR/tests/line-comment/css-in-js/4/input.css:3:5]
+ 3 | // Line comment
+ 4 |     top: 0;
+   :          ^
+ 5 | }
    `----
 
   x Integer
-   ,-[$DIR/tests/line-comment/css-in-js/4/input.css:4:5]
- 4 | top: 0;
-   :      ^
+   ,-[$DIR/tests/line-comment/css-in-js/4/input.css:3:5]
+ 3 | // Line comment
+ 4 |     top: 0;
+   :          ^
+ 5 | }
    `----

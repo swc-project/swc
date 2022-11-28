@@ -1,12 +1,16 @@
 
   x Expected ":"
-   ,-[$DIR/tests/recovery/vercel/005/input.css:4:5]
- 4 | border-radius: 7px;
-   : ^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/vercel/005/input.css:3:5]
+ 3 | __ident__
+ 4 |     border-radius: 7px;
+   :     ^^^^^^^^^^^^^
+ 5 |     color: white;
    `----
 
   x Expected ":"
-   ,-[$DIR/tests/recovery/vercel/005/input.css:8:5]
- 8 | __ident__
-   : ^^^^^^^^^
+   ,-[$DIR/tests/recovery/vercel/005/input.css:7:5]
+ 7 | __ident__
+ 8 |     __ident__
+   :     ^^^^^^^^^
+ 9 | }
    `----

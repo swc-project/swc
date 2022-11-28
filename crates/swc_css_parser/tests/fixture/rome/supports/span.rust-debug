@@ -31,78 +31,91 @@
    ,-[$DIR/tests/fixture/rome/supports/input.css:1:1]
  1 | @supports not (display: flex) {
    :  ^^^^^^^^
+ 2 | }
    `----
 
   x Ident
    ,-[$DIR/tests/fixture/rome/supports/input.css:1:1]
  1 | @supports not (display: flex) {
    :  ^^^^^^^^
+ 2 | }
    `----
 
   x SupportsCondition
    ,-[$DIR/tests/fixture/rome/supports/input.css:1:1]
  1 | @supports not (display: flex) {
    :           ^^^^^^^^^^^^^^^^^^^
+ 2 | }
    `----
 
   x SupportsConditionType
    ,-[$DIR/tests/fixture/rome/supports/input.css:1:1]
  1 | @supports not (display: flex) {
    :           ^^^^^^^^^^^^^^^^^^^
+ 2 | }
    `----
 
   x SupportsNot
    ,-[$DIR/tests/fixture/rome/supports/input.css:1:1]
  1 | @supports not (display: flex) {
    :           ^^^^^^^^^^^^^^^^^^^
+ 2 | }
    `----
 
   x Ident
    ,-[$DIR/tests/fixture/rome/supports/input.css:1:1]
  1 | @supports not (display: flex) {
    :           ^^^
+ 2 | }
    `----
 
   x SupportsInParens
    ,-[$DIR/tests/fixture/rome/supports/input.css:1:1]
  1 | @supports not (display: flex) {
    :                ^^^^^^^^^^^^^
+ 2 | }
    `----
 
   x SupportsFeature
    ,-[$DIR/tests/fixture/rome/supports/input.css:1:1]
  1 | @supports not (display: flex) {
    :                ^^^^^^^^^^^^^
+ 2 | }
    `----
 
   x Declaration
    ,-[$DIR/tests/fixture/rome/supports/input.css:1:1]
  1 | @supports not (display: flex) {
    :                ^^^^^^^^^^^^^
+ 2 | }
    `----
 
   x DeclarationName
    ,-[$DIR/tests/fixture/rome/supports/input.css:1:1]
  1 | @supports not (display: flex) {
    :                ^^^^^^^
+ 2 | }
    `----
 
   x Ident
    ,-[$DIR/tests/fixture/rome/supports/input.css:1:1]
  1 | @supports not (display: flex) {
    :                ^^^^^^^
+ 2 | }
    `----
 
   x ComponentValue
    ,-[$DIR/tests/fixture/rome/supports/input.css:1:1]
  1 | @supports not (display: flex) {
    :                         ^^^^
+ 2 | }
    `----
 
   x Ident
    ,-[$DIR/tests/fixture/rome/supports/input.css:1:1]
  1 | @supports not (display: flex) {
    :                         ^^^^
+ 2 | }
    `----
 
   x SimpleBlock
@@ -115,6 +128,7 @@
    ,-[$DIR/tests/fixture/rome/supports/input.css:1:1]
  1 | @supports not (display: flex) {
    :                               ^
+ 2 | }
    `----
 
   x Rule
@@ -137,12 +151,14 @@
    ,-[$DIR/tests/fixture/rome/supports/input.css:4:1]
  4 | @supports ( box-shadow: 0 0 2px black inset ) or
    :  ^^^^^^^^
+ 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
    `----
 
   x Ident
    ,-[$DIR/tests/fixture/rome/supports/input.css:4:1]
  4 | @supports ( box-shadow: 0 0 2px black inset ) or
    :  ^^^^^^^^
+ 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
    `----
 
   x SupportsCondition
@@ -157,504 +173,628 @@
    ,-[$DIR/tests/fixture/rome/supports/input.css:4:1]
  4 | @supports ( box-shadow: 0 0 2px black inset ) or
    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
    `----
 
   x SupportsInParens
    ,-[$DIR/tests/fixture/rome/supports/input.css:4:1]
  4 | @supports ( box-shadow: 0 0 2px black inset ) or
    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
    `----
 
   x SupportsFeature
    ,-[$DIR/tests/fixture/rome/supports/input.css:4:1]
  4 | @supports ( box-shadow: 0 0 2px black inset ) or
    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
    `----
 
   x Declaration
    ,-[$DIR/tests/fixture/rome/supports/input.css:4:1]
  4 | @supports ( box-shadow: 0 0 2px black inset ) or
    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
    `----
 
   x DeclarationName
    ,-[$DIR/tests/fixture/rome/supports/input.css:4:1]
  4 | @supports ( box-shadow: 0 0 2px black inset ) or
    :             ^^^^^^^^^^
+ 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
    `----
 
   x Ident
    ,-[$DIR/tests/fixture/rome/supports/input.css:4:1]
  4 | @supports ( box-shadow: 0 0 2px black inset ) or
    :             ^^^^^^^^^^
+ 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
    `----
 
   x ComponentValue
    ,-[$DIR/tests/fixture/rome/supports/input.css:4:1]
  4 | @supports ( box-shadow: 0 0 2px black inset ) or
    :                         ^
+ 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
    `----
 
   x Integer
    ,-[$DIR/tests/fixture/rome/supports/input.css:4:1]
  4 | @supports ( box-shadow: 0 0 2px black inset ) or
    :                         ^
+ 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
    `----
 
   x ComponentValue
    ,-[$DIR/tests/fixture/rome/supports/input.css:4:1]
  4 | @supports ( box-shadow: 0 0 2px black inset ) or
    :                           ^
+ 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
    `----
 
   x Integer
    ,-[$DIR/tests/fixture/rome/supports/input.css:4:1]
  4 | @supports ( box-shadow: 0 0 2px black inset ) or
    :                           ^
+ 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
    `----
 
   x ComponentValue
    ,-[$DIR/tests/fixture/rome/supports/input.css:4:1]
  4 | @supports ( box-shadow: 0 0 2px black inset ) or
    :                             ^^^
+ 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
    `----
 
   x Dimension
    ,-[$DIR/tests/fixture/rome/supports/input.css:4:1]
  4 | @supports ( box-shadow: 0 0 2px black inset ) or
    :                             ^^^
+ 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
    `----
 
   x Length
    ,-[$DIR/tests/fixture/rome/supports/input.css:4:1]
  4 | @supports ( box-shadow: 0 0 2px black inset ) or
    :                             ^^^
+ 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
    `----
 
   x Number
    ,-[$DIR/tests/fixture/rome/supports/input.css:4:1]
  4 | @supports ( box-shadow: 0 0 2px black inset ) or
    :                             ^
+ 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
    `----
 
   x Ident
    ,-[$DIR/tests/fixture/rome/supports/input.css:4:1]
  4 | @supports ( box-shadow: 0 0 2px black inset ) or
    :                              ^^
+ 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
    `----
 
   x ComponentValue
    ,-[$DIR/tests/fixture/rome/supports/input.css:4:1]
  4 | @supports ( box-shadow: 0 0 2px black inset ) or
    :                                 ^^^^^
+ 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
    `----
 
   x Ident
    ,-[$DIR/tests/fixture/rome/supports/input.css:4:1]
  4 | @supports ( box-shadow: 0 0 2px black inset ) or
    :                                 ^^^^^
+ 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
    `----
 
   x ComponentValue
    ,-[$DIR/tests/fixture/rome/supports/input.css:4:1]
  4 | @supports ( box-shadow: 0 0 2px black inset ) or
    :                                       ^^^^^
+ 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
    `----
 
   x Ident
    ,-[$DIR/tests/fixture/rome/supports/input.css:4:1]
  4 | @supports ( box-shadow: 0 0 2px black inset ) or
    :                                       ^^^^^
+ 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
    `----
 
   x SupportsConditionType
    ,-[$DIR/tests/fixture/rome/supports/input.css:4:1]
  4 | ,-> @supports ( box-shadow: 0 0 2px black inset ) or
  5 | `->           ( -moz-box-shadow: 0 0 2px black inset ) or
+ 6 |               ( -webkit-box-shadow: 0 0 2px black inset ) or
    `----
 
   x SupportsOr
    ,-[$DIR/tests/fixture/rome/supports/input.css:4:1]
  4 | ,-> @supports ( box-shadow: 0 0 2px black inset ) or
  5 | `->           ( -moz-box-shadow: 0 0 2px black inset ) or
+ 6 |               ( -webkit-box-shadow: 0 0 2px black inset ) or
    `----
 
   x Ident
    ,-[$DIR/tests/fixture/rome/supports/input.css:4:1]
  4 | @supports ( box-shadow: 0 0 2px black inset ) or
    :                                               ^^
+ 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
+   `----
+
+  x SupportsInParens
+   ,-[$DIR/tests/fixture/rome/supports/input.css:4:1]
+ 4 | @supports ( box-shadow: 0 0 2px black inset ) or
+ 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
+   :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
+   `----
+
+  x SupportsFeature
+   ,-[$DIR/tests/fixture/rome/supports/input.css:4:1]
+ 4 | @supports ( box-shadow: 0 0 2px black inset ) or
+ 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
+   :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/fixture/rome/supports/input.css:4:1]
+ 4 | @supports ( box-shadow: 0 0 2px black inset ) or
+ 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
+   :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/fixture/rome/supports/input.css:4:1]
+ 4 | @supports ( box-shadow: 0 0 2px black inset ) or
+ 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
+   :             ^^^^^^^^^^^^^^^
+ 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/supports/input.css:4:1]
+ 4 | @supports ( box-shadow: 0 0 2px black inset ) or
+ 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
+   :             ^^^^^^^^^^^^^^^
+ 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/rome/supports/input.css:4:1]
+ 4 | @supports ( box-shadow: 0 0 2px black inset ) or
+ 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
+   :                              ^
+ 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
+   `----
+
+  x Integer
+   ,-[$DIR/tests/fixture/rome/supports/input.css:4:1]
+ 4 | @supports ( box-shadow: 0 0 2px black inset ) or
+ 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
+   :                              ^
+ 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/rome/supports/input.css:4:1]
+ 4 | @supports ( box-shadow: 0 0 2px black inset ) or
+ 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
+   :                                ^
+ 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
+   `----
+
+  x Integer
+   ,-[$DIR/tests/fixture/rome/supports/input.css:4:1]
+ 4 | @supports ( box-shadow: 0 0 2px black inset ) or
+ 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
+   :                                ^
+ 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/rome/supports/input.css:4:1]
+ 4 | @supports ( box-shadow: 0 0 2px black inset ) or
+ 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
+   :                                  ^^^
+ 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
+   `----
+
+  x Dimension
+   ,-[$DIR/tests/fixture/rome/supports/input.css:4:1]
+ 4 | @supports ( box-shadow: 0 0 2px black inset ) or
+ 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
+   :                                  ^^^
+ 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
+   `----
+
+  x Length
+   ,-[$DIR/tests/fixture/rome/supports/input.css:4:1]
+ 4 | @supports ( box-shadow: 0 0 2px black inset ) or
+ 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
+   :                                  ^^^
+ 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
+   `----
+
+  x Number
+   ,-[$DIR/tests/fixture/rome/supports/input.css:4:1]
+ 4 | @supports ( box-shadow: 0 0 2px black inset ) or
+ 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
+   :                                  ^
+ 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/supports/input.css:4:1]
+ 4 | @supports ( box-shadow: 0 0 2px black inset ) or
+ 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
+   :                                   ^^
+ 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/rome/supports/input.css:4:1]
+ 4 | @supports ( box-shadow: 0 0 2px black inset ) or
+ 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
+   :                                      ^^^^^
+ 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/supports/input.css:4:1]
+ 4 | @supports ( box-shadow: 0 0 2px black inset ) or
+ 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
+   :                                      ^^^^^
+ 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/rome/supports/input.css:4:1]
+ 4 | @supports ( box-shadow: 0 0 2px black inset ) or
+ 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
+   :                                            ^^^^^
+ 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/supports/input.css:4:1]
+ 4 | @supports ( box-shadow: 0 0 2px black inset ) or
+ 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
+   :                                            ^^^^^
+ 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
+   `----
+
+  x SupportsConditionType
+   ,-[$DIR/tests/fixture/rome/supports/input.css:4:1]
+ 4 |     @supports ( box-shadow: 0 0 2px black inset ) or
+ 5 | ,->           ( -moz-box-shadow: 0 0 2px black inset ) or
+ 6 | `->           ( -webkit-box-shadow: 0 0 2px black inset ) or
+ 7 |               ( -o-box-shadow: 0 0 2px black inset ) {}
+   `----
+
+  x SupportsOr
+   ,-[$DIR/tests/fixture/rome/supports/input.css:4:1]
+ 4 |     @supports ( box-shadow: 0 0 2px black inset ) or
+ 5 | ,->           ( -moz-box-shadow: 0 0 2px black inset ) or
+ 6 | `->           ( -webkit-box-shadow: 0 0 2px black inset ) or
+ 7 |               ( -o-box-shadow: 0 0 2px black inset ) {}
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/supports/input.css:4:1]
+ 4 | @supports ( box-shadow: 0 0 2px black inset ) or
+ 5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
+   :                                                    ^^
+ 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
    `----
 
   x SupportsInParens
    ,-[$DIR/tests/fixture/rome/supports/input.css:5:11]
  5 | ( -moz-box-shadow: 0 0 2px black inset ) or
-   :   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
+   :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
    `----
 
   x SupportsFeature
    ,-[$DIR/tests/fixture/rome/supports/input.css:5:11]
  5 | ( -moz-box-shadow: 0 0 2px black inset ) or
-   :   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
+   :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
    `----
 
   x Declaration
    ,-[$DIR/tests/fixture/rome/supports/input.css:5:11]
  5 | ( -moz-box-shadow: 0 0 2px black inset ) or
-   :   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
+   :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
    `----
 
   x DeclarationName
    ,-[$DIR/tests/fixture/rome/supports/input.css:5:11]
  5 | ( -moz-box-shadow: 0 0 2px black inset ) or
-   :   ^^^^^^^^^^^^^^^
+ 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
+   :             ^^^^^^^^^^^^^^^^^^
+ 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
    `----
 
   x Ident
    ,-[$DIR/tests/fixture/rome/supports/input.css:5:11]
  5 | ( -moz-box-shadow: 0 0 2px black inset ) or
-   :   ^^^^^^^^^^^^^^^
+ 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
+   :             ^^^^^^^^^^^^^^^^^^
+ 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
    `----
 
   x ComponentValue
    ,-[$DIR/tests/fixture/rome/supports/input.css:5:11]
  5 | ( -moz-box-shadow: 0 0 2px black inset ) or
-   :                    ^
+ 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
+   :                                 ^
+ 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
    `----
 
   x Integer
    ,-[$DIR/tests/fixture/rome/supports/input.css:5:11]
  5 | ( -moz-box-shadow: 0 0 2px black inset ) or
-   :                    ^
+ 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
+   :                                 ^
+ 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
    `----
 
   x ComponentValue
    ,-[$DIR/tests/fixture/rome/supports/input.css:5:11]
  5 | ( -moz-box-shadow: 0 0 2px black inset ) or
-   :                      ^
+ 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
+   :                                   ^
+ 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
    `----
 
   x Integer
    ,-[$DIR/tests/fixture/rome/supports/input.css:5:11]
  5 | ( -moz-box-shadow: 0 0 2px black inset ) or
-   :                      ^
+ 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
+   :                                   ^
+ 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
    `----
 
   x ComponentValue
    ,-[$DIR/tests/fixture/rome/supports/input.css:5:11]
  5 | ( -moz-box-shadow: 0 0 2px black inset ) or
-   :                        ^^^
+ 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
+   :                                     ^^^
+ 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
    `----
 
   x Dimension
    ,-[$DIR/tests/fixture/rome/supports/input.css:5:11]
  5 | ( -moz-box-shadow: 0 0 2px black inset ) or
-   :                        ^^^
+ 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
+   :                                     ^^^
+ 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
    `----
 
   x Length
    ,-[$DIR/tests/fixture/rome/supports/input.css:5:11]
  5 | ( -moz-box-shadow: 0 0 2px black inset ) or
-   :                        ^^^
+ 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
+   :                                     ^^^
+ 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
    `----
 
   x Number
    ,-[$DIR/tests/fixture/rome/supports/input.css:5:11]
  5 | ( -moz-box-shadow: 0 0 2px black inset ) or
-   :                        ^
+ 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
+   :                                     ^
+ 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
    `----
 
   x Ident
    ,-[$DIR/tests/fixture/rome/supports/input.css:5:11]
  5 | ( -moz-box-shadow: 0 0 2px black inset ) or
-   :                         ^^
+ 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
+   :                                      ^^
+ 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
    `----
 
   x ComponentValue
    ,-[$DIR/tests/fixture/rome/supports/input.css:5:11]
  5 | ( -moz-box-shadow: 0 0 2px black inset ) or
-   :                            ^^^^^
+ 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
+   :                                         ^^^^^
+ 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
    `----
 
   x Ident
    ,-[$DIR/tests/fixture/rome/supports/input.css:5:11]
  5 | ( -moz-box-shadow: 0 0 2px black inset ) or
-   :                            ^^^^^
+ 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
+   :                                         ^^^^^
+ 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
    `----
 
   x ComponentValue
    ,-[$DIR/tests/fixture/rome/supports/input.css:5:11]
  5 | ( -moz-box-shadow: 0 0 2px black inset ) or
-   :                                  ^^^^^
+ 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
+   :                                               ^^^^^
+ 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
    `----
 
   x Ident
    ,-[$DIR/tests/fixture/rome/supports/input.css:5:11]
  5 | ( -moz-box-shadow: 0 0 2px black inset ) or
-   :                                  ^^^^^
+ 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
+   :                                               ^^^^^
+ 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
    `----
 
   x SupportsConditionType
    ,-[$DIR/tests/fixture/rome/supports/input.css:5:11]
- 5 | ,-> ( -moz-box-shadow: 0 0 2px black inset ) or
- 6 | `->           ( -webkit-box-shadow: 0 0 2px black inset ) or
+ 5 |     ( -moz-box-shadow: 0 0 2px black inset ) or
+ 6 | ,->           ( -webkit-box-shadow: 0 0 2px black inset ) or
+ 7 | `->           ( -o-box-shadow: 0 0 2px black inset ) {}
    `----
 
   x SupportsOr
    ,-[$DIR/tests/fixture/rome/supports/input.css:5:11]
- 5 | ,-> ( -moz-box-shadow: 0 0 2px black inset ) or
- 6 | `->           ( -webkit-box-shadow: 0 0 2px black inset ) or
+ 5 |     ( -moz-box-shadow: 0 0 2px black inset ) or
+ 6 | ,->           ( -webkit-box-shadow: 0 0 2px black inset ) or
+ 7 | `->           ( -o-box-shadow: 0 0 2px black inset ) {}
    `----
 
   x Ident
    ,-[$DIR/tests/fixture/rome/supports/input.css:5:11]
  5 | ( -moz-box-shadow: 0 0 2px black inset ) or
-   :                                          ^^
+ 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
+   :                                                       ^^
+ 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
    `----
 
   x SupportsInParens
    ,-[$DIR/tests/fixture/rome/supports/input.css:6:11]
  6 | ( -webkit-box-shadow: 0 0 2px black inset ) or
-   :   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
+   :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x SupportsFeature
    ,-[$DIR/tests/fixture/rome/supports/input.css:6:11]
  6 | ( -webkit-box-shadow: 0 0 2px black inset ) or
-   :   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
+   :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
    ,-[$DIR/tests/fixture/rome/supports/input.css:6:11]
  6 | ( -webkit-box-shadow: 0 0 2px black inset ) or
-   :   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
+   :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
    ,-[$DIR/tests/fixture/rome/supports/input.css:6:11]
  6 | ( -webkit-box-shadow: 0 0 2px black inset ) or
-   :   ^^^^^^^^^^^^^^^^^^
+ 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
+   :             ^^^^^^^^^^^^^
    `----
 
   x Ident
    ,-[$DIR/tests/fixture/rome/supports/input.css:6:11]
  6 | ( -webkit-box-shadow: 0 0 2px black inset ) or
-   :   ^^^^^^^^^^^^^^^^^^
+ 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
+   :             ^^^^^^^^^^^^^
    `----
 
   x ComponentValue
    ,-[$DIR/tests/fixture/rome/supports/input.css:6:11]
  6 | ( -webkit-box-shadow: 0 0 2px black inset ) or
-   :                       ^
+ 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
+   :                            ^
    `----
 
   x Integer
    ,-[$DIR/tests/fixture/rome/supports/input.css:6:11]
  6 | ( -webkit-box-shadow: 0 0 2px black inset ) or
-   :                       ^
+ 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
+   :                            ^
    `----
 
   x ComponentValue
    ,-[$DIR/tests/fixture/rome/supports/input.css:6:11]
  6 | ( -webkit-box-shadow: 0 0 2px black inset ) or
-   :                         ^
+ 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
+   :                              ^
    `----
 
   x Integer
    ,-[$DIR/tests/fixture/rome/supports/input.css:6:11]
  6 | ( -webkit-box-shadow: 0 0 2px black inset ) or
-   :                         ^
+ 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
+   :                              ^
    `----
 
   x ComponentValue
    ,-[$DIR/tests/fixture/rome/supports/input.css:6:11]
  6 | ( -webkit-box-shadow: 0 0 2px black inset ) or
-   :                           ^^^
+ 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
+   :                                ^^^
    `----
 
   x Dimension
    ,-[$DIR/tests/fixture/rome/supports/input.css:6:11]
  6 | ( -webkit-box-shadow: 0 0 2px black inset ) or
-   :                           ^^^
+ 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
+   :                                ^^^
    `----
 
   x Length
    ,-[$DIR/tests/fixture/rome/supports/input.css:6:11]
  6 | ( -webkit-box-shadow: 0 0 2px black inset ) or
-   :                           ^^^
+ 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
+   :                                ^^^
    `----
 
   x Number
    ,-[$DIR/tests/fixture/rome/supports/input.css:6:11]
  6 | ( -webkit-box-shadow: 0 0 2px black inset ) or
-   :                           ^
+ 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
+   :                                ^
    `----
 
   x Ident
    ,-[$DIR/tests/fixture/rome/supports/input.css:6:11]
  6 | ( -webkit-box-shadow: 0 0 2px black inset ) or
-   :                            ^^
+ 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
+   :                                 ^^
    `----
 
   x ComponentValue
    ,-[$DIR/tests/fixture/rome/supports/input.css:6:11]
  6 | ( -webkit-box-shadow: 0 0 2px black inset ) or
-   :                               ^^^^^
+ 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
+   :                                    ^^^^^
    `----
 
   x Ident
    ,-[$DIR/tests/fixture/rome/supports/input.css:6:11]
  6 | ( -webkit-box-shadow: 0 0 2px black inset ) or
-   :                               ^^^^^
+ 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
+   :                                    ^^^^^
    `----
 
   x ComponentValue
    ,-[$DIR/tests/fixture/rome/supports/input.css:6:11]
  6 | ( -webkit-box-shadow: 0 0 2px black inset ) or
-   :                                     ^^^^^
+ 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
+   :                                          ^^^^^
    `----
 
   x Ident
    ,-[$DIR/tests/fixture/rome/supports/input.css:6:11]
  6 | ( -webkit-box-shadow: 0 0 2px black inset ) or
-   :                                     ^^^^^
-   `----
-
-  x SupportsConditionType
-   ,-[$DIR/tests/fixture/rome/supports/input.css:6:11]
- 6 | ,-> ( -webkit-box-shadow: 0 0 2px black inset ) or
- 7 | `->           ( -o-box-shadow: 0 0 2px black inset ) {}
-   `----
-
-  x SupportsOr
-   ,-[$DIR/tests/fixture/rome/supports/input.css:6:11]
- 6 | ,-> ( -webkit-box-shadow: 0 0 2px black inset ) or
- 7 | `->           ( -o-box-shadow: 0 0 2px black inset ) {}
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/rome/supports/input.css:6:11]
- 6 | ( -webkit-box-shadow: 0 0 2px black inset ) or
-   :                                             ^^
-   `----
-
-  x SupportsInParens
-   ,-[$DIR/tests/fixture/rome/supports/input.css:7:11]
- 7 | ( -o-box-shadow: 0 0 2px black inset ) {}
-   :   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x SupportsFeature
-   ,-[$DIR/tests/fixture/rome/supports/input.css:7:11]
- 7 | ( -o-box-shadow: 0 0 2px black inset ) {}
-   :   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x Declaration
-   ,-[$DIR/tests/fixture/rome/supports/input.css:7:11]
- 7 | ( -o-box-shadow: 0 0 2px black inset ) {}
-   :   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x DeclarationName
-   ,-[$DIR/tests/fixture/rome/supports/input.css:7:11]
- 7 | ( -o-box-shadow: 0 0 2px black inset ) {}
-   :   ^^^^^^^^^^^^^
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/rome/supports/input.css:7:11]
- 7 | ( -o-box-shadow: 0 0 2px black inset ) {}
-   :   ^^^^^^^^^^^^^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/rome/supports/input.css:7:11]
- 7 | ( -o-box-shadow: 0 0 2px black inset ) {}
-   :                  ^
-   `----
-
-  x Integer
-   ,-[$DIR/tests/fixture/rome/supports/input.css:7:11]
- 7 | ( -o-box-shadow: 0 0 2px black inset ) {}
-   :                  ^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/rome/supports/input.css:7:11]
- 7 | ( -o-box-shadow: 0 0 2px black inset ) {}
-   :                    ^
-   `----
-
-  x Integer
-   ,-[$DIR/tests/fixture/rome/supports/input.css:7:11]
- 7 | ( -o-box-shadow: 0 0 2px black inset ) {}
-   :                    ^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/rome/supports/input.css:7:11]
- 7 | ( -o-box-shadow: 0 0 2px black inset ) {}
-   :                      ^^^
-   `----
-
-  x Dimension
-   ,-[$DIR/tests/fixture/rome/supports/input.css:7:11]
- 7 | ( -o-box-shadow: 0 0 2px black inset ) {}
-   :                      ^^^
-   `----
-
-  x Length
-   ,-[$DIR/tests/fixture/rome/supports/input.css:7:11]
- 7 | ( -o-box-shadow: 0 0 2px black inset ) {}
-   :                      ^^^
-   `----
-
-  x Number
-   ,-[$DIR/tests/fixture/rome/supports/input.css:7:11]
- 7 | ( -o-box-shadow: 0 0 2px black inset ) {}
-   :                      ^
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/rome/supports/input.css:7:11]
- 7 | ( -o-box-shadow: 0 0 2px black inset ) {}
-   :                       ^^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/rome/supports/input.css:7:11]
- 7 | ( -o-box-shadow: 0 0 2px black inset ) {}
-   :                          ^^^^^
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/rome/supports/input.css:7:11]
- 7 | ( -o-box-shadow: 0 0 2px black inset ) {}
-   :                          ^^^^^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/rome/supports/input.css:7:11]
- 7 | ( -o-box-shadow: 0 0 2px black inset ) {}
-   :                                ^^^^^
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/rome/supports/input.css:7:11]
- 7 | ( -o-box-shadow: 0 0 2px black inset ) {}
-   :                                ^^^^^
+ 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
+   :                                          ^^^^^
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/rome/supports/input.css:7:11]
- 7 | ( -o-box-shadow: 0 0 2px black inset ) {}
-   :                                        ^^
+   ,-[$DIR/tests/fixture/rome/supports/input.css:6:11]
+ 6 | ( -webkit-box-shadow: 0 0 2px black inset ) or
+ 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
+   :                                                  ^^
    `----
 
   x LBrace
-   ,-[$DIR/tests/fixture/rome/supports/input.css:7:11]
- 7 | ( -o-box-shadow: 0 0 2px black inset ) {}
-   :                                        ^
+   ,-[$DIR/tests/fixture/rome/supports/input.css:6:11]
+ 6 | ( -webkit-box-shadow: 0 0 2px black inset ) or
+ 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
+   :                                                  ^
    `----
 
   x Rule
@@ -675,12 +815,14 @@
     ,-[$DIR/tests/fixture/rome/supports/input.css:10:1]
  10 | @supports ((transition-property: color) or
     :  ^^^^^^^^
+ 11 |            (animation-name: foo)) and
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/rome/supports/input.css:10:1]
  10 | @supports ((transition-property: color) or
     :  ^^^^^^^^
+ 11 |            (animation-name: foo)) and
     `----
 
   x SupportsCondition
@@ -694,232 +836,279 @@
     ,-[$DIR/tests/fixture/rome/supports/input.css:10:1]
  10 | ,-> @supports ((transition-property: color) or
  11 | `->            (animation-name: foo)) and
+ 12 |               (transform: rotate(10deg)) {}
     `----
 
   x SupportsInParens
     ,-[$DIR/tests/fixture/rome/supports/input.css:10:1]
  10 | ,-> @supports ((transition-property: color) or
  11 | `->            (animation-name: foo)) and
+ 12 |               (transform: rotate(10deg)) {}
     `----
 
   x SupportsCondition
     ,-[$DIR/tests/fixture/rome/supports/input.css:10:1]
  10 | ,-> @supports ((transition-property: color) or
  11 | `->            (animation-name: foo)) and
+ 12 |               (transform: rotate(10deg)) {}
     `----
 
   x SupportsConditionType
     ,-[$DIR/tests/fixture/rome/supports/input.css:10:1]
  10 | @supports ((transition-property: color) or
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 11 |            (animation-name: foo)) and
     `----
 
   x SupportsInParens
     ,-[$DIR/tests/fixture/rome/supports/input.css:10:1]
  10 | @supports ((transition-property: color) or
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 11 |            (animation-name: foo)) and
     `----
 
   x SupportsFeature
     ,-[$DIR/tests/fixture/rome/supports/input.css:10:1]
  10 | @supports ((transition-property: color) or
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 11 |            (animation-name: foo)) and
     `----
 
   x Declaration
     ,-[$DIR/tests/fixture/rome/supports/input.css:10:1]
  10 | @supports ((transition-property: color) or
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 11 |            (animation-name: foo)) and
     `----
 
   x DeclarationName
     ,-[$DIR/tests/fixture/rome/supports/input.css:10:1]
  10 | @supports ((transition-property: color) or
     :             ^^^^^^^^^^^^^^^^^^^
+ 11 |            (animation-name: foo)) and
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/rome/supports/input.css:10:1]
  10 | @supports ((transition-property: color) or
     :             ^^^^^^^^^^^^^^^^^^^
+ 11 |            (animation-name: foo)) and
     `----
 
   x ComponentValue
     ,-[$DIR/tests/fixture/rome/supports/input.css:10:1]
  10 | @supports ((transition-property: color) or
     :                                  ^^^^^
+ 11 |            (animation-name: foo)) and
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/rome/supports/input.css:10:1]
  10 | @supports ((transition-property: color) or
     :                                  ^^^^^
+ 11 |            (animation-name: foo)) and
     `----
 
   x SupportsConditionType
     ,-[$DIR/tests/fixture/rome/supports/input.css:10:1]
  10 | ,-> @supports ((transition-property: color) or
  11 | `->            (animation-name: foo)) and
+ 12 |               (transform: rotate(10deg)) {}
     `----
 
   x SupportsOr
     ,-[$DIR/tests/fixture/rome/supports/input.css:10:1]
  10 | ,-> @supports ((transition-property: color) or
  11 | `->            (animation-name: foo)) and
+ 12 |               (transform: rotate(10deg)) {}
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/rome/supports/input.css:10:1]
  10 | @supports ((transition-property: color) or
     :                                         ^^
+ 11 |            (animation-name: foo)) and
     `----
 
   x SupportsInParens
-    ,-[$DIR/tests/fixture/rome/supports/input.css:11:12]
- 11 | (animation-name: foo)) and
-    :  ^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/supports/input.css:10:1]
+ 10 | @supports ((transition-property: color) or
+ 11 |            (animation-name: foo)) and
+    :             ^^^^^^^^^^^^^^^^^^^
+ 12 |           (transform: rotate(10deg)) {}
     `----
 
   x SupportsFeature
-    ,-[$DIR/tests/fixture/rome/supports/input.css:11:12]
- 11 | (animation-name: foo)) and
-    :  ^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/supports/input.css:10:1]
+ 10 | @supports ((transition-property: color) or
+ 11 |            (animation-name: foo)) and
+    :             ^^^^^^^^^^^^^^^^^^^
+ 12 |           (transform: rotate(10deg)) {}
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/rome/supports/input.css:11:12]
- 11 | (animation-name: foo)) and
-    :  ^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/supports/input.css:10:1]
+ 10 | @supports ((transition-property: color) or
+ 11 |            (animation-name: foo)) and
+    :             ^^^^^^^^^^^^^^^^^^^
+ 12 |           (transform: rotate(10deg)) {}
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/rome/supports/input.css:11:12]
- 11 | (animation-name: foo)) and
-    :  ^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/supports/input.css:10:1]
+ 10 | @supports ((transition-property: color) or
+ 11 |            (animation-name: foo)) and
+    :             ^^^^^^^^^^^^^^
+ 12 |           (transform: rotate(10deg)) {}
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/supports/input.css:11:12]
- 11 | (animation-name: foo)) and
-    :  ^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/supports/input.css:10:1]
+ 10 | @supports ((transition-property: color) or
+ 11 |            (animation-name: foo)) and
+    :             ^^^^^^^^^^^^^^
+ 12 |           (transform: rotate(10deg)) {}
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/supports/input.css:11:12]
- 11 | (animation-name: foo)) and
-    :                  ^^^
+    ,-[$DIR/tests/fixture/rome/supports/input.css:10:1]
+ 10 | @supports ((transition-property: color) or
+ 11 |            (animation-name: foo)) and
+    :                             ^^^
+ 12 |           (transform: rotate(10deg)) {}
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/supports/input.css:11:12]
- 11 | (animation-name: foo)) and
-    :                  ^^^
+    ,-[$DIR/tests/fixture/rome/supports/input.css:10:1]
+ 10 | @supports ((transition-property: color) or
+ 11 |            (animation-name: foo)) and
+    :                             ^^^
+ 12 |           (transform: rotate(10deg)) {}
     `----
 
   x SupportsConditionType
-    ,-[$DIR/tests/fixture/rome/supports/input.css:11:12]
- 11 | ,-> (animation-name: foo)) and
+    ,-[$DIR/tests/fixture/rome/supports/input.css:10:1]
+ 10 |     @supports ((transition-property: color) or
+ 11 | ,->            (animation-name: foo)) and
  12 | `->           (transform: rotate(10deg)) {}
     `----
 
   x SupportsAnd
-    ,-[$DIR/tests/fixture/rome/supports/input.css:11:12]
- 11 | ,-> (animation-name: foo)) and
+    ,-[$DIR/tests/fixture/rome/supports/input.css:10:1]
+ 10 |     @supports ((transition-property: color) or
+ 11 | ,->            (animation-name: foo)) and
  12 | `->           (transform: rotate(10deg)) {}
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/rome/supports/input.css:10:1]
+ 10 | @supports ((transition-property: color) or
+ 11 |            (animation-name: foo)) and
+    :                                   ^^^
+ 12 |           (transform: rotate(10deg)) {}
+    `----
+
+  x SupportsInParens
+    ,-[$DIR/tests/fixture/rome/supports/input.css:11:12]
+ 11 | (animation-name: foo)) and
+ 12 |           (transform: rotate(10deg)) {}
+    :            ^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x SupportsFeature
+    ,-[$DIR/tests/fixture/rome/supports/input.css:11:12]
+ 11 | (animation-name: foo)) and
+ 12 |           (transform: rotate(10deg)) {}
+    :            ^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/rome/supports/input.css:11:12]
+ 11 | (animation-name: foo)) and
+ 12 |           (transform: rotate(10deg)) {}
+    :            ^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/rome/supports/input.css:11:12]
+ 11 | (animation-name: foo)) and
+ 12 |           (transform: rotate(10deg)) {}
+    :            ^^^^^^^^^
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/rome/supports/input.css:11:12]
  11 | (animation-name: foo)) and
-    :                        ^^^
-    `----
-
-  x SupportsInParens
-    ,-[$DIR/tests/fixture/rome/supports/input.css:12:11]
- 12 | (transform: rotate(10deg)) {}
-    :  ^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x SupportsFeature
-    ,-[$DIR/tests/fixture/rome/supports/input.css:12:11]
- 12 | (transform: rotate(10deg)) {}
-    :  ^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x Declaration
-    ,-[$DIR/tests/fixture/rome/supports/input.css:12:11]
- 12 | (transform: rotate(10deg)) {}
-    :  ^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x DeclarationName
-    ,-[$DIR/tests/fixture/rome/supports/input.css:12:11]
- 12 | (transform: rotate(10deg)) {}
-    :  ^^^^^^^^^
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/rome/supports/input.css:12:11]
- 12 | (transform: rotate(10deg)) {}
-    :  ^^^^^^^^^
+ 12 |           (transform: rotate(10deg)) {}
+    :            ^^^^^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/supports/input.css:12:11]
- 12 | (transform: rotate(10deg)) {}
-    :             ^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/supports/input.css:11:12]
+ 11 | (animation-name: foo)) and
+ 12 |           (transform: rotate(10deg)) {}
+    :                       ^^^^^^^^^^^^^
     `----
 
   x Function
-    ,-[$DIR/tests/fixture/rome/supports/input.css:12:11]
- 12 | (transform: rotate(10deg)) {}
-    :             ^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/supports/input.css:11:12]
+ 11 | (animation-name: foo)) and
+ 12 |           (transform: rotate(10deg)) {}
+    :                       ^^^^^^^^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/supports/input.css:12:11]
- 12 | (transform: rotate(10deg)) {}
-    :             ^^^^^^
+    ,-[$DIR/tests/fixture/rome/supports/input.css:11:12]
+ 11 | (animation-name: foo)) and
+ 12 |           (transform: rotate(10deg)) {}
+    :                       ^^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/supports/input.css:12:11]
- 12 | (transform: rotate(10deg)) {}
-    :                    ^^^^^
+    ,-[$DIR/tests/fixture/rome/supports/input.css:11:12]
+ 11 | (animation-name: foo)) and
+ 12 |           (transform: rotate(10deg)) {}
+    :                              ^^^^^
     `----
 
   x Dimension
-    ,-[$DIR/tests/fixture/rome/supports/input.css:12:11]
- 12 | (transform: rotate(10deg)) {}
-    :                    ^^^^^
+    ,-[$DIR/tests/fixture/rome/supports/input.css:11:12]
+ 11 | (animation-name: foo)) and
+ 12 |           (transform: rotate(10deg)) {}
+    :                              ^^^^^
     `----
 
   x Angle
-    ,-[$DIR/tests/fixture/rome/supports/input.css:12:11]
- 12 | (transform: rotate(10deg)) {}
-    :                    ^^^^^
+    ,-[$DIR/tests/fixture/rome/supports/input.css:11:12]
+ 11 | (animation-name: foo)) and
+ 12 |           (transform: rotate(10deg)) {}
+    :                              ^^^^^
     `----
 
   x Number
-    ,-[$DIR/tests/fixture/rome/supports/input.css:12:11]
- 12 | (transform: rotate(10deg)) {}
-    :                    ^^
+    ,-[$DIR/tests/fixture/rome/supports/input.css:11:12]
+ 11 | (animation-name: foo)) and
+ 12 |           (transform: rotate(10deg)) {}
+    :                              ^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/supports/input.css:12:11]
- 12 | (transform: rotate(10deg)) {}
-    :                      ^^^
+    ,-[$DIR/tests/fixture/rome/supports/input.css:11:12]
+ 11 | (animation-name: foo)) and
+ 12 |           (transform: rotate(10deg)) {}
+    :                                ^^^
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/rome/supports/input.css:12:11]
- 12 | (transform: rotate(10deg)) {}
-    :                            ^^
+    ,-[$DIR/tests/fixture/rome/supports/input.css:11:12]
+ 11 | (animation-name: foo)) and
+ 12 |           (transform: rotate(10deg)) {}
+    :                                      ^^
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/rome/supports/input.css:12:11]
- 12 | (transform: rotate(10deg)) {}
-    :                            ^
+    ,-[$DIR/tests/fixture/rome/supports/input.css:11:12]
+ 11 | (animation-name: foo)) and
+ 12 |           (transform: rotate(10deg)) {}
+    :                                      ^
     `----

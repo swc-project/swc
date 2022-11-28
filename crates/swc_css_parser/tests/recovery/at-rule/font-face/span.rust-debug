@@ -42,12 +42,14 @@
    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:1:1]
  1 | @font-face {
    :  ^^^^^^^^^
+ 2 |     invalid
    `----
 
   x Ident
    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:1:1]
  1 | @font-face {
    :  ^^^^^^^^^
+ 2 |     invalid
    `----
 
   x SimpleBlock
@@ -61,38 +63,46 @@
    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:1:1]
  1 | @font-face {
    :            ^
+ 2 |     invalid
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/font-face/input.css:2:5]
- 2 | invalid
-   : ^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/font-face/input.css:1:1]
+ 1 | @font-face {
+ 2 |     invalid
+   :     ^^^^^^^^
  3 | }
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/font-face/input.css:2:5]
- 2 | invalid
-   : ^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/font-face/input.css:1:1]
+ 1 | @font-face {
+ 2 |     invalid
+   :     ^^^^^^^
+ 3 | }
    `----
 
   x Ident { value: Atom('invalid' type=inline), raw: "invalid" }
-   ,-[$DIR/tests/recovery/at-rule/font-face/input.css:2:5]
- 2 | invalid
-   : ^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/font-face/input.css:1:1]
+ 1 | @font-face {
+ 2 |     invalid
+   :     ^^^^^^^
+ 3 | }
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/font-face/input.css:2:5]
- 2 | invalid
-   :        ^
+   ,-[$DIR/tests/recovery/at-rule/font-face/input.css:1:1]
+ 1 | @font-face {
+ 2 |     invalid
+   :            ^
  3 | }
    `----
 
   x WhiteSpace { value: "\n" }
-   ,-[$DIR/tests/recovery/at-rule/font-face/input.css:2:5]
- 2 | invalid
-   :        ^
+   ,-[$DIR/tests/recovery/at-rule/font-face/input.css:1:1]
+ 1 | @font-face {
+ 2 |     invalid
+   :            ^
  3 | }
    `----
 
@@ -114,12 +124,14 @@
    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:5:1]
  5 | @font-face {
    :  ^^^^^^^^^
+ 6 |     invalid;
    `----
 
   x Ident
    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:5:1]
  5 | @font-face {
    :  ^^^^^^^^^
+ 6 |     invalid;
    `----
 
   x SimpleBlock
@@ -133,36 +145,47 @@
    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:5:1]
  5 | @font-face {
    :            ^
+ 6 |     invalid;
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/font-face/input.css:6:5]
- 6 | invalid;
-   : ^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/font-face/input.css:5:1]
+ 5 | @font-face {
+ 6 |     invalid;
+   :     ^^^^^^^^
+ 7 | }
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/font-face/input.css:6:5]
- 6 | invalid;
-   : ^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/font-face/input.css:5:1]
+ 5 | @font-face {
+ 6 |     invalid;
+   :     ^^^^^^^
+ 7 | }
    `----
 
   x Ident { value: Atom('invalid' type=inline), raw: "invalid" }
-   ,-[$DIR/tests/recovery/at-rule/font-face/input.css:6:5]
- 6 | invalid;
-   : ^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/font-face/input.css:5:1]
+ 5 | @font-face {
+ 6 |     invalid;
+   :     ^^^^^^^
+ 7 | }
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/font-face/input.css:6:5]
- 6 | invalid;
-   :        ^
+   ,-[$DIR/tests/recovery/at-rule/font-face/input.css:5:1]
+ 5 | @font-face {
+ 6 |     invalid;
+   :            ^
+ 7 | }
    `----
 
   x Semi
-   ,-[$DIR/tests/recovery/at-rule/font-face/input.css:6:5]
- 6 | invalid;
-   :        ^
+   ,-[$DIR/tests/recovery/at-rule/font-face/input.css:5:1]
+ 5 | @font-face {
+ 6 |     invalid;
+   :            ^
+ 7 | }
    `----
 
   x Rule
@@ -180,16 +203,18 @@
     `----
 
   x AtRuleName
-   ,-[$DIR/tests/recovery/at-rule/font-face/input.css:9:1]
- 9 | @font-face {
-   :  ^^^^^^^^^
-   `----
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:9:1]
+  9 | @font-face {
+    :  ^^^^^^^^^
+ 10 |     123
+    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/font-face/input.css:9:1]
- 9 | @font-face {
-   :  ^^^^^^^^^
-   `----
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:9:1]
+  9 | @font-face {
+    :  ^^^^^^^^^
+ 10 |     123
+    `----
 
   x SimpleBlock
     ,-[$DIR/tests/recovery/at-rule/font-face/input.css:9:1]
@@ -199,41 +224,49 @@
     `----
 
   x LBrace
-   ,-[$DIR/tests/recovery/at-rule/font-face/input.css:9:1]
- 9 | @font-face {
-   :            ^
-   `----
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:9:1]
+  9 | @font-face {
+    :            ^
+ 10 |     123
+    `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:10:5]
- 10 | 123
-    : ^^^^
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:9:1]
+  9 | @font-face {
+ 10 |     123
+    :     ^^^^
  11 | }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:10:5]
- 10 | 123
-    : ^^^
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:9:1]
+  9 | @font-face {
+ 10 |     123
+    :     ^^^
+ 11 | }
     `----
 
   x Number { value: 123.0, raw: "123", type_flag: Integer }
-    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:10:5]
- 10 | 123
-    : ^^^
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:9:1]
+  9 | @font-face {
+ 10 |     123
+    :     ^^^
+ 11 | }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:10:5]
- 10 | 123
-    :    ^
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:9:1]
+  9 | @font-face {
+ 10 |     123
+    :        ^
  11 | }
     `----
 
   x WhiteSpace { value: "\n" }
-    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:10:5]
- 10 | 123
-    :    ^
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:9:1]
+  9 | @font-face {
+ 10 |     123
+    :        ^
  11 | }
     `----
 
@@ -255,12 +288,14 @@
     ,-[$DIR/tests/recovery/at-rule/font-face/input.css:13:1]
  13 | @font-face {
     :  ^^^^^^^^^
+ 14 |     123;
     `----
 
   x Ident
     ,-[$DIR/tests/recovery/at-rule/font-face/input.css:13:1]
  13 | @font-face {
     :  ^^^^^^^^^
+ 14 |     123;
     `----
 
   x SimpleBlock
@@ -274,36 +309,47 @@
     ,-[$DIR/tests/recovery/at-rule/font-face/input.css:13:1]
  13 | @font-face {
     :            ^
+ 14 |     123;
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:14:5]
- 14 | 123;
-    : ^^^^
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:13:1]
+ 13 | @font-face {
+ 14 |     123;
+    :     ^^^^
+ 15 | }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:14:5]
- 14 | 123;
-    : ^^^
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:13:1]
+ 13 | @font-face {
+ 14 |     123;
+    :     ^^^
+ 15 | }
     `----
 
   x Number { value: 123.0, raw: "123", type_flag: Integer }
-    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:14:5]
- 14 | 123;
-    : ^^^
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:13:1]
+ 13 | @font-face {
+ 14 |     123;
+    :     ^^^
+ 15 | }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:14:5]
- 14 | 123;
-    :    ^
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:13:1]
+ 13 | @font-face {
+ 14 |     123;
+    :        ^
+ 15 | }
     `----
 
   x Semi
-    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:14:5]
- 14 | 123;
-    :    ^
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:13:1]
+ 13 | @font-face {
+ 14 |     123;
+    :        ^
+ 15 | }
     `----
 
   x Rule

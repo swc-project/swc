@@ -72,12 +72,14 @@
    ,-[$DIR/tests/fixture/value/urange/input.css:1:1]
  1 | @font-face {
    :  ^^^^^^^^^
+ 2 |     font-family: 'Ampersand';
    `----
 
   x Ident
    ,-[$DIR/tests/fixture/value/urange/input.css:1:1]
  1 | @font-face {
    :  ^^^^^^^^^
+ 2 |     font-family: 'Ampersand';
    `----
 
   x SimpleBlock
@@ -107,730 +109,973 @@
    ,-[$DIR/tests/fixture/value/urange/input.css:1:1]
  1 | @font-face {
    :            ^
+ 2 |     font-family: 'Ampersand';
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/urange/input.css:2:5]
- 2 | font-family: 'Ampersand';
-   : ^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/urange/input.css:1:1]
+ 1 | @font-face {
+ 2 |     font-family: 'Ampersand';
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^
+ 3 |     src: local('Times New Roman');
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/value/urange/input.css:2:5]
- 2 | font-family: 'Ampersand';
-   : ^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/urange/input.css:1:1]
+ 1 | @font-face {
+ 2 |     font-family: 'Ampersand';
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^
+ 3 |     src: local('Times New Roman');
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/value/urange/input.css:2:5]
- 2 | font-family: 'Ampersand';
-   : ^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/urange/input.css:1:1]
+ 1 | @font-face {
+ 2 |     font-family: 'Ampersand';
+   :     ^^^^^^^^^^^
+ 3 |     src: local('Times New Roman');
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/value/urange/input.css:2:5]
- 2 | font-family: 'Ampersand';
-   : ^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/urange/input.css:1:1]
+ 1 | @font-face {
+ 2 |     font-family: 'Ampersand';
+   :     ^^^^^^^^^^^
+ 3 |     src: local('Times New Roman');
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/urange/input.css:2:5]
- 2 | font-family: 'Ampersand';
-   :              ^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/urange/input.css:1:1]
+ 1 | @font-face {
+ 2 |     font-family: 'Ampersand';
+   :                  ^^^^^^^^^^^
+ 3 |     src: local('Times New Roman');
    `----
 
   x Str
-   ,-[$DIR/tests/fixture/value/urange/input.css:2:5]
- 2 | font-family: 'Ampersand';
-   :              ^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/urange/input.css:1:1]
+ 1 | @font-face {
+ 2 |     font-family: 'Ampersand';
+   :                  ^^^^^^^^^^^
+ 3 |     src: local('Times New Roman');
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/urange/input.css:3:5]
- 3 | src: local('Times New Roman');
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/urange/input.css:2:5]
+ 2 | font-family: 'Ampersand';
+ 3 |     src: local('Times New Roman');
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 4 |     unicode-range: U+26;               /* single codepoint */
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/value/urange/input.css:3:5]
- 3 | src: local('Times New Roman');
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/urange/input.css:2:5]
+ 2 | font-family: 'Ampersand';
+ 3 |     src: local('Times New Roman');
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 4 |     unicode-range: U+26;               /* single codepoint */
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/value/urange/input.css:3:5]
- 3 | src: local('Times New Roman');
-   : ^^^
+   ,-[$DIR/tests/fixture/value/urange/input.css:2:5]
+ 2 | font-family: 'Ampersand';
+ 3 |     src: local('Times New Roman');
+   :     ^^^
+ 4 |     unicode-range: U+26;               /* single codepoint */
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/value/urange/input.css:3:5]
- 3 | src: local('Times New Roman');
-   : ^^^
+   ,-[$DIR/tests/fixture/value/urange/input.css:2:5]
+ 2 | font-family: 'Ampersand';
+ 3 |     src: local('Times New Roman');
+   :     ^^^
+ 4 |     unicode-range: U+26;               /* single codepoint */
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/urange/input.css:3:5]
- 3 | src: local('Times New Roman');
-   :      ^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/urange/input.css:2:5]
+ 2 | font-family: 'Ampersand';
+ 3 |     src: local('Times New Roman');
+   :          ^^^^^^^^^^^^^^^^^^^^^^^^
+ 4 |     unicode-range: U+26;               /* single codepoint */
    `----
 
   x Function
-   ,-[$DIR/tests/fixture/value/urange/input.css:3:5]
- 3 | src: local('Times New Roman');
-   :      ^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/urange/input.css:2:5]
+ 2 | font-family: 'Ampersand';
+ 3 |     src: local('Times New Roman');
+   :          ^^^^^^^^^^^^^^^^^^^^^^^^
+ 4 |     unicode-range: U+26;               /* single codepoint */
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/value/urange/input.css:3:5]
- 3 | src: local('Times New Roman');
-   :      ^^^^^
+   ,-[$DIR/tests/fixture/value/urange/input.css:2:5]
+ 2 | font-family: 'Ampersand';
+ 3 |     src: local('Times New Roman');
+   :          ^^^^^
+ 4 |     unicode-range: U+26;               /* single codepoint */
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/urange/input.css:3:5]
- 3 | src: local('Times New Roman');
-   :            ^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/urange/input.css:2:5]
+ 2 | font-family: 'Ampersand';
+ 3 |     src: local('Times New Roman');
+   :                ^^^^^^^^^^^^^^^^^
+ 4 |     unicode-range: U+26;               /* single codepoint */
    `----
 
   x Str
+   ,-[$DIR/tests/fixture/value/urange/input.css:2:5]
+ 2 | font-family: 'Ampersand';
+ 3 |     src: local('Times New Roman');
+   :                ^^^^^^^^^^^^^^^^^
+ 4 |     unicode-range: U+26;               /* single codepoint */
+   `----
+
+  x ComponentValue
    ,-[$DIR/tests/fixture/value/urange/input.css:3:5]
  3 | src: local('Times New Roman');
-   :            ^^^^^^^^^^^^^^^^^
+ 4 |     unicode-range: U+26;               /* single codepoint */
+   :     ^^^^^^^^^^^^^^^^^^^
+ 5 |     unicode-range: u+26;
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/fixture/value/urange/input.css:3:5]
+ 3 | src: local('Times New Roman');
+ 4 |     unicode-range: U+26;               /* single codepoint */
+   :     ^^^^^^^^^^^^^^^^^^^
+ 5 |     unicode-range: u+26;
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/fixture/value/urange/input.css:3:5]
+ 3 | src: local('Times New Roman');
+ 4 |     unicode-range: U+26;               /* single codepoint */
+   :     ^^^^^^^^^^^^^
+ 5 |     unicode-range: u+26;
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/value/urange/input.css:3:5]
+ 3 | src: local('Times New Roman');
+ 4 |     unicode-range: U+26;               /* single codepoint */
+   :     ^^^^^^^^^^^^^
+ 5 |     unicode-range: u+26;
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/value/urange/input.css:3:5]
+ 3 | src: local('Times New Roman');
+ 4 |     unicode-range: U+26;               /* single codepoint */
+   :                    ^^^^
+ 5 |     unicode-range: u+26;
+   `----
+
+  x UnicodeRange
+   ,-[$DIR/tests/fixture/value/urange/input.css:3:5]
+ 3 | src: local('Times New Roman');
+ 4 |     unicode-range: U+26;               /* single codepoint */
+   :                    ^^^^
+ 5 |     unicode-range: u+26;
    `----
 
   x ComponentValue
    ,-[$DIR/tests/fixture/value/urange/input.css:4:5]
  4 | unicode-range: U+26;               /* single codepoint */
-   : ^^^^^^^^^^^^^^^^^^^
+ 5 |     unicode-range: u+26;
+   :     ^^^^^^^^^^^^^^^^^^^
+ 6 |     unicode-range: U+0-7F;
    `----
 
   x Declaration
    ,-[$DIR/tests/fixture/value/urange/input.css:4:5]
  4 | unicode-range: U+26;               /* single codepoint */
-   : ^^^^^^^^^^^^^^^^^^^
+ 5 |     unicode-range: u+26;
+   :     ^^^^^^^^^^^^^^^^^^^
+ 6 |     unicode-range: U+0-7F;
    `----
 
   x DeclarationName
    ,-[$DIR/tests/fixture/value/urange/input.css:4:5]
  4 | unicode-range: U+26;               /* single codepoint */
-   : ^^^^^^^^^^^^^
+ 5 |     unicode-range: u+26;
+   :     ^^^^^^^^^^^^^
+ 6 |     unicode-range: U+0-7F;
    `----
 
   x Ident
    ,-[$DIR/tests/fixture/value/urange/input.css:4:5]
  4 | unicode-range: U+26;               /* single codepoint */
-   : ^^^^^^^^^^^^^
+ 5 |     unicode-range: u+26;
+   :     ^^^^^^^^^^^^^
+ 6 |     unicode-range: U+0-7F;
    `----
 
   x ComponentValue
    ,-[$DIR/tests/fixture/value/urange/input.css:4:5]
  4 | unicode-range: U+26;               /* single codepoint */
-   :                ^^^^
+ 5 |     unicode-range: u+26;
+   :                    ^^^^
+ 6 |     unicode-range: U+0-7F;
    `----
 
   x UnicodeRange
    ,-[$DIR/tests/fixture/value/urange/input.css:4:5]
  4 | unicode-range: U+26;               /* single codepoint */
-   :                ^^^^
+ 5 |     unicode-range: u+26;
+   :                    ^^^^
+ 6 |     unicode-range: U+0-7F;
    `----
 
   x ComponentValue
    ,-[$DIR/tests/fixture/value/urange/input.css:5:5]
  5 | unicode-range: u+26;
-   : ^^^^^^^^^^^^^^^^^^^
+ 6 |     unicode-range: U+0-7F;
+   :     ^^^^^^^^^^^^^^^^^^^^^
+ 7 |     unicode-range: U+0025-00FF;        /* codepoint range */
    `----
 
   x Declaration
    ,-[$DIR/tests/fixture/value/urange/input.css:5:5]
  5 | unicode-range: u+26;
-   : ^^^^^^^^^^^^^^^^^^^
+ 6 |     unicode-range: U+0-7F;
+   :     ^^^^^^^^^^^^^^^^^^^^^
+ 7 |     unicode-range: U+0025-00FF;        /* codepoint range */
    `----
 
   x DeclarationName
    ,-[$DIR/tests/fixture/value/urange/input.css:5:5]
  5 | unicode-range: u+26;
-   : ^^^^^^^^^^^^^
+ 6 |     unicode-range: U+0-7F;
+   :     ^^^^^^^^^^^^^
+ 7 |     unicode-range: U+0025-00FF;        /* codepoint range */
    `----
 
   x Ident
    ,-[$DIR/tests/fixture/value/urange/input.css:5:5]
  5 | unicode-range: u+26;
-   : ^^^^^^^^^^^^^
+ 6 |     unicode-range: U+0-7F;
+   :     ^^^^^^^^^^^^^
+ 7 |     unicode-range: U+0025-00FF;        /* codepoint range */
    `----
 
   x ComponentValue
    ,-[$DIR/tests/fixture/value/urange/input.css:5:5]
  5 | unicode-range: u+26;
-   :                ^^^^
+ 6 |     unicode-range: U+0-7F;
+   :                    ^^^^^^
+ 7 |     unicode-range: U+0025-00FF;        /* codepoint range */
    `----
 
   x UnicodeRange
    ,-[$DIR/tests/fixture/value/urange/input.css:5:5]
  5 | unicode-range: u+26;
-   :                ^^^^
+ 6 |     unicode-range: U+0-7F;
+   :                    ^^^^^^
+ 7 |     unicode-range: U+0025-00FF;        /* codepoint range */
    `----
 
   x ComponentValue
    ,-[$DIR/tests/fixture/value/urange/input.css:6:5]
  6 | unicode-range: U+0-7F;
-   : ^^^^^^^^^^^^^^^^^^^^^
+ 7 |     unicode-range: U+0025-00FF;        /* codepoint range */
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 8 |     unicode-range: U+4??;              /* wildcard range */
    `----
 
   x Declaration
    ,-[$DIR/tests/fixture/value/urange/input.css:6:5]
  6 | unicode-range: U+0-7F;
-   : ^^^^^^^^^^^^^^^^^^^^^
+ 7 |     unicode-range: U+0025-00FF;        /* codepoint range */
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 8 |     unicode-range: U+4??;              /* wildcard range */
    `----
 
   x DeclarationName
    ,-[$DIR/tests/fixture/value/urange/input.css:6:5]
  6 | unicode-range: U+0-7F;
-   : ^^^^^^^^^^^^^
+ 7 |     unicode-range: U+0025-00FF;        /* codepoint range */
+   :     ^^^^^^^^^^^^^
+ 8 |     unicode-range: U+4??;              /* wildcard range */
    `----
 
   x Ident
    ,-[$DIR/tests/fixture/value/urange/input.css:6:5]
  6 | unicode-range: U+0-7F;
-   : ^^^^^^^^^^^^^
+ 7 |     unicode-range: U+0025-00FF;        /* codepoint range */
+   :     ^^^^^^^^^^^^^
+ 8 |     unicode-range: U+4??;              /* wildcard range */
    `----
 
   x ComponentValue
    ,-[$DIR/tests/fixture/value/urange/input.css:6:5]
  6 | unicode-range: U+0-7F;
-   :                ^^^^^^
+ 7 |     unicode-range: U+0025-00FF;        /* codepoint range */
+   :                    ^^^^^^^^^^^
+ 8 |     unicode-range: U+4??;              /* wildcard range */
    `----
 
   x UnicodeRange
    ,-[$DIR/tests/fixture/value/urange/input.css:6:5]
  6 | unicode-range: U+0-7F;
-   :                ^^^^^^
+ 7 |     unicode-range: U+0025-00FF;        /* codepoint range */
+   :                    ^^^^^^^^^^^
+ 8 |     unicode-range: U+4??;              /* wildcard range */
    `----
 
   x ComponentValue
    ,-[$DIR/tests/fixture/value/urange/input.css:7:5]
  7 | unicode-range: U+0025-00FF;        /* codepoint range */
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 8 |     unicode-range: U+4??;              /* wildcard range */
+   :     ^^^^^^^^^^^^^^^^^^^^
+ 9 |     unicode-range: U+0025-00FF, U+4??; /* multiple values */
    `----
 
   x Declaration
    ,-[$DIR/tests/fixture/value/urange/input.css:7:5]
  7 | unicode-range: U+0025-00FF;        /* codepoint range */
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 8 |     unicode-range: U+4??;              /* wildcard range */
+   :     ^^^^^^^^^^^^^^^^^^^^
+ 9 |     unicode-range: U+0025-00FF, U+4??; /* multiple values */
    `----
 
   x DeclarationName
    ,-[$DIR/tests/fixture/value/urange/input.css:7:5]
  7 | unicode-range: U+0025-00FF;        /* codepoint range */
-   : ^^^^^^^^^^^^^
+ 8 |     unicode-range: U+4??;              /* wildcard range */
+   :     ^^^^^^^^^^^^^
+ 9 |     unicode-range: U+0025-00FF, U+4??; /* multiple values */
    `----
 
   x Ident
    ,-[$DIR/tests/fixture/value/urange/input.css:7:5]
  7 | unicode-range: U+0025-00FF;        /* codepoint range */
-   : ^^^^^^^^^^^^^
+ 8 |     unicode-range: U+4??;              /* wildcard range */
+   :     ^^^^^^^^^^^^^
+ 9 |     unicode-range: U+0025-00FF, U+4??; /* multiple values */
    `----
 
   x ComponentValue
    ,-[$DIR/tests/fixture/value/urange/input.css:7:5]
  7 | unicode-range: U+0025-00FF;        /* codepoint range */
-   :                ^^^^^^^^^^^
+ 8 |     unicode-range: U+4??;              /* wildcard range */
+   :                    ^^^^^
+ 9 |     unicode-range: U+0025-00FF, U+4??; /* multiple values */
    `----
 
   x UnicodeRange
    ,-[$DIR/tests/fixture/value/urange/input.css:7:5]
  7 | unicode-range: U+0025-00FF;        /* codepoint range */
-   :                ^^^^^^^^^^^
+ 8 |     unicode-range: U+4??;              /* wildcard range */
+   :                    ^^^^^
+ 9 |     unicode-range: U+0025-00FF, U+4??; /* multiple values */
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/urange/input.css:8:5]
- 8 | unicode-range: U+4??;              /* wildcard range */
-   : ^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x Declaration
-   ,-[$DIR/tests/fixture/value/urange/input.css:8:5]
- 8 | unicode-range: U+4??;              /* wildcard range */
-   : ^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x DeclarationName
-   ,-[$DIR/tests/fixture/value/urange/input.css:8:5]
- 8 | unicode-range: U+4??;              /* wildcard range */
-   : ^^^^^^^^^^^^^
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/value/urange/input.css:8:5]
- 8 | unicode-range: U+4??;              /* wildcard range */
-   : ^^^^^^^^^^^^^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/value/urange/input.css:8:5]
- 8 | unicode-range: U+4??;              /* wildcard range */
-   :                ^^^^^
-   `----
-
-  x UnicodeRange
-   ,-[$DIR/tests/fixture/value/urange/input.css:8:5]
- 8 | unicode-range: U+4??;              /* wildcard range */
-   :                ^^^^^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/value/urange/input.css:9:5]
- 9 | unicode-range: U+0025-00FF, U+4??; /* multiple values */
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x Declaration
-   ,-[$DIR/tests/fixture/value/urange/input.css:9:5]
- 9 | unicode-range: U+0025-00FF, U+4??; /* multiple values */
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x DeclarationName
-   ,-[$DIR/tests/fixture/value/urange/input.css:9:5]
- 9 | unicode-range: U+0025-00FF, U+4??; /* multiple values */
-   : ^^^^^^^^^^^^^
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/value/urange/input.css:9:5]
- 9 | unicode-range: U+0025-00FF, U+4??; /* multiple values */
-   : ^^^^^^^^^^^^^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/value/urange/input.css:9:5]
- 9 | unicode-range: U+0025-00FF, U+4??; /* multiple values */
-   :                ^^^^^^^^^^^
-   `----
-
-  x UnicodeRange
-   ,-[$DIR/tests/fixture/value/urange/input.css:9:5]
- 9 | unicode-range: U+0025-00FF, U+4??; /* multiple values */
-   :                ^^^^^^^^^^^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/value/urange/input.css:9:5]
- 9 | unicode-range: U+0025-00FF, U+4??; /* multiple values */
-   :                           ^
-   `----
-
-  x Delimiter
-   ,-[$DIR/tests/fixture/value/urange/input.css:9:5]
- 9 | unicode-range: U+0025-00FF, U+4??; /* multiple values */
-   :                           ^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/value/urange/input.css:9:5]
- 9 | unicode-range: U+0025-00FF, U+4??; /* multiple values */
-   :                             ^^^^^
-   `----
-
-  x UnicodeRange
-   ,-[$DIR/tests/fixture/value/urange/input.css:9:5]
- 9 | unicode-range: U+0025-00FF, U+4??; /* multiple values */
-   :                             ^^^^^
-   `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/value/urange/input.css:10:5]
- 10 | unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/value/urange/input.css:8:5]
+  8 | unicode-range: U+4??;              /* wildcard range */
+  9 |     unicode-range: U+0025-00FF, U+4??; /* multiple values */
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 10 |     unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/value/urange/input.css:10:5]
- 10 | unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/value/urange/input.css:8:5]
+  8 | unicode-range: U+4??;              /* wildcard range */
+  9 |     unicode-range: U+0025-00FF, U+4??; /* multiple values */
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 10 |     unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/value/urange/input.css:10:5]
- 10 | unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
-    : ^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/value/urange/input.css:8:5]
+  8 | unicode-range: U+4??;              /* wildcard range */
+  9 |     unicode-range: U+0025-00FF, U+4??; /* multiple values */
+    :     ^^^^^^^^^^^^^
+ 10 |     unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/value/urange/input.css:10:5]
- 10 | unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
-    : ^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/value/urange/input.css:8:5]
+  8 | unicode-range: U+4??;              /* wildcard range */
+  9 |     unicode-range: U+0025-00FF, U+4??; /* multiple values */
+    :     ^^^^^^^^^^^^^
+ 10 |     unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/urange/input.css:10:5]
- 10 | unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
-    :                ^^^^
+    ,-[$DIR/tests/fixture/value/urange/input.css:8:5]
+  8 | unicode-range: U+4??;              /* wildcard range */
+  9 |     unicode-range: U+0025-00FF, U+4??; /* multiple values */
+    :                    ^^^^^^^^^^^
+ 10 |     unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
     `----
 
   x UnicodeRange
-    ,-[$DIR/tests/fixture/value/urange/input.css:10:5]
- 10 | unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
-    :                ^^^^
+    ,-[$DIR/tests/fixture/value/urange/input.css:8:5]
+  8 | unicode-range: U+4??;              /* wildcard range */
+  9 |     unicode-range: U+0025-00FF, U+4??; /* multiple values */
+    :                    ^^^^^^^^^^^
+ 10 |     unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/urange/input.css:10:5]
- 10 | unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
-    :                    ^
-    `----
-
-  x Delimiter
-    ,-[$DIR/tests/fixture/value/urange/input.css:10:5]
- 10 | unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
-    :                    ^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/value/urange/input.css:10:5]
- 10 | unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
-    :                      ^^^^^^^^^^^
-    `----
-
-  x UnicodeRange
-    ,-[$DIR/tests/fixture/value/urange/input.css:10:5]
- 10 | unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
-    :                      ^^^^^^^^^^^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/value/urange/input.css:10:5]
- 10 | unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
-    :                                 ^
+    ,-[$DIR/tests/fixture/value/urange/input.css:8:5]
+  8 | unicode-range: U+4??;              /* wildcard range */
+  9 |     unicode-range: U+0025-00FF, U+4??; /* multiple values */
+    :                               ^
+ 10 |     unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
     `----
 
   x Delimiter
-    ,-[$DIR/tests/fixture/value/urange/input.css:10:5]
- 10 | unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
-    :                                 ^
+    ,-[$DIR/tests/fixture/value/urange/input.css:8:5]
+  8 | unicode-range: U+4??;              /* wildcard range */
+  9 |     unicode-range: U+0025-00FF, U+4??; /* multiple values */
+    :                               ^
+ 10 |     unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/urange/input.css:10:5]
- 10 | unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
-    :                                   ^^^^^^
+    ,-[$DIR/tests/fixture/value/urange/input.css:8:5]
+  8 | unicode-range: U+4??;              /* wildcard range */
+  9 |     unicode-range: U+0025-00FF, U+4??; /* multiple values */
+    :                                 ^^^^^
+ 10 |     unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
     `----
 
   x UnicodeRange
-    ,-[$DIR/tests/fixture/value/urange/input.css:10:5]
- 10 | unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
-    :                                   ^^^^^^
+    ,-[$DIR/tests/fixture/value/urange/input.css:8:5]
+  8 | unicode-range: U+4??;              /* wildcard range */
+  9 |     unicode-range: U+0025-00FF, U+4??; /* multiple values */
+    :                                 ^^^^^
+ 10 |     unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/urange/input.css:10:5]
- 10 | unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
-    :                                         ^
+    ,-[$DIR/tests/fixture/value/urange/input.css:9:5]
+  9 | unicode-range: U+0025-00FF, U+4??; /* multiple values */
+ 10 |     unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 11 |     unicode-range: U+????;
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/value/urange/input.css:9:5]
+  9 | unicode-range: U+0025-00FF, U+4??; /* multiple values */
+ 10 |     unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 11 |     unicode-range: U+????;
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/value/urange/input.css:9:5]
+  9 | unicode-range: U+0025-00FF, U+4??; /* multiple values */
+ 10 |     unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
+    :     ^^^^^^^^^^^^^
+ 11 |     unicode-range: U+????;
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/value/urange/input.css:9:5]
+  9 | unicode-range: U+0025-00FF, U+4??; /* multiple values */
+ 10 |     unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
+    :     ^^^^^^^^^^^^^
+ 11 |     unicode-range: U+????;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/value/urange/input.css:9:5]
+  9 | unicode-range: U+0025-00FF, U+4??; /* multiple values */
+ 10 |     unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
+    :                    ^^^^
+ 11 |     unicode-range: U+????;
+    `----
+
+  x UnicodeRange
+    ,-[$DIR/tests/fixture/value/urange/input.css:9:5]
+  9 | unicode-range: U+0025-00FF, U+4??; /* multiple values */
+ 10 |     unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
+    :                    ^^^^
+ 11 |     unicode-range: U+????;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/value/urange/input.css:9:5]
+  9 | unicode-range: U+0025-00FF, U+4??; /* multiple values */
+ 10 |     unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
+    :                        ^
+ 11 |     unicode-range: U+????;
     `----
 
   x Delimiter
+    ,-[$DIR/tests/fixture/value/urange/input.css:9:5]
+  9 | unicode-range: U+0025-00FF, U+4??; /* multiple values */
+ 10 |     unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
+    :                        ^
+ 11 |     unicode-range: U+????;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/value/urange/input.css:9:5]
+  9 | unicode-range: U+0025-00FF, U+4??; /* multiple values */
+ 10 |     unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
+    :                          ^^^^^^^^^^^
+ 11 |     unicode-range: U+????;
+    `----
+
+  x UnicodeRange
+    ,-[$DIR/tests/fixture/value/urange/input.css:9:5]
+  9 | unicode-range: U+0025-00FF, U+4??; /* multiple values */
+ 10 |     unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
+    :                          ^^^^^^^^^^^
+ 11 |     unicode-range: U+????;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/value/urange/input.css:9:5]
+  9 | unicode-range: U+0025-00FF, U+4??; /* multiple values */
+ 10 |     unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
+    :                                     ^
+ 11 |     unicode-range: U+????;
+    `----
+
+  x Delimiter
+    ,-[$DIR/tests/fixture/value/urange/input.css:9:5]
+  9 | unicode-range: U+0025-00FF, U+4??; /* multiple values */
+ 10 |     unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
+    :                                     ^
+ 11 |     unicode-range: U+????;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/value/urange/input.css:9:5]
+  9 | unicode-range: U+0025-00FF, U+4??; /* multiple values */
+ 10 |     unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
+    :                                       ^^^^^^
+ 11 |     unicode-range: U+????;
+    `----
+
+  x UnicodeRange
+    ,-[$DIR/tests/fixture/value/urange/input.css:9:5]
+  9 | unicode-range: U+0025-00FF, U+4??; /* multiple values */
+ 10 |     unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
+    :                                       ^^^^^^
+ 11 |     unicode-range: U+????;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/value/urange/input.css:9:5]
+  9 | unicode-range: U+0025-00FF, U+4??; /* multiple values */
+ 10 |     unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
+    :                                             ^
+ 11 |     unicode-range: U+????;
+    `----
+
+  x Delimiter
+    ,-[$DIR/tests/fixture/value/urange/input.css:9:5]
+  9 | unicode-range: U+0025-00FF, U+4??; /* multiple values */
+ 10 |     unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
+    :                                             ^
+ 11 |     unicode-range: U+????;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/value/urange/input.css:9:5]
+  9 | unicode-range: U+0025-00FF, U+4??; /* multiple values */
+ 10 |     unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
+    :                                               ^^^^^^^^^^^
+ 11 |     unicode-range: U+????;
+    `----
+
+  x UnicodeRange
+    ,-[$DIR/tests/fixture/value/urange/input.css:9:5]
+  9 | unicode-range: U+0025-00FF, U+4??; /* multiple values */
+ 10 |     unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
+    :                                               ^^^^^^^^^^^
+ 11 |     unicode-range: U+????;
+    `----
+
+  x ComponentValue
     ,-[$DIR/tests/fixture/value/urange/input.css:10:5]
  10 | unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
-    :                                         ^
+ 11 |     unicode-range: U+????;
+    :     ^^^^^^^^^^^^^^^^^^^^^
+ 12 |     unicode-range: U+??????;
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/value/urange/input.css:10:5]
+ 10 | unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
+ 11 |     unicode-range: U+????;
+    :     ^^^^^^^^^^^^^^^^^^^^^
+ 12 |     unicode-range: U+??????;
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/value/urange/input.css:10:5]
+ 10 | unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
+ 11 |     unicode-range: U+????;
+    :     ^^^^^^^^^^^^^
+ 12 |     unicode-range: U+??????;
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/value/urange/input.css:10:5]
+ 10 | unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
+ 11 |     unicode-range: U+????;
+    :     ^^^^^^^^^^^^^
+ 12 |     unicode-range: U+??????;
     `----
 
   x ComponentValue
     ,-[$DIR/tests/fixture/value/urange/input.css:10:5]
  10 | unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
-    :                                           ^^^^^^^^^^^
+ 11 |     unicode-range: U+????;
+    :                    ^^^^^^
+ 12 |     unicode-range: U+??????;
     `----
 
   x UnicodeRange
     ,-[$DIR/tests/fixture/value/urange/input.css:10:5]
  10 | unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
-    :                                           ^^^^^^^^^^^
+ 11 |     unicode-range: U+????;
+    :                    ^^^^^^
+ 12 |     unicode-range: U+??????;
     `----
 
   x ComponentValue
     ,-[$DIR/tests/fixture/value/urange/input.css:11:5]
  11 | unicode-range: U+????;
-    : ^^^^^^^^^^^^^^^^^^^^^
+ 12 |     unicode-range: U+??????;
+    :     ^^^^^^^^^^^^^^^^^^^^^^^
+ 13 |     unicode-range: U+12;
     `----
 
   x Declaration
     ,-[$DIR/tests/fixture/value/urange/input.css:11:5]
  11 | unicode-range: U+????;
-    : ^^^^^^^^^^^^^^^^^^^^^
+ 12 |     unicode-range: U+??????;
+    :     ^^^^^^^^^^^^^^^^^^^^^^^
+ 13 |     unicode-range: U+12;
     `----
 
   x DeclarationName
     ,-[$DIR/tests/fixture/value/urange/input.css:11:5]
  11 | unicode-range: U+????;
-    : ^^^^^^^^^^^^^
+ 12 |     unicode-range: U+??????;
+    :     ^^^^^^^^^^^^^
+ 13 |     unicode-range: U+12;
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/value/urange/input.css:11:5]
  11 | unicode-range: U+????;
-    : ^^^^^^^^^^^^^
+ 12 |     unicode-range: U+??????;
+    :     ^^^^^^^^^^^^^
+ 13 |     unicode-range: U+12;
     `----
 
   x ComponentValue
     ,-[$DIR/tests/fixture/value/urange/input.css:11:5]
  11 | unicode-range: U+????;
-    :                ^^^^^^
+ 12 |     unicode-range: U+??????;
+    :                    ^^^^^^^^
+ 13 |     unicode-range: U+12;
     `----
 
   x UnicodeRange
     ,-[$DIR/tests/fixture/value/urange/input.css:11:5]
  11 | unicode-range: U+????;
-    :                ^^^^^^
+ 12 |     unicode-range: U+??????;
+    :                    ^^^^^^^^
+ 13 |     unicode-range: U+12;
     `----
 
   x ComponentValue
     ,-[$DIR/tests/fixture/value/urange/input.css:12:5]
  12 | unicode-range: U+??????;
-    : ^^^^^^^^^^^^^^^^^^^^^^^
+ 13 |     unicode-range: U+12;
+    :     ^^^^^^^^^^^^^^^^^^^
+ 14 |     unicode-range: U+12e112;
     `----
 
   x Declaration
     ,-[$DIR/tests/fixture/value/urange/input.css:12:5]
  12 | unicode-range: U+??????;
-    : ^^^^^^^^^^^^^^^^^^^^^^^
+ 13 |     unicode-range: U+12;
+    :     ^^^^^^^^^^^^^^^^^^^
+ 14 |     unicode-range: U+12e112;
     `----
 
   x DeclarationName
     ,-[$DIR/tests/fixture/value/urange/input.css:12:5]
  12 | unicode-range: U+??????;
-    : ^^^^^^^^^^^^^
+ 13 |     unicode-range: U+12;
+    :     ^^^^^^^^^^^^^
+ 14 |     unicode-range: U+12e112;
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/value/urange/input.css:12:5]
  12 | unicode-range: U+??????;
-    : ^^^^^^^^^^^^^
+ 13 |     unicode-range: U+12;
+    :     ^^^^^^^^^^^^^
+ 14 |     unicode-range: U+12e112;
     `----
 
   x ComponentValue
     ,-[$DIR/tests/fixture/value/urange/input.css:12:5]
  12 | unicode-range: U+??????;
-    :                ^^^^^^^^
+ 13 |     unicode-range: U+12;
+    :                    ^^^^
+ 14 |     unicode-range: U+12e112;
     `----
 
   x UnicodeRange
     ,-[$DIR/tests/fixture/value/urange/input.css:12:5]
  12 | unicode-range: U+??????;
-    :                ^^^^^^^^
+ 13 |     unicode-range: U+12;
+    :                    ^^^^
+ 14 |     unicode-range: U+12e112;
     `----
 
   x ComponentValue
     ,-[$DIR/tests/fixture/value/urange/input.css:13:5]
  13 | unicode-range: U+12;
-    : ^^^^^^^^^^^^^^^^^^^
+ 14 |     unicode-range: U+12e112;
+    :     ^^^^^^^^^^^^^^^^^^^^^^^
+ 15 |     unicode-range: U+1e1ee1;
     `----
 
   x Declaration
     ,-[$DIR/tests/fixture/value/urange/input.css:13:5]
  13 | unicode-range: U+12;
-    : ^^^^^^^^^^^^^^^^^^^
+ 14 |     unicode-range: U+12e112;
+    :     ^^^^^^^^^^^^^^^^^^^^^^^
+ 15 |     unicode-range: U+1e1ee1;
     `----
 
   x DeclarationName
     ,-[$DIR/tests/fixture/value/urange/input.css:13:5]
  13 | unicode-range: U+12;
-    : ^^^^^^^^^^^^^
+ 14 |     unicode-range: U+12e112;
+    :     ^^^^^^^^^^^^^
+ 15 |     unicode-range: U+1e1ee1;
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/value/urange/input.css:13:5]
  13 | unicode-range: U+12;
-    : ^^^^^^^^^^^^^
+ 14 |     unicode-range: U+12e112;
+    :     ^^^^^^^^^^^^^
+ 15 |     unicode-range: U+1e1ee1;
     `----
 
   x ComponentValue
     ,-[$DIR/tests/fixture/value/urange/input.css:13:5]
  13 | unicode-range: U+12;
-    :                ^^^^
+ 14 |     unicode-range: U+12e112;
+    :                    ^^^^^^^^
+ 15 |     unicode-range: U+1e1ee1;
     `----
 
   x UnicodeRange
     ,-[$DIR/tests/fixture/value/urange/input.css:13:5]
  13 | unicode-range: U+12;
-    :                ^^^^
+ 14 |     unicode-range: U+12e112;
+    :                    ^^^^^^^^
+ 15 |     unicode-range: U+1e1ee1;
     `----
 
   x ComponentValue
     ,-[$DIR/tests/fixture/value/urange/input.css:14:5]
  14 | unicode-range: U+12e112;
-    : ^^^^^^^^^^^^^^^^^^^^^^^
+ 15 |     unicode-range: U+1e1ee1;
+    :     ^^^^^^^^^^^^^^^^^^^^^^^
+ 16 |     unicode-range: U+1e1ee1-FFFFFF;
     `----
 
   x Declaration
     ,-[$DIR/tests/fixture/value/urange/input.css:14:5]
  14 | unicode-range: U+12e112;
-    : ^^^^^^^^^^^^^^^^^^^^^^^
+ 15 |     unicode-range: U+1e1ee1;
+    :     ^^^^^^^^^^^^^^^^^^^^^^^
+ 16 |     unicode-range: U+1e1ee1-FFFFFF;
     `----
 
   x DeclarationName
     ,-[$DIR/tests/fixture/value/urange/input.css:14:5]
  14 | unicode-range: U+12e112;
-    : ^^^^^^^^^^^^^
+ 15 |     unicode-range: U+1e1ee1;
+    :     ^^^^^^^^^^^^^
+ 16 |     unicode-range: U+1e1ee1-FFFFFF;
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/value/urange/input.css:14:5]
  14 | unicode-range: U+12e112;
-    : ^^^^^^^^^^^^^
+ 15 |     unicode-range: U+1e1ee1;
+    :     ^^^^^^^^^^^^^
+ 16 |     unicode-range: U+1e1ee1-FFFFFF;
     `----
 
   x ComponentValue
     ,-[$DIR/tests/fixture/value/urange/input.css:14:5]
  14 | unicode-range: U+12e112;
-    :                ^^^^^^^^
+ 15 |     unicode-range: U+1e1ee1;
+    :                    ^^^^^^^^
+ 16 |     unicode-range: U+1e1ee1-FFFFFF;
     `----
 
   x UnicodeRange
     ,-[$DIR/tests/fixture/value/urange/input.css:14:5]
  14 | unicode-range: U+12e112;
-    :                ^^^^^^^^
+ 15 |     unicode-range: U+1e1ee1;
+    :                    ^^^^^^^^
+ 16 |     unicode-range: U+1e1ee1-FFFFFF;
     `----
 
   x ComponentValue
     ,-[$DIR/tests/fixture/value/urange/input.css:15:5]
  15 | unicode-range: U+1e1ee1;
-    : ^^^^^^^^^^^^^^^^^^^^^^^
+ 16 |     unicode-range: U+1e1ee1-FFFFFF;
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 17 |     unicode-range: U+1e1ee?;
     `----
 
   x Declaration
     ,-[$DIR/tests/fixture/value/urange/input.css:15:5]
  15 | unicode-range: U+1e1ee1;
-    : ^^^^^^^^^^^^^^^^^^^^^^^
+ 16 |     unicode-range: U+1e1ee1-FFFFFF;
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 17 |     unicode-range: U+1e1ee?;
     `----
 
   x DeclarationName
     ,-[$DIR/tests/fixture/value/urange/input.css:15:5]
  15 | unicode-range: U+1e1ee1;
-    : ^^^^^^^^^^^^^
+ 16 |     unicode-range: U+1e1ee1-FFFFFF;
+    :     ^^^^^^^^^^^^^
+ 17 |     unicode-range: U+1e1ee?;
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/value/urange/input.css:15:5]
  15 | unicode-range: U+1e1ee1;
-    : ^^^^^^^^^^^^^
+ 16 |     unicode-range: U+1e1ee1-FFFFFF;
+    :     ^^^^^^^^^^^^^
+ 17 |     unicode-range: U+1e1ee?;
     `----
 
   x ComponentValue
     ,-[$DIR/tests/fixture/value/urange/input.css:15:5]
  15 | unicode-range: U+1e1ee1;
-    :                ^^^^^^^^
+ 16 |     unicode-range: U+1e1ee1-FFFFFF;
+    :                    ^^^^^^^^^^^^^^^
+ 17 |     unicode-range: U+1e1ee?;
     `----
 
   x UnicodeRange
     ,-[$DIR/tests/fixture/value/urange/input.css:15:5]
  15 | unicode-range: U+1e1ee1;
-    :                ^^^^^^^^
+ 16 |     unicode-range: U+1e1ee1-FFFFFF;
+    :                    ^^^^^^^^^^^^^^^
+ 17 |     unicode-range: U+1e1ee?;
     `----
 
   x ComponentValue
     ,-[$DIR/tests/fixture/value/urange/input.css:16:5]
  16 | unicode-range: U+1e1ee1-FFFFFF;
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 17 |     unicode-range: U+1e1ee?;
+    :     ^^^^^^^^^^^^^^^^^^^^^^^
+ 18 |     unicode-range: U+12-13;
     `----
 
   x Declaration
     ,-[$DIR/tests/fixture/value/urange/input.css:16:5]
  16 | unicode-range: U+1e1ee1-FFFFFF;
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 17 |     unicode-range: U+1e1ee?;
+    :     ^^^^^^^^^^^^^^^^^^^^^^^
+ 18 |     unicode-range: U+12-13;
     `----
 
   x DeclarationName
     ,-[$DIR/tests/fixture/value/urange/input.css:16:5]
  16 | unicode-range: U+1e1ee1-FFFFFF;
-    : ^^^^^^^^^^^^^
+ 17 |     unicode-range: U+1e1ee?;
+    :     ^^^^^^^^^^^^^
+ 18 |     unicode-range: U+12-13;
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/value/urange/input.css:16:5]
  16 | unicode-range: U+1e1ee1-FFFFFF;
-    : ^^^^^^^^^^^^^
+ 17 |     unicode-range: U+1e1ee?;
+    :     ^^^^^^^^^^^^^
+ 18 |     unicode-range: U+12-13;
     `----
 
   x ComponentValue
     ,-[$DIR/tests/fixture/value/urange/input.css:16:5]
  16 | unicode-range: U+1e1ee1-FFFFFF;
-    :                ^^^^^^^^^^^^^^^
+ 17 |     unicode-range: U+1e1ee?;
+    :                    ^^^^^^^^
+ 18 |     unicode-range: U+12-13;
     `----
 
   x UnicodeRange
     ,-[$DIR/tests/fixture/value/urange/input.css:16:5]
  16 | unicode-range: U+1e1ee1-FFFFFF;
-    :                ^^^^^^^^^^^^^^^
+ 17 |     unicode-range: U+1e1ee?;
+    :                    ^^^^^^^^
+ 18 |     unicode-range: U+12-13;
     `----
 
   x ComponentValue
     ,-[$DIR/tests/fixture/value/urange/input.css:17:5]
  17 | unicode-range: U+1e1ee?;
-    : ^^^^^^^^^^^^^^^^^^^^^^^
+ 18 |     unicode-range: U+12-13;
+    :     ^^^^^^^^^^^^^^^^^^^^^^
+ 19 | }
     `----
 
   x Declaration
     ,-[$DIR/tests/fixture/value/urange/input.css:17:5]
  17 | unicode-range: U+1e1ee?;
-    : ^^^^^^^^^^^^^^^^^^^^^^^
+ 18 |     unicode-range: U+12-13;
+    :     ^^^^^^^^^^^^^^^^^^^^^^
+ 19 | }
     `----
 
   x DeclarationName
     ,-[$DIR/tests/fixture/value/urange/input.css:17:5]
  17 | unicode-range: U+1e1ee?;
-    : ^^^^^^^^^^^^^
+ 18 |     unicode-range: U+12-13;
+    :     ^^^^^^^^^^^^^
+ 19 | }
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/value/urange/input.css:17:5]
  17 | unicode-range: U+1e1ee?;
-    : ^^^^^^^^^^^^^
+ 18 |     unicode-range: U+12-13;
+    :     ^^^^^^^^^^^^^
+ 19 | }
     `----
 
   x ComponentValue
     ,-[$DIR/tests/fixture/value/urange/input.css:17:5]
  17 | unicode-range: U+1e1ee?;
-    :                ^^^^^^^^
+ 18 |     unicode-range: U+12-13;
+    :                    ^^^^^^^
+ 19 | }
     `----
 
   x UnicodeRange
     ,-[$DIR/tests/fixture/value/urange/input.css:17:5]
  17 | unicode-range: U+1e1ee?;
-    :                ^^^^^^^^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/value/urange/input.css:18:5]
- 18 | unicode-range: U+12-13;
-    : ^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x Declaration
-    ,-[$DIR/tests/fixture/value/urange/input.css:18:5]
- 18 | unicode-range: U+12-13;
-    : ^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x DeclarationName
-    ,-[$DIR/tests/fixture/value/urange/input.css:18:5]
- 18 | unicode-range: U+12-13;
-    : ^^^^^^^^^^^^^
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/value/urange/input.css:18:5]
- 18 | unicode-range: U+12-13;
-    : ^^^^^^^^^^^^^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/value/urange/input.css:18:5]
- 18 | unicode-range: U+12-13;
-    :                ^^^^^^^
-    `----
-
-  x UnicodeRange
-    ,-[$DIR/tests/fixture/value/urange/input.css:18:5]
- 18 | unicode-range: U+12-13;
-    :                ^^^^^^^
+ 18 |     unicode-range: U+12-13;
+    :                    ^^^^^^^
+ 19 | }
     `----

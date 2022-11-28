@@ -1,6 +1,8 @@
 
   x Unexpected '!important'.
-    ,-[$DIR/tests/rules/fail/declaration-no-important/keyframe/input.css:12:5]
- 12 | color: #111 !important;
-    :             ^^^^^^^^^^
+    ,-[$DIR/tests/rules/fail/declaration-no-important/keyframe/input.css:11:1]
+ 11 | a {
+ 12 |     color: #111 !important;
+    :                 ^^^^^^^^^^
+ 13 | }
     `----

@@ -34,18 +34,21 @@
    ,-[$DIR/tests/fixture/at-rule/counter-style/input.css:1:1]
  1 | @counter-style thumbs {
    :  ^^^^^^^^^^^^^
+ 2 |     system: cyclic;
    `----
 
   x Ident
    ,-[$DIR/tests/fixture/at-rule/counter-style/input.css:1:1]
  1 | @counter-style thumbs {
    :  ^^^^^^^^^^^^^
+ 2 |     system: cyclic;
    `----
 
   x CustomIdent
    ,-[$DIR/tests/fixture/at-rule/counter-style/input.css:1:1]
  1 | @counter-style thumbs {
    :                ^^^^^^
+ 2 |     system: cyclic;
    `----
 
   x SimpleBlock
@@ -61,114 +64,151 @@
    ,-[$DIR/tests/fixture/at-rule/counter-style/input.css:1:1]
  1 | @counter-style thumbs {
    :                       ^
+ 2 |     system: cyclic;
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/at-rule/counter-style/input.css:1:1]
+ 1 | @counter-style thumbs {
+ 2 |     system: cyclic;
+   :     ^^^^^^^^^^^^^^
+ 3 |     symbols: "\1F44D";
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/fixture/at-rule/counter-style/input.css:1:1]
+ 1 | @counter-style thumbs {
+ 2 |     system: cyclic;
+   :     ^^^^^^^^^^^^^^
+ 3 |     symbols: "\1F44D";
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/fixture/at-rule/counter-style/input.css:1:1]
+ 1 | @counter-style thumbs {
+ 2 |     system: cyclic;
+   :     ^^^^^^
+ 3 |     symbols: "\1F44D";
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/at-rule/counter-style/input.css:1:1]
+ 1 | @counter-style thumbs {
+ 2 |     system: cyclic;
+   :     ^^^^^^
+ 3 |     symbols: "\1F44D";
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/at-rule/counter-style/input.css:1:1]
+ 1 | @counter-style thumbs {
+ 2 |     system: cyclic;
+   :             ^^^^^^
+ 3 |     symbols: "\1F44D";
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/at-rule/counter-style/input.css:1:1]
+ 1 | @counter-style thumbs {
+ 2 |     system: cyclic;
+   :             ^^^^^^
+ 3 |     symbols: "\1F44D";
    `----
 
   x ComponentValue
    ,-[$DIR/tests/fixture/at-rule/counter-style/input.css:2:5]
  2 | system: cyclic;
-   : ^^^^^^^^^^^^^^
+ 3 |     symbols: "\1F44D";
+   :     ^^^^^^^^^^^^^^^^^
+ 4 |     suffix: " ";
    `----
 
   x Declaration
    ,-[$DIR/tests/fixture/at-rule/counter-style/input.css:2:5]
  2 | system: cyclic;
-   : ^^^^^^^^^^^^^^
+ 3 |     symbols: "\1F44D";
+   :     ^^^^^^^^^^^^^^^^^
+ 4 |     suffix: " ";
    `----
 
   x DeclarationName
    ,-[$DIR/tests/fixture/at-rule/counter-style/input.css:2:5]
  2 | system: cyclic;
-   : ^^^^^^
+ 3 |     symbols: "\1F44D";
+   :     ^^^^^^^
+ 4 |     suffix: " ";
    `----
 
   x Ident
    ,-[$DIR/tests/fixture/at-rule/counter-style/input.css:2:5]
  2 | system: cyclic;
-   : ^^^^^^
+ 3 |     symbols: "\1F44D";
+   :     ^^^^^^^
+ 4 |     suffix: " ";
    `----
 
   x ComponentValue
    ,-[$DIR/tests/fixture/at-rule/counter-style/input.css:2:5]
  2 | system: cyclic;
-   :         ^^^^^^
+ 3 |     symbols: "\1F44D";
+   :              ^^^^^^^^
+ 4 |     suffix: " ";
    `----
 
-  x Ident
+  x Str
    ,-[$DIR/tests/fixture/at-rule/counter-style/input.css:2:5]
  2 | system: cyclic;
-   :         ^^^^^^
+ 3 |     symbols: "\1F44D";
+   :              ^^^^^^^^
+ 4 |     suffix: " ";
    `----
 
   x ComponentValue
    ,-[$DIR/tests/fixture/at-rule/counter-style/input.css:3:5]
  3 | symbols: "\1F44D";
-   : ^^^^^^^^^^^^^^^^^
+ 4 |     suffix: " ";
+   :     ^^^^^^^^^^^
+ 5 | }
    `----
 
   x Declaration
    ,-[$DIR/tests/fixture/at-rule/counter-style/input.css:3:5]
  3 | symbols: "\1F44D";
-   : ^^^^^^^^^^^^^^^^^
+ 4 |     suffix: " ";
+   :     ^^^^^^^^^^^
+ 5 | }
    `----
 
   x DeclarationName
    ,-[$DIR/tests/fixture/at-rule/counter-style/input.css:3:5]
  3 | symbols: "\1F44D";
-   : ^^^^^^^
+ 4 |     suffix: " ";
+   :     ^^^^^^
+ 5 | }
    `----
 
   x Ident
    ,-[$DIR/tests/fixture/at-rule/counter-style/input.css:3:5]
  3 | symbols: "\1F44D";
-   : ^^^^^^^
+ 4 |     suffix: " ";
+   :     ^^^^^^
+ 5 | }
    `----
 
   x ComponentValue
    ,-[$DIR/tests/fixture/at-rule/counter-style/input.css:3:5]
  3 | symbols: "\1F44D";
-   :          ^^^^^^^^
+ 4 |     suffix: " ";
+   :             ^^^
+ 5 | }
    `----
 
   x Str
    ,-[$DIR/tests/fixture/at-rule/counter-style/input.css:3:5]
  3 | symbols: "\1F44D";
-   :          ^^^^^^^^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/counter-style/input.css:4:5]
- 4 | suffix: " ";
-   : ^^^^^^^^^^^
-   `----
-
-  x Declaration
-   ,-[$DIR/tests/fixture/at-rule/counter-style/input.css:4:5]
- 4 | suffix: " ";
-   : ^^^^^^^^^^^
-   `----
-
-  x DeclarationName
-   ,-[$DIR/tests/fixture/at-rule/counter-style/input.css:4:5]
- 4 | suffix: " ";
-   : ^^^^^^
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/at-rule/counter-style/input.css:4:5]
- 4 | suffix: " ";
-   : ^^^^^^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/counter-style/input.css:4:5]
- 4 | suffix: " ";
-   :         ^^^
-   `----
-
-  x Str
-   ,-[$DIR/tests/fixture/at-rule/counter-style/input.css:4:5]
- 4 | suffix: " ";
-   :         ^^^
+ 4 |     suffix: " ";
+   :             ^^^
+ 5 | }
    `----
 
   x Rule
@@ -189,42 +229,49 @@
    ,-[$DIR/tests/fixture/at-rule/counter-style/input.css:7:1]
  7 | ul {
    : ^^
+ 8 |     list-style: thumbs;
    `----
 
   x ComplexSelector
    ,-[$DIR/tests/fixture/at-rule/counter-style/input.css:7:1]
  7 | ul {
    : ^^
+ 8 |     list-style: thumbs;
    `----
 
   x CompoundSelector
    ,-[$DIR/tests/fixture/at-rule/counter-style/input.css:7:1]
  7 | ul {
    : ^^
+ 8 |     list-style: thumbs;
    `----
 
   x TypeSelector
    ,-[$DIR/tests/fixture/at-rule/counter-style/input.css:7:1]
  7 | ul {
    : ^^
+ 8 |     list-style: thumbs;
    `----
 
   x TagNameSelector
    ,-[$DIR/tests/fixture/at-rule/counter-style/input.css:7:1]
  7 | ul {
    : ^^
+ 8 |     list-style: thumbs;
    `----
 
   x WqName
    ,-[$DIR/tests/fixture/at-rule/counter-style/input.css:7:1]
  7 | ul {
    : ^^
+ 8 |     list-style: thumbs;
    `----
 
   x Ident
    ,-[$DIR/tests/fixture/at-rule/counter-style/input.css:7:1]
  7 | ul {
    : ^^
+ 8 |     list-style: thumbs;
    `----
 
   x SimpleBlock
@@ -238,46 +285,61 @@
    ,-[$DIR/tests/fixture/at-rule/counter-style/input.css:7:1]
  7 | ul {
    :    ^
+ 8 |     list-style: thumbs;
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/counter-style/input.css:8:5]
- 8 | list-style: thumbs;
-   : ^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/at-rule/counter-style/input.css:7:1]
+ 7 | ul {
+ 8 |     list-style: thumbs;
+   :     ^^^^^^^^^^^^^^^^^^
+ 9 | }
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/at-rule/counter-style/input.css:8:5]
- 8 | list-style: thumbs;
-   : ^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/at-rule/counter-style/input.css:7:1]
+ 7 | ul {
+ 8 |     list-style: thumbs;
+   :     ^^^^^^^^^^^^^^^^^^
+ 9 | }
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/at-rule/counter-style/input.css:8:5]
- 8 | list-style: thumbs;
-   : ^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/at-rule/counter-style/input.css:7:1]
+ 7 | ul {
+ 8 |     list-style: thumbs;
+   :     ^^^^^^^^^^^^^^^^^^
+ 9 | }
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/at-rule/counter-style/input.css:8:5]
- 8 | list-style: thumbs;
-   : ^^^^^^^^^^
+   ,-[$DIR/tests/fixture/at-rule/counter-style/input.css:7:1]
+ 7 | ul {
+ 8 |     list-style: thumbs;
+   :     ^^^^^^^^^^
+ 9 | }
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/counter-style/input.css:8:5]
- 8 | list-style: thumbs;
-   : ^^^^^^^^^^
+   ,-[$DIR/tests/fixture/at-rule/counter-style/input.css:7:1]
+ 7 | ul {
+ 8 |     list-style: thumbs;
+   :     ^^^^^^^^^^
+ 9 | }
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/counter-style/input.css:8:5]
- 8 | list-style: thumbs;
-   :             ^^^^^^
+   ,-[$DIR/tests/fixture/at-rule/counter-style/input.css:7:1]
+ 7 | ul {
+ 8 |     list-style: thumbs;
+   :                 ^^^^^^
+ 9 | }
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/counter-style/input.css:8:5]
- 8 | list-style: thumbs;
-   :             ^^^^^^
+   ,-[$DIR/tests/fixture/at-rule/counter-style/input.css:7:1]
+ 7 | ul {
+ 8 |     list-style: thumbs;
+   :                 ^^^^^^
+ 9 | }
    `----

@@ -270,36 +270,42 @@
    ,-[$DIR/tests/fixture/style-block/input.css:3:1]
  3 | .foo {
    : ^^^^
+ 4 |     display: grid;
    `----
 
   x ComplexSelector
    ,-[$DIR/tests/fixture/style-block/input.css:3:1]
  3 | .foo {
    : ^^^^
+ 4 |     display: grid;
    `----
 
   x CompoundSelector
    ,-[$DIR/tests/fixture/style-block/input.css:3:1]
  3 | .foo {
    : ^^^^
+ 4 |     display: grid;
    `----
 
   x SubclassSelector
    ,-[$DIR/tests/fixture/style-block/input.css:3:1]
  3 | .foo {
    : ^^^^
+ 4 |     display: grid;
    `----
 
   x ClassSelector
    ,-[$DIR/tests/fixture/style-block/input.css:3:1]
  3 | .foo {
    : ^^^^
+ 4 |     display: grid;
    `----
 
   x Ident
    ,-[$DIR/tests/fixture/style-block/input.css:3:1]
  3 | .foo {
    :  ^^^
+ 4 |     display: grid;
    `----
 
   x SimpleBlock
@@ -317,48 +323,56 @@
    ,-[$DIR/tests/fixture/style-block/input.css:3:1]
  3 | .foo {
    :      ^
+ 4 |     display: grid;
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/style-block/input.css:4:5]
- 4 | display: grid;
-   : ^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/style-block/input.css:3:1]
+ 3 | .foo {
+ 4 |     display: grid;
+   :     ^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/style-block/input.css:4:5]
- 4 | display: grid;
-   : ^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/style-block/input.css:3:1]
+ 3 | .foo {
+ 4 |     display: grid;
+   :     ^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/style-block/input.css:4:5]
- 4 | display: grid;
-   : ^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/style-block/input.css:3:1]
+ 3 | .foo {
+ 4 |     display: grid;
+   :     ^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/style-block/input.css:4:5]
- 4 | display: grid;
-   : ^^^^^^^
+   ,-[$DIR/tests/fixture/style-block/input.css:3:1]
+ 3 | .foo {
+ 4 |     display: grid;
+   :     ^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/style-block/input.css:4:5]
- 4 | display: grid;
-   : ^^^^^^^
+   ,-[$DIR/tests/fixture/style-block/input.css:3:1]
+ 3 | .foo {
+ 4 |     display: grid;
+   :     ^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/style-block/input.css:4:5]
- 4 | display: grid;
-   :          ^^^^
+   ,-[$DIR/tests/fixture/style-block/input.css:3:1]
+ 3 | .foo {
+ 4 |     display: grid;
+   :              ^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/style-block/input.css:4:5]
- 4 | display: grid;
-   :          ^^^^
+   ,-[$DIR/tests/fixture/style-block/input.css:3:1]
+ 3 | .foo {
+ 4 |     display: grid;
+   :              ^^^^
    `----
 
   x ComponentValue
@@ -366,6 +380,7 @@
  6 | ,-> @media (orientation: landscape) {
  7 | |           grid-auto-flow: column;
  8 | `->     }
+ 9 |     }
    `----
 
   x StyleBlock
@@ -373,6 +388,7 @@
  6 | ,-> @media (orientation: landscape) {
  7 | |           grid-auto-flow: column;
  8 | `->     }
+ 9 |     }
    `----
 
   x AtRule
@@ -380,84 +396,98 @@
  6 | ,-> @media (orientation: landscape) {
  7 | |           grid-auto-flow: column;
  8 | `->     }
+ 9 |     }
    `----
 
   x AtRuleName
    ,-[$DIR/tests/fixture/style-block/input.css:6:5]
  6 | @media (orientation: landscape) {
    :  ^^^^^
+ 7 |         grid-auto-flow: column;
    `----
 
   x Ident
    ,-[$DIR/tests/fixture/style-block/input.css:6:5]
  6 | @media (orientation: landscape) {
    :  ^^^^^
+ 7 |         grid-auto-flow: column;
    `----
 
   x MediaQueryList
    ,-[$DIR/tests/fixture/style-block/input.css:6:5]
  6 | @media (orientation: landscape) {
    :        ^^^^^^^^^^^^^^^^^^^^^^^^
+ 7 |         grid-auto-flow: column;
    `----
 
   x MediaQuery
    ,-[$DIR/tests/fixture/style-block/input.css:6:5]
  6 | @media (orientation: landscape) {
    :        ^^^^^^^^^^^^^^^^^^^^^^^^
+ 7 |         grid-auto-flow: column;
    `----
 
   x MediaCondition
    ,-[$DIR/tests/fixture/style-block/input.css:6:5]
  6 | @media (orientation: landscape) {
    :        ^^^^^^^^^^^^^^^^^^^^^^^^
+ 7 |         grid-auto-flow: column;
    `----
 
   x MediaConditionAllType
    ,-[$DIR/tests/fixture/style-block/input.css:6:5]
  6 | @media (orientation: landscape) {
    :        ^^^^^^^^^^^^^^^^^^^^^^^^
+ 7 |         grid-auto-flow: column;
    `----
 
   x MediaInParens
    ,-[$DIR/tests/fixture/style-block/input.css:6:5]
  6 | @media (orientation: landscape) {
    :        ^^^^^^^^^^^^^^^^^^^^^^^^
+ 7 |         grid-auto-flow: column;
    `----
 
   x MediaFeature
    ,-[$DIR/tests/fixture/style-block/input.css:6:5]
  6 | @media (orientation: landscape) {
    :        ^^^^^^^^^^^^^^^^^^^^^^^^
+ 7 |         grid-auto-flow: column;
    `----
 
   x MediaFeaturePlain
    ,-[$DIR/tests/fixture/style-block/input.css:6:5]
  6 | @media (orientation: landscape) {
    :        ^^^^^^^^^^^^^^^^^^^^^^^^
+ 7 |         grid-auto-flow: column;
    `----
 
   x MediaFeatureName
    ,-[$DIR/tests/fixture/style-block/input.css:6:5]
  6 | @media (orientation: landscape) {
    :         ^^^^^^^^^^^
+ 7 |         grid-auto-flow: column;
    `----
 
   x Ident
    ,-[$DIR/tests/fixture/style-block/input.css:6:5]
  6 | @media (orientation: landscape) {
    :         ^^^^^^^^^^^
+ 7 |         grid-auto-flow: column;
    `----
 
   x MediaFeatureValue
    ,-[$DIR/tests/fixture/style-block/input.css:6:5]
  6 | @media (orientation: landscape) {
    :                      ^^^^^^^^^
+ 7 |         grid-auto-flow: column;
    `----
 
   x Ident
    ,-[$DIR/tests/fixture/style-block/input.css:6:5]
  6 | @media (orientation: landscape) {
    :                      ^^^^^^^^^
+ 7 |         grid-auto-flow: column;
    `----
 
   x SimpleBlock
@@ -465,54 +495,70 @@
  6 | ,-> @media (orientation: landscape) {
  7 | |           grid-auto-flow: column;
  8 | `->     }
+ 9 |     }
    `----
 
   x LBrace
    ,-[$DIR/tests/fixture/style-block/input.css:6:5]
  6 | @media (orientation: landscape) {
    :                                 ^
+ 7 |         grid-auto-flow: column;
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/style-block/input.css:7:9]
- 7 | grid-auto-flow: column;
-   : ^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/style-block/input.css:6:5]
+ 6 | @media (orientation: landscape) {
+ 7 |         grid-auto-flow: column;
+   :         ^^^^^^^^^^^^^^^^^^^^^^
+ 8 |     }
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/style-block/input.css:7:9]
- 7 | grid-auto-flow: column;
-   : ^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/style-block/input.css:6:5]
+ 6 | @media (orientation: landscape) {
+ 7 |         grid-auto-flow: column;
+   :         ^^^^^^^^^^^^^^^^^^^^^^
+ 8 |     }
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/style-block/input.css:7:9]
- 7 | grid-auto-flow: column;
-   : ^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/style-block/input.css:6:5]
+ 6 | @media (orientation: landscape) {
+ 7 |         grid-auto-flow: column;
+   :         ^^^^^^^^^^^^^^^^^^^^^^
+ 8 |     }
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/style-block/input.css:7:9]
- 7 | grid-auto-flow: column;
-   : ^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/style-block/input.css:6:5]
+ 6 | @media (orientation: landscape) {
+ 7 |         grid-auto-flow: column;
+   :         ^^^^^^^^^^^^^^
+ 8 |     }
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/style-block/input.css:7:9]
- 7 | grid-auto-flow: column;
-   : ^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/style-block/input.css:6:5]
+ 6 | @media (orientation: landscape) {
+ 7 |         grid-auto-flow: column;
+   :         ^^^^^^^^^^^^^^
+ 8 |     }
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/style-block/input.css:7:9]
- 7 | grid-auto-flow: column;
-   :                 ^^^^^^
+   ,-[$DIR/tests/fixture/style-block/input.css:6:5]
+ 6 | @media (orientation: landscape) {
+ 7 |         grid-auto-flow: column;
+   :                         ^^^^^^
+ 8 |     }
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/style-block/input.css:7:9]
- 7 | grid-auto-flow: column;
-   :                 ^^^^^^
+   ,-[$DIR/tests/fixture/style-block/input.css:6:5]
+ 6 | @media (orientation: landscape) {
+ 7 |         grid-auto-flow: column;
+   :                         ^^^^^^
+ 8 |     }
    `----
 
   x Rule
@@ -549,36 +595,42 @@
     ,-[$DIR/tests/fixture/style-block/input.css:11:1]
  11 | .foo {
     : ^^^^
+ 12 |     display: grid;
     `----
 
   x ComplexSelector
     ,-[$DIR/tests/fixture/style-block/input.css:11:1]
  11 | .foo {
     : ^^^^
+ 12 |     display: grid;
     `----
 
   x CompoundSelector
     ,-[$DIR/tests/fixture/style-block/input.css:11:1]
  11 | .foo {
     : ^^^^
+ 12 |     display: grid;
     `----
 
   x SubclassSelector
     ,-[$DIR/tests/fixture/style-block/input.css:11:1]
  11 | .foo {
     : ^^^^
+ 12 |     display: grid;
     `----
 
   x ClassSelector
     ,-[$DIR/tests/fixture/style-block/input.css:11:1]
  11 | .foo {
     : ^^^^
+ 12 |     display: grid;
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/style-block/input.css:11:1]
  11 | .foo {
     :  ^^^
+ 12 |     display: grid;
     `----
 
   x SimpleBlock
@@ -600,48 +652,56 @@
     ,-[$DIR/tests/fixture/style-block/input.css:11:1]
  11 | .foo {
     :      ^
+ 12 |     display: grid;
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/style-block/input.css:12:5]
- 12 | display: grid;
-    : ^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:11:1]
+ 11 | .foo {
+ 12 |     display: grid;
+    :     ^^^^^^^^^^^^^
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/style-block/input.css:12:5]
- 12 | display: grid;
-    : ^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:11:1]
+ 11 | .foo {
+ 12 |     display: grid;
+    :     ^^^^^^^^^^^^^
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/style-block/input.css:12:5]
- 12 | display: grid;
-    : ^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:11:1]
+ 11 | .foo {
+ 12 |     display: grid;
+    :     ^^^^^^^^^^^^^
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/style-block/input.css:12:5]
- 12 | display: grid;
-    : ^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:11:1]
+ 11 | .foo {
+ 12 |     display: grid;
+    :     ^^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/style-block/input.css:12:5]
- 12 | display: grid;
-    : ^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:11:1]
+ 11 | .foo {
+ 12 |     display: grid;
+    :     ^^^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/style-block/input.css:12:5]
- 12 | display: grid;
-    :          ^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:11:1]
+ 11 | .foo {
+ 12 |     display: grid;
+    :              ^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/style-block/input.css:12:5]
- 12 | display: grid;
-    :          ^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:11:1]
+ 11 | .foo {
+ 12 |     display: grid;
+    :              ^^^^
     `----
 
   x ComponentValue
@@ -653,6 +713,7 @@
  18 | |               max-inline-size: 1024px;
  19 | |           }
  20 | `->     }
+ 21 |     }
     `----
 
   x StyleBlock
@@ -664,6 +725,7 @@
  18 | |               max-inline-size: 1024px;
  19 | |           }
  20 | `->     }
+ 21 |     }
     `----
 
   x AtRule
@@ -675,84 +737,98 @@
  18 | |               max-inline-size: 1024px;
  19 | |           }
  20 | `->     }
+ 21 |     }
     `----
 
   x AtRuleName
     ,-[$DIR/tests/fixture/style-block/input.css:14:5]
  14 | @media (orientation: landscape) {
     :  ^^^^^
+ 15 |         grid-auto-flow: column;
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/style-block/input.css:14:5]
  14 | @media (orientation: landscape) {
     :  ^^^^^
+ 15 |         grid-auto-flow: column;
     `----
 
   x MediaQueryList
     ,-[$DIR/tests/fixture/style-block/input.css:14:5]
  14 | @media (orientation: landscape) {
     :        ^^^^^^^^^^^^^^^^^^^^^^^^
+ 15 |         grid-auto-flow: column;
     `----
 
   x MediaQuery
     ,-[$DIR/tests/fixture/style-block/input.css:14:5]
  14 | @media (orientation: landscape) {
     :        ^^^^^^^^^^^^^^^^^^^^^^^^
+ 15 |         grid-auto-flow: column;
     `----
 
   x MediaCondition
     ,-[$DIR/tests/fixture/style-block/input.css:14:5]
  14 | @media (orientation: landscape) {
     :        ^^^^^^^^^^^^^^^^^^^^^^^^
+ 15 |         grid-auto-flow: column;
     `----
 
   x MediaConditionAllType
     ,-[$DIR/tests/fixture/style-block/input.css:14:5]
  14 | @media (orientation: landscape) {
     :        ^^^^^^^^^^^^^^^^^^^^^^^^
+ 15 |         grid-auto-flow: column;
     `----
 
   x MediaInParens
     ,-[$DIR/tests/fixture/style-block/input.css:14:5]
  14 | @media (orientation: landscape) {
     :        ^^^^^^^^^^^^^^^^^^^^^^^^
+ 15 |         grid-auto-flow: column;
     `----
 
   x MediaFeature
     ,-[$DIR/tests/fixture/style-block/input.css:14:5]
  14 | @media (orientation: landscape) {
     :        ^^^^^^^^^^^^^^^^^^^^^^^^
+ 15 |         grid-auto-flow: column;
     `----
 
   x MediaFeaturePlain
     ,-[$DIR/tests/fixture/style-block/input.css:14:5]
  14 | @media (orientation: landscape) {
     :        ^^^^^^^^^^^^^^^^^^^^^^^^
+ 15 |         grid-auto-flow: column;
     `----
 
   x MediaFeatureName
     ,-[$DIR/tests/fixture/style-block/input.css:14:5]
  14 | @media (orientation: landscape) {
     :         ^^^^^^^^^^^
+ 15 |         grid-auto-flow: column;
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/style-block/input.css:14:5]
  14 | @media (orientation: landscape) {
     :         ^^^^^^^^^^^
+ 15 |         grid-auto-flow: column;
     `----
 
   x MediaFeatureValue
     ,-[$DIR/tests/fixture/style-block/input.css:14:5]
  14 | @media (orientation: landscape) {
     :                      ^^^^^^^^^
+ 15 |         grid-auto-flow: column;
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/style-block/input.css:14:5]
  14 | @media (orientation: landscape) {
     :                      ^^^^^^^^^
+ 15 |         grid-auto-flow: column;
     `----
 
   x SimpleBlock
@@ -764,54 +840,63 @@
  18 | |               max-inline-size: 1024px;
  19 | |           }
  20 | `->     }
+ 21 |     }
     `----
 
   x LBrace
     ,-[$DIR/tests/fixture/style-block/input.css:14:5]
  14 | @media (orientation: landscape) {
     :                                 ^
+ 15 |         grid-auto-flow: column;
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/style-block/input.css:15:9]
- 15 | grid-auto-flow: column;
-    : ^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:14:5]
+ 14 | @media (orientation: landscape) {
+ 15 |         grid-auto-flow: column;
+    :         ^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/style-block/input.css:15:9]
- 15 | grid-auto-flow: column;
-    : ^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:14:5]
+ 14 | @media (orientation: landscape) {
+ 15 |         grid-auto-flow: column;
+    :         ^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/style-block/input.css:15:9]
- 15 | grid-auto-flow: column;
-    : ^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:14:5]
+ 14 | @media (orientation: landscape) {
+ 15 |         grid-auto-flow: column;
+    :         ^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/style-block/input.css:15:9]
- 15 | grid-auto-flow: column;
-    : ^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:14:5]
+ 14 | @media (orientation: landscape) {
+ 15 |         grid-auto-flow: column;
+    :         ^^^^^^^^^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/style-block/input.css:15:9]
- 15 | grid-auto-flow: column;
-    : ^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:14:5]
+ 14 | @media (orientation: landscape) {
+ 15 |         grid-auto-flow: column;
+    :         ^^^^^^^^^^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/style-block/input.css:15:9]
- 15 | grid-auto-flow: column;
-    :                 ^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:14:5]
+ 14 | @media (orientation: landscape) {
+ 15 |         grid-auto-flow: column;
+    :                         ^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/style-block/input.css:15:9]
- 15 | grid-auto-flow: column;
-    :                 ^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:14:5]
+ 14 | @media (orientation: landscape) {
+ 15 |         grid-auto-flow: column;
+    :                         ^^^^^^
     `----
 
   x ComponentValue
@@ -819,6 +904,7 @@
  17 | ,-> @media (min-inline-size > 1024px) {
  18 | |               max-inline-size: 1024px;
  19 | `->         }
+ 20 |         }
     `----
 
   x StyleBlock
@@ -826,6 +912,7 @@
  17 | ,-> @media (min-inline-size > 1024px) {
  18 | |               max-inline-size: 1024px;
  19 | `->         }
+ 20 |         }
     `----
 
   x AtRule
@@ -833,102 +920,119 @@
  17 | ,-> @media (min-inline-size > 1024px) {
  18 | |               max-inline-size: 1024px;
  19 | `->         }
+ 20 |         }
     `----
 
   x AtRuleName
     ,-[$DIR/tests/fixture/style-block/input.css:17:9]
  17 | @media (min-inline-size > 1024px) {
     :  ^^^^^
+ 18 |             max-inline-size: 1024px;
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/style-block/input.css:17:9]
  17 | @media (min-inline-size > 1024px) {
     :  ^^^^^
+ 18 |             max-inline-size: 1024px;
     `----
 
   x MediaQueryList
     ,-[$DIR/tests/fixture/style-block/input.css:17:9]
  17 | @media (min-inline-size > 1024px) {
     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 18 |             max-inline-size: 1024px;
     `----
 
   x MediaQuery
     ,-[$DIR/tests/fixture/style-block/input.css:17:9]
  17 | @media (min-inline-size > 1024px) {
     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 18 |             max-inline-size: 1024px;
     `----
 
   x MediaCondition
     ,-[$DIR/tests/fixture/style-block/input.css:17:9]
  17 | @media (min-inline-size > 1024px) {
     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 18 |             max-inline-size: 1024px;
     `----
 
   x MediaConditionAllType
     ,-[$DIR/tests/fixture/style-block/input.css:17:9]
  17 | @media (min-inline-size > 1024px) {
     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 18 |             max-inline-size: 1024px;
     `----
 
   x MediaInParens
     ,-[$DIR/tests/fixture/style-block/input.css:17:9]
  17 | @media (min-inline-size > 1024px) {
     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 18 |             max-inline-size: 1024px;
     `----
 
   x MediaFeature
     ,-[$DIR/tests/fixture/style-block/input.css:17:9]
  17 | @media (min-inline-size > 1024px) {
     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 18 |             max-inline-size: 1024px;
     `----
 
   x MediaFeatureRange
     ,-[$DIR/tests/fixture/style-block/input.css:17:9]
  17 | @media (min-inline-size > 1024px) {
     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 18 |             max-inline-size: 1024px;
     `----
 
   x MediaFeatureValue
     ,-[$DIR/tests/fixture/style-block/input.css:17:9]
  17 | @media (min-inline-size > 1024px) {
     :         ^^^^^^^^^^^^^^^
+ 18 |             max-inline-size: 1024px;
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/style-block/input.css:17:9]
  17 | @media (min-inline-size > 1024px) {
     :         ^^^^^^^^^^^^^^^
+ 18 |             max-inline-size: 1024px;
     `----
 
   x MediaFeatureValue
     ,-[$DIR/tests/fixture/style-block/input.css:17:9]
  17 | @media (min-inline-size > 1024px) {
     :                           ^^^^^^
+ 18 |             max-inline-size: 1024px;
     `----
 
   x Dimension
     ,-[$DIR/tests/fixture/style-block/input.css:17:9]
  17 | @media (min-inline-size > 1024px) {
     :                           ^^^^^^
+ 18 |             max-inline-size: 1024px;
     `----
 
   x Length
     ,-[$DIR/tests/fixture/style-block/input.css:17:9]
  17 | @media (min-inline-size > 1024px) {
     :                           ^^^^^^
+ 18 |             max-inline-size: 1024px;
     `----
 
   x Number
     ,-[$DIR/tests/fixture/style-block/input.css:17:9]
  17 | @media (min-inline-size > 1024px) {
     :                           ^^^^
+ 18 |             max-inline-size: 1024px;
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/style-block/input.css:17:9]
  17 | @media (min-inline-size > 1024px) {
     :                               ^^
+ 18 |             max-inline-size: 1024px;
     `----
 
   x SimpleBlock
@@ -936,72 +1040,94 @@
  17 | ,-> @media (min-inline-size > 1024px) {
  18 | |               max-inline-size: 1024px;
  19 | `->         }
+ 20 |         }
     `----
 
   x LBrace
     ,-[$DIR/tests/fixture/style-block/input.css:17:9]
  17 | @media (min-inline-size > 1024px) {
     :                                   ^
+ 18 |             max-inline-size: 1024px;
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/style-block/input.css:18:13]
- 18 | max-inline-size: 1024px;
-    : ^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:17:9]
+ 17 | @media (min-inline-size > 1024px) {
+ 18 |             max-inline-size: 1024px;
+    :             ^^^^^^^^^^^^^^^^^^^^^^^
+ 19 |         }
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/style-block/input.css:18:13]
- 18 | max-inline-size: 1024px;
-    : ^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:17:9]
+ 17 | @media (min-inline-size > 1024px) {
+ 18 |             max-inline-size: 1024px;
+    :             ^^^^^^^^^^^^^^^^^^^^^^^
+ 19 |         }
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/style-block/input.css:18:13]
- 18 | max-inline-size: 1024px;
-    : ^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:17:9]
+ 17 | @media (min-inline-size > 1024px) {
+ 18 |             max-inline-size: 1024px;
+    :             ^^^^^^^^^^^^^^^^^^^^^^^
+ 19 |         }
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/style-block/input.css:18:13]
- 18 | max-inline-size: 1024px;
-    : ^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:17:9]
+ 17 | @media (min-inline-size > 1024px) {
+ 18 |             max-inline-size: 1024px;
+    :             ^^^^^^^^^^^^^^^
+ 19 |         }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/style-block/input.css:18:13]
- 18 | max-inline-size: 1024px;
-    : ^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:17:9]
+ 17 | @media (min-inline-size > 1024px) {
+ 18 |             max-inline-size: 1024px;
+    :             ^^^^^^^^^^^^^^^
+ 19 |         }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/style-block/input.css:18:13]
- 18 | max-inline-size: 1024px;
-    :                  ^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:17:9]
+ 17 | @media (min-inline-size > 1024px) {
+ 18 |             max-inline-size: 1024px;
+    :                              ^^^^^^
+ 19 |         }
     `----
 
   x Dimension
-    ,-[$DIR/tests/fixture/style-block/input.css:18:13]
- 18 | max-inline-size: 1024px;
-    :                  ^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:17:9]
+ 17 | @media (min-inline-size > 1024px) {
+ 18 |             max-inline-size: 1024px;
+    :                              ^^^^^^
+ 19 |         }
     `----
 
   x Length
-    ,-[$DIR/tests/fixture/style-block/input.css:18:13]
- 18 | max-inline-size: 1024px;
-    :                  ^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:17:9]
+ 17 | @media (min-inline-size > 1024px) {
+ 18 |             max-inline-size: 1024px;
+    :                              ^^^^^^
+ 19 |         }
     `----
 
   x Number
-    ,-[$DIR/tests/fixture/style-block/input.css:18:13]
- 18 | max-inline-size: 1024px;
-    :                  ^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:17:9]
+ 17 | @media (min-inline-size > 1024px) {
+ 18 |             max-inline-size: 1024px;
+    :                              ^^^^
+ 19 |         }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/style-block/input.css:18:13]
- 18 | max-inline-size: 1024px;
-    :                      ^^
+    ,-[$DIR/tests/fixture/style-block/input.css:17:9]
+ 17 | @media (min-inline-size > 1024px) {
+ 18 |             max-inline-size: 1024px;
+    :                                  ^^
+ 19 |         }
     `----
 
   x Rule
@@ -1026,78 +1152,91 @@
     ,-[$DIR/tests/fixture/style-block/input.css:23:1]
  23 | @media (orientation: landscape) {
     :  ^^^^^
+ 24 |     & {
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/style-block/input.css:23:1]
  23 | @media (orientation: landscape) {
     :  ^^^^^
+ 24 |     & {
     `----
 
   x MediaQueryList
     ,-[$DIR/tests/fixture/style-block/input.css:23:1]
  23 | @media (orientation: landscape) {
     :        ^^^^^^^^^^^^^^^^^^^^^^^^
+ 24 |     & {
     `----
 
   x MediaQuery
     ,-[$DIR/tests/fixture/style-block/input.css:23:1]
  23 | @media (orientation: landscape) {
     :        ^^^^^^^^^^^^^^^^^^^^^^^^
+ 24 |     & {
     `----
 
   x MediaCondition
     ,-[$DIR/tests/fixture/style-block/input.css:23:1]
  23 | @media (orientation: landscape) {
     :        ^^^^^^^^^^^^^^^^^^^^^^^^
+ 24 |     & {
     `----
 
   x MediaConditionAllType
     ,-[$DIR/tests/fixture/style-block/input.css:23:1]
  23 | @media (orientation: landscape) {
     :        ^^^^^^^^^^^^^^^^^^^^^^^^
+ 24 |     & {
     `----
 
   x MediaInParens
     ,-[$DIR/tests/fixture/style-block/input.css:23:1]
  23 | @media (orientation: landscape) {
     :        ^^^^^^^^^^^^^^^^^^^^^^^^
+ 24 |     & {
     `----
 
   x MediaFeature
     ,-[$DIR/tests/fixture/style-block/input.css:23:1]
  23 | @media (orientation: landscape) {
     :        ^^^^^^^^^^^^^^^^^^^^^^^^
+ 24 |     & {
     `----
 
   x MediaFeaturePlain
     ,-[$DIR/tests/fixture/style-block/input.css:23:1]
  23 | @media (orientation: landscape) {
     :        ^^^^^^^^^^^^^^^^^^^^^^^^
+ 24 |     & {
     `----
 
   x MediaFeatureName
     ,-[$DIR/tests/fixture/style-block/input.css:23:1]
  23 | @media (orientation: landscape) {
     :         ^^^^^^^^^^^
+ 24 |     & {
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/style-block/input.css:23:1]
  23 | @media (orientation: landscape) {
     :         ^^^^^^^^^^^
+ 24 |     & {
     `----
 
   x MediaFeatureValue
     ,-[$DIR/tests/fixture/style-block/input.css:23:1]
  23 | @media (orientation: landscape) {
     :                      ^^^^^^^^^
+ 24 |     & {
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/style-block/input.css:23:1]
  23 | @media (orientation: landscape) {
     :                      ^^^^^^^^^
+ 24 |     & {
     `----
 
   x SimpleBlock
@@ -1113,106 +1252,139 @@
     ,-[$DIR/tests/fixture/style-block/input.css:23:1]
  23 | @media (orientation: landscape) {
     :                                 ^
+ 24 |     & {
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/style-block/input.css:24:5]
- 24 | ,-> & {
+    ,-[$DIR/tests/fixture/style-block/input.css:23:1]
+ 23 |     @media (orientation: landscape) {
+ 24 | ,->     & {
  25 | |           grid-auto-flow: column;
  26 | `->     }
+ 27 |     }
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/style-block/input.css:24:5]
- 24 | ,-> & {
+    ,-[$DIR/tests/fixture/style-block/input.css:23:1]
+ 23 |     @media (orientation: landscape) {
+ 24 | ,->     & {
  25 | |           grid-auto-flow: column;
  26 | `->     }
+ 27 |     }
     `----
 
   x QualifiedRule
-    ,-[$DIR/tests/fixture/style-block/input.css:24:5]
- 24 | ,-> & {
+    ,-[$DIR/tests/fixture/style-block/input.css:23:1]
+ 23 |     @media (orientation: landscape) {
+ 24 | ,->     & {
  25 | |           grid-auto-flow: column;
  26 | `->     }
+ 27 |     }
     `----
 
   x SelectorList
-    ,-[$DIR/tests/fixture/style-block/input.css:24:5]
- 24 | & {
-    : ^
+    ,-[$DIR/tests/fixture/style-block/input.css:23:1]
+ 23 | @media (orientation: landscape) {
+ 24 |     & {
+    :     ^
+ 25 |         grid-auto-flow: column;
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/style-block/input.css:24:5]
- 24 | & {
-    : ^
+    ,-[$DIR/tests/fixture/style-block/input.css:23:1]
+ 23 | @media (orientation: landscape) {
+ 24 |     & {
+    :     ^
+ 25 |         grid-auto-flow: column;
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/style-block/input.css:24:5]
- 24 | & {
-    : ^
+    ,-[$DIR/tests/fixture/style-block/input.css:23:1]
+ 23 | @media (orientation: landscape) {
+ 24 |     & {
+    :     ^
+ 25 |         grid-auto-flow: column;
     `----
 
   x NestingSelector
-    ,-[$DIR/tests/fixture/style-block/input.css:24:5]
- 24 | & {
-    : ^
+    ,-[$DIR/tests/fixture/style-block/input.css:23:1]
+ 23 | @media (orientation: landscape) {
+ 24 |     & {
+    :     ^
+ 25 |         grid-auto-flow: column;
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/style-block/input.css:24:5]
- 24 | ,-> & {
+    ,-[$DIR/tests/fixture/style-block/input.css:23:1]
+ 23 |     @media (orientation: landscape) {
+ 24 | ,->     & {
  25 | |           grid-auto-flow: column;
  26 | `->     }
+ 27 |     }
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/style-block/input.css:24:5]
- 24 | & {
-    :   ^
+    ,-[$DIR/tests/fixture/style-block/input.css:23:1]
+ 23 | @media (orientation: landscape) {
+ 24 |     & {
+    :       ^
+ 25 |         grid-auto-flow: column;
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/style-block/input.css:25:9]
- 25 | grid-auto-flow: column;
-    : ^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:24:5]
+ 24 | & {
+ 25 |         grid-auto-flow: column;
+    :         ^^^^^^^^^^^^^^^^^^^^^^
+ 26 |     }
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/style-block/input.css:25:9]
- 25 | grid-auto-flow: column;
-    : ^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:24:5]
+ 24 | & {
+ 25 |         grid-auto-flow: column;
+    :         ^^^^^^^^^^^^^^^^^^^^^^
+ 26 |     }
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/style-block/input.css:25:9]
- 25 | grid-auto-flow: column;
-    : ^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:24:5]
+ 24 | & {
+ 25 |         grid-auto-flow: column;
+    :         ^^^^^^^^^^^^^^^^^^^^^^
+ 26 |     }
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/style-block/input.css:25:9]
- 25 | grid-auto-flow: column;
-    : ^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:24:5]
+ 24 | & {
+ 25 |         grid-auto-flow: column;
+    :         ^^^^^^^^^^^^^^
+ 26 |     }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/style-block/input.css:25:9]
- 25 | grid-auto-flow: column;
-    : ^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:24:5]
+ 24 | & {
+ 25 |         grid-auto-flow: column;
+    :         ^^^^^^^^^^^^^^
+ 26 |     }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/style-block/input.css:25:9]
- 25 | grid-auto-flow: column;
-    :                 ^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:24:5]
+ 24 | & {
+ 25 |         grid-auto-flow: column;
+    :                         ^^^^^^
+ 26 |     }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/style-block/input.css:25:9]
- 25 | grid-auto-flow: column;
-    :                 ^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:24:5]
+ 24 | & {
+ 25 |         grid-auto-flow: column;
+    :                         ^^^^^^
+ 26 |     }
     `----
 
   x Rule
@@ -1241,36 +1413,42 @@
     ,-[$DIR/tests/fixture/style-block/input.css:29:1]
  29 | .foo {
     : ^^^^
+ 30 |     color: red;
     `----
 
   x ComplexSelector
     ,-[$DIR/tests/fixture/style-block/input.css:29:1]
  29 | .foo {
     : ^^^^
+ 30 |     color: red;
     `----
 
   x CompoundSelector
     ,-[$DIR/tests/fixture/style-block/input.css:29:1]
  29 | .foo {
     : ^^^^
+ 30 |     color: red;
     `----
 
   x SubclassSelector
     ,-[$DIR/tests/fixture/style-block/input.css:29:1]
  29 | .foo {
     : ^^^^
+ 30 |     color: red;
     `----
 
   x ClassSelector
     ,-[$DIR/tests/fixture/style-block/input.css:29:1]
  29 | .foo {
     : ^^^^
+ 30 |     color: red;
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/style-block/input.css:29:1]
  29 | .foo {
     :  ^^^
+ 30 |     color: red;
     `----
 
   x SimpleBlock
@@ -1288,48 +1466,56 @@
     ,-[$DIR/tests/fixture/style-block/input.css:29:1]
  29 | .foo {
     :      ^
+ 30 |     color: red;
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/style-block/input.css:30:5]
- 30 | color: red;
-    : ^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:29:1]
+ 29 | .foo {
+ 30 |     color: red;
+    :     ^^^^^^^^^^
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/style-block/input.css:30:5]
- 30 | color: red;
-    : ^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:29:1]
+ 29 | .foo {
+ 30 |     color: red;
+    :     ^^^^^^^^^^
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/style-block/input.css:30:5]
- 30 | color: red;
-    : ^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:29:1]
+ 29 | .foo {
+ 30 |     color: red;
+    :     ^^^^^^^^^^
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/style-block/input.css:30:5]
- 30 | color: red;
-    : ^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:29:1]
+ 29 | .foo {
+ 30 |     color: red;
+    :     ^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/style-block/input.css:30:5]
- 30 | color: red;
-    : ^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:29:1]
+ 29 | .foo {
+ 30 |     color: red;
+    :     ^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/style-block/input.css:30:5]
- 30 | color: red;
-    :        ^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:29:1]
+ 29 | .foo {
+ 30 |     color: red;
+    :            ^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/style-block/input.css:30:5]
- 30 | color: red;
-    :        ^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:29:1]
+ 29 | .foo {
+ 30 |     color: red;
+    :            ^^^
     `----
 
   x ComponentValue
@@ -1337,6 +1523,7 @@
  32 | ,-> @media (min-width: 480px) {
  33 | |           & h1, & h2 { color: blue; }
  34 | `->     }
+ 35 |     }
     `----
 
   x StyleBlock
@@ -1344,6 +1531,7 @@
  32 | ,-> @media (min-width: 480px) {
  33 | |           & h1, & h2 { color: blue; }
  34 | `->     }
+ 35 |     }
     `----
 
   x AtRule
@@ -1351,102 +1539,119 @@
  32 | ,-> @media (min-width: 480px) {
  33 | |           & h1, & h2 { color: blue; }
  34 | `->     }
+ 35 |     }
     `----
 
   x AtRuleName
     ,-[$DIR/tests/fixture/style-block/input.css:32:5]
  32 | @media (min-width: 480px) {
     :  ^^^^^
+ 33 |         & h1, & h2 { color: blue; }
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/style-block/input.css:32:5]
  32 | @media (min-width: 480px) {
     :  ^^^^^
+ 33 |         & h1, & h2 { color: blue; }
     `----
 
   x MediaQueryList
     ,-[$DIR/tests/fixture/style-block/input.css:32:5]
  32 | @media (min-width: 480px) {
     :        ^^^^^^^^^^^^^^^^^^
+ 33 |         & h1, & h2 { color: blue; }
     `----
 
   x MediaQuery
     ,-[$DIR/tests/fixture/style-block/input.css:32:5]
  32 | @media (min-width: 480px) {
     :        ^^^^^^^^^^^^^^^^^^
+ 33 |         & h1, & h2 { color: blue; }
     `----
 
   x MediaCondition
     ,-[$DIR/tests/fixture/style-block/input.css:32:5]
  32 | @media (min-width: 480px) {
     :        ^^^^^^^^^^^^^^^^^^
+ 33 |         & h1, & h2 { color: blue; }
     `----
 
   x MediaConditionAllType
     ,-[$DIR/tests/fixture/style-block/input.css:32:5]
  32 | @media (min-width: 480px) {
     :        ^^^^^^^^^^^^^^^^^^
+ 33 |         & h1, & h2 { color: blue; }
     `----
 
   x MediaInParens
     ,-[$DIR/tests/fixture/style-block/input.css:32:5]
  32 | @media (min-width: 480px) {
     :        ^^^^^^^^^^^^^^^^^^
+ 33 |         & h1, & h2 { color: blue; }
     `----
 
   x MediaFeature
     ,-[$DIR/tests/fixture/style-block/input.css:32:5]
  32 | @media (min-width: 480px) {
     :        ^^^^^^^^^^^^^^^^^^
+ 33 |         & h1, & h2 { color: blue; }
     `----
 
   x MediaFeaturePlain
     ,-[$DIR/tests/fixture/style-block/input.css:32:5]
  32 | @media (min-width: 480px) {
     :        ^^^^^^^^^^^^^^^^^^
+ 33 |         & h1, & h2 { color: blue; }
     `----
 
   x MediaFeatureName
     ,-[$DIR/tests/fixture/style-block/input.css:32:5]
  32 | @media (min-width: 480px) {
     :         ^^^^^^^^^
+ 33 |         & h1, & h2 { color: blue; }
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/style-block/input.css:32:5]
  32 | @media (min-width: 480px) {
     :         ^^^^^^^^^
+ 33 |         & h1, & h2 { color: blue; }
     `----
 
   x MediaFeatureValue
     ,-[$DIR/tests/fixture/style-block/input.css:32:5]
  32 | @media (min-width: 480px) {
     :                    ^^^^^
+ 33 |         & h1, & h2 { color: blue; }
     `----
 
   x Dimension
     ,-[$DIR/tests/fixture/style-block/input.css:32:5]
  32 | @media (min-width: 480px) {
     :                    ^^^^^
+ 33 |         & h1, & h2 { color: blue; }
     `----
 
   x Length
     ,-[$DIR/tests/fixture/style-block/input.css:32:5]
  32 | @media (min-width: 480px) {
     :                    ^^^^^
+ 33 |         & h1, & h2 { color: blue; }
     `----
 
   x Number
     ,-[$DIR/tests/fixture/style-block/input.css:32:5]
  32 | @media (min-width: 480px) {
     :                    ^^^
+ 33 |         & h1, & h2 { color: blue; }
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/style-block/input.css:32:5]
  32 | @media (min-width: 480px) {
     :                       ^^
+ 33 |         & h1, & h2 { color: blue; }
     `----
 
   x SimpleBlock
@@ -1454,210 +1659,278 @@
  32 | ,-> @media (min-width: 480px) {
  33 | |           & h1, & h2 { color: blue; }
  34 | `->     }
+ 35 |     }
     `----
 
   x LBrace
     ,-[$DIR/tests/fixture/style-block/input.css:32:5]
  32 | @media (min-width: 480px) {
     :                           ^
+ 33 |         & h1, & h2 { color: blue; }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/style-block/input.css:33:9]
- 33 | & h1, & h2 { color: blue; }
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:32:5]
+ 32 | @media (min-width: 480px) {
+ 33 |         & h1, & h2 { color: blue; }
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 34 |     }
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/style-block/input.css:33:9]
- 33 | & h1, & h2 { color: blue; }
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:32:5]
+ 32 | @media (min-width: 480px) {
+ 33 |         & h1, & h2 { color: blue; }
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 34 |     }
     `----
 
   x QualifiedRule
-    ,-[$DIR/tests/fixture/style-block/input.css:33:9]
- 33 | & h1, & h2 { color: blue; }
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:32:5]
+ 32 | @media (min-width: 480px) {
+ 33 |         & h1, & h2 { color: blue; }
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 34 |     }
     `----
 
   x RelativeSelectorList
-    ,-[$DIR/tests/fixture/style-block/input.css:33:9]
- 33 | & h1, & h2 { color: blue; }
-    : ^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:32:5]
+ 32 | @media (min-width: 480px) {
+ 33 |         & h1, & h2 { color: blue; }
+    :         ^^^^^^^^^^
+ 34 |     }
     `----
 
   x RelativeSelector
-    ,-[$DIR/tests/fixture/style-block/input.css:33:9]
- 33 | & h1, & h2 { color: blue; }
-    : ^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:32:5]
+ 32 | @media (min-width: 480px) {
+ 33 |         & h1, & h2 { color: blue; }
+    :         ^^^^
+ 34 |     }
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/style-block/input.css:33:9]
- 33 | & h1, & h2 { color: blue; }
-    : ^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:32:5]
+ 32 | @media (min-width: 480px) {
+ 33 |         & h1, & h2 { color: blue; }
+    :         ^^^^
+ 34 |     }
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/style-block/input.css:33:9]
- 33 | & h1, & h2 { color: blue; }
-    : ^
+    ,-[$DIR/tests/fixture/style-block/input.css:32:5]
+ 32 | @media (min-width: 480px) {
+ 33 |         & h1, & h2 { color: blue; }
+    :         ^
+ 34 |     }
     `----
 
   x NestingSelector
-    ,-[$DIR/tests/fixture/style-block/input.css:33:9]
- 33 | & h1, & h2 { color: blue; }
-    : ^
+    ,-[$DIR/tests/fixture/style-block/input.css:32:5]
+ 32 | @media (min-width: 480px) {
+ 33 |         & h1, & h2 { color: blue; }
+    :         ^
+ 34 |     }
     `----
 
   x Combinator
-    ,-[$DIR/tests/fixture/style-block/input.css:33:9]
- 33 | & h1, & h2 { color: blue; }
-    :  ^
+    ,-[$DIR/tests/fixture/style-block/input.css:32:5]
+ 32 | @media (min-width: 480px) {
+ 33 |         & h1, & h2 { color: blue; }
+    :          ^
+ 34 |     }
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/style-block/input.css:33:9]
- 33 | & h1, & h2 { color: blue; }
-    :   ^^
+    ,-[$DIR/tests/fixture/style-block/input.css:32:5]
+ 32 | @media (min-width: 480px) {
+ 33 |         & h1, & h2 { color: blue; }
+    :           ^^
+ 34 |     }
     `----
 
   x TypeSelector
-    ,-[$DIR/tests/fixture/style-block/input.css:33:9]
- 33 | & h1, & h2 { color: blue; }
-    :   ^^
+    ,-[$DIR/tests/fixture/style-block/input.css:32:5]
+ 32 | @media (min-width: 480px) {
+ 33 |         & h1, & h2 { color: blue; }
+    :           ^^
+ 34 |     }
     `----
 
   x TagNameSelector
-    ,-[$DIR/tests/fixture/style-block/input.css:33:9]
- 33 | & h1, & h2 { color: blue; }
-    :   ^^
+    ,-[$DIR/tests/fixture/style-block/input.css:32:5]
+ 32 | @media (min-width: 480px) {
+ 33 |         & h1, & h2 { color: blue; }
+    :           ^^
+ 34 |     }
     `----
 
   x WqName
-    ,-[$DIR/tests/fixture/style-block/input.css:33:9]
- 33 | & h1, & h2 { color: blue; }
-    :   ^^
+    ,-[$DIR/tests/fixture/style-block/input.css:32:5]
+ 32 | @media (min-width: 480px) {
+ 33 |         & h1, & h2 { color: blue; }
+    :           ^^
+ 34 |     }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/style-block/input.css:33:9]
- 33 | & h1, & h2 { color: blue; }
-    :   ^^
+    ,-[$DIR/tests/fixture/style-block/input.css:32:5]
+ 32 | @media (min-width: 480px) {
+ 33 |         & h1, & h2 { color: blue; }
+    :           ^^
+ 34 |     }
     `----
 
   x RelativeSelector
-    ,-[$DIR/tests/fixture/style-block/input.css:33:9]
- 33 | & h1, & h2 { color: blue; }
-    :       ^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:32:5]
+ 32 | @media (min-width: 480px) {
+ 33 |         & h1, & h2 { color: blue; }
+    :               ^^^^
+ 34 |     }
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/style-block/input.css:33:9]
- 33 | & h1, & h2 { color: blue; }
-    :       ^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:32:5]
+ 32 | @media (min-width: 480px) {
+ 33 |         & h1, & h2 { color: blue; }
+    :               ^^^^
+ 34 |     }
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/style-block/input.css:33:9]
- 33 | & h1, & h2 { color: blue; }
-    :       ^
+    ,-[$DIR/tests/fixture/style-block/input.css:32:5]
+ 32 | @media (min-width: 480px) {
+ 33 |         & h1, & h2 { color: blue; }
+    :               ^
+ 34 |     }
     `----
 
   x NestingSelector
-    ,-[$DIR/tests/fixture/style-block/input.css:33:9]
- 33 | & h1, & h2 { color: blue; }
-    :       ^
+    ,-[$DIR/tests/fixture/style-block/input.css:32:5]
+ 32 | @media (min-width: 480px) {
+ 33 |         & h1, & h2 { color: blue; }
+    :               ^
+ 34 |     }
     `----
 
   x Combinator
-    ,-[$DIR/tests/fixture/style-block/input.css:33:9]
- 33 | & h1, & h2 { color: blue; }
-    :        ^
+    ,-[$DIR/tests/fixture/style-block/input.css:32:5]
+ 32 | @media (min-width: 480px) {
+ 33 |         & h1, & h2 { color: blue; }
+    :                ^
+ 34 |     }
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/style-block/input.css:33:9]
- 33 | & h1, & h2 { color: blue; }
-    :         ^^
+    ,-[$DIR/tests/fixture/style-block/input.css:32:5]
+ 32 | @media (min-width: 480px) {
+ 33 |         & h1, & h2 { color: blue; }
+    :                 ^^
+ 34 |     }
     `----
 
   x TypeSelector
-    ,-[$DIR/tests/fixture/style-block/input.css:33:9]
- 33 | & h1, & h2 { color: blue; }
-    :         ^^
+    ,-[$DIR/tests/fixture/style-block/input.css:32:5]
+ 32 | @media (min-width: 480px) {
+ 33 |         & h1, & h2 { color: blue; }
+    :                 ^^
+ 34 |     }
     `----
 
   x TagNameSelector
-    ,-[$DIR/tests/fixture/style-block/input.css:33:9]
- 33 | & h1, & h2 { color: blue; }
-    :         ^^
+    ,-[$DIR/tests/fixture/style-block/input.css:32:5]
+ 32 | @media (min-width: 480px) {
+ 33 |         & h1, & h2 { color: blue; }
+    :                 ^^
+ 34 |     }
     `----
 
   x WqName
-    ,-[$DIR/tests/fixture/style-block/input.css:33:9]
- 33 | & h1, & h2 { color: blue; }
-    :         ^^
+    ,-[$DIR/tests/fixture/style-block/input.css:32:5]
+ 32 | @media (min-width: 480px) {
+ 33 |         & h1, & h2 { color: blue; }
+    :                 ^^
+ 34 |     }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/style-block/input.css:33:9]
- 33 | & h1, & h2 { color: blue; }
-    :         ^^
+    ,-[$DIR/tests/fixture/style-block/input.css:32:5]
+ 32 | @media (min-width: 480px) {
+ 33 |         & h1, & h2 { color: blue; }
+    :                 ^^
+ 34 |     }
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/style-block/input.css:33:9]
- 33 | & h1, & h2 { color: blue; }
-    :            ^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:32:5]
+ 32 | @media (min-width: 480px) {
+ 33 |         & h1, & h2 { color: blue; }
+    :                    ^^^^^^^^^^^^^^^^
+ 34 |     }
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/style-block/input.css:33:9]
- 33 | & h1, & h2 { color: blue; }
-    :            ^
+    ,-[$DIR/tests/fixture/style-block/input.css:32:5]
+ 32 | @media (min-width: 480px) {
+ 33 |         & h1, & h2 { color: blue; }
+    :                    ^
+ 34 |     }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/style-block/input.css:33:9]
- 33 | & h1, & h2 { color: blue; }
-    :              ^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:32:5]
+ 32 | @media (min-width: 480px) {
+ 33 |         & h1, & h2 { color: blue; }
+    :                      ^^^^^^^^^^^
+ 34 |     }
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/style-block/input.css:33:9]
- 33 | & h1, & h2 { color: blue; }
-    :              ^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:32:5]
+ 32 | @media (min-width: 480px) {
+ 33 |         & h1, & h2 { color: blue; }
+    :                      ^^^^^^^^^^^
+ 34 |     }
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/style-block/input.css:33:9]
- 33 | & h1, & h2 { color: blue; }
-    :              ^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:32:5]
+ 32 | @media (min-width: 480px) {
+ 33 |         & h1, & h2 { color: blue; }
+    :                      ^^^^^^^^^^^
+ 34 |     }
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/style-block/input.css:33:9]
- 33 | & h1, & h2 { color: blue; }
-    :              ^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:32:5]
+ 32 | @media (min-width: 480px) {
+ 33 |         & h1, & h2 { color: blue; }
+    :                      ^^^^^
+ 34 |     }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/style-block/input.css:33:9]
- 33 | & h1, & h2 { color: blue; }
-    :              ^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:32:5]
+ 32 | @media (min-width: 480px) {
+ 33 |         & h1, & h2 { color: blue; }
+    :                      ^^^^^
+ 34 |     }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/style-block/input.css:33:9]
- 33 | & h1, & h2 { color: blue; }
-    :                     ^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:32:5]
+ 32 | @media (min-width: 480px) {
+ 33 |         & h1, & h2 { color: blue; }
+    :                             ^^^^
+ 34 |     }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/style-block/input.css:33:9]
- 33 | & h1, & h2 { color: blue; }
-    :                     ^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:32:5]
+ 32 | @media (min-width: 480px) {
+ 33 |         & h1, & h2 { color: blue; }
+    :                             ^^^^
+ 34 |     }
     `----
 
   x Rule
@@ -1686,36 +1959,42 @@
     ,-[$DIR/tests/fixture/style-block/input.css:37:1]
  37 | .class {
     : ^^^^^^
+ 38 |     @supports not (display: grid) {
     `----
 
   x ComplexSelector
     ,-[$DIR/tests/fixture/style-block/input.css:37:1]
  37 | .class {
     : ^^^^^^
+ 38 |     @supports not (display: grid) {
     `----
 
   x CompoundSelector
     ,-[$DIR/tests/fixture/style-block/input.css:37:1]
  37 | .class {
     : ^^^^^^
+ 38 |     @supports not (display: grid) {
     `----
 
   x SubclassSelector
     ,-[$DIR/tests/fixture/style-block/input.css:37:1]
  37 | .class {
     : ^^^^^^
+ 38 |     @supports not (display: grid) {
     `----
 
   x ClassSelector
     ,-[$DIR/tests/fixture/style-block/input.css:37:1]
  37 | .class {
     : ^^^^^^
+ 38 |     @supports not (display: grid) {
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/style-block/input.css:37:1]
  37 | .class {
     :  ^^^^^
+ 38 |     @supports not (display: grid) {
     `----
 
   x SimpleBlock
@@ -1733,300 +2012,366 @@
     ,-[$DIR/tests/fixture/style-block/input.css:37:1]
  37 | .class {
     :        ^
+ 38 |     @supports not (display: grid) {
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/style-block/input.css:38:5]
- 38 | ,-> @supports not (display: grid) {
+    ,-[$DIR/tests/fixture/style-block/input.css:37:1]
+ 37 |     .class {
+ 38 | ,->     @supports not (display: grid) {
  39 | |           float: right;
  40 | |       
  41 | |           & .class { color: red }
  42 | `->     }
+ 43 |     }
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/style-block/input.css:38:5]
- 38 | ,-> @supports not (display: grid) {
+    ,-[$DIR/tests/fixture/style-block/input.css:37:1]
+ 37 |     .class {
+ 38 | ,->     @supports not (display: grid) {
  39 | |           float: right;
  40 | |       
  41 | |           & .class { color: red }
  42 | `->     }
+ 43 |     }
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/style-block/input.css:38:5]
- 38 | ,-> @supports not (display: grid) {
+    ,-[$DIR/tests/fixture/style-block/input.css:37:1]
+ 37 |     .class {
+ 38 | ,->     @supports not (display: grid) {
  39 | |           float: right;
  40 | |       
  41 | |           & .class { color: red }
  42 | `->     }
+ 43 |     }
     `----
 
   x AtRuleName
-    ,-[$DIR/tests/fixture/style-block/input.css:38:5]
- 38 | @supports not (display: grid) {
-    :  ^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:37:1]
+ 37 | .class {
+ 38 |     @supports not (display: grid) {
+    :      ^^^^^^^^
+ 39 |         float: right;
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/style-block/input.css:38:5]
- 38 | @supports not (display: grid) {
-    :  ^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:37:1]
+ 37 | .class {
+ 38 |     @supports not (display: grid) {
+    :      ^^^^^^^^
+ 39 |         float: right;
     `----
 
   x SupportsCondition
-    ,-[$DIR/tests/fixture/style-block/input.css:38:5]
- 38 | @supports not (display: grid) {
-    :           ^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:37:1]
+ 37 | .class {
+ 38 |     @supports not (display: grid) {
+    :               ^^^^^^^^^^^^^^^^^^^
+ 39 |         float: right;
     `----
 
   x SupportsConditionType
-    ,-[$DIR/tests/fixture/style-block/input.css:38:5]
- 38 | @supports not (display: grid) {
-    :           ^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:37:1]
+ 37 | .class {
+ 38 |     @supports not (display: grid) {
+    :               ^^^^^^^^^^^^^^^^^^^
+ 39 |         float: right;
     `----
 
   x SupportsNot
-    ,-[$DIR/tests/fixture/style-block/input.css:38:5]
- 38 | @supports not (display: grid) {
-    :           ^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:37:1]
+ 37 | .class {
+ 38 |     @supports not (display: grid) {
+    :               ^^^^^^^^^^^^^^^^^^^
+ 39 |         float: right;
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/style-block/input.css:38:5]
- 38 | @supports not (display: grid) {
-    :           ^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:37:1]
+ 37 | .class {
+ 38 |     @supports not (display: grid) {
+    :               ^^^
+ 39 |         float: right;
     `----
 
   x SupportsInParens
-    ,-[$DIR/tests/fixture/style-block/input.css:38:5]
- 38 | @supports not (display: grid) {
-    :                ^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:37:1]
+ 37 | .class {
+ 38 |     @supports not (display: grid) {
+    :                    ^^^^^^^^^^^^^
+ 39 |         float: right;
     `----
 
   x SupportsFeature
-    ,-[$DIR/tests/fixture/style-block/input.css:38:5]
- 38 | @supports not (display: grid) {
-    :                ^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:37:1]
+ 37 | .class {
+ 38 |     @supports not (display: grid) {
+    :                    ^^^^^^^^^^^^^
+ 39 |         float: right;
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/style-block/input.css:38:5]
- 38 | @supports not (display: grid) {
-    :                ^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:37:1]
+ 37 | .class {
+ 38 |     @supports not (display: grid) {
+    :                    ^^^^^^^^^^^^^
+ 39 |         float: right;
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/style-block/input.css:38:5]
- 38 | @supports not (display: grid) {
-    :                ^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:37:1]
+ 37 | .class {
+ 38 |     @supports not (display: grid) {
+    :                    ^^^^^^^
+ 39 |         float: right;
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/style-block/input.css:38:5]
- 38 | @supports not (display: grid) {
-    :                ^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:37:1]
+ 37 | .class {
+ 38 |     @supports not (display: grid) {
+    :                    ^^^^^^^
+ 39 |         float: right;
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/style-block/input.css:38:5]
- 38 | @supports not (display: grid) {
-    :                         ^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:37:1]
+ 37 | .class {
+ 38 |     @supports not (display: grid) {
+    :                             ^^^^
+ 39 |         float: right;
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/style-block/input.css:38:5]
- 38 | @supports not (display: grid) {
-    :                         ^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:37:1]
+ 37 | .class {
+ 38 |     @supports not (display: grid) {
+    :                             ^^^^
+ 39 |         float: right;
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/style-block/input.css:38:5]
- 38 | ,-> @supports not (display: grid) {
+    ,-[$DIR/tests/fixture/style-block/input.css:37:1]
+ 37 |     .class {
+ 38 | ,->     @supports not (display: grid) {
  39 | |           float: right;
  40 | |       
  41 | |           & .class { color: red }
  42 | `->     }
+ 43 |     }
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/style-block/input.css:38:5]
- 38 | @supports not (display: grid) {
-    :                               ^
+    ,-[$DIR/tests/fixture/style-block/input.css:37:1]
+ 37 | .class {
+ 38 |     @supports not (display: grid) {
+    :                                   ^
+ 39 |         float: right;
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/style-block/input.css:39:9]
- 39 | float: right;
-    : ^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:38:5]
+ 38 | @supports not (display: grid) {
+ 39 |         float: right;
+    :         ^^^^^^^^^^^^
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/style-block/input.css:39:9]
- 39 | float: right;
-    : ^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:38:5]
+ 38 | @supports not (display: grid) {
+ 39 |         float: right;
+    :         ^^^^^^^^^^^^
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/style-block/input.css:39:9]
- 39 | float: right;
-    : ^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:38:5]
+ 38 | @supports not (display: grid) {
+ 39 |         float: right;
+    :         ^^^^^^^^^^^^
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/style-block/input.css:39:9]
- 39 | float: right;
-    : ^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:38:5]
+ 38 | @supports not (display: grid) {
+ 39 |         float: right;
+    :         ^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/style-block/input.css:39:9]
- 39 | float: right;
-    : ^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:38:5]
+ 38 | @supports not (display: grid) {
+ 39 |         float: right;
+    :         ^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/style-block/input.css:39:9]
- 39 | float: right;
-    :        ^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:38:5]
+ 38 | @supports not (display: grid) {
+ 39 |         float: right;
+    :                ^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/style-block/input.css:39:9]
- 39 | float: right;
-    :        ^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:38:5]
+ 38 | @supports not (display: grid) {
+ 39 |         float: right;
+    :                ^^^^^
     `----
 
   x ComponentValue
     ,-[$DIR/tests/fixture/style-block/input.css:41:9]
  41 | & .class { color: red }
     : ^^^^^^^^^^^^^^^^^^^^^^^
+ 42 |     }
     `----
 
   x StyleBlock
     ,-[$DIR/tests/fixture/style-block/input.css:41:9]
  41 | & .class { color: red }
     : ^^^^^^^^^^^^^^^^^^^^^^^
+ 42 |     }
     `----
 
   x QualifiedRule
     ,-[$DIR/tests/fixture/style-block/input.css:41:9]
  41 | & .class { color: red }
     : ^^^^^^^^^^^^^^^^^^^^^^^
+ 42 |     }
     `----
 
   x RelativeSelectorList
     ,-[$DIR/tests/fixture/style-block/input.css:41:9]
  41 | & .class { color: red }
     : ^^^^^^^^
+ 42 |     }
     `----
 
   x RelativeSelector
     ,-[$DIR/tests/fixture/style-block/input.css:41:9]
  41 | & .class { color: red }
     : ^^^^^^^^
+ 42 |     }
     `----
 
   x ComplexSelector
     ,-[$DIR/tests/fixture/style-block/input.css:41:9]
  41 | & .class { color: red }
     : ^^^^^^^^
+ 42 |     }
     `----
 
   x CompoundSelector
     ,-[$DIR/tests/fixture/style-block/input.css:41:9]
  41 | & .class { color: red }
     : ^
+ 42 |     }
     `----
 
   x NestingSelector
     ,-[$DIR/tests/fixture/style-block/input.css:41:9]
  41 | & .class { color: red }
     : ^
+ 42 |     }
     `----
 
   x Combinator
     ,-[$DIR/tests/fixture/style-block/input.css:41:9]
  41 | & .class { color: red }
     :  ^
+ 42 |     }
     `----
 
   x CompoundSelector
     ,-[$DIR/tests/fixture/style-block/input.css:41:9]
  41 | & .class { color: red }
     :   ^^^^^^
+ 42 |     }
     `----
 
   x SubclassSelector
     ,-[$DIR/tests/fixture/style-block/input.css:41:9]
  41 | & .class { color: red }
     :   ^^^^^^
+ 42 |     }
     `----
 
   x ClassSelector
     ,-[$DIR/tests/fixture/style-block/input.css:41:9]
  41 | & .class { color: red }
     :   ^^^^^^
+ 42 |     }
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/style-block/input.css:41:9]
  41 | & .class { color: red }
     :    ^^^^^
+ 42 |     }
     `----
 
   x SimpleBlock
     ,-[$DIR/tests/fixture/style-block/input.css:41:9]
  41 | & .class { color: red }
     :          ^^^^^^^^^^^^^^
+ 42 |     }
     `----
 
   x LBrace
     ,-[$DIR/tests/fixture/style-block/input.css:41:9]
  41 | & .class { color: red }
     :          ^
+ 42 |     }
     `----
 
   x ComponentValue
     ,-[$DIR/tests/fixture/style-block/input.css:41:9]
  41 | & .class { color: red }
     :            ^^^^^^^^^^^
+ 42 |     }
     `----
 
   x StyleBlock
     ,-[$DIR/tests/fixture/style-block/input.css:41:9]
  41 | & .class { color: red }
     :            ^^^^^^^^^^^
+ 42 |     }
     `----
 
   x Declaration
     ,-[$DIR/tests/fixture/style-block/input.css:41:9]
  41 | & .class { color: red }
     :            ^^^^^^^^^^^
+ 42 |     }
     `----
 
   x DeclarationName
     ,-[$DIR/tests/fixture/style-block/input.css:41:9]
  41 | & .class { color: red }
     :            ^^^^^
+ 42 |     }
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/style-block/input.css:41:9]
  41 | & .class { color: red }
     :            ^^^^^
+ 42 |     }
     `----
 
   x ComponentValue
     ,-[$DIR/tests/fixture/style-block/input.css:41:9]
  41 | & .class { color: red }
     :                   ^^^
+ 42 |     }
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/style-block/input.css:41:9]
  41 | & .class { color: red }
     :                   ^^^
+ 42 |     }
     `----
 
   x Rule
@@ -2059,36 +2404,42 @@
     ,-[$DIR/tests/fixture/style-block/input.css:45:1]
  45 | .class {
     : ^^^^^^
+ 46 |     color: blue;
     `----
 
   x ComplexSelector
     ,-[$DIR/tests/fixture/style-block/input.css:45:1]
  45 | .class {
     : ^^^^^^
+ 46 |     color: blue;
     `----
 
   x CompoundSelector
     ,-[$DIR/tests/fixture/style-block/input.css:45:1]
  45 | .class {
     : ^^^^^^
+ 46 |     color: blue;
     `----
 
   x SubclassSelector
     ,-[$DIR/tests/fixture/style-block/input.css:45:1]
  45 | .class {
     : ^^^^^^
+ 46 |     color: blue;
     `----
 
   x ClassSelector
     ,-[$DIR/tests/fixture/style-block/input.css:45:1]
  45 | .class {
     : ^^^^^^
+ 46 |     color: blue;
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/style-block/input.css:45:1]
  45 | .class {
     :  ^^^^^
+ 46 |     color: blue;
     `----
 
   x SimpleBlock
@@ -2108,48 +2459,56 @@
     ,-[$DIR/tests/fixture/style-block/input.css:45:1]
  45 | .class {
     :        ^
+ 46 |     color: blue;
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/style-block/input.css:46:5]
- 46 | color: blue;
-    : ^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:45:1]
+ 45 | .class {
+ 46 |     color: blue;
+    :     ^^^^^^^^^^^
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/style-block/input.css:46:5]
- 46 | color: blue;
-    : ^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:45:1]
+ 45 | .class {
+ 46 |     color: blue;
+    :     ^^^^^^^^^^^
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/style-block/input.css:46:5]
- 46 | color: blue;
-    : ^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:45:1]
+ 45 | .class {
+ 46 |     color: blue;
+    :     ^^^^^^^^^^^
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/style-block/input.css:46:5]
- 46 | color: blue;
-    : ^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:45:1]
+ 45 | .class {
+ 46 |     color: blue;
+    :     ^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/style-block/input.css:46:5]
- 46 | color: blue;
-    : ^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:45:1]
+ 45 | .class {
+ 46 |     color: blue;
+    :     ^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/style-block/input.css:46:5]
- 46 | color: blue;
-    :        ^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:45:1]
+ 45 | .class {
+ 46 |     color: blue;
+    :            ^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/style-block/input.css:46:5]
- 46 | color: blue;
-    :        ^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:45:1]
+ 45 | .class {
+ 46 |     color: blue;
+    :            ^^^^
     `----
 
   x ComponentValue
@@ -2159,6 +2518,7 @@
  50 | |       
  51 | |           & .class { color: red }
  52 | `->     }
+ 53 |     }
     `----
 
   x StyleBlock
@@ -2168,6 +2528,7 @@
  50 | |       
  51 | |           & .class { color: red }
  52 | `->     }
+ 53 |     }
     `----
 
   x AtRule
@@ -2177,84 +2538,98 @@
  50 | |       
  51 | |           & .class { color: red }
  52 | `->     }
+ 53 |     }
     `----
 
   x AtRuleName
     ,-[$DIR/tests/fixture/style-block/input.css:48:5]
  48 | @supports not (display: grid) {
     :  ^^^^^^^^
+ 49 |         float: right;
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/style-block/input.css:48:5]
  48 | @supports not (display: grid) {
     :  ^^^^^^^^
+ 49 |         float: right;
     `----
 
   x SupportsCondition
     ,-[$DIR/tests/fixture/style-block/input.css:48:5]
  48 | @supports not (display: grid) {
     :           ^^^^^^^^^^^^^^^^^^^
+ 49 |         float: right;
     `----
 
   x SupportsConditionType
     ,-[$DIR/tests/fixture/style-block/input.css:48:5]
  48 | @supports not (display: grid) {
     :           ^^^^^^^^^^^^^^^^^^^
+ 49 |         float: right;
     `----
 
   x SupportsNot
     ,-[$DIR/tests/fixture/style-block/input.css:48:5]
  48 | @supports not (display: grid) {
     :           ^^^^^^^^^^^^^^^^^^^
+ 49 |         float: right;
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/style-block/input.css:48:5]
  48 | @supports not (display: grid) {
     :           ^^^
+ 49 |         float: right;
     `----
 
   x SupportsInParens
     ,-[$DIR/tests/fixture/style-block/input.css:48:5]
  48 | @supports not (display: grid) {
     :                ^^^^^^^^^^^^^
+ 49 |         float: right;
     `----
 
   x SupportsFeature
     ,-[$DIR/tests/fixture/style-block/input.css:48:5]
  48 | @supports not (display: grid) {
     :                ^^^^^^^^^^^^^
+ 49 |         float: right;
     `----
 
   x Declaration
     ,-[$DIR/tests/fixture/style-block/input.css:48:5]
  48 | @supports not (display: grid) {
     :                ^^^^^^^^^^^^^
+ 49 |         float: right;
     `----
 
   x DeclarationName
     ,-[$DIR/tests/fixture/style-block/input.css:48:5]
  48 | @supports not (display: grid) {
     :                ^^^^^^^
+ 49 |         float: right;
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/style-block/input.css:48:5]
  48 | @supports not (display: grid) {
     :                ^^^^^^^
+ 49 |         float: right;
     `----
 
   x ComponentValue
     ,-[$DIR/tests/fixture/style-block/input.css:48:5]
  48 | @supports not (display: grid) {
     :                         ^^^^
+ 49 |         float: right;
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/style-block/input.css:48:5]
  48 | @supports not (display: grid) {
     :                         ^^^^
+ 49 |         float: right;
     `----
 
   x SimpleBlock
@@ -2264,186 +2639,217 @@
  50 | |       
  51 | |           & .class { color: red }
  52 | `->     }
+ 53 |     }
     `----
 
   x LBrace
     ,-[$DIR/tests/fixture/style-block/input.css:48:5]
  48 | @supports not (display: grid) {
     :                               ^
+ 49 |         float: right;
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/style-block/input.css:49:9]
- 49 | float: right;
-    : ^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:48:5]
+ 48 | @supports not (display: grid) {
+ 49 |         float: right;
+    :         ^^^^^^^^^^^^
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/style-block/input.css:49:9]
- 49 | float: right;
-    : ^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:48:5]
+ 48 | @supports not (display: grid) {
+ 49 |         float: right;
+    :         ^^^^^^^^^^^^
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/style-block/input.css:49:9]
- 49 | float: right;
-    : ^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:48:5]
+ 48 | @supports not (display: grid) {
+ 49 |         float: right;
+    :         ^^^^^^^^^^^^
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/style-block/input.css:49:9]
- 49 | float: right;
-    : ^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:48:5]
+ 48 | @supports not (display: grid) {
+ 49 |         float: right;
+    :         ^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/style-block/input.css:49:9]
- 49 | float: right;
-    : ^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:48:5]
+ 48 | @supports not (display: grid) {
+ 49 |         float: right;
+    :         ^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/style-block/input.css:49:9]
- 49 | float: right;
-    :        ^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:48:5]
+ 48 | @supports not (display: grid) {
+ 49 |         float: right;
+    :                ^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/style-block/input.css:49:9]
- 49 | float: right;
-    :        ^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:48:5]
+ 48 | @supports not (display: grid) {
+ 49 |         float: right;
+    :                ^^^^^
     `----
 
   x ComponentValue
     ,-[$DIR/tests/fixture/style-block/input.css:51:9]
  51 | & .class { color: red }
     : ^^^^^^^^^^^^^^^^^^^^^^^
+ 52 |     }
     `----
 
   x StyleBlock
     ,-[$DIR/tests/fixture/style-block/input.css:51:9]
  51 | & .class { color: red }
     : ^^^^^^^^^^^^^^^^^^^^^^^
+ 52 |     }
     `----
 
   x QualifiedRule
     ,-[$DIR/tests/fixture/style-block/input.css:51:9]
  51 | & .class { color: red }
     : ^^^^^^^^^^^^^^^^^^^^^^^
+ 52 |     }
     `----
 
   x RelativeSelectorList
     ,-[$DIR/tests/fixture/style-block/input.css:51:9]
  51 | & .class { color: red }
     : ^^^^^^^^
+ 52 |     }
     `----
 
   x RelativeSelector
     ,-[$DIR/tests/fixture/style-block/input.css:51:9]
  51 | & .class { color: red }
     : ^^^^^^^^
+ 52 |     }
     `----
 
   x ComplexSelector
     ,-[$DIR/tests/fixture/style-block/input.css:51:9]
  51 | & .class { color: red }
     : ^^^^^^^^
+ 52 |     }
     `----
 
   x CompoundSelector
     ,-[$DIR/tests/fixture/style-block/input.css:51:9]
  51 | & .class { color: red }
     : ^
+ 52 |     }
     `----
 
   x NestingSelector
     ,-[$DIR/tests/fixture/style-block/input.css:51:9]
  51 | & .class { color: red }
     : ^
+ 52 |     }
     `----
 
   x Combinator
     ,-[$DIR/tests/fixture/style-block/input.css:51:9]
  51 | & .class { color: red }
     :  ^
+ 52 |     }
     `----
 
   x CompoundSelector
     ,-[$DIR/tests/fixture/style-block/input.css:51:9]
  51 | & .class { color: red }
     :   ^^^^^^
+ 52 |     }
     `----
 
   x SubclassSelector
     ,-[$DIR/tests/fixture/style-block/input.css:51:9]
  51 | & .class { color: red }
     :   ^^^^^^
+ 52 |     }
     `----
 
   x ClassSelector
     ,-[$DIR/tests/fixture/style-block/input.css:51:9]
  51 | & .class { color: red }
     :   ^^^^^^
+ 52 |     }
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/style-block/input.css:51:9]
  51 | & .class { color: red }
     :    ^^^^^
+ 52 |     }
     `----
 
   x SimpleBlock
     ,-[$DIR/tests/fixture/style-block/input.css:51:9]
  51 | & .class { color: red }
     :          ^^^^^^^^^^^^^^
+ 52 |     }
     `----
 
   x LBrace
     ,-[$DIR/tests/fixture/style-block/input.css:51:9]
  51 | & .class { color: red }
     :          ^
+ 52 |     }
     `----
 
   x ComponentValue
     ,-[$DIR/tests/fixture/style-block/input.css:51:9]
  51 | & .class { color: red }
     :            ^^^^^^^^^^^
+ 52 |     }
     `----
 
   x StyleBlock
     ,-[$DIR/tests/fixture/style-block/input.css:51:9]
  51 | & .class { color: red }
     :            ^^^^^^^^^^^
+ 52 |     }
     `----
 
   x Declaration
     ,-[$DIR/tests/fixture/style-block/input.css:51:9]
  51 | & .class { color: red }
     :            ^^^^^^^^^^^
+ 52 |     }
     `----
 
   x DeclarationName
     ,-[$DIR/tests/fixture/style-block/input.css:51:9]
  51 | & .class { color: red }
     :            ^^^^^
+ 52 |     }
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/style-block/input.css:51:9]
  51 | & .class { color: red }
     :            ^^^^^
+ 52 |     }
     `----
 
   x ComponentValue
     ,-[$DIR/tests/fixture/style-block/input.css:51:9]
  51 | & .class { color: red }
     :                   ^^^
+ 52 |     }
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/style-block/input.css:51:9]
  51 | & .class { color: red }
     :                   ^^^
+ 52 |     }
     `----
 
   x Rule
@@ -2484,36 +2890,42 @@
     ,-[$DIR/tests/fixture/style-block/input.css:55:1]
  55 | .class {
     : ^^^^^^
+ 56 |     color: blue;
     `----
 
   x ComplexSelector
     ,-[$DIR/tests/fixture/style-block/input.css:55:1]
  55 | .class {
     : ^^^^^^
+ 56 |     color: blue;
     `----
 
   x CompoundSelector
     ,-[$DIR/tests/fixture/style-block/input.css:55:1]
  55 | .class {
     : ^^^^^^
+ 56 |     color: blue;
     `----
 
   x SubclassSelector
     ,-[$DIR/tests/fixture/style-block/input.css:55:1]
  55 | .class {
     : ^^^^^^
+ 56 |     color: blue;
     `----
 
   x ClassSelector
     ,-[$DIR/tests/fixture/style-block/input.css:55:1]
  55 | .class {
     : ^^^^^^
+ 56 |     color: blue;
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/style-block/input.css:55:1]
  55 | .class {
     :  ^^^^^
+ 56 |     color: blue;
     `----
 
   x SimpleBlock
@@ -2537,48 +2949,56 @@
     ,-[$DIR/tests/fixture/style-block/input.css:55:1]
  55 | .class {
     :        ^
+ 56 |     color: blue;
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/style-block/input.css:56:5]
- 56 | color: blue;
-    : ^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:55:1]
+ 55 | .class {
+ 56 |     color: blue;
+    :     ^^^^^^^^^^^
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/style-block/input.css:56:5]
- 56 | color: blue;
-    : ^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:55:1]
+ 55 | .class {
+ 56 |     color: blue;
+    :     ^^^^^^^^^^^
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/style-block/input.css:56:5]
- 56 | color: blue;
-    : ^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:55:1]
+ 55 | .class {
+ 56 |     color: blue;
+    :     ^^^^^^^^^^^
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/style-block/input.css:56:5]
- 56 | color: blue;
-    : ^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:55:1]
+ 55 | .class {
+ 56 |     color: blue;
+    :     ^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/style-block/input.css:56:5]
- 56 | color: blue;
-    : ^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:55:1]
+ 55 | .class {
+ 56 |     color: blue;
+    :     ^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/style-block/input.css:56:5]
- 56 | color: blue;
-    :        ^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:55:1]
+ 55 | .class {
+ 56 |     color: blue;
+    :            ^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/style-block/input.css:56:5]
- 56 | color: blue;
-    :        ^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:55:1]
+ 55 | .class {
+ 56 |     color: blue;
+    :            ^^^^
     `----
 
   x ComponentValue
@@ -2606,48 +3026,56 @@
     ,-[$DIR/tests/fixture/style-block/input.css:58:5]
  58 | &.foo {
     : ^^^^^
+ 59 |       color: green;
     `----
 
   x RelativeSelector
     ,-[$DIR/tests/fixture/style-block/input.css:58:5]
  58 | &.foo {
     : ^^^^^
+ 59 |       color: green;
     `----
 
   x ComplexSelector
     ,-[$DIR/tests/fixture/style-block/input.css:58:5]
  58 | &.foo {
     : ^^^^^
+ 59 |       color: green;
     `----
 
   x CompoundSelector
     ,-[$DIR/tests/fixture/style-block/input.css:58:5]
  58 | &.foo {
     : ^^^^^
+ 59 |       color: green;
     `----
 
   x NestingSelector
     ,-[$DIR/tests/fixture/style-block/input.css:58:5]
  58 | &.foo {
     : ^
+ 59 |       color: green;
     `----
 
   x SubclassSelector
     ,-[$DIR/tests/fixture/style-block/input.css:58:5]
  58 | &.foo {
     :  ^^^^
+ 59 |       color: green;
     `----
 
   x ClassSelector
     ,-[$DIR/tests/fixture/style-block/input.css:58:5]
  58 | &.foo {
     :  ^^^^
+ 59 |       color: green;
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/style-block/input.css:58:5]
  58 | &.foo {
     :   ^^^
+ 59 |       color: green;
     `----
 
   x SimpleBlock
@@ -2661,48 +3089,63 @@
     ,-[$DIR/tests/fixture/style-block/input.css:58:5]
  58 | &.foo {
     :       ^
+ 59 |       color: green;
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/style-block/input.css:59:7]
- 59 | color: green;
-    : ^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:58:5]
+ 58 | &.foo {
+ 59 |       color: green;
+    :       ^^^^^^^^^^^^
+ 60 |     }
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/style-block/input.css:59:7]
- 59 | color: green;
-    : ^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:58:5]
+ 58 | &.foo {
+ 59 |       color: green;
+    :       ^^^^^^^^^^^^
+ 60 |     }
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/style-block/input.css:59:7]
- 59 | color: green;
-    : ^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:58:5]
+ 58 | &.foo {
+ 59 |       color: green;
+    :       ^^^^^^^^^^^^
+ 60 |     }
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/style-block/input.css:59:7]
- 59 | color: green;
-    : ^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:58:5]
+ 58 | &.foo {
+ 59 |       color: green;
+    :       ^^^^^
+ 60 |     }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/style-block/input.css:59:7]
- 59 | color: green;
-    : ^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:58:5]
+ 58 | &.foo {
+ 59 |       color: green;
+    :       ^^^^^
+ 60 |     }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/style-block/input.css:59:7]
- 59 | color: green;
-    :        ^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:58:5]
+ 58 | &.foo {
+ 59 |       color: green;
+    :              ^^^^^
+ 60 |     }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/style-block/input.css:59:7]
- 59 | color: green;
-    :        ^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:58:5]
+ 58 | &.foo {
+ 59 |       color: green;
+    :              ^^^^^
+ 60 |     }
     `----
 
   x ComponentValue
@@ -2712,6 +3155,7 @@
  64 | |       
  65 | |           & .class { color: red }
  66 | `->     }
+ 67 |     }
     `----
 
   x StyleBlock
@@ -2721,6 +3165,7 @@
  64 | |       
  65 | |           & .class { color: red }
  66 | `->     }
+ 67 |     }
     `----
 
   x AtRule
@@ -2730,84 +3175,98 @@
  64 | |       
  65 | |           & .class { color: red }
  66 | `->     }
+ 67 |     }
     `----
 
   x AtRuleName
     ,-[$DIR/tests/fixture/style-block/input.css:62:5]
  62 | @supports not (display: grid) {
     :  ^^^^^^^^
+ 63 |         float: right;
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/style-block/input.css:62:5]
  62 | @supports not (display: grid) {
     :  ^^^^^^^^
+ 63 |         float: right;
     `----
 
   x SupportsCondition
     ,-[$DIR/tests/fixture/style-block/input.css:62:5]
  62 | @supports not (display: grid) {
     :           ^^^^^^^^^^^^^^^^^^^
+ 63 |         float: right;
     `----
 
   x SupportsConditionType
     ,-[$DIR/tests/fixture/style-block/input.css:62:5]
  62 | @supports not (display: grid) {
     :           ^^^^^^^^^^^^^^^^^^^
+ 63 |         float: right;
     `----
 
   x SupportsNot
     ,-[$DIR/tests/fixture/style-block/input.css:62:5]
  62 | @supports not (display: grid) {
     :           ^^^^^^^^^^^^^^^^^^^
+ 63 |         float: right;
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/style-block/input.css:62:5]
  62 | @supports not (display: grid) {
     :           ^^^
+ 63 |         float: right;
     `----
 
   x SupportsInParens
     ,-[$DIR/tests/fixture/style-block/input.css:62:5]
  62 | @supports not (display: grid) {
     :                ^^^^^^^^^^^^^
+ 63 |         float: right;
     `----
 
   x SupportsFeature
     ,-[$DIR/tests/fixture/style-block/input.css:62:5]
  62 | @supports not (display: grid) {
     :                ^^^^^^^^^^^^^
+ 63 |         float: right;
     `----
 
   x Declaration
     ,-[$DIR/tests/fixture/style-block/input.css:62:5]
  62 | @supports not (display: grid) {
     :                ^^^^^^^^^^^^^
+ 63 |         float: right;
     `----
 
   x DeclarationName
     ,-[$DIR/tests/fixture/style-block/input.css:62:5]
  62 | @supports not (display: grid) {
     :                ^^^^^^^
+ 63 |         float: right;
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/style-block/input.css:62:5]
  62 | @supports not (display: grid) {
     :                ^^^^^^^
+ 63 |         float: right;
     `----
 
   x ComponentValue
     ,-[$DIR/tests/fixture/style-block/input.css:62:5]
  62 | @supports not (display: grid) {
     :                         ^^^^
+ 63 |         float: right;
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/style-block/input.css:62:5]
  62 | @supports not (display: grid) {
     :                         ^^^^
+ 63 |         float: right;
     `----
 
   x SimpleBlock
@@ -2817,190 +3276,222 @@
  64 | |       
  65 | |           & .class { color: red }
  66 | `->     }
+ 67 |     }
     `----
 
   x LBrace
     ,-[$DIR/tests/fixture/style-block/input.css:62:5]
  62 | @supports not (display: grid) {
     :                               ^
+ 63 |         float: right;
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/style-block/input.css:63:9]
- 63 | float: right;
-    : ^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:62:5]
+ 62 | @supports not (display: grid) {
+ 63 |         float: right;
+    :         ^^^^^^^^^^^^
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/style-block/input.css:63:9]
- 63 | float: right;
-    : ^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:62:5]
+ 62 | @supports not (display: grid) {
+ 63 |         float: right;
+    :         ^^^^^^^^^^^^
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/style-block/input.css:63:9]
- 63 | float: right;
-    : ^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:62:5]
+ 62 | @supports not (display: grid) {
+ 63 |         float: right;
+    :         ^^^^^^^^^^^^
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/style-block/input.css:63:9]
- 63 | float: right;
-    : ^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:62:5]
+ 62 | @supports not (display: grid) {
+ 63 |         float: right;
+    :         ^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/style-block/input.css:63:9]
- 63 | float: right;
-    : ^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:62:5]
+ 62 | @supports not (display: grid) {
+ 63 |         float: right;
+    :         ^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/style-block/input.css:63:9]
- 63 | float: right;
-    :        ^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:62:5]
+ 62 | @supports not (display: grid) {
+ 63 |         float: right;
+    :                ^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/style-block/input.css:63:9]
- 63 | float: right;
-    :        ^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:62:5]
+ 62 | @supports not (display: grid) {
+ 63 |         float: right;
+    :                ^^^^^
     `----
 
   x ComponentValue
     ,-[$DIR/tests/fixture/style-block/input.css:65:9]
  65 | & .class { color: red }
     : ^^^^^^^^^^^^^^^^^^^^^^^
+ 66 |     }
     `----
 
   x StyleBlock
     ,-[$DIR/tests/fixture/style-block/input.css:65:9]
  65 | & .class { color: red }
     : ^^^^^^^^^^^^^^^^^^^^^^^
+ 66 |     }
     `----
 
   x QualifiedRule
     ,-[$DIR/tests/fixture/style-block/input.css:65:9]
  65 | & .class { color: red }
     : ^^^^^^^^^^^^^^^^^^^^^^^
+ 66 |     }
     `----
 
   x RelativeSelectorList
     ,-[$DIR/tests/fixture/style-block/input.css:65:9]
  65 | & .class { color: red }
     : ^^^^^^^^
+ 66 |     }
     `----
 
   x RelativeSelector
     ,-[$DIR/tests/fixture/style-block/input.css:65:9]
  65 | & .class { color: red }
     : ^^^^^^^^
+ 66 |     }
     `----
 
   x ComplexSelector
     ,-[$DIR/tests/fixture/style-block/input.css:65:9]
  65 | & .class { color: red }
     : ^^^^^^^^
+ 66 |     }
     `----
 
   x CompoundSelector
     ,-[$DIR/tests/fixture/style-block/input.css:65:9]
  65 | & .class { color: red }
     : ^
+ 66 |     }
     `----
 
   x NestingSelector
     ,-[$DIR/tests/fixture/style-block/input.css:65:9]
  65 | & .class { color: red }
     : ^
+ 66 |     }
     `----
 
   x Combinator
     ,-[$DIR/tests/fixture/style-block/input.css:65:9]
  65 | & .class { color: red }
     :  ^
+ 66 |     }
     `----
 
   x CompoundSelector
     ,-[$DIR/tests/fixture/style-block/input.css:65:9]
  65 | & .class { color: red }
     :   ^^^^^^
+ 66 |     }
     `----
 
   x SubclassSelector
     ,-[$DIR/tests/fixture/style-block/input.css:65:9]
  65 | & .class { color: red }
     :   ^^^^^^
+ 66 |     }
     `----
 
   x ClassSelector
     ,-[$DIR/tests/fixture/style-block/input.css:65:9]
  65 | & .class { color: red }
     :   ^^^^^^
+ 66 |     }
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/style-block/input.css:65:9]
  65 | & .class { color: red }
     :    ^^^^^
+ 66 |     }
     `----
 
   x SimpleBlock
     ,-[$DIR/tests/fixture/style-block/input.css:65:9]
  65 | & .class { color: red }
     :          ^^^^^^^^^^^^^^
+ 66 |     }
     `----
 
   x LBrace
     ,-[$DIR/tests/fixture/style-block/input.css:65:9]
  65 | & .class { color: red }
     :          ^
+ 66 |     }
     `----
 
   x ComponentValue
     ,-[$DIR/tests/fixture/style-block/input.css:65:9]
  65 | & .class { color: red }
     :            ^^^^^^^^^^^
+ 66 |     }
     `----
 
   x StyleBlock
     ,-[$DIR/tests/fixture/style-block/input.css:65:9]
  65 | & .class { color: red }
     :            ^^^^^^^^^^^
+ 66 |     }
     `----
 
   x Declaration
     ,-[$DIR/tests/fixture/style-block/input.css:65:9]
  65 | & .class { color: red }
     :            ^^^^^^^^^^^
+ 66 |     }
     `----
 
   x DeclarationName
     ,-[$DIR/tests/fixture/style-block/input.css:65:9]
  65 | & .class { color: red }
     :            ^^^^^
+ 66 |     }
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/style-block/input.css:65:9]
  65 | & .class { color: red }
     :            ^^^^^
+ 66 |     }
     `----
 
   x ComponentValue
     ,-[$DIR/tests/fixture/style-block/input.css:65:9]
  65 | & .class { color: red }
     :                   ^^^
+ 66 |     }
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/style-block/input.css:65:9]
  65 | & .class { color: red }
     :                   ^^^
+ 66 |     }
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/style-block/input.css:70:1]
+    ,-[$DIR/tests/fixture/style-block/input.css:69:1]
+ 69 |     /* Legacy stuff, but allowed by spec */
  70 | ,-> .class {
  71 | |       color: red;
  72 | |   
@@ -3011,7 +3502,8 @@
     `----
 
   x QualifiedRule
-    ,-[$DIR/tests/fixture/style-block/input.css:70:1]
+    ,-[$DIR/tests/fixture/style-block/input.css:69:1]
+ 69 |     /* Legacy stuff, but allowed by spec */
  70 | ,-> .class {
  71 | |       color: red;
  72 | |   
@@ -3022,43 +3514,56 @@
     `----
 
   x SelectorList
-    ,-[$DIR/tests/fixture/style-block/input.css:70:1]
+    ,-[$DIR/tests/fixture/style-block/input.css:69:1]
+ 69 | /* Legacy stuff, but allowed by spec */
  70 | .class {
     : ^^^^^^
+ 71 |     color: red;
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/style-block/input.css:70:1]
+    ,-[$DIR/tests/fixture/style-block/input.css:69:1]
+ 69 | /* Legacy stuff, but allowed by spec */
  70 | .class {
     : ^^^^^^
+ 71 |     color: red;
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/style-block/input.css:70:1]
+    ,-[$DIR/tests/fixture/style-block/input.css:69:1]
+ 69 | /* Legacy stuff, but allowed by spec */
  70 | .class {
     : ^^^^^^
+ 71 |     color: red;
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/fixture/style-block/input.css:70:1]
+    ,-[$DIR/tests/fixture/style-block/input.css:69:1]
+ 69 | /* Legacy stuff, but allowed by spec */
  70 | .class {
     : ^^^^^^
+ 71 |     color: red;
     `----
 
   x ClassSelector
-    ,-[$DIR/tests/fixture/style-block/input.css:70:1]
+    ,-[$DIR/tests/fixture/style-block/input.css:69:1]
+ 69 | /* Legacy stuff, but allowed by spec */
  70 | .class {
     : ^^^^^^
+ 71 |     color: red;
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/style-block/input.css:70:1]
+    ,-[$DIR/tests/fixture/style-block/input.css:69:1]
+ 69 | /* Legacy stuff, but allowed by spec */
  70 | .class {
     :  ^^^^^
+ 71 |     color: red;
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/style-block/input.css:70:1]
+    ,-[$DIR/tests/fixture/style-block/input.css:69:1]
+ 69 |     /* Legacy stuff, but allowed by spec */
  70 | ,-> .class {
  71 | |       color: red;
  72 | |   
@@ -3069,51 +3574,60 @@
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/style-block/input.css:70:1]
+    ,-[$DIR/tests/fixture/style-block/input.css:69:1]
+ 69 | /* Legacy stuff, but allowed by spec */
  70 | .class {
     :        ^
+ 71 |     color: red;
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/style-block/input.css:71:5]
- 71 | color: red;
-    : ^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:70:1]
+ 70 | .class {
+ 71 |     color: red;
+    :     ^^^^^^^^^^
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/style-block/input.css:71:5]
- 71 | color: red;
-    : ^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:70:1]
+ 70 | .class {
+ 71 |     color: red;
+    :     ^^^^^^^^^^
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/style-block/input.css:71:5]
- 71 | color: red;
-    : ^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:70:1]
+ 70 | .class {
+ 71 |     color: red;
+    :     ^^^^^^^^^^
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/style-block/input.css:71:5]
- 71 | color: red;
-    : ^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:70:1]
+ 70 | .class {
+ 71 |     color: red;
+    :     ^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/style-block/input.css:71:5]
- 71 | color: red;
-    : ^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:70:1]
+ 70 | .class {
+ 71 |     color: red;
+    :     ^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/style-block/input.css:71:5]
- 71 | color: red;
-    :        ^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:70:1]
+ 70 | .class {
+ 71 |     color: red;
+    :            ^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/style-block/input.css:71:5]
- 71 | color: red;
-    :        ^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:70:1]
+ 70 | .class {
+ 71 |     color: red;
+    :            ^^^
     `----
 
   x ComponentValue
@@ -3121,6 +3635,7 @@
  73 | ,-> @document url("https://www.example.com/") {
  74 | |           color: green;
  75 | `->     }
+ 76 |     }
     `----
 
   x StyleBlock
@@ -3128,6 +3643,7 @@
  73 | ,-> @document url("https://www.example.com/") {
  74 | |           color: green;
  75 | `->     }
+ 76 |     }
     `----
 
   x AtRule
@@ -3135,42 +3651,49 @@
  73 | ,-> @document url("https://www.example.com/") {
  74 | |           color: green;
  75 | `->     }
+ 76 |     }
     `----
 
   x AtRuleName
     ,-[$DIR/tests/fixture/style-block/input.css:73:5]
  73 | @document url("https://www.example.com/") {
     :  ^^^^^^^^
+ 74 |         color: green;
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/style-block/input.css:73:5]
  73 | @document url("https://www.example.com/") {
     :  ^^^^^^^^
+ 74 |         color: green;
     `----
 
   x Url
     ,-[$DIR/tests/fixture/style-block/input.css:73:5]
  73 | @document url("https://www.example.com/") {
     :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 74 |         color: green;
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/style-block/input.css:73:5]
  73 | @document url("https://www.example.com/") {
     :           ^^^
+ 74 |         color: green;
     `----
 
   x UrlValue
     ,-[$DIR/tests/fixture/style-block/input.css:73:5]
  73 | @document url("https://www.example.com/") {
     :               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 74 |         color: green;
     `----
 
   x Str
     ,-[$DIR/tests/fixture/style-block/input.css:73:5]
  73 | @document url("https://www.example.com/") {
     :               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 74 |         color: green;
     `----
 
   x SimpleBlock
@@ -3178,54 +3701,70 @@
  73 | ,-> @document url("https://www.example.com/") {
  74 | |           color: green;
  75 | `->     }
+ 76 |     }
     `----
 
   x LBrace
     ,-[$DIR/tests/fixture/style-block/input.css:73:5]
  73 | @document url("https://www.example.com/") {
     :                                           ^
+ 74 |         color: green;
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/style-block/input.css:74:9]
- 74 | color: green;
-    : ^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:73:5]
+ 73 | @document url("https://www.example.com/") {
+ 74 |         color: green;
+    :         ^^^^^^^^^^^^
+ 75 |     }
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/style-block/input.css:74:9]
- 74 | color: green;
-    : ^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:73:5]
+ 73 | @document url("https://www.example.com/") {
+ 74 |         color: green;
+    :         ^^^^^^^^^^^^
+ 75 |     }
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/style-block/input.css:74:9]
- 74 | color: green;
-    : ^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:73:5]
+ 73 | @document url("https://www.example.com/") {
+ 74 |         color: green;
+    :         ^^^^^^^^^^^^
+ 75 |     }
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/style-block/input.css:74:9]
- 74 | color: green;
-    : ^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:73:5]
+ 73 | @document url("https://www.example.com/") {
+ 74 |         color: green;
+    :         ^^^^^
+ 75 |     }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/style-block/input.css:74:9]
- 74 | color: green;
-    : ^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:73:5]
+ 73 | @document url("https://www.example.com/") {
+ 74 |         color: green;
+    :         ^^^^^
+ 75 |     }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/style-block/input.css:74:9]
- 74 | color: green;
-    :        ^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:73:5]
+ 73 | @document url("https://www.example.com/") {
+ 74 |         color: green;
+    :                ^^^^^
+ 75 |     }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/style-block/input.css:74:9]
- 74 | color: green;
-    :        ^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:73:5]
+ 73 | @document url("https://www.example.com/") {
+ 74 |         color: green;
+    :                ^^^^^
+ 75 |     }
     `----
 
   x Rule
@@ -3248,42 +3787,49 @@
     ,-[$DIR/tests/fixture/style-block/input.css:78:1]
  78 | a {;;
     : ^
+ 79 |     color: black;
     `----
 
   x ComplexSelector
     ,-[$DIR/tests/fixture/style-block/input.css:78:1]
  78 | a {;;
     : ^
+ 79 |     color: black;
     `----
 
   x CompoundSelector
     ,-[$DIR/tests/fixture/style-block/input.css:78:1]
  78 | a {;;
     : ^
+ 79 |     color: black;
     `----
 
   x TypeSelector
     ,-[$DIR/tests/fixture/style-block/input.css:78:1]
  78 | a {;;
     : ^
+ 79 |     color: black;
     `----
 
   x TagNameSelector
     ,-[$DIR/tests/fixture/style-block/input.css:78:1]
  78 | a {;;
     : ^
+ 79 |     color: black;
     `----
 
   x WqName
     ,-[$DIR/tests/fixture/style-block/input.css:78:1]
  78 | a {;;
     : ^
+ 79 |     color: black;
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/style-block/input.css:78:1]
  78 | a {;;
     : ^
+ 79 |     color: black;
     `----
 
   x SimpleBlock
@@ -3298,48 +3844,63 @@
     ,-[$DIR/tests/fixture/style-block/input.css:78:1]
  78 | a {;;
     :   ^
+ 79 |     color: black;
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/style-block/input.css:79:5]
- 79 | color: black;
-    : ^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:78:1]
+ 78 | a {;;
+ 79 |     color: black;
+    :     ^^^^^^^^^^^^
+ 80 | ; ;
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/style-block/input.css:79:5]
- 79 | color: black;
-    : ^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:78:1]
+ 78 | a {;;
+ 79 |     color: black;
+    :     ^^^^^^^^^^^^
+ 80 | ; ;
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/style-block/input.css:79:5]
- 79 | color: black;
-    : ^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:78:1]
+ 78 | a {;;
+ 79 |     color: black;
+    :     ^^^^^^^^^^^^
+ 80 | ; ;
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/style-block/input.css:79:5]
- 79 | color: black;
-    : ^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:78:1]
+ 78 | a {;;
+ 79 |     color: black;
+    :     ^^^^^
+ 80 | ; ;
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/style-block/input.css:79:5]
- 79 | color: black;
-    : ^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:78:1]
+ 78 | a {;;
+ 79 |     color: black;
+    :     ^^^^^
+ 80 | ; ;
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/style-block/input.css:79:5]
- 79 | color: black;
-    :        ^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:78:1]
+ 78 | a {;;
+ 79 |     color: black;
+    :            ^^^^^
+ 80 | ; ;
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/style-block/input.css:79:5]
- 79 | color: black;
-    :        ^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:78:1]
+ 78 | a {;;
+ 79 |     color: black;
+    :            ^^^^^
+ 80 | ; ;
     `----
 
   x Rule
@@ -3360,42 +3921,49 @@
     ,-[$DIR/tests/fixture/style-block/input.css:83:1]
  83 | a {
     : ^
+ 84 | ;color: pink;
     `----
 
   x ComplexSelector
     ,-[$DIR/tests/fixture/style-block/input.css:83:1]
  83 | a {
     : ^
+ 84 | ;color: pink;
     `----
 
   x CompoundSelector
     ,-[$DIR/tests/fixture/style-block/input.css:83:1]
  83 | a {
     : ^
+ 84 | ;color: pink;
     `----
 
   x TypeSelector
     ,-[$DIR/tests/fixture/style-block/input.css:83:1]
  83 | a {
     : ^
+ 84 | ;color: pink;
     `----
 
   x TagNameSelector
     ,-[$DIR/tests/fixture/style-block/input.css:83:1]
  83 | a {
     : ^
+ 84 | ;color: pink;
     `----
 
   x WqName
     ,-[$DIR/tests/fixture/style-block/input.css:83:1]
  83 | a {
     : ^
+ 84 | ;color: pink;
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/style-block/input.css:83:1]
  83 | a {
     : ^
+ 84 | ;color: pink;
     `----
 
   x SimpleBlock
@@ -3409,48 +3977,63 @@
     ,-[$DIR/tests/fixture/style-block/input.css:83:1]
  83 | a {
     :   ^
+ 84 | ;color: pink;
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/style-block/input.css:84:1]
+    ,-[$DIR/tests/fixture/style-block/input.css:83:1]
+ 83 | a {
  84 | ;color: pink;
     :  ^^^^^^^^^^^
+ 85 | }
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/style-block/input.css:84:1]
+    ,-[$DIR/tests/fixture/style-block/input.css:83:1]
+ 83 | a {
  84 | ;color: pink;
     :  ^^^^^^^^^^^
+ 85 | }
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/style-block/input.css:84:1]
+    ,-[$DIR/tests/fixture/style-block/input.css:83:1]
+ 83 | a {
  84 | ;color: pink;
     :  ^^^^^^^^^^^
+ 85 | }
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/style-block/input.css:84:1]
+    ,-[$DIR/tests/fixture/style-block/input.css:83:1]
+ 83 | a {
  84 | ;color: pink;
     :  ^^^^^
+ 85 | }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/style-block/input.css:84:1]
+    ,-[$DIR/tests/fixture/style-block/input.css:83:1]
+ 83 | a {
  84 | ;color: pink;
     :  ^^^^^
+ 85 | }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/style-block/input.css:84:1]
+    ,-[$DIR/tests/fixture/style-block/input.css:83:1]
+ 83 | a {
  84 | ;color: pink;
     :         ^^^^
+ 85 | }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/style-block/input.css:84:1]
+    ,-[$DIR/tests/fixture/style-block/input.css:83:1]
+ 83 | a {
  84 | ;color: pink;
     :         ^^^^
+ 85 | }
     `----
 
   x Rule
@@ -3585,42 +4168,49 @@
     ,-[$DIR/tests/fixture/style-block/input.css:89:1]
  89 | a {
     : ^
+ 90 |     width: 10px;
     `----
 
   x ComplexSelector
     ,-[$DIR/tests/fixture/style-block/input.css:89:1]
  89 | a {
     : ^
+ 90 |     width: 10px;
     `----
 
   x CompoundSelector
     ,-[$DIR/tests/fixture/style-block/input.css:89:1]
  89 | a {
     : ^
+ 90 |     width: 10px;
     `----
 
   x TypeSelector
     ,-[$DIR/tests/fixture/style-block/input.css:89:1]
  89 | a {
     : ^
+ 90 |     width: 10px;
     `----
 
   x TagNameSelector
     ,-[$DIR/tests/fixture/style-block/input.css:89:1]
  89 | a {
     : ^
+ 90 |     width: 10px;
     `----
 
   x WqName
     ,-[$DIR/tests/fixture/style-block/input.css:89:1]
  89 | a {
     : ^
+ 90 |     width: 10px;
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/style-block/input.css:89:1]
  89 | a {
     : ^
+ 90 |     width: 10px;
     `----
 
   x SimpleBlock
@@ -3637,232 +4227,307 @@
     ,-[$DIR/tests/fixture/style-block/input.css:89:1]
  89 | a {
     :   ^
+ 90 |     width: 10px;
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/style-block/input.css:90:5]
- 90 | width: 10px;
-    : ^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:89:1]
+ 89 | a {
+ 90 |     width: 10px;
+    :     ^^^^^^^^^^^
+ 91 |     @mixin mobile {
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/style-block/input.css:90:5]
- 90 | width: 10px;
-    : ^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:89:1]
+ 89 | a {
+ 90 |     width: 10px;
+    :     ^^^^^^^^^^^
+ 91 |     @mixin mobile {
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/style-block/input.css:90:5]
- 90 | width: 10px;
-    : ^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:89:1]
+ 89 | a {
+ 90 |     width: 10px;
+    :     ^^^^^^^^^^^
+ 91 |     @mixin mobile {
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/style-block/input.css:90:5]
- 90 | width: 10px;
-    : ^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:89:1]
+ 89 | a {
+ 90 |     width: 10px;
+    :     ^^^^^
+ 91 |     @mixin mobile {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/style-block/input.css:90:5]
- 90 | width: 10px;
-    : ^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:89:1]
+ 89 | a {
+ 90 |     width: 10px;
+    :     ^^^^^
+ 91 |     @mixin mobile {
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/style-block/input.css:90:5]
- 90 | width: 10px;
-    :        ^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:89:1]
+ 89 | a {
+ 90 |     width: 10px;
+    :            ^^^^
+ 91 |     @mixin mobile {
     `----
 
   x Dimension
-    ,-[$DIR/tests/fixture/style-block/input.css:90:5]
- 90 | width: 10px;
-    :        ^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:89:1]
+ 89 | a {
+ 90 |     width: 10px;
+    :            ^^^^
+ 91 |     @mixin mobile {
     `----
 
   x Length
-    ,-[$DIR/tests/fixture/style-block/input.css:90:5]
- 90 | width: 10px;
-    :        ^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:89:1]
+ 89 | a {
+ 90 |     width: 10px;
+    :            ^^^^
+ 91 |     @mixin mobile {
     `----
 
   x Number
-    ,-[$DIR/tests/fixture/style-block/input.css:90:5]
- 90 | width: 10px;
-    :        ^^
+    ,-[$DIR/tests/fixture/style-block/input.css:89:1]
+ 89 | a {
+ 90 |     width: 10px;
+    :            ^^
+ 91 |     @mixin mobile {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/style-block/input.css:90:5]
- 90 | width: 10px;
-    :          ^^
+    ,-[$DIR/tests/fixture/style-block/input.css:89:1]
+ 89 | a {
+ 90 |     width: 10px;
+    :              ^^
+ 91 |     @mixin mobile {
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/style-block/input.css:91:5]
- 91 | ,-> @mixin mobile {
+    ,-[$DIR/tests/fixture/style-block/input.css:90:5]
+ 90 |     width: 10px;
+ 91 | ,->     @mixin mobile {
  92 | |           height: 100px;
  93 | `->     }
+ 94 |     }
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/style-block/input.css:91:5]
- 91 | ,-> @mixin mobile {
+    ,-[$DIR/tests/fixture/style-block/input.css:90:5]
+ 90 |     width: 10px;
+ 91 | ,->     @mixin mobile {
  92 | |           height: 100px;
  93 | `->     }
+ 94 |     }
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/style-block/input.css:91:5]
- 91 | ,-> @mixin mobile {
+    ,-[$DIR/tests/fixture/style-block/input.css:90:5]
+ 90 |     width: 10px;
+ 91 | ,->     @mixin mobile {
  92 | |           height: 100px;
  93 | `->     }
+ 94 |     }
     `----
 
   x AtRuleName
-    ,-[$DIR/tests/fixture/style-block/input.css:91:5]
- 91 | @mixin mobile {
-    :  ^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:90:5]
+ 90 | width: 10px;
+ 91 |     @mixin mobile {
+    :      ^^^^^
+ 92 |         height: 100px;
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/style-block/input.css:91:5]
- 91 | @mixin mobile {
-    :  ^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:90:5]
+ 90 | width: 10px;
+ 91 |     @mixin mobile {
+    :      ^^^^^
+ 92 |         height: 100px;
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/style-block/input.css:91:5]
- 91 | @mixin mobile {
-    :       ^
+    ,-[$DIR/tests/fixture/style-block/input.css:90:5]
+ 90 | width: 10px;
+ 91 |     @mixin mobile {
+    :           ^
+ 92 |         height: 100px;
     `----
 
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/fixture/style-block/input.css:91:5]
- 91 | @mixin mobile {
-    :       ^
+    ,-[$DIR/tests/fixture/style-block/input.css:90:5]
+ 90 | width: 10px;
+ 91 |     @mixin mobile {
+    :           ^
+ 92 |         height: 100px;
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/style-block/input.css:91:5]
- 91 | @mixin mobile {
-    :        ^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:90:5]
+ 90 | width: 10px;
+ 91 |     @mixin mobile {
+    :            ^^^^^^
+ 92 |         height: 100px;
     `----
 
   x Ident { value: Atom('mobile' type=inline), raw: "mobile" }
-    ,-[$DIR/tests/fixture/style-block/input.css:91:5]
- 91 | @mixin mobile {
-    :        ^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:90:5]
+ 90 | width: 10px;
+ 91 |     @mixin mobile {
+    :            ^^^^^^
+ 92 |         height: 100px;
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/style-block/input.css:91:5]
- 91 | @mixin mobile {
-    :              ^
+    ,-[$DIR/tests/fixture/style-block/input.css:90:5]
+ 90 | width: 10px;
+ 91 |     @mixin mobile {
+    :                  ^
+ 92 |         height: 100px;
     `----
 
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/fixture/style-block/input.css:91:5]
- 91 | @mixin mobile {
-    :              ^
+    ,-[$DIR/tests/fixture/style-block/input.css:90:5]
+ 90 | width: 10px;
+ 91 |     @mixin mobile {
+    :                  ^
+ 92 |         height: 100px;
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/style-block/input.css:91:5]
- 91 | ,-> @mixin mobile {
+    ,-[$DIR/tests/fixture/style-block/input.css:90:5]
+ 90 |     width: 10px;
+ 91 | ,->     @mixin mobile {
  92 | |           height: 100px;
  93 | `->     }
+ 94 |     }
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/style-block/input.css:91:5]
- 91 | @mixin mobile {
-    :               ^
+    ,-[$DIR/tests/fixture/style-block/input.css:90:5]
+ 90 | width: 10px;
+ 91 |     @mixin mobile {
+    :                   ^
+ 92 |         height: 100px;
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/style-block/input.css:91:5]
- 91 | ,-> @mixin mobile {
+    ,-[$DIR/tests/fixture/style-block/input.css:90:5]
+ 90 |     width: 10px;
+ 91 | ,->     @mixin mobile {
  92 | `->         height: 100px;
+ 93 |         }
     `----
 
   x WhiteSpace { value: "\n        " }
-    ,-[$DIR/tests/fixture/style-block/input.css:91:5]
- 91 | ,-> @mixin mobile {
+    ,-[$DIR/tests/fixture/style-block/input.css:90:5]
+ 90 |     width: 10px;
+ 91 | ,->     @mixin mobile {
  92 | `->         height: 100px;
+ 93 |         }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/style-block/input.css:92:9]
- 92 | height: 100px;
-    : ^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:91:5]
+ 91 | @mixin mobile {
+ 92 |         height: 100px;
+    :         ^^^^^^
+ 93 |     }
     `----
 
   x Ident { value: Atom('height' type=inline), raw: "height" }
-    ,-[$DIR/tests/fixture/style-block/input.css:92:9]
- 92 | height: 100px;
-    : ^^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:91:5]
+ 91 | @mixin mobile {
+ 92 |         height: 100px;
+    :         ^^^^^^
+ 93 |     }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/style-block/input.css:92:9]
- 92 | height: 100px;
-    :       ^
+    ,-[$DIR/tests/fixture/style-block/input.css:91:5]
+ 91 | @mixin mobile {
+ 92 |         height: 100px;
+    :               ^
+ 93 |     }
     `----
 
   x Colon
-    ,-[$DIR/tests/fixture/style-block/input.css:92:9]
- 92 | height: 100px;
-    :       ^
+    ,-[$DIR/tests/fixture/style-block/input.css:91:5]
+ 91 | @mixin mobile {
+ 92 |         height: 100px;
+    :               ^
+ 93 |     }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/style-block/input.css:92:9]
- 92 | height: 100px;
-    :        ^
+    ,-[$DIR/tests/fixture/style-block/input.css:91:5]
+ 91 | @mixin mobile {
+ 92 |         height: 100px;
+    :                ^
+ 93 |     }
     `----
 
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/fixture/style-block/input.css:92:9]
- 92 | height: 100px;
-    :        ^
+    ,-[$DIR/tests/fixture/style-block/input.css:91:5]
+ 91 | @mixin mobile {
+ 92 |         height: 100px;
+    :                ^
+ 93 |     }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/style-block/input.css:92:9]
- 92 | height: 100px;
-    :         ^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:91:5]
+ 91 | @mixin mobile {
+ 92 |         height: 100px;
+    :                 ^^^^^
+ 93 |     }
     `----
 
   x Dimension { value: 100.0, raw_value: "100", unit: Atom('px' type=static), raw_unit: "px", type_flag: Integer }
-    ,-[$DIR/tests/fixture/style-block/input.css:92:9]
- 92 | height: 100px;
-    :         ^^^^^
+    ,-[$DIR/tests/fixture/style-block/input.css:91:5]
+ 91 | @mixin mobile {
+ 92 |         height: 100px;
+    :                 ^^^^^
+ 93 |     }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/style-block/input.css:92:9]
- 92 | height: 100px;
-    :              ^
+    ,-[$DIR/tests/fixture/style-block/input.css:91:5]
+ 91 | @mixin mobile {
+ 92 |         height: 100px;
+    :                      ^
+ 93 |     }
     `----
 
   x Semi
-    ,-[$DIR/tests/fixture/style-block/input.css:92:9]
- 92 | height: 100px;
-    :              ^
+    ,-[$DIR/tests/fixture/style-block/input.css:91:5]
+ 91 | @mixin mobile {
+ 92 |         height: 100px;
+    :                      ^
+ 93 |     }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/style-block/input.css:92:9]
- 92 | ,-> height: 100px;
+    ,-[$DIR/tests/fixture/style-block/input.css:91:5]
+ 91 |     @mixin mobile {
+ 92 | ,->         height: 100px;
  93 | `->     }
+ 94 |     }
     `----
 
   x WhiteSpace { value: "\n    " }
-    ,-[$DIR/tests/fixture/style-block/input.css:92:9]
- 92 | ,-> height: 100px;
+    ,-[$DIR/tests/fixture/style-block/input.css:91:5]
+ 91 |     @mixin mobile {
+ 92 | ,->         height: 100px;
  93 | `->     }
+ 94 |     }
     `----
 
   x Rule
@@ -4265,52 +4930,61 @@
      ,-[$DIR/tests/fixture/style-block/input.css:102:1]
  102 | a/**/
      : ^
+ 103 | {}
      `----
 
   x ComplexSelector
      ,-[$DIR/tests/fixture/style-block/input.css:102:1]
  102 | a/**/
      : ^
+ 103 | {}
      `----
 
   x CompoundSelector
      ,-[$DIR/tests/fixture/style-block/input.css:102:1]
  102 | a/**/
      : ^
+ 103 | {}
      `----
 
   x TypeSelector
      ,-[$DIR/tests/fixture/style-block/input.css:102:1]
  102 | a/**/
      : ^
+ 103 | {}
      `----
 
   x TagNameSelector
      ,-[$DIR/tests/fixture/style-block/input.css:102:1]
  102 | a/**/
      : ^
+ 103 | {}
      `----
 
   x WqName
      ,-[$DIR/tests/fixture/style-block/input.css:102:1]
  102 | a/**/
      : ^
+ 103 | {}
      `----
 
   x Ident
      ,-[$DIR/tests/fixture/style-block/input.css:102:1]
  102 | a/**/
      : ^
+ 103 | {}
      `----
 
   x SimpleBlock
-     ,-[$DIR/tests/fixture/style-block/input.css:103:1]
+     ,-[$DIR/tests/fixture/style-block/input.css:102:1]
+ 102 | a/**/
  103 | {}
      : ^^
      `----
 
   x LBrace
-     ,-[$DIR/tests/fixture/style-block/input.css:103:1]
+     ,-[$DIR/tests/fixture/style-block/input.css:102:1]
+ 102 | a/**/
  103 | {}
      : ^
      `----
@@ -4349,36 +5023,42 @@
      ,-[$DIR/tests/fixture/style-block/input.css:105:1]
  105 | :root {
      : ^^^^^
+ 106 |     --zero-size: {
      `----
 
   x ComplexSelector
      ,-[$DIR/tests/fixture/style-block/input.css:105:1]
  105 | :root {
      : ^^^^^
+ 106 |     --zero-size: {
      `----
 
   x CompoundSelector
      ,-[$DIR/tests/fixture/style-block/input.css:105:1]
  105 | :root {
      : ^^^^^
+ 106 |     --zero-size: {
      `----
 
   x SubclassSelector
      ,-[$DIR/tests/fixture/style-block/input.css:105:1]
  105 | :root {
      : ^^^^^
+ 106 |     --zero-size: {
      `----
 
   x PseudoClassSelector
      ,-[$DIR/tests/fixture/style-block/input.css:105:1]
  105 | :root {
      : ^^^^^
+ 106 |     --zero-size: {
      `----
 
   x Ident
      ,-[$DIR/tests/fixture/style-block/input.css:105:1]
  105 | :root {
      :  ^^^^
+ 106 |     --zero-size: {
      `----
 
   x SimpleBlock
@@ -4400,437 +5080,574 @@
      ,-[$DIR/tests/fixture/style-block/input.css:105:1]
  105 | :root {
      :       ^
+ 106 |     --zero-size: {
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/style-block/input.css:106:5]
- 106 | ,-> --zero-size: {
+     ,-[$DIR/tests/fixture/style-block/input.css:105:1]
+ 105 |     :root {
+ 106 | ,->     --zero-size: {
  107 | |           width: 0;
  108 | |           height: 0;
  109 | `->     };
+ 110 |         --small-icon: {
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/fixture/style-block/input.css:106:5]
- 106 | ,-> --zero-size: {
+     ,-[$DIR/tests/fixture/style-block/input.css:105:1]
+ 105 |     :root {
+ 106 | ,->     --zero-size: {
  107 | |           width: 0;
  108 | |           height: 0;
  109 | `->     };
+ 110 |         --small-icon: {
      `----
 
   x Declaration
-     ,-[$DIR/tests/fixture/style-block/input.css:106:5]
- 106 | ,-> --zero-size: {
+     ,-[$DIR/tests/fixture/style-block/input.css:105:1]
+ 105 |     :root {
+ 106 | ,->     --zero-size: {
  107 | |           width: 0;
  108 | |           height: 0;
  109 | `->     };
+ 110 |         --small-icon: {
      `----
 
   x DeclarationName
-     ,-[$DIR/tests/fixture/style-block/input.css:106:5]
- 106 | --zero-size: {
-     : ^^^^^^^^^^^
+     ,-[$DIR/tests/fixture/style-block/input.css:105:1]
+ 105 | :root {
+ 106 |     --zero-size: {
+     :     ^^^^^^^^^^^
+ 107 |         width: 0;
      `----
 
   x DashedIdent
-     ,-[$DIR/tests/fixture/style-block/input.css:106:5]
- 106 | --zero-size: {
-     : ^^^^^^^^^^^
+     ,-[$DIR/tests/fixture/style-block/input.css:105:1]
+ 105 | :root {
+ 106 |     --zero-size: {
+     :     ^^^^^^^^^^^
+ 107 |         width: 0;
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/style-block/input.css:105:1]
+ 105 |     :root {
+ 106 | ,->     --zero-size: {
+ 107 | |           width: 0;
+ 108 | |           height: 0;
+ 109 | `->     };
+ 110 |         --small-icon: {
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/style-block/input.css:105:1]
+ 105 |     :root {
+ 106 | ,->     --zero-size: {
+ 107 | |           width: 0;
+ 108 | |           height: 0;
+ 109 | `->     };
+ 110 |         --small-icon: {
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/style-block/input.css:105:1]
+ 105 | :root {
+ 106 |     --zero-size: {
+     :                  ^
+ 107 |         width: 0;
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/style-block/input.css:105:1]
+ 105 |     :root {
+ 106 | ,->     --zero-size: {
+ 107 | `->         width: 0;
+ 108 |             height: 0;
+     `----
+
+  x WhiteSpace { value: "\n        " }
+     ,-[$DIR/tests/fixture/style-block/input.css:105:1]
+ 105 |     :root {
+ 106 | ,->     --zero-size: {
+ 107 | `->         width: 0;
+ 108 |             height: 0;
      `----
 
   x ComponentValue
      ,-[$DIR/tests/fixture/style-block/input.css:106:5]
- 106 | ,-> --zero-size: {
- 107 | |           width: 0;
- 108 | |           height: 0;
- 109 | `->     };
+ 106 | --zero-size: {
+ 107 |         width: 0;
+     :         ^^^^^
+ 108 |         height: 0;
      `----
 
-  x SimpleBlock
-     ,-[$DIR/tests/fixture/style-block/input.css:106:5]
- 106 | ,-> --zero-size: {
- 107 | |           width: 0;
- 108 | |           height: 0;
- 109 | `->     };
-     `----
-
-  x LBrace
+  x Ident { value: Atom('width' type=inline), raw: "width" }
      ,-[$DIR/tests/fixture/style-block/input.css:106:5]
  106 | --zero-size: {
+ 107 |         width: 0;
+     :         ^^^^^
+ 108 |         height: 0;
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/style-block/input.css:106:5]
+ 106 | --zero-size: {
+ 107 |         width: 0;
      :              ^
-     `----
-
-  x ComponentValue
-     ,-[$DIR/tests/fixture/style-block/input.css:106:5]
- 106 | ,-> --zero-size: {
- 107 | `->         width: 0;
-     `----
-
-  x WhiteSpace { value: "\n        " }
-     ,-[$DIR/tests/fixture/style-block/input.css:106:5]
- 106 | ,-> --zero-size: {
- 107 | `->         width: 0;
-     `----
-
-  x ComponentValue
-     ,-[$DIR/tests/fixture/style-block/input.css:107:9]
- 107 | width: 0;
-     : ^^^^^
-     `----
-
-  x Ident { value: Atom('width' type=inline), raw: "width" }
-     ,-[$DIR/tests/fixture/style-block/input.css:107:9]
- 107 | width: 0;
-     : ^^^^^
-     `----
-
-  x ComponentValue
-     ,-[$DIR/tests/fixture/style-block/input.css:107:9]
- 107 | width: 0;
-     :      ^
+ 108 |         height: 0;
      `----
 
   x Colon
-     ,-[$DIR/tests/fixture/style-block/input.css:107:9]
- 107 | width: 0;
-     :      ^
+     ,-[$DIR/tests/fixture/style-block/input.css:106:5]
+ 106 | --zero-size: {
+ 107 |         width: 0;
+     :              ^
+ 108 |         height: 0;
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/style-block/input.css:107:9]
- 107 | width: 0;
-     :       ^
+     ,-[$DIR/tests/fixture/style-block/input.css:106:5]
+ 106 | --zero-size: {
+ 107 |         width: 0;
+     :               ^
+ 108 |         height: 0;
      `----
 
   x WhiteSpace { value: " " }
-     ,-[$DIR/tests/fixture/style-block/input.css:107:9]
- 107 | width: 0;
-     :       ^
+     ,-[$DIR/tests/fixture/style-block/input.css:106:5]
+ 106 | --zero-size: {
+ 107 |         width: 0;
+     :               ^
+ 108 |         height: 0;
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/style-block/input.css:107:9]
- 107 | width: 0;
-     :        ^
+     ,-[$DIR/tests/fixture/style-block/input.css:106:5]
+ 106 | --zero-size: {
+ 107 |         width: 0;
+     :                ^
+ 108 |         height: 0;
      `----
 
   x Number { value: 0.0, raw: "0", type_flag: Integer }
-     ,-[$DIR/tests/fixture/style-block/input.css:107:9]
- 107 | width: 0;
-     :        ^
+     ,-[$DIR/tests/fixture/style-block/input.css:106:5]
+ 106 | --zero-size: {
+ 107 |         width: 0;
+     :                ^
+ 108 |         height: 0;
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/style-block/input.css:107:9]
- 107 | width: 0;
-     :         ^
+     ,-[$DIR/tests/fixture/style-block/input.css:106:5]
+ 106 | --zero-size: {
+ 107 |         width: 0;
+     :                 ^
+ 108 |         height: 0;
      `----
 
   x Semi
-     ,-[$DIR/tests/fixture/style-block/input.css:107:9]
- 107 | width: 0;
-     :         ^
+     ,-[$DIR/tests/fixture/style-block/input.css:106:5]
+ 106 | --zero-size: {
+ 107 |         width: 0;
+     :                 ^
+ 108 |         height: 0;
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/style-block/input.css:107:9]
- 107 | ,-> width: 0;
+     ,-[$DIR/tests/fixture/style-block/input.css:106:5]
+ 106 |     --zero-size: {
+ 107 | ,->         width: 0;
  108 | `->         height: 0;
+ 109 |         };
      `----
 
   x WhiteSpace { value: "\n        " }
-     ,-[$DIR/tests/fixture/style-block/input.css:107:9]
- 107 | ,-> width: 0;
+     ,-[$DIR/tests/fixture/style-block/input.css:106:5]
+ 106 |     --zero-size: {
+ 107 | ,->         width: 0;
  108 | `->         height: 0;
+ 109 |         };
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/style-block/input.css:108:9]
- 108 | height: 0;
-     : ^^^^^^
+     ,-[$DIR/tests/fixture/style-block/input.css:107:9]
+ 107 | width: 0;
+ 108 |         height: 0;
+     :         ^^^^^^
+ 109 |     };
      `----
 
   x Ident { value: Atom('height' type=inline), raw: "height" }
-     ,-[$DIR/tests/fixture/style-block/input.css:108:9]
- 108 | height: 0;
-     : ^^^^^^
+     ,-[$DIR/tests/fixture/style-block/input.css:107:9]
+ 107 | width: 0;
+ 108 |         height: 0;
+     :         ^^^^^^
+ 109 |     };
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/style-block/input.css:108:9]
- 108 | height: 0;
-     :       ^
+     ,-[$DIR/tests/fixture/style-block/input.css:107:9]
+ 107 | width: 0;
+ 108 |         height: 0;
+     :               ^
+ 109 |     };
      `----
 
   x Colon
-     ,-[$DIR/tests/fixture/style-block/input.css:108:9]
- 108 | height: 0;
-     :       ^
+     ,-[$DIR/tests/fixture/style-block/input.css:107:9]
+ 107 | width: 0;
+ 108 |         height: 0;
+     :               ^
+ 109 |     };
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/style-block/input.css:108:9]
- 108 | height: 0;
-     :        ^
+     ,-[$DIR/tests/fixture/style-block/input.css:107:9]
+ 107 | width: 0;
+ 108 |         height: 0;
+     :                ^
+ 109 |     };
      `----
 
   x WhiteSpace { value: " " }
-     ,-[$DIR/tests/fixture/style-block/input.css:108:9]
- 108 | height: 0;
-     :        ^
+     ,-[$DIR/tests/fixture/style-block/input.css:107:9]
+ 107 | width: 0;
+ 108 |         height: 0;
+     :                ^
+ 109 |     };
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/style-block/input.css:108:9]
- 108 | height: 0;
-     :         ^
+     ,-[$DIR/tests/fixture/style-block/input.css:107:9]
+ 107 | width: 0;
+ 108 |         height: 0;
+     :                 ^
+ 109 |     };
      `----
 
   x Number { value: 0.0, raw: "0", type_flag: Integer }
-     ,-[$DIR/tests/fixture/style-block/input.css:108:9]
- 108 | height: 0;
-     :         ^
+     ,-[$DIR/tests/fixture/style-block/input.css:107:9]
+ 107 | width: 0;
+ 108 |         height: 0;
+     :                 ^
+ 109 |     };
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/style-block/input.css:108:9]
- 108 | height: 0;
-     :          ^
+     ,-[$DIR/tests/fixture/style-block/input.css:107:9]
+ 107 | width: 0;
+ 108 |         height: 0;
+     :                  ^
+ 109 |     };
      `----
 
   x Semi
-     ,-[$DIR/tests/fixture/style-block/input.css:108:9]
- 108 | height: 0;
-     :          ^
+     ,-[$DIR/tests/fixture/style-block/input.css:107:9]
+ 107 | width: 0;
+ 108 |         height: 0;
+     :                  ^
+ 109 |     };
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/style-block/input.css:108:9]
- 108 | ,-> height: 0;
+     ,-[$DIR/tests/fixture/style-block/input.css:107:9]
+ 107 |     width: 0;
+ 108 | ,->         height: 0;
  109 | `->     };
+ 110 |         --small-icon: {
      `----
 
   x WhiteSpace { value: "\n    " }
-     ,-[$DIR/tests/fixture/style-block/input.css:108:9]
- 108 | ,-> height: 0;
+     ,-[$DIR/tests/fixture/style-block/input.css:107:9]
+ 107 |     width: 0;
+ 108 | ,->         height: 0;
  109 | `->     };
+ 110 |         --small-icon: {
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/style-block/input.css:110:5]
- 110 | ,-> --small-icon: {
+     ,-[$DIR/tests/fixture/style-block/input.css:109:5]
+ 109 |     };
+ 110 | ,->     --small-icon: {
  111 | |           width: 16px;
  112 | |           height: 16px;
  113 | `->     }
  114 |     ;
+ 115 |     }
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/fixture/style-block/input.css:110:5]
- 110 | ,-> --small-icon: {
+     ,-[$DIR/tests/fixture/style-block/input.css:109:5]
+ 109 |     };
+ 110 | ,->     --small-icon: {
  111 | |           width: 16px;
  112 | |           height: 16px;
  113 | `->     }
  114 |     ;
+ 115 |     }
      `----
 
   x Declaration
-     ,-[$DIR/tests/fixture/style-block/input.css:110:5]
- 110 | ,-> --small-icon: {
+     ,-[$DIR/tests/fixture/style-block/input.css:109:5]
+ 109 |     };
+ 110 | ,->     --small-icon: {
+ 111 | |           width: 16px;
+ 112 | |           height: 16px;
+ 113 | `->     }
+ 114 |     ;
+ 115 |     }
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/style-block/input.css:109:5]
+ 109 | };
+ 110 |     --small-icon: {
+     :     ^^^^^^^^^^^^
+ 111 |         width: 16px;
+     `----
+
+  x DashedIdent
+     ,-[$DIR/tests/fixture/style-block/input.css:109:5]
+ 109 | };
+ 110 |     --small-icon: {
+     :     ^^^^^^^^^^^^
+ 111 |         width: 16px;
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/style-block/input.css:109:5]
+ 109 |     };
+ 110 | ,->     --small-icon: {
  111 | |           width: 16px;
  112 | |           height: 16px;
  113 | `->     }
  114 |     ;
      `----
 
-  x DeclarationName
-     ,-[$DIR/tests/fixture/style-block/input.css:110:5]
- 110 | --small-icon: {
-     : ^^^^^^^^^^^^
-     `----
-
-  x DashedIdent
-     ,-[$DIR/tests/fixture/style-block/input.css:110:5]
- 110 | --small-icon: {
-     : ^^^^^^^^^^^^
-     `----
-
-  x ComponentValue
-     ,-[$DIR/tests/fixture/style-block/input.css:110:5]
- 110 | ,-> --small-icon: {
- 111 | |           width: 16px;
- 112 | |           height: 16px;
- 113 | `->     }
-     `----
-
   x SimpleBlock
-     ,-[$DIR/tests/fixture/style-block/input.css:110:5]
- 110 | ,-> --small-icon: {
+     ,-[$DIR/tests/fixture/style-block/input.css:109:5]
+ 109 |     };
+ 110 | ,->     --small-icon: {
  111 | |           width: 16px;
  112 | |           height: 16px;
  113 | `->     }
+ 114 |     ;
      `----
 
   x LBrace
-     ,-[$DIR/tests/fixture/style-block/input.css:110:5]
- 110 | --small-icon: {
-     :               ^
+     ,-[$DIR/tests/fixture/style-block/input.css:109:5]
+ 109 | };
+ 110 |     --small-icon: {
+     :                   ^
+ 111 |         width: 16px;
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/style-block/input.css:110:5]
- 110 | ,-> --small-icon: {
+     ,-[$DIR/tests/fixture/style-block/input.css:109:5]
+ 109 |     };
+ 110 | ,->     --small-icon: {
  111 | `->         width: 16px;
+ 112 |             height: 16px;
      `----
 
   x WhiteSpace { value: "\n        " }
-     ,-[$DIR/tests/fixture/style-block/input.css:110:5]
- 110 | ,-> --small-icon: {
+     ,-[$DIR/tests/fixture/style-block/input.css:109:5]
+ 109 |     };
+ 110 | ,->     --small-icon: {
  111 | `->         width: 16px;
+ 112 |             height: 16px;
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/style-block/input.css:111:9]
- 111 | width: 16px;
-     : ^^^^^
+     ,-[$DIR/tests/fixture/style-block/input.css:110:5]
+ 110 | --small-icon: {
+ 111 |         width: 16px;
+     :         ^^^^^
+ 112 |         height: 16px;
      `----
 
   x Ident { value: Atom('width' type=inline), raw: "width" }
-     ,-[$DIR/tests/fixture/style-block/input.css:111:9]
- 111 | width: 16px;
-     : ^^^^^
+     ,-[$DIR/tests/fixture/style-block/input.css:110:5]
+ 110 | --small-icon: {
+ 111 |         width: 16px;
+     :         ^^^^^
+ 112 |         height: 16px;
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/style-block/input.css:111:9]
- 111 | width: 16px;
-     :      ^
+     ,-[$DIR/tests/fixture/style-block/input.css:110:5]
+ 110 | --small-icon: {
+ 111 |         width: 16px;
+     :              ^
+ 112 |         height: 16px;
      `----
 
   x Colon
-     ,-[$DIR/tests/fixture/style-block/input.css:111:9]
- 111 | width: 16px;
-     :      ^
+     ,-[$DIR/tests/fixture/style-block/input.css:110:5]
+ 110 | --small-icon: {
+ 111 |         width: 16px;
+     :              ^
+ 112 |         height: 16px;
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/style-block/input.css:111:9]
- 111 | width: 16px;
-     :       ^
+     ,-[$DIR/tests/fixture/style-block/input.css:110:5]
+ 110 | --small-icon: {
+ 111 |         width: 16px;
+     :               ^
+ 112 |         height: 16px;
      `----
 
   x WhiteSpace { value: " " }
-     ,-[$DIR/tests/fixture/style-block/input.css:111:9]
- 111 | width: 16px;
-     :       ^
+     ,-[$DIR/tests/fixture/style-block/input.css:110:5]
+ 110 | --small-icon: {
+ 111 |         width: 16px;
+     :               ^
+ 112 |         height: 16px;
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/style-block/input.css:111:9]
- 111 | width: 16px;
-     :        ^^^^
+     ,-[$DIR/tests/fixture/style-block/input.css:110:5]
+ 110 | --small-icon: {
+ 111 |         width: 16px;
+     :                ^^^^
+ 112 |         height: 16px;
      `----
 
   x Dimension { value: 16.0, raw_value: "16", unit: Atom('px' type=static), raw_unit: "px", type_flag: Integer }
-     ,-[$DIR/tests/fixture/style-block/input.css:111:9]
- 111 | width: 16px;
-     :        ^^^^
+     ,-[$DIR/tests/fixture/style-block/input.css:110:5]
+ 110 | --small-icon: {
+ 111 |         width: 16px;
+     :                ^^^^
+ 112 |         height: 16px;
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/style-block/input.css:111:9]
- 111 | width: 16px;
-     :            ^
+     ,-[$DIR/tests/fixture/style-block/input.css:110:5]
+ 110 | --small-icon: {
+ 111 |         width: 16px;
+     :                    ^
+ 112 |         height: 16px;
      `----
 
   x Semi
-     ,-[$DIR/tests/fixture/style-block/input.css:111:9]
- 111 | width: 16px;
-     :            ^
+     ,-[$DIR/tests/fixture/style-block/input.css:110:5]
+ 110 | --small-icon: {
+ 111 |         width: 16px;
+     :                    ^
+ 112 |         height: 16px;
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/style-block/input.css:111:9]
- 111 | ,-> width: 16px;
+     ,-[$DIR/tests/fixture/style-block/input.css:110:5]
+ 110 |     --small-icon: {
+ 111 | ,->         width: 16px;
  112 | `->         height: 16px;
+ 113 |         }
      `----
 
   x WhiteSpace { value: "\n        " }
-     ,-[$DIR/tests/fixture/style-block/input.css:111:9]
- 111 | ,-> width: 16px;
+     ,-[$DIR/tests/fixture/style-block/input.css:110:5]
+ 110 |     --small-icon: {
+ 111 | ,->         width: 16px;
  112 | `->         height: 16px;
+ 113 |         }
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/style-block/input.css:112:9]
- 112 | height: 16px;
-     : ^^^^^^
+     ,-[$DIR/tests/fixture/style-block/input.css:111:9]
+ 111 | width: 16px;
+ 112 |         height: 16px;
+     :         ^^^^^^
+ 113 |     }
      `----
 
   x Ident { value: Atom('height' type=inline), raw: "height" }
-     ,-[$DIR/tests/fixture/style-block/input.css:112:9]
- 112 | height: 16px;
-     : ^^^^^^
+     ,-[$DIR/tests/fixture/style-block/input.css:111:9]
+ 111 | width: 16px;
+ 112 |         height: 16px;
+     :         ^^^^^^
+ 113 |     }
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/style-block/input.css:112:9]
- 112 | height: 16px;
-     :       ^
+     ,-[$DIR/tests/fixture/style-block/input.css:111:9]
+ 111 | width: 16px;
+ 112 |         height: 16px;
+     :               ^
+ 113 |     }
      `----
 
   x Colon
-     ,-[$DIR/tests/fixture/style-block/input.css:112:9]
- 112 | height: 16px;
-     :       ^
+     ,-[$DIR/tests/fixture/style-block/input.css:111:9]
+ 111 | width: 16px;
+ 112 |         height: 16px;
+     :               ^
+ 113 |     }
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/style-block/input.css:112:9]
- 112 | height: 16px;
-     :        ^
+     ,-[$DIR/tests/fixture/style-block/input.css:111:9]
+ 111 | width: 16px;
+ 112 |         height: 16px;
+     :                ^
+ 113 |     }
      `----
 
   x WhiteSpace { value: " " }
-     ,-[$DIR/tests/fixture/style-block/input.css:112:9]
- 112 | height: 16px;
-     :        ^
+     ,-[$DIR/tests/fixture/style-block/input.css:111:9]
+ 111 | width: 16px;
+ 112 |         height: 16px;
+     :                ^
+ 113 |     }
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/style-block/input.css:112:9]
- 112 | height: 16px;
-     :         ^^^^
+     ,-[$DIR/tests/fixture/style-block/input.css:111:9]
+ 111 | width: 16px;
+ 112 |         height: 16px;
+     :                 ^^^^
+ 113 |     }
      `----
 
   x Dimension { value: 16.0, raw_value: "16", unit: Atom('px' type=static), raw_unit: "px", type_flag: Integer }
-     ,-[$DIR/tests/fixture/style-block/input.css:112:9]
- 112 | height: 16px;
-     :         ^^^^
+     ,-[$DIR/tests/fixture/style-block/input.css:111:9]
+ 111 | width: 16px;
+ 112 |         height: 16px;
+     :                 ^^^^
+ 113 |     }
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/style-block/input.css:112:9]
- 112 | height: 16px;
-     :             ^
+     ,-[$DIR/tests/fixture/style-block/input.css:111:9]
+ 111 | width: 16px;
+ 112 |         height: 16px;
+     :                     ^
+ 113 |     }
      `----
 
   x Semi
-     ,-[$DIR/tests/fixture/style-block/input.css:112:9]
- 112 | height: 16px;
-     :             ^
+     ,-[$DIR/tests/fixture/style-block/input.css:111:9]
+ 111 | width: 16px;
+ 112 |         height: 16px;
+     :                     ^
+ 113 |     }
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/style-block/input.css:112:9]
- 112 | ,-> height: 16px;
+     ,-[$DIR/tests/fixture/style-block/input.css:111:9]
+ 111 |     width: 16px;
+ 112 | ,->         height: 16px;
  113 | `->     }
+ 114 |     ;
      `----
 
   x WhiteSpace { value: "\n    " }
-     ,-[$DIR/tests/fixture/style-block/input.css:112:9]
- 112 | ,-> height: 16px;
+     ,-[$DIR/tests/fixture/style-block/input.css:111:9]
+ 111 |     width: 16px;
+ 112 | ,->         height: 16px;
  113 | `->     }
+ 114 |     ;
      `----
 
   x Rule
@@ -4863,42 +5680,49 @@
      ,-[$DIR/tests/fixture/style-block/input.css:117:1]
  117 | a {
      : ^
+ 118 |     color: red;
      `----
 
   x ComplexSelector
      ,-[$DIR/tests/fixture/style-block/input.css:117:1]
  117 | a {
      : ^
+ 118 |     color: red;
      `----
 
   x CompoundSelector
      ,-[$DIR/tests/fixture/style-block/input.css:117:1]
  117 | a {
      : ^
+ 118 |     color: red;
      `----
 
   x TypeSelector
      ,-[$DIR/tests/fixture/style-block/input.css:117:1]
  117 | a {
      : ^
+ 118 |     color: red;
      `----
 
   x TagNameSelector
      ,-[$DIR/tests/fixture/style-block/input.css:117:1]
  117 | a {
      : ^
+ 118 |     color: red;
      `----
 
   x WqName
      ,-[$DIR/tests/fixture/style-block/input.css:117:1]
  117 | a {
      : ^
+ 118 |     color: red;
      `----
 
   x Ident
      ,-[$DIR/tests/fixture/style-block/input.css:117:1]
  117 | a {
      : ^
+ 118 |     color: red;
      `----
 
   x SimpleBlock
@@ -4918,90 +5742,105 @@
      ,-[$DIR/tests/fixture/style-block/input.css:117:1]
  117 | a {
      :   ^
+ 118 |     color: red;
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/style-block/input.css:118:5]
- 118 | color: red;
-     : ^^^^^^^^^^
+     ,-[$DIR/tests/fixture/style-block/input.css:117:1]
+ 117 | a {
+ 118 |     color: red;
+     :     ^^^^^^^^^^
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/fixture/style-block/input.css:118:5]
- 118 | color: red;
-     : ^^^^^^^^^^
+     ,-[$DIR/tests/fixture/style-block/input.css:117:1]
+ 117 | a {
+ 118 |     color: red;
+     :     ^^^^^^^^^^
      `----
 
   x Declaration
-     ,-[$DIR/tests/fixture/style-block/input.css:118:5]
- 118 | color: red;
-     : ^^^^^^^^^^
+     ,-[$DIR/tests/fixture/style-block/input.css:117:1]
+ 117 | a {
+ 118 |     color: red;
+     :     ^^^^^^^^^^
      `----
 
   x DeclarationName
-     ,-[$DIR/tests/fixture/style-block/input.css:118:5]
- 118 | color: red;
-     : ^^^^^
+     ,-[$DIR/tests/fixture/style-block/input.css:117:1]
+ 117 | a {
+ 118 |     color: red;
+     :     ^^^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/style-block/input.css:118:5]
- 118 | color: red;
-     : ^^^^^
+     ,-[$DIR/tests/fixture/style-block/input.css:117:1]
+ 117 | a {
+ 118 |     color: red;
+     :     ^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/style-block/input.css:118:5]
- 118 | color: red;
-     :        ^^^
+     ,-[$DIR/tests/fixture/style-block/input.css:117:1]
+ 117 | a {
+ 118 |     color: red;
+     :            ^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/style-block/input.css:118:5]
- 118 | color: red;
-     :        ^^^
+     ,-[$DIR/tests/fixture/style-block/input.css:117:1]
+ 117 | a {
+ 118 |     color: red;
+     :            ^^^
      `----
 
   x ComponentValue
      ,-[$DIR/tests/fixture/style-block/input.css:124:5]
  124 | color: blue;
      : ^^^^^^^^^^^
+ 125 | }
      `----
 
   x StyleBlock
      ,-[$DIR/tests/fixture/style-block/input.css:124:5]
  124 | color: blue;
      : ^^^^^^^^^^^
+ 125 | }
      `----
 
   x Declaration
      ,-[$DIR/tests/fixture/style-block/input.css:124:5]
  124 | color: blue;
      : ^^^^^^^^^^^
+ 125 | }
      `----
 
   x DeclarationName
      ,-[$DIR/tests/fixture/style-block/input.css:124:5]
  124 | color: blue;
      : ^^^^^
+ 125 | }
      `----
 
   x Ident
      ,-[$DIR/tests/fixture/style-block/input.css:124:5]
  124 | color: blue;
      : ^^^^^
+ 125 | }
      `----
 
   x ComponentValue
      ,-[$DIR/tests/fixture/style-block/input.css:124:5]
  124 | color: blue;
      :        ^^^^
+ 125 | }
      `----
 
   x Ident
      ,-[$DIR/tests/fixture/style-block/input.css:124:5]
  124 | color: blue;
      :        ^^^^
+ 125 | }
      `----
 
   x ComponentValue
@@ -5029,42 +5868,49 @@
      ,-[$DIR/tests/fixture/style-block/input.css:120:5]
  120 | .class {
      : ^^^^^^
+ 121 |         color: green;
      `----
 
   x RelativeSelector
      ,-[$DIR/tests/fixture/style-block/input.css:120:5]
  120 | .class {
      : ^^^^^^
+ 121 |         color: green;
      `----
 
   x ComplexSelector
      ,-[$DIR/tests/fixture/style-block/input.css:120:5]
  120 | .class {
      : ^^^^^^
+ 121 |         color: green;
      `----
 
   x CompoundSelector
      ,-[$DIR/tests/fixture/style-block/input.css:120:5]
  120 | .class {
      : ^^^^^^
+ 121 |         color: green;
      `----
 
   x SubclassSelector
      ,-[$DIR/tests/fixture/style-block/input.css:120:5]
  120 | .class {
      : ^^^^^^
+ 121 |         color: green;
      `----
 
   x ClassSelector
      ,-[$DIR/tests/fixture/style-block/input.css:120:5]
  120 | .class {
      : ^^^^^^
+ 121 |         color: green;
      `----
 
   x Ident
      ,-[$DIR/tests/fixture/style-block/input.css:120:5]
  120 | .class {
      :  ^^^^^
+ 121 |         color: green;
      `----
 
   x SimpleBlock
@@ -5078,48 +5924,63 @@
      ,-[$DIR/tests/fixture/style-block/input.css:120:5]
  120 | .class {
      :        ^
+ 121 |         color: green;
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/style-block/input.css:121:9]
- 121 | color: green;
-     : ^^^^^^^^^^^^
+     ,-[$DIR/tests/fixture/style-block/input.css:120:5]
+ 120 | .class {
+ 121 |         color: green;
+     :         ^^^^^^^^^^^^
+ 122 |     }
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/fixture/style-block/input.css:121:9]
- 121 | color: green;
-     : ^^^^^^^^^^^^
+     ,-[$DIR/tests/fixture/style-block/input.css:120:5]
+ 120 | .class {
+ 121 |         color: green;
+     :         ^^^^^^^^^^^^
+ 122 |     }
      `----
 
   x Declaration
-     ,-[$DIR/tests/fixture/style-block/input.css:121:9]
- 121 | color: green;
-     : ^^^^^^^^^^^^
+     ,-[$DIR/tests/fixture/style-block/input.css:120:5]
+ 120 | .class {
+ 121 |         color: green;
+     :         ^^^^^^^^^^^^
+ 122 |     }
      `----
 
   x DeclarationName
-     ,-[$DIR/tests/fixture/style-block/input.css:121:9]
- 121 | color: green;
-     : ^^^^^
+     ,-[$DIR/tests/fixture/style-block/input.css:120:5]
+ 120 | .class {
+ 121 |         color: green;
+     :         ^^^^^
+ 122 |     }
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/style-block/input.css:121:9]
- 121 | color: green;
-     : ^^^^^
+     ,-[$DIR/tests/fixture/style-block/input.css:120:5]
+ 120 | .class {
+ 121 |         color: green;
+     :         ^^^^^
+ 122 |     }
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/style-block/input.css:121:9]
- 121 | color: green;
-     :        ^^^^^
+     ,-[$DIR/tests/fixture/style-block/input.css:120:5]
+ 120 | .class {
+ 121 |         color: green;
+     :                ^^^^^
+ 122 |     }
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/style-block/input.css:121:9]
- 121 | color: green;
-     :        ^^^^^
+     ,-[$DIR/tests/fixture/style-block/input.css:120:5]
+ 120 | .class {
+ 121 |         color: green;
+     :                ^^^^^
+ 122 |     }
      `----
 
   x Rule
@@ -5148,36 +6009,42 @@
      ,-[$DIR/tests/fixture/style-block/input.css:127:1]
  127 | .foo {
      : ^^^^
+ 128 |     color: red;
      `----
 
   x ComplexSelector
      ,-[$DIR/tests/fixture/style-block/input.css:127:1]
  127 | .foo {
      : ^^^^
+ 128 |     color: red;
      `----
 
   x CompoundSelector
      ,-[$DIR/tests/fixture/style-block/input.css:127:1]
  127 | .foo {
      : ^^^^
+ 128 |     color: red;
      `----
 
   x SubclassSelector
      ,-[$DIR/tests/fixture/style-block/input.css:127:1]
  127 | .foo {
      : ^^^^
+ 128 |     color: red;
      `----
 
   x ClassSelector
      ,-[$DIR/tests/fixture/style-block/input.css:127:1]
  127 | .foo {
      : ^^^^
+ 128 |     color: red;
      `----
 
   x Ident
      ,-[$DIR/tests/fixture/style-block/input.css:127:1]
  127 | .foo {
      :  ^^^
+ 128 |     color: red;
      `----
 
   x SimpleBlock
@@ -5195,48 +6062,56 @@
      ,-[$DIR/tests/fixture/style-block/input.css:127:1]
  127 | .foo {
      :      ^
+ 128 |     color: red;
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/style-block/input.css:128:5]
- 128 | color: red;
-     : ^^^^^^^^^^
+     ,-[$DIR/tests/fixture/style-block/input.css:127:1]
+ 127 | .foo {
+ 128 |     color: red;
+     :     ^^^^^^^^^^
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/fixture/style-block/input.css:128:5]
- 128 | color: red;
-     : ^^^^^^^^^^
+     ,-[$DIR/tests/fixture/style-block/input.css:127:1]
+ 127 | .foo {
+ 128 |     color: red;
+     :     ^^^^^^^^^^
      `----
 
   x Declaration
-     ,-[$DIR/tests/fixture/style-block/input.css:128:5]
- 128 | color: red;
-     : ^^^^^^^^^^
+     ,-[$DIR/tests/fixture/style-block/input.css:127:1]
+ 127 | .foo {
+ 128 |     color: red;
+     :     ^^^^^^^^^^
      `----
 
   x DeclarationName
-     ,-[$DIR/tests/fixture/style-block/input.css:128:5]
- 128 | color: red;
-     : ^^^^^
+     ,-[$DIR/tests/fixture/style-block/input.css:127:1]
+ 127 | .foo {
+ 128 |     color: red;
+     :     ^^^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/style-block/input.css:128:5]
- 128 | color: red;
-     : ^^^^^
+     ,-[$DIR/tests/fixture/style-block/input.css:127:1]
+ 127 | .foo {
+ 128 |     color: red;
+     :     ^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/style-block/input.css:128:5]
- 128 | color: red;
-     :        ^^^
+     ,-[$DIR/tests/fixture/style-block/input.css:127:1]
+ 127 | .foo {
+ 128 |     color: red;
+     :            ^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/style-block/input.css:128:5]
- 128 | color: red;
-     :        ^^^
+     ,-[$DIR/tests/fixture/style-block/input.css:127:1]
+ 127 | .foo {
+ 128 |     color: red;
+     :            ^^^
      `----
 
   x ComponentValue
@@ -5244,6 +6119,7 @@
  130 | ,-> + .bar {
  131 | |           color: blue;
  132 | `->     }
+ 133 |     }
      `----
 
   x StyleBlock
@@ -5251,6 +6127,7 @@
  130 | ,-> + .bar {
  131 | |           color: blue;
  132 | `->     }
+ 133 |     }
      `----
 
   x QualifiedRule
@@ -5258,54 +6135,63 @@
  130 | ,-> + .bar {
  131 | |           color: blue;
  132 | `->     }
+ 133 |     }
      `----
 
   x RelativeSelectorList
      ,-[$DIR/tests/fixture/style-block/input.css:130:5]
  130 | + .bar {
      : ^^^^^^
+ 131 |         color: blue;
      `----
 
   x RelativeSelector
      ,-[$DIR/tests/fixture/style-block/input.css:130:5]
  130 | + .bar {
      : ^^^^^^
+ 131 |         color: blue;
      `----
 
   x Combinator
      ,-[$DIR/tests/fixture/style-block/input.css:130:5]
  130 | + .bar {
      : ^
+ 131 |         color: blue;
      `----
 
   x ComplexSelector
      ,-[$DIR/tests/fixture/style-block/input.css:130:5]
  130 | + .bar {
      :   ^^^^
+ 131 |         color: blue;
      `----
 
   x CompoundSelector
      ,-[$DIR/tests/fixture/style-block/input.css:130:5]
  130 | + .bar {
      :   ^^^^
+ 131 |         color: blue;
      `----
 
   x SubclassSelector
      ,-[$DIR/tests/fixture/style-block/input.css:130:5]
  130 | + .bar {
      :   ^^^^
+ 131 |         color: blue;
      `----
 
   x ClassSelector
      ,-[$DIR/tests/fixture/style-block/input.css:130:5]
  130 | + .bar {
      :   ^^^^
+ 131 |         color: blue;
      `----
 
   x Ident
      ,-[$DIR/tests/fixture/style-block/input.css:130:5]
  130 | + .bar {
      :    ^^^
+ 131 |         color: blue;
      `----
 
   x SimpleBlock
@@ -5313,54 +6199,70 @@
  130 | ,-> + .bar {
  131 | |           color: blue;
  132 | `->     }
+ 133 |     }
      `----
 
   x LBrace
      ,-[$DIR/tests/fixture/style-block/input.css:130:5]
  130 | + .bar {
      :        ^
+ 131 |         color: blue;
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/style-block/input.css:131:9]
- 131 | color: blue;
-     : ^^^^^^^^^^^
+     ,-[$DIR/tests/fixture/style-block/input.css:130:5]
+ 130 | + .bar {
+ 131 |         color: blue;
+     :         ^^^^^^^^^^^
+ 132 |     }
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/fixture/style-block/input.css:131:9]
- 131 | color: blue;
-     : ^^^^^^^^^^^
+     ,-[$DIR/tests/fixture/style-block/input.css:130:5]
+ 130 | + .bar {
+ 131 |         color: blue;
+     :         ^^^^^^^^^^^
+ 132 |     }
      `----
 
   x Declaration
-     ,-[$DIR/tests/fixture/style-block/input.css:131:9]
- 131 | color: blue;
-     : ^^^^^^^^^^^
+     ,-[$DIR/tests/fixture/style-block/input.css:130:5]
+ 130 | + .bar {
+ 131 |         color: blue;
+     :         ^^^^^^^^^^^
+ 132 |     }
      `----
 
   x DeclarationName
-     ,-[$DIR/tests/fixture/style-block/input.css:131:9]
- 131 | color: blue;
-     : ^^^^^
+     ,-[$DIR/tests/fixture/style-block/input.css:130:5]
+ 130 | + .bar {
+ 131 |         color: blue;
+     :         ^^^^^
+ 132 |     }
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/style-block/input.css:131:9]
- 131 | color: blue;
-     : ^^^^^
+     ,-[$DIR/tests/fixture/style-block/input.css:130:5]
+ 130 | + .bar {
+ 131 |         color: blue;
+     :         ^^^^^
+ 132 |     }
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/style-block/input.css:131:9]
- 131 | color: blue;
-     :        ^^^^
+     ,-[$DIR/tests/fixture/style-block/input.css:130:5]
+ 130 | + .bar {
+ 131 |         color: blue;
+     :                ^^^^
+ 132 |     }
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/style-block/input.css:131:9]
- 131 | color: blue;
-     :        ^^^^
+     ,-[$DIR/tests/fixture/style-block/input.css:130:5]
+ 130 | + .bar {
+ 131 |         color: blue;
+     :                ^^^^
+ 132 |     }
      `----
 
   x Rule
@@ -5385,42 +6287,49 @@
      ,-[$DIR/tests/fixture/style-block/input.css:135:1]
  135 | article {
      : ^^^^^^^
+ 136 |     color: green;
      `----
 
   x ComplexSelector
      ,-[$DIR/tests/fixture/style-block/input.css:135:1]
  135 | article {
      : ^^^^^^^
+ 136 |     color: green;
      `----
 
   x CompoundSelector
      ,-[$DIR/tests/fixture/style-block/input.css:135:1]
  135 | article {
      : ^^^^^^^
+ 136 |     color: green;
      `----
 
   x TypeSelector
      ,-[$DIR/tests/fixture/style-block/input.css:135:1]
  135 | article {
      : ^^^^^^^
+ 136 |     color: green;
      `----
 
   x TagNameSelector
      ,-[$DIR/tests/fixture/style-block/input.css:135:1]
  135 | article {
      : ^^^^^^^
+ 136 |     color: green;
      `----
 
   x WqName
      ,-[$DIR/tests/fixture/style-block/input.css:135:1]
  135 | article {
      : ^^^^^^^
+ 136 |     color: green;
      `----
 
   x Ident
      ,-[$DIR/tests/fixture/style-block/input.css:135:1]
  135 | article {
      : ^^^^^^^
+ 136 |     color: green;
      `----
 
   x SimpleBlock
@@ -5436,190 +6345,253 @@
      ,-[$DIR/tests/fixture/style-block/input.css:135:1]
  135 | article {
      :         ^
+ 136 |     color: green;
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/style-block/input.css:136:5]
- 136 | color: green;
-     : ^^^^^^^^^^^^
+     ,-[$DIR/tests/fixture/style-block/input.css:135:1]
+ 135 | article {
+ 136 |     color: green;
+     :     ^^^^^^^^^^^^
+ 137 |     & { color: blue; }
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/fixture/style-block/input.css:136:5]
- 136 | color: green;
-     : ^^^^^^^^^^^^
+     ,-[$DIR/tests/fixture/style-block/input.css:135:1]
+ 135 | article {
+ 136 |     color: green;
+     :     ^^^^^^^^^^^^
+ 137 |     & { color: blue; }
      `----
 
   x Declaration
-     ,-[$DIR/tests/fixture/style-block/input.css:136:5]
- 136 | color: green;
-     : ^^^^^^^^^^^^
+     ,-[$DIR/tests/fixture/style-block/input.css:135:1]
+ 135 | article {
+ 136 |     color: green;
+     :     ^^^^^^^^^^^^
+ 137 |     & { color: blue; }
      `----
 
   x DeclarationName
-     ,-[$DIR/tests/fixture/style-block/input.css:136:5]
- 136 | color: green;
-     : ^^^^^
+     ,-[$DIR/tests/fixture/style-block/input.css:135:1]
+ 135 | article {
+ 136 |     color: green;
+     :     ^^^^^
+ 137 |     & { color: blue; }
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/style-block/input.css:136:5]
- 136 | color: green;
-     : ^^^^^
+     ,-[$DIR/tests/fixture/style-block/input.css:135:1]
+ 135 | article {
+ 136 |     color: green;
+     :     ^^^^^
+ 137 |     & { color: blue; }
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/style-block/input.css:136:5]
- 136 | color: green;
-     :        ^^^^^
+     ,-[$DIR/tests/fixture/style-block/input.css:135:1]
+ 135 | article {
+ 136 |     color: green;
+     :            ^^^^^
+ 137 |     & { color: blue; }
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/style-block/input.css:136:5]
- 136 | color: green;
-     :        ^^^^^
-     `----
-
-  x ComponentValue
-     ,-[$DIR/tests/fixture/style-block/input.css:138:5]
- 138 | color: red;
-     : ^^^^^^^^^^
-     `----
-
-  x StyleBlock
-     ,-[$DIR/tests/fixture/style-block/input.css:138:5]
- 138 | color: red;
-     : ^^^^^^^^^^
-     `----
-
-  x Declaration
-     ,-[$DIR/tests/fixture/style-block/input.css:138:5]
- 138 | color: red;
-     : ^^^^^^^^^^
-     `----
-
-  x DeclarationName
-     ,-[$DIR/tests/fixture/style-block/input.css:138:5]
- 138 | color: red;
-     : ^^^^^
-     `----
-
-  x Ident
-     ,-[$DIR/tests/fixture/style-block/input.css:138:5]
- 138 | color: red;
-     : ^^^^^
-     `----
-
-  x ComponentValue
-     ,-[$DIR/tests/fixture/style-block/input.css:138:5]
- 138 | color: red;
-     :        ^^^
-     `----
-
-  x Ident
-     ,-[$DIR/tests/fixture/style-block/input.css:138:5]
- 138 | color: red;
-     :        ^^^
+     ,-[$DIR/tests/fixture/style-block/input.css:135:1]
+ 135 | article {
+ 136 |     color: green;
+     :            ^^^^^
+ 137 |     & { color: blue; }
      `----
 
   x ComponentValue
      ,-[$DIR/tests/fixture/style-block/input.css:137:5]
  137 | & { color: blue; }
-     : ^^^^^^^^^^^^^^^^^^
+ 138 |     color: red;
+     :     ^^^^^^^^^^
+ 139 | }
      `----
 
   x StyleBlock
      ,-[$DIR/tests/fixture/style-block/input.css:137:5]
  137 | & { color: blue; }
-     : ^^^^^^^^^^^^^^^^^^
+ 138 |     color: red;
+     :     ^^^^^^^^^^
+ 139 | }
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/style-block/input.css:137:5]
+ 137 | & { color: blue; }
+ 138 |     color: red;
+     :     ^^^^^^^^^^
+ 139 | }
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/style-block/input.css:137:5]
+ 137 | & { color: blue; }
+ 138 |     color: red;
+     :     ^^^^^
+ 139 | }
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/style-block/input.css:137:5]
+ 137 | & { color: blue; }
+ 138 |     color: red;
+     :     ^^^^^
+ 139 | }
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/style-block/input.css:137:5]
+ 137 | & { color: blue; }
+ 138 |     color: red;
+     :            ^^^
+ 139 | }
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/style-block/input.css:137:5]
+ 137 | & { color: blue; }
+ 138 |     color: red;
+     :            ^^^
+ 139 | }
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/style-block/input.css:136:5]
+ 136 | color: green;
+ 137 |     & { color: blue; }
+     :     ^^^^^^^^^^^^^^^^^^
+ 138 |     color: red;
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/style-block/input.css:136:5]
+ 136 | color: green;
+ 137 |     & { color: blue; }
+     :     ^^^^^^^^^^^^^^^^^^
+ 138 |     color: red;
      `----
 
   x QualifiedRule
-     ,-[$DIR/tests/fixture/style-block/input.css:137:5]
- 137 | & { color: blue; }
-     : ^^^^^^^^^^^^^^^^^^
+     ,-[$DIR/tests/fixture/style-block/input.css:136:5]
+ 136 | color: green;
+ 137 |     & { color: blue; }
+     :     ^^^^^^^^^^^^^^^^^^
+ 138 |     color: red;
      `----
 
   x RelativeSelectorList
-     ,-[$DIR/tests/fixture/style-block/input.css:137:5]
- 137 | & { color: blue; }
-     : ^
+     ,-[$DIR/tests/fixture/style-block/input.css:136:5]
+ 136 | color: green;
+ 137 |     & { color: blue; }
+     :     ^
+ 138 |     color: red;
      `----
 
   x RelativeSelector
-     ,-[$DIR/tests/fixture/style-block/input.css:137:5]
- 137 | & { color: blue; }
-     : ^
+     ,-[$DIR/tests/fixture/style-block/input.css:136:5]
+ 136 | color: green;
+ 137 |     & { color: blue; }
+     :     ^
+ 138 |     color: red;
      `----
 
   x ComplexSelector
-     ,-[$DIR/tests/fixture/style-block/input.css:137:5]
- 137 | & { color: blue; }
-     : ^
+     ,-[$DIR/tests/fixture/style-block/input.css:136:5]
+ 136 | color: green;
+ 137 |     & { color: blue; }
+     :     ^
+ 138 |     color: red;
      `----
 
   x CompoundSelector
-     ,-[$DIR/tests/fixture/style-block/input.css:137:5]
- 137 | & { color: blue; }
-     : ^
+     ,-[$DIR/tests/fixture/style-block/input.css:136:5]
+ 136 | color: green;
+ 137 |     & { color: blue; }
+     :     ^
+ 138 |     color: red;
      `----
 
   x NestingSelector
-     ,-[$DIR/tests/fixture/style-block/input.css:137:5]
- 137 | & { color: blue; }
-     : ^
+     ,-[$DIR/tests/fixture/style-block/input.css:136:5]
+ 136 | color: green;
+ 137 |     & { color: blue; }
+     :     ^
+ 138 |     color: red;
      `----
 
   x SimpleBlock
-     ,-[$DIR/tests/fixture/style-block/input.css:137:5]
- 137 | & { color: blue; }
-     :   ^^^^^^^^^^^^^^^^
+     ,-[$DIR/tests/fixture/style-block/input.css:136:5]
+ 136 | color: green;
+ 137 |     & { color: blue; }
+     :       ^^^^^^^^^^^^^^^^
+ 138 |     color: red;
      `----
 
   x LBrace
-     ,-[$DIR/tests/fixture/style-block/input.css:137:5]
- 137 | & { color: blue; }
-     :   ^
+     ,-[$DIR/tests/fixture/style-block/input.css:136:5]
+ 136 | color: green;
+ 137 |     & { color: blue; }
+     :       ^
+ 138 |     color: red;
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/style-block/input.css:137:5]
- 137 | & { color: blue; }
-     :     ^^^^^^^^^^^
+     ,-[$DIR/tests/fixture/style-block/input.css:136:5]
+ 136 | color: green;
+ 137 |     & { color: blue; }
+     :         ^^^^^^^^^^^
+ 138 |     color: red;
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/fixture/style-block/input.css:137:5]
- 137 | & { color: blue; }
-     :     ^^^^^^^^^^^
+     ,-[$DIR/tests/fixture/style-block/input.css:136:5]
+ 136 | color: green;
+ 137 |     & { color: blue; }
+     :         ^^^^^^^^^^^
+ 138 |     color: red;
      `----
 
   x Declaration
-     ,-[$DIR/tests/fixture/style-block/input.css:137:5]
- 137 | & { color: blue; }
-     :     ^^^^^^^^^^^
+     ,-[$DIR/tests/fixture/style-block/input.css:136:5]
+ 136 | color: green;
+ 137 |     & { color: blue; }
+     :         ^^^^^^^^^^^
+ 138 |     color: red;
      `----
 
   x DeclarationName
-     ,-[$DIR/tests/fixture/style-block/input.css:137:5]
- 137 | & { color: blue; }
-     :     ^^^^^
+     ,-[$DIR/tests/fixture/style-block/input.css:136:5]
+ 136 | color: green;
+ 137 |     & { color: blue; }
+     :         ^^^^^
+ 138 |     color: red;
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/style-block/input.css:137:5]
- 137 | & { color: blue; }
-     :     ^^^^^
+     ,-[$DIR/tests/fixture/style-block/input.css:136:5]
+ 136 | color: green;
+ 137 |     & { color: blue; }
+     :         ^^^^^
+ 138 |     color: red;
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/style-block/input.css:137:5]
- 137 | & { color: blue; }
-     :            ^^^^
+     ,-[$DIR/tests/fixture/style-block/input.css:136:5]
+ 136 | color: green;
+ 137 |     & { color: blue; }
+     :                ^^^^
+ 138 |     color: red;
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/style-block/input.css:137:5]
- 137 | & { color: blue; }
-     :            ^^^^
+     ,-[$DIR/tests/fixture/style-block/input.css:136:5]
+ 136 | color: green;
+ 137 |     & { color: blue; }
+     :                ^^^^
+ 138 |     color: red;
      `----

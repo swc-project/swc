@@ -3,130 +3,170 @@
     ,-[$DIR/tests/recovery/hacks/input.css:13:1]
  13 | .selector { (;property: value;); }
     :                                ^
+ 14 | .selector { [;property: value;]; }
     `----
 
   x Expected '{'
-    ,-[$DIR/tests/recovery/hacks/input.css:14:1]
+    ,-[$DIR/tests/recovery/hacks/input.css:13:1]
+ 13 | .selector { (;property: value;); }
  14 | .selector { [;property: value;]; }
     :                                ^
     `----
 
   x Expected '{'
-     ,-[$DIR/tests/recovery/hacks/input.css:104:5]
- 104 | !property: value;
-     :                 ^
+     ,-[$DIR/tests/recovery/hacks/input.css:103:1]
+ 103 | .selector {
+ 104 |     !property: value;
+     :                     ^
+ 105 |     color: red;
      `----
 
   x Expected '{'
-     ,-[$DIR/tests/recovery/hacks/input.css:108:5]
- 108 | $property: value;
-     :                 ^
+     ,-[$DIR/tests/recovery/hacks/input.css:107:1]
+ 107 | .selector { 
+ 108 |     $property: value;
+     :                     ^
+ 109 |     color: red;
      `----
 
   x Expected '{'
-     ,-[$DIR/tests/recovery/hacks/input.css:112:5]
- 112 | &property: value;
-     :                 ^
+     ,-[$DIR/tests/recovery/hacks/input.css:111:1]
+ 111 | .selector { 
+ 112 |     &property: value;
+     :                     ^
+ 113 |     color: red;
      `----
 
   x Expected '{'
-     ,-[$DIR/tests/recovery/hacks/input.css:116:5]
- 116 | *property: value;
-     :                 ^
+     ,-[$DIR/tests/recovery/hacks/input.css:115:1]
+ 115 | .selector { 
+ 116 |     *property: value;
+     :                     ^
+ 117 |     color: red;
      `----
 
   x Expected '{'
-     ,-[$DIR/tests/recovery/hacks/input.css:120:5]
- 120 | )property: value;
-     :                 ^
+     ,-[$DIR/tests/recovery/hacks/input.css:119:1]
+ 119 | .selector { 
+ 120 |     )property: value;
+     :                     ^
+ 121 |     color: red;
      `----
 
   x Expected '{'
-     ,-[$DIR/tests/recovery/hacks/input.css:124:5]
- 124 | =property: value;
-     :                 ^
+     ,-[$DIR/tests/recovery/hacks/input.css:123:1]
+ 123 | .selector { 
+ 124 |     =property: value;
+     :                     ^
+ 125 |     color: red;
      `----
 
   x Expected '{'
-     ,-[$DIR/tests/recovery/hacks/input.css:128:5]
- 128 | %property: value;
-     :                 ^
+     ,-[$DIR/tests/recovery/hacks/input.css:127:1]
+ 127 | .selector { 
+ 128 |     %property: value;
+     :                     ^
+ 129 |     color: red;
      `----
 
   x Expected '{'
-     ,-[$DIR/tests/recovery/hacks/input.css:132:5]
- 132 | +property: value;
-     :                 ^
+     ,-[$DIR/tests/recovery/hacks/input.css:131:1]
+ 131 | .selector { 
+ 132 |     +property: value;
+     :                     ^
+ 133 |     color: red;
      `----
 
   x Expected '{'
-     ,-[$DIR/tests/recovery/hacks/input.css:140:5]
- 140 | ,property: value;
-     :                 ^
+     ,-[$DIR/tests/recovery/hacks/input.css:139:1]
+ 139 | .selector { 
+ 140 |     ,property: value;
+     :                     ^
+ 141 |     color: red;
      `----
 
   x Expected '{'
-     ,-[$DIR/tests/recovery/hacks/input.css:144:5]
- 144 | .property: value;
-     :                 ^
+     ,-[$DIR/tests/recovery/hacks/input.css:143:1]
+ 143 | .selector { 
+ 144 |     .property: value;
+     :                     ^
+ 145 |     color: red;
      `----
 
   x Expected '{'
-     ,-[$DIR/tests/recovery/hacks/input.css:148:5]
- 148 | /property: value;
-     :                 ^
+     ,-[$DIR/tests/recovery/hacks/input.css:147:1]
+ 147 | .selector { 
+ 148 |     /property: value;
+     :                     ^
+ 149 |     color: red;
      `----
 
   x Expected '{'
-     ,-[$DIR/tests/recovery/hacks/input.css:152:5]
- 152 | `property: value;
-     :                 ^
+     ,-[$DIR/tests/recovery/hacks/input.css:151:1]
+ 151 | .selector { 
+ 152 |     `property: value;
+     :                     ^
+ 153 |     color: red;
      `----
 
   x Expected '{'
-     ,-[$DIR/tests/recovery/hacks/input.css:156:5]
- 156 | ]property: value;
-     :                 ^
+     ,-[$DIR/tests/recovery/hacks/input.css:155:1]
+ 155 | .selector { 
+ 156 |     ]property: value;
+     :                     ^
+ 157 |     color: red;
      `----
 
   x Expected '{'
-     ,-[$DIR/tests/recovery/hacks/input.css:160:5]
- 160 | #property: value;
-     :                 ^
+     ,-[$DIR/tests/recovery/hacks/input.css:159:1]
+ 159 | .selector { 
+ 160 |     #property: value;
+     :                     ^
+ 161 |     color: red;
      `----
 
   x Expected '{'
-     ,-[$DIR/tests/recovery/hacks/input.css:164:5]
- 164 | ~property: value;
-     :                 ^
+     ,-[$DIR/tests/recovery/hacks/input.css:163:1]
+ 163 | .selector { 
+ 164 |     ~property: value;
+     :                     ^
+ 165 |     color: red;
      `----
 
   x Expected '{'
-     ,-[$DIR/tests/recovery/hacks/input.css:168:5]
- 168 | ?property: value;
-     :                 ^
+     ,-[$DIR/tests/recovery/hacks/input.css:167:1]
+ 167 | .selector { 
+ 168 |     ?property: value;
+     :                     ^
+ 169 |     color: red;
      `----
 
   x Expected '{'
-     ,-[$DIR/tests/recovery/hacks/input.css:172:5]
- 172 | :property: value;
-     :                 ^
+     ,-[$DIR/tests/recovery/hacks/input.css:171:1]
+ 171 | .selector { 
+ 172 |     :property: value;
+     :                     ^
+ 173 |     color: red;
      `----
 
   x Expected '{'
-     ,-[$DIR/tests/recovery/hacks/input.css:176:5]
- 176 | |property: value;
-     :                 ^
+     ,-[$DIR/tests/recovery/hacks/input.css:175:1]
+ 175 | .selector { 
+ 176 |     |property: value;
+     :                     ^
+ 177 |     color: red;
      `----
 
   x Expected '{'
      ,-[$DIR/tests/recovery/hacks/input.css:204:1]
  204 | .selector { (;property: value;); }
      :                                ^
+ 205 | .selector { [;property: value;]; }
      `----
 
   x Expected '{'
-     ,-[$DIR/tests/recovery/hacks/input.css:205:1]
+     ,-[$DIR/tests/recovery/hacks/input.css:204:1]
+ 204 | .selector { (;property: value;); }
  205 | .selector { [;property: value;]; }
      :                                ^
      `----
@@ -135,24 +175,30 @@
      ,-[$DIR/tests/recovery/hacks/input.css:225:1]
  225 | .selector { (;property: value;); }
      :                                ^
+ 226 | .selector { [;property: value;]; }
      `----
 
   x Expected '{'
-     ,-[$DIR/tests/recovery/hacks/input.css:226:1]
+     ,-[$DIR/tests/recovery/hacks/input.css:225:1]
+ 225 | .selector { (;property: value;); }
  226 | .selector { [;property: value;]; }
      :                                ^
      `----
 
   x Expected '{'
-     ,-[$DIR/tests/recovery/hacks/input.css:244:5]
- 244 | *color : black;
-     :               ^
+     ,-[$DIR/tests/recovery/hacks/input.css:243:1]
+ 243 | a {
+ 244 |     *color : black;
+     :                   ^
+ 245 |     _background: white;
      `----
 
   x Expected '{'
-     ,-[$DIR/tests/recovery/hacks/input.css:247:5]
- 247 | $(var)-size: 100%;
-     :                  ^
+     ,-[$DIR/tests/recovery/hacks/input.css:246:5]
+ 246 | font-size/**/: big;
+ 247 |     $(var)-size: 100%;
+     :                      ^
+ 248 | }
      `----
 
   x Expected Declaration value
@@ -162,9 +208,11 @@
      `----
 
   x Expected Ident
-     ,-[$DIR/tests/recovery/hacks/input.css:136:5]
- 136 | @property: value;
-     :          ^
+     ,-[$DIR/tests/recovery/hacks/input.css:135:1]
+ 135 | .selector { 
+ 136 |     @property: value;
+     :              ^
+ 137 |     color: red;
      `----
 
   x Unexpected '!' in <declaration-value>
@@ -183,130 +231,170 @@
     ,-[$DIR/tests/recovery/hacks/input.css:13:1]
  13 | .selector { (;property: value;); }
     :             ^
+ 14 | .selector { [;property: value;]; }
     `----
 
   x Unexpected token
-    ,-[$DIR/tests/recovery/hacks/input.css:14:1]
+    ,-[$DIR/tests/recovery/hacks/input.css:13:1]
+ 13 | .selector { (;property: value;); }
  14 | .selector { [;property: value;]; }
     :             ^
     `----
 
   x Unexpected token
-     ,-[$DIR/tests/recovery/hacks/input.css:104:5]
- 104 | !property: value;
-     : ^
+     ,-[$DIR/tests/recovery/hacks/input.css:103:1]
+ 103 | .selector {
+ 104 |     !property: value;
+     :     ^
+ 105 |     color: red;
      `----
 
   x Unexpected token
-     ,-[$DIR/tests/recovery/hacks/input.css:108:5]
- 108 | $property: value;
-     : ^
+     ,-[$DIR/tests/recovery/hacks/input.css:107:1]
+ 107 | .selector { 
+ 108 |     $property: value;
+     :     ^
+ 109 |     color: red;
      `----
 
   x Unexpected token
-     ,-[$DIR/tests/recovery/hacks/input.css:112:5]
- 112 | &property: value;
-     : ^
+     ,-[$DIR/tests/recovery/hacks/input.css:111:1]
+ 111 | .selector { 
+ 112 |     &property: value;
+     :     ^
+ 113 |     color: red;
      `----
 
   x Unexpected token
-     ,-[$DIR/tests/recovery/hacks/input.css:116:5]
- 116 | *property: value;
-     : ^
+     ,-[$DIR/tests/recovery/hacks/input.css:115:1]
+ 115 | .selector { 
+ 116 |     *property: value;
+     :     ^
+ 117 |     color: red;
      `----
 
   x Unexpected token
-     ,-[$DIR/tests/recovery/hacks/input.css:120:5]
- 120 | )property: value;
-     : ^
+     ,-[$DIR/tests/recovery/hacks/input.css:119:1]
+ 119 | .selector { 
+ 120 |     )property: value;
+     :     ^
+ 121 |     color: red;
      `----
 
   x Unexpected token
-     ,-[$DIR/tests/recovery/hacks/input.css:124:5]
- 124 | =property: value;
-     : ^
+     ,-[$DIR/tests/recovery/hacks/input.css:123:1]
+ 123 | .selector { 
+ 124 |     =property: value;
+     :     ^
+ 125 |     color: red;
      `----
 
   x Unexpected token
-     ,-[$DIR/tests/recovery/hacks/input.css:128:5]
- 128 | %property: value;
-     : ^
+     ,-[$DIR/tests/recovery/hacks/input.css:127:1]
+ 127 | .selector { 
+ 128 |     %property: value;
+     :     ^
+ 129 |     color: red;
      `----
 
   x Unexpected token
-     ,-[$DIR/tests/recovery/hacks/input.css:132:5]
- 132 | +property: value;
-     : ^
+     ,-[$DIR/tests/recovery/hacks/input.css:131:1]
+ 131 | .selector { 
+ 132 |     +property: value;
+     :     ^
+ 133 |     color: red;
      `----
 
   x Unexpected token
-     ,-[$DIR/tests/recovery/hacks/input.css:140:5]
- 140 | ,property: value;
-     : ^
+     ,-[$DIR/tests/recovery/hacks/input.css:139:1]
+ 139 | .selector { 
+ 140 |     ,property: value;
+     :     ^
+ 141 |     color: red;
      `----
 
   x Unexpected token
-     ,-[$DIR/tests/recovery/hacks/input.css:144:5]
- 144 | .property: value;
-     : ^
+     ,-[$DIR/tests/recovery/hacks/input.css:143:1]
+ 143 | .selector { 
+ 144 |     .property: value;
+     :     ^
+ 145 |     color: red;
      `----
 
   x Unexpected token
-     ,-[$DIR/tests/recovery/hacks/input.css:148:5]
- 148 | /property: value;
-     : ^
+     ,-[$DIR/tests/recovery/hacks/input.css:147:1]
+ 147 | .selector { 
+ 148 |     /property: value;
+     :     ^
+ 149 |     color: red;
      `----
 
   x Unexpected token
-     ,-[$DIR/tests/recovery/hacks/input.css:152:5]
- 152 | `property: value;
-     : ^
+     ,-[$DIR/tests/recovery/hacks/input.css:151:1]
+ 151 | .selector { 
+ 152 |     `property: value;
+     :     ^
+ 153 |     color: red;
      `----
 
   x Unexpected token
-     ,-[$DIR/tests/recovery/hacks/input.css:156:5]
- 156 | ]property: value;
-     : ^
+     ,-[$DIR/tests/recovery/hacks/input.css:155:1]
+ 155 | .selector { 
+ 156 |     ]property: value;
+     :     ^
+ 157 |     color: red;
      `----
 
   x Unexpected token
-     ,-[$DIR/tests/recovery/hacks/input.css:160:5]
- 160 | #property: value;
-     : ^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:159:1]
+ 159 | .selector { 
+ 160 |     #property: value;
+     :     ^^^^^^^^^
+ 161 |     color: red;
      `----
 
   x Unexpected token
-     ,-[$DIR/tests/recovery/hacks/input.css:164:5]
- 164 | ~property: value;
-     : ^
+     ,-[$DIR/tests/recovery/hacks/input.css:163:1]
+ 163 | .selector { 
+ 164 |     ~property: value;
+     :     ^
+ 165 |     color: red;
      `----
 
   x Unexpected token
-     ,-[$DIR/tests/recovery/hacks/input.css:168:5]
- 168 | ?property: value;
-     : ^
+     ,-[$DIR/tests/recovery/hacks/input.css:167:1]
+ 167 | .selector { 
+ 168 |     ?property: value;
+     :     ^
+ 169 |     color: red;
      `----
 
   x Unexpected token
-     ,-[$DIR/tests/recovery/hacks/input.css:172:5]
- 172 | :property: value;
-     : ^
+     ,-[$DIR/tests/recovery/hacks/input.css:171:1]
+ 171 | .selector { 
+ 172 |     :property: value;
+     :     ^
+ 173 |     color: red;
      `----
 
   x Unexpected token
-     ,-[$DIR/tests/recovery/hacks/input.css:176:5]
- 176 | |property: value;
-     : ^
+     ,-[$DIR/tests/recovery/hacks/input.css:175:1]
+ 175 | .selector { 
+ 176 |     |property: value;
+     :     ^
+ 177 |     color: red;
      `----
 
   x Unexpected token
      ,-[$DIR/tests/recovery/hacks/input.css:204:1]
  204 | .selector { (;property: value;); }
      :             ^
+ 205 | .selector { [;property: value;]; }
      `----
 
   x Unexpected token
-     ,-[$DIR/tests/recovery/hacks/input.css:205:1]
+     ,-[$DIR/tests/recovery/hacks/input.css:204:1]
+ 204 | .selector { (;property: value;); }
  205 | .selector { [;property: value;]; }
      :             ^
      `----
@@ -315,24 +403,30 @@
      ,-[$DIR/tests/recovery/hacks/input.css:225:1]
  225 | .selector { (;property: value;); }
      :             ^
+ 226 | .selector { [;property: value;]; }
      `----
 
   x Unexpected token
-     ,-[$DIR/tests/recovery/hacks/input.css:226:1]
+     ,-[$DIR/tests/recovery/hacks/input.css:225:1]
+ 225 | .selector { (;property: value;); }
  226 | .selector { [;property: value;]; }
      :             ^
      `----
 
   x Unexpected token
-     ,-[$DIR/tests/recovery/hacks/input.css:244:5]
- 244 | *color : black;
-     : ^
+     ,-[$DIR/tests/recovery/hacks/input.css:243:1]
+ 243 | a {
+ 244 |     *color : black;
+     :     ^
+ 245 |     _background: white;
      `----
 
   x Unexpected token
-     ,-[$DIR/tests/recovery/hacks/input.css:247:5]
- 247 | $(var)-size: 100%;
-     : ^
+     ,-[$DIR/tests/recovery/hacks/input.css:246:5]
+ 246 | font-size/**/: big;
+ 247 |     $(var)-size: 100%;
+     :     ^
+ 248 | }
      `----
 
   x Unexpected token

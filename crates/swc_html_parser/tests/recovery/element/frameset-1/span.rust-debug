@@ -25,16 +25,19 @@
    ,-[$DIR/tests/recovery/element/frameset-1/input.html:1:1]
  1 | ,-> <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN"
  2 | `->         "http://www.w3.org/TR/html4/frameset.dtd">
+ 3 |     <html>
    `----
 
   x DocumentType
    ,-[$DIR/tests/recovery/element/frameset-1/input.html:1:1]
  1 | ,-> <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN"
  2 | `->         "http://www.w3.org/TR/html4/frameset.dtd">
+ 3 |     <html>
    `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/frameset-1/input.html:3:1]
+    ,-[$DIR/tests/recovery/element/frameset-1/input.html:2:9]
+  2 |     "http://www.w3.org/TR/html4/frameset.dtd">
   3 | ,-> <html>
   4 | |   <head>
   5 | |       <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -54,7 +57,8 @@
     `----
 
   x Element
-    ,-[$DIR/tests/recovery/element/frameset-1/input.html:3:1]
+    ,-[$DIR/tests/recovery/element/frameset-1/input.html:2:9]
+  2 |     "http://www.w3.org/TR/html4/frameset.dtd">
   3 | ,-> <html>
   4 | |   <head>
   5 | |       <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -74,7 +78,8 @@
     `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/frameset-1/input.html:4:1]
+   ,-[$DIR/tests/recovery/element/frameset-1/input.html:3:1]
+ 3 |     <html>
  4 | ,-> <head>
  5 | |       <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
  6 | |       <title>Тег FRAMESET</title>
@@ -82,7 +87,8 @@
    `----
 
   x Element
-   ,-[$DIR/tests/recovery/element/frameset-1/input.html:4:1]
+   ,-[$DIR/tests/recovery/element/frameset-1/input.html:3:1]
+ 3 |     <html>
  4 | ,-> <head>
  5 | |       <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
  6 | |       <title>Тег FRAMESET</title>
@@ -90,104 +96,134 @@
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/frameset-1/input.html:4:1]
+   ,-[$DIR/tests/recovery/element/frameset-1/input.html:3:1]
+ 3 |     <html>
  4 | ,-> <head>
  5 | `->     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ 6 |         <title>Тег FRAMESET</title>
+   `----
+
+  x Text
+   ,-[$DIR/tests/recovery/element/frameset-1/input.html:3:1]
+ 3 |     <html>
+ 4 | ,-> <head>
+ 5 | `->     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ 6 |         <title>Тег FRAMESET</title>
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/frameset-1/input.html:4:1]
+ 4 | <head>
+ 5 |     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 6 |     <title>Тег FRAMESET</title>
+   `----
+
+  x Element
+   ,-[$DIR/tests/recovery/element/frameset-1/input.html:4:1]
+ 4 | <head>
+ 5 |     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 6 |     <title>Тег FRAMESET</title>
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/recovery/element/frameset-1/input.html:4:1]
+ 4 | <head>
+ 5 |     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   :           ^^^^^^^^^^^^^^^^^^^^^^^^^
+ 6 |     <title>Тег FRAMESET</title>
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/recovery/element/frameset-1/input.html:4:1]
+ 4 | <head>
+ 5 |     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   :                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 6 |     <title>Тег FRAMESET</title>
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/frameset-1/input.html:4:1]
+ 4 |     <head>
+ 5 | ,->     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ 6 | `->     <title>Тег FRAMESET</title>
+ 7 |     </head>
    `----
 
   x Text
    ,-[$DIR/tests/recovery/element/frameset-1/input.html:4:1]
- 4 | ,-> <head>
- 5 | `->     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ 4 |     <head>
+ 5 | ,->     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ 6 | `->     <title>Тег FRAMESET</title>
+ 7 |     </head>
    `----
 
   x Child
    ,-[$DIR/tests/recovery/element/frameset-1/input.html:5:5]
  5 | <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 6 |     <title>Тег FRAMESET</title>
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 7 | </head>
    `----
 
   x Element
    ,-[$DIR/tests/recovery/element/frameset-1/input.html:5:5]
  5 | <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x Attribute
-   ,-[$DIR/tests/recovery/element/frameset-1/input.html:5:5]
- 5 | <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-   :       ^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x Attribute
-   ,-[$DIR/tests/recovery/element/frameset-1/input.html:5:5]
- 5 | <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-   :                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x Child
-   ,-[$DIR/tests/recovery/element/frameset-1/input.html:5:5]
- 5 | ,-> <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
- 6 | `->     <title>Тег FRAMESET</title>
-   `----
-
-  x Text
-   ,-[$DIR/tests/recovery/element/frameset-1/input.html:5:5]
- 5 | ,-> <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
- 6 | `->     <title>Тег FRAMESET</title>
-   `----
-
-  x Child
-   ,-[$DIR/tests/recovery/element/frameset-1/input.html:6:5]
- 6 | <title>Тег FRAMESET</title>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x Element
-   ,-[$DIR/tests/recovery/element/frameset-1/input.html:6:5]
- 6 | <title>Тег FRAMESET</title>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x Child
-   ,-[$DIR/tests/recovery/element/frameset-1/input.html:6:5]
- 6 | <title>Тег FRAMESET</title>
-   :        ^^^^^^^^^^^^^^^
-   `----
-
-  x Text
-   ,-[$DIR/tests/recovery/element/frameset-1/input.html:6:5]
- 6 | <title>Тег FRAMESET</title>
-   :        ^^^^^^^^^^^^^^^
-   `----
-
-  x Child
-   ,-[$DIR/tests/recovery/element/frameset-1/input.html:6:5]
- 6 | <title>Тег FRAMESET</title>
-   :                               ^
- 7 | </head>
-   `----
-
-  x Text
-   ,-[$DIR/tests/recovery/element/frameset-1/input.html:6:5]
- 6 | <title>Тег FRAMESET</title>
-   :                               ^
+ 6 |     <title>Тег FRAMESET</title>
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  7 | </head>
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/frameset-1/input.html:7:1]
- 7 | ,-> </head>
- 8 | `-> 
- 9 |     <frameset rows="80,*" cols="*">
+   ,-[$DIR/tests/recovery/element/frameset-1/input.html:5:5]
+ 5 | <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ 6 |     <title>Тег FRAMESET</title>
+   :            ^^^^^^^^^^^^^^^
+ 7 | </head>
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/element/frameset-1/input.html:7:1]
- 7 | ,-> </head>
- 8 | `-> 
- 9 |     <frameset rows="80,*" cols="*">
+   ,-[$DIR/tests/recovery/element/frameset-1/input.html:5:5]
+ 5 | <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ 6 |     <title>Тег FRAMESET</title>
+   :            ^^^^^^^^^^^^^^^
+ 7 | </head>
    `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/frameset-1/input.html:5:5]
+ 5 | <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ 6 |     <title>Тег FRAMESET</title>
+   :                                   ^
+ 7 | </head>
+   `----
+
+  x Text
+   ,-[$DIR/tests/recovery/element/frameset-1/input.html:5:5]
+ 5 | <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ 6 |     <title>Тег FRAMESET</title>
+   :                                   ^
+ 7 | </head>
+   `----
+
+  x Child
+    ,-[$DIR/tests/recovery/element/frameset-1/input.html:6:5]
+  6 |     <title>Тег FRAMESET</title>
+  7 | ,-> </head>
+  8 | `-> 
+  9 |     <frameset rows="80,*" cols="*">
+ 10 |         <frame src="top.html" name="topFrame" scrolling="no" noresize>
+    `----
+
+  x Text
+    ,-[$DIR/tests/recovery/element/frameset-1/input.html:6:5]
+  6 |     <title>Тег FRAMESET</title>
+  7 | ,-> </head>
+  8 | `-> 
+  9 |     <frameset rows="80,*" cols="*">
+ 10 |         <frame src="top.html" name="topFrame" scrolling="no" noresize>
+    `----
 
   x Child
     ,-[$DIR/tests/recovery/element/frameset-1/input.html:9:1]
@@ -198,6 +234,7 @@
  13 | |           <frame src="main.html" name="mainFrame">
  14 | |       </frameset>
  15 | `-> </frameset>
+ 16 |     a
     `----
 
   x Element
@@ -209,214 +246,278 @@
  13 | |           <frame src="main.html" name="mainFrame">
  14 | |       </frameset>
  15 | `-> </frameset>
+ 16 |     a
     `----
 
   x Attribute
-   ,-[$DIR/tests/recovery/element/frameset-1/input.html:9:1]
- 9 | <frameset rows="80,*" cols="*">
-   :           ^^^^^^^^^^^
-   `----
+    ,-[$DIR/tests/recovery/element/frameset-1/input.html:9:1]
+  9 | <frameset rows="80,*" cols="*">
+    :           ^^^^^^^^^^^
+ 10 |     <frame src="top.html" name="topFrame" scrolling="no" noresize>
+    `----
 
   x Attribute
-   ,-[$DIR/tests/recovery/element/frameset-1/input.html:9:1]
- 9 | <frameset rows="80,*" cols="*">
-   :                       ^^^^^^^^
-   `----
+    ,-[$DIR/tests/recovery/element/frameset-1/input.html:9:1]
+  9 | <frameset rows="80,*" cols="*">
+    :                       ^^^^^^^^
+ 10 |     <frame src="top.html" name="topFrame" scrolling="no" noresize>
+    `----
 
   x Child
     ,-[$DIR/tests/recovery/element/frameset-1/input.html:9:1]
   9 | ,-> <frameset rows="80,*" cols="*">
  10 | `->     <frame src="top.html" name="topFrame" scrolling="no" noresize>
+ 11 |         <frameset cols="80,*">
     `----
 
   x Text
     ,-[$DIR/tests/recovery/element/frameset-1/input.html:9:1]
   9 | ,-> <frameset rows="80,*" cols="*">
  10 | `->     <frame src="top.html" name="topFrame" scrolling="no" noresize>
+ 11 |         <frameset cols="80,*">
+    `----
+
+  x Child
+    ,-[$DIR/tests/recovery/element/frameset-1/input.html:9:1]
+  9 | <frameset rows="80,*" cols="*">
+ 10 |     <frame src="top.html" name="topFrame" scrolling="no" noresize>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 11 |     <frameset cols="80,*">
+    `----
+
+  x Element
+    ,-[$DIR/tests/recovery/element/frameset-1/input.html:9:1]
+  9 | <frameset rows="80,*" cols="*">
+ 10 |     <frame src="top.html" name="topFrame" scrolling="no" noresize>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 11 |     <frameset cols="80,*">
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/recovery/element/frameset-1/input.html:9:1]
+  9 | <frameset rows="80,*" cols="*">
+ 10 |     <frame src="top.html" name="topFrame" scrolling="no" noresize>
+    :            ^^^^^^^^^^^^^^
+ 11 |     <frameset cols="80,*">
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/recovery/element/frameset-1/input.html:9:1]
+  9 | <frameset rows="80,*" cols="*">
+ 10 |     <frame src="top.html" name="topFrame" scrolling="no" noresize>
+    :                           ^^^^^^^^^^^^^^^
+ 11 |     <frameset cols="80,*">
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/recovery/element/frameset-1/input.html:9:1]
+  9 | <frameset rows="80,*" cols="*">
+ 10 |     <frame src="top.html" name="topFrame" scrolling="no" noresize>
+    :                                           ^^^^^^^^^^^^^^
+ 11 |     <frameset cols="80,*">
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/recovery/element/frameset-1/input.html:9:1]
+  9 | <frameset rows="80,*" cols="*">
+ 10 |     <frame src="top.html" name="topFrame" scrolling="no" noresize>
+    :                                                          ^^^^^^^^
+ 11 |     <frameset cols="80,*">
+    `----
+
+  x Child
+    ,-[$DIR/tests/recovery/element/frameset-1/input.html:9:1]
+  9 |     <frameset rows="80,*" cols="*">
+ 10 | ,->     <frame src="top.html" name="topFrame" scrolling="no" noresize>
+ 11 | `->     <frameset cols="80,*">
+ 12 |             <frame src="left.html" name="leftFrame" scrolling="no" noresize>
+    `----
+
+  x Text
+    ,-[$DIR/tests/recovery/element/frameset-1/input.html:9:1]
+  9 |     <frameset rows="80,*" cols="*">
+ 10 | ,->     <frame src="top.html" name="topFrame" scrolling="no" noresize>
+ 11 | `->     <frameset cols="80,*">
+ 12 |             <frame src="left.html" name="leftFrame" scrolling="no" noresize>
     `----
 
   x Child
     ,-[$DIR/tests/recovery/element/frameset-1/input.html:10:5]
- 10 | <frame src="top.html" name="topFrame" scrolling="no" noresize>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 10 |     <frame src="top.html" name="topFrame" scrolling="no" noresize>
+ 11 | ,->     <frameset cols="80,*">
+ 12 | |           <frame src="left.html" name="leftFrame" scrolling="no" noresize>
+ 13 | |           <frame src="main.html" name="mainFrame">
+ 14 | `->     </frameset>
+ 15 |     </frameset>
     `----
 
   x Element
     ,-[$DIR/tests/recovery/element/frameset-1/input.html:10:5]
- 10 | <frame src="top.html" name="topFrame" scrolling="no" noresize>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 10 |     <frame src="top.html" name="topFrame" scrolling="no" noresize>
+ 11 | ,->     <frameset cols="80,*">
+ 12 | |           <frame src="left.html" name="leftFrame" scrolling="no" noresize>
+ 13 | |           <frame src="main.html" name="mainFrame">
+ 14 | `->     </frameset>
+ 15 |     </frameset>
     `----
 
   x Attribute
     ,-[$DIR/tests/recovery/element/frameset-1/input.html:10:5]
  10 | <frame src="top.html" name="topFrame" scrolling="no" noresize>
-    :        ^^^^^^^^^^^^^^
-    `----
-
-  x Attribute
-    ,-[$DIR/tests/recovery/element/frameset-1/input.html:10:5]
- 10 | <frame src="top.html" name="topFrame" scrolling="no" noresize>
-    :                       ^^^^^^^^^^^^^^^
-    `----
-
-  x Attribute
-    ,-[$DIR/tests/recovery/element/frameset-1/input.html:10:5]
- 10 | <frame src="top.html" name="topFrame" scrolling="no" noresize>
-    :                                       ^^^^^^^^^^^^^^
-    `----
-
-  x Attribute
-    ,-[$DIR/tests/recovery/element/frameset-1/input.html:10:5]
- 10 | <frame src="top.html" name="topFrame" scrolling="no" noresize>
-    :                                                      ^^^^^^^^
+ 11 |     <frameset cols="80,*">
+    :               ^^^^^^^^^^^
+ 12 |         <frame src="left.html" name="leftFrame" scrolling="no" noresize>
     `----
 
   x Child
     ,-[$DIR/tests/recovery/element/frameset-1/input.html:10:5]
- 10 | ,-> <frame src="top.html" name="topFrame" scrolling="no" noresize>
- 11 | `->     <frameset cols="80,*">
+ 10 |     <frame src="top.html" name="topFrame" scrolling="no" noresize>
+ 11 | ,->     <frameset cols="80,*">
+ 12 | `->         <frame src="left.html" name="leftFrame" scrolling="no" noresize>
+ 13 |             <frame src="main.html" name="mainFrame">
     `----
 
   x Text
     ,-[$DIR/tests/recovery/element/frameset-1/input.html:10:5]
- 10 | ,-> <frame src="top.html" name="topFrame" scrolling="no" noresize>
- 11 | `->     <frameset cols="80,*">
+ 10 |     <frame src="top.html" name="topFrame" scrolling="no" noresize>
+ 11 | ,->     <frameset cols="80,*">
+ 12 | `->         <frame src="left.html" name="leftFrame" scrolling="no" noresize>
+ 13 |             <frame src="main.html" name="mainFrame">
     `----
 
   x Child
     ,-[$DIR/tests/recovery/element/frameset-1/input.html:11:5]
- 11 | ,-> <frameset cols="80,*">
- 12 | |           <frame src="left.html" name="leftFrame" scrolling="no" noresize>
- 13 | |           <frame src="main.html" name="mainFrame">
- 14 | `->     </frameset>
+ 11 | <frameset cols="80,*">
+ 12 |         <frame src="left.html" name="leftFrame" scrolling="no" noresize>
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 13 |         <frame src="main.html" name="mainFrame">
     `----
 
   x Element
     ,-[$DIR/tests/recovery/element/frameset-1/input.html:11:5]
- 11 | ,-> <frameset cols="80,*">
- 12 | |           <frame src="left.html" name="leftFrame" scrolling="no" noresize>
- 13 | |           <frame src="main.html" name="mainFrame">
- 14 | `->     </frameset>
+ 11 | <frameset cols="80,*">
+ 12 |         <frame src="left.html" name="leftFrame" scrolling="no" noresize>
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 13 |         <frame src="main.html" name="mainFrame">
     `----
 
   x Attribute
     ,-[$DIR/tests/recovery/element/frameset-1/input.html:11:5]
  11 | <frameset cols="80,*">
-    :           ^^^^^^^^^^^
+ 12 |         <frame src="left.html" name="leftFrame" scrolling="no" noresize>
+    :                ^^^^^^^^^^^^^^^
+ 13 |         <frame src="main.html" name="mainFrame">
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/recovery/element/frameset-1/input.html:11:5]
+ 11 | <frameset cols="80,*">
+ 12 |         <frame src="left.html" name="leftFrame" scrolling="no" noresize>
+    :                                ^^^^^^^^^^^^^^^^
+ 13 |         <frame src="main.html" name="mainFrame">
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/recovery/element/frameset-1/input.html:11:5]
+ 11 | <frameset cols="80,*">
+ 12 |         <frame src="left.html" name="leftFrame" scrolling="no" noresize>
+    :                                                 ^^^^^^^^^^^^^^
+ 13 |         <frame src="main.html" name="mainFrame">
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/recovery/element/frameset-1/input.html:11:5]
+ 11 | <frameset cols="80,*">
+ 12 |         <frame src="left.html" name="leftFrame" scrolling="no" noresize>
+    :                                                                ^^^^^^^^
+ 13 |         <frame src="main.html" name="mainFrame">
     `----
 
   x Child
     ,-[$DIR/tests/recovery/element/frameset-1/input.html:11:5]
- 11 | ,-> <frameset cols="80,*">
- 12 | `->         <frame src="left.html" name="leftFrame" scrolling="no" noresize>
+ 11 |     <frameset cols="80,*">
+ 12 | ,->         <frame src="left.html" name="leftFrame" scrolling="no" noresize>
+ 13 | `->         <frame src="main.html" name="mainFrame">
+ 14 |         </frameset>
     `----
 
   x Text
     ,-[$DIR/tests/recovery/element/frameset-1/input.html:11:5]
- 11 | ,-> <frameset cols="80,*">
- 12 | `->         <frame src="left.html" name="leftFrame" scrolling="no" noresize>
+ 11 |     <frameset cols="80,*">
+ 12 | ,->         <frame src="left.html" name="leftFrame" scrolling="no" noresize>
+ 13 | `->         <frame src="main.html" name="mainFrame">
+ 14 |         </frameset>
     `----
 
   x Child
     ,-[$DIR/tests/recovery/element/frameset-1/input.html:12:9]
  12 | <frame src="left.html" name="leftFrame" scrolling="no" noresize>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 13 |         <frame src="main.html" name="mainFrame">
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 14 |     </frameset>
     `----
 
   x Element
     ,-[$DIR/tests/recovery/element/frameset-1/input.html:12:9]
  12 | <frame src="left.html" name="leftFrame" scrolling="no" noresize>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 13 |         <frame src="main.html" name="mainFrame">
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 14 |     </frameset>
     `----
 
   x Attribute
     ,-[$DIR/tests/recovery/element/frameset-1/input.html:12:9]
  12 | <frame src="left.html" name="leftFrame" scrolling="no" noresize>
-    :        ^^^^^^^^^^^^^^^
+ 13 |         <frame src="main.html" name="mainFrame">
+    :                ^^^^^^^^^^^^^^^
+ 14 |     </frameset>
     `----
 
   x Attribute
     ,-[$DIR/tests/recovery/element/frameset-1/input.html:12:9]
  12 | <frame src="left.html" name="leftFrame" scrolling="no" noresize>
-    :                        ^^^^^^^^^^^^^^^^
-    `----
-
-  x Attribute
-    ,-[$DIR/tests/recovery/element/frameset-1/input.html:12:9]
- 12 | <frame src="left.html" name="leftFrame" scrolling="no" noresize>
-    :                                         ^^^^^^^^^^^^^^
-    `----
-
-  x Attribute
-    ,-[$DIR/tests/recovery/element/frameset-1/input.html:12:9]
- 12 | <frame src="left.html" name="leftFrame" scrolling="no" noresize>
-    :                                                        ^^^^^^^^
+ 13 |         <frame src="main.html" name="mainFrame">
+    :                                ^^^^^^^^^^^^^^^^
+ 14 |     </frameset>
     `----
 
   x Child
     ,-[$DIR/tests/recovery/element/frameset-1/input.html:12:9]
- 12 | ,-> <frame src="left.html" name="leftFrame" scrolling="no" noresize>
- 13 | `->         <frame src="main.html" name="mainFrame">
+ 12 |     <frame src="left.html" name="leftFrame" scrolling="no" noresize>
+ 13 | ,->         <frame src="main.html" name="mainFrame">
+ 14 | `->     </frameset>
+ 15 |     </frameset>
     `----
 
   x Text
     ,-[$DIR/tests/recovery/element/frameset-1/input.html:12:9]
- 12 | ,-> <frame src="left.html" name="leftFrame" scrolling="no" noresize>
- 13 | `->         <frame src="main.html" name="mainFrame">
-    `----
-
-  x Child
-    ,-[$DIR/tests/recovery/element/frameset-1/input.html:13:9]
- 13 | <frame src="main.html" name="mainFrame">
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x Element
-    ,-[$DIR/tests/recovery/element/frameset-1/input.html:13:9]
- 13 | <frame src="main.html" name="mainFrame">
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x Attribute
-    ,-[$DIR/tests/recovery/element/frameset-1/input.html:13:9]
- 13 | <frame src="main.html" name="mainFrame">
-    :        ^^^^^^^^^^^^^^^
-    `----
-
-  x Attribute
-    ,-[$DIR/tests/recovery/element/frameset-1/input.html:13:9]
- 13 | <frame src="main.html" name="mainFrame">
-    :                        ^^^^^^^^^^^^^^^^
-    `----
-
-  x Child
-    ,-[$DIR/tests/recovery/element/frameset-1/input.html:13:9]
- 13 | ,-> <frame src="main.html" name="mainFrame">
+ 12 |     <frame src="left.html" name="leftFrame" scrolling="no" noresize>
+ 13 | ,->         <frame src="main.html" name="mainFrame">
  14 | `->     </frameset>
+ 15 |     </frameset>
+    `----
+
+  x Child
+    ,-[$DIR/tests/recovery/element/frameset-1/input.html:13:9]
+ 13 | <frame src="main.html" name="mainFrame">
+ 14 |     </frameset>
+    :                ^
+ 15 | </frameset>
+ 16 | a
     `----
 
   x Text
     ,-[$DIR/tests/recovery/element/frameset-1/input.html:13:9]
- 13 | ,-> <frame src="main.html" name="mainFrame">
- 14 | `->     </frameset>
+ 13 | <frame src="main.html" name="mainFrame">
+ 14 |     </frameset>
+    :                ^
+ 15 | </frameset>
+ 16 | a
     `----
 
   x Child
     ,-[$DIR/tests/recovery/element/frameset-1/input.html:14:5]
- 14 | </frameset>
-    :            ^
- 15 | </frameset>
-    `----
-
-  x Text
-    ,-[$DIR/tests/recovery/element/frameset-1/input.html:14:5]
- 14 | </frameset>
-    :            ^
- 15 | </frameset>
-    `----
-
-  x Child
-    ,-[$DIR/tests/recovery/element/frameset-1/input.html:15:1]
+ 14 |     </frameset>
  15 | ,-> </frameset>
  16 | |   a
  17 | |   <div></div>
@@ -424,7 +525,8 @@
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/frameset-1/input.html:15:1]
+    ,-[$DIR/tests/recovery/element/frameset-1/input.html:14:5]
+ 14 |     </frameset>
  15 | ,-> </frameset>
  16 | |   a
  17 | |   <div></div>

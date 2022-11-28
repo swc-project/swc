@@ -3,4 +3,5 @@
    ,-[$DIR/tests/typescript-errors/issue-2198/tsx/input.tsx:1:1]
  1 | function imp<T extends string>(x: T): typeof import(T) {
    :                                                     ^
+ 2 |     return x;
    `----

@@ -1,18 +1,24 @@
 
   x Hex color value '#FFFFFF' should be written into: '#FFF'.
-   ,-[$DIR/tests/rules/fail/color-hex-length/short/input.css:2:5]
- 2 | color: #FFFFFF;
-   :        ^^^^^^^
+   ,-[$DIR/tests/rules/fail/color-hex-length/short/input.css:1:1]
+ 1 | a {
+ 2 |     color: #FFFFFF;
+   :            ^^^^^^^
+ 3 |     color: #aabbccdd;
    `----
 
   x Hex color value '#aabbccdd' should be written into: '#abcd'.
-   ,-[$DIR/tests/rules/fail/color-hex-length/short/input.css:3:5]
- 3 | color: #aabbccdd;
-   :        ^^^^^^^^^
+   ,-[$DIR/tests/rules/fail/color-hex-length/short/input.css:2:5]
+ 2 | color: #FFFFFF;
+ 3 |     color: #aabbccdd;
+   :            ^^^^^^^^^
+ 4 |     color: #112233;
    `----
 
   x Hex color value '#112233' should be written into: '#123'.
-   ,-[$DIR/tests/rules/fail/color-hex-length/short/input.css:4:5]
- 4 | color: #112233;
-   :        ^^^^^^^
+   ,-[$DIR/tests/rules/fail/color-hex-length/short/input.css:3:5]
+ 3 | color: #aabbccdd;
+ 4 |     color: #112233;
+   :            ^^^^^^^
+ 5 | }
    `----

@@ -30,16 +30,19 @@
    ,-[$DIR/tests/fixture/element/pre-3/input.html:1:1]
  1 | <!doctype html>
    : ^^^^^^^^^^^^^^^
+ 2 | <html>
    `----
 
   x DocumentType
    ,-[$DIR/tests/fixture/element/pre-3/input.html:1:1]
  1 | <!doctype html>
    : ^^^^^^^^^^^^^^^
+ 2 | <html>
    `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/pre-3/input.html:2:1]
+    ,-[$DIR/tests/fixture/element/pre-3/input.html:1:1]
+  1 |     <!doctype html>
   2 | ,-> <html>
   3 | |   <body>
   4 | |   
@@ -65,7 +68,8 @@
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/pre-3/input.html:2:1]
+    ,-[$DIR/tests/fixture/element/pre-3/input.html:1:1]
+  1 |     <!doctype html>
   2 | ,-> <html>
   3 | |   <body>
   4 | |   
@@ -95,7 +99,8 @@
   x Element
 
   x Child
-    ,-[$DIR/tests/fixture/element/pre-3/input.html:3:1]
+    ,-[$DIR/tests/fixture/element/pre-3/input.html:2:1]
+  2 |     <html>
   3 | ,-> <body>
   4 | |   
   5 | |   <pre>
@@ -120,7 +125,8 @@
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/pre-3/input.html:3:1]
+    ,-[$DIR/tests/fixture/element/pre-3/input.html:2:1]
+  2 |     <html>
   3 | ,-> <body>
   4 | |   
   5 | |   <pre>
@@ -145,14 +151,16 @@
     `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/pre-3/input.html:3:1]
+   ,-[$DIR/tests/fixture/element/pre-3/input.html:2:1]
+ 2 |     <html>
  3 | ,-> <body>
  4 | `-> 
  5 |     <pre>
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/element/pre-3/input.html:3:1]
+   ,-[$DIR/tests/fixture/element/pre-3/input.html:2:1]
+ 2 |     <html>
  3 | ,-> <body>
  4 | `-> 
  5 |     <pre>
@@ -199,13 +207,21 @@
     `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/pre-3/input.html:9:4]
- 9 | <code>
+   ,-[$DIR/tests/fixture/element/pre-3/input.html:5:1]
+ 5 |     <pre>
+ 6 | ,-> 
+ 7 | |   
+ 8 | |   
+ 9 | `->    <code>
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/element/pre-3/input.html:9:4]
- 9 | <code>
+   ,-[$DIR/tests/fixture/element/pre-3/input.html:5:1]
+ 5 |     <pre>
+ 6 | ,-> 
+ 7 | |   
+ 8 | |   
+ 9 | `->    <code>
    `----
 
   x Child
