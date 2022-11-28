@@ -3,7 +3,7 @@
    ,-[$DIR/tests/fixture/property/escaped/input.css:1:1]
  1 | ,-> table {
  2 | |       colo\r: \red;
- 3 | `-> }
+ 3 | |   }
    `----
 
   x Rule
@@ -76,43 +76,50 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/property/escaped/input.css:2:5]
- 2 | colo\r: \red;
-   : ^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/property/escaped/input.css:1:5]
+ 1 | e {
+ 2 |     colo\r: \red;
+   :     ^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/property/escaped/input.css:2:5]
- 2 | colo\r: \red;
-   : ^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/property/escaped/input.css:1:5]
+ 1 | e {
+ 2 |     colo\r: \red;
+   :     ^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/property/escaped/input.css:2:5]
- 2 | colo\r: \red;
-   : ^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/property/escaped/input.css:1:5]
+ 1 | e {
+ 2 |     colo\r: \red;
+   :     ^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/property/escaped/input.css:2:5]
- 2 | colo\r: \red;
-   : ^^^^^^
+   ,-[$DIR/tests/fixture/property/escaped/input.css:1:5]
+ 1 | e {
+ 2 |     colo\r: \red;
+   :     ^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/property/escaped/input.css:2:5]
- 2 | colo\r: \red;
-   : ^^^^^^
+   ,-[$DIR/tests/fixture/property/escaped/input.css:1:5]
+ 1 | e {
+ 2 |     colo\r: \red;
+   :     ^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/property/escaped/input.css:2:5]
- 2 | colo\r: \red;
-   :         ^^^^
+   ,-[$DIR/tests/fixture/property/escaped/input.css:1:5]
+ 1 | e {
+ 2 |     colo\r: \red;
+   :             ^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/property/escaped/input.css:2:5]
- 2 | colo\r: \red;
-   :         ^^^^
+   ,-[$DIR/tests/fixture/property/escaped/input.css:1:5]
+ 1 | e {
+ 2 |     colo\r: \red;
+   :             ^^^^
    `----

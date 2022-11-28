@@ -3,7 +3,7 @@
    ,-[$DIR/tests/fixture/rome/grid/repeat/line-name/input.css:1:1]
  1 | ,-> .style {
  2 | |   	grid-template-columns: repeat(4, [col-start]);
- 3 | `-> }
+ 3 | |   }
    `----
 
   x Rule
@@ -70,103 +70,120 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/grid/repeat/line-name/input.css:2:5]
- 2 | grid-template-columns: repeat(4, [col-start]);
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/grid/repeat/line-name/input.css:1:9]
+ 1 | 
+ 2 | 	grid-template-columns: repeat(4, [col-start]);
+   :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/rome/grid/repeat/line-name/input.css:2:5]
- 2 | grid-template-columns: repeat(4, [col-start]);
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/grid/repeat/line-name/input.css:1:9]
+ 1 | 
+ 2 | 	grid-template-columns: repeat(4, [col-start]);
+   :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/rome/grid/repeat/line-name/input.css:2:5]
- 2 | grid-template-columns: repeat(4, [col-start]);
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/grid/repeat/line-name/input.css:1:9]
+ 1 | 
+ 2 | 	grid-template-columns: repeat(4, [col-start]);
+   :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/rome/grid/repeat/line-name/input.css:2:5]
- 2 | grid-template-columns: repeat(4, [col-start]);
-   : ^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/grid/repeat/line-name/input.css:1:9]
+ 1 | 
+ 2 | 	grid-template-columns: repeat(4, [col-start]);
+   :  ^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/grid/repeat/line-name/input.css:2:5]
- 2 | grid-template-columns: repeat(4, [col-start]);
-   : ^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/grid/repeat/line-name/input.css:1:9]
+ 1 | 
+ 2 | 	grid-template-columns: repeat(4, [col-start]);
+   :  ^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/grid/repeat/line-name/input.css:2:5]
- 2 | grid-template-columns: repeat(4, [col-start]);
-   :                        ^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/grid/repeat/line-name/input.css:1:9]
+ 1 | 
+ 2 | 	grid-template-columns: repeat(4, [col-start]);
+   :                         ^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Function
-   ,-[$DIR/tests/fixture/rome/grid/repeat/line-name/input.css:2:5]
- 2 | grid-template-columns: repeat(4, [col-start]);
-   :                        ^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/grid/repeat/line-name/input.css:1:9]
+ 1 | 
+ 2 | 	grid-template-columns: repeat(4, [col-start]);
+   :                         ^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/grid/repeat/line-name/input.css:2:5]
- 2 | grid-template-columns: repeat(4, [col-start]);
-   :                        ^^^^^^
+   ,-[$DIR/tests/fixture/rome/grid/repeat/line-name/input.css:1:9]
+ 1 | 
+ 2 | 	grid-template-columns: repeat(4, [col-start]);
+   :                         ^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/grid/repeat/line-name/input.css:2:5]
- 2 | grid-template-columns: repeat(4, [col-start]);
-   :                               ^
+   ,-[$DIR/tests/fixture/rome/grid/repeat/line-name/input.css:1:9]
+ 1 | 
+ 2 | 	grid-template-columns: repeat(4, [col-start]);
+   :                                ^
    `----
 
   x Integer
-   ,-[$DIR/tests/fixture/rome/grid/repeat/line-name/input.css:2:5]
- 2 | grid-template-columns: repeat(4, [col-start]);
-   :                               ^
+   ,-[$DIR/tests/fixture/rome/grid/repeat/line-name/input.css:1:9]
+ 1 | 
+ 2 | 	grid-template-columns: repeat(4, [col-start]);
+   :                                ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/grid/repeat/line-name/input.css:2:5]
- 2 | grid-template-columns: repeat(4, [col-start]);
-   :                                ^
+   ,-[$DIR/tests/fixture/rome/grid/repeat/line-name/input.css:1:9]
+ 1 | 
+ 2 | 	grid-template-columns: repeat(4, [col-start]);
+   :                                 ^
    `----
 
   x Delimiter
-   ,-[$DIR/tests/fixture/rome/grid/repeat/line-name/input.css:2:5]
- 2 | grid-template-columns: repeat(4, [col-start]);
-   :                                ^
+   ,-[$DIR/tests/fixture/rome/grid/repeat/line-name/input.css:1:9]
+ 1 | 
+ 2 | 	grid-template-columns: repeat(4, [col-start]);
+   :                                 ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/grid/repeat/line-name/input.css:2:5]
- 2 | grid-template-columns: repeat(4, [col-start]);
-   :                                  ^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/grid/repeat/line-name/input.css:1:9]
+ 1 | 
+ 2 | 	grid-template-columns: repeat(4, [col-start]);
+   :                                   ^^^^^^^^^^^
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/rome/grid/repeat/line-name/input.css:2:5]
- 2 | grid-template-columns: repeat(4, [col-start]);
-   :                                  ^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/grid/repeat/line-name/input.css:1:9]
+ 1 | 
+ 2 | 	grid-template-columns: repeat(4, [col-start]);
+   :                                   ^^^^^^^^^^^
    `----
 
   x LBracket
-   ,-[$DIR/tests/fixture/rome/grid/repeat/line-name/input.css:2:5]
- 2 | grid-template-columns: repeat(4, [col-start]);
-   :                                  ^
+   ,-[$DIR/tests/fixture/rome/grid/repeat/line-name/input.css:1:9]
+ 1 | 
+ 2 | 	grid-template-columns: repeat(4, [col-start]);
+   :                                   ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/grid/repeat/line-name/input.css:2:5]
- 2 | grid-template-columns: repeat(4, [col-start]);
-   :                                   ^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/grid/repeat/line-name/input.css:1:9]
+ 1 | 
+ 2 | 	grid-template-columns: repeat(4, [col-start]);
+   :                                    ^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/grid/repeat/line-name/input.css:2:5]
- 2 | grid-template-columns: repeat(4, [col-start]);
-   :                                   ^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/grid/repeat/line-name/input.css:1:9]
+ 1 | 
+ 2 | 	grid-template-columns: repeat(4, [col-start]);
+   :                                    ^^^^^^^^^
    `----

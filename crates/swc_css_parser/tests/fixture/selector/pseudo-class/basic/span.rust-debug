@@ -19,7 +19,7 @@
  16 | |   a:hover::before {}
  17 | |   div :nth-child(2) {}
  18 | |   a:hOvEr {}
- 19 | `-> :-webkit-full-screen a {}
+ 19 | |   :-webkit-full-screen a {}
     `----
 
   x Rule

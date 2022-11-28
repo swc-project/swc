@@ -1,12 +1,14 @@
 
   x Expected '{'
-   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested/input.css:3:5]
- 3 | & test;
-   :       ^
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested/input.css:2:13]
+ 2 | ed;
+ 3 |     & test;
+   :           ^
    `----
 
   x Unexpected token
-   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested/input.css:3:5]
- 3 | & test;
-   : ^
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested/input.css:2:13]
+ 2 | ed;
+ 3 |     & test;
+   :     ^
    `----

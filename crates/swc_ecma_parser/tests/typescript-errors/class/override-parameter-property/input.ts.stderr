@@ -1,18 +1,21 @@
 
   x Expected ',', got 'v'
-   ,-[$DIR/tests/typescript-errors/class/override-parameter-property/input.ts:3:3]
- 3 | constructor(readonly override v: boolean)
-   :                               ^
+   ,-[$DIR/tests/typescript-errors/class/override-parameter-property/input.ts:2:40]
+ 2 | )
+ 3 |   constructor(readonly override v: boolean)
+   :                                 ^
    `----
 
   x A parameter property is only allowed in a constructor implementation
-   ,-[$DIR/tests/typescript-errors/class/override-parameter-property/input.ts:2:3]
- 2 | constructor(override public v: string)
-   :                      ^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/typescript-errors/class/override-parameter-property/input.ts:1:19]
+ 1 | {
+ 2 |   constructor(override public v: string)
+   :                        ^^^^^^^^^^^^^^^^
    `----
 
   x A parameter property is only allowed in a constructor implementation
-   ,-[$DIR/tests/typescript-errors/class/override-parameter-property/input.ts:2:3]
- 2 | constructor(override public v: string)
-   :             ^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/typescript-errors/class/override-parameter-property/input.ts:1:19]
+ 1 | {
+ 2 |   constructor(override public v: string)
+   :               ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----

@@ -6,25 +6,29 @@
    `----
 
   x Unexpected '!' in <declaration-value>
-   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:4:5]
- 4 | --foo:!;
-   :       ^
+   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:3:8]
+ 3 | 1 {
+ 4 |     --foo:!;
+   :           ^
    `----
 
   x Unexpected '!' in <declaration-value>
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:10:5]
- 10 | --foo:!;
-    :       ^
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:9:13]
+  9 | ed;
+ 10 |     --foo:!;
+    :           ^
     `----
 
   x Unexpected '!' in <declaration-value>
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:14:5]
- 14 | --foo: !;
-    :        ^
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:13:8]
+ 13 | 3 {
+ 14 |     --foo: !;
+    :            ^
     `----
 
   x Unexpected '!' in <declaration-value>
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:20:5]
- 20 | --foo: !;
-    :        ^
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:19:13]
+ 19 | ar;
+ 20 |     --foo: !;
+    :            ^
     `----

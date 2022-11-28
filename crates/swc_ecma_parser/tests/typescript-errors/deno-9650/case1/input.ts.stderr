@@ -1,7 +1,8 @@
 
   x Unexpected token `;`. Expected this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string, regexp, `
   | for template literal, (, or an identifier
-   ,-[$DIR/tests/typescript-errors/deno-9650/case1/input.ts:9:9]
- 9 | console.log("x", `duration ${d} not in range - ${min} ≥ ${d} && ${max} ≥ ${d}`),;
-   :                                                                                     ^
+   ,-[$DIR/tests/typescript-errors/deno-9650/case1/input.ts:8:18]
+ 8 |  = 100;
+ 9 |         console.log("x", `duration ${d} not in range - ${min} ≥ ${d} && ${max} ≥ ${d}`),;
+   :                                                                                             ^
    `----

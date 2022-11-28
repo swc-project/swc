@@ -17,7 +17,7 @@
  14 | |       color: red;
  15 | |   }
  16 | |   
- 17 | `-> -->
+ 17 | |   -->
     `----
 
   x Rule
@@ -192,45 +192,52 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:8:5]
- 8 | color: red;
-   : ^^^^^^^^^^
+   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:7:3]
+ 7 | v {
+ 8 |     color: red;
+   :     ^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:8:5]
- 8 | color: red;
-   : ^^^^^^^^^^
+   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:7:3]
+ 7 | v {
+ 8 |     color: red;
+   :     ^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:8:5]
- 8 | color: red;
-   : ^^^^^^^^^^
+   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:7:3]
+ 7 | v {
+ 8 |     color: red;
+   :     ^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:8:5]
- 8 | color: red;
-   : ^^^^^
+   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:7:3]
+ 7 | v {
+ 8 |     color: red;
+   :     ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:8:5]
- 8 | color: red;
-   : ^^^^^
+   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:7:3]
+ 7 | v {
+ 8 |     color: red;
+   :     ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:8:5]
- 8 | color: red;
-   :        ^^^
+   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:7:3]
+ 7 | v {
+ 8 |     color: red;
+   :            ^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:8:5]
- 8 | color: red;
-   :        ^^^
+   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:7:3]
+ 7 | v {
+ 8 |     color: red;
+   :            ^^^
    `----
 
   x Rule
@@ -297,43 +304,50 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:14:5]
- 14 | color: red;
-    : ^^^^^^^^^^
+    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:13:6]
+ 13 | s {
+ 14 |     color: red;
+    :     ^^^^^^^^^^
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:14:5]
- 14 | color: red;
-    : ^^^^^^^^^^
+    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:13:6]
+ 13 | s {
+ 14 |     color: red;
+    :     ^^^^^^^^^^
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:14:5]
- 14 | color: red;
-    : ^^^^^^^^^^
+    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:13:6]
+ 13 | s {
+ 14 |     color: red;
+    :     ^^^^^^^^^^
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:14:5]
- 14 | color: red;
-    : ^^^^^
+    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:13:6]
+ 13 | s {
+ 14 |     color: red;
+    :     ^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:14:5]
- 14 | color: red;
-    : ^^^^^
+    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:13:6]
+ 13 | s {
+ 14 |     color: red;
+    :     ^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:14:5]
- 14 | color: red;
-    :        ^^^
+    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:13:6]
+ 13 | s {
+ 14 |     color: red;
+    :            ^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:14:5]
- 14 | color: red;
-    :        ^^^
+    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:13:6]
+ 13 | s {
+ 14 |     color: red;
+    :            ^^^
     `----

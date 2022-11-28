@@ -66,76 +66,98 @@
    `----
 
   x ClassMember
-   ,-[$DIR/tests/span/js/decl/static-blocks-with-line-breaks.js:2:5]
- 2 | ,-> static
+   ,-[$DIR/tests/span/js/decl/static-blocks-with-line-breaks.js:1:9]
+ 1 |     o {
+ 2 | ,->     static
  3 | |       {
  4 | |           1 + 1;
  5 | `->     }
    `----
 
   x BlockStmt
-   ,-[$DIR/tests/span/js/decl/static-blocks-with-line-breaks.js:3:5]
- 3 | ,-> {
+   ,-[$DIR/tests/span/js/decl/static-blocks-with-line-breaks.js:2:8]
+ 2 |     tic
+ 3 | ,->     {
  4 | |           1 + 1;
  5 | `->     }
    `----
 
   x Stmt
-   ,-[$DIR/tests/span/js/decl/static-blocks-with-line-breaks.js:4:9]
- 4 | 1 + 1;
-   : ^^^^^^
+   ,-[$DIR/tests/span/js/decl/static-blocks-with-line-breaks.js:2:10]
+ 2 | c
+ 3 |     {
+ 4 |         1 + 1;
+   :         ^^^^^^
    `----
 
   x ExprStmt
-   ,-[$DIR/tests/span/js/decl/static-blocks-with-line-breaks.js:4:9]
- 4 | 1 + 1;
-   : ^^^^^^
+   ,-[$DIR/tests/span/js/decl/static-blocks-with-line-breaks.js:2:10]
+ 2 | c
+ 3 |     {
+ 4 |         1 + 1;
+   :         ^^^^^^
    `----
 
   x Expr
-   ,-[$DIR/tests/span/js/decl/static-blocks-with-line-breaks.js:4:9]
- 4 | 1 + 1;
-   : ^^^^^
+   ,-[$DIR/tests/span/js/decl/static-blocks-with-line-breaks.js:2:10]
+ 2 | c
+ 3 |     {
+ 4 |         1 + 1;
+   :         ^^^^^
    `----
 
   x BinExpr
-   ,-[$DIR/tests/span/js/decl/static-blocks-with-line-breaks.js:4:9]
- 4 | 1 + 1;
-   : ^^^^^
+   ,-[$DIR/tests/span/js/decl/static-blocks-with-line-breaks.js:2:10]
+ 2 | c
+ 3 |     {
+ 4 |         1 + 1;
+   :         ^^^^^
    `----
 
   x Expr
-   ,-[$DIR/tests/span/js/decl/static-blocks-with-line-breaks.js:4:9]
- 4 | 1 + 1;
-   : ^
+   ,-[$DIR/tests/span/js/decl/static-blocks-with-line-breaks.js:2:10]
+ 2 | c
+ 3 |     {
+ 4 |         1 + 1;
+   :         ^
    `----
 
   x Lit
-   ,-[$DIR/tests/span/js/decl/static-blocks-with-line-breaks.js:4:9]
- 4 | 1 + 1;
-   : ^
+   ,-[$DIR/tests/span/js/decl/static-blocks-with-line-breaks.js:2:10]
+ 2 | c
+ 3 |     {
+ 4 |         1 + 1;
+   :         ^
    `----
 
   x Number
-   ,-[$DIR/tests/span/js/decl/static-blocks-with-line-breaks.js:4:9]
- 4 | 1 + 1;
-   : ^
+   ,-[$DIR/tests/span/js/decl/static-blocks-with-line-breaks.js:2:10]
+ 2 | c
+ 3 |     {
+ 4 |         1 + 1;
+   :         ^
    `----
 
   x Expr
-   ,-[$DIR/tests/span/js/decl/static-blocks-with-line-breaks.js:4:9]
- 4 | 1 + 1;
-   :     ^
+   ,-[$DIR/tests/span/js/decl/static-blocks-with-line-breaks.js:2:10]
+ 2 | c
+ 3 |     {
+ 4 |         1 + 1;
+   :             ^
    `----
 
   x Lit
-   ,-[$DIR/tests/span/js/decl/static-blocks-with-line-breaks.js:4:9]
- 4 | 1 + 1;
-   :     ^
+   ,-[$DIR/tests/span/js/decl/static-blocks-with-line-breaks.js:2:10]
+ 2 | c
+ 3 |     {
+ 4 |         1 + 1;
+   :             ^
    `----
 
   x Number
-   ,-[$DIR/tests/span/js/decl/static-blocks-with-line-breaks.js:4:9]
- 4 | 1 + 1;
-   :     ^
+   ,-[$DIR/tests/span/js/decl/static-blocks-with-line-breaks.js:2:10]
+ 2 | c
+ 3 |     {
+ 4 |         1 + 1;
+   :             ^
    `----

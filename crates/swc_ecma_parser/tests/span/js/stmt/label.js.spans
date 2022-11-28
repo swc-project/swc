@@ -80,19 +80,22 @@
    `----
 
   x Stmt
-   ,-[$DIR/tests/span/js/stmt/label.js:2:5]
- 2 | break a
-   : ^^^^^^^
+   ,-[$DIR/tests/span/js/stmt/label.js:1:15]
+ 1 | ) {
+ 2 |     break a
+   :     ^^^^^^^
    `----
 
   x BreakStmt
-   ,-[$DIR/tests/span/js/stmt/label.js:2:5]
- 2 | break a
-   : ^^^^^^^
+   ,-[$DIR/tests/span/js/stmt/label.js:1:15]
+ 1 | ) {
+ 2 |     break a
+   :     ^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/span/js/stmt/label.js:2:5]
- 2 | break a
-   :       ^
+   ,-[$DIR/tests/span/js/stmt/label.js:1:15]
+ 1 | ) {
+ 2 |     break a
+   :           ^
    `----

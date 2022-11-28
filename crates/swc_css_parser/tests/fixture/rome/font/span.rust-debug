@@ -3,7 +3,7 @@
    ,-[$DIR/tests/fixture/rome/font/input.css:1:1]
  1 | ,-> @font-face {
  2 | |   	src: url("");
- 3 | `-> }
+ 3 | |   }
    `----
 
   x Rule
@@ -46,55 +46,64 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/font/input.css:2:5]
- 2 | src: url("");
-   : ^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/font/input.css:1:13]
+ 1 | 
+ 2 | 	src: url("");
+   :  ^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/rome/font/input.css:2:5]
- 2 | src: url("");
-   : ^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/font/input.css:1:13]
+ 1 | 
+ 2 | 	src: url("");
+   :  ^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/rome/font/input.css:2:5]
- 2 | src: url("");
-   : ^^^
+   ,-[$DIR/tests/fixture/rome/font/input.css:1:13]
+ 1 | 
+ 2 | 	src: url("");
+   :  ^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/font/input.css:2:5]
- 2 | src: url("");
-   : ^^^
+   ,-[$DIR/tests/fixture/rome/font/input.css:1:13]
+ 1 | 
+ 2 | 	src: url("");
+   :  ^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/font/input.css:2:5]
- 2 | src: url("");
-   :      ^^^^^^^
+   ,-[$DIR/tests/fixture/rome/font/input.css:1:13]
+ 1 | 
+ 2 | 	src: url("");
+   :       ^^^^^^^
    `----
 
   x Url
-   ,-[$DIR/tests/fixture/rome/font/input.css:2:5]
- 2 | src: url("");
-   :      ^^^^^^^
+   ,-[$DIR/tests/fixture/rome/font/input.css:1:13]
+ 1 | 
+ 2 | 	src: url("");
+   :       ^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/font/input.css:2:5]
- 2 | src: url("");
-   :      ^^^
+   ,-[$DIR/tests/fixture/rome/font/input.css:1:13]
+ 1 | 
+ 2 | 	src: url("");
+   :       ^^^
    `----
 
   x UrlValue
-   ,-[$DIR/tests/fixture/rome/font/input.css:2:5]
- 2 | src: url("");
-   :          ^^
+   ,-[$DIR/tests/fixture/rome/font/input.css:1:13]
+ 1 | 
+ 2 | 	src: url("");
+   :           ^^
    `----
 
   x Str
-   ,-[$DIR/tests/fixture/rome/font/input.css:2:5]
- 2 | src: url("");
-   :          ^^
+   ,-[$DIR/tests/fixture/rome/font/input.css:1:13]
+ 1 | 
+ 2 | 	src: url("");
+   :           ^^
    `----

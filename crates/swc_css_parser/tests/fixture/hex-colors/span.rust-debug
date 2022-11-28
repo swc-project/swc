@@ -18,7 +18,7 @@
  15 | |     color: #123456789;
  16 | |     color: #xyz;
  17 | |     color: #aa\61;
- 18 | `-> }
+ 18 | |   }
     `----
 
   x Rule
@@ -136,769 +136,897 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/hex-colors/input.css:2:3]
- 2 | color: #000000;
-   : ^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:1:3]
+ 1 | {
+ 2 |   color: #000000;
+   :   ^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/hex-colors/input.css:2:3]
- 2 | color: #000000;
-   : ^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:1:3]
+ 1 | {
+ 2 |   color: #000000;
+   :   ^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/hex-colors/input.css:2:3]
- 2 | color: #000000;
-   : ^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:1:3]
+ 1 | {
+ 2 |   color: #000000;
+   :   ^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/hex-colors/input.css:2:3]
- 2 | color: #000000;
-   : ^^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:1:3]
+ 1 | {
+ 2 |   color: #000000;
+   :   ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/hex-colors/input.css:2:3]
- 2 | color: #000000;
-   : ^^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:1:3]
+ 1 | {
+ 2 |   color: #000000;
+   :   ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/hex-colors/input.css:2:3]
- 2 | color: #000000;
-   :        ^^^^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:1:3]
+ 1 | {
+ 2 |   color: #000000;
+   :          ^^^^^^^
    `----
 
   x Color
-   ,-[$DIR/tests/fixture/hex-colors/input.css:2:3]
- 2 | color: #000000;
-   :        ^^^^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:1:3]
+ 1 | {
+ 2 |   color: #000000;
+   :          ^^^^^^^
    `----
 
   x HexColor
-   ,-[$DIR/tests/fixture/hex-colors/input.css:2:3]
- 2 | color: #000000;
-   :        ^^^^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:1:3]
+ 1 | {
+ 2 |   color: #000000;
+   :          ^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/hex-colors/input.css:3:3]
- 3 | color: #ffffff;
-   : ^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:2:17]
+ 2 | ;
+ 3 |   color: #ffffff;
+   :   ^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/hex-colors/input.css:3:3]
- 3 | color: #ffffff;
-   : ^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:2:17]
+ 2 | ;
+ 3 |   color: #ffffff;
+   :   ^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/hex-colors/input.css:3:3]
- 3 | color: #ffffff;
-   : ^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:2:17]
+ 2 | ;
+ 3 |   color: #ffffff;
+   :   ^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/hex-colors/input.css:3:3]
- 3 | color: #ffffff;
-   : ^^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:2:17]
+ 2 | ;
+ 3 |   color: #ffffff;
+   :   ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/hex-colors/input.css:3:3]
- 3 | color: #ffffff;
-   : ^^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:2:17]
+ 2 | ;
+ 3 |   color: #ffffff;
+   :   ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/hex-colors/input.css:3:3]
- 3 | color: #ffffff;
-   :        ^^^^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:2:17]
+ 2 | ;
+ 3 |   color: #ffffff;
+   :          ^^^^^^^
    `----
 
   x Color
-   ,-[$DIR/tests/fixture/hex-colors/input.css:3:3]
- 3 | color: #ffffff;
-   :        ^^^^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:2:17]
+ 2 | ;
+ 3 |   color: #ffffff;
+   :          ^^^^^^^
    `----
 
   x HexColor
-   ,-[$DIR/tests/fixture/hex-colors/input.css:3:3]
- 3 | color: #ffffff;
-   :        ^^^^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:2:17]
+ 2 | ;
+ 3 |   color: #ffffff;
+   :          ^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/hex-colors/input.css:4:3]
- 4 | color: #FFFFFF;
-   : ^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:3:17]
+ 3 | ;
+ 4 |   color: #FFFFFF;
+   :   ^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/hex-colors/input.css:4:3]
- 4 | color: #FFFFFF;
-   : ^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:3:17]
+ 3 | ;
+ 4 |   color: #FFFFFF;
+   :   ^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/hex-colors/input.css:4:3]
- 4 | color: #FFFFFF;
-   : ^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:3:17]
+ 3 | ;
+ 4 |   color: #FFFFFF;
+   :   ^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/hex-colors/input.css:4:3]
- 4 | color: #FFFFFF;
-   : ^^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:3:17]
+ 3 | ;
+ 4 |   color: #FFFFFF;
+   :   ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/hex-colors/input.css:4:3]
- 4 | color: #FFFFFF;
-   : ^^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:3:17]
+ 3 | ;
+ 4 |   color: #FFFFFF;
+   :   ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/hex-colors/input.css:4:3]
- 4 | color: #FFFFFF;
-   :        ^^^^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:3:17]
+ 3 | ;
+ 4 |   color: #FFFFFF;
+   :          ^^^^^^^
    `----
 
   x Color
-   ,-[$DIR/tests/fixture/hex-colors/input.css:4:3]
- 4 | color: #FFFFFF;
-   :        ^^^^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:3:17]
+ 3 | ;
+ 4 |   color: #FFFFFF;
+   :          ^^^^^^^
    `----
 
   x HexColor
-   ,-[$DIR/tests/fixture/hex-colors/input.css:4:3]
- 4 | color: #FFFFFF;
-   :        ^^^^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:3:17]
+ 3 | ;
+ 4 |   color: #FFFFFF;
+   :          ^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/hex-colors/input.css:5:3]
- 5 | color: #0000ffcc;
-   : ^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:4:17]
+ 4 | ;
+ 5 |   color: #0000ffcc;
+   :   ^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/hex-colors/input.css:5:3]
- 5 | color: #0000ffcc;
-   : ^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:4:17]
+ 4 | ;
+ 5 |   color: #0000ffcc;
+   :   ^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/hex-colors/input.css:5:3]
- 5 | color: #0000ffcc;
-   : ^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:4:17]
+ 4 | ;
+ 5 |   color: #0000ffcc;
+   :   ^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/hex-colors/input.css:5:3]
- 5 | color: #0000ffcc;
-   : ^^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:4:17]
+ 4 | ;
+ 5 |   color: #0000ffcc;
+   :   ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/hex-colors/input.css:5:3]
- 5 | color: #0000ffcc;
-   : ^^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:4:17]
+ 4 | ;
+ 5 |   color: #0000ffcc;
+   :   ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/hex-colors/input.css:5:3]
- 5 | color: #0000ffcc;
-   :        ^^^^^^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:4:17]
+ 4 | ;
+ 5 |   color: #0000ffcc;
+   :          ^^^^^^^^^
    `----
 
   x Color
-   ,-[$DIR/tests/fixture/hex-colors/input.css:5:3]
- 5 | color: #0000ffcc;
-   :        ^^^^^^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:4:17]
+ 4 | ;
+ 5 |   color: #0000ffcc;
+   :          ^^^^^^^^^
    `----
 
   x HexColor
-   ,-[$DIR/tests/fixture/hex-colors/input.css:5:3]
- 5 | color: #0000ffcc;
-   :        ^^^^^^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:4:17]
+ 4 | ;
+ 5 |   color: #0000ffcc;
+   :          ^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/hex-colors/input.css:6:3]
- 6 | color: #0000FFCC;
-   : ^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:5:19]
+ 5 | ;
+ 6 |   color: #0000FFCC;
+   :   ^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/hex-colors/input.css:6:3]
- 6 | color: #0000FFCC;
-   : ^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:5:19]
+ 5 | ;
+ 6 |   color: #0000FFCC;
+   :   ^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/hex-colors/input.css:6:3]
- 6 | color: #0000FFCC;
-   : ^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:5:19]
+ 5 | ;
+ 6 |   color: #0000FFCC;
+   :   ^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/hex-colors/input.css:6:3]
- 6 | color: #0000FFCC;
-   : ^^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:5:19]
+ 5 | ;
+ 6 |   color: #0000FFCC;
+   :   ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/hex-colors/input.css:6:3]
- 6 | color: #0000FFCC;
-   : ^^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:5:19]
+ 5 | ;
+ 6 |   color: #0000FFCC;
+   :   ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/hex-colors/input.css:6:3]
- 6 | color: #0000FFCC;
-   :        ^^^^^^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:5:19]
+ 5 | ;
+ 6 |   color: #0000FFCC;
+   :          ^^^^^^^^^
    `----
 
   x Color
-   ,-[$DIR/tests/fixture/hex-colors/input.css:6:3]
- 6 | color: #0000FFCC;
-   :        ^^^^^^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:5:19]
+ 5 | ;
+ 6 |   color: #0000FFCC;
+   :          ^^^^^^^^^
    `----
 
   x HexColor
-   ,-[$DIR/tests/fixture/hex-colors/input.css:6:3]
- 6 | color: #0000FFCC;
-   :        ^^^^^^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:5:19]
+ 5 | ;
+ 6 |   color: #0000FFCC;
+   :          ^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/hex-colors/input.css:7:3]
- 7 | color: #000;
-   : ^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:6:19]
+ 6 | ;
+ 7 |   color: #000;
+   :   ^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/hex-colors/input.css:7:3]
- 7 | color: #000;
-   : ^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:6:19]
+ 6 | ;
+ 7 |   color: #000;
+   :   ^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/hex-colors/input.css:7:3]
- 7 | color: #000;
-   : ^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:6:19]
+ 6 | ;
+ 7 |   color: #000;
+   :   ^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/hex-colors/input.css:7:3]
- 7 | color: #000;
-   : ^^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:6:19]
+ 6 | ;
+ 7 |   color: #000;
+   :   ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/hex-colors/input.css:7:3]
- 7 | color: #000;
-   : ^^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:6:19]
+ 6 | ;
+ 7 |   color: #000;
+   :   ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/hex-colors/input.css:7:3]
- 7 | color: #000;
-   :        ^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:6:19]
+ 6 | ;
+ 7 |   color: #000;
+   :          ^^^^
    `----
 
   x Color
-   ,-[$DIR/tests/fixture/hex-colors/input.css:7:3]
- 7 | color: #000;
-   :        ^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:6:19]
+ 6 | ;
+ 7 |   color: #000;
+   :          ^^^^
    `----
 
   x HexColor
-   ,-[$DIR/tests/fixture/hex-colors/input.css:7:3]
- 7 | color: #000;
-   :        ^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:6:19]
+ 6 | ;
+ 7 |   color: #000;
+   :          ^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/hex-colors/input.css:8:3]
- 8 | color: #fff;
-   : ^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:7:14]
+ 7 | ;
+ 8 |   color: #fff;
+   :   ^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/hex-colors/input.css:8:3]
- 8 | color: #fff;
-   : ^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:7:14]
+ 7 | ;
+ 8 |   color: #fff;
+   :   ^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/hex-colors/input.css:8:3]
- 8 | color: #fff;
-   : ^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:7:14]
+ 7 | ;
+ 8 |   color: #fff;
+   :   ^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/hex-colors/input.css:8:3]
- 8 | color: #fff;
-   : ^^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:7:14]
+ 7 | ;
+ 8 |   color: #fff;
+   :   ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/hex-colors/input.css:8:3]
- 8 | color: #fff;
-   : ^^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:7:14]
+ 7 | ;
+ 8 |   color: #fff;
+   :   ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/hex-colors/input.css:8:3]
- 8 | color: #fff;
-   :        ^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:7:14]
+ 7 | ;
+ 8 |   color: #fff;
+   :          ^^^^
    `----
 
   x Color
-   ,-[$DIR/tests/fixture/hex-colors/input.css:8:3]
- 8 | color: #fff;
-   :        ^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:7:14]
+ 7 | ;
+ 8 |   color: #fff;
+   :          ^^^^
    `----
 
   x HexColor
-   ,-[$DIR/tests/fixture/hex-colors/input.css:8:3]
- 8 | color: #fff;
-   :        ^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:7:14]
+ 7 | ;
+ 8 |   color: #fff;
+   :          ^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/hex-colors/input.css:9:3]
- 9 | color: #FFF;
-   : ^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:8:14]
+ 8 | ;
+ 9 |   color: #FFF;
+   :   ^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/hex-colors/input.css:9:3]
- 9 | color: #FFF;
-   : ^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:8:14]
+ 8 | ;
+ 9 |   color: #FFF;
+   :   ^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/hex-colors/input.css:9:3]
- 9 | color: #FFF;
-   : ^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:8:14]
+ 8 | ;
+ 9 |   color: #FFF;
+   :   ^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/hex-colors/input.css:9:3]
- 9 | color: #FFF;
-   : ^^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:8:14]
+ 8 | ;
+ 9 |   color: #FFF;
+   :   ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/hex-colors/input.css:9:3]
- 9 | color: #FFF;
-   : ^^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:8:14]
+ 8 | ;
+ 9 |   color: #FFF;
+   :   ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/hex-colors/input.css:9:3]
- 9 | color: #FFF;
-   :        ^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:8:14]
+ 8 | ;
+ 9 |   color: #FFF;
+   :          ^^^^
    `----
 
   x Color
-   ,-[$DIR/tests/fixture/hex-colors/input.css:9:3]
- 9 | color: #FFF;
-   :        ^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:8:14]
+ 8 | ;
+ 9 |   color: #FFF;
+   :          ^^^^
    `----
 
   x HexColor
-   ,-[$DIR/tests/fixture/hex-colors/input.css:9:3]
- 9 | color: #FFF;
-   :        ^^^^
+   ,-[$DIR/tests/fixture/hex-colors/input.css:8:14]
+ 8 | ;
+ 9 |   color: #FFF;
+   :          ^^^^
    `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/hex-colors/input.css:10:3]
- 10 | color: #0000;
-    : ^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:9:14]
+  9 | ;
+ 10 |   color: #0000;
+    :   ^^^^^^^^^^^^
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/hex-colors/input.css:10:3]
- 10 | color: #0000;
-    : ^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:9:14]
+  9 | ;
+ 10 |   color: #0000;
+    :   ^^^^^^^^^^^^
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/hex-colors/input.css:10:3]
- 10 | color: #0000;
-    : ^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:9:14]
+  9 | ;
+ 10 |   color: #0000;
+    :   ^^^^^^^^^^^^
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/hex-colors/input.css:10:3]
- 10 | color: #0000;
-    : ^^^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:9:14]
+  9 | ;
+ 10 |   color: #0000;
+    :   ^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/hex-colors/input.css:10:3]
- 10 | color: #0000;
-    : ^^^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:9:14]
+  9 | ;
+ 10 |   color: #0000;
+    :   ^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/hex-colors/input.css:10:3]
- 10 | color: #0000;
-    :        ^^^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:9:14]
+  9 | ;
+ 10 |   color: #0000;
+    :          ^^^^^
     `----
 
   x Color
-    ,-[$DIR/tests/fixture/hex-colors/input.css:10:3]
- 10 | color: #0000;
-    :        ^^^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:9:14]
+  9 | ;
+ 10 |   color: #0000;
+    :          ^^^^^
     `----
 
   x HexColor
-    ,-[$DIR/tests/fixture/hex-colors/input.css:10:3]
- 10 | color: #0000;
-    :        ^^^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:9:14]
+  9 | ;
+ 10 |   color: #0000;
+    :          ^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/hex-colors/input.css:11:3]
- 11 | color: #ffff;
-    : ^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:10:15]
+ 10 | ;
+ 11 |   color: #ffff;
+    :   ^^^^^^^^^^^^
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/hex-colors/input.css:11:3]
- 11 | color: #ffff;
-    : ^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:10:15]
+ 10 | ;
+ 11 |   color: #ffff;
+    :   ^^^^^^^^^^^^
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/hex-colors/input.css:11:3]
- 11 | color: #ffff;
-    : ^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:10:15]
+ 10 | ;
+ 11 |   color: #ffff;
+    :   ^^^^^^^^^^^^
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/hex-colors/input.css:11:3]
- 11 | color: #ffff;
-    : ^^^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:10:15]
+ 10 | ;
+ 11 |   color: #ffff;
+    :   ^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/hex-colors/input.css:11:3]
- 11 | color: #ffff;
-    : ^^^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:10:15]
+ 10 | ;
+ 11 |   color: #ffff;
+    :   ^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/hex-colors/input.css:11:3]
- 11 | color: #ffff;
-    :        ^^^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:10:15]
+ 10 | ;
+ 11 |   color: #ffff;
+    :          ^^^^^
     `----
 
   x Color
-    ,-[$DIR/tests/fixture/hex-colors/input.css:11:3]
- 11 | color: #ffff;
-    :        ^^^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:10:15]
+ 10 | ;
+ 11 |   color: #ffff;
+    :          ^^^^^
     `----
 
   x HexColor
-    ,-[$DIR/tests/fixture/hex-colors/input.css:11:3]
- 11 | color: #ffff;
-    :        ^^^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:10:15]
+ 10 | ;
+ 11 |   color: #ffff;
+    :          ^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/hex-colors/input.css:12:3]
- 12 | color: #FFFF;
-    : ^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:11:15]
+ 11 | ;
+ 12 |   color: #FFFF;
+    :   ^^^^^^^^^^^^
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/hex-colors/input.css:12:3]
- 12 | color: #FFFF;
-    : ^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:11:15]
+ 11 | ;
+ 12 |   color: #FFFF;
+    :   ^^^^^^^^^^^^
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/hex-colors/input.css:12:3]
- 12 | color: #FFFF;
-    : ^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:11:15]
+ 11 | ;
+ 12 |   color: #FFFF;
+    :   ^^^^^^^^^^^^
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/hex-colors/input.css:12:3]
- 12 | color: #FFFF;
-    : ^^^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:11:15]
+ 11 | ;
+ 12 |   color: #FFFF;
+    :   ^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/hex-colors/input.css:12:3]
- 12 | color: #FFFF;
-    : ^^^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:11:15]
+ 11 | ;
+ 12 |   color: #FFFF;
+    :   ^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/hex-colors/input.css:12:3]
- 12 | color: #FFFF;
-    :        ^^^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:11:15]
+ 11 | ;
+ 12 |   color: #FFFF;
+    :          ^^^^^
     `----
 
   x Color
-    ,-[$DIR/tests/fixture/hex-colors/input.css:12:3]
- 12 | color: #FFFF;
-    :        ^^^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:11:15]
+ 11 | ;
+ 12 |   color: #FFFF;
+    :          ^^^^^
     `----
 
   x HexColor
-    ,-[$DIR/tests/fixture/hex-colors/input.css:12:3]
- 12 | color: #FFFF;
-    :        ^^^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:11:15]
+ 11 | ;
+ 12 |   color: #FFFF;
+    :          ^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/hex-colors/input.css:13:3]
- 13 | color: #1;
-    : ^^^^^^^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:12:15]
+ 12 | ;
+ 13 |   color: #1;
+    :   ^^^^^^^^^
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/hex-colors/input.css:13:3]
- 13 | color: #1;
-    : ^^^^^^^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:12:15]
+ 12 | ;
+ 13 |   color: #1;
+    :   ^^^^^^^^^
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/hex-colors/input.css:13:3]
- 13 | color: #1;
-    : ^^^^^^^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:12:15]
+ 12 | ;
+ 13 |   color: #1;
+    :   ^^^^^^^^^
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/hex-colors/input.css:13:3]
- 13 | color: #1;
-    : ^^^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:12:15]
+ 12 | ;
+ 13 |   color: #1;
+    :   ^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/hex-colors/input.css:13:3]
- 13 | color: #1;
-    : ^^^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:12:15]
+ 12 | ;
+ 13 |   color: #1;
+    :   ^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/hex-colors/input.css:13:3]
- 13 | color: #1;
-    :        ^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:12:15]
+ 12 | ;
+ 13 |   color: #1;
+    :          ^^
     `----
 
   x Color
-    ,-[$DIR/tests/fixture/hex-colors/input.css:13:3]
- 13 | color: #1;
-    :        ^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:12:15]
+ 12 | ;
+ 13 |   color: #1;
+    :          ^^
     `----
 
   x HexColor
-    ,-[$DIR/tests/fixture/hex-colors/input.css:13:3]
- 13 | color: #1;
-    :        ^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:12:15]
+ 12 | ;
+ 13 |   color: #1;
+    :          ^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/hex-colors/input.css:14:3]
- 14 | color: #FF;
-    : ^^^^^^^^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:13:12]
+ 13 | ;
+ 14 |   color: #FF;
+    :   ^^^^^^^^^^
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/hex-colors/input.css:14:3]
- 14 | color: #FF;
-    : ^^^^^^^^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:13:12]
+ 13 | ;
+ 14 |   color: #FF;
+    :   ^^^^^^^^^^
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/hex-colors/input.css:14:3]
- 14 | color: #FF;
-    : ^^^^^^^^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:13:12]
+ 13 | ;
+ 14 |   color: #FF;
+    :   ^^^^^^^^^^
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/hex-colors/input.css:14:3]
- 14 | color: #FF;
-    : ^^^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:13:12]
+ 13 | ;
+ 14 |   color: #FF;
+    :   ^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/hex-colors/input.css:14:3]
- 14 | color: #FF;
-    : ^^^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:13:12]
+ 13 | ;
+ 14 |   color: #FF;
+    :   ^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/hex-colors/input.css:14:3]
- 14 | color: #FF;
-    :        ^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:13:12]
+ 13 | ;
+ 14 |   color: #FF;
+    :          ^^^
     `----
 
   x Color
-    ,-[$DIR/tests/fixture/hex-colors/input.css:14:3]
- 14 | color: #FF;
-    :        ^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:13:12]
+ 13 | ;
+ 14 |   color: #FF;
+    :          ^^^
     `----
 
   x HexColor
-    ,-[$DIR/tests/fixture/hex-colors/input.css:14:3]
- 14 | color: #FF;
-    :        ^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:13:12]
+ 13 | ;
+ 14 |   color: #FF;
+    :          ^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/hex-colors/input.css:15:3]
- 15 | color: #123456789;
-    : ^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:14:13]
+ 14 | ;
+ 15 |   color: #123456789;
+    :   ^^^^^^^^^^^^^^^^^
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/hex-colors/input.css:15:3]
- 15 | color: #123456789;
-    : ^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:14:13]
+ 14 | ;
+ 15 |   color: #123456789;
+    :   ^^^^^^^^^^^^^^^^^
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/hex-colors/input.css:15:3]
- 15 | color: #123456789;
-    : ^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:14:13]
+ 14 | ;
+ 15 |   color: #123456789;
+    :   ^^^^^^^^^^^^^^^^^
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/hex-colors/input.css:15:3]
- 15 | color: #123456789;
-    : ^^^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:14:13]
+ 14 | ;
+ 15 |   color: #123456789;
+    :   ^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/hex-colors/input.css:15:3]
- 15 | color: #123456789;
-    : ^^^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:14:13]
+ 14 | ;
+ 15 |   color: #123456789;
+    :   ^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/hex-colors/input.css:15:3]
- 15 | color: #123456789;
-    :        ^^^^^^^^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:14:13]
+ 14 | ;
+ 15 |   color: #123456789;
+    :          ^^^^^^^^^^
     `----
 
   x Color
-    ,-[$DIR/tests/fixture/hex-colors/input.css:15:3]
- 15 | color: #123456789;
-    :        ^^^^^^^^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:14:13]
+ 14 | ;
+ 15 |   color: #123456789;
+    :          ^^^^^^^^^^
     `----
 
   x HexColor
-    ,-[$DIR/tests/fixture/hex-colors/input.css:15:3]
- 15 | color: #123456789;
-    :        ^^^^^^^^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:14:13]
+ 14 | ;
+ 15 |   color: #123456789;
+    :          ^^^^^^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/hex-colors/input.css:16:3]
- 16 | color: #xyz;
-    : ^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:15:20]
+ 15 | ;
+ 16 |   color: #xyz;
+    :   ^^^^^^^^^^^
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/hex-colors/input.css:16:3]
- 16 | color: #xyz;
-    : ^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:15:20]
+ 15 | ;
+ 16 |   color: #xyz;
+    :   ^^^^^^^^^^^
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/hex-colors/input.css:16:3]
- 16 | color: #xyz;
-    : ^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:15:20]
+ 15 | ;
+ 16 |   color: #xyz;
+    :   ^^^^^^^^^^^
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/hex-colors/input.css:16:3]
- 16 | color: #xyz;
-    : ^^^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:15:20]
+ 15 | ;
+ 16 |   color: #xyz;
+    :   ^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/hex-colors/input.css:16:3]
- 16 | color: #xyz;
-    : ^^^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:15:20]
+ 15 | ;
+ 16 |   color: #xyz;
+    :   ^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/hex-colors/input.css:16:3]
- 16 | color: #xyz;
-    :        ^^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:15:20]
+ 15 | ;
+ 16 |   color: #xyz;
+    :          ^^^^
     `----
 
   x Color
-    ,-[$DIR/tests/fixture/hex-colors/input.css:16:3]
- 16 | color: #xyz;
-    :        ^^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:15:20]
+ 15 | ;
+ 16 |   color: #xyz;
+    :          ^^^^
     `----
 
   x HexColor
-    ,-[$DIR/tests/fixture/hex-colors/input.css:16:3]
- 16 | color: #xyz;
-    :        ^^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:15:20]
+ 15 | ;
+ 16 |   color: #xyz;
+    :          ^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/hex-colors/input.css:17:3]
- 17 | color: #aa\61;
-    : ^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:16:14]
+ 16 | ;
+ 17 |   color: #aa\61;
+    :   ^^^^^^^^^^^^^
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/hex-colors/input.css:17:3]
- 17 | color: #aa\61;
-    : ^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:16:14]
+ 16 | ;
+ 17 |   color: #aa\61;
+    :   ^^^^^^^^^^^^^
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/hex-colors/input.css:17:3]
- 17 | color: #aa\61;
-    : ^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:16:14]
+ 16 | ;
+ 17 |   color: #aa\61;
+    :   ^^^^^^^^^^^^^
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/hex-colors/input.css:17:3]
- 17 | color: #aa\61;
-    : ^^^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:16:14]
+ 16 | ;
+ 17 |   color: #aa\61;
+    :   ^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/hex-colors/input.css:17:3]
- 17 | color: #aa\61;
-    : ^^^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:16:14]
+ 16 | ;
+ 17 |   color: #aa\61;
+    :   ^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/hex-colors/input.css:17:3]
- 17 | color: #aa\61;
-    :        ^^^^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:16:14]
+ 16 | ;
+ 17 |   color: #aa\61;
+    :          ^^^^^^
     `----
 
   x Color
-    ,-[$DIR/tests/fixture/hex-colors/input.css:17:3]
- 17 | color: #aa\61;
-    :        ^^^^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:16:14]
+ 16 | ;
+ 17 |   color: #aa\61;
+    :          ^^^^^^
     `----
 
   x HexColor
-    ,-[$DIR/tests/fixture/hex-colors/input.css:17:3]
- 17 | color: #aa\61;
-    :        ^^^^^^
+    ,-[$DIR/tests/fixture/hex-colors/input.css:16:14]
+ 16 | ;
+ 17 |   color: #aa\61;
+    :          ^^^^^^
     `----

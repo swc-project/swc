@@ -1,6 +1,7 @@
 
   x Expected ident or percentage token
-   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-number/input.css:2:5]
- 2 | 10 {
-   : ^^
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-number/input.css:1:17]
+ 1 | 
+ 2 | 	10 {
+   :  ^^
    `----

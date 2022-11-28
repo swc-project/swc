@@ -4,7 +4,7 @@
  1 | ,-> :host(.special-custom-element) {}
  2 | |   :host(   .special-custom-element   ) {}
  3 | |   :host(.footer) {}
- 4 | `-> :host {}
+ 4 | |   :host {}
    `----
 
   x Rule

@@ -1,6 +1,7 @@
 
   x Class constructor can't be an accessor.
-   ,-[$DIR/tests/typescript-errors/class/constructor-getter/input.ts:2:5]
- 2 | get constructor() {
-   : ^^^
+   ,-[$DIR/tests/typescript-errors/class/constructor-getter/input.ts:1:9]
+ 1 | o {
+ 2 |     get constructor() {
+   :     ^^^
    `----

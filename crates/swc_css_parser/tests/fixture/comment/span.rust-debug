@@ -36,7 +36,7 @@
  33 | |   /*!te**st*/
  34 | |   /****************************/
  35 | |   /*************** FOO *****************/
- 36 | `-> /* comment *//* comment */
+ 36 | |   /* comment *//* comment */
     `----
 
   x Rule
@@ -234,87 +234,101 @@
    `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/comment/input.css:11:5]
- 11 | color: black;
-    : ^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/comment/input.css:10:14]
+ 10 |  */
+ 11 |     color: black;
+    :     ^^^^^^^^^^^^
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/comment/input.css:11:5]
- 11 | color: black;
-    : ^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/comment/input.css:10:14]
+ 10 |  */
+ 11 |     color: black;
+    :     ^^^^^^^^^^^^
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/comment/input.css:11:5]
- 11 | color: black;
-    : ^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/comment/input.css:10:14]
+ 10 |  */
+ 11 |     color: black;
+    :     ^^^^^^^^^^^^
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/comment/input.css:11:5]
- 11 | color: black;
-    : ^^^^^
+    ,-[$DIR/tests/fixture/comment/input.css:10:14]
+ 10 |  */
+ 11 |     color: black;
+    :     ^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/comment/input.css:11:5]
- 11 | color: black;
-    : ^^^^^
+    ,-[$DIR/tests/fixture/comment/input.css:10:14]
+ 10 |  */
+ 11 |     color: black;
+    :     ^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/comment/input.css:11:5]
- 11 | color: black;
-    :        ^^^^^
+    ,-[$DIR/tests/fixture/comment/input.css:10:14]
+ 10 |  */
+ 11 |     color: black;
+    :            ^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/comment/input.css:11:5]
- 11 | color: black;
-    :        ^^^^^
+    ,-[$DIR/tests/fixture/comment/input.css:10:14]
+ 10 |  */
+ 11 |     color: black;
+    :            ^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/comment/input.css:13:5]
- 13 | background: red;
-    : ^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/comment/input.css:12:15]
+ 12 |  */
+ 13 |     background: red;
+    :     ^^^^^^^^^^^^^^^
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/comment/input.css:13:5]
- 13 | background: red;
-    : ^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/comment/input.css:12:15]
+ 12 |  */
+ 13 |     background: red;
+    :     ^^^^^^^^^^^^^^^
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/comment/input.css:13:5]
- 13 | background: red;
-    : ^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/comment/input.css:12:15]
+ 12 |  */
+ 13 |     background: red;
+    :     ^^^^^^^^^^^^^^^
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/comment/input.css:13:5]
- 13 | background: red;
-    : ^^^^^^^^^^
+    ,-[$DIR/tests/fixture/comment/input.css:12:15]
+ 12 |  */
+ 13 |     background: red;
+    :     ^^^^^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/comment/input.css:13:5]
- 13 | background: red;
-    : ^^^^^^^^^^
+    ,-[$DIR/tests/fixture/comment/input.css:12:15]
+ 12 |  */
+ 13 |     background: red;
+    :     ^^^^^^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/comment/input.css:13:5]
- 13 | background: red;
-    :             ^^^
+    ,-[$DIR/tests/fixture/comment/input.css:12:15]
+ 12 |  */
+ 13 |     background: red;
+    :                 ^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/comment/input.css:13:5]
- 13 | background: red;
-    :             ^^^
+    ,-[$DIR/tests/fixture/comment/input.css:12:15]
+ 12 |  */
+ 13 |     background: red;
+    :                 ^^^
     `----
 
   x Rule
@@ -390,45 +404,52 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/comment/input.css:19:5]
- 19 | color: black;
-    : ^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/comment/input.css:18:1]
+ 18 | a {
+ 19 |     color: black;
+    :     ^^^^^^^^^^^^
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/comment/input.css:19:5]
- 19 | color: black;
-    : ^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/comment/input.css:18:1]
+ 18 | a {
+ 19 |     color: black;
+    :     ^^^^^^^^^^^^
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/comment/input.css:19:5]
- 19 | color: black;
-    : ^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/comment/input.css:18:1]
+ 18 | a {
+ 19 |     color: black;
+    :     ^^^^^^^^^^^^
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/comment/input.css:19:5]
- 19 | color: black;
-    : ^^^^^
+    ,-[$DIR/tests/fixture/comment/input.css:18:1]
+ 18 | a {
+ 19 |     color: black;
+    :     ^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/comment/input.css:19:5]
- 19 | color: black;
-    : ^^^^^
+    ,-[$DIR/tests/fixture/comment/input.css:18:1]
+ 18 | a {
+ 19 |     color: black;
+    :     ^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/comment/input.css:19:5]
- 19 | color: black;
-    :        ^^^^^
+    ,-[$DIR/tests/fixture/comment/input.css:18:1]
+ 18 | a {
+ 19 |     color: black;
+    :            ^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/comment/input.css:19:5]
- 19 | color: black;
-    :        ^^^^^
+    ,-[$DIR/tests/fixture/comment/input.css:18:1]
+ 18 | a {
+ 19 |     color: black;
+    :            ^^^^^
     `----
 
   x Rule

@@ -5,7 +5,7 @@
  2 | |       // Line comment
  3 | |       // Line comment
  4 | |       color: red;
- 5 | `-> }
+ 5 | |   }
    `----
 
   x Rule
@@ -84,43 +84,50 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/line-comment/css-in-js/6/input.css:4:5]
- 4 | color: red;
-   : ^^^^^^^^^^
+   ,-[$DIR/tests/line-comment/css-in-js/6/input.css:3:17]
+ 3 | ent
+ 4 |     color: red;
+   :     ^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/line-comment/css-in-js/6/input.css:4:5]
- 4 | color: red;
-   : ^^^^^^^^^^
+   ,-[$DIR/tests/line-comment/css-in-js/6/input.css:3:17]
+ 3 | ent
+ 4 |     color: red;
+   :     ^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/line-comment/css-in-js/6/input.css:4:5]
- 4 | color: red;
-   : ^^^^^^^^^^
+   ,-[$DIR/tests/line-comment/css-in-js/6/input.css:3:17]
+ 3 | ent
+ 4 |     color: red;
+   :     ^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/line-comment/css-in-js/6/input.css:4:5]
- 4 | color: red;
-   : ^^^^^
+   ,-[$DIR/tests/line-comment/css-in-js/6/input.css:3:17]
+ 3 | ent
+ 4 |     color: red;
+   :     ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/line-comment/css-in-js/6/input.css:4:5]
- 4 | color: red;
-   : ^^^^^
+   ,-[$DIR/tests/line-comment/css-in-js/6/input.css:3:17]
+ 3 | ent
+ 4 |     color: red;
+   :     ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/line-comment/css-in-js/6/input.css:4:5]
- 4 | color: red;
-   :        ^^^
+   ,-[$DIR/tests/line-comment/css-in-js/6/input.css:3:17]
+ 3 | ent
+ 4 |     color: red;
+   :            ^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/line-comment/css-in-js/6/input.css:4:5]
- 4 | color: red;
-   :        ^^^
+   ,-[$DIR/tests/line-comment/css-in-js/6/input.css:3:17]
+ 3 | ent
+ 4 |     color: red;
+   :            ^^^
    `----

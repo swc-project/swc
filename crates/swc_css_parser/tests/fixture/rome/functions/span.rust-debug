@@ -8,7 +8,7 @@
  5 | |   	background: url("");
  6 | |   	background: url("something");
  7 | |   	background: url("./something");
- 8 | `-> }
+ 8 | |   }
    `----
 
   x Rule
@@ -90,451 +90,526 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/functions/input.css:2:5]
- 2 | --fancy: 2px;
-   : ^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:1:9]
+ 1 | 
+ 2 | 	--fancy: 2px;
+   :  ^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/rome/functions/input.css:2:5]
- 2 | --fancy: 2px;
-   : ^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:1:9]
+ 1 | 
+ 2 | 	--fancy: 2px;
+   :  ^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/rome/functions/input.css:2:5]
- 2 | --fancy: 2px;
-   : ^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:1:9]
+ 1 | 
+ 2 | 	--fancy: 2px;
+   :  ^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/rome/functions/input.css:2:5]
- 2 | --fancy: 2px;
-   : ^^^^^^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:1:9]
+ 1 | 
+ 2 | 	--fancy: 2px;
+   :  ^^^^^^^
    `----
 
   x DashedIdent
-   ,-[$DIR/tests/fixture/rome/functions/input.css:2:5]
- 2 | --fancy: 2px;
-   : ^^^^^^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:1:9]
+ 1 | 
+ 2 | 	--fancy: 2px;
+   :  ^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/functions/input.css:2:5]
- 2 | --fancy: 2px;
-   :          ^^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:1:9]
+ 1 | 
+ 2 | 	--fancy: 2px;
+   :           ^^^
    `----
 
   x Dimension { value: 2.0, raw_value: "2", unit: Atom('px' type=static), raw_unit: "px", type_flag: Integer }
-   ,-[$DIR/tests/fixture/rome/functions/input.css:2:5]
- 2 | --fancy: 2px;
+   ,-[$DIR/tests/fixture/rome/functions/input.css:1:9]
+ 1 | 
+ 2 | 	--fancy: 2px;
+   :           ^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/rome/functions/input.css:2:18]
+ 2 | 
+ 3 | 	border: var(--fancy);
+   :  ^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/fixture/rome/functions/input.css:2:18]
+ 2 | 
+ 3 | 	border: var(--fancy);
+   :  ^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/fixture/rome/functions/input.css:2:18]
+ 2 | 
+ 3 | 	border: var(--fancy);
+   :  ^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/fixture/rome/functions/input.css:2:18]
+ 2 | 
+ 3 | 	border: var(--fancy);
+   :  ^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/functions/input.css:2:18]
+ 2 | 
+ 3 | 	border: var(--fancy);
+   :  ^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/rome/functions/input.css:2:18]
+ 2 | 
+ 3 | 	border: var(--fancy);
+   :          ^^^^^^^^^^^^
+   `----
+
+  x Function
+   ,-[$DIR/tests/fixture/rome/functions/input.css:2:18]
+ 2 | 
+ 3 | 	border: var(--fancy);
+   :          ^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/functions/input.css:2:18]
+ 2 | 
+ 3 | 	border: var(--fancy);
    :          ^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/functions/input.css:3:5]
- 3 | border: var(--fancy);
-   : ^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x StyleBlock
-   ,-[$DIR/tests/fixture/rome/functions/input.css:3:5]
- 3 | border: var(--fancy);
-   : ^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x Declaration
-   ,-[$DIR/tests/fixture/rome/functions/input.css:3:5]
- 3 | border: var(--fancy);
-   : ^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x DeclarationName
-   ,-[$DIR/tests/fixture/rome/functions/input.css:3:5]
- 3 | border: var(--fancy);
-   : ^^^^^^
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/rome/functions/input.css:3:5]
- 3 | border: var(--fancy);
-   : ^^^^^^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/rome/functions/input.css:3:5]
- 3 | border: var(--fancy);
-   :         ^^^^^^^^^^^^
-   `----
-
-  x Function
-   ,-[$DIR/tests/fixture/rome/functions/input.css:3:5]
- 3 | border: var(--fancy);
-   :         ^^^^^^^^^^^^
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/rome/functions/input.css:3:5]
- 3 | border: var(--fancy);
-   :         ^^^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/rome/functions/input.css:3:5]
- 3 | border: var(--fancy);
-   :             ^^^^^^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:2:18]
+ 2 | 
+ 3 | 	border: var(--fancy);
+   :              ^^^^^^^
    `----
 
   x DashedIdent
-   ,-[$DIR/tests/fixture/rome/functions/input.css:3:5]
- 3 | border: var(--fancy);
-   :             ^^^^^^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:2:18]
+ 2 | 
+ 3 | 	border: var(--fancy);
+   :              ^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/functions/input.css:4:5]
- 4 | font-size: calc(10px + 5rem);
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:3:26]
+ 3 | 
+ 4 | 	font-size: calc(10px + 5rem);
+   :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/rome/functions/input.css:4:5]
- 4 | font-size: calc(10px + 5rem);
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:3:26]
+ 3 | 
+ 4 | 	font-size: calc(10px + 5rem);
+   :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/rome/functions/input.css:4:5]
- 4 | font-size: calc(10px + 5rem);
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:3:26]
+ 3 | 
+ 4 | 	font-size: calc(10px + 5rem);
+   :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/rome/functions/input.css:4:5]
- 4 | font-size: calc(10px + 5rem);
-   : ^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:3:26]
+ 3 | 
+ 4 | 	font-size: calc(10px + 5rem);
+   :  ^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/functions/input.css:4:5]
- 4 | font-size: calc(10px + 5rem);
-   : ^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:3:26]
+ 3 | 
+ 4 | 	font-size: calc(10px + 5rem);
+   :  ^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/functions/input.css:4:5]
- 4 | font-size: calc(10px + 5rem);
-   :            ^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:3:26]
+ 3 | 
+ 4 | 	font-size: calc(10px + 5rem);
+   :             ^^^^^^^^^^^^^^^^^
    `----
 
   x Function
-   ,-[$DIR/tests/fixture/rome/functions/input.css:4:5]
- 4 | font-size: calc(10px + 5rem);
-   :            ^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:3:26]
+ 3 | 
+ 4 | 	font-size: calc(10px + 5rem);
+   :             ^^^^^^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/functions/input.css:4:5]
- 4 | font-size: calc(10px + 5rem);
-   :            ^^^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:3:26]
+ 3 | 
+ 4 | 	font-size: calc(10px + 5rem);
+   :             ^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/functions/input.css:4:5]
- 4 | font-size: calc(10px + 5rem);
-   :                 ^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:3:26]
+ 3 | 
+ 4 | 	font-size: calc(10px + 5rem);
+   :                  ^^^^^^^^^^^
    `----
 
   x CalcSum
-   ,-[$DIR/tests/fixture/rome/functions/input.css:4:5]
- 4 | font-size: calc(10px + 5rem);
-   :                 ^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:3:26]
+ 3 | 
+ 4 | 	font-size: calc(10px + 5rem);
+   :                  ^^^^^^^^^^^
    `----
 
   x CalcProductOrOperator
-   ,-[$DIR/tests/fixture/rome/functions/input.css:4:5]
- 4 | font-size: calc(10px + 5rem);
-   :                 ^^^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:3:26]
+ 3 | 
+ 4 | 	font-size: calc(10px + 5rem);
+   :                  ^^^^
    `----
 
   x CalcProduct
-   ,-[$DIR/tests/fixture/rome/functions/input.css:4:5]
- 4 | font-size: calc(10px + 5rem);
-   :                 ^^^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:3:26]
+ 3 | 
+ 4 | 	font-size: calc(10px + 5rem);
+   :                  ^^^^
    `----
 
   x CalcValueOrOperator
-   ,-[$DIR/tests/fixture/rome/functions/input.css:4:5]
- 4 | font-size: calc(10px + 5rem);
-   :                 ^^^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:3:26]
+ 3 | 
+ 4 | 	font-size: calc(10px + 5rem);
+   :                  ^^^^
    `----
 
   x CalcValue
-   ,-[$DIR/tests/fixture/rome/functions/input.css:4:5]
- 4 | font-size: calc(10px + 5rem);
-   :                 ^^^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:3:26]
+ 3 | 
+ 4 | 	font-size: calc(10px + 5rem);
+   :                  ^^^^
    `----
 
   x Dimension
-   ,-[$DIR/tests/fixture/rome/functions/input.css:4:5]
- 4 | font-size: calc(10px + 5rem);
-   :                 ^^^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:3:26]
+ 3 | 
+ 4 | 	font-size: calc(10px + 5rem);
+   :                  ^^^^
    `----
 
   x Length
-   ,-[$DIR/tests/fixture/rome/functions/input.css:4:5]
- 4 | font-size: calc(10px + 5rem);
-   :                 ^^^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:3:26]
+ 3 | 
+ 4 | 	font-size: calc(10px + 5rem);
+   :                  ^^^^
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/rome/functions/input.css:4:5]
- 4 | font-size: calc(10px + 5rem);
-   :                 ^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:3:26]
+ 3 | 
+ 4 | 	font-size: calc(10px + 5rem);
+   :                  ^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/functions/input.css:4:5]
- 4 | font-size: calc(10px + 5rem);
-   :                   ^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:3:26]
+ 3 | 
+ 4 | 	font-size: calc(10px + 5rem);
+   :                    ^^
    `----
 
   x CalcProductOrOperator
-   ,-[$DIR/tests/fixture/rome/functions/input.css:4:5]
- 4 | font-size: calc(10px + 5rem);
-   :                      ^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:3:26]
+ 3 | 
+ 4 | 	font-size: calc(10px + 5rem);
+   :                       ^
    `----
 
   x CalcOperator
-   ,-[$DIR/tests/fixture/rome/functions/input.css:4:5]
- 4 | font-size: calc(10px + 5rem);
-   :                      ^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:3:26]
+ 3 | 
+ 4 | 	font-size: calc(10px + 5rem);
+   :                       ^
    `----
 
   x CalcProductOrOperator
-   ,-[$DIR/tests/fixture/rome/functions/input.css:4:5]
- 4 | font-size: calc(10px + 5rem);
-   :                        ^^^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:3:26]
+ 3 | 
+ 4 | 	font-size: calc(10px + 5rem);
+   :                         ^^^^
    `----
 
   x CalcProduct
-   ,-[$DIR/tests/fixture/rome/functions/input.css:4:5]
- 4 | font-size: calc(10px + 5rem);
-   :                        ^^^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:3:26]
+ 3 | 
+ 4 | 	font-size: calc(10px + 5rem);
+   :                         ^^^^
    `----
 
   x CalcValueOrOperator
-   ,-[$DIR/tests/fixture/rome/functions/input.css:4:5]
- 4 | font-size: calc(10px + 5rem);
-   :                        ^^^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:3:26]
+ 3 | 
+ 4 | 	font-size: calc(10px + 5rem);
+   :                         ^^^^
    `----
 
   x CalcValue
-   ,-[$DIR/tests/fixture/rome/functions/input.css:4:5]
- 4 | font-size: calc(10px + 5rem);
-   :                        ^^^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:3:26]
+ 3 | 
+ 4 | 	font-size: calc(10px + 5rem);
+   :                         ^^^^
    `----
 
   x Dimension
-   ,-[$DIR/tests/fixture/rome/functions/input.css:4:5]
- 4 | font-size: calc(10px + 5rem);
-   :                        ^^^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:3:26]
+ 3 | 
+ 4 | 	font-size: calc(10px + 5rem);
+   :                         ^^^^
    `----
 
   x Length
-   ,-[$DIR/tests/fixture/rome/functions/input.css:4:5]
- 4 | font-size: calc(10px + 5rem);
-   :                        ^^^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:3:26]
+ 3 | 
+ 4 | 	font-size: calc(10px + 5rem);
+   :                         ^^^^
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/rome/functions/input.css:4:5]
- 4 | font-size: calc(10px + 5rem);
-   :                        ^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:3:26]
+ 3 | 
+ 4 | 	font-size: calc(10px + 5rem);
+   :                         ^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/functions/input.css:4:5]
- 4 | font-size: calc(10px + 5rem);
-   :                         ^^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:3:26]
+ 3 | 
+ 4 | 	font-size: calc(10px + 5rem);
+   :                          ^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/functions/input.css:5:5]
- 5 | background: url("");
-   : ^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:4:34]
+ 4 | 
+ 5 | 	background: url("");
+   :  ^^^^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/rome/functions/input.css:5:5]
- 5 | background: url("");
-   : ^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:4:34]
+ 4 | 
+ 5 | 	background: url("");
+   :  ^^^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/rome/functions/input.css:5:5]
- 5 | background: url("");
-   : ^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:4:34]
+ 4 | 
+ 5 | 	background: url("");
+   :  ^^^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/rome/functions/input.css:5:5]
- 5 | background: url("");
-   : ^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:4:34]
+ 4 | 
+ 5 | 	background: url("");
+   :  ^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/functions/input.css:5:5]
- 5 | background: url("");
-   : ^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:4:34]
+ 4 | 
+ 5 | 	background: url("");
+   :  ^^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/functions/input.css:5:5]
- 5 | background: url("");
-   :             ^^^^^^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:4:34]
+ 4 | 
+ 5 | 	background: url("");
+   :              ^^^^^^^
    `----
 
   x Url
-   ,-[$DIR/tests/fixture/rome/functions/input.css:5:5]
- 5 | background: url("");
-   :             ^^^^^^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:4:34]
+ 4 | 
+ 5 | 	background: url("");
+   :              ^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/functions/input.css:5:5]
- 5 | background: url("");
-   :             ^^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:4:34]
+ 4 | 
+ 5 | 	background: url("");
+   :              ^^^
    `----
 
   x UrlValue
-   ,-[$DIR/tests/fixture/rome/functions/input.css:5:5]
- 5 | background: url("");
-   :                 ^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:4:34]
+ 4 | 
+ 5 | 	background: url("");
+   :                  ^^
    `----
 
   x Str
-   ,-[$DIR/tests/fixture/rome/functions/input.css:5:5]
- 5 | background: url("");
-   :                 ^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:4:34]
+ 4 | 
+ 5 | 	background: url("");
+   :                  ^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/functions/input.css:6:5]
- 6 | background: url("something");
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:5:25]
+ 5 | 
+ 6 | 	background: url("something");
+   :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/rome/functions/input.css:6:5]
- 6 | background: url("something");
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:5:25]
+ 5 | 
+ 6 | 	background: url("something");
+   :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/rome/functions/input.css:6:5]
- 6 | background: url("something");
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:5:25]
+ 5 | 
+ 6 | 	background: url("something");
+   :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/rome/functions/input.css:6:5]
- 6 | background: url("something");
-   : ^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:5:25]
+ 5 | 
+ 6 | 	background: url("something");
+   :  ^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/functions/input.css:6:5]
- 6 | background: url("something");
-   : ^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:5:25]
+ 5 | 
+ 6 | 	background: url("something");
+   :  ^^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/functions/input.css:6:5]
- 6 | background: url("something");
-   :             ^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:5:25]
+ 5 | 
+ 6 | 	background: url("something");
+   :              ^^^^^^^^^^^^^^^^
    `----
 
   x Url
-   ,-[$DIR/tests/fixture/rome/functions/input.css:6:5]
- 6 | background: url("something");
-   :             ^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:5:25]
+ 5 | 
+ 6 | 	background: url("something");
+   :              ^^^^^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/functions/input.css:6:5]
- 6 | background: url("something");
-   :             ^^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:5:25]
+ 5 | 
+ 6 | 	background: url("something");
+   :              ^^^
    `----
 
   x UrlValue
-   ,-[$DIR/tests/fixture/rome/functions/input.css:6:5]
- 6 | background: url("something");
-   :                 ^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:5:25]
+ 5 | 
+ 6 | 	background: url("something");
+   :                  ^^^^^^^^^^^
    `----
 
   x Str
-   ,-[$DIR/tests/fixture/rome/functions/input.css:6:5]
- 6 | background: url("something");
-   :                 ^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:5:25]
+ 5 | 
+ 6 | 	background: url("something");
+   :                  ^^^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/functions/input.css:7:5]
- 7 | background: url("./something");
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:6:34]
+ 6 | 
+ 7 | 	background: url("./something");
+   :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/rome/functions/input.css:7:5]
- 7 | background: url("./something");
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:6:34]
+ 6 | 
+ 7 | 	background: url("./something");
+   :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/rome/functions/input.css:7:5]
- 7 | background: url("./something");
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:6:34]
+ 6 | 
+ 7 | 	background: url("./something");
+   :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/rome/functions/input.css:7:5]
- 7 | background: url("./something");
-   : ^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:6:34]
+ 6 | 
+ 7 | 	background: url("./something");
+   :  ^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/functions/input.css:7:5]
- 7 | background: url("./something");
-   : ^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:6:34]
+ 6 | 
+ 7 | 	background: url("./something");
+   :  ^^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/functions/input.css:7:5]
- 7 | background: url("./something");
-   :             ^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:6:34]
+ 6 | 
+ 7 | 	background: url("./something");
+   :              ^^^^^^^^^^^^^^^^^^
    `----
 
   x Url
-   ,-[$DIR/tests/fixture/rome/functions/input.css:7:5]
- 7 | background: url("./something");
-   :             ^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:6:34]
+ 6 | 
+ 7 | 	background: url("./something");
+   :              ^^^^^^^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/functions/input.css:7:5]
- 7 | background: url("./something");
-   :             ^^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:6:34]
+ 6 | 
+ 7 | 	background: url("./something");
+   :              ^^^
    `----
 
   x UrlValue
-   ,-[$DIR/tests/fixture/rome/functions/input.css:7:5]
- 7 | background: url("./something");
-   :                 ^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:6:34]
+ 6 | 
+ 7 | 	background: url("./something");
+   :                  ^^^^^^^^^^^^^
    `----
 
   x Str
-   ,-[$DIR/tests/fixture/rome/functions/input.css:7:5]
- 7 | background: url("./something");
-   :                 ^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/functions/input.css:6:34]
+ 6 | 
+ 7 | 	background: url("./something");
+   :                  ^^^^^^^^^^^^^
    `----

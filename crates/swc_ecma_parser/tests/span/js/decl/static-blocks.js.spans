@@ -60,75 +60,87 @@
    `----
 
   x ClassMember
-   ,-[$DIR/tests/span/js/decl/static-blocks.js:2:5]
- 2 | ,-> static {
+   ,-[$DIR/tests/span/js/decl/static-blocks.js:1:9]
+ 1 |     o {
+ 2 | ,->     static {
  3 | |           1 + 1;
  4 | `->     }
    `----
 
   x BlockStmt
-   ,-[$DIR/tests/span/js/decl/static-blocks.js:2:5]
- 2 | ,-> static {
+   ,-[$DIR/tests/span/js/decl/static-blocks.js:1:9]
+ 1 |     o {
+ 2 | ,->     static {
  3 | |           1 + 1;
  4 | `->     }
    `----
 
   x Stmt
-   ,-[$DIR/tests/span/js/decl/static-blocks.js:3:9]
- 3 | 1 + 1;
-   : ^^^^^^
+   ,-[$DIR/tests/span/js/decl/static-blocks.js:2:6]
+ 2 | tatic {
+ 3 |         1 + 1;
+   :         ^^^^^^
    `----
 
   x ExprStmt
-   ,-[$DIR/tests/span/js/decl/static-blocks.js:3:9]
- 3 | 1 + 1;
-   : ^^^^^^
+   ,-[$DIR/tests/span/js/decl/static-blocks.js:2:6]
+ 2 | tatic {
+ 3 |         1 + 1;
+   :         ^^^^^^
    `----
 
   x Expr
-   ,-[$DIR/tests/span/js/decl/static-blocks.js:3:9]
- 3 | 1 + 1;
-   : ^^^^^
+   ,-[$DIR/tests/span/js/decl/static-blocks.js:2:6]
+ 2 | tatic {
+ 3 |         1 + 1;
+   :         ^^^^^
    `----
 
   x BinExpr
-   ,-[$DIR/tests/span/js/decl/static-blocks.js:3:9]
- 3 | 1 + 1;
-   : ^^^^^
+   ,-[$DIR/tests/span/js/decl/static-blocks.js:2:6]
+ 2 | tatic {
+ 3 |         1 + 1;
+   :         ^^^^^
    `----
 
   x Expr
-   ,-[$DIR/tests/span/js/decl/static-blocks.js:3:9]
- 3 | 1 + 1;
-   : ^
+   ,-[$DIR/tests/span/js/decl/static-blocks.js:2:6]
+ 2 | tatic {
+ 3 |         1 + 1;
+   :         ^
    `----
 
   x Lit
-   ,-[$DIR/tests/span/js/decl/static-blocks.js:3:9]
- 3 | 1 + 1;
-   : ^
+   ,-[$DIR/tests/span/js/decl/static-blocks.js:2:6]
+ 2 | tatic {
+ 3 |         1 + 1;
+   :         ^
    `----
 
   x Number
-   ,-[$DIR/tests/span/js/decl/static-blocks.js:3:9]
- 3 | 1 + 1;
-   : ^
+   ,-[$DIR/tests/span/js/decl/static-blocks.js:2:6]
+ 2 | tatic {
+ 3 |         1 + 1;
+   :         ^
    `----
 
   x Expr
-   ,-[$DIR/tests/span/js/decl/static-blocks.js:3:9]
- 3 | 1 + 1;
-   :     ^
+   ,-[$DIR/tests/span/js/decl/static-blocks.js:2:6]
+ 2 | tatic {
+ 3 |         1 + 1;
+   :             ^
    `----
 
   x Lit
-   ,-[$DIR/tests/span/js/decl/static-blocks.js:3:9]
- 3 | 1 + 1;
-   :     ^
+   ,-[$DIR/tests/span/js/decl/static-blocks.js:2:6]
+ 2 | tatic {
+ 3 |         1 + 1;
+   :             ^
    `----
 
   x Number
-   ,-[$DIR/tests/span/js/decl/static-blocks.js:3:9]
- 3 | 1 + 1;
-   :     ^
+   ,-[$DIR/tests/span/js/decl/static-blocks.js:2:6]
+ 2 | tatic {
+ 3 |         1 + 1;
+   :             ^
    `----

@@ -1,24 +1,28 @@
 
   x Abstract property cannot have an initializer.
-   ,-[$DIR/tests/typescript-errors/class/abstract/input.ts:2:5]
- 2 | abstract a = 123;
-   : ^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/typescript-errors/class/abstract/input.ts:1:7]
+ 1 | A {
+ 2 |     abstract a = 123;
+   :     ^^^^^^^^^^^^^^^^^
    `----
 
   x Abstract method cannot have an implementation.
-   ,-[$DIR/tests/typescript-errors/class/abstract/input.ts:3:5]
- 3 | abstract foo() {};
-   : ^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/typescript-errors/class/abstract/input.ts:2:19]
+ 2 | 23;
+ 3 |     abstract foo() {};
+   :     ^^^^^^^^^^^^^^^^^
    `----
 
   x Abstract methods can only appear within an abstract class.
-   ,-[$DIR/tests/typescript-errors/class/abstract/input.ts:2:5]
- 2 | abstract a = 123;
-   : ^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/typescript-errors/class/abstract/input.ts:1:7]
+ 1 | A {
+ 2 |     abstract a = 123;
+   :     ^^^^^^^^^^^^^^^^^
    `----
 
   x Abstract methods can only appear within an abstract class.
-   ,-[$DIR/tests/typescript-errors/class/abstract/input.ts:3:5]
- 3 | abstract foo() {};
-   : ^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/typescript-errors/class/abstract/input.ts:2:19]
+ 2 | 23;
+ 3 |     abstract foo() {};
+   :     ^^^^^^^^^^^^^^^^^
    `----

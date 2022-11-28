@@ -1,7 +1,8 @@
 
   x Unexpected end of file, but expected '{'
-   ,-[$DIR/tests/recovery/at-rule/media/invalid-nesting/input.css:2:5]
- 2 | max-inline-size: 1024px;
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/media/invalid-nesting/input.css:1:25]
+ 1 | ) {
+ 2 |     max-inline-size: 1024px;
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^
  3 | }
    `----

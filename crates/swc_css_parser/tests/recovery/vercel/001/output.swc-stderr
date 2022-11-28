@@ -1,7 +1,8 @@
 
   x Unexpected end of file, but expected '{'
-    ,-[$DIR/tests/recovery/vercel/001/input.css:14:5]
- 14 | __styled-jsx-placeholder__7
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/vercel/001/input.css:13:3]
+ 13 |   }
+ 14 |     __styled-jsx-placeholder__7
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  15 | }
     `----

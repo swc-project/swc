@@ -39,7 +39,7 @@
  36 | |   }
  37 | |   
  38 | |   ::pseudo-elem(a, b) {
- 39 | `-> }
+ 39 | |   }
     `----
 
   x Rule
@@ -553,45 +553,52 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/selectors/input.css:14:3]
- 14 | color: purple;
-    : ^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:13:10]
+ 13 | {
+ 14 |   color: purple;
+    :   ^^^^^^^^^^^^^
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/rome/selectors/input.css:14:3]
- 14 | color: purple;
-    : ^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:13:10]
+ 13 | {
+ 14 |   color: purple;
+    :   ^^^^^^^^^^^^^
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/rome/selectors/input.css:14:3]
- 14 | color: purple;
-    : ^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:13:10]
+ 13 | {
+ 14 |   color: purple;
+    :   ^^^^^^^^^^^^^
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/rome/selectors/input.css:14:3]
- 14 | color: purple;
-    : ^^^^^
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:13:10]
+ 13 | {
+ 14 |   color: purple;
+    :   ^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/selectors/input.css:14:3]
- 14 | color: purple;
-    : ^^^^^
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:13:10]
+ 13 | {
+ 14 |   color: purple;
+    :   ^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/selectors/input.css:14:3]
- 14 | color: purple;
-    :        ^^^^^^
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:13:10]
+ 13 | {
+ 14 |   color: purple;
+    :          ^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/selectors/input.css:14:3]
- 14 | color: purple;
-    :        ^^^^^^
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:13:10]
+ 13 | {
+ 14 |   color: purple;
+    :          ^^^^^^
     `----
 
   x Rule
@@ -706,45 +713,52 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/selectors/input.css:18:3]
- 18 | color: purple;
-    : ^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:17:20]
+ 17 | {
+ 18 |   color: purple;
+    :   ^^^^^^^^^^^^^
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/rome/selectors/input.css:18:3]
- 18 | color: purple;
-    : ^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:17:20]
+ 17 | {
+ 18 |   color: purple;
+    :   ^^^^^^^^^^^^^
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/rome/selectors/input.css:18:3]
- 18 | color: purple;
-    : ^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:17:20]
+ 17 | {
+ 18 |   color: purple;
+    :   ^^^^^^^^^^^^^
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/rome/selectors/input.css:18:3]
- 18 | color: purple;
-    : ^^^^^
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:17:20]
+ 17 | {
+ 18 |   color: purple;
+    :   ^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/selectors/input.css:18:3]
- 18 | color: purple;
-    : ^^^^^
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:17:20]
+ 17 | {
+ 18 |   color: purple;
+    :   ^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/selectors/input.css:18:3]
- 18 | color: purple;
-    :        ^^^^^^
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:17:20]
+ 17 | {
+ 18 |   color: purple;
+    :          ^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/selectors/input.css:18:3]
- 18 | color: purple;
-    :        ^^^^^^
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:17:20]
+ 17 | {
+ 18 |   color: purple;
+    :          ^^^^^^
     `----
 
   x Rule
@@ -871,45 +885,52 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/selectors/input.css:22:3]
- 22 | color: purple;
-    : ^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:21:21]
+ 21 | {
+ 22 |   color: purple;
+    :   ^^^^^^^^^^^^^
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/rome/selectors/input.css:22:3]
- 22 | color: purple;
-    : ^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:21:21]
+ 21 | {
+ 22 |   color: purple;
+    :   ^^^^^^^^^^^^^
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/rome/selectors/input.css:22:3]
- 22 | color: purple;
-    : ^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:21:21]
+ 21 | {
+ 22 |   color: purple;
+    :   ^^^^^^^^^^^^^
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/rome/selectors/input.css:22:3]
- 22 | color: purple;
-    : ^^^^^
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:21:21]
+ 21 | {
+ 22 |   color: purple;
+    :   ^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/selectors/input.css:22:3]
- 22 | color: purple;
-    : ^^^^^
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:21:21]
+ 21 | {
+ 22 |   color: purple;
+    :   ^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/selectors/input.css:22:3]
- 22 | color: purple;
-    :        ^^^^^^
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:21:21]
+ 21 | {
+ 22 |   color: purple;
+    :          ^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/selectors/input.css:22:3]
- 22 | color: purple;
-    :        ^^^^^^
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:21:21]
+ 21 | {
+ 22 |   color: purple;
+    :          ^^^^^^
     `----
 
   x Rule
@@ -1078,45 +1099,52 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/selectors/input.css:26:5]
- 26 | color: purple;
-    : ^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:25:40]
+ 25 | 
+ 26 | 	color: purple;
+    :  ^^^^^^^^^^^^^
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/rome/selectors/input.css:26:5]
- 26 | color: purple;
-    : ^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:25:40]
+ 25 | 
+ 26 | 	color: purple;
+    :  ^^^^^^^^^^^^^
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/rome/selectors/input.css:26:5]
- 26 | color: purple;
-    : ^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:25:40]
+ 25 | 
+ 26 | 	color: purple;
+    :  ^^^^^^^^^^^^^
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/rome/selectors/input.css:26:5]
- 26 | color: purple;
-    : ^^^^^
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:25:40]
+ 25 | 
+ 26 | 	color: purple;
+    :  ^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/selectors/input.css:26:5]
- 26 | color: purple;
-    : ^^^^^
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:25:40]
+ 25 | 
+ 26 | 	color: purple;
+    :  ^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/selectors/input.css:26:5]
- 26 | color: purple;
-    :        ^^^^^^
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:25:40]
+ 25 | 
+ 26 | 	color: purple;
+    :         ^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/selectors/input.css:26:5]
- 26 | color: purple;
-    :        ^^^^^^
+    ,-[$DIR/tests/fixture/rome/selectors/input.css:25:40]
+ 25 | 
+ 26 | 	color: purple;
+    :         ^^^^^^
     `----
 
   x Rule

@@ -36,13 +36,15 @@
      `----
 
   x 'in' modifier can only appear on a type parameter of a class, interface or type alias
-     ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:104:5]
- 104 | in a = 0;  // Error
-     : ^^
+     ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:103:7]
+ 103 | C {
+ 104 |     in a = 0;  // Error
+     :     ^^
      `----
 
   x 'out' modifier can only appear on a type parameter of a class, interface or type alias
-     ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:105:5]
- 105 | out b = 0;  // Error
-     : ^^^
+     ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:104:21]
+ 104 | ror
+ 105 |     out b = 0;  // Error
+     :     ^^^
      `----

@@ -6,9 +6,10 @@
    `----
 
   x Expected ":"
-   ,-[$DIR/tests/recovery/at-rule/font-face/input.css:6:5]
- 6 | invalid;
-   :        ^
+   ,-[$DIR/tests/recovery/at-rule/font-face/input.css:5:10]
+ 5 | e {
+ 6 |     invalid;
+   :            ^
    `----
 
   x Expected '{' token
@@ -24,13 +25,15 @@
     `----
 
   x Expected whitespace, ';', '@', ident or EOF
-    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:10:5]
- 10 | 123
-    : ^^^
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:9:10]
+  9 | e {
+ 10 |     123
+    :     ^^^
     `----
 
   x Expected whitespace, ';', '@', ident or EOF
-    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:14:5]
- 14 | 123;
-    : ^^^
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:13:10]
+ 13 | e {
+ 14 |     123;
+    :     ^^^
     `----

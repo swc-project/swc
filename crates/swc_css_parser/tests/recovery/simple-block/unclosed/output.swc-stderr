@@ -1,7 +1,8 @@
 
   x Unexpected end of file, but expected '}'
-   ,-[$DIR/tests/recovery/simple-block/unclosed/input.css:3:5]
- 3 | ,-> .class {
+   ,-[$DIR/tests/recovery/simple-block/unclosed/input.css:2:13]
+ 2 |     ed;
+ 3 | ,->     .class {
  4 | `->         color: blue
    `----
 

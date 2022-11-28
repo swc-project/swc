@@ -2,7 +2,7 @@
   x Stylesheet
    ,-[$DIR/tests/fixture/rome/import/input.css:1:1]
  1 | ,-> @import "something.css";
- 2 | `-> @import url("something.css");
+ 2 | |   @import url("something.css");
    `----
 
   x Rule

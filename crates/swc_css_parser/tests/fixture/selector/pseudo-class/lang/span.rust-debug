@@ -7,7 +7,7 @@
  4 | |   html:lang(de) {}
  5 | |   html:lang(de, fr) {}
  6 | |   :lang(fr-be) > q {}
- 7 | `-> :lang(de) > q {}
+ 7 | |   :lang(de) > q {}
    `----
 
   x Rule

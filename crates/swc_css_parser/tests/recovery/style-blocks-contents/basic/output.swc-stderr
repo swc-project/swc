@@ -1,42 +1,49 @@
 
   x Expected ":"
-   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:6:9]
- 6 | color: green;
-   : ^^^^^
+   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:5:7]
+ 5 |   ident
+ 6 |         color: green;
+   :         ^^^^^
    `----
 
   x Expected ":"
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:14:13]
- 14 | color: red
-    : ^^^^^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:13:7]
+ 13 |       ident
+ 14 |             color: red
+    :             ^^^^^
     `----
 
   x Expected ":"
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:23:9]
- 23 | ident;
-    :      ^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:22:5]
+ 22 | &.foo {
+ 23 |         ident;
+    :              ^
     `----
 
   x Expected ":"
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:31:13]
- 31 | ident;
-    :      ^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:30:8]
+ 30 |  & .class {
+ 31 |             ident;
+    :                  ^
     `----
 
   x Expected ":"
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:46:5]
- 46 | }
-    : ^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:45:15]
+ 45 | t__
+ 46 |     }
+    :     ^
     `----
 
   x Expected '{'
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:39:5]
- 39 | & test;
-    :       ^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:38:13]
+ 38 | ed;
+ 39 |     & test;
+    :           ^
     `----
 
   x Unexpected token
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:39:5]
- 39 | & test;
-    : ^
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:38:13]
+ 38 | ed;
+ 39 |     & test;
+    :     ^
     `----

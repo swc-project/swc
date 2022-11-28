@@ -104,7 +104,7 @@
  101 | |   || 
  102 | |   td
  103 | |   {}
- 104 | `-> col.selected||td {}
+ 104 | |   col.selected||td {}
      `----
 
   x Rule

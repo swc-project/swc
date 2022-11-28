@@ -21,7 +21,7 @@
  18 | |   #container-div :-webkit-any(:link, :not(a)),
  19 | |   h1:-webkit-any(.h1class, #bar) {
  20 | |       background-color: green;
- 21 | `-> }
+ 21 | |   }
     `----
 
   x Rule
@@ -1662,45 +1662,52 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:13:5]
- 13 | background-color: blue;
-    : ^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:12:34]
+ 12 | ) {
+ 13 |     background-color: blue;
+    :     ^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:13:5]
- 13 | background-color: blue;
-    : ^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:12:34]
+ 12 | ) {
+ 13 |     background-color: blue;
+    :     ^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:13:5]
- 13 | background-color: blue;
-    : ^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:12:34]
+ 12 | ) {
+ 13 |     background-color: blue;
+    :     ^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:13:5]
- 13 | background-color: blue;
-    : ^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:12:34]
+ 12 | ) {
+ 13 |     background-color: blue;
+    :     ^^^^^^^^^^^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:13:5]
- 13 | background-color: blue;
-    : ^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:12:34]
+ 12 | ) {
+ 13 |     background-color: blue;
+    :     ^^^^^^^^^^^^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:13:5]
- 13 | background-color: blue;
-    :                   ^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:12:34]
+ 12 | ) {
+ 13 |     background-color: blue;
+    :                       ^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:13:5]
- 13 | background-color: blue;
-    :                   ^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:12:34]
+ 12 | ) {
+ 13 |     background-color: blue;
+    :                       ^^^^
     `----
 
   x Rule
@@ -2207,43 +2214,50 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:20:5]
- 20 | background-color: green;
-    : ^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:19:30]
+ 19 | ) {
+ 20 |     background-color: green;
+    :     ^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:20:5]
- 20 | background-color: green;
-    : ^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:19:30]
+ 19 | ) {
+ 20 |     background-color: green;
+    :     ^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:20:5]
- 20 | background-color: green;
-    : ^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:19:30]
+ 19 | ) {
+ 20 |     background-color: green;
+    :     ^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:20:5]
- 20 | background-color: green;
-    : ^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:19:30]
+ 19 | ) {
+ 20 |     background-color: green;
+    :     ^^^^^^^^^^^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:20:5]
- 20 | background-color: green;
-    : ^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:19:30]
+ 19 | ) {
+ 20 |     background-color: green;
+    :     ^^^^^^^^^^^^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:20:5]
- 20 | background-color: green;
-    :                   ^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:19:30]
+ 19 | ) {
+ 20 |     background-color: green;
+    :                       ^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:20:5]
- 20 | background-color: green;
-    :                   ^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:19:30]
+ 19 | ) {
+ 20 |     background-color: green;
+    :                       ^^^^^
     `----

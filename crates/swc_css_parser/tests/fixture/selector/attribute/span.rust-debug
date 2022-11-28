@@ -49,7 +49,7 @@
  46 | |   [foo=yes\:\(it\'s\ work\)] {}
  47 | |   [attr=\;] { }
  48 | |   [*|attr|="test"] {}
- 49 | `-> [foo|attr|="test"] {}
+ 49 | |   [foo|attr|="test"] {}
     `----
 
   x Rule

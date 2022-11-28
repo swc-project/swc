@@ -60,41 +60,47 @@
    `----
 
   x ClassMember
-   ,-[$DIR/tests/span/js/decl/private-method.js:2:5]
- 2 | ,-> #foo() {
+   ,-[$DIR/tests/span/js/decl/private-method.js:1:9]
+ 1 |     o {
+ 2 | ,->     #foo() {
  3 | |   
  4 | `->     }
    `----
 
   x PrivateMethod
-   ,-[$DIR/tests/span/js/decl/private-method.js:2:5]
- 2 | ,-> #foo() {
+   ,-[$DIR/tests/span/js/decl/private-method.js:1:9]
+ 1 |     o {
+ 2 | ,->     #foo() {
  3 | |   
  4 | `->     }
    `----
 
   x PrivateName
-   ,-[$DIR/tests/span/js/decl/private-method.js:2:5]
- 2 | #foo() {
-   : ^^^^
+   ,-[$DIR/tests/span/js/decl/private-method.js:1:9]
+ 1 | o {
+ 2 |     #foo() {
+   :     ^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/span/js/decl/private-method.js:2:5]
- 2 | #foo() {
-   :  ^^^
+   ,-[$DIR/tests/span/js/decl/private-method.js:1:9]
+ 1 | o {
+ 2 |     #foo() {
+   :      ^^^
    `----
 
   x Function
-   ,-[$DIR/tests/span/js/decl/private-method.js:2:5]
- 2 | ,-> #foo() {
+   ,-[$DIR/tests/span/js/decl/private-method.js:1:9]
+ 1 |     o {
+ 2 | ,->     #foo() {
  3 | |   
  4 | `->     }
    `----
 
   x BlockStmt
-   ,-[$DIR/tests/span/js/decl/private-method.js:2:5]
- 2 | ,-> #foo() {
+   ,-[$DIR/tests/span/js/decl/private-method.js:1:9]
+ 1 |     o {
+ 2 | ,->     #foo() {
  3 | |   
  4 | `->     }
    `----

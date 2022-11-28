@@ -23,7 +23,7 @@
  20 | |   	--cdc-at-top-level: -->;
  21 | |   	--cdo-not-top-level: (<!--);
  22 | |   	--cdc-not-top-level: (-->);
- 23 | `-> }
+ 23 | |   }
     `----
 
   x Rule
@@ -150,1063 +150,1240 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:2:5]
- 2 | --foo: 'bar';
-   : ^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:1:9]
+ 1 | 
+ 2 | 	--foo: 'bar';
+   :  ^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:2:5]
- 2 | --foo: 'bar';
-   : ^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:1:9]
+ 1 | 
+ 2 | 	--foo: 'bar';
+   :  ^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:2:5]
- 2 | --foo: 'bar';
-   : ^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:1:9]
+ 1 | 
+ 2 | 	--foo: 'bar';
+   :  ^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:2:5]
- 2 | --foo: 'bar';
-   : ^^^^^
+   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:1:9]
+ 1 | 
+ 2 | 	--foo: 'bar';
+   :  ^^^^^
    `----
 
   x DashedIdent
-   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:2:5]
- 2 | --foo: 'bar';
-   : ^^^^^
+   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:1:9]
+ 1 | 
+ 2 | 	--foo: 'bar';
+   :  ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:2:5]
- 2 | --foo: 'bar';
-   :        ^^^^^
+   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:1:9]
+ 1 | 
+ 2 | 	--foo: 'bar';
+   :         ^^^^^
    `----
 
   x String { value: Atom('bar' type=inline), raw: "'bar'" }
-   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:2:5]
- 2 | --foo: 'bar';
-   :        ^^^^^
+   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:1:9]
+ 1 | 
+ 2 | 	--foo: 'bar';
+   :         ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:3:5]
- 3 | --lore-ipsum: "foo";
-   : ^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:2:18]
+ 2 | 
+ 3 | 	--lore-ipsum: "foo";
+   :  ^^^^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:3:5]
- 3 | --lore-ipsum: "foo";
-   : ^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:2:18]
+ 2 | 
+ 3 | 	--lore-ipsum: "foo";
+   :  ^^^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:3:5]
- 3 | --lore-ipsum: "foo";
-   : ^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:2:18]
+ 2 | 
+ 3 | 	--lore-ipsum: "foo";
+   :  ^^^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:3:5]
- 3 | --lore-ipsum: "foo";
-   : ^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:2:18]
+ 2 | 
+ 3 | 	--lore-ipsum: "foo";
+   :  ^^^^^^^^^^^^
    `----
 
   x DashedIdent
-   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:3:5]
- 3 | --lore-ipsum: "foo";
-   : ^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:2:18]
+ 2 | 
+ 3 | 	--lore-ipsum: "foo";
+   :  ^^^^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:3:5]
- 3 | --lore-ipsum: "foo";
-   :               ^^^^^
+   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:2:18]
+ 2 | 
+ 3 | 	--lore-ipsum: "foo";
+   :                ^^^^^
    `----
 
   x String { value: Atom('foo' type=inline), raw: "\"foo\"" }
-   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:3:5]
- 3 | --lore-ipsum: "foo";
-   :               ^^^^^
+   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:2:18]
+ 2 | 
+ 3 | 	--lore-ipsum: "foo";
+   :                ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:4:5]
- 4 | --FANCY: "abort";
-   : ^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:3:25]
+ 3 | 
+ 4 | 	--FANCY: "abort";
+   :  ^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:4:5]
- 4 | --FANCY: "abort";
-   : ^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:3:25]
+ 3 | 
+ 4 | 	--FANCY: "abort";
+   :  ^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:4:5]
- 4 | --FANCY: "abort";
-   : ^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:3:25]
+ 3 | 
+ 4 | 	--FANCY: "abort";
+   :  ^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:4:5]
- 4 | --FANCY: "abort";
-   : ^^^^^^^
+   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:3:25]
+ 3 | 
+ 4 | 	--FANCY: "abort";
+   :  ^^^^^^^
    `----
 
   x DashedIdent
-   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:4:5]
- 4 | --FANCY: "abort";
-   : ^^^^^^^
+   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:3:25]
+ 3 | 
+ 4 | 	--FANCY: "abort";
+   :  ^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:4:5]
- 4 | --FANCY: "abort";
-   :          ^^^^^^^
+   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:3:25]
+ 3 | 
+ 4 | 	--FANCY: "abort";
+   :           ^^^^^^^
    `----
 
   x String { value: Atom('abort' type=inline), raw: "\"abort\"" }
-   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:4:5]
- 4 | --FANCY: "abort";
-   :          ^^^^^^^
+   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:3:25]
+ 3 | 
+ 4 | 	--FANCY: "abort";
+   :           ^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:5:5]
- 5 | --test: 1987;
-   : ^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:4:22]
+ 4 | 
+ 5 | 	--test: 1987;
+   :  ^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:5:5]
- 5 | --test: 1987;
-   : ^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:4:22]
+ 4 | 
+ 5 | 	--test: 1987;
+   :  ^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:5:5]
- 5 | --test: 1987;
-   : ^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:4:22]
+ 4 | 
+ 5 | 	--test: 1987;
+   :  ^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:5:5]
- 5 | --test: 1987;
-   : ^^^^^^
+   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:4:22]
+ 4 | 
+ 5 | 	--test: 1987;
+   :  ^^^^^^
    `----
 
   x DashedIdent
-   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:5:5]
- 5 | --test: 1987;
-   : ^^^^^^
+   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:4:22]
+ 4 | 
+ 5 | 	--test: 1987;
+   :  ^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:5:5]
- 5 | --test: 1987;
-   :         ^^^^
+   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:4:22]
+ 4 | 
+ 5 | 	--test: 1987;
+   :          ^^^^
    `----
 
   x Number { value: 1987.0, raw: "1987", type_flag: Integer }
-   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:5:5]
- 5 | --test: 1987;
-   :         ^^^^
+   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:4:22]
+ 4 | 
+ 5 | 	--test: 1987;
+   :          ^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:6:5]
- 6 | --percentage: 25%;
-   : ^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:5:18]
+ 5 | 
+ 6 | 	--percentage: 25%;
+   :  ^^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:6:5]
- 6 | --percentage: 25%;
-   : ^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:5:18]
+ 5 | 
+ 6 | 	--percentage: 25%;
+   :  ^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:6:5]
- 6 | --percentage: 25%;
-   : ^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:5:18]
+ 5 | 
+ 6 | 	--percentage: 25%;
+   :  ^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:6:5]
- 6 | --percentage: 25%;
-   : ^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:5:18]
+ 5 | 
+ 6 | 	--percentage: 25%;
+   :  ^^^^^^^^^^^^
    `----
 
   x DashedIdent
-   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:6:5]
- 6 | --percentage: 25%;
-   : ^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:5:18]
+ 5 | 
+ 6 | 	--percentage: 25%;
+   :  ^^^^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:6:5]
- 6 | --percentage: 25%;
-   :               ^^^
+   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:5:18]
+ 5 | 
+ 6 | 	--percentage: 25%;
+   :                ^^^
    `----
 
   x Percentage { value: 25.0, raw: "25" }
-   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:6:5]
- 6 | --percentage: 25%;
-   :               ^^^
+   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:5:18]
+ 5 | 
+ 6 | 	--percentage: 25%;
+   :                ^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:7:5]
- 7 | --number: 37;
-   : ^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:6:23]
+ 6 | 
+ 7 | 	--number: 37;
+   :  ^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:7:5]
- 7 | --number: 37;
-   : ^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:6:23]
+ 6 | 
+ 7 | 	--number: 37;
+   :  ^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:7:5]
- 7 | --number: 37;
-   : ^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:6:23]
+ 6 | 
+ 7 | 	--number: 37;
+   :  ^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:7:5]
- 7 | --number: 37;
-   : ^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:6:23]
+ 6 | 
+ 7 | 	--number: 37;
+   :  ^^^^^^^^
    `----
 
   x DashedIdent
-   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:7:5]
- 7 | --number: 37;
-   : ^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:6:23]
+ 6 | 
+ 7 | 	--number: 37;
+   :  ^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:7:5]
- 7 | --number: 37;
-   :           ^^
+   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:6:23]
+ 6 | 
+ 7 | 	--number: 37;
+   :            ^^
    `----
 
   x Number { value: 37.0, raw: "37", type_flag: Integer }
-   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:7:5]
- 7 | --number: 37;
-   :           ^^
+   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:6:23]
+ 6 | 
+ 7 | 	--number: 37;
+   :            ^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:8:5]
- 8 | --length: 12em;
-   : ^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:7:18]
+ 7 | 
+ 8 | 	--length: 12em;
+   :  ^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:8:5]
- 8 | --length: 12em;
-   : ^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:7:18]
+ 7 | 
+ 8 | 	--length: 12em;
+   :  ^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:8:5]
- 8 | --length: 12em;
-   : ^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:7:18]
+ 7 | 
+ 8 | 	--length: 12em;
+   :  ^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:8:5]
- 8 | --length: 12em;
-   : ^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:7:18]
+ 7 | 
+ 8 | 	--length: 12em;
+   :  ^^^^^^^^
    `----
 
   x DashedIdent
-   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:8:5]
- 8 | --length: 12em;
-   : ^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:7:18]
+ 7 | 
+ 8 | 	--length: 12em;
+   :  ^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:8:5]
- 8 | --length: 12em;
-   :           ^^^^
+   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:7:18]
+ 7 | 
+ 8 | 	--length: 12em;
+   :            ^^^^
    `----
 
   x Dimension { value: 12.0, raw_value: "12", unit: Atom('em' type=static), raw_unit: "em", type_flag: Integer }
-   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:8:5]
- 8 | --length: 12em;
-   :           ^^^^
+   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:7:18]
+ 7 | 
+ 8 | 	--length: 12em;
+   :            ^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:9:5]
- 9 | --time: 75ms;
-   : ^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:8:20]
+ 8 | 
+ 9 | 	--time: 75ms;
+   :  ^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:9:5]
- 9 | --time: 75ms;
-   : ^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:8:20]
+ 8 | 
+ 9 | 	--time: 75ms;
+   :  ^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:9:5]
- 9 | --time: 75ms;
-   : ^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:8:20]
+ 8 | 
+ 9 | 	--time: 75ms;
+   :  ^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:9:5]
- 9 | --time: 75ms;
-   : ^^^^^^
+   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:8:20]
+ 8 | 
+ 9 | 	--time: 75ms;
+   :  ^^^^^^
    `----
 
   x DashedIdent
-   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:9:5]
- 9 | --time: 75ms;
-   : ^^^^^^
+   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:8:20]
+ 8 | 
+ 9 | 	--time: 75ms;
+   :  ^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:9:5]
- 9 | --time: 75ms;
-   :         ^^^^
+   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:8:20]
+ 8 | 
+ 9 | 	--time: 75ms;
+   :          ^^^^
    `----
 
   x Dimension { value: 75.0, raw_value: "75", unit: Atom('ms' type=static), raw_unit: "ms", type_flag: Integer }
-   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:9:5]
- 9 | --time: 75ms;
-   :         ^^^^
+   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:8:20]
+ 8 | 
+ 9 | 	--time: 75ms;
+   :          ^^^^
    `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:10:5]
- 10 | --function: foo();
-    : ^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:9:18]
+  9 | 
+ 10 | 	--function: foo();
+    :  ^^^^^^^^^^^^^^^^^
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:10:5]
- 10 | --function: foo();
-    : ^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:9:18]
+  9 | 
+ 10 | 	--function: foo();
+    :  ^^^^^^^^^^^^^^^^^
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:10:5]
- 10 | --function: foo();
-    : ^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:9:18]
+  9 | 
+ 10 | 	--function: foo();
+    :  ^^^^^^^^^^^^^^^^^
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:10:5]
- 10 | --function: foo();
-    : ^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:9:18]
+  9 | 
+ 10 | 	--function: foo();
+    :  ^^^^^^^^^^
     `----
 
   x DashedIdent
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:10:5]
- 10 | --function: foo();
-    : ^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:9:18]
+  9 | 
+ 10 | 	--function: foo();
+    :  ^^^^^^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:10:5]
- 10 | --function: foo();
-    :             ^^^^^
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:9:18]
+  9 | 
+ 10 | 	--function: foo();
+    :              ^^^^^
     `----
 
   x Function
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:10:5]
- 10 | --function: foo();
-    :             ^^^^^
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:9:18]
+  9 | 
+ 10 | 	--function: foo();
+    :              ^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:10:5]
- 10 | --function: foo();
-    :             ^^^
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:9:18]
+  9 | 
+ 10 | 	--function: foo();
+    :              ^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:11:5]
- 11 | --nested-function: foo(bar());
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:10:23]
+ 10 | 
+ 11 | 	--nested-function: foo(bar());
+    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:11:5]
- 11 | --nested-function: foo(bar());
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:10:23]
+ 10 | 
+ 11 | 	--nested-function: foo(bar());
+    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:11:5]
- 11 | --nested-function: foo(bar());
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:10:23]
+ 10 | 
+ 11 | 	--nested-function: foo(bar());
+    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:11:5]
- 11 | --nested-function: foo(bar());
-    : ^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:10:23]
+ 10 | 
+ 11 | 	--nested-function: foo(bar());
+    :  ^^^^^^^^^^^^^^^^^
     `----
 
   x DashedIdent
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:11:5]
- 11 | --nested-function: foo(bar());
-    : ^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:10:23]
+ 10 | 
+ 11 | 	--nested-function: foo(bar());
+    :  ^^^^^^^^^^^^^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:11:5]
- 11 | --nested-function: foo(bar());
-    :                    ^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:10:23]
+ 10 | 
+ 11 | 	--nested-function: foo(bar());
+    :                     ^^^^^^^^^^
     `----
 
   x Function
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:11:5]
- 11 | --nested-function: foo(bar());
-    :                    ^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:10:23]
+ 10 | 
+ 11 | 	--nested-function: foo(bar());
+    :                     ^^^^^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:11:5]
- 11 | --nested-function: foo(bar());
-    :                    ^^^
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:10:23]
+ 10 | 
+ 11 | 	--nested-function: foo(bar());
+    :                     ^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:11:5]
- 11 | --nested-function: foo(bar());
-    :                        ^^^^^
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:10:23]
+ 10 | 
+ 11 | 	--nested-function: foo(bar());
+    :                         ^^^^^
     `----
 
   x Function
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:11:5]
- 11 | --nested-function: foo(bar());
-    :                        ^^^^^
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:10:23]
+ 10 | 
+ 11 | 	--nested-function: foo(bar());
+    :                         ^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:11:5]
- 11 | --nested-function: foo(bar());
-    :                        ^^^
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:10:23]
+ 10 | 
+ 11 | 	--nested-function: foo(bar());
+    :                         ^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:12:5]
- 12 | --parentheses: ( );
-    : ^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:11:35]
+ 11 | 
+ 12 | 	--parentheses: ( );
+    :  ^^^^^^^^^^^^^^^^^^
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:12:5]
- 12 | --parentheses: ( );
-    : ^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:11:35]
+ 11 | 
+ 12 | 	--parentheses: ( );
+    :  ^^^^^^^^^^^^^^^^^^
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:12:5]
- 12 | --parentheses: ( );
-    : ^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:11:35]
+ 11 | 
+ 12 | 	--parentheses: ( );
+    :  ^^^^^^^^^^^^^^^^^^
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:12:5]
- 12 | --parentheses: ( );
-    : ^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:11:35]
+ 11 | 
+ 12 | 	--parentheses: ( );
+    :  ^^^^^^^^^^^^^
     `----
 
   x DashedIdent
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:12:5]
- 12 | --parentheses: ( );
-    : ^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:11:35]
+ 11 | 
+ 12 | 	--parentheses: ( );
+    :  ^^^^^^^^^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:12:5]
- 12 | --parentheses: ( );
-    :                ^^^
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:11:35]
+ 11 | 
+ 12 | 	--parentheses: ( );
+    :                 ^^^
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:12:5]
- 12 | --parentheses: ( );
-    :                ^^^
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:11:35]
+ 11 | 
+ 12 | 	--parentheses: ( );
+    :                 ^^^
     `----
 
   x LParen
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:12:5]
- 12 | --parentheses: ( );
-    :                ^
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:11:35]
+ 11 | 
+ 12 | 	--parentheses: ( );
+    :                 ^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:12:5]
- 12 | --parentheses: ( );
-    :                 ^
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:11:35]
+ 11 | 
+ 12 | 	--parentheses: ( );
+    :                  ^
     `----
 
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:12:5]
- 12 | --parentheses: ( );
-    :                 ^
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:11:35]
+ 11 | 
+ 12 | 	--parentheses: ( );
+    :                  ^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:13:5]
- 13 | --braces: { };
-    : ^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:12:24]
+ 12 | 
+ 13 | 	--braces: { };
+    :  ^^^^^^^^^^^^^
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:13:5]
- 13 | --braces: { };
-    : ^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:12:24]
+ 12 | 
+ 13 | 	--braces: { };
+    :  ^^^^^^^^^^^^^
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:13:5]
- 13 | --braces: { };
-    : ^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:12:24]
+ 12 | 
+ 13 | 	--braces: { };
+    :  ^^^^^^^^^^^^^
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:13:5]
- 13 | --braces: { };
-    : ^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:12:24]
+ 12 | 
+ 13 | 	--braces: { };
+    :  ^^^^^^^^
     `----
 
   x DashedIdent
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:13:5]
- 13 | --braces: { };
-    : ^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:12:24]
+ 12 | 
+ 13 | 	--braces: { };
+    :  ^^^^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:13:5]
- 13 | --braces: { };
-    :           ^^^
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:12:24]
+ 12 | 
+ 13 | 	--braces: { };
+    :            ^^^
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:13:5]
- 13 | --braces: { };
-    :           ^^^
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:12:24]
+ 12 | 
+ 13 | 	--braces: { };
+    :            ^^^
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:13:5]
- 13 | --braces: { };
-    :           ^
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:12:24]
+ 12 | 
+ 13 | 	--braces: { };
+    :            ^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:13:5]
- 13 | --braces: { };
-    :            ^
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:12:24]
+ 12 | 
+ 13 | 	--braces: { };
+    :             ^
     `----
 
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:13:5]
- 13 | --braces: { };
-    :            ^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:14:5]
- 14 | --brackets: [ ];
-    : ^^^^^^^^^^^^^^^
-    `----
-
-  x StyleBlock
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:14:5]
- 14 | --brackets: [ ];
-    : ^^^^^^^^^^^^^^^
-    `----
-
-  x Declaration
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:14:5]
- 14 | --brackets: [ ];
-    : ^^^^^^^^^^^^^^^
-    `----
-
-  x DeclarationName
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:14:5]
- 14 | --brackets: [ ];
-    : ^^^^^^^^^^
-    `----
-
-  x DashedIdent
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:14:5]
- 14 | --brackets: [ ];
-    : ^^^^^^^^^^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:14:5]
- 14 | --brackets: [ ];
-    :             ^^^
-    `----
-
-  x SimpleBlock
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:14:5]
- 14 | --brackets: [ ];
-    :             ^^^
-    `----
-
-  x LBracket
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:14:5]
- 14 | --brackets: [ ];
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:12:24]
+ 12 | 
+ 13 | 	--braces: { };
     :             ^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:14:5]
- 14 | --brackets: [ ];
-    :              ^
-    `----
-
-  x WhiteSpace { value: " " }
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:14:5]
- 14 | --brackets: [ ];
-    :              ^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:15:5]
- 15 | --at-keyword-unknown: @foobar;
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:13:19]
+ 13 | 
+ 14 | 	--brackets: [ ];
+    :  ^^^^^^^^^^^^^^^
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:15:5]
- 15 | --at-keyword-unknown: @foobar;
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:13:19]
+ 13 | 
+ 14 | 	--brackets: [ ];
+    :  ^^^^^^^^^^^^^^^
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:15:5]
- 15 | --at-keyword-unknown: @foobar;
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:13:19]
+ 13 | 
+ 14 | 	--brackets: [ ];
+    :  ^^^^^^^^^^^^^^^
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:15:5]
- 15 | --at-keyword-unknown: @foobar;
-    : ^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:13:19]
+ 13 | 
+ 14 | 	--brackets: [ ];
+    :  ^^^^^^^^^^
     `----
 
   x DashedIdent
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:15:5]
- 15 | --at-keyword-unknown: @foobar;
-    : ^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:13:19]
+ 13 | 
+ 14 | 	--brackets: [ ];
+    :  ^^^^^^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:15:5]
- 15 | --at-keyword-unknown: @foobar;
-    :                       ^^^^^^^
-    `----
-
-  x AtKeyword { value: Atom('foobar' type=inline), raw: "foobar" }
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:15:5]
- 15 | --at-keyword-unknown: @foobar;
-    :                       ^^^^^^^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:16:5]
- 16 | --at-keyword-known: @media;
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x StyleBlock
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:16:5]
- 16 | --at-keyword-known: @media;
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x Declaration
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:16:5]
- 16 | --at-keyword-known: @media;
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x DeclarationName
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:16:5]
- 16 | --at-keyword-known: @media;
-    : ^^^^^^^^^^^^^^^^^^
-    `----
-
-  x DashedIdent
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:16:5]
- 16 | --at-keyword-known: @media;
-    : ^^^^^^^^^^^^^^^^^^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:16:5]
- 16 | --at-keyword-known: @media;
-    :                     ^^^^^^
-    `----
-
-  x AtKeyword { value: Atom('media' type=static), raw: "media" }
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:16:5]
- 16 | --at-keyword-known: @media;
-    :                     ^^^^^^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:17:5]
- 17 | --at-keyword-unknown-block: @foobar {};
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x StyleBlock
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:17:5]
- 17 | --at-keyword-unknown-block: @foobar {};
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x Declaration
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:17:5]
- 17 | --at-keyword-unknown-block: @foobar {};
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x DeclarationName
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:17:5]
- 17 | --at-keyword-unknown-block: @foobar {};
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x DashedIdent
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:17:5]
- 17 | --at-keyword-unknown-block: @foobar {};
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:17:5]
- 17 | --at-keyword-unknown-block: @foobar {};
-    :                             ^^^^^^^
-    `----
-
-  x AtKeyword { value: Atom('foobar' type=inline), raw: "foobar" }
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:17:5]
- 17 | --at-keyword-unknown-block: @foobar {};
-    :                             ^^^^^^^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:17:5]
- 17 | --at-keyword-unknown-block: @foobar {};
-    :                                    ^
-    `----
-
-  x WhiteSpace { value: " " }
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:17:5]
- 17 | --at-keyword-unknown-block: @foobar {};
-    :                                    ^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:17:5]
- 17 | --at-keyword-unknown-block: @foobar {};
-    :                                     ^^
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:13:19]
+ 13 | 
+ 14 | 	--brackets: [ ];
+    :              ^^^
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:17:5]
- 17 | --at-keyword-unknown-block: @foobar {};
-    :                                     ^^
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:13:19]
+ 13 | 
+ 14 | 	--brackets: [ ];
+    :              ^^^
     `----
 
-  x LBrace
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:17:5]
- 17 | --at-keyword-unknown-block: @foobar {};
+  x LBracket
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:13:19]
+ 13 | 
+ 14 | 	--brackets: [ ];
+    :              ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:13:19]
+ 13 | 
+ 14 | 	--brackets: [ ];
+    :               ^
+    `----
+
+  x WhiteSpace { value: " " }
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:13:19]
+ 13 | 
+ 14 | 	--brackets: [ ];
+    :               ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:14:21]
+ 14 | 
+ 15 | 	--at-keyword-unknown: @foobar;
+    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x StyleBlock
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:14:21]
+ 14 | 
+ 15 | 	--at-keyword-unknown: @foobar;
+    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:14:21]
+ 14 | 
+ 15 | 	--at-keyword-unknown: @foobar;
+    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:14:21]
+ 14 | 
+ 15 | 	--at-keyword-unknown: @foobar;
+    :  ^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x DashedIdent
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:14:21]
+ 14 | 
+ 15 | 	--at-keyword-unknown: @foobar;
+    :  ^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:14:21]
+ 14 | 
+ 15 | 	--at-keyword-unknown: @foobar;
+    :                        ^^^^^^^
+    `----
+
+  x AtKeyword { value: Atom('foobar' type=inline), raw: "foobar" }
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:14:21]
+ 14 | 
+ 15 | 	--at-keyword-unknown: @foobar;
+    :                        ^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:15:35]
+ 15 | 
+ 16 | 	--at-keyword-known: @media;
+    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x StyleBlock
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:15:35]
+ 15 | 
+ 16 | 	--at-keyword-known: @media;
+    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:15:35]
+ 15 | 
+ 16 | 	--at-keyword-known: @media;
+    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:15:35]
+ 15 | 
+ 16 | 	--at-keyword-known: @media;
+    :  ^^^^^^^^^^^^^^^^^^
+    `----
+
+  x DashedIdent
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:15:35]
+ 15 | 
+ 16 | 	--at-keyword-known: @media;
+    :  ^^^^^^^^^^^^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:15:35]
+ 15 | 
+ 16 | 	--at-keyword-known: @media;
+    :                      ^^^^^^
+    `----
+
+  x AtKeyword { value: Atom('media' type=static), raw: "media" }
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:15:35]
+ 15 | 
+ 16 | 	--at-keyword-known: @media;
+    :                      ^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:16:32]
+ 16 | 
+ 17 | 	--at-keyword-unknown-block: @foobar {};
+    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x StyleBlock
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:16:32]
+ 16 | 
+ 17 | 	--at-keyword-unknown-block: @foobar {};
+    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:16:32]
+ 16 | 
+ 17 | 	--at-keyword-unknown-block: @foobar {};
+    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:16:32]
+ 16 | 
+ 17 | 	--at-keyword-unknown-block: @foobar {};
+    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x DashedIdent
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:16:32]
+ 16 | 
+ 17 | 	--at-keyword-unknown-block: @foobar {};
+    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:16:32]
+ 16 | 
+ 17 | 	--at-keyword-unknown-block: @foobar {};
+    :                              ^^^^^^^
+    `----
+
+  x AtKeyword { value: Atom('foobar' type=inline), raw: "foobar" }
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:16:32]
+ 16 | 
+ 17 | 	--at-keyword-unknown-block: @foobar {};
+    :                              ^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:16:32]
+ 16 | 
+ 17 | 	--at-keyword-unknown-block: @foobar {};
+    :                                     ^
+    `----
+
+  x WhiteSpace { value: " " }
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:16:32]
+ 16 | 
+ 17 | 	--at-keyword-unknown-block: @foobar {};
     :                                     ^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:18:5]
- 18 | --at-keyword-known-block: @media {};
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x StyleBlock
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:18:5]
- 18 | --at-keyword-known-block: @media {};
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x Declaration
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:18:5]
- 18 | --at-keyword-known-block: @media {};
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x DeclarationName
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:18:5]
- 18 | --at-keyword-known-block: @media {};
-    : ^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x DashedIdent
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:18:5]
- 18 | --at-keyword-known-block: @media {};
-    : ^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:18:5]
- 18 | --at-keyword-known-block: @media {};
-    :                           ^^^^^^
-    `----
-
-  x AtKeyword { value: Atom('media' type=static), raw: "media" }
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:18:5]
- 18 | --at-keyword-known-block: @media {};
-    :                           ^^^^^^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:18:5]
- 18 | --at-keyword-known-block: @media {};
-    :                                 ^
-    `----
-
-  x WhiteSpace { value: " " }
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:18:5]
- 18 | --at-keyword-known-block: @media {};
-    :                                 ^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:18:5]
- 18 | --at-keyword-known-block: @media {};
-    :                                  ^^
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:16:32]
+ 16 | 
+ 17 | 	--at-keyword-unknown-block: @foobar {};
+    :                                      ^^
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:18:5]
- 18 | --at-keyword-known-block: @media {};
-    :                                  ^^
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:16:32]
+ 16 | 
+ 17 | 	--at-keyword-unknown-block: @foobar {};
+    :                                      ^^
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:18:5]
- 18 | --at-keyword-known-block: @media {};
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:16:32]
+ 16 | 
+ 17 | 	--at-keyword-unknown-block: @foobar {};
+    :                                      ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:17:44]
+ 17 | 
+ 18 | 	--at-keyword-known-block: @media {};
+    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x StyleBlock
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:17:44]
+ 17 | 
+ 18 | 	--at-keyword-known-block: @media {};
+    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:17:44]
+ 17 | 
+ 18 | 	--at-keyword-known-block: @media {};
+    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:17:44]
+ 17 | 
+ 18 | 	--at-keyword-known-block: @media {};
+    :  ^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x DashedIdent
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:17:44]
+ 17 | 
+ 18 | 	--at-keyword-known-block: @media {};
+    :  ^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:17:44]
+ 17 | 
+ 18 | 	--at-keyword-known-block: @media {};
+    :                            ^^^^^^
+    `----
+
+  x AtKeyword { value: Atom('media' type=static), raw: "media" }
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:17:44]
+ 17 | 
+ 18 | 	--at-keyword-known-block: @media {};
+    :                            ^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:17:44]
+ 17 | 
+ 18 | 	--at-keyword-known-block: @media {};
+    :                                  ^
+    `----
+
+  x WhiteSpace { value: " " }
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:17:44]
+ 17 | 
+ 18 | 	--at-keyword-known-block: @media {};
     :                                  ^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:19:5]
- 19 | --cdo-at-top-level: <!--;
-    : ^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x StyleBlock
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:19:5]
- 19 | --cdo-at-top-level: <!--;
-    : ^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x Declaration
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:19:5]
- 19 | --cdo-at-top-level: <!--;
-    : ^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x DeclarationName
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:19:5]
- 19 | --cdo-at-top-level: <!--;
-    : ^^^^^^^^^^^^^^^^^^
-    `----
-
-  x DashedIdent
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:19:5]
- 19 | --cdo-at-top-level: <!--;
-    : ^^^^^^^^^^^^^^^^^^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:19:5]
- 19 | --cdo-at-top-level: <!--;
-    :                     ^^^^
-    `----
-
-  x CDO
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:19:5]
- 19 | --cdo-at-top-level: <!--;
-    :                     ^^^^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:20:5]
- 20 | --cdc-at-top-level: -->;
-    : ^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x StyleBlock
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:20:5]
- 20 | --cdc-at-top-level: -->;
-    : ^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x Declaration
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:20:5]
- 20 | --cdc-at-top-level: -->;
-    : ^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x DeclarationName
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:20:5]
- 20 | --cdc-at-top-level: -->;
-    : ^^^^^^^^^^^^^^^^^^
-    `----
-
-  x DashedIdent
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:20:5]
- 20 | --cdc-at-top-level: -->;
-    : ^^^^^^^^^^^^^^^^^^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:20:5]
- 20 | --cdc-at-top-level: -->;
-    :                     ^^^
-    `----
-
-  x CDC
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:20:5]
- 20 | --cdc-at-top-level: -->;
-    :                     ^^^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:21:5]
- 21 | --cdo-not-top-level: (<!--);
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x StyleBlock
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:21:5]
- 21 | --cdo-not-top-level: (<!--);
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x Declaration
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:21:5]
- 21 | --cdo-not-top-level: (<!--);
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x DeclarationName
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:21:5]
- 21 | --cdo-not-top-level: (<!--);
-    : ^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x DashedIdent
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:21:5]
- 21 | --cdo-not-top-level: (<!--);
-    : ^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:21:5]
- 21 | --cdo-not-top-level: (<!--);
-    :                      ^^^^^^
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:17:44]
+ 17 | 
+ 18 | 	--at-keyword-known-block: @media {};
+    :                                   ^^
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:21:5]
- 21 | --cdo-not-top-level: (<!--);
-    :                      ^^^^^^
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:17:44]
+ 17 | 
+ 18 | 	--at-keyword-known-block: @media {};
+    :                                   ^^
     `----
 
-  x LParen
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:21:5]
- 21 | --cdo-not-top-level: (<!--);
-    :                      ^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:21:5]
- 21 | --cdo-not-top-level: (<!--);
-    :                       ^^^^
-    `----
-
-  x CDO
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:21:5]
- 21 | --cdo-not-top-level: (<!--);
-    :                       ^^^^
+  x LBrace
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:17:44]
+ 17 | 
+ 18 | 	--at-keyword-known-block: @media {};
+    :                                   ^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:22:5]
- 22 | --cdc-not-top-level: (-->);
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:18:41]
+ 18 | 
+ 19 | 	--cdo-at-top-level: <!--;
+    :  ^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:22:5]
- 22 | --cdc-not-top-level: (-->);
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:18:41]
+ 18 | 
+ 19 | 	--cdo-at-top-level: <!--;
+    :  ^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:22:5]
- 22 | --cdc-not-top-level: (-->);
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:18:41]
+ 18 | 
+ 19 | 	--cdo-at-top-level: <!--;
+    :  ^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:22:5]
- 22 | --cdc-not-top-level: (-->);
-    : ^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:18:41]
+ 18 | 
+ 19 | 	--cdo-at-top-level: <!--;
+    :  ^^^^^^^^^^^^^^^^^^
     `----
 
   x DashedIdent
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:22:5]
- 22 | --cdc-not-top-level: (-->);
-    : ^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:18:41]
+ 18 | 
+ 19 | 	--cdo-at-top-level: <!--;
+    :  ^^^^^^^^^^^^^^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:22:5]
- 22 | --cdc-not-top-level: (-->);
-    :                      ^^^^^
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:18:41]
+ 18 | 
+ 19 | 	--cdo-at-top-level: <!--;
+    :                      ^^^^
     `----
 
-  x SimpleBlock
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:22:5]
- 22 | --cdc-not-top-level: (-->);
-    :                      ^^^^^
-    `----
-
-  x LParen
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:22:5]
- 22 | --cdc-not-top-level: (-->);
-    :                      ^
+  x CDO
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:18:41]
+ 18 | 
+ 19 | 	--cdo-at-top-level: <!--;
+    :                      ^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:22:5]
- 22 | --cdc-not-top-level: (-->);
-    :                       ^^^
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:19:30]
+ 19 | 
+ 20 | 	--cdc-at-top-level: -->;
+    :  ^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x StyleBlock
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:19:30]
+ 19 | 
+ 20 | 	--cdc-at-top-level: -->;
+    :  ^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:19:30]
+ 19 | 
+ 20 | 	--cdc-at-top-level: -->;
+    :  ^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:19:30]
+ 19 | 
+ 20 | 	--cdc-at-top-level: -->;
+    :  ^^^^^^^^^^^^^^^^^^
+    `----
+
+  x DashedIdent
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:19:30]
+ 19 | 
+ 20 | 	--cdc-at-top-level: -->;
+    :  ^^^^^^^^^^^^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:19:30]
+ 19 | 
+ 20 | 	--cdc-at-top-level: -->;
+    :                      ^^^
     `----
 
   x CDC
-    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:22:5]
- 22 | --cdc-not-top-level: (-->);
-    :                       ^^^
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:19:30]
+ 19 | 
+ 20 | 	--cdc-at-top-level: -->;
+    :                      ^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:20:29]
+ 20 | 
+ 21 | 	--cdo-not-top-level: (<!--);
+    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x StyleBlock
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:20:29]
+ 20 | 
+ 21 | 	--cdo-not-top-level: (<!--);
+    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:20:29]
+ 20 | 
+ 21 | 	--cdo-not-top-level: (<!--);
+    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:20:29]
+ 20 | 
+ 21 | 	--cdo-not-top-level: (<!--);
+    :  ^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x DashedIdent
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:20:29]
+ 20 | 
+ 21 | 	--cdo-not-top-level: (<!--);
+    :  ^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:20:29]
+ 20 | 
+ 21 | 	--cdo-not-top-level: (<!--);
+    :                       ^^^^^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:20:29]
+ 20 | 
+ 21 | 	--cdo-not-top-level: (<!--);
+    :                       ^^^^^^
+    `----
+
+  x LParen
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:20:29]
+ 20 | 
+ 21 | 	--cdo-not-top-level: (<!--);
+    :                       ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:20:29]
+ 20 | 
+ 21 | 	--cdo-not-top-level: (<!--);
+    :                        ^^^^
+    `----
+
+  x CDO
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:20:29]
+ 20 | 
+ 21 | 	--cdo-not-top-level: (<!--);
+    :                        ^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:21:33]
+ 21 | 
+ 22 | 	--cdc-not-top-level: (-->);
+    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x StyleBlock
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:21:33]
+ 21 | 
+ 22 | 	--cdc-not-top-level: (-->);
+    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:21:33]
+ 21 | 
+ 22 | 	--cdc-not-top-level: (-->);
+    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:21:33]
+ 21 | 
+ 22 | 	--cdc-not-top-level: (-->);
+    :  ^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x DashedIdent
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:21:33]
+ 21 | 
+ 22 | 	--cdc-not-top-level: (-->);
+    :  ^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:21:33]
+ 21 | 
+ 22 | 	--cdc-not-top-level: (-->);
+    :                       ^^^^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:21:33]
+ 21 | 
+ 22 | 	--cdc-not-top-level: (-->);
+    :                       ^^^^^
+    `----
+
+  x LParen
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:21:33]
+ 21 | 
+ 22 | 	--cdc-not-top-level: (-->);
+    :                       ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:21:33]
+ 21 | 
+ 22 | 	--cdc-not-top-level: (-->);
+    :                        ^^^
+    `----
+
+  x CDC
+    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:21:33]
+ 21 | 
+ 22 | 	--cdc-not-top-level: (-->);
+    :                        ^^^
     `----

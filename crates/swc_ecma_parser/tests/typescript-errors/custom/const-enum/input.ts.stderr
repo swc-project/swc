@@ -1,6 +1,7 @@
 
   x Expected ',', got 'g'
-   ,-[$DIR/tests/typescript-errors/custom/const-enum/input.ts:4:5]
- 4 | g = CONST
-   : ^
+   ,-[$DIR/tests/typescript-errors/custom/const-enum/input.ts:3:8]
+ 3 |  10
+ 4 |     g = CONST
+   :     ^
    `----

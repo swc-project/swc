@@ -1,6 +1,7 @@
 
   x 'static' modifier must precede 'override' modifier.
-   ,-[$DIR/tests/typescript-errors/class/override-with-static/input.ts:2:3]
- 2 | override static t() {}
-   :          ^^^^^^
+   ,-[$DIR/tests/typescript-errors/class/override-with-static/input.ts:1:19]
+ 1 | {
+ 2 |   override static t() {}
+   :            ^^^^^^
    `----

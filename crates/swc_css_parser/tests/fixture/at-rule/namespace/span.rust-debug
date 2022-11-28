@@ -8,7 +8,7 @@
  5 | |   @namespace svg url(http://www.w3.org/2000/svg);
  6 | |   @namespace svg url("http://www.w3.org/2000/svg");
  7 | |   @namespace "http://www.w3.org/1999/xhtml";
- 8 | `-> @namespace svg "http://www.w3.org/2000/svg";
+ 8 | |   @namespace svg "http://www.w3.org/2000/svg";
    `----
 
   x Rule

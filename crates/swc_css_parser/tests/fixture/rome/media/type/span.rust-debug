@@ -7,7 +7,6 @@
  4 | |   @media print, screen {}
  5 | |   @media screen, all, print {}
  6 | |   @media only screen, not all, only print {}
- 7 | `-> 
    `----
 
   x Rule

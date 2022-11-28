@@ -4,7 +4,7 @@
  1 | ,-> :dir(ltr) {}
  2 | |   :dir(   ltr   ) {}
  3 | |   :dir(rtl) {}
- 4 | `-> :dir(   rtl   ) {}
+ 4 | |   :dir(   rtl   ) {}
    `----
 
   x Rule

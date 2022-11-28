@@ -1,12 +1,14 @@
 
   x 'override' modifier cannot be used with 'declare' modifier.
-   ,-[$DIR/tests/typescript-errors/class/override-with-declare/input.ts:2:3]
- 2 | declare override m1(): any
-   :         ^^^^^^^^
+   ,-[$DIR/tests/typescript-errors/class/override-with-declare/input.ts:1:17]
+ 1 | {
+ 2 |   declare override m1(): any
+   :           ^^^^^^^^
    `----
 
   x `declare` modifier cannot appear on class elements of this kind
-   ,-[$DIR/tests/typescript-errors/class/override-with-declare/input.ts:2:3]
- 2 | declare override m1(): any
-   : ^^^^^^^
+   ,-[$DIR/tests/typescript-errors/class/override-with-declare/input.ts:1:17]
+ 1 | {
+ 2 |   declare override m1(): any
+   :   ^^^^^^^
    `----

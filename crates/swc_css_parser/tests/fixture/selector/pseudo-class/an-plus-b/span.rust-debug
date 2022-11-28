@@ -107,7 +107,7 @@
  104 | |   :nth-child(2n+1 of li,.test) {}
  105 | |   :nth-child(2n+1 of li, .test) {}
  106 | |   :nth-child(-n+3 of li.important) {}
- 107 | `-> tr:nth-child(even of :not([hidden])) {}
+ 107 | |   tr:nth-child(even of :not([hidden])) {}
      `----
 
   x Rule

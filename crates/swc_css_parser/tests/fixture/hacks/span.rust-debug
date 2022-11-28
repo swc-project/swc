@@ -7,7 +7,7 @@
  4 | |   .selector { _property: value; }
  5 | |   .selector { -property: value; }
  6 | |   .selector { property: value\9; }
- 7 | `-> .selector { property/*\**/: value\9; }
+ 7 | |   .selector { property/*\**/: value\9; }
    `----
 
   x Rule

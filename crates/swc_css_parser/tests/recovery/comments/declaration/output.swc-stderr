@@ -1,6 +1,7 @@
 
   x Expected Declaration value
-   ,-[$DIR/tests/recovery/comments/declaration/input.css:3:9]
- 3 | /* comment */:
-   :              ^
+   ,-[$DIR/tests/recovery/comments/declaration/input.css:2:45]
+ 2 | ment */
+ 3 |         /* comment */:
+   :                      ^
    `----

@@ -41,39 +41,45 @@
    `----
 
   x TsEnumMember
-   ,-[$DIR/tests/span/ts/declare/enum.ts:2:5]
- 2 | A = 1
-   : ^^^^^
+   ,-[$DIR/tests/span/ts/declare/enum.ts:1:21]
+ 1 | n {
+ 2 |     A = 1
+   :     ^^^^^
    `----
 
   x TsEnumMemberId
-   ,-[$DIR/tests/span/ts/declare/enum.ts:2:5]
- 2 | A = 1
-   : ^
+   ,-[$DIR/tests/span/ts/declare/enum.ts:1:21]
+ 1 | n {
+ 2 |     A = 1
+   :     ^
    `----
 
   x Ident
-   ,-[$DIR/tests/span/ts/declare/enum.ts:2:5]
- 2 | A = 1
-   : ^
+   ,-[$DIR/tests/span/ts/declare/enum.ts:1:21]
+ 1 | n {
+ 2 |     A = 1
+   :     ^
    `----
 
   x Expr
-   ,-[$DIR/tests/span/ts/declare/enum.ts:2:5]
- 2 | A = 1
-   :     ^
+   ,-[$DIR/tests/span/ts/declare/enum.ts:1:21]
+ 1 | n {
+ 2 |     A = 1
+   :         ^
    `----
 
   x Lit
-   ,-[$DIR/tests/span/ts/declare/enum.ts:2:5]
- 2 | A = 1
-   :     ^
+   ,-[$DIR/tests/span/ts/declare/enum.ts:1:21]
+ 1 | n {
+ 2 |     A = 1
+   :         ^
    `----
 
   x Number
-   ,-[$DIR/tests/span/ts/declare/enum.ts:2:5]
- 2 | A = 1
-   :     ^
+   ,-[$DIR/tests/span/ts/declare/enum.ts:1:21]
+ 1 | n {
+ 2 |     A = 1
+   :         ^
    `----
 
   x ModuleItem

@@ -3,7 +3,7 @@
    ,-[$DIR/tests/fixture/rome/at-page/page-properties/input.css:1:1]
  1 | ,-> @page {
  2 | |   	display: none;
- 3 | `-> }
+ 3 | |   }
    `----
 
   x Rule
@@ -46,37 +46,43 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/at-page/page-properties/input.css:2:5]
- 2 | display: none;
-   : ^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/at-page/page-properties/input.css:1:8]
+ 1 | 
+ 2 | 	display: none;
+   :  ^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/rome/at-page/page-properties/input.css:2:5]
- 2 | display: none;
-   : ^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/at-page/page-properties/input.css:1:8]
+ 1 | 
+ 2 | 	display: none;
+   :  ^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/rome/at-page/page-properties/input.css:2:5]
- 2 | display: none;
-   : ^^^^^^^
+   ,-[$DIR/tests/fixture/rome/at-page/page-properties/input.css:1:8]
+ 1 | 
+ 2 | 	display: none;
+   :  ^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/at-page/page-properties/input.css:2:5]
- 2 | display: none;
-   : ^^^^^^^
+   ,-[$DIR/tests/fixture/rome/at-page/page-properties/input.css:1:8]
+ 1 | 
+ 2 | 	display: none;
+   :  ^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/at-page/page-properties/input.css:2:5]
- 2 | display: none;
-   :          ^^^^
+   ,-[$DIR/tests/fixture/rome/at-page/page-properties/input.css:1:8]
+ 1 | 
+ 2 | 	display: none;
+   :           ^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/at-page/page-properties/input.css:2:5]
- 2 | display: none;
-   :          ^^^^
+   ,-[$DIR/tests/fixture/rome/at-page/page-properties/input.css:1:8]
+ 1 | 
+ 2 | 	display: none;
+   :           ^^^^
    `----

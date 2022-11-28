@@ -103,31 +103,36 @@
    `----
 
   x Stmt
-   ,-[$DIR/tests/span/js/issue-3236/function.js:2:5]
- 2 | "use strict";
-   : ^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/issue-3236/function.js:1:17]
+ 1 | ) {
+ 2 |     "use strict";
+   :     ^^^^^^^^^^^^^
    `----
 
   x ExprStmt
-   ,-[$DIR/tests/span/js/issue-3236/function.js:2:5]
- 2 | "use strict";
-   : ^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/issue-3236/function.js:1:17]
+ 1 | ) {
+ 2 |     "use strict";
+   :     ^^^^^^^^^^^^^
    `----
 
   x Expr
-   ,-[$DIR/tests/span/js/issue-3236/function.js:2:5]
- 2 | "use strict";
-   : ^^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/issue-3236/function.js:1:17]
+ 1 | ) {
+ 2 |     "use strict";
+   :     ^^^^^^^^^^^^
    `----
 
   x Lit
-   ,-[$DIR/tests/span/js/issue-3236/function.js:2:5]
- 2 | "use strict";
-   : ^^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/issue-3236/function.js:1:17]
+ 1 | ) {
+ 2 |     "use strict";
+   :     ^^^^^^^^^^^^
    `----
 
   x Str
-   ,-[$DIR/tests/span/js/issue-3236/function.js:2:5]
- 2 | "use strict";
-   : ^^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/issue-3236/function.js:1:17]
+ 1 | ) {
+ 2 |     "use strict";
+   :     ^^^^^^^^^^^^
    `----

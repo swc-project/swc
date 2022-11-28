@@ -1,12 +1,14 @@
 
   x Expected dashed-ident must be at least 3 characters
-   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:2:5]
- 2 | --:value;
-   : ^^
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:1:5]
+ 1 | t {
+ 2 |     --:value;
+   :     ^^
    `----
 
   x Expected dashed-ident must be at least 3 characters
-   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:6:5]
- 6 | counter-reset: -- --a -a;
-   :                ^^
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:5:2]
+ 5 | a {
+ 6 |     counter-reset: -- --a -a;
+   :                    ^^
    `----

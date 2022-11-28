@@ -3186,327 +3186,381 @@
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:16:8]
- 16 | :nth-last-of-type(9 )  #b,
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:15:28]
+ 15 |    #a,
+ 16 |        :nth-last-of-type(9 )  #b,
+    :        ^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:16:8]
- 16 | :nth-last-of-type(9 )  #b,
-    : ^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:15:28]
+ 15 |    #a,
+ 16 |        :nth-last-of-type(9 )  #b,
+    :        ^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:16:8]
- 16 | :nth-last-of-type(9 )  #b,
-    : ^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:15:28]
+ 15 |    #a,
+ 16 |        :nth-last-of-type(9 )  #b,
+    :        ^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:16:8]
- 16 | :nth-last-of-type(9 )  #b,
-    : ^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:15:28]
+ 15 |    #a,
+ 16 |        :nth-last-of-type(9 )  #b,
+    :        ^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:16:8]
- 16 | :nth-last-of-type(9 )  #b,
-    :  ^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:15:28]
+ 15 |    #a,
+ 16 |        :nth-last-of-type(9 )  #b,
+    :         ^^^^^^^^^^^^^^^^
     `----
 
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:16:8]
- 16 | :nth-last-of-type(9 )  #b,
-    :                   ^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:15:28]
+ 15 |    #a,
+ 16 |        :nth-last-of-type(9 )  #b,
+    :                          ^
     `----
 
   x AnPlusB
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:16:8]
- 16 | :nth-last-of-type(9 )  #b,
-    :                   ^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:15:28]
+ 15 |    #a,
+ 16 |        :nth-last-of-type(9 )  #b,
+    :                          ^
     `----
 
   x AnPlusBNotation
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:16:8]
- 16 | :nth-last-of-type(9 )  #b,
-    :                   ^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:15:28]
+ 15 |    #a,
+ 16 |        :nth-last-of-type(9 )  #b,
+    :                          ^
     `----
 
   x Combinator
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:16:8]
- 16 | :nth-last-of-type(9 )  #b,
-    :                      ^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:15:28]
+ 15 |    #a,
+ 16 |        :nth-last-of-type(9 )  #b,
+    :                             ^^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:16:8]
- 16 | :nth-last-of-type(9 )  #b,
-    :                        ^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:15:28]
+ 15 |    #a,
+ 16 |        :nth-last-of-type(9 )  #b,
+    :                               ^^
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:16:8]
- 16 | :nth-last-of-type(9 )  #b,
-    :                        ^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:15:28]
+ 15 |    #a,
+ 16 |        :nth-last-of-type(9 )  #b,
+    :                               ^^
     `----
 
   x IdSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:16:8]
- 16 | :nth-last-of-type(9 )  #b,
-    :                        ^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:15:28]
+ 15 |    #a,
+ 16 |        :nth-last-of-type(9 )  #b,
+    :                               ^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:16:8]
- 16 | :nth-last-of-type(9 )  #b,
-    :                        ^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:15:28]
+ 15 |    #a,
+ 16 |        :nth-last-of-type(9 )  #b,
+    :                               ^^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:17:8]
- 17 | :nth-last-of-type( 9)  #c,
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:16:28]
+ 16 | )  #b,
+ 17 |        :nth-last-of-type( 9)  #c,
+    :        ^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:17:8]
- 17 | :nth-last-of-type( 9)  #c,
-    : ^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:16:28]
+ 16 | )  #b,
+ 17 |        :nth-last-of-type( 9)  #c,
+    :        ^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:17:8]
- 17 | :nth-last-of-type( 9)  #c,
-    : ^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:16:28]
+ 16 | )  #b,
+ 17 |        :nth-last-of-type( 9)  #c,
+    :        ^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:17:8]
- 17 | :nth-last-of-type( 9)  #c,
-    : ^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:16:28]
+ 16 | )  #b,
+ 17 |        :nth-last-of-type( 9)  #c,
+    :        ^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:17:8]
- 17 | :nth-last-of-type( 9)  #c,
-    :  ^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:16:28]
+ 16 | )  #b,
+ 17 |        :nth-last-of-type( 9)  #c,
+    :         ^^^^^^^^^^^^^^^^
     `----
 
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:17:8]
- 17 | :nth-last-of-type( 9)  #c,
-    :                    ^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:16:28]
+ 16 | )  #b,
+ 17 |        :nth-last-of-type( 9)  #c,
+    :                           ^
     `----
 
   x AnPlusB
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:17:8]
- 17 | :nth-last-of-type( 9)  #c,
-    :                    ^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:16:28]
+ 16 | )  #b,
+ 17 |        :nth-last-of-type( 9)  #c,
+    :                           ^
     `----
 
   x AnPlusBNotation
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:17:8]
- 17 | :nth-last-of-type( 9)  #c,
-    :                    ^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:16:28]
+ 16 | )  #b,
+ 17 |        :nth-last-of-type( 9)  #c,
+    :                           ^
     `----
 
   x Combinator
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:17:8]
- 17 | :nth-last-of-type( 9)  #c,
-    :                      ^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:16:28]
+ 16 | )  #b,
+ 17 |        :nth-last-of-type( 9)  #c,
+    :                             ^^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:17:8]
- 17 | :nth-last-of-type( 9)  #c,
-    :                        ^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:16:28]
+ 16 | )  #b,
+ 17 |        :nth-last-of-type( 9)  #c,
+    :                               ^^
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:17:8]
- 17 | :nth-last-of-type( 9)  #c,
-    :                        ^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:16:28]
+ 16 | )  #b,
+ 17 |        :nth-last-of-type( 9)  #c,
+    :                               ^^
     `----
 
   x IdSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:17:8]
- 17 | :nth-last-of-type( 9)  #c,
-    :                        ^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:16:28]
+ 16 | )  #b,
+ 17 |        :nth-last-of-type( 9)  #c,
+    :                               ^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:17:8]
- 17 | :nth-last-of-type( 9)  #c,
-    :                        ^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:16:28]
+ 16 | )  #b,
+ 17 |        :nth-last-of-type( 9)  #c,
+    :                               ^^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:18:8]
- 18 | :nth-last-of-type( 9 ) #d,
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:17:28]
+ 17 | )  #c,
+ 18 |        :nth-last-of-type( 9 ) #d,
+    :        ^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:18:8]
- 18 | :nth-last-of-type( 9 ) #d,
-    : ^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:17:28]
+ 17 | )  #c,
+ 18 |        :nth-last-of-type( 9 ) #d,
+    :        ^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:18:8]
- 18 | :nth-last-of-type( 9 ) #d,
-    : ^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:17:28]
+ 17 | )  #c,
+ 18 |        :nth-last-of-type( 9 ) #d,
+    :        ^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:18:8]
- 18 | :nth-last-of-type( 9 ) #d,
-    : ^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:17:28]
+ 17 | )  #c,
+ 18 |        :nth-last-of-type( 9 ) #d,
+    :        ^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:18:8]
- 18 | :nth-last-of-type( 9 ) #d,
-    :  ^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:17:28]
+ 17 | )  #c,
+ 18 |        :nth-last-of-type( 9 ) #d,
+    :         ^^^^^^^^^^^^^^^^
     `----
 
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:18:8]
- 18 | :nth-last-of-type( 9 ) #d,
-    :                    ^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:17:28]
+ 17 | )  #c,
+ 18 |        :nth-last-of-type( 9 ) #d,
+    :                           ^
     `----
 
   x AnPlusB
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:18:8]
- 18 | :nth-last-of-type( 9 ) #d,
-    :                    ^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:17:28]
+ 17 | )  #c,
+ 18 |        :nth-last-of-type( 9 ) #d,
+    :                           ^
     `----
 
   x AnPlusBNotation
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:18:8]
- 18 | :nth-last-of-type( 9 ) #d,
-    :                    ^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:17:28]
+ 17 | )  #c,
+ 18 |        :nth-last-of-type( 9 ) #d,
+    :                           ^
     `----
 
   x Combinator
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:18:8]
- 18 | :nth-last-of-type( 9 ) #d,
-    :                       ^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:17:28]
+ 17 | )  #c,
+ 18 |        :nth-last-of-type( 9 ) #d,
+    :                              ^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:18:8]
- 18 | :nth-last-of-type( 9 ) #d,
-    :                        ^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:17:28]
+ 17 | )  #c,
+ 18 |        :nth-last-of-type( 9 ) #d,
+    :                               ^^
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:18:8]
- 18 | :nth-last-of-type( 9 ) #d,
-    :                        ^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:17:28]
+ 17 | )  #c,
+ 18 |        :nth-last-of-type( 9 ) #d,
+    :                               ^^
     `----
 
   x IdSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:18:8]
- 18 | :nth-last-of-type( 9 ) #d,
-    :                        ^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:17:28]
+ 17 | )  #c,
+ 18 |        :nth-last-of-type( 9 ) #d,
+    :                               ^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:18:8]
- 18 | :nth-last-of-type( 9 ) #d,
-    :                        ^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:17:28]
+ 17 | )  #c,
+ 18 |        :nth-last-of-type( 9 ) #d,
+    :                               ^^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:19:8]
- 19 | :nth-last-of-type(9)   #e) {}
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:18:28]
+ 18 |  ) #d,
+ 19 |        :nth-last-of-type(9)   #e) {}
+    :        ^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:19:8]
- 19 | :nth-last-of-type(9)   #e) {}
-    : ^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:18:28]
+ 18 |  ) #d,
+ 19 |        :nth-last-of-type(9)   #e) {}
+    :        ^^^^^^^^^^^^^^^^^^^^
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:19:8]
- 19 | :nth-last-of-type(9)   #e) {}
-    : ^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:18:28]
+ 18 |  ) #d,
+ 19 |        :nth-last-of-type(9)   #e) {}
+    :        ^^^^^^^^^^^^^^^^^^^^
     `----
 
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:19:8]
- 19 | :nth-last-of-type(9)   #e) {}
-    : ^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:18:28]
+ 18 |  ) #d,
+ 19 |        :nth-last-of-type(9)   #e) {}
+    :        ^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:19:8]
- 19 | :nth-last-of-type(9)   #e) {}
-    :  ^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:18:28]
+ 18 |  ) #d,
+ 19 |        :nth-last-of-type(9)   #e) {}
+    :         ^^^^^^^^^^^^^^^^
     `----
 
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:19:8]
- 19 | :nth-last-of-type(9)   #e) {}
-    :                   ^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:18:28]
+ 18 |  ) #d,
+ 19 |        :nth-last-of-type(9)   #e) {}
+    :                          ^
     `----
 
   x AnPlusB
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:19:8]
- 19 | :nth-last-of-type(9)   #e) {}
-    :                   ^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:18:28]
+ 18 |  ) #d,
+ 19 |        :nth-last-of-type(9)   #e) {}
+    :                          ^
     `----
 
   x AnPlusBNotation
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:19:8]
- 19 | :nth-last-of-type(9)   #e) {}
-    :                   ^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:18:28]
+ 18 |  ) #d,
+ 19 |        :nth-last-of-type(9)   #e) {}
+    :                          ^
     `----
 
   x Combinator
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:19:8]
- 19 | :nth-last-of-type(9)   #e) {}
-    :                     ^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:18:28]
+ 18 |  ) #d,
+ 19 |        :nth-last-of-type(9)   #e) {}
+    :                            ^^^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:19:8]
- 19 | :nth-last-of-type(9)   #e) {}
-    :                        ^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:18:28]
+ 18 |  ) #d,
+ 19 |        :nth-last-of-type(9)   #e) {}
+    :                               ^^
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:19:8]
- 19 | :nth-last-of-type(9)   #e) {}
-    :                        ^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:18:28]
+ 18 |  ) #d,
+ 19 |        :nth-last-of-type(9)   #e) {}
+    :                               ^^
     `----
 
   x IdSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:19:8]
- 19 | :nth-last-of-type(9)   #e) {}
-    :                        ^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:18:28]
+ 18 |  ) #d,
+ 19 |        :nth-last-of-type(9)   #e) {}
+    :                               ^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:19:8]
- 19 | :nth-last-of-type(9)   #e) {}
-    :                        ^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:18:28]
+ 18 |  ) #d,
+ 19 |        :nth-last-of-type(9)   #e) {}
+    :                               ^^
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:19:8]
- 19 | :nth-last-of-type(9)   #e) {}
-    :                            ^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:18:28]
+ 18 |  ) #d,
+ 19 |        :nth-last-of-type(9)   #e) {}
+    :                                   ^^
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:19:8]
- 19 | :nth-last-of-type(9)   #e) {}
-    :                            ^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:18:28]
+ 18 |  ) #d,
+ 19 |        :nth-last-of-type(9)   #e) {}
+    :                                   ^
     `----
 
   x Rule
@@ -3636,159 +3690,185 @@
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:21:8]
- 21 | :nth-last-child(6),
-    : ^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:20:16]
+ 20 | ld(6),
+ 21 |        :nth-last-child(6),
+    :        ^^^^^^^^^^^^^^^^^^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:21:8]
- 21 | :nth-last-child(6),
-    : ^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:20:16]
+ 20 | ld(6),
+ 21 |        :nth-last-child(6),
+    :        ^^^^^^^^^^^^^^^^^^
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:21:8]
- 21 | :nth-last-child(6),
-    : ^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:20:16]
+ 20 | ld(6),
+ 21 |        :nth-last-child(6),
+    :        ^^^^^^^^^^^^^^^^^^
     `----
 
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:21:8]
- 21 | :nth-last-child(6),
-    : ^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:20:16]
+ 20 | ld(6),
+ 21 |        :nth-last-child(6),
+    :        ^^^^^^^^^^^^^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:21:8]
- 21 | :nth-last-child(6),
-    :  ^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:20:16]
+ 20 | ld(6),
+ 21 |        :nth-last-child(6),
+    :         ^^^^^^^^^^^^^^
     `----
 
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:21:8]
- 21 | :nth-last-child(6),
-    :                 ^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:20:16]
+ 20 | ld(6),
+ 21 |        :nth-last-child(6),
+    :                        ^
     `----
 
   x AnPlusB
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:21:8]
- 21 | :nth-last-child(6),
-    :                 ^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:20:16]
+ 20 | ld(6),
+ 21 |        :nth-last-child(6),
+    :                        ^
     `----
 
   x AnPlusBNotation
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:21:8]
- 21 | :nth-last-child(6),
-    :                 ^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:20:16]
+ 20 | ld(6),
+ 21 |        :nth-last-child(6),
+    :                        ^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:22:8]
- 22 | :nth-of-type(6),
-    : ^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:21:21]
+ 21 | ld(6),
+ 22 |        :nth-of-type(6),
+    :        ^^^^^^^^^^^^^^^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:22:8]
- 22 | :nth-of-type(6),
-    : ^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:21:21]
+ 21 | ld(6),
+ 22 |        :nth-of-type(6),
+    :        ^^^^^^^^^^^^^^^
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:22:8]
- 22 | :nth-of-type(6),
-    : ^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:21:21]
+ 21 | ld(6),
+ 22 |        :nth-of-type(6),
+    :        ^^^^^^^^^^^^^^^
     `----
 
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:22:8]
- 22 | :nth-of-type(6),
-    : ^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:21:21]
+ 21 | ld(6),
+ 22 |        :nth-of-type(6),
+    :        ^^^^^^^^^^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:22:8]
- 22 | :nth-of-type(6),
-    :  ^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:21:21]
+ 21 | ld(6),
+ 22 |        :nth-of-type(6),
+    :         ^^^^^^^^^^^
     `----
 
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:22:8]
- 22 | :nth-of-type(6),
-    :              ^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:21:21]
+ 21 | ld(6),
+ 22 |        :nth-of-type(6),
+    :                     ^
     `----
 
   x AnPlusB
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:22:8]
- 22 | :nth-of-type(6),
-    :              ^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:21:21]
+ 21 | ld(6),
+ 22 |        :nth-of-type(6),
+    :                     ^
     `----
 
   x AnPlusBNotation
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:22:8]
- 22 | :nth-of-type(6),
-    :              ^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:21:21]
+ 21 | ld(6),
+ 22 |        :nth-of-type(6),
+    :                     ^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:23:8]
- 23 | :nth-last-of-type(6)) {}
-    : ^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:22:18]
+ 22 | pe(6),
+ 23 |        :nth-last-of-type(6)) {}
+    :        ^^^^^^^^^^^^^^^^^^^^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:23:8]
- 23 | :nth-last-of-type(6)) {}
-    : ^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:22:18]
+ 22 | pe(6),
+ 23 |        :nth-last-of-type(6)) {}
+    :        ^^^^^^^^^^^^^^^^^^^^
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:23:8]
- 23 | :nth-last-of-type(6)) {}
-    : ^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:22:18]
+ 22 | pe(6),
+ 23 |        :nth-last-of-type(6)) {}
+    :        ^^^^^^^^^^^^^^^^^^^^
     `----
 
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:23:8]
- 23 | :nth-last-of-type(6)) {}
-    : ^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:22:18]
+ 22 | pe(6),
+ 23 |        :nth-last-of-type(6)) {}
+    :        ^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:23:8]
- 23 | :nth-last-of-type(6)) {}
-    :  ^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:22:18]
+ 22 | pe(6),
+ 23 |        :nth-last-of-type(6)) {}
+    :         ^^^^^^^^^^^^^^^^
     `----
 
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:23:8]
- 23 | :nth-last-of-type(6)) {}
-    :                   ^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:22:18]
+ 22 | pe(6),
+ 23 |        :nth-last-of-type(6)) {}
+    :                          ^
     `----
 
   x AnPlusB
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:23:8]
- 23 | :nth-last-of-type(6)) {}
-    :                   ^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:22:18]
+ 22 | pe(6),
+ 23 |        :nth-last-of-type(6)) {}
+    :                          ^
     `----
 
   x AnPlusBNotation
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:23:8]
- 23 | :nth-last-of-type(6)) {}
-    :                   ^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:22:18]
+ 22 | pe(6),
+ 23 |        :nth-last-of-type(6)) {}
+    :                          ^
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:23:8]
- 23 | :nth-last-of-type(6)) {}
-    :                       ^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:22:18]
+ 22 | pe(6),
+ 23 |        :nth-last-of-type(6)) {}
+    :                              ^^
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:23:8]
- 23 | :nth-last-of-type(6)) {}
-    :                       ^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:22:18]
+ 22 | pe(6),
+ 23 |        :nth-last-of-type(6)) {}
+    :                              ^
     `----
 
   x Rule

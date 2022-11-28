@@ -1,6 +1,7 @@
 
   x `declare` modifier cannot appear on class elements of this kind
-   ,-[$DIR/tests/typescript-errors/class/declare-class-method/input.ts:2:5]
- 2 | declare m1(): string;
-   : ^^^^^^^
+   ,-[$DIR/tests/typescript-errors/class/declare-class-method/input.ts:1:7]
+ 1 | T {
+ 2 |     declare m1(): string;
+   :     ^^^^^^^
    `----

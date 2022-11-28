@@ -3,7 +3,7 @@
    ,-[$DIR/tests/line-comment/css-in-js/1/input.css:2:1]
  2 | ,-> foo {
  3 | |       color: red;
- 4 | `-> }
+ 4 | |   }
    `----
 
   x Rule
@@ -76,43 +76,50 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/line-comment/css-in-js/1/input.css:3:5]
- 3 | color: red;
-   : ^^^^^^^^^^
+   ,-[$DIR/tests/line-comment/css-in-js/1/input.css:2:3]
+ 2 | o {
+ 3 |     color: red;
+   :     ^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/line-comment/css-in-js/1/input.css:3:5]
- 3 | color: red;
-   : ^^^^^^^^^^
+   ,-[$DIR/tests/line-comment/css-in-js/1/input.css:2:3]
+ 2 | o {
+ 3 |     color: red;
+   :     ^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/line-comment/css-in-js/1/input.css:3:5]
- 3 | color: red;
-   : ^^^^^^^^^^
+   ,-[$DIR/tests/line-comment/css-in-js/1/input.css:2:3]
+ 2 | o {
+ 3 |     color: red;
+   :     ^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/line-comment/css-in-js/1/input.css:3:5]
- 3 | color: red;
-   : ^^^^^
+   ,-[$DIR/tests/line-comment/css-in-js/1/input.css:2:3]
+ 2 | o {
+ 3 |     color: red;
+   :     ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/line-comment/css-in-js/1/input.css:3:5]
- 3 | color: red;
-   : ^^^^^
+   ,-[$DIR/tests/line-comment/css-in-js/1/input.css:2:3]
+ 2 | o {
+ 3 |     color: red;
+   :     ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/line-comment/css-in-js/1/input.css:3:5]
- 3 | color: red;
-   :        ^^^
+   ,-[$DIR/tests/line-comment/css-in-js/1/input.css:2:3]
+ 2 | o {
+ 3 |     color: red;
+   :            ^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/line-comment/css-in-js/1/input.css:3:5]
- 3 | color: red;
-   :        ^^^
+   ,-[$DIR/tests/line-comment/css-in-js/1/input.css:2:3]
+ 2 | o {
+ 3 |     color: red;
+   :            ^^^
    `----

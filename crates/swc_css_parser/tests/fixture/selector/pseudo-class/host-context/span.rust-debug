@@ -2,7 +2,7 @@
   x Stylesheet
    ,-[$DIR/tests/fixture/selector/pseudo-class/host-context/input.css:1:1]
  1 | ,-> :host-context(h1) {}
- 2 | `-> :host-context(   h1   ) {}
+ 2 | |   :host-context(   h1   ) {}
    `----
 
   x Rule

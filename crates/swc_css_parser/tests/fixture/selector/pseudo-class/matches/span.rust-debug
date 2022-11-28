@@ -2,7 +2,7 @@
   x Stylesheet
    ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:1:1]
  1 | ,-> :matches(ul) li {}
- 2 | `-> :matches(ul, ol) li {}
+ 2 | |   :matches(ul, ol) li {}
    `----
 
   x Rule
