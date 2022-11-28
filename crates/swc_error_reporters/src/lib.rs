@@ -82,7 +82,7 @@ impl SourceCode for MietteSourceCode<'_> {
             .with_span_to_prev_source(span, |src| {
                 let len = src
                     .rsplit('\n')
-                    .take(context_lines_before)
+                    .take(context_lines_before + 1)
                     .map(|s| s.len() + 1)
                     .sum::<usize>();
 
@@ -96,7 +96,7 @@ impl SourceCode for MietteSourceCode<'_> {
             .with_span_to_next_source(span, |src| {
                 let len = src
                     .split('\n')
-                    .take(context_lines_after)
+                    .take(context_lines_after + 1)
                     .map(|s| s.len() + 1)
                     .sum::<usize>();
 
