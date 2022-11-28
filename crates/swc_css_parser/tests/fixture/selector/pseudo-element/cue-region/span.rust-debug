@@ -3,7 +3,7 @@
    ,-[$DIR/tests/fixture/selector/pseudo-element/cue-region/input.css:1:1]
  1 | ,-> video::cue-region {}
  2 | |   video::cue-region(#scroll) {}
- 3 | `-> video::cue-region(   #scroll   ) {}
+ 3 | |   video::cue-region(   #scroll   ) {}
    `----
 
   x Rule

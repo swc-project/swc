@@ -3,7 +3,7 @@
    ,-[$DIR/tests/recovery/selector/pseudo-element/between/input.css:1:1]
  1 | ,-> : :foo {
  2 | |       
- 3 | `-> }
+ 3 | |   }
    `----
 
   x Rule

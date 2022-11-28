@@ -1,20 +1,17 @@
 
   x Stylesheet
    ,-[$DIR/tests/recovery/value/url/eof-whitespaces/input.css:1:1]
- 1 | a { prop: url(foo.png   
-   : ^^^^^^^^^^^^^^^^^^^^^^^^
+ 1 | ,-> a { prop: url(foo.png
    `----
 
   x Rule
    ,-[$DIR/tests/recovery/value/url/eof-whitespaces/input.css:1:1]
- 1 | a { prop: url(foo.png   
-   : ^^^^^^^^^^^^^^^^^^^^^^^^
+ 1 | ,-> a { prop: url(foo.png
    `----
 
   x QualifiedRule
    ,-[$DIR/tests/recovery/value/url/eof-whitespaces/input.css:1:1]
- 1 | a { prop: url(foo.png   
-   : ^^^^^^^^^^^^^^^^^^^^^^^^
+ 1 | ,-> a { prop: url(foo.png
    `----
 
   x SelectorList
@@ -61,8 +58,7 @@
 
   x SimpleBlock
    ,-[$DIR/tests/recovery/value/url/eof-whitespaces/input.css:1:1]
- 1 | a { prop: url(foo.png   
-   :   ^^^^^^^^^^^^^^^^^^^^^^
+ 1 | ,-> a { prop: url(foo.png
    `----
 
   x LBrace
@@ -73,20 +69,17 @@
 
   x ComponentValue
    ,-[$DIR/tests/recovery/value/url/eof-whitespaces/input.css:1:1]
- 1 | a { prop: url(foo.png   
-   :     ^^^^^^^^^^^^^^^^^^^^
+ 1 | ,-> a { prop: url(foo.png
    `----
 
   x StyleBlock
    ,-[$DIR/tests/recovery/value/url/eof-whitespaces/input.css:1:1]
- 1 | a { prop: url(foo.png   
-   :     ^^^^^^^^^^^^^^^^^^^^
+ 1 | ,-> a { prop: url(foo.png
    `----
 
   x Declaration
    ,-[$DIR/tests/recovery/value/url/eof-whitespaces/input.css:1:1]
- 1 | a { prop: url(foo.png   
-   :     ^^^^^^^^^^^^^^^^^^^^
+ 1 | ,-> a { prop: url(foo.png
    `----
 
   x DeclarationName
@@ -103,14 +96,12 @@
 
   x ComponentValue
    ,-[$DIR/tests/recovery/value/url/eof-whitespaces/input.css:1:1]
- 1 | a { prop: url(foo.png   
-   :           ^^^^^^^^^^^^^^
+ 1 | ,-> a { prop: url(foo.png
    `----
 
   x Url
    ,-[$DIR/tests/recovery/value/url/eof-whitespaces/input.css:1:1]
- 1 | a { prop: url(foo.png   
-   :           ^^^^^^^^^^^^^^
+ 1 | ,-> a { prop: url(foo.png
    `----
 
   x Ident
@@ -121,12 +112,10 @@
 
   x UrlValue
    ,-[$DIR/tests/recovery/value/url/eof-whitespaces/input.css:1:1]
- 1 | a { prop: url(foo.png  
-   :               ^^^^^^^^^
+ 1 | ,-> a { prop: url(foo.png
    `----
 
   x UrlValueRaw
    ,-[$DIR/tests/recovery/value/url/eof-whitespaces/input.css:1:1]
- 1 | a { prop: url(foo.png  
-   :               ^^^^^^^^^
+ 1 | ,-> a { prop: url(foo.png
    `----

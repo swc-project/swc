@@ -100,103 +100,120 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:2:5]
- 2 | * { background: red; }
-   : ^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:1:18]
+ 1 | ) {
+ 2 |     * { background: red; }
+   :     ^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Rule
-   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:2:5]
- 2 | * { background: red; }
-   : ^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:1:18]
+ 1 | ) {
+ 2 |     * { background: red; }
+   :     ^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x QualifiedRule
-   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:2:5]
- 2 | * { background: red; }
-   : ^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:1:18]
+ 1 | ) {
+ 2 |     * { background: red; }
+   :     ^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x SelectorList
-   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:2:5]
- 2 | * { background: red; }
-   : ^
+   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:1:18]
+ 1 | ) {
+ 2 |     * { background: red; }
+   :     ^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:2:5]
- 2 | * { background: red; }
-   : ^
+   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:1:18]
+ 1 | ) {
+ 2 |     * { background: red; }
+   :     ^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:2:5]
- 2 | * { background: red; }
-   : ^
+   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:1:18]
+ 1 | ) {
+ 2 |     * { background: red; }
+   :     ^
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:2:5]
- 2 | * { background: red; }
-   : ^
+   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:1:18]
+ 1 | ) {
+ 2 |     * { background: red; }
+   :     ^
    `----
 
   x UniversalSelector
-   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:2:5]
- 2 | * { background: red; }
-   : ^
+   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:1:18]
+ 1 | ) {
+ 2 |     * { background: red; }
+   :     ^
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:2:5]
- 2 | * { background: red; }
-   :   ^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:1:18]
+ 1 | ) {
+ 2 |     * { background: red; }
+   :       ^^^^^^^^^^^^^^^^^^^^
    `----
 
   x LBrace
-   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:2:5]
- 2 | * { background: red; }
-   :   ^
+   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:1:18]
+ 1 | ) {
+ 2 |     * { background: red; }
+   :       ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:2:5]
- 2 | * { background: red; }
-   :     ^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:1:18]
+ 1 | ) {
+ 2 |     * { background: red; }
+   :         ^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:2:5]
- 2 | * { background: red; }
-   :     ^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:1:18]
+ 1 | ) {
+ 2 |     * { background: red; }
+   :         ^^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:2:5]
- 2 | * { background: red; }
-   :     ^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:1:18]
+ 1 | ) {
+ 2 |     * { background: red; }
+   :         ^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:2:5]
- 2 | * { background: red; }
-   :     ^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:1:18]
+ 1 | ) {
+ 2 |     * { background: red; }
+   :         ^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:2:5]
- 2 | * { background: red; }
-   :     ^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:1:18]
+ 1 | ) {
+ 2 |     * { background: red; }
+   :         ^^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:2:5]
- 2 | * { background: red; }
-   :                 ^^^
+   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:1:18]
+ 1 | ) {
+ 2 |     * { background: red; }
+   :                     ^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:2:5]
- 2 | * { background: red; }
-   :                 ^^^
+   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:1:18]
+ 1 | ) {
+ 2 |     * { background: red; }
+   :                     ^^^
    `----

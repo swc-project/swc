@@ -3,7 +3,7 @@
    ,-[$DIR/tests/recovery/function/calc/division/input.css:1:1]
  1 | ,-> .style {
  2 | |   	width: calc(2px/1px);
- 3 | `-> }
+ 3 | |   }
    `----
 
   x Rule
@@ -70,157 +70,183 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/function/calc/division/input.css:2:5]
- 2 | width: calc(2px/1px);
-   : ^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/function/calc/division/input.css:1:9]
+ 1 | 
+ 2 | 	width: calc(2px/1px);
+   :  ^^^^^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/recovery/function/calc/division/input.css:2:5]
- 2 | width: calc(2px/1px);
-   : ^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/function/calc/division/input.css:1:9]
+ 1 | 
+ 2 | 	width: calc(2px/1px);
+   :  ^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/recovery/function/calc/division/input.css:2:5]
- 2 | width: calc(2px/1px);
-   : ^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/function/calc/division/input.css:1:9]
+ 1 | 
+ 2 | 	width: calc(2px/1px);
+   :  ^^^^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/recovery/function/calc/division/input.css:2:5]
- 2 | width: calc(2px/1px);
-   : ^^^^^
+   ,-[$DIR/tests/recovery/function/calc/division/input.css:1:9]
+ 1 | 
+ 2 | 	width: calc(2px/1px);
+   :  ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/function/calc/division/input.css:2:5]
- 2 | width: calc(2px/1px);
-   : ^^^^^
+   ,-[$DIR/tests/recovery/function/calc/division/input.css:1:9]
+ 1 | 
+ 2 | 	width: calc(2px/1px);
+   :  ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/function/calc/division/input.css:2:5]
- 2 | width: calc(2px/1px);
-   :        ^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/function/calc/division/input.css:1:9]
+ 1 | 
+ 2 | 	width: calc(2px/1px);
+   :         ^^^^^^^^^^^^^
    `----
 
   x Function
-   ,-[$DIR/tests/recovery/function/calc/division/input.css:2:5]
- 2 | width: calc(2px/1px);
-   :        ^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/function/calc/division/input.css:1:9]
+ 1 | 
+ 2 | 	width: calc(2px/1px);
+   :         ^^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/function/calc/division/input.css:2:5]
- 2 | width: calc(2px/1px);
-   :        ^^^^
+   ,-[$DIR/tests/recovery/function/calc/division/input.css:1:9]
+ 1 | 
+ 2 | 	width: calc(2px/1px);
+   :         ^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/function/calc/division/input.css:2:5]
- 2 | width: calc(2px/1px);
-   :             ^^^^^^^
+   ,-[$DIR/tests/recovery/function/calc/division/input.css:1:9]
+ 1 | 
+ 2 | 	width: calc(2px/1px);
+   :              ^^^^^^^
    `----
 
   x CalcSum
-   ,-[$DIR/tests/recovery/function/calc/division/input.css:2:5]
- 2 | width: calc(2px/1px);
-   :             ^^^^^^^
+   ,-[$DIR/tests/recovery/function/calc/division/input.css:1:9]
+ 1 | 
+ 2 | 	width: calc(2px/1px);
+   :              ^^^^^^^
    `----
 
   x CalcProductOrOperator
-   ,-[$DIR/tests/recovery/function/calc/division/input.css:2:5]
- 2 | width: calc(2px/1px);
-   :             ^^^^^^^
+   ,-[$DIR/tests/recovery/function/calc/division/input.css:1:9]
+ 1 | 
+ 2 | 	width: calc(2px/1px);
+   :              ^^^^^^^
    `----
 
   x CalcProduct
-   ,-[$DIR/tests/recovery/function/calc/division/input.css:2:5]
- 2 | width: calc(2px/1px);
-   :             ^^^^^^^
+   ,-[$DIR/tests/recovery/function/calc/division/input.css:1:9]
+ 1 | 
+ 2 | 	width: calc(2px/1px);
+   :              ^^^^^^^
    `----
 
   x CalcValueOrOperator
-   ,-[$DIR/tests/recovery/function/calc/division/input.css:2:5]
- 2 | width: calc(2px/1px);
-   :             ^^^
+   ,-[$DIR/tests/recovery/function/calc/division/input.css:1:9]
+ 1 | 
+ 2 | 	width: calc(2px/1px);
+   :              ^^^
    `----
 
   x CalcValue
-   ,-[$DIR/tests/recovery/function/calc/division/input.css:2:5]
- 2 | width: calc(2px/1px);
-   :             ^^^
+   ,-[$DIR/tests/recovery/function/calc/division/input.css:1:9]
+ 1 | 
+ 2 | 	width: calc(2px/1px);
+   :              ^^^
    `----
 
   x Dimension
-   ,-[$DIR/tests/recovery/function/calc/division/input.css:2:5]
- 2 | width: calc(2px/1px);
-   :             ^^^
+   ,-[$DIR/tests/recovery/function/calc/division/input.css:1:9]
+ 1 | 
+ 2 | 	width: calc(2px/1px);
+   :              ^^^
    `----
 
   x Length
-   ,-[$DIR/tests/recovery/function/calc/division/input.css:2:5]
- 2 | width: calc(2px/1px);
-   :             ^^^
+   ,-[$DIR/tests/recovery/function/calc/division/input.css:1:9]
+ 1 | 
+ 2 | 	width: calc(2px/1px);
+   :              ^^^
    `----
 
   x Number
-   ,-[$DIR/tests/recovery/function/calc/division/input.css:2:5]
- 2 | width: calc(2px/1px);
-   :             ^
+   ,-[$DIR/tests/recovery/function/calc/division/input.css:1:9]
+ 1 | 
+ 2 | 	width: calc(2px/1px);
+   :              ^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/function/calc/division/input.css:2:5]
- 2 | width: calc(2px/1px);
-   :              ^^
+   ,-[$DIR/tests/recovery/function/calc/division/input.css:1:9]
+ 1 | 
+ 2 | 	width: calc(2px/1px);
+   :               ^^
    `----
 
   x CalcValueOrOperator
-   ,-[$DIR/tests/recovery/function/calc/division/input.css:2:5]
- 2 | width: calc(2px/1px);
-   :                ^
-   `----
-
-  x CalcOperator
-   ,-[$DIR/tests/recovery/function/calc/division/input.css:2:5]
- 2 | width: calc(2px/1px);
-   :                ^
-   `----
-
-  x CalcValueOrOperator
-   ,-[$DIR/tests/recovery/function/calc/division/input.css:2:5]
- 2 | width: calc(2px/1px);
-   :                 ^^^
-   `----
-
-  x CalcValue
-   ,-[$DIR/tests/recovery/function/calc/division/input.css:2:5]
- 2 | width: calc(2px/1px);
-   :                 ^^^
-   `----
-
-  x Dimension
-   ,-[$DIR/tests/recovery/function/calc/division/input.css:2:5]
- 2 | width: calc(2px/1px);
-   :                 ^^^
-   `----
-
-  x Length
-   ,-[$DIR/tests/recovery/function/calc/division/input.css:2:5]
- 2 | width: calc(2px/1px);
-   :                 ^^^
-   `----
-
-  x Number
-   ,-[$DIR/tests/recovery/function/calc/division/input.css:2:5]
- 2 | width: calc(2px/1px);
+   ,-[$DIR/tests/recovery/function/calc/division/input.css:1:9]
+ 1 | 
+ 2 | 	width: calc(2px/1px);
    :                 ^
    `----
 
+  x CalcOperator
+   ,-[$DIR/tests/recovery/function/calc/division/input.css:1:9]
+ 1 | 
+ 2 | 	width: calc(2px/1px);
+   :                 ^
+   `----
+
+  x CalcValueOrOperator
+   ,-[$DIR/tests/recovery/function/calc/division/input.css:1:9]
+ 1 | 
+ 2 | 	width: calc(2px/1px);
+   :                  ^^^
+   `----
+
+  x CalcValue
+   ,-[$DIR/tests/recovery/function/calc/division/input.css:1:9]
+ 1 | 
+ 2 | 	width: calc(2px/1px);
+   :                  ^^^
+   `----
+
+  x Dimension
+   ,-[$DIR/tests/recovery/function/calc/division/input.css:1:9]
+ 1 | 
+ 2 | 	width: calc(2px/1px);
+   :                  ^^^
+   `----
+
+  x Length
+   ,-[$DIR/tests/recovery/function/calc/division/input.css:1:9]
+ 1 | 
+ 2 | 	width: calc(2px/1px);
+   :                  ^^^
+   `----
+
+  x Number
+   ,-[$DIR/tests/recovery/function/calc/division/input.css:1:9]
+ 1 | 
+ 2 | 	width: calc(2px/1px);
+   :                  ^
+   `----
+
   x Ident
-   ,-[$DIR/tests/recovery/function/calc/division/input.css:2:5]
- 2 | width: calc(2px/1px);
-   :                  ^^
+   ,-[$DIR/tests/recovery/function/calc/division/input.css:1:9]
+ 1 | 
+ 2 | 	width: calc(2px/1px);
+   :                   ^^
    `----

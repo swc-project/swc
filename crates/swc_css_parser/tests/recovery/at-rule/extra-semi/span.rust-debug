@@ -5,7 +5,7 @@
  2 | |   
  3 | |   .color {
  4 | |       color: red;
- 5 | `-> }
+ 5 | |   }
    `----
 
   x Rule
@@ -132,43 +132,50 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:4:5]
- 4 | color: red;
-   : ^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:3:6]
+ 3 | r {
+ 4 |     color: red;
+   :     ^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:4:5]
- 4 | color: red;
-   : ^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:3:6]
+ 3 | r {
+ 4 |     color: red;
+   :     ^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:4:5]
- 4 | color: red;
-   : ^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:3:6]
+ 3 | r {
+ 4 |     color: red;
+   :     ^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:4:5]
- 4 | color: red;
-   : ^^^^^
+   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:3:6]
+ 3 | r {
+ 4 |     color: red;
+   :     ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:4:5]
- 4 | color: red;
-   : ^^^^^
+   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:3:6]
+ 3 | r {
+ 4 |     color: red;
+   :     ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:4:5]
- 4 | color: red;
-   :        ^^^
+   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:3:6]
+ 3 | r {
+ 4 |     color: red;
+   :            ^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:4:5]
- 4 | color: red;
-   :        ^^^
+   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:3:6]
+ 3 | r {
+ 4 |     color: red;
+   :            ^^^
    `----

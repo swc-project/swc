@@ -1,20 +1,17 @@
 
   x Stylesheet
    ,-[$DIR/tests/recovery/simple-block/unclosed-1/input.css:1:1]
- 1 | @media screen {
-   : ^^^^^^^^^^^^^^^^
+ 1 | ,-> @media screen {
    `----
 
   x Rule
    ,-[$DIR/tests/recovery/simple-block/unclosed-1/input.css:1:1]
- 1 | @media screen {
-   : ^^^^^^^^^^^^^^^^
+ 1 | ,-> @media screen {
    `----
 
   x AtRule
    ,-[$DIR/tests/recovery/simple-block/unclosed-1/input.css:1:1]
- 1 | @media screen {
-   : ^^^^^^^^^^^^^^^^
+ 1 | ,-> @media screen {
    `----
 
   x AtRuleName
@@ -55,8 +52,7 @@
 
   x SimpleBlock
    ,-[$DIR/tests/recovery/simple-block/unclosed-1/input.css:1:1]
- 1 | @media screen {
-   :               ^^
+ 1 | ,-> @media screen {
    `----
 
   x LBrace

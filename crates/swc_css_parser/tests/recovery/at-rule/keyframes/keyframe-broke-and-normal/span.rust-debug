@@ -9,7 +9,7 @@
  6 | |       from {
  7 | |           color: red;
  8 | |       }
- 9 | `-> }
+ 9 | |   }
    `----
 
   x Rule
@@ -76,99 +76,119 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-broke-and-normal/input.css:2:5]
- 2 | 10 {
-   : ^^^
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-broke-and-normal/input.css:1:14]
+ 1 | o {
+ 2 |     10 {
+   :     ^^^
    `----
 
   x Rule
-   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-broke-and-normal/input.css:2:5]
- 2 | 10 {
-   : ^^^
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-broke-and-normal/input.css:1:14]
+ 1 | o {
+ 2 |     10 {
+   :     ^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-broke-and-normal/input.css:2:5]
- 2 | 10 {
-   : ^^
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-broke-and-normal/input.css:1:14]
+ 1 | o {
+ 2 |     10 {
+   :     ^^
    `----
 
   x Number { value: 10.0, raw: "10", type_flag: Integer }
-   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-broke-and-normal/input.css:2:5]
- 2 | 10 {
-   : ^^
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-broke-and-normal/input.css:1:14]
+ 1 | o {
+ 2 |     10 {
+   :     ^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-broke-and-normal/input.css:2:5]
- 2 | 10 {
-   :   ^
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-broke-and-normal/input.css:1:14]
+ 1 | o {
+ 2 |     10 {
+   :       ^
    `----
 
   x WhiteSpace { value: " " }
-   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-broke-and-normal/input.css:2:5]
- 2 | 10 {
-   :   ^
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-broke-and-normal/input.css:1:14]
+ 1 | o {
+ 2 |     10 {
+   :       ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-broke-and-normal/input.css:6:5]
- 6 | ,-> from {
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-broke-and-normal/input.css:4:4]
+ 4 |      }
+ 5 |     
+ 6 | ,->     from {
  7 | |           color: red;
  8 | `->     }
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-broke-and-normal/input.css:6:5]
- 6 | from {
-   : ^^^^
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-broke-and-normal/input.css:4:4]
+ 4 |  }
+ 5 | 
+ 6 |     from {
+   :     ^^^^
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-broke-and-normal/input.css:6:5]
- 6 | ,-> from {
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-broke-and-normal/input.css:4:4]
+ 4 |      }
+ 5 |     
+ 6 | ,->     from {
  7 | |           color: red;
  8 | `->     }
    `----
 
   x LBrace
-   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-broke-and-normal/input.css:6:5]
- 6 | from {
-   :      ^
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-broke-and-normal/input.css:4:4]
+ 4 |  }
+ 5 | 
+ 6 |     from {
+   :          ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-broke-and-normal/input.css:7:9]
- 7 | color: red;
-   : ^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-broke-and-normal/input.css:6:4]
+ 6 |  from {
+ 7 |         color: red;
+   :         ^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-broke-and-normal/input.css:7:9]
- 7 | color: red;
-   : ^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-broke-and-normal/input.css:6:4]
+ 6 |  from {
+ 7 |         color: red;
+   :         ^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-broke-and-normal/input.css:7:9]
- 7 | color: red;
-   : ^^^^^
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-broke-and-normal/input.css:6:4]
+ 6 |  from {
+ 7 |         color: red;
+   :         ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-broke-and-normal/input.css:7:9]
- 7 | color: red;
-   : ^^^^^
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-broke-and-normal/input.css:6:4]
+ 6 |  from {
+ 7 |         color: red;
+   :         ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-broke-and-normal/input.css:7:9]
- 7 | color: red;
-   :        ^^^
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-broke-and-normal/input.css:6:4]
+ 6 |  from {
+ 7 |         color: red;
+   :                ^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-broke-and-normal/input.css:7:9]
- 7 | color: red;
-   :        ^^^
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-broke-and-normal/input.css:6:4]
+ 6 |  from {
+ 7 |         color: red;
+   :                ^^^
    `----

@@ -37,7 +37,7 @@
  34 | |   a:hover::before {}
  35 | |   a:hover::-moz-placeholder {}
  36 | |   a, b > .foo::before {}
- 37 | `-> *:hover.class {}
+ 37 | |   *:hover.class {}
     `----
 
   x Rule

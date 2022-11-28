@@ -3,7 +3,7 @@
    ,-[$DIR/tests/recovery/selector/combinator/only/input.css:1:1]
  1 | ,-> > {
  2 | |   
- 3 | `-> }
+ 3 | |   }
    `----
 
   x Rule

@@ -2,7 +2,7 @@
   x Stylesheet
    ,-[$DIR/tests/recovery/at-rule/import/no-url/input.css:1:1]
  1 | ,-> @import nourl(test);
- 2 | `-> @import 123;
+ 2 | |   @import 123;
    `----
 
   x Rule

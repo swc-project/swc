@@ -72,43 +72,50 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/value/string/escaped/broken/input.css:2:5]
- 2 | prop: "test\\
-   : ^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/value/string/escaped/broken/input.css:1:1]
+ 1 | a {
+ 2 |     prop: "test\\
+   :     ^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/recovery/value/string/escaped/broken/input.css:2:5]
- 2 | prop: "test\\
-   : ^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/value/string/escaped/broken/input.css:1:1]
+ 1 | a {
+ 2 |     prop: "test\\
+   :     ^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/recovery/value/string/escaped/broken/input.css:2:5]
- 2 | prop: "test\\
-   : ^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/value/string/escaped/broken/input.css:1:1]
+ 1 | a {
+ 2 |     prop: "test\\
+   :     ^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/recovery/value/string/escaped/broken/input.css:2:5]
- 2 | prop: "test\\
-   : ^^^^
+   ,-[$DIR/tests/recovery/value/string/escaped/broken/input.css:1:1]
+ 1 | a {
+ 2 |     prop: "test\\
+   :     ^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/value/string/escaped/broken/input.css:2:5]
- 2 | prop: "test\\
-   : ^^^^
+   ,-[$DIR/tests/recovery/value/string/escaped/broken/input.css:1:1]
+ 1 | a {
+ 2 |     prop: "test\\
+   :     ^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/value/string/escaped/broken/input.css:2:5]
- 2 | prop: "test\\
-   :       ^^^^^^^
+   ,-[$DIR/tests/recovery/value/string/escaped/broken/input.css:1:1]
+ 1 | a {
+ 2 |     prop: "test\\
+   :           ^^^^^^^
    `----
 
   x Str
-   ,-[$DIR/tests/recovery/value/string/escaped/broken/input.css:2:5]
- 2 | prop: "test\\
-   :       ^^^^^^^
+   ,-[$DIR/tests/recovery/value/string/escaped/broken/input.css:1:1]
+ 1 | a {
+ 2 |     prop: "test\\
+   :           ^^^^^^^
    `----

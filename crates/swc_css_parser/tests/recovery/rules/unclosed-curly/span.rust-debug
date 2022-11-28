@@ -5,7 +5,7 @@
  2 | |   
  3 | |   a { color: red }
  4 | |   
- 5 | `-> a { color: blue; }
+ 5 | |   a { color: blue; }
    `----
 
   x Rule

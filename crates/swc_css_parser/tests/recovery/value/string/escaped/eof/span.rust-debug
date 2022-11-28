@@ -80,43 +80,50 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:2:5]
- 2 | ,-> color: \
+   ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:1:1]
+ 1 |     a {
+ 2 | ,->     color: \
  3 | `->     ;
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:2:5]
- 2 | ,-> color: \
+   ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:1:1]
+ 1 |     a {
+ 2 | ,->     color: \
  3 | `->     ;
    `----
 
   x Declaration
-   ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:2:5]
- 2 | ,-> color: \
+   ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:1:1]
+ 1 |     a {
+ 2 | ,->     color: \
  3 | `->     ;
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:2:5]
- 2 | color: \
-   : ^^^^^
+   ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:1:1]
+ 1 | a {
+ 2 |     color: \
+   :     ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:2:5]
- 2 | color: \
-   : ^^^^^
+   ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:1:1]
+ 1 | a {
+ 2 |     color: \
+   :     ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:2:5]
- 2 | color: \
-   :        ^
+   ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:1:1]
+ 1 | a {
+ 2 |     color: \
+   :            ^
    `----
 
   x Delim { value: '\\' }
-   ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:2:5]
- 2 | color: \
-   :        ^
+   ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:1:1]
+ 1 | a {
+ 2 |     color: \
+   :            ^
    `----

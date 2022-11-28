@@ -5,7 +5,7 @@
  2 | |   
  3 | |   a: b {
  4 | |       color: red;
- 5 | `-> }
+ 5 | |   }
    `----
 
   x Rule
@@ -180,43 +180,50 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid/input.css:4:5]
- 4 | color: red;
-   : ^^^^^^^^^^
+   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid/input.css:3:4]
+ 3 | b {
+ 4 |     color: red;
+   :     ^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid/input.css:4:5]
- 4 | color: red;
-   : ^^^^^^^^^^
+   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid/input.css:3:4]
+ 3 | b {
+ 4 |     color: red;
+   :     ^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid/input.css:4:5]
- 4 | color: red;
-   : ^^^^^^^^^^
+   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid/input.css:3:4]
+ 3 | b {
+ 4 |     color: red;
+   :     ^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid/input.css:4:5]
- 4 | color: red;
-   : ^^^^^
+   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid/input.css:3:4]
+ 3 | b {
+ 4 |     color: red;
+   :     ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid/input.css:4:5]
- 4 | color: red;
-   : ^^^^^
+   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid/input.css:3:4]
+ 3 | b {
+ 4 |     color: red;
+   :     ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid/input.css:4:5]
- 4 | color: red;
-   :        ^^^
+   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid/input.css:3:4]
+ 3 | b {
+ 4 |     color: red;
+   :            ^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid/input.css:4:5]
- 4 | color: red;
-   :        ^^^
+   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid/input.css:3:4]
+ 3 | b {
+ 4 |     color: red;
+   :            ^^^
    `----

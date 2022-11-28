@@ -5,7 +5,7 @@
  2 | |   @keyframes inherit {}
  3 | |   @keyframes unset {}
  4 | |   @keyframes none {}
- 5 | `-> @keyframes iNiTiAl {}
+ 5 | |   @keyframes iNiTiAl {}
    `----
 
   x Rule

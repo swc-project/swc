@@ -3,7 +3,7 @@
    ,-[$DIR/tests/fixture/vercel/001/input.css:1:1]
  1 | ,-> :nth-child(4n) {
  2 | |       margin-right: 0;
- 3 | `-> }
+ 3 | |   }
    `----
 
   x Rule
@@ -88,43 +88,50 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/vercel/001/input.css:2:5]
- 2 | margin-right: 0;
-   : ^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/vercel/001/input.css:1:14]
+ 1 | ) {
+ 2 |     margin-right: 0;
+   :     ^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/vercel/001/input.css:2:5]
- 2 | margin-right: 0;
-   : ^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/vercel/001/input.css:1:14]
+ 1 | ) {
+ 2 |     margin-right: 0;
+   :     ^^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/vercel/001/input.css:2:5]
- 2 | margin-right: 0;
-   : ^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/vercel/001/input.css:1:14]
+ 1 | ) {
+ 2 |     margin-right: 0;
+   :     ^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/vercel/001/input.css:2:5]
- 2 | margin-right: 0;
-   : ^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/vercel/001/input.css:1:14]
+ 1 | ) {
+ 2 |     margin-right: 0;
+   :     ^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/vercel/001/input.css:2:5]
- 2 | margin-right: 0;
-   : ^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/vercel/001/input.css:1:14]
+ 1 | ) {
+ 2 |     margin-right: 0;
+   :     ^^^^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/vercel/001/input.css:2:5]
- 2 | margin-right: 0;
-   :               ^
+   ,-[$DIR/tests/fixture/vercel/001/input.css:1:14]
+ 1 | ) {
+ 2 |     margin-right: 0;
+   :                   ^
    `----
 
   x Integer
-   ,-[$DIR/tests/fixture/vercel/001/input.css:2:5]
- 2 | margin-right: 0;
-   :               ^
+   ,-[$DIR/tests/fixture/vercel/001/input.css:1:14]
+ 1 | ) {
+ 2 |     margin-right: 0;
+   :                   ^
    `----

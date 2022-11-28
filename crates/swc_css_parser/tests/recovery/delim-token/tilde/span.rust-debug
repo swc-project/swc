@@ -3,7 +3,7 @@
    ,-[$DIR/tests/recovery/delim-token/tilde/input.css:1:1]
  1 | ,-> a {
  2 | |       color: ~;
- 3 | `-> }
+ 3 | |   }
    `----
 
   x Rule
@@ -76,43 +76,50 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/delim-token/tilde/input.css:2:5]
- 2 | color: ~;
-   : ^^^^^^^^
+   ,-[$DIR/tests/recovery/delim-token/tilde/input.css:1:1]
+ 1 | a {
+ 2 |     color: ~;
+   :     ^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/recovery/delim-token/tilde/input.css:2:5]
- 2 | color: ~;
-   : ^^^^^^^^
+   ,-[$DIR/tests/recovery/delim-token/tilde/input.css:1:1]
+ 1 | a {
+ 2 |     color: ~;
+   :     ^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/recovery/delim-token/tilde/input.css:2:5]
- 2 | color: ~;
-   : ^^^^^^^^
+   ,-[$DIR/tests/recovery/delim-token/tilde/input.css:1:1]
+ 1 | a {
+ 2 |     color: ~;
+   :     ^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/recovery/delim-token/tilde/input.css:2:5]
- 2 | color: ~;
-   : ^^^^^
+   ,-[$DIR/tests/recovery/delim-token/tilde/input.css:1:1]
+ 1 | a {
+ 2 |     color: ~;
+   :     ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/delim-token/tilde/input.css:2:5]
- 2 | color: ~;
-   : ^^^^^
+   ,-[$DIR/tests/recovery/delim-token/tilde/input.css:1:1]
+ 1 | a {
+ 2 |     color: ~;
+   :     ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/delim-token/tilde/input.css:2:5]
- 2 | color: ~;
-   :        ^
+   ,-[$DIR/tests/recovery/delim-token/tilde/input.css:1:1]
+ 1 | a {
+ 2 |     color: ~;
+   :            ^
    `----
 
   x Delim { value: '~' }
-   ,-[$DIR/tests/recovery/delim-token/tilde/input.css:2:5]
- 2 | color: ~;
-   :        ^
+   ,-[$DIR/tests/recovery/delim-token/tilde/input.css:1:1]
+ 1 | a {
+ 2 |     color: ~;
+   :            ^
    `----

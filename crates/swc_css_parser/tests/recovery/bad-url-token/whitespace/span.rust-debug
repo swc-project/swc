@@ -5,7 +5,7 @@
  2 | |       background: url(image.
  3 | |       png);
  4 | |       color: red;
- 5 | `-> }
+ 5 | |   }
    `----
 
   x Rule
@@ -84,85 +84,99 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:2:5]
- 2 | ,-> background: url(image.
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:1:3]
+ 1 |     v {
+ 2 | ,->     background: url(image.
  3 | `->     png);
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:2:5]
- 2 | ,-> background: url(image.
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:1:3]
+ 1 |     v {
+ 2 | ,->     background: url(image.
  3 | `->     png);
    `----
 
   x Declaration
-   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:2:5]
- 2 | ,-> background: url(image.
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:1:3]
+ 1 |     v {
+ 2 | ,->     background: url(image.
  3 | `->     png);
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:2:5]
- 2 | background: url(image.
-   : ^^^^^^^^^^
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:1:3]
+ 1 | v {
+ 2 |     background: url(image.
+   :     ^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:2:5]
- 2 | background: url(image.
-   : ^^^^^^^^^^
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:1:3]
+ 1 | v {
+ 2 |     background: url(image.
+   :     ^^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:2:5]
- 2 | ,-> background: url(image.
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:1:3]
+ 1 |     v {
+ 2 | ,->     background: url(image.
  3 | `->     png);
    `----
 
   x BadUrl { name: Atom('url' type=static), raw_name: "url", raw_value: "image.\n    png" }
-   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:2:5]
- 2 | ,-> background: url(image.
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:1:3]
+ 1 |     v {
+ 2 | ,->     background: url(image.
  3 | `->     png);
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:4:5]
- 4 | color: red;
-   : ^^^^^^^^^^
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:3:7]
+ 3 | g);
+ 4 |     color: red;
+   :     ^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:4:5]
- 4 | color: red;
-   : ^^^^^^^^^^
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:3:7]
+ 3 | g);
+ 4 |     color: red;
+   :     ^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:4:5]
- 4 | color: red;
-   : ^^^^^^^^^^
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:3:7]
+ 3 | g);
+ 4 |     color: red;
+   :     ^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:4:5]
- 4 | color: red;
-   : ^^^^^
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:3:7]
+ 3 | g);
+ 4 |     color: red;
+   :     ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:4:5]
- 4 | color: red;
-   : ^^^^^
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:3:7]
+ 3 | g);
+ 4 |     color: red;
+   :     ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:4:5]
- 4 | color: red;
-   :        ^^^
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:3:7]
+ 3 | g);
+ 4 |     color: red;
+   :            ^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:4:5]
- 4 | color: red;
-   :        ^^^
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:3:7]
+ 3 | g);
+ 4 |     color: red;
+   :            ^^^
    `----

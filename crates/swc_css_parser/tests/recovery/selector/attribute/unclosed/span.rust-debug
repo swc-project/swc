@@ -3,14 +3,14 @@
    ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:1:1]
  1 | ,-> .class[attr= {
  2 | |   
- 3 | `-> }
+ 3 | |   }
    `----
 
   x Rule
    ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:1:1]
  1 | ,-> .class[attr= {
  2 | |   
- 3 | `-> }
+ 3 | |   }
    `----
 
   x ComponentValue
@@ -41,14 +41,14 @@
    ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:1:1]
  1 | ,-> .class[attr= {
  2 | |   
- 3 | `-> }
+ 3 | |   }
    `----
 
   x SimpleBlock
    ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:1:1]
  1 | ,-> .class[attr= {
  2 | |   
- 3 | `-> }
+ 3 | |   }
    `----
 
   x LBracket
@@ -130,11 +130,9 @@
   x ComponentValue
    ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:3:1]
  3 | }
-   :  ^
    `----
 
   x WhiteSpace { value: "\n" }
    ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:3:1]
  3 | }
-   :  ^
    `----

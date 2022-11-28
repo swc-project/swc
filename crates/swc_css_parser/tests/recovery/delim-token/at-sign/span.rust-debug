@@ -3,7 +3,7 @@
    ,-[$DIR/tests/recovery/delim-token/at-sign/input.css:1:1]
  1 | ,-> a {
  2 | |       color: @ red;
- 3 | `-> }
+ 3 | |   }
    `----
 
   x Rule
@@ -76,67 +76,78 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/delim-token/at-sign/input.css:2:5]
- 2 | color: @ red;
-   : ^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/delim-token/at-sign/input.css:1:1]
+ 1 | a {
+ 2 |     color: @ red;
+   :     ^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/recovery/delim-token/at-sign/input.css:2:5]
- 2 | color: @ red;
-   : ^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/delim-token/at-sign/input.css:1:1]
+ 1 | a {
+ 2 |     color: @ red;
+   :     ^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/recovery/delim-token/at-sign/input.css:2:5]
- 2 | color: @ red;
-   : ^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/delim-token/at-sign/input.css:1:1]
+ 1 | a {
+ 2 |     color: @ red;
+   :     ^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/recovery/delim-token/at-sign/input.css:2:5]
- 2 | color: @ red;
-   : ^^^^^
+   ,-[$DIR/tests/recovery/delim-token/at-sign/input.css:1:1]
+ 1 | a {
+ 2 |     color: @ red;
+   :     ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/delim-token/at-sign/input.css:2:5]
- 2 | color: @ red;
-   : ^^^^^
+   ,-[$DIR/tests/recovery/delim-token/at-sign/input.css:1:1]
+ 1 | a {
+ 2 |     color: @ red;
+   :     ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/delim-token/at-sign/input.css:2:5]
- 2 | color: @ red;
-   :        ^
+   ,-[$DIR/tests/recovery/delim-token/at-sign/input.css:1:1]
+ 1 | a {
+ 2 |     color: @ red;
+   :            ^
    `----
 
   x Delim { value: '@' }
-   ,-[$DIR/tests/recovery/delim-token/at-sign/input.css:2:5]
- 2 | color: @ red;
-   :        ^
+   ,-[$DIR/tests/recovery/delim-token/at-sign/input.css:1:1]
+ 1 | a {
+ 2 |     color: @ red;
+   :            ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/delim-token/at-sign/input.css:2:5]
- 2 | color: @ red;
-   :         ^
+   ,-[$DIR/tests/recovery/delim-token/at-sign/input.css:1:1]
+ 1 | a {
+ 2 |     color: @ red;
+   :             ^
    `----
 
   x WhiteSpace { value: " " }
-   ,-[$DIR/tests/recovery/delim-token/at-sign/input.css:2:5]
- 2 | color: @ red;
-   :         ^
+   ,-[$DIR/tests/recovery/delim-token/at-sign/input.css:1:1]
+ 1 | a {
+ 2 |     color: @ red;
+   :             ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/delim-token/at-sign/input.css:2:5]
- 2 | color: @ red;
-   :          ^^^
+   ,-[$DIR/tests/recovery/delim-token/at-sign/input.css:1:1]
+ 1 | a {
+ 2 |     color: @ red;
+   :              ^^^
    `----
 
   x Ident { value: Atom('red' type=inline), raw: "red" }
-   ,-[$DIR/tests/recovery/delim-token/at-sign/input.css:2:5]
- 2 | color: @ red;
-   :          ^^^
+   ,-[$DIR/tests/recovery/delim-token/at-sign/input.css:1:1]
+ 1 | a {
+ 2 |     color: @ red;
+   :              ^^^
    `----

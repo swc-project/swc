@@ -18,7 +18,7 @@
  15 | |   
  16 | |   .style {
  17 | |       background: url("foo", "bar");
- 18 | `-> }
+ 18 | |   }
     `----
 
   x Rule
@@ -112,441 +112,514 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:2:5]
- 2 | --foo: "http://www.example.com/pinkish.gif";
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:1:3]
+ 1 | v {
+ 2 |     --foo: "http://www.example.com/pinkish.gif";
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:2:5]
- 2 | --foo: "http://www.example.com/pinkish.gif";
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:1:3]
+ 1 | v {
+ 2 |     --foo: "http://www.example.com/pinkish.gif";
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:2:5]
- 2 | --foo: "http://www.example.com/pinkish.gif";
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:1:3]
+ 1 | v {
+ 2 |     --foo: "http://www.example.com/pinkish.gif";
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:2:5]
- 2 | --foo: "http://www.example.com/pinkish.gif";
-   : ^^^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:1:3]
+ 1 | v {
+ 2 |     --foo: "http://www.example.com/pinkish.gif";
+   :     ^^^^^
    `----
 
   x DashedIdent
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:2:5]
- 2 | --foo: "http://www.example.com/pinkish.gif";
-   : ^^^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:1:3]
+ 1 | v {
+ 2 |     --foo: "http://www.example.com/pinkish.gif";
+   :     ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:2:5]
- 2 | --foo: "http://www.example.com/pinkish.gif";
-   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:1:3]
+ 1 | v {
+ 2 |     --foo: "http://www.example.com/pinkish.gif";
+   :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x String { value: Atom('http://www.example.com/pinkish.gif' type=dynamic), raw: "\"http://www.example.com/pinkish.gif\"" }
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:2:5]
- 2 | --foo: "http://www.example.com/pinkish.gif";
-   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:1:3]
+ 1 | v {
+ 2 |     --foo: "http://www.example.com/pinkish.gif";
+   :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:3:5]
- 3 | background: url(var(--foo));
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:2:46]
+ 2 | f";
+ 3 |     background: url(var(--foo));
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:3:5]
- 3 | background: url(var(--foo));
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:2:46]
+ 2 | f";
+ 3 |     background: url(var(--foo));
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:3:5]
- 3 | background: url(var(--foo));
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:2:46]
+ 2 | f";
+ 3 |     background: url(var(--foo));
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:3:5]
- 3 | background: url(var(--foo));
-   : ^^^^^^^^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:2:46]
+ 2 | f";
+ 3 |     background: url(var(--foo));
+   :     ^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:3:5]
- 3 | background: url(var(--foo));
-   : ^^^^^^^^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:2:46]
+ 2 | f";
+ 3 |     background: url(var(--foo));
+   :     ^^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:3:5]
- 3 | background: url(var(--foo));
-   :             ^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:2:46]
+ 2 | f";
+ 3 |     background: url(var(--foo));
+   :                 ^^^^^^^^^^^^^^
    `----
 
   x BadUrl { name: Atom('url' type=static), raw_name: "url", raw_value: "var(--foo" }
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:3:5]
- 3 | background: url(var(--foo));
-   :             ^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:2:46]
+ 2 | f";
+ 3 |     background: url(var(--foo));
+   :                 ^^^^^^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:3:5]
- 3 | background: url(var(--foo));
-   :                           ^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:2:46]
+ 2 | f";
+ 3 |     background: url(var(--foo));
+   :                               ^
    `----
 
   x RParen
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:3:5]
- 3 | background: url(var(--foo));
-   :                           ^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:2:46]
+ 2 | f";
+ 3 |     background: url(var(--foo));
+   :                               ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:4:5]
- 4 | background: url(image.png\999999);
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:3:30]
+ 3 | ));
+ 4 |     background: url(image.png\999999);
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:4:5]
- 4 | background: url(image.png\999999);
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:3:30]
+ 3 | ));
+ 4 |     background: url(image.png\999999);
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:4:5]
- 4 | background: url(image.png\999999);
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:3:30]
+ 3 | ));
+ 4 |     background: url(image.png\999999);
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:4:5]
- 4 | background: url(image.png\999999);
-   : ^^^^^^^^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:3:30]
+ 3 | ));
+ 4 |     background: url(image.png\999999);
+   :     ^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:4:5]
- 4 | background: url(image.png\999999);
-   : ^^^^^^^^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:3:30]
+ 3 | ));
+ 4 |     background: url(image.png\999999);
+   :     ^^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:4:5]
- 4 | background: url(image.png\999999);
-   :             ^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:3:30]
+ 3 | ));
+ 4 |     background: url(image.png\999999);
+   :                 ^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Url
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:4:5]
- 4 | background: url(image.png\999999);
-   :             ^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:3:30]
+ 3 | ));
+ 4 |     background: url(image.png\999999);
+   :                 ^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:4:5]
- 4 | background: url(image.png\999999);
-   :             ^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:3:30]
+ 3 | ));
+ 4 |     background: url(image.png\999999);
+   :                 ^^^
    `----
 
   x UrlValue
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:4:5]
- 4 | background: url(image.png\999999);
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:3:30]
+ 3 | ));
+ 4 |     background: url(image.png\999999);
+   :                     ^^^^^^^^^^^^^^^^
+   `----
+
+  x UrlValueRaw
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:3:30]
+ 3 | ));
+ 4 |     background: url(image.png\999999);
+   :                     ^^^^^^^^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:4:36]
+ 4 | 9);
+ 5 |     background: url(image.png\0);
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:4:36]
+ 4 | 9);
+ 5 |     background: url(image.png\0);
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:4:36]
+ 4 | 9);
+ 5 |     background: url(image.png\0);
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:4:36]
+ 4 | 9);
+ 5 |     background: url(image.png\0);
+   :     ^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:4:36]
+ 4 | 9);
+ 5 |     background: url(image.png\0);
+   :     ^^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:4:36]
+ 4 | 9);
+ 5 |     background: url(image.png\0);
    :                 ^^^^^^^^^^^^^^^^
    `----
 
-  x UrlValueRaw
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:4:5]
- 4 | background: url(image.png\999999);
+  x Url
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:4:36]
+ 4 | 9);
+ 5 |     background: url(image.png\0);
    :                 ^^^^^^^^^^^^^^^^
    `----
 
-  x ComponentValue
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:5:5]
- 5 | background: url(image.png\0);
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x StyleBlock
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:5:5]
- 5 | background: url(image.png\0);
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x Declaration
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:5:5]
- 5 | background: url(image.png\0);
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x DeclarationName
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:5:5]
- 5 | background: url(image.png\0);
-   : ^^^^^^^^^^
-   `----
-
   x Ident
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:5:5]
- 5 | background: url(image.png\0);
-   : ^^^^^^^^^^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:5:5]
- 5 | background: url(image.png\0);
-   :             ^^^^^^^^^^^^^^^^
-   `----
-
-  x Url
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:5:5]
- 5 | background: url(image.png\0);
-   :             ^^^^^^^^^^^^^^^^
-   `----
-
-  x Ident
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:5:5]
- 5 | background: url(image.png\0);
-   :             ^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:4:36]
+ 4 | 9);
+ 5 |     background: url(image.png\0);
+   :                 ^^^
    `----
 
   x UrlValue
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:5:5]
- 5 | background: url(image.png\0);
-   :                 ^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:4:36]
+ 4 | 9);
+ 5 |     background: url(image.png\0);
+   :                     ^^^^^^^^^^^
    `----
 
   x UrlValueRaw
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:5:5]
- 5 | background: url(image.png\0);
-   :                 ^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:4:36]
+ 4 | 9);
+ 5 |     background: url(image.png\0);
+   :                     ^^^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:6:5]
- 6 | background: url(image.png\D800);
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:5:31]
+ 5 | 0);
+ 6 |     background: url(image.png\D800);
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:6:5]
- 6 | background: url(image.png\D800);
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:5:31]
+ 5 | 0);
+ 6 |     background: url(image.png\D800);
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:6:5]
- 6 | background: url(image.png\D800);
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:5:31]
+ 5 | 0);
+ 6 |     background: url(image.png\D800);
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:6:5]
- 6 | background: url(image.png\D800);
-   : ^^^^^^^^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:5:31]
+ 5 | 0);
+ 6 |     background: url(image.png\D800);
+   :     ^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:6:5]
- 6 | background: url(image.png\D800);
-   : ^^^^^^^^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:5:31]
+ 5 | 0);
+ 6 |     background: url(image.png\D800);
+   :     ^^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:6:5]
- 6 | background: url(image.png\D800);
-   :             ^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:5:31]
+ 5 | 0);
+ 6 |     background: url(image.png\D800);
+   :                 ^^^^^^^^^^^^^^^^^^^
    `----
 
   x Url
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:6:5]
- 6 | background: url(image.png\D800);
-   :             ^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:5:31]
+ 5 | 0);
+ 6 |     background: url(image.png\D800);
+   :                 ^^^^^^^^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:6:5]
- 6 | background: url(image.png\D800);
-   :             ^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:5:31]
+ 5 | 0);
+ 6 |     background: url(image.png\D800);
+   :                 ^^^
    `----
 
   x UrlValue
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:6:5]
- 6 | background: url(image.png\D800);
-   :                 ^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:5:31]
+ 5 | 0);
+ 6 |     background: url(image.png\D800);
+   :                     ^^^^^^^^^^^^^^
    `----
 
   x UrlValueRaw
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:6:5]
- 6 | background: url(image.png\D800);
-   :                 ^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:5:31]
+ 5 | 0);
+ 6 |     background: url(image.png\D800);
+   :                     ^^^^^^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:7:5]
- 7 | background: url(image.png\DFFF);
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:6:34]
+ 6 | 0);
+ 7 |     background: url(image.png\DFFF);
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:7:5]
- 7 | background: url(image.png\DFFF);
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:6:34]
+ 6 | 0);
+ 7 |     background: url(image.png\DFFF);
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:7:5]
- 7 | background: url(image.png\DFFF);
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:6:34]
+ 6 | 0);
+ 7 |     background: url(image.png\DFFF);
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:7:5]
- 7 | background: url(image.png\DFFF);
-   : ^^^^^^^^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:6:34]
+ 6 | 0);
+ 7 |     background: url(image.png\DFFF);
+   :     ^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:7:5]
- 7 | background: url(image.png\DFFF);
-   : ^^^^^^^^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:6:34]
+ 6 | 0);
+ 7 |     background: url(image.png\DFFF);
+   :     ^^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:7:5]
- 7 | background: url(image.png\DFFF);
-   :             ^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:6:34]
+ 6 | 0);
+ 7 |     background: url(image.png\DFFF);
+   :                 ^^^^^^^^^^^^^^^^^^^
    `----
 
   x Url
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:7:5]
- 7 | background: url(image.png\DFFF);
-   :             ^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:6:34]
+ 6 | 0);
+ 7 |     background: url(image.png\DFFF);
+   :                 ^^^^^^^^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:7:5]
- 7 | background: url(image.png\DFFF);
-   :             ^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:6:34]
+ 6 | 0);
+ 7 |     background: url(image.png\DFFF);
+   :                 ^^^
    `----
 
   x UrlValue
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:7:5]
- 7 | background: url(image.png\DFFF);
-   :                 ^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:6:34]
+ 6 | 0);
+ 7 |     background: url(image.png\DFFF);
+   :                     ^^^^^^^^^^^^^^
    `----
 
   x UrlValueRaw
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:7:5]
- 7 | background: url(image.png\DFFF);
-   :                 ^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:6:34]
+ 6 | 0);
+ 7 |     background: url(image.png\DFFF);
+   :                     ^^^^^^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:8:5]
- 8 | background: url(image.png\11FFFF);
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:7:34]
+ 7 | F);
+ 8 |     background: url(image.png\11FFFF);
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:8:5]
- 8 | background: url(image.png\11FFFF);
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:7:34]
+ 7 | F);
+ 8 |     background: url(image.png\11FFFF);
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:8:5]
- 8 | background: url(image.png\11FFFF);
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:7:34]
+ 7 | F);
+ 8 |     background: url(image.png\11FFFF);
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:8:5]
- 8 | background: url(image.png\11FFFF);
-   : ^^^^^^^^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:7:34]
+ 7 | F);
+ 8 |     background: url(image.png\11FFFF);
+   :     ^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:8:5]
- 8 | background: url(image.png\11FFFF);
-   : ^^^^^^^^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:7:34]
+ 7 | F);
+ 8 |     background: url(image.png\11FFFF);
+   :     ^^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:8:5]
- 8 | background: url(image.png\11FFFF);
-   :             ^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:7:34]
+ 7 | F);
+ 8 |     background: url(image.png\11FFFF);
+   :                 ^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Url
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:8:5]
- 8 | background: url(image.png\11FFFF);
-   :             ^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:7:34]
+ 7 | F);
+ 8 |     background: url(image.png\11FFFF);
+   :                 ^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:8:5]
- 8 | background: url(image.png\11FFFF);
-   :             ^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:7:34]
+ 7 | F);
+ 8 |     background: url(image.png\11FFFF);
+   :                 ^^^
    `----
 
   x UrlValue
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:8:5]
- 8 | background: url(image.png\11FFFF);
-   :                 ^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:7:34]
+ 7 | F);
+ 8 |     background: url(image.png\11FFFF);
+   :                     ^^^^^^^^^^^^^^^^
    `----
 
   x UrlValueRaw
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:8:5]
- 8 | background: url(image.png\11FFFF);
-   :                 ^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:7:34]
+ 7 | F);
+ 8 |     background: url(image.png\11FFFF);
+   :                     ^^^^^^^^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:9:5]
- 9 | color: red;
-   : ^^^^^^^^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:8:36]
+ 8 | F);
+ 9 |     color: red;
+   :     ^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:9:5]
- 9 | color: red;
-   : ^^^^^^^^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:8:36]
+ 8 | F);
+ 9 |     color: red;
+   :     ^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:9:5]
- 9 | color: red;
-   : ^^^^^^^^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:8:36]
+ 8 | F);
+ 9 |     color: red;
+   :     ^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:9:5]
- 9 | color: red;
-   : ^^^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:8:36]
+ 8 | F);
+ 9 |     color: red;
+   :     ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:9:5]
- 9 | color: red;
-   : ^^^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:8:36]
+ 8 | F);
+ 9 |     color: red;
+   :     ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:9:5]
- 9 | color: red;
-   :        ^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:8:36]
+ 8 | F);
+ 9 |     color: red;
+   :            ^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:9:5]
- 9 | color: red;
-   :        ^^^
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:8:36]
+ 8 | F);
+ 9 |     color: red;
+   :            ^^^
    `----
 
   x Rule
@@ -613,69 +686,80 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/value/url/basic/input.css:13:5]
- 13 | background: url(image.png param(var(--url)));
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/value/url/basic/input.css:12:4]
+ 12 | o {
+ 13 |     background: url(image.png param(var(--url)));
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/recovery/value/url/basic/input.css:13:5]
- 13 | background: url(image.png param(var(--url)));
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/value/url/basic/input.css:12:4]
+ 12 | o {
+ 13 |     background: url(image.png param(var(--url)));
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Declaration
-    ,-[$DIR/tests/recovery/value/url/basic/input.css:13:5]
- 13 | background: url(image.png param(var(--url)));
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/value/url/basic/input.css:12:4]
+ 12 | o {
+ 13 |     background: url(image.png param(var(--url)));
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/recovery/value/url/basic/input.css:13:5]
- 13 | background: url(image.png param(var(--url)));
-    : ^^^^^^^^^^
+    ,-[$DIR/tests/recovery/value/url/basic/input.css:12:4]
+ 12 | o {
+ 13 |     background: url(image.png param(var(--url)));
+    :     ^^^^^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/recovery/value/url/basic/input.css:13:5]
- 13 | background: url(image.png param(var(--url)));
-    : ^^^^^^^^^^
+    ,-[$DIR/tests/recovery/value/url/basic/input.css:12:4]
+ 12 | o {
+ 13 |     background: url(image.png param(var(--url)));
+    :     ^^^^^^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/value/url/basic/input.css:13:5]
- 13 | background: url(image.png param(var(--url)));
-    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/value/url/basic/input.css:12:4]
+ 12 | o {
+ 13 |     background: url(image.png param(var(--url)));
+    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x BadUrl { name: Atom('url' type=static), raw_name: "url", raw_value: "image.png param(var(--url" }
-    ,-[$DIR/tests/recovery/value/url/basic/input.css:13:5]
- 13 | background: url(image.png param(var(--url)));
-    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/value/url/basic/input.css:12:4]
+ 12 | o {
+ 13 |     background: url(image.png param(var(--url)));
+    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/value/url/basic/input.css:13:5]
- 13 | background: url(image.png param(var(--url)));
-    :                                           ^
+    ,-[$DIR/tests/recovery/value/url/basic/input.css:12:4]
+ 12 | o {
+ 13 |     background: url(image.png param(var(--url)));
+    :                                               ^
     `----
 
   x RParen
-    ,-[$DIR/tests/recovery/value/url/basic/input.css:13:5]
- 13 | background: url(image.png param(var(--url)));
-    :                                           ^
+    ,-[$DIR/tests/recovery/value/url/basic/input.css:12:4]
+ 12 | o {
+ 13 |     background: url(image.png param(var(--url)));
+    :                                               ^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/value/url/basic/input.css:13:5]
- 13 | background: url(image.png param(var(--url)));
-    :                                            ^
+    ,-[$DIR/tests/recovery/value/url/basic/input.css:12:4]
+ 12 | o {
+ 13 |     background: url(image.png param(var(--url)));
+    :                                                ^
     `----
 
   x RParen
-    ,-[$DIR/tests/recovery/value/url/basic/input.css:13:5]
- 13 | background: url(image.png param(var(--url)));
-    :                                            ^
+    ,-[$DIR/tests/recovery/value/url/basic/input.css:12:4]
+ 12 | o {
+ 13 |     background: url(image.png param(var(--url)));
+    :                                                ^
     `----
 
   x Rule
@@ -742,97 +826,113 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/value/url/basic/input.css:17:5]
- 17 | background: url("foo", "bar");
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/value/url/basic/input.css:16:6]
+ 16 | e {
+ 17 |     background: url("foo", "bar");
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/recovery/value/url/basic/input.css:17:5]
- 17 | background: url("foo", "bar");
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/value/url/basic/input.css:16:6]
+ 16 | e {
+ 17 |     background: url("foo", "bar");
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Declaration
-    ,-[$DIR/tests/recovery/value/url/basic/input.css:17:5]
- 17 | background: url("foo", "bar");
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/value/url/basic/input.css:16:6]
+ 16 | e {
+ 17 |     background: url("foo", "bar");
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/recovery/value/url/basic/input.css:17:5]
- 17 | background: url("foo", "bar");
-    : ^^^^^^^^^^
+    ,-[$DIR/tests/recovery/value/url/basic/input.css:16:6]
+ 16 | e {
+ 17 |     background: url("foo", "bar");
+    :     ^^^^^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/recovery/value/url/basic/input.css:17:5]
- 17 | background: url("foo", "bar");
-    : ^^^^^^^^^^
+    ,-[$DIR/tests/recovery/value/url/basic/input.css:16:6]
+ 16 | e {
+ 17 |     background: url("foo", "bar");
+    :     ^^^^^^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/value/url/basic/input.css:17:5]
- 17 | background: url("foo", "bar");
-    :             ^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/value/url/basic/input.css:16:6]
+ 16 | e {
+ 17 |     background: url("foo", "bar");
+    :                 ^^^^^^^^^^^^^^^^^
     `----
 
   x Function
-    ,-[$DIR/tests/recovery/value/url/basic/input.css:17:5]
- 17 | background: url("foo", "bar");
-    :             ^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/value/url/basic/input.css:16:6]
+ 16 | e {
+ 17 |     background: url("foo", "bar");
+    :                 ^^^^^^^^^^^^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/recovery/value/url/basic/input.css:17:5]
- 17 | background: url("foo", "bar");
-    :             ^^^
+    ,-[$DIR/tests/recovery/value/url/basic/input.css:16:6]
+ 16 | e {
+ 17 |     background: url("foo", "bar");
+    :                 ^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/value/url/basic/input.css:17:5]
- 17 | background: url("foo", "bar");
-    :                 ^^^^^
+    ,-[$DIR/tests/recovery/value/url/basic/input.css:16:6]
+ 16 | e {
+ 17 |     background: url("foo", "bar");
+    :                     ^^^^^
     `----
 
   x String { value: Atom('foo' type=inline), raw: "\"foo\"" }
-    ,-[$DIR/tests/recovery/value/url/basic/input.css:17:5]
- 17 | background: url("foo", "bar");
-    :                 ^^^^^
+    ,-[$DIR/tests/recovery/value/url/basic/input.css:16:6]
+ 16 | e {
+ 17 |     background: url("foo", "bar");
+    :                     ^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/value/url/basic/input.css:17:5]
- 17 | background: url("foo", "bar");
-    :                      ^
+    ,-[$DIR/tests/recovery/value/url/basic/input.css:16:6]
+ 16 | e {
+ 17 |     background: url("foo", "bar");
+    :                          ^
     `----
 
   x Comma
-    ,-[$DIR/tests/recovery/value/url/basic/input.css:17:5]
- 17 | background: url("foo", "bar");
-    :                      ^
+    ,-[$DIR/tests/recovery/value/url/basic/input.css:16:6]
+ 16 | e {
+ 17 |     background: url("foo", "bar");
+    :                          ^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/value/url/basic/input.css:17:5]
- 17 | background: url("foo", "bar");
-    :                       ^
+    ,-[$DIR/tests/recovery/value/url/basic/input.css:16:6]
+ 16 | e {
+ 17 |     background: url("foo", "bar");
+    :                           ^
     `----
 
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/recovery/value/url/basic/input.css:17:5]
- 17 | background: url("foo", "bar");
-    :                       ^
+    ,-[$DIR/tests/recovery/value/url/basic/input.css:16:6]
+ 16 | e {
+ 17 |     background: url("foo", "bar");
+    :                           ^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/value/url/basic/input.css:17:5]
- 17 | background: url("foo", "bar");
-    :                        ^^^^^
+    ,-[$DIR/tests/recovery/value/url/basic/input.css:16:6]
+ 16 | e {
+ 17 |     background: url("foo", "bar");
+    :                            ^^^^^
     `----
 
   x String { value: Atom('bar' type=inline), raw: "\"bar\"" }
-    ,-[$DIR/tests/recovery/value/url/basic/input.css:17:5]
- 17 | background: url("foo", "bar");
-    :                        ^^^^^
+    ,-[$DIR/tests/recovery/value/url/basic/input.css:16:6]
+ 16 | e {
+ 17 |     background: url("foo", "bar");
+    :                            ^^^^^
     `----

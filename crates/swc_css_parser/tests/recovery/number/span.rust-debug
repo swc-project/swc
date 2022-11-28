@@ -88,8 +88,9 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/number/input.css:2:5]
- 2 | ,-> prop: 10.10px
+   ,-[$DIR/tests/recovery/number/input.css:1:1]
+ 1 |     a {
+ 2 | ,->     prop: 10.10px
  3 | |       prop1: 10px
  4 | |       prop2: 10
  5 | `->     prop3: 10.10
@@ -97,8 +98,9 @@
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/recovery/number/input.css:2:5]
- 2 | ,-> prop: 10.10px
+   ,-[$DIR/tests/recovery/number/input.css:1:1]
+ 1 |     a {
+ 2 | ,->     prop: 10.10px
  3 | |       prop1: 10px
  4 | |       prop2: 10
  5 | `->     prop3: 10.10
@@ -106,8 +108,9 @@
    `----
 
   x Declaration
-   ,-[$DIR/tests/recovery/number/input.css:2:5]
- 2 | ,-> prop: 10.10px
+   ,-[$DIR/tests/recovery/number/input.css:1:1]
+ 1 |     a {
+ 2 | ,->     prop: 10.10px
  3 | |       prop1: 10px
  4 | |       prop2: 10
  5 | `->     prop3: 10.10
@@ -115,205 +118,239 @@
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/recovery/number/input.css:2:5]
- 2 | prop: 10.10px
-   : ^^^^
+   ,-[$DIR/tests/recovery/number/input.css:1:1]
+ 1 | a {
+ 2 |     prop: 10.10px
+   :     ^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/number/input.css:2:5]
- 2 | prop: 10.10px
-   : ^^^^
+   ,-[$DIR/tests/recovery/number/input.css:1:1]
+ 1 | a {
+ 2 |     prop: 10.10px
+   :     ^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/number/input.css:2:5]
- 2 | prop: 10.10px
-   :       ^^^^^^^
+   ,-[$DIR/tests/recovery/number/input.css:1:1]
+ 1 | a {
+ 2 |     prop: 10.10px
+   :           ^^^^^^^
    `----
 
   x Dimension { value: 10.1, raw_value: "10.10", unit: Atom('px' type=static), raw_unit: "px", type_flag: Number }
-   ,-[$DIR/tests/recovery/number/input.css:2:5]
- 2 | prop: 10.10px
-   :       ^^^^^^^
+   ,-[$DIR/tests/recovery/number/input.css:1:1]
+ 1 | a {
+ 2 |     prop: 10.10px
+   :           ^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/number/input.css:2:5]
- 2 | ,-> prop: 10.10px
+   ,-[$DIR/tests/recovery/number/input.css:1:1]
+ 1 |     a {
+ 2 | ,->     prop: 10.10px
  3 | `->     prop1: 10px
    `----
 
   x WhiteSpace { value: "\n    " }
-   ,-[$DIR/tests/recovery/number/input.css:2:5]
- 2 | ,-> prop: 10.10px
+   ,-[$DIR/tests/recovery/number/input.css:1:1]
+ 1 |     a {
+ 2 | ,->     prop: 10.10px
  3 | `->     prop1: 10px
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/number/input.css:3:5]
- 3 | prop1: 10px
-   : ^^^^^
+   ,-[$DIR/tests/recovery/number/input.css:2:15]
+ 2 | 0px
+ 3 |     prop1: 10px
+   :     ^^^^^
    `----
 
   x Ident { value: Atom('prop1' type=inline), raw: "prop1" }
-   ,-[$DIR/tests/recovery/number/input.css:3:5]
- 3 | prop1: 10px
-   : ^^^^^
+   ,-[$DIR/tests/recovery/number/input.css:2:15]
+ 2 | 0px
+ 3 |     prop1: 10px
+   :     ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/number/input.css:3:5]
- 3 | prop1: 10px
-   :      ^
+   ,-[$DIR/tests/recovery/number/input.css:2:15]
+ 2 | 0px
+ 3 |     prop1: 10px
+   :          ^
    `----
 
   x Colon
-   ,-[$DIR/tests/recovery/number/input.css:3:5]
- 3 | prop1: 10px
-   :      ^
+   ,-[$DIR/tests/recovery/number/input.css:2:15]
+ 2 | 0px
+ 3 |     prop1: 10px
+   :          ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/number/input.css:3:5]
- 3 | prop1: 10px
-   :       ^
+   ,-[$DIR/tests/recovery/number/input.css:2:15]
+ 2 | 0px
+ 3 |     prop1: 10px
+   :           ^
    `----
 
   x WhiteSpace { value: " " }
-   ,-[$DIR/tests/recovery/number/input.css:3:5]
- 3 | prop1: 10px
-   :       ^
+   ,-[$DIR/tests/recovery/number/input.css:2:15]
+ 2 | 0px
+ 3 |     prop1: 10px
+   :           ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/number/input.css:3:5]
- 3 | prop1: 10px
-   :        ^^^^
+   ,-[$DIR/tests/recovery/number/input.css:2:15]
+ 2 | 0px
+ 3 |     prop1: 10px
+   :            ^^^^
    `----
 
   x Dimension { value: 10.0, raw_value: "10", unit: Atom('px' type=static), raw_unit: "px", type_flag: Integer }
-   ,-[$DIR/tests/recovery/number/input.css:3:5]
- 3 | prop1: 10px
-   :        ^^^^
+   ,-[$DIR/tests/recovery/number/input.css:2:15]
+ 2 | 0px
+ 3 |     prop1: 10px
+   :            ^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/number/input.css:3:5]
- 3 | ,-> prop1: 10px
+   ,-[$DIR/tests/recovery/number/input.css:2:15]
+ 2 |     0px
+ 3 | ,->     prop1: 10px
  4 | `->     prop2: 10
    `----
 
   x WhiteSpace { value: "\n    " }
-   ,-[$DIR/tests/recovery/number/input.css:3:5]
- 3 | ,-> prop1: 10px
+   ,-[$DIR/tests/recovery/number/input.css:2:15]
+ 2 |     0px
+ 3 | ,->     prop1: 10px
  4 | `->     prop2: 10
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/number/input.css:4:5]
- 4 | prop2: 10
-   : ^^^^^
+   ,-[$DIR/tests/recovery/number/input.css:3:13]
+ 3 | 0px
+ 4 |     prop2: 10
+   :     ^^^^^
    `----
 
   x Ident { value: Atom('prop2' type=inline), raw: "prop2" }
-   ,-[$DIR/tests/recovery/number/input.css:4:5]
- 4 | prop2: 10
-   : ^^^^^
+   ,-[$DIR/tests/recovery/number/input.css:3:13]
+ 3 | 0px
+ 4 |     prop2: 10
+   :     ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/number/input.css:4:5]
- 4 | prop2: 10
-   :      ^
+   ,-[$DIR/tests/recovery/number/input.css:3:13]
+ 3 | 0px
+ 4 |     prop2: 10
+   :          ^
    `----
 
   x Colon
-   ,-[$DIR/tests/recovery/number/input.css:4:5]
- 4 | prop2: 10
-   :      ^
+   ,-[$DIR/tests/recovery/number/input.css:3:13]
+ 3 | 0px
+ 4 |     prop2: 10
+   :          ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/number/input.css:4:5]
- 4 | prop2: 10
-   :       ^
+   ,-[$DIR/tests/recovery/number/input.css:3:13]
+ 3 | 0px
+ 4 |     prop2: 10
+   :           ^
    `----
 
   x WhiteSpace { value: " " }
-   ,-[$DIR/tests/recovery/number/input.css:4:5]
- 4 | prop2: 10
-   :       ^
+   ,-[$DIR/tests/recovery/number/input.css:3:13]
+ 3 | 0px
+ 4 |     prop2: 10
+   :           ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/number/input.css:4:5]
- 4 | prop2: 10
-   :        ^^
+   ,-[$DIR/tests/recovery/number/input.css:3:13]
+ 3 | 0px
+ 4 |     prop2: 10
+   :            ^^
    `----
 
   x Number { value: 10.0, raw: "10", type_flag: Integer }
-   ,-[$DIR/tests/recovery/number/input.css:4:5]
- 4 | prop2: 10
-   :        ^^
+   ,-[$DIR/tests/recovery/number/input.css:3:13]
+ 3 | 0px
+ 4 |     prop2: 10
+   :            ^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/number/input.css:4:5]
- 4 | ,-> prop2: 10
+   ,-[$DIR/tests/recovery/number/input.css:3:13]
+ 3 |     0px
+ 4 | ,->     prop2: 10
  5 | `->     prop3: 10.10
    `----
 
   x WhiteSpace { value: "\n    " }
-   ,-[$DIR/tests/recovery/number/input.css:4:5]
- 4 | ,-> prop2: 10
+   ,-[$DIR/tests/recovery/number/input.css:3:13]
+ 3 |     0px
+ 4 | ,->     prop2: 10
  5 | `->     prop3: 10.10
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/number/input.css:5:5]
- 5 | prop3: 10.10
-   : ^^^^^
+   ,-[$DIR/tests/recovery/number/input.css:4:11]
+ 4 |  10
+ 5 |     prop3: 10.10
+   :     ^^^^^
    `----
 
   x Ident { value: Atom('prop3' type=inline), raw: "prop3" }
-   ,-[$DIR/tests/recovery/number/input.css:5:5]
- 5 | prop3: 10.10
-   : ^^^^^
+   ,-[$DIR/tests/recovery/number/input.css:4:11]
+ 4 |  10
+ 5 |     prop3: 10.10
+   :     ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/number/input.css:5:5]
- 5 | prop3: 10.10
-   :      ^
+   ,-[$DIR/tests/recovery/number/input.css:4:11]
+ 4 |  10
+ 5 |     prop3: 10.10
+   :          ^
    `----
 
   x Colon
-   ,-[$DIR/tests/recovery/number/input.css:5:5]
- 5 | prop3: 10.10
-   :      ^
+   ,-[$DIR/tests/recovery/number/input.css:4:11]
+ 4 |  10
+ 5 |     prop3: 10.10
+   :          ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/number/input.css:5:5]
- 5 | prop3: 10.10
-   :       ^
+   ,-[$DIR/tests/recovery/number/input.css:4:11]
+ 4 |  10
+ 5 |     prop3: 10.10
+   :           ^
    `----
 
   x WhiteSpace { value: " " }
-   ,-[$DIR/tests/recovery/number/input.css:5:5]
- 5 | prop3: 10.10
-   :       ^
+   ,-[$DIR/tests/recovery/number/input.css:4:11]
+ 4 |  10
+ 5 |     prop3: 10.10
+   :           ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/number/input.css:5:5]
- 5 | prop3: 10.10
-   :        ^^^^^
+   ,-[$DIR/tests/recovery/number/input.css:4:11]
+ 4 |  10
+ 5 |     prop3: 10.10
+   :            ^^^^^
    `----
 
   x Number { value: 10.1, raw: "10.10", type_flag: Number }
-   ,-[$DIR/tests/recovery/number/input.css:5:5]
- 5 | prop3: 10.10
-   :        ^^^^^
+   ,-[$DIR/tests/recovery/number/input.css:4:11]
+ 4 |  10
+ 5 |     prop3: 10.10
+   :            ^^^^^
    `----

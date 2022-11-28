@@ -29,7 +29,7 @@
  26 | |   
  27 | |   .prop {
  28 | |       \62 olor: red
- 29 | `-> }
+ 29 | |   }
     `----
 
   x Rule
@@ -102,45 +102,52 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/escaped/input.css:2:5]
- 2 | color: \red;
-   : ^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/escaped/input.css:1:5]
+ 1 | e {
+ 2 |     color: \red;
+   :     ^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/value/escaped/input.css:2:5]
- 2 | color: \red;
-   : ^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/escaped/input.css:1:5]
+ 1 | e {
+ 2 |     color: \red;
+   :     ^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/value/escaped/input.css:2:5]
- 2 | color: \red;
-   : ^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/escaped/input.css:1:5]
+ 1 | e {
+ 2 |     color: \red;
+   :     ^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/value/escaped/input.css:2:5]
- 2 | color: \red;
-   : ^^^^^
+   ,-[$DIR/tests/fixture/value/escaped/input.css:1:5]
+ 1 | e {
+ 2 |     color: \red;
+   :     ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/value/escaped/input.css:2:5]
- 2 | color: \red;
-   : ^^^^^
+   ,-[$DIR/tests/fixture/value/escaped/input.css:1:5]
+ 1 | e {
+ 2 |     color: \red;
+   :     ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/escaped/input.css:2:5]
- 2 | color: \red;
-   :        ^^^^
+   ,-[$DIR/tests/fixture/value/escaped/input.css:1:5]
+ 1 | e {
+ 2 |     color: \red;
+   :            ^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/value/escaped/input.css:2:5]
- 2 | color: \red;
-   :        ^^^^
+   ,-[$DIR/tests/fixture/value/escaped/input.css:1:5]
+ 1 | e {
+ 2 |     color: \red;
+   :            ^^^^
    `----
 
   x Rule
@@ -222,225 +229,262 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/escaped/input.css:6:5]
- 6 | background: url("a).png");
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/escaped/input.css:5:1]
+ 5 | a {
+ 6 |     background: url("a).png");
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/value/escaped/input.css:6:5]
- 6 | background: url("a).png");
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/escaped/input.css:5:1]
+ 5 | a {
+ 6 |     background: url("a).png");
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/value/escaped/input.css:6:5]
- 6 | background: url("a).png");
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/escaped/input.css:5:1]
+ 5 | a {
+ 6 |     background: url("a).png");
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/value/escaped/input.css:6:5]
- 6 | background: url("a).png");
-   : ^^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/escaped/input.css:5:1]
+ 5 | a {
+ 6 |     background: url("a).png");
+   :     ^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/value/escaped/input.css:6:5]
- 6 | background: url("a).png");
-   : ^^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/escaped/input.css:5:1]
+ 5 | a {
+ 6 |     background: url("a).png");
+   :     ^^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/escaped/input.css:6:5]
- 6 | background: url("a).png");
-   :             ^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/escaped/input.css:5:1]
+ 5 | a {
+ 6 |     background: url("a).png");
+   :                 ^^^^^^^^^^^^^
    `----
 
   x Url
-   ,-[$DIR/tests/fixture/value/escaped/input.css:6:5]
- 6 | background: url("a).png");
-   :             ^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/escaped/input.css:5:1]
+ 5 | a {
+ 6 |     background: url("a).png");
+   :                 ^^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/value/escaped/input.css:6:5]
- 6 | background: url("a).png");
-   :             ^^^
+   ,-[$DIR/tests/fixture/value/escaped/input.css:5:1]
+ 5 | a {
+ 6 |     background: url("a).png");
+   :                 ^^^
    `----
 
   x UrlValue
-   ,-[$DIR/tests/fixture/value/escaped/input.css:6:5]
- 6 | background: url("a).png");
-   :                 ^^^^^^^^
+   ,-[$DIR/tests/fixture/value/escaped/input.css:5:1]
+ 5 | a {
+ 6 |     background: url("a).png");
+   :                     ^^^^^^^^
    `----
 
   x Str
-   ,-[$DIR/tests/fixture/value/escaped/input.css:6:5]
- 6 | background: url("a).png");
+   ,-[$DIR/tests/fixture/value/escaped/input.css:5:1]
+ 5 | a {
+ 6 |     background: url("a).png");
+   :                     ^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/value/escaped/input.css:6:28]
+ 6 | ");
+ 7 |     background: url(a;a);
+   :     ^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/fixture/value/escaped/input.css:6:28]
+ 6 | ");
+ 7 |     background: url(a;a);
+   :     ^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/fixture/value/escaped/input.css:6:28]
+ 6 | ");
+ 7 |     background: url(a;a);
+   :     ^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/fixture/value/escaped/input.css:6:28]
+ 6 | ");
+ 7 |     background: url(a;a);
+   :     ^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/value/escaped/input.css:6:28]
+ 6 | ");
+ 7 |     background: url(a;a);
+   :     ^^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/value/escaped/input.css:6:28]
+ 6 | ");
+ 7 |     background: url(a;a);
    :                 ^^^^^^^^
    `----
 
-  x ComponentValue
-   ,-[$DIR/tests/fixture/value/escaped/input.css:7:5]
- 7 | background: url(a;a);
-   : ^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x StyleBlock
-   ,-[$DIR/tests/fixture/value/escaped/input.css:7:5]
- 7 | background: url(a;a);
-   : ^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x Declaration
-   ,-[$DIR/tests/fixture/value/escaped/input.css:7:5]
- 7 | background: url(a;a);
-   : ^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x DeclarationName
-   ,-[$DIR/tests/fixture/value/escaped/input.css:7:5]
- 7 | background: url(a;a);
-   : ^^^^^^^^^^
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/value/escaped/input.css:7:5]
- 7 | background: url(a;a);
-   : ^^^^^^^^^^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/value/escaped/input.css:7:5]
- 7 | background: url(a;a);
-   :             ^^^^^^^^
-   `----
-
   x Url
-   ,-[$DIR/tests/fixture/value/escaped/input.css:7:5]
- 7 | background: url(a;a);
-   :             ^^^^^^^^
+   ,-[$DIR/tests/fixture/value/escaped/input.css:6:28]
+ 6 | ");
+ 7 |     background: url(a;a);
+   :                 ^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/value/escaped/input.css:7:5]
- 7 | background: url(a;a);
-   :             ^^^
+   ,-[$DIR/tests/fixture/value/escaped/input.css:6:28]
+ 6 | ");
+ 7 |     background: url(a;a);
+   :                 ^^^
    `----
 
   x UrlValue
-   ,-[$DIR/tests/fixture/value/escaped/input.css:7:5]
- 7 | background: url(a;a);
-   :                 ^^^
+   ,-[$DIR/tests/fixture/value/escaped/input.css:6:28]
+ 6 | ");
+ 7 |     background: url(a;a);
+   :                     ^^^
    `----
 
   x UrlValueRaw
-   ,-[$DIR/tests/fixture/value/escaped/input.css:7:5]
- 7 | background: url(a;a);
-   :                 ^^^
+   ,-[$DIR/tests/fixture/value/escaped/input.css:6:28]
+ 6 | ");
+ 7 |     background: url(a;a);
+   :                     ^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/escaped/input.css:8:5]
- 8 | background: url(a/*);
-   : ^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/escaped/input.css:7:23]
+ 7 | a);
+ 8 |     background: url(a/*);
+   :     ^^^^^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/value/escaped/input.css:8:5]
- 8 | background: url(a/*);
-   : ^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/escaped/input.css:7:23]
+ 7 | a);
+ 8 |     background: url(a/*);
+   :     ^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/value/escaped/input.css:8:5]
- 8 | background: url(a/*);
-   : ^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/escaped/input.css:7:23]
+ 7 | a);
+ 8 |     background: url(a/*);
+   :     ^^^^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/value/escaped/input.css:8:5]
- 8 | background: url(a/*);
-   : ^^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/escaped/input.css:7:23]
+ 7 | a);
+ 8 |     background: url(a/*);
+   :     ^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/value/escaped/input.css:8:5]
- 8 | background: url(a/*);
-   : ^^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/escaped/input.css:7:23]
+ 7 | a);
+ 8 |     background: url(a/*);
+   :     ^^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/escaped/input.css:8:5]
- 8 | background: url(a/*);
-   :             ^^^^^^^^
+   ,-[$DIR/tests/fixture/value/escaped/input.css:7:23]
+ 7 | a);
+ 8 |     background: url(a/*);
+   :                 ^^^^^^^^
    `----
 
   x Url
-   ,-[$DIR/tests/fixture/value/escaped/input.css:8:5]
- 8 | background: url(a/*);
-   :             ^^^^^^^^
+   ,-[$DIR/tests/fixture/value/escaped/input.css:7:23]
+ 7 | a);
+ 8 |     background: url(a/*);
+   :                 ^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/value/escaped/input.css:8:5]
- 8 | background: url(a/*);
-   :             ^^^
+   ,-[$DIR/tests/fixture/value/escaped/input.css:7:23]
+ 7 | a);
+ 8 |     background: url(a/*);
+   :                 ^^^
    `----
 
   x UrlValue
-   ,-[$DIR/tests/fixture/value/escaped/input.css:8:5]
- 8 | background: url(a/*);
-   :                 ^^^
+   ,-[$DIR/tests/fixture/value/escaped/input.css:7:23]
+ 7 | a);
+ 8 |     background: url(a/*);
+   :                     ^^^
    `----
 
   x UrlValueRaw
-   ,-[$DIR/tests/fixture/value/escaped/input.css:8:5]
- 8 | background: url(a/*);
-   :                 ^^^
+   ,-[$DIR/tests/fixture/value/escaped/input.css:7:23]
+ 7 | a);
+ 8 |     background: url(a/*);
+   :                     ^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/escaped/input.css:9:5]
- 9 | background: \;a;
-   : ^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/escaped/input.css:8:23]
+ 8 | *);
+ 9 |     background: \;a;
+   :     ^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/value/escaped/input.css:9:5]
- 9 | background: \;a;
-   : ^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/escaped/input.css:8:23]
+ 8 | *);
+ 9 |     background: \;a;
+   :     ^^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/value/escaped/input.css:9:5]
- 9 | background: \;a;
-   : ^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/escaped/input.css:8:23]
+ 8 | *);
+ 9 |     background: \;a;
+   :     ^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/value/escaped/input.css:9:5]
- 9 | background: \;a;
-   : ^^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/escaped/input.css:8:23]
+ 8 | *);
+ 9 |     background: \;a;
+   :     ^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/value/escaped/input.css:9:5]
- 9 | background: \;a;
-   : ^^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/escaped/input.css:8:23]
+ 8 | *);
+ 9 |     background: \;a;
+   :     ^^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/escaped/input.css:9:5]
- 9 | background: \;a;
-   :             ^^^
+   ,-[$DIR/tests/fixture/value/escaped/input.css:8:23]
+ 8 | *);
+ 9 |     background: \;a;
+   :                 ^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/value/escaped/input.css:9:5]
- 9 | background: \;a;
-   :             ^^^
+   ,-[$DIR/tests/fixture/value/escaped/input.css:8:23]
+ 8 | *);
+ 9 |     background: \;a;
+   :                 ^^^
    `----
 
   x Rule
@@ -1347,45 +1391,52 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/escaped/input.css:22:5]
- 22 | color: \\;
-    : ^^^^^^^^^
+    ,-[$DIR/tests/fixture/value/escaped/input.css:21:3]
+ 21 | \\{
+ 22 |     color: \\;
+    :     ^^^^^^^^^
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/value/escaped/input.css:22:5]
- 22 | color: \\;
-    : ^^^^^^^^^
+    ,-[$DIR/tests/fixture/value/escaped/input.css:21:3]
+ 21 | \\{
+ 22 |     color: \\;
+    :     ^^^^^^^^^
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/value/escaped/input.css:22:5]
- 22 | color: \\;
-    : ^^^^^^^^^
+    ,-[$DIR/tests/fixture/value/escaped/input.css:21:3]
+ 21 | \\{
+ 22 |     color: \\;
+    :     ^^^^^^^^^
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/value/escaped/input.css:22:5]
- 22 | color: \\;
-    : ^^^^^
+    ,-[$DIR/tests/fixture/value/escaped/input.css:21:3]
+ 21 | \\{
+ 22 |     color: \\;
+    :     ^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/value/escaped/input.css:22:5]
- 22 | color: \\;
-    : ^^^^^
+    ,-[$DIR/tests/fixture/value/escaped/input.css:21:3]
+ 21 | \\{
+ 22 |     color: \\;
+    :     ^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/escaped/input.css:22:5]
- 22 | color: \\;
-    :        ^^
+    ,-[$DIR/tests/fixture/value/escaped/input.css:21:3]
+ 21 | \\{
+ 22 |     color: \\;
+    :            ^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/value/escaped/input.css:22:5]
- 22 | color: \\;
-    :        ^^
+    ,-[$DIR/tests/fixture/value/escaped/input.css:21:3]
+ 21 | \\{
+ 22 |     color: \\;
+    :            ^^
     `----
 
   x Rule
@@ -1536,46 +1587,53 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/escaped/input.css:28:5]
- 28 | \62 olor: red
-    : ^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/value/escaped/input.css:27:5]
+ 27 | p {
+ 28 |     \62 olor: red
+    :     ^^^^^^^^^^^^^^
  29 | }
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/value/escaped/input.css:28:5]
- 28 | \62 olor: red
-    : ^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/value/escaped/input.css:27:5]
+ 27 | p {
+ 28 |     \62 olor: red
+    :     ^^^^^^^^^^^^^^
  29 | }
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/value/escaped/input.css:28:5]
- 28 | \62 olor: red
-    : ^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/value/escaped/input.css:27:5]
+ 27 | p {
+ 28 |     \62 olor: red
+    :     ^^^^^^^^^^^^^^
  29 | }
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/value/escaped/input.css:28:5]
- 28 | \62 olor: red
-    : ^^^^^^^^
+    ,-[$DIR/tests/fixture/value/escaped/input.css:27:5]
+ 27 | p {
+ 28 |     \62 olor: red
+    :     ^^^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/value/escaped/input.css:28:5]
- 28 | \62 olor: red
-    : ^^^^^^^^
+    ,-[$DIR/tests/fixture/value/escaped/input.css:27:5]
+ 27 | p {
+ 28 |     \62 olor: red
+    :     ^^^^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/escaped/input.css:28:5]
- 28 | \62 olor: red
-    :           ^^^
+    ,-[$DIR/tests/fixture/value/escaped/input.css:27:5]
+ 27 | p {
+ 28 |     \62 olor: red
+    :               ^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/value/escaped/input.css:28:5]
- 28 | \62 olor: red
-    :           ^^^
+    ,-[$DIR/tests/fixture/value/escaped/input.css:27:5]
+ 27 | p {
+ 28 |     \62 olor: red
+    :               ^^^
     `----
