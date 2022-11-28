@@ -16,7 +16,7 @@
  13 | |   <p>This is another paragraph.</p>
  14 | |   
  15 | |   </body>
- 16 | `-> </html>
+ 16 | |   </html>
     `----
 
   x Child
@@ -47,7 +47,7 @@
  13 | |   <p>This is another paragraph.</p>
  14 | |   
  15 | |   </body>
- 16 | `-> </html>
+ 16 | |   </html>
     `----
 
   x Element
@@ -66,7 +66,7 @@
  13 | |   <p>This is another paragraph.</p>
  14 | |   
  15 | |   </body>
- 16 | `-> </html>
+ 16 | |   </html>
     `----
 
   x Child
@@ -104,8 +104,9 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/text/title-lf/input.html:4:5]
- 4 | ,-> <title>
+   ,-[$DIR/tests/fixture/text/title-lf/input.html:3:4]
+ 3 |     ad>
+ 4 | ,->     <title>
  5 | |   
  6 | |           Test
  7 | |   
@@ -113,8 +114,9 @@
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/text/title-lf/input.html:4:5]
- 4 | ,-> <title>
+   ,-[$DIR/tests/fixture/text/title-lf/input.html:3:4]
+ 3 |     ad>
+ 4 | ,->     <title>
  5 | |   
  6 | |           Test
  7 | |   
@@ -122,8 +124,9 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/text/title-lf/input.html:4:5]
- 4 | ,-> <title>
+   ,-[$DIR/tests/fixture/text/title-lf/input.html:3:4]
+ 3 |     ad>
+ 4 | ,->     <title>
  5 | |   
  6 | |           Test
  7 | |   
@@ -131,8 +134,9 @@
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/text/title-lf/input.html:4:5]
- 4 | ,-> <title>
+   ,-[$DIR/tests/fixture/text/title-lf/input.html:3:4]
+ 3 |     ad>
+ 4 | ,->     <title>
  5 | |   
  6 | |           Test
  7 | |   
@@ -140,16 +144,20 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/text/title-lf/input.html:8:5]
- 8 | </title>
-   :         ^
+   ,-[$DIR/tests/fixture/text/title-lf/input.html:6:11]
+ 6 | st
+ 7 | 
+ 8 |     </title>
+   :             ^
  9 | </head>
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/text/title-lf/input.html:8:5]
- 8 | </title>
-   :         ^
+   ,-[$DIR/tests/fixture/text/title-lf/input.html:6:11]
+ 6 | st
+ 7 | 
+ 8 |     </title>
+   :             ^
  9 | </head>
    `----
 
@@ -175,7 +183,7 @@
  13 | |   <p>This is another paragraph.</p>
  14 | |   
  15 | |   </body>
- 16 | `-> </html>
+ 16 | |   </html>
     `----
 
   x Element
@@ -186,7 +194,7 @@
  13 | |   <p>This is another paragraph.</p>
  14 | |   
  15 | |   </body>
- 16 | `-> </html>
+ 16 | |   </html>
     `----
 
   x Child
@@ -270,7 +278,7 @@
  13 | ,-> <p>This is another paragraph.</p>
  14 | |   
  15 | |   </body>
- 16 | `-> </html>
+ 16 | |   </html>
     `----
 
   x Text
@@ -278,5 +286,5 @@
  13 | ,-> <p>This is another paragraph.</p>
  14 | |   
  15 | |   </body>
- 16 | `-> </html>
+ 16 | |   </html>
     `----

@@ -1,8 +1,7 @@
 
   x Document
    ,-[$DIR/tests/recovery/element/applet-2/input.html:1:1]
- 1 | <a><applet><a>x
-   : ^^^^^^^^^^^^^^^^
+ 1 | ,-> <a><applet><a>x
    `----
 
   x Child
@@ -11,48 +10,40 @@
 
   x Child
    ,-[$DIR/tests/recovery/element/applet-2/input.html:1:1]
- 1 | <a><applet><a>x
-   : ^^^^^^^^^^^^^^^^
+ 1 | ,-> <a><applet><a>x
    `----
 
   x Element
    ,-[$DIR/tests/recovery/element/applet-2/input.html:1:1]
- 1 | <a><applet><a>x
-   : ^^^^^^^^^^^^^^^^
+ 1 | ,-> <a><applet><a>x
    `----
 
   x Child
    ,-[$DIR/tests/recovery/element/applet-2/input.html:1:1]
- 1 | <a><applet><a>x
-   :    ^^^^^^^^^^^^^
+ 1 | ,-> <a><applet><a>x
    `----
 
   x Element
    ,-[$DIR/tests/recovery/element/applet-2/input.html:1:1]
- 1 | <a><applet><a>x
-   :    ^^^^^^^^^^^^^
+ 1 | ,-> <a><applet><a>x
    `----
 
   x Child
    ,-[$DIR/tests/recovery/element/applet-2/input.html:1:1]
- 1 | <a><applet><a>x
-   :            ^^^^^
+ 1 | ,-> <a><applet><a>x
    `----
 
   x Element
    ,-[$DIR/tests/recovery/element/applet-2/input.html:1:1]
- 1 | <a><applet><a>x
-   :            ^^^^^
+ 1 | ,-> <a><applet><a>x
    `----
 
   x Child
    ,-[$DIR/tests/recovery/element/applet-2/input.html:1:1]
- 1 | <a><applet><a>x
-   :               ^^
+ 1 | ,-> <a><applet><a>x
    `----
 
   x Text
    ,-[$DIR/tests/recovery/element/applet-2/input.html:1:1]
- 1 | <a><applet><a>x
-   :               ^^
+ 1 | ,-> <a><applet><a>x
    `----

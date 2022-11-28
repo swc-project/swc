@@ -138,8 +138,9 @@
    `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:3:5]
-  3 | ,-> <Address Type="Shipping">
+    ,-[$DIR/tests/fixture/basic-1/input.xml:2:64]
+  2 |     0">
+  3 | ,->     <Address Type="Shipping">
   4 | |           <Name>Ellen Adams</Name>
   5 | |           <Street>123 Maple Street</Street>
   6 | |           <City>Mill Valley</City>
@@ -150,8 +151,9 @@
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/basic-1/input.xml:3:5]
-  3 | ,-> <Address Type="Shipping">
+    ,-[$DIR/tests/fixture/basic-1/input.xml:2:64]
+  2 |     0">
+  3 | ,->     <Address Type="Shipping">
   4 | |           <Name>Ellen Adams</Name>
   5 | |           <Street>123 Maple Street</Street>
   6 | |           <City>Mill Valley</City>
@@ -162,248 +164,289 @@
     `----
 
   x Child
-   ,-[$DIR/tests/fixture/basic-1/input.xml:3:5]
- 3 | ,-> <Address Type="Shipping">
+   ,-[$DIR/tests/fixture/basic-1/input.xml:2:64]
+ 2 |     0">
+ 3 | ,->     <Address Type="Shipping">
  4 | `->         <Name>Ellen Adams</Name>
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/basic-1/input.xml:3:5]
- 3 | ,-> <Address Type="Shipping">
+   ,-[$DIR/tests/fixture/basic-1/input.xml:2:64]
+ 2 |     0">
+ 3 | ,->     <Address Type="Shipping">
  4 | `->         <Name>Ellen Adams</Name>
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/basic-1/input.xml:4:9]
- 4 | <Name>Ellen Adams</Name>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/basic-1/input.xml:3:23]
+ 3 | pping">
+ 4 |         <Name>Ellen Adams</Name>
+   :         ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/basic-1/input.xml:4:9]
- 4 | <Name>Ellen Adams</Name>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/basic-1/input.xml:3:23]
+ 3 | pping">
+ 4 |         <Name>Ellen Adams</Name>
+   :         ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/basic-1/input.xml:4:9]
- 4 | <Name>Ellen Adams</Name>
-   :       ^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/basic-1/input.xml:3:23]
+ 3 | pping">
+ 4 |         <Name>Ellen Adams</Name>
+   :               ^^^^^^^^^^^
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/basic-1/input.xml:4:9]
- 4 | <Name>Ellen Adams</Name>
-   :       ^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/basic-1/input.xml:3:23]
+ 3 | pping">
+ 4 |         <Name>Ellen Adams</Name>
+   :               ^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/basic-1/input.xml:4:9]
- 4 | ,-> <Name>Ellen Adams</Name>
+   ,-[$DIR/tests/fixture/basic-1/input.xml:3:23]
+ 3 |     pping">
+ 4 | ,->         <Name>Ellen Adams</Name>
  5 | `->         <Street>123 Maple Street</Street>
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/basic-1/input.xml:4:9]
- 4 | ,-> <Name>Ellen Adams</Name>
+   ,-[$DIR/tests/fixture/basic-1/input.xml:3:23]
+ 3 |     pping">
+ 4 | ,->         <Name>Ellen Adams</Name>
  5 | `->         <Street>123 Maple Street</Street>
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/basic-1/input.xml:5:9]
- 5 | <Street>123 Maple Street</Street>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/basic-1/input.xml:4:26]
+ 4 | </Name>
+ 5 |         <Street>123 Maple Street</Street>
+   :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/basic-1/input.xml:5:9]
- 5 | <Street>123 Maple Street</Street>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/basic-1/input.xml:4:26]
+ 4 | </Name>
+ 5 |         <Street>123 Maple Street</Street>
+   :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/basic-1/input.xml:5:9]
- 5 | <Street>123 Maple Street</Street>
-   :         ^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/basic-1/input.xml:4:26]
+ 4 | </Name>
+ 5 |         <Street>123 Maple Street</Street>
+   :                 ^^^^^^^^^^^^^^^^
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/basic-1/input.xml:5:9]
- 5 | <Street>123 Maple Street</Street>
-   :         ^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/basic-1/input.xml:4:26]
+ 4 | </Name>
+ 5 |         <Street>123 Maple Street</Street>
+   :                 ^^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/basic-1/input.xml:5:9]
- 5 | ,-> <Street>123 Maple Street</Street>
+   ,-[$DIR/tests/fixture/basic-1/input.xml:4:26]
+ 4 |     </Name>
+ 5 | ,->         <Street>123 Maple Street</Street>
  6 | `->         <City>Mill Valley</City>
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/basic-1/input.xml:5:9]
- 5 | ,-> <Street>123 Maple Street</Street>
+   ,-[$DIR/tests/fixture/basic-1/input.xml:4:26]
+ 4 |     </Name>
+ 5 | ,->         <Street>123 Maple Street</Street>
  6 | `->         <City>Mill Valley</City>
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/basic-1/input.xml:6:9]
- 6 | <City>Mill Valley</City>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/basic-1/input.xml:5:35]
+ 5 | Street>
+ 6 |         <City>Mill Valley</City>
+   :         ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/basic-1/input.xml:6:9]
- 6 | <City>Mill Valley</City>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/basic-1/input.xml:5:35]
+ 5 | Street>
+ 6 |         <City>Mill Valley</City>
+   :         ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/basic-1/input.xml:6:9]
- 6 | <City>Mill Valley</City>
-   :       ^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/basic-1/input.xml:5:35]
+ 5 | Street>
+ 6 |         <City>Mill Valley</City>
+   :               ^^^^^^^^^^^
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/basic-1/input.xml:6:9]
- 6 | <City>Mill Valley</City>
-   :       ^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/basic-1/input.xml:5:35]
+ 5 | Street>
+ 6 |         <City>Mill Valley</City>
+   :               ^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/basic-1/input.xml:6:9]
- 6 | ,-> <City>Mill Valley</City>
+   ,-[$DIR/tests/fixture/basic-1/input.xml:5:35]
+ 5 |     Street>
+ 6 | ,->         <City>Mill Valley</City>
  7 | `->         <State>CA</State>
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/basic-1/input.xml:6:9]
- 6 | ,-> <City>Mill Valley</City>
+   ,-[$DIR/tests/fixture/basic-1/input.xml:5:35]
+ 5 |     Street>
+ 6 | ,->         <City>Mill Valley</City>
  7 | `->         <State>CA</State>
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/basic-1/input.xml:7:9]
- 7 | <State>CA</State>
-   : ^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/basic-1/input.xml:6:26]
+ 6 | </City>
+ 7 |         <State>CA</State>
+   :         ^^^^^^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/basic-1/input.xml:7:9]
- 7 | <State>CA</State>
-   : ^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/basic-1/input.xml:6:26]
+ 6 | </City>
+ 7 |         <State>CA</State>
+   :         ^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/basic-1/input.xml:7:9]
- 7 | <State>CA</State>
-   :        ^^
+   ,-[$DIR/tests/fixture/basic-1/input.xml:6:26]
+ 6 | </City>
+ 7 |         <State>CA</State>
+   :                ^^
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/basic-1/input.xml:7:9]
- 7 | <State>CA</State>
-   :        ^^
+   ,-[$DIR/tests/fixture/basic-1/input.xml:6:26]
+ 6 | </City>
+ 7 |         <State>CA</State>
+   :                ^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/basic-1/input.xml:7:9]
- 7 | ,-> <State>CA</State>
+   ,-[$DIR/tests/fixture/basic-1/input.xml:6:26]
+ 6 |     </City>
+ 7 | ,->         <State>CA</State>
  8 | `->         <Zip>10999</Zip>
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/basic-1/input.xml:7:9]
- 7 | ,-> <State>CA</State>
+   ,-[$DIR/tests/fixture/basic-1/input.xml:6:26]
+ 6 |     </City>
+ 7 | ,->         <State>CA</State>
  8 | `->         <Zip>10999</Zip>
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/basic-1/input.xml:8:9]
- 8 | <Zip>10999</Zip>
-   : ^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/basic-1/input.xml:7:19]
+ 7 | /State>
+ 8 |         <Zip>10999</Zip>
+   :         ^^^^^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/basic-1/input.xml:8:9]
- 8 | <Zip>10999</Zip>
-   : ^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/basic-1/input.xml:7:19]
+ 7 | /State>
+ 8 |         <Zip>10999</Zip>
+   :         ^^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/basic-1/input.xml:8:9]
- 8 | <Zip>10999</Zip>
-   :      ^^^^^
+   ,-[$DIR/tests/fixture/basic-1/input.xml:7:19]
+ 7 | /State>
+ 8 |         <Zip>10999</Zip>
+   :              ^^^^^
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/basic-1/input.xml:8:9]
- 8 | <Zip>10999</Zip>
-   :      ^^^^^
+   ,-[$DIR/tests/fixture/basic-1/input.xml:7:19]
+ 7 | /State>
+ 8 |         <Zip>10999</Zip>
+   :              ^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/basic-1/input.xml:8:9]
- 8 | ,-> <Zip>10999</Zip>
+   ,-[$DIR/tests/fixture/basic-1/input.xml:7:19]
+ 7 |     /State>
+ 8 | ,->         <Zip>10999</Zip>
  9 | `->         <Country>USA</Country>
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/basic-1/input.xml:8:9]
- 8 | ,-> <Zip>10999</Zip>
+   ,-[$DIR/tests/fixture/basic-1/input.xml:7:19]
+ 7 |     /State>
+ 8 | ,->         <Zip>10999</Zip>
  9 | `->         <Country>USA</Country>
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/basic-1/input.xml:9:9]
- 9 | <Country>USA</Country>
-   : ^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/basic-1/input.xml:8:18]
+ 8 | 9</Zip>
+ 9 |         <Country>USA</Country>
+   :         ^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/basic-1/input.xml:9:9]
- 9 | <Country>USA</Country>
-   : ^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/basic-1/input.xml:8:18]
+ 8 | 9</Zip>
+ 9 |         <Country>USA</Country>
+   :         ^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/basic-1/input.xml:9:9]
- 9 | <Country>USA</Country>
-   :          ^^^
+   ,-[$DIR/tests/fixture/basic-1/input.xml:8:18]
+ 8 | 9</Zip>
+ 9 |         <Country>USA</Country>
+   :                  ^^^
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/basic-1/input.xml:9:9]
- 9 | <Country>USA</Country>
-   :          ^^^
+   ,-[$DIR/tests/fixture/basic-1/input.xml:8:18]
+ 8 | 9</Zip>
+ 9 |         <Country>USA</Country>
+   :                  ^^^
    `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:9:9]
-  9 | ,-> <Country>USA</Country>
+    ,-[$DIR/tests/fixture/basic-1/input.xml:8:18]
+  8 |     9</Zip>
+  9 | ,->         <Country>USA</Country>
  10 | `->     </Address>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-1/input.xml:9:9]
-  9 | ,-> <Country>USA</Country>
+    ,-[$DIR/tests/fixture/basic-1/input.xml:8:18]
+  8 |     9</Zip>
+  9 | ,->         <Country>USA</Country>
  10 | `->     </Address>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:10:5]
- 10 | ,-> </Address>
+    ,-[$DIR/tests/fixture/basic-1/input.xml:9:28]
+  9 |     ry>
+ 10 | ,->     </Address>
  11 | `->     <Address Type="Billing">
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-1/input.xml:10:5]
- 10 | ,-> </Address>
+    ,-[$DIR/tests/fixture/basic-1/input.xml:9:28]
+  9 |     ry>
+ 10 | ,->     </Address>
  11 | `->     <Address Type="Billing">
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:11:5]
- 11 | ,-> <Address Type="Billing">
+    ,-[$DIR/tests/fixture/basic-1/input.xml:10:12]
+ 10 |     ss>
+ 11 | ,->     <Address Type="Billing">
  12 | |           <Name>Tai Yee</Name>
  13 | |           <Street>8 Oak Avenue</Street>
  14 | |           <City>Old Town</City>
@@ -414,8 +457,9 @@
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/basic-1/input.xml:11:5]
- 11 | ,-> <Address Type="Billing">
+    ,-[$DIR/tests/fixture/basic-1/input.xml:10:12]
+ 10 |     ss>
+ 11 | ,->     <Address Type="Billing">
  12 | |           <Name>Tai Yee</Name>
  13 | |           <Street>8 Oak Avenue</Street>
  14 | |           <City>Old Town</City>
@@ -426,284 +470,331 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:11:5]
- 11 | ,-> <Address Type="Billing">
+    ,-[$DIR/tests/fixture/basic-1/input.xml:10:12]
+ 10 |     ss>
+ 11 | ,->     <Address Type="Billing">
  12 | `->         <Name>Tai Yee</Name>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-1/input.xml:11:5]
- 11 | ,-> <Address Type="Billing">
+    ,-[$DIR/tests/fixture/basic-1/input.xml:10:12]
+ 10 |     ss>
+ 11 | ,->     <Address Type="Billing">
  12 | `->         <Name>Tai Yee</Name>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:12:9]
- 12 | <Name>Tai Yee</Name>
-    : ^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:11:22]
+ 11 | lling">
+ 12 |         <Name>Tai Yee</Name>
+    :         ^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/basic-1/input.xml:12:9]
- 12 | <Name>Tai Yee</Name>
-    : ^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:11:22]
+ 11 | lling">
+ 12 |         <Name>Tai Yee</Name>
+    :         ^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:12:9]
- 12 | <Name>Tai Yee</Name>
-    :       ^^^^^^^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:11:22]
+ 11 | lling">
+ 12 |         <Name>Tai Yee</Name>
+    :               ^^^^^^^
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-1/input.xml:12:9]
- 12 | <Name>Tai Yee</Name>
-    :       ^^^^^^^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:11:22]
+ 11 | lling">
+ 12 |         <Name>Tai Yee</Name>
+    :               ^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:12:9]
- 12 | ,-> <Name>Tai Yee</Name>
+    ,-[$DIR/tests/fixture/basic-1/input.xml:11:22]
+ 11 |     lling">
+ 12 | ,->         <Name>Tai Yee</Name>
  13 | `->         <Street>8 Oak Avenue</Street>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-1/input.xml:12:9]
- 12 | ,-> <Name>Tai Yee</Name>
+    ,-[$DIR/tests/fixture/basic-1/input.xml:11:22]
+ 11 |     lling">
+ 12 | ,->         <Name>Tai Yee</Name>
  13 | `->         <Street>8 Oak Avenue</Street>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:13:9]
- 13 | <Street>8 Oak Avenue</Street>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:12:22]
+ 12 | </Name>
+ 13 |         <Street>8 Oak Avenue</Street>
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/basic-1/input.xml:13:9]
- 13 | <Street>8 Oak Avenue</Street>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:12:22]
+ 12 | </Name>
+ 13 |         <Street>8 Oak Avenue</Street>
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:13:9]
- 13 | <Street>8 Oak Avenue</Street>
-    :         ^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:12:22]
+ 12 | </Name>
+ 13 |         <Street>8 Oak Avenue</Street>
+    :                 ^^^^^^^^^^^^
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-1/input.xml:13:9]
- 13 | <Street>8 Oak Avenue</Street>
-    :         ^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:12:22]
+ 12 | </Name>
+ 13 |         <Street>8 Oak Avenue</Street>
+    :                 ^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:13:9]
- 13 | ,-> <Street>8 Oak Avenue</Street>
+    ,-[$DIR/tests/fixture/basic-1/input.xml:12:22]
+ 12 |     </Name>
+ 13 | ,->         <Street>8 Oak Avenue</Street>
  14 | `->         <City>Old Town</City>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-1/input.xml:13:9]
- 13 | ,-> <Street>8 Oak Avenue</Street>
+    ,-[$DIR/tests/fixture/basic-1/input.xml:12:22]
+ 12 |     </Name>
+ 13 | ,->         <Street>8 Oak Avenue</Street>
  14 | `->         <City>Old Town</City>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:14:9]
- 14 | <City>Old Town</City>
-    : ^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:13:31]
+ 13 | Street>
+ 14 |         <City>Old Town</City>
+    :         ^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/basic-1/input.xml:14:9]
- 14 | <City>Old Town</City>
-    : ^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:13:31]
+ 13 | Street>
+ 14 |         <City>Old Town</City>
+    :         ^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:14:9]
- 14 | <City>Old Town</City>
-    :       ^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:13:31]
+ 13 | Street>
+ 14 |         <City>Old Town</City>
+    :               ^^^^^^^^
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-1/input.xml:14:9]
- 14 | <City>Old Town</City>
-    :       ^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:13:31]
+ 13 | Street>
+ 14 |         <City>Old Town</City>
+    :               ^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:14:9]
- 14 | ,-> <City>Old Town</City>
+    ,-[$DIR/tests/fixture/basic-1/input.xml:13:31]
+ 13 |     Street>
+ 14 | ,->         <City>Old Town</City>
  15 | `->         <State>PA</State>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-1/input.xml:14:9]
- 14 | ,-> <City>Old Town</City>
+    ,-[$DIR/tests/fixture/basic-1/input.xml:13:31]
+ 13 |     Street>
+ 14 | ,->         <City>Old Town</City>
  15 | `->         <State>PA</State>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:15:9]
- 15 | <State>PA</State>
-    : ^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:14:23]
+ 14 | </City>
+ 15 |         <State>PA</State>
+    :         ^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/basic-1/input.xml:15:9]
- 15 | <State>PA</State>
-    : ^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:14:23]
+ 14 | </City>
+ 15 |         <State>PA</State>
+    :         ^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:15:9]
- 15 | <State>PA</State>
-    :        ^^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:14:23]
+ 14 | </City>
+ 15 |         <State>PA</State>
+    :                ^^
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-1/input.xml:15:9]
- 15 | <State>PA</State>
-    :        ^^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:14:23]
+ 14 | </City>
+ 15 |         <State>PA</State>
+    :                ^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:15:9]
- 15 | ,-> <State>PA</State>
+    ,-[$DIR/tests/fixture/basic-1/input.xml:14:23]
+ 14 |     </City>
+ 15 | ,->         <State>PA</State>
  16 | `->         <Zip>95819</Zip>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-1/input.xml:15:9]
- 15 | ,-> <State>PA</State>
+    ,-[$DIR/tests/fixture/basic-1/input.xml:14:23]
+ 14 |     </City>
+ 15 | ,->         <State>PA</State>
  16 | `->         <Zip>95819</Zip>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:16:9]
- 16 | <Zip>95819</Zip>
-    : ^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:15:19]
+ 15 | /State>
+ 16 |         <Zip>95819</Zip>
+    :         ^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/basic-1/input.xml:16:9]
- 16 | <Zip>95819</Zip>
-    : ^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:15:19]
+ 15 | /State>
+ 16 |         <Zip>95819</Zip>
+    :         ^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:16:9]
- 16 | <Zip>95819</Zip>
-    :      ^^^^^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:15:19]
+ 15 | /State>
+ 16 |         <Zip>95819</Zip>
+    :              ^^^^^
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-1/input.xml:16:9]
- 16 | <Zip>95819</Zip>
-    :      ^^^^^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:15:19]
+ 15 | /State>
+ 16 |         <Zip>95819</Zip>
+    :              ^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:16:9]
- 16 | ,-> <Zip>95819</Zip>
+    ,-[$DIR/tests/fixture/basic-1/input.xml:15:19]
+ 15 |     /State>
+ 16 | ,->         <Zip>95819</Zip>
  17 | `->         <Country>USA</Country>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-1/input.xml:16:9]
- 16 | ,-> <Zip>95819</Zip>
+    ,-[$DIR/tests/fixture/basic-1/input.xml:15:19]
+ 15 |     /State>
+ 16 | ,->         <Zip>95819</Zip>
  17 | `->         <Country>USA</Country>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:17:9]
- 17 | <Country>USA</Country>
-    : ^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:16:18]
+ 16 | 9</Zip>
+ 17 |         <Country>USA</Country>
+    :         ^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/basic-1/input.xml:17:9]
- 17 | <Country>USA</Country>
-    : ^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:16:18]
+ 16 | 9</Zip>
+ 17 |         <Country>USA</Country>
+    :         ^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:17:9]
- 17 | <Country>USA</Country>
-    :          ^^^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:16:18]
+ 16 | 9</Zip>
+ 17 |         <Country>USA</Country>
+    :                  ^^^
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-1/input.xml:17:9]
- 17 | <Country>USA</Country>
-    :          ^^^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:16:18]
+ 16 | 9</Zip>
+ 17 |         <Country>USA</Country>
+    :                  ^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:17:9]
- 17 | ,-> <Country>USA</Country>
+    ,-[$DIR/tests/fixture/basic-1/input.xml:16:18]
+ 16 |     9</Zip>
+ 17 | ,->         <Country>USA</Country>
  18 | `->     </Address>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-1/input.xml:17:9]
- 17 | ,-> <Country>USA</Country>
+    ,-[$DIR/tests/fixture/basic-1/input.xml:16:18]
+ 16 |     9</Zip>
+ 17 | ,->         <Country>USA</Country>
  18 | `->     </Address>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:18:5]
- 18 | ,-> </Address>
+    ,-[$DIR/tests/fixture/basic-1/input.xml:17:28]
+ 17 |     ry>
+ 18 | ,->     </Address>
  19 | `->     <DeliveryNotes>Please leave packages in shed by driveway.</DeliveryNotes>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-1/input.xml:18:5]
- 18 | ,-> </Address>
+    ,-[$DIR/tests/fixture/basic-1/input.xml:17:28]
+ 17 |     ry>
+ 18 | ,->     </Address>
  19 | `->     <DeliveryNotes>Please leave packages in shed by driveway.</DeliveryNotes>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:19:5]
- 19 | <DeliveryNotes>Please leave packages in shed by driveway.</DeliveryNotes>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:18:12]
+ 18 | ss>
+ 19 |     <DeliveryNotes>Please leave packages in shed by driveway.</DeliveryNotes>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/basic-1/input.xml:19:5]
- 19 | <DeliveryNotes>Please leave packages in shed by driveway.</DeliveryNotes>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:18:12]
+ 18 | ss>
+ 19 |     <DeliveryNotes>Please leave packages in shed by driveway.</DeliveryNotes>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:19:5]
- 19 | <DeliveryNotes>Please leave packages in shed by driveway.</DeliveryNotes>
-    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:18:12]
+ 18 | ss>
+ 19 |     <DeliveryNotes>Please leave packages in shed by driveway.</DeliveryNotes>
+    :                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-1/input.xml:19:5]
- 19 | <DeliveryNotes>Please leave packages in shed by driveway.</DeliveryNotes>
-    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:18:12]
+ 18 | ss>
+ 19 |     <DeliveryNotes>Please leave packages in shed by driveway.</DeliveryNotes>
+    :                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:19:5]
- 19 | ,-> <DeliveryNotes>Please leave packages in shed by driveway.</DeliveryNotes>
+    ,-[$DIR/tests/fixture/basic-1/input.xml:18:12]
+ 18 |     ss>
+ 19 | ,->     <DeliveryNotes>Please leave packages in shed by driveway.</DeliveryNotes>
  20 | `->     <Items>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-1/input.xml:19:5]
- 19 | ,-> <DeliveryNotes>Please leave packages in shed by driveway.</DeliveryNotes>
+    ,-[$DIR/tests/fixture/basic-1/input.xml:18:12]
+ 18 |     ss>
+ 19 | ,->     <DeliveryNotes>Please leave packages in shed by driveway.</DeliveryNotes>
  20 | `->     <Items>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:20:5]
- 20 | ,-> <Items>
+    ,-[$DIR/tests/fixture/basic-1/input.xml:19:75]
+ 19 |     es>
+ 20 | ,->     <Items>
  21 | |           <Item PartNumber="872-AA">
  22 | |               <ProductName>Lawnmower</ProductName>
  23 | |               <Quantity>1</Quantity>
@@ -720,8 +811,9 @@
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/basic-1/input.xml:20:5]
- 20 | ,-> <Items>
+    ,-[$DIR/tests/fixture/basic-1/input.xml:19:75]
+ 19 |     es>
+ 20 | ,->     <Items>
  21 | |           <Item PartNumber="872-AA">
  22 | |               <ProductName>Lawnmower</ProductName>
  23 | |               <Quantity>1</Quantity>
@@ -738,20 +830,23 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:20:5]
- 20 | ,-> <Items>
+    ,-[$DIR/tests/fixture/basic-1/input.xml:19:75]
+ 19 |     es>
+ 20 | ,->     <Items>
  21 | `->         <Item PartNumber="872-AA">
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-1/input.xml:20:5]
- 20 | ,-> <Items>
+    ,-[$DIR/tests/fixture/basic-1/input.xml:19:75]
+ 19 |     es>
+ 20 | ,->     <Items>
  21 | `->         <Item PartNumber="872-AA">
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:21:9]
- 21 | ,-> <Item PartNumber="872-AA">
+    ,-[$DIR/tests/fixture/basic-1/input.xml:20:5]
+ 20 |     <Items>
+ 21 | ,->         <Item PartNumber="872-AA">
  22 | |               <ProductName>Lawnmower</ProductName>
  23 | |               <Quantity>1</Quantity>
  24 | |               <USPrice>148.95</USPrice>
@@ -760,8 +855,9 @@
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/basic-1/input.xml:21:9]
- 21 | ,-> <Item PartNumber="872-AA">
+    ,-[$DIR/tests/fixture/basic-1/input.xml:20:5]
+ 20 |     <Items>
+ 21 | ,->         <Item PartNumber="872-AA">
  22 | |               <ProductName>Lawnmower</ProductName>
  23 | |               <Quantity>1</Quantity>
  24 | |               <USPrice>148.95</USPrice>
@@ -770,176 +866,205 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:21:9]
- 21 | ,-> <Item PartNumber="872-AA">
+    ,-[$DIR/tests/fixture/basic-1/input.xml:20:5]
+ 20 |     <Items>
+ 21 | ,->         <Item PartNumber="872-AA">
  22 | `->             <ProductName>Lawnmower</ProductName>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-1/input.xml:21:9]
- 21 | ,-> <Item PartNumber="872-AA">
+    ,-[$DIR/tests/fixture/basic-1/input.xml:20:5]
+ 20 |     <Items>
+ 21 | ,->         <Item PartNumber="872-AA">
  22 | `->             <ProductName>Lawnmower</ProductName>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:22:13]
- 22 | <ProductName>Lawnmower</ProductName>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:21:24]
+ 21 | r="872-AA">
+ 22 |             <ProductName>Lawnmower</ProductName>
+    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/basic-1/input.xml:22:13]
- 22 | <ProductName>Lawnmower</ProductName>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:21:24]
+ 21 | r="872-AA">
+ 22 |             <ProductName>Lawnmower</ProductName>
+    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:22:13]
- 22 | <ProductName>Lawnmower</ProductName>
-    :              ^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:21:24]
+ 21 | r="872-AA">
+ 22 |             <ProductName>Lawnmower</ProductName>
+    :                          ^^^^^^^^^
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-1/input.xml:22:13]
- 22 | <ProductName>Lawnmower</ProductName>
-    :              ^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:21:24]
+ 21 | r="872-AA">
+ 22 |             <ProductName>Lawnmower</ProductName>
+    :                          ^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:22:13]
- 22 | ,-> <ProductName>Lawnmower</ProductName>
+    ,-[$DIR/tests/fixture/basic-1/input.xml:21:24]
+ 21 |     r="872-AA">
+ 22 | ,->             <ProductName>Lawnmower</ProductName>
  23 | `->             <Quantity>1</Quantity>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-1/input.xml:22:13]
- 22 | ,-> <ProductName>Lawnmower</ProductName>
+    ,-[$DIR/tests/fixture/basic-1/input.xml:21:24]
+ 21 |     r="872-AA">
+ 22 | ,->             <ProductName>Lawnmower</ProductName>
  23 | `->             <Quantity>1</Quantity>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:23:13]
- 23 | <Quantity>1</Quantity>
-    : ^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:22:38]
+ 22 | roductName>
+ 23 |             <Quantity>1</Quantity>
+    :             ^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/basic-1/input.xml:23:13]
- 23 | <Quantity>1</Quantity>
-    : ^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:22:38]
+ 22 | roductName>
+ 23 |             <Quantity>1</Quantity>
+    :             ^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:23:13]
- 23 | <Quantity>1</Quantity>
-    :           ^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:22:38]
+ 22 | roductName>
+ 23 |             <Quantity>1</Quantity>
+    :                       ^
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-1/input.xml:23:13]
- 23 | <Quantity>1</Quantity>
-    :           ^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:22:38]
+ 22 | roductName>
+ 23 |             <Quantity>1</Quantity>
+    :                       ^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:23:13]
- 23 | ,-> <Quantity>1</Quantity>
+    ,-[$DIR/tests/fixture/basic-1/input.xml:22:38]
+ 22 |     roductName>
+ 23 | ,->             <Quantity>1</Quantity>
  24 | `->             <USPrice>148.95</USPrice>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-1/input.xml:23:13]
- 23 | ,-> <Quantity>1</Quantity>
+    ,-[$DIR/tests/fixture/basic-1/input.xml:22:38]
+ 22 |     roductName>
+ 23 | ,->             <Quantity>1</Quantity>
  24 | `->             <USPrice>148.95</USPrice>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:24:13]
- 24 | <USPrice>148.95</USPrice>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:23:24]
+ 23 | </Quantity>
+ 24 |             <USPrice>148.95</USPrice>
+    :             ^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/basic-1/input.xml:24:13]
- 24 | <USPrice>148.95</USPrice>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:23:24]
+ 23 | </Quantity>
+ 24 |             <USPrice>148.95</USPrice>
+    :             ^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:24:13]
- 24 | <USPrice>148.95</USPrice>
-    :          ^^^^^^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:23:24]
+ 23 | </Quantity>
+ 24 |             <USPrice>148.95</USPrice>
+    :                      ^^^^^^
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-1/input.xml:24:13]
- 24 | <USPrice>148.95</USPrice>
-    :          ^^^^^^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:23:24]
+ 23 | </Quantity>
+ 24 |             <USPrice>148.95</USPrice>
+    :                      ^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:24:13]
- 24 | ,-> <USPrice>148.95</USPrice>
+    ,-[$DIR/tests/fixture/basic-1/input.xml:23:24]
+ 23 |     </Quantity>
+ 24 | ,->             <USPrice>148.95</USPrice>
  25 | `->             <Comment>Confirm this is electric</Comment>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-1/input.xml:24:13]
- 24 | ,-> <USPrice>148.95</USPrice>
+    ,-[$DIR/tests/fixture/basic-1/input.xml:23:24]
+ 23 |     </Quantity>
+ 24 | ,->             <USPrice>148.95</USPrice>
  25 | `->             <Comment>Confirm this is electric</Comment>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:25:13]
- 25 | <Comment>Confirm this is electric</Comment>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:24:27]
+ 24 | 5</USPrice>
+ 25 |             <Comment>Confirm this is electric</Comment>
+    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/basic-1/input.xml:25:13]
- 25 | <Comment>Confirm this is electric</Comment>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:24:27]
+ 24 | 5</USPrice>
+ 25 |             <Comment>Confirm this is electric</Comment>
+    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:25:13]
- 25 | <Comment>Confirm this is electric</Comment>
-    :          ^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:24:27]
+ 24 | 5</USPrice>
+ 25 |             <Comment>Confirm this is electric</Comment>
+    :                      ^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-1/input.xml:25:13]
- 25 | <Comment>Confirm this is electric</Comment>
-    :          ^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:24:27]
+ 24 | 5</USPrice>
+ 25 |             <Comment>Confirm this is electric</Comment>
+    :                      ^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:25:13]
- 25 | ,-> <Comment>Confirm this is electric</Comment>
+    ,-[$DIR/tests/fixture/basic-1/input.xml:24:27]
+ 24 |     5</USPrice>
+ 25 | ,->             <Comment>Confirm this is electric</Comment>
  26 | `->         </Item>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-1/input.xml:25:13]
- 25 | ,-> <Comment>Confirm this is electric</Comment>
+    ,-[$DIR/tests/fixture/basic-1/input.xml:24:27]
+ 24 |     5</USPrice>
+ 25 | ,->             <Comment>Confirm this is electric</Comment>
  26 | `->         </Item>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:26:9]
- 26 | ,-> </Item>
+    ,-[$DIR/tests/fixture/basic-1/input.xml:25:49]
+ 25 |     omment>
+ 26 | ,->         </Item>
  27 | `->         <Item PartNumber="926-AA">
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-1/input.xml:26:9]
- 26 | ,-> </Item>
+    ,-[$DIR/tests/fixture/basic-1/input.xml:25:49]
+ 25 |     omment>
+ 26 | ,->         </Item>
  27 | `->         <Item PartNumber="926-AA">
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:27:9]
- 27 | ,-> <Item PartNumber="926-AA">
+    ,-[$DIR/tests/fixture/basic-1/input.xml:26:9]
+ 26 |     </Item>
+ 27 | ,->         <Item PartNumber="926-AA">
  28 | |               <ProductName>Baby Monitor</ProductName>
  29 | |               <Quantity>2</Quantity>
  30 | |               <USPrice>39.98</USPrice>
@@ -948,8 +1073,9 @@
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/basic-1/input.xml:27:9]
- 27 | ,-> <Item PartNumber="926-AA">
+    ,-[$DIR/tests/fixture/basic-1/input.xml:26:9]
+ 26 |     </Item>
+ 27 | ,->         <Item PartNumber="926-AA">
  28 | |               <ProductName>Baby Monitor</ProductName>
  29 | |               <Quantity>2</Quantity>
  30 | |               <USPrice>39.98</USPrice>
@@ -958,183 +1084,213 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:27:9]
- 27 | ,-> <Item PartNumber="926-AA">
+    ,-[$DIR/tests/fixture/basic-1/input.xml:26:9]
+ 26 |     </Item>
+ 27 | ,->         <Item PartNumber="926-AA">
  28 | `->             <ProductName>Baby Monitor</ProductName>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-1/input.xml:27:9]
- 27 | ,-> <Item PartNumber="926-AA">
+    ,-[$DIR/tests/fixture/basic-1/input.xml:26:9]
+ 26 |     </Item>
+ 27 | ,->         <Item PartNumber="926-AA">
  28 | `->             <ProductName>Baby Monitor</ProductName>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:28:13]
- 28 | <ProductName>Baby Monitor</ProductName>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:27:24]
+ 27 | r="926-AA">
+ 28 |             <ProductName>Baby Monitor</ProductName>
+    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/basic-1/input.xml:28:13]
- 28 | <ProductName>Baby Monitor</ProductName>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:27:24]
+ 27 | r="926-AA">
+ 28 |             <ProductName>Baby Monitor</ProductName>
+    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:28:13]
- 28 | <ProductName>Baby Monitor</ProductName>
-    :              ^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:27:24]
+ 27 | r="926-AA">
+ 28 |             <ProductName>Baby Monitor</ProductName>
+    :                          ^^^^^^^^^^^^
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-1/input.xml:28:13]
- 28 | <ProductName>Baby Monitor</ProductName>
-    :              ^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:27:24]
+ 27 | r="926-AA">
+ 28 |             <ProductName>Baby Monitor</ProductName>
+    :                          ^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:28:13]
- 28 | ,-> <ProductName>Baby Monitor</ProductName>
+    ,-[$DIR/tests/fixture/basic-1/input.xml:27:24]
+ 27 |     r="926-AA">
+ 28 | ,->             <ProductName>Baby Monitor</ProductName>
  29 | `->             <Quantity>2</Quantity>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-1/input.xml:28:13]
- 28 | ,-> <ProductName>Baby Monitor</ProductName>
+    ,-[$DIR/tests/fixture/basic-1/input.xml:27:24]
+ 27 |     r="926-AA">
+ 28 | ,->             <ProductName>Baby Monitor</ProductName>
  29 | `->             <Quantity>2</Quantity>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:29:13]
- 29 | <Quantity>2</Quantity>
-    : ^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:28:41]
+ 28 | roductName>
+ 29 |             <Quantity>2</Quantity>
+    :             ^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/basic-1/input.xml:29:13]
- 29 | <Quantity>2</Quantity>
-    : ^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:28:41]
+ 28 | roductName>
+ 29 |             <Quantity>2</Quantity>
+    :             ^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:29:13]
- 29 | <Quantity>2</Quantity>
-    :           ^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:28:41]
+ 28 | roductName>
+ 29 |             <Quantity>2</Quantity>
+    :                       ^
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-1/input.xml:29:13]
- 29 | <Quantity>2</Quantity>
-    :           ^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:28:41]
+ 28 | roductName>
+ 29 |             <Quantity>2</Quantity>
+    :                       ^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:29:13]
- 29 | ,-> <Quantity>2</Quantity>
+    ,-[$DIR/tests/fixture/basic-1/input.xml:28:41]
+ 28 |     roductName>
+ 29 | ,->             <Quantity>2</Quantity>
  30 | `->             <USPrice>39.98</USPrice>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-1/input.xml:29:13]
- 29 | ,-> <Quantity>2</Quantity>
+    ,-[$DIR/tests/fixture/basic-1/input.xml:28:41]
+ 28 |     roductName>
+ 29 | ,->             <Quantity>2</Quantity>
  30 | `->             <USPrice>39.98</USPrice>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:30:13]
- 30 | <USPrice>39.98</USPrice>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:29:24]
+ 29 | </Quantity>
+ 30 |             <USPrice>39.98</USPrice>
+    :             ^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/basic-1/input.xml:30:13]
- 30 | <USPrice>39.98</USPrice>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:29:24]
+ 29 | </Quantity>
+ 30 |             <USPrice>39.98</USPrice>
+    :             ^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:30:13]
- 30 | <USPrice>39.98</USPrice>
-    :          ^^^^^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:29:24]
+ 29 | </Quantity>
+ 30 |             <USPrice>39.98</USPrice>
+    :                      ^^^^^
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-1/input.xml:30:13]
- 30 | <USPrice>39.98</USPrice>
-    :          ^^^^^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:29:24]
+ 29 | </Quantity>
+ 30 |             <USPrice>39.98</USPrice>
+    :                      ^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:30:13]
- 30 | ,-> <USPrice>39.98</USPrice>
+    ,-[$DIR/tests/fixture/basic-1/input.xml:29:24]
+ 29 |     </Quantity>
+ 30 | ,->             <USPrice>39.98</USPrice>
  31 | `->             <ShipDate>1999-05-21</ShipDate>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-1/input.xml:30:13]
- 30 | ,-> <USPrice>39.98</USPrice>
+    ,-[$DIR/tests/fixture/basic-1/input.xml:29:24]
+ 29 |     </Quantity>
+ 30 | ,->             <USPrice>39.98</USPrice>
  31 | `->             <ShipDate>1999-05-21</ShipDate>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:31:13]
- 31 | <ShipDate>1999-05-21</ShipDate>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:30:26]
+ 30 | 8</USPrice>
+ 31 |             <ShipDate>1999-05-21</ShipDate>
+    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/basic-1/input.xml:31:13]
- 31 | <ShipDate>1999-05-21</ShipDate>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:30:26]
+ 30 | 8</USPrice>
+ 31 |             <ShipDate>1999-05-21</ShipDate>
+    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:31:13]
- 31 | <ShipDate>1999-05-21</ShipDate>
-    :           ^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:30:26]
+ 30 | 8</USPrice>
+ 31 |             <ShipDate>1999-05-21</ShipDate>
+    :                       ^^^^^^^^^^
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-1/input.xml:31:13]
- 31 | <ShipDate>1999-05-21</ShipDate>
-    :           ^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:30:26]
+ 30 | 8</USPrice>
+ 31 |             <ShipDate>1999-05-21</ShipDate>
+    :                       ^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:31:13]
- 31 | ,-> <ShipDate>1999-05-21</ShipDate>
+    ,-[$DIR/tests/fixture/basic-1/input.xml:30:26]
+ 30 |     8</USPrice>
+ 31 | ,->             <ShipDate>1999-05-21</ShipDate>
  32 | `->         </Item>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-1/input.xml:31:13]
- 31 | ,-> <ShipDate>1999-05-21</ShipDate>
+    ,-[$DIR/tests/fixture/basic-1/input.xml:30:26]
+ 30 |     8</USPrice>
+ 31 | ,->             <ShipDate>1999-05-21</ShipDate>
  32 | `->         </Item>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:32:9]
- 32 | ,-> </Item>
+    ,-[$DIR/tests/fixture/basic-1/input.xml:31:37]
+ 31 |     ipDate>
+ 32 | ,->         </Item>
  33 | `->     </Items>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-1/input.xml:32:9]
- 32 | ,-> </Item>
+    ,-[$DIR/tests/fixture/basic-1/input.xml:31:37]
+ 31 |     ipDate>
+ 32 | ,->         </Item>
  33 | `->     </Items>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-1/input.xml:33:5]
- 33 | </Items>
-    :         ^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:32:13]
+ 32 | em>
+ 33 |     </Items>
+    :             ^
  34 | </PurchaseOrder>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-1/input.xml:33:5]
- 33 | </Items>
-    :         ^
+    ,-[$DIR/tests/fixture/basic-1/input.xml:32:13]
+ 32 | em>
+ 33 |     </Items>
+    :             ^
  34 | </PurchaseOrder>
     `----

@@ -1,8 +1,9 @@
 
   x Stray end tag "caption"
-   ,-[$DIR/tests/recovery/element/table-3/input.html:8:5]
- 8 | <caption></table></caption>
-   :                  ^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/table-3/input.html:7:5]
+ 7 | le>
+ 8 |     <caption></table></caption>
+   :                      ^^^^^^^^^^
    `----
 
   x Stray end tag "table"

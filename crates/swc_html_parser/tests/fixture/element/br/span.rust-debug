@@ -111,40 +111,46 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/br/input.html:4:5]
- 4 | <title>Document</title>
-   : ^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/element/br/input.html:3:4]
+ 3 | ad>
+ 4 |     <title>Document</title>
+   :     ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/element/br/input.html:4:5]
- 4 | <title>Document</title>
-   : ^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/element/br/input.html:3:4]
+ 3 | ad>
+ 4 |     <title>Document</title>
+   :     ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/br/input.html:4:5]
- 4 | <title>Document</title>
-   :        ^^^^^^^^
+   ,-[$DIR/tests/fixture/element/br/input.html:3:4]
+ 3 | ad>
+ 4 |     <title>Document</title>
+   :            ^^^^^^^^
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/element/br/input.html:4:5]
- 4 | <title>Document</title>
-   :        ^^^^^^^^
+   ,-[$DIR/tests/fixture/element/br/input.html:3:4]
+ 3 | ad>
+ 4 |     <title>Document</title>
+   :            ^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/br/input.html:4:5]
- 4 | <title>Document</title>
-   :                        ^
+   ,-[$DIR/tests/fixture/element/br/input.html:3:4]
+ 3 | ad>
+ 4 |     <title>Document</title>
+   :                            ^
  5 | </head>
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/element/br/input.html:4:5]
- 4 | <title>Document</title>
-   :                        ^
+   ,-[$DIR/tests/fixture/element/br/input.html:3:4]
+ 3 | ad>
+ 4 |     <title>Document</title>
+   :                            ^
  5 | </head>
    `----
 
@@ -275,172 +281,200 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/br/input.html:9:5]
- 9 | Is quiet now,<br>
-   :              ^^^^
+   ,-[$DIR/tests/fixture/element/br/input.html:8:27]
+ 8 | br>
+ 9 |     Is quiet now,<br>
+   :                  ^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/element/br/input.html:9:5]
- 9 | Is quiet now,<br>
-   :              ^^^^
+   ,-[$DIR/tests/fixture/element/br/input.html:8:27]
+ 8 | br>
+ 9 |     Is quiet now,<br>
+   :                  ^^^^
    `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/br/input.html:9:5]
-  9 | ,-> Is quiet now,<br>
+    ,-[$DIR/tests/fixture/element/br/input.html:8:27]
+  8 |     br>
+  9 | ,->     Is quiet now,<br>
  10 | `->     In all the treetops<br>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/br/input.html:9:5]
-  9 | ,-> Is quiet now,<br>
+    ,-[$DIR/tests/fixture/element/br/input.html:8:27]
+  8 |     br>
+  9 | ,->     Is quiet now,<br>
  10 | `->     In all the treetops<br>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/br/input.html:10:5]
- 10 | In all the treetops<br>
-    :                    ^^^^
+    ,-[$DIR/tests/fixture/element/br/input.html:9:19]
+  9 | br>
+ 10 |     In all the treetops<br>
+    :                        ^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/br/input.html:10:5]
- 10 | In all the treetops<br>
-    :                    ^^^^
+    ,-[$DIR/tests/fixture/element/br/input.html:9:19]
+  9 | br>
+ 10 |     In all the treetops<br>
+    :                        ^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/br/input.html:10:5]
- 10 | ,-> In all the treetops<br>
+    ,-[$DIR/tests/fixture/element/br/input.html:9:19]
+  9 |     br>
+ 10 | ,->     In all the treetops<br>
  11 | `->     Hearest thou<br>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/br/input.html:10:5]
- 10 | ,-> In all the treetops<br>
+    ,-[$DIR/tests/fixture/element/br/input.html:9:19]
+  9 |     br>
+ 10 | ,->     In all the treetops<br>
  11 | `->     Hearest thou<br>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/br/input.html:11:5]
- 11 | Hearest thou<br>
-    :             ^^^^
-    `----
-
-  x Element
-    ,-[$DIR/tests/fixture/element/br/input.html:11:5]
- 11 | Hearest thou<br>
-    :             ^^^^
-    `----
-
-  x Child
-    ,-[$DIR/tests/fixture/element/br/input.html:11:5]
- 11 | ,-> Hearest thou<br>
- 12 | `->     Hardly a breath;<br>
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/element/br/input.html:11:5]
- 11 | ,-> Hearest thou<br>
- 12 | `->     Hardly a breath;<br>
-    `----
-
-  x Child
-    ,-[$DIR/tests/fixture/element/br/input.html:12:5]
- 12 | Hardly a breath;<br>
+    ,-[$DIR/tests/fixture/element/br/input.html:10:25]
+ 10 | br>
+ 11 |     Hearest thou<br>
     :                 ^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/br/input.html:12:5]
- 12 | Hardly a breath;<br>
+    ,-[$DIR/tests/fixture/element/br/input.html:10:25]
+ 10 | br>
+ 11 |     Hearest thou<br>
     :                 ^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/br/input.html:12:5]
- 12 | ,-> Hardly a breath;<br>
+    ,-[$DIR/tests/fixture/element/br/input.html:10:25]
+ 10 |     br>
+ 11 | ,->     Hearest thou<br>
+ 12 | `->     Hardly a breath;<br>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/element/br/input.html:10:25]
+ 10 |     br>
+ 11 | ,->     Hearest thou<br>
+ 12 | `->     Hardly a breath;<br>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/br/input.html:11:18]
+ 11 | br>
+ 12 |     Hardly a breath;<br>
+    :                     ^^^^
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/element/br/input.html:11:18]
+ 11 | br>
+ 12 |     Hardly a breath;<br>
+    :                     ^^^^
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/element/br/input.html:11:18]
+ 11 |     br>
+ 12 | ,->     Hardly a breath;<br>
  13 | `->     The birds are asleep in the trees:<br>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/br/input.html:12:5]
- 12 | ,-> Hardly a breath;<br>
+    ,-[$DIR/tests/fixture/element/br/input.html:11:18]
+ 11 |     br>
+ 12 | ,->     Hardly a breath;<br>
  13 | `->     The birds are asleep in the trees:<br>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/br/input.html:13:5]
- 13 | The birds are asleep in the trees:<br>
-    :                                   ^^^^
+    ,-[$DIR/tests/fixture/element/br/input.html:12:22]
+ 12 | br>
+ 13 |     The birds are asleep in the trees:<br>
+    :                                       ^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/br/input.html:13:5]
- 13 | The birds are asleep in the trees:<br>
-    :                                   ^^^^
+    ,-[$DIR/tests/fixture/element/br/input.html:12:22]
+ 12 | br>
+ 13 |     The birds are asleep in the trees:<br>
+    :                                       ^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/br/input.html:13:5]
- 13 | ,-> The birds are asleep in the trees:<br>
+    ,-[$DIR/tests/fixture/element/br/input.html:12:22]
+ 12 |     br>
+ 13 | ,->     The birds are asleep in the trees:<br>
  14 | `->     Wait, soon like these<br>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/br/input.html:13:5]
- 13 | ,-> The birds are asleep in the trees:<br>
+    ,-[$DIR/tests/fixture/element/br/input.html:12:22]
+ 12 |     br>
+ 13 | ,->     The birds are asleep in the trees:<br>
  14 | `->     Wait, soon like these<br>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/br/input.html:14:5]
- 14 | Wait, soon like these<br>
-    :                      ^^^^
+    ,-[$DIR/tests/fixture/element/br/input.html:13:40]
+ 13 | br>
+ 14 |     Wait, soon like these<br>
+    :                          ^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/br/input.html:14:5]
- 14 | Wait, soon like these<br>
-    :                      ^^^^
+    ,-[$DIR/tests/fixture/element/br/input.html:13:40]
+ 13 | br>
+ 14 |     Wait, soon like these<br>
+    :                          ^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/br/input.html:14:5]
- 14 | ,-> Wait, soon like these<br>
+    ,-[$DIR/tests/fixture/element/br/input.html:13:40]
+ 13 |     br>
+ 14 | ,->     Wait, soon like these<br>
  15 | `->     Thou too shalt rest.<br/>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/br/input.html:14:5]
- 14 | ,-> Wait, soon like these<br>
+    ,-[$DIR/tests/fixture/element/br/input.html:13:40]
+ 13 |     br>
+ 14 | ,->     Wait, soon like these<br>
  15 | `->     Thou too shalt rest.<br/>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/br/input.html:15:5]
- 15 | Thou too shalt rest.<br/>
-    :                     ^^^^^
+    ,-[$DIR/tests/fixture/element/br/input.html:14:27]
+ 14 | br>
+ 15 |     Thou too shalt rest.<br/>
+    :                         ^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/br/input.html:15:5]
- 15 | Thou too shalt rest.<br/>
-    :                     ^^^^^
+    ,-[$DIR/tests/fixture/element/br/input.html:14:27]
+ 14 | br>
+ 15 |     Thou too shalt rest.<br/>
+    :                         ^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/br/input.html:15:5]
- 15 | Thou too shalt rest.<br/>
-    :                          ^
+    ,-[$DIR/tests/fixture/element/br/input.html:14:27]
+ 14 | br>
+ 15 |     Thou too shalt rest.<br/>
+    :                              ^
  16 | </p>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/br/input.html:15:5]
- 15 | Thou too shalt rest.<br/>
-    :                          ^
+    ,-[$DIR/tests/fixture/element/br/input.html:14:27]
+ 14 | br>
+ 15 |     Thou too shalt rest.<br/>
+    :                              ^
  16 | </p>
     `----
 

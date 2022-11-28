@@ -37,13 +37,15 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/pre-1/input.html:2:1]
+   ,-[$DIR/tests/fixture/element/pre-1/input.html:1:21]
+ 1 |     
  2 | ,-> 
  3 | `-> A</pre>
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/element/pre-1/input.html:2:1]
+   ,-[$DIR/tests/fixture/element/pre-1/input.html:1:21]
+ 1 |     
  2 | ,-> 
  3 | `-> A</pre>
    `----

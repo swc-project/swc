@@ -10,7 +10,7 @@
   7 | |   <p>My first paragraph.</p>
   8 | |   
   9 | |   </body>
- 10 | `-> </html>
+ 10 | |   </html>
     `----
 
   x Child
@@ -35,7 +35,7 @@
   7 | |   <p>My first paragraph.</p>
   8 | |   
   9 | |   </body>
- 10 | `-> </html>
+ 10 | |   </html>
     `----
 
   x Element
@@ -48,7 +48,7 @@
   7 | |   <p>My first paragraph.</p>
   8 | |   
   9 | |   </body>
- 10 | `-> </html>
+ 10 | |   </html>
     `----
 
   x Child
@@ -64,7 +64,7 @@
   7 | |   <p>My first paragraph.</p>
   8 | |   
   9 | |   </body>
- 10 | `-> </html>
+ 10 | |   </html>
     `----
 
   x Element
@@ -76,7 +76,7 @@
   7 | |   <p>My first paragraph.</p>
   8 | |   
   9 | |   </body>
- 10 | `-> </html>
+ 10 | |   </html>
     `----
 
   x Child
@@ -160,7 +160,7 @@
   7 | ,-> <p>My first paragraph.</p>
   8 | |   
   9 | |   </body>
- 10 | `-> </html>
+ 10 | |   </html>
     `----
 
   x Text
@@ -168,5 +168,5 @@
   7 | ,-> <p>My first paragraph.</p>
   8 | |   
   9 | |   </body>
- 10 | `-> </html>
+ 10 | |   </html>
     `----

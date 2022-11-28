@@ -255,16 +255,22 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/text/lf/input.html:17:5]
- 17 | Text</div>
-    :           ^
+    ,-[$DIR/tests/fixture/text/lf/input.html:14:9]
+ 14 | t
+ 15 | 
+ 16 | 
+ 17 |     Text</div>
+    :               ^
  18 | <div
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/text/lf/input.html:17:5]
- 17 | Text</div>
-    :           ^
+    ,-[$DIR/tests/fixture/text/lf/input.html:14:9]
+ 14 | t
+ 15 | 
+ 16 | 
+ 17 |     Text</div>
+    :               ^
  18 | <div
     `----
 

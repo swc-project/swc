@@ -180,8 +180,9 @@
    `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:3:5]
-  3 | ,-> <person id="101">
+    ,-[$DIR/tests/fixture/basic-2/input.xml:2:44]
+  2 |     h">
+  3 | ,->     <person id="101">
   4 | |           <phone>+122233344550</phone>
   5 | |           <name>Jack</name>
   6 | |           <phone>+122233344551</phone>
@@ -209,8 +210,9 @@
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/basic-2/input.xml:3:5]
-  3 | ,-> <person id="101">
+    ,-[$DIR/tests/fixture/basic-2/input.xml:2:44]
+  2 |     h">
+  3 | ,->     <person id="101">
   4 | |           <phone>+122233344550</phone>
   5 | |           <name>Jack</name>
   6 | |           <phone>+122233344551</phone>
@@ -238,380 +240,443 @@
     `----
 
   x Child
-   ,-[$DIR/tests/fixture/basic-2/input.xml:3:5]
- 3 | ,-> <person id="101">
+   ,-[$DIR/tests/fixture/basic-2/input.xml:2:44]
+ 2 |     h">
+ 3 | ,->     <person id="101">
  4 | `->         <phone>+122233344550</phone>
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/basic-2/input.xml:3:5]
- 3 | ,-> <person id="101">
+   ,-[$DIR/tests/fixture/basic-2/input.xml:2:44]
+ 2 |     h">
+ 3 | ,->     <person id="101">
  4 | `->         <phone>+122233344550</phone>
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/basic-2/input.xml:4:9]
- 4 | <phone>+122233344550</phone>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/basic-2/input.xml:3:15]
+ 3 | ="101">
+ 4 |         <phone>+122233344550</phone>
+   :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/basic-2/input.xml:4:9]
- 4 | <phone>+122233344550</phone>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/basic-2/input.xml:3:15]
+ 3 | ="101">
+ 4 |         <phone>+122233344550</phone>
+   :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/basic-2/input.xml:4:9]
- 4 | <phone>+122233344550</phone>
-   :        ^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/basic-2/input.xml:3:15]
+ 3 | ="101">
+ 4 |         <phone>+122233344550</phone>
+   :                ^^^^^^^^^^^^^
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/basic-2/input.xml:4:9]
- 4 | <phone>+122233344550</phone>
-   :        ^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/basic-2/input.xml:3:15]
+ 3 | ="101">
+ 4 |         <phone>+122233344550</phone>
+   :                ^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/basic-2/input.xml:4:9]
- 4 | ,-> <phone>+122233344550</phone>
+   ,-[$DIR/tests/fixture/basic-2/input.xml:3:15]
+ 3 |     ="101">
+ 4 | ,->         <phone>+122233344550</phone>
  5 | `->         <name>Jack</name>
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/basic-2/input.xml:4:9]
- 4 | ,-> <phone>+122233344550</phone>
+   ,-[$DIR/tests/fixture/basic-2/input.xml:3:15]
+ 3 |     ="101">
+ 4 | ,->         <phone>+122233344550</phone>
  5 | `->         <name>Jack</name>
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/basic-2/input.xml:5:9]
- 5 | <name>Jack</name>
-   : ^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/basic-2/input.xml:4:30]
+ 4 | /phone>
+ 5 |         <name>Jack</name>
+   :         ^^^^^^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/basic-2/input.xml:5:9]
- 5 | <name>Jack</name>
-   : ^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/basic-2/input.xml:4:30]
+ 4 | /phone>
+ 5 |         <name>Jack</name>
+   :         ^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/basic-2/input.xml:5:9]
- 5 | <name>Jack</name>
-   :       ^^^^
+   ,-[$DIR/tests/fixture/basic-2/input.xml:4:30]
+ 4 | /phone>
+ 5 |         <name>Jack</name>
+   :               ^^^^
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/basic-2/input.xml:5:9]
- 5 | <name>Jack</name>
-   :       ^^^^
+   ,-[$DIR/tests/fixture/basic-2/input.xml:4:30]
+ 4 | /phone>
+ 5 |         <name>Jack</name>
+   :               ^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/basic-2/input.xml:5:9]
- 5 | ,-> <name>Jack</name>
+   ,-[$DIR/tests/fixture/basic-2/input.xml:4:30]
+ 4 |     /phone>
+ 5 | ,->         <name>Jack</name>
  6 | `->         <phone>+122233344551</phone>
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/basic-2/input.xml:5:9]
- 5 | ,-> <name>Jack</name>
+   ,-[$DIR/tests/fixture/basic-2/input.xml:4:30]
+ 4 |     /phone>
+ 5 | ,->         <name>Jack</name>
  6 | `->         <phone>+122233344551</phone>
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/basic-2/input.xml:6:9]
- 6 | <phone>+122233344551</phone>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/basic-2/input.xml:5:19]
+ 5 | </name>
+ 6 |         <phone>+122233344551</phone>
+   :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/basic-2/input.xml:6:9]
- 6 | <phone>+122233344551</phone>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/basic-2/input.xml:5:19]
+ 5 | </name>
+ 6 |         <phone>+122233344551</phone>
+   :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/basic-2/input.xml:6:9]
- 6 | <phone>+122233344551</phone>
-   :        ^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/basic-2/input.xml:5:19]
+ 5 | </name>
+ 6 |         <phone>+122233344551</phone>
+   :                ^^^^^^^^^^^^^
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/basic-2/input.xml:6:9]
- 6 | <phone>+122233344551</phone>
-   :        ^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/basic-2/input.xml:5:19]
+ 5 | </name>
+ 6 |         <phone>+122233344551</phone>
+   :                ^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/basic-2/input.xml:6:9]
- 6 | ,-> <phone>+122233344551</phone>
+   ,-[$DIR/tests/fixture/basic-2/input.xml:5:19]
+ 5 |     </name>
+ 6 | ,->         <phone>+122233344551</phone>
  7 | `->         <age>33</age>
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/basic-2/input.xml:6:9]
- 6 | ,-> <phone>+122233344551</phone>
+   ,-[$DIR/tests/fixture/basic-2/input.xml:5:19]
+ 5 |     </name>
+ 6 | ,->         <phone>+122233344551</phone>
  7 | `->         <age>33</age>
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/basic-2/input.xml:7:9]
- 7 | <age>33</age>
-   : ^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/basic-2/input.xml:6:30]
+ 6 | /phone>
+ 7 |         <age>33</age>
+   :         ^^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/basic-2/input.xml:7:9]
- 7 | <age>33</age>
-   : ^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/basic-2/input.xml:6:30]
+ 6 | /phone>
+ 7 |         <age>33</age>
+   :         ^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/basic-2/input.xml:7:9]
- 7 | <age>33</age>
-   :      ^^
+   ,-[$DIR/tests/fixture/basic-2/input.xml:6:30]
+ 6 | /phone>
+ 7 |         <age>33</age>
+   :              ^^
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/basic-2/input.xml:7:9]
- 7 | <age>33</age>
-   :      ^^
+   ,-[$DIR/tests/fixture/basic-2/input.xml:6:30]
+ 6 | /phone>
+ 7 |         <age>33</age>
+   :              ^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/basic-2/input.xml:7:9]
- 7 | ,-> <age>33</age>
+   ,-[$DIR/tests/fixture/basic-2/input.xml:6:30]
+ 6 |     /phone>
+ 7 | ,->         <age>33</age>
  8 | `->         <emptyNode></emptyNode>
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/basic-2/input.xml:7:9]
- 7 | ,-> <age>33</age>
+   ,-[$DIR/tests/fixture/basic-2/input.xml:6:30]
+ 6 |     /phone>
+ 7 | ,->         <age>33</age>
  8 | `->         <emptyNode></emptyNode>
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/basic-2/input.xml:8:9]
- 8 | <emptyNode></emptyNode>
-   : ^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/basic-2/input.xml:7:15]
+ 7 | 3</age>
+ 8 |         <emptyNode></emptyNode>
+   :         ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/basic-2/input.xml:8:9]
- 8 | <emptyNode></emptyNode>
-   : ^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/basic-2/input.xml:7:15]
+ 7 | 3</age>
+ 8 |         <emptyNode></emptyNode>
+   :         ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/basic-2/input.xml:8:9]
- 8 | ,-> <emptyNode></emptyNode>
+   ,-[$DIR/tests/fixture/basic-2/input.xml:7:15]
+ 7 |     3</age>
+ 8 | ,->         <emptyNode></emptyNode>
  9 | `->         <booleanNode>false</booleanNode>
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/basic-2/input.xml:8:9]
- 8 | ,-> <emptyNode></emptyNode>
+   ,-[$DIR/tests/fixture/basic-2/input.xml:7:15]
+ 7 |     3</age>
+ 8 | ,->         <emptyNode></emptyNode>
  9 | `->         <booleanNode>false</booleanNode>
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/basic-2/input.xml:9:9]
- 9 | <booleanNode>false</booleanNode>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/basic-2/input.xml:8:25]
+ 8 | tyNode>
+ 9 |         <booleanNode>false</booleanNode>
+   :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/basic-2/input.xml:9:9]
- 9 | <booleanNode>false</booleanNode>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/basic-2/input.xml:8:25]
+ 8 | tyNode>
+ 9 |         <booleanNode>false</booleanNode>
+   :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/basic-2/input.xml:9:9]
- 9 | <booleanNode>false</booleanNode>
-   :              ^^^^^
+   ,-[$DIR/tests/fixture/basic-2/input.xml:8:25]
+ 8 | tyNode>
+ 9 |         <booleanNode>false</booleanNode>
+   :                      ^^^^^
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/basic-2/input.xml:9:9]
- 9 | <booleanNode>false</booleanNode>
-   :              ^^^^^
+   ,-[$DIR/tests/fixture/basic-2/input.xml:8:25]
+ 8 | tyNode>
+ 9 |         <booleanNode>false</booleanNode>
+   :                      ^^^^^
    `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:9:9]
-  9 | ,-> <booleanNode>false</booleanNode>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:8:25]
+  8 |     tyNode>
+  9 | ,->         <booleanNode>false</booleanNode>
  10 | `->         <booleanNode>true</booleanNode>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:9:9]
-  9 | ,-> <booleanNode>false</booleanNode>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:8:25]
+  8 |     tyNode>
+  9 | ,->         <booleanNode>false</booleanNode>
  10 | `->         <booleanNode>true</booleanNode>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:10:9]
- 10 | <booleanNode>true</booleanNode>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:9:34]
+  9 | anNode>
+ 10 |         <booleanNode>true</booleanNode>
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/basic-2/input.xml:10:9]
- 10 | <booleanNode>true</booleanNode>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:9:34]
+  9 | anNode>
+ 10 |         <booleanNode>true</booleanNode>
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:10:9]
- 10 | <booleanNode>true</booleanNode>
-    :              ^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:9:34]
+  9 | anNode>
+ 10 |         <booleanNode>true</booleanNode>
+    :                      ^^^^
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:10:9]
- 10 | <booleanNode>true</booleanNode>
-    :              ^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:9:34]
+  9 | anNode>
+ 10 |         <booleanNode>true</booleanNode>
+    :                      ^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:10:9]
- 10 | ,-> <booleanNode>true</booleanNode>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:9:34]
+  9 |     anNode>
+ 10 | ,->         <booleanNode>true</booleanNode>
  11 | `->         <selfclosing />
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:10:9]
- 10 | ,-> <booleanNode>true</booleanNode>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:9:34]
+  9 |     anNode>
+ 10 | ,->         <booleanNode>true</booleanNode>
  11 | `->         <selfclosing />
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:11:9]
- 11 | <selfclosing />
-    : ^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:10:33]
+ 10 | anNode>
+ 11 |         <selfclosing />
+    :         ^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/basic-2/input.xml:11:9]
- 11 | <selfclosing />
-    : ^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:10:33]
+ 10 | anNode>
+ 11 |         <selfclosing />
+    :         ^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:11:9]
- 11 | ,-> <selfclosing />
+    ,-[$DIR/tests/fixture/basic-2/input.xml:10:33]
+ 10 |     anNode>
+ 11 | ,->         <selfclosing />
  12 | `->         <selfclosing with="value" />
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:11:9]
- 11 | ,-> <selfclosing />
+    ,-[$DIR/tests/fixture/basic-2/input.xml:10:33]
+ 10 |     anNode>
+ 11 | ,->         <selfclosing />
  12 | `->         <selfclosing with="value" />
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:12:9]
- 12 | <selfclosing with="value" />
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:11:17]
+ 11 | sing />
+ 12 |         <selfclosing with="value" />
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/basic-2/input.xml:12:9]
- 12 | <selfclosing with="value" />
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:11:17]
+ 11 | sing />
+ 12 |         <selfclosing with="value" />
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:12:9]
- 12 | ,-> <selfclosing with="value" />
+    ,-[$DIR/tests/fixture/basic-2/input.xml:11:17]
+ 11 |     sing />
+ 12 | ,->         <selfclosing with="value" />
  13 | `->         <married firstTime="No" attr="val 2">Yes</married>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:12:9]
- 12 | ,-> <selfclosing with="value" />
+    ,-[$DIR/tests/fixture/basic-2/input.xml:11:17]
+ 11 |     sing />
+ 12 | ,->         <selfclosing with="value" />
  13 | `->         <married firstTime="No" attr="val 2">Yes</married>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:13:9]
- 13 | <married firstTime="No" attr="val 2">Yes</married>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:12:30]
+ 12 | lue" />
+ 13 |         <married firstTime="No" attr="val 2">Yes</married>
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/basic-2/input.xml:13:9]
- 13 | <married firstTime="No" attr="val 2">Yes</married>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:12:30]
+ 12 | lue" />
+ 13 |         <married firstTime="No" attr="val 2">Yes</married>
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:13:9]
- 13 | <married firstTime="No" attr="val 2">Yes</married>
-    :                                      ^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:12:30]
+ 12 | lue" />
+ 13 |         <married firstTime="No" attr="val 2">Yes</married>
+    :                                              ^^^
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:13:9]
- 13 | <married firstTime="No" attr="val 2">Yes</married>
-    :                                      ^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:12:30]
+ 12 | lue" />
+ 13 |         <married firstTime="No" attr="val 2">Yes</married>
+    :                                              ^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:13:9]
- 13 | ,-> <married firstTime="No" attr="val 2">Yes</married>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:12:30]
+ 12 |     lue" />
+ 13 | ,->         <married firstTime="No" attr="val 2">Yes</married>
  14 | `->         <birthday>Wed, 28 Mar 1979 12:13:14 +0300</birthday>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:13:9]
- 13 | ,-> <married firstTime="No" attr="val 2">Yes</married>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:12:30]
+ 12 |     lue" />
+ 13 | ,->         <married firstTime="No" attr="val 2">Yes</married>
  14 | `->         <birthday>Wed, 28 Mar 1979 12:13:14 +0300</birthday>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:14:9]
- 14 | <birthday>Wed, 28 Mar 1979 12:13:14 +0300</birthday>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:13:52]
+ 13 | arried>
+ 14 |         <birthday>Wed, 28 Mar 1979 12:13:14 +0300</birthday>
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/basic-2/input.xml:14:9]
- 14 | <birthday>Wed, 28 Mar 1979 12:13:14 +0300</birthday>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:13:52]
+ 13 | arried>
+ 14 |         <birthday>Wed, 28 Mar 1979 12:13:14 +0300</birthday>
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:14:9]
- 14 | <birthday>Wed, 28 Mar 1979 12:13:14 +0300</birthday>
-    :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:13:52]
+ 13 | arried>
+ 14 |         <birthday>Wed, 28 Mar 1979 12:13:14 +0300</birthday>
+    :                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:14:9]
- 14 | <birthday>Wed, 28 Mar 1979 12:13:14 +0300</birthday>
-    :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:13:52]
+ 13 | arried>
+ 14 |         <birthday>Wed, 28 Mar 1979 12:13:14 +0300</birthday>
+    :                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:14:9]
- 14 | ,-> <birthday>Wed, 28 Mar 1979 12:13:14 +0300</birthday>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:13:52]
+ 13 |     arried>
+ 14 | ,->         <birthday>Wed, 28 Mar 1979 12:13:14 +0300</birthday>
  15 | `->         <address>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:14:9]
- 14 | ,-> <birthday>Wed, 28 Mar 1979 12:13:14 +0300</birthday>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:13:52]
+ 13 |     arried>
+ 14 | ,->         <birthday>Wed, 28 Mar 1979 12:13:14 +0300</birthday>
  15 | `->         <address>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:15:9]
- 15 | ,-> <address>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:14:54]
+ 14 |     rthday>
+ 15 | ,->         <address>
  16 | |               <city>New York</city>
  17 | |               <street>Park Ave</street>
  18 | |               <buildingNo>1</buildingNo>
@@ -620,8 +685,9 @@
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/basic-2/input.xml:15:9]
- 15 | ,-> <address>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:14:54]
+ 14 |     rthday>
+ 15 | ,->         <address>
  16 | |               <city>New York</city>
  17 | |               <street>Park Ave</street>
  18 | |               <buildingNo>1</buildingNo>
@@ -630,176 +696,205 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:15:9]
- 15 | ,-> <address>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:14:54]
+ 14 |     rthday>
+ 15 | ,->         <address>
  16 | `->             <city>New York</city>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:15:9]
- 15 | ,-> <address>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:14:54]
+ 14 |     rthday>
+ 15 | ,->         <address>
  16 | `->             <city>New York</city>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:16:13]
- 16 | <city>New York</city>
-    : ^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:15:7]
+ 15 |   <address>
+ 16 |             <city>New York</city>
+    :             ^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/basic-2/input.xml:16:13]
- 16 | <city>New York</city>
-    : ^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:15:7]
+ 15 |   <address>
+ 16 |             <city>New York</city>
+    :             ^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:16:13]
- 16 | <city>New York</city>
-    :       ^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:15:7]
+ 15 |   <address>
+ 16 |             <city>New York</city>
+    :                   ^^^^^^^^
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:16:13]
- 16 | <city>New York</city>
-    :       ^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:15:7]
+ 15 |   <address>
+ 16 |             <city>New York</city>
+    :                   ^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:16:13]
- 16 | ,-> <city>New York</city>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:15:7]
+ 15 |       <address>
+ 16 | ,->             <city>New York</city>
  17 | `->             <street>Park Ave</street>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:16:13]
- 16 | ,-> <city>New York</city>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:15:7]
+ 15 |       <address>
+ 16 | ,->             <city>New York</city>
  17 | `->             <street>Park Ave</street>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:17:13]
- 17 | <street>Park Ave</street>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:16:23]
+ 16 | York</city>
+ 17 |             <street>Park Ave</street>
+    :             ^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/basic-2/input.xml:17:13]
- 17 | <street>Park Ave</street>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:16:23]
+ 16 | York</city>
+ 17 |             <street>Park Ave</street>
+    :             ^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:17:13]
- 17 | <street>Park Ave</street>
-    :         ^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:16:23]
+ 16 | York</city>
+ 17 |             <street>Park Ave</street>
+    :                     ^^^^^^^^
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:17:13]
- 17 | <street>Park Ave</street>
-    :         ^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:16:23]
+ 16 | York</city>
+ 17 |             <street>Park Ave</street>
+    :                     ^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:17:13]
- 17 | ,-> <street>Park Ave</street>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:16:23]
+ 16 |     York</city>
+ 17 | ,->             <street>Park Ave</street>
  18 | `->             <buildingNo>1</buildingNo>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:17:13]
- 17 | ,-> <street>Park Ave</street>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:16:23]
+ 16 |     York</city>
+ 17 | ,->             <street>Park Ave</street>
  18 | `->             <buildingNo>1</buildingNo>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:18:13]
- 18 | <buildingNo>1</buildingNo>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:17:27]
+ 17 | ve</street>
+ 18 |             <buildingNo>1</buildingNo>
+    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/basic-2/input.xml:18:13]
- 18 | <buildingNo>1</buildingNo>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:17:27]
+ 17 | ve</street>
+ 18 |             <buildingNo>1</buildingNo>
+    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:18:13]
- 18 | <buildingNo>1</buildingNo>
-    :             ^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:17:27]
+ 17 | ve</street>
+ 18 |             <buildingNo>1</buildingNo>
+    :                         ^
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:18:13]
- 18 | <buildingNo>1</buildingNo>
-    :             ^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:17:27]
+ 17 | ve</street>
+ 18 |             <buildingNo>1</buildingNo>
+    :                         ^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:18:13]
- 18 | ,-> <buildingNo>1</buildingNo>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:17:27]
+ 17 |     ve</street>
+ 18 | ,->             <buildingNo>1</buildingNo>
  19 | `->             <flatNo>1</flatNo>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:18:13]
- 18 | ,-> <buildingNo>1</buildingNo>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:17:27]
+ 17 |     ve</street>
+ 18 | ,->             <buildingNo>1</buildingNo>
  19 | `->             <flatNo>1</flatNo>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:19:13]
- 19 | <flatNo>1</flatNo>
-    : ^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:18:28]
+ 18 | buildingNo>
+ 19 |             <flatNo>1</flatNo>
+    :             ^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/basic-2/input.xml:19:13]
- 19 | <flatNo>1</flatNo>
-    : ^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:18:28]
+ 18 | buildingNo>
+ 19 |             <flatNo>1</flatNo>
+    :             ^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:19:13]
- 19 | <flatNo>1</flatNo>
-    :         ^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:18:28]
+ 18 | buildingNo>
+ 19 |             <flatNo>1</flatNo>
+    :                     ^
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:19:13]
- 19 | <flatNo>1</flatNo>
-    :         ^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:18:28]
+ 18 | buildingNo>
+ 19 |             <flatNo>1</flatNo>
+    :                     ^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:19:13]
- 19 | ,-> <flatNo>1</flatNo>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:18:28]
+ 18 |     buildingNo>
+ 19 | ,->             <flatNo>1</flatNo>
  20 | `->         </address>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:19:13]
- 19 | ,-> <flatNo>1</flatNo>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:18:28]
+ 18 |     buildingNo>
+ 19 | ,->             <flatNo>1</flatNo>
  20 | `->         </address>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:20:9]
- 20 | ,-> </address>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:19:24]
+ 19 |     flatNo>
+ 20 | ,->         </address>
  21 | `->         <address>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:20:9]
- 20 | ,-> </address>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:19:24]
+ 19 |     flatNo>
+ 20 | ,->         </address>
  21 | `->         <address>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:21:9]
- 21 | ,-> <address>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:20:12]
+ 20 |     ddress>
+ 21 | ,->         <address>
  22 | |               <city>Boston</city>
  23 | |               <street>Centre St</street>
  24 | |               <buildingNo>33</buildingNo>
@@ -808,8 +903,9 @@
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/basic-2/input.xml:21:9]
- 21 | ,-> <address>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:20:12]
+ 20 |     ddress>
+ 21 | ,->         <address>
  22 | |               <city>Boston</city>
  23 | |               <street>Centre St</street>
  24 | |               <buildingNo>33</buildingNo>
@@ -818,188 +914,219 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:21:9]
- 21 | ,-> <address>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:20:12]
+ 20 |     ddress>
+ 21 | ,->         <address>
  22 | `->             <city>Boston</city>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:21:9]
- 21 | ,-> <address>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:20:12]
+ 20 |     ddress>
+ 21 | ,->         <address>
  22 | `->             <city>Boston</city>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:22:13]
- 22 | <city>Boston</city>
-    : ^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:21:7]
+ 21 |   <address>
+ 22 |             <city>Boston</city>
+    :             ^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/basic-2/input.xml:22:13]
- 22 | <city>Boston</city>
-    : ^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:21:7]
+ 21 |   <address>
+ 22 |             <city>Boston</city>
+    :             ^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:22:13]
- 22 | <city>Boston</city>
-    :       ^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:21:7]
+ 21 |   <address>
+ 22 |             <city>Boston</city>
+    :                   ^^^^^^
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:22:13]
- 22 | <city>Boston</city>
-    :       ^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:21:7]
+ 21 |   <address>
+ 22 |             <city>Boston</city>
+    :                   ^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:22:13]
- 22 | ,-> <city>Boston</city>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:21:7]
+ 21 |       <address>
+ 22 | ,->             <city>Boston</city>
  23 | `->             <street>Centre St</street>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:22:13]
- 22 | ,-> <city>Boston</city>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:21:7]
+ 21 |       <address>
+ 22 | ,->             <city>Boston</city>
  23 | `->             <street>Centre St</street>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:23:13]
- 23 | <street>Centre St</street>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:22:21]
+ 22 | ston</city>
+ 23 |             <street>Centre St</street>
+    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/basic-2/input.xml:23:13]
- 23 | <street>Centre St</street>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:22:21]
+ 22 | ston</city>
+ 23 |             <street>Centre St</street>
+    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:23:13]
- 23 | <street>Centre St</street>
-    :         ^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:22:21]
+ 22 | ston</city>
+ 23 |             <street>Centre St</street>
+    :                     ^^^^^^^^^
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:23:13]
- 23 | <street>Centre St</street>
-    :         ^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:22:21]
+ 22 | ston</city>
+ 23 |             <street>Centre St</street>
+    :                     ^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:23:13]
- 23 | ,-> <street>Centre St</street>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:22:21]
+ 22 |     ston</city>
+ 23 | ,->             <street>Centre St</street>
  24 | `->             <buildingNo>33</buildingNo>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:23:13]
- 23 | ,-> <street>Centre St</street>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:22:21]
+ 22 |     ston</city>
+ 23 | ,->             <street>Centre St</street>
  24 | `->             <buildingNo>33</buildingNo>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:24:13]
- 24 | <buildingNo>33</buildingNo>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:23:28]
+ 23 | St</street>
+ 24 |             <buildingNo>33</buildingNo>
+    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/basic-2/input.xml:24:13]
- 24 | <buildingNo>33</buildingNo>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:23:28]
+ 23 | St</street>
+ 24 |             <buildingNo>33</buildingNo>
+    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:24:13]
- 24 | <buildingNo>33</buildingNo>
-    :             ^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:23:28]
+ 23 | St</street>
+ 24 |             <buildingNo>33</buildingNo>
+    :                         ^^
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:24:13]
- 24 | <buildingNo>33</buildingNo>
-    :             ^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:23:28]
+ 23 | St</street>
+ 24 |             <buildingNo>33</buildingNo>
+    :                         ^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:24:13]
- 24 | ,-> <buildingNo>33</buildingNo>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:23:28]
+ 23 |     St</street>
+ 24 | ,->             <buildingNo>33</buildingNo>
  25 | `->             <flatNo>24</flatNo>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:24:13]
- 24 | ,-> <buildingNo>33</buildingNo>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:23:28]
+ 23 |     St</street>
+ 24 | ,->             <buildingNo>33</buildingNo>
  25 | `->             <flatNo>24</flatNo>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:25:13]
- 25 | <flatNo>24</flatNo>
-    : ^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:24:29]
+ 24 | buildingNo>
+ 25 |             <flatNo>24</flatNo>
+    :             ^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/basic-2/input.xml:25:13]
- 25 | <flatNo>24</flatNo>
-    : ^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:24:29]
+ 24 | buildingNo>
+ 25 |             <flatNo>24</flatNo>
+    :             ^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:25:13]
- 25 | <flatNo>24</flatNo>
-    :         ^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:24:29]
+ 24 | buildingNo>
+ 25 |             <flatNo>24</flatNo>
+    :                     ^^
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:25:13]
- 25 | <flatNo>24</flatNo>
-    :         ^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:24:29]
+ 24 | buildingNo>
+ 25 |             <flatNo>24</flatNo>
+    :                     ^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:25:13]
- 25 | ,-> <flatNo>24</flatNo>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:24:29]
+ 24 |     buildingNo>
+ 25 | ,->             <flatNo>24</flatNo>
  26 | `->         </address>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:25:13]
- 25 | ,-> <flatNo>24</flatNo>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:24:29]
+ 24 |     buildingNo>
+ 25 | ,->             <flatNo>24</flatNo>
  26 | `->         </address>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:26:9]
- 26 | ,-> </address>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:25:25]
+ 25 |     flatNo>
+ 26 | ,->         </address>
  27 | `->     </person>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:26:9]
- 26 | ,-> </address>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:25:25]
+ 25 |     flatNo>
+ 26 | ,->         </address>
  27 | `->     </person>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:27:5]
- 27 | ,-> </person>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:26:16]
+ 26 |     ss>
+ 27 | ,->     </person>
  28 | `->     <person id="102">
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:27:5]
- 27 | ,-> </person>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:26:16]
+ 26 |     ss>
+ 27 | ,->     </person>
  28 | `->     <person id="102">
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:28:5]
- 28 | ,-> <person id="102">
+    ,-[$DIR/tests/fixture/basic-2/input.xml:27:11]
+ 27 |     on>
+ 28 | ,->     <person id="102">
  29 | |           <phone>+122233344553</phone>
  30 | |           <name>Boris</name>
  31 | |           <phone>+122233344554</phone>
@@ -1022,8 +1149,9 @@
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/basic-2/input.xml:28:5]
- 28 | ,-> <person id="102">
+    ,-[$DIR/tests/fixture/basic-2/input.xml:27:11]
+ 27 |     on>
+ 28 | ,->     <person id="102">
  29 | |           <phone>+122233344553</phone>
  30 | |           <name>Boris</name>
  31 | |           <phone>+122233344554</phone>
@@ -1046,160 +1174,186 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:28:5]
- 28 | ,-> <person id="102">
+    ,-[$DIR/tests/fixture/basic-2/input.xml:27:11]
+ 27 |     on>
+ 28 | ,->     <person id="102">
  29 | `->         <phone>+122233344553</phone>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:28:5]
- 28 | ,-> <person id="102">
+    ,-[$DIR/tests/fixture/basic-2/input.xml:27:11]
+ 27 |     on>
+ 28 | ,->     <person id="102">
  29 | `->         <phone>+122233344553</phone>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:29:9]
- 29 | <phone>+122233344553</phone>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:28:15]
+ 28 | ="102">
+ 29 |         <phone>+122233344553</phone>
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/basic-2/input.xml:29:9]
- 29 | <phone>+122233344553</phone>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:28:15]
+ 28 | ="102">
+ 29 |         <phone>+122233344553</phone>
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:29:9]
- 29 | <phone>+122233344553</phone>
-    :        ^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:28:15]
+ 28 | ="102">
+ 29 |         <phone>+122233344553</phone>
+    :                ^^^^^^^^^^^^^
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:29:9]
- 29 | <phone>+122233344553</phone>
-    :        ^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:28:15]
+ 28 | ="102">
+ 29 |         <phone>+122233344553</phone>
+    :                ^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:29:9]
- 29 | ,-> <phone>+122233344553</phone>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:28:15]
+ 28 |     ="102">
+ 29 | ,->         <phone>+122233344553</phone>
  30 | `->         <name>Boris</name>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:29:9]
- 29 | ,-> <phone>+122233344553</phone>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:28:15]
+ 28 |     ="102">
+ 29 | ,->         <phone>+122233344553</phone>
  30 | `->         <name>Boris</name>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:30:9]
- 30 | <name>Boris</name>
-    : ^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:29:30]
+ 29 | /phone>
+ 30 |         <name>Boris</name>
+    :         ^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/basic-2/input.xml:30:9]
- 30 | <name>Boris</name>
-    : ^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:29:30]
+ 29 | /phone>
+ 30 |         <name>Boris</name>
+    :         ^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:30:9]
- 30 | <name>Boris</name>
-    :       ^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:29:30]
+ 29 | /phone>
+ 30 |         <name>Boris</name>
+    :               ^^^^^
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:30:9]
- 30 | <name>Boris</name>
-    :       ^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:29:30]
+ 29 | /phone>
+ 30 |         <name>Boris</name>
+    :               ^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:30:9]
- 30 | ,-> <name>Boris</name>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:29:30]
+ 29 |     /phone>
+ 30 | ,->         <name>Boris</name>
  31 | `->         <phone>+122233344554</phone>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:30:9]
- 30 | ,-> <name>Boris</name>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:29:30]
+ 29 |     /phone>
+ 30 | ,->         <name>Boris</name>
  31 | `->         <phone>+122233344554</phone>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:31:9]
- 31 | <phone>+122233344554</phone>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:30:20]
+ 30 | </name>
+ 31 |         <phone>+122233344554</phone>
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/basic-2/input.xml:31:9]
- 31 | <phone>+122233344554</phone>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:30:20]
+ 30 | </name>
+ 31 |         <phone>+122233344554</phone>
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:31:9]
- 31 | <phone>+122233344554</phone>
-    :        ^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:30:20]
+ 30 | </name>
+ 31 |         <phone>+122233344554</phone>
+    :                ^^^^^^^^^^^^^
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:31:9]
- 31 | <phone>+122233344554</phone>
-    :        ^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:30:20]
+ 30 | </name>
+ 31 |         <phone>+122233344554</phone>
+    :                ^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:31:9]
- 31 | ,-> <phone>+122233344554</phone>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:30:20]
+ 30 |     </name>
+ 31 | ,->         <phone>+122233344554</phone>
  32 | `->         <age>34</age>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:31:9]
- 31 | ,-> <phone>+122233344554</phone>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:30:20]
+ 30 |     </name>
+ 31 | ,->         <phone>+122233344554</phone>
  32 | `->         <age>34</age>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:32:9]
- 32 | <age>34</age>
-    : ^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:31:30]
+ 31 | /phone>
+ 32 |         <age>34</age>
+    :         ^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/basic-2/input.xml:32:9]
- 32 | <age>34</age>
-    : ^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:31:30]
+ 31 | /phone>
+ 32 |         <age>34</age>
+    :         ^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:32:9]
- 32 | <age>34</age>
-    :      ^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:31:30]
+ 31 | /phone>
+ 32 |         <age>34</age>
+    :              ^^
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:32:9]
- 32 | <age>34</age>
-    :      ^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:31:30]
+ 31 | /phone>
+ 32 |         <age>34</age>
+    :              ^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:32:9]
- 32 | <age>34</age>
-    :              ^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:31:30]
+ 31 | /phone>
+ 32 |         <age>34</age>
+    :                      ^
  33 | <!--    TODO    <married ns:firstTime="Yes"><![CDATA[<some>Jack</some>]]><![CDATA[Jack]]></married>-->
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:32:9]
- 32 | <age>34</age>
-    :              ^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:31:30]
+ 31 | /phone>
+ 32 |         <age>34</age>
+    :                      ^
  33 | <!--    TODO    <married ns:firstTime="Yes"><![CDATA[<some>Jack</some>]]><![CDATA[Jack]]></married>-->
     `----
 
@@ -1228,44 +1382,51 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:34:9]
- 34 | <birthday>Mon, 31 Aug 1970 02:03:04 +0300</birthday>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:33:96]
+ 33 | ied>-->
+ 34 |         <birthday>Mon, 31 Aug 1970 02:03:04 +0300</birthday>
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/basic-2/input.xml:34:9]
- 34 | <birthday>Mon, 31 Aug 1970 02:03:04 +0300</birthday>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:33:96]
+ 33 | ied>-->
+ 34 |         <birthday>Mon, 31 Aug 1970 02:03:04 +0300</birthday>
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:34:9]
- 34 | <birthday>Mon, 31 Aug 1970 02:03:04 +0300</birthday>
-    :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:33:96]
+ 33 | ied>-->
+ 34 |         <birthday>Mon, 31 Aug 1970 02:03:04 +0300</birthday>
+    :                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:34:9]
- 34 | <birthday>Mon, 31 Aug 1970 02:03:04 +0300</birthday>
-    :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:33:96]
+ 33 | ied>-->
+ 34 |         <birthday>Mon, 31 Aug 1970 02:03:04 +0300</birthday>
+    :                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:34:9]
- 34 | ,-> <birthday>Mon, 31 Aug 1970 02:03:04 +0300</birthday>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:33:96]
+ 33 |     ied>-->
+ 34 | ,->         <birthday>Mon, 31 Aug 1970 02:03:04 +0300</birthday>
  35 | `->         <ns:address>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:34:9]
- 34 | ,-> <birthday>Mon, 31 Aug 1970 02:03:04 +0300</birthday>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:33:96]
+ 33 |     ied>-->
+ 34 | ,->         <birthday>Mon, 31 Aug 1970 02:03:04 +0300</birthday>
  35 | `->         <ns:address>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:35:9]
- 35 | ,-> <ns:address>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:34:54]
+ 34 |     rthday>
+ 35 | ,->         <ns:address>
  36 | |   <!--    TODO        <city><![CDATA[<some>Jack</some>]]></city>-->
  37 | |               <street>Kahovka</street>
  38 | |               <buildingNo>1</buildingNo>
@@ -1274,8 +1435,9 @@
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/basic-2/input.xml:35:9]
- 35 | ,-> <ns:address>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:34:54]
+ 34 |     rthday>
+ 35 | ,->         <ns:address>
  36 | |   <!--    TODO        <city><![CDATA[<some>Jack</some>]]></city>-->
  37 | |               <street>Kahovka</street>
  38 | |               <buildingNo>1</buildingNo>
@@ -1284,16 +1446,18 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:35:9]
- 35 | <ns:address>
-    :             ^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:34:54]
+ 34 | rthday>
+ 35 |         <ns:address>
+    :                     ^
  36 | <!--    TODO        <city><![CDATA[<some>Jack</some>]]></city>-->
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:35:9]
- 35 | <ns:address>
-    :             ^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:34:54]
+ 34 | rthday>
+ 35 |         <ns:address>
+    :                     ^
  36 | <!--    TODO        <city><![CDATA[<some>Jack</some>]]></city>-->
     `----
 
@@ -1322,128 +1486,149 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:37:13]
- 37 | <street>Kahovka</street>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:36:55]
+ 36 | ></city>-->
+ 37 |             <street>Kahovka</street>
+    :             ^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/basic-2/input.xml:37:13]
- 37 | <street>Kahovka</street>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:36:55]
+ 36 | ></city>-->
+ 37 |             <street>Kahovka</street>
+    :             ^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:37:13]
- 37 | <street>Kahovka</street>
-    :         ^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:36:55]
+ 36 | ></city>-->
+ 37 |             <street>Kahovka</street>
+    :                     ^^^^^^^
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:37:13]
- 37 | <street>Kahovka</street>
-    :         ^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:36:55]
+ 36 | ></city>-->
+ 37 |             <street>Kahovka</street>
+    :                     ^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:37:13]
- 37 | ,-> <street>Kahovka</street>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:36:55]
+ 36 |     ></city>-->
+ 37 | ,->             <street>Kahovka</street>
  38 | `->             <buildingNo>1</buildingNo>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:37:13]
- 37 | ,-> <street>Kahovka</street>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:36:55]
+ 36 |     ></city>-->
+ 37 | ,->             <street>Kahovka</street>
  38 | `->             <buildingNo>1</buildingNo>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:38:13]
- 38 | <buildingNo>1</buildingNo>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:37:26]
+ 37 | ka</street>
+ 38 |             <buildingNo>1</buildingNo>
+    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/basic-2/input.xml:38:13]
- 38 | <buildingNo>1</buildingNo>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:37:26]
+ 37 | ka</street>
+ 38 |             <buildingNo>1</buildingNo>
+    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:38:13]
- 38 | <buildingNo>1</buildingNo>
-    :             ^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:37:26]
+ 37 | ka</street>
+ 38 |             <buildingNo>1</buildingNo>
+    :                         ^
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:38:13]
- 38 | <buildingNo>1</buildingNo>
-    :             ^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:37:26]
+ 37 | ka</street>
+ 38 |             <buildingNo>1</buildingNo>
+    :                         ^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:38:13]
- 38 | ,-> <buildingNo>1</buildingNo>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:37:26]
+ 37 |     ka</street>
+ 38 | ,->             <buildingNo>1</buildingNo>
  39 | `->             <flatNo>2</flatNo>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:38:13]
- 38 | ,-> <buildingNo>1</buildingNo>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:37:26]
+ 37 |     ka</street>
+ 38 | ,->             <buildingNo>1</buildingNo>
  39 | `->             <flatNo>2</flatNo>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:39:13]
- 39 | <flatNo>2</flatNo>
-    : ^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:38:28]
+ 38 | buildingNo>
+ 39 |             <flatNo>2</flatNo>
+    :             ^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/basic-2/input.xml:39:13]
- 39 | <flatNo>2</flatNo>
-    : ^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:38:28]
+ 38 | buildingNo>
+ 39 |             <flatNo>2</flatNo>
+    :             ^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:39:13]
- 39 | <flatNo>2</flatNo>
-    :         ^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:38:28]
+ 38 | buildingNo>
+ 39 |             <flatNo>2</flatNo>
+    :                     ^
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:39:13]
- 39 | <flatNo>2</flatNo>
-    :         ^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:38:28]
+ 38 | buildingNo>
+ 39 |             <flatNo>2</flatNo>
+    :                     ^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:39:13]
- 39 | ,-> <flatNo>2</flatNo>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:38:28]
+ 38 |     buildingNo>
+ 39 | ,->             <flatNo>2</flatNo>
  40 | `->         </ns:address>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:39:13]
- 39 | ,-> <flatNo>2</flatNo>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:38:28]
+ 38 |     buildingNo>
+ 39 | ,->             <flatNo>2</flatNo>
  40 | `->         </ns:address>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:40:9]
- 40 | ,-> </ns:address>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:39:24]
+ 39 |     flatNo>
+ 40 | ,->         </ns:address>
  41 | `->         <address>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:40:9]
- 40 | ,-> </ns:address>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:39:24]
+ 39 |     flatNo>
+ 40 | ,->         </ns:address>
  41 | `->         <address>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:41:9]
- 41 | ,-> <address>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:40:15]
+ 40 |     ddress>
+ 41 | ,->         <address>
  42 | |               <city>Tula</city>
  43 | |               <street>Lenina</street>
  44 | |               <buildingNo>3</buildingNo>
@@ -1452,8 +1637,9 @@
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/basic-2/input.xml:41:9]
- 41 | ,-> <address>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:40:15]
+ 40 |     ddress>
+ 41 | ,->         <address>
  42 | |               <city>Tula</city>
  43 | |               <street>Lenina</street>
  44 | |               <buildingNo>3</buildingNo>
@@ -1462,183 +1648,213 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:41:9]
- 41 | ,-> <address>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:40:15]
+ 40 |     ddress>
+ 41 | ,->         <address>
  42 | `->             <city>Tula</city>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:41:9]
- 41 | ,-> <address>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:40:15]
+ 40 |     ddress>
+ 41 | ,->         <address>
  42 | `->             <city>Tula</city>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:42:13]
- 42 | <city>Tula</city>
-    : ^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:41:7]
+ 41 |   <address>
+ 42 |             <city>Tula</city>
+    :             ^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/basic-2/input.xml:42:13]
- 42 | <city>Tula</city>
-    : ^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:41:7]
+ 41 |   <address>
+ 42 |             <city>Tula</city>
+    :             ^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:42:13]
- 42 | <city>Tula</city>
-    :       ^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:41:7]
+ 41 |   <address>
+ 42 |             <city>Tula</city>
+    :                   ^^^^
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:42:13]
- 42 | <city>Tula</city>
-    :       ^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:41:7]
+ 41 |   <address>
+ 42 |             <city>Tula</city>
+    :                   ^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:42:13]
- 42 | ,-> <city>Tula</city>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:41:7]
+ 41 |       <address>
+ 42 | ,->             <city>Tula</city>
  43 | `->             <street>Lenina</street>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:42:13]
- 42 | ,-> <city>Tula</city>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:41:7]
+ 41 |       <address>
+ 42 | ,->             <city>Tula</city>
  43 | `->             <street>Lenina</street>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:43:13]
- 43 | <street>Lenina</street>
-    : ^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:42:19]
+ 42 | Tula</city>
+ 43 |             <street>Lenina</street>
+    :             ^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/basic-2/input.xml:43:13]
- 43 | <street>Lenina</street>
-    : ^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:42:19]
+ 42 | Tula</city>
+ 43 |             <street>Lenina</street>
+    :             ^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:43:13]
- 43 | <street>Lenina</street>
-    :         ^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:42:19]
+ 42 | Tula</city>
+ 43 |             <street>Lenina</street>
+    :                     ^^^^^^
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:43:13]
- 43 | <street>Lenina</street>
-    :         ^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:42:19]
+ 42 | Tula</city>
+ 43 |             <street>Lenina</street>
+    :                     ^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:43:13]
- 43 | ,-> <street>Lenina</street>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:42:19]
+ 42 |     Tula</city>
+ 43 | ,->             <street>Lenina</street>
  44 | `->             <buildingNo>3</buildingNo>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:43:13]
- 43 | ,-> <street>Lenina</street>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:42:19]
+ 42 |     Tula</city>
+ 43 | ,->             <street>Lenina</street>
  44 | `->             <buildingNo>3</buildingNo>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:44:13]
- 44 | <buildingNo>3</buildingNo>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:43:25]
+ 43 | na</street>
+ 44 |             <buildingNo>3</buildingNo>
+    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/basic-2/input.xml:44:13]
- 44 | <buildingNo>3</buildingNo>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:43:25]
+ 43 | na</street>
+ 44 |             <buildingNo>3</buildingNo>
+    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:44:13]
- 44 | <buildingNo>3</buildingNo>
-    :             ^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:43:25]
+ 43 | na</street>
+ 44 |             <buildingNo>3</buildingNo>
+    :                         ^
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:44:13]
- 44 | <buildingNo>3</buildingNo>
-    :             ^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:43:25]
+ 43 | na</street>
+ 44 |             <buildingNo>3</buildingNo>
+    :                         ^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:44:13]
- 44 | ,-> <buildingNo>3</buildingNo>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:43:25]
+ 43 |     na</street>
+ 44 | ,->             <buildingNo>3</buildingNo>
  45 | `->             <flatNo>78</flatNo>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:44:13]
- 44 | ,-> <buildingNo>3</buildingNo>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:43:25]
+ 43 |     na</street>
+ 44 | ,->             <buildingNo>3</buildingNo>
  45 | `->             <flatNo>78</flatNo>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:45:13]
- 45 | <flatNo>78</flatNo>
-    : ^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:44:28]
+ 44 | buildingNo>
+ 45 |             <flatNo>78</flatNo>
+    :             ^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/basic-2/input.xml:45:13]
- 45 | <flatNo>78</flatNo>
-    : ^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:44:28]
+ 44 | buildingNo>
+ 45 |             <flatNo>78</flatNo>
+    :             ^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:45:13]
- 45 | <flatNo>78</flatNo>
-    :         ^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:44:28]
+ 44 | buildingNo>
+ 45 |             <flatNo>78</flatNo>
+    :                     ^^
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:45:13]
- 45 | <flatNo>78</flatNo>
-    :         ^^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:44:28]
+ 44 | buildingNo>
+ 45 |             <flatNo>78</flatNo>
+    :                     ^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:45:13]
- 45 | ,-> <flatNo>78</flatNo>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:44:28]
+ 44 |     buildingNo>
+ 45 | ,->             <flatNo>78</flatNo>
  46 | `->         </address>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:45:13]
- 45 | ,-> <flatNo>78</flatNo>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:44:28]
+ 44 |     buildingNo>
+ 45 | ,->             <flatNo>78</flatNo>
  46 | `->         </address>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:46:9]
- 46 | ,-> </address>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:45:25]
+ 45 |     flatNo>
+ 46 | ,->         </address>
  47 | `->     </person>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:46:9]
- 46 | ,-> </address>
+    ,-[$DIR/tests/fixture/basic-2/input.xml:45:25]
+ 45 |     flatNo>
+ 46 | ,->         </address>
  47 | `->     </person>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/basic-2/input.xml:47:5]
- 47 | </person>
-    :          ^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:46:16]
+ 46 | ss>
+ 47 |     </person>
+    :              ^
  48 | </any_name>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/basic-2/input.xml:47:5]
- 47 | </person>
-    :          ^
+    ,-[$DIR/tests/fixture/basic-2/input.xml:46:16]
+ 46 | ss>
+ 47 |     </person>
+    :              ^
  48 | </any_name>
     `----

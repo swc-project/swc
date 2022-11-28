@@ -108,40 +108,46 @@
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/colgroup/input.html:4:5]
- 4 | <title>Document</title>
-   : ^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/colgroup/input.html:3:4]
+ 3 | ad>
+ 4 |     <title>Document</title>
+   :     ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/recovery/element/colgroup/input.html:4:5]
- 4 | <title>Document</title>
-   : ^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/colgroup/input.html:3:4]
+ 3 | ad>
+ 4 |     <title>Document</title>
+   :     ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/colgroup/input.html:4:5]
- 4 | <title>Document</title>
-   :        ^^^^^^^^
+   ,-[$DIR/tests/recovery/element/colgroup/input.html:3:4]
+ 3 | ad>
+ 4 |     <title>Document</title>
+   :            ^^^^^^^^
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/element/colgroup/input.html:4:5]
- 4 | <title>Document</title>
-   :        ^^^^^^^^
+   ,-[$DIR/tests/recovery/element/colgroup/input.html:3:4]
+ 3 | ad>
+ 4 |     <title>Document</title>
+   :            ^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/colgroup/input.html:4:5]
- 4 | <title>Document</title>
-   :                        ^
+   ,-[$DIR/tests/recovery/element/colgroup/input.html:3:4]
+ 3 | ad>
+ 4 |     <title>Document</title>
+   :                            ^
  5 | </head>
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/element/colgroup/input.html:4:5]
- 4 | <title>Document</title>
-   :                        ^
+   ,-[$DIR/tests/recovery/element/colgroup/input.html:3:4]
+ 3 | ad>
+ 4 |     <title>Document</title>
+   :                            ^
  5 | </head>
    `----
 
@@ -246,74 +252,86 @@
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/colgroup/input.html:8:5]
- 8 | <caption>Superheros and sidekicks</caption>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/colgroup/input.html:7:5]
+ 7 | le>
+ 8 |     <caption>Superheros and sidekicks</caption>
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/recovery/element/colgroup/input.html:8:5]
- 8 | <caption>Superheros and sidekicks</caption>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/colgroup/input.html:7:5]
+ 7 | le>
+ 8 |     <caption>Superheros and sidekicks</caption>
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/colgroup/input.html:8:5]
- 8 | <caption>Superheros and sidekicks</caption>
-   :          ^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/colgroup/input.html:7:5]
+ 7 | le>
+ 8 |     <caption>Superheros and sidekicks</caption>
+   :              ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/element/colgroup/input.html:8:5]
- 8 | <caption>Superheros and sidekicks</caption>
-   :          ^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/colgroup/input.html:7:5]
+ 7 | le>
+ 8 |     <caption>Superheros and sidekicks</caption>
+   :              ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/colgroup/input.html:8:5]
- 8 | ,-> <caption>Superheros and sidekicks</caption>
+   ,-[$DIR/tests/recovery/element/colgroup/input.html:7:5]
+ 7 |     le>
+ 8 | ,->     <caption>Superheros and sidekicks</caption>
  9 | `->     <colgroup>
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/element/colgroup/input.html:8:5]
- 8 | ,-> <caption>Superheros and sidekicks</caption>
+   ,-[$DIR/tests/recovery/element/colgroup/input.html:7:5]
+ 7 |     le>
+ 8 | ,->     <caption>Superheros and sidekicks</caption>
  9 | `->     <colgroup>
    `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/colgroup/input.html:9:5]
-  9 | ,-> <colgroup>
+    ,-[$DIR/tests/recovery/element/colgroup/input.html:8:45]
+  8 |     on>
+  9 | ,->     <colgroup>
  10 | `->         </div>
     `----
 
   x Element
-    ,-[$DIR/tests/recovery/element/colgroup/input.html:9:5]
-  9 | ,-> <colgroup>
+    ,-[$DIR/tests/recovery/element/colgroup/input.html:8:45]
+  8 |     on>
+  9 | ,->     <colgroup>
  10 | `->         </div>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/colgroup/input.html:9:5]
-  9 | ,-> <colgroup>
+    ,-[$DIR/tests/recovery/element/colgroup/input.html:8:45]
+  8 |     on>
+  9 | ,->     <colgroup>
  10 | `->         </div>
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/colgroup/input.html:9:5]
-  9 | ,-> <colgroup>
+    ,-[$DIR/tests/recovery/element/colgroup/input.html:8:45]
+  8 |     on>
+  9 | ,->     <colgroup>
  10 | `->         </div>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/colgroup/input.html:10:9]
- 10 | ,-> </div>
+    ,-[$DIR/tests/recovery/element/colgroup/input.html:9:8]
+  9 |     lgroup>
+ 10 | ,->         </div>
  11 | `->         <col>
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/colgroup/input.html:10:9]
- 10 | ,-> </div>
+    ,-[$DIR/tests/recovery/element/colgroup/input.html:9:8]
+  9 |     lgroup>
+ 10 | ,->         </div>
  11 | `->         <col>
     `----
 
@@ -322,112 +340,130 @@
   x Element
 
   x Child
-    ,-[$DIR/tests/recovery/element/colgroup/input.html:11:9]
- 11 | <col>
-    : ^^^^^
+    ,-[$DIR/tests/recovery/element/colgroup/input.html:10:8]
+ 10 |  </div>
+ 11 |         <col>
+    :         ^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/recovery/element/colgroup/input.html:11:9]
- 11 | <col>
-    : ^^^^^
+    ,-[$DIR/tests/recovery/element/colgroup/input.html:10:8]
+ 10 |  </div>
+ 11 |         <col>
+    :         ^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/colgroup/input.html:11:9]
- 11 | ,-> <col>
+    ,-[$DIR/tests/recovery/element/colgroup/input.html:10:8]
+ 10 |      </div>
+ 11 | ,->         <col>
  12 | `->         <col span="2" class="batman">
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/colgroup/input.html:11:9]
- 11 | ,-> <col>
+    ,-[$DIR/tests/recovery/element/colgroup/input.html:10:8]
+ 10 |      </div>
+ 11 | ,->         <col>
  12 | `->         <col span="2" class="batman">
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/colgroup/input.html:12:9]
- 12 | <col span="2" class="batman">
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/element/colgroup/input.html:11:7]
+ 11 |   <col>
+ 12 |         <col span="2" class="batman">
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/recovery/element/colgroup/input.html:12:9]
- 12 | <col span="2" class="batman">
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/element/colgroup/input.html:11:7]
+ 11 |   <col>
+ 12 |         <col span="2" class="batman">
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Attribute
-    ,-[$DIR/tests/recovery/element/colgroup/input.html:12:9]
- 12 | <col span="2" class="batman">
-    :      ^^^^^^^^
+    ,-[$DIR/tests/recovery/element/colgroup/input.html:11:7]
+ 11 |   <col>
+ 12 |         <col span="2" class="batman">
+    :              ^^^^^^^^
     `----
 
   x Attribute
-    ,-[$DIR/tests/recovery/element/colgroup/input.html:12:9]
- 12 | <col span="2" class="batman">
-    :               ^^^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/element/colgroup/input.html:11:7]
+ 11 |   <col>
+ 12 |         <col span="2" class="batman">
+    :                       ^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/colgroup/input.html:12:9]
- 12 | ,-> <col span="2" class="batman">
+    ,-[$DIR/tests/recovery/element/colgroup/input.html:11:7]
+ 11 |       <col>
+ 12 | ,->         <col span="2" class="batman">
  13 | `->         <col span="2" class="flash">
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/colgroup/input.html:12:9]
- 12 | ,-> <col span="2" class="batman">
+    ,-[$DIR/tests/recovery/element/colgroup/input.html:11:7]
+ 11 |       <col>
+ 12 | ,->         <col span="2" class="batman">
  13 | `->         <col span="2" class="flash">
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/colgroup/input.html:13:9]
- 13 | <col span="2" class="flash">
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/element/colgroup/input.html:12:31]
+ 12 | atman">
+ 13 |         <col span="2" class="flash">
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/recovery/element/colgroup/input.html:13:9]
- 13 | <col span="2" class="flash">
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/element/colgroup/input.html:12:31]
+ 12 | atman">
+ 13 |         <col span="2" class="flash">
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Attribute
-    ,-[$DIR/tests/recovery/element/colgroup/input.html:13:9]
- 13 | <col span="2" class="flash">
-    :      ^^^^^^^^
+    ,-[$DIR/tests/recovery/element/colgroup/input.html:12:31]
+ 12 | atman">
+ 13 |         <col span="2" class="flash">
+    :              ^^^^^^^^
     `----
 
   x Attribute
-    ,-[$DIR/tests/recovery/element/colgroup/input.html:13:9]
- 13 | <col span="2" class="flash">
-    :               ^^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/element/colgroup/input.html:12:31]
+ 12 | atman">
+ 13 |         <col span="2" class="flash">
+    :                       ^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/colgroup/input.html:13:9]
- 13 | ,-> <col span="2" class="flash">
+    ,-[$DIR/tests/recovery/element/colgroup/input.html:12:31]
+ 12 |     atman">
+ 13 | ,->         <col span="2" class="flash">
  14 | `->     </colgroup>
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/colgroup/input.html:13:9]
- 13 | ,-> <col span="2" class="flash">
+    ,-[$DIR/tests/recovery/element/colgroup/input.html:12:31]
+ 12 |     atman">
+ 13 | ,->         <col span="2" class="flash">
  14 | `->     </colgroup>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/colgroup/input.html:14:5]
- 14 | </colgroup>
-    :            ^
+    ,-[$DIR/tests/recovery/element/colgroup/input.html:13:34]
+ 13 | h">
+ 14 |     </colgroup>
+    :                ^
  15 | </table>
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/colgroup/input.html:14:5]
- 14 | </colgroup>
-    :            ^
+    ,-[$DIR/tests/recovery/element/colgroup/input.html:13:34]
+ 13 | h">
+ 14 |     </colgroup>
+    :                ^
  15 | </table>
     `----
 

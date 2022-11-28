@@ -105,40 +105,46 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/marquee/input.html:4:5]
- 4 | <title>Document</title>
-   : ^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/element/marquee/input.html:3:4]
+ 3 | ad>
+ 4 |     <title>Document</title>
+   :     ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/element/marquee/input.html:4:5]
- 4 | <title>Document</title>
-   : ^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/element/marquee/input.html:3:4]
+ 3 | ad>
+ 4 |     <title>Document</title>
+   :     ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/marquee/input.html:4:5]
- 4 | <title>Document</title>
-   :        ^^^^^^^^
+   ,-[$DIR/tests/fixture/element/marquee/input.html:3:4]
+ 3 | ad>
+ 4 |     <title>Document</title>
+   :            ^^^^^^^^
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/element/marquee/input.html:4:5]
- 4 | <title>Document</title>
-   :        ^^^^^^^^
+   ,-[$DIR/tests/fixture/element/marquee/input.html:3:4]
+ 3 | ad>
+ 4 |     <title>Document</title>
+   :            ^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/marquee/input.html:4:5]
- 4 | <title>Document</title>
-   :                        ^
+   ,-[$DIR/tests/fixture/element/marquee/input.html:3:4]
+ 3 | ad>
+ 4 |     <title>Document</title>
+   :                            ^
  5 | </head>
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/element/marquee/input.html:4:5]
- 4 | <title>Document</title>
-   :                        ^
+   ,-[$DIR/tests/fixture/element/marquee/input.html:3:4]
+ 3 | ad>
+ 4 |     <title>Document</title>
+   :                            ^
  5 | </head>
    `----
 
@@ -345,50 +351,57 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/marquee/input.html:12:5]
- 12 | ,-> <marquee behavior="alternate">
+    ,-[$DIR/tests/fixture/element/marquee/input.html:11:91]
+ 11 |     d">
+ 12 | ,->     <marquee behavior="alternate">
  13 | |           This text will bounce
  14 | `->     </marquee>
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/marquee/input.html:12:5]
- 12 | ,-> <marquee behavior="alternate">
+    ,-[$DIR/tests/fixture/element/marquee/input.html:11:91]
+ 11 |     d">
+ 12 | ,->     <marquee behavior="alternate">
  13 | |           This text will bounce
  14 | `->     </marquee>
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/element/marquee/input.html:12:5]
- 12 | <marquee behavior="alternate">
-    :          ^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/marquee/input.html:11:91]
+ 11 | d">
+ 12 |     <marquee behavior="alternate">
+    :              ^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/marquee/input.html:12:5]
- 12 | ,-> <marquee behavior="alternate">
+    ,-[$DIR/tests/fixture/element/marquee/input.html:11:91]
+ 11 |     d">
+ 12 | ,->     <marquee behavior="alternate">
  13 | |           This text will bounce
  14 | `->     </marquee>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/marquee/input.html:12:5]
- 12 | ,-> <marquee behavior="alternate">
+    ,-[$DIR/tests/fixture/element/marquee/input.html:11:91]
+ 11 |     d">
+ 12 | ,->     <marquee behavior="alternate">
  13 | |           This text will bounce
  14 | `->     </marquee>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/marquee/input.html:14:5]
- 14 | </marquee>
-    :           ^
+    ,-[$DIR/tests/fixture/element/marquee/input.html:13:27]
+ 13 | nce
+ 14 |     </marquee>
+    :               ^
  15 | </marquee>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/marquee/input.html:14:5]
- 14 | </marquee>
-    :           ^
+    ,-[$DIR/tests/fixture/element/marquee/input.html:13:27]
+ 13 | nce
+ 14 |     </marquee>
+    :               ^
  15 | </marquee>
     `----
 

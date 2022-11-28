@@ -12,7 +12,7 @@
   9 | |   <!--[if IE 9]>This is IE 9<br><![endif]-->
  10 | |   
  11 | |   </body>
- 12 | `-> </html>
+ 12 | |   </html>
     `----
 
   x Child
@@ -39,7 +39,7 @@
   9 | |   <!--[if IE 9]>This is IE 9<br><![endif]-->
  10 | |   
  11 | |   </body>
- 12 | `-> </html>
+ 12 | |   </html>
     `----
 
   x Element
@@ -54,7 +54,7 @@
   9 | |   <!--[if IE 9]>This is IE 9<br><![endif]-->
  10 | |   
  11 | |   </body>
- 12 | `-> </html>
+ 12 | |   </html>
     `----
 
   x Child
@@ -72,7 +72,7 @@
   9 | |   <!--[if IE 9]>This is IE 9<br><![endif]-->
  10 | |   
  11 | |   </body>
- 12 | `-> </html>
+ 12 | |   </html>
     `----
 
   x Element
@@ -86,7 +86,7 @@
   9 | |   <!--[if IE 9]>This is IE 9<br><![endif]-->
  10 | |   
  11 | |   </body>
- 12 | `-> </html>
+ 12 | |   </html>
     `----
 
   x Child
@@ -224,7 +224,7 @@
   9 | ,-> <!--[if IE 9]>This is IE 9<br><![endif]-->
  10 | |   
  11 | |   </body>
- 12 | `-> </html>
+ 12 | |   </html>
     `----
 
   x Text
@@ -232,5 +232,5 @@
   9 | ,-> <!--[if IE 9]>This is IE 9<br><![endif]-->
  10 | |   
  11 | |   </body>
- 12 | `-> </html>
+ 12 | |   </html>
     `----

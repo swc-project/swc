@@ -1,14 +1,16 @@
 
   x Abrupt closing of empty comment
-   ,-[$DIR/tests/recovery/comments/bad-40/input.xml:4:5]
- 4 | <!-- def='NT-Char'--><!-->Char</nt>* ']]&gt;' <nt def='NT-Char'>Char</nt>*))
-   :                          ^
+   ,-[$DIR/tests/recovery/comments/bad-40/input.xml:3:3]
+ 3 | oo>
+ 4 |     <!-- def='NT-Char'--><!-->Char</nt>* ']]&gt;' <nt def='NT-Char'>Char</nt>*))
+   :                              ^
    `----
 
   x Opening and ending tag mismatch
-   ,-[$DIR/tests/recovery/comments/bad-40/input.xml:4:5]
- 4 | <!-- def='NT-Char'--><!-->Char</nt>* ']]&gt;' <nt def='NT-Char'>Char</nt>*))
-   :                               ^^^^^
+   ,-[$DIR/tests/recovery/comments/bad-40/input.xml:3:3]
+ 3 | oo>
+ 4 |     <!-- def='NT-Char'--><!-->Char</nt>* ']]&gt;' <nt def='NT-Char'>Char</nt>*))
+   :                                   ^^^^^
    `----
 
   x Opening and ending tag mismatch

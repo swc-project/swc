@@ -61,7 +61,6 @@
  58 | |   <div data-test="&#x36"></div>
  59 | |   </body>
  60 | |   </html>
- 61 | `-> 
     `----
 
   x Child
@@ -137,7 +136,6 @@
  58 | |   <div data-test="&#x36"></div>
  59 | |   </body>
  60 | |   </html>
- 61 | `-> 
     `----
 
   x Element
@@ -201,7 +199,6 @@
  58 | |   <div data-test="&#x36"></div>
  59 | |   </body>
  60 | |   </html>
- 61 | `-> 
     `----
 
   x Child
@@ -268,7 +265,6 @@
  58 | |   <div data-test="&#x36"></div>
  59 | |   </body>
  60 | |   </html>
- 61 | `-> 
     `----
 
   x Element
@@ -331,7 +327,6 @@
  58 | |   <div data-test="&#x36"></div>
  59 | |   </body>
  60 | |   </html>
- 61 | `-> 
     `----
 
   x Child
@@ -1059,7 +1054,6 @@
  58 | ,-> <div data-test="&#x36"></div>
  59 | |   </body>
  60 | |   </html>
- 61 | `-> 
     `----
 
   x Text
@@ -1067,5 +1061,4 @@
  58 | ,-> <div data-test="&#x36"></div>
  59 | |   </body>
  60 | |   </html>
- 61 | `-> 
     `----

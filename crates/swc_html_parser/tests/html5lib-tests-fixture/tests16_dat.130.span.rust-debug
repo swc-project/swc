@@ -1,8 +1,7 @@
 
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat.130.html:1:1]
- 1 | <script><!--<script 
-   : ^^^^^^^^^^^^^^^^^^^^
+ 1 | ,-> <script><!--<script
    `----
 
   x Child
@@ -11,24 +10,20 @@
 
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat.130.html:1:1]
- 1 | <script><!--<script 
-   : ^^^^^^^^^^^^^^^^^^^^
+ 1 | ,-> <script><!--<script
    `----
 
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat.130.html:1:1]
- 1 | <script><!--<script 
-   : ^^^^^^^^^^^^^^^^^^^^
+ 1 | ,-> <script><!--<script
    `----
 
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat.130.html:1:1]
- 1 | <script><!--<script 
-   :         ^^^^^^^^^^^^
+ 1 | ,-> <script><!--<script
    `----
 
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat.130.html:1:1]
- 1 | <script><!--<script 
-   :         ^^^^^^^^^^^^
+ 1 | ,-> <script><!--<script
    `----

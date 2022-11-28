@@ -18,7 +18,7 @@
  15 | |   (<nt def='NT-Char'>Char</nt>* -
  16 | |   (<nt def='NT-Char'>Char</nt>* '&comc;' <nt def='NT-Char'>Char</nt>*))
  17 | |   '&comc;&gt;'</rhs>-->
- 18 | `-> </foo>
+ 18 | |   </foo>
     `----
 
   x Child
@@ -86,77 +86,89 @@
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/comments/bad-40/input.xml:4:5]
- 4 | <!-- def='NT-Char'--><!-->Char</nt>* ']]&gt;' <nt def='NT-Char'>Char</nt>*))
-   : ^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/comments/bad-40/input.xml:3:3]
+ 3 | oo>
+ 4 |     <!-- def='NT-Char'--><!-->Char</nt>* ']]&gt;' <nt def='NT-Char'>Char</nt>*))
+   :     ^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Comment
-   ,-[$DIR/tests/recovery/comments/bad-40/input.xml:4:5]
- 4 | <!-- def='NT-Char'--><!-->Char</nt>* ']]&gt;' <nt def='NT-Char'>Char</nt>*))
-   : ^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/comments/bad-40/input.xml:3:3]
+ 3 | oo>
+ 4 |     <!-- def='NT-Char'--><!-->Char</nt>* ']]&gt;' <nt def='NT-Char'>Char</nt>*))
+   :     ^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/comments/bad-40/input.xml:4:5]
- 4 | <!-- def='NT-Char'--><!-->Char</nt>* ']]&gt;' <nt def='NT-Char'>Char</nt>*))
-   :                      ^^^^^
+   ,-[$DIR/tests/recovery/comments/bad-40/input.xml:3:3]
+ 3 | oo>
+ 4 |     <!-- def='NT-Char'--><!-->Char</nt>* ']]&gt;' <nt def='NT-Char'>Char</nt>*))
+   :                          ^^^^^
    `----
 
   x Comment
-   ,-[$DIR/tests/recovery/comments/bad-40/input.xml:4:5]
- 4 | <!-- def='NT-Char'--><!-->Char</nt>* ']]&gt;' <nt def='NT-Char'>Char</nt>*))
-   :                      ^^^^^
+   ,-[$DIR/tests/recovery/comments/bad-40/input.xml:3:3]
+ 3 | oo>
+ 4 |     <!-- def='NT-Char'--><!-->Char</nt>* ']]&gt;' <nt def='NT-Char'>Char</nt>*))
+   :                          ^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/comments/bad-40/input.xml:4:5]
- 4 | <!-- def='NT-Char'--><!-->Char</nt>* ']]&gt;' <nt def='NT-Char'>Char</nt>*))
-   :                           ^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/comments/bad-40/input.xml:3:3]
+ 3 | oo>
+ 4 |     <!-- def='NT-Char'--><!-->Char</nt>* ']]&gt;' <nt def='NT-Char'>Char</nt>*))
+   :                               ^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/comments/bad-40/input.xml:4:5]
- 4 | <!-- def='NT-Char'--><!-->Char</nt>* ']]&gt;' <nt def='NT-Char'>Char</nt>*))
-   :                           ^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/comments/bad-40/input.xml:3:3]
+ 3 | oo>
+ 4 |     <!-- def='NT-Char'--><!-->Char</nt>* ']]&gt;' <nt def='NT-Char'>Char</nt>*))
+   :                               ^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/comments/bad-40/input.xml:4:5]
- 4 | <!-- def='NT-Char'--><!-->Char</nt>* ']]&gt;' <nt def='NT-Char'>Char</nt>*))
-   :                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/comments/bad-40/input.xml:3:3]
+ 3 | oo>
+ 4 |     <!-- def='NT-Char'--><!-->Char</nt>* ']]&gt;' <nt def='NT-Char'>Char</nt>*))
+   :                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/recovery/comments/bad-40/input.xml:4:5]
- 4 | <!-- def='NT-Char'--><!-->Char</nt>* ']]&gt;' <nt def='NT-Char'>Char</nt>*))
-   :                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/comments/bad-40/input.xml:3:3]
+ 3 | oo>
+ 4 |     <!-- def='NT-Char'--><!-->Char</nt>* ']]&gt;' <nt def='NT-Char'>Char</nt>*))
+   :                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Attribute
 
   x Child
-   ,-[$DIR/tests/recovery/comments/bad-40/input.xml:4:5]
- 4 | <!-- def='NT-Char'--><!-->Char</nt>* ']]&gt;' <nt def='NT-Char'>Char</nt>*))
-   :                                                                 ^^^^
+   ,-[$DIR/tests/recovery/comments/bad-40/input.xml:3:3]
+ 3 | oo>
+ 4 |     <!-- def='NT-Char'--><!-->Char</nt>* ']]&gt;' <nt def='NT-Char'>Char</nt>*))
+   :                                                                     ^^^^
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/comments/bad-40/input.xml:4:5]
- 4 | <!-- def='NT-Char'--><!-->Char</nt>* ']]&gt;' <nt def='NT-Char'>Char</nt>*))
-   :                                                                 ^^^^
+   ,-[$DIR/tests/recovery/comments/bad-40/input.xml:3:3]
+ 3 | oo>
+ 4 |     <!-- def='NT-Char'--><!-->Char</nt>* ']]&gt;' <nt def='NT-Char'>Char</nt>*))
+   :                                                                     ^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/comments/bad-40/input.xml:4:5]
- 4 | ,-> <!-- def='NT-Char'--><!-->Char</nt>* ']]&gt;' <nt def='NT-Char'>Char</nt>*))
+   ,-[$DIR/tests/recovery/comments/bad-40/input.xml:3:3]
+ 3 |     oo>
+ 4 | ,->     <!-- def='NT-Char'--><!-->Char</nt>* ']]&gt;' <nt def='NT-Char'>Char</nt>*))
  5 | `-> ']]&gt;'</rhs>
  6 |     <com>CDATA sections</com>
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/comments/bad-40/input.xml:4:5]
- 4 | ,-> <!-- def='NT-Char'--><!-->Char</nt>* ']]&gt;' <nt def='NT-Char'>Char</nt>*))
+   ,-[$DIR/tests/recovery/comments/bad-40/input.xml:3:3]
+ 3 |     oo>
+ 4 | ,->     <!-- def='NT-Char'--><!-->Char</nt>* ']]&gt;' <nt def='NT-Char'>Char</nt>*))
  5 | `-> ']]&gt;'</rhs>
  6 |     <com>CDATA sections</com>
    `----

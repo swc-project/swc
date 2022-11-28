@@ -1,12 +1,14 @@
 
   x Double hyper within comment
-   ,-[$DIR/tests/recovery/comments/bad-39/input.xml:3:5]
- 3 | <!------>
-   :       ^
+   ,-[$DIR/tests/recovery/comments/bad-39/input.xml:2:4]
+ 2 | ot>
+ 3 |     <!------>
+   :           ^
    `----
 
   x Double hyper within comment
-   ,-[$DIR/tests/recovery/comments/bad-39/input.xml:3:5]
- 3 | <!------>
-   :        ^
+   ,-[$DIR/tests/recovery/comments/bad-39/input.xml:2:4]
+ 2 | ot>
+ 3 |     <!------>
+   :            ^
    `----

@@ -104,142 +104,165 @@
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/br/self-closing/input.html:4:5]
- 4 | <meta charset="UTF-8">
-   : ^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/br/self-closing/input.html:3:4]
+ 3 | ad>
+ 4 |     <meta charset="UTF-8">
+   :     ^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/recovery/element/br/self-closing/input.html:4:5]
- 4 | <meta charset="UTF-8">
-   : ^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/br/self-closing/input.html:3:4]
+ 3 | ad>
+ 4 |     <meta charset="UTF-8">
+   :     ^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Attribute
-   ,-[$DIR/tests/recovery/element/br/self-closing/input.html:4:5]
- 4 | <meta charset="UTF-8">
-   :       ^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/br/self-closing/input.html:3:4]
+ 3 | ad>
+ 4 |     <meta charset="UTF-8">
+   :           ^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/br/self-closing/input.html:4:5]
- 4 | ,-> <meta charset="UTF-8">
+   ,-[$DIR/tests/recovery/element/br/self-closing/input.html:3:4]
+ 3 |     ad>
+ 4 | ,->     <meta charset="UTF-8">
  5 | `->     <meta name="viewport"
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/element/br/self-closing/input.html:4:5]
- 4 | ,-> <meta charset="UTF-8">
+   ,-[$DIR/tests/recovery/element/br/self-closing/input.html:3:4]
+ 3 |     ad>
+ 4 | ,->     <meta charset="UTF-8">
  5 | `->     <meta name="viewport"
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/br/self-closing/input.html:5:5]
- 5 | ,-> <meta name="viewport"
+   ,-[$DIR/tests/recovery/element/br/self-closing/input.html:4:24]
+ 4 |     8">
+ 5 | ,->     <meta name="viewport"
  6 | `->           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
    `----
 
   x Element
-   ,-[$DIR/tests/recovery/element/br/self-closing/input.html:5:5]
- 5 | ,-> <meta name="viewport"
+   ,-[$DIR/tests/recovery/element/br/self-closing/input.html:4:24]
+ 4 |     8">
+ 5 | ,->     <meta name="viewport"
  6 | `->           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
    `----
 
   x Attribute
-   ,-[$DIR/tests/recovery/element/br/self-closing/input.html:5:5]
- 5 | <meta name="viewport"
-   :       ^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/br/self-closing/input.html:4:24]
+ 4 | 8">
+ 5 |     <meta name="viewport"
+   :           ^^^^^^^^^^^^^^^
    `----
 
   x Attribute
-   ,-[$DIR/tests/recovery/element/br/self-closing/input.html:6:11]
- 6 | content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/br/self-closing/input.html:5:17]
+ 5 | viewport"
+ 6 |           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+   :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/br/self-closing/input.html:6:11]
- 6 | ,-> content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+   ,-[$DIR/tests/recovery/element/br/self-closing/input.html:5:17]
+ 5 |     viewport"
+ 6 | ,->           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
  7 | `->     <meta http-equiv="X-UA-Compatible" content="ie=edge">
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/element/br/self-closing/input.html:6:11]
- 6 | ,-> content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+   ,-[$DIR/tests/recovery/element/br/self-closing/input.html:5:17]
+ 5 |     viewport"
+ 6 | ,->           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
  7 | `->     <meta http-equiv="X-UA-Compatible" content="ie=edge">
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/br/self-closing/input.html:7:5]
- 7 | <meta http-equiv="X-UA-Compatible" content="ie=edge">
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/br/self-closing/input.html:6:112]
+ 6 | 0">
+ 7 |     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/recovery/element/br/self-closing/input.html:7:5]
- 7 | <meta http-equiv="X-UA-Compatible" content="ie=edge">
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/br/self-closing/input.html:6:112]
+ 6 | 0">
+ 7 |     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Attribute
-   ,-[$DIR/tests/recovery/element/br/self-closing/input.html:7:5]
- 7 | <meta http-equiv="X-UA-Compatible" content="ie=edge">
-   :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/br/self-closing/input.html:6:112]
+ 6 | 0">
+ 7 |     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Attribute
-   ,-[$DIR/tests/recovery/element/br/self-closing/input.html:7:5]
- 7 | <meta http-equiv="X-UA-Compatible" content="ie=edge">
-   :                                    ^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/br/self-closing/input.html:6:112]
+ 6 | 0">
+ 7 |     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   :                                        ^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/br/self-closing/input.html:7:5]
- 7 | ,-> <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   ,-[$DIR/tests/recovery/element/br/self-closing/input.html:6:112]
+ 6 |     0">
+ 7 | ,->     <meta http-equiv="X-UA-Compatible" content="ie=edge">
  8 | `->     <title>Document</title>
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/element/br/self-closing/input.html:7:5]
- 7 | ,-> <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   ,-[$DIR/tests/recovery/element/br/self-closing/input.html:6:112]
+ 6 |     0">
+ 7 | ,->     <meta http-equiv="X-UA-Compatible" content="ie=edge">
  8 | `->     <title>Document</title>
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/br/self-closing/input.html:8:5]
- 8 | <title>Document</title>
-   : ^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/br/self-closing/input.html:7:55]
+ 7 | e">
+ 8 |     <title>Document</title>
+   :     ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/recovery/element/br/self-closing/input.html:8:5]
- 8 | <title>Document</title>
-   : ^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/br/self-closing/input.html:7:55]
+ 7 | e">
+ 8 |     <title>Document</title>
+   :     ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/br/self-closing/input.html:8:5]
- 8 | <title>Document</title>
-   :        ^^^^^^^^
+   ,-[$DIR/tests/recovery/element/br/self-closing/input.html:7:55]
+ 7 | e">
+ 8 |     <title>Document</title>
+   :            ^^^^^^^^
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/element/br/self-closing/input.html:8:5]
- 8 | <title>Document</title>
-   :        ^^^^^^^^
+   ,-[$DIR/tests/recovery/element/br/self-closing/input.html:7:55]
+ 7 | e">
+ 8 |     <title>Document</title>
+   :            ^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/br/self-closing/input.html:8:5]
- 8 | <title>Document</title>
-   :                        ^
+   ,-[$DIR/tests/recovery/element/br/self-closing/input.html:7:55]
+ 7 | e">
+ 8 |     <title>Document</title>
+   :                            ^
  9 | </head>
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/element/br/self-closing/input.html:8:5]
- 8 | <title>Document</title>
-   :                        ^
+   ,-[$DIR/tests/recovery/element/br/self-closing/input.html:7:55]
+ 7 | e">
+ 8 |     <title>Document</title>
+   :                            ^
  9 | </head>
    `----
 
@@ -288,51 +311,59 @@
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/br/self-closing/input.html:11:5]
- 11 | test</br>test
-    :     ^^^^^
+    ,-[$DIR/tests/recovery/element/br/self-closing/input.html:10:4]
+ 10 | dy>
+ 11 |     test</br>test
+    :         ^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/recovery/element/br/self-closing/input.html:11:5]
- 11 | test</br>test
-    :     ^^^^^
+    ,-[$DIR/tests/recovery/element/br/self-closing/input.html:10:4]
+ 10 | dy>
+ 11 |     test</br>test
+    :         ^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/br/self-closing/input.html:11:5]
- 11 | ,-> test</br>test
+    ,-[$DIR/tests/recovery/element/br/self-closing/input.html:10:4]
+ 10 |     dy>
+ 11 | ,->     test</br>test
  12 | `->     test</br/>test
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/br/self-closing/input.html:11:5]
- 11 | ,-> test</br>test
+    ,-[$DIR/tests/recovery/element/br/self-closing/input.html:10:4]
+ 10 |     dy>
+ 11 | ,->     test</br>test
  12 | `->     test</br/>test
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/br/self-closing/input.html:12:5]
- 12 | test</br/>test
-    :     ^^^^^^
+    ,-[$DIR/tests/recovery/element/br/self-closing/input.html:11:15]
+ 11 | est
+ 12 |     test</br/>test
+    :         ^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/recovery/element/br/self-closing/input.html:12:5]
- 12 | test</br/>test
-    :     ^^^^^^
+    ,-[$DIR/tests/recovery/element/br/self-closing/input.html:11:15]
+ 11 | est
+ 12 |     test</br/>test
+    :         ^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/br/self-closing/input.html:12:5]
- 12 | ,-> test</br/>test
+    ,-[$DIR/tests/recovery/element/br/self-closing/input.html:11:15]
+ 11 |     est
+ 12 | ,->     test</br/>test
  13 | `-> </body>
  14 |     </html>
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/br/self-closing/input.html:12:5]
- 12 | ,-> test</br/>test
+    ,-[$DIR/tests/recovery/element/br/self-closing/input.html:11:15]
+ 11 |     est
+ 12 | ,->     test</br/>test
  13 | `-> </body>
  14 |     </html>
     `----

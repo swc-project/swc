@@ -13,7 +13,7 @@
  10 | |   <h6>This is heading 6</h6>
  11 | |   
  12 | |   </body>
- 13 | `-> </html>
+ 13 | |   </html>
     `----
 
   x Child
@@ -41,7 +41,7 @@
  10 | |   <h6>This is heading 6</h6>
  11 | |   
  12 | |   </body>
- 13 | `-> </html>
+ 13 | |   </html>
     `----
 
   x Element
@@ -57,7 +57,7 @@
  10 | |   <h6>This is heading 6</h6>
  11 | |   
  12 | |   </body>
- 13 | `-> </html>
+ 13 | |   </html>
     `----
 
   x Child
@@ -76,7 +76,7 @@
  10 | |   <h6>This is heading 6</h6>
  11 | |   
  12 | |   </body>
- 13 | `-> </html>
+ 13 | |   </html>
     `----
 
   x Element
@@ -91,7 +91,7 @@
  10 | |   <h6>This is heading 6</h6>
  11 | |   
  12 | |   </body>
- 13 | `-> </html>
+ 13 | |   </html>
     `----
 
   x Child
@@ -327,7 +327,7 @@
  10 | ,-> <h6>This is heading 6</h6>
  11 | |   
  12 | |   </body>
- 13 | `-> </html>
+ 13 | |   </html>
     `----
 
   x Text
@@ -335,5 +335,5 @@
  10 | ,-> <h6>This is heading 6</h6>
  11 | |   
  12 | |   </body>
- 13 | `-> </html>
+ 13 | |   </html>
     `----

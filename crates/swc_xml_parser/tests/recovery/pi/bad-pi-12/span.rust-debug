@@ -30,13 +30,15 @@
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/pi/bad-pi-12/input.xml:2:5]
- 2 | <?
-   : ^^
+   ,-[$DIR/tests/recovery/pi/bad-pi-12/input.xml:1:4]
+ 1 | ot>
+ 2 |     <?
+   :     ^^
    `----
 
   x ProcessingInstruction
-   ,-[$DIR/tests/recovery/pi/bad-pi-12/input.xml:2:5]
- 2 | <?
-   : ^^
+   ,-[$DIR/tests/recovery/pi/bad-pi-12/input.xml:1:4]
+ 1 | ot>
+ 2 |     <?
+   :     ^^
    `----

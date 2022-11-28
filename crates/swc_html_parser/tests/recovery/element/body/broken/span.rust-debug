@@ -8,7 +8,7 @@
  5 | |   <body>
  6 | |   <html test="test">
  7 | |   </body>
- 8 | `-> </html>
+ 8 | |   </html>
    `----
 
   x Child
@@ -31,7 +31,7 @@
  5 | |   <body>
  6 | |   <html test="test">
  7 | |   </body>
- 8 | `-> </html>
+ 8 | |   </html>
    `----
 
   x Element
@@ -42,7 +42,7 @@
  5 | |   <body>
  6 | |   <html test="test">
  7 | |   </body>
- 8 | `-> </html>
+ 8 | |   </html>
    `----
 
   x Attribute
@@ -76,40 +76,46 @@
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/body/broken/input.html:4:5]
- 4 | <title>Test</title></head>
-   : ^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/body/broken/input.html:3:4]
+ 3 | ad>
+ 4 |     <title>Test</title></head>
+   :     ^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/recovery/element/body/broken/input.html:4:5]
- 4 | <title>Test</title></head>
-   : ^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/body/broken/input.html:3:4]
+ 3 | ad>
+ 4 |     <title>Test</title></head>
+   :     ^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/body/broken/input.html:4:5]
- 4 | <title>Test</title></head>
-   :        ^^^^
+   ,-[$DIR/tests/recovery/element/body/broken/input.html:3:4]
+ 3 | ad>
+ 4 |     <title>Test</title></head>
+   :            ^^^^
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/element/body/broken/input.html:4:5]
- 4 | <title>Test</title></head>
-   :        ^^^^
+   ,-[$DIR/tests/recovery/element/body/broken/input.html:3:4]
+ 3 | ad>
+ 4 |     <title>Test</title></head>
+   :            ^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/body/broken/input.html:4:5]
- 4 | <title>Test</title></head>
-   :                           ^
+   ,-[$DIR/tests/recovery/element/body/broken/input.html:3:4]
+ 3 | ad>
+ 4 |     <title>Test</title></head>
+   :                               ^
  5 | <body>
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/element/body/broken/input.html:4:5]
- 4 | <title>Test</title></head>
-   :                           ^
+   ,-[$DIR/tests/recovery/element/body/broken/input.html:3:4]
+ 3 | ad>
+ 4 |     <title>Test</title></head>
+   :                               ^
  5 | <body>
    `----
 
@@ -118,7 +124,7 @@
  5 | ,-> <body>
  6 | |   <html test="test">
  7 | |   </body>
- 8 | `-> </html>
+ 8 | |   </html>
    `----
 
   x Element
@@ -126,7 +132,7 @@
  5 | ,-> <body>
  6 | |   <html test="test">
  7 | |   </body>
- 8 | `-> </html>
+ 8 | |   </html>
    `----
 
   x Child
@@ -134,7 +140,7 @@
  5 | ,-> <body>
  6 | |   <html test="test">
  7 | |   </body>
- 8 | `-> </html>
+ 8 | |   </html>
    `----
 
   x Text
@@ -142,5 +148,5 @@
  5 | ,-> <body>
  6 | |   <html test="test">
  7 | |   </body>
- 8 | `-> </html>
+ 8 | |   </html>
    `----

@@ -11,7 +11,7 @@
   8 | |   <img src="w3schools.jpg" alt="W3Schools.com" width="104" height="142">
   9 | |   
  10 | |   </body>
- 11 | `-> </html>
+ 11 | |   </html>
     `----
 
   x Child
@@ -37,7 +37,7 @@
   8 | |   <img src="w3schools.jpg" alt="W3Schools.com" width="104" height="142">
   9 | |   
  10 | |   </body>
- 11 | `-> </html>
+ 11 | |   </html>
     `----
 
   x Element
@@ -51,7 +51,7 @@
   8 | |   <img src="w3schools.jpg" alt="W3Schools.com" width="104" height="142">
   9 | |   
  10 | |   </body>
- 11 | `-> </html>
+ 11 | |   </html>
     `----
 
   x Child
@@ -68,7 +68,7 @@
   8 | |   <img src="w3schools.jpg" alt="W3Schools.com" width="104" height="142">
   9 | |   
  10 | |   </body>
- 11 | `-> </html>
+ 11 | |   </html>
     `----
 
   x Element
@@ -81,7 +81,7 @@
   8 | |   <img src="w3schools.jpg" alt="W3Schools.com" width="104" height="142">
   9 | |   
  10 | |   </body>
- 11 | `-> </html>
+ 11 | |   </html>
     `----
 
   x Child
@@ -215,7 +215,7 @@
   8 | ,-> <img src="w3schools.jpg" alt="W3Schools.com" width="104" height="142">
   9 | |   
  10 | |   </body>
- 11 | `-> </html>
+ 11 | |   </html>
     `----
 
   x Text
@@ -223,5 +223,5 @@
   8 | ,-> <img src="w3schools.jpg" alt="W3Schools.com" width="104" height="142">
   9 | |   
  10 | |   </body>
- 11 | `-> </html>
+ 11 | |   </html>
     `----

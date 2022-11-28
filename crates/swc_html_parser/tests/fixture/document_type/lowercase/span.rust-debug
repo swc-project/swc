@@ -11,7 +11,7 @@
   8 | |   The content of the document......
   9 | |   </body>
  10 | |   
- 11 | `-> </html>
+ 11 | |   </html>
     `----
 
   x Child
@@ -37,7 +37,7 @@
   8 | |   The content of the document......
   9 | |   </body>
  10 | |   
- 11 | `-> </html>
+ 11 | |   </html>
     `----
 
   x Element
@@ -51,7 +51,7 @@
   8 | |   The content of the document......
   9 | |   </body>
  10 | |   
- 11 | `-> </html>
+ 11 | |   </html>
     `----
 
   x Child
@@ -81,40 +81,46 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/document_type/lowercase/input.html:4:5]
- 4 | <title>Title of the document</title>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/document_type/lowercase/input.html:3:4]
+ 3 | ad>
+ 4 |     <title>Title of the document</title>
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/document_type/lowercase/input.html:4:5]
- 4 | <title>Title of the document</title>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/document_type/lowercase/input.html:3:4]
+ 3 | ad>
+ 4 |     <title>Title of the document</title>
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/document_type/lowercase/input.html:4:5]
- 4 | <title>Title of the document</title>
-   :        ^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/document_type/lowercase/input.html:3:4]
+ 3 | ad>
+ 4 |     <title>Title of the document</title>
+   :            ^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/document_type/lowercase/input.html:4:5]
- 4 | <title>Title of the document</title>
-   :        ^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/document_type/lowercase/input.html:3:4]
+ 3 | ad>
+ 4 |     <title>Title of the document</title>
+   :            ^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/document_type/lowercase/input.html:4:5]
- 4 | <title>Title of the document</title>
-   :                                     ^
+   ,-[$DIR/tests/fixture/document_type/lowercase/input.html:3:4]
+ 3 | ad>
+ 4 |     <title>Title of the document</title>
+   :                                         ^
  5 | </head>
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/document_type/lowercase/input.html:4:5]
- 4 | <title>Title of the document</title>
-   :                                     ^
+   ,-[$DIR/tests/fixture/document_type/lowercase/input.html:3:4]
+ 3 | ad>
+ 4 |     <title>Title of the document</title>
+   :                                         ^
  5 | </head>
    `----
 
@@ -138,7 +144,7 @@
   8 | |   The content of the document......
   9 | |   </body>
  10 | |   
- 11 | `-> </html>
+ 11 | |   </html>
     `----
 
   x Element
@@ -147,7 +153,7 @@
   8 | |   The content of the document......
   9 | |   </body>
  10 | |   
- 11 | `-> </html>
+ 11 | |   </html>
     `----
 
   x Child
@@ -156,7 +162,7 @@
   8 | |   The content of the document......
   9 | |   </body>
  10 | |   
- 11 | `-> </html>
+ 11 | |   </html>
     `----
 
   x Text
@@ -165,5 +171,5 @@
   8 | |   The content of the document......
   9 | |   </body>
  10 | |   
- 11 | `-> </html>
+ 11 | |   </html>
     `----

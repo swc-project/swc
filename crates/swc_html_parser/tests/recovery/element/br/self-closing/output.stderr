@@ -1,18 +1,21 @@
 
   x End tag "br"
-    ,-[$DIR/tests/recovery/element/br/self-closing/input.html:11:5]
- 11 | test</br>test
-    :     ^^^^^
+    ,-[$DIR/tests/recovery/element/br/self-closing/input.html:10:4]
+ 10 | dy>
+ 11 |     test</br>test
+    :         ^^^^^
     `----
 
   x End tag with trailing solidus
-    ,-[$DIR/tests/recovery/element/br/self-closing/input.html:12:5]
- 12 | test</br/>test
-    :          ^
+    ,-[$DIR/tests/recovery/element/br/self-closing/input.html:11:15]
+ 11 | est
+ 12 |     test</br/>test
+    :              ^
     `----
 
   x End tag "br"
-    ,-[$DIR/tests/recovery/element/br/self-closing/input.html:12:5]
- 12 | test</br/>test
-    :     ^^^^^^
+    ,-[$DIR/tests/recovery/element/br/self-closing/input.html:11:15]
+ 11 | est
+ 12 |     test</br/>test
+    :         ^^^^^^
     `----

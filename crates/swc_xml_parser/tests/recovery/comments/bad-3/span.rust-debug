@@ -5,7 +5,6 @@
  2 | |   <root>
  3 | |       <!----
  4 | |   </root>
- 5 | `-> 
    `----
 
   x Child
@@ -25,7 +24,6 @@
  2 | ,-> <root>
  3 | |       <!----
  4 | |   </root>
- 5 | `-> 
    `----
 
   x Element
@@ -33,7 +31,6 @@
  2 | ,-> <root>
  3 | |       <!----
  4 | |   </root>
- 5 | `-> 
    `----
 
   x Child
@@ -49,15 +46,15 @@
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/comments/bad-3/input.xml:3:5]
- 3 | ,-> <!----
+   ,-[$DIR/tests/recovery/comments/bad-3/input.xml:2:4]
+ 2 |     ot>
+ 3 | ,->     <!----
  4 | |   </root>
- 5 | `-> 
    `----
 
   x Comment
-   ,-[$DIR/tests/recovery/comments/bad-3/input.xml:3:5]
- 3 | ,-> <!----
+   ,-[$DIR/tests/recovery/comments/bad-3/input.xml:2:4]
+ 2 |     ot>
+ 3 | ,->     <!----
  4 | |   </root>
- 5 | `-> 
    `----

@@ -22,7 +22,7 @@
  19 | |   &testtesttest &#1234; &#x1234; &#x2014; &#X2014;
  20 | |   FOO&#x0078;ZOO
  21 | |   &#x2014;
- 22 | `-> &ThickSpace;
+ 22 | |   &ThickSpace;
     `----
 
   x Child
@@ -229,7 +229,7 @@
  19 | |   &testtesttest &#1234; &#x1234; &#x2014; &#X2014;
  20 | |   FOO&#x0078;ZOO
  21 | |   &#x2014;
- 22 | `-> &ThickSpace;
+ 22 | |   &ThickSpace;
     `----
 
   x Text
@@ -240,5 +240,5 @@
  19 | |   &testtesttest &#1234; &#x1234; &#x2014; &#X2014;
  20 | |   FOO&#x0078;ZOO
  21 | |   &#x2014;
- 22 | `-> &ThickSpace;
+ 22 | |   &ThickSpace;
     `----

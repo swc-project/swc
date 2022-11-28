@@ -87,40 +87,46 @@
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/marquee/input.html:4:5]
- 4 | <title>Document</title>
-   : ^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/marquee/input.html:3:4]
+ 3 | ad>
+ 4 |     <title>Document</title>
+   :     ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/recovery/element/marquee/input.html:4:5]
- 4 | <title>Document</title>
-   : ^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/marquee/input.html:3:4]
+ 3 | ad>
+ 4 |     <title>Document</title>
+   :     ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/marquee/input.html:4:5]
- 4 | <title>Document</title>
-   :        ^^^^^^^^
+   ,-[$DIR/tests/recovery/element/marquee/input.html:3:4]
+ 3 | ad>
+ 4 |     <title>Document</title>
+   :            ^^^^^^^^
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/element/marquee/input.html:4:5]
- 4 | <title>Document</title>
-   :        ^^^^^^^^
+   ,-[$DIR/tests/recovery/element/marquee/input.html:3:4]
+ 3 | ad>
+ 4 |     <title>Document</title>
+   :            ^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/marquee/input.html:4:5]
- 4 | <title>Document</title>
-   :                        ^
+   ,-[$DIR/tests/recovery/element/marquee/input.html:3:4]
+ 3 | ad>
+ 4 |     <title>Document</title>
+   :                            ^
  5 | </head>
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/element/marquee/input.html:4:5]
- 4 | <title>Document</title>
-   :                        ^
+   ,-[$DIR/tests/recovery/element/marquee/input.html:3:4]
+ 3 | ad>
+ 4 |     <title>Document</title>
+   :                            ^
  5 | </head>
    `----
 
@@ -211,30 +217,34 @@
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/marquee/input.html:8:5]
- 8 | <div>
-   : ^^^^^^
+   ,-[$DIR/tests/recovery/element/marquee/input.html:7:32]
+ 7 | "">
+ 8 |     <div>
+   :     ^^^^^^
  9 | </marquee>
    `----
 
   x Element
-   ,-[$DIR/tests/recovery/element/marquee/input.html:8:5]
- 8 | <div>
-   : ^^^^^^
+   ,-[$DIR/tests/recovery/element/marquee/input.html:7:32]
+ 7 | "">
+ 8 |     <div>
+   :     ^^^^^^
  9 | </marquee>
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/marquee/input.html:8:5]
- 8 | <div>
-   :      ^
+   ,-[$DIR/tests/recovery/element/marquee/input.html:7:32]
+ 7 | "">
+ 8 |     <div>
+   :          ^
  9 | </marquee>
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/element/marquee/input.html:8:5]
- 8 | <div>
-   :      ^
+   ,-[$DIR/tests/recovery/element/marquee/input.html:7:32]
+ 7 | "">
+ 8 |     <div>
+   :          ^
  9 | </marquee>
    `----
 

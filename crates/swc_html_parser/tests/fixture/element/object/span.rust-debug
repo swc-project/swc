@@ -96,40 +96,46 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/object/input.html:4:5]
- 4 | <title>Document</title>
-   : ^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/element/object/input.html:3:4]
+ 3 | ad>
+ 4 |     <title>Document</title>
+   :     ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/element/object/input.html:4:5]
- 4 | <title>Document</title>
-   : ^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/element/object/input.html:3:4]
+ 3 | ad>
+ 4 |     <title>Document</title>
+   :     ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/object/input.html:4:5]
- 4 | <title>Document</title>
-   :        ^^^^^^^^
+   ,-[$DIR/tests/fixture/element/object/input.html:3:4]
+ 3 | ad>
+ 4 |     <title>Document</title>
+   :            ^^^^^^^^
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/element/object/input.html:4:5]
- 4 | <title>Document</title>
-   :        ^^^^^^^^
+   ,-[$DIR/tests/fixture/element/object/input.html:3:4]
+ 3 | ad>
+ 4 |     <title>Document</title>
+   :            ^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/object/input.html:4:5]
- 4 | <title>Document</title>
-   :                        ^
+   ,-[$DIR/tests/fixture/element/object/input.html:3:4]
+ 3 | ad>
+ 4 |     <title>Document</title>
+   :                            ^
  5 | </head>
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/element/object/input.html:4:5]
- 4 | <title>Document</title>
-   :                        ^
+   ,-[$DIR/tests/fixture/element/object/input.html:3:4]
+ 3 | ad>
+ 4 |     <title>Document</title>
+   :                            ^
  5 | </head>
    `----
 
@@ -282,40 +288,46 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/object/input.html:10:5]
- 10 | <param name="autoplay" value="true">
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/object/input.html:9:23]
+  9 | v">
+ 10 |     <param name="autoplay" value="true">
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/object/input.html:10:5]
- 10 | <param name="autoplay" value="true">
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/object/input.html:9:23]
+  9 | v">
+ 10 |     <param name="autoplay" value="true">
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/element/object/input.html:10:5]
- 10 | <param name="autoplay" value="true">
-    :        ^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/object/input.html:9:23]
+  9 | v">
+ 10 |     <param name="autoplay" value="true">
+    :            ^^^^^^^^^^^^^^^
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/element/object/input.html:10:5]
- 10 | <param name="autoplay" value="true">
-    :                        ^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/object/input.html:9:23]
+  9 | v">
+ 10 |     <param name="autoplay" value="true">
+    :                            ^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/object/input.html:10:5]
- 10 | <param name="autoplay" value="true">
-    :                                     ^
+    ,-[$DIR/tests/fixture/element/object/input.html:9:23]
+  9 | v">
+ 10 |     <param name="autoplay" value="true">
+    :                                         ^
  11 | </object>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/object/input.html:10:5]
- 10 | <param name="autoplay" value="true">
-    :                                     ^
+    ,-[$DIR/tests/fixture/element/object/input.html:9:23]
+  9 | v">
+ 10 |     <param name="autoplay" value="true">
+    :                                         ^
  11 | </object>
     `----
 

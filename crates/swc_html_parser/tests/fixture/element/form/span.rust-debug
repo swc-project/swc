@@ -144,40 +144,46 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/form/input.html:4:5]
- 4 | <title>Document</title>
-   : ^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/element/form/input.html:3:4]
+ 3 | ad>
+ 4 |     <title>Document</title>
+   :     ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/element/form/input.html:4:5]
- 4 | <title>Document</title>
-   : ^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/element/form/input.html:3:4]
+ 3 | ad>
+ 4 |     <title>Document</title>
+   :     ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/form/input.html:4:5]
- 4 | <title>Document</title>
-   :        ^^^^^^^^
+   ,-[$DIR/tests/fixture/element/form/input.html:3:4]
+ 3 | ad>
+ 4 |     <title>Document</title>
+   :            ^^^^^^^^
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/element/form/input.html:4:5]
- 4 | <title>Document</title>
-   :        ^^^^^^^^
+   ,-[$DIR/tests/fixture/element/form/input.html:3:4]
+ 3 | ad>
+ 4 |     <title>Document</title>
+   :            ^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/form/input.html:4:5]
- 4 | <title>Document</title>
-   :                        ^
+   ,-[$DIR/tests/fixture/element/form/input.html:3:4]
+ 3 | ad>
+ 4 |     <title>Document</title>
+   :                            ^
  5 | </head>
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/element/form/input.html:4:5]
- 4 | <title>Document</title>
-   :                        ^
+   ,-[$DIR/tests/fixture/element/form/input.html:3:4]
+ 3 | ad>
+ 4 |     <title>Document</title>
+   :                            ^
  5 | </head>
    `----
 
@@ -332,356 +338,413 @@
    `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/form/input.html:9:5]
-  9 | ,-> <div class="form-example">
+    ,-[$DIR/tests/fixture/element/form/input.html:8:48]
+  8 |     e">
+  9 | ,->     <div class="form-example">
  10 | |           <label for="name">Enter your name: </label>
  11 | |           <input type="text" name="name" id="name" required>
  12 | `->     </div>
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/form/input.html:9:5]
-  9 | ,-> <div class="form-example">
+    ,-[$DIR/tests/fixture/element/form/input.html:8:48]
+  8 |     e">
+  9 | ,->     <div class="form-example">
  10 | |           <label for="name">Enter your name: </label>
  11 | |           <input type="text" name="name" id="name" required>
  12 | `->     </div>
     `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/element/form/input.html:9:5]
- 9 | <div class="form-example">
-   :      ^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/element/form/input.html:8:48]
+ 8 | e">
+ 9 |     <div class="form-example">
+   :          ^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/form/input.html:9:5]
-  9 | ,-> <div class="form-example">
+    ,-[$DIR/tests/fixture/element/form/input.html:8:48]
+  8 |     e">
+  9 | ,->     <div class="form-example">
  10 | `->         <label for="name">Enter your name: </label>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/form/input.html:9:5]
-  9 | ,-> <div class="form-example">
+    ,-[$DIR/tests/fixture/element/form/input.html:8:48]
+  8 |     e">
+  9 | ,->     <div class="form-example">
  10 | `->         <label for="name">Enter your name: </label>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/form/input.html:10:9]
- 10 | <label for="name">Enter your name: </label>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/form/input.html:9:24]
+  9 | ample">
+ 10 |         <label for="name">Enter your name: </label>
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/form/input.html:10:9]
- 10 | <label for="name">Enter your name: </label>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/form/input.html:9:24]
+  9 | ample">
+ 10 |         <label for="name">Enter your name: </label>
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/element/form/input.html:10:9]
- 10 | <label for="name">Enter your name: </label>
-    :        ^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/form/input.html:9:24]
+  9 | ample">
+ 10 |         <label for="name">Enter your name: </label>
+    :                ^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/form/input.html:10:9]
- 10 | <label for="name">Enter your name: </label>
-    :                   ^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/form/input.html:9:24]
+  9 | ample">
+ 10 |         <label for="name">Enter your name: </label>
+    :                           ^^^^^^^^^^^^^^^^^
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/form/input.html:10:9]
- 10 | <label for="name">Enter your name: </label>
-    :                   ^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/form/input.html:9:24]
+  9 | ample">
+ 10 |         <label for="name">Enter your name: </label>
+    :                           ^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/form/input.html:10:9]
- 10 | ,-> <label for="name">Enter your name: </label>
+    ,-[$DIR/tests/fixture/element/form/input.html:9:24]
+  9 |     ample">
+ 10 | ,->         <label for="name">Enter your name: </label>
  11 | `->         <input type="text" name="name" id="name" required>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/form/input.html:10:9]
- 10 | ,-> <label for="name">Enter your name: </label>
+    ,-[$DIR/tests/fixture/element/form/input.html:9:24]
+  9 |     ample">
+ 10 | ,->         <label for="name">Enter your name: </label>
  11 | `->         <input type="text" name="name" id="name" required>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/form/input.html:11:9]
- 11 | <input type="text" name="name" id="name" required>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/form/input.html:10:45]
+ 10 | /label>
+ 11 |         <input type="text" name="name" id="name" required>
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/form/input.html:11:9]
- 11 | <input type="text" name="name" id="name" required>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/form/input.html:10:45]
+ 10 | /label>
+ 11 |         <input type="text" name="name" id="name" required>
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/element/form/input.html:11:9]
- 11 | <input type="text" name="name" id="name" required>
-    :        ^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/form/input.html:10:45]
+ 10 | /label>
+ 11 |         <input type="text" name="name" id="name" required>
+    :                ^^^^^^^^^^^
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/element/form/input.html:11:9]
- 11 | <input type="text" name="name" id="name" required>
-    :                    ^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/form/input.html:10:45]
+ 10 | /label>
+ 11 |         <input type="text" name="name" id="name" required>
+    :                            ^^^^^^^^^^^
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/element/form/input.html:11:9]
- 11 | <input type="text" name="name" id="name" required>
-    :                                ^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/form/input.html:10:45]
+ 10 | /label>
+ 11 |         <input type="text" name="name" id="name" required>
+    :                                        ^^^^^^^^^
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/element/form/input.html:11:9]
- 11 | <input type="text" name="name" id="name" required>
-    :                                          ^^^^^^^^
+    ,-[$DIR/tests/fixture/element/form/input.html:10:45]
+ 10 | /label>
+ 11 |         <input type="text" name="name" id="name" required>
+    :                                                  ^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/form/input.html:11:9]
- 11 | ,-> <input type="text" name="name" id="name" required>
+    ,-[$DIR/tests/fixture/element/form/input.html:10:45]
+ 10 |     /label>
+ 11 | ,->         <input type="text" name="name" id="name" required>
  12 | `->     </div>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/form/input.html:11:9]
- 11 | ,-> <input type="text" name="name" id="name" required>
+    ,-[$DIR/tests/fixture/element/form/input.html:10:45]
+ 10 |     /label>
+ 11 | ,->         <input type="text" name="name" id="name" required>
  12 | `->     </div>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/form/input.html:12:5]
- 12 | ,-> </div>
+    ,-[$DIR/tests/fixture/element/form/input.html:11:56]
+ 11 |     ed>
+ 12 | ,->     </div>
  13 | `->     <div class="form-example">
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/form/input.html:12:5]
- 12 | ,-> </div>
+    ,-[$DIR/tests/fixture/element/form/input.html:11:56]
+ 11 |     ed>
+ 12 | ,->     </div>
  13 | `->     <div class="form-example">
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/form/input.html:13:5]
- 13 | ,-> <div class="form-example">
+    ,-[$DIR/tests/fixture/element/form/input.html:12:8]
+ 12 |     iv>
+ 13 | ,->     <div class="form-example">
  14 | |           <label for="email">Enter your email: </label>
  15 | |           <input type="email" name="email" id="email" required>
  16 | `->     </div>
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/form/input.html:13:5]
- 13 | ,-> <div class="form-example">
+    ,-[$DIR/tests/fixture/element/form/input.html:12:8]
+ 12 |     iv>
+ 13 | ,->     <div class="form-example">
  14 | |           <label for="email">Enter your email: </label>
  15 | |           <input type="email" name="email" id="email" required>
  16 | `->     </div>
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/element/form/input.html:13:5]
- 13 | <div class="form-example">
-    :      ^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/form/input.html:12:8]
+ 12 | iv>
+ 13 |     <div class="form-example">
+    :          ^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/form/input.html:13:5]
- 13 | ,-> <div class="form-example">
+    ,-[$DIR/tests/fixture/element/form/input.html:12:8]
+ 12 |     iv>
+ 13 | ,->     <div class="form-example">
  14 | `->         <label for="email">Enter your email: </label>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/form/input.html:13:5]
- 13 | ,-> <div class="form-example">
+    ,-[$DIR/tests/fixture/element/form/input.html:12:8]
+ 12 |     iv>
+ 13 | ,->     <div class="form-example">
  14 | `->         <label for="email">Enter your email: </label>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/form/input.html:14:9]
- 14 | <label for="email">Enter your email: </label>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/form/input.html:13:24]
+ 13 | ample">
+ 14 |         <label for="email">Enter your email: </label>
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/form/input.html:14:9]
- 14 | <label for="email">Enter your email: </label>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/form/input.html:13:24]
+ 13 | ample">
+ 14 |         <label for="email">Enter your email: </label>
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/element/form/input.html:14:9]
- 14 | <label for="email">Enter your email: </label>
-    :        ^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/form/input.html:13:24]
+ 13 | ample">
+ 14 |         <label for="email">Enter your email: </label>
+    :                ^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/form/input.html:14:9]
- 14 | <label for="email">Enter your email: </label>
-    :                    ^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/form/input.html:13:24]
+ 13 | ample">
+ 14 |         <label for="email">Enter your email: </label>
+    :                            ^^^^^^^^^^^^^^^^^^
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/form/input.html:14:9]
- 14 | <label for="email">Enter your email: </label>
-    :                    ^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/form/input.html:13:24]
+ 13 | ample">
+ 14 |         <label for="email">Enter your email: </label>
+    :                            ^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/form/input.html:14:9]
- 14 | ,-> <label for="email">Enter your email: </label>
+    ,-[$DIR/tests/fixture/element/form/input.html:13:24]
+ 13 |     ample">
+ 14 | ,->         <label for="email">Enter your email: </label>
  15 | `->         <input type="email" name="email" id="email" required>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/form/input.html:14:9]
- 14 | ,-> <label for="email">Enter your email: </label>
+    ,-[$DIR/tests/fixture/element/form/input.html:13:24]
+ 13 |     ample">
+ 14 | ,->         <label for="email">Enter your email: </label>
  15 | `->         <input type="email" name="email" id="email" required>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/form/input.html:15:9]
- 15 | <input type="email" name="email" id="email" required>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/form/input.html:14:47]
+ 14 | /label>
+ 15 |         <input type="email" name="email" id="email" required>
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/form/input.html:15:9]
- 15 | <input type="email" name="email" id="email" required>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/form/input.html:14:47]
+ 14 | /label>
+ 15 |         <input type="email" name="email" id="email" required>
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/element/form/input.html:15:9]
- 15 | <input type="email" name="email" id="email" required>
-    :        ^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/form/input.html:14:47]
+ 14 | /label>
+ 15 |         <input type="email" name="email" id="email" required>
+    :                ^^^^^^^^^^^^
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/element/form/input.html:15:9]
- 15 | <input type="email" name="email" id="email" required>
-    :                     ^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/form/input.html:14:47]
+ 14 | /label>
+ 15 |         <input type="email" name="email" id="email" required>
+    :                             ^^^^^^^^^^^^
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/element/form/input.html:15:9]
- 15 | <input type="email" name="email" id="email" required>
-    :                                  ^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/form/input.html:14:47]
+ 14 | /label>
+ 15 |         <input type="email" name="email" id="email" required>
+    :                                          ^^^^^^^^^^
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/element/form/input.html:15:9]
- 15 | <input type="email" name="email" id="email" required>
-    :                                             ^^^^^^^^
+    ,-[$DIR/tests/fixture/element/form/input.html:14:47]
+ 14 | /label>
+ 15 |         <input type="email" name="email" id="email" required>
+    :                                                     ^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/form/input.html:15:9]
- 15 | ,-> <input type="email" name="email" id="email" required>
+    ,-[$DIR/tests/fixture/element/form/input.html:14:47]
+ 14 |     /label>
+ 15 | ,->         <input type="email" name="email" id="email" required>
  16 | `->     </div>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/form/input.html:15:9]
- 15 | ,-> <input type="email" name="email" id="email" required>
+    ,-[$DIR/tests/fixture/element/form/input.html:14:47]
+ 14 |     /label>
+ 15 | ,->         <input type="email" name="email" id="email" required>
  16 | `->     </div>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/form/input.html:16:5]
- 16 | ,-> </div>
+    ,-[$DIR/tests/fixture/element/form/input.html:15:59]
+ 15 |     ed>
+ 16 | ,->     </div>
  17 | `->     <div class="form-example">
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/form/input.html:16:5]
- 16 | ,-> </div>
+    ,-[$DIR/tests/fixture/element/form/input.html:15:59]
+ 15 |     ed>
+ 16 | ,->     </div>
  17 | `->     <div class="form-example">
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/form/input.html:17:5]
- 17 | ,-> <div class="form-example">
+    ,-[$DIR/tests/fixture/element/form/input.html:16:8]
+ 16 |     iv>
+ 17 | ,->     <div class="form-example">
  18 | |           <input type="submit" value="Subscribe!">
  19 | `->     </div>
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/form/input.html:17:5]
- 17 | ,-> <div class="form-example">
+    ,-[$DIR/tests/fixture/element/form/input.html:16:8]
+ 16 |     iv>
+ 17 | ,->     <div class="form-example">
  18 | |           <input type="submit" value="Subscribe!">
  19 | `->     </div>
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/element/form/input.html:17:5]
- 17 | <div class="form-example">
-    :      ^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/form/input.html:16:8]
+ 16 | iv>
+ 17 |     <div class="form-example">
+    :          ^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/form/input.html:17:5]
- 17 | ,-> <div class="form-example">
+    ,-[$DIR/tests/fixture/element/form/input.html:16:8]
+ 16 |     iv>
+ 17 | ,->     <div class="form-example">
  18 | `->         <input type="submit" value="Subscribe!">
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/form/input.html:17:5]
- 17 | ,-> <div class="form-example">
+    ,-[$DIR/tests/fixture/element/form/input.html:16:8]
+ 16 |     iv>
+ 17 | ,->     <div class="form-example">
  18 | `->         <input type="submit" value="Subscribe!">
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/form/input.html:18:9]
- 18 | <input type="submit" value="Subscribe!">
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/form/input.html:17:24]
+ 17 | ample">
+ 18 |         <input type="submit" value="Subscribe!">
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/form/input.html:18:9]
- 18 | <input type="submit" value="Subscribe!">
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/form/input.html:17:24]
+ 17 | ample">
+ 18 |         <input type="submit" value="Subscribe!">
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/element/form/input.html:18:9]
- 18 | <input type="submit" value="Subscribe!">
-    :        ^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/form/input.html:17:24]
+ 17 | ample">
+ 18 |         <input type="submit" value="Subscribe!">
+    :                ^^^^^^^^^^^^^
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/element/form/input.html:18:9]
- 18 | <input type="submit" value="Subscribe!">
-    :                      ^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/form/input.html:17:24]
+ 17 | ample">
+ 18 |         <input type="submit" value="Subscribe!">
+    :                              ^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/form/input.html:18:9]
- 18 | ,-> <input type="submit" value="Subscribe!">
+    ,-[$DIR/tests/fixture/element/form/input.html:17:24]
+ 17 |     ample">
+ 18 | ,->         <input type="submit" value="Subscribe!">
  19 | `->     </div>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/form/input.html:18:9]
- 18 | ,-> <input type="submit" value="Subscribe!">
+    ,-[$DIR/tests/fixture/element/form/input.html:17:24]
+ 17 |     ample">
+ 18 | ,->         <input type="submit" value="Subscribe!">
  19 | `->     </div>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/form/input.html:19:5]
- 19 | </div>
-    :       ^
+    ,-[$DIR/tests/fixture/element/form/input.html:18:46]
+ 18 | !">
+ 19 |     </div>
+    :           ^
  20 | </form>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/form/input.html:19:5]
- 19 | </div>
-    :       ^
+    ,-[$DIR/tests/fixture/element/form/input.html:18:46]
+ 18 | !">
+ 19 |     </div>
+    :           ^
  20 | </form>
     `----
 
@@ -738,140 +801,162 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/form/input.html:23:5]
- 23 | ,-> <fieldset>
+    ,-[$DIR/tests/fixture/element/form/input.html:22:18]
+ 22 |     t">
+ 23 | ,->     <fieldset>
  24 | |           <legend>Title</legend>
  25 | |           <label><input type="radio" name="radio"> Select me</label>
  26 | `->     </fieldset>
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/form/input.html:23:5]
- 23 | ,-> <fieldset>
+    ,-[$DIR/tests/fixture/element/form/input.html:22:18]
+ 22 |     t">
+ 23 | ,->     <fieldset>
  24 | |           <legend>Title</legend>
  25 | |           <label><input type="radio" name="radio"> Select me</label>
  26 | `->     </fieldset>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/form/input.html:23:5]
- 23 | ,-> <fieldset>
+    ,-[$DIR/tests/fixture/element/form/input.html:22:18]
+ 22 |     t">
+ 23 | ,->     <fieldset>
  24 | `->         <legend>Title</legend>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/form/input.html:23:5]
- 23 | ,-> <fieldset>
+    ,-[$DIR/tests/fixture/element/form/input.html:22:18]
+ 22 |     t">
+ 23 | ,->     <fieldset>
  24 | `->         <legend>Title</legend>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/form/input.html:24:9]
- 24 | <legend>Title</legend>
-    : ^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/form/input.html:23:8]
+ 23 | eldset>
+ 24 |         <legend>Title</legend>
+    :         ^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/form/input.html:24:9]
- 24 | <legend>Title</legend>
-    : ^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/form/input.html:23:8]
+ 23 | eldset>
+ 24 |         <legend>Title</legend>
+    :         ^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/form/input.html:24:9]
- 24 | <legend>Title</legend>
-    :         ^^^^^
+    ,-[$DIR/tests/fixture/element/form/input.html:23:8]
+ 23 | eldset>
+ 24 |         <legend>Title</legend>
+    :                 ^^^^^
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/form/input.html:24:9]
- 24 | <legend>Title</legend>
-    :         ^^^^^
+    ,-[$DIR/tests/fixture/element/form/input.html:23:8]
+ 23 | eldset>
+ 24 |         <legend>Title</legend>
+    :                 ^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/form/input.html:24:9]
- 24 | ,-> <legend>Title</legend>
+    ,-[$DIR/tests/fixture/element/form/input.html:23:8]
+ 23 |     eldset>
+ 24 | ,->         <legend>Title</legend>
  25 | `->         <label><input type="radio" name="radio"> Select me</label>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/form/input.html:24:9]
- 24 | ,-> <legend>Title</legend>
+    ,-[$DIR/tests/fixture/element/form/input.html:23:8]
+ 23 |     eldset>
+ 24 | ,->         <legend>Title</legend>
  25 | `->         <label><input type="radio" name="radio"> Select me</label>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/form/input.html:25:9]
- 25 | <label><input type="radio" name="radio"> Select me</label>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/form/input.html:24:24]
+ 24 | legend>
+ 25 |         <label><input type="radio" name="radio"> Select me</label>
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/form/input.html:25:9]
- 25 | <label><input type="radio" name="radio"> Select me</label>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/form/input.html:24:24]
+ 24 | legend>
+ 25 |         <label><input type="radio" name="radio"> Select me</label>
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/form/input.html:25:9]
- 25 | <label><input type="radio" name="radio"> Select me</label>
-    :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/form/input.html:24:24]
+ 24 | legend>
+ 25 |         <label><input type="radio" name="radio"> Select me</label>
+    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/form/input.html:25:9]
- 25 | <label><input type="radio" name="radio"> Select me</label>
-    :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/form/input.html:24:24]
+ 24 | legend>
+ 25 |         <label><input type="radio" name="radio"> Select me</label>
+    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/element/form/input.html:25:9]
- 25 | <label><input type="radio" name="radio"> Select me</label>
-    :               ^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/form/input.html:24:24]
+ 24 | legend>
+ 25 |         <label><input type="radio" name="radio"> Select me</label>
+    :                       ^^^^^^^^^^^^
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/element/form/input.html:25:9]
- 25 | <label><input type="radio" name="radio"> Select me</label>
-    :                            ^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/form/input.html:24:24]
+ 24 | legend>
+ 25 |         <label><input type="radio" name="radio"> Select me</label>
+    :                                    ^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/form/input.html:25:9]
- 25 | <label><input type="radio" name="radio"> Select me</label>
-    :                                         ^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/form/input.html:24:24]
+ 24 | legend>
+ 25 |         <label><input type="radio" name="radio"> Select me</label>
+    :                                                 ^^^^^^^^^^
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/form/input.html:25:9]
- 25 | <label><input type="radio" name="radio"> Select me</label>
-    :                                         ^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/form/input.html:24:24]
+ 24 | legend>
+ 25 |         <label><input type="radio" name="radio"> Select me</label>
+    :                                                 ^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/form/input.html:25:9]
- 25 | ,-> <label><input type="radio" name="radio"> Select me</label>
+    ,-[$DIR/tests/fixture/element/form/input.html:24:24]
+ 24 |     legend>
+ 25 | ,->         <label><input type="radio" name="radio"> Select me</label>
  26 | `->     </fieldset>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/form/input.html:25:9]
- 25 | ,-> <label><input type="radio" name="radio"> Select me</label>
+    ,-[$DIR/tests/fixture/element/form/input.html:24:24]
+ 24 |     legend>
+ 25 | ,->         <label><input type="radio" name="radio"> Select me</label>
  26 | `->     </fieldset>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/form/input.html:26:5]
- 26 | </fieldset>
-    :            ^
+    ,-[$DIR/tests/fixture/element/form/input.html:25:64]
+ 25 | el>
+ 26 |     </fieldset>
+    :                ^
  27 | </form>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/form/input.html:26:5]
- 26 | </fieldset>
-    :            ^
+    ,-[$DIR/tests/fixture/element/form/input.html:25:64]
+ 25 | el>
+ 26 |     </fieldset>
+    :                ^
  27 | </form>
     `----
 

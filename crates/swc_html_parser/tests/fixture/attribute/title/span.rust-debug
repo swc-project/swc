@@ -10,7 +10,7 @@
   7 | |   <p title="I'm a tooltip">Mouse over this paragraph, to display the title attribute as a tooltip.</p>
   8 | |   
   9 | |   </body>
- 10 | `-> </html>
+ 10 | |   </html>
     `----
 
   x Child
@@ -35,7 +35,7 @@
   7 | |   <p title="I'm a tooltip">Mouse over this paragraph, to display the title attribute as a tooltip.</p>
   8 | |   
   9 | |   </body>
- 10 | `-> </html>
+ 10 | |   </html>
     `----
 
   x Element
@@ -48,7 +48,7 @@
   7 | |   <p title="I'm a tooltip">Mouse over this paragraph, to display the title attribute as a tooltip.</p>
   8 | |   
   9 | |   </body>
- 10 | `-> </html>
+ 10 | |   </html>
     `----
 
   x Child
@@ -64,7 +64,7 @@
   7 | |   <p title="I'm a tooltip">Mouse over this paragraph, to display the title attribute as a tooltip.</p>
   8 | |   
   9 | |   </body>
- 10 | `-> </html>
+ 10 | |   </html>
     `----
 
   x Element
@@ -76,7 +76,7 @@
   7 | |   <p title="I'm a tooltip">Mouse over this paragraph, to display the title attribute as a tooltip.</p>
   8 | |   
   9 | |   </body>
- 10 | `-> </html>
+ 10 | |   </html>
     `----
 
   x Child
@@ -172,7 +172,7 @@
   7 | ,-> <p title="I'm a tooltip">Mouse over this paragraph, to display the title attribute as a tooltip.</p>
   8 | |   
   9 | |   </body>
- 10 | `-> </html>
+ 10 | |   </html>
     `----
 
   x Text
@@ -180,5 +180,5 @@
   7 | ,-> <p title="I'm a tooltip">Mouse over this paragraph, to display the title attribute as a tooltip.</p>
   8 | |   
   9 | |   </body>
- 10 | `-> </html>
+ 10 | |   </html>
     `----

@@ -6,15 +6,17 @@
    `----
 
   x Stray start tag "td"
-   ,-[$DIR/tests/recovery/element/table/broken-4/input.html:9:5]
- 9 | <td>
-   : ^^^^
+   ,-[$DIR/tests/recovery/element/table/broken-4/input.html:8:2]
+ 8 | tr>
+ 9 |     <td>
+   :     ^^^^
    `----
 
   x Stray end tag "td"
-    ,-[$DIR/tests/recovery/element/table/broken-4/input.html:11:5]
- 11 | </td>
-    : ^^^^^
+    ,-[$DIR/tests/recovery/element/table/broken-4/input.html:10:11]
+ 10 | ble
+ 11 |     </td>
+    :     ^^^^^
     `----
 
   x Stray end tag "tr"

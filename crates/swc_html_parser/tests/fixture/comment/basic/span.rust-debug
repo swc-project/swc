@@ -17,7 +17,7 @@
  14 | |   <script>alert('<!-- foo -->')</script>
  15 | |   <script>alert('-->')</script>
  16 | |   </body>
- 17 | `-> </html>
+ 17 | |   </html>
     `----
 
   x Child
@@ -49,7 +49,7 @@
  14 | |   <script>alert('<!-- foo -->')</script>
  15 | |   <script>alert('-->')</script>
  16 | |   </body>
- 17 | `-> </html>
+ 17 | |   </html>
     `----
 
   x Element
@@ -69,7 +69,7 @@
  14 | |   <script>alert('<!-- foo -->')</script>
  15 | |   <script>alert('-->')</script>
  16 | |   </body>
- 17 | `-> </html>
+ 17 | |   </html>
     `----
 
   x Attribute
@@ -105,40 +105,46 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/comment/basic/input.html:4:5]
- 4 | <title>Document</title>
-   : ^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/comment/basic/input.html:3:4]
+ 3 | ad>
+ 4 |     <title>Document</title>
+   :     ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/comment/basic/input.html:4:5]
- 4 | <title>Document</title>
-   : ^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/comment/basic/input.html:3:4]
+ 3 | ad>
+ 4 |     <title>Document</title>
+   :     ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/comment/basic/input.html:4:5]
- 4 | <title>Document</title>
-   :        ^^^^^^^^
+   ,-[$DIR/tests/fixture/comment/basic/input.html:3:4]
+ 3 | ad>
+ 4 |     <title>Document</title>
+   :            ^^^^^^^^
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/comment/basic/input.html:4:5]
- 4 | <title>Document</title>
-   :        ^^^^^^^^
+   ,-[$DIR/tests/fixture/comment/basic/input.html:3:4]
+ 3 | ad>
+ 4 |     <title>Document</title>
+   :            ^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/comment/basic/input.html:4:5]
- 4 | <title>Document</title>
-   :                        ^
+   ,-[$DIR/tests/fixture/comment/basic/input.html:3:4]
+ 3 | ad>
+ 4 |     <title>Document</title>
+   :                            ^
  5 | </head>
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/comment/basic/input.html:4:5]
- 4 | <title>Document</title>
-   :                        ^
+   ,-[$DIR/tests/fixture/comment/basic/input.html:3:4]
+ 3 | ad>
+ 4 |     <title>Document</title>
+   :                            ^
  5 | </head>
    `----
 
@@ -169,7 +175,7 @@
  14 | |   <script>alert('<!-- foo -->')</script>
  15 | |   <script>alert('-->')</script>
  16 | |   </body>
- 17 | `-> </html>
+ 17 | |   </html>
     `----
 
   x Element
@@ -185,7 +191,7 @@
  14 | |   <script>alert('<!-- foo -->')</script>
  15 | |   <script>alert('-->')</script>
  16 | |   </body>
- 17 | `-> </html>
+ 17 | |   </html>
     `----
 
   x Child
@@ -434,12 +440,12 @@
     ,-[$DIR/tests/fixture/comment/basic/input.html:15:1]
  15 | ,-> <script>alert('-->')</script>
  16 | |   </body>
- 17 | `-> </html>
+ 17 | |   </html>
     `----
 
   x Text
     ,-[$DIR/tests/fixture/comment/basic/input.html:15:1]
  15 | ,-> <script>alert('-->')</script>
  16 | |   </body>
- 17 | `-> </html>
+ 17 | |   </html>
     `----
