@@ -1012,7 +1012,7 @@ impl SourceMap {
         prefix_sum
     }
 
-    fn get_extra_bytes(&self, map: &SourceFile, prefix_sum: &Vec<u32>, bpos: BytePos) -> u32 {
+    fn get_extra_bytes(&self, map: &SourceFile, prefix_sum: &[u32], bpos: BytePos) -> u32 {
         let point = map.multibyte_chars.partition_point(|x| x.pos.0 < bpos.0);
         if point == 0 {
             0
@@ -1252,7 +1252,7 @@ impl SourceMap {
             let cache = match cache_map.get(&f.name) {
                 Some(cache) => cache,
                 None => {
-                    let cache = self.pre_calc_extra_bytes(&f);
+                    let cache = self.pre_calc_extra_bytes(f);
                     cache_map.insert(f.name.clone(), cache);
                     // SAFETY: we insert it above
                     cache_map.get(&f.name).unwrap()
