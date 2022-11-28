@@ -111,7 +111,7 @@ impl SourceCode for MietteSourceCode<'_> {
                 let lo = src.len() - src.trim_start().len();
                 let hi = src.len() - src.trim_end().len();
 
-                span.lo.0 -= lo as u32;
+                span.lo.0 += lo as u32;
                 span.hi.0 -= hi as u32;
 
                 span
