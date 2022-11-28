@@ -167,7 +167,7 @@
             }), exports.default = function() {
                 return {
                     mountedInstances: new Set(),
-                    updateHead (head) {
+                    updateHead: (head)=>{
                         const tags = {};
                         head.forEach((h)=>{
                             if ("link" === h.type && h.props["data-optimized-fonts"]) {
