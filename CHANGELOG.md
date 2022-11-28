@@ -7,6 +7,12 @@
 
 - **(ci)** Fix publish action for binaries (#6517) ([2ac3201](https://github.com/swc-project/swc/commit/2ac32017bad112956a781b0d003782988655409c))
 
+### Testing
+
+
+
+- **(es/transforms)** Add tests about preserving top-level directives (#6518) ([5ff87af](https://github.com/swc-project/swc/commit/5ff87afa78e5bb56f2b03678577279256c18e4da))
+
 ## [1.3.20] - 2022-11-26
 
 ### Bug Fixes
