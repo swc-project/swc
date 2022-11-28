@@ -1,7 +1,8 @@
 //// [file.tsx]
 //! 
 //!   x Expression expected
-//!     ,-[8:1]
+//!     ,-[7:1]
+//!   7 | }
 //!   8 | declare var React: any;
 //!   9 | 
 //!  10 | <>hi</div> // Error

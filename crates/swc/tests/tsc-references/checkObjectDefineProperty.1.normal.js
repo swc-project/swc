@@ -68,4 +68,5 @@ module.exports = x;
 //!    : ^^^^^^^^^^^^^^^^^^^^^^^^^
 //!  3 | x.name;
 //!  4 | x.middleInit;
+//!  5 | x.lastName;
 //!    `----

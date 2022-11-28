@@ -3,6 +3,6 @@
 //!   x An object member cannot be declared optional
 //!    ,-[1:1]
 //!  1 | var greet = "hello";
-//!  2 | var obj = { greet? }; 
+//!  2 | var obj = { greet? };
 //!    :                  ^
 //!    `----

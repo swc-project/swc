@@ -6,10 +6,13 @@
 //!  2 |     abstract foo();
 //!    :     ^^^^^^^^^^^^^^^
 //!  3 | }
+//!  4 | 
+//!  5 | class B {
 //!    `----
 //! 
 //!   x Abstract method cannot have an implementation.
-//!    ,-[4:1]
+//!    ,-[3:1]
+//!  3 | }
 //!  4 | 
 //!  5 | class B {
 //!  6 |     abstract foo() {}
@@ -18,7 +21,8 @@
 //!    `----
 //! 
 //!   x Abstract methods can only appear within an abstract class.
-//!    ,-[4:1]
+//!    ,-[3:1]
+//!  3 | }
 //!  4 | 
 //!  5 | class B {
 //!  6 |     abstract foo() {}

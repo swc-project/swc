@@ -8,10 +8,12 @@
 //!    :       ^^^
 //!  4 | class number { }
 //!  5 | class boolean { }
+//!  6 | class string { }
 //!    `----
 //! 
 //!   x Invalid class name
-//!    ,-[2:1]
+//!    ,-[1:1]
+//!  1 | // classes cannot use predefined types as names
 //!  2 | 
 //!  3 | class any { }
 //!  4 | class number { }
@@ -30,7 +32,8 @@
 //!    `----
 //! 
 //!   x Invalid class name
-//!    ,-[4:1]
+//!    ,-[3:1]
+//!  3 | class any { }
 //!  4 | class number { }
 //!  5 | class boolean { }
 //!  6 | class string { }

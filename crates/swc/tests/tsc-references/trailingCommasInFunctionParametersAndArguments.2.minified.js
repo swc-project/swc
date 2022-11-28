@@ -8,10 +8,12 @@
 //!    :                    ^
 //!  7 | 
 //!  8 | // Allowed for ambient declarations
+//!  9 | declare function f25(...args,): void;
 //!    `----
 //! 
 //!   x Trailing comma isn't permitted after a rest element
-//!     ,-[7:1]
+//!     ,-[6:1]
+//!   6 | function f2(...args,) {}
 //!   7 | 
 //!   8 | // Allowed for ambient declarations
 //!   9 | declare function f25(...args,): void;

@@ -1,7 +1,8 @@
 //// [shadowedInternalModule.ts]
 //! 
 //!   x the name `Y` is defined multiple times
-//!     ,-[28:1]
+//!     ,-[27:1]
+//!  27 | }
 //!  28 | 
 //!  29 | module Z {
 //!  30 |     import Y = X.Y;

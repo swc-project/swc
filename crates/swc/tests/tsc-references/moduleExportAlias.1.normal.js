@@ -7,6 +7,7 @@
 //!    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 //!  2 | b.func1;
 //!  3 | b.func2;
+//!  4 | b.func3;
 //!    `----
 //// [b.js]
 var exportsAlias = exports;

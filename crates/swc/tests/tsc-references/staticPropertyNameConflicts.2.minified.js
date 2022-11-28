@@ -18,13 +18,16 @@
 //!  145 | |->     }
 //!      : `---- exported more than once
 //!  146 |     }
+//!  147 |     
+//!  148 |     // prototype
 //!      `----
 //! 
 //! Error: 
 //!   > Exported identifiers must be unique
 //! 
 //!   x the name `default` is exported multiple times
-//!      ,-[140:1]
+//!      ,-[139:1]
+//!  139 |     }
 //!  140 |     
 //!  141 |     module TestOnDefaultExportedClass_4 {
 //!  142 | ,->     export default class StaticLengthFn {
@@ -42,6 +45,8 @@
 //!  153 | |->     }
 //!      : `---- exported more than once
 //!  154 |     }
+//!  155 |     
+//!  156 |     module TestOnDefaultExportedClass_6 {
 //!      `----
 //! 
 //! Error: 
@@ -65,13 +70,16 @@
 //!  160 | |->     }
 //!      : `---- exported more than once
 //!  161 |     }
+//!  162 |     
+//!  163 |     // caller
 //!      `----
 //! 
 //! Error: 
 //!   > Exported identifiers must be unique
 //! 
 //!   x the name `default` is exported multiple times
-//!      ,-[155:1]
+//!      ,-[154:1]
+//!  154 |     }
 //!  155 |     
 //!  156 |     module TestOnDefaultExportedClass_6 {
 //!  157 | ,->     export default class StaticPrototypeFn {
@@ -89,6 +97,8 @@
 //!  168 | |->     }
 //!      : `---- exported more than once
 //!  169 |     }
+//!  170 |     
+//!  171 |     module TestOnDefaultExportedClass_8 {
 //!      `----
 //! 
 //! Error: 
@@ -112,13 +122,16 @@
 //!  175 | |->     }
 //!      : `---- exported more than once
 //!  176 |     }
+//!  177 |     
+//!  178 |     // arguments
 //!      `----
 //! 
 //! Error: 
 //!   > Exported identifiers must be unique
 //! 
 //!   x the name `default` is exported multiple times
-//!      ,-[170:1]
+//!      ,-[169:1]
+//!  169 |     }
 //!  170 |     
 //!  171 |     module TestOnDefaultExportedClass_8 {
 //!  172 | ,->     export default class StaticCallerFn {
@@ -136,6 +149,8 @@
 //!  183 | |->     }
 //!      : `---- exported more than once
 //!  184 |     }
+//!  185 |     
+//!  186 |     module TestOnDefaultExportedClass_10 {
 //!      `----
 //! 
 //! Error: 

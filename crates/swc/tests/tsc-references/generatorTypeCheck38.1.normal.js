@@ -6,4 +6,5 @@
 //!    :     ^^^^^
 //!  2 | function* g() {
 //!  3 |     yield 0;
+//!  4 |     var v: typeof yield;
 //!    `----

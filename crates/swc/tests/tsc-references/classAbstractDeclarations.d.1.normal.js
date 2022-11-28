@@ -6,6 +6,8 @@
 //!  2 |     abstract constructor() {}
 //!    :                            ^
 //!  3 | }
+//!  4 | 
+//!  5 | declare abstract class AA {
 //!    `----
 //! 
 //!   x `abstract` modifier can only appear on a class or method declaration
@@ -14,4 +16,6 @@
 //!  2 |     abstract constructor() {}
 //!    :     ^^^^^^^^
 //!  3 | }
+//!  4 | 
+//!  5 | declare abstract class AA {
 //!    `----

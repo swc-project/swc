@@ -1,8 +1,7 @@
 //// [multipleDefaultExports03.ts]
 //! 
 //!   x the name `default` is exported multiple times
-//!    ,-[1:1]
-//!  1 |     
+//!    ,-[2:1]
 //!  2 | ,-> export default class C {
 //!  3 | |-> }
 //!    : `---- previous exported here

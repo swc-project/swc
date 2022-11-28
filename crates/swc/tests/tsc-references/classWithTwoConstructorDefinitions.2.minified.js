@@ -7,6 +7,8 @@
 //!  3 |     constructor(x) { } // error
 //!    :     ^^^^^^^^^^^^^^^^^^
 //!  4 | }
+//!  5 | 
+//!  6 | class D<T> {
 //!    `----
 //! 
 //!   x A class can only have one constructor

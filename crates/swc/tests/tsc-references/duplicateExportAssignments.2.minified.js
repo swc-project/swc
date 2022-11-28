@@ -9,7 +9,6 @@
 //!    :      `-- previous `export =` declared here
 //!  4 | export = y;
 //!    : ^^^^^^^^^^^
-//!  5 | 
 //!    `----
 //! 
 //!   x Export assignment cannot be used when targeting ECMAScript modules. Consider using `export default` or another module format instead.
@@ -31,7 +30,6 @@
 //!    :      `-- previous `export =` declared here
 //!  4 | export = y;
 //!    : ^^^^^^^^^^^
-//!  5 | 
 //!    `----
 //! 
 //!   x Export assignment cannot be used when targeting ECMAScript modules. Consider using `export default` or another module format instead.
@@ -45,7 +43,8 @@
 //// [foo3.ts]
 //! 
 //!   x multiple `export =` found
-//!    ,-[5:1]
+//!    ,-[4:1]
+//!  4 | class y {
 //!  5 | 	y: number;
 //!  6 | }
 //!  7 | export = x;
@@ -53,11 +52,11 @@
 //!    :      `-- previous `export =` declared here
 //!  8 | export = y;
 //!    : ^^^^^^^^^^^
-//!  9 | 
 //!    `----
 //! 
 //!   x Export assignment cannot be used when targeting ECMAScript modules. Consider using `export default` or another module format instead.
-//!    ,-[5:1]
+//!    ,-[4:1]
+//!  4 | class y {
 //!  5 | 	y: number;
 //!  6 | }
 //!  7 | export = x;
@@ -79,7 +78,6 @@
 //!  7 | }
 //!  8 | export = y;
 //!    : ^^^^^^^^^^^
-//!  9 | 
 //!    `----
 //! 
 //!   x Export assignment cannot be used when targeting ECMAScript modules. Consider using `export default` or another module format instead.
@@ -88,11 +86,13 @@
 //!    : ^^^^^^^^^^^
 //!  2 | function x(){
 //!  3 | 	return 42;
+//!  4 | }
 //!    `----
 //// [foo5.ts]
 //! 
 //!   x multiple `export =` found
-//!    ,-[2:1]
+//!    ,-[1:1]
+//!  1 | var x = 5;
 //!  2 | var y = "test";
 //!  3 | var z = {};
 //!  4 | export = x;
@@ -104,7 +104,8 @@
 //!    `----
 //! 
 //!   x multiple `export =` found
-//!    ,-[3:1]
+//!    ,-[2:1]
+//!  2 | var y = "test";
 //!  3 | var z = {};
 //!  4 | export = x;
 //!  5 | export = y;
@@ -115,7 +116,8 @@
 //!    `----
 //! 
 //!   x Export assignment cannot be used when targeting ECMAScript modules. Consider using `export default` or another module format instead.
-//!    ,-[2:1]
+//!    ,-[1:1]
+//!  1 | var x = 5;
 //!  2 | var y = "test";
 //!  3 | var z = {};
 //!  4 | export = x;

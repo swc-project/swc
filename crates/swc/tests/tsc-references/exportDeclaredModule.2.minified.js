@@ -1,12 +1,12 @@
 //// [foo1.ts]
 //! 
 //!   x Export assignment cannot be used when targeting ECMAScript modules. Consider using `export default` or another module format instead.
-//!    ,-[4:1]
+//!    ,-[3:5]
+//!  3 | export var a: string; 
 //!  4 | 	export function b(): number;
 //!  5 | }
 //!  6 | export = M1;
 //!    : ^^^^^^^^^^^^
-//!  7 | 
 //!    `----
 //// [foo2.ts]
 //! 

@@ -18,22 +18,25 @@
 //!    :       ^^^^^^
 //!  6 | 
 //!  7 | class boolean { }
-//!    `----
-//! 
-//!   x Invalid class name
-//!    ,-[5:1]
-//!  5 | class number { }
-//!  6 | 
-//!  7 | class boolean { }
-//!    :       ^^^^^^^
 //!  8 | class bool { } // not a predefined type anymore
 //!    `----
 //! 
 //!   x Invalid class name
-//!     ,-[8:1]
+//!     ,-[5:1]
+//!   5 | class number { }
+//!   6 | 
+//!   7 | class boolean { }
+//!     :       ^^^^^^^
+//!   8 | class bool { } // not a predefined type anymore
+//!   9 | 
+//!  10 | class string { }
+//!     `----
+//! 
+//!   x Invalid class name
+//!     ,-[7:1]
+//!   7 | class boolean { }
 //!   8 | class bool { } // not a predefined type anymore
 //!   9 | 
 //!  10 | class string { }
 //!     :       ^^^^^^
-//!  11 | 
 //!     `----

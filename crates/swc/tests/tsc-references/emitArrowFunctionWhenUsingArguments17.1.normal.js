@@ -1,7 +1,8 @@
 //// [emitArrowFunctionWhenUsingArguments17.ts]
 //! 
 //!   x 'eval' and 'arguments' cannot be used as a binding identifier in strict mode
-//!    ,-[5:1]
+//!    ,-[4:5]
+//!  4 | if (Math.random()) {
 //!  5 |         return () => arguments[0];
 //!  6 |     }
 //!  7 |     var arguments = "world";

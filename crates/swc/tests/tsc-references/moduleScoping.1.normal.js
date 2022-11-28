@@ -20,6 +20,7 @@ var v2 = [
 //!    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 //!  2 | var t1 = v1;
 //!  3 | var t2 = v2;
+//!  4 | var t3 = file3.v3;
 //!    `----
 //// [file5.ts]
 var x = v2; // Should be global v2 of type number again

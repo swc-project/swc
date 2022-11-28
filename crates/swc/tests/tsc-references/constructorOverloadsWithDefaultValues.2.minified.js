@@ -8,6 +8,7 @@
 //!    :                 ^^^^^
 //!  4 |     constructor() {
 //!  5 |     }
+//!  6 | }
 //!    `----
 //! 
 //!   x A parameter initializer is only allowed in a function or constructor implementation
@@ -18,4 +19,5 @@
 //!     :                 ^^^^^
 //!  11 |     constructor() {
 //!  12 |     }
+//!  13 | }
 //!     `----

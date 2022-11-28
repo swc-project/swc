@@ -7,4 +7,5 @@
 //!    :     ^^^^^^^^^^^^^^^^^^
 //!  3 | }
 //!  4 | class B extends A {
+//!  5 |     get p() { return 'oh no' } // error
 //!    `----

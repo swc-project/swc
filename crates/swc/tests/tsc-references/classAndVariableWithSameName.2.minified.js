@@ -10,10 +10,12 @@
 //!    :     `-- `C` redefined here
 //!  3 | 
 //!  4 | module M {
+//!  5 |     class D { // error
 //!    `----
 //! 
 //!   x the name `D` is defined multiple times
-//!     ,-[3:1]
+//!     ,-[2:1]
+//!   2 | var C = ''; // error
 //!   3 | 
 //!   4 | module M {
 //!   5 |     class D { // error

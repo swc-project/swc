@@ -22,6 +22,7 @@ export var prerendered3 = /*#__PURE__*/ React.createElement("h", null);
 //!    :   ^
 //!  4 | export * from "./other";
 //!  5 | export * from "./othernoalias";
+//!  6 | export * from "./reacty";
 //!    `----
 //! 
 //!   x Unexpected token `/`. Expected jsx identifier
@@ -32,4 +33,5 @@ export var prerendered3 = /*#__PURE__*/ React.createElement("h", null);
 //!    :     ^
 //!  4 | export * from "./other";
 //!  5 | export * from "./othernoalias";
+//!  6 | export * from "./reacty";
 //!    `----

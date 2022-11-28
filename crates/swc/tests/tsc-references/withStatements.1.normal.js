@@ -7,6 +7,7 @@
 //!    : ^^^^
 //!  3 |     name = 'twelve'
 //!  4 |     id = 12
+//!  5 | }
 //!    `----
 //! 
 //!   x With statement are not allowed in strict mode
@@ -16,4 +17,5 @@
 //!    : ^^^^
 //!  3 |     name = 'twelve'
 //!  4 |     id = 12
+//!  5 | }
 //!    `----

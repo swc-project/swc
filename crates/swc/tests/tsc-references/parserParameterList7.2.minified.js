@@ -7,6 +7,7 @@
 //!    :              ^^^^^^^^^^^^^^^^
 //!  3 |  constructor(private p2:number); // ERROR
 //!  4 |  constructor(public p3:any) {} // OK
+//!  5 | }
 //!    `----
 //! 
 //!   x A parameter property is only allowed in a constructor implementation

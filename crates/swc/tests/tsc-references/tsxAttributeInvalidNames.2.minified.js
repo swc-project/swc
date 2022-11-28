@@ -1,7 +1,8 @@
 //// [file.tsx]
 //! 
 //!   x Unexpected token `test1`. Expected jsx identifier
-//!     ,-[8:1]
+//!     ,-[7:1]
+//!   7 | }
 //!   8 | 
 //!   9 | // Invalid names
 //!  10 | <test1 32data={32} />;

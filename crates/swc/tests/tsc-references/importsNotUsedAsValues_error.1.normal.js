@@ -50,7 +50,6 @@ export { };
 //!  1 | class H {}
 //!  2 | export = H;
 //!    : ^^^^^^^^^^^
-//!  3 | 
 //!    `----
 //// [/i.ts]
 //! 
@@ -64,10 +63,9 @@ export { };
 //// [/j.ts]
 //! 
 //!   x Import assignment cannot be used when targeting ECMAScript modules. Consider using `import * as ns from "mod"`, `import {a} from "mod"`, `import d from "mod"`, or another module format instead.
-//!    ,-[1:1]
+//!    ,----
 //!  1 | import H = require('./h'); // noUnusedLocals error only
 //!    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
-//!  2 | 
 //!    `----
 //// [/k.ts]
 //! 
@@ -76,7 +74,6 @@ export { };
 //!  1 | const enum K { One, Two }
 //!  2 | export = K;
 //!    : ^^^^^^^^^^^
-//!  3 | 
 //!    `----
 //// [/l.ts]
 //! 
