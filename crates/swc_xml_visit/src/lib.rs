@@ -26,7 +26,7 @@ define!({
         DocumentType(DocumentType),
         Element(Element),
         Text(Text),
-        CDATASection(CDATASection),
+        CdataSection(CdataSection),
         Comment(Comment),
         ProcessingInstruction(ProcessingInstruction),
     }
@@ -71,7 +71,7 @@ define!({
         pub raw: Option<JsWord>,
     }
 
-    pub struct CDATASection {
+    pub struct CdataSection {
         pub span: Span,
         pub data: JsWord,
         pub raw: Option<JsWord>,

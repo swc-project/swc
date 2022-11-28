@@ -1,0 +1,6 @@
+
+  x Unexpected token in end phase
+   ,-[$DIR/tests/recovery/cdata-after/input.xml:4:1]
+ 4 | <![CDATA[content]]>
+   : ^^^^^^^^^^^^^^^^^^^
+   `----
