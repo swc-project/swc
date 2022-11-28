@@ -100,7 +100,7 @@ impl SourceCode for MietteSourceCode<'_> {
                     .map(|s| s.len())
                     .sum::<usize>();
 
-                span.lo.0 -= len as u32;
+                span.hi.0 += len as u32;
                 span
             })
             .unwrap_or(span);
