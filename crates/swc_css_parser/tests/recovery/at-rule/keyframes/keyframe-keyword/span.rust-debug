@@ -7,7 +7,7 @@
  4 | |   
  5 | |   @keyframes foo {
  6 | |   	ot {}
- 7 | |   }
+ 7 | `-> }
    `----
 
   x Rule
@@ -108,49 +108,56 @@
    `----
 
   x Rule
-   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:5:1]
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:4:1]
+ 4 |     
  5 | ,-> @keyframes foo {
  6 | |   	ot {}
  7 | `-> }
    `----
 
   x AtRule
-   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:5:1]
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:4:1]
+ 4 |     
  5 | ,-> @keyframes foo {
  6 | |   	ot {}
  7 | `-> }
    `----
 
   x AtRuleName
-   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:5:1]
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:4:1]
+ 4 | 
  5 | @keyframes foo {
    :  ^^^^^^^^^
  6 | 	ot {}
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:5:1]
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:4:1]
+ 4 | 
  5 | @keyframes foo {
    :  ^^^^^^^^^
  6 | 	ot {}
    `----
 
   x CustomIdent
-   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:5:1]
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:4:1]
+ 4 | 
  5 | @keyframes foo {
    :            ^^^
  6 | 	ot {}
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:5:1]
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:4:1]
+ 4 |     
  5 | ,-> @keyframes foo {
  6 | |   	ot {}
  7 | `-> }
    `----
 
   x LBrace
-   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:5:1]
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:4:1]
+ 4 | 
  5 | @keyframes foo {
    :                ^
  6 | 	ot {}

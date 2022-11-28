@@ -9,6 +9,7 @@
 //!    :      `-- previous `export =` declared here
 //!  4 | export = y;
 //!    : ^^^^^^^^^^^
+//!  5 | 
 //!    `----
 //! 
 //!   x Export assignment cannot be used when targeting ECMAScript modules. Consider using `export default` or another module format instead.
@@ -18,6 +19,7 @@
 //!  3 | export = x;
 //!    : ^^^^^^^^^^^
 //!  4 | export = y;
+//!  5 | 
 //!    `----
 //// [foo2.ts]
 //! 
@@ -30,6 +32,7 @@
 //!    :      `-- previous `export =` declared here
 //!  4 | export = y;
 //!    : ^^^^^^^^^^^
+//!  5 | 
 //!    `----
 //! 
 //!   x Export assignment cannot be used when targeting ECMAScript modules. Consider using `export default` or another module format instead.
@@ -39,6 +42,7 @@
 //!  3 | export = x;
 //!    : ^^^^^^^^^^^
 //!  4 | export = y;
+//!  5 | 
 //!    `----
 //// [foo3.ts]
 //! 
@@ -52,6 +56,7 @@
 //!    :      `-- previous `export =` declared here
 //!  8 | export = y;
 //!    : ^^^^^^^^^^^
+//!  9 | 
 //!    `----
 //! 
 //!   x Export assignment cannot be used when targeting ECMAScript modules. Consider using `export default` or another module format instead.
@@ -62,6 +67,7 @@
 //!  7 | export = x;
 //!    : ^^^^^^^^^^^
 //!  8 | export = y;
+//!  9 | 
 //!    `----
 //// [foo4.ts]
 //! 
@@ -78,6 +84,7 @@
 //!  7 | }
 //!  8 | export = y;
 //!    : ^^^^^^^^^^^
+//!  9 | 
 //!    `----
 //! 
 //!   x Export assignment cannot be used when targeting ECMAScript modules. Consider using `export default` or another module format instead.

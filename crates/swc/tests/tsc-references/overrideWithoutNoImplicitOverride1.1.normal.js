@@ -1,7 +1,8 @@
 //// [overrideWithoutNoImplicitOverride1.ts]
 //! 
 //!   x This member cannot have an 'override' modifier because its containing class does not extend another class.
-//!    ,-[2:1]
+//!    ,-[1:1]
+//!  1 | 
 //!  2 | export declare class AmbientClass {
 //!  3 |     override yadda(): void;
 //!    :     ^^^^^^^^

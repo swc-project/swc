@@ -148,40 +148,40 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/attribute/quotes-in-meta/input.html:4:5]
- 4 | <meta http-equiv="Content-Type" content='charset="windows-1251'>
+   ,-[$DIR/tests/fixture/attribute/quotes-in-meta/input.html:4:1]
+ 4 |     <meta http-equiv="Content-Type" content='charset="windows-1251'>
  5 |     <title>Document</title>
    :     ^^^^^^^^^^^^^^^^^^^^^^^
  6 | </head>
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/attribute/quotes-in-meta/input.html:4:5]
- 4 | <meta http-equiv="Content-Type" content='charset="windows-1251'>
+   ,-[$DIR/tests/fixture/attribute/quotes-in-meta/input.html:4:1]
+ 4 |     <meta http-equiv="Content-Type" content='charset="windows-1251'>
  5 |     <title>Document</title>
    :     ^^^^^^^^^^^^^^^^^^^^^^^
  6 | </head>
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/attribute/quotes-in-meta/input.html:4:5]
- 4 | <meta http-equiv="Content-Type" content='charset="windows-1251'>
+   ,-[$DIR/tests/fixture/attribute/quotes-in-meta/input.html:4:1]
+ 4 |     <meta http-equiv="Content-Type" content='charset="windows-1251'>
  5 |     <title>Document</title>
    :            ^^^^^^^^
  6 | </head>
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/attribute/quotes-in-meta/input.html:4:5]
- 4 | <meta http-equiv="Content-Type" content='charset="windows-1251'>
+   ,-[$DIR/tests/fixture/attribute/quotes-in-meta/input.html:4:1]
+ 4 |     <meta http-equiv="Content-Type" content='charset="windows-1251'>
  5 |     <title>Document</title>
    :            ^^^^^^^^
  6 | </head>
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/attribute/quotes-in-meta/input.html:4:5]
- 4 | <meta http-equiv="Content-Type" content='charset="windows-1251'>
+   ,-[$DIR/tests/fixture/attribute/quotes-in-meta/input.html:4:1]
+ 4 |     <meta http-equiv="Content-Type" content='charset="windows-1251'>
  5 |     <title>Document</title>
    :                            ^
  6 | </head>
@@ -189,8 +189,8 @@
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/attribute/quotes-in-meta/input.html:4:5]
- 4 | <meta http-equiv="Content-Type" content='charset="windows-1251'>
+   ,-[$DIR/tests/fixture/attribute/quotes-in-meta/input.html:4:1]
+ 4 |     <meta http-equiv="Content-Type" content='charset="windows-1251'>
  5 |     <title>Document</title>
    :                            ^
  6 | </head>
@@ -198,8 +198,8 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/attribute/quotes-in-meta/input.html:5:5]
- 5 | <title>Document</title>
+   ,-[$DIR/tests/fixture/attribute/quotes-in-meta/input.html:5:1]
+ 5 |     <title>Document</title>
  6 | </head>
    :        ^
  7 | <body>
@@ -207,8 +207,8 @@
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/attribute/quotes-in-meta/input.html:5:5]
- 5 | <title>Document</title>
+   ,-[$DIR/tests/fixture/attribute/quotes-in-meta/input.html:5:1]
+ 5 |     <title>Document</title>
  6 | </head>
    :        ^
  7 | <body>

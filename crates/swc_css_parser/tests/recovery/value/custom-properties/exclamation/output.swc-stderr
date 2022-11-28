@@ -14,8 +14,8 @@
    `----
 
   x Unexpected '!' in <declaration-value>
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:9:5]
-  9 | color: red;
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:9:1]
+  9 |     color: red;
  10 |     --foo:!;
     :           ^
  11 | }
@@ -30,8 +30,8 @@
     `----
 
   x Unexpected '!' in <declaration-value>
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:19:5]
- 19 | --foo: bar;
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:19:1]
+ 19 |     --foo: bar;
  20 |     --foo: !;
     :            ^
  21 | }

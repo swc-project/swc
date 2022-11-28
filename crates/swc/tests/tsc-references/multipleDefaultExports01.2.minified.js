@@ -22,7 +22,8 @@
 //!   > Exported identifiers must be unique
 //! 
 //!   x the name `default` is exported multiple times
-//!     ,-[3:1]
+//!     ,-[2:1]
+//!   2 |     
 //!   3 |     }
 //!   4 |     
 //!   5 | ,-> export default function bar() {
@@ -34,6 +35,7 @@
 //!  10 | ,-> export default x;
 //!     : | ^^^^^^^^|^^^^^^^^
 //!     : |         `-- exported more than once
+//!  11 |     
 //!     `----
 //! 
 //! Error: 

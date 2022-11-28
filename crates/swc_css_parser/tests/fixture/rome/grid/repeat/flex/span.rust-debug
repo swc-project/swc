@@ -3,7 +3,7 @@
    ,-[$DIR/tests/fixture/rome/grid/repeat/flex/input.css:1:1]
  1 | ,-> .style {
  2 | |   	grid-template-columns: repeat(4, 1fr);
- 3 | |   }
+ 3 | `-> }
    `----
 
   x Rule

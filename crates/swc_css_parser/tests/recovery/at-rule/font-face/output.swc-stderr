@@ -1,8 +1,8 @@
 
   x Expected ":"
-   ,-[$DIR/tests/recovery/at-rule/font-face/input.css:2:5]
- 2 | invalid
-   :         ^
+   ,-[$DIR/tests/recovery/at-rule/font-face/input.css:2:1]
+ 2 |     invalid
+   :             ^
  3 | }
    : ^
    `----
@@ -16,13 +16,15 @@
    `----
 
   x Expected '{' token
-    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:17:1]
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:16:1]
+ 16 | 
  17 | @font-face foo {}
     :            ^^^
     `----
 
   x Expected '{' token
-    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:19:1]
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:18:1]
+ 18 | 
  19 | @font-face foo;
     :            ^^^
     `----

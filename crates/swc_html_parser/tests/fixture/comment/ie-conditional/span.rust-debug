@@ -12,7 +12,7 @@
   9 | |   <!--[if IE 9]>This is IE 9<br><![endif]-->
  10 | |   
  11 | |   </body>
- 12 | |   </html>
+ 12 | `-> </html>
     `----
 
   x Child
@@ -42,7 +42,7 @@
   9 | |   <!--[if IE 9]>This is IE 9<br><![endif]-->
  10 | |   
  11 | |   </body>
- 12 | |   </html>
+ 12 | `-> </html>
     `----
 
   x Element
@@ -58,7 +58,7 @@
   9 | |   <!--[if IE 9]>This is IE 9<br><![endif]-->
  10 | |   
  11 | |   </body>
- 12 | |   </html>
+ 12 | `-> </html>
     `----
 
   x Child
@@ -77,7 +77,7 @@
   9 | |   <!--[if IE 9]>This is IE 9<br><![endif]-->
  10 | |   
  11 | |   </body>
- 12 | |   </html>
+ 12 | `-> </html>
     `----
 
   x Element
@@ -92,7 +92,7 @@
   9 | |   <!--[if IE 9]>This is IE 9<br><![endif]-->
  10 | |   
  11 | |   </body>
- 12 | |   </html>
+ 12 | `-> </html>
     `----
 
   x Child
@@ -114,21 +114,24 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/comment/ie-conditional/input.html:5:1]
+   ,-[$DIR/tests/fixture/comment/ie-conditional/input.html:4:1]
+ 4 | 
  5 | <!--[if IE 5]>This is IE 5<br><![endif]-->
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  6 | <!--[if IE 6]>This is IE 6<br><![endif]-->
    `----
 
   x Comment
-   ,-[$DIR/tests/fixture/comment/ie-conditional/input.html:5:1]
+   ,-[$DIR/tests/fixture/comment/ie-conditional/input.html:4:1]
+ 4 | 
  5 | <!--[if IE 5]>This is IE 5<br><![endif]-->
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  6 | <!--[if IE 6]>This is IE 6<br><![endif]-->
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/comment/ie-conditional/input.html:5:1]
+   ,-[$DIR/tests/fixture/comment/ie-conditional/input.html:4:1]
+ 4 | 
  5 | <!--[if IE 5]>This is IE 5<br><![endif]-->
    :                                           ^
  6 | <!--[if IE 6]>This is IE 6<br><![endif]-->
@@ -136,7 +139,8 @@
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/comment/ie-conditional/input.html:5:1]
+   ,-[$DIR/tests/fixture/comment/ie-conditional/input.html:4:1]
+ 4 | 
  5 | <!--[if IE 5]>This is IE 5<br><![endif]-->
    :                                           ^
  6 | <!--[if IE 6]>This is IE 6<br><![endif]-->
@@ -263,7 +267,7 @@
   9 | ,-> <!--[if IE 9]>This is IE 9<br><![endif]-->
  10 | |   
  11 | |   </body>
- 12 | |   </html>
+ 12 | `-> </html>
     `----
 
   x Text
@@ -272,5 +276,5 @@
   9 | ,-> <!--[if IE 9]>This is IE 9<br><![endif]-->
  10 | |   
  11 | |   </body>
- 12 | |   </html>
+ 12 | `-> </html>
     `----

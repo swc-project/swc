@@ -71,48 +71,48 @@
    `----
 
   x TsEnumMember
-   ,-[$DIR/tests/span/ts/type/enum.ts:2:5]
- 2 | A,
+   ,-[$DIR/tests/span/ts/type/enum.ts:2:1]
+ 2 |     A,
  3 |     B = 1,
    :     ^^^^^
  4 | }
    `----
 
   x TsEnumMemberId
-   ,-[$DIR/tests/span/ts/type/enum.ts:2:5]
- 2 | A,
+   ,-[$DIR/tests/span/ts/type/enum.ts:2:1]
+ 2 |     A,
  3 |     B = 1,
    :     ^
  4 | }
    `----
 
   x Ident
-   ,-[$DIR/tests/span/ts/type/enum.ts:2:5]
- 2 | A,
+   ,-[$DIR/tests/span/ts/type/enum.ts:2:1]
+ 2 |     A,
  3 |     B = 1,
    :     ^
  4 | }
    `----
 
   x Expr
-   ,-[$DIR/tests/span/ts/type/enum.ts:2:5]
- 2 | A,
+   ,-[$DIR/tests/span/ts/type/enum.ts:2:1]
+ 2 |     A,
  3 |     B = 1,
    :         ^
  4 | }
    `----
 
   x Lit
-   ,-[$DIR/tests/span/ts/type/enum.ts:2:5]
- 2 | A,
+   ,-[$DIR/tests/span/ts/type/enum.ts:2:1]
+ 2 |     A,
  3 |     B = 1,
    :         ^
  4 | }
    `----
 
   x Number
-   ,-[$DIR/tests/span/ts/type/enum.ts:2:5]
- 2 | A,
+   ,-[$DIR/tests/span/ts/type/enum.ts:2:1]
+ 2 |     A,
  3 |     B = 1,
    :         ^
  4 | }

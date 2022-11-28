@@ -17,7 +17,7 @@
  14 | |   <script>alert('<!-- foo -->')</script>
  15 | |   <script>alert('-->')</script>
  16 | |   </body>
- 17 | |   </html>
+ 17 | `-> </html>
     `----
 
   x Child
@@ -52,7 +52,7 @@
  14 | |   <script>alert('<!-- foo -->')</script>
  15 | |   <script>alert('-->')</script>
  16 | |   </body>
- 17 | |   </html>
+ 17 | `-> </html>
     `----
 
   x Element
@@ -73,7 +73,7 @@
  14 | |   <script>alert('<!-- foo -->')</script>
  15 | |   <script>alert('-->')</script>
  16 | |   </body>
- 17 | |   </html>
+ 17 | `-> </html>
     `----
 
   x Attribute
@@ -169,8 +169,8 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/comment/basic/input.html:4:5]
- 4 | <title>Document</title>
+   ,-[$DIR/tests/fixture/comment/basic/input.html:4:1]
+ 4 |     <title>Document</title>
  5 | </head>
    :        ^
  6 | <body>
@@ -178,8 +178,8 @@
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/comment/basic/input.html:4:5]
- 4 | <title>Document</title>
+   ,-[$DIR/tests/fixture/comment/basic/input.html:4:1]
+ 4 |     <title>Document</title>
  5 | </head>
    :        ^
  6 | <body>
@@ -200,7 +200,7 @@
  14 | |   <script>alert('<!-- foo -->')</script>
  15 | |   <script>alert('-->')</script>
  16 | |   </body>
- 17 | |   </html>
+ 17 | `-> </html>
     `----
 
   x Element
@@ -217,7 +217,7 @@
  14 | |   <script>alert('<!-- foo -->')</script>
  15 | |   <script>alert('-->')</script>
  16 | |   </body>
- 17 | |   </html>
+ 17 | `-> </html>
     `----
 
   x Child
@@ -267,43 +267,50 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/comment/basic/input.html:9:1]
+   ,-[$DIR/tests/fixture/comment/basic/input.html:8:1]
+ 8 | 
  9 | <!-- foo --><div>baz</div><!-- bar
    : ^^^^^^^^^^^^
    `----
 
   x Comment
-   ,-[$DIR/tests/fixture/comment/basic/input.html:9:1]
+   ,-[$DIR/tests/fixture/comment/basic/input.html:8:1]
+ 8 | 
  9 | <!-- foo --><div>baz</div><!-- bar
    : ^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/comment/basic/input.html:9:1]
+   ,-[$DIR/tests/fixture/comment/basic/input.html:8:1]
+ 8 | 
  9 | <!-- foo --><div>baz</div><!-- bar
    :             ^^^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/comment/basic/input.html:9:1]
+   ,-[$DIR/tests/fixture/comment/basic/input.html:8:1]
+ 8 | 
  9 | <!-- foo --><div>baz</div><!-- bar
    :             ^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/comment/basic/input.html:9:1]
+   ,-[$DIR/tests/fixture/comment/basic/input.html:8:1]
+ 8 | 
  9 | <!-- foo --><div>baz</div><!-- bar
    :                  ^^^
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/comment/basic/input.html:9:1]
+   ,-[$DIR/tests/fixture/comment/basic/input.html:8:1]
+ 8 | 
  9 | <!-- foo --><div>baz</div><!-- bar
    :                  ^^^
    `----
 
   x Child
-    ,-[$DIR/tests/fixture/comment/basic/input.html:9:1]
+    ,-[$DIR/tests/fixture/comment/basic/input.html:8:1]
+  8 |     
   9 | ,-> <!-- foo --><div>baz</div><!-- bar
  10 | |   
  11 | `-> moo -->
@@ -311,7 +318,8 @@
     `----
 
   x Comment
-    ,-[$DIR/tests/fixture/comment/basic/input.html:9:1]
+    ,-[$DIR/tests/fixture/comment/basic/input.html:8:1]
+  8 |     
   9 | ,-> <!-- foo --><div>baz</div><!-- bar
  10 | |   
  11 | `-> moo -->
@@ -319,7 +327,8 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/comment/basic/input.html:11:1]
+    ,-[$DIR/tests/fixture/comment/basic/input.html:10:1]
+ 10 | 
  11 | moo -->
     :        ^
  12 | <script><!-- alert(1) --></script>
@@ -327,7 +336,8 @@
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/comment/basic/input.html:11:1]
+    ,-[$DIR/tests/fixture/comment/basic/input.html:10:1]
+ 10 | 
  11 | moo -->
     :        ^
  12 | <script><!-- alert(1) --></script>
@@ -521,7 +531,7 @@
  14 |     <script>alert('<!-- foo -->')</script>
  15 | ,-> <script>alert('-->')</script>
  16 | |   </body>
- 17 | |   </html>
+ 17 | `-> </html>
     `----
 
   x Text
@@ -529,5 +539,5 @@
  14 |     <script>alert('<!-- foo -->')</script>
  15 | ,-> <script>alert('-->')</script>
  16 | |   </body>
- 17 | |   </html>
+ 17 | `-> </html>
     `----

@@ -1,6 +1,7 @@
 
   x Expected '{'
-    ,-[$DIR/tests/recovery/hacks/input.css:13:1]
+    ,-[$DIR/tests/recovery/hacks/input.css:12:1]
+ 12 | 
  13 | .selector { (;property: value;); }
     :                                ^
  14 | .selector { [;property: value;]; }
@@ -158,7 +159,8 @@
      `----
 
   x Expected '{'
-     ,-[$DIR/tests/recovery/hacks/input.css:204:1]
+     ,-[$DIR/tests/recovery/hacks/input.css:203:1]
+ 203 | 
  204 | .selector { (;property: value;); }
      :                                ^
  205 | .selector { [;property: value;]; }
@@ -172,7 +174,8 @@
      `----
 
   x Expected '{'
-     ,-[$DIR/tests/recovery/hacks/input.css:225:1]
+     ,-[$DIR/tests/recovery/hacks/input.css:224:1]
+ 224 | 
  225 | .selector { (;property: value;); }
      :                                ^
  226 | .selector { [;property: value;]; }
@@ -194,15 +197,16 @@
      `----
 
   x Expected '{'
-     ,-[$DIR/tests/recovery/hacks/input.css:246:5]
- 246 | font-size/**/: big;
+     ,-[$DIR/tests/recovery/hacks/input.css:246:1]
+ 246 |     font-size/**/: big;
  247 |     $(var)-size: 100%;
      :                      ^
  248 | }
      `----
 
   x Expected Declaration value
-     ,-[$DIR/tests/recovery/hacks/input.css:180:1]
+     ,-[$DIR/tests/recovery/hacks/input.css:179:1]
+ 179 | 
  180 | .selector { property: value !ie; }
      :                             ^
      `----
@@ -216,19 +220,22 @@
      `----
 
   x Unexpected '!' in <declaration-value>
-     ,-[$DIR/tests/recovery/hacks/input.css:180:1]
+     ,-[$DIR/tests/recovery/hacks/input.css:179:1]
+ 179 | 
  180 | .selector { property: value !ie; }
      :                             ^
      `----
 
   x Unexpected end of file, but expected '{'
-     ,-[$DIR/tests/recovery/hacks/input.css:250:1]
+     ,-[$DIR/tests/recovery/hacks/input.css:249:1]
+ 249 | 
  250 | a{*b:c}
      :   ^^^^
      `----
 
   x Unexpected token
-    ,-[$DIR/tests/recovery/hacks/input.css:13:1]
+    ,-[$DIR/tests/recovery/hacks/input.css:12:1]
+ 12 | 
  13 | .selector { (;property: value;); }
     :             ^
  14 | .selector { [;property: value;]; }
@@ -386,7 +393,8 @@
      `----
 
   x Unexpected token
-     ,-[$DIR/tests/recovery/hacks/input.css:204:1]
+     ,-[$DIR/tests/recovery/hacks/input.css:203:1]
+ 203 | 
  204 | .selector { (;property: value;); }
      :             ^
  205 | .selector { [;property: value;]; }
@@ -400,7 +408,8 @@
      `----
 
   x Unexpected token
-     ,-[$DIR/tests/recovery/hacks/input.css:225:1]
+     ,-[$DIR/tests/recovery/hacks/input.css:224:1]
+ 224 | 
  225 | .selector { (;property: value;); }
      :             ^
  226 | .selector { [;property: value;]; }
@@ -422,27 +431,30 @@
      `----
 
   x Unexpected token
-     ,-[$DIR/tests/recovery/hacks/input.css:246:5]
- 246 | font-size/**/: big;
+     ,-[$DIR/tests/recovery/hacks/input.css:246:1]
+ 246 |     font-size/**/: big;
  247 |     $(var)-size: 100%;
      :     ^
  248 | }
      `----
 
   x Unexpected token
-     ,-[$DIR/tests/recovery/hacks/input.css:250:1]
+     ,-[$DIR/tests/recovery/hacks/input.css:249:1]
+ 249 | 
  250 | a{*b:c}
      :   ^
      `----
 
   x Unexpected tokens in at-rule prelude
-    ,-[$DIR/tests/recovery/hacks/input.css:16:1]
+    ,-[$DIR/tests/recovery/hacks/input.css:15:1]
+ 15 | 
  16 | @media \\0 screen {}
     :            ^^^^^^
     `----
 
   x Unexpected tokens in at-rule prelude
-     ,-[$DIR/tests/recovery/hacks/input.css:241:1]
+     ,-[$DIR/tests/recovery/hacks/input.css:240:1]
+ 240 | 
  241 | @media \\0 screen {}
      :            ^^^^^^
      `----

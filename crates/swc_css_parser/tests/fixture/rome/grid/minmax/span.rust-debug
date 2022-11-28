@@ -3,7 +3,7 @@
    ,-[$DIR/tests/fixture/rome/grid/minmax/input.css:1:1]
  1 | ,-> .style {
  2 | |   	grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
- 3 | |   }
+ 3 | `-> }
    `----
 
   x Rule

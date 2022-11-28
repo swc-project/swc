@@ -32,7 +32,8 @@
 //!    `----
 //! 
 //!   x private names are not allowed in interface
-//!     ,-[6:1]
+//!     ,-[5:1]
+//!   5 | 
 //!   6 | interface B {
 //!   7 |     #foo: string;
 //!   8 |     #bar(): string;
@@ -67,8 +68,8 @@
 //!     `----
 //! 
 //!   x private names are not allowed in interface
-//!     ,-[12:5]
-//!  12 | #foo: number;
+//!     ,-[12:1]
+//!  12 |     #foo: number;
 //!  13 |     bar: {
 //!  14 |         #baz: string;
 //!  15 |         #taz(): string;
@@ -79,8 +80,8 @@
 //!     `----
 //! 
 //!   x private names are not allowed in interface
-//!     ,-[14:9]
-//!  14 | #baz: string;
+//!     ,-[14:1]
+//!  14 |         #baz: string;
 //!  15 |         #taz(): string;
 //!  16 |     }
 //!  17 |     #baz(): string;
@@ -91,8 +92,8 @@
 //!     `----
 //! 
 //!   x private names are not allowed in interface
-//!     ,-[17:5]
-//!  17 | #baz(): string;
+//!     ,-[17:1]
+//!  17 |     #baz(): string;
 //!  18 | };
 //!  19 | 
 //!  20 | declare const y: [{ qux: { #quux: 3 } }];

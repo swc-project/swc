@@ -3,7 +3,7 @@
    ,-[$DIR/tests/recovery/delim-token/bar/input.css:1:1]
  1 | ,-> a {
  2 | |       prop: |;
- 3 | |   }
+ 3 | `-> }
    `----
 
   x Rule

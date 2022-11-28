@@ -190,16 +190,16 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/textarea/input.html:4:5]
- 4 | <title>Document</title>
+   ,-[$DIR/tests/fixture/element/textarea/input.html:4:1]
+ 4 |     <title>Document</title>
  5 | </head>
    :        ^
  6 | <body>
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/element/textarea/input.html:4:5]
- 4 | <title>Document</title>
+   ,-[$DIR/tests/fixture/element/textarea/input.html:4:1]
+ 4 |     <title>Document</title>
  5 | </head>
    :        ^
  6 | <body>
@@ -270,37 +270,43 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/textarea/input.html:8:1]
+   ,-[$DIR/tests/fixture/element/textarea/input.html:7:1]
+ 7 | 
  8 | <label for="story">Tell us your story:</label>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/element/textarea/input.html:8:1]
+   ,-[$DIR/tests/fixture/element/textarea/input.html:7:1]
+ 7 | 
  8 | <label for="story">Tell us your story:</label>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/element/textarea/input.html:8:1]
+   ,-[$DIR/tests/fixture/element/textarea/input.html:7:1]
+ 7 | 
  8 | <label for="story">Tell us your story:</label>
    :        ^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/textarea/input.html:8:1]
+   ,-[$DIR/tests/fixture/element/textarea/input.html:7:1]
+ 7 | 
  8 | <label for="story">Tell us your story:</label>
    :                    ^^^^^^^^^^^^^^^^^^^
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/element/textarea/input.html:8:1]
+   ,-[$DIR/tests/fixture/element/textarea/input.html:7:1]
+ 7 | 
  8 | <label for="story">Tell us your story:</label>
    :                    ^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/textarea/input.html:8:1]
+    ,-[$DIR/tests/fixture/element/textarea/input.html:7:1]
+  7 |     
   8 | ,-> <label for="story">Tell us your story:</label>
   9 | `-> 
  10 |     <textarea id="story" name="story"
@@ -308,7 +314,8 @@
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/textarea/input.html:8:1]
+    ,-[$DIR/tests/fixture/element/textarea/input.html:7:1]
+  7 |     
   8 | ,-> <label for="story">Tell us your story:</label>
   9 | `-> 
  10 |     <textarea id="story" name="story"
@@ -316,7 +323,8 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/textarea/input.html:10:1]
+    ,-[$DIR/tests/fixture/element/textarea/input.html:9:1]
+  9 |     
  10 | ,-> <textarea id="story" name="story"
  11 | |             rows="5" cols="33">
  12 | |   
@@ -332,7 +340,8 @@
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/textarea/input.html:10:1]
+    ,-[$DIR/tests/fixture/element/textarea/input.html:9:1]
+  9 |     
  10 | ,-> <textarea id="story" name="story"
  11 | |             rows="5" cols="33">
  12 | |   
@@ -348,14 +357,16 @@
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/element/textarea/input.html:10:1]
+    ,-[$DIR/tests/fixture/element/textarea/input.html:9:1]
+  9 | 
  10 | <textarea id="story" name="story"
     :           ^^^^^^^^^^
  11 |           rows="5" cols="33">
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/element/textarea/input.html:10:1]
+    ,-[$DIR/tests/fixture/element/textarea/input.html:9:1]
+  9 | 
  10 | <textarea id="story" name="story"
     :                      ^^^^^^^^^^^^
  11 |           rows="5" cols="33">
@@ -376,8 +387,8 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/textarea/input.html:11:11]
- 11 |     rows="5" cols="33">
+    ,-[$DIR/tests/fixture/element/textarea/input.html:11:1]
+ 11 |               rows="5" cols="33">
  12 | ,-> 
  13 | |   
  14 | |   
@@ -391,8 +402,8 @@
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/textarea/input.html:11:11]
- 11 |     rows="5" cols="33">
+    ,-[$DIR/tests/fixture/element/textarea/input.html:11:1]
+ 11 |               rows="5" cols="33">
  12 | ,-> 
  13 | |   
  14 | |   
@@ -406,7 +417,8 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/textarea/input.html:21:1]
+    ,-[$DIR/tests/fixture/element/textarea/input.html:20:1]
+ 20 |     
  21 | ,-> </textarea>
  22 | |   
  23 | `-> </body>
@@ -414,7 +426,8 @@
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/textarea/input.html:21:1]
+    ,-[$DIR/tests/fixture/element/textarea/input.html:20:1]
+ 20 |     
  21 | ,-> </textarea>
  22 | |   
  23 | `-> </body>

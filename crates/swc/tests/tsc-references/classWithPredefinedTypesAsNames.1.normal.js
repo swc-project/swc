@@ -23,7 +23,8 @@
 //!    `----
 //! 
 //!   x Invalid class name
-//!    ,-[3:1]
+//!    ,-[2:1]
+//!  2 | 
 //!  3 | class any { }
 //!  4 | class number { }
 //!  5 | class boolean { }

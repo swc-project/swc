@@ -16,7 +16,7 @@
  13 | |   a b/* { } */{}
  14 | |   a b/* test */{}
  15 | |   a/* test */,/* test */b{}
- 16 | |   a /* test */ , /* test */ b {}
+ 16 | `-> a /* test */ , /* test */ b {}
     `----
 
   x Rule

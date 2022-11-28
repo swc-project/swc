@@ -147,128 +147,128 @@
    `----
 
   x Stmt
-   ,-[$DIR/tests/span/js/super/obj3.js:2:5]
- 2 | a() {
+   ,-[$DIR/tests/span/js/super/obj3.js:2:1]
+ 2 |     a() {
  3 |         let o1 = { b: super.b };
    :         ^^^^^^^^^^^^^^^^^^^^^^^^
  4 |     },
    `----
 
   x Decl
-   ,-[$DIR/tests/span/js/super/obj3.js:2:5]
- 2 | a() {
+   ,-[$DIR/tests/span/js/super/obj3.js:2:1]
+ 2 |     a() {
  3 |         let o1 = { b: super.b };
    :         ^^^^^^^^^^^^^^^^^^^^^^^^
  4 |     },
    `----
 
   x VarDecl
-   ,-[$DIR/tests/span/js/super/obj3.js:2:5]
- 2 | a() {
+   ,-[$DIR/tests/span/js/super/obj3.js:2:1]
+ 2 |     a() {
  3 |         let o1 = { b: super.b };
    :         ^^^^^^^^^^^^^^^^^^^^^^^^
  4 |     },
    `----
 
   x VarDeclarator
-   ,-[$DIR/tests/span/js/super/obj3.js:2:5]
- 2 | a() {
+   ,-[$DIR/tests/span/js/super/obj3.js:2:1]
+ 2 |     a() {
  3 |         let o1 = { b: super.b };
    :             ^^^^^^^^^^^^^^^^^^^
  4 |     },
    `----
 
   x Pat
-   ,-[$DIR/tests/span/js/super/obj3.js:2:5]
- 2 | a() {
+   ,-[$DIR/tests/span/js/super/obj3.js:2:1]
+ 2 |     a() {
  3 |         let o1 = { b: super.b };
    :             ^^
  4 |     },
    `----
 
   x Ident
-   ,-[$DIR/tests/span/js/super/obj3.js:2:5]
- 2 | a() {
+   ,-[$DIR/tests/span/js/super/obj3.js:2:1]
+ 2 |     a() {
  3 |         let o1 = { b: super.b };
    :             ^^
  4 |     },
    `----
 
   x Expr
-   ,-[$DIR/tests/span/js/super/obj3.js:2:5]
- 2 | a() {
+   ,-[$DIR/tests/span/js/super/obj3.js:2:1]
+ 2 |     a() {
  3 |         let o1 = { b: super.b };
    :                  ^^^^^^^^^^^^^^
  4 |     },
    `----
 
   x ObjectLit
-   ,-[$DIR/tests/span/js/super/obj3.js:2:5]
- 2 | a() {
+   ,-[$DIR/tests/span/js/super/obj3.js:2:1]
+ 2 |     a() {
  3 |         let o1 = { b: super.b };
    :                  ^^^^^^^^^^^^^^
  4 |     },
    `----
 
   x PropOrSpread
-   ,-[$DIR/tests/span/js/super/obj3.js:2:5]
- 2 | a() {
+   ,-[$DIR/tests/span/js/super/obj3.js:2:1]
+ 2 |     a() {
  3 |         let o1 = { b: super.b };
    :                    ^^^^^^^^^^
  4 |     },
    `----
 
   x Prop
-   ,-[$DIR/tests/span/js/super/obj3.js:2:5]
- 2 | a() {
+   ,-[$DIR/tests/span/js/super/obj3.js:2:1]
+ 2 |     a() {
  3 |         let o1 = { b: super.b };
    :                    ^^^^^^^^^^
  4 |     },
    `----
 
   x KeyValueProp
-   ,-[$DIR/tests/span/js/super/obj3.js:2:5]
- 2 | a() {
+   ,-[$DIR/tests/span/js/super/obj3.js:2:1]
+ 2 |     a() {
  3 |         let o1 = { b: super.b };
    :                    ^^^^^^^^^^
  4 |     },
    `----
 
   x PropName
-   ,-[$DIR/tests/span/js/super/obj3.js:2:5]
- 2 | a() {
+   ,-[$DIR/tests/span/js/super/obj3.js:2:1]
+ 2 |     a() {
  3 |         let o1 = { b: super.b };
    :                    ^
  4 |     },
    `----
 
   x Ident
-   ,-[$DIR/tests/span/js/super/obj3.js:2:5]
- 2 | a() {
+   ,-[$DIR/tests/span/js/super/obj3.js:2:1]
+ 2 |     a() {
  3 |         let o1 = { b: super.b };
    :                    ^
  4 |     },
    `----
 
   x Expr
-   ,-[$DIR/tests/span/js/super/obj3.js:2:5]
- 2 | a() {
+   ,-[$DIR/tests/span/js/super/obj3.js:2:1]
+ 2 |     a() {
  3 |         let o1 = { b: super.b };
    :                       ^^^^^^^
  4 |     },
    `----
 
   x Super
-   ,-[$DIR/tests/span/js/super/obj3.js:2:5]
- 2 | a() {
+   ,-[$DIR/tests/span/js/super/obj3.js:2:1]
+ 2 |     a() {
  3 |         let o1 = { b: super.b };
    :                       ^^^^^
  4 |     },
    `----
 
   x Ident
-   ,-[$DIR/tests/span/js/super/obj3.js:2:5]
- 2 | a() {
+   ,-[$DIR/tests/span/js/super/obj3.js:2:1]
+ 2 |     a() {
  3 |         let o1 = { b: super.b };
    :                             ^
  4 |     },

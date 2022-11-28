@@ -1,7 +1,8 @@
 //// [staticPropertyNameConflicts.ts]
 //! 
 //!   x the name `default` is exported multiple times
-//!      ,-[133:1]
+//!      ,-[132:1]
+//!  132 |     
 //!  133 |     // length
 //!  134 |     module TestOnDefaultExportedClass_3 {
 //!  135 | ,->     export default class StaticLength {
@@ -53,7 +54,8 @@
 //!   > Exported identifiers must be unique
 //! 
 //!   x the name `default` is exported multiple times
-//!      ,-[148:1]
+//!      ,-[147:1]
+//!  147 |     
 //!  148 |     // prototype
 //!  149 |     module TestOnDefaultExportedClass_5 {    
 //!  150 | ,->     export default class StaticPrototype {
@@ -105,7 +107,8 @@
 //!   > Exported identifiers must be unique
 //! 
 //!   x the name `default` is exported multiple times
-//!      ,-[163:1]
+//!      ,-[162:1]
+//!  162 |     
 //!  163 |     // caller
 //!  164 |     module TestOnDefaultExportedClass_7 {
 //!  165 | ,->     export default class StaticCaller {
@@ -157,7 +160,8 @@
 //!   > Exported identifiers must be unique
 //! 
 //!   x the name `default` is exported multiple times
-//!      ,-[178:1]
+//!      ,-[177:1]
+//!  177 |     
 //!  178 |     // arguments
 //!  179 |     module TestOnDefaultExportedClass_9 {
 //!  180 | ,->     export default class StaticArguments {

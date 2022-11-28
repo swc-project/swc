@@ -3,7 +3,7 @@
    ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:1:1]
  1 | ,-> p :global(span:not(.test)) {
  2 | |       color: green;
- 3 | |   }
+ 3 | `-> }
    `----
 
   x Rule

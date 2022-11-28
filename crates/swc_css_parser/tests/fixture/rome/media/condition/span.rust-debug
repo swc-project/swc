@@ -22,7 +22,7 @@
  19 | |   	.style {
  20 | |   
  21 | |   	}
- 22 | |   }
+ 22 | `-> }
     `----
 
   x Rule
@@ -2468,8 +2468,8 @@
    `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:10:5]
- 10 |     }
+    ,-[$DIR/tests/fixture/rome/media/condition/input.css:10:1]
+ 10 |     	}
  11 | ,-> 	.style {
  12 | |   
  13 | `-> 	}
@@ -2477,8 +2477,8 @@
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:10:5]
- 10 |     }
+    ,-[$DIR/tests/fixture/rome/media/condition/input.css:10:1]
+ 10 |     	}
  11 | ,-> 	.style {
  12 | |   
  13 | `-> 	}
@@ -2486,8 +2486,8 @@
     `----
 
   x QualifiedRule
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:10:5]
- 10 |     }
+    ,-[$DIR/tests/fixture/rome/media/condition/input.css:10:1]
+ 10 |     	}
  11 | ,-> 	.style {
  12 | |   
  13 | `-> 	}
@@ -2495,50 +2495,50 @@
     `----
 
   x SelectorList
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:10:5]
- 10 | }
+    ,-[$DIR/tests/fixture/rome/media/condition/input.css:10:1]
+ 10 | 	}
  11 | 	.style {
     :  ^^^^^^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:10:5]
- 10 | }
+    ,-[$DIR/tests/fixture/rome/media/condition/input.css:10:1]
+ 10 | 	}
  11 | 	.style {
     :  ^^^^^^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:10:5]
- 10 | }
+    ,-[$DIR/tests/fixture/rome/media/condition/input.css:10:1]
+ 10 | 	}
  11 | 	.style {
     :  ^^^^^^
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:10:5]
- 10 | }
+    ,-[$DIR/tests/fixture/rome/media/condition/input.css:10:1]
+ 10 | 	}
  11 | 	.style {
     :  ^^^^^^
     `----
 
   x ClassSelector
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:10:5]
- 10 | }
+    ,-[$DIR/tests/fixture/rome/media/condition/input.css:10:1]
+ 10 | 	}
  11 | 	.style {
     :  ^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:10:5]
- 10 | }
+    ,-[$DIR/tests/fixture/rome/media/condition/input.css:10:1]
+ 10 | 	}
  11 | 	.style {
     :   ^^^^^
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:10:5]
- 10 |     }
+    ,-[$DIR/tests/fixture/rome/media/condition/input.css:10:1]
+ 10 |     	}
  11 | ,-> 	.style {
  12 | |   
  13 | `-> 	}
@@ -2546,8 +2546,8 @@
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:10:5]
- 10 | }
+    ,-[$DIR/tests/fixture/rome/media/condition/input.css:10:1]
+ 10 | 	}
  11 | 	.style {
     :         ^
     `----
@@ -3052,8 +3052,8 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:18:5]
- 18 |     }
+    ,-[$DIR/tests/fixture/rome/media/condition/input.css:18:1]
+ 18 |     	}
  19 | ,-> 	.style {
  20 | |   
  21 | `-> 	}
@@ -3061,8 +3061,8 @@
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:18:5]
- 18 |     }
+    ,-[$DIR/tests/fixture/rome/media/condition/input.css:18:1]
+ 18 |     	}
  19 | ,-> 	.style {
  20 | |   
  21 | `-> 	}
@@ -3070,8 +3070,8 @@
     `----
 
   x QualifiedRule
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:18:5]
- 18 |     }
+    ,-[$DIR/tests/fixture/rome/media/condition/input.css:18:1]
+ 18 |     	}
  19 | ,-> 	.style {
  20 | |   
  21 | `-> 	}
@@ -3079,50 +3079,50 @@
     `----
 
   x SelectorList
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:18:5]
- 18 | }
+    ,-[$DIR/tests/fixture/rome/media/condition/input.css:18:1]
+ 18 | 	}
  19 | 	.style {
     :  ^^^^^^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:18:5]
- 18 | }
+    ,-[$DIR/tests/fixture/rome/media/condition/input.css:18:1]
+ 18 | 	}
  19 | 	.style {
     :  ^^^^^^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:18:5]
- 18 | }
+    ,-[$DIR/tests/fixture/rome/media/condition/input.css:18:1]
+ 18 | 	}
  19 | 	.style {
     :  ^^^^^^
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:18:5]
- 18 | }
+    ,-[$DIR/tests/fixture/rome/media/condition/input.css:18:1]
+ 18 | 	}
  19 | 	.style {
     :  ^^^^^^
     `----
 
   x ClassSelector
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:18:5]
- 18 | }
+    ,-[$DIR/tests/fixture/rome/media/condition/input.css:18:1]
+ 18 | 	}
  19 | 	.style {
     :  ^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:18:5]
- 18 | }
+    ,-[$DIR/tests/fixture/rome/media/condition/input.css:18:1]
+ 18 | 	}
  19 | 	.style {
     :   ^^^^^
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:18:5]
- 18 |     }
+    ,-[$DIR/tests/fixture/rome/media/condition/input.css:18:1]
+ 18 |     	}
  19 | ,-> 	.style {
  20 | |   
  21 | `-> 	}
@@ -3130,8 +3130,8 @@
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:18:5]
- 18 | }
+    ,-[$DIR/tests/fixture/rome/media/condition/input.css:18:1]
+ 18 | 	}
  19 | 	.style {
     :         ^
     `----

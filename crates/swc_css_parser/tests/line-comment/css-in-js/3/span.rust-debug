@@ -4,7 +4,7 @@
  1 | ,-> foo {
  2 | |       color: red;
  3 | |       // Line comment
- 4 | |   }
+ 4 | `-> }
    `----
 
   x Rule

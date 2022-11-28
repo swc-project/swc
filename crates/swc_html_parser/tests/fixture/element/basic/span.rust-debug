@@ -223,8 +223,8 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/basic/input.html:4:5]
- 4 | <title>Document</title>
+   ,-[$DIR/tests/fixture/element/basic/input.html:4:1]
+ 4 |     <title>Document</title>
  5 | </head>
    :        ^
  6 | <body>
@@ -232,8 +232,8 @@
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/element/basic/input.html:4:5]
- 4 | <title>Document</title>
+   ,-[$DIR/tests/fixture/element/basic/input.html:4:1]
+ 4 |     <title>Document</title>
  5 | </head>
    :        ^
  6 | <body>
@@ -835,7 +835,8 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/basic/input.html:21:1]
+    ,-[$DIR/tests/fixture/element/basic/input.html:20:1]
+ 20 |     
  21 | ,-> </div>
  22 | `-> 
  23 |     <div data-test="a"></div>
@@ -843,7 +844,8 @@
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/basic/input.html:21:1]
+    ,-[$DIR/tests/fixture/element/basic/input.html:20:1]
+ 20 |     
  21 | ,-> </div>
  22 | `-> 
  23 |     <div data-test="a"></div>
@@ -851,28 +853,32 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/basic/input.html:23:1]
+    ,-[$DIR/tests/fixture/element/basic/input.html:22:1]
+ 22 | 
  23 | <div data-test="a"></div>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^
  24 | <br data-test="a" />
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/basic/input.html:23:1]
+    ,-[$DIR/tests/fixture/element/basic/input.html:22:1]
+ 22 | 
  23 | <div data-test="a"></div>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^
  24 | <br data-test="a" />
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/element/basic/input.html:23:1]
+    ,-[$DIR/tests/fixture/element/basic/input.html:22:1]
+ 22 | 
  23 | <div data-test="a"></div>
     :      ^^^^^^^^^^^^^
  24 | <br data-test="a" />
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/basic/input.html:23:1]
+    ,-[$DIR/tests/fixture/element/basic/input.html:22:1]
+ 22 | 
  23 | <div data-test="a"></div>
     :                          ^
  24 | <br data-test="a" />
@@ -880,7 +886,8 @@
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/basic/input.html:23:1]
+    ,-[$DIR/tests/fixture/element/basic/input.html:22:1]
+ 22 | 
  23 | <div data-test="a"></div>
     :                          ^
  24 | <br data-test="a" />
@@ -1070,42 +1077,48 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/basic/input.html:33:1]
+    ,-[$DIR/tests/fixture/element/basic/input.html:32:1]
+ 32 | 
  33 | <div>test</div>
     : ^^^^^^^^^^^^^^^
  34 | </body>
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/basic/input.html:33:1]
+    ,-[$DIR/tests/fixture/element/basic/input.html:32:1]
+ 32 | 
  33 | <div>test</div>
     : ^^^^^^^^^^^^^^^
  34 | </body>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/basic/input.html:33:1]
+    ,-[$DIR/tests/fixture/element/basic/input.html:32:1]
+ 32 | 
  33 | <div>test</div>
     :      ^^^^
  34 | </body>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/basic/input.html:33:1]
+    ,-[$DIR/tests/fixture/element/basic/input.html:32:1]
+ 32 | 
  33 | <div>test</div>
     :      ^^^^
  34 | </body>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/basic/input.html:33:1]
+    ,-[$DIR/tests/fixture/element/basic/input.html:32:1]
+ 32 |     
  33 | ,-> <div>test</div>
  34 | `-> </body>
  35 |     </html>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/basic/input.html:33:1]
+    ,-[$DIR/tests/fixture/element/basic/input.html:32:1]
+ 32 |     
  33 | ,-> <div>test</div>
  34 | `-> </body>
  35 |     </html>

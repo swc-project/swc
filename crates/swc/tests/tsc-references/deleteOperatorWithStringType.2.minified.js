@@ -25,7 +25,8 @@
 //!     `----
 //! 
 //!   x 'delete' cannot be called on an identifier in strict mode
-//!     ,-[17:1]
+//!     ,-[16:1]
+//!  16 | 
 //!  17 | // string type var
 //!  18 | var ResultIsBoolean1 = delete STRING;
 //!  19 | var ResultIsBoolean2 = delete STRING1;
@@ -36,7 +37,8 @@
 //!     `----
 //! 
 //!   x The operand of a delete operator must be a property reference.
-//!     ,-[17:1]
+//!     ,-[16:1]
+//!  16 | 
 //!  17 | // string type var
 //!  18 | var ResultIsBoolean1 = delete STRING;
 //!  19 | var ResultIsBoolean2 = delete STRING1;
@@ -58,7 +60,8 @@
 //!     `----
 //! 
 //!   x The operand of a delete operator must be a property reference.
-//!     ,-[21:1]
+//!     ,-[20:1]
+//!  20 | 
 //!  21 | // string type literal
 //!  22 | var ResultIsBoolean3 = delete "";
 //!  23 | var ResultIsBoolean4 = delete { x: "", y: "" };
@@ -164,7 +167,8 @@
 //!     `----
 //! 
 //!   x The operand of a delete operator must be a property reference.
-//!     ,-[35:1]
+//!     ,-[34:1]
+//!  34 | 
 //!  35 | // multiple delete  operator
 //!  36 | var ResultIsBoolean13 = delete delete STRING;
 //!  37 | var ResultIsBoolean14 = delete delete delete (STRING + STRING);
@@ -175,7 +179,8 @@
 //!     `----
 //! 
 //!   x The operand of a delete operator must be a property reference.
-//!     ,-[35:1]
+//!     ,-[34:1]
+//!  34 | 
 //!  35 | // multiple delete  operator
 //!  36 | var ResultIsBoolean13 = delete delete STRING;
 //!  37 | var ResultIsBoolean14 = delete delete delete (STRING + STRING);
@@ -186,7 +191,8 @@
 //!     `----
 //! 
 //!   x The operand of a delete operator must be a property reference.
-//!     ,-[35:1]
+//!     ,-[34:1]
+//!  34 | 
 //!  35 | // multiple delete  operator
 //!  36 | var ResultIsBoolean13 = delete delete STRING;
 //!  37 | var ResultIsBoolean14 = delete delete delete (STRING + STRING);
@@ -209,7 +215,8 @@
 //!     `----
 //! 
 //!   x 'delete' cannot be called on an identifier in strict mode
-//!     ,-[39:1]
+//!     ,-[38:1]
+//!  38 | 
 //!  39 | // miss assignment operators
 //!  40 | delete "";
 //!  41 | delete STRING;
@@ -220,7 +227,8 @@
 //!     `----
 //! 
 //!   x The operand of a delete operator must be a property reference.
-//!     ,-[39:1]
+//!     ,-[38:1]
+//!  38 | 
 //!  39 | // miss assignment operators
 //!  40 | delete "";
 //!  41 | delete STRING;

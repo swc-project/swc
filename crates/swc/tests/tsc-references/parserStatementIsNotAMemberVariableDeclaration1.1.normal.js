@@ -12,8 +12,8 @@
 //! 
 //!   x Unexpected token `private`. Expected this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string,
 //!   | regexp, ` for template literal, (, or an identifier
-//!    ,-[3:3]
-//!  3 | "set": function (key, value) {
+//!    ,-[3:1]
+//!  3 |   "set": function (key, value) {
 //!  4 | 
 //!  5 |     // 'private' should not be considered a member variable here.
 //!  6 |     private[key] = value;

@@ -23,7 +23,7 @@
  20 | |   
  21 | |   .class {
  22 | |       color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
- 23 | |   }
+ 23 | `-> }
     `----
 
   x Rule
@@ -185,70 +185,80 @@
    `----
 
   x Rule
-   ,-[$DIR/tests/recovery/declaration/important/input.css:5:1]
+   ,-[$DIR/tests/recovery/declaration/important/input.css:4:1]
+ 4 |     
  5 | ,-> .class {
  6 | |       color: red red red !important !important;
  7 | `-> }
    `----
 
   x QualifiedRule
-   ,-[$DIR/tests/recovery/declaration/important/input.css:5:1]
+   ,-[$DIR/tests/recovery/declaration/important/input.css:4:1]
+ 4 |     
  5 | ,-> .class {
  6 | |       color: red red red !important !important;
  7 | `-> }
    `----
 
   x SelectorList
-   ,-[$DIR/tests/recovery/declaration/important/input.css:5:1]
+   ,-[$DIR/tests/recovery/declaration/important/input.css:4:1]
+ 4 | 
  5 | .class {
    : ^^^^^^
  6 |     color: red red red !important !important;
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/recovery/declaration/important/input.css:5:1]
+   ,-[$DIR/tests/recovery/declaration/important/input.css:4:1]
+ 4 | 
  5 | .class {
    : ^^^^^^
  6 |     color: red red red !important !important;
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/recovery/declaration/important/input.css:5:1]
+   ,-[$DIR/tests/recovery/declaration/important/input.css:4:1]
+ 4 | 
  5 | .class {
    : ^^^^^^
  6 |     color: red red red !important !important;
    `----
 
   x SubclassSelector
-   ,-[$DIR/tests/recovery/declaration/important/input.css:5:1]
+   ,-[$DIR/tests/recovery/declaration/important/input.css:4:1]
+ 4 | 
  5 | .class {
    : ^^^^^^
  6 |     color: red red red !important !important;
    `----
 
   x ClassSelector
-   ,-[$DIR/tests/recovery/declaration/important/input.css:5:1]
+   ,-[$DIR/tests/recovery/declaration/important/input.css:4:1]
+ 4 | 
  5 | .class {
    : ^^^^^^
  6 |     color: red red red !important !important;
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/declaration/important/input.css:5:1]
+   ,-[$DIR/tests/recovery/declaration/important/input.css:4:1]
+ 4 | 
  5 | .class {
    :  ^^^^^
  6 |     color: red red red !important !important;
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/recovery/declaration/important/input.css:5:1]
+   ,-[$DIR/tests/recovery/declaration/important/input.css:4:1]
+ 4 |     
  5 | ,-> .class {
  6 | |       color: red red red !important !important;
  7 | `-> }
    `----
 
   x LBrace
-   ,-[$DIR/tests/recovery/declaration/important/input.css:5:1]
+   ,-[$DIR/tests/recovery/declaration/important/input.css:4:1]
+ 4 | 
  5 | .class {
    :        ^
  6 |     color: red red red !important !important;
@@ -439,70 +449,80 @@
    `----
 
   x Rule
-    ,-[$DIR/tests/recovery/declaration/important/input.css:9:1]
+    ,-[$DIR/tests/recovery/declaration/important/input.css:8:1]
+  8 |     
   9 | ,-> .class {
  10 | |       color: red red red !important!important   ;
  11 | `-> }
     `----
 
   x QualifiedRule
-    ,-[$DIR/tests/recovery/declaration/important/input.css:9:1]
+    ,-[$DIR/tests/recovery/declaration/important/input.css:8:1]
+  8 |     
   9 | ,-> .class {
  10 | |       color: red red red !important!important   ;
  11 | `-> }
     `----
 
   x SelectorList
-    ,-[$DIR/tests/recovery/declaration/important/input.css:9:1]
+    ,-[$DIR/tests/recovery/declaration/important/input.css:8:1]
+  8 | 
   9 | .class {
     : ^^^^^^
  10 |     color: red red red !important!important   ;
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/recovery/declaration/important/input.css:9:1]
+    ,-[$DIR/tests/recovery/declaration/important/input.css:8:1]
+  8 | 
   9 | .class {
     : ^^^^^^
  10 |     color: red red red !important!important   ;
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/recovery/declaration/important/input.css:9:1]
+    ,-[$DIR/tests/recovery/declaration/important/input.css:8:1]
+  8 | 
   9 | .class {
     : ^^^^^^
  10 |     color: red red red !important!important   ;
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/recovery/declaration/important/input.css:9:1]
+    ,-[$DIR/tests/recovery/declaration/important/input.css:8:1]
+  8 | 
   9 | .class {
     : ^^^^^^
  10 |     color: red red red !important!important   ;
     `----
 
   x ClassSelector
-    ,-[$DIR/tests/recovery/declaration/important/input.css:9:1]
+    ,-[$DIR/tests/recovery/declaration/important/input.css:8:1]
+  8 | 
   9 | .class {
     : ^^^^^^
  10 |     color: red red red !important!important   ;
     `----
 
   x Ident
-    ,-[$DIR/tests/recovery/declaration/important/input.css:9:1]
+    ,-[$DIR/tests/recovery/declaration/important/input.css:8:1]
+  8 | 
   9 | .class {
     :  ^^^^^
  10 |     color: red red red !important!important   ;
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/recovery/declaration/important/input.css:9:1]
+    ,-[$DIR/tests/recovery/declaration/important/input.css:8:1]
+  8 |     
   9 | ,-> .class {
  10 | |       color: red red red !important!important   ;
  11 | `-> }
     `----
 
   x LBrace
-    ,-[$DIR/tests/recovery/declaration/important/input.css:9:1]
+    ,-[$DIR/tests/recovery/declaration/important/input.css:8:1]
+  8 | 
   9 | .class {
     :        ^
  10 |     color: red red red !important!important   ;
@@ -693,70 +713,80 @@
     `----
 
   x Rule
-    ,-[$DIR/tests/recovery/declaration/important/input.css:13:1]
+    ,-[$DIR/tests/recovery/declaration/important/input.css:12:1]
+ 12 |     
  13 | ,-> .class {
  14 | |       color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
  15 | `-> }
     `----
 
   x QualifiedRule
-    ,-[$DIR/tests/recovery/declaration/important/input.css:13:1]
+    ,-[$DIR/tests/recovery/declaration/important/input.css:12:1]
+ 12 |     
  13 | ,-> .class {
  14 | |       color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
  15 | `-> }
     `----
 
   x SelectorList
-    ,-[$DIR/tests/recovery/declaration/important/input.css:13:1]
+    ,-[$DIR/tests/recovery/declaration/important/input.css:12:1]
+ 12 | 
  13 | .class {
     : ^^^^^^
  14 |     color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/recovery/declaration/important/input.css:13:1]
+    ,-[$DIR/tests/recovery/declaration/important/input.css:12:1]
+ 12 | 
  13 | .class {
     : ^^^^^^
  14 |     color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/recovery/declaration/important/input.css:13:1]
+    ,-[$DIR/tests/recovery/declaration/important/input.css:12:1]
+ 12 | 
  13 | .class {
     : ^^^^^^
  14 |     color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/recovery/declaration/important/input.css:13:1]
+    ,-[$DIR/tests/recovery/declaration/important/input.css:12:1]
+ 12 | 
  13 | .class {
     : ^^^^^^
  14 |     color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
     `----
 
   x ClassSelector
-    ,-[$DIR/tests/recovery/declaration/important/input.css:13:1]
+    ,-[$DIR/tests/recovery/declaration/important/input.css:12:1]
+ 12 | 
  13 | .class {
     : ^^^^^^
  14 |     color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
     `----
 
   x Ident
-    ,-[$DIR/tests/recovery/declaration/important/input.css:13:1]
+    ,-[$DIR/tests/recovery/declaration/important/input.css:12:1]
+ 12 | 
  13 | .class {
     :  ^^^^^
  14 |     color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/recovery/declaration/important/input.css:13:1]
+    ,-[$DIR/tests/recovery/declaration/important/input.css:12:1]
+ 12 |     
  13 | ,-> .class {
  14 | |       color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
  15 | `-> }
     `----
 
   x LBrace
-    ,-[$DIR/tests/recovery/declaration/important/input.css:13:1]
+    ,-[$DIR/tests/recovery/declaration/important/input.css:12:1]
+ 12 | 
  13 | .class {
     :        ^
  14 |     color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
@@ -963,70 +993,80 @@
     `----
 
   x Rule
-    ,-[$DIR/tests/recovery/declaration/important/input.css:17:1]
+    ,-[$DIR/tests/recovery/declaration/important/input.css:16:1]
+ 16 |     
  17 | ,-> .class {
  18 | |       color: red red red !important !important!important;
  19 | `-> }
     `----
 
   x QualifiedRule
-    ,-[$DIR/tests/recovery/declaration/important/input.css:17:1]
+    ,-[$DIR/tests/recovery/declaration/important/input.css:16:1]
+ 16 |     
  17 | ,-> .class {
  18 | |       color: red red red !important !important!important;
  19 | `-> }
     `----
 
   x SelectorList
-    ,-[$DIR/tests/recovery/declaration/important/input.css:17:1]
+    ,-[$DIR/tests/recovery/declaration/important/input.css:16:1]
+ 16 | 
  17 | .class {
     : ^^^^^^
  18 |     color: red red red !important !important!important;
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/recovery/declaration/important/input.css:17:1]
+    ,-[$DIR/tests/recovery/declaration/important/input.css:16:1]
+ 16 | 
  17 | .class {
     : ^^^^^^
  18 |     color: red red red !important !important!important;
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/recovery/declaration/important/input.css:17:1]
+    ,-[$DIR/tests/recovery/declaration/important/input.css:16:1]
+ 16 | 
  17 | .class {
     : ^^^^^^
  18 |     color: red red red !important !important!important;
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/recovery/declaration/important/input.css:17:1]
+    ,-[$DIR/tests/recovery/declaration/important/input.css:16:1]
+ 16 | 
  17 | .class {
     : ^^^^^^
  18 |     color: red red red !important !important!important;
     `----
 
   x ClassSelector
-    ,-[$DIR/tests/recovery/declaration/important/input.css:17:1]
+    ,-[$DIR/tests/recovery/declaration/important/input.css:16:1]
+ 16 | 
  17 | .class {
     : ^^^^^^
  18 |     color: red red red !important !important!important;
     `----
 
   x Ident
-    ,-[$DIR/tests/recovery/declaration/important/input.css:17:1]
+    ,-[$DIR/tests/recovery/declaration/important/input.css:16:1]
+ 16 | 
  17 | .class {
     :  ^^^^^
  18 |     color: red red red !important !important!important;
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/recovery/declaration/important/input.css:17:1]
+    ,-[$DIR/tests/recovery/declaration/important/input.css:16:1]
+ 16 |     
  17 | ,-> .class {
  18 | |       color: red red red !important !important!important;
  19 | `-> }
     `----
 
   x LBrace
-    ,-[$DIR/tests/recovery/declaration/important/input.css:17:1]
+    ,-[$DIR/tests/recovery/declaration/important/input.css:16:1]
+ 16 | 
  17 | .class {
     :        ^
  18 |     color: red red red !important !important!important;
@@ -1265,70 +1305,80 @@
     `----
 
   x Rule
-    ,-[$DIR/tests/recovery/declaration/important/input.css:21:1]
+    ,-[$DIR/tests/recovery/declaration/important/input.css:20:1]
+ 20 |     
  21 | ,-> .class {
  22 | |       color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
  23 | `-> }
     `----
 
   x QualifiedRule
-    ,-[$DIR/tests/recovery/declaration/important/input.css:21:1]
+    ,-[$DIR/tests/recovery/declaration/important/input.css:20:1]
+ 20 |     
  21 | ,-> .class {
  22 | |       color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
  23 | `-> }
     `----
 
   x SelectorList
-    ,-[$DIR/tests/recovery/declaration/important/input.css:21:1]
+    ,-[$DIR/tests/recovery/declaration/important/input.css:20:1]
+ 20 | 
  21 | .class {
     : ^^^^^^
  22 |     color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/recovery/declaration/important/input.css:21:1]
+    ,-[$DIR/tests/recovery/declaration/important/input.css:20:1]
+ 20 | 
  21 | .class {
     : ^^^^^^
  22 |     color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/recovery/declaration/important/input.css:21:1]
+    ,-[$DIR/tests/recovery/declaration/important/input.css:20:1]
+ 20 | 
  21 | .class {
     : ^^^^^^
  22 |     color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/recovery/declaration/important/input.css:21:1]
+    ,-[$DIR/tests/recovery/declaration/important/input.css:20:1]
+ 20 | 
  21 | .class {
     : ^^^^^^
  22 |     color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
     `----
 
   x ClassSelector
-    ,-[$DIR/tests/recovery/declaration/important/input.css:21:1]
+    ,-[$DIR/tests/recovery/declaration/important/input.css:20:1]
+ 20 | 
  21 | .class {
     : ^^^^^^
  22 |     color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
     `----
 
   x Ident
-    ,-[$DIR/tests/recovery/declaration/important/input.css:21:1]
+    ,-[$DIR/tests/recovery/declaration/important/input.css:20:1]
+ 20 | 
  21 | .class {
     :  ^^^^^
  22 |     color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/recovery/declaration/important/input.css:21:1]
+    ,-[$DIR/tests/recovery/declaration/important/input.css:20:1]
+ 20 |     
  21 | ,-> .class {
  22 | |       color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
  23 | `-> }
     `----
 
   x LBrace
-    ,-[$DIR/tests/recovery/declaration/important/input.css:21:1]
+    ,-[$DIR/tests/recovery/declaration/important/input.css:20:1]
+ 20 | 
  21 | .class {
     :        ^
  22 |     color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;

@@ -539,7 +539,8 @@
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/broken-end-tags/input.html:15:1]
+    ,-[$DIR/tests/recovery/element/broken-end-tags/input.html:14:1]
+ 14 |     
  15 | ,-> </div>
  16 | `-> 
  17 |     <div></div test="a">
@@ -547,7 +548,8 @@
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/broken-end-tags/input.html:15:1]
+    ,-[$DIR/tests/recovery/element/broken-end-tags/input.html:14:1]
+ 14 |     
  15 | ,-> </div>
  16 | `-> 
  17 |     <div></div test="a">
@@ -555,21 +557,24 @@
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/broken-end-tags/input.html:17:1]
+    ,-[$DIR/tests/recovery/element/broken-end-tags/input.html:16:1]
+ 16 | 
  17 | <div></div test="a">
     : ^^^^^^^^^^^^^^^^^^^^
  18 | <div data-test="a"></div data-test="a">
     `----
 
   x Element
-    ,-[$DIR/tests/recovery/element/broken-end-tags/input.html:17:1]
+    ,-[$DIR/tests/recovery/element/broken-end-tags/input.html:16:1]
+ 16 | 
  17 | <div></div test="a">
     : ^^^^^^^^^^^^^^^^^^^^
  18 | <div data-test="a"></div data-test="a">
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/broken-end-tags/input.html:17:1]
+    ,-[$DIR/tests/recovery/element/broken-end-tags/input.html:16:1]
+ 16 | 
  17 | <div></div test="a">
     :                     ^
  18 | <div data-test="a"></div data-test="a">
@@ -577,7 +582,8 @@
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/broken-end-tags/input.html:17:1]
+    ,-[$DIR/tests/recovery/element/broken-end-tags/input.html:16:1]
+ 16 | 
  17 | <div></div test="a">
     :                     ^
  18 | <div data-test="a"></div data-test="a">
@@ -809,42 +815,48 @@
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/broken-end-tags/input.html:28:1]
+    ,-[$DIR/tests/recovery/element/broken-end-tags/input.html:27:1]
+ 27 | 
  28 | <div>test</div foo="bar" />
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
  29 | <div>test</div/>
     `----
 
   x Element
-    ,-[$DIR/tests/recovery/element/broken-end-tags/input.html:28:1]
+    ,-[$DIR/tests/recovery/element/broken-end-tags/input.html:27:1]
+ 27 | 
  28 | <div>test</div foo="bar" />
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
  29 | <div>test</div/>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/broken-end-tags/input.html:28:1]
+    ,-[$DIR/tests/recovery/element/broken-end-tags/input.html:27:1]
+ 27 | 
  28 | <div>test</div foo="bar" />
     :      ^^^^
  29 | <div>test</div/>
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/broken-end-tags/input.html:28:1]
+    ,-[$DIR/tests/recovery/element/broken-end-tags/input.html:27:1]
+ 27 | 
  28 | <div>test</div foo="bar" />
     :      ^^^^
  29 | <div>test</div/>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/broken-end-tags/input.html:28:1]
+    ,-[$DIR/tests/recovery/element/broken-end-tags/input.html:27:1]
+ 27 | 
  28 | <div>test</div foo="bar" />
     :                            ^
  29 | <div>test</div/>
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/broken-end-tags/input.html:28:1]
+    ,-[$DIR/tests/recovery/element/broken-end-tags/input.html:27:1]
+ 27 | 
  28 | <div>test</div foo="bar" />
     :                            ^
  29 | <div>test</div/>

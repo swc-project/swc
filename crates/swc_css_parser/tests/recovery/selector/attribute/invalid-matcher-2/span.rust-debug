@@ -1,7 +1,8 @@
 
   x Stylesheet
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-2/input.css:1:1]
- 1 | ,-> [href#="test"] {}
+ 1 | [href#="test"] {}
+   : ^^^^^^^^^^^^^^^^^^
    `----
 
   x Rule

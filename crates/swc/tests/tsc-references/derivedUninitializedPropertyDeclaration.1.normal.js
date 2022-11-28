@@ -1,8 +1,8 @@
 //// [derivedUninitializedPropertyDeclaration.ts]
 //! 
 //!   x `declare` modifier cannot appear on class elements of this kind
-//!     ,-[12:5]
-//!  12 | declare property!: any; // ! is not allowed, this is an ambient declaration
+//!     ,-[12:1]
+//!  12 |     declare property!: any; // ! is not allowed, this is an ambient declaration
 //!  13 | }
 //!  14 | class BOther extends A {
 //!  15 |     declare m() { return 2 } // not allowed on methods

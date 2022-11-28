@@ -12,7 +12,8 @@
 //!     `----
 //! 
 //!   x The left-hand side of an assignment expression must be a variable or a property access.
-//!     ,-[21:1]
+//!     ,-[20:1]
+//!  20 | 
 //!  21 | // number type literal
 //!  22 | var ResultIsNumber3 = ++1;
 //!  23 | var ResultIsNumber4 = ++{ x: 1, y: 2};
@@ -58,7 +59,8 @@
 //!     `----
 //! 
 //!   x The left-hand side of an assignment expression must be a variable or a property access.
-//!     ,-[26:1]
+//!     ,-[25:1]
+//!  25 | 
 //!  26 | var ResultIsNumber6 = 1++;
 //!  27 | var ResultIsNumber7 = { x: 1, y: 2 }++;
 //!  28 | var ResultIsNumber8 = { x: 1, y: (n: number) => { return n; } }++;
@@ -80,7 +82,8 @@
 //!     `----
 //! 
 //!   x The left-hand side of an assignment expression must be a variable or a property access.
-//!     ,-[30:1]
+//!     ,-[29:1]
+//!  29 | 
 //!  30 | // number type expressions
 //!  31 | var ResultIsNumber9 = ++foo();
 //!  32 | var ResultIsNumber10 = ++A.foo();
@@ -126,7 +129,8 @@
 //!     `----
 //! 
 //!   x The left-hand side of an assignment expression must be a variable or a property access.
-//!     ,-[35:1]
+//!     ,-[34:1]
+//!  34 | 
 //!  35 | var ResultIsNumber12 = foo()++;
 //!  36 | var ResultIsNumber13 = A.foo()++;
 //!  37 | var ResultIsNumber14 = (NUMBER + NUMBER)++;
@@ -171,7 +175,8 @@
 //!     `----
 //! 
 //!   x The left-hand side of an assignment expression must be a variable or a property access.
-//!     ,-[44:1]
+//!     ,-[43:1]
+//!  43 | 
 //!  44 | 1++;
 //!  45 | NUMBER1++;
 //!  46 | foo()++;

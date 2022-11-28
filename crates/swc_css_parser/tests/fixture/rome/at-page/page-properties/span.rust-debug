@@ -3,7 +3,7 @@
    ,-[$DIR/tests/fixture/rome/at-page/page-properties/input.css:1:1]
  1 | ,-> @page {
  2 | |   	display: none;
- 3 | |   }
+ 3 | `-> }
    `----
 
   x Rule

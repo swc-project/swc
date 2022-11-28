@@ -5,7 +5,7 @@
  2 | |   
  3 | |   @media {};
  4 | |   
- 5 | |   a { color: blue }
+ 5 | `-> a { color: blue }
    `----
 
   x Rule
@@ -117,155 +117,180 @@
    `----
 
   x Rule
-   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:3:1]
+   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:2:1]
+ 2 | 
  3 | @media {};
    : ^^^^^^^^^
    `----
 
   x AtRule
-   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:3:1]
+   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:2:1]
+ 2 | 
  3 | @media {};
    : ^^^^^^^^^
    `----
 
   x AtRuleName
-   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:3:1]
+   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:2:1]
+ 2 | 
  3 | @media {};
    :  ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:3:1]
+   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:2:1]
+ 2 | 
  3 | @media {};
    :  ^^^^^
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:3:1]
+   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:2:1]
+ 2 | 
  3 | @media {};
    :        ^^
    `----
 
   x LBrace
-   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:3:1]
+   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:2:1]
+ 2 | 
  3 | @media {};
    :        ^
    `----
 
   x Rule
-   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:3:1]
+   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:2:1]
+ 2 |     
  3 | ,-> @media {};
  4 | |   
  5 | `-> a { color: blue }
    `----
 
   x QualifiedRule
-   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:3:1]
+   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:2:1]
+ 2 |     
  3 | ,-> @media {};
  4 | |   
  5 | `-> a { color: blue }
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:3:1]
+   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:2:1]
+ 2 | 
  3 | @media {};
    :          ^
    `----
 
   x Semi
-   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:3:1]
+   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:2:1]
+ 2 | 
  3 | @media {};
    :          ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:3:1]
+   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:2:1]
+ 2 |     
  3 | ,-> @media {};
  4 | `-> 
  5 |     a { color: blue }
    `----
 
   x WhiteSpace { value: "\n\n" }
-   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:3:1]
+   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:2:1]
+ 2 |     
  3 | ,-> @media {};
  4 | `-> 
  5 |     a { color: blue }
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:5:1]
+   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:4:1]
+ 4 | 
  5 | a { color: blue }
    : ^
    `----
 
   x Ident { value: Atom('a' type=static), raw: "a" }
-   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:5:1]
+   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:4:1]
+ 4 | 
  5 | a { color: blue }
    : ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:5:1]
+   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:4:1]
+ 4 | 
  5 | a { color: blue }
    :  ^
    `----
 
   x WhiteSpace { value: " " }
-   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:5:1]
+   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:4:1]
+ 4 | 
  5 | a { color: blue }
    :  ^
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:5:1]
+   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:4:1]
+ 4 | 
  5 | a { color: blue }
    :   ^^^^^^^^^^^^^^^
    `----
 
   x LBrace
-   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:5:1]
+   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:4:1]
+ 4 | 
  5 | a { color: blue }
    :   ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:5:1]
+   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:4:1]
+ 4 | 
  5 | a { color: blue }
    :     ^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:5:1]
+   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:4:1]
+ 4 | 
  5 | a { color: blue }
    :     ^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:5:1]
+   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:4:1]
+ 4 | 
  5 | a { color: blue }
    :     ^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:5:1]
+   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:4:1]
+ 4 | 
  5 | a { color: blue }
    :     ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:5:1]
+   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:4:1]
+ 4 | 
  5 | a { color: blue }
    :     ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:5:1]
+   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:4:1]
+ 4 | 
  5 | a { color: blue }
    :            ^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:5:1]
+   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:4:1]
+ 4 | 
  5 | a { color: blue }
    :            ^^^^
    `----

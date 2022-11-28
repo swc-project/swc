@@ -1,7 +1,8 @@
 //// [emitArrowFunctionWhenUsingArguments12.ts]
 //! 
 //!   x 'eval' and 'arguments' cannot be used as a binding identifier in strict mode
-//!    ,-[2:1]
+//!    ,-[1:1]
+//!  1 | 
 //!  2 | class C {
 //!  3 |     f(arguments) {
 //!    :       ^^^^^^^^^

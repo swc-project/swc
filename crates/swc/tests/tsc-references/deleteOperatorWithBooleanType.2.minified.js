@@ -37,7 +37,8 @@
 //!     `----
 //! 
 //!   x The operand of a delete operator must be a property reference.
-//!     ,-[19:1]
+//!     ,-[18:1]
+//!  18 | 
 //!  19 | // boolean type literal
 //!  20 | var ResultIsBoolean2 = delete true;
 //!  21 | var ResultIsBoolean3 = delete { x: true, y: false };
@@ -120,7 +121,8 @@
 //!     `----
 //! 
 //!   x 'delete' cannot be called on an identifier in strict mode
-//!     ,-[32:1]
+//!     ,-[31:1]
+//!  31 | 
 //!  32 | // miss assignment operators
 //!  33 | delete true;
 //!  34 | delete BOOLEAN;
@@ -131,7 +133,8 @@
 //!     `----
 //! 
 //!   x The operand of a delete operator must be a property reference.
-//!     ,-[32:1]
+//!     ,-[31:1]
+//!  31 | 
 //!  32 | // miss assignment operators
 //!  33 | delete true;
 //!  34 | delete BOOLEAN;

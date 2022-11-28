@@ -3,7 +3,7 @@
    ,-[$DIR/tests/fixture/delim/backslash/input.css:1:1]
  1 | ,-> a {
  2 | |       color: \\ red \\ blue;
- 3 | |   }
+ 3 | `-> }
    `----
 
   x Rule

@@ -16,8 +16,8 @@
    `----
 
   x Opening and ending tag mismatch
-   ,-[$DIR/tests/recovery/comments/bad-40/input.xml:4:5]
- 4 | <!-- def='NT-Char'--><!-->Char</nt>* ']]&gt;' <nt def='NT-Char'>Char</nt>*))
+   ,-[$DIR/tests/recovery/comments/bad-40/input.xml:4:1]
+ 4 |     <!-- def='NT-Char'--><!-->Char</nt>* ']]&gt;' <nt def='NT-Char'>Char</nt>*))
  5 | ']]&gt;'</rhs>
    :         ^^^^^^
  6 | <com>CDATA sections</com>

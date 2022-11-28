@@ -13,7 +13,7 @@
  10 | |   <p>This is a paragraph too.</p>
  11 | |   
  12 | |   </body>
- 13 | |   </html>
+ 13 | `-> </html>
     `----
 
   x Child
@@ -44,7 +44,7 @@
  10 | |   <p>This is a paragraph too.</p>
  11 | |   
  12 | |   </body>
- 13 | |   </html>
+ 13 | `-> </html>
     `----
 
   x Element
@@ -61,7 +61,7 @@
  10 | |   <p>This is a paragraph too.</p>
  11 | |   
  12 | |   </body>
- 13 | |   </html>
+ 13 | `-> </html>
     `----
 
   x Child
@@ -81,7 +81,7 @@
  10 | |   <p>This is a paragraph too.</p>
  11 | |   
  12 | |   </body>
- 13 | |   </html>
+ 13 | `-> </html>
     `----
 
   x Element
@@ -97,7 +97,7 @@
  10 | |   <p>This is a paragraph too.</p>
  11 | |   
  12 | |   </body>
- 13 | |   </html>
+ 13 | `-> </html>
     `----
 
   x Child
@@ -119,35 +119,40 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/comment/multiline/input.html:5:1]
+   ,-[$DIR/tests/fixture/comment/multiline/input.html:4:1]
+ 4 | 
  5 | <p>This is a paragraph.</p>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
  6 | <!--
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/comment/multiline/input.html:5:1]
+   ,-[$DIR/tests/fixture/comment/multiline/input.html:4:1]
+ 4 | 
  5 | <p>This is a paragraph.</p>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
  6 | <!--
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/comment/multiline/input.html:5:1]
+   ,-[$DIR/tests/fixture/comment/multiline/input.html:4:1]
+ 4 | 
  5 | <p>This is a paragraph.</p>
    :    ^^^^^^^^^^^^^^^^^^^^
  6 | <!--
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/comment/multiline/input.html:5:1]
+   ,-[$DIR/tests/fixture/comment/multiline/input.html:4:1]
+ 4 | 
  5 | <p>This is a paragraph.</p>
    :    ^^^^^^^^^^^^^^^^^^^^
  6 | <!--
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/comment/multiline/input.html:5:1]
+   ,-[$DIR/tests/fixture/comment/multiline/input.html:4:1]
+ 4 | 
  5 | <p>This is a paragraph.</p>
    :                            ^
  6 | <!--
@@ -155,7 +160,8 @@
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/comment/multiline/input.html:5:1]
+   ,-[$DIR/tests/fixture/comment/multiline/input.html:4:1]
+ 4 | 
  5 | <p>This is a paragraph.</p>
    :                            ^
  6 | <!--
@@ -232,7 +238,7 @@
  10 | ,-> <p>This is a paragraph too.</p>
  11 | |   
  12 | |   </body>
- 13 | |   </html>
+ 13 | `-> </html>
     `----
 
   x Text
@@ -241,5 +247,5 @@
  10 | ,-> <p>This is a paragraph too.</p>
  11 | |   
  12 | |   </body>
- 13 | |   </html>
+ 13 | `-> </html>
     `----

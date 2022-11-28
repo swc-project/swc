@@ -12,7 +12,8 @@
 //!     `----
 //! 
 //!   x The left-hand side of an assignment expression must be a variable or a property access.
-//!     ,-[21:1]
+//!     ,-[20:1]
+//!  20 | 
 //!  21 | // boolean type literal
 //!  22 | var ResultIsNumber3 = ++true;
 //!  23 | var ResultIsNumber4 = ++{ x: true, y: false };
@@ -58,7 +59,8 @@
 //!     `----
 //! 
 //!   x The left-hand side of an assignment expression must be a variable or a property access.
-//!     ,-[26:1]
+//!     ,-[25:1]
+//!  25 | 
 //!  26 | var ResultIsNumber6 = true++;
 //!  27 | var ResultIsNumber7 = { x: true, y: false }++;
 //!  28 | var ResultIsNumber8 = { x: true, y: (n: boolean) => { return n; } }++;
@@ -152,7 +154,8 @@
 //!     `----
 //! 
 //!   x The left-hand side of an assignment expression must be a variable or a property access.
-//!     ,-[49:1]
+//!     ,-[48:1]
+//!  48 | 
 //!  49 | true++;
 //!  50 | BOOLEAN++;
 //!  51 | foo()++;

@@ -3,7 +3,7 @@
    ,-[$DIR/tests/fixture/rome/grid/repeat/multi-values/input.css:1:1]
  1 | ,-> .style {
  2 | |   	grid-template-columns: repeat(4, [col-start] min-content [col-middle] max-content [col-end]);
- 3 | |   }
+ 3 | `-> }
    `----
 
   x Rule

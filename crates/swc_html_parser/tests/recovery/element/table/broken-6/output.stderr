@@ -1,15 +1,15 @@
 
   x Stray end tag "td"
-    ,-[$DIR/tests/recovery/element/table/broken-6/input.html:10:13]
- 10 | <table>
+    ,-[$DIR/tests/recovery/element/table/broken-6/input.html:10:1]
+ 10 |             <table>
  11 |         </td>
     :         ^^^^^
  12 |     </tr>
     `----
 
   x Stray end tag "tr"
-    ,-[$DIR/tests/recovery/element/table/broken-6/input.html:11:9]
- 11 | </td>
+    ,-[$DIR/tests/recovery/element/table/broken-6/input.html:11:1]
+ 11 |         </td>
  12 |     </tr>
     :     ^^^^^
  13 | </table>

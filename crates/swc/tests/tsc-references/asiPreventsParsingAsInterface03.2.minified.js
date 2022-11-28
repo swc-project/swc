@@ -1,7 +1,8 @@
 //// [asiPreventsParsingAsInterface03.ts]
 //! 
 //!   x `interface` cannot be used as an identifier in strict mode
-//!    ,-[2:1]
+//!    ,-[1:1]
+//!  1 | 
 //!  2 | var interface: number, I: string;
 //!    :     ^^^^^^^^^
 //!  3 | 

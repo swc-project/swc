@@ -191,7 +191,7 @@
  188 | |       body {
  189 | |           background-color: green;
  190 | |       }
- 191 | |   }
+ 191 | `-> }
      `----
 
   x Rule
@@ -4831,7 +4831,8 @@
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:32:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:31:1]
+ 31 |     
  32 | ,-> @media (--concat) {
  33 | |       body {
  34 | |           order: 7;
@@ -4840,7 +4841,8 @@
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:32:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:31:1]
+ 31 |     
  32 | ,-> @media (--concat) {
  33 | |       body {
  34 | |           order: 7;
@@ -4849,84 +4851,96 @@
     `----
 
   x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:32:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:31:1]
+ 31 | 
  32 | @media (--concat) {
     :  ^^^^^
  33 |     body {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:32:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:31:1]
+ 31 | 
  32 | @media (--concat) {
     :  ^^^^^
  33 |     body {
     `----
 
   x MediaQueryList
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:32:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:31:1]
+ 31 | 
  32 | @media (--concat) {
     :        ^^^^^^^^^^
  33 |     body {
     `----
 
   x MediaQuery
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:32:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:31:1]
+ 31 | 
  32 | @media (--concat) {
     :        ^^^^^^^^^^
  33 |     body {
     `----
 
   x MediaCondition
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:32:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:31:1]
+ 31 | 
  32 | @media (--concat) {
     :        ^^^^^^^^^^
  33 |     body {
     `----
 
   x MediaConditionAllType
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:32:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:31:1]
+ 31 | 
  32 | @media (--concat) {
     :        ^^^^^^^^^^
  33 |     body {
     `----
 
   x MediaInParens
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:32:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:31:1]
+ 31 | 
  32 | @media (--concat) {
     :        ^^^^^^^^^^
  33 |     body {
     `----
 
   x MediaFeature
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:32:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:31:1]
+ 31 | 
  32 | @media (--concat) {
     :        ^^^^^^^^^^
  33 |     body {
     `----
 
   x MediaFeatureBoolean
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:32:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:31:1]
+ 31 | 
  32 | @media (--concat) {
     :        ^^^^^^^^^^
  33 |     body {
     `----
 
   x MediaFeatureName
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:32:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:31:1]
+ 31 | 
  32 | @media (--concat) {
     :         ^^^^^^^^
  33 |     body {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:32:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:31:1]
+ 31 | 
  32 | @media (--concat) {
     :         ^^^^^^^^
  33 |     body {
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:32:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:31:1]
+ 31 |     
  32 | ,-> @media (--concat) {
  33 | |       body {
  34 | |           order: 7;
@@ -4935,7 +4949,8 @@
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:32:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:31:1]
+ 31 | 
  32 | @media (--concat) {
     :                   ^
  33 |     body {
@@ -5042,63 +5057,64 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:33:5]
- 33 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:33:1]
+ 33 |     body {
  34 |         order: 7;
     :         ^^^^^^^^
  35 |     }
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:33:5]
- 33 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:33:1]
+ 33 |     body {
  34 |         order: 7;
     :         ^^^^^^^^
  35 |     }
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:33:5]
- 33 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:33:1]
+ 33 |     body {
  34 |         order: 7;
     :         ^^^^^^^^
  35 |     }
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:33:5]
- 33 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:33:1]
+ 33 |     body {
  34 |         order: 7;
     :         ^^^^^
  35 |     }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:33:5]
- 33 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:33:1]
+ 33 |     body {
  34 |         order: 7;
     :         ^^^^^
  35 |     }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:33:5]
- 33 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:33:1]
+ 33 |     body {
  34 |         order: 7;
     :                ^
  35 |     }
     `----
 
   x Integer
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:33:5]
- 33 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:33:1]
+ 33 |     body {
  34 |         order: 7;
     :                ^
  35 |     }
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:38:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:37:1]
+ 37 |     
  38 | ,-> @media (--concat) and (min-aspect-ratio: 16/9) {
  39 | |       body {
  40 | |           order: 8;
@@ -5107,7 +5123,8 @@
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:38:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:37:1]
+ 37 |     
  38 | ,-> @media (--concat) and (min-aspect-ratio: 16/9) {
  39 | |       body {
  40 | |           order: 8;
@@ -5116,168 +5133,192 @@
     `----
 
   x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:38:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:37:1]
+ 37 | 
  38 | @media (--concat) and (min-aspect-ratio: 16/9) {
     :  ^^^^^
  39 |     body {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:38:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:37:1]
+ 37 | 
  38 | @media (--concat) and (min-aspect-ratio: 16/9) {
     :  ^^^^^
  39 |     body {
     `----
 
   x MediaQueryList
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:38:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:37:1]
+ 37 | 
  38 | @media (--concat) and (min-aspect-ratio: 16/9) {
     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  39 |     body {
     `----
 
   x MediaQuery
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:38:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:37:1]
+ 37 | 
  38 | @media (--concat) and (min-aspect-ratio: 16/9) {
     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  39 |     body {
     `----
 
   x MediaCondition
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:38:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:37:1]
+ 37 | 
  38 | @media (--concat) and (min-aspect-ratio: 16/9) {
     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  39 |     body {
     `----
 
   x MediaConditionAllType
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:38:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:37:1]
+ 37 | 
  38 | @media (--concat) and (min-aspect-ratio: 16/9) {
     :        ^^^^^^^^^^
  39 |     body {
     `----
 
   x MediaInParens
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:38:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:37:1]
+ 37 | 
  38 | @media (--concat) and (min-aspect-ratio: 16/9) {
     :        ^^^^^^^^^^
  39 |     body {
     `----
 
   x MediaFeature
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:38:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:37:1]
+ 37 | 
  38 | @media (--concat) and (min-aspect-ratio: 16/9) {
     :        ^^^^^^^^^^
  39 |     body {
     `----
 
   x MediaFeatureBoolean
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:38:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:37:1]
+ 37 | 
  38 | @media (--concat) and (min-aspect-ratio: 16/9) {
     :        ^^^^^^^^^^
  39 |     body {
     `----
 
   x MediaFeatureName
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:38:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:37:1]
+ 37 | 
  38 | @media (--concat) and (min-aspect-ratio: 16/9) {
     :         ^^^^^^^^
  39 |     body {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:38:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:37:1]
+ 37 | 
  38 | @media (--concat) and (min-aspect-ratio: 16/9) {
     :         ^^^^^^^^
  39 |     body {
     `----
 
   x MediaConditionAllType
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:38:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:37:1]
+ 37 | 
  38 | @media (--concat) and (min-aspect-ratio: 16/9) {
     :                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  39 |     body {
     `----
 
   x MediaAnd
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:38:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:37:1]
+ 37 | 
  38 | @media (--concat) and (min-aspect-ratio: 16/9) {
     :                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  39 |     body {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:38:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:37:1]
+ 37 | 
  38 | @media (--concat) and (min-aspect-ratio: 16/9) {
     :                   ^^^
  39 |     body {
     `----
 
   x MediaInParens
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:38:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:37:1]
+ 37 | 
  38 | @media (--concat) and (min-aspect-ratio: 16/9) {
     :                       ^^^^^^^^^^^^^^^^^^^^^^^^
  39 |     body {
     `----
 
   x MediaFeature
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:38:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:37:1]
+ 37 | 
  38 | @media (--concat) and (min-aspect-ratio: 16/9) {
     :                       ^^^^^^^^^^^^^^^^^^^^^^^^
  39 |     body {
     `----
 
   x MediaFeaturePlain
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:38:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:37:1]
+ 37 | 
  38 | @media (--concat) and (min-aspect-ratio: 16/9) {
     :                       ^^^^^^^^^^^^^^^^^^^^^^^^
  39 |     body {
     `----
 
   x MediaFeatureName
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:38:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:37:1]
+ 37 | 
  38 | @media (--concat) and (min-aspect-ratio: 16/9) {
     :                        ^^^^^^^^^^^^^^^^
  39 |     body {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:38:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:37:1]
+ 37 | 
  38 | @media (--concat) and (min-aspect-ratio: 16/9) {
     :                        ^^^^^^^^^^^^^^^^
  39 |     body {
     `----
 
   x MediaFeatureValue
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:38:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:37:1]
+ 37 | 
  38 | @media (--concat) and (min-aspect-ratio: 16/9) {
     :                                          ^^^^
  39 |     body {
     `----
 
   x Ratio
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:38:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:37:1]
+ 37 | 
  38 | @media (--concat) and (min-aspect-ratio: 16/9) {
     :                                          ^^^^
  39 |     body {
     `----
 
   x Number
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:38:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:37:1]
+ 37 | 
  38 | @media (--concat) and (min-aspect-ratio: 16/9) {
     :                                          ^^
  39 |     body {
     `----
 
   x Number
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:38:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:37:1]
+ 37 | 
  38 | @media (--concat) and (min-aspect-ratio: 16/9) {
     :                                             ^
  39 |     body {
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:38:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:37:1]
+ 37 |     
  38 | ,-> @media (--concat) and (min-aspect-ratio: 16/9) {
  39 | |       body {
  40 | |           order: 8;
@@ -5286,7 +5327,8 @@
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:38:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:37:1]
+ 37 | 
  38 | @media (--concat) and (min-aspect-ratio: 16/9) {
     :                                                ^
  39 |     body {
@@ -5393,63 +5435,64 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:39:5]
- 39 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:39:1]
+ 39 |     body {
  40 |         order: 8;
     :         ^^^^^^^^
  41 |     }
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:39:5]
- 39 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:39:1]
+ 39 |     body {
  40 |         order: 8;
     :         ^^^^^^^^
  41 |     }
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:39:5]
- 39 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:39:1]
+ 39 |     body {
  40 |         order: 8;
     :         ^^^^^^^^
  41 |     }
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:39:5]
- 39 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:39:1]
+ 39 |     body {
  40 |         order: 8;
     :         ^^^^^
  41 |     }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:39:5]
- 39 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:39:1]
+ 39 |     body {
  40 |         order: 8;
     :         ^^^^^
  41 |     }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:39:5]
- 39 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:39:1]
+ 39 |     body {
  40 |         order: 8;
     :                ^
  41 |     }
     `----
 
   x Integer
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:39:5]
- 39 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:39:1]
+ 39 |     body {
  40 |         order: 8;
     :                ^
  41 |     }
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:44:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:43:1]
+ 43 |     
  44 | ,-> @media ( --mq-a ) {
  45 | |       body {
  46 | |           order: 1000;
@@ -5458,7 +5501,8 @@
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:44:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:43:1]
+ 43 |     
  44 | ,-> @media ( --mq-a ) {
  45 | |       body {
  46 | |           order: 1000;
@@ -5467,84 +5511,96 @@
     `----
 
   x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:44:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:43:1]
+ 43 | 
  44 | @media ( --mq-a ) {
     :  ^^^^^
  45 |     body {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:44:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:43:1]
+ 43 | 
  44 | @media ( --mq-a ) {
     :  ^^^^^
  45 |     body {
     `----
 
   x MediaQueryList
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:44:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:43:1]
+ 43 | 
  44 | @media ( --mq-a ) {
     :        ^^^^^^^^^^
  45 |     body {
     `----
 
   x MediaQuery
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:44:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:43:1]
+ 43 | 
  44 | @media ( --mq-a ) {
     :        ^^^^^^^^^^
  45 |     body {
     `----
 
   x MediaCondition
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:44:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:43:1]
+ 43 | 
  44 | @media ( --mq-a ) {
     :        ^^^^^^^^^^
  45 |     body {
     `----
 
   x MediaConditionAllType
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:44:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:43:1]
+ 43 | 
  44 | @media ( --mq-a ) {
     :        ^^^^^^^^^^
  45 |     body {
     `----
 
   x MediaInParens
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:44:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:43:1]
+ 43 | 
  44 | @media ( --mq-a ) {
     :        ^^^^^^^^^^
  45 |     body {
     `----
 
   x MediaFeature
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:44:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:43:1]
+ 43 | 
  44 | @media ( --mq-a ) {
     :        ^^^^^^^^^^
  45 |     body {
     `----
 
   x MediaFeatureBoolean
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:44:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:43:1]
+ 43 | 
  44 | @media ( --mq-a ) {
     :        ^^^^^^^^^^
  45 |     body {
     `----
 
   x MediaFeatureName
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:44:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:43:1]
+ 43 | 
  44 | @media ( --mq-a ) {
     :          ^^^^^^
  45 |     body {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:44:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:43:1]
+ 43 | 
  44 | @media ( --mq-a ) {
     :          ^^^^^^
  45 |     body {
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:44:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:43:1]
+ 43 |     
  44 | ,-> @media ( --mq-a ) {
  45 | |       body {
  46 | |           order: 1000;
@@ -5553,7 +5609,8 @@
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:44:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:43:1]
+ 43 | 
  44 | @media ( --mq-a ) {
     :                   ^
  45 |     body {
@@ -5660,63 +5717,64 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:45:5]
- 45 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:45:1]
+ 45 |     body {
  46 |         order: 1000;
     :         ^^^^^^^^^^^
  47 |     }
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:45:5]
- 45 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:45:1]
+ 45 |     body {
  46 |         order: 1000;
     :         ^^^^^^^^^^^
  47 |     }
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:45:5]
- 45 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:45:1]
+ 45 |     body {
  46 |         order: 1000;
     :         ^^^^^^^^^^^
  47 |     }
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:45:5]
- 45 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:45:1]
+ 45 |     body {
  46 |         order: 1000;
     :         ^^^^^
  47 |     }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:45:5]
- 45 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:45:1]
+ 45 |     body {
  46 |         order: 1000;
     :         ^^^^^
  47 |     }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:45:5]
- 45 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:45:1]
+ 45 |     body {
  46 |         order: 1000;
     :                ^^^^
  47 |     }
     `----
 
   x Integer
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:45:5]
- 45 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:45:1]
+ 45 |     body {
  46 |         order: 1000;
     :                ^^^^
  47 |     }
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:50:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:49:1]
+ 49 |     
  50 | ,-> @media (	--mq-a	) {
  51 | |       body {
  52 | |           order: 1001;
@@ -5725,7 +5783,8 @@
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:50:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:49:1]
+ 49 |     
  50 | ,-> @media (	--mq-a	) {
  51 | |       body {
  52 | |           order: 1001;
@@ -5734,84 +5793,96 @@
     `----
 
   x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:50:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:49:1]
+ 49 | 
  50 | @media (	--mq-a	) {
     :  ^^^^^
  51 |     body {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:50:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:49:1]
+ 49 | 
  50 | @media (	--mq-a	) {
     :  ^^^^^
  51 |     body {
     `----
 
   x MediaQueryList
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:50:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:49:1]
+ 49 | 
  50 | @media (	--mq-a	) {
     :        ^^^^^^^^^^
  51 |     body {
     `----
 
   x MediaQuery
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:50:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:49:1]
+ 49 | 
  50 | @media (	--mq-a	) {
     :        ^^^^^^^^^^
  51 |     body {
     `----
 
   x MediaCondition
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:50:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:49:1]
+ 49 | 
  50 | @media (	--mq-a	) {
     :        ^^^^^^^^^^
  51 |     body {
     `----
 
   x MediaConditionAllType
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:50:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:49:1]
+ 49 | 
  50 | @media (	--mq-a	) {
     :        ^^^^^^^^^^
  51 |     body {
     `----
 
   x MediaInParens
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:50:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:49:1]
+ 49 | 
  50 | @media (	--mq-a	) {
     :        ^^^^^^^^^^
  51 |     body {
     `----
 
   x MediaFeature
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:50:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:49:1]
+ 49 | 
  50 | @media (	--mq-a	) {
     :        ^^^^^^^^^^
  51 |     body {
     `----
 
   x MediaFeatureBoolean
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:50:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:49:1]
+ 49 | 
  50 | @media (	--mq-a	) {
     :        ^^^^^^^^^^
  51 |     body {
     `----
 
   x MediaFeatureName
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:50:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:49:1]
+ 49 | 
  50 | @media (	--mq-a	) {
     :          ^^^^^^
  51 |     body {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:50:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:49:1]
+ 49 | 
  50 | @media (	--mq-a	) {
     :          ^^^^^^
  51 |     body {
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:50:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:49:1]
+ 49 |     
  50 | ,-> @media (	--mq-a	) {
  51 | |       body {
  52 | |           order: 1001;
@@ -5820,7 +5891,8 @@
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:50:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:49:1]
+ 49 | 
  50 | @media (	--mq-a	) {
     :                   ^
  51 |     body {
@@ -5927,63 +5999,64 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:51:5]
- 51 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:51:1]
+ 51 |     body {
  52 |         order: 1001;
     :         ^^^^^^^^^^^
  53 |     }
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:51:5]
- 51 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:51:1]
+ 51 |     body {
  52 |         order: 1001;
     :         ^^^^^^^^^^^
  53 |     }
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:51:5]
- 51 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:51:1]
+ 51 |     body {
  52 |         order: 1001;
     :         ^^^^^^^^^^^
  53 |     }
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:51:5]
- 51 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:51:1]
+ 51 |     body {
  52 |         order: 1001;
     :         ^^^^^
  53 |     }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:51:5]
- 51 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:51:1]
+ 51 |     body {
  52 |         order: 1001;
     :         ^^^^^
  53 |     }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:51:5]
- 51 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:51:1]
+ 51 |     body {
  52 |         order: 1001;
     :                ^^^^
  53 |     }
     `----
 
   x Integer
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:51:5]
- 51 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:51:1]
+ 51 |     body {
  52 |         order: 1001;
     :                ^^^^
  53 |     }
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:56:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:55:1]
+ 55 |     
  56 | ,-> @media ( --mq-a ), (   --mq-a    ) {
  57 | |       body {
  58 | |           order: 1002;
@@ -5992,7 +6065,8 @@
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:56:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:55:1]
+ 55 |     
  56 | ,-> @media ( --mq-a ), (   --mq-a    ) {
  57 | |       body {
  58 | |           order: 1002;
@@ -6001,140 +6075,160 @@
     `----
 
   x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:56:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:55:1]
+ 55 | 
  56 | @media ( --mq-a ), (   --mq-a    ) {
     :  ^^^^^
  57 |     body {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:56:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:55:1]
+ 55 | 
  56 | @media ( --mq-a ), (   --mq-a    ) {
     :  ^^^^^
  57 |     body {
     `----
 
   x MediaQueryList
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:56:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:55:1]
+ 55 | 
  56 | @media ( --mq-a ), (   --mq-a    ) {
     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
  57 |     body {
     `----
 
   x MediaQuery
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:56:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:55:1]
+ 55 | 
  56 | @media ( --mq-a ), (   --mq-a    ) {
     :        ^^^^^^^^^^
  57 |     body {
     `----
 
   x MediaCondition
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:56:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:55:1]
+ 55 | 
  56 | @media ( --mq-a ), (   --mq-a    ) {
     :        ^^^^^^^^^^
  57 |     body {
     `----
 
   x MediaConditionAllType
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:56:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:55:1]
+ 55 | 
  56 | @media ( --mq-a ), (   --mq-a    ) {
     :        ^^^^^^^^^^
  57 |     body {
     `----
 
   x MediaInParens
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:56:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:55:1]
+ 55 | 
  56 | @media ( --mq-a ), (   --mq-a    ) {
     :        ^^^^^^^^^^
  57 |     body {
     `----
 
   x MediaFeature
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:56:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:55:1]
+ 55 | 
  56 | @media ( --mq-a ), (   --mq-a    ) {
     :        ^^^^^^^^^^
  57 |     body {
     `----
 
   x MediaFeatureBoolean
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:56:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:55:1]
+ 55 | 
  56 | @media ( --mq-a ), (   --mq-a    ) {
     :        ^^^^^^^^^^
  57 |     body {
     `----
 
   x MediaFeatureName
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:56:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:55:1]
+ 55 | 
  56 | @media ( --mq-a ), (   --mq-a    ) {
     :          ^^^^^^
  57 |     body {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:56:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:55:1]
+ 55 | 
  56 | @media ( --mq-a ), (   --mq-a    ) {
     :          ^^^^^^
  57 |     body {
     `----
 
   x MediaQuery
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:56:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:55:1]
+ 55 | 
  56 | @media ( --mq-a ), (   --mq-a    ) {
     :                    ^^^^^^^^^^^^^^^
  57 |     body {
     `----
 
   x MediaCondition
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:56:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:55:1]
+ 55 | 
  56 | @media ( --mq-a ), (   --mq-a    ) {
     :                    ^^^^^^^^^^^^^^^
  57 |     body {
     `----
 
   x MediaConditionAllType
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:56:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:55:1]
+ 55 | 
  56 | @media ( --mq-a ), (   --mq-a    ) {
     :                    ^^^^^^^^^^^^^^^
  57 |     body {
     `----
 
   x MediaInParens
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:56:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:55:1]
+ 55 | 
  56 | @media ( --mq-a ), (   --mq-a    ) {
     :                    ^^^^^^^^^^^^^^^
  57 |     body {
     `----
 
   x MediaFeature
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:56:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:55:1]
+ 55 | 
  56 | @media ( --mq-a ), (   --mq-a    ) {
     :                    ^^^^^^^^^^^^^^^
  57 |     body {
     `----
 
   x MediaFeatureBoolean
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:56:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:55:1]
+ 55 | 
  56 | @media ( --mq-a ), (   --mq-a    ) {
     :                    ^^^^^^^^^^^^^^^
  57 |     body {
     `----
 
   x MediaFeatureName
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:56:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:55:1]
+ 55 | 
  56 | @media ( --mq-a ), (   --mq-a    ) {
     :                        ^^^^^^
  57 |     body {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:56:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:55:1]
+ 55 | 
  56 | @media ( --mq-a ), (   --mq-a    ) {
     :                        ^^^^^^
  57 |     body {
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:56:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:55:1]
+ 55 |     
  56 | ,-> @media ( --mq-a ), (   --mq-a    ) {
  57 | |       body {
  58 | |           order: 1002;
@@ -6143,7 +6237,8 @@
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:56:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:55:1]
+ 55 | 
  56 | @media ( --mq-a ), (   --mq-a    ) {
     :                                    ^
  57 |     body {
@@ -6250,63 +6345,64 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:57:5]
- 57 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:57:1]
+ 57 |     body {
  58 |         order: 1002;
     :         ^^^^^^^^^^^
  59 |     }
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:57:5]
- 57 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:57:1]
+ 57 |     body {
  58 |         order: 1002;
     :         ^^^^^^^^^^^
  59 |     }
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:57:5]
- 57 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:57:1]
+ 57 |     body {
  58 |         order: 1002;
     :         ^^^^^^^^^^^
  59 |     }
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:57:5]
- 57 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:57:1]
+ 57 |     body {
  58 |         order: 1002;
     :         ^^^^^
  59 |     }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:57:5]
- 57 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:57:1]
+ 57 |     body {
  58 |         order: 1002;
     :         ^^^^^
  59 |     }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:57:5]
- 57 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:57:1]
+ 57 |     body {
  58 |         order: 1002;
     :                ^^^^
  59 |     }
     `----
 
   x Integer
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:57:5]
- 57 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:57:1]
+ 57 |     body {
  58 |         order: 1002;
     :                ^^^^
  59 |     }
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:62:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:61:1]
+ 61 |     
  62 | ,-> @media (	--mq-a	), (			--mq-a				) {
  63 | |       body {
  64 | |           order: 1003;
@@ -6315,7 +6411,8 @@
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:62:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:61:1]
+ 61 |     
  62 | ,-> @media (	--mq-a	), (			--mq-a				) {
  63 | |       body {
  64 | |           order: 1003;
@@ -6324,140 +6421,160 @@
     `----
 
   x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:62:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:61:1]
+ 61 | 
  62 | @media (	--mq-a	), (			--mq-a				) {
     :  ^^^^^
  63 |     body {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:62:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:61:1]
+ 61 | 
  62 | @media (	--mq-a	), (			--mq-a				) {
     :  ^^^^^
  63 |     body {
     `----
 
   x MediaQueryList
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:62:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:61:1]
+ 61 | 
  62 | @media (	--mq-a	), (			--mq-a				) {
     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
  63 |     body {
     `----
 
   x MediaQuery
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:62:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:61:1]
+ 61 | 
  62 | @media (	--mq-a	), (			--mq-a				) {
     :        ^^^^^^^^^^
  63 |     body {
     `----
 
   x MediaCondition
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:62:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:61:1]
+ 61 | 
  62 | @media (	--mq-a	), (			--mq-a				) {
     :        ^^^^^^^^^^
  63 |     body {
     `----
 
   x MediaConditionAllType
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:62:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:61:1]
+ 61 | 
  62 | @media (	--mq-a	), (			--mq-a				) {
     :        ^^^^^^^^^^
  63 |     body {
     `----
 
   x MediaInParens
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:62:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:61:1]
+ 61 | 
  62 | @media (	--mq-a	), (			--mq-a				) {
     :        ^^^^^^^^^^
  63 |     body {
     `----
 
   x MediaFeature
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:62:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:61:1]
+ 61 | 
  62 | @media (	--mq-a	), (			--mq-a				) {
     :        ^^^^^^^^^^
  63 |     body {
     `----
 
   x MediaFeatureBoolean
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:62:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:61:1]
+ 61 | 
  62 | @media (	--mq-a	), (			--mq-a				) {
     :        ^^^^^^^^^^
  63 |     body {
     `----
 
   x MediaFeatureName
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:62:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:61:1]
+ 61 | 
  62 | @media (	--mq-a	), (			--mq-a				) {
     :          ^^^^^^
  63 |     body {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:62:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:61:1]
+ 61 | 
  62 | @media (	--mq-a	), (			--mq-a				) {
     :          ^^^^^^
  63 |     body {
     `----
 
   x MediaQuery
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:62:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:61:1]
+ 61 | 
  62 | @media (	--mq-a	), (			--mq-a				) {
     :                    ^^^^^^^^^^^^^^^
  63 |     body {
     `----
 
   x MediaCondition
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:62:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:61:1]
+ 61 | 
  62 | @media (	--mq-a	), (			--mq-a				) {
     :                    ^^^^^^^^^^^^^^^
  63 |     body {
     `----
 
   x MediaConditionAllType
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:62:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:61:1]
+ 61 | 
  62 | @media (	--mq-a	), (			--mq-a				) {
     :                    ^^^^^^^^^^^^^^^
  63 |     body {
     `----
 
   x MediaInParens
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:62:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:61:1]
+ 61 | 
  62 | @media (	--mq-a	), (			--mq-a				) {
     :                    ^^^^^^^^^^^^^^^
  63 |     body {
     `----
 
   x MediaFeature
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:62:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:61:1]
+ 61 | 
  62 | @media (	--mq-a	), (			--mq-a				) {
     :                    ^^^^^^^^^^^^^^^
  63 |     body {
     `----
 
   x MediaFeatureBoolean
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:62:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:61:1]
+ 61 | 
  62 | @media (	--mq-a	), (			--mq-a				) {
     :                    ^^^^^^^^^^^^^^^
  63 |     body {
     `----
 
   x MediaFeatureName
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:62:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:61:1]
+ 61 | 
  62 | @media (	--mq-a	), (			--mq-a				) {
     :                        ^^^^^^
  63 |     body {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:62:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:61:1]
+ 61 | 
  62 | @media (	--mq-a	), (			--mq-a				) {
     :                        ^^^^^^
  63 |     body {
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:62:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:61:1]
+ 61 |     
  62 | ,-> @media (	--mq-a	), (			--mq-a				) {
  63 | |       body {
  64 | |           order: 1003;
@@ -6466,7 +6583,8 @@
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:62:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:61:1]
+ 61 | 
  62 | @media (	--mq-a	), (			--mq-a				) {
     :                                    ^
  63 |     body {
@@ -6573,63 +6691,64 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:63:5]
- 63 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:63:1]
+ 63 |     body {
  64 |         order: 1003;
     :         ^^^^^^^^^^^
  65 |     }
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:63:5]
- 63 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:63:1]
+ 63 |     body {
  64 |         order: 1003;
     :         ^^^^^^^^^^^
  65 |     }
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:63:5]
- 63 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:63:1]
+ 63 |     body {
  64 |         order: 1003;
     :         ^^^^^^^^^^^
  65 |     }
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:63:5]
- 63 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:63:1]
+ 63 |     body {
  64 |         order: 1003;
     :         ^^^^^
  65 |     }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:63:5]
- 63 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:63:1]
+ 63 |     body {
  64 |         order: 1003;
     :         ^^^^^
  65 |     }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:63:5]
- 63 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:63:1]
+ 63 |     body {
  64 |         order: 1003;
     :                ^^^^
  65 |     }
     `----
 
   x Integer
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:63:5]
- 63 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:63:1]
+ 63 |     body {
  64 |         order: 1003;
     :                ^^^^
  65 |     }
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:68:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:67:1]
+ 67 |     
  68 | ,-> @media ( --mq-a   ), (   --mq-a           ) {
  69 | |       body {
  70 | |           order: 1004;
@@ -6638,7 +6757,8 @@
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:68:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:67:1]
+ 67 |     
  68 | ,-> @media ( --mq-a   ), (   --mq-a           ) {
  69 | |       body {
  70 | |           order: 1004;
@@ -6647,140 +6767,160 @@
     `----
 
   x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:68:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:67:1]
+ 67 | 
  68 | @media ( --mq-a   ), (   --mq-a           ) {
     :  ^^^^^
  69 |     body {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:68:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:67:1]
+ 67 | 
  68 | @media ( --mq-a   ), (   --mq-a           ) {
     :  ^^^^^
  69 |     body {
     `----
 
   x MediaQueryList
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:68:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:67:1]
+ 67 | 
  68 | @media ( --mq-a   ), (   --mq-a           ) {
     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  69 |     body {
     `----
 
   x MediaQuery
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:68:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:67:1]
+ 67 | 
  68 | @media ( --mq-a   ), (   --mq-a           ) {
     :        ^^^^^^^^^^^^
  69 |     body {
     `----
 
   x MediaCondition
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:68:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:67:1]
+ 67 | 
  68 | @media ( --mq-a   ), (   --mq-a           ) {
     :        ^^^^^^^^^^^^
  69 |     body {
     `----
 
   x MediaConditionAllType
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:68:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:67:1]
+ 67 | 
  68 | @media ( --mq-a   ), (   --mq-a           ) {
     :        ^^^^^^^^^^^^
  69 |     body {
     `----
 
   x MediaInParens
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:68:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:67:1]
+ 67 | 
  68 | @media ( --mq-a   ), (   --mq-a           ) {
     :        ^^^^^^^^^^^^
  69 |     body {
     `----
 
   x MediaFeature
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:68:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:67:1]
+ 67 | 
  68 | @media ( --mq-a   ), (   --mq-a           ) {
     :        ^^^^^^^^^^^^
  69 |     body {
     `----
 
   x MediaFeatureBoolean
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:68:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:67:1]
+ 67 | 
  68 | @media ( --mq-a   ), (   --mq-a           ) {
     :        ^^^^^^^^^^^^
  69 |     body {
     `----
 
   x MediaFeatureName
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:68:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:67:1]
+ 67 | 
  68 | @media ( --mq-a   ), (   --mq-a           ) {
     :          ^^^^^^
  69 |     body {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:68:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:67:1]
+ 67 | 
  68 | @media ( --mq-a   ), (   --mq-a           ) {
     :          ^^^^^^
  69 |     body {
     `----
 
   x MediaQuery
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:68:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:67:1]
+ 67 | 
  68 | @media ( --mq-a   ), (   --mq-a           ) {
     :                      ^^^^^^^^^^^^^^^^^^^^^^
  69 |     body {
     `----
 
   x MediaCondition
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:68:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:67:1]
+ 67 | 
  68 | @media ( --mq-a   ), (   --mq-a           ) {
     :                      ^^^^^^^^^^^^^^^^^^^^^^
  69 |     body {
     `----
 
   x MediaConditionAllType
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:68:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:67:1]
+ 67 | 
  68 | @media ( --mq-a   ), (   --mq-a           ) {
     :                      ^^^^^^^^^^^^^^^^^^^^^^
  69 |     body {
     `----
 
   x MediaInParens
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:68:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:67:1]
+ 67 | 
  68 | @media ( --mq-a   ), (   --mq-a           ) {
     :                      ^^^^^^^^^^^^^^^^^^^^^^
  69 |     body {
     `----
 
   x MediaFeature
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:68:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:67:1]
+ 67 | 
  68 | @media ( --mq-a   ), (   --mq-a           ) {
     :                      ^^^^^^^^^^^^^^^^^^^^^^
  69 |     body {
     `----
 
   x MediaFeatureBoolean
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:68:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:67:1]
+ 67 | 
  68 | @media ( --mq-a   ), (   --mq-a           ) {
     :                      ^^^^^^^^^^^^^^^^^^^^^^
  69 |     body {
     `----
 
   x MediaFeatureName
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:68:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:67:1]
+ 67 | 
  68 | @media ( --mq-a   ), (   --mq-a           ) {
     :                          ^^^^^^
  69 |     body {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:68:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:67:1]
+ 67 | 
  68 | @media ( --mq-a   ), (   --mq-a           ) {
     :                          ^^^^^^
  69 |     body {
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:68:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:67:1]
+ 67 |     
  68 | ,-> @media ( --mq-a   ), (   --mq-a           ) {
  69 | |       body {
  70 | |           order: 1004;
@@ -6789,7 +6929,8 @@
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:68:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:67:1]
+ 67 | 
  68 | @media ( --mq-a   ), (   --mq-a           ) {
     :                                             ^
  69 |     body {
@@ -6896,63 +7037,64 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:69:5]
- 69 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:69:1]
+ 69 |     body {
  70 |         order: 1004;
     :         ^^^^^^^^^^^
  71 |     }
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:69:5]
- 69 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:69:1]
+ 69 |     body {
  70 |         order: 1004;
     :         ^^^^^^^^^^^
  71 |     }
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:69:5]
- 69 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:69:1]
+ 69 |     body {
  70 |         order: 1004;
     :         ^^^^^^^^^^^
  71 |     }
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:69:5]
- 69 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:69:1]
+ 69 |     body {
  70 |         order: 1004;
     :         ^^^^^
  71 |     }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:69:5]
- 69 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:69:1]
+ 69 |     body {
  70 |         order: 1004;
     :         ^^^^^
  71 |     }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:69:5]
- 69 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:69:1]
+ 69 |     body {
  70 |         order: 1004;
     :                ^^^^
  71 |     }
     `----
 
   x Integer
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:69:5]
- 69 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:69:1]
+ 69 |     body {
  70 |         order: 1004;
     :                ^^^^
  71 |     }
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:74:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:73:1]
+ 73 |     
  74 | ,-> @media (--mq-a), (--mq-a) {
  75 | |       body {
  76 | |           order: 1005;
@@ -6961,7 +7103,8 @@
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:74:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:73:1]
+ 73 |     
  74 | ,-> @media (--mq-a), (--mq-a) {
  75 | |       body {
  76 | |           order: 1005;
@@ -6970,140 +7113,160 @@
     `----
 
   x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:74:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:73:1]
+ 73 | 
  74 | @media (--mq-a), (--mq-a) {
     :  ^^^^^
  75 |     body {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:74:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:73:1]
+ 73 | 
  74 | @media (--mq-a), (--mq-a) {
     :  ^^^^^
  75 |     body {
     `----
 
   x MediaQueryList
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:74:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:73:1]
+ 73 | 
  74 | @media (--mq-a), (--mq-a) {
     :        ^^^^^^^^^^^^^^^^^^
  75 |     body {
     `----
 
   x MediaQuery
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:74:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:73:1]
+ 73 | 
  74 | @media (--mq-a), (--mq-a) {
     :        ^^^^^^^^
  75 |     body {
     `----
 
   x MediaCondition
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:74:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:73:1]
+ 73 | 
  74 | @media (--mq-a), (--mq-a) {
     :        ^^^^^^^^
  75 |     body {
     `----
 
   x MediaConditionAllType
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:74:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:73:1]
+ 73 | 
  74 | @media (--mq-a), (--mq-a) {
     :        ^^^^^^^^
  75 |     body {
     `----
 
   x MediaInParens
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:74:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:73:1]
+ 73 | 
  74 | @media (--mq-a), (--mq-a) {
     :        ^^^^^^^^
  75 |     body {
     `----
 
   x MediaFeature
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:74:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:73:1]
+ 73 | 
  74 | @media (--mq-a), (--mq-a) {
     :        ^^^^^^^^
  75 |     body {
     `----
 
   x MediaFeatureBoolean
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:74:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:73:1]
+ 73 | 
  74 | @media (--mq-a), (--mq-a) {
     :        ^^^^^^^^
  75 |     body {
     `----
 
   x MediaFeatureName
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:74:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:73:1]
+ 73 | 
  74 | @media (--mq-a), (--mq-a) {
     :         ^^^^^^
  75 |     body {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:74:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:73:1]
+ 73 | 
  74 | @media (--mq-a), (--mq-a) {
     :         ^^^^^^
  75 |     body {
     `----
 
   x MediaQuery
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:74:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:73:1]
+ 73 | 
  74 | @media (--mq-a), (--mq-a) {
     :                  ^^^^^^^^
  75 |     body {
     `----
 
   x MediaCondition
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:74:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:73:1]
+ 73 | 
  74 | @media (--mq-a), (--mq-a) {
     :                  ^^^^^^^^
  75 |     body {
     `----
 
   x MediaConditionAllType
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:74:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:73:1]
+ 73 | 
  74 | @media (--mq-a), (--mq-a) {
     :                  ^^^^^^^^
  75 |     body {
     `----
 
   x MediaInParens
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:74:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:73:1]
+ 73 | 
  74 | @media (--mq-a), (--mq-a) {
     :                  ^^^^^^^^
  75 |     body {
     `----
 
   x MediaFeature
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:74:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:73:1]
+ 73 | 
  74 | @media (--mq-a), (--mq-a) {
     :                  ^^^^^^^^
  75 |     body {
     `----
 
   x MediaFeatureBoolean
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:74:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:73:1]
+ 73 | 
  74 | @media (--mq-a), (--mq-a) {
     :                  ^^^^^^^^
  75 |     body {
     `----
 
   x MediaFeatureName
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:74:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:73:1]
+ 73 | 
  74 | @media (--mq-a), (--mq-a) {
     :                   ^^^^^^
  75 |     body {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:74:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:73:1]
+ 73 | 
  74 | @media (--mq-a), (--mq-a) {
     :                   ^^^^^^
  75 |     body {
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:74:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:73:1]
+ 73 |     
  74 | ,-> @media (--mq-a), (--mq-a) {
  75 | |       body {
  76 | |           order: 1005;
@@ -7112,7 +7275,8 @@
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:74:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:73:1]
+ 73 | 
  74 | @media (--mq-a), (--mq-a) {
     :                           ^
  75 |     body {
@@ -7219,63 +7383,64 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:75:5]
- 75 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:75:1]
+ 75 |     body {
  76 |         order: 1005;
     :         ^^^^^^^^^^^
  77 |     }
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:75:5]
- 75 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:75:1]
+ 75 |     body {
  76 |         order: 1005;
     :         ^^^^^^^^^^^
  77 |     }
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:75:5]
- 75 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:75:1]
+ 75 |     body {
  76 |         order: 1005;
     :         ^^^^^^^^^^^
  77 |     }
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:75:5]
- 75 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:75:1]
+ 75 |     body {
  76 |         order: 1005;
     :         ^^^^^
  77 |     }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:75:5]
- 75 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:75:1]
+ 75 |     body {
  76 |         order: 1005;
     :         ^^^^^
  77 |     }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:75:5]
- 75 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:75:1]
+ 75 |     body {
  76 |         order: 1005;
     :                ^^^^
  77 |     }
     `----
 
   x Integer
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:75:5]
- 75 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:75:1]
+ 75 |     body {
  76 |         order: 1005;
     :                ^^^^
  77 |     }
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:80:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:79:1]
+ 79 |     
  80 | ,-> @media (trailer--) {
  81 | |       body {
  82 | |           order: 1006;
@@ -7284,7 +7449,8 @@
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:80:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:79:1]
+ 79 |     
  80 | ,-> @media (trailer--) {
  81 | |       body {
  82 | |           order: 1006;
@@ -7293,84 +7459,96 @@
     `----
 
   x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:80:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:79:1]
+ 79 | 
  80 | @media (trailer--) {
     :  ^^^^^
  81 |     body {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:80:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:79:1]
+ 79 | 
  80 | @media (trailer--) {
     :  ^^^^^
  81 |     body {
     `----
 
   x MediaQueryList
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:80:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:79:1]
+ 79 | 
  80 | @media (trailer--) {
     :        ^^^^^^^^^^^
  81 |     body {
     `----
 
   x MediaQuery
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:80:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:79:1]
+ 79 | 
  80 | @media (trailer--) {
     :        ^^^^^^^^^^^
  81 |     body {
     `----
 
   x MediaCondition
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:80:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:79:1]
+ 79 | 
  80 | @media (trailer--) {
     :        ^^^^^^^^^^^
  81 |     body {
     `----
 
   x MediaConditionAllType
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:80:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:79:1]
+ 79 | 
  80 | @media (trailer--) {
     :        ^^^^^^^^^^^
  81 |     body {
     `----
 
   x MediaInParens
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:80:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:79:1]
+ 79 | 
  80 | @media (trailer--) {
     :        ^^^^^^^^^^^
  81 |     body {
     `----
 
   x MediaFeature
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:80:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:79:1]
+ 79 | 
  80 | @media (trailer--) {
     :        ^^^^^^^^^^^
  81 |     body {
     `----
 
   x MediaFeatureBoolean
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:80:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:79:1]
+ 79 | 
  80 | @media (trailer--) {
     :        ^^^^^^^^^^^
  81 |     body {
     `----
 
   x MediaFeatureName
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:80:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:79:1]
+ 79 | 
  80 | @media (trailer--) {
     :         ^^^^^^^^^
  81 |     body {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:80:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:79:1]
+ 79 | 
  80 | @media (trailer--) {
     :         ^^^^^^^^^
  81 |     body {
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:80:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:79:1]
+ 79 |     
  80 | ,-> @media (trailer--) {
  81 | |       body {
  82 | |           order: 1006;
@@ -7379,7 +7557,8 @@
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:80:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:79:1]
+ 79 | 
  80 | @media (trailer--) {
     :                    ^
  81 |     body {
@@ -7486,63 +7665,64 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:81:5]
- 81 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:81:1]
+ 81 |     body {
  82 |         order: 1006;
     :         ^^^^^^^^^^^
  83 |     }
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:81:5]
- 81 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:81:1]
+ 81 |     body {
  82 |         order: 1006;
     :         ^^^^^^^^^^^
  83 |     }
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:81:5]
- 81 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:81:1]
+ 81 |     body {
  82 |         order: 1006;
     :         ^^^^^^^^^^^
  83 |     }
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:81:5]
- 81 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:81:1]
+ 81 |     body {
  82 |         order: 1006;
     :         ^^^^^
  83 |     }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:81:5]
- 81 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:81:1]
+ 81 |     body {
  82 |         order: 1006;
     :         ^^^^^
  83 |     }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:81:5]
- 81 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:81:1]
+ 81 |     body {
  82 |         order: 1006;
     :                ^^^^
  83 |     }
     `----
 
   x Integer
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:81:5]
- 81 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:81:1]
+ 81 |     body {
  82 |         order: 1006;
     :                ^^^^
  83 |     }
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:86:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:85:1]
+ 85 |     
  86 | ,-> @media (--min) and (--max) {
  87 | |       body {
  88 | |           order: 6;
@@ -7551,7 +7731,8 @@
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:86:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:85:1]
+ 85 |     
  86 | ,-> @media (--min) and (--max) {
  87 | |       body {
  88 | |           order: 6;
@@ -7560,140 +7741,160 @@
     `----
 
   x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:86:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:85:1]
+ 85 | 
  86 | @media (--min) and (--max) {
     :  ^^^^^
  87 |     body {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:86:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:85:1]
+ 85 | 
  86 | @media (--min) and (--max) {
     :  ^^^^^
  87 |     body {
     `----
 
   x MediaQueryList
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:86:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:85:1]
+ 85 | 
  86 | @media (--min) and (--max) {
     :        ^^^^^^^^^^^^^^^^^^^
  87 |     body {
     `----
 
   x MediaQuery
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:86:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:85:1]
+ 85 | 
  86 | @media (--min) and (--max) {
     :        ^^^^^^^^^^^^^^^^^^^
  87 |     body {
     `----
 
   x MediaCondition
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:86:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:85:1]
+ 85 | 
  86 | @media (--min) and (--max) {
     :        ^^^^^^^^^^^^^^^^^^^
  87 |     body {
     `----
 
   x MediaConditionAllType
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:86:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:85:1]
+ 85 | 
  86 | @media (--min) and (--max) {
     :        ^^^^^^^
  87 |     body {
     `----
 
   x MediaInParens
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:86:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:85:1]
+ 85 | 
  86 | @media (--min) and (--max) {
     :        ^^^^^^^
  87 |     body {
     `----
 
   x MediaFeature
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:86:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:85:1]
+ 85 | 
  86 | @media (--min) and (--max) {
     :        ^^^^^^^
  87 |     body {
     `----
 
   x MediaFeatureBoolean
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:86:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:85:1]
+ 85 | 
  86 | @media (--min) and (--max) {
     :        ^^^^^^^
  87 |     body {
     `----
 
   x MediaFeatureName
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:86:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:85:1]
+ 85 | 
  86 | @media (--min) and (--max) {
     :         ^^^^^
  87 |     body {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:86:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:85:1]
+ 85 | 
  86 | @media (--min) and (--max) {
     :         ^^^^^
  87 |     body {
     `----
 
   x MediaConditionAllType
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:86:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:85:1]
+ 85 | 
  86 | @media (--min) and (--max) {
     :                ^^^^^^^^^^^
  87 |     body {
     `----
 
   x MediaAnd
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:86:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:85:1]
+ 85 | 
  86 | @media (--min) and (--max) {
     :                ^^^^^^^^^^^
  87 |     body {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:86:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:85:1]
+ 85 | 
  86 | @media (--min) and (--max) {
     :                ^^^
  87 |     body {
     `----
 
   x MediaInParens
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:86:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:85:1]
+ 85 | 
  86 | @media (--min) and (--max) {
     :                    ^^^^^^^
  87 |     body {
     `----
 
   x MediaFeature
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:86:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:85:1]
+ 85 | 
  86 | @media (--min) and (--max) {
     :                    ^^^^^^^
  87 |     body {
     `----
 
   x MediaFeatureBoolean
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:86:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:85:1]
+ 85 | 
  86 | @media (--min) and (--max) {
     :                    ^^^^^^^
  87 |     body {
     `----
 
   x MediaFeatureName
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:86:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:85:1]
+ 85 | 
  86 | @media (--min) and (--max) {
     :                     ^^^^^
  87 |     body {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:86:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:85:1]
+ 85 | 
  86 | @media (--min) and (--max) {
     :                     ^^^^^
  87 |     body {
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:86:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:85:1]
+ 85 |     
  86 | ,-> @media (--min) and (--max) {
  87 | |       body {
  88 | |           order: 6;
@@ -7702,7 +7903,8 @@
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:86:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:85:1]
+ 85 | 
  86 | @media (--min) and (--max) {
     :                            ^
  87 |     body {
@@ -7809,63 +8011,64 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:87:5]
- 87 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:87:1]
+ 87 |     body {
  88 |         order: 6;
     :         ^^^^^^^^
  89 |     }
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:87:5]
- 87 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:87:1]
+ 87 |     body {
  88 |         order: 6;
     :         ^^^^^^^^
  89 |     }
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:87:5]
- 87 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:87:1]
+ 87 |     body {
  88 |         order: 6;
     :         ^^^^^^^^
  89 |     }
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:87:5]
- 87 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:87:1]
+ 87 |     body {
  88 |         order: 6;
     :         ^^^^^
  89 |     }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:87:5]
- 87 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:87:1]
+ 87 |     body {
  88 |         order: 6;
     :         ^^^^^
  89 |     }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:87:5]
- 87 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:87:1]
+ 87 |     body {
  88 |         order: 6;
     :                ^
  89 |     }
     `----
 
   x Integer
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:87:5]
- 87 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:87:1]
+ 87 |     body {
  88 |         order: 6;
     :                ^
  89 |     }
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:92:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:91:1]
+ 91 |     
  92 | ,-> @media (--circular-mq-a) {
  93 | |       body {
  94 | |           order: 3;
@@ -7874,7 +8077,8 @@
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:92:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:91:1]
+ 91 |     
  92 | ,-> @media (--circular-mq-a) {
  93 | |       body {
  94 | |           order: 3;
@@ -7883,84 +8087,96 @@
     `----
 
   x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:92:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:91:1]
+ 91 | 
  92 | @media (--circular-mq-a) {
     :  ^^^^^
  93 |     body {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:92:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:91:1]
+ 91 | 
  92 | @media (--circular-mq-a) {
     :  ^^^^^
  93 |     body {
     `----
 
   x MediaQueryList
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:92:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:91:1]
+ 91 | 
  92 | @media (--circular-mq-a) {
     :        ^^^^^^^^^^^^^^^^^
  93 |     body {
     `----
 
   x MediaQuery
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:92:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:91:1]
+ 91 | 
  92 | @media (--circular-mq-a) {
     :        ^^^^^^^^^^^^^^^^^
  93 |     body {
     `----
 
   x MediaCondition
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:92:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:91:1]
+ 91 | 
  92 | @media (--circular-mq-a) {
     :        ^^^^^^^^^^^^^^^^^
  93 |     body {
     `----
 
   x MediaConditionAllType
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:92:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:91:1]
+ 91 | 
  92 | @media (--circular-mq-a) {
     :        ^^^^^^^^^^^^^^^^^
  93 |     body {
     `----
 
   x MediaInParens
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:92:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:91:1]
+ 91 | 
  92 | @media (--circular-mq-a) {
     :        ^^^^^^^^^^^^^^^^^
  93 |     body {
     `----
 
   x MediaFeature
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:92:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:91:1]
+ 91 | 
  92 | @media (--circular-mq-a) {
     :        ^^^^^^^^^^^^^^^^^
  93 |     body {
     `----
 
   x MediaFeatureBoolean
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:92:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:91:1]
+ 91 | 
  92 | @media (--circular-mq-a) {
     :        ^^^^^^^^^^^^^^^^^
  93 |     body {
     `----
 
   x MediaFeatureName
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:92:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:91:1]
+ 91 | 
  92 | @media (--circular-mq-a) {
     :         ^^^^^^^^^^^^^^^
  93 |     body {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:92:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:91:1]
+ 91 | 
  92 | @media (--circular-mq-a) {
     :         ^^^^^^^^^^^^^^^
  93 |     body {
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:92:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:91:1]
+ 91 |     
  92 | ,-> @media (--circular-mq-a) {
  93 | |       body {
  94 | |           order: 3;
@@ -7969,7 +8185,8 @@
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:92:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:91:1]
+ 91 | 
  92 | @media (--circular-mq-a) {
     :                          ^
  93 |     body {
@@ -8076,63 +8293,64 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:93:5]
- 93 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:93:1]
+ 93 |     body {
  94 |         order: 3;
     :         ^^^^^^^^
  95 |     }
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:93:5]
- 93 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:93:1]
+ 93 |     body {
  94 |         order: 3;
     :         ^^^^^^^^
  95 |     }
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:93:5]
- 93 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:93:1]
+ 93 |     body {
  94 |         order: 3;
     :         ^^^^^^^^
  95 |     }
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:93:5]
- 93 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:93:1]
+ 93 |     body {
  94 |         order: 3;
     :         ^^^^^
  95 |     }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:93:5]
- 93 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:93:1]
+ 93 |     body {
  94 |         order: 3;
     :         ^^^^^
  95 |     }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:93:5]
- 93 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:93:1]
+ 93 |     body {
  94 |         order: 3;
     :                ^
  95 |     }
     `----
 
   x Integer
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:93:5]
- 93 | body {
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:93:1]
+ 93 |     body {
  94 |         order: 3;
     :                ^
  95 |     }
     `----
 
   x Rule
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:98:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:97:1]
+  97 |     
   98 | ,-> @media (--circular-mq-b) {
   99 | |       body {
  100 | |           order: 4;
@@ -8141,7 +8359,8 @@
      `----
 
   x AtRule
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:98:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:97:1]
+  97 |     
   98 | ,-> @media (--circular-mq-b) {
   99 | |       body {
  100 | |           order: 4;
@@ -8150,84 +8369,96 @@
      `----
 
   x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:98:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:97:1]
+ 97 | 
  98 | @media (--circular-mq-b) {
     :  ^^^^^
  99 |     body {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:98:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:97:1]
+ 97 | 
  98 | @media (--circular-mq-b) {
     :  ^^^^^
  99 |     body {
     `----
 
   x MediaQueryList
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:98:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:97:1]
+ 97 | 
  98 | @media (--circular-mq-b) {
     :        ^^^^^^^^^^^^^^^^^
  99 |     body {
     `----
 
   x MediaQuery
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:98:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:97:1]
+ 97 | 
  98 | @media (--circular-mq-b) {
     :        ^^^^^^^^^^^^^^^^^
  99 |     body {
     `----
 
   x MediaCondition
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:98:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:97:1]
+ 97 | 
  98 | @media (--circular-mq-b) {
     :        ^^^^^^^^^^^^^^^^^
  99 |     body {
     `----
 
   x MediaConditionAllType
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:98:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:97:1]
+ 97 | 
  98 | @media (--circular-mq-b) {
     :        ^^^^^^^^^^^^^^^^^
  99 |     body {
     `----
 
   x MediaInParens
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:98:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:97:1]
+ 97 | 
  98 | @media (--circular-mq-b) {
     :        ^^^^^^^^^^^^^^^^^
  99 |     body {
     `----
 
   x MediaFeature
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:98:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:97:1]
+ 97 | 
  98 | @media (--circular-mq-b) {
     :        ^^^^^^^^^^^^^^^^^
  99 |     body {
     `----
 
   x MediaFeatureBoolean
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:98:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:97:1]
+ 97 | 
  98 | @media (--circular-mq-b) {
     :        ^^^^^^^^^^^^^^^^^
  99 |     body {
     `----
 
   x MediaFeatureName
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:98:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:97:1]
+ 97 | 
  98 | @media (--circular-mq-b) {
     :         ^^^^^^^^^^^^^^^
  99 |     body {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:98:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:97:1]
+ 97 | 
  98 | @media (--circular-mq-b) {
     :         ^^^^^^^^^^^^^^^
  99 |     body {
     `----
 
   x SimpleBlock
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:98:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:97:1]
+  97 |     
   98 | ,-> @media (--circular-mq-b) {
   99 | |       body {
  100 | |           order: 4;
@@ -8236,7 +8467,8 @@
      `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:98:1]
+    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:97:1]
+ 97 | 
  98 | @media (--circular-mq-b) {
     :                          ^
  99 |     body {
@@ -8343,63 +8575,64 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:99:5]
-  99 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:99:1]
+  99 |     body {
  100 |         order: 4;
      :         ^^^^^^^^
  101 |     }
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:99:5]
-  99 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:99:1]
+  99 |     body {
  100 |         order: 4;
      :         ^^^^^^^^
  101 |     }
      `----
 
   x Declaration
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:99:5]
-  99 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:99:1]
+  99 |     body {
  100 |         order: 4;
      :         ^^^^^^^^
  101 |     }
      `----
 
   x DeclarationName
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:99:5]
-  99 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:99:1]
+  99 |     body {
  100 |         order: 4;
      :         ^^^^^
  101 |     }
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:99:5]
-  99 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:99:1]
+  99 |     body {
  100 |         order: 4;
      :         ^^^^^
  101 |     }
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:99:5]
-  99 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:99:1]
+  99 |     body {
  100 |         order: 4;
      :                ^
  101 |     }
      `----
 
   x Integer
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:99:5]
-  99 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:99:1]
+  99 |     body {
  100 |         order: 4;
      :                ^
  101 |     }
      `----
 
   x Rule
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:104:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:103:1]
+ 103 |     
  104 | ,-> @media (--unresolved-mq) {
  105 | |       body {
  106 | |           order: 5;
@@ -8408,7 +8641,8 @@
      `----
 
   x AtRule
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:104:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:103:1]
+ 103 |     
  104 | ,-> @media (--unresolved-mq) {
  105 | |       body {
  106 | |           order: 5;
@@ -8417,84 +8651,96 @@
      `----
 
   x AtRuleName
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:104:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:103:1]
+ 103 | 
  104 | @media (--unresolved-mq) {
      :  ^^^^^
  105 |     body {
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:104:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:103:1]
+ 103 | 
  104 | @media (--unresolved-mq) {
      :  ^^^^^
  105 |     body {
      `----
 
   x MediaQueryList
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:104:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:103:1]
+ 103 | 
  104 | @media (--unresolved-mq) {
      :        ^^^^^^^^^^^^^^^^^
  105 |     body {
      `----
 
   x MediaQuery
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:104:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:103:1]
+ 103 | 
  104 | @media (--unresolved-mq) {
      :        ^^^^^^^^^^^^^^^^^
  105 |     body {
      `----
 
   x MediaCondition
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:104:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:103:1]
+ 103 | 
  104 | @media (--unresolved-mq) {
      :        ^^^^^^^^^^^^^^^^^
  105 |     body {
      `----
 
   x MediaConditionAllType
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:104:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:103:1]
+ 103 | 
  104 | @media (--unresolved-mq) {
      :        ^^^^^^^^^^^^^^^^^
  105 |     body {
      `----
 
   x MediaInParens
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:104:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:103:1]
+ 103 | 
  104 | @media (--unresolved-mq) {
      :        ^^^^^^^^^^^^^^^^^
  105 |     body {
      `----
 
   x MediaFeature
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:104:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:103:1]
+ 103 | 
  104 | @media (--unresolved-mq) {
      :        ^^^^^^^^^^^^^^^^^
  105 |     body {
      `----
 
   x MediaFeatureBoolean
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:104:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:103:1]
+ 103 | 
  104 | @media (--unresolved-mq) {
      :        ^^^^^^^^^^^^^^^^^
  105 |     body {
      `----
 
   x MediaFeatureName
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:104:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:103:1]
+ 103 | 
  104 | @media (--unresolved-mq) {
      :         ^^^^^^^^^^^^^^^
  105 |     body {
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:104:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:103:1]
+ 103 | 
  104 | @media (--unresolved-mq) {
      :         ^^^^^^^^^^^^^^^
  105 |     body {
      `----
 
   x SimpleBlock
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:104:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:103:1]
+ 103 |     
  104 | ,-> @media (--unresolved-mq) {
  105 | |       body {
  106 | |           order: 5;
@@ -8503,7 +8749,8 @@
      `----
 
   x LBrace
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:104:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:103:1]
+ 103 | 
  104 | @media (--unresolved-mq) {
      :                          ^
  105 |     body {
@@ -8610,63 +8857,64 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:105:5]
- 105 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:105:1]
+ 105 |     body {
  106 |         order: 5;
      :         ^^^^^^^^
  107 |     }
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:105:5]
- 105 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:105:1]
+ 105 |     body {
  106 |         order: 5;
      :         ^^^^^^^^
  107 |     }
      `----
 
   x Declaration
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:105:5]
- 105 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:105:1]
+ 105 |     body {
  106 |         order: 5;
      :         ^^^^^^^^
  107 |     }
      `----
 
   x DeclarationName
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:105:5]
- 105 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:105:1]
+ 105 |     body {
  106 |         order: 5;
      :         ^^^^^
  107 |     }
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:105:5]
- 105 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:105:1]
+ 105 |     body {
  106 |         order: 5;
      :         ^^^^^
  107 |     }
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:105:5]
- 105 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:105:1]
+ 105 |     body {
  106 |         order: 5;
      :                ^
  107 |     }
      `----
 
   x Integer
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:105:5]
- 105 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:105:1]
+ 105 |     body {
  106 |         order: 5;
      :                ^
  107 |     }
      `----
 
   x Rule
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:110:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:109:1]
+ 109 |     
  110 | ,-> @media (--mq-a) {
  111 | |       body {
  112 | |           order: 1;
@@ -8675,7 +8923,8 @@
      `----
 
   x AtRule
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:110:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:109:1]
+ 109 |     
  110 | ,-> @media (--mq-a) {
  111 | |       body {
  112 | |           order: 1;
@@ -8684,84 +8933,96 @@
      `----
 
   x AtRuleName
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:110:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:109:1]
+ 109 | 
  110 | @media (--mq-a) {
      :  ^^^^^
  111 |     body {
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:110:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:109:1]
+ 109 | 
  110 | @media (--mq-a) {
      :  ^^^^^
  111 |     body {
      `----
 
   x MediaQueryList
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:110:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:109:1]
+ 109 | 
  110 | @media (--mq-a) {
      :        ^^^^^^^^
  111 |     body {
      `----
 
   x MediaQuery
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:110:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:109:1]
+ 109 | 
  110 | @media (--mq-a) {
      :        ^^^^^^^^
  111 |     body {
      `----
 
   x MediaCondition
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:110:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:109:1]
+ 109 | 
  110 | @media (--mq-a) {
      :        ^^^^^^^^
  111 |     body {
      `----
 
   x MediaConditionAllType
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:110:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:109:1]
+ 109 | 
  110 | @media (--mq-a) {
      :        ^^^^^^^^
  111 |     body {
      `----
 
   x MediaInParens
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:110:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:109:1]
+ 109 | 
  110 | @media (--mq-a) {
      :        ^^^^^^^^
  111 |     body {
      `----
 
   x MediaFeature
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:110:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:109:1]
+ 109 | 
  110 | @media (--mq-a) {
      :        ^^^^^^^^
  111 |     body {
      `----
 
   x MediaFeatureBoolean
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:110:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:109:1]
+ 109 | 
  110 | @media (--mq-a) {
      :        ^^^^^^^^
  111 |     body {
      `----
 
   x MediaFeatureName
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:110:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:109:1]
+ 109 | 
  110 | @media (--mq-a) {
      :         ^^^^^^
  111 |     body {
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:110:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:109:1]
+ 109 | 
  110 | @media (--mq-a) {
      :         ^^^^^^
  111 |     body {
      `----
 
   x SimpleBlock
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:110:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:109:1]
+ 109 |     
  110 | ,-> @media (--mq-a) {
  111 | |       body {
  112 | |           order: 1;
@@ -8770,7 +9031,8 @@
      `----
 
   x LBrace
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:110:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:109:1]
+ 109 | 
  110 | @media (--mq-a) {
      :                 ^
  111 |     body {
@@ -8877,63 +9139,64 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:111:5]
- 111 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:111:1]
+ 111 |     body {
  112 |         order: 1;
      :         ^^^^^^^^
  113 |     }
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:111:5]
- 111 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:111:1]
+ 111 |     body {
  112 |         order: 1;
      :         ^^^^^^^^
  113 |     }
      `----
 
   x Declaration
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:111:5]
- 111 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:111:1]
+ 111 |     body {
  112 |         order: 1;
      :         ^^^^^^^^
  113 |     }
      `----
 
   x DeclarationName
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:111:5]
- 111 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:111:1]
+ 111 |     body {
  112 |         order: 1;
      :         ^^^^^
  113 |     }
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:111:5]
- 111 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:111:1]
+ 111 |     body {
  112 |         order: 1;
      :         ^^^^^
  113 |     }
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:111:5]
- 111 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:111:1]
+ 111 |     body {
  112 |         order: 1;
      :                ^
  113 |     }
      `----
 
   x Integer
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:111:5]
- 111 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:111:1]
+ 111 |     body {
  112 |         order: 1;
      :                ^
  113 |     }
      `----
 
   x Rule
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:116:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:115:1]
+ 115 |     
  116 | ,-> @media (--mq-b) {
  117 | |       body {
  118 | |           order: 1;
@@ -8942,7 +9205,8 @@
      `----
 
   x AtRule
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:116:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:115:1]
+ 115 |     
  116 | ,-> @media (--mq-b) {
  117 | |       body {
  118 | |           order: 1;
@@ -8951,84 +9215,96 @@
      `----
 
   x AtRuleName
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:116:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:115:1]
+ 115 | 
  116 | @media (--mq-b) {
      :  ^^^^^
  117 |     body {
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:116:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:115:1]
+ 115 | 
  116 | @media (--mq-b) {
      :  ^^^^^
  117 |     body {
      `----
 
   x MediaQueryList
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:116:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:115:1]
+ 115 | 
  116 | @media (--mq-b) {
      :        ^^^^^^^^
  117 |     body {
      `----
 
   x MediaQuery
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:116:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:115:1]
+ 115 | 
  116 | @media (--mq-b) {
      :        ^^^^^^^^
  117 |     body {
      `----
 
   x MediaCondition
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:116:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:115:1]
+ 115 | 
  116 | @media (--mq-b) {
      :        ^^^^^^^^
  117 |     body {
      `----
 
   x MediaConditionAllType
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:116:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:115:1]
+ 115 | 
  116 | @media (--mq-b) {
      :        ^^^^^^^^
  117 |     body {
      `----
 
   x MediaInParens
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:116:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:115:1]
+ 115 | 
  116 | @media (--mq-b) {
      :        ^^^^^^^^
  117 |     body {
      `----
 
   x MediaFeature
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:116:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:115:1]
+ 115 | 
  116 | @media (--mq-b) {
      :        ^^^^^^^^
  117 |     body {
      `----
 
   x MediaFeatureBoolean
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:116:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:115:1]
+ 115 | 
  116 | @media (--mq-b) {
      :        ^^^^^^^^
  117 |     body {
      `----
 
   x MediaFeatureName
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:116:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:115:1]
+ 115 | 
  116 | @media (--mq-b) {
      :         ^^^^^^
  117 |     body {
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:116:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:115:1]
+ 115 | 
  116 | @media (--mq-b) {
      :         ^^^^^^
  117 |     body {
      `----
 
   x SimpleBlock
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:116:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:115:1]
+ 115 |     
  116 | ,-> @media (--mq-b) {
  117 | |       body {
  118 | |           order: 1;
@@ -9037,7 +9313,8 @@
      `----
 
   x LBrace
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:116:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:115:1]
+ 115 | 
  116 | @media (--mq-b) {
      :                 ^
  117 |     body {
@@ -9144,63 +9421,64 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:117:5]
- 117 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:117:1]
+ 117 |     body {
  118 |         order: 1;
      :         ^^^^^^^^
  119 |     }
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:117:5]
- 117 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:117:1]
+ 117 |     body {
  118 |         order: 1;
      :         ^^^^^^^^
  119 |     }
      `----
 
   x Declaration
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:117:5]
- 117 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:117:1]
+ 117 |     body {
  118 |         order: 1;
      :         ^^^^^^^^
  119 |     }
      `----
 
   x DeclarationName
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:117:5]
- 117 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:117:1]
+ 117 |     body {
  118 |         order: 1;
      :         ^^^^^
  119 |     }
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:117:5]
- 117 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:117:1]
+ 117 |     body {
  118 |         order: 1;
      :         ^^^^^
  119 |     }
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:117:5]
- 117 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:117:1]
+ 117 |     body {
  118 |         order: 1;
      :                ^
  119 |     }
      `----
 
   x Integer
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:117:5]
- 117 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:117:1]
+ 117 |     body {
  118 |         order: 1;
      :                ^
  119 |     }
      `----
 
   x Rule
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:122:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:121:1]
+ 121 |     
  122 | ,-> @media (--mq-a), (--mq-a) {
  123 | |       body {
  124 | |           order: 1;
@@ -9209,7 +9487,8 @@
      `----
 
   x AtRule
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:122:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:121:1]
+ 121 |     
  122 | ,-> @media (--mq-a), (--mq-a) {
  123 | |       body {
  124 | |           order: 1;
@@ -9218,140 +9497,160 @@
      `----
 
   x AtRuleName
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:122:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:121:1]
+ 121 | 
  122 | @media (--mq-a), (--mq-a) {
      :  ^^^^^
  123 |     body {
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:122:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:121:1]
+ 121 | 
  122 | @media (--mq-a), (--mq-a) {
      :  ^^^^^
  123 |     body {
      `----
 
   x MediaQueryList
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:122:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:121:1]
+ 121 | 
  122 | @media (--mq-a), (--mq-a) {
      :        ^^^^^^^^^^^^^^^^^^
  123 |     body {
      `----
 
   x MediaQuery
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:122:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:121:1]
+ 121 | 
  122 | @media (--mq-a), (--mq-a) {
      :        ^^^^^^^^
  123 |     body {
      `----
 
   x MediaCondition
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:122:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:121:1]
+ 121 | 
  122 | @media (--mq-a), (--mq-a) {
      :        ^^^^^^^^
  123 |     body {
      `----
 
   x MediaConditionAllType
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:122:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:121:1]
+ 121 | 
  122 | @media (--mq-a), (--mq-a) {
      :        ^^^^^^^^
  123 |     body {
      `----
 
   x MediaInParens
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:122:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:121:1]
+ 121 | 
  122 | @media (--mq-a), (--mq-a) {
      :        ^^^^^^^^
  123 |     body {
      `----
 
   x MediaFeature
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:122:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:121:1]
+ 121 | 
  122 | @media (--mq-a), (--mq-a) {
      :        ^^^^^^^^
  123 |     body {
      `----
 
   x MediaFeatureBoolean
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:122:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:121:1]
+ 121 | 
  122 | @media (--mq-a), (--mq-a) {
      :        ^^^^^^^^
  123 |     body {
      `----
 
   x MediaFeatureName
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:122:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:121:1]
+ 121 | 
  122 | @media (--mq-a), (--mq-a) {
      :         ^^^^^^
  123 |     body {
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:122:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:121:1]
+ 121 | 
  122 | @media (--mq-a), (--mq-a) {
      :         ^^^^^^
  123 |     body {
      `----
 
   x MediaQuery
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:122:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:121:1]
+ 121 | 
  122 | @media (--mq-a), (--mq-a) {
      :                  ^^^^^^^^
  123 |     body {
      `----
 
   x MediaCondition
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:122:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:121:1]
+ 121 | 
  122 | @media (--mq-a), (--mq-a) {
      :                  ^^^^^^^^
  123 |     body {
      `----
 
   x MediaConditionAllType
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:122:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:121:1]
+ 121 | 
  122 | @media (--mq-a), (--mq-a) {
      :                  ^^^^^^^^
  123 |     body {
      `----
 
   x MediaInParens
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:122:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:121:1]
+ 121 | 
  122 | @media (--mq-a), (--mq-a) {
      :                  ^^^^^^^^
  123 |     body {
      `----
 
   x MediaFeature
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:122:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:121:1]
+ 121 | 
  122 | @media (--mq-a), (--mq-a) {
      :                  ^^^^^^^^
  123 |     body {
      `----
 
   x MediaFeatureBoolean
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:122:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:121:1]
+ 121 | 
  122 | @media (--mq-a), (--mq-a) {
      :                  ^^^^^^^^
  123 |     body {
      `----
 
   x MediaFeatureName
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:122:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:121:1]
+ 121 | 
  122 | @media (--mq-a), (--mq-a) {
      :                   ^^^^^^
  123 |     body {
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:122:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:121:1]
+ 121 | 
  122 | @media (--mq-a), (--mq-a) {
      :                   ^^^^^^
  123 |     body {
      `----
 
   x SimpleBlock
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:122:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:121:1]
+ 121 |     
  122 | ,-> @media (--mq-a), (--mq-a) {
  123 | |       body {
  124 | |           order: 1;
@@ -9360,7 +9659,8 @@
      `----
 
   x LBrace
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:122:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:121:1]
+ 121 | 
  122 | @media (--mq-a), (--mq-a) {
      :                           ^
  123 |     body {
@@ -9467,63 +9767,64 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:123:5]
- 123 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:123:1]
+ 123 |     body {
  124 |         order: 1;
      :         ^^^^^^^^
  125 |     }
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:123:5]
- 123 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:123:1]
+ 123 |     body {
  124 |         order: 1;
      :         ^^^^^^^^
  125 |     }
      `----
 
   x Declaration
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:123:5]
- 123 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:123:1]
+ 123 |     body {
  124 |         order: 1;
      :         ^^^^^^^^
  125 |     }
      `----
 
   x DeclarationName
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:123:5]
- 123 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:123:1]
+ 123 |     body {
  124 |         order: 1;
      :         ^^^^^
  125 |     }
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:123:5]
- 123 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:123:1]
+ 123 |     body {
  124 |         order: 1;
      :         ^^^^^
  125 |     }
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:123:5]
- 123 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:123:1]
+ 123 |     body {
  124 |         order: 1;
      :                ^
  125 |     }
      `----
 
   x Integer
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:123:5]
- 123 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:123:1]
+ 123 |     body {
  124 |         order: 1;
      :                ^
  125 |     }
      `----
 
   x Rule
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:128:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:127:1]
+ 127 |     
  128 | ,-> @media not all and (--mq-a) {
  129 | |       body {
  130 | |           order: 2;
@@ -9532,7 +9833,8 @@
      `----
 
   x AtRule
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:128:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:127:1]
+ 127 |     
  128 | ,-> @media not all and (--mq-a) {
  129 | |       body {
  130 | |           order: 2;
@@ -9541,112 +9843,128 @@
      `----
 
   x AtRuleName
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:128:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:127:1]
+ 127 | 
  128 | @media not all and (--mq-a) {
      :  ^^^^^
  129 |     body {
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:128:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:127:1]
+ 127 | 
  128 | @media not all and (--mq-a) {
      :  ^^^^^
  129 |     body {
      `----
 
   x MediaQueryList
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:128:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:127:1]
+ 127 | 
  128 | @media not all and (--mq-a) {
      :        ^^^^^^^^^^^^^^^^^^^^
  129 |     body {
      `----
 
   x MediaQuery
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:128:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:127:1]
+ 127 | 
  128 | @media not all and (--mq-a) {
      :        ^^^^^^^^^^^^^^^^^^^^
  129 |     body {
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:128:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:127:1]
+ 127 | 
  128 | @media not all and (--mq-a) {
      :        ^^^
  129 |     body {
      `----
 
   x MediaType
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:128:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:127:1]
+ 127 | 
  128 | @media not all and (--mq-a) {
      :            ^^^
  129 |     body {
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:128:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:127:1]
+ 127 | 
  128 | @media not all and (--mq-a) {
      :            ^^^
  129 |     body {
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:128:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:127:1]
+ 127 | 
  128 | @media not all and (--mq-a) {
      :                ^^^
  129 |     body {
      `----
 
   x MediaConditionWithoutOr
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:128:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:127:1]
+ 127 | 
  128 | @media not all and (--mq-a) {
      :                    ^^^^^^^^
  129 |     body {
      `----
 
   x MediaConditionWithoutOrType
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:128:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:127:1]
+ 127 | 
  128 | @media not all and (--mq-a) {
      :                    ^^^^^^^^
  129 |     body {
      `----
 
   x MediaInParens
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:128:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:127:1]
+ 127 | 
  128 | @media not all and (--mq-a) {
      :                    ^^^^^^^^
  129 |     body {
      `----
 
   x MediaFeature
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:128:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:127:1]
+ 127 | 
  128 | @media not all and (--mq-a) {
      :                    ^^^^^^^^
  129 |     body {
      `----
 
   x MediaFeatureBoolean
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:128:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:127:1]
+ 127 | 
  128 | @media not all and (--mq-a) {
      :                    ^^^^^^^^
  129 |     body {
      `----
 
   x MediaFeatureName
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:128:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:127:1]
+ 127 | 
  128 | @media not all and (--mq-a) {
      :                     ^^^^^^
  129 |     body {
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:128:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:127:1]
+ 127 | 
  128 | @media not all and (--mq-a) {
      :                     ^^^^^^
  129 |     body {
      `----
 
   x SimpleBlock
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:128:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:127:1]
+ 127 |     
  128 | ,-> @media not all and (--mq-a) {
  129 | |       body {
  130 | |           order: 2;
@@ -9655,7 +9973,8 @@
      `----
 
   x LBrace
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:128:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:127:1]
+ 127 | 
  128 | @media not all and (--mq-a) {
      :                             ^
  129 |     body {
@@ -9762,63 +10081,64 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:129:5]
- 129 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:129:1]
+ 129 |     body {
  130 |         order: 2;
      :         ^^^^^^^^
  131 |     }
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:129:5]
- 129 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:129:1]
+ 129 |     body {
  130 |         order: 2;
      :         ^^^^^^^^
  131 |     }
      `----
 
   x Declaration
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:129:5]
- 129 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:129:1]
+ 129 |     body {
  130 |         order: 2;
      :         ^^^^^^^^
  131 |     }
      `----
 
   x DeclarationName
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:129:5]
- 129 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:129:1]
+ 129 |     body {
  130 |         order: 2;
      :         ^^^^^
  131 |     }
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:129:5]
- 129 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:129:1]
+ 129 |     body {
  130 |         order: 2;
      :         ^^^^^
  131 |     }
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:129:5]
- 129 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:129:1]
+ 129 |     body {
  130 |         order: 2;
      :                ^
  131 |     }
      `----
 
   x Integer
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:129:5]
- 129 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:129:1]
+ 129 |     body {
  130 |         order: 2;
      :                ^
  131 |     }
      `----
 
   x Rule
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:134:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:133:1]
+ 133 |     
  134 | ,-> @media (--not-mq-a) {
  135 | |       body {
  136 | |           order: 1;
@@ -9827,7 +10147,8 @@
      `----
 
   x AtRule
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:134:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:133:1]
+ 133 |     
  134 | ,-> @media (--not-mq-a) {
  135 | |       body {
  136 | |           order: 1;
@@ -9836,84 +10157,96 @@
      `----
 
   x AtRuleName
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:134:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:133:1]
+ 133 | 
  134 | @media (--not-mq-a) {
      :  ^^^^^
  135 |     body {
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:134:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:133:1]
+ 133 | 
  134 | @media (--not-mq-a) {
      :  ^^^^^
  135 |     body {
      `----
 
   x MediaQueryList
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:134:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:133:1]
+ 133 | 
  134 | @media (--not-mq-a) {
      :        ^^^^^^^^^^^^
  135 |     body {
      `----
 
   x MediaQuery
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:134:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:133:1]
+ 133 | 
  134 | @media (--not-mq-a) {
      :        ^^^^^^^^^^^^
  135 |     body {
      `----
 
   x MediaCondition
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:134:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:133:1]
+ 133 | 
  134 | @media (--not-mq-a) {
      :        ^^^^^^^^^^^^
  135 |     body {
      `----
 
   x MediaConditionAllType
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:134:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:133:1]
+ 133 | 
  134 | @media (--not-mq-a) {
      :        ^^^^^^^^^^^^
  135 |     body {
      `----
 
   x MediaInParens
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:134:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:133:1]
+ 133 | 
  134 | @media (--not-mq-a) {
      :        ^^^^^^^^^^^^
  135 |     body {
      `----
 
   x MediaFeature
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:134:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:133:1]
+ 133 | 
  134 | @media (--not-mq-a) {
      :        ^^^^^^^^^^^^
  135 |     body {
      `----
 
   x MediaFeatureBoolean
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:134:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:133:1]
+ 133 | 
  134 | @media (--not-mq-a) {
      :        ^^^^^^^^^^^^
  135 |     body {
      `----
 
   x MediaFeatureName
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:134:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:133:1]
+ 133 | 
  134 | @media (--not-mq-a) {
      :         ^^^^^^^^^^
  135 |     body {
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:134:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:133:1]
+ 133 | 
  134 | @media (--not-mq-a) {
      :         ^^^^^^^^^^
  135 |     body {
      `----
 
   x SimpleBlock
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:134:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:133:1]
+ 133 |     
  134 | ,-> @media (--not-mq-a) {
  135 | |       body {
  136 | |           order: 1;
@@ -9922,7 +10255,8 @@
      `----
 
   x LBrace
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:134:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:133:1]
+ 133 | 
  134 | @media (--not-mq-a) {
      :                     ^
  135 |     body {
@@ -10029,63 +10363,64 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:135:5]
- 135 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:135:1]
+ 135 |     body {
  136 |         order: 1;
      :         ^^^^^^^^
  137 |     }
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:135:5]
- 135 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:135:1]
+ 135 |     body {
  136 |         order: 1;
      :         ^^^^^^^^
  137 |     }
      `----
 
   x Declaration
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:135:5]
- 135 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:135:1]
+ 135 |     body {
  136 |         order: 1;
      :         ^^^^^^^^
  137 |     }
      `----
 
   x DeclarationName
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:135:5]
- 135 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:135:1]
+ 135 |     body {
  136 |         order: 1;
      :         ^^^^^
  137 |     }
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:135:5]
- 135 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:135:1]
+ 135 |     body {
  136 |         order: 1;
      :         ^^^^^
  137 |     }
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:135:5]
- 135 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:135:1]
+ 135 |     body {
  136 |         order: 1;
      :                ^
  137 |     }
      `----
 
   x Integer
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:135:5]
- 135 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:135:1]
+ 135 |     body {
  136 |         order: 1;
      :                ^
  137 |     }
      `----
 
   x Rule
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:140:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:139:1]
+ 139 |     
  140 | ,-> @media not all and (--not-mq-a) {
  141 | |       body {
  142 | |           order: 2;
@@ -10094,7 +10429,8 @@
      `----
 
   x AtRule
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:140:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:139:1]
+ 139 |     
  140 | ,-> @media not all and (--not-mq-a) {
  141 | |       body {
  142 | |           order: 2;
@@ -10103,112 +10439,128 @@
      `----
 
   x AtRuleName
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:140:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:139:1]
+ 139 | 
  140 | @media not all and (--not-mq-a) {
      :  ^^^^^
  141 |     body {
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:140:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:139:1]
+ 139 | 
  140 | @media not all and (--not-mq-a) {
      :  ^^^^^
  141 |     body {
      `----
 
   x MediaQueryList
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:140:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:139:1]
+ 139 | 
  140 | @media not all and (--not-mq-a) {
      :        ^^^^^^^^^^^^^^^^^^^^^^^^
  141 |     body {
      `----
 
   x MediaQuery
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:140:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:139:1]
+ 139 | 
  140 | @media not all and (--not-mq-a) {
      :        ^^^^^^^^^^^^^^^^^^^^^^^^
  141 |     body {
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:140:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:139:1]
+ 139 | 
  140 | @media not all and (--not-mq-a) {
      :        ^^^
  141 |     body {
      `----
 
   x MediaType
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:140:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:139:1]
+ 139 | 
  140 | @media not all and (--not-mq-a) {
      :            ^^^
  141 |     body {
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:140:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:139:1]
+ 139 | 
  140 | @media not all and (--not-mq-a) {
      :            ^^^
  141 |     body {
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:140:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:139:1]
+ 139 | 
  140 | @media not all and (--not-mq-a) {
      :                ^^^
  141 |     body {
      `----
 
   x MediaConditionWithoutOr
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:140:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:139:1]
+ 139 | 
  140 | @media not all and (--not-mq-a) {
      :                    ^^^^^^^^^^^^
  141 |     body {
      `----
 
   x MediaConditionWithoutOrType
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:140:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:139:1]
+ 139 | 
  140 | @media not all and (--not-mq-a) {
      :                    ^^^^^^^^^^^^
  141 |     body {
      `----
 
   x MediaInParens
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:140:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:139:1]
+ 139 | 
  140 | @media not all and (--not-mq-a) {
      :                    ^^^^^^^^^^^^
  141 |     body {
      `----
 
   x MediaFeature
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:140:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:139:1]
+ 139 | 
  140 | @media not all and (--not-mq-a) {
      :                    ^^^^^^^^^^^^
  141 |     body {
      `----
 
   x MediaFeatureBoolean
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:140:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:139:1]
+ 139 | 
  140 | @media not all and (--not-mq-a) {
      :                    ^^^^^^^^^^^^
  141 |     body {
      `----
 
   x MediaFeatureName
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:140:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:139:1]
+ 139 | 
  140 | @media not all and (--not-mq-a) {
      :                     ^^^^^^^^^^
  141 |     body {
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:140:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:139:1]
+ 139 | 
  140 | @media not all and (--not-mq-a) {
      :                     ^^^^^^^^^^
  141 |     body {
      `----
 
   x SimpleBlock
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:140:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:139:1]
+ 139 |     
  140 | ,-> @media not all and (--not-mq-a) {
  141 | |       body {
  142 | |           order: 2;
@@ -10217,7 +10569,8 @@
      `----
 
   x LBrace
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:140:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:139:1]
+ 139 | 
  140 | @media not all and (--not-mq-a) {
      :                                 ^
  141 |     body {
@@ -10324,63 +10677,64 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:141:5]
- 141 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:141:1]
+ 141 |     body {
  142 |         order: 2;
      :         ^^^^^^^^
  143 |     }
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:141:5]
- 141 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:141:1]
+ 141 |     body {
  142 |         order: 2;
      :         ^^^^^^^^
  143 |     }
      `----
 
   x Declaration
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:141:5]
- 141 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:141:1]
+ 141 |     body {
  142 |         order: 2;
      :         ^^^^^^^^
  143 |     }
      `----
 
   x DeclarationName
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:141:5]
- 141 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:141:1]
+ 141 |     body {
  142 |         order: 2;
      :         ^^^^^
  143 |     }
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:141:5]
- 141 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:141:1]
+ 141 |     body {
  142 |         order: 2;
      :         ^^^^^
  143 |     }
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:141:5]
- 141 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:141:1]
+ 141 |     body {
  142 |         order: 2;
      :                ^
  143 |     }
      `----
 
   x Integer
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:141:5]
- 141 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:141:1]
+ 141 |     body {
  142 |         order: 2;
      :                ^
  143 |     }
      `----
 
   x Rule
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:147:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:146:1]
+ 146 |     
  147 | ,-> @media (--🧑🏾‍🎤) {
  148 | |       .a {
  149 | |           order: 1;
@@ -10389,7 +10743,8 @@
      `----
 
   x AtRule
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:147:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:146:1]
+ 146 |     
  147 | ,-> @media (--🧑🏾‍🎤) {
  148 | |       .a {
  149 | |           order: 1;
@@ -10398,84 +10753,96 @@
      `----
 
   x AtRuleName
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:147:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:146:1]
+ 146 | 
  147 | @media (--🧑🏾‍🎤) {
      :  ^^^^^
  148 |     .a {
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:147:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:146:1]
+ 146 | 
  147 | @media (--🧑🏾‍🎤) {
      :  ^^^^^
  148 |     .a {
      `----
 
   x MediaQueryList
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:147:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:146:1]
+ 146 | 
  147 | @media (--🧑🏾‍🎤) {
      :        ^^^^^^^^^^^^^^^^^^^
  148 |     .a {
      `----
 
   x MediaQuery
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:147:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:146:1]
+ 146 | 
  147 | @media (--🧑🏾‍🎤) {
      :        ^^^^^^^^^^^^^^^^^^^
  148 |     .a {
      `----
 
   x MediaCondition
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:147:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:146:1]
+ 146 | 
  147 | @media (--🧑🏾‍🎤) {
      :        ^^^^^^^^^^^^^^^^^^^
  148 |     .a {
      `----
 
   x MediaConditionAllType
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:147:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:146:1]
+ 146 | 
  147 | @media (--🧑🏾‍🎤) {
      :        ^^^^^^^^^^^^^^^^^^^
  148 |     .a {
      `----
 
   x MediaInParens
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:147:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:146:1]
+ 146 | 
  147 | @media (--🧑🏾‍🎤) {
      :        ^^^^^^^^^^^^^^^^^^^
  148 |     .a {
      `----
 
   x MediaFeature
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:147:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:146:1]
+ 146 | 
  147 | @media (--🧑🏾‍🎤) {
      :        ^^^^^^^^^^^^^^^^^^^
  148 |     .a {
      `----
 
   x MediaFeatureBoolean
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:147:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:146:1]
+ 146 | 
  147 | @media (--🧑🏾‍🎤) {
      :        ^^^^^^^^^^^^^^^^^^^
  148 |     .a {
      `----
 
   x MediaFeatureName
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:147:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:146:1]
+ 146 | 
  147 | @media (--🧑🏾‍🎤) {
      :         ^^^^^^^^^^^^^^^^^
  148 |     .a {
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:147:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:146:1]
+ 146 | 
  147 | @media (--🧑🏾‍🎤) {
      :         ^^^^^^^^^^^^^^^^^
  148 |     .a {
      `----
 
   x SimpleBlock
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:147:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:146:1]
+ 146 |     
  147 | ,-> @media (--🧑🏾‍🎤) {
  148 | |       .a {
  149 | |           order: 1;
@@ -10484,7 +10851,8 @@
      `----
 
   x LBrace
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:147:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:146:1]
+ 146 | 
  147 | @media (--🧑🏾‍🎤) {
      :                            ^
  148 |     .a {
@@ -10583,63 +10951,64 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:148:5]
- 148 | .a {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:148:1]
+ 148 |     .a {
  149 |         order: 1;
      :         ^^^^^^^^
  150 |     }
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:148:5]
- 148 | .a {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:148:1]
+ 148 |     .a {
  149 |         order: 1;
      :         ^^^^^^^^
  150 |     }
      `----
 
   x Declaration
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:148:5]
- 148 | .a {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:148:1]
+ 148 |     .a {
  149 |         order: 1;
      :         ^^^^^^^^
  150 |     }
      `----
 
   x DeclarationName
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:148:5]
- 148 | .a {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:148:1]
+ 148 |     .a {
  149 |         order: 1;
      :         ^^^^^
  150 |     }
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:148:5]
- 148 | .a {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:148:1]
+ 148 |     .a {
  149 |         order: 1;
      :         ^^^^^
  150 |     }
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:148:5]
- 148 | .a {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:148:1]
+ 148 |     .a {
  149 |         order: 1;
      :                ^
  150 |     }
      `----
 
   x Integer
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:148:5]
- 148 | .a {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:148:1]
+ 148 |     .a {
  149 |         order: 1;
      :                ^
  150 |     }
      `----
 
   x Rule
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:153:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:152:1]
+ 152 |     
  153 | ,-> @media (--\(\)-escaped) {
  154 | |       .a {
  155 | |           order: 2;
@@ -10648,7 +11017,8 @@
      `----
 
   x AtRule
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:153:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:152:1]
+ 152 |     
  153 | ,-> @media (--\(\)-escaped) {
  154 | |       .a {
  155 | |           order: 2;
@@ -10657,84 +11027,96 @@
      `----
 
   x AtRuleName
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:153:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:152:1]
+ 152 | 
  153 | @media (--\(\)-escaped) {
      :  ^^^^^
  154 |     .a {
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:153:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:152:1]
+ 152 | 
  153 | @media (--\(\)-escaped) {
      :  ^^^^^
  154 |     .a {
      `----
 
   x MediaQueryList
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:153:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:152:1]
+ 152 | 
  153 | @media (--\(\)-escaped) {
      :        ^^^^^^^^^^^^^^^^
  154 |     .a {
      `----
 
   x MediaQuery
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:153:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:152:1]
+ 152 | 
  153 | @media (--\(\)-escaped) {
      :        ^^^^^^^^^^^^^^^^
  154 |     .a {
      `----
 
   x MediaCondition
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:153:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:152:1]
+ 152 | 
  153 | @media (--\(\)-escaped) {
      :        ^^^^^^^^^^^^^^^^
  154 |     .a {
      `----
 
   x MediaConditionAllType
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:153:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:152:1]
+ 152 | 
  153 | @media (--\(\)-escaped) {
      :        ^^^^^^^^^^^^^^^^
  154 |     .a {
      `----
 
   x MediaInParens
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:153:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:152:1]
+ 152 | 
  153 | @media (--\(\)-escaped) {
      :        ^^^^^^^^^^^^^^^^
  154 |     .a {
      `----
 
   x MediaFeature
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:153:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:152:1]
+ 152 | 
  153 | @media (--\(\)-escaped) {
      :        ^^^^^^^^^^^^^^^^
  154 |     .a {
      `----
 
   x MediaFeatureBoolean
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:153:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:152:1]
+ 152 | 
  153 | @media (--\(\)-escaped) {
      :        ^^^^^^^^^^^^^^^^
  154 |     .a {
      `----
 
   x MediaFeatureName
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:153:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:152:1]
+ 152 | 
  153 | @media (--\(\)-escaped) {
      :         ^^^^^^^^^^^^^^
  154 |     .a {
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:153:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:152:1]
+ 152 | 
  153 | @media (--\(\)-escaped) {
      :         ^^^^^^^^^^^^^^
  154 |     .a {
      `----
 
   x SimpleBlock
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:153:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:152:1]
+ 152 |     
  153 | ,-> @media (--\(\)-escaped) {
  154 | |       .a {
  155 | |           order: 2;
@@ -10743,7 +11125,8 @@
      `----
 
   x LBrace
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:153:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:152:1]
+ 152 | 
  153 | @media (--\(\)-escaped) {
      :                         ^
  154 |     .a {
@@ -10842,252 +11225,280 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:154:5]
- 154 | .a {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:154:1]
+ 154 |     .a {
  155 |         order: 2;
      :         ^^^^^^^^
  156 |     }
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:154:5]
- 154 | .a {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:154:1]
+ 154 |     .a {
  155 |         order: 2;
      :         ^^^^^^^^
  156 |     }
      `----
 
   x Declaration
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:154:5]
- 154 | .a {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:154:1]
+ 154 |     .a {
  155 |         order: 2;
      :         ^^^^^^^^
  156 |     }
      `----
 
   x DeclarationName
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:154:5]
- 154 | .a {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:154:1]
+ 154 |     .a {
  155 |         order: 2;
      :         ^^^^^
  156 |     }
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:154:5]
- 154 | .a {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:154:1]
+ 154 |     .a {
  155 |         order: 2;
      :         ^^^^^
  156 |     }
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:154:5]
- 154 | .a {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:154:1]
+ 154 |     .a {
  155 |         order: 2;
      :                ^
  156 |     }
      `----
 
   x Integer
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:154:5]
- 154 | .a {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:154:1]
+ 154 |     .a {
  155 |         order: 2;
      :                ^
  156 |     }
      `----
 
   x Rule
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:159:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:158:1]
+ 158 |     
  159 | ,-> @media (--modern) and (width > 1024px) {
  160 | |       .a { order: 3; }
  161 | `-> }
      `----
 
   x AtRule
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:159:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:158:1]
+ 158 |     
  159 | ,-> @media (--modern) and (width > 1024px) {
  160 | |       .a { order: 3; }
  161 | `-> }
      `----
 
   x AtRuleName
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:159:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:158:1]
+ 158 | 
  159 | @media (--modern) and (width > 1024px) {
      :  ^^^^^
  160 |     .a { order: 3; }
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:159:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:158:1]
+ 158 | 
  159 | @media (--modern) and (width > 1024px) {
      :  ^^^^^
  160 |     .a { order: 3; }
      `----
 
   x MediaQueryList
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:159:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:158:1]
+ 158 | 
  159 | @media (--modern) and (width > 1024px) {
      :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  160 |     .a { order: 3; }
      `----
 
   x MediaQuery
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:159:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:158:1]
+ 158 | 
  159 | @media (--modern) and (width > 1024px) {
      :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  160 |     .a { order: 3; }
      `----
 
   x MediaCondition
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:159:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:158:1]
+ 158 | 
  159 | @media (--modern) and (width > 1024px) {
      :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  160 |     .a { order: 3; }
      `----
 
   x MediaConditionAllType
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:159:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:158:1]
+ 158 | 
  159 | @media (--modern) and (width > 1024px) {
      :        ^^^^^^^^^^
  160 |     .a { order: 3; }
      `----
 
   x MediaInParens
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:159:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:158:1]
+ 158 | 
  159 | @media (--modern) and (width > 1024px) {
      :        ^^^^^^^^^^
  160 |     .a { order: 3; }
      `----
 
   x MediaFeature
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:159:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:158:1]
+ 158 | 
  159 | @media (--modern) and (width > 1024px) {
      :        ^^^^^^^^^^
  160 |     .a { order: 3; }
      `----
 
   x MediaFeatureBoolean
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:159:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:158:1]
+ 158 | 
  159 | @media (--modern) and (width > 1024px) {
      :        ^^^^^^^^^^
  160 |     .a { order: 3; }
      `----
 
   x MediaFeatureName
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:159:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:158:1]
+ 158 | 
  159 | @media (--modern) and (width > 1024px) {
      :         ^^^^^^^^
  160 |     .a { order: 3; }
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:159:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:158:1]
+ 158 | 
  159 | @media (--modern) and (width > 1024px) {
      :         ^^^^^^^^
  160 |     .a { order: 3; }
      `----
 
   x MediaConditionAllType
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:159:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:158:1]
+ 158 | 
  159 | @media (--modern) and (width > 1024px) {
      :                   ^^^^^^^^^^^^^^^^^^^^
  160 |     .a { order: 3; }
      `----
 
   x MediaAnd
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:159:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:158:1]
+ 158 | 
  159 | @media (--modern) and (width > 1024px) {
      :                   ^^^^^^^^^^^^^^^^^^^^
  160 |     .a { order: 3; }
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:159:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:158:1]
+ 158 | 
  159 | @media (--modern) and (width > 1024px) {
      :                   ^^^
  160 |     .a { order: 3; }
      `----
 
   x MediaInParens
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:159:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:158:1]
+ 158 | 
  159 | @media (--modern) and (width > 1024px) {
      :                       ^^^^^^^^^^^^^^^^
  160 |     .a { order: 3; }
      `----
 
   x MediaFeature
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:159:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:158:1]
+ 158 | 
  159 | @media (--modern) and (width > 1024px) {
      :                       ^^^^^^^^^^^^^^^^
  160 |     .a { order: 3; }
      `----
 
   x MediaFeatureRange
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:159:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:158:1]
+ 158 | 
  159 | @media (--modern) and (width > 1024px) {
      :                       ^^^^^^^^^^^^^^^^
  160 |     .a { order: 3; }
      `----
 
   x MediaFeatureValue
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:159:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:158:1]
+ 158 | 
  159 | @media (--modern) and (width > 1024px) {
      :                        ^^^^^
  160 |     .a { order: 3; }
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:159:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:158:1]
+ 158 | 
  159 | @media (--modern) and (width > 1024px) {
      :                        ^^^^^
  160 |     .a { order: 3; }
      `----
 
   x MediaFeatureValue
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:159:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:158:1]
+ 158 | 
  159 | @media (--modern) and (width > 1024px) {
      :                                ^^^^^^
  160 |     .a { order: 3; }
      `----
 
   x Dimension
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:159:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:158:1]
+ 158 | 
  159 | @media (--modern) and (width > 1024px) {
      :                                ^^^^^^
  160 |     .a { order: 3; }
      `----
 
   x Length
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:159:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:158:1]
+ 158 | 
  159 | @media (--modern) and (width > 1024px) {
      :                                ^^^^^^
  160 |     .a { order: 3; }
      `----
 
   x Number
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:159:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:158:1]
+ 158 | 
  159 | @media (--modern) and (width > 1024px) {
      :                                ^^^^
  160 |     .a { order: 3; }
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:159:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:158:1]
+ 158 | 
  159 | @media (--modern) and (width > 1024px) {
      :                                    ^^
  160 |     .a { order: 3; }
      `----
 
   x SimpleBlock
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:159:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:158:1]
+ 158 |     
  159 | ,-> @media (--modern) and (width > 1024px) {
  160 | |       .a { order: 3; }
  161 | `-> }
      `----
 
   x LBrace
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:159:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:158:1]
+ 158 | 
  159 | @media (--modern) and (width > 1024px) {
      :                                        ^
  160 |     .a { order: 3; }
@@ -11238,7 +11649,8 @@
      `----
 
   x Rule
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:163:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:162:1]
+ 162 |     
  163 | ,-> @media (--md-and-larger1) {
  164 | |       body {
  165 | |           background-color: red;
@@ -11247,7 +11659,8 @@
      `----
 
   x AtRule
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:163:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:162:1]
+ 162 |     
  163 | ,-> @media (--md-and-larger1) {
  164 | |       body {
  165 | |           background-color: red;
@@ -11256,84 +11669,96 @@
      `----
 
   x AtRuleName
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:163:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:162:1]
+ 162 | 
  163 | @media (--md-and-larger1) {
      :  ^^^^^
  164 |     body {
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:163:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:162:1]
+ 162 | 
  163 | @media (--md-and-larger1) {
      :  ^^^^^
  164 |     body {
      `----
 
   x MediaQueryList
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:163:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:162:1]
+ 162 | 
  163 | @media (--md-and-larger1) {
      :        ^^^^^^^^^^^^^^^^^^
  164 |     body {
      `----
 
   x MediaQuery
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:163:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:162:1]
+ 162 | 
  163 | @media (--md-and-larger1) {
      :        ^^^^^^^^^^^^^^^^^^
  164 |     body {
      `----
 
   x MediaCondition
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:163:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:162:1]
+ 162 | 
  163 | @media (--md-and-larger1) {
      :        ^^^^^^^^^^^^^^^^^^
  164 |     body {
      `----
 
   x MediaConditionAllType
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:163:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:162:1]
+ 162 | 
  163 | @media (--md-and-larger1) {
      :        ^^^^^^^^^^^^^^^^^^
  164 |     body {
      `----
 
   x MediaInParens
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:163:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:162:1]
+ 162 | 
  163 | @media (--md-and-larger1) {
      :        ^^^^^^^^^^^^^^^^^^
  164 |     body {
      `----
 
   x MediaFeature
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:163:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:162:1]
+ 162 | 
  163 | @media (--md-and-larger1) {
      :        ^^^^^^^^^^^^^^^^^^
  164 |     body {
      `----
 
   x MediaFeatureBoolean
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:163:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:162:1]
+ 162 | 
  163 | @media (--md-and-larger1) {
      :        ^^^^^^^^^^^^^^^^^^
  164 |     body {
      `----
 
   x MediaFeatureName
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:163:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:162:1]
+ 162 | 
  163 | @media (--md-and-larger1) {
      :         ^^^^^^^^^^^^^^^^
  164 |     body {
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:163:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:162:1]
+ 162 | 
  163 | @media (--md-and-larger1) {
      :         ^^^^^^^^^^^^^^^^
  164 |     body {
      `----
 
   x SimpleBlock
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:163:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:162:1]
+ 162 |     
  163 | ,-> @media (--md-and-larger1) {
  164 | |       body {
  165 | |           background-color: red;
@@ -11342,7 +11767,8 @@
      `----
 
   x LBrace
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:163:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:162:1]
+ 162 | 
  163 | @media (--md-and-larger1) {
      :                           ^
  164 |     body {
@@ -11449,63 +11875,64 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:164:5]
- 164 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:164:1]
+ 164 |     body {
  165 |         background-color: red;
      :         ^^^^^^^^^^^^^^^^^^^^^
  166 |     }
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:164:5]
- 164 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:164:1]
+ 164 |     body {
  165 |         background-color: red;
      :         ^^^^^^^^^^^^^^^^^^^^^
  166 |     }
      `----
 
   x Declaration
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:164:5]
- 164 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:164:1]
+ 164 |     body {
  165 |         background-color: red;
      :         ^^^^^^^^^^^^^^^^^^^^^
  166 |     }
      `----
 
   x DeclarationName
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:164:5]
- 164 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:164:1]
+ 164 |     body {
  165 |         background-color: red;
      :         ^^^^^^^^^^^^^^^^
  166 |     }
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:164:5]
- 164 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:164:1]
+ 164 |     body {
  165 |         background-color: red;
      :         ^^^^^^^^^^^^^^^^
  166 |     }
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:164:5]
- 164 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:164:1]
+ 164 |     body {
  165 |         background-color: red;
      :                           ^^^
  166 |     }
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:164:5]
- 164 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:164:1]
+ 164 |     body {
  165 |         background-color: red;
      :                           ^^^
  166 |     }
      `----
 
   x Rule
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:169:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:168:1]
+ 168 |     
  169 | ,-> @media (--md-and-larger2) {
  170 | |       body {
  171 | |           background-color: yellow;
@@ -11514,7 +11941,8 @@
      `----
 
   x AtRule
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:169:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:168:1]
+ 168 |     
  169 | ,-> @media (--md-and-larger2) {
  170 | |       body {
  171 | |           background-color: yellow;
@@ -11523,84 +11951,96 @@
      `----
 
   x AtRuleName
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:169:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:168:1]
+ 168 | 
  169 | @media (--md-and-larger2) {
      :  ^^^^^
  170 |     body {
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:169:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:168:1]
+ 168 | 
  169 | @media (--md-and-larger2) {
      :  ^^^^^
  170 |     body {
      `----
 
   x MediaQueryList
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:169:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:168:1]
+ 168 | 
  169 | @media (--md-and-larger2) {
      :        ^^^^^^^^^^^^^^^^^^
  170 |     body {
      `----
 
   x MediaQuery
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:169:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:168:1]
+ 168 | 
  169 | @media (--md-and-larger2) {
      :        ^^^^^^^^^^^^^^^^^^
  170 |     body {
      `----
 
   x MediaCondition
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:169:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:168:1]
+ 168 | 
  169 | @media (--md-and-larger2) {
      :        ^^^^^^^^^^^^^^^^^^
  170 |     body {
      `----
 
   x MediaConditionAllType
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:169:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:168:1]
+ 168 | 
  169 | @media (--md-and-larger2) {
      :        ^^^^^^^^^^^^^^^^^^
  170 |     body {
      `----
 
   x MediaInParens
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:169:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:168:1]
+ 168 | 
  169 | @media (--md-and-larger2) {
      :        ^^^^^^^^^^^^^^^^^^
  170 |     body {
      `----
 
   x MediaFeature
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:169:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:168:1]
+ 168 | 
  169 | @media (--md-and-larger2) {
      :        ^^^^^^^^^^^^^^^^^^
  170 |     body {
      `----
 
   x MediaFeatureBoolean
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:169:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:168:1]
+ 168 | 
  169 | @media (--md-and-larger2) {
      :        ^^^^^^^^^^^^^^^^^^
  170 |     body {
      `----
 
   x MediaFeatureName
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:169:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:168:1]
+ 168 | 
  169 | @media (--md-and-larger2) {
      :         ^^^^^^^^^^^^^^^^
  170 |     body {
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:169:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:168:1]
+ 168 | 
  169 | @media (--md-and-larger2) {
      :         ^^^^^^^^^^^^^^^^
  170 |     body {
      `----
 
   x SimpleBlock
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:169:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:168:1]
+ 168 |     
  169 | ,-> @media (--md-and-larger2) {
  170 | |       body {
  171 | |           background-color: yellow;
@@ -11609,7 +12049,8 @@
      `----
 
   x LBrace
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:169:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:168:1]
+ 168 | 
  169 | @media (--md-and-larger2) {
      :                           ^
  170 |     body {
@@ -11716,63 +12157,64 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:170:5]
- 170 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:170:1]
+ 170 |     body {
  171 |         background-color: yellow;
      :         ^^^^^^^^^^^^^^^^^^^^^^^^
  172 |     }
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:170:5]
- 170 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:170:1]
+ 170 |     body {
  171 |         background-color: yellow;
      :         ^^^^^^^^^^^^^^^^^^^^^^^^
  172 |     }
      `----
 
   x Declaration
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:170:5]
- 170 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:170:1]
+ 170 |     body {
  171 |         background-color: yellow;
      :         ^^^^^^^^^^^^^^^^^^^^^^^^
  172 |     }
      `----
 
   x DeclarationName
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:170:5]
- 170 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:170:1]
+ 170 |     body {
  171 |         background-color: yellow;
      :         ^^^^^^^^^^^^^^^^
  172 |     }
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:170:5]
- 170 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:170:1]
+ 170 |     body {
  171 |         background-color: yellow;
      :         ^^^^^^^^^^^^^^^^
  172 |     }
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:170:5]
- 170 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:170:1]
+ 170 |     body {
  171 |         background-color: yellow;
      :                           ^^^^^^
  172 |     }
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:170:5]
- 170 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:170:1]
+ 170 |     body {
  171 |         background-color: yellow;
      :                           ^^^^^^
  172 |     }
      `----
 
   x Rule
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:175:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:174:1]
+ 174 |     
  175 | ,-> @media (--md-and-larger3) {
  176 | |       body {
  177 | |           background-color: green;
@@ -11781,7 +12223,8 @@
      `----
 
   x AtRule
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:175:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:174:1]
+ 174 |     
  175 | ,-> @media (--md-and-larger3) {
  176 | |       body {
  177 | |           background-color: green;
@@ -11790,84 +12233,96 @@
      `----
 
   x AtRuleName
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:175:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:174:1]
+ 174 | 
  175 | @media (--md-and-larger3) {
      :  ^^^^^
  176 |     body {
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:175:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:174:1]
+ 174 | 
  175 | @media (--md-and-larger3) {
      :  ^^^^^
  176 |     body {
      `----
 
   x MediaQueryList
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:175:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:174:1]
+ 174 | 
  175 | @media (--md-and-larger3) {
      :        ^^^^^^^^^^^^^^^^^^
  176 |     body {
      `----
 
   x MediaQuery
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:175:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:174:1]
+ 174 | 
  175 | @media (--md-and-larger3) {
      :        ^^^^^^^^^^^^^^^^^^
  176 |     body {
      `----
 
   x MediaCondition
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:175:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:174:1]
+ 174 | 
  175 | @media (--md-and-larger3) {
      :        ^^^^^^^^^^^^^^^^^^
  176 |     body {
      `----
 
   x MediaConditionAllType
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:175:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:174:1]
+ 174 | 
  175 | @media (--md-and-larger3) {
      :        ^^^^^^^^^^^^^^^^^^
  176 |     body {
      `----
 
   x MediaInParens
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:175:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:174:1]
+ 174 | 
  175 | @media (--md-and-larger3) {
      :        ^^^^^^^^^^^^^^^^^^
  176 |     body {
      `----
 
   x MediaFeature
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:175:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:174:1]
+ 174 | 
  175 | @media (--md-and-larger3) {
      :        ^^^^^^^^^^^^^^^^^^
  176 |     body {
      `----
 
   x MediaFeatureBoolean
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:175:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:174:1]
+ 174 | 
  175 | @media (--md-and-larger3) {
      :        ^^^^^^^^^^^^^^^^^^
  176 |     body {
      `----
 
   x MediaFeatureName
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:175:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:174:1]
+ 174 | 
  175 | @media (--md-and-larger3) {
      :         ^^^^^^^^^^^^^^^^
  176 |     body {
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:175:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:174:1]
+ 174 | 
  175 | @media (--md-and-larger3) {
      :         ^^^^^^^^^^^^^^^^
  176 |     body {
      `----
 
   x SimpleBlock
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:175:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:174:1]
+ 174 |     
  175 | ,-> @media (--md-and-larger3) {
  176 | |       body {
  177 | |           background-color: green;
@@ -11876,7 +12331,8 @@
      `----
 
   x LBrace
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:175:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:174:1]
+ 174 | 
  175 | @media (--md-and-larger3) {
      :                           ^
  176 |     body {
@@ -11983,63 +12439,64 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:176:5]
- 176 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:176:1]
+ 176 |     body {
  177 |         background-color: green;
      :         ^^^^^^^^^^^^^^^^^^^^^^^
  178 |     }
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:176:5]
- 176 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:176:1]
+ 176 |     body {
  177 |         background-color: green;
      :         ^^^^^^^^^^^^^^^^^^^^^^^
  178 |     }
      `----
 
   x Declaration
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:176:5]
- 176 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:176:1]
+ 176 |     body {
  177 |         background-color: green;
      :         ^^^^^^^^^^^^^^^^^^^^^^^
  178 |     }
      `----
 
   x DeclarationName
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:176:5]
- 176 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:176:1]
+ 176 |     body {
  177 |         background-color: green;
      :         ^^^^^^^^^^^^^^^^
  178 |     }
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:176:5]
- 176 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:176:1]
+ 176 |     body {
  177 |         background-color: green;
      :         ^^^^^^^^^^^^^^^^
  178 |     }
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:176:5]
- 176 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:176:1]
+ 176 |     body {
  177 |         background-color: green;
      :                           ^^^^^
  178 |     }
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:176:5]
- 176 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:176:1]
+ 176 |     body {
  177 |         background-color: green;
      :                           ^^^^^
  178 |     }
      `----
 
   x Rule
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:181:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:180:1]
+ 180 |     
  181 | ,-> @media (--screen) and (--md-larger4) {
  182 | |       body {
  183 | |           background-color: green;
@@ -12048,7 +12505,8 @@
      `----
 
   x AtRule
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:181:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:180:1]
+ 180 |     
  181 | ,-> @media (--screen) and (--md-larger4) {
  182 | |       body {
  183 | |           background-color: green;
@@ -12057,140 +12515,160 @@
      `----
 
   x AtRuleName
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:181:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:180:1]
+ 180 | 
  181 | @media (--screen) and (--md-larger4) {
      :  ^^^^^
  182 |     body {
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:181:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:180:1]
+ 180 | 
  181 | @media (--screen) and (--md-larger4) {
      :  ^^^^^
  182 |     body {
      `----
 
   x MediaQueryList
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:181:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:180:1]
+ 180 | 
  181 | @media (--screen) and (--md-larger4) {
      :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  182 |     body {
      `----
 
   x MediaQuery
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:181:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:180:1]
+ 180 | 
  181 | @media (--screen) and (--md-larger4) {
      :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  182 |     body {
      `----
 
   x MediaCondition
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:181:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:180:1]
+ 180 | 
  181 | @media (--screen) and (--md-larger4) {
      :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  182 |     body {
      `----
 
   x MediaConditionAllType
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:181:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:180:1]
+ 180 | 
  181 | @media (--screen) and (--md-larger4) {
      :        ^^^^^^^^^^
  182 |     body {
      `----
 
   x MediaInParens
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:181:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:180:1]
+ 180 | 
  181 | @media (--screen) and (--md-larger4) {
      :        ^^^^^^^^^^
  182 |     body {
      `----
 
   x MediaFeature
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:181:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:180:1]
+ 180 | 
  181 | @media (--screen) and (--md-larger4) {
      :        ^^^^^^^^^^
  182 |     body {
      `----
 
   x MediaFeatureBoolean
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:181:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:180:1]
+ 180 | 
  181 | @media (--screen) and (--md-larger4) {
      :        ^^^^^^^^^^
  182 |     body {
      `----
 
   x MediaFeatureName
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:181:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:180:1]
+ 180 | 
  181 | @media (--screen) and (--md-larger4) {
      :         ^^^^^^^^
  182 |     body {
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:181:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:180:1]
+ 180 | 
  181 | @media (--screen) and (--md-larger4) {
      :         ^^^^^^^^
  182 |     body {
      `----
 
   x MediaConditionAllType
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:181:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:180:1]
+ 180 | 
  181 | @media (--screen) and (--md-larger4) {
      :                   ^^^^^^^^^^^^^^^^^^
  182 |     body {
      `----
 
   x MediaAnd
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:181:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:180:1]
+ 180 | 
  181 | @media (--screen) and (--md-larger4) {
      :                   ^^^^^^^^^^^^^^^^^^
  182 |     body {
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:181:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:180:1]
+ 180 | 
  181 | @media (--screen) and (--md-larger4) {
      :                   ^^^
  182 |     body {
      `----
 
   x MediaInParens
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:181:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:180:1]
+ 180 | 
  181 | @media (--screen) and (--md-larger4) {
      :                       ^^^^^^^^^^^^^^
  182 |     body {
      `----
 
   x MediaFeature
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:181:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:180:1]
+ 180 | 
  181 | @media (--screen) and (--md-larger4) {
      :                       ^^^^^^^^^^^^^^
  182 |     body {
      `----
 
   x MediaFeatureBoolean
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:181:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:180:1]
+ 180 | 
  181 | @media (--screen) and (--md-larger4) {
      :                       ^^^^^^^^^^^^^^
  182 |     body {
      `----
 
   x MediaFeatureName
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:181:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:180:1]
+ 180 | 
  181 | @media (--screen) and (--md-larger4) {
      :                        ^^^^^^^^^^^^
  182 |     body {
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:181:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:180:1]
+ 180 | 
  181 | @media (--screen) and (--md-larger4) {
      :                        ^^^^^^^^^^^^
  182 |     body {
      `----
 
   x SimpleBlock
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:181:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:180:1]
+ 180 |     
  181 | ,-> @media (--screen) and (--md-larger4) {
  182 | |       body {
  183 | |           background-color: green;
@@ -12199,7 +12677,8 @@
      `----
 
   x LBrace
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:181:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:180:1]
+ 180 | 
  181 | @media (--screen) and (--md-larger4) {
      :                                      ^
  182 |     body {
@@ -12306,63 +12785,64 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:182:5]
- 182 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:182:1]
+ 182 |     body {
  183 |         background-color: green;
      :         ^^^^^^^^^^^^^^^^^^^^^^^
  184 |     }
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:182:5]
- 182 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:182:1]
+ 182 |     body {
  183 |         background-color: green;
      :         ^^^^^^^^^^^^^^^^^^^^^^^
  184 |     }
      `----
 
   x Declaration
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:182:5]
- 182 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:182:1]
+ 182 |     body {
  183 |         background-color: green;
      :         ^^^^^^^^^^^^^^^^^^^^^^^
  184 |     }
      `----
 
   x DeclarationName
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:182:5]
- 182 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:182:1]
+ 182 |     body {
  183 |         background-color: green;
      :         ^^^^^^^^^^^^^^^^
  184 |     }
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:182:5]
- 182 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:182:1]
+ 182 |     body {
  183 |         background-color: green;
      :         ^^^^^^^^^^^^^^^^
  184 |     }
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:182:5]
- 182 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:182:1]
+ 182 |     body {
  183 |         background-color: green;
      :                           ^^^^^
  184 |     }
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:182:5]
- 182 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:182:1]
+ 182 |     body {
  183 |         background-color: green;
      :                           ^^^^^
  184 |     }
      `----
 
   x Rule
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:187:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:186:1]
+ 186 |     
  187 | ,-> @media (--md-larger4) and (--md-smaller4) {
  188 | |       body {
  189 | |           background-color: green;
@@ -12371,7 +12851,8 @@
      `----
 
   x AtRule
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:187:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:186:1]
+ 186 |     
  187 | ,-> @media (--md-larger4) and (--md-smaller4) {
  188 | |       body {
  189 | |           background-color: green;
@@ -12380,140 +12861,160 @@
      `----
 
   x AtRuleName
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:187:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:186:1]
+ 186 | 
  187 | @media (--md-larger4) and (--md-smaller4) {
      :  ^^^^^
  188 |     body {
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:187:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:186:1]
+ 186 | 
  187 | @media (--md-larger4) and (--md-smaller4) {
      :  ^^^^^
  188 |     body {
      `----
 
   x MediaQueryList
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:187:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:186:1]
+ 186 | 
  187 | @media (--md-larger4) and (--md-smaller4) {
      :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  188 |     body {
      `----
 
   x MediaQuery
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:187:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:186:1]
+ 186 | 
  187 | @media (--md-larger4) and (--md-smaller4) {
      :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  188 |     body {
      `----
 
   x MediaCondition
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:187:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:186:1]
+ 186 | 
  187 | @media (--md-larger4) and (--md-smaller4) {
      :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  188 |     body {
      `----
 
   x MediaConditionAllType
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:187:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:186:1]
+ 186 | 
  187 | @media (--md-larger4) and (--md-smaller4) {
      :        ^^^^^^^^^^^^^^
  188 |     body {
      `----
 
   x MediaInParens
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:187:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:186:1]
+ 186 | 
  187 | @media (--md-larger4) and (--md-smaller4) {
      :        ^^^^^^^^^^^^^^
  188 |     body {
      `----
 
   x MediaFeature
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:187:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:186:1]
+ 186 | 
  187 | @media (--md-larger4) and (--md-smaller4) {
      :        ^^^^^^^^^^^^^^
  188 |     body {
      `----
 
   x MediaFeatureBoolean
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:187:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:186:1]
+ 186 | 
  187 | @media (--md-larger4) and (--md-smaller4) {
      :        ^^^^^^^^^^^^^^
  188 |     body {
      `----
 
   x MediaFeatureName
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:187:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:186:1]
+ 186 | 
  187 | @media (--md-larger4) and (--md-smaller4) {
      :         ^^^^^^^^^^^^
  188 |     body {
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:187:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:186:1]
+ 186 | 
  187 | @media (--md-larger4) and (--md-smaller4) {
      :         ^^^^^^^^^^^^
  188 |     body {
      `----
 
   x MediaConditionAllType
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:187:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:186:1]
+ 186 | 
  187 | @media (--md-larger4) and (--md-smaller4) {
      :                       ^^^^^^^^^^^^^^^^^^^
  188 |     body {
      `----
 
   x MediaAnd
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:187:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:186:1]
+ 186 | 
  187 | @media (--md-larger4) and (--md-smaller4) {
      :                       ^^^^^^^^^^^^^^^^^^^
  188 |     body {
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:187:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:186:1]
+ 186 | 
  187 | @media (--md-larger4) and (--md-smaller4) {
      :                       ^^^
  188 |     body {
      `----
 
   x MediaInParens
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:187:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:186:1]
+ 186 | 
  187 | @media (--md-larger4) and (--md-smaller4) {
      :                           ^^^^^^^^^^^^^^^
  188 |     body {
      `----
 
   x MediaFeature
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:187:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:186:1]
+ 186 | 
  187 | @media (--md-larger4) and (--md-smaller4) {
      :                           ^^^^^^^^^^^^^^^
  188 |     body {
      `----
 
   x MediaFeatureBoolean
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:187:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:186:1]
+ 186 | 
  187 | @media (--md-larger4) and (--md-smaller4) {
      :                           ^^^^^^^^^^^^^^^
  188 |     body {
      `----
 
   x MediaFeatureName
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:187:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:186:1]
+ 186 | 
  187 | @media (--md-larger4) and (--md-smaller4) {
      :                            ^^^^^^^^^^^^^
  188 |     body {
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:187:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:186:1]
+ 186 | 
  187 | @media (--md-larger4) and (--md-smaller4) {
      :                            ^^^^^^^^^^^^^
  188 |     body {
      `----
 
   x SimpleBlock
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:187:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:186:1]
+ 186 |     
  187 | ,-> @media (--md-larger4) and (--md-smaller4) {
  188 | |       body {
  189 | |           background-color: green;
@@ -12522,7 +13023,8 @@
      `----
 
   x LBrace
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:187:1]
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:186:1]
+ 186 | 
  187 | @media (--md-larger4) and (--md-smaller4) {
      :                                           ^
  188 |     body {
@@ -12629,56 +13131,56 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:188:5]
- 188 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:188:1]
+ 188 |     body {
  189 |         background-color: green;
      :         ^^^^^^^^^^^^^^^^^^^^^^^
  190 |     }
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:188:5]
- 188 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:188:1]
+ 188 |     body {
  189 |         background-color: green;
      :         ^^^^^^^^^^^^^^^^^^^^^^^
  190 |     }
      `----
 
   x Declaration
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:188:5]
- 188 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:188:1]
+ 188 |     body {
  189 |         background-color: green;
      :         ^^^^^^^^^^^^^^^^^^^^^^^
  190 |     }
      `----
 
   x DeclarationName
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:188:5]
- 188 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:188:1]
+ 188 |     body {
  189 |         background-color: green;
      :         ^^^^^^^^^^^^^^^^
  190 |     }
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:188:5]
- 188 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:188:1]
+ 188 |     body {
  189 |         background-color: green;
      :         ^^^^^^^^^^^^^^^^
  190 |     }
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:188:5]
- 188 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:188:1]
+ 188 |     body {
  189 |         background-color: green;
      :                           ^^^^^
  190 |     }
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:188:5]
- 188 | body {
+     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:188:1]
+ 188 |     body {
  189 |         background-color: green;
      :                           ^^^^^
  190 |     }

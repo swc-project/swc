@@ -113,72 +113,72 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/cdata/input.xml:2:5]
- 2 | <description>An example of escaped CENDs</description>
+   ,-[$DIR/tests/fixture/cdata/input.xml:2:1]
+ 2 |     <description>An example of escaped CENDs</description>
  3 |     <!-- This text contains a CEND ]]> -->
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  4 |     <!-- In this first case we put the ]] at the end of the first CDATA block
    `----
 
   x Comment
-   ,-[$DIR/tests/fixture/cdata/input.xml:2:5]
- 2 | <description>An example of escaped CENDs</description>
+   ,-[$DIR/tests/fixture/cdata/input.xml:2:1]
+ 2 |     <description>An example of escaped CENDs</description>
  3 |     <!-- This text contains a CEND ]]> -->
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  4 |     <!-- In this first case we put the ]] at the end of the first CDATA block
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/cdata/input.xml:2:5]
- 2 |     <description>An example of escaped CENDs</description>
+   ,-[$DIR/tests/fixture/cdata/input.xml:2:1]
+ 2 |         <description>An example of escaped CENDs</description>
  3 | ,->     <!-- This text contains a CEND ]]> -->
  4 | `->     <!-- In this first case we put the ]] at the end of the first CDATA block
  5 |              and the > in the second CDATA block -->
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/cdata/input.xml:2:5]
- 2 |     <description>An example of escaped CENDs</description>
+   ,-[$DIR/tests/fixture/cdata/input.xml:2:1]
+ 2 |         <description>An example of escaped CENDs</description>
  3 | ,->     <!-- This text contains a CEND ]]> -->
  4 | `->     <!-- In this first case we put the ]] at the end of the first CDATA block
  5 |              and the > in the second CDATA block -->
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/cdata/input.xml:3:5]
- 3 |     <!-- This text contains a CEND ]]> -->
+   ,-[$DIR/tests/fixture/cdata/input.xml:3:1]
+ 3 |         <!-- This text contains a CEND ]]> -->
  4 | ,->     <!-- In this first case we put the ]] at the end of the first CDATA block
  5 | `->          and the > in the second CDATA block -->
  6 |         <exampleOfACDATA>
    `----
 
   x Comment
-   ,-[$DIR/tests/fixture/cdata/input.xml:3:5]
- 3 |     <!-- This text contains a CEND ]]> -->
+   ,-[$DIR/tests/fixture/cdata/input.xml:3:1]
+ 3 |         <!-- This text contains a CEND ]]> -->
  4 | ,->     <!-- In this first case we put the ]] at the end of the first CDATA block
  5 | `->          and the > in the second CDATA block -->
  6 |         <exampleOfACDATA>
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/cdata/input.xml:4:5]
- 4 |     <!-- In this first case we put the ]] at the end of the first CDATA block
+   ,-[$DIR/tests/fixture/cdata/input.xml:4:1]
+ 4 |         <!-- In this first case we put the ]] at the end of the first CDATA block
  5 | ,->          and the > in the second CDATA block -->
  6 | `->     <exampleOfACDATA>
  7 |         <![CDATA[
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/cdata/input.xml:4:5]
- 4 |     <!-- In this first case we put the ]] at the end of the first CDATA block
+   ,-[$DIR/tests/fixture/cdata/input.xml:4:1]
+ 4 |         <!-- In this first case we put the ]] at the end of the first CDATA block
  5 | ,->          and the > in the second CDATA block -->
  6 | `->     <exampleOfACDATA>
  7 |         <![CDATA[
    `----
 
   x Child
-    ,-[$DIR/tests/fixture/cdata/input.xml:5:10]
-  5 |     and the > in the second CDATA block -->
+    ,-[$DIR/tests/fixture/cdata/input.xml:5:1]
+  5 |              and the > in the second CDATA block -->
   6 | ,->     <exampleOfACDATA>
   7 | |       <![CDATA[
   8 | |       Since this is a CDATA section
@@ -190,8 +190,8 @@
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/cdata/input.xml:5:10]
-  5 |     and the > in the second CDATA block -->
+    ,-[$DIR/tests/fixture/cdata/input.xml:5:1]
+  5 |              and the > in the second CDATA block -->
   6 | ,->     <exampleOfACDATA>
   7 | |       <![CDATA[
   8 | |       Since this is a CDATA section
@@ -203,8 +203,8 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/cdata/input.xml:5:10]
-  5 |     and the > in the second CDATA block -->
+    ,-[$DIR/tests/fixture/cdata/input.xml:5:1]
+  5 |              and the > in the second CDATA block -->
   6 | ,->     <exampleOfACDATA>
   7 | |       <![CDATA[
   8 | |       Since this is a CDATA section
@@ -216,8 +216,8 @@
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/cdata/input.xml:5:10]
-  5 |     and the > in the second CDATA block -->
+    ,-[$DIR/tests/fixture/cdata/input.xml:5:1]
+  5 |              and the > in the second CDATA block -->
   6 | ,->     <exampleOfACDATA>
   7 | |       <![CDATA[
   8 | |       Since this is a CDATA section
@@ -229,16 +229,16 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/cdata/input.xml:11:5]
- 11 | ]]>
+    ,-[$DIR/tests/fixture/cdata/input.xml:11:1]
+ 11 |     ]]>
  12 |     </exampleOfACDATA>
     :                       ^
  13 | </root>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/cdata/input.xml:11:5]
- 11 | ]]>
+    ,-[$DIR/tests/fixture/cdata/input.xml:11:1]
+ 11 |     ]]>
  12 |     </exampleOfACDATA>
     :                       ^
  13 | </root>

@@ -25,7 +25,8 @@
 //!     `----
 //! 
 //!   x 'delete' cannot be called on an identifier in strict mode
-//!     ,-[6:1]
+//!     ,-[5:1]
+//!   5 | 
 //!   6 | // enum type var
 //!   7 | var ResultIsBoolean1 = delete ENUM;
 //!   8 | var ResultIsBoolean2 = delete ENUM1;
@@ -36,7 +37,8 @@
 //!     `----
 //! 
 //!   x The operand of a delete operator must be a property reference.
-//!     ,-[6:1]
+//!     ,-[5:1]
+//!   5 | 
 //!   6 | // enum type var
 //!   7 | var ResultIsBoolean1 = delete ENUM;
 //!   8 | var ResultIsBoolean2 = delete ENUM1;
@@ -47,7 +49,8 @@
 //!     `----
 //! 
 //!   x The operand of a delete operator must be a property reference.
-//!     ,-[10:1]
+//!     ,-[9:1]
+//!   9 | 
 //!  10 | // enum type expressions
 //!  11 | var ResultIsBoolean3 = delete ENUM1["A"];
 //!  12 | var ResultIsBoolean4 = delete (ENUM[0] + ENUM1["B"]);
@@ -94,7 +97,8 @@
 //!     `----
 //! 
 //!   x The operand of a delete operator must be a property reference.
-//!     ,-[14:1]
+//!     ,-[13:1]
+//!  13 | 
 //!  14 | // multiple delete  operators
 //!  15 | var ResultIsBoolean5 = delete delete ENUM;
 //!  16 | var ResultIsBoolean6 = delete delete delete (ENUM[0] + ENUM1["B"]);
@@ -105,7 +109,8 @@
 //!     `----
 //! 
 //!   x The operand of a delete operator must be a property reference.
-//!     ,-[14:1]
+//!     ,-[13:1]
+//!  13 | 
 //!  14 | // multiple delete  operators
 //!  15 | var ResultIsBoolean5 = delete delete ENUM;
 //!  16 | var ResultIsBoolean6 = delete delete delete (ENUM[0] + ENUM1["B"]);
@@ -116,7 +121,8 @@
 //!     `----
 //! 
 //!   x The operand of a delete operator must be a property reference.
-//!     ,-[14:1]
+//!     ,-[13:1]
+//!  13 | 
 //!  14 | // multiple delete  operators
 //!  15 | var ResultIsBoolean5 = delete delete ENUM;
 //!  16 | var ResultIsBoolean6 = delete delete delete (ENUM[0] + ENUM1["B"]);
@@ -151,7 +157,8 @@
 //!     `----
 //! 
 //!   x 'delete' cannot be called on an identifier in strict mode
-//!     ,-[18:1]
+//!     ,-[17:1]
+//!  17 | 
 //!  18 | // miss assignment operators
 //!  19 | delete ENUM;
 //!  20 | delete ENUM1;
@@ -161,7 +168,8 @@
 //!     `----
 //! 
 //!   x The operand of a delete operator must be a property reference.
-//!     ,-[18:1]
+//!     ,-[17:1]
+//!  17 | 
 //!  18 | // miss assignment operators
 //!  19 | delete ENUM;
 //!  20 | delete ENUM1;

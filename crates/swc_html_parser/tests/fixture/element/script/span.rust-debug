@@ -163,40 +163,40 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/script/input.html:4:5]
- 4 | <title>Document</title>
+   ,-[$DIR/tests/fixture/element/script/input.html:4:1]
+ 4 |     <title>Document</title>
  5 |     <script>console.log("test");</script>
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  6 | </head>
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/element/script/input.html:4:5]
- 4 | <title>Document</title>
+   ,-[$DIR/tests/fixture/element/script/input.html:4:1]
+ 4 |     <title>Document</title>
  5 |     <script>console.log("test");</script>
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  6 | </head>
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/script/input.html:4:5]
- 4 | <title>Document</title>
+   ,-[$DIR/tests/fixture/element/script/input.html:4:1]
+ 4 |     <title>Document</title>
  5 |     <script>console.log("test");</script>
    :             ^^^^^^^^^^^^^^^^^^^^
  6 | </head>
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/element/script/input.html:4:5]
- 4 | <title>Document</title>
+   ,-[$DIR/tests/fixture/element/script/input.html:4:1]
+ 4 |     <title>Document</title>
  5 |     <script>console.log("test");</script>
    :             ^^^^^^^^^^^^^^^^^^^^
  6 | </head>
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/script/input.html:4:5]
- 4 | <title>Document</title>
+   ,-[$DIR/tests/fixture/element/script/input.html:4:1]
+ 4 |     <title>Document</title>
  5 |     <script>console.log("test");</script>
    :                                          ^
  6 | </head>
@@ -204,8 +204,8 @@
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/element/script/input.html:4:5]
- 4 | <title>Document</title>
+   ,-[$DIR/tests/fixture/element/script/input.html:4:1]
+ 4 |     <title>Document</title>
  5 |     <script>console.log("test");</script>
    :                                          ^
  6 | </head>
@@ -213,8 +213,8 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/script/input.html:5:5]
- 5 | <script>console.log("test");</script>
+   ,-[$DIR/tests/fixture/element/script/input.html:5:1]
+ 5 |     <script>console.log("test");</script>
  6 | </head>
    :        ^
  7 | <body>
@@ -222,8 +222,8 @@
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/element/script/input.html:5:5]
- 5 | <script>console.log("test");</script>
+   ,-[$DIR/tests/fixture/element/script/input.html:5:1]
+ 5 |     <script>console.log("test");</script>
  6 | </head>
    :        ^
  7 | <body>
@@ -331,16 +331,16 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/script/input.html:12:9]
- 12 |     <!-- aa -->\n
+    ,-[$DIR/tests/fixture/element/script/input.html:12:1]
+ 12 |             <!-- aa -->\n
  13 | ,->     </script>
  14 | `-> </body>
  15 |     </html>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/script/input.html:12:9]
- 12 |     <!-- aa -->\n
+    ,-[$DIR/tests/fixture/element/script/input.html:12:1]
+ 12 |             <!-- aa -->\n
  13 | ,->     </script>
  14 | `-> </body>
  15 |     </html>

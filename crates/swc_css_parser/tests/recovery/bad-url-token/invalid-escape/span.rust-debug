@@ -4,7 +4,7 @@
  1 | ,-> div {
  2 | |       background: url(image.png\
  3 | |       );
- 4 | |   }
+ 4 | `-> }
    `----
 
   x Rule

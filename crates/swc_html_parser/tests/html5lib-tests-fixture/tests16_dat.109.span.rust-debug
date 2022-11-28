@@ -1,7 +1,8 @@
 
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat.109.html:1:1]
- 1 | ,-> <script></SCRIPT
+ 1 | <script></SCRIPT 
+   : ^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -10,10 +11,12 @@
 
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat.109.html:1:1]
- 1 | ,-> <script></SCRIPT
+ 1 | <script></SCRIPT 
+   : ^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat.109.html:1:1]
- 1 | ,-> <script></SCRIPT
+ 1 | <script></SCRIPT 
+   : ^^^^^^^^^^^^^^^^^
    `----

@@ -1,7 +1,8 @@
 //// [trailingCommasInFunctionParametersAndArguments.ts]
 //! 
 //!   x Trailing comma isn't permitted after a rest element
-//!    ,-[4:1]
+//!    ,-[3:1]
+//!  3 | 
 //!  4 | f1(1,);
 //!  5 | 
 //!  6 | function f2(...args,) {}

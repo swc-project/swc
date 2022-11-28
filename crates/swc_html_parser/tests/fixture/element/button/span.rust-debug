@@ -151,16 +151,16 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/button/input.html:4:5]
- 4 | <title>Document</title>
+   ,-[$DIR/tests/fixture/element/button/input.html:4:1]
+ 4 |     <title>Document</title>
  5 | </head>
    :        ^
  6 | <body>
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/element/button/input.html:4:5]
- 4 | <title>Document</title>
+   ,-[$DIR/tests/fixture/element/button/input.html:4:1]
+ 4 |     <title>Document</title>
  5 | </head>
    :        ^
  6 | <body>
@@ -205,31 +205,36 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/button/input.html:8:1]
+   ,-[$DIR/tests/fixture/element/button/input.html:7:1]
+ 7 | 
  8 | <button><p></button>x
    : ^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/element/button/input.html:8:1]
+   ,-[$DIR/tests/fixture/element/button/input.html:7:1]
+ 7 | 
  8 | <button><p></button>x
    : ^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/button/input.html:8:1]
+   ,-[$DIR/tests/fixture/element/button/input.html:7:1]
+ 7 | 
  8 | <button><p></button>x
    :         ^^^
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/element/button/input.html:8:1]
+   ,-[$DIR/tests/fixture/element/button/input.html:7:1]
+ 7 | 
  8 | <button><p></button>x
    :         ^^^
    `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/button/input.html:8:1]
+    ,-[$DIR/tests/fixture/element/button/input.html:7:1]
+  7 |     
   8 | ,-> <button><p></button>x
   9 | |   
  10 | `-> </body>
@@ -237,7 +242,8 @@
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/button/input.html:8:1]
+    ,-[$DIR/tests/fixture/element/button/input.html:7:1]
+  7 |     
   8 | ,-> <button><p></button>x
   9 | |   
  10 | `-> </body>

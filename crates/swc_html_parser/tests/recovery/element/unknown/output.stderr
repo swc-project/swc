@@ -7,8 +7,9 @@
     `----
 
   x Stray end tag "test"
-    ,-[$DIR/tests/recovery/element/unknown/input.html:13:5]
- 13 | <unknown>Test</test>Test</unknown>
-    :              ^^^^^^^
+    ,-[$DIR/tests/recovery/element/unknown/input.html:12:1]
+ 12 | 
+ 13 |     <unknown>Test</test>Test</unknown>
+    :                  ^^^^^^^
  14 | </body>
     `----

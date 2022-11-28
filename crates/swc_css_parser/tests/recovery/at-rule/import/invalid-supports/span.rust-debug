@@ -1,7 +1,8 @@
 
   x Stylesheet
    ,-[$DIR/tests/recovery/at-rule/import/invalid-supports/input.css:1:1]
- 1 | ,-> @import url("./test.css") supports(unknown);
+ 1 | @import url("./test.css") supports(unknown);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Rule

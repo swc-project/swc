@@ -1,7 +1,8 @@
 
   x Stylesheet
    ,-[$DIR/tests/recovery/selector/combinator/two/input.css:1:1]
- 1 | ,-> span ~ + {}
+ 1 | span ~ + {}
+   : ^^^^^^^^^^^^
    `----
 
   x Rule

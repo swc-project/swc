@@ -3,21 +3,21 @@
    ,-[$DIR/tests/recovery/simple-block/unclosed-2/input.css:1:1]
  1 | ,-> @media screen {
  2 | |       a {
- 3 | |           color: red;
+ 3 | `->         color: red;
    `----
 
   x Rule
    ,-[$DIR/tests/recovery/simple-block/unclosed-2/input.css:1:1]
  1 | ,-> @media screen {
  2 | |       a {
- 3 | |           color: red;
+ 3 | `->         color: red;
    `----
 
   x AtRule
    ,-[$DIR/tests/recovery/simple-block/unclosed-2/input.css:1:1]
  1 | ,-> @media screen {
  2 | |       a {
- 3 | |           color: red;
+ 3 | `->         color: red;
    `----
 
   x AtRuleName
@@ -66,7 +66,7 @@
    ,-[$DIR/tests/recovery/simple-block/unclosed-2/input.css:1:1]
  1 | ,-> @media screen {
  2 | |       a {
- 3 | |           color: red;
+ 3 | `->         color: red;
    `----
 
   x LBrace
@@ -80,21 +80,21 @@
    ,-[$DIR/tests/recovery/simple-block/unclosed-2/input.css:1:1]
  1 |     @media screen {
  2 | ,->     a {
- 3 | |           color: red;
+ 3 | `->         color: red;
    `----
 
   x Rule
    ,-[$DIR/tests/recovery/simple-block/unclosed-2/input.css:1:1]
  1 |     @media screen {
  2 | ,->     a {
- 3 | |           color: red;
+ 3 | `->         color: red;
    `----
 
   x QualifiedRule
    ,-[$DIR/tests/recovery/simple-block/unclosed-2/input.css:1:1]
  1 |     @media screen {
  2 | ,->     a {
- 3 | |           color: red;
+ 3 | `->         color: red;
    `----
 
   x SelectorList
@@ -157,7 +157,7 @@
    ,-[$DIR/tests/recovery/simple-block/unclosed-2/input.css:1:1]
  1 |     @media screen {
  2 | ,->     a {
- 3 | |           color: red;
+ 3 | `->         color: red;
    `----
 
   x LBrace
@@ -169,50 +169,50 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/simple-block/unclosed-2/input.css:2:5]
- 2 | a {
+   ,-[$DIR/tests/recovery/simple-block/unclosed-2/input.css:2:1]
+ 2 |     a {
  3 |         color: red;
    :         ^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/recovery/simple-block/unclosed-2/input.css:2:5]
- 2 | a {
+   ,-[$DIR/tests/recovery/simple-block/unclosed-2/input.css:2:1]
+ 2 |     a {
  3 |         color: red;
    :         ^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/recovery/simple-block/unclosed-2/input.css:2:5]
- 2 | a {
+   ,-[$DIR/tests/recovery/simple-block/unclosed-2/input.css:2:1]
+ 2 |     a {
  3 |         color: red;
    :         ^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/recovery/simple-block/unclosed-2/input.css:2:5]
- 2 | a {
+   ,-[$DIR/tests/recovery/simple-block/unclosed-2/input.css:2:1]
+ 2 |     a {
  3 |         color: red;
    :         ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/simple-block/unclosed-2/input.css:2:5]
- 2 | a {
+   ,-[$DIR/tests/recovery/simple-block/unclosed-2/input.css:2:1]
+ 2 |     a {
  3 |         color: red;
    :         ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/simple-block/unclosed-2/input.css:2:5]
- 2 | a {
+   ,-[$DIR/tests/recovery/simple-block/unclosed-2/input.css:2:1]
+ 2 |     a {
  3 |         color: red;
    :                ^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/simple-block/unclosed-2/input.css:2:5]
- 2 | a {
+   ,-[$DIR/tests/recovery/simple-block/unclosed-2/input.css:2:1]
+ 2 |     a {
  3 |         color: red;
    :                ^^^
    `----

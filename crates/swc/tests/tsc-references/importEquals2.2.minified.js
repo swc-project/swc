@@ -8,6 +8,7 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 //!  1 | import * as a from './a';
 //!  2 | export = a;
 //!    : ^^^^^^^^^^^
+//!  3 | 
 //!    `----
 //// [/c.ts]
 //! 

@@ -1,7 +1,8 @@
 
   x Stylesheet
    ,-[$DIR/tests/recovery/at-rule/import/indent/input.css:1:1]
- 1 | ,-> @import foo-bar;
+ 1 | @import foo-bar;
+   : ^^^^^^^^^^^^^^^^^
    `----
 
   x Rule

@@ -19,7 +19,7 @@
  16 | |   @page {
  17 | |   	@top-center { CONTENT: none }
  18 | |   	MARGIN-LEFT: 4cm;
- 19 | |   }
+ 19 | `-> }
     `----
 
   x Rule
@@ -206,79 +206,80 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/at-page/input.css:2:5]
- 2 | @top-center { content: none }
+   ,-[$DIR/tests/fixture/rome/at-page/input.css:2:1]
+ 2 | 	@top-center { content: none }
  3 | 	margin-left: 4cm;
    :  ^^^^^^^^^^^^^^^^
  4 | }
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/rome/at-page/input.css:2:5]
- 2 | @top-center { content: none }
+   ,-[$DIR/tests/fixture/rome/at-page/input.css:2:1]
+ 2 | 	@top-center { content: none }
  3 | 	margin-left: 4cm;
    :  ^^^^^^^^^^^^^^^^
  4 | }
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/rome/at-page/input.css:2:5]
- 2 | @top-center { content: none }
+   ,-[$DIR/tests/fixture/rome/at-page/input.css:2:1]
+ 2 | 	@top-center { content: none }
  3 | 	margin-left: 4cm;
    :  ^^^^^^^^^^^
  4 | }
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/at-page/input.css:2:5]
- 2 | @top-center { content: none }
+   ,-[$DIR/tests/fixture/rome/at-page/input.css:2:1]
+ 2 | 	@top-center { content: none }
  3 | 	margin-left: 4cm;
    :  ^^^^^^^^^^^
  4 | }
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/at-page/input.css:2:5]
- 2 | @top-center { content: none }
+   ,-[$DIR/tests/fixture/rome/at-page/input.css:2:1]
+ 2 | 	@top-center { content: none }
  3 | 	margin-left: 4cm;
    :               ^^^
  4 | }
    `----
 
   x Dimension
-   ,-[$DIR/tests/fixture/rome/at-page/input.css:2:5]
- 2 | @top-center { content: none }
+   ,-[$DIR/tests/fixture/rome/at-page/input.css:2:1]
+ 2 | 	@top-center { content: none }
  3 | 	margin-left: 4cm;
    :               ^^^
  4 | }
    `----
 
   x Length
-   ,-[$DIR/tests/fixture/rome/at-page/input.css:2:5]
- 2 | @top-center { content: none }
+   ,-[$DIR/tests/fixture/rome/at-page/input.css:2:1]
+ 2 | 	@top-center { content: none }
  3 | 	margin-left: 4cm;
    :               ^^^
  4 | }
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/rome/at-page/input.css:2:5]
- 2 | @top-center { content: none }
+   ,-[$DIR/tests/fixture/rome/at-page/input.css:2:1]
+ 2 | 	@top-center { content: none }
  3 | 	margin-left: 4cm;
    :               ^
  4 | }
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/at-page/input.css:2:5]
- 2 | @top-center { content: none }
+   ,-[$DIR/tests/fixture/rome/at-page/input.css:2:1]
+ 2 | 	@top-center { content: none }
  3 | 	margin-left: 4cm;
    :                ^^
  4 | }
    `----
 
   x Rule
-   ,-[$DIR/tests/fixture/rome/at-page/input.css:6:1]
+   ,-[$DIR/tests/fixture/rome/at-page/input.css:5:1]
+ 5 |     
  6 | ,-> @page :blank {
  7 | |   	@top-center { content: none }
  8 | |   	margin-left: 4cm;
@@ -286,7 +287,8 @@
    `----
 
   x AtRule
-   ,-[$DIR/tests/fixture/rome/at-page/input.css:6:1]
+   ,-[$DIR/tests/fixture/rome/at-page/input.css:5:1]
+ 5 |     
  6 | ,-> @page :blank {
  7 | |   	@top-center { content: none }
  8 | |   	margin-left: 4cm;
@@ -294,49 +296,56 @@
    `----
 
   x AtRuleName
-   ,-[$DIR/tests/fixture/rome/at-page/input.css:6:1]
+   ,-[$DIR/tests/fixture/rome/at-page/input.css:5:1]
+ 5 | 
  6 | @page :blank {
    :  ^^^^
  7 | 	@top-center { content: none }
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/at-page/input.css:6:1]
+   ,-[$DIR/tests/fixture/rome/at-page/input.css:5:1]
+ 5 | 
  6 | @page :blank {
    :  ^^^^
  7 | 	@top-center { content: none }
    `----
 
   x PageSelectorList
-   ,-[$DIR/tests/fixture/rome/at-page/input.css:6:1]
+   ,-[$DIR/tests/fixture/rome/at-page/input.css:5:1]
+ 5 | 
  6 | @page :blank {
    :       ^^^^^^
  7 | 	@top-center { content: none }
    `----
 
   x PageSelector
-   ,-[$DIR/tests/fixture/rome/at-page/input.css:6:1]
+   ,-[$DIR/tests/fixture/rome/at-page/input.css:5:1]
+ 5 | 
  6 | @page :blank {
    :       ^^^^^^
  7 | 	@top-center { content: none }
    `----
 
   x PageSelectorPseudo
-   ,-[$DIR/tests/fixture/rome/at-page/input.css:6:1]
+   ,-[$DIR/tests/fixture/rome/at-page/input.css:5:1]
+ 5 | 
  6 | @page :blank {
    :       ^^^^^^
  7 | 	@top-center { content: none }
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/at-page/input.css:6:1]
+   ,-[$DIR/tests/fixture/rome/at-page/input.css:5:1]
+ 5 | 
  6 | @page :blank {
    :        ^^^^^
  7 | 	@top-center { content: none }
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/rome/at-page/input.css:6:1]
+   ,-[$DIR/tests/fixture/rome/at-page/input.css:5:1]
+ 5 |     
  6 | ,-> @page :blank {
  7 | |   	@top-center { content: none }
  8 | |   	margin-left: 4cm;
@@ -344,7 +353,8 @@
    `----
 
   x LBrace
-   ,-[$DIR/tests/fixture/rome/at-page/input.css:6:1]
+   ,-[$DIR/tests/fixture/rome/at-page/input.css:5:1]
+ 5 | 
  6 | @page :blank {
    :              ^
  7 | 	@top-center { content: none }
@@ -447,79 +457,80 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/at-page/input.css:7:5]
- 7 | @top-center { content: none }
+   ,-[$DIR/tests/fixture/rome/at-page/input.css:7:1]
+ 7 | 	@top-center { content: none }
  8 | 	margin-left: 4cm;
    :  ^^^^^^^^^^^^^^^^
  9 | }
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/rome/at-page/input.css:7:5]
- 7 | @top-center { content: none }
+   ,-[$DIR/tests/fixture/rome/at-page/input.css:7:1]
+ 7 | 	@top-center { content: none }
  8 | 	margin-left: 4cm;
    :  ^^^^^^^^^^^^^^^^
  9 | }
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/rome/at-page/input.css:7:5]
- 7 | @top-center { content: none }
+   ,-[$DIR/tests/fixture/rome/at-page/input.css:7:1]
+ 7 | 	@top-center { content: none }
  8 | 	margin-left: 4cm;
    :  ^^^^^^^^^^^
  9 | }
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/at-page/input.css:7:5]
- 7 | @top-center { content: none }
+   ,-[$DIR/tests/fixture/rome/at-page/input.css:7:1]
+ 7 | 	@top-center { content: none }
  8 | 	margin-left: 4cm;
    :  ^^^^^^^^^^^
  9 | }
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/at-page/input.css:7:5]
- 7 | @top-center { content: none }
+   ,-[$DIR/tests/fixture/rome/at-page/input.css:7:1]
+ 7 | 	@top-center { content: none }
  8 | 	margin-left: 4cm;
    :               ^^^
  9 | }
    `----
 
   x Dimension
-   ,-[$DIR/tests/fixture/rome/at-page/input.css:7:5]
- 7 | @top-center { content: none }
+   ,-[$DIR/tests/fixture/rome/at-page/input.css:7:1]
+ 7 | 	@top-center { content: none }
  8 | 	margin-left: 4cm;
    :               ^^^
  9 | }
    `----
 
   x Length
-   ,-[$DIR/tests/fixture/rome/at-page/input.css:7:5]
- 7 | @top-center { content: none }
+   ,-[$DIR/tests/fixture/rome/at-page/input.css:7:1]
+ 7 | 	@top-center { content: none }
  8 | 	margin-left: 4cm;
    :               ^^^
  9 | }
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/rome/at-page/input.css:7:5]
- 7 | @top-center { content: none }
+   ,-[$DIR/tests/fixture/rome/at-page/input.css:7:1]
+ 7 | 	@top-center { content: none }
  8 | 	margin-left: 4cm;
    :               ^
  9 | }
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/at-page/input.css:7:5]
- 7 | @top-center { content: none }
+   ,-[$DIR/tests/fixture/rome/at-page/input.css:7:1]
+ 7 | 	@top-center { content: none }
  8 | 	margin-left: 4cm;
    :                ^^
  9 | }
    `----
 
   x Rule
-    ,-[$DIR/tests/fixture/rome/at-page/input.css:11:1]
+    ,-[$DIR/tests/fixture/rome/at-page/input.css:10:1]
+ 10 |     
  11 | ,-> @page {
  12 | |   	@top-center { content: none }
  13 | |   	margin-left: 4cm;
@@ -527,7 +538,8 @@
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/rome/at-page/input.css:11:1]
+    ,-[$DIR/tests/fixture/rome/at-page/input.css:10:1]
+ 10 |     
  11 | ,-> @page {
  12 | |   	@top-center { content: none }
  13 | |   	margin-left: 4cm;
@@ -535,21 +547,24 @@
     `----
 
   x AtRuleName
-    ,-[$DIR/tests/fixture/rome/at-page/input.css:11:1]
+    ,-[$DIR/tests/fixture/rome/at-page/input.css:10:1]
+ 10 | 
  11 | @page {
     :  ^^^^
  12 | 	@top-center { content: none }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/at-page/input.css:11:1]
+    ,-[$DIR/tests/fixture/rome/at-page/input.css:10:1]
+ 10 | 
  11 | @page {
     :  ^^^^
  12 | 	@top-center { content: none }
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/rome/at-page/input.css:11:1]
+    ,-[$DIR/tests/fixture/rome/at-page/input.css:10:1]
+ 10 |     
  11 | ,-> @page {
  12 | |   	@top-center { content: none }
  13 | |   	margin-left: 4cm;
@@ -557,7 +572,8 @@
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/rome/at-page/input.css:11:1]
+    ,-[$DIR/tests/fixture/rome/at-page/input.css:10:1]
+ 10 | 
  11 | @page {
     :       ^
  12 | 	@top-center { content: none }
@@ -660,79 +676,80 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/at-page/input.css:12:5]
- 12 | @top-center { content: none }
+    ,-[$DIR/tests/fixture/rome/at-page/input.css:12:1]
+ 12 | 	@top-center { content: none }
  13 | 	margin-left: 4cm;
     :  ^^^^^^^^^^^^^^^^
  14 | }
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/rome/at-page/input.css:12:5]
- 12 | @top-center { content: none }
+    ,-[$DIR/tests/fixture/rome/at-page/input.css:12:1]
+ 12 | 	@top-center { content: none }
  13 | 	margin-left: 4cm;
     :  ^^^^^^^^^^^^^^^^
  14 | }
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/rome/at-page/input.css:12:5]
- 12 | @top-center { content: none }
+    ,-[$DIR/tests/fixture/rome/at-page/input.css:12:1]
+ 12 | 	@top-center { content: none }
  13 | 	margin-left: 4cm;
     :  ^^^^^^^^^^^
  14 | }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/at-page/input.css:12:5]
- 12 | @top-center { content: none }
+    ,-[$DIR/tests/fixture/rome/at-page/input.css:12:1]
+ 12 | 	@top-center { content: none }
  13 | 	margin-left: 4cm;
     :  ^^^^^^^^^^^
  14 | }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/at-page/input.css:12:5]
- 12 | @top-center { content: none }
+    ,-[$DIR/tests/fixture/rome/at-page/input.css:12:1]
+ 12 | 	@top-center { content: none }
  13 | 	margin-left: 4cm;
     :               ^^^
  14 | }
     `----
 
   x Dimension
-    ,-[$DIR/tests/fixture/rome/at-page/input.css:12:5]
- 12 | @top-center { content: none }
+    ,-[$DIR/tests/fixture/rome/at-page/input.css:12:1]
+ 12 | 	@top-center { content: none }
  13 | 	margin-left: 4cm;
     :               ^^^
  14 | }
     `----
 
   x Length
-    ,-[$DIR/tests/fixture/rome/at-page/input.css:12:5]
- 12 | @top-center { content: none }
+    ,-[$DIR/tests/fixture/rome/at-page/input.css:12:1]
+ 12 | 	@top-center { content: none }
  13 | 	margin-left: 4cm;
     :               ^^^
  14 | }
     `----
 
   x Number
-    ,-[$DIR/tests/fixture/rome/at-page/input.css:12:5]
- 12 | @top-center { content: none }
+    ,-[$DIR/tests/fixture/rome/at-page/input.css:12:1]
+ 12 | 	@top-center { content: none }
  13 | 	margin-left: 4cm;
     :               ^
  14 | }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/at-page/input.css:12:5]
- 12 | @top-center { content: none }
+    ,-[$DIR/tests/fixture/rome/at-page/input.css:12:1]
+ 12 | 	@top-center { content: none }
  13 | 	margin-left: 4cm;
     :                ^^
  14 | }
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/rome/at-page/input.css:16:1]
+    ,-[$DIR/tests/fixture/rome/at-page/input.css:15:1]
+ 15 |     
  16 | ,-> @page {
  17 | |   	@top-center { CONTENT: none }
  18 | |   	MARGIN-LEFT: 4cm;
@@ -740,7 +757,8 @@
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/rome/at-page/input.css:16:1]
+    ,-[$DIR/tests/fixture/rome/at-page/input.css:15:1]
+ 15 |     
  16 | ,-> @page {
  17 | |   	@top-center { CONTENT: none }
  18 | |   	MARGIN-LEFT: 4cm;
@@ -748,21 +766,24 @@
     `----
 
   x AtRuleName
-    ,-[$DIR/tests/fixture/rome/at-page/input.css:16:1]
+    ,-[$DIR/tests/fixture/rome/at-page/input.css:15:1]
+ 15 | 
  16 | @page {
     :  ^^^^
  17 | 	@top-center { CONTENT: none }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/at-page/input.css:16:1]
+    ,-[$DIR/tests/fixture/rome/at-page/input.css:15:1]
+ 15 | 
  16 | @page {
     :  ^^^^
  17 | 	@top-center { CONTENT: none }
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/rome/at-page/input.css:16:1]
+    ,-[$DIR/tests/fixture/rome/at-page/input.css:15:1]
+ 15 |     
  16 | ,-> @page {
  17 | |   	@top-center { CONTENT: none }
  18 | |   	MARGIN-LEFT: 4cm;
@@ -770,7 +791,8 @@
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/rome/at-page/input.css:16:1]
+    ,-[$DIR/tests/fixture/rome/at-page/input.css:15:1]
+ 15 | 
  16 | @page {
     :       ^
  17 | 	@top-center { CONTENT: none }
@@ -873,72 +895,72 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/at-page/input.css:17:5]
- 17 | @top-center { CONTENT: none }
+    ,-[$DIR/tests/fixture/rome/at-page/input.css:17:1]
+ 17 | 	@top-center { CONTENT: none }
  18 | 	MARGIN-LEFT: 4cm;
     :  ^^^^^^^^^^^^^^^^
  19 | }
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/rome/at-page/input.css:17:5]
- 17 | @top-center { CONTENT: none }
+    ,-[$DIR/tests/fixture/rome/at-page/input.css:17:1]
+ 17 | 	@top-center { CONTENT: none }
  18 | 	MARGIN-LEFT: 4cm;
     :  ^^^^^^^^^^^^^^^^
  19 | }
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/rome/at-page/input.css:17:5]
- 17 | @top-center { CONTENT: none }
+    ,-[$DIR/tests/fixture/rome/at-page/input.css:17:1]
+ 17 | 	@top-center { CONTENT: none }
  18 | 	MARGIN-LEFT: 4cm;
     :  ^^^^^^^^^^^
  19 | }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/at-page/input.css:17:5]
- 17 | @top-center { CONTENT: none }
+    ,-[$DIR/tests/fixture/rome/at-page/input.css:17:1]
+ 17 | 	@top-center { CONTENT: none }
  18 | 	MARGIN-LEFT: 4cm;
     :  ^^^^^^^^^^^
  19 | }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/at-page/input.css:17:5]
- 17 | @top-center { CONTENT: none }
+    ,-[$DIR/tests/fixture/rome/at-page/input.css:17:1]
+ 17 | 	@top-center { CONTENT: none }
  18 | 	MARGIN-LEFT: 4cm;
     :               ^^^
  19 | }
     `----
 
   x Dimension
-    ,-[$DIR/tests/fixture/rome/at-page/input.css:17:5]
- 17 | @top-center { CONTENT: none }
+    ,-[$DIR/tests/fixture/rome/at-page/input.css:17:1]
+ 17 | 	@top-center { CONTENT: none }
  18 | 	MARGIN-LEFT: 4cm;
     :               ^^^
  19 | }
     `----
 
   x Length
-    ,-[$DIR/tests/fixture/rome/at-page/input.css:17:5]
- 17 | @top-center { CONTENT: none }
+    ,-[$DIR/tests/fixture/rome/at-page/input.css:17:1]
+ 17 | 	@top-center { CONTENT: none }
  18 | 	MARGIN-LEFT: 4cm;
     :               ^^^
  19 | }
     `----
 
   x Number
-    ,-[$DIR/tests/fixture/rome/at-page/input.css:17:5]
- 17 | @top-center { CONTENT: none }
+    ,-[$DIR/tests/fixture/rome/at-page/input.css:17:1]
+ 17 | 	@top-center { CONTENT: none }
  18 | 	MARGIN-LEFT: 4cm;
     :               ^
  19 | }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/at-page/input.css:17:5]
- 17 | @top-center { CONTENT: none }
+    ,-[$DIR/tests/fixture/rome/at-page/input.css:17:1]
+ 17 | 	@top-center { CONTENT: none }
  18 | 	MARGIN-LEFT: 4cm;
     :                ^^
  19 | }

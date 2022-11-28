@@ -21,7 +21,7 @@
  18 | |   #container-div :-webkit-any(:link, :not(a)),
  19 | |   h1:-webkit-any(.h1class, #bar) {
  20 | |       background-color: green;
- 21 | |   }
+ 21 | `-> }
     `----
 
   x Rule
@@ -2240,7 +2240,8 @@
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:15:1]
+ 15 |     
  16 | ,-> #test-last-child :-webkit-any(:last-child),
  17 | |   :-webkit-any(:link:focus),
  18 | |   #container-div :-webkit-any(:link, :not(a)),
@@ -2250,7 +2251,8 @@
     `----
 
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:15:1]
+ 15 |     
  16 | ,-> #test-last-child :-webkit-any(:last-child),
  17 | |   :-webkit-any(:link:focus),
  18 | |   #container-div :-webkit-any(:link, :not(a)),
@@ -2260,7 +2262,8 @@
     `----
 
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:15:1]
+ 15 |     
  16 | ,-> #test-last-child :-webkit-any(:last-child),
  17 | |   :-webkit-any(:link:focus),
  18 | |   #container-div :-webkit-any(:link, :not(a)),
@@ -2269,112 +2272,128 @@
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:15:1]
+ 15 | 
  16 | #test-last-child :-webkit-any(:last-child),
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  17 | :-webkit-any(:link:focus),
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:15:1]
+ 15 | 
  16 | #test-last-child :-webkit-any(:last-child),
     : ^^^^^^^^^^^^^^^^
  17 | :-webkit-any(:link:focus),
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:15:1]
+ 15 | 
  16 | #test-last-child :-webkit-any(:last-child),
     : ^^^^^^^^^^^^^^^^
  17 | :-webkit-any(:link:focus),
     `----
 
   x IdSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:15:1]
+ 15 | 
  16 | #test-last-child :-webkit-any(:last-child),
     : ^^^^^^^^^^^^^^^^
  17 | :-webkit-any(:link:focus),
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:15:1]
+ 15 | 
  16 | #test-last-child :-webkit-any(:last-child),
     : ^^^^^^^^^^^^^^^^
  17 | :-webkit-any(:link:focus),
     `----
 
   x Combinator
-    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:15:1]
+ 15 | 
  16 | #test-last-child :-webkit-any(:last-child),
     :                 ^
  17 | :-webkit-any(:link:focus),
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:15:1]
+ 15 | 
  16 | #test-last-child :-webkit-any(:last-child),
     :                  ^^^^^^^^^^^^^^^^^^^^^^^^^
  17 | :-webkit-any(:link:focus),
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:15:1]
+ 15 | 
  16 | #test-last-child :-webkit-any(:last-child),
     :                  ^^^^^^^^^^^^^^^^^^^^^^^^^
  17 | :-webkit-any(:link:focus),
     `----
 
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:15:1]
+ 15 | 
  16 | #test-last-child :-webkit-any(:last-child),
     :                  ^^^^^^^^^^^^^^^^^^^^^^^^^
  17 | :-webkit-any(:link:focus),
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:15:1]
+ 15 | 
  16 | #test-last-child :-webkit-any(:last-child),
     :                   ^^^^^^^^^^^
  17 | :-webkit-any(:link:focus),
     `----
 
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:15:1]
+ 15 | 
  16 | #test-last-child :-webkit-any(:last-child),
     :                               ^^^^^^^^^^^
  17 | :-webkit-any(:link:focus),
     `----
 
   x CompoundSelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:15:1]
+ 15 | 
  16 | #test-last-child :-webkit-any(:last-child),
     :                               ^^^^^^^^^^^
  17 | :-webkit-any(:link:focus),
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:15:1]
+ 15 | 
  16 | #test-last-child :-webkit-any(:last-child),
     :                               ^^^^^^^^^^^
  17 | :-webkit-any(:link:focus),
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:15:1]
+ 15 | 
  16 | #test-last-child :-webkit-any(:last-child),
     :                               ^^^^^^^^^^^
  17 | :-webkit-any(:link:focus),
     `----
 
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:15:1]
+ 15 | 
  16 | #test-last-child :-webkit-any(:last-child),
     :                               ^^^^^^^^^^^
  17 | :-webkit-any(:link:focus),
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:15:1]
+ 15 | 
  16 | #test-last-child :-webkit-any(:last-child),
     :                                ^^^^^^^^^^
  17 | :-webkit-any(:link:focus),

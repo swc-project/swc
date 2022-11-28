@@ -2,19 +2,19 @@
   x Stylesheet
    ,-[$DIR/tests/recovery/value/string/newline/input.css:1:1]
  1 | ,-> a {
- 2 | |       prop: "
+ 2 | `->     prop: "
    `----
 
   x Rule
    ,-[$DIR/tests/recovery/value/string/newline/input.css:1:1]
  1 | ,-> a {
- 2 | |       prop: "
+ 2 | `->     prop: "
    `----
 
   x QualifiedRule
    ,-[$DIR/tests/recovery/value/string/newline/input.css:1:1]
  1 | ,-> a {
- 2 | |       prop: "
+ 2 | `->     prop: "
    `----
 
   x SelectorList
@@ -69,7 +69,7 @@
   x SimpleBlock
    ,-[$DIR/tests/recovery/value/string/newline/input.css:1:1]
  1 | ,-> a {
- 2 | |       prop: "
+ 2 | `->     prop: "
    `----
 
   x LBrace
@@ -81,20 +81,23 @@
 
   x ComponentValue
    ,-[$DIR/tests/recovery/value/string/newline/input.css:1:1]
- 1 |     a {
- 2 | ,->     prop: "
+ 1 | a {
+ 2 |     prop: "
+   :     ^^^^^^^^
    `----
 
   x StyleBlock
    ,-[$DIR/tests/recovery/value/string/newline/input.css:1:1]
- 1 |     a {
- 2 | ,->     prop: "
+ 1 | a {
+ 2 |     prop: "
+   :     ^^^^^^^^
    `----
 
   x Declaration
    ,-[$DIR/tests/recovery/value/string/newline/input.css:1:1]
- 1 |     a {
- 2 | ,->     prop: "
+ 1 | a {
+ 2 |     prop: "
+   :     ^^^^^^^^
    `----
 
   x DeclarationName

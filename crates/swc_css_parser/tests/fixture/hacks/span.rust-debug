@@ -7,7 +7,7 @@
  4 | |   .selector { _property: value; }
  5 | |   .selector { -property: value; }
  6 | |   .selector { property: value\9; }
- 7 | |   .selector { property/*\**/: value\9; }
+ 7 | `-> .selector { property/*\**/: value\9; }
    `----
 
   x Rule
@@ -319,119 +319,136 @@
    `----
 
   x Rule
-   ,-[$DIR/tests/fixture/hacks/input.css:4:1]
+   ,-[$DIR/tests/fixture/hacks/input.css:3:1]
+ 3 | 
  4 | .selector { _property: value; }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  5 | .selector { -property: value; }
    `----
 
   x QualifiedRule
-   ,-[$DIR/tests/fixture/hacks/input.css:4:1]
+   ,-[$DIR/tests/fixture/hacks/input.css:3:1]
+ 3 | 
  4 | .selector { _property: value; }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  5 | .selector { -property: value; }
    `----
 
   x SelectorList
-   ,-[$DIR/tests/fixture/hacks/input.css:4:1]
+   ,-[$DIR/tests/fixture/hacks/input.css:3:1]
+ 3 | 
  4 | .selector { _property: value; }
    : ^^^^^^^^^
  5 | .selector { -property: value; }
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/hacks/input.css:4:1]
+   ,-[$DIR/tests/fixture/hacks/input.css:3:1]
+ 3 | 
  4 | .selector { _property: value; }
    : ^^^^^^^^^
  5 | .selector { -property: value; }
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/hacks/input.css:4:1]
+   ,-[$DIR/tests/fixture/hacks/input.css:3:1]
+ 3 | 
  4 | .selector { _property: value; }
    : ^^^^^^^^^
  5 | .selector { -property: value; }
    `----
 
   x SubclassSelector
-   ,-[$DIR/tests/fixture/hacks/input.css:4:1]
+   ,-[$DIR/tests/fixture/hacks/input.css:3:1]
+ 3 | 
  4 | .selector { _property: value; }
    : ^^^^^^^^^
  5 | .selector { -property: value; }
    `----
 
   x ClassSelector
-   ,-[$DIR/tests/fixture/hacks/input.css:4:1]
+   ,-[$DIR/tests/fixture/hacks/input.css:3:1]
+ 3 | 
  4 | .selector { _property: value; }
    : ^^^^^^^^^
  5 | .selector { -property: value; }
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/hacks/input.css:4:1]
+   ,-[$DIR/tests/fixture/hacks/input.css:3:1]
+ 3 | 
  4 | .selector { _property: value; }
    :  ^^^^^^^^
  5 | .selector { -property: value; }
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/hacks/input.css:4:1]
+   ,-[$DIR/tests/fixture/hacks/input.css:3:1]
+ 3 | 
  4 | .selector { _property: value; }
    :           ^^^^^^^^^^^^^^^^^^^^^
  5 | .selector { -property: value; }
    `----
 
   x LBrace
-   ,-[$DIR/tests/fixture/hacks/input.css:4:1]
+   ,-[$DIR/tests/fixture/hacks/input.css:3:1]
+ 3 | 
  4 | .selector { _property: value; }
    :           ^
  5 | .selector { -property: value; }
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/hacks/input.css:4:1]
+   ,-[$DIR/tests/fixture/hacks/input.css:3:1]
+ 3 | 
  4 | .selector { _property: value; }
    :             ^^^^^^^^^^^^^^^^
  5 | .selector { -property: value; }
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/hacks/input.css:4:1]
+   ,-[$DIR/tests/fixture/hacks/input.css:3:1]
+ 3 | 
  4 | .selector { _property: value; }
    :             ^^^^^^^^^^^^^^^^
  5 | .selector { -property: value; }
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/hacks/input.css:4:1]
+   ,-[$DIR/tests/fixture/hacks/input.css:3:1]
+ 3 | 
  4 | .selector { _property: value; }
    :             ^^^^^^^^^^^^^^^^
  5 | .selector { -property: value; }
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/hacks/input.css:4:1]
+   ,-[$DIR/tests/fixture/hacks/input.css:3:1]
+ 3 | 
  4 | .selector { _property: value; }
    :             ^^^^^^^^^
  5 | .selector { -property: value; }
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/hacks/input.css:4:1]
+   ,-[$DIR/tests/fixture/hacks/input.css:3:1]
+ 3 | 
  4 | .selector { _property: value; }
    :             ^^^^^^^^^
  5 | .selector { -property: value; }
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/hacks/input.css:4:1]
+   ,-[$DIR/tests/fixture/hacks/input.css:3:1]
+ 3 | 
  4 | .selector { _property: value; }
    :                        ^^^^^
  5 | .selector { -property: value; }
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/hacks/input.css:4:1]
+   ,-[$DIR/tests/fixture/hacks/input.css:3:1]
+ 3 | 
  4 | .selector { _property: value; }
    :                        ^^^^^
  5 | .selector { -property: value; }

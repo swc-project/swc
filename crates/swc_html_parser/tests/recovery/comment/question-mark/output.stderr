@@ -8,24 +8,24 @@
     `----
 
   x Unexpected equals sign before attribute name
-    ,-[$DIR/tests/recovery/comment/question-mark/input.html:10:5]
- 10 | <?test>
+    ,-[$DIR/tests/recovery/comment/question-mark/input.html:10:1]
+ 10 |     <?test>
  11 |     <div ="test"></div>
     :          ^
  12 | </div>
     `----
 
   x Unexpected character in attribute name
-    ,-[$DIR/tests/recovery/comment/question-mark/input.html:10:5]
- 10 | <?test>
+    ,-[$DIR/tests/recovery/comment/question-mark/input.html:10:1]
+ 10 |     <?test>
  11 |     <div ="test"></div>
     :           ^
  12 | </div>
     `----
 
   x Unexpected character in attribute name
-    ,-[$DIR/tests/recovery/comment/question-mark/input.html:10:5]
- 10 | <?test>
+    ,-[$DIR/tests/recovery/comment/question-mark/input.html:10:1]
+ 10 |     <?test>
  11 |     <div ="test"></div>
     :                ^
  12 | </div>

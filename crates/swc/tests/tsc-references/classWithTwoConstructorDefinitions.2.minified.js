@@ -12,7 +12,8 @@
 //!    `----
 //! 
 //!   x A class can only have one constructor
-//!    ,-[6:1]
+//!    ,-[5:1]
+//!  5 | 
 //!  6 | class D<T> {
 //!  7 |     constructor(x: T) { } // error
 //!  8 |     constructor(x: T, y: T) { } // error

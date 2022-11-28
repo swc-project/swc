@@ -9,6 +9,8 @@
 //!     :                  ^^^|^^  ^^^|^^
 //!     :                     |       `-- used as parameter more than once
 //!     :                     `-- previous definition here
+//!  97 | 
+//!  98 | 
 //!     `----
 //! 
 //!   x the name `number` is bound more than once in this parameter list
@@ -20,4 +22,6 @@
 //!     :                          ^^^|^^  ^^^|^^
 //!     :                             |       `-- used as parameter more than once
 //!     :                             `-- previous definition here
+//!  97 | 
+//!  98 | 
 //!     `----

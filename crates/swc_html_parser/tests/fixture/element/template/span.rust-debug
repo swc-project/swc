@@ -45,7 +45,7 @@
  42 | |   
  43 | |       <template><div>test</div></template>
  44 | |   </body>
- 45 | |   </html>
+ 45 | `-> </html>
     `----
 
   x Child
@@ -108,7 +108,7 @@
  42 | |   
  43 | |       <template><div>test</div></template>
  44 | |   </body>
- 45 | |   </html>
+ 45 | `-> </html>
     `----
 
   x Element
@@ -157,7 +157,7 @@
  42 | |   
  43 | |       <template><div>test</div></template>
  44 | |   </body>
- 45 | |   </html>
+ 45 | `-> </html>
     `----
 
   x Attribute
@@ -253,8 +253,8 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/template/input.html:4:5]
- 4 | <title>Document</title>
+   ,-[$DIR/tests/fixture/element/template/input.html:4:1]
+ 4 |     <title>Document</title>
  5 | </head>
    :        ^
  6 | <body>
@@ -262,8 +262,8 @@
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/element/template/input.html:4:5]
- 4 | <title>Document</title>
+   ,-[$DIR/tests/fixture/element/template/input.html:4:1]
+ 4 |     <title>Document</title>
  5 | </head>
    :        ^
  6 | <body>
@@ -312,7 +312,7 @@
  42 | |   
  43 | |       <template><div>test</div></template>
  44 | |   </body>
- 45 | |   </html>
+ 45 | `-> </html>
     `----
 
   x Element
@@ -357,7 +357,7 @@
  42 | |   
  43 | |       <template><div>test</div></template>
  44 | |   </body>
- 45 | |   </html>
+ 45 | `-> </html>
     `----
 
   x Child
@@ -497,8 +497,8 @@
    `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/template/input.html:7:5]
-  7 |     <template id="element-details-template">
+    ,-[$DIR/tests/fixture/element/template/input.html:7:1]
+  7 |         <template id="element-details-template">
   8 | ,->         <style>
   9 | |               details {font-family: "Open Sans Light", Helvetica, Arial, sans-serif }
  10 | |               .name {font-weight: bold; color: #217ac0; font-size: 120% }
@@ -517,8 +517,8 @@
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/template/input.html:7:5]
-  7 |     <template id="element-details-template">
+    ,-[$DIR/tests/fixture/element/template/input.html:7:1]
+  7 |         <template id="element-details-template">
   8 | ,->         <style>
   9 | |               details {font-family: "Open Sans Light", Helvetica, Arial, sans-serif }
  10 | |               .name {font-weight: bold; color: #217ac0; font-size: 120% }
@@ -537,8 +537,8 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/template/input.html:7:5]
-  7 |     <template id="element-details-template">
+    ,-[$DIR/tests/fixture/element/template/input.html:7:1]
+  7 |         <template id="element-details-template">
   8 | ,->         <style>
   9 | |               details {font-family: "Open Sans Light", Helvetica, Arial, sans-serif }
  10 | |               .name {font-weight: bold; color: #217ac0; font-size: 120% }
@@ -557,8 +557,8 @@
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/template/input.html:7:5]
-  7 |     <template id="element-details-template">
+    ,-[$DIR/tests/fixture/element/template/input.html:7:1]
+  7 |         <template id="element-details-template">
   8 | ,->         <style>
   9 | |               details {font-family: "Open Sans Light", Helvetica, Arial, sans-serif }
  10 | |               .name {font-weight: bold; color: #217ac0; font-size: 120% }
@@ -577,24 +577,24 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/template/input.html:20:13]
- 20 |     .attributes p { margin-left: 16px; font-style: italic }
+    ,-[$DIR/tests/fixture/element/template/input.html:20:1]
+ 20 |                 .attributes p { margin-left: 16px; font-style: italic }
  21 | ,->         </style>
  22 | `->         <details>
  23 |                 <summary>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/template/input.html:20:13]
- 20 |     .attributes p { margin-left: 16px; font-style: italic }
+    ,-[$DIR/tests/fixture/element/template/input.html:20:1]
+ 20 |                 .attributes p { margin-left: 16px; font-style: italic }
  21 | ,->         </style>
  22 | `->         <details>
  23 |                 <summary>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/template/input.html:21:9]
- 21 |     </style>
+    ,-[$DIR/tests/fixture/element/template/input.html:21:1]
+ 21 |             </style>
  22 | ,->         <details>
  23 | |               <summary>
  24 | |                   <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
@@ -609,8 +609,8 @@
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/template/input.html:21:9]
- 21 |     </style>
+    ,-[$DIR/tests/fixture/element/template/input.html:21:1]
+ 21 |             </style>
  22 | ,->         <details>
  23 | |               <summary>
  24 | |                   <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
@@ -625,24 +625,24 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/template/input.html:21:9]
- 21 |     </style>
+    ,-[$DIR/tests/fixture/element/template/input.html:21:1]
+ 21 |             </style>
  22 | ,->         <details>
  23 | `->             <summary>
  24 |                     <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/template/input.html:21:9]
- 21 |     </style>
+    ,-[$DIR/tests/fixture/element/template/input.html:21:1]
+ 21 |             </style>
  22 | ,->         <details>
  23 | `->             <summary>
  24 |                     <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/template/input.html:22:9]
- 22 |     <details>
+    ,-[$DIR/tests/fixture/element/template/input.html:22:1]
+ 22 |             <details>
  23 | ,->             <summary>
  24 | |                   <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
  25 | |                   <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
@@ -651,8 +651,8 @@
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/template/input.html:22:9]
- 22 |     <details>
+    ,-[$DIR/tests/fixture/element/template/input.html:22:1]
+ 22 |             <details>
  23 | ,->             <summary>
  24 | |                   <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
  25 | |                   <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
@@ -661,232 +661,232 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/template/input.html:22:9]
- 22 |     <details>
+    ,-[$DIR/tests/fixture/element/template/input.html:22:1]
+ 22 |             <details>
  23 | ,->             <summary>
  24 | `->                 <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
  25 |                     <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/template/input.html:22:9]
- 22 |     <details>
+    ,-[$DIR/tests/fixture/element/template/input.html:22:1]
+ 22 |             <details>
  23 | ,->             <summary>
  24 | `->                 <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
  25 |                     <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/template/input.html:23:13]
- 23 | <summary>
+    ,-[$DIR/tests/fixture/element/template/input.html:23:1]
+ 23 |             <summary>
  24 |                 <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
     :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  25 |                 <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/template/input.html:23:13]
- 23 | <summary>
+    ,-[$DIR/tests/fixture/element/template/input.html:23:1]
+ 23 |             <summary>
  24 |                 <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
     :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  25 |                 <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/element/template/input.html:23:13]
- 23 | <summary>
+    ,-[$DIR/tests/fixture/element/template/input.html:23:1]
+ 23 |             <summary>
  24 |                 <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
     :                       ^^^^^^^^^^^^
  25 |                 <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/template/input.html:23:13]
- 23 | <summary>
+    ,-[$DIR/tests/fixture/element/template/input.html:23:1]
+ 23 |             <summary>
  24 |                 <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
     :                                    ^^^^
  25 |                 <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/template/input.html:23:13]
- 23 | <summary>
+    ,-[$DIR/tests/fixture/element/template/input.html:23:1]
+ 23 |             <summary>
  24 |                 <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
     :                                    ^^^^
  25 |                 <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/template/input.html:23:13]
- 23 | <summary>
+    ,-[$DIR/tests/fixture/element/template/input.html:23:1]
+ 23 |             <summary>
  24 |                 <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
     :                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  25 |                 <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/template/input.html:23:13]
- 23 | <summary>
+    ,-[$DIR/tests/fixture/element/template/input.html:23:1]
+ 23 |             <summary>
  24 |                 <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
     :                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  25 |                 <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/element/template/input.html:23:13]
- 23 | <summary>
+    ,-[$DIR/tests/fixture/element/template/input.html:23:1]
+ 23 |             <summary>
  24 |                 <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
     :                                              ^^^^^^^^^^^^^^^^^^^
  25 |                 <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/template/input.html:23:13]
- 23 | <summary>
+    ,-[$DIR/tests/fixture/element/template/input.html:23:1]
+ 23 |             <summary>
  24 |                 <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
     :                                                                  ^^^^^^^^^
  25 |                 <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/template/input.html:23:13]
- 23 | <summary>
+    ,-[$DIR/tests/fixture/element/template/input.html:23:1]
+ 23 |             <summary>
  24 |                 <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
     :                                                                  ^^^^^^^^^
  25 |                 <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/template/input.html:23:13]
- 23 | <summary>
+    ,-[$DIR/tests/fixture/element/template/input.html:23:1]
+ 23 |             <summary>
  24 |                 <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
     :                                                                                  ^^^^
  25 |                 <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/template/input.html:23:13]
- 23 | <summary>
+    ,-[$DIR/tests/fixture/element/template/input.html:23:1]
+ 23 |             <summary>
  24 |                 <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
     :                                                                                  ^^^^
  25 |                 <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/template/input.html:23:13]
- 23 |     <summary>
+    ,-[$DIR/tests/fixture/element/template/input.html:23:1]
+ 23 |                 <summary>
  24 | ,->                 <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
  25 | `->                 <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
  26 |                 </summary>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/template/input.html:23:13]
- 23 |     <summary>
+    ,-[$DIR/tests/fixture/element/template/input.html:23:1]
+ 23 |                 <summary>
  24 | ,->                 <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
  25 | `->                 <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
  26 |                 </summary>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/template/input.html:24:17]
- 24 | <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
+    ,-[$DIR/tests/fixture/element/template/input.html:24:1]
+ 24 |                 <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
  25 |                 <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
     :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  26 |             </summary>
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/template/input.html:24:17]
- 24 | <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
+    ,-[$DIR/tests/fixture/element/template/input.html:24:1]
+ 24 |                 <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
  25 |                 <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
     :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  26 |             </summary>
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/element/template/input.html:24:17]
- 24 | <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
+    ,-[$DIR/tests/fixture/element/template/input.html:24:1]
+ 24 |                 <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
  25 |                 <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
     :                    ^^^^^^^^^^^^
  26 |             </summary>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/template/input.html:24:17]
- 24 | <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
+    ,-[$DIR/tests/fixture/element/template/input.html:24:1]
+ 24 |                 <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
  25 |                 <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
     :                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  26 |             </summary>
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/template/input.html:24:17]
- 24 | <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
+    ,-[$DIR/tests/fixture/element/template/input.html:24:1]
+ 24 |                 <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
  25 |                 <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
     :                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  26 |             </summary>
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/element/template/input.html:24:17]
- 24 | <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
+    ,-[$DIR/tests/fixture/element/template/input.html:24:1]
+ 24 |                 <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
  25 |                 <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
     :                                       ^^^^^^^^^^^^^^^^^^
  26 |             </summary>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/template/input.html:24:17]
- 24 | <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
+    ,-[$DIR/tests/fixture/element/template/input.html:24:1]
+ 24 |                 <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
  25 |                 <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
     :                                                          ^^^^^^^^^^^^^^^^
  26 |             </summary>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/template/input.html:24:17]
- 24 | <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
+    ,-[$DIR/tests/fixture/element/template/input.html:24:1]
+ 24 |                 <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
  25 |                 <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
     :                                                          ^^^^^^^^^^^^^^^^
  26 |             </summary>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/template/input.html:24:17]
- 24 |     <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
+    ,-[$DIR/tests/fixture/element/template/input.html:24:1]
+ 24 |                     <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
  25 | ,->                 <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
  26 | `->             </summary>
  27 |                 <div class="attributes">
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/template/input.html:24:17]
- 24 |     <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
+    ,-[$DIR/tests/fixture/element/template/input.html:24:1]
+ 24 |                     <code class="name">&lt;<slot name="element-name">NEED NAME</slot>&gt;</code>
  25 | ,->                 <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
  26 | `->             </summary>
  27 |                 <div class="attributes">
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/template/input.html:25:17]
- 25 |     <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
+    ,-[$DIR/tests/fixture/element/template/input.html:25:1]
+ 25 |                     <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
  26 | ,->             </summary>
  27 | `->             <div class="attributes">
  28 |                     <h4>Attributes</h4>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/template/input.html:25:17]
- 25 |     <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
+    ,-[$DIR/tests/fixture/element/template/input.html:25:1]
+ 25 |                     <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
  26 | ,->             </summary>
  27 | `->             <div class="attributes">
  28 |                     <h4>Attributes</h4>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/template/input.html:26:13]
- 26 |     </summary>
+    ,-[$DIR/tests/fixture/element/template/input.html:26:1]
+ 26 |                 </summary>
  27 | ,->             <div class="attributes">
  28 | |                   <h4>Attributes</h4>
  29 | |                   <slot name="attributes"><p>None</p></slot>
@@ -895,8 +895,8 @@
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/template/input.html:26:13]
- 26 |     </summary>
+    ,-[$DIR/tests/fixture/element/template/input.html:26:1]
+ 26 |                 </summary>
  27 | ,->             <div class="attributes">
  28 | |                   <h4>Attributes</h4>
  29 | |                   <slot name="attributes"><p>None</p></slot>
@@ -905,214 +905,214 @@
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/element/template/input.html:26:13]
- 26 | </summary>
+    ,-[$DIR/tests/fixture/element/template/input.html:26:1]
+ 26 |             </summary>
  27 |             <div class="attributes">
     :                  ^^^^^^^^^^^^^^^^^^
  28 |                 <h4>Attributes</h4>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/template/input.html:26:13]
- 26 |     </summary>
+    ,-[$DIR/tests/fixture/element/template/input.html:26:1]
+ 26 |                 </summary>
  27 | ,->             <div class="attributes">
  28 | `->                 <h4>Attributes</h4>
  29 |                     <slot name="attributes"><p>None</p></slot>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/template/input.html:26:13]
- 26 |     </summary>
+    ,-[$DIR/tests/fixture/element/template/input.html:26:1]
+ 26 |                 </summary>
  27 | ,->             <div class="attributes">
  28 | `->                 <h4>Attributes</h4>
  29 |                     <slot name="attributes"><p>None</p></slot>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/template/input.html:27:13]
- 27 | <div class="attributes">
+    ,-[$DIR/tests/fixture/element/template/input.html:27:1]
+ 27 |             <div class="attributes">
  28 |                 <h4>Attributes</h4>
     :                 ^^^^^^^^^^^^^^^^^^^
  29 |                 <slot name="attributes"><p>None</p></slot>
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/template/input.html:27:13]
- 27 | <div class="attributes">
+    ,-[$DIR/tests/fixture/element/template/input.html:27:1]
+ 27 |             <div class="attributes">
  28 |                 <h4>Attributes</h4>
     :                 ^^^^^^^^^^^^^^^^^^^
  29 |                 <slot name="attributes"><p>None</p></slot>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/template/input.html:27:13]
- 27 | <div class="attributes">
+    ,-[$DIR/tests/fixture/element/template/input.html:27:1]
+ 27 |             <div class="attributes">
  28 |                 <h4>Attributes</h4>
     :                     ^^^^^^^^^^
  29 |                 <slot name="attributes"><p>None</p></slot>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/template/input.html:27:13]
- 27 | <div class="attributes">
+    ,-[$DIR/tests/fixture/element/template/input.html:27:1]
+ 27 |             <div class="attributes">
  28 |                 <h4>Attributes</h4>
     :                     ^^^^^^^^^^
  29 |                 <slot name="attributes"><p>None</p></slot>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/template/input.html:27:13]
- 27 |     <div class="attributes">
+    ,-[$DIR/tests/fixture/element/template/input.html:27:1]
+ 27 |                 <div class="attributes">
  28 | ,->                 <h4>Attributes</h4>
  29 | `->                 <slot name="attributes"><p>None</p></slot>
  30 |                 </div>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/template/input.html:27:13]
- 27 |     <div class="attributes">
+    ,-[$DIR/tests/fixture/element/template/input.html:27:1]
+ 27 |                 <div class="attributes">
  28 | ,->                 <h4>Attributes</h4>
  29 | `->                 <slot name="attributes"><p>None</p></slot>
  30 |                 </div>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/template/input.html:28:17]
- 28 | <h4>Attributes</h4>
+    ,-[$DIR/tests/fixture/element/template/input.html:28:1]
+ 28 |                 <h4>Attributes</h4>
  29 |                 <slot name="attributes"><p>None</p></slot>
     :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  30 |             </div>
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/template/input.html:28:17]
- 28 | <h4>Attributes</h4>
+    ,-[$DIR/tests/fixture/element/template/input.html:28:1]
+ 28 |                 <h4>Attributes</h4>
  29 |                 <slot name="attributes"><p>None</p></slot>
     :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  30 |             </div>
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/element/template/input.html:28:17]
- 28 | <h4>Attributes</h4>
+    ,-[$DIR/tests/fixture/element/template/input.html:28:1]
+ 28 |                 <h4>Attributes</h4>
  29 |                 <slot name="attributes"><p>None</p></slot>
     :                       ^^^^^^^^^^^^^^^^^
  30 |             </div>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/template/input.html:28:17]
- 28 | <h4>Attributes</h4>
+    ,-[$DIR/tests/fixture/element/template/input.html:28:1]
+ 28 |                 <h4>Attributes</h4>
  29 |                 <slot name="attributes"><p>None</p></slot>
     :                                         ^^^^^^^^^^^
  30 |             </div>
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/template/input.html:28:17]
- 28 | <h4>Attributes</h4>
+    ,-[$DIR/tests/fixture/element/template/input.html:28:1]
+ 28 |                 <h4>Attributes</h4>
  29 |                 <slot name="attributes"><p>None</p></slot>
     :                                         ^^^^^^^^^^^
  30 |             </div>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/template/input.html:28:17]
- 28 | <h4>Attributes</h4>
+    ,-[$DIR/tests/fixture/element/template/input.html:28:1]
+ 28 |                 <h4>Attributes</h4>
  29 |                 <slot name="attributes"><p>None</p></slot>
     :                                            ^^^^
  30 |             </div>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/template/input.html:28:17]
- 28 | <h4>Attributes</h4>
+    ,-[$DIR/tests/fixture/element/template/input.html:28:1]
+ 28 |                 <h4>Attributes</h4>
  29 |                 <slot name="attributes"><p>None</p></slot>
     :                                            ^^^^
  30 |             </div>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/template/input.html:28:17]
- 28 |     <h4>Attributes</h4>
+    ,-[$DIR/tests/fixture/element/template/input.html:28:1]
+ 28 |                     <h4>Attributes</h4>
  29 | ,->                 <slot name="attributes"><p>None</p></slot>
  30 | `->             </div>
  31 |             </details>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/template/input.html:28:17]
- 28 |     <h4>Attributes</h4>
+    ,-[$DIR/tests/fixture/element/template/input.html:28:1]
+ 28 |                     <h4>Attributes</h4>
  29 | ,->                 <slot name="attributes"><p>None</p></slot>
  30 | `->             </div>
  31 |             </details>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/template/input.html:29:17]
- 29 |     <slot name="attributes"><p>None</p></slot>
+    ,-[$DIR/tests/fixture/element/template/input.html:29:1]
+ 29 |                     <slot name="attributes"><p>None</p></slot>
  30 | ,->             </div>
  31 | `->         </details>
  32 |             <hr>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/template/input.html:29:17]
- 29 |     <slot name="attributes"><p>None</p></slot>
+    ,-[$DIR/tests/fixture/element/template/input.html:29:1]
+ 29 |                     <slot name="attributes"><p>None</p></slot>
  30 | ,->             </div>
  31 | `->         </details>
  32 |             <hr>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/template/input.html:30:13]
- 30 |     </div>
+    ,-[$DIR/tests/fixture/element/template/input.html:30:1]
+ 30 |                 </div>
  31 | ,->         </details>
  32 | `->         <hr>
  33 |         </template>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/template/input.html:30:13]
- 30 |     </div>
+    ,-[$DIR/tests/fixture/element/template/input.html:30:1]
+ 30 |                 </div>
  31 | ,->         </details>
  32 | `->         <hr>
  33 |         </template>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/template/input.html:31:9]
- 31 | </details>
+    ,-[$DIR/tests/fixture/element/template/input.html:31:1]
+ 31 |         </details>
  32 |         <hr>
     :         ^^^^
  33 |     </template>
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/template/input.html:31:9]
- 31 | </details>
+    ,-[$DIR/tests/fixture/element/template/input.html:31:1]
+ 31 |         </details>
  32 |         <hr>
     :         ^^^^
  33 |     </template>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/template/input.html:31:9]
- 31 |     </details>
+    ,-[$DIR/tests/fixture/element/template/input.html:31:1]
+ 31 |             </details>
  32 | ,->         <hr>
  33 | `->     </template>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/template/input.html:31:9]
- 31 |     </details>
+    ,-[$DIR/tests/fixture/element/template/input.html:31:1]
+ 31 |             </details>
  32 | ,->         <hr>
  33 | `->     </template>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/template/input.html:32:9]
- 32 |     <hr>
+    ,-[$DIR/tests/fixture/element/template/input.html:32:1]
+ 32 |             <hr>
  33 | ,->     </template>
  34 | |   
  35 | `->     <template id="tmpl1">
@@ -1120,8 +1120,8 @@
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/template/input.html:32:9]
- 32 |     <hr>
+    ,-[$DIR/tests/fixture/element/template/input.html:32:1]
+ 32 |             <hr>
  33 | ,->     </template>
  34 | |   
  35 | `->     <template id="tmpl1">
@@ -1129,8 +1129,9 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/template/input.html:35:5]
- 35 | ,-> <template id="tmpl1">
+    ,-[$DIR/tests/fixture/element/template/input.html:34:1]
+ 34 |     
+ 35 | ,->     <template id="tmpl1">
  36 | |           <div id="div1">This is div inside template</div>
  37 | |           <div id="div2">This is another div inside template</div>
  38 | |           <template id="tmpl2"><div id="div3">This is div inside nested template</div>
@@ -1140,8 +1141,9 @@
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/template/input.html:35:5]
- 35 | ,-> <template id="tmpl1">
+    ,-[$DIR/tests/fixture/element/template/input.html:34:1]
+ 34 |     
+ 35 | ,->     <template id="tmpl1">
  36 | |           <div id="div1">This is div inside template</div>
  37 | |           <div id="div2">This is another div inside template</div>
  38 | |           <template id="tmpl2"><div id="div3">This is div inside nested template</div>
@@ -1151,15 +1153,17 @@
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/element/template/input.html:35:5]
- 35 | <template id="tmpl1">
-    :           ^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/template/input.html:34:1]
+ 34 | 
+ 35 |     <template id="tmpl1">
+    :               ^^^^^^^^^^
  36 |         <div id="div1">This is div inside template</div>
     `----
 
   x DocumentFragment
-    ,-[$DIR/tests/fixture/element/template/input.html:35:5]
- 35 | ,-> <template id="tmpl1">
+    ,-[$DIR/tests/fixture/element/template/input.html:34:1]
+ 34 |     
+ 35 | ,->     <template id="tmpl1">
  36 | |           <div id="div1">This is div inside template</div>
  37 | |           <div id="div2">This is another div inside template</div>
  38 | |           <template id="tmpl2"><div id="div3">This is div inside nested template</div>
@@ -1169,134 +1173,136 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/template/input.html:35:5]
- 35 | ,-> <template id="tmpl1">
+    ,-[$DIR/tests/fixture/element/template/input.html:34:1]
+ 34 |     
+ 35 | ,->     <template id="tmpl1">
  36 | `->         <div id="div1">This is div inside template</div>
  37 |             <div id="div2">This is another div inside template</div>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/template/input.html:35:5]
- 35 | ,-> <template id="tmpl1">
+    ,-[$DIR/tests/fixture/element/template/input.html:34:1]
+ 34 |     
+ 35 | ,->     <template id="tmpl1">
  36 | `->         <div id="div1">This is div inside template</div>
  37 |             <div id="div2">This is another div inside template</div>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/template/input.html:35:5]
- 35 | <template id="tmpl1">
+    ,-[$DIR/tests/fixture/element/template/input.html:35:1]
+ 35 |     <template id="tmpl1">
  36 |         <div id="div1">This is div inside template</div>
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  37 |         <div id="div2">This is another div inside template</div>
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/template/input.html:35:5]
- 35 | <template id="tmpl1">
+    ,-[$DIR/tests/fixture/element/template/input.html:35:1]
+ 35 |     <template id="tmpl1">
  36 |         <div id="div1">This is div inside template</div>
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  37 |         <div id="div2">This is another div inside template</div>
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/element/template/input.html:35:5]
- 35 | <template id="tmpl1">
+    ,-[$DIR/tests/fixture/element/template/input.html:35:1]
+ 35 |     <template id="tmpl1">
  36 |         <div id="div1">This is div inside template</div>
     :              ^^^^^^^^^
  37 |         <div id="div2">This is another div inside template</div>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/template/input.html:35:5]
- 35 | <template id="tmpl1">
+    ,-[$DIR/tests/fixture/element/template/input.html:35:1]
+ 35 |     <template id="tmpl1">
  36 |         <div id="div1">This is div inside template</div>
     :                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
  37 |         <div id="div2">This is another div inside template</div>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/template/input.html:35:5]
- 35 | <template id="tmpl1">
+    ,-[$DIR/tests/fixture/element/template/input.html:35:1]
+ 35 |     <template id="tmpl1">
  36 |         <div id="div1">This is div inside template</div>
     :                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
  37 |         <div id="div2">This is another div inside template</div>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/template/input.html:35:5]
- 35 |     <template id="tmpl1">
+    ,-[$DIR/tests/fixture/element/template/input.html:35:1]
+ 35 |         <template id="tmpl1">
  36 | ,->         <div id="div1">This is div inside template</div>
  37 | `->         <div id="div2">This is another div inside template</div>
  38 |             <template id="tmpl2"><div id="div3">This is div inside nested template</div>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/template/input.html:35:5]
- 35 |     <template id="tmpl1">
+    ,-[$DIR/tests/fixture/element/template/input.html:35:1]
+ 35 |         <template id="tmpl1">
  36 | ,->         <div id="div1">This is div inside template</div>
  37 | `->         <div id="div2">This is another div inside template</div>
  38 |             <template id="tmpl2"><div id="div3">This is div inside nested template</div>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/template/input.html:36:9]
- 36 | <div id="div1">This is div inside template</div>
+    ,-[$DIR/tests/fixture/element/template/input.html:36:1]
+ 36 |         <div id="div1">This is div inside template</div>
  37 |         <div id="div2">This is another div inside template</div>
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  38 |         <template id="tmpl2"><div id="div3">This is div inside nested template</div>
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/template/input.html:36:9]
- 36 | <div id="div1">This is div inside template</div>
+    ,-[$DIR/tests/fixture/element/template/input.html:36:1]
+ 36 |         <div id="div1">This is div inside template</div>
  37 |         <div id="div2">This is another div inside template</div>
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  38 |         <template id="tmpl2"><div id="div3">This is div inside nested template</div>
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/element/template/input.html:36:9]
- 36 | <div id="div1">This is div inside template</div>
+    ,-[$DIR/tests/fixture/element/template/input.html:36:1]
+ 36 |         <div id="div1">This is div inside template</div>
  37 |         <div id="div2">This is another div inside template</div>
     :              ^^^^^^^^^
  38 |         <template id="tmpl2"><div id="div3">This is div inside nested template</div>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/template/input.html:36:9]
- 36 | <div id="div1">This is div inside template</div>
+    ,-[$DIR/tests/fixture/element/template/input.html:36:1]
+ 36 |         <div id="div1">This is div inside template</div>
  37 |         <div id="div2">This is another div inside template</div>
     :                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  38 |         <template id="tmpl2"><div id="div3">This is div inside nested template</div>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/template/input.html:36:9]
- 36 | <div id="div1">This is div inside template</div>
+    ,-[$DIR/tests/fixture/element/template/input.html:36:1]
+ 36 |         <div id="div1">This is div inside template</div>
  37 |         <div id="div2">This is another div inside template</div>
     :                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  38 |         <template id="tmpl2"><div id="div3">This is div inside nested template</div>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/template/input.html:36:9]
- 36 |     <div id="div1">This is div inside template</div>
+    ,-[$DIR/tests/fixture/element/template/input.html:36:1]
+ 36 |             <div id="div1">This is div inside template</div>
  37 | ,->         <div id="div2">This is another div inside template</div>
  38 | `->         <template id="tmpl2"><div id="div3">This is div inside nested template</div>
  39 |                 <div id="div4">This is another div inside nested template</div>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/template/input.html:36:9]
- 36 |     <div id="div1">This is div inside template</div>
+    ,-[$DIR/tests/fixture/element/template/input.html:36:1]
+ 36 |             <div id="div1">This is div inside template</div>
  37 | ,->         <div id="div2">This is another div inside template</div>
  38 | `->         <template id="tmpl2"><div id="div3">This is div inside nested template</div>
  39 |                 <div id="div4">This is another div inside nested template</div>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/template/input.html:37:9]
- 37 |     <div id="div2">This is another div inside template</div>
+    ,-[$DIR/tests/fixture/element/template/input.html:37:1]
+ 37 |             <div id="div2">This is another div inside template</div>
  38 | ,->         <template id="tmpl2"><div id="div3">This is div inside nested template</div>
  39 | |               <div id="div4">This is another div inside nested template</div>
  40 | `->         </template>
@@ -1304,8 +1310,8 @@
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/template/input.html:37:9]
- 37 |     <div id="div2">This is another div inside template</div>
+    ,-[$DIR/tests/fixture/element/template/input.html:37:1]
+ 37 |             <div id="div2">This is another div inside template</div>
  38 | ,->         <template id="tmpl2"><div id="div3">This is div inside nested template</div>
  39 | |               <div id="div4">This is another div inside nested template</div>
  40 | `->         </template>
@@ -1313,16 +1319,16 @@
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/element/template/input.html:37:9]
- 37 | <div id="div2">This is another div inside template</div>
+    ,-[$DIR/tests/fixture/element/template/input.html:37:1]
+ 37 |         <div id="div2">This is another div inside template</div>
  38 |         <template id="tmpl2"><div id="div3">This is div inside nested template</div>
     :                   ^^^^^^^^^^
  39 |             <div id="div4">This is another div inside nested template</div>
     `----
 
   x DocumentFragment
-    ,-[$DIR/tests/fixture/element/template/input.html:37:9]
- 37 |     <div id="div2">This is another div inside template</div>
+    ,-[$DIR/tests/fixture/element/template/input.html:37:1]
+ 37 |             <div id="div2">This is another div inside template</div>
  38 | ,->         <template id="tmpl2"><div id="div3">This is div inside nested template</div>
  39 | |               <div id="div4">This is another div inside nested template</div>
  40 | `->         </template>
@@ -1330,134 +1336,134 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/template/input.html:37:9]
- 37 | <div id="div2">This is another div inside template</div>
+    ,-[$DIR/tests/fixture/element/template/input.html:37:1]
+ 37 |         <div id="div2">This is another div inside template</div>
  38 |         <template id="tmpl2"><div id="div3">This is div inside nested template</div>
     :                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  39 |             <div id="div4">This is another div inside nested template</div>
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/template/input.html:37:9]
- 37 | <div id="div2">This is another div inside template</div>
+    ,-[$DIR/tests/fixture/element/template/input.html:37:1]
+ 37 |         <div id="div2">This is another div inside template</div>
  38 |         <template id="tmpl2"><div id="div3">This is div inside nested template</div>
     :                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  39 |             <div id="div4">This is another div inside nested template</div>
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/element/template/input.html:37:9]
- 37 | <div id="div2">This is another div inside template</div>
+    ,-[$DIR/tests/fixture/element/template/input.html:37:1]
+ 37 |         <div id="div2">This is another div inside template</div>
  38 |         <template id="tmpl2"><div id="div3">This is div inside nested template</div>
     :                                   ^^^^^^^^^
  39 |             <div id="div4">This is another div inside nested template</div>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/template/input.html:37:9]
- 37 | <div id="div2">This is another div inside template</div>
+    ,-[$DIR/tests/fixture/element/template/input.html:37:1]
+ 37 |         <div id="div2">This is another div inside template</div>
  38 |         <template id="tmpl2"><div id="div3">This is div inside nested template</div>
     :                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  39 |             <div id="div4">This is another div inside nested template</div>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/template/input.html:37:9]
- 37 | <div id="div2">This is another div inside template</div>
+    ,-[$DIR/tests/fixture/element/template/input.html:37:1]
+ 37 |         <div id="div2">This is another div inside template</div>
  38 |         <template id="tmpl2"><div id="div3">This is div inside nested template</div>
     :                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  39 |             <div id="div4">This is another div inside nested template</div>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/template/input.html:37:9]
- 37 |     <div id="div2">This is another div inside template</div>
+    ,-[$DIR/tests/fixture/element/template/input.html:37:1]
+ 37 |             <div id="div2">This is another div inside template</div>
  38 | ,->         <template id="tmpl2"><div id="div3">This is div inside nested template</div>
  39 | `->             <div id="div4">This is another div inside nested template</div>
  40 |             </template>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/template/input.html:37:9]
- 37 |     <div id="div2">This is another div inside template</div>
+    ,-[$DIR/tests/fixture/element/template/input.html:37:1]
+ 37 |             <div id="div2">This is another div inside template</div>
  38 | ,->         <template id="tmpl2"><div id="div3">This is div inside nested template</div>
  39 | `->             <div id="div4">This is another div inside nested template</div>
  40 |             </template>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/template/input.html:38:9]
- 38 | <template id="tmpl2"><div id="div3">This is div inside nested template</div>
+    ,-[$DIR/tests/fixture/element/template/input.html:38:1]
+ 38 |         <template id="tmpl2"><div id="div3">This is div inside nested template</div>
  39 |             <div id="div4">This is another div inside nested template</div>
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  40 |         </template>
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/template/input.html:38:9]
- 38 | <template id="tmpl2"><div id="div3">This is div inside nested template</div>
+    ,-[$DIR/tests/fixture/element/template/input.html:38:1]
+ 38 |         <template id="tmpl2"><div id="div3">This is div inside nested template</div>
  39 |             <div id="div4">This is another div inside nested template</div>
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  40 |         </template>
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/element/template/input.html:38:9]
- 38 | <template id="tmpl2"><div id="div3">This is div inside nested template</div>
+    ,-[$DIR/tests/fixture/element/template/input.html:38:1]
+ 38 |         <template id="tmpl2"><div id="div3">This is div inside nested template</div>
  39 |             <div id="div4">This is another div inside nested template</div>
     :                  ^^^^^^^^^
  40 |         </template>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/template/input.html:38:9]
- 38 | <template id="tmpl2"><div id="div3">This is div inside nested template</div>
+    ,-[$DIR/tests/fixture/element/template/input.html:38:1]
+ 38 |         <template id="tmpl2"><div id="div3">This is div inside nested template</div>
  39 |             <div id="div4">This is another div inside nested template</div>
     :                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  40 |         </template>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/template/input.html:38:9]
- 38 | <template id="tmpl2"><div id="div3">This is div inside nested template</div>
+    ,-[$DIR/tests/fixture/element/template/input.html:38:1]
+ 38 |         <template id="tmpl2"><div id="div3">This is div inside nested template</div>
  39 |             <div id="div4">This is another div inside nested template</div>
     :                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  40 |         </template>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/template/input.html:38:9]
- 38 |     <template id="tmpl2"><div id="div3">This is div inside nested template</div>
+    ,-[$DIR/tests/fixture/element/template/input.html:38:1]
+ 38 |             <template id="tmpl2"><div id="div3">This is div inside nested template</div>
  39 | ,->             <div id="div4">This is another div inside nested template</div>
  40 | `->         </template>
  41 |         </template>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/template/input.html:38:9]
- 38 |     <template id="tmpl2"><div id="div3">This is div inside nested template</div>
+    ,-[$DIR/tests/fixture/element/template/input.html:38:1]
+ 38 |             <template id="tmpl2"><div id="div3">This is div inside nested template</div>
  39 | ,->             <div id="div4">This is another div inside nested template</div>
  40 | `->         </template>
  41 |         </template>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/template/input.html:39:13]
- 39 |     <div id="div4">This is another div inside nested template</div>
+    ,-[$DIR/tests/fixture/element/template/input.html:39:1]
+ 39 |                 <div id="div4">This is another div inside nested template</div>
  40 | ,->         </template>
  41 | `->     </template>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/template/input.html:39:13]
- 39 |     <div id="div4">This is another div inside nested template</div>
+    ,-[$DIR/tests/fixture/element/template/input.html:39:1]
+ 39 |                 <div id="div4">This is another div inside nested template</div>
  40 | ,->         </template>
  41 | `->     </template>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/template/input.html:40:9]
- 40 |     </template>
+    ,-[$DIR/tests/fixture/element/template/input.html:40:1]
+ 40 |             </template>
  41 | ,->     </template>
  42 | |   
  43 | `->     <template><div>test</div></template>
@@ -1465,8 +1471,8 @@
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/template/input.html:40:9]
- 40 |     </template>
+    ,-[$DIR/tests/fixture/element/template/input.html:40:1]
+ 40 |             </template>
  41 | ,->     </template>
  42 | |   
  43 | `->     <template><div>test</div></template>
@@ -1474,64 +1480,73 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/template/input.html:43:5]
- 43 | <template><div>test</div></template>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/template/input.html:42:1]
+ 42 | 
+ 43 |     <template><div>test</div></template>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  44 | </body>
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/template/input.html:43:5]
- 43 | <template><div>test</div></template>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/template/input.html:42:1]
+ 42 | 
+ 43 |     <template><div>test</div></template>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  44 | </body>
     `----
 
   x DocumentFragment
-    ,-[$DIR/tests/fixture/element/template/input.html:43:5]
- 43 | <template><div>test</div></template>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/template/input.html:42:1]
+ 42 | 
+ 43 |     <template><div>test</div></template>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  44 | </body>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/template/input.html:43:5]
- 43 | <template><div>test</div></template>
-    :           ^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/template/input.html:42:1]
+ 42 | 
+ 43 |     <template><div>test</div></template>
+    :               ^^^^^^^^^^^^^^^
  44 | </body>
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/template/input.html:43:5]
- 43 | <template><div>test</div></template>
-    :           ^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/template/input.html:42:1]
+ 42 | 
+ 43 |     <template><div>test</div></template>
+    :               ^^^^^^^^^^^^^^^
  44 | </body>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/template/input.html:43:5]
- 43 | <template><div>test</div></template>
-    :                ^^^^
+    ,-[$DIR/tests/fixture/element/template/input.html:42:1]
+ 42 | 
+ 43 |     <template><div>test</div></template>
+    :                    ^^^^
  44 | </body>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/template/input.html:43:5]
- 43 | <template><div>test</div></template>
-    :                ^^^^
+    ,-[$DIR/tests/fixture/element/template/input.html:42:1]
+ 42 | 
+ 43 |     <template><div>test</div></template>
+    :                    ^^^^
  44 | </body>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/template/input.html:43:5]
- 43 | ,-> <template><div>test</div></template>
+    ,-[$DIR/tests/fixture/element/template/input.html:42:1]
+ 42 |     
+ 43 | ,->     <template><div>test</div></template>
  44 | |   </body>
- 45 | |   </html>
+ 45 | `-> </html>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/template/input.html:43:5]
- 43 | ,-> <template><div>test</div></template>
+    ,-[$DIR/tests/fixture/element/template/input.html:42:1]
+ 42 |     
+ 43 | ,->     <template><div>test</div></template>
  44 | |   </body>
- 45 | |   </html>
+ 45 | `-> </html>
     `----

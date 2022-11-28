@@ -56,7 +56,8 @@
 //!     `----
 //! 
 //!   x A parameter property is only allowed in a constructor implementation
-//!     ,-[18:1]
+//!     ,-[17:1]
+//!  17 | 
 //!  18 | interface I {
 //!  19 |     new (public x);
 //!  20 |     new (public x);
@@ -78,7 +79,8 @@
 //!     `----
 //! 
 //!   x A parameter property is only allowed in a constructor implementation
-//!     ,-[23:1]
+//!     ,-[22:1]
+//!  22 | 
 //!  23 | interface I2 {
 //!  24 |     new (private x);
 //!  25 |     new (private x);
@@ -100,7 +102,8 @@
 //!     `----
 //! 
 //!   x A parameter property is only allowed in a constructor implementation
-//!     ,-[28:1]
+//!     ,-[27:1]
+//!  27 | 
 //!  28 | var a: {
 //!  29 |     new (public x);
 //!  30 |     new (public y);
@@ -122,7 +125,8 @@
 //!     `----
 //! 
 //!   x A parameter property is only allowed in a constructor implementation
-//!     ,-[33:1]
+//!     ,-[32:1]
+//!  32 | 
 //!  33 | var b: {
 //!  34 |     new (private x);
 //!  35 |     new (private y);

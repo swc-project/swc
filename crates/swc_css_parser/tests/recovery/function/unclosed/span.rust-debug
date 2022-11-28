@@ -3,21 +3,21 @@
    ,-[$DIR/tests/recovery/function/unclosed/input.css:1:1]
  1 | ,-> .style {
  2 | |   	width: min(500px;
- 3 | |   }
+ 3 | `-> }
    `----
 
   x Rule
    ,-[$DIR/tests/recovery/function/unclosed/input.css:1:1]
  1 | ,-> .style {
  2 | |   	width: min(500px;
- 3 | |   }
+ 3 | `-> }
    `----
 
   x QualifiedRule
    ,-[$DIR/tests/recovery/function/unclosed/input.css:1:1]
  1 | ,-> .style {
  2 | |   	width: min(500px;
- 3 | |   }
+ 3 | `-> }
    `----
 
   x SelectorList
@@ -66,7 +66,7 @@
    ,-[$DIR/tests/recovery/function/unclosed/input.css:1:1]
  1 | ,-> .style {
  2 | |   	width: min(500px;
- 3 | |   }
+ 3 | `-> }
    `----
 
   x LBrace
@@ -80,21 +80,21 @@
    ,-[$DIR/tests/recovery/function/unclosed/input.css:1:1]
  1 |     .style {
  2 | ,-> 	width: min(500px;
- 3 | |   }
+ 3 | `-> }
    `----
 
   x StyleBlock
    ,-[$DIR/tests/recovery/function/unclosed/input.css:1:1]
  1 |     .style {
  2 | ,-> 	width: min(500px;
- 3 | |   }
+ 3 | `-> }
    `----
 
   x Declaration
    ,-[$DIR/tests/recovery/function/unclosed/input.css:1:1]
  1 |     .style {
  2 | ,-> 	width: min(500px;
- 3 | |   }
+ 3 | `-> }
    `----
 
   x DeclarationName
@@ -117,14 +117,14 @@
    ,-[$DIR/tests/recovery/function/unclosed/input.css:1:1]
  1 |     .style {
  2 | ,-> 	width: min(500px;
- 3 | |   }
+ 3 | `-> }
    `----
 
   x Function
    ,-[$DIR/tests/recovery/function/unclosed/input.css:1:1]
  1 |     .style {
  2 | ,-> 	width: min(500px;
- 3 | |   }
+ 3 | `-> }
    `----
 
   x Ident
@@ -184,27 +184,29 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/function/unclosed/input.css:2:5]
- 2 | width: min(500px;
+   ,-[$DIR/tests/recovery/function/unclosed/input.css:2:1]
+ 2 | 	width: min(500px;
  3 | }
    : ^
    `----
 
   x RBrace
-   ,-[$DIR/tests/recovery/function/unclosed/input.css:2:5]
- 2 | width: min(500px;
+   ,-[$DIR/tests/recovery/function/unclosed/input.css:2:1]
+ 2 | 	width: min(500px;
  3 | }
    : ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/function/unclosed/input.css:2:5]
- 2 | width: min(500px;
+   ,-[$DIR/tests/recovery/function/unclosed/input.css:2:1]
+ 2 | 	width: min(500px;
  3 | }
+   :  ^
    `----
 
   x WhiteSpace { value: "\n" }
-   ,-[$DIR/tests/recovery/function/unclosed/input.css:2:5]
- 2 | width: min(500px;
+   ,-[$DIR/tests/recovery/function/unclosed/input.css:2:1]
+ 2 | 	width: min(500px;
  3 | }
+   :  ^
    `----

@@ -17,8 +17,8 @@
 //!    `----
 //! 
 //!   x the name `fn2` is defined multiple times
-//!     ,-[5:5]
-//!   5 | function fn1() { }
+//!     ,-[5:1]
+//!   5 |     function fn1() { }
 //!   6 |     var fn1;
 //!   7 | 
 //!   8 |     var fn2;
@@ -33,8 +33,8 @@
 //!     `----
 //! 
 //!   x the name `fn3` is defined multiple times
-//!     ,-[9:5]
-//!   9 | function fn2() { }
+//!     ,-[9:1]
+//!   9 |     function fn2() { }
 //!  10 | }
 //!  11 | 
 //!  12 | function fn3() { }

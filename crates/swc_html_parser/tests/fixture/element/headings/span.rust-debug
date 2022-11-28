@@ -13,7 +13,7 @@
  10 | |   <h6>This is heading 6</h6>
  11 | |   
  12 | |   </body>
- 13 | |   </html>
+ 13 | `-> </html>
     `----
 
   x Child
@@ -44,7 +44,7 @@
  10 | |   <h6>This is heading 6</h6>
  11 | |   
  12 | |   </body>
- 13 | |   </html>
+ 13 | `-> </html>
     `----
 
   x Element
@@ -61,7 +61,7 @@
  10 | |   <h6>This is heading 6</h6>
  11 | |   
  12 | |   </body>
- 13 | |   </html>
+ 13 | `-> </html>
     `----
 
   x Child
@@ -81,7 +81,7 @@
  10 | |   <h6>This is heading 6</h6>
  11 | |   
  12 | |   </body>
- 13 | |   </html>
+ 13 | `-> </html>
     `----
 
   x Element
@@ -97,7 +97,7 @@
  10 | |   <h6>This is heading 6</h6>
  11 | |   
  12 | |   </body>
- 13 | |   </html>
+ 13 | `-> </html>
     `----
 
   x Child
@@ -119,35 +119,40 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/headings/input.html:5:1]
+   ,-[$DIR/tests/fixture/element/headings/input.html:4:1]
+ 4 | 
  5 | <h1>This is heading 1</h1>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
  6 | <h2>This is heading 2</h2>
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/element/headings/input.html:5:1]
+   ,-[$DIR/tests/fixture/element/headings/input.html:4:1]
+ 4 | 
  5 | <h1>This is heading 1</h1>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
  6 | <h2>This is heading 2</h2>
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/headings/input.html:5:1]
+   ,-[$DIR/tests/fixture/element/headings/input.html:4:1]
+ 4 | 
  5 | <h1>This is heading 1</h1>
    :     ^^^^^^^^^^^^^^^^^
  6 | <h2>This is heading 2</h2>
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/element/headings/input.html:5:1]
+   ,-[$DIR/tests/fixture/element/headings/input.html:4:1]
+ 4 | 
  5 | <h1>This is heading 1</h1>
    :     ^^^^^^^^^^^^^^^^^
  6 | <h2>This is heading 2</h2>
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/headings/input.html:5:1]
+   ,-[$DIR/tests/fixture/element/headings/input.html:4:1]
+ 4 | 
  5 | <h1>This is heading 1</h1>
    :                           ^
  6 | <h2>This is heading 2</h2>
@@ -155,7 +160,8 @@
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/element/headings/input.html:5:1]
+   ,-[$DIR/tests/fixture/element/headings/input.html:4:1]
+ 4 | 
  5 | <h1>This is heading 1</h1>
    :                           ^
  6 | <h2>This is heading 2</h2>
@@ -394,7 +400,7 @@
  10 | ,-> <h6>This is heading 6</h6>
  11 | |   
  12 | |   </body>
- 13 | |   </html>
+ 13 | `-> </html>
     `----
 
   x Text
@@ -403,5 +409,5 @@
  10 | ,-> <h6>This is heading 6</h6>
  11 | |   
  12 | |   </body>
- 13 | |   </html>
+ 13 | `-> </html>
     `----

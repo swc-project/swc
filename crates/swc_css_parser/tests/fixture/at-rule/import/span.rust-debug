@@ -171,7 +171,7 @@
  168 | |   
  169 | |   /*.foo {*/
  170 | |   /*    @import 'path.css';*/
- 171 | |   /*}*/
+ 171 | `-> /*}*/
      `----
 
   x Rule
@@ -4948,83 +4948,96 @@
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/import/input.css:62:1]
+    ,-[$DIR/tests/fixture/at-rule/import/input.css:61:1]
+ 61 | 
  62 | @import url(./test.css);
     : ^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/import/input.css:62:1]
+    ,-[$DIR/tests/fixture/at-rule/import/input.css:61:1]
+ 61 | 
  62 | @import url(./test.css);
     : ^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/import/input.css:62:1]
+    ,-[$DIR/tests/fixture/at-rule/import/input.css:61:1]
+ 61 | 
  62 | @import url(./test.css);
     :  ^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/import/input.css:62:1]
+    ,-[$DIR/tests/fixture/at-rule/import/input.css:61:1]
+ 61 | 
  62 | @import url(./test.css);
     :  ^^^^^^
     `----
 
   x Url
-    ,-[$DIR/tests/fixture/at-rule/import/input.css:62:1]
+    ,-[$DIR/tests/fixture/at-rule/import/input.css:61:1]
+ 61 | 
  62 | @import url(./test.css);
     :         ^^^^^^^^^^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/import/input.css:62:1]
+    ,-[$DIR/tests/fixture/at-rule/import/input.css:61:1]
+ 61 | 
  62 | @import url(./test.css);
     :         ^^^
     `----
 
   x UrlValue
-    ,-[$DIR/tests/fixture/at-rule/import/input.css:62:1]
+    ,-[$DIR/tests/fixture/at-rule/import/input.css:61:1]
+ 61 | 
  62 | @import url(./test.css);
     :             ^^^^^^^^^^
     `----
 
   x UrlValueRaw
-    ,-[$DIR/tests/fixture/at-rule/import/input.css:62:1]
+    ,-[$DIR/tests/fixture/at-rule/import/input.css:61:1]
+ 61 | 
  62 | @import url(./test.css);
     :             ^^^^^^^^^^
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/import/input.css:64:1]
+    ,-[$DIR/tests/fixture/at-rule/import/input.css:63:1]
+ 63 |     
  64 | ,-> @import './te\
  65 | `-> st.css';
  66 |     @import './te\
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/import/input.css:64:1]
+    ,-[$DIR/tests/fixture/at-rule/import/input.css:63:1]
+ 63 |     
  64 | ,-> @import './te\
  65 | `-> st.css';
  66 |     @import './te\
     `----
 
   x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/import/input.css:64:1]
+    ,-[$DIR/tests/fixture/at-rule/import/input.css:63:1]
+ 63 | 
  64 | @import './te\
     :  ^^^^^^
  65 | st.css';
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/import/input.css:64:1]
+    ,-[$DIR/tests/fixture/at-rule/import/input.css:63:1]
+ 63 | 
  64 | @import './te\
     :  ^^^^^^
  65 | st.css';
     `----
 
   x Str
-    ,-[$DIR/tests/fixture/at-rule/import/input.css:64:1]
+    ,-[$DIR/tests/fixture/at-rule/import/input.css:63:1]
+ 63 |     
  64 | ,-> @import './te\
  65 | `-> st.css';
  66 |     @import './te\
@@ -5210,35 +5223,40 @@
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/import/input.css:77:1]
+    ,-[$DIR/tests/fixture/at-rule/import/input.css:76:1]
+ 76 | 
  77 | @import "./te'st.css";
     : ^^^^^^^^^^^^^^^^^^^^^^
  78 | @import url("./te'st.css");
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/import/input.css:77:1]
+    ,-[$DIR/tests/fixture/at-rule/import/input.css:76:1]
+ 76 | 
  77 | @import "./te'st.css";
     : ^^^^^^^^^^^^^^^^^^^^^^
  78 | @import url("./te'st.css");
     `----
 
   x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/import/input.css:77:1]
+    ,-[$DIR/tests/fixture/at-rule/import/input.css:76:1]
+ 76 | 
  77 | @import "./te'st.css";
     :  ^^^^^^
  78 | @import url("./te'st.css");
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/import/input.css:77:1]
+    ,-[$DIR/tests/fixture/at-rule/import/input.css:76:1]
+ 76 | 
  77 | @import "./te'st.css";
     :  ^^^^^^
  78 | @import url("./te'st.css");
     `----
 
   x Str
-    ,-[$DIR/tests/fixture/at-rule/import/input.css:77:1]
+    ,-[$DIR/tests/fixture/at-rule/import/input.css:76:1]
+ 76 | 
  77 | @import "./te'st.css";
     :         ^^^^^^^^^^^^^
  78 | @import url("./te'st.css");
@@ -6435,56 +6453,64 @@
      `----
 
   x Rule
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:104:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:103:1]
+ 103 | 
  104 | @import url(test.css?foo=bar);
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  105 | @import url(test.css?foo=bar#hash);
      `----
 
   x AtRule
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:104:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:103:1]
+ 103 | 
  104 | @import url(test.css?foo=bar);
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  105 | @import url(test.css?foo=bar#hash);
      `----
 
   x AtRuleName
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:104:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:103:1]
+ 103 | 
  104 | @import url(test.css?foo=bar);
      :  ^^^^^^
  105 | @import url(test.css?foo=bar#hash);
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:104:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:103:1]
+ 103 | 
  104 | @import url(test.css?foo=bar);
      :  ^^^^^^
  105 | @import url(test.css?foo=bar#hash);
      `----
 
   x Url
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:104:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:103:1]
+ 103 | 
  104 | @import url(test.css?foo=bar);
      :         ^^^^^^^^^^^^^^^^^^^^^
  105 | @import url(test.css?foo=bar#hash);
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:104:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:103:1]
+ 103 | 
  104 | @import url(test.css?foo=bar);
      :         ^^^
  105 | @import url(test.css?foo=bar#hash);
      `----
 
   x UrlValue
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:104:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:103:1]
+ 103 | 
  104 | @import url(test.css?foo=bar);
      :             ^^^^^^^^^^^^^^^^
  105 | @import url(test.css?foo=bar#hash);
      `----
 
   x UrlValueRaw
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:104:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:103:1]
+ 103 | 
  104 | @import url(test.css?foo=bar);
      :             ^^^^^^^^^^^^^^^^
  105 | @import url(test.css?foo=bar#hash);
@@ -6611,91 +6637,104 @@
      `----
 
   x Rule
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:108:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:107:1]
+ 107 | 
  108 | @import "test.css" supports(display: flex);
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  109 | @import "test.css" supports(display: flex) screen and (orientation:landscape);
      `----
 
   x AtRule
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:108:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:107:1]
+ 107 | 
  108 | @import "test.css" supports(display: flex);
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  109 | @import "test.css" supports(display: flex) screen and (orientation:landscape);
      `----
 
   x AtRuleName
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:108:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:107:1]
+ 107 | 
  108 | @import "test.css" supports(display: flex);
      :  ^^^^^^
  109 | @import "test.css" supports(display: flex) screen and (orientation:landscape);
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:108:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:107:1]
+ 107 | 
  108 | @import "test.css" supports(display: flex);
      :  ^^^^^^
  109 | @import "test.css" supports(display: flex) screen and (orientation:landscape);
      `----
 
   x Str
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:108:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:107:1]
+ 107 | 
  108 | @import "test.css" supports(display: flex);
      :         ^^^^^^^^^^
  109 | @import "test.css" supports(display: flex) screen and (orientation:landscape);
      `----
 
   x Function
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:108:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:107:1]
+ 107 | 
  108 | @import "test.css" supports(display: flex);
      :                    ^^^^^^^^^^^^^^^^^^^^^^^
  109 | @import "test.css" supports(display: flex) screen and (orientation:landscape);
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:108:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:107:1]
+ 107 | 
  108 | @import "test.css" supports(display: flex);
      :                    ^^^^^^^^
  109 | @import "test.css" supports(display: flex) screen and (orientation:landscape);
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:108:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:107:1]
+ 107 | 
  108 | @import "test.css" supports(display: flex);
      :                             ^^^^^^^^^^^^^
  109 | @import "test.css" supports(display: flex) screen and (orientation:landscape);
      `----
 
   x Declaration
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:108:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:107:1]
+ 107 | 
  108 | @import "test.css" supports(display: flex);
      :                             ^^^^^^^^^^^^^
  109 | @import "test.css" supports(display: flex) screen and (orientation:landscape);
      `----
 
   x DeclarationName
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:108:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:107:1]
+ 107 | 
  108 | @import "test.css" supports(display: flex);
      :                             ^^^^^^^
  109 | @import "test.css" supports(display: flex) screen and (orientation:landscape);
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:108:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:107:1]
+ 107 | 
  108 | @import "test.css" supports(display: flex);
      :                             ^^^^^^^
  109 | @import "test.css" supports(display: flex) screen and (orientation:landscape);
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:108:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:107:1]
+ 107 | 
  108 | @import "test.css" supports(display: flex);
      :                                      ^^^^
  109 | @import "test.css" supports(display: flex) screen and (orientation:landscape);
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:108:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:107:1]
+ 107 | 
  108 | @import "test.css" supports(display: flex);
      :                                      ^^^^
  109 | @import "test.css" supports(display: flex) screen and (orientation:landscape);
@@ -7107,35 +7146,40 @@
      `----
 
   x Rule
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:112:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:111:1]
+ 111 | 
  112 | @import "   ./test.css   ";
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
  113 | @import url('   ./test.css   ');
      `----
 
   x AtRule
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:112:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:111:1]
+ 111 | 
  112 | @import "   ./test.css   ";
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
  113 | @import url('   ./test.css   ');
      `----
 
   x AtRuleName
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:112:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:111:1]
+ 111 | 
  112 | @import "   ./test.css   ";
      :  ^^^^^^
  113 | @import url('   ./test.css   ');
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:112:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:111:1]
+ 111 | 
  112 | @import "   ./test.css   ";
      :  ^^^^^^
  113 | @import url('   ./test.css   ');
      `----
 
   x Str
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:112:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:111:1]
+ 111 | 
  112 | @import "   ./test.css   ";
      :         ^^^^^^^^^^^^^^^^^^
  113 | @import url('   ./test.css   ');
@@ -7262,86 +7306,99 @@
      `----
 
   x Rule
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:116:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:115:1]
+ 115 | 
  116 | @import "./my.scss";
      : ^^^^^^^^^^^^^^^^^^^^
      `----
 
   x AtRule
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:116:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:115:1]
+ 115 | 
  116 | @import "./my.scss";
      : ^^^^^^^^^^^^^^^^^^^^
      `----
 
   x AtRuleName
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:116:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:115:1]
+ 115 | 
  116 | @import "./my.scss";
      :  ^^^^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:116:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:115:1]
+ 115 | 
  116 | @import "./my.scss";
      :  ^^^^^^
      `----
 
   x Str
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:116:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:115:1]
+ 115 | 
  116 | @import "./my.scss";
      :         ^^^^^^^^^^^
      `----
 
   x Rule
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:118:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:117:1]
+ 117 | 
  118 | @import url('   https://fonts.googleapis.com/css?family=Roboto   ');
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  119 | @import url('!!../../helpers/string-loader.js?esModule=false!');
      `----
 
   x AtRule
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:118:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:117:1]
+ 117 | 
  118 | @import url('   https://fonts.googleapis.com/css?family=Roboto   ');
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  119 | @import url('!!../../helpers/string-loader.js?esModule=false!');
      `----
 
   x AtRuleName
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:118:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:117:1]
+ 117 | 
  118 | @import url('   https://fonts.googleapis.com/css?family=Roboto   ');
      :  ^^^^^^
  119 | @import url('!!../../helpers/string-loader.js?esModule=false!');
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:118:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:117:1]
+ 117 | 
  118 | @import url('   https://fonts.googleapis.com/css?family=Roboto   ');
      :  ^^^^^^
  119 | @import url('!!../../helpers/string-loader.js?esModule=false!');
      `----
 
   x Url
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:118:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:117:1]
+ 117 | 
  118 | @import url('   https://fonts.googleapis.com/css?family=Roboto   ');
      :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  119 | @import url('!!../../helpers/string-loader.js?esModule=false!');
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:118:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:117:1]
+ 117 | 
  118 | @import url('   https://fonts.googleapis.com/css?family=Roboto   ');
      :         ^^^
  119 | @import url('!!../../helpers/string-loader.js?esModule=false!');
      `----
 
   x UrlValue
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:118:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:117:1]
+ 117 | 
  118 | @import url('   https://fonts.googleapis.com/css?family=Roboto   ');
      :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  119 | @import url('!!../../helpers/string-loader.js?esModule=false!');
      `----
 
   x Str
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:118:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:117:1]
+ 117 | 
  118 | @import url('   https://fonts.googleapis.com/css?family=Roboto   ');
      :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  119 | @import url('!!../../helpers/string-loader.js?esModule=false!');
@@ -7532,56 +7589,64 @@
      `----
 
   x Rule
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:123:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:122:1]
+ 122 | 
  123 | @import url(package/first.css);
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  124 | @import url(package/second.css);
      `----
 
   x AtRule
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:123:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:122:1]
+ 122 | 
  123 | @import url(package/first.css);
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  124 | @import url(package/second.css);
      `----
 
   x AtRuleName
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:123:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:122:1]
+ 122 | 
  123 | @import url(package/first.css);
      :  ^^^^^^
  124 | @import url(package/second.css);
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:123:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:122:1]
+ 122 | 
  123 | @import url(package/first.css);
      :  ^^^^^^
  124 | @import url(package/second.css);
      `----
 
   x Url
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:123:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:122:1]
+ 122 | 
  123 | @import url(package/first.css);
      :         ^^^^^^^^^^^^^^^^^^^^^^
  124 | @import url(package/second.css);
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:123:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:122:1]
+ 122 | 
  123 | @import url(package/first.css);
      :         ^^^
  124 | @import url(package/second.css);
      `----
 
   x UrlValue
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:123:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:122:1]
+ 122 | 
  123 | @import url(package/first.css);
      :             ^^^^^^^^^^^^^^^^^
  124 | @import url(package/second.css);
      `----
 
   x UrlValueRaw
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:123:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:122:1]
+ 122 | 
  123 | @import url(package/first.css);
      :             ^^^^^^^^^^^^^^^^^
  124 | @import url(package/second.css);
@@ -7644,70 +7709,80 @@
      `----
 
   x Rule
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:126:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:125:1]
+ 125 | 
  126 | @import url("./test.css") supports();
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  127 | @import url("./test.css") supports(display: flex);
      `----
 
   x AtRule
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:126:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:125:1]
+ 125 | 
  126 | @import url("./test.css") supports();
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  127 | @import url("./test.css") supports(display: flex);
      `----
 
   x AtRuleName
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:126:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:125:1]
+ 125 | 
  126 | @import url("./test.css") supports();
      :  ^^^^^^
  127 | @import url("./test.css") supports(display: flex);
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:126:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:125:1]
+ 125 | 
  126 | @import url("./test.css") supports();
      :  ^^^^^^
  127 | @import url("./test.css") supports(display: flex);
      `----
 
   x Url
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:126:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:125:1]
+ 125 | 
  126 | @import url("./test.css") supports();
      :         ^^^^^^^^^^^^^^^^^
  127 | @import url("./test.css") supports(display: flex);
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:126:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:125:1]
+ 125 | 
  126 | @import url("./test.css") supports();
      :         ^^^
  127 | @import url("./test.css") supports(display: flex);
      `----
 
   x UrlValue
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:126:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:125:1]
+ 125 | 
  126 | @import url("./test.css") supports();
      :             ^^^^^^^^^^^^
  127 | @import url("./test.css") supports(display: flex);
      `----
 
   x Str
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:126:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:125:1]
+ 125 | 
  126 | @import url("./test.css") supports();
      :             ^^^^^^^^^^^^
  127 | @import url("./test.css") supports(display: flex);
      `----
 
   x Function
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:126:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:125:1]
+ 125 | 
  126 | @import url("./test.css") supports();
      :                           ^^^^^^^^^^
  127 | @import url("./test.css") supports(display: flex);
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:126:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:125:1]
+ 125 | 
  126 | @import url("./test.css") supports();
      :                           ^^^^^^^^
  127 | @import url("./test.css") supports(display: flex);
@@ -11484,133 +11559,152 @@
      `----
 
   x Rule
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:147:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:146:1]
+ 146 | 
  147 | @import url("./deep-import-with-media.css") (prefers-color-scheme: dark);
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  148 | @import url("./import-with-supports.css") supports(display: flex);
      `----
 
   x AtRule
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:147:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:146:1]
+ 146 | 
  147 | @import url("./deep-import-with-media.css") (prefers-color-scheme: dark);
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  148 | @import url("./import-with-supports.css") supports(display: flex);
      `----
 
   x AtRuleName
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:147:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:146:1]
+ 146 | 
  147 | @import url("./deep-import-with-media.css") (prefers-color-scheme: dark);
      :  ^^^^^^
  148 | @import url("./import-with-supports.css") supports(display: flex);
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:147:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:146:1]
+ 146 | 
  147 | @import url("./deep-import-with-media.css") (prefers-color-scheme: dark);
      :  ^^^^^^
  148 | @import url("./import-with-supports.css") supports(display: flex);
      `----
 
   x Url
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:147:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:146:1]
+ 146 | 
  147 | @import url("./deep-import-with-media.css") (prefers-color-scheme: dark);
      :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  148 | @import url("./import-with-supports.css") supports(display: flex);
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:147:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:146:1]
+ 146 | 
  147 | @import url("./deep-import-with-media.css") (prefers-color-scheme: dark);
      :         ^^^
  148 | @import url("./import-with-supports.css") supports(display: flex);
      `----
 
   x UrlValue
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:147:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:146:1]
+ 146 | 
  147 | @import url("./deep-import-with-media.css") (prefers-color-scheme: dark);
      :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  148 | @import url("./import-with-supports.css") supports(display: flex);
      `----
 
   x Str
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:147:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:146:1]
+ 146 | 
  147 | @import url("./deep-import-with-media.css") (prefers-color-scheme: dark);
      :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  148 | @import url("./import-with-supports.css") supports(display: flex);
      `----
 
   x MediaQueryList
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:147:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:146:1]
+ 146 | 
  147 | @import url("./deep-import-with-media.css") (prefers-color-scheme: dark);
      :                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  148 | @import url("./import-with-supports.css") supports(display: flex);
      `----
 
   x MediaQuery
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:147:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:146:1]
+ 146 | 
  147 | @import url("./deep-import-with-media.css") (prefers-color-scheme: dark);
      :                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  148 | @import url("./import-with-supports.css") supports(display: flex);
      `----
 
   x MediaCondition
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:147:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:146:1]
+ 146 | 
  147 | @import url("./deep-import-with-media.css") (prefers-color-scheme: dark);
      :                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  148 | @import url("./import-with-supports.css") supports(display: flex);
      `----
 
   x MediaConditionAllType
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:147:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:146:1]
+ 146 | 
  147 | @import url("./deep-import-with-media.css") (prefers-color-scheme: dark);
      :                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  148 | @import url("./import-with-supports.css") supports(display: flex);
      `----
 
   x MediaInParens
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:147:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:146:1]
+ 146 | 
  147 | @import url("./deep-import-with-media.css") (prefers-color-scheme: dark);
      :                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  148 | @import url("./import-with-supports.css") supports(display: flex);
      `----
 
   x MediaFeature
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:147:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:146:1]
+ 146 | 
  147 | @import url("./deep-import-with-media.css") (prefers-color-scheme: dark);
      :                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  148 | @import url("./import-with-supports.css") supports(display: flex);
      `----
 
   x MediaFeaturePlain
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:147:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:146:1]
+ 146 | 
  147 | @import url("./deep-import-with-media.css") (prefers-color-scheme: dark);
      :                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  148 | @import url("./import-with-supports.css") supports(display: flex);
      `----
 
   x MediaFeatureName
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:147:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:146:1]
+ 146 | 
  147 | @import url("./deep-import-with-media.css") (prefers-color-scheme: dark);
      :                                              ^^^^^^^^^^^^^^^^^^^^
  148 | @import url("./import-with-supports.css") supports(display: flex);
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:147:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:146:1]
+ 146 | 
  147 | @import url("./deep-import-with-media.css") (prefers-color-scheme: dark);
      :                                              ^^^^^^^^^^^^^^^^^^^^
  148 | @import url("./import-with-supports.css") supports(display: flex);
      `----
 
   x MediaFeatureValue
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:147:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:146:1]
+ 146 | 
  147 | @import url("./deep-import-with-media.css") (prefers-color-scheme: dark);
      :                                                                    ^^^^
  148 | @import url("./import-with-supports.css") supports(display: flex);
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:147:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:146:1]
+ 146 | 
  147 | @import url("./deep-import-with-media.css") (prefers-color-scheme: dark);
      :                                                                    ^^^^
  148 | @import url("./import-with-supports.css") supports(display: flex);
@@ -13036,91 +13130,104 @@
      `----
 
   x Rule
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:159:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:158:1]
+ 158 | 
  159 | @import url(bootstrap-base.css) layer(base);
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  160 | @import url(base-headings.css) layer;
      `----
 
   x AtRule
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:159:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:158:1]
+ 158 | 
  159 | @import url(bootstrap-base.css) layer(base);
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  160 | @import url(base-headings.css) layer;
      `----
 
   x AtRuleName
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:159:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:158:1]
+ 158 | 
  159 | @import url(bootstrap-base.css) layer(base);
      :  ^^^^^^
  160 | @import url(base-headings.css) layer;
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:159:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:158:1]
+ 158 | 
  159 | @import url(bootstrap-base.css) layer(base);
      :  ^^^^^^
  160 | @import url(base-headings.css) layer;
      `----
 
   x Url
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:159:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:158:1]
+ 158 | 
  159 | @import url(bootstrap-base.css) layer(base);
      :         ^^^^^^^^^^^^^^^^^^^^^^^
  160 | @import url(base-headings.css) layer;
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:159:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:158:1]
+ 158 | 
  159 | @import url(bootstrap-base.css) layer(base);
      :         ^^^
  160 | @import url(base-headings.css) layer;
      `----
 
   x UrlValue
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:159:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:158:1]
+ 158 | 
  159 | @import url(bootstrap-base.css) layer(base);
      :             ^^^^^^^^^^^^^^^^^^
  160 | @import url(base-headings.css) layer;
      `----
 
   x UrlValueRaw
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:159:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:158:1]
+ 158 | 
  159 | @import url(bootstrap-base.css) layer(base);
      :             ^^^^^^^^^^^^^^^^^^
  160 | @import url(base-headings.css) layer;
      `----
 
   x Function
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:159:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:158:1]
+ 158 | 
  159 | @import url(bootstrap-base.css) layer(base);
      :                                 ^^^^^^^^^^^
  160 | @import url(base-headings.css) layer;
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:159:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:158:1]
+ 158 | 
  159 | @import url(bootstrap-base.css) layer(base);
      :                                 ^^^^^
  160 | @import url(base-headings.css) layer;
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:159:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:158:1]
+ 158 | 
  159 | @import url(bootstrap-base.css) layer(base);
      :                                       ^^^^
  160 | @import url(base-headings.css) layer;
      `----
 
   x LayerName
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:159:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:158:1]
+ 158 | 
  159 | @import url(bootstrap-base.css) layer(base);
      :                                       ^^^^
  160 | @import url(base-headings.css) layer;
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:159:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:158:1]
+ 158 | 
  159 | @import url(bootstrap-base.css) layer(base);
      :                                       ^^^^
  160 | @import url(base-headings.css) layer;
@@ -13790,91 +13897,104 @@
      `----
 
   x Rule
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:166:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:165:1]
+ 165 | 
  166 | @import "test.css" supports(   display: flex   );
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  167 | @import url("tabs.css") layer(   framework.component   );
      `----
 
   x AtRule
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:166:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:165:1]
+ 165 | 
  166 | @import "test.css" supports(   display: flex   );
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  167 | @import url("tabs.css") layer(   framework.component   );
      `----
 
   x AtRuleName
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:166:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:165:1]
+ 165 | 
  166 | @import "test.css" supports(   display: flex   );
      :  ^^^^^^
  167 | @import url("tabs.css") layer(   framework.component   );
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:166:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:165:1]
+ 165 | 
  166 | @import "test.css" supports(   display: flex   );
      :  ^^^^^^
  167 | @import url("tabs.css") layer(   framework.component   );
      `----
 
   x Str
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:166:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:165:1]
+ 165 | 
  166 | @import "test.css" supports(   display: flex   );
      :         ^^^^^^^^^^
  167 | @import url("tabs.css") layer(   framework.component   );
      `----
 
   x Function
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:166:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:165:1]
+ 165 | 
  166 | @import "test.css" supports(   display: flex   );
      :                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  167 | @import url("tabs.css") layer(   framework.component   );
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:166:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:165:1]
+ 165 | 
  166 | @import "test.css" supports(   display: flex   );
      :                    ^^^^^^^^
  167 | @import url("tabs.css") layer(   framework.component   );
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:166:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:165:1]
+ 165 | 
  166 | @import "test.css" supports(   display: flex   );
      :                                ^^^^^^^^^^^^^^^^
  167 | @import url("tabs.css") layer(   framework.component   );
      `----
 
   x Declaration
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:166:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:165:1]
+ 165 | 
  166 | @import "test.css" supports(   display: flex   );
      :                                ^^^^^^^^^^^^^^^^
  167 | @import url("tabs.css") layer(   framework.component   );
      `----
 
   x DeclarationName
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:166:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:165:1]
+ 165 | 
  166 | @import "test.css" supports(   display: flex   );
      :                                ^^^^^^^
  167 | @import url("tabs.css") layer(   framework.component   );
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:166:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:165:1]
+ 165 | 
  166 | @import "test.css" supports(   display: flex   );
      :                                ^^^^^^^
  167 | @import url("tabs.css") layer(   framework.component   );
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:166:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:165:1]
+ 165 | 
  166 | @import "test.css" supports(   display: flex   );
      :                                         ^^^^
  167 | @import url("tabs.css") layer(   framework.component   );
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:166:1]
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:165:1]
+ 165 | 
  166 | @import "test.css" supports(   display: flex   );
      :                                         ^^^^
  167 | @import url("tabs.css") layer(   framework.component   );

@@ -175,8 +175,8 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/colgroup/input.html:4:5]
- 4 | <title>Document</title>
+   ,-[$DIR/tests/fixture/element/colgroup/input.html:4:1]
+ 4 |     <title>Document</title>
  5 | </head>
    :        ^
  6 | <body>
@@ -184,8 +184,8 @@
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/element/colgroup/input.html:4:5]
- 4 | <title>Document</title>
+   ,-[$DIR/tests/fixture/element/colgroup/input.html:4:1]
+ 4 |     <title>Document</title>
  5 | </head>
    :        ^
  6 | <body>
@@ -347,112 +347,112 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/colgroup/input.html:8:5]
-  8 | <caption>Superheros and sidekicks</caption>
+    ,-[$DIR/tests/fixture/element/colgroup/input.html:8:1]
+  8 |     <caption>Superheros and sidekicks</caption>
   9 |     <colgroup><col><col span="2" class="batman"><col span="2" class="flash"></colgroup>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  10 |     <tr>
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/colgroup/input.html:8:5]
-  8 | <caption>Superheros and sidekicks</caption>
+    ,-[$DIR/tests/fixture/element/colgroup/input.html:8:1]
+  8 |     <caption>Superheros and sidekicks</caption>
   9 |     <colgroup><col><col span="2" class="batman"><col span="2" class="flash"></colgroup>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  10 |     <tr>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/colgroup/input.html:8:5]
-  8 | <caption>Superheros and sidekicks</caption>
+    ,-[$DIR/tests/fixture/element/colgroup/input.html:8:1]
+  8 |     <caption>Superheros and sidekicks</caption>
   9 |     <colgroup><col><col span="2" class="batman"><col span="2" class="flash"></colgroup>
     :               ^^^^^
  10 |     <tr>
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/colgroup/input.html:8:5]
-  8 | <caption>Superheros and sidekicks</caption>
+    ,-[$DIR/tests/fixture/element/colgroup/input.html:8:1]
+  8 |     <caption>Superheros and sidekicks</caption>
   9 |     <colgroup><col><col span="2" class="batman"><col span="2" class="flash"></colgroup>
     :               ^^^^^
  10 |     <tr>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/colgroup/input.html:8:5]
-  8 | <caption>Superheros and sidekicks</caption>
+    ,-[$DIR/tests/fixture/element/colgroup/input.html:8:1]
+  8 |     <caption>Superheros and sidekicks</caption>
   9 |     <colgroup><col><col span="2" class="batman"><col span="2" class="flash"></colgroup>
     :                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  10 |     <tr>
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/colgroup/input.html:8:5]
-  8 | <caption>Superheros and sidekicks</caption>
+    ,-[$DIR/tests/fixture/element/colgroup/input.html:8:1]
+  8 |     <caption>Superheros and sidekicks</caption>
   9 |     <colgroup><col><col span="2" class="batman"><col span="2" class="flash"></colgroup>
     :                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  10 |     <tr>
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/element/colgroup/input.html:8:5]
-  8 | <caption>Superheros and sidekicks</caption>
+    ,-[$DIR/tests/fixture/element/colgroup/input.html:8:1]
+  8 |     <caption>Superheros and sidekicks</caption>
   9 |     <colgroup><col><col span="2" class="batman"><col span="2" class="flash"></colgroup>
     :                         ^^^^^^^^
  10 |     <tr>
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/element/colgroup/input.html:8:5]
-  8 | <caption>Superheros and sidekicks</caption>
+    ,-[$DIR/tests/fixture/element/colgroup/input.html:8:1]
+  8 |     <caption>Superheros and sidekicks</caption>
   9 |     <colgroup><col><col span="2" class="batman"><col span="2" class="flash"></colgroup>
     :                                  ^^^^^^^^^^^^^^
  10 |     <tr>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/colgroup/input.html:8:5]
-  8 | <caption>Superheros and sidekicks</caption>
+    ,-[$DIR/tests/fixture/element/colgroup/input.html:8:1]
+  8 |     <caption>Superheros and sidekicks</caption>
   9 |     <colgroup><col><col span="2" class="batman"><col span="2" class="flash"></colgroup>
     :                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  10 |     <tr>
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/colgroup/input.html:8:5]
-  8 | <caption>Superheros and sidekicks</caption>
+    ,-[$DIR/tests/fixture/element/colgroup/input.html:8:1]
+  8 |     <caption>Superheros and sidekicks</caption>
   9 |     <colgroup><col><col span="2" class="batman"><col span="2" class="flash"></colgroup>
     :                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  10 |     <tr>
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/element/colgroup/input.html:8:5]
-  8 | <caption>Superheros and sidekicks</caption>
+    ,-[$DIR/tests/fixture/element/colgroup/input.html:8:1]
+  8 |     <caption>Superheros and sidekicks</caption>
   9 |     <colgroup><col><col span="2" class="batman"><col span="2" class="flash"></colgroup>
     :                                                      ^^^^^^^^
  10 |     <tr>
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/element/colgroup/input.html:8:5]
-  8 | <caption>Superheros and sidekicks</caption>
+    ,-[$DIR/tests/fixture/element/colgroup/input.html:8:1]
+  8 |     <caption>Superheros and sidekicks</caption>
   9 |     <colgroup><col><col span="2" class="batman"><col span="2" class="flash"></colgroup>
     :                                                               ^^^^^^^^^^^^^
  10 |     <tr>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/colgroup/input.html:8:5]
-  8 |     <caption>Superheros and sidekicks</caption>
+    ,-[$DIR/tests/fixture/element/colgroup/input.html:8:1]
+  8 |         <caption>Superheros and sidekicks</caption>
   9 | ,->     <colgroup><col><col span="2" class="batman"><col span="2" class="flash"></colgroup>
  10 | `->     <tr>
  11 |             <td> </td>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/colgroup/input.html:8:5]
-  8 |     <caption>Superheros and sidekicks</caption>
+    ,-[$DIR/tests/fixture/element/colgroup/input.html:8:1]
+  8 |         <caption>Superheros and sidekicks</caption>
   9 | ,->     <colgroup><col><col span="2" class="batman"><col span="2" class="flash"></colgroup>
  10 | `->     <tr>
  11 |             <td> </td>
@@ -463,8 +463,8 @@
   x Element
 
   x Child
-    ,-[$DIR/tests/fixture/element/colgroup/input.html:9:5]
-  9 |     <colgroup><col><col span="2" class="batman"><col span="2" class="flash"></colgroup>
+    ,-[$DIR/tests/fixture/element/colgroup/input.html:9:1]
+  9 |         <colgroup><col><col span="2" class="batman"><col span="2" class="flash"></colgroup>
  10 | ,->     <tr>
  11 | |           <td> </td>
  12 | |           <th scope="col">Batman</th>
@@ -476,8 +476,8 @@
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/colgroup/input.html:9:5]
-  9 |     <colgroup><col><col span="2" class="batman"><col span="2" class="flash"></colgroup>
+    ,-[$DIR/tests/fixture/element/colgroup/input.html:9:1]
+  9 |         <colgroup><col><col span="2" class="batman"><col span="2" class="flash"></colgroup>
  10 | ,->     <tr>
  11 | |           <td> </td>
  12 | |           <th scope="col">Batman</th>
@@ -489,296 +489,296 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/colgroup/input.html:9:5]
-  9 |     <colgroup><col><col span="2" class="batman"><col span="2" class="flash"></colgroup>
+    ,-[$DIR/tests/fixture/element/colgroup/input.html:9:1]
+  9 |         <colgroup><col><col span="2" class="batman"><col span="2" class="flash"></colgroup>
  10 | ,->     <tr>
  11 | `->         <td> </td>
  12 |             <th scope="col">Batman</th>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/colgroup/input.html:9:5]
-  9 |     <colgroup><col><col span="2" class="batman"><col span="2" class="flash"></colgroup>
+    ,-[$DIR/tests/fixture/element/colgroup/input.html:9:1]
+  9 |         <colgroup><col><col span="2" class="batman"><col span="2" class="flash"></colgroup>
  10 | ,->     <tr>
  11 | `->         <td> </td>
  12 |             <th scope="col">Batman</th>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/colgroup/input.html:10:5]
- 10 | <tr>
+    ,-[$DIR/tests/fixture/element/colgroup/input.html:10:1]
+ 10 |     <tr>
  11 |         <td> </td>
     :         ^^^^^^^^^^^
  12 |         <th scope="col">Batman</th>
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/colgroup/input.html:10:5]
- 10 | <tr>
+    ,-[$DIR/tests/fixture/element/colgroup/input.html:10:1]
+ 10 |     <tr>
  11 |         <td> </td>
     :         ^^^^^^^^^^^
  12 |         <th scope="col">Batman</th>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/colgroup/input.html:10:5]
- 10 | <tr>
+    ,-[$DIR/tests/fixture/element/colgroup/input.html:10:1]
+ 10 |     <tr>
  11 |         <td> </td>
     :             ^^
  12 |         <th scope="col">Batman</th>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/colgroup/input.html:10:5]
- 10 | <tr>
+    ,-[$DIR/tests/fixture/element/colgroup/input.html:10:1]
+ 10 |     <tr>
  11 |         <td> </td>
     :             ^^
  12 |         <th scope="col">Batman</th>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/colgroup/input.html:10:5]
- 10 |     <tr>
+    ,-[$DIR/tests/fixture/element/colgroup/input.html:10:1]
+ 10 |         <tr>
  11 | ,->         <td> </td>
  12 | `->         <th scope="col">Batman</th>
  13 |             <th scope="col">Robin</th>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/colgroup/input.html:10:5]
- 10 |     <tr>
+    ,-[$DIR/tests/fixture/element/colgroup/input.html:10:1]
+ 10 |         <tr>
  11 | ,->         <td> </td>
  12 | `->         <th scope="col">Batman</th>
  13 |             <th scope="col">Robin</th>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/colgroup/input.html:11:9]
- 11 | <td> </td>
+    ,-[$DIR/tests/fixture/element/colgroup/input.html:11:1]
+ 11 |         <td> </td>
  12 |         <th scope="col">Batman</th>
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
  13 |         <th scope="col">Robin</th>
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/colgroup/input.html:11:9]
- 11 | <td> </td>
+    ,-[$DIR/tests/fixture/element/colgroup/input.html:11:1]
+ 11 |         <td> </td>
  12 |         <th scope="col">Batman</th>
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
  13 |         <th scope="col">Robin</th>
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/element/colgroup/input.html:11:9]
- 11 | <td> </td>
+    ,-[$DIR/tests/fixture/element/colgroup/input.html:11:1]
+ 11 |         <td> </td>
  12 |         <th scope="col">Batman</th>
     :             ^^^^^^^^^^^
  13 |         <th scope="col">Robin</th>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/colgroup/input.html:11:9]
- 11 | <td> </td>
+    ,-[$DIR/tests/fixture/element/colgroup/input.html:11:1]
+ 11 |         <td> </td>
  12 |         <th scope="col">Batman</th>
     :                         ^^^^^^
  13 |         <th scope="col">Robin</th>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/colgroup/input.html:11:9]
- 11 | <td> </td>
+    ,-[$DIR/tests/fixture/element/colgroup/input.html:11:1]
+ 11 |         <td> </td>
  12 |         <th scope="col">Batman</th>
     :                         ^^^^^^
  13 |         <th scope="col">Robin</th>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/colgroup/input.html:11:9]
- 11 |     <td> </td>
+    ,-[$DIR/tests/fixture/element/colgroup/input.html:11:1]
+ 11 |             <td> </td>
  12 | ,->         <th scope="col">Batman</th>
  13 | `->         <th scope="col">Robin</th>
  14 |             <th scope="col">The Flash</th>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/colgroup/input.html:11:9]
- 11 |     <td> </td>
+    ,-[$DIR/tests/fixture/element/colgroup/input.html:11:1]
+ 11 |             <td> </td>
  12 | ,->         <th scope="col">Batman</th>
  13 | `->         <th scope="col">Robin</th>
  14 |             <th scope="col">The Flash</th>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/colgroup/input.html:12:9]
- 12 | <th scope="col">Batman</th>
+    ,-[$DIR/tests/fixture/element/colgroup/input.html:12:1]
+ 12 |         <th scope="col">Batman</th>
  13 |         <th scope="col">Robin</th>
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^
  14 |         <th scope="col">The Flash</th>
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/colgroup/input.html:12:9]
- 12 | <th scope="col">Batman</th>
+    ,-[$DIR/tests/fixture/element/colgroup/input.html:12:1]
+ 12 |         <th scope="col">Batman</th>
  13 |         <th scope="col">Robin</th>
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^
  14 |         <th scope="col">The Flash</th>
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/element/colgroup/input.html:12:9]
- 12 | <th scope="col">Batman</th>
+    ,-[$DIR/tests/fixture/element/colgroup/input.html:12:1]
+ 12 |         <th scope="col">Batman</th>
  13 |         <th scope="col">Robin</th>
     :             ^^^^^^^^^^^
  14 |         <th scope="col">The Flash</th>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/colgroup/input.html:12:9]
- 12 | <th scope="col">Batman</th>
+    ,-[$DIR/tests/fixture/element/colgroup/input.html:12:1]
+ 12 |         <th scope="col">Batman</th>
  13 |         <th scope="col">Robin</th>
     :                         ^^^^^
  14 |         <th scope="col">The Flash</th>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/colgroup/input.html:12:9]
- 12 | <th scope="col">Batman</th>
+    ,-[$DIR/tests/fixture/element/colgroup/input.html:12:1]
+ 12 |         <th scope="col">Batman</th>
  13 |         <th scope="col">Robin</th>
     :                         ^^^^^
  14 |         <th scope="col">The Flash</th>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/colgroup/input.html:12:9]
- 12 |     <th scope="col">Batman</th>
+    ,-[$DIR/tests/fixture/element/colgroup/input.html:12:1]
+ 12 |             <th scope="col">Batman</th>
  13 | ,->         <th scope="col">Robin</th>
  14 | `->         <th scope="col">The Flash</th>
  15 |             <th scope="col">Kid Flash</th>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/colgroup/input.html:12:9]
- 12 |     <th scope="col">Batman</th>
+    ,-[$DIR/tests/fixture/element/colgroup/input.html:12:1]
+ 12 |             <th scope="col">Batman</th>
  13 | ,->         <th scope="col">Robin</th>
  14 | `->         <th scope="col">The Flash</th>
  15 |             <th scope="col">Kid Flash</th>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/colgroup/input.html:13:9]
- 13 | <th scope="col">Robin</th>
+    ,-[$DIR/tests/fixture/element/colgroup/input.html:13:1]
+ 13 |         <th scope="col">Robin</th>
  14 |         <th scope="col">The Flash</th>
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  15 |         <th scope="col">Kid Flash</th>
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/colgroup/input.html:13:9]
- 13 | <th scope="col">Robin</th>
+    ,-[$DIR/tests/fixture/element/colgroup/input.html:13:1]
+ 13 |         <th scope="col">Robin</th>
  14 |         <th scope="col">The Flash</th>
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  15 |         <th scope="col">Kid Flash</th>
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/element/colgroup/input.html:13:9]
- 13 | <th scope="col">Robin</th>
+    ,-[$DIR/tests/fixture/element/colgroup/input.html:13:1]
+ 13 |         <th scope="col">Robin</th>
  14 |         <th scope="col">The Flash</th>
     :             ^^^^^^^^^^^
  15 |         <th scope="col">Kid Flash</th>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/colgroup/input.html:13:9]
- 13 | <th scope="col">Robin</th>
+    ,-[$DIR/tests/fixture/element/colgroup/input.html:13:1]
+ 13 |         <th scope="col">Robin</th>
  14 |         <th scope="col">The Flash</th>
     :                         ^^^^^^^^^
  15 |         <th scope="col">Kid Flash</th>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/colgroup/input.html:13:9]
- 13 | <th scope="col">Robin</th>
+    ,-[$DIR/tests/fixture/element/colgroup/input.html:13:1]
+ 13 |         <th scope="col">Robin</th>
  14 |         <th scope="col">The Flash</th>
     :                         ^^^^^^^^^
  15 |         <th scope="col">Kid Flash</th>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/colgroup/input.html:13:9]
- 13 |     <th scope="col">Robin</th>
+    ,-[$DIR/tests/fixture/element/colgroup/input.html:13:1]
+ 13 |             <th scope="col">Robin</th>
  14 | ,->         <th scope="col">The Flash</th>
  15 | `->         <th scope="col">Kid Flash</th>
  16 |         </tr>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/colgroup/input.html:13:9]
- 13 |     <th scope="col">Robin</th>
+    ,-[$DIR/tests/fixture/element/colgroup/input.html:13:1]
+ 13 |             <th scope="col">Robin</th>
  14 | ,->         <th scope="col">The Flash</th>
  15 | `->         <th scope="col">Kid Flash</th>
  16 |         </tr>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/colgroup/input.html:14:9]
- 14 | <th scope="col">The Flash</th>
+    ,-[$DIR/tests/fixture/element/colgroup/input.html:14:1]
+ 14 |         <th scope="col">The Flash</th>
  15 |         <th scope="col">Kid Flash</th>
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  16 |     </tr>
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/colgroup/input.html:14:9]
- 14 | <th scope="col">The Flash</th>
+    ,-[$DIR/tests/fixture/element/colgroup/input.html:14:1]
+ 14 |         <th scope="col">The Flash</th>
  15 |         <th scope="col">Kid Flash</th>
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  16 |     </tr>
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/element/colgroup/input.html:14:9]
- 14 | <th scope="col">The Flash</th>
+    ,-[$DIR/tests/fixture/element/colgroup/input.html:14:1]
+ 14 |         <th scope="col">The Flash</th>
  15 |         <th scope="col">Kid Flash</th>
     :             ^^^^^^^^^^^
  16 |     </tr>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/colgroup/input.html:14:9]
- 14 | <th scope="col">The Flash</th>
+    ,-[$DIR/tests/fixture/element/colgroup/input.html:14:1]
+ 14 |         <th scope="col">The Flash</th>
  15 |         <th scope="col">Kid Flash</th>
     :                         ^^^^^^^^^
  16 |     </tr>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/colgroup/input.html:14:9]
- 14 | <th scope="col">The Flash</th>
+    ,-[$DIR/tests/fixture/element/colgroup/input.html:14:1]
+ 14 |         <th scope="col">The Flash</th>
  15 |         <th scope="col">Kid Flash</th>
     :                         ^^^^^^^^^
  16 |     </tr>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/colgroup/input.html:14:9]
- 14 |     <th scope="col">The Flash</th>
+    ,-[$DIR/tests/fixture/element/colgroup/input.html:14:1]
+ 14 |             <th scope="col">The Flash</th>
  15 | ,->         <th scope="col">Kid Flash</th>
  16 | `->     </tr>
  17 |     </table>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/colgroup/input.html:14:9]
- 14 |     <th scope="col">The Flash</th>
+    ,-[$DIR/tests/fixture/element/colgroup/input.html:14:1]
+ 14 |             <th scope="col">The Flash</th>
  15 | ,->         <th scope="col">Kid Flash</th>
  16 | `->     </tr>
  17 |     </table>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/colgroup/input.html:15:9]
- 15 | <th scope="col">Kid Flash</th>
+    ,-[$DIR/tests/fixture/element/colgroup/input.html:15:1]
+ 15 |         <th scope="col">Kid Flash</th>
  16 |     </tr>
     :          ^
  17 | </table>
@@ -786,8 +786,8 @@
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/colgroup/input.html:15:9]
- 15 | <th scope="col">Kid Flash</th>
+    ,-[$DIR/tests/fixture/element/colgroup/input.html:15:1]
+ 15 |         <th scope="col">Kid Flash</th>
  16 |     </tr>
     :          ^
  17 | </table>
@@ -795,16 +795,16 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/colgroup/input.html:16:5]
- 16 |     </tr>
+    ,-[$DIR/tests/fixture/element/colgroup/input.html:16:1]
+ 16 |         </tr>
  17 | ,-> </table>
  18 | `-> </body>
  19 |     </html>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/colgroup/input.html:16:5]
- 16 |     </tr>
+    ,-[$DIR/tests/fixture/element/colgroup/input.html:16:1]
+ 16 |         </tr>
  17 | ,-> </table>
  18 | `-> </body>
  19 |     </html>

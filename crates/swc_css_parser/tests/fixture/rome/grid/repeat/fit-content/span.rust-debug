@@ -3,7 +3,7 @@
    ,-[$DIR/tests/fixture/rome/grid/repeat/fit-content/input.css:1:1]
  1 | ,-> .style {
  2 | |   	grid-template-columns: repeat(4, fit-content(300px));
- 3 | |   }
+ 3 | `-> }
    `----
 
   x Rule

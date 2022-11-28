@@ -29,7 +29,7 @@
  26 | |   :not(:nth-child(6),
  27 | |        :nth-last-child(6),
  28 | |        :nth-of-type(6),
- 29 | |        :nth-last-of-type(6)) {}
+ 29 | `->      :nth-last-of-type(6)) {}
     `----
 
   x Rule
@@ -163,7 +163,7 @@
  1 | :not(p) {}
  2 | :not(   p   ) {}
    : ^^^^^^^^^^^^^^^^
- 3 | :not(
+ 3 | :not(   
    `----
 
   x QualifiedRule
@@ -171,7 +171,7 @@
  1 | :not(p) {}
  2 | :not(   p   ) {}
    : ^^^^^^^^^^^^^^^^
- 3 | :not(
+ 3 | :not(   
    `----
 
   x SelectorList
@@ -179,7 +179,7 @@
  1 | :not(p) {}
  2 | :not(   p   ) {}
    : ^^^^^^^^^^^^^
- 3 | :not(
+ 3 | :not(   
    `----
 
   x ComplexSelector
@@ -187,7 +187,7 @@
  1 | :not(p) {}
  2 | :not(   p   ) {}
    : ^^^^^^^^^^^^^
- 3 | :not(
+ 3 | :not(   
    `----
 
   x CompoundSelector
@@ -195,7 +195,7 @@
  1 | :not(p) {}
  2 | :not(   p   ) {}
    : ^^^^^^^^^^^^^
- 3 | :not(
+ 3 | :not(   
    `----
 
   x SubclassSelector
@@ -203,7 +203,7 @@
  1 | :not(p) {}
  2 | :not(   p   ) {}
    : ^^^^^^^^^^^^^
- 3 | :not(
+ 3 | :not(   
    `----
 
   x PseudoClassSelector
@@ -211,7 +211,7 @@
  1 | :not(p) {}
  2 | :not(   p   ) {}
    : ^^^^^^^^^^^^^
- 3 | :not(
+ 3 | :not(   
    `----
 
   x Ident
@@ -219,7 +219,7 @@
  1 | :not(p) {}
  2 | :not(   p   ) {}
    :  ^^^
- 3 | :not(
+ 3 | :not(   
    `----
 
   x PseudoClassSelectorChildren
@@ -227,7 +227,7 @@
  1 | :not(p) {}
  2 | :not(   p   ) {}
    :         ^
- 3 | :not(
+ 3 | :not(   
    `----
 
   x SelectorList
@@ -235,7 +235,7 @@
  1 | :not(p) {}
  2 | :not(   p   ) {}
    :         ^
- 3 | :not(
+ 3 | :not(   
    `----
 
   x ComplexSelector
@@ -243,7 +243,7 @@
  1 | :not(p) {}
  2 | :not(   p   ) {}
    :         ^
- 3 | :not(
+ 3 | :not(   
    `----
 
   x CompoundSelector
@@ -251,7 +251,7 @@
  1 | :not(p) {}
  2 | :not(   p   ) {}
    :         ^
- 3 | :not(
+ 3 | :not(   
    `----
 
   x TypeSelector
@@ -259,7 +259,7 @@
  1 | :not(p) {}
  2 | :not(   p   ) {}
    :         ^
- 3 | :not(
+ 3 | :not(   
    `----
 
   x TagNameSelector
@@ -267,7 +267,7 @@
  1 | :not(p) {}
  2 | :not(   p   ) {}
    :         ^
- 3 | :not(
+ 3 | :not(   
    `----
 
   x WqName
@@ -275,7 +275,7 @@
  1 | :not(p) {}
  2 | :not(   p   ) {}
    :         ^
- 3 | :not(
+ 3 | :not(   
    `----
 
   x Ident
@@ -283,7 +283,7 @@
  1 | :not(p) {}
  2 | :not(   p   ) {}
    :         ^
- 3 | :not(
+ 3 | :not(   
    `----
 
   x SimpleBlock
@@ -291,7 +291,7 @@
  1 | :not(p) {}
  2 | :not(   p   ) {}
    :               ^^
- 3 | :not(
+ 3 | :not(   
    `----
 
   x LBrace
@@ -299,7 +299,7 @@
  1 | :not(p) {}
  2 | :not(   p   ) {}
    :               ^
- 3 | :not(
+ 3 | :not(   
    `----
 
   x Rule
@@ -370,7 +370,7 @@
  2 | :not(   p   ) {}
  3 | :not(   
    :  ^^^
- 4 | p
+ 4 | p   
    `----
 
   x PseudoClassSelectorChildren
@@ -5455,135 +5455,135 @@
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:27:6]
- 27 | :nth-last-child(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:27:1]
+ 27 |      :nth-last-child(6),
  28 |      :nth-of-type(6),
     :      ^^^^^^^^^^^^^^^
  29 |      :nth-last-of-type(6)) {}
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:27:6]
- 27 | :nth-last-child(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:27:1]
+ 27 |      :nth-last-child(6),
  28 |      :nth-of-type(6),
     :      ^^^^^^^^^^^^^^^
  29 |      :nth-last-of-type(6)) {}
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:27:6]
- 27 | :nth-last-child(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:27:1]
+ 27 |      :nth-last-child(6),
  28 |      :nth-of-type(6),
     :      ^^^^^^^^^^^^^^^
  29 |      :nth-last-of-type(6)) {}
     `----
 
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:27:6]
- 27 | :nth-last-child(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:27:1]
+ 27 |      :nth-last-child(6),
  28 |      :nth-of-type(6),
     :      ^^^^^^^^^^^^^^^
  29 |      :nth-last-of-type(6)) {}
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:27:6]
- 27 | :nth-last-child(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:27:1]
+ 27 |      :nth-last-child(6),
  28 |      :nth-of-type(6),
     :       ^^^^^^^^^^^
  29 |      :nth-last-of-type(6)) {}
     `----
 
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:27:6]
- 27 | :nth-last-child(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:27:1]
+ 27 |      :nth-last-child(6),
  28 |      :nth-of-type(6),
     :                   ^
  29 |      :nth-last-of-type(6)) {}
     `----
 
   x AnPlusB
-    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:27:6]
- 27 | :nth-last-child(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:27:1]
+ 27 |      :nth-last-child(6),
  28 |      :nth-of-type(6),
     :                   ^
  29 |      :nth-last-of-type(6)) {}
     `----
 
   x AnPlusBNotation
-    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:27:6]
- 27 | :nth-last-child(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:27:1]
+ 27 |      :nth-last-child(6),
  28 |      :nth-of-type(6),
     :                   ^
  29 |      :nth-last-of-type(6)) {}
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:28:6]
- 28 | :nth-of-type(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:28:1]
+ 28 |      :nth-of-type(6),
  29 |      :nth-last-of-type(6)) {}
     :      ^^^^^^^^^^^^^^^^^^^^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:28:6]
- 28 | :nth-of-type(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:28:1]
+ 28 |      :nth-of-type(6),
  29 |      :nth-last-of-type(6)) {}
     :      ^^^^^^^^^^^^^^^^^^^^
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:28:6]
- 28 | :nth-of-type(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:28:1]
+ 28 |      :nth-of-type(6),
  29 |      :nth-last-of-type(6)) {}
     :      ^^^^^^^^^^^^^^^^^^^^
     `----
 
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:28:6]
- 28 | :nth-of-type(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:28:1]
+ 28 |      :nth-of-type(6),
  29 |      :nth-last-of-type(6)) {}
     :      ^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:28:6]
- 28 | :nth-of-type(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:28:1]
+ 28 |      :nth-of-type(6),
  29 |      :nth-last-of-type(6)) {}
     :       ^^^^^^^^^^^^^^^^
     `----
 
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:28:6]
- 28 | :nth-of-type(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:28:1]
+ 28 |      :nth-of-type(6),
  29 |      :nth-last-of-type(6)) {}
     :                        ^
     `----
 
   x AnPlusB
-    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:28:6]
- 28 | :nth-of-type(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:28:1]
+ 28 |      :nth-of-type(6),
  29 |      :nth-last-of-type(6)) {}
     :                        ^
     `----
 
   x AnPlusBNotation
-    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:28:6]
- 28 | :nth-of-type(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:28:1]
+ 28 |      :nth-of-type(6),
  29 |      :nth-last-of-type(6)) {}
     :                        ^
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:28:6]
- 28 | :nth-of-type(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:28:1]
+ 28 |      :nth-of-type(6),
  29 |      :nth-last-of-type(6)) {}
     :                            ^^
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:28:6]
- 28 | :nth-of-type(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:28:1]
+ 28 |      :nth-of-type(6),
  29 |      :nth-last-of-type(6)) {}
     :                            ^
     `----

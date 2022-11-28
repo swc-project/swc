@@ -3,7 +3,7 @@
    ,-[$DIR/tests/fixture/selector/pseudo-element/slotted/input.css:1:1]
  1 | ,-> ::slotted(*) {}
  2 | |   ::slotted(span) {}
- 3 | |   ::slotted(   span   ) {}
+ 3 | `-> ::slotted(   span   ) {}
    `----
 
   x Rule

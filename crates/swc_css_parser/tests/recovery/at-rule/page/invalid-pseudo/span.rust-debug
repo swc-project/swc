@@ -3,7 +3,7 @@
    ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:1:1]
  1 | ,-> @page :unknown {
  2 | |       margin: 2cm;
- 3 | |   }
+ 3 | `-> }
    `----
 
   x Rule

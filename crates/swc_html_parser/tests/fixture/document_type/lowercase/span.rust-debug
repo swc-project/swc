@@ -11,7 +11,7 @@
   8 | |   The content of the document......
   9 | |   </body>
  10 | |   
- 11 | |   </html>
+ 11 | `-> </html>
     `----
 
   x Child
@@ -40,7 +40,7 @@
   8 | |   The content of the document......
   9 | |   </body>
  10 | |   
- 11 | |   </html>
+ 11 | `-> </html>
     `----
 
   x Element
@@ -55,7 +55,7 @@
   8 | |   The content of the document......
   9 | |   </body>
  10 | |   
- 11 | |   </html>
+ 11 | `-> </html>
     `----
 
   x Child
@@ -139,8 +139,8 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/document_type/lowercase/input.html:4:5]
- 4 |     <title>Title of the document</title>
+   ,-[$DIR/tests/fixture/document_type/lowercase/input.html:4:1]
+ 4 |         <title>Title of the document</title>
  5 | ,-> </head>
  6 | `-> 
  7 |     <body>
@@ -148,8 +148,8 @@
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/document_type/lowercase/input.html:4:5]
- 4 |     <title>Title of the document</title>
+   ,-[$DIR/tests/fixture/document_type/lowercase/input.html:4:1]
+ 4 |         <title>Title of the document</title>
  5 | ,-> </head>
  6 | `-> 
  7 |     <body>
@@ -157,37 +157,41 @@
    `----
 
   x Child
-    ,-[$DIR/tests/fixture/document_type/lowercase/input.html:7:1]
+    ,-[$DIR/tests/fixture/document_type/lowercase/input.html:6:1]
+  6 |     
   7 | ,-> <body>
   8 | |   The content of the document......
   9 | |   </body>
  10 | |   
- 11 | |   </html>
+ 11 | `-> </html>
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/document_type/lowercase/input.html:7:1]
+    ,-[$DIR/tests/fixture/document_type/lowercase/input.html:6:1]
+  6 |     
   7 | ,-> <body>
   8 | |   The content of the document......
   9 | |   </body>
  10 | |   
- 11 | |   </html>
+ 11 | `-> </html>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/document_type/lowercase/input.html:7:1]
+    ,-[$DIR/tests/fixture/document_type/lowercase/input.html:6:1]
+  6 |     
   7 | ,-> <body>
   8 | |   The content of the document......
   9 | |   </body>
  10 | |   
- 11 | |   </html>
+ 11 | `-> </html>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/document_type/lowercase/input.html:7:1]
+    ,-[$DIR/tests/fixture/document_type/lowercase/input.html:6:1]
+  6 |     
   7 | ,-> <body>
   8 | |   The content of the document......
   9 | |   </body>
  10 | |   
- 11 | |   </html>
+ 11 | `-> </html>
     `----

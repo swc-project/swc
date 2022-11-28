@@ -1,7 +1,8 @@
 
   x Stylesheet
    ,-[$DIR/tests/recovery/at-rule/import/no-semi/input.css:1:1]
- 1 | ,-> @import url('http://') :root {}
+ 1 | @import url('http://') :root {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Rule

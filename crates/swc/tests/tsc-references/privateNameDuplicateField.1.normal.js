@@ -1,8 +1,8 @@
 //// [privateNameDuplicateField.ts]
 //! 
 //!   x duplicate private name #foo.
-//!     ,-[4:5]
-//!   4 | // Error
+//!     ,-[4:1]
+//!   4 |     // Error
 //!   5 |     class A_Field_Field {
 //!   6 |         #foo = "foo";
 //!   7 |         #foo = "foo";
@@ -13,8 +13,8 @@
 //!     `----
 //! 
 //!   x duplicate private name #foo.
-//!     ,-[10:5]
-//!  10 | // Error
+//!     ,-[10:1]
+//!  10 |     // Error
 //!  11 |     class A_Field_Method {
 //!  12 |         #foo = "foo";
 //!  13 |         #foo() { }
@@ -25,8 +25,8 @@
 //!     `----
 //! 
 //!   x duplicate private name #foo.
-//!     ,-[16:5]
-//!  16 | // Error
+//!     ,-[16:1]
+//!  16 |     // Error
 //!  17 |     class A_Field_Getter {
 //!  18 |         #foo = "foo";
 //!  19 |         get #foo() { return ""}
@@ -37,8 +37,8 @@
 //!     `----
 //! 
 //!   x duplicate private name #foo.
-//!     ,-[22:5]
-//!  22 | // Error
+//!     ,-[22:1]
+//!  22 |     // Error
 //!  23 |     class A_Field_Setter {
 //!  24 |         #foo = "foo";
 //!  25 |         set #foo(value: string) { }
@@ -49,8 +49,8 @@
 //!     `----
 //! 
 //!   x duplicate private name #foo.
-//!     ,-[28:5]
-//!  28 | // Error
+//!     ,-[28:1]
+//!  28 |     // Error
 //!  29 |     class A_Field_StaticField {
 //!  30 |         #foo = "foo";
 //!  31 |         static #foo = "foo";
@@ -61,8 +61,8 @@
 //!     `----
 //! 
 //!   x duplicate private name #foo.
-//!     ,-[34:5]
-//!  34 | // Error
+//!     ,-[34:1]
+//!  34 |     // Error
 //!  35 |     class A_Field_StaticMethod {
 //!  36 |         #foo = "foo";
 //!  37 |         static #foo() { }
@@ -73,8 +73,8 @@
 //!     `----
 //! 
 //!   x duplicate private name #foo.
-//!     ,-[40:5]
-//!  40 | // Error
+//!     ,-[40:1]
+//!  40 |     // Error
 //!  41 |     class A_Field_StaticGetter {
 //!  42 |         #foo = "foo";
 //!  43 |         static get #foo() { return ""}
@@ -85,8 +85,8 @@
 //!     `----
 //! 
 //!   x duplicate private name #foo.
-//!     ,-[46:5]
-//!  46 | // Error
+//!     ,-[46:1]
+//!  46 |     // Error
 //!  47 |     class A_Field_StaticSetter {
 //!  48 |         #foo = "foo";
 //!  49 |         static set #foo(value: string) { }
@@ -96,8 +96,8 @@
 //!     `----
 //! 
 //!   x duplicate private name #foo.
-//!     ,-[54:5]
-//!  54 | // Error
+//!     ,-[54:1]
+//!  54 |     // Error
 //!  55 |     class A_Method_Field {
 //!  56 |         #foo() { }
 //!  57 |         #foo = "foo";
@@ -108,8 +108,8 @@
 //!     `----
 //! 
 //!   x duplicate private name #foo.
-//!     ,-[60:5]
-//!  60 | // Error
+//!     ,-[60:1]
+//!  60 |     // Error
 //!  61 |     class A_Method_Method {
 //!  62 |         #foo() { }
 //!  63 |         #foo() { }
@@ -120,8 +120,8 @@
 //!     `----
 //! 
 //!   x duplicate private name #foo.
-//!     ,-[66:5]
-//!  66 | // Error
+//!     ,-[66:1]
+//!  66 |     // Error
 //!  67 |     class A_Method_Getter {
 //!  68 |         #foo() { }
 //!  69 |         get #foo() { return ""}
@@ -132,8 +132,8 @@
 //!     `----
 //! 
 //!   x duplicate private name #foo.
-//!     ,-[72:5]
-//!  72 | // Error
+//!     ,-[72:1]
+//!  72 |     // Error
 //!  73 |     class A_Method_Setter {
 //!  74 |         #foo() { }
 //!  75 |         set #foo(value: string) { }
@@ -144,8 +144,8 @@
 //!     `----
 //! 
 //!   x duplicate private name #foo.
-//!     ,-[78:5]
-//!  78 | // Error
+//!     ,-[78:1]
+//!  78 |     // Error
 //!  79 |     class A_Method_StaticField {
 //!  80 |         #foo() { }
 //!  81 |         static #foo = "foo";
@@ -156,8 +156,8 @@
 //!     `----
 //! 
 //!   x duplicate private name #foo.
-//!     ,-[84:5]
-//!  84 | // Error
+//!     ,-[84:1]
+//!  84 |     // Error
 //!  85 |     class A_Method_StaticMethod {
 //!  86 |         #foo() { }
 //!  87 |         static #foo() { }
@@ -168,8 +168,8 @@
 //!     `----
 //! 
 //!   x duplicate private name #foo.
-//!     ,-[90:5]
-//!  90 | // Error
+//!     ,-[90:1]
+//!  90 |     // Error
 //!  91 |     class A_Method_StaticGetter {
 //!  92 |         #foo() { }
 //!  93 |         static get #foo() { return ""}
@@ -180,8 +180,8 @@
 //!     `----
 //! 
 //!   x duplicate private name #foo.
-//!      ,-[96:5]
-//!   96 | // Error
+//!      ,-[96:1]
+//!   96 |     // Error
 //!   97 |     class A_Method_StaticSetter {
 //!   98 |         #foo() { }
 //!   99 |         static set #foo(value: string) { }
@@ -191,8 +191,8 @@
 //!      `----
 //! 
 //!   x duplicate private name #foo.
-//!      ,-[105:5]
-//!  105 | // Error
+//!      ,-[105:1]
+//!  105 |     // Error
 //!  106 |     class A_Getter_Field {
 //!  107 |         get #foo() { return ""}
 //!  108 |         #foo = "foo";
@@ -203,8 +203,8 @@
 //!      `----
 //! 
 //!   x duplicate private name #foo.
-//!      ,-[111:5]
-//!  111 | // Error
+//!      ,-[111:1]
+//!  111 |     // Error
 //!  112 |     class A_Getter_Method {
 //!  113 |         get #foo() { return ""}
 //!  114 |         #foo() { }
@@ -215,8 +215,8 @@
 //!      `----
 //! 
 //!   x duplicate private name #foo.
-//!      ,-[117:5]
-//!  117 | // Error
+//!      ,-[117:1]
+//!  117 |     // Error
 //!  118 |     class A_Getter_Getter {
 //!  119 |         get #foo() { return ""}
 //!  120 |         get #foo() { return ""}
@@ -227,8 +227,8 @@
 //!      `----
 //! 
 //!   x duplicate private name #foo.
-//!      ,-[129:5]
-//!  129 | // Error
+//!      ,-[129:1]
+//!  129 |     // Error
 //!  130 |     class A_Getter_StaticField {
 //!  131 |         get #foo() { return ""}
 //!  132 |         static #foo() { }
@@ -239,8 +239,8 @@
 //!      `----
 //! 
 //!   x duplicate private name #foo.
-//!      ,-[135:5]
-//!  135 | // Error
+//!      ,-[135:1]
+//!  135 |     // Error
 //!  136 |     class A_Getter_StaticMethod {
 //!  137 |         get #foo() { return ""}
 //!  138 |         static #foo() { }
@@ -251,8 +251,8 @@
 //!      `----
 //! 
 //!   x duplicate private name #foo.
-//!      ,-[141:5]
-//!  141 | // Error
+//!      ,-[141:1]
+//!  141 |     // Error
 //!  142 |     class A_Getter_StaticGetter {
 //!  143 |         get #foo() { return ""}
 //!  144 |         static get #foo() { return ""}
@@ -263,8 +263,8 @@
 //!      `----
 //! 
 //!   x duplicate private name #foo.
-//!      ,-[147:5]
-//!  147 | // Error
+//!      ,-[147:1]
+//!  147 |     // Error
 //!  148 |     class A_Getter_StaticSetter {
 //!  149 |         get #foo() { return ""}
 //!  150 |         static set #foo(value: string) { }
@@ -274,8 +274,8 @@
 //!      `----
 //! 
 //!   x duplicate private name #foo.
-//!      ,-[155:5]
-//!  155 | // Error
+//!      ,-[155:1]
+//!  155 |     // Error
 //!  156 |     class A_Setter_Field {
 //!  157 |         set #foo(value: string) { }
 //!  158 |         #foo = "foo";
@@ -286,8 +286,8 @@
 //!      `----
 //! 
 //!   x duplicate private name #foo.
-//!      ,-[161:5]
-//!  161 | // Error
+//!      ,-[161:1]
+//!  161 |     // Error
 //!  162 |     class A_Setter_Method {
 //!  163 |         set #foo(value: string) { }
 //!  164 |         #foo() { }
@@ -298,8 +298,8 @@
 //!      `----
 //! 
 //!   x duplicate private name #foo.
-//!      ,-[173:5]
-//!  173 | // Error
+//!      ,-[173:1]
+//!  173 |     // Error
 //!  174 |     class A_Setter_Setter {
 //!  175 |         set #foo(value: string) { }
 //!  176 |         set #foo(value: string) { }
@@ -310,8 +310,8 @@
 //!      `----
 //! 
 //!   x duplicate private name #foo.
-//!      ,-[179:5]
-//!  179 | // Error
+//!      ,-[179:1]
+//!  179 |     // Error
 //!  180 |     class A_Setter_StaticField {
 //!  181 |         set #foo(value: string) { }
 //!  182 |         static #foo = "foo";
@@ -322,8 +322,8 @@
 //!      `----
 //! 
 //!   x duplicate private name #foo.
-//!      ,-[185:5]
-//!  185 | // Error
+//!      ,-[185:1]
+//!  185 |     // Error
 //!  186 |     class A_Setter_StaticMethod {
 //!  187 |         set #foo(value: string) { }
 //!  188 |         static #foo() { }
@@ -334,8 +334,8 @@
 //!      `----
 //! 
 //!   x duplicate private name #foo.
-//!      ,-[191:5]
-//!  191 | // Error
+//!      ,-[191:1]
+//!  191 |     // Error
 //!  192 |     class A_Setter_StaticGetter {
 //!  193 |         set #foo(value: string) { }
 //!  194 |         static get #foo() { return ""}
@@ -346,8 +346,8 @@
 //!      `----
 //! 
 //!   x duplicate private name #foo.
-//!      ,-[197:5]
-//!  197 | // Error
+//!      ,-[197:1]
+//!  197 |     // Error
 //!  198 |     class A_Setter_StaticSetter {
 //!  199 |         set #foo(value: string) { }
 //!  200 |         static set #foo(value: string) { }
@@ -357,8 +357,8 @@
 //!      `----
 //! 
 //!   x duplicate private name #foo.
-//!      ,-[205:5]
-//!  205 | // Error
+//!      ,-[205:1]
+//!  205 |     // Error
 //!  206 |     class A_StaticField_Field {
 //!  207 |         static #foo = "foo";
 //!  208 |         #foo = "foo";
@@ -369,8 +369,8 @@
 //!      `----
 //! 
 //!   x duplicate private name #foo.
-//!      ,-[211:5]
-//!  211 | // Error
+//!      ,-[211:1]
+//!  211 |     // Error
 //!  212 |     class A_StaticField_Method {
 //!  213 |         static #foo = "foo";
 //!  214 |         #foo() { }
@@ -381,8 +381,8 @@
 //!      `----
 //! 
 //!   x duplicate private name #foo.
-//!      ,-[217:5]
-//!  217 | // Error
+//!      ,-[217:1]
+//!  217 |     // Error
 //!  218 |     class A_StaticField_Getter {
 //!  219 |         static #foo = "foo";
 //!  220 |         get #foo() { return ""}
@@ -393,8 +393,8 @@
 //!      `----
 //! 
 //!   x duplicate private name #foo.
-//!      ,-[223:5]
-//!  223 | // Error
+//!      ,-[223:1]
+//!  223 |     // Error
 //!  224 |     class A_StaticField_Setter {
 //!  225 |         static #foo = "foo";
 //!  226 |         set #foo(value: string) { }
@@ -405,8 +405,8 @@
 //!      `----
 //! 
 //!   x duplicate private name #foo.
-//!      ,-[229:5]
-//!  229 | // Error
+//!      ,-[229:1]
+//!  229 |     // Error
 //!  230 |     class A_StaticField_StaticField {
 //!  231 |         static #foo = "foo";
 //!  232 |         static #foo = "foo";
@@ -417,8 +417,8 @@
 //!      `----
 //! 
 //!   x duplicate private name #foo.
-//!      ,-[235:5]
-//!  235 | // Error
+//!      ,-[235:1]
+//!  235 |     // Error
 //!  236 |     class A_StaticField_StaticMethod {
 //!  237 |         static #foo = "foo";
 //!  238 |         static #foo() { }
@@ -429,8 +429,8 @@
 //!      `----
 //! 
 //!   x duplicate private name #foo.
-//!      ,-[241:5]
-//!  241 | // Error
+//!      ,-[241:1]
+//!  241 |     // Error
 //!  242 |     class A_StaticField_StaticGetter {
 //!  243 |         static #foo = "foo";
 //!  244 |         static get #foo() { return ""}
@@ -441,8 +441,8 @@
 //!      `----
 //! 
 //!   x duplicate private name #foo.
-//!      ,-[247:5]
-//!  247 | // Error
+//!      ,-[247:1]
+//!  247 |     // Error
 //!  248 |     class A_StaticField_StaticSetter {
 //!  249 |         static #foo = "foo";
 //!  250 |         static set #foo(value: string) { }
@@ -452,8 +452,8 @@
 //!      `----
 //! 
 //!   x duplicate private name #foo.
-//!      ,-[255:5]
-//!  255 | // Error
+//!      ,-[255:1]
+//!  255 |     // Error
 //!  256 |     class A_StaticMethod_Field {
 //!  257 |         static #foo() { }
 //!  258 |         #foo = "foo";
@@ -464,8 +464,8 @@
 //!      `----
 //! 
 //!   x duplicate private name #foo.
-//!      ,-[261:5]
-//!  261 | // Error
+//!      ,-[261:1]
+//!  261 |     // Error
 //!  262 |     class A_StaticMethod_Method {
 //!  263 |         static #foo() { }
 //!  264 |         #foo() { }
@@ -476,8 +476,8 @@
 //!      `----
 //! 
 //!   x duplicate private name #foo.
-//!      ,-[267:5]
-//!  267 | // Error
+//!      ,-[267:1]
+//!  267 |     // Error
 //!  268 |     class A_StaticMethod_Getter {
 //!  269 |         static #foo() { }
 //!  270 |         get #foo() { return ""}
@@ -488,8 +488,8 @@
 //!      `----
 //! 
 //!   x duplicate private name #foo.
-//!      ,-[273:5]
-//!  273 | // Error
+//!      ,-[273:1]
+//!  273 |     // Error
 //!  274 |     class A_StaticMethod_Setter {
 //!  275 |         static #foo() { }
 //!  276 |         set #foo(value: string) { }
@@ -500,8 +500,8 @@
 //!      `----
 //! 
 //!   x duplicate private name #foo.
-//!      ,-[279:5]
-//!  279 | // Error
+//!      ,-[279:1]
+//!  279 |     // Error
 //!  280 |     class A_StaticMethod_StaticField {
 //!  281 |         static #foo() { }
 //!  282 |         static #foo = "foo";
@@ -512,8 +512,8 @@
 //!      `----
 //! 
 //!   x duplicate private name #foo.
-//!      ,-[285:5]
-//!  285 | // Error
+//!      ,-[285:1]
+//!  285 |     // Error
 //!  286 |     class A_StaticMethod_StaticMethod {
 //!  287 |         static #foo() { }
 //!  288 |         static #foo() { }
@@ -524,8 +524,8 @@
 //!      `----
 //! 
 //!   x duplicate private name #foo.
-//!      ,-[291:5]
-//!  291 | // Error
+//!      ,-[291:1]
+//!  291 |     // Error
 //!  292 |     class A_StaticMethod_StaticGetter {
 //!  293 |         static #foo() { }
 //!  294 |         static get #foo() { return ""}
@@ -536,8 +536,8 @@
 //!      `----
 //! 
 //!   x duplicate private name #foo.
-//!      ,-[297:5]
-//!  297 | // Error
+//!      ,-[297:1]
+//!  297 |     // Error
 //!  298 |     class A_StaticMethod_StaticSetter {
 //!  299 |         static #foo() { }
 //!  300 |         static set #foo(value: string) { }
@@ -547,8 +547,8 @@
 //!      `----
 //! 
 //!   x duplicate private name #foo.
-//!      ,-[306:5]
-//!  306 | // Error
+//!      ,-[306:1]
+//!  306 |     // Error
 //!  307 |     class A_StaticGetter_Field {
 //!  308 |         static get #foo() { return ""}
 //!  309 |         #foo = "foo";
@@ -559,8 +559,8 @@
 //!      `----
 //! 
 //!   x duplicate private name #foo.
-//!      ,-[312:5]
-//!  312 | // Error
+//!      ,-[312:1]
+//!  312 |     // Error
 //!  313 |     class A_StaticGetter_Method {
 //!  314 |         static get #foo() { return ""}
 //!  315 |         #foo() { }
@@ -571,8 +571,8 @@
 //!      `----
 //! 
 //!   x duplicate private name #foo.
-//!      ,-[318:5]
-//!  318 | // Error
+//!      ,-[318:1]
+//!  318 |     // Error
 //!  319 |     class A_StaticGetter_Getter {
 //!  320 |         static get #foo() { return ""}
 //!  321 |         get #foo() { return ""}
@@ -583,8 +583,8 @@
 //!      `----
 //! 
 //!   x duplicate private name #foo.
-//!      ,-[324:5]
-//!  324 | // Error
+//!      ,-[324:1]
+//!  324 |     // Error
 //!  325 |     class A_StaticGetter_Setter {
 //!  326 |         static get #foo() { return ""}
 //!  327 |         set #foo(value: string) { }
@@ -595,8 +595,8 @@
 //!      `----
 //! 
 //!   x duplicate private name #foo.
-//!      ,-[330:5]
-//!  330 | // Error
+//!      ,-[330:1]
+//!  330 |     // Error
 //!  331 |     class A_StaticGetter_StaticField {
 //!  332 |         static get #foo() { return ""}
 //!  333 |         static #foo() { }
@@ -607,8 +607,8 @@
 //!      `----
 //! 
 //!   x duplicate private name #foo.
-//!      ,-[336:5]
-//!  336 | // Error
+//!      ,-[336:1]
+//!  336 |     // Error
 //!  337 |     class A_StaticGetter_StaticMethod {
 //!  338 |         static get #foo() { return ""}
 //!  339 |         static #foo() { }
@@ -619,8 +619,8 @@
 //!      `----
 //! 
 //!   x duplicate private name #foo.
-//!      ,-[342:5]
-//!  342 | // Error
+//!      ,-[342:1]
+//!  342 |     // Error
 //!  343 |     class A_StaticGetter_StaticGetter {
 //!  344 |         static get #foo() { return ""}
 //!  345 |         static get #foo() { return ""}
@@ -631,8 +631,8 @@
 //!      `----
 //! 
 //!   x duplicate private name #foo.
-//!      ,-[355:5]
-//!  355 | // Error
+//!      ,-[355:1]
+//!  355 |     // Error
 //!  356 |     class A_StaticSetter_Field {
 //!  357 |         static set #foo(value: string) { }
 //!  358 |         #foo = "foo";
@@ -643,18 +643,19 @@
 //!      `----
 //! 
 //!   x duplicate private name #foo.
-//!      ,-[361:5]
-//!  361 | // Error
+//!      ,-[361:1]
+//!  361 |     // Error
 //!  362 |     class A_StaticSetter_Method {
 //!  363 |         static set #foo(value: string) { }
 //!  364 |         #foo() { }
 //!      :          ^^^
 //!  365 |     }
+//!  366 | 
 //!      `----
 //! 
 //!   x duplicate private name #foo.
-//!      ,-[368:5]
-//!  368 | // Error
+//!      ,-[368:1]
+//!  368 |     // Error
 //!  369 |     class A_StaticSetter_Getter {
 //!  370 |         static set #foo(value: string) { }
 //!  371 |         get #foo() { return ""}
@@ -665,8 +666,8 @@
 //!      `----
 //! 
 //!   x duplicate private name #foo.
-//!      ,-[374:5]
-//!  374 | // Error
+//!      ,-[374:1]
+//!  374 |     // Error
 //!  375 |     class A_StaticSetter_Setter {
 //!  376 |         static set #foo(value: string) { }
 //!  377 |         set #foo(value: string) { }
@@ -677,8 +678,8 @@
 //!      `----
 //! 
 //!   x duplicate private name #foo.
-//!      ,-[380:5]
-//!  380 | // Error
+//!      ,-[380:1]
+//!  380 |     // Error
 //!  381 |     class A_StaticSetter_StaticField {
 //!  382 |         static set #foo(value: string) { }
 //!  383 |         static #foo = "foo";
@@ -689,8 +690,8 @@
 //!      `----
 //! 
 //!   x duplicate private name #foo.
-//!      ,-[386:5]
-//!  386 | // Error
+//!      ,-[386:1]
+//!  386 |     // Error
 //!  387 |     class A_StaticSetter_StaticMethod {
 //!  388 |         static set #foo(value: string) { }
 //!  389 |         static #foo() { }
@@ -701,8 +702,8 @@
 //!      `----
 //! 
 //!   x duplicate private name #foo.
-//!      ,-[398:5]
-//!  398 | // Error
+//!      ,-[398:1]
+//!  398 |     // Error
 //!  399 |     class A_StaticSetter_StaticSetter {
 //!  400 |         static set #foo(value: string) { }
 //!  401 |         static set #foo(value: string) { }

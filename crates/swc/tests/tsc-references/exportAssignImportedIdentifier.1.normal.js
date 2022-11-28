@@ -18,6 +18,7 @@ export function x() {
 //!  2 | var x = foo1.x;
 //!  3 | export = x;
 //!    : ^^^^^^^^^^^
+//!  4 | 
 //!    `----
 //// [foo3.ts]
 //! 

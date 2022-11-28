@@ -1,7 +1,8 @@
 
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.9.html:1:1]
- 1 | ,-> <p><code x</code></p>
+ 1 | <p><code x</code></p>
+   : ^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -46,20 +47,24 @@
 
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.9.html:1:1]
- 1 | ,-> <p><code x</code></p>
+ 1 | <p><code x</code></p>
+   :    ^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.9.html:1:1]
- 1 | ,-> <p><code x</code></p>
+ 1 | <p><code x</code></p>
+   :    ^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.9.html:1:1]
  1 | <p><code x</code></p>
+   :                      ^
    `----
 
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.9.html:1:1]
  1 | <p><code x</code></p>
+   :                      ^
    `----

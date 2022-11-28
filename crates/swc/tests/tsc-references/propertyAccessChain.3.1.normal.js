@@ -1,7 +1,8 @@
 //// [propertyAccessChain.3.ts]
 //! 
 //!   x The left-hand side of an assignment expression must be a variable or a property access.
-//!    ,-[2:1]
+//!    ,-[1:1]
+//!  1 | 
 //!  2 | declare const obj: any;
 //!  3 | 
 //!  4 | obj?.a++;
@@ -23,7 +24,8 @@
 //!    `----
 //! 
 //!   x The left-hand side of an assignment expression must be a variable or a property access.
-//!    ,-[4:1]
+//!    ,-[3:1]
+//!  3 | 
 //!  4 | obj?.a++;
 //!  5 | obj?.a.b++;
 //!  6 | obj?.a--;
@@ -69,7 +71,8 @@
 //!     `----
 //! 
 //!   x The left-hand side of an assignment expression must be a variable or a property access.
-//!     ,-[9:1]
+//!     ,-[8:1]
+//!   8 | 
 //!   9 | ++obj?.a;
 //!  10 | ++obj?.a.b;
 //!  11 | --obj?.a;
@@ -115,7 +118,8 @@
 //!     `----
 //! 
 //!   x The left-hand side of an assignment expression must be a variable or a property access.
-//!     ,-[14:1]
+//!     ,-[13:1]
+//!  13 | 
 //!  14 | obj?.a = 1;
 //!  15 | obj?.a.b = 1;
 //!  16 | obj?.a += 1;
@@ -161,7 +165,8 @@
 //!     `----
 //! 
 //!   x The left-hand side of an assignment expression must be a variable or a property access.
-//!     ,-[19:1]
+//!     ,-[18:1]
+//!  18 | 
 //!  19 | for (obj?.a in {});
 //!  20 | for (obj?.a.b in {});
 //!  21 | for (obj?.a of []);
@@ -208,7 +213,8 @@
 //!     `----
 //! 
 //!   x Not a pattern
-//!     ,-[24:1]
+//!     ,-[23:1]
+//!  23 | 
 //!  24 | ({ a: obj?.a } = { a: 1 });
 //!  25 | ({ a: obj?.a.b } = { a: 1 });
 //!  26 | ({ ...obj?.a } = { a: 1 });

@@ -247,144 +247,144 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/only/1/input.css:2:5]
- 2 | .gradientWrapper {
+   ,-[$DIR/tests/fixture/only/1/input.css:2:1]
+ 2 |     .gradientWrapper {
  3 |       -chrome-: only(; z-index: 10;);
    :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  4 |     }
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/only/1/input.css:2:5]
- 2 | .gradientWrapper {
+   ,-[$DIR/tests/fixture/only/1/input.css:2:1]
+ 2 |     .gradientWrapper {
  3 |       -chrome-: only(; z-index: 10;);
    :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  4 |     }
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/only/1/input.css:2:5]
- 2 | .gradientWrapper {
+   ,-[$DIR/tests/fixture/only/1/input.css:2:1]
+ 2 |     .gradientWrapper {
  3 |       -chrome-: only(; z-index: 10;);
    :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  4 |     }
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/only/1/input.css:2:5]
- 2 | .gradientWrapper {
+   ,-[$DIR/tests/fixture/only/1/input.css:2:1]
+ 2 |     .gradientWrapper {
  3 |       -chrome-: only(; z-index: 10;);
    :       ^^^^^^^^
  4 |     }
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/only/1/input.css:2:5]
- 2 | .gradientWrapper {
+   ,-[$DIR/tests/fixture/only/1/input.css:2:1]
+ 2 |     .gradientWrapper {
  3 |       -chrome-: only(; z-index: 10;);
    :       ^^^^^^^^
  4 |     }
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/only/1/input.css:2:5]
- 2 | .gradientWrapper {
+   ,-[$DIR/tests/fixture/only/1/input.css:2:1]
+ 2 |     .gradientWrapper {
  3 |       -chrome-: only(; z-index: 10;);
    :                 ^^^^^^^^^^^^^^^^^^^^
  4 |     }
    `----
 
   x Function
-   ,-[$DIR/tests/fixture/only/1/input.css:2:5]
- 2 | .gradientWrapper {
+   ,-[$DIR/tests/fixture/only/1/input.css:2:1]
+ 2 |     .gradientWrapper {
  3 |       -chrome-: only(; z-index: 10;);
    :                 ^^^^^^^^^^^^^^^^^^^^
  4 |     }
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/only/1/input.css:2:5]
- 2 | .gradientWrapper {
+   ,-[$DIR/tests/fixture/only/1/input.css:2:1]
+ 2 |     .gradientWrapper {
  3 |       -chrome-: only(; z-index: 10;);
    :                 ^^^^
  4 |     }
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/only/1/input.css:2:5]
- 2 | .gradientWrapper {
+   ,-[$DIR/tests/fixture/only/1/input.css:2:1]
+ 2 |     .gradientWrapper {
  3 |       -chrome-: only(; z-index: 10;);
    :                      ^
  4 |     }
    `----
 
   x Delimiter
-   ,-[$DIR/tests/fixture/only/1/input.css:2:5]
- 2 | .gradientWrapper {
+   ,-[$DIR/tests/fixture/only/1/input.css:2:1]
+ 2 |     .gradientWrapper {
  3 |       -chrome-: only(; z-index: 10;);
    :                      ^
  4 |     }
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/only/1/input.css:2:5]
- 2 | .gradientWrapper {
+   ,-[$DIR/tests/fixture/only/1/input.css:2:1]
+ 2 |     .gradientWrapper {
  3 |       -chrome-: only(; z-index: 10;);
    :                        ^^^^^^^
  4 |     }
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/only/1/input.css:2:5]
- 2 | .gradientWrapper {
+   ,-[$DIR/tests/fixture/only/1/input.css:2:1]
+ 2 |     .gradientWrapper {
  3 |       -chrome-: only(; z-index: 10;);
    :                        ^^^^^^^
  4 |     }
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/only/1/input.css:2:5]
- 2 | .gradientWrapper {
+   ,-[$DIR/tests/fixture/only/1/input.css:2:1]
+ 2 |     .gradientWrapper {
  3 |       -chrome-: only(; z-index: 10;);
    :                               ^
  4 |     }
    `----
 
   x Colon
-   ,-[$DIR/tests/fixture/only/1/input.css:2:5]
- 2 | .gradientWrapper {
+   ,-[$DIR/tests/fixture/only/1/input.css:2:1]
+ 2 |     .gradientWrapper {
  3 |       -chrome-: only(; z-index: 10;);
    :                               ^
  4 |     }
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/only/1/input.css:2:5]
- 2 | .gradientWrapper {
+   ,-[$DIR/tests/fixture/only/1/input.css:2:1]
+ 2 |     .gradientWrapper {
  3 |       -chrome-: only(; z-index: 10;);
    :                                 ^^
  4 |     }
    `----
 
   x Integer
-   ,-[$DIR/tests/fixture/only/1/input.css:2:5]
- 2 | .gradientWrapper {
+   ,-[$DIR/tests/fixture/only/1/input.css:2:1]
+ 2 |     .gradientWrapper {
  3 |       -chrome-: only(; z-index: 10;);
    :                                 ^^
  4 |     }
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/only/1/input.css:2:5]
- 2 | .gradientWrapper {
+   ,-[$DIR/tests/fixture/only/1/input.css:2:1]
+ 2 |     .gradientWrapper {
  3 |       -chrome-: only(; z-index: 10;);
    :                                   ^
  4 |     }
    `----
 
   x Delimiter
-   ,-[$DIR/tests/fixture/only/1/input.css:2:5]
- 2 | .gradientWrapper {
+   ,-[$DIR/tests/fixture/only/1/input.css:2:1]
+ 2 |     .gradientWrapper {
  3 |       -chrome-: only(; z-index: 10;);
    :                                   ^
  4 |     }

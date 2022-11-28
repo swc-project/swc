@@ -1,7 +1,7 @@
 
   x Unexpected token `!`. Expected an identifier, void, yield, null, await, break, a string literal, a numeric literal, true, false, `, -, import, this, typeof, {, [, (
-   ,-[$DIR/tests/typescript-errors/issue-3712/input.ts:7:9]
- 7 | <>
+   ,-[$DIR/tests/typescript-errors/issue-3712/input.ts:7:1]
+ 7 | 		<>
  8 | 			< !doctype html >
    :      ^
  9 | 			<html lang='en-US' charSet='UTF-8'>

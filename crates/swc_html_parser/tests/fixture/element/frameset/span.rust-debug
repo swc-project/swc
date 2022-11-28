@@ -156,56 +156,56 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/frameset/input.html:4:5]
- 4 | <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   ,-[$DIR/tests/fixture/element/frameset/input.html:4:1]
+ 4 |     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
  5 |     <title>Тег FRAMESET</title>
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  6 | </head>
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/element/frameset/input.html:4:5]
- 4 | <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   ,-[$DIR/tests/fixture/element/frameset/input.html:4:1]
+ 4 |     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
  5 |     <title>Тег FRAMESET</title>
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  6 | </head>
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/frameset/input.html:4:5]
- 4 | <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   ,-[$DIR/tests/fixture/element/frameset/input.html:4:1]
+ 4 |     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
  5 |     <title>Тег FRAMESET</title>
    :            ^^^^^^^^^^^^^^^
  6 | </head>
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/element/frameset/input.html:4:5]
- 4 | <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   ,-[$DIR/tests/fixture/element/frameset/input.html:4:1]
+ 4 |     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
  5 |     <title>Тег FRAMESET</title>
    :            ^^^^^^^^^^^^^^^
  6 | </head>
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/frameset/input.html:4:5]
- 4 | <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   ,-[$DIR/tests/fixture/element/frameset/input.html:4:1]
+ 4 |     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
  5 |     <title>Тег FRAMESET</title>
    :                                   ^
  6 | </head>
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/element/frameset/input.html:4:5]
- 4 | <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   ,-[$DIR/tests/fixture/element/frameset/input.html:4:1]
+ 4 |     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
  5 |     <title>Тег FRAMESET</title>
    :                                   ^
  6 | </head>
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/frameset/input.html:5:5]
- 5 |     <title>Тег FRAMESET</title>
+   ,-[$DIR/tests/fixture/element/frameset/input.html:5:1]
+ 5 |         <title>Тег FRAMESET</title>
  6 | ,-> </head>
  7 | `-> 
  8 |     <frameset rows="80,*" cols="*">
@@ -213,8 +213,8 @@
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/element/frameset/input.html:5:5]
- 5 |     <title>Тег FRAMESET</title>
+   ,-[$DIR/tests/fixture/element/frameset/input.html:5:1]
+ 5 |         <title>Тег FRAMESET</title>
  6 | ,-> </head>
  7 | `-> 
  8 |     <frameset rows="80,*" cols="*">
@@ -222,7 +222,8 @@
    `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/frameset/input.html:8:1]
+    ,-[$DIR/tests/fixture/element/frameset/input.html:7:1]
+  7 |     
   8 | ,-> <frameset rows="80,*" cols="*">
   9 | |       <frame src="top.html" name="topFrame" scrolling="no" noresize>
  10 | |       <frameset cols="80,*">
@@ -233,7 +234,8 @@
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/frameset/input.html:8:1]
+    ,-[$DIR/tests/fixture/element/frameset/input.html:7:1]
+  7 |     
   8 | ,-> <frameset rows="80,*" cols="*">
   9 | |       <frame src="top.html" name="topFrame" scrolling="no" noresize>
  10 | |       <frameset cols="80,*">
@@ -244,28 +246,32 @@
     `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/element/frameset/input.html:8:1]
+   ,-[$DIR/tests/fixture/element/frameset/input.html:7:1]
+ 7 | 
  8 | <frameset rows="80,*" cols="*">
    :           ^^^^^^^^^^^
  9 |     <frame src="top.html" name="topFrame" scrolling="no" noresize>
    `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/element/frameset/input.html:8:1]
+   ,-[$DIR/tests/fixture/element/frameset/input.html:7:1]
+ 7 | 
  8 | <frameset rows="80,*" cols="*">
    :                       ^^^^^^^^
  9 |     <frame src="top.html" name="topFrame" scrolling="no" noresize>
    `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/frameset/input.html:8:1]
+    ,-[$DIR/tests/fixture/element/frameset/input.html:7:1]
+  7 |     
   8 | ,-> <frameset rows="80,*" cols="*">
   9 | `->     <frame src="top.html" name="topFrame" scrolling="no" noresize>
  10 |         <frameset cols="80,*">
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/frameset/input.html:8:1]
+    ,-[$DIR/tests/fixture/element/frameset/input.html:7:1]
+  7 |     
   8 | ,-> <frameset rows="80,*" cols="*">
   9 | `->     <frame src="top.html" name="topFrame" scrolling="no" noresize>
  10 |         <frameset cols="80,*">
@@ -336,8 +342,8 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/frameset/input.html:9:5]
-  9 |     <frame src="top.html" name="topFrame" scrolling="no" noresize>
+    ,-[$DIR/tests/fixture/element/frameset/input.html:9:1]
+  9 |         <frame src="top.html" name="topFrame" scrolling="no" noresize>
  10 | ,->     <frameset cols="80,*">
  11 | |           <frame src="left.html" name="leftFrame" scrolling="no" noresize>
  12 | |           <frame src="main.html" name="mainFrame">
@@ -346,8 +352,8 @@
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/frameset/input.html:9:5]
-  9 |     <frame src="top.html" name="topFrame" scrolling="no" noresize>
+    ,-[$DIR/tests/fixture/element/frameset/input.html:9:1]
+  9 |         <frame src="top.html" name="topFrame" scrolling="no" noresize>
  10 | ,->     <frameset cols="80,*">
  11 | |           <frame src="left.html" name="leftFrame" scrolling="no" noresize>
  12 | |           <frame src="main.html" name="mainFrame">
@@ -356,168 +362,168 @@
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/element/frameset/input.html:9:5]
-  9 | <frame src="top.html" name="topFrame" scrolling="no" noresize>
+    ,-[$DIR/tests/fixture/element/frameset/input.html:9:1]
+  9 |     <frame src="top.html" name="topFrame" scrolling="no" noresize>
  10 |     <frameset cols="80,*">
     :               ^^^^^^^^^^^
  11 |         <frame src="left.html" name="leftFrame" scrolling="no" noresize>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/frameset/input.html:9:5]
-  9 |     <frame src="top.html" name="topFrame" scrolling="no" noresize>
+    ,-[$DIR/tests/fixture/element/frameset/input.html:9:1]
+  9 |         <frame src="top.html" name="topFrame" scrolling="no" noresize>
  10 | ,->     <frameset cols="80,*">
  11 | `->         <frame src="left.html" name="leftFrame" scrolling="no" noresize>
  12 |             <frame src="main.html" name="mainFrame">
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/frameset/input.html:9:5]
-  9 |     <frame src="top.html" name="topFrame" scrolling="no" noresize>
+    ,-[$DIR/tests/fixture/element/frameset/input.html:9:1]
+  9 |         <frame src="top.html" name="topFrame" scrolling="no" noresize>
  10 | ,->     <frameset cols="80,*">
  11 | `->         <frame src="left.html" name="leftFrame" scrolling="no" noresize>
  12 |             <frame src="main.html" name="mainFrame">
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/frameset/input.html:10:5]
- 10 | <frameset cols="80,*">
+    ,-[$DIR/tests/fixture/element/frameset/input.html:10:1]
+ 10 |     <frameset cols="80,*">
  11 |         <frame src="left.html" name="leftFrame" scrolling="no" noresize>
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  12 |         <frame src="main.html" name="mainFrame">
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/frameset/input.html:10:5]
- 10 | <frameset cols="80,*">
+    ,-[$DIR/tests/fixture/element/frameset/input.html:10:1]
+ 10 |     <frameset cols="80,*">
  11 |         <frame src="left.html" name="leftFrame" scrolling="no" noresize>
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  12 |         <frame src="main.html" name="mainFrame">
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/element/frameset/input.html:10:5]
- 10 | <frameset cols="80,*">
+    ,-[$DIR/tests/fixture/element/frameset/input.html:10:1]
+ 10 |     <frameset cols="80,*">
  11 |         <frame src="left.html" name="leftFrame" scrolling="no" noresize>
     :                ^^^^^^^^^^^^^^^
  12 |         <frame src="main.html" name="mainFrame">
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/element/frameset/input.html:10:5]
- 10 | <frameset cols="80,*">
+    ,-[$DIR/tests/fixture/element/frameset/input.html:10:1]
+ 10 |     <frameset cols="80,*">
  11 |         <frame src="left.html" name="leftFrame" scrolling="no" noresize>
     :                                ^^^^^^^^^^^^^^^^
  12 |         <frame src="main.html" name="mainFrame">
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/element/frameset/input.html:10:5]
- 10 | <frameset cols="80,*">
+    ,-[$DIR/tests/fixture/element/frameset/input.html:10:1]
+ 10 |     <frameset cols="80,*">
  11 |         <frame src="left.html" name="leftFrame" scrolling="no" noresize>
     :                                                 ^^^^^^^^^^^^^^
  12 |         <frame src="main.html" name="mainFrame">
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/element/frameset/input.html:10:5]
- 10 | <frameset cols="80,*">
+    ,-[$DIR/tests/fixture/element/frameset/input.html:10:1]
+ 10 |     <frameset cols="80,*">
  11 |         <frame src="left.html" name="leftFrame" scrolling="no" noresize>
     :                                                                ^^^^^^^^
  12 |         <frame src="main.html" name="mainFrame">
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/frameset/input.html:10:5]
- 10 |     <frameset cols="80,*">
+    ,-[$DIR/tests/fixture/element/frameset/input.html:10:1]
+ 10 |         <frameset cols="80,*">
  11 | ,->         <frame src="left.html" name="leftFrame" scrolling="no" noresize>
  12 | `->         <frame src="main.html" name="mainFrame">
  13 |         </frameset>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/frameset/input.html:10:5]
- 10 |     <frameset cols="80,*">
+    ,-[$DIR/tests/fixture/element/frameset/input.html:10:1]
+ 10 |         <frameset cols="80,*">
  11 | ,->         <frame src="left.html" name="leftFrame" scrolling="no" noresize>
  12 | `->         <frame src="main.html" name="mainFrame">
  13 |         </frameset>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/frameset/input.html:11:9]
- 11 | <frame src="left.html" name="leftFrame" scrolling="no" noresize>
+    ,-[$DIR/tests/fixture/element/frameset/input.html:11:1]
+ 11 |         <frame src="left.html" name="leftFrame" scrolling="no" noresize>
  12 |         <frame src="main.html" name="mainFrame">
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  13 |     </frameset>
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/frameset/input.html:11:9]
- 11 | <frame src="left.html" name="leftFrame" scrolling="no" noresize>
+    ,-[$DIR/tests/fixture/element/frameset/input.html:11:1]
+ 11 |         <frame src="left.html" name="leftFrame" scrolling="no" noresize>
  12 |         <frame src="main.html" name="mainFrame">
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  13 |     </frameset>
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/element/frameset/input.html:11:9]
- 11 | <frame src="left.html" name="leftFrame" scrolling="no" noresize>
+    ,-[$DIR/tests/fixture/element/frameset/input.html:11:1]
+ 11 |         <frame src="left.html" name="leftFrame" scrolling="no" noresize>
  12 |         <frame src="main.html" name="mainFrame">
     :                ^^^^^^^^^^^^^^^
  13 |     </frameset>
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/element/frameset/input.html:11:9]
- 11 | <frame src="left.html" name="leftFrame" scrolling="no" noresize>
+    ,-[$DIR/tests/fixture/element/frameset/input.html:11:1]
+ 11 |         <frame src="left.html" name="leftFrame" scrolling="no" noresize>
  12 |         <frame src="main.html" name="mainFrame">
     :                                ^^^^^^^^^^^^^^^^
  13 |     </frameset>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/frameset/input.html:11:9]
- 11 |     <frame src="left.html" name="leftFrame" scrolling="no" noresize>
+    ,-[$DIR/tests/fixture/element/frameset/input.html:11:1]
+ 11 |             <frame src="left.html" name="leftFrame" scrolling="no" noresize>
  12 | ,->         <frame src="main.html" name="mainFrame">
  13 | `->     </frameset>
  14 |     </frameset>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/frameset/input.html:11:9]
- 11 |     <frame src="left.html" name="leftFrame" scrolling="no" noresize>
+    ,-[$DIR/tests/fixture/element/frameset/input.html:11:1]
+ 11 |             <frame src="left.html" name="leftFrame" scrolling="no" noresize>
  12 | ,->         <frame src="main.html" name="mainFrame">
  13 | `->     </frameset>
  14 |     </frameset>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/frameset/input.html:12:9]
- 12 | <frame src="main.html" name="mainFrame">
+    ,-[$DIR/tests/fixture/element/frameset/input.html:12:1]
+ 12 |         <frame src="main.html" name="mainFrame">
  13 |     </frameset>
     :                ^
  14 | </frameset>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/frameset/input.html:12:9]
- 12 | <frame src="main.html" name="mainFrame">
+    ,-[$DIR/tests/fixture/element/frameset/input.html:12:1]
+ 12 |         <frame src="main.html" name="mainFrame">
  13 |     </frameset>
     :                ^
  14 | </frameset>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/frameset/input.html:13:5]
- 13 |     </frameset>
+    ,-[$DIR/tests/fixture/element/frameset/input.html:13:1]
+ 13 |         </frameset>
  14 | ,-> </frameset>
  15 | `-> 
  16 |     </html>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/frameset/input.html:13:5]
- 13 |     </frameset>
+    ,-[$DIR/tests/fixture/element/frameset/input.html:13:1]
+ 13 |         </frameset>
  14 | ,-> </frameset>
  15 | `-> 
  16 |     </html>

@@ -4,7 +4,7 @@
  1 | ,-> div {
  2 | |       background: url(image(.png);
  3 | |       color: red;
- 4 | |   }
+ 4 | `-> }
    `----
 
   x Rule
@@ -144,56 +144,56 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/bad-url-token/left-parenthesis/input.css:2:5]
- 2 | background: url(image(.png);
+   ,-[$DIR/tests/recovery/bad-url-token/left-parenthesis/input.css:2:1]
+ 2 |     background: url(image(.png);
  3 |     color: red;
    :     ^^^^^^^^^^
  4 | }
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/recovery/bad-url-token/left-parenthesis/input.css:2:5]
- 2 | background: url(image(.png);
+   ,-[$DIR/tests/recovery/bad-url-token/left-parenthesis/input.css:2:1]
+ 2 |     background: url(image(.png);
  3 |     color: red;
    :     ^^^^^^^^^^
  4 | }
    `----
 
   x Declaration
-   ,-[$DIR/tests/recovery/bad-url-token/left-parenthesis/input.css:2:5]
- 2 | background: url(image(.png);
+   ,-[$DIR/tests/recovery/bad-url-token/left-parenthesis/input.css:2:1]
+ 2 |     background: url(image(.png);
  3 |     color: red;
    :     ^^^^^^^^^^
  4 | }
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/recovery/bad-url-token/left-parenthesis/input.css:2:5]
- 2 | background: url(image(.png);
+   ,-[$DIR/tests/recovery/bad-url-token/left-parenthesis/input.css:2:1]
+ 2 |     background: url(image(.png);
  3 |     color: red;
    :     ^^^^^
  4 | }
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/bad-url-token/left-parenthesis/input.css:2:5]
- 2 | background: url(image(.png);
+   ,-[$DIR/tests/recovery/bad-url-token/left-parenthesis/input.css:2:1]
+ 2 |     background: url(image(.png);
  3 |     color: red;
    :     ^^^^^
  4 | }
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/bad-url-token/left-parenthesis/input.css:2:5]
- 2 | background: url(image(.png);
+   ,-[$DIR/tests/recovery/bad-url-token/left-parenthesis/input.css:2:1]
+ 2 |     background: url(image(.png);
  3 |     color: red;
    :            ^^^
  4 | }
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/bad-url-token/left-parenthesis/input.css:2:5]
- 2 | background: url(image(.png);
+   ,-[$DIR/tests/recovery/bad-url-token/left-parenthesis/input.css:2:1]
+ 2 |     background: url(image(.png);
  3 |     color: red;
    :            ^^^
  4 | }

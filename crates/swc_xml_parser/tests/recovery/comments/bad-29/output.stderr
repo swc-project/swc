@@ -1,12 +1,12 @@
 
   x Eof in comment
-   ,-[$DIR/tests/recovery/comments/bad-29/input.xml:5:2]
- 5 |  
-   : ^
+   ,-[$DIR/tests/recovery/comments/bad-29/input.xml:5:1]
+ 5 | 
+   :  ^
    `----
 
   x Unexpected end of file in main phase
-   ,-[$DIR/tests/recovery/comments/bad-29/input.xml:5:2]
- 5 |  
-   : ^
+   ,-[$DIR/tests/recovery/comments/bad-29/input.xml:5:1]
+ 5 | 
+   :  ^
    `----

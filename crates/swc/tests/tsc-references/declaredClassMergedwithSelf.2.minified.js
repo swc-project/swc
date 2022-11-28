@@ -2,7 +2,8 @@
 //// [file1.ts]
 //! 
 //!   x the name `C1` is defined multiple times
-//!    ,-[2:1]
+//!    ,-[1:1]
+//!  1 | 
 //!  2 | declare class C1 {}
 //!    :               ^|
 //!    :                `-- previous definition of `C1` here
@@ -15,7 +16,8 @@
 //!    `----
 //! 
 //!   x the name `C2` is defined multiple times
-//!     ,-[4:1]
+//!     ,-[3:1]
+//!   3 | 
 //!   4 | declare class C1 {}
 //!   5 | 
 //!   6 | declare class C2 {}
@@ -27,6 +29,7 @@
 //!  10 | declare class C2 {}
 //!     :               ^|
 //!     :                `-- `C2` redefined here
+//!  11 | 
 //!     `----
 //// [file2.ts]
 //// [file3.ts]

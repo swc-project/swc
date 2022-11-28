@@ -1,7 +1,8 @@
 
   x Stylesheet
    ,-[$DIR/tests/recovery/selector/pseudo-class/an-plus-b/input.css:1:1]
- 1 | ,-> :nth-child(unknown) {}
+ 1 | :nth-child(unknown) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Rule

@@ -32,8 +32,8 @@
 //!     `----
 //! 
 //!   x 'new.target' is only allowed in the body of a function declaration, function expression, or class.
-//!     ,-[20:5]
-//!  20 | k() { return new.target; },
+//!     ,-[20:1]
+//!  20 |     k() { return new.target; },
 //!  21 |     get l() { return new.target; },
 //!  22 |     set m(_) { _ = new.target; },
 //!  23 |     n: new.target,

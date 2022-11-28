@@ -1,8 +1,8 @@
 //// [controlFlowDeleteOperator.ts]
 //! 
 //!   x 'delete' cannot be called on an identifier in strict mode
-//!     ,-[12:5]
-//!  12 | x.a;
+//!     ,-[12:1]
+//!  12 |     x.a;
 //!  13 |     x.b;
 //!  14 |     x;
 //!  15 |     delete x;  // No effect
@@ -12,8 +12,8 @@
 //!     `----
 //! 
 //!   x The operand of a delete operator must be a property reference.
-//!     ,-[12:5]
-//!  12 | x.a;
+//!     ,-[12:1]
+//!  12 |     x.a;
 //!  13 |     x.b;
 //!  14 |     x;
 //!  15 |     delete x;  // No effect

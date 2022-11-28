@@ -38,7 +38,7 @@
  35 | |   <a href="http://host/?x=1&#38;y=2">test</a>
  36 | |   
  37 | |   </body>
- 38 | |   </html>
+ 38 | `-> </html>
     `----
 
   x Child
@@ -94,7 +94,7 @@
  35 | |   <a href="http://host/?x=1&#38;y=2">test</a>
  36 | |   
  37 | |   </body>
- 38 | |   </html>
+ 38 | `-> </html>
     `----
 
   x Element
@@ -136,7 +136,7 @@
  35 | |   <a href="http://host/?x=1&#38;y=2">test</a>
  36 | |   
  37 | |   </body>
- 38 | |   </html>
+ 38 | `-> </html>
     `----
 
   x Attribute
@@ -232,16 +232,16 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/attribute/basic/input.html:4:5]
- 4 | <title>Document</title>
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:4:1]
+ 4 |     <title>Document</title>
  5 | </head>
    :        ^
  6 | <body>
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/attribute/basic/input.html:4:5]
- 4 | <title>Document</title>
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:4:1]
+ 4 |     <title>Document</title>
  5 | </head>
    :        ^
  6 | <body>
@@ -282,7 +282,7 @@
  35 | |   <a href="http://host/?x=1&#38;y=2">test</a>
  36 | |   
  37 | |   </body>
- 38 | |   </html>
+ 38 | `-> </html>
     `----
 
   x Element
@@ -320,7 +320,7 @@
  35 | |   <a href="http://host/?x=1&#38;y=2">test</a>
  36 | |   
  37 | |   </body>
- 38 | |   </html>
+ 38 | `-> </html>
     `----
 
   x Child
@@ -342,273 +342,312 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:7:1]
+ 7 | 
  8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  9 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:7:1]
+ 7 | 
  8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  9 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
    `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:7:1]
+ 7 | 
  8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
    :    ^
  9 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
    `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:7:1]
+ 7 | 
  8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
    :      ^
  9 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
    `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:7:1]
+ 7 | 
  8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
    :        ^
  9 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
    `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:7:1]
+ 7 | 
  8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
    :          ^
  9 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
    `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:7:1]
+ 7 | 
  8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
    :            ^
  9 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
    `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:7:1]
+ 7 | 
  8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
    :              ^
  9 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
    `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:7:1]
+ 7 | 
  8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
    :                ^
  9 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
    `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:7:1]
+ 7 | 
  8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
    :                  ^
  9 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
    `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:7:1]
+ 7 | 
  8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
    :                    ^
  9 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
    `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:7:1]
+ 7 | 
  8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
    :                      ^
  9 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
    `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:7:1]
+ 7 | 
  8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
    :                        ^
  9 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
    `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:7:1]
+ 7 | 
  8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
    :                          ^
  9 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
    `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:7:1]
+ 7 | 
  8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
    :                            ^
  9 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
    `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:7:1]
+ 7 | 
  8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
    :                              ^
  9 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
    `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:7:1]
+ 7 | 
  8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
    :                                ^
  9 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
    `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:7:1]
+ 7 | 
  8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
    :                                  ^
  9 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
    `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:7:1]
+ 7 | 
  8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
    :                                    ^
  9 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
    `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:7:1]
+ 7 | 
  8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
    :                                      ^
  9 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
    `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:7:1]
+ 7 | 
  8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
    :                                        ^
  9 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
    `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:7:1]
+ 7 | 
  8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
    :                                          ^
  9 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
    `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:7:1]
+ 7 | 
  8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
    :                                            ^
  9 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
    `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:7:1]
+ 7 | 
  8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
    :                                              ^
  9 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
    `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:7:1]
+ 7 | 
  8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
    :                                                ^
  9 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
    `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:7:1]
+ 7 | 
  8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
    :                                                  ^
  9 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
    `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:7:1]
+ 7 | 
  8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
    :                                                    ^
  9 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
    `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:7:1]
+ 7 | 
  8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
    :                                                      ^
  9 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
    `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:7:1]
+ 7 | 
  8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
    :                                                        ^
  9 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
    `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:7:1]
+ 7 | 
  8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
    :                                                          ^
  9 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
    `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:7:1]
+ 7 | 
  8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
    :                                                            ^
  9 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
    `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:7:1]
+ 7 | 
  8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
    :                                                              ^
  9 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
    `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:7:1]
+ 7 | 
  8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
    :                                                                ^
  9 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
    `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:7:1]
+ 7 | 
  8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
    :                                                                  ^
  9 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
    `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:7:1]
+ 7 | 
  8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
    :                                                                    ^
  9 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
    `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:7:1]
+ 7 | 
  8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
    :                                                                      ^
  9 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
    `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:7:1]
+ 7 | 
  8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
    :                                                                        ^
  9 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
    `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:7:1]
+ 7 | 
  8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
    :                                                                          ^
  9 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
    `----
 
   x Child
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:7:1]
+  7 | 
   8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
     :                                                                                ^
   9 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
@@ -616,7 +655,8 @@
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:7:1]
+  7 | 
   8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
     :                                                                                ^
   9 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
@@ -877,8 +917,8 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:16:17]
- 16 |     "test"
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:16:1]
+ 16 |                     "test"
  17 | ,-> />
  18 | `-> 
  19 |     <img src=test.jpg>
@@ -886,8 +926,8 @@
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:16:17]
- 16 |     "test"
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:16:1]
+ 16 |                     "test"
  17 | ,-> />
  18 | `-> 
  19 |     <img src=test.jpg>
@@ -895,35 +935,40 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:19:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:18:1]
+ 18 | 
  19 | <img src=test.jpg>
     : ^^^^^^^^^^^^^^^^^^
  20 | <img src=test.jpg data-src=test.jpg>
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:19:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:18:1]
+ 18 | 
  19 | <img src=test.jpg>
     : ^^^^^^^^^^^^^^^^^^
  20 | <img src=test.jpg data-src=test.jpg>
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:19:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:18:1]
+ 18 | 
  19 | <img src=test.jpg>
     :      ^^^^^^^^^^^^
  20 | <img src=test.jpg data-src=test.jpg>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:19:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:18:1]
+ 18 | 
  19 | <img src=test.jpg>
     :                   ^
  20 | <img src=test.jpg data-src=test.jpg>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:19:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:18:1]
+ 18 | 
  19 | <img src=test.jpg>
     :                   ^
  20 | <img src=test.jpg data-src=test.jpg>
@@ -974,25 +1019,29 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:22:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:21:1]
+ 21 | 
  22 | <button disabled></button>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:22:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:21:1]
+ 21 | 
  22 | <button disabled></button>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:22:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:21:1]
+ 21 | 
  22 | <button disabled></button>
     :         ^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:22:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:21:1]
+ 21 |     
  22 | ,-> <button disabled></button>
  23 | `-> 
  24 |     <div CLASS="TEST"></div>
@@ -1000,7 +1049,8 @@
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:22:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:21:1]
+ 21 |     
  22 | ,-> <button disabled></button>
  23 | `-> 
  24 |     <div CLASS="TEST"></div>
@@ -1008,28 +1058,32 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:24:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:23:1]
+ 23 | 
  24 | <div CLASS="TEST"></div>
     : ^^^^^^^^^^^^^^^^^^^^^^^^
  25 | <div CLASS='TEST'></div>
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:24:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:23:1]
+ 23 | 
  24 | <div CLASS="TEST"></div>
     : ^^^^^^^^^^^^^^^^^^^^^^^^
  25 | <div CLASS='TEST'></div>
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:24:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:23:1]
+ 23 | 
  24 | <div CLASS="TEST"></div>
     :      ^^^^^^^^^^^^
  25 | <div CLASS='TEST'></div>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:24:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:23:1]
+ 23 | 
  24 | <div CLASS="TEST"></div>
     :                         ^
  25 | <div CLASS='TEST'></div>
@@ -1037,7 +1091,8 @@
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:24:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:23:1]
+ 23 | 
  24 | <div CLASS="TEST"></div>
     :                         ^
  25 | <div CLASS='TEST'></div>
@@ -1124,7 +1179,8 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:28:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:27:1]
+ 27 |     
  28 | ,-> <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
  29 | |       <text y="20" xml:space="default">Default   spacing</text>
  30 | |       <text y="20" XML:SPACE="default">Default   spacing</text>
@@ -1133,7 +1189,8 @@
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:28:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:27:1]
+ 27 |     
  28 | ,-> <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
  29 | |       <text y="20" xml:space="default">Default   spacing</text>
  30 | |       <text y="20" XML:SPACE="default">Default   spacing</text>
@@ -1142,28 +1199,32 @@
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:28:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:27:1]
+ 27 | 
  28 | <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
     :      ^^^^^^^^^^^^^^^^^^^^
  29 |     <text y="20" xml:space="default">Default   spacing</text>
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:28:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:27:1]
+ 27 | 
  28 | <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
     :                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  29 |     <text y="20" xml:space="default">Default   spacing</text>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:28:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:27:1]
+ 27 |     
  28 | ,-> <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
  29 | `->     <text y="20" xml:space="default">Default   spacing</text>
  30 |         <text y="20" XML:SPACE="default">Default   spacing</text>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:28:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:27:1]
+ 27 |     
  28 | ,-> <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
  29 | `->     <text y="20" xml:space="default">Default   spacing</text>
  30 |         <text y="20" XML:SPACE="default">Default   spacing</text>
@@ -1234,136 +1295,136 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:29:5]
- 29 | <text y="20" xml:space="default">Default   spacing</text>
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:29:1]
+ 29 |     <text y="20" xml:space="default">Default   spacing</text>
  30 |     <text y="20" XML:SPACE="default">Default   spacing</text>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  31 |     <text y="40" xml:space="preserve">Preserved   spacing</text>
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:29:5]
- 29 | <text y="20" xml:space="default">Default   spacing</text>
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:29:1]
+ 29 |     <text y="20" xml:space="default">Default   spacing</text>
  30 |     <text y="20" XML:SPACE="default">Default   spacing</text>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  31 |     <text y="40" xml:space="preserve">Preserved   spacing</text>
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:29:5]
- 29 | <text y="20" xml:space="default">Default   spacing</text>
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:29:1]
+ 29 |     <text y="20" xml:space="default">Default   spacing</text>
  30 |     <text y="20" XML:SPACE="default">Default   spacing</text>
     :           ^^^^^^
  31 |     <text y="40" xml:space="preserve">Preserved   spacing</text>
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:29:5]
- 29 | <text y="20" xml:space="default">Default   spacing</text>
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:29:1]
+ 29 |     <text y="20" xml:space="default">Default   spacing</text>
  30 |     <text y="20" XML:SPACE="default">Default   spacing</text>
     :                  ^^^^^^^^^^^^^^^^^^^
  31 |     <text y="40" xml:space="preserve">Preserved   spacing</text>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:29:5]
- 29 | <text y="20" xml:space="default">Default   spacing</text>
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:29:1]
+ 29 |     <text y="20" xml:space="default">Default   spacing</text>
  30 |     <text y="20" XML:SPACE="default">Default   spacing</text>
     :                                      ^^^^^^^^^^^^^^^^^
  31 |     <text y="40" xml:space="preserve">Preserved   spacing</text>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:29:5]
- 29 | <text y="20" xml:space="default">Default   spacing</text>
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:29:1]
+ 29 |     <text y="20" xml:space="default">Default   spacing</text>
  30 |     <text y="20" XML:SPACE="default">Default   spacing</text>
     :                                      ^^^^^^^^^^^^^^^^^
  31 |     <text y="40" xml:space="preserve">Preserved   spacing</text>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:29:5]
- 29 |     <text y="20" xml:space="default">Default   spacing</text>
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:29:1]
+ 29 |         <text y="20" xml:space="default">Default   spacing</text>
  30 | ,->     <text y="20" XML:SPACE="default">Default   spacing</text>
  31 | `->     <text y="40" xml:space="preserve">Preserved   spacing</text>
  32 |     </svg>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:29:5]
- 29 |     <text y="20" xml:space="default">Default   spacing</text>
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:29:1]
+ 29 |         <text y="20" xml:space="default">Default   spacing</text>
  30 | ,->     <text y="20" XML:SPACE="default">Default   spacing</text>
  31 | `->     <text y="40" xml:space="preserve">Preserved   spacing</text>
  32 |     </svg>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:30:5]
- 30 | <text y="20" XML:SPACE="default">Default   spacing</text>
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:30:1]
+ 30 |     <text y="20" XML:SPACE="default">Default   spacing</text>
  31 |     <text y="40" xml:space="preserve">Preserved   spacing</text>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  32 | </svg>
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:30:5]
- 30 | <text y="20" XML:SPACE="default">Default   spacing</text>
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:30:1]
+ 30 |     <text y="20" XML:SPACE="default">Default   spacing</text>
  31 |     <text y="40" xml:space="preserve">Preserved   spacing</text>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  32 | </svg>
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:30:5]
- 30 | <text y="20" XML:SPACE="default">Default   spacing</text>
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:30:1]
+ 30 |     <text y="20" XML:SPACE="default">Default   spacing</text>
  31 |     <text y="40" xml:space="preserve">Preserved   spacing</text>
     :           ^^^^^^
  32 | </svg>
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:30:5]
- 30 | <text y="20" XML:SPACE="default">Default   spacing</text>
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:30:1]
+ 30 |     <text y="20" XML:SPACE="default">Default   spacing</text>
  31 |     <text y="40" xml:space="preserve">Preserved   spacing</text>
     :                  ^^^^^^^^^^^^^^^^^^^^
  32 | </svg>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:30:5]
- 30 | <text y="20" XML:SPACE="default">Default   spacing</text>
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:30:1]
+ 30 |     <text y="20" XML:SPACE="default">Default   spacing</text>
  31 |     <text y="40" xml:space="preserve">Preserved   spacing</text>
     :                                       ^^^^^^^^^^^^^^^^^^^
  32 | </svg>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:30:5]
- 30 | <text y="20" XML:SPACE="default">Default   spacing</text>
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:30:1]
+ 30 |     <text y="20" XML:SPACE="default">Default   spacing</text>
  31 |     <text y="40" xml:space="preserve">Preserved   spacing</text>
     :                                       ^^^^^^^^^^^^^^^^^^^
  32 | </svg>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:30:5]
- 30 | <text y="20" XML:SPACE="default">Default   spacing</text>
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:30:1]
+ 30 |     <text y="20" XML:SPACE="default">Default   spacing</text>
  31 |     <text y="40" xml:space="preserve">Preserved   spacing</text>
     :                                                                 ^
  32 | </svg>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:30:5]
- 30 | <text y="20" XML:SPACE="default">Default   spacing</text>
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:30:1]
+ 30 |     <text y="20" XML:SPACE="default">Default   spacing</text>
  31 |     <text y="40" xml:space="preserve">Preserved   spacing</text>
     :                                                                 ^
  32 | </svg>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:31:5]
- 31 |     <text y="40" xml:space="preserve">Preserved   spacing</text>
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:31:1]
+ 31 |         <text y="40" xml:space="preserve">Preserved   spacing</text>
  32 | ,-> </svg>
  33 | `-> 
  34 |     <div id = "John &quot; &amp; Harry "></div>
@@ -1371,8 +1432,8 @@
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:31:5]
- 31 |     <text y="40" xml:space="preserve">Preserved   spacing</text>
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:31:1]
+ 31 |         <text y="40" xml:space="preserve">Preserved   spacing</text>
  32 | ,-> </svg>
  33 | `-> 
  34 |     <div id = "John &quot; &amp; Harry "></div>
@@ -1380,35 +1441,40 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:34:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:33:1]
+ 33 | 
  34 | <div id = "John &quot; &amp; Harry "></div>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  35 | <a href="http://host/?x=1&#38;y=2">test</a>
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:34:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:33:1]
+ 33 | 
  34 | <div id = "John &quot; &amp; Harry "></div>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  35 | <a href="http://host/?x=1&#38;y=2">test</a>
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:34:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:33:1]
+ 33 | 
  34 | <div id = "John &quot; &amp; Harry "></div>
     :      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  35 | <a href="http://host/?x=1&#38;y=2">test</a>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:34:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:33:1]
+ 33 | 
  34 | <div id = "John &quot; &amp; Harry "></div>
     :                                            ^
  35 | <a href="http://host/?x=1&#38;y=2">test</a>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:34:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:33:1]
+ 33 | 
  34 | <div id = "John &quot; &amp; Harry "></div>
     :                                            ^
  35 | <a href="http://host/?x=1&#38;y=2">test</a>
@@ -1455,7 +1521,7 @@
  35 | ,-> <a href="http://host/?x=1&#38;y=2">test</a>
  36 | |   
  37 | |   </body>
- 38 | |   </html>
+ 38 | `-> </html>
     `----
 
   x Text
@@ -1464,5 +1530,5 @@
  35 | ,-> <a href="http://host/?x=1&#38;y=2">test</a>
  36 | |   
  37 | |   </body>
- 38 | |   </html>
+ 38 | `-> </html>
     `----

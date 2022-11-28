@@ -1,7 +1,8 @@
 
   x Stylesheet
    ,-[$DIR/tests/fixture/selector/pseudo-element/escaped/input.css:1:1]
- 1 | ,-> div::bef\ore {}
+ 1 | div::bef\ore {}
+   : ^^^^^^^^^^^^^^^^
    `----
 
   x Rule

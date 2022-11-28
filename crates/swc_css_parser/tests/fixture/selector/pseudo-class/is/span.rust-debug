@@ -3915,432 +3915,432 @@
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:16:5]
- 16 | :nth-last-child(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:16:1]
+ 16 |     :nth-last-child(6),
  17 |     :nth-of-type(6),
     :     ^^^^^^^^^^^^^^^
  18 |     :nth-last-of-type(6)) {}
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:16:5]
- 16 | :nth-last-child(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:16:1]
+ 16 |     :nth-last-child(6),
  17 |     :nth-of-type(6),
     :     ^^^^^^^^^^^^^^^
  18 |     :nth-last-of-type(6)) {}
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:16:5]
- 16 | :nth-last-child(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:16:1]
+ 16 |     :nth-last-child(6),
  17 |     :nth-of-type(6),
     :     ^^^^^^^^^^^^^^^
  18 |     :nth-last-of-type(6)) {}
     `----
 
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:16:5]
- 16 | :nth-last-child(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:16:1]
+ 16 |     :nth-last-child(6),
  17 |     :nth-of-type(6),
     :     ^^^^^^^^^^^^^^^
  18 |     :nth-last-of-type(6)) {}
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:16:5]
- 16 | :nth-last-child(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:16:1]
+ 16 |     :nth-last-child(6),
  17 |     :nth-of-type(6),
     :      ^^^^^^^^^^^
  18 |     :nth-last-of-type(6)) {}
     `----
 
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:16:5]
- 16 | :nth-last-child(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:16:1]
+ 16 |     :nth-last-child(6),
  17 |     :nth-of-type(6),
     :                  ^
  18 |     :nth-last-of-type(6)) {}
     `----
 
   x AnPlusB
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:16:5]
- 16 | :nth-last-child(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:16:1]
+ 16 |     :nth-last-child(6),
  17 |     :nth-of-type(6),
     :                  ^
  18 |     :nth-last-of-type(6)) {}
     `----
 
   x AnPlusBNotation
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:16:5]
- 16 | :nth-last-child(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:16:1]
+ 16 |     :nth-last-child(6),
  17 |     :nth-of-type(6),
     :                  ^
  18 |     :nth-last-of-type(6)) {}
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:17:5]
- 17 | :nth-of-type(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:17:1]
+ 17 |     :nth-of-type(6),
  18 |     :nth-last-of-type(6)) {}
     :     ^^^^^^^^^^^^^^^^^^^^
  19 | :-webkit-any(header, main, footer) p:hover {}
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:17:5]
- 17 | :nth-of-type(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:17:1]
+ 17 |     :nth-of-type(6),
  18 |     :nth-last-of-type(6)) {}
     :     ^^^^^^^^^^^^^^^^^^^^
  19 | :-webkit-any(header, main, footer) p:hover {}
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:17:5]
- 17 | :nth-of-type(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:17:1]
+ 17 |     :nth-of-type(6),
  18 |     :nth-last-of-type(6)) {}
     :     ^^^^^^^^^^^^^^^^^^^^
  19 | :-webkit-any(header, main, footer) p:hover {}
     `----
 
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:17:5]
- 17 | :nth-of-type(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:17:1]
+ 17 |     :nth-of-type(6),
  18 |     :nth-last-of-type(6)) {}
     :     ^^^^^^^^^^^^^^^^^^^^
  19 | :-webkit-any(header, main, footer) p:hover {}
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:17:5]
- 17 | :nth-of-type(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:17:1]
+ 17 |     :nth-of-type(6),
  18 |     :nth-last-of-type(6)) {}
     :      ^^^^^^^^^^^^^^^^
  19 | :-webkit-any(header, main, footer) p:hover {}
     `----
 
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:17:5]
- 17 | :nth-of-type(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:17:1]
+ 17 |     :nth-of-type(6),
  18 |     :nth-last-of-type(6)) {}
     :                       ^
  19 | :-webkit-any(header, main, footer) p:hover {}
     `----
 
   x AnPlusB
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:17:5]
- 17 | :nth-of-type(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:17:1]
+ 17 |     :nth-of-type(6),
  18 |     :nth-last-of-type(6)) {}
     :                       ^
  19 | :-webkit-any(header, main, footer) p:hover {}
     `----
 
   x AnPlusBNotation
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:17:5]
- 17 | :nth-of-type(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:17:1]
+ 17 |     :nth-of-type(6),
  18 |     :nth-last-of-type(6)) {}
     :                       ^
  19 | :-webkit-any(header, main, footer) p:hover {}
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:17:5]
- 17 | :nth-of-type(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:17:1]
+ 17 |     :nth-of-type(6),
  18 |     :nth-last-of-type(6)) {}
     :                           ^^
  19 | :-webkit-any(header, main, footer) p:hover {}
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:17:5]
- 17 | :nth-of-type(6),
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:17:1]
+ 17 |     :nth-of-type(6),
  18 |     :nth-last-of-type(6)) {}
     :                           ^
  19 | :-webkit-any(header, main, footer) p:hover {}
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
- 18 | :nth-last-of-type(6)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:1]
+ 18 |     :nth-last-of-type(6)) {}
  19 | :-webkit-any(header, main, footer) p:hover {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  20 | :-moz-any(header, main, footer) p:hover {}
     `----
 
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
- 18 | :nth-last-of-type(6)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:1]
+ 18 |     :nth-last-of-type(6)) {}
  19 | :-webkit-any(header, main, footer) p:hover {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  20 | :-moz-any(header, main, footer) p:hover {}
     `----
 
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
- 18 | :nth-last-of-type(6)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:1]
+ 18 |     :nth-last-of-type(6)) {}
  19 | :-webkit-any(header, main, footer) p:hover {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  20 | :-moz-any(header, main, footer) p:hover {}
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
- 18 | :nth-last-of-type(6)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:1]
+ 18 |     :nth-last-of-type(6)) {}
  19 | :-webkit-any(header, main, footer) p:hover {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  20 | :-moz-any(header, main, footer) p:hover {}
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
- 18 | :nth-last-of-type(6)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:1]
+ 18 |     :nth-last-of-type(6)) {}
  19 | :-webkit-any(header, main, footer) p:hover {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  20 | :-moz-any(header, main, footer) p:hover {}
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
- 18 | :nth-last-of-type(6)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:1]
+ 18 |     :nth-last-of-type(6)) {}
  19 | :-webkit-any(header, main, footer) p:hover {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  20 | :-moz-any(header, main, footer) p:hover {}
     `----
 
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
- 18 | :nth-last-of-type(6)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:1]
+ 18 |     :nth-last-of-type(6)) {}
  19 | :-webkit-any(header, main, footer) p:hover {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  20 | :-moz-any(header, main, footer) p:hover {}
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
- 18 | :nth-last-of-type(6)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:1]
+ 18 |     :nth-last-of-type(6)) {}
  19 | :-webkit-any(header, main, footer) p:hover {}
     :  ^^^^^^^^^^^
  20 | :-moz-any(header, main, footer) p:hover {}
     `----
 
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
- 18 | :nth-last-of-type(6)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:1]
+ 18 |     :nth-last-of-type(6)) {}
  19 | :-webkit-any(header, main, footer) p:hover {}
     :              ^^^^^^^^^^^^^^^^^^^^
  20 | :-moz-any(header, main, footer) p:hover {}
     `----
 
   x CompoundSelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
- 18 | :nth-last-of-type(6)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:1]
+ 18 |     :nth-last-of-type(6)) {}
  19 | :-webkit-any(header, main, footer) p:hover {}
     :              ^^^^^^^^^^^^^^^^^^^^
  20 | :-moz-any(header, main, footer) p:hover {}
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
- 18 | :nth-last-of-type(6)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:1]
+ 18 |     :nth-last-of-type(6)) {}
  19 | :-webkit-any(header, main, footer) p:hover {}
     :              ^^^^^^
  20 | :-moz-any(header, main, footer) p:hover {}
     `----
 
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
- 18 | :nth-last-of-type(6)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:1]
+ 18 |     :nth-last-of-type(6)) {}
  19 | :-webkit-any(header, main, footer) p:hover {}
     :              ^^^^^^
  20 | :-moz-any(header, main, footer) p:hover {}
     `----
 
   x TagNameSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
- 18 | :nth-last-of-type(6)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:1]
+ 18 |     :nth-last-of-type(6)) {}
  19 | :-webkit-any(header, main, footer) p:hover {}
     :              ^^^^^^
  20 | :-moz-any(header, main, footer) p:hover {}
     `----
 
   x WqName
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
- 18 | :nth-last-of-type(6)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:1]
+ 18 |     :nth-last-of-type(6)) {}
  19 | :-webkit-any(header, main, footer) p:hover {}
     :              ^^^^^^
  20 | :-moz-any(header, main, footer) p:hover {}
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
- 18 | :nth-last-of-type(6)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:1]
+ 18 |     :nth-last-of-type(6)) {}
  19 | :-webkit-any(header, main, footer) p:hover {}
     :              ^^^^^^
  20 | :-moz-any(header, main, footer) p:hover {}
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
- 18 | :nth-last-of-type(6)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:1]
+ 18 |     :nth-last-of-type(6)) {}
  19 | :-webkit-any(header, main, footer) p:hover {}
     :                      ^^^^
  20 | :-moz-any(header, main, footer) p:hover {}
     `----
 
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
- 18 | :nth-last-of-type(6)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:1]
+ 18 |     :nth-last-of-type(6)) {}
  19 | :-webkit-any(header, main, footer) p:hover {}
     :                      ^^^^
  20 | :-moz-any(header, main, footer) p:hover {}
     `----
 
   x TagNameSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
- 18 | :nth-last-of-type(6)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:1]
+ 18 |     :nth-last-of-type(6)) {}
  19 | :-webkit-any(header, main, footer) p:hover {}
     :                      ^^^^
  20 | :-moz-any(header, main, footer) p:hover {}
     `----
 
   x WqName
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
- 18 | :nth-last-of-type(6)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:1]
+ 18 |     :nth-last-of-type(6)) {}
  19 | :-webkit-any(header, main, footer) p:hover {}
     :                      ^^^^
  20 | :-moz-any(header, main, footer) p:hover {}
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
- 18 | :nth-last-of-type(6)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:1]
+ 18 |     :nth-last-of-type(6)) {}
  19 | :-webkit-any(header, main, footer) p:hover {}
     :                      ^^^^
  20 | :-moz-any(header, main, footer) p:hover {}
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
- 18 | :nth-last-of-type(6)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:1]
+ 18 |     :nth-last-of-type(6)) {}
  19 | :-webkit-any(header, main, footer) p:hover {}
     :                            ^^^^^^
  20 | :-moz-any(header, main, footer) p:hover {}
     `----
 
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
- 18 | :nth-last-of-type(6)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:1]
+ 18 |     :nth-last-of-type(6)) {}
  19 | :-webkit-any(header, main, footer) p:hover {}
     :                            ^^^^^^
  20 | :-moz-any(header, main, footer) p:hover {}
     `----
 
   x TagNameSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
- 18 | :nth-last-of-type(6)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:1]
+ 18 |     :nth-last-of-type(6)) {}
  19 | :-webkit-any(header, main, footer) p:hover {}
     :                            ^^^^^^
  20 | :-moz-any(header, main, footer) p:hover {}
     `----
 
   x WqName
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
- 18 | :nth-last-of-type(6)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:1]
+ 18 |     :nth-last-of-type(6)) {}
  19 | :-webkit-any(header, main, footer) p:hover {}
     :                            ^^^^^^
  20 | :-moz-any(header, main, footer) p:hover {}
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
- 18 | :nth-last-of-type(6)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:1]
+ 18 |     :nth-last-of-type(6)) {}
  19 | :-webkit-any(header, main, footer) p:hover {}
     :                            ^^^^^^
  20 | :-moz-any(header, main, footer) p:hover {}
     `----
 
   x Combinator
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
- 18 | :nth-last-of-type(6)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:1]
+ 18 |     :nth-last-of-type(6)) {}
  19 | :-webkit-any(header, main, footer) p:hover {}
     :                                   ^
  20 | :-moz-any(header, main, footer) p:hover {}
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
- 18 | :nth-last-of-type(6)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:1]
+ 18 |     :nth-last-of-type(6)) {}
  19 | :-webkit-any(header, main, footer) p:hover {}
     :                                    ^^^^^^^
  20 | :-moz-any(header, main, footer) p:hover {}
     `----
 
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
- 18 | :nth-last-of-type(6)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:1]
+ 18 |     :nth-last-of-type(6)) {}
  19 | :-webkit-any(header, main, footer) p:hover {}
     :                                    ^
  20 | :-moz-any(header, main, footer) p:hover {}
     `----
 
   x TagNameSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
- 18 | :nth-last-of-type(6)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:1]
+ 18 |     :nth-last-of-type(6)) {}
  19 | :-webkit-any(header, main, footer) p:hover {}
     :                                    ^
  20 | :-moz-any(header, main, footer) p:hover {}
     `----
 
   x WqName
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
- 18 | :nth-last-of-type(6)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:1]
+ 18 |     :nth-last-of-type(6)) {}
  19 | :-webkit-any(header, main, footer) p:hover {}
     :                                    ^
  20 | :-moz-any(header, main, footer) p:hover {}
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
- 18 | :nth-last-of-type(6)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:1]
+ 18 |     :nth-last-of-type(6)) {}
  19 | :-webkit-any(header, main, footer) p:hover {}
     :                                    ^
  20 | :-moz-any(header, main, footer) p:hover {}
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
- 18 | :nth-last-of-type(6)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:1]
+ 18 |     :nth-last-of-type(6)) {}
  19 | :-webkit-any(header, main, footer) p:hover {}
     :                                     ^^^^^^
  20 | :-moz-any(header, main, footer) p:hover {}
     `----
 
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
- 18 | :nth-last-of-type(6)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:1]
+ 18 |     :nth-last-of-type(6)) {}
  19 | :-webkit-any(header, main, footer) p:hover {}
     :                                     ^^^^^^
  20 | :-moz-any(header, main, footer) p:hover {}
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
- 18 | :nth-last-of-type(6)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:1]
+ 18 |     :nth-last-of-type(6)) {}
  19 | :-webkit-any(header, main, footer) p:hover {}
     :                                      ^^^^^
  20 | :-moz-any(header, main, footer) p:hover {}
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
- 18 | :nth-last-of-type(6)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:1]
+ 18 |     :nth-last-of-type(6)) {}
  19 | :-webkit-any(header, main, footer) p:hover {}
     :                                            ^^
  20 | :-moz-any(header, main, footer) p:hover {}
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
- 18 | :nth-last-of-type(6)) {}
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:1]
+ 18 |     :nth-last-of-type(6)) {}
  19 | :-webkit-any(header, main, footer) p:hover {}
     :                                            ^
  20 | :-moz-any(header, main, footer) p:hover {}

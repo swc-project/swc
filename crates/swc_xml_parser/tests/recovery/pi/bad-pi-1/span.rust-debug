@@ -54,16 +54,16 @@
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/pi/bad-pi-1/input.xml:2:5]
- 2 | <??xml
+   ,-[$DIR/tests/recovery/pi/bad-pi-1/input.xml:2:1]
+ 2 |     <??xml
  3 |     m?>
    :        ^
  4 | </root>
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/pi/bad-pi-1/input.xml:2:5]
- 2 | <??xml
+   ,-[$DIR/tests/recovery/pi/bad-pi-1/input.xml:2:1]
+ 2 |     <??xml
  3 |     m?>
    :        ^
  4 | </root>

@@ -20,6 +20,7 @@
  17 | |   :unknown(!) {}
  18 | |   :unknown({;}) {}
  19 | |   :unknown(;) {}
+ 20 | `-> 
     `----
 
   x Rule

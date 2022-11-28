@@ -15,7 +15,7 @@
  12 | |           margin-left: 0;
  13 | |       }
  14 | |       __styled-jsx-placeholder__7
- 15 | |   }
+ 15 | `-> }
     `----
 
   x Rule
@@ -335,64 +335,64 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/vercel/001/input.css:2:5]
- 2 | .video:nth-child(4n) {
+   ,-[$DIR/tests/recovery/vercel/001/input.css:2:1]
+ 2 |     .video:nth-child(4n) {
  3 |         margin-right: 0;
    :         ^^^^^^^^^^^^^^^
  4 |     }
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/recovery/vercel/001/input.css:2:5]
- 2 | .video:nth-child(4n) {
+   ,-[$DIR/tests/recovery/vercel/001/input.css:2:1]
+ 2 |     .video:nth-child(4n) {
  3 |         margin-right: 0;
    :         ^^^^^^^^^^^^^^^
  4 |     }
    `----
 
   x Declaration
-   ,-[$DIR/tests/recovery/vercel/001/input.css:2:5]
- 2 | .video:nth-child(4n) {
+   ,-[$DIR/tests/recovery/vercel/001/input.css:2:1]
+ 2 |     .video:nth-child(4n) {
  3 |         margin-right: 0;
    :         ^^^^^^^^^^^^^^^
  4 |     }
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/recovery/vercel/001/input.css:2:5]
- 2 | .video:nth-child(4n) {
+   ,-[$DIR/tests/recovery/vercel/001/input.css:2:1]
+ 2 |     .video:nth-child(4n) {
  3 |         margin-right: 0;
    :         ^^^^^^^^^^^^
  4 |     }
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/vercel/001/input.css:2:5]
- 2 | .video:nth-child(4n) {
+   ,-[$DIR/tests/recovery/vercel/001/input.css:2:1]
+ 2 |     .video:nth-child(4n) {
  3 |         margin-right: 0;
    :         ^^^^^^^^^^^^
  4 |     }
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/vercel/001/input.css:2:5]
- 2 | .video:nth-child(4n) {
+   ,-[$DIR/tests/recovery/vercel/001/input.css:2:1]
+ 2 |     .video:nth-child(4n) {
  3 |         margin-right: 0;
    :                       ^
  4 |     }
    `----
 
   x Integer
-   ,-[$DIR/tests/recovery/vercel/001/input.css:2:5]
- 2 | .video:nth-child(4n) {
+   ,-[$DIR/tests/recovery/vercel/001/input.css:2:1]
+ 2 |     .video:nth-child(4n) {
  3 |         margin-right: 0;
    :                       ^
  4 |     }
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/vercel/001/input.css:4:5]
- 4 |     }
+   ,-[$DIR/tests/recovery/vercel/001/input.css:4:1]
+ 4 |         }
  5 | ,->     .video:last-child {
  6 | |           margin-right: 0;
  7 | `->     }
@@ -400,8 +400,8 @@
    `----
 
   x Rule
-   ,-[$DIR/tests/recovery/vercel/001/input.css:4:5]
- 4 |     }
+   ,-[$DIR/tests/recovery/vercel/001/input.css:4:1]
+ 4 |         }
  5 | ,->     .video:last-child {
  6 | |           margin-right: 0;
  7 | `->     }
@@ -409,8 +409,8 @@
    `----
 
   x QualifiedRule
-   ,-[$DIR/tests/recovery/vercel/001/input.css:4:5]
- 4 |     }
+   ,-[$DIR/tests/recovery/vercel/001/input.css:4:1]
+ 4 |         }
  5 | ,->     .video:last-child {
  6 | |           margin-right: 0;
  7 | `->     }
@@ -418,80 +418,80 @@
    `----
 
   x SelectorList
-   ,-[$DIR/tests/recovery/vercel/001/input.css:4:5]
- 4 | }
+   ,-[$DIR/tests/recovery/vercel/001/input.css:4:1]
+ 4 |     }
  5 |     .video:last-child {
    :     ^^^^^^^^^^^^^^^^^
  6 |         margin-right: 0;
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/recovery/vercel/001/input.css:4:5]
- 4 | }
+   ,-[$DIR/tests/recovery/vercel/001/input.css:4:1]
+ 4 |     }
  5 |     .video:last-child {
    :     ^^^^^^^^^^^^^^^^^
  6 |         margin-right: 0;
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/recovery/vercel/001/input.css:4:5]
- 4 | }
+   ,-[$DIR/tests/recovery/vercel/001/input.css:4:1]
+ 4 |     }
  5 |     .video:last-child {
    :     ^^^^^^^^^^^^^^^^^
  6 |         margin-right: 0;
    `----
 
   x SubclassSelector
-   ,-[$DIR/tests/recovery/vercel/001/input.css:4:5]
- 4 | }
+   ,-[$DIR/tests/recovery/vercel/001/input.css:4:1]
+ 4 |     }
  5 |     .video:last-child {
    :     ^^^^^^
  6 |         margin-right: 0;
    `----
 
   x ClassSelector
-   ,-[$DIR/tests/recovery/vercel/001/input.css:4:5]
- 4 | }
+   ,-[$DIR/tests/recovery/vercel/001/input.css:4:1]
+ 4 |     }
  5 |     .video:last-child {
    :     ^^^^^^
  6 |         margin-right: 0;
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/vercel/001/input.css:4:5]
- 4 | }
+   ,-[$DIR/tests/recovery/vercel/001/input.css:4:1]
+ 4 |     }
  5 |     .video:last-child {
    :      ^^^^^
  6 |         margin-right: 0;
    `----
 
   x SubclassSelector
-   ,-[$DIR/tests/recovery/vercel/001/input.css:4:5]
- 4 | }
+   ,-[$DIR/tests/recovery/vercel/001/input.css:4:1]
+ 4 |     }
  5 |     .video:last-child {
    :           ^^^^^^^^^^^
  6 |         margin-right: 0;
    `----
 
   x PseudoClassSelector
-   ,-[$DIR/tests/recovery/vercel/001/input.css:4:5]
- 4 | }
+   ,-[$DIR/tests/recovery/vercel/001/input.css:4:1]
+ 4 |     }
  5 |     .video:last-child {
    :           ^^^^^^^^^^^
  6 |         margin-right: 0;
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/vercel/001/input.css:4:5]
- 4 | }
+   ,-[$DIR/tests/recovery/vercel/001/input.css:4:1]
+ 4 |     }
  5 |     .video:last-child {
    :            ^^^^^^^^^^
  6 |         margin-right: 0;
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/recovery/vercel/001/input.css:4:5]
- 4 |     }
+   ,-[$DIR/tests/recovery/vercel/001/input.css:4:1]
+ 4 |         }
  5 | ,->     .video:last-child {
  6 | |           margin-right: 0;
  7 | `->     }
@@ -499,72 +499,72 @@
    `----
 
   x LBrace
-   ,-[$DIR/tests/recovery/vercel/001/input.css:4:5]
- 4 | }
+   ,-[$DIR/tests/recovery/vercel/001/input.css:4:1]
+ 4 |     }
  5 |     .video:last-child {
    :                       ^
  6 |         margin-right: 0;
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/vercel/001/input.css:5:5]
- 5 | .video:last-child {
+   ,-[$DIR/tests/recovery/vercel/001/input.css:5:1]
+ 5 |     .video:last-child {
  6 |         margin-right: 0;
    :         ^^^^^^^^^^^^^^^
  7 |     }
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/recovery/vercel/001/input.css:5:5]
- 5 | .video:last-child {
+   ,-[$DIR/tests/recovery/vercel/001/input.css:5:1]
+ 5 |     .video:last-child {
  6 |         margin-right: 0;
    :         ^^^^^^^^^^^^^^^
  7 |     }
    `----
 
   x Declaration
-   ,-[$DIR/tests/recovery/vercel/001/input.css:5:5]
- 5 | .video:last-child {
+   ,-[$DIR/tests/recovery/vercel/001/input.css:5:1]
+ 5 |     .video:last-child {
  6 |         margin-right: 0;
    :         ^^^^^^^^^^^^^^^
  7 |     }
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/recovery/vercel/001/input.css:5:5]
- 5 | .video:last-child {
+   ,-[$DIR/tests/recovery/vercel/001/input.css:5:1]
+ 5 |     .video:last-child {
  6 |         margin-right: 0;
    :         ^^^^^^^^^^^^
  7 |     }
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/vercel/001/input.css:5:5]
- 5 | .video:last-child {
+   ,-[$DIR/tests/recovery/vercel/001/input.css:5:1]
+ 5 |     .video:last-child {
  6 |         margin-right: 0;
    :         ^^^^^^^^^^^^
  7 |     }
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/vercel/001/input.css:5:5]
- 5 | .video:last-child {
+   ,-[$DIR/tests/recovery/vercel/001/input.css:5:1]
+ 5 |     .video:last-child {
  6 |         margin-right: 0;
    :                       ^
  7 |     }
    `----
 
   x Integer
-   ,-[$DIR/tests/recovery/vercel/001/input.css:5:5]
- 5 | .video:last-child {
+   ,-[$DIR/tests/recovery/vercel/001/input.css:5:1]
+ 5 |     .video:last-child {
  6 |         margin-right: 0;
    :                       ^
  7 |     }
    `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/vercel/001/input.css:7:5]
-  7 |     }
+    ,-[$DIR/tests/recovery/vercel/001/input.css:7:1]
+  7 |         }
   8 | ,->     .video:first-child,
   9 | |       .video:nth-child(5),
  10 | |       .video:nth-child(9),
@@ -575,8 +575,8 @@
     `----
 
   x Rule
-    ,-[$DIR/tests/recovery/vercel/001/input.css:7:5]
-  7 |     }
+    ,-[$DIR/tests/recovery/vercel/001/input.css:7:1]
+  7 |         }
   8 | ,->     .video:first-child,
   9 | |       .video:nth-child(5),
  10 | |       .video:nth-child(9),
@@ -587,8 +587,8 @@
     `----
 
   x QualifiedRule
-    ,-[$DIR/tests/recovery/vercel/001/input.css:7:5]
-  7 |     }
+    ,-[$DIR/tests/recovery/vercel/001/input.css:7:1]
+  7 |         }
   8 | ,->     .video:first-child,
   9 | |       .video:nth-child(5),
  10 | |       .video:nth-child(9),
@@ -599,8 +599,8 @@
     `----
 
   x SelectorList
-    ,-[$DIR/tests/recovery/vercel/001/input.css:7:5]
-  7 |     }
+    ,-[$DIR/tests/recovery/vercel/001/input.css:7:1]
+  7 |         }
   8 | ,->     .video:first-child,
   9 | |       .video:nth-child(5),
  10 | |       .video:nth-child(9),
@@ -609,336 +609,336 @@
     `----
 
   x ComplexSelector
-   ,-[$DIR/tests/recovery/vercel/001/input.css:7:5]
- 7 | }
+   ,-[$DIR/tests/recovery/vercel/001/input.css:7:1]
+ 7 |     }
  8 |     .video:first-child,
    :     ^^^^^^^^^^^^^^^^^^
  9 |     .video:nth-child(5),
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/recovery/vercel/001/input.css:7:5]
- 7 | }
+   ,-[$DIR/tests/recovery/vercel/001/input.css:7:1]
+ 7 |     }
  8 |     .video:first-child,
    :     ^^^^^^^^^^^^^^^^^^
  9 |     .video:nth-child(5),
    `----
 
   x SubclassSelector
-   ,-[$DIR/tests/recovery/vercel/001/input.css:7:5]
- 7 | }
+   ,-[$DIR/tests/recovery/vercel/001/input.css:7:1]
+ 7 |     }
  8 |     .video:first-child,
    :     ^^^^^^
  9 |     .video:nth-child(5),
    `----
 
   x ClassSelector
-   ,-[$DIR/tests/recovery/vercel/001/input.css:7:5]
- 7 | }
+   ,-[$DIR/tests/recovery/vercel/001/input.css:7:1]
+ 7 |     }
  8 |     .video:first-child,
    :     ^^^^^^
  9 |     .video:nth-child(5),
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/vercel/001/input.css:7:5]
- 7 | }
+   ,-[$DIR/tests/recovery/vercel/001/input.css:7:1]
+ 7 |     }
  8 |     .video:first-child,
    :      ^^^^^
  9 |     .video:nth-child(5),
    `----
 
   x SubclassSelector
-   ,-[$DIR/tests/recovery/vercel/001/input.css:7:5]
- 7 | }
+   ,-[$DIR/tests/recovery/vercel/001/input.css:7:1]
+ 7 |     }
  8 |     .video:first-child,
    :           ^^^^^^^^^^^^
  9 |     .video:nth-child(5),
    `----
 
   x PseudoClassSelector
-   ,-[$DIR/tests/recovery/vercel/001/input.css:7:5]
- 7 | }
+   ,-[$DIR/tests/recovery/vercel/001/input.css:7:1]
+ 7 |     }
  8 |     .video:first-child,
    :           ^^^^^^^^^^^^
  9 |     .video:nth-child(5),
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/vercel/001/input.css:7:5]
- 7 | }
+   ,-[$DIR/tests/recovery/vercel/001/input.css:7:1]
+ 7 |     }
  8 |     .video:first-child,
    :            ^^^^^^^^^^^
  9 |     .video:nth-child(5),
    `----
 
   x ComplexSelector
-    ,-[$DIR/tests/recovery/vercel/001/input.css:8:5]
-  8 | .video:first-child,
+    ,-[$DIR/tests/recovery/vercel/001/input.css:8:1]
+  8 |     .video:first-child,
   9 |     .video:nth-child(5),
     :     ^^^^^^^^^^^^^^^^^^^
  10 |     .video:nth-child(9),
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/recovery/vercel/001/input.css:8:5]
-  8 | .video:first-child,
+    ,-[$DIR/tests/recovery/vercel/001/input.css:8:1]
+  8 |     .video:first-child,
   9 |     .video:nth-child(5),
     :     ^^^^^^^^^^^^^^^^^^^
  10 |     .video:nth-child(9),
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/recovery/vercel/001/input.css:8:5]
-  8 | .video:first-child,
+    ,-[$DIR/tests/recovery/vercel/001/input.css:8:1]
+  8 |     .video:first-child,
   9 |     .video:nth-child(5),
     :     ^^^^^^
  10 |     .video:nth-child(9),
     `----
 
   x ClassSelector
-    ,-[$DIR/tests/recovery/vercel/001/input.css:8:5]
-  8 | .video:first-child,
+    ,-[$DIR/tests/recovery/vercel/001/input.css:8:1]
+  8 |     .video:first-child,
   9 |     .video:nth-child(5),
     :     ^^^^^^
  10 |     .video:nth-child(9),
     `----
 
   x Ident
-    ,-[$DIR/tests/recovery/vercel/001/input.css:8:5]
-  8 | .video:first-child,
+    ,-[$DIR/tests/recovery/vercel/001/input.css:8:1]
+  8 |     .video:first-child,
   9 |     .video:nth-child(5),
     :      ^^^^^
  10 |     .video:nth-child(9),
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/recovery/vercel/001/input.css:8:5]
-  8 | .video:first-child,
+    ,-[$DIR/tests/recovery/vercel/001/input.css:8:1]
+  8 |     .video:first-child,
   9 |     .video:nth-child(5),
     :           ^^^^^^^^^^^^^
  10 |     .video:nth-child(9),
     `----
 
   x PseudoClassSelector
-    ,-[$DIR/tests/recovery/vercel/001/input.css:8:5]
-  8 | .video:first-child,
+    ,-[$DIR/tests/recovery/vercel/001/input.css:8:1]
+  8 |     .video:first-child,
   9 |     .video:nth-child(5),
     :           ^^^^^^^^^^^^^
  10 |     .video:nth-child(9),
     `----
 
   x Ident
-    ,-[$DIR/tests/recovery/vercel/001/input.css:8:5]
-  8 | .video:first-child,
+    ,-[$DIR/tests/recovery/vercel/001/input.css:8:1]
+  8 |     .video:first-child,
   9 |     .video:nth-child(5),
     :            ^^^^^^^^^
  10 |     .video:nth-child(9),
     `----
 
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/recovery/vercel/001/input.css:8:5]
-  8 | .video:first-child,
+    ,-[$DIR/tests/recovery/vercel/001/input.css:8:1]
+  8 |     .video:first-child,
   9 |     .video:nth-child(5),
     :                      ^
  10 |     .video:nth-child(9),
     `----
 
   x AnPlusB
-    ,-[$DIR/tests/recovery/vercel/001/input.css:8:5]
-  8 | .video:first-child,
+    ,-[$DIR/tests/recovery/vercel/001/input.css:8:1]
+  8 |     .video:first-child,
   9 |     .video:nth-child(5),
     :                      ^
  10 |     .video:nth-child(9),
     `----
 
   x AnPlusBNotation
-    ,-[$DIR/tests/recovery/vercel/001/input.css:8:5]
-  8 | .video:first-child,
+    ,-[$DIR/tests/recovery/vercel/001/input.css:8:1]
+  8 |     .video:first-child,
   9 |     .video:nth-child(5),
     :                      ^
  10 |     .video:nth-child(9),
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/recovery/vercel/001/input.css:9:5]
-  9 | .video:nth-child(5),
+    ,-[$DIR/tests/recovery/vercel/001/input.css:9:1]
+  9 |     .video:nth-child(5),
  10 |     .video:nth-child(9),
     :     ^^^^^^^^^^^^^^^^^^^
  11 |     .video:nth-child(13) {
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/recovery/vercel/001/input.css:9:5]
-  9 | .video:nth-child(5),
+    ,-[$DIR/tests/recovery/vercel/001/input.css:9:1]
+  9 |     .video:nth-child(5),
  10 |     .video:nth-child(9),
     :     ^^^^^^^^^^^^^^^^^^^
  11 |     .video:nth-child(13) {
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/recovery/vercel/001/input.css:9:5]
-  9 | .video:nth-child(5),
+    ,-[$DIR/tests/recovery/vercel/001/input.css:9:1]
+  9 |     .video:nth-child(5),
  10 |     .video:nth-child(9),
     :     ^^^^^^
  11 |     .video:nth-child(13) {
     `----
 
   x ClassSelector
-    ,-[$DIR/tests/recovery/vercel/001/input.css:9:5]
-  9 | .video:nth-child(5),
+    ,-[$DIR/tests/recovery/vercel/001/input.css:9:1]
+  9 |     .video:nth-child(5),
  10 |     .video:nth-child(9),
     :     ^^^^^^
  11 |     .video:nth-child(13) {
     `----
 
   x Ident
-    ,-[$DIR/tests/recovery/vercel/001/input.css:9:5]
-  9 | .video:nth-child(5),
+    ,-[$DIR/tests/recovery/vercel/001/input.css:9:1]
+  9 |     .video:nth-child(5),
  10 |     .video:nth-child(9),
     :      ^^^^^
  11 |     .video:nth-child(13) {
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/recovery/vercel/001/input.css:9:5]
-  9 | .video:nth-child(5),
+    ,-[$DIR/tests/recovery/vercel/001/input.css:9:1]
+  9 |     .video:nth-child(5),
  10 |     .video:nth-child(9),
     :           ^^^^^^^^^^^^^
  11 |     .video:nth-child(13) {
     `----
 
   x PseudoClassSelector
-    ,-[$DIR/tests/recovery/vercel/001/input.css:9:5]
-  9 | .video:nth-child(5),
+    ,-[$DIR/tests/recovery/vercel/001/input.css:9:1]
+  9 |     .video:nth-child(5),
  10 |     .video:nth-child(9),
     :           ^^^^^^^^^^^^^
  11 |     .video:nth-child(13) {
     `----
 
   x Ident
-    ,-[$DIR/tests/recovery/vercel/001/input.css:9:5]
-  9 | .video:nth-child(5),
+    ,-[$DIR/tests/recovery/vercel/001/input.css:9:1]
+  9 |     .video:nth-child(5),
  10 |     .video:nth-child(9),
     :            ^^^^^^^^^
  11 |     .video:nth-child(13) {
     `----
 
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/recovery/vercel/001/input.css:9:5]
-  9 | .video:nth-child(5),
+    ,-[$DIR/tests/recovery/vercel/001/input.css:9:1]
+  9 |     .video:nth-child(5),
  10 |     .video:nth-child(9),
     :                      ^
  11 |     .video:nth-child(13) {
     `----
 
   x AnPlusB
-    ,-[$DIR/tests/recovery/vercel/001/input.css:9:5]
-  9 | .video:nth-child(5),
+    ,-[$DIR/tests/recovery/vercel/001/input.css:9:1]
+  9 |     .video:nth-child(5),
  10 |     .video:nth-child(9),
     :                      ^
  11 |     .video:nth-child(13) {
     `----
 
   x AnPlusBNotation
-    ,-[$DIR/tests/recovery/vercel/001/input.css:9:5]
-  9 | .video:nth-child(5),
+    ,-[$DIR/tests/recovery/vercel/001/input.css:9:1]
+  9 |     .video:nth-child(5),
  10 |     .video:nth-child(9),
     :                      ^
  11 |     .video:nth-child(13) {
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/recovery/vercel/001/input.css:10:5]
- 10 | .video:nth-child(9),
+    ,-[$DIR/tests/recovery/vercel/001/input.css:10:1]
+ 10 |     .video:nth-child(9),
  11 |     .video:nth-child(13) {
     :     ^^^^^^^^^^^^^^^^^^^^
  12 |         margin-left: 0;
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/recovery/vercel/001/input.css:10:5]
- 10 | .video:nth-child(9),
+    ,-[$DIR/tests/recovery/vercel/001/input.css:10:1]
+ 10 |     .video:nth-child(9),
  11 |     .video:nth-child(13) {
     :     ^^^^^^^^^^^^^^^^^^^^
  12 |         margin-left: 0;
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/recovery/vercel/001/input.css:10:5]
- 10 | .video:nth-child(9),
+    ,-[$DIR/tests/recovery/vercel/001/input.css:10:1]
+ 10 |     .video:nth-child(9),
  11 |     .video:nth-child(13) {
     :     ^^^^^^
  12 |         margin-left: 0;
     `----
 
   x ClassSelector
-    ,-[$DIR/tests/recovery/vercel/001/input.css:10:5]
- 10 | .video:nth-child(9),
+    ,-[$DIR/tests/recovery/vercel/001/input.css:10:1]
+ 10 |     .video:nth-child(9),
  11 |     .video:nth-child(13) {
     :     ^^^^^^
  12 |         margin-left: 0;
     `----
 
   x Ident
-    ,-[$DIR/tests/recovery/vercel/001/input.css:10:5]
- 10 | .video:nth-child(9),
+    ,-[$DIR/tests/recovery/vercel/001/input.css:10:1]
+ 10 |     .video:nth-child(9),
  11 |     .video:nth-child(13) {
     :      ^^^^^
  12 |         margin-left: 0;
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/recovery/vercel/001/input.css:10:5]
- 10 | .video:nth-child(9),
+    ,-[$DIR/tests/recovery/vercel/001/input.css:10:1]
+ 10 |     .video:nth-child(9),
  11 |     .video:nth-child(13) {
     :           ^^^^^^^^^^^^^^
  12 |         margin-left: 0;
     `----
 
   x PseudoClassSelector
-    ,-[$DIR/tests/recovery/vercel/001/input.css:10:5]
- 10 | .video:nth-child(9),
+    ,-[$DIR/tests/recovery/vercel/001/input.css:10:1]
+ 10 |     .video:nth-child(9),
  11 |     .video:nth-child(13) {
     :           ^^^^^^^^^^^^^^
  12 |         margin-left: 0;
     `----
 
   x Ident
-    ,-[$DIR/tests/recovery/vercel/001/input.css:10:5]
- 10 | .video:nth-child(9),
+    ,-[$DIR/tests/recovery/vercel/001/input.css:10:1]
+ 10 |     .video:nth-child(9),
  11 |     .video:nth-child(13) {
     :            ^^^^^^^^^
  12 |         margin-left: 0;
     `----
 
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/recovery/vercel/001/input.css:10:5]
- 10 | .video:nth-child(9),
+    ,-[$DIR/tests/recovery/vercel/001/input.css:10:1]
+ 10 |     .video:nth-child(9),
  11 |     .video:nth-child(13) {
     :                      ^^
  12 |         margin-left: 0;
     `----
 
   x AnPlusB
-    ,-[$DIR/tests/recovery/vercel/001/input.css:10:5]
- 10 | .video:nth-child(9),
+    ,-[$DIR/tests/recovery/vercel/001/input.css:10:1]
+ 10 |     .video:nth-child(9),
  11 |     .video:nth-child(13) {
     :                      ^^
  12 |         margin-left: 0;
     `----
 
   x AnPlusBNotation
-    ,-[$DIR/tests/recovery/vercel/001/input.css:10:5]
- 10 | .video:nth-child(9),
+    ,-[$DIR/tests/recovery/vercel/001/input.css:10:1]
+ 10 |     .video:nth-child(9),
  11 |     .video:nth-child(13) {
     :                      ^^
  12 |         margin-left: 0;
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/recovery/vercel/001/input.css:10:5]
- 10 |     .video:nth-child(9),
+    ,-[$DIR/tests/recovery/vercel/001/input.css:10:1]
+ 10 |         .video:nth-child(9),
  11 | ,->     .video:nth-child(13) {
  12 | |           margin-left: 0;
  13 | `->     }
@@ -946,112 +946,112 @@
     `----
 
   x LBrace
-    ,-[$DIR/tests/recovery/vercel/001/input.css:10:5]
- 10 | .video:nth-child(9),
+    ,-[$DIR/tests/recovery/vercel/001/input.css:10:1]
+ 10 |     .video:nth-child(9),
  11 |     .video:nth-child(13) {
     :                          ^
  12 |         margin-left: 0;
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/vercel/001/input.css:11:5]
- 11 | .video:nth-child(13) {
+    ,-[$DIR/tests/recovery/vercel/001/input.css:11:1]
+ 11 |     .video:nth-child(13) {
  12 |         margin-left: 0;
     :         ^^^^^^^^^^^^^^
  13 |     }
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/recovery/vercel/001/input.css:11:5]
- 11 | .video:nth-child(13) {
+    ,-[$DIR/tests/recovery/vercel/001/input.css:11:1]
+ 11 |     .video:nth-child(13) {
  12 |         margin-left: 0;
     :         ^^^^^^^^^^^^^^
  13 |     }
     `----
 
   x Declaration
-    ,-[$DIR/tests/recovery/vercel/001/input.css:11:5]
- 11 | .video:nth-child(13) {
+    ,-[$DIR/tests/recovery/vercel/001/input.css:11:1]
+ 11 |     .video:nth-child(13) {
  12 |         margin-left: 0;
     :         ^^^^^^^^^^^^^^
  13 |     }
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/recovery/vercel/001/input.css:11:5]
- 11 | .video:nth-child(13) {
+    ,-[$DIR/tests/recovery/vercel/001/input.css:11:1]
+ 11 |     .video:nth-child(13) {
  12 |         margin-left: 0;
     :         ^^^^^^^^^^^
  13 |     }
     `----
 
   x Ident
-    ,-[$DIR/tests/recovery/vercel/001/input.css:11:5]
- 11 | .video:nth-child(13) {
+    ,-[$DIR/tests/recovery/vercel/001/input.css:11:1]
+ 11 |     .video:nth-child(13) {
  12 |         margin-left: 0;
     :         ^^^^^^^^^^^
  13 |     }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/vercel/001/input.css:11:5]
- 11 | .video:nth-child(13) {
+    ,-[$DIR/tests/recovery/vercel/001/input.css:11:1]
+ 11 |     .video:nth-child(13) {
  12 |         margin-left: 0;
     :                      ^
  13 |     }
     `----
 
   x Integer
-    ,-[$DIR/tests/recovery/vercel/001/input.css:11:5]
- 11 | .video:nth-child(13) {
+    ,-[$DIR/tests/recovery/vercel/001/input.css:11:1]
+ 11 |     .video:nth-child(13) {
  12 |         margin-left: 0;
     :                      ^
  13 |     }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/vercel/001/input.css:13:5]
- 13 | }
+    ,-[$DIR/tests/recovery/vercel/001/input.css:13:1]
+ 13 |     }
  14 |     __styled-jsx-placeholder__7
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  15 | }
     `----
 
   x Rule
-    ,-[$DIR/tests/recovery/vercel/001/input.css:13:5]
- 13 | }
+    ,-[$DIR/tests/recovery/vercel/001/input.css:13:1]
+ 13 |     }
  14 |     __styled-jsx-placeholder__7
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  15 | }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/vercel/001/input.css:13:5]
- 13 | }
+    ,-[$DIR/tests/recovery/vercel/001/input.css:13:1]
+ 13 |     }
  14 |     __styled-jsx-placeholder__7
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
  15 | }
     `----
 
   x Ident { value: Atom('__styled-jsx-placeholder__7' type=dynamic), raw: "__styled-jsx-placeholder__7" }
-    ,-[$DIR/tests/recovery/vercel/001/input.css:13:5]
- 13 | }
+    ,-[$DIR/tests/recovery/vercel/001/input.css:13:1]
+ 13 |     }
  14 |     __styled-jsx-placeholder__7
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
  15 | }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/vercel/001/input.css:13:5]
- 13 | }
+    ,-[$DIR/tests/recovery/vercel/001/input.css:13:1]
+ 13 |     }
  14 |     __styled-jsx-placeholder__7
     :                                ^
  15 | }
     `----
 
   x WhiteSpace { value: "\n" }
-    ,-[$DIR/tests/recovery/vercel/001/input.css:13:5]
- 13 | }
+    ,-[$DIR/tests/recovery/vercel/001/input.css:13:1]
+ 13 |     }
  14 |     __styled-jsx-placeholder__7
     :                                ^
  15 | }

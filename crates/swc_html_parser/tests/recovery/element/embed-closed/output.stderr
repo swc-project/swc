@@ -1,7 +1,7 @@
 
   x Stray end tag "embed"
-    ,-[$DIR/tests/recovery/element/embed-closed/input.html:10:5]
- 10 | </noembed>
+    ,-[$DIR/tests/recovery/element/embed-closed/input.html:10:1]
+ 10 |     </noembed>
  11 | </embed>
     : ^^^^^^^^
  12 | </body>

@@ -8,8 +8,8 @@
    `----
 
   x Stray end tag "form"
-    ,-[$DIR/tests/recovery/element/form/input.html:8:5]
-  8 | <form action="test"></form>
+    ,-[$DIR/tests/recovery/element/form/input.html:8:1]
+  8 |     <form action="test"></form>
   9 | </form>
     : ^^^^^^^
  10 | </body>

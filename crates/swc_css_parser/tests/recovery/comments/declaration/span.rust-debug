@@ -216,16 +216,16 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/comments/declaration/input.css:2:5]
- 2 | prop: url("test") /* comment */   /* comment */
+   ,-[$DIR/tests/recovery/comments/declaration/input.css:2:1]
+ 2 |     prop: url("test") /* comment */   /* comment */
  3 |         /* comment */:
    :                      ^
  4 | }
    `----
 
   x Colon
-   ,-[$DIR/tests/recovery/comments/declaration/input.css:2:5]
- 2 | prop: url("test") /* comment */   /* comment */
+   ,-[$DIR/tests/recovery/comments/declaration/input.css:2:1]
+ 2 |     prop: url("test") /* comment */   /* comment */
  3 |         /* comment */:
    :                      ^
  4 | }

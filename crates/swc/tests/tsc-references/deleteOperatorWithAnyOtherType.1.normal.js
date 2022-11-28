@@ -25,7 +25,8 @@
 //!     `----
 //! 
 //!   x 'delete' cannot be called on an identifier in strict mode
-//!     ,-[24:1]
+//!     ,-[23:1]
+//!  23 | 
 //!  24 | // any type var
 //!  25 | var ResultIsBoolean1 = delete ANY1;
 //!  26 | var ResultIsBoolean2 = delete ANY2;
@@ -36,7 +37,8 @@
 //!     `----
 //! 
 //!   x The operand of a delete operator must be a property reference.
-//!     ,-[24:1]
+//!     ,-[23:1]
+//!  23 | 
 //!  24 | // any type var
 //!  25 | var ResultIsBoolean1 = delete ANY1;
 //!  26 | var ResultIsBoolean2 = delete ANY2;
@@ -165,7 +167,8 @@
 //!     `----
 //! 
 //!   x The operand of a delete operator must be a property reference.
-//!     ,-[32:1]
+//!     ,-[31:1]
+//!  31 | 
 //!  32 | // any type literal
 //!  33 | var ResultIsBoolean7 = delete undefined;
 //!  34 | var ResultIsBoolean8 = delete null;
@@ -283,7 +286,8 @@
 //!     `----
 //! 
 //!   x The operand of a delete operator must be a property reference.
-//!     ,-[49:1]
+//!     ,-[48:1]
+//!  48 | 
 //!  49 | // multiple delete  operators
 //!  50 | var ResultIsBoolean20 = delete delete ANY;
 //!  51 | var ResultIsBoolean21 = delete delete delete (ANY + ANY1);
@@ -294,7 +298,8 @@
 //!     `----
 //! 
 //!   x The operand of a delete operator must be a property reference.
-//!     ,-[49:1]
+//!     ,-[48:1]
+//!  48 | 
 //!  49 | // multiple delete  operators
 //!  50 | var ResultIsBoolean20 = delete delete ANY;
 //!  51 | var ResultIsBoolean21 = delete delete delete (ANY + ANY1);
@@ -305,7 +310,8 @@
 //!     `----
 //! 
 //!   x The operand of a delete operator must be a property reference.
-//!     ,-[49:1]
+//!     ,-[48:1]
+//!  48 | 
 //!  49 | // multiple delete  operators
 //!  50 | var ResultIsBoolean20 = delete delete ANY;
 //!  51 | var ResultIsBoolean21 = delete delete delete (ANY + ANY1);
@@ -340,7 +346,8 @@
 //!     `----
 //! 
 //!   x 'delete' cannot be called on an identifier in strict mode
-//!     ,-[53:1]
+//!     ,-[52:1]
+//!  52 | 
 //!  53 | // miss assignment operators
 //!  54 | delete ANY;
 //!  55 | delete ANY1;
@@ -351,7 +358,8 @@
 //!     `----
 //! 
 //!   x The operand of a delete operator must be a property reference.
-//!     ,-[53:1]
+//!     ,-[52:1]
+//!  52 | 
 //!  53 | // miss assignment operators
 //!  54 | delete ANY;
 //!  55 | delete ANY1;

@@ -148,8 +148,8 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/noscript/input.html:4:5]
- 4 | <title>Document</title>
+   ,-[$DIR/tests/fixture/element/noscript/input.html:4:1]
+ 4 |     <title>Document</title>
  5 | </head>
    :        ^
  6 | <body>
@@ -157,8 +157,8 @@
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/element/noscript/input.html:4:5]
- 4 | <title>Document</title>
+   ,-[$DIR/tests/fixture/element/noscript/input.html:4:1]
+ 4 |     <title>Document</title>
  5 | </head>
    :        ^
  6 | <body>

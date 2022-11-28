@@ -3,7 +3,7 @@
    ,-[$DIR/tests/recovery/function/calc/space/input.css:1:1]
  1 | ,-> .style {
  2 | |   	width: calc(2px+1px);
- 3 | |   }
+ 3 | `-> }
    `----
 
   x Rule

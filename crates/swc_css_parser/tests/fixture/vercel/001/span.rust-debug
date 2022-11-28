@@ -3,7 +3,7 @@
    ,-[$DIR/tests/fixture/vercel/001/input.css:1:1]
  1 | ,-> :nth-child(4n) {
  2 | |       margin-right: 0;
- 3 | |   }
+ 3 | `-> }
    `----
 
   x Rule

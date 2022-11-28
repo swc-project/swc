@@ -79,80 +79,80 @@
    `----
 
   x Stmt
-   ,-[$DIR/tests/span/js/decl/static-blocks.js:2:5]
- 2 | static {
+   ,-[$DIR/tests/span/js/decl/static-blocks.js:2:1]
+ 2 |     static {
  3 |         1 + 1;
    :         ^^^^^^
  4 |     }
    `----
 
   x ExprStmt
-   ,-[$DIR/tests/span/js/decl/static-blocks.js:2:5]
- 2 | static {
+   ,-[$DIR/tests/span/js/decl/static-blocks.js:2:1]
+ 2 |     static {
  3 |         1 + 1;
    :         ^^^^^^
  4 |     }
    `----
 
   x Expr
-   ,-[$DIR/tests/span/js/decl/static-blocks.js:2:5]
- 2 | static {
+   ,-[$DIR/tests/span/js/decl/static-blocks.js:2:1]
+ 2 |     static {
  3 |         1 + 1;
    :         ^^^^^
  4 |     }
    `----
 
   x BinExpr
-   ,-[$DIR/tests/span/js/decl/static-blocks.js:2:5]
- 2 | static {
+   ,-[$DIR/tests/span/js/decl/static-blocks.js:2:1]
+ 2 |     static {
  3 |         1 + 1;
    :         ^^^^^
  4 |     }
    `----
 
   x Expr
-   ,-[$DIR/tests/span/js/decl/static-blocks.js:2:5]
- 2 | static {
+   ,-[$DIR/tests/span/js/decl/static-blocks.js:2:1]
+ 2 |     static {
  3 |         1 + 1;
    :         ^
  4 |     }
    `----
 
   x Lit
-   ,-[$DIR/tests/span/js/decl/static-blocks.js:2:5]
- 2 | static {
+   ,-[$DIR/tests/span/js/decl/static-blocks.js:2:1]
+ 2 |     static {
  3 |         1 + 1;
    :         ^
  4 |     }
    `----
 
   x Number
-   ,-[$DIR/tests/span/js/decl/static-blocks.js:2:5]
- 2 | static {
+   ,-[$DIR/tests/span/js/decl/static-blocks.js:2:1]
+ 2 |     static {
  3 |         1 + 1;
    :         ^
  4 |     }
    `----
 
   x Expr
-   ,-[$DIR/tests/span/js/decl/static-blocks.js:2:5]
- 2 | static {
+   ,-[$DIR/tests/span/js/decl/static-blocks.js:2:1]
+ 2 |     static {
  3 |         1 + 1;
    :             ^
  4 |     }
    `----
 
   x Lit
-   ,-[$DIR/tests/span/js/decl/static-blocks.js:2:5]
- 2 | static {
+   ,-[$DIR/tests/span/js/decl/static-blocks.js:2:1]
+ 2 |     static {
  3 |         1 + 1;
    :             ^
  4 |     }
    `----
 
   x Number
-   ,-[$DIR/tests/span/js/decl/static-blocks.js:2:5]
- 2 | static {
+   ,-[$DIR/tests/span/js/decl/static-blocks.js:2:1]
+ 2 |     static {
  3 |         1 + 1;
    :             ^
  4 |     }

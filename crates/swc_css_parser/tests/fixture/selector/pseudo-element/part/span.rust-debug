@@ -2,7 +2,7 @@
   x Stylesheet
    ,-[$DIR/tests/fixture/selector/pseudo-element/part/input.css:1:1]
  1 | ,-> tabbed-custom-element::part(active) {}
- 2 | |   tabbed-custom-element::part(   active   ) {}
+ 2 | `-> tabbed-custom-element::part(   active   ) {}
    `----
 
   x Rule

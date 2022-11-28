@@ -13,7 +13,7 @@
  10 | |       background-image: image-set(
  11 | |               url("small-balloons.jpg") 1x,
  12 | |               url("large-balloons.jpg") 2x);
- 13 | |   }
+ 13 | `-> }
     `----
 
   x Rule
@@ -707,7 +707,8 @@
    `----
 
   x Rule
-    ,-[$DIR/tests/fixture/value/resolution/input.css:6:1]
+    ,-[$DIR/tests/fixture/value/resolution/input.css:5:1]
+  5 |     
   6 | ,-> .box {
   7 | |       background-image: -webkit-image-set(
   8 | |               url("small-balloons.jpg") 1x,
@@ -719,7 +720,8 @@
     `----
 
   x QualifiedRule
-    ,-[$DIR/tests/fixture/value/resolution/input.css:6:1]
+    ,-[$DIR/tests/fixture/value/resolution/input.css:5:1]
+  5 |     
   6 | ,-> .box {
   7 | |       background-image: -webkit-image-set(
   8 | |               url("small-balloons.jpg") 1x,
@@ -731,49 +733,56 @@
     `----
 
   x SelectorList
-   ,-[$DIR/tests/fixture/value/resolution/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/resolution/input.css:5:1]
+ 5 | 
  6 | .box {
    : ^^^^
  7 |     background-image: -webkit-image-set(
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/value/resolution/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/resolution/input.css:5:1]
+ 5 | 
  6 | .box {
    : ^^^^
  7 |     background-image: -webkit-image-set(
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/value/resolution/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/resolution/input.css:5:1]
+ 5 | 
  6 | .box {
    : ^^^^
  7 |     background-image: -webkit-image-set(
    `----
 
   x SubclassSelector
-   ,-[$DIR/tests/fixture/value/resolution/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/resolution/input.css:5:1]
+ 5 | 
  6 | .box {
    : ^^^^
  7 |     background-image: -webkit-image-set(
    `----
 
   x ClassSelector
-   ,-[$DIR/tests/fixture/value/resolution/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/resolution/input.css:5:1]
+ 5 | 
  6 | .box {
    : ^^^^
  7 |     background-image: -webkit-image-set(
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/value/resolution/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/resolution/input.css:5:1]
+ 5 | 
  6 | .box {
    :  ^^^
  7 |     background-image: -webkit-image-set(
    `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/value/resolution/input.css:6:1]
+    ,-[$DIR/tests/fixture/value/resolution/input.css:5:1]
+  5 |     
   6 | ,-> .box {
   7 | |       background-image: -webkit-image-set(
   8 | |               url("small-balloons.jpg") 1x,
@@ -785,7 +794,8 @@
     `----
 
   x LBrace
-   ,-[$DIR/tests/fixture/value/resolution/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/resolution/input.css:5:1]
+ 5 | 
  6 | .box {
    :      ^
  7 |     background-image: -webkit-image-set(
@@ -861,184 +871,184 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/resolution/input.css:7:5]
- 7 | background-image: -webkit-image-set(
+   ,-[$DIR/tests/fixture/value/resolution/input.css:7:1]
+ 7 |     background-image: -webkit-image-set(
  8 |             url("small-balloons.jpg") 1x,
    :             ^^^^^^^^^^^^^^^^^^^^^^^^^
  9 |             url("large-balloons.jpg") 2x);
    `----
 
   x Url
-   ,-[$DIR/tests/fixture/value/resolution/input.css:7:5]
- 7 | background-image: -webkit-image-set(
+   ,-[$DIR/tests/fixture/value/resolution/input.css:7:1]
+ 7 |     background-image: -webkit-image-set(
  8 |             url("small-balloons.jpg") 1x,
    :             ^^^^^^^^^^^^^^^^^^^^^^^^^
  9 |             url("large-balloons.jpg") 2x);
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/value/resolution/input.css:7:5]
- 7 | background-image: -webkit-image-set(
+   ,-[$DIR/tests/fixture/value/resolution/input.css:7:1]
+ 7 |     background-image: -webkit-image-set(
  8 |             url("small-balloons.jpg") 1x,
    :             ^^^
  9 |             url("large-balloons.jpg") 2x);
    `----
 
   x UrlValue
-   ,-[$DIR/tests/fixture/value/resolution/input.css:7:5]
- 7 | background-image: -webkit-image-set(
+   ,-[$DIR/tests/fixture/value/resolution/input.css:7:1]
+ 7 |     background-image: -webkit-image-set(
  8 |             url("small-balloons.jpg") 1x,
    :                 ^^^^^^^^^^^^^^^^^^^^
  9 |             url("large-balloons.jpg") 2x);
    `----
 
   x Str
-   ,-[$DIR/tests/fixture/value/resolution/input.css:7:5]
- 7 | background-image: -webkit-image-set(
+   ,-[$DIR/tests/fixture/value/resolution/input.css:7:1]
+ 7 |     background-image: -webkit-image-set(
  8 |             url("small-balloons.jpg") 1x,
    :                 ^^^^^^^^^^^^^^^^^^^^
  9 |             url("large-balloons.jpg") 2x);
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/resolution/input.css:7:5]
- 7 | background-image: -webkit-image-set(
+   ,-[$DIR/tests/fixture/value/resolution/input.css:7:1]
+ 7 |     background-image: -webkit-image-set(
  8 |             url("small-balloons.jpg") 1x,
    :                                       ^^
  9 |             url("large-balloons.jpg") 2x);
    `----
 
   x Dimension
-   ,-[$DIR/tests/fixture/value/resolution/input.css:7:5]
- 7 | background-image: -webkit-image-set(
+   ,-[$DIR/tests/fixture/value/resolution/input.css:7:1]
+ 7 |     background-image: -webkit-image-set(
  8 |             url("small-balloons.jpg") 1x,
    :                                       ^^
  9 |             url("large-balloons.jpg") 2x);
    `----
 
   x Resolution
-   ,-[$DIR/tests/fixture/value/resolution/input.css:7:5]
- 7 | background-image: -webkit-image-set(
+   ,-[$DIR/tests/fixture/value/resolution/input.css:7:1]
+ 7 |     background-image: -webkit-image-set(
  8 |             url("small-balloons.jpg") 1x,
    :                                       ^^
  9 |             url("large-balloons.jpg") 2x);
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/value/resolution/input.css:7:5]
- 7 | background-image: -webkit-image-set(
+   ,-[$DIR/tests/fixture/value/resolution/input.css:7:1]
+ 7 |     background-image: -webkit-image-set(
  8 |             url("small-balloons.jpg") 1x,
    :                                       ^
  9 |             url("large-balloons.jpg") 2x);
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/value/resolution/input.css:7:5]
- 7 | background-image: -webkit-image-set(
+   ,-[$DIR/tests/fixture/value/resolution/input.css:7:1]
+ 7 |     background-image: -webkit-image-set(
  8 |             url("small-balloons.jpg") 1x,
    :                                        ^
  9 |             url("large-balloons.jpg") 2x);
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/resolution/input.css:7:5]
- 7 | background-image: -webkit-image-set(
+   ,-[$DIR/tests/fixture/value/resolution/input.css:7:1]
+ 7 |     background-image: -webkit-image-set(
  8 |             url("small-balloons.jpg") 1x,
    :                                         ^
  9 |             url("large-balloons.jpg") 2x);
    `----
 
   x Delimiter
-   ,-[$DIR/tests/fixture/value/resolution/input.css:7:5]
- 7 | background-image: -webkit-image-set(
+   ,-[$DIR/tests/fixture/value/resolution/input.css:7:1]
+ 7 |     background-image: -webkit-image-set(
  8 |             url("small-balloons.jpg") 1x,
    :                                         ^
  9 |             url("large-balloons.jpg") 2x);
    `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/resolution/input.css:8:13]
-  8 | url("small-balloons.jpg") 1x,
+    ,-[$DIR/tests/fixture/value/resolution/input.css:8:1]
+  8 |             url("small-balloons.jpg") 1x,
   9 |             url("large-balloons.jpg") 2x);
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^
  10 |     background-image: image-set(
     `----
 
   x Url
-    ,-[$DIR/tests/fixture/value/resolution/input.css:8:13]
-  8 | url("small-balloons.jpg") 1x,
+    ,-[$DIR/tests/fixture/value/resolution/input.css:8:1]
+  8 |             url("small-balloons.jpg") 1x,
   9 |             url("large-balloons.jpg") 2x);
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^
  10 |     background-image: image-set(
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/value/resolution/input.css:8:13]
-  8 | url("small-balloons.jpg") 1x,
+    ,-[$DIR/tests/fixture/value/resolution/input.css:8:1]
+  8 |             url("small-balloons.jpg") 1x,
   9 |             url("large-balloons.jpg") 2x);
     :             ^^^
  10 |     background-image: image-set(
     `----
 
   x UrlValue
-    ,-[$DIR/tests/fixture/value/resolution/input.css:8:13]
-  8 | url("small-balloons.jpg") 1x,
+    ,-[$DIR/tests/fixture/value/resolution/input.css:8:1]
+  8 |             url("small-balloons.jpg") 1x,
   9 |             url("large-balloons.jpg") 2x);
     :                 ^^^^^^^^^^^^^^^^^^^^
  10 |     background-image: image-set(
     `----
 
   x Str
-    ,-[$DIR/tests/fixture/value/resolution/input.css:8:13]
-  8 | url("small-balloons.jpg") 1x,
+    ,-[$DIR/tests/fixture/value/resolution/input.css:8:1]
+  8 |             url("small-balloons.jpg") 1x,
   9 |             url("large-balloons.jpg") 2x);
     :                 ^^^^^^^^^^^^^^^^^^^^
  10 |     background-image: image-set(
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/resolution/input.css:8:13]
-  8 | url("small-balloons.jpg") 1x,
+    ,-[$DIR/tests/fixture/value/resolution/input.css:8:1]
+  8 |             url("small-balloons.jpg") 1x,
   9 |             url("large-balloons.jpg") 2x);
     :                                       ^^
  10 |     background-image: image-set(
     `----
 
   x Dimension
-    ,-[$DIR/tests/fixture/value/resolution/input.css:8:13]
-  8 | url("small-balloons.jpg") 1x,
+    ,-[$DIR/tests/fixture/value/resolution/input.css:8:1]
+  8 |             url("small-balloons.jpg") 1x,
   9 |             url("large-balloons.jpg") 2x);
     :                                       ^^
  10 |     background-image: image-set(
     `----
 
   x Resolution
-    ,-[$DIR/tests/fixture/value/resolution/input.css:8:13]
-  8 | url("small-balloons.jpg") 1x,
+    ,-[$DIR/tests/fixture/value/resolution/input.css:8:1]
+  8 |             url("small-balloons.jpg") 1x,
   9 |             url("large-balloons.jpg") 2x);
     :                                       ^^
  10 |     background-image: image-set(
     `----
 
   x Number
-    ,-[$DIR/tests/fixture/value/resolution/input.css:8:13]
-  8 | url("small-balloons.jpg") 1x,
+    ,-[$DIR/tests/fixture/value/resolution/input.css:8:1]
+  8 |             url("small-balloons.jpg") 1x,
   9 |             url("large-balloons.jpg") 2x);
     :                                       ^
  10 |     background-image: image-set(
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/value/resolution/input.css:8:13]
-  8 | url("small-balloons.jpg") 1x,
+    ,-[$DIR/tests/fixture/value/resolution/input.css:8:1]
+  8 |             url("small-balloons.jpg") 1x,
   9 |             url("large-balloons.jpg") 2x);
     :                                        ^
  10 |     background-image: image-set(
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/resolution/input.css:9:13]
-  9 |     url("large-balloons.jpg") 2x);
+    ,-[$DIR/tests/fixture/value/resolution/input.css:9:1]
+  9 |                 url("large-balloons.jpg") 2x);
  10 | ,->     background-image: image-set(
  11 | |               url("small-balloons.jpg") 1x,
  12 | `->             url("large-balloons.jpg") 2x);
@@ -1046,8 +1056,8 @@
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/value/resolution/input.css:9:13]
-  9 |     url("large-balloons.jpg") 2x);
+    ,-[$DIR/tests/fixture/value/resolution/input.css:9:1]
+  9 |                 url("large-balloons.jpg") 2x);
  10 | ,->     background-image: image-set(
  11 | |               url("small-balloons.jpg") 1x,
  12 | `->             url("large-balloons.jpg") 2x);
@@ -1055,8 +1065,8 @@
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/value/resolution/input.css:9:13]
-  9 |     url("large-balloons.jpg") 2x);
+    ,-[$DIR/tests/fixture/value/resolution/input.css:9:1]
+  9 |                 url("large-balloons.jpg") 2x);
  10 | ,->     background-image: image-set(
  11 | |               url("small-balloons.jpg") 1x,
  12 | `->             url("large-balloons.jpg") 2x);
@@ -1064,24 +1074,24 @@
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/value/resolution/input.css:9:13]
-  9 | url("large-balloons.jpg") 2x);
+    ,-[$DIR/tests/fixture/value/resolution/input.css:9:1]
+  9 |             url("large-balloons.jpg") 2x);
  10 |     background-image: image-set(
     :     ^^^^^^^^^^^^^^^^
  11 |             url("small-balloons.jpg") 1x,
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/value/resolution/input.css:9:13]
-  9 | url("large-balloons.jpg") 2x);
+    ,-[$DIR/tests/fixture/value/resolution/input.css:9:1]
+  9 |             url("large-balloons.jpg") 2x);
  10 |     background-image: image-set(
     :     ^^^^^^^^^^^^^^^^
  11 |             url("small-balloons.jpg") 1x,
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/resolution/input.css:9:13]
-  9 |     url("large-balloons.jpg") 2x);
+    ,-[$DIR/tests/fixture/value/resolution/input.css:9:1]
+  9 |                 url("large-balloons.jpg") 2x);
  10 | ,->     background-image: image-set(
  11 | |               url("small-balloons.jpg") 1x,
  12 | `->             url("large-balloons.jpg") 2x);
@@ -1089,8 +1099,8 @@
     `----
 
   x Function
-    ,-[$DIR/tests/fixture/value/resolution/input.css:9:13]
-  9 |     url("large-balloons.jpg") 2x);
+    ,-[$DIR/tests/fixture/value/resolution/input.css:9:1]
+  9 |                 url("large-balloons.jpg") 2x);
  10 | ,->     background-image: image-set(
  11 | |               url("small-balloons.jpg") 1x,
  12 | `->             url("large-balloons.jpg") 2x);
@@ -1098,184 +1108,184 @@
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/value/resolution/input.css:9:13]
-  9 | url("large-balloons.jpg") 2x);
+    ,-[$DIR/tests/fixture/value/resolution/input.css:9:1]
+  9 |             url("large-balloons.jpg") 2x);
  10 |     background-image: image-set(
     :                       ^^^^^^^^^
  11 |             url("small-balloons.jpg") 1x,
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/resolution/input.css:10:5]
- 10 | background-image: image-set(
+    ,-[$DIR/tests/fixture/value/resolution/input.css:10:1]
+ 10 |     background-image: image-set(
  11 |             url("small-balloons.jpg") 1x,
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^
  12 |             url("large-balloons.jpg") 2x);
     `----
 
   x Url
-    ,-[$DIR/tests/fixture/value/resolution/input.css:10:5]
- 10 | background-image: image-set(
+    ,-[$DIR/tests/fixture/value/resolution/input.css:10:1]
+ 10 |     background-image: image-set(
  11 |             url("small-balloons.jpg") 1x,
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^
  12 |             url("large-balloons.jpg") 2x);
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/value/resolution/input.css:10:5]
- 10 | background-image: image-set(
+    ,-[$DIR/tests/fixture/value/resolution/input.css:10:1]
+ 10 |     background-image: image-set(
  11 |             url("small-balloons.jpg") 1x,
     :             ^^^
  12 |             url("large-balloons.jpg") 2x);
     `----
 
   x UrlValue
-    ,-[$DIR/tests/fixture/value/resolution/input.css:10:5]
- 10 | background-image: image-set(
+    ,-[$DIR/tests/fixture/value/resolution/input.css:10:1]
+ 10 |     background-image: image-set(
  11 |             url("small-balloons.jpg") 1x,
     :                 ^^^^^^^^^^^^^^^^^^^^
  12 |             url("large-balloons.jpg") 2x);
     `----
 
   x Str
-    ,-[$DIR/tests/fixture/value/resolution/input.css:10:5]
- 10 | background-image: image-set(
+    ,-[$DIR/tests/fixture/value/resolution/input.css:10:1]
+ 10 |     background-image: image-set(
  11 |             url("small-balloons.jpg") 1x,
     :                 ^^^^^^^^^^^^^^^^^^^^
  12 |             url("large-balloons.jpg") 2x);
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/resolution/input.css:10:5]
- 10 | background-image: image-set(
+    ,-[$DIR/tests/fixture/value/resolution/input.css:10:1]
+ 10 |     background-image: image-set(
  11 |             url("small-balloons.jpg") 1x,
     :                                       ^^
  12 |             url("large-balloons.jpg") 2x);
     `----
 
   x Dimension
-    ,-[$DIR/tests/fixture/value/resolution/input.css:10:5]
- 10 | background-image: image-set(
+    ,-[$DIR/tests/fixture/value/resolution/input.css:10:1]
+ 10 |     background-image: image-set(
  11 |             url("small-balloons.jpg") 1x,
     :                                       ^^
  12 |             url("large-balloons.jpg") 2x);
     `----
 
   x Resolution
-    ,-[$DIR/tests/fixture/value/resolution/input.css:10:5]
- 10 | background-image: image-set(
+    ,-[$DIR/tests/fixture/value/resolution/input.css:10:1]
+ 10 |     background-image: image-set(
  11 |             url("small-balloons.jpg") 1x,
     :                                       ^^
  12 |             url("large-balloons.jpg") 2x);
     `----
 
   x Number
-    ,-[$DIR/tests/fixture/value/resolution/input.css:10:5]
- 10 | background-image: image-set(
+    ,-[$DIR/tests/fixture/value/resolution/input.css:10:1]
+ 10 |     background-image: image-set(
  11 |             url("small-balloons.jpg") 1x,
     :                                       ^
  12 |             url("large-balloons.jpg") 2x);
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/value/resolution/input.css:10:5]
- 10 | background-image: image-set(
+    ,-[$DIR/tests/fixture/value/resolution/input.css:10:1]
+ 10 |     background-image: image-set(
  11 |             url("small-balloons.jpg") 1x,
     :                                        ^
  12 |             url("large-balloons.jpg") 2x);
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/resolution/input.css:10:5]
- 10 | background-image: image-set(
+    ,-[$DIR/tests/fixture/value/resolution/input.css:10:1]
+ 10 |     background-image: image-set(
  11 |             url("small-balloons.jpg") 1x,
     :                                         ^
  12 |             url("large-balloons.jpg") 2x);
     `----
 
   x Delimiter
-    ,-[$DIR/tests/fixture/value/resolution/input.css:10:5]
- 10 | background-image: image-set(
+    ,-[$DIR/tests/fixture/value/resolution/input.css:10:1]
+ 10 |     background-image: image-set(
  11 |             url("small-balloons.jpg") 1x,
     :                                         ^
  12 |             url("large-balloons.jpg") 2x);
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/resolution/input.css:11:13]
- 11 | url("small-balloons.jpg") 1x,
+    ,-[$DIR/tests/fixture/value/resolution/input.css:11:1]
+ 11 |             url("small-balloons.jpg") 1x,
  12 |             url("large-balloons.jpg") 2x);
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^
  13 | }
     `----
 
   x Url
-    ,-[$DIR/tests/fixture/value/resolution/input.css:11:13]
- 11 | url("small-balloons.jpg") 1x,
+    ,-[$DIR/tests/fixture/value/resolution/input.css:11:1]
+ 11 |             url("small-balloons.jpg") 1x,
  12 |             url("large-balloons.jpg") 2x);
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^
  13 | }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/value/resolution/input.css:11:13]
- 11 | url("small-balloons.jpg") 1x,
+    ,-[$DIR/tests/fixture/value/resolution/input.css:11:1]
+ 11 |             url("small-balloons.jpg") 1x,
  12 |             url("large-balloons.jpg") 2x);
     :             ^^^
  13 | }
     `----
 
   x UrlValue
-    ,-[$DIR/tests/fixture/value/resolution/input.css:11:13]
- 11 | url("small-balloons.jpg") 1x,
+    ,-[$DIR/tests/fixture/value/resolution/input.css:11:1]
+ 11 |             url("small-balloons.jpg") 1x,
  12 |             url("large-balloons.jpg") 2x);
     :                 ^^^^^^^^^^^^^^^^^^^^
  13 | }
     `----
 
   x Str
-    ,-[$DIR/tests/fixture/value/resolution/input.css:11:13]
- 11 | url("small-balloons.jpg") 1x,
+    ,-[$DIR/tests/fixture/value/resolution/input.css:11:1]
+ 11 |             url("small-balloons.jpg") 1x,
  12 |             url("large-balloons.jpg") 2x);
     :                 ^^^^^^^^^^^^^^^^^^^^
  13 | }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/resolution/input.css:11:13]
- 11 | url("small-balloons.jpg") 1x,
+    ,-[$DIR/tests/fixture/value/resolution/input.css:11:1]
+ 11 |             url("small-balloons.jpg") 1x,
  12 |             url("large-balloons.jpg") 2x);
     :                                       ^^
  13 | }
     `----
 
   x Dimension
-    ,-[$DIR/tests/fixture/value/resolution/input.css:11:13]
- 11 | url("small-balloons.jpg") 1x,
+    ,-[$DIR/tests/fixture/value/resolution/input.css:11:1]
+ 11 |             url("small-balloons.jpg") 1x,
  12 |             url("large-balloons.jpg") 2x);
     :                                       ^^
  13 | }
     `----
 
   x Resolution
-    ,-[$DIR/tests/fixture/value/resolution/input.css:11:13]
- 11 | url("small-balloons.jpg") 1x,
+    ,-[$DIR/tests/fixture/value/resolution/input.css:11:1]
+ 11 |             url("small-balloons.jpg") 1x,
  12 |             url("large-balloons.jpg") 2x);
     :                                       ^^
  13 | }
     `----
 
   x Number
-    ,-[$DIR/tests/fixture/value/resolution/input.css:11:13]
- 11 | url("small-balloons.jpg") 1x,
+    ,-[$DIR/tests/fixture/value/resolution/input.css:11:1]
+ 11 |             url("small-balloons.jpg") 1x,
  12 |             url("large-balloons.jpg") 2x);
     :                                       ^
  13 | }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/value/resolution/input.css:11:13]
- 11 | url("small-balloons.jpg") 1x,
+    ,-[$DIR/tests/fixture/value/resolution/input.css:11:1]
+ 11 |             url("small-balloons.jpg") 1x,
  12 |             url("large-balloons.jpg") 2x);
     :                                        ^
  13 | }

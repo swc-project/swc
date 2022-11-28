@@ -1,7 +1,8 @@
 //// [destructuringSameNames.ts]
 //! 
 //!   x the name `foo1` is defined multiple times
-//!     ,-[19:1]
+//!     ,-[18:1]
+//!  18 | 
 //!  19 | // Error cases
 //!  20 | 
 //!  21 | let { foo1, foo1 } = { foo1: 10 };
@@ -28,7 +29,8 @@
 //!     `----
 //! 
 //!   x the name `foo3` is defined multiple times
-//!     ,-[21:1]
+//!     ,-[20:1]
+//!  20 | 
 //!  21 | let { foo1, foo1 } = { foo1: 10 };
 //!  22 | let { foo2, bar2: foo2 } = { foo2: 20, bar2: 220 };
 //!  23 | let { bar3: foo3, foo3 } = { foo3: 30, bar3: 330 };

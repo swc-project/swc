@@ -157,8 +157,8 @@
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/embed-closed/input.html:4:5]
- 4 | <title>Document</title>
+   ,-[$DIR/tests/recovery/element/embed-closed/input.html:4:1]
+ 4 |     <title>Document</title>
  5 | </head>
    :        ^
  6 | <body>
@@ -166,8 +166,8 @@
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/element/embed-closed/input.html:4:5]
- 4 | <title>Document</title>
+   ,-[$DIR/tests/recovery/element/embed-closed/input.html:4:1]
+ 4 |     <title>Document</title>
  5 | </head>
    :        ^
  6 | <body>
@@ -281,8 +281,8 @@
    `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/embed-closed/input.html:7:5]
-  7 |     <embed type="vide/webm" src="/media/examples/flower.mp4" width="200" height="200">
+    ,-[$DIR/tests/recovery/element/embed-closed/input.html:7:1]
+  7 |         <embed type="vide/webm" src="/media/examples/flower.mp4" width="200" height="200">
   8 | ,->     <noembed>
   9 | |           <h1>Alternative content</h1>
  10 | `->     </noembed>
@@ -290,8 +290,8 @@
     `----
 
   x Element
-    ,-[$DIR/tests/recovery/element/embed-closed/input.html:7:5]
-  7 |     <embed type="vide/webm" src="/media/examples/flower.mp4" width="200" height="200">
+    ,-[$DIR/tests/recovery/element/embed-closed/input.html:7:1]
+  7 |         <embed type="vide/webm" src="/media/examples/flower.mp4" width="200" height="200">
   8 | ,->     <noembed>
   9 | |           <h1>Alternative content</h1>
  10 | `->     </noembed>
@@ -299,8 +299,8 @@
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/embed-closed/input.html:7:5]
-  7 |     <embed type="vide/webm" src="/media/examples/flower.mp4" width="200" height="200">
+    ,-[$DIR/tests/recovery/element/embed-closed/input.html:7:1]
+  7 |         <embed type="vide/webm" src="/media/examples/flower.mp4" width="200" height="200">
   8 | ,->     <noembed>
   9 | |           <h1>Alternative content</h1>
  10 | `->     </noembed>
@@ -308,8 +308,8 @@
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/embed-closed/input.html:7:5]
-  7 |     <embed type="vide/webm" src="/media/examples/flower.mp4" width="200" height="200">
+    ,-[$DIR/tests/recovery/element/embed-closed/input.html:7:1]
+  7 |         <embed type="vide/webm" src="/media/examples/flower.mp4" width="200" height="200">
   8 | ,->     <noembed>
   9 | |           <h1>Alternative content</h1>
  10 | `->     </noembed>
@@ -317,8 +317,8 @@
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/embed-closed/input.html:9:9]
-  9 |     <h1>Alternative content</h1>
+    ,-[$DIR/tests/recovery/element/embed-closed/input.html:9:1]
+  9 |             <h1>Alternative content</h1>
  10 | ,->     </noembed>
  11 | |   </embed>
  12 | `-> </body>
@@ -326,8 +326,8 @@
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/embed-closed/input.html:9:9]
-  9 |     <h1>Alternative content</h1>
+    ,-[$DIR/tests/recovery/element/embed-closed/input.html:9:1]
+  9 |             <h1>Alternative content</h1>
  10 | ,->     </noembed>
  11 | |   </embed>
  12 | `-> </body>

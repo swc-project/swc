@@ -60,7 +60,7 @@
  57 | |       }
  58 | |       
  59 | |       margin: 20px;
- 60 | |   }
+ 60 | `-> }
     `----
 
   x Rule
@@ -1736,48 +1736,48 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:18:5]
- 18 | @top-left {}
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:18:1]
+ 18 |     @top-left {}
  19 |     @bottom-center {}
     :     ^^^^^^^^^^^^^^^^^
  20 | }
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:18:5]
- 18 | @top-left {}
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:18:1]
+ 18 |     @top-left {}
  19 |     @bottom-center {}
     :     ^^^^^^^^^^^^^^^^^
  20 | }
     `----
 
   x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:18:5]
- 18 | @top-left {}
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:18:1]
+ 18 |     @top-left {}
  19 |     @bottom-center {}
     :      ^^^^^^^^^^^^^
  20 | }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:18:5]
- 18 | @top-left {}
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:18:1]
+ 18 |     @top-left {}
  19 |     @bottom-center {}
     :      ^^^^^^^^^^^^^
  20 | }
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:18:5]
- 18 | @top-left {}
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:18:1]
+ 18 |     @top-left {}
  19 |     @bottom-center {}
     :                    ^^
  20 | }
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:18:5]
- 18 | @top-left {}
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:18:1]
+ 18 |     @top-left {}
  19 |     @bottom-center {}
     :                    ^
  20 | }
@@ -2024,112 +2024,128 @@
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:24:1]
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:23:1]
+ 23 | 
  24 | @page :left { @bottom-left-corner {}}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  25 | @page :right { @bottom-right-corner {}}
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:24:1]
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:23:1]
+ 23 | 
  24 | @page :left { @bottom-left-corner {}}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  25 | @page :right { @bottom-right-corner {}}
     `----
 
   x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:24:1]
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:23:1]
+ 23 | 
  24 | @page :left { @bottom-left-corner {}}
     :  ^^^^
  25 | @page :right { @bottom-right-corner {}}
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:24:1]
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:23:1]
+ 23 | 
  24 | @page :left { @bottom-left-corner {}}
     :  ^^^^
  25 | @page :right { @bottom-right-corner {}}
     `----
 
   x PageSelectorList
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:24:1]
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:23:1]
+ 23 | 
  24 | @page :left { @bottom-left-corner {}}
     :       ^^^^^
  25 | @page :right { @bottom-right-corner {}}
     `----
 
   x PageSelector
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:24:1]
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:23:1]
+ 23 | 
  24 | @page :left { @bottom-left-corner {}}
     :       ^^^^^
  25 | @page :right { @bottom-right-corner {}}
     `----
 
   x PageSelectorPseudo
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:24:1]
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:23:1]
+ 23 | 
  24 | @page :left { @bottom-left-corner {}}
     :       ^^^^^
  25 | @page :right { @bottom-right-corner {}}
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:24:1]
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:23:1]
+ 23 | 
  24 | @page :left { @bottom-left-corner {}}
     :        ^^^^
  25 | @page :right { @bottom-right-corner {}}
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:24:1]
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:23:1]
+ 23 | 
  24 | @page :left { @bottom-left-corner {}}
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^
  25 | @page :right { @bottom-right-corner {}}
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:24:1]
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:23:1]
+ 23 | 
  24 | @page :left { @bottom-left-corner {}}
     :             ^
  25 | @page :right { @bottom-right-corner {}}
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:24:1]
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:23:1]
+ 23 | 
  24 | @page :left { @bottom-left-corner {}}
     :               ^^^^^^^^^^^^^^^^^^^^^^
  25 | @page :right { @bottom-right-corner {}}
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:24:1]
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:23:1]
+ 23 | 
  24 | @page :left { @bottom-left-corner {}}
     :               ^^^^^^^^^^^^^^^^^^^^^^
  25 | @page :right { @bottom-right-corner {}}
     `----
 
   x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:24:1]
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:23:1]
+ 23 | 
  24 | @page :left { @bottom-left-corner {}}
     :                ^^^^^^^^^^^^^^^^^^
  25 | @page :right { @bottom-right-corner {}}
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:24:1]
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:23:1]
+ 23 | 
  24 | @page :left { @bottom-left-corner {}}
     :                ^^^^^^^^^^^^^^^^^^
  25 | @page :right { @bottom-right-corner {}}
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:24:1]
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:23:1]
+ 23 | 
  24 | @page :left { @bottom-left-corner {}}
     :                                   ^^
  25 | @page :right { @bottom-right-corner {}}
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:24:1]
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:23:1]
+ 23 | 
  24 | @page :left { @bottom-left-corner {}}
     :                                   ^
  25 | @page :right { @bottom-right-corner {}}
@@ -2398,48 +2414,48 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:27:5]
- 27 | @bottom-left-corner {}
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:27:1]
+ 27 |     @bottom-left-corner {}
  28 |     @bottom-right-corner {}
     :     ^^^^^^^^^^^^^^^^^^^^^^^
  29 | }
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:27:5]
- 27 | @bottom-left-corner {}
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:27:1]
+ 27 |     @bottom-left-corner {}
  28 |     @bottom-right-corner {}
     :     ^^^^^^^^^^^^^^^^^^^^^^^
  29 | }
     `----
 
   x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:27:5]
- 27 | @bottom-left-corner {}
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:27:1]
+ 27 |     @bottom-left-corner {}
  28 |     @bottom-right-corner {}
     :      ^^^^^^^^^^^^^^^^^^^
  29 | }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:27:5]
- 27 | @bottom-left-corner {}
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:27:1]
+ 27 |     @bottom-left-corner {}
  28 |     @bottom-right-corner {}
     :      ^^^^^^^^^^^^^^^^^^^
  29 | }
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:27:5]
- 27 | @bottom-left-corner {}
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:27:1]
+ 27 |     @bottom-left-corner {}
  28 |     @bottom-right-corner {}
     :                          ^^
  29 | }
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:27:5]
- 27 | @bottom-left-corner {}
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:27:1]
+ 27 |     @bottom-left-corner {}
  28 |     @bottom-right-corner {}
     :                          ^
  29 | }
@@ -3171,8 +3187,9 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:40:5]
- 40 | ,-> @top-left {
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:39:1]
+ 39 |     
+ 40 | ,->     @top-left {
  41 | |           content: "foo";
  42 | |           color: blue;
  43 | `->     }
@@ -3180,8 +3197,9 @@
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:40:5]
- 40 | ,-> @top-left {
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:39:1]
+ 39 |     
+ 40 | ,->     @top-left {
  41 | |           content: "foo";
  42 | |           color: blue;
  43 | `->     }
@@ -3189,22 +3207,25 @@
     `----
 
   x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:40:5]
- 40 | @top-left {
-    :  ^^^^^^^^
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:39:1]
+ 39 | 
+ 40 |     @top-left {
+    :      ^^^^^^^^
  41 |         content: "foo";
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:40:5]
- 40 | @top-left {
-    :  ^^^^^^^^
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:39:1]
+ 39 | 
+ 40 |     @top-left {
+    :      ^^^^^^^^
  41 |         content: "foo";
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:40:5]
- 40 | ,-> @top-left {
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:39:1]
+ 39 |     
+ 40 | ,->     @top-left {
  41 | |           content: "foo";
  42 | |           color: blue;
  43 | `->     }
@@ -3212,111 +3233,112 @@
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:40:5]
- 40 | @top-left {
-    :           ^
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:39:1]
+ 39 | 
+ 40 |     @top-left {
+    :               ^
  41 |         content: "foo";
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:40:5]
- 40 | @top-left {
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:40:1]
+ 40 |     @top-left {
  41 |         content: "foo";
     :         ^^^^^^^^^^^^^^
  42 |         color: blue;
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:40:5]
- 40 | @top-left {
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:40:1]
+ 40 |     @top-left {
  41 |         content: "foo";
     :         ^^^^^^^^^^^^^^
  42 |         color: blue;
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:40:5]
- 40 | @top-left {
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:40:1]
+ 40 |     @top-left {
  41 |         content: "foo";
     :         ^^^^^^^
  42 |         color: blue;
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:40:5]
- 40 | @top-left {
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:40:1]
+ 40 |     @top-left {
  41 |         content: "foo";
     :         ^^^^^^^
  42 |         color: blue;
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:40:5]
- 40 | @top-left {
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:40:1]
+ 40 |     @top-left {
  41 |         content: "foo";
     :                  ^^^^^
  42 |         color: blue;
     `----
 
   x Str
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:40:5]
- 40 | @top-left {
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:40:1]
+ 40 |     @top-left {
  41 |         content: "foo";
     :                  ^^^^^
  42 |         color: blue;
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:41:9]
- 41 | content: "foo";
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:41:1]
+ 41 |         content: "foo";
  42 |         color: blue;
     :         ^^^^^^^^^^^
  43 |     }
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:41:9]
- 41 | content: "foo";
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:41:1]
+ 41 |         content: "foo";
  42 |         color: blue;
     :         ^^^^^^^^^^^
  43 |     }
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:41:9]
- 41 | content: "foo";
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:41:1]
+ 41 |         content: "foo";
  42 |         color: blue;
     :         ^^^^^
  43 |     }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:41:9]
- 41 | content: "foo";
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:41:1]
+ 41 |         content: "foo";
  42 |         color: blue;
     :         ^^^^^
  43 |     }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:41:9]
- 41 | content: "foo";
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:41:1]
+ 41 |         content: "foo";
  42 |         color: blue;
     :                ^^^^
  43 |     }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:41:9]
- 41 | content: "foo";
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:41:1]
+ 41 |         content: "foo";
  42 |         color: blue;
     :                ^^^^
  43 |     }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:43:5]
- 43 |     }
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:43:1]
+ 43 |         }
  44 | ,->     @top-right {
  45 | |           content: "bar";
  46 | `->     }
@@ -3324,8 +3346,8 @@
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:43:5]
- 43 |     }
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:43:1]
+ 43 |         }
  44 | ,->     @top-right {
  45 | |           content: "bar";
  46 | `->     }
@@ -3333,24 +3355,24 @@
     `----
 
   x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:43:5]
- 43 | }
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:43:1]
+ 43 |     }
  44 |     @top-right {
     :      ^^^^^^^^^
  45 |         content: "bar";
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:43:5]
- 43 | }
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:43:1]
+ 43 |     }
  44 |     @top-right {
     :      ^^^^^^^^^
  45 |         content: "bar";
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:43:5]
- 43 |     }
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:43:1]
+ 43 |         }
  44 | ,->     @top-right {
  45 | |           content: "bar";
  46 | `->     }
@@ -3358,56 +3380,56 @@
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:43:5]
- 43 | }
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:43:1]
+ 43 |     }
  44 |     @top-right {
     :                ^
  45 |         content: "bar";
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:44:5]
- 44 | @top-right {
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:44:1]
+ 44 |     @top-right {
  45 |         content: "bar";
     :         ^^^^^^^^^^^^^^
  46 |     }
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:44:5]
- 44 | @top-right {
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:44:1]
+ 44 |     @top-right {
  45 |         content: "bar";
     :         ^^^^^^^^^^^^^^
  46 |     }
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:44:5]
- 44 | @top-right {
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:44:1]
+ 44 |     @top-right {
  45 |         content: "bar";
     :         ^^^^^^^
  46 |     }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:44:5]
- 44 | @top-right {
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:44:1]
+ 44 |     @top-right {
  45 |         content: "bar";
     :         ^^^^^^^
  46 |     }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:44:5]
- 44 | @top-right {
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:44:1]
+ 44 |     @top-right {
  45 |         content: "bar";
     :                  ^^^^^
  46 |     }
     `----
 
   x Str
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:44:5]
- 44 | @top-right {
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:44:1]
+ 44 |     @top-right {
  45 |         content: "bar";
     :                  ^^^^^
  46 |     }
@@ -3566,8 +3588,9 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:51:5]
- 51 | ,-> @top-left {
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:50:1]
+ 50 |     
+ 51 | ,->     @top-left {
  52 | |           content: "foo";
  53 | |           color: blue;
  54 | `->     }
@@ -3575,8 +3598,9 @@
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:51:5]
- 51 | ,-> @top-left {
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:50:1]
+ 50 |     
+ 51 | ,->     @top-left {
  52 | |           content: "foo";
  53 | |           color: blue;
  54 | `->     }
@@ -3584,22 +3608,25 @@
     `----
 
   x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:51:5]
- 51 | @top-left {
-    :  ^^^^^^^^
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:50:1]
+ 50 | 
+ 51 |     @top-left {
+    :      ^^^^^^^^
  52 |         content: "foo";
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:51:5]
- 51 | @top-left {
-    :  ^^^^^^^^
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:50:1]
+ 50 | 
+ 51 |     @top-left {
+    :      ^^^^^^^^
  52 |         content: "foo";
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:51:5]
- 51 | ,-> @top-left {
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:50:1]
+ 50 |     
+ 51 | ,->     @top-left {
  52 | |           content: "foo";
  53 | |           color: blue;
  54 | `->     }
@@ -3607,263 +3634,276 @@
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:51:5]
- 51 | @top-left {
-    :           ^
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:50:1]
+ 50 | 
+ 51 |     @top-left {
+    :               ^
  52 |         content: "foo";
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:51:5]
- 51 | @top-left {
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:51:1]
+ 51 |     @top-left {
  52 |         content: "foo";
     :         ^^^^^^^^^^^^^^
  53 |         color: blue;
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:51:5]
- 51 | @top-left {
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:51:1]
+ 51 |     @top-left {
  52 |         content: "foo";
     :         ^^^^^^^^^^^^^^
  53 |         color: blue;
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:51:5]
- 51 | @top-left {
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:51:1]
+ 51 |     @top-left {
  52 |         content: "foo";
     :         ^^^^^^^
  53 |         color: blue;
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:51:5]
- 51 | @top-left {
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:51:1]
+ 51 |     @top-left {
  52 |         content: "foo";
     :         ^^^^^^^
  53 |         color: blue;
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:51:5]
- 51 | @top-left {
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:51:1]
+ 51 |     @top-left {
  52 |         content: "foo";
     :                  ^^^^^
  53 |         color: blue;
     `----
 
   x Str
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:51:5]
- 51 | @top-left {
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:51:1]
+ 51 |     @top-left {
  52 |         content: "foo";
     :                  ^^^^^
  53 |         color: blue;
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:52:9]
- 52 | content: "foo";
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:52:1]
+ 52 |         content: "foo";
  53 |         color: blue;
     :         ^^^^^^^^^^^
  54 |     }
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:52:9]
- 52 | content: "foo";
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:52:1]
+ 52 |         content: "foo";
  53 |         color: blue;
     :         ^^^^^^^^^^^
  54 |     }
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:52:9]
- 52 | content: "foo";
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:52:1]
+ 52 |         content: "foo";
  53 |         color: blue;
     :         ^^^^^
  54 |     }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:52:9]
- 52 | content: "foo";
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:52:1]
+ 52 |         content: "foo";
  53 |         color: blue;
     :         ^^^^^
  54 |     }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:52:9]
- 52 | content: "foo";
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:52:1]
+ 52 |         content: "foo";
  53 |         color: blue;
     :                ^^^^
  54 |     }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:52:9]
- 52 | content: "foo";
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:52:1]
+ 52 |         content: "foo";
  53 |         color: blue;
     :                ^^^^
  54 |     }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:54:5]
- 54 |     }
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:54:1]
+ 54 |         }
  55 | ,->     @top-right {
  56 | |           content: "bar";
  57 | `->     }
+ 58 |         
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:54:5]
- 54 |     }
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:54:1]
+ 54 |         }
  55 | ,->     @top-right {
  56 | |           content: "bar";
  57 | `->     }
+ 58 |         
     `----
 
   x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:54:5]
- 54 | }
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:54:1]
+ 54 |     }
  55 |     @top-right {
     :      ^^^^^^^^^
  56 |         content: "bar";
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:54:5]
- 54 | }
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:54:1]
+ 54 |     }
  55 |     @top-right {
     :      ^^^^^^^^^
  56 |         content: "bar";
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:54:5]
- 54 |     }
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:54:1]
+ 54 |         }
  55 | ,->     @top-right {
  56 | |           content: "bar";
  57 | `->     }
+ 58 |         
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:54:5]
- 54 | }
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:54:1]
+ 54 |     }
  55 |     @top-right {
     :                ^
  56 |         content: "bar";
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:55:5]
- 55 | @top-right {
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:55:1]
+ 55 |     @top-right {
  56 |         content: "bar";
     :         ^^^^^^^^^^^^^^
  57 |     }
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:55:5]
- 55 | @top-right {
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:55:1]
+ 55 |     @top-right {
  56 |         content: "bar";
     :         ^^^^^^^^^^^^^^
  57 |     }
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:55:5]
- 55 | @top-right {
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:55:1]
+ 55 |     @top-right {
  56 |         content: "bar";
     :         ^^^^^^^
  57 |     }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:55:5]
- 55 | @top-right {
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:55:1]
+ 55 |     @top-right {
  56 |         content: "bar";
     :         ^^^^^^^
  57 |     }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:55:5]
- 55 | @top-right {
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:55:1]
+ 55 |     @top-right {
  56 |         content: "bar";
     :                  ^^^^^
  57 |     }
     `----
 
   x Str
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:55:5]
- 55 | @top-right {
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:55:1]
+ 55 |     @top-right {
  56 |         content: "bar";
     :                  ^^^^^
  57 |     }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:59:5]
- 59 | margin: 20px;
-    : ^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:58:1]
+ 58 |     
+ 59 |     margin: 20px;
+    :     ^^^^^^^^^^^^
  60 | }
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:59:5]
- 59 | margin: 20px;
-    : ^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:58:1]
+ 58 |     
+ 59 |     margin: 20px;
+    :     ^^^^^^^^^^^^
  60 | }
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:59:5]
- 59 | margin: 20px;
-    : ^^^^^^
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:58:1]
+ 58 |     
+ 59 |     margin: 20px;
+    :     ^^^^^^
  60 | }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:59:5]
- 59 | margin: 20px;
-    : ^^^^^^
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:58:1]
+ 58 |     
+ 59 |     margin: 20px;
+    :     ^^^^^^
  60 | }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:59:5]
- 59 | margin: 20px;
-    :         ^^^^
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:58:1]
+ 58 |     
+ 59 |     margin: 20px;
+    :             ^^^^
  60 | }
     `----
 
   x Dimension
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:59:5]
- 59 | margin: 20px;
-    :         ^^^^
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:58:1]
+ 58 |     
+ 59 |     margin: 20px;
+    :             ^^^^
  60 | }
     `----
 
   x Length
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:59:5]
- 59 | margin: 20px;
-    :         ^^^^
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:58:1]
+ 58 |     
+ 59 |     margin: 20px;
+    :             ^^^^
  60 | }
     `----
 
   x Number
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:59:5]
- 59 | margin: 20px;
-    :         ^^
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:58:1]
+ 58 |     
+ 59 |     margin: 20px;
+    :             ^^
  60 | }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/page/input.css:59:5]
- 59 | margin: 20px;
-    :           ^^
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:58:1]
+ 58 |     
+ 59 |     margin: 20px;
+    :               ^^
  60 | }
     `----

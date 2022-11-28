@@ -163,8 +163,8 @@
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/table/broken-6/input.html:4:5]
- 4 | <title>Document</title>
+   ,-[$DIR/tests/recovery/element/table/broken-6/input.html:4:1]
+ 4 |     <title>Document</title>
  5 | </head>
    :        ^
  6 | <body>
@@ -172,8 +172,8 @@
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/element/table/broken-6/input.html:4:5]
- 4 | <title>Document</title>
+   ,-[$DIR/tests/recovery/element/table/broken-6/input.html:4:1]
+ 4 |     <title>Document</title>
  5 | </head>
    :        ^
  6 | <body>
@@ -319,8 +319,8 @@
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/table/broken-6/input.html:8:5]
-  8 |     <tr>
+    ,-[$DIR/tests/recovery/element/table/broken-6/input.html:8:1]
+  8 |         <tr>
   9 | ,->         <td>
  10 | |               <table>
  11 | |           </td>
@@ -331,8 +331,8 @@
     `----
 
   x Element
-    ,-[$DIR/tests/recovery/element/table/broken-6/input.html:8:5]
-  8 |     <tr>
+    ,-[$DIR/tests/recovery/element/table/broken-6/input.html:8:1]
+  8 |         <tr>
   9 | ,->         <td>
  10 | |               <table>
  11 | |           </td>
@@ -343,24 +343,24 @@
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/table/broken-6/input.html:8:5]
-  8 |     <tr>
+    ,-[$DIR/tests/recovery/element/table/broken-6/input.html:8:1]
+  8 |         <tr>
   9 | ,->         <td>
  10 | `->             <table>
  11 |             </td>
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/table/broken-6/input.html:8:5]
-  8 |     <tr>
+    ,-[$DIR/tests/recovery/element/table/broken-6/input.html:8:1]
+  8 |         <tr>
   9 | ,->         <td>
  10 | `->             <table>
  11 |             </td>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/table/broken-6/input.html:9:9]
-  9 |     <td>
+    ,-[$DIR/tests/recovery/element/table/broken-6/input.html:9:1]
+  9 |             <td>
  10 | ,->             <table>
  11 | |           </td>
  12 | |       </tr>
@@ -369,8 +369,8 @@
     `----
 
   x Element
-    ,-[$DIR/tests/recovery/element/table/broken-6/input.html:9:9]
-  9 |     <td>
+    ,-[$DIR/tests/recovery/element/table/broken-6/input.html:9:1]
+  9 |             <td>
  10 | ,->             <table>
  11 | |           </td>
  12 | |       </tr>
@@ -379,8 +379,8 @@
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/table/broken-6/input.html:9:9]
-  9 |     <td>
+    ,-[$DIR/tests/recovery/element/table/broken-6/input.html:9:1]
+  9 |             <td>
  10 | ,->             <table>
  11 | |           </td>
  12 | `->     </tr>
@@ -389,8 +389,8 @@
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/table/broken-6/input.html:9:9]
-  9 |     <td>
+    ,-[$DIR/tests/recovery/element/table/broken-6/input.html:9:1]
+  9 |             <td>
  10 | ,->             <table>
  11 | |           </td>
  12 | `->     </tr>
@@ -399,16 +399,16 @@
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/table/broken-6/input.html:12:5]
- 12 |     </tr>
+    ,-[$DIR/tests/recovery/element/table/broken-6/input.html:12:1]
+ 12 |         </tr>
  13 | ,-> </table>
  14 | `-> </body>
  15 |     </html>
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/table/broken-6/input.html:12:5]
- 12 |     </tr>
+    ,-[$DIR/tests/recovery/element/table/broken-6/input.html:12:1]
+ 12 |         </tr>
  13 | ,-> </table>
  14 | `-> </body>
  15 |     </html>

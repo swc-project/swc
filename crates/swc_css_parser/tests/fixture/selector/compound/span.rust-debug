@@ -16,7 +16,7 @@
  13 | |   button.btn-primary {}
  14 | |   *#z98y {}
  15 | |   #one#two {}
- 16 | |   #one.two.three {}
+ 16 | `-> #one.two.three {}
     `----
 
   x Rule

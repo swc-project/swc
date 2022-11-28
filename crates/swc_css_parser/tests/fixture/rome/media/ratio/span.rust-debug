@@ -1,7 +1,8 @@
 
   x Stylesheet
    ,-[$DIR/tests/fixture/rome/media/ratio/input.css:1:1]
- 1 | ,-> @media (aspect-ratio: 12/9) {}
+ 1 | @media (aspect-ratio: 12/9) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Rule

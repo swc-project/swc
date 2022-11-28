@@ -331,386 +331,404 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
- 4 | ,-> @media (prefers-color-scheme: dark) {
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:3:1]
+ 3 |     
+ 4 | ,->     @media (prefers-color-scheme: dark) {
  5 | |           h1, h2 { color: red; background: black; }
  6 | `->     }
  7 |     }
    `----
 
   x Rule
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
- 4 | ,-> @media (prefers-color-scheme: dark) {
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:3:1]
+ 3 |     
+ 4 | ,->     @media (prefers-color-scheme: dark) {
  5 | |           h1, h2 { color: red; background: black; }
  6 | `->     }
  7 |     }
    `----
 
   x AtRule
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
- 4 | ,-> @media (prefers-color-scheme: dark) {
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:3:1]
+ 3 |     
+ 4 | ,->     @media (prefers-color-scheme: dark) {
  5 | |           h1, h2 { color: red; background: black; }
  6 | `->     }
  7 |     }
    `----
 
   x AtRuleName
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
- 4 | @media (prefers-color-scheme: dark) {
-   :  ^^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:3:1]
+ 3 | 
+ 4 |     @media (prefers-color-scheme: dark) {
+   :      ^^^^^
  5 |         h1, h2 { color: red; background: black; }
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
- 4 | @media (prefers-color-scheme: dark) {
-   :  ^^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:3:1]
+ 3 | 
+ 4 |     @media (prefers-color-scheme: dark) {
+   :      ^^^^^
  5 |         h1, h2 { color: red; background: black; }
    `----
 
   x MediaQueryList
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
- 4 | @media (prefers-color-scheme: dark) {
-   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:3:1]
+ 3 | 
+ 4 |     @media (prefers-color-scheme: dark) {
+   :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  5 |         h1, h2 { color: red; background: black; }
    `----
 
   x MediaQuery
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
- 4 | @media (prefers-color-scheme: dark) {
-   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:3:1]
+ 3 | 
+ 4 |     @media (prefers-color-scheme: dark) {
+   :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  5 |         h1, h2 { color: red; background: black; }
    `----
 
   x MediaCondition
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
- 4 | @media (prefers-color-scheme: dark) {
-   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:3:1]
+ 3 | 
+ 4 |     @media (prefers-color-scheme: dark) {
+   :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  5 |         h1, h2 { color: red; background: black; }
    `----
 
   x MediaConditionAllType
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
- 4 | @media (prefers-color-scheme: dark) {
-   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:3:1]
+ 3 | 
+ 4 |     @media (prefers-color-scheme: dark) {
+   :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  5 |         h1, h2 { color: red; background: black; }
    `----
 
   x MediaInParens
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
- 4 | @media (prefers-color-scheme: dark) {
-   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:3:1]
+ 3 | 
+ 4 |     @media (prefers-color-scheme: dark) {
+   :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  5 |         h1, h2 { color: red; background: black; }
    `----
 
   x MediaFeature
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
- 4 | @media (prefers-color-scheme: dark) {
-   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:3:1]
+ 3 | 
+ 4 |     @media (prefers-color-scheme: dark) {
+   :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  5 |         h1, h2 { color: red; background: black; }
    `----
 
   x MediaFeaturePlain
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
- 4 | @media (prefers-color-scheme: dark) {
-   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:3:1]
+ 3 | 
+ 4 |     @media (prefers-color-scheme: dark) {
+   :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  5 |         h1, h2 { color: red; background: black; }
    `----
 
   x MediaFeatureName
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
- 4 | @media (prefers-color-scheme: dark) {
-   :         ^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:3:1]
+ 3 | 
+ 4 |     @media (prefers-color-scheme: dark) {
+   :             ^^^^^^^^^^^^^^^^^^^^
  5 |         h1, h2 { color: red; background: black; }
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
- 4 | @media (prefers-color-scheme: dark) {
-   :         ^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:3:1]
+ 3 | 
+ 4 |     @media (prefers-color-scheme: dark) {
+   :             ^^^^^^^^^^^^^^^^^^^^
  5 |         h1, h2 { color: red; background: black; }
    `----
 
   x MediaFeatureValue
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
- 4 | @media (prefers-color-scheme: dark) {
-   :                               ^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:3:1]
+ 3 | 
+ 4 |     @media (prefers-color-scheme: dark) {
+   :                                   ^^^^
  5 |         h1, h2 { color: red; background: black; }
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
- 4 | @media (prefers-color-scheme: dark) {
-   :                               ^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:3:1]
+ 3 | 
+ 4 |     @media (prefers-color-scheme: dark) {
+   :                                   ^^^^
  5 |         h1, h2 { color: red; background: black; }
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
- 4 | ,-> @media (prefers-color-scheme: dark) {
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:3:1]
+ 3 |     
+ 4 | ,->     @media (prefers-color-scheme: dark) {
  5 | |           h1, h2 { color: red; background: black; }
  6 | `->     }
  7 |     }
    `----
 
   x LBrace
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
- 4 | @media (prefers-color-scheme: dark) {
-   :                                     ^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:3:1]
+ 3 | 
+ 4 |     @media (prefers-color-scheme: dark) {
+   :                                         ^
  5 |         h1, h2 { color: red; background: black; }
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
- 4 | @media (prefers-color-scheme: dark) {
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:1]
+ 4 |     @media (prefers-color-scheme: dark) {
  5 |         h1, h2 { color: red; background: black; }
    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  6 |     }
    `----
 
   x Rule
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
- 4 | @media (prefers-color-scheme: dark) {
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:1]
+ 4 |     @media (prefers-color-scheme: dark) {
  5 |         h1, h2 { color: red; background: black; }
    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  6 |     }
    `----
 
   x QualifiedRule
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
- 4 | @media (prefers-color-scheme: dark) {
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:1]
+ 4 |     @media (prefers-color-scheme: dark) {
  5 |         h1, h2 { color: red; background: black; }
    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  6 |     }
    `----
 
   x SelectorList
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
- 4 | @media (prefers-color-scheme: dark) {
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:1]
+ 4 |     @media (prefers-color-scheme: dark) {
  5 |         h1, h2 { color: red; background: black; }
    :         ^^^^^^
  6 |     }
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
- 4 | @media (prefers-color-scheme: dark) {
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:1]
+ 4 |     @media (prefers-color-scheme: dark) {
  5 |         h1, h2 { color: red; background: black; }
    :         ^^
  6 |     }
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
- 4 | @media (prefers-color-scheme: dark) {
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:1]
+ 4 |     @media (prefers-color-scheme: dark) {
  5 |         h1, h2 { color: red; background: black; }
    :         ^^
  6 |     }
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
- 4 | @media (prefers-color-scheme: dark) {
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:1]
+ 4 |     @media (prefers-color-scheme: dark) {
  5 |         h1, h2 { color: red; background: black; }
    :         ^^
  6 |     }
    `----
 
   x TagNameSelector
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
- 4 | @media (prefers-color-scheme: dark) {
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:1]
+ 4 |     @media (prefers-color-scheme: dark) {
  5 |         h1, h2 { color: red; background: black; }
    :         ^^
  6 |     }
    `----
 
   x WqName
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
- 4 | @media (prefers-color-scheme: dark) {
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:1]
+ 4 |     @media (prefers-color-scheme: dark) {
  5 |         h1, h2 { color: red; background: black; }
    :         ^^
  6 |     }
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
- 4 | @media (prefers-color-scheme: dark) {
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:1]
+ 4 |     @media (prefers-color-scheme: dark) {
  5 |         h1, h2 { color: red; background: black; }
    :         ^^
  6 |     }
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
- 4 | @media (prefers-color-scheme: dark) {
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:1]
+ 4 |     @media (prefers-color-scheme: dark) {
  5 |         h1, h2 { color: red; background: black; }
    :             ^^
  6 |     }
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
- 4 | @media (prefers-color-scheme: dark) {
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:1]
+ 4 |     @media (prefers-color-scheme: dark) {
  5 |         h1, h2 { color: red; background: black; }
    :             ^^
  6 |     }
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
- 4 | @media (prefers-color-scheme: dark) {
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:1]
+ 4 |     @media (prefers-color-scheme: dark) {
  5 |         h1, h2 { color: red; background: black; }
    :             ^^
  6 |     }
    `----
 
   x TagNameSelector
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
- 4 | @media (prefers-color-scheme: dark) {
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:1]
+ 4 |     @media (prefers-color-scheme: dark) {
  5 |         h1, h2 { color: red; background: black; }
    :             ^^
  6 |     }
    `----
 
   x WqName
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
- 4 | @media (prefers-color-scheme: dark) {
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:1]
+ 4 |     @media (prefers-color-scheme: dark) {
  5 |         h1, h2 { color: red; background: black; }
    :             ^^
  6 |     }
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
- 4 | @media (prefers-color-scheme: dark) {
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:1]
+ 4 |     @media (prefers-color-scheme: dark) {
  5 |         h1, h2 { color: red; background: black; }
    :             ^^
  6 |     }
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
- 4 | @media (prefers-color-scheme: dark) {
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:1]
+ 4 |     @media (prefers-color-scheme: dark) {
  5 |         h1, h2 { color: red; background: black; }
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  6 |     }
    `----
 
   x LBrace
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
- 4 | @media (prefers-color-scheme: dark) {
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:1]
+ 4 |     @media (prefers-color-scheme: dark) {
  5 |         h1, h2 { color: red; background: black; }
    :                ^
  6 |     }
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
- 4 | @media (prefers-color-scheme: dark) {
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:1]
+ 4 |     @media (prefers-color-scheme: dark) {
  5 |         h1, h2 { color: red; background: black; }
    :                  ^^^^^^^^^^
  6 |     }
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
- 4 | @media (prefers-color-scheme: dark) {
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:1]
+ 4 |     @media (prefers-color-scheme: dark) {
  5 |         h1, h2 { color: red; background: black; }
    :                  ^^^^^^^^^^
  6 |     }
    `----
 
   x Declaration
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
- 4 | @media (prefers-color-scheme: dark) {
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:1]
+ 4 |     @media (prefers-color-scheme: dark) {
  5 |         h1, h2 { color: red; background: black; }
    :                  ^^^^^^^^^^
  6 |     }
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
- 4 | @media (prefers-color-scheme: dark) {
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:1]
+ 4 |     @media (prefers-color-scheme: dark) {
  5 |         h1, h2 { color: red; background: black; }
    :                  ^^^^^
  6 |     }
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
- 4 | @media (prefers-color-scheme: dark) {
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:1]
+ 4 |     @media (prefers-color-scheme: dark) {
  5 |         h1, h2 { color: red; background: black; }
    :                  ^^^^^
  6 |     }
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
- 4 | @media (prefers-color-scheme: dark) {
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:1]
+ 4 |     @media (prefers-color-scheme: dark) {
  5 |         h1, h2 { color: red; background: black; }
    :                         ^^^
  6 |     }
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
- 4 | @media (prefers-color-scheme: dark) {
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:1]
+ 4 |     @media (prefers-color-scheme: dark) {
  5 |         h1, h2 { color: red; background: black; }
    :                         ^^^
  6 |     }
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
- 4 | @media (prefers-color-scheme: dark) {
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:1]
+ 4 |     @media (prefers-color-scheme: dark) {
  5 |         h1, h2 { color: red; background: black; }
    :                              ^^^^^^^^^^^^^^^^^
  6 |     }
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
- 4 | @media (prefers-color-scheme: dark) {
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:1]
+ 4 |     @media (prefers-color-scheme: dark) {
  5 |         h1, h2 { color: red; background: black; }
    :                              ^^^^^^^^^^^^^^^^^
  6 |     }
    `----
 
   x Declaration
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
- 4 | @media (prefers-color-scheme: dark) {
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:1]
+ 4 |     @media (prefers-color-scheme: dark) {
  5 |         h1, h2 { color: red; background: black; }
    :                              ^^^^^^^^^^^^^^^^^
  6 |     }
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
- 4 | @media (prefers-color-scheme: dark) {
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:1]
+ 4 |     @media (prefers-color-scheme: dark) {
  5 |         h1, h2 { color: red; background: black; }
    :                              ^^^^^^^^^^
  6 |     }
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
- 4 | @media (prefers-color-scheme: dark) {
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:1]
+ 4 |     @media (prefers-color-scheme: dark) {
  5 |         h1, h2 { color: red; background: black; }
    :                              ^^^^^^^^^^
  6 |     }
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
- 4 | @media (prefers-color-scheme: dark) {
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:1]
+ 4 |     @media (prefers-color-scheme: dark) {
  5 |         h1, h2 { color: red; background: black; }
    :                                          ^^^^^
  6 |     }
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
- 4 | @media (prefers-color-scheme: dark) {
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:1]
+ 4 |     @media (prefers-color-scheme: dark) {
  5 |         h1, h2 { color: red; background: black; }
    :                                          ^^^^^
  6 |     }

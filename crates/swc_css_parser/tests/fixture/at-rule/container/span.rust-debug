@@ -133,7 +133,7 @@
  130 | |       }
  131 | |   }
  132 | |   
- 133 | |   @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+ 133 | `-> @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      `----
 
   x Rule
@@ -312,63 +312,64 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/container/input.css:2:5]
- 2 | #inner {
+   ,-[$DIR/tests/fixture/at-rule/container/input.css:2:1]
+ 2 |     #inner {
  3 |         background-color: skyblue;
    :         ^^^^^^^^^^^^^^^^^^^^^^^^^
  4 |     }
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/at-rule/container/input.css:2:5]
- 2 | #inner {
+   ,-[$DIR/tests/fixture/at-rule/container/input.css:2:1]
+ 2 |     #inner {
  3 |         background-color: skyblue;
    :         ^^^^^^^^^^^^^^^^^^^^^^^^^
  4 |     }
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/at-rule/container/input.css:2:5]
- 2 | #inner {
+   ,-[$DIR/tests/fixture/at-rule/container/input.css:2:1]
+ 2 |     #inner {
  3 |         background-color: skyblue;
    :         ^^^^^^^^^^^^^^^^^^^^^^^^^
  4 |     }
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/at-rule/container/input.css:2:5]
- 2 | #inner {
+   ,-[$DIR/tests/fixture/at-rule/container/input.css:2:1]
+ 2 |     #inner {
  3 |         background-color: skyblue;
    :         ^^^^^^^^^^^^^^^^
  4 |     }
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/container/input.css:2:5]
- 2 | #inner {
+   ,-[$DIR/tests/fixture/at-rule/container/input.css:2:1]
+ 2 |     #inner {
  3 |         background-color: skyblue;
    :         ^^^^^^^^^^^^^^^^
  4 |     }
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/container/input.css:2:5]
- 2 | #inner {
+   ,-[$DIR/tests/fixture/at-rule/container/input.css:2:1]
+ 2 |     #inner {
  3 |         background-color: skyblue;
    :                           ^^^^^^^
  4 |     }
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/container/input.css:2:5]
- 2 | #inner {
+   ,-[$DIR/tests/fixture/at-rule/container/input.css:2:1]
+ 2 |     #inner {
  3 |         background-color: skyblue;
    :                           ^^^^^^^
  4 |     }
    `----
 
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:7:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:6:1]
+  6 |     
   7 | ,-> @supports (container-type: size) {
   8 | |       @container ( width <= 150px ) {
   9 | |           #inner {
@@ -379,7 +380,8 @@
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:7:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:6:1]
+  6 |     
   7 | ,-> @supports (container-type: size) {
   8 | |       @container ( width <= 150px ) {
   9 | |           #inner {
@@ -390,84 +392,96 @@
     `----
 
   x AtRuleName
-   ,-[$DIR/tests/fixture/at-rule/container/input.css:7:1]
+   ,-[$DIR/tests/fixture/at-rule/container/input.css:6:1]
+ 6 | 
  7 | @supports (container-type: size) {
    :  ^^^^^^^^
  8 |     @container ( width <= 150px ) {
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/container/input.css:7:1]
+   ,-[$DIR/tests/fixture/at-rule/container/input.css:6:1]
+ 6 | 
  7 | @supports (container-type: size) {
    :  ^^^^^^^^
  8 |     @container ( width <= 150px ) {
    `----
 
   x SupportsCondition
-   ,-[$DIR/tests/fixture/at-rule/container/input.css:7:1]
+   ,-[$DIR/tests/fixture/at-rule/container/input.css:6:1]
+ 6 | 
  7 | @supports (container-type: size) {
    :           ^^^^^^^^^^^^^^^^^^^^^^
  8 |     @container ( width <= 150px ) {
    `----
 
   x SupportsConditionType
-   ,-[$DIR/tests/fixture/at-rule/container/input.css:7:1]
+   ,-[$DIR/tests/fixture/at-rule/container/input.css:6:1]
+ 6 | 
  7 | @supports (container-type: size) {
    :            ^^^^^^^^^^^^^^^^^^^^
  8 |     @container ( width <= 150px ) {
    `----
 
   x SupportsInParens
-   ,-[$DIR/tests/fixture/at-rule/container/input.css:7:1]
+   ,-[$DIR/tests/fixture/at-rule/container/input.css:6:1]
+ 6 | 
  7 | @supports (container-type: size) {
    :            ^^^^^^^^^^^^^^^^^^^^
  8 |     @container ( width <= 150px ) {
    `----
 
   x SupportsFeature
-   ,-[$DIR/tests/fixture/at-rule/container/input.css:7:1]
+   ,-[$DIR/tests/fixture/at-rule/container/input.css:6:1]
+ 6 | 
  7 | @supports (container-type: size) {
    :            ^^^^^^^^^^^^^^^^^^^^
  8 |     @container ( width <= 150px ) {
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/at-rule/container/input.css:7:1]
+   ,-[$DIR/tests/fixture/at-rule/container/input.css:6:1]
+ 6 | 
  7 | @supports (container-type: size) {
    :            ^^^^^^^^^^^^^^^^^^^^
  8 |     @container ( width <= 150px ) {
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/at-rule/container/input.css:7:1]
+   ,-[$DIR/tests/fixture/at-rule/container/input.css:6:1]
+ 6 | 
  7 | @supports (container-type: size) {
    :            ^^^^^^^^^^^^^^
  8 |     @container ( width <= 150px ) {
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/container/input.css:7:1]
+   ,-[$DIR/tests/fixture/at-rule/container/input.css:6:1]
+ 6 | 
  7 | @supports (container-type: size) {
    :            ^^^^^^^^^^^^^^
  8 |     @container ( width <= 150px ) {
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/container/input.css:7:1]
+   ,-[$DIR/tests/fixture/at-rule/container/input.css:6:1]
+ 6 | 
  7 | @supports (container-type: size) {
    :                            ^^^^
  8 |     @container ( width <= 150px ) {
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/container/input.css:7:1]
+   ,-[$DIR/tests/fixture/at-rule/container/input.css:6:1]
+ 6 | 
  7 | @supports (container-type: size) {
    :                            ^^^^
  8 |     @container ( width <= 150px ) {
    `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:7:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:6:1]
+  6 |     
   7 | ,-> @supports (container-type: size) {
   8 | |       @container ( width <= 150px ) {
   9 | |           #inner {
@@ -478,7 +492,8 @@
     `----
 
   x LBrace
-   ,-[$DIR/tests/fixture/at-rule/container/input.css:7:1]
+   ,-[$DIR/tests/fixture/at-rule/container/input.css:6:1]
+ 6 | 
  7 | @supports (container-type: size) {
    :                                  ^
  8 |     @container ( width <= 150px ) {
@@ -593,8 +608,8 @@
    `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:8:5]
-  8 |     @container ( width <= 150px ) {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:8:1]
+  8 |         @container ( width <= 150px ) {
   9 | ,->         #inner {
  10 | |               background-color: skyblue;
  11 | `->         }
@@ -602,8 +617,8 @@
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:8:5]
-  8 |     @container ( width <= 150px ) {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:8:1]
+  8 |         @container ( width <= 150px ) {
   9 | ,->         #inner {
  10 | |               background-color: skyblue;
  11 | `->         }
@@ -611,8 +626,8 @@
     `----
 
   x QualifiedRule
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:8:5]
-  8 |     @container ( width <= 150px ) {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:8:1]
+  8 |         @container ( width <= 150px ) {
   9 | ,->         #inner {
  10 | |               background-color: skyblue;
  11 | `->         }
@@ -620,56 +635,56 @@
     `----
 
   x SelectorList
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:8:5]
-  8 | @container ( width <= 150px ) {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:8:1]
+  8 |     @container ( width <= 150px ) {
   9 |         #inner {
     :         ^^^^^^
  10 |             background-color: skyblue;
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:8:5]
-  8 | @container ( width <= 150px ) {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:8:1]
+  8 |     @container ( width <= 150px ) {
   9 |         #inner {
     :         ^^^^^^
  10 |             background-color: skyblue;
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:8:5]
-  8 | @container ( width <= 150px ) {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:8:1]
+  8 |     @container ( width <= 150px ) {
   9 |         #inner {
     :         ^^^^^^
  10 |             background-color: skyblue;
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:8:5]
-  8 | @container ( width <= 150px ) {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:8:1]
+  8 |     @container ( width <= 150px ) {
   9 |         #inner {
     :         ^^^^^^
  10 |             background-color: skyblue;
     `----
 
   x IdSelector
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:8:5]
-  8 | @container ( width <= 150px ) {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:8:1]
+  8 |     @container ( width <= 150px ) {
   9 |         #inner {
     :         ^^^^^^
  10 |             background-color: skyblue;
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:8:5]
-  8 | @container ( width <= 150px ) {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:8:1]
+  8 |     @container ( width <= 150px ) {
   9 |         #inner {
     :         ^^^^^^
  10 |             background-color: skyblue;
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:8:5]
-  8 |     @container ( width <= 150px ) {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:8:1]
+  8 |         @container ( width <= 150px ) {
   9 | ,->         #inner {
  10 | |               background-color: skyblue;
  11 | `->         }
@@ -677,71 +692,72 @@
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:8:5]
-  8 | @container ( width <= 150px ) {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:8:1]
+  8 |     @container ( width <= 150px ) {
   9 |         #inner {
     :                ^
  10 |             background-color: skyblue;
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:9:9]
-  9 | #inner {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:9:1]
+  9 |         #inner {
  10 |             background-color: skyblue;
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^
  11 |         }
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:9:9]
-  9 | #inner {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:9:1]
+  9 |         #inner {
  10 |             background-color: skyblue;
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^
  11 |         }
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:9:9]
-  9 | #inner {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:9:1]
+  9 |         #inner {
  10 |             background-color: skyblue;
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^
  11 |         }
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:9:9]
-  9 | #inner {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:9:1]
+  9 |         #inner {
  10 |             background-color: skyblue;
     :             ^^^^^^^^^^^^^^^^
  11 |         }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:9:9]
-  9 | #inner {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:9:1]
+  9 |         #inner {
  10 |             background-color: skyblue;
     :             ^^^^^^^^^^^^^^^^
  11 |         }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:9:9]
-  9 | #inner {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:9:1]
+  9 |         #inner {
  10 |             background-color: skyblue;
     :                               ^^^^^^^
  11 |         }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:9:9]
-  9 | #inner {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:9:1]
+  9 |         #inner {
  10 |             background-color: skyblue;
     :                               ^^^^^^^
  11 |         }
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:15:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:14:1]
+ 14 |     
  15 | ,-> @container not (width <= 500px ) {
  16 | |       #inner {
  17 | |           background-color: skyblue;
@@ -750,7 +766,8 @@
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:15:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:14:1]
+ 14 |     
  15 | ,-> @container not (width <= 500px ) {
  16 | |       #inner {
  17 | |           background-color: skyblue;
@@ -759,63 +776,72 @@
     `----
 
   x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:15:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:14:1]
+ 14 | 
  15 | @container not (width <= 500px ) {
     :  ^^^^^^^^^
  16 |     #inner {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:15:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:14:1]
+ 14 | 
  15 | @container not (width <= 500px ) {
     :  ^^^^^^^^^
  16 |     #inner {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:15:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:14:1]
+ 14 | 
  15 | @container not (width <= 500px ) {
     :            ^^^
  16 |     #inner {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:15:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:14:1]
+ 14 | 
  15 | @container not (width <= 500px ) {
     :                 ^^^^^
  16 |     #inner {
     `----
 
   x Dimension
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:15:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:14:1]
+ 14 | 
  15 | @container not (width <= 500px ) {
     :                          ^^^^^
  16 |     #inner {
     `----
 
   x Length
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:15:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:14:1]
+ 14 | 
  15 | @container not (width <= 500px ) {
     :                          ^^^^^
  16 |     #inner {
     `----
 
   x Number
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:15:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:14:1]
+ 14 | 
  15 | @container not (width <= 500px ) {
     :                          ^^^
  16 |     #inner {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:15:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:14:1]
+ 14 | 
  15 | @container not (width <= 500px ) {
     :                             ^^
  16 |     #inner {
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:15:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:14:1]
+ 14 |     
  15 | ,-> @container not (width <= 500px ) {
  16 | |       #inner {
  17 | |           background-color: skyblue;
@@ -824,7 +850,8 @@
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:15:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:14:1]
+ 14 | 
  15 | @container not (width <= 500px ) {
     :                                  ^
  16 |     #inner {
@@ -923,63 +950,64 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:16:5]
- 16 | #inner {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:16:1]
+ 16 |     #inner {
  17 |         background-color: skyblue;
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^
  18 |     }
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:16:5]
- 16 | #inner {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:16:1]
+ 16 |     #inner {
  17 |         background-color: skyblue;
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^
  18 |     }
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:16:5]
- 16 | #inner {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:16:1]
+ 16 |     #inner {
  17 |         background-color: skyblue;
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^
  18 |     }
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:16:5]
- 16 | #inner {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:16:1]
+ 16 |     #inner {
  17 |         background-color: skyblue;
     :         ^^^^^^^^^^^^^^^^
  18 |     }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:16:5]
- 16 | #inner {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:16:1]
+ 16 |     #inner {
  17 |         background-color: skyblue;
     :         ^^^^^^^^^^^^^^^^
  18 |     }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:16:5]
- 16 | #inner {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:16:1]
+ 16 |     #inner {
  17 |         background-color: skyblue;
     :                           ^^^^^^^
  18 |     }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:16:5]
- 16 | #inner {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:16:1]
+ 16 |     #inner {
  17 |         background-color: skyblue;
     :                           ^^^^^^^
  18 |     }
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:21:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:20:1]
+ 20 |     
  21 | ,-> @container name not (width <= 500px) {
  22 | |       #inner {
  23 | |           background-color: skyblue;
@@ -988,7 +1016,8 @@
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:21:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:20:1]
+ 20 |     
  21 | ,-> @container name not (width <= 500px) {
  22 | |       #inner {
  23 | |           background-color: skyblue;
@@ -997,70 +1026,80 @@
     `----
 
   x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:21:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:20:1]
+ 20 | 
  21 | @container name not (width <= 500px) {
     :  ^^^^^^^^^
  22 |     #inner {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:21:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:20:1]
+ 20 | 
  21 | @container name not (width <= 500px) {
     :  ^^^^^^^^^
  22 |     #inner {
     `----
 
   x CustomIdent
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:21:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:20:1]
+ 20 | 
  21 | @container name not (width <= 500px) {
     :            ^^^^
  22 |     #inner {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:21:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:20:1]
+ 20 | 
  21 | @container name not (width <= 500px) {
     :                 ^^^
  22 |     #inner {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:21:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:20:1]
+ 20 | 
  21 | @container name not (width <= 500px) {
     :                      ^^^^^
  22 |     #inner {
     `----
 
   x Dimension
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:21:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:20:1]
+ 20 | 
  21 | @container name not (width <= 500px) {
     :                               ^^^^^
  22 |     #inner {
     `----
 
   x Length
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:21:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:20:1]
+ 20 | 
  21 | @container name not (width <= 500px) {
     :                               ^^^^^
  22 |     #inner {
     `----
 
   x Number
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:21:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:20:1]
+ 20 | 
  21 | @container name not (width <= 500px) {
     :                               ^^^
  22 |     #inner {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:21:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:20:1]
+ 20 | 
  21 | @container name not (width <= 500px) {
     :                                  ^^
  22 |     #inner {
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:21:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:20:1]
+ 20 |     
  21 | ,-> @container name not (width <= 500px) {
  22 | |       #inner {
  23 | |           background-color: skyblue;
@@ -1069,7 +1108,8 @@
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:21:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:20:1]
+ 20 | 
  21 | @container name not (width <= 500px) {
     :                                      ^
  22 |     #inner {
@@ -1168,175 +1208,192 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:22:5]
- 22 | #inner {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:22:1]
+ 22 |     #inner {
  23 |         background-color: skyblue;
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^
  24 |     }
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:22:5]
- 22 | #inner {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:22:1]
+ 22 |     #inner {
  23 |         background-color: skyblue;
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^
  24 |     }
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:22:5]
- 22 | #inner {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:22:1]
+ 22 |     #inner {
  23 |         background-color: skyblue;
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^
  24 |     }
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:22:5]
- 22 | #inner {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:22:1]
+ 22 |     #inner {
  23 |         background-color: skyblue;
     :         ^^^^^^^^^^^^^^^^
  24 |     }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:22:5]
- 22 | #inner {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:22:1]
+ 22 |     #inner {
  23 |         background-color: skyblue;
     :         ^^^^^^^^^^^^^^^^
  24 |     }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:22:5]
- 22 | #inner {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:22:1]
+ 22 |     #inner {
  23 |         background-color: skyblue;
     :                           ^^^^^^^
  24 |     }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:22:5]
- 22 | #inner {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:22:1]
+ 22 |     #inner {
  23 |         background-color: skyblue;
     :                           ^^^^^^^
  24 |     }
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:27:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:26:1]
+ 26 |     
  27 | ,-> main, aside {
  28 | |       container: my-layout / inline-size;
  29 | `-> }
     `----
 
   x QualifiedRule
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:27:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:26:1]
+ 26 |     
  27 | ,-> main, aside {
  28 | |       container: my-layout / inline-size;
  29 | `-> }
     `----
 
   x SelectorList
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:27:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:26:1]
+ 26 | 
  27 | main, aside {
     : ^^^^^^^^^^^
  28 |     container: my-layout / inline-size;
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:27:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:26:1]
+ 26 | 
  27 | main, aside {
     : ^^^^
  28 |     container: my-layout / inline-size;
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:27:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:26:1]
+ 26 | 
  27 | main, aside {
     : ^^^^
  28 |     container: my-layout / inline-size;
     `----
 
   x TypeSelector
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:27:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:26:1]
+ 26 | 
  27 | main, aside {
     : ^^^^
  28 |     container: my-layout / inline-size;
     `----
 
   x TagNameSelector
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:27:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:26:1]
+ 26 | 
  27 | main, aside {
     : ^^^^
  28 |     container: my-layout / inline-size;
     `----
 
   x WqName
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:27:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:26:1]
+ 26 | 
  27 | main, aside {
     : ^^^^
  28 |     container: my-layout / inline-size;
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:27:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:26:1]
+ 26 | 
  27 | main, aside {
     : ^^^^
  28 |     container: my-layout / inline-size;
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:27:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:26:1]
+ 26 | 
  27 | main, aside {
     :       ^^^^^
  28 |     container: my-layout / inline-size;
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:27:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:26:1]
+ 26 | 
  27 | main, aside {
     :       ^^^^^
  28 |     container: my-layout / inline-size;
     `----
 
   x TypeSelector
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:27:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:26:1]
+ 26 | 
  27 | main, aside {
     :       ^^^^^
  28 |     container: my-layout / inline-size;
     `----
 
   x TagNameSelector
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:27:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:26:1]
+ 26 | 
  27 | main, aside {
     :       ^^^^^
  28 |     container: my-layout / inline-size;
     `----
 
   x WqName
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:27:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:26:1]
+ 26 | 
  27 | main, aside {
     :       ^^^^^
  28 |     container: my-layout / inline-size;
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:27:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:26:1]
+ 26 | 
  27 | main, aside {
     :       ^^^^^
  28 |     container: my-layout / inline-size;
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:27:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:26:1]
+ 26 |     
  27 | ,-> main, aside {
  28 | |       container: my-layout / inline-size;
  29 | `-> }
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:27:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:26:1]
+ 26 | 
  27 | main, aside {
     :             ^
  28 |     container: my-layout / inline-size;
@@ -1431,7 +1488,8 @@
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:31:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:30:1]
+ 30 |     
  31 | ,-> .media-object {
  32 | |       display: grid;
  33 | |       grid-template: 'img' auto 'content' auto / 100%;
@@ -1439,7 +1497,8 @@
     `----
 
   x QualifiedRule
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:31:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:30:1]
+ 30 |     
  31 | ,-> .media-object {
  32 | |       display: grid;
  33 | |       grid-template: 'img' auto 'content' auto / 100%;
@@ -1447,49 +1506,56 @@
     `----
 
   x SelectorList
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:31:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:30:1]
+ 30 | 
  31 | .media-object {
     : ^^^^^^^^^^^^^
  32 |     display: grid;
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:31:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:30:1]
+ 30 | 
  31 | .media-object {
     : ^^^^^^^^^^^^^
  32 |     display: grid;
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:31:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:30:1]
+ 30 | 
  31 | .media-object {
     : ^^^^^^^^^^^^^
  32 |     display: grid;
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:31:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:30:1]
+ 30 | 
  31 | .media-object {
     : ^^^^^^^^^^^^^
  32 |     display: grid;
     `----
 
   x ClassSelector
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:31:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:30:1]
+ 30 | 
  31 | .media-object {
     : ^^^^^^^^^^^^^
  32 |     display: grid;
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:31:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:30:1]
+ 30 | 
  31 | .media-object {
     :  ^^^^^^^^^^^^
  32 |     display: grid;
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:31:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:30:1]
+ 30 |     
  31 | ,-> .media-object {
  32 | |       display: grid;
  33 | |       grid-template: 'img' auto 'content' auto / 100%;
@@ -1497,7 +1563,8 @@
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:31:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:30:1]
+ 30 | 
  31 | .media-object {
     :               ^
  32 |     display: grid;
@@ -1560,151 +1627,152 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:32:5]
- 32 | display: grid;
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:32:1]
+ 32 |     display: grid;
  33 |     grid-template: 'img' auto 'content' auto / 100%;
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  34 | }
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:32:5]
- 32 | display: grid;
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:32:1]
+ 32 |     display: grid;
  33 |     grid-template: 'img' auto 'content' auto / 100%;
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  34 | }
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:32:5]
- 32 | display: grid;
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:32:1]
+ 32 |     display: grid;
  33 |     grid-template: 'img' auto 'content' auto / 100%;
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  34 | }
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:32:5]
- 32 | display: grid;
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:32:1]
+ 32 |     display: grid;
  33 |     grid-template: 'img' auto 'content' auto / 100%;
     :     ^^^^^^^^^^^^^
  34 | }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:32:5]
- 32 | display: grid;
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:32:1]
+ 32 |     display: grid;
  33 |     grid-template: 'img' auto 'content' auto / 100%;
     :     ^^^^^^^^^^^^^
  34 | }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:32:5]
- 32 | display: grid;
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:32:1]
+ 32 |     display: grid;
  33 |     grid-template: 'img' auto 'content' auto / 100%;
     :                    ^^^^^
  34 | }
     `----
 
   x Str
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:32:5]
- 32 | display: grid;
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:32:1]
+ 32 |     display: grid;
  33 |     grid-template: 'img' auto 'content' auto / 100%;
     :                    ^^^^^
  34 | }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:32:5]
- 32 | display: grid;
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:32:1]
+ 32 |     display: grid;
  33 |     grid-template: 'img' auto 'content' auto / 100%;
     :                          ^^^^
  34 | }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:32:5]
- 32 | display: grid;
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:32:1]
+ 32 |     display: grid;
  33 |     grid-template: 'img' auto 'content' auto / 100%;
     :                          ^^^^
  34 | }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:32:5]
- 32 | display: grid;
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:32:1]
+ 32 |     display: grid;
  33 |     grid-template: 'img' auto 'content' auto / 100%;
     :                               ^^^^^^^^^
  34 | }
     `----
 
   x Str
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:32:5]
- 32 | display: grid;
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:32:1]
+ 32 |     display: grid;
  33 |     grid-template: 'img' auto 'content' auto / 100%;
     :                               ^^^^^^^^^
  34 | }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:32:5]
- 32 | display: grid;
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:32:1]
+ 32 |     display: grid;
  33 |     grid-template: 'img' auto 'content' auto / 100%;
     :                                         ^^^^
  34 | }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:32:5]
- 32 | display: grid;
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:32:1]
+ 32 |     display: grid;
  33 |     grid-template: 'img' auto 'content' auto / 100%;
     :                                         ^^^^
  34 | }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:32:5]
- 32 | display: grid;
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:32:1]
+ 32 |     display: grid;
  33 |     grid-template: 'img' auto 'content' auto / 100%;
     :                                              ^
  34 | }
     `----
 
   x Delimiter
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:32:5]
- 32 | display: grid;
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:32:1]
+ 32 |     display: grid;
  33 |     grid-template: 'img' auto 'content' auto / 100%;
     :                                              ^
  34 | }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:32:5]
- 32 | display: grid;
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:32:1]
+ 32 |     display: grid;
  33 |     grid-template: 'img' auto 'content' auto / 100%;
     :                                                ^^^^
  34 | }
     `----
 
   x Percentage
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:32:5]
- 32 | display: grid;
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:32:1]
+ 32 |     display: grid;
  33 |     grid-template: 'img' auto 'content' auto / 100%;
     :                                                ^^^^
  34 | }
     `----
 
   x Number
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:32:5]
- 32 | display: grid;
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:32:1]
+ 32 |     display: grid;
  33 |     grid-template: 'img' auto 'content' auto / 100%;
     :                                                ^^^
  34 | }
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:36:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:35:1]
+ 35 |     
  36 | ,-> @container my-layout (inline-size > 45em) {
  37 | |       .media-object {
  38 | |           grid-template: 'img content' auto / auto 1fr;
@@ -1713,7 +1781,8 @@
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:36:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:35:1]
+ 35 |     
  36 | ,-> @container my-layout (inline-size > 45em) {
  37 | |       .media-object {
  38 | |           grid-template: 'img content' auto / auto 1fr;
@@ -1722,63 +1791,72 @@
     `----
 
   x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:36:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:35:1]
+ 35 | 
  36 | @container my-layout (inline-size > 45em) {
     :  ^^^^^^^^^
  37 |     .media-object {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:36:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:35:1]
+ 35 | 
  36 | @container my-layout (inline-size > 45em) {
     :  ^^^^^^^^^
  37 |     .media-object {
     `----
 
   x CustomIdent
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:36:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:35:1]
+ 35 | 
  36 | @container my-layout (inline-size > 45em) {
     :            ^^^^^^^^^
  37 |     .media-object {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:36:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:35:1]
+ 35 | 
  36 | @container my-layout (inline-size > 45em) {
     :                       ^^^^^^^^^^^
  37 |     .media-object {
     `----
 
   x Dimension
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:36:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:35:1]
+ 35 | 
  36 | @container my-layout (inline-size > 45em) {
     :                                     ^^^^
  37 |     .media-object {
     `----
 
   x Length
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:36:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:35:1]
+ 35 | 
  36 | @container my-layout (inline-size > 45em) {
     :                                     ^^^^
  37 |     .media-object {
     `----
 
   x Number
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:36:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:35:1]
+ 35 | 
  36 | @container my-layout (inline-size > 45em) {
     :                                     ^^
  37 |     .media-object {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:36:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:35:1]
+ 35 | 
  36 | @container my-layout (inline-size > 45em) {
     :                                       ^^
  37 |     .media-object {
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:36:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:35:1]
+ 35 |     
  36 | ,-> @container my-layout (inline-size > 45em) {
  37 | |       .media-object {
  38 | |           grid-template: 'img content' auto / auto 1fr;
@@ -1787,7 +1865,8 @@
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:36:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:35:1]
+ 35 | 
  36 | @container my-layout (inline-size > 45em) {
     :                                           ^
  37 |     .media-object {
@@ -1886,305 +1965,328 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:37:5]
- 37 | .media-object {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:37:1]
+ 37 |     .media-object {
  38 |         grid-template: 'img content' auto / auto 1fr;
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  39 |     }
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:37:5]
- 37 | .media-object {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:37:1]
+ 37 |     .media-object {
  38 |         grid-template: 'img content' auto / auto 1fr;
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  39 |     }
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:37:5]
- 37 | .media-object {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:37:1]
+ 37 |     .media-object {
  38 |         grid-template: 'img content' auto / auto 1fr;
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  39 |     }
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:37:5]
- 37 | .media-object {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:37:1]
+ 37 |     .media-object {
  38 |         grid-template: 'img content' auto / auto 1fr;
     :         ^^^^^^^^^^^^^
  39 |     }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:37:5]
- 37 | .media-object {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:37:1]
+ 37 |     .media-object {
  38 |         grid-template: 'img content' auto / auto 1fr;
     :         ^^^^^^^^^^^^^
  39 |     }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:37:5]
- 37 | .media-object {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:37:1]
+ 37 |     .media-object {
  38 |         grid-template: 'img content' auto / auto 1fr;
     :                        ^^^^^^^^^^^^^
  39 |     }
     `----
 
   x Str
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:37:5]
- 37 | .media-object {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:37:1]
+ 37 |     .media-object {
  38 |         grid-template: 'img content' auto / auto 1fr;
     :                        ^^^^^^^^^^^^^
  39 |     }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:37:5]
- 37 | .media-object {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:37:1]
+ 37 |     .media-object {
  38 |         grid-template: 'img content' auto / auto 1fr;
     :                                      ^^^^
  39 |     }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:37:5]
- 37 | .media-object {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:37:1]
+ 37 |     .media-object {
  38 |         grid-template: 'img content' auto / auto 1fr;
     :                                      ^^^^
  39 |     }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:37:5]
- 37 | .media-object {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:37:1]
+ 37 |     .media-object {
  38 |         grid-template: 'img content' auto / auto 1fr;
     :                                           ^
  39 |     }
     `----
 
   x Delimiter
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:37:5]
- 37 | .media-object {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:37:1]
+ 37 |     .media-object {
  38 |         grid-template: 'img content' auto / auto 1fr;
     :                                           ^
  39 |     }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:37:5]
- 37 | .media-object {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:37:1]
+ 37 |     .media-object {
  38 |         grid-template: 'img content' auto / auto 1fr;
     :                                             ^^^^
  39 |     }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:37:5]
- 37 | .media-object {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:37:1]
+ 37 |     .media-object {
  38 |         grid-template: 'img content' auto / auto 1fr;
     :                                             ^^^^
  39 |     }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:37:5]
- 37 | .media-object {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:37:1]
+ 37 |     .media-object {
  38 |         grid-template: 'img content' auto / auto 1fr;
     :                                                  ^^^
  39 |     }
     `----
 
   x Dimension
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:37:5]
- 37 | .media-object {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:37:1]
+ 37 |     .media-object {
  38 |         grid-template: 'img content' auto / auto 1fr;
     :                                                  ^^^
  39 |     }
     `----
 
   x Flex
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:37:5]
- 37 | .media-object {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:37:1]
+ 37 |     .media-object {
  38 |         grid-template: 'img content' auto / auto 1fr;
     :                                                  ^^^
  39 |     }
     `----
 
   x Number
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:37:5]
- 37 | .media-object {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:37:1]
+ 37 |     .media-object {
  38 |         grid-template: 'img content' auto / auto 1fr;
     :                                                  ^
  39 |     }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:37:5]
- 37 | .media-object {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:37:1]
+ 37 |     .media-object {
  38 |         grid-template: 'img content' auto / auto 1fr;
     :                                                   ^^
  39 |     }
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:42:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:41:1]
+ 41 |     
  42 | ,-> @container card (inline-size > 30em) and style(--responsive: true) {
  43 | |       .card { margin-block: 2em; }
  44 | `-> }
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:42:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:41:1]
+ 41 |     
  42 | ,-> @container card (inline-size > 30em) and style(--responsive: true) {
  43 | |       .card { margin-block: 2em; }
  44 | `-> }
     `----
 
   x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:42:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:41:1]
+ 41 | 
  42 | @container card (inline-size > 30em) and style(--responsive: true) {
     :  ^^^^^^^^^
  43 |     .card { margin-block: 2em; }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:42:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:41:1]
+ 41 | 
  42 | @container card (inline-size > 30em) and style(--responsive: true) {
     :  ^^^^^^^^^
  43 |     .card { margin-block: 2em; }
     `----
 
   x CustomIdent
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:42:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:41:1]
+ 41 | 
  42 | @container card (inline-size > 30em) and style(--responsive: true) {
     :            ^^^^
  43 |     .card { margin-block: 2em; }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:42:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:41:1]
+ 41 | 
  42 | @container card (inline-size > 30em) and style(--responsive: true) {
     :                  ^^^^^^^^^^^
  43 |     .card { margin-block: 2em; }
     `----
 
   x Dimension
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:42:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:41:1]
+ 41 | 
  42 | @container card (inline-size > 30em) and style(--responsive: true) {
     :                                ^^^^
  43 |     .card { margin-block: 2em; }
     `----
 
   x Length
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:42:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:41:1]
+ 41 | 
  42 | @container card (inline-size > 30em) and style(--responsive: true) {
     :                                ^^^^
  43 |     .card { margin-block: 2em; }
     `----
 
   x Number
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:42:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:41:1]
+ 41 | 
  42 | @container card (inline-size > 30em) and style(--responsive: true) {
     :                                ^^
  43 |     .card { margin-block: 2em; }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:42:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:41:1]
+ 41 | 
  42 | @container card (inline-size > 30em) and style(--responsive: true) {
     :                                  ^^
  43 |     .card { margin-block: 2em; }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:42:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:41:1]
+ 41 | 
  42 | @container card (inline-size > 30em) and style(--responsive: true) {
     :                                      ^^^
  43 |     .card { margin-block: 2em; }
     `----
 
   x Function
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:42:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:41:1]
+ 41 | 
  42 | @container card (inline-size > 30em) and style(--responsive: true) {
     :                                          ^^^^^^^^^^^^^^^^^^^^^^^^^
  43 |     .card { margin-block: 2em; }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:42:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:41:1]
+ 41 | 
  42 | @container card (inline-size > 30em) and style(--responsive: true) {
     :                                          ^^^^^
  43 |     .card { margin-block: 2em; }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:42:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:41:1]
+ 41 | 
  42 | @container card (inline-size > 30em) and style(--responsive: true) {
     :                                                ^^^^^^^^^^^^
  43 |     .card { margin-block: 2em; }
     `----
 
   x Ident { value: Atom('--responsive' type=dynamic), raw: "--responsive" }
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:42:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:41:1]
+ 41 | 
  42 | @container card (inline-size > 30em) and style(--responsive: true) {
     :                                                ^^^^^^^^^^^^
  43 |     .card { margin-block: 2em; }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:42:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:41:1]
+ 41 | 
  42 | @container card (inline-size > 30em) and style(--responsive: true) {
     :                                                            ^
  43 |     .card { margin-block: 2em; }
     `----
 
   x Colon
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:42:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:41:1]
+ 41 | 
  42 | @container card (inline-size > 30em) and style(--responsive: true) {
     :                                                            ^
  43 |     .card { margin-block: 2em; }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:42:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:41:1]
+ 41 | 
  42 | @container card (inline-size > 30em) and style(--responsive: true) {
     :                                                             ^
  43 |     .card { margin-block: 2em; }
     `----
 
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:42:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:41:1]
+ 41 | 
  42 | @container card (inline-size > 30em) and style(--responsive: true) {
     :                                                             ^
  43 |     .card { margin-block: 2em; }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:42:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:41:1]
+ 41 | 
  42 | @container card (inline-size > 30em) and style(--responsive: true) {
     :                                                              ^^^^
  43 |     .card { margin-block: 2em; }
     `----
 
   x Ident { value: Atom('true' type=static), raw: "true" }
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:42:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:41:1]
+ 41 | 
  42 | @container card (inline-size > 30em) and style(--responsive: true) {
     :                                                              ^^^^
  43 |     .card { margin-block: 2em; }
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:42:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:41:1]
+ 41 |     
  42 | ,-> @container card (inline-size > 30em) and style(--responsive: true) {
  43 | |       .card { margin-block: 2em; }
  44 | `-> }
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:42:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:41:1]
+ 41 | 
  42 | @container card (inline-size > 30em) and style(--responsive: true) {
     :                                                                    ^
  43 |     .card { margin-block: 2em; }
@@ -2359,161 +2461,184 @@
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:46:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:45:1]
+ 45 |     
  46 | ,-> @container card (inline-size > 30em) or style(--responsive: true) {
  47 | |       .card { margin-block: 2em; }
  48 | `-> }
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:46:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:45:1]
+ 45 |     
  46 | ,-> @container card (inline-size > 30em) or style(--responsive: true) {
  47 | |       .card { margin-block: 2em; }
  48 | `-> }
     `----
 
   x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:46:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:45:1]
+ 45 | 
  46 | @container card (inline-size > 30em) or style(--responsive: true) {
     :  ^^^^^^^^^
  47 |     .card { margin-block: 2em; }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:46:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:45:1]
+ 45 | 
  46 | @container card (inline-size > 30em) or style(--responsive: true) {
     :  ^^^^^^^^^
  47 |     .card { margin-block: 2em; }
     `----
 
   x CustomIdent
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:46:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:45:1]
+ 45 | 
  46 | @container card (inline-size > 30em) or style(--responsive: true) {
     :            ^^^^
  47 |     .card { margin-block: 2em; }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:46:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:45:1]
+ 45 | 
  46 | @container card (inline-size > 30em) or style(--responsive: true) {
     :                  ^^^^^^^^^^^
  47 |     .card { margin-block: 2em; }
     `----
 
   x Dimension
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:46:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:45:1]
+ 45 | 
  46 | @container card (inline-size > 30em) or style(--responsive: true) {
     :                                ^^^^
  47 |     .card { margin-block: 2em; }
     `----
 
   x Length
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:46:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:45:1]
+ 45 | 
  46 | @container card (inline-size > 30em) or style(--responsive: true) {
     :                                ^^^^
  47 |     .card { margin-block: 2em; }
     `----
 
   x Number
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:46:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:45:1]
+ 45 | 
  46 | @container card (inline-size > 30em) or style(--responsive: true) {
     :                                ^^
  47 |     .card { margin-block: 2em; }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:46:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:45:1]
+ 45 | 
  46 | @container card (inline-size > 30em) or style(--responsive: true) {
     :                                  ^^
  47 |     .card { margin-block: 2em; }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:46:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:45:1]
+ 45 | 
  46 | @container card (inline-size > 30em) or style(--responsive: true) {
     :                                      ^^
  47 |     .card { margin-block: 2em; }
     `----
 
   x Function
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:46:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:45:1]
+ 45 | 
  46 | @container card (inline-size > 30em) or style(--responsive: true) {
     :                                         ^^^^^^^^^^^^^^^^^^^^^^^^^
  47 |     .card { margin-block: 2em; }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:46:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:45:1]
+ 45 | 
  46 | @container card (inline-size > 30em) or style(--responsive: true) {
     :                                         ^^^^^
  47 |     .card { margin-block: 2em; }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:46:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:45:1]
+ 45 | 
  46 | @container card (inline-size > 30em) or style(--responsive: true) {
     :                                               ^^^^^^^^^^^^
  47 |     .card { margin-block: 2em; }
     `----
 
   x Ident { value: Atom('--responsive' type=dynamic), raw: "--responsive" }
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:46:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:45:1]
+ 45 | 
  46 | @container card (inline-size > 30em) or style(--responsive: true) {
     :                                               ^^^^^^^^^^^^
  47 |     .card { margin-block: 2em; }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:46:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:45:1]
+ 45 | 
  46 | @container card (inline-size > 30em) or style(--responsive: true) {
     :                                                           ^
  47 |     .card { margin-block: 2em; }
     `----
 
   x Colon
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:46:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:45:1]
+ 45 | 
  46 | @container card (inline-size > 30em) or style(--responsive: true) {
     :                                                           ^
  47 |     .card { margin-block: 2em; }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:46:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:45:1]
+ 45 | 
  46 | @container card (inline-size > 30em) or style(--responsive: true) {
     :                                                            ^
  47 |     .card { margin-block: 2em; }
     `----
 
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:46:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:45:1]
+ 45 | 
  46 | @container card (inline-size > 30em) or style(--responsive: true) {
     :                                                            ^
  47 |     .card { margin-block: 2em; }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:46:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:45:1]
+ 45 | 
  46 | @container card (inline-size > 30em) or style(--responsive: true) {
     :                                                             ^^^^
  47 |     .card { margin-block: 2em; }
     `----
 
   x Ident { value: Atom('true' type=static), raw: "true" }
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:46:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:45:1]
+ 45 | 
  46 | @container card (inline-size > 30em) or style(--responsive: true) {
     :                                                             ^^^^
  47 |     .card { margin-block: 2em; }
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:46:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:45:1]
+ 45 |     
  46 | ,-> @container card (inline-size > 30em) or style(--responsive: true) {
  47 | |       .card { margin-block: 2em; }
  48 | `-> }
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:46:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:45:1]
+ 45 | 
  46 | @container card (inline-size > 30em) or style(--responsive: true) {
     :                                                                   ^
  47 |     .card { margin-block: 2em; }
@@ -2688,77 +2813,88 @@
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:50:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:49:1]
+ 49 |     
  50 | ,-> @container (inline-size >= 0px) {
  51 | |       h2 { font-size: calc(1.2em + 1cqw); }
  52 | `-> }
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:50:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:49:1]
+ 49 |     
  50 | ,-> @container (inline-size >= 0px) {
  51 | |       h2 { font-size: calc(1.2em + 1cqw); }
  52 | `-> }
     `----
 
   x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:50:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:49:1]
+ 49 | 
  50 | @container (inline-size >= 0px) {
     :  ^^^^^^^^^
  51 |     h2 { font-size: calc(1.2em + 1cqw); }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:50:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:49:1]
+ 49 | 
  50 | @container (inline-size >= 0px) {
     :  ^^^^^^^^^
  51 |     h2 { font-size: calc(1.2em + 1cqw); }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:50:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:49:1]
+ 49 | 
  50 | @container (inline-size >= 0px) {
     :             ^^^^^^^^^^^
  51 |     h2 { font-size: calc(1.2em + 1cqw); }
     `----
 
   x Dimension
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:50:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:49:1]
+ 49 | 
  50 | @container (inline-size >= 0px) {
     :                            ^^^
  51 |     h2 { font-size: calc(1.2em + 1cqw); }
     `----
 
   x Length
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:50:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:49:1]
+ 49 | 
  50 | @container (inline-size >= 0px) {
     :                            ^^^
  51 |     h2 { font-size: calc(1.2em + 1cqw); }
     `----
 
   x Number
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:50:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:49:1]
+ 49 | 
  50 | @container (inline-size >= 0px) {
     :                            ^
  51 |     h2 { font-size: calc(1.2em + 1cqw); }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:50:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:49:1]
+ 49 | 
  50 | @container (inline-size >= 0px) {
     :                             ^^
  51 |     h2 { font-size: calc(1.2em + 1cqw); }
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:50:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:49:1]
+ 49 |     
  50 | ,-> @container (inline-size >= 0px) {
  51 | |       h2 { font-size: calc(1.2em + 1cqw); }
  52 | `-> }
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:50:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:49:1]
+ 49 | 
  50 | @container (inline-size >= 0px) {
     :                                 ^
  51 |     h2 { font-size: calc(1.2em + 1cqw); }
@@ -3085,77 +3221,88 @@
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:54:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:53:1]
+ 53 |     
  54 | ,-> @container (inline-size >= 0px) {
  55 | |       h2 { font-size: calc(1.2em + 1cqh); }
  56 | `-> }
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:54:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:53:1]
+ 53 |     
  54 | ,-> @container (inline-size >= 0px) {
  55 | |       h2 { font-size: calc(1.2em + 1cqh); }
  56 | `-> }
     `----
 
   x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:54:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:53:1]
+ 53 | 
  54 | @container (inline-size >= 0px) {
     :  ^^^^^^^^^
  55 |     h2 { font-size: calc(1.2em + 1cqh); }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:54:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:53:1]
+ 53 | 
  54 | @container (inline-size >= 0px) {
     :  ^^^^^^^^^
  55 |     h2 { font-size: calc(1.2em + 1cqh); }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:54:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:53:1]
+ 53 | 
  54 | @container (inline-size >= 0px) {
     :             ^^^^^^^^^^^
  55 |     h2 { font-size: calc(1.2em + 1cqh); }
     `----
 
   x Dimension
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:54:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:53:1]
+ 53 | 
  54 | @container (inline-size >= 0px) {
     :                            ^^^
  55 |     h2 { font-size: calc(1.2em + 1cqh); }
     `----
 
   x Length
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:54:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:53:1]
+ 53 | 
  54 | @container (inline-size >= 0px) {
     :                            ^^^
  55 |     h2 { font-size: calc(1.2em + 1cqh); }
     `----
 
   x Number
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:54:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:53:1]
+ 53 | 
  54 | @container (inline-size >= 0px) {
     :                            ^
  55 |     h2 { font-size: calc(1.2em + 1cqh); }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:54:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:53:1]
+ 53 | 
  54 | @container (inline-size >= 0px) {
     :                             ^^
  55 |     h2 { font-size: calc(1.2em + 1cqh); }
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:54:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:53:1]
+ 53 |     
  54 | ,-> @container (inline-size >= 0px) {
  55 | |       h2 { font-size: calc(1.2em + 1cqh); }
  56 | `-> }
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:54:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:53:1]
+ 53 | 
  54 | @container (inline-size >= 0px) {
     :                                 ^
  55 |     h2 { font-size: calc(1.2em + 1cqh); }
@@ -3482,77 +3629,88 @@
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:58:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:57:1]
+ 57 |     
  58 | ,-> @container (inline-size >= 0px) {
  59 | |       h2 { font-size: calc(1.2em + 1cqi); }
  60 | `-> }
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:58:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:57:1]
+ 57 |     
  58 | ,-> @container (inline-size >= 0px) {
  59 | |       h2 { font-size: calc(1.2em + 1cqi); }
  60 | `-> }
     `----
 
   x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:58:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:57:1]
+ 57 | 
  58 | @container (inline-size >= 0px) {
     :  ^^^^^^^^^
  59 |     h2 { font-size: calc(1.2em + 1cqi); }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:58:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:57:1]
+ 57 | 
  58 | @container (inline-size >= 0px) {
     :  ^^^^^^^^^
  59 |     h2 { font-size: calc(1.2em + 1cqi); }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:58:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:57:1]
+ 57 | 
  58 | @container (inline-size >= 0px) {
     :             ^^^^^^^^^^^
  59 |     h2 { font-size: calc(1.2em + 1cqi); }
     `----
 
   x Dimension
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:58:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:57:1]
+ 57 | 
  58 | @container (inline-size >= 0px) {
     :                            ^^^
  59 |     h2 { font-size: calc(1.2em + 1cqi); }
     `----
 
   x Length
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:58:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:57:1]
+ 57 | 
  58 | @container (inline-size >= 0px) {
     :                            ^^^
  59 |     h2 { font-size: calc(1.2em + 1cqi); }
     `----
 
   x Number
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:58:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:57:1]
+ 57 | 
  58 | @container (inline-size >= 0px) {
     :                            ^
  59 |     h2 { font-size: calc(1.2em + 1cqi); }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:58:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:57:1]
+ 57 | 
  58 | @container (inline-size >= 0px) {
     :                             ^^
  59 |     h2 { font-size: calc(1.2em + 1cqi); }
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:58:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:57:1]
+ 57 |     
  58 | ,-> @container (inline-size >= 0px) {
  59 | |       h2 { font-size: calc(1.2em + 1cqi); }
  60 | `-> }
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:58:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:57:1]
+ 57 | 
  58 | @container (inline-size >= 0px) {
     :                                 ^
  59 |     h2 { font-size: calc(1.2em + 1cqi); }
@@ -3879,77 +4037,88 @@
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:62:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:61:1]
+ 61 |     
  62 | ,-> @container (inline-size >= 0px) {
  63 | |       h2 { font-size: calc(1.2em + 1cqb); }
  64 | `-> }
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:62:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:61:1]
+ 61 |     
  62 | ,-> @container (inline-size >= 0px) {
  63 | |       h2 { font-size: calc(1.2em + 1cqb); }
  64 | `-> }
     `----
 
   x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:62:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:61:1]
+ 61 | 
  62 | @container (inline-size >= 0px) {
     :  ^^^^^^^^^
  63 |     h2 { font-size: calc(1.2em + 1cqb); }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:62:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:61:1]
+ 61 | 
  62 | @container (inline-size >= 0px) {
     :  ^^^^^^^^^
  63 |     h2 { font-size: calc(1.2em + 1cqb); }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:62:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:61:1]
+ 61 | 
  62 | @container (inline-size >= 0px) {
     :             ^^^^^^^^^^^
  63 |     h2 { font-size: calc(1.2em + 1cqb); }
     `----
 
   x Dimension
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:62:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:61:1]
+ 61 | 
  62 | @container (inline-size >= 0px) {
     :                            ^^^
  63 |     h2 { font-size: calc(1.2em + 1cqb); }
     `----
 
   x Length
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:62:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:61:1]
+ 61 | 
  62 | @container (inline-size >= 0px) {
     :                            ^^^
  63 |     h2 { font-size: calc(1.2em + 1cqb); }
     `----
 
   x Number
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:62:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:61:1]
+ 61 | 
  62 | @container (inline-size >= 0px) {
     :                            ^
  63 |     h2 { font-size: calc(1.2em + 1cqb); }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:62:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:61:1]
+ 61 | 
  62 | @container (inline-size >= 0px) {
     :                             ^^
  63 |     h2 { font-size: calc(1.2em + 1cqb); }
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:62:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:61:1]
+ 61 |     
  62 | ,-> @container (inline-size >= 0px) {
  63 | |       h2 { font-size: calc(1.2em + 1cqb); }
  64 | `-> }
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:62:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:61:1]
+ 61 | 
  62 | @container (inline-size >= 0px) {
     :                                 ^
  63 |     h2 { font-size: calc(1.2em + 1cqb); }
@@ -4276,77 +4445,88 @@
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:66:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:65:1]
+ 65 |     
  66 | ,-> @container (inline-size >= 0px) {
  67 | |       h2 { font-size: calc(1.2em + 1cqmin); }
  68 | `-> }
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:66:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:65:1]
+ 65 |     
  66 | ,-> @container (inline-size >= 0px) {
  67 | |       h2 { font-size: calc(1.2em + 1cqmin); }
  68 | `-> }
     `----
 
   x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:66:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:65:1]
+ 65 | 
  66 | @container (inline-size >= 0px) {
     :  ^^^^^^^^^
  67 |     h2 { font-size: calc(1.2em + 1cqmin); }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:66:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:65:1]
+ 65 | 
  66 | @container (inline-size >= 0px) {
     :  ^^^^^^^^^
  67 |     h2 { font-size: calc(1.2em + 1cqmin); }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:66:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:65:1]
+ 65 | 
  66 | @container (inline-size >= 0px) {
     :             ^^^^^^^^^^^
  67 |     h2 { font-size: calc(1.2em + 1cqmin); }
     `----
 
   x Dimension
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:66:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:65:1]
+ 65 | 
  66 | @container (inline-size >= 0px) {
     :                            ^^^
  67 |     h2 { font-size: calc(1.2em + 1cqmin); }
     `----
 
   x Length
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:66:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:65:1]
+ 65 | 
  66 | @container (inline-size >= 0px) {
     :                            ^^^
  67 |     h2 { font-size: calc(1.2em + 1cqmin); }
     `----
 
   x Number
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:66:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:65:1]
+ 65 | 
  66 | @container (inline-size >= 0px) {
     :                            ^
  67 |     h2 { font-size: calc(1.2em + 1cqmin); }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:66:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:65:1]
+ 65 | 
  66 | @container (inline-size >= 0px) {
     :                             ^^
  67 |     h2 { font-size: calc(1.2em + 1cqmin); }
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:66:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:65:1]
+ 65 |     
  66 | ,-> @container (inline-size >= 0px) {
  67 | |       h2 { font-size: calc(1.2em + 1cqmin); }
  68 | `-> }
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:66:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:65:1]
+ 65 | 
  66 | @container (inline-size >= 0px) {
     :                                 ^
  67 |     h2 { font-size: calc(1.2em + 1cqmin); }
@@ -4673,77 +4853,88 @@
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:70:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:69:1]
+ 69 |     
  70 | ,-> @container (inline-size >= 0px) {
  71 | |       h2 { font-size: calc(1.2em + 1cqmax); }
  72 | `-> }
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:70:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:69:1]
+ 69 |     
  70 | ,-> @container (inline-size >= 0px) {
  71 | |       h2 { font-size: calc(1.2em + 1cqmax); }
  72 | `-> }
     `----
 
   x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:70:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:69:1]
+ 69 | 
  70 | @container (inline-size >= 0px) {
     :  ^^^^^^^^^
  71 |     h2 { font-size: calc(1.2em + 1cqmax); }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:70:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:69:1]
+ 69 | 
  70 | @container (inline-size >= 0px) {
     :  ^^^^^^^^^
  71 |     h2 { font-size: calc(1.2em + 1cqmax); }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:70:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:69:1]
+ 69 | 
  70 | @container (inline-size >= 0px) {
     :             ^^^^^^^^^^^
  71 |     h2 { font-size: calc(1.2em + 1cqmax); }
     `----
 
   x Dimension
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:70:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:69:1]
+ 69 | 
  70 | @container (inline-size >= 0px) {
     :                            ^^^
  71 |     h2 { font-size: calc(1.2em + 1cqmax); }
     `----
 
   x Length
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:70:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:69:1]
+ 69 | 
  70 | @container (inline-size >= 0px) {
     :                            ^^^
  71 |     h2 { font-size: calc(1.2em + 1cqmax); }
     `----
 
   x Number
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:70:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:69:1]
+ 69 | 
  70 | @container (inline-size >= 0px) {
     :                            ^
  71 |     h2 { font-size: calc(1.2em + 1cqmax); }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:70:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:69:1]
+ 69 | 
  70 | @container (inline-size >= 0px) {
     :                             ^^
  71 |     h2 { font-size: calc(1.2em + 1cqmax); }
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:70:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:69:1]
+ 69 |     
  70 | ,-> @container (inline-size >= 0px) {
  71 | |       h2 { font-size: calc(1.2em + 1cqmax); }
  72 | `-> }
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:70:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:69:1]
+ 69 | 
  70 | @container (inline-size >= 0px) {
     :                                 ^
  71 |     h2 { font-size: calc(1.2em + 1cqmax); }
@@ -5070,7 +5261,8 @@
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:74:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:73:1]
+ 73 |     
  74 | ,-> @media screen {
  75 | |       @container card (inline-size > 30em) and (inline-size < 45em) {
  76 | |           h2 { font-size: calc(1.2em + 1cqmax); }
@@ -5079,7 +5271,8 @@
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:74:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:73:1]
+ 73 |     
  74 | ,-> @media screen {
  75 | |       @container card (inline-size > 30em) and (inline-size < 45em) {
  76 | |           h2 { font-size: calc(1.2em + 1cqmax); }
@@ -5088,49 +5281,56 @@
     `----
 
   x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:74:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:73:1]
+ 73 | 
  74 | @media screen {
     :  ^^^^^
  75 |     @container card (inline-size > 30em) and (inline-size < 45em) {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:74:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:73:1]
+ 73 | 
  74 | @media screen {
     :  ^^^^^
  75 |     @container card (inline-size > 30em) and (inline-size < 45em) {
     `----
 
   x MediaQueryList
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:74:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:73:1]
+ 73 | 
  74 | @media screen {
     :        ^^^^^^
  75 |     @container card (inline-size > 30em) and (inline-size < 45em) {
     `----
 
   x MediaQuery
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:74:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:73:1]
+ 73 | 
  74 | @media screen {
     :        ^^^^^^
  75 |     @container card (inline-size > 30em) and (inline-size < 45em) {
     `----
 
   x MediaType
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:74:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:73:1]
+ 73 | 
  74 | @media screen {
     :        ^^^^^^
  75 |     @container card (inline-size > 30em) and (inline-size < 45em) {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:74:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:73:1]
+ 73 | 
  74 | @media screen {
     :        ^^^^^^
  75 |     @container card (inline-size > 30em) and (inline-size < 45em) {
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:74:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:73:1]
+ 73 |     
  74 | ,-> @media screen {
  75 | |       @container card (inline-size > 30em) and (inline-size < 45em) {
  76 | |           h2 { font-size: calc(1.2em + 1cqmax); }
@@ -5139,7 +5339,8 @@
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:74:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:73:1]
+ 73 | 
  74 | @media screen {
     :               ^
  75 |     @container card (inline-size > 30em) and (inline-size < 45em) {
@@ -5302,327 +5503,328 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:5]
- 75 | @container card (inline-size > 30em) and (inline-size < 45em) {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:1]
+ 75 |     @container card (inline-size > 30em) and (inline-size < 45em) {
  76 |         h2 { font-size: calc(1.2em + 1cqmax); }
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  77 |     }
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:5]
- 75 | @container card (inline-size > 30em) and (inline-size < 45em) {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:1]
+ 75 |     @container card (inline-size > 30em) and (inline-size < 45em) {
  76 |         h2 { font-size: calc(1.2em + 1cqmax); }
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  77 |     }
     `----
 
   x QualifiedRule
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:5]
- 75 | @container card (inline-size > 30em) and (inline-size < 45em) {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:1]
+ 75 |     @container card (inline-size > 30em) and (inline-size < 45em) {
  76 |         h2 { font-size: calc(1.2em + 1cqmax); }
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  77 |     }
     `----
 
   x SelectorList
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:5]
- 75 | @container card (inline-size > 30em) and (inline-size < 45em) {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:1]
+ 75 |     @container card (inline-size > 30em) and (inline-size < 45em) {
  76 |         h2 { font-size: calc(1.2em + 1cqmax); }
     :         ^^
  77 |     }
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:5]
- 75 | @container card (inline-size > 30em) and (inline-size < 45em) {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:1]
+ 75 |     @container card (inline-size > 30em) and (inline-size < 45em) {
  76 |         h2 { font-size: calc(1.2em + 1cqmax); }
     :         ^^
  77 |     }
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:5]
- 75 | @container card (inline-size > 30em) and (inline-size < 45em) {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:1]
+ 75 |     @container card (inline-size > 30em) and (inline-size < 45em) {
  76 |         h2 { font-size: calc(1.2em + 1cqmax); }
     :         ^^
  77 |     }
     `----
 
   x TypeSelector
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:5]
- 75 | @container card (inline-size > 30em) and (inline-size < 45em) {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:1]
+ 75 |     @container card (inline-size > 30em) and (inline-size < 45em) {
  76 |         h2 { font-size: calc(1.2em + 1cqmax); }
     :         ^^
  77 |     }
     `----
 
   x TagNameSelector
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:5]
- 75 | @container card (inline-size > 30em) and (inline-size < 45em) {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:1]
+ 75 |     @container card (inline-size > 30em) and (inline-size < 45em) {
  76 |         h2 { font-size: calc(1.2em + 1cqmax); }
     :         ^^
  77 |     }
     `----
 
   x WqName
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:5]
- 75 | @container card (inline-size > 30em) and (inline-size < 45em) {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:1]
+ 75 |     @container card (inline-size > 30em) and (inline-size < 45em) {
  76 |         h2 { font-size: calc(1.2em + 1cqmax); }
     :         ^^
  77 |     }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:5]
- 75 | @container card (inline-size > 30em) and (inline-size < 45em) {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:1]
+ 75 |     @container card (inline-size > 30em) and (inline-size < 45em) {
  76 |         h2 { font-size: calc(1.2em + 1cqmax); }
     :         ^^
  77 |     }
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:5]
- 75 | @container card (inline-size > 30em) and (inline-size < 45em) {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:1]
+ 75 |     @container card (inline-size > 30em) and (inline-size < 45em) {
  76 |         h2 { font-size: calc(1.2em + 1cqmax); }
     :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  77 |     }
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:5]
- 75 | @container card (inline-size > 30em) and (inline-size < 45em) {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:1]
+ 75 |     @container card (inline-size > 30em) and (inline-size < 45em) {
  76 |         h2 { font-size: calc(1.2em + 1cqmax); }
     :            ^
  77 |     }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:5]
- 75 | @container card (inline-size > 30em) and (inline-size < 45em) {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:1]
+ 75 |     @container card (inline-size > 30em) and (inline-size < 45em) {
  76 |         h2 { font-size: calc(1.2em + 1cqmax); }
     :              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  77 |     }
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:5]
- 75 | @container card (inline-size > 30em) and (inline-size < 45em) {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:1]
+ 75 |     @container card (inline-size > 30em) and (inline-size < 45em) {
  76 |         h2 { font-size: calc(1.2em + 1cqmax); }
     :              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  77 |     }
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:5]
- 75 | @container card (inline-size > 30em) and (inline-size < 45em) {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:1]
+ 75 |     @container card (inline-size > 30em) and (inline-size < 45em) {
  76 |         h2 { font-size: calc(1.2em + 1cqmax); }
     :              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  77 |     }
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:5]
- 75 | @container card (inline-size > 30em) and (inline-size < 45em) {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:1]
+ 75 |     @container card (inline-size > 30em) and (inline-size < 45em) {
  76 |         h2 { font-size: calc(1.2em + 1cqmax); }
     :              ^^^^^^^^^
  77 |     }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:5]
- 75 | @container card (inline-size > 30em) and (inline-size < 45em) {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:1]
+ 75 |     @container card (inline-size > 30em) and (inline-size < 45em) {
  76 |         h2 { font-size: calc(1.2em + 1cqmax); }
     :              ^^^^^^^^^
  77 |     }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:5]
- 75 | @container card (inline-size > 30em) and (inline-size < 45em) {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:1]
+ 75 |     @container card (inline-size > 30em) and (inline-size < 45em) {
  76 |         h2 { font-size: calc(1.2em + 1cqmax); }
     :                         ^^^^^^^^^^^^^^^^^^^^
  77 |     }
     `----
 
   x Function
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:5]
- 75 | @container card (inline-size > 30em) and (inline-size < 45em) {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:1]
+ 75 |     @container card (inline-size > 30em) and (inline-size < 45em) {
  76 |         h2 { font-size: calc(1.2em + 1cqmax); }
     :                         ^^^^^^^^^^^^^^^^^^^^
  77 |     }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:5]
- 75 | @container card (inline-size > 30em) and (inline-size < 45em) {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:1]
+ 75 |     @container card (inline-size > 30em) and (inline-size < 45em) {
  76 |         h2 { font-size: calc(1.2em + 1cqmax); }
     :                         ^^^^
  77 |     }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:5]
- 75 | @container card (inline-size > 30em) and (inline-size < 45em) {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:1]
+ 75 |     @container card (inline-size > 30em) and (inline-size < 45em) {
  76 |         h2 { font-size: calc(1.2em + 1cqmax); }
     :                              ^^^^^^^^^^^^^^
  77 |     }
     `----
 
   x CalcSum
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:5]
- 75 | @container card (inline-size > 30em) and (inline-size < 45em) {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:1]
+ 75 |     @container card (inline-size > 30em) and (inline-size < 45em) {
  76 |         h2 { font-size: calc(1.2em + 1cqmax); }
     :                              ^^^^^^^^^^^^^^
  77 |     }
     `----
 
   x CalcProductOrOperator
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:5]
- 75 | @container card (inline-size > 30em) and (inline-size < 45em) {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:1]
+ 75 |     @container card (inline-size > 30em) and (inline-size < 45em) {
  76 |         h2 { font-size: calc(1.2em + 1cqmax); }
     :                              ^^^^^
  77 |     }
     `----
 
   x CalcProduct
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:5]
- 75 | @container card (inline-size > 30em) and (inline-size < 45em) {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:1]
+ 75 |     @container card (inline-size > 30em) and (inline-size < 45em) {
  76 |         h2 { font-size: calc(1.2em + 1cqmax); }
     :                              ^^^^^
  77 |     }
     `----
 
   x CalcValueOrOperator
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:5]
- 75 | @container card (inline-size > 30em) and (inline-size < 45em) {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:1]
+ 75 |     @container card (inline-size > 30em) and (inline-size < 45em) {
  76 |         h2 { font-size: calc(1.2em + 1cqmax); }
     :                              ^^^^^
  77 |     }
     `----
 
   x CalcValue
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:5]
- 75 | @container card (inline-size > 30em) and (inline-size < 45em) {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:1]
+ 75 |     @container card (inline-size > 30em) and (inline-size < 45em) {
  76 |         h2 { font-size: calc(1.2em + 1cqmax); }
     :                              ^^^^^
  77 |     }
     `----
 
   x Dimension
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:5]
- 75 | @container card (inline-size > 30em) and (inline-size < 45em) {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:1]
+ 75 |     @container card (inline-size > 30em) and (inline-size < 45em) {
  76 |         h2 { font-size: calc(1.2em + 1cqmax); }
     :                              ^^^^^
  77 |     }
     `----
 
   x Length
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:5]
- 75 | @container card (inline-size > 30em) and (inline-size < 45em) {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:1]
+ 75 |     @container card (inline-size > 30em) and (inline-size < 45em) {
  76 |         h2 { font-size: calc(1.2em + 1cqmax); }
     :                              ^^^^^
  77 |     }
     `----
 
   x Number
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:5]
- 75 | @container card (inline-size > 30em) and (inline-size < 45em) {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:1]
+ 75 |     @container card (inline-size > 30em) and (inline-size < 45em) {
  76 |         h2 { font-size: calc(1.2em + 1cqmax); }
     :                              ^^^
  77 |     }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:5]
- 75 | @container card (inline-size > 30em) and (inline-size < 45em) {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:1]
+ 75 |     @container card (inline-size > 30em) and (inline-size < 45em) {
  76 |         h2 { font-size: calc(1.2em + 1cqmax); }
     :                                 ^^
  77 |     }
     `----
 
   x CalcProductOrOperator
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:5]
- 75 | @container card (inline-size > 30em) and (inline-size < 45em) {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:1]
+ 75 |     @container card (inline-size > 30em) and (inline-size < 45em) {
  76 |         h2 { font-size: calc(1.2em + 1cqmax); }
     :                                    ^
  77 |     }
     `----
 
   x CalcOperator
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:5]
- 75 | @container card (inline-size > 30em) and (inline-size < 45em) {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:1]
+ 75 |     @container card (inline-size > 30em) and (inline-size < 45em) {
  76 |         h2 { font-size: calc(1.2em + 1cqmax); }
     :                                    ^
  77 |     }
     `----
 
   x CalcProductOrOperator
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:5]
- 75 | @container card (inline-size > 30em) and (inline-size < 45em) {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:1]
+ 75 |     @container card (inline-size > 30em) and (inline-size < 45em) {
  76 |         h2 { font-size: calc(1.2em + 1cqmax); }
     :                                      ^^^^^^
  77 |     }
     `----
 
   x CalcProduct
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:5]
- 75 | @container card (inline-size > 30em) and (inline-size < 45em) {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:1]
+ 75 |     @container card (inline-size > 30em) and (inline-size < 45em) {
  76 |         h2 { font-size: calc(1.2em + 1cqmax); }
     :                                      ^^^^^^
  77 |     }
     `----
 
   x CalcValueOrOperator
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:5]
- 75 | @container card (inline-size > 30em) and (inline-size < 45em) {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:1]
+ 75 |     @container card (inline-size > 30em) and (inline-size < 45em) {
  76 |         h2 { font-size: calc(1.2em + 1cqmax); }
     :                                      ^^^^^^
  77 |     }
     `----
 
   x CalcValue
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:5]
- 75 | @container card (inline-size > 30em) and (inline-size < 45em) {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:1]
+ 75 |     @container card (inline-size > 30em) and (inline-size < 45em) {
  76 |         h2 { font-size: calc(1.2em + 1cqmax); }
     :                                      ^^^^^^
  77 |     }
     `----
 
   x Dimension
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:5]
- 75 | @container card (inline-size > 30em) and (inline-size < 45em) {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:1]
+ 75 |     @container card (inline-size > 30em) and (inline-size < 45em) {
  76 |         h2 { font-size: calc(1.2em + 1cqmax); }
     :                                      ^^^^^^
  77 |     }
     `----
 
   x Length
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:5]
- 75 | @container card (inline-size > 30em) and (inline-size < 45em) {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:1]
+ 75 |     @container card (inline-size > 30em) and (inline-size < 45em) {
  76 |         h2 { font-size: calc(1.2em + 1cqmax); }
     :                                      ^^^^^^
  77 |     }
     `----
 
   x Number
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:5]
- 75 | @container card (inline-size > 30em) and (inline-size < 45em) {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:1]
+ 75 |     @container card (inline-size > 30em) and (inline-size < 45em) {
  76 |         h2 { font-size: calc(1.2em + 1cqmax); }
     :                                      ^
  77 |     }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:5]
- 75 | @container card (inline-size > 30em) and (inline-size < 45em) {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:1]
+ 75 |     @container card (inline-size > 30em) and (inline-size < 45em) {
  76 |         h2 { font-size: calc(1.2em + 1cqmax); }
     :                                       ^^^^^
  77 |     }
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:80:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:79:1]
+ 79 |     
  80 | ,-> @container (100px > width > 150px) {
  81 | |       #inner {
  82 | |           background-color: skyblue;
@@ -5631,7 +5833,8 @@
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:80:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:79:1]
+ 79 |     
  80 | ,-> @container (100px > width > 150px) {
  81 | |       #inner {
  82 | |           background-color: skyblue;
@@ -5640,84 +5843,96 @@
     `----
 
   x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:80:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:79:1]
+ 79 | 
  80 | @container (100px > width > 150px) {
     :  ^^^^^^^^^
  81 |     #inner {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:80:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:79:1]
+ 79 | 
  80 | @container (100px > width > 150px) {
     :  ^^^^^^^^^
  81 |     #inner {
     `----
 
   x Dimension
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:80:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:79:1]
+ 79 | 
  80 | @container (100px > width > 150px) {
     :             ^^^^^
  81 |     #inner {
     `----
 
   x Length
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:80:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:79:1]
+ 79 | 
  80 | @container (100px > width > 150px) {
     :             ^^^^^
  81 |     #inner {
     `----
 
   x Number
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:80:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:79:1]
+ 79 | 
  80 | @container (100px > width > 150px) {
     :             ^^^
  81 |     #inner {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:80:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:79:1]
+ 79 | 
  80 | @container (100px > width > 150px) {
     :                ^^
  81 |     #inner {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:80:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:79:1]
+ 79 | 
  80 | @container (100px > width > 150px) {
     :                     ^^^^^
  81 |     #inner {
     `----
 
   x Dimension
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:80:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:79:1]
+ 79 | 
  80 | @container (100px > width > 150px) {
     :                             ^^^^^
  81 |     #inner {
     `----
 
   x Length
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:80:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:79:1]
+ 79 | 
  80 | @container (100px > width > 150px) {
     :                             ^^^^^
  81 |     #inner {
     `----
 
   x Number
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:80:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:79:1]
+ 79 | 
  80 | @container (100px > width > 150px) {
     :                             ^^^
  81 |     #inner {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:80:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:79:1]
+ 79 | 
  80 | @container (100px > width > 150px) {
     :                                ^^
  81 |     #inner {
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:80:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:79:1]
+ 79 |     
  80 | ,-> @container (100px > width > 150px) {
  81 | |       #inner {
  82 | |           background-color: skyblue;
@@ -5726,7 +5941,8 @@
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:80:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:79:1]
+ 79 | 
  80 | @container (100px > width > 150px) {
     :                                    ^
  81 |     #inner {
@@ -5825,63 +6041,64 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:81:5]
- 81 | #inner {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:81:1]
+ 81 |     #inner {
  82 |         background-color: skyblue;
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^
  83 |     }
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:81:5]
- 81 | #inner {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:81:1]
+ 81 |     #inner {
  82 |         background-color: skyblue;
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^
  83 |     }
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:81:5]
- 81 | #inner {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:81:1]
+ 81 |     #inner {
  82 |         background-color: skyblue;
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^
  83 |     }
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:81:5]
- 81 | #inner {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:81:1]
+ 81 |     #inner {
  82 |         background-color: skyblue;
     :         ^^^^^^^^^^^^^^^^
  83 |     }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:81:5]
- 81 | #inner {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:81:1]
+ 81 |     #inner {
  82 |         background-color: skyblue;
     :         ^^^^^^^^^^^^^^^^
  83 |     }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:81:5]
- 81 | #inner {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:81:1]
+ 81 |     #inner {
  82 |         background-color: skyblue;
     :                           ^^^^^^^
  83 |     }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:81:5]
- 81 | #inner {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:81:1]
+ 81 |     #inner {
  82 |         background-color: skyblue;
     :                           ^^^^^^^
  83 |     }
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:86:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:85:1]
+ 85 |     
  86 | ,-> @container (not (width <= 150px)) {
  87 | |       #inner {
  88 | |           background-color: skyblue;
@@ -5890,7 +6107,8 @@
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:86:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:85:1]
+ 85 |     
  86 | ,-> @container (not (width <= 150px)) {
  87 | |       #inner {
  88 | |           background-color: skyblue;
@@ -5899,63 +6117,72 @@
     `----
 
   x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:86:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:85:1]
+ 85 | 
  86 | @container (not (width <= 150px)) {
     :  ^^^^^^^^^
  87 |     #inner {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:86:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:85:1]
+ 85 | 
  86 | @container (not (width <= 150px)) {
     :  ^^^^^^^^^
  87 |     #inner {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:86:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:85:1]
+ 85 | 
  86 | @container (not (width <= 150px)) {
     :             ^^^
  87 |     #inner {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:86:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:85:1]
+ 85 | 
  86 | @container (not (width <= 150px)) {
     :                  ^^^^^
  87 |     #inner {
     `----
 
   x Dimension
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:86:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:85:1]
+ 85 | 
  86 | @container (not (width <= 150px)) {
     :                           ^^^^^
  87 |     #inner {
     `----
 
   x Length
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:86:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:85:1]
+ 85 | 
  86 | @container (not (width <= 150px)) {
     :                           ^^^^^
  87 |     #inner {
     `----
 
   x Number
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:86:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:85:1]
+ 85 | 
  86 | @container (not (width <= 150px)) {
     :                           ^^^
  87 |     #inner {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:86:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:85:1]
+ 85 | 
  86 | @container (not (width <= 150px)) {
     :                              ^^
  87 |     #inner {
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:86:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:85:1]
+ 85 |     
  86 | ,-> @container (not (width <= 150px)) {
  87 | |       #inner {
  88 | |           background-color: skyblue;
@@ -5964,7 +6191,8 @@
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:86:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:85:1]
+ 85 | 
  86 | @container (not (width <= 150px)) {
     :                                   ^
  87 |     #inner {
@@ -6063,63 +6291,64 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:87:5]
- 87 | #inner {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:87:1]
+ 87 |     #inner {
  88 |         background-color: skyblue;
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^
  89 |     }
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:87:5]
- 87 | #inner {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:87:1]
+ 87 |     #inner {
  88 |         background-color: skyblue;
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^
  89 |     }
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:87:5]
- 87 | #inner {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:87:1]
+ 87 |     #inner {
  88 |         background-color: skyblue;
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^
  89 |     }
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:87:5]
- 87 | #inner {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:87:1]
+ 87 |     #inner {
  88 |         background-color: skyblue;
     :         ^^^^^^^^^^^^^^^^
  89 |     }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:87:5]
- 87 | #inner {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:87:1]
+ 87 |     #inner {
  88 |         background-color: skyblue;
     :         ^^^^^^^^^^^^^^^^
  89 |     }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:87:5]
- 87 | #inner {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:87:1]
+ 87 |     #inner {
  88 |         background-color: skyblue;
     :                           ^^^^^^^
  89 |     }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:87:5]
- 87 | #inner {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:87:1]
+ 87 |     #inner {
  88 |         background-color: skyblue;
     :                           ^^^^^^^
  89 |     }
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:92:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:91:1]
+ 91 |     
  92 | ,-> @container ((width <= 150px)) {
  93 | |       #inner {
  94 | |           background-color: skyblue;
@@ -6128,7 +6357,8 @@
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:92:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:91:1]
+ 91 |     
  92 | ,-> @container ((width <= 150px)) {
  93 | |       #inner {
  94 | |           background-color: skyblue;
@@ -6137,56 +6367,64 @@
     `----
 
   x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:92:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:91:1]
+ 91 | 
  92 | @container ((width <= 150px)) {
     :  ^^^^^^^^^
  93 |     #inner {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:92:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:91:1]
+ 91 | 
  92 | @container ((width <= 150px)) {
     :  ^^^^^^^^^
  93 |     #inner {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:92:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:91:1]
+ 91 | 
  92 | @container ((width <= 150px)) {
     :              ^^^^^
  93 |     #inner {
     `----
 
   x Dimension
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:92:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:91:1]
+ 91 | 
  92 | @container ((width <= 150px)) {
     :                       ^^^^^
  93 |     #inner {
     `----
 
   x Length
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:92:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:91:1]
+ 91 | 
  92 | @container ((width <= 150px)) {
     :                       ^^^^^
  93 |     #inner {
     `----
 
   x Number
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:92:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:91:1]
+ 91 | 
  92 | @container ((width <= 150px)) {
     :                       ^^^
  93 |     #inner {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:92:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:91:1]
+ 91 | 
  92 | @container ((width <= 150px)) {
     :                          ^^
  93 |     #inner {
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:92:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:91:1]
+ 91 |     
  92 | ,-> @container ((width <= 150px)) {
  93 | |       #inner {
  94 | |           background-color: skyblue;
@@ -6195,7 +6433,8 @@
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:92:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:91:1]
+ 91 | 
  92 | @container ((width <= 150px)) {
     :                               ^
  93 |     #inner {
@@ -6294,63 +6533,64 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:93:5]
- 93 | #inner {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:93:1]
+ 93 |     #inner {
  94 |         background-color: skyblue;
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^
  95 |     }
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:93:5]
- 93 | #inner {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:93:1]
+ 93 |     #inner {
  94 |         background-color: skyblue;
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^
  95 |     }
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:93:5]
- 93 | #inner {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:93:1]
+ 93 |     #inner {
  94 |         background-color: skyblue;
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^
  95 |     }
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:93:5]
- 93 | #inner {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:93:1]
+ 93 |     #inner {
  94 |         background-color: skyblue;
     :         ^^^^^^^^^^^^^^^^
  95 |     }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:93:5]
- 93 | #inner {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:93:1]
+ 93 |     #inner {
  94 |         background-color: skyblue;
     :         ^^^^^^^^^^^^^^^^
  95 |     }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:93:5]
- 93 | #inner {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:93:1]
+ 93 |     #inner {
  94 |         background-color: skyblue;
     :                           ^^^^^^^
  95 |     }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:93:5]
- 93 | #inner {
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:93:1]
+ 93 |     #inner {
  94 |         background-color: skyblue;
     :                           ^^^^^^^
  95 |     }
     `----
 
   x Rule
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:98:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:97:1]
+  97 |     
   98 | ,-> @container (min-width: 700px) {
   99 | |       .card {
  100 | |           display: grid;
@@ -6360,7 +6600,8 @@
      `----
 
   x AtRule
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:98:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:97:1]
+  97 |     
   98 | ,-> @container (min-width: 700px) {
   99 | |       .card {
  100 | |           display: grid;
@@ -6370,56 +6611,64 @@
      `----
 
   x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:98:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:97:1]
+ 97 | 
  98 | @container (min-width: 700px) {
     :  ^^^^^^^^^
  99 |     .card {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:98:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:97:1]
+ 97 | 
  98 | @container (min-width: 700px) {
     :  ^^^^^^^^^
  99 |     .card {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:98:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:97:1]
+ 97 | 
  98 | @container (min-width: 700px) {
     :             ^^^^^^^^^
  99 |     .card {
     `----
 
   x Dimension
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:98:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:97:1]
+ 97 | 
  98 | @container (min-width: 700px) {
     :                        ^^^^^
  99 |     .card {
     `----
 
   x Length
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:98:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:97:1]
+ 97 | 
  98 | @container (min-width: 700px) {
     :                        ^^^^^
  99 |     .card {
     `----
 
   x Number
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:98:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:97:1]
+ 97 | 
  98 | @container (min-width: 700px) {
     :                        ^^^
  99 |     .card {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:98:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:97:1]
+ 97 | 
  98 | @container (min-width: 700px) {
     :                           ^^
  99 |     .card {
     `----
 
   x SimpleBlock
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:98:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:97:1]
+  97 |     
   98 | ,-> @container (min-width: 700px) {
   99 | |       .card {
  100 | |           display: grid;
@@ -6429,7 +6678,8 @@
      `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:98:1]
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:97:1]
+ 97 | 
  98 | @container (min-width: 700px) {
     :                               ^
  99 |     .card {
@@ -6532,183 +6782,184 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:99:5]
-  99 | .card {
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:99:1]
+  99 |     .card {
  100 |         display: grid;
      :         ^^^^^^^^^^^^^
  101 |         grid-template-columns: 2fr 1fr;
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:99:5]
-  99 | .card {
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:99:1]
+  99 |     .card {
  100 |         display: grid;
      :         ^^^^^^^^^^^^^
  101 |         grid-template-columns: 2fr 1fr;
      `----
 
   x Declaration
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:99:5]
-  99 | .card {
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:99:1]
+  99 |     .card {
  100 |         display: grid;
      :         ^^^^^^^^^^^^^
  101 |         grid-template-columns: 2fr 1fr;
      `----
 
   x DeclarationName
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:99:5]
-  99 | .card {
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:99:1]
+  99 |     .card {
  100 |         display: grid;
      :         ^^^^^^^
  101 |         grid-template-columns: 2fr 1fr;
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:99:5]
-  99 | .card {
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:99:1]
+  99 |     .card {
  100 |         display: grid;
      :         ^^^^^^^
  101 |         grid-template-columns: 2fr 1fr;
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:99:5]
-  99 | .card {
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:99:1]
+  99 |     .card {
  100 |         display: grid;
      :                  ^^^^
  101 |         grid-template-columns: 2fr 1fr;
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:99:5]
-  99 | .card {
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:99:1]
+  99 |     .card {
  100 |         display: grid;
      :                  ^^^^
  101 |         grid-template-columns: 2fr 1fr;
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:100:9]
- 100 | display: grid;
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:100:1]
+ 100 |         display: grid;
  101 |         grid-template-columns: 2fr 1fr;
      :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  102 |     }
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:100:9]
- 100 | display: grid;
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:100:1]
+ 100 |         display: grid;
  101 |         grid-template-columns: 2fr 1fr;
      :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  102 |     }
      `----
 
   x Declaration
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:100:9]
- 100 | display: grid;
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:100:1]
+ 100 |         display: grid;
  101 |         grid-template-columns: 2fr 1fr;
      :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  102 |     }
      `----
 
   x DeclarationName
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:100:9]
- 100 | display: grid;
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:100:1]
+ 100 |         display: grid;
  101 |         grid-template-columns: 2fr 1fr;
      :         ^^^^^^^^^^^^^^^^^^^^^
  102 |     }
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:100:9]
- 100 | display: grid;
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:100:1]
+ 100 |         display: grid;
  101 |         grid-template-columns: 2fr 1fr;
      :         ^^^^^^^^^^^^^^^^^^^^^
  102 |     }
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:100:9]
- 100 | display: grid;
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:100:1]
+ 100 |         display: grid;
  101 |         grid-template-columns: 2fr 1fr;
      :                                ^^^
  102 |     }
      `----
 
   x Dimension
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:100:9]
- 100 | display: grid;
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:100:1]
+ 100 |         display: grid;
  101 |         grid-template-columns: 2fr 1fr;
      :                                ^^^
  102 |     }
      `----
 
   x Flex
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:100:9]
- 100 | display: grid;
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:100:1]
+ 100 |         display: grid;
  101 |         grid-template-columns: 2fr 1fr;
      :                                ^^^
  102 |     }
      `----
 
   x Number
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:100:9]
- 100 | display: grid;
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:100:1]
+ 100 |         display: grid;
  101 |         grid-template-columns: 2fr 1fr;
      :                                ^
  102 |     }
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:100:9]
- 100 | display: grid;
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:100:1]
+ 100 |         display: grid;
  101 |         grid-template-columns: 2fr 1fr;
      :                                 ^^
  102 |     }
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:100:9]
- 100 | display: grid;
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:100:1]
+ 100 |         display: grid;
  101 |         grid-template-columns: 2fr 1fr;
      :                                    ^^^
  102 |     }
      `----
 
   x Dimension
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:100:9]
- 100 | display: grid;
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:100:1]
+ 100 |         display: grid;
  101 |         grid-template-columns: 2fr 1fr;
      :                                    ^^^
  102 |     }
      `----
 
   x Flex
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:100:9]
- 100 | display: grid;
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:100:1]
+ 100 |         display: grid;
  101 |         grid-template-columns: 2fr 1fr;
      :                                    ^^^
  102 |     }
      `----
 
   x Number
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:100:9]
- 100 | display: grid;
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:100:1]
+ 100 |         display: grid;
  101 |         grid-template-columns: 2fr 1fr;
      :                                    ^
  102 |     }
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:100:9]
- 100 | display: grid;
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:100:1]
+ 100 |         display: grid;
  101 |         grid-template-columns: 2fr 1fr;
      :                                     ^^
  102 |     }
      `----
 
   x Rule
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:106:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:105:1]
+ 105 |     
  106 | ,-> @container sidebar (min-width: 400px) {
  107 | |       .card {
  108 | |           display: grid;
@@ -6718,7 +6969,8 @@
      `----
 
   x AtRule
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:106:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:105:1]
+ 105 |     
  106 | ,-> @container sidebar (min-width: 400px) {
  107 | |       .card {
  108 | |           display: grid;
@@ -6728,63 +6980,72 @@
      `----
 
   x AtRuleName
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:106:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:105:1]
+ 105 | 
  106 | @container sidebar (min-width: 400px) {
      :  ^^^^^^^^^
  107 |     .card {
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:106:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:105:1]
+ 105 | 
  106 | @container sidebar (min-width: 400px) {
      :  ^^^^^^^^^
  107 |     .card {
      `----
 
   x CustomIdent
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:106:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:105:1]
+ 105 | 
  106 | @container sidebar (min-width: 400px) {
      :            ^^^^^^^
  107 |     .card {
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:106:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:105:1]
+ 105 | 
  106 | @container sidebar (min-width: 400px) {
      :                     ^^^^^^^^^
  107 |     .card {
      `----
 
   x Dimension
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:106:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:105:1]
+ 105 | 
  106 | @container sidebar (min-width: 400px) {
      :                                ^^^^^
  107 |     .card {
      `----
 
   x Length
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:106:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:105:1]
+ 105 | 
  106 | @container sidebar (min-width: 400px) {
      :                                ^^^^^
  107 |     .card {
      `----
 
   x Number
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:106:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:105:1]
+ 105 | 
  106 | @container sidebar (min-width: 400px) {
      :                                ^^^
  107 |     .card {
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:106:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:105:1]
+ 105 | 
  106 | @container sidebar (min-width: 400px) {
      :                                   ^^
  107 |     .card {
      `----
 
   x SimpleBlock
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:106:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:105:1]
+ 105 |     
  106 | ,-> @container sidebar (min-width: 400px) {
  107 | |       .card {
  108 | |           display: grid;
@@ -6794,7 +7055,8 @@
      `----
 
   x LBrace
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:106:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:105:1]
+ 105 | 
  106 | @container sidebar (min-width: 400px) {
      :                                       ^
  107 |     .card {
@@ -6897,183 +7159,184 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:107:5]
- 107 | .card {
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:107:1]
+ 107 |     .card {
  108 |         display: grid;
      :         ^^^^^^^^^^^^^
  109 |         grid-template-columns: 2fr 1fr;
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:107:5]
- 107 | .card {
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:107:1]
+ 107 |     .card {
  108 |         display: grid;
      :         ^^^^^^^^^^^^^
  109 |         grid-template-columns: 2fr 1fr;
      `----
 
   x Declaration
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:107:5]
- 107 | .card {
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:107:1]
+ 107 |     .card {
  108 |         display: grid;
      :         ^^^^^^^^^^^^^
  109 |         grid-template-columns: 2fr 1fr;
      `----
 
   x DeclarationName
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:107:5]
- 107 | .card {
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:107:1]
+ 107 |     .card {
  108 |         display: grid;
      :         ^^^^^^^
  109 |         grid-template-columns: 2fr 1fr;
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:107:5]
- 107 | .card {
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:107:1]
+ 107 |     .card {
  108 |         display: grid;
      :         ^^^^^^^
  109 |         grid-template-columns: 2fr 1fr;
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:107:5]
- 107 | .card {
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:107:1]
+ 107 |     .card {
  108 |         display: grid;
      :                  ^^^^
  109 |         grid-template-columns: 2fr 1fr;
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:107:5]
- 107 | .card {
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:107:1]
+ 107 |     .card {
  108 |         display: grid;
      :                  ^^^^
  109 |         grid-template-columns: 2fr 1fr;
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:108:9]
- 108 | display: grid;
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:108:1]
+ 108 |         display: grid;
  109 |         grid-template-columns: 2fr 1fr;
      :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  110 |     }
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:108:9]
- 108 | display: grid;
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:108:1]
+ 108 |         display: grid;
  109 |         grid-template-columns: 2fr 1fr;
      :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  110 |     }
      `----
 
   x Declaration
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:108:9]
- 108 | display: grid;
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:108:1]
+ 108 |         display: grid;
  109 |         grid-template-columns: 2fr 1fr;
      :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  110 |     }
      `----
 
   x DeclarationName
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:108:9]
- 108 | display: grid;
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:108:1]
+ 108 |         display: grid;
  109 |         grid-template-columns: 2fr 1fr;
      :         ^^^^^^^^^^^^^^^^^^^^^
  110 |     }
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:108:9]
- 108 | display: grid;
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:108:1]
+ 108 |         display: grid;
  109 |         grid-template-columns: 2fr 1fr;
      :         ^^^^^^^^^^^^^^^^^^^^^
  110 |     }
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:108:9]
- 108 | display: grid;
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:108:1]
+ 108 |         display: grid;
  109 |         grid-template-columns: 2fr 1fr;
      :                                ^^^
  110 |     }
      `----
 
   x Dimension
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:108:9]
- 108 | display: grid;
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:108:1]
+ 108 |         display: grid;
  109 |         grid-template-columns: 2fr 1fr;
      :                                ^^^
  110 |     }
      `----
 
   x Flex
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:108:9]
- 108 | display: grid;
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:108:1]
+ 108 |         display: grid;
  109 |         grid-template-columns: 2fr 1fr;
      :                                ^^^
  110 |     }
      `----
 
   x Number
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:108:9]
- 108 | display: grid;
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:108:1]
+ 108 |         display: grid;
  109 |         grid-template-columns: 2fr 1fr;
      :                                ^
  110 |     }
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:108:9]
- 108 | display: grid;
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:108:1]
+ 108 |         display: grid;
  109 |         grid-template-columns: 2fr 1fr;
      :                                 ^^
  110 |     }
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:108:9]
- 108 | display: grid;
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:108:1]
+ 108 |         display: grid;
  109 |         grid-template-columns: 2fr 1fr;
      :                                    ^^^
  110 |     }
      `----
 
   x Dimension
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:108:9]
- 108 | display: grid;
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:108:1]
+ 108 |         display: grid;
  109 |         grid-template-columns: 2fr 1fr;
      :                                    ^^^
  110 |     }
      `----
 
   x Flex
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:108:9]
- 108 | display: grid;
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:108:1]
+ 108 |         display: grid;
  109 |         grid-template-columns: 2fr 1fr;
      :                                    ^^^
  110 |     }
      `----
 
   x Number
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:108:9]
- 108 | display: grid;
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:108:1]
+ 108 |         display: grid;
  109 |         grid-template-columns: 2fr 1fr;
      :                                    ^
  110 |     }
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:108:9]
- 108 | display: grid;
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:108:1]
+ 108 |         display: grid;
  109 |         grid-template-columns: 2fr 1fr;
      :                                     ^^
  110 |     }
      `----
 
   x Rule
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:113:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:112:1]
+ 112 |     
  113 | ,-> @container test style(--responsive: true) {
  114 | |       #inner {
  115 | |           background-color: skyblue;
@@ -7082,7 +7345,8 @@
      `----
 
   x AtRule
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:113:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:112:1]
+ 112 |     
  113 | ,-> @container test style(--responsive: true) {
  114 | |       #inner {
  115 | |           background-color: skyblue;
@@ -7091,98 +7355,112 @@
      `----
 
   x AtRuleName
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:113:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:112:1]
+ 112 | 
  113 | @container test style(--responsive: true) {
      :  ^^^^^^^^^
  114 |     #inner {
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:113:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:112:1]
+ 112 | 
  113 | @container test style(--responsive: true) {
      :  ^^^^^^^^^
  114 |     #inner {
      `----
 
   x CustomIdent
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:113:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:112:1]
+ 112 | 
  113 | @container test style(--responsive: true) {
      :            ^^^^
  114 |     #inner {
      `----
 
   x Function
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:113:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:112:1]
+ 112 | 
  113 | @container test style(--responsive: true) {
      :                 ^^^^^^^^^^^^^^^^^^^^^^^^^
  114 |     #inner {
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:113:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:112:1]
+ 112 | 
  113 | @container test style(--responsive: true) {
      :                 ^^^^^
  114 |     #inner {
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:113:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:112:1]
+ 112 | 
  113 | @container test style(--responsive: true) {
      :                       ^^^^^^^^^^^^
  114 |     #inner {
      `----
 
   x Ident { value: Atom('--responsive' type=dynamic), raw: "--responsive" }
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:113:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:112:1]
+ 112 | 
  113 | @container test style(--responsive: true) {
      :                       ^^^^^^^^^^^^
  114 |     #inner {
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:113:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:112:1]
+ 112 | 
  113 | @container test style(--responsive: true) {
      :                                   ^
  114 |     #inner {
      `----
 
   x Colon
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:113:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:112:1]
+ 112 | 
  113 | @container test style(--responsive: true) {
      :                                   ^
  114 |     #inner {
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:113:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:112:1]
+ 112 | 
  113 | @container test style(--responsive: true) {
      :                                    ^
  114 |     #inner {
      `----
 
   x WhiteSpace { value: " " }
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:113:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:112:1]
+ 112 | 
  113 | @container test style(--responsive: true) {
      :                                    ^
  114 |     #inner {
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:113:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:112:1]
+ 112 | 
  113 | @container test style(--responsive: true) {
      :                                     ^^^^
  114 |     #inner {
      `----
 
   x Ident { value: Atom('true' type=static), raw: "true" }
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:113:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:112:1]
+ 112 | 
  113 | @container test style(--responsive: true) {
      :                                     ^^^^
  114 |     #inner {
      `----
 
   x SimpleBlock
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:113:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:112:1]
+ 112 |     
  113 | ,-> @container test style(--responsive: true) {
  114 | |       #inner {
  115 | |           background-color: skyblue;
@@ -7191,7 +7469,8 @@
      `----
 
   x LBrace
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:113:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:112:1]
+ 112 | 
  113 | @container test style(--responsive: true) {
      :                                           ^
  114 |     #inner {
@@ -7290,63 +7569,64 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:114:5]
- 114 | #inner {
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:114:1]
+ 114 |     #inner {
  115 |         background-color: skyblue;
      :         ^^^^^^^^^^^^^^^^^^^^^^^^^
  116 |     }
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:114:5]
- 114 | #inner {
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:114:1]
+ 114 |     #inner {
  115 |         background-color: skyblue;
      :         ^^^^^^^^^^^^^^^^^^^^^^^^^
  116 |     }
      `----
 
   x Declaration
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:114:5]
- 114 | #inner {
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:114:1]
+ 114 |     #inner {
  115 |         background-color: skyblue;
      :         ^^^^^^^^^^^^^^^^^^^^^^^^^
  116 |     }
      `----
 
   x DeclarationName
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:114:5]
- 114 | #inner {
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:114:1]
+ 114 |     #inner {
  115 |         background-color: skyblue;
      :         ^^^^^^^^^^^^^^^^
  116 |     }
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:114:5]
- 114 | #inner {
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:114:1]
+ 114 |     #inner {
  115 |         background-color: skyblue;
      :         ^^^^^^^^^^^^^^^^
  116 |     }
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:114:5]
- 114 | #inner {
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:114:1]
+ 114 |     #inner {
  115 |         background-color: skyblue;
      :                           ^^^^^^^
  116 |     }
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:114:5]
- 114 | #inner {
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:114:1]
+ 114 |     #inner {
  115 |         background-color: skyblue;
      :                           ^^^^^^^
  116 |     }
      `----
 
   x Rule
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:119:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:118:1]
+ 118 |     
  119 | ,-> @container style(--responsive: true) {
  120 | |       #inner {
  121 | |           background-color: skyblue;
@@ -7355,7 +7635,8 @@
      `----
 
   x AtRule
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:119:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:118:1]
+ 118 |     
  119 | ,-> @container style(--responsive: true) {
  120 | |       #inner {
  121 | |           background-color: skyblue;
@@ -7364,91 +7645,104 @@
      `----
 
   x AtRuleName
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:119:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:118:1]
+ 118 | 
  119 | @container style(--responsive: true) {
      :  ^^^^^^^^^
  120 |     #inner {
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:119:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:118:1]
+ 118 | 
  119 | @container style(--responsive: true) {
      :  ^^^^^^^^^
  120 |     #inner {
      `----
 
   x Function
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:119:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:118:1]
+ 118 | 
  119 | @container style(--responsive: true) {
      :            ^^^^^^^^^^^^^^^^^^^^^^^^^
  120 |     #inner {
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:119:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:118:1]
+ 118 | 
  119 | @container style(--responsive: true) {
      :            ^^^^^
  120 |     #inner {
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:119:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:118:1]
+ 118 | 
  119 | @container style(--responsive: true) {
      :                  ^^^^^^^^^^^^
  120 |     #inner {
      `----
 
   x Ident { value: Atom('--responsive' type=dynamic), raw: "--responsive" }
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:119:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:118:1]
+ 118 | 
  119 | @container style(--responsive: true) {
      :                  ^^^^^^^^^^^^
  120 |     #inner {
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:119:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:118:1]
+ 118 | 
  119 | @container style(--responsive: true) {
      :                              ^
  120 |     #inner {
      `----
 
   x Colon
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:119:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:118:1]
+ 118 | 
  119 | @container style(--responsive: true) {
      :                              ^
  120 |     #inner {
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:119:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:118:1]
+ 118 | 
  119 | @container style(--responsive: true) {
      :                               ^
  120 |     #inner {
      `----
 
   x WhiteSpace { value: " " }
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:119:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:118:1]
+ 118 | 
  119 | @container style(--responsive: true) {
      :                               ^
  120 |     #inner {
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:119:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:118:1]
+ 118 | 
  119 | @container style(--responsive: true) {
      :                                ^^^^
  120 |     #inner {
      `----
 
   x Ident { value: Atom('true' type=static), raw: "true" }
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:119:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:118:1]
+ 118 | 
  119 | @container style(--responsive: true) {
      :                                ^^^^
  120 |     #inner {
      `----
 
   x SimpleBlock
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:119:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:118:1]
+ 118 |     
  119 | ,-> @container style(--responsive: true) {
  120 | |       #inner {
  121 | |           background-color: skyblue;
@@ -7457,7 +7751,8 @@
      `----
 
   x LBrace
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:119:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:118:1]
+ 118 | 
  119 | @container style(--responsive: true) {
      :                                      ^
  120 |     #inner {
@@ -7556,63 +7851,64 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:120:5]
- 120 | #inner {
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:120:1]
+ 120 |     #inner {
  121 |         background-color: skyblue;
      :         ^^^^^^^^^^^^^^^^^^^^^^^^^
  122 |     }
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:120:5]
- 120 | #inner {
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:120:1]
+ 120 |     #inner {
  121 |         background-color: skyblue;
      :         ^^^^^^^^^^^^^^^^^^^^^^^^^
  122 |     }
      `----
 
   x Declaration
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:120:5]
- 120 | #inner {
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:120:1]
+ 120 |     #inner {
  121 |         background-color: skyblue;
      :         ^^^^^^^^^^^^^^^^^^^^^^^^^
  122 |     }
      `----
 
   x DeclarationName
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:120:5]
- 120 | #inner {
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:120:1]
+ 120 |     #inner {
  121 |         background-color: skyblue;
      :         ^^^^^^^^^^^^^^^^
  122 |     }
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:120:5]
- 120 | #inner {
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:120:1]
+ 120 |     #inner {
  121 |         background-color: skyblue;
      :         ^^^^^^^^^^^^^^^^
  122 |     }
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:120:5]
- 120 | #inner {
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:120:1]
+ 120 |     #inner {
  121 |         background-color: skyblue;
      :                           ^^^^^^^
  122 |     }
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:120:5]
- 120 | #inner {
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:120:1]
+ 120 |     #inner {
  121 |         background-color: skyblue;
      :                           ^^^^^^^
  122 |     }
      `----
 
   x Rule
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:125:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:124:1]
+ 124 |     
  125 | ,-> @container card (inline-size > 30em) {
  126 | |       @container style(--responsive: true) {
  127 | |           #inner {
@@ -7623,7 +7919,8 @@
      `----
 
   x AtRule
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:125:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:124:1]
+ 124 |     
  125 | ,-> @container card (inline-size > 30em) {
  126 | |       @container style(--responsive: true) {
  127 | |           #inner {
@@ -7634,63 +7931,72 @@
      `----
 
   x AtRuleName
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:125:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:124:1]
+ 124 | 
  125 | @container card (inline-size > 30em) {
      :  ^^^^^^^^^
  126 |     @container style(--responsive: true) {
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:125:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:124:1]
+ 124 | 
  125 | @container card (inline-size > 30em) {
      :  ^^^^^^^^^
  126 |     @container style(--responsive: true) {
      `----
 
   x CustomIdent
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:125:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:124:1]
+ 124 | 
  125 | @container card (inline-size > 30em) {
      :            ^^^^
  126 |     @container style(--responsive: true) {
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:125:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:124:1]
+ 124 | 
  125 | @container card (inline-size > 30em) {
      :                  ^^^^^^^^^^^
  126 |     @container style(--responsive: true) {
      `----
 
   x Dimension
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:125:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:124:1]
+ 124 | 
  125 | @container card (inline-size > 30em) {
      :                                ^^^^
  126 |     @container style(--responsive: true) {
      `----
 
   x Length
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:125:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:124:1]
+ 124 | 
  125 | @container card (inline-size > 30em) {
      :                                ^^^^
  126 |     @container style(--responsive: true) {
      `----
 
   x Number
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:125:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:124:1]
+ 124 | 
  125 | @container card (inline-size > 30em) {
      :                                ^^
  126 |     @container style(--responsive: true) {
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:125:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:124:1]
+ 124 | 
  125 | @container card (inline-size > 30em) {
      :                                  ^^
  126 |     @container style(--responsive: true) {
      `----
 
   x SimpleBlock
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:125:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:124:1]
+ 124 |     
  125 | ,-> @container card (inline-size > 30em) {
  126 | |       @container style(--responsive: true) {
  127 | |           #inner {
@@ -7701,7 +8007,8 @@
      `----
 
   x LBrace
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:125:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:124:1]
+ 124 | 
  125 | @container card (inline-size > 30em) {
      :                                      ^
  126 |     @container style(--responsive: true) {
@@ -7856,8 +8163,8 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:126:5]
- 126 |     @container style(--responsive: true) {
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:126:1]
+ 126 |         @container style(--responsive: true) {
  127 | ,->         #inner {
  128 | |               background-color: skyblue;
  129 | `->         }
@@ -7865,8 +8172,8 @@
      `----
 
   x Rule
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:126:5]
- 126 |     @container style(--responsive: true) {
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:126:1]
+ 126 |         @container style(--responsive: true) {
  127 | ,->         #inner {
  128 | |               background-color: skyblue;
  129 | `->         }
@@ -7874,8 +8181,8 @@
      `----
 
   x QualifiedRule
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:126:5]
- 126 |     @container style(--responsive: true) {
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:126:1]
+ 126 |         @container style(--responsive: true) {
  127 | ,->         #inner {
  128 | |               background-color: skyblue;
  129 | `->         }
@@ -7883,56 +8190,56 @@
      `----
 
   x SelectorList
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:126:5]
- 126 | @container style(--responsive: true) {
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:126:1]
+ 126 |     @container style(--responsive: true) {
  127 |         #inner {
      :         ^^^^^^
  128 |             background-color: skyblue;
      `----
 
   x ComplexSelector
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:126:5]
- 126 | @container style(--responsive: true) {
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:126:1]
+ 126 |     @container style(--responsive: true) {
  127 |         #inner {
      :         ^^^^^^
  128 |             background-color: skyblue;
      `----
 
   x CompoundSelector
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:126:5]
- 126 | @container style(--responsive: true) {
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:126:1]
+ 126 |     @container style(--responsive: true) {
  127 |         #inner {
      :         ^^^^^^
  128 |             background-color: skyblue;
      `----
 
   x SubclassSelector
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:126:5]
- 126 | @container style(--responsive: true) {
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:126:1]
+ 126 |     @container style(--responsive: true) {
  127 |         #inner {
      :         ^^^^^^
  128 |             background-color: skyblue;
      `----
 
   x IdSelector
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:126:5]
- 126 | @container style(--responsive: true) {
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:126:1]
+ 126 |     @container style(--responsive: true) {
  127 |         #inner {
      :         ^^^^^^
  128 |             background-color: skyblue;
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:126:5]
- 126 | @container style(--responsive: true) {
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:126:1]
+ 126 |     @container style(--responsive: true) {
  127 |         #inner {
      :         ^^^^^^
  128 |             background-color: skyblue;
      `----
 
   x SimpleBlock
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:126:5]
- 126 |     @container style(--responsive: true) {
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:126:1]
+ 126 |         @container style(--responsive: true) {
  127 | ,->         #inner {
  128 | |               background-color: skyblue;
  129 | `->         }
@@ -7940,419 +8247,478 @@
      `----
 
   x LBrace
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:126:5]
- 126 | @container style(--responsive: true) {
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:126:1]
+ 126 |     @container style(--responsive: true) {
  127 |         #inner {
      :                ^
  128 |             background-color: skyblue;
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:127:9]
- 127 | #inner {
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:127:1]
+ 127 |         #inner {
  128 |             background-color: skyblue;
      :             ^^^^^^^^^^^^^^^^^^^^^^^^^
  129 |         }
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:127:9]
- 127 | #inner {
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:127:1]
+ 127 |         #inner {
  128 |             background-color: skyblue;
      :             ^^^^^^^^^^^^^^^^^^^^^^^^^
  129 |         }
      `----
 
   x Declaration
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:127:9]
- 127 | #inner {
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:127:1]
+ 127 |         #inner {
  128 |             background-color: skyblue;
      :             ^^^^^^^^^^^^^^^^^^^^^^^^^
  129 |         }
      `----
 
   x DeclarationName
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:127:9]
- 127 | #inner {
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:127:1]
+ 127 |         #inner {
  128 |             background-color: skyblue;
      :             ^^^^^^^^^^^^^^^^
  129 |         }
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:127:9]
- 127 | #inner {
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:127:1]
+ 127 |         #inner {
  128 |             background-color: skyblue;
      :             ^^^^^^^^^^^^^^^^
  129 |         }
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:127:9]
- 127 | #inner {
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:127:1]
+ 127 |         #inner {
  128 |             background-color: skyblue;
      :                               ^^^^^^^
  129 |         }
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:127:9]
- 127 | #inner {
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:127:1]
+ 127 |         #inner {
  128 |             background-color: skyblue;
      :                               ^^^^^^^
  129 |         }
      `----
 
   x Rule
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:132:1]
+ 132 | 
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
   x AtRule
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:132:1]
+ 132 | 
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
   x AtRuleName
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:132:1]
+ 132 | 
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      :  ^^^^^^^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:132:1]
+ 132 | 
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      :  ^^^^^^^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:132:1]
+ 132 | 
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      :            ^^^^^^^^^^^
      `----
 
   x Function
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:132:1]
+ 132 | 
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      :                         ^^^^^^^^^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:132:1]
+ 132 | 
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      :                         ^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:132:1]
+ 132 | 
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      :                              ^^^^^
      `----
 
   x CalcSum
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:132:1]
+ 132 | 
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      :                              ^^^^^
      `----
 
   x CalcProductOrOperator
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:132:1]
+ 132 | 
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      :                              ^^^^^
      `----
 
   x CalcProduct
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:132:1]
+ 132 | 
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      :                              ^^^^^
      `----
 
   x CalcValueOrOperator
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:132:1]
+ 132 | 
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      :                              ^^^^^
      `----
 
   x CalcValue
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:132:1]
+ 132 | 
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      :                              ^^^^^
      `----
 
   x Dimension
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:132:1]
+ 132 | 
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      :                              ^^^^^
      `----
 
   x Length
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:132:1]
+ 132 | 
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      :                              ^^^^^
      `----
 
   x Number
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:132:1]
+ 132 | 
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      :                              ^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:132:1]
+ 132 | 
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      :                                 ^^
      `----
 
   x SimpleBlock
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:132:1]
+ 132 | 
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      :                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
   x LBrace
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:132:1]
+ 132 | 
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      :                                     ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:132:1]
+ 132 | 
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      :                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
   x Rule
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:132:1]
+ 132 | 
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      :                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
   x QualifiedRule
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:132:1]
+ 132 | 
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      :                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
   x SelectorList
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:132:1]
+ 132 | 
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      :                                      ^^
      `----
 
   x ComplexSelector
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:132:1]
+ 132 | 
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      :                                      ^^
      `----
 
   x CompoundSelector
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:132:1]
+ 132 | 
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      :                                      ^^
      `----
 
   x TypeSelector
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:132:1]
+ 132 | 
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      :                                      ^^
      `----
 
   x TagNameSelector
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:132:1]
+ 132 | 
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      :                                      ^^
      `----
 
   x WqName
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:132:1]
+ 132 | 
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      :                                      ^^
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:132:1]
+ 132 | 
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      :                                      ^^
      `----
 
   x SimpleBlock
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:132:1]
+ 132 | 
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      :                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
   x LBrace
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:132:1]
+ 132 | 
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      :                                        ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:132:1]
+ 132 | 
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      :                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:132:1]
+ 132 | 
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      :                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
   x Declaration
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:132:1]
+ 132 | 
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      :                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
   x DeclarationName
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:132:1]
+ 132 | 
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      :                                         ^^^^^^^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:132:1]
+ 132 | 
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      :                                         ^^^^^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:132:1]
+ 132 | 
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      :                                                   ^^^^^^^^^^^^^^^^^^
      `----
 
   x Function
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:132:1]
+ 132 | 
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      :                                                   ^^^^^^^^^^^^^^^^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:132:1]
+ 132 | 
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      :                                                   ^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:132:1]
+ 132 | 
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      :                                                        ^^^^^^^^^^^^
      `----
 
   x CalcSum
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:132:1]
+ 132 | 
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      :                                                        ^^^^^^^^^^^^
      `----
 
   x CalcProductOrOperator
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:132:1]
+ 132 | 
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      :                                                        ^^^^^
      `----
 
   x CalcProduct
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:132:1]
+ 132 | 
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      :                                                        ^^^^^
      `----
 
   x CalcValueOrOperator
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:132:1]
+ 132 | 
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      :                                                        ^^^^^
      `----
 
   x CalcValue
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:132:1]
+ 132 | 
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      :                                                        ^^^^^
      `----
 
   x Dimension
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:132:1]
+ 132 | 
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      :                                                        ^^^^^
      `----
 
   x Length
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:132:1]
+ 132 | 
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      :                                                        ^^^^^
      `----
 
   x Number
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:132:1]
+ 132 | 
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      :                                                        ^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:132:1]
+ 132 | 
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      :                                                           ^^
      `----
 
   x CalcProductOrOperator
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:132:1]
+ 132 | 
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      :                                                              ^
      `----
 
   x CalcOperator
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:132:1]
+ 132 | 
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      :                                                              ^
      `----
 
   x CalcProductOrOperator
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:132:1]
+ 132 | 
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      :                                                                ^^^^
      `----
 
   x CalcProduct
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:132:1]
+ 132 | 
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      :                                                                ^^^^
      `----
 
   x CalcValueOrOperator
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:132:1]
+ 132 | 
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      :                                                                ^^^^
      `----
 
   x CalcValue
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:132:1]
+ 132 | 
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      :                                                                ^^^^
      `----
 
   x Dimension
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:132:1]
+ 132 | 
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      :                                                                ^^^^
      `----
 
   x Length
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:132:1]
+ 132 | 
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      :                                                                ^^^^
      `----
 
   x Number
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:132:1]
+ 132 | 
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      :                                                                ^
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:132:1]
+ 132 | 
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      :                                                                 ^^^
      `----

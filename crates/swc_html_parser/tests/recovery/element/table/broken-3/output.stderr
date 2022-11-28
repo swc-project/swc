@@ -8,8 +8,8 @@
     `----
 
   x Stray end tag "table"
-    ,-[$DIR/tests/recovery/element/table/broken-3/input.html:15:5]
- 15 | </table>
+    ,-[$DIR/tests/recovery/element/table/broken-3/input.html:15:1]
+ 15 |     </table>
  16 | </table>
     : ^^^^^^^^
     `----

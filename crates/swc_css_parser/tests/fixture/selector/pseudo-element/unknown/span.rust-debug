@@ -19,7 +19,7 @@
  16 | |   ::unknown({!}) {}
  17 | |   ::unknown(!) {}
  18 | |   ::unknown({;}) {}
- 19 | |   ::unknown(;) {}
+ 19 | `-> ::unknown(;) {}
     `----
 
   x Rule

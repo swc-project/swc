@@ -8,8 +8,8 @@
    `----
 
   x This member cannot have an 'override' modifier because its containing class does not extend another class.
-   ,-[$DIR/tests/typescript-errors/class/override-in-non-subclass/input.ts:7:5]
- 7 | class D {
+   ,-[$DIR/tests/typescript-errors/class/override-in-non-subclass/input.ts:7:1]
+ 7 |     class D {
  8 |       override k() {}
    :       ^^^^^^^^
  9 |     }

@@ -47,7 +47,8 @@
 //!    `----
 //! 
 //!   x A parameter property is only allowed in a constructor implementation
-//!    ,-[3:1]
+//!    ,-[2:1]
+//!  2 | 
 //!  3 | function foo(public x, private y) { }
 //!  4 | var f = function foo(public x, private y) { }
 //!  5 | var f2 = function (public x, private y) { }
@@ -57,7 +58,8 @@
 //!    `----
 //! 
 //!   x A parameter property is only allowed in a constructor implementation
-//!    ,-[3:1]
+//!    ,-[2:1]
+//!  2 | 
 //!  3 | function foo(public x, private y) { }
 //!  4 | var f = function foo(public x, private y) { }
 //!  5 | var f2 = function (public x, private y) { }
@@ -127,7 +129,8 @@
 //!     `----
 //! 
 //!   x A parameter property is only allowed in a constructor implementation
-//!     ,-[9:1]
+//!     ,-[8:1]
+//!   8 | 
 //!   9 | function foo2(private x: string, public y: number) { }
 //!  10 | var f5 = function foo(private x: string, public y: number) { }
 //!  11 | var f6 = function (private x: string, public y: number) { }
@@ -137,7 +140,8 @@
 //!     `----
 //! 
 //!   x A parameter property is only allowed in a constructor implementation
-//!     ,-[9:1]
+//!     ,-[8:1]
+//!   8 | 
 //!   9 | function foo2(private x: string, public y: number) { }
 //!  10 | var f5 = function foo(private x: string, public y: number) { }
 //!  11 | var f6 = function (private x: string, public y: number) { }
@@ -195,7 +199,8 @@
 //!     `----
 //! 
 //!   x A parameter property is only allowed in a constructor implementation
-//!     ,-[15:1]
+//!     ,-[14:1]
+//!  14 | 
 //!  15 | class C {
 //!  16 |     foo(public x, private y) { }
 //!  17 |     foo2(public x: number, private y: string) { }
@@ -205,7 +210,8 @@
 //!     `----
 //! 
 //!   x A parameter property is only allowed in a constructor implementation
-//!     ,-[15:1]
+//!     ,-[14:1]
+//!  14 | 
 //!  15 | class C {
 //!  16 |     foo(public x, private y) { }
 //!  17 |     foo2(public x: number, private y: string) { }
@@ -263,7 +269,8 @@
 //!     `----
 //! 
 //!   x A parameter property is only allowed in a constructor implementation
-//!     ,-[21:1]
+//!     ,-[20:1]
+//!  20 | 
 //!  21 | interface I {
 //!  22 |     (private x, public y);
 //!  23 |     (private x: string, public y: number);
@@ -274,7 +281,8 @@
 //!     `----
 //! 
 //!   x A parameter property is only allowed in a constructor implementation
-//!     ,-[21:1]
+//!     ,-[20:1]
+//!  20 | 
 //!  21 | interface I {
 //!  22 |     (private x, public y);
 //!  23 |     (private x: string, public y: number);
@@ -309,8 +317,8 @@
 //!     `----
 //! 
 //!   x A parameter property is only allowed in a constructor implementation
-//!     ,-[22:5]
-//!  22 | (private x, public y);
+//!     ,-[22:1]
+//!  22 |     (private x, public y);
 //!  23 |     (private x: string, public y: number);
 //!  24 |     foo(private x, public y);
 //!  25 |     foo(public x: number, y: string);
@@ -320,8 +328,8 @@
 //!     `----
 //! 
 //!   x A parameter property is only allowed in a constructor implementation
-//!     ,-[23:5]
-//!  23 | (private x: string, public y: number);
+//!     ,-[23:1]
+//!  23 |     (private x: string, public y: number);
 //!  24 |     foo(private x, public y);
 //!  25 |     foo(public x: number, y: string);
 //!  26 |     foo3<T>(x: T, private y: T);
@@ -354,7 +362,8 @@
 //!     `----
 //! 
 //!   x A parameter property is only allowed in a constructor implementation
-//!     ,-[29:1]
+//!     ,-[28:1]
+//!  28 | 
 //!  29 | var a: {
 //!  30 |     foo(public x, private y);
 //!  31 |     foo2(private x: number, public y: string);
@@ -365,7 +374,8 @@
 //!     `----
 //! 
 //!   x A parameter property is only allowed in a constructor implementation
-//!     ,-[29:1]
+//!     ,-[28:1]
+//!  28 | 
 //!  29 | var a: {
 //!  30 |     foo(public x, private y);
 //!  31 |     foo2(private x: number, public y: string);
@@ -388,7 +398,8 @@
 //!     `----
 //! 
 //!   x A parameter property is only allowed in a constructor implementation
-//!     ,-[34:1]
+//!     ,-[33:1]
+//!  33 | 
 //!  34 | var b = {
 //!  35 |     foo(public x, y) { },
 //!  36 |     a: function foo(x: number, private y: string) { },

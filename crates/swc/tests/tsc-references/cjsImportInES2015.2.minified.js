@@ -6,6 +6,7 @@
 //!  1 | declare class SpecialError extends Error {}
 //!  2 | export = SpecialError;
 //!    : ^^^^^^^^^^^^^^^^^^^^^^
+//!  3 | 
 //!    `----
 //// [/project/index.ts]
 export { };

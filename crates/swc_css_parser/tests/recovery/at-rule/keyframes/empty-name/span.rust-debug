@@ -1,7 +1,8 @@
 
   x Stylesheet
    ,-[$DIR/tests/recovery/at-rule/keyframes/empty-name/input.css:1:1]
- 1 | ,-> @keyframes {}
+ 1 | @keyframes {}
+   : ^^^^^^^^^^^^^^
    `----
 
   x Rule

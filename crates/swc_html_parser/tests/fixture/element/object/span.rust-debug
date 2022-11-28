@@ -160,8 +160,8 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/object/input.html:4:5]
- 4 | <title>Document</title>
+   ,-[$DIR/tests/fixture/element/object/input.html:4:1]
+ 4 |     <title>Document</title>
  5 | </head>
    :        ^
  6 | <body>
@@ -169,8 +169,8 @@
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/element/object/input.html:4:5]
- 4 | <title>Document</title>
+   ,-[$DIR/tests/fixture/element/object/input.html:4:1]
+ 4 |     <title>Document</title>
  5 | </head>
    :        ^
  6 | <body>
@@ -296,35 +296,40 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/object/input.html:9:1]
+    ,-[$DIR/tests/fixture/element/object/input.html:8:1]
+  8 |     
   9 | ,-> <object data="horse.wav">
  10 | |       <param name="autoplay" value="true">
  11 | `-> </object>
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/object/input.html:9:1]
+    ,-[$DIR/tests/fixture/element/object/input.html:8:1]
+  8 |     
   9 | ,-> <object data="horse.wav">
  10 | |       <param name="autoplay" value="true">
  11 | `-> </object>
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/element/object/input.html:9:1]
+    ,-[$DIR/tests/fixture/element/object/input.html:8:1]
+  8 | 
   9 | <object data="horse.wav">
     :         ^^^^^^^^^^^^^^^^
  10 |     <param name="autoplay" value="true">
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/object/input.html:9:1]
+    ,-[$DIR/tests/fixture/element/object/input.html:8:1]
+  8 |     
   9 | ,-> <object data="horse.wav">
  10 | `->     <param name="autoplay" value="true">
  11 |     </object>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/object/input.html:9:1]
+    ,-[$DIR/tests/fixture/element/object/input.html:8:1]
+  8 |     
   9 | ,-> <object data="horse.wav">
  10 | `->     <param name="autoplay" value="true">
  11 |     </object>
@@ -379,8 +384,8 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/object/input.html:10:5]
- 10 |     <param name="autoplay" value="true">
+    ,-[$DIR/tests/fixture/element/object/input.html:10:1]
+ 10 |         <param name="autoplay" value="true">
  11 | ,-> </object>
  12 | |   
  13 | `-> </body>
@@ -388,8 +393,8 @@
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/object/input.html:10:5]
- 10 |     <param name="autoplay" value="true">
+    ,-[$DIR/tests/fixture/element/object/input.html:10:1]
+ 10 |         <param name="autoplay" value="true">
  11 | ,-> </object>
  12 | |   
  13 | `-> </body>

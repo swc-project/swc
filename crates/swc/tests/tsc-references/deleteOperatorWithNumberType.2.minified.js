@@ -25,7 +25,8 @@
 //!     `----
 //! 
 //!   x 'delete' cannot be called on an identifier in strict mode
-//!     ,-[17:1]
+//!     ,-[16:1]
+//!  16 | 
 //!  17 | // number type var
 //!  18 | var ResultIsBoolean1 = delete NUMBER;
 //!  19 | var ResultIsBoolean2 = delete NUMBER1;
@@ -36,7 +37,8 @@
 //!     `----
 //! 
 //!   x The operand of a delete operator must be a property reference.
-//!     ,-[17:1]
+//!     ,-[16:1]
+//!  16 | 
 //!  17 | // number type var
 //!  18 | var ResultIsBoolean1 = delete NUMBER;
 //!  19 | var ResultIsBoolean2 = delete NUMBER1;
@@ -58,7 +60,8 @@
 //!     `----
 //! 
 //!   x The operand of a delete operator must be a property reference.
-//!     ,-[21:1]
+//!     ,-[20:1]
+//!  20 | 
 //!  21 | // number type literal
 //!  22 | var ResultIsBoolean3 = delete 1;
 //!  23 | var ResultIsBoolean4 = delete { x: 1, y: 2};
@@ -152,7 +155,8 @@
 //!     `----
 //! 
 //!   x The operand of a delete operator must be a property reference.
-//!     ,-[34:1]
+//!     ,-[33:1]
+//!  33 | 
 //!  34 | // multiple delete  operator
 //!  35 | var ResultIsBoolean12 = delete delete NUMBER;
 //!  36 | var ResultIsBoolean13 = delete delete delete (NUMBER + NUMBER);
@@ -163,7 +167,8 @@
 //!     `----
 //! 
 //!   x The operand of a delete operator must be a property reference.
-//!     ,-[34:1]
+//!     ,-[33:1]
+//!  33 | 
 //!  34 | // multiple delete  operator
 //!  35 | var ResultIsBoolean12 = delete delete NUMBER;
 //!  36 | var ResultIsBoolean13 = delete delete delete (NUMBER + NUMBER);
@@ -174,7 +179,8 @@
 //!     `----
 //! 
 //!   x The operand of a delete operator must be a property reference.
-//!     ,-[34:1]
+//!     ,-[33:1]
+//!  33 | 
 //!  34 | // multiple delete  operator
 //!  35 | var ResultIsBoolean12 = delete delete NUMBER;
 //!  36 | var ResultIsBoolean13 = delete delete delete (NUMBER + NUMBER);
@@ -197,7 +203,8 @@
 //!     `----
 //! 
 //!   x 'delete' cannot be called on an identifier in strict mode
-//!     ,-[38:1]
+//!     ,-[37:1]
+//!  37 | 
 //!  38 | // miss assignment operators
 //!  39 | delete 1;
 //!  40 | delete NUMBER;
@@ -208,7 +215,8 @@
 //!     `----
 //! 
 //!   x The operand of a delete operator must be a property reference.
-//!     ,-[38:1]
+//!     ,-[37:1]
+//!  37 | 
 //!  38 | // miss assignment operators
 //!  39 | delete 1;
 //!  40 | delete NUMBER;

@@ -12,7 +12,8 @@
 //!     `----
 //! 
 //!   x The left-hand side of an assignment expression must be a variable or a property access.
-//!     ,-[24:1]
+//!     ,-[23:1]
+//!  23 | 
 //!  24 | // string type literal
 //!  25 | var ResultIsNumber5 = --"";
 //!  26 | var ResultIsNumber6 = --{ x: "", y: "" };
@@ -58,7 +59,8 @@
 //!     `----
 //! 
 //!   x The left-hand side of an assignment expression must be a variable or a property access.
-//!     ,-[29:1]
+//!     ,-[28:1]
+//!  28 | 
 //!  29 | var ResultIsNumber8 = ""--;
 //!  30 | var ResultIsNumber9 = { x: "", y: "" }--;
 //!  31 | var ResultIsNumber10 = { x: "", y: (s: string) => { return s; } }--;

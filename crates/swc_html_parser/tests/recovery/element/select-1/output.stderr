@@ -7,8 +7,8 @@
    `----
 
   x Stray end tag "option"
-   ,-[$DIR/tests/recovery/element/select-1/input.html:6:9]
- 6 | </option>
+   ,-[$DIR/tests/recovery/element/select-1/input.html:6:1]
+ 6 |         </option>
  7 |     </option>
    :     ^^^^^^^^^
  8 | </select>

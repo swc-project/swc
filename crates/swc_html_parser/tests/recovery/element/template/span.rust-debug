@@ -145,8 +145,8 @@
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/template/input.html:4:5]
- 4 | <title>Document</title>
+   ,-[$DIR/tests/recovery/element/template/input.html:4:1]
+ 4 |     <title>Document</title>
  5 | </head>
    :        ^
  6 | <body>
@@ -154,8 +154,8 @@
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/element/template/input.html:4:5]
- 4 | <title>Document</title>
+   ,-[$DIR/tests/recovery/element/template/input.html:4:1]
+ 4 |     <title>Document</title>
  5 | </head>
    :        ^
  6 | <body>

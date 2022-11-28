@@ -172,8 +172,8 @@
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/table-2/input.html:4:5]
- 4 | <title>Document</title>
+   ,-[$DIR/tests/recovery/element/table-2/input.html:4:1]
+ 4 |     <title>Document</title>
  5 | </head>
    :        ^
  6 | <body>
@@ -181,8 +181,8 @@
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/element/table-2/input.html:4:5]
- 4 | <title>Document</title>
+   ,-[$DIR/tests/recovery/element/table-2/input.html:4:1]
+ 4 |     <title>Document</title>
  5 | </head>
    :        ^
  6 | <body>
@@ -306,8 +306,8 @@
    `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/table-2/input.html:8:5]
-  8 |     <table>
+    ,-[$DIR/tests/recovery/element/table-2/input.html:8:1]
+  8 |         <table>
   9 | ,-> </table>
  10 | `-> 
  11 |     <table>
@@ -315,8 +315,8 @@
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/table-2/input.html:8:5]
-  8 |     <table>
+    ,-[$DIR/tests/recovery/element/table-2/input.html:8:1]
+  8 |         <table>
   9 | ,-> </table>
  10 | `-> 
  11 |     <table>
@@ -324,7 +324,8 @@
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/table-2/input.html:11:1]
+    ,-[$DIR/tests/recovery/element/table-2/input.html:10:1]
+ 10 |     
  11 | ,-> <table>
  12 | |       <tr>
  13 | `->         </table>
@@ -332,7 +333,8 @@
     `----
 
   x Element
-    ,-[$DIR/tests/recovery/element/table-2/input.html:11:1]
+    ,-[$DIR/tests/recovery/element/table-2/input.html:10:1]
+ 10 |     
  11 | ,-> <table>
  12 | |       <tr>
  13 | `->         </table>
@@ -340,14 +342,16 @@
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/table-2/input.html:11:1]
+    ,-[$DIR/tests/recovery/element/table-2/input.html:10:1]
+ 10 |     
  11 | ,-> <table>
  12 | `->     <tr>
  13 |             </table>
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/table-2/input.html:11:1]
+    ,-[$DIR/tests/recovery/element/table-2/input.html:10:1]
+ 10 |     
  11 | ,-> <table>
  12 | `->     <tr>
  13 |             </table>
@@ -390,8 +394,8 @@
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/table-2/input.html:12:5]
- 12 |     <tr>
+    ,-[$DIR/tests/recovery/element/table-2/input.html:12:1]
+ 12 |         <tr>
  13 | ,->         </table>
  14 | |       </tr>
  15 | |   </table>
@@ -401,8 +405,8 @@
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/table-2/input.html:12:5]
- 12 |     <tr>
+    ,-[$DIR/tests/recovery/element/table-2/input.html:12:1]
+ 12 |         <tr>
  13 | ,->         </table>
  14 | |       </tr>
  15 | |   </table>

@@ -148,16 +148,16 @@
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/head-2/input.html:4:5]
- 4 |     <title>Document</title>
+   ,-[$DIR/tests/recovery/element/head-2/input.html:4:1]
+ 4 |         <title>Document</title>
  5 | ,-> </head>
  6 | `-> </head>
  7 |     <body>
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/element/head-2/input.html:4:5]
- 4 |     <title>Document</title>
+   ,-[$DIR/tests/recovery/element/head-2/input.html:4:1]
+ 4 |         <title>Document</title>
  5 | ,-> </head>
  6 | `-> </head>
  7 |     <body>

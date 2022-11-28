@@ -13,7 +13,8 @@
 //!     `----
 //! 
 //!   x This member cannot have an 'override' modifier because its containing class does not extend another class.
-//!     ,-[40:1]
+//!     ,-[39:1]
+//!  39 | 
 //!  40 | function ff () {
 //!  41 |     return class {
 //!  42 |         override foo () {}

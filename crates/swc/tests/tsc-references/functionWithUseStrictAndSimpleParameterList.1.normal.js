@@ -83,7 +83,8 @@
 //!     `----
 //! 
 //!   x Illegal 'use strict' directive in function with non-simple parameter list.
-//!     ,-[39:1]
+//!     ,-[38:1]
+//!  38 | 
 //!  39 | function manyPrologue(a = 10, b = 20) {
 //!  40 |     "foo";
 //!  41 |     "use strict";

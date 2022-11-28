@@ -104,7 +104,7 @@
  101 | |   || 
  102 | |   td
  103 | |   {}
- 104 | |   col.selected||td {}
+ 104 | `-> col.selected||td {}
      `----
 
   x Rule
@@ -676,7 +676,7 @@
  5 | article > p {}
  6 | article
    : ^^^^^^^
- 7 | >
+ 7 | > 
    `----
 
   x TypeSelector
@@ -684,7 +684,7 @@
  5 | article > p {}
  6 | article
    : ^^^^^^^
- 7 | >
+ 7 | > 
    `----
 
   x TagNameSelector
@@ -692,7 +692,7 @@
  5 | article > p {}
  6 | article
    : ^^^^^^^
- 7 | >
+ 7 | > 
    `----
 
   x WqName
@@ -700,7 +700,7 @@
  5 | article > p {}
  6 | article
    : ^^^^^^^
- 7 | >
+ 7 | > 
    `----
 
   x Ident
@@ -708,7 +708,7 @@
  5 | article > p {}
  6 | article
    : ^^^^^^^
- 7 | >
+ 7 | > 
    `----
 
   x Combinator
@@ -916,7 +916,7 @@
   9 | article    >    p    {}
  10 | p + img {}
     : ^^^^^^^^^^
- 11 | p
+ 11 | p 
     `----
 
   x QualifiedRule
@@ -924,7 +924,7 @@
   9 | article    >    p    {}
  10 | p + img {}
     : ^^^^^^^^^^
- 11 | p
+ 11 | p 
     `----
 
   x SelectorList
@@ -932,7 +932,7 @@
   9 | article    >    p    {}
  10 | p + img {}
     : ^^^^^^^
- 11 | p
+ 11 | p 
     `----
 
   x ComplexSelector
@@ -940,7 +940,7 @@
   9 | article    >    p    {}
  10 | p + img {}
     : ^^^^^^^
- 11 | p
+ 11 | p 
     `----
 
   x CompoundSelector
@@ -948,7 +948,7 @@
   9 | article    >    p    {}
  10 | p + img {}
     : ^
- 11 | p
+ 11 | p 
     `----
 
   x TypeSelector
@@ -956,7 +956,7 @@
   9 | article    >    p    {}
  10 | p + img {}
     : ^
- 11 | p
+ 11 | p 
     `----
 
   x TagNameSelector
@@ -964,7 +964,7 @@
   9 | article    >    p    {}
  10 | p + img {}
     : ^
- 11 | p
+ 11 | p 
     `----
 
   x WqName
@@ -972,7 +972,7 @@
   9 | article    >    p    {}
  10 | p + img {}
     : ^
- 11 | p
+ 11 | p 
     `----
 
   x Ident
@@ -980,7 +980,7 @@
   9 | article    >    p    {}
  10 | p + img {}
     : ^
- 11 | p
+ 11 | p 
     `----
 
   x Combinator
@@ -988,7 +988,7 @@
   9 | article    >    p    {}
  10 | p + img {}
     :   ^
- 11 | p
+ 11 | p 
     `----
 
   x CompoundSelector
@@ -996,7 +996,7 @@
   9 | article    >    p    {}
  10 | p + img {}
     :     ^^^
- 11 | p
+ 11 | p 
     `----
 
   x TypeSelector
@@ -1004,7 +1004,7 @@
   9 | article    >    p    {}
  10 | p + img {}
     :     ^^^
- 11 | p
+ 11 | p 
     `----
 
   x TagNameSelector
@@ -1012,7 +1012,7 @@
   9 | article    >    p    {}
  10 | p + img {}
     :     ^^^
- 11 | p
+ 11 | p 
     `----
 
   x WqName
@@ -1020,7 +1020,7 @@
   9 | article    >    p    {}
  10 | p + img {}
     :     ^^^
- 11 | p
+ 11 | p 
     `----
 
   x Ident
@@ -1028,7 +1028,7 @@
   9 | article    >    p    {}
  10 | p + img {}
     :     ^^^
- 11 | p
+ 11 | p 
     `----
 
   x SimpleBlock
@@ -1036,7 +1036,7 @@
   9 | article    >    p    {}
  10 | p + img {}
     :         ^^
- 11 | p
+ 11 | p 
     `----
 
   x LBrace
@@ -1044,7 +1044,7 @@
   9 | article    >    p    {}
  10 | p + img {}
     :         ^
- 11 | p
+ 11 | p 
     `----
 
   x Rule
@@ -1088,7 +1088,7 @@
  10 | p + img {}
  11 | p 
     : ^
- 12 | +
+ 12 | + 
     `----
 
   x TypeSelector
@@ -1096,7 +1096,7 @@
  10 | p + img {}
  11 | p 
     : ^
- 12 | +
+ 12 | + 
     `----
 
   x TagNameSelector
@@ -1104,7 +1104,7 @@
  10 | p + img {}
  11 | p 
     : ^
- 12 | +
+ 12 | + 
     `----
 
   x WqName
@@ -1112,7 +1112,7 @@
  10 | p + img {}
  11 | p 
     : ^
- 12 | +
+ 12 | + 
     `----
 
   x Ident
@@ -1120,7 +1120,7 @@
  10 | p + img {}
  11 | p 
     : ^
- 12 | +
+ 12 | + 
     `----
 
   x Combinator
@@ -1328,7 +1328,7 @@
  14 | p   +   img {}
  15 | p ~ img {}
     : ^^^^^^^^^^
- 16 | p
+ 16 | p 
     `----
 
   x QualifiedRule
@@ -1336,7 +1336,7 @@
  14 | p   +   img {}
  15 | p ~ img {}
     : ^^^^^^^^^^
- 16 | p
+ 16 | p 
     `----
 
   x SelectorList
@@ -1344,7 +1344,7 @@
  14 | p   +   img {}
  15 | p ~ img {}
     : ^^^^^^^
- 16 | p
+ 16 | p 
     `----
 
   x ComplexSelector
@@ -1352,7 +1352,7 @@
  14 | p   +   img {}
  15 | p ~ img {}
     : ^^^^^^^
- 16 | p
+ 16 | p 
     `----
 
   x CompoundSelector
@@ -1360,7 +1360,7 @@
  14 | p   +   img {}
  15 | p ~ img {}
     : ^
- 16 | p
+ 16 | p 
     `----
 
   x TypeSelector
@@ -1368,7 +1368,7 @@
  14 | p   +   img {}
  15 | p ~ img {}
     : ^
- 16 | p
+ 16 | p 
     `----
 
   x TagNameSelector
@@ -1376,7 +1376,7 @@
  14 | p   +   img {}
  15 | p ~ img {}
     : ^
- 16 | p
+ 16 | p 
     `----
 
   x WqName
@@ -1384,7 +1384,7 @@
  14 | p   +   img {}
  15 | p ~ img {}
     : ^
- 16 | p
+ 16 | p 
     `----
 
   x Ident
@@ -1392,7 +1392,7 @@
  14 | p   +   img {}
  15 | p ~ img {}
     : ^
- 16 | p
+ 16 | p 
     `----
 
   x Combinator
@@ -1400,7 +1400,7 @@
  14 | p   +   img {}
  15 | p ~ img {}
     :   ^
- 16 | p
+ 16 | p 
     `----
 
   x CompoundSelector
@@ -1408,7 +1408,7 @@
  14 | p   +   img {}
  15 | p ~ img {}
     :     ^^^
- 16 | p
+ 16 | p 
     `----
 
   x TypeSelector
@@ -1416,7 +1416,7 @@
  14 | p   +   img {}
  15 | p ~ img {}
     :     ^^^
- 16 | p
+ 16 | p 
     `----
 
   x TagNameSelector
@@ -1424,7 +1424,7 @@
  14 | p   +   img {}
  15 | p ~ img {}
     :     ^^^
- 16 | p
+ 16 | p 
     `----
 
   x WqName
@@ -1432,7 +1432,7 @@
  14 | p   +   img {}
  15 | p ~ img {}
     :     ^^^
- 16 | p
+ 16 | p 
     `----
 
   x Ident
@@ -1440,7 +1440,7 @@
  14 | p   +   img {}
  15 | p ~ img {}
     :     ^^^
- 16 | p
+ 16 | p 
     `----
 
   x SimpleBlock
@@ -1448,7 +1448,7 @@
  14 | p   +   img {}
  15 | p ~ img {}
     :         ^^
- 16 | p
+ 16 | p 
     `----
 
   x LBrace
@@ -1456,7 +1456,7 @@
  14 | p   +   img {}
  15 | p ~ img {}
     :         ^
- 16 | p
+ 16 | p 
     `----
 
   x Rule
@@ -1500,7 +1500,7 @@
  15 | p ~ img {}
  16 | p 
     : ^
- 17 | ~
+ 17 | ~ 
     `----
 
   x TypeSelector
@@ -1508,7 +1508,7 @@
  15 | p ~ img {}
  16 | p 
     : ^
- 17 | ~
+ 17 | ~ 
     `----
 
   x TagNameSelector
@@ -1516,7 +1516,7 @@
  15 | p ~ img {}
  16 | p 
     : ^
- 17 | ~
+ 17 | ~ 
     `----
 
   x WqName
@@ -1524,7 +1524,7 @@
  15 | p ~ img {}
  16 | p 
     : ^
- 17 | ~
+ 17 | ~ 
     `----
 
   x Ident
@@ -1532,7 +1532,7 @@
  15 | p ~ img {}
  16 | p 
     : ^
- 17 | ~
+ 17 | ~ 
     `----
 
   x Combinator
@@ -9704,7 +9704,7 @@
  81 | a~a {}
  82 | a [type='button'] {}
     : ^^^^^^^^^^^^^^^^^^^^
- 83 | a
+ 83 | a 
     `----
 
   x QualifiedRule
@@ -9712,7 +9712,7 @@
  81 | a~a {}
  82 | a [type='button'] {}
     : ^^^^^^^^^^^^^^^^^^^^
- 83 | a
+ 83 | a 
     `----
 
   x SelectorList
@@ -9720,7 +9720,7 @@
  81 | a~a {}
  82 | a [type='button'] {}
     : ^^^^^^^^^^^^^^^^^
- 83 | a
+ 83 | a 
     `----
 
   x ComplexSelector
@@ -9728,7 +9728,7 @@
  81 | a~a {}
  82 | a [type='button'] {}
     : ^^^^^^^^^^^^^^^^^
- 83 | a
+ 83 | a 
     `----
 
   x CompoundSelector
@@ -9736,7 +9736,7 @@
  81 | a~a {}
  82 | a [type='button'] {}
     : ^
- 83 | a
+ 83 | a 
     `----
 
   x TypeSelector
@@ -9744,7 +9744,7 @@
  81 | a~a {}
  82 | a [type='button'] {}
     : ^
- 83 | a
+ 83 | a 
     `----
 
   x TagNameSelector
@@ -9752,7 +9752,7 @@
  81 | a~a {}
  82 | a [type='button'] {}
     : ^
- 83 | a
+ 83 | a 
     `----
 
   x WqName
@@ -9760,7 +9760,7 @@
  81 | a~a {}
  82 | a [type='button'] {}
     : ^
- 83 | a
+ 83 | a 
     `----
 
   x Ident
@@ -9768,7 +9768,7 @@
  81 | a~a {}
  82 | a [type='button'] {}
     : ^
- 83 | a
+ 83 | a 
     `----
 
   x Combinator
@@ -9776,7 +9776,7 @@
  81 | a~a {}
  82 | a [type='button'] {}
     :  ^
- 83 | a
+ 83 | a 
     `----
 
   x CompoundSelector
@@ -9784,7 +9784,7 @@
  81 | a~a {}
  82 | a [type='button'] {}
     :   ^^^^^^^^^^^^^^^
- 83 | a
+ 83 | a 
     `----
 
   x SubclassSelector
@@ -9792,7 +9792,7 @@
  81 | a~a {}
  82 | a [type='button'] {}
     :   ^^^^^^^^^^^^^^^
- 83 | a
+ 83 | a 
     `----
 
   x AttributeSelector
@@ -9800,7 +9800,7 @@
  81 | a~a {}
  82 | a [type='button'] {}
     :   ^^^^^^^^^^^^^^^
- 83 | a
+ 83 | a 
     `----
 
   x WqName
@@ -9808,7 +9808,7 @@
  81 | a~a {}
  82 | a [type='button'] {}
     :    ^^^^
- 83 | a
+ 83 | a 
     `----
 
   x Ident
@@ -9816,7 +9816,7 @@
  81 | a~a {}
  82 | a [type='button'] {}
     :    ^^^^
- 83 | a
+ 83 | a 
     `----
 
   x AttributeSelectorMatcher
@@ -9824,7 +9824,7 @@
  81 | a~a {}
  82 | a [type='button'] {}
     :        ^
- 83 | a
+ 83 | a 
     `----
 
   x AttributeSelectorValue
@@ -9832,7 +9832,7 @@
  81 | a~a {}
  82 | a [type='button'] {}
     :         ^^^^^^^^
- 83 | a
+ 83 | a 
     `----
 
   x Str
@@ -9840,7 +9840,7 @@
  81 | a~a {}
  82 | a [type='button'] {}
     :         ^^^^^^^^
- 83 | a
+ 83 | a 
     `----
 
   x SimpleBlock
@@ -9848,7 +9848,7 @@
  81 | a~a {}
  82 | a [type='button'] {}
     :                   ^^
- 83 | a
+ 83 | a 
     `----
 
   x LBrace
@@ -9856,7 +9856,7 @@
  81 | a~a {}
  82 | a [type='button'] {}
     :                   ^
- 83 | a
+ 83 | a 
     `----
 
   x Rule
@@ -13255,7 +13255,7 @@
   99 | col.selected || td {}
  100 | col.selected
      : ^^^^^^^^^^^^
- 101 | ||
+ 101 | || 
      `----
 
   x TypeSelector
@@ -13263,7 +13263,7 @@
   99 | col.selected || td {}
  100 | col.selected
      : ^^^
- 101 | ||
+ 101 | || 
      `----
 
   x TagNameSelector
@@ -13271,7 +13271,7 @@
   99 | col.selected || td {}
  100 | col.selected
      : ^^^
- 101 | ||
+ 101 | || 
      `----
 
   x WqName
@@ -13279,7 +13279,7 @@
   99 | col.selected || td {}
  100 | col.selected
      : ^^^
- 101 | ||
+ 101 | || 
      `----
 
   x Ident
@@ -13287,7 +13287,7 @@
   99 | col.selected || td {}
  100 | col.selected
      : ^^^
- 101 | ||
+ 101 | || 
      `----
 
   x SubclassSelector
@@ -13295,7 +13295,7 @@
   99 | col.selected || td {}
  100 | col.selected
      :    ^^^^^^^^^
- 101 | ||
+ 101 | || 
      `----
 
   x ClassSelector
@@ -13303,7 +13303,7 @@
   99 | col.selected || td {}
  100 | col.selected
      :    ^^^^^^^^^
- 101 | ||
+ 101 | || 
      `----
 
   x Ident
@@ -13311,7 +13311,7 @@
   99 | col.selected || td {}
  100 | col.selected
      :     ^^^^^^^^
- 101 | ||
+ 101 | || 
      `----
 
   x Combinator

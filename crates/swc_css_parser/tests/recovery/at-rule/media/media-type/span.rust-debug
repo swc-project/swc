@@ -227,56 +227,56 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:2:5]
- 2 | a {
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:2:1]
+ 2 |     a {
  3 |         color: red;
    :         ^^^^^^^^^^
  4 |     }
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:2:5]
- 2 | a {
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:2:1]
+ 2 |     a {
  3 |         color: red;
    :         ^^^^^^^^^^
  4 |     }
    `----
 
   x Declaration
-   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:2:5]
- 2 | a {
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:2:1]
+ 2 |     a {
  3 |         color: red;
    :         ^^^^^^^^^^
  4 |     }
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:2:5]
- 2 | a {
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:2:1]
+ 2 |     a {
  3 |         color: red;
    :         ^^^^^
  4 |     }
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:2:5]
- 2 | a {
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:2:1]
+ 2 |     a {
  3 |         color: red;
    :         ^^^^^
  4 |     }
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:2:5]
- 2 | a {
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:2:1]
+ 2 |     a {
  3 |         color: red;
    :                ^^^
  4 |     }
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:2:5]
- 2 | a {
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:2:1]
+ 2 |     a {
  3 |         color: red;
    :                ^^^
  4 |     }

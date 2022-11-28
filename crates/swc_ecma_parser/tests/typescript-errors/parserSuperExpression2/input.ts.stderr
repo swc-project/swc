@@ -1,7 +1,7 @@
 
   x Expression expected
-   ,-[$DIR/tests/typescript-errors/parserSuperExpression2/input.ts:2:3]
- 2 | M() {
+   ,-[$DIR/tests/typescript-errors/parserSuperExpression2/input.ts:2:1]
+ 2 |   M() {
  3 |     super<T>(0);
    :          ^
  4 |   }

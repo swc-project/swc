@@ -1,7 +1,8 @@
 //// [await_unaryExpression_es6_3.ts]
 //! 
 //!   x The left-hand side of an assignment expression must be a variable or a property access.
-//!    ,-[2:1]
+//!    ,-[1:1]
+//!  1 | 
 //!  2 | async function bar1() {
 //!  3 |     ++await 42; // Error
 //!    :       ^^^^^^^^

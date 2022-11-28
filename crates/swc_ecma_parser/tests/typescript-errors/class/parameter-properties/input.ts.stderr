@@ -1,7 +1,7 @@
 
   x Parameter cannot have question mark and initializer
-    ,-[$DIR/tests/typescript-errors/class/parameter-properties/input.ts:9:9]
-  9 | readonly x = 0,
+    ,-[$DIR/tests/typescript-errors/class/parameter-properties/input.ts:9:1]
+  9 |         readonly x = 0,
  10 |         public y?: number = 0) {}
     :                ^^^^^^^^^^
  11 | }

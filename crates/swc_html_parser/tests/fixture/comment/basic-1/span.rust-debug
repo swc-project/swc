@@ -12,6 +12,8 @@
   9 | |   
  10 | |   </body>
  11 | |     </html>
+ 12 | |   
+ 13 | `-> 
     `----
 
   x Child
@@ -41,6 +43,8 @@
   9 | |   
  10 | |   </body>
  11 | |     </html>
+ 12 | |   
+ 13 | `-> 
     `----
 
   x Element
@@ -56,6 +60,8 @@
   9 | |   
  10 | |   </body>
  11 | |     </html>
+ 12 | |   
+ 13 | `-> 
     `----
 
   x Child
@@ -74,6 +80,8 @@
   9 | |   
  10 | |   </body>
  11 | |     </html>
+ 12 | |   
+ 13 | `-> 
     `----
 
   x Element
@@ -88,6 +96,8 @@
   9 | |   
  10 | |   </body>
  11 | |     </html>
+ 12 | |   
+ 13 | `-> 
     `----
 
   x Child
@@ -109,21 +119,24 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/comment/basic-1/input.html:5:1]
+   ,-[$DIR/tests/fixture/comment/basic-1/input.html:4:1]
+ 4 | 
  5 | <!--This is a comment-->
    : ^^^^^^^^^^^^^^^^^^^^^^^^
  6 | <!-- This is a comment -->
    `----
 
   x Comment
-   ,-[$DIR/tests/fixture/comment/basic-1/input.html:5:1]
+   ,-[$DIR/tests/fixture/comment/basic-1/input.html:4:1]
+ 4 | 
  5 | <!--This is a comment-->
    : ^^^^^^^^^^^^^^^^^^^^^^^^
  6 | <!-- This is a comment -->
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/comment/basic-1/input.html:5:1]
+   ,-[$DIR/tests/fixture/comment/basic-1/input.html:4:1]
+ 4 | 
  5 | <!--This is a comment-->
    :                         ^
  6 | <!-- This is a comment -->
@@ -131,7 +144,8 @@
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/comment/basic-1/input.html:5:1]
+   ,-[$DIR/tests/fixture/comment/basic-1/input.html:4:1]
+ 4 | 
  5 | <!--This is a comment-->
    :                         ^
  6 | <!-- This is a comment -->
@@ -241,6 +255,8 @@
   9 | |   
  10 | |   </body>
  11 | |     </html>
+ 12 | |   
+ 13 | `-> 
     `----
 
   x Text
@@ -250,4 +266,6 @@
   9 | |   
  10 | |   </body>
  11 | |     </html>
+ 12 | |   
+ 13 | `-> 
     `----

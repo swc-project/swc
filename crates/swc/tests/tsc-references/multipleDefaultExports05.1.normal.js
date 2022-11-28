@@ -1,7 +1,8 @@
 //// [multipleDefaultExports05.ts]
 //! 
 //!   x the name `default` is exported multiple times
-//!    ,-[2:1]
+//!    ,-[1:1]
+//!  1 | 
 //!  2 | export default class AA1 {}
 //!    : ^^^^^^^^^^^^^|^^^^^^^^^^^^^
 //!    :              `-- previous exported here
@@ -17,7 +18,8 @@
 //!   > Exported identifiers must be unique
 //! 
 //!   x the name `default` is exported multiple times
-//!    ,-[2:1]
+//!    ,-[1:1]
+//!  1 | 
 //!  2 | export default class AA1 {}
 //!  3 | 
 //!  4 | export default class BB1 {}

@@ -8,7 +8,7 @@
  5 | |   <a href=https://www.w3schools.com>This is a link</a>
  6 | |   
  7 | |   </body>
- 8 | |   </html>
+ 8 | `-> </html>
    `----
 
   x Child
@@ -34,7 +34,7 @@
  5 | |   <a href=https://www.w3schools.com>This is a link</a>
  6 | |   
  7 | |   </body>
- 8 | |   </html>
+ 8 | `-> </html>
    `----
 
   x Element
@@ -46,7 +46,7 @@
  5 | |   <a href=https://www.w3schools.com>This is a link</a>
  6 | |   
  7 | |   </body>
- 8 | |   </html>
+ 8 | `-> </html>
    `----
 
   x Child
@@ -61,7 +61,7 @@
  5 | |   <a href=https://www.w3schools.com>This is a link</a>
  6 | |   
  7 | |   </body>
- 8 | |   </html>
+ 8 | `-> </html>
    `----
 
   x Element
@@ -72,7 +72,7 @@
  5 | |   <a href=https://www.w3schools.com>This is a link</a>
  6 | |   
  7 | |   </body>
- 8 | |   </html>
+ 8 | `-> </html>
    `----
 
   x Child
@@ -92,47 +92,54 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/attribute/no-quotes/input.html:5:1]
+   ,-[$DIR/tests/fixture/attribute/no-quotes/input.html:4:1]
+ 4 | 
  5 | <a href=https://www.w3schools.com>This is a link</a>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/attribute/no-quotes/input.html:5:1]
+   ,-[$DIR/tests/fixture/attribute/no-quotes/input.html:4:1]
+ 4 | 
  5 | <a href=https://www.w3schools.com>This is a link</a>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/attribute/no-quotes/input.html:5:1]
+   ,-[$DIR/tests/fixture/attribute/no-quotes/input.html:4:1]
+ 4 | 
  5 | <a href=https://www.w3schools.com>This is a link</a>
    :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/attribute/no-quotes/input.html:5:1]
+   ,-[$DIR/tests/fixture/attribute/no-quotes/input.html:4:1]
+ 4 | 
  5 | <a href=https://www.w3schools.com>This is a link</a>
    :                                   ^^^^^^^^^^^^^^
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/attribute/no-quotes/input.html:5:1]
+   ,-[$DIR/tests/fixture/attribute/no-quotes/input.html:4:1]
+ 4 | 
  5 | <a href=https://www.w3schools.com>This is a link</a>
    :                                   ^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/attribute/no-quotes/input.html:5:1]
+   ,-[$DIR/tests/fixture/attribute/no-quotes/input.html:4:1]
+ 4 |     
  5 | ,-> <a href=https://www.w3schools.com>This is a link</a>
  6 | |   
  7 | |   </body>
- 8 | |   </html>
+ 8 | `-> </html>
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/attribute/no-quotes/input.html:5:1]
+   ,-[$DIR/tests/fixture/attribute/no-quotes/input.html:4:1]
+ 4 |     
  5 | ,-> <a href=https://www.w3schools.com>This is a link</a>
  6 | |   
  7 | |   </body>
- 8 | |   </html>
+ 8 | `-> </html>
    `----

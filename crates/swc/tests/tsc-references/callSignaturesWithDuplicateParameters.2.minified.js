@@ -28,7 +28,8 @@
 //!    `----
 //! 
 //!   x the name `x` is bound more than once in this parameter list
-//!    ,-[3:1]
+//!    ,-[2:1]
+//!  2 | 
 //!  3 | function foo(x, x) { }
 //!  4 | var f = function foo(x, x) { }
 //!  5 | var f2 = function (x, x) { }
@@ -96,7 +97,8 @@
 //!     `----
 //! 
 //!   x the name `x` is bound more than once in this parameter list
-//!     ,-[9:1]
+//!     ,-[8:1]
+//!   8 | 
 //!   9 | function foo2(x: string, x: number) { }
 //!  10 | var f5 = function foo(x: string, x: number) { }
 //!  11 | var f6 = function (x: string, x: number) { }
@@ -136,7 +138,8 @@
 //!     `----
 //! 
 //!   x the name `x` is bound more than once in this parameter list
-//!     ,-[15:1]
+//!     ,-[14:1]
+//!  14 | 
 //!  15 | class C {
 //!  16 |     foo(x, x) { }
 //!  17 |     foo2(x: number, x: string) { }
@@ -176,7 +179,8 @@
 //!     `----
 //! 
 //!   x the name `x` is bound more than once in this parameter list
-//!     ,-[34:1]
+//!     ,-[33:1]
+//!  33 | 
 //!  34 | var b = {
 //!  35 |     foo(x, x) { },
 //!  36 |     a: function foo(x: number, x: string) { },

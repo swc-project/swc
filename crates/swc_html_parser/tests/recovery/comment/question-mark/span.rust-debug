@@ -154,88 +154,88 @@
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/comment/question-mark/input.html:4:5]
- 4 | <meta charset="UTF-8">
+   ,-[$DIR/tests/recovery/comment/question-mark/input.html:4:1]
+ 4 |     <meta charset="UTF-8">
  5 |     <meta name="viewport" content="width=device-width, initial-scale=1.0">
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  6 |     <title>Document</title>
    `----
 
   x Element
-   ,-[$DIR/tests/recovery/comment/question-mark/input.html:4:5]
- 4 | <meta charset="UTF-8">
+   ,-[$DIR/tests/recovery/comment/question-mark/input.html:4:1]
+ 4 |     <meta charset="UTF-8">
  5 |     <meta name="viewport" content="width=device-width, initial-scale=1.0">
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  6 |     <title>Document</title>
    `----
 
   x Attribute
-   ,-[$DIR/tests/recovery/comment/question-mark/input.html:4:5]
- 4 | <meta charset="UTF-8">
+   ,-[$DIR/tests/recovery/comment/question-mark/input.html:4:1]
+ 4 |     <meta charset="UTF-8">
  5 |     <meta name="viewport" content="width=device-width, initial-scale=1.0">
    :           ^^^^^^^^^^^^^^^
  6 |     <title>Document</title>
    `----
 
   x Attribute
-   ,-[$DIR/tests/recovery/comment/question-mark/input.html:4:5]
- 4 | <meta charset="UTF-8">
+   ,-[$DIR/tests/recovery/comment/question-mark/input.html:4:1]
+ 4 |     <meta charset="UTF-8">
  5 |     <meta name="viewport" content="width=device-width, initial-scale=1.0">
    :                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  6 |     <title>Document</title>
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/comment/question-mark/input.html:4:5]
- 4 |     <meta charset="UTF-8">
+   ,-[$DIR/tests/recovery/comment/question-mark/input.html:4:1]
+ 4 |         <meta charset="UTF-8">
  5 | ,->     <meta name="viewport" content="width=device-width, initial-scale=1.0">
  6 | `->     <title>Document</title>
  7 |     </head>
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/comment/question-mark/input.html:4:5]
- 4 |     <meta charset="UTF-8">
+   ,-[$DIR/tests/recovery/comment/question-mark/input.html:4:1]
+ 4 |         <meta charset="UTF-8">
  5 | ,->     <meta name="viewport" content="width=device-width, initial-scale=1.0">
  6 | `->     <title>Document</title>
  7 |     </head>
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/comment/question-mark/input.html:5:5]
- 5 | <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   ,-[$DIR/tests/recovery/comment/question-mark/input.html:5:1]
+ 5 |     <meta name="viewport" content="width=device-width, initial-scale=1.0">
  6 |     <title>Document</title>
    :     ^^^^^^^^^^^^^^^^^^^^^^^
  7 | </head>
    `----
 
   x Element
-   ,-[$DIR/tests/recovery/comment/question-mark/input.html:5:5]
- 5 | <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   ,-[$DIR/tests/recovery/comment/question-mark/input.html:5:1]
+ 5 |     <meta name="viewport" content="width=device-width, initial-scale=1.0">
  6 |     <title>Document</title>
    :     ^^^^^^^^^^^^^^^^^^^^^^^
  7 | </head>
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/comment/question-mark/input.html:5:5]
- 5 | <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   ,-[$DIR/tests/recovery/comment/question-mark/input.html:5:1]
+ 5 |     <meta name="viewport" content="width=device-width, initial-scale=1.0">
  6 |     <title>Document</title>
    :            ^^^^^^^^
  7 | </head>
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/comment/question-mark/input.html:5:5]
- 5 | <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   ,-[$DIR/tests/recovery/comment/question-mark/input.html:5:1]
+ 5 |     <meta name="viewport" content="width=device-width, initial-scale=1.0">
  6 |     <title>Document</title>
    :            ^^^^^^^^
  7 | </head>
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/comment/question-mark/input.html:5:5]
- 5 | <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   ,-[$DIR/tests/recovery/comment/question-mark/input.html:5:1]
+ 5 |     <meta name="viewport" content="width=device-width, initial-scale=1.0">
  6 |     <title>Document</title>
    :                            ^
  7 | </head>
@@ -243,8 +243,8 @@
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/comment/question-mark/input.html:5:5]
- 5 | <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   ,-[$DIR/tests/recovery/comment/question-mark/input.html:5:1]
+ 5 |     <meta name="viewport" content="width=device-width, initial-scale=1.0">
  6 |     <title>Document</title>
    :                            ^
  7 | </head>
@@ -252,8 +252,8 @@
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/comment/question-mark/input.html:6:5]
- 6 | <title>Document</title>
+   ,-[$DIR/tests/recovery/comment/question-mark/input.html:6:1]
+ 6 |     <title>Document</title>
  7 | </head>
    :        ^
  8 | <body>
@@ -261,8 +261,8 @@
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/comment/question-mark/input.html:6:5]
- 6 | <title>Document</title>
+   ,-[$DIR/tests/recovery/comment/question-mark/input.html:6:1]
+ 6 |     <title>Document</title>
  7 | </head>
    :        ^
  8 | <body>
@@ -380,32 +380,32 @@
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/comment/question-mark/input.html:10:5]
- 10 | <?test>
+    ,-[$DIR/tests/recovery/comment/question-mark/input.html:10:1]
+ 10 |     <?test>
  11 |     <div ="test"></div>
     :     ^^^^^^^^^^^^^^^^^^^
  12 | </div>
     `----
 
   x Element
-    ,-[$DIR/tests/recovery/comment/question-mark/input.html:10:5]
- 10 | <?test>
+    ,-[$DIR/tests/recovery/comment/question-mark/input.html:10:1]
+ 10 |     <?test>
  11 |     <div ="test"></div>
     :     ^^^^^^^^^^^^^^^^^^^
  12 | </div>
     `----
 
   x Attribute
-    ,-[$DIR/tests/recovery/comment/question-mark/input.html:10:5]
- 10 | <?test>
+    ,-[$DIR/tests/recovery/comment/question-mark/input.html:10:1]
+ 10 |     <?test>
  11 |     <div ="test"></div>
     :          ^^^^^^^
  12 | </div>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/comment/question-mark/input.html:10:5]
- 10 | <?test>
+    ,-[$DIR/tests/recovery/comment/question-mark/input.html:10:1]
+ 10 |     <?test>
  11 |     <div ="test"></div>
     :                        ^
  12 | </div>
@@ -413,8 +413,8 @@
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/comment/question-mark/input.html:10:5]
- 10 | <?test>
+    ,-[$DIR/tests/recovery/comment/question-mark/input.html:10:1]
+ 10 |     <?test>
  11 |     <div ="test"></div>
     :                        ^
  12 | </div>
@@ -422,16 +422,16 @@
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/comment/question-mark/input.html:11:5]
- 11 |     <div ="test"></div>
+    ,-[$DIR/tests/recovery/comment/question-mark/input.html:11:1]
+ 11 |         <div ="test"></div>
  12 | ,-> </div>
  13 | `-> </body>
  14 |     </html>
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/comment/question-mark/input.html:11:5]
- 11 |     <div ="test"></div>
+    ,-[$DIR/tests/recovery/comment/question-mark/input.html:11:1]
+ 11 |         <div ="test"></div>
  12 | ,-> </div>
  13 | `-> </body>
  14 |     </html>

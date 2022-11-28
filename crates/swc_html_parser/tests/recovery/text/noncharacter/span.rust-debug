@@ -155,136 +155,136 @@
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/text/noncharacter/input.html:4:5]
- 4 |     <meta charset="UTF-8">
+   ,-[$DIR/tests/recovery/text/noncharacter/input.html:4:1]
+ 4 |         <meta charset="UTF-8">
  5 | ,->     <meta name="viewport"
  6 | `->           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
  7 |         <meta http-equiv="X-UA-Compatible" content="ie=edge">
    `----
 
   x Element
-   ,-[$DIR/tests/recovery/text/noncharacter/input.html:4:5]
- 4 |     <meta charset="UTF-8">
+   ,-[$DIR/tests/recovery/text/noncharacter/input.html:4:1]
+ 4 |         <meta charset="UTF-8">
  5 | ,->     <meta name="viewport"
  6 | `->           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
  7 |         <meta http-equiv="X-UA-Compatible" content="ie=edge">
    `----
 
   x Attribute
-   ,-[$DIR/tests/recovery/text/noncharacter/input.html:4:5]
- 4 | <meta charset="UTF-8">
+   ,-[$DIR/tests/recovery/text/noncharacter/input.html:4:1]
+ 4 |     <meta charset="UTF-8">
  5 |     <meta name="viewport"
    :           ^^^^^^^^^^^^^^^
  6 |           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
    `----
 
   x Attribute
-   ,-[$DIR/tests/recovery/text/noncharacter/input.html:5:5]
- 5 | <meta name="viewport"
+   ,-[$DIR/tests/recovery/text/noncharacter/input.html:5:1]
+ 5 |     <meta name="viewport"
  6 |           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
    :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  7 |     <meta http-equiv="X-UA-Compatible" content="ie=edge">
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/text/noncharacter/input.html:5:5]
- 5 |     <meta name="viewport"
+   ,-[$DIR/tests/recovery/text/noncharacter/input.html:5:1]
+ 5 |         <meta name="viewport"
  6 | ,->           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
  7 | `->     <meta http-equiv="X-UA-Compatible" content="ie=edge">
  8 |         <title>Document</title>
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/text/noncharacter/input.html:5:5]
- 5 |     <meta name="viewport"
+   ,-[$DIR/tests/recovery/text/noncharacter/input.html:5:1]
+ 5 |         <meta name="viewport"
  6 | ,->           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
  7 | `->     <meta http-equiv="X-UA-Compatible" content="ie=edge">
  8 |         <title>Document</title>
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/text/noncharacter/input.html:6:11]
- 6 | content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+   ,-[$DIR/tests/recovery/text/noncharacter/input.html:6:1]
+ 6 |           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
  7 |     <meta http-equiv="X-UA-Compatible" content="ie=edge">
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  8 |     <title>Document</title>
    `----
 
   x Element
-   ,-[$DIR/tests/recovery/text/noncharacter/input.html:6:11]
- 6 | content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+   ,-[$DIR/tests/recovery/text/noncharacter/input.html:6:1]
+ 6 |           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
  7 |     <meta http-equiv="X-UA-Compatible" content="ie=edge">
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  8 |     <title>Document</title>
    `----
 
   x Attribute
-   ,-[$DIR/tests/recovery/text/noncharacter/input.html:6:11]
- 6 | content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+   ,-[$DIR/tests/recovery/text/noncharacter/input.html:6:1]
+ 6 |           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
  7 |     <meta http-equiv="X-UA-Compatible" content="ie=edge">
    :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  8 |     <title>Document</title>
    `----
 
   x Attribute
-   ,-[$DIR/tests/recovery/text/noncharacter/input.html:6:11]
- 6 | content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+   ,-[$DIR/tests/recovery/text/noncharacter/input.html:6:1]
+ 6 |           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
  7 |     <meta http-equiv="X-UA-Compatible" content="ie=edge">
    :                                        ^^^^^^^^^^^^^^^^^
  8 |     <title>Document</title>
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/text/noncharacter/input.html:6:11]
- 6 |     content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+   ,-[$DIR/tests/recovery/text/noncharacter/input.html:6:1]
+ 6 |               content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
  7 | ,->     <meta http-equiv="X-UA-Compatible" content="ie=edge">
  8 | `->     <title>Document</title>
  9 |     </head>
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/text/noncharacter/input.html:6:11]
- 6 |     content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+   ,-[$DIR/tests/recovery/text/noncharacter/input.html:6:1]
+ 6 |               content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
  7 | ,->     <meta http-equiv="X-UA-Compatible" content="ie=edge">
  8 | `->     <title>Document</title>
  9 |     </head>
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/text/noncharacter/input.html:7:5]
- 7 | <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   ,-[$DIR/tests/recovery/text/noncharacter/input.html:7:1]
+ 7 |     <meta http-equiv="X-UA-Compatible" content="ie=edge">
  8 |     <title>Document</title>
    :     ^^^^^^^^^^^^^^^^^^^^^^^
  9 | </head>
    `----
 
   x Element
-   ,-[$DIR/tests/recovery/text/noncharacter/input.html:7:5]
- 7 | <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   ,-[$DIR/tests/recovery/text/noncharacter/input.html:7:1]
+ 7 |     <meta http-equiv="X-UA-Compatible" content="ie=edge">
  8 |     <title>Document</title>
    :     ^^^^^^^^^^^^^^^^^^^^^^^
  9 | </head>
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/text/noncharacter/input.html:7:5]
- 7 | <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   ,-[$DIR/tests/recovery/text/noncharacter/input.html:7:1]
+ 7 |     <meta http-equiv="X-UA-Compatible" content="ie=edge">
  8 |     <title>Document</title>
    :            ^^^^^^^^
  9 | </head>
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/text/noncharacter/input.html:7:5]
- 7 | <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   ,-[$DIR/tests/recovery/text/noncharacter/input.html:7:1]
+ 7 |     <meta http-equiv="X-UA-Compatible" content="ie=edge">
  8 |     <title>Document</title>
    :            ^^^^^^^^
  9 | </head>
    `----
 
   x Child
-    ,-[$DIR/tests/recovery/text/noncharacter/input.html:7:5]
-  7 | <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    ,-[$DIR/tests/recovery/text/noncharacter/input.html:7:1]
+  7 |     <meta http-equiv="X-UA-Compatible" content="ie=edge">
   8 |     <title>Document</title>
     :                            ^
   9 | </head>
@@ -292,8 +292,8 @@
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/text/noncharacter/input.html:7:5]
-  7 | <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    ,-[$DIR/tests/recovery/text/noncharacter/input.html:7:1]
+  7 |     <meta http-equiv="X-UA-Compatible" content="ie=edge">
   8 |     <title>Document</title>
     :                            ^
   9 | </head>
@@ -301,8 +301,8 @@
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/text/noncharacter/input.html:8:5]
-  8 | <title>Document</title>
+    ,-[$DIR/tests/recovery/text/noncharacter/input.html:8:1]
+  8 |     <title>Document</title>
   9 | </head>
     :        ^
  10 | <body>
@@ -310,8 +310,8 @@
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/text/noncharacter/input.html:8:5]
-  8 | <title>Document</title>
+    ,-[$DIR/tests/recovery/text/noncharacter/input.html:8:1]
+  8 |     <title>Document</title>
   9 | </head>
     :        ^
  10 | <body>

@@ -1,7 +1,7 @@
 
   x Expected ',', got 'v'
-   ,-[$DIR/tests/typescript-errors/class/override-parameter-property/input.ts:2:3]
- 2 | constructor(override public v: string)
+   ,-[$DIR/tests/typescript-errors/class/override-parameter-property/input.ts:2:1]
+ 2 |   constructor(override public v: string)
  3 |   constructor(readonly override v: boolean)
    :                                 ^
  4 |   constructor(arg: any) {

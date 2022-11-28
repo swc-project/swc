@@ -7,7 +7,7 @@
  4 | |   
  5 | |   @color-profile device-cmyk {
  6 | |       src: url('https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc');
- 7 | |   }
+ 7 | `-> }
    `----
 
   x Rule
@@ -132,49 +132,56 @@
    `----
 
   x Rule
-   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:5:1]
+   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:4:1]
+ 4 |     
  5 | ,-> @color-profile device-cmyk {
  6 | |       src: url('https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc');
  7 | `-> }
    `----
 
   x AtRule
-   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:5:1]
+   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:4:1]
+ 4 |     
  5 | ,-> @color-profile device-cmyk {
  6 | |       src: url('https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc');
  7 | `-> }
    `----
 
   x AtRuleName
-   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:5:1]
+   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:4:1]
+ 4 | 
  5 | @color-profile device-cmyk {
    :  ^^^^^^^^^^^^^
  6 |     src: url('https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc');
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:5:1]
+   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:4:1]
+ 4 | 
  5 | @color-profile device-cmyk {
    :  ^^^^^^^^^^^^^
  6 |     src: url('https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc');
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:5:1]
+   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:4:1]
+ 4 | 
  5 | @color-profile device-cmyk {
    :                ^^^^^^^^^^^
  6 |     src: url('https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc');
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:5:1]
+   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:4:1]
+ 4 |     
  5 | ,-> @color-profile device-cmyk {
  6 | |       src: url('https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc');
  7 | `-> }
    `----
 
   x LBrace
-   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:5:1]
+   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:4:1]
+ 4 | 
  5 | @color-profile device-cmyk {
    :                            ^
  6 |     src: url('https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc');

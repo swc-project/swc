@@ -1,7 +1,8 @@
 //// [functionWithUseStrictAndSimpleParameterList_es2016.ts]
 //! 
 //!   x Illegal 'use strict' directive in function with non-simple parameter list.
-//!    ,-[2:1]
+//!    ,-[1:1]
+//!  1 | 
 //!  2 | function a(a = 10) {
 //!  3 |     "use strict";
 //!    :     ^^^^^^^^^^^^^
@@ -83,7 +84,8 @@
 //!     `----
 //! 
 //!   x Illegal 'use strict' directive in function with non-simple parameter list.
-//!     ,-[40:1]
+//!     ,-[39:1]
+//!  39 | 
 //!  40 | function manyPrologue(a = 10, b = 20) {
 //!  41 |     "foo";
 //!  42 |     "use strict";

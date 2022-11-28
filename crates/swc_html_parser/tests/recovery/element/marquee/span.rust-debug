@@ -151,8 +151,8 @@
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/marquee/input.html:4:5]
- 4 | <title>Document</title>
+   ,-[$DIR/tests/recovery/element/marquee/input.html:4:1]
+ 4 |     <title>Document</title>
  5 | </head>
    :        ^
  6 | <body>
@@ -160,8 +160,8 @@
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/element/marquee/input.html:4:5]
- 4 | <title>Document</title>
+   ,-[$DIR/tests/recovery/element/marquee/input.html:4:1]
+ 4 |     <title>Document</title>
  5 | </head>
    :        ^
  6 | <body>
@@ -295,16 +295,16 @@
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/marquee/input.html:8:5]
-  8 |     <div>
+    ,-[$DIR/tests/recovery/element/marquee/input.html:8:1]
+  8 |         <div>
   9 | ,-> </marquee>
  10 | `-> </body>
  11 |     </html>
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/marquee/input.html:8:5]
-  8 |     <div>
+    ,-[$DIR/tests/recovery/element/marquee/input.html:8:1]
+  8 |         <div>
   9 | ,-> </marquee>
  10 | `-> </body>
  11 |     </html>

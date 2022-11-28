@@ -3,7 +3,7 @@
    ,-[$DIR/tests/recovery/delim-token/asterisk/input.css:1:1]
  1 | ,-> a {
  2 | |       color: *;
- 3 | |   }
+ 3 | `-> }
    `----
 
   x Rule
