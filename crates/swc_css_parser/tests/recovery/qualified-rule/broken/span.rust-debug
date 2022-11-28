@@ -78,64 +78,43 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/qualified-rule/broken/input.css:1:4]
- 1 | 
- 2 | 
- 3 | {
- 4 |     color: red;
-   :     ^^^^^^^^^^
+   ,-[$DIR/tests/recovery/qualified-rule/broken/input.css:4:5]
+ 4 | color: red;
+   : ^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/recovery/qualified-rule/broken/input.css:1:4]
- 1 | 
- 2 | 
- 3 | {
- 4 |     color: red;
-   :     ^^^^^^^^^^
+   ,-[$DIR/tests/recovery/qualified-rule/broken/input.css:4:5]
+ 4 | color: red;
+   : ^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/recovery/qualified-rule/broken/input.css:1:4]
- 1 | 
- 2 | 
- 3 | {
- 4 |     color: red;
-   :     ^^^^^^^^^^
+   ,-[$DIR/tests/recovery/qualified-rule/broken/input.css:4:5]
+ 4 | color: red;
+   : ^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/recovery/qualified-rule/broken/input.css:1:4]
- 1 | 
- 2 | 
- 3 | {
- 4 |     color: red;
-   :     ^^^^^
+   ,-[$DIR/tests/recovery/qualified-rule/broken/input.css:4:5]
+ 4 | color: red;
+   : ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/qualified-rule/broken/input.css:1:4]
- 1 | 
- 2 | 
- 3 | {
- 4 |     color: red;
-   :     ^^^^^
+   ,-[$DIR/tests/recovery/qualified-rule/broken/input.css:4:5]
+ 4 | color: red;
+   : ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/qualified-rule/broken/input.css:1:4]
- 1 | 
- 2 | 
- 3 | {
- 4 |     color: red;
-   :            ^^^
+   ,-[$DIR/tests/recovery/qualified-rule/broken/input.css:4:5]
+ 4 | color: red;
+   :        ^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/qualified-rule/broken/input.css:1:4]
- 1 | 
- 2 | 
- 3 | {
- 4 |     color: red;
-   :            ^^^
+   ,-[$DIR/tests/recovery/qualified-rule/broken/input.css:4:5]
+ 4 | color: red;
+   :        ^^^
    `----

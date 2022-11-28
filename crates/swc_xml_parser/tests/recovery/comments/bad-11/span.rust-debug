@@ -46,15 +46,13 @@
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/comments/bad-11/input.xml:2:4]
- 2 |     ot>
- 3 | ,->     <!--<!-
+   ,-[$DIR/tests/recovery/comments/bad-11/input.xml:3:5]
+ 3 | ,-> <!--<!-
  4 | |   </root>
    `----
 
   x Comment
-   ,-[$DIR/tests/recovery/comments/bad-11/input.xml:2:4]
- 2 |     ot>
- 3 | ,->     <!--<!-
+   ,-[$DIR/tests/recovery/comments/bad-11/input.xml:3:5]
+ 3 | ,-> <!--<!-
  4 | |   </root>
    `----

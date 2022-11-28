@@ -14225,185 +14225,160 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/media/input.css:117:12]
- 117 |     t {
- 118 | ,->     html
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:118:5]
+ 118 | ,-> html
  119 | |       main {
  120 | |           color: orange;
  121 | `->     }
      `----
 
   x Rule
-     ,-[$DIR/tests/fixture/at-rule/media/input.css:117:12]
- 117 |     t {
- 118 | ,->     html
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:118:5]
+ 118 | ,-> html
  119 | |       main {
  120 | |           color: orange;
  121 | `->     }
      `----
 
   x QualifiedRule
-     ,-[$DIR/tests/fixture/at-rule/media/input.css:117:12]
- 117 |     t {
- 118 | ,->     html
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:118:5]
+ 118 | ,-> html
  119 | |       main {
  120 | |           color: orange;
  121 | `->     }
      `----
 
   x SelectorList
-     ,-[$DIR/tests/fixture/at-rule/media/input.css:117:12]
- 117 |     t {
- 118 | ,->     html
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:118:5]
+ 118 | ,-> html
  119 | `->     main {
      `----
 
   x ComplexSelector
-     ,-[$DIR/tests/fixture/at-rule/media/input.css:117:12]
- 117 |     t {
- 118 | ,->     html
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:118:5]
+ 118 | ,-> html
  119 | `->     main {
      `----
 
   x CompoundSelector
-     ,-[$DIR/tests/fixture/at-rule/media/input.css:117:12]
- 117 | t {
- 118 |     html
-     :     ^^^^
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:118:5]
+ 118 | html
+     : ^^^^
      `----
 
   x TypeSelector
-     ,-[$DIR/tests/fixture/at-rule/media/input.css:117:12]
- 117 | t {
- 118 |     html
-     :     ^^^^
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:118:5]
+ 118 | html
+     : ^^^^
      `----
 
   x TagNameSelector
-     ,-[$DIR/tests/fixture/at-rule/media/input.css:117:12]
- 117 | t {
- 118 |     html
-     :     ^^^^
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:118:5]
+ 118 | html
+     : ^^^^
      `----
 
   x WqName
-     ,-[$DIR/tests/fixture/at-rule/media/input.css:117:12]
- 117 | t {
- 118 |     html
-     :     ^^^^
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:118:5]
+ 118 | html
+     : ^^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/media/input.css:117:12]
- 117 | t {
- 118 |     html
-     :     ^^^^
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:118:5]
+ 118 | html
+     : ^^^^
      `----
 
   x Combinator
-     ,-[$DIR/tests/fixture/at-rule/media/input.css:117:12]
- 117 |     t {
- 118 | ,->     html
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:118:5]
+ 118 | ,-> html
  119 | `->     main {
      `----
 
   x CompoundSelector
-     ,-[$DIR/tests/fixture/at-rule/media/input.css:118:6]
- 118 | tml
- 119 |     main {
-     :     ^^^^
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:119:5]
+ 119 | main {
+     : ^^^^
      `----
 
   x TypeSelector
-     ,-[$DIR/tests/fixture/at-rule/media/input.css:118:6]
- 118 | tml
- 119 |     main {
-     :     ^^^^
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:119:5]
+ 119 | main {
+     : ^^^^
      `----
 
   x TagNameSelector
-     ,-[$DIR/tests/fixture/at-rule/media/input.css:118:6]
- 118 | tml
- 119 |     main {
-     :     ^^^^
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:119:5]
+ 119 | main {
+     : ^^^^
      `----
 
   x WqName
-     ,-[$DIR/tests/fixture/at-rule/media/input.css:118:6]
- 118 | tml
- 119 |     main {
-     :     ^^^^
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:119:5]
+ 119 | main {
+     : ^^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/media/input.css:118:6]
- 118 | tml
- 119 |     main {
-     :     ^^^^
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:119:5]
+ 119 | main {
+     : ^^^^
      `----
 
   x SimpleBlock
-     ,-[$DIR/tests/fixture/at-rule/media/input.css:118:6]
- 118 |     tml
- 119 | ,->     main {
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:119:5]
+ 119 | ,-> main {
  120 | |           color: orange;
  121 | `->     }
      `----
 
   x LBrace
-     ,-[$DIR/tests/fixture/at-rule/media/input.css:118:6]
- 118 | tml
- 119 |     main {
-     :          ^
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:119:5]
+ 119 | main {
+     :      ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/media/input.css:119:4]
- 119 |  main {
- 120 |         color: orange;
-     :         ^^^^^^^^^^^^^
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:120:9]
+ 120 | color: orange;
+     : ^^^^^^^^^^^^^
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/fixture/at-rule/media/input.css:119:4]
- 119 |  main {
- 120 |         color: orange;
-     :         ^^^^^^^^^^^^^
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:120:9]
+ 120 | color: orange;
+     : ^^^^^^^^^^^^^
      `----
 
   x Declaration
-     ,-[$DIR/tests/fixture/at-rule/media/input.css:119:4]
- 119 |  main {
- 120 |         color: orange;
-     :         ^^^^^^^^^^^^^
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:120:9]
+ 120 | color: orange;
+     : ^^^^^^^^^^^^^
      `----
 
   x DeclarationName
-     ,-[$DIR/tests/fixture/at-rule/media/input.css:119:4]
- 119 |  main {
- 120 |         color: orange;
-     :         ^^^^^
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:120:9]
+ 120 | color: orange;
+     : ^^^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/media/input.css:119:4]
- 119 |  main {
- 120 |         color: orange;
-     :         ^^^^^
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:120:9]
+ 120 | color: orange;
+     : ^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/media/input.css:119:4]
- 119 |  main {
- 120 |         color: orange;
-     :                ^^^^^^
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:120:9]
+ 120 | color: orange;
+     :        ^^^^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/media/input.css:119:4]
- 119 |  main {
- 120 |         color: orange;
-     :                ^^^^^^
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:120:9]
+ 120 | color: orange;
+     :        ^^^^^^
      `----
 
   x Rule
@@ -14479,185 +14454,160 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/media/input.css:124:12]
- 124 |     t {
- 125 | ,->     html,
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:125:5]
+ 125 | ,-> html,
  126 | |       main {
  127 | |           color: orange;
  128 | `->     }
      `----
 
   x Rule
-     ,-[$DIR/tests/fixture/at-rule/media/input.css:124:12]
- 124 |     t {
- 125 | ,->     html,
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:125:5]
+ 125 | ,-> html,
  126 | |       main {
  127 | |           color: orange;
  128 | `->     }
      `----
 
   x QualifiedRule
-     ,-[$DIR/tests/fixture/at-rule/media/input.css:124:12]
- 124 |     t {
- 125 | ,->     html,
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:125:5]
+ 125 | ,-> html,
  126 | |       main {
  127 | |           color: orange;
  128 | `->     }
      `----
 
   x SelectorList
-     ,-[$DIR/tests/fixture/at-rule/media/input.css:124:12]
- 124 |     t {
- 125 | ,->     html,
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:125:5]
+ 125 | ,-> html,
  126 | `->     main {
      `----
 
   x ComplexSelector
-     ,-[$DIR/tests/fixture/at-rule/media/input.css:124:12]
- 124 | t {
- 125 |     html,
-     :     ^^^^
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:125:5]
+ 125 | html,
+     : ^^^^
      `----
 
   x CompoundSelector
-     ,-[$DIR/tests/fixture/at-rule/media/input.css:124:12]
- 124 | t {
- 125 |     html,
-     :     ^^^^
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:125:5]
+ 125 | html,
+     : ^^^^
      `----
 
   x TypeSelector
-     ,-[$DIR/tests/fixture/at-rule/media/input.css:124:12]
- 124 | t {
- 125 |     html,
-     :     ^^^^
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:125:5]
+ 125 | html,
+     : ^^^^
      `----
 
   x TagNameSelector
-     ,-[$DIR/tests/fixture/at-rule/media/input.css:124:12]
- 124 | t {
- 125 |     html,
-     :     ^^^^
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:125:5]
+ 125 | html,
+     : ^^^^
      `----
 
   x WqName
-     ,-[$DIR/tests/fixture/at-rule/media/input.css:124:12]
- 124 | t {
- 125 |     html,
-     :     ^^^^
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:125:5]
+ 125 | html,
+     : ^^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/media/input.css:124:12]
- 124 | t {
- 125 |     html,
-     :     ^^^^
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:125:5]
+ 125 | html,
+     : ^^^^
      `----
 
   x ComplexSelector
-     ,-[$DIR/tests/fixture/at-rule/media/input.css:125:7]
- 125 | ml,
- 126 |     main {
-     :     ^^^^
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:126:5]
+ 126 | main {
+     : ^^^^
      `----
 
   x CompoundSelector
-     ,-[$DIR/tests/fixture/at-rule/media/input.css:125:7]
- 125 | ml,
- 126 |     main {
-     :     ^^^^
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:126:5]
+ 126 | main {
+     : ^^^^
      `----
 
   x TypeSelector
-     ,-[$DIR/tests/fixture/at-rule/media/input.css:125:7]
- 125 | ml,
- 126 |     main {
-     :     ^^^^
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:126:5]
+ 126 | main {
+     : ^^^^
      `----
 
   x TagNameSelector
-     ,-[$DIR/tests/fixture/at-rule/media/input.css:125:7]
- 125 | ml,
- 126 |     main {
-     :     ^^^^
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:126:5]
+ 126 | main {
+     : ^^^^
      `----
 
   x WqName
-     ,-[$DIR/tests/fixture/at-rule/media/input.css:125:7]
- 125 | ml,
- 126 |     main {
-     :     ^^^^
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:126:5]
+ 126 | main {
+     : ^^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/media/input.css:125:7]
- 125 | ml,
- 126 |     main {
-     :     ^^^^
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:126:5]
+ 126 | main {
+     : ^^^^
      `----
 
   x SimpleBlock
-     ,-[$DIR/tests/fixture/at-rule/media/input.css:125:7]
- 125 |     ml,
- 126 | ,->     main {
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:126:5]
+ 126 | ,-> main {
  127 | |           color: orange;
  128 | `->     }
      `----
 
   x LBrace
-     ,-[$DIR/tests/fixture/at-rule/media/input.css:125:7]
- 125 | ml,
- 126 |     main {
-     :          ^
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:126:5]
+ 126 | main {
+     :      ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/media/input.css:126:4]
- 126 |  main {
- 127 |         color: orange;
-     :         ^^^^^^^^^^^^^
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:127:9]
+ 127 | color: orange;
+     : ^^^^^^^^^^^^^
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/fixture/at-rule/media/input.css:126:4]
- 126 |  main {
- 127 |         color: orange;
-     :         ^^^^^^^^^^^^^
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:127:9]
+ 127 | color: orange;
+     : ^^^^^^^^^^^^^
      `----
 
   x Declaration
-     ,-[$DIR/tests/fixture/at-rule/media/input.css:126:4]
- 126 |  main {
- 127 |         color: orange;
-     :         ^^^^^^^^^^^^^
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:127:9]
+ 127 | color: orange;
+     : ^^^^^^^^^^^^^
      `----
 
   x DeclarationName
-     ,-[$DIR/tests/fixture/at-rule/media/input.css:126:4]
- 126 |  main {
- 127 |         color: orange;
-     :         ^^^^^
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:127:9]
+ 127 | color: orange;
+     : ^^^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/media/input.css:126:4]
- 126 |  main {
- 127 |         color: orange;
-     :         ^^^^^
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:127:9]
+ 127 | color: orange;
+     : ^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/media/input.css:126:4]
- 126 |  main {
- 127 |         color: orange;
-     :                ^^^^^^
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:127:9]
+ 127 | color: orange;
+     :        ^^^^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/fixture/at-rule/media/input.css:126:4]
- 126 |  main {
- 127 |         color: orange;
-     :                ^^^^^^
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:127:9]
+ 127 | color: orange;
+     :        ^^^^^^
      `----
 
   x Rule

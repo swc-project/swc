@@ -1,21 +1,18 @@
 
   x Expected Declaration value
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:9:15]
-  9 |  0;
- 10 |     flex-basis: __styled-jsx-placeholder__2%;
-    :                                            ^
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:10:5]
+ 10 | flex-basis: __styled-jsx-placeholder__2%;
+    :                                        ^
     `----
 
   x Expected Declaration value
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:15:47]
- 15 | item) {
- 16 |         flex-basis: __styled-jsx-placeholder__3%;
-    :                                                ^
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:16:9]
+ 16 | flex-basis: __styled-jsx-placeholder__3%;
+    :                                        ^
     `----
 
   x Expected Declaration value
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:21:47]
- 21 | item) {
- 22 |         flex-basis: __styled-jsx-placeholder__4%;
-    :                                                ^
+    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:22:9]
+ 22 | flex-basis: __styled-jsx-placeholder__4%;
+    :                                        ^
     `----

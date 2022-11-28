@@ -1,42 +1,36 @@
 
   x Expected Declaration value
-   ,-[$DIR/tests/recovery/declaration/important/input.css:5:6]
- 5 | s {
- 6 |     color: red red red !important !important;
-   :                        ^
+   ,-[$DIR/tests/recovery/declaration/important/input.css:6:5]
+ 6 | color: red red red !important !important;
+   :                    ^
    `----
 
   x Expected Declaration value
-    ,-[$DIR/tests/recovery/declaration/important/input.css:9:6]
-  9 | s {
- 10 |     color: red red red !important!important   ;
-    :                        ^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:10:5]
+ 10 | color: red red red !important!important   ;
+    :                    ^
     `----
 
   x Expected Declaration value
-    ,-[$DIR/tests/recovery/declaration/important/input.css:13:6]
- 13 | s {
- 14 |     color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
-    :                                  ^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:14:5]
+ 14 | color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
+    :                              ^
     `----
 
   x Expected Declaration value
-    ,-[$DIR/tests/recovery/declaration/important/input.css:17:6]
- 17 | s {
- 18 |     color: red red red !important !important!important;
-    :                        ^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:18:5]
+ 18 | color: red red red !important !important!important;
+    :                    ^
     `----
 
   x Expected Declaration value
-    ,-[$DIR/tests/recovery/declaration/important/input.css:21:6]
- 21 | s {
- 22 |     color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
-    :                                   ^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:22:5]
+ 22 | color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
+    :                               ^
     `----
 
   x Unexpected end of file
-   ,-[$DIR/tests/recovery/declaration/important/input.css:1:2]
- 1 | a {
- 2 |     color: white !!important;
-   :                  ^
+   ,-[$DIR/tests/recovery/declaration/important/input.css:2:5]
+ 2 | color: white !!important;
+   :              ^
    `----

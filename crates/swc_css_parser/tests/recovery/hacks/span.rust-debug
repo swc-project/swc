@@ -7844,150 +7844,129 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:103:9]
- 103 | r {
- 104 |     !property: value;
-     :     ^^^^^^^^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:104:5]
+ 104 | !property: value;
+     : ^^^^^^^^^^^^^^^^^
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:103:9]
- 103 | r {
- 104 |     !property: value;
-     :     ^^^^^^^^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:104:5]
+ 104 | !property: value;
+     : ^^^^^^^^^^^^^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:103:9]
- 103 | r {
- 104 |     !property: value;
-     :     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:104:5]
+ 104 | !property: value;
+     : ^
      `----
 
   x Delim { value: '!' }
-     ,-[$DIR/tests/recovery/hacks/input.css:103:9]
- 103 | r {
- 104 |     !property: value;
-     :     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:104:5]
+ 104 | !property: value;
+     : ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:103:9]
- 103 | r {
- 104 |     !property: value;
-     :      ^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:104:5]
+ 104 | !property: value;
+     :  ^^^^^^^^
      `----
 
   x Ident { value: Atom('property' type=static), raw: "property" }
-     ,-[$DIR/tests/recovery/hacks/input.css:103:9]
- 103 | r {
- 104 |     !property: value;
-     :      ^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:104:5]
+ 104 | !property: value;
+     :  ^^^^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:103:9]
- 103 | r {
- 104 |     !property: value;
-     :              ^
+     ,-[$DIR/tests/recovery/hacks/input.css:104:5]
+ 104 | !property: value;
+     :          ^
      `----
 
   x Colon
-     ,-[$DIR/tests/recovery/hacks/input.css:103:9]
- 103 | r {
- 104 |     !property: value;
-     :              ^
+     ,-[$DIR/tests/recovery/hacks/input.css:104:5]
+ 104 | !property: value;
+     :          ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:103:9]
- 103 | r {
- 104 |     !property: value;
-     :               ^
+     ,-[$DIR/tests/recovery/hacks/input.css:104:5]
+ 104 | !property: value;
+     :           ^
      `----
 
   x WhiteSpace { value: " " }
-     ,-[$DIR/tests/recovery/hacks/input.css:103:9]
- 103 | r {
- 104 |     !property: value;
-     :               ^
+     ,-[$DIR/tests/recovery/hacks/input.css:104:5]
+ 104 | !property: value;
+     :           ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:103:9]
- 103 | r {
- 104 |     !property: value;
-     :                ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:104:5]
+ 104 | !property: value;
+     :            ^^^^^
      `----
 
   x Ident { value: Atom('value' type=inline), raw: "value" }
-     ,-[$DIR/tests/recovery/hacks/input.css:103:9]
- 103 | r {
- 104 |     !property: value;
-     :                ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:104:5]
+ 104 | !property: value;
+     :            ^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:103:9]
- 103 | r {
- 104 |     !property: value;
-     :                     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:104:5]
+ 104 | !property: value;
+     :                 ^
      `----
 
   x Semi
-     ,-[$DIR/tests/recovery/hacks/input.css:103:9]
- 103 | r {
- 104 |     !property: value;
-     :                     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:104:5]
+ 104 | !property: value;
+     :                 ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:104:19]
- 104 | ue;
- 105 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:105:5]
+ 105 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:104:19]
- 104 | ue;
- 105 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:105:5]
+ 105 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x Declaration
-     ,-[$DIR/tests/recovery/hacks/input.css:104:19]
- 104 | ue;
- 105 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:105:5]
+ 105 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x DeclarationName
-     ,-[$DIR/tests/recovery/hacks/input.css:104:19]
- 104 | ue;
- 105 |     color: red;
-     :     ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:105:5]
+ 105 | color: red;
+     : ^^^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/recovery/hacks/input.css:104:19]
- 104 | ue;
- 105 |     color: red;
-     :     ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:105:5]
+ 105 | color: red;
+     : ^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:104:19]
- 104 | ue;
- 105 |     color: red;
-     :            ^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:105:5]
+ 105 | color: red;
+     :        ^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/recovery/hacks/input.css:104:19]
- 104 | ue;
- 105 |     color: red;
-     :            ^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:105:5]
+ 105 | color: red;
+     :        ^^^
      `----
 
   x Rule
@@ -8057,150 +8036,129 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:107:10]
- 107 |  { 
- 108 |     $property: value;
-     :     ^^^^^^^^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:108:5]
+ 108 | $property: value;
+     : ^^^^^^^^^^^^^^^^^
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:107:10]
- 107 |  { 
- 108 |     $property: value;
-     :     ^^^^^^^^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:108:5]
+ 108 | $property: value;
+     : ^^^^^^^^^^^^^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:107:10]
- 107 |  { 
- 108 |     $property: value;
-     :     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:108:5]
+ 108 | $property: value;
+     : ^
      `----
 
   x Delim { value: '$' }
-     ,-[$DIR/tests/recovery/hacks/input.css:107:10]
- 107 |  { 
- 108 |     $property: value;
-     :     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:108:5]
+ 108 | $property: value;
+     : ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:107:10]
- 107 |  { 
- 108 |     $property: value;
-     :      ^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:108:5]
+ 108 | $property: value;
+     :  ^^^^^^^^
      `----
 
   x Ident { value: Atom('property' type=static), raw: "property" }
-     ,-[$DIR/tests/recovery/hacks/input.css:107:10]
- 107 |  { 
- 108 |     $property: value;
-     :      ^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:108:5]
+ 108 | $property: value;
+     :  ^^^^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:107:10]
- 107 |  { 
- 108 |     $property: value;
-     :              ^
+     ,-[$DIR/tests/recovery/hacks/input.css:108:5]
+ 108 | $property: value;
+     :          ^
      `----
 
   x Colon
-     ,-[$DIR/tests/recovery/hacks/input.css:107:10]
- 107 |  { 
- 108 |     $property: value;
-     :              ^
+     ,-[$DIR/tests/recovery/hacks/input.css:108:5]
+ 108 | $property: value;
+     :          ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:107:10]
- 107 |  { 
- 108 |     $property: value;
-     :               ^
+     ,-[$DIR/tests/recovery/hacks/input.css:108:5]
+ 108 | $property: value;
+     :           ^
      `----
 
   x WhiteSpace { value: " " }
-     ,-[$DIR/tests/recovery/hacks/input.css:107:10]
- 107 |  { 
- 108 |     $property: value;
-     :               ^
+     ,-[$DIR/tests/recovery/hacks/input.css:108:5]
+ 108 | $property: value;
+     :           ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:107:10]
- 107 |  { 
- 108 |     $property: value;
-     :                ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:108:5]
+ 108 | $property: value;
+     :            ^^^^^
      `----
 
   x Ident { value: Atom('value' type=inline), raw: "value" }
-     ,-[$DIR/tests/recovery/hacks/input.css:107:10]
- 107 |  { 
- 108 |     $property: value;
-     :                ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:108:5]
+ 108 | $property: value;
+     :            ^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:107:10]
- 107 |  { 
- 108 |     $property: value;
-     :                     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:108:5]
+ 108 | $property: value;
+     :                 ^
      `----
 
   x Semi
-     ,-[$DIR/tests/recovery/hacks/input.css:107:10]
- 107 |  { 
- 108 |     $property: value;
-     :                     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:108:5]
+ 108 | $property: value;
+     :                 ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:108:19]
- 108 | ue;
- 109 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:109:5]
+ 109 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:108:19]
- 108 | ue;
- 109 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:109:5]
+ 109 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x Declaration
-     ,-[$DIR/tests/recovery/hacks/input.css:108:19]
- 108 | ue;
- 109 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:109:5]
+ 109 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x DeclarationName
-     ,-[$DIR/tests/recovery/hacks/input.css:108:19]
- 108 | ue;
- 109 |     color: red;
-     :     ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:109:5]
+ 109 | color: red;
+     : ^^^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/recovery/hacks/input.css:108:19]
- 108 | ue;
- 109 |     color: red;
-     :     ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:109:5]
+ 109 | color: red;
+     : ^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:108:19]
- 108 | ue;
- 109 |     color: red;
-     :            ^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:109:5]
+ 109 | color: red;
+     :        ^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/recovery/hacks/input.css:108:19]
- 108 | ue;
- 109 |     color: red;
-     :            ^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:109:5]
+ 109 | color: red;
+     :        ^^^
      `----
 
   x Rule
@@ -8270,150 +8228,129 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:111:10]
- 111 |  { 
- 112 |     &property: value;
-     :     ^^^^^^^^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:112:5]
+ 112 | &property: value;
+     : ^^^^^^^^^^^^^^^^^
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:111:10]
- 111 |  { 
- 112 |     &property: value;
-     :     ^^^^^^^^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:112:5]
+ 112 | &property: value;
+     : ^^^^^^^^^^^^^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:111:10]
- 111 |  { 
- 112 |     &property: value;
-     :     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:112:5]
+ 112 | &property: value;
+     : ^
      `----
 
   x Delim { value: '&' }
-     ,-[$DIR/tests/recovery/hacks/input.css:111:10]
- 111 |  { 
- 112 |     &property: value;
-     :     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:112:5]
+ 112 | &property: value;
+     : ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:111:10]
- 111 |  { 
- 112 |     &property: value;
-     :      ^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:112:5]
+ 112 | &property: value;
+     :  ^^^^^^^^
      `----
 
   x Ident { value: Atom('property' type=static), raw: "property" }
-     ,-[$DIR/tests/recovery/hacks/input.css:111:10]
- 111 |  { 
- 112 |     &property: value;
-     :      ^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:112:5]
+ 112 | &property: value;
+     :  ^^^^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:111:10]
- 111 |  { 
- 112 |     &property: value;
-     :              ^
+     ,-[$DIR/tests/recovery/hacks/input.css:112:5]
+ 112 | &property: value;
+     :          ^
      `----
 
   x Colon
-     ,-[$DIR/tests/recovery/hacks/input.css:111:10]
- 111 |  { 
- 112 |     &property: value;
-     :              ^
+     ,-[$DIR/tests/recovery/hacks/input.css:112:5]
+ 112 | &property: value;
+     :          ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:111:10]
- 111 |  { 
- 112 |     &property: value;
-     :               ^
+     ,-[$DIR/tests/recovery/hacks/input.css:112:5]
+ 112 | &property: value;
+     :           ^
      `----
 
   x WhiteSpace { value: " " }
-     ,-[$DIR/tests/recovery/hacks/input.css:111:10]
- 111 |  { 
- 112 |     &property: value;
-     :               ^
+     ,-[$DIR/tests/recovery/hacks/input.css:112:5]
+ 112 | &property: value;
+     :           ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:111:10]
- 111 |  { 
- 112 |     &property: value;
-     :                ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:112:5]
+ 112 | &property: value;
+     :            ^^^^^
      `----
 
   x Ident { value: Atom('value' type=inline), raw: "value" }
-     ,-[$DIR/tests/recovery/hacks/input.css:111:10]
- 111 |  { 
- 112 |     &property: value;
-     :                ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:112:5]
+ 112 | &property: value;
+     :            ^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:111:10]
- 111 |  { 
- 112 |     &property: value;
-     :                     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:112:5]
+ 112 | &property: value;
+     :                 ^
      `----
 
   x Semi
-     ,-[$DIR/tests/recovery/hacks/input.css:111:10]
- 111 |  { 
- 112 |     &property: value;
-     :                     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:112:5]
+ 112 | &property: value;
+     :                 ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:112:19]
- 112 | ue;
- 113 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:113:5]
+ 113 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:112:19]
- 112 | ue;
- 113 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:113:5]
+ 113 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x Declaration
-     ,-[$DIR/tests/recovery/hacks/input.css:112:19]
- 112 | ue;
- 113 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:113:5]
+ 113 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x DeclarationName
-     ,-[$DIR/tests/recovery/hacks/input.css:112:19]
- 112 | ue;
- 113 |     color: red;
-     :     ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:113:5]
+ 113 | color: red;
+     : ^^^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/recovery/hacks/input.css:112:19]
- 112 | ue;
- 113 |     color: red;
-     :     ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:113:5]
+ 113 | color: red;
+     : ^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:112:19]
- 112 | ue;
- 113 |     color: red;
-     :            ^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:113:5]
+ 113 | color: red;
+     :        ^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/recovery/hacks/input.css:112:19]
- 112 | ue;
- 113 |     color: red;
-     :            ^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:113:5]
+ 113 | color: red;
+     :        ^^^
      `----
 
   x Rule
@@ -8483,150 +8420,129 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:115:10]
- 115 |  { 
- 116 |     *property: value;
-     :     ^^^^^^^^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:116:5]
+ 116 | *property: value;
+     : ^^^^^^^^^^^^^^^^^
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:115:10]
- 115 |  { 
- 116 |     *property: value;
-     :     ^^^^^^^^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:116:5]
+ 116 | *property: value;
+     : ^^^^^^^^^^^^^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:115:10]
- 115 |  { 
- 116 |     *property: value;
-     :     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:116:5]
+ 116 | *property: value;
+     : ^
      `----
 
   x Delim { value: '*' }
-     ,-[$DIR/tests/recovery/hacks/input.css:115:10]
- 115 |  { 
- 116 |     *property: value;
-     :     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:116:5]
+ 116 | *property: value;
+     : ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:115:10]
- 115 |  { 
- 116 |     *property: value;
-     :      ^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:116:5]
+ 116 | *property: value;
+     :  ^^^^^^^^
      `----
 
   x Ident { value: Atom('property' type=static), raw: "property" }
-     ,-[$DIR/tests/recovery/hacks/input.css:115:10]
- 115 |  { 
- 116 |     *property: value;
-     :      ^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:116:5]
+ 116 | *property: value;
+     :  ^^^^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:115:10]
- 115 |  { 
- 116 |     *property: value;
-     :              ^
+     ,-[$DIR/tests/recovery/hacks/input.css:116:5]
+ 116 | *property: value;
+     :          ^
      `----
 
   x Colon
-     ,-[$DIR/tests/recovery/hacks/input.css:115:10]
- 115 |  { 
- 116 |     *property: value;
-     :              ^
+     ,-[$DIR/tests/recovery/hacks/input.css:116:5]
+ 116 | *property: value;
+     :          ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:115:10]
- 115 |  { 
- 116 |     *property: value;
-     :               ^
+     ,-[$DIR/tests/recovery/hacks/input.css:116:5]
+ 116 | *property: value;
+     :           ^
      `----
 
   x WhiteSpace { value: " " }
-     ,-[$DIR/tests/recovery/hacks/input.css:115:10]
- 115 |  { 
- 116 |     *property: value;
-     :               ^
+     ,-[$DIR/tests/recovery/hacks/input.css:116:5]
+ 116 | *property: value;
+     :           ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:115:10]
- 115 |  { 
- 116 |     *property: value;
-     :                ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:116:5]
+ 116 | *property: value;
+     :            ^^^^^
      `----
 
   x Ident { value: Atom('value' type=inline), raw: "value" }
-     ,-[$DIR/tests/recovery/hacks/input.css:115:10]
- 115 |  { 
- 116 |     *property: value;
-     :                ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:116:5]
+ 116 | *property: value;
+     :            ^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:115:10]
- 115 |  { 
- 116 |     *property: value;
-     :                     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:116:5]
+ 116 | *property: value;
+     :                 ^
      `----
 
   x Semi
-     ,-[$DIR/tests/recovery/hacks/input.css:115:10]
- 115 |  { 
- 116 |     *property: value;
-     :                     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:116:5]
+ 116 | *property: value;
+     :                 ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:116:19]
- 116 | ue;
- 117 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:117:5]
+ 117 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:116:19]
- 116 | ue;
- 117 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:117:5]
+ 117 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x Declaration
-     ,-[$DIR/tests/recovery/hacks/input.css:116:19]
- 116 | ue;
- 117 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:117:5]
+ 117 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x DeclarationName
-     ,-[$DIR/tests/recovery/hacks/input.css:116:19]
- 116 | ue;
- 117 |     color: red;
-     :     ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:117:5]
+ 117 | color: red;
+     : ^^^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/recovery/hacks/input.css:116:19]
- 116 | ue;
- 117 |     color: red;
-     :     ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:117:5]
+ 117 | color: red;
+     : ^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:116:19]
- 116 | ue;
- 117 |     color: red;
-     :            ^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:117:5]
+ 117 | color: red;
+     :        ^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/recovery/hacks/input.css:116:19]
- 116 | ue;
- 117 |     color: red;
-     :            ^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:117:5]
+ 117 | color: red;
+     :        ^^^
      `----
 
   x Rule
@@ -8696,150 +8612,129 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:119:10]
- 119 |  { 
- 120 |     )property: value;
-     :     ^^^^^^^^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:120:5]
+ 120 | )property: value;
+     : ^^^^^^^^^^^^^^^^^
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:119:10]
- 119 |  { 
- 120 |     )property: value;
-     :     ^^^^^^^^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:120:5]
+ 120 | )property: value;
+     : ^^^^^^^^^^^^^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:119:10]
- 119 |  { 
- 120 |     )property: value;
-     :     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:120:5]
+ 120 | )property: value;
+     : ^
      `----
 
   x RParen
-     ,-[$DIR/tests/recovery/hacks/input.css:119:10]
- 119 |  { 
- 120 |     )property: value;
-     :     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:120:5]
+ 120 | )property: value;
+     : ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:119:10]
- 119 |  { 
- 120 |     )property: value;
-     :      ^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:120:5]
+ 120 | )property: value;
+     :  ^^^^^^^^
      `----
 
   x Ident { value: Atom('property' type=static), raw: "property" }
-     ,-[$DIR/tests/recovery/hacks/input.css:119:10]
- 119 |  { 
- 120 |     )property: value;
-     :      ^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:120:5]
+ 120 | )property: value;
+     :  ^^^^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:119:10]
- 119 |  { 
- 120 |     )property: value;
-     :              ^
+     ,-[$DIR/tests/recovery/hacks/input.css:120:5]
+ 120 | )property: value;
+     :          ^
      `----
 
   x Colon
-     ,-[$DIR/tests/recovery/hacks/input.css:119:10]
- 119 |  { 
- 120 |     )property: value;
-     :              ^
+     ,-[$DIR/tests/recovery/hacks/input.css:120:5]
+ 120 | )property: value;
+     :          ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:119:10]
- 119 |  { 
- 120 |     )property: value;
-     :               ^
+     ,-[$DIR/tests/recovery/hacks/input.css:120:5]
+ 120 | )property: value;
+     :           ^
      `----
 
   x WhiteSpace { value: " " }
-     ,-[$DIR/tests/recovery/hacks/input.css:119:10]
- 119 |  { 
- 120 |     )property: value;
-     :               ^
+     ,-[$DIR/tests/recovery/hacks/input.css:120:5]
+ 120 | )property: value;
+     :           ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:119:10]
- 119 |  { 
- 120 |     )property: value;
-     :                ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:120:5]
+ 120 | )property: value;
+     :            ^^^^^
      `----
 
   x Ident { value: Atom('value' type=inline), raw: "value" }
-     ,-[$DIR/tests/recovery/hacks/input.css:119:10]
- 119 |  { 
- 120 |     )property: value;
-     :                ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:120:5]
+ 120 | )property: value;
+     :            ^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:119:10]
- 119 |  { 
- 120 |     )property: value;
-     :                     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:120:5]
+ 120 | )property: value;
+     :                 ^
      `----
 
   x Semi
-     ,-[$DIR/tests/recovery/hacks/input.css:119:10]
- 119 |  { 
- 120 |     )property: value;
-     :                     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:120:5]
+ 120 | )property: value;
+     :                 ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:120:19]
- 120 | ue;
- 121 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:121:5]
+ 121 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:120:19]
- 120 | ue;
- 121 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:121:5]
+ 121 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x Declaration
-     ,-[$DIR/tests/recovery/hacks/input.css:120:19]
- 120 | ue;
- 121 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:121:5]
+ 121 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x DeclarationName
-     ,-[$DIR/tests/recovery/hacks/input.css:120:19]
- 120 | ue;
- 121 |     color: red;
-     :     ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:121:5]
+ 121 | color: red;
+     : ^^^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/recovery/hacks/input.css:120:19]
- 120 | ue;
- 121 |     color: red;
-     :     ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:121:5]
+ 121 | color: red;
+     : ^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:120:19]
- 120 | ue;
- 121 |     color: red;
-     :            ^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:121:5]
+ 121 | color: red;
+     :        ^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/recovery/hacks/input.css:120:19]
- 120 | ue;
- 121 |     color: red;
-     :            ^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:121:5]
+ 121 | color: red;
+     :        ^^^
      `----
 
   x Rule
@@ -8909,150 +8804,129 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:123:10]
- 123 |  { 
- 124 |     =property: value;
-     :     ^^^^^^^^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:124:5]
+ 124 | =property: value;
+     : ^^^^^^^^^^^^^^^^^
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:123:10]
- 123 |  { 
- 124 |     =property: value;
-     :     ^^^^^^^^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:124:5]
+ 124 | =property: value;
+     : ^^^^^^^^^^^^^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:123:10]
- 123 |  { 
- 124 |     =property: value;
-     :     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:124:5]
+ 124 | =property: value;
+     : ^
      `----
 
   x Delim { value: '=' }
-     ,-[$DIR/tests/recovery/hacks/input.css:123:10]
- 123 |  { 
- 124 |     =property: value;
-     :     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:124:5]
+ 124 | =property: value;
+     : ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:123:10]
- 123 |  { 
- 124 |     =property: value;
-     :      ^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:124:5]
+ 124 | =property: value;
+     :  ^^^^^^^^
      `----
 
   x Ident { value: Atom('property' type=static), raw: "property" }
-     ,-[$DIR/tests/recovery/hacks/input.css:123:10]
- 123 |  { 
- 124 |     =property: value;
-     :      ^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:124:5]
+ 124 | =property: value;
+     :  ^^^^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:123:10]
- 123 |  { 
- 124 |     =property: value;
-     :              ^
+     ,-[$DIR/tests/recovery/hacks/input.css:124:5]
+ 124 | =property: value;
+     :          ^
      `----
 
   x Colon
-     ,-[$DIR/tests/recovery/hacks/input.css:123:10]
- 123 |  { 
- 124 |     =property: value;
-     :              ^
+     ,-[$DIR/tests/recovery/hacks/input.css:124:5]
+ 124 | =property: value;
+     :          ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:123:10]
- 123 |  { 
- 124 |     =property: value;
-     :               ^
+     ,-[$DIR/tests/recovery/hacks/input.css:124:5]
+ 124 | =property: value;
+     :           ^
      `----
 
   x WhiteSpace { value: " " }
-     ,-[$DIR/tests/recovery/hacks/input.css:123:10]
- 123 |  { 
- 124 |     =property: value;
-     :               ^
+     ,-[$DIR/tests/recovery/hacks/input.css:124:5]
+ 124 | =property: value;
+     :           ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:123:10]
- 123 |  { 
- 124 |     =property: value;
-     :                ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:124:5]
+ 124 | =property: value;
+     :            ^^^^^
      `----
 
   x Ident { value: Atom('value' type=inline), raw: "value" }
-     ,-[$DIR/tests/recovery/hacks/input.css:123:10]
- 123 |  { 
- 124 |     =property: value;
-     :                ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:124:5]
+ 124 | =property: value;
+     :            ^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:123:10]
- 123 |  { 
- 124 |     =property: value;
-     :                     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:124:5]
+ 124 | =property: value;
+     :                 ^
      `----
 
   x Semi
-     ,-[$DIR/tests/recovery/hacks/input.css:123:10]
- 123 |  { 
- 124 |     =property: value;
-     :                     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:124:5]
+ 124 | =property: value;
+     :                 ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:124:19]
- 124 | ue;
- 125 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:125:5]
+ 125 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:124:19]
- 124 | ue;
- 125 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:125:5]
+ 125 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x Declaration
-     ,-[$DIR/tests/recovery/hacks/input.css:124:19]
- 124 | ue;
- 125 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:125:5]
+ 125 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x DeclarationName
-     ,-[$DIR/tests/recovery/hacks/input.css:124:19]
- 124 | ue;
- 125 |     color: red;
-     :     ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:125:5]
+ 125 | color: red;
+     : ^^^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/recovery/hacks/input.css:124:19]
- 124 | ue;
- 125 |     color: red;
-     :     ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:125:5]
+ 125 | color: red;
+     : ^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:124:19]
- 124 | ue;
- 125 |     color: red;
-     :            ^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:125:5]
+ 125 | color: red;
+     :        ^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/recovery/hacks/input.css:124:19]
- 124 | ue;
- 125 |     color: red;
-     :            ^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:125:5]
+ 125 | color: red;
+     :        ^^^
      `----
 
   x Rule
@@ -9122,150 +8996,129 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:127:10]
- 127 |  { 
- 128 |     %property: value;
-     :     ^^^^^^^^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:128:5]
+ 128 | %property: value;
+     : ^^^^^^^^^^^^^^^^^
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:127:10]
- 127 |  { 
- 128 |     %property: value;
-     :     ^^^^^^^^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:128:5]
+ 128 | %property: value;
+     : ^^^^^^^^^^^^^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:127:10]
- 127 |  { 
- 128 |     %property: value;
-     :     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:128:5]
+ 128 | %property: value;
+     : ^
      `----
 
   x Delim { value: '%' }
-     ,-[$DIR/tests/recovery/hacks/input.css:127:10]
- 127 |  { 
- 128 |     %property: value;
-     :     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:128:5]
+ 128 | %property: value;
+     : ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:127:10]
- 127 |  { 
- 128 |     %property: value;
-     :      ^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:128:5]
+ 128 | %property: value;
+     :  ^^^^^^^^
      `----
 
   x Ident { value: Atom('property' type=static), raw: "property" }
-     ,-[$DIR/tests/recovery/hacks/input.css:127:10]
- 127 |  { 
- 128 |     %property: value;
-     :      ^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:128:5]
+ 128 | %property: value;
+     :  ^^^^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:127:10]
- 127 |  { 
- 128 |     %property: value;
-     :              ^
+     ,-[$DIR/tests/recovery/hacks/input.css:128:5]
+ 128 | %property: value;
+     :          ^
      `----
 
   x Colon
-     ,-[$DIR/tests/recovery/hacks/input.css:127:10]
- 127 |  { 
- 128 |     %property: value;
-     :              ^
+     ,-[$DIR/tests/recovery/hacks/input.css:128:5]
+ 128 | %property: value;
+     :          ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:127:10]
- 127 |  { 
- 128 |     %property: value;
-     :               ^
+     ,-[$DIR/tests/recovery/hacks/input.css:128:5]
+ 128 | %property: value;
+     :           ^
      `----
 
   x WhiteSpace { value: " " }
-     ,-[$DIR/tests/recovery/hacks/input.css:127:10]
- 127 |  { 
- 128 |     %property: value;
-     :               ^
+     ,-[$DIR/tests/recovery/hacks/input.css:128:5]
+ 128 | %property: value;
+     :           ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:127:10]
- 127 |  { 
- 128 |     %property: value;
-     :                ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:128:5]
+ 128 | %property: value;
+     :            ^^^^^
      `----
 
   x Ident { value: Atom('value' type=inline), raw: "value" }
-     ,-[$DIR/tests/recovery/hacks/input.css:127:10]
- 127 |  { 
- 128 |     %property: value;
-     :                ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:128:5]
+ 128 | %property: value;
+     :            ^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:127:10]
- 127 |  { 
- 128 |     %property: value;
-     :                     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:128:5]
+ 128 | %property: value;
+     :                 ^
      `----
 
   x Semi
-     ,-[$DIR/tests/recovery/hacks/input.css:127:10]
- 127 |  { 
- 128 |     %property: value;
-     :                     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:128:5]
+ 128 | %property: value;
+     :                 ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:128:19]
- 128 | ue;
- 129 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:129:5]
+ 129 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:128:19]
- 128 | ue;
- 129 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:129:5]
+ 129 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x Declaration
-     ,-[$DIR/tests/recovery/hacks/input.css:128:19]
- 128 | ue;
- 129 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:129:5]
+ 129 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x DeclarationName
-     ,-[$DIR/tests/recovery/hacks/input.css:128:19]
- 128 | ue;
- 129 |     color: red;
-     :     ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:129:5]
+ 129 | color: red;
+     : ^^^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/recovery/hacks/input.css:128:19]
- 128 | ue;
- 129 |     color: red;
-     :     ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:129:5]
+ 129 | color: red;
+     : ^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:128:19]
- 128 | ue;
- 129 |     color: red;
-     :            ^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:129:5]
+ 129 | color: red;
+     :        ^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/recovery/hacks/input.css:128:19]
- 128 | ue;
- 129 |     color: red;
-     :            ^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:129:5]
+ 129 | color: red;
+     :        ^^^
      `----
 
   x Rule
@@ -9335,150 +9188,129 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:131:10]
- 131 |  { 
- 132 |     +property: value;
-     :     ^^^^^^^^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:132:5]
+ 132 | +property: value;
+     : ^^^^^^^^^^^^^^^^^
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:131:10]
- 131 |  { 
- 132 |     +property: value;
-     :     ^^^^^^^^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:132:5]
+ 132 | +property: value;
+     : ^^^^^^^^^^^^^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:131:10]
- 131 |  { 
- 132 |     +property: value;
-     :     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:132:5]
+ 132 | +property: value;
+     : ^
      `----
 
   x Delim { value: '+' }
-     ,-[$DIR/tests/recovery/hacks/input.css:131:10]
- 131 |  { 
- 132 |     +property: value;
-     :     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:132:5]
+ 132 | +property: value;
+     : ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:131:10]
- 131 |  { 
- 132 |     +property: value;
-     :      ^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:132:5]
+ 132 | +property: value;
+     :  ^^^^^^^^
      `----
 
   x Ident { value: Atom('property' type=static), raw: "property" }
-     ,-[$DIR/tests/recovery/hacks/input.css:131:10]
- 131 |  { 
- 132 |     +property: value;
-     :      ^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:132:5]
+ 132 | +property: value;
+     :  ^^^^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:131:10]
- 131 |  { 
- 132 |     +property: value;
-     :              ^
+     ,-[$DIR/tests/recovery/hacks/input.css:132:5]
+ 132 | +property: value;
+     :          ^
      `----
 
   x Colon
-     ,-[$DIR/tests/recovery/hacks/input.css:131:10]
- 131 |  { 
- 132 |     +property: value;
-     :              ^
+     ,-[$DIR/tests/recovery/hacks/input.css:132:5]
+ 132 | +property: value;
+     :          ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:131:10]
- 131 |  { 
- 132 |     +property: value;
-     :               ^
+     ,-[$DIR/tests/recovery/hacks/input.css:132:5]
+ 132 | +property: value;
+     :           ^
      `----
 
   x WhiteSpace { value: " " }
-     ,-[$DIR/tests/recovery/hacks/input.css:131:10]
- 131 |  { 
- 132 |     +property: value;
-     :               ^
+     ,-[$DIR/tests/recovery/hacks/input.css:132:5]
+ 132 | +property: value;
+     :           ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:131:10]
- 131 |  { 
- 132 |     +property: value;
-     :                ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:132:5]
+ 132 | +property: value;
+     :            ^^^^^
      `----
 
   x Ident { value: Atom('value' type=inline), raw: "value" }
-     ,-[$DIR/tests/recovery/hacks/input.css:131:10]
- 131 |  { 
- 132 |     +property: value;
-     :                ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:132:5]
+ 132 | +property: value;
+     :            ^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:131:10]
- 131 |  { 
- 132 |     +property: value;
-     :                     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:132:5]
+ 132 | +property: value;
+     :                 ^
      `----
 
   x Semi
-     ,-[$DIR/tests/recovery/hacks/input.css:131:10]
- 131 |  { 
- 132 |     +property: value;
-     :                     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:132:5]
+ 132 | +property: value;
+     :                 ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:132:19]
- 132 | ue;
- 133 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:133:5]
+ 133 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:132:19]
- 132 | ue;
- 133 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:133:5]
+ 133 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x Declaration
-     ,-[$DIR/tests/recovery/hacks/input.css:132:19]
- 132 | ue;
- 133 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:133:5]
+ 133 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x DeclarationName
-     ,-[$DIR/tests/recovery/hacks/input.css:132:19]
- 132 | ue;
- 133 |     color: red;
-     :     ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:133:5]
+ 133 | color: red;
+     : ^^^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/recovery/hacks/input.css:132:19]
- 132 | ue;
- 133 |     color: red;
-     :     ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:133:5]
+ 133 | color: red;
+     : ^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:132:19]
- 132 | ue;
- 133 |     color: red;
-     :            ^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:133:5]
+ 133 | color: red;
+     :        ^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/recovery/hacks/input.css:132:19]
- 132 | ue;
- 133 |     color: red;
-     :            ^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:133:5]
+ 133 | color: red;
+     :        ^^^
      `----
 
   x Rule
@@ -9548,129 +9380,111 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:136:19]
- 136 | ue;
- 137 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:137:5]
+ 137 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:136:19]
- 136 | ue;
- 137 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:137:5]
+ 137 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x Declaration
-     ,-[$DIR/tests/recovery/hacks/input.css:136:19]
- 136 | ue;
- 137 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:137:5]
+ 137 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x DeclarationName
-     ,-[$DIR/tests/recovery/hacks/input.css:136:19]
- 136 | ue;
- 137 |     color: red;
-     :     ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:137:5]
+ 137 | color: red;
+     : ^^^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/recovery/hacks/input.css:136:19]
- 136 | ue;
- 137 |     color: red;
-     :     ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:137:5]
+ 137 | color: red;
+     : ^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:136:19]
- 136 | ue;
- 137 |     color: red;
-     :            ^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:137:5]
+ 137 | color: red;
+     :        ^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/recovery/hacks/input.css:136:19]
- 136 | ue;
- 137 |     color: red;
-     :            ^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:137:5]
+ 137 | color: red;
+     :        ^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:135:10]
- 135 |  { 
- 136 |     @property: value;
-     :     ^^^^^^^^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:136:5]
+ 136 | @property: value;
+     : ^^^^^^^^^^^^^^^^^
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:135:10]
- 135 |  { 
- 136 |     @property: value;
-     :     ^^^^^^^^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:136:5]
+ 136 | @property: value;
+     : ^^^^^^^^^^^^^^^^^
      `----
 
   x AtRule
-     ,-[$DIR/tests/recovery/hacks/input.css:135:10]
- 135 |  { 
- 136 |     @property: value;
-     :     ^^^^^^^^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:136:5]
+ 136 | @property: value;
+     : ^^^^^^^^^^^^^^^^^
      `----
 
   x AtRuleName
-     ,-[$DIR/tests/recovery/hacks/input.css:135:10]
- 135 |  { 
- 136 |     @property: value;
-     :      ^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:136:5]
+ 136 | @property: value;
+     :  ^^^^^^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/recovery/hacks/input.css:135:10]
- 135 |  { 
- 136 |     @property: value;
-     :      ^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:136:5]
+ 136 | @property: value;
+     :  ^^^^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:135:10]
- 135 |  { 
- 136 |     @property: value;
-     :              ^
+     ,-[$DIR/tests/recovery/hacks/input.css:136:5]
+ 136 | @property: value;
+     :          ^
      `----
 
   x Colon
-     ,-[$DIR/tests/recovery/hacks/input.css:135:10]
- 135 |  { 
- 136 |     @property: value;
-     :              ^
+     ,-[$DIR/tests/recovery/hacks/input.css:136:5]
+ 136 | @property: value;
+     :          ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:135:10]
- 135 |  { 
- 136 |     @property: value;
-     :               ^
+     ,-[$DIR/tests/recovery/hacks/input.css:136:5]
+ 136 | @property: value;
+     :           ^
      `----
 
   x WhiteSpace { value: " " }
-     ,-[$DIR/tests/recovery/hacks/input.css:135:10]
- 135 |  { 
- 136 |     @property: value;
-     :               ^
+     ,-[$DIR/tests/recovery/hacks/input.css:136:5]
+ 136 | @property: value;
+     :           ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:135:10]
- 135 |  { 
- 136 |     @property: value;
-     :                ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:136:5]
+ 136 | @property: value;
+     :            ^^^^^
      `----
 
   x Ident { value: Atom('value' type=inline), raw: "value" }
-     ,-[$DIR/tests/recovery/hacks/input.css:135:10]
- 135 |  { 
- 136 |     @property: value;
-     :                ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:136:5]
+ 136 | @property: value;
+     :            ^^^^^
      `----
 
   x Rule
@@ -9740,150 +9554,129 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:139:10]
- 139 |  { 
- 140 |     ,property: value;
-     :     ^^^^^^^^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:140:5]
+ 140 | ,property: value;
+     : ^^^^^^^^^^^^^^^^^
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:139:10]
- 139 |  { 
- 140 |     ,property: value;
-     :     ^^^^^^^^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:140:5]
+ 140 | ,property: value;
+     : ^^^^^^^^^^^^^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:139:10]
- 139 |  { 
- 140 |     ,property: value;
-     :     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:140:5]
+ 140 | ,property: value;
+     : ^
      `----
 
   x Comma
-     ,-[$DIR/tests/recovery/hacks/input.css:139:10]
- 139 |  { 
- 140 |     ,property: value;
-     :     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:140:5]
+ 140 | ,property: value;
+     : ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:139:10]
- 139 |  { 
- 140 |     ,property: value;
-     :      ^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:140:5]
+ 140 | ,property: value;
+     :  ^^^^^^^^
      `----
 
   x Ident { value: Atom('property' type=static), raw: "property" }
-     ,-[$DIR/tests/recovery/hacks/input.css:139:10]
- 139 |  { 
- 140 |     ,property: value;
-     :      ^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:140:5]
+ 140 | ,property: value;
+     :  ^^^^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:139:10]
- 139 |  { 
- 140 |     ,property: value;
-     :              ^
+     ,-[$DIR/tests/recovery/hacks/input.css:140:5]
+ 140 | ,property: value;
+     :          ^
      `----
 
   x Colon
-     ,-[$DIR/tests/recovery/hacks/input.css:139:10]
- 139 |  { 
- 140 |     ,property: value;
-     :              ^
+     ,-[$DIR/tests/recovery/hacks/input.css:140:5]
+ 140 | ,property: value;
+     :          ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:139:10]
- 139 |  { 
- 140 |     ,property: value;
-     :               ^
+     ,-[$DIR/tests/recovery/hacks/input.css:140:5]
+ 140 | ,property: value;
+     :           ^
      `----
 
   x WhiteSpace { value: " " }
-     ,-[$DIR/tests/recovery/hacks/input.css:139:10]
- 139 |  { 
- 140 |     ,property: value;
-     :               ^
+     ,-[$DIR/tests/recovery/hacks/input.css:140:5]
+ 140 | ,property: value;
+     :           ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:139:10]
- 139 |  { 
- 140 |     ,property: value;
-     :                ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:140:5]
+ 140 | ,property: value;
+     :            ^^^^^
      `----
 
   x Ident { value: Atom('value' type=inline), raw: "value" }
-     ,-[$DIR/tests/recovery/hacks/input.css:139:10]
- 139 |  { 
- 140 |     ,property: value;
-     :                ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:140:5]
+ 140 | ,property: value;
+     :            ^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:139:10]
- 139 |  { 
- 140 |     ,property: value;
-     :                     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:140:5]
+ 140 | ,property: value;
+     :                 ^
      `----
 
   x Semi
-     ,-[$DIR/tests/recovery/hacks/input.css:139:10]
- 139 |  { 
- 140 |     ,property: value;
-     :                     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:140:5]
+ 140 | ,property: value;
+     :                 ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:140:19]
- 140 | ue;
- 141 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:141:5]
+ 141 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:140:19]
- 140 | ue;
- 141 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:141:5]
+ 141 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x Declaration
-     ,-[$DIR/tests/recovery/hacks/input.css:140:19]
- 140 | ue;
- 141 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:141:5]
+ 141 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x DeclarationName
-     ,-[$DIR/tests/recovery/hacks/input.css:140:19]
- 140 | ue;
- 141 |     color: red;
-     :     ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:141:5]
+ 141 | color: red;
+     : ^^^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/recovery/hacks/input.css:140:19]
- 140 | ue;
- 141 |     color: red;
-     :     ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:141:5]
+ 141 | color: red;
+     : ^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:140:19]
- 140 | ue;
- 141 |     color: red;
-     :            ^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:141:5]
+ 141 | color: red;
+     :        ^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/recovery/hacks/input.css:140:19]
- 140 | ue;
- 141 |     color: red;
-     :            ^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:141:5]
+ 141 | color: red;
+     :        ^^^
      `----
 
   x Rule
@@ -9953,150 +9746,129 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:143:10]
- 143 |  { 
- 144 |     .property: value;
-     :     ^^^^^^^^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:144:5]
+ 144 | .property: value;
+     : ^^^^^^^^^^^^^^^^^
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:143:10]
- 143 |  { 
- 144 |     .property: value;
-     :     ^^^^^^^^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:144:5]
+ 144 | .property: value;
+     : ^^^^^^^^^^^^^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:143:10]
- 143 |  { 
- 144 |     .property: value;
-     :     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:144:5]
+ 144 | .property: value;
+     : ^
      `----
 
   x Delim { value: '.' }
-     ,-[$DIR/tests/recovery/hacks/input.css:143:10]
- 143 |  { 
- 144 |     .property: value;
-     :     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:144:5]
+ 144 | .property: value;
+     : ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:143:10]
- 143 |  { 
- 144 |     .property: value;
-     :      ^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:144:5]
+ 144 | .property: value;
+     :  ^^^^^^^^
      `----
 
   x Ident { value: Atom('property' type=static), raw: "property" }
-     ,-[$DIR/tests/recovery/hacks/input.css:143:10]
- 143 |  { 
- 144 |     .property: value;
-     :      ^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:144:5]
+ 144 | .property: value;
+     :  ^^^^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:143:10]
- 143 |  { 
- 144 |     .property: value;
-     :              ^
+     ,-[$DIR/tests/recovery/hacks/input.css:144:5]
+ 144 | .property: value;
+     :          ^
      `----
 
   x Colon
-     ,-[$DIR/tests/recovery/hacks/input.css:143:10]
- 143 |  { 
- 144 |     .property: value;
-     :              ^
+     ,-[$DIR/tests/recovery/hacks/input.css:144:5]
+ 144 | .property: value;
+     :          ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:143:10]
- 143 |  { 
- 144 |     .property: value;
-     :               ^
+     ,-[$DIR/tests/recovery/hacks/input.css:144:5]
+ 144 | .property: value;
+     :           ^
      `----
 
   x WhiteSpace { value: " " }
-     ,-[$DIR/tests/recovery/hacks/input.css:143:10]
- 143 |  { 
- 144 |     .property: value;
-     :               ^
+     ,-[$DIR/tests/recovery/hacks/input.css:144:5]
+ 144 | .property: value;
+     :           ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:143:10]
- 143 |  { 
- 144 |     .property: value;
-     :                ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:144:5]
+ 144 | .property: value;
+     :            ^^^^^
      `----
 
   x Ident { value: Atom('value' type=inline), raw: "value" }
-     ,-[$DIR/tests/recovery/hacks/input.css:143:10]
- 143 |  { 
- 144 |     .property: value;
-     :                ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:144:5]
+ 144 | .property: value;
+     :            ^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:143:10]
- 143 |  { 
- 144 |     .property: value;
-     :                     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:144:5]
+ 144 | .property: value;
+     :                 ^
      `----
 
   x Semi
-     ,-[$DIR/tests/recovery/hacks/input.css:143:10]
- 143 |  { 
- 144 |     .property: value;
-     :                     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:144:5]
+ 144 | .property: value;
+     :                 ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:144:19]
- 144 | ue;
- 145 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:145:5]
+ 145 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:144:19]
- 144 | ue;
- 145 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:145:5]
+ 145 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x Declaration
-     ,-[$DIR/tests/recovery/hacks/input.css:144:19]
- 144 | ue;
- 145 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:145:5]
+ 145 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x DeclarationName
-     ,-[$DIR/tests/recovery/hacks/input.css:144:19]
- 144 | ue;
- 145 |     color: red;
-     :     ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:145:5]
+ 145 | color: red;
+     : ^^^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/recovery/hacks/input.css:144:19]
- 144 | ue;
- 145 |     color: red;
-     :     ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:145:5]
+ 145 | color: red;
+     : ^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:144:19]
- 144 | ue;
- 145 |     color: red;
-     :            ^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:145:5]
+ 145 | color: red;
+     :        ^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/recovery/hacks/input.css:144:19]
- 144 | ue;
- 145 |     color: red;
-     :            ^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:145:5]
+ 145 | color: red;
+     :        ^^^
      `----
 
   x Rule
@@ -10166,150 +9938,129 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:147:10]
- 147 |  { 
- 148 |     /property: value;
-     :     ^^^^^^^^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:148:5]
+ 148 | /property: value;
+     : ^^^^^^^^^^^^^^^^^
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:147:10]
- 147 |  { 
- 148 |     /property: value;
-     :     ^^^^^^^^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:148:5]
+ 148 | /property: value;
+     : ^^^^^^^^^^^^^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:147:10]
- 147 |  { 
- 148 |     /property: value;
-     :     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:148:5]
+ 148 | /property: value;
+     : ^
      `----
 
   x Delim { value: '/' }
-     ,-[$DIR/tests/recovery/hacks/input.css:147:10]
- 147 |  { 
- 148 |     /property: value;
-     :     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:148:5]
+ 148 | /property: value;
+     : ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:147:10]
- 147 |  { 
- 148 |     /property: value;
-     :      ^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:148:5]
+ 148 | /property: value;
+     :  ^^^^^^^^
      `----
 
   x Ident { value: Atom('property' type=static), raw: "property" }
-     ,-[$DIR/tests/recovery/hacks/input.css:147:10]
- 147 |  { 
- 148 |     /property: value;
-     :      ^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:148:5]
+ 148 | /property: value;
+     :  ^^^^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:147:10]
- 147 |  { 
- 148 |     /property: value;
-     :              ^
+     ,-[$DIR/tests/recovery/hacks/input.css:148:5]
+ 148 | /property: value;
+     :          ^
      `----
 
   x Colon
-     ,-[$DIR/tests/recovery/hacks/input.css:147:10]
- 147 |  { 
- 148 |     /property: value;
-     :              ^
+     ,-[$DIR/tests/recovery/hacks/input.css:148:5]
+ 148 | /property: value;
+     :          ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:147:10]
- 147 |  { 
- 148 |     /property: value;
-     :               ^
+     ,-[$DIR/tests/recovery/hacks/input.css:148:5]
+ 148 | /property: value;
+     :           ^
      `----
 
   x WhiteSpace { value: " " }
-     ,-[$DIR/tests/recovery/hacks/input.css:147:10]
- 147 |  { 
- 148 |     /property: value;
-     :               ^
+     ,-[$DIR/tests/recovery/hacks/input.css:148:5]
+ 148 | /property: value;
+     :           ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:147:10]
- 147 |  { 
- 148 |     /property: value;
-     :                ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:148:5]
+ 148 | /property: value;
+     :            ^^^^^
      `----
 
   x Ident { value: Atom('value' type=inline), raw: "value" }
-     ,-[$DIR/tests/recovery/hacks/input.css:147:10]
- 147 |  { 
- 148 |     /property: value;
-     :                ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:148:5]
+ 148 | /property: value;
+     :            ^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:147:10]
- 147 |  { 
- 148 |     /property: value;
-     :                     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:148:5]
+ 148 | /property: value;
+     :                 ^
      `----
 
   x Semi
-     ,-[$DIR/tests/recovery/hacks/input.css:147:10]
- 147 |  { 
- 148 |     /property: value;
-     :                     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:148:5]
+ 148 | /property: value;
+     :                 ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:148:19]
- 148 | ue;
- 149 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:149:5]
+ 149 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:148:19]
- 148 | ue;
- 149 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:149:5]
+ 149 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x Declaration
-     ,-[$DIR/tests/recovery/hacks/input.css:148:19]
- 148 | ue;
- 149 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:149:5]
+ 149 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x DeclarationName
-     ,-[$DIR/tests/recovery/hacks/input.css:148:19]
- 148 | ue;
- 149 |     color: red;
-     :     ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:149:5]
+ 149 | color: red;
+     : ^^^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/recovery/hacks/input.css:148:19]
- 148 | ue;
- 149 |     color: red;
-     :     ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:149:5]
+ 149 | color: red;
+     : ^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:148:19]
- 148 | ue;
- 149 |     color: red;
-     :            ^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:149:5]
+ 149 | color: red;
+     :        ^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/recovery/hacks/input.css:148:19]
- 148 | ue;
- 149 |     color: red;
-     :            ^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:149:5]
+ 149 | color: red;
+     :        ^^^
      `----
 
   x Rule
@@ -10379,150 +10130,129 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:151:10]
- 151 |  { 
- 152 |     `property: value;
-     :     ^^^^^^^^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:152:5]
+ 152 | `property: value;
+     : ^^^^^^^^^^^^^^^^^
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:151:10]
- 151 |  { 
- 152 |     `property: value;
-     :     ^^^^^^^^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:152:5]
+ 152 | `property: value;
+     : ^^^^^^^^^^^^^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:151:10]
- 151 |  { 
- 152 |     `property: value;
-     :     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:152:5]
+ 152 | `property: value;
+     : ^
      `----
 
   x Delim { value: '`' }
-     ,-[$DIR/tests/recovery/hacks/input.css:151:10]
- 151 |  { 
- 152 |     `property: value;
-     :     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:152:5]
+ 152 | `property: value;
+     : ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:151:10]
- 151 |  { 
- 152 |     `property: value;
-     :      ^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:152:5]
+ 152 | `property: value;
+     :  ^^^^^^^^
      `----
 
   x Ident { value: Atom('property' type=static), raw: "property" }
-     ,-[$DIR/tests/recovery/hacks/input.css:151:10]
- 151 |  { 
- 152 |     `property: value;
-     :      ^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:152:5]
+ 152 | `property: value;
+     :  ^^^^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:151:10]
- 151 |  { 
- 152 |     `property: value;
-     :              ^
+     ,-[$DIR/tests/recovery/hacks/input.css:152:5]
+ 152 | `property: value;
+     :          ^
      `----
 
   x Colon
-     ,-[$DIR/tests/recovery/hacks/input.css:151:10]
- 151 |  { 
- 152 |     `property: value;
-     :              ^
+     ,-[$DIR/tests/recovery/hacks/input.css:152:5]
+ 152 | `property: value;
+     :          ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:151:10]
- 151 |  { 
- 152 |     `property: value;
-     :               ^
+     ,-[$DIR/tests/recovery/hacks/input.css:152:5]
+ 152 | `property: value;
+     :           ^
      `----
 
   x WhiteSpace { value: " " }
-     ,-[$DIR/tests/recovery/hacks/input.css:151:10]
- 151 |  { 
- 152 |     `property: value;
-     :               ^
+     ,-[$DIR/tests/recovery/hacks/input.css:152:5]
+ 152 | `property: value;
+     :           ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:151:10]
- 151 |  { 
- 152 |     `property: value;
-     :                ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:152:5]
+ 152 | `property: value;
+     :            ^^^^^
      `----
 
   x Ident { value: Atom('value' type=inline), raw: "value" }
-     ,-[$DIR/tests/recovery/hacks/input.css:151:10]
- 151 |  { 
- 152 |     `property: value;
-     :                ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:152:5]
+ 152 | `property: value;
+     :            ^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:151:10]
- 151 |  { 
- 152 |     `property: value;
-     :                     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:152:5]
+ 152 | `property: value;
+     :                 ^
      `----
 
   x Semi
-     ,-[$DIR/tests/recovery/hacks/input.css:151:10]
- 151 |  { 
- 152 |     `property: value;
-     :                     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:152:5]
+ 152 | `property: value;
+     :                 ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:152:19]
- 152 | ue;
- 153 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:153:5]
+ 153 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:152:19]
- 152 | ue;
- 153 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:153:5]
+ 153 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x Declaration
-     ,-[$DIR/tests/recovery/hacks/input.css:152:19]
- 152 | ue;
- 153 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:153:5]
+ 153 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x DeclarationName
-     ,-[$DIR/tests/recovery/hacks/input.css:152:19]
- 152 | ue;
- 153 |     color: red;
-     :     ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:153:5]
+ 153 | color: red;
+     : ^^^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/recovery/hacks/input.css:152:19]
- 152 | ue;
- 153 |     color: red;
-     :     ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:153:5]
+ 153 | color: red;
+     : ^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:152:19]
- 152 | ue;
- 153 |     color: red;
-     :            ^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:153:5]
+ 153 | color: red;
+     :        ^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/recovery/hacks/input.css:152:19]
- 152 | ue;
- 153 |     color: red;
-     :            ^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:153:5]
+ 153 | color: red;
+     :        ^^^
      `----
 
   x Rule
@@ -10592,150 +10322,129 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:155:10]
- 155 |  { 
- 156 |     ]property: value;
-     :     ^^^^^^^^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:156:5]
+ 156 | ]property: value;
+     : ^^^^^^^^^^^^^^^^^
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:155:10]
- 155 |  { 
- 156 |     ]property: value;
-     :     ^^^^^^^^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:156:5]
+ 156 | ]property: value;
+     : ^^^^^^^^^^^^^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:155:10]
- 155 |  { 
- 156 |     ]property: value;
-     :     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:156:5]
+ 156 | ]property: value;
+     : ^
      `----
 
   x RBracket
-     ,-[$DIR/tests/recovery/hacks/input.css:155:10]
- 155 |  { 
- 156 |     ]property: value;
-     :     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:156:5]
+ 156 | ]property: value;
+     : ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:155:10]
- 155 |  { 
- 156 |     ]property: value;
-     :      ^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:156:5]
+ 156 | ]property: value;
+     :  ^^^^^^^^
      `----
 
   x Ident { value: Atom('property' type=static), raw: "property" }
-     ,-[$DIR/tests/recovery/hacks/input.css:155:10]
- 155 |  { 
- 156 |     ]property: value;
-     :      ^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:156:5]
+ 156 | ]property: value;
+     :  ^^^^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:155:10]
- 155 |  { 
- 156 |     ]property: value;
-     :              ^
+     ,-[$DIR/tests/recovery/hacks/input.css:156:5]
+ 156 | ]property: value;
+     :          ^
      `----
 
   x Colon
-     ,-[$DIR/tests/recovery/hacks/input.css:155:10]
- 155 |  { 
- 156 |     ]property: value;
-     :              ^
+     ,-[$DIR/tests/recovery/hacks/input.css:156:5]
+ 156 | ]property: value;
+     :          ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:155:10]
- 155 |  { 
- 156 |     ]property: value;
-     :               ^
+     ,-[$DIR/tests/recovery/hacks/input.css:156:5]
+ 156 | ]property: value;
+     :           ^
      `----
 
   x WhiteSpace { value: " " }
-     ,-[$DIR/tests/recovery/hacks/input.css:155:10]
- 155 |  { 
- 156 |     ]property: value;
-     :               ^
+     ,-[$DIR/tests/recovery/hacks/input.css:156:5]
+ 156 | ]property: value;
+     :           ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:155:10]
- 155 |  { 
- 156 |     ]property: value;
-     :                ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:156:5]
+ 156 | ]property: value;
+     :            ^^^^^
      `----
 
   x Ident { value: Atom('value' type=inline), raw: "value" }
-     ,-[$DIR/tests/recovery/hacks/input.css:155:10]
- 155 |  { 
- 156 |     ]property: value;
-     :                ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:156:5]
+ 156 | ]property: value;
+     :            ^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:155:10]
- 155 |  { 
- 156 |     ]property: value;
-     :                     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:156:5]
+ 156 | ]property: value;
+     :                 ^
      `----
 
   x Semi
-     ,-[$DIR/tests/recovery/hacks/input.css:155:10]
- 155 |  { 
- 156 |     ]property: value;
-     :                     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:156:5]
+ 156 | ]property: value;
+     :                 ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:156:19]
- 156 | ue;
- 157 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:157:5]
+ 157 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:156:19]
- 156 | ue;
- 157 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:157:5]
+ 157 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x Declaration
-     ,-[$DIR/tests/recovery/hacks/input.css:156:19]
- 156 | ue;
- 157 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:157:5]
+ 157 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x DeclarationName
-     ,-[$DIR/tests/recovery/hacks/input.css:156:19]
- 156 | ue;
- 157 |     color: red;
-     :     ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:157:5]
+ 157 | color: red;
+     : ^^^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/recovery/hacks/input.css:156:19]
- 156 | ue;
- 157 |     color: red;
-     :     ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:157:5]
+ 157 | color: red;
+     : ^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:156:19]
- 156 | ue;
- 157 |     color: red;
-     :            ^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:157:5]
+ 157 | color: red;
+     :        ^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/recovery/hacks/input.css:156:19]
- 156 | ue;
- 157 |     color: red;
-     :            ^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:157:5]
+ 157 | color: red;
+     :        ^^^
      `----
 
   x Rule
@@ -10805,136 +10514,117 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:159:10]
- 159 |  { 
- 160 |     #property: value;
-     :     ^^^^^^^^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:160:5]
+ 160 | #property: value;
+     : ^^^^^^^^^^^^^^^^^
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:159:10]
- 159 |  { 
- 160 |     #property: value;
-     :     ^^^^^^^^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:160:5]
+ 160 | #property: value;
+     : ^^^^^^^^^^^^^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:159:10]
- 159 |  { 
- 160 |     #property: value;
-     :     ^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:160:5]
+ 160 | #property: value;
+     : ^^^^^^^^^
      `----
 
   x Hash { is_id: true, value: Atom('property' type=static), raw: "property" }
-     ,-[$DIR/tests/recovery/hacks/input.css:159:10]
- 159 |  { 
- 160 |     #property: value;
-     :     ^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:160:5]
+ 160 | #property: value;
+     : ^^^^^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:159:10]
- 159 |  { 
- 160 |     #property: value;
-     :              ^
+     ,-[$DIR/tests/recovery/hacks/input.css:160:5]
+ 160 | #property: value;
+     :          ^
      `----
 
   x Colon
-     ,-[$DIR/tests/recovery/hacks/input.css:159:10]
- 159 |  { 
- 160 |     #property: value;
-     :              ^
+     ,-[$DIR/tests/recovery/hacks/input.css:160:5]
+ 160 | #property: value;
+     :          ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:159:10]
- 159 |  { 
- 160 |     #property: value;
-     :               ^
+     ,-[$DIR/tests/recovery/hacks/input.css:160:5]
+ 160 | #property: value;
+     :           ^
      `----
 
   x WhiteSpace { value: " " }
-     ,-[$DIR/tests/recovery/hacks/input.css:159:10]
- 159 |  { 
- 160 |     #property: value;
-     :               ^
+     ,-[$DIR/tests/recovery/hacks/input.css:160:5]
+ 160 | #property: value;
+     :           ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:159:10]
- 159 |  { 
- 160 |     #property: value;
-     :                ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:160:5]
+ 160 | #property: value;
+     :            ^^^^^
      `----
 
   x Ident { value: Atom('value' type=inline), raw: "value" }
-     ,-[$DIR/tests/recovery/hacks/input.css:159:10]
- 159 |  { 
- 160 |     #property: value;
-     :                ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:160:5]
+ 160 | #property: value;
+     :            ^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:159:10]
- 159 |  { 
- 160 |     #property: value;
-     :                     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:160:5]
+ 160 | #property: value;
+     :                 ^
      `----
 
   x Semi
-     ,-[$DIR/tests/recovery/hacks/input.css:159:10]
- 159 |  { 
- 160 |     #property: value;
-     :                     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:160:5]
+ 160 | #property: value;
+     :                 ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:160:19]
- 160 | ue;
- 161 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:161:5]
+ 161 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:160:19]
- 160 | ue;
- 161 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:161:5]
+ 161 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x Declaration
-     ,-[$DIR/tests/recovery/hacks/input.css:160:19]
- 160 | ue;
- 161 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:161:5]
+ 161 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x DeclarationName
-     ,-[$DIR/tests/recovery/hacks/input.css:160:19]
- 160 | ue;
- 161 |     color: red;
-     :     ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:161:5]
+ 161 | color: red;
+     : ^^^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/recovery/hacks/input.css:160:19]
- 160 | ue;
- 161 |     color: red;
-     :     ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:161:5]
+ 161 | color: red;
+     : ^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:160:19]
- 160 | ue;
- 161 |     color: red;
-     :            ^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:161:5]
+ 161 | color: red;
+     :        ^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/recovery/hacks/input.css:160:19]
- 160 | ue;
- 161 |     color: red;
-     :            ^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:161:5]
+ 161 | color: red;
+     :        ^^^
      `----
 
   x Rule
@@ -11004,150 +10694,129 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:163:10]
- 163 |  { 
- 164 |     ~property: value;
-     :     ^^^^^^^^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:164:5]
+ 164 | ~property: value;
+     : ^^^^^^^^^^^^^^^^^
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:163:10]
- 163 |  { 
- 164 |     ~property: value;
-     :     ^^^^^^^^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:164:5]
+ 164 | ~property: value;
+     : ^^^^^^^^^^^^^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:163:10]
- 163 |  { 
- 164 |     ~property: value;
-     :     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:164:5]
+ 164 | ~property: value;
+     : ^
      `----
 
   x Delim { value: '~' }
-     ,-[$DIR/tests/recovery/hacks/input.css:163:10]
- 163 |  { 
- 164 |     ~property: value;
-     :     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:164:5]
+ 164 | ~property: value;
+     : ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:163:10]
- 163 |  { 
- 164 |     ~property: value;
-     :      ^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:164:5]
+ 164 | ~property: value;
+     :  ^^^^^^^^
      `----
 
   x Ident { value: Atom('property' type=static), raw: "property" }
-     ,-[$DIR/tests/recovery/hacks/input.css:163:10]
- 163 |  { 
- 164 |     ~property: value;
-     :      ^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:164:5]
+ 164 | ~property: value;
+     :  ^^^^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:163:10]
- 163 |  { 
- 164 |     ~property: value;
-     :              ^
+     ,-[$DIR/tests/recovery/hacks/input.css:164:5]
+ 164 | ~property: value;
+     :          ^
      `----
 
   x Colon
-     ,-[$DIR/tests/recovery/hacks/input.css:163:10]
- 163 |  { 
- 164 |     ~property: value;
-     :              ^
+     ,-[$DIR/tests/recovery/hacks/input.css:164:5]
+ 164 | ~property: value;
+     :          ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:163:10]
- 163 |  { 
- 164 |     ~property: value;
-     :               ^
+     ,-[$DIR/tests/recovery/hacks/input.css:164:5]
+ 164 | ~property: value;
+     :           ^
      `----
 
   x WhiteSpace { value: " " }
-     ,-[$DIR/tests/recovery/hacks/input.css:163:10]
- 163 |  { 
- 164 |     ~property: value;
-     :               ^
+     ,-[$DIR/tests/recovery/hacks/input.css:164:5]
+ 164 | ~property: value;
+     :           ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:163:10]
- 163 |  { 
- 164 |     ~property: value;
-     :                ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:164:5]
+ 164 | ~property: value;
+     :            ^^^^^
      `----
 
   x Ident { value: Atom('value' type=inline), raw: "value" }
-     ,-[$DIR/tests/recovery/hacks/input.css:163:10]
- 163 |  { 
- 164 |     ~property: value;
-     :                ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:164:5]
+ 164 | ~property: value;
+     :            ^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:163:10]
- 163 |  { 
- 164 |     ~property: value;
-     :                     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:164:5]
+ 164 | ~property: value;
+     :                 ^
      `----
 
   x Semi
-     ,-[$DIR/tests/recovery/hacks/input.css:163:10]
- 163 |  { 
- 164 |     ~property: value;
-     :                     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:164:5]
+ 164 | ~property: value;
+     :                 ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:164:19]
- 164 | ue;
- 165 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:165:5]
+ 165 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:164:19]
- 164 | ue;
- 165 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:165:5]
+ 165 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x Declaration
-     ,-[$DIR/tests/recovery/hacks/input.css:164:19]
- 164 | ue;
- 165 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:165:5]
+ 165 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x DeclarationName
-     ,-[$DIR/tests/recovery/hacks/input.css:164:19]
- 164 | ue;
- 165 |     color: red;
-     :     ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:165:5]
+ 165 | color: red;
+     : ^^^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/recovery/hacks/input.css:164:19]
- 164 | ue;
- 165 |     color: red;
-     :     ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:165:5]
+ 165 | color: red;
+     : ^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:164:19]
- 164 | ue;
- 165 |     color: red;
-     :            ^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:165:5]
+ 165 | color: red;
+     :        ^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/recovery/hacks/input.css:164:19]
- 164 | ue;
- 165 |     color: red;
-     :            ^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:165:5]
+ 165 | color: red;
+     :        ^^^
      `----
 
   x Rule
@@ -11217,150 +10886,129 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:167:10]
- 167 |  { 
- 168 |     ?property: value;
-     :     ^^^^^^^^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:168:5]
+ 168 | ?property: value;
+     : ^^^^^^^^^^^^^^^^^
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:167:10]
- 167 |  { 
- 168 |     ?property: value;
-     :     ^^^^^^^^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:168:5]
+ 168 | ?property: value;
+     : ^^^^^^^^^^^^^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:167:10]
- 167 |  { 
- 168 |     ?property: value;
-     :     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:168:5]
+ 168 | ?property: value;
+     : ^
      `----
 
   x Delim { value: '?' }
-     ,-[$DIR/tests/recovery/hacks/input.css:167:10]
- 167 |  { 
- 168 |     ?property: value;
-     :     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:168:5]
+ 168 | ?property: value;
+     : ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:167:10]
- 167 |  { 
- 168 |     ?property: value;
-     :      ^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:168:5]
+ 168 | ?property: value;
+     :  ^^^^^^^^
      `----
 
   x Ident { value: Atom('property' type=static), raw: "property" }
-     ,-[$DIR/tests/recovery/hacks/input.css:167:10]
- 167 |  { 
- 168 |     ?property: value;
-     :      ^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:168:5]
+ 168 | ?property: value;
+     :  ^^^^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:167:10]
- 167 |  { 
- 168 |     ?property: value;
-     :              ^
+     ,-[$DIR/tests/recovery/hacks/input.css:168:5]
+ 168 | ?property: value;
+     :          ^
      `----
 
   x Colon
-     ,-[$DIR/tests/recovery/hacks/input.css:167:10]
- 167 |  { 
- 168 |     ?property: value;
-     :              ^
+     ,-[$DIR/tests/recovery/hacks/input.css:168:5]
+ 168 | ?property: value;
+     :          ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:167:10]
- 167 |  { 
- 168 |     ?property: value;
-     :               ^
+     ,-[$DIR/tests/recovery/hacks/input.css:168:5]
+ 168 | ?property: value;
+     :           ^
      `----
 
   x WhiteSpace { value: " " }
-     ,-[$DIR/tests/recovery/hacks/input.css:167:10]
- 167 |  { 
- 168 |     ?property: value;
-     :               ^
+     ,-[$DIR/tests/recovery/hacks/input.css:168:5]
+ 168 | ?property: value;
+     :           ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:167:10]
- 167 |  { 
- 168 |     ?property: value;
-     :                ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:168:5]
+ 168 | ?property: value;
+     :            ^^^^^
      `----
 
   x Ident { value: Atom('value' type=inline), raw: "value" }
-     ,-[$DIR/tests/recovery/hacks/input.css:167:10]
- 167 |  { 
- 168 |     ?property: value;
-     :                ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:168:5]
+ 168 | ?property: value;
+     :            ^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:167:10]
- 167 |  { 
- 168 |     ?property: value;
-     :                     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:168:5]
+ 168 | ?property: value;
+     :                 ^
      `----
 
   x Semi
-     ,-[$DIR/tests/recovery/hacks/input.css:167:10]
- 167 |  { 
- 168 |     ?property: value;
-     :                     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:168:5]
+ 168 | ?property: value;
+     :                 ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:168:19]
- 168 | ue;
- 169 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:169:5]
+ 169 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:168:19]
- 168 | ue;
- 169 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:169:5]
+ 169 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x Declaration
-     ,-[$DIR/tests/recovery/hacks/input.css:168:19]
- 168 | ue;
- 169 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:169:5]
+ 169 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x DeclarationName
-     ,-[$DIR/tests/recovery/hacks/input.css:168:19]
- 168 | ue;
- 169 |     color: red;
-     :     ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:169:5]
+ 169 | color: red;
+     : ^^^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/recovery/hacks/input.css:168:19]
- 168 | ue;
- 169 |     color: red;
-     :     ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:169:5]
+ 169 | color: red;
+     : ^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:168:19]
- 168 | ue;
- 169 |     color: red;
-     :            ^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:169:5]
+ 169 | color: red;
+     :        ^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/recovery/hacks/input.css:168:19]
- 168 | ue;
- 169 |     color: red;
-     :            ^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:169:5]
+ 169 | color: red;
+     :        ^^^
      `----
 
   x Rule
@@ -11430,150 +11078,129 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:171:10]
- 171 |  { 
- 172 |     :property: value;
-     :     ^^^^^^^^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:172:5]
+ 172 | :property: value;
+     : ^^^^^^^^^^^^^^^^^
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:171:10]
- 171 |  { 
- 172 |     :property: value;
-     :     ^^^^^^^^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:172:5]
+ 172 | :property: value;
+     : ^^^^^^^^^^^^^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:171:10]
- 171 |  { 
- 172 |     :property: value;
-     :     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:172:5]
+ 172 | :property: value;
+     : ^
      `----
 
   x Colon
-     ,-[$DIR/tests/recovery/hacks/input.css:171:10]
- 171 |  { 
- 172 |     :property: value;
-     :     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:172:5]
+ 172 | :property: value;
+     : ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:171:10]
- 171 |  { 
- 172 |     :property: value;
-     :      ^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:172:5]
+ 172 | :property: value;
+     :  ^^^^^^^^
      `----
 
   x Ident { value: Atom('property' type=static), raw: "property" }
-     ,-[$DIR/tests/recovery/hacks/input.css:171:10]
- 171 |  { 
- 172 |     :property: value;
-     :      ^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:172:5]
+ 172 | :property: value;
+     :  ^^^^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:171:10]
- 171 |  { 
- 172 |     :property: value;
-     :              ^
+     ,-[$DIR/tests/recovery/hacks/input.css:172:5]
+ 172 | :property: value;
+     :          ^
      `----
 
   x Colon
-     ,-[$DIR/tests/recovery/hacks/input.css:171:10]
- 171 |  { 
- 172 |     :property: value;
-     :              ^
+     ,-[$DIR/tests/recovery/hacks/input.css:172:5]
+ 172 | :property: value;
+     :          ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:171:10]
- 171 |  { 
- 172 |     :property: value;
-     :               ^
+     ,-[$DIR/tests/recovery/hacks/input.css:172:5]
+ 172 | :property: value;
+     :           ^
      `----
 
   x WhiteSpace { value: " " }
-     ,-[$DIR/tests/recovery/hacks/input.css:171:10]
- 171 |  { 
- 172 |     :property: value;
-     :               ^
+     ,-[$DIR/tests/recovery/hacks/input.css:172:5]
+ 172 | :property: value;
+     :           ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:171:10]
- 171 |  { 
- 172 |     :property: value;
-     :                ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:172:5]
+ 172 | :property: value;
+     :            ^^^^^
      `----
 
   x Ident { value: Atom('value' type=inline), raw: "value" }
-     ,-[$DIR/tests/recovery/hacks/input.css:171:10]
- 171 |  { 
- 172 |     :property: value;
-     :                ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:172:5]
+ 172 | :property: value;
+     :            ^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:171:10]
- 171 |  { 
- 172 |     :property: value;
-     :                     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:172:5]
+ 172 | :property: value;
+     :                 ^
      `----
 
   x Semi
-     ,-[$DIR/tests/recovery/hacks/input.css:171:10]
- 171 |  { 
- 172 |     :property: value;
-     :                     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:172:5]
+ 172 | :property: value;
+     :                 ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:172:19]
- 172 | ue;
- 173 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:173:5]
+ 173 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:172:19]
- 172 | ue;
- 173 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:173:5]
+ 173 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x Declaration
-     ,-[$DIR/tests/recovery/hacks/input.css:172:19]
- 172 | ue;
- 173 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:173:5]
+ 173 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x DeclarationName
-     ,-[$DIR/tests/recovery/hacks/input.css:172:19]
- 172 | ue;
- 173 |     color: red;
-     :     ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:173:5]
+ 173 | color: red;
+     : ^^^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/recovery/hacks/input.css:172:19]
- 172 | ue;
- 173 |     color: red;
-     :     ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:173:5]
+ 173 | color: red;
+     : ^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:172:19]
- 172 | ue;
- 173 |     color: red;
-     :            ^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:173:5]
+ 173 | color: red;
+     :        ^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/recovery/hacks/input.css:172:19]
- 172 | ue;
- 173 |     color: red;
-     :            ^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:173:5]
+ 173 | color: red;
+     :        ^^^
      `----
 
   x Rule
@@ -11643,150 +11270,129 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:175:10]
- 175 |  { 
- 176 |     |property: value;
-     :     ^^^^^^^^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:176:5]
+ 176 | |property: value;
+     : ^^^^^^^^^^^^^^^^^
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:175:10]
- 175 |  { 
- 176 |     |property: value;
-     :     ^^^^^^^^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:176:5]
+ 176 | |property: value;
+     : ^^^^^^^^^^^^^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:175:10]
- 175 |  { 
- 176 |     |property: value;
-     :     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:176:5]
+ 176 | |property: value;
+     : ^
      `----
 
   x Delim { value: '|' }
-     ,-[$DIR/tests/recovery/hacks/input.css:175:10]
- 175 |  { 
- 176 |     |property: value;
-     :     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:176:5]
+ 176 | |property: value;
+     : ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:175:10]
- 175 |  { 
- 176 |     |property: value;
-     :      ^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:176:5]
+ 176 | |property: value;
+     :  ^^^^^^^^
      `----
 
   x Ident { value: Atom('property' type=static), raw: "property" }
-     ,-[$DIR/tests/recovery/hacks/input.css:175:10]
- 175 |  { 
- 176 |     |property: value;
-     :      ^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:176:5]
+ 176 | |property: value;
+     :  ^^^^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:175:10]
- 175 |  { 
- 176 |     |property: value;
-     :              ^
+     ,-[$DIR/tests/recovery/hacks/input.css:176:5]
+ 176 | |property: value;
+     :          ^
      `----
 
   x Colon
-     ,-[$DIR/tests/recovery/hacks/input.css:175:10]
- 175 |  { 
- 176 |     |property: value;
-     :              ^
+     ,-[$DIR/tests/recovery/hacks/input.css:176:5]
+ 176 | |property: value;
+     :          ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:175:10]
- 175 |  { 
- 176 |     |property: value;
-     :               ^
+     ,-[$DIR/tests/recovery/hacks/input.css:176:5]
+ 176 | |property: value;
+     :           ^
      `----
 
   x WhiteSpace { value: " " }
-     ,-[$DIR/tests/recovery/hacks/input.css:175:10]
- 175 |  { 
- 176 |     |property: value;
-     :               ^
+     ,-[$DIR/tests/recovery/hacks/input.css:176:5]
+ 176 | |property: value;
+     :           ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:175:10]
- 175 |  { 
- 176 |     |property: value;
-     :                ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:176:5]
+ 176 | |property: value;
+     :            ^^^^^
      `----
 
   x Ident { value: Atom('value' type=inline), raw: "value" }
-     ,-[$DIR/tests/recovery/hacks/input.css:175:10]
- 175 |  { 
- 176 |     |property: value;
-     :                ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:176:5]
+ 176 | |property: value;
+     :            ^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:175:10]
- 175 |  { 
- 176 |     |property: value;
-     :                     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:176:5]
+ 176 | |property: value;
+     :                 ^
      `----
 
   x Semi
-     ,-[$DIR/tests/recovery/hacks/input.css:175:10]
- 175 |  { 
- 176 |     |property: value;
-     :                     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:176:5]
+ 176 | |property: value;
+     :                 ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:176:19]
- 176 | ue;
- 177 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:177:5]
+ 177 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:176:19]
- 176 | ue;
- 177 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:177:5]
+ 177 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x Declaration
-     ,-[$DIR/tests/recovery/hacks/input.css:176:19]
- 176 | ue;
- 177 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:177:5]
+ 177 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x DeclarationName
-     ,-[$DIR/tests/recovery/hacks/input.css:176:19]
- 176 | ue;
- 177 |     color: red;
-     :     ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:177:5]
+ 177 | color: red;
+     : ^^^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/recovery/hacks/input.css:176:19]
- 176 | ue;
- 177 |     color: red;
-     :     ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:177:5]
+ 177 | color: red;
+     : ^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:176:19]
- 176 | ue;
- 177 |     color: red;
-     :            ^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:177:5]
+ 177 | color: red;
+     :        ^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/recovery/hacks/input.css:176:19]
- 176 | ue;
- 177 |     color: red;
-     :            ^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:177:5]
+ 177 | color: red;
+     :        ^^^
      `----
 
   x Rule
@@ -16446,346 +16052,297 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:243:1]
- 243 | a {
- 244 |     *color : black;
-     :     ^^^^^^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:244:5]
+ 244 | *color : black;
+     : ^^^^^^^^^^^^^^^
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:243:1]
- 243 | a {
- 244 |     *color : black;
-     :     ^^^^^^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:244:5]
+ 244 | *color : black;
+     : ^^^^^^^^^^^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:243:1]
- 243 | a {
- 244 |     *color : black;
-     :     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:244:5]
+ 244 | *color : black;
+     : ^
      `----
 
   x Delim { value: '*' }
-     ,-[$DIR/tests/recovery/hacks/input.css:243:1]
- 243 | a {
- 244 |     *color : black;
-     :     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:244:5]
+ 244 | *color : black;
+     : ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:243:1]
- 243 | a {
- 244 |     *color : black;
-     :      ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:244:5]
+ 244 | *color : black;
+     :  ^^^^^
      `----
 
   x Ident { value: Atom('color' type=static), raw: "color" }
-     ,-[$DIR/tests/recovery/hacks/input.css:243:1]
- 243 | a {
- 244 |     *color : black;
-     :      ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:244:5]
+ 244 | *color : black;
+     :  ^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:243:1]
- 243 | a {
- 244 |     *color : black;
-     :           ^
+     ,-[$DIR/tests/recovery/hacks/input.css:244:5]
+ 244 | *color : black;
+     :       ^
      `----
 
   x WhiteSpace { value: " " }
-     ,-[$DIR/tests/recovery/hacks/input.css:243:1]
- 243 | a {
- 244 |     *color : black;
-     :           ^
+     ,-[$DIR/tests/recovery/hacks/input.css:244:5]
+ 244 | *color : black;
+     :       ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:243:1]
- 243 | a {
- 244 |     *color : black;
-     :            ^
+     ,-[$DIR/tests/recovery/hacks/input.css:244:5]
+ 244 | *color : black;
+     :        ^
      `----
 
   x Colon
-     ,-[$DIR/tests/recovery/hacks/input.css:243:1]
- 243 | a {
- 244 |     *color : black;
-     :            ^
+     ,-[$DIR/tests/recovery/hacks/input.css:244:5]
+ 244 | *color : black;
+     :        ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:243:1]
- 243 | a {
- 244 |     *color : black;
-     :             ^
+     ,-[$DIR/tests/recovery/hacks/input.css:244:5]
+ 244 | *color : black;
+     :         ^
      `----
 
   x WhiteSpace { value: " " }
-     ,-[$DIR/tests/recovery/hacks/input.css:243:1]
- 243 | a {
- 244 |     *color : black;
-     :             ^
+     ,-[$DIR/tests/recovery/hacks/input.css:244:5]
+ 244 | *color : black;
+     :         ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:243:1]
- 243 | a {
- 244 |     *color : black;
-     :              ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:244:5]
+ 244 | *color : black;
+     :          ^^^^^
      `----
 
   x Ident { value: Atom('black' type=inline), raw: "black" }
-     ,-[$DIR/tests/recovery/hacks/input.css:243:1]
- 243 | a {
- 244 |     *color : black;
+     ,-[$DIR/tests/recovery/hacks/input.css:244:5]
+ 244 | *color : black;
+     :          ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/recovery/hacks/input.css:244:5]
+ 244 | *color : black;
+     :               ^
+     `----
+
+  x Semi
+     ,-[$DIR/tests/recovery/hacks/input.css:244:5]
+ 244 | *color : black;
+     :               ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/recovery/hacks/input.css:245:5]
+ 245 | _background: white;
+     : ^^^^^^^^^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/recovery/hacks/input.css:245:5]
+ 245 | _background: white;
+     : ^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/recovery/hacks/input.css:245:5]
+ 245 | _background: white;
+     : ^^^^^^^^^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/recovery/hacks/input.css:245:5]
+ 245 | _background: white;
+     : ^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/recovery/hacks/input.css:245:5]
+ 245 | _background: white;
+     : ^^^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/recovery/hacks/input.css:245:5]
+ 245 | _background: white;
+     :              ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/recovery/hacks/input.css:245:5]
+ 245 | _background: white;
      :              ^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:243:1]
- 243 | a {
- 244 |     *color : black;
-     :                   ^
-     `----
-
-  x Semi
-     ,-[$DIR/tests/recovery/hacks/input.css:243:1]
- 243 | a {
- 244 |     *color : black;
-     :                   ^
-     `----
-
-  x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:244:17]
- 244 | ck;
- 245 |     _background: white;
-     :     ^^^^^^^^^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:246:5]
+ 246 | font-size/**/: big;
+     : ^^^^^^^^^^^^^^^^^^
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:244:17]
- 244 | ck;
- 245 |     _background: white;
-     :     ^^^^^^^^^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:246:5]
+ 246 | font-size/**/: big;
+     : ^^^^^^^^^^^^^^^^^^
      `----
 
   x Declaration
-     ,-[$DIR/tests/recovery/hacks/input.css:244:17]
- 244 | ck;
- 245 |     _background: white;
-     :     ^^^^^^^^^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:246:5]
+ 246 | font-size/**/: big;
+     : ^^^^^^^^^^^^^^^^^^
      `----
 
   x DeclarationName
-     ,-[$DIR/tests/recovery/hacks/input.css:244:17]
- 244 | ck;
- 245 |     _background: white;
-     :     ^^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:246:5]
+ 246 | font-size/**/: big;
+     : ^^^^^^^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/recovery/hacks/input.css:244:17]
- 244 | ck;
- 245 |     _background: white;
-     :     ^^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:246:5]
+ 246 | font-size/**/: big;
+     : ^^^^^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:244:17]
- 244 | ck;
- 245 |     _background: white;
-     :                  ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:246:5]
+ 246 | font-size/**/: big;
+     :                ^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/recovery/hacks/input.css:244:17]
- 244 | ck;
- 245 |     _background: white;
-     :                  ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:246:5]
+ 246 | font-size/**/: big;
+     :                ^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:245:21]
- 245 | te;
- 246 |     font-size/**/: big;
-     :     ^^^^^^^^^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:247:5]
+ 247 | $(var)-size: 100%;
+     : ^^^^^^^^^^^^^^^^^^
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:245:21]
- 245 | te;
- 246 |     font-size/**/: big;
-     :     ^^^^^^^^^^^^^^^^^^
-     `----
-
-  x Declaration
-     ,-[$DIR/tests/recovery/hacks/input.css:245:21]
- 245 | te;
- 246 |     font-size/**/: big;
-     :     ^^^^^^^^^^^^^^^^^^
-     `----
-
-  x DeclarationName
-     ,-[$DIR/tests/recovery/hacks/input.css:245:21]
- 245 | te;
- 246 |     font-size/**/: big;
-     :     ^^^^^^^^^
-     `----
-
-  x Ident
-     ,-[$DIR/tests/recovery/hacks/input.css:245:21]
- 245 | te;
- 246 |     font-size/**/: big;
-     :     ^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:247:5]
+ 247 | $(var)-size: 100%;
+     : ^^^^^^^^^^^^^^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:245:21]
- 245 | te;
- 246 |     font-size/**/: big;
-     :                    ^^^
-     `----
-
-  x Ident
-     ,-[$DIR/tests/recovery/hacks/input.css:245:21]
- 245 | te;
- 246 |     font-size/**/: big;
-     :                    ^^^
-     `----
-
-  x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:246:21]
- 246 | ig;
- 247 |     $(var)-size: 100%;
-     :     ^^^^^^^^^^^^^^^^^^
-     `----
-
-  x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:246:21]
- 246 | ig;
- 247 |     $(var)-size: 100%;
-     :     ^^^^^^^^^^^^^^^^^^
-     `----
-
-  x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:246:21]
- 246 | ig;
- 247 |     $(var)-size: 100%;
-     :     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:247:5]
+ 247 | $(var)-size: 100%;
+     : ^
      `----
 
   x Delim { value: '$' }
-     ,-[$DIR/tests/recovery/hacks/input.css:246:21]
- 246 | ig;
- 247 |     $(var)-size: 100%;
-     :     ^
+     ,-[$DIR/tests/recovery/hacks/input.css:247:5]
+ 247 | $(var)-size: 100%;
+     : ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:246:21]
- 246 | ig;
- 247 |     $(var)-size: 100%;
-     :      ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:247:5]
+ 247 | $(var)-size: 100%;
+     :  ^^^^^
      `----
 
   x SimpleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:246:21]
- 246 | ig;
- 247 |     $(var)-size: 100%;
-     :      ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:247:5]
+ 247 | $(var)-size: 100%;
+     :  ^^^^^
      `----
 
   x LParen
-     ,-[$DIR/tests/recovery/hacks/input.css:246:21]
- 246 | ig;
- 247 |     $(var)-size: 100%;
-     :      ^
+     ,-[$DIR/tests/recovery/hacks/input.css:247:5]
+ 247 | $(var)-size: 100%;
+     :  ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:246:21]
- 246 | ig;
- 247 |     $(var)-size: 100%;
-     :       ^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:247:5]
+ 247 | $(var)-size: 100%;
+     :   ^^^
      `----
 
   x Ident { value: Atom('var' type=static), raw: "var" }
-     ,-[$DIR/tests/recovery/hacks/input.css:246:21]
- 246 | ig;
- 247 |     $(var)-size: 100%;
-     :       ^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:247:5]
+ 247 | $(var)-size: 100%;
+     :   ^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:246:21]
- 246 | ig;
- 247 |     $(var)-size: 100%;
-     :           ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:247:5]
+ 247 | $(var)-size: 100%;
+     :       ^^^^^
      `----
 
   x Ident { value: Atom('-size' type=inline), raw: "-size" }
-     ,-[$DIR/tests/recovery/hacks/input.css:246:21]
- 246 | ig;
- 247 |     $(var)-size: 100%;
-     :           ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:247:5]
+ 247 | $(var)-size: 100%;
+     :       ^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:246:21]
- 246 | ig;
- 247 |     $(var)-size: 100%;
-     :                ^
+     ,-[$DIR/tests/recovery/hacks/input.css:247:5]
+ 247 | $(var)-size: 100%;
+     :            ^
      `----
 
   x Colon
-     ,-[$DIR/tests/recovery/hacks/input.css:246:21]
- 246 | ig;
- 247 |     $(var)-size: 100%;
-     :                ^
+     ,-[$DIR/tests/recovery/hacks/input.css:247:5]
+ 247 | $(var)-size: 100%;
+     :            ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:246:21]
- 246 | ig;
- 247 |     $(var)-size: 100%;
-     :                 ^
+     ,-[$DIR/tests/recovery/hacks/input.css:247:5]
+ 247 | $(var)-size: 100%;
+     :             ^
      `----
 
   x WhiteSpace { value: " " }
-     ,-[$DIR/tests/recovery/hacks/input.css:246:21]
- 246 | ig;
- 247 |     $(var)-size: 100%;
-     :                 ^
+     ,-[$DIR/tests/recovery/hacks/input.css:247:5]
+ 247 | $(var)-size: 100%;
+     :             ^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:246:21]
- 246 | ig;
- 247 |     $(var)-size: 100%;
-     :                  ^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:247:5]
+ 247 | $(var)-size: 100%;
+     :              ^^^^
      `----
 
   x Percentage { value: 100.0, raw: "100" }
-     ,-[$DIR/tests/recovery/hacks/input.css:246:21]
- 246 | ig;
- 247 |     $(var)-size: 100%;
-     :                  ^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:247:5]
+ 247 | $(var)-size: 100%;
+     :              ^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:246:21]
- 246 | ig;
- 247 |     $(var)-size: 100%;
-     :                      ^
+     ,-[$DIR/tests/recovery/hacks/input.css:247:5]
+ 247 | $(var)-size: 100%;
+     :                  ^
      `----
 
   x Semi
-     ,-[$DIR/tests/recovery/hacks/input.css:246:21]
- 246 | ig;
- 247 |     $(var)-size: 100%;
-     :                      ^
+     ,-[$DIR/tests/recovery/hacks/input.css:247:5]
+ 247 | $(var)-size: 100%;
+     :                  ^
      `----
 
   x Rule
@@ -16984,52 +16541,45 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:252:3]
- 252 | v {
- 253 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:253:5]
+ 253 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:252:3]
- 252 | v {
- 253 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:253:5]
+ 253 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x Declaration
-     ,-[$DIR/tests/recovery/hacks/input.css:252:3]
- 252 | v {
- 253 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:253:5]
+ 253 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x DeclarationName
-     ,-[$DIR/tests/recovery/hacks/input.css:252:3]
- 252 | v {
- 253 |     color: red;
-     :     ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:253:5]
+ 253 | color: red;
+     : ^^^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/recovery/hacks/input.css:252:3]
- 252 | v {
- 253 |     color: red;
-     :     ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:253:5]
+ 253 | color: red;
+     : ^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:252:3]
- 252 | v {
- 253 |     color: red;
-     :            ^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:253:5]
+ 253 | color: red;
+     :        ^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/recovery/hacks/input.css:252:3]
- 252 | v {
- 253 |     color: red;
-     :            ^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:253:5]
+ 253 | color: red;
+     :        ^^^
      `----
 
   x Rule
@@ -17252,50 +16802,43 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:260:3]
- 260 | v {
- 261 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:261:5]
+ 261 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:260:3]
- 260 | v {
- 261 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:261:5]
+ 261 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x Declaration
-     ,-[$DIR/tests/recovery/hacks/input.css:260:3]
- 260 | v {
- 261 |     color: red;
-     :     ^^^^^^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:261:5]
+ 261 | color: red;
+     : ^^^^^^^^^^
      `----
 
   x DeclarationName
-     ,-[$DIR/tests/recovery/hacks/input.css:260:3]
- 260 | v {
- 261 |     color: red;
-     :     ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:261:5]
+ 261 | color: red;
+     : ^^^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/recovery/hacks/input.css:260:3]
- 260 | v {
- 261 |     color: red;
-     :     ^^^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:261:5]
+ 261 | color: red;
+     : ^^^^^
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:260:3]
- 260 | v {
- 261 |     color: red;
-     :            ^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:261:5]
+ 261 | color: red;
+     :        ^^^
      `----
 
   x Ident
-     ,-[$DIR/tests/recovery/hacks/input.css:260:3]
- 260 | v {
- 261 |     color: red;
-     :            ^^^
+     ,-[$DIR/tests/recovery/hacks/input.css:261:5]
+ 261 | color: red;
+     :        ^^^
      `----

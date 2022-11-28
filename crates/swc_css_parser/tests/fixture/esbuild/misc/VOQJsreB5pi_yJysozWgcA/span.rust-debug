@@ -1,8 +1,7 @@
 
   x Stylesheet
-    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:1:1]
-  1 | ,-> 
-  2 | |   		@page :first { margin: 0 }
+    ,-[$DIR/tests/fixture/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:2:9]
+  2 | |   @page :first { margin: 0 }
   3 | |   		@page {
   4 | |   			@top-left-corner { content: 'tlc' }
   5 | |   			@top-left { content: 'tl' }
@@ -21,7 +20,6 @@
  18 | |   			@right-middle { content: 'rm' }
  19 | |   			@right-bottom { content: 'rb' }
  20 | |   		}
- 21 | `-> 	
     `----
 
   x Rule

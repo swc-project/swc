@@ -1,16 +1,14 @@
 
   x Nested comment
-   ,-[$DIR/tests/recovery/comments/bad-15/input.xml:2:4]
- 2 | ot>
- 3 |     <!--<!---
-   :             ^
+   ,-[$DIR/tests/recovery/comments/bad-15/input.xml:3:5]
+ 3 | <!--<!---
+   :         ^
    `----
 
   x Double hyper within comment
-   ,-[$DIR/tests/recovery/comments/bad-15/input.xml:2:4]
- 2 | ot>
- 3 |     <!--<!---
-   :             ^
+   ,-[$DIR/tests/recovery/comments/bad-15/input.xml:3:5]
+ 3 | <!--<!---
+   :         ^
    `----
 
   x Eof in comment

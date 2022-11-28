@@ -76,50 +76,43 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/bad-url-token/whitespace-in-middle/input.css:1:1]
- 1 | a {
- 2 |     background-image: url(   ./image.jpg  a  );
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace-in-middle/input.css:2:5]
+ 2 | background-image: url(   ./image.jpg  a  );
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/recovery/bad-url-token/whitespace-in-middle/input.css:1:1]
- 1 | a {
- 2 |     background-image: url(   ./image.jpg  a  );
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace-in-middle/input.css:2:5]
+ 2 | background-image: url(   ./image.jpg  a  );
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/recovery/bad-url-token/whitespace-in-middle/input.css:1:1]
- 1 | a {
- 2 |     background-image: url(   ./image.jpg  a  );
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace-in-middle/input.css:2:5]
+ 2 | background-image: url(   ./image.jpg  a  );
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/recovery/bad-url-token/whitespace-in-middle/input.css:1:1]
- 1 | a {
- 2 |     background-image: url(   ./image.jpg  a  );
-   :     ^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace-in-middle/input.css:2:5]
+ 2 | background-image: url(   ./image.jpg  a  );
+   : ^^^^^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/bad-url-token/whitespace-in-middle/input.css:1:1]
- 1 | a {
- 2 |     background-image: url(   ./image.jpg  a  );
-   :     ^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace-in-middle/input.css:2:5]
+ 2 | background-image: url(   ./image.jpg  a  );
+   : ^^^^^^^^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/bad-url-token/whitespace-in-middle/input.css:1:1]
- 1 | a {
- 2 |     background-image: url(   ./image.jpg  a  );
-   :                       ^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace-in-middle/input.css:2:5]
+ 2 | background-image: url(   ./image.jpg  a  );
+   :                   ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x BadUrl { name: Atom('url' type=static), raw_name: "url", raw_value: "   ./image.jpg  a  " }
-   ,-[$DIR/tests/recovery/bad-url-token/whitespace-in-middle/input.css:1:1]
- 1 | a {
- 2 |     background-image: url(   ./image.jpg  a  );
-   :                       ^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace-in-middle/input.css:2:5]
+ 2 | background-image: url(   ./image.jpg  a  );
+   :                   ^^^^^^^^^^^^^^^^^^^^^^^^
    `----

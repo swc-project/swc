@@ -80,141 +80,121 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/frequency/input.css:1:3]
- 1 | v {
- 2 |     prop: 1Hz;
-   :     ^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/frequency/input.css:2:5]
+ 2 | prop: 1Hz;
+   : ^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/value/frequency/input.css:1:3]
- 1 | v {
- 2 |     prop: 1Hz;
-   :     ^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/frequency/input.css:2:5]
+ 2 | prop: 1Hz;
+   : ^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/value/frequency/input.css:1:3]
- 1 | v {
- 2 |     prop: 1Hz;
-   :     ^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/frequency/input.css:2:5]
+ 2 | prop: 1Hz;
+   : ^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/value/frequency/input.css:1:3]
- 1 | v {
- 2 |     prop: 1Hz;
-   :     ^^^^
+   ,-[$DIR/tests/fixture/value/frequency/input.css:2:5]
+ 2 | prop: 1Hz;
+   : ^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/value/frequency/input.css:1:3]
- 1 | v {
- 2 |     prop: 1Hz;
-   :     ^^^^
+   ,-[$DIR/tests/fixture/value/frequency/input.css:2:5]
+ 2 | prop: 1Hz;
+   : ^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/frequency/input.css:1:3]
- 1 | v {
- 2 |     prop: 1Hz;
-   :           ^^^
+   ,-[$DIR/tests/fixture/value/frequency/input.css:2:5]
+ 2 | prop: 1Hz;
+   :       ^^^
    `----
 
   x Dimension
-   ,-[$DIR/tests/fixture/value/frequency/input.css:1:3]
- 1 | v {
- 2 |     prop: 1Hz;
-   :           ^^^
+   ,-[$DIR/tests/fixture/value/frequency/input.css:2:5]
+ 2 | prop: 1Hz;
+   :       ^^^
    `----
 
   x Frequency
-   ,-[$DIR/tests/fixture/value/frequency/input.css:1:3]
- 1 | v {
- 2 |     prop: 1Hz;
-   :           ^^^
+   ,-[$DIR/tests/fixture/value/frequency/input.css:2:5]
+ 2 | prop: 1Hz;
+   :       ^^^
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/value/frequency/input.css:1:3]
- 1 | v {
- 2 |     prop: 1Hz;
-   :           ^
+   ,-[$DIR/tests/fixture/value/frequency/input.css:2:5]
+ 2 | prop: 1Hz;
+   :       ^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/value/frequency/input.css:1:3]
- 1 | v {
- 2 |     prop: 1Hz;
-   :            ^^
+   ,-[$DIR/tests/fixture/value/frequency/input.css:2:5]
+ 2 | prop: 1Hz;
+   :        ^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/frequency/input.css:2:12]
- 2 | Hz;
- 3 |     prop: 1kHz;
-   :     ^^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/frequency/input.css:3:5]
+ 3 | prop: 1kHz;
+   : ^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/value/frequency/input.css:2:12]
- 2 | Hz;
- 3 |     prop: 1kHz;
-   :     ^^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/frequency/input.css:3:5]
+ 3 | prop: 1kHz;
+   : ^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/value/frequency/input.css:2:12]
- 2 | Hz;
- 3 |     prop: 1kHz;
-   :     ^^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/frequency/input.css:3:5]
+ 3 | prop: 1kHz;
+   : ^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/value/frequency/input.css:2:12]
- 2 | Hz;
- 3 |     prop: 1kHz;
-   :     ^^^^
+   ,-[$DIR/tests/fixture/value/frequency/input.css:3:5]
+ 3 | prop: 1kHz;
+   : ^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/value/frequency/input.css:2:12]
- 2 | Hz;
- 3 |     prop: 1kHz;
-   :     ^^^^
+   ,-[$DIR/tests/fixture/value/frequency/input.css:3:5]
+ 3 | prop: 1kHz;
+   : ^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/frequency/input.css:2:12]
- 2 | Hz;
- 3 |     prop: 1kHz;
-   :           ^^^^
+   ,-[$DIR/tests/fixture/value/frequency/input.css:3:5]
+ 3 | prop: 1kHz;
+   :       ^^^^
    `----
 
   x Dimension
-   ,-[$DIR/tests/fixture/value/frequency/input.css:2:12]
- 2 | Hz;
- 3 |     prop: 1kHz;
-   :           ^^^^
+   ,-[$DIR/tests/fixture/value/frequency/input.css:3:5]
+ 3 | prop: 1kHz;
+   :       ^^^^
    `----
 
   x Frequency
-   ,-[$DIR/tests/fixture/value/frequency/input.css:2:12]
- 2 | Hz;
- 3 |     prop: 1kHz;
-   :           ^^^^
+   ,-[$DIR/tests/fixture/value/frequency/input.css:3:5]
+ 3 | prop: 1kHz;
+   :       ^^^^
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/value/frequency/input.css:2:12]
- 2 | Hz;
- 3 |     prop: 1kHz;
-   :           ^
+   ,-[$DIR/tests/fixture/value/frequency/input.css:3:5]
+ 3 | prop: 1kHz;
+   :       ^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/value/frequency/input.css:2:12]
- 2 | Hz;
- 3 |     prop: 1kHz;
-   :            ^^^
+   ,-[$DIR/tests/fixture/value/frequency/input.css:3:5]
+ 3 | prop: 1kHz;
+   :        ^^^
    `----

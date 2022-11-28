@@ -1,7 +1,6 @@
 
   x No target name
-   ,-[$DIR/tests/recovery/pi/bad-pi-8/input.xml:1:4]
- 1 | ot>
- 2 |     <??>
-   :       ^
+   ,-[$DIR/tests/recovery/pi/bad-pi-8/input.xml:2:5]
+ 2 | <??>
+   :   ^
    `----

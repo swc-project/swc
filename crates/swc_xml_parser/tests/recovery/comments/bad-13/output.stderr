@@ -1,9 +1,8 @@
 
   x Nested comment
-   ,-[$DIR/tests/recovery/comments/bad-13/input.xml:2:4]
- 2 | ot>
- 3 |     <!--<!--!
-   :             ^
+   ,-[$DIR/tests/recovery/comments/bad-13/input.xml:3:5]
+ 3 | <!--<!--!
+   :         ^
    `----
 
   x Eof in comment

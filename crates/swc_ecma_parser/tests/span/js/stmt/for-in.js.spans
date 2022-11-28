@@ -174,107 +174,83 @@
    `----
 
   x Stmt
-   ,-[$DIR/tests/span/js/stmt/for-in.js:1:27]
- 1 |      {
- 2 |     
- 3 | ,->     if (a === 2) {
+   ,-[$DIR/tests/span/js/stmt/for-in.js:3:5]
+ 3 | ,-> if (a === 2) {
  4 | |           continue
  5 | `->     }
    `----
 
   x IfStmt
-   ,-[$DIR/tests/span/js/stmt/for-in.js:1:27]
- 1 |      {
- 2 |     
- 3 | ,->     if (a === 2) {
+   ,-[$DIR/tests/span/js/stmt/for-in.js:3:5]
+ 3 | ,-> if (a === 2) {
  4 | |           continue
  5 | `->     }
    `----
 
   x Expr
-   ,-[$DIR/tests/span/js/stmt/for-in.js:1:27]
- 1 |  {
- 2 | 
- 3 |     if (a === 2) {
-   :         ^^^^^^^
+   ,-[$DIR/tests/span/js/stmt/for-in.js:3:5]
+ 3 | if (a === 2) {
+   :     ^^^^^^^
    `----
 
   x BinExpr
-   ,-[$DIR/tests/span/js/stmt/for-in.js:1:27]
- 1 |  {
- 2 | 
- 3 |     if (a === 2) {
-   :         ^^^^^^^
+   ,-[$DIR/tests/span/js/stmt/for-in.js:3:5]
+ 3 | if (a === 2) {
+   :     ^^^^^^^
    `----
 
   x Expr
-   ,-[$DIR/tests/span/js/stmt/for-in.js:1:27]
- 1 |  {
- 2 | 
- 3 |     if (a === 2) {
-   :         ^
+   ,-[$DIR/tests/span/js/stmt/for-in.js:3:5]
+ 3 | if (a === 2) {
+   :     ^
    `----
 
   x Ident
-   ,-[$DIR/tests/span/js/stmt/for-in.js:1:27]
- 1 |  {
- 2 | 
- 3 |     if (a === 2) {
-   :         ^
+   ,-[$DIR/tests/span/js/stmt/for-in.js:3:5]
+ 3 | if (a === 2) {
+   :     ^
    `----
 
   x Expr
-   ,-[$DIR/tests/span/js/stmt/for-in.js:1:27]
- 1 |  {
- 2 | 
- 3 |     if (a === 2) {
-   :               ^
+   ,-[$DIR/tests/span/js/stmt/for-in.js:3:5]
+ 3 | if (a === 2) {
+   :           ^
    `----
 
   x Lit
-   ,-[$DIR/tests/span/js/stmt/for-in.js:1:27]
- 1 |  {
- 2 | 
- 3 |     if (a === 2) {
-   :               ^
+   ,-[$DIR/tests/span/js/stmt/for-in.js:3:5]
+ 3 | if (a === 2) {
+   :           ^
    `----
 
   x Number
-   ,-[$DIR/tests/span/js/stmt/for-in.js:1:27]
- 1 |  {
- 2 | 
- 3 |     if (a === 2) {
-   :               ^
+   ,-[$DIR/tests/span/js/stmt/for-in.js:3:5]
+ 3 | if (a === 2) {
+   :           ^
    `----
 
   x Stmt
-   ,-[$DIR/tests/span/js/stmt/for-in.js:1:27]
- 1 |      {
- 2 |     
- 3 | ,->     if (a === 2) {
+   ,-[$DIR/tests/span/js/stmt/for-in.js:3:5]
+ 3 | ,-> if (a === 2) {
  4 | |           continue
  5 | `->     }
    `----
 
   x BlockStmt
-   ,-[$DIR/tests/span/js/stmt/for-in.js:1:27]
- 1 |      {
- 2 |     
- 3 | ,->     if (a === 2) {
+   ,-[$DIR/tests/span/js/stmt/for-in.js:3:5]
+ 3 | ,-> if (a === 2) {
  4 | |           continue
  5 | `->     }
    `----
 
   x Stmt
-   ,-[$DIR/tests/span/js/stmt/for-in.js:3:12]
- 3 | == 2) {
- 4 |         continue
-   :         ^^^^^^^^
+   ,-[$DIR/tests/span/js/stmt/for-in.js:4:9]
+ 4 | continue
+   : ^^^^^^^^
    `----
 
   x ContinueStmt
-   ,-[$DIR/tests/span/js/stmt/for-in.js:3:12]
- 3 | == 2) {
- 4 |         continue
-   :         ^^^^^^^^
+   ,-[$DIR/tests/span/js/stmt/for-in.js:4:9]
+ 4 | continue
+   : ^^^^^^^^
    `----

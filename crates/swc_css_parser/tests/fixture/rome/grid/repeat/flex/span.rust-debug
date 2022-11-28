@@ -70,120 +70,103 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/grid/repeat/flex/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: repeat(4, 1fr);
-   :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/grid/repeat/flex/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, 1fr);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/rome/grid/repeat/flex/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: repeat(4, 1fr);
-   :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/grid/repeat/flex/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, 1fr);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/rome/grid/repeat/flex/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: repeat(4, 1fr);
-   :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/grid/repeat/flex/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, 1fr);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/rome/grid/repeat/flex/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: repeat(4, 1fr);
-   :  ^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/grid/repeat/flex/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, 1fr);
+   : ^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/grid/repeat/flex/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: repeat(4, 1fr);
-   :  ^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/grid/repeat/flex/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, 1fr);
+   : ^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/grid/repeat/flex/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: repeat(4, 1fr);
-   :                         ^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/grid/repeat/flex/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, 1fr);
+   :                        ^^^^^^^^^^^^^^
    `----
 
   x Function
-   ,-[$DIR/tests/fixture/rome/grid/repeat/flex/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: repeat(4, 1fr);
-   :                         ^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/grid/repeat/flex/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, 1fr);
+   :                        ^^^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/grid/repeat/flex/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: repeat(4, 1fr);
-   :                         ^^^^^^
+   ,-[$DIR/tests/fixture/rome/grid/repeat/flex/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, 1fr);
+   :                        ^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/grid/repeat/flex/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: repeat(4, 1fr);
-   :                                ^
+   ,-[$DIR/tests/fixture/rome/grid/repeat/flex/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, 1fr);
+   :                               ^
    `----
 
   x Integer
-   ,-[$DIR/tests/fixture/rome/grid/repeat/flex/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: repeat(4, 1fr);
+   ,-[$DIR/tests/fixture/rome/grid/repeat/flex/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, 1fr);
+   :                               ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/rome/grid/repeat/flex/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, 1fr);
+   :                                ^
+   `----
+
+  x Delimiter
+   ,-[$DIR/tests/fixture/rome/grid/repeat/flex/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, 1fr);
    :                                ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/grid/repeat/flex/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: repeat(4, 1fr);
-   :                                 ^
-   `----
-
-  x Delimiter
-   ,-[$DIR/tests/fixture/rome/grid/repeat/flex/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: repeat(4, 1fr);
-   :                                 ^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/rome/grid/repeat/flex/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: repeat(4, 1fr);
-   :                                   ^^^
+   ,-[$DIR/tests/fixture/rome/grid/repeat/flex/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, 1fr);
+   :                                  ^^^
    `----
 
   x Dimension
-   ,-[$DIR/tests/fixture/rome/grid/repeat/flex/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: repeat(4, 1fr);
-   :                                   ^^^
+   ,-[$DIR/tests/fixture/rome/grid/repeat/flex/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, 1fr);
+   :                                  ^^^
    `----
 
   x Flex
-   ,-[$DIR/tests/fixture/rome/grid/repeat/flex/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: repeat(4, 1fr);
-   :                                   ^^^
+   ,-[$DIR/tests/fixture/rome/grid/repeat/flex/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, 1fr);
+   :                                  ^^^
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/rome/grid/repeat/flex/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: repeat(4, 1fr);
-   :                                   ^
+   ,-[$DIR/tests/fixture/rome/grid/repeat/flex/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, 1fr);
+   :                                  ^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/grid/repeat/flex/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: repeat(4, 1fr);
-   :                                    ^^
+   ,-[$DIR/tests/fixture/rome/grid/repeat/flex/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, 1fr);
+   :                                   ^^
    `----

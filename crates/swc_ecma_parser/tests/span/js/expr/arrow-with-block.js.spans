@@ -107,29 +107,25 @@
    `----
 
   x Stmt
-   ,-[$DIR/tests/span/js/expr/arrow-with-block.js:1:10]
- 1 | > {
- 2 |     return a;
-   :     ^^^^^^^^^
+   ,-[$DIR/tests/span/js/expr/arrow-with-block.js:2:5]
+ 2 | return a;
+   : ^^^^^^^^^
    `----
 
   x ReturnStmt
-   ,-[$DIR/tests/span/js/expr/arrow-with-block.js:1:10]
- 1 | > {
- 2 |     return a;
-   :     ^^^^^^^^^
+   ,-[$DIR/tests/span/js/expr/arrow-with-block.js:2:5]
+ 2 | return a;
+   : ^^^^^^^^^
    `----
 
   x Expr
-   ,-[$DIR/tests/span/js/expr/arrow-with-block.js:1:10]
- 1 | > {
- 2 |     return a;
-   :            ^
+   ,-[$DIR/tests/span/js/expr/arrow-with-block.js:2:5]
+ 2 | return a;
+   :        ^
    `----
 
   x Ident
-   ,-[$DIR/tests/span/js/expr/arrow-with-block.js:1:10]
- 1 | > {
- 2 |     return a;
-   :            ^
+   ,-[$DIR/tests/span/js/expr/arrow-with-block.js:2:5]
+ 2 | return a;
+   :        ^
    `----

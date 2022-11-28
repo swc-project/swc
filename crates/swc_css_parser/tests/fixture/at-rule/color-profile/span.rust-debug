@@ -56,66 +56,57 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:1:24]
- 1 | 9 {
- 2 |     src: url('https://example.org/Coated_Fogra39L_VIGC_300.icc');
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:2:5]
+ 2 | src: url('https://example.org/Coated_Fogra39L_VIGC_300.icc');
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:1:24]
- 1 | 9 {
- 2 |     src: url('https://example.org/Coated_Fogra39L_VIGC_300.icc');
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:2:5]
+ 2 | src: url('https://example.org/Coated_Fogra39L_VIGC_300.icc');
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:1:24]
- 1 | 9 {
- 2 |     src: url('https://example.org/Coated_Fogra39L_VIGC_300.icc');
-   :     ^^^
+   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:2:5]
+ 2 | src: url('https://example.org/Coated_Fogra39L_VIGC_300.icc');
+   : ^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:1:24]
- 1 | 9 {
- 2 |     src: url('https://example.org/Coated_Fogra39L_VIGC_300.icc');
-   :     ^^^
+   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:2:5]
+ 2 | src: url('https://example.org/Coated_Fogra39L_VIGC_300.icc');
+   : ^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:1:24]
- 1 | 9 {
- 2 |     src: url('https://example.org/Coated_Fogra39L_VIGC_300.icc');
-   :          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:2:5]
+ 2 | src: url('https://example.org/Coated_Fogra39L_VIGC_300.icc');
+   :      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Url
-   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:1:24]
- 1 | 9 {
- 2 |     src: url('https://example.org/Coated_Fogra39L_VIGC_300.icc');
-   :          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:2:5]
+ 2 | src: url('https://example.org/Coated_Fogra39L_VIGC_300.icc');
+   :      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:1:24]
- 1 | 9 {
- 2 |     src: url('https://example.org/Coated_Fogra39L_VIGC_300.icc');
-   :          ^^^
+   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:2:5]
+ 2 | src: url('https://example.org/Coated_Fogra39L_VIGC_300.icc');
+   :      ^^^
    `----
 
   x UrlValue
-   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:1:24]
- 1 | 9 {
- 2 |     src: url('https://example.org/Coated_Fogra39L_VIGC_300.icc');
-   :              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:2:5]
+ 2 | src: url('https://example.org/Coated_Fogra39L_VIGC_300.icc');
+   :          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Str
-   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:1:24]
- 1 | 9 {
- 2 |     src: url('https://example.org/Coated_Fogra39L_VIGC_300.icc');
-   :              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:2:5]
+ 2 | src: url('https://example.org/Coated_Fogra39L_VIGC_300.icc');
+   :          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Rule
@@ -164,64 +155,55 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:5:26]
- 5 | k {
- 6 |     src: url('https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc');
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:6:5]
+ 6 | src: url('https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc');
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:5:26]
- 5 | k {
- 6 |     src: url('https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc');
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:6:5]
+ 6 | src: url('https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc');
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:5:26]
- 5 | k {
- 6 |     src: url('https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc');
-   :     ^^^
+   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:6:5]
+ 6 | src: url('https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc');
+   : ^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:5:26]
- 5 | k {
- 6 |     src: url('https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc');
-   :     ^^^
+   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:6:5]
+ 6 | src: url('https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc');
+   : ^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:5:26]
- 5 | k {
- 6 |     src: url('https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc');
-   :          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:6:5]
+ 6 | src: url('https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc');
+   :      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Url
-   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:5:26]
- 5 | k {
- 6 |     src: url('https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc');
-   :          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:6:5]
+ 6 | src: url('https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc');
+   :      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:5:26]
- 5 | k {
- 6 |     src: url('https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc');
-   :          ^^^
+   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:6:5]
+ 6 | src: url('https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc');
+   :      ^^^
    `----
 
   x UrlValue
-   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:5:26]
- 5 | k {
- 6 |     src: url('https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc');
-   :              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:6:5]
+ 6 | src: url('https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc');
+   :          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Str
-   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:5:26]
- 5 | k {
- 6 |     src: url('https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc');
-   :              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:6:5]
+ 6 | src: url('https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc');
+   :          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----

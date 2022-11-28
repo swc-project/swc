@@ -138,208 +138,179 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/only/1/input.css:1:52]
- 1 |     ) {
- 2 | ,->     .gradientWrapper {
+   ,-[$DIR/tests/fixture/only/1/input.css:2:5]
+ 2 | ,-> .gradientWrapper {
  3 | |         -chrome-: only(; z-index: 10;);
  4 | `->     }
    `----
 
   x Rule
-   ,-[$DIR/tests/fixture/only/1/input.css:1:52]
- 1 |     ) {
- 2 | ,->     .gradientWrapper {
+   ,-[$DIR/tests/fixture/only/1/input.css:2:5]
+ 2 | ,-> .gradientWrapper {
  3 | |         -chrome-: only(; z-index: 10;);
  4 | `->     }
    `----
 
   x QualifiedRule
-   ,-[$DIR/tests/fixture/only/1/input.css:1:52]
- 1 |     ) {
- 2 | ,->     .gradientWrapper {
+   ,-[$DIR/tests/fixture/only/1/input.css:2:5]
+ 2 | ,-> .gradientWrapper {
  3 | |         -chrome-: only(; z-index: 10;);
  4 | `->     }
    `----
 
   x SelectorList
-   ,-[$DIR/tests/fixture/only/1/input.css:1:52]
- 1 | ) {
- 2 |     .gradientWrapper {
-   :     ^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/only/1/input.css:2:5]
+ 2 | .gradientWrapper {
+   : ^^^^^^^^^^^^^^^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/only/1/input.css:1:52]
- 1 | ) {
- 2 |     .gradientWrapper {
-   :     ^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/only/1/input.css:2:5]
+ 2 | .gradientWrapper {
+   : ^^^^^^^^^^^^^^^^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/only/1/input.css:1:52]
- 1 | ) {
- 2 |     .gradientWrapper {
-   :     ^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/only/1/input.css:2:5]
+ 2 | .gradientWrapper {
+   : ^^^^^^^^^^^^^^^^
    `----
 
   x SubclassSelector
-   ,-[$DIR/tests/fixture/only/1/input.css:1:52]
- 1 | ) {
- 2 |     .gradientWrapper {
-   :     ^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/only/1/input.css:2:5]
+ 2 | .gradientWrapper {
+   : ^^^^^^^^^^^^^^^^
    `----
 
   x ClassSelector
-   ,-[$DIR/tests/fixture/only/1/input.css:1:52]
- 1 | ) {
- 2 |     .gradientWrapper {
-   :     ^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/only/1/input.css:2:5]
+ 2 | .gradientWrapper {
+   : ^^^^^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/only/1/input.css:1:52]
- 1 | ) {
- 2 |     .gradientWrapper {
-   :      ^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/only/1/input.css:2:5]
+ 2 | .gradientWrapper {
+   :  ^^^^^^^^^^^^^^^
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/only/1/input.css:1:52]
- 1 |     ) {
- 2 | ,->     .gradientWrapper {
+   ,-[$DIR/tests/fixture/only/1/input.css:2:5]
+ 2 | ,-> .gradientWrapper {
  3 | |         -chrome-: only(; z-index: 10;);
  4 | `->     }
    `----
 
   x LBrace
-   ,-[$DIR/tests/fixture/only/1/input.css:1:52]
- 1 | ) {
- 2 |     .gradientWrapper {
-   :                      ^
+   ,-[$DIR/tests/fixture/only/1/input.css:2:5]
+ 2 | .gradientWrapper {
+   :                  ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/only/1/input.css:2:18]
- 2 | per {
- 3 |       -chrome-: only(; z-index: 10;);
-   :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/only/1/input.css:3:7]
+ 3 | -chrome-: only(; z-index: 10;);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/only/1/input.css:2:18]
- 2 | per {
- 3 |       -chrome-: only(; z-index: 10;);
-   :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/only/1/input.css:3:7]
+ 3 | -chrome-: only(; z-index: 10;);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/only/1/input.css:2:18]
- 2 | per {
- 3 |       -chrome-: only(; z-index: 10;);
-   :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/only/1/input.css:3:7]
+ 3 | -chrome-: only(; z-index: 10;);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/only/1/input.css:2:18]
- 2 | per {
- 3 |       -chrome-: only(; z-index: 10;);
-   :       ^^^^^^^^
+   ,-[$DIR/tests/fixture/only/1/input.css:3:7]
+ 3 | -chrome-: only(; z-index: 10;);
+   : ^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/only/1/input.css:2:18]
- 2 | per {
- 3 |       -chrome-: only(; z-index: 10;);
-   :       ^^^^^^^^
+   ,-[$DIR/tests/fixture/only/1/input.css:3:7]
+ 3 | -chrome-: only(; z-index: 10;);
+   : ^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/only/1/input.css:2:18]
- 2 | per {
- 3 |       -chrome-: only(; z-index: 10;);
-   :                 ^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/only/1/input.css:3:7]
+ 3 | -chrome-: only(; z-index: 10;);
+   :           ^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Function
-   ,-[$DIR/tests/fixture/only/1/input.css:2:18]
- 2 | per {
- 3 |       -chrome-: only(; z-index: 10;);
-   :                 ^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/only/1/input.css:3:7]
+ 3 | -chrome-: only(; z-index: 10;);
+   :           ^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/only/1/input.css:2:18]
- 2 | per {
- 3 |       -chrome-: only(; z-index: 10;);
-   :                 ^^^^
+   ,-[$DIR/tests/fixture/only/1/input.css:3:7]
+ 3 | -chrome-: only(; z-index: 10;);
+   :           ^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/only/1/input.css:2:18]
- 2 | per {
- 3 |       -chrome-: only(; z-index: 10;);
-   :                      ^
+   ,-[$DIR/tests/fixture/only/1/input.css:3:7]
+ 3 | -chrome-: only(; z-index: 10;);
+   :                ^
    `----
 
   x Delimiter
-   ,-[$DIR/tests/fixture/only/1/input.css:2:18]
- 2 | per {
- 3 |       -chrome-: only(; z-index: 10;);
-   :                      ^
+   ,-[$DIR/tests/fixture/only/1/input.css:3:7]
+ 3 | -chrome-: only(; z-index: 10;);
+   :                ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/only/1/input.css:2:18]
- 2 | per {
- 3 |       -chrome-: only(; z-index: 10;);
-   :                        ^^^^^^^
+   ,-[$DIR/tests/fixture/only/1/input.css:3:7]
+ 3 | -chrome-: only(; z-index: 10;);
+   :                  ^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/only/1/input.css:2:18]
- 2 | per {
- 3 |       -chrome-: only(; z-index: 10;);
-   :                        ^^^^^^^
+   ,-[$DIR/tests/fixture/only/1/input.css:3:7]
+ 3 | -chrome-: only(; z-index: 10;);
+   :                  ^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/only/1/input.css:2:18]
- 2 | per {
- 3 |       -chrome-: only(; z-index: 10;);
-   :                               ^
+   ,-[$DIR/tests/fixture/only/1/input.css:3:7]
+ 3 | -chrome-: only(; z-index: 10;);
+   :                         ^
    `----
 
   x Colon
-   ,-[$DIR/tests/fixture/only/1/input.css:2:18]
- 2 | per {
- 3 |       -chrome-: only(; z-index: 10;);
-   :                               ^
+   ,-[$DIR/tests/fixture/only/1/input.css:3:7]
+ 3 | -chrome-: only(; z-index: 10;);
+   :                         ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/only/1/input.css:2:18]
- 2 | per {
- 3 |       -chrome-: only(; z-index: 10;);
-   :                                 ^^
+   ,-[$DIR/tests/fixture/only/1/input.css:3:7]
+ 3 | -chrome-: only(; z-index: 10;);
+   :                           ^^
    `----
 
   x Integer
-   ,-[$DIR/tests/fixture/only/1/input.css:2:18]
- 2 | per {
- 3 |       -chrome-: only(; z-index: 10;);
-   :                                 ^^
+   ,-[$DIR/tests/fixture/only/1/input.css:3:7]
+ 3 | -chrome-: only(; z-index: 10;);
+   :                           ^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/only/1/input.css:2:18]
- 2 | per {
- 3 |       -chrome-: only(; z-index: 10;);
-   :                                   ^
+   ,-[$DIR/tests/fixture/only/1/input.css:3:7]
+ 3 | -chrome-: only(; z-index: 10;);
+   :                             ^
    `----
 
   x Delimiter
-   ,-[$DIR/tests/fixture/only/1/input.css:2:18]
- 2 | per {
- 3 |       -chrome-: only(; z-index: 10;);
-   :                                   ^
+   ,-[$DIR/tests/fixture/only/1/input.css:3:7]
+ 3 | -chrome-: only(; z-index: 10;);
+   :                             ^
    `----

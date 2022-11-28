@@ -81,46 +81,40 @@
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/table/table-characters-3/input.html:3:4]
- 3 | ad>
- 4 |     <title>Document</title>
-   :     ^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/table/table-characters-3/input.html:4:5]
+ 4 | <title>Document</title>
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/recovery/element/table/table-characters-3/input.html:3:4]
- 3 | ad>
- 4 |     <title>Document</title>
-   :     ^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/table/table-characters-3/input.html:4:5]
+ 4 | <title>Document</title>
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/table/table-characters-3/input.html:3:4]
- 3 | ad>
- 4 |     <title>Document</title>
-   :            ^^^^^^^^
+   ,-[$DIR/tests/recovery/element/table/table-characters-3/input.html:4:5]
+ 4 | <title>Document</title>
+   :        ^^^^^^^^
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/element/table/table-characters-3/input.html:3:4]
- 3 | ad>
- 4 |     <title>Document</title>
-   :            ^^^^^^^^
+   ,-[$DIR/tests/recovery/element/table/table-characters-3/input.html:4:5]
+ 4 | <title>Document</title>
+   :        ^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/table/table-characters-3/input.html:3:4]
- 3 | ad>
- 4 |     <title>Document</title>
-   :                            ^
+   ,-[$DIR/tests/recovery/element/table/table-characters-3/input.html:4:5]
+ 4 | <title>Document</title>
+   :                        ^
  5 | </head>
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/element/table/table-characters-3/input.html:3:4]
- 3 | ad>
- 4 |     <title>Document</title>
-   :                            ^
+   ,-[$DIR/tests/recovery/element/table/table-characters-3/input.html:4:5]
+ 4 | <title>Document</title>
+   :                        ^
  5 | </head>
    `----
 
@@ -167,17 +161,15 @@
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/table/table-characters-3/input.html:6:4]
- 6 | dy>
- 7 |     A<table><tr> B</tr> </em>C</table>
-   :      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/table/table-characters-3/input.html:7:5]
+ 7 | A<table><tr> B</tr> </em>C</table>
+   :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/recovery/element/table/table-characters-3/input.html:6:4]
- 6 | dy>
- 7 |     A<table><tr> B</tr> </em>C</table>
-   :      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/table/table-characters-3/input.html:7:5]
+ 7 | A<table><tr> B</tr> </em>C</table>
+   :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -185,45 +177,39 @@
   x Element
 
   x Child
-   ,-[$DIR/tests/recovery/element/table/table-characters-3/input.html:6:4]
- 6 | dy>
- 7 |     A<table><tr> B</tr> </em>C</table>
-   :             ^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/table/table-characters-3/input.html:7:5]
+ 7 | A<table><tr> B</tr> </em>C</table>
+   :         ^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/recovery/element/table/table-characters-3/input.html:6:4]
- 6 | dy>
- 7 |     A<table><tr> B</tr> </em>C</table>
-   :             ^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/table/table-characters-3/input.html:7:5]
+ 7 | A<table><tr> B</tr> </em>C</table>
+   :         ^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/table/table-characters-3/input.html:6:4]
- 6 | dy>
- 7 |     A<table><tr> B</tr> </em>C</table>
-   :                        ^
+   ,-[$DIR/tests/recovery/element/table/table-characters-3/input.html:7:5]
+ 7 | A<table><tr> B</tr> </em>C</table>
+   :                    ^
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/element/table/table-characters-3/input.html:6:4]
- 6 | dy>
- 7 |     A<table><tr> B</tr> </em>C</table>
-   :                        ^
+   ,-[$DIR/tests/recovery/element/table/table-characters-3/input.html:7:5]
+ 7 | A<table><tr> B</tr> </em>C</table>
+   :                    ^
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/table/table-characters-3/input.html:6:4]
- 6 |     dy>
- 7 | ,->     A<table><tr> B</tr> </em>C</table>
+   ,-[$DIR/tests/recovery/element/table/table-characters-3/input.html:7:5]
+ 7 | ,-> A<table><tr> B</tr> </em>C</table>
  8 | `-> </body>
  9 |     </html>
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/element/table/table-characters-3/input.html:6:4]
- 6 |     dy>
- 7 | ,->     A<table><tr> B</tr> </em>C</table>
+   ,-[$DIR/tests/recovery/element/table/table-characters-3/input.html:7:5]
+ 7 | ,-> A<table><tr> B</tr> </em>C</table>
  8 | `-> </body>
  9 |     </html>
    `----

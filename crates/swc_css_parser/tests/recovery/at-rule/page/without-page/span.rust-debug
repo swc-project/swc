@@ -74,171 +74,147 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:1:9]
- 1 | t {
- 2 |     content: "foo";
-   :     ^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:2:5]
+ 2 | content: "foo";
+   : ^^^^^^^
    `----
 
   x Ident { value: Atom('content' type=static), raw: "content" }
-   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:1:9]
- 1 | t {
- 2 |     content: "foo";
-   :     ^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:2:5]
+ 2 | content: "foo";
+   : ^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:1:9]
- 1 | t {
- 2 |     content: "foo";
-   :            ^
+   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:2:5]
+ 2 | content: "foo";
+   :        ^
    `----
 
   x Colon
-   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:1:9]
- 1 | t {
- 2 |     content: "foo";
-   :            ^
+   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:2:5]
+ 2 | content: "foo";
+   :        ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:1:9]
- 1 | t {
- 2 |     content: "foo";
-   :             ^
+   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:2:5]
+ 2 | content: "foo";
+   :         ^
    `----
 
   x WhiteSpace { value: " " }
-   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:1:9]
- 1 | t {
- 2 |     content: "foo";
-   :             ^
+   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:2:5]
+ 2 | content: "foo";
+   :         ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:1:9]
- 1 | t {
- 2 |     content: "foo";
-   :              ^^^^^
+   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:2:5]
+ 2 | content: "foo";
+   :          ^^^^^
    `----
 
   x String { value: Atom('foo' type=inline), raw: "\"foo\"" }
-   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:1:9]
- 1 | t {
- 2 |     content: "foo";
-   :              ^^^^^
+   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:2:5]
+ 2 | content: "foo";
+   :          ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:1:9]
- 1 | t {
- 2 |     content: "foo";
-   :                   ^
+   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:2:5]
+ 2 | content: "foo";
+   :               ^
    `----
 
   x Semi
-   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:1:9]
- 1 | t {
- 2 |     content: "foo";
-   :                   ^
+   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:2:5]
+ 2 | content: "foo";
+   :               ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:1:9]
- 1 |     t {
- 2 | ,->     content: "foo";
+   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:2:5]
+ 2 | ,-> content: "foo";
  3 | `->     color: blue;
    `----
 
   x WhiteSpace { value: "\n    " }
-   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:1:9]
- 1 |     t {
- 2 | ,->     content: "foo";
+   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:2:5]
+ 2 | ,-> content: "foo";
  3 | `->     color: blue;
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:2:17]
- 2 | o";
- 3 |     color: blue;
-   :     ^^^^^
+   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:3:5]
+ 3 | color: blue;
+   : ^^^^^
    `----
 
   x Ident { value: Atom('color' type=static), raw: "color" }
-   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:2:17]
- 2 | o";
- 3 |     color: blue;
-   :     ^^^^^
+   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:3:5]
+ 3 | color: blue;
+   : ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:2:17]
- 2 | o";
- 3 |     color: blue;
-   :          ^
+   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:3:5]
+ 3 | color: blue;
+   :      ^
    `----
 
   x Colon
-   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:2:17]
- 2 | o";
- 3 |     color: blue;
-   :          ^
+   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:3:5]
+ 3 | color: blue;
+   :      ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:2:17]
- 2 | o";
- 3 |     color: blue;
-   :           ^
+   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:3:5]
+ 3 | color: blue;
+   :       ^
    `----
 
   x WhiteSpace { value: " " }
-   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:2:17]
- 2 | o";
- 3 |     color: blue;
-   :           ^
+   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:3:5]
+ 3 | color: blue;
+   :       ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:2:17]
- 2 | o";
- 3 |     color: blue;
-   :            ^^^^
+   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:3:5]
+ 3 | color: blue;
+   :        ^^^^
    `----
 
   x Ident { value: Atom('blue' type=inline), raw: "blue" }
-   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:2:17]
- 2 | o";
- 3 |     color: blue;
-   :            ^^^^
+   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:3:5]
+ 3 | color: blue;
+   :        ^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:2:17]
- 2 | o";
- 3 |     color: blue;
-   :                ^
+   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:3:5]
+ 3 | color: blue;
+   :            ^
    `----
 
   x Semi
-   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:2:17]
- 2 | o";
- 3 |     color: blue;
-   :                ^
+   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:3:5]
+ 3 | color: blue;
+   :            ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:2:17]
- 2 | o";
- 3 |     color: blue;
-   :                 ^
+   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:3:5]
+ 3 | color: blue;
+   :             ^
  4 | }
    `----
 
   x WhiteSpace { value: "\n" }
-   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:2:17]
- 2 | o";
- 3 |     color: blue;
-   :                 ^
+   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:3:5]
+ 3 | color: blue;
+   :             ^
  4 | }
    `----

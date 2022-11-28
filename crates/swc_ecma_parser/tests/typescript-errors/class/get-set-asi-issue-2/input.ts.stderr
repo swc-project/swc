@@ -1,7 +1,6 @@
 
   x Expected '(', got 'x'
-   ,-[$DIR/tests/typescript-errors/class/get-set-asi-issue-2/input.ts:2:5]
- 2 | t
- 3 |   static x() { return 0 }
-   :          ^
+   ,-[$DIR/tests/typescript-errors/class/get-set-asi-issue-2/input.ts:3:3]
+ 3 | static x() { return 0 }
+   :        ^
    `----

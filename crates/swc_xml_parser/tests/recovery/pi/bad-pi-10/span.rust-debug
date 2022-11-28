@@ -33,31 +33,27 @@
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/pi/bad-pi-10/input.xml:1:4]
- 1 | ot>
- 2 |     <?foo??>
-   :     ^^^^^^^^
+   ,-[$DIR/tests/recovery/pi/bad-pi-10/input.xml:2:5]
+ 2 | <?foo??>
+   : ^^^^^^^^
    `----
 
   x ProcessingInstruction
-   ,-[$DIR/tests/recovery/pi/bad-pi-10/input.xml:1:4]
- 1 | ot>
- 2 |     <?foo??>
-   :     ^^^^^^^^
+   ,-[$DIR/tests/recovery/pi/bad-pi-10/input.xml:2:5]
+ 2 | <?foo??>
+   : ^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/pi/bad-pi-10/input.xml:1:4]
- 1 | ot>
- 2 |     <?foo??>
-   :             ^
+   ,-[$DIR/tests/recovery/pi/bad-pi-10/input.xml:2:5]
+ 2 | <?foo??>
+   :         ^
  3 | </root>
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/pi/bad-pi-10/input.xml:1:4]
- 1 | ot>
- 2 |     <?foo??>
-   :             ^
+   ,-[$DIR/tests/recovery/pi/bad-pi-10/input.xml:2:5]
+ 2 | <?foo??>
+   :         ^
  3 | </root>
    `----

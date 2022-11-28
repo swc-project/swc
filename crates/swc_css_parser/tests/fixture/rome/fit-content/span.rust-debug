@@ -70,183 +70,157 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/fit-content/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
-   :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/fit-content/input.css:2:5]
+ 2 | grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/rome/fit-content/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
-   :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/fit-content/input.css:2:5]
+ 2 | grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/rome/fit-content/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
-   :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/fit-content/input.css:2:5]
+ 2 | grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/rome/fit-content/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
-   :  ^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/fit-content/input.css:2:5]
+ 2 | grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
+   : ^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/fit-content/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
-   :  ^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/fit-content/input.css:2:5]
+ 2 | grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
+   : ^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/fit-content/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
-   :                         ^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/fit-content/input.css:2:5]
+ 2 | grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
+   :                        ^^^^^^^^^^^^^^^^
    `----
 
   x Function
-   ,-[$DIR/tests/fixture/rome/fit-content/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
-   :                         ^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/fit-content/input.css:2:5]
+ 2 | grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
+   :                        ^^^^^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/fit-content/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
-   :                         ^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/fit-content/input.css:2:5]
+ 2 | grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
+   :                        ^^^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/fit-content/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
-   :                                     ^^^
+   ,-[$DIR/tests/fixture/rome/fit-content/input.css:2:5]
+ 2 | grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
+   :                                    ^^^
    `----
 
   x Dimension
-   ,-[$DIR/tests/fixture/rome/fit-content/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
-   :                                     ^^^
+   ,-[$DIR/tests/fixture/rome/fit-content/input.css:2:5]
+ 2 | grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
+   :                                    ^^^
    `----
 
   x Length
-   ,-[$DIR/tests/fixture/rome/fit-content/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
-   :                                     ^^^
+   ,-[$DIR/tests/fixture/rome/fit-content/input.css:2:5]
+ 2 | grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
+   :                                    ^^^
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/rome/fit-content/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
-   :                                     ^
+   ,-[$DIR/tests/fixture/rome/fit-content/input.css:2:5]
+ 2 | grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
+   :                                    ^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/fit-content/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
-   :                                      ^^
+   ,-[$DIR/tests/fixture/rome/fit-content/input.css:2:5]
+ 2 | grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
+   :                                     ^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/fit-content/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
-   :                                          ^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/fit-content/input.css:2:5]
+ 2 | grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
+   :                                         ^^^^^^^^^^^^^^^^
    `----
 
   x Function
-   ,-[$DIR/tests/fixture/rome/fit-content/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
-   :                                          ^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/fit-content/input.css:2:5]
+ 2 | grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
+   :                                         ^^^^^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/fit-content/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
-   :                                          ^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/fit-content/input.css:2:5]
+ 2 | grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
+   :                                         ^^^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/fit-content/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
-   :                                                      ^^^
+   ,-[$DIR/tests/fixture/rome/fit-content/input.css:2:5]
+ 2 | grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
+   :                                                     ^^^
    `----
 
   x Dimension
-   ,-[$DIR/tests/fixture/rome/fit-content/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
-   :                                                      ^^^
+   ,-[$DIR/tests/fixture/rome/fit-content/input.css:2:5]
+ 2 | grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
+   :                                                     ^^^
    `----
 
   x Length
-   ,-[$DIR/tests/fixture/rome/fit-content/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
-   :                                                      ^^^
+   ,-[$DIR/tests/fixture/rome/fit-content/input.css:2:5]
+ 2 | grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
+   :                                                     ^^^
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/rome/fit-content/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
-   :                                                      ^
+   ,-[$DIR/tests/fixture/rome/fit-content/input.css:2:5]
+ 2 | grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
+   :                                                     ^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/fit-content/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
-   :                                                       ^^
+   ,-[$DIR/tests/fixture/rome/fit-content/input.css:2:5]
+ 2 | grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
+   :                                                      ^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/fit-content/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
-   :                                                           ^^^
+   ,-[$DIR/tests/fixture/rome/fit-content/input.css:2:5]
+ 2 | grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
+   :                                                          ^^^
    `----
 
   x Dimension
-   ,-[$DIR/tests/fixture/rome/fit-content/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
-   :                                                           ^^^
+   ,-[$DIR/tests/fixture/rome/fit-content/input.css:2:5]
+ 2 | grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
+   :                                                          ^^^
    `----
 
   x Flex
-   ,-[$DIR/tests/fixture/rome/fit-content/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
-   :                                                           ^^^
+   ,-[$DIR/tests/fixture/rome/fit-content/input.css:2:5]
+ 2 | grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
+   :                                                          ^^^
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/rome/fit-content/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
-   :                                                           ^
+   ,-[$DIR/tests/fixture/rome/fit-content/input.css:2:5]
+ 2 | grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
+   :                                                          ^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/fit-content/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
-   :                                                            ^^
+   ,-[$DIR/tests/fixture/rome/fit-content/input.css:2:5]
+ 2 | grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
+   :                                                           ^^
    `----

@@ -37,15 +37,11 @@
    `----
 
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat.18.html:1:26]
- 1 |     
- 2 | ,-> 
+   ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat.18.html:3:1]
  3 | `-> foo</textarea>
    `----
 
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat.18.html:1:26]
- 1 |     
- 2 | ,-> 
+   ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat.18.html:3:1]
  3 | `-> foo</textarea>
    `----

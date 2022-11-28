@@ -84,281 +84,241 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/delim-token/plus/input.css:1:1]
- 1 | a {
- 2 |     prop: +;
-   :     ^^^^^^^
+   ,-[$DIR/tests/recovery/delim-token/plus/input.css:2:5]
+ 2 | prop: +;
+   : ^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/recovery/delim-token/plus/input.css:1:1]
- 1 | a {
- 2 |     prop: +;
-   :     ^^^^^^^
+   ,-[$DIR/tests/recovery/delim-token/plus/input.css:2:5]
+ 2 | prop: +;
+   : ^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/recovery/delim-token/plus/input.css:1:1]
- 1 | a {
- 2 |     prop: +;
-   :     ^^^^^^^
+   ,-[$DIR/tests/recovery/delim-token/plus/input.css:2:5]
+ 2 | prop: +;
+   : ^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/recovery/delim-token/plus/input.css:1:1]
- 1 | a {
- 2 |     prop: +;
-   :     ^^^^
+   ,-[$DIR/tests/recovery/delim-token/plus/input.css:2:5]
+ 2 | prop: +;
+   : ^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/delim-token/plus/input.css:1:1]
- 1 | a {
- 2 |     prop: +;
-   :     ^^^^
+   ,-[$DIR/tests/recovery/delim-token/plus/input.css:2:5]
+ 2 | prop: +;
+   : ^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/delim-token/plus/input.css:1:1]
- 1 | a {
- 2 |     prop: +;
-   :           ^
+   ,-[$DIR/tests/recovery/delim-token/plus/input.css:2:5]
+ 2 | prop: +;
+   :       ^
    `----
 
   x Delim { value: '+' }
-   ,-[$DIR/tests/recovery/delim-token/plus/input.css:1:1]
- 1 | a {
- 2 |     prop: +;
-   :           ^
+   ,-[$DIR/tests/recovery/delim-token/plus/input.css:2:5]
+ 2 | prop: +;
+   :       ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/delim-token/plus/input.css:2:10]
- 2 |  +;
- 3 |     prop1: 1 + 2;
-   :     ^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/delim-token/plus/input.css:3:5]
+ 3 | prop1: 1 + 2;
+   : ^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/recovery/delim-token/plus/input.css:2:10]
- 2 |  +;
- 3 |     prop1: 1 + 2;
-   :     ^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/delim-token/plus/input.css:3:5]
+ 3 | prop1: 1 + 2;
+   : ^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/recovery/delim-token/plus/input.css:2:10]
- 2 |  +;
- 3 |     prop1: 1 + 2;
-   :     ^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/delim-token/plus/input.css:3:5]
+ 3 | prop1: 1 + 2;
+   : ^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/recovery/delim-token/plus/input.css:2:10]
- 2 |  +;
- 3 |     prop1: 1 + 2;
-   :     ^^^^^
+   ,-[$DIR/tests/recovery/delim-token/plus/input.css:3:5]
+ 3 | prop1: 1 + 2;
+   : ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/delim-token/plus/input.css:2:10]
- 2 |  +;
- 3 |     prop1: 1 + 2;
-   :     ^^^^^
+   ,-[$DIR/tests/recovery/delim-token/plus/input.css:3:5]
+ 3 | prop1: 1 + 2;
+   : ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/delim-token/plus/input.css:2:10]
- 2 |  +;
- 3 |     prop1: 1 + 2;
-   :            ^
+   ,-[$DIR/tests/recovery/delim-token/plus/input.css:3:5]
+ 3 | prop1: 1 + 2;
+   :        ^
    `----
 
   x Number { value: 1.0, raw: "1", type_flag: Integer }
-   ,-[$DIR/tests/recovery/delim-token/plus/input.css:2:10]
- 2 |  +;
- 3 |     prop1: 1 + 2;
+   ,-[$DIR/tests/recovery/delim-token/plus/input.css:3:5]
+ 3 | prop1: 1 + 2;
+   :        ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/delim-token/plus/input.css:3:5]
+ 3 | prop1: 1 + 2;
+   :         ^
+   `----
+
+  x WhiteSpace { value: " " }
+   ,-[$DIR/tests/recovery/delim-token/plus/input.css:3:5]
+ 3 | prop1: 1 + 2;
+   :         ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/delim-token/plus/input.css:3:5]
+ 3 | prop1: 1 + 2;
+   :          ^
+   `----
+
+  x Delim { value: '+' }
+   ,-[$DIR/tests/recovery/delim-token/plus/input.css:3:5]
+ 3 | prop1: 1 + 2;
+   :          ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/delim-token/plus/input.css:3:5]
+ 3 | prop1: 1 + 2;
+   :           ^
+   `----
+
+  x WhiteSpace { value: " " }
+   ,-[$DIR/tests/recovery/delim-token/plus/input.css:3:5]
+ 3 | prop1: 1 + 2;
+   :           ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/delim-token/plus/input.css:3:5]
+ 3 | prop1: 1 + 2;
+   :            ^
+   `----
+
+  x Number { value: 2.0, raw: "2", type_flag: Integer }
+   ,-[$DIR/tests/recovery/delim-token/plus/input.css:3:5]
+ 3 | prop1: 1 + 2;
    :            ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/delim-token/plus/input.css:2:10]
- 2 |  +;
- 3 |     prop1: 1 + 2;
-   :             ^
-   `----
-
-  x WhiteSpace { value: " " }
-   ,-[$DIR/tests/recovery/delim-token/plus/input.css:2:10]
- 2 |  +;
- 3 |     prop1: 1 + 2;
-   :             ^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/recovery/delim-token/plus/input.css:2:10]
- 2 |  +;
- 3 |     prop1: 1 + 2;
-   :              ^
-   `----
-
-  x Delim { value: '+' }
-   ,-[$DIR/tests/recovery/delim-token/plus/input.css:2:10]
- 2 |  +;
- 3 |     prop1: 1 + 2;
-   :              ^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/recovery/delim-token/plus/input.css:2:10]
- 2 |  +;
- 3 |     prop1: 1 + 2;
-   :               ^
-   `----
-
-  x WhiteSpace { value: " " }
-   ,-[$DIR/tests/recovery/delim-token/plus/input.css:2:10]
- 2 |  +;
- 3 |     prop1: 1 + 2;
-   :               ^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/recovery/delim-token/plus/input.css:2:10]
- 2 |  +;
- 3 |     prop1: 1 + 2;
-   :                ^
-   `----
-
-  x Number { value: 2.0, raw: "2", type_flag: Integer }
-   ,-[$DIR/tests/recovery/delim-token/plus/input.css:2:10]
- 2 |  +;
- 3 |     prop1: 1 + 2;
-   :                ^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/recovery/delim-token/plus/input.css:3:15]
- 3 |  2;
- 4 |     prop2: func(1 + 2);
-   :     ^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/delim-token/plus/input.css:4:5]
+ 4 | prop2: func(1 + 2);
+   : ^^^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/recovery/delim-token/plus/input.css:3:15]
- 3 |  2;
- 4 |     prop2: func(1 + 2);
-   :     ^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/delim-token/plus/input.css:4:5]
+ 4 | prop2: func(1 + 2);
+   : ^^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/recovery/delim-token/plus/input.css:3:15]
- 3 |  2;
- 4 |     prop2: func(1 + 2);
-   :     ^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/delim-token/plus/input.css:4:5]
+ 4 | prop2: func(1 + 2);
+   : ^^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/recovery/delim-token/plus/input.css:3:15]
- 3 |  2;
- 4 |     prop2: func(1 + 2);
-   :     ^^^^^
+   ,-[$DIR/tests/recovery/delim-token/plus/input.css:4:5]
+ 4 | prop2: func(1 + 2);
+   : ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/delim-token/plus/input.css:3:15]
- 3 |  2;
- 4 |     prop2: func(1 + 2);
-   :     ^^^^^
+   ,-[$DIR/tests/recovery/delim-token/plus/input.css:4:5]
+ 4 | prop2: func(1 + 2);
+   : ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/delim-token/plus/input.css:3:15]
- 3 |  2;
- 4 |     prop2: func(1 + 2);
-   :            ^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/delim-token/plus/input.css:4:5]
+ 4 | prop2: func(1 + 2);
+   :        ^^^^^^^^^^^
    `----
 
   x Function
-   ,-[$DIR/tests/recovery/delim-token/plus/input.css:3:15]
- 3 |  2;
- 4 |     prop2: func(1 + 2);
-   :            ^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/delim-token/plus/input.css:4:5]
+ 4 | prop2: func(1 + 2);
+   :        ^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/delim-token/plus/input.css:3:15]
- 3 |  2;
- 4 |     prop2: func(1 + 2);
-   :            ^^^^
+   ,-[$DIR/tests/recovery/delim-token/plus/input.css:4:5]
+ 4 | prop2: func(1 + 2);
+   :        ^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/delim-token/plus/input.css:3:15]
- 3 |  2;
- 4 |     prop2: func(1 + 2);
-   :                 ^
+   ,-[$DIR/tests/recovery/delim-token/plus/input.css:4:5]
+ 4 | prop2: func(1 + 2);
+   :             ^
    `----
 
   x Number { value: 1.0, raw: "1", type_flag: Integer }
-   ,-[$DIR/tests/recovery/delim-token/plus/input.css:3:15]
- 3 |  2;
- 4 |     prop2: func(1 + 2);
-   :                 ^
+   ,-[$DIR/tests/recovery/delim-token/plus/input.css:4:5]
+ 4 | prop2: func(1 + 2);
+   :             ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/delim-token/plus/input.css:3:15]
- 3 |  2;
- 4 |     prop2: func(1 + 2);
-   :                  ^
+   ,-[$DIR/tests/recovery/delim-token/plus/input.css:4:5]
+ 4 | prop2: func(1 + 2);
+   :              ^
    `----
 
   x WhiteSpace { value: " " }
-   ,-[$DIR/tests/recovery/delim-token/plus/input.css:3:15]
- 3 |  2;
- 4 |     prop2: func(1 + 2);
-   :                  ^
+   ,-[$DIR/tests/recovery/delim-token/plus/input.css:4:5]
+ 4 | prop2: func(1 + 2);
+   :              ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/delim-token/plus/input.css:3:15]
- 3 |  2;
- 4 |     prop2: func(1 + 2);
-   :                   ^
+   ,-[$DIR/tests/recovery/delim-token/plus/input.css:4:5]
+ 4 | prop2: func(1 + 2);
+   :               ^
    `----
 
   x Delim { value: '+' }
-   ,-[$DIR/tests/recovery/delim-token/plus/input.css:3:15]
- 3 |  2;
- 4 |     prop2: func(1 + 2);
-   :                   ^
+   ,-[$DIR/tests/recovery/delim-token/plus/input.css:4:5]
+ 4 | prop2: func(1 + 2);
+   :               ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/delim-token/plus/input.css:3:15]
- 3 |  2;
- 4 |     prop2: func(1 + 2);
-   :                    ^
+   ,-[$DIR/tests/recovery/delim-token/plus/input.css:4:5]
+ 4 | prop2: func(1 + 2);
+   :                ^
    `----
 
   x WhiteSpace { value: " " }
-   ,-[$DIR/tests/recovery/delim-token/plus/input.css:3:15]
- 3 |  2;
- 4 |     prop2: func(1 + 2);
-   :                    ^
+   ,-[$DIR/tests/recovery/delim-token/plus/input.css:4:5]
+ 4 | prop2: func(1 + 2);
+   :                ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/delim-token/plus/input.css:3:15]
- 3 |  2;
- 4 |     prop2: func(1 + 2);
-   :                     ^
+   ,-[$DIR/tests/recovery/delim-token/plus/input.css:4:5]
+ 4 | prop2: func(1 + 2);
+   :                 ^
    `----
 
   x Number { value: 2.0, raw: "2", type_flag: Integer }
-   ,-[$DIR/tests/recovery/delim-token/plus/input.css:3:15]
- 3 |  2;
- 4 |     prop2: func(1 + 2);
-   :                     ^
+   ,-[$DIR/tests/recovery/delim-token/plus/input.css:4:5]
+ 4 | prop2: func(1 + 2);
+   :                 ^
    `----

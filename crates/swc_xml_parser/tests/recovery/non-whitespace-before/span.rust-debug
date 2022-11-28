@@ -55,171 +55,147 @@
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/non-whitespace-before/input.xml:2:4]
- 2 | te>
- 3 |     <to>Tove</to>
-   :     ^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/non-whitespace-before/input.xml:3:5]
+ 3 | <to>Tove</to>
+   : ^^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/recovery/non-whitespace-before/input.xml:2:4]
- 2 | te>
- 3 |     <to>Tove</to>
-   :     ^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/non-whitespace-before/input.xml:3:5]
+ 3 | <to>Tove</to>
+   : ^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/non-whitespace-before/input.xml:2:4]
- 2 | te>
- 3 |     <to>Tove</to>
-   :         ^^^^
+   ,-[$DIR/tests/recovery/non-whitespace-before/input.xml:3:5]
+ 3 | <to>Tove</to>
+   :     ^^^^
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/non-whitespace-before/input.xml:2:4]
- 2 | te>
- 3 |     <to>Tove</to>
-   :         ^^^^
+   ,-[$DIR/tests/recovery/non-whitespace-before/input.xml:3:5]
+ 3 | <to>Tove</to>
+   :     ^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/non-whitespace-before/input.xml:2:4]
- 2 |     te>
- 3 | ,->     <to>Tove</to>
+   ,-[$DIR/tests/recovery/non-whitespace-before/input.xml:3:5]
+ 3 | ,-> <to>Tove</to>
  4 | `->     <from>Jani</from>
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/non-whitespace-before/input.xml:2:4]
- 2 |     te>
- 3 | ,->     <to>Tove</to>
+   ,-[$DIR/tests/recovery/non-whitespace-before/input.xml:3:5]
+ 3 | ,-> <to>Tove</to>
  4 | `->     <from>Jani</from>
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/non-whitespace-before/input.xml:3:15]
- 3 | to>
- 4 |     <from>Jani</from>
-   :     ^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/non-whitespace-before/input.xml:4:5]
+ 4 | <from>Jani</from>
+   : ^^^^^^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/recovery/non-whitespace-before/input.xml:3:15]
- 3 | to>
- 4 |     <from>Jani</from>
-   :     ^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/non-whitespace-before/input.xml:4:5]
+ 4 | <from>Jani</from>
+   : ^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/non-whitespace-before/input.xml:3:15]
- 3 | to>
- 4 |     <from>Jani</from>
-   :           ^^^^
+   ,-[$DIR/tests/recovery/non-whitespace-before/input.xml:4:5]
+ 4 | <from>Jani</from>
+   :       ^^^^
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/non-whitespace-before/input.xml:3:15]
- 3 | to>
- 4 |     <from>Jani</from>
-   :           ^^^^
+   ,-[$DIR/tests/recovery/non-whitespace-before/input.xml:4:5]
+ 4 | <from>Jani</from>
+   :       ^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/non-whitespace-before/input.xml:3:15]
- 3 |     to>
- 4 | ,->     <from>Jani</from>
+   ,-[$DIR/tests/recovery/non-whitespace-before/input.xml:4:5]
+ 4 | ,-> <from>Jani</from>
  5 | `->     <heading>Reminder</heading>
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/non-whitespace-before/input.xml:3:15]
- 3 |     to>
- 4 | ,->     <from>Jani</from>
+   ,-[$DIR/tests/recovery/non-whitespace-before/input.xml:4:5]
+ 4 | ,-> <from>Jani</from>
  5 | `->     <heading>Reminder</heading>
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/non-whitespace-before/input.xml:4:19]
- 4 | om>
- 5 |     <heading>Reminder</heading>
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/non-whitespace-before/input.xml:5:5]
+ 5 | <heading>Reminder</heading>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/recovery/non-whitespace-before/input.xml:4:19]
- 4 | om>
- 5 |     <heading>Reminder</heading>
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/non-whitespace-before/input.xml:5:5]
+ 5 | <heading>Reminder</heading>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/non-whitespace-before/input.xml:4:19]
- 4 | om>
- 5 |     <heading>Reminder</heading>
-   :              ^^^^^^^^
+   ,-[$DIR/tests/recovery/non-whitespace-before/input.xml:5:5]
+ 5 | <heading>Reminder</heading>
+   :          ^^^^^^^^
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/non-whitespace-before/input.xml:4:19]
- 4 | om>
- 5 |     <heading>Reminder</heading>
-   :              ^^^^^^^^
+   ,-[$DIR/tests/recovery/non-whitespace-before/input.xml:5:5]
+ 5 | <heading>Reminder</heading>
+   :          ^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/non-whitespace-before/input.xml:4:19]
- 4 |     om>
- 5 | ,->     <heading>Reminder</heading>
+   ,-[$DIR/tests/recovery/non-whitespace-before/input.xml:5:5]
+ 5 | ,-> <heading>Reminder</heading>
  6 | `->     <body>Don't forget me this weekend!</body>
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/non-whitespace-before/input.xml:4:19]
- 4 |     om>
- 5 | ,->     <heading>Reminder</heading>
+   ,-[$DIR/tests/recovery/non-whitespace-before/input.xml:5:5]
+ 5 | ,-> <heading>Reminder</heading>
  6 | `->     <body>Don't forget me this weekend!</body>
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/non-whitespace-before/input.xml:5:29]
- 5 | ng>
- 6 |     <body>Don't forget me this weekend!</body>
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/non-whitespace-before/input.xml:6:5]
+ 6 | <body>Don't forget me this weekend!</body>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/recovery/non-whitespace-before/input.xml:5:29]
- 5 | ng>
- 6 |     <body>Don't forget me this weekend!</body>
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/non-whitespace-before/input.xml:6:5]
+ 6 | <body>Don't forget me this weekend!</body>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/non-whitespace-before/input.xml:5:29]
- 5 | ng>
- 6 |     <body>Don't forget me this weekend!</body>
-   :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/non-whitespace-before/input.xml:6:5]
+ 6 | <body>Don't forget me this weekend!</body>
+   :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/non-whitespace-before/input.xml:5:29]
- 5 | ng>
- 6 |     <body>Don't forget me this weekend!</body>
-   :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/non-whitespace-before/input.xml:6:5]
+ 6 | <body>Don't forget me this weekend!</body>
+   :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/non-whitespace-before/input.xml:5:29]
- 5 | ng>
- 6 |     <body>Don't forget me this weekend!</body>
-   :                                               ^
+   ,-[$DIR/tests/recovery/non-whitespace-before/input.xml:6:5]
+ 6 | <body>Don't forget me this weekend!</body>
+   :                                           ^
  7 | </note>
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/non-whitespace-before/input.xml:5:29]
- 5 | ng>
- 6 |     <body>Don't forget me this weekend!</body>
-   :                                               ^
+   ,-[$DIR/tests/recovery/non-whitespace-before/input.xml:6:5]
+ 6 | <body>Don't forget me this weekend!</body>
+   :                                           ^
  7 | </note>
    `----

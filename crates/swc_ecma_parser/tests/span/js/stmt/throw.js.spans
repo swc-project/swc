@@ -55,36 +55,31 @@
    `----
 
   x Stmt
-   ,-[$DIR/tests/span/js/stmt/throw.js:1:14]
- 1 | ) {
- 2 |     throw 'foo';
-   :     ^^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/stmt/throw.js:2:5]
+ 2 | throw 'foo';
+   : ^^^^^^^^^^^^
    `----
 
   x ThrowStmt
-   ,-[$DIR/tests/span/js/stmt/throw.js:1:14]
- 1 | ) {
- 2 |     throw 'foo';
-   :     ^^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/stmt/throw.js:2:5]
+ 2 | throw 'foo';
+   : ^^^^^^^^^^^^
    `----
 
   x Expr
-   ,-[$DIR/tests/span/js/stmt/throw.js:1:14]
- 1 | ) {
- 2 |     throw 'foo';
-   :           ^^^^^
+   ,-[$DIR/tests/span/js/stmt/throw.js:2:5]
+ 2 | throw 'foo';
+   :       ^^^^^
    `----
 
   x Lit
-   ,-[$DIR/tests/span/js/stmt/throw.js:1:14]
- 1 | ) {
- 2 |     throw 'foo';
-   :           ^^^^^
+   ,-[$DIR/tests/span/js/stmt/throw.js:2:5]
+ 2 | throw 'foo';
+   :       ^^^^^
    `----
 
   x Str
-   ,-[$DIR/tests/span/js/stmt/throw.js:1:14]
- 1 | ) {
- 2 |     throw 'foo';
-   :           ^^^^^
+   ,-[$DIR/tests/span/js/stmt/throw.js:2:5]
+ 2 | throw 'foo';
+   :       ^^^^^
    `----

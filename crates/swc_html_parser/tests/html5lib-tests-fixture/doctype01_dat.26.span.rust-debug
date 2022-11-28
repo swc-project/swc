@@ -22,15 +22,13 @@
   x Element
 
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/doctype01_dat.26.html:1:48]
- 1 | N"
- 2 |    "http://www.w3.org/TR/html4/strict.dtd">Hello
-   :                                            ^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/doctype01_dat.26.html:2:4]
+ 2 | "http://www.w3.org/TR/html4/strict.dtd">Hello
+   :                                         ^^^^^
    `----
 
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/doctype01_dat.26.html:1:48]
- 1 | N"
- 2 |    "http://www.w3.org/TR/html4/strict.dtd">Hello
-   :                                            ^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/doctype01_dat.26.html:2:4]
+ 2 | "http://www.w3.org/TR/html4/strict.dtd">Hello
+   :                                         ^^^^^
    `----

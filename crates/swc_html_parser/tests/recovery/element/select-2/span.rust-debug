@@ -87,46 +87,40 @@
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/select-2/input.html:3:4]
- 3 | ad>
- 4 |     <title>Document</title>
-   :     ^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/select-2/input.html:4:5]
+ 4 | <title>Document</title>
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/recovery/element/select-2/input.html:3:4]
- 3 | ad>
- 4 |     <title>Document</title>
-   :     ^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/select-2/input.html:4:5]
+ 4 | <title>Document</title>
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/select-2/input.html:3:4]
- 3 | ad>
- 4 |     <title>Document</title>
-   :            ^^^^^^^^
+   ,-[$DIR/tests/recovery/element/select-2/input.html:4:5]
+ 4 | <title>Document</title>
+   :        ^^^^^^^^
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/element/select-2/input.html:3:4]
- 3 | ad>
- 4 |     <title>Document</title>
-   :            ^^^^^^^^
+   ,-[$DIR/tests/recovery/element/select-2/input.html:4:5]
+ 4 | <title>Document</title>
+   :        ^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/select-2/input.html:3:4]
- 3 | ad>
- 4 |     <title>Document</title>
-   :                            ^
+   ,-[$DIR/tests/recovery/element/select-2/input.html:4:5]
+ 4 | <title>Document</title>
+   :                        ^
  5 | </head>
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/element/select-2/input.html:3:4]
- 3 | ad>
- 4 |     <title>Document</title>
-   :                            ^
+   ,-[$DIR/tests/recovery/element/select-2/input.html:4:5]
+ 4 | <title>Document</title>
+   :                        ^
  5 | </head>
    `----
 
@@ -215,18 +209,16 @@
    `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/select-2/input.html:7:28]
-  7 |     t">
-  8 | ,->     <select name="test-1" id="test-1"></select>
+    ,-[$DIR/tests/recovery/element/select-2/input.html:8:5]
+  8 | ,-> <select name="test-1" id="test-1"></select>
   9 | |   </select>
  10 | `-> </body>
  11 |     </html>
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/select-2/input.html:7:28]
-  7 |     t">
-  8 | ,->     <select name="test-1" id="test-1"></select>
+    ,-[$DIR/tests/recovery/element/select-2/input.html:8:5]
+  8 | ,-> <select name="test-1" id="test-1"></select>
   9 | |   </select>
  10 | `-> </body>
  11 |     </html>

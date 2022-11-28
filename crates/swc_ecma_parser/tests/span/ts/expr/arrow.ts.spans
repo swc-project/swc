@@ -124,36 +124,31 @@
    `----
 
   x Stmt
-   ,-[$DIR/tests/span/ts/expr/arrow.ts:1:26]
- 1 | > {
- 2 |     return 'foo'
-   :     ^^^^^^^^^^^^
+   ,-[$DIR/tests/span/ts/expr/arrow.ts:2:5]
+ 2 | return 'foo'
+   : ^^^^^^^^^^^^
    `----
 
   x ReturnStmt
-   ,-[$DIR/tests/span/ts/expr/arrow.ts:1:26]
- 1 | > {
- 2 |     return 'foo'
-   :     ^^^^^^^^^^^^
+   ,-[$DIR/tests/span/ts/expr/arrow.ts:2:5]
+ 2 | return 'foo'
+   : ^^^^^^^^^^^^
    `----
 
   x Expr
-   ,-[$DIR/tests/span/ts/expr/arrow.ts:1:26]
- 1 | > {
- 2 |     return 'foo'
-   :            ^^^^^
+   ,-[$DIR/tests/span/ts/expr/arrow.ts:2:5]
+ 2 | return 'foo'
+   :        ^^^^^
    `----
 
   x Lit
-   ,-[$DIR/tests/span/ts/expr/arrow.ts:1:26]
- 1 | > {
- 2 |     return 'foo'
-   :            ^^^^^
+   ,-[$DIR/tests/span/ts/expr/arrow.ts:2:5]
+ 2 | return 'foo'
+   :        ^^^^^
    `----
 
   x Str
-   ,-[$DIR/tests/span/ts/expr/arrow.ts:1:26]
- 1 | > {
- 2 |     return 'foo'
-   :            ^^^^^
+   ,-[$DIR/tests/span/ts/expr/arrow.ts:2:5]
+ 2 | return 'foo'
+   :        ^^^^^
    `----

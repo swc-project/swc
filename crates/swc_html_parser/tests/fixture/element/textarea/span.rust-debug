@@ -126,46 +126,40 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/textarea/input.html:3:4]
- 3 | ad>
- 4 |     <title>Document</title>
-   :     ^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/element/textarea/input.html:4:5]
+ 4 | <title>Document</title>
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/element/textarea/input.html:3:4]
- 3 | ad>
- 4 |     <title>Document</title>
-   :     ^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/element/textarea/input.html:4:5]
+ 4 | <title>Document</title>
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/textarea/input.html:3:4]
- 3 | ad>
- 4 |     <title>Document</title>
-   :            ^^^^^^^^
+   ,-[$DIR/tests/fixture/element/textarea/input.html:4:5]
+ 4 | <title>Document</title>
+   :        ^^^^^^^^
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/element/textarea/input.html:3:4]
- 3 | ad>
- 4 |     <title>Document</title>
-   :            ^^^^^^^^
+   ,-[$DIR/tests/fixture/element/textarea/input.html:4:5]
+ 4 | <title>Document</title>
+   :        ^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/textarea/input.html:3:4]
- 3 | ad>
- 4 |     <title>Document</title>
-   :                            ^
+   ,-[$DIR/tests/fixture/element/textarea/input.html:4:5]
+ 4 | <title>Document</title>
+   :                        ^
  5 | </head>
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/element/textarea/input.html:3:4]
- 3 | ad>
- 4 |     <title>Document</title>
-   :                            ^
+   ,-[$DIR/tests/fixture/element/textarea/input.html:4:5]
+ 4 | <title>Document</title>
+   :                        ^
  5 | </head>
    `----
 
@@ -332,26 +326,20 @@
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/element/textarea/input.html:10:25]
- 10 | e="story"
- 11 |           rows="5" cols="33">
-    :           ^^^^^^^^
+    ,-[$DIR/tests/fixture/element/textarea/input.html:11:11]
+ 11 | rows="5" cols="33">
+    : ^^^^^^^^
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/element/textarea/input.html:10:25]
- 10 | e="story"
- 11 |           rows="5" cols="33">
-    :                    ^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/textarea/input.html:11:11]
+ 11 | rows="5" cols="33">
+    :          ^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/textarea/input.html:11:24]
- 11 |     ="33">
- 12 | ,-> 
- 13 | |   
- 14 | |   
- 15 | |       test
+    ,-[$DIR/tests/fixture/element/textarea/input.html:15:5]
+ 15 | |   test
  16 | |       test
  17 | |       test
  18 | |   
@@ -361,12 +349,8 @@
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/textarea/input.html:11:24]
- 11 |     ="33">
- 12 | ,-> 
- 13 | |   
- 14 | |   
- 15 | |       test
+    ,-[$DIR/tests/fixture/element/textarea/input.html:15:5]
+ 15 | |   test
  16 | |       test
  17 | |       test
  18 | |   

@@ -106,3305 +106,2833 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:1:9]
- 1 | 
- 2 | 	width: max(500px);
-   :  ^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:2:5]
+ 2 | width: max(500px);
+   : ^^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:1:9]
- 1 | 
- 2 | 	width: max(500px);
-   :  ^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:2:5]
+ 2 | width: max(500px);
+   : ^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:1:9]
- 1 | 
- 2 | 	width: max(500px);
-   :  ^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:2:5]
+ 2 | width: max(500px);
+   : ^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:1:9]
- 1 | 
- 2 | 	width: max(500px);
-   :  ^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:2:5]
+ 2 | width: max(500px);
+   : ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:1:9]
- 1 | 
- 2 | 	width: max(500px);
-   :  ^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:2:5]
+ 2 | width: max(500px);
+   : ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:1:9]
- 1 | 
- 2 | 	width: max(500px);
-   :         ^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:2:5]
+ 2 | width: max(500px);
+   :        ^^^^^^^^^^
    `----
 
   x Function
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:1:9]
- 1 | 
- 2 | 	width: max(500px);
-   :         ^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:2:5]
+ 2 | width: max(500px);
+   :        ^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:1:9]
- 1 | 
- 2 | 	width: max(500px);
-   :         ^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:2:5]
+ 2 | width: max(500px);
+   :        ^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:1:9]
- 1 | 
- 2 | 	width: max(500px);
-   :             ^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:2:5]
+ 2 | width: max(500px);
+   :            ^^^^^
    `----
 
   x CalcSum
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:1:9]
- 1 | 
- 2 | 	width: max(500px);
-   :             ^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:2:5]
+ 2 | width: max(500px);
+   :            ^^^^^
    `----
 
   x CalcProductOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:1:9]
- 1 | 
- 2 | 	width: max(500px);
-   :             ^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:2:5]
+ 2 | width: max(500px);
+   :            ^^^^^
    `----
 
   x CalcProduct
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:1:9]
- 1 | 
- 2 | 	width: max(500px);
-   :             ^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:2:5]
+ 2 | width: max(500px);
+   :            ^^^^^
    `----
 
   x CalcValueOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:1:9]
- 1 | 
- 2 | 	width: max(500px);
-   :             ^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:2:5]
+ 2 | width: max(500px);
+   :            ^^^^^
    `----
 
   x CalcValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:1:9]
- 1 | 
- 2 | 	width: max(500px);
-   :             ^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:2:5]
+ 2 | width: max(500px);
+   :            ^^^^^
    `----
 
   x Dimension
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:1:9]
- 1 | 
- 2 | 	width: max(500px);
-   :             ^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:2:5]
+ 2 | width: max(500px);
+   :            ^^^^^
    `----
 
   x Length
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:1:9]
- 1 | 
- 2 | 	width: max(500px);
-   :             ^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:2:5]
+ 2 | width: max(500px);
+   :            ^^^^^
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:1:9]
- 1 | 
- 2 | 	width: max(500px);
-   :             ^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:2:5]
+ 2 | width: max(500px);
+   :            ^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:1:9]
- 1 | 
- 2 | 	width: max(500px);
-   :                ^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:2:5]
+ 2 | width: max(500px);
+   :               ^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:2:23]
- 2 | 
- 3 | 	width: max(500px, 6 / 4);
-   :  ^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:5]
+ 3 | width: max(500px, 6 / 4);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:2:23]
- 2 | 
- 3 | 	width: max(500px, 6 / 4);
-   :  ^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:5]
+ 3 | width: max(500px, 6 / 4);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:2:23]
- 2 | 
- 3 | 	width: max(500px, 6 / 4);
-   :  ^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:5]
+ 3 | width: max(500px, 6 / 4);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:2:23]
- 2 | 
- 3 | 	width: max(500px, 6 / 4);
-   :  ^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:5]
+ 3 | width: max(500px, 6 / 4);
+   : ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:2:23]
- 2 | 
- 3 | 	width: max(500px, 6 / 4);
-   :  ^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:5]
+ 3 | width: max(500px, 6 / 4);
+   : ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:2:23]
- 2 | 
- 3 | 	width: max(500px, 6 / 4);
-   :         ^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:5]
+ 3 | width: max(500px, 6 / 4);
+   :        ^^^^^^^^^^^^^^^^^
    `----
 
   x Function
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:2:23]
- 2 | 
- 3 | 	width: max(500px, 6 / 4);
-   :         ^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:5]
+ 3 | width: max(500px, 6 / 4);
+   :        ^^^^^^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:2:23]
- 2 | 
- 3 | 	width: max(500px, 6 / 4);
-   :         ^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:5]
+ 3 | width: max(500px, 6 / 4);
+   :        ^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:2:23]
- 2 | 
- 3 | 	width: max(500px, 6 / 4);
-   :             ^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:5]
+ 3 | width: max(500px, 6 / 4);
+   :            ^^^^^
    `----
 
   x CalcSum
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:2:23]
- 2 | 
- 3 | 	width: max(500px, 6 / 4);
-   :             ^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:5]
+ 3 | width: max(500px, 6 / 4);
+   :            ^^^^^
    `----
 
   x CalcProductOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:2:23]
- 2 | 
- 3 | 	width: max(500px, 6 / 4);
-   :             ^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:5]
+ 3 | width: max(500px, 6 / 4);
+   :            ^^^^^
    `----
 
   x CalcProduct
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:2:23]
- 2 | 
- 3 | 	width: max(500px, 6 / 4);
-   :             ^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:5]
+ 3 | width: max(500px, 6 / 4);
+   :            ^^^^^
    `----
 
   x CalcValueOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:2:23]
- 2 | 
- 3 | 	width: max(500px, 6 / 4);
-   :             ^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:5]
+ 3 | width: max(500px, 6 / 4);
+   :            ^^^^^
    `----
 
   x CalcValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:2:23]
- 2 | 
- 3 | 	width: max(500px, 6 / 4);
-   :             ^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:5]
+ 3 | width: max(500px, 6 / 4);
+   :            ^^^^^
    `----
 
   x Dimension
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:2:23]
- 2 | 
- 3 | 	width: max(500px, 6 / 4);
-   :             ^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:5]
+ 3 | width: max(500px, 6 / 4);
+   :            ^^^^^
    `----
 
   x Length
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:2:23]
- 2 | 
- 3 | 	width: max(500px, 6 / 4);
-   :             ^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:5]
+ 3 | width: max(500px, 6 / 4);
+   :            ^^^^^
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:2:23]
- 2 | 
- 3 | 	width: max(500px, 6 / 4);
-   :             ^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:5]
+ 3 | width: max(500px, 6 / 4);
+   :            ^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:2:23]
- 2 | 
- 3 | 	width: max(500px, 6 / 4);
-   :                ^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:5]
+ 3 | width: max(500px, 6 / 4);
+   :               ^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:2:23]
- 2 | 
- 3 | 	width: max(500px, 6 / 4);
-   :                  ^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:5]
+ 3 | width: max(500px, 6 / 4);
+   :                 ^
    `----
 
   x Delimiter
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:2:23]
- 2 | 
- 3 | 	width: max(500px, 6 / 4);
-   :                  ^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:5]
+ 3 | width: max(500px, 6 / 4);
+   :                 ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:2:23]
- 2 | 
- 3 | 	width: max(500px, 6 / 4);
-   :                    ^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:5]
+ 3 | width: max(500px, 6 / 4);
+   :                   ^^^^^
    `----
 
   x CalcSum
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:2:23]
- 2 | 
- 3 | 	width: max(500px, 6 / 4);
-   :                    ^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:5]
+ 3 | width: max(500px, 6 / 4);
+   :                   ^^^^^
    `----
 
   x CalcProductOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:2:23]
- 2 | 
- 3 | 	width: max(500px, 6 / 4);
-   :                    ^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:5]
+ 3 | width: max(500px, 6 / 4);
+   :                   ^^^^^
    `----
 
   x CalcProduct
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:2:23]
- 2 | 
- 3 | 	width: max(500px, 6 / 4);
-   :                    ^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:5]
+ 3 | width: max(500px, 6 / 4);
+   :                   ^^^^^
    `----
 
   x CalcValueOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:2:23]
- 2 | 
- 3 | 	width: max(500px, 6 / 4);
-   :                    ^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:5]
+ 3 | width: max(500px, 6 / 4);
+   :                   ^
    `----
 
   x CalcValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:2:23]
- 2 | 
- 3 | 	width: max(500px, 6 / 4);
-   :                    ^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:5]
+ 3 | width: max(500px, 6 / 4);
+   :                   ^
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:2:23]
- 2 | 
- 3 | 	width: max(500px, 6 / 4);
-   :                    ^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:5]
+ 3 | width: max(500px, 6 / 4);
+   :                   ^
    `----
 
   x CalcValueOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:2:23]
- 2 | 
- 3 | 	width: max(500px, 6 / 4);
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:5]
+ 3 | width: max(500px, 6 / 4);
+   :                     ^
+   `----
+
+  x CalcOperator
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:5]
+ 3 | width: max(500px, 6 / 4);
+   :                     ^
+   `----
+
+  x CalcValueOrOperator
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:5]
+ 3 | width: max(500px, 6 / 4);
+   :                       ^
+   `----
+
+  x CalcValue
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:5]
+ 3 | width: max(500px, 6 / 4);
+   :                       ^
+   `----
+
+  x Number
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:5]
+ 3 | width: max(500px, 6 / 4);
+   :                       ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:5]
+ 4 | width: max(500px, 40px + 5%);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:5]
+ 4 | width: max(500px, 40px + 5%);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:5]
+ 4 | width: max(500px, 40px + 5%);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:5]
+ 4 | width: max(500px, 40px + 5%);
+   : ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:5]
+ 4 | width: max(500px, 40px + 5%);
+   : ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:5]
+ 4 | width: max(500px, 40px + 5%);
+   :        ^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Function
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:5]
+ 4 | width: max(500px, 40px + 5%);
+   :        ^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:5]
+ 4 | width: max(500px, 40px + 5%);
+   :        ^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:5]
+ 4 | width: max(500px, 40px + 5%);
+   :            ^^^^^
+   `----
+
+  x CalcSum
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:5]
+ 4 | width: max(500px, 40px + 5%);
+   :            ^^^^^
+   `----
+
+  x CalcProductOrOperator
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:5]
+ 4 | width: max(500px, 40px + 5%);
+   :            ^^^^^
+   `----
+
+  x CalcProduct
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:5]
+ 4 | width: max(500px, 40px + 5%);
+   :            ^^^^^
+   `----
+
+  x CalcValueOrOperator
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:5]
+ 4 | width: max(500px, 40px + 5%);
+   :            ^^^^^
+   `----
+
+  x CalcValue
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:5]
+ 4 | width: max(500px, 40px + 5%);
+   :            ^^^^^
+   `----
+
+  x Dimension
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:5]
+ 4 | width: max(500px, 40px + 5%);
+   :            ^^^^^
+   `----
+
+  x Length
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:5]
+ 4 | width: max(500px, 40px + 5%);
+   :            ^^^^^
+   `----
+
+  x Number
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:5]
+ 4 | width: max(500px, 40px + 5%);
+   :            ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:5]
+ 4 | width: max(500px, 40px + 5%);
+   :               ^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:5]
+ 4 | width: max(500px, 40px + 5%);
+   :                 ^
+   `----
+
+  x Delimiter
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:5]
+ 4 | width: max(500px, 40px + 5%);
+   :                 ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:5]
+ 4 | width: max(500px, 40px + 5%);
+   :                   ^^^^^^^^^
+   `----
+
+  x CalcSum
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:5]
+ 4 | width: max(500px, 40px + 5%);
+   :                   ^^^^^^^^^
+   `----
+
+  x CalcProductOrOperator
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:5]
+ 4 | width: max(500px, 40px + 5%);
+   :                   ^^^^
+   `----
+
+  x CalcProduct
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:5]
+ 4 | width: max(500px, 40px + 5%);
+   :                   ^^^^
+   `----
+
+  x CalcValueOrOperator
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:5]
+ 4 | width: max(500px, 40px + 5%);
+   :                   ^^^^
+   `----
+
+  x CalcValue
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:5]
+ 4 | width: max(500px, 40px + 5%);
+   :                   ^^^^
+   `----
+
+  x Dimension
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:5]
+ 4 | width: max(500px, 40px + 5%);
+   :                   ^^^^
+   `----
+
+  x Length
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:5]
+ 4 | width: max(500px, 40px + 5%);
+   :                   ^^^^
+   `----
+
+  x Number
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:5]
+ 4 | width: max(500px, 40px + 5%);
+   :                   ^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:5]
+ 4 | width: max(500px, 40px + 5%);
+   :                     ^^
+   `----
+
+  x CalcProductOrOperator
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:5]
+ 4 | width: max(500px, 40px + 5%);
+   :                        ^
+   `----
+
+  x CalcOperator
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:5]
+ 4 | width: max(500px, 40px + 5%);
+   :                        ^
+   `----
+
+  x CalcProductOrOperator
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:5]
+ 4 | width: max(500px, 40px + 5%);
+   :                          ^^
+   `----
+
+  x CalcProduct
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:5]
+ 4 | width: max(500px, 40px + 5%);
+   :                          ^^
+   `----
+
+  x CalcValueOrOperator
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:5]
+ 4 | width: max(500px, 40px + 5%);
+   :                          ^^
+   `----
+
+  x CalcValue
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:5]
+ 4 | width: max(500px, 40px + 5%);
+   :                          ^^
+   `----
+
+  x Percentage
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:5]
+ 4 | width: max(500px, 40px + 5%);
+   :                          ^^
+   `----
+
+  x Number
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:5]
+ 4 | width: max(500px, 40px + 5%);
+   :                          ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:5]
+ 5 | width: max(500px, 5% * 400px + 2px);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:5]
+ 5 | width: max(500px, 5% * 400px + 2px);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:5]
+ 5 | width: max(500px, 5% * 400px + 2px);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:5]
+ 5 | width: max(500px, 5% * 400px + 2px);
+   : ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:5]
+ 5 | width: max(500px, 5% * 400px + 2px);
+   : ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:5]
+ 5 | width: max(500px, 5% * 400px + 2px);
+   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Function
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:5]
+ 5 | width: max(500px, 5% * 400px + 2px);
+   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:5]
+ 5 | width: max(500px, 5% * 400px + 2px);
+   :        ^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:5]
+ 5 | width: max(500px, 5% * 400px + 2px);
+   :            ^^^^^
+   `----
+
+  x CalcSum
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:5]
+ 5 | width: max(500px, 5% * 400px + 2px);
+   :            ^^^^^
+   `----
+
+  x CalcProductOrOperator
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:5]
+ 5 | width: max(500px, 5% * 400px + 2px);
+   :            ^^^^^
+   `----
+
+  x CalcProduct
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:5]
+ 5 | width: max(500px, 5% * 400px + 2px);
+   :            ^^^^^
+   `----
+
+  x CalcValueOrOperator
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:5]
+ 5 | width: max(500px, 5% * 400px + 2px);
+   :            ^^^^^
+   `----
+
+  x CalcValue
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:5]
+ 5 | width: max(500px, 5% * 400px + 2px);
+   :            ^^^^^
+   `----
+
+  x Dimension
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:5]
+ 5 | width: max(500px, 5% * 400px + 2px);
+   :            ^^^^^
+   `----
+
+  x Length
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:5]
+ 5 | width: max(500px, 5% * 400px + 2px);
+   :            ^^^^^
+   `----
+
+  x Number
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:5]
+ 5 | width: max(500px, 5% * 400px + 2px);
+   :            ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:5]
+ 5 | width: max(500px, 5% * 400px + 2px);
+   :               ^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:5]
+ 5 | width: max(500px, 5% * 400px + 2px);
+   :                 ^
+   `----
+
+  x Delimiter
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:5]
+ 5 | width: max(500px, 5% * 400px + 2px);
+   :                 ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:5]
+ 5 | width: max(500px, 5% * 400px + 2px);
+   :                   ^^^^^^^^^^^^^^^^
+   `----
+
+  x CalcSum
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:5]
+ 5 | width: max(500px, 5% * 400px + 2px);
+   :                   ^^^^^^^^^^^^^^^^
+   `----
+
+  x CalcProductOrOperator
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:5]
+ 5 | width: max(500px, 5% * 400px + 2px);
+   :                   ^^^^^^^^^^
+   `----
+
+  x CalcProduct
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:5]
+ 5 | width: max(500px, 5% * 400px + 2px);
+   :                   ^^^^^^^^^^
+   `----
+
+  x CalcValueOrOperator
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:5]
+ 5 | width: max(500px, 5% * 400px + 2px);
+   :                   ^^
+   `----
+
+  x CalcValue
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:5]
+ 5 | width: max(500px, 5% * 400px + 2px);
+   :                   ^^
+   `----
+
+  x Percentage
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:5]
+ 5 | width: max(500px, 5% * 400px + 2px);
+   :                   ^^
+   `----
+
+  x Number
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:5]
+ 5 | width: max(500px, 5% * 400px + 2px);
+   :                   ^
+   `----
+
+  x CalcValueOrOperator
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:5]
+ 5 | width: max(500px, 5% * 400px + 2px);
    :                      ^
    `----
 
   x CalcOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:2:23]
- 2 | 
- 3 | 	width: max(500px, 6 / 4);
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:5]
+ 5 | width: max(500px, 5% * 400px + 2px);
    :                      ^
    `----
 
   x CalcValueOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:2:23]
- 2 | 
- 3 | 	width: max(500px, 6 / 4);
-   :                        ^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:5]
+ 5 | width: max(500px, 5% * 400px + 2px);
+   :                        ^^^^^
    `----
 
   x CalcValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:2:23]
- 2 | 
- 3 | 	width: max(500px, 6 / 4);
-   :                        ^
-   `----
-
-  x Number
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:2:23]
- 2 | 
- 3 | 	width: max(500px, 6 / 4);
-   :                        ^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:30]
- 3 | 
- 4 | 	width: max(500px, 40px + 5%);
-   :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x StyleBlock
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:30]
- 3 | 
- 4 | 	width: max(500px, 40px + 5%);
-   :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x Declaration
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:30]
- 3 | 
- 4 | 	width: max(500px, 40px + 5%);
-   :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x DeclarationName
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:30]
- 3 | 
- 4 | 	width: max(500px, 40px + 5%);
-   :  ^^^^^
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:30]
- 3 | 
- 4 | 	width: max(500px, 40px + 5%);
-   :  ^^^^^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:30]
- 3 | 
- 4 | 	width: max(500px, 40px + 5%);
-   :         ^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x Function
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:30]
- 3 | 
- 4 | 	width: max(500px, 40px + 5%);
-   :         ^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:30]
- 3 | 
- 4 | 	width: max(500px, 40px + 5%);
-   :         ^^^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:30]
- 3 | 
- 4 | 	width: max(500px, 40px + 5%);
-   :             ^^^^^
-   `----
-
-  x CalcSum
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:30]
- 3 | 
- 4 | 	width: max(500px, 40px + 5%);
-   :             ^^^^^
-   `----
-
-  x CalcProductOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:30]
- 3 | 
- 4 | 	width: max(500px, 40px + 5%);
-   :             ^^^^^
-   `----
-
-  x CalcProduct
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:30]
- 3 | 
- 4 | 	width: max(500px, 40px + 5%);
-   :             ^^^^^
-   `----
-
-  x CalcValueOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:30]
- 3 | 
- 4 | 	width: max(500px, 40px + 5%);
-   :             ^^^^^
-   `----
-
-  x CalcValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:30]
- 3 | 
- 4 | 	width: max(500px, 40px + 5%);
-   :             ^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:5]
+ 5 | width: max(500px, 5% * 400px + 2px);
+   :                        ^^^^^
    `----
 
   x Dimension
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:30]
- 3 | 
- 4 | 	width: max(500px, 40px + 5%);
-   :             ^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:5]
+ 5 | width: max(500px, 5% * 400px + 2px);
+   :                        ^^^^^
    `----
 
   x Length
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:30]
- 3 | 
- 4 | 	width: max(500px, 40px + 5%);
-   :             ^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:5]
+ 5 | width: max(500px, 5% * 400px + 2px);
+   :                        ^^^^^
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:30]
- 3 | 
- 4 | 	width: max(500px, 40px + 5%);
-   :             ^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:5]
+ 5 | width: max(500px, 5% * 400px + 2px);
+   :                        ^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:30]
- 3 | 
- 4 | 	width: max(500px, 40px + 5%);
-   :                ^^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:30]
- 3 | 
- 4 | 	width: max(500px, 40px + 5%);
-   :                  ^
-   `----
-
-  x Delimiter
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:30]
- 3 | 
- 4 | 	width: max(500px, 40px + 5%);
-   :                  ^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:30]
- 3 | 
- 4 | 	width: max(500px, 40px + 5%);
-   :                    ^^^^^^^^^
-   `----
-
-  x CalcSum
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:30]
- 3 | 
- 4 | 	width: max(500px, 40px + 5%);
-   :                    ^^^^^^^^^
-   `----
-
-  x CalcProductOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:30]
- 3 | 
- 4 | 	width: max(500px, 40px + 5%);
-   :                    ^^^^
-   `----
-
-  x CalcProduct
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:30]
- 3 | 
- 4 | 	width: max(500px, 40px + 5%);
-   :                    ^^^^
-   `----
-
-  x CalcValueOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:30]
- 3 | 
- 4 | 	width: max(500px, 40px + 5%);
-   :                    ^^^^
-   `----
-
-  x CalcValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:30]
- 3 | 
- 4 | 	width: max(500px, 40px + 5%);
-   :                    ^^^^
-   `----
-
-  x Dimension
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:30]
- 3 | 
- 4 | 	width: max(500px, 40px + 5%);
-   :                    ^^^^
-   `----
-
-  x Length
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:30]
- 3 | 
- 4 | 	width: max(500px, 40px + 5%);
-   :                    ^^^^
-   `----
-
-  x Number
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:30]
- 3 | 
- 4 | 	width: max(500px, 40px + 5%);
-   :                    ^^
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:30]
- 3 | 
- 4 | 	width: max(500px, 40px + 5%);
-   :                      ^^
-   `----
-
-  x CalcProductOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:30]
- 3 | 
- 4 | 	width: max(500px, 40px + 5%);
-   :                         ^
-   `----
-
-  x CalcOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:30]
- 3 | 
- 4 | 	width: max(500px, 40px + 5%);
-   :                         ^
-   `----
-
-  x CalcProductOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:30]
- 3 | 
- 4 | 	width: max(500px, 40px + 5%);
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:5]
+ 5 | width: max(500px, 5% * 400px + 2px);
    :                           ^^
    `----
 
+  x CalcProductOrOperator
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:5]
+ 5 | width: max(500px, 5% * 400px + 2px);
+   :                              ^
+   `----
+
+  x CalcOperator
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:5]
+ 5 | width: max(500px, 5% * 400px + 2px);
+   :                              ^
+   `----
+
+  x CalcProductOrOperator
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:5]
+ 5 | width: max(500px, 5% * 400px + 2px);
+   :                                ^^^
+   `----
+
   x CalcProduct
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:30]
- 3 | 
- 4 | 	width: max(500px, 40px + 5%);
-   :                           ^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:5]
+ 5 | width: max(500px, 5% * 400px + 2px);
+   :                                ^^^
    `----
 
   x CalcValueOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:30]
- 3 | 
- 4 | 	width: max(500px, 40px + 5%);
-   :                           ^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:5]
+ 5 | width: max(500px, 5% * 400px + 2px);
+   :                                ^^^
    `----
 
   x CalcValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:30]
- 3 | 
- 4 | 	width: max(500px, 40px + 5%);
-   :                           ^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:5]
+ 5 | width: max(500px, 5% * 400px + 2px);
+   :                                ^^^
    `----
 
-  x Percentage
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:30]
- 3 | 
- 4 | 	width: max(500px, 40px + 5%);
-   :                           ^^
+  x Dimension
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:5]
+ 5 | width: max(500px, 5% * 400px + 2px);
+   :                                ^^^
+   `----
+
+  x Length
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:5]
+ 5 | width: max(500px, 5% * 400px + 2px);
+   :                                ^^^
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:3:30]
- 3 | 
- 4 | 	width: max(500px, 40px + 5%);
-   :                           ^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:5]
+ 5 | width: max(500px, 5% * 400px + 2px);
+   :                                ^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:5]
+ 5 | width: max(500px, 5% * 400px + 2px);
+   :                                 ^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:34]
- 4 | 
- 5 | 	width: max(500px, 5% * 400px + 2px);
-   :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:34]
- 4 | 
- 5 | 	width: max(500px, 5% * 400px + 2px);
-   :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:34]
- 4 | 
- 5 | 	width: max(500px, 5% * 400px + 2px);
-   :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:34]
- 4 | 
- 5 | 	width: max(500px, 5% * 400px + 2px);
-   :  ^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   : ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:34]
- 4 | 
- 5 | 	width: max(500px, 5% * 400px + 2px);
-   :  ^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   : ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:34]
- 4 | 
- 5 | 	width: max(500px, 5% * 400px + 2px);
-   :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Function
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:34]
- 4 | 
- 5 | 	width: max(500px, 5% * 400px + 2px);
-   :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:34]
- 4 | 
- 5 | 	width: max(500px, 5% * 400px + 2px);
-   :         ^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :        ^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:34]
- 4 | 
- 5 | 	width: max(500px, 5% * 400px + 2px);
-   :             ^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :            ^^^^^
    `----
 
   x CalcSum
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:34]
- 4 | 
- 5 | 	width: max(500px, 5% * 400px + 2px);
-   :             ^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :            ^^^^^
    `----
 
   x CalcProductOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:34]
- 4 | 
- 5 | 	width: max(500px, 5% * 400px + 2px);
-   :             ^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :            ^^^^^
    `----
 
   x CalcProduct
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:34]
- 4 | 
- 5 | 	width: max(500px, 5% * 400px + 2px);
-   :             ^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :            ^^^^^
    `----
 
   x CalcValueOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:34]
- 4 | 
- 5 | 	width: max(500px, 5% * 400px + 2px);
-   :             ^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :            ^^^^^
    `----
 
   x CalcValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:34]
- 4 | 
- 5 | 	width: max(500px, 5% * 400px + 2px);
-   :             ^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :            ^^^^^
    `----
 
   x Dimension
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:34]
- 4 | 
- 5 | 	width: max(500px, 5% * 400px + 2px);
-   :             ^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :            ^^^^^
    `----
 
   x Length
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:34]
- 4 | 
- 5 | 	width: max(500px, 5% * 400px + 2px);
-   :             ^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :            ^^^^^
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:34]
- 4 | 
- 5 | 	width: max(500px, 5% * 400px + 2px);
-   :             ^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :            ^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:34]
- 4 | 
- 5 | 	width: max(500px, 5% * 400px + 2px);
-   :                ^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :               ^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:34]
- 4 | 
- 5 | 	width: max(500px, 5% * 400px + 2px);
-   :                  ^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                 ^
    `----
 
   x Delimiter
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:34]
- 4 | 
- 5 | 	width: max(500px, 5% * 400px + 2px);
-   :                  ^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                 ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:34]
- 4 | 
- 5 | 	width: max(500px, 5% * 400px + 2px);
-   :                    ^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                   ^^^^^^^^^^^^^^^^
    `----
 
   x CalcSum
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:34]
- 4 | 
- 5 | 	width: max(500px, 5% * 400px + 2px);
-   :                    ^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                   ^^^^^^^^^^^^^^^^
    `----
 
   x CalcProductOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:34]
- 4 | 
- 5 | 	width: max(500px, 5% * 400px + 2px);
-   :                    ^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                   ^^^^^^^^^^
    `----
 
   x CalcProduct
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:34]
- 4 | 
- 5 | 	width: max(500px, 5% * 400px + 2px);
-   :                    ^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                   ^^^^^^^^^^
    `----
 
   x CalcValueOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:34]
- 4 | 
- 5 | 	width: max(500px, 5% * 400px + 2px);
-   :                    ^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                   ^^
    `----
 
   x CalcValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:34]
- 4 | 
- 5 | 	width: max(500px, 5% * 400px + 2px);
-   :                    ^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                   ^^
    `----
 
   x Percentage
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:34]
- 4 | 
- 5 | 	width: max(500px, 5% * 400px + 2px);
-   :                    ^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                   ^^
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:34]
- 4 | 
- 5 | 	width: max(500px, 5% * 400px + 2px);
-   :                    ^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                   ^
    `----
 
   x CalcValueOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:34]
- 4 | 
- 5 | 	width: max(500px, 5% * 400px + 2px);
-   :                       ^
-   `----
-
-  x CalcOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:34]
- 4 | 
- 5 | 	width: max(500px, 5% * 400px + 2px);
-   :                       ^
-   `----
-
-  x CalcValueOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:34]
- 4 | 
- 5 | 	width: max(500px, 5% * 400px + 2px);
-   :                         ^^^^^
-   `----
-
-  x CalcValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:34]
- 4 | 
- 5 | 	width: max(500px, 5% * 400px + 2px);
-   :                         ^^^^^
-   `----
-
-  x Dimension
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:34]
- 4 | 
- 5 | 	width: max(500px, 5% * 400px + 2px);
-   :                         ^^^^^
-   `----
-
-  x Length
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:34]
- 4 | 
- 5 | 	width: max(500px, 5% * 400px + 2px);
-   :                         ^^^^^
-   `----
-
-  x Number
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:34]
- 4 | 
- 5 | 	width: max(500px, 5% * 400px + 2px);
-   :                         ^^^
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:34]
- 4 | 
- 5 | 	width: max(500px, 5% * 400px + 2px);
-   :                            ^^
-   `----
-
-  x CalcProductOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:34]
- 4 | 
- 5 | 	width: max(500px, 5% * 400px + 2px);
-   :                               ^
-   `----
-
-  x CalcOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:34]
- 4 | 
- 5 | 	width: max(500px, 5% * 400px + 2px);
-   :                               ^
-   `----
-
-  x CalcProductOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:34]
- 4 | 
- 5 | 	width: max(500px, 5% * 400px + 2px);
-   :                                 ^^^
-   `----
-
-  x CalcProduct
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:34]
- 4 | 
- 5 | 	width: max(500px, 5% * 400px + 2px);
-   :                                 ^^^
-   `----
-
-  x CalcValueOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:34]
- 4 | 
- 5 | 	width: max(500px, 5% * 400px + 2px);
-   :                                 ^^^
-   `----
-
-  x CalcValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:34]
- 4 | 
- 5 | 	width: max(500px, 5% * 400px + 2px);
-   :                                 ^^^
-   `----
-
-  x Dimension
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:34]
- 4 | 
- 5 | 	width: max(500px, 5% * 400px + 2px);
-   :                                 ^^^
-   `----
-
-  x Length
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:34]
- 4 | 
- 5 | 	width: max(500px, 5% * 400px + 2px);
-   :                                 ^^^
-   `----
-
-  x Number
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:34]
- 4 | 
- 5 | 	width: max(500px, 5% * 400px + 2px);
-   :                                 ^
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:4:34]
- 4 | 
- 5 | 	width: max(500px, 5% * 400px + 2px);
-   :                                  ^^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x StyleBlock
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x Declaration
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x DeclarationName
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :  ^^^^^
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :  ^^^^^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x Function
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :         ^^^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :             ^^^^^
-   `----
-
-  x CalcSum
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :             ^^^^^
-   `----
-
-  x CalcProductOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :             ^^^^^
-   `----
-
-  x CalcProduct
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :             ^^^^^
-   `----
-
-  x CalcValueOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :             ^^^^^
-   `----
-
-  x CalcValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :             ^^^^^
-   `----
-
-  x Dimension
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :             ^^^^^
-   `----
-
-  x Length
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :             ^^^^^
-   `----
-
-  x Number
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :             ^^^
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                ^^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                  ^
-   `----
-
-  x Delimiter
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                  ^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                    ^^^^^^^^^^^^^^^^
-   `----
-
-  x CalcSum
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                    ^^^^^^^^^^^^^^^^
-   `----
-
-  x CalcProductOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                    ^^^^^^^^^^
-   `----
-
-  x CalcProduct
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                    ^^^^^^^^^^
-   `----
-
-  x CalcValueOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                    ^^
-   `----
-
-  x CalcValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                    ^^
-   `----
-
-  x Percentage
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                    ^^
-   `----
-
-  x Number
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                    ^
-   `----
-
-  x CalcValueOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                       ^
-   `----
-
-  x CalcOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                       ^
-   `----
-
-  x CalcValueOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                         ^^^^^
-   `----
-
-  x CalcValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                         ^^^^^
-   `----
-
-  x Dimension
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                         ^^^^^
-   `----
-
-  x Length
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                         ^^^^^
-   `----
-
-  x Number
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                         ^^^
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                            ^^
-   `----
-
-  x CalcProductOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                               ^
-   `----
-
-  x CalcOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                               ^
-   `----
-
-  x CalcProductOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                 ^^^
-   `----
-
-  x CalcProduct
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                 ^^^
-   `----
-
-  x CalcValueOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                 ^^^
-   `----
-
-  x CalcValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                 ^^^
-   `----
-
-  x Dimension
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                 ^^^
-   `----
-
-  x Length
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                 ^^^
-   `----
-
-  x Number
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                 ^
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                  ^^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                    ^
-   `----
-
-  x Delimiter
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                    ^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                      ^^^^^^^^^^^^^^^^
-   `----
-
-  x CalcSum
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                      ^^^^^^^^^^^^^^^^
-   `----
-
-  x CalcProductOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                      ^^^^^^^^^^
-   `----
-
-  x CalcProduct
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                      ^^^^^^^^^^
-   `----
-
-  x CalcValueOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                      ^^
-   `----
-
-  x CalcValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                      ^^
-   `----
-
-  x Percentage
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                      ^^
-   `----
-
-  x Number
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                      ^
-   `----
-
-  x CalcValueOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                         ^
-   `----
-
-  x CalcOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                         ^
-   `----
-
-  x CalcValueOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                           ^^^^^
-   `----
-
-  x CalcValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                           ^^^^^
-   `----
-
-  x Dimension
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                           ^^^^^
-   `----
-
-  x Length
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                           ^^^^^
-   `----
-
-  x Number
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                           ^^^
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                              ^^
-   `----
-
-  x CalcProductOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                                 ^
-   `----
-
-  x CalcOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                                 ^
-   `----
-
-  x CalcProductOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                                   ^^^
-   `----
-
-  x CalcProduct
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                                   ^^^
-   `----
-
-  x CalcValueOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                                   ^^^
-   `----
-
-  x CalcValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                                   ^^^
-   `----
-
-  x Dimension
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                                   ^^^
-   `----
-
-  x Length
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                                   ^^^
-   `----
-
-  x Number
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                                   ^
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                                    ^^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                                      ^
-   `----
-
-  x Delimiter
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                                      ^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                                        ^^^^^^^^^^^^^^^^
-   `----
-
-  x CalcSum
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                                        ^^^^^^^^^^^^^^^^
-   `----
-
-  x CalcProductOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                                        ^^^^^^^^^^
-   `----
-
-  x CalcProduct
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                                        ^^^^^^^^^^
-   `----
-
-  x CalcValueOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                                        ^^
-   `----
-
-  x CalcValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                                        ^^
-   `----
-
-  x Percentage
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                                        ^^
-   `----
-
-  x Number
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                                        ^
-   `----
-
-  x CalcValueOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                                           ^
-   `----
-
-  x CalcOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                                           ^
-   `----
-
-  x CalcValueOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                                             ^^^^^
-   `----
-
-  x CalcValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                                             ^^^^^
-   `----
-
-  x Dimension
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                                             ^^^^^
-   `----
-
-  x Length
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                                             ^^^^^
-   `----
-
-  x Number
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                                             ^^^
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                                                ^^
-   `----
-
-  x CalcProductOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                                                   ^
-   `----
-
-  x CalcOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                                                   ^
-   `----
-
-  x CalcProductOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                                                     ^^^
-   `----
-
-  x CalcProduct
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                                                     ^^^
-   `----
-
-  x CalcValueOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                                                     ^^^
-   `----
-
-  x CalcValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                                                     ^^^
-   `----
-
-  x Dimension
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                                                     ^^^
-   `----
-
-  x Length
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                                                     ^^^
-   `----
-
-  x Number
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                                                     ^
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:5:41]
- 5 | 
- 6 | 	width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-   :                                                                      ^^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:77]
- 6 | 
- 7 | 	width: min(500px);
-   :  ^^^^^^^^^^^^^^^^^
-   `----
-
-  x StyleBlock
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:77]
- 6 | 
- 7 | 	width: min(500px);
-   :  ^^^^^^^^^^^^^^^^^
-   `----
-
-  x Declaration
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:77]
- 6 | 
- 7 | 	width: min(500px);
-   :  ^^^^^^^^^^^^^^^^^
-   `----
-
-  x DeclarationName
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:77]
- 6 | 
- 7 | 	width: min(500px);
-   :  ^^^^^
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:77]
- 6 | 
- 7 | 	width: min(500px);
-   :  ^^^^^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:77]
- 6 | 
- 7 | 	width: min(500px);
-   :         ^^^^^^^^^^
-   `----
-
-  x Function
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:77]
- 6 | 
- 7 | 	width: min(500px);
-   :         ^^^^^^^^^^
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:77]
- 6 | 
- 7 | 	width: min(500px);
-   :         ^^^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:77]
- 6 | 
- 7 | 	width: min(500px);
-   :             ^^^^^
-   `----
-
-  x CalcSum
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:77]
- 6 | 
- 7 | 	width: min(500px);
-   :             ^^^^^
-   `----
-
-  x CalcProductOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:77]
- 6 | 
- 7 | 	width: min(500px);
-   :             ^^^^^
-   `----
-
-  x CalcProduct
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:77]
- 6 | 
- 7 | 	width: min(500px);
-   :             ^^^^^
-   `----
-
-  x CalcValueOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:77]
- 6 | 
- 7 | 	width: min(500px);
-   :             ^^^^^
-   `----
-
-  x CalcValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:77]
- 6 | 
- 7 | 	width: min(500px);
-   :             ^^^^^
-   `----
-
-  x Dimension
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:77]
- 6 | 
- 7 | 	width: min(500px);
-   :             ^^^^^
-   `----
-
-  x Length
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:77]
- 6 | 
- 7 | 	width: min(500px);
-   :             ^^^^^
-   `----
-
-  x Number
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:77]
- 6 | 
- 7 | 	width: min(500px);
-   :             ^^^
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:77]
- 6 | 
- 7 | 	width: min(500px);
-   :                ^^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:7:23]
- 7 | 
- 8 | 	width: min(500px, 6 / 4);
-   :  ^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x StyleBlock
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:7:23]
- 7 | 
- 8 | 	width: min(500px, 6 / 4);
-   :  ^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x Declaration
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:7:23]
- 7 | 
- 8 | 	width: min(500px, 6 / 4);
-   :  ^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x DeclarationName
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:7:23]
- 7 | 
- 8 | 	width: min(500px, 6 / 4);
-   :  ^^^^^
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:7:23]
- 7 | 
- 8 | 	width: min(500px, 6 / 4);
-   :  ^^^^^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:7:23]
- 7 | 
- 8 | 	width: min(500px, 6 / 4);
-   :         ^^^^^^^^^^^^^^^^^
-   `----
-
-  x Function
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:7:23]
- 7 | 
- 8 | 	width: min(500px, 6 / 4);
-   :         ^^^^^^^^^^^^^^^^^
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:7:23]
- 7 | 
- 8 | 	width: min(500px, 6 / 4);
-   :         ^^^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:7:23]
- 7 | 
- 8 | 	width: min(500px, 6 / 4);
-   :             ^^^^^
-   `----
-
-  x CalcSum
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:7:23]
- 7 | 
- 8 | 	width: min(500px, 6 / 4);
-   :             ^^^^^
-   `----
-
-  x CalcProductOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:7:23]
- 7 | 
- 8 | 	width: min(500px, 6 / 4);
-   :             ^^^^^
-   `----
-
-  x CalcProduct
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:7:23]
- 7 | 
- 8 | 	width: min(500px, 6 / 4);
-   :             ^^^^^
-   `----
-
-  x CalcValueOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:7:23]
- 7 | 
- 8 | 	width: min(500px, 6 / 4);
-   :             ^^^^^
-   `----
-
-  x CalcValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:7:23]
- 7 | 
- 8 | 	width: min(500px, 6 / 4);
-   :             ^^^^^
-   `----
-
-  x Dimension
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:7:23]
- 7 | 
- 8 | 	width: min(500px, 6 / 4);
-   :             ^^^^^
-   `----
-
-  x Length
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:7:23]
- 7 | 
- 8 | 	width: min(500px, 6 / 4);
-   :             ^^^^^
-   `----
-
-  x Number
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:7:23]
- 7 | 
- 8 | 	width: min(500px, 6 / 4);
-   :             ^^^
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:7:23]
- 7 | 
- 8 | 	width: min(500px, 6 / 4);
-   :                ^^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:7:23]
- 7 | 
- 8 | 	width: min(500px, 6 / 4);
-   :                  ^
-   `----
-
-  x Delimiter
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:7:23]
- 7 | 
- 8 | 	width: min(500px, 6 / 4);
-   :                  ^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:7:23]
- 7 | 
- 8 | 	width: min(500px, 6 / 4);
-   :                    ^^^^^
-   `----
-
-  x CalcSum
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:7:23]
- 7 | 
- 8 | 	width: min(500px, 6 / 4);
-   :                    ^^^^^
-   `----
-
-  x CalcProductOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:7:23]
- 7 | 
- 8 | 	width: min(500px, 6 / 4);
-   :                    ^^^^^
-   `----
-
-  x CalcProduct
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:7:23]
- 7 | 
- 8 | 	width: min(500px, 6 / 4);
-   :                    ^^^^^
-   `----
-
-  x CalcValueOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:7:23]
- 7 | 
- 8 | 	width: min(500px, 6 / 4);
-   :                    ^
-   `----
-
-  x CalcValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:7:23]
- 7 | 
- 8 | 	width: min(500px, 6 / 4);
-   :                    ^
-   `----
-
-  x Number
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:7:23]
- 7 | 
- 8 | 	width: min(500px, 6 / 4);
-   :                    ^
-   `----
-
-  x CalcValueOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:7:23]
- 7 | 
- 8 | 	width: min(500px, 6 / 4);
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
    :                      ^
    `----
 
   x CalcOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:7:23]
- 7 | 
- 8 | 	width: min(500px, 6 / 4);
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
    :                      ^
    `----
 
   x CalcValueOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:7:23]
- 7 | 
- 8 | 	width: min(500px, 6 / 4);
-   :                        ^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                        ^^^^^
    `----
 
   x CalcValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:7:23]
- 7 | 
- 8 | 	width: min(500px, 6 / 4);
-   :                        ^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                        ^^^^^
+   `----
+
+  x Dimension
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                        ^^^^^
+   `----
+
+  x Length
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                        ^^^^^
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:7:23]
- 7 | 
- 8 | 	width: min(500px, 6 / 4);
-   :                        ^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                        ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                           ^^
+   `----
+
+  x CalcProductOrOperator
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                              ^
+   `----
+
+  x CalcOperator
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                              ^
+   `----
+
+  x CalcProductOrOperator
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                ^^^
+   `----
+
+  x CalcProduct
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                ^^^
+   `----
+
+  x CalcValueOrOperator
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                ^^^
+   `----
+
+  x CalcValue
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                ^^^
+   `----
+
+  x Dimension
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                ^^^
+   `----
+
+  x Length
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                ^^^
+   `----
+
+  x Number
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                ^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                 ^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:30]
- 8 | 
- 9 | 	width: min(500px, 40px + 5%);
-   :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                   ^
+   `----
+
+  x Delimiter
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                   ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                     ^^^^^^^^^^^^^^^^
+   `----
+
+  x CalcSum
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                     ^^^^^^^^^^^^^^^^
+   `----
+
+  x CalcProductOrOperator
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                     ^^^^^^^^^^
+   `----
+
+  x CalcProduct
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                     ^^^^^^^^^^
+   `----
+
+  x CalcValueOrOperator
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                     ^^
+   `----
+
+  x CalcValue
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                     ^^
+   `----
+
+  x Percentage
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                     ^^
+   `----
+
+  x Number
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                     ^
+   `----
+
+  x CalcValueOrOperator
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                        ^
+   `----
+
+  x CalcOperator
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                        ^
+   `----
+
+  x CalcValueOrOperator
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                          ^^^^^
+   `----
+
+  x CalcValue
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                          ^^^^^
+   `----
+
+  x Dimension
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                          ^^^^^
+   `----
+
+  x Length
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                          ^^^^^
+   `----
+
+  x Number
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                          ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                             ^^
+   `----
+
+  x CalcProductOrOperator
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                                ^
+   `----
+
+  x CalcOperator
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                                ^
+   `----
+
+  x CalcProductOrOperator
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                                  ^^^
+   `----
+
+  x CalcProduct
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                                  ^^^
+   `----
+
+  x CalcValueOrOperator
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                                  ^^^
+   `----
+
+  x CalcValue
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                                  ^^^
+   `----
+
+  x Dimension
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                                  ^^^
+   `----
+
+  x Length
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                                  ^^^
+   `----
+
+  x Number
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                                  ^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                                   ^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                                     ^
+   `----
+
+  x Delimiter
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                                     ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                                       ^^^^^^^^^^^^^^^^
+   `----
+
+  x CalcSum
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                                       ^^^^^^^^^^^^^^^^
+   `----
+
+  x CalcProductOrOperator
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                                       ^^^^^^^^^^
+   `----
+
+  x CalcProduct
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                                       ^^^^^^^^^^
+   `----
+
+  x CalcValueOrOperator
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                                       ^^
+   `----
+
+  x CalcValue
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                                       ^^
+   `----
+
+  x Percentage
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                                       ^^
+   `----
+
+  x Number
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                                       ^
+   `----
+
+  x CalcValueOrOperator
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                                          ^
+   `----
+
+  x CalcOperator
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                                          ^
+   `----
+
+  x CalcValueOrOperator
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                                            ^^^^^
+   `----
+
+  x CalcValue
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                                            ^^^^^
+   `----
+
+  x Dimension
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                                            ^^^^^
+   `----
+
+  x Length
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                                            ^^^^^
+   `----
+
+  x Number
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                                            ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                                               ^^
+   `----
+
+  x CalcProductOrOperator
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                                                  ^
+   `----
+
+  x CalcOperator
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                                                  ^
+   `----
+
+  x CalcProductOrOperator
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                                                    ^^^
+   `----
+
+  x CalcProduct
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                                                    ^^^
+   `----
+
+  x CalcValueOrOperator
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                                                    ^^^
+   `----
+
+  x CalcValue
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                                                    ^^^
+   `----
+
+  x Dimension
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                                                    ^^^
+   `----
+
+  x Length
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                                                    ^^^
+   `----
+
+  x Number
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                                                    ^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:6:5]
+ 6 | width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+   :                                                                     ^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:7:5]
+ 7 | width: min(500px);
+   : ^^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:30]
- 8 | 
- 9 | 	width: min(500px, 40px + 5%);
-   :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:7:5]
+ 7 | width: min(500px);
+   : ^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:30]
- 8 | 
- 9 | 	width: min(500px, 40px + 5%);
-   :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:7:5]
+ 7 | width: min(500px);
+   : ^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:30]
- 8 | 
- 9 | 	width: min(500px, 40px + 5%);
-   :  ^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:7:5]
+ 7 | width: min(500px);
+   : ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:30]
- 8 | 
- 9 | 	width: min(500px, 40px + 5%);
-   :  ^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:7:5]
+ 7 | width: min(500px);
+   : ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:30]
- 8 | 
- 9 | 	width: min(500px, 40px + 5%);
-   :         ^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:7:5]
+ 7 | width: min(500px);
+   :        ^^^^^^^^^^
    `----
 
   x Function
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:30]
- 8 | 
- 9 | 	width: min(500px, 40px + 5%);
-   :         ^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:7:5]
+ 7 | width: min(500px);
+   :        ^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:30]
- 8 | 
- 9 | 	width: min(500px, 40px + 5%);
-   :         ^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:7:5]
+ 7 | width: min(500px);
+   :        ^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:30]
- 8 | 
- 9 | 	width: min(500px, 40px + 5%);
-   :             ^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:7:5]
+ 7 | width: min(500px);
+   :            ^^^^^
    `----
 
   x CalcSum
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:30]
- 8 | 
- 9 | 	width: min(500px, 40px + 5%);
-   :             ^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:7:5]
+ 7 | width: min(500px);
+   :            ^^^^^
    `----
 
   x CalcProductOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:30]
- 8 | 
- 9 | 	width: min(500px, 40px + 5%);
-   :             ^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:7:5]
+ 7 | width: min(500px);
+   :            ^^^^^
    `----
 
   x CalcProduct
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:30]
- 8 | 
- 9 | 	width: min(500px, 40px + 5%);
-   :             ^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:7:5]
+ 7 | width: min(500px);
+   :            ^^^^^
    `----
 
   x CalcValueOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:30]
- 8 | 
- 9 | 	width: min(500px, 40px + 5%);
-   :             ^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:7:5]
+ 7 | width: min(500px);
+   :            ^^^^^
    `----
 
   x CalcValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:30]
- 8 | 
- 9 | 	width: min(500px, 40px + 5%);
-   :             ^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:7:5]
+ 7 | width: min(500px);
+   :            ^^^^^
    `----
 
   x Dimension
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:30]
- 8 | 
- 9 | 	width: min(500px, 40px + 5%);
-   :             ^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:7:5]
+ 7 | width: min(500px);
+   :            ^^^^^
    `----
 
   x Length
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:30]
- 8 | 
- 9 | 	width: min(500px, 40px + 5%);
-   :             ^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:7:5]
+ 7 | width: min(500px);
+   :            ^^^^^
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:30]
- 8 | 
- 9 | 	width: min(500px, 40px + 5%);
-   :             ^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:7:5]
+ 7 | width: min(500px);
+   :            ^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:30]
- 8 | 
- 9 | 	width: min(500px, 40px + 5%);
-   :                ^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:7:5]
+ 7 | width: min(500px);
+   :               ^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:30]
- 8 | 
- 9 | 	width: min(500px, 40px + 5%);
-   :                  ^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:5]
+ 8 | width: min(500px, 6 / 4);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:5]
+ 8 | width: min(500px, 6 / 4);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:5]
+ 8 | width: min(500px, 6 / 4);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:5]
+ 8 | width: min(500px, 6 / 4);
+   : ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:5]
+ 8 | width: min(500px, 6 / 4);
+   : ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:5]
+ 8 | width: min(500px, 6 / 4);
+   :        ^^^^^^^^^^^^^^^^^
+   `----
+
+  x Function
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:5]
+ 8 | width: min(500px, 6 / 4);
+   :        ^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:5]
+ 8 | width: min(500px, 6 / 4);
+   :        ^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:5]
+ 8 | width: min(500px, 6 / 4);
+   :            ^^^^^
+   `----
+
+  x CalcSum
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:5]
+ 8 | width: min(500px, 6 / 4);
+   :            ^^^^^
+   `----
+
+  x CalcProductOrOperator
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:5]
+ 8 | width: min(500px, 6 / 4);
+   :            ^^^^^
+   `----
+
+  x CalcProduct
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:5]
+ 8 | width: min(500px, 6 / 4);
+   :            ^^^^^
+   `----
+
+  x CalcValueOrOperator
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:5]
+ 8 | width: min(500px, 6 / 4);
+   :            ^^^^^
+   `----
+
+  x CalcValue
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:5]
+ 8 | width: min(500px, 6 / 4);
+   :            ^^^^^
+   `----
+
+  x Dimension
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:5]
+ 8 | width: min(500px, 6 / 4);
+   :            ^^^^^
+   `----
+
+  x Length
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:5]
+ 8 | width: min(500px, 6 / 4);
+   :            ^^^^^
+   `----
+
+  x Number
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:5]
+ 8 | width: min(500px, 6 / 4);
+   :            ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:5]
+ 8 | width: min(500px, 6 / 4);
+   :               ^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:5]
+ 8 | width: min(500px, 6 / 4);
+   :                 ^
    `----
 
   x Delimiter
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:30]
- 8 | 
- 9 | 	width: min(500px, 40px + 5%);
-   :                  ^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:5]
+ 8 | width: min(500px, 6 / 4);
+   :                 ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:30]
- 8 | 
- 9 | 	width: min(500px, 40px + 5%);
-   :                    ^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:5]
+ 8 | width: min(500px, 6 / 4);
+   :                   ^^^^^
    `----
 
   x CalcSum
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:30]
- 8 | 
- 9 | 	width: min(500px, 40px + 5%);
-   :                    ^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:5]
+ 8 | width: min(500px, 6 / 4);
+   :                   ^^^^^
    `----
 
   x CalcProductOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:30]
- 8 | 
- 9 | 	width: min(500px, 40px + 5%);
-   :                    ^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:5]
+ 8 | width: min(500px, 6 / 4);
+   :                   ^^^^^
    `----
 
   x CalcProduct
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:30]
- 8 | 
- 9 | 	width: min(500px, 40px + 5%);
-   :                    ^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:5]
+ 8 | width: min(500px, 6 / 4);
+   :                   ^^^^^
    `----
 
   x CalcValueOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:30]
- 8 | 
- 9 | 	width: min(500px, 40px + 5%);
-   :                    ^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:5]
+ 8 | width: min(500px, 6 / 4);
+   :                   ^
    `----
 
   x CalcValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:30]
- 8 | 
- 9 | 	width: min(500px, 40px + 5%);
-   :                    ^^^^
-   `----
-
-  x Dimension
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:30]
- 8 | 
- 9 | 	width: min(500px, 40px + 5%);
-   :                    ^^^^
-   `----
-
-  x Length
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:30]
- 8 | 
- 9 | 	width: min(500px, 40px + 5%);
-   :                    ^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:5]
+ 8 | width: min(500px, 6 / 4);
+   :                   ^
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:30]
- 8 | 
- 9 | 	width: min(500px, 40px + 5%);
-   :                    ^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:5]
+ 8 | width: min(500px, 6 / 4);
+   :                   ^
    `----
 
-  x Ident
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:30]
- 8 | 
- 9 | 	width: min(500px, 40px + 5%);
-   :                      ^^
-   `----
-
-  x CalcProductOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:30]
- 8 | 
- 9 | 	width: min(500px, 40px + 5%);
-   :                         ^
+  x CalcValueOrOperator
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:5]
+ 8 | width: min(500px, 6 / 4);
+   :                     ^
    `----
 
   x CalcOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:30]
- 8 | 
- 9 | 	width: min(500px, 40px + 5%);
-   :                         ^
-   `----
-
-  x CalcProductOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:30]
- 8 | 
- 9 | 	width: min(500px, 40px + 5%);
-   :                           ^^
-   `----
-
-  x CalcProduct
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:30]
- 8 | 
- 9 | 	width: min(500px, 40px + 5%);
-   :                           ^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:5]
+ 8 | width: min(500px, 6 / 4);
+   :                     ^
    `----
 
   x CalcValueOrOperator
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:30]
- 8 | 
- 9 | 	width: min(500px, 40px + 5%);
-   :                           ^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:5]
+ 8 | width: min(500px, 6 / 4);
+   :                       ^
    `----
 
   x CalcValue
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:30]
- 8 | 
- 9 | 	width: min(500px, 40px + 5%);
-   :                           ^^
-   `----
-
-  x Percentage
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:30]
- 8 | 
- 9 | 	width: min(500px, 40px + 5%);
-   :                           ^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:5]
+ 8 | width: min(500px, 6 / 4);
+   :                       ^
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:30]
- 8 | 
- 9 | 	width: min(500px, 40px + 5%);
-   :                           ^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:8:5]
+ 8 | width: min(500px, 6 / 4);
+   :                       ^
    `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:34]
-  9 | 
- 10 | 	width: min(500px, 5% * 400px + 2px);
-    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:5]
+ 9 | width: min(500px, 40px + 5%);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:5]
+ 9 | width: min(500px, 40px + 5%);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:5]
+ 9 | width: min(500px, 40px + 5%);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:5]
+ 9 | width: min(500px, 40px + 5%);
+   : ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:5]
+ 9 | width: min(500px, 40px + 5%);
+   : ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:5]
+ 9 | width: min(500px, 40px + 5%);
+   :        ^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Function
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:5]
+ 9 | width: min(500px, 40px + 5%);
+   :        ^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:5]
+ 9 | width: min(500px, 40px + 5%);
+   :        ^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:5]
+ 9 | width: min(500px, 40px + 5%);
+   :            ^^^^^
+   `----
+
+  x CalcSum
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:5]
+ 9 | width: min(500px, 40px + 5%);
+   :            ^^^^^
+   `----
+
+  x CalcProductOrOperator
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:5]
+ 9 | width: min(500px, 40px + 5%);
+   :            ^^^^^
+   `----
+
+  x CalcProduct
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:5]
+ 9 | width: min(500px, 40px + 5%);
+   :            ^^^^^
+   `----
+
+  x CalcValueOrOperator
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:5]
+ 9 | width: min(500px, 40px + 5%);
+   :            ^^^^^
+   `----
+
+  x CalcValue
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:5]
+ 9 | width: min(500px, 40px + 5%);
+   :            ^^^^^
+   `----
+
+  x Dimension
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:5]
+ 9 | width: min(500px, 40px + 5%);
+   :            ^^^^^
+   `----
+
+  x Length
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:5]
+ 9 | width: min(500px, 40px + 5%);
+   :            ^^^^^
+   `----
+
+  x Number
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:5]
+ 9 | width: min(500px, 40px + 5%);
+   :            ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:5]
+ 9 | width: min(500px, 40px + 5%);
+   :               ^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:5]
+ 9 | width: min(500px, 40px + 5%);
+   :                 ^
+   `----
+
+  x Delimiter
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:5]
+ 9 | width: min(500px, 40px + 5%);
+   :                 ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:5]
+ 9 | width: min(500px, 40px + 5%);
+   :                   ^^^^^^^^^
+   `----
+
+  x CalcSum
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:5]
+ 9 | width: min(500px, 40px + 5%);
+   :                   ^^^^^^^^^
+   `----
+
+  x CalcProductOrOperator
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:5]
+ 9 | width: min(500px, 40px + 5%);
+   :                   ^^^^
+   `----
+
+  x CalcProduct
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:5]
+ 9 | width: min(500px, 40px + 5%);
+   :                   ^^^^
+   `----
+
+  x CalcValueOrOperator
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:5]
+ 9 | width: min(500px, 40px + 5%);
+   :                   ^^^^
+   `----
+
+  x CalcValue
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:5]
+ 9 | width: min(500px, 40px + 5%);
+   :                   ^^^^
+   `----
+
+  x Dimension
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:5]
+ 9 | width: min(500px, 40px + 5%);
+   :                   ^^^^
+   `----
+
+  x Length
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:5]
+ 9 | width: min(500px, 40px + 5%);
+   :                   ^^^^
+   `----
+
+  x Number
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:5]
+ 9 | width: min(500px, 40px + 5%);
+   :                   ^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:5]
+ 9 | width: min(500px, 40px + 5%);
+   :                     ^^
+   `----
+
+  x CalcProductOrOperator
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:5]
+ 9 | width: min(500px, 40px + 5%);
+   :                        ^
+   `----
+
+  x CalcOperator
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:5]
+ 9 | width: min(500px, 40px + 5%);
+   :                        ^
+   `----
+
+  x CalcProductOrOperator
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:5]
+ 9 | width: min(500px, 40px + 5%);
+   :                          ^^
+   `----
+
+  x CalcProduct
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:5]
+ 9 | width: min(500px, 40px + 5%);
+   :                          ^^
+   `----
+
+  x CalcValueOrOperator
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:5]
+ 9 | width: min(500px, 40px + 5%);
+   :                          ^^
+   `----
+
+  x CalcValue
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:5]
+ 9 | width: min(500px, 40px + 5%);
+   :                          ^^
+   `----
+
+  x Percentage
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:5]
+ 9 | width: min(500px, 40px + 5%);
+   :                          ^^
+   `----
+
+  x Number
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:5]
+ 9 | width: min(500px, 40px + 5%);
+   :                          ^
+   `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:5]
+ 10 | width: min(500px, 5% * 400px + 2px);
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:34]
-  9 | 
- 10 | 	width: min(500px, 5% * 400px + 2px);
-    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:5]
+ 10 | width: min(500px, 5% * 400px + 2px);
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:34]
-  9 | 
- 10 | 	width: min(500px, 5% * 400px + 2px);
-    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:5]
+ 10 | width: min(500px, 5% * 400px + 2px);
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:34]
-  9 | 
- 10 | 	width: min(500px, 5% * 400px + 2px);
-    :  ^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:5]
+ 10 | width: min(500px, 5% * 400px + 2px);
+    : ^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:34]
-  9 | 
- 10 | 	width: min(500px, 5% * 400px + 2px);
-    :  ^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:5]
+ 10 | width: min(500px, 5% * 400px + 2px);
+    : ^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:34]
-  9 | 
- 10 | 	width: min(500px, 5% * 400px + 2px);
-    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:5]
+ 10 | width: min(500px, 5% * 400px + 2px);
+    :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Function
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:34]
-  9 | 
- 10 | 	width: min(500px, 5% * 400px + 2px);
-    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:5]
+ 10 | width: min(500px, 5% * 400px + 2px);
+    :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:34]
-  9 | 
- 10 | 	width: min(500px, 5% * 400px + 2px);
-    :         ^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:5]
+ 10 | width: min(500px, 5% * 400px + 2px);
+    :        ^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:34]
-  9 | 
- 10 | 	width: min(500px, 5% * 400px + 2px);
-    :             ^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:5]
+ 10 | width: min(500px, 5% * 400px + 2px);
+    :            ^^^^^
     `----
 
   x CalcSum
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:34]
-  9 | 
- 10 | 	width: min(500px, 5% * 400px + 2px);
-    :             ^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:5]
+ 10 | width: min(500px, 5% * 400px + 2px);
+    :            ^^^^^
     `----
 
   x CalcProductOrOperator
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:34]
-  9 | 
- 10 | 	width: min(500px, 5% * 400px + 2px);
-    :             ^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:5]
+ 10 | width: min(500px, 5% * 400px + 2px);
+    :            ^^^^^
     `----
 
   x CalcProduct
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:34]
-  9 | 
- 10 | 	width: min(500px, 5% * 400px + 2px);
-    :             ^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:5]
+ 10 | width: min(500px, 5% * 400px + 2px);
+    :            ^^^^^
     `----
 
   x CalcValueOrOperator
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:34]
-  9 | 
- 10 | 	width: min(500px, 5% * 400px + 2px);
-    :             ^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:5]
+ 10 | width: min(500px, 5% * 400px + 2px);
+    :            ^^^^^
     `----
 
   x CalcValue
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:34]
-  9 | 
- 10 | 	width: min(500px, 5% * 400px + 2px);
-    :             ^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:5]
+ 10 | width: min(500px, 5% * 400px + 2px);
+    :            ^^^^^
     `----
 
   x Dimension
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:34]
-  9 | 
- 10 | 	width: min(500px, 5% * 400px + 2px);
-    :             ^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:5]
+ 10 | width: min(500px, 5% * 400px + 2px);
+    :            ^^^^^
     `----
 
   x Length
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:34]
-  9 | 
- 10 | 	width: min(500px, 5% * 400px + 2px);
-    :             ^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:5]
+ 10 | width: min(500px, 5% * 400px + 2px);
+    :            ^^^^^
     `----
 
   x Number
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:34]
-  9 | 
- 10 | 	width: min(500px, 5% * 400px + 2px);
-    :             ^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:5]
+ 10 | width: min(500px, 5% * 400px + 2px);
+    :            ^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:34]
-  9 | 
- 10 | 	width: min(500px, 5% * 400px + 2px);
-    :                ^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:5]
+ 10 | width: min(500px, 5% * 400px + 2px);
+    :               ^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:34]
-  9 | 
- 10 | 	width: min(500px, 5% * 400px + 2px);
-    :                  ^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:5]
+ 10 | width: min(500px, 5% * 400px + 2px);
+    :                 ^
     `----
 
   x Delimiter
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:34]
-  9 | 
- 10 | 	width: min(500px, 5% * 400px + 2px);
-    :                  ^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:5]
+ 10 | width: min(500px, 5% * 400px + 2px);
+    :                 ^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:34]
-  9 | 
- 10 | 	width: min(500px, 5% * 400px + 2px);
-    :                    ^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:5]
+ 10 | width: min(500px, 5% * 400px + 2px);
+    :                   ^^^^^^^^^^^^^^^^
     `----
 
   x CalcSum
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:34]
-  9 | 
- 10 | 	width: min(500px, 5% * 400px + 2px);
-    :                    ^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:5]
+ 10 | width: min(500px, 5% * 400px + 2px);
+    :                   ^^^^^^^^^^^^^^^^
     `----
 
   x CalcProductOrOperator
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:34]
-  9 | 
- 10 | 	width: min(500px, 5% * 400px + 2px);
-    :                    ^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:5]
+ 10 | width: min(500px, 5% * 400px + 2px);
+    :                   ^^^^^^^^^^
     `----
 
   x CalcProduct
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:34]
-  9 | 
- 10 | 	width: min(500px, 5% * 400px + 2px);
-    :                    ^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:5]
+ 10 | width: min(500px, 5% * 400px + 2px);
+    :                   ^^^^^^^^^^
     `----
 
   x CalcValueOrOperator
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:34]
-  9 | 
- 10 | 	width: min(500px, 5% * 400px + 2px);
-    :                    ^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:5]
+ 10 | width: min(500px, 5% * 400px + 2px);
+    :                   ^^
     `----
 
   x CalcValue
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:34]
-  9 | 
- 10 | 	width: min(500px, 5% * 400px + 2px);
-    :                    ^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:5]
+ 10 | width: min(500px, 5% * 400px + 2px);
+    :                   ^^
     `----
 
   x Percentage
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:34]
-  9 | 
- 10 | 	width: min(500px, 5% * 400px + 2px);
-    :                    ^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:5]
+ 10 | width: min(500px, 5% * 400px + 2px);
+    :                   ^^
     `----
 
   x Number
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:34]
-  9 | 
- 10 | 	width: min(500px, 5% * 400px + 2px);
-    :                    ^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:5]
+ 10 | width: min(500px, 5% * 400px + 2px);
+    :                   ^
     `----
 
   x CalcValueOrOperator
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:34]
-  9 | 
- 10 | 	width: min(500px, 5% * 400px + 2px);
-    :                       ^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:5]
+ 10 | width: min(500px, 5% * 400px + 2px);
+    :                      ^
     `----
 
   x CalcOperator
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:34]
-  9 | 
- 10 | 	width: min(500px, 5% * 400px + 2px);
-    :                       ^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:5]
+ 10 | width: min(500px, 5% * 400px + 2px);
+    :                      ^
     `----
 
   x CalcValueOrOperator
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:34]
-  9 | 
- 10 | 	width: min(500px, 5% * 400px + 2px);
-    :                         ^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:5]
+ 10 | width: min(500px, 5% * 400px + 2px);
+    :                        ^^^^^
     `----
 
   x CalcValue
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:34]
-  9 | 
- 10 | 	width: min(500px, 5% * 400px + 2px);
-    :                         ^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:5]
+ 10 | width: min(500px, 5% * 400px + 2px);
+    :                        ^^^^^
     `----
 
   x Dimension
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:34]
-  9 | 
- 10 | 	width: min(500px, 5% * 400px + 2px);
-    :                         ^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:5]
+ 10 | width: min(500px, 5% * 400px + 2px);
+    :                        ^^^^^
     `----
 
   x Length
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:34]
-  9 | 
- 10 | 	width: min(500px, 5% * 400px + 2px);
-    :                         ^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:5]
+ 10 | width: min(500px, 5% * 400px + 2px);
+    :                        ^^^^^
     `----
 
   x Number
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:34]
-  9 | 
- 10 | 	width: min(500px, 5% * 400px + 2px);
-    :                         ^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:5]
+ 10 | width: min(500px, 5% * 400px + 2px);
+    :                        ^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:34]
-  9 | 
- 10 | 	width: min(500px, 5% * 400px + 2px);
-    :                            ^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:5]
+ 10 | width: min(500px, 5% * 400px + 2px);
+    :                           ^^
     `----
 
   x CalcProductOrOperator
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:34]
-  9 | 
- 10 | 	width: min(500px, 5% * 400px + 2px);
-    :                               ^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:5]
+ 10 | width: min(500px, 5% * 400px + 2px);
+    :                              ^
     `----
 
   x CalcOperator
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:34]
-  9 | 
- 10 | 	width: min(500px, 5% * 400px + 2px);
-    :                               ^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:5]
+ 10 | width: min(500px, 5% * 400px + 2px);
+    :                              ^
     `----
 
   x CalcProductOrOperator
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:34]
-  9 | 
- 10 | 	width: min(500px, 5% * 400px + 2px);
-    :                                 ^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:5]
+ 10 | width: min(500px, 5% * 400px + 2px);
+    :                                ^^^
     `----
 
   x CalcProduct
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:34]
-  9 | 
- 10 | 	width: min(500px, 5% * 400px + 2px);
-    :                                 ^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:5]
+ 10 | width: min(500px, 5% * 400px + 2px);
+    :                                ^^^
     `----
 
   x CalcValueOrOperator
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:34]
-  9 | 
- 10 | 	width: min(500px, 5% * 400px + 2px);
-    :                                 ^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:5]
+ 10 | width: min(500px, 5% * 400px + 2px);
+    :                                ^^^
     `----
 
   x CalcValue
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:34]
-  9 | 
- 10 | 	width: min(500px, 5% * 400px + 2px);
-    :                                 ^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:5]
+ 10 | width: min(500px, 5% * 400px + 2px);
+    :                                ^^^
     `----
 
   x Dimension
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:34]
-  9 | 
- 10 | 	width: min(500px, 5% * 400px + 2px);
-    :                                 ^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:5]
+ 10 | width: min(500px, 5% * 400px + 2px);
+    :                                ^^^
     `----
 
   x Length
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:34]
-  9 | 
- 10 | 	width: min(500px, 5% * 400px + 2px);
-    :                                 ^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:5]
+ 10 | width: min(500px, 5% * 400px + 2px);
+    :                                ^^^
     `----
 
   x Number
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:34]
-  9 | 
- 10 | 	width: min(500px, 5% * 400px + 2px);
-    :                                 ^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:5]
+ 10 | width: min(500px, 5% * 400px + 2px);
+    :                                ^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:9:34]
-  9 | 
- 10 | 	width: min(500px, 5% * 400px + 2px);
-    :                                  ^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:5]
+ 10 | width: min(500px, 5% * 400px + 2px);
+    :                                 ^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :  ^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    : ^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :  ^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    : ^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Function
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :         ^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :        ^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :             ^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :            ^^^^^
     `----
 
   x CalcSum
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :             ^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :            ^^^^^
     `----
 
   x CalcProductOrOperator
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :             ^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :            ^^^^^
     `----
 
   x CalcProduct
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :             ^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :            ^^^^^
     `----
 
   x CalcValueOrOperator
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :             ^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :            ^^^^^
     `----
 
   x CalcValue
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :             ^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :            ^^^^^
     `----
 
   x Dimension
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :             ^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :            ^^^^^
     `----
 
   x Length
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :             ^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :            ^^^^^
     `----
 
   x Number
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :             ^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :            ^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                ^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :               ^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                  ^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                 ^
     `----
 
   x Delimiter
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                  ^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                 ^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                    ^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                   ^^^^^^^^^^^^^^^^
     `----
 
   x CalcSum
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                    ^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                   ^^^^^^^^^^^^^^^^
     `----
 
   x CalcProductOrOperator
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                    ^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                   ^^^^^^^^^^
     `----
 
   x CalcProduct
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                    ^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                   ^^^^^^^^^^
     `----
 
   x CalcValueOrOperator
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                    ^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                   ^^
     `----
 
   x CalcValue
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                    ^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                   ^^
     `----
 
   x Percentage
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                    ^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                   ^^
     `----
 
   x Number
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                    ^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                   ^
     `----
 
   x CalcValueOrOperator
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                       ^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                      ^
     `----
 
   x CalcOperator
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                       ^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                      ^
     `----
 
   x CalcValueOrOperator
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                         ^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                        ^^^^^
     `----
 
   x CalcValue
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                         ^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                        ^^^^^
     `----
 
   x Dimension
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                         ^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                        ^^^^^
     `----
 
   x Length
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                         ^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                        ^^^^^
     `----
 
   x Number
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                         ^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                        ^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                            ^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                           ^^
     `----
 
   x CalcProductOrOperator
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                               ^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                              ^
     `----
 
   x CalcOperator
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                               ^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                              ^
     `----
 
   x CalcProductOrOperator
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                 ^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                ^^^
     `----
 
   x CalcProduct
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                 ^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                ^^^
     `----
 
   x CalcValueOrOperator
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                 ^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                ^^^
     `----
 
   x CalcValue
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                 ^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                ^^^
     `----
 
   x Dimension
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                 ^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                ^^^
     `----
 
   x Length
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                 ^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                ^^^
     `----
 
   x Number
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                 ^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                ^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                  ^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                 ^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                    ^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                   ^
     `----
 
   x Delimiter
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                    ^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                   ^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                      ^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                     ^^^^^^^^^^^^^^^^
     `----
 
   x CalcSum
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                      ^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                     ^^^^^^^^^^^^^^^^
     `----
 
   x CalcProductOrOperator
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                      ^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                     ^^^^^^^^^^
     `----
 
   x CalcProduct
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                      ^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                     ^^^^^^^^^^
     `----
 
   x CalcValueOrOperator
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                      ^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                     ^^
     `----
 
   x CalcValue
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                      ^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                     ^^
     `----
 
   x Percentage
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                      ^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                     ^^
     `----
 
   x Number
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                      ^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                     ^
     `----
 
   x CalcValueOrOperator
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                         ^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                        ^
     `----
 
   x CalcOperator
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                         ^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                        ^
     `----
 
   x CalcValueOrOperator
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                           ^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                          ^^^^^
     `----
 
   x CalcValue
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                           ^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                          ^^^^^
     `----
 
   x Dimension
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                           ^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                          ^^^^^
     `----
 
   x Length
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                           ^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                          ^^^^^
     `----
 
   x Number
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                           ^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                          ^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                              ^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                             ^^
     `----
 
   x CalcProductOrOperator
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                                 ^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                                ^
     `----
 
   x CalcOperator
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                                 ^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                                ^
     `----
 
   x CalcProductOrOperator
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                                   ^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                                  ^^^
     `----
 
   x CalcProduct
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                                   ^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                                  ^^^
     `----
 
   x CalcValueOrOperator
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                                   ^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                                  ^^^
     `----
 
   x CalcValue
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                                   ^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                                  ^^^
     `----
 
   x Dimension
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                                   ^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                                  ^^^
     `----
 
   x Length
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                                   ^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                                  ^^^
     `----
 
   x Number
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                                   ^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                                  ^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                                    ^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                                   ^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                                      ^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                                     ^
     `----
 
   x Delimiter
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                                      ^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                                     ^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                                        ^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                                       ^^^^^^^^^^^^^^^^
     `----
 
   x CalcSum
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                                        ^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                                       ^^^^^^^^^^^^^^^^
     `----
 
   x CalcProductOrOperator
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                                        ^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                                       ^^^^^^^^^^
     `----
 
   x CalcProduct
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                                        ^^^^^^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                                       ^^^^^^^^^^
     `----
 
   x CalcValueOrOperator
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                                        ^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                                       ^^
     `----
 
   x CalcValue
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                                        ^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                                       ^^
     `----
 
   x Percentage
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                                        ^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                                       ^^
     `----
 
   x Number
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                                        ^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                                       ^
     `----
 
   x CalcValueOrOperator
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                                           ^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                                          ^
     `----
 
   x CalcOperator
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                                           ^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                                          ^
     `----
 
   x CalcValueOrOperator
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                                             ^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                                            ^^^^^
     `----
 
   x CalcValue
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                                             ^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                                            ^^^^^
     `----
 
   x Dimension
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                                             ^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                                            ^^^^^
     `----
 
   x Length
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                                             ^^^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                                            ^^^^^
     `----
 
   x Number
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                                             ^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                                            ^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                                                ^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                                               ^^
     `----
 
   x CalcProductOrOperator
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                                                   ^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                                                  ^
     `----
 
   x CalcOperator
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                                                   ^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                                                  ^
     `----
 
   x CalcProductOrOperator
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                                                     ^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                                                    ^^^
     `----
 
   x CalcProduct
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                                                     ^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                                                    ^^^
     `----
 
   x CalcValueOrOperator
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                                                     ^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                                                    ^^^
     `----
 
   x CalcValue
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                                                     ^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                                                    ^^^
     `----
 
   x Dimension
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                                                     ^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                                                    ^^^
     `----
 
   x Length
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                                                     ^^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                                                    ^^^
     `----
 
   x Number
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                                                     ^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                                                    ^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:10:41]
- 10 | 
- 11 | 	width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
-    :                                                                      ^^
+    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:11:5]
+ 11 | width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+    :                                                                     ^^
     `----

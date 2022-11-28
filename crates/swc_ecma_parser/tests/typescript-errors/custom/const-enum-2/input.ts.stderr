@@ -1,7 +1,6 @@
 
   x Expected ',', got 'c'
-   ,-[$DIR/tests/typescript-errors/custom/const-enum-2/input.ts:3:47]
- 3 | 8))
- 4 |     c
-   :     ^
+   ,-[$DIR/tests/typescript-errors/custom/const-enum-2/input.ts:4:5]
+ 4 | c
+   : ^
    `----

@@ -98,597 +98,497 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:1:18]
- 1 | " {
- 2 |     h1, h2 { color: maroon; background: white;}
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:2:5]
+ 2 | h1, h2 { color: maroon; background: white;}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Rule
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:1:18]
- 1 | " {
- 2 |     h1, h2 { color: maroon; background: white;}
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:2:5]
+ 2 | h1, h2 { color: maroon; background: white;}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x QualifiedRule
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:1:18]
- 1 | " {
- 2 |     h1, h2 { color: maroon; background: white;}
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:2:5]
+ 2 | h1, h2 { color: maroon; background: white;}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x SelectorList
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:1:18]
- 1 | " {
- 2 |     h1, h2 { color: maroon; background: white;}
-   :     ^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:2:5]
+ 2 | h1, h2 { color: maroon; background: white;}
+   : ^^^^^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:1:18]
- 1 | " {
- 2 |     h1, h2 { color: maroon; background: white;}
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:2:5]
+ 2 | h1, h2 { color: maroon; background: white;}
+   : ^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:2:5]
+ 2 | h1, h2 { color: maroon; background: white;}
+   : ^^
+   `----
+
+  x TypeSelector
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:2:5]
+ 2 | h1, h2 { color: maroon; background: white;}
+   : ^^
+   `----
+
+  x TagNameSelector
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:2:5]
+ 2 | h1, h2 { color: maroon; background: white;}
+   : ^^
+   `----
+
+  x WqName
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:2:5]
+ 2 | h1, h2 { color: maroon; background: white;}
+   : ^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:2:5]
+ 2 | h1, h2 { color: maroon; background: white;}
+   : ^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:2:5]
+ 2 | h1, h2 { color: maroon; background: white;}
    :     ^^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:1:18]
- 1 | " {
- 2 |     h1, h2 { color: maroon; background: white;}
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:2:5]
+ 2 | h1, h2 { color: maroon; background: white;}
    :     ^^
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:1:18]
- 1 | " {
- 2 |     h1, h2 { color: maroon; background: white;}
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:2:5]
+ 2 | h1, h2 { color: maroon; background: white;}
    :     ^^
    `----
 
   x TagNameSelector
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:1:18]
- 1 | " {
- 2 |     h1, h2 { color: maroon; background: white;}
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:2:5]
+ 2 | h1, h2 { color: maroon; background: white;}
    :     ^^
    `----
 
   x WqName
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:1:18]
- 1 | " {
- 2 |     h1, h2 { color: maroon; background: white;}
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:2:5]
+ 2 | h1, h2 { color: maroon; background: white;}
    :     ^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:1:18]
- 1 | " {
- 2 |     h1, h2 { color: maroon; background: white;}
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:2:5]
+ 2 | h1, h2 { color: maroon; background: white;}
    :     ^^
-   `----
-
-  x ComplexSelector
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:1:18]
- 1 | " {
- 2 |     h1, h2 { color: maroon; background: white;}
-   :         ^^
-   `----
-
-  x CompoundSelector
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:1:18]
- 1 | " {
- 2 |     h1, h2 { color: maroon; background: white;}
-   :         ^^
-   `----
-
-  x TypeSelector
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:1:18]
- 1 | " {
- 2 |     h1, h2 { color: maroon; background: white;}
-   :         ^^
-   `----
-
-  x TagNameSelector
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:1:18]
- 1 | " {
- 2 |     h1, h2 { color: maroon; background: white;}
-   :         ^^
-   `----
-
-  x WqName
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:1:18]
- 1 | " {
- 2 |     h1, h2 { color: maroon; background: white;}
-   :         ^^
-   `----
-
-  x Ident
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:1:18]
- 1 | " {
- 2 |     h1, h2 { color: maroon; background: white;}
-   :         ^^
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:1:18]
- 1 | " {
- 2 |     h1, h2 { color: maroon; background: white;}
-   :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:2:5]
+ 2 | h1, h2 { color: maroon; background: white;}
+   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x LBrace
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:1:18]
- 1 | " {
- 2 |     h1, h2 { color: maroon; background: white;}
-   :            ^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:2:5]
+ 2 | h1, h2 { color: maroon; background: white;}
+   :        ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:1:18]
- 1 | " {
- 2 |     h1, h2 { color: maroon; background: white;}
-   :              ^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:2:5]
+ 2 | h1, h2 { color: maroon; background: white;}
+   :          ^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:1:18]
- 1 | " {
- 2 |     h1, h2 { color: maroon; background: white;}
-   :              ^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:2:5]
+ 2 | h1, h2 { color: maroon; background: white;}
+   :          ^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:1:18]
- 1 | " {
- 2 |     h1, h2 { color: maroon; background: white;}
-   :              ^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:2:5]
+ 2 | h1, h2 { color: maroon; background: white;}
+   :          ^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:1:18]
- 1 | " {
- 2 |     h1, h2 { color: maroon; background: white;}
-   :              ^^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:2:5]
+ 2 | h1, h2 { color: maroon; background: white;}
+   :          ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:1:18]
- 1 | " {
- 2 |     h1, h2 { color: maroon; background: white;}
-   :              ^^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:2:5]
+ 2 | h1, h2 { color: maroon; background: white;}
+   :          ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:1:18]
- 1 | " {
- 2 |     h1, h2 { color: maroon; background: white;}
-   :                     ^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:2:5]
+ 2 | h1, h2 { color: maroon; background: white;}
+   :                 ^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:1:18]
- 1 | " {
- 2 |     h1, h2 { color: maroon; background: white;}
-   :                     ^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:2:5]
+ 2 | h1, h2 { color: maroon; background: white;}
+   :                 ^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:1:18]
- 1 | " {
- 2 |     h1, h2 { color: maroon; background: white;}
-   :                             ^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:2:5]
+ 2 | h1, h2 { color: maroon; background: white;}
+   :                         ^^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:1:18]
- 1 | " {
- 2 |     h1, h2 { color: maroon; background: white;}
-   :                             ^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:2:5]
+ 2 | h1, h2 { color: maroon; background: white;}
+   :                         ^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:1:18]
- 1 | " {
- 2 |     h1, h2 { color: maroon; background: white;}
-   :                             ^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:2:5]
+ 2 | h1, h2 { color: maroon; background: white;}
+   :                         ^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:1:18]
- 1 | " {
- 2 |     h1, h2 { color: maroon; background: white;}
-   :                             ^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:2:5]
+ 2 | h1, h2 { color: maroon; background: white;}
+   :                         ^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:1:18]
- 1 | " {
- 2 |     h1, h2 { color: maroon; background: white;}
-   :                             ^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:2:5]
+ 2 | h1, h2 { color: maroon; background: white;}
+   :                         ^^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:1:18]
- 1 | " {
- 2 |     h1, h2 { color: maroon; background: white;}
-   :                                         ^^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:2:5]
+ 2 | h1, h2 { color: maroon; background: white;}
+   :                                     ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:1:18]
- 1 | " {
- 2 |     h1, h2 { color: maroon; background: white;}
-   :                                         ^^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:2:5]
+ 2 | h1, h2 { color: maroon; background: white;}
+   :                                     ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:2:46]
- 2 |     ;}
- 3 |     
- 4 | ,->     @media (prefers-color-scheme: dark) {
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
+ 4 | ,-> @media (prefers-color-scheme: dark) {
  5 | |           h1, h2 { color: red; background: black; }
  6 | `->     }
    `----
 
   x Rule
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:2:46]
- 2 |     ;}
- 3 |     
- 4 | ,->     @media (prefers-color-scheme: dark) {
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
+ 4 | ,-> @media (prefers-color-scheme: dark) {
  5 | |           h1, h2 { color: red; background: black; }
  6 | `->     }
    `----
 
   x AtRule
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:2:46]
- 2 |     ;}
- 3 |     
- 4 | ,->     @media (prefers-color-scheme: dark) {
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
+ 4 | ,-> @media (prefers-color-scheme: dark) {
  5 | |           h1, h2 { color: red; background: black; }
  6 | `->     }
    `----
 
   x AtRuleName
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:2:46]
- 2 | ;}
- 3 | 
- 4 |     @media (prefers-color-scheme: dark) {
-   :      ^^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
+ 4 | @media (prefers-color-scheme: dark) {
+   :  ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:2:46]
- 2 | ;}
- 3 | 
- 4 |     @media (prefers-color-scheme: dark) {
-   :      ^^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
+ 4 | @media (prefers-color-scheme: dark) {
+   :  ^^^^^
    `----
 
   x MediaQueryList
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:2:46]
- 2 | ;}
- 3 | 
- 4 |     @media (prefers-color-scheme: dark) {
-   :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
+ 4 | @media (prefers-color-scheme: dark) {
+   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x MediaQuery
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:2:46]
- 2 | ;}
- 3 | 
- 4 |     @media (prefers-color-scheme: dark) {
-   :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
+ 4 | @media (prefers-color-scheme: dark) {
+   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x MediaCondition
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:2:46]
- 2 | ;}
- 3 | 
- 4 |     @media (prefers-color-scheme: dark) {
-   :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
+ 4 | @media (prefers-color-scheme: dark) {
+   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x MediaConditionAllType
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:2:46]
- 2 | ;}
- 3 | 
- 4 |     @media (prefers-color-scheme: dark) {
-   :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
+ 4 | @media (prefers-color-scheme: dark) {
+   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x MediaInParens
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:2:46]
- 2 | ;}
- 3 | 
- 4 |     @media (prefers-color-scheme: dark) {
-   :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
+ 4 | @media (prefers-color-scheme: dark) {
+   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x MediaFeature
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:2:46]
- 2 | ;}
- 3 | 
- 4 |     @media (prefers-color-scheme: dark) {
-   :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
+ 4 | @media (prefers-color-scheme: dark) {
+   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x MediaFeaturePlain
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:2:46]
- 2 | ;}
- 3 | 
- 4 |     @media (prefers-color-scheme: dark) {
-   :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
+ 4 | @media (prefers-color-scheme: dark) {
+   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x MediaFeatureName
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:2:46]
- 2 | ;}
- 3 | 
- 4 |     @media (prefers-color-scheme: dark) {
-   :             ^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
+ 4 | @media (prefers-color-scheme: dark) {
+   :         ^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:2:46]
- 2 | ;}
- 3 | 
- 4 |     @media (prefers-color-scheme: dark) {
-   :             ^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
+ 4 | @media (prefers-color-scheme: dark) {
+   :         ^^^^^^^^^^^^^^^^^^^^
    `----
 
   x MediaFeatureValue
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:2:46]
- 2 | ;}
- 3 | 
- 4 |     @media (prefers-color-scheme: dark) {
-   :                                   ^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
+ 4 | @media (prefers-color-scheme: dark) {
+   :                               ^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:2:46]
- 2 | ;}
- 3 | 
- 4 |     @media (prefers-color-scheme: dark) {
-   :                                   ^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
+ 4 | @media (prefers-color-scheme: dark) {
+   :                               ^^^^
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:2:46]
- 2 |     ;}
- 3 |     
- 4 | ,->     @media (prefers-color-scheme: dark) {
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
+ 4 | ,-> @media (prefers-color-scheme: dark) {
  5 | |           h1, h2 { color: red; background: black; }
  6 | `->     }
    `----
 
   x LBrace
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:2:46]
- 2 | ;}
- 3 | 
- 4 |     @media (prefers-color-scheme: dark) {
-   :                                         ^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
+ 4 | @media (prefers-color-scheme: dark) {
+   :                                     ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:35]
- 4 | dark) {
- 5 |         h1, h2 { color: red; background: black; }
-   :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:5:9]
+ 5 | h1, h2 { color: red; background: black; }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Rule
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:35]
- 4 | dark) {
- 5 |         h1, h2 { color: red; background: black; }
-   :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:5:9]
+ 5 | h1, h2 { color: red; background: black; }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x QualifiedRule
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:35]
- 4 | dark) {
- 5 |         h1, h2 { color: red; background: black; }
-   :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:5:9]
+ 5 | h1, h2 { color: red; background: black; }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x SelectorList
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:35]
- 4 | dark) {
- 5 |         h1, h2 { color: red; background: black; }
-   :         ^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:5:9]
+ 5 | h1, h2 { color: red; background: black; }
+   : ^^^^^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:35]
- 4 | dark) {
- 5 |         h1, h2 { color: red; background: black; }
-   :         ^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:5:9]
+ 5 | h1, h2 { color: red; background: black; }
+   : ^^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:35]
- 4 | dark) {
- 5 |         h1, h2 { color: red; background: black; }
-   :         ^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:5:9]
+ 5 | h1, h2 { color: red; background: black; }
+   : ^^
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:35]
- 4 | dark) {
- 5 |         h1, h2 { color: red; background: black; }
-   :         ^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:5:9]
+ 5 | h1, h2 { color: red; background: black; }
+   : ^^
    `----
 
   x TagNameSelector
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:35]
- 4 | dark) {
- 5 |         h1, h2 { color: red; background: black; }
-   :         ^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:5:9]
+ 5 | h1, h2 { color: red; background: black; }
+   : ^^
    `----
 
   x WqName
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:35]
- 4 | dark) {
- 5 |         h1, h2 { color: red; background: black; }
-   :         ^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:5:9]
+ 5 | h1, h2 { color: red; background: black; }
+   : ^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:35]
- 4 | dark) {
- 5 |         h1, h2 { color: red; background: black; }
-   :         ^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:5:9]
+ 5 | h1, h2 { color: red; background: black; }
+   : ^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:35]
- 4 | dark) {
- 5 |         h1, h2 { color: red; background: black; }
-   :             ^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:5:9]
+ 5 | h1, h2 { color: red; background: black; }
+   :     ^^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:35]
- 4 | dark) {
- 5 |         h1, h2 { color: red; background: black; }
-   :             ^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:5:9]
+ 5 | h1, h2 { color: red; background: black; }
+   :     ^^
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:35]
- 4 | dark) {
- 5 |         h1, h2 { color: red; background: black; }
-   :             ^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:5:9]
+ 5 | h1, h2 { color: red; background: black; }
+   :     ^^
    `----
 
   x TagNameSelector
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:35]
- 4 | dark) {
- 5 |         h1, h2 { color: red; background: black; }
-   :             ^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:5:9]
+ 5 | h1, h2 { color: red; background: black; }
+   :     ^^
    `----
 
   x WqName
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:35]
- 4 | dark) {
- 5 |         h1, h2 { color: red; background: black; }
-   :             ^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:5:9]
+ 5 | h1, h2 { color: red; background: black; }
+   :     ^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:35]
- 4 | dark) {
- 5 |         h1, h2 { color: red; background: black; }
-   :             ^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:5:9]
+ 5 | h1, h2 { color: red; background: black; }
+   :     ^^
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:35]
- 4 | dark) {
- 5 |         h1, h2 { color: red; background: black; }
-   :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:5:9]
+ 5 | h1, h2 { color: red; background: black; }
+   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x LBrace
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:35]
- 4 | dark) {
- 5 |         h1, h2 { color: red; background: black; }
-   :                ^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:5:9]
+ 5 | h1, h2 { color: red; background: black; }
+   :        ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:35]
- 4 | dark) {
- 5 |         h1, h2 { color: red; background: black; }
-   :                  ^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:5:9]
+ 5 | h1, h2 { color: red; background: black; }
+   :          ^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:35]
- 4 | dark) {
- 5 |         h1, h2 { color: red; background: black; }
-   :                  ^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:5:9]
+ 5 | h1, h2 { color: red; background: black; }
+   :          ^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:35]
- 4 | dark) {
- 5 |         h1, h2 { color: red; background: black; }
-   :                  ^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:5:9]
+ 5 | h1, h2 { color: red; background: black; }
+   :          ^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:35]
- 4 | dark) {
- 5 |         h1, h2 { color: red; background: black; }
-   :                  ^^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:5:9]
+ 5 | h1, h2 { color: red; background: black; }
+   :          ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:35]
- 4 | dark) {
- 5 |         h1, h2 { color: red; background: black; }
-   :                  ^^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:5:9]
+ 5 | h1, h2 { color: red; background: black; }
+   :          ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:35]
- 4 | dark) {
- 5 |         h1, h2 { color: red; background: black; }
-   :                         ^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:5:9]
+ 5 | h1, h2 { color: red; background: black; }
+   :                 ^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:35]
- 4 | dark) {
- 5 |         h1, h2 { color: red; background: black; }
-   :                         ^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:5:9]
+ 5 | h1, h2 { color: red; background: black; }
+   :                 ^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:35]
- 4 | dark) {
- 5 |         h1, h2 { color: red; background: black; }
-   :                              ^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:5:9]
+ 5 | h1, h2 { color: red; background: black; }
+   :                      ^^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:35]
- 4 | dark) {
- 5 |         h1, h2 { color: red; background: black; }
-   :                              ^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:5:9]
+ 5 | h1, h2 { color: red; background: black; }
+   :                      ^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:35]
- 4 | dark) {
- 5 |         h1, h2 { color: red; background: black; }
-   :                              ^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:5:9]
+ 5 | h1, h2 { color: red; background: black; }
+   :                      ^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:35]
- 4 | dark) {
- 5 |         h1, h2 { color: red; background: black; }
-   :                              ^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:5:9]
+ 5 | h1, h2 { color: red; background: black; }
+   :                      ^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:35]
- 4 | dark) {
- 5 |         h1, h2 { color: red; background: black; }
-   :                              ^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:5:9]
+ 5 | h1, h2 { color: red; background: black; }
+   :                      ^^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:35]
- 4 | dark) {
- 5 |         h1, h2 { color: red; background: black; }
-   :                                          ^^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:5:9]
+ 5 | h1, h2 { color: red; background: black; }
+   :                                  ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:35]
- 4 | dark) {
- 5 |         h1, h2 { color: red; background: black; }
-   :                                          ^^^^^
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:5:9]
+ 5 | h1, h2 { color: red; background: black; }
+   :                                  ^^^^^
    `----

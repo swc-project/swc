@@ -1,9 +1,8 @@
 
   x Opening and ending tag mismatch
-   ,-[$DIR/tests/recovery/basic/input.xml:4:19]
- 4 | om>
- 5 |     <heading>Reminder</pheading>
-   :                      ^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/basic/input.xml:5:5]
+ 5 | <heading>Reminder</pheading>
+   :                  ^^^^^^^^^^^
    `----
 
   x Opening and ending tag mismatch

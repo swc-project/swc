@@ -1,14 +1,12 @@
 
   x Expected ":"
-   ,-[$DIR/tests/recovery/vercel/004/input.css:3:11]
- 3 | t__
- 4 |     border-radius: 7px;
-   :     ^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/vercel/004/input.css:4:5]
+ 4 | border-radius: 7px;
+   : ^^^^^^^^^^^^^
    `----
 
   x Expected ":"
-   ,-[$DIR/tests/recovery/vercel/004/input.css:7:11]
- 7 | t__
- 8 |     __ident__
-   :     ^^^^^^^^^
+   ,-[$DIR/tests/recovery/vercel/004/input.css:8:5]
+ 8 | __ident__
+   : ^^^^^^^^^
    `----

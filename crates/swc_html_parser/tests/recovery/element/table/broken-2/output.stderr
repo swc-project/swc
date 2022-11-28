@@ -12,31 +12,27 @@
    `----
 
   x Stray start tag "td"
-    ,-[$DIR/tests/recovery/element/table/broken-2/input.html:9:2]
-  9 | tr>
- 10 |     <td>Cell 1</td>
-    :     ^^^^
+    ,-[$DIR/tests/recovery/element/table/broken-2/input.html:10:5]
+ 10 | <td>Cell 1</td>
+    : ^^^^
     `----
 
   x Stray end tag "td"
-    ,-[$DIR/tests/recovery/element/table/broken-2/input.html:9:2]
-  9 | tr>
- 10 |     <td>Cell 1</td>
-    :               ^^^^^
+    ,-[$DIR/tests/recovery/element/table/broken-2/input.html:10:5]
+ 10 | <td>Cell 1</td>
+    :           ^^^^^
     `----
 
   x Stray start tag "td"
-    ,-[$DIR/tests/recovery/element/table/broken-2/input.html:10:17]
- 10 | td>
- 11 |     <td>Cell 2</td>
-    :     ^^^^
+    ,-[$DIR/tests/recovery/element/table/broken-2/input.html:11:5]
+ 11 | <td>Cell 2</td>
+    : ^^^^
     `----
 
   x Stray end tag "td"
-    ,-[$DIR/tests/recovery/element/table/broken-2/input.html:10:17]
- 10 | td>
- 11 |     <td>Cell 2</td>
-    :               ^^^^^
+    ,-[$DIR/tests/recovery/element/table/broken-2/input.html:11:5]
+ 11 | <td>Cell 2</td>
+    :           ^^^^^
     `----
 
   x Stray end tag "tr"

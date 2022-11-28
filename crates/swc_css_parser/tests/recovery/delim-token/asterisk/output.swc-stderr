@@ -1,7 +1,6 @@
 
   x Expected Declaration value
-   ,-[$DIR/tests/recovery/delim-token/asterisk/input.css:1:1]
- 1 | a {
- 2 |     color: *;
-   :            ^
+   ,-[$DIR/tests/recovery/delim-token/asterisk/input.css:2:5]
+ 2 | color: *;
+   :        ^
    `----

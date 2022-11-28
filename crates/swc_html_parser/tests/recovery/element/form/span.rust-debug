@@ -87,46 +87,40 @@
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/form/input.html:3:4]
- 3 | ad>
- 4 |     <title>Document</title>
-   :     ^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/form/input.html:4:5]
+ 4 | <title>Document</title>
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/recovery/element/form/input.html:3:4]
- 3 | ad>
- 4 |     <title>Document</title>
-   :     ^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/form/input.html:4:5]
+ 4 | <title>Document</title>
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/form/input.html:3:4]
- 3 | ad>
- 4 |     <title>Document</title>
-   :            ^^^^^^^^
+   ,-[$DIR/tests/recovery/element/form/input.html:4:5]
+ 4 | <title>Document</title>
+   :        ^^^^^^^^
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/element/form/input.html:3:4]
- 3 | ad>
- 4 |     <title>Document</title>
-   :            ^^^^^^^^
+   ,-[$DIR/tests/recovery/element/form/input.html:4:5]
+ 4 | <title>Document</title>
+   :        ^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/form/input.html:3:4]
- 3 | ad>
- 4 |     <title>Document</title>
-   :                            ^
+   ,-[$DIR/tests/recovery/element/form/input.html:4:5]
+ 4 | <title>Document</title>
+   :                        ^
  5 | </head>
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/element/form/input.html:3:4]
- 3 | ad>
- 4 |     <title>Document</title>
-   :                            ^
+   ,-[$DIR/tests/recovery/element/form/input.html:4:5]
+ 4 | <title>Document</title>
+   :                        ^
  5 | </head>
    `----
 
@@ -209,18 +203,16 @@
    `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/form/input.html:7:18]
-  7 |     t">
-  8 | ,->     <form action="test"></form>
+    ,-[$DIR/tests/recovery/element/form/input.html:8:5]
+  8 | ,-> <form action="test"></form>
   9 | |   </form>
  10 | `-> </body>
  11 |     </html>
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/form/input.html:7:18]
-  7 |     t">
-  8 | ,->     <form action="test"></form>
+    ,-[$DIR/tests/recovery/element/form/input.html:8:5]
+  8 | ,-> <form action="test"></form>
   9 | |   </form>
  10 | `-> </body>
  11 |     </html>

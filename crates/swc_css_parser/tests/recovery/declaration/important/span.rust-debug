@@ -90,80 +90,69 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/declaration/important/input.css:1:2]
- 1 | a {
- 2 |     color: white !!important;
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/declaration/important/input.css:2:5]
+ 2 | color: white !!important;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/recovery/declaration/important/input.css:1:2]
- 1 | a {
- 2 |     color: white !!important;
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/declaration/important/input.css:2:5]
+ 2 | color: white !!important;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/recovery/declaration/important/input.css:1:2]
- 1 | a {
- 2 |     color: white !!important;
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/declaration/important/input.css:2:5]
+ 2 | color: white !!important;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/recovery/declaration/important/input.css:1:2]
- 1 | a {
- 2 |     color: white !!important;
-   :     ^^^^^
+   ,-[$DIR/tests/recovery/declaration/important/input.css:2:5]
+ 2 | color: white !!important;
+   : ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/declaration/important/input.css:1:2]
- 1 | a {
- 2 |     color: white !!important;
-   :     ^^^^^
+   ,-[$DIR/tests/recovery/declaration/important/input.css:2:5]
+ 2 | color: white !!important;
+   : ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/declaration/important/input.css:1:2]
- 1 | a {
- 2 |     color: white !!important;
-   :            ^^^^^
+   ,-[$DIR/tests/recovery/declaration/important/input.css:2:5]
+ 2 | color: white !!important;
+   :        ^^^^^
    `----
 
   x Ident { value: Atom('white' type=inline), raw: "white" }
-   ,-[$DIR/tests/recovery/declaration/important/input.css:1:2]
- 1 | a {
- 2 |     color: white !!important;
-   :            ^^^^^
+   ,-[$DIR/tests/recovery/declaration/important/input.css:2:5]
+ 2 | color: white !!important;
+   :        ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/declaration/important/input.css:1:2]
- 1 | a {
- 2 |     color: white !!important;
-   :                 ^
+   ,-[$DIR/tests/recovery/declaration/important/input.css:2:5]
+ 2 | color: white !!important;
+   :             ^
    `----
 
   x WhiteSpace { value: " " }
-   ,-[$DIR/tests/recovery/declaration/important/input.css:1:2]
- 1 | a {
- 2 |     color: white !!important;
-   :                 ^
+   ,-[$DIR/tests/recovery/declaration/important/input.css:2:5]
+ 2 | color: white !!important;
+   :             ^
    `----
 
   x ImportantFlag
-   ,-[$DIR/tests/recovery/declaration/important/input.css:1:2]
- 1 | a {
- 2 |     color: white !!important;
-   :                   ^^^^^^^^^^
+   ,-[$DIR/tests/recovery/declaration/important/input.css:2:5]
+ 2 | color: white !!important;
+   :               ^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/declaration/important/input.css:1:2]
- 1 | a {
- 2 |     color: white !!important;
-   :                    ^^^^^^^^^
+   ,-[$DIR/tests/recovery/declaration/important/input.css:2:5]
+ 2 | color: white !!important;
+   :                ^^^^^^^^^
    `----
 
   x Rule
@@ -230,164 +219,141 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/declaration/important/input.css:5:6]
- 5 | s {
- 6 |     color: red red red !important !important;
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/declaration/important/input.css:6:5]
+ 6 | color: red red red !important !important;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/recovery/declaration/important/input.css:5:6]
- 5 | s {
- 6 |     color: red red red !important !important;
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/declaration/important/input.css:6:5]
+ 6 | color: red red red !important !important;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/recovery/declaration/important/input.css:5:6]
- 5 | s {
- 6 |     color: red red red !important !important;
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/declaration/important/input.css:6:5]
+ 6 | color: red red red !important !important;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/recovery/declaration/important/input.css:5:6]
- 5 | s {
- 6 |     color: red red red !important !important;
-   :     ^^^^^
+   ,-[$DIR/tests/recovery/declaration/important/input.css:6:5]
+ 6 | color: red red red !important !important;
+   : ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/declaration/important/input.css:5:6]
- 5 | s {
- 6 |     color: red red red !important !important;
-   :     ^^^^^
+   ,-[$DIR/tests/recovery/declaration/important/input.css:6:5]
+ 6 | color: red red red !important !important;
+   : ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/declaration/important/input.css:5:6]
- 5 | s {
- 6 |     color: red red red !important !important;
+   ,-[$DIR/tests/recovery/declaration/important/input.css:6:5]
+ 6 | color: red red red !important !important;
+   :        ^^^
+   `----
+
+  x Ident { value: Atom('red' type=inline), raw: "red" }
+   ,-[$DIR/tests/recovery/declaration/important/input.css:6:5]
+ 6 | color: red red red !important !important;
+   :        ^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/declaration/important/input.css:6:5]
+ 6 | color: red red red !important !important;
+   :           ^
+   `----
+
+  x WhiteSpace { value: " " }
+   ,-[$DIR/tests/recovery/declaration/important/input.css:6:5]
+ 6 | color: red red red !important !important;
+   :           ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/declaration/important/input.css:6:5]
+ 6 | color: red red red !important !important;
    :            ^^^
    `----
 
   x Ident { value: Atom('red' type=inline), raw: "red" }
-   ,-[$DIR/tests/recovery/declaration/important/input.css:5:6]
- 5 | s {
- 6 |     color: red red red !important !important;
+   ,-[$DIR/tests/recovery/declaration/important/input.css:6:5]
+ 6 | color: red red red !important !important;
    :            ^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/declaration/important/input.css:5:6]
- 5 | s {
- 6 |     color: red red red !important !important;
+   ,-[$DIR/tests/recovery/declaration/important/input.css:6:5]
+ 6 | color: red red red !important !important;
    :               ^
    `----
 
   x WhiteSpace { value: " " }
-   ,-[$DIR/tests/recovery/declaration/important/input.css:5:6]
- 5 | s {
- 6 |     color: red red red !important !important;
+   ,-[$DIR/tests/recovery/declaration/important/input.css:6:5]
+ 6 | color: red red red !important !important;
    :               ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/declaration/important/input.css:5:6]
- 5 | s {
- 6 |     color: red red red !important !important;
+   ,-[$DIR/tests/recovery/declaration/important/input.css:6:5]
+ 6 | color: red red red !important !important;
    :                ^^^
    `----
 
   x Ident { value: Atom('red' type=inline), raw: "red" }
-   ,-[$DIR/tests/recovery/declaration/important/input.css:5:6]
- 5 | s {
- 6 |     color: red red red !important !important;
+   ,-[$DIR/tests/recovery/declaration/important/input.css:6:5]
+ 6 | color: red red red !important !important;
    :                ^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/declaration/important/input.css:5:6]
- 5 | s {
- 6 |     color: red red red !important !important;
+   ,-[$DIR/tests/recovery/declaration/important/input.css:6:5]
+ 6 | color: red red red !important !important;
    :                   ^
    `----
 
   x WhiteSpace { value: " " }
-   ,-[$DIR/tests/recovery/declaration/important/input.css:5:6]
- 5 | s {
- 6 |     color: red red red !important !important;
+   ,-[$DIR/tests/recovery/declaration/important/input.css:6:5]
+ 6 | color: red red red !important !important;
    :                   ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/declaration/important/input.css:5:6]
- 5 | s {
- 6 |     color: red red red !important !important;
-   :                    ^^^
-   `----
-
-  x Ident { value: Atom('red' type=inline), raw: "red" }
-   ,-[$DIR/tests/recovery/declaration/important/input.css:5:6]
- 5 | s {
- 6 |     color: red red red !important !important;
-   :                    ^^^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/recovery/declaration/important/input.css:5:6]
- 5 | s {
- 6 |     color: red red red !important !important;
-   :                       ^
-   `----
-
-  x WhiteSpace { value: " " }
-   ,-[$DIR/tests/recovery/declaration/important/input.css:5:6]
- 5 | s {
- 6 |     color: red red red !important !important;
-   :                       ^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/recovery/declaration/important/input.css:5:6]
- 5 | s {
- 6 |     color: red red red !important !important;
-   :                        ^
+   ,-[$DIR/tests/recovery/declaration/important/input.css:6:5]
+ 6 | color: red red red !important !important;
+   :                    ^
    `----
 
   x Delim { value: '!' }
-   ,-[$DIR/tests/recovery/declaration/important/input.css:5:6]
- 5 | s {
- 6 |     color: red red red !important !important;
-   :                        ^
+   ,-[$DIR/tests/recovery/declaration/important/input.css:6:5]
+ 6 | color: red red red !important !important;
+   :                    ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/declaration/important/input.css:5:6]
- 5 | s {
- 6 |     color: red red red !important !important;
-   :                         ^^^^^^^^^
+   ,-[$DIR/tests/recovery/declaration/important/input.css:6:5]
+ 6 | color: red red red !important !important;
+   :                     ^^^^^^^^^
    `----
 
   x Ident { value: Atom('important' type=static), raw: "important" }
-   ,-[$DIR/tests/recovery/declaration/important/input.css:5:6]
- 5 | s {
- 6 |     color: red red red !important !important;
-   :                         ^^^^^^^^^
+   ,-[$DIR/tests/recovery/declaration/important/input.css:6:5]
+ 6 | color: red red red !important !important;
+   :                     ^^^^^^^^^
    `----
 
   x ImportantFlag
-   ,-[$DIR/tests/recovery/declaration/important/input.css:5:6]
- 5 | s {
- 6 |     color: red red red !important !important;
-   :                                   ^^^^^^^^^^
+   ,-[$DIR/tests/recovery/declaration/important/input.css:6:5]
+ 6 | color: red red red !important !important;
+   :                               ^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/declaration/important/input.css:5:6]
- 5 | s {
- 6 |     color: red red red !important !important;
-   :                                    ^^^^^^^^^
+   ,-[$DIR/tests/recovery/declaration/important/input.css:6:5]
+ 6 | color: red red red !important !important;
+   :                                ^^^^^^^^^
    `----
 
   x Rule
@@ -454,164 +420,141 @@
    `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/important/input.css:9:6]
-  9 | s {
- 10 |     color: red red red !important!important   ;
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:10:5]
+ 10 | color: red red red !important!important   ;
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/recovery/declaration/important/input.css:9:6]
-  9 | s {
- 10 |     color: red red red !important!important   ;
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:10:5]
+ 10 | color: red red red !important!important   ;
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Declaration
-    ,-[$DIR/tests/recovery/declaration/important/input.css:9:6]
-  9 | s {
- 10 |     color: red red red !important!important   ;
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:10:5]
+ 10 | color: red red red !important!important   ;
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/recovery/declaration/important/input.css:9:6]
-  9 | s {
- 10 |     color: red red red !important!important   ;
-    :     ^^^^^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:10:5]
+ 10 | color: red red red !important!important   ;
+    : ^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/recovery/declaration/important/input.css:9:6]
-  9 | s {
- 10 |     color: red red red !important!important   ;
-    :     ^^^^^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:10:5]
+ 10 | color: red red red !important!important   ;
+    : ^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/important/input.css:9:6]
-  9 | s {
- 10 |     color: red red red !important!important   ;
+    ,-[$DIR/tests/recovery/declaration/important/input.css:10:5]
+ 10 | color: red red red !important!important   ;
+    :        ^^^
+    `----
+
+  x Ident { value: Atom('red' type=inline), raw: "red" }
+    ,-[$DIR/tests/recovery/declaration/important/input.css:10:5]
+ 10 | color: red red red !important!important   ;
+    :        ^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/declaration/important/input.css:10:5]
+ 10 | color: red red red !important!important   ;
+    :           ^
+    `----
+
+  x WhiteSpace { value: " " }
+    ,-[$DIR/tests/recovery/declaration/important/input.css:10:5]
+ 10 | color: red red red !important!important   ;
+    :           ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/declaration/important/input.css:10:5]
+ 10 | color: red red red !important!important   ;
     :            ^^^
     `----
 
   x Ident { value: Atom('red' type=inline), raw: "red" }
-    ,-[$DIR/tests/recovery/declaration/important/input.css:9:6]
-  9 | s {
- 10 |     color: red red red !important!important   ;
+    ,-[$DIR/tests/recovery/declaration/important/input.css:10:5]
+ 10 | color: red red red !important!important   ;
     :            ^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/important/input.css:9:6]
-  9 | s {
- 10 |     color: red red red !important!important   ;
+    ,-[$DIR/tests/recovery/declaration/important/input.css:10:5]
+ 10 | color: red red red !important!important   ;
     :               ^
     `----
 
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/recovery/declaration/important/input.css:9:6]
-  9 | s {
- 10 |     color: red red red !important!important   ;
+    ,-[$DIR/tests/recovery/declaration/important/input.css:10:5]
+ 10 | color: red red red !important!important   ;
     :               ^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/important/input.css:9:6]
-  9 | s {
- 10 |     color: red red red !important!important   ;
+    ,-[$DIR/tests/recovery/declaration/important/input.css:10:5]
+ 10 | color: red red red !important!important   ;
     :                ^^^
     `----
 
   x Ident { value: Atom('red' type=inline), raw: "red" }
-    ,-[$DIR/tests/recovery/declaration/important/input.css:9:6]
-  9 | s {
- 10 |     color: red red red !important!important   ;
+    ,-[$DIR/tests/recovery/declaration/important/input.css:10:5]
+ 10 | color: red red red !important!important   ;
     :                ^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/important/input.css:9:6]
-  9 | s {
- 10 |     color: red red red !important!important   ;
+    ,-[$DIR/tests/recovery/declaration/important/input.css:10:5]
+ 10 | color: red red red !important!important   ;
     :                   ^
     `----
 
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/recovery/declaration/important/input.css:9:6]
-  9 | s {
- 10 |     color: red red red !important!important   ;
+    ,-[$DIR/tests/recovery/declaration/important/input.css:10:5]
+ 10 | color: red red red !important!important   ;
     :                   ^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/important/input.css:9:6]
-  9 | s {
- 10 |     color: red red red !important!important   ;
-    :                    ^^^
-    `----
-
-  x Ident { value: Atom('red' type=inline), raw: "red" }
-    ,-[$DIR/tests/recovery/declaration/important/input.css:9:6]
-  9 | s {
- 10 |     color: red red red !important!important   ;
-    :                    ^^^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/important/input.css:9:6]
-  9 | s {
- 10 |     color: red red red !important!important   ;
-    :                       ^
-    `----
-
-  x WhiteSpace { value: " " }
-    ,-[$DIR/tests/recovery/declaration/important/input.css:9:6]
-  9 | s {
- 10 |     color: red red red !important!important   ;
-    :                       ^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/important/input.css:9:6]
-  9 | s {
- 10 |     color: red red red !important!important   ;
-    :                        ^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:10:5]
+ 10 | color: red red red !important!important   ;
+    :                    ^
     `----
 
   x Delim { value: '!' }
-    ,-[$DIR/tests/recovery/declaration/important/input.css:9:6]
-  9 | s {
- 10 |     color: red red red !important!important   ;
-    :                        ^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:10:5]
+ 10 | color: red red red !important!important   ;
+    :                    ^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/important/input.css:9:6]
-  9 | s {
- 10 |     color: red red red !important!important   ;
-    :                         ^^^^^^^^^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:10:5]
+ 10 | color: red red red !important!important   ;
+    :                     ^^^^^^^^^
     `----
 
   x Ident { value: Atom('important' type=static), raw: "important" }
-    ,-[$DIR/tests/recovery/declaration/important/input.css:9:6]
-  9 | s {
- 10 |     color: red red red !important!important   ;
-    :                         ^^^^^^^^^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:10:5]
+ 10 | color: red red red !important!important   ;
+    :                     ^^^^^^^^^
     `----
 
   x ImportantFlag
-    ,-[$DIR/tests/recovery/declaration/important/input.css:9:6]
-  9 | s {
- 10 |     color: red red red !important!important   ;
-    :                                  ^^^^^^^^^^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:10:5]
+ 10 | color: red red red !important!important   ;
+    :                              ^^^^^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/recovery/declaration/important/input.css:9:6]
-  9 | s {
- 10 |     color: red red red !important!important   ;
-    :                                   ^^^^^^^^^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:10:5]
+ 10 | color: red red red !important!important   ;
+    :                               ^^^^^^^^^
     `----
 
   x Rule
@@ -678,178 +621,153 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/important/input.css:13:6]
- 13 | s {
- 14 |     color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:14:5]
+ 14 | color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/recovery/declaration/important/input.css:13:6]
- 13 | s {
- 14 |     color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:14:5]
+ 14 | color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Declaration
-    ,-[$DIR/tests/recovery/declaration/important/input.css:13:6]
- 13 | s {
- 14 |     color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:14:5]
+ 14 | color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/recovery/declaration/important/input.css:13:6]
- 13 | s {
- 14 |     color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
-    :     ^^^^^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:14:5]
+ 14 | color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
+    : ^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/recovery/declaration/important/input.css:13:6]
- 13 | s {
- 14 |     color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
-    :     ^^^^^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:14:5]
+ 14 | color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
+    : ^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/important/input.css:13:6]
- 13 | s {
- 14 |     color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
+    ,-[$DIR/tests/recovery/declaration/important/input.css:14:5]
+ 14 | color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
+    :        ^^^
+    `----
+
+  x Ident { value: Atom('red' type=inline), raw: "red" }
+    ,-[$DIR/tests/recovery/declaration/important/input.css:14:5]
+ 14 | color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
+    :        ^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/declaration/important/input.css:14:5]
+ 14 | color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
+    :           ^
+    `----
+
+  x WhiteSpace { value: " " }
+    ,-[$DIR/tests/recovery/declaration/important/input.css:14:5]
+ 14 | color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
+    :           ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/declaration/important/input.css:14:5]
+ 14 | color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
     :            ^^^
     `----
 
   x Ident { value: Atom('red' type=inline), raw: "red" }
-    ,-[$DIR/tests/recovery/declaration/important/input.css:13:6]
- 13 | s {
- 14 |     color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
+    ,-[$DIR/tests/recovery/declaration/important/input.css:14:5]
+ 14 | color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
     :            ^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/important/input.css:13:6]
- 13 | s {
- 14 |     color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
+    ,-[$DIR/tests/recovery/declaration/important/input.css:14:5]
+ 14 | color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
     :               ^
     `----
 
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/recovery/declaration/important/input.css:13:6]
- 13 | s {
- 14 |     color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
+    ,-[$DIR/tests/recovery/declaration/important/input.css:14:5]
+ 14 | color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
     :               ^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/important/input.css:13:6]
- 13 | s {
- 14 |     color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
+    ,-[$DIR/tests/recovery/declaration/important/input.css:14:5]
+ 14 | color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
     :                ^^^
     `----
 
   x Ident { value: Atom('red' type=inline), raw: "red" }
-    ,-[$DIR/tests/recovery/declaration/important/input.css:13:6]
- 13 | s {
- 14 |     color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
+    ,-[$DIR/tests/recovery/declaration/important/input.css:14:5]
+ 14 | color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
     :                ^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/important/input.css:13:6]
- 13 | s {
- 14 |     color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
+    ,-[$DIR/tests/recovery/declaration/important/input.css:14:5]
+ 14 | color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
     :                   ^
     `----
 
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/recovery/declaration/important/input.css:13:6]
- 13 | s {
- 14 |     color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
+    ,-[$DIR/tests/recovery/declaration/important/input.css:14:5]
+ 14 | color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
     :                   ^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/important/input.css:13:6]
- 13 | s {
- 14 |     color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
-    :                    ^^^
-    `----
-
-  x Ident { value: Atom('red' type=inline), raw: "red" }
-    ,-[$DIR/tests/recovery/declaration/important/input.css:13:6]
- 13 | s {
- 14 |     color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
-    :                    ^^^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/important/input.css:13:6]
- 13 | s {
- 14 |     color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
-    :                       ^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:14:5]
+ 14 | color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
+    :                             ^
     `----
 
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/recovery/declaration/important/input.css:13:6]
- 13 | s {
- 14 |     color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
-    :                       ^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:14:5]
+ 14 | color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
+    :                             ^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/important/input.css:13:6]
- 13 | s {
- 14 |     color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
-    :                                 ^
-    `----
-
-  x WhiteSpace { value: " " }
-    ,-[$DIR/tests/recovery/declaration/important/input.css:13:6]
- 13 | s {
- 14 |     color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
-    :                                 ^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/important/input.css:13:6]
- 13 | s {
- 14 |     color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
-    :                                  ^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:14:5]
+ 14 | color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
+    :                              ^
     `----
 
   x Delim { value: '!' }
-    ,-[$DIR/tests/recovery/declaration/important/input.css:13:6]
- 13 | s {
- 14 |     color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
-    :                                  ^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:14:5]
+ 14 | color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
+    :                              ^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/important/input.css:13:6]
- 13 | s {
- 14 |     color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
-    :                                   ^^^^^^^^^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:14:5]
+ 14 | color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
+    :                               ^^^^^^^^^
     `----
 
   x Ident { value: Atom('important' type=static), raw: "important" }
-    ,-[$DIR/tests/recovery/declaration/important/input.css:13:6]
- 13 | s {
- 14 |     color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
-    :                                   ^^^^^^^^^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:14:5]
+ 14 | color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
+    :                               ^^^^^^^^^
     `----
 
   x ImportantFlag
-    ,-[$DIR/tests/recovery/declaration/important/input.css:13:6]
- 13 | s {
- 14 |     color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
-    :                                                      ^^^^^^^^^^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:14:5]
+ 14 | color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
+    :                                                  ^^^^^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/recovery/declaration/important/input.css:13:6]
- 13 | s {
- 14 |     color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
-    :                                                       ^^^^^^^^^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:14:5]
+ 14 | color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
+    :                                                   ^^^^^^^^^
     `----
 
   x Rule
@@ -916,206 +834,177 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/important/input.css:17:6]
- 17 | s {
- 18 |     color: red red red !important !important!important;
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:18:5]
+ 18 | color: red red red !important !important!important;
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/recovery/declaration/important/input.css:17:6]
- 17 | s {
- 18 |     color: red red red !important !important!important;
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:18:5]
+ 18 | color: red red red !important !important!important;
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Declaration
-    ,-[$DIR/tests/recovery/declaration/important/input.css:17:6]
- 17 | s {
- 18 |     color: red red red !important !important!important;
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:18:5]
+ 18 | color: red red red !important !important!important;
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/recovery/declaration/important/input.css:17:6]
- 17 | s {
- 18 |     color: red red red !important !important!important;
-    :     ^^^^^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:18:5]
+ 18 | color: red red red !important !important!important;
+    : ^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/recovery/declaration/important/input.css:17:6]
- 17 | s {
- 18 |     color: red red red !important !important!important;
-    :     ^^^^^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:18:5]
+ 18 | color: red red red !important !important!important;
+    : ^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/important/input.css:17:6]
- 17 | s {
- 18 |     color: red red red !important !important!important;
+    ,-[$DIR/tests/recovery/declaration/important/input.css:18:5]
+ 18 | color: red red red !important !important!important;
+    :        ^^^
+    `----
+
+  x Ident { value: Atom('red' type=inline), raw: "red" }
+    ,-[$DIR/tests/recovery/declaration/important/input.css:18:5]
+ 18 | color: red red red !important !important!important;
+    :        ^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/declaration/important/input.css:18:5]
+ 18 | color: red red red !important !important!important;
+    :           ^
+    `----
+
+  x WhiteSpace { value: " " }
+    ,-[$DIR/tests/recovery/declaration/important/input.css:18:5]
+ 18 | color: red red red !important !important!important;
+    :           ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/declaration/important/input.css:18:5]
+ 18 | color: red red red !important !important!important;
     :            ^^^
     `----
 
   x Ident { value: Atom('red' type=inline), raw: "red" }
-    ,-[$DIR/tests/recovery/declaration/important/input.css:17:6]
- 17 | s {
- 18 |     color: red red red !important !important!important;
+    ,-[$DIR/tests/recovery/declaration/important/input.css:18:5]
+ 18 | color: red red red !important !important!important;
     :            ^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/important/input.css:17:6]
- 17 | s {
- 18 |     color: red red red !important !important!important;
+    ,-[$DIR/tests/recovery/declaration/important/input.css:18:5]
+ 18 | color: red red red !important !important!important;
     :               ^
     `----
 
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/recovery/declaration/important/input.css:17:6]
- 17 | s {
- 18 |     color: red red red !important !important!important;
+    ,-[$DIR/tests/recovery/declaration/important/input.css:18:5]
+ 18 | color: red red red !important !important!important;
     :               ^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/important/input.css:17:6]
- 17 | s {
- 18 |     color: red red red !important !important!important;
+    ,-[$DIR/tests/recovery/declaration/important/input.css:18:5]
+ 18 | color: red red red !important !important!important;
     :                ^^^
     `----
 
   x Ident { value: Atom('red' type=inline), raw: "red" }
-    ,-[$DIR/tests/recovery/declaration/important/input.css:17:6]
- 17 | s {
- 18 |     color: red red red !important !important!important;
+    ,-[$DIR/tests/recovery/declaration/important/input.css:18:5]
+ 18 | color: red red red !important !important!important;
     :                ^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/important/input.css:17:6]
- 17 | s {
- 18 |     color: red red red !important !important!important;
+    ,-[$DIR/tests/recovery/declaration/important/input.css:18:5]
+ 18 | color: red red red !important !important!important;
     :                   ^
     `----
 
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/recovery/declaration/important/input.css:17:6]
- 17 | s {
- 18 |     color: red red red !important !important!important;
+    ,-[$DIR/tests/recovery/declaration/important/input.css:18:5]
+ 18 | color: red red red !important !important!important;
     :                   ^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/important/input.css:17:6]
- 17 | s {
- 18 |     color: red red red !important !important!important;
-    :                    ^^^
-    `----
-
-  x Ident { value: Atom('red' type=inline), raw: "red" }
-    ,-[$DIR/tests/recovery/declaration/important/input.css:17:6]
- 17 | s {
- 18 |     color: red red red !important !important!important;
-    :                    ^^^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/important/input.css:17:6]
- 17 | s {
- 18 |     color: red red red !important !important!important;
-    :                       ^
-    `----
-
-  x WhiteSpace { value: " " }
-    ,-[$DIR/tests/recovery/declaration/important/input.css:17:6]
- 17 | s {
- 18 |     color: red red red !important !important!important;
-    :                       ^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/important/input.css:17:6]
- 17 | s {
- 18 |     color: red red red !important !important!important;
-    :                        ^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:18:5]
+ 18 | color: red red red !important !important!important;
+    :                    ^
     `----
 
   x Delim { value: '!' }
-    ,-[$DIR/tests/recovery/declaration/important/input.css:17:6]
- 17 | s {
- 18 |     color: red red red !important !important!important;
-    :                        ^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:18:5]
+ 18 | color: red red red !important !important!important;
+    :                    ^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/important/input.css:17:6]
- 17 | s {
- 18 |     color: red red red !important !important!important;
-    :                         ^^^^^^^^^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:18:5]
+ 18 | color: red red red !important !important!important;
+    :                     ^^^^^^^^^
     `----
 
   x Ident { value: Atom('important' type=static), raw: "important" }
-    ,-[$DIR/tests/recovery/declaration/important/input.css:17:6]
- 17 | s {
- 18 |     color: red red red !important !important!important;
-    :                         ^^^^^^^^^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:18:5]
+ 18 | color: red red red !important !important!important;
+    :                     ^^^^^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/important/input.css:17:6]
- 17 | s {
- 18 |     color: red red red !important !important!important;
-    :                                  ^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:18:5]
+ 18 | color: red red red !important !important!important;
+    :                              ^
     `----
 
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/recovery/declaration/important/input.css:17:6]
- 17 | s {
- 18 |     color: red red red !important !important!important;
-    :                                  ^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:18:5]
+ 18 | color: red red red !important !important!important;
+    :                              ^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/important/input.css:17:6]
- 17 | s {
- 18 |     color: red red red !important !important!important;
-    :                                   ^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:18:5]
+ 18 | color: red red red !important !important!important;
+    :                               ^
     `----
 
   x Delim { value: '!' }
-    ,-[$DIR/tests/recovery/declaration/important/input.css:17:6]
- 17 | s {
- 18 |     color: red red red !important !important!important;
-    :                                   ^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:18:5]
+ 18 | color: red red red !important !important!important;
+    :                               ^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/important/input.css:17:6]
- 17 | s {
- 18 |     color: red red red !important !important!important;
-    :                                    ^^^^^^^^^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:18:5]
+ 18 | color: red red red !important !important!important;
+    :                                ^^^^^^^^^
     `----
 
   x Ident { value: Atom('important' type=static), raw: "important" }
-    ,-[$DIR/tests/recovery/declaration/important/input.css:17:6]
- 17 | s {
- 18 |     color: red red red !important !important!important;
-    :                                    ^^^^^^^^^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:18:5]
+ 18 | color: red red red !important !important!important;
+    :                                ^^^^^^^^^
     `----
 
   x ImportantFlag
-    ,-[$DIR/tests/recovery/declaration/important/input.css:17:6]
- 17 | s {
- 18 |     color: red red red !important !important!important;
-    :                                             ^^^^^^^^^^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:18:5]
+ 18 | color: red red red !important !important!important;
+    :                                         ^^^^^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/recovery/declaration/important/input.css:17:6]
- 17 | s {
- 18 |     color: red red red !important !important!important;
-    :                                              ^^^^^^^^^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:18:5]
+ 18 | color: red red red !important !important!important;
+    :                                          ^^^^^^^^^
     `----
 
   x Rule
@@ -1182,204 +1071,175 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/important/input.css:21:6]
- 21 | s {
- 22 |     color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:22:5]
+ 22 | color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/recovery/declaration/important/input.css:21:6]
- 21 | s {
- 22 |     color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:22:5]
+ 22 | color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Declaration
-    ,-[$DIR/tests/recovery/declaration/important/input.css:21:6]
- 21 | s {
- 22 |     color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:22:5]
+ 22 | color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/recovery/declaration/important/input.css:21:6]
- 21 | s {
- 22 |     color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
-    :     ^^^^^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:22:5]
+ 22 | color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
+    : ^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/recovery/declaration/important/input.css:21:6]
- 21 | s {
- 22 |     color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
-    :     ^^^^^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:22:5]
+ 22 | color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
+    : ^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/important/input.css:21:6]
- 21 | s {
- 22 |     color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
+    ,-[$DIR/tests/recovery/declaration/important/input.css:22:5]
+ 22 | color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
+    :        ^^^
+    `----
+
+  x Ident { value: Atom('red' type=inline), raw: "red" }
+    ,-[$DIR/tests/recovery/declaration/important/input.css:22:5]
+ 22 | color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
+    :        ^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/declaration/important/input.css:22:5]
+ 22 | color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
+    :           ^
+    `----
+
+  x WhiteSpace { value: " " }
+    ,-[$DIR/tests/recovery/declaration/important/input.css:22:5]
+ 22 | color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
+    :           ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/declaration/important/input.css:22:5]
+ 22 | color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
     :            ^^^
     `----
 
   x Ident { value: Atom('red' type=inline), raw: "red" }
-    ,-[$DIR/tests/recovery/declaration/important/input.css:21:6]
- 21 | s {
- 22 |     color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
+    ,-[$DIR/tests/recovery/declaration/important/input.css:22:5]
+ 22 | color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
     :            ^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/important/input.css:21:6]
- 21 | s {
- 22 |     color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
+    ,-[$DIR/tests/recovery/declaration/important/input.css:22:5]
+ 22 | color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
     :               ^
     `----
 
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/recovery/declaration/important/input.css:21:6]
- 21 | s {
- 22 |     color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
+    ,-[$DIR/tests/recovery/declaration/important/input.css:22:5]
+ 22 | color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
     :               ^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/important/input.css:21:6]
- 21 | s {
- 22 |     color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
+    ,-[$DIR/tests/recovery/declaration/important/input.css:22:5]
+ 22 | color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
     :                ^^^
     `----
 
   x Ident { value: Atom('red' type=inline), raw: "red" }
-    ,-[$DIR/tests/recovery/declaration/important/input.css:21:6]
- 21 | s {
- 22 |     color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
+    ,-[$DIR/tests/recovery/declaration/important/input.css:22:5]
+ 22 | color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
     :                ^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/important/input.css:21:6]
- 21 | s {
- 22 |     color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
+    ,-[$DIR/tests/recovery/declaration/important/input.css:22:5]
+ 22 | color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
     :                   ^
     `----
 
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/recovery/declaration/important/input.css:21:6]
- 21 | s {
- 22 |     color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
+    ,-[$DIR/tests/recovery/declaration/important/input.css:22:5]
+ 22 | color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
     :                   ^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/important/input.css:21:6]
- 21 | s {
- 22 |     color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
-    :                    ^^^
-    `----
-
-  x Ident { value: Atom('red' type=inline), raw: "red" }
-    ,-[$DIR/tests/recovery/declaration/important/input.css:21:6]
- 21 | s {
- 22 |     color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
-    :                    ^^^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/important/input.css:21:6]
- 21 | s {
- 22 |     color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
-    :                       ^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:22:5]
+ 22 | color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
+    :                              ^
     `----
 
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/recovery/declaration/important/input.css:21:6]
- 21 | s {
- 22 |     color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
-    :                       ^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:22:5]
+ 22 | color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
+    :                              ^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/important/input.css:21:6]
- 21 | s {
- 22 |     color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
-    :                                  ^
-    `----
-
-  x WhiteSpace { value: " " }
-    ,-[$DIR/tests/recovery/declaration/important/input.css:21:6]
- 21 | s {
- 22 |     color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
-    :                                  ^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/important/input.css:21:6]
- 21 | s {
- 22 |     color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
-    :                                   ^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:22:5]
+ 22 | color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
+    :                               ^
     `----
 
   x Delim { value: '!' }
-    ,-[$DIR/tests/recovery/declaration/important/input.css:21:6]
- 21 | s {
- 22 |     color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
-    :                                   ^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:22:5]
+ 22 | color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
+    :                               ^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/important/input.css:21:6]
- 21 | s {
- 22 |     color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
-    :                                    ^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:22:5]
+ 22 | color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
+    :                                ^
     `----
 
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/recovery/declaration/important/input.css:21:6]
- 21 | s {
- 22 |     color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
-    :                                    ^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:22:5]
+ 22 | color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
+    :                                ^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/important/input.css:21:6]
- 21 | s {
- 22 |     color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
-    :                                              ^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:22:5]
+ 22 | color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
+    :                                          ^
     `----
 
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/recovery/declaration/important/input.css:21:6]
- 21 | s {
- 22 |     color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
-    :                                              ^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:22:5]
+ 22 | color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
+    :                                          ^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/important/input.css:21:6]
- 21 | s {
- 22 |     color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
-    :                                               ^^^^^^^^^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:22:5]
+ 22 | color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
+    :                                           ^^^^^^^^^
     `----
 
   x Ident { value: Atom('important' type=static), raw: "important" }
-    ,-[$DIR/tests/recovery/declaration/important/input.css:21:6]
- 21 | s {
- 22 |     color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
-    :                                               ^^^^^^^^^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:22:5]
+ 22 | color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
+    :                                           ^^^^^^^^^
     `----
 
   x ImportantFlag
-    ,-[$DIR/tests/recovery/declaration/important/input.css:21:6]
- 21 | s {
- 22 |     color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
-    :                                                                    ^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:22:5]
+ 22 | color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
+    :                                                                ^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/recovery/declaration/important/input.css:21:6]
- 21 | s {
- 22 |     color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
-    :                                                                                 ^^^^^^^^^
+    ,-[$DIR/tests/recovery/declaration/important/input.css:22:5]
+ 22 | color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
+    :                                                                             ^^^^^^^^^
     `----

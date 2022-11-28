@@ -114,138 +114,119 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:1:17]
- 1 |     r {
- 2 | ,->     a {
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:2:5]
+ 2 | ,-> a {
  3 | |           color: red;
  4 | `->     }
    `----
 
   x Rule
-   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:1:17]
- 1 |     r {
- 2 | ,->     a {
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:2:5]
+ 2 | ,-> a {
  3 | |           color: red;
  4 | `->     }
    `----
 
   x QualifiedRule
-   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:1:17]
- 1 |     r {
- 2 | ,->     a {
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:2:5]
+ 2 | ,-> a {
  3 | |           color: red;
  4 | `->     }
    `----
 
   x SelectorList
-   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:1:17]
- 1 | r {
- 2 |     a {
-   :     ^
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:2:5]
+ 2 | a {
+   : ^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:1:17]
- 1 | r {
- 2 |     a {
-   :     ^
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:2:5]
+ 2 | a {
+   : ^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:1:17]
- 1 | r {
- 2 |     a {
-   :     ^
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:2:5]
+ 2 | a {
+   : ^
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:1:17]
- 1 | r {
- 2 |     a {
-   :     ^
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:2:5]
+ 2 | a {
+   : ^
    `----
 
   x TagNameSelector
-   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:1:17]
- 1 | r {
- 2 |     a {
-   :     ^
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:2:5]
+ 2 | a {
+   : ^
    `----
 
   x WqName
-   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:1:17]
- 1 | r {
- 2 |     a {
-   :     ^
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:2:5]
+ 2 | a {
+   : ^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:1:17]
- 1 | r {
- 2 |     a {
-   :     ^
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:2:5]
+ 2 | a {
+   : ^
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:1:17]
- 1 |     r {
- 2 | ,->     a {
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:2:5]
+ 2 | ,-> a {
  3 | |           color: red;
  4 | `->     }
    `----
 
   x LBrace
-   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:1:17]
- 1 | r {
- 2 |     a {
-   :       ^
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:2:5]
+ 2 | a {
+   :   ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:2:1]
- 2 |     a {
- 3 |         color: red;
-   :         ^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:3:9]
+ 3 | color: red;
+   : ^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:2:1]
- 2 |     a {
- 3 |         color: red;
-   :         ^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:3:9]
+ 3 | color: red;
+   : ^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:2:1]
- 2 |     a {
- 3 |         color: red;
-   :         ^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:3:9]
+ 3 | color: red;
+   : ^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:2:1]
- 2 |     a {
- 3 |         color: red;
-   :         ^^^^^
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:3:9]
+ 3 | color: red;
+   : ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:2:1]
- 2 |     a {
- 3 |         color: red;
-   :         ^^^^^
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:3:9]
+ 3 | color: red;
+   : ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:2:1]
- 2 |     a {
- 3 |         color: red;
-   :                ^^^
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:3:9]
+ 3 | color: red;
+   :        ^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:2:1]
- 2 |     a {
- 3 |         color: red;
-   :                ^^^
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:3:9]
+ 3 | color: red;
+   :        ^^^
    `----

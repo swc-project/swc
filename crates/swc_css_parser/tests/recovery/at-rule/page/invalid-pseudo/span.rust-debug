@@ -94,64 +94,55 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:1:14]
- 1 | n {
- 2 |     margin: 2cm;
-   :     ^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:2:5]
+ 2 | margin: 2cm;
+   : ^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:1:14]
- 1 | n {
- 2 |     margin: 2cm;
-   :     ^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:2:5]
+ 2 | margin: 2cm;
+   : ^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:1:14]
- 1 | n {
- 2 |     margin: 2cm;
-   :     ^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:2:5]
+ 2 | margin: 2cm;
+   : ^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:1:14]
- 1 | n {
- 2 |     margin: 2cm;
-   :     ^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:2:5]
+ 2 | margin: 2cm;
+   : ^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:1:14]
- 1 | n {
- 2 |     margin: 2cm;
-   :             ^^^
+   ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:2:5]
+ 2 | margin: 2cm;
+   :         ^^^
    `----
 
   x Dimension
-   ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:1:14]
- 1 | n {
- 2 |     margin: 2cm;
-   :             ^^^
+   ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:2:5]
+ 2 | margin: 2cm;
+   :         ^^^
    `----
 
   x Length
-   ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:1:14]
- 1 | n {
- 2 |     margin: 2cm;
-   :             ^^^
+   ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:2:5]
+ 2 | margin: 2cm;
+   :         ^^^
    `----
 
   x Number
-   ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:1:14]
- 1 | n {
- 2 |     margin: 2cm;
-   :             ^
+   ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:2:5]
+ 2 | margin: 2cm;
+   :         ^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:1:14]
- 1 | n {
- 2 |     margin: 2cm;
-   :              ^^
+   ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:2:5]
+ 2 | margin: 2cm;
+   :          ^^
    `----

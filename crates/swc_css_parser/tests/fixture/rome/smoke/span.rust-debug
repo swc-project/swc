@@ -88,232 +88,199 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/smoke/input.css:2:4]
- 2 | y {
- 3 |     background: red;
-   :     ^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/smoke/input.css:3:5]
+ 3 | background: red;
+   : ^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/rome/smoke/input.css:2:4]
- 2 | y {
- 3 |     background: red;
-   :     ^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/smoke/input.css:3:5]
+ 3 | background: red;
+   : ^^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/rome/smoke/input.css:2:4]
- 2 | y {
- 3 |     background: red;
-   :     ^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/smoke/input.css:3:5]
+ 3 | background: red;
+   : ^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/rome/smoke/input.css:2:4]
- 2 | y {
- 3 |     background: red;
-   :     ^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/smoke/input.css:3:5]
+ 3 | background: red;
+   : ^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/smoke/input.css:2:4]
- 2 | y {
- 3 |     background: red;
-   :     ^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/smoke/input.css:3:5]
+ 3 | background: red;
+   : ^^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/smoke/input.css:2:4]
- 2 | y {
- 3 |     background: red;
-   :                 ^^^
+   ,-[$DIR/tests/fixture/rome/smoke/input.css:3:5]
+ 3 | background: red;
+   :             ^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/smoke/input.css:2:4]
- 2 | y {
- 3 |     background: red;
-   :                 ^^^
+   ,-[$DIR/tests/fixture/rome/smoke/input.css:3:5]
+ 3 | background: red;
+   :             ^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/smoke/input.css:3:18]
- 3 | ed;
- 4 |     width: calc(1px + 2%);
-   :     ^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/smoke/input.css:4:5]
+ 4 | width: calc(1px + 2%);
+   : ^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/rome/smoke/input.css:3:18]
- 3 | ed;
- 4 |     width: calc(1px + 2%);
-   :     ^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/smoke/input.css:4:5]
+ 4 | width: calc(1px + 2%);
+   : ^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/rome/smoke/input.css:3:18]
- 3 | ed;
- 4 |     width: calc(1px + 2%);
-   :     ^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/smoke/input.css:4:5]
+ 4 | width: calc(1px + 2%);
+   : ^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/rome/smoke/input.css:3:18]
- 3 | ed;
- 4 |     width: calc(1px + 2%);
-   :     ^^^^^
+   ,-[$DIR/tests/fixture/rome/smoke/input.css:4:5]
+ 4 | width: calc(1px + 2%);
+   : ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/smoke/input.css:3:18]
- 3 | ed;
- 4 |     width: calc(1px + 2%);
-   :     ^^^^^
+   ,-[$DIR/tests/fixture/rome/smoke/input.css:4:5]
+ 4 | width: calc(1px + 2%);
+   : ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/smoke/input.css:3:18]
- 3 | ed;
- 4 |     width: calc(1px + 2%);
-   :            ^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/smoke/input.css:4:5]
+ 4 | width: calc(1px + 2%);
+   :        ^^^^^^^^^^^^^^
    `----
 
   x Function
-   ,-[$DIR/tests/fixture/rome/smoke/input.css:3:18]
- 3 | ed;
- 4 |     width: calc(1px + 2%);
-   :            ^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/smoke/input.css:4:5]
+ 4 | width: calc(1px + 2%);
+   :        ^^^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/smoke/input.css:3:18]
- 3 | ed;
- 4 |     width: calc(1px + 2%);
-   :            ^^^^
+   ,-[$DIR/tests/fixture/rome/smoke/input.css:4:5]
+ 4 | width: calc(1px + 2%);
+   :        ^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/smoke/input.css:3:18]
- 3 | ed;
- 4 |     width: calc(1px + 2%);
-   :                 ^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/smoke/input.css:4:5]
+ 4 | width: calc(1px + 2%);
+   :             ^^^^^^^^
    `----
 
   x CalcSum
-   ,-[$DIR/tests/fixture/rome/smoke/input.css:3:18]
- 3 | ed;
- 4 |     width: calc(1px + 2%);
-   :                 ^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/smoke/input.css:4:5]
+ 4 | width: calc(1px + 2%);
+   :             ^^^^^^^^
    `----
 
   x CalcProductOrOperator
-   ,-[$DIR/tests/fixture/rome/smoke/input.css:3:18]
- 3 | ed;
- 4 |     width: calc(1px + 2%);
-   :                 ^^^
+   ,-[$DIR/tests/fixture/rome/smoke/input.css:4:5]
+ 4 | width: calc(1px + 2%);
+   :             ^^^
    `----
 
   x CalcProduct
-   ,-[$DIR/tests/fixture/rome/smoke/input.css:3:18]
- 3 | ed;
- 4 |     width: calc(1px + 2%);
-   :                 ^^^
+   ,-[$DIR/tests/fixture/rome/smoke/input.css:4:5]
+ 4 | width: calc(1px + 2%);
+   :             ^^^
    `----
 
   x CalcValueOrOperator
-   ,-[$DIR/tests/fixture/rome/smoke/input.css:3:18]
- 3 | ed;
- 4 |     width: calc(1px + 2%);
-   :                 ^^^
+   ,-[$DIR/tests/fixture/rome/smoke/input.css:4:5]
+ 4 | width: calc(1px + 2%);
+   :             ^^^
    `----
 
   x CalcValue
-   ,-[$DIR/tests/fixture/rome/smoke/input.css:3:18]
- 3 | ed;
- 4 |     width: calc(1px + 2%);
-   :                 ^^^
+   ,-[$DIR/tests/fixture/rome/smoke/input.css:4:5]
+ 4 | width: calc(1px + 2%);
+   :             ^^^
    `----
 
   x Dimension
-   ,-[$DIR/tests/fixture/rome/smoke/input.css:3:18]
- 3 | ed;
- 4 |     width: calc(1px + 2%);
-   :                 ^^^
+   ,-[$DIR/tests/fixture/rome/smoke/input.css:4:5]
+ 4 | width: calc(1px + 2%);
+   :             ^^^
    `----
 
   x Length
-   ,-[$DIR/tests/fixture/rome/smoke/input.css:3:18]
- 3 | ed;
- 4 |     width: calc(1px + 2%);
-   :                 ^^^
+   ,-[$DIR/tests/fixture/rome/smoke/input.css:4:5]
+ 4 | width: calc(1px + 2%);
+   :             ^^^
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/rome/smoke/input.css:3:18]
- 3 | ed;
- 4 |     width: calc(1px + 2%);
-   :                 ^
+   ,-[$DIR/tests/fixture/rome/smoke/input.css:4:5]
+ 4 | width: calc(1px + 2%);
+   :             ^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/smoke/input.css:3:18]
- 3 | ed;
- 4 |     width: calc(1px + 2%);
-   :                  ^^
+   ,-[$DIR/tests/fixture/rome/smoke/input.css:4:5]
+ 4 | width: calc(1px + 2%);
+   :              ^^
    `----
 
   x CalcProductOrOperator
-   ,-[$DIR/tests/fixture/rome/smoke/input.css:3:18]
- 3 | ed;
- 4 |     width: calc(1px + 2%);
-   :                     ^
+   ,-[$DIR/tests/fixture/rome/smoke/input.css:4:5]
+ 4 | width: calc(1px + 2%);
+   :                 ^
    `----
 
   x CalcOperator
-   ,-[$DIR/tests/fixture/rome/smoke/input.css:3:18]
- 3 | ed;
- 4 |     width: calc(1px + 2%);
-   :                     ^
+   ,-[$DIR/tests/fixture/rome/smoke/input.css:4:5]
+ 4 | width: calc(1px + 2%);
+   :                 ^
    `----
 
   x CalcProductOrOperator
-   ,-[$DIR/tests/fixture/rome/smoke/input.css:3:18]
- 3 | ed;
- 4 |     width: calc(1px + 2%);
-   :                       ^^
+   ,-[$DIR/tests/fixture/rome/smoke/input.css:4:5]
+ 4 | width: calc(1px + 2%);
+   :                   ^^
    `----
 
   x CalcProduct
-   ,-[$DIR/tests/fixture/rome/smoke/input.css:3:18]
- 3 | ed;
- 4 |     width: calc(1px + 2%);
-   :                       ^^
+   ,-[$DIR/tests/fixture/rome/smoke/input.css:4:5]
+ 4 | width: calc(1px + 2%);
+   :                   ^^
    `----
 
   x CalcValueOrOperator
-   ,-[$DIR/tests/fixture/rome/smoke/input.css:3:18]
- 3 | ed;
- 4 |     width: calc(1px + 2%);
-   :                       ^^
+   ,-[$DIR/tests/fixture/rome/smoke/input.css:4:5]
+ 4 | width: calc(1px + 2%);
+   :                   ^^
    `----
 
   x CalcValue
-   ,-[$DIR/tests/fixture/rome/smoke/input.css:3:18]
- 3 | ed;
- 4 |     width: calc(1px + 2%);
-   :                       ^^
+   ,-[$DIR/tests/fixture/rome/smoke/input.css:4:5]
+ 4 | width: calc(1px + 2%);
+   :                   ^^
    `----
 
   x Percentage
-   ,-[$DIR/tests/fixture/rome/smoke/input.css:3:18]
- 3 | ed;
- 4 |     width: calc(1px + 2%);
-   :                       ^^
+   ,-[$DIR/tests/fixture/rome/smoke/input.css:4:5]
+ 4 | width: calc(1px + 2%);
+   :                   ^^
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/rome/smoke/input.css:3:18]
- 3 | ed;
- 4 |     width: calc(1px + 2%);
-   :                       ^
+   ,-[$DIR/tests/fixture/rome/smoke/input.css:4:5]
+ 4 | width: calc(1px + 2%);
+   :                   ^
    `----

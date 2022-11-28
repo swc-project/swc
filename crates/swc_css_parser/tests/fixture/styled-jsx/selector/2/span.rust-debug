@@ -178,50 +178,43 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:1:26]
- 1 | ) {
- 2 |     color: green;
-   :     ^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:2:5]
+ 2 | color: green;
+   : ^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:1:26]
- 1 | ) {
- 2 |     color: green;
-   :     ^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:2:5]
+ 2 | color: green;
+   : ^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:1:26]
- 1 | ) {
- 2 |     color: green;
-   :     ^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:2:5]
+ 2 | color: green;
+   : ^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:1:26]
- 1 | ) {
- 2 |     color: green;
-   :     ^^^^^
+   ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:2:5]
+ 2 | color: green;
+   : ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:1:26]
- 1 | ) {
- 2 |     color: green;
-   :     ^^^^^
+   ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:2:5]
+ 2 | color: green;
+   : ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:1:26]
- 1 | ) {
- 2 |     color: green;
-   :            ^^^^^
+   ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:2:5]
+ 2 | color: green;
+   :        ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:1:26]
- 1 | ) {
- 2 |     color: green;
-   :            ^^^^^
+   ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:2:5]
+ 2 | color: green;
+   :        ^^^^^
    `----

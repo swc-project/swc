@@ -1,35 +1,30 @@
 
   x 'readonly' modifier already seen.
-   ,-[$DIR/tests/typescript-errors/class/duplicated-modifiers/input.ts:1:19]
- 1 | {
- 2 |   readonly readonly size = 0;
-   :            ^^^^^^^^
+   ,-[$DIR/tests/typescript-errors/class/duplicated-modifiers/input.ts:2:3]
+ 2 | readonly readonly size = 0;
+   :          ^^^^^^^^
    `----
 
   x 'abstract' modifier already seen.
-   ,-[$DIR/tests/typescript-errors/class/duplicated-modifiers/input.ts:2:29]
- 2 | ;
- 3 |   abstract abstract t() {}
-   :            ^^^^^^^^
+   ,-[$DIR/tests/typescript-errors/class/duplicated-modifiers/input.ts:3:3]
+ 3 | abstract abstract t() {}
+   :          ^^^^^^^^
    `----
 
   x Abstract method cannot have an implementation.
-   ,-[$DIR/tests/typescript-errors/class/duplicated-modifiers/input.ts:2:29]
- 2 | ;
- 3 |   abstract abstract t() {}
-   :   ^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/typescript-errors/class/duplicated-modifiers/input.ts:3:3]
+ 3 | abstract abstract t() {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x 'override' modifier already seen.
-   ,-[$DIR/tests/typescript-errors/class/duplicated-modifiers/input.ts:3:26]
- 3 | }
- 4 |   override override e() {}
-   :            ^^^^^^^^
+   ,-[$DIR/tests/typescript-errors/class/duplicated-modifiers/input.ts:4:3]
+ 4 | override override e() {}
+   :          ^^^^^^^^
    `----
 
   x Abstract methods can only appear within an abstract class.
-   ,-[$DIR/tests/typescript-errors/class/duplicated-modifiers/input.ts:2:29]
- 2 | ;
- 3 |   abstract abstract t() {}
-   :   ^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/typescript-errors/class/duplicated-modifiers/input.ts:3:3]
+ 3 | abstract abstract t() {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----

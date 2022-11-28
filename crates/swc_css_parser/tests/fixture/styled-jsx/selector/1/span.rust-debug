@@ -142,50 +142,43 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:17]
- 1 | ) {
- 2 |     color: red;
-   :     ^^^^^^^^^^
+   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:2:5]
+ 2 | color: red;
+   : ^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:17]
- 1 | ) {
- 2 |     color: red;
-   :     ^^^^^^^^^^
+   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:2:5]
+ 2 | color: red;
+   : ^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:17]
- 1 | ) {
- 2 |     color: red;
-   :     ^^^^^^^^^^
+   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:2:5]
+ 2 | color: red;
+   : ^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:17]
- 1 | ) {
- 2 |     color: red;
-   :     ^^^^^
+   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:2:5]
+ 2 | color: red;
+   : ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:17]
- 1 | ) {
- 2 |     color: red;
-   :     ^^^^^
+   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:2:5]
+ 2 | color: red;
+   : ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:17]
- 1 | ) {
- 2 |     color: red;
-   :            ^^^
+   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:2:5]
+ 2 | color: red;
+   :        ^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:17]
- 1 | ) {
- 2 |     color: red;
-   :            ^^^
+   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:2:5]
+ 2 | color: red;
+   :        ^^^
    `----

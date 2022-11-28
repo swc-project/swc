@@ -70,127 +70,109 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/vercel/002/input.css:1:2]
- 1 | a {
- 2 |     -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/vercel/002/input.css:2:5]
+ 2 | -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/vercel/002/input.css:1:2]
- 1 | a {
- 2 |     -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/vercel/002/input.css:2:5]
+ 2 | -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/vercel/002/input.css:1:2]
- 1 | a {
- 2 |     -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/vercel/002/input.css:2:5]
+ 2 | -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/vercel/002/input.css:1:2]
- 1 | a {
- 2 |     -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
-   :     ^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/vercel/002/input.css:2:5]
+ 2 | -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
+   : ^^^^^^^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/vercel/002/input.css:1:2]
- 1 | a {
- 2 |     -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
-   :     ^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/vercel/002/input.css:2:5]
+ 2 | -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
+   : ^^^^^^^^^^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/vercel/002/input.css:1:2]
- 1 | a {
- 2 |     -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
-   :                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/vercel/002/input.css:2:5]
+ 2 | -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
+   :                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Function
-   ,-[$DIR/tests/fixture/vercel/002/input.css:1:2]
- 1 | a {
- 2 |     -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
-   :                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/vercel/002/input.css:2:5]
+ 2 | -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
+   :                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/vercel/002/input.css:1:2]
- 1 | a {
- 2 |     -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
-   :                         ^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/vercel/002/input.css:2:5]
+ 2 | -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
+   :                     ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/vercel/002/input.css:1:2]
- 1 | a {
- 2 |     -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
-   :                                                 ^^^^^^
+   ,-[$DIR/tests/fixture/vercel/002/input.css:2:5]
+ 2 | -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
+   :                                             ^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/vercel/002/input.css:1:2]
- 1 | a {
- 2 |     -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
-   :                                                 ^^^^^^
+   ,-[$DIR/tests/fixture/vercel/002/input.css:2:5]
+ 2 | -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
+   :                                             ^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/vercel/002/input.css:1:2]
- 1 | a {
- 2 |     -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
-   :                                                       ^
+   ,-[$DIR/tests/fixture/vercel/002/input.css:2:5]
+ 2 | -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
+   :                                                   ^
    `----
 
   x Delimiter
-   ,-[$DIR/tests/fixture/vercel/002/input.css:1:2]
- 1 | a {
- 2 |     -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
-   :                                                       ^
+   ,-[$DIR/tests/fixture/vercel/002/input.css:2:5]
+ 2 | -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
+   :                                                   ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/vercel/002/input.css:1:2]
- 1 | a {
- 2 |     -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
-   :                                                         ^^^^^
+   ,-[$DIR/tests/fixture/vercel/002/input.css:2:5]
+ 2 | -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
+   :                                                     ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/vercel/002/input.css:1:2]
- 1 | a {
- 2 |     -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
-   :                                                         ^^^^^
+   ,-[$DIR/tests/fixture/vercel/002/input.css:2:5]
+ 2 | -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
+   :                                                     ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/vercel/002/input.css:1:2]
- 1 | a {
- 2 |     -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
-   :                                                              ^
+   ,-[$DIR/tests/fixture/vercel/002/input.css:2:5]
+ 2 | -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
+   :                                                          ^
    `----
 
   x Delimiter
-   ,-[$DIR/tests/fixture/vercel/002/input.css:1:2]
- 1 | a {
- 2 |     -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
-   :                                                              ^
+   ,-[$DIR/tests/fixture/vercel/002/input.css:2:5]
+ 2 | -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
+   :                                                          ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/vercel/002/input.css:1:2]
- 1 | a {
- 2 |     -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
-   :                                                                ^^^^^
+   ,-[$DIR/tests/fixture/vercel/002/input.css:2:5]
+ 2 | -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
+   :                                                            ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/vercel/002/input.css:1:2]
- 1 | a {
- 2 |     -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
-   :                                                                ^^^^^
+   ,-[$DIR/tests/fixture/vercel/002/input.css:2:5]
+ 2 | -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
+   :                                                            ^^^^^
    `----

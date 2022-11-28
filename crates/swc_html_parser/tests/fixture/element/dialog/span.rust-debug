@@ -99,46 +99,40 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/dialog/input.html:3:4]
- 3 | ad>
- 4 |     <title>Document</title>
-   :     ^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/element/dialog/input.html:4:5]
+ 4 | <title>Document</title>
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/element/dialog/input.html:3:4]
- 3 | ad>
- 4 |     <title>Document</title>
-   :     ^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/element/dialog/input.html:4:5]
+ 4 | <title>Document</title>
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/dialog/input.html:3:4]
- 3 | ad>
- 4 |     <title>Document</title>
-   :            ^^^^^^^^
+   ,-[$DIR/tests/fixture/element/dialog/input.html:4:5]
+ 4 | <title>Document</title>
+   :        ^^^^^^^^
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/element/dialog/input.html:3:4]
- 3 | ad>
- 4 |     <title>Document</title>
-   :            ^^^^^^^^
+   ,-[$DIR/tests/fixture/element/dialog/input.html:4:5]
+ 4 | <title>Document</title>
+   :        ^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/dialog/input.html:3:4]
- 3 | ad>
- 4 |     <title>Document</title>
-   :                            ^
+   ,-[$DIR/tests/fixture/element/dialog/input.html:4:5]
+ 4 | <title>Document</title>
+   :                        ^
  5 | </head>
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/element/dialog/input.html:3:4]
- 3 | ad>
- 4 |     <title>Document</title>
-   :                            ^
+   ,-[$DIR/tests/fixture/element/dialog/input.html:4:5]
+ 4 | <title>Document</title>
+   :                        ^
  5 | </head>
    `----
 
@@ -231,46 +225,40 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/dialog/input.html:8:11]
- 8 | en>
- 9 |     <p>Greetings, one and all!</p>
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/element/dialog/input.html:9:5]
+ 9 | <p>Greetings, one and all!</p>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/element/dialog/input.html:8:11]
- 8 | en>
- 9 |     <p>Greetings, one and all!</p>
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/element/dialog/input.html:9:5]
+ 9 | <p>Greetings, one and all!</p>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/dialog/input.html:8:11]
- 8 | en>
- 9 |     <p>Greetings, one and all!</p>
-   :        ^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/element/dialog/input.html:9:5]
+ 9 | <p>Greetings, one and all!</p>
+   :    ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/element/dialog/input.html:8:11]
- 8 | en>
- 9 |     <p>Greetings, one and all!</p>
-   :        ^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/element/dialog/input.html:9:5]
+ 9 | <p>Greetings, one and all!</p>
+   :    ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/dialog/input.html:8:11]
-  8 | en>
-  9 |     <p>Greetings, one and all!</p>
-    :                                   ^
+    ,-[$DIR/tests/fixture/element/dialog/input.html:9:5]
+  9 | <p>Greetings, one and all!</p>
+    :                               ^
  10 | </dialog>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/dialog/input.html:8:11]
-  8 | en>
-  9 |     <p>Greetings, one and all!</p>
-    :                                   ^
+    ,-[$DIR/tests/fixture/element/dialog/input.html:9:5]
+  9 | <p>Greetings, one and all!</p>
+    :                               ^
  10 | </dialog>
     `----
 

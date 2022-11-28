@@ -1,7 +1,6 @@
 
   x 'override' modifier must precede 'async' modifier.
-   ,-[$DIR/tests/typescript-errors/class/override-with-async/input.ts:1:19]
- 1 | {
- 2 |   async override fetch() {}
-   :         ^^^^^^^^
+   ,-[$DIR/tests/typescript-errors/class/override-with-async/input.ts:2:3]
+ 2 | async override fetch() {}
+   :       ^^^^^^^^
    `----

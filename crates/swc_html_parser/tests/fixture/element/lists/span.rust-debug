@@ -273,130 +273,112 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/lists/input.html:7:2]
- 7 | ul>
- 8 |     <li>Coffee</li>
-   :     ^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/element/lists/input.html:8:5]
+ 8 | <li>Coffee</li>
+   : ^^^^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/element/lists/input.html:7:2]
- 7 | ul>
- 8 |     <li>Coffee</li>
-   :     ^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/element/lists/input.html:8:5]
+ 8 | <li>Coffee</li>
+   : ^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/lists/input.html:7:2]
- 7 | ul>
- 8 |     <li>Coffee</li>
-   :         ^^^^^^
+   ,-[$DIR/tests/fixture/element/lists/input.html:8:5]
+ 8 | <li>Coffee</li>
+   :     ^^^^^^
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/element/lists/input.html:7:2]
- 7 | ul>
- 8 |     <li>Coffee</li>
-   :         ^^^^^^
+   ,-[$DIR/tests/fixture/element/lists/input.html:8:5]
+ 8 | <li>Coffee</li>
+   :     ^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/lists/input.html:7:2]
- 7 |     ul>
- 8 | ,->     <li>Coffee</li>
+   ,-[$DIR/tests/fixture/element/lists/input.html:8:5]
+ 8 | ,-> <li>Coffee</li>
  9 | `->     <li>Tea</li>
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/element/lists/input.html:7:2]
- 7 |     ul>
- 8 | ,->     <li>Coffee</li>
+   ,-[$DIR/tests/fixture/element/lists/input.html:8:5]
+ 8 | ,-> <li>Coffee</li>
  9 | `->     <li>Tea</li>
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/lists/input.html:8:17]
- 8 | li>
- 9 |     <li>Tea</li>
-   :     ^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/element/lists/input.html:9:5]
+ 9 | <li>Tea</li>
+   : ^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/element/lists/input.html:8:17]
- 8 | li>
- 9 |     <li>Tea</li>
-   :     ^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/element/lists/input.html:9:5]
+ 9 | <li>Tea</li>
+   : ^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/lists/input.html:8:17]
- 8 | li>
- 9 |     <li>Tea</li>
-   :         ^^^
+   ,-[$DIR/tests/fixture/element/lists/input.html:9:5]
+ 9 | <li>Tea</li>
+   :     ^^^
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/element/lists/input.html:8:17]
- 8 | li>
- 9 |     <li>Tea</li>
-   :         ^^^
+   ,-[$DIR/tests/fixture/element/lists/input.html:9:5]
+ 9 | <li>Tea</li>
+   :     ^^^
    `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/lists/input.html:8:17]
-  8 |     li>
-  9 | ,->     <li>Tea</li>
+    ,-[$DIR/tests/fixture/element/lists/input.html:9:5]
+  9 | ,-> <li>Tea</li>
  10 | `->     <li>Milk</li>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/lists/input.html:8:17]
-  8 |     li>
-  9 | ,->     <li>Tea</li>
+    ,-[$DIR/tests/fixture/element/lists/input.html:9:5]
+  9 | ,-> <li>Tea</li>
  10 | `->     <li>Milk</li>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/lists/input.html:9:14]
-  9 | li>
- 10 |     <li>Milk</li>
-    :     ^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/lists/input.html:10:5]
+ 10 | <li>Milk</li>
+    : ^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/lists/input.html:9:14]
-  9 | li>
- 10 |     <li>Milk</li>
-    :     ^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/lists/input.html:10:5]
+ 10 | <li>Milk</li>
+    : ^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/lists/input.html:9:14]
-  9 | li>
- 10 |     <li>Milk</li>
-    :         ^^^^
+    ,-[$DIR/tests/fixture/element/lists/input.html:10:5]
+ 10 | <li>Milk</li>
+    :     ^^^^
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/lists/input.html:9:14]
-  9 | li>
- 10 |     <li>Milk</li>
-    :         ^^^^
+    ,-[$DIR/tests/fixture/element/lists/input.html:10:5]
+ 10 | <li>Milk</li>
+    :     ^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/lists/input.html:9:14]
-  9 | li>
- 10 |     <li>Milk</li>
-    :                  ^
+    ,-[$DIR/tests/fixture/element/lists/input.html:10:5]
+ 10 | <li>Milk</li>
+    :              ^
  11 | </ul>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/lists/input.html:9:14]
-  9 | li>
- 10 |     <li>Milk</li>
-    :                  ^
+    ,-[$DIR/tests/fixture/element/lists/input.html:10:5]
+ 10 | <li>Milk</li>
+    :              ^
  11 | </ul>
     `----
 
@@ -483,130 +465,112 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/lists/input.html:15:2]
- 15 | ol>
- 16 |     <li>Coffee</li>
-    :     ^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/lists/input.html:16:5]
+ 16 | <li>Coffee</li>
+    : ^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/lists/input.html:15:2]
- 15 | ol>
- 16 |     <li>Coffee</li>
-    :     ^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/lists/input.html:16:5]
+ 16 | <li>Coffee</li>
+    : ^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/lists/input.html:15:2]
- 15 | ol>
- 16 |     <li>Coffee</li>
-    :         ^^^^^^
+    ,-[$DIR/tests/fixture/element/lists/input.html:16:5]
+ 16 | <li>Coffee</li>
+    :     ^^^^^^
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/lists/input.html:15:2]
- 15 | ol>
- 16 |     <li>Coffee</li>
-    :         ^^^^^^
+    ,-[$DIR/tests/fixture/element/lists/input.html:16:5]
+ 16 | <li>Coffee</li>
+    :     ^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/lists/input.html:15:2]
- 15 |     ol>
- 16 | ,->     <li>Coffee</li>
+    ,-[$DIR/tests/fixture/element/lists/input.html:16:5]
+ 16 | ,-> <li>Coffee</li>
  17 | `->     <li>Tea</li>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/lists/input.html:15:2]
- 15 |     ol>
- 16 | ,->     <li>Coffee</li>
+    ,-[$DIR/tests/fixture/element/lists/input.html:16:5]
+ 16 | ,-> <li>Coffee</li>
  17 | `->     <li>Tea</li>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/lists/input.html:16:17]
- 16 | li>
- 17 |     <li>Tea</li>
-    :     ^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/lists/input.html:17:5]
+ 17 | <li>Tea</li>
+    : ^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/lists/input.html:16:17]
- 16 | li>
- 17 |     <li>Tea</li>
-    :     ^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/lists/input.html:17:5]
+ 17 | <li>Tea</li>
+    : ^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/lists/input.html:16:17]
- 16 | li>
- 17 |     <li>Tea</li>
-    :         ^^^
+    ,-[$DIR/tests/fixture/element/lists/input.html:17:5]
+ 17 | <li>Tea</li>
+    :     ^^^
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/lists/input.html:16:17]
- 16 | li>
- 17 |     <li>Tea</li>
-    :         ^^^
+    ,-[$DIR/tests/fixture/element/lists/input.html:17:5]
+ 17 | <li>Tea</li>
+    :     ^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/lists/input.html:16:17]
- 16 |     li>
- 17 | ,->     <li>Tea</li>
+    ,-[$DIR/tests/fixture/element/lists/input.html:17:5]
+ 17 | ,-> <li>Tea</li>
  18 | `->     <li>Milk</li>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/lists/input.html:16:17]
- 16 |     li>
- 17 | ,->     <li>Tea</li>
+    ,-[$DIR/tests/fixture/element/lists/input.html:17:5]
+ 17 | ,-> <li>Tea</li>
  18 | `->     <li>Milk</li>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/lists/input.html:17:14]
- 17 | li>
- 18 |     <li>Milk</li>
-    :     ^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/lists/input.html:18:5]
+ 18 | <li>Milk</li>
+    : ^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/lists/input.html:17:14]
- 17 | li>
- 18 |     <li>Milk</li>
-    :     ^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/lists/input.html:18:5]
+ 18 | <li>Milk</li>
+    : ^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/lists/input.html:17:14]
- 17 | li>
- 18 |     <li>Milk</li>
-    :         ^^^^
+    ,-[$DIR/tests/fixture/element/lists/input.html:18:5]
+ 18 | <li>Milk</li>
+    :     ^^^^
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/lists/input.html:17:14]
- 17 | li>
- 18 |     <li>Milk</li>
-    :         ^^^^
+    ,-[$DIR/tests/fixture/element/lists/input.html:18:5]
+ 18 | <li>Milk</li>
+    :     ^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/lists/input.html:17:14]
- 17 | li>
- 18 |     <li>Milk</li>
-    :                  ^
+    ,-[$DIR/tests/fixture/element/lists/input.html:18:5]
+ 18 | <li>Milk</li>
+    :              ^
  19 | </ol>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/lists/input.html:17:14]
- 17 | li>
- 18 |     <li>Milk</li>
-    :                  ^
+    ,-[$DIR/tests/fixture/element/lists/input.html:18:5]
+ 18 | <li>Milk</li>
+    :              ^
  19 | </ol>
     `----
 
@@ -653,62 +617,54 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/lists/input.html:21:2]
- 21 |     ul>
- 22 | ,->     <li>item1
+    ,-[$DIR/tests/fixture/element/lists/input.html:22:5]
+ 22 | ,-> <li>item1
  23 | `->     <li>item2
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/lists/input.html:21:2]
- 21 |     ul>
- 22 | ,->     <li>item1
+    ,-[$DIR/tests/fixture/element/lists/input.html:22:5]
+ 22 | ,-> <li>item1
  23 | `->     <li>item2
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/lists/input.html:21:2]
- 21 |     ul>
- 22 | ,->     <li>item1
+    ,-[$DIR/tests/fixture/element/lists/input.html:22:5]
+ 22 | ,-> <li>item1
  23 | `->     <li>item2
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/lists/input.html:21:2]
- 21 |     ul>
- 22 | ,->     <li>item1
+    ,-[$DIR/tests/fixture/element/lists/input.html:22:5]
+ 22 | ,-> <li>item1
  23 | `->     <li>item2
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/lists/input.html:22:11]
- 22 | em1
- 23 |     <li>item2
-    :     ^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/lists/input.html:23:5]
+ 23 | <li>item2
+    : ^^^^^^^^^^
  24 | </ul>
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/lists/input.html:22:11]
- 22 | em1
- 23 |     <li>item2
-    :     ^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/lists/input.html:23:5]
+ 23 | <li>item2
+    : ^^^^^^^^^^
  24 | </ul>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/lists/input.html:22:11]
- 22 | em1
- 23 |     <li>item2
-    :         ^^^^^^
+    ,-[$DIR/tests/fixture/element/lists/input.html:23:5]
+ 23 | <li>item2
+    :     ^^^^^^
  24 | </ul>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/lists/input.html:22:11]
- 22 | em1
- 23 |     <li>item2
-    :         ^^^^^^
+    ,-[$DIR/tests/fixture/element/lists/input.html:23:5]
+ 23 | <li>item2
+    :     ^^^^^^
  24 | </ul>
     `----
 
@@ -727,109 +683,91 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/lists/input.html:24:4]
- 24 |     l>
- 25 |     
- 26 | ,->     <ul>
+    ,-[$DIR/tests/fixture/element/lists/input.html:26:5]
+ 26 | ,-> <ul>
  27 | |           <li>item1
  28 | |           <li>item2
  29 | `->     </ul>
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/lists/input.html:24:4]
- 24 |     l>
- 25 |     
- 26 | ,->     <ul>
+    ,-[$DIR/tests/fixture/element/lists/input.html:26:5]
+ 26 | ,-> <ul>
  27 | |           <li>item1
  28 | |           <li>item2
  29 | `->     </ul>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/lists/input.html:24:4]
- 24 |     l>
- 25 |     
- 26 | ,->     <ul>
+    ,-[$DIR/tests/fixture/element/lists/input.html:26:5]
+ 26 | ,-> <ul>
  27 | `->         <li>item1
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/lists/input.html:24:4]
- 24 |     l>
- 25 |     
- 26 | ,->     <ul>
+    ,-[$DIR/tests/fixture/element/lists/input.html:26:5]
+ 26 | ,-> <ul>
  27 | `->         <li>item1
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/lists/input.html:26:2]
- 26 |        <ul>
- 27 | ,->         <li>item1
+    ,-[$DIR/tests/fixture/element/lists/input.html:27:9]
+ 27 | ,-> <li>item1
  28 | `->         <li>item2
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/lists/input.html:26:2]
- 26 |        <ul>
- 27 | ,->         <li>item1
+    ,-[$DIR/tests/fixture/element/lists/input.html:27:9]
+ 27 | ,-> <li>item1
  28 | `->         <li>item2
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/lists/input.html:26:2]
- 26 |        <ul>
- 27 | ,->         <li>item1
+    ,-[$DIR/tests/fixture/element/lists/input.html:27:9]
+ 27 | ,-> <li>item1
  28 | `->         <li>item2
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/lists/input.html:26:2]
- 26 |        <ul>
- 27 | ,->         <li>item1
+    ,-[$DIR/tests/fixture/element/lists/input.html:27:9]
+ 27 | ,-> <li>item1
  28 | `->         <li>item2
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/lists/input.html:27:11]
- 27 |     i>item1
- 28 | ,->         <li>item2
+    ,-[$DIR/tests/fixture/element/lists/input.html:28:9]
+ 28 | ,-> <li>item2
  29 | `->     </ul>
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/lists/input.html:27:11]
- 27 |     i>item1
- 28 | ,->         <li>item2
+    ,-[$DIR/tests/fixture/element/lists/input.html:28:9]
+ 28 | ,-> <li>item2
  29 | `->     </ul>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/lists/input.html:27:11]
- 27 |     i>item1
- 28 | ,->         <li>item2
+    ,-[$DIR/tests/fixture/element/lists/input.html:28:9]
+ 28 | ,-> <li>item2
  29 | `->     </ul>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/lists/input.html:27:11]
- 27 |     i>item1
- 28 | ,->         <li>item2
+    ,-[$DIR/tests/fixture/element/lists/input.html:28:9]
+ 28 | ,-> <li>item2
  29 | `->     </ul>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/lists/input.html:28:15]
- 28 |     em2
- 29 | ,->     </ul>
+    ,-[$DIR/tests/fixture/element/lists/input.html:29:5]
+ 29 | ,-> </ul>
  30 | |   </body>
  31 | |   </html>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/lists/input.html:28:15]
- 28 |     em2
- 29 | ,->     </ul>
+    ,-[$DIR/tests/fixture/element/lists/input.html:29:5]
+ 29 | ,-> </ul>
  30 | |   </body>
  31 | |   </html>
     `----

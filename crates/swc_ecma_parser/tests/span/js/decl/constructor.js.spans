@@ -60,67 +60,58 @@
    `----
 
   x ClassMember
-   ,-[$DIR/tests/span/js/decl/constructor.js:1:10]
- 1 |     s {
- 2 | ,->     constructor(foo) {
+   ,-[$DIR/tests/span/js/decl/constructor.js:2:5]
+ 2 | ,-> constructor(foo) {
  3 | |   
  4 | `->     }
    `----
 
   x Constructor
-   ,-[$DIR/tests/span/js/decl/constructor.js:1:10]
- 1 |     s {
- 2 | ,->     constructor(foo) {
+   ,-[$DIR/tests/span/js/decl/constructor.js:2:5]
+ 2 | ,-> constructor(foo) {
  3 | |   
  4 | `->     }
    `----
 
   x PropName
-   ,-[$DIR/tests/span/js/decl/constructor.js:1:10]
- 1 | s {
- 2 |     constructor(foo) {
-   :     ^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/decl/constructor.js:2:5]
+ 2 | constructor(foo) {
+   : ^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/span/js/decl/constructor.js:1:10]
- 1 | s {
- 2 |     constructor(foo) {
-   :     ^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/decl/constructor.js:2:5]
+ 2 | constructor(foo) {
+   : ^^^^^^^^^^^
    `----
 
   x ParamOrTsParamProp
-   ,-[$DIR/tests/span/js/decl/constructor.js:1:10]
- 1 | s {
- 2 |     constructor(foo) {
-   :                 ^^^
+   ,-[$DIR/tests/span/js/decl/constructor.js:2:5]
+ 2 | constructor(foo) {
+   :             ^^^
    `----
 
   x Param
-   ,-[$DIR/tests/span/js/decl/constructor.js:1:10]
- 1 | s {
- 2 |     constructor(foo) {
-   :                 ^^^
+   ,-[$DIR/tests/span/js/decl/constructor.js:2:5]
+ 2 | constructor(foo) {
+   :             ^^^
    `----
 
   x Pat
-   ,-[$DIR/tests/span/js/decl/constructor.js:1:10]
- 1 | s {
- 2 |     constructor(foo) {
-   :                 ^^^
+   ,-[$DIR/tests/span/js/decl/constructor.js:2:5]
+ 2 | constructor(foo) {
+   :             ^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/span/js/decl/constructor.js:1:10]
- 1 | s {
- 2 |     constructor(foo) {
-   :                 ^^^
+   ,-[$DIR/tests/span/js/decl/constructor.js:2:5]
+ 2 | constructor(foo) {
+   :             ^^^
    `----
 
   x BlockStmt
-   ,-[$DIR/tests/span/js/decl/constructor.js:1:10]
- 1 |     s {
- 2 | ,->     constructor(foo) {
+   ,-[$DIR/tests/span/js/decl/constructor.js:2:5]
+ 2 | ,-> constructor(foo) {
  3 | |   
  4 | `->     }
    `----

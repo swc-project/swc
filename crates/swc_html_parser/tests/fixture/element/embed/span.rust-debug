@@ -102,46 +102,40 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/embed/input.html:3:4]
- 3 | ad>
- 4 |     <title>Document</title>
-   :     ^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/element/embed/input.html:4:5]
+ 4 | <title>Document</title>
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/element/embed/input.html:3:4]
- 3 | ad>
- 4 |     <title>Document</title>
-   :     ^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/element/embed/input.html:4:5]
+ 4 | <title>Document</title>
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/embed/input.html:3:4]
- 3 | ad>
- 4 |     <title>Document</title>
-   :            ^^^^^^^^
+   ,-[$DIR/tests/fixture/element/embed/input.html:4:5]
+ 4 | <title>Document</title>
+   :        ^^^^^^^^
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/element/embed/input.html:3:4]
- 3 | ad>
- 4 |     <title>Document</title>
-   :            ^^^^^^^^
+   ,-[$DIR/tests/fixture/element/embed/input.html:4:5]
+ 4 | <title>Document</title>
+   :        ^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/embed/input.html:3:4]
- 3 | ad>
- 4 |     <title>Document</title>
-   :                            ^
+   ,-[$DIR/tests/fixture/element/embed/input.html:4:5]
+ 4 | <title>Document</title>
+   :                        ^
  5 | </head>
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/element/embed/input.html:3:4]
- 3 | ad>
- 4 |     <title>Document</title>
-   :                            ^
+   ,-[$DIR/tests/fixture/element/embed/input.html:4:5]
+ 4 | <title>Document</title>
+   :                        ^
  5 | </head>
    `----
 
@@ -202,165 +196,143 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/embed/input.html:6:4]
- 6 | dy>
- 7 |     <embed type="vide/webm" src="/media/examples/flower.mp4" width="200" height="200">
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/element/embed/input.html:7:5]
+ 7 | <embed type="vide/webm" src="/media/examples/flower.mp4" width="200" height="200">
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/element/embed/input.html:6:4]
- 6 | dy>
- 7 |     <embed type="vide/webm" src="/media/examples/flower.mp4" width="200" height="200">
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/element/embed/input.html:7:5]
+ 7 | <embed type="vide/webm" src="/media/examples/flower.mp4" width="200" height="200">
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/element/embed/input.html:6:4]
- 6 | dy>
- 7 |     <embed type="vide/webm" src="/media/examples/flower.mp4" width="200" height="200">
-   :            ^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/element/embed/input.html:7:5]
+ 7 | <embed type="vide/webm" src="/media/examples/flower.mp4" width="200" height="200">
+   :        ^^^^^^^^^^^^^^^^
    `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/element/embed/input.html:6:4]
- 6 | dy>
- 7 |     <embed type="vide/webm" src="/media/examples/flower.mp4" width="200" height="200">
-   :                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/element/embed/input.html:7:5]
+ 7 | <embed type="vide/webm" src="/media/examples/flower.mp4" width="200" height="200">
+   :                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/element/embed/input.html:6:4]
- 6 | dy>
- 7 |     <embed type="vide/webm" src="/media/examples/flower.mp4" width="200" height="200">
-   :                                                              ^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/element/embed/input.html:7:5]
+ 7 | <embed type="vide/webm" src="/media/examples/flower.mp4" width="200" height="200">
+   :                                                          ^^^^^^^^^^^
    `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/element/embed/input.html:6:4]
- 6 | dy>
- 7 |     <embed type="vide/webm" src="/media/examples/flower.mp4" width="200" height="200">
-   :                                                                          ^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/element/embed/input.html:7:5]
+ 7 | <embed type="vide/webm" src="/media/examples/flower.mp4" width="200" height="200">
+   :                                                                      ^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/embed/input.html:6:4]
- 6 |     dy>
- 7 | ,->     <embed type="vide/webm" src="/media/examples/flower.mp4" width="200" height="200">
+   ,-[$DIR/tests/fixture/element/embed/input.html:7:5]
+ 7 | ,-> <embed type="vide/webm" src="/media/examples/flower.mp4" width="200" height="200">
  8 | `->     <noembed>
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/element/embed/input.html:6:4]
- 6 |     dy>
- 7 | ,->     <embed type="vide/webm" src="/media/examples/flower.mp4" width="200" height="200">
+   ,-[$DIR/tests/fixture/element/embed/input.html:7:5]
+ 7 | ,-> <embed type="vide/webm" src="/media/examples/flower.mp4" width="200" height="200">
  8 | `->     <noembed>
    `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/embed/input.html:7:84]
-  7 |     0">
-  8 | ,->     <noembed>
+    ,-[$DIR/tests/fixture/element/embed/input.html:8:5]
+  8 | ,-> <noembed>
   9 | |           <h1>Alternative content</h1>
  10 | `->     </noembed>
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/embed/input.html:7:84]
-  7 |     0">
-  8 | ,->     <noembed>
+    ,-[$DIR/tests/fixture/element/embed/input.html:8:5]
+  8 | ,-> <noembed>
   9 | |           <h1>Alternative content</h1>
  10 | `->     </noembed>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/embed/input.html:7:84]
-  7 |     0">
-  8 | ,->     <noembed>
+    ,-[$DIR/tests/fixture/element/embed/input.html:8:5]
+  8 | ,-> <noembed>
   9 | |           <h1>Alternative content</h1>
  10 | `->     </noembed>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/embed/input.html:7:84]
-  7 |     0">
-  8 | ,->     <noembed>
+    ,-[$DIR/tests/fixture/element/embed/input.html:8:5]
+  8 | ,-> <noembed>
   9 | |           <h1>Alternative content</h1>
  10 | `->     </noembed>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/embed/input.html:9:34]
-  9 |     h1>
- 10 | ,->     </noembed>
+    ,-[$DIR/tests/fixture/element/embed/input.html:10:5]
+ 10 | ,-> </noembed>
  11 | `->     <embed type="video/webm"
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/embed/input.html:9:34]
-  9 |     h1>
- 10 | ,->     </noembed>
+    ,-[$DIR/tests/fixture/element/embed/input.html:10:5]
+ 10 | ,-> </noembed>
  11 | `->     <embed type="video/webm"
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/embed/input.html:10:12]
- 10 |     ed>
- 11 | ,->     <embed type="video/webm"
+    ,-[$DIR/tests/fixture/element/embed/input.html:11:5]
+ 11 | ,-> <embed type="video/webm"
  12 | |              src="/media/cc0-videos/flower.mp4"
  13 | |              width="250"
  14 | `->            height="200">
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/element/embed/input.html:10:12]
- 10 |     ed>
- 11 | ,->     <embed type="video/webm"
+    ,-[$DIR/tests/fixture/element/embed/input.html:11:5]
+ 11 | ,-> <embed type="video/webm"
  12 | |              src="/media/cc0-videos/flower.mp4"
  13 | |              width="250"
  14 | `->            height="200">
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/element/embed/input.html:10:12]
- 10 | ed>
- 11 |     <embed type="video/webm"
-    :            ^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/embed/input.html:11:5]
+ 11 | <embed type="video/webm"
+    :        ^^^^^^^^^^^^^^^^^
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/element/embed/input.html:11:19]
- 11 | ideo/webm"
- 12 |            src="/media/cc0-videos/flower.mp4"
-    :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/embed/input.html:12:12]
+ 12 | src="/media/cc0-videos/flower.mp4"
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/element/embed/input.html:12:36]
- 12 | lower.mp4"
- 13 |            width="250"
-    :            ^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/embed/input.html:13:12]
+ 13 | width="250"
+    : ^^^^^^^^^^^
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/element/embed/input.html:13:13]
- 13 | idth="250"
- 14 |            height="200">
-    :            ^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/element/embed/input.html:14:12]
+ 14 | height="200">
+    : ^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/element/embed/input.html:13:13]
- 13 |     idth="250"
- 14 | ,->            height="200">
+    ,-[$DIR/tests/fixture/element/embed/input.html:14:12]
+ 14 | ,-> height="200">
  15 | `-> </body>
  16 |     </html>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/element/embed/input.html:13:13]
- 13 |     idth="250"
- 14 | ,->            height="200">
+    ,-[$DIR/tests/fixture/element/embed/input.html:14:12]
+ 14 | ,-> height="200">
  15 | `-> </body>
  16 |     </html>
     `----

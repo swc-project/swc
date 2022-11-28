@@ -1,16 +1,14 @@
 
   x Stray end tag "td"
-    ,-[$DIR/tests/recovery/element/table/broken-6/input.html:10:13]
- 10 | <table>
- 11 |         </td>
-    :         ^^^^^
+    ,-[$DIR/tests/recovery/element/table/broken-6/input.html:11:9]
+ 11 | </td>
+    : ^^^^^
     `----
 
   x Stray end tag "tr"
-    ,-[$DIR/tests/recovery/element/table/broken-6/input.html:11:11]
- 11 | td>
- 12 |     </tr>
-    :     ^^^^^
+    ,-[$DIR/tests/recovery/element/table/broken-6/input.html:12:5]
+ 12 | </tr>
+    : ^^^^^
     `----
 
   x Stray end tag "body"

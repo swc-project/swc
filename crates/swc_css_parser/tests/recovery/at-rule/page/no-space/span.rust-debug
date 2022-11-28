@@ -122,148 +122,127 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:1:20]
- 1 | 
- 2 | 	@top-center { content: none }
-   :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:2:5]
+ 2 | @top-center { content: none }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x AtRule
-   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:1:20]
- 1 | 
- 2 | 	@top-center { content: none }
-   :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:2:5]
+ 2 | @top-center { content: none }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x AtRuleName
-   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:1:20]
- 1 | 
- 2 | 	@top-center { content: none }
-   :   ^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:2:5]
+ 2 | @top-center { content: none }
+   :  ^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:1:20]
- 1 | 
- 2 | 	@top-center { content: none }
-   :   ^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:2:5]
+ 2 | @top-center { content: none }
+   :  ^^^^^^^^^^
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:1:20]
- 1 | 
- 2 | 	@top-center { content: none }
-   :              ^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:2:5]
+ 2 | @top-center { content: none }
+   :             ^^^^^^^^^^^^^^^^^
    `----
 
   x LBrace
-   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:1:20]
- 1 | 
- 2 | 	@top-center { content: none }
-   :              ^
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:2:5]
+ 2 | @top-center { content: none }
+   :             ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:1:20]
- 1 | 
- 2 | 	@top-center { content: none }
-   :                ^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:2:5]
+ 2 | @top-center { content: none }
+   :               ^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:1:20]
- 1 | 
- 2 | 	@top-center { content: none }
-   :                ^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:2:5]
+ 2 | @top-center { content: none }
+   :               ^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:1:20]
- 1 | 
- 2 | 	@top-center { content: none }
-   :                ^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:2:5]
+ 2 | @top-center { content: none }
+   :               ^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:1:20]
- 1 | 
- 2 | 	@top-center { content: none }
-   :                ^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:2:5]
+ 2 | @top-center { content: none }
+   :               ^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:1:20]
- 1 | 
- 2 | 	@top-center { content: none }
-   :                         ^^^^
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:2:5]
+ 2 | @top-center { content: none }
+   :                        ^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:1:20]
- 1 | 
- 2 | 	@top-center { content: none }
-   :                         ^^^^
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:2:5]
+ 2 | @top-center { content: none }
+   :                        ^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:2:34]
- 2 | 
- 3 | 	margin-left: 4cm;
-   :  ^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:3:5]
+ 3 | margin-left: 4cm;
+   : ^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:2:34]
- 2 | 
- 3 | 	margin-left: 4cm;
-   :  ^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:3:5]
+ 3 | margin-left: 4cm;
+   : ^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:2:34]
- 2 | 
- 3 | 	margin-left: 4cm;
-   :  ^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:3:5]
+ 3 | margin-left: 4cm;
+   : ^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:2:34]
- 2 | 
- 3 | 	margin-left: 4cm;
-   :  ^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:3:5]
+ 3 | margin-left: 4cm;
+   : ^^^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:2:34]
- 2 | 
- 3 | 	margin-left: 4cm;
-   :               ^^^
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:3:5]
+ 3 | margin-left: 4cm;
+   :              ^^^
    `----
 
   x Dimension
-   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:2:34]
- 2 | 
- 3 | 	margin-left: 4cm;
-   :               ^^^
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:3:5]
+ 3 | margin-left: 4cm;
+   :              ^^^
    `----
 
   x Length
-   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:2:34]
- 2 | 
- 3 | 	margin-left: 4cm;
-   :               ^^^
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:3:5]
+ 3 | margin-left: 4cm;
+   :              ^^^
    `----
 
   x Number
-   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:2:34]
- 2 | 
- 3 | 	margin-left: 4cm;
-   :               ^
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:3:5]
+ 3 | margin-left: 4cm;
+   :              ^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:2:34]
- 2 | 
- 3 | 	margin-left: 4cm;
-   :                ^^
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:3:5]
+ 3 | margin-left: 4cm;
+   :               ^^
    `----

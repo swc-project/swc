@@ -1,7 +1,6 @@
 
   x Double hyper within comment
-   ,-[$DIR/tests/recovery/comments/bad-35/input.xml:2:4]
- 2 | ot>
- 3 |     <!--a--->
-   :            ^
+   ,-[$DIR/tests/recovery/comments/bad-35/input.xml:3:5]
+ 3 | <!--a--->
+   :        ^
    `----

@@ -84,323 +84,277 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/mix/input.css:2:89]
- 2 |  */
- 3 |     opacity: mix( 70% by ease ; 0% ; 100% );
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/function/mix/input.css:3:5]
+ 3 | opacity: mix( 70% by ease ; 0% ; 100% );
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/function/mix/input.css:2:89]
- 2 |  */
- 3 |     opacity: mix( 70% by ease ; 0% ; 100% );
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/function/mix/input.css:3:5]
+ 3 | opacity: mix( 70% by ease ; 0% ; 100% );
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/function/mix/input.css:2:89]
- 2 |  */
- 3 |     opacity: mix( 70% by ease ; 0% ; 100% );
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/function/mix/input.css:3:5]
+ 3 | opacity: mix( 70% by ease ; 0% ; 100% );
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/function/mix/input.css:2:89]
- 2 |  */
- 3 |     opacity: mix( 70% by ease ; 0% ; 100% );
-   :     ^^^^^^^
+   ,-[$DIR/tests/fixture/function/mix/input.css:3:5]
+ 3 | opacity: mix( 70% by ease ; 0% ; 100% );
+   : ^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/function/mix/input.css:2:89]
- 2 |  */
- 3 |     opacity: mix( 70% by ease ; 0% ; 100% );
-   :     ^^^^^^^
+   ,-[$DIR/tests/fixture/function/mix/input.css:3:5]
+ 3 | opacity: mix( 70% by ease ; 0% ; 100% );
+   : ^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/mix/input.css:2:89]
- 2 |  */
- 3 |     opacity: mix( 70% by ease ; 0% ; 100% );
-   :              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/function/mix/input.css:3:5]
+ 3 | opacity: mix( 70% by ease ; 0% ; 100% );
+   :          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Function
-   ,-[$DIR/tests/fixture/function/mix/input.css:2:89]
- 2 |  */
- 3 |     opacity: mix( 70% by ease ; 0% ; 100% );
-   :              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/function/mix/input.css:3:5]
+ 3 | opacity: mix( 70% by ease ; 0% ; 100% );
+   :          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/function/mix/input.css:2:89]
- 2 |  */
- 3 |     opacity: mix( 70% by ease ; 0% ; 100% );
-   :              ^^^
+   ,-[$DIR/tests/fixture/function/mix/input.css:3:5]
+ 3 | opacity: mix( 70% by ease ; 0% ; 100% );
+   :          ^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/mix/input.css:2:89]
- 2 |  */
- 3 |     opacity: mix( 70% by ease ; 0% ; 100% );
-   :                   ^^^
+   ,-[$DIR/tests/fixture/function/mix/input.css:3:5]
+ 3 | opacity: mix( 70% by ease ; 0% ; 100% );
+   :               ^^^
    `----
 
   x Percentage
-   ,-[$DIR/tests/fixture/function/mix/input.css:2:89]
- 2 |  */
- 3 |     opacity: mix( 70% by ease ; 0% ; 100% );
-   :                   ^^^
+   ,-[$DIR/tests/fixture/function/mix/input.css:3:5]
+ 3 | opacity: mix( 70% by ease ; 0% ; 100% );
+   :               ^^^
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/function/mix/input.css:2:89]
- 2 |  */
- 3 |     opacity: mix( 70% by ease ; 0% ; 100% );
+   ,-[$DIR/tests/fixture/function/mix/input.css:3:5]
+ 3 | opacity: mix( 70% by ease ; 0% ; 100% );
+   :               ^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/function/mix/input.css:3:5]
+ 3 | opacity: mix( 70% by ease ; 0% ; 100% );
+   :                   ^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/function/mix/input.css:3:5]
+ 3 | opacity: mix( 70% by ease ; 0% ; 100% );
    :                   ^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/mix/input.css:2:89]
- 2 |  */
- 3 |     opacity: mix( 70% by ease ; 0% ; 100% );
-   :                       ^^
+   ,-[$DIR/tests/fixture/function/mix/input.css:3:5]
+ 3 | opacity: mix( 70% by ease ; 0% ; 100% );
+   :                      ^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/function/mix/input.css:2:89]
- 2 |  */
- 3 |     opacity: mix( 70% by ease ; 0% ; 100% );
-   :                       ^^
+   ,-[$DIR/tests/fixture/function/mix/input.css:3:5]
+ 3 | opacity: mix( 70% by ease ; 0% ; 100% );
+   :                      ^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/mix/input.css:2:89]
- 2 |  */
- 3 |     opacity: mix( 70% by ease ; 0% ; 100% );
-   :                          ^^^^
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/function/mix/input.css:2:89]
- 2 |  */
- 3 |     opacity: mix( 70% by ease ; 0% ; 100% );
-   :                          ^^^^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/function/mix/input.css:2:89]
- 2 |  */
- 3 |     opacity: mix( 70% by ease ; 0% ; 100% );
-   :                               ^
+   ,-[$DIR/tests/fixture/function/mix/input.css:3:5]
+ 3 | opacity: mix( 70% by ease ; 0% ; 100% );
+   :                           ^
    `----
 
   x Delimiter
-   ,-[$DIR/tests/fixture/function/mix/input.css:2:89]
- 2 |  */
- 3 |     opacity: mix( 70% by ease ; 0% ; 100% );
-   :                               ^
+   ,-[$DIR/tests/fixture/function/mix/input.css:3:5]
+ 3 | opacity: mix( 70% by ease ; 0% ; 100% );
+   :                           ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/mix/input.css:2:89]
- 2 |  */
- 3 |     opacity: mix( 70% by ease ; 0% ; 100% );
-   :                                 ^^
+   ,-[$DIR/tests/fixture/function/mix/input.css:3:5]
+ 3 | opacity: mix( 70% by ease ; 0% ; 100% );
+   :                             ^^
    `----
 
   x Percentage
-   ,-[$DIR/tests/fixture/function/mix/input.css:2:89]
- 2 |  */
- 3 |     opacity: mix( 70% by ease ; 0% ; 100% );
-   :                                 ^^
+   ,-[$DIR/tests/fixture/function/mix/input.css:3:5]
+ 3 | opacity: mix( 70% by ease ; 0% ; 100% );
+   :                             ^^
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/function/mix/input.css:2:89]
- 2 |  */
- 3 |     opacity: mix( 70% by ease ; 0% ; 100% );
-   :                                 ^
+   ,-[$DIR/tests/fixture/function/mix/input.css:3:5]
+ 3 | opacity: mix( 70% by ease ; 0% ; 100% );
+   :                             ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/mix/input.css:2:89]
- 2 |  */
- 3 |     opacity: mix( 70% by ease ; 0% ; 100% );
-   :                                    ^
+   ,-[$DIR/tests/fixture/function/mix/input.css:3:5]
+ 3 | opacity: mix( 70% by ease ; 0% ; 100% );
+   :                                ^
    `----
 
   x Delimiter
-   ,-[$DIR/tests/fixture/function/mix/input.css:2:89]
- 2 |  */
- 3 |     opacity: mix( 70% by ease ; 0% ; 100% );
-   :                                    ^
+   ,-[$DIR/tests/fixture/function/mix/input.css:3:5]
+ 3 | opacity: mix( 70% by ease ; 0% ; 100% );
+   :                                ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/mix/input.css:2:89]
- 2 |  */
- 3 |     opacity: mix( 70% by ease ; 0% ; 100% );
-   :                                      ^^^^
+   ,-[$DIR/tests/fixture/function/mix/input.css:3:5]
+ 3 | opacity: mix( 70% by ease ; 0% ; 100% );
+   :                                  ^^^^
    `----
 
   x Percentage
-   ,-[$DIR/tests/fixture/function/mix/input.css:2:89]
- 2 |  */
- 3 |     opacity: mix( 70% by ease ; 0% ; 100% );
-   :                                      ^^^^
+   ,-[$DIR/tests/fixture/function/mix/input.css:3:5]
+ 3 | opacity: mix( 70% by ease ; 0% ; 100% );
+   :                                  ^^^^
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/function/mix/input.css:2:89]
- 2 |  */
- 3 |     opacity: mix( 70% by ease ; 0% ; 100% );
-   :                                      ^^^
+   ,-[$DIR/tests/fixture/function/mix/input.css:3:5]
+ 3 | opacity: mix( 70% by ease ; 0% ; 100% );
+   :                                  ^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/mix/input.css:3:42]
- 3 |  );
- 4 |     opacity: mix(70%;0%;100%);
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/function/mix/input.css:4:5]
+ 4 | opacity: mix(70%;0%;100%);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/function/mix/input.css:3:42]
- 3 |  );
- 4 |     opacity: mix(70%;0%;100%);
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/function/mix/input.css:4:5]
+ 4 | opacity: mix(70%;0%;100%);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/function/mix/input.css:3:42]
- 3 |  );
- 4 |     opacity: mix(70%;0%;100%);
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/function/mix/input.css:4:5]
+ 4 | opacity: mix(70%;0%;100%);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/function/mix/input.css:3:42]
- 3 |  );
- 4 |     opacity: mix(70%;0%;100%);
-   :     ^^^^^^^
+   ,-[$DIR/tests/fixture/function/mix/input.css:4:5]
+ 4 | opacity: mix(70%;0%;100%);
+   : ^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/function/mix/input.css:3:42]
- 3 |  );
- 4 |     opacity: mix(70%;0%;100%);
-   :     ^^^^^^^
+   ,-[$DIR/tests/fixture/function/mix/input.css:4:5]
+ 4 | opacity: mix(70%;0%;100%);
+   : ^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/mix/input.css:3:42]
- 3 |  );
- 4 |     opacity: mix(70%;0%;100%);
-   :              ^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/function/mix/input.css:4:5]
+ 4 | opacity: mix(70%;0%;100%);
+   :          ^^^^^^^^^^^^^^^^
    `----
 
   x Function
-   ,-[$DIR/tests/fixture/function/mix/input.css:3:42]
- 3 |  );
- 4 |     opacity: mix(70%;0%;100%);
-   :              ^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/function/mix/input.css:4:5]
+ 4 | opacity: mix(70%;0%;100%);
+   :          ^^^^^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/function/mix/input.css:3:42]
- 3 |  );
- 4 |     opacity: mix(70%;0%;100%);
+   ,-[$DIR/tests/fixture/function/mix/input.css:4:5]
+ 4 | opacity: mix(70%;0%;100%);
+   :          ^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/function/mix/input.css:4:5]
+ 4 | opacity: mix(70%;0%;100%);
    :              ^^^
    `----
 
-  x ComponentValue
-   ,-[$DIR/tests/fixture/function/mix/input.css:3:42]
- 3 |  );
- 4 |     opacity: mix(70%;0%;100%);
-   :                  ^^^
-   `----
-
   x Percentage
-   ,-[$DIR/tests/fixture/function/mix/input.css:3:42]
- 3 |  );
- 4 |     opacity: mix(70%;0%;100%);
-   :                  ^^^
+   ,-[$DIR/tests/fixture/function/mix/input.css:4:5]
+ 4 | opacity: mix(70%;0%;100%);
+   :              ^^^
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/function/mix/input.css:3:42]
- 3 |  );
- 4 |     opacity: mix(70%;0%;100%);
+   ,-[$DIR/tests/fixture/function/mix/input.css:4:5]
+ 4 | opacity: mix(70%;0%;100%);
+   :              ^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/function/mix/input.css:4:5]
+ 4 | opacity: mix(70%;0%;100%);
+   :                 ^
+   `----
+
+  x Delimiter
+   ,-[$DIR/tests/fixture/function/mix/input.css:4:5]
+ 4 | opacity: mix(70%;0%;100%);
+   :                 ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/function/mix/input.css:4:5]
+ 4 | opacity: mix(70%;0%;100%);
    :                  ^^
    `----
 
-  x ComponentValue
-   ,-[$DIR/tests/fixture/function/mix/input.css:3:42]
- 3 |  );
- 4 |     opacity: mix(70%;0%;100%);
-   :                     ^
-   `----
-
-  x Delimiter
-   ,-[$DIR/tests/fixture/function/mix/input.css:3:42]
- 3 |  );
- 4 |     opacity: mix(70%;0%;100%);
-   :                     ^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/function/mix/input.css:3:42]
- 3 |  );
- 4 |     opacity: mix(70%;0%;100%);
-   :                      ^^
-   `----
-
   x Percentage
-   ,-[$DIR/tests/fixture/function/mix/input.css:3:42]
- 3 |  );
- 4 |     opacity: mix(70%;0%;100%);
-   :                      ^^
+   ,-[$DIR/tests/fixture/function/mix/input.css:4:5]
+ 4 | opacity: mix(70%;0%;100%);
+   :                  ^^
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/function/mix/input.css:3:42]
- 3 |  );
- 4 |     opacity: mix(70%;0%;100%);
-   :                      ^
+   ,-[$DIR/tests/fixture/function/mix/input.css:4:5]
+ 4 | opacity: mix(70%;0%;100%);
+   :                  ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/mix/input.css:3:42]
- 3 |  );
- 4 |     opacity: mix(70%;0%;100%);
-   :                        ^
+   ,-[$DIR/tests/fixture/function/mix/input.css:4:5]
+ 4 | opacity: mix(70%;0%;100%);
+   :                    ^
    `----
 
   x Delimiter
-   ,-[$DIR/tests/fixture/function/mix/input.css:3:42]
- 3 |  );
- 4 |     opacity: mix(70%;0%;100%);
-   :                        ^
+   ,-[$DIR/tests/fixture/function/mix/input.css:4:5]
+ 4 | opacity: mix(70%;0%;100%);
+   :                    ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/mix/input.css:3:42]
- 3 |  );
- 4 |     opacity: mix(70%;0%;100%);
-   :                         ^^^^
+   ,-[$DIR/tests/fixture/function/mix/input.css:4:5]
+ 4 | opacity: mix(70%;0%;100%);
+   :                     ^^^^
    `----
 
   x Percentage
-   ,-[$DIR/tests/fixture/function/mix/input.css:3:42]
- 3 |  );
- 4 |     opacity: mix(70%;0%;100%);
-   :                         ^^^^
+   ,-[$DIR/tests/fixture/function/mix/input.css:4:5]
+ 4 | opacity: mix(70%;0%;100%);
+   :                     ^^^^
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/function/mix/input.css:3:42]
- 3 |  );
- 4 |     opacity: mix(70%;0%;100%);
-   :                         ^^^
+   ,-[$DIR/tests/fixture/function/mix/input.css:4:5]
+ 4 | opacity: mix(70%;0%;100%);
+   :                     ^^^
    `----

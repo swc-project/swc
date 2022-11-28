@@ -1,7 +1,6 @@
 
   x Expected ident
-   ,-[$DIR/tests/recovery/declaration/wrong-name-2/input.css:1:1]
- 1 | a {
- 2 |     func();
-   :     ^^^^^
+   ,-[$DIR/tests/recovery/declaration/wrong-name-2/input.css:2:5]
+ 2 | func();
+   : ^^^^^
    `----

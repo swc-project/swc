@@ -70,179 +70,154 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/function/unclosed-2/input.css:1:9]
- 1 |     
- 2 | ,-> 	grid-template-columns: repeat(4, [col-start] 12px
+   ,-[$DIR/tests/recovery/function/unclosed-2/input.css:2:5]
+ 2 | ,-> grid-template-columns: repeat(4, [col-start] 12px
  3 | |   }
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/recovery/function/unclosed-2/input.css:1:9]
- 1 |     
- 2 | ,-> 	grid-template-columns: repeat(4, [col-start] 12px
+   ,-[$DIR/tests/recovery/function/unclosed-2/input.css:2:5]
+ 2 | ,-> grid-template-columns: repeat(4, [col-start] 12px
  3 | |   }
    `----
 
   x Declaration
-   ,-[$DIR/tests/recovery/function/unclosed-2/input.css:1:9]
- 1 |     
- 2 | ,-> 	grid-template-columns: repeat(4, [col-start] 12px
+   ,-[$DIR/tests/recovery/function/unclosed-2/input.css:2:5]
+ 2 | ,-> grid-template-columns: repeat(4, [col-start] 12px
  3 | |   }
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/recovery/function/unclosed-2/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: repeat(4, [col-start] 12px
-   :  ^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/function/unclosed-2/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, [col-start] 12px
+   : ^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/function/unclosed-2/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: repeat(4, [col-start] 12px
-   :  ^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/function/unclosed-2/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, [col-start] 12px
+   : ^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/function/unclosed-2/input.css:1:9]
- 1 |     
- 2 | ,-> 	grid-template-columns: repeat(4, [col-start] 12px
+   ,-[$DIR/tests/recovery/function/unclosed-2/input.css:2:5]
+ 2 | ,-> grid-template-columns: repeat(4, [col-start] 12px
  3 | |   }
    `----
 
   x Function
-   ,-[$DIR/tests/recovery/function/unclosed-2/input.css:1:9]
- 1 |     
- 2 | ,-> 	grid-template-columns: repeat(4, [col-start] 12px
+   ,-[$DIR/tests/recovery/function/unclosed-2/input.css:2:5]
+ 2 | ,-> grid-template-columns: repeat(4, [col-start] 12px
  3 | |   }
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/function/unclosed-2/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: repeat(4, [col-start] 12px
-   :                         ^^^^^^
+   ,-[$DIR/tests/recovery/function/unclosed-2/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, [col-start] 12px
+   :                        ^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/function/unclosed-2/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: repeat(4, [col-start] 12px
-   :                                ^
+   ,-[$DIR/tests/recovery/function/unclosed-2/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, [col-start] 12px
+   :                               ^
    `----
 
   x Number { value: 4.0, raw: "4", type_flag: Integer }
-   ,-[$DIR/tests/recovery/function/unclosed-2/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: repeat(4, [col-start] 12px
+   ,-[$DIR/tests/recovery/function/unclosed-2/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, [col-start] 12px
+   :                               ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/unclosed-2/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, [col-start] 12px
+   :                                ^
+   `----
+
+  x Comma
+   ,-[$DIR/tests/recovery/function/unclosed-2/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, [col-start] 12px
    :                                ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/function/unclosed-2/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: repeat(4, [col-start] 12px
+   ,-[$DIR/tests/recovery/function/unclosed-2/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, [col-start] 12px
    :                                 ^
-   `----
-
-  x Comma
-   ,-[$DIR/tests/recovery/function/unclosed-2/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: repeat(4, [col-start] 12px
-   :                                 ^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/recovery/function/unclosed-2/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: repeat(4, [col-start] 12px
-   :                                  ^
    `----
 
   x WhiteSpace { value: " " }
-   ,-[$DIR/tests/recovery/function/unclosed-2/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: repeat(4, [col-start] 12px
-   :                                  ^
+   ,-[$DIR/tests/recovery/function/unclosed-2/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, [col-start] 12px
+   :                                 ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/function/unclosed-2/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: repeat(4, [col-start] 12px
-   :                                   ^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/function/unclosed-2/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, [col-start] 12px
+   :                                  ^^^^^^^^^^^
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/recovery/function/unclosed-2/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: repeat(4, [col-start] 12px
-   :                                   ^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/function/unclosed-2/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, [col-start] 12px
+   :                                  ^^^^^^^^^^^
    `----
 
   x LBracket
-   ,-[$DIR/tests/recovery/function/unclosed-2/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: repeat(4, [col-start] 12px
-   :                                   ^
+   ,-[$DIR/tests/recovery/function/unclosed-2/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, [col-start] 12px
+   :                                  ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/function/unclosed-2/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: repeat(4, [col-start] 12px
-   :                                    ^^^^^^^^^
+   ,-[$DIR/tests/recovery/function/unclosed-2/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, [col-start] 12px
+   :                                   ^^^^^^^^^
    `----
 
   x Ident { value: Atom('col-start' type=dynamic), raw: "col-start" }
-   ,-[$DIR/tests/recovery/function/unclosed-2/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: repeat(4, [col-start] 12px
-   :                                    ^^^^^^^^^
+   ,-[$DIR/tests/recovery/function/unclosed-2/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, [col-start] 12px
+   :                                   ^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/function/unclosed-2/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: repeat(4, [col-start] 12px
-   :                                              ^
+   ,-[$DIR/tests/recovery/function/unclosed-2/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, [col-start] 12px
+   :                                             ^
    `----
 
   x WhiteSpace { value: " " }
-   ,-[$DIR/tests/recovery/function/unclosed-2/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: repeat(4, [col-start] 12px
-   :                                              ^
+   ,-[$DIR/tests/recovery/function/unclosed-2/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, [col-start] 12px
+   :                                             ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/function/unclosed-2/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: repeat(4, [col-start] 12px
-   :                                               ^^^^
+   ,-[$DIR/tests/recovery/function/unclosed-2/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, [col-start] 12px
+   :                                              ^^^^
    `----
 
   x Dimension { value: 12.0, raw_value: "12", unit: Atom('px' type=static), raw_unit: "px", type_flag: Integer }
-   ,-[$DIR/tests/recovery/function/unclosed-2/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: repeat(4, [col-start] 12px
-   :                                               ^^^^
+   ,-[$DIR/tests/recovery/function/unclosed-2/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, [col-start] 12px
+   :                                              ^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/function/unclosed-2/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: repeat(4, [col-start] 12px
-   :                                                   ^
+   ,-[$DIR/tests/recovery/function/unclosed-2/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, [col-start] 12px
+   :                                                  ^
  3 | }
    `----
 
   x WhiteSpace { value: "\n" }
-   ,-[$DIR/tests/recovery/function/unclosed-2/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: repeat(4, [col-start] 12px
-   :                                                   ^
+   ,-[$DIR/tests/recovery/function/unclosed-2/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, [col-start] 12px
+   :                                                  ^
  3 | }
    `----
 

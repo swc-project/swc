@@ -84,274 +84,235 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/unknown/input.css:1:3]
- 1 | v {
- 2 |     prod: fn(100px);
-   :     ^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/function/unknown/input.css:2:5]
+ 2 | prod: fn(100px);
+   : ^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/function/unknown/input.css:1:3]
- 1 | v {
- 2 |     prod: fn(100px);
-   :     ^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/function/unknown/input.css:2:5]
+ 2 | prod: fn(100px);
+   : ^^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/function/unknown/input.css:1:3]
- 1 | v {
- 2 |     prod: fn(100px);
-   :     ^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/function/unknown/input.css:2:5]
+ 2 | prod: fn(100px);
+   : ^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/function/unknown/input.css:1:3]
- 1 | v {
- 2 |     prod: fn(100px);
-   :     ^^^^
+   ,-[$DIR/tests/fixture/function/unknown/input.css:2:5]
+ 2 | prod: fn(100px);
+   : ^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/function/unknown/input.css:1:3]
- 1 | v {
- 2 |     prod: fn(100px);
-   :     ^^^^
+   ,-[$DIR/tests/fixture/function/unknown/input.css:2:5]
+ 2 | prod: fn(100px);
+   : ^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/unknown/input.css:1:3]
- 1 | v {
- 2 |     prod: fn(100px);
-   :           ^^^^^^^^^
+   ,-[$DIR/tests/fixture/function/unknown/input.css:2:5]
+ 2 | prod: fn(100px);
+   :       ^^^^^^^^^
    `----
 
   x Function
-   ,-[$DIR/tests/fixture/function/unknown/input.css:1:3]
- 1 | v {
- 2 |     prod: fn(100px);
-   :           ^^^^^^^^^
+   ,-[$DIR/tests/fixture/function/unknown/input.css:2:5]
+ 2 | prod: fn(100px);
+   :       ^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/function/unknown/input.css:1:3]
- 1 | v {
- 2 |     prod: fn(100px);
-   :           ^^
+   ,-[$DIR/tests/fixture/function/unknown/input.css:2:5]
+ 2 | prod: fn(100px);
+   :       ^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/unknown/input.css:1:3]
- 1 | v {
- 2 |     prod: fn(100px);
-   :              ^^^^^
+   ,-[$DIR/tests/fixture/function/unknown/input.css:2:5]
+ 2 | prod: fn(100px);
+   :          ^^^^^
    `----
 
   x Dimension
-   ,-[$DIR/tests/fixture/function/unknown/input.css:1:3]
- 1 | v {
- 2 |     prod: fn(100px);
-   :              ^^^^^
+   ,-[$DIR/tests/fixture/function/unknown/input.css:2:5]
+ 2 | prod: fn(100px);
+   :          ^^^^^
    `----
 
   x Length
-   ,-[$DIR/tests/fixture/function/unknown/input.css:1:3]
- 1 | v {
- 2 |     prod: fn(100px);
-   :              ^^^^^
+   ,-[$DIR/tests/fixture/function/unknown/input.css:2:5]
+ 2 | prod: fn(100px);
+   :          ^^^^^
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/function/unknown/input.css:1:3]
- 1 | v {
- 2 |     prod: fn(100px);
-   :              ^^^
+   ,-[$DIR/tests/fixture/function/unknown/input.css:2:5]
+ 2 | prod: fn(100px);
+   :          ^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/function/unknown/input.css:1:3]
- 1 | v {
- 2 |     prod: fn(100px);
-   :                 ^^
+   ,-[$DIR/tests/fixture/function/unknown/input.css:2:5]
+ 2 | prod: fn(100px);
+   :             ^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/unknown/input.css:2:18]
- 2 | x);
- 3 |     prod: --fn(100px);
-   :     ^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/function/unknown/input.css:3:5]
+ 3 | prod: --fn(100px);
+   : ^^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/function/unknown/input.css:2:18]
- 2 | x);
- 3 |     prod: --fn(100px);
-   :     ^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/function/unknown/input.css:3:5]
+ 3 | prod: --fn(100px);
+   : ^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/function/unknown/input.css:2:18]
- 2 | x);
- 3 |     prod: --fn(100px);
-   :     ^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/function/unknown/input.css:3:5]
+ 3 | prod: --fn(100px);
+   : ^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/function/unknown/input.css:2:18]
- 2 | x);
- 3 |     prod: --fn(100px);
-   :     ^^^^
+   ,-[$DIR/tests/fixture/function/unknown/input.css:3:5]
+ 3 | prod: --fn(100px);
+   : ^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/function/unknown/input.css:2:18]
- 2 | x);
- 3 |     prod: --fn(100px);
-   :     ^^^^
+   ,-[$DIR/tests/fixture/function/unknown/input.css:3:5]
+ 3 | prod: --fn(100px);
+   : ^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/unknown/input.css:2:18]
- 2 | x);
- 3 |     prod: --fn(100px);
-   :           ^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/function/unknown/input.css:3:5]
+ 3 | prod: --fn(100px);
+   :       ^^^^^^^^^^^
    `----
 
   x Function
-   ,-[$DIR/tests/fixture/function/unknown/input.css:2:18]
- 2 | x);
- 3 |     prod: --fn(100px);
-   :           ^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/function/unknown/input.css:3:5]
+ 3 | prod: --fn(100px);
+   :       ^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/function/unknown/input.css:2:18]
- 2 | x);
- 3 |     prod: --fn(100px);
-   :           ^^^^
+   ,-[$DIR/tests/fixture/function/unknown/input.css:3:5]
+ 3 | prod: --fn(100px);
+   :       ^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/unknown/input.css:2:18]
- 2 | x);
- 3 |     prod: --fn(100px);
+   ,-[$DIR/tests/fixture/function/unknown/input.css:3:5]
+ 3 | prod: --fn(100px);
+   :            ^^^^^
+   `----
+
+  x Dimension
+   ,-[$DIR/tests/fixture/function/unknown/input.css:3:5]
+ 3 | prod: --fn(100px);
+   :            ^^^^^
+   `----
+
+  x Length
+   ,-[$DIR/tests/fixture/function/unknown/input.css:3:5]
+ 3 | prod: --fn(100px);
+   :            ^^^^^
+   `----
+
+  x Number
+   ,-[$DIR/tests/fixture/function/unknown/input.css:3:5]
+ 3 | prod: --fn(100px);
+   :            ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/function/unknown/input.css:3:5]
+ 3 | prod: --fn(100px);
+   :               ^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/function/unknown/input.css:4:5]
+ 4 | prod: --fn--fn(100px);
+   : ^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/fixture/function/unknown/input.css:4:5]
+ 4 | prod: --fn--fn(100px);
+   : ^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/fixture/function/unknown/input.css:4:5]
+ 4 | prod: --fn--fn(100px);
+   : ^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/fixture/function/unknown/input.css:4:5]
+ 4 | prod: --fn--fn(100px);
+   : ^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/function/unknown/input.css:4:5]
+ 4 | prod: --fn--fn(100px);
+   : ^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/function/unknown/input.css:4:5]
+ 4 | prod: --fn--fn(100px);
+   :       ^^^^^^^^^^^^^^^
+   `----
+
+  x Function
+   ,-[$DIR/tests/fixture/function/unknown/input.css:4:5]
+ 4 | prod: --fn--fn(100px);
+   :       ^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/function/unknown/input.css:4:5]
+ 4 | prod: --fn--fn(100px);
+   :       ^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/function/unknown/input.css:4:5]
+ 4 | prod: --fn--fn(100px);
    :                ^^^^^
    `----
 
   x Dimension
-   ,-[$DIR/tests/fixture/function/unknown/input.css:2:18]
- 2 | x);
- 3 |     prod: --fn(100px);
+   ,-[$DIR/tests/fixture/function/unknown/input.css:4:5]
+ 4 | prod: --fn--fn(100px);
    :                ^^^^^
    `----
 
   x Length
-   ,-[$DIR/tests/fixture/function/unknown/input.css:2:18]
- 2 | x);
- 3 |     prod: --fn(100px);
+   ,-[$DIR/tests/fixture/function/unknown/input.css:4:5]
+ 4 | prod: --fn--fn(100px);
    :                ^^^^^
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/function/unknown/input.css:2:18]
- 2 | x);
- 3 |     prod: --fn(100px);
+   ,-[$DIR/tests/fixture/function/unknown/input.css:4:5]
+ 4 | prod: --fn--fn(100px);
    :                ^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/function/unknown/input.css:2:18]
- 2 | x);
- 3 |     prod: --fn(100px);
+   ,-[$DIR/tests/fixture/function/unknown/input.css:4:5]
+ 4 | prod: --fn--fn(100px);
    :                   ^^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/function/unknown/input.css:3:20]
- 3 | x);
- 4 |     prod: --fn--fn(100px);
-   :     ^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x StyleBlock
-   ,-[$DIR/tests/fixture/function/unknown/input.css:3:20]
- 3 | x);
- 4 |     prod: --fn--fn(100px);
-   :     ^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x Declaration
-   ,-[$DIR/tests/fixture/function/unknown/input.css:3:20]
- 3 | x);
- 4 |     prod: --fn--fn(100px);
-   :     ^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x DeclarationName
-   ,-[$DIR/tests/fixture/function/unknown/input.css:3:20]
- 3 | x);
- 4 |     prod: --fn--fn(100px);
-   :     ^^^^
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/function/unknown/input.css:3:20]
- 3 | x);
- 4 |     prod: --fn--fn(100px);
-   :     ^^^^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/function/unknown/input.css:3:20]
- 3 | x);
- 4 |     prod: --fn--fn(100px);
-   :           ^^^^^^^^^^^^^^^
-   `----
-
-  x Function
-   ,-[$DIR/tests/fixture/function/unknown/input.css:3:20]
- 3 | x);
- 4 |     prod: --fn--fn(100px);
-   :           ^^^^^^^^^^^^^^^
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/function/unknown/input.css:3:20]
- 3 | x);
- 4 |     prod: --fn--fn(100px);
-   :           ^^^^^^^^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/function/unknown/input.css:3:20]
- 3 | x);
- 4 |     prod: --fn--fn(100px);
-   :                    ^^^^^
-   `----
-
-  x Dimension
-   ,-[$DIR/tests/fixture/function/unknown/input.css:3:20]
- 3 | x);
- 4 |     prod: --fn--fn(100px);
-   :                    ^^^^^
-   `----
-
-  x Length
-   ,-[$DIR/tests/fixture/function/unknown/input.css:3:20]
- 3 | x);
- 4 |     prod: --fn--fn(100px);
-   :                    ^^^^^
-   `----
-
-  x Number
-   ,-[$DIR/tests/fixture/function/unknown/input.css:3:20]
- 3 | x);
- 4 |     prod: --fn--fn(100px);
-   :                    ^^^
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/function/unknown/input.css:3:20]
- 3 | x);
- 4 |     prod: --fn--fn(100px);
-   :                       ^^
    `----

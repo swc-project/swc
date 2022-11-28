@@ -1,16 +1,14 @@
 
   x "select" start tag where end tag expected
-   ,-[$DIR/tests/recovery/element/select-2/input.html:7:28]
- 7 | t">
- 8 |     <select name="test-1" id="test-1"></select>
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/select-2/input.html:8:5]
+ 8 | <select name="test-1" id="test-1"></select>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Stray end tag "select"
-   ,-[$DIR/tests/recovery/element/select-2/input.html:7:28]
- 7 | t">
- 8 |     <select name="test-1" id="test-1"></select>
-   :                                       ^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/select-2/input.html:8:5]
+ 8 | <select name="test-1" id="test-1"></select>
+   :                                   ^^^^^^^^^
    `----
 
   x Stray end tag "select"

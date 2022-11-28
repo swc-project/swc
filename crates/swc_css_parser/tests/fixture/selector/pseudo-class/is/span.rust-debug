@@ -2919,185 +2919,159 @@
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:16]
- 15 | 6),
- 16 |     :nth-last-child(6),
-    :     ^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:16:5]
+ 16 | :nth-last-child(6),
+    : ^^^^^^^^^^^^^^^^^^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:16]
- 15 | 6),
- 16 |     :nth-last-child(6),
-    :     ^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:16:5]
+ 16 | :nth-last-child(6),
+    : ^^^^^^^^^^^^^^^^^^
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:16]
- 15 | 6),
- 16 |     :nth-last-child(6),
-    :     ^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:16:5]
+ 16 | :nth-last-child(6),
+    : ^^^^^^^^^^^^^^^^^^
     `----
 
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:16]
- 15 | 6),
- 16 |     :nth-last-child(6),
-    :     ^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:16:5]
+ 16 | :nth-last-child(6),
+    : ^^^^^^^^^^^^^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:16]
- 15 | 6),
- 16 |     :nth-last-child(6),
-    :      ^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:16:5]
+ 16 | :nth-last-child(6),
+    :  ^^^^^^^^^^^^^^
     `----
 
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:16]
- 15 | 6),
- 16 |     :nth-last-child(6),
-    :                     ^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:16:5]
+ 16 | :nth-last-child(6),
+    :                 ^
     `----
 
   x AnPlusB
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:16]
- 15 | 6),
- 16 |     :nth-last-child(6),
-    :                     ^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:16:5]
+ 16 | :nth-last-child(6),
+    :                 ^
     `----
 
   x AnPlusBNotation
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:16]
- 15 | 6),
- 16 |     :nth-last-child(6),
-    :                     ^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:16:5]
+ 16 | :nth-last-child(6),
+    :                 ^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:16:21]
- 16 | 6),
- 17 |     :nth-of-type(6),
-    :     ^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:17:5]
+ 17 | :nth-of-type(6),
+    : ^^^^^^^^^^^^^^^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:16:21]
- 16 | 6),
- 17 |     :nth-of-type(6),
-    :     ^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:17:5]
+ 17 | :nth-of-type(6),
+    : ^^^^^^^^^^^^^^^
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:16:21]
- 16 | 6),
- 17 |     :nth-of-type(6),
-    :     ^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:17:5]
+ 17 | :nth-of-type(6),
+    : ^^^^^^^^^^^^^^^
     `----
 
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:16:21]
- 16 | 6),
- 17 |     :nth-of-type(6),
-    :     ^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:17:5]
+ 17 | :nth-of-type(6),
+    : ^^^^^^^^^^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:16:21]
- 16 | 6),
- 17 |     :nth-of-type(6),
-    :      ^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:17:5]
+ 17 | :nth-of-type(6),
+    :  ^^^^^^^^^^^
     `----
 
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:16:21]
- 16 | 6),
- 17 |     :nth-of-type(6),
-    :                  ^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:17:5]
+ 17 | :nth-of-type(6),
+    :              ^
     `----
 
   x AnPlusB
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:16:21]
- 16 | 6),
- 17 |     :nth-of-type(6),
-    :                  ^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:17:5]
+ 17 | :nth-of-type(6),
+    :              ^
     `----
 
   x AnPlusBNotation
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:16:21]
- 16 | 6),
- 17 |     :nth-of-type(6),
-    :                  ^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:17:5]
+ 17 | :nth-of-type(6),
+    :              ^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:17:18]
- 17 | 6),
- 18 |     :nth-last-of-type(6)) {}
-    :     ^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
+ 18 | :nth-last-of-type(6)) {}
+    : ^^^^^^^^^^^^^^^^^^^^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:17:18]
- 17 | 6),
- 18 |     :nth-last-of-type(6)) {}
-    :     ^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
+ 18 | :nth-last-of-type(6)) {}
+    : ^^^^^^^^^^^^^^^^^^^^
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:17:18]
- 17 | 6),
- 18 |     :nth-last-of-type(6)) {}
-    :     ^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
+ 18 | :nth-last-of-type(6)) {}
+    : ^^^^^^^^^^^^^^^^^^^^
     `----
 
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:17:18]
- 17 | 6),
- 18 |     :nth-last-of-type(6)) {}
-    :     ^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
+ 18 | :nth-last-of-type(6)) {}
+    : ^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:17:18]
- 17 | 6),
- 18 |     :nth-last-of-type(6)) {}
-    :      ^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
+ 18 | :nth-last-of-type(6)) {}
+    :  ^^^^^^^^^^^^^^^^
     `----
 
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:17:18]
- 17 | 6),
- 18 |     :nth-last-of-type(6)) {}
-    :                       ^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
+ 18 | :nth-last-of-type(6)) {}
+    :                   ^
     `----
 
   x AnPlusB
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:17:18]
- 17 | 6),
- 18 |     :nth-last-of-type(6)) {}
-    :                       ^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
+ 18 | :nth-last-of-type(6)) {}
+    :                   ^
     `----
 
   x AnPlusBNotation
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:17:18]
- 17 | 6),
- 18 |     :nth-last-of-type(6)) {}
-    :                       ^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
+ 18 | :nth-last-of-type(6)) {}
+    :                   ^
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:17:18]
- 17 | 6),
- 18 |     :nth-last-of-type(6)) {}
-    :                           ^^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
+ 18 | :nth-last-of-type(6)) {}
+    :                       ^^
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:17:18]
- 17 | 6),
- 18 |     :nth-last-of-type(6)) {}
-    :                           ^
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:5]
+ 18 | :nth-last-of-type(6)) {}
+    :                       ^
     `----
 
   x Rule

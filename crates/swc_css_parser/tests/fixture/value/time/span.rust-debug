@@ -91,262 +91,225 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/time/input.css:1:6]
- 1 | y {
- 2 |     font-size: 14px;
-   :     ^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/time/input.css:2:5]
+ 2 | font-size: 14px;
+   : ^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/value/time/input.css:1:6]
- 1 | y {
- 2 |     font-size: 14px;
-   :     ^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/time/input.css:2:5]
+ 2 | font-size: 14px;
+   : ^^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/value/time/input.css:1:6]
- 1 | y {
- 2 |     font-size: 14px;
-   :     ^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/time/input.css:2:5]
+ 2 | font-size: 14px;
+   : ^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/value/time/input.css:1:6]
- 1 | y {
- 2 |     font-size: 14px;
-   :     ^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/time/input.css:2:5]
+ 2 | font-size: 14px;
+   : ^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/value/time/input.css:1:6]
- 1 | y {
- 2 |     font-size: 14px;
-   :     ^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/time/input.css:2:5]
+ 2 | font-size: 14px;
+   : ^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/time/input.css:1:6]
- 1 | y {
- 2 |     font-size: 14px;
-   :                ^^^^
+   ,-[$DIR/tests/fixture/value/time/input.css:2:5]
+ 2 | font-size: 14px;
+   :            ^^^^
    `----
 
   x Dimension
-   ,-[$DIR/tests/fixture/value/time/input.css:1:6]
- 1 | y {
- 2 |     font-size: 14px;
-   :                ^^^^
+   ,-[$DIR/tests/fixture/value/time/input.css:2:5]
+ 2 | font-size: 14px;
+   :            ^^^^
    `----
 
   x Length
-   ,-[$DIR/tests/fixture/value/time/input.css:1:6]
- 1 | y {
- 2 |     font-size: 14px;
-   :                ^^^^
+   ,-[$DIR/tests/fixture/value/time/input.css:2:5]
+ 2 | font-size: 14px;
+   :            ^^^^
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/value/time/input.css:1:6]
- 1 | y {
- 2 |     font-size: 14px;
-   :                ^^
+   ,-[$DIR/tests/fixture/value/time/input.css:2:5]
+ 2 | font-size: 14px;
+   :            ^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/value/time/input.css:1:6]
- 1 | y {
- 2 |     font-size: 14px;
-   :                  ^^
+   ,-[$DIR/tests/fixture/value/time/input.css:2:5]
+ 2 | font-size: 14px;
+   :              ^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/time/input.css:2:18]
- 2 | px;
- 3 |     transition-property: font-size;
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/time/input.css:3:5]
+ 3 | transition-property: font-size;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/value/time/input.css:2:18]
- 2 | px;
- 3 |     transition-property: font-size;
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/time/input.css:3:5]
+ 3 | transition-property: font-size;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/value/time/input.css:2:18]
- 2 | px;
- 3 |     transition-property: font-size;
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/time/input.css:3:5]
+ 3 | transition-property: font-size;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/value/time/input.css:2:18]
- 2 | px;
- 3 |     transition-property: font-size;
-   :     ^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/time/input.css:3:5]
+ 3 | transition-property: font-size;
+   : ^^^^^^^^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/value/time/input.css:2:18]
- 2 | px;
- 3 |     transition-property: font-size;
-   :     ^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/time/input.css:3:5]
+ 3 | transition-property: font-size;
+   : ^^^^^^^^^^^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/time/input.css:2:18]
- 2 | px;
- 3 |     transition-property: font-size;
-   :                          ^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/time/input.css:3:5]
+ 3 | transition-property: font-size;
+   :                      ^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/value/time/input.css:2:18]
- 2 | px;
- 3 |     transition-property: font-size;
-   :                          ^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/time/input.css:3:5]
+ 3 | transition-property: font-size;
+   :                      ^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/time/input.css:3:33]
- 3 | ze;
- 4 |     transition-duration: 4s;
-   :     ^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/time/input.css:4:5]
+ 4 | transition-duration: 4s;
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/value/time/input.css:3:33]
- 3 | ze;
- 4 |     transition-duration: 4s;
-   :     ^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/time/input.css:4:5]
+ 4 | transition-duration: 4s;
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/value/time/input.css:3:33]
- 3 | ze;
- 4 |     transition-duration: 4s;
-   :     ^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/time/input.css:4:5]
+ 4 | transition-duration: 4s;
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/value/time/input.css:3:33]
- 3 | ze;
- 4 |     transition-duration: 4s;
-   :     ^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/time/input.css:4:5]
+ 4 | transition-duration: 4s;
+   : ^^^^^^^^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/value/time/input.css:3:33]
- 3 | ze;
- 4 |     transition-duration: 4s;
-   :     ^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/time/input.css:4:5]
+ 4 | transition-duration: 4s;
+   : ^^^^^^^^^^^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/time/input.css:3:33]
- 3 | ze;
- 4 |     transition-duration: 4s;
-   :                          ^^
+   ,-[$DIR/tests/fixture/value/time/input.css:4:5]
+ 4 | transition-duration: 4s;
+   :                      ^^
    `----
 
   x Dimension
-   ,-[$DIR/tests/fixture/value/time/input.css:3:33]
- 3 | ze;
- 4 |     transition-duration: 4s;
-   :                          ^^
+   ,-[$DIR/tests/fixture/value/time/input.css:4:5]
+ 4 | transition-duration: 4s;
+   :                      ^^
    `----
 
   x Time
-   ,-[$DIR/tests/fixture/value/time/input.css:3:33]
- 3 | ze;
- 4 |     transition-duration: 4s;
-   :                          ^^
+   ,-[$DIR/tests/fixture/value/time/input.css:4:5]
+ 4 | transition-duration: 4s;
+   :                      ^^
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/value/time/input.css:3:33]
- 3 | ze;
- 4 |     transition-duration: 4s;
-   :                          ^
+   ,-[$DIR/tests/fixture/value/time/input.css:4:5]
+ 4 | transition-duration: 4s;
+   :                      ^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/value/time/input.css:3:33]
- 3 | ze;
- 4 |     transition-duration: 4s;
-   :                           ^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/value/time/input.css:4:26]
- 4 | 4s;
- 5 |     transition-delay: 2s;
-   :     ^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x StyleBlock
-   ,-[$DIR/tests/fixture/value/time/input.css:4:26]
- 4 | 4s;
- 5 |     transition-delay: 2s;
-   :     ^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x Declaration
-   ,-[$DIR/tests/fixture/value/time/input.css:4:26]
- 4 | 4s;
- 5 |     transition-delay: 2s;
-   :     ^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x DeclarationName
-   ,-[$DIR/tests/fixture/value/time/input.css:4:26]
- 4 | 4s;
- 5 |     transition-delay: 2s;
-   :     ^^^^^^^^^^^^^^^^
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/value/time/input.css:4:26]
- 4 | 4s;
- 5 |     transition-delay: 2s;
-   :     ^^^^^^^^^^^^^^^^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/value/time/input.css:4:26]
- 4 | 4s;
- 5 |     transition-delay: 2s;
-   :                       ^^
-   `----
-
-  x Dimension
-   ,-[$DIR/tests/fixture/value/time/input.css:4:26]
- 4 | 4s;
- 5 |     transition-delay: 2s;
-   :                       ^^
-   `----
-
-  x Time
-   ,-[$DIR/tests/fixture/value/time/input.css:4:26]
- 4 | 4s;
- 5 |     transition-delay: 2s;
-   :                       ^^
-   `----
-
-  x Number
-   ,-[$DIR/tests/fixture/value/time/input.css:4:26]
- 4 | 4s;
- 5 |     transition-delay: 2s;
+   ,-[$DIR/tests/fixture/value/time/input.css:4:5]
+ 4 | transition-duration: 4s;
    :                       ^
    `----
 
+  x ComponentValue
+   ,-[$DIR/tests/fixture/value/time/input.css:5:5]
+ 5 | transition-delay: 2s;
+   : ^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/fixture/value/time/input.css:5:5]
+ 5 | transition-delay: 2s;
+   : ^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/fixture/value/time/input.css:5:5]
+ 5 | transition-delay: 2s;
+   : ^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/fixture/value/time/input.css:5:5]
+ 5 | transition-delay: 2s;
+   : ^^^^^^^^^^^^^^^^
+   `----
+
   x Ident
-   ,-[$DIR/tests/fixture/value/time/input.css:4:26]
- 4 | 4s;
- 5 |     transition-delay: 2s;
-   :                        ^
+   ,-[$DIR/tests/fixture/value/time/input.css:5:5]
+ 5 | transition-delay: 2s;
+   : ^^^^^^^^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/value/time/input.css:5:5]
+ 5 | transition-delay: 2s;
+   :                   ^^
+   `----
+
+  x Dimension
+   ,-[$DIR/tests/fixture/value/time/input.css:5:5]
+ 5 | transition-delay: 2s;
+   :                   ^^
+   `----
+
+  x Time
+   ,-[$DIR/tests/fixture/value/time/input.css:5:5]
+ 5 | transition-delay: 2s;
+   :                   ^^
+   `----
+
+  x Number
+   ,-[$DIR/tests/fixture/value/time/input.css:5:5]
+ 5 | transition-delay: 2s;
+   :                   ^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/value/time/input.css:5:5]
+ 5 | transition-delay: 2s;
+   :                    ^
    `----
 
   x Rule
@@ -413,276 +376,237 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/time/input.css:8:4]
- 8 | x {
- 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/time/input.css:9:5]
+ 9 | transition: width 2s, height 2s, background-color 2s, transform 2s;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/value/time/input.css:8:4]
- 8 | x {
- 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/time/input.css:9:5]
+ 9 | transition: width 2s, height 2s, background-color 2s, transform 2s;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/value/time/input.css:8:4]
- 8 | x {
- 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/time/input.css:9:5]
+ 9 | transition: width 2s, height 2s, background-color 2s, transform 2s;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/value/time/input.css:8:4]
- 8 | x {
- 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
-   :     ^^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/time/input.css:9:5]
+ 9 | transition: width 2s, height 2s, background-color 2s, transform 2s;
+   : ^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/value/time/input.css:8:4]
- 8 | x {
- 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
-   :     ^^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/time/input.css:9:5]
+ 9 | transition: width 2s, height 2s, background-color 2s, transform 2s;
+   : ^^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/time/input.css:8:4]
- 8 | x {
- 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
-   :                 ^^^^^
+   ,-[$DIR/tests/fixture/value/time/input.css:9:5]
+ 9 | transition: width 2s, height 2s, background-color 2s, transform 2s;
+   :             ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/value/time/input.css:8:4]
- 8 | x {
- 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
-   :                 ^^^^^
+   ,-[$DIR/tests/fixture/value/time/input.css:9:5]
+ 9 | transition: width 2s, height 2s, background-color 2s, transform 2s;
+   :             ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/time/input.css:8:4]
- 8 | x {
- 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
-   :                       ^^
+   ,-[$DIR/tests/fixture/value/time/input.css:9:5]
+ 9 | transition: width 2s, height 2s, background-color 2s, transform 2s;
+   :                   ^^
    `----
 
   x Dimension
-   ,-[$DIR/tests/fixture/value/time/input.css:8:4]
- 8 | x {
- 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
-   :                       ^^
+   ,-[$DIR/tests/fixture/value/time/input.css:9:5]
+ 9 | transition: width 2s, height 2s, background-color 2s, transform 2s;
+   :                   ^^
    `----
 
   x Time
-   ,-[$DIR/tests/fixture/value/time/input.css:8:4]
- 8 | x {
- 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
-   :                       ^^
+   ,-[$DIR/tests/fixture/value/time/input.css:9:5]
+ 9 | transition: width 2s, height 2s, background-color 2s, transform 2s;
+   :                   ^^
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/value/time/input.css:8:4]
- 8 | x {
- 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
-   :                       ^
+   ,-[$DIR/tests/fixture/value/time/input.css:9:5]
+ 9 | transition: width 2s, height 2s, background-color 2s, transform 2s;
+   :                   ^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/value/time/input.css:8:4]
- 8 | x {
- 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
-   :                        ^
+   ,-[$DIR/tests/fixture/value/time/input.css:9:5]
+ 9 | transition: width 2s, height 2s, background-color 2s, transform 2s;
+   :                    ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/time/input.css:8:4]
- 8 | x {
- 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
-   :                         ^
+   ,-[$DIR/tests/fixture/value/time/input.css:9:5]
+ 9 | transition: width 2s, height 2s, background-color 2s, transform 2s;
+   :                     ^
    `----
 
   x Delimiter
-   ,-[$DIR/tests/fixture/value/time/input.css:8:4]
- 8 | x {
- 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
-   :                         ^
+   ,-[$DIR/tests/fixture/value/time/input.css:9:5]
+ 9 | transition: width 2s, height 2s, background-color 2s, transform 2s;
+   :                     ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/time/input.css:8:4]
- 8 | x {
- 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
-   :                           ^^^^^^
+   ,-[$DIR/tests/fixture/value/time/input.css:9:5]
+ 9 | transition: width 2s, height 2s, background-color 2s, transform 2s;
+   :                       ^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/value/time/input.css:8:4]
- 8 | x {
- 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
-   :                           ^^^^^^
+   ,-[$DIR/tests/fixture/value/time/input.css:9:5]
+ 9 | transition: width 2s, height 2s, background-color 2s, transform 2s;
+   :                       ^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/time/input.css:8:4]
- 8 | x {
- 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
-   :                                  ^^
+   ,-[$DIR/tests/fixture/value/time/input.css:9:5]
+ 9 | transition: width 2s, height 2s, background-color 2s, transform 2s;
+   :                              ^^
    `----
 
   x Dimension
-   ,-[$DIR/tests/fixture/value/time/input.css:8:4]
- 8 | x {
- 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
-   :                                  ^^
+   ,-[$DIR/tests/fixture/value/time/input.css:9:5]
+ 9 | transition: width 2s, height 2s, background-color 2s, transform 2s;
+   :                              ^^
    `----
 
   x Time
-   ,-[$DIR/tests/fixture/value/time/input.css:8:4]
- 8 | x {
- 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
-   :                                  ^^
+   ,-[$DIR/tests/fixture/value/time/input.css:9:5]
+ 9 | transition: width 2s, height 2s, background-color 2s, transform 2s;
+   :                              ^^
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/value/time/input.css:8:4]
- 8 | x {
- 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
-   :                                  ^
+   ,-[$DIR/tests/fixture/value/time/input.css:9:5]
+ 9 | transition: width 2s, height 2s, background-color 2s, transform 2s;
+   :                              ^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/value/time/input.css:8:4]
- 8 | x {
- 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
-   :                                   ^
+   ,-[$DIR/tests/fixture/value/time/input.css:9:5]
+ 9 | transition: width 2s, height 2s, background-color 2s, transform 2s;
+   :                               ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/time/input.css:8:4]
- 8 | x {
- 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
-   :                                    ^
+   ,-[$DIR/tests/fixture/value/time/input.css:9:5]
+ 9 | transition: width 2s, height 2s, background-color 2s, transform 2s;
+   :                                ^
    `----
 
   x Delimiter
-   ,-[$DIR/tests/fixture/value/time/input.css:8:4]
- 8 | x {
- 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
-   :                                    ^
+   ,-[$DIR/tests/fixture/value/time/input.css:9:5]
+ 9 | transition: width 2s, height 2s, background-color 2s, transform 2s;
+   :                                ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/time/input.css:8:4]
- 8 | x {
- 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
-   :                                      ^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/time/input.css:9:5]
+ 9 | transition: width 2s, height 2s, background-color 2s, transform 2s;
+   :                                  ^^^^^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/value/time/input.css:8:4]
- 8 | x {
- 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
-   :                                      ^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/time/input.css:9:5]
+ 9 | transition: width 2s, height 2s, background-color 2s, transform 2s;
+   :                                  ^^^^^^^^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/time/input.css:8:4]
- 8 | x {
- 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
-   :                                                       ^^
+   ,-[$DIR/tests/fixture/value/time/input.css:9:5]
+ 9 | transition: width 2s, height 2s, background-color 2s, transform 2s;
+   :                                                   ^^
    `----
 
   x Dimension
-   ,-[$DIR/tests/fixture/value/time/input.css:8:4]
- 8 | x {
- 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
-   :                                                       ^^
+   ,-[$DIR/tests/fixture/value/time/input.css:9:5]
+ 9 | transition: width 2s, height 2s, background-color 2s, transform 2s;
+   :                                                   ^^
    `----
 
   x Time
-   ,-[$DIR/tests/fixture/value/time/input.css:8:4]
- 8 | x {
- 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
-   :                                                       ^^
+   ,-[$DIR/tests/fixture/value/time/input.css:9:5]
+ 9 | transition: width 2s, height 2s, background-color 2s, transform 2s;
+   :                                                   ^^
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/value/time/input.css:8:4]
- 8 | x {
- 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
-   :                                                       ^
+   ,-[$DIR/tests/fixture/value/time/input.css:9:5]
+ 9 | transition: width 2s, height 2s, background-color 2s, transform 2s;
+   :                                                   ^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/value/time/input.css:8:4]
- 8 | x {
- 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
-   :                                                        ^
+   ,-[$DIR/tests/fixture/value/time/input.css:9:5]
+ 9 | transition: width 2s, height 2s, background-color 2s, transform 2s;
+   :                                                    ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/time/input.css:8:4]
- 8 | x {
- 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
-   :                                                         ^
+   ,-[$DIR/tests/fixture/value/time/input.css:9:5]
+ 9 | transition: width 2s, height 2s, background-color 2s, transform 2s;
+   :                                                     ^
    `----
 
   x Delimiter
-   ,-[$DIR/tests/fixture/value/time/input.css:8:4]
- 8 | x {
- 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
-   :                                                         ^
+   ,-[$DIR/tests/fixture/value/time/input.css:9:5]
+ 9 | transition: width 2s, height 2s, background-color 2s, transform 2s;
+   :                                                     ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/time/input.css:8:4]
- 8 | x {
- 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
-   :                                                           ^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/time/input.css:9:5]
+ 9 | transition: width 2s, height 2s, background-color 2s, transform 2s;
+   :                                                       ^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/value/time/input.css:8:4]
- 8 | x {
- 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
-   :                                                           ^^^^^^^^^
+   ,-[$DIR/tests/fixture/value/time/input.css:9:5]
+ 9 | transition: width 2s, height 2s, background-color 2s, transform 2s;
+   :                                                       ^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/time/input.css:8:4]
- 8 | x {
- 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
-   :                                                                     ^^
+   ,-[$DIR/tests/fixture/value/time/input.css:9:5]
+ 9 | transition: width 2s, height 2s, background-color 2s, transform 2s;
+   :                                                                 ^^
    `----
 
   x Dimension
-   ,-[$DIR/tests/fixture/value/time/input.css:8:4]
- 8 | x {
- 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
-   :                                                                     ^^
+   ,-[$DIR/tests/fixture/value/time/input.css:9:5]
+ 9 | transition: width 2s, height 2s, background-color 2s, transform 2s;
+   :                                                                 ^^
    `----
 
   x Time
-   ,-[$DIR/tests/fixture/value/time/input.css:8:4]
- 8 | x {
- 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
-   :                                                                     ^^
+   ,-[$DIR/tests/fixture/value/time/input.css:9:5]
+ 9 | transition: width 2s, height 2s, background-color 2s, transform 2s;
+   :                                                                 ^^
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/value/time/input.css:8:4]
- 8 | x {
- 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
-   :                                                                     ^
+   ,-[$DIR/tests/fixture/value/time/input.css:9:5]
+ 9 | transition: width 2s, height 2s, background-color 2s, transform 2s;
+   :                                                                 ^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/value/time/input.css:8:4]
- 8 | x {
- 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
-   :                                                                      ^
+   ,-[$DIR/tests/fixture/value/time/input.css:9:5]
+ 9 | transition: width 2s, height 2s, background-color 2s, transform 2s;
+   :                                                                  ^
    `----
 
   x Rule
@@ -752,141 +676,121 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/time/input.css:12:5]
- 12 | e {
- 13 |     transition-duration: 4s;
-    :     ^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/value/time/input.css:13:5]
+ 13 | transition-duration: 4s;
+    : ^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/value/time/input.css:12:5]
- 12 | e {
- 13 |     transition-duration: 4s;
-    :     ^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/value/time/input.css:13:5]
+ 13 | transition-duration: 4s;
+    : ^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/value/time/input.css:12:5]
- 12 | e {
- 13 |     transition-duration: 4s;
-    :     ^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/value/time/input.css:13:5]
+ 13 | transition-duration: 4s;
+    : ^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/value/time/input.css:12:5]
- 12 | e {
- 13 |     transition-duration: 4s;
-    :     ^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/value/time/input.css:13:5]
+ 13 | transition-duration: 4s;
+    : ^^^^^^^^^^^^^^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/value/time/input.css:12:5]
- 12 | e {
- 13 |     transition-duration: 4s;
-    :     ^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/value/time/input.css:13:5]
+ 13 | transition-duration: 4s;
+    : ^^^^^^^^^^^^^^^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/time/input.css:12:5]
- 12 | e {
- 13 |     transition-duration: 4s;
-    :                          ^^
+    ,-[$DIR/tests/fixture/value/time/input.css:13:5]
+ 13 | transition-duration: 4s;
+    :                      ^^
     `----
 
   x Dimension
-    ,-[$DIR/tests/fixture/value/time/input.css:12:5]
- 12 | e {
- 13 |     transition-duration: 4s;
-    :                          ^^
+    ,-[$DIR/tests/fixture/value/time/input.css:13:5]
+ 13 | transition-duration: 4s;
+    :                      ^^
     `----
 
   x Time
-    ,-[$DIR/tests/fixture/value/time/input.css:12:5]
- 12 | e {
- 13 |     transition-duration: 4s;
-    :                          ^^
+    ,-[$DIR/tests/fixture/value/time/input.css:13:5]
+ 13 | transition-duration: 4s;
+    :                      ^^
     `----
 
   x Number
-    ,-[$DIR/tests/fixture/value/time/input.css:12:5]
- 12 | e {
- 13 |     transition-duration: 4s;
-    :                          ^
+    ,-[$DIR/tests/fixture/value/time/input.css:13:5]
+ 13 | transition-duration: 4s;
+    :                      ^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/value/time/input.css:12:5]
- 12 | e {
- 13 |     transition-duration: 4s;
-    :                           ^
+    ,-[$DIR/tests/fixture/value/time/input.css:13:5]
+ 13 | transition-duration: 4s;
+    :                       ^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/time/input.css:13:26]
- 13 | 4s;
- 14 |     transition-duration: 4000ms;
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/value/time/input.css:14:5]
+ 14 | transition-duration: 4000ms;
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/value/time/input.css:13:26]
- 13 | 4s;
- 14 |     transition-duration: 4000ms;
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/value/time/input.css:14:5]
+ 14 | transition-duration: 4000ms;
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/value/time/input.css:13:26]
- 13 | 4s;
- 14 |     transition-duration: 4000ms;
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/value/time/input.css:14:5]
+ 14 | transition-duration: 4000ms;
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/value/time/input.css:13:26]
- 13 | 4s;
- 14 |     transition-duration: 4000ms;
-    :     ^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/value/time/input.css:14:5]
+ 14 | transition-duration: 4000ms;
+    : ^^^^^^^^^^^^^^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/value/time/input.css:13:26]
- 13 | 4s;
- 14 |     transition-duration: 4000ms;
-    :     ^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/value/time/input.css:14:5]
+ 14 | transition-duration: 4000ms;
+    : ^^^^^^^^^^^^^^^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/time/input.css:13:26]
- 13 | 4s;
- 14 |     transition-duration: 4000ms;
-    :                          ^^^^^^
+    ,-[$DIR/tests/fixture/value/time/input.css:14:5]
+ 14 | transition-duration: 4000ms;
+    :                      ^^^^^^
     `----
 
   x Dimension
-    ,-[$DIR/tests/fixture/value/time/input.css:13:26]
- 13 | 4s;
- 14 |     transition-duration: 4000ms;
-    :                          ^^^^^^
+    ,-[$DIR/tests/fixture/value/time/input.css:14:5]
+ 14 | transition-duration: 4000ms;
+    :                      ^^^^^^
     `----
 
   x Time
-    ,-[$DIR/tests/fixture/value/time/input.css:13:26]
- 13 | 4s;
- 14 |     transition-duration: 4000ms;
-    :                          ^^^^^^
+    ,-[$DIR/tests/fixture/value/time/input.css:14:5]
+ 14 | transition-duration: 4000ms;
+    :                      ^^^^^^
     `----
 
   x Number
-    ,-[$DIR/tests/fixture/value/time/input.css:13:26]
- 13 | 4s;
- 14 |     transition-duration: 4000ms;
-    :                          ^^^^
+    ,-[$DIR/tests/fixture/value/time/input.css:14:5]
+ 14 | transition-duration: 4000ms;
+    :                      ^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/value/time/input.css:13:26]
- 13 | 4s;
- 14 |     transition-duration: 4000ms;
-    :                              ^^
+    ,-[$DIR/tests/fixture/value/time/input.css:14:5]
+ 14 | transition-duration: 4000ms;
+    :                          ^^
     `----

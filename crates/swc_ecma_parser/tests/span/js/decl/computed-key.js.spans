@@ -48,64 +48,55 @@
    `----
 
   x ClassMember
-   ,-[$DIR/tests/span/js/decl/computed-key.js:1:7]
- 1 | A {
- 2 |     [foo] = '1'
-   :     ^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/decl/computed-key.js:2:5]
+ 2 | [foo] = '1'
+   : ^^^^^^^^^^^
    `----
 
   x ClassProp
-   ,-[$DIR/tests/span/js/decl/computed-key.js:1:7]
- 1 | A {
- 2 |     [foo] = '1'
-   :     ^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/decl/computed-key.js:2:5]
+ 2 | [foo] = '1'
+   : ^^^^^^^^^^^
    `----
 
   x PropName
-   ,-[$DIR/tests/span/js/decl/computed-key.js:1:7]
- 1 | A {
- 2 |     [foo] = '1'
-   :     ^^^^^
+   ,-[$DIR/tests/span/js/decl/computed-key.js:2:5]
+ 2 | [foo] = '1'
+   : ^^^^^
    `----
 
   x ComputedPropName
-   ,-[$DIR/tests/span/js/decl/computed-key.js:1:7]
- 1 | A {
- 2 |     [foo] = '1'
-   :     ^^^^^
+   ,-[$DIR/tests/span/js/decl/computed-key.js:2:5]
+ 2 | [foo] = '1'
+   : ^^^^^
    `----
 
   x Expr
-   ,-[$DIR/tests/span/js/decl/computed-key.js:1:7]
- 1 | A {
- 2 |     [foo] = '1'
-   :      ^^^
+   ,-[$DIR/tests/span/js/decl/computed-key.js:2:5]
+ 2 | [foo] = '1'
+   :  ^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/span/js/decl/computed-key.js:1:7]
- 1 | A {
- 2 |     [foo] = '1'
-   :      ^^^
+   ,-[$DIR/tests/span/js/decl/computed-key.js:2:5]
+ 2 | [foo] = '1'
+   :  ^^^
    `----
 
   x Expr
-   ,-[$DIR/tests/span/js/decl/computed-key.js:1:7]
- 1 | A {
- 2 |     [foo] = '1'
-   :             ^^^
+   ,-[$DIR/tests/span/js/decl/computed-key.js:2:5]
+ 2 | [foo] = '1'
+   :         ^^^
    `----
 
   x Lit
-   ,-[$DIR/tests/span/js/decl/computed-key.js:1:7]
- 1 | A {
- 2 |     [foo] = '1'
-   :             ^^^
+   ,-[$DIR/tests/span/js/decl/computed-key.js:2:5]
+ 2 | [foo] = '1'
+   :         ^^^
    `----
 
   x Str
-   ,-[$DIR/tests/span/js/decl/computed-key.js:1:7]
- 1 | A {
- 2 |     [foo] = '1'
-   :             ^^^
+   ,-[$DIR/tests/span/js/decl/computed-key.js:2:5]
+ 2 | [foo] = '1'
+   :         ^^^
    `----

@@ -89,171 +89,147 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:19]
- 1 | ) {
- 2 |     background-color: rgba(0, 0, 255, 0.3);
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:2:5]
+ 2 | background-color: rgba(0, 0, 255, 0.3);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:19]
- 1 | ) {
- 2 |     background-color: rgba(0, 0, 255, 0.3);
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:2:5]
+ 2 | background-color: rgba(0, 0, 255, 0.3);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:19]
- 1 | ) {
- 2 |     background-color: rgba(0, 0, 255, 0.3);
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:2:5]
+ 2 | background-color: rgba(0, 0, 255, 0.3);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:19]
- 1 | ) {
- 2 |     background-color: rgba(0, 0, 255, 0.3);
-   :     ^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:2:5]
+ 2 | background-color: rgba(0, 0, 255, 0.3);
+   : ^^^^^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:19]
- 1 | ) {
- 2 |     background-color: rgba(0, 0, 255, 0.3);
-   :     ^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:2:5]
+ 2 | background-color: rgba(0, 0, 255, 0.3);
+   : ^^^^^^^^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:19]
- 1 | ) {
- 2 |     background-color: rgba(0, 0, 255, 0.3);
-   :                       ^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:2:5]
+ 2 | background-color: rgba(0, 0, 255, 0.3);
+   :                   ^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Color
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:19]
- 1 | ) {
- 2 |     background-color: rgba(0, 0, 255, 0.3);
-   :                       ^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:2:5]
+ 2 | background-color: rgba(0, 0, 255, 0.3);
+   :                   ^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Function
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:19]
- 1 | ) {
- 2 |     background-color: rgba(0, 0, 255, 0.3);
-   :                       ^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:2:5]
+ 2 | background-color: rgba(0, 0, 255, 0.3);
+   :                   ^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:19]
- 1 | ) {
- 2 |     background-color: rgba(0, 0, 255, 0.3);
-   :                       ^^^^
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:2:5]
+ 2 | background-color: rgba(0, 0, 255, 0.3);
+   :                   ^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:19]
- 1 | ) {
- 2 |     background-color: rgba(0, 0, 255, 0.3);
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:2:5]
+ 2 | background-color: rgba(0, 0, 255, 0.3);
+   :                        ^
+   `----
+
+  x Number
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:2:5]
+ 2 | background-color: rgba(0, 0, 255, 0.3);
+   :                        ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:2:5]
+ 2 | background-color: rgba(0, 0, 255, 0.3);
+   :                         ^
+   `----
+
+  x Delimiter
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:2:5]
+ 2 | background-color: rgba(0, 0, 255, 0.3);
+   :                         ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:2:5]
+ 2 | background-color: rgba(0, 0, 255, 0.3);
+   :                           ^
+   `----
+
+  x Number
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:2:5]
+ 2 | background-color: rgba(0, 0, 255, 0.3);
+   :                           ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:2:5]
+ 2 | background-color: rgba(0, 0, 255, 0.3);
    :                            ^
    `----
 
-  x Number
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:19]
- 1 | ) {
- 2 |     background-color: rgba(0, 0, 255, 0.3);
+  x Delimiter
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:2:5]
+ 2 | background-color: rgba(0, 0, 255, 0.3);
    :                            ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:19]
- 1 | ) {
- 2 |     background-color: rgba(0, 0, 255, 0.3);
-   :                             ^
-   `----
-
-  x Delimiter
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:19]
- 1 | ) {
- 2 |     background-color: rgba(0, 0, 255, 0.3);
-   :                             ^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:19]
- 1 | ) {
- 2 |     background-color: rgba(0, 0, 255, 0.3);
-   :                               ^
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:2:5]
+ 2 | background-color: rgba(0, 0, 255, 0.3);
+   :                              ^^^
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:19]
- 1 | ) {
- 2 |     background-color: rgba(0, 0, 255, 0.3);
-   :                               ^
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:2:5]
+ 2 | background-color: rgba(0, 0, 255, 0.3);
+   :                              ^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:19]
- 1 | ) {
- 2 |     background-color: rgba(0, 0, 255, 0.3);
-   :                                ^
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:2:5]
+ 2 | background-color: rgba(0, 0, 255, 0.3);
+   :                                 ^
    `----
 
   x Delimiter
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:19]
- 1 | ) {
- 2 |     background-color: rgba(0, 0, 255, 0.3);
-   :                                ^
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:2:5]
+ 2 | background-color: rgba(0, 0, 255, 0.3);
+   :                                 ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:19]
- 1 | ) {
- 2 |     background-color: rgba(0, 0, 255, 0.3);
-   :                                  ^^^
-   `----
-
-  x Number
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:19]
- 1 | ) {
- 2 |     background-color: rgba(0, 0, 255, 0.3);
-   :                                  ^^^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:19]
- 1 | ) {
- 2 |     background-color: rgba(0, 0, 255, 0.3);
-   :                                     ^
-   `----
-
-  x Delimiter
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:19]
- 1 | ) {
- 2 |     background-color: rgba(0, 0, 255, 0.3);
-   :                                     ^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:19]
- 1 | ) {
- 2 |     background-color: rgba(0, 0, 255, 0.3);
-   :                                       ^^^
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:2:5]
+ 2 | background-color: rgba(0, 0, 255, 0.3);
+   :                                   ^^^
    `----
 
   x AlphaValue
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:19]
- 1 | ) {
- 2 |     background-color: rgba(0, 0, 255, 0.3);
-   :                                       ^^^
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:2:5]
+ 2 | background-color: rgba(0, 0, 255, 0.3);
+   :                                   ^^^
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:19]
- 1 | ) {
- 2 |     background-color: rgba(0, 0, 255, 0.3);
-   :                                       ^^^
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:2:5]
+ 2 | background-color: rgba(0, 0, 255, 0.3);
+   :                                   ^^^
    `----
 
   x Rule
@@ -347,101 +323,87 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:5:35]
- 5 | ) {
- 6 |     background-color: yellow;
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:6:5]
+ 6 | background-color: yellow;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:5:35]
- 5 | ) {
- 6 |     background-color: yellow;
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:6:5]
+ 6 | background-color: yellow;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:5:35]
- 5 | ) {
- 6 |     background-color: yellow;
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:6:5]
+ 6 | background-color: yellow;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:5:35]
- 5 | ) {
- 6 |     background-color: yellow;
-   :     ^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:6:5]
+ 6 | background-color: yellow;
+   : ^^^^^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:5:35]
- 5 | ) {
- 6 |     background-color: yellow;
-   :     ^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:6:5]
+ 6 | background-color: yellow;
+   : ^^^^^^^^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:5:35]
- 5 | ) {
- 6 |     background-color: yellow;
-   :                       ^^^^^^
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:6:5]
+ 6 | background-color: yellow;
+   :                   ^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:5:35]
- 5 | ) {
- 6 |     background-color: yellow;
-   :                       ^^^^^^
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:6:5]
+ 6 | background-color: yellow;
+   :                   ^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:6:27]
- 6 | ow;
- 7 |     color: blue;
-   :     ^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:7:5]
+ 7 | color: blue;
+   : ^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:6:27]
- 6 | ow;
- 7 |     color: blue;
-   :     ^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:7:5]
+ 7 | color: blue;
+   : ^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:6:27]
- 6 | ow;
- 7 |     color: blue;
-   :     ^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:7:5]
+ 7 | color: blue;
+   : ^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:6:27]
- 6 | ow;
- 7 |     color: blue;
-   :     ^^^^^
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:7:5]
+ 7 | color: blue;
+   : ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:6:27]
- 6 | ow;
- 7 |     color: blue;
-   :     ^^^^^
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:7:5]
+ 7 | color: blue;
+   : ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:6:27]
- 6 | ow;
- 7 |     color: blue;
-   :            ^^^^
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:7:5]
+ 7 | color: blue;
+   :        ^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:6:27]
- 6 | ow;
- 7 |     color: blue;
-   :            ^^^^
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:7:5]
+ 7 | color: blue;
+   :        ^^^^
    `----
 
   x Rule
@@ -538,52 +500,45 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:10:19]
- 10 | ) {
- 11 |     color: red;
-    :     ^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:11:5]
+ 11 | color: red;
+    : ^^^^^^^^^^
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:10:19]
- 10 | ) {
- 11 |     color: red;
-    :     ^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:11:5]
+ 11 | color: red;
+    : ^^^^^^^^^^
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:10:19]
- 10 | ) {
- 11 |     color: red;
-    :     ^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:11:5]
+ 11 | color: red;
+    : ^^^^^^^^^^
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:10:19]
- 10 | ) {
- 11 |     color: red;
-    :     ^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:11:5]
+ 11 | color: red;
+    : ^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:10:19]
- 10 | ) {
- 11 |     color: red;
-    :     ^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:11:5]
+ 11 | color: red;
+    : ^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:10:19]
- 10 | ) {
- 11 |     color: red;
-    :            ^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:11:5]
+ 11 | color: red;
+    :        ^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:10:19]
- 10 | ) {
- 11 |     color: red;
-    :            ^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:11:5]
+ 11 | color: red;
+    :        ^^^
     `----
 
   x Rule
@@ -680,50 +635,43 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:14:19]
- 14 | ) {
- 15 |     color: green;
-    :     ^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:15:5]
+ 15 | color: green;
+    : ^^^^^^^^^^^^
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:14:19]
- 14 | ) {
- 15 |     color: green;
-    :     ^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:15:5]
+ 15 | color: green;
+    : ^^^^^^^^^^^^
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:14:19]
- 14 | ) {
- 15 |     color: green;
-    :     ^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:15:5]
+ 15 | color: green;
+    : ^^^^^^^^^^^^
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:14:19]
- 14 | ) {
- 15 |     color: green;
-    :     ^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:15:5]
+ 15 | color: green;
+    : ^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:14:19]
- 14 | ) {
- 15 |     color: green;
-    :     ^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:15:5]
+ 15 | color: green;
+    : ^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:14:19]
- 14 | ) {
- 15 |     color: green;
-    :            ^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:15:5]
+ 15 | color: green;
+    :        ^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:14:19]
- 14 | ) {
- 15 |     color: green;
-    :            ^^^^^
+    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:15:5]
+ 15 | color: green;
+    :        ^^^^^
     `----

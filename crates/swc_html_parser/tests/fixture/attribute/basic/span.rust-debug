@@ -168,46 +168,40 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/attribute/basic/input.html:3:4]
- 3 | ad>
- 4 |     <title>Document</title>
-   :     ^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:4:5]
+ 4 | <title>Document</title>
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/attribute/basic/input.html:3:4]
- 3 | ad>
- 4 |     <title>Document</title>
-   :     ^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:4:5]
+ 4 | <title>Document</title>
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/attribute/basic/input.html:3:4]
- 3 | ad>
- 4 |     <title>Document</title>
-   :            ^^^^^^^^
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:4:5]
+ 4 | <title>Document</title>
+   :        ^^^^^^^^
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/attribute/basic/input.html:3:4]
- 3 | ad>
- 4 |     <title>Document</title>
-   :            ^^^^^^^^
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:4:5]
+ 4 | <title>Document</title>
+   :        ^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/attribute/basic/input.html:3:4]
- 3 | ad>
- 4 |     <title>Document</title>
-   :                            ^
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:4:5]
+ 4 | <title>Document</title>
+   :                        ^
  5 | </head>
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/attribute/basic/input.html:3:4]
- 3 | ad>
- 4 |     <title>Document</title>
-   :                            ^
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:4:5]
+ 4 | <title>Document</title>
+   :                        ^
  5 | </head>
    `----
 
@@ -744,10 +738,8 @@
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:12:34]
- 12 |     ">
- 13 |     <img
- 14 | ,->         src
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:14:9]
+ 14 | ,-> src
  15 | |                   =
  16 | `->                 "test"
     `----
@@ -1007,172 +999,148 @@
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:28:59]
- 28 | g">
- 29 |     <text y="20" xml:space="default">Default   spacing</text>
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:29:5]
+ 29 | <text y="20" xml:space="default">Default   spacing</text>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:28:59]
- 28 | g">
- 29 |     <text y="20" xml:space="default">Default   spacing</text>
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:29:5]
+ 29 | <text y="20" xml:space="default">Default   spacing</text>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:28:59]
- 28 | g">
- 29 |     <text y="20" xml:space="default">Default   spacing</text>
-    :           ^^^^^^
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:29:5]
+ 29 | <text y="20" xml:space="default">Default   spacing</text>
+    :       ^^^^^^
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:28:59]
- 28 | g">
- 29 |     <text y="20" xml:space="default">Default   spacing</text>
-    :                  ^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:29:5]
+ 29 | <text y="20" xml:space="default">Default   spacing</text>
+    :              ^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:28:59]
- 28 | g">
- 29 |     <text y="20" xml:space="default">Default   spacing</text>
-    :                                      ^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:29:5]
+ 29 | <text y="20" xml:space="default">Default   spacing</text>
+    :                                  ^^^^^^^^^^^^^^^^^
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:28:59]
- 28 | g">
- 29 |     <text y="20" xml:space="default">Default   spacing</text>
-    :                                      ^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:29:5]
+ 29 | <text y="20" xml:space="default">Default   spacing</text>
+    :                                  ^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:28:59]
- 28 |     g">
- 29 | ,->     <text y="20" xml:space="default">Default   spacing</text>
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:29:5]
+ 29 | ,-> <text y="20" xml:space="default">Default   spacing</text>
  30 | `->     <text y="20" XML:SPACE="default">Default   spacing</text>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:28:59]
- 28 |     g">
- 29 | ,->     <text y="20" xml:space="default">Default   spacing</text>
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:29:5]
+ 29 | ,-> <text y="20" xml:space="default">Default   spacing</text>
  30 | `->     <text y="20" XML:SPACE="default">Default   spacing</text>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:29:59]
- 29 | xt>
- 30 |     <text y="20" XML:SPACE="default">Default   spacing</text>
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:30:5]
+ 30 | <text y="20" XML:SPACE="default">Default   spacing</text>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:29:59]
- 29 | xt>
- 30 |     <text y="20" XML:SPACE="default">Default   spacing</text>
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:30:5]
+ 30 | <text y="20" XML:SPACE="default">Default   spacing</text>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:29:59]
- 29 | xt>
- 30 |     <text y="20" XML:SPACE="default">Default   spacing</text>
-    :           ^^^^^^
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:30:5]
+ 30 | <text y="20" XML:SPACE="default">Default   spacing</text>
+    :       ^^^^^^
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:29:59]
- 29 | xt>
- 30 |     <text y="20" XML:SPACE="default">Default   spacing</text>
-    :                  ^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:30:5]
+ 30 | <text y="20" XML:SPACE="default">Default   spacing</text>
+    :              ^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:29:59]
- 29 | xt>
- 30 |     <text y="20" XML:SPACE="default">Default   spacing</text>
-    :                                      ^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:30:5]
+ 30 | <text y="20" XML:SPACE="default">Default   spacing</text>
+    :                                  ^^^^^^^^^^^^^^^^^
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:29:59]
- 29 | xt>
- 30 |     <text y="20" XML:SPACE="default">Default   spacing</text>
-    :                                      ^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:30:5]
+ 30 | <text y="20" XML:SPACE="default">Default   spacing</text>
+    :                                  ^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:29:59]
- 29 |     xt>
- 30 | ,->     <text y="20" XML:SPACE="default">Default   spacing</text>
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:30:5]
+ 30 | ,-> <text y="20" XML:SPACE="default">Default   spacing</text>
  31 | `->     <text y="40" xml:space="preserve">Preserved   spacing</text>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:29:59]
- 29 |     xt>
- 30 | ,->     <text y="20" XML:SPACE="default">Default   spacing</text>
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:30:5]
+ 30 | ,-> <text y="20" XML:SPACE="default">Default   spacing</text>
  31 | `->     <text y="40" xml:space="preserve">Preserved   spacing</text>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:30:59]
- 30 | xt>
- 31 |     <text y="40" xml:space="preserve">Preserved   spacing</text>
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:31:5]
+ 31 | <text y="40" xml:space="preserve">Preserved   spacing</text>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:30:59]
- 30 | xt>
- 31 |     <text y="40" xml:space="preserve">Preserved   spacing</text>
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:31:5]
+ 31 | <text y="40" xml:space="preserve">Preserved   spacing</text>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:30:59]
- 30 | xt>
- 31 |     <text y="40" xml:space="preserve">Preserved   spacing</text>
-    :           ^^^^^^
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:31:5]
+ 31 | <text y="40" xml:space="preserve">Preserved   spacing</text>
+    :       ^^^^^^
     `----
 
   x Attribute
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:30:59]
- 30 | xt>
- 31 |     <text y="40" xml:space="preserve">Preserved   spacing</text>
-    :                  ^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:31:5]
+ 31 | <text y="40" xml:space="preserve">Preserved   spacing</text>
+    :              ^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:30:59]
- 30 | xt>
- 31 |     <text y="40" xml:space="preserve">Preserved   spacing</text>
-    :                                       ^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:31:5]
+ 31 | <text y="40" xml:space="preserve">Preserved   spacing</text>
+    :                                   ^^^^^^^^^^^^^^^^^^^
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:30:59]
- 30 | xt>
- 31 |     <text y="40" xml:space="preserve">Preserved   spacing</text>
-    :                                       ^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:31:5]
+ 31 | <text y="40" xml:space="preserve">Preserved   spacing</text>
+    :                                   ^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:30:59]
- 30 | xt>
- 31 |     <text y="40" xml:space="preserve">Preserved   spacing</text>
-    :                                                                 ^
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:31:5]
+ 31 | <text y="40" xml:space="preserve">Preserved   spacing</text>
+    :                                                             ^
  32 | </svg>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:30:59]
- 30 | xt>
- 31 |     <text y="40" xml:space="preserve">Preserved   spacing</text>
-    :                                                                 ^
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:31:5]
+ 31 | <text y="40" xml:space="preserve">Preserved   spacing</text>
+    :                                                             ^
  32 | </svg>
     `----
 

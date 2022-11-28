@@ -76,102 +76,88 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/function/nested-unclosed/input.css:1:1]
- 1 | a {
- 2 |     prop: url("test") :
-   :     ^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/function/nested-unclosed/input.css:2:5]
+ 2 | prop: url("test") :
+   : ^^^^^^^^^^^^^^^^^^^^
  3 | }
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/recovery/function/nested-unclosed/input.css:1:1]
- 1 | a {
- 2 |     prop: url("test") :
-   :     ^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/function/nested-unclosed/input.css:2:5]
+ 2 | prop: url("test") :
+   : ^^^^^^^^^^^^^^^^^^^^
  3 | }
    `----
 
   x Declaration
-   ,-[$DIR/tests/recovery/function/nested-unclosed/input.css:1:1]
- 1 | a {
- 2 |     prop: url("test") :
-   :     ^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/function/nested-unclosed/input.css:2:5]
+ 2 | prop: url("test") :
+   : ^^^^^^^^^^^^^^^^^^^^
  3 | }
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/recovery/function/nested-unclosed/input.css:1:1]
- 1 | a {
- 2 |     prop: url("test") :
-   :     ^^^^
+   ,-[$DIR/tests/recovery/function/nested-unclosed/input.css:2:5]
+ 2 | prop: url("test") :
+   : ^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/function/nested-unclosed/input.css:1:1]
- 1 | a {
- 2 |     prop: url("test") :
-   :     ^^^^
+   ,-[$DIR/tests/recovery/function/nested-unclosed/input.css:2:5]
+ 2 | prop: url("test") :
+   : ^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/function/nested-unclosed/input.css:1:1]
- 1 | a {
- 2 |     prop: url("test") :
-   :           ^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/function/nested-unclosed/input.css:2:5]
+ 2 | prop: url("test") :
+   :       ^^^^^^^^^^^
    `----
 
   x Function
-   ,-[$DIR/tests/recovery/function/nested-unclosed/input.css:1:1]
- 1 | a {
- 2 |     prop: url("test") :
-   :           ^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/function/nested-unclosed/input.css:2:5]
+ 2 | prop: url("test") :
+   :       ^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/function/nested-unclosed/input.css:1:1]
- 1 | a {
- 2 |     prop: url("test") :
-   :           ^^^
+   ,-[$DIR/tests/recovery/function/nested-unclosed/input.css:2:5]
+ 2 | prop: url("test") :
+   :       ^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/function/nested-unclosed/input.css:1:1]
- 1 | a {
- 2 |     prop: url("test") :
-   :               ^^^^^^
+   ,-[$DIR/tests/recovery/function/nested-unclosed/input.css:2:5]
+ 2 | prop: url("test") :
+   :           ^^^^^^
    `----
 
   x String { value: Atom('test' type=inline), raw: "\"test\"" }
-   ,-[$DIR/tests/recovery/function/nested-unclosed/input.css:1:1]
- 1 | a {
- 2 |     prop: url("test") :
-   :               ^^^^^^
+   ,-[$DIR/tests/recovery/function/nested-unclosed/input.css:2:5]
+ 2 | prop: url("test") :
+   :           ^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/function/nested-unclosed/input.css:1:1]
- 1 | a {
- 2 |     prop: url("test") :
-   :                      ^
+   ,-[$DIR/tests/recovery/function/nested-unclosed/input.css:2:5]
+ 2 | prop: url("test") :
+   :                  ^
    `----
 
   x WhiteSpace { value: " " }
-   ,-[$DIR/tests/recovery/function/nested-unclosed/input.css:1:1]
- 1 | a {
- 2 |     prop: url("test") :
-   :                      ^
+   ,-[$DIR/tests/recovery/function/nested-unclosed/input.css:2:5]
+ 2 | prop: url("test") :
+   :                  ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/function/nested-unclosed/input.css:1:1]
- 1 | a {
- 2 |     prop: url("test") :
-   :                       ^
+   ,-[$DIR/tests/recovery/function/nested-unclosed/input.css:2:5]
+ 2 | prop: url("test") :
+   :                   ^
    `----
 
   x Colon
-   ,-[$DIR/tests/recovery/function/nested-unclosed/input.css:1:1]
- 1 | a {
- 2 |     prop: url("test") :
-   :                       ^
+   ,-[$DIR/tests/recovery/function/nested-unclosed/input.css:2:5]
+ 2 | prop: url("test") :
+   :                   ^
    `----

@@ -54,50 +54,43 @@
    `----
 
   x Stmt
-   ,-[$DIR/tests/span/js/stmt/do-while.js:1:2]
- 1 | o {
- 2 |     foo()
-   :     ^^^^^
+   ,-[$DIR/tests/span/js/stmt/do-while.js:2:5]
+ 2 | foo()
+   : ^^^^^
    `----
 
   x ExprStmt
-   ,-[$DIR/tests/span/js/stmt/do-while.js:1:2]
- 1 | o {
- 2 |     foo()
-   :     ^^^^^
+   ,-[$DIR/tests/span/js/stmt/do-while.js:2:5]
+ 2 | foo()
+   : ^^^^^
    `----
 
   x Expr
-   ,-[$DIR/tests/span/js/stmt/do-while.js:1:2]
- 1 | o {
- 2 |     foo()
-   :     ^^^^^
+   ,-[$DIR/tests/span/js/stmt/do-while.js:2:5]
+ 2 | foo()
+   : ^^^^^
    `----
 
   x CallExpr
-   ,-[$DIR/tests/span/js/stmt/do-while.js:1:2]
- 1 | o {
- 2 |     foo()
-   :     ^^^^^
+   ,-[$DIR/tests/span/js/stmt/do-while.js:2:5]
+ 2 | foo()
+   : ^^^^^
    `----
 
   x Callee
-   ,-[$DIR/tests/span/js/stmt/do-while.js:1:2]
- 1 | o {
- 2 |     foo()
-   :     ^^^
+   ,-[$DIR/tests/span/js/stmt/do-while.js:2:5]
+ 2 | foo()
+   : ^^^
    `----
 
   x Expr
-   ,-[$DIR/tests/span/js/stmt/do-while.js:1:2]
- 1 | o {
- 2 |     foo()
-   :     ^^^
+   ,-[$DIR/tests/span/js/stmt/do-while.js:2:5]
+ 2 | foo()
+   : ^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/span/js/stmt/do-while.js:1:2]
- 1 | o {
- 2 |     foo()
-   :     ^^^
+   ,-[$DIR/tests/span/js/stmt/do-while.js:2:5]
+ 2 | foo()
+   : ^^^
    `----

@@ -70,85 +70,73 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/function/calc/space/input.css:1:9]
- 1 | 
- 2 | 	width: calc(2px+1px);
-   :  ^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/function/calc/space/input.css:2:5]
+ 2 | width: calc(2px+1px);
+   : ^^^^^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/recovery/function/calc/space/input.css:1:9]
- 1 | 
- 2 | 	width: calc(2px+1px);
-   :  ^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/function/calc/space/input.css:2:5]
+ 2 | width: calc(2px+1px);
+   : ^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/recovery/function/calc/space/input.css:1:9]
- 1 | 
- 2 | 	width: calc(2px+1px);
-   :  ^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/function/calc/space/input.css:2:5]
+ 2 | width: calc(2px+1px);
+   : ^^^^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/recovery/function/calc/space/input.css:1:9]
- 1 | 
- 2 | 	width: calc(2px+1px);
-   :  ^^^^^
+   ,-[$DIR/tests/recovery/function/calc/space/input.css:2:5]
+ 2 | width: calc(2px+1px);
+   : ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/function/calc/space/input.css:1:9]
- 1 | 
- 2 | 	width: calc(2px+1px);
-   :  ^^^^^
+   ,-[$DIR/tests/recovery/function/calc/space/input.css:2:5]
+ 2 | width: calc(2px+1px);
+   : ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/function/calc/space/input.css:1:9]
- 1 | 
- 2 | 	width: calc(2px+1px);
-   :         ^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/function/calc/space/input.css:2:5]
+ 2 | width: calc(2px+1px);
+   :        ^^^^^^^^^^^^^
    `----
 
   x Function
-   ,-[$DIR/tests/recovery/function/calc/space/input.css:1:9]
- 1 | 
- 2 | 	width: calc(2px+1px);
-   :         ^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/function/calc/space/input.css:2:5]
+ 2 | width: calc(2px+1px);
+   :        ^^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/function/calc/space/input.css:1:9]
- 1 | 
- 2 | 	width: calc(2px+1px);
-   :         ^^^^
+   ,-[$DIR/tests/recovery/function/calc/space/input.css:2:5]
+ 2 | width: calc(2px+1px);
+   :        ^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/function/calc/space/input.css:1:9]
- 1 | 
- 2 | 	width: calc(2px+1px);
-   :              ^^^
+   ,-[$DIR/tests/recovery/function/calc/space/input.css:2:5]
+ 2 | width: calc(2px+1px);
+   :             ^^^
    `----
 
   x Dimension { value: 2.0, raw_value: "2", unit: Atom('px' type=static), raw_unit: "px", type_flag: Integer }
-   ,-[$DIR/tests/recovery/function/calc/space/input.css:1:9]
- 1 | 
- 2 | 	width: calc(2px+1px);
-   :              ^^^
+   ,-[$DIR/tests/recovery/function/calc/space/input.css:2:5]
+ 2 | width: calc(2px+1px);
+   :             ^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/function/calc/space/input.css:1:9]
- 1 | 
- 2 | 	width: calc(2px+1px);
-   :                 ^^^^
+   ,-[$DIR/tests/recovery/function/calc/space/input.css:2:5]
+ 2 | width: calc(2px+1px);
+   :                ^^^^
    `----
 
   x Dimension { value: 1.0, raw_value: "+1", unit: Atom('px' type=static), raw_unit: "px", type_flag: Integer }
-   ,-[$DIR/tests/recovery/function/calc/space/input.css:1:9]
- 1 | 
- 2 | 	width: calc(2px+1px);
-   :                 ^^^^
+   ,-[$DIR/tests/recovery/function/calc/space/input.css:2:5]
+ 2 | width: calc(2px+1px);
+   :                ^^^^
    `----

@@ -66,134 +66,115 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: rgb(255, 255, 255
-   :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:2:5]
+ 2 | grid-template-columns: rgb(255, 255, 255
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: rgb(255, 255, 255
-   :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:2:5]
+ 2 | grid-template-columns: rgb(255, 255, 255
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: rgb(255, 255, 255
-   :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:2:5]
+ 2 | grid-template-columns: rgb(255, 255, 255
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: rgb(255, 255, 255
-   :  ^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:2:5]
+ 2 | grid-template-columns: rgb(255, 255, 255
+   : ^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: rgb(255, 255, 255
-   :  ^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:2:5]
+ 2 | grid-template-columns: rgb(255, 255, 255
+   : ^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: rgb(255, 255, 255
-   :                         ^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:2:5]
+ 2 | grid-template-columns: rgb(255, 255, 255
+   :                        ^^^^^^^^^^^^^^^^^
    `----
 
   x Color
-   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: rgb(255, 255, 255
-   :                         ^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:2:5]
+ 2 | grid-template-columns: rgb(255, 255, 255
+   :                        ^^^^^^^^^^^^^^^^^
    `----
 
   x Function
-   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: rgb(255, 255, 255
-   :                         ^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:2:5]
+ 2 | grid-template-columns: rgb(255, 255, 255
+   :                        ^^^^^^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: rgb(255, 255, 255
-   :                         ^^^
+   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:2:5]
+ 2 | grid-template-columns: rgb(255, 255, 255
+   :                        ^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: rgb(255, 255, 255
-   :                             ^^^
+   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:2:5]
+ 2 | grid-template-columns: rgb(255, 255, 255
+   :                            ^^^
    `----
 
   x Number
-   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: rgb(255, 255, 255
-   :                             ^^^
+   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:2:5]
+ 2 | grid-template-columns: rgb(255, 255, 255
+   :                            ^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: rgb(255, 255, 255
-   :                                ^
+   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:2:5]
+ 2 | grid-template-columns: rgb(255, 255, 255
+   :                               ^
    `----
 
   x Delimiter
-   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: rgb(255, 255, 255
-   :                                ^
+   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:2:5]
+ 2 | grid-template-columns: rgb(255, 255, 255
+   :                               ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: rgb(255, 255, 255
-   :                                  ^^^
+   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:2:5]
+ 2 | grid-template-columns: rgb(255, 255, 255
+   :                                 ^^^
    `----
 
   x Number
-   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: rgb(255, 255, 255
-   :                                  ^^^
+   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:2:5]
+ 2 | grid-template-columns: rgb(255, 255, 255
+   :                                 ^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: rgb(255, 255, 255
-   :                                     ^
+   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:2:5]
+ 2 | grid-template-columns: rgb(255, 255, 255
+   :                                    ^
    `----
 
   x Delimiter
-   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: rgb(255, 255, 255
-   :                                     ^
+   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:2:5]
+ 2 | grid-template-columns: rgb(255, 255, 255
+   :                                    ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: rgb(255, 255, 255
-   :                                       ^^^
+   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:2:5]
+ 2 | grid-template-columns: rgb(255, 255, 255
+   :                                      ^^^
    `----
 
   x Number
-   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:1:9]
- 1 | 
- 2 | 	grid-template-columns: rgb(255, 255, 255
-   :                                       ^^^
+   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:2:5]
+ 2 | grid-template-columns: rgb(255, 255, 255
+   :                                      ^^^
    `----

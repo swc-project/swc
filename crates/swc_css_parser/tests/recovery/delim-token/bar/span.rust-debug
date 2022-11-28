@@ -76,50 +76,43 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/delim-token/bar/input.css:1:1]
- 1 | a {
- 2 |     prop: |;
-   :     ^^^^^^^
+   ,-[$DIR/tests/recovery/delim-token/bar/input.css:2:5]
+ 2 | prop: |;
+   : ^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/recovery/delim-token/bar/input.css:1:1]
- 1 | a {
- 2 |     prop: |;
-   :     ^^^^^^^
+   ,-[$DIR/tests/recovery/delim-token/bar/input.css:2:5]
+ 2 | prop: |;
+   : ^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/recovery/delim-token/bar/input.css:1:1]
- 1 | a {
- 2 |     prop: |;
-   :     ^^^^^^^
+   ,-[$DIR/tests/recovery/delim-token/bar/input.css:2:5]
+ 2 | prop: |;
+   : ^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/recovery/delim-token/bar/input.css:1:1]
- 1 | a {
- 2 |     prop: |;
-   :     ^^^^
+   ,-[$DIR/tests/recovery/delim-token/bar/input.css:2:5]
+ 2 | prop: |;
+   : ^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/delim-token/bar/input.css:1:1]
- 1 | a {
- 2 |     prop: |;
-   :     ^^^^
+   ,-[$DIR/tests/recovery/delim-token/bar/input.css:2:5]
+ 2 | prop: |;
+   : ^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/delim-token/bar/input.css:1:1]
- 1 | a {
- 2 |     prop: |;
-   :           ^
+   ,-[$DIR/tests/recovery/delim-token/bar/input.css:2:5]
+ 2 | prop: |;
+   :       ^
    `----
 
   x Delim { value: '|' }
-   ,-[$DIR/tests/recovery/delim-token/bar/input.css:1:1]
- 1 | a {
- 2 |     prop: |;
-   :           ^
+   ,-[$DIR/tests/recovery/delim-token/bar/input.css:2:5]
+ 2 | prop: |;
+   :       ^
    `----

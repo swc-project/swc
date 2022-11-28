@@ -48,49 +48,37 @@
    `----
 
   x ClassMember
-   ,-[$DIR/tests/span/js/decl/class-no-close-brace.js:1:13]
- 1 | 
- 2 | 
- 3 |   method() {}
-   :   ^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/decl/class-no-close-brace.js:3:3]
+ 3 | method() {}
+   : ^^^^^^^^^^^
    `----
 
   x ClassMethod
-   ,-[$DIR/tests/span/js/decl/class-no-close-brace.js:1:13]
- 1 | 
- 2 | 
- 3 |   method() {}
-   :   ^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/decl/class-no-close-brace.js:3:3]
+ 3 | method() {}
+   : ^^^^^^^^^^^
    `----
 
   x PropName
-   ,-[$DIR/tests/span/js/decl/class-no-close-brace.js:1:13]
- 1 | 
- 2 | 
- 3 |   method() {}
-   :   ^^^^^^
+   ,-[$DIR/tests/span/js/decl/class-no-close-brace.js:3:3]
+ 3 | method() {}
+   : ^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/span/js/decl/class-no-close-brace.js:1:13]
- 1 | 
- 2 | 
- 3 |   method() {}
-   :   ^^^^^^
+   ,-[$DIR/tests/span/js/decl/class-no-close-brace.js:3:3]
+ 3 | method() {}
+   : ^^^^^^
    `----
 
   x Function
-   ,-[$DIR/tests/span/js/decl/class-no-close-brace.js:1:13]
- 1 | 
- 2 | 
- 3 |   method() {}
-   :   ^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/decl/class-no-close-brace.js:3:3]
+ 3 | method() {}
+   : ^^^^^^^^^^^
    `----
 
   x BlockStmt
-   ,-[$DIR/tests/span/js/decl/class-no-close-brace.js:1:13]
- 1 | 
- 2 | 
- 3 |   method() {}
-   :            ^^
+   ,-[$DIR/tests/span/js/decl/class-no-close-brace.js:3:3]
+ 3 | method() {}
+   :          ^^
    `----

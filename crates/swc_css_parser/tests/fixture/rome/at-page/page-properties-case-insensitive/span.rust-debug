@@ -46,43 +46,37 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/at-page/page-properties-case-insensitive/input.css:1:8]
- 1 | 
- 2 | 	DISPLAY: none;
-   :  ^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/at-page/page-properties-case-insensitive/input.css:2:5]
+ 2 | DISPLAY: none;
+   : ^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/rome/at-page/page-properties-case-insensitive/input.css:1:8]
- 1 | 
- 2 | 	DISPLAY: none;
-   :  ^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/at-page/page-properties-case-insensitive/input.css:2:5]
+ 2 | DISPLAY: none;
+   : ^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/rome/at-page/page-properties-case-insensitive/input.css:1:8]
- 1 | 
- 2 | 	DISPLAY: none;
-   :  ^^^^^^^
+   ,-[$DIR/tests/fixture/rome/at-page/page-properties-case-insensitive/input.css:2:5]
+ 2 | DISPLAY: none;
+   : ^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/at-page/page-properties-case-insensitive/input.css:1:8]
- 1 | 
- 2 | 	DISPLAY: none;
-   :  ^^^^^^^
+   ,-[$DIR/tests/fixture/rome/at-page/page-properties-case-insensitive/input.css:2:5]
+ 2 | DISPLAY: none;
+   : ^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/at-page/page-properties-case-insensitive/input.css:1:8]
- 1 | 
- 2 | 	DISPLAY: none;
-   :           ^^^^
+   ,-[$DIR/tests/fixture/rome/at-page/page-properties-case-insensitive/input.css:2:5]
+ 2 | DISPLAY: none;
+   :          ^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/at-page/page-properties-case-insensitive/input.css:1:8]
- 1 | 
- 2 | 	DISPLAY: none;
-   :           ^^^^
+   ,-[$DIR/tests/fixture/rome/at-page/page-properties-case-insensitive/input.css:2:5]
+ 2 | DISPLAY: none;
+   :          ^^^^
    `----

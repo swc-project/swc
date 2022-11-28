@@ -90,46 +90,40 @@
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/table-3/input.html:3:4]
- 3 | ad>
- 4 |     <title>Document</title>
-   :     ^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/table-3/input.html:4:5]
+ 4 | <title>Document</title>
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/recovery/element/table-3/input.html:3:4]
- 3 | ad>
- 4 |     <title>Document</title>
-   :     ^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/table-3/input.html:4:5]
+ 4 | <title>Document</title>
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/table-3/input.html:3:4]
- 3 | ad>
- 4 |     <title>Document</title>
-   :            ^^^^^^^^
+   ,-[$DIR/tests/recovery/element/table-3/input.html:4:5]
+ 4 | <title>Document</title>
+   :        ^^^^^^^^
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/element/table-3/input.html:3:4]
- 3 | ad>
- 4 |     <title>Document</title>
-   :            ^^^^^^^^
+   ,-[$DIR/tests/recovery/element/table-3/input.html:4:5]
+ 4 | <title>Document</title>
+   :        ^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/table-3/input.html:3:4]
- 3 | ad>
- 4 |     <title>Document</title>
-   :                            ^
+   ,-[$DIR/tests/recovery/element/table-3/input.html:4:5]
+ 4 | <title>Document</title>
+   :                        ^
  5 | </head>
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/element/table-3/input.html:3:4]
- 3 | ad>
- 4 |     <title>Document</title>
-   :                            ^
+   ,-[$DIR/tests/recovery/element/table-3/input.html:4:5]
+ 4 | <title>Document</title>
+   :                        ^
  5 | </head>
    `----
 
@@ -208,23 +202,20 @@
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/table-3/input.html:7:5]
- 7 | le>
- 8 |     <caption></table></caption>
-   :     ^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/table-3/input.html:8:5]
+ 8 | <caption></table></caption>
+   : ^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/recovery/element/table-3/input.html:7:5]
- 7 | le>
- 8 |     <caption></table></caption>
-   :     ^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/table-3/input.html:8:5]
+ 8 | <caption></table></caption>
+   : ^^^^^^^^^
    `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/table-3/input.html:7:5]
-  7 |     le>
-  8 | ,->     <caption></table></caption>
+    ,-[$DIR/tests/recovery/element/table-3/input.html:8:5]
+  8 | ,-> <caption></table></caption>
   9 | |   </table>
  10 | |   
  11 | `-> </body>
@@ -232,9 +223,8 @@
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/table-3/input.html:7:5]
-  7 |     le>
-  8 | ,->     <caption></table></caption>
+    ,-[$DIR/tests/recovery/element/table-3/input.html:8:5]
+  8 | ,-> <caption></table></caption>
   9 | |   </table>
  10 | |   
  11 | `-> </body>

@@ -46,31 +46,27 @@
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/comments/bad-27/input.xml:2:4]
- 2 | ot>
- 3 |     <!--<!<!--x-->
-   :     ^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/comments/bad-27/input.xml:3:5]
+ 3 | <!--<!<!--x-->
+   : ^^^^^^^^^^^^^^
    `----
 
   x Comment
-   ,-[$DIR/tests/recovery/comments/bad-27/input.xml:2:4]
- 2 | ot>
- 3 |     <!--<!<!--x-->
-   :     ^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/comments/bad-27/input.xml:3:5]
+ 3 | <!--<!<!--x-->
+   : ^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/comments/bad-27/input.xml:2:4]
- 2 | ot>
- 3 |     <!--<!<!--x-->
-   :                   ^
+   ,-[$DIR/tests/recovery/comments/bad-27/input.xml:3:5]
+ 3 | <!--<!<!--x-->
+   :               ^
  4 | </root>
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/comments/bad-27/input.xml:2:4]
- 2 | ot>
- 3 |     <!--<!<!--x-->
-   :                   ^
+   ,-[$DIR/tests/recovery/comments/bad-27/input.xml:3:5]
+ 3 | <!--<!<!--x-->
+   :               ^
  4 | </root>
    `----

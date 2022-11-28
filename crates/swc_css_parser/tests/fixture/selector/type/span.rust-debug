@@ -2101,50 +2101,43 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/selector/type/input.css:28:3]
- 28 | \\{
- 29 |     color: \\;
-    :     ^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/type/input.css:29:5]
+ 29 | color: \\;
+    : ^^^^^^^^^
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/selector/type/input.css:28:3]
- 28 | \\{
- 29 |     color: \\;
-    :     ^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/type/input.css:29:5]
+ 29 | color: \\;
+    : ^^^^^^^^^
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/selector/type/input.css:28:3]
- 28 | \\{
- 29 |     color: \\;
-    :     ^^^^^^^^^
+    ,-[$DIR/tests/fixture/selector/type/input.css:29:5]
+ 29 | color: \\;
+    : ^^^^^^^^^
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/selector/type/input.css:28:3]
- 28 | \\{
- 29 |     color: \\;
-    :     ^^^^^
+    ,-[$DIR/tests/fixture/selector/type/input.css:29:5]
+ 29 | color: \\;
+    : ^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/type/input.css:28:3]
- 28 | \\{
- 29 |     color: \\;
-    :     ^^^^^
+    ,-[$DIR/tests/fixture/selector/type/input.css:29:5]
+ 29 | color: \\;
+    : ^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/selector/type/input.css:28:3]
- 28 | \\{
- 29 |     color: \\;
-    :            ^^
+    ,-[$DIR/tests/fixture/selector/type/input.css:29:5]
+ 29 | color: \\;
+    :        ^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/selector/type/input.css:28:3]
- 28 | \\{
- 29 |     color: \\;
-    :            ^^
+    ,-[$DIR/tests/fixture/selector/type/input.css:29:5]
+ 29 | color: \\;
+    :        ^^
     `----

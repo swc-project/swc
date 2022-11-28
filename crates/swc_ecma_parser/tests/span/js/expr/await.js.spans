@@ -55,64 +55,55 @@
    `----
 
   x Stmt
-   ,-[$DIR/tests/span/js/expr/await.js:1:20]
- 1 | ) {
- 2 |     await bar()
-   :     ^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/expr/await.js:2:5]
+ 2 | await bar()
+   : ^^^^^^^^^^^
    `----
 
   x ExprStmt
-   ,-[$DIR/tests/span/js/expr/await.js:1:20]
- 1 | ) {
- 2 |     await bar()
-   :     ^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/expr/await.js:2:5]
+ 2 | await bar()
+   : ^^^^^^^^^^^
    `----
 
   x Expr
-   ,-[$DIR/tests/span/js/expr/await.js:1:20]
- 1 | ) {
- 2 |     await bar()
-   :     ^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/expr/await.js:2:5]
+ 2 | await bar()
+   : ^^^^^^^^^^^
    `----
 
   x AwaitExpr
-   ,-[$DIR/tests/span/js/expr/await.js:1:20]
- 1 | ) {
- 2 |     await bar()
-   :     ^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/expr/await.js:2:5]
+ 2 | await bar()
+   : ^^^^^^^^^^^
    `----
 
   x Expr
-   ,-[$DIR/tests/span/js/expr/await.js:1:20]
- 1 | ) {
- 2 |     await bar()
-   :           ^^^^^
+   ,-[$DIR/tests/span/js/expr/await.js:2:5]
+ 2 | await bar()
+   :       ^^^^^
    `----
 
   x CallExpr
-   ,-[$DIR/tests/span/js/expr/await.js:1:20]
- 1 | ) {
- 2 |     await bar()
-   :           ^^^^^
+   ,-[$DIR/tests/span/js/expr/await.js:2:5]
+ 2 | await bar()
+   :       ^^^^^
    `----
 
   x Callee
-   ,-[$DIR/tests/span/js/expr/await.js:1:20]
- 1 | ) {
- 2 |     await bar()
-   :           ^^^
+   ,-[$DIR/tests/span/js/expr/await.js:2:5]
+ 2 | await bar()
+   :       ^^^
    `----
 
   x Expr
-   ,-[$DIR/tests/span/js/expr/await.js:1:20]
- 1 | ) {
- 2 |     await bar()
-   :           ^^^
+   ,-[$DIR/tests/span/js/expr/await.js:2:5]
+ 2 | await bar()
+   :       ^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/span/js/expr/await.js:1:20]
- 1 | ) {
- 2 |     await bar()
-   :           ^^^
+   ,-[$DIR/tests/span/js/expr/await.js:2:5]
+ 2 | await bar()
+   :       ^^^
    `----

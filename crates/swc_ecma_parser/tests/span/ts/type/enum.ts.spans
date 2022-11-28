@@ -46,64 +46,55 @@
    `----
 
   x TsEnumMember
-   ,-[$DIR/tests/span/ts/type/enum.ts:1:9]
- 1 | m {
- 2 |     A,
-   :     ^
+   ,-[$DIR/tests/span/ts/type/enum.ts:2:5]
+ 2 | A,
+   : ^
    `----
 
   x TsEnumMemberId
-   ,-[$DIR/tests/span/ts/type/enum.ts:1:9]
- 1 | m {
- 2 |     A,
-   :     ^
+   ,-[$DIR/tests/span/ts/type/enum.ts:2:5]
+ 2 | A,
+   : ^
    `----
 
   x Ident
-   ,-[$DIR/tests/span/ts/type/enum.ts:1:9]
- 1 | m {
- 2 |     A,
-   :     ^
+   ,-[$DIR/tests/span/ts/type/enum.ts:2:5]
+ 2 | A,
+   : ^
    `----
 
   x TsEnumMember
-   ,-[$DIR/tests/span/ts/type/enum.ts:2:4]
- 2 |  A,
- 3 |     B = 1,
-   :     ^^^^^
+   ,-[$DIR/tests/span/ts/type/enum.ts:3:5]
+ 3 | B = 1,
+   : ^^^^^
    `----
 
   x TsEnumMemberId
-   ,-[$DIR/tests/span/ts/type/enum.ts:2:4]
- 2 |  A,
- 3 |     B = 1,
-   :     ^
+   ,-[$DIR/tests/span/ts/type/enum.ts:3:5]
+ 3 | B = 1,
+   : ^
    `----
 
   x Ident
-   ,-[$DIR/tests/span/ts/type/enum.ts:2:4]
- 2 |  A,
- 3 |     B = 1,
-   :     ^
+   ,-[$DIR/tests/span/ts/type/enum.ts:3:5]
+ 3 | B = 1,
+   : ^
    `----
 
   x Expr
-   ,-[$DIR/tests/span/ts/type/enum.ts:2:4]
- 2 |  A,
- 3 |     B = 1,
-   :         ^
+   ,-[$DIR/tests/span/ts/type/enum.ts:3:5]
+ 3 | B = 1,
+   :     ^
    `----
 
   x Lit
-   ,-[$DIR/tests/span/ts/type/enum.ts:2:4]
- 2 |  A,
- 3 |     B = 1,
-   :         ^
+   ,-[$DIR/tests/span/ts/type/enum.ts:3:5]
+ 3 | B = 1,
+   :     ^
    `----
 
   x Number
-   ,-[$DIR/tests/span/ts/type/enum.ts:2:4]
- 2 |  A,
- 3 |     B = 1,
-   :         ^
+   ,-[$DIR/tests/span/ts/type/enum.ts:3:5]
+ 3 | B = 1,
+   :     ^
    `----

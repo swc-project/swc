@@ -61,50 +61,43 @@
    `----
 
   x ModuleItem
-   ,-[$DIR/tests/span/ts/declare/module.ts:1:21]
- 1 | " {
- 2 |     export class Foo { }
-   :     ^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/ts/declare/module.ts:2:5]
+ 2 | export class Foo { }
+   : ^^^^^^^^^^^^^^^^^^^^
    `----
 
   x ModuleDecl
-   ,-[$DIR/tests/span/ts/declare/module.ts:1:21]
- 1 | " {
- 2 |     export class Foo { }
-   :     ^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/ts/declare/module.ts:2:5]
+ 2 | export class Foo { }
+   : ^^^^^^^^^^^^^^^^^^^^
    `----
 
   x ExportDecl
-   ,-[$DIR/tests/span/ts/declare/module.ts:1:21]
- 1 | " {
- 2 |     export class Foo { }
-   :     ^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/ts/declare/module.ts:2:5]
+ 2 | export class Foo { }
+   : ^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Decl
-   ,-[$DIR/tests/span/ts/declare/module.ts:1:21]
- 1 | " {
- 2 |     export class Foo { }
-   :            ^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/ts/declare/module.ts:2:5]
+ 2 | export class Foo { }
+   :        ^^^^^^^^^^^^^
    `----
 
   x ClassDecl
-   ,-[$DIR/tests/span/ts/declare/module.ts:1:21]
- 1 | " {
- 2 |     export class Foo { }
-   :            ^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/ts/declare/module.ts:2:5]
+ 2 | export class Foo { }
+   :        ^^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/span/ts/declare/module.ts:1:21]
- 1 | " {
- 2 |     export class Foo { }
-   :                  ^^^
+   ,-[$DIR/tests/span/ts/declare/module.ts:2:5]
+ 2 | export class Foo { }
+   :              ^^^
    `----
 
   x Class
-   ,-[$DIR/tests/span/ts/declare/module.ts:1:21]
- 1 | " {
- 2 |     export class Foo { }
-   :            ^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/ts/declare/module.ts:2:5]
+ 2 | export class Foo { }
+   :        ^^^^^^^^^^^^^
    `----

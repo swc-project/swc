@@ -76,92 +76,79 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/delim/backslash/input.css:1:1]
- 1 | a {
- 2 |     color: \\ red \\ blue;
-   :     ^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/delim/backslash/input.css:2:5]
+ 2 | color: \\ red \\ blue;
+   : ^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/delim/backslash/input.css:1:1]
- 1 | a {
- 2 |     color: \\ red \\ blue;
-   :     ^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/delim/backslash/input.css:2:5]
+ 2 | color: \\ red \\ blue;
+   : ^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/delim/backslash/input.css:1:1]
- 1 | a {
- 2 |     color: \\ red \\ blue;
-   :     ^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/delim/backslash/input.css:2:5]
+ 2 | color: \\ red \\ blue;
+   : ^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/delim/backslash/input.css:1:1]
- 1 | a {
- 2 |     color: \\ red \\ blue;
-   :     ^^^^^
+   ,-[$DIR/tests/fixture/delim/backslash/input.css:2:5]
+ 2 | color: \\ red \\ blue;
+   : ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/delim/backslash/input.css:1:1]
- 1 | a {
- 2 |     color: \\ red \\ blue;
-   :     ^^^^^
+   ,-[$DIR/tests/fixture/delim/backslash/input.css:2:5]
+ 2 | color: \\ red \\ blue;
+   : ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/delim/backslash/input.css:1:1]
- 1 | a {
- 2 |     color: \\ red \\ blue;
-   :            ^^
+   ,-[$DIR/tests/fixture/delim/backslash/input.css:2:5]
+ 2 | color: \\ red \\ blue;
+   :        ^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/delim/backslash/input.css:1:1]
- 1 | a {
- 2 |     color: \\ red \\ blue;
-   :            ^^
+   ,-[$DIR/tests/fixture/delim/backslash/input.css:2:5]
+ 2 | color: \\ red \\ blue;
+   :        ^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/delim/backslash/input.css:1:1]
- 1 | a {
- 2 |     color: \\ red \\ blue;
-   :               ^^^
+   ,-[$DIR/tests/fixture/delim/backslash/input.css:2:5]
+ 2 | color: \\ red \\ blue;
+   :           ^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/delim/backslash/input.css:1:1]
- 1 | a {
- 2 |     color: \\ red \\ blue;
-   :               ^^^
+   ,-[$DIR/tests/fixture/delim/backslash/input.css:2:5]
+ 2 | color: \\ red \\ blue;
+   :           ^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/delim/backslash/input.css:1:1]
- 1 | a {
- 2 |     color: \\ red \\ blue;
-   :                   ^^
+   ,-[$DIR/tests/fixture/delim/backslash/input.css:2:5]
+ 2 | color: \\ red \\ blue;
+   :               ^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/delim/backslash/input.css:1:1]
- 1 | a {
- 2 |     color: \\ red \\ blue;
-   :                   ^^
+   ,-[$DIR/tests/fixture/delim/backslash/input.css:2:5]
+ 2 | color: \\ red \\ blue;
+   :               ^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/delim/backslash/input.css:1:1]
- 1 | a {
- 2 |     color: \\ red \\ blue;
-   :                      ^^^^
+   ,-[$DIR/tests/fixture/delim/backslash/input.css:2:5]
+ 2 | color: \\ red \\ blue;
+   :                  ^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/delim/backslash/input.css:1:1]
- 1 | a {
- 2 |     color: \\ red \\ blue;
-   :                      ^^^^
+   ,-[$DIR/tests/fixture/delim/backslash/input.css:2:5]
+ 2 | color: \\ red \\ blue;
+   :                  ^^^^
    `----

@@ -55,36 +55,31 @@
    `----
 
   x Stmt
-   ,-[$DIR/tests/span/js/stmt/return.js:1:14]
- 1 | ) {
- 2 |     return 'foo';
-   :     ^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/stmt/return.js:2:5]
+ 2 | return 'foo';
+   : ^^^^^^^^^^^^^
    `----
 
   x ReturnStmt
-   ,-[$DIR/tests/span/js/stmt/return.js:1:14]
- 1 | ) {
- 2 |     return 'foo';
-   :     ^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/stmt/return.js:2:5]
+ 2 | return 'foo';
+   : ^^^^^^^^^^^^^
    `----
 
   x Expr
-   ,-[$DIR/tests/span/js/stmt/return.js:1:14]
- 1 | ) {
- 2 |     return 'foo';
-   :            ^^^^^
+   ,-[$DIR/tests/span/js/stmt/return.js:2:5]
+ 2 | return 'foo';
+   :        ^^^^^
    `----
 
   x Lit
-   ,-[$DIR/tests/span/js/stmt/return.js:1:14]
- 1 | ) {
- 2 |     return 'foo';
-   :            ^^^^^
+   ,-[$DIR/tests/span/js/stmt/return.js:2:5]
+ 2 | return 'foo';
+   :        ^^^^^
    `----
 
   x Str
-   ,-[$DIR/tests/span/js/stmt/return.js:1:14]
- 1 | ) {
- 2 |     return 'foo';
-   :            ^^^^^
+   ,-[$DIR/tests/span/js/stmt/return.js:2:5]
+ 2 | return 'foo';
+   :        ^^^^^
    `----

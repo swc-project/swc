@@ -1,14 +1,12 @@
 
   x Unexpected token `!`. Expected an identifier, void, yield, null, await, break, a string literal, a numeric literal, true, false, `, -, import, this, typeof, {, [, (
-   ,-[$DIR/tests/typescript-errors/issue-3712/input.ts:7:9]
- 7 | <>
- 8 | 			< !doctype html >
-   :      ^
+   ,-[$DIR/tests/typescript-errors/issue-3712/input.ts:8:13]
+ 8 | < !doctype html >
+   :   ^
    `----
 
   x Expression expected
-   ,-[$DIR/tests/typescript-errors/issue-3712/input.ts:6:34]
- 6 | (
- 7 | 		<>
-   :    ^
+   ,-[$DIR/tests/typescript-errors/issue-3712/input.ts:7:9]
+ 7 | <>
+   :  ^
    `----
