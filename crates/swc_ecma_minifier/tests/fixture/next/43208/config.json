@@ -1,6 +1,6 @@
 {
     "defaults": true,
     "toplevel": true,
-    "arrows": false,
+    "arrows": true,
     "ecma": 2022
 }
