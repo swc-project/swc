@@ -564,7 +564,7 @@ fn exec(input: PathBuf) {
 
 #[testing::fixture("tests/for-of/**/input.js")]
 fn fixture(input: PathBuf) {
-    let output = input.with_extension("output.js");
+    let output = input.with_file_name("output.js");
 
     test_fixture(
         Syntax::default(),
