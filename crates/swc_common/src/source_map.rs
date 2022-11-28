@@ -1194,6 +1194,7 @@ impl SourceMap {
         let mut prev_extra_bytes = 0;
         let mut ch_start = 0;
         let mut line_prev_extra_bytes = 0;
+        let mut prev_srcmap_line = 0;
         let mut line_ch_start = 0;
 
         for (pos, lc) in mappings.iter() {
@@ -1255,6 +1256,12 @@ impl SourceMap {
             }
 
             let mut line = a + 1; // Line numbers start at 1
+            if line != prev_srcmap_line {
+                prev_srcmap_line = line;
+                line_ch_start = 0;
+                line_prev_extra_bytes = 0;
+            }
+
             let linebpos = f.lines[a as usize];
             debug_assert!(
                 pos >= linebpos,
@@ -1263,14 +1270,15 @@ impl SourceMap {
                 pos,
                 linebpos,
             );
-            // dbg!(prev_extra_bytes);
-            // dbg!(ch_start);
-            let mut copied_prev_extra_bytes = prev_extra_bytes;
-            let mut copied_ch_start = ch_start;
             let chpos =
                 pos.to_u32() - self.calc_extra_bytes(f, &mut prev_extra_bytes, &mut ch_start, pos);
-            let linechpos = linebpos.to_u32() - self.calc_extra_bytes(f, &mut 0, &mut 0, linebpos);
-            // dbg!(chpos, linechpos);
+            let linechpos = linebpos.to_u32()
+                - self.calc_extra_bytes(
+                    f,
+                    &mut line_prev_extra_bytes,
+                    &mut line_ch_start,
+                    linebpos,
+                );
 
             let mut col = max(chpos, linechpos) - min(chpos, linechpos);
 
