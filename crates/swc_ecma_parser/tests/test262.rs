@@ -201,7 +201,7 @@ fn error_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
 
                 if err
                     .compare_to_file(format!(
-                        "{}.stderr",
+                        "{}.swc-stderr",
                         error_reference_dir.join(file_name).display()
                     ))
                     .is_err()

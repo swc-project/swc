@@ -1,6 +1,0 @@
-error: Expected ")"
- --> $DIR/tests/errors/rome/invalid/calc-space/input.css:2:17
-  |
-2 |     width: calc(2px+1px);
-  |                    ^^^^
-
