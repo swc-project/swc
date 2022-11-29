@@ -168,7 +168,7 @@ dependencies = [
 
 [[package]]
 name = "binding_macros"
-version = "0.20.120"
+version = "0.20.121"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -779,7 +779,7 @@ dependencies = [
 
 [[package]]
 name = "dbg-swc"
-version = "0.58.151"
+version = "0.58.152"
 dependencies = [
  "anyhow",
  "clap 3.1.0",
@@ -2979,7 +2979,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.232.117"
+version = "0.232.118"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3050,7 +3050,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.192.103"
+version = "0.192.104"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3165,7 +3165,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.43.37"
+version = "0.43.38"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -3526,7 +3526,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.159.103"
+version = "0.159.104"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3949,7 +3949,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.205.104"
+version = "0.205.105"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -3997,7 +3997,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.154.117"
+version = "0.154.118"
 dependencies = [
  "ahash",
  "anyhow",
@@ -4045,7 +4045,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html"
-version = "0.96.35"
+version = "0.96.36"
 dependencies = [
  "swc_html_ast",
  "swc_html_codegen",
@@ -4097,7 +4097,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "0.93.35"
+version = "0.93.36"
 dependencies = [
  "criterion",
  "once_cell",
@@ -4183,7 +4183,7 @@ dependencies = [
 
 [[package]]
 name = "swc_node_bundler"
-version = "0.18.117"
+version = "0.18.118"
 dependencies = [
  "anyhow",
  "dashmap",
@@ -4333,7 +4333,7 @@ dependencies = [
 
 [[package]]
 name = "swc_xml"
-version = "0.5.4"
+version = "0.6.0"
 dependencies = [
  "swc_xml_ast",
  "swc_xml_codegen",
@@ -4343,7 +4343,7 @@ dependencies = [
 
 [[package]]
 name = "swc_xml_ast"
-version = "0.4.17"
+version = "0.5.0"
 dependencies = [
  "is-macro",
  "serde",
@@ -4354,7 +4354,7 @@ dependencies = [
 
 [[package]]
 name = "swc_xml_codegen"
-version = "0.5.4"
+version = "0.6.0"
 dependencies = [
  "auto_impl",
  "bitflags",
@@ -4381,7 +4381,7 @@ dependencies = [
 
 [[package]]
 name = "swc_xml_parser"
-version = "0.5.4"
+version = "0.6.0"
 dependencies = [
  "serde",
  "serde_json",
@@ -4394,7 +4394,7 @@ dependencies = [
 
 [[package]]
 name = "swc_xml_visit"
-version = "0.4.17"
+version = "0.5.0"
 dependencies = [
  "serde",
  "swc_atoms",

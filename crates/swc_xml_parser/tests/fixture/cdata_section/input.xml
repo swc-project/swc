@@ -1,0 +1,25 @@
+<root>
+    <description>An example of escaped CENDs</description>
+    <!-- This text contains a CEND ]]> -->
+    <!-- In this first case we put the ]] at the end of the first CDATA block
+         and the > in the second CDATA block -->
+    <exampleOfACDATA>
+    <![CDATA[
+    Since this is a CDATA section
+    I can use all sorts of reserved characters
+    but my document is still well formed!
+    ]]>
+    </exampleOfACDATA>
+    <p><![CDATA[<greeting>Hello, world!</greeting>]]></p>
+    <p><![CDATA[content]]></p>
+    <p><![CDATA[&amping]]></p>
+    <p><![CDATA[&amping ]]]></p>
+    <p><![CDATA[&amping]] ]]></p>
+    <p><![CDATA[<message>text</message>]]></p>
+    <p><![CDATA[</this is malformed!</malformed</malformed & worse>]]></p>
+    <p><![CDATA[1]]><![CDATA[2]]></p>
+    <p>
+        <![CDATA[data]]>  </p>
+    <p><![CDATA[bracket ]after]]></p>
+    <p><![CDATA[]]></p>
+</root>

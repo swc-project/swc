@@ -17,6 +17,9 @@
 - **(es/minifier)** Use unsafe option for arrow => method (#6521) ([9752b43](https://github.com/swc-project/swc/commit/9752b43f94313fe2902ad04e5b01b865e0180155))
 
 
+- **(es/minifier)** Don't convert a signed integer literal key to a numeric literal (#6529) ([81224b5](https://github.com/swc-project/swc/commit/81224b5d67a92c7154a870f07f28d9802be2106e))
+
+
 - **(html/parser)** Fix parsing of cdata (#6534) ([e3cbe7e](https://github.com/swc-project/swc/commit/e3cbe7e9a98149bfc05421a264d4e421fb543f7e))
 
 ### Features
@@ -27,6 +30,9 @@
 
 
 - **(es/parser)** Make error message helpful (#6535) ([cb15721](https://github.com/swc-project/swc/commit/cb157215d26e5acfe74f7592da011ab9d5206207))
+
+
+- **(xml/parser)** Parse cdata section (#6531) ([7f8c4e0](https://github.com/swc-project/swc/commit/7f8c4e04b246bef493a044f794ea1608f4550457))
 
 ### Performance
 

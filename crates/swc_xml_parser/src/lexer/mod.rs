@@ -111,6 +111,12 @@ struct ProcessingInstruction {
     data: String,
 }
 
+#[derive(PartialEq, Eq, Clone, Debug)]
+struct Cdata {
+    data: String,
+    raw: String,
+}
+
 pub(crate) type LexResult<T> = Result<T, ErrorKind>;
 
 pub struct Lexer<I>
@@ -128,11 +134,11 @@ where
     additional_allowed_character: Option<char>,
     pending_tokens: VecDeque<TokenAndSpan>,
     doctype_raw: Option<String>,
-    cdata_raw: Option<String>,
     current_doctype_token: Option<Doctype>,
     current_comment_token: Option<Comment>,
     current_processing_instruction: Option<ProcessingInstruction>,
     current_tag_token: Option<Tag>,
+    current_cdata_token: Option<Cdata>,
     attribute_start_position: Option<BytePos>,
 }
 
@@ -155,11 +161,11 @@ where
             additional_allowed_character: None,
             pending_tokens: VecDeque::new(),
             doctype_raw: None,
-            cdata_raw: None,
             current_doctype_token: None,
             current_comment_token: None,
             current_processing_instruction: None,
             current_tag_token: None,
+            current_cdata_token: None,
             attribute_start_position: None,
         };
 
@@ -864,6 +870,34 @@ where
         });
     }
 
+    fn create_cdata_token(&mut self) {
+        let data = String::new();
+        let raw = String::with_capacity(12);
+
+        self.current_cdata_token = Some(Cdata { data, raw });
+    }
+
+    fn append_to_cdata_token(&mut self, c: Option<char>, raw_c: Option<char>) {
+        if let Some(Cdata { data, raw }) = &mut self.current_cdata_token {
+            if let Some(c) = c {
+                data.push(c);
+            }
+
+            if let Some(raw_c) = raw_c {
+                raw.push(raw_c);
+            }
+        }
+    }
+
+    fn emit_cdata_token(&mut self) {
+        let cdata = self.current_cdata_token.take().unwrap();
+
+        self.emit_token(Token::Cdata {
+            data: cdata.data.into(),
+            raw: cdata.raw.into(),
+        });
+    }
+
     fn handle_raw_and_emit_character_token(&mut self, c: char) {
         let is_cr = c == '\r';
 
@@ -1400,17 +1434,16 @@ where
                                     Some(t @ 'T') => match self.consume_next_char() {
                                         Some(a2 @ 'A') => match self.consume_next_char() {
                                             Some('[') => {
-                                                let mut data = String::with_capacity(7);
-
-                                                data.push('[');
-                                                data.push(c);
-                                                data.push(d);
-                                                data.push(a1);
-                                                data.push(t);
-                                                data.push(a2);
-                                                data.push('[');
-
-                                                self.cdata_raw = Some(data);
+                                                self.create_cdata_token();
+                                                self.append_to_cdata_token(None, Some('<'));
+                                                self.append_to_cdata_token(None, Some('!'));
+                                                self.append_to_cdata_token(None, Some('['));
+                                                self.append_to_cdata_token(None, Some(c));
+                                                self.append_to_cdata_token(None, Some(d));
+                                                self.append_to_cdata_token(None, Some(a1));
+                                                self.append_to_cdata_token(None, Some(t));
+                                                self.append_to_cdata_token(None, Some(a2));
+                                                self.append_to_cdata_token(None, Some('['));
                                                 self.state = State::Cdata;
                                             }
                                             _ => {
@@ -1734,11 +1767,11 @@ where
                         self.reconsume_in_state(State::Data);
                     }
                     // Anything else
-                    // Emit the current input character as character token. Stay in the current
+                    // Append the current input character to the cdata dta. Stay in the current
                     // state.
                     Some(c) => {
                         self.validate_input_stream_character(c);
-                        self.handle_raw_and_emit_character_token(c);
+                        self.append_to_cdata_token(Some(c), Some(c));
                     }
                 }
             }
@@ -1760,9 +1793,9 @@ where
                     // Emit a U+005D RIGHT SQUARE BRACKET character token. Reconsume in the
                     // CDATA section state.
                     Some(c) => {
-                        self.emit_character_token((']', ']'));
-                        self.emit_character_token((c, c));
-                        self.reconsume_in_state(State::Cdata);
+                        self.append_to_cdata_token(Some(']'), Some(']'));
+                        self.append_to_cdata_token(Some(c), Some(c));
+                        self.state = State::Cdata;
                     }
                 }
             }
@@ -1772,13 +1805,17 @@ where
                     // U+003E GREATER-THAN SIGN (>)
                     // Switch to the data state.
                     Some('>') => {
+                        self.append_to_cdata_token(None, Some(']'));
+                        self.append_to_cdata_token(None, Some(']'));
+                        self.append_to_cdata_token(None, Some('>'));
+                        self.emit_cdata_token();
                         self.state = State::Data;
                     }
                     // U+005D RIGHT SQUARE BRACKET (])
                     // Emit the current input character as character token. Stay in the current
                     // state.
                     Some(c @ ']') => {
-                        self.emit_character_token((c, c));
+                        self.append_to_cdata_token(Some(c), Some(c));
                     }
                     // EOF
                     // Parse error. Reconsume the current input character in the data state.
@@ -1791,9 +1828,9 @@ where
                     // also emit the current input character as character token. Switch to the CDATA
                     // state.
                     Some(c) => {
-                        self.emit_character_token((']', ']'));
-                        self.emit_character_token((']', ']'));
-                        self.emit_character_token((c, c));
+                        self.append_to_cdata_token(Some(']'), Some(']'));
+                        self.append_to_cdata_token(Some(']'), Some(']'));
+                        self.append_to_cdata_token(Some(c), Some(c));
                         self.state = State::Cdata;
                     }
                 }
