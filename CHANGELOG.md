@@ -11,6 +11,9 @@
 - **(es/minifier)** Don't drop used variables from sequential inliner (#6520) ([b394f9f](https://github.com/swc-project/swc/commit/b394f9f1d3efd24fd55b4ac5efdbaee91b9d8021))
 
 
+- **(es/minifier)** Make sequential inliner respect resolution order (#6509) ([27ae59e](https://github.com/swc-project/swc/commit/27ae59e77bb8cb1f1d1dbbba3f8dec58359bc2ba))
+
+
 - **(html/parser)** Fix parsing of cdata (#6534) ([e3cbe7e](https://github.com/swc-project/swc/commit/e3cbe7e9a98149bfc05421a264d4e421fb543f7e))
 
 ### Features
