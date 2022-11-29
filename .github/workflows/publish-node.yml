@@ -88,6 +88,7 @@ jobs:
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian-aarch64
             build: >-
               set -e &&
+              export JEMALLOC_SYS_WITH_LG_PAGE=16 &&
               rustup target add aarch64-unknown-linux-gnu &&
               RUSTFLAGS='' cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --features plugin --target aarch64-unknown-linux-gnu &&
               cp ./bindings/target/aarch64-unknown-linux-gnu/release/swc . && chmod +x ./swc &&
@@ -111,6 +112,7 @@ jobs:
             downloadTarget: aarch64-unknown-linux-musl
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
             build: >-
+              export JEMALLOC_SYS_WITH_LG_PAGE=16 &&
               rustup toolchain install $(cat ./rust-toolchain) &&
               rustup target add aarch64-unknown-linux-musl &&
               RUSTFLAGS='-C target-feature=+crt-static -C link-arg=-lgcc' cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --features plugin --target aarch64-unknown-linux-musl &&
