@@ -1,6 +1,5 @@
 
-  x Unexpected token `.`. Expected this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string, regexp, `
-  | for template literal, (, or an identifier
+  x Expression expected
    ,-[$DIR/tests/typescript-errors/custom/issue-380/input.ts:2:1]
  2 |     componentDidMount() {
  3 |         import(../foo/bar)

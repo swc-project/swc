@@ -7,11 +7,29 @@
 
 - **(ci)** Fix publish action for binaries (#6517) ([2ac3201](https://github.com/swc-project/swc/commit/2ac32017bad112956a781b0d003782988655409c))
 
+
+- **(es/minifier)** Don't drop used variables from sequential inliner (#6520) ([b394f9f](https://github.com/swc-project/swc/commit/b394f9f1d3efd24fd55b4ac5efdbaee91b9d8021))
+
+
+- **(es/minifier)** Make sequential inliner respect resolution order (#6509) ([27ae59e](https://github.com/swc-project/swc/commit/27ae59e77bb8cb1f1d1dbbba3f8dec58359bc2ba))
+
+
+- **(es/minifier)** Use unsafe option for arrow => method (#6521) ([9752b43](https://github.com/swc-project/swc/commit/9752b43f94313fe2902ad04e5b01b865e0180155))
+
+
+- **(es/minifier)** Don't convert a signed integer literal key to a numeric literal (#6529) ([81224b5](https://github.com/swc-project/swc/commit/81224b5d67a92c7154a870f07f28d9802be2106e))
+
+
+- **(html/parser)** Fix parsing of cdata (#6534) ([e3cbe7e](https://github.com/swc-project/swc/commit/e3cbe7e9a98149bfc05421a264d4e421fb543f7e))
+
 ### Features
 
 
 
 - **(common)** Add contexts to the error messages (#6526) ([b8fe04f](https://github.com/swc-project/swc/commit/b8fe04f720d81f2d4ef0778cbb345f64b9ec1956))
+
+
+- **(es/parser)** Make error message helpful (#6535) ([cb15721](https://github.com/swc-project/swc/commit/cb157215d26e5acfe74f7592da011ab9d5206207))
 
 ### Performance
 

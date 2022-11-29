@@ -23041,10 +23041,10 @@
                                 e.preventDefault(), selectedEle = prevSelectedEle ? tiles[this.tilePosition(tiles, prevSelectedEle, this.enableRtl ? 1 : -1)] : tiles[this.enableRtl ? 0 : tiles.length - 1], this.keySelectionChanges(selectedEle);
                                 break;
                             case 38:
-                                e.preventDefault(), selectedEle = tiles[idx = prevSelectedEle ? this.tilePosition(tiles, prevSelectedEle, -this.columns) : 0] ? tiles[idx] : tiles[idx - this.columns], this.keySelectionChanges(selectedEle);
+                                e.preventDefault(), idx = prevSelectedEle ? this.tilePosition(tiles, prevSelectedEle, -this.columns) : 0, selectedEle = tiles[idx] ? tiles[idx] : tiles[idx - this.columns], this.keySelectionChanges(selectedEle);
                                 break;
                             case 40:
-                                e.preventDefault(), tiles[idx = prevSelectedEle ? this.tilePosition(tiles, prevSelectedEle, this.columns) : tiles.length - 1] || (idx %= tiles.length, idx += tiles[tiles.length - 1].parentElement.childElementCount), selectedEle = tiles[idx], this.keySelectionChanges(selectedEle);
+                                e.preventDefault(), idx = prevSelectedEle ? this.tilePosition(tiles, prevSelectedEle, this.columns) : tiles.length - 1, tiles[idx] || (idx %= tiles.length, idx += tiles[tiles.length - 1].parentElement.childElementCount), selectedEle = tiles[idx], this.keySelectionChanges(selectedEle);
                                 break;
                             case 13:
                                 if (e.preventDefault(), prevSelectedEle) {

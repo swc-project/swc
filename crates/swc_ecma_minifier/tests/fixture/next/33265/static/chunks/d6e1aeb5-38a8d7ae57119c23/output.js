@@ -10418,7 +10418,7 @@
                             var tkhd, index, id, mdhd;
                             return (tkhd = findBox_1(trak, [
                                 "tkhd"
-                            ])[0]) && (id = toUnsigned(tkhd[index = 0 === tkhd[0] ? 12 : 20] << 24 | tkhd[index + 1] << 16 | tkhd[index + 2] << 8 | tkhd[index + 3]), mdhd = findBox_1(trak, [
+                            ])[0]) && (index = 0 === tkhd[0] ? 12 : 20, id = toUnsigned(tkhd[index] << 24 | tkhd[index + 1] << 16 | tkhd[index + 2] << 8 | tkhd[index + 3]), mdhd = findBox_1(trak, [
                                 "mdia",
                                 "mdhd"
                             ])[0]) ? (index = 0 === mdhd[0] ? 12 : 20, result[id] = toUnsigned(mdhd[index] << 24 | mdhd[index + 1] << 16 | mdhd[index + 2] << 8 | mdhd[index + 3]), result) : null;
@@ -13053,7 +13053,7 @@
                         var syncPoint = null, lastDistance = null, partsAndSegments = getPartsAndSegments(playlist);
                         currentTime = currentTime || 0;
                         for(var i = 0; i < partsAndSegments.length; i++){
-                            var partAndSegment = partsAndSegments[playlist.endList || 0 === currentTime ? i : partsAndSegments.length - (i + 1)], segment = partAndSegment.segment, datetimeMapping = syncController.timelineToDatetimeMappings[segment.timeline];
+                            var index = playlist.endList || 0 === currentTime ? i : partsAndSegments.length - (i + 1), partAndSegment = partsAndSegments[index], segment = partAndSegment.segment, datetimeMapping = syncController.timelineToDatetimeMappings[segment.timeline];
                             if (datetimeMapping && segment.dateTimeObject) {
                                 var start = segment.dateTimeObject.getTime() / 1000 + datetimeMapping;
                                 if (segment.parts && "number" == typeof partAndSegment.partIndex) for(var z = 0; z < partAndSegment.partIndex; z++)start += segment.parts[z].duration;
@@ -13075,7 +13075,7 @@
                         var syncPoint = null, lastDistance = null;
                         currentTime = currentTime || 0;
                         for(var partsAndSegments = getPartsAndSegments(playlist), i = 0; i < partsAndSegments.length; i++){
-                            var partAndSegment = partsAndSegments[playlist.endList || 0 === currentTime ? i : partsAndSegments.length - (i + 1)], segment = partAndSegment.segment, start = partAndSegment.part && partAndSegment.part.start || segment && segment.start;
+                            var index = playlist.endList || 0 === currentTime ? i : partsAndSegments.length - (i + 1), partAndSegment = partsAndSegments[index], segment = partAndSegment.segment, start = partAndSegment.part && partAndSegment.part.start || segment && segment.start;
                             if (segment.timeline === currentTimeline && void 0 !== start) {
                                 var distance = Math.abs(currentTime - start);
                                 if (null !== lastDistance && lastDistance < distance) break;

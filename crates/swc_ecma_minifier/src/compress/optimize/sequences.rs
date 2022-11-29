@@ -1597,6 +1597,21 @@ where
                     return Ok(false);
                 }
 
+                // We can't merge into `[]` in some cases because `obj` is **resolved** before
+                // evaluating `[]`.
+                //
+                // See https://github.com/swc-project/swc/pull/6509
+
+                let obj_ids = idents_used_by_ignoring_nested(obj);
+                let a_ids = match a {
+                    Mergable::Var(a) => idents_used_by_ignoring_nested(&a.init),
+                    Mergable::Expr(a) => idents_used_by_ignoring_nested(&**a),
+                    Mergable::FnDecl(a) => idents_used_by_ignoring_nested(&**a),
+                };
+                if obj_ids.intersection(&a_ids).next().is_some() {
+                    return Ok(false);
+                }
+
                 trace_op!("seq: Try prop of member (computed)");
                 return self.merge_sequential_expr(a, &mut c.expr);
             }
@@ -2222,7 +2237,8 @@ where
                             if let Some(usage) = self.data.vars.get(&left_id.to_id()) {
                                 // We are eliminating one usage, so we use 1 instead of
                                 // 0
-                                if !$force_drop && usage.usage_count == 1 {
+                                if !$force_drop && usage.usage_count == 1 && usage.assign_count == 0
+                                {
                                     report_change!("sequences: Dropping inlined variable");
                                     a.name.take();
                                 }

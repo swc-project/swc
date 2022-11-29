@@ -1,6 +1,5 @@
 
-  x Unexpected token `if`. Expected this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string, regexp, `
-  | for template literal, (, or an identifier
+  x Expression expected
    ,-[$DIR/tests/typescript-errors/reserved-words/keywords/input.ts:1:1]
  1 | let a = if
    :         ^^
