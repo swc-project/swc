@@ -1,6 +1,5 @@
 
-  x Unexpected token `public`. Expected this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string, regexp,
-  | ` for template literal, (, or an identifier
+  x Expression expected
     ,-[$DIR/tests/errors/conflict_marker_trivia_2/input.ts:8:1]
   8 |       }
   9 | ,-> >>>>>>> A

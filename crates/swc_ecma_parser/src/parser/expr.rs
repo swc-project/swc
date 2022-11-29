@@ -495,12 +495,7 @@ impl<I: Tokens> Parser<I> {
             })));
         }
 
-        unexpected!(
-            self,
-            "this, import, async, function, [ for array literal, { for object literal, @ for \
-             decorator, function, class, null, true, false, number, bigint, string, regexp, ` for \
-             template literal, (, or an identifier"
-        )
+        syntax_error!(self, self.input.cur_span(), SyntaxError::TS1109)
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
@@ -751,9 +746,20 @@ impl<I: Tokens> Parser<I> {
         let start = cur_pos!(self);
 
         if eat!(self, "...") {
-            let spread = Some(span!(self, start));
+            let spread_span = span!(self, start);
+            let spread = Some(spread_span);
             self.include_in_expr(true)
                 .parse_assignment_expr()
+                .map_err(|err| {
+                    Error::new(
+                        err.span(),
+                        SyntaxError::WithLabel {
+                            inner: Box::new(err),
+                            span: spread_span,
+                            note: "An expression should follow '...'",
+                        },
+                    )
+                })
                 .map(|expr| ExprOrSpread { spread, expr })
         } else {
             self.parse_assignment_expr()
@@ -1911,7 +1917,18 @@ impl<I: Tokens> Parser<I> {
             })))
         } else {
             let has_star = eat!(self, '*');
-            let arg = self.parse_assignment_expr()?;
+            let err_span = span!(self, start);
+
+            let arg = self.parse_assignment_expr().map_err(|err| {
+                Error::new(
+                    err.span(),
+                    SyntaxError::WithLabel {
+                        inner: Box::new(err),
+                        span: err_span,
+                        note: "Tried to parse an argument of yield",
+                    },
+                )
+            })?;
 
             Ok(Box::new(Expr::Yield(YieldExpr {
                 span: span!(self, start),
