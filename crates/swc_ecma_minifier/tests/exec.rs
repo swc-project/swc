@@ -10374,3 +10374,23 @@ fn issue_6463_1() {
         "###,
     );
 }
+
+#[test]
+fn issue_6528() {
+    run_default_exec_test(
+        r###"
+        const foo = {
+            "+1": 1,
+            "2": 2,
+            "-3": 3,
+        }
+
+        console.log(foo[1]);
+        console.log(foo["+1"]);
+        console.log(foo["2"]);
+        console.log(foo[2]);
+        console.log(foo[-3]);
+        console.log(foo["-3"]);
+        "###,
+    )
+}
