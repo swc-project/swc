@@ -47,7 +47,7 @@
 - **(es/transforms)** Add tests about preserving top-level directives (#6518) ([5ff87af](https://github.com/swc-project/swc/commit/5ff87afa78e5bb56f2b03678577279256c18e4da))
 
 
-- **(ts/compat)** Migrate inline tests to fixture testing (#6475) ([cc4646a](https://github.com/swc-project/swc/commit/cc4646a4cc455c08680f7dedb344337f90f0c668))
+- **(ts/compat)** Migrate inline tests to fixture testing (#6475) ([cc4646a](https://github.com/swc-project/swc/commit/cc4646a4cc455c08680f7dedb344337f90f0c668))- **general**: Use correct extensions for fixture tests (#6539) ([7ee86d1](https://github.com/swc-project/swc/commit/7ee86d1d2579d861501a525cbc6ddd3669d4c25c))
 
 ## [1.3.20] - 2022-11-26
 
