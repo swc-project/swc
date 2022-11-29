@@ -151,7 +151,6 @@ where
     buf: Rc<RefCell<String>>,
     current_doctype_token: Option<Doctype>,
     current_comment_token: Option<Comment>,
-    doctype_raw: Option<String>,
     current_tag_token: Option<Tag>,
     attribute_start_position: Option<BytePos>,
     character_reference_code: Option<Vec<(u8, u32, Option<char>)>>,
@@ -177,9 +176,8 @@ where
             errors: vec![],
             last_start_tag_name: None,
             pending_tokens: VecDeque::with_capacity(16),
-            buf: Rc::new(RefCell::new(String::with_capacity(2))),
+            buf: Rc::new(RefCell::new(String::with_capacity(32))),
             current_doctype_token: None,
-            doctype_raw: None,
             current_comment_token: None,
             current_tag_token: None,
             attribute_start_position: None,
@@ -458,28 +456,23 @@ where
     }
 
     fn append_raw_to_doctype_token(&mut self, c: char) -> LexResult<()> {
+        let b = self.buf.clone();
+        let mut buf = b.borrow_mut();
+
         let is_cr = c == '\r';
 
         if is_cr {
-            self.with_buf(|l, buf| {
-                if let Some(doctype_raw) = &mut l.doctype_raw {
-                    buf.push(c);
+            buf.push(c);
 
-                    if l.input.cur() == Some('\n') {
-                        l.input.bump();
+            if self.input.cur() == Some('\n') {
+                self.input.bump();
 
-                        buf.push('\n');
-                    }
-
-                    doctype_raw.push_str(buf);
-                }
-
-                Ok(())
-            })
-        } else {
-            if let Some(doctype_raw) = &mut self.doctype_raw {
-                doctype_raw.push(c);
+                buf.push('\n');
             }
+
+            Ok(())
+        } else {
+            buf.push(c);
 
             Ok(())
         }
@@ -547,20 +540,18 @@ where
 
     fn emit_doctype_token(&mut self) {
         if let Some(current_doctype_token) = self.current_doctype_token.take() {
-            let raw = match self.doctype_raw.take() {
-                Some(raw) => raw,
-                _ => {
-                    unreachable!();
-                }
-            };
+            let b = self.buf.clone();
+            let mut buf = b.borrow_mut();
 
             let token = Token::Doctype {
                 name: current_doctype_token.name.map(JsWord::from),
                 force_quirks: current_doctype_token.force_quirks,
                 public_id: current_doctype_token.public_id.map(JsWord::from),
                 system_id: current_doctype_token.system_id.map(JsWord::from),
-                raw: Some(Atom::new(raw)),
+                raw: Some(Atom::new(buf.clone())),
             };
+
+            buf.clear();
 
             self.emit_token(token);
         }
@@ -2634,19 +2625,18 @@ where
                                             Some(e @ 'e' | e @ 'E') => {
                                                 self.state = State::Doctype;
 
-                                                let mut raw_keyword = String::with_capacity(9);
+                                                let b = self.buf.clone();
+                                                let mut buf = b.borrow_mut();
 
-                                                raw_keyword.push('<');
-                                                raw_keyword.push('!');
-                                                raw_keyword.push(d);
-                                                raw_keyword.push(o);
-                                                raw_keyword.push(c);
-                                                raw_keyword.push(t);
-                                                raw_keyword.push(y);
-                                                raw_keyword.push(p);
-                                                raw_keyword.push(e);
-
-                                                self.doctype_raw = Some(raw_keyword);
+                                                buf.push('<');
+                                                buf.push('!');
+                                                buf.push(d);
+                                                buf.push(o);
+                                                buf.push(c);
+                                                buf.push(t);
+                                                buf.push(y);
+                                                buf.push(p);
+                                                buf.push(e);
                                             }
                                             _ => {
                                                 anything_else(self);
@@ -3254,16 +3244,18 @@ where
                             "public" => {
                                 self.state = State::AfterDoctypePublicKeyword;
 
-                                if let Some(doctype_raw) = &mut self.doctype_raw {
-                                    doctype_raw.push_str(&first_six_chars);
-                                }
+                                let b = self.buf.clone();
+                                let mut buf = b.borrow_mut();
+
+                                buf.push_str(&first_six_chars);
                             }
                             "system" => {
                                 self.state = State::AfterDoctypeSystemKeyword;
 
-                                if let Some(doctype_raw) = &mut self.doctype_raw {
-                                    doctype_raw.push_str(&first_six_chars);
-                                }
+                                let b = self.buf.clone();
+                                let mut buf = b.borrow_mut();
+
+                                buf.push_str(&first_six_chars);
                             }
                             _ => {
                                 self.cur_pos = cur_pos;
