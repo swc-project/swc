@@ -361,50 +361,35 @@ where
 
     fn flush_code_points_consumed_as_character_reference(&mut self, raw: Option<String>) {
         if self.is_consumed_as_part_of_an_attribute() {
-            if let Some(Tag { attributes, .. }) = &mut self.current_tag_token {
-                if let Some(attribute) = attributes.last_mut() {
-                    // When the length of raw is more than the length of temporary buffer we emit a
-                    // raw character in the first character token
-                    let mut once_raw = raw;
-                    let mut once_emitted = false;
+            let b = self.buf.clone();
+            let mut buf = b.borrow_mut();
+            let b = self.sub_buf.clone();
+            let mut sub_buf = b.borrow_mut();
 
-                    for c in take(&mut self.temporary_buffer).chars() {
-                        if let Some(old_value) = &mut attribute.value {
-                            old_value.push(c);
+            // When the length of raw is more than the length of temporary buffer we emit a
+            // raw character in the first character token
+            let mut once_raw = raw;
+            let mut once_emitted = false;
+
+            for c in take(&mut self.temporary_buffer).chars() {
+                buf.push(c);
+
+                let raw = match once_raw {
+                    Some(_) => {
+                        once_emitted = true;
+                        once_raw.take()
+                    }
+                    _ => {
+                        if once_emitted {
+                            None
                         } else {
-                            let mut new_value = String::with_capacity(255);
-
-                            new_value.push(c);
-
-                            attribute.value = Some(new_value);
-                        }
-
-                        let raw = match once_raw {
-                            Some(_) => {
-                                once_emitted = true;
-                                once_raw.take()
-                            }
-                            _ => {
-                                if once_emitted {
-                                    None
-                                } else {
-                                    Some(String::from(c))
-                                }
-                            }
-                        };
-
-                        if let Some(raw) = raw {
-                            if let Some(raw_value) = &mut attribute.raw_value {
-                                raw_value.push_str(&raw);
-                            } else {
-                                let mut raw_new_value = String::with_capacity(255);
-
-                                raw_new_value.push_str(&raw);
-
-                                attribute.raw_value = Some(raw_new_value);
-                            }
+                            Some(String::from(c))
                         }
                     }
+                };
+
+                if let Some(raw) = raw {
+                    sub_buf.push_str(&raw);
                 }
             }
         } else {
@@ -617,47 +602,59 @@ where
     }
 
     fn append_value_to_attribute(&mut self, c: Option<char>, raw_c: Option<char>) {
-        if let Some(Tag { attributes, .. }) = &mut self.current_tag_token {
-            if let Some(attribute) = attributes.last_mut() {
-                if let Some(c) = c {
-                    if let Some(old_value) = &mut attribute.value {
-                        old_value.push(c);
-                    } else {
-                        let mut new_value = String::with_capacity(255);
+        let b = self.buf.clone();
+        let mut buf = b.borrow_mut();
+        let b = self.sub_buf.clone();
+        let mut sub_buf = b.borrow_mut();
 
-                        new_value.push(c);
+        let is_cr = raw_c == Some('\r');
 
-                        attribute.value = Some(new_value);
-                    }
-                }
+        if is_cr {
+            buf.push('\n');
+            sub_buf.push('\r');
 
-                if let Some(raw_c) = raw_c {
-                    // Quote for attribute was found, so we set empty value by default
-                    if attribute.value.is_none() {
-                        attribute.value = Some(String::with_capacity(255));
-                    }
+            if self.input.cur() == Some('\n') {
+                self.input.bump();
 
-                    if let Some(raw_value) = &mut attribute.raw_value {
-                        raw_value.push(raw_c);
-                    } else {
-                        let mut raw_new_value = String::with_capacity(255);
+                sub_buf.push('\n');
+            }
+        } else {
+            if let Some(c) = c {
+                buf.push(c);
+            }
 
-                        raw_new_value.push(raw_c);
-
-                        attribute.raw_value = Some(raw_new_value);
-                    }
-                }
+            if let Some(raw_c) = raw_c {
+                sub_buf.push(raw_c);
             }
         }
     }
 
-    fn update_attribute_span(&mut self) {
+    fn finish_attribute(&mut self) {
         if let Some(attribute_start_position) = self.attribute_start_position {
             if let Some(Tag {
                 ref mut attributes, ..
             }) = self.current_tag_token
             {
                 if let Some(last) = attributes.last_mut() {
+                    let b = self.buf.clone();
+                    let mut buf = b.borrow_mut();
+                    let b = self.sub_buf.clone();
+                    let mut sub_buf = b.borrow_mut();
+
+                    if !buf.is_empty() {
+                        last.value = Some(buf.clone());
+                    } else if !sub_buf.is_empty() {
+                        last.value = Some("".to_string());
+                    }
+
+                    buf.clear();
+
+                    if !sub_buf.is_empty() {
+                        last.raw_value = Some(sub_buf.clone());
+
+                        sub_buf.clear();
+                    }
+
                     last.span =
                         Span::new(attribute_start_position, self.cur_pos, Default::default());
                 }
@@ -803,18 +800,6 @@ where
         sub_buf.clear();
     }
 
-    fn with_buf<F, Ret>(&mut self, op: F) -> LexResult<Ret>
-    where
-        F: for<'any> FnOnce(&mut Lexer<I>, &mut String) -> LexResult<Ret>,
-    {
-        let b = self.buf.clone();
-        let mut buf = b.borrow_mut();
-
-        buf.clear();
-
-        op(self, &mut buf)
-    }
-
     #[inline(always)]
     fn emit_character_token(&mut self, value: char) -> LexResult<()> {
         self.emit_token(Token::Character {
@@ -827,38 +812,44 @@ where
 
     #[inline(always)]
     fn emit_character_token_with_raw(&mut self, value: (char, char)) -> LexResult<()> {
-        self.with_buf(|l, buf| {
-            buf.push(value.1);
+        let b = self.buf.clone();
+        let mut buf = b.borrow_mut();
 
-            l.emit_token(Token::Character {
-                value: value.0,
-                raw: Some(Raw::Atom(Atom::new(&**buf))),
-            });
+        buf.push(value.1);
 
-            Ok(())
-        })
+        self.emit_token(Token::Character {
+            value: value.0,
+            raw: Some(Raw::Atom(Atom::new(&**buf))),
+        });
+
+        buf.clear();
+
+        Ok(())
     }
 
     fn handle_raw_and_emit_character_token(&mut self, c: char) -> LexResult<()> {
         let is_cr = c == '\r';
 
         if is_cr {
-            self.with_buf(|l, buf| {
-                buf.push(c);
+            let b = self.buf.clone();
+            let mut buf = b.borrow_mut();
 
-                if l.input.cur() == Some('\n') {
-                    l.input.bump();
+            buf.push(c);
 
-                    buf.push('\n');
-                }
+            if self.input.cur() == Some('\n') {
+                self.input.bump();
 
-                l.emit_token(Token::Character {
-                    value: '\n',
-                    raw: Some(Raw::Atom(Atom::new(&**buf))),
-                });
+                buf.push('\n');
+            }
 
-                Ok(())
-            })
+            self.emit_token(Token::Character {
+                value: '\n',
+                raw: Some(Raw::Atom(Atom::new(&**buf))),
+            });
+
+            buf.clear();
+
+            Ok(())
         } else {
             self.emit_token(Token::Character {
                 value: c,
@@ -2185,12 +2176,12 @@ where
                     // EOF
                     // Reconsume in the after attribute name state.
                     Some(c) if is_spacy(c) => {
-                        self.update_attribute_span();
+                        self.finish_attribute();
                         self.skip_next_lf(c);
                         self.reconsume_in_state(State::AfterAttributeName);
                     }
                     Some('/' | '>') | None => {
-                        self.update_attribute_span();
+                        self.finish_attribute();
                         self.reconsume_in_state(State::AfterAttributeName);
                     }
                     // U+003D EQUALS SIGN (=)
@@ -2421,7 +2412,7 @@ where
                     // U+0020 SPACE
                     // Switch to the before attribute name state.
                     Some(c) if is_spacy(c) => {
-                        self.update_attribute_span();
+                        self.finish_attribute();
                         self.skip_next_lf(c);
                         self.state = State::BeforeAttributeName;
                     }
@@ -2435,7 +2426,7 @@ where
                     // U+003E GREATER-THAN SIGN (>)
                     // Switch to the data state. Emit the current tag token.
                     Some('>') => {
-                        self.update_attribute_span();
+                        self.finish_attribute();
                         self.state = State::Data;
                         self.emit_tag_token();
                     }
@@ -2462,7 +2453,7 @@ where
                     // EOF
                     // This is an eof-in-tag parse error. Emit an end-of-file token.
                     None => {
-                        self.update_attribute_span();
+                        self.finish_attribute();
                         self.emit_error(ErrorKind::EofInTag);
                         self.emit_token(Token::Eof);
 
@@ -2487,27 +2478,27 @@ where
                     // U+0020 SPACE
                     // Switch to the before attribute name state.
                     Some(c) if is_spacy(c) => {
-                        self.update_attribute_span();
+                        self.finish_attribute();
                         self.skip_next_lf(c);
                         self.state = State::BeforeAttributeName;
                     }
                     // U+002F SOLIDUS (/)
                     // Switch to the self-closing start tag state.
                     Some('/') => {
-                        self.update_attribute_span();
+                        self.finish_attribute();
                         self.state = State::SelfClosingStartTag;
                     }
                     // U+003E GREATER-THAN SIGN (>)
                     // Switch to the data state. Emit the current tag token.
                     Some('>') => {
-                        self.update_attribute_span();
+                        self.finish_attribute();
                         self.state = State::Data;
                         self.emit_tag_token();
                     }
                     // EOF
                     // This is an eof-in-tag parse error. Emit an end-of-file token.
                     None => {
-                        self.update_attribute_span();
+                        self.finish_attribute();
                         self.emit_error(ErrorKind::EofInTag);
                         self.emit_token(Token::Eof);
 
@@ -2517,7 +2508,7 @@ where
                     // This is a missing-whitespace-between-attributes parse error. Reconsume in
                     // the before attribute name state.
                     _ => {
-                        self.update_attribute_span();
+                        self.finish_attribute();
                         self.emit_error(ErrorKind::MissingWhitespaceBetweenAttributes);
                         self.reconsume_in_state(State::BeforeAttributeName);
                     }
