@@ -53,7 +53,7 @@ fn span(entry: PathBuf) {
     })
     .expect_err("failed to run test");
 
-    let ref_file = format!("{}.spans", dir.join(&file_name).display());
+    let ref_file = format!("{}.swc-stderr", dir.join(&file_name).display());
 
     content.compare_to_file(&ref_file).unwrap();
 }
