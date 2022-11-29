@@ -2,12 +2,6 @@
   x A switch block cannot have multiple defaults
    ,-[$DIR/tests/test262-parser/fail/fb130c395c6aafe7.js:1:1]
  1 | switch (c) { default: default: }
-   :                       ^^^^^^^
-   `----
-
-Error: 
-  > previous default case is declared at here
-   ,-[$DIR/tests/test262-parser/fail/fb130c395c6aafe7.js:1:1]
- 1 | switch (c) { default: default: }
-   :              ^^^^^^^
+   :              ^^^|^^^  ^^^^^^^
+   :                 `-- previous default case is declared at here
    `----

@@ -14,10 +14,10 @@
  10 | <![cdata[
     `----
 
-  x Cdata in html content
+  x Incorrectly opened comment
     ,-[$DIR/tests/recovery/comment/cdata-1/input.html:9:1]
   9 | <div>test</div>
  10 | <![cdata[
-    :         ^
+    :    ^
  11 | Within this Character Data block I can
     `----

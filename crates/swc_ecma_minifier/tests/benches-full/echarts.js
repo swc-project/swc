@@ -15339,7 +15339,7 @@
                     }
                     if (isArray(template)) {
                         var levelId = null == tick.level ? 0 : tick.level >= 0 ? tick.level : template.length + tick.level;
-                        template = template[levelId = Math.min(levelId, template.length - 1)];
+                        levelId = Math.min(levelId, template.length - 1), template = template[levelId];
                     }
                 }
                 return format(new Date(tick.value), template, isUTC, lang);
@@ -23629,7 +23629,7 @@
     function getSpecifiedVisual(value) {
         var thisOption = this.option, pieceList = thisOption.pieceList;
         if (thisOption.hasSpecialVisual) {
-            var piece = pieceList[VisualMapping.findPieceIndex(value, pieceList)];
+            var pieceIndex = VisualMapping.findPieceIndex(value, pieceList), piece = pieceList[pieceIndex];
             if (piece && piece.visual) return piece.visual[this.type];
         }
     }
@@ -27805,7 +27805,7 @@
         var result, axisList;
         each((result = [], axisList = [], ecModel.eachSeriesByType('boxplot', function(seriesModel) {
             var baseAxis = seriesModel.getBaseAxis(), idx = indexOf(axisList, baseAxis);
-            idx < 0 && (axisList[idx = axisList.length] = baseAxis, result[idx] = {
+            idx < 0 && (idx = axisList.length, axisList[idx] = baseAxis, result[idx] = {
                 axis: baseAxis,
                 seriesModels: []
             }), result[idx].seriesModels.push(seriesModel);
