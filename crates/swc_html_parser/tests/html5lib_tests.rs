@@ -701,7 +701,7 @@ fn html5lib_test_tree_construction(input: PathBuf) {
             let errors = errors.join("\n");
             let mut errors_snapshot_path = dir.clone();
 
-            errors_snapshot_path.push(file_stem.clone() + ".output.stderr");
+            errors_snapshot_path.push(file_stem.clone() + ".output.txt");
 
             fs::write(errors_snapshot_path, errors)
                 .expect("Something went wrong when writing to the file");
@@ -786,7 +786,7 @@ fn html5lib_test_tree_construction(input: PathBuf) {
 
         if !need_skip_tests {
             let errors = parser.take_errors();
-            let errors_path = input.with_extension("output.stderr");
+            let errors_path = input.with_extension("output.txt");
 
             let contents =
                 fs::read_to_string(errors_path).expect("Something went wrong reading the file");
