@@ -52,7 +52,7 @@ fn pass(input: PathBuf) {
 
 #[testing::fixture("tests/rules/fail/**/input.css")]
 fn fail(input: PathBuf) {
-    let stderr_path = input.parent().unwrap().join("output.stderr");
+    let stderr_path = input.parent().unwrap().join("output.swc-stderr");
     let config_path = input.parent().unwrap().join("config.json");
     let lint_config =
         serde_json::from_str::<LintConfig>(&fs::read_to_string(config_path).unwrap()).unwrap();

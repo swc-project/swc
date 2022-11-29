@@ -56,7 +56,7 @@ fn document_test(input: PathBuf, config: ParserConfig) {
 }
 
 fn document_recovery_test(input: PathBuf, config: ParserConfig) {
-    let stderr_path = input.parent().unwrap().join("output.stderr");
+    let stderr_path = input.parent().unwrap().join("output.swc-stderr");
     let mut recovered = false;
 
     let stderr = testing::run_test2(false, |cm, handler| {

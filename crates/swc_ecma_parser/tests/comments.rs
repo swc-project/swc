@@ -16,7 +16,7 @@ fn test(input: PathBuf) {
     let ext = input.extension().unwrap();
     let ext = ext.to_string_lossy();
 
-    let output_file = PathBuf::from(format!("{}.stderr", input.display()));
+    let output_file = PathBuf::from(format!("{}.swc-stderr", input.display()));
 
     let output = Tester::new()
         .print_errors(|cm, handler| -> Result<(), _> {
