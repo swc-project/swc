@@ -1,0 +1,8 @@
+
+  x Abrupt closing of empty comment
+   ,-[$DIR/tests/recovery/comments/bad-37/input.xml:2:1]
+ 2 | <root>
+ 3 |     <!-->
+   :         ^
+ 4 | </root>
+   `----

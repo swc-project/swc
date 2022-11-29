@@ -1,0 +1,46 @@
+
+  x Document
+   ,-[$DIR/tests/recovery/pi/bad-pi-12/input.xml:1:1]
+ 1 | ,-> <root>
+ 2 | `->     <?
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/pi/bad-pi-12/input.xml:1:1]
+ 1 | <root>
+   : ^^^^^^
+ 2 |     <?
+   `----
+
+  x Element
+   ,-[$DIR/tests/recovery/pi/bad-pi-12/input.xml:1:1]
+ 1 | <root>
+   : ^^^^^^
+ 2 |     <?
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/pi/bad-pi-12/input.xml:1:1]
+ 1 | ,-> <root>
+ 2 | `->     <?
+   `----
+
+  x Text
+   ,-[$DIR/tests/recovery/pi/bad-pi-12/input.xml:1:1]
+ 1 | ,-> <root>
+ 2 | `->     <?
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/pi/bad-pi-12/input.xml:1:1]
+ 1 | <root>
+ 2 |     <?
+   :     ^^
+   `----
+
+  x ProcessingInstruction
+   ,-[$DIR/tests/recovery/pi/bad-pi-12/input.xml:1:1]
+ 1 | <root>
+ 2 |     <?
+   :     ^^
+   `----
