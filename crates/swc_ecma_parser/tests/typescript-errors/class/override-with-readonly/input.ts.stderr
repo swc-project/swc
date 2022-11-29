@@ -1,6 +1,8 @@
 
   x 'override' modifier must precede 'readonly' modifier.
-   ,-[$DIR/tests/typescript-errors/class/override-with-readonly/input.ts:2:3]
- 2 | readonly override size = 5
-   :          ^^^^^^^^
+   ,-[$DIR/tests/typescript-errors/class/override-with-readonly/input.ts:1:1]
+ 1 | class C {
+ 2 |   readonly override size = 5
+   :            ^^^^^^^^
+ 3 | }
    `----

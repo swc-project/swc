@@ -16,24 +16,28 @@
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.6.html:1:1]
  1 | <div>Hello</div>
    : ^^^^^^^^^^^^^^^^
+ 2 | <script>
    `----
 
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.6.html:1:1]
  1 | <div>Hello</div>
    : ^^^^^^^^^^^^^^^^
+ 2 | <script>
    `----
 
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.6.html:1:1]
  1 | <div>Hello</div>
    :      ^^^^^
+ 2 | <script>
    `----
 
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.6.html:1:1]
  1 | <div>Hello</div>
    :      ^^^^^
+ 2 | <script>
    `----
 
   x Child
@@ -41,6 +45,7 @@
  1 | <div>Hello</div>
    :                 ^
  2 | <script>
+ 3 | console.log("FOO<span>BAR</span>BAZ");
    `----
 
   x Text
@@ -48,70 +53,85 @@
  1 | <div>Hello</div>
    :                 ^
  2 | <script>
+ 3 | console.log("FOO<span>BAR</span>BAZ");
    `----
 
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.6.html:2:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.6.html:1:1]
+ 1 |     <div>Hello</div>
  2 | ,-> <script>
  3 | |   console.log("FOO<span>BAR</span>BAZ");
  4 | `-> </script>
+ 5 |     <div>Bye</div>
    `----
 
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.6.html:2:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.6.html:1:1]
+ 1 |     <div>Hello</div>
  2 | ,-> <script>
  3 | |   console.log("FOO<span>BAR</span>BAZ");
  4 | `-> </script>
+ 5 |     <div>Bye</div>
    `----
 
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.6.html:2:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.6.html:1:1]
+ 1 |     <div>Hello</div>
  2 | ,-> <script>
  3 | `-> console.log("FOO<span>BAR</span>BAZ");
  4 |     </script>
+ 5 |     <div>Bye</div>
    `----
 
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.6.html:2:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.6.html:1:1]
+ 1 |     <div>Hello</div>
  2 | ,-> <script>
  3 | `-> console.log("FOO<span>BAR</span>BAZ");
  4 |     </script>
+ 5 |     <div>Bye</div>
    `----
 
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.6.html:4:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.6.html:3:1]
+ 3 | console.log("FOO<span>BAR</span>BAZ");
  4 | </script>
    :          ^
  5 | <div>Bye</div>
    `----
 
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.6.html:4:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.6.html:3:1]
+ 3 | console.log("FOO<span>BAR</span>BAZ");
  4 | </script>
    :          ^
  5 | <div>Bye</div>
    `----
 
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.6.html:5:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.6.html:4:1]
+ 4 | </script>
  5 | <div>Bye</div>
    : ^^^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.6.html:5:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.6.html:4:1]
+ 4 | </script>
  5 | <div>Bye</div>
    : ^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.6.html:5:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.6.html:4:1]
+ 4 | </script>
  5 | <div>Bye</div>
    :      ^^^
    `----
 
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.6.html:5:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.6.html:4:1]
+ 4 | </script>
  5 | <div>Bye</div>
    :      ^^^
    `----

@@ -16,16 +16,19 @@
    ,-[$DIR/tests/fixture/element/p-1/input.html:1:1]
  1 | <!DOCTYPE html>
    : ^^^^^^^^^^^^^^^
+ 2 | <html>
    `----
 
   x DocumentType
    ,-[$DIR/tests/fixture/element/p-1/input.html:1:1]
  1 | <!DOCTYPE html>
    : ^^^^^^^^^^^^^^^
+ 2 | <html>
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/p-1/input.html:2:1]
+   ,-[$DIR/tests/fixture/element/p-1/input.html:1:1]
+ 1 |     <!DOCTYPE html>
  2 | ,-> <html>
  3 | |   <body>
  4 | |   
@@ -37,7 +40,8 @@
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/element/p-1/input.html:2:1]
+   ,-[$DIR/tests/fixture/element/p-1/input.html:1:1]
+ 1 |     <!DOCTYPE html>
  2 | ,-> <html>
  3 | |   <body>
  4 | |   
@@ -53,7 +57,8 @@
   x Element
 
   x Child
-   ,-[$DIR/tests/fixture/element/p-1/input.html:3:1]
+   ,-[$DIR/tests/fixture/element/p-1/input.html:2:1]
+ 2 |     <html>
  3 | ,-> <body>
  4 | |   
  5 | |   <p>This is a paragraph.</p>
@@ -64,7 +69,8 @@
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/element/p-1/input.html:3:1]
+   ,-[$DIR/tests/fixture/element/p-1/input.html:2:1]
+ 2 |     <html>
  3 | ,-> <body>
  4 | |   
  5 | |   <p>This is a paragraph.</p>
@@ -75,83 +81,102 @@
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/p-1/input.html:3:1]
+   ,-[$DIR/tests/fixture/element/p-1/input.html:2:1]
+ 2 |     <html>
  3 | ,-> <body>
  4 | `-> 
  5 |     <p>This is a paragraph.</p>
+ 6 |     <p>This is another paragraph.</p>
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/element/p-1/input.html:3:1]
+   ,-[$DIR/tests/fixture/element/p-1/input.html:2:1]
+ 2 |     <html>
  3 | ,-> <body>
  4 | `-> 
  5 |     <p>This is a paragraph.</p>
+ 6 |     <p>This is another paragraph.</p>
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/p-1/input.html:5:1]
+   ,-[$DIR/tests/fixture/element/p-1/input.html:4:1]
+ 4 | 
  5 | <p>This is a paragraph.</p>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 6 | <p>This is another paragraph.</p>
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/element/p-1/input.html:5:1]
+   ,-[$DIR/tests/fixture/element/p-1/input.html:4:1]
+ 4 | 
  5 | <p>This is a paragraph.</p>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 6 | <p>This is another paragraph.</p>
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/p-1/input.html:5:1]
+   ,-[$DIR/tests/fixture/element/p-1/input.html:4:1]
+ 4 | 
  5 | <p>This is a paragraph.</p>
    :    ^^^^^^^^^^^^^^^^^^^^
+ 6 | <p>This is another paragraph.</p>
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/element/p-1/input.html:5:1]
+   ,-[$DIR/tests/fixture/element/p-1/input.html:4:1]
+ 4 | 
  5 | <p>This is a paragraph.</p>
    :    ^^^^^^^^^^^^^^^^^^^^
+ 6 | <p>This is another paragraph.</p>
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/p-1/input.html:5:1]
+   ,-[$DIR/tests/fixture/element/p-1/input.html:4:1]
+ 4 | 
  5 | <p>This is a paragraph.</p>
    :                            ^
  6 | <p>This is another paragraph.</p>
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/element/p-1/input.html:5:1]
+   ,-[$DIR/tests/fixture/element/p-1/input.html:4:1]
+ 4 | 
  5 | <p>This is a paragraph.</p>
    :                            ^
  6 | <p>This is another paragraph.</p>
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/p-1/input.html:6:1]
+   ,-[$DIR/tests/fixture/element/p-1/input.html:5:1]
+ 5 | <p>This is a paragraph.</p>
  6 | <p>This is another paragraph.</p>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/element/p-1/input.html:6:1]
+   ,-[$DIR/tests/fixture/element/p-1/input.html:5:1]
+ 5 | <p>This is a paragraph.</p>
  6 | <p>This is another paragraph.</p>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/p-1/input.html:6:1]
+   ,-[$DIR/tests/fixture/element/p-1/input.html:5:1]
+ 5 | <p>This is a paragraph.</p>
  6 | <p>This is another paragraph.</p>
    :    ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/element/p-1/input.html:6:1]
+   ,-[$DIR/tests/fixture/element/p-1/input.html:5:1]
+ 5 | <p>This is a paragraph.</p>
  6 | <p>This is another paragraph.</p>
    :    ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/element/p-1/input.html:6:1]
+   ,-[$DIR/tests/fixture/element/p-1/input.html:5:1]
+ 5 |     <p>This is a paragraph.</p>
  6 | ,-> <p>This is another paragraph.</p>
  7 | |   
  8 | |   </body>
@@ -159,7 +184,8 @@
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/element/p-1/input.html:6:1]
+   ,-[$DIR/tests/fixture/element/p-1/input.html:5:1]
+ 5 |     <p>This is a paragraph.</p>
  6 | ,-> <p>This is another paragraph.</p>
  7 | |   
  8 | |   </body>

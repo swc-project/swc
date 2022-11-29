@@ -7,6 +7,12 @@
 
 - **(ci)** Fix publish action for binaries (#6517) ([2ac3201](https://github.com/swc-project/swc/commit/2ac32017bad112956a781b0d003782988655409c))
 
+### Features
+
+
+
+- **(common)** Add contexts to the error messages (#6526) ([b8fe04f](https://github.com/swc-project/swc/commit/b8fe04f720d81f2d4ef0778cbb345f64b9ec1956))
+
 ### Performance
 
 

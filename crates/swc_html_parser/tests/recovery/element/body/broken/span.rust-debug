@@ -15,16 +15,19 @@
    ,-[$DIR/tests/recovery/element/body/broken/input.html:1:1]
  1 | <!DOCTYPE HTML>
    : ^^^^^^^^^^^^^^^
+ 2 | <html>
    `----
 
   x DocumentType
    ,-[$DIR/tests/recovery/element/body/broken/input.html:1:1]
  1 | <!DOCTYPE HTML>
    : ^^^^^^^^^^^^^^^
+ 2 | <html>
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/body/broken/input.html:2:1]
+   ,-[$DIR/tests/recovery/element/body/broken/input.html:1:1]
+ 1 |     <!DOCTYPE HTML>
  2 | ,-> <html>
  3 | |   <head>
  4 | |       <title>Test</title></head>
@@ -35,7 +38,8 @@
    `----
 
   x Element
-   ,-[$DIR/tests/recovery/element/body/broken/input.html:2:1]
+   ,-[$DIR/tests/recovery/element/body/broken/input.html:1:1]
+ 1 |     <!DOCTYPE HTML>
  2 | ,-> <html>
  3 | |   <head>
  4 | |       <title>Test</title></head>
@@ -46,75 +50,98 @@
    `----
 
   x Attribute
-   ,-[$DIR/tests/recovery/element/body/broken/input.html:6:1]
+   ,-[$DIR/tests/recovery/element/body/broken/input.html:5:1]
+ 5 | <body>
  6 | <html test="test">
    :       ^^^^^^^^^^^
+ 7 | </body>
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/body/broken/input.html:3:1]
+   ,-[$DIR/tests/recovery/element/body/broken/input.html:2:1]
+ 2 |     <html>
  3 | ,-> <head>
  4 | `->     <title>Test</title></head>
+ 5 |     <body>
    `----
 
   x Element
-   ,-[$DIR/tests/recovery/element/body/broken/input.html:3:1]
+   ,-[$DIR/tests/recovery/element/body/broken/input.html:2:1]
+ 2 |     <html>
  3 | ,-> <head>
  4 | `->     <title>Test</title></head>
+ 5 |     <body>
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/body/broken/input.html:3:1]
+   ,-[$DIR/tests/recovery/element/body/broken/input.html:2:1]
+ 2 |     <html>
  3 | ,-> <head>
  4 | `->     <title>Test</title></head>
+ 5 |     <body>
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/element/body/broken/input.html:3:1]
+   ,-[$DIR/tests/recovery/element/body/broken/input.html:2:1]
+ 2 |     <html>
  3 | ,-> <head>
  4 | `->     <title>Test</title></head>
+ 5 |     <body>
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/body/broken/input.html:4:5]
- 4 | <title>Test</title></head>
-   : ^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x Element
-   ,-[$DIR/tests/recovery/element/body/broken/input.html:4:5]
- 4 | <title>Test</title></head>
-   : ^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x Child
-   ,-[$DIR/tests/recovery/element/body/broken/input.html:4:5]
- 4 | <title>Test</title></head>
-   :        ^^^^
-   `----
-
-  x Text
-   ,-[$DIR/tests/recovery/element/body/broken/input.html:4:5]
- 4 | <title>Test</title></head>
-   :        ^^^^
-   `----
-
-  x Child
-   ,-[$DIR/tests/recovery/element/body/broken/input.html:4:5]
- 4 | <title>Test</title></head>
-   :                           ^
+   ,-[$DIR/tests/recovery/element/body/broken/input.html:3:1]
+ 3 | <head>
+ 4 |     <title>Test</title></head>
+   :     ^^^^^^^^^^^^^^^^^^^
  5 | <body>
    `----
 
-  x Text
-   ,-[$DIR/tests/recovery/element/body/broken/input.html:4:5]
- 4 | <title>Test</title></head>
-   :                           ^
+  x Element
+   ,-[$DIR/tests/recovery/element/body/broken/input.html:3:1]
+ 3 | <head>
+ 4 |     <title>Test</title></head>
+   :     ^^^^^^^^^^^^^^^^^^^
  5 | <body>
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/body/broken/input.html:5:1]
+   ,-[$DIR/tests/recovery/element/body/broken/input.html:3:1]
+ 3 | <head>
+ 4 |     <title>Test</title></head>
+   :            ^^^^
+ 5 | <body>
+   `----
+
+  x Text
+   ,-[$DIR/tests/recovery/element/body/broken/input.html:3:1]
+ 3 | <head>
+ 4 |     <title>Test</title></head>
+   :            ^^^^
+ 5 | <body>
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/body/broken/input.html:3:1]
+ 3 | <head>
+ 4 |     <title>Test</title></head>
+   :                               ^
+ 5 | <body>
+ 6 | <html test="test">
+   `----
+
+  x Text
+   ,-[$DIR/tests/recovery/element/body/broken/input.html:3:1]
+ 3 | <head>
+ 4 |     <title>Test</title></head>
+   :                               ^
+ 5 | <body>
+ 6 | <html test="test">
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/body/broken/input.html:4:1]
+ 4 |         <title>Test</title></head>
  5 | ,-> <body>
  6 | |   <html test="test">
  7 | |   </body>
@@ -122,7 +149,8 @@
    `----
 
   x Element
-   ,-[$DIR/tests/recovery/element/body/broken/input.html:5:1]
+   ,-[$DIR/tests/recovery/element/body/broken/input.html:4:1]
+ 4 |         <title>Test</title></head>
  5 | ,-> <body>
  6 | |   <html test="test">
  7 | |   </body>
@@ -130,7 +158,8 @@
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/body/broken/input.html:5:1]
+   ,-[$DIR/tests/recovery/element/body/broken/input.html:4:1]
+ 4 |         <title>Test</title></head>
  5 | ,-> <body>
  6 | |   <html test="test">
  7 | |   </body>
@@ -138,7 +167,8 @@
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/element/body/broken/input.html:5:1]
+   ,-[$DIR/tests/recovery/element/body/broken/input.html:4:1]
+ 4 |         <title>Test</title></head>
  5 | ,-> <body>
  6 | |   <html test="test">
  7 | |   </body>

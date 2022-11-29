@@ -24,54 +24,63 @@
    ,-[$DIR/tests/fixture/vercel/001/input.css:1:1]
  1 | :nth-child(4n) {
    : ^^^^^^^^^^^^^^
+ 2 |     margin-right: 0;
    `----
 
   x ComplexSelector
    ,-[$DIR/tests/fixture/vercel/001/input.css:1:1]
  1 | :nth-child(4n) {
    : ^^^^^^^^^^^^^^
+ 2 |     margin-right: 0;
    `----
 
   x CompoundSelector
    ,-[$DIR/tests/fixture/vercel/001/input.css:1:1]
  1 | :nth-child(4n) {
    : ^^^^^^^^^^^^^^
+ 2 |     margin-right: 0;
    `----
 
   x SubclassSelector
    ,-[$DIR/tests/fixture/vercel/001/input.css:1:1]
  1 | :nth-child(4n) {
    : ^^^^^^^^^^^^^^
+ 2 |     margin-right: 0;
    `----
 
   x PseudoClassSelector
    ,-[$DIR/tests/fixture/vercel/001/input.css:1:1]
  1 | :nth-child(4n) {
    : ^^^^^^^^^^^^^^
+ 2 |     margin-right: 0;
    `----
 
   x Ident
    ,-[$DIR/tests/fixture/vercel/001/input.css:1:1]
  1 | :nth-child(4n) {
    :  ^^^^^^^^^
+ 2 |     margin-right: 0;
    `----
 
   x PseudoClassSelectorChildren
    ,-[$DIR/tests/fixture/vercel/001/input.css:1:1]
  1 | :nth-child(4n) {
    :            ^^
+ 2 |     margin-right: 0;
    `----
 
   x AnPlusB
    ,-[$DIR/tests/fixture/vercel/001/input.css:1:1]
  1 | :nth-child(4n) {
    :            ^^
+ 2 |     margin-right: 0;
    `----
 
   x AnPlusBNotation
    ,-[$DIR/tests/fixture/vercel/001/input.css:1:1]
  1 | :nth-child(4n) {
    :            ^^
+ 2 |     margin-right: 0;
    `----
 
   x SimpleBlock
@@ -85,46 +94,61 @@
    ,-[$DIR/tests/fixture/vercel/001/input.css:1:1]
  1 | :nth-child(4n) {
    :                ^
+ 2 |     margin-right: 0;
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/vercel/001/input.css:2:5]
- 2 | margin-right: 0;
-   : ^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/vercel/001/input.css:1:1]
+ 1 | :nth-child(4n) {
+ 2 |     margin-right: 0;
+   :     ^^^^^^^^^^^^^^^
+ 3 | }
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/vercel/001/input.css:2:5]
- 2 | margin-right: 0;
-   : ^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/vercel/001/input.css:1:1]
+ 1 | :nth-child(4n) {
+ 2 |     margin-right: 0;
+   :     ^^^^^^^^^^^^^^^
+ 3 | }
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/vercel/001/input.css:2:5]
- 2 | margin-right: 0;
-   : ^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/vercel/001/input.css:1:1]
+ 1 | :nth-child(4n) {
+ 2 |     margin-right: 0;
+   :     ^^^^^^^^^^^^^^^
+ 3 | }
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/vercel/001/input.css:2:5]
- 2 | margin-right: 0;
-   : ^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/vercel/001/input.css:1:1]
+ 1 | :nth-child(4n) {
+ 2 |     margin-right: 0;
+   :     ^^^^^^^^^^^^
+ 3 | }
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/vercel/001/input.css:2:5]
- 2 | margin-right: 0;
-   : ^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/vercel/001/input.css:1:1]
+ 1 | :nth-child(4n) {
+ 2 |     margin-right: 0;
+   :     ^^^^^^^^^^^^
+ 3 | }
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/vercel/001/input.css:2:5]
- 2 | margin-right: 0;
-   :               ^
+   ,-[$DIR/tests/fixture/vercel/001/input.css:1:1]
+ 1 | :nth-child(4n) {
+ 2 |     margin-right: 0;
+   :                   ^
+ 3 | }
    `----
 
   x Integer
-   ,-[$DIR/tests/fixture/vercel/001/input.css:2:5]
- 2 | margin-right: 0;
-   :               ^
+   ,-[$DIR/tests/fixture/vercel/001/input.css:1:1]
+ 1 | :nth-child(4n) {
+ 2 |     margin-right: 0;
+   :                   ^
+ 3 | }
    `----

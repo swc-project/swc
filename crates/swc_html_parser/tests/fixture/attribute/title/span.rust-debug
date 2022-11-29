@@ -17,16 +17,19 @@
    ,-[$DIR/tests/fixture/attribute/title/input.html:1:1]
  1 | <!DOCTYPE html>
    : ^^^^^^^^^^^^^^^
+ 2 | <html>
    `----
 
   x DocumentType
    ,-[$DIR/tests/fixture/attribute/title/input.html:1:1]
  1 | <!DOCTYPE html>
    : ^^^^^^^^^^^^^^^
+ 2 | <html>
    `----
 
   x Child
-    ,-[$DIR/tests/fixture/attribute/title/input.html:2:1]
+    ,-[$DIR/tests/fixture/attribute/title/input.html:1:1]
+  1 |     <!DOCTYPE html>
   2 | ,-> <html>
   3 | |   <body>
   4 | |   
@@ -39,7 +42,8 @@
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/attribute/title/input.html:2:1]
+    ,-[$DIR/tests/fixture/attribute/title/input.html:1:1]
+  1 |     <!DOCTYPE html>
   2 | ,-> <html>
   3 | |   <body>
   4 | |   
@@ -56,7 +60,8 @@
   x Element
 
   x Child
-    ,-[$DIR/tests/fixture/attribute/title/input.html:3:1]
+    ,-[$DIR/tests/fixture/attribute/title/input.html:2:1]
+  2 |     <html>
   3 | ,-> <body>
   4 | |   
   5 | |   <h2 title="I'm a header">The title Attribute</h2>
@@ -68,7 +73,8 @@
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/attribute/title/input.html:3:1]
+    ,-[$DIR/tests/fixture/attribute/title/input.html:2:1]
+  2 |     <html>
   3 | ,-> <body>
   4 | |   
   5 | |   <h2 title="I'm a header">The title Attribute</h2>
@@ -80,95 +86,110 @@
     `----
 
   x Child
-   ,-[$DIR/tests/fixture/attribute/title/input.html:3:1]
+   ,-[$DIR/tests/fixture/attribute/title/input.html:2:1]
+ 2 |     <html>
  3 | ,-> <body>
  4 | `-> 
  5 |     <h2 title="I'm a header">The title Attribute</h2>
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/attribute/title/input.html:3:1]
+   ,-[$DIR/tests/fixture/attribute/title/input.html:2:1]
+ 2 |     <html>
  3 | ,-> <body>
  4 | `-> 
  5 |     <h2 title="I'm a header">The title Attribute</h2>
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/attribute/title/input.html:5:1]
+   ,-[$DIR/tests/fixture/attribute/title/input.html:4:1]
+ 4 | 
  5 | <h2 title="I'm a header">The title Attribute</h2>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/attribute/title/input.html:5:1]
+   ,-[$DIR/tests/fixture/attribute/title/input.html:4:1]
+ 4 | 
  5 | <h2 title="I'm a header">The title Attribute</h2>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/attribute/title/input.html:5:1]
+   ,-[$DIR/tests/fixture/attribute/title/input.html:4:1]
+ 4 | 
  5 | <h2 title="I'm a header">The title Attribute</h2>
    :     ^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/attribute/title/input.html:5:1]
+   ,-[$DIR/tests/fixture/attribute/title/input.html:4:1]
+ 4 | 
  5 | <h2 title="I'm a header">The title Attribute</h2>
    :                          ^^^^^^^^^^^^^^^^^^^
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/attribute/title/input.html:5:1]
+   ,-[$DIR/tests/fixture/attribute/title/input.html:4:1]
+ 4 | 
  5 | <h2 title="I'm a header">The title Attribute</h2>
    :                          ^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/attribute/title/input.html:5:1]
+   ,-[$DIR/tests/fixture/attribute/title/input.html:4:1]
+ 4 |     
  5 | ,-> <h2 title="I'm a header">The title Attribute</h2>
  6 | `-> 
  7 |     <p title="I'm a tooltip">Mouse over this paragraph, to display the title attribute as a tooltip.</p>
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/attribute/title/input.html:5:1]
+   ,-[$DIR/tests/fixture/attribute/title/input.html:4:1]
+ 4 |     
  5 | ,-> <h2 title="I'm a header">The title Attribute</h2>
  6 | `-> 
  7 |     <p title="I'm a tooltip">Mouse over this paragraph, to display the title attribute as a tooltip.</p>
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/attribute/title/input.html:7:1]
+   ,-[$DIR/tests/fixture/attribute/title/input.html:6:1]
+ 6 | 
  7 | <p title="I'm a tooltip">Mouse over this paragraph, to display the title attribute as a tooltip.</p>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/attribute/title/input.html:7:1]
+   ,-[$DIR/tests/fixture/attribute/title/input.html:6:1]
+ 6 | 
  7 | <p title="I'm a tooltip">Mouse over this paragraph, to display the title attribute as a tooltip.</p>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Attribute
-   ,-[$DIR/tests/fixture/attribute/title/input.html:7:1]
+   ,-[$DIR/tests/fixture/attribute/title/input.html:6:1]
+ 6 | 
  7 | <p title="I'm a tooltip">Mouse over this paragraph, to display the title attribute as a tooltip.</p>
    :    ^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/attribute/title/input.html:7:1]
+   ,-[$DIR/tests/fixture/attribute/title/input.html:6:1]
+ 6 | 
  7 | <p title="I'm a tooltip">Mouse over this paragraph, to display the title attribute as a tooltip.</p>
    :                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/attribute/title/input.html:7:1]
+   ,-[$DIR/tests/fixture/attribute/title/input.html:6:1]
+ 6 | 
  7 | <p title="I'm a tooltip">Mouse over this paragraph, to display the title attribute as a tooltip.</p>
    :                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-    ,-[$DIR/tests/fixture/attribute/title/input.html:7:1]
+    ,-[$DIR/tests/fixture/attribute/title/input.html:6:1]
+  6 |     
   7 | ,-> <p title="I'm a tooltip">Mouse over this paragraph, to display the title attribute as a tooltip.</p>
   8 | |   
   9 | |   </body>
@@ -176,7 +197,8 @@
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/attribute/title/input.html:7:1]
+    ,-[$DIR/tests/fixture/attribute/title/input.html:6:1]
+  6 |     
   7 | ,-> <p title="I'm a tooltip">Mouse over this paragraph, to display the title attribute as a tooltip.</p>
   8 | |   
   9 | |   </body>

@@ -38,6 +38,7 @@
    ,-[$DIR/tests/span/js/expr/await.js:1:1]
  1 | async function foo() {
    :                ^^^
+ 2 |     await bar()
    `----
 
   x Function
@@ -55,55 +56,73 @@
    `----
 
   x Stmt
-   ,-[$DIR/tests/span/js/expr/await.js:2:5]
- 2 | await bar()
-   : ^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/expr/await.js:1:1]
+ 1 | async function foo() {
+ 2 |     await bar()
+   :     ^^^^^^^^^^^
+ 3 | }
    `----
 
   x ExprStmt
-   ,-[$DIR/tests/span/js/expr/await.js:2:5]
- 2 | await bar()
-   : ^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/expr/await.js:1:1]
+ 1 | async function foo() {
+ 2 |     await bar()
+   :     ^^^^^^^^^^^
+ 3 | }
    `----
 
   x Expr
-   ,-[$DIR/tests/span/js/expr/await.js:2:5]
- 2 | await bar()
-   : ^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/expr/await.js:1:1]
+ 1 | async function foo() {
+ 2 |     await bar()
+   :     ^^^^^^^^^^^
+ 3 | }
    `----
 
   x AwaitExpr
-   ,-[$DIR/tests/span/js/expr/await.js:2:5]
- 2 | await bar()
-   : ^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/expr/await.js:1:1]
+ 1 | async function foo() {
+ 2 |     await bar()
+   :     ^^^^^^^^^^^
+ 3 | }
    `----
 
   x Expr
-   ,-[$DIR/tests/span/js/expr/await.js:2:5]
- 2 | await bar()
-   :       ^^^^^
+   ,-[$DIR/tests/span/js/expr/await.js:1:1]
+ 1 | async function foo() {
+ 2 |     await bar()
+   :           ^^^^^
+ 3 | }
    `----
 
   x CallExpr
-   ,-[$DIR/tests/span/js/expr/await.js:2:5]
- 2 | await bar()
-   :       ^^^^^
+   ,-[$DIR/tests/span/js/expr/await.js:1:1]
+ 1 | async function foo() {
+ 2 |     await bar()
+   :           ^^^^^
+ 3 | }
    `----
 
   x Callee
-   ,-[$DIR/tests/span/js/expr/await.js:2:5]
- 2 | await bar()
-   :       ^^^
+   ,-[$DIR/tests/span/js/expr/await.js:1:1]
+ 1 | async function foo() {
+ 2 |     await bar()
+   :           ^^^
+ 3 | }
    `----
 
   x Expr
-   ,-[$DIR/tests/span/js/expr/await.js:2:5]
- 2 | await bar()
-   :       ^^^
+   ,-[$DIR/tests/span/js/expr/await.js:1:1]
+ 1 | async function foo() {
+ 2 |     await bar()
+   :           ^^^
+ 3 | }
    `----
 
   x Ident
-   ,-[$DIR/tests/span/js/expr/await.js:2:5]
- 2 | await bar()
-   :       ^^^
+   ,-[$DIR/tests/span/js/expr/await.js:1:1]
+ 1 | async function foo() {
+ 2 |     await bar()
+   :           ^^^
+ 3 | }
    `----

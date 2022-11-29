@@ -1,6 +1,8 @@
 
   x ['a'] is better written in dot notation
-   ,----
+   ,-[1:1]
+ 1 | obj['prefix_a'];
+ 2 | 
  3 | obj['a'];
    :    ^^^^^
    `----

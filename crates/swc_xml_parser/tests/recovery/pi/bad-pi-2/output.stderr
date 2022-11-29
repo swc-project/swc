@@ -1,6 +1,8 @@
 
   x Invalid character of processing instruction
-   ,-[$DIR/tests/recovery/pi/bad-pi-2/input.xml:3:5]
- 3 | <foo><? foo?></foo>
-   :        ^
+   ,-[$DIR/tests/recovery/pi/bad-pi-2/input.xml:2:1]
+ 2 | <root>
+ 3 |     <foo><? foo?></foo>
+   :            ^
+ 4 | </root>
    `----

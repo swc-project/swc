@@ -1,7 +1,11 @@
 //// [accessorsOverrideProperty7.ts]
 //! 
 //!   x Abstract property cannot have an initializer.
-//!    ,----
-//!  2 | abstract p = 'yep'
-//!    : ^^^^^^^^^^^^^^^^^^
+//!    ,-[1:1]
+//!  1 | abstract class A {
+//!  2 |     abstract p = 'yep'
+//!    :     ^^^^^^^^^^^^^^^^^^
+//!  3 | }
+//!  4 | class B extends A {
+//!  5 |     get p() { return 'oh no' } // error
 //!    `----

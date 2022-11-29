@@ -45,12 +45,14 @@
    ,-[$DIR/tests/span/js/issue-3236/arrow_function.js:1:1]
  1 | let f = (a = 0) => {
    :     ^
+ 2 |     "use strict";
    `----
 
   x Ident
    ,-[$DIR/tests/span/js/issue-3236/arrow_function.js:1:1]
  1 | let f = (a = 0) => {
    :     ^
+ 2 |     "use strict";
    `----
 
   x Expr
@@ -71,42 +73,49 @@
    ,-[$DIR/tests/span/js/issue-3236/arrow_function.js:1:1]
  1 | let f = (a = 0) => {
    :          ^^^^^
+ 2 |     "use strict";
    `----
 
   x AssignPat
    ,-[$DIR/tests/span/js/issue-3236/arrow_function.js:1:1]
  1 | let f = (a = 0) => {
    :          ^^^^^
+ 2 |     "use strict";
    `----
 
   x Pat
    ,-[$DIR/tests/span/js/issue-3236/arrow_function.js:1:1]
  1 | let f = (a = 0) => {
    :          ^
+ 2 |     "use strict";
    `----
 
   x Ident
    ,-[$DIR/tests/span/js/issue-3236/arrow_function.js:1:1]
  1 | let f = (a = 0) => {
    :          ^
+ 2 |     "use strict";
    `----
 
   x Expr
    ,-[$DIR/tests/span/js/issue-3236/arrow_function.js:1:1]
  1 | let f = (a = 0) => {
    :              ^
+ 2 |     "use strict";
    `----
 
   x Lit
    ,-[$DIR/tests/span/js/issue-3236/arrow_function.js:1:1]
  1 | let f = (a = 0) => {
    :              ^
+ 2 |     "use strict";
    `----
 
   x Number
    ,-[$DIR/tests/span/js/issue-3236/arrow_function.js:1:1]
  1 | let f = (a = 0) => {
    :              ^
+ 2 |     "use strict";
    `----
 
   x BlockStmtOrExpr
@@ -124,31 +133,41 @@
    `----
 
   x Stmt
-   ,-[$DIR/tests/span/js/issue-3236/arrow_function.js:2:5]
- 2 | "use strict";
-   : ^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/issue-3236/arrow_function.js:1:1]
+ 1 | let f = (a = 0) => {
+ 2 |     "use strict";
+   :     ^^^^^^^^^^^^^
+ 3 | }
    `----
 
   x ExprStmt
-   ,-[$DIR/tests/span/js/issue-3236/arrow_function.js:2:5]
- 2 | "use strict";
-   : ^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/issue-3236/arrow_function.js:1:1]
+ 1 | let f = (a = 0) => {
+ 2 |     "use strict";
+   :     ^^^^^^^^^^^^^
+ 3 | }
    `----
 
   x Expr
-   ,-[$DIR/tests/span/js/issue-3236/arrow_function.js:2:5]
- 2 | "use strict";
-   : ^^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/issue-3236/arrow_function.js:1:1]
+ 1 | let f = (a = 0) => {
+ 2 |     "use strict";
+   :     ^^^^^^^^^^^^
+ 3 | }
    `----
 
   x Lit
-   ,-[$DIR/tests/span/js/issue-3236/arrow_function.js:2:5]
- 2 | "use strict";
-   : ^^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/issue-3236/arrow_function.js:1:1]
+ 1 | let f = (a = 0) => {
+ 2 |     "use strict";
+   :     ^^^^^^^^^^^^
+ 3 | }
    `----
 
   x Str
-   ,-[$DIR/tests/span/js/issue-3236/arrow_function.js:2:5]
- 2 | "use strict";
-   : ^^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/issue-3236/arrow_function.js:1:1]
+ 1 | let f = (a = 0) => {
+ 2 |     "use strict";
+   :     ^^^^^^^^^^^^
+ 3 | }
    `----

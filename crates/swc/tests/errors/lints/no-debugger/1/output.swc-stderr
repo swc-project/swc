@@ -1,12 +1,19 @@
 
   x Unexpected 'debugger' statement
-   ,----
- 2 | debugger;
-   : ^^^^^^^^^
+   ,-[1:1]
+ 1 | function f() {
+ 2 |     debugger;
+   :     ^^^^^^^^^
+ 3 | }
+ 4 | 
+ 5 | debugger;
    `----
 
   x Unexpected 'debugger' statement
-   ,----
+   ,-[2:1]
+ 2 |     debugger;
+ 3 | }
+ 4 | 
  5 | debugger;
    : ^^^^^^^^^
    `----

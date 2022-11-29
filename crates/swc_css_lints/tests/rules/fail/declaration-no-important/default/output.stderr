@@ -1,6 +1,8 @@
 
   x Unexpected '!important'.
-   ,-[$DIR/tests/rules/fail/declaration-no-important/default/input.css:2:5]
- 2 | color: #000 !important;
-   :             ^^^^^^^^^^
+   ,-[$DIR/tests/rules/fail/declaration-no-important/default/input.css:1:1]
+ 1 | a {
+ 2 |     color: #000 !important;
+   :                 ^^^^^^^^^^
+ 3 | }
    `----
