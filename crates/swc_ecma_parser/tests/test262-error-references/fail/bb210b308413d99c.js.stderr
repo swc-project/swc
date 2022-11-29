@@ -1,6 +1,0 @@
-
-  x A rest parameter must be last in a parameter list
-   ,-[$DIR/tests/test262-parser/fail/bb210b308413d99c.js:1:1]
- 1 | (...a, ...b) => 0
-   :  ^^^^
-   `----

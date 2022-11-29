@@ -1,8 +1,0 @@
-
-  x Invalid access to super
-   ,-[$DIR/tests/test262-parser/fail/733a157cb1896d10.js:2:1]
- 2 |     constructor() {
- 3 |         (super)();
-   :               ^
- 4 |     }
-   `----

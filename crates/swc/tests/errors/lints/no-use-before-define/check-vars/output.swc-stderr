@@ -1,8 +1,0 @@
-
-  x 'a' was used before it was defined
-   ,-[1:1]
- 1 | alert(a);
-   :       ^
- 2 | 
- 3 | var a = 10;
-   `----

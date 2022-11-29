@@ -1,8 +1,0 @@
-
-  x Start tag "svg" seen in "table"
-    ,-[$DIR/tests/recovery/element/td/input.html:14:1]
- 14 |             <tr>
- 15 |             <svg>
-    :             ^^^^^
- 16 |                 <td></td>
-    `----

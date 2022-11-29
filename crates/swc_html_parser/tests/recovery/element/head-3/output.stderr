@@ -1,8 +1,0 @@
-
-  x Stray doctype
-   ,-[$DIR/tests/recovery/element/head-3/input.html:5:1]
- 5 | </head>
- 6 | <!doctype html>
-   : ^^^^^^^^^^^^^^^
- 7 | <body>
-   `----

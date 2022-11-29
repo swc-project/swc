@@ -1,8 +1,0 @@
-
-  x Expected Declaration value
-   ,-[$DIR/tests/recovery/delim-token/less-than/input.css:1:1]
- 1 | a {
- 2 |     color: <;
-   :            ^
- 3 | }
-   `----

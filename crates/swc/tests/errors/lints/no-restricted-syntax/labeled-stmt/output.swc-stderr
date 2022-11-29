@@ -1,9 +1,0 @@
-
-  x no label statement
-   ,-[1:1]
- 1 | ,-> loop1:
- 2 | |   
- 3 | |   while (true) {
- 4 | |     continue loop1;
- 5 | `-> }
-   `----

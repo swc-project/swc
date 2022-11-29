@@ -1,6 +1,0 @@
-
-  x Expression expected
-   ,-[$DIR/tests/test262-parser/fail/ec226eb321cf8655.js:1:1]
- 1 | {a = [...b, c]} = 0
-   :                 ^
-   `----

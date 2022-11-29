@@ -1,6 +1,0 @@
-
-  x Legacy octal escape is not permitted in strict mode
-   ,-[$DIR/tests/test262-parser/fail/3990bb94b19b1071.module.js:1:1]
- 1 | ('\1')
-   :   ^^
-   `----

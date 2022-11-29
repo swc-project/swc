@@ -1,8 +1,0 @@
-
-  x Expected Declaration value
-   ,-[$DIR/tests/recovery/comments/declaration/input.css:2:1]
- 2 |     prop: url("test") /* comment */   /* comment */
- 3 |         /* comment */:
-   :                      ^
- 4 | }
-   `----

@@ -1,8 +1,0 @@
-
-  x An export assignment cannot be used in a module with other exported elements.
-   ,-[1:1]
- 1 | export default 1;
- 2 | 
- 3 | export = {};
-   : ^^^^^^^^^^^^
-   `----

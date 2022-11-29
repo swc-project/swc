@@ -1,8 +1,0 @@
-
-  x Expected ident
-   ,-[$DIR/tests/recovery/declaration/wrong-name-3/input.css:1:1]
- 1 | a {
- 2 |     func(20px);
-   :     ^^^^^
- 3 | }
-   `----

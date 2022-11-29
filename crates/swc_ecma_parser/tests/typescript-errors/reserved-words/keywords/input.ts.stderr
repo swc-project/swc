@@ -1,6 +1,0 @@
-
-  x Expression expected
-   ,-[$DIR/tests/typescript-errors/reserved-words/keywords/input.ts:1:1]
- 1 | let a = if
-   :         ^^
-   `----

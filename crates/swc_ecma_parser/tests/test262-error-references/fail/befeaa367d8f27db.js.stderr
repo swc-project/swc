@@ -1,6 +1,0 @@
-
-  x Invalid character in identifier
-   ,-[$DIR/tests/test262-parser/fail/befeaa367d8f27db.js:1:1]
- 1 | x\u002a
-   :  ^^^^^^
-   `----

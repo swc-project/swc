@@ -1,6 +1,0 @@
-
-  x Expected ',', got 'as'
-   ,-[$DIR/tests/typescript-errors/type-only-export-specifier/too-many-as/input.ts:1:1]
- 1 | export { type as as as as }
-   :                        ^^
-   `----

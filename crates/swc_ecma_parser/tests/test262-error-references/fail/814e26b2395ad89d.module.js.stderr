@@ -1,6 +1,0 @@
-
-  x Unexpected eof
-   ,-[$DIR/tests/test262-parser/fail/814e26b2395ad89d.module.js:1:1]
- 1 | export 
-   :       ^
-   `----

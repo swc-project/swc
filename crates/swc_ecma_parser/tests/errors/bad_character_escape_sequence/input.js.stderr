@@ -1,6 +1,0 @@
-
-  x Bad character escape sequence, expected 2 hex characters
-   ,-[$DIR/tests/errors/bad_character_escape_sequence/input.js:1:1]
- 1 | const string = "\xZZ";
-   :                 ^^
-   `----

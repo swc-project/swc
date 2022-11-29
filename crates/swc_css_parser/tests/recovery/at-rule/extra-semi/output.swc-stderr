@@ -1,6 +1,0 @@
-
-  x Invalid selector
-   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:1:1]
- 1 | @import "x.css";;
-   :                 ^
-   `----

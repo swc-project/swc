@@ -1,6 +1,0 @@
-
-  x assignment property is invalid syntax
-   ,-[$DIR/tests/test262-parser/fail/0ebf57bd8c051d27.js:1:1]
- 1 | [{a = 0}];
-   :   ^^^^^
-   `----

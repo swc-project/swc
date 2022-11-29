@@ -1,7 +1,0 @@
-
-  x Expected ident or percentage token
-   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-broke-and-normal/input.css:1:1]
- 1 | @keyframes foo {
- 2 |     10 {
-   :     ^^
-   `----

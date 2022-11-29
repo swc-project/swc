@@ -1,7 +1,0 @@
-
-  x Expected a semicolon
-   ,-[$DIR/tests/typescript-errors/issue-1391/case1/input.ts:1:1]
- 1 | const Methods {
-   :               ^
- 2 |     f: (x, y) => x + y,
-   `----

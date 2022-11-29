@@ -1,6 +1,0 @@
-
-  x Unexpected token `}`. Expected identifier or string
-   ,-[$DIR/tests/typescript-errors/type-only-export-specifier/missing-local/input.ts:1:1]
- 1 | export { type foo as }
-   :                      ^
-   `----

@@ -1,6 +1,0 @@
-
-  x Expected a decimal digit
-   ,-[$DIR/tests/test262-parser/fail/1f6b80ce4e3e3509.js:1:1]
- 1 | 3e-
-   :    ^
-   `----

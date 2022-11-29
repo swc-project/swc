@@ -1,7 +1,0 @@
-
-  x Expression expected
-   ,-[$DIR/tests/test262-parser/fail/8262e85f06cb459c.js:1:1]
- 1 | new f(....g);
-   :       ^|^^
-   :        `-- An expression should follow '...'
-   `----

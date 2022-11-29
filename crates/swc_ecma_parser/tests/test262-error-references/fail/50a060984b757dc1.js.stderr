@@ -1,6 +1,0 @@
-
-  x Cannot assign to this
-   ,-[$DIR/tests/test262-parser/fail/50a060984b757dc1.js:1:1]
- 1 | ({a:(b = 0)} = 1)
-   :     ^^^^^^^
-   `----

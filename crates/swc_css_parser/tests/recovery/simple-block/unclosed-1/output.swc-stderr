@@ -1,6 +1,0 @@
-
-  x Unexpected end of file, but expected '}'
-   ,-[$DIR/tests/recovery/simple-block/unclosed-1/input.css:1:1]
- 1 | @media screen {
-   :               ^^
-   `----

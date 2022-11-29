@@ -1,6 +1,0 @@
-
-  x Invalid unicode escape
-   ,-[$DIR/tests/test262-parser/fail/27e55098f070e9ef.js:1:1]
- 1 | "\u{FFFF"
-   :  ^^^^^^^
-   `----

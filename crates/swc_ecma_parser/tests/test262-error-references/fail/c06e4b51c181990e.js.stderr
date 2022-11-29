@@ -1,8 +1,0 @@
-
-  x Expression expected
-   ,-[$DIR/tests/test262-parser/fail/c06e4b51c181990e.js:1:1]
- 1 | class A {
- 2 |     foo() { new super + 3 }
-   :                       ^
- 3 | }
-   `----

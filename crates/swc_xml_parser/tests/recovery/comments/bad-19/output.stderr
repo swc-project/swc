@@ -1,8 +1,0 @@
-
-  x Nested comment
-   ,-[$DIR/tests/recovery/comments/bad-19/input.xml:2:1]
- 2 | <root>
- 3 |     <!--<!--x-->
-   :             ^
- 4 | </root>
-   `----

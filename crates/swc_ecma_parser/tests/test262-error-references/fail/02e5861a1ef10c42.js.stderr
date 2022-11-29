@@ -1,6 +1,0 @@
-
-  x Return statement is not allowed here
-   ,-[$DIR/tests/test262-parser/fail/02e5861a1ef10c42.js:1:1]
- 1 | { return; }
-   :   ^^^^^^^
-   `----
