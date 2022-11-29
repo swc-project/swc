@@ -1,0 +1,6 @@
+
+  x Expected '(', got ';'
+   ,-[$DIR/tests/typescript-errors/instantiation-expr/case2/input.ts:1:1]
+ 1 | const b1 = f?.<number>;
+   :                       ^
+   `----

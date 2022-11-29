@@ -1,0 +1,6 @@
+
+  x Expected '{', got ','
+   ,-[$DIR/tests/test262-parser/fail/9767d9a6c9ea543c.js:1:1]
+ 1 | (class extends a,b {})
+   :                 ^
+   `----

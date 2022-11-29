@@ -1,0 +1,8 @@
+
+  x 'foo' was used before it was defined
+   ,-[1:1]
+ 1 | foo();
+   : ^^^
+ 2 | 
+ 3 | function foo() {}
+   `----

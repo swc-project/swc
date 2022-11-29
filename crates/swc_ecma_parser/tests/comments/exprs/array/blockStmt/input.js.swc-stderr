@@ -1,0 +1,11 @@
+
+  > Leading (hi)
+
+Error: 
+  >  @refresh reset
+   ,-[$DIR/tests/comments/exprs/array/blockStmt/input.js:2:1]
+ 2 |     // @refresh reset
+   :                       ^
+ 3 | });
+   : ^
+   `----

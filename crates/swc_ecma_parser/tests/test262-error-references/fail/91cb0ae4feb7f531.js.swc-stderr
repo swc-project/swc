@@ -1,0 +1,6 @@
+
+  x Not a pattern
+   ,-[$DIR/tests/test262-parser/fail/91cb0ae4feb7f531.js:1:1]
+ 1 | ({a:this}=0)
+   :     ^^^^
+   `----

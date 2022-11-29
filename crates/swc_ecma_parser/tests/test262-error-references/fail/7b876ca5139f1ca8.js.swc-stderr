@@ -1,0 +1,6 @@
+
+  x Invalid `super()`
+   ,-[$DIR/tests/test262-parser/fail/7b876ca5139f1ca8.js:1:1]
+ 1 | class A extends B { constructor() { new super(); } }
+   :                                              ^
+   `----

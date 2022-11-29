@@ -1,0 +1,90 @@
+
+  x Module
+   ,-[$DIR/tests/span/js/decl/class-no-close-brace.js:1:1]
+ 1 | ,-> class Test {
+ 2 | |   
+ 3 | `->   method() {}
+   `----
+
+  x ModuleItem
+   ,-[$DIR/tests/span/js/decl/class-no-close-brace.js:1:1]
+ 1 | ,-> class Test {
+ 2 | |   
+ 3 | `->   method() {}
+   `----
+
+  x Stmt
+   ,-[$DIR/tests/span/js/decl/class-no-close-brace.js:1:1]
+ 1 | ,-> class Test {
+ 2 | |   
+ 3 | `->   method() {}
+   `----
+
+  x Decl
+   ,-[$DIR/tests/span/js/decl/class-no-close-brace.js:1:1]
+ 1 | ,-> class Test {
+ 2 | |   
+ 3 | `->   method() {}
+   `----
+
+  x ClassDecl
+   ,-[$DIR/tests/span/js/decl/class-no-close-brace.js:1:1]
+ 1 | ,-> class Test {
+ 2 | |   
+ 3 | `->   method() {}
+   `----
+
+  x Ident
+   ,-[$DIR/tests/span/js/decl/class-no-close-brace.js:1:1]
+ 1 | class Test {
+   :       ^^^^
+   `----
+
+  x Class
+   ,-[$DIR/tests/span/js/decl/class-no-close-brace.js:1:1]
+ 1 | ,-> class Test {
+ 2 | |   
+ 3 | `->   method() {}
+   `----
+
+  x ClassMember
+   ,-[$DIR/tests/span/js/decl/class-no-close-brace.js:2:1]
+ 2 | 
+ 3 |   method() {}
+   :   ^^^^^^^^^^^
+   `----
+
+  x ClassMethod
+   ,-[$DIR/tests/span/js/decl/class-no-close-brace.js:2:1]
+ 2 | 
+ 3 |   method() {}
+   :   ^^^^^^^^^^^
+   `----
+
+  x PropName
+   ,-[$DIR/tests/span/js/decl/class-no-close-brace.js:2:1]
+ 2 | 
+ 3 |   method() {}
+   :   ^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/span/js/decl/class-no-close-brace.js:2:1]
+ 2 | 
+ 3 |   method() {}
+   :   ^^^^^^
+   `----
+
+  x Function
+   ,-[$DIR/tests/span/js/decl/class-no-close-brace.js:2:1]
+ 2 | 
+ 3 |   method() {}
+   :   ^^^^^^^^^^^
+   `----
+
+  x BlockStmt
+   ,-[$DIR/tests/span/js/decl/class-no-close-brace.js:2:1]
+ 2 | 
+ 3 |   method() {}
+   :            ^^
+   `----

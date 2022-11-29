@@ -1,0 +1,12 @@
+
+  x the name `foo` is defined multiple times
+   ,-[1:1]
+ 1 | import { hi } from "foo";
+ 2 | 
+ 3 | function foo() {}
+   :          ^|^
+   :           `-- previous definition of `foo` here
+ 4 | function foo() {}
+   :          ^|^
+   :           `-- `foo` redefined here
+   `----

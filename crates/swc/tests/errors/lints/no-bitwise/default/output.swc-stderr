@@ -1,0 +1,172 @@
+
+  x Unexpected use of '|'
+   ,-[1:1]
+ 1 | var x = y | z;
+   :         ^^^^^
+ 2 | 
+ 3 | var x = y & z;
+   `----
+
+  x Unexpected use of '&'
+   ,-[1:1]
+ 1 | var x = y | z;
+ 2 | 
+ 3 | var x = y & z;
+   :         ^^^^^
+ 4 | 
+ 5 | var x = y ^ z;
+   `----
+
+  x Unexpected use of '^'
+   ,-[2:1]
+ 2 | 
+ 3 | var x = y & z;
+ 4 | 
+ 5 | var x = y ^ z;
+   :         ^^^^^
+ 6 | 
+ 7 | var x = ~ z;
+   `----
+
+  x Unexpected use of '~'
+   ,-[4:1]
+ 4 | 
+ 5 | var x = y ^ z;
+ 6 | 
+ 7 | var x = ~ z;
+   :         ^^^
+ 8 | 
+ 9 | var x = y << z;
+   `----
+
+  x Unexpected use of '<<'
+    ,-[6:1]
+  6 | 
+  7 | var x = ~ z;
+  8 | 
+  9 | var x = y << z;
+    :         ^^^^^^
+ 10 | 
+ 11 | var x = y >> z;
+    `----
+
+  x Unexpected use of '>>'
+    ,-[8:1]
+  8 | 
+  9 | var x = y << z;
+ 10 | 
+ 11 | var x = y >> z;
+    :         ^^^^^^
+ 12 | 
+ 13 | var x = y >>> z;
+    `----
+
+  x Unexpected use of '>>>'
+    ,-[10:1]
+ 10 | 
+ 11 | var x = y >> z;
+ 12 | 
+ 13 | var x = y >>> z;
+    :         ^^^^^^^
+ 14 | 
+ 15 | x |= y;
+    `----
+
+  x Unexpected use of '|='
+    ,-[12:1]
+ 12 | 
+ 13 | var x = y >>> z;
+ 14 | 
+ 15 | x |= y;
+    : ^^^^^^
+ 16 | 
+ 17 | x &= y;
+    `----
+
+  x Unexpected use of '&='
+    ,-[14:1]
+ 14 | 
+ 15 | x |= y;
+ 16 | 
+ 17 | x &= y;
+    : ^^^^^^
+ 18 | 
+ 19 | x ^= y;
+    `----
+
+  x Unexpected use of '^='
+    ,-[16:1]
+ 16 | 
+ 17 | x &= y;
+ 18 | 
+ 19 | x ^= y;
+    : ^^^^^^
+ 20 | 
+ 21 | x <<= y;
+    `----
+
+  x Unexpected use of '<<='
+    ,-[18:1]
+ 18 | 
+ 19 | x ^= y;
+ 20 | 
+ 21 | x <<= y;
+    : ^^^^^^^
+ 22 | 
+ 23 | x >>= y;
+    `----
+
+  x Unexpected use of '>>='
+    ,-[20:1]
+ 20 | 
+ 21 | x <<= y;
+ 22 | 
+ 23 | x >>= y;
+    : ^^^^^^^
+ 24 | 
+ 25 | x >>>= y;
+    `----
+
+  x Unexpected use of '>>>='
+    ,-[22:1]
+ 22 | 
+ 23 | x >>= y;
+ 24 | 
+ 25 | x >>>= y;
+    : ^^^^^^^^
+ 26 | 
+ 27 | if (a ^ b) {}
+    `----
+
+  x Unexpected use of '^'
+    ,-[24:1]
+ 24 | 
+ 25 | x >>>= y;
+ 26 | 
+ 27 | if (a ^ b) {}
+    :     ^^^^^
+ 28 | 
+ 29 | var a = x ^ y;
+    `----
+
+  x Unexpected use of '^'
+    ,-[26:1]
+ 26 | 
+ 27 | if (a ^ b) {}
+ 28 | 
+ 29 | var a = x ^ y;
+    :         ^^^^^
+ 30 | 
+ 31 | var {
+ 32 |   a = x ^ y
+    `----
+
+  x Unexpected use of '^'
+    ,-[29:1]
+ 29 | var a = x ^ y;
+ 30 | 
+ 31 | var {
+ 32 |   a = x ^ y
+    :       ^^^^^
+ 33 | } = obj;
+    `----

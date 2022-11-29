@@ -1,0 +1,6 @@
+
+  x Bad character escape sequence, expected 4 hex characters
+   ,-[$DIR/tests/test262-parser/fail/fc8bfabd18ec26dc.js:1:1]
+ 1 | "\u0";
+   :  ^^^
+   `----

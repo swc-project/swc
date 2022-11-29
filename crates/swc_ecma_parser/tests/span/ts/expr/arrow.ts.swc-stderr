@@ -1,0 +1,173 @@
+
+  x Module
+   ,-[$DIR/tests/span/ts/expr/arrow.ts:1:1]
+ 1 | ,-> const a: () => any = () => {
+ 2 | |       return 'foo'
+ 3 | `-> };
+   `----
+
+  x ModuleItem
+   ,-[$DIR/tests/span/ts/expr/arrow.ts:1:1]
+ 1 | ,-> const a: () => any = () => {
+ 2 | |       return 'foo'
+ 3 | `-> };
+   `----
+
+  x Stmt
+   ,-[$DIR/tests/span/ts/expr/arrow.ts:1:1]
+ 1 | ,-> const a: () => any = () => {
+ 2 | |       return 'foo'
+ 3 | `-> };
+   `----
+
+  x Decl
+   ,-[$DIR/tests/span/ts/expr/arrow.ts:1:1]
+ 1 | ,-> const a: () => any = () => {
+ 2 | |       return 'foo'
+ 3 | `-> };
+   `----
+
+  x VarDecl
+   ,-[$DIR/tests/span/ts/expr/arrow.ts:1:1]
+ 1 | ,-> const a: () => any = () => {
+ 2 | |       return 'foo'
+ 3 | `-> };
+   `----
+
+  x VarDeclarator
+   ,-[$DIR/tests/span/ts/expr/arrow.ts:1:1]
+ 1 | ,-> const a: () => any = () => {
+ 2 | |       return 'foo'
+ 3 | `-> };
+   `----
+
+  x Pat
+   ,-[$DIR/tests/span/ts/expr/arrow.ts:1:1]
+ 1 | const a: () => any = () => {
+   :       ^
+ 2 |     return 'foo'
+   `----
+
+  x Ident
+   ,-[$DIR/tests/span/ts/expr/arrow.ts:1:1]
+ 1 | const a: () => any = () => {
+   :       ^
+ 2 |     return 'foo'
+   `----
+
+  x TsTypeAnn
+   ,-[$DIR/tests/span/ts/expr/arrow.ts:1:1]
+ 1 | const a: () => any = () => {
+   :        ^^^^^^^^^^^
+ 2 |     return 'foo'
+   `----
+
+  x TsType
+   ,-[$DIR/tests/span/ts/expr/arrow.ts:1:1]
+ 1 | const a: () => any = () => {
+   :          ^^^^^^^^^
+ 2 |     return 'foo'
+   `----
+
+  x TsFnOrConstructorType
+   ,-[$DIR/tests/span/ts/expr/arrow.ts:1:1]
+ 1 | const a: () => any = () => {
+   :          ^^^^^^^^^
+ 2 |     return 'foo'
+   `----
+
+  x TsFnType
+   ,-[$DIR/tests/span/ts/expr/arrow.ts:1:1]
+ 1 | const a: () => any = () => {
+   :          ^^^^^^^^^
+ 2 |     return 'foo'
+   `----
+
+  x TsTypeAnn
+   ,-[$DIR/tests/span/ts/expr/arrow.ts:1:1]
+ 1 | const a: () => any = () => {
+   :             ^^^^^^
+ 2 |     return 'foo'
+   `----
+
+  x TsType
+   ,-[$DIR/tests/span/ts/expr/arrow.ts:1:1]
+ 1 | const a: () => any = () => {
+   :                ^^^
+ 2 |     return 'foo'
+   `----
+
+  x TsKeywordType
+   ,-[$DIR/tests/span/ts/expr/arrow.ts:1:1]
+ 1 | const a: () => any = () => {
+   :                ^^^
+ 2 |     return 'foo'
+   `----
+
+  x Expr
+   ,-[$DIR/tests/span/ts/expr/arrow.ts:1:1]
+ 1 | ,-> const a: () => any = () => {
+ 2 | |       return 'foo'
+ 3 | `-> };
+   `----
+
+  x ArrowExpr
+   ,-[$DIR/tests/span/ts/expr/arrow.ts:1:1]
+ 1 | ,-> const a: () => any = () => {
+ 2 | |       return 'foo'
+ 3 | `-> };
+   `----
+
+  x BlockStmtOrExpr
+   ,-[$DIR/tests/span/ts/expr/arrow.ts:1:1]
+ 1 | ,-> const a: () => any = () => {
+ 2 | |       return 'foo'
+ 3 | `-> };
+   `----
+
+  x BlockStmt
+   ,-[$DIR/tests/span/ts/expr/arrow.ts:1:1]
+ 1 | ,-> const a: () => any = () => {
+ 2 | |       return 'foo'
+ 3 | `-> };
+   `----
+
+  x Stmt
+   ,-[$DIR/tests/span/ts/expr/arrow.ts:1:1]
+ 1 | const a: () => any = () => {
+ 2 |     return 'foo'
+   :     ^^^^^^^^^^^^
+ 3 | };
+   `----
+
+  x ReturnStmt
+   ,-[$DIR/tests/span/ts/expr/arrow.ts:1:1]
+ 1 | const a: () => any = () => {
+ 2 |     return 'foo'
+   :     ^^^^^^^^^^^^
+ 3 | };
+   `----
+
+  x Expr
+   ,-[$DIR/tests/span/ts/expr/arrow.ts:1:1]
+ 1 | const a: () => any = () => {
+ 2 |     return 'foo'
+   :            ^^^^^
+ 3 | };
+   `----
+
+  x Lit
+   ,-[$DIR/tests/span/ts/expr/arrow.ts:1:1]
+ 1 | const a: () => any = () => {
+ 2 |     return 'foo'
+   :            ^^^^^
+ 3 | };
+   `----
+
+  x Str
+   ,-[$DIR/tests/span/ts/expr/arrow.ts:1:1]
+ 1 | const a: () => any = () => {
+ 2 |     return 'foo'
+   :            ^^^^^
+ 3 | };
+   `----

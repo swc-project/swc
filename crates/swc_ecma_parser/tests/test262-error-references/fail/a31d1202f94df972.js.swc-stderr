@@ -1,0 +1,6 @@
+
+  x Expected ',', got '.'
+   ,-[$DIR/tests/test262-parser/fail/a31d1202f94df972.js:1:1]
+ 1 | var {a: b.c} = 0;
+   :          ^
+   `----

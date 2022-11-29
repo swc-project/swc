@@ -1,0 +1,119 @@
+
+  x Module
+   ,-[$DIR/tests/span/js/expr/arrow-2.js:1:1]
+ 1 | ,-> React.useEffect(() => {
+ 2 | |       // @refresh reset
+ 3 | `-> });
+   `----
+
+  x ModuleItem
+   ,-[$DIR/tests/span/js/expr/arrow-2.js:1:1]
+ 1 | ,-> React.useEffect(() => {
+ 2 | |       // @refresh reset
+ 3 | `-> });
+   `----
+
+  x Stmt
+   ,-[$DIR/tests/span/js/expr/arrow-2.js:1:1]
+ 1 | ,-> React.useEffect(() => {
+ 2 | |       // @refresh reset
+ 3 | `-> });
+   `----
+
+  x ExprStmt
+   ,-[$DIR/tests/span/js/expr/arrow-2.js:1:1]
+ 1 | ,-> React.useEffect(() => {
+ 2 | |       // @refresh reset
+ 3 | `-> });
+   `----
+
+  x Expr
+   ,-[$DIR/tests/span/js/expr/arrow-2.js:1:1]
+ 1 | ,-> React.useEffect(() => {
+ 2 | |       // @refresh reset
+ 3 | `-> });
+   `----
+
+  x CallExpr
+   ,-[$DIR/tests/span/js/expr/arrow-2.js:1:1]
+ 1 | ,-> React.useEffect(() => {
+ 2 | |       // @refresh reset
+ 3 | `-> });
+   `----
+
+  x Callee
+   ,-[$DIR/tests/span/js/expr/arrow-2.js:1:1]
+ 1 | React.useEffect(() => {
+   : ^^^^^^^^^^^^^^^
+ 2 |     // @refresh reset
+   `----
+
+  x Expr
+   ,-[$DIR/tests/span/js/expr/arrow-2.js:1:1]
+ 1 | React.useEffect(() => {
+   : ^^^^^^^^^^^^^^^
+ 2 |     // @refresh reset
+   `----
+
+  x MemberExpr
+   ,-[$DIR/tests/span/js/expr/arrow-2.js:1:1]
+ 1 | React.useEffect(() => {
+   : ^^^^^^^^^^^^^^^
+ 2 |     // @refresh reset
+   `----
+
+  x Expr
+   ,-[$DIR/tests/span/js/expr/arrow-2.js:1:1]
+ 1 | React.useEffect(() => {
+   : ^^^^^
+ 2 |     // @refresh reset
+   `----
+
+  x Ident
+   ,-[$DIR/tests/span/js/expr/arrow-2.js:1:1]
+ 1 | React.useEffect(() => {
+   : ^^^^^
+ 2 |     // @refresh reset
+   `----
+
+  x Ident
+   ,-[$DIR/tests/span/js/expr/arrow-2.js:1:1]
+ 1 | React.useEffect(() => {
+   :       ^^^^^^^^^
+ 2 |     // @refresh reset
+   `----
+
+  x ExprOrSpread
+   ,-[$DIR/tests/span/js/expr/arrow-2.js:1:1]
+ 1 | ,-> React.useEffect(() => {
+ 2 | |       // @refresh reset
+ 3 | `-> });
+   `----
+
+  x Expr
+   ,-[$DIR/tests/span/js/expr/arrow-2.js:1:1]
+ 1 | ,-> React.useEffect(() => {
+ 2 | |       // @refresh reset
+ 3 | `-> });
+   `----
+
+  x ArrowExpr
+   ,-[$DIR/tests/span/js/expr/arrow-2.js:1:1]
+ 1 | ,-> React.useEffect(() => {
+ 2 | |       // @refresh reset
+ 3 | `-> });
+   `----
+
+  x BlockStmtOrExpr
+   ,-[$DIR/tests/span/js/expr/arrow-2.js:1:1]
+ 1 | ,-> React.useEffect(() => {
+ 2 | |       // @refresh reset
+ 3 | `-> });
+   `----
+
+  x BlockStmt
+   ,-[$DIR/tests/span/js/expr/arrow-2.js:1:1]
+ 1 | ,-> React.useEffect(() => {
+ 2 | |       // @refresh reset
+ 3 | `-> });
+   `----

@@ -1,0 +1,7 @@
+
+  x Expression expected
+   ,-[$DIR/tests/test262-parser/fail/f4467d719dcee086.js:1:1]
+ 1 | function *a(){yield
+ 2 | *a}
+   : ^
+   `----

@@ -1,0 +1,6 @@
+
+  x Parenthesized expression cannot be empty
+   ,-[$DIR/tests/test262-parser/fail/15ce7f870c38eaff.js:1:1]
+ 1 | () ? 42
+   : ^^
+   `----

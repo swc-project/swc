@@ -1,0 +1,6 @@
+
+  x The left-hand side of an assignment expression must be a variable or a property access.
+   ,-[$DIR/tests/test262-parser/fail/f6cc48c72caf2e32.js:1:1]
+ 1 | ++1
+   :   ^
+   `----

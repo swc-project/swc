@@ -1,0 +1,24 @@
+
+  x the name `foo` is defined multiple times
+   ,-[1:1]
+ 1 | export function foo() {}
+   :                 ^|^
+   :                  `-- previous definition of `foo` here
+ 2 | export default function foo() {}
+   :                         ^|^
+   :                          `-- `foo` redefined here
+ 3 | 
+ 4 | function foo() {}
+   `----
+
+  x the name `foo` is defined multiple times
+   ,-[1:1]
+ 1 | export function foo() {}
+   :                 ^|^
+   :                  `-- previous definition of `foo` here
+ 2 | export default function foo() {}
+ 3 | 
+ 4 | function foo() {}
+   :          ^|^
+   :           `-- `foo` redefined here
+   `----

@@ -1,0 +1,30 @@
+
+  x the name `x` is defined multiple times
+    ,-[6:1]
+  6 | import type _ = require("lodash");
+  7 | 
+  8 | // error
+  9 | import x = require("x");
+    :        |
+    :        `-- previous definition of `x` here
+ 10 | const x = "x";
+    :       |
+    :       `-- `x` redefined here
+ 11 | // error
+ 12 | export import y = require("y");
+ 13 | import y from "y";
+    `----
+
+  x the name `y` is defined multiple times
+    ,-[9:1]
+  9 | import x = require("x");
+ 10 | const x = "x";
+ 11 | // error
+ 12 | export import y = require("y");
+    :               |
+    :               `-- previous definition of `y` here
+ 13 | import y from "y";
+    :        |
+    :        `-- `y` redefined here
+ 14 | 
+    `----

@@ -1,0 +1,8 @@
+
+  x 'static' modifier must precede 'override' modifier.
+   ,-[$DIR/tests/typescript-errors/class/override-with-static/input.ts:1:1]
+ 1 | class C extends B {
+ 2 |   override static t() {}
+   :            ^^^^^^
+ 3 | }
+   `----

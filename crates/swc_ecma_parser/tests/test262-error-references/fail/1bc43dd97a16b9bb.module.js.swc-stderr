@@ -1,0 +1,6 @@
+
+  x Expected 'from', got ';'
+   ,-[$DIR/tests/test262-parser/fail/1bc43dd97a16b9bb.module.js:1:1]
+ 1 | import {};
+   :          ^
+   `----

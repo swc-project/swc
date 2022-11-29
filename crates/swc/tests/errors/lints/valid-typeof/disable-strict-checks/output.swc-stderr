@@ -1,0 +1,40 @@
+
+  x Invalid typeof comparison value
+   ,-[1:1]
+ 1 | typeof foo === "strnig"
+   : ^^^^^^^^^^^^^^^^^^^^^^^
+ 2 | typeof foo == "undefimed"
+ 3 | typeof bar != "nunber"
+ 4 | typeof bar !== "fucntion"
+   `----
+
+  x Invalid typeof comparison value
+   ,-[1:1]
+ 1 | typeof foo === "strnig"
+ 2 | typeof foo == "undefimed"
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^
+ 3 | typeof bar != "nunber"
+ 4 | typeof bar !== "fucntion"
+   `----
+
+  x Invalid typeof comparison value
+   ,-[1:1]
+ 1 | typeof foo === "strnig"
+ 2 | typeof foo == "undefimed"
+ 3 | typeof bar != "nunber"
+   : ^^^^^^^^^^^^^^^^^^^^^^
+ 4 | typeof bar !== "fucntion"
+ 5 | 
+ 6 | typeof bar !== foo()
+   `----
+
+  x Invalid typeof comparison value
+   ,-[1:1]
+ 1 | typeof foo === "strnig"
+ 2 | typeof foo == "undefimed"
+ 3 | typeof bar != "nunber"
+ 4 | typeof bar !== "fucntion"
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^
+ 5 | 
+ 6 | typeof bar !== foo()
+   `----

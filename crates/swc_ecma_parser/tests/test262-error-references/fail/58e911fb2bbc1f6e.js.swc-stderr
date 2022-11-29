@@ -1,0 +1,6 @@
+
+  x Expected a decimal digit
+   ,-[$DIR/tests/test262-parser/fail/58e911fb2bbc1f6e.js:1:1]
+ 1 | 1.e+z
+   :     ^
+   `----

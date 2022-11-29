@@ -1,0 +1,6 @@
+
+  x `...` must be followed by an identifier in declaration contexts
+   ,-[$DIR/tests/jsx/errors/issue-387-3/input.js:1:1]
+ 1 | var {...{}} = {};
+   :      ^^^^^
+   `----

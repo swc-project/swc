@@ -1,0 +1,6 @@
+
+  x Expected unicode escape
+   ,-[$DIR/tests/test262-parser/fail/a9253dc8529dd214.js:1:1]
+ 1 | \
+   : ^
+   `----

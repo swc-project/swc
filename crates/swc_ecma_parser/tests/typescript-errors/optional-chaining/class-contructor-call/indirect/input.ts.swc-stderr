@@ -1,0 +1,6 @@
+
+  x Constructor in/after an optional chaining is not allowed.
+   ,-[$DIR/tests/typescript-errors/optional-chaining/class-contructor-call/indirect/input.ts:1:1]
+ 1 | new C?.b.d()
+   :      ^
+   `----

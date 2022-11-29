@@ -1,0 +1,8 @@
+
+  x 'abstract' modifier must precede 'override' modifier.
+   ,-[$DIR/tests/typescript-errors/class/override-with-abstract/input.ts:1:1]
+ 1 | abstract class MyClass extends BaseClass {
+ 2 |   override abstract show(): void
+   :            ^^^^^^^^
+ 3 | }
+   `----

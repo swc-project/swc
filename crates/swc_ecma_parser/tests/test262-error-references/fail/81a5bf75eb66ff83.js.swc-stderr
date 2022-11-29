@@ -1,0 +1,6 @@
+
+  x Expression expected
+   ,-[$DIR/tests/test262-parser/fail/81a5bf75eb66ff83.js:1:1]
+ 1 | () <= 42
+   :    ^^
+   `----

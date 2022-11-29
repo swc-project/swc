@@ -1,0 +1,11 @@
+
+  > Leading (hi)
+
+Error: 
+  >  4
+   ,-[$DIR/tests/comments/stmts/switch/input.js:4:1]
+ 4 |     // 4
+   :          ^
+ 5 | }
+   : ^
+   `----

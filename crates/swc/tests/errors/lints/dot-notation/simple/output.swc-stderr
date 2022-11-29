@@ -1,0 +1,60 @@
+
+  x ["a"] is better written in dot notation
+   ,-[1:1]
+ 1 | obj["a"];
+   :    ^^^^^
+ 2 | 
+ 3 | obj[obj2["b"]];
+   `----
+
+  x ["b"] is better written in dot notation
+   ,-[1:1]
+ 1 | obj["a"];
+ 2 | 
+ 3 | obj[obj2["b"]];
+   :         ^^^^^
+ 4 | 
+ 5 | obj.key;
+   `----
+
+  x ['c'] is better written in dot notation
+    ,-[6:1]
+  6 | 
+  7 | obj[prop];
+  8 | 
+  9 | obj['c'];
+    :    ^^^^^
+ 10 | 
+ 11 | obj?.['d'];
+    `----
+
+  x ['d'] is better written in dot notation
+    ,-[8:1]
+  8 | 
+  9 | obj['c'];
+ 10 | 
+ 11 | obj?.['d'];
+    :      ^^^^^
+ 12 | 
+ 13 | (obj)['e'];
+    `----
+
+  x ['e'] is better written in dot notation
+    ,-[10:1]
+ 10 | 
+ 11 | obj?.['d'];
+ 12 | 
+ 13 | (obj)['e'];
+    :      ^^^^^
+ 14 | 
+ 15 | foo[call(my["x"])]
+    `----
+
+  x ["x"] is better written in dot notation
+    ,-[12:1]
+ 12 | 
+ 13 | (obj)['e'];
+ 14 | 
+ 15 | foo[call(my["x"])]
+    :            ^^^^^
+    `----

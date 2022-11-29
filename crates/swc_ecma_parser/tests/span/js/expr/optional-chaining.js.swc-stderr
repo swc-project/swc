@@ -1,0 +1,230 @@
+
+  x Module
+   ,-[$DIR/tests/span/js/expr/optional-chaining.js:1:1]
+ 1 | ,-> a?.b?.c
+ 2 | `-> A?.['B']?.()
+   `----
+
+  x ModuleItem
+   ,-[$DIR/tests/span/js/expr/optional-chaining.js:1:1]
+ 1 | a?.b?.c
+   : ^^^^^^^
+ 2 | A?.['B']?.()
+   `----
+
+  x Stmt
+   ,-[$DIR/tests/span/js/expr/optional-chaining.js:1:1]
+ 1 | a?.b?.c
+   : ^^^^^^^
+ 2 | A?.['B']?.()
+   `----
+
+  x ExprStmt
+   ,-[$DIR/tests/span/js/expr/optional-chaining.js:1:1]
+ 1 | a?.b?.c
+   : ^^^^^^^
+ 2 | A?.['B']?.()
+   `----
+
+  x Expr
+   ,-[$DIR/tests/span/js/expr/optional-chaining.js:1:1]
+ 1 | a?.b?.c
+   : ^^^^^^^
+ 2 | A?.['B']?.()
+   `----
+
+  x OptChainExpr
+   ,-[$DIR/tests/span/js/expr/optional-chaining.js:1:1]
+ 1 | a?.b?.c
+   : ^^^^^^^
+ 2 | A?.['B']?.()
+   `----
+
+  x OptChainBase
+   ,-[$DIR/tests/span/js/expr/optional-chaining.js:1:1]
+ 1 | a?.b?.c
+   : ^^^^^^^
+ 2 | A?.['B']?.()
+   `----
+
+  x MemberExpr
+   ,-[$DIR/tests/span/js/expr/optional-chaining.js:1:1]
+ 1 | a?.b?.c
+   : ^^^^^^^
+ 2 | A?.['B']?.()
+   `----
+
+  x Expr
+   ,-[$DIR/tests/span/js/expr/optional-chaining.js:1:1]
+ 1 | a?.b?.c
+   : ^^^^
+ 2 | A?.['B']?.()
+   `----
+
+  x OptChainExpr
+   ,-[$DIR/tests/span/js/expr/optional-chaining.js:1:1]
+ 1 | a?.b?.c
+   : ^^^^
+ 2 | A?.['B']?.()
+   `----
+
+  x OptChainBase
+   ,-[$DIR/tests/span/js/expr/optional-chaining.js:1:1]
+ 1 | a?.b?.c
+   : ^^^^
+ 2 | A?.['B']?.()
+   `----
+
+  x MemberExpr
+   ,-[$DIR/tests/span/js/expr/optional-chaining.js:1:1]
+ 1 | a?.b?.c
+   : ^^^^
+ 2 | A?.['B']?.()
+   `----
+
+  x Expr
+   ,-[$DIR/tests/span/js/expr/optional-chaining.js:1:1]
+ 1 | a?.b?.c
+   : ^
+ 2 | A?.['B']?.()
+   `----
+
+  x Ident
+   ,-[$DIR/tests/span/js/expr/optional-chaining.js:1:1]
+ 1 | a?.b?.c
+   : ^
+ 2 | A?.['B']?.()
+   `----
+
+  x Ident
+   ,-[$DIR/tests/span/js/expr/optional-chaining.js:1:1]
+ 1 | a?.b?.c
+   :    ^
+ 2 | A?.['B']?.()
+   `----
+
+  x Ident
+   ,-[$DIR/tests/span/js/expr/optional-chaining.js:1:1]
+ 1 | a?.b?.c
+   :       ^
+ 2 | A?.['B']?.()
+   `----
+
+  x ModuleItem
+   ,-[$DIR/tests/span/js/expr/optional-chaining.js:1:1]
+ 1 | a?.b?.c
+ 2 | A?.['B']?.()
+   : ^^^^^^^^^^^^
+   `----
+
+  x Stmt
+   ,-[$DIR/tests/span/js/expr/optional-chaining.js:1:1]
+ 1 | a?.b?.c
+ 2 | A?.['B']?.()
+   : ^^^^^^^^^^^^
+   `----
+
+  x ExprStmt
+   ,-[$DIR/tests/span/js/expr/optional-chaining.js:1:1]
+ 1 | a?.b?.c
+ 2 | A?.['B']?.()
+   : ^^^^^^^^^^^^
+   `----
+
+  x Expr
+   ,-[$DIR/tests/span/js/expr/optional-chaining.js:1:1]
+ 1 | a?.b?.c
+ 2 | A?.['B']?.()
+   : ^^^^^^^^^^^^
+   `----
+
+  x OptChainExpr
+   ,-[$DIR/tests/span/js/expr/optional-chaining.js:1:1]
+ 1 | a?.b?.c
+ 2 | A?.['B']?.()
+   : ^^^^^^^^^^^^
+   `----
+
+  x OptChainBase
+   ,-[$DIR/tests/span/js/expr/optional-chaining.js:1:1]
+ 1 | a?.b?.c
+ 2 | A?.['B']?.()
+   : ^^^^^^^^^^^^
+   `----
+
+  x OptCall
+   ,-[$DIR/tests/span/js/expr/optional-chaining.js:1:1]
+ 1 | a?.b?.c
+ 2 | A?.['B']?.()
+   : ^^^^^^^^^^^^
+   `----
+
+  x Expr
+   ,-[$DIR/tests/span/js/expr/optional-chaining.js:1:1]
+ 1 | a?.b?.c
+ 2 | A?.['B']?.()
+   : ^^^^^^^^
+   `----
+
+  x OptChainExpr
+   ,-[$DIR/tests/span/js/expr/optional-chaining.js:1:1]
+ 1 | a?.b?.c
+ 2 | A?.['B']?.()
+   : ^^^^^^^^
+   `----
+
+  x OptChainBase
+   ,-[$DIR/tests/span/js/expr/optional-chaining.js:1:1]
+ 1 | a?.b?.c
+ 2 | A?.['B']?.()
+   : ^^^^^^^^
+   `----
+
+  x MemberExpr
+   ,-[$DIR/tests/span/js/expr/optional-chaining.js:1:1]
+ 1 | a?.b?.c
+ 2 | A?.['B']?.()
+   : ^^^^^^^^
+   `----
+
+  x Expr
+   ,-[$DIR/tests/span/js/expr/optional-chaining.js:1:1]
+ 1 | a?.b?.c
+ 2 | A?.['B']?.()
+   : ^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/span/js/expr/optional-chaining.js:1:1]
+ 1 | a?.b?.c
+ 2 | A?.['B']?.()
+   : ^
+   `----
+
+  x ComputedPropName
+   ,-[$DIR/tests/span/js/expr/optional-chaining.js:1:1]
+ 1 | a?.b?.c
+ 2 | A?.['B']?.()
+   :    ^^^^^
+   `----
+
+  x Expr
+   ,-[$DIR/tests/span/js/expr/optional-chaining.js:1:1]
+ 1 | a?.b?.c
+ 2 | A?.['B']?.()
+   :     ^^^
+   `----
+
+  x Lit
+   ,-[$DIR/tests/span/js/expr/optional-chaining.js:1:1]
+ 1 | a?.b?.c
+ 2 | A?.['B']?.()
+   :     ^^^
+   `----
+
+  x Str
+   ,-[$DIR/tests/span/js/expr/optional-chaining.js:1:1]
+ 1 | a?.b?.c
+ 2 | A?.['B']?.()
+   :     ^^^
+   `----

@@ -1,0 +1,6 @@
+
+  x Expected '{', got 'v'
+   ,-[$DIR/tests/test262-parser/fail/fc75a023944da475.js:1:1]
+ 1 | x = { set method(val) v = val }
+   :                       ^
+   `----

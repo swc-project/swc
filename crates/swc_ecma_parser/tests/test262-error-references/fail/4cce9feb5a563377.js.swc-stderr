@@ -1,0 +1,6 @@
+
+  x Unexpected eof
+   ,-[$DIR/tests/test262-parser/fail/4cce9feb5a563377.js:1:1]
+ 1 | (a,...a)
+   :         ^
+   `----

@@ -1,0 +1,6 @@
+
+  x Expected one variable binding
+   ,-[$DIR/tests/test262-parser/fail/f03dc0712b57ee1f.js:1:1]
+ 1 | for (var i, i2 in {});
+   :             ^^
+   `----

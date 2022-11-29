@@ -1,0 +1,6 @@
+
+  x Unexpected eof
+   ,-[$DIR/tests/jsx/errors/nested-fragment-unclosed/input.js:1:1]
+ 1 | <><></>
+   :         ^
+   `----

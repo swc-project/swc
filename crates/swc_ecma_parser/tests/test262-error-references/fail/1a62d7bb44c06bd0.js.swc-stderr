@@ -1,0 +1,6 @@
+
+  x Expected ident
+   ,-[$DIR/tests/test262-parser/fail/1a62d7bb44c06bd0.js:1:1]
+ 1 | function t(if) { }
+   :            ^^
+   `----

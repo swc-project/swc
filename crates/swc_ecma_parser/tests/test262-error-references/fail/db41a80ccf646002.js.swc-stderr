@@ -1,0 +1,6 @@
+
+  x Cannot assign to this
+   ,-[$DIR/tests/test262-parser/fail/db41a80ccf646002.js:1:1]
+ 1 | [(a = 0)] = 1
+   :  ^^^^^^^
+   `----

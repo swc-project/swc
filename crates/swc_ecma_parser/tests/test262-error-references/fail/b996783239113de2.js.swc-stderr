@@ -1,0 +1,6 @@
+
+  x Expected ',', got '...'
+   ,-[$DIR/tests/test262-parser/fail/b996783239113de2.js:1:1]
+ 1 | (a ...b) => 0
+   :    ^^^
+   `----

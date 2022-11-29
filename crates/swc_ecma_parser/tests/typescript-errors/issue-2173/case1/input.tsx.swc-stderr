@@ -1,0 +1,8 @@
+
+  x Unexpected token `HeaderAction`. Expected jsx identifier
+   ,-[$DIR/tests/typescript-errors/issue-2173/case1/input.tsx:2:1]
+ 2 |     setCurrentAction({
+ 3 |         ...(<HeaderAction>getCurrentAction()),
+   :              ^^^^^^^^^^^^
+ 4 |         ...fields,
+   `----

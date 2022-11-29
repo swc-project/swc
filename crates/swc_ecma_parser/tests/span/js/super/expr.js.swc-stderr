@@ -1,0 +1,6 @@
+
+  x Invalid access to super
+   ,-[$DIR/tests/span/js/super/expr.js:1:1]
+ 1 | super.x;
+   :       ^
+   `----

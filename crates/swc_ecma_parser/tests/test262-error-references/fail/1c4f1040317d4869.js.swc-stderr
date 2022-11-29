@@ -1,0 +1,6 @@
+
+  x Expected ident
+   ,-[$DIR/tests/test262-parser/fail/1c4f1040317d4869.js:1:1]
+ 1 | break 1;
+   :       ^
+   `----

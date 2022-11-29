@@ -1,0 +1,6 @@
+
+  x Unexpected character '�'
+   ,-[$DIR/tests/test262-parser/fail/63e918a2df1dcdde.js:1:1]
+ 1 | �\x62
+   : ^
+   `----

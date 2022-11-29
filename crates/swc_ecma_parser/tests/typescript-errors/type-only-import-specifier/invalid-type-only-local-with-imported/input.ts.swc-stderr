@@ -1,0 +1,6 @@
+
+  x Expected ident
+   ,-[$DIR/tests/typescript-errors/type-only-import-specifier/invalid-type-only-local-with-imported/input.ts:1:1]
+ 1 | import { type as as export } from 'mod'
+   :                     ^^^^^^
+   `----

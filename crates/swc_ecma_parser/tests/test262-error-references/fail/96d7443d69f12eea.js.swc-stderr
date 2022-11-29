@@ -1,0 +1,6 @@
+
+  x Expected ']', got ','
+   ,-[$DIR/tests/test262-parser/fail/96d7443d69f12eea.js:1:1]
+ 1 | ({get[a,b]:0})
+   :        ^
+   `----

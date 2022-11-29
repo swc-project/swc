@@ -1,0 +1,22 @@
+
+  x Unexpected empty generator function pattern
+   ,-[1:1]
+ 1 | function foo1() {}
+ 2 | 
+ 3 | function* foo2() {}
+   : ^^^^^^^^^^^^^^^^^^^
+ 4 | 
+ 5 | class A {
+ 6 |     constructor() {}
+   `----
+
+  x Unexpected empty method pattern
+    ,-[7:1]
+  7 | 
+  8 |     async method() {}
+  9 | 
+ 10 |     method2() {}
+    :     ^^^^^^^^^^^^
+ 11 | }
+ 12 | 
+    `----

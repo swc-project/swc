@@ -1,0 +1,159 @@
+
+  x Module
+   ,-[$DIR/tests/span/js/decl/static-blocks.js:1:1]
+ 1 | ,-> class Foo {
+ 2 | |       static {
+ 3 | |           1 + 1;
+ 4 | |       }
+ 5 | `-> }
+   `----
+
+  x ModuleItem
+   ,-[$DIR/tests/span/js/decl/static-blocks.js:1:1]
+ 1 | ,-> class Foo {
+ 2 | |       static {
+ 3 | |           1 + 1;
+ 4 | |       }
+ 5 | `-> }
+   `----
+
+  x Stmt
+   ,-[$DIR/tests/span/js/decl/static-blocks.js:1:1]
+ 1 | ,-> class Foo {
+ 2 | |       static {
+ 3 | |           1 + 1;
+ 4 | |       }
+ 5 | `-> }
+   `----
+
+  x Decl
+   ,-[$DIR/tests/span/js/decl/static-blocks.js:1:1]
+ 1 | ,-> class Foo {
+ 2 | |       static {
+ 3 | |           1 + 1;
+ 4 | |       }
+ 5 | `-> }
+   `----
+
+  x ClassDecl
+   ,-[$DIR/tests/span/js/decl/static-blocks.js:1:1]
+ 1 | ,-> class Foo {
+ 2 | |       static {
+ 3 | |           1 + 1;
+ 4 | |       }
+ 5 | `-> }
+   `----
+
+  x Ident
+   ,-[$DIR/tests/span/js/decl/static-blocks.js:1:1]
+ 1 | class Foo {
+   :       ^^^
+ 2 |     static {
+   `----
+
+  x Class
+   ,-[$DIR/tests/span/js/decl/static-blocks.js:1:1]
+ 1 | ,-> class Foo {
+ 2 | |       static {
+ 3 | |           1 + 1;
+ 4 | |       }
+ 5 | `-> }
+   `----
+
+  x ClassMember
+   ,-[$DIR/tests/span/js/decl/static-blocks.js:1:1]
+ 1 |     class Foo {
+ 2 | ,->     static {
+ 3 | |           1 + 1;
+ 4 | `->     }
+ 5 |     }
+   `----
+
+  x BlockStmt
+   ,-[$DIR/tests/span/js/decl/static-blocks.js:1:1]
+ 1 |     class Foo {
+ 2 | ,->     static {
+ 3 | |           1 + 1;
+ 4 | `->     }
+ 5 |     }
+   `----
+
+  x Stmt
+   ,-[$DIR/tests/span/js/decl/static-blocks.js:2:1]
+ 2 |     static {
+ 3 |         1 + 1;
+   :         ^^^^^^
+ 4 |     }
+   `----
+
+  x ExprStmt
+   ,-[$DIR/tests/span/js/decl/static-blocks.js:2:1]
+ 2 |     static {
+ 3 |         1 + 1;
+   :         ^^^^^^
+ 4 |     }
+   `----
+
+  x Expr
+   ,-[$DIR/tests/span/js/decl/static-blocks.js:2:1]
+ 2 |     static {
+ 3 |         1 + 1;
+   :         ^^^^^
+ 4 |     }
+   `----
+
+  x BinExpr
+   ,-[$DIR/tests/span/js/decl/static-blocks.js:2:1]
+ 2 |     static {
+ 3 |         1 + 1;
+   :         ^^^^^
+ 4 |     }
+   `----
+
+  x Expr
+   ,-[$DIR/tests/span/js/decl/static-blocks.js:2:1]
+ 2 |     static {
+ 3 |         1 + 1;
+   :         ^
+ 4 |     }
+   `----
+
+  x Lit
+   ,-[$DIR/tests/span/js/decl/static-blocks.js:2:1]
+ 2 |     static {
+ 3 |         1 + 1;
+   :         ^
+ 4 |     }
+   `----
+
+  x Number
+   ,-[$DIR/tests/span/js/decl/static-blocks.js:2:1]
+ 2 |     static {
+ 3 |         1 + 1;
+   :         ^
+ 4 |     }
+   `----
+
+  x Expr
+   ,-[$DIR/tests/span/js/decl/static-blocks.js:2:1]
+ 2 |     static {
+ 3 |         1 + 1;
+   :             ^
+ 4 |     }
+   `----
+
+  x Lit
+   ,-[$DIR/tests/span/js/decl/static-blocks.js:2:1]
+ 2 |     static {
+ 3 |         1 + 1;
+   :             ^
+ 4 |     }
+   `----
+
+  x Number
+   ,-[$DIR/tests/span/js/decl/static-blocks.js:2:1]
+ 2 |     static {
+ 3 |         1 + 1;
+   :             ^
+ 4 |     }
+   `----

@@ -1,0 +1,6 @@
+
+  x Expected ',', got '.'
+   ,-[$DIR/tests/test262-parser/fail/dee9ac08aa5be125.js:1:1]
+ 1 | ({a([a.b]){}})
+   :       ^
+   `----

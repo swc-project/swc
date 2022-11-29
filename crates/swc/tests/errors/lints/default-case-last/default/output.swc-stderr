@@ -1,0 +1,161 @@
+
+  x Default clause should be the last clause
+   ,-[1:1]
+ 1 | switch (foo) { default: bar(); break; case 1: baz(); break; }
+   :                ^^^^^^^^^^^^^^^^^^^^^^
+ 2 | switch (foo) { default: break; case 1: break; }
+ 3 | switch (foo) { default: break; case 1: }
+ 4 | switch (foo) { default: case 1: break; }
+   `----
+
+  x Default clause should be the last clause
+   ,-[1:1]
+ 1 | switch (foo) { default: bar(); break; case 1: baz(); break; }
+ 2 | switch (foo) { default: break; case 1: break; }
+   :                ^^^^^^^^^^^^^^^
+ 3 | switch (foo) { default: break; case 1: }
+ 4 | switch (foo) { default: case 1: break; }
+ 5 | switch (foo) { default: case 1: }
+   `----
+
+  x Default clause should be the last clause
+   ,-[1:1]
+ 1 | switch (foo) { default: bar(); break; case 1: baz(); break; }
+ 2 | switch (foo) { default: break; case 1: break; }
+ 3 | switch (foo) { default: break; case 1: }
+   :                ^^^^^^^^^^^^^^^
+ 4 | switch (foo) { default: case 1: break; }
+ 5 | switch (foo) { default: case 1: }
+ 6 | switch (foo) { default: break; case 1: break; case 2: break; }
+   `----
+
+  x Default clause should be the last clause
+   ,-[1:1]
+ 1 | switch (foo) { default: bar(); break; case 1: baz(); break; }
+ 2 | switch (foo) { default: break; case 1: break; }
+ 3 | switch (foo) { default: break; case 1: }
+ 4 | switch (foo) { default: case 1: break; }
+   :                ^^^^^^^^
+ 5 | switch (foo) { default: case 1: }
+ 6 | switch (foo) { default: break; case 1: break; case 2: break; }
+ 7 | switch (foo) { default: case 1: break; case 2: break; }
+   `----
+
+  x Default clause should be the last clause
+   ,-[2:1]
+ 2 | switch (foo) { default: break; case 1: break; }
+ 3 | switch (foo) { default: break; case 1: }
+ 4 | switch (foo) { default: case 1: break; }
+ 5 | switch (foo) { default: case 1: }
+   :                ^^^^^^^^
+ 6 | switch (foo) { default: break; case 1: break; case 2: break; }
+ 7 | switch (foo) { default: case 1: break; case 2: break; }
+ 8 | switch (foo) { default: case 1: case 2: break; }
+   `----
+
+  x Default clause should be the last clause
+   ,-[3:1]
+ 3 | switch (foo) { default: break; case 1: }
+ 4 | switch (foo) { default: case 1: break; }
+ 5 | switch (foo) { default: case 1: }
+ 6 | switch (foo) { default: break; case 1: break; case 2: break; }
+   :                ^^^^^^^^^^^^^^^
+ 7 | switch (foo) { default: case 1: break; case 2: break; }
+ 8 | switch (foo) { default: case 1: case 2: break; }
+ 9 | switch (foo) { default: case 1: case 2: }
+   `----
+
+  x Default clause should be the last clause
+    ,-[4:1]
+  4 | switch (foo) { default: case 1: break; }
+  5 | switch (foo) { default: case 1: }
+  6 | switch (foo) { default: break; case 1: break; case 2: break; }
+  7 | switch (foo) { default: case 1: break; case 2: break; }
+    :                ^^^^^^^^
+  8 | switch (foo) { default: case 1: case 2: break; }
+  9 | switch (foo) { default: case 1: case 2: }
+ 10 | switch (foo) { case 1: break; default: break; case 2: break; }
+    `----
+
+  x Default clause should be the last clause
+    ,-[5:1]
+  5 | switch (foo) { default: case 1: }
+  6 | switch (foo) { default: break; case 1: break; case 2: break; }
+  7 | switch (foo) { default: case 1: break; case 2: break; }
+  8 | switch (foo) { default: case 1: case 2: break; }
+    :                ^^^^^^^^
+  9 | switch (foo) { default: case 1: case 2: }
+ 10 | switch (foo) { case 1: break; default: break; case 2: break; }
+ 11 | switch (foo) { case 1: default: break; case 2: break; }
+    `----
+
+  x Default clause should be the last clause
+    ,-[6:1]
+  6 | switch (foo) { default: break; case 1: break; case 2: break; }
+  7 | switch (foo) { default: case 1: break; case 2: break; }
+  8 | switch (foo) { default: case 1: case 2: break; }
+  9 | switch (foo) { default: case 1: case 2: }
+    :                ^^^^^^^^
+ 10 | switch (foo) { case 1: break; default: break; case 2: break; }
+ 11 | switch (foo) { case 1: default: break; case 2: break; }
+ 12 | switch (foo) { case 1: break; default: case 2: break; }
+    `----
+
+  x Default clause should be the last clause
+    ,-[7:1]
+  7 | switch (foo) { default: case 1: break; case 2: break; }
+  8 | switch (foo) { default: case 1: case 2: break; }
+  9 | switch (foo) { default: case 1: case 2: }
+ 10 | switch (foo) { case 1: break; default: break; case 2: break; }
+    :                               ^^^^^^^^^^^^^^^
+ 11 | switch (foo) { case 1: default: break; case 2: break; }
+ 12 | switch (foo) { case 1: break; default: case 2: break; }
+ 13 | switch (foo) { case 1: default: case 2: break; }
+    `----
+
+  x Default clause should be the last clause
+    ,-[8:1]
+  8 | switch (foo) { default: case 1: case 2: break; }
+  9 | switch (foo) { default: case 1: case 2: }
+ 10 | switch (foo) { case 1: break; default: break; case 2: break; }
+ 11 | switch (foo) { case 1: default: break; case 2: break; }
+    :                        ^^^^^^^^^^^^^^^
+ 12 | switch (foo) { case 1: break; default: case 2: break; }
+ 13 | switch (foo) { case 1: default: case 2: break; }
+ 14 | switch (foo) { case 1: default: case 2: }
+    `----
+
+  x Default clause should be the last clause
+    ,-[9:1]
+  9 | switch (foo) { default: case 1: case 2: }
+ 10 | switch (foo) { case 1: break; default: break; case 2: break; }
+ 11 | switch (foo) { case 1: default: break; case 2: break; }
+ 12 | switch (foo) { case 1: break; default: case 2: break; }
+    :                               ^^^^^^^^
+ 13 | switch (foo) { case 1: default: case 2: break; }
+ 14 | switch (foo) { case 1: default: case 2: }
+    `----
+
+  x Default clause should be the last clause
+    ,-[10:1]
+ 10 | switch (foo) { case 1: break; default: break; case 2: break; }
+ 11 | switch (foo) { case 1: default: break; case 2: break; }
+ 12 | switch (foo) { case 1: break; default: case 2: break; }
+ 13 | switch (foo) { case 1: default: case 2: break; }
+    :                        ^^^^^^^^
+ 14 | switch (foo) { case 1: default: case 2: }
+ 15 | 
+ 16 | // valid
+    `----
+
+  x Default clause should be the last clause
+    ,-[11:1]
+ 11 | switch (foo) { case 1: default: break; case 2: break; }
+ 12 | switch (foo) { case 1: break; default: case 2: break; }
+ 13 | switch (foo) { case 1: default: case 2: break; }
+ 14 | switch (foo) { case 1: default: case 2: }
+    :                        ^^^^^^^^
+ 15 | 
+ 16 | // valid
+ 17 | switch (foo) { }
+    `----

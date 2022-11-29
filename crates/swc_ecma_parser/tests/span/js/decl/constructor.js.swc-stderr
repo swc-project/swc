@@ -1,0 +1,130 @@
+
+  x Module
+   ,-[$DIR/tests/span/js/decl/constructor.js:1:1]
+ 1 | ,-> class Cons {
+ 2 | |       constructor(foo) {
+ 3 | |   
+ 4 | |       }
+ 5 | `-> }
+   `----
+
+  x ModuleItem
+   ,-[$DIR/tests/span/js/decl/constructor.js:1:1]
+ 1 | ,-> class Cons {
+ 2 | |       constructor(foo) {
+ 3 | |   
+ 4 | |       }
+ 5 | `-> }
+   `----
+
+  x Stmt
+   ,-[$DIR/tests/span/js/decl/constructor.js:1:1]
+ 1 | ,-> class Cons {
+ 2 | |       constructor(foo) {
+ 3 | |   
+ 4 | |       }
+ 5 | `-> }
+   `----
+
+  x Decl
+   ,-[$DIR/tests/span/js/decl/constructor.js:1:1]
+ 1 | ,-> class Cons {
+ 2 | |       constructor(foo) {
+ 3 | |   
+ 4 | |       }
+ 5 | `-> }
+   `----
+
+  x ClassDecl
+   ,-[$DIR/tests/span/js/decl/constructor.js:1:1]
+ 1 | ,-> class Cons {
+ 2 | |       constructor(foo) {
+ 3 | |   
+ 4 | |       }
+ 5 | `-> }
+   `----
+
+  x Ident
+   ,-[$DIR/tests/span/js/decl/constructor.js:1:1]
+ 1 | class Cons {
+   :       ^^^^
+ 2 |     constructor(foo) {
+   `----
+
+  x Class
+   ,-[$DIR/tests/span/js/decl/constructor.js:1:1]
+ 1 | ,-> class Cons {
+ 2 | |       constructor(foo) {
+ 3 | |   
+ 4 | |       }
+ 5 | `-> }
+   `----
+
+  x ClassMember
+   ,-[$DIR/tests/span/js/decl/constructor.js:1:1]
+ 1 |     class Cons {
+ 2 | ,->     constructor(foo) {
+ 3 | |   
+ 4 | `->     }
+ 5 |     }
+   `----
+
+  x Constructor
+   ,-[$DIR/tests/span/js/decl/constructor.js:1:1]
+ 1 |     class Cons {
+ 2 | ,->     constructor(foo) {
+ 3 | |   
+ 4 | `->     }
+ 5 |     }
+   `----
+
+  x PropName
+   ,-[$DIR/tests/span/js/decl/constructor.js:1:1]
+ 1 | class Cons {
+ 2 |     constructor(foo) {
+   :     ^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/span/js/decl/constructor.js:1:1]
+ 1 | class Cons {
+ 2 |     constructor(foo) {
+   :     ^^^^^^^^^^^
+   `----
+
+  x ParamOrTsParamProp
+   ,-[$DIR/tests/span/js/decl/constructor.js:1:1]
+ 1 | class Cons {
+ 2 |     constructor(foo) {
+   :                 ^^^
+   `----
+
+  x Param
+   ,-[$DIR/tests/span/js/decl/constructor.js:1:1]
+ 1 | class Cons {
+ 2 |     constructor(foo) {
+   :                 ^^^
+   `----
+
+  x Pat
+   ,-[$DIR/tests/span/js/decl/constructor.js:1:1]
+ 1 | class Cons {
+ 2 |     constructor(foo) {
+   :                 ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/span/js/decl/constructor.js:1:1]
+ 1 | class Cons {
+ 2 |     constructor(foo) {
+   :                 ^^^
+   `----
+
+  x BlockStmt
+   ,-[$DIR/tests/span/js/decl/constructor.js:1:1]
+ 1 |     class Cons {
+ 2 | ,->     constructor(foo) {
+ 3 | |   
+ 4 | `->     }
+ 5 |     }
+   `----

@@ -1,0 +1,7 @@
+
+  x `let` cannot be used as an identifier in strict mode
+   ,-[$DIR/tests/typescript-errors/let/index.ts:2:1]
+ 2 | 
+ 3 | let let;
+   :     ^^^
+   `----
