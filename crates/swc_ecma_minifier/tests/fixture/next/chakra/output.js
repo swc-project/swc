@@ -1675,7 +1675,7 @@
                     var index = 0;
                     if (0 === str.length) return list[0];
                     for(var i = 0; i < str.length; i += 1)index = str.charCodeAt(i) + ((index << 5) - index), index &= index;
-                    return list[index = (index % list.length + list.length) % list.length];
+                    return index = (index % list.length + list.length) % list.length, list[index];
                 }(opts.string, opts.colors) : opts.string && !opts.colors ? function(str) {
                     var hash = 0;
                     if (0 === str.length) return hash.toString();

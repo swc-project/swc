@@ -5561,7 +5561,10 @@
                 return void 0 === program && (program = new WebGLProgram(renderer, cacheKey, parameters, bindingStates), programs.push(program)), program;
             },
             releaseProgram: function(program) {
-                0 == --program.usedTimes && (programs[programs.indexOf(program)] = programs[programs.length - 1], programs.pop(), program.destroy());
+                if (0 == --program.usedTimes) {
+                    var i = programs.indexOf(program);
+                    programs[i] = programs[programs.length - 1], programs.pop(), program.destroy();
+                }
             },
             programs: programs
         };
@@ -10006,7 +10009,7 @@
                     iPrev = i1, tPrev = 2 * t0 - t1;
                     break;
                 case 2402:
-                    tPrev = t0 + pp[iPrev = pp.length - 2] - pp[iPrev + 1];
+                    iPrev = pp.length - 2, tPrev = t0 + pp[iPrev] - pp[iPrev + 1];
                     break;
                 default:
                     iPrev = i1, tPrev = t1;
