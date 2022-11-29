@@ -728,13 +728,13 @@ impl Error {
 
         match kind {
             SyntaxError::ExpectedSemiForExprStmt { expr } => {
-                db.span_note(
+                db.span_label(
                     expr,
                     "This is the expression part of an expression statement",
                 );
             }
             SyntaxError::MultipleDefault { previous } => {
-                db.span_note(previous, "previous default case is declared at here");
+                db.span_label(previous, "previous default case is declared at here");
             }
             _ => {}
         }
