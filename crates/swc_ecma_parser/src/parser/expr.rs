@@ -1911,7 +1911,7 @@ impl<I: Tokens> Parser<I> {
             let arg = self.parse_assignment_expr().map_err(|err| {
                 Error::new(
                     err.span(),
-                    SyntaxError::WithNote {
+                    SyntaxError::WithLabel {
                         inner: Box::new(err),
                         span: err_span,
                         note: "Tried to parse an argument of yield",
