@@ -910,7 +910,7 @@ impl<'a, I: Tokens> Parser<I> {
                         SyntaxError::WithLabel {
                             inner: Box::new(err),
                             span: name.span(),
-                            note: "Tried to parse the initialize for this pattern",
+                            note: "Tried to parse the initializer for this pattern",
                         },
                     )
                 })?;
