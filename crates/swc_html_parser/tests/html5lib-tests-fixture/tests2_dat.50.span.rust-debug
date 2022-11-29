@@ -9,12 +9,14 @@
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.50.html:1:1]
  1 | <!DOCTYPE html><script>
    : ^^^^^^^^^^^^^^^
+ 2 | </script>  <title>x</title>  </head>
    `----
 
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.50.html:1:1]
  1 | <!DOCTYPE html><script>
    : ^^^^^^^^^^^^^^^
+ 2 | </script>  <title>x</title>  </head>
    `----
 
   x Child
@@ -48,49 +50,57 @@
    `----
 
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.50.html:2:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.50.html:1:1]
+ 1 | <!DOCTYPE html><script>
  2 | </script>  <title>x</title>  </head>
    :          ^^
    `----
 
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.50.html:2:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.50.html:1:1]
+ 1 | <!DOCTYPE html><script>
  2 | </script>  <title>x</title>  </head>
    :          ^^
    `----
 
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.50.html:2:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.50.html:1:1]
+ 1 | <!DOCTYPE html><script>
  2 | </script>  <title>x</title>  </head>
    :            ^^^^^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.50.html:2:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.50.html:1:1]
+ 1 | <!DOCTYPE html><script>
  2 | </script>  <title>x</title>  </head>
    :            ^^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.50.html:2:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.50.html:1:1]
+ 1 | <!DOCTYPE html><script>
  2 | </script>  <title>x</title>  </head>
    :                   ^
    `----
 
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.50.html:2:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.50.html:1:1]
+ 1 | <!DOCTYPE html><script>
  2 | </script>  <title>x</title>  </head>
    :                   ^
    `----
 
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.50.html:2:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.50.html:1:1]
+ 1 | <!DOCTYPE html><script>
  2 | </script>  <title>x</title>  </head>
    :                            ^^
    `----
 
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.50.html:2:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.50.html:1:1]
+ 1 | <!DOCTYPE html><script>
  2 | </script>  <title>x</title>  </head>
    :                            ^^
    `----

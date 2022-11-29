@@ -40,16 +40,19 @@
    ,-[$DIR/tests/recovery/element/plaintext/input.html:1:1]
  1 | ,-> <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
  2 | `->         "http://www.w3.org/TR/html4/strict.dtd">
+ 3 |     <html>
    `----
 
   x DocumentType
    ,-[$DIR/tests/recovery/element/plaintext/input.html:1:1]
  1 | ,-> <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
  2 | `->         "http://www.w3.org/TR/html4/strict.dtd">
+ 3 |     <html>
    `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/plaintext/input.html:3:1]
+    ,-[$DIR/tests/recovery/element/plaintext/input.html:2:1]
+  2 |             "http://www.w3.org/TR/html4/strict.dtd">
   3 | ,-> <html>
   4 | |   <head>
   5 | |       <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -84,7 +87,8 @@
     `----
 
   x Element
-    ,-[$DIR/tests/recovery/element/plaintext/input.html:3:1]
+    ,-[$DIR/tests/recovery/element/plaintext/input.html:2:1]
+  2 |             "http://www.w3.org/TR/html4/strict.dtd">
   3 | ,-> <html>
   4 | |   <head>
   5 | |       <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -119,123 +123,160 @@
     `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/plaintext/input.html:4:1]
+   ,-[$DIR/tests/recovery/element/plaintext/input.html:3:1]
+ 3 |     <html>
  4 | ,-> <head>
  5 | |       <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
  6 | |       <title>Тег PLAINTEXT</title>
  7 | `-> </head>
+ 8 |     <body>
    `----
 
   x Element
-   ,-[$DIR/tests/recovery/element/plaintext/input.html:4:1]
+   ,-[$DIR/tests/recovery/element/plaintext/input.html:3:1]
+ 3 |     <html>
  4 | ,-> <head>
  5 | |       <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
  6 | |       <title>Тег PLAINTEXT</title>
  7 | `-> </head>
+ 8 |     <body>
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/plaintext/input.html:3:1]
+ 3 |     <html>
+ 4 | ,-> <head>
+ 5 | `->     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ 6 |         <title>Тег PLAINTEXT</title>
+   `----
+
+  x Text
+   ,-[$DIR/tests/recovery/element/plaintext/input.html:3:1]
+ 3 |     <html>
+ 4 | ,-> <head>
+ 5 | `->     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ 6 |         <title>Тег PLAINTEXT</title>
    `----
 
   x Child
    ,-[$DIR/tests/recovery/element/plaintext/input.html:4:1]
- 4 | ,-> <head>
- 5 | `->     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ 4 | <head>
+ 5 |     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 6 |     <title>Тег PLAINTEXT</title>
+   `----
+
+  x Element
+   ,-[$DIR/tests/recovery/element/plaintext/input.html:4:1]
+ 4 | <head>
+ 5 |     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 6 |     <title>Тег PLAINTEXT</title>
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/recovery/element/plaintext/input.html:4:1]
+ 4 | <head>
+ 5 |     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   :           ^^^^^^^^^^^^^^^^^^^^^^^^^
+ 6 |     <title>Тег PLAINTEXT</title>
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/recovery/element/plaintext/input.html:4:1]
+ 4 | <head>
+ 5 |     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   :                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 6 |     <title>Тег PLAINTEXT</title>
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/plaintext/input.html:4:1]
+ 4 |     <head>
+ 5 | ,->     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ 6 | `->     <title>Тег PLAINTEXT</title>
+ 7 |     </head>
    `----
 
   x Text
    ,-[$DIR/tests/recovery/element/plaintext/input.html:4:1]
- 4 | ,-> <head>
- 5 | `->     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ 4 |     <head>
+ 5 | ,->     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ 6 | `->     <title>Тег PLAINTEXT</title>
+ 7 |     </head>
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/plaintext/input.html:5:5]
- 5 | <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/plaintext/input.html:5:1]
+ 5 |     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ 6 |     <title>Тег PLAINTEXT</title>
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 7 | </head>
    `----
 
   x Element
-   ,-[$DIR/tests/recovery/element/plaintext/input.html:5:5]
- 5 | <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x Attribute
-   ,-[$DIR/tests/recovery/element/plaintext/input.html:5:5]
- 5 | <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-   :       ^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x Attribute
-   ,-[$DIR/tests/recovery/element/plaintext/input.html:5:5]
- 5 | <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-   :                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x Child
-   ,-[$DIR/tests/recovery/element/plaintext/input.html:5:5]
- 5 | ,-> <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
- 6 | `->     <title>Тег PLAINTEXT</title>
-   `----
-
-  x Text
-   ,-[$DIR/tests/recovery/element/plaintext/input.html:5:5]
- 5 | ,-> <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
- 6 | `->     <title>Тег PLAINTEXT</title>
-   `----
-
-  x Child
-   ,-[$DIR/tests/recovery/element/plaintext/input.html:6:5]
- 6 | <title>Тег PLAINTEXT</title>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x Element
-   ,-[$DIR/tests/recovery/element/plaintext/input.html:6:5]
- 6 | <title>Тег PLAINTEXT</title>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x Child
-   ,-[$DIR/tests/recovery/element/plaintext/input.html:6:5]
- 6 | <title>Тег PLAINTEXT</title>
-   :        ^^^^^^^^^^^^^^^^
-   `----
-
-  x Text
-   ,-[$DIR/tests/recovery/element/plaintext/input.html:6:5]
- 6 | <title>Тег PLAINTEXT</title>
-   :        ^^^^^^^^^^^^^^^^
-   `----
-
-  x Child
-   ,-[$DIR/tests/recovery/element/plaintext/input.html:6:5]
- 6 | <title>Тег PLAINTEXT</title>
-   :                                ^
- 7 | </head>
-   `----
-
-  x Text
-   ,-[$DIR/tests/recovery/element/plaintext/input.html:6:5]
- 6 | <title>Тег PLAINTEXT</title>
-   :                                ^
+   ,-[$DIR/tests/recovery/element/plaintext/input.html:5:1]
+ 5 |     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ 6 |     <title>Тег PLAINTEXT</title>
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  7 | </head>
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/plaintext/input.html:7:1]
+   ,-[$DIR/tests/recovery/element/plaintext/input.html:5:1]
+ 5 |     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ 6 |     <title>Тег PLAINTEXT</title>
+   :            ^^^^^^^^^^^^^^^^
  7 | </head>
-   :        ^
+   `----
+
+  x Text
+   ,-[$DIR/tests/recovery/element/plaintext/input.html:5:1]
+ 5 |     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ 6 |     <title>Тег PLAINTEXT</title>
+   :            ^^^^^^^^^^^^^^^^
+ 7 | </head>
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/plaintext/input.html:5:1]
+ 5 |     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ 6 |     <title>Тег PLAINTEXT</title>
+   :                                    ^
+ 7 | </head>
  8 | <body>
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/element/plaintext/input.html:7:1]
+   ,-[$DIR/tests/recovery/element/plaintext/input.html:5:1]
+ 5 |     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+ 6 |     <title>Тег PLAINTEXT</title>
+   :                                    ^
  7 | </head>
-   :        ^
  8 | <body>
    `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/plaintext/input.html:8:1]
+   ,-[$DIR/tests/recovery/element/plaintext/input.html:6:1]
+ 6 |     <title>Тег PLAINTEXT</title>
+ 7 | </head>
+   :        ^
+ 8 | <body>
+ 9 | <p>Пример программы</p>
+   `----
+
+  x Text
+   ,-[$DIR/tests/recovery/element/plaintext/input.html:6:1]
+ 6 |     <title>Тег PLAINTEXT</title>
+ 7 | </head>
+   :        ^
+ 8 | <body>
+ 9 | <p>Пример программы</p>
+   `----
+
+  x Child
+    ,-[$DIR/tests/recovery/element/plaintext/input.html:7:1]
+  7 |     </head>
   8 | ,-> <body>
   9 | |   <p>Пример программы</p>
  10 | |   <plaintext>
@@ -265,7 +306,8 @@
     `----
 
   x Element
-    ,-[$DIR/tests/recovery/element/plaintext/input.html:8:1]
+    ,-[$DIR/tests/recovery/element/plaintext/input.html:7:1]
+  7 |     </head>
   8 | ,-> <body>
   9 | |   <p>Пример программы</p>
  10 | |   <plaintext>
@@ -295,59 +337,76 @@
     `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/plaintext/input.html:8:1]
- 8 | <body>
-   :       ^
- 9 | <p>Пример программы</p>
-   `----
-
-  x Text
-   ,-[$DIR/tests/recovery/element/plaintext/input.html:8:1]
- 8 | <body>
-   :       ^
- 9 | <p>Пример программы</p>
-   `----
-
-  x Child
-   ,-[$DIR/tests/recovery/element/plaintext/input.html:9:1]
- 9 | <p>Пример программы</p>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x Element
-   ,-[$DIR/tests/recovery/element/plaintext/input.html:9:1]
- 9 | <p>Пример программы</p>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x Child
-   ,-[$DIR/tests/recovery/element/plaintext/input.html:9:1]
- 9 | <p>Пример программы</p>
-   :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x Text
-   ,-[$DIR/tests/recovery/element/plaintext/input.html:9:1]
- 9 | <p>Пример программы</p>
-   :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x Child
-    ,-[$DIR/tests/recovery/element/plaintext/input.html:9:1]
+    ,-[$DIR/tests/recovery/element/plaintext/input.html:7:1]
+  7 | </head>
+  8 | <body>
+    :       ^
   9 | <p>Пример программы</p>
-    :                                       ^
  10 | <plaintext>
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/plaintext/input.html:9:1]
+    ,-[$DIR/tests/recovery/element/plaintext/input.html:7:1]
+  7 | </head>
+  8 | <body>
+    :       ^
   9 | <p>Пример программы</p>
-    :                                       ^
  10 | <plaintext>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/plaintext/input.html:10:1]
+    ,-[$DIR/tests/recovery/element/plaintext/input.html:8:1]
+  8 | <body>
+  9 | <p>Пример программы</p>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 10 | <plaintext>
+    `----
+
+  x Element
+    ,-[$DIR/tests/recovery/element/plaintext/input.html:8:1]
+  8 | <body>
+  9 | <p>Пример программы</p>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 10 | <plaintext>
+    `----
+
+  x Child
+    ,-[$DIR/tests/recovery/element/plaintext/input.html:8:1]
+  8 | <body>
+  9 | <p>Пример программы</p>
+    :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 10 | <plaintext>
+    `----
+
+  x Text
+    ,-[$DIR/tests/recovery/element/plaintext/input.html:8:1]
+  8 | <body>
+  9 | <p>Пример программы</p>
+    :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 10 | <plaintext>
+    `----
+
+  x Child
+    ,-[$DIR/tests/recovery/element/plaintext/input.html:8:1]
+  8 | <body>
+  9 | <p>Пример программы</p>
+    :                                       ^
+ 10 | <plaintext>
+ 11 |     <h1>Демонстрация метода Подборского</h1>
+    `----
+
+  x Text
+    ,-[$DIR/tests/recovery/element/plaintext/input.html:8:1]
+  8 | <body>
+  9 | <p>Пример программы</p>
+    :                                       ^
+ 10 | <plaintext>
+ 11 |     <h1>Демонстрация метода Подборского</h1>
+    `----
+
+  x Child
+    ,-[$DIR/tests/recovery/element/plaintext/input.html:9:1]
+  9 |     <p>Пример программы</p>
  10 | ,-> <plaintext>
  11 | |       <h1>Демонстрация метода Подборского</h1>
  12 | |       while (<>) {
@@ -375,7 +434,8 @@
     `----
 
   x Element
-    ,-[$DIR/tests/recovery/element/plaintext/input.html:10:1]
+    ,-[$DIR/tests/recovery/element/plaintext/input.html:9:1]
+  9 |     <p>Пример программы</p>
  10 | ,-> <plaintext>
  11 | |       <h1>Демонстрация метода Подборского</h1>
  12 | |       while (<>) {
@@ -403,7 +463,8 @@
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/plaintext/input.html:10:1]
+    ,-[$DIR/tests/recovery/element/plaintext/input.html:9:1]
+  9 |     <p>Пример программы</p>
  10 | ,-> <plaintext>
  11 | |       <h1>Демонстрация метода Подборского</h1>
  12 | |       while (<>) {
@@ -431,7 +492,8 @@
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/plaintext/input.html:10:1]
+    ,-[$DIR/tests/recovery/element/plaintext/input.html:9:1]
+  9 |     <p>Пример программы</p>
  10 | ,-> <plaintext>
  11 | |       <h1>Демонстрация метода Подборского</h1>
  12 | |       while (<>) {

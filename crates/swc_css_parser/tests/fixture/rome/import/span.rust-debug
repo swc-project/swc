@@ -9,76 +9,89 @@
    ,-[$DIR/tests/fixture/rome/import/input.css:1:1]
  1 | @import "something.css";
    : ^^^^^^^^^^^^^^^^^^^^^^^^
+ 2 | @import url("something.css");
    `----
 
   x AtRule
    ,-[$DIR/tests/fixture/rome/import/input.css:1:1]
  1 | @import "something.css";
    : ^^^^^^^^^^^^^^^^^^^^^^^^
+ 2 | @import url("something.css");
    `----
 
   x AtRuleName
    ,-[$DIR/tests/fixture/rome/import/input.css:1:1]
  1 | @import "something.css";
    :  ^^^^^^
+ 2 | @import url("something.css");
    `----
 
   x Ident
    ,-[$DIR/tests/fixture/rome/import/input.css:1:1]
  1 | @import "something.css";
    :  ^^^^^^
+ 2 | @import url("something.css");
    `----
 
   x Str
    ,-[$DIR/tests/fixture/rome/import/input.css:1:1]
  1 | @import "something.css";
    :         ^^^^^^^^^^^^^^^
+ 2 | @import url("something.css");
    `----
 
   x Rule
-   ,-[$DIR/tests/fixture/rome/import/input.css:2:1]
+   ,-[$DIR/tests/fixture/rome/import/input.css:1:1]
+ 1 | @import "something.css";
  2 | @import url("something.css");
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x AtRule
-   ,-[$DIR/tests/fixture/rome/import/input.css:2:1]
+   ,-[$DIR/tests/fixture/rome/import/input.css:1:1]
+ 1 | @import "something.css";
  2 | @import url("something.css");
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x AtRuleName
-   ,-[$DIR/tests/fixture/rome/import/input.css:2:1]
+   ,-[$DIR/tests/fixture/rome/import/input.css:1:1]
+ 1 | @import "something.css";
  2 | @import url("something.css");
    :  ^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/import/input.css:2:1]
+   ,-[$DIR/tests/fixture/rome/import/input.css:1:1]
+ 1 | @import "something.css";
  2 | @import url("something.css");
    :  ^^^^^^
    `----
 
   x Url
-   ,-[$DIR/tests/fixture/rome/import/input.css:2:1]
+   ,-[$DIR/tests/fixture/rome/import/input.css:1:1]
+ 1 | @import "something.css";
  2 | @import url("something.css");
    :         ^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/import/input.css:2:1]
+   ,-[$DIR/tests/fixture/rome/import/input.css:1:1]
+ 1 | @import "something.css";
  2 | @import url("something.css");
    :         ^^^
    `----
 
   x UrlValue
-   ,-[$DIR/tests/fixture/rome/import/input.css:2:1]
+   ,-[$DIR/tests/fixture/rome/import/input.css:1:1]
+ 1 | @import "something.css";
  2 | @import url("something.css");
    :             ^^^^^^^^^^^^^^^
    `----
 
   x Str
-   ,-[$DIR/tests/fixture/rome/import/input.css:2:1]
+   ,-[$DIR/tests/fixture/rome/import/input.css:1:1]
+ 1 | @import "something.css";
  2 | @import url("something.css");
    :             ^^^^^^^^^^^^^^^
    `----

@@ -105,69 +105,6 @@ fn fixture(input: PathBuf) {
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
-    |_| new_target(),
-    edge_12,
-    r#"function foo() {
-        const a = () => new.target
-    }"#,
-    r#"function foo() {
-        const a = () => this instanceof foo ? this.constructor : void 0
-    }"#
-);
-
-test!(
-    ::swc_ecma_parser::Syntax::default(),
-    |_| new_target(),
-    issue_4193,
-    r#"const v0 = Symbol("Context#bar");
-    module.exports = {
-        get bar() {
-            if (new.target === "foo") {
-                return;
-            }
-            return new Proxy(this, v0);
-        }
-    };"#,
-    r#"const v0 = Symbol("Context#bar");
-    module.exports = {
-        get bar() {
-            if (void 0 === "foo") {
-                return;
-            }
-            return new Proxy(this, v0);
-        }
-    };"#
-);
-
-test!(
-    ::swc_ecma_parser::Syntax::default(),
-    |_| new_target(),
-    edge_13,
-    r#"
-class A {
-    foo() {
-        return () => new.target
-    }
-
-    constructor() {
-        () => new.target
-    }
-}
-"#,
-    r#"
-class A {
-    foo() {
-        return ()=>void 0;
-    }
-    constructor(){
-        ()=>this.constructor;
-    }
-}
-"#
-);
-
-test!(
-    ::swc_ecma_parser::Syntax::default(),
     |t| chain!(
         classes(Some(t.comments.clone()), Default::default()),
         new_target()

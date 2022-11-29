@@ -3,4 +3,5 @@
    ,-[$DIR/tests/recovery/selector/pseudo-class/invalid-ident/input.css:1:1]
  1 | : first-child {
    :  ^
+ 2 |     
    `----

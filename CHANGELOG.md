@@ -5,10 +5,48 @@
 
 
 
+- **(ci)** Fix publish action for binaries (#6517) ([2ac3201](https://github.com/swc-project/swc/commit/2ac32017bad112956a781b0d003782988655409c))
+
+
+- **(html/parser)** Fix parsing of cdata (#6534) ([e3cbe7e](https://github.com/swc-project/swc/commit/e3cbe7e9a98149bfc05421a264d4e421fb543f7e))
+
+### Features
+
+
+
+- **(common)** Add contexts to the error messages (#6526) ([b8fe04f](https://github.com/swc-project/swc/commit/b8fe04f720d81f2d4ef0778cbb345f64b9ec1956))
+
+### Performance
+
+
+
+- **(common)** Fix perf bug of sourcemap for inputs with multi-byte chars (#6523) ([47908a4](https://github.com/swc-project/swc/commit/47908a49d3d773b7ffacf6ffa6e38c7e091101cb))
+
+### Testing
+
+
+
+- **(es/transforms)** Add tests about preserving top-level directives (#6518) ([5ff87af](https://github.com/swc-project/swc/commit/5ff87afa78e5bb56f2b03678577279256c18e4da))
+
+
+- **(ts/compat)** Migrate inline tests to fixture testing (#6475) ([cc4646a](https://github.com/swc-project/swc/commit/cc4646a4cc455c08680f7dedb344337f90f0c668))
+
+## [1.3.20] - 2022-11-26
+
+### Bug Fixes
+
+
+
 - **(es/codegen)** Preserve parens for `new` in optional chaining (#6484) ([1ca281a](https://github.com/swc-project/swc/commit/1ca281a6cfdbdcb4b52e7617c5e843b8458a2299))
 
 
 - **(es/minifier)** Preserve classes with side effects in static fields (#6480) ([8d906b4](https://github.com/swc-project/swc/commit/8d906b45e56d447792df59d5fdde5ee072e2bc80))
+
+
+- **(es/react)** Allow spread children (#6505) ([90aa6c8](https://github.com/swc-project/swc/commit/90aa6c831890bf3978d9e6298a003e0652b27dce))
+
+
+- **(es/visit)** Visit TypeScript satisfies expressions (#6511) ([0cee0e1](https://github.com/swc-project/swc/commit/0cee0e1af7f8c476fe3622e687e6b953aef8cd31))
 
 ### Features
 

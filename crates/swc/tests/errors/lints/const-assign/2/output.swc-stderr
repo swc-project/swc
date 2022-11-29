@@ -9,10 +9,13 @@
  4 | 
  5 | foo = 1;
    : ^^^
+ 6 | bar = 2;
+ 7 | baz = 3;
    `----
 
   x cannot reassign to an imported binding
-   ,-[2:1]
+   ,-[1:1]
+ 1 | import { foo } from "foo";
  2 | import bar from "bar";
    :        ^|^
    :         `-- imported binding
@@ -21,35 +24,46 @@
  5 | foo = 1;
  6 | bar = 2;
    : ^^^
-   `----
-
-  x cannot reassign to an imported binding
-   ,-[3:1]
- 3 | import * as baz from "baz";
-   :             ^|^
-   :              `-- imported binding
- 4 | 
- 5 | foo = 1;
- 6 | bar = 2;
- 7 | baz = 3;
-   : ^^^
-   `----
-
-  x cannot reassign to an imported binding
-   ,-[1:1]
- 1 | import { foo } from "foo";
-   :          ^|^
-   :           `-- imported binding
- 2 | import bar from "bar";
- 3 | import * as baz from "baz";
- 4 | 
- 5 | foo = 1;
- 6 | bar = 2;
  7 | baz = 3;
  8 | 
  9 | foo++;
-   : ^^^
    `----
+
+  x cannot reassign to an imported binding
+    ,-[1:1]
+  1 | import { foo } from "foo";
+  2 | import bar from "bar";
+  3 | import * as baz from "baz";
+    :             ^|^
+    :              `-- imported binding
+  4 | 
+  5 | foo = 1;
+  6 | bar = 2;
+  7 | baz = 3;
+    : ^^^
+  8 | 
+  9 | foo++;
+ 10 | foo--;
+    `----
+
+  x cannot reassign to an imported binding
+    ,-[1:1]
+  1 | import { foo } from "foo";
+    :          ^|^
+    :           `-- imported binding
+  2 | import bar from "bar";
+  3 | import * as baz from "baz";
+  4 | 
+  5 | foo = 1;
+  6 | bar = 2;
+  7 | baz = 3;
+  8 | 
+  9 | foo++;
+    : ^^^
+ 10 | foo--;
+ 11 | 
+ 12 | ++bar;
+    `----
 
   x cannot reassign to an imported binding
     ,-[1:1]
@@ -66,10 +80,14 @@
   9 | foo++;
  10 | foo--;
     : ^^^
+ 11 | 
+ 12 | ++bar;
+ 13 | --bar;
     `----
 
   x cannot reassign to an imported binding
-    ,-[2:1]
+    ,-[1:1]
+  1 | import { foo } from "foo";
   2 | import bar from "bar";
     :        ^|^
     :         `-- imported binding
@@ -84,10 +102,13 @@
  11 | 
  12 | ++bar;
     :   ^^^
+ 13 | --bar;
+ 14 | 
     `----
 
   x cannot reassign to an imported binding
-    ,-[2:1]
+    ,-[1:1]
+  1 | import { foo } from "foo";
   2 | import bar from "bar";
     :        ^|^
     :         `-- imported binding
@@ -103,6 +124,9 @@
  12 | ++bar;
  13 | --bar;
     :   ^^^
+ 14 | 
+ 15 | 
+ 16 | foo += 10;
     `----
 
   x cannot reassign to an imported binding
@@ -126,10 +150,14 @@
  15 | 
  16 | foo += 10;
     : ^^^
+ 17 | bar -= 10;
+ 18 | baz *= 10;
+ 19 | foo /= 10;
     `----
 
   x cannot reassign to an imported binding
-    ,-[2:1]
+    ,-[1:1]
+  1 | import { foo } from "foo";
   2 | import bar from "bar";
     :        ^|^
     :         `-- imported binding
@@ -149,10 +177,15 @@
  16 | foo += 10;
  17 | bar -= 10;
     : ^^^
+ 18 | baz *= 10;
+ 19 | foo /= 10;
+ 20 | bar %= 10;
     `----
 
   x cannot reassign to an imported binding
-    ,-[3:1]
+    ,-[1:1]
+  1 | import { foo } from "foo";
+  2 | import bar from "bar";
   3 | import * as baz from "baz";
     :             ^|^
     :              `-- imported binding
@@ -172,6 +205,8 @@
  17 | bar -= 10;
  18 | baz *= 10;
     : ^^^
+ 19 | foo /= 10;
+ 20 | bar %= 10;
     `----
 
   x cannot reassign to an imported binding
@@ -198,10 +233,14 @@
  18 | baz *= 10;
  19 | foo /= 10;
     : ^^^
+ 20 | bar %= 10;
+ 21 | 
+ 22 | baz <<= 10;
     `----
 
   x cannot reassign to an imported binding
-    ,-[2:1]
+    ,-[1:1]
+  1 | import { foo } from "foo";
   2 | import bar from "bar";
     :        ^|^
     :         `-- imported binding
@@ -224,10 +263,15 @@
  19 | foo /= 10;
  20 | bar %= 10;
     : ^^^
+ 21 | 
+ 22 | baz <<= 10;
+ 23 | foo >>= 10;
     `----
 
   x cannot reassign to an imported binding
-    ,-[3:1]
+    ,-[1:1]
+  1 | import { foo } from "foo";
+  2 | import bar from "bar";
   3 | import * as baz from "baz";
     :             ^|^
     :              `-- imported binding
@@ -251,6 +295,9 @@
  21 | 
  22 | baz <<= 10;
     : ^^^
+ 23 | foo >>= 10;
+ 24 | 
+ 25 | bar >>>= 10;
     `----
 
   x cannot reassign to an imported binding
@@ -281,10 +328,13 @@
  22 | baz <<= 10;
  23 | foo >>= 10;
     : ^^^
+ 24 | 
+ 25 | bar >>>= 10;
     `----
 
   x cannot reassign to an imported binding
-    ,-[2:1]
+    ,-[1:1]
+  1 | import { foo } from "foo";
   2 | import bar from "bar";
     :        ^|^
     :         `-- imported binding
@@ -312,10 +362,15 @@
  24 | 
  25 | bar >>>= 10;
     : ^^^
+ 26 | 
+ 27 | baz |= 10;
+ 28 | foo ^= 10;
     `----
 
   x cannot reassign to an imported binding
-    ,-[3:1]
+    ,-[1:1]
+  1 | import { foo } from "foo";
+  2 | import bar from "bar";
   3 | import * as baz from "baz";
     :             ^|^
     :              `-- imported binding
@@ -344,6 +399,9 @@
  26 | 
  27 | baz |= 10;
     : ^^^
+ 28 | foo ^= 10;
+ 29 | bar &= 10;
+ 30 | baz **= 10;
     `----
 
   x cannot reassign to an imported binding
@@ -379,10 +437,13 @@
  27 | baz |= 10;
  28 | foo ^= 10;
     : ^^^
+ 29 | bar &= 10;
+ 30 | baz **= 10;
     `----
 
   x cannot reassign to an imported binding
-    ,-[2:1]
+    ,-[1:1]
+  1 | import { foo } from "foo";
   2 | import bar from "bar";
     :        ^|^
     :         `-- imported binding
@@ -414,10 +475,15 @@
  28 | foo ^= 10;
  29 | bar &= 10;
     : ^^^
+ 30 | baz **= 10;
+ 31 | 
+ 32 | foo &&= 10;
     `----
 
   x cannot reassign to an imported binding
-    ,-[3:1]
+    ,-[1:1]
+  1 | import { foo } from "foo";
+  2 | import bar from "bar";
   3 | import * as baz from "baz";
     :             ^|^
     :              `-- imported binding
@@ -449,6 +515,9 @@
  29 | bar &= 10;
  30 | baz **= 10;
     : ^^^
+ 31 | 
+ 32 | foo &&= 10;
+ 33 | bar ||= 10;
     `----
 
   x cannot reassign to an imported binding
@@ -488,10 +557,14 @@
  31 | 
  32 | foo &&= 10;
     : ^^^
+ 33 | bar ||= 10;
+ 34 | 
+ 35 | baz ??= 10;
     `----
 
   x cannot reassign to an imported binding
-    ,-[2:1]
+    ,-[1:1]
+  1 | import { foo } from "foo";
   2 | import bar from "bar";
     :        ^|^
     :         `-- imported binding
@@ -527,10 +600,14 @@
  32 | foo &&= 10;
  33 | bar ||= 10;
     : ^^^
+ 34 | 
+ 35 | baz ??= 10;
     `----
 
   x cannot reassign to an imported binding
-    ,-[3:1]
+    ,-[1:1]
+  1 | import { foo } from "foo";
+  2 | import bar from "bar";
   3 | import * as baz from "baz";
     :             ^|^
     :              `-- imported binding

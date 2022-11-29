@@ -7,24 +7,38 @@
  2 | const foo = 1; // error
    :       ^|^
    :        `-- `foo` redefined here
+ 3 | 
+ 4 | function bar() {}
+ 5 | var bar; // error
    `----
 
   x the name `bar` is defined multiple times
-   ,-[4:1]
+   ,-[1:1]
+ 1 | function foo() {}
+ 2 | const foo = 1; // error
+ 3 | 
  4 | function bar() {}
    :          ^|^
    :           `-- previous definition of `bar` here
  5 | var bar; // error
    :     ^|^
    :      `-- `bar` redefined here
+ 6 | 
+ 7 | function baz() {}
+ 8 | function baz() {} // error
    `----
 
   x the name `baz` is defined multiple times
-   ,-[7:1]
- 7 | function baz() {}
-   :          ^|^
-   :           `-- previous definition of `baz` here
- 8 | function baz() {} // error
-   :          ^|^
-   :           `-- `baz` redefined here
-   `----
+    ,-[4:1]
+  4 | function bar() {}
+  5 | var bar; // error
+  6 | 
+  7 | function baz() {}
+    :          ^|^
+    :           `-- previous definition of `baz` here
+  8 | function baz() {} // error
+    :          ^|^
+    :           `-- `baz` redefined here
+  9 | 
+ 10 | export {};
+    `----

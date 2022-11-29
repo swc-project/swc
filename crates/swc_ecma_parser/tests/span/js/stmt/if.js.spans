@@ -31,18 +31,21 @@
    ,-[$DIR/tests/span/js/stmt/if.js:1:1]
  1 | if (true) {
    :     ^^^^
+ 2 |     foo()
    `----
 
   x Lit
    ,-[$DIR/tests/span/js/stmt/if.js:1:1]
  1 | if (true) {
    :     ^^^^
+ 2 |     foo()
    `----
 
   x Bool
    ,-[$DIR/tests/span/js/stmt/if.js:1:1]
  1 | if (true) {
    :     ^^^^
+ 2 |     foo()
    `----
 
   x Stmt
@@ -60,43 +63,57 @@
    `----
 
   x Stmt
-   ,-[$DIR/tests/span/js/stmt/if.js:2:5]
- 2 | foo()
-   : ^^^^^
+   ,-[$DIR/tests/span/js/stmt/if.js:1:1]
+ 1 | if (true) {
+ 2 |     foo()
+   :     ^^^^^
+ 3 | }
    `----
 
   x ExprStmt
-   ,-[$DIR/tests/span/js/stmt/if.js:2:5]
- 2 | foo()
-   : ^^^^^
+   ,-[$DIR/tests/span/js/stmt/if.js:1:1]
+ 1 | if (true) {
+ 2 |     foo()
+   :     ^^^^^
+ 3 | }
    `----
 
   x Expr
-   ,-[$DIR/tests/span/js/stmt/if.js:2:5]
- 2 | foo()
-   : ^^^^^
+   ,-[$DIR/tests/span/js/stmt/if.js:1:1]
+ 1 | if (true) {
+ 2 |     foo()
+   :     ^^^^^
+ 3 | }
    `----
 
   x CallExpr
-   ,-[$DIR/tests/span/js/stmt/if.js:2:5]
- 2 | foo()
-   : ^^^^^
+   ,-[$DIR/tests/span/js/stmt/if.js:1:1]
+ 1 | if (true) {
+ 2 |     foo()
+   :     ^^^^^
+ 3 | }
    `----
 
   x Callee
-   ,-[$DIR/tests/span/js/stmt/if.js:2:5]
- 2 | foo()
-   : ^^^
+   ,-[$DIR/tests/span/js/stmt/if.js:1:1]
+ 1 | if (true) {
+ 2 |     foo()
+   :     ^^^
+ 3 | }
    `----
 
   x Expr
-   ,-[$DIR/tests/span/js/stmt/if.js:2:5]
- 2 | foo()
-   : ^^^
+   ,-[$DIR/tests/span/js/stmt/if.js:1:1]
+ 1 | if (true) {
+ 2 |     foo()
+   :     ^^^
+ 3 | }
    `----
 
   x Ident
-   ,-[$DIR/tests/span/js/stmt/if.js:2:5]
- 2 | foo()
-   : ^^^
+   ,-[$DIR/tests/span/js/stmt/if.js:1:1]
+ 1 | if (true) {
+ 2 |     foo()
+   :     ^^^
+ 3 | }
    `----

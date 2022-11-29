@@ -27,18 +27,21 @@
    ,-[$DIR/tests/fixture/at-rule/font-palette-values/input.css:1:1]
  1 | @font-palette-values --SelectedPalette {
    :  ^^^^^^^^^^^^^^^^^^^
+ 2 |     font-family: MyVectorColorFont;
    `----
 
   x Ident
    ,-[$DIR/tests/fixture/at-rule/font-palette-values/input.css:1:1]
  1 | @font-palette-values --SelectedPalette {
    :  ^^^^^^^^^^^^^^^^^^^
+ 2 |     font-family: MyVectorColorFont;
    `----
 
   x DashedIdent
    ,-[$DIR/tests/fixture/at-rule/font-palette-values/input.css:1:1]
  1 | @font-palette-values --SelectedPalette {
    :                      ^^^^^^^^^^^^^^^^^
+ 2 |     font-family: MyVectorColorFont;
    `----
 
   x SimpleBlock
@@ -53,76 +56,101 @@
    ,-[$DIR/tests/fixture/at-rule/font-palette-values/input.css:1:1]
  1 | @font-palette-values --SelectedPalette {
    :                                        ^
+ 2 |     font-family: MyVectorColorFont;
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/font-palette-values/input.css:2:5]
- 2 | font-family: MyVectorColorFont;
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/at-rule/font-palette-values/input.css:1:1]
+ 1 | @font-palette-values --SelectedPalette {
+ 2 |     font-family: MyVectorColorFont;
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 3 |     base-palette: 3;
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/at-rule/font-palette-values/input.css:2:5]
- 2 | font-family: MyVectorColorFont;
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/at-rule/font-palette-values/input.css:1:1]
+ 1 | @font-palette-values --SelectedPalette {
+ 2 |     font-family: MyVectorColorFont;
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 3 |     base-palette: 3;
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/at-rule/font-palette-values/input.css:2:5]
- 2 | font-family: MyVectorColorFont;
-   : ^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/at-rule/font-palette-values/input.css:1:1]
+ 1 | @font-palette-values --SelectedPalette {
+ 2 |     font-family: MyVectorColorFont;
+   :     ^^^^^^^^^^^
+ 3 |     base-palette: 3;
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/font-palette-values/input.css:2:5]
- 2 | font-family: MyVectorColorFont;
-   : ^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/at-rule/font-palette-values/input.css:1:1]
+ 1 | @font-palette-values --SelectedPalette {
+ 2 |     font-family: MyVectorColorFont;
+   :     ^^^^^^^^^^^
+ 3 |     base-palette: 3;
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/font-palette-values/input.css:2:5]
- 2 | font-family: MyVectorColorFont;
-   :              ^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/at-rule/font-palette-values/input.css:1:1]
+ 1 | @font-palette-values --SelectedPalette {
+ 2 |     font-family: MyVectorColorFont;
+   :                  ^^^^^^^^^^^^^^^^^
+ 3 |     base-palette: 3;
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/font-palette-values/input.css:2:5]
- 2 | font-family: MyVectorColorFont;
-   :              ^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/at-rule/font-palette-values/input.css:1:1]
+ 1 | @font-palette-values --SelectedPalette {
+ 2 |     font-family: MyVectorColorFont;
+   :                  ^^^^^^^^^^^^^^^^^
+ 3 |     base-palette: 3;
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/font-palette-values/input.css:3:5]
- 3 | base-palette: 3;
-   : ^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/at-rule/font-palette-values/input.css:2:1]
+ 2 |     font-family: MyVectorColorFont;
+ 3 |     base-palette: 3;
+   :     ^^^^^^^^^^^^^^^
+ 4 | }
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/at-rule/font-palette-values/input.css:3:5]
- 3 | base-palette: 3;
-   : ^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/at-rule/font-palette-values/input.css:2:1]
+ 2 |     font-family: MyVectorColorFont;
+ 3 |     base-palette: 3;
+   :     ^^^^^^^^^^^^^^^
+ 4 | }
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/at-rule/font-palette-values/input.css:3:5]
- 3 | base-palette: 3;
-   : ^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/at-rule/font-palette-values/input.css:2:1]
+ 2 |     font-family: MyVectorColorFont;
+ 3 |     base-palette: 3;
+   :     ^^^^^^^^^^^^
+ 4 | }
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/font-palette-values/input.css:3:5]
- 3 | base-palette: 3;
-   : ^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/at-rule/font-palette-values/input.css:2:1]
+ 2 |     font-family: MyVectorColorFont;
+ 3 |     base-palette: 3;
+   :     ^^^^^^^^^^^^
+ 4 | }
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/font-palette-values/input.css:3:5]
- 3 | base-palette: 3;
-   :               ^
+   ,-[$DIR/tests/fixture/at-rule/font-palette-values/input.css:2:1]
+ 2 |     font-family: MyVectorColorFont;
+ 3 |     base-palette: 3;
+   :                   ^
+ 4 | }
    `----
 
   x Integer
-   ,-[$DIR/tests/fixture/at-rule/font-palette-values/input.css:3:5]
- 3 | base-palette: 3;
-   :               ^
+   ,-[$DIR/tests/fixture/at-rule/font-palette-values/input.css:2:1]
+ 2 |     font-family: MyVectorColorFont;
+ 3 |     base-palette: 3;
+   :                   ^
+ 4 | }
    `----

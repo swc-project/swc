@@ -1,6 +1,7 @@
 
   x Expected ',', got 'string literal (), '))'
-   ,-[$DIR/tests/test262-parser/fail/89036b2edb64c00c.js:2:1]
+   ,-[$DIR/tests/test262-parser/fail/89036b2edb64c00c.js:1:1]
+ 1 | ('
  2 | ')
    : ^^
    `----
@@ -9,10 +10,12 @@
    ,-[$DIR/tests/test262-parser/fail/89036b2edb64c00c.js:1:1]
  1 | ('
    :  ^
+ 2 | ')
    `----
 
   x Unterminated string constant
-   ,-[$DIR/tests/test262-parser/fail/89036b2edb64c00c.js:2:1]
+   ,-[$DIR/tests/test262-parser/fail/89036b2edb64c00c.js:1:1]
+ 1 | ('
  2 | ')
    : ^^
    `----

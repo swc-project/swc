@@ -69,17 +69,57 @@ impl SourceCode for MietteSourceCode<'_> {
     fn read_span<'a>(
         &'a self,
         span: &SourceSpan,
-        _context_lines_before: usize,
-        _context_lines_after: usize,
+        context_lines_before: usize,
+        context_lines_after: usize,
     ) -> Result<Box<dyn SpanContents<'a> + 'a>, MietteError> {
         let lo = span.offset();
         let hi = lo + span.len();
 
-        let span = Span::new(BytePos(lo as _), BytePos(hi as _), Default::default());
+        let mut span = Span::new(BytePos(lo as _), BytePos(hi as _), Default::default());
 
-        let span = self.0.span_extend_to_prev_char(span, '\n');
+        span = self
+            .0
+            .with_span_to_prev_source(span, |src| {
+                let len = src
+                    .rsplit('\n')
+                    .take(context_lines_before + 1)
+                    .map(|s| s.len() + 1)
+                    .sum::<usize>();
 
-        let span = self.0.span_extend_to_next_char(span, '\n');
+                span.lo.0 -= (len as u32) - 1;
+                span
+            })
+            .unwrap_or(span);
+
+        span = self
+            .0
+            .with_span_to_next_source(span, |src| {
+                let len = src
+                    .split('\n')
+                    .take(context_lines_after + 1)
+                    .map(|s| s.len() + 1)
+                    .sum::<usize>();
+
+                span.hi.0 += (len as u32) - 1;
+                span
+            })
+            .unwrap_or(span);
+
+        span = self
+            .0
+            .with_snippet_of_span(span, |src| {
+                if src.lines().next().is_some() {
+                    return span;
+                }
+                let lo = src.len() - src.trim_start().len();
+                let hi = src.len() - src.trim_end().len();
+
+                span.lo.0 += lo as u32;
+                span.hi.0 -= hi as u32;
+
+                span
+            })
+            .unwrap_or(span);
 
         let mut src = self
             .0
