@@ -944,9 +944,9 @@
             }
         }, self.defer = function(fn, delay) {
             var timeoutId;
-            return outstandingRequestCount++, timeoutId = setTimeout1(function() {
+            return outstandingRequestCount++, pendingDeferIds[timeoutId = setTimeout1(function() {
                 delete pendingDeferIds[timeoutId], completeOutstandingRequest(fn);
-            }, delay || 0), pendingDeferIds[timeoutId] = !0, timeoutId;
+            }, delay || 0)] = !0, timeoutId;
         }, self.defer.cancel = function(deferId) {
             return !!pendingDeferIds[deferId] && (delete pendingDeferIds[deferId], clearTimeout(deferId), completeOutstandingRequest(noop), !0);
         };

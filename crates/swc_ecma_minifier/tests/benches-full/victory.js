@@ -22325,13 +22325,6 @@
                 fontSize: 0,
                 angle: 0,
                 fontFamily: ""
-            }, _getFontData = function(fontFamily) {
-                var fontMatch = fontFamily.split(",").map(function(f) {
-                    return f.replace(/'|"/g, "");
-                }).find(function(f) {
-                    return fonts[f];
-                }) || "Helvetica";
-                return fonts[fontMatch];
             }, _splitToLines = function(text) {
                 return Array.isArray(text) ? text : text.toString().split(/\r\n|\r|\n/g);
             }, _getSizeWithRotate = function(axisSize, dependentSize, angle) {
@@ -22350,7 +22343,11 @@
             }, _approximateTextWidthInternal = function(text, style) {
                 if (void 0 === text || "" === text || null === text) return 0;
                 var widths = _splitToLines(text).map(function(line, index) {
-                    var len = line.toString().length, _prepareParams2 = _prepareParams(style, index), fontSize = _prepareParams2.fontSize, letterSpacing = _prepareParams2.letterSpacing, fontData = _getFontData(_prepareParams2.fontFamily);
+                    var len = line.toString().length, _prepareParams2 = _prepareParams(style, index), fontSize = _prepareParams2.fontSize, letterSpacing = _prepareParams2.letterSpacing, fontData = fonts[_prepareParams2.fontFamily.split(",").map(function(f) {
+                        return f.replace(/'|"/g, "");
+                    }).find(function(f) {
+                        return fonts[f];
+                    }) || "Helvetica"];
                     return line.toString().split("").map(function(c) {
                         return c.charCodeAt(0) < fontData.widths.length ? fontData.widths[c.charCodeAt(0)] : fontData.avg;
                     }).reduce(function(cur, acc) {

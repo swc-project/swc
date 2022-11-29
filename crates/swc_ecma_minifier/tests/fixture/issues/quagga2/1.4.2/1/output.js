@@ -6263,10 +6263,10 @@
                     {
                         key: "_matchCheckChar",
                         value: function(charArray, index, maxWeight) {
-                            var arrayToCheck = charArray.slice(0, index), length = arrayToCheck.length, weightedSums = arrayToCheck.reduce(function(sum, _char3, i) {
+                            var arrayToCheck = charArray.slice(0, index), length = arrayToCheck.length;
+                            return code_93_reader_ALPHABET[arrayToCheck.reduce(function(sum, _char3, i) {
                                 return sum + ((-1 * i + (length - 1)) % maxWeight + 1) * code_93_reader_ALPHABET.indexOf(_char3.charCodeAt(0));
-                            }, 0);
-                            return code_93_reader_ALPHABET[weightedSums % 47] === charArray[index].charCodeAt(0);
+                            }, 0) % 47] === charArray[index].charCodeAt(0);
                         }
                     },
                     {
