@@ -34,6 +34,12 @@
 
 - **(xml/parser)** Parse cdata section (#6531) ([7f8c4e0](https://github.com/swc-project/swc/commit/7f8c4e04b246bef493a044f794ea1608f4550457))
 
+### Miscellaneous Tasks
+
+
+
+- **(bindings)** Fix jemalloc on aarch64 (#6541) ([d56b5a8](https://github.com/swc-project/swc/commit/d56b5a890a69a9a9177eed2a955f2c959fd1eaa1))
+
 ### Performance
 
 
