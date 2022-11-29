@@ -578,14 +578,24 @@
                   ],
                   "children": [
                     {
-                      "type": "Text",
+                      "type": "Comment",
                       "span": {
                         "start": 485,
+                        "end": 504,
+                        "ctxt": 0
+                      },
+                      "data": "[CDATA[content]]",
+                      "raw": "<![CDATA[content]]>"
+                    },
+                    {
+                      "type": "Text",
+                      "span": {
+                        "start": 504,
                         "end": 505,
                         "ctxt": 0
                       },
-                      "data": "contenta",
-                      "raw": "contenta"
+                      "data": "a",
+                      "raw": "a"
                     }
                   ],
                   "content": null,
@@ -613,14 +623,14 @@
                   "attributes": [],
                   "children": [
                     {
-                      "type": "Text",
+                      "type": "Comment",
                       "span": {
                         "start": 532,
-                        "end": 548,
+                        "end": 551,
                         "ctxt": 0
                       },
-                      "data": "content",
-                      "raw": "content"
+                      "data": "[CDATA[content]]",
+                      "raw": "<![CDATA[content]]>"
                     }
                   ],
                   "content": null,
@@ -648,14 +658,14 @@
                   "attributes": [],
                   "children": [
                     {
-                      "type": "Text",
+                      "type": "Comment",
                       "span": {
                         "start": 570,
-                        "end": 586,
+                        "end": 589,
                         "ctxt": 0
                       },
-                      "data": "content",
-                      "raw": "content"
+                      "data": "[CDATA[content]]",
+                      "raw": "<![CDATA[content]]>"
                     }
                   ],
                   "content": null,
