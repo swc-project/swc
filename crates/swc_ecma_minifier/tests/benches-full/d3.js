@@ -390,7 +390,7 @@
         }, axis;
     }
     var noop = {
-        value () {}
+        value: ()=>{}
     };
     function dispatch() {
         for(var t, i = 0, n = arguments.length, _ = {}; i < n; ++i){

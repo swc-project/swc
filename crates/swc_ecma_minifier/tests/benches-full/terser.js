@@ -1963,7 +1963,7 @@
         walk: function(visitor) {
             return this._walk(visitor);
         },
-        _children_backwards () {}
+        _children_backwards: ()=>{}
     }, null), AST_Statement = DEFNODE("Statement", null, {
         $documentation: "Base class of all statements"
     }), AST_Debugger = DEFNODE("Debugger", null, {
