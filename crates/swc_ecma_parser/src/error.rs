@@ -715,7 +715,7 @@ impl Error {
     pub fn into_diagnostic(self, handler: &Handler) -> DiagnosticBuilder {
         if let SyntaxError::WithNote { inner, note, span } = self.error.1 {
             let mut db = inner.into_diagnostic(handler);
-            db.span_note(span, note);
+            db.span_label(span, note);
             return db;
         }
 
@@ -724,8 +724,7 @@ impl Error {
         let kind = self.into_kind();
         let msg = kind.msg();
 
-        let mut db = handler.struct_err(&msg);
-        db.set_span(span);
+        let mut db = handler.struct_span_err(span, &msg);
 
         match kind {
             SyntaxError::ExpectedSemiForExprStmt { expr } => {
