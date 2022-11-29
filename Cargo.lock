@@ -4333,7 +4333,7 @@ dependencies = [
 
 [[package]]
 name = "swc_xml"
-version = "0.5.4"
+version = "0.6.0"
 dependencies = [
  "swc_xml_ast",
  "swc_xml_codegen",
@@ -4343,7 +4343,7 @@ dependencies = [
 
 [[package]]
 name = "swc_xml_ast"
-version = "0.4.17"
+version = "0.5.0"
 dependencies = [
  "is-macro",
  "serde",
@@ -4354,7 +4354,7 @@ dependencies = [
 
 [[package]]
 name = "swc_xml_codegen"
-version = "0.5.4"
+version = "0.6.0"
 dependencies = [
  "auto_impl",
  "bitflags",
@@ -4381,7 +4381,7 @@ dependencies = [
 
 [[package]]
 name = "swc_xml_parser"
-version = "0.5.4"
+version = "0.6.0"
 dependencies = [
  "serde",
  "serde_json",
@@ -4394,7 +4394,7 @@ dependencies = [
 
 [[package]]
 name = "swc_xml_visit"
-version = "0.4.17"
+version = "0.5.0"
 dependencies = [
  "serde",
  "swc_atoms",
