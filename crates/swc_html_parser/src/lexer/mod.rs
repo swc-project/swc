@@ -146,6 +146,7 @@ where
     sub_buf: Rc<RefCell<String>>,
     current_doctype_token: Option<Doctype>,
     current_tag_token: Option<Tag>,
+    attributes_validator: AHashSet<String>,
     attribute_start_position: Option<BytePos>,
     character_reference_code: Option<Vec<(u8, u32, Option<char>)>>,
     temporary_buffer: String,
@@ -174,6 +175,7 @@ where
             sub_buf: Rc::new(RefCell::new(String::with_capacity(32))),
             current_doctype_token: None,
             current_tag_token: None,
+            attributes_validator: Default::default(),
             attribute_start_position: None,
             character_reference_code: None,
             // Do this without a new allocation.
@@ -603,14 +605,25 @@ where
                     let b = self.sub_buf.clone();
                     let mut sub_buf = b.borrow_mut();
 
-                    last.name = Some(buf.clone());
-                    last.raw_name = Some(sub_buf.clone());
+                    let name = buf.clone();
+                    let raw_name = sub_buf.clone();
+                    let span =
+                        Span::new(attribute_start_position, self.cur_pos, Default::default());
+
+                    if self.attributes_validator.contains(&name) {
+                        self.errors
+                            .push(Error::new(span, ErrorKind::DuplicateAttribute));
+                    }
+
+                    self.attributes_validator.insert(name.clone());
+
+                    last.name = Some(name);
+                    last.raw_name = Some(raw_name);
 
                     buf.clear();
                     sub_buf.clear();
 
-                    last.span =
-                        Span::new(attribute_start_position, self.cur_pos, Default::default());
+                    last.span = span;
                 }
             }
         }
@@ -679,31 +692,20 @@ where
 
     fn emit_tag_token(&mut self) {
         if let Some(current_tag_token) = self.current_tag_token.take() {
+            self.attributes_validator.clear();
+
             let is_empty = current_tag_token.attributes.is_empty();
 
             let attributes = if !is_empty {
-                let mut already_seen: AHashSet<JsWord> = Default::default();
-
                 current_tag_token
                     .attributes
                     .into_iter()
-                    .map(|attribute| {
-                        let name: JsWord = JsWord::from(attribute.name.unwrap());
-
-                        if already_seen.contains(&name) {
-                            self.errors
-                                .push(Error::new(attribute.span, ErrorKind::DuplicateAttribute));
-                        }
-
-                        already_seen.insert(name.clone());
-
-                        AttributeToken {
-                            span: attribute.span,
-                            name,
-                            raw_name: attribute.raw_name.map(Atom::new),
-                            value: attribute.value.map(JsWord::from),
-                            raw_value: attribute.raw_value.map(Atom::new),
-                        }
+                    .map(|attribute| AttributeToken {
+                        span: attribute.span,
+                        name: JsWord::from(attribute.name.unwrap()),
+                        raw_name: attribute.raw_name.map(Atom::new),
+                        value: attribute.value.map(JsWord::from),
+                        raw_value: attribute.raw_value.map(Atom::new),
                     })
                     .collect()
             } else {
