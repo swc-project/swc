@@ -1,6 +1,6 @@
 use std::{cell::RefCell, char::REPLACEMENT_CHARACTER, collections::VecDeque, mem::take, rc::Rc};
 
-use swc_atoms::{Atom, JsWord};
+use swc_atoms::{js_word, Atom, JsWord};
 use swc_common::{collections::AHashSet, input::Input, BytePos, Span};
 use swc_html_ast::{AttributeToken, Raw, Token, TokenAndSpan};
 use swc_html_utils::{Entity, HTML_ENTITIES};
@@ -114,16 +114,7 @@ struct Tag {
     tag_name: String,
     raw_tag_name: Option<String>,
     is_self_closing: bool,
-    attributes: Vec<Attribute>,
-}
-
-#[derive(PartialEq, Eq, Clone, Debug)]
-struct Attribute {
-    span: Span,
-    name: Option<String>,
-    raw_name: Option<String>,
-    value: Option<String>,
-    raw_value: Option<String>,
+    attributes: Vec<AttributeToken>,
 }
 
 pub(crate) type LexResult<T> = Result<T, ErrorKind>;
@@ -146,7 +137,7 @@ where
     sub_buf: Rc<RefCell<String>>,
     current_doctype_token: Option<Doctype>,
     current_tag_token: Option<Tag>,
-    attributes_validator: AHashSet<String>,
+    attributes_validator: AHashSet<JsWord>,
     attribute_start_position: Option<BytePos>,
     character_reference_code: Option<Vec<(u8, u32, Option<char>)>>,
     temporary_buffer: String,
@@ -571,9 +562,9 @@ where
 
     fn start_new_attribute(&mut self) {
         if let Some(Tag { attributes, .. }) = &mut self.current_tag_token {
-            attributes.push(Attribute {
+            attributes.push(AttributeToken {
                 span: Default::default(),
-                name: None,
+                name: js_word!(""),
                 raw_name: None,
                 value: None,
                 raw_value: None,
@@ -605,8 +596,8 @@ where
                     let b = self.sub_buf.clone();
                     let mut sub_buf = b.borrow_mut();
 
-                    let name = buf.clone();
-                    let raw_name = sub_buf.clone();
+                    let name: JsWord = buf.clone().into();
+                    let raw_name = Atom::new(sub_buf.clone());
                     let span =
                         Span::new(attribute_start_position, self.cur_pos, Default::default());
 
@@ -617,7 +608,7 @@ where
 
                     self.attributes_validator.insert(name.clone());
 
-                    last.name = Some(name);
+                    last.name = name;
                     last.raw_name = Some(raw_name);
 
                     buf.clear();
@@ -670,15 +661,15 @@ where
                     let mut sub_buf = b.borrow_mut();
 
                     if !buf.is_empty() {
-                        last.value = Some(buf.clone());
+                        last.value = Some(buf.clone().into());
                     } else if !sub_buf.is_empty() {
-                        last.value = Some("".to_string());
+                        last.value = Some("".into());
                     }
 
                     buf.clear();
 
                     if !sub_buf.is_empty() {
-                        last.raw_value = Some(sub_buf.clone());
+                        last.raw_value = Some(Atom::new(sub_buf.clone()));
 
                         sub_buf.clear();
                     }
@@ -696,22 +687,6 @@ where
 
             let is_empty = current_tag_token.attributes.is_empty();
 
-            let attributes = if !is_empty {
-                current_tag_token
-                    .attributes
-                    .into_iter()
-                    .map(|attribute| AttributeToken {
-                        span: attribute.span,
-                        name: JsWord::from(attribute.name.unwrap()),
-                        raw_name: attribute.raw_name.map(Atom::new),
-                        value: attribute.value.map(JsWord::from),
-                        raw_value: attribute.raw_value.map(Atom::new),
-                    })
-                    .collect()
-            } else {
-                vec![]
-            };
-
             match current_tag_token.kind {
                 TagKind::Start => {
                     self.last_start_tag_name = Some(current_tag_token.tag_name.clone().into());
@@ -720,7 +695,7 @@ where
                         tag_name: current_tag_token.tag_name.into(),
                         raw_tag_name: current_tag_token.raw_tag_name.map(Atom::new),
                         is_self_closing: current_tag_token.is_self_closing,
-                        attributes,
+                        attributes: current_tag_token.attributes,
                     };
 
                     self.emit_token(start_tag_token);
@@ -738,7 +713,7 @@ where
                         tag_name: current_tag_token.tag_name.into(),
                         raw_tag_name: current_tag_token.raw_tag_name.map(Atom::new),
                         is_self_closing: current_tag_token.is_self_closing,
-                        attributes,
+                        attributes: current_tag_token.attributes,
                     };
 
                     self.emit_token(end_tag_token);
