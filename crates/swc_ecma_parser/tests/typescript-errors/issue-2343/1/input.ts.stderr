@@ -2,12 +2,6 @@
   x Expected ';', '}' or <eof>
    ,-[$DIR/tests/typescript-errors/issue-2343/1/input.ts:1:1]
  1 | declare declare
-   :         ^^^^^^^
-   `----
-
-Error: 
-  > This is the expression part of an expression statement
-   ,-[$DIR/tests/typescript-errors/issue-2343/1/input.ts:1:1]
- 1 | declare declare
-   : ^^^^^^^
+   : ^^^|^^^ ^^^^^^^
+   :    `-- This is the expression part of an expression statement
    `----

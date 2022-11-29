@@ -3,16 +3,8 @@
    ,-[$DIR/tests/test262-parser/fail/a7be138dfd29025e.js:1:1]
  1 | (function*() {
  2 |     { *[yield iter]() {} }
-   :                       ^
- 3 | })
-   `----
-
-Error: 
-  > This is the expression part of an expression statement
-   ,-[$DIR/tests/test262-parser/fail/a7be138dfd29025e.js:1:1]
- 1 | (function*() {
- 2 |     { *[yield iter]() {} }
-   :       ^^^^^^^^^^^^^^^
+   :       ^^^^^^^|^^^^^^^ ^
+   :              `-- This is the expression part of an expression statement
  3 | })
    `----
 
