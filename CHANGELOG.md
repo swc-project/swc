@@ -14,6 +14,9 @@
 - **(es/minifier)** Make sequential inliner respect resolution order (#6509) ([27ae59e](https://github.com/swc-project/swc/commit/27ae59e77bb8cb1f1d1dbbba3f8dec58359bc2ba))
 
 
+- **(es/minifier)** Use unsafe option for arrow => method (#6521) ([9752b43](https://github.com/swc-project/swc/commit/9752b43f94313fe2902ad04e5b01b865e0180155))
+
+
 - **(html/parser)** Fix parsing of cdata (#6534) ([e3cbe7e](https://github.com/swc-project/swc/commit/e3cbe7e9a98149bfc05421a264d4e421fb543f7e))
 
 ### Features
