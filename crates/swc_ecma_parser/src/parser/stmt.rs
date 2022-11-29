@@ -904,16 +904,7 @@ impl<'a, I: Tokens> Parser<I> {
         //FIXME: This is wrong. Should check in/of only on first loop.
         let init = if !for_loop || !is_one_of!(self, "in", "of") {
             if eat!(self, '=') {
-                let expr = self.parse_assignment_expr().map_err(|err| {
-                    Error::new(
-                        err.span(),
-                        SyntaxError::WithLabel {
-                            inner: Box::new(err),
-                            span: name.span(),
-                            note: "Tried to parse the initializer for this pattern",
-                        },
-                    )
-                })?;
+                let expr = self.parse_assignment_expr()?;
                 let expr = self.verify_expr(expr)?;
 
                 Some(expr)
