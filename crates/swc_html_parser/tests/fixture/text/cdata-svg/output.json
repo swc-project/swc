@@ -2,7 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 964,
+    "end": 1054,
     "ctxt": 0
   },
   "mode": "no-quirks",
@@ -23,7 +23,7 @@
       "type": "Element",
       "span": {
         "start": 17,
-        "end": 964,
+        "end": 1054,
         "ctxt": 0
       },
       "tagName": "html",
@@ -211,7 +211,7 @@
           "type": "Element",
           "span": {
             "start": 167,
-            "end": 957,
+            "end": 1047,
             "ctxt": 0
           },
           "tagName": "body",
@@ -232,7 +232,7 @@
               "type": "Element",
               "span": {
                 "start": 174,
-                "end": 948,
+                "end": 1038,
                 "ctxt": 0
               },
               "tagName": "svg",
@@ -635,7 +635,46 @@
                   "type": "Element",
                   "span": {
                     "start": 523,
-                    "end": 555,
+                    "end": 562,
+                    "ctxt": 0
+                  },
+                  "tagName": "text",
+                  "namespace": "http://www.w3.org/2000/svg",
+                  "attributes": [
+                    {
+                      "type": "Attribute",
+                      "span": {
+                        "start": 529,
+                        "end": 542,
+                        "ctxt": 0
+                      },
+                      "namespace": null,
+                      "prefix": null,
+                      "name": "class",
+                      "rawName": "class",
+                      "value": "empty",
+                      "rawValue": "\"empty\""
+                    }
+                  ],
+                  "children": [],
+                  "content": null,
+                  "isSelfClosing": false
+                },
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 562,
+                    "end": 567,
+                    "ctxt": 0
+                  },
+                  "data": "\n    ",
+                  "raw": "\n    "
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 567,
+                    "end": 599,
                     "ctxt": 0
                   },
                   "tagName": "text",
@@ -645,8 +684,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 529,
-                        "end": 545,
+                        "start": 573,
+                        "end": 589,
                         "ctxt": 0
                       },
                       "data": "content",
@@ -659,8 +698,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 555,
-                    "end": 560,
+                    "start": 599,
+                    "end": 604,
                     "ctxt": 0
                   },
                   "data": "\n    ",
@@ -669,8 +708,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 560,
-                    "end": 592,
+                    "start": 604,
+                    "end": 636,
                     "ctxt": 0
                   },
                   "tagName": "text",
@@ -680,8 +719,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 566,
-                        "end": 582,
+                        "start": 610,
+                        "end": 626,
                         "ctxt": 0
                       },
                       "data": "&amping",
@@ -694,8 +733,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 592,
-                    "end": 597,
+                    "start": 636,
+                    "end": 641,
                     "ctxt": 0
                   },
                   "data": "\n    ",
@@ -704,8 +743,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 597,
-                    "end": 631,
+                    "start": 641,
+                    "end": 675,
                     "ctxt": 0
                   },
                   "tagName": "text",
@@ -715,8 +754,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 603,
-                        "end": 623,
+                        "start": 647,
+                        "end": 667,
                         "ctxt": 0
                       },
                       "data": "&amping ]",
@@ -729,8 +768,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 631,
-                    "end": 636,
+                    "start": 675,
+                    "end": 680,
                     "ctxt": 0
                   },
                   "data": "\n    ",
@@ -739,8 +778,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 636,
-                    "end": 671,
+                    "start": 680,
+                    "end": 715,
                     "ctxt": 0
                   },
                   "tagName": "text",
@@ -750,8 +789,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 642,
-                        "end": 661,
+                        "start": 686,
+                        "end": 705,
                         "ctxt": 0
                       },
                       "data": "&amping]] ",
@@ -764,8 +803,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 671,
-                    "end": 676,
+                    "start": 715,
+                    "end": 720,
                     "ctxt": 0
                   },
                   "data": "\n    ",
@@ -774,8 +813,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 676,
-                    "end": 724,
+                    "start": 720,
+                    "end": 768,
                     "ctxt": 0
                   },
                   "tagName": "text",
@@ -785,8 +824,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 682,
-                        "end": 714,
+                        "start": 726,
+                        "end": 758,
                         "ctxt": 0
                       },
                       "data": "<message>text</message>",
@@ -799,8 +838,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 724,
-                    "end": 729,
+                    "start": 768,
+                    "end": 773,
                     "ctxt": 0
                   },
                   "data": "\n    ",
@@ -809,42 +848,7 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 729,
-                    "end": 805,
-                    "ctxt": 0
-                  },
-                  "tagName": "text",
-                  "namespace": "http://www.w3.org/2000/svg",
-                  "attributes": [],
-                  "children": [
-                    {
-                      "type": "Text",
-                      "span": {
-                        "start": 735,
-                        "end": 795,
-                        "ctxt": 0
-                      },
-                      "data": "</this is malformed!</malformed</malformed & worse>",
-                      "raw": "</this is malformed!</malformed</malformed & worse>"
-                    }
-                  ],
-                  "content": null,
-                  "isSelfClosing": false
-                },
-                {
-                  "type": "Text",
-                  "span": {
-                    "start": 805,
-                    "end": 810,
-                    "ctxt": 0
-                  },
-                  "data": "\n    ",
-                  "raw": "\n    "
-                },
-                {
-                  "type": "Element",
-                  "span": {
-                    "start": 810,
+                    "start": 773,
                     "end": 849,
                     "ctxt": 0
                   },
@@ -855,12 +859,12 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 816,
+                        "start": 779,
                         "end": 839,
                         "ctxt": 0
                       },
-                      "data": "12",
-                      "raw": "12"
+                      "data": "</this is malformed!</malformed</malformed & worse>",
+                      "raw": "</this is malformed!</malformed</malformed & worse>"
                     }
                   ],
                   "content": null,
@@ -880,7 +884,7 @@
                   "type": "Element",
                   "span": {
                     "start": 854,
-                    "end": 897,
+                    "end": 893,
                     "ctxt": 0
                   },
                   "tagName": "text",
@@ -891,7 +895,42 @@
                       "type": "Text",
                       "span": {
                         "start": 860,
-                        "end": 890,
+                        "end": 883,
+                        "ctxt": 0
+                      },
+                      "data": "12",
+                      "raw": "12"
+                    }
+                  ],
+                  "content": null,
+                  "isSelfClosing": false
+                },
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 893,
+                    "end": 898,
+                    "ctxt": 0
+                  },
+                  "data": "\n    ",
+                  "raw": "\n    "
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 898,
+                    "end": 941,
+                    "ctxt": 0
+                  },
+                  "tagName": "text",
+                  "namespace": "http://www.w3.org/2000/svg",
+                  "attributes": [],
+                  "children": [
+                    {
+                      "type": "Text",
+                      "span": {
+                        "start": 904,
+                        "end": 934,
                         "ctxt": 0
                       },
                       "data": "\n        data\n    ",
@@ -904,8 +943,8 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 897,
-                    "end": 902,
+                    "start": 941,
+                    "end": 946,
                     "ctxt": 0
                   },
                   "data": "\n    ",
@@ -914,8 +953,8 @@
                 {
                   "type": "Element",
                   "span": {
-                    "start": 902,
-                    "end": 941,
+                    "start": 946,
+                    "end": 985,
                     "ctxt": 0
                   },
                   "tagName": "text",
@@ -925,8 +964,8 @@
                     {
                       "type": "Text",
                       "span": {
-                        "start": 908,
-                        "end": 931,
+                        "start": 952,
+                        "end": 975,
                         "ctxt": 0
                       },
                       "data": "bracket ]after",
@@ -939,8 +978,43 @@
                 {
                   "type": "Text",
                   "span": {
-                    "start": 941,
-                    "end": 942,
+                    "start": 985,
+                    "end": 990,
+                    "ctxt": 0
+                  },
+                  "data": "\n    ",
+                  "raw": "\n    "
+                },
+                {
+                  "type": "Element",
+                  "span": {
+                    "start": 990,
+                    "end": 1031,
+                    "ctxt": 0
+                  },
+                  "tagName": "text",
+                  "namespace": "http://www.w3.org/2000/svg",
+                  "attributes": [],
+                  "children": [
+                    {
+                      "type": "Text",
+                      "span": {
+                        "start": 996,
+                        "end": 1024,
+                        "ctxt": 0
+                      },
+                      "data": "abracket ]afterb",
+                      "raw": "abracket ]afterb"
+                    }
+                  ],
+                  "content": null,
+                  "isSelfClosing": false
+                },
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 1031,
+                    "end": 1032,
                     "ctxt": 0
                   },
                   "data": "\n",
@@ -953,8 +1027,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 948,
-                "end": 957,
+                "start": 1038,
+                "end": 1047,
                 "ctxt": 0
               },
               "data": "\n\n",

@@ -17,20 +17,22 @@
  14 | |       </linearGradient>
  15 | |       <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
  16 | |       <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
- 17 | |       <text><![CDATA[content]]></text>
- 18 | |       <text><![CDATA[&amping]]></text>
- 19 | |       <text><![CDATA[&amping ]]]></text>
- 20 | |       <text><![CDATA[&amping]] ]]></text>
- 21 | |       <text><![CDATA[<message>text</message>]]></text>
- 22 | |       <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
- 23 | |       <text><![CDATA[1]]><![CDATA[2]]></text>
- 24 | |       <text>
- 25 | |           <![CDATA[data]]>
- 26 | |       </text>
- 27 | |       <text><![CDATA[bracket ]after]]></text>
- 28 | |   </svg>
- 29 | |   </body>
- 30 | `-> </html>
+ 17 | |       <text class="empty"><![CDATA[]]></text>
+ 18 | |       <text><![CDATA[content]]></text>
+ 19 | |       <text><![CDATA[&amping]]></text>
+ 20 | |       <text><![CDATA[&amping ]]]></text>
+ 21 | |       <text><![CDATA[&amping]] ]]></text>
+ 22 | |       <text><![CDATA[<message>text</message>]]></text>
+ 23 | |       <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
+ 24 | |       <text><![CDATA[1]]><![CDATA[2]]></text>
+ 25 | |       <text>
+ 26 | |           <![CDATA[data]]>
+ 27 | |       </text>
+ 28 | |       <text><![CDATA[bracket ]after]]></text>
+ 29 | |       <text>a<![CDATA[bracket ]after]]>b</text>
+ 30 | |   </svg>
+ 31 | |   </body>
+ 32 | `-> </html>
     `----
 
   x Child
@@ -65,20 +67,22 @@
  14 | |       </linearGradient>
  15 | |       <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
  16 | |       <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
- 17 | |       <text><![CDATA[content]]></text>
- 18 | |       <text><![CDATA[&amping]]></text>
- 19 | |       <text><![CDATA[&amping ]]]></text>
- 20 | |       <text><![CDATA[&amping]] ]]></text>
- 21 | |       <text><![CDATA[<message>text</message>]]></text>
- 22 | |       <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
- 23 | |       <text><![CDATA[1]]><![CDATA[2]]></text>
- 24 | |       <text>
- 25 | |           <![CDATA[data]]>
- 26 | |       </text>
- 27 | |       <text><![CDATA[bracket ]after]]></text>
- 28 | |   </svg>
- 29 | |   </body>
- 30 | `-> </html>
+ 17 | |       <text class="empty"><![CDATA[]]></text>
+ 18 | |       <text><![CDATA[content]]></text>
+ 19 | |       <text><![CDATA[&amping]]></text>
+ 20 | |       <text><![CDATA[&amping ]]]></text>
+ 21 | |       <text><![CDATA[&amping]] ]]></text>
+ 22 | |       <text><![CDATA[<message>text</message>]]></text>
+ 23 | |       <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
+ 24 | |       <text><![CDATA[1]]><![CDATA[2]]></text>
+ 25 | |       <text>
+ 26 | |           <![CDATA[data]]>
+ 27 | |       </text>
+ 28 | |       <text><![CDATA[bracket ]after]]></text>
+ 29 | |       <text>a<![CDATA[bracket ]after]]>b</text>
+ 30 | |   </svg>
+ 31 | |   </body>
+ 32 | `-> </html>
     `----
 
   x Element
@@ -99,20 +103,22 @@
  14 | |       </linearGradient>
  15 | |       <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
  16 | |       <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
- 17 | |       <text><![CDATA[content]]></text>
- 18 | |       <text><![CDATA[&amping]]></text>
- 19 | |       <text><![CDATA[&amping ]]]></text>
- 20 | |       <text><![CDATA[&amping]] ]]></text>
- 21 | |       <text><![CDATA[<message>text</message>]]></text>
- 22 | |       <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
- 23 | |       <text><![CDATA[1]]><![CDATA[2]]></text>
- 24 | |       <text>
- 25 | |           <![CDATA[data]]>
- 26 | |       </text>
- 27 | |       <text><![CDATA[bracket ]after]]></text>
- 28 | |   </svg>
- 29 | |   </body>
- 30 | `-> </html>
+ 17 | |       <text class="empty"><![CDATA[]]></text>
+ 18 | |       <text><![CDATA[content]]></text>
+ 19 | |       <text><![CDATA[&amping]]></text>
+ 20 | |       <text><![CDATA[&amping ]]]></text>
+ 21 | |       <text><![CDATA[&amping]] ]]></text>
+ 22 | |       <text><![CDATA[<message>text</message>]]></text>
+ 23 | |       <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
+ 24 | |       <text><![CDATA[1]]><![CDATA[2]]></text>
+ 25 | |       <text>
+ 26 | |           <![CDATA[data]]>
+ 27 | |       </text>
+ 28 | |       <text><![CDATA[bracket ]after]]></text>
+ 29 | |       <text>a<![CDATA[bracket ]after]]>b</text>
+ 30 | |   </svg>
+ 31 | |   </body>
+ 32 | `-> </html>
     `----
 
   x Attribute
@@ -329,20 +335,22 @@
  14 | |       </linearGradient>
  15 | |       <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
  16 | |       <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
- 17 | |       <text><![CDATA[content]]></text>
- 18 | |       <text><![CDATA[&amping]]></text>
- 19 | |       <text><![CDATA[&amping ]]]></text>
- 20 | |       <text><![CDATA[&amping]] ]]></text>
- 21 | |       <text><![CDATA[<message>text</message>]]></text>
- 22 | |       <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
- 23 | |       <text><![CDATA[1]]><![CDATA[2]]></text>
- 24 | |       <text>
- 25 | |           <![CDATA[data]]>
- 26 | |       </text>
- 27 | |       <text><![CDATA[bracket ]after]]></text>
- 28 | |   </svg>
- 29 | `-> </body>
- 30 |     </html>
+ 17 | |       <text class="empty"><![CDATA[]]></text>
+ 18 | |       <text><![CDATA[content]]></text>
+ 19 | |       <text><![CDATA[&amping]]></text>
+ 20 | |       <text><![CDATA[&amping ]]]></text>
+ 21 | |       <text><![CDATA[&amping]] ]]></text>
+ 22 | |       <text><![CDATA[<message>text</message>]]></text>
+ 23 | |       <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
+ 24 | |       <text><![CDATA[1]]><![CDATA[2]]></text>
+ 25 | |       <text>
+ 26 | |           <![CDATA[data]]>
+ 27 | |       </text>
+ 28 | |       <text><![CDATA[bracket ]after]]></text>
+ 29 | |       <text>a<![CDATA[bracket ]after]]>b</text>
+ 30 | |   </svg>
+ 31 | `-> </body>
+ 32 |     </html>
     `----
 
   x Element
@@ -357,20 +365,22 @@
  14 | |       </linearGradient>
  15 | |       <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
  16 | |       <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
- 17 | |       <text><![CDATA[content]]></text>
- 18 | |       <text><![CDATA[&amping]]></text>
- 19 | |       <text><![CDATA[&amping ]]]></text>
- 20 | |       <text><![CDATA[&amping]] ]]></text>
- 21 | |       <text><![CDATA[<message>text</message>]]></text>
- 22 | |       <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
- 23 | |       <text><![CDATA[1]]><![CDATA[2]]></text>
- 24 | |       <text>
- 25 | |           <![CDATA[data]]>
- 26 | |       </text>
- 27 | |       <text><![CDATA[bracket ]after]]></text>
- 28 | |   </svg>
- 29 | `-> </body>
- 30 |     </html>
+ 17 | |       <text class="empty"><![CDATA[]]></text>
+ 18 | |       <text><![CDATA[content]]></text>
+ 19 | |       <text><![CDATA[&amping]]></text>
+ 20 | |       <text><![CDATA[&amping ]]]></text>
+ 21 | |       <text><![CDATA[&amping]] ]]></text>
+ 22 | |       <text><![CDATA[<message>text</message>]]></text>
+ 23 | |       <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
+ 24 | |       <text><![CDATA[1]]><![CDATA[2]]></text>
+ 25 | |       <text>
+ 26 | |           <![CDATA[data]]>
+ 27 | |       </text>
+ 28 | |       <text><![CDATA[bracket ]after]]></text>
+ 29 | |       <text>a<![CDATA[bracket ]after]]>b</text>
+ 30 | |   </svg>
+ 31 | `-> </body>
+ 32 |     </html>
     `----
 
   x Child
@@ -402,19 +412,21 @@
  14 | |       </linearGradient>
  15 | |       <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
  16 | |       <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
- 17 | |       <text><![CDATA[content]]></text>
- 18 | |       <text><![CDATA[&amping]]></text>
- 19 | |       <text><![CDATA[&amping ]]]></text>
- 20 | |       <text><![CDATA[&amping]] ]]></text>
- 21 | |       <text><![CDATA[<message>text</message>]]></text>
- 22 | |       <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
- 23 | |       <text><![CDATA[1]]><![CDATA[2]]></text>
- 24 | |       <text>
- 25 | |           <![CDATA[data]]>
- 26 | |       </text>
- 27 | |       <text><![CDATA[bracket ]after]]></text>
- 28 | `-> </svg>
- 29 |     </body>
+ 17 | |       <text class="empty"><![CDATA[]]></text>
+ 18 | |       <text><![CDATA[content]]></text>
+ 19 | |       <text><![CDATA[&amping]]></text>
+ 20 | |       <text><![CDATA[&amping ]]]></text>
+ 21 | |       <text><![CDATA[&amping]] ]]></text>
+ 22 | |       <text><![CDATA[<message>text</message>]]></text>
+ 23 | |       <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
+ 24 | |       <text><![CDATA[1]]><![CDATA[2]]></text>
+ 25 | |       <text>
+ 26 | |           <![CDATA[data]]>
+ 27 | |       </text>
+ 28 | |       <text><![CDATA[bracket ]after]]></text>
+ 29 | |       <text>a<![CDATA[bracket ]after]]>b</text>
+ 30 | `-> </svg>
+ 31 |     </body>
     `----
 
   x Element
@@ -428,19 +440,21 @@
  14 | |       </linearGradient>
  15 | |       <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
  16 | |       <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
- 17 | |       <text><![CDATA[content]]></text>
- 18 | |       <text><![CDATA[&amping]]></text>
- 19 | |       <text><![CDATA[&amping ]]]></text>
- 20 | |       <text><![CDATA[&amping]] ]]></text>
- 21 | |       <text><![CDATA[<message>text</message>]]></text>
- 22 | |       <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
- 23 | |       <text><![CDATA[1]]><![CDATA[2]]></text>
- 24 | |       <text>
- 25 | |           <![CDATA[data]]>
- 26 | |       </text>
- 27 | |       <text><![CDATA[bracket ]after]]></text>
- 28 | `-> </svg>
- 29 |     </body>
+ 17 | |       <text class="empty"><![CDATA[]]></text>
+ 18 | |       <text><![CDATA[content]]></text>
+ 19 | |       <text><![CDATA[&amping]]></text>
+ 20 | |       <text><![CDATA[&amping ]]]></text>
+ 21 | |       <text><![CDATA[&amping]] ]]></text>
+ 22 | |       <text><![CDATA[<message>text</message>]]></text>
+ 23 | |       <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
+ 24 | |       <text><![CDATA[1]]><![CDATA[2]]></text>
+ 25 | |       <text>
+ 26 | |           <![CDATA[data]]>
+ 27 | |       </text>
+ 28 | |       <text><![CDATA[bracket ]after]]></text>
+ 29 | |       <text>a<![CDATA[bracket ]after]]>b</text>
+ 30 | `-> </svg>
+ 31 |     </body>
     `----
 
   x Attribute
@@ -732,7 +746,7 @@
  14 |         </linearGradient>
  15 | ,->     <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
  16 | `->     <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
- 17 |         <text><![CDATA[content]]></text>
+ 17 |         <text class="empty"><![CDATA[]]></text>
     `----
 
   x Text
@@ -740,7 +754,7 @@
  14 |         </linearGradient>
  15 | ,->     <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
  16 | `->     <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
- 17 |         <text><![CDATA[content]]></text>
+ 17 |         <text class="empty"><![CDATA[]]></text>
     `----
 
   x Child
@@ -748,7 +762,7 @@
  15 |     <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
  16 |     <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 17 |     <text><![CDATA[content]]></text>
+ 17 |     <text class="empty"><![CDATA[]]></text>
     `----
 
   x Element
@@ -756,7 +770,7 @@
  15 |     <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
  16 |     <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 17 |     <text><![CDATA[content]]></text>
+ 17 |     <text class="empty"><![CDATA[]]></text>
     `----
 
   x Attribute
@@ -764,7 +778,7 @@
  15 |     <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
  16 |     <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
     :             ^^^^^^^
- 17 |     <text><![CDATA[content]]></text>
+ 17 |     <text class="empty"><![CDATA[]]></text>
     `----
 
   x Attribute
@@ -772,7 +786,7 @@
  15 |     <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
  16 |     <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
     :                     ^^^^^^^
- 17 |     <text><![CDATA[content]]></text>
+ 17 |     <text class="empty"><![CDATA[]]></text>
     `----
 
   x Attribute
@@ -780,7 +794,7 @@
  15 |     <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
  16 |     <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
     :                             ^^^^^^
- 17 |     <text><![CDATA[content]]></text>
+ 17 |     <text class="empty"><![CDATA[]]></text>
     `----
 
   x Attribute
@@ -788,475 +802,563 @@
  15 |     <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
  16 |     <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
     :                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 17 |     <text><![CDATA[content]]></text>
+ 17 |     <text class="empty"><![CDATA[]]></text>
     `----
 
   x Child
     ,-[$DIR/tests/fixture/text/cdata-svg/input.html:15:1]
  15 |         <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
  16 | ,->     <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
- 17 | `->     <text><![CDATA[content]]></text>
- 18 |         <text><![CDATA[&amping]]></text>
+ 17 | `->     <text class="empty"><![CDATA[]]></text>
+ 18 |         <text><![CDATA[content]]></text>
     `----
 
   x Text
     ,-[$DIR/tests/fixture/text/cdata-svg/input.html:15:1]
  15 |         <rect x="0" y="0" width="100" height="100" style="fill:url(#gradient)" />
  16 | ,->     <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
- 17 | `->     <text><![CDATA[content]]></text>
- 18 |         <text><![CDATA[&amping]]></text>
+ 17 | `->     <text class="empty"><![CDATA[]]></text>
+ 18 |         <text><![CDATA[content]]></text>
     `----
 
   x Child
     ,-[$DIR/tests/fixture/text/cdata-svg/input.html:16:1]
  16 |     <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
- 17 |     <text><![CDATA[content]]></text>
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 18 |     <text><![CDATA[&amping]]></text>
+ 17 |     <text class="empty"><![CDATA[]]></text>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 18 |     <text><![CDATA[content]]></text>
     `----
 
   x Element
     ,-[$DIR/tests/fixture/text/cdata-svg/input.html:16:1]
  16 |     <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
- 17 |     <text><![CDATA[content]]></text>
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 18 |     <text><![CDATA[&amping]]></text>
+ 17 |     <text class="empty"><![CDATA[]]></text>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 18 |     <text><![CDATA[content]]></text>
     `----
 
-  x Child
+  x Attribute
     ,-[$DIR/tests/fixture/text/cdata-svg/input.html:16:1]
  16 |     <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
- 17 |     <text><![CDATA[content]]></text>
-    :           ^^^^^^^^^^^^^^^^
- 18 |     <text><![CDATA[&amping]]></text>
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:16:1]
- 16 |     <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
- 17 |     <text><![CDATA[content]]></text>
-    :           ^^^^^^^^^^^^^^^^
- 18 |     <text><![CDATA[&amping]]></text>
+ 17 |     <text class="empty"><![CDATA[]]></text>
+    :           ^^^^^^^^^^^^^
+ 18 |     <text><![CDATA[content]]></text>
     `----
 
   x Child
     ,-[$DIR/tests/fixture/text/cdata-svg/input.html:16:1]
  16 |         <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
- 17 | ,->     <text><![CDATA[content]]></text>
- 18 | `->     <text><![CDATA[&amping]]></text>
- 19 |         <text><![CDATA[&amping ]]]></text>
+ 17 | ,->     <text class="empty"><![CDATA[]]></text>
+ 18 | `->     <text><![CDATA[content]]></text>
+ 19 |         <text><![CDATA[&amping]]></text>
     `----
 
   x Text
     ,-[$DIR/tests/fixture/text/cdata-svg/input.html:16:1]
  16 |         <circle cx="50" cy="50" r="30" style="fill:url(#gradient)" />
- 17 | ,->     <text><![CDATA[content]]></text>
- 18 | `->     <text><![CDATA[&amping]]></text>
- 19 |         <text><![CDATA[&amping ]]]></text>
+ 17 | ,->     <text class="empty"><![CDATA[]]></text>
+ 18 | `->     <text><![CDATA[content]]></text>
+ 19 |         <text><![CDATA[&amping]]></text>
     `----
 
   x Child
     ,-[$DIR/tests/fixture/text/cdata-svg/input.html:17:1]
- 17 |     <text><![CDATA[content]]></text>
- 18 |     <text><![CDATA[&amping]]></text>
+ 17 |     <text class="empty"><![CDATA[]]></text>
+ 18 |     <text><![CDATA[content]]></text>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 19 |     <text><![CDATA[&amping ]]]></text>
+ 19 |     <text><![CDATA[&amping]]></text>
     `----
 
   x Element
     ,-[$DIR/tests/fixture/text/cdata-svg/input.html:17:1]
- 17 |     <text><![CDATA[content]]></text>
- 18 |     <text><![CDATA[&amping]]></text>
+ 17 |     <text class="empty"><![CDATA[]]></text>
+ 18 |     <text><![CDATA[content]]></text>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 19 |     <text><![CDATA[&amping ]]]></text>
+ 19 |     <text><![CDATA[&amping]]></text>
     `----
 
   x Child
     ,-[$DIR/tests/fixture/text/cdata-svg/input.html:17:1]
- 17 |     <text><![CDATA[content]]></text>
- 18 |     <text><![CDATA[&amping]]></text>
+ 17 |     <text class="empty"><![CDATA[]]></text>
+ 18 |     <text><![CDATA[content]]></text>
     :           ^^^^^^^^^^^^^^^^
- 19 |     <text><![CDATA[&amping ]]]></text>
+ 19 |     <text><![CDATA[&amping]]></text>
     `----
 
   x Text
     ,-[$DIR/tests/fixture/text/cdata-svg/input.html:17:1]
- 17 |     <text><![CDATA[content]]></text>
- 18 |     <text><![CDATA[&amping]]></text>
+ 17 |     <text class="empty"><![CDATA[]]></text>
+ 18 |     <text><![CDATA[content]]></text>
     :           ^^^^^^^^^^^^^^^^
- 19 |     <text><![CDATA[&amping ]]]></text>
+ 19 |     <text><![CDATA[&amping]]></text>
     `----
 
   x Child
     ,-[$DIR/tests/fixture/text/cdata-svg/input.html:17:1]
- 17 |         <text><![CDATA[content]]></text>
- 18 | ,->     <text><![CDATA[&amping]]></text>
- 19 | `->     <text><![CDATA[&amping ]]]></text>
- 20 |         <text><![CDATA[&amping]] ]]></text>
+ 17 |         <text class="empty"><![CDATA[]]></text>
+ 18 | ,->     <text><![CDATA[content]]></text>
+ 19 | `->     <text><![CDATA[&amping]]></text>
+ 20 |         <text><![CDATA[&amping ]]]></text>
     `----
 
   x Text
     ,-[$DIR/tests/fixture/text/cdata-svg/input.html:17:1]
- 17 |         <text><![CDATA[content]]></text>
- 18 | ,->     <text><![CDATA[&amping]]></text>
- 19 | `->     <text><![CDATA[&amping ]]]></text>
- 20 |         <text><![CDATA[&amping]] ]]></text>
+ 17 |         <text class="empty"><![CDATA[]]></text>
+ 18 | ,->     <text><![CDATA[content]]></text>
+ 19 | `->     <text><![CDATA[&amping]]></text>
+ 20 |         <text><![CDATA[&amping ]]]></text>
     `----
 
   x Child
     ,-[$DIR/tests/fixture/text/cdata-svg/input.html:18:1]
- 18 |     <text><![CDATA[&amping]]></text>
- 19 |     <text><![CDATA[&amping ]]]></text>
+ 18 |     <text><![CDATA[content]]></text>
+ 19 |     <text><![CDATA[&amping]]></text>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 20 |     <text><![CDATA[&amping ]]]></text>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:18:1]
+ 18 |     <text><![CDATA[content]]></text>
+ 19 |     <text><![CDATA[&amping]]></text>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 20 |     <text><![CDATA[&amping ]]]></text>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:18:1]
+ 18 |     <text><![CDATA[content]]></text>
+ 19 |     <text><![CDATA[&amping]]></text>
+    :           ^^^^^^^^^^^^^^^^
+ 20 |     <text><![CDATA[&amping ]]]></text>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:18:1]
+ 18 |     <text><![CDATA[content]]></text>
+ 19 |     <text><![CDATA[&amping]]></text>
+    :           ^^^^^^^^^^^^^^^^
+ 20 |     <text><![CDATA[&amping ]]]></text>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:18:1]
+ 18 |         <text><![CDATA[content]]></text>
+ 19 | ,->     <text><![CDATA[&amping]]></text>
+ 20 | `->     <text><![CDATA[&amping ]]]></text>
+ 21 |         <text><![CDATA[&amping]] ]]></text>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:18:1]
+ 18 |         <text><![CDATA[content]]></text>
+ 19 | ,->     <text><![CDATA[&amping]]></text>
+ 20 | `->     <text><![CDATA[&amping ]]]></text>
+ 21 |         <text><![CDATA[&amping]] ]]></text>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:19:1]
+ 19 |     <text><![CDATA[&amping]]></text>
+ 20 |     <text><![CDATA[&amping ]]]></text>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 20 |     <text><![CDATA[&amping]] ]]></text>
+ 21 |     <text><![CDATA[&amping]] ]]></text>
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:18:1]
- 18 |     <text><![CDATA[&amping]]></text>
- 19 |     <text><![CDATA[&amping ]]]></text>
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:19:1]
+ 19 |     <text><![CDATA[&amping]]></text>
+ 20 |     <text><![CDATA[&amping ]]]></text>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 20 |     <text><![CDATA[&amping]] ]]></text>
+ 21 |     <text><![CDATA[&amping]] ]]></text>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:18:1]
- 18 |     <text><![CDATA[&amping]]></text>
- 19 |     <text><![CDATA[&amping ]]]></text>
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:19:1]
+ 19 |     <text><![CDATA[&amping]]></text>
+ 20 |     <text><![CDATA[&amping ]]]></text>
     :           ^^^^^^^^^^^^^^^^^^^^
- 20 |     <text><![CDATA[&amping]] ]]></text>
+ 21 |     <text><![CDATA[&amping]] ]]></text>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:18:1]
- 18 |     <text><![CDATA[&amping]]></text>
- 19 |     <text><![CDATA[&amping ]]]></text>
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:19:1]
+ 19 |     <text><![CDATA[&amping]]></text>
+ 20 |     <text><![CDATA[&amping ]]]></text>
     :           ^^^^^^^^^^^^^^^^^^^^
- 20 |     <text><![CDATA[&amping]] ]]></text>
-    `----
-
-  x Child
-    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:18:1]
- 18 |         <text><![CDATA[&amping]]></text>
- 19 | ,->     <text><![CDATA[&amping ]]]></text>
- 20 | `->     <text><![CDATA[&amping]] ]]></text>
- 21 |         <text><![CDATA[<message>text</message>]]></text>
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:18:1]
- 18 |         <text><![CDATA[&amping]]></text>
- 19 | ,->     <text><![CDATA[&amping ]]]></text>
- 20 | `->     <text><![CDATA[&amping]] ]]></text>
- 21 |         <text><![CDATA[<message>text</message>]]></text>
+ 21 |     <text><![CDATA[&amping]] ]]></text>
     `----
 
   x Child
     ,-[$DIR/tests/fixture/text/cdata-svg/input.html:19:1]
- 19 |     <text><![CDATA[&amping ]]]></text>
- 20 |     <text><![CDATA[&amping]] ]]></text>
+ 19 |         <text><![CDATA[&amping]]></text>
+ 20 | ,->     <text><![CDATA[&amping ]]]></text>
+ 21 | `->     <text><![CDATA[&amping]] ]]></text>
+ 22 |         <text><![CDATA[<message>text</message>]]></text>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:19:1]
+ 19 |         <text><![CDATA[&amping]]></text>
+ 20 | ,->     <text><![CDATA[&amping ]]]></text>
+ 21 | `->     <text><![CDATA[&amping]] ]]></text>
+ 22 |         <text><![CDATA[<message>text</message>]]></text>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:20:1]
+ 20 |     <text><![CDATA[&amping ]]]></text>
+ 21 |     <text><![CDATA[&amping]] ]]></text>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 21 |     <text><![CDATA[<message>text</message>]]></text>
+ 22 |     <text><![CDATA[<message>text</message>]]></text>
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:19:1]
- 19 |     <text><![CDATA[&amping ]]]></text>
- 20 |     <text><![CDATA[&amping]] ]]></text>
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:20:1]
+ 20 |     <text><![CDATA[&amping ]]]></text>
+ 21 |     <text><![CDATA[&amping]] ]]></text>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 21 |     <text><![CDATA[<message>text</message>]]></text>
+ 22 |     <text><![CDATA[<message>text</message>]]></text>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:19:1]
- 19 |     <text><![CDATA[&amping ]]]></text>
- 20 |     <text><![CDATA[&amping]] ]]></text>
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:20:1]
+ 20 |     <text><![CDATA[&amping ]]]></text>
+ 21 |     <text><![CDATA[&amping]] ]]></text>
     :           ^^^^^^^^^^^^^^^^^^^
- 21 |     <text><![CDATA[<message>text</message>]]></text>
+ 22 |     <text><![CDATA[<message>text</message>]]></text>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:19:1]
- 19 |     <text><![CDATA[&amping ]]]></text>
- 20 |     <text><![CDATA[&amping]] ]]></text>
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:20:1]
+ 20 |     <text><![CDATA[&amping ]]]></text>
+ 21 |     <text><![CDATA[&amping]] ]]></text>
     :           ^^^^^^^^^^^^^^^^^^^
- 21 |     <text><![CDATA[<message>text</message>]]></text>
-    `----
-
-  x Child
-    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:19:1]
- 19 |         <text><![CDATA[&amping ]]]></text>
- 20 | ,->     <text><![CDATA[&amping]] ]]></text>
- 21 | `->     <text><![CDATA[<message>text</message>]]></text>
- 22 |         <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:19:1]
- 19 |         <text><![CDATA[&amping ]]]></text>
- 20 | ,->     <text><![CDATA[&amping]] ]]></text>
- 21 | `->     <text><![CDATA[<message>text</message>]]></text>
- 22 |         <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
+ 22 |     <text><![CDATA[<message>text</message>]]></text>
     `----
 
   x Child
     ,-[$DIR/tests/fixture/text/cdata-svg/input.html:20:1]
- 20 |     <text><![CDATA[&amping]] ]]></text>
- 21 |     <text><![CDATA[<message>text</message>]]></text>
+ 20 |         <text><![CDATA[&amping ]]]></text>
+ 21 | ,->     <text><![CDATA[&amping]] ]]></text>
+ 22 | `->     <text><![CDATA[<message>text</message>]]></text>
+ 23 |         <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:20:1]
+ 20 |         <text><![CDATA[&amping ]]]></text>
+ 21 | ,->     <text><![CDATA[&amping]] ]]></text>
+ 22 | `->     <text><![CDATA[<message>text</message>]]></text>
+ 23 |         <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:21:1]
+ 21 |     <text><![CDATA[&amping]] ]]></text>
+ 22 |     <text><![CDATA[<message>text</message>]]></text>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 22 |     <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
+ 23 |     <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:20:1]
- 20 |     <text><![CDATA[&amping]] ]]></text>
- 21 |     <text><![CDATA[<message>text</message>]]></text>
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:21:1]
+ 21 |     <text><![CDATA[&amping]] ]]></text>
+ 22 |     <text><![CDATA[<message>text</message>]]></text>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 22 |     <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
+ 23 |     <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:20:1]
- 20 |     <text><![CDATA[&amping]] ]]></text>
- 21 |     <text><![CDATA[<message>text</message>]]></text>
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:21:1]
+ 21 |     <text><![CDATA[&amping]] ]]></text>
+ 22 |     <text><![CDATA[<message>text</message>]]></text>
     :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 22 |     <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
+ 23 |     <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:20:1]
- 20 |     <text><![CDATA[&amping]] ]]></text>
- 21 |     <text><![CDATA[<message>text</message>]]></text>
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:21:1]
+ 21 |     <text><![CDATA[&amping]] ]]></text>
+ 22 |     <text><![CDATA[<message>text</message>]]></text>
     :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 22 |     <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
-    `----
-
-  x Child
-    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:20:1]
- 20 |         <text><![CDATA[&amping]] ]]></text>
- 21 | ,->     <text><![CDATA[<message>text</message>]]></text>
- 22 | `->     <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
- 23 |         <text><![CDATA[1]]><![CDATA[2]]></text>
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:20:1]
- 20 |         <text><![CDATA[&amping]] ]]></text>
- 21 | ,->     <text><![CDATA[<message>text</message>]]></text>
- 22 | `->     <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
- 23 |         <text><![CDATA[1]]><![CDATA[2]]></text>
+ 23 |     <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
     `----
 
   x Child
     ,-[$DIR/tests/fixture/text/cdata-svg/input.html:21:1]
- 21 |     <text><![CDATA[<message>text</message>]]></text>
- 22 |     <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
+ 21 |         <text><![CDATA[&amping]] ]]></text>
+ 22 | ,->     <text><![CDATA[<message>text</message>]]></text>
+ 23 | `->     <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
+ 24 |         <text><![CDATA[1]]><![CDATA[2]]></text>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:21:1]
+ 21 |         <text><![CDATA[&amping]] ]]></text>
+ 22 | ,->     <text><![CDATA[<message>text</message>]]></text>
+ 23 | `->     <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
+ 24 |         <text><![CDATA[1]]><![CDATA[2]]></text>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:22:1]
+ 22 |     <text><![CDATA[<message>text</message>]]></text>
+ 23 |     <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 23 |     <text><![CDATA[1]]><![CDATA[2]]></text>
+ 24 |     <text><![CDATA[1]]><![CDATA[2]]></text>
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:21:1]
- 21 |     <text><![CDATA[<message>text</message>]]></text>
- 22 |     <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:22:1]
+ 22 |     <text><![CDATA[<message>text</message>]]></text>
+ 23 |     <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 23 |     <text><![CDATA[1]]><![CDATA[2]]></text>
+ 24 |     <text><![CDATA[1]]><![CDATA[2]]></text>
     `----
 
   x Child
-    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:21:1]
- 21 |     <text><![CDATA[<message>text</message>]]></text>
- 22 |     <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:22:1]
+ 22 |     <text><![CDATA[<message>text</message>]]></text>
+ 23 |     <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
     :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 23 |     <text><![CDATA[1]]><![CDATA[2]]></text>
+ 24 |     <text><![CDATA[1]]><![CDATA[2]]></text>
     `----
 
   x Text
-    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:21:1]
- 21 |     <text><![CDATA[<message>text</message>]]></text>
- 22 |     <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:22:1]
+ 22 |     <text><![CDATA[<message>text</message>]]></text>
+ 23 |     <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
     :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 23 |     <text><![CDATA[1]]><![CDATA[2]]></text>
-    `----
-
-  x Child
-    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:21:1]
- 21 |         <text><![CDATA[<message>text</message>]]></text>
- 22 | ,->     <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
- 23 | `->     <text><![CDATA[1]]><![CDATA[2]]></text>
- 24 |         <text>
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:21:1]
- 21 |         <text><![CDATA[<message>text</message>]]></text>
- 22 | ,->     <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
- 23 | `->     <text><![CDATA[1]]><![CDATA[2]]></text>
- 24 |         <text>
+ 24 |     <text><![CDATA[1]]><![CDATA[2]]></text>
     `----
 
   x Child
     ,-[$DIR/tests/fixture/text/cdata-svg/input.html:22:1]
- 22 |     <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
- 23 |     <text><![CDATA[1]]><![CDATA[2]]></text>
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 24 |     <text>
-    `----
-
-  x Element
-    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:22:1]
- 22 |     <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
- 23 |     <text><![CDATA[1]]><![CDATA[2]]></text>
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 24 |     <text>
-    `----
-
-  x Child
-    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:22:1]
- 22 |     <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
- 23 |     <text><![CDATA[1]]><![CDATA[2]]></text>
-    :           ^^^^^^^^^^^^^^^^^^^^^^^
- 24 |     <text>
+ 22 |         <text><![CDATA[<message>text</message>]]></text>
+ 23 | ,->     <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
+ 24 | `->     <text><![CDATA[1]]><![CDATA[2]]></text>
+ 25 |         <text>
     `----
 
   x Text
     ,-[$DIR/tests/fixture/text/cdata-svg/input.html:22:1]
- 22 |     <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
- 23 |     <text><![CDATA[1]]><![CDATA[2]]></text>
-    :           ^^^^^^^^^^^^^^^^^^^^^^^
- 24 |     <text>
-    `----
-
-  x Child
-    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:22:1]
- 22 |         <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
- 23 | ,->     <text><![CDATA[1]]><![CDATA[2]]></text>
- 24 | `->     <text>
- 25 |             <![CDATA[data]]>
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:22:1]
- 22 |         <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
- 23 | ,->     <text><![CDATA[1]]><![CDATA[2]]></text>
- 24 | `->     <text>
- 25 |             <![CDATA[data]]>
+ 22 |         <text><![CDATA[<message>text</message>]]></text>
+ 23 | ,->     <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
+ 24 | `->     <text><![CDATA[1]]><![CDATA[2]]></text>
+ 25 |         <text>
     `----
 
   x Child
     ,-[$DIR/tests/fixture/text/cdata-svg/input.html:23:1]
- 23 |         <text><![CDATA[1]]><![CDATA[2]]></text>
- 24 | ,->     <text>
- 25 | |           <![CDATA[data]]>
- 26 | `->     </text>
- 27 |         <text><![CDATA[bracket ]after]]></text>
+ 23 |     <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
+ 24 |     <text><![CDATA[1]]><![CDATA[2]]></text>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 25 |     <text>
     `----
 
   x Element
     ,-[$DIR/tests/fixture/text/cdata-svg/input.html:23:1]
- 23 |         <text><![CDATA[1]]><![CDATA[2]]></text>
- 24 | ,->     <text>
- 25 | |           <![CDATA[data]]>
- 26 | `->     </text>
- 27 |         <text><![CDATA[bracket ]after]]></text>
-    `----
-
-  x Child
-    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:23:1]
- 23 |         <text><![CDATA[1]]><![CDATA[2]]></text>
- 24 | ,->     <text>
- 25 | |           <![CDATA[data]]>
- 26 | `->     </text>
- 27 |         <text><![CDATA[bracket ]after]]></text>
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:23:1]
- 23 |         <text><![CDATA[1]]><![CDATA[2]]></text>
- 24 | ,->     <text>
- 25 | |           <![CDATA[data]]>
- 26 | `->     </text>
- 27 |         <text><![CDATA[bracket ]after]]></text>
-    `----
-
-  x Child
-    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:25:1]
- 25 |             <![CDATA[data]]>
- 26 | ,->     </text>
- 27 | `->     <text><![CDATA[bracket ]after]]></text>
- 28 |     </svg>
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:25:1]
- 25 |             <![CDATA[data]]>
- 26 | ,->     </text>
- 27 | `->     <text><![CDATA[bracket ]after]]></text>
- 28 |     </svg>
-    `----
-
-  x Child
-    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:26:1]
- 26 |     </text>
- 27 |     <text><![CDATA[bracket ]after]]></text>
+ 23 |     <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
+ 24 |     <text><![CDATA[1]]><![CDATA[2]]></text>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 28 | </svg>
+ 25 |     <text>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:23:1]
+ 23 |     <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
+ 24 |     <text><![CDATA[1]]><![CDATA[2]]></text>
+    :           ^^^^^^^^^^^^^^^^^^^^^^^
+ 25 |     <text>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:23:1]
+ 23 |     <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
+ 24 |     <text><![CDATA[1]]><![CDATA[2]]></text>
+    :           ^^^^^^^^^^^^^^^^^^^^^^^
+ 25 |     <text>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:23:1]
+ 23 |         <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
+ 24 | ,->     <text><![CDATA[1]]><![CDATA[2]]></text>
+ 25 | `->     <text>
+ 26 |             <![CDATA[data]]>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:23:1]
+ 23 |         <text><![CDATA[</this is malformed!</malformed</malformed & worse>]]></text>
+ 24 | ,->     <text><![CDATA[1]]><![CDATA[2]]></text>
+ 25 | `->     <text>
+ 26 |             <![CDATA[data]]>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:24:1]
+ 24 |         <text><![CDATA[1]]><![CDATA[2]]></text>
+ 25 | ,->     <text>
+ 26 | |           <![CDATA[data]]>
+ 27 | `->     </text>
+ 28 |         <text><![CDATA[bracket ]after]]></text>
     `----
 
   x Element
-    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:26:1]
- 26 |     </text>
- 27 |     <text><![CDATA[bracket ]after]]></text>
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 28 | </svg>
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:24:1]
+ 24 |         <text><![CDATA[1]]><![CDATA[2]]></text>
+ 25 | ,->     <text>
+ 26 | |           <![CDATA[data]]>
+ 27 | `->     </text>
+ 28 |         <text><![CDATA[bracket ]after]]></text>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:24:1]
+ 24 |         <text><![CDATA[1]]><![CDATA[2]]></text>
+ 25 | ,->     <text>
+ 26 | |           <![CDATA[data]]>
+ 27 | `->     </text>
+ 28 |         <text><![CDATA[bracket ]after]]></text>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:24:1]
+ 24 |         <text><![CDATA[1]]><![CDATA[2]]></text>
+ 25 | ,->     <text>
+ 26 | |           <![CDATA[data]]>
+ 27 | `->     </text>
+ 28 |         <text><![CDATA[bracket ]after]]></text>
     `----
 
   x Child
     ,-[$DIR/tests/fixture/text/cdata-svg/input.html:26:1]
- 26 |     </text>
- 27 |     <text><![CDATA[bracket ]after]]></text>
-    :           ^^^^^^^^^^^^^^^^^^^^^^^
- 28 | </svg>
+ 26 |             <![CDATA[data]]>
+ 27 | ,->     </text>
+ 28 | `->     <text><![CDATA[bracket ]after]]></text>
+ 29 |         <text>a<![CDATA[bracket ]after]]>b</text>
     `----
 
   x Text
     ,-[$DIR/tests/fixture/text/cdata-svg/input.html:26:1]
- 26 |     </text>
- 27 |     <text><![CDATA[bracket ]after]]></text>
-    :           ^^^^^^^^^^^^^^^^^^^^^^^
- 28 | </svg>
-    `----
-
-  x Child
-    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:26:1]
- 26 |     </text>
- 27 |     <text><![CDATA[bracket ]after]]></text>
-    :                                            ^
- 28 | </svg>
- 29 | </body>
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:26:1]
- 26 |     </text>
- 27 |     <text><![CDATA[bracket ]after]]></text>
-    :                                            ^
- 28 | </svg>
- 29 | </body>
+ 26 |             <![CDATA[data]]>
+ 27 | ,->     </text>
+ 28 | `->     <text><![CDATA[bracket ]after]]></text>
+ 29 |         <text>a<![CDATA[bracket ]after]]>b</text>
     `----
 
   x Child
     ,-[$DIR/tests/fixture/text/cdata-svg/input.html:27:1]
- 27 |         <text><![CDATA[bracket ]after]]></text>
- 28 | ,-> </svg>
- 29 | `-> </body>
- 30 |     </html>
+ 27 |     </text>
+ 28 |     <text><![CDATA[bracket ]after]]></text>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 29 |     <text>a<![CDATA[bracket ]after]]>b</text>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:27:1]
+ 27 |     </text>
+ 28 |     <text><![CDATA[bracket ]after]]></text>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 29 |     <text>a<![CDATA[bracket ]after]]>b</text>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:27:1]
+ 27 |     </text>
+ 28 |     <text><![CDATA[bracket ]after]]></text>
+    :           ^^^^^^^^^^^^^^^^^^^^^^^
+ 29 |     <text>a<![CDATA[bracket ]after]]>b</text>
     `----
 
   x Text
     ,-[$DIR/tests/fixture/text/cdata-svg/input.html:27:1]
- 27 |         <text><![CDATA[bracket ]after]]></text>
- 28 | ,-> </svg>
- 29 | `-> </body>
- 30 |     </html>
+ 27 |     </text>
+ 28 |     <text><![CDATA[bracket ]after]]></text>
+    :           ^^^^^^^^^^^^^^^^^^^^^^^
+ 29 |     <text>a<![CDATA[bracket ]after]]>b</text>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:27:1]
+ 27 |         </text>
+ 28 | ,->     <text><![CDATA[bracket ]after]]></text>
+ 29 | `->     <text>a<![CDATA[bracket ]after]]>b</text>
+ 30 |     </svg>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:27:1]
+ 27 |         </text>
+ 28 | ,->     <text><![CDATA[bracket ]after]]></text>
+ 29 | `->     <text>a<![CDATA[bracket ]after]]>b</text>
+ 30 |     </svg>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:28:1]
+ 28 |     <text><![CDATA[bracket ]after]]></text>
+ 29 |     <text>a<![CDATA[bracket ]after]]>b</text>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 30 | </svg>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:28:1]
+ 28 |     <text><![CDATA[bracket ]after]]></text>
+ 29 |     <text>a<![CDATA[bracket ]after]]>b</text>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 30 | </svg>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:28:1]
+ 28 |     <text><![CDATA[bracket ]after]]></text>
+ 29 |     <text>a<![CDATA[bracket ]after]]>b</text>
+    :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 30 | </svg>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:28:1]
+ 28 |     <text><![CDATA[bracket ]after]]></text>
+ 29 |     <text>a<![CDATA[bracket ]after]]>b</text>
+    :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 30 | </svg>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:28:1]
+ 28 |     <text><![CDATA[bracket ]after]]></text>
+ 29 |     <text>a<![CDATA[bracket ]after]]>b</text>
+    :                                              ^
+ 30 | </svg>
+ 31 | </body>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:28:1]
+ 28 |     <text><![CDATA[bracket ]after]]></text>
+ 29 |     <text>a<![CDATA[bracket ]after]]>b</text>
+    :                                              ^
+ 30 | </svg>
+ 31 | </body>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:29:1]
+ 29 |         <text>a<![CDATA[bracket ]after]]>b</text>
+ 30 | ,-> </svg>
+ 31 | `-> </body>
+ 32 |     </html>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/cdata-svg/input.html:29:1]
+ 29 |         <text>a<![CDATA[bracket ]after]]>b</text>
+ 30 | ,-> </svg>
+ 31 | `-> </body>
+ 32 |     </html>
     `----

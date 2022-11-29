@@ -62,6 +62,10 @@
 |       "
     "
 |       <svg text>
+|         class="empty"
+|       "
+    "
+|       <svg text>
 |         "content"
 |       "
     "
@@ -97,6 +101,10 @@
     "
 |       <svg text>
 |         "bracket ]after"
+|       "
+    "
+|       <svg text>
+|         "abracket ]afterb"
 |       "
 "
 |     "
