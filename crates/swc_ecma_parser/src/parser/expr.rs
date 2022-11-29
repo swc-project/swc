@@ -1906,7 +1906,18 @@ impl<I: Tokens> Parser<I> {
             })))
         } else {
             let has_star = eat!(self, '*');
-            let arg = self.parse_assignment_expr()?;
+            let err_span = span!(self, start);
+
+            let arg = self.parse_assignment_expr().map_err(|err| {
+                Error::new(
+                    err.span(),
+                    SyntaxError::WithNote {
+                        inner: Box::new(err),
+                        span: err_span,
+                        note: "Tried to parse an argument of yield",
+                    },
+                )
+            })?;
 
             Ok(Box::new(Expr::Yield(YieldExpr {
                 span: span!(self, start),
