@@ -687,7 +687,7 @@ fn html5lib_test_tree_construction(input: PathBuf) {
 
             let mut dom_snapshot_path = dir.clone();
 
-            dom_snapshot_path.push(file_stem.clone() + ".dom.rust-debug");
+            dom_snapshot_path.push(file_stem.clone() + ".dom.txt");
 
             let mut dom = document.join("\n");
 
@@ -834,7 +834,7 @@ fn html5lib_test_tree_construction(input: PathBuf) {
                 });
 
                 NormalizedOutput::from(dom_buf)
-                    .compare_to_file(&input.with_extension("dom.rust-debug"))
+                    .compare_to_file(&input.with_extension("dom.txt"))
                     .unwrap();
 
                 Ok(())
@@ -858,7 +858,7 @@ fn html5lib_test_tree_construction(input: PathBuf) {
                 });
 
                 NormalizedOutput::from(dom_buf)
-                    .compare_to_file(&input.with_extension("dom.rust-debug"))
+                    .compare_to_file(&input.with_extension("dom.txt"))
                     .unwrap();
 
                 Ok(())

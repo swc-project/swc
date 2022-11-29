@@ -240,7 +240,7 @@ pub fn document_dom_visualizer(input: PathBuf, config: ParserConfig) {
                 });
 
                 NormalizedOutput::from(dom_buf)
-                    .compare_to_file(&dir.join("dom.rust-debug"))
+                    .compare_to_file(&dir.join("dom.txt"))
                     .unwrap();
 
                 Ok(())
@@ -326,9 +326,9 @@ pub fn document_span_visualizer(input: PathBuf, config: ParserConfig, relative_t
     .unwrap_err();
 
     let output_path = if relative_to_file {
-        input.with_extension("span.rust-debug")
+        input.with_extension("span.swc-stderr")
     } else {
-        dir.join("span.rust-debug")
+        dir.join("span.swc-sterr")
     };
 
     output.compare_to_file(&output_path).unwrap();
