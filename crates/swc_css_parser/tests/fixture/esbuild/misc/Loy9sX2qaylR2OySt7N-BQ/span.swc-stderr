@@ -1,0 +1,84 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/fixture/esbuild/misc/Loy9sX2qaylR2OySt7N-BQ/input.css:1:1]
+ 1 | a|* {}
+   : ^^^^^^
+   `----
+
+  x Rule
+   ,-[$DIR/tests/fixture/esbuild/misc/Loy9sX2qaylR2OySt7N-BQ/input.css:1:1]
+ 1 | a|* {}
+   : ^^^^^^
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/fixture/esbuild/misc/Loy9sX2qaylR2OySt7N-BQ/input.css:1:1]
+ 1 | a|* {}
+   : ^^^^^^
+   `----
+
+  x SelectorList
+   ,-[$DIR/tests/fixture/esbuild/misc/Loy9sX2qaylR2OySt7N-BQ/input.css:1:1]
+ 1 | a|* {}
+   : ^^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/Loy9sX2qaylR2OySt7N-BQ/input.css:1:1]
+ 1 | a|* {}
+   : ^^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/Loy9sX2qaylR2OySt7N-BQ/input.css:1:1]
+ 1 | a|* {}
+   : ^^^
+   `----
+
+  x TypeSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/Loy9sX2qaylR2OySt7N-BQ/input.css:1:1]
+ 1 | a|* {}
+   : ^^^
+   `----
+
+  x UniversalSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/Loy9sX2qaylR2OySt7N-BQ/input.css:1:1]
+ 1 | a|* {}
+   : ^^^
+   `----
+
+  x NamespacePrefix
+   ,-[$DIR/tests/fixture/esbuild/misc/Loy9sX2qaylR2OySt7N-BQ/input.css:1:1]
+ 1 | a|* {}
+   : ^^
+   `----
+
+  x Namespace
+   ,-[$DIR/tests/fixture/esbuild/misc/Loy9sX2qaylR2OySt7N-BQ/input.css:1:1]
+ 1 | a|* {}
+   : ^
+   `----
+
+  x NamedNamespace
+   ,-[$DIR/tests/fixture/esbuild/misc/Loy9sX2qaylR2OySt7N-BQ/input.css:1:1]
+ 1 | a|* {}
+   : ^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/Loy9sX2qaylR2OySt7N-BQ/input.css:1:1]
+ 1 | a|* {}
+   : ^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/esbuild/misc/Loy9sX2qaylR2OySt7N-BQ/input.css:1:1]
+ 1 | a|* {}
+   :     ^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/esbuild/misc/Loy9sX2qaylR2OySt7N-BQ/input.css:1:1]
+ 1 | a|* {}
+   :     ^
+   `----

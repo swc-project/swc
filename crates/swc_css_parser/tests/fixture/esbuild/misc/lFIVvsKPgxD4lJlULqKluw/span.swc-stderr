@@ -1,0 +1,72 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/fixture/esbuild/misc/lFIVvsKPgxD4lJlULqKluw/input.css:1:1]
+ 1 | [\61ttr] {}
+   : ^^^^^^^^^^^
+   `----
+
+  x Rule
+   ,-[$DIR/tests/fixture/esbuild/misc/lFIVvsKPgxD4lJlULqKluw/input.css:1:1]
+ 1 | [\61ttr] {}
+   : ^^^^^^^^^^^
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/fixture/esbuild/misc/lFIVvsKPgxD4lJlULqKluw/input.css:1:1]
+ 1 | [\61ttr] {}
+   : ^^^^^^^^^^^
+   `----
+
+  x SelectorList
+   ,-[$DIR/tests/fixture/esbuild/misc/lFIVvsKPgxD4lJlULqKluw/input.css:1:1]
+ 1 | [\61ttr] {}
+   : ^^^^^^^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/lFIVvsKPgxD4lJlULqKluw/input.css:1:1]
+ 1 | [\61ttr] {}
+   : ^^^^^^^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/lFIVvsKPgxD4lJlULqKluw/input.css:1:1]
+ 1 | [\61ttr] {}
+   : ^^^^^^^^
+   `----
+
+  x SubclassSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/lFIVvsKPgxD4lJlULqKluw/input.css:1:1]
+ 1 | [\61ttr] {}
+   : ^^^^^^^^
+   `----
+
+  x AttributeSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/lFIVvsKPgxD4lJlULqKluw/input.css:1:1]
+ 1 | [\61ttr] {}
+   : ^^^^^^^^
+   `----
+
+  x WqName
+   ,-[$DIR/tests/fixture/esbuild/misc/lFIVvsKPgxD4lJlULqKluw/input.css:1:1]
+ 1 | [\61ttr] {}
+   :  ^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/lFIVvsKPgxD4lJlULqKluw/input.css:1:1]
+ 1 | [\61ttr] {}
+   :  ^^^^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/esbuild/misc/lFIVvsKPgxD4lJlULqKluw/input.css:1:1]
+ 1 | [\61ttr] {}
+   :          ^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/esbuild/misc/lFIVvsKPgxD4lJlULqKluw/input.css:1:1]
+ 1 | [\61ttr] {}
+   :          ^
+   `----

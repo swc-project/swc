@@ -1,0 +1,8 @@
+
+  x Expected Declaration value
+   ,-[$DIR/tests/recovery/delim-token/caret/input.css:1:1]
+ 1 | a {
+ 2 |     prop: ^;
+   :           ^
+ 3 | }
+   `----

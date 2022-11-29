@@ -1,0 +1,6 @@
+
+  x Expected 'n' character in Ident
+   ,-[$DIR/tests/recovery/selector/pseudo-class/an-plus-b/input.css:1:1]
+ 1 | :nth-child(unknown) {}
+   :            ^^^^^^^
+   `----

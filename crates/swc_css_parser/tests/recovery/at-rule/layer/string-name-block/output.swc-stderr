@@ -1,0 +1,7 @@
+
+  x Unexpected tokens in at-rule prelude
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:1:1]
+ 1 | @layer "framework" {
+   :        ^^^^^^^^^^^
+ 2 |     h1, h2 { color: maroon; background: white;}
+   `----

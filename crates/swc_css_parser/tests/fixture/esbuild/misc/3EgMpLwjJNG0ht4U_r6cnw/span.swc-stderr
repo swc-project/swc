@@ -1,0 +1,120 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/fixture/esbuild/misc/3EgMpLwjJNG0ht4U_r6cnw/input.css:1:1]
+ 1 | a { color: #ABBBCCDD }
+   : ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Rule
+   ,-[$DIR/tests/fixture/esbuild/misc/3EgMpLwjJNG0ht4U_r6cnw/input.css:1:1]
+ 1 | a { color: #ABBBCCDD }
+   : ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/fixture/esbuild/misc/3EgMpLwjJNG0ht4U_r6cnw/input.css:1:1]
+ 1 | a { color: #ABBBCCDD }
+   : ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x SelectorList
+   ,-[$DIR/tests/fixture/esbuild/misc/3EgMpLwjJNG0ht4U_r6cnw/input.css:1:1]
+ 1 | a { color: #ABBBCCDD }
+   : ^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/3EgMpLwjJNG0ht4U_r6cnw/input.css:1:1]
+ 1 | a { color: #ABBBCCDD }
+   : ^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/3EgMpLwjJNG0ht4U_r6cnw/input.css:1:1]
+ 1 | a { color: #ABBBCCDD }
+   : ^
+   `----
+
+  x TypeSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/3EgMpLwjJNG0ht4U_r6cnw/input.css:1:1]
+ 1 | a { color: #ABBBCCDD }
+   : ^
+   `----
+
+  x TagNameSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/3EgMpLwjJNG0ht4U_r6cnw/input.css:1:1]
+ 1 | a { color: #ABBBCCDD }
+   : ^
+   `----
+
+  x WqName
+   ,-[$DIR/tests/fixture/esbuild/misc/3EgMpLwjJNG0ht4U_r6cnw/input.css:1:1]
+ 1 | a { color: #ABBBCCDD }
+   : ^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/3EgMpLwjJNG0ht4U_r6cnw/input.css:1:1]
+ 1 | a { color: #ABBBCCDD }
+   : ^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/esbuild/misc/3EgMpLwjJNG0ht4U_r6cnw/input.css:1:1]
+ 1 | a { color: #ABBBCCDD }
+   :   ^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/esbuild/misc/3EgMpLwjJNG0ht4U_r6cnw/input.css:1:1]
+ 1 | a { color: #ABBBCCDD }
+   :   ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/esbuild/misc/3EgMpLwjJNG0ht4U_r6cnw/input.css:1:1]
+ 1 | a { color: #ABBBCCDD }
+   :     ^^^^^^^^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/fixture/esbuild/misc/3EgMpLwjJNG0ht4U_r6cnw/input.css:1:1]
+ 1 | a { color: #ABBBCCDD }
+   :     ^^^^^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/fixture/esbuild/misc/3EgMpLwjJNG0ht4U_r6cnw/input.css:1:1]
+ 1 | a { color: #ABBBCCDD }
+   :     ^^^^^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/fixture/esbuild/misc/3EgMpLwjJNG0ht4U_r6cnw/input.css:1:1]
+ 1 | a { color: #ABBBCCDD }
+   :     ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/3EgMpLwjJNG0ht4U_r6cnw/input.css:1:1]
+ 1 | a { color: #ABBBCCDD }
+   :     ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/esbuild/misc/3EgMpLwjJNG0ht4U_r6cnw/input.css:1:1]
+ 1 | a { color: #ABBBCCDD }
+   :            ^^^^^^^^^
+   `----
+
+  x Color
+   ,-[$DIR/tests/fixture/esbuild/misc/3EgMpLwjJNG0ht4U_r6cnw/input.css:1:1]
+ 1 | a { color: #ABBBCCDD }
+   :            ^^^^^^^^^
+   `----
+
+  x HexColor
+   ,-[$DIR/tests/fixture/esbuild/misc/3EgMpLwjJNG0ht4U_r6cnw/input.css:1:1]
+ 1 | a { color: #ABBBCCDD }
+   :            ^^^^^^^^^
+   `----

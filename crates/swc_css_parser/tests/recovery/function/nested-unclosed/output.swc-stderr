@@ -1,0 +1,8 @@
+
+  x Expected Declaration value
+   ,-[$DIR/tests/recovery/function/nested-unclosed/input.css:1:1]
+ 1 | a {
+ 2 |     prop: url("test") :
+   :                       ^
+ 3 | }
+   `----

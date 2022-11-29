@@ -1,0 +1,6 @@
+
+  x Expected Declaration value
+   ,-[$DIR/tests/recovery/value/at-keyword/6/input.css:1:1]
+ 1 | a { value: @\6beyword }
+   :            ^^^^^^^^^^
+   `----

@@ -1,0 +1,6 @@
+
+  x Unexpected end of file, but expected ';' or '{'
+   ,-[$DIR/tests/recovery/at-rule/no-end/input.css:1:1]
+ 1 | @unknown
+   : ^^^^^^^^
+   `----

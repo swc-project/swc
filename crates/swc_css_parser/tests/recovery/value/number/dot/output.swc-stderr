@@ -1,0 +1,6 @@
+
+  x Expected Declaration value
+   ,-[$DIR/tests/recovery/value/number/dot/input.css:1:1]
+ 1 | a { width: 0.; }
+   :             ^
+   `----

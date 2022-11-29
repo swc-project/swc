@@ -1,0 +1,248 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/fixture/value/dimension/input.css:1:1]
+ 1 | ,-> div {
+ 2 | |       width: 100\%;
+ 3 | |       width: 100px2p;
+ 4 | `-> }
+   `----
+
+  x Rule
+   ,-[$DIR/tests/fixture/value/dimension/input.css:1:1]
+ 1 | ,-> div {
+ 2 | |       width: 100\%;
+ 3 | |       width: 100px2p;
+ 4 | `-> }
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/fixture/value/dimension/input.css:1:1]
+ 1 | ,-> div {
+ 2 | |       width: 100\%;
+ 3 | |       width: 100px2p;
+ 4 | `-> }
+   `----
+
+  x SelectorList
+   ,-[$DIR/tests/fixture/value/dimension/input.css:1:1]
+ 1 | div {
+   : ^^^
+ 2 |     width: 100\%;
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/value/dimension/input.css:1:1]
+ 1 | div {
+   : ^^^
+ 2 |     width: 100\%;
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/value/dimension/input.css:1:1]
+ 1 | div {
+   : ^^^
+ 2 |     width: 100\%;
+   `----
+
+  x TypeSelector
+   ,-[$DIR/tests/fixture/value/dimension/input.css:1:1]
+ 1 | div {
+   : ^^^
+ 2 |     width: 100\%;
+   `----
+
+  x TagNameSelector
+   ,-[$DIR/tests/fixture/value/dimension/input.css:1:1]
+ 1 | div {
+   : ^^^
+ 2 |     width: 100\%;
+   `----
+
+  x WqName
+   ,-[$DIR/tests/fixture/value/dimension/input.css:1:1]
+ 1 | div {
+   : ^^^
+ 2 |     width: 100\%;
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/value/dimension/input.css:1:1]
+ 1 | div {
+   : ^^^
+ 2 |     width: 100\%;
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/value/dimension/input.css:1:1]
+ 1 | ,-> div {
+ 2 | |       width: 100\%;
+ 3 | |       width: 100px2p;
+ 4 | `-> }
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/value/dimension/input.css:1:1]
+ 1 | div {
+   :     ^
+ 2 |     width: 100\%;
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/value/dimension/input.css:1:1]
+ 1 | div {
+ 2 |     width: 100\%;
+   :     ^^^^^^^^^^^^
+ 3 |     width: 100px2p;
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/fixture/value/dimension/input.css:1:1]
+ 1 | div {
+ 2 |     width: 100\%;
+   :     ^^^^^^^^^^^^
+ 3 |     width: 100px2p;
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/fixture/value/dimension/input.css:1:1]
+ 1 | div {
+ 2 |     width: 100\%;
+   :     ^^^^^^^^^^^^
+ 3 |     width: 100px2p;
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/fixture/value/dimension/input.css:1:1]
+ 1 | div {
+ 2 |     width: 100\%;
+   :     ^^^^^
+ 3 |     width: 100px2p;
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/value/dimension/input.css:1:1]
+ 1 | div {
+ 2 |     width: 100\%;
+   :     ^^^^^
+ 3 |     width: 100px2p;
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/value/dimension/input.css:1:1]
+ 1 | div {
+ 2 |     width: 100\%;
+   :            ^^^^^
+ 3 |     width: 100px2p;
+   `----
+
+  x Dimension
+   ,-[$DIR/tests/fixture/value/dimension/input.css:1:1]
+ 1 | div {
+ 2 |     width: 100\%;
+   :            ^^^^^
+ 3 |     width: 100px2p;
+   `----
+
+  x UnknownDimension
+   ,-[$DIR/tests/fixture/value/dimension/input.css:1:1]
+ 1 | div {
+ 2 |     width: 100\%;
+   :            ^^^^^
+ 3 |     width: 100px2p;
+   `----
+
+  x Number
+   ,-[$DIR/tests/fixture/value/dimension/input.css:1:1]
+ 1 | div {
+ 2 |     width: 100\%;
+   :            ^^^
+ 3 |     width: 100px2p;
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/value/dimension/input.css:1:1]
+ 1 | div {
+ 2 |     width: 100\%;
+   :               ^^
+ 3 |     width: 100px2p;
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/value/dimension/input.css:2:1]
+ 2 |     width: 100\%;
+ 3 |     width: 100px2p;
+   :     ^^^^^^^^^^^^^^
+ 4 | }
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/fixture/value/dimension/input.css:2:1]
+ 2 |     width: 100\%;
+ 3 |     width: 100px2p;
+   :     ^^^^^^^^^^^^^^
+ 4 | }
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/fixture/value/dimension/input.css:2:1]
+ 2 |     width: 100\%;
+ 3 |     width: 100px2p;
+   :     ^^^^^^^^^^^^^^
+ 4 | }
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/fixture/value/dimension/input.css:2:1]
+ 2 |     width: 100\%;
+ 3 |     width: 100px2p;
+   :     ^^^^^
+ 4 | }
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/value/dimension/input.css:2:1]
+ 2 |     width: 100\%;
+ 3 |     width: 100px2p;
+   :     ^^^^^
+ 4 | }
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/value/dimension/input.css:2:1]
+ 2 |     width: 100\%;
+ 3 |     width: 100px2p;
+   :            ^^^^^^^
+ 4 | }
+   `----
+
+  x Dimension
+   ,-[$DIR/tests/fixture/value/dimension/input.css:2:1]
+ 2 |     width: 100\%;
+ 3 |     width: 100px2p;
+   :            ^^^^^^^
+ 4 | }
+   `----
+
+  x UnknownDimension
+   ,-[$DIR/tests/fixture/value/dimension/input.css:2:1]
+ 2 |     width: 100\%;
+ 3 |     width: 100px2p;
+   :            ^^^^^^^
+ 4 | }
+   `----
+
+  x Number
+   ,-[$DIR/tests/fixture/value/dimension/input.css:2:1]
+ 2 |     width: 100\%;
+ 3 |     width: 100px2p;
+   :            ^^^
+ 4 | }
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/value/dimension/input.css:2:1]
+ 2 |     width: 100\%;
+ 3 |     width: 100px2p;
+   :               ^^^^
+ 4 | }
+   `----

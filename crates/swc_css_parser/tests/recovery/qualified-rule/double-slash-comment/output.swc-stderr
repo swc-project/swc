@@ -1,0 +1,7 @@
+
+  x Invalid selector
+   ,-[$DIR/tests/recovery/qualified-rule/double-slash-comment/input.css:1:1]
+ 1 | // test
+   : ^
+ 2 | a {
+   `----

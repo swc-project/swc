@@ -1,0 +1,72 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/fixture/esbuild/misc/Vx6S11kYP0h0sx1VehL-tw/input.css:1:1]
+ 1 | @keyframes a\62 c { from {} }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Rule
+   ,-[$DIR/tests/fixture/esbuild/misc/Vx6S11kYP0h0sx1VehL-tw/input.css:1:1]
+ 1 | @keyframes a\62 c { from {} }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRule
+   ,-[$DIR/tests/fixture/esbuild/misc/Vx6S11kYP0h0sx1VehL-tw/input.css:1:1]
+ 1 | @keyframes a\62 c { from {} }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/fixture/esbuild/misc/Vx6S11kYP0h0sx1VehL-tw/input.css:1:1]
+ 1 | @keyframes a\62 c { from {} }
+   :  ^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/Vx6S11kYP0h0sx1VehL-tw/input.css:1:1]
+ 1 | @keyframes a\62 c { from {} }
+   :  ^^^^^^^^^
+   `----
+
+  x CustomIdent
+   ,-[$DIR/tests/fixture/esbuild/misc/Vx6S11kYP0h0sx1VehL-tw/input.css:1:1]
+ 1 | @keyframes a\62 c { from {} }
+   :            ^^^^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/esbuild/misc/Vx6S11kYP0h0sx1VehL-tw/input.css:1:1]
+ 1 | @keyframes a\62 c { from {} }
+   :                   ^^^^^^^^^^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/esbuild/misc/Vx6S11kYP0h0sx1VehL-tw/input.css:1:1]
+ 1 | @keyframes a\62 c { from {} }
+   :                   ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/esbuild/misc/Vx6S11kYP0h0sx1VehL-tw/input.css:1:1]
+ 1 | @keyframes a\62 c { from {} }
+   :                     ^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/Vx6S11kYP0h0sx1VehL-tw/input.css:1:1]
+ 1 | @keyframes a\62 c { from {} }
+   :                     ^^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/esbuild/misc/Vx6S11kYP0h0sx1VehL-tw/input.css:1:1]
+ 1 | @keyframes a\62 c { from {} }
+   :                          ^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/esbuild/misc/Vx6S11kYP0h0sx1VehL-tw/input.css:1:1]
+ 1 | @keyframes a\62 c { from {} }
+   :                          ^
+   `----

@@ -1,0 +1,6 @@
+
+  x Expected identifier in id selector
+   ,-[$DIR/tests/recovery/selector/id/invalid/input.css:1:1]
+ 1 | #1234 {
+   : ^^^^^
+   `----

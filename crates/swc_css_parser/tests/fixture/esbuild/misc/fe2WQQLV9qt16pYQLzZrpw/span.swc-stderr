@@ -1,0 +1,90 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/fixture/esbuild/misc/fe2WQQLV9qt16pYQLzZrpw/input.css:1:1]
+ 1 | [b="c d"] {}
+   : ^^^^^^^^^^^^
+   `----
+
+  x Rule
+   ,-[$DIR/tests/fixture/esbuild/misc/fe2WQQLV9qt16pYQLzZrpw/input.css:1:1]
+ 1 | [b="c d"] {}
+   : ^^^^^^^^^^^^
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/fixture/esbuild/misc/fe2WQQLV9qt16pYQLzZrpw/input.css:1:1]
+ 1 | [b="c d"] {}
+   : ^^^^^^^^^^^^
+   `----
+
+  x SelectorList
+   ,-[$DIR/tests/fixture/esbuild/misc/fe2WQQLV9qt16pYQLzZrpw/input.css:1:1]
+ 1 | [b="c d"] {}
+   : ^^^^^^^^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/fe2WQQLV9qt16pYQLzZrpw/input.css:1:1]
+ 1 | [b="c d"] {}
+   : ^^^^^^^^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/fe2WQQLV9qt16pYQLzZrpw/input.css:1:1]
+ 1 | [b="c d"] {}
+   : ^^^^^^^^^
+   `----
+
+  x SubclassSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/fe2WQQLV9qt16pYQLzZrpw/input.css:1:1]
+ 1 | [b="c d"] {}
+   : ^^^^^^^^^
+   `----
+
+  x AttributeSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/fe2WQQLV9qt16pYQLzZrpw/input.css:1:1]
+ 1 | [b="c d"] {}
+   : ^^^^^^^^^
+   `----
+
+  x WqName
+   ,-[$DIR/tests/fixture/esbuild/misc/fe2WQQLV9qt16pYQLzZrpw/input.css:1:1]
+ 1 | [b="c d"] {}
+   :  ^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/fe2WQQLV9qt16pYQLzZrpw/input.css:1:1]
+ 1 | [b="c d"] {}
+   :  ^
+   `----
+
+  x AttributeSelectorMatcher
+   ,-[$DIR/tests/fixture/esbuild/misc/fe2WQQLV9qt16pYQLzZrpw/input.css:1:1]
+ 1 | [b="c d"] {}
+   :   ^
+   `----
+
+  x AttributeSelectorValue
+   ,-[$DIR/tests/fixture/esbuild/misc/fe2WQQLV9qt16pYQLzZrpw/input.css:1:1]
+ 1 | [b="c d"] {}
+   :    ^^^^^
+   `----
+
+  x Str
+   ,-[$DIR/tests/fixture/esbuild/misc/fe2WQQLV9qt16pYQLzZrpw/input.css:1:1]
+ 1 | [b="c d"] {}
+   :    ^^^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/esbuild/misc/fe2WQQLV9qt16pYQLzZrpw/input.css:1:1]
+ 1 | [b="c d"] {}
+   :           ^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/esbuild/misc/fe2WQQLV9qt16pYQLzZrpw/input.css:1:1]
+ 1 | [b="c d"] {}
+   :           ^
+   `----

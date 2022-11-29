@@ -1,0 +1,120 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/fixture/esbuild/misc/yOHW3TOE35U7DAf9Hn7-Ew/input.css:1:1]
+ 1 | a { value: \2cx() }
+   : ^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Rule
+   ,-[$DIR/tests/fixture/esbuild/misc/yOHW3TOE35U7DAf9Hn7-Ew/input.css:1:1]
+ 1 | a { value: \2cx() }
+   : ^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/fixture/esbuild/misc/yOHW3TOE35U7DAf9Hn7-Ew/input.css:1:1]
+ 1 | a { value: \2cx() }
+   : ^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x SelectorList
+   ,-[$DIR/tests/fixture/esbuild/misc/yOHW3TOE35U7DAf9Hn7-Ew/input.css:1:1]
+ 1 | a { value: \2cx() }
+   : ^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/yOHW3TOE35U7DAf9Hn7-Ew/input.css:1:1]
+ 1 | a { value: \2cx() }
+   : ^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/yOHW3TOE35U7DAf9Hn7-Ew/input.css:1:1]
+ 1 | a { value: \2cx() }
+   : ^
+   `----
+
+  x TypeSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/yOHW3TOE35U7DAf9Hn7-Ew/input.css:1:1]
+ 1 | a { value: \2cx() }
+   : ^
+   `----
+
+  x TagNameSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/yOHW3TOE35U7DAf9Hn7-Ew/input.css:1:1]
+ 1 | a { value: \2cx() }
+   : ^
+   `----
+
+  x WqName
+   ,-[$DIR/tests/fixture/esbuild/misc/yOHW3TOE35U7DAf9Hn7-Ew/input.css:1:1]
+ 1 | a { value: \2cx() }
+   : ^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/yOHW3TOE35U7DAf9Hn7-Ew/input.css:1:1]
+ 1 | a { value: \2cx() }
+   : ^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/esbuild/misc/yOHW3TOE35U7DAf9Hn7-Ew/input.css:1:1]
+ 1 | a { value: \2cx() }
+   :   ^^^^^^^^^^^^^^^^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/esbuild/misc/yOHW3TOE35U7DAf9Hn7-Ew/input.css:1:1]
+ 1 | a { value: \2cx() }
+   :   ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/esbuild/misc/yOHW3TOE35U7DAf9Hn7-Ew/input.css:1:1]
+ 1 | a { value: \2cx() }
+   :     ^^^^^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/fixture/esbuild/misc/yOHW3TOE35U7DAf9Hn7-Ew/input.css:1:1]
+ 1 | a { value: \2cx() }
+   :     ^^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/fixture/esbuild/misc/yOHW3TOE35U7DAf9Hn7-Ew/input.css:1:1]
+ 1 | a { value: \2cx() }
+   :     ^^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/fixture/esbuild/misc/yOHW3TOE35U7DAf9Hn7-Ew/input.css:1:1]
+ 1 | a { value: \2cx() }
+   :     ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/yOHW3TOE35U7DAf9Hn7-Ew/input.css:1:1]
+ 1 | a { value: \2cx() }
+   :     ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/esbuild/misc/yOHW3TOE35U7DAf9Hn7-Ew/input.css:1:1]
+ 1 | a { value: \2cx() }
+   :            ^^^^^^
+   `----
+
+  x Function
+   ,-[$DIR/tests/fixture/esbuild/misc/yOHW3TOE35U7DAf9Hn7-Ew/input.css:1:1]
+ 1 | a { value: \2cx() }
+   :            ^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/yOHW3TOE35U7DAf9Hn7-Ew/input.css:1:1]
+ 1 | a { value: \2cx() }
+   :            ^^^^
+   `----

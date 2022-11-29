@@ -1,0 +1,668 @@
+
+  x Stylesheet
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:1:1]
+  1 | ,-> :root {
+  2 | |       --main-color: #06c;
+  3 | |       --accent-color: #006;
+  4 | |   }
+  5 | |   
+  6 | |   .foo {
+  7 | |       --fg-color: blue;
+  8 | |   }
+  9 | |   
+ 10 | |   #foo h1 {
+ 11 | |       color: var(--main-color);
+ 12 | |   }
+ 13 | |   
+ 14 | |   @--custom {}
+ 15 | `-> @--library1-custom {}
+    `----
+
+  x Rule
+   ,-[$DIR/tests/fixture/dashed-ident/input.css:1:1]
+ 1 | ,-> :root {
+ 2 | |       --main-color: #06c;
+ 3 | |       --accent-color: #006;
+ 4 | `-> }
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/fixture/dashed-ident/input.css:1:1]
+ 1 | ,-> :root {
+ 2 | |       --main-color: #06c;
+ 3 | |       --accent-color: #006;
+ 4 | `-> }
+   `----
+
+  x SelectorList
+   ,-[$DIR/tests/fixture/dashed-ident/input.css:1:1]
+ 1 | :root {
+   : ^^^^^
+ 2 |     --main-color: #06c;
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/dashed-ident/input.css:1:1]
+ 1 | :root {
+   : ^^^^^
+ 2 |     --main-color: #06c;
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/dashed-ident/input.css:1:1]
+ 1 | :root {
+   : ^^^^^
+ 2 |     --main-color: #06c;
+   `----
+
+  x SubclassSelector
+   ,-[$DIR/tests/fixture/dashed-ident/input.css:1:1]
+ 1 | :root {
+   : ^^^^^
+ 2 |     --main-color: #06c;
+   `----
+
+  x PseudoClassSelector
+   ,-[$DIR/tests/fixture/dashed-ident/input.css:1:1]
+ 1 | :root {
+   : ^^^^^
+ 2 |     --main-color: #06c;
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/dashed-ident/input.css:1:1]
+ 1 | :root {
+   :  ^^^^
+ 2 |     --main-color: #06c;
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/dashed-ident/input.css:1:1]
+ 1 | ,-> :root {
+ 2 | |       --main-color: #06c;
+ 3 | |       --accent-color: #006;
+ 4 | `-> }
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/dashed-ident/input.css:1:1]
+ 1 | :root {
+   :       ^
+ 2 |     --main-color: #06c;
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/dashed-ident/input.css:1:1]
+ 1 | :root {
+ 2 |     --main-color: #06c;
+   :     ^^^^^^^^^^^^^^^^^^
+ 3 |     --accent-color: #006;
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/fixture/dashed-ident/input.css:1:1]
+ 1 | :root {
+ 2 |     --main-color: #06c;
+   :     ^^^^^^^^^^^^^^^^^^
+ 3 |     --accent-color: #006;
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/fixture/dashed-ident/input.css:1:1]
+ 1 | :root {
+ 2 |     --main-color: #06c;
+   :     ^^^^^^^^^^^^^^^^^^
+ 3 |     --accent-color: #006;
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/fixture/dashed-ident/input.css:1:1]
+ 1 | :root {
+ 2 |     --main-color: #06c;
+   :     ^^^^^^^^^^^^
+ 3 |     --accent-color: #006;
+   `----
+
+  x DashedIdent
+   ,-[$DIR/tests/fixture/dashed-ident/input.css:1:1]
+ 1 | :root {
+ 2 |     --main-color: #06c;
+   :     ^^^^^^^^^^^^
+ 3 |     --accent-color: #006;
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/dashed-ident/input.css:1:1]
+ 1 | :root {
+ 2 |     --main-color: #06c;
+   :                   ^^^^
+ 3 |     --accent-color: #006;
+   `----
+
+  x Hash { is_id: false, value: Atom('06c' type=inline), raw: "06c" }
+   ,-[$DIR/tests/fixture/dashed-ident/input.css:1:1]
+ 1 | :root {
+ 2 |     --main-color: #06c;
+   :                   ^^^^
+ 3 |     --accent-color: #006;
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/dashed-ident/input.css:2:1]
+ 2 |     --main-color: #06c;
+ 3 |     --accent-color: #006;
+   :     ^^^^^^^^^^^^^^^^^^^^
+ 4 | }
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/fixture/dashed-ident/input.css:2:1]
+ 2 |     --main-color: #06c;
+ 3 |     --accent-color: #006;
+   :     ^^^^^^^^^^^^^^^^^^^^
+ 4 | }
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/fixture/dashed-ident/input.css:2:1]
+ 2 |     --main-color: #06c;
+ 3 |     --accent-color: #006;
+   :     ^^^^^^^^^^^^^^^^^^^^
+ 4 | }
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/fixture/dashed-ident/input.css:2:1]
+ 2 |     --main-color: #06c;
+ 3 |     --accent-color: #006;
+   :     ^^^^^^^^^^^^^^
+ 4 | }
+   `----
+
+  x DashedIdent
+   ,-[$DIR/tests/fixture/dashed-ident/input.css:2:1]
+ 2 |     --main-color: #06c;
+ 3 |     --accent-color: #006;
+   :     ^^^^^^^^^^^^^^
+ 4 | }
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/dashed-ident/input.css:2:1]
+ 2 |     --main-color: #06c;
+ 3 |     --accent-color: #006;
+   :                     ^^^^
+ 4 | }
+   `----
+
+  x Hash { is_id: false, value: Atom('006' type=inline), raw: "006" }
+   ,-[$DIR/tests/fixture/dashed-ident/input.css:2:1]
+ 2 |     --main-color: #06c;
+ 3 |     --accent-color: #006;
+   :                     ^^^^
+ 4 | }
+   `----
+
+  x Rule
+   ,-[$DIR/tests/fixture/dashed-ident/input.css:5:1]
+ 5 |     
+ 6 | ,-> .foo {
+ 7 | |       --fg-color: blue;
+ 8 | `-> }
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/fixture/dashed-ident/input.css:5:1]
+ 5 |     
+ 6 | ,-> .foo {
+ 7 | |       --fg-color: blue;
+ 8 | `-> }
+   `----
+
+  x SelectorList
+   ,-[$DIR/tests/fixture/dashed-ident/input.css:5:1]
+ 5 | 
+ 6 | .foo {
+   : ^^^^
+ 7 |     --fg-color: blue;
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/dashed-ident/input.css:5:1]
+ 5 | 
+ 6 | .foo {
+   : ^^^^
+ 7 |     --fg-color: blue;
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/dashed-ident/input.css:5:1]
+ 5 | 
+ 6 | .foo {
+   : ^^^^
+ 7 |     --fg-color: blue;
+   `----
+
+  x SubclassSelector
+   ,-[$DIR/tests/fixture/dashed-ident/input.css:5:1]
+ 5 | 
+ 6 | .foo {
+   : ^^^^
+ 7 |     --fg-color: blue;
+   `----
+
+  x ClassSelector
+   ,-[$DIR/tests/fixture/dashed-ident/input.css:5:1]
+ 5 | 
+ 6 | .foo {
+   : ^^^^
+ 7 |     --fg-color: blue;
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/dashed-ident/input.css:5:1]
+ 5 | 
+ 6 | .foo {
+   :  ^^^
+ 7 |     --fg-color: blue;
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/dashed-ident/input.css:5:1]
+ 5 |     
+ 6 | ,-> .foo {
+ 7 | |       --fg-color: blue;
+ 8 | `-> }
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/dashed-ident/input.css:5:1]
+ 5 | 
+ 6 | .foo {
+   :      ^
+ 7 |     --fg-color: blue;
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/dashed-ident/input.css:6:1]
+ 6 | .foo {
+ 7 |     --fg-color: blue;
+   :     ^^^^^^^^^^^^^^^^
+ 8 | }
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/fixture/dashed-ident/input.css:6:1]
+ 6 | .foo {
+ 7 |     --fg-color: blue;
+   :     ^^^^^^^^^^^^^^^^
+ 8 | }
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/fixture/dashed-ident/input.css:6:1]
+ 6 | .foo {
+ 7 |     --fg-color: blue;
+   :     ^^^^^^^^^^^^^^^^
+ 8 | }
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/fixture/dashed-ident/input.css:6:1]
+ 6 | .foo {
+ 7 |     --fg-color: blue;
+   :     ^^^^^^^^^^
+ 8 | }
+   `----
+
+  x DashedIdent
+   ,-[$DIR/tests/fixture/dashed-ident/input.css:6:1]
+ 6 | .foo {
+ 7 |     --fg-color: blue;
+   :     ^^^^^^^^^^
+ 8 | }
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/dashed-ident/input.css:6:1]
+ 6 | .foo {
+ 7 |     --fg-color: blue;
+   :                 ^^^^
+ 8 | }
+   `----
+
+  x Ident { value: Atom('blue' type=inline), raw: "blue" }
+   ,-[$DIR/tests/fixture/dashed-ident/input.css:6:1]
+ 6 | .foo {
+ 7 |     --fg-color: blue;
+   :                 ^^^^
+ 8 | }
+   `----
+
+  x Rule
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:9:1]
+  9 |     
+ 10 | ,-> #foo h1 {
+ 11 | |       color: var(--main-color);
+ 12 | `-> }
+    `----
+
+  x QualifiedRule
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:9:1]
+  9 |     
+ 10 | ,-> #foo h1 {
+ 11 | |       color: var(--main-color);
+ 12 | `-> }
+    `----
+
+  x SelectorList
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:9:1]
+  9 | 
+ 10 | #foo h1 {
+    : ^^^^^^^
+ 11 |     color: var(--main-color);
+    `----
+
+  x ComplexSelector
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:9:1]
+  9 | 
+ 10 | #foo h1 {
+    : ^^^^^^^
+ 11 |     color: var(--main-color);
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:9:1]
+  9 | 
+ 10 | #foo h1 {
+    : ^^^^
+ 11 |     color: var(--main-color);
+    `----
+
+  x SubclassSelector
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:9:1]
+  9 | 
+ 10 | #foo h1 {
+    : ^^^^
+ 11 |     color: var(--main-color);
+    `----
+
+  x IdSelector
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:9:1]
+  9 | 
+ 10 | #foo h1 {
+    : ^^^^
+ 11 |     color: var(--main-color);
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:9:1]
+  9 | 
+ 10 | #foo h1 {
+    : ^^^^
+ 11 |     color: var(--main-color);
+    `----
+
+  x Combinator
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:9:1]
+  9 | 
+ 10 | #foo h1 {
+    :     ^
+ 11 |     color: var(--main-color);
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:9:1]
+  9 | 
+ 10 | #foo h1 {
+    :      ^^
+ 11 |     color: var(--main-color);
+    `----
+
+  x TypeSelector
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:9:1]
+  9 | 
+ 10 | #foo h1 {
+    :      ^^
+ 11 |     color: var(--main-color);
+    `----
+
+  x TagNameSelector
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:9:1]
+  9 | 
+ 10 | #foo h1 {
+    :      ^^
+ 11 |     color: var(--main-color);
+    `----
+
+  x WqName
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:9:1]
+  9 | 
+ 10 | #foo h1 {
+    :      ^^
+ 11 |     color: var(--main-color);
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:9:1]
+  9 | 
+ 10 | #foo h1 {
+    :      ^^
+ 11 |     color: var(--main-color);
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:9:1]
+  9 |     
+ 10 | ,-> #foo h1 {
+ 11 | |       color: var(--main-color);
+ 12 | `-> }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:9:1]
+  9 | 
+ 10 | #foo h1 {
+    :         ^
+ 11 |     color: var(--main-color);
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:10:1]
+ 10 | #foo h1 {
+ 11 |     color: var(--main-color);
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^
+ 12 | }
+    `----
+
+  x StyleBlock
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:10:1]
+ 10 | #foo h1 {
+ 11 |     color: var(--main-color);
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^
+ 12 | }
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:10:1]
+ 10 | #foo h1 {
+ 11 |     color: var(--main-color);
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^
+ 12 | }
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:10:1]
+ 10 | #foo h1 {
+ 11 |     color: var(--main-color);
+    :     ^^^^^
+ 12 | }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:10:1]
+ 10 | #foo h1 {
+ 11 |     color: var(--main-color);
+    :     ^^^^^
+ 12 | }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:10:1]
+ 10 | #foo h1 {
+ 11 |     color: var(--main-color);
+    :            ^^^^^^^^^^^^^^^^^
+ 12 | }
+    `----
+
+  x Function
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:10:1]
+ 10 | #foo h1 {
+ 11 |     color: var(--main-color);
+    :            ^^^^^^^^^^^^^^^^^
+ 12 | }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:10:1]
+ 10 | #foo h1 {
+ 11 |     color: var(--main-color);
+    :            ^^^
+ 12 | }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:10:1]
+ 10 | #foo h1 {
+ 11 |     color: var(--main-color);
+    :                ^^^^^^^^^^^^
+ 12 | }
+    `----
+
+  x DashedIdent
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:10:1]
+ 10 | #foo h1 {
+ 11 |     color: var(--main-color);
+    :                ^^^^^^^^^^^^
+ 12 | }
+    `----
+
+  x Rule
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:13:1]
+ 13 | 
+ 14 | @--custom {}
+    : ^^^^^^^^^^^^
+ 15 | @--library1-custom {}
+    `----
+
+  x AtRule
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:13:1]
+ 13 | 
+ 14 | @--custom {}
+    : ^^^^^^^^^^^^
+ 15 | @--library1-custom {}
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:13:1]
+ 13 | 
+ 14 | @--custom {}
+    :  ^^^^^^^^
+ 15 | @--library1-custom {}
+    `----
+
+  x DashedIdent
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:13:1]
+ 13 | 
+ 14 | @--custom {}
+    :  ^^^^^^^^
+ 15 | @--library1-custom {}
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:13:1]
+ 13 | 
+ 14 | @--custom {}
+    :          ^
+ 15 | @--library1-custom {}
+    `----
+
+  x WhiteSpace { value: " " }
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:13:1]
+ 13 | 
+ 14 | @--custom {}
+    :          ^
+ 15 | @--library1-custom {}
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:13:1]
+ 13 | 
+ 14 | @--custom {}
+    :           ^^
+ 15 | @--library1-custom {}
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:13:1]
+ 13 | 
+ 14 | @--custom {}
+    :           ^
+ 15 | @--library1-custom {}
+    `----
+
+  x Rule
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:14:1]
+ 14 | @--custom {}
+ 15 | @--library1-custom {}
+    : ^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x AtRule
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:14:1]
+ 14 | @--custom {}
+ 15 | @--library1-custom {}
+    : ^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:14:1]
+ 14 | @--custom {}
+ 15 | @--library1-custom {}
+    :  ^^^^^^^^^^^^^^^^^
+    `----
+
+  x DashedIdent
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:14:1]
+ 14 | @--custom {}
+ 15 | @--library1-custom {}
+    :  ^^^^^^^^^^^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:14:1]
+ 14 | @--custom {}
+ 15 | @--library1-custom {}
+    :                   ^
+    `----
+
+  x WhiteSpace { value: " " }
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:14:1]
+ 14 | @--custom {}
+ 15 | @--library1-custom {}
+    :                   ^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:14:1]
+ 14 | @--custom {}
+ 15 | @--library1-custom {}
+    :                    ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:14:1]
+ 14 | @--custom {}
+ 15 | @--library1-custom {}
+    :                    ^
+    `----

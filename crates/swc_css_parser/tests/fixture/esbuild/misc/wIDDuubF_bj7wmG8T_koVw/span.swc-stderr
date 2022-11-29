@@ -1,0 +1,66 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/fixture/esbuild/misc/wIDDuubF_bj7wmG8T_koVw/input.css:1:1]
+ 1 | #\30 {}
+   : ^^^^^^^
+   `----
+
+  x Rule
+   ,-[$DIR/tests/fixture/esbuild/misc/wIDDuubF_bj7wmG8T_koVw/input.css:1:1]
+ 1 | #\30 {}
+   : ^^^^^^^
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/fixture/esbuild/misc/wIDDuubF_bj7wmG8T_koVw/input.css:1:1]
+ 1 | #\30 {}
+   : ^^^^^^^
+   `----
+
+  x SelectorList
+   ,-[$DIR/tests/fixture/esbuild/misc/wIDDuubF_bj7wmG8T_koVw/input.css:1:1]
+ 1 | #\30 {}
+   : ^^^^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/wIDDuubF_bj7wmG8T_koVw/input.css:1:1]
+ 1 | #\30 {}
+   : ^^^^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/wIDDuubF_bj7wmG8T_koVw/input.css:1:1]
+ 1 | #\30 {}
+   : ^^^^^
+   `----
+
+  x SubclassSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/wIDDuubF_bj7wmG8T_koVw/input.css:1:1]
+ 1 | #\30 {}
+   : ^^^^^
+   `----
+
+  x IdSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/wIDDuubF_bj7wmG8T_koVw/input.css:1:1]
+ 1 | #\30 {}
+   : ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/wIDDuubF_bj7wmG8T_koVw/input.css:1:1]
+ 1 | #\30 {}
+   : ^^^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/esbuild/misc/wIDDuubF_bj7wmG8T_koVw/input.css:1:1]
+ 1 | #\30 {}
+   :      ^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/esbuild/misc/wIDDuubF_bj7wmG8T_koVw/input.css:1:1]
+ 1 | #\30 {}
+   :      ^
+   `----

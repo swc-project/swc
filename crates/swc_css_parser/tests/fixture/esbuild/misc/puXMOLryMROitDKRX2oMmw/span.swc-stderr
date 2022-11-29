@@ -1,0 +1,66 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/fixture/esbuild/misc/puXMOLryMROitDKRX2oMmw/input.css:1:1]
+ 1 | #--0 {}
+   : ^^^^^^^
+   `----
+
+  x Rule
+   ,-[$DIR/tests/fixture/esbuild/misc/puXMOLryMROitDKRX2oMmw/input.css:1:1]
+ 1 | #--0 {}
+   : ^^^^^^^
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/fixture/esbuild/misc/puXMOLryMROitDKRX2oMmw/input.css:1:1]
+ 1 | #--0 {}
+   : ^^^^^^^
+   `----
+
+  x SelectorList
+   ,-[$DIR/tests/fixture/esbuild/misc/puXMOLryMROitDKRX2oMmw/input.css:1:1]
+ 1 | #--0 {}
+   : ^^^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/puXMOLryMROitDKRX2oMmw/input.css:1:1]
+ 1 | #--0 {}
+   : ^^^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/puXMOLryMROitDKRX2oMmw/input.css:1:1]
+ 1 | #--0 {}
+   : ^^^^
+   `----
+
+  x SubclassSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/puXMOLryMROitDKRX2oMmw/input.css:1:1]
+ 1 | #--0 {}
+   : ^^^^
+   `----
+
+  x IdSelector
+   ,-[$DIR/tests/fixture/esbuild/misc/puXMOLryMROitDKRX2oMmw/input.css:1:1]
+ 1 | #--0 {}
+   : ^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/esbuild/misc/puXMOLryMROitDKRX2oMmw/input.css:1:1]
+ 1 | #--0 {}
+   : ^^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/esbuild/misc/puXMOLryMROitDKRX2oMmw/input.css:1:1]
+ 1 | #--0 {}
+   :      ^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/esbuild/misc/puXMOLryMROitDKRX2oMmw/input.css:1:1]
+ 1 | #--0 {}
+   :      ^
+   `----

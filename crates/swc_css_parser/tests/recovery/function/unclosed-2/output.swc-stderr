@@ -1,0 +1,21 @@
+
+  x Expected Declaration value
+   ,-[$DIR/tests/recovery/function/unclosed-2/input.css:2:1]
+ 2 | 	grid-template-columns: repeat(4, [col-start] 12px
+ 3 | }
+   : ^
+   `----
+
+  x Unexpected end of file, but expected ')'
+   ,-[$DIR/tests/recovery/function/unclosed-2/input.css:1:1]
+ 1 |     .style {
+ 2 | ,-> 	grid-template-columns: repeat(4, [col-start] 12px
+ 3 | `-> }
+   `----
+
+  x Unexpected end of file, but expected '}'
+   ,-[$DIR/tests/recovery/function/unclosed-2/input.css:1:1]
+ 1 | ,-> .style {
+ 2 | |   	grid-template-columns: repeat(4, [col-start] 12px
+ 3 | `-> }
+   `----
