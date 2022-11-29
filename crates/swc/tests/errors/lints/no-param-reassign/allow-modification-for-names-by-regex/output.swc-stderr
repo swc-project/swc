@@ -1,6 +1,9 @@
 
   x Assignment to function parameter 'catchMe'
-   ,----
- 3 | catchMe = 1;
-   : ^^^^^^^
+   ,-[1:1]
+ 1 | function f(ignoreMe, catchMe) {
+ 2 |     ignoreMe = 1;
+ 3 |     catchMe = 1;
+   :     ^^^^^^^
+ 4 | }
    `----

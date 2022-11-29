@@ -1,6 +1,8 @@
 
   x Expected Declaration value
-   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:2:5]
- 2 | ,-> background: url(image.
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:1:1]
+ 1 |     div {
+ 2 | ,->     background: url(image.
  3 | `->     png);
+ 4 |         color: red;
    `----

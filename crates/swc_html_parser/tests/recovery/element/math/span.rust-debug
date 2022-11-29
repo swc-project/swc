@@ -63,16 +63,19 @@
    ,-[$DIR/tests/recovery/element/math/input.html:1:1]
  1 | <!DOCTYPE html>
    : ^^^^^^^^^^^^^^^
+ 2 | <html>
    `----
 
   x DocumentType
    ,-[$DIR/tests/recovery/element/math/input.html:1:1]
  1 | <!DOCTYPE html>
    : ^^^^^^^^^^^^^^^
+ 2 | <html>
    `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:2:1]
+    ,-[$DIR/tests/recovery/element/math/input.html:1:1]
+  1 |     <!DOCTYPE html>
   2 | ,-> <html>
   3 | |   <head>
   4 | |       <title>MathML in HTML5</title>
@@ -131,7 +134,8 @@
     `----
 
   x Element
-    ,-[$DIR/tests/recovery/element/math/input.html:2:1]
+    ,-[$DIR/tests/recovery/element/math/input.html:1:1]
+  1 |     <!DOCTYPE html>
   2 | ,-> <html>
   3 | |   <head>
   4 | |       <title>MathML in HTML5</title>
@@ -190,91 +194,116 @@
     `----
 
   x Attribute
-    ,-[$DIR/tests/recovery/element/math/input.html:36:13]
- 36 | <html xmlns="http://www.w3.org/1999/xhtml">
-    :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/element/math/input.html:35:1]
+ 35 |         <annotation-xml encoding="application/xhtml+xml">
+ 36 |             <html xmlns="http://www.w3.org/1999/xhtml">
+    :                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 37 |             <head><title>INNER HTML TITLE</title></head>
     `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/math/input.html:3:1]
+   ,-[$DIR/tests/recovery/element/math/input.html:2:1]
+ 2 |     <html>
  3 | ,-> <head>
  4 | |       <title>MathML in HTML5</title>
  5 | `-> </head>
+ 6 |     <body>
+   `----
+
+  x Element
+   ,-[$DIR/tests/recovery/element/math/input.html:2:1]
+ 2 |     <html>
+ 3 | ,-> <head>
+ 4 | |       <title>MathML in HTML5</title>
+ 5 | `-> </head>
+ 6 |     <body>
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/math/input.html:2:1]
+ 2 |     <html>
+ 3 | ,-> <head>
+ 4 | `->     <title>MathML in HTML5</title>
+ 5 |     </head>
+   `----
+
+  x Text
+   ,-[$DIR/tests/recovery/element/math/input.html:2:1]
+ 2 |     <html>
+ 3 | ,-> <head>
+ 4 | `->     <title>MathML in HTML5</title>
+ 5 |     </head>
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/math/input.html:3:1]
+ 3 | <head>
+ 4 |     <title>MathML in HTML5</title>
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 5 | </head>
    `----
 
   x Element
    ,-[$DIR/tests/recovery/element/math/input.html:3:1]
- 3 | ,-> <head>
- 4 | |       <title>MathML in HTML5</title>
- 5 | `-> </head>
-   `----
-
-  x Child
-   ,-[$DIR/tests/recovery/element/math/input.html:3:1]
- 3 | ,-> <head>
- 4 | `->     <title>MathML in HTML5</title>
-   `----
-
-  x Text
-   ,-[$DIR/tests/recovery/element/math/input.html:3:1]
- 3 | ,-> <head>
- 4 | `->     <title>MathML in HTML5</title>
-   `----
-
-  x Child
-   ,-[$DIR/tests/recovery/element/math/input.html:4:5]
- 4 | <title>MathML in HTML5</title>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x Element
-   ,-[$DIR/tests/recovery/element/math/input.html:4:5]
- 4 | <title>MathML in HTML5</title>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x Child
-   ,-[$DIR/tests/recovery/element/math/input.html:4:5]
- 4 | <title>MathML in HTML5</title>
-   :        ^^^^^^^^^^^^^^^
-   `----
-
-  x Text
-   ,-[$DIR/tests/recovery/element/math/input.html:4:5]
- 4 | <title>MathML in HTML5</title>
-   :        ^^^^^^^^^^^^^^^
-   `----
-
-  x Child
-   ,-[$DIR/tests/recovery/element/math/input.html:4:5]
- 4 | <title>MathML in HTML5</title>
-   :                               ^
- 5 | </head>
-   `----
-
-  x Text
-   ,-[$DIR/tests/recovery/element/math/input.html:4:5]
- 4 | <title>MathML in HTML5</title>
-   :                               ^
+ 3 | <head>
+ 4 |     <title>MathML in HTML5</title>
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  5 | </head>
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/math/input.html:5:1]
+   ,-[$DIR/tests/recovery/element/math/input.html:3:1]
+ 3 | <head>
+ 4 |     <title>MathML in HTML5</title>
+   :            ^^^^^^^^^^^^^^^
+ 5 | </head>
+   `----
+
+  x Text
+   ,-[$DIR/tests/recovery/element/math/input.html:3:1]
+ 3 | <head>
+ 4 |     <title>MathML in HTML5</title>
+   :            ^^^^^^^^^^^^^^^
+ 5 | </head>
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/math/input.html:3:1]
+ 3 | <head>
+ 4 |     <title>MathML in HTML5</title>
+   :                                   ^
+ 5 | </head>
+ 6 | <body>
+   `----
+
+  x Text
+   ,-[$DIR/tests/recovery/element/math/input.html:3:1]
+ 3 | <head>
+ 4 |     <title>MathML in HTML5</title>
+   :                                   ^
+ 5 | </head>
+ 6 | <body>
+   `----
+
+  x Child
+   ,-[$DIR/tests/recovery/element/math/input.html:4:1]
+ 4 |     <title>MathML in HTML5</title>
  5 | </head>
    :        ^
  6 | <body>
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/element/math/input.html:5:1]
+   ,-[$DIR/tests/recovery/element/math/input.html:4:1]
+ 4 |     <title>MathML in HTML5</title>
  5 | </head>
    :        ^
  6 | <body>
    `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:6:1]
+    ,-[$DIR/tests/recovery/element/math/input.html:5:1]
+  5 |     </head>
   6 | ,-> <body>
   7 | |   
   8 | |   <math>
@@ -329,7 +358,8 @@
     `----
 
   x Element
-    ,-[$DIR/tests/recovery/element/math/input.html:6:1]
+    ,-[$DIR/tests/recovery/element/math/input.html:5:1]
+  5 |     </head>
   6 | ,-> <body>
   7 | |   
   8 | |   <math>
@@ -384,21 +414,26 @@
     `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/math/input.html:6:1]
+   ,-[$DIR/tests/recovery/element/math/input.html:5:1]
+ 5 |     </head>
  6 | ,-> <body>
  7 | `-> 
  8 |     <math>
+ 9 |         <semantics>
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/element/math/input.html:6:1]
+   ,-[$DIR/tests/recovery/element/math/input.html:5:1]
+ 5 |     </head>
  6 | ,-> <body>
  7 | `-> 
  8 |     <math>
+ 9 |         <semantics>
    `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:8:1]
+    ,-[$DIR/tests/recovery/element/math/input.html:7:1]
+  7 |     
   8 | ,-> <math>
   9 | |       <semantics>
  10 | |   
@@ -448,7 +483,8 @@
     `----
 
   x Element
-    ,-[$DIR/tests/recovery/element/math/input.html:8:1]
+    ,-[$DIR/tests/recovery/element/math/input.html:7:1]
+  7 |     
   8 | ,-> <math>
   9 | |       <semantics>
  10 | |   
@@ -498,20 +534,23 @@
     `----
 
   x Child
-   ,-[$DIR/tests/recovery/element/math/input.html:8:1]
+   ,-[$DIR/tests/recovery/element/math/input.html:7:1]
+ 7 |     
  8 | ,-> <math>
  9 | `->     <semantics>
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/element/math/input.html:8:1]
+   ,-[$DIR/tests/recovery/element/math/input.html:7:1]
+ 7 |     
  8 | ,-> <math>
  9 | `->     <semantics>
    `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:9:5]
-  9 | ,-> <semantics>
+    ,-[$DIR/tests/recovery/element/math/input.html:8:1]
+  8 |     <math>
+  9 | ,->     <semantics>
  10 | |   
  11 | |           <!-- Presentation MathML -->
  12 | |           <mrow>
@@ -555,11 +594,13 @@
  50 | |           </annotation>
  51 | |   
  52 | `->     </semantics>
+ 53 |     </math>
     `----
 
   x Element
-    ,-[$DIR/tests/recovery/element/math/input.html:9:5]
-  9 | ,-> <semantics>
+    ,-[$DIR/tests/recovery/element/math/input.html:8:1]
+  8 |     <math>
+  9 | ,->     <semantics>
  10 | |   
  11 | |           <!-- Presentation MathML -->
  12 | |           <mrow>
@@ -603,49 +644,63 @@
  50 | |           </annotation>
  51 | |   
  52 | `->     </semantics>
+ 53 |     </math>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:9:5]
-  9 | ,-> <semantics>
+    ,-[$DIR/tests/recovery/element/math/input.html:8:1]
+  8 |     <math>
+  9 | ,->     <semantics>
  10 | |   
  11 | `->         <!-- Presentation MathML -->
+ 12 |             <mrow>
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/math/input.html:9:5]
-  9 | ,-> <semantics>
+    ,-[$DIR/tests/recovery/element/math/input.html:8:1]
+  8 |     <math>
+  9 | ,->     <semantics>
  10 | |   
  11 | `->         <!-- Presentation MathML -->
+ 12 |             <mrow>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:11:9]
- 11 | <!-- Presentation MathML -->
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/element/math/input.html:10:1]
+ 10 | 
+ 11 |         <!-- Presentation MathML -->
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 12 |         <mrow>
     `----
 
   x Comment
-    ,-[$DIR/tests/recovery/element/math/input.html:11:9]
- 11 | <!-- Presentation MathML -->
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/element/math/input.html:10:1]
+ 10 | 
+ 11 |         <!-- Presentation MathML -->
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 12 |         <mrow>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:11:9]
- 11 | ,-> <!-- Presentation MathML -->
+    ,-[$DIR/tests/recovery/element/math/input.html:10:1]
+ 10 |     
+ 11 | ,->         <!-- Presentation MathML -->
  12 | `->         <mrow>
+ 13 |                 <msup>
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/math/input.html:11:9]
- 11 | ,-> <!-- Presentation MathML -->
+    ,-[$DIR/tests/recovery/element/math/input.html:10:1]
+ 10 |     
+ 11 | ,->         <!-- Presentation MathML -->
  12 | `->         <mrow>
+ 13 |                 <msup>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:12:9]
- 12 | ,-> <mrow>
+    ,-[$DIR/tests/recovery/element/math/input.html:11:1]
+ 11 |             <!-- Presentation MathML -->
+ 12 | ,->         <mrow>
  13 | |               <msup>
  14 | |                   <mi>x</mi>
  15 | |                   <mn>2</mn>
@@ -656,8 +711,9 @@
     `----
 
   x Element
-    ,-[$DIR/tests/recovery/element/math/input.html:12:9]
- 12 | ,-> <mrow>
+    ,-[$DIR/tests/recovery/element/math/input.html:11:1]
+ 11 |             <!-- Presentation MathML -->
+ 12 | ,->         <mrow>
  13 | |               <msup>
  14 | |                   <mi>x</mi>
  15 | |                   <mn>2</mn>
@@ -668,242 +724,317 @@
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:12:9]
- 12 | ,-> <mrow>
+    ,-[$DIR/tests/recovery/element/math/input.html:11:1]
+ 11 |             <!-- Presentation MathML -->
+ 12 | ,->         <mrow>
  13 | `->             <msup>
+ 14 |                     <mi>x</mi>
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/math/input.html:12:9]
- 12 | ,-> <mrow>
+    ,-[$DIR/tests/recovery/element/math/input.html:11:1]
+ 11 |             <!-- Presentation MathML -->
+ 12 | ,->         <mrow>
  13 | `->             <msup>
+ 14 |                     <mi>x</mi>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:13:13]
- 13 | ,-> <msup>
+    ,-[$DIR/tests/recovery/element/math/input.html:12:1]
+ 12 |             <mrow>
+ 13 | ,->             <msup>
  14 | |                   <mi>x</mi>
  15 | |                   <mn>2</mn>
  16 | `->             </msup>
+ 17 |                 <mo>+</mo>
     `----
 
   x Element
-    ,-[$DIR/tests/recovery/element/math/input.html:13:13]
- 13 | ,-> <msup>
+    ,-[$DIR/tests/recovery/element/math/input.html:12:1]
+ 12 |             <mrow>
+ 13 | ,->             <msup>
  14 | |                   <mi>x</mi>
  15 | |                   <mn>2</mn>
  16 | `->             </msup>
+ 17 |                 <mo>+</mo>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:13:13]
- 13 | ,-> <msup>
+    ,-[$DIR/tests/recovery/element/math/input.html:12:1]
+ 12 |             <mrow>
+ 13 | ,->             <msup>
  14 | `->                 <mi>x</mi>
+ 15 |                     <mn>2</mn>
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/math/input.html:13:13]
- 13 | ,-> <msup>
+    ,-[$DIR/tests/recovery/element/math/input.html:12:1]
+ 12 |             <mrow>
+ 13 | ,->             <msup>
  14 | `->                 <mi>x</mi>
+ 15 |                     <mn>2</mn>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:14:17]
- 14 | <mi>x</mi>
-    : ^^^^^^^^^^
+    ,-[$DIR/tests/recovery/element/math/input.html:13:1]
+ 13 |             <msup>
+ 14 |                 <mi>x</mi>
+    :                 ^^^^^^^^^^
+ 15 |                 <mn>2</mn>
     `----
 
   x Element
-    ,-[$DIR/tests/recovery/element/math/input.html:14:17]
- 14 | <mi>x</mi>
-    : ^^^^^^^^^^
+    ,-[$DIR/tests/recovery/element/math/input.html:13:1]
+ 13 |             <msup>
+ 14 |                 <mi>x</mi>
+    :                 ^^^^^^^^^^
+ 15 |                 <mn>2</mn>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:14:17]
- 14 | <mi>x</mi>
-    :     ^
+    ,-[$DIR/tests/recovery/element/math/input.html:13:1]
+ 13 |             <msup>
+ 14 |                 <mi>x</mi>
+    :                     ^
+ 15 |                 <mn>2</mn>
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/math/input.html:14:17]
- 14 | <mi>x</mi>
-    :     ^
+    ,-[$DIR/tests/recovery/element/math/input.html:13:1]
+ 13 |             <msup>
+ 14 |                 <mi>x</mi>
+    :                     ^
+ 15 |                 <mn>2</mn>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:14:17]
- 14 | ,-> <mi>x</mi>
+    ,-[$DIR/tests/recovery/element/math/input.html:13:1]
+ 13 |                 <msup>
+ 14 | ,->                 <mi>x</mi>
  15 | `->                 <mn>2</mn>
+ 16 |                 </msup>
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/math/input.html:14:17]
- 14 | ,-> <mi>x</mi>
+    ,-[$DIR/tests/recovery/element/math/input.html:13:1]
+ 13 |                 <msup>
+ 14 | ,->                 <mi>x</mi>
  15 | `->                 <mn>2</mn>
+ 16 |                 </msup>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:15:17]
- 15 | <mn>2</mn>
-    : ^^^^^^^^^^
+    ,-[$DIR/tests/recovery/element/math/input.html:14:1]
+ 14 |                 <mi>x</mi>
+ 15 |                 <mn>2</mn>
+    :                 ^^^^^^^^^^
+ 16 |             </msup>
     `----
 
   x Element
-    ,-[$DIR/tests/recovery/element/math/input.html:15:17]
- 15 | <mn>2</mn>
-    : ^^^^^^^^^^
+    ,-[$DIR/tests/recovery/element/math/input.html:14:1]
+ 14 |                 <mi>x</mi>
+ 15 |                 <mn>2</mn>
+    :                 ^^^^^^^^^^
+ 16 |             </msup>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:15:17]
- 15 | <mn>2</mn>
-    :     ^
+    ,-[$DIR/tests/recovery/element/math/input.html:14:1]
+ 14 |                 <mi>x</mi>
+ 15 |                 <mn>2</mn>
+    :                     ^
+ 16 |             </msup>
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/math/input.html:15:17]
- 15 | <mn>2</mn>
-    :     ^
+    ,-[$DIR/tests/recovery/element/math/input.html:14:1]
+ 14 |                 <mi>x</mi>
+ 15 |                 <mn>2</mn>
+    :                     ^
+ 16 |             </msup>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:15:17]
- 15 | ,-> <mn>2</mn>
+    ,-[$DIR/tests/recovery/element/math/input.html:14:1]
+ 14 |                     <mi>x</mi>
+ 15 | ,->                 <mn>2</mn>
  16 | `->             </msup>
+ 17 |                 <mo>+</mo>
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/math/input.html:15:17]
- 15 | ,-> <mn>2</mn>
+    ,-[$DIR/tests/recovery/element/math/input.html:14:1]
+ 14 |                     <mi>x</mi>
+ 15 | ,->                 <mn>2</mn>
  16 | `->             </msup>
+ 17 |                 <mo>+</mo>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:16:13]
- 16 | ,-> </msup>
+    ,-[$DIR/tests/recovery/element/math/input.html:15:1]
+ 15 |                     <mn>2</mn>
+ 16 | ,->             </msup>
  17 | `->             <mo>+</mo>
+ 18 |                 <mi>y</mi>
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/math/input.html:16:13]
- 16 | ,-> </msup>
+    ,-[$DIR/tests/recovery/element/math/input.html:15:1]
+ 15 |                     <mn>2</mn>
+ 16 | ,->             </msup>
  17 | `->             <mo>+</mo>
+ 18 |                 <mi>y</mi>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:17:13]
- 17 | <mo>+</mo>
-    : ^^^^^^^^^^
+    ,-[$DIR/tests/recovery/element/math/input.html:16:1]
+ 16 |             </msup>
+ 17 |             <mo>+</mo>
+    :             ^^^^^^^^^^
+ 18 |             <mi>y</mi>
     `----
 
   x Element
-    ,-[$DIR/tests/recovery/element/math/input.html:17:13]
- 17 | <mo>+</mo>
-    : ^^^^^^^^^^
+    ,-[$DIR/tests/recovery/element/math/input.html:16:1]
+ 16 |             </msup>
+ 17 |             <mo>+</mo>
+    :             ^^^^^^^^^^
+ 18 |             <mi>y</mi>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:17:13]
- 17 | <mo>+</mo>
-    :     ^
+    ,-[$DIR/tests/recovery/element/math/input.html:16:1]
+ 16 |             </msup>
+ 17 |             <mo>+</mo>
+    :                 ^
+ 18 |             <mi>y</mi>
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/math/input.html:17:13]
- 17 | <mo>+</mo>
-    :     ^
+    ,-[$DIR/tests/recovery/element/math/input.html:16:1]
+ 16 |             </msup>
+ 17 |             <mo>+</mo>
+    :                 ^
+ 18 |             <mi>y</mi>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:17:13]
- 17 | ,-> <mo>+</mo>
+    ,-[$DIR/tests/recovery/element/math/input.html:16:1]
+ 16 |                 </msup>
+ 17 | ,->             <mo>+</mo>
  18 | `->             <mi>y</mi>
+ 19 |             </mrow>
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/math/input.html:17:13]
- 17 | ,-> <mo>+</mo>
+    ,-[$DIR/tests/recovery/element/math/input.html:16:1]
+ 16 |                 </msup>
+ 17 | ,->             <mo>+</mo>
  18 | `->             <mi>y</mi>
+ 19 |             </mrow>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:18:13]
- 18 | <mi>y</mi>
-    : ^^^^^^^^^^
+    ,-[$DIR/tests/recovery/element/math/input.html:17:1]
+ 17 |             <mo>+</mo>
+ 18 |             <mi>y</mi>
+    :             ^^^^^^^^^^
+ 19 |         </mrow>
     `----
 
   x Element
-    ,-[$DIR/tests/recovery/element/math/input.html:18:13]
- 18 | <mi>y</mi>
-    : ^^^^^^^^^^
+    ,-[$DIR/tests/recovery/element/math/input.html:17:1]
+ 17 |             <mo>+</mo>
+ 18 |             <mi>y</mi>
+    :             ^^^^^^^^^^
+ 19 |         </mrow>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:18:13]
- 18 | <mi>y</mi>
-    :     ^
+    ,-[$DIR/tests/recovery/element/math/input.html:17:1]
+ 17 |             <mo>+</mo>
+ 18 |             <mi>y</mi>
+    :                 ^
+ 19 |         </mrow>
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/math/input.html:18:13]
- 18 | <mi>y</mi>
-    :     ^
+    ,-[$DIR/tests/recovery/element/math/input.html:17:1]
+ 17 |             <mo>+</mo>
+ 18 |             <mi>y</mi>
+    :                 ^
+ 19 |         </mrow>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:18:13]
- 18 | ,-> <mi>y</mi>
+    ,-[$DIR/tests/recovery/element/math/input.html:17:1]
+ 17 |                 <mo>+</mo>
+ 18 | ,->             <mi>y</mi>
  19 | `->         </mrow>
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/math/input.html:18:13]
- 18 | ,-> <mi>y</mi>
+    ,-[$DIR/tests/recovery/element/math/input.html:17:1]
+ 17 |                 <mo>+</mo>
+ 18 | ,->             <mi>y</mi>
  19 | `->         </mrow>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:19:9]
- 19 | ,-> </mrow>
+    ,-[$DIR/tests/recovery/element/math/input.html:18:1]
+ 18 |                 <mi>y</mi>
+ 19 | ,->         </mrow>
  20 | |   
  21 | `->         <!-- Content MathML -->
+ 22 |             <annotation-xml encoding="MathML-Content">
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/math/input.html:19:9]
- 19 | ,-> </mrow>
+    ,-[$DIR/tests/recovery/element/math/input.html:18:1]
+ 18 |                 <mi>y</mi>
+ 19 | ,->         </mrow>
  20 | |   
  21 | `->         <!-- Content MathML -->
+ 22 |             <annotation-xml encoding="MathML-Content">
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:21:9]
- 21 | <!-- Content MathML -->
-    : ^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/element/math/input.html:20:1]
+ 20 | 
+ 21 |         <!-- Content MathML -->
+    :         ^^^^^^^^^^^^^^^^^^^^^^^
+ 22 |         <annotation-xml encoding="MathML-Content">
     `----
 
   x Comment
-    ,-[$DIR/tests/recovery/element/math/input.html:21:9]
- 21 | <!-- Content MathML -->
-    : ^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/element/math/input.html:20:1]
+ 20 | 
+ 21 |         <!-- Content MathML -->
+    :         ^^^^^^^^^^^^^^^^^^^^^^^
+ 22 |         <annotation-xml encoding="MathML-Content">
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:21:9]
- 21 | ,-> <!-- Content MathML -->
+    ,-[$DIR/tests/recovery/element/math/input.html:20:1]
+ 20 |     
+ 21 | ,->         <!-- Content MathML -->
  22 | `->         <annotation-xml encoding="MathML-Content">
+ 23 |                 <apply>
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/math/input.html:21:9]
- 21 | ,-> <!-- Content MathML -->
+    ,-[$DIR/tests/recovery/element/math/input.html:20:1]
+ 20 |     
+ 21 | ,->         <!-- Content MathML -->
  22 | `->         <annotation-xml encoding="MathML-Content">
+ 23 |                 <apply>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:22:9]
- 22 | ,-> <annotation-xml encoding="MathML-Content">
+    ,-[$DIR/tests/recovery/element/math/input.html:21:1]
+ 21 |             <!-- Content MathML -->
+ 22 | ,->         <annotation-xml encoding="MathML-Content">
  23 | |               <apply>
  24 | |                   <plus/>
  25 | |                   <apply>
@@ -917,8 +1048,9 @@
     `----
 
   x Element
-    ,-[$DIR/tests/recovery/element/math/input.html:22:9]
- 22 | ,-> <annotation-xml encoding="MathML-Content">
+    ,-[$DIR/tests/recovery/element/math/input.html:21:1]
+ 21 |             <!-- Content MathML -->
+ 22 | ,->         <annotation-xml encoding="MathML-Content">
  23 | |               <apply>
  24 | |                   <plus/>
  25 | |                   <apply>
@@ -932,26 +1064,33 @@
     `----
 
   x Attribute
-    ,-[$DIR/tests/recovery/element/math/input.html:22:9]
- 22 | <annotation-xml encoding="MathML-Content">
-    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/element/math/input.html:21:1]
+ 21 |         <!-- Content MathML -->
+ 22 |         <annotation-xml encoding="MathML-Content">
+    :                         ^^^^^^^^^^^^^^^^^^^^^^^^^
+ 23 |             <apply>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:22:9]
- 22 | ,-> <annotation-xml encoding="MathML-Content">
+    ,-[$DIR/tests/recovery/element/math/input.html:21:1]
+ 21 |             <!-- Content MathML -->
+ 22 | ,->         <annotation-xml encoding="MathML-Content">
  23 | `->             <apply>
+ 24 |                     <plus/>
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/math/input.html:22:9]
- 22 | ,-> <annotation-xml encoding="MathML-Content">
+    ,-[$DIR/tests/recovery/element/math/input.html:21:1]
+ 21 |             <!-- Content MathML -->
+ 22 | ,->         <annotation-xml encoding="MathML-Content">
  23 | `->             <apply>
+ 24 |                     <plus/>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:23:13]
- 23 | ,-> <apply>
+    ,-[$DIR/tests/recovery/element/math/input.html:22:1]
+ 22 |             <annotation-xml encoding="MathML-Content">
+ 23 | ,->             <apply>
  24 | |                   <plus/>
  25 | |                   <apply>
  26 | |                       <power/>
@@ -960,11 +1099,13 @@
  29 | |                   </apply>
  30 | |                   <ci>y</ci>
  31 | `->             </apply>
+ 32 |             </annotation-xml>
     `----
 
   x Element
-    ,-[$DIR/tests/recovery/element/math/input.html:23:13]
- 23 | ,-> <apply>
+    ,-[$DIR/tests/recovery/element/math/input.html:22:1]
+ 22 |             <annotation-xml encoding="MathML-Content">
+ 23 | ,->             <apply>
  24 | |                   <plus/>
  25 | |                   <apply>
  26 | |                       <power/>
@@ -973,277 +1114,363 @@
  29 | |                   </apply>
  30 | |                   <ci>y</ci>
  31 | `->             </apply>
+ 32 |             </annotation-xml>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:23:13]
- 23 | ,-> <apply>
+    ,-[$DIR/tests/recovery/element/math/input.html:22:1]
+ 22 |             <annotation-xml encoding="MathML-Content">
+ 23 | ,->             <apply>
  24 | `->                 <plus/>
+ 25 |                     <apply>
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/math/input.html:23:13]
- 23 | ,-> <apply>
+    ,-[$DIR/tests/recovery/element/math/input.html:22:1]
+ 22 |             <annotation-xml encoding="MathML-Content">
+ 23 | ,->             <apply>
  24 | `->                 <plus/>
+ 25 |                     <apply>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:24:17]
- 24 | <plus/>
-    : ^^^^^^^
+    ,-[$DIR/tests/recovery/element/math/input.html:23:1]
+ 23 |             <apply>
+ 24 |                 <plus/>
+    :                 ^^^^^^^
+ 25 |                 <apply>
     `----
 
   x Element
-    ,-[$DIR/tests/recovery/element/math/input.html:24:17]
- 24 | <plus/>
-    : ^^^^^^^
+    ,-[$DIR/tests/recovery/element/math/input.html:23:1]
+ 23 |             <apply>
+ 24 |                 <plus/>
+    :                 ^^^^^^^
+ 25 |                 <apply>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:24:17]
- 24 | ,-> <plus/>
+    ,-[$DIR/tests/recovery/element/math/input.html:23:1]
+ 23 |                 <apply>
+ 24 | ,->                 <plus/>
  25 | `->                 <apply>
+ 26 |                         <power/>
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/math/input.html:24:17]
- 24 | ,-> <plus/>
+    ,-[$DIR/tests/recovery/element/math/input.html:23:1]
+ 23 |                 <apply>
+ 24 | ,->                 <plus/>
  25 | `->                 <apply>
+ 26 |                         <power/>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:25:17]
- 25 | ,-> <apply>
+    ,-[$DIR/tests/recovery/element/math/input.html:24:1]
+ 24 |                     <plus/>
+ 25 | ,->                 <apply>
  26 | |                       <power/>
  27 | |                       <ci>x</ci>
  28 | |                       <cn type="integer">2</cn>
  29 | `->                 </apply>
+ 30 |                     <ci>y</ci>
     `----
 
   x Element
-    ,-[$DIR/tests/recovery/element/math/input.html:25:17]
- 25 | ,-> <apply>
+    ,-[$DIR/tests/recovery/element/math/input.html:24:1]
+ 24 |                     <plus/>
+ 25 | ,->                 <apply>
  26 | |                       <power/>
  27 | |                       <ci>x</ci>
  28 | |                       <cn type="integer">2</cn>
  29 | `->                 </apply>
+ 30 |                     <ci>y</ci>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:25:17]
- 25 | ,-> <apply>
+    ,-[$DIR/tests/recovery/element/math/input.html:24:1]
+ 24 |                     <plus/>
+ 25 | ,->                 <apply>
  26 | `->                     <power/>
+ 27 |                         <ci>x</ci>
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/math/input.html:25:17]
- 25 | ,-> <apply>
+    ,-[$DIR/tests/recovery/element/math/input.html:24:1]
+ 24 |                     <plus/>
+ 25 | ,->                 <apply>
  26 | `->                     <power/>
+ 27 |                         <ci>x</ci>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:26:21]
- 26 | <power/>
-    : ^^^^^^^^
+    ,-[$DIR/tests/recovery/element/math/input.html:25:1]
+ 25 |                 <apply>
+ 26 |                     <power/>
+    :                     ^^^^^^^^
+ 27 |                     <ci>x</ci>
     `----
 
   x Element
-    ,-[$DIR/tests/recovery/element/math/input.html:26:21]
- 26 | <power/>
-    : ^^^^^^^^
+    ,-[$DIR/tests/recovery/element/math/input.html:25:1]
+ 25 |                 <apply>
+ 26 |                     <power/>
+    :                     ^^^^^^^^
+ 27 |                     <ci>x</ci>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:26:21]
- 26 | ,-> <power/>
+    ,-[$DIR/tests/recovery/element/math/input.html:25:1]
+ 25 |                     <apply>
+ 26 | ,->                     <power/>
  27 | `->                     <ci>x</ci>
+ 28 |                         <cn type="integer">2</cn>
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/math/input.html:26:21]
- 26 | ,-> <power/>
+    ,-[$DIR/tests/recovery/element/math/input.html:25:1]
+ 25 |                     <apply>
+ 26 | ,->                     <power/>
  27 | `->                     <ci>x</ci>
+ 28 |                         <cn type="integer">2</cn>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:27:21]
- 27 | <ci>x</ci>
-    : ^^^^^^^^^^
+    ,-[$DIR/tests/recovery/element/math/input.html:26:1]
+ 26 |                     <power/>
+ 27 |                     <ci>x</ci>
+    :                     ^^^^^^^^^^
+ 28 |                     <cn type="integer">2</cn>
     `----
 
   x Element
-    ,-[$DIR/tests/recovery/element/math/input.html:27:21]
- 27 | <ci>x</ci>
-    : ^^^^^^^^^^
+    ,-[$DIR/tests/recovery/element/math/input.html:26:1]
+ 26 |                     <power/>
+ 27 |                     <ci>x</ci>
+    :                     ^^^^^^^^^^
+ 28 |                     <cn type="integer">2</cn>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:27:21]
- 27 | <ci>x</ci>
-    :     ^
+    ,-[$DIR/tests/recovery/element/math/input.html:26:1]
+ 26 |                     <power/>
+ 27 |                     <ci>x</ci>
+    :                         ^
+ 28 |                     <cn type="integer">2</cn>
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/math/input.html:27:21]
- 27 | <ci>x</ci>
-    :     ^
+    ,-[$DIR/tests/recovery/element/math/input.html:26:1]
+ 26 |                     <power/>
+ 27 |                     <ci>x</ci>
+    :                         ^
+ 28 |                     <cn type="integer">2</cn>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:27:21]
- 27 | ,-> <ci>x</ci>
+    ,-[$DIR/tests/recovery/element/math/input.html:26:1]
+ 26 |                         <power/>
+ 27 | ,->                     <ci>x</ci>
  28 | `->                     <cn type="integer">2</cn>
+ 29 |                     </apply>
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/math/input.html:27:21]
- 27 | ,-> <ci>x</ci>
+    ,-[$DIR/tests/recovery/element/math/input.html:26:1]
+ 26 |                         <power/>
+ 27 | ,->                     <ci>x</ci>
  28 | `->                     <cn type="integer">2</cn>
+ 29 |                     </apply>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:28:21]
- 28 | <cn type="integer">2</cn>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/element/math/input.html:27:1]
+ 27 |                     <ci>x</ci>
+ 28 |                     <cn type="integer">2</cn>
+    :                     ^^^^^^^^^^^^^^^^^^^^^^^^^
+ 29 |                 </apply>
     `----
 
   x Element
-    ,-[$DIR/tests/recovery/element/math/input.html:28:21]
- 28 | <cn type="integer">2</cn>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/element/math/input.html:27:1]
+ 27 |                     <ci>x</ci>
+ 28 |                     <cn type="integer">2</cn>
+    :                     ^^^^^^^^^^^^^^^^^^^^^^^^^
+ 29 |                 </apply>
     `----
 
   x Attribute
-    ,-[$DIR/tests/recovery/element/math/input.html:28:21]
- 28 | <cn type="integer">2</cn>
-    :     ^^^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/element/math/input.html:27:1]
+ 27 |                     <ci>x</ci>
+ 28 |                     <cn type="integer">2</cn>
+    :                         ^^^^^^^^^^^^^^
+ 29 |                 </apply>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:28:21]
- 28 | <cn type="integer">2</cn>
-    :                    ^
+    ,-[$DIR/tests/recovery/element/math/input.html:27:1]
+ 27 |                     <ci>x</ci>
+ 28 |                     <cn type="integer">2</cn>
+    :                                        ^
+ 29 |                 </apply>
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/math/input.html:28:21]
- 28 | <cn type="integer">2</cn>
-    :                    ^
+    ,-[$DIR/tests/recovery/element/math/input.html:27:1]
+ 27 |                     <ci>x</ci>
+ 28 |                     <cn type="integer">2</cn>
+    :                                        ^
+ 29 |                 </apply>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:28:21]
- 28 | ,-> <cn type="integer">2</cn>
+    ,-[$DIR/tests/recovery/element/math/input.html:27:1]
+ 27 |                         <ci>x</ci>
+ 28 | ,->                     <cn type="integer">2</cn>
  29 | `->                 </apply>
+ 30 |                     <ci>y</ci>
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/math/input.html:28:21]
- 28 | ,-> <cn type="integer">2</cn>
+    ,-[$DIR/tests/recovery/element/math/input.html:27:1]
+ 27 |                         <ci>x</ci>
+ 28 | ,->                     <cn type="integer">2</cn>
  29 | `->                 </apply>
+ 30 |                     <ci>y</ci>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:29:17]
- 29 | ,-> </apply>
+    ,-[$DIR/tests/recovery/element/math/input.html:28:1]
+ 28 |                         <cn type="integer">2</cn>
+ 29 | ,->                 </apply>
  30 | `->                 <ci>y</ci>
+ 31 |                 </apply>
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/math/input.html:29:17]
- 29 | ,-> </apply>
+    ,-[$DIR/tests/recovery/element/math/input.html:28:1]
+ 28 |                         <cn type="integer">2</cn>
+ 29 | ,->                 </apply>
  30 | `->                 <ci>y</ci>
+ 31 |                 </apply>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:30:17]
- 30 | <ci>y</ci>
-    : ^^^^^^^^^^
+    ,-[$DIR/tests/recovery/element/math/input.html:29:1]
+ 29 |                 </apply>
+ 30 |                 <ci>y</ci>
+    :                 ^^^^^^^^^^
+ 31 |             </apply>
     `----
 
   x Element
-    ,-[$DIR/tests/recovery/element/math/input.html:30:17]
- 30 | <ci>y</ci>
-    : ^^^^^^^^^^
+    ,-[$DIR/tests/recovery/element/math/input.html:29:1]
+ 29 |                 </apply>
+ 30 |                 <ci>y</ci>
+    :                 ^^^^^^^^^^
+ 31 |             </apply>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:30:17]
- 30 | <ci>y</ci>
-    :     ^
+    ,-[$DIR/tests/recovery/element/math/input.html:29:1]
+ 29 |                 </apply>
+ 30 |                 <ci>y</ci>
+    :                     ^
+ 31 |             </apply>
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/math/input.html:30:17]
- 30 | <ci>y</ci>
-    :     ^
+    ,-[$DIR/tests/recovery/element/math/input.html:29:1]
+ 29 |                 </apply>
+ 30 |                 <ci>y</ci>
+    :                     ^
+ 31 |             </apply>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:30:17]
- 30 | ,-> <ci>y</ci>
+    ,-[$DIR/tests/recovery/element/math/input.html:29:1]
+ 29 |                     </apply>
+ 30 | ,->                 <ci>y</ci>
  31 | `->             </apply>
+ 32 |             </annotation-xml>
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/math/input.html:30:17]
- 30 | ,-> <ci>y</ci>
+    ,-[$DIR/tests/recovery/element/math/input.html:29:1]
+ 29 |                     </apply>
+ 30 | ,->                 <ci>y</ci>
  31 | `->             </apply>
+ 32 |             </annotation-xml>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:31:13]
- 31 | ,-> </apply>
+    ,-[$DIR/tests/recovery/element/math/input.html:30:1]
+ 30 |                     <ci>y</ci>
+ 31 | ,->             </apply>
  32 | `->         </annotation-xml>
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/math/input.html:31:13]
- 31 | ,-> </apply>
+    ,-[$DIR/tests/recovery/element/math/input.html:30:1]
+ 30 |                     <ci>y</ci>
+ 31 | ,->             </apply>
  32 | `->         </annotation-xml>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:32:9]
- 32 | ,-> </annotation-xml>
+    ,-[$DIR/tests/recovery/element/math/input.html:31:1]
+ 31 |                 </apply>
+ 32 | ,->         </annotation-xml>
  33 | |   
  34 | `->         <!-- Content HTML -->
+ 35 |             <annotation-xml encoding="application/xhtml+xml">
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/math/input.html:32:9]
- 32 | ,-> </annotation-xml>
+    ,-[$DIR/tests/recovery/element/math/input.html:31:1]
+ 31 |                 </apply>
+ 32 | ,->         </annotation-xml>
  33 | |   
  34 | `->         <!-- Content HTML -->
+ 35 |             <annotation-xml encoding="application/xhtml+xml">
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:34:9]
- 34 | <!-- Content HTML -->
-    : ^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/element/math/input.html:33:1]
+ 33 | 
+ 34 |         <!-- Content HTML -->
+    :         ^^^^^^^^^^^^^^^^^^^^^
+ 35 |         <annotation-xml encoding="application/xhtml+xml">
     `----
 
   x Comment
-    ,-[$DIR/tests/recovery/element/math/input.html:34:9]
- 34 | <!-- Content HTML -->
-    : ^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/element/math/input.html:33:1]
+ 33 | 
+ 34 |         <!-- Content HTML -->
+    :         ^^^^^^^^^^^^^^^^^^^^^
+ 35 |         <annotation-xml encoding="application/xhtml+xml">
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:34:9]
- 34 | ,-> <!-- Content HTML -->
+    ,-[$DIR/tests/recovery/element/math/input.html:33:1]
+ 33 |     
+ 34 | ,->         <!-- Content HTML -->
  35 | `->         <annotation-xml encoding="application/xhtml+xml">
+ 36 |                 <html xmlns="http://www.w3.org/1999/xhtml">
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/math/input.html:34:9]
- 34 | ,-> <!-- Content HTML -->
+    ,-[$DIR/tests/recovery/element/math/input.html:33:1]
+ 33 |     
+ 34 | ,->         <!-- Content HTML -->
  35 | `->         <annotation-xml encoding="application/xhtml+xml">
+ 36 |                 <html xmlns="http://www.w3.org/1999/xhtml">
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:35:9]
- 35 | ,-> <annotation-xml encoding="application/xhtml+xml">
+    ,-[$DIR/tests/recovery/element/math/input.html:34:1]
+ 34 |             <!-- Content HTML -->
+ 35 | ,->         <annotation-xml encoding="application/xhtml+xml">
  36 | |               <html xmlns="http://www.w3.org/1999/xhtml">
  37 | |               <head><title>INNER HTML TITLE</title></head>
  38 | |               <body>
@@ -1254,8 +1481,9 @@
     `----
 
   x Element
-    ,-[$DIR/tests/recovery/element/math/input.html:35:9]
- 35 | ,-> <annotation-xml encoding="application/xhtml+xml">
+    ,-[$DIR/tests/recovery/element/math/input.html:34:1]
+ 34 |             <!-- Content HTML -->
+ 35 | ,->         <annotation-xml encoding="application/xhtml+xml">
  36 | |               <html xmlns="http://www.w3.org/1999/xhtml">
  37 | |               <head><title>INNER HTML TITLE</title></head>
  38 | |               <body>
@@ -1266,267 +1494,334 @@
     `----
 
   x Attribute
-    ,-[$DIR/tests/recovery/element/math/input.html:35:9]
- 35 | <annotation-xml encoding="application/xhtml+xml">
-    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/element/math/input.html:34:1]
+ 34 |         <!-- Content HTML -->
+ 35 |         <annotation-xml encoding="application/xhtml+xml">
+    :                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 36 |             <html xmlns="http://www.w3.org/1999/xhtml">
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:35:9]
- 35 | ,-> <annotation-xml encoding="application/xhtml+xml">
+    ,-[$DIR/tests/recovery/element/math/input.html:34:1]
+ 34 |             <!-- Content HTML -->
+ 35 | ,->         <annotation-xml encoding="application/xhtml+xml">
  36 | |               <html xmlns="http://www.w3.org/1999/xhtml">
  37 | `->             <head><title>INNER HTML TITLE</title></head>
+ 38 |                 <body>
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/math/input.html:35:9]
- 35 | ,-> <annotation-xml encoding="application/xhtml+xml">
+    ,-[$DIR/tests/recovery/element/math/input.html:34:1]
+ 34 |             <!-- Content HTML -->
+ 35 | ,->         <annotation-xml encoding="application/xhtml+xml">
  36 | |               <html xmlns="http://www.w3.org/1999/xhtml">
  37 | `->             <head><title>INNER HTML TITLE</title></head>
+ 38 |                 <body>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:37:13]
- 37 | <head><title>INNER HTML TITLE</title></head>
-    :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/element/math/input.html:36:1]
+ 36 |             <html xmlns="http://www.w3.org/1999/xhtml">
+ 37 |             <head><title>INNER HTML TITLE</title></head>
+    :                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 38 |             <body>
     `----
 
   x Element
-    ,-[$DIR/tests/recovery/element/math/input.html:37:13]
- 37 | <head><title>INNER HTML TITLE</title></head>
-    :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/element/math/input.html:36:1]
+ 36 |             <html xmlns="http://www.w3.org/1999/xhtml">
+ 37 |             <head><title>INNER HTML TITLE</title></head>
+    :                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 38 |             <body>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:37:13]
- 37 | <head><title>INNER HTML TITLE</title></head>
-    :              ^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/element/math/input.html:36:1]
+ 36 |             <html xmlns="http://www.w3.org/1999/xhtml">
+ 37 |             <head><title>INNER HTML TITLE</title></head>
+    :                          ^^^^^^^^^^^^^^^^
+ 38 |             <body>
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/math/input.html:37:13]
- 37 | <head><title>INNER HTML TITLE</title></head>
-    :              ^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/element/math/input.html:36:1]
+ 36 |             <html xmlns="http://www.w3.org/1999/xhtml">
+ 37 |             <head><title>INNER HTML TITLE</title></head>
+    :                          ^^^^^^^^^^^^^^^^
+ 38 |             <body>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:37:13]
- 37 | ,-> <head><title>INNER HTML TITLE</title></head>
+    ,-[$DIR/tests/recovery/element/math/input.html:36:1]
+ 36 |                 <html xmlns="http://www.w3.org/1999/xhtml">
+ 37 | ,->             <head><title>INNER HTML TITLE</title></head>
  38 | |               <body>
  39 | `->             <p>The base of the natural logarithms, approximately 2.71828.</p>
+ 40 |                 </body>
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/math/input.html:37:13]
- 37 | ,-> <head><title>INNER HTML TITLE</title></head>
+    ,-[$DIR/tests/recovery/element/math/input.html:36:1]
+ 36 |                 <html xmlns="http://www.w3.org/1999/xhtml">
+ 37 | ,->             <head><title>INNER HTML TITLE</title></head>
  38 | |               <body>
  39 | `->             <p>The base of the natural logarithms, approximately 2.71828.</p>
+ 40 |                 </body>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:39:13]
- 39 | <p>The base of the natural logarithms, approximately 2.71828.</p>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/element/math/input.html:38:1]
+ 38 |             <body>
+ 39 |             <p>The base of the natural logarithms, approximately 2.71828.</p>
+    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 40 |             </body>
     `----
 
   x Element
-    ,-[$DIR/tests/recovery/element/math/input.html:39:13]
- 39 | <p>The base of the natural logarithms, approximately 2.71828.</p>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/element/math/input.html:38:1]
+ 38 |             <body>
+ 39 |             <p>The base of the natural logarithms, approximately 2.71828.</p>
+    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 40 |             </body>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:39:13]
- 39 | <p>The base of the natural logarithms, approximately 2.71828.</p>
-    :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/element/math/input.html:38:1]
+ 38 |             <body>
+ 39 |             <p>The base of the natural logarithms, approximately 2.71828.</p>
+    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 40 |             </body>
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/math/input.html:39:13]
- 39 | <p>The base of the natural logarithms, approximately 2.71828.</p>
-    :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/element/math/input.html:38:1]
+ 38 |             <body>
+ 39 |             <p>The base of the natural logarithms, approximately 2.71828.</p>
+    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 40 |             </body>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:39:13]
- 39 | ,-> <p>The base of the natural logarithms, approximately 2.71828.</p>
+    ,-[$DIR/tests/recovery/element/math/input.html:38:1]
+ 38 |                 <body>
+ 39 | ,->             <p>The base of the natural logarithms, approximately 2.71828.</p>
  40 | |               </body>
  41 | |               </html>
  42 | `->         </annotation-xml>
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/math/input.html:39:13]
- 39 | ,-> <p>The base of the natural logarithms, approximately 2.71828.</p>
+    ,-[$DIR/tests/recovery/element/math/input.html:38:1]
+ 38 |                 <body>
+ 39 | ,->             <p>The base of the natural logarithms, approximately 2.71828.</p>
  40 | |               </body>
  41 | |               </html>
  42 | `->         </annotation-xml>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:42:9]
- 42 | ,-> </annotation-xml>
+    ,-[$DIR/tests/recovery/element/math/input.html:41:1]
+ 41 |                 </html>
+ 42 | ,->         </annotation-xml>
  43 | |   
  44 | `->         <!-- annotate an image -->
+ 45 |             <annotation encoding="image/png" src="some/path/formula.png"/>
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/math/input.html:42:9]
- 42 | ,-> </annotation-xml>
+    ,-[$DIR/tests/recovery/element/math/input.html:41:1]
+ 41 |                 </html>
+ 42 | ,->         </annotation-xml>
  43 | |   
  44 | `->         <!-- annotate an image -->
+ 45 |             <annotation encoding="image/png" src="some/path/formula.png"/>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:44:9]
- 44 | <!-- annotate an image -->
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/element/math/input.html:43:1]
+ 43 | 
+ 44 |         <!-- annotate an image -->
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 45 |         <annotation encoding="image/png" src="some/path/formula.png"/>
     `----
 
   x Comment
-    ,-[$DIR/tests/recovery/element/math/input.html:44:9]
- 44 | <!-- annotate an image -->
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/element/math/input.html:43:1]
+ 43 | 
+ 44 |         <!-- annotate an image -->
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 45 |         <annotation encoding="image/png" src="some/path/formula.png"/>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:44:9]
- 44 | ,-> <!-- annotate an image -->
+    ,-[$DIR/tests/recovery/element/math/input.html:43:1]
+ 43 |     
+ 44 | ,->         <!-- annotate an image -->
  45 | `->         <annotation encoding="image/png" src="some/path/formula.png"/>
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/math/input.html:44:9]
- 44 | ,-> <!-- annotate an image -->
+    ,-[$DIR/tests/recovery/element/math/input.html:43:1]
+ 43 |     
+ 44 | ,->         <!-- annotate an image -->
  45 | `->         <annotation encoding="image/png" src="some/path/formula.png"/>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:45:9]
- 45 | <annotation encoding="image/png" src="some/path/formula.png"/>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/element/math/input.html:44:1]
+ 44 |         <!-- annotate an image -->
+ 45 |         <annotation encoding="image/png" src="some/path/formula.png"/>
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Element
-    ,-[$DIR/tests/recovery/element/math/input.html:45:9]
- 45 | <annotation encoding="image/png" src="some/path/formula.png"/>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/element/math/input.html:44:1]
+ 44 |         <!-- annotate an image -->
+ 45 |         <annotation encoding="image/png" src="some/path/formula.png"/>
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Attribute
-    ,-[$DIR/tests/recovery/element/math/input.html:45:9]
- 45 | <annotation encoding="image/png" src="some/path/formula.png"/>
-    :             ^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/element/math/input.html:44:1]
+ 44 |         <!-- annotate an image -->
+ 45 |         <annotation encoding="image/png" src="some/path/formula.png"/>
+    :                     ^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Attribute
-    ,-[$DIR/tests/recovery/element/math/input.html:45:9]
- 45 | <annotation encoding="image/png" src="some/path/formula.png"/>
-    :                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/element/math/input.html:44:1]
+ 44 |         <!-- annotate an image -->
+ 45 |         <annotation encoding="image/png" src="some/path/formula.png"/>
+    :                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:45:9]
- 45 | ,-> <annotation encoding="image/png" src="some/path/formula.png"/>
+    ,-[$DIR/tests/recovery/element/math/input.html:44:1]
+ 44 |             <!-- annotate an image -->
+ 45 | ,->         <annotation encoding="image/png" src="some/path/formula.png"/>
  46 | |   
  47 | `->         <!-- annotate TeX -->
+ 48 |             <annotation encoding="application/x-tex">
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/math/input.html:45:9]
- 45 | ,-> <annotation encoding="image/png" src="some/path/formula.png"/>
+    ,-[$DIR/tests/recovery/element/math/input.html:44:1]
+ 44 |             <!-- annotate an image -->
+ 45 | ,->         <annotation encoding="image/png" src="some/path/formula.png"/>
  46 | |   
  47 | `->         <!-- annotate TeX -->
+ 48 |             <annotation encoding="application/x-tex">
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:47:9]
- 47 | <!-- annotate TeX -->
-    : ^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/element/math/input.html:46:1]
+ 46 | 
+ 47 |         <!-- annotate TeX -->
+    :         ^^^^^^^^^^^^^^^^^^^^^
+ 48 |         <annotation encoding="application/x-tex">
     `----
 
   x Comment
-    ,-[$DIR/tests/recovery/element/math/input.html:47:9]
- 47 | <!-- annotate TeX -->
-    : ^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/element/math/input.html:46:1]
+ 46 | 
+ 47 |         <!-- annotate TeX -->
+    :         ^^^^^^^^^^^^^^^^^^^^^
+ 48 |         <annotation encoding="application/x-tex">
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:47:9]
- 47 | ,-> <!-- annotate TeX -->
+    ,-[$DIR/tests/recovery/element/math/input.html:46:1]
+ 46 |     
+ 47 | ,->         <!-- annotate TeX -->
  48 | `->         <annotation encoding="application/x-tex">
+ 49 |                 x^{2} + y
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/math/input.html:47:9]
- 47 | ,-> <!-- annotate TeX -->
+    ,-[$DIR/tests/recovery/element/math/input.html:46:1]
+ 46 |     
+ 47 | ,->         <!-- annotate TeX -->
  48 | `->         <annotation encoding="application/x-tex">
+ 49 |                 x^{2} + y
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:48:9]
- 48 | ,-> <annotation encoding="application/x-tex">
+    ,-[$DIR/tests/recovery/element/math/input.html:47:1]
+ 47 |             <!-- annotate TeX -->
+ 48 | ,->         <annotation encoding="application/x-tex">
  49 | |               x^{2} + y
  50 | `->         </annotation>
     `----
 
   x Element
-    ,-[$DIR/tests/recovery/element/math/input.html:48:9]
- 48 | ,-> <annotation encoding="application/x-tex">
+    ,-[$DIR/tests/recovery/element/math/input.html:47:1]
+ 47 |             <!-- annotate TeX -->
+ 48 | ,->         <annotation encoding="application/x-tex">
  49 | |               x^{2} + y
  50 | `->         </annotation>
     `----
 
   x Attribute
-    ,-[$DIR/tests/recovery/element/math/input.html:48:9]
- 48 | <annotation encoding="application/x-tex">
-    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/recovery/element/math/input.html:47:1]
+ 47 |         <!-- annotate TeX -->
+ 48 |         <annotation encoding="application/x-tex">
+    :                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 49 |             x^{2} + y
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:48:9]
- 48 | ,-> <annotation encoding="application/x-tex">
+    ,-[$DIR/tests/recovery/element/math/input.html:47:1]
+ 47 |             <!-- annotate TeX -->
+ 48 | ,->         <annotation encoding="application/x-tex">
  49 | |               x^{2} + y
  50 | `->         </annotation>
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/math/input.html:48:9]
- 48 | ,-> <annotation encoding="application/x-tex">
+    ,-[$DIR/tests/recovery/element/math/input.html:47:1]
+ 47 |             <!-- annotate TeX -->
+ 48 | ,->         <annotation encoding="application/x-tex">
  49 | |               x^{2} + y
  50 | `->         </annotation>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:50:9]
- 50 | ,-> </annotation>
+    ,-[$DIR/tests/recovery/element/math/input.html:49:1]
+ 49 |                 x^{2} + y
+ 50 | ,->         </annotation>
  51 | |   
  52 | `->     </semantics>
+ 53 |     </math>
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/math/input.html:50:9]
- 50 | ,-> </annotation>
+    ,-[$DIR/tests/recovery/element/math/input.html:49:1]
+ 49 |                 x^{2} + y
+ 50 | ,->         </annotation>
  51 | |   
  52 | `->     </semantics>
+ 53 |     </math>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:52:5]
- 52 | </semantics>
-    :             ^
+    ,-[$DIR/tests/recovery/element/math/input.html:51:1]
+ 51 | 
+ 52 |     </semantics>
+    :                 ^
  53 | </math>
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/math/input.html:52:5]
- 52 | </semantics>
-    :             ^
+    ,-[$DIR/tests/recovery/element/math/input.html:51:1]
+ 51 | 
+ 52 |     </semantics>
+    :                 ^
  53 | </math>
     `----
 
   x Child
-    ,-[$DIR/tests/recovery/element/math/input.html:53:1]
+    ,-[$DIR/tests/recovery/element/math/input.html:52:1]
+ 52 |         </semantics>
  53 | ,-> </math>
  54 | |   
  55 | |   </body>
@@ -1534,7 +1829,8 @@
     `----
 
   x Text
-    ,-[$DIR/tests/recovery/element/math/input.html:53:1]
+    ,-[$DIR/tests/recovery/element/math/input.html:52:1]
+ 52 |         </semantics>
  53 | ,-> </math>
  54 | |   
  55 | |   </body>

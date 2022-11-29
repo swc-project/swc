@@ -1,6 +1,8 @@
 
   x 'override' modifier cannot appear on a constructor declaration
-   ,-[$DIR/tests/typescript-errors/class/override-on-constructor/input.ts:2:3]
- 2 | override constructor() {}
-   : ^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/typescript-errors/class/override-on-constructor/input.ts:1:1]
+ 1 | class C extends B {
+ 2 |   override constructor() {}
+   :   ^^^^^^^^^^^^^^^^^^^^
+ 3 | }
    `----

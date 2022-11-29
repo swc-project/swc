@@ -10,25 +10,33 @@ Error:
   | 
   | else
   | 
-    ,-[$DIR/tests/comments/issue-4876/input.js:10:1]
+    ,-[$DIR/tests/comments/issue-4876/input.js:9:1]
+  9 | // a
+    :      ^
  10 | console.log(1);
     : ^
+ 11 | // b
     `----
 
   > Leading (lo)
 
 Error: 
   >  a
-    ,-[$DIR/tests/comments/issue-4876/input.js:10:1]
+    ,-[$DIR/tests/comments/issue-4876/input.js:9:1]
+  9 | // a
+    :      ^
  10 | console.log(1);
     : ^
+ 11 | // b
     `----
 
   > Trailing (hi)
 
 Error: 
   >  b
-    ,-[$DIR/tests/comments/issue-4876/input.js:10:1]
+    ,-[$DIR/tests/comments/issue-4876/input.js:9:1]
+  9 | // a
  10 | console.log(1);
     :                ^
+ 11 | // b
     `----

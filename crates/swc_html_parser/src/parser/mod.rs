@@ -508,7 +508,7 @@ where
             }
             Data::Text { data, raw } => {
                 let span = if let Some(end_span) = node.end_span.take() {
-                    swc_common::Span::new(start_span.lo(), end_span.hi(), Default::default())
+                    Span::new(start_span.lo(), end_span.hi(), Default::default())
                 } else {
                     start_span
                 };
@@ -533,7 +533,12 @@ where
     fn run(&mut self) -> PResult<()> {
         while !self.stopped {
             let adjusted_current_node = self.get_adjusted_current_node();
-            let is_element_in_html_namespace = is_element_in_html_namespace(adjusted_current_node);
+            let is_element_in_html_namespace =
+                if is_element_in_html_namespace(adjusted_current_node) {
+                    true
+                } else {
+                    is_html_integration_point(adjusted_current_node)
+                };
 
             self.input
                 .set_adjusted_current_node_to_html_namespace(is_element_in_html_namespace);
@@ -624,9 +629,6 @@ where
             is_mathml_text_integration_point(adjusted_current_node);
         let is_mathml_annotation_xml = is_mathml_annotation_xml(adjusted_current_node);
         let is_html_integration_point = is_html_integration_point(adjusted_current_node);
-
-        self.input
-            .set_adjusted_current_node_to_html_namespace(is_element_in_html_namespace);
 
         if self.open_elements_stack.items.is_empty()
             || is_element_in_html_namespace

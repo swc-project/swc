@@ -1,13 +1,15 @@
 
   x Expected ';', '}' or <eof>
-   ,-[$DIR/tests/test262-parser/fail/743e2b125ba6d248.js:2:2]
- 2 | isnt y
-   :      ^
+   ,-[$DIR/tests/test262-parser/fail/743e2b125ba6d248.js:1:1]
+ 1 | x 
+ 2 |  isnt y
+   :       ^
    `----
 
 Error: 
   > This is the expression part of an expression statement
-   ,-[$DIR/tests/test262-parser/fail/743e2b125ba6d248.js:2:2]
- 2 | isnt y
-   : ^^^^
+   ,-[$DIR/tests/test262-parser/fail/743e2b125ba6d248.js:1:1]
+ 1 | x 
+ 2 |  isnt y
+   :  ^^^^
    `----

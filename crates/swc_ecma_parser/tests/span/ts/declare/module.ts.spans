@@ -38,12 +38,14 @@
    ,-[$DIR/tests/span/ts/declare/module.ts:1:1]
  1 | declare module "name" {
    :                ^^^^^^
+ 2 |     export class Foo { }
    `----
 
   x Str
    ,-[$DIR/tests/span/ts/declare/module.ts:1:1]
  1 | declare module "name" {
    :                ^^^^^^
+ 2 |     export class Foo { }
    `----
 
   x TsNamespaceBody
@@ -61,43 +63,57 @@
    `----
 
   x ModuleItem
-   ,-[$DIR/tests/span/ts/declare/module.ts:2:5]
- 2 | export class Foo { }
-   : ^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/ts/declare/module.ts:1:1]
+ 1 | declare module "name" {
+ 2 |     export class Foo { }
+   :     ^^^^^^^^^^^^^^^^^^^^
+ 3 | }
    `----
 
   x ModuleDecl
-   ,-[$DIR/tests/span/ts/declare/module.ts:2:5]
- 2 | export class Foo { }
-   : ^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/ts/declare/module.ts:1:1]
+ 1 | declare module "name" {
+ 2 |     export class Foo { }
+   :     ^^^^^^^^^^^^^^^^^^^^
+ 3 | }
    `----
 
   x ExportDecl
-   ,-[$DIR/tests/span/ts/declare/module.ts:2:5]
- 2 | export class Foo { }
-   : ^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/ts/declare/module.ts:1:1]
+ 1 | declare module "name" {
+ 2 |     export class Foo { }
+   :     ^^^^^^^^^^^^^^^^^^^^
+ 3 | }
    `----
 
   x Decl
-   ,-[$DIR/tests/span/ts/declare/module.ts:2:5]
- 2 | export class Foo { }
-   :        ^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/ts/declare/module.ts:1:1]
+ 1 | declare module "name" {
+ 2 |     export class Foo { }
+   :            ^^^^^^^^^^^^^
+ 3 | }
    `----
 
   x ClassDecl
-   ,-[$DIR/tests/span/ts/declare/module.ts:2:5]
- 2 | export class Foo { }
-   :        ^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/ts/declare/module.ts:1:1]
+ 1 | declare module "name" {
+ 2 |     export class Foo { }
+   :            ^^^^^^^^^^^^^
+ 3 | }
    `----
 
   x Ident
-   ,-[$DIR/tests/span/ts/declare/module.ts:2:5]
- 2 | export class Foo { }
-   :              ^^^
+   ,-[$DIR/tests/span/ts/declare/module.ts:1:1]
+ 1 | declare module "name" {
+ 2 |     export class Foo { }
+   :                  ^^^
+ 3 | }
    `----
 
   x Class
-   ,-[$DIR/tests/span/ts/declare/module.ts:2:5]
- 2 | export class Foo { }
-   :        ^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/ts/declare/module.ts:1:1]
+ 1 | declare module "name" {
+ 2 |     export class Foo { }
+   :            ^^^^^^^^^^^^^
+ 3 | }
    `----

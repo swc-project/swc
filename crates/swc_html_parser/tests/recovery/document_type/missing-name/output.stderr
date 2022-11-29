@@ -3,10 +3,12 @@
    ,-[$DIR/tests/recovery/document_type/missing-name/input.html:1:1]
  1 | <!DOCTYPE>
    :          ^
+ 2 | <html>
    `----
 
   x Non conforming doctype
    ,-[$DIR/tests/recovery/document_type/missing-name/input.html:1:1]
  1 | <!DOCTYPE>
    : ^^^^^^^^^^
+ 2 | <html>
    `----

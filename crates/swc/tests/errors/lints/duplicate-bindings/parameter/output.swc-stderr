@@ -7,4 +7,5 @@
  2 |     let a;
    :         |
    :         `-- `a` redefined here
+ 3 | }
    `----

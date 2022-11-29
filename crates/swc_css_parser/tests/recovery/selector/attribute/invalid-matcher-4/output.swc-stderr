@@ -3,4 +3,5 @@
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-4/input.css:1:1]
  1 | a[title%="title"] {
    :        ^
+ 2 |   color: purple;
    `----

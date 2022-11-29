@@ -128,13 +128,15 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:3:1]
+   ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:2:1]
+ 2 | 
  3 | }
    :  ^
    `----
 
   x WhiteSpace { value: "\n" }
-   ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:3:1]
+   ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:2:1]
+ 2 | 
  3 | }
    :  ^
    `----

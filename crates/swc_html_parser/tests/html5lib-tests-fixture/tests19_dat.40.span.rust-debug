@@ -7,13 +7,13 @@
 
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.40.html:1:1]
- 1 | <!doctype html><html><frameset></frameset></html>
+ 1 | <!doctype html><html><frameset></frameset></html>  
    : ^^^^^^^^^^^^^^^
    `----
 
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.40.html:1:1]
- 1 | <!doctype html><html><frameset></frameset></html>
+ 1 | <!doctype html><html><frameset></frameset></html>  
    : ^^^^^^^^^^^^^^^
    `----
 
@@ -35,13 +35,13 @@
 
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.40.html:1:1]
- 1 | <!doctype html><html><frameset></frameset></html>
+ 1 | <!doctype html><html><frameset></frameset></html>  
    :                      ^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.40.html:1:1]
- 1 | <!doctype html><html><frameset></frameset></html>
+ 1 | <!doctype html><html><frameset></frameset></html>  
    :                      ^^^^^^^^^^^^^^^^^^^^^
    `----
 

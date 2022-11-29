@@ -7,11 +7,35 @@
 
 - **(ci)** Fix publish action for binaries (#6517) ([2ac3201](https://github.com/swc-project/swc/commit/2ac32017bad112956a781b0d003782988655409c))
 
+
+- **(es/minifier)** Don't drop used variables from sequential inliner (#6520) ([b394f9f](https://github.com/swc-project/swc/commit/b394f9f1d3efd24fd55b4ac5efdbaee91b9d8021))
+
+
+- **(es/minifier)** Make sequential inliner respect resolution order (#6509) ([27ae59e](https://github.com/swc-project/swc/commit/27ae59e77bb8cb1f1d1dbbba3f8dec58359bc2ba))
+
+
+- **(html/parser)** Fix parsing of cdata (#6534) ([e3cbe7e](https://github.com/swc-project/swc/commit/e3cbe7e9a98149bfc05421a264d4e421fb543f7e))
+
+### Features
+
+
+
+- **(common)** Add contexts to the error messages (#6526) ([b8fe04f](https://github.com/swc-project/swc/commit/b8fe04f720d81f2d4ef0778cbb345f64b9ec1956))
+
+### Performance
+
+
+
+- **(common)** Fix perf bug of sourcemap for inputs with multi-byte chars (#6523) ([47908a4](https://github.com/swc-project/swc/commit/47908a49d3d773b7ffacf6ffa6e38c7e091101cb))
+
 ### Testing
 
 
 
 - **(es/transforms)** Add tests about preserving top-level directives (#6518) ([5ff87af](https://github.com/swc-project/swc/commit/5ff87afa78e5bb56f2b03678577279256c18e4da))
+
+
+- **(ts/compat)** Migrate inline tests to fixture testing (#6475) ([cc4646a](https://github.com/swc-project/swc/commit/cc4646a4cc455c08680f7dedb344337f90f0c668))
 
 ## [1.3.20] - 2022-11-26
 

@@ -1,6 +1,8 @@
 
   x Unexpected unknown unit "lightyear".
-   ,-[$DIR/tests/rules/fail/unit-no-unknown/ignored-units/input.css:2:5]
- 2 | width: 2lightyear;
-   :         ^^^^^^^^^
+   ,-[$DIR/tests/rules/fail/unit-no-unknown/ignored-units/input.css:1:1]
+ 1 | a {
+ 2 |     width: 2lightyear;
+   :             ^^^^^^^^^
+ 3 | }
    `----
