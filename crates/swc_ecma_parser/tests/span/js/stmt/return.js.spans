@@ -38,6 +38,7 @@
    ,-[$DIR/tests/span/js/stmt/return.js:1:1]
  1 | function foo() {
    :          ^^^
+ 2 |     return 'foo';
    `----
 
   x Function
@@ -55,31 +56,41 @@
    `----
 
   x Stmt
-   ,-[$DIR/tests/span/js/stmt/return.js:2:5]
- 2 | return 'foo';
-   : ^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/stmt/return.js:1:1]
+ 1 | function foo() {
+ 2 |     return 'foo';
+   :     ^^^^^^^^^^^^^
+ 3 | }
    `----
 
   x ReturnStmt
-   ,-[$DIR/tests/span/js/stmt/return.js:2:5]
- 2 | return 'foo';
-   : ^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/stmt/return.js:1:1]
+ 1 | function foo() {
+ 2 |     return 'foo';
+   :     ^^^^^^^^^^^^^
+ 3 | }
    `----
 
   x Expr
-   ,-[$DIR/tests/span/js/stmt/return.js:2:5]
- 2 | return 'foo';
-   :        ^^^^^
+   ,-[$DIR/tests/span/js/stmt/return.js:1:1]
+ 1 | function foo() {
+ 2 |     return 'foo';
+   :            ^^^^^
+ 3 | }
    `----
 
   x Lit
-   ,-[$DIR/tests/span/js/stmt/return.js:2:5]
- 2 | return 'foo';
-   :        ^^^^^
+   ,-[$DIR/tests/span/js/stmt/return.js:1:1]
+ 1 | function foo() {
+ 2 |     return 'foo';
+   :            ^^^^^
+ 3 | }
    `----
 
   x Str
-   ,-[$DIR/tests/span/js/stmt/return.js:2:5]
- 2 | return 'foo';
-   :        ^^^^^
+   ,-[$DIR/tests/span/js/stmt/return.js:1:1]
+ 1 | function foo() {
+ 2 |     return 'foo';
+   :            ^^^^^
+ 3 | }
    `----

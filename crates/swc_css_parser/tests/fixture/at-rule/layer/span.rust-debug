@@ -145,7 +145,8 @@
    `----
 
   x Rule
-   ,-[$DIR/tests/fixture/at-rule/layer/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/layer/input.css:2:1]
+ 2 |     
  3 | ,-> @layer override {
  4 | |       @keyframes slide-left {
  5 | |           from { translate: 0; }
@@ -155,7 +156,8 @@
    `----
 
   x AtRule
-   ,-[$DIR/tests/fixture/at-rule/layer/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/layer/input.css:2:1]
+ 2 |     
  3 | ,-> @layer override {
  4 | |       @keyframes slide-left {
  5 | |           from { translate: 0; }
@@ -165,37 +167,48 @@
    `----
 
   x AtRuleName
-   ,-[$DIR/tests/fixture/at-rule/layer/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/layer/input.css:2:1]
+ 2 | 
  3 | @layer override {
    :  ^^^^^
+ 4 |     @keyframes slide-left {
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/layer/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/layer/input.css:2:1]
+ 2 | 
  3 | @layer override {
    :  ^^^^^
+ 4 |     @keyframes slide-left {
    `----
 
   x LayerPrelude
-   ,-[$DIR/tests/fixture/at-rule/layer/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/layer/input.css:2:1]
+ 2 | 
  3 | @layer override {
    :        ^^^^^^^^
+ 4 |     @keyframes slide-left {
    `----
 
   x LayerName
-   ,-[$DIR/tests/fixture/at-rule/layer/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/layer/input.css:2:1]
+ 2 | 
  3 | @layer override {
    :        ^^^^^^^^
+ 4 |     @keyframes slide-left {
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/layer/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/layer/input.css:2:1]
+ 2 | 
  3 | @layer override {
    :        ^^^^^^^^
+ 4 |     @keyframes slide-left {
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/at-rule/layer/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/layer/input.css:2:1]
+ 2 |     
  3 | ,-> @layer override {
  4 | |       @keyframes slide-left {
  5 | |           from { translate: 0; }
@@ -205,207 +218,272 @@
    `----
 
   x LBrace
-   ,-[$DIR/tests/fixture/at-rule/layer/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/layer/input.css:2:1]
+ 2 | 
  3 | @layer override {
    :                 ^
+ 4 |     @keyframes slide-left {
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/layer/input.css:4:5]
- 4 | ,-> @keyframes slide-left {
+   ,-[$DIR/tests/fixture/at-rule/layer/input.css:3:1]
+ 3 |     @layer override {
+ 4 | ,->     @keyframes slide-left {
  5 | |           from { translate: 0; }
  6 | |           to { translate: -100% 0; }
  7 | `->     }
+ 8 |     }
    `----
 
   x Rule
-   ,-[$DIR/tests/fixture/at-rule/layer/input.css:4:5]
- 4 | ,-> @keyframes slide-left {
+   ,-[$DIR/tests/fixture/at-rule/layer/input.css:3:1]
+ 3 |     @layer override {
+ 4 | ,->     @keyframes slide-left {
  5 | |           from { translate: 0; }
  6 | |           to { translate: -100% 0; }
  7 | `->     }
+ 8 |     }
    `----
 
   x AtRule
-   ,-[$DIR/tests/fixture/at-rule/layer/input.css:4:5]
- 4 | ,-> @keyframes slide-left {
+   ,-[$DIR/tests/fixture/at-rule/layer/input.css:3:1]
+ 3 |     @layer override {
+ 4 | ,->     @keyframes slide-left {
  5 | |           from { translate: 0; }
  6 | |           to { translate: -100% 0; }
  7 | `->     }
+ 8 |     }
    `----
 
   x AtRuleName
-   ,-[$DIR/tests/fixture/at-rule/layer/input.css:4:5]
- 4 | @keyframes slide-left {
-   :  ^^^^^^^^^
+   ,-[$DIR/tests/fixture/at-rule/layer/input.css:3:1]
+ 3 | @layer override {
+ 4 |     @keyframes slide-left {
+   :      ^^^^^^^^^
+ 5 |         from { translate: 0; }
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/layer/input.css:4:5]
- 4 | @keyframes slide-left {
-   :  ^^^^^^^^^
+   ,-[$DIR/tests/fixture/at-rule/layer/input.css:3:1]
+ 3 | @layer override {
+ 4 |     @keyframes slide-left {
+   :      ^^^^^^^^^
+ 5 |         from { translate: 0; }
    `----
 
   x CustomIdent
-   ,-[$DIR/tests/fixture/at-rule/layer/input.css:4:5]
- 4 | @keyframes slide-left {
-   :            ^^^^^^^^^^
+   ,-[$DIR/tests/fixture/at-rule/layer/input.css:3:1]
+ 3 | @layer override {
+ 4 |     @keyframes slide-left {
+   :                ^^^^^^^^^^
+ 5 |         from { translate: 0; }
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/at-rule/layer/input.css:4:5]
- 4 | ,-> @keyframes slide-left {
+   ,-[$DIR/tests/fixture/at-rule/layer/input.css:3:1]
+ 3 |     @layer override {
+ 4 | ,->     @keyframes slide-left {
  5 | |           from { translate: 0; }
  6 | |           to { translate: -100% 0; }
  7 | `->     }
+ 8 |     }
    `----
 
   x LBrace
-   ,-[$DIR/tests/fixture/at-rule/layer/input.css:4:5]
- 4 | @keyframes slide-left {
-   :                       ^
+   ,-[$DIR/tests/fixture/at-rule/layer/input.css:3:1]
+ 3 | @layer override {
+ 4 |     @keyframes slide-left {
+   :                           ^
+ 5 |         from { translate: 0; }
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/layer/input.css:5:9]
- 5 | from { translate: 0; }
-   : ^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/at-rule/layer/input.css:4:1]
+ 4 |     @keyframes slide-left {
+ 5 |         from { translate: 0; }
+   :         ^^^^^^^^^^^^^^^^^^^^^^
+ 6 |         to { translate: -100% 0; }
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/layer/input.css:5:9]
- 5 | from { translate: 0; }
-   : ^^^^
+   ,-[$DIR/tests/fixture/at-rule/layer/input.css:4:1]
+ 4 |     @keyframes slide-left {
+ 5 |         from { translate: 0; }
+   :         ^^^^
+ 6 |         to { translate: -100% 0; }
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/at-rule/layer/input.css:5:9]
- 5 | from { translate: 0; }
-   :      ^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/at-rule/layer/input.css:4:1]
+ 4 |     @keyframes slide-left {
+ 5 |         from { translate: 0; }
+   :              ^^^^^^^^^^^^^^^^^
+ 6 |         to { translate: -100% 0; }
    `----
 
   x LBrace
-   ,-[$DIR/tests/fixture/at-rule/layer/input.css:5:9]
- 5 | from { translate: 0; }
-   :      ^
+   ,-[$DIR/tests/fixture/at-rule/layer/input.css:4:1]
+ 4 |     @keyframes slide-left {
+ 5 |         from { translate: 0; }
+   :              ^
+ 6 |         to { translate: -100% 0; }
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/layer/input.css:5:9]
- 5 | from { translate: 0; }
-   :        ^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/at-rule/layer/input.css:4:1]
+ 4 |     @keyframes slide-left {
+ 5 |         from { translate: 0; }
+   :                ^^^^^^^^^^^^
+ 6 |         to { translate: -100% 0; }
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/at-rule/layer/input.css:5:9]
- 5 | from { translate: 0; }
-   :        ^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/at-rule/layer/input.css:4:1]
+ 4 |     @keyframes slide-left {
+ 5 |         from { translate: 0; }
+   :                ^^^^^^^^^^^^
+ 6 |         to { translate: -100% 0; }
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/at-rule/layer/input.css:5:9]
- 5 | from { translate: 0; }
-   :        ^^^^^^^^^
+   ,-[$DIR/tests/fixture/at-rule/layer/input.css:4:1]
+ 4 |     @keyframes slide-left {
+ 5 |         from { translate: 0; }
+   :                ^^^^^^^^^
+ 6 |         to { translate: -100% 0; }
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/layer/input.css:5:9]
- 5 | from { translate: 0; }
-   :        ^^^^^^^^^
+   ,-[$DIR/tests/fixture/at-rule/layer/input.css:4:1]
+ 4 |     @keyframes slide-left {
+ 5 |         from { translate: 0; }
+   :                ^^^^^^^^^
+ 6 |         to { translate: -100% 0; }
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/layer/input.css:5:9]
- 5 | from { translate: 0; }
-   :                   ^
+   ,-[$DIR/tests/fixture/at-rule/layer/input.css:4:1]
+ 4 |     @keyframes slide-left {
+ 5 |         from { translate: 0; }
+   :                           ^
+ 6 |         to { translate: -100% 0; }
    `----
 
   x Integer
-   ,-[$DIR/tests/fixture/at-rule/layer/input.css:5:9]
- 5 | from { translate: 0; }
-   :                   ^
+   ,-[$DIR/tests/fixture/at-rule/layer/input.css:4:1]
+ 4 |     @keyframes slide-left {
+ 5 |         from { translate: 0; }
+   :                           ^
+ 6 |         to { translate: -100% 0; }
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/layer/input.css:6:9]
- 6 | to { translate: -100% 0; }
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/at-rule/layer/input.css:5:1]
+ 5 |         from { translate: 0; }
+ 6 |         to { translate: -100% 0; }
+   :         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 7 |     }
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/layer/input.css:6:9]
- 6 | to { translate: -100% 0; }
-   : ^^
+   ,-[$DIR/tests/fixture/at-rule/layer/input.css:5:1]
+ 5 |         from { translate: 0; }
+ 6 |         to { translate: -100% 0; }
+   :         ^^
+ 7 |     }
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/at-rule/layer/input.css:6:9]
- 6 | to { translate: -100% 0; }
-   :    ^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/at-rule/layer/input.css:5:1]
+ 5 |         from { translate: 0; }
+ 6 |         to { translate: -100% 0; }
+   :            ^^^^^^^^^^^^^^^^^^^^^^^
+ 7 |     }
    `----
 
   x LBrace
-   ,-[$DIR/tests/fixture/at-rule/layer/input.css:6:9]
- 6 | to { translate: -100% 0; }
-   :    ^
+   ,-[$DIR/tests/fixture/at-rule/layer/input.css:5:1]
+ 5 |         from { translate: 0; }
+ 6 |         to { translate: -100% 0; }
+   :            ^
+ 7 |     }
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/layer/input.css:6:9]
- 6 | to { translate: -100% 0; }
-   :      ^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/at-rule/layer/input.css:5:1]
+ 5 |         from { translate: 0; }
+ 6 |         to { translate: -100% 0; }
+   :              ^^^^^^^^^^^^^^^^^^
+ 7 |     }
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/at-rule/layer/input.css:6:9]
- 6 | to { translate: -100% 0; }
-   :      ^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/at-rule/layer/input.css:5:1]
+ 5 |         from { translate: 0; }
+ 6 |         to { translate: -100% 0; }
+   :              ^^^^^^^^^^^^^^^^^^
+ 7 |     }
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/at-rule/layer/input.css:6:9]
- 6 | to { translate: -100% 0; }
-   :      ^^^^^^^^^
+   ,-[$DIR/tests/fixture/at-rule/layer/input.css:5:1]
+ 5 |         from { translate: 0; }
+ 6 |         to { translate: -100% 0; }
+   :              ^^^^^^^^^
+ 7 |     }
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/layer/input.css:6:9]
- 6 | to { translate: -100% 0; }
-   :      ^^^^^^^^^
+   ,-[$DIR/tests/fixture/at-rule/layer/input.css:5:1]
+ 5 |         from { translate: 0; }
+ 6 |         to { translate: -100% 0; }
+   :              ^^^^^^^^^
+ 7 |     }
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/layer/input.css:6:9]
- 6 | to { translate: -100% 0; }
-   :                 ^^^^^
+   ,-[$DIR/tests/fixture/at-rule/layer/input.css:5:1]
+ 5 |         from { translate: 0; }
+ 6 |         to { translate: -100% 0; }
+   :                         ^^^^^
+ 7 |     }
    `----
 
   x Percentage
-   ,-[$DIR/tests/fixture/at-rule/layer/input.css:6:9]
- 6 | to { translate: -100% 0; }
-   :                 ^^^^^
+   ,-[$DIR/tests/fixture/at-rule/layer/input.css:5:1]
+ 5 |         from { translate: 0; }
+ 6 |         to { translate: -100% 0; }
+   :                         ^^^^^
+ 7 |     }
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/at-rule/layer/input.css:6:9]
- 6 | to { translate: -100% 0; }
-   :                 ^^^^
+   ,-[$DIR/tests/fixture/at-rule/layer/input.css:5:1]
+ 5 |         from { translate: 0; }
+ 6 |         to { translate: -100% 0; }
+   :                         ^^^^
+ 7 |     }
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/layer/input.css:6:9]
- 6 | to { translate: -100% 0; }
-   :                       ^
+   ,-[$DIR/tests/fixture/at-rule/layer/input.css:5:1]
+ 5 |         from { translate: 0; }
+ 6 |         to { translate: -100% 0; }
+   :                               ^
+ 7 |     }
    `----
 
   x Integer
-   ,-[$DIR/tests/fixture/at-rule/layer/input.css:6:9]
- 6 | to { translate: -100% 0; }
-   :                       ^
+   ,-[$DIR/tests/fixture/at-rule/layer/input.css:5:1]
+ 5 |         from { translate: 0; }
+ 6 |         to { translate: -100% 0; }
+   :                               ^
+ 7 |     }
    `----
 
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:10:1]
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:9:1]
+  9 |     
  10 | ,-> @layer framework {
  11 | |       @keyframes slide-left {
  12 | |           from { margin-left: 0; }
@@ -415,7 +493,8 @@
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:10:1]
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:9:1]
+  9 |     
  10 | ,-> @layer framework {
  11 | |       @keyframes slide-left {
  12 | |           from { margin-left: 0; }
@@ -425,37 +504,48 @@
     `----
 
   x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:10:1]
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:9:1]
+  9 | 
  10 | @layer framework {
     :  ^^^^^
+ 11 |     @keyframes slide-left {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:10:1]
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:9:1]
+  9 | 
  10 | @layer framework {
     :  ^^^^^
+ 11 |     @keyframes slide-left {
     `----
 
   x LayerPrelude
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:10:1]
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:9:1]
+  9 | 
  10 | @layer framework {
     :        ^^^^^^^^^
+ 11 |     @keyframes slide-left {
     `----
 
   x LayerName
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:10:1]
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:9:1]
+  9 | 
  10 | @layer framework {
     :        ^^^^^^^^^
+ 11 |     @keyframes slide-left {
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:10:1]
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:9:1]
+  9 | 
  10 | @layer framework {
     :        ^^^^^^^^^
+ 11 |     @keyframes slide-left {
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:10:1]
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:9:1]
+  9 |     
  10 | ,-> @layer framework {
  11 | |       @keyframes slide-left {
  12 | |           from { margin-left: 0; }
@@ -465,576 +555,732 @@
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:10:1]
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:9:1]
+  9 | 
  10 | @layer framework {
     :                  ^
+ 11 |     @keyframes slide-left {
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:11:5]
- 11 | ,-> @keyframes slide-left {
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:10:1]
+ 10 |     @layer framework {
+ 11 | ,->     @keyframes slide-left {
  12 | |           from { margin-left: 0; }
  13 | |           to { margin-left: -100%; }
  14 | `->     }
+ 15 |     }
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:11:5]
- 11 | ,-> @keyframes slide-left {
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:10:1]
+ 10 |     @layer framework {
+ 11 | ,->     @keyframes slide-left {
  12 | |           from { margin-left: 0; }
  13 | |           to { margin-left: -100%; }
  14 | `->     }
+ 15 |     }
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:11:5]
- 11 | ,-> @keyframes slide-left {
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:10:1]
+ 10 |     @layer framework {
+ 11 | ,->     @keyframes slide-left {
  12 | |           from { margin-left: 0; }
  13 | |           to { margin-left: -100%; }
  14 | `->     }
+ 15 |     }
     `----
 
   x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:11:5]
- 11 | @keyframes slide-left {
-    :  ^^^^^^^^^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:10:1]
+ 10 | @layer framework {
+ 11 |     @keyframes slide-left {
+    :      ^^^^^^^^^
+ 12 |         from { margin-left: 0; }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:11:5]
- 11 | @keyframes slide-left {
-    :  ^^^^^^^^^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:10:1]
+ 10 | @layer framework {
+ 11 |     @keyframes slide-left {
+    :      ^^^^^^^^^
+ 12 |         from { margin-left: 0; }
     `----
 
   x CustomIdent
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:11:5]
- 11 | @keyframes slide-left {
-    :            ^^^^^^^^^^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:10:1]
+ 10 | @layer framework {
+ 11 |     @keyframes slide-left {
+    :                ^^^^^^^^^^
+ 12 |         from { margin-left: 0; }
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:11:5]
- 11 | ,-> @keyframes slide-left {
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:10:1]
+ 10 |     @layer framework {
+ 11 | ,->     @keyframes slide-left {
  12 | |           from { margin-left: 0; }
  13 | |           to { margin-left: -100%; }
  14 | `->     }
+ 15 |     }
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:11:5]
- 11 | @keyframes slide-left {
-    :                       ^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:10:1]
+ 10 | @layer framework {
+ 11 |     @keyframes slide-left {
+    :                           ^
+ 12 |         from { margin-left: 0; }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:12:9]
- 12 | from { margin-left: 0; }
-    : ^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:11:1]
+ 11 |     @keyframes slide-left {
+ 12 |         from { margin-left: 0; }
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^
+ 13 |         to { margin-left: -100%; }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:12:9]
- 12 | from { margin-left: 0; }
-    : ^^^^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:11:1]
+ 11 |     @keyframes slide-left {
+ 12 |         from { margin-left: 0; }
+    :         ^^^^
+ 13 |         to { margin-left: -100%; }
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:12:9]
- 12 | from { margin-left: 0; }
-    :      ^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:11:1]
+ 11 |     @keyframes slide-left {
+ 12 |         from { margin-left: 0; }
+    :              ^^^^^^^^^^^^^^^^^^^
+ 13 |         to { margin-left: -100%; }
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:12:9]
- 12 | from { margin-left: 0; }
-    :      ^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:11:1]
+ 11 |     @keyframes slide-left {
+ 12 |         from { margin-left: 0; }
+    :              ^
+ 13 |         to { margin-left: -100%; }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:12:9]
- 12 | from { margin-left: 0; }
-    :        ^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:11:1]
+ 11 |     @keyframes slide-left {
+ 12 |         from { margin-left: 0; }
+    :                ^^^^^^^^^^^^^^
+ 13 |         to { margin-left: -100%; }
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:12:9]
- 12 | from { margin-left: 0; }
-    :        ^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:11:1]
+ 11 |     @keyframes slide-left {
+ 12 |         from { margin-left: 0; }
+    :                ^^^^^^^^^^^^^^
+ 13 |         to { margin-left: -100%; }
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:12:9]
- 12 | from { margin-left: 0; }
-    :        ^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:11:1]
+ 11 |     @keyframes slide-left {
+ 12 |         from { margin-left: 0; }
+    :                ^^^^^^^^^^^
+ 13 |         to { margin-left: -100%; }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:12:9]
- 12 | from { margin-left: 0; }
-    :        ^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:11:1]
+ 11 |     @keyframes slide-left {
+ 12 |         from { margin-left: 0; }
+    :                ^^^^^^^^^^^
+ 13 |         to { margin-left: -100%; }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:12:9]
- 12 | from { margin-left: 0; }
-    :                     ^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:11:1]
+ 11 |     @keyframes slide-left {
+ 12 |         from { margin-left: 0; }
+    :                             ^
+ 13 |         to { margin-left: -100%; }
     `----
 
   x Integer
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:12:9]
- 12 | from { margin-left: 0; }
-    :                     ^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:11:1]
+ 11 |     @keyframes slide-left {
+ 12 |         from { margin-left: 0; }
+    :                             ^
+ 13 |         to { margin-left: -100%; }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:13:9]
- 13 | to { margin-left: -100%; }
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:12:1]
+ 12 |         from { margin-left: 0; }
+ 13 |         to { margin-left: -100%; }
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 14 |     }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:13:9]
- 13 | to { margin-left: -100%; }
-    : ^^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:12:1]
+ 12 |         from { margin-left: 0; }
+ 13 |         to { margin-left: -100%; }
+    :         ^^
+ 14 |     }
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:13:9]
- 13 | to { margin-left: -100%; }
-    :    ^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:12:1]
+ 12 |         from { margin-left: 0; }
+ 13 |         to { margin-left: -100%; }
+    :            ^^^^^^^^^^^^^^^^^^^^^^^
+ 14 |     }
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:13:9]
- 13 | to { margin-left: -100%; }
-    :    ^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:12:1]
+ 12 |         from { margin-left: 0; }
+ 13 |         to { margin-left: -100%; }
+    :            ^
+ 14 |     }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:13:9]
- 13 | to { margin-left: -100%; }
-    :      ^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:12:1]
+ 12 |         from { margin-left: 0; }
+ 13 |         to { margin-left: -100%; }
+    :              ^^^^^^^^^^^^^^^^^^
+ 14 |     }
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:13:9]
- 13 | to { margin-left: -100%; }
-    :      ^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:12:1]
+ 12 |         from { margin-left: 0; }
+ 13 |         to { margin-left: -100%; }
+    :              ^^^^^^^^^^^^^^^^^^
+ 14 |     }
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:13:9]
- 13 | to { margin-left: -100%; }
-    :      ^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:12:1]
+ 12 |         from { margin-left: 0; }
+ 13 |         to { margin-left: -100%; }
+    :              ^^^^^^^^^^^
+ 14 |     }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:13:9]
- 13 | to { margin-left: -100%; }
-    :      ^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:12:1]
+ 12 |         from { margin-left: 0; }
+ 13 |         to { margin-left: -100%; }
+    :              ^^^^^^^^^^^
+ 14 |     }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:13:9]
- 13 | to { margin-left: -100%; }
-    :                   ^^^^^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:12:1]
+ 12 |         from { margin-left: 0; }
+ 13 |         to { margin-left: -100%; }
+    :                           ^^^^^
+ 14 |     }
     `----
 
   x Percentage
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:13:9]
- 13 | to { margin-left: -100%; }
-    :                   ^^^^^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:12:1]
+ 12 |         from { margin-left: 0; }
+ 13 |         to { margin-left: -100%; }
+    :                           ^^^^^
+ 14 |     }
     `----
 
   x Number
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:13:9]
- 13 | to { margin-left: -100%; }
-    :                   ^^^^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:12:1]
+ 12 |         from { margin-left: 0; }
+ 13 |         to { margin-left: -100%; }
+    :                           ^^^^
+ 14 |     }
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:17:1]
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:16:1]
+ 16 | 
  17 | .sidebar { animation: slide-left 300ms; }
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x QualifiedRule
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:17:1]
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:16:1]
+ 16 | 
  17 | .sidebar { animation: slide-left 300ms; }
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x SelectorList
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:17:1]
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:16:1]
+ 16 | 
  17 | .sidebar { animation: slide-left 300ms; }
     : ^^^^^^^^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:17:1]
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:16:1]
+ 16 | 
  17 | .sidebar { animation: slide-left 300ms; }
     : ^^^^^^^^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:17:1]
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:16:1]
+ 16 | 
  17 | .sidebar { animation: slide-left 300ms; }
     : ^^^^^^^^
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:17:1]
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:16:1]
+ 16 | 
  17 | .sidebar { animation: slide-left 300ms; }
     : ^^^^^^^^
     `----
 
   x ClassSelector
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:17:1]
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:16:1]
+ 16 | 
  17 | .sidebar { animation: slide-left 300ms; }
     : ^^^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:17:1]
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:16:1]
+ 16 | 
  17 | .sidebar { animation: slide-left 300ms; }
     :  ^^^^^^^
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:17:1]
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:16:1]
+ 16 | 
  17 | .sidebar { animation: slide-left 300ms; }
     :          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:17:1]
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:16:1]
+ 16 | 
  17 | .sidebar { animation: slide-left 300ms; }
     :          ^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:17:1]
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:16:1]
+ 16 | 
  17 | .sidebar { animation: slide-left 300ms; }
     :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:17:1]
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:16:1]
+ 16 | 
  17 | .sidebar { animation: slide-left 300ms; }
     :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:17:1]
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:16:1]
+ 16 | 
  17 | .sidebar { animation: slide-left 300ms; }
     :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:17:1]
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:16:1]
+ 16 | 
  17 | .sidebar { animation: slide-left 300ms; }
     :            ^^^^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:17:1]
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:16:1]
+ 16 | 
  17 | .sidebar { animation: slide-left 300ms; }
     :            ^^^^^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:17:1]
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:16:1]
+ 16 | 
  17 | .sidebar { animation: slide-left 300ms; }
     :                       ^^^^^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:17:1]
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:16:1]
+ 16 | 
  17 | .sidebar { animation: slide-left 300ms; }
     :                       ^^^^^^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:17:1]
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:16:1]
+ 16 | 
  17 | .sidebar { animation: slide-left 300ms; }
     :                                  ^^^^^
     `----
 
   x Dimension
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:17:1]
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:16:1]
+ 16 | 
  17 | .sidebar { animation: slide-left 300ms; }
     :                                  ^^^^^
     `----
 
   x Time
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:17:1]
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:16:1]
+ 16 | 
  17 | .sidebar { animation: slide-left 300ms; }
     :                                  ^^^^^
     `----
 
   x Number
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:17:1]
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:16:1]
+ 16 | 
  17 | .sidebar { animation: slide-left 300ms; }
     :                                  ^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:17:1]
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:16:1]
+ 16 | 
  17 | .sidebar { animation: slide-left 300ms; }
     :                                     ^^
     `----
 
   x Rule
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:18:1]
+ 18 | 
+ 19 | @layer { /* layer 1 */ }
+    : ^^^^^^^^^^^^^^^^^^^^^^^^
+ 20 | @layer { /* layer 2 */ }
+    `----
+
+  x AtRule
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:18:1]
+ 18 | 
+ 19 | @layer { /* layer 1 */ }
+    : ^^^^^^^^^^^^^^^^^^^^^^^^
+ 20 | @layer { /* layer 2 */ }
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:18:1]
+ 18 | 
+ 19 | @layer { /* layer 1 */ }
+    :  ^^^^^
+ 20 | @layer { /* layer 2 */ }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:18:1]
+ 18 | 
+ 19 | @layer { /* layer 1 */ }
+    :  ^^^^^
+ 20 | @layer { /* layer 2 */ }
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:18:1]
+ 18 | 
+ 19 | @layer { /* layer 1 */ }
+    :        ^^^^^^^^^^^^^^^^^
+ 20 | @layer { /* layer 2 */ }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:18:1]
+ 18 | 
+ 19 | @layer { /* layer 1 */ }
+    :        ^
+ 20 | @layer { /* layer 2 */ }
+    `----
+
+  x Rule
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:19:1]
  19 | @layer { /* layer 1 */ }
+ 20 | @layer { /* layer 2 */ }
     : ^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x AtRule
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:19:1]
  19 | @layer { /* layer 1 */ }
+ 20 | @layer { /* layer 2 */ }
     : ^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:19:1]
  19 | @layer { /* layer 1 */ }
+ 20 | @layer { /* layer 2 */ }
     :  ^^^^^
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:19:1]
  19 | @layer { /* layer 1 */ }
+ 20 | @layer { /* layer 2 */ }
     :  ^^^^^
     `----
 
   x SimpleBlock
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:19:1]
  19 | @layer { /* layer 1 */ }
+ 20 | @layer { /* layer 2 */ }
     :        ^^^^^^^^^^^^^^^^^
     `----
 
   x LBrace
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:19:1]
  19 | @layer { /* layer 1 */ }
-    :        ^
-    `----
-
-  x Rule
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:20:1]
- 20 | @layer { /* layer 2 */ }
-    : ^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x AtRule
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:20:1]
- 20 | @layer { /* layer 2 */ }
-    : ^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:20:1]
- 20 | @layer { /* layer 2 */ }
-    :  ^^^^^
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:20:1]
- 20 | @layer { /* layer 2 */ }
-    :  ^^^^^
-    `----
-
-  x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:20:1]
- 20 | @layer { /* layer 2 */ }
-    :        ^^^^^^^^^^^^^^^^^
-    `----
-
-  x LBrace
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:20:1]
  20 | @layer { /* layer 2 */ }
     :        ^
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:22:1]
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:21:1]
+ 21 |     
  22 | ,-> @layer reset.type {
  23 | |       strong { font-weight: bold; }
  24 | `-> }
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:22:1]
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:21:1]
+ 21 |     
  22 | ,-> @layer reset.type {
  23 | |       strong { font-weight: bold; }
  24 | `-> }
     `----
 
   x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:22:1]
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:21:1]
+ 21 | 
  22 | @layer reset.type {
     :  ^^^^^
+ 23 |     strong { font-weight: bold; }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:22:1]
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:21:1]
+ 21 | 
  22 | @layer reset.type {
     :  ^^^^^
+ 23 |     strong { font-weight: bold; }
     `----
 
   x LayerPrelude
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:22:1]
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:21:1]
+ 21 | 
  22 | @layer reset.type {
     :        ^^^^^^^^^^
+ 23 |     strong { font-weight: bold; }
     `----
 
   x LayerName
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:22:1]
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:21:1]
+ 21 | 
  22 | @layer reset.type {
     :        ^^^^^^^^^^
+ 23 |     strong { font-weight: bold; }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:22:1]
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:21:1]
+ 21 | 
  22 | @layer reset.type {
     :        ^^^^^
+ 23 |     strong { font-weight: bold; }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:22:1]
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:21:1]
+ 21 | 
  22 | @layer reset.type {
     :              ^^^^
+ 23 |     strong { font-weight: bold; }
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:22:1]
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:21:1]
+ 21 |     
  22 | ,-> @layer reset.type {
  23 | |       strong { font-weight: bold; }
  24 | `-> }
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:22:1]
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:21:1]
+ 21 | 
  22 | @layer reset.type {
     :                   ^
+ 23 |     strong { font-weight: bold; }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:23:5]
- 23 | strong { font-weight: bold; }
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:22:1]
+ 22 | @layer reset.type {
+ 23 |     strong { font-weight: bold; }
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 24 | }
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:23:5]
- 23 | strong { font-weight: bold; }
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:22:1]
+ 22 | @layer reset.type {
+ 23 |     strong { font-weight: bold; }
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 24 | }
     `----
 
   x QualifiedRule
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:23:5]
- 23 | strong { font-weight: bold; }
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:22:1]
+ 22 | @layer reset.type {
+ 23 |     strong { font-weight: bold; }
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 24 | }
     `----
 
   x SelectorList
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:23:5]
- 23 | strong { font-weight: bold; }
-    : ^^^^^^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:22:1]
+ 22 | @layer reset.type {
+ 23 |     strong { font-weight: bold; }
+    :     ^^^^^^
+ 24 | }
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:23:5]
- 23 | strong { font-weight: bold; }
-    : ^^^^^^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:22:1]
+ 22 | @layer reset.type {
+ 23 |     strong { font-weight: bold; }
+    :     ^^^^^^
+ 24 | }
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:23:5]
- 23 | strong { font-weight: bold; }
-    : ^^^^^^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:22:1]
+ 22 | @layer reset.type {
+ 23 |     strong { font-weight: bold; }
+    :     ^^^^^^
+ 24 | }
     `----
 
   x TypeSelector
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:23:5]
- 23 | strong { font-weight: bold; }
-    : ^^^^^^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:22:1]
+ 22 | @layer reset.type {
+ 23 |     strong { font-weight: bold; }
+    :     ^^^^^^
+ 24 | }
     `----
 
   x TagNameSelector
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:23:5]
- 23 | strong { font-weight: bold; }
-    : ^^^^^^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:22:1]
+ 22 | @layer reset.type {
+ 23 |     strong { font-weight: bold; }
+    :     ^^^^^^
+ 24 | }
     `----
 
   x WqName
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:23:5]
- 23 | strong { font-weight: bold; }
-    : ^^^^^^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:22:1]
+ 22 | @layer reset.type {
+ 23 |     strong { font-weight: bold; }
+    :     ^^^^^^
+ 24 | }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:23:5]
- 23 | strong { font-weight: bold; }
-    : ^^^^^^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:22:1]
+ 22 | @layer reset.type {
+ 23 |     strong { font-weight: bold; }
+    :     ^^^^^^
+ 24 | }
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:23:5]
- 23 | strong { font-weight: bold; }
-    :        ^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:22:1]
+ 22 | @layer reset.type {
+ 23 |     strong { font-weight: bold; }
+    :            ^^^^^^^^^^^^^^^^^^^^^^
+ 24 | }
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:23:5]
- 23 | strong { font-weight: bold; }
-    :        ^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:22:1]
+ 22 | @layer reset.type {
+ 23 |     strong { font-weight: bold; }
+    :            ^
+ 24 | }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:23:5]
- 23 | strong { font-weight: bold; }
-    :          ^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:22:1]
+ 22 | @layer reset.type {
+ 23 |     strong { font-weight: bold; }
+    :              ^^^^^^^^^^^^^^^^^
+ 24 | }
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:23:5]
- 23 | strong { font-weight: bold; }
-    :          ^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:22:1]
+ 22 | @layer reset.type {
+ 23 |     strong { font-weight: bold; }
+    :              ^^^^^^^^^^^^^^^^^
+ 24 | }
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:23:5]
- 23 | strong { font-weight: bold; }
-    :          ^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:22:1]
+ 22 | @layer reset.type {
+ 23 |     strong { font-weight: bold; }
+    :              ^^^^^^^^^^^^^^^^^
+ 24 | }
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:23:5]
- 23 | strong { font-weight: bold; }
-    :          ^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:22:1]
+ 22 | @layer reset.type {
+ 23 |     strong { font-weight: bold; }
+    :              ^^^^^^^^^^^
+ 24 | }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:23:5]
- 23 | strong { font-weight: bold; }
-    :          ^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:22:1]
+ 22 | @layer reset.type {
+ 23 |     strong { font-weight: bold; }
+    :              ^^^^^^^^^^^
+ 24 | }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:23:5]
- 23 | strong { font-weight: bold; }
-    :                       ^^^^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:22:1]
+ 22 | @layer reset.type {
+ 23 |     strong { font-weight: bold; }
+    :                           ^^^^
+ 24 | }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:23:5]
- 23 | strong { font-weight: bold; }
-    :                       ^^^^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:22:1]
+ 22 | @layer reset.type {
+ 23 |     strong { font-weight: bold; }
+    :                           ^^^^
+ 24 | }
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:26:1]
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:25:1]
+ 25 |     
  26 | ,-> @layer framework {
  27 | |       .title { font-weight: 100; }
  28 | |   
@@ -1045,7 +1291,8 @@
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:26:1]
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:25:1]
+ 25 |     
  26 | ,-> @layer framework {
  27 | |       .title { font-weight: 100; }
  28 | |   
@@ -1056,37 +1303,48 @@
     `----
 
   x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:26:1]
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:25:1]
+ 25 | 
  26 | @layer framework {
     :  ^^^^^
+ 27 |     .title { font-weight: 100; }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:26:1]
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:25:1]
+ 25 | 
  26 | @layer framework {
     :  ^^^^^
+ 27 |     .title { font-weight: 100; }
     `----
 
   x LayerPrelude
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:26:1]
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:25:1]
+ 25 | 
  26 | @layer framework {
     :        ^^^^^^^^^
+ 27 |     .title { font-weight: 100; }
     `----
 
   x LayerName
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:26:1]
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:25:1]
+ 25 | 
  26 | @layer framework {
     :        ^^^^^^^^^
+ 27 |     .title { font-weight: 100; }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:26:1]
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:25:1]
+ 25 | 
  26 | @layer framework {
     :        ^^^^^^^^^
+ 27 |     .title { font-weight: 100; }
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:26:1]
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:25:1]
+ 25 |     
  26 | ,-> @layer framework {
  27 | |       .title { font-weight: 100; }
  28 | |   
@@ -1097,1135 +1355,1468 @@
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:26:1]
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:25:1]
+ 25 | 
  26 | @layer framework {
     :                  ^
+ 27 |     .title { font-weight: 100; }
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:27:5]
- 27 | .title { font-weight: 100; }
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:26:1]
+ 26 | @layer framework {
+ 27 |     .title { font-weight: 100; }
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:27:5]
- 27 | .title { font-weight: 100; }
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:26:1]
+ 26 | @layer framework {
+ 27 |     .title { font-weight: 100; }
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x QualifiedRule
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:27:5]
- 27 | .title { font-weight: 100; }
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:26:1]
+ 26 | @layer framework {
+ 27 |     .title { font-weight: 100; }
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x SelectorList
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:27:5]
- 27 | .title { font-weight: 100; }
-    : ^^^^^^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:26:1]
+ 26 | @layer framework {
+ 27 |     .title { font-weight: 100; }
+    :     ^^^^^^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:27:5]
- 27 | .title { font-weight: 100; }
-    : ^^^^^^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:26:1]
+ 26 | @layer framework {
+ 27 |     .title { font-weight: 100; }
+    :     ^^^^^^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:27:5]
- 27 | .title { font-weight: 100; }
-    : ^^^^^^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:26:1]
+ 26 | @layer framework {
+ 27 |     .title { font-weight: 100; }
+    :     ^^^^^^
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:27:5]
- 27 | .title { font-weight: 100; }
-    : ^^^^^^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:26:1]
+ 26 | @layer framework {
+ 27 |     .title { font-weight: 100; }
+    :     ^^^^^^
     `----
 
   x ClassSelector
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:27:5]
- 27 | .title { font-weight: 100; }
-    : ^^^^^^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:26:1]
+ 26 | @layer framework {
+ 27 |     .title { font-weight: 100; }
+    :     ^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:27:5]
- 27 | .title { font-weight: 100; }
-    :  ^^^^^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:26:1]
+ 26 | @layer framework {
+ 27 |     .title { font-weight: 100; }
+    :      ^^^^^
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:27:5]
- 27 | .title { font-weight: 100; }
-    :        ^^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:26:1]
+ 26 | @layer framework {
+ 27 |     .title { font-weight: 100; }
+    :            ^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:27:5]
- 27 | .title { font-weight: 100; }
-    :        ^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:27:5]
- 27 | .title { font-weight: 100; }
-    :          ^^^^^^^^^^^^^^^^
-    `----
-
-  x StyleBlock
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:27:5]
- 27 | .title { font-weight: 100; }
-    :          ^^^^^^^^^^^^^^^^
-    `----
-
-  x Declaration
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:27:5]
- 27 | .title { font-weight: 100; }
-    :          ^^^^^^^^^^^^^^^^
-    `----
-
-  x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:27:5]
- 27 | .title { font-weight: 100; }
-    :          ^^^^^^^^^^^
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:27:5]
- 27 | .title { font-weight: 100; }
-    :          ^^^^^^^^^^^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:27:5]
- 27 | .title { font-weight: 100; }
-    :                       ^^^
-    `----
-
-  x Integer
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:27:5]
- 27 | .title { font-weight: 100; }
-    :                       ^^^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:29:5]
- 29 | ,-> @layer theme {
- 30 | |           h1, h2 { color: maroon; }
- 31 | `->     }
-    `----
-
-  x Rule
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:29:5]
- 29 | ,-> @layer theme {
- 30 | |           h1, h2 { color: maroon; }
- 31 | `->     }
-    `----
-
-  x AtRule
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:29:5]
- 29 | ,-> @layer theme {
- 30 | |           h1, h2 { color: maroon; }
- 31 | `->     }
-    `----
-
-  x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:29:5]
- 29 | @layer theme {
-    :  ^^^^^
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:29:5]
- 29 | @layer theme {
-    :  ^^^^^
-    `----
-
-  x LayerPrelude
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:29:5]
- 29 | @layer theme {
-    :        ^^^^^
-    `----
-
-  x LayerName
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:29:5]
- 29 | @layer theme {
-    :        ^^^^^
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:29:5]
- 29 | @layer theme {
-    :        ^^^^^
-    `----
-
-  x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:29:5]
- 29 | ,-> @layer theme {
- 30 | |           h1, h2 { color: maroon; }
- 31 | `->     }
-    `----
-
-  x LBrace
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:29:5]
- 29 | @layer theme {
-    :              ^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:30:9]
- 30 | h1, h2 { color: maroon; }
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x Rule
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:30:9]
- 30 | h1, h2 { color: maroon; }
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x QualifiedRule
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:30:9]
- 30 | h1, h2 { color: maroon; }
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x SelectorList
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:30:9]
- 30 | h1, h2 { color: maroon; }
-    : ^^^^^^
-    `----
-
-  x ComplexSelector
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:30:9]
- 30 | h1, h2 { color: maroon; }
-    : ^^
-    `----
-
-  x CompoundSelector
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:30:9]
- 30 | h1, h2 { color: maroon; }
-    : ^^
-    `----
-
-  x TypeSelector
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:30:9]
- 30 | h1, h2 { color: maroon; }
-    : ^^
-    `----
-
-  x TagNameSelector
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:30:9]
- 30 | h1, h2 { color: maroon; }
-    : ^^
-    `----
-
-  x WqName
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:30:9]
- 30 | h1, h2 { color: maroon; }
-    : ^^
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:30:9]
- 30 | h1, h2 { color: maroon; }
-    : ^^
-    `----
-
-  x ComplexSelector
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:30:9]
- 30 | h1, h2 { color: maroon; }
-    :     ^^
-    `----
-
-  x CompoundSelector
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:30:9]
- 30 | h1, h2 { color: maroon; }
-    :     ^^
-    `----
-
-  x TypeSelector
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:30:9]
- 30 | h1, h2 { color: maroon; }
-    :     ^^
-    `----
-
-  x TagNameSelector
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:30:9]
- 30 | h1, h2 { color: maroon; }
-    :     ^^
-    `----
-
-  x WqName
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:30:9]
- 30 | h1, h2 { color: maroon; }
-    :     ^^
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:30:9]
- 30 | h1, h2 { color: maroon; }
-    :     ^^
-    `----
-
-  x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:30:9]
- 30 | h1, h2 { color: maroon; }
-    :        ^^^^^^^^^^^^^^^^^^
-    `----
-
-  x LBrace
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:30:9]
- 30 | h1, h2 { color: maroon; }
-    :        ^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:30:9]
- 30 | h1, h2 { color: maroon; }
-    :          ^^^^^^^^^^^^^
-    `----
-
-  x StyleBlock
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:30:9]
- 30 | h1, h2 { color: maroon; }
-    :          ^^^^^^^^^^^^^
-    `----
-
-  x Declaration
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:30:9]
- 30 | h1, h2 { color: maroon; }
-    :          ^^^^^^^^^^^^^
-    `----
-
-  x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:30:9]
- 30 | h1, h2 { color: maroon; }
-    :          ^^^^^
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:30:9]
- 30 | h1, h2 { color: maroon; }
-    :          ^^^^^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:30:9]
- 30 | h1, h2 { color: maroon; }
-    :                 ^^^^^^
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:30:9]
- 30 | h1, h2 { color: maroon; }
-    :                 ^^^^^^
-    `----
-
-  x Rule
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:34:1]
- 34 | ,-> @layer reset {
- 35 | |       [hidden] { display: none; }
- 36 | `-> }
-    `----
-
-  x AtRule
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:34:1]
- 34 | ,-> @layer reset {
- 35 | |       [hidden] { display: none; }
- 36 | `-> }
-    `----
-
-  x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:34:1]
- 34 | @layer reset {
-    :  ^^^^^
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:34:1]
- 34 | @layer reset {
-    :  ^^^^^
-    `----
-
-  x LayerPrelude
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:34:1]
- 34 | @layer reset {
-    :        ^^^^^
-    `----
-
-  x LayerName
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:34:1]
- 34 | @layer reset {
-    :        ^^^^^
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:34:1]
- 34 | @layer reset {
-    :        ^^^^^
-    `----
-
-  x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:34:1]
- 34 | ,-> @layer reset {
- 35 | |       [hidden] { display: none; }
- 36 | `-> }
-    `----
-
-  x LBrace
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:34:1]
- 34 | @layer reset {
-    :              ^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:35:5]
- 35 | [hidden] { display: none; }
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x Rule
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:35:5]
- 35 | [hidden] { display: none; }
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x QualifiedRule
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:35:5]
- 35 | [hidden] { display: none; }
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x SelectorList
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:35:5]
- 35 | [hidden] { display: none; }
-    : ^^^^^^^^
-    `----
-
-  x ComplexSelector
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:35:5]
- 35 | [hidden] { display: none; }
-    : ^^^^^^^^
-    `----
-
-  x CompoundSelector
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:35:5]
- 35 | [hidden] { display: none; }
-    : ^^^^^^^^
-    `----
-
-  x SubclassSelector
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:35:5]
- 35 | [hidden] { display: none; }
-    : ^^^^^^^^
-    `----
-
-  x AttributeSelector
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:35:5]
- 35 | [hidden] { display: none; }
-    : ^^^^^^^^
-    `----
-
-  x WqName
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:35:5]
- 35 | [hidden] { display: none; }
-    :  ^^^^^^
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:35:5]
- 35 | [hidden] { display: none; }
-    :  ^^^^^^
-    `----
-
-  x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:35:5]
- 35 | [hidden] { display: none; }
-    :          ^^^^^^^^^^^^^^^^^^
-    `----
-
-  x LBrace
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:35:5]
- 35 | [hidden] { display: none; }
-    :          ^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:35:5]
- 35 | [hidden] { display: none; }
-    :            ^^^^^^^^^^^^^
-    `----
-
-  x StyleBlock
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:35:5]
- 35 | [hidden] { display: none; }
-    :            ^^^^^^^^^^^^^
-    `----
-
-  x Declaration
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:35:5]
- 35 | [hidden] { display: none; }
-    :            ^^^^^^^^^^^^^
-    `----
-
-  x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:35:5]
- 35 | [hidden] { display: none; }
-    :            ^^^^^^^
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:35:5]
- 35 | [hidden] { display: none; }
-    :            ^^^^^^^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:35:5]
- 35 | [hidden] { display: none; }
-    :                     ^^^^
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:35:5]
- 35 | [hidden] { display: none; }
-    :                     ^^^^
-    `----
-
-  x Rule
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:38:1]
- 38 | ,-> @layer framework {
- 39 | |       @layer default {
- 40 | |           p { margin-block: 0.75em; }
- 41 | |       }
- 42 | |   
- 43 | |       @layer theme {
- 44 | |           p { color: #222; }
- 45 | |       }
- 46 | `-> }
-    `----
-
-  x AtRule
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:38:1]
- 38 | ,-> @layer framework {
- 39 | |       @layer default {
- 40 | |           p { margin-block: 0.75em; }
- 41 | |       }
- 42 | |   
- 43 | |       @layer theme {
- 44 | |           p { color: #222; }
- 45 | |       }
- 46 | `-> }
-    `----
-
-  x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:38:1]
- 38 | @layer framework {
-    :  ^^^^^
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:38:1]
- 38 | @layer framework {
-    :  ^^^^^
-    `----
-
-  x LayerPrelude
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:38:1]
- 38 | @layer framework {
-    :        ^^^^^^^^^
-    `----
-
-  x LayerName
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:38:1]
- 38 | @layer framework {
-    :        ^^^^^^^^^
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:38:1]
- 38 | @layer framework {
-    :        ^^^^^^^^^
-    `----
-
-  x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:38:1]
- 38 | ,-> @layer framework {
- 39 | |       @layer default {
- 40 | |           p { margin-block: 0.75em; }
- 41 | |       }
- 42 | |   
- 43 | |       @layer theme {
- 44 | |           p { color: #222; }
- 45 | |       }
- 46 | `-> }
-    `----
-
-  x LBrace
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:38:1]
- 38 | @layer framework {
-    :                  ^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:39:5]
- 39 | ,-> @layer default {
- 40 | |           p { margin-block: 0.75em; }
- 41 | `->     }
-    `----
-
-  x Rule
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:39:5]
- 39 | ,-> @layer default {
- 40 | |           p { margin-block: 0.75em; }
- 41 | `->     }
-    `----
-
-  x AtRule
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:39:5]
- 39 | ,-> @layer default {
- 40 | |           p { margin-block: 0.75em; }
- 41 | `->     }
-    `----
-
-  x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:39:5]
- 39 | @layer default {
-    :  ^^^^^
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:39:5]
- 39 | @layer default {
-    :  ^^^^^
-    `----
-
-  x LayerPrelude
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:39:5]
- 39 | @layer default {
-    :        ^^^^^^^
-    `----
-
-  x LayerName
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:39:5]
- 39 | @layer default {
-    :        ^^^^^^^
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:39:5]
- 39 | @layer default {
-    :        ^^^^^^^
-    `----
-
-  x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:39:5]
- 39 | ,-> @layer default {
- 40 | |           p { margin-block: 0.75em; }
- 41 | `->     }
-    `----
-
-  x LBrace
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:39:5]
- 39 | @layer default {
-    :                ^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:40:9]
- 40 | p { margin-block: 0.75em; }
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x Rule
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:40:9]
- 40 | p { margin-block: 0.75em; }
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x QualifiedRule
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:40:9]
- 40 | p { margin-block: 0.75em; }
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x SelectorList
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:40:9]
- 40 | p { margin-block: 0.75em; }
-    : ^
-    `----
-
-  x ComplexSelector
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:40:9]
- 40 | p { margin-block: 0.75em; }
-    : ^
-    `----
-
-  x CompoundSelector
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:40:9]
- 40 | p { margin-block: 0.75em; }
-    : ^
-    `----
-
-  x TypeSelector
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:40:9]
- 40 | p { margin-block: 0.75em; }
-    : ^
-    `----
-
-  x TagNameSelector
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:40:9]
- 40 | p { margin-block: 0.75em; }
-    : ^
-    `----
-
-  x WqName
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:40:9]
- 40 | p { margin-block: 0.75em; }
-    : ^
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:40:9]
- 40 | p { margin-block: 0.75em; }
-    : ^
-    `----
-
-  x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:40:9]
- 40 | p { margin-block: 0.75em; }
-    :   ^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x LBrace
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:40:9]
- 40 | p { margin-block: 0.75em; }
-    :   ^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:40:9]
- 40 | p { margin-block: 0.75em; }
-    :     ^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x StyleBlock
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:40:9]
- 40 | p { margin-block: 0.75em; }
-    :     ^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x Declaration
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:40:9]
- 40 | p { margin-block: 0.75em; }
-    :     ^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:40:9]
- 40 | p { margin-block: 0.75em; }
-    :     ^^^^^^^^^^^^
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:40:9]
- 40 | p { margin-block: 0.75em; }
-    :     ^^^^^^^^^^^^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:40:9]
- 40 | p { margin-block: 0.75em; }
-    :                   ^^^^^^
-    `----
-
-  x Dimension
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:40:9]
- 40 | p { margin-block: 0.75em; }
-    :                   ^^^^^^
-    `----
-
-  x Length
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:40:9]
- 40 | p { margin-block: 0.75em; }
-    :                   ^^^^^^
-    `----
-
-  x Number
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:40:9]
- 40 | p { margin-block: 0.75em; }
-    :                   ^^^^
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:40:9]
- 40 | p { margin-block: 0.75em; }
-    :                       ^^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:43:5]
- 43 | ,-> @layer theme {
- 44 | |           p { color: #222; }
- 45 | `->     }
-    `----
-
-  x Rule
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:43:5]
- 43 | ,-> @layer theme {
- 44 | |           p { color: #222; }
- 45 | `->     }
-    `----
-
-  x AtRule
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:43:5]
- 43 | ,-> @layer theme {
- 44 | |           p { color: #222; }
- 45 | `->     }
-    `----
-
-  x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:43:5]
- 43 | @layer theme {
-    :  ^^^^^
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:43:5]
- 43 | @layer theme {
-    :  ^^^^^
-    `----
-
-  x LayerPrelude
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:43:5]
- 43 | @layer theme {
-    :        ^^^^^
-    `----
-
-  x LayerName
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:43:5]
- 43 | @layer theme {
-    :        ^^^^^
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:43:5]
- 43 | @layer theme {
-    :        ^^^^^
-    `----
-
-  x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:43:5]
- 43 | ,-> @layer theme {
- 44 | |           p { color: #222; }
- 45 | `->     }
-    `----
-
-  x LBrace
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:43:5]
- 43 | @layer theme {
-    :              ^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:44:9]
- 44 | p { color: #222; }
-    : ^^^^^^^^^^^^^^^^^^
-    `----
-
-  x Rule
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:44:9]
- 44 | p { color: #222; }
-    : ^^^^^^^^^^^^^^^^^^
-    `----
-
-  x QualifiedRule
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:44:9]
- 44 | p { color: #222; }
-    : ^^^^^^^^^^^^^^^^^^
-    `----
-
-  x SelectorList
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:44:9]
- 44 | p { color: #222; }
-    : ^
-    `----
-
-  x ComplexSelector
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:44:9]
- 44 | p { color: #222; }
-    : ^
-    `----
-
-  x CompoundSelector
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:44:9]
- 44 | p { color: #222; }
-    : ^
-    `----
-
-  x TypeSelector
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:44:9]
- 44 | p { color: #222; }
-    : ^
-    `----
-
-  x TagNameSelector
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:44:9]
- 44 | p { color: #222; }
-    : ^
-    `----
-
-  x WqName
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:44:9]
- 44 | p { color: #222; }
-    : ^
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:44:9]
- 44 | p { color: #222; }
-    : ^
-    `----
-
-  x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:44:9]
- 44 | p { color: #222; }
-    :   ^^^^^^^^^^^^^^^^
-    `----
-
-  x LBrace
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:44:9]
- 44 | p { color: #222; }
-    :   ^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:44:9]
- 44 | p { color: #222; }
-    :     ^^^^^^^^^^^
-    `----
-
-  x StyleBlock
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:44:9]
- 44 | p { color: #222; }
-    :     ^^^^^^^^^^^
-    `----
-
-  x Declaration
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:44:9]
- 44 | p { color: #222; }
-    :     ^^^^^^^^^^^
-    `----
-
-  x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:44:9]
- 44 | p { color: #222; }
-    :     ^^^^^
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:44:9]
- 44 | p { color: #222; }
-    :     ^^^^^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:44:9]
- 44 | p { color: #222; }
-    :            ^^^^
-    `----
-
-  x Color
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:44:9]
- 44 | p { color: #222; }
-    :            ^^^^
-    `----
-
-  x HexColor
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:44:9]
- 44 | p { color: #222; }
-    :            ^^^^
-    `----
-
-  x Rule
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:48:1]
- 48 | ,-> @layer framework.theme {
- 49 | |       /* These styles will be added to the theme layer inside the framework layer */
- 50 | |       blockquote { color: rebeccapurple; }
- 51 | `-> }
-    `----
-
-  x AtRule
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:48:1]
- 48 | ,-> @layer framework.theme {
- 49 | |       /* These styles will be added to the theme layer inside the framework layer */
- 50 | |       blockquote { color: rebeccapurple; }
- 51 | `-> }
-    `----
-
-  x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:48:1]
- 48 | @layer framework.theme {
-    :  ^^^^^
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:48:1]
- 48 | @layer framework.theme {
-    :  ^^^^^
-    `----
-
-  x LayerPrelude
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:48:1]
- 48 | @layer framework.theme {
-    :        ^^^^^^^^^^^^^^^
-    `----
-
-  x LayerName
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:48:1]
- 48 | @layer framework.theme {
-    :        ^^^^^^^^^^^^^^^
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:48:1]
- 48 | @layer framework.theme {
-    :        ^^^^^^^^^
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:48:1]
- 48 | @layer framework.theme {
-    :                  ^^^^^
-    `----
-
-  x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:48:1]
- 48 | ,-> @layer framework.theme {
- 49 | |       /* These styles will be added to the theme layer inside the framework layer */
- 50 | |       blockquote { color: rebeccapurple; }
- 51 | `-> }
-    `----
-
-  x LBrace
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:48:1]
- 48 | @layer framework.theme {
-    :                        ^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:50:5]
- 50 | blockquote { color: rebeccapurple; }
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x Rule
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:50:5]
- 50 | blockquote { color: rebeccapurple; }
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x QualifiedRule
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:50:5]
- 50 | blockquote { color: rebeccapurple; }
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x SelectorList
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:50:5]
- 50 | blockquote { color: rebeccapurple; }
-    : ^^^^^^^^^^
-    `----
-
-  x ComplexSelector
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:50:5]
- 50 | blockquote { color: rebeccapurple; }
-    : ^^^^^^^^^^
-    `----
-
-  x CompoundSelector
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:50:5]
- 50 | blockquote { color: rebeccapurple; }
-    : ^^^^^^^^^^
-    `----
-
-  x TypeSelector
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:50:5]
- 50 | blockquote { color: rebeccapurple; }
-    : ^^^^^^^^^^
-    `----
-
-  x TagNameSelector
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:50:5]
- 50 | blockquote { color: rebeccapurple; }
-    : ^^^^^^^^^^
-    `----
-
-  x WqName
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:50:5]
- 50 | blockquote { color: rebeccapurple; }
-    : ^^^^^^^^^^
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:50:5]
- 50 | blockquote { color: rebeccapurple; }
-    : ^^^^^^^^^^
-    `----
-
-  x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:50:5]
- 50 | blockquote { color: rebeccapurple; }
-    :            ^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x LBrace
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:50:5]
- 50 | blockquote { color: rebeccapurple; }
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:26:1]
+ 26 | @layer framework {
+ 27 |     .title { font-weight: 100; }
     :            ^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:50:5]
- 50 | blockquote { color: rebeccapurple; }
-    :              ^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:26:1]
+ 26 | @layer framework {
+ 27 |     .title { font-weight: 100; }
+    :              ^^^^^^^^^^^^^^^^
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:50:5]
- 50 | blockquote { color: rebeccapurple; }
-    :              ^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:26:1]
+ 26 | @layer framework {
+ 27 |     .title { font-weight: 100; }
+    :              ^^^^^^^^^^^^^^^^
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:50:5]
- 50 | blockquote { color: rebeccapurple; }
-    :              ^^^^^^^^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:26:1]
+ 26 | @layer framework {
+ 27 |     .title { font-weight: 100; }
+    :              ^^^^^^^^^^^^^^^^
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:50:5]
- 50 | blockquote { color: rebeccapurple; }
-    :              ^^^^^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:26:1]
+ 26 | @layer framework {
+ 27 |     .title { font-weight: 100; }
+    :              ^^^^^^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:50:5]
- 50 | blockquote { color: rebeccapurple; }
-    :              ^^^^^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:26:1]
+ 26 | @layer framework {
+ 27 |     .title { font-weight: 100; }
+    :              ^^^^^^^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:50:5]
- 50 | blockquote { color: rebeccapurple; }
-    :                     ^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:26:1]
+ 26 | @layer framework {
+ 27 |     .title { font-weight: 100; }
+    :                           ^^^
+    `----
+
+  x Integer
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:26:1]
+ 26 | @layer framework {
+ 27 |     .title { font-weight: 100; }
+    :                           ^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:28:1]
+ 28 |     
+ 29 | ,->     @layer theme {
+ 30 | |           h1, h2 { color: maroon; }
+ 31 | `->     }
+ 32 |     }
+    `----
+
+  x Rule
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:28:1]
+ 28 |     
+ 29 | ,->     @layer theme {
+ 30 | |           h1, h2 { color: maroon; }
+ 31 | `->     }
+ 32 |     }
+    `----
+
+  x AtRule
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:28:1]
+ 28 |     
+ 29 | ,->     @layer theme {
+ 30 | |           h1, h2 { color: maroon; }
+ 31 | `->     }
+ 32 |     }
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:28:1]
+ 28 | 
+ 29 |     @layer theme {
+    :      ^^^^^
+ 30 |         h1, h2 { color: maroon; }
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:50:5]
- 50 | blockquote { color: rebeccapurple; }
-    :                     ^^^^^^^^^^^^^
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:28:1]
+ 28 | 
+ 29 |     @layer theme {
+    :      ^^^^^
+ 30 |         h1, h2 { color: maroon; }
+    `----
+
+  x LayerPrelude
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:28:1]
+ 28 | 
+ 29 |     @layer theme {
+    :            ^^^^^
+ 30 |         h1, h2 { color: maroon; }
+    `----
+
+  x LayerName
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:28:1]
+ 28 | 
+ 29 |     @layer theme {
+    :            ^^^^^
+ 30 |         h1, h2 { color: maroon; }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:28:1]
+ 28 | 
+ 29 |     @layer theme {
+    :            ^^^^^
+ 30 |         h1, h2 { color: maroon; }
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:28:1]
+ 28 |     
+ 29 | ,->     @layer theme {
+ 30 | |           h1, h2 { color: maroon; }
+ 31 | `->     }
+ 32 |     }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:28:1]
+ 28 | 
+ 29 |     @layer theme {
+    :                  ^
+ 30 |         h1, h2 { color: maroon; }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:29:1]
+ 29 |     @layer theme {
+ 30 |         h1, h2 { color: maroon; }
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^
+ 31 |     }
+    `----
+
+  x Rule
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:29:1]
+ 29 |     @layer theme {
+ 30 |         h1, h2 { color: maroon; }
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^
+ 31 |     }
+    `----
+
+  x QualifiedRule
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:29:1]
+ 29 |     @layer theme {
+ 30 |         h1, h2 { color: maroon; }
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^
+ 31 |     }
+    `----
+
+  x SelectorList
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:29:1]
+ 29 |     @layer theme {
+ 30 |         h1, h2 { color: maroon; }
+    :         ^^^^^^
+ 31 |     }
+    `----
+
+  x ComplexSelector
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:29:1]
+ 29 |     @layer theme {
+ 30 |         h1, h2 { color: maroon; }
+    :         ^^
+ 31 |     }
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:29:1]
+ 29 |     @layer theme {
+ 30 |         h1, h2 { color: maroon; }
+    :         ^^
+ 31 |     }
+    `----
+
+  x TypeSelector
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:29:1]
+ 29 |     @layer theme {
+ 30 |         h1, h2 { color: maroon; }
+    :         ^^
+ 31 |     }
+    `----
+
+  x TagNameSelector
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:29:1]
+ 29 |     @layer theme {
+ 30 |         h1, h2 { color: maroon; }
+    :         ^^
+ 31 |     }
+    `----
+
+  x WqName
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:29:1]
+ 29 |     @layer theme {
+ 30 |         h1, h2 { color: maroon; }
+    :         ^^
+ 31 |     }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:29:1]
+ 29 |     @layer theme {
+ 30 |         h1, h2 { color: maroon; }
+    :         ^^
+ 31 |     }
+    `----
+
+  x ComplexSelector
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:29:1]
+ 29 |     @layer theme {
+ 30 |         h1, h2 { color: maroon; }
+    :             ^^
+ 31 |     }
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:29:1]
+ 29 |     @layer theme {
+ 30 |         h1, h2 { color: maroon; }
+    :             ^^
+ 31 |     }
+    `----
+
+  x TypeSelector
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:29:1]
+ 29 |     @layer theme {
+ 30 |         h1, h2 { color: maroon; }
+    :             ^^
+ 31 |     }
+    `----
+
+  x TagNameSelector
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:29:1]
+ 29 |     @layer theme {
+ 30 |         h1, h2 { color: maroon; }
+    :             ^^
+ 31 |     }
+    `----
+
+  x WqName
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:29:1]
+ 29 |     @layer theme {
+ 30 |         h1, h2 { color: maroon; }
+    :             ^^
+ 31 |     }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:29:1]
+ 29 |     @layer theme {
+ 30 |         h1, h2 { color: maroon; }
+    :             ^^
+ 31 |     }
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:29:1]
+ 29 |     @layer theme {
+ 30 |         h1, h2 { color: maroon; }
+    :                ^^^^^^^^^^^^^^^^^^
+ 31 |     }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:29:1]
+ 29 |     @layer theme {
+ 30 |         h1, h2 { color: maroon; }
+    :                ^
+ 31 |     }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:29:1]
+ 29 |     @layer theme {
+ 30 |         h1, h2 { color: maroon; }
+    :                  ^^^^^^^^^^^^^
+ 31 |     }
+    `----
+
+  x StyleBlock
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:29:1]
+ 29 |     @layer theme {
+ 30 |         h1, h2 { color: maroon; }
+    :                  ^^^^^^^^^^^^^
+ 31 |     }
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:29:1]
+ 29 |     @layer theme {
+ 30 |         h1, h2 { color: maroon; }
+    :                  ^^^^^^^^^^^^^
+ 31 |     }
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:29:1]
+ 29 |     @layer theme {
+ 30 |         h1, h2 { color: maroon; }
+    :                  ^^^^^
+ 31 |     }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:29:1]
+ 29 |     @layer theme {
+ 30 |         h1, h2 { color: maroon; }
+    :                  ^^^^^
+ 31 |     }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:29:1]
+ 29 |     @layer theme {
+ 30 |         h1, h2 { color: maroon; }
+    :                         ^^^^^^
+ 31 |     }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:29:1]
+ 29 |     @layer theme {
+ 30 |         h1, h2 { color: maroon; }
+    :                         ^^^^^^
+ 31 |     }
+    `----
+
+  x Rule
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:33:1]
+ 33 |     
+ 34 | ,-> @layer reset {
+ 35 | |       [hidden] { display: none; }
+ 36 | `-> }
+    `----
+
+  x AtRule
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:33:1]
+ 33 |     
+ 34 | ,-> @layer reset {
+ 35 | |       [hidden] { display: none; }
+ 36 | `-> }
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:33:1]
+ 33 | 
+ 34 | @layer reset {
+    :  ^^^^^
+ 35 |     [hidden] { display: none; }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:33:1]
+ 33 | 
+ 34 | @layer reset {
+    :  ^^^^^
+ 35 |     [hidden] { display: none; }
+    `----
+
+  x LayerPrelude
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:33:1]
+ 33 | 
+ 34 | @layer reset {
+    :        ^^^^^
+ 35 |     [hidden] { display: none; }
+    `----
+
+  x LayerName
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:33:1]
+ 33 | 
+ 34 | @layer reset {
+    :        ^^^^^
+ 35 |     [hidden] { display: none; }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:33:1]
+ 33 | 
+ 34 | @layer reset {
+    :        ^^^^^
+ 35 |     [hidden] { display: none; }
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:33:1]
+ 33 |     
+ 34 | ,-> @layer reset {
+ 35 | |       [hidden] { display: none; }
+ 36 | `-> }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:33:1]
+ 33 | 
+ 34 | @layer reset {
+    :              ^
+ 35 |     [hidden] { display: none; }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:34:1]
+ 34 | @layer reset {
+ 35 |     [hidden] { display: none; }
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 36 | }
+    `----
+
+  x Rule
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:34:1]
+ 34 | @layer reset {
+ 35 |     [hidden] { display: none; }
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 36 | }
+    `----
+
+  x QualifiedRule
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:34:1]
+ 34 | @layer reset {
+ 35 |     [hidden] { display: none; }
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 36 | }
+    `----
+
+  x SelectorList
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:34:1]
+ 34 | @layer reset {
+ 35 |     [hidden] { display: none; }
+    :     ^^^^^^^^
+ 36 | }
+    `----
+
+  x ComplexSelector
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:34:1]
+ 34 | @layer reset {
+ 35 |     [hidden] { display: none; }
+    :     ^^^^^^^^
+ 36 | }
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:34:1]
+ 34 | @layer reset {
+ 35 |     [hidden] { display: none; }
+    :     ^^^^^^^^
+ 36 | }
+    `----
+
+  x SubclassSelector
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:34:1]
+ 34 | @layer reset {
+ 35 |     [hidden] { display: none; }
+    :     ^^^^^^^^
+ 36 | }
+    `----
+
+  x AttributeSelector
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:34:1]
+ 34 | @layer reset {
+ 35 |     [hidden] { display: none; }
+    :     ^^^^^^^^
+ 36 | }
+    `----
+
+  x WqName
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:34:1]
+ 34 | @layer reset {
+ 35 |     [hidden] { display: none; }
+    :      ^^^^^^
+ 36 | }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:34:1]
+ 34 | @layer reset {
+ 35 |     [hidden] { display: none; }
+    :      ^^^^^^
+ 36 | }
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:34:1]
+ 34 | @layer reset {
+ 35 |     [hidden] { display: none; }
+    :              ^^^^^^^^^^^^^^^^^^
+ 36 | }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:34:1]
+ 34 | @layer reset {
+ 35 |     [hidden] { display: none; }
+    :              ^
+ 36 | }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:34:1]
+ 34 | @layer reset {
+ 35 |     [hidden] { display: none; }
+    :                ^^^^^^^^^^^^^
+ 36 | }
+    `----
+
+  x StyleBlock
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:34:1]
+ 34 | @layer reset {
+ 35 |     [hidden] { display: none; }
+    :                ^^^^^^^^^^^^^
+ 36 | }
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:34:1]
+ 34 | @layer reset {
+ 35 |     [hidden] { display: none; }
+    :                ^^^^^^^^^^^^^
+ 36 | }
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:34:1]
+ 34 | @layer reset {
+ 35 |     [hidden] { display: none; }
+    :                ^^^^^^^
+ 36 | }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:34:1]
+ 34 | @layer reset {
+ 35 |     [hidden] { display: none; }
+    :                ^^^^^^^
+ 36 | }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:34:1]
+ 34 | @layer reset {
+ 35 |     [hidden] { display: none; }
+    :                         ^^^^
+ 36 | }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:34:1]
+ 34 | @layer reset {
+ 35 |     [hidden] { display: none; }
+    :                         ^^^^
+ 36 | }
+    `----
+
+  x Rule
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:37:1]
+ 37 |     
+ 38 | ,-> @layer framework {
+ 39 | |       @layer default {
+ 40 | |           p { margin-block: 0.75em; }
+ 41 | |       }
+ 42 | |   
+ 43 | |       @layer theme {
+ 44 | |           p { color: #222; }
+ 45 | |       }
+ 46 | `-> }
+    `----
+
+  x AtRule
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:37:1]
+ 37 |     
+ 38 | ,-> @layer framework {
+ 39 | |       @layer default {
+ 40 | |           p { margin-block: 0.75em; }
+ 41 | |       }
+ 42 | |   
+ 43 | |       @layer theme {
+ 44 | |           p { color: #222; }
+ 45 | |       }
+ 46 | `-> }
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:37:1]
+ 37 | 
+ 38 | @layer framework {
+    :  ^^^^^
+ 39 |     @layer default {
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:37:1]
+ 37 | 
+ 38 | @layer framework {
+    :  ^^^^^
+ 39 |     @layer default {
+    `----
+
+  x LayerPrelude
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:37:1]
+ 37 | 
+ 38 | @layer framework {
+    :        ^^^^^^^^^
+ 39 |     @layer default {
+    `----
+
+  x LayerName
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:37:1]
+ 37 | 
+ 38 | @layer framework {
+    :        ^^^^^^^^^
+ 39 |     @layer default {
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:37:1]
+ 37 | 
+ 38 | @layer framework {
+    :        ^^^^^^^^^
+ 39 |     @layer default {
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:37:1]
+ 37 |     
+ 38 | ,-> @layer framework {
+ 39 | |       @layer default {
+ 40 | |           p { margin-block: 0.75em; }
+ 41 | |       }
+ 42 | |   
+ 43 | |       @layer theme {
+ 44 | |           p { color: #222; }
+ 45 | |       }
+ 46 | `-> }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:37:1]
+ 37 | 
+ 38 | @layer framework {
+    :                  ^
+ 39 |     @layer default {
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:38:1]
+ 38 |     @layer framework {
+ 39 | ,->     @layer default {
+ 40 | |           p { margin-block: 0.75em; }
+ 41 | `->     }
+    `----
+
+  x Rule
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:38:1]
+ 38 |     @layer framework {
+ 39 | ,->     @layer default {
+ 40 | |           p { margin-block: 0.75em; }
+ 41 | `->     }
+    `----
+
+  x AtRule
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:38:1]
+ 38 |     @layer framework {
+ 39 | ,->     @layer default {
+ 40 | |           p { margin-block: 0.75em; }
+ 41 | `->     }
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:38:1]
+ 38 | @layer framework {
+ 39 |     @layer default {
+    :      ^^^^^
+ 40 |         p { margin-block: 0.75em; }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:38:1]
+ 38 | @layer framework {
+ 39 |     @layer default {
+    :      ^^^^^
+ 40 |         p { margin-block: 0.75em; }
+    `----
+
+  x LayerPrelude
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:38:1]
+ 38 | @layer framework {
+ 39 |     @layer default {
+    :            ^^^^^^^
+ 40 |         p { margin-block: 0.75em; }
+    `----
+
+  x LayerName
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:38:1]
+ 38 | @layer framework {
+ 39 |     @layer default {
+    :            ^^^^^^^
+ 40 |         p { margin-block: 0.75em; }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:38:1]
+ 38 | @layer framework {
+ 39 |     @layer default {
+    :            ^^^^^^^
+ 40 |         p { margin-block: 0.75em; }
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:38:1]
+ 38 |     @layer framework {
+ 39 | ,->     @layer default {
+ 40 | |           p { margin-block: 0.75em; }
+ 41 | `->     }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:38:1]
+ 38 | @layer framework {
+ 39 |     @layer default {
+    :                    ^
+ 40 |         p { margin-block: 0.75em; }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:39:1]
+ 39 |     @layer default {
+ 40 |         p { margin-block: 0.75em; }
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 41 |     }
+    `----
+
+  x Rule
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:39:1]
+ 39 |     @layer default {
+ 40 |         p { margin-block: 0.75em; }
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 41 |     }
+    `----
+
+  x QualifiedRule
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:39:1]
+ 39 |     @layer default {
+ 40 |         p { margin-block: 0.75em; }
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 41 |     }
+    `----
+
+  x SelectorList
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:39:1]
+ 39 |     @layer default {
+ 40 |         p { margin-block: 0.75em; }
+    :         ^
+ 41 |     }
+    `----
+
+  x ComplexSelector
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:39:1]
+ 39 |     @layer default {
+ 40 |         p { margin-block: 0.75em; }
+    :         ^
+ 41 |     }
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:39:1]
+ 39 |     @layer default {
+ 40 |         p { margin-block: 0.75em; }
+    :         ^
+ 41 |     }
+    `----
+
+  x TypeSelector
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:39:1]
+ 39 |     @layer default {
+ 40 |         p { margin-block: 0.75em; }
+    :         ^
+ 41 |     }
+    `----
+
+  x TagNameSelector
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:39:1]
+ 39 |     @layer default {
+ 40 |         p { margin-block: 0.75em; }
+    :         ^
+ 41 |     }
+    `----
+
+  x WqName
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:39:1]
+ 39 |     @layer default {
+ 40 |         p { margin-block: 0.75em; }
+    :         ^
+ 41 |     }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:39:1]
+ 39 |     @layer default {
+ 40 |         p { margin-block: 0.75em; }
+    :         ^
+ 41 |     }
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:39:1]
+ 39 |     @layer default {
+ 40 |         p { margin-block: 0.75em; }
+    :           ^^^^^^^^^^^^^^^^^^^^^^^^^
+ 41 |     }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:39:1]
+ 39 |     @layer default {
+ 40 |         p { margin-block: 0.75em; }
+    :           ^
+ 41 |     }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:39:1]
+ 39 |     @layer default {
+ 40 |         p { margin-block: 0.75em; }
+    :             ^^^^^^^^^^^^^^^^^^^^
+ 41 |     }
+    `----
+
+  x StyleBlock
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:39:1]
+ 39 |     @layer default {
+ 40 |         p { margin-block: 0.75em; }
+    :             ^^^^^^^^^^^^^^^^^^^^
+ 41 |     }
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:39:1]
+ 39 |     @layer default {
+ 40 |         p { margin-block: 0.75em; }
+    :             ^^^^^^^^^^^^^^^^^^^^
+ 41 |     }
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:39:1]
+ 39 |     @layer default {
+ 40 |         p { margin-block: 0.75em; }
+    :             ^^^^^^^^^^^^
+ 41 |     }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:39:1]
+ 39 |     @layer default {
+ 40 |         p { margin-block: 0.75em; }
+    :             ^^^^^^^^^^^^
+ 41 |     }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:39:1]
+ 39 |     @layer default {
+ 40 |         p { margin-block: 0.75em; }
+    :                           ^^^^^^
+ 41 |     }
+    `----
+
+  x Dimension
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:39:1]
+ 39 |     @layer default {
+ 40 |         p { margin-block: 0.75em; }
+    :                           ^^^^^^
+ 41 |     }
+    `----
+
+  x Length
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:39:1]
+ 39 |     @layer default {
+ 40 |         p { margin-block: 0.75em; }
+    :                           ^^^^^^
+ 41 |     }
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:39:1]
+ 39 |     @layer default {
+ 40 |         p { margin-block: 0.75em; }
+    :                           ^^^^
+ 41 |     }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:39:1]
+ 39 |     @layer default {
+ 40 |         p { margin-block: 0.75em; }
+    :                               ^^
+ 41 |     }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:42:1]
+ 42 |     
+ 43 | ,->     @layer theme {
+ 44 | |           p { color: #222; }
+ 45 | `->     }
+ 46 |     }
+    `----
+
+  x Rule
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:42:1]
+ 42 |     
+ 43 | ,->     @layer theme {
+ 44 | |           p { color: #222; }
+ 45 | `->     }
+ 46 |     }
+    `----
+
+  x AtRule
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:42:1]
+ 42 |     
+ 43 | ,->     @layer theme {
+ 44 | |           p { color: #222; }
+ 45 | `->     }
+ 46 |     }
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:42:1]
+ 42 | 
+ 43 |     @layer theme {
+    :      ^^^^^
+ 44 |         p { color: #222; }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:42:1]
+ 42 | 
+ 43 |     @layer theme {
+    :      ^^^^^
+ 44 |         p { color: #222; }
+    `----
+
+  x LayerPrelude
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:42:1]
+ 42 | 
+ 43 |     @layer theme {
+    :            ^^^^^
+ 44 |         p { color: #222; }
+    `----
+
+  x LayerName
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:42:1]
+ 42 | 
+ 43 |     @layer theme {
+    :            ^^^^^
+ 44 |         p { color: #222; }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:42:1]
+ 42 | 
+ 43 |     @layer theme {
+    :            ^^^^^
+ 44 |         p { color: #222; }
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:42:1]
+ 42 |     
+ 43 | ,->     @layer theme {
+ 44 | |           p { color: #222; }
+ 45 | `->     }
+ 46 |     }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:42:1]
+ 42 | 
+ 43 |     @layer theme {
+    :                  ^
+ 44 |         p { color: #222; }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:43:1]
+ 43 |     @layer theme {
+ 44 |         p { color: #222; }
+    :         ^^^^^^^^^^^^^^^^^^
+ 45 |     }
+    `----
+
+  x Rule
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:43:1]
+ 43 |     @layer theme {
+ 44 |         p { color: #222; }
+    :         ^^^^^^^^^^^^^^^^^^
+ 45 |     }
+    `----
+
+  x QualifiedRule
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:43:1]
+ 43 |     @layer theme {
+ 44 |         p { color: #222; }
+    :         ^^^^^^^^^^^^^^^^^^
+ 45 |     }
+    `----
+
+  x SelectorList
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:43:1]
+ 43 |     @layer theme {
+ 44 |         p { color: #222; }
+    :         ^
+ 45 |     }
+    `----
+
+  x ComplexSelector
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:43:1]
+ 43 |     @layer theme {
+ 44 |         p { color: #222; }
+    :         ^
+ 45 |     }
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:43:1]
+ 43 |     @layer theme {
+ 44 |         p { color: #222; }
+    :         ^
+ 45 |     }
+    `----
+
+  x TypeSelector
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:43:1]
+ 43 |     @layer theme {
+ 44 |         p { color: #222; }
+    :         ^
+ 45 |     }
+    `----
+
+  x TagNameSelector
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:43:1]
+ 43 |     @layer theme {
+ 44 |         p { color: #222; }
+    :         ^
+ 45 |     }
+    `----
+
+  x WqName
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:43:1]
+ 43 |     @layer theme {
+ 44 |         p { color: #222; }
+    :         ^
+ 45 |     }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:43:1]
+ 43 |     @layer theme {
+ 44 |         p { color: #222; }
+    :         ^
+ 45 |     }
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:43:1]
+ 43 |     @layer theme {
+ 44 |         p { color: #222; }
+    :           ^^^^^^^^^^^^^^^^
+ 45 |     }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:43:1]
+ 43 |     @layer theme {
+ 44 |         p { color: #222; }
+    :           ^
+ 45 |     }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:43:1]
+ 43 |     @layer theme {
+ 44 |         p { color: #222; }
+    :             ^^^^^^^^^^^
+ 45 |     }
+    `----
+
+  x StyleBlock
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:43:1]
+ 43 |     @layer theme {
+ 44 |         p { color: #222; }
+    :             ^^^^^^^^^^^
+ 45 |     }
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:43:1]
+ 43 |     @layer theme {
+ 44 |         p { color: #222; }
+    :             ^^^^^^^^^^^
+ 45 |     }
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:43:1]
+ 43 |     @layer theme {
+ 44 |         p { color: #222; }
+    :             ^^^^^
+ 45 |     }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:43:1]
+ 43 |     @layer theme {
+ 44 |         p { color: #222; }
+    :             ^^^^^
+ 45 |     }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:43:1]
+ 43 |     @layer theme {
+ 44 |         p { color: #222; }
+    :                    ^^^^
+ 45 |     }
+    `----
+
+  x Color
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:43:1]
+ 43 |     @layer theme {
+ 44 |         p { color: #222; }
+    :                    ^^^^
+ 45 |     }
+    `----
+
+  x HexColor
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:43:1]
+ 43 |     @layer theme {
+ 44 |         p { color: #222; }
+    :                    ^^^^
+ 45 |     }
+    `----
+
+  x Rule
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:47:1]
+ 47 |     
+ 48 | ,-> @layer framework.theme {
+ 49 | |       /* These styles will be added to the theme layer inside the framework layer */
+ 50 | |       blockquote { color: rebeccapurple; }
+ 51 | `-> }
+    `----
+
+  x AtRule
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:47:1]
+ 47 |     
+ 48 | ,-> @layer framework.theme {
+ 49 | |       /* These styles will be added to the theme layer inside the framework layer */
+ 50 | |       blockquote { color: rebeccapurple; }
+ 51 | `-> }
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:47:1]
+ 47 | 
+ 48 | @layer framework.theme {
+    :  ^^^^^
+ 49 |     /* These styles will be added to the theme layer inside the framework layer */
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:47:1]
+ 47 | 
+ 48 | @layer framework.theme {
+    :  ^^^^^
+ 49 |     /* These styles will be added to the theme layer inside the framework layer */
+    `----
+
+  x LayerPrelude
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:47:1]
+ 47 | 
+ 48 | @layer framework.theme {
+    :        ^^^^^^^^^^^^^^^
+ 49 |     /* These styles will be added to the theme layer inside the framework layer */
+    `----
+
+  x LayerName
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:47:1]
+ 47 | 
+ 48 | @layer framework.theme {
+    :        ^^^^^^^^^^^^^^^
+ 49 |     /* These styles will be added to the theme layer inside the framework layer */
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:47:1]
+ 47 | 
+ 48 | @layer framework.theme {
+    :        ^^^^^^^^^
+ 49 |     /* These styles will be added to the theme layer inside the framework layer */
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:47:1]
+ 47 | 
+ 48 | @layer framework.theme {
+    :                  ^^^^^
+ 49 |     /* These styles will be added to the theme layer inside the framework layer */
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:47:1]
+ 47 |     
+ 48 | ,-> @layer framework.theme {
+ 49 | |       /* These styles will be added to the theme layer inside the framework layer */
+ 50 | |       blockquote { color: rebeccapurple; }
+ 51 | `-> }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:47:1]
+ 47 | 
+ 48 | @layer framework.theme {
+    :                        ^
+ 49 |     /* These styles will be added to the theme layer inside the framework layer */
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:49:1]
+ 49 |     /* These styles will be added to the theme layer inside the framework layer */
+ 50 |     blockquote { color: rebeccapurple; }
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 51 | }
+    `----
+
+  x Rule
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:49:1]
+ 49 |     /* These styles will be added to the theme layer inside the framework layer */
+ 50 |     blockquote { color: rebeccapurple; }
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 51 | }
+    `----
+
+  x QualifiedRule
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:49:1]
+ 49 |     /* These styles will be added to the theme layer inside the framework layer */
+ 50 |     blockquote { color: rebeccapurple; }
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 51 | }
+    `----
+
+  x SelectorList
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:49:1]
+ 49 |     /* These styles will be added to the theme layer inside the framework layer */
+ 50 |     blockquote { color: rebeccapurple; }
+    :     ^^^^^^^^^^
+ 51 | }
+    `----
+
+  x ComplexSelector
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:49:1]
+ 49 |     /* These styles will be added to the theme layer inside the framework layer */
+ 50 |     blockquote { color: rebeccapurple; }
+    :     ^^^^^^^^^^
+ 51 | }
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:49:1]
+ 49 |     /* These styles will be added to the theme layer inside the framework layer */
+ 50 |     blockquote { color: rebeccapurple; }
+    :     ^^^^^^^^^^
+ 51 | }
+    `----
+
+  x TypeSelector
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:49:1]
+ 49 |     /* These styles will be added to the theme layer inside the framework layer */
+ 50 |     blockquote { color: rebeccapurple; }
+    :     ^^^^^^^^^^
+ 51 | }
+    `----
+
+  x TagNameSelector
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:49:1]
+ 49 |     /* These styles will be added to the theme layer inside the framework layer */
+ 50 |     blockquote { color: rebeccapurple; }
+    :     ^^^^^^^^^^
+ 51 | }
+    `----
+
+  x WqName
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:49:1]
+ 49 |     /* These styles will be added to the theme layer inside the framework layer */
+ 50 |     blockquote { color: rebeccapurple; }
+    :     ^^^^^^^^^^
+ 51 | }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:49:1]
+ 49 |     /* These styles will be added to the theme layer inside the framework layer */
+ 50 |     blockquote { color: rebeccapurple; }
+    :     ^^^^^^^^^^
+ 51 | }
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:49:1]
+ 49 |     /* These styles will be added to the theme layer inside the framework layer */
+ 50 |     blockquote { color: rebeccapurple; }
+    :                ^^^^^^^^^^^^^^^^^^^^^^^^^
+ 51 | }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:49:1]
+ 49 |     /* These styles will be added to the theme layer inside the framework layer */
+ 50 |     blockquote { color: rebeccapurple; }
+    :                ^
+ 51 | }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:49:1]
+ 49 |     /* These styles will be added to the theme layer inside the framework layer */
+ 50 |     blockquote { color: rebeccapurple; }
+    :                  ^^^^^^^^^^^^^^^^^^^^
+ 51 | }
+    `----
+
+  x StyleBlock
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:49:1]
+ 49 |     /* These styles will be added to the theme layer inside the framework layer */
+ 50 |     blockquote { color: rebeccapurple; }
+    :                  ^^^^^^^^^^^^^^^^^^^^
+ 51 | }
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:49:1]
+ 49 |     /* These styles will be added to the theme layer inside the framework layer */
+ 50 |     blockquote { color: rebeccapurple; }
+    :                  ^^^^^^^^^^^^^^^^^^^^
+ 51 | }
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:49:1]
+ 49 |     /* These styles will be added to the theme layer inside the framework layer */
+ 50 |     blockquote { color: rebeccapurple; }
+    :                  ^^^^^
+ 51 | }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:49:1]
+ 49 |     /* These styles will be added to the theme layer inside the framework layer */
+ 50 |     blockquote { color: rebeccapurple; }
+    :                  ^^^^^
+ 51 | }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:49:1]
+ 49 |     /* These styles will be added to the theme layer inside the framework layer */
+ 50 |     blockquote { color: rebeccapurple; }
+    :                         ^^^^^^^^^^^^^
+ 51 | }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:49:1]
+ 49 |     /* These styles will be added to the theme layer inside the framework layer */
+ 50 |     blockquote { color: rebeccapurple; }
+    :                         ^^^^^^^^^^^^^
+ 51 | }
     `----

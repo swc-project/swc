@@ -1,6 +1,8 @@
 
   x Expected literal to be on the right side of ===
-   ,----
+   ,-[1:1]
  1 | if (10 === a) {}
    :     ^^^^^^^^
+ 2 | 
+ 3 | if (10 < a) {}
    `----

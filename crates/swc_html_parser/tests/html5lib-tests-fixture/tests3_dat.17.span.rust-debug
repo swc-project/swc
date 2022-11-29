@@ -9,12 +9,14 @@
    ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat.17.html:1:1]
  1 | <!DOCTYPE html><textarea>
    : ^^^^^^^^^^^^^^^
+ 2 | foo</textarea>
    `----
 
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat.17.html:1:1]
  1 | <!DOCTYPE html><textarea>
    : ^^^^^^^^^^^^^^^
+ 2 | foo</textarea>
    `----
 
   x Child
@@ -34,13 +36,15 @@
    `----
 
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat.17.html:2:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat.17.html:1:1]
+ 1 | <!DOCTYPE html><textarea>
  2 | foo</textarea>
    : ^^^
    `----
 
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat.17.html:2:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat.17.html:1:1]
+ 1 | <!DOCTYPE html><textarea>
  2 | foo</textarea>
    : ^^^
    `----

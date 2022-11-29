@@ -1,6 +1,8 @@
 
   x Expected Declaration value
-    ,-[$DIR/tests/recovery/vercel/003/input.css:10:5]
- 10 | flex-basis: __ident__%;
-    :                      ^
+    ,-[$DIR/tests/recovery/vercel/003/input.css:9:1]
+  9 |     flex-grow: 0;
+ 10 |     flex-basis: __ident__%;
+    :                          ^
+ 11 |     min-width: 0;
     `----

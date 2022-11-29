@@ -21,42 +21,49 @@
    ,-[$DIR/tests/recovery/value/hash/eof/input.css:1:1]
  1 | a {
    : ^
+ 2 |     prop: #
    `----
 
   x ComplexSelector
    ,-[$DIR/tests/recovery/value/hash/eof/input.css:1:1]
  1 | a {
    : ^
+ 2 |     prop: #
    `----
 
   x CompoundSelector
    ,-[$DIR/tests/recovery/value/hash/eof/input.css:1:1]
  1 | a {
    : ^
+ 2 |     prop: #
    `----
 
   x TypeSelector
    ,-[$DIR/tests/recovery/value/hash/eof/input.css:1:1]
  1 | a {
    : ^
+ 2 |     prop: #
    `----
 
   x TagNameSelector
    ,-[$DIR/tests/recovery/value/hash/eof/input.css:1:1]
  1 | a {
    : ^
+ 2 |     prop: #
    `----
 
   x WqName
    ,-[$DIR/tests/recovery/value/hash/eof/input.css:1:1]
  1 | a {
    : ^
+ 2 |     prop: #
    `----
 
   x Ident
    ,-[$DIR/tests/recovery/value/hash/eof/input.css:1:1]
  1 | a {
    : ^
+ 2 |     prop: #
    `----
 
   x SimpleBlock
@@ -69,46 +76,54 @@
    ,-[$DIR/tests/recovery/value/hash/eof/input.css:1:1]
  1 | a {
    :   ^
+ 2 |     prop: #
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/value/hash/eof/input.css:2:5]
- 2 | prop: #
-   : ^^^^^^^
+   ,-[$DIR/tests/recovery/value/hash/eof/input.css:1:1]
+ 1 | a {
+ 2 |     prop: #
+   :     ^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/recovery/value/hash/eof/input.css:2:5]
- 2 | prop: #
-   : ^^^^^^^
+   ,-[$DIR/tests/recovery/value/hash/eof/input.css:1:1]
+ 1 | a {
+ 2 |     prop: #
+   :     ^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/recovery/value/hash/eof/input.css:2:5]
- 2 | prop: #
-   : ^^^^^^^
+   ,-[$DIR/tests/recovery/value/hash/eof/input.css:1:1]
+ 1 | a {
+ 2 |     prop: #
+   :     ^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/recovery/value/hash/eof/input.css:2:5]
- 2 | prop: #
-   : ^^^^
+   ,-[$DIR/tests/recovery/value/hash/eof/input.css:1:1]
+ 1 | a {
+ 2 |     prop: #
+   :     ^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/recovery/value/hash/eof/input.css:2:5]
- 2 | prop: #
-   : ^^^^
+   ,-[$DIR/tests/recovery/value/hash/eof/input.css:1:1]
+ 1 | a {
+ 2 |     prop: #
+   :     ^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/value/hash/eof/input.css:2:5]
- 2 | prop: #
-   :       ^
+   ,-[$DIR/tests/recovery/value/hash/eof/input.css:1:1]
+ 1 | a {
+ 2 |     prop: #
+   :           ^
    `----
 
   x Delim { value: '#' }
-   ,-[$DIR/tests/recovery/value/hash/eof/input.css:2:5]
- 2 | prop: #
-   :       ^
+   ,-[$DIR/tests/recovery/value/hash/eof/input.css:1:1]
+ 1 | a {
+ 2 |     prop: #
+   :           ^
    `----

@@ -36,13 +36,15 @@
    `----
 
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests6_dat.6.fragment_div.html:2:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tests6_dat.6.fragment_div.html:1:1]
+ 1 | <body>
  2 | <div>
    : ^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests6_dat.6.fragment_div.html:2:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tests6_dat.6.fragment_div.html:1:1]
+ 1 | <body>
  2 | <div>
    : ^^^^^
    `----

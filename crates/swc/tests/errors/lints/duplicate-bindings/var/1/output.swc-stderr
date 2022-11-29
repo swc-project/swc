@@ -7,24 +7,39 @@
  2 | let a = 2; // error
    :     |
    :     `-- `a` redefined here
+ 3 | 
+ 4 | const b = 1;
+ 5 | var b = 2; // error
    `----
 
   x the name `b` is defined multiple times
-   ,-[4:1]
+   ,-[1:1]
+ 1 | const a = 5;
+ 2 | let a = 2; // error
+ 3 | 
  4 | const b = 1;
    :       |
    :       `-- previous definition of `b` here
  5 | var b = 2; // error
    :     |
    :     `-- `b` redefined here
+ 6 | 
+ 7 | let c = 3;
+ 8 | var c = 4; // error
    `----
 
   x the name `c` is defined multiple times
-   ,-[7:1]
- 7 | let c = 3;
-   :     |
-   :     `-- previous definition of `c` here
- 8 | var c = 4; // error
-   :     |
-   :     `-- `c` redefined here
-   `----
+    ,-[4:1]
+  4 | const b = 1;
+  5 | var b = 2; // error
+  6 | 
+  7 | let c = 3;
+    :     |
+    :     `-- previous definition of `c` here
+  8 | var c = 4; // error
+    :     |
+    :     `-- `c` redefined here
+  9 | 
+ 10 | var d = 1;
+ 11 | var d = 1; // ok
+    `----

@@ -27,12 +27,14 @@
    ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:1:1]
  1 | @unknown{
    :  ^^^^^^^
+ 2 | a: b;
    `----
 
   x Ident
    ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:1:1]
  1 | @unknown{
    :  ^^^^^^^
+ 2 | a: b;
    `----
 
   x SimpleBlock
@@ -47,6 +49,7 @@
    ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:1:1]
  1 | @unknown{
    :         ^
+ 2 | a: b;
    `----
 
   x ComponentValue
@@ -54,6 +57,7 @@
  1 | @unknown{
    :          ^
  2 | a: b;
+ 3 | c: d;
    `----
 
   x WhiteSpace { value: "\n" }
@@ -61,151 +65,198 @@
  1 | @unknown{
    :          ^
  2 | a: b;
+ 3 | c: d;
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:1]
+   ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:1:1]
+ 1 | @unknown{
  2 | a: b;
    : ^
+ 3 | c: d;
    `----
 
   x Ident { value: Atom('a' type=static), raw: "a" }
-   ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:1]
+   ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:1:1]
+ 1 | @unknown{
  2 | a: b;
    : ^
+ 3 | c: d;
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:1]
+   ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:1:1]
+ 1 | @unknown{
  2 | a: b;
    :  ^
+ 3 | c: d;
    `----
 
   x Colon
-   ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:1]
+   ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:1:1]
+ 1 | @unknown{
  2 | a: b;
    :  ^
+ 3 | c: d;
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:1]
+   ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:1:1]
+ 1 | @unknown{
  2 | a: b;
    :   ^
+ 3 | c: d;
    `----
 
   x WhiteSpace { value: " " }
-   ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:1]
+   ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:1:1]
+ 1 | @unknown{
  2 | a: b;
    :   ^
+ 3 | c: d;
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:1]
+   ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:1:1]
+ 1 | @unknown{
  2 | a: b;
    :    ^
+ 3 | c: d;
    `----
 
   x Ident { value: Atom('b' type=static), raw: "b" }
-   ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:1]
+   ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:1:1]
+ 1 | @unknown{
  2 | a: b;
    :    ^
+ 3 | c: d;
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:1]
+   ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:1:1]
+ 1 | @unknown{
  2 | a: b;
    :     ^
+ 3 | c: d;
    `----
 
   x Semi
-   ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:1]
+   ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:1:1]
+ 1 | @unknown{
  2 | a: b;
    :     ^
+ 3 | c: d;
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:1]
+   ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:1:1]
+ 1 | @unknown{
  2 | a: b;
    :      ^
  3 | c: d;
+ 4 | }
    `----
 
   x WhiteSpace { value: "\n" }
-   ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:1]
+   ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:1:1]
+ 1 | @unknown{
  2 | a: b;
    :      ^
  3 | c: d;
+ 4 | }
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:3:1]
+   ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:1]
+ 2 | a: b;
  3 | c: d;
    : ^
+ 4 | }
    `----
 
   x Ident { value: Atom('c' type=inline), raw: "c" }
-   ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:3:1]
+   ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:1]
+ 2 | a: b;
  3 | c: d;
    : ^
+ 4 | }
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:3:1]
+   ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:1]
+ 2 | a: b;
  3 | c: d;
    :  ^
+ 4 | }
    `----
 
   x Colon
-   ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:3:1]
+   ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:1]
+ 2 | a: b;
  3 | c: d;
    :  ^
+ 4 | }
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:3:1]
+   ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:1]
+ 2 | a: b;
  3 | c: d;
    :   ^
+ 4 | }
    `----
 
   x WhiteSpace { value: " " }
-   ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:3:1]
+   ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:1]
+ 2 | a: b;
  3 | c: d;
    :   ^
+ 4 | }
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:3:1]
+   ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:1]
+ 2 | a: b;
  3 | c: d;
    :    ^
+ 4 | }
    `----
 
   x Ident { value: Atom('d' type=inline), raw: "d" }
-   ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:3:1]
+   ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:1]
+ 2 | a: b;
  3 | c: d;
    :    ^
+ 4 | }
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:3:1]
+   ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:1]
+ 2 | a: b;
  3 | c: d;
    :     ^
+ 4 | }
    `----
 
   x Semi
-   ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:3:1]
+   ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:1]
+ 2 | a: b;
  3 | c: d;
    :     ^
+ 4 | }
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:3:1]
+   ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:1]
+ 2 | a: b;
  3 | c: d;
    :      ^
  4 | }
    `----
 
   x WhiteSpace { value: "\n" }
-   ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:3:1]
+   ,-[$DIR/tests/fixture/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:1]
+ 2 | a: b;
  3 | c: d;
    :      ^
  4 | }

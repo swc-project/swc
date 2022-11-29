@@ -1,12 +1,16 @@
 
   x Expected 'from' or 'to' idents
-   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:2:5]
- 2 | form {}
-   : ^^^^
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:1:1]
+ 1 | @keyframes foo {
+ 2 | 	form {}
+   :  ^^^^
+ 3 | }
    `----
 
   x Expected 'from' or 'to' idents
-   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:6:5]
- 6 | ot {}
-   : ^^
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:5:1]
+ 5 | @keyframes foo {
+ 6 | 	ot {}
+   :  ^^
+ 7 | }
    `----

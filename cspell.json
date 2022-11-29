@@ -127,6 +127,7 @@
         "repr",
         "rfind",
         "rkyv",
+        "rmatch",
         "rplugin",
         "rpos",
         "rposition",

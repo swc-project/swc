@@ -1,0 +1,2 @@
+"use client";
+foo(function() {});

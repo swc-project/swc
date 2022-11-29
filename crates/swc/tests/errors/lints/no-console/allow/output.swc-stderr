@@ -1,6 +1,8 @@
 
   x Unexpected console statement
-   ,----
+   ,-[1:1]
  1 | console.log('restricted');
    : ^^^^^^^^^^^
+ 2 | 
+ 3 | console.warn('allowed');
    `----

@@ -24,60 +24,70 @@
    ,-[$DIR/tests/recovery/selector/pseudo-element/between/input.css:1:1]
  1 | : :foo {
    : ^
+ 2 |     
    `----
 
   x Colon
    ,-[$DIR/tests/recovery/selector/pseudo-element/between/input.css:1:1]
  1 | : :foo {
    : ^
+ 2 |     
    `----
 
   x ComponentValue
    ,-[$DIR/tests/recovery/selector/pseudo-element/between/input.css:1:1]
  1 | : :foo {
    :  ^
+ 2 |     
    `----
 
   x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/selector/pseudo-element/between/input.css:1:1]
  1 | : :foo {
    :  ^
+ 2 |     
    `----
 
   x ComponentValue
    ,-[$DIR/tests/recovery/selector/pseudo-element/between/input.css:1:1]
  1 | : :foo {
    :   ^
+ 2 |     
    `----
 
   x Colon
    ,-[$DIR/tests/recovery/selector/pseudo-element/between/input.css:1:1]
  1 | : :foo {
    :   ^
+ 2 |     
    `----
 
   x ComponentValue
    ,-[$DIR/tests/recovery/selector/pseudo-element/between/input.css:1:1]
  1 | : :foo {
    :    ^^^
+ 2 |     
    `----
 
   x Ident { value: Atom('foo' type=inline), raw: "foo" }
    ,-[$DIR/tests/recovery/selector/pseudo-element/between/input.css:1:1]
  1 | : :foo {
    :    ^^^
+ 2 |     
    `----
 
   x ComponentValue
    ,-[$DIR/tests/recovery/selector/pseudo-element/between/input.css:1:1]
  1 | : :foo {
    :       ^
+ 2 |     
    `----
 
   x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/selector/pseudo-element/between/input.css:1:1]
  1 | : :foo {
    :       ^
+ 2 |     
    `----
 
   x SimpleBlock
@@ -91,4 +101,5 @@
    ,-[$DIR/tests/recovery/selector/pseudo-element/between/input.css:1:1]
  1 | : :foo {
    :        ^
+ 2 |     
    `----

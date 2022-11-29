@@ -1,97 +1,184 @@
 
   x Do not use 'new' for side effects
-   ,----
+   ,-[1:1]
  1 | new A();
    : ^^^^^^^
+ 2 | 
+ 3 | (new A());
    `----
 
   x Do not use 'new' for side effects
-   ,----
+   ,-[1:1]
+ 1 | new A();
+ 2 | 
  3 | (new A());
    :  ^^^^^^^
+ 4 | 
+ 5 | (0, new A());
    `----
 
   x Do not use 'new' for side effects
-   ,----
+   ,-[2:1]
+ 2 | 
+ 3 | (new A());
+ 4 | 
  5 | (0, new A());
    :     ^^^^^^^
+ 6 | 
+ 7 | var {
+ 8 |     x = () => {
    `----
 
   x Do not use 'new' for side effects
-   ,----
- 9 | new A()
-   : ^^^^^^^
-   `----
-
-  x Do not use 'new' for side effects
-    ,----
- 13 | new A()
-    : ^^^^^^^
+    ,-[6:1]
+  6 | 
+  7 | var {
+  8 |     x = () => {
+  9 |         new A()
+    :         ^^^^^^^
+ 10 |     },
+ 11 |     y: {
+ 12 |         z = () => {
     `----
 
   x Do not use 'new' for side effects
-    ,----
- 19 | a = () => { new A() },
+    ,-[10:1]
+ 10 |     },
+ 11 |     y: {
+ 12 |         z = () => {
+ 13 |             new A()
     :             ^^^^^^^
+ 14 |         }
+ 15 |     }
+ 16 | } = obj;
     `----
 
   x Do not use 'new' for side effects
-    ,----
- 20 | [ b = () => { new A() } ]
-    :               ^^^^^^^
+    ,-[16:1]
+ 16 | } = obj;
+ 17 | 
+ 18 | var [
+ 19 |     a = () => { new A() },
+    :                 ^^^^^^^
+ 20 |     [ b = () => { new A() } ]
+ 21 | ] = [];
     `----
 
   x Do not use 'new' for side effects
-    ,----
+    ,-[17:1]
+ 17 | 
+ 18 | var [
+ 19 |     a = () => { new A() },
+ 20 |     [ b = () => { new A() } ]
+    :                   ^^^^^^^
+ 21 | ] = [];
+ 22 | 
+ 23 | (0, new A(), 0);
+    `----
+
+  x Do not use 'new' for side effects
+    ,-[20:1]
+ 20 |     [ b = () => { new A() } ]
+ 21 | ] = [];
+ 22 | 
  23 | (0, new A(), 0);
     :     ^^^^^^^
+ 24 | 
+ 25 | var x = new A(() => {
+ 26 |     new B();
     `----
 
   x Do not use 'new' for side effects
-    ,----
- 26 | new B();
-    : ^^^^^^^
+    ,-[23:1]
+ 23 | (0, new A(), 0);
+ 24 | 
+ 25 | var x = new A(() => {
+ 26 |     new B();
+    :     ^^^^^^^
+ 27 | })
+ 28 | 
+ 29 | // should check only outer new expr
     `----
 
   x Do not use 'new' for side effects
-    ,----
+    ,-[27:1]
+ 27 | })
+ 28 | 
+ 29 | // should check only outer new expr
  30 | new A(new A());
     : ^^^^^^^^^^^^^^
+ 31 | 
+ 32 | new A(new A(() => {
+ 33 |     new B();
     `----
 
   x Do not use 'new' for side effects
-    ,-[32:1]
+    ,-[29:1]
+ 29 |     // should check only outer new expr
+ 30 |     new A(new A());
+ 31 |     
  32 | ,-> new A(new A(() => {
  33 | |       new B();
  34 | `-> }));
+ 35 |     
+ 36 |     var x = (new A(), 0);
     `----
 
   x Do not use 'new' for side effects
-    ,----
- 33 | new B();
-    : ^^^^^^^
+    ,-[30:1]
+ 30 | new A(new A());
+ 31 | 
+ 32 | new A(new A(() => {
+ 33 |     new B();
+    :     ^^^^^^^
+ 34 | }));
+ 35 | 
+ 36 | var x = (new A(), 0);
     `----
 
   x Do not use 'new' for side effects
-    ,----
+    ,-[33:1]
+ 33 |     new B();
+ 34 | }));
+ 35 | 
  36 | var x = (new A(), 0);
     :          ^^^^^^^
+ 37 | 
+ 38 | var x = (0, new A(() => {
+ 39 |     new B();
     `----
 
   x Do not use 'new' for side effects
-    ,----
- 39 | new B();
-    : ^^^^^^^
+    ,-[36:1]
+ 36 | var x = (new A(), 0);
+ 37 | 
+ 38 | var x = (0, new A(() => {
+ 39 |     new B();
+    :     ^^^^^^^
+ 40 | }));
+ 41 | 
+ 42 | var x = {
     `----
 
   x Do not use 'new' for side effects
-    ,----
- 44 | new B()
-    : ^^^^^^^
+    ,-[41:1]
+ 41 | 
+ 42 | var x = {
+ 43 |     x: new A(() => {
+ 44 |         new B()
+    :         ^^^^^^^
+ 45 |     })
+ 46 | }
     `----
 
   x Do not use 'new' for side effects
-    ,----
+    ,-[45:1]
+ 45 |     })
+ 46 | }
+ 47 | 
  48 | function foo(arg = () => { new A() }) {}
     :                            ^^^^^^^
+ 49 | 
+ 50 | // Valid cases
+ 51 | var x = new A();
     `----

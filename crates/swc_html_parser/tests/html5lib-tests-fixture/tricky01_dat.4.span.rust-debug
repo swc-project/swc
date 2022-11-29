@@ -42,113 +42,141 @@
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.4.html:1:1]
  1 | <html><body>
    :             ^
- 2 | <label><a><div>Hello<div>World</div></a></label>
+ 2 | <label><a><div>Hello<div>World</div></a></label>  
+ 3 | </body></html>
    `----
 
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.4.html:1:1]
  1 | <html><body>
    :             ^
- 2 | <label><a><div>Hello<div>World</div></a></label>
+ 2 | <label><a><div>Hello<div>World</div></a></label>  
+ 3 | </body></html>
    `----
 
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.4.html:2:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.4.html:1:1]
+ 1 | <html><body>
  2 | <label><a><div>Hello<div>World</div></a></label>  
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 | </body></html>
    `----
 
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.4.html:2:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.4.html:1:1]
+ 1 | <html><body>
  2 | <label><a><div>Hello<div>World</div></a></label>  
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 | </body></html>
    `----
 
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.4.html:2:1]
- 2 | <label><a><div>Hello<div>World</div></a></label>
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.4.html:1:1]
+ 1 | <html><body>
+ 2 | <label><a><div>Hello<div>World</div></a></label>  
    :        ^^^
+ 3 | </body></html>
    `----
 
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.4.html:2:1]
- 2 | <label><a><div>Hello<div>World</div></a></label>
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.4.html:1:1]
+ 1 | <html><body>
+ 2 | <label><a><div>Hello<div>World</div></a></label>  
    :        ^^^
+ 3 | </body></html>
    `----
 
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.4.html:2:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.4.html:1:1]
+ 1 | <html><body>
  2 | <label><a><div>Hello<div>World</div></a></label>  
    :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 | </body></html>
    `----
 
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.4.html:2:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.4.html:1:1]
+ 1 | <html><body>
  2 | <label><a><div>Hello<div>World</div></a></label>  
    :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 | </body></html>
    `----
 
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.4.html:2:1]
- 2 | <label><a><div>Hello<div>World</div></a></label>
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.4.html:1:1]
+ 1 | <html><body>
+ 2 | <label><a><div>Hello<div>World</div></a></label>  
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^
+ 3 | </body></html>
    `----
 
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.4.html:2:1]
- 2 | <label><a><div>Hello<div>World</div></a></label>
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.4.html:1:1]
+ 1 | <html><body>
+ 2 | <label><a><div>Hello<div>World</div></a></label>  
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^
+ 3 | </body></html>
    `----
 
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.4.html:2:1]
- 2 | <label><a><div>Hello<div>World</div></a></label>
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.4.html:1:1]
+ 1 | <html><body>
+ 2 | <label><a><div>Hello<div>World</div></a></label>  
    :                ^^^^^
+ 3 | </body></html>
    `----
 
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.4.html:2:1]
- 2 | <label><a><div>Hello<div>World</div></a></label>
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.4.html:1:1]
+ 1 | <html><body>
+ 2 | <label><a><div>Hello<div>World</div></a></label>  
    :                ^^^^^
+ 3 | </body></html>
    `----
 
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.4.html:2:1]
- 2 | <label><a><div>Hello<div>World</div></a></label>
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.4.html:1:1]
+ 1 | <html><body>
+ 2 | <label><a><div>Hello<div>World</div></a></label>  
    :                     ^^^^^^^^^^^^^^^^
+ 3 | </body></html>
    `----
 
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.4.html:2:1]
- 2 | <label><a><div>Hello<div>World</div></a></label>
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.4.html:1:1]
+ 1 | <html><body>
+ 2 | <label><a><div>Hello<div>World</div></a></label>  
    :                     ^^^^^^^^^^^^^^^^
+ 3 | </body></html>
    `----
 
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.4.html:2:1]
- 2 | <label><a><div>Hello<div>World</div></a></label>
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.4.html:1:1]
+ 1 | <html><body>
+ 2 | <label><a><div>Hello<div>World</div></a></label>  
    :                          ^^^^^
+ 3 | </body></html>
    `----
 
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.4.html:2:1]
- 2 | <label><a><div>Hello<div>World</div></a></label>
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.4.html:1:1]
+ 1 | <html><body>
+ 2 | <label><a><div>Hello<div>World</div></a></label>  
    :                          ^^^^^
+ 3 | </body></html>
    `----
 
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.4.html:2:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.4.html:1:1]
+ 1 | <html><body>
  2 | <label><a><div>Hello<div>World</div></a></label>  
    :                                                 ^^^
  3 | </body></html>
    `----
 
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.4.html:2:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.4.html:1:1]
+ 1 | <html><body>
  2 | <label><a><div>Hello<div>World</div></a></label>  
    :                                                 ^^^
  3 | </body></html>

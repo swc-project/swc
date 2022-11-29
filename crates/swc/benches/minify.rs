@@ -46,7 +46,7 @@ fn bench_minify(b: &mut Bencher, filename: &str) {
                         module: Default::default(),
                         safari10: Default::default(),
                         toplevel: true,
-                        source_map: Default::default(),
+                        source_map: BoolOrDataConfig::from_bool(true),
                         output_path: Default::default(),
                         inline_sources_content: true,
                         emit_source_map_columns: true,
@@ -56,9 +56,9 @@ fn bench_minify(b: &mut Bencher, filename: &str) {
         })
         .unwrap();
 
-        let res = black_box(res);
+        black_box(res);
 
-        assert_eq!(res.map, None);
+        // assert_eq!(res.map, None);
     })
 }
 
@@ -84,6 +84,7 @@ fn files_group(c: &mut Criterion) {
     bench_file("typescript");
     bench_file("victory");
     bench_file("vue");
+    // bench_file("large");
 }
 
 criterion_group!(benches, files_group);

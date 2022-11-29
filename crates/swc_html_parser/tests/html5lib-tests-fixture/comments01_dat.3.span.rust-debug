@@ -13,12 +13,14 @@
    ,-[$DIR/tests/html5lib-tests-fixture/comments01_dat.3.html:1:1]
  1 | FOO<!-- BAR --!
    : ^^^
+ 2 | >BAZ
    `----
 
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/comments01_dat.3.html:1:1]
  1 | FOO<!-- BAR --!
    : ^^^
+ 2 | >BAZ
    `----
 
   x Child

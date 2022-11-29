@@ -1,0 +1,3 @@
+const foo = function () {
+    () => () => () => this
+}

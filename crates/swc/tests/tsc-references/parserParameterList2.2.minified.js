@@ -1,7 +1,9 @@
 //// [parserParameterList2.ts]
 //! 
 //!   x Parameter cannot have question mark and initializer
-//!    ,----
-//!  2 | F(A?= 0) { }
-//!    :   ^
+//!    ,-[1:1]
+//!  1 | class C {
+//!  2 |   F(A?= 0) { }
+//!    :     ^
+//!  3 | }
 //!    `----

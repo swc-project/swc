@@ -24,12 +24,14 @@
    ,-[$DIR/tests/fixture/rome/at-page/page-properties/input.css:1:1]
  1 | @page {
    :  ^^^^
+ 2 | 	display: none;
    `----
 
   x Ident
    ,-[$DIR/tests/fixture/rome/at-page/page-properties/input.css:1:1]
  1 | @page {
    :  ^^^^
+ 2 | 	display: none;
    `----
 
   x SimpleBlock
@@ -43,40 +45,53 @@
    ,-[$DIR/tests/fixture/rome/at-page/page-properties/input.css:1:1]
  1 | @page {
    :       ^
+ 2 | 	display: none;
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/at-page/page-properties/input.css:2:5]
- 2 | display: none;
-   : ^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/at-page/page-properties/input.css:1:1]
+ 1 | @page {
+ 2 | 	display: none;
+   :  ^^^^^^^^^^^^^
+ 3 | }
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/rome/at-page/page-properties/input.css:2:5]
- 2 | display: none;
-   : ^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/rome/at-page/page-properties/input.css:1:1]
+ 1 | @page {
+ 2 | 	display: none;
+   :  ^^^^^^^^^^^^^
+ 3 | }
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/rome/at-page/page-properties/input.css:2:5]
- 2 | display: none;
-   : ^^^^^^^
+   ,-[$DIR/tests/fixture/rome/at-page/page-properties/input.css:1:1]
+ 1 | @page {
+ 2 | 	display: none;
+   :  ^^^^^^^
+ 3 | }
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/at-page/page-properties/input.css:2:5]
- 2 | display: none;
-   : ^^^^^^^
+   ,-[$DIR/tests/fixture/rome/at-page/page-properties/input.css:1:1]
+ 1 | @page {
+ 2 | 	display: none;
+   :  ^^^^^^^
+ 3 | }
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/at-page/page-properties/input.css:2:5]
- 2 | display: none;
-   :          ^^^^
+   ,-[$DIR/tests/fixture/rome/at-page/page-properties/input.css:1:1]
+ 1 | @page {
+ 2 | 	display: none;
+   :           ^^^^
+ 3 | }
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/at-page/page-properties/input.css:2:5]
- 2 | display: none;
-   :          ^^^^
+   ,-[$DIR/tests/fixture/rome/at-page/page-properties/input.css:1:1]
+ 1 | @page {
+ 2 | 	display: none;
+   :           ^^^^
+ 3 | }
    `----
