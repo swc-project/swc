@@ -272,6 +272,12 @@ pub enum SyntaxError {
     TS4112,
     TSTypeAnnotationAfterAssign,
     TsNonNullAssertionNotAllowed(JsWord),
+
+    WithNote {
+        inner: Box<Error>,
+        span: Span,
+        note: &'static str,
+    },
 }
 
 impl SyntaxError {
@@ -698,6 +704,7 @@ impl SyntaxError {
                 };
                 format!("Unexpected token. Did you mean {}?", did_you_mean).into()
             }
+            SyntaxError::WithNote { inner, .. } => inner.error.1.msg(),
         }
     }
 }
@@ -706,6 +713,12 @@ impl Error {
     #[cold]
     #[inline(never)]
     pub fn into_diagnostic(self, handler: &Handler) -> DiagnosticBuilder {
+        if let SyntaxError::WithNote { inner, note, span } = self.error.1 {
+            let mut db = inner.into_diagnostic(handler);
+            db.span_note(span, note);
+            return db;
+        }
+
         let span = self.span();
 
         let kind = self.into_kind();
