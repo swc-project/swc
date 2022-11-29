@@ -120,7 +120,7 @@ struct Tag {
 #[derive(PartialEq, Eq, Clone, Debug)]
 struct Attribute {
     span: Span,
-    name: String,
+    name: Option<String>,
     raw_name: Option<String>,
     value: Option<String>,
     raw_value: Option<String>,
@@ -573,14 +573,10 @@ where
 
     fn start_new_attribute(&mut self) {
         if let Some(Tag { attributes, .. }) = &mut self.current_tag_token {
-            // The longest known attribute is "glyph-orientation-horizontal" for SVG tags
-            let name = String::with_capacity(28);
-            let raw_name = String::with_capacity(28);
-
             attributes.push(Attribute {
                 span: Default::default(),
-                name,
-                raw_name: Some(raw_name),
+                name: None,
+                raw_name: None,
                 value: None,
                 raw_value: None,
             });
@@ -590,12 +586,35 @@ where
     }
 
     fn append_name_to_attribute(&mut self, c: char, raw_c: char) {
-        if let Some(Tag { attributes, .. }) = &mut self.current_tag_token {
-            if let Some(attribute) = attributes.last_mut() {
-                attribute.name.push(c);
+        let b = self.buf.clone();
+        let mut buf = b.borrow_mut();
+        let b = self.sub_buf.clone();
+        let mut sub_buf = b.borrow_mut();
 
-                if let Some(raw_name) = &mut attribute.raw_name {
-                    raw_name.push(raw_c);
+        buf.push(c);
+        sub_buf.push(raw_c);
+    }
+
+    fn finish_attribute_name(&mut self) {
+        if let Some(attribute_start_position) = self.attribute_start_position {
+            if let Some(Tag {
+                ref mut attributes, ..
+            }) = self.current_tag_token
+            {
+                if let Some(last) = attributes.last_mut() {
+                    let b = self.buf.clone();
+                    let mut buf = b.borrow_mut();
+                    let b = self.sub_buf.clone();
+                    let mut sub_buf = b.borrow_mut();
+
+                    last.name = Some(buf.clone());
+                    last.raw_name = Some(sub_buf.clone());
+
+                    buf.clear();
+                    sub_buf.clear();
+
+                    last.span =
+                        Span::new(attribute_start_position, self.cur_pos, Default::default());
                 }
             }
         }
@@ -673,7 +692,7 @@ where
                     .attributes
                     .into_iter()
                     .map(|attribute| {
-                        let name: JsWord = JsWord::from(attribute.name);
+                        let name: JsWord = JsWord::from(attribute.name.unwrap());
 
                         if already_seen.contains(&name) {
                             self.errors
@@ -2176,17 +2195,18 @@ where
                     // EOF
                     // Reconsume in the after attribute name state.
                     Some(c) if is_spacy(c) => {
-                        self.finish_attribute();
+                        self.finish_attribute_name();
                         self.skip_next_lf(c);
                         self.reconsume_in_state(State::AfterAttributeName);
                     }
                     Some('/' | '>') | None => {
-                        self.finish_attribute();
+                        self.finish_attribute_name();
                         self.reconsume_in_state(State::AfterAttributeName);
                     }
                     // U+003D EQUALS SIGN (=)
                     // Switch to the before attribute value state.
                     Some('=') => {
+                        self.finish_attribute_name();
                         self.state = State::BeforeAttributeValue;
                     }
                     // ASCII upper alpha
