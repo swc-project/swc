@@ -126,12 +126,6 @@ struct Attribute {
     raw_value: Option<String>,
 }
 
-#[derive(PartialEq, Eq, Clone, Debug)]
-struct Comment {
-    data: String,
-    raw: String,
-}
-
 pub(crate) type LexResult<T> = Result<T, ErrorKind>;
 
 pub struct Lexer<I>
@@ -149,8 +143,8 @@ where
     last_start_tag_name: Option<JsWord>,
     pending_tokens: VecDeque<TokenAndSpan>,
     buf: Rc<RefCell<String>>,
+    sub_buf: Rc<RefCell<String>>,
     current_doctype_token: Option<Doctype>,
-    current_comment_token: Option<Comment>,
     current_tag_token: Option<Tag>,
     attribute_start_position: Option<BytePos>,
     character_reference_code: Option<Vec<(u8, u32, Option<char>)>>,
@@ -177,8 +171,8 @@ where
             last_start_tag_name: None,
             pending_tokens: VecDeque::with_capacity(16),
             buf: Rc::new(RefCell::new(String::with_capacity(32))),
+            sub_buf: Rc::new(RefCell::new(String::with_capacity(32))),
             current_doctype_token: None,
-            current_comment_token: None,
             current_tag_token: None,
             attribute_start_position: None,
             character_reference_code: None,
@@ -740,67 +734,73 @@ where
     }
 
     fn create_comment_token(&mut self, new_data: Option<String>, raw_start: &str) {
-        let mut data = String::with_capacity(64);
-        let mut raw = String::with_capacity(71);
+        let b = self.buf.clone();
+        let mut buf = b.borrow_mut();
+        let b = self.sub_buf.clone();
+        let mut sub_buf = b.borrow_mut();
 
-        raw.push_str(raw_start);
+        sub_buf.push_str(raw_start);
 
         if let Some(new_data) = new_data {
-            data.push_str(&new_data);
-            raw.push_str(&new_data);
+            buf.push_str(&new_data);
+            sub_buf.push_str(&new_data);
         };
-
-        self.current_comment_token = Some(Comment { data, raw });
     }
 
     fn append_to_comment_token(&mut self, c: char, raw_c: char) {
-        if let Some(Comment { data, raw }) = &mut self.current_comment_token {
-            data.push(c);
-            raw.push(raw_c);
-        }
+        let b = self.buf.clone();
+        let mut buf = b.borrow_mut();
+        let b = self.sub_buf.clone();
+        let mut sub_buf = b.borrow_mut();
+
+        buf.push(c);
+        sub_buf.push(raw_c);
     }
 
     fn handle_raw_and_append_to_comment_token(&mut self, c: char) -> LexResult<()> {
+        let b = self.buf.clone();
+        let mut buf = b.borrow_mut();
+        let b = self.sub_buf.clone();
+        let mut sub_buf = b.borrow_mut();
+
         let is_cr = c == '\r';
 
         if is_cr {
-            self.with_buf(|l, buf| {
-                if let Some(Comment { data, raw }) = &mut l.current_comment_token {
-                    buf.push(c);
+            buf.push('\n');
+            sub_buf.push(c);
 
-                    if l.input.cur() == Some('\n') {
-                        l.input.bump();
+            if self.input.cur() == Some('\n') {
+                self.input.bump();
 
-                        buf.push('\n');
-                    }
-
-                    data.push('\n');
-                    raw.push_str(buf);
-                }
-
-                Ok(())
-            })
-        } else {
-            if let Some(Comment { data, raw }) = &mut self.current_comment_token {
-                data.push(c);
-                raw.push(c);
+                sub_buf.push('\n');
             }
+
+            Ok(())
+        } else {
+            buf.push(c);
+            sub_buf.push(c);
 
             Ok(())
         }
     }
 
     fn emit_comment_token(&mut self, raw_end: Option<&str>) {
-        let mut comment = self.current_comment_token.take().unwrap();
+        let b = self.buf.clone();
+        let mut buf = b.borrow_mut();
+        let b = self.sub_buf.clone();
+        let mut sub_buf = b.borrow_mut();
 
         if let Some(raw_end) = raw_end {
-            comment.raw.push_str(raw_end);
+            sub_buf.push_str(raw_end);
         }
 
         self.emit_token(Token::Comment {
-            data: comment.data.into(),
-            raw: Some(Atom::new(comment.raw)),
+            data: buf.clone().into(),
+            raw: Some(Atom::new(sub_buf.clone())),
         });
+
+        buf.clear();
+        sub_buf.clear();
     }
 
     fn with_buf<F, Ret>(&mut self, op: F) -> LexResult<Ret>
