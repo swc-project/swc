@@ -1,0 +1,112 @@
+| <!DOCTYPE html>
+| <html>
+|   lang="en-US"
+|   <head>
+|     "
+    "
+|     <meta>
+|       charset="utf-8"
+|     "
+    "
+|     <title>
+|       "SVG Demo"
+|     "
+    "
+|     <meta>
+|       content="width=device-width"
+|       name="viewport"
+|     "
+"
+|   "
+"
+|   <body>
+|     "
+"
+|     <svg svg>
+|       viewBox="0 0 100 100"
+|       "
+    "
+|       <svg title>
+|         "A gradient"
+|       "
+    "
+|       <svg linearGradient>
+|         id="gradient"
+|         "
+        "
+|         <svg stop>
+|           class="begin"
+|           offset="0%"
+|         "
+        "
+|         <svg stop>
+|           class="end"
+|           offset="100%"
+|         "
+    "
+|       "
+    "
+|       <svg rect>
+|         height="100"
+|         style="fill:url(#gradient)"
+|         width="100"
+|         x="0"
+|         y="0"
+|       "
+    "
+|       <svg circle>
+|         cx="50"
+|         cy="50"
+|         r="30"
+|         style="fill:url(#gradient)"
+|       "
+    "
+|       <svg text>
+|         class="empty"
+|       "
+    "
+|       <svg text>
+|         "content"
+|       "
+    "
+|       <svg text>
+|         "&amping"
+|       "
+    "
+|       <svg text>
+|         "&amping ]"
+|       "
+    "
+|       <svg text>
+|         "&amping]] "
+|       "
+    "
+|       <svg text>
+|         "<message>text</message>"
+|       "
+    "
+|       <svg text>
+|         "</this is malformed!</malformed</malformed & worse>"
+|       "
+    "
+|       <svg text>
+|         "12"
+|       "
+    "
+|       <svg text>
+|         "
+        data
+    "
+|       "
+    "
+|       <svg text>
+|         "bracket ]after"
+|       "
+    "
+|       <svg text>
+|         "abracket ]afterb"
+|       "
+"
+|     "
+
+"

@@ -1,0 +1,2 @@
+(1,32): expected-attribute-name-but-got-eof
+(1,32): expected-named-closing-tag-but-got-eof

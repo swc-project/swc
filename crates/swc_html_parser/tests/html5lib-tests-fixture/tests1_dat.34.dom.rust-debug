@@ -1,0 +1,11 @@
+| <!DOCTYPE html>
+| <html>
+|   <head>
+|   <body>
+|     "A"
+|     <option>
+|       "B"
+|     <optgroup>
+|       "C"
+|       <select>
+|         "DE"

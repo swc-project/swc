@@ -1,0 +1,2 @@
+(1,47): unexpected-EOF-after-solidus-in-tag
+(1,47): expected-named-closing-tag-but-got-eof

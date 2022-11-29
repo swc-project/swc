@@ -1,0 +1,4 @@
+(1,6): expected-doctype-but-got-start-tag
+(1,8): expected-dashes-or-doctype
+(1:9) unexpected-null-character
+(1:16) unexpected-null-character

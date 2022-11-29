@@ -1,0 +1,35 @@
+| <!DOCTYPE html>
+| <html>
+|   lang="en"
+|   <head>
+|     "
+    "
+|     <title>
+|       "Document"
+|     "
+"
+|   "
+"
+|   <body>
+|     "
+"
+|     <div>
+|       id="tmplParent"
+|       <template>
+|         content
+|           id="tmpl1"
+|           <div>
+|             id="orphanDiv"
+|             "Orphan div content"
+|           <table>
+|             id="tbl"
+|             <tbody>
+|               <tr>
+|                 <td>
+|                   "Cell 1"
+|               <tr>
+|                 <td>
+|                   "Cell 2"
+|     "
+
+"

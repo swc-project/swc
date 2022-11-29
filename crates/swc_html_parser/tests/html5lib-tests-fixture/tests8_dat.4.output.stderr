@@ -1,0 +1,10 @@
+(1,7): expected-doctype-but-got-start-tag
+(1,12): foster-parenting-start-tag
+(1,13): foster-parenting-character
+(1,18): foster-parenting-start-tag
+(1,24): foster-parenting-end-tag
+(1,25): foster-parenting-start-tag
+(1,32): foster-parenting-end-tag
+(1,32): unexpected-end-tag
+(1,33): foster-parenting-character
+(1,33): eof-in-table

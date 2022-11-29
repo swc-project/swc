@@ -1,0 +1,23 @@
+| <!-- [CDATA[
+Within this Character Data block I can
+use double dashes as much as I want (along with <, &, ', and ")
+*and* %MyParamEntity; will be expanded to the text
+"Has been expanded" ... however, I can't use
+the CEND sequence. If I need to use CEND I must escape one of the
+brackets or the greater-than sign using concatenated CDATA sections.
+]] -->
+| <html>
+|   <head>
+|   <body>
+|     <div>
+|       "test"
+|     "
+"
+|     <!-- [cdata[
+Within this Character Data block I can
+use double dashes as much as I want (along with <, &, ', and ")
+*and* %MyParamEntity; will be expanded to the text
+"Has been expanded" ... however, I can't use
+the CEND sequence. If I need to use CEND I must escape one of the
+brackets or the greater-than sign using concatenated CDATA sections.
+]] -->

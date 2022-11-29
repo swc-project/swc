@@ -1,0 +1,6 @@
+(1,5): expected-doctype-but-got-start-tag
+(1,18): unexpected-end-tag-implies-table-voodoo
+(1,18): unexpected-end-tag
+(1,31): unexpected-start-tag-implies-table-voodoo
+(1,35): unexpected-table-element-start-tag-in-select-in-table
+(1,35): eof-in-table

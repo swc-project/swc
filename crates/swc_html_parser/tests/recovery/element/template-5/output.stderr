@@ -1,0 +1,6 @@
+
+  x Misplaced non-space characters inside a table
+   ,-[$DIR/tests/recovery/element/template-5/input.html:1:1]
+ 1 | <!DOCTYPE HTML><template><tr><td>cell</td></tr>a</template>
+   :                                                ^
+   `----

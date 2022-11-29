@@ -1,0 +1,3 @@
+(1,10): expected-doctype-but-got-start-tag
+(1,45): end-tag-too-early
+(1,47): expected-closing-tag-but-got-eof

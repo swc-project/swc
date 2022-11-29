@@ -1,0 +1,6 @@
+(1,56): unexpected-end-tag
+(1,65): unexpected-start-tag-implies-end-tag
+(1,65): adoption-agency-1.3
+(1,72): unexpected-start-tag-implies-end-tag
+(1,76): adoption-agency-1.3
+(1,77): expected-closing-tag-but-got-eof

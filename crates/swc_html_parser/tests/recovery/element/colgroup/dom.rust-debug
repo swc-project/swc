@@ -1,0 +1,47 @@
+| <!DOCTYPE html>
+| <html>
+|   lang="en"
+|   <head>
+|     "
+    "
+|     <title>
+|       "Document"
+|     "
+"
+|   "
+"
+|   <body>
+|     "
+"
+|     <table>
+|       "
+    "
+|       <caption>
+|         "Superheros and sidekicks"
+|       "
+    "
+|       <colgroup>
+|         "
+        "
+|       "
+        "
+|       <colgroup>
+|         <col>
+|         "
+        "
+|         <col>
+|           class="batman"
+|           span="2"
+|         "
+        "
+|         <col>
+|           class="flash"
+|           span="2"
+|         "
+    "
+|       "
+"
+|     "
+
+
+"

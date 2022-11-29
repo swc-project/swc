@@ -1,0 +1,26 @@
+| <!DOCTYPE html>
+| <html>
+|   <head>
+|   <body>
+|     "
+
+"
+|     <h2>
+|       "HTML Images"
+|     "
+"
+|     <p>
+|       "HTML images are defined with the img tag:"
+|     "
+
+"
+|     <img>
+|       alt="W3Schools.com"
+|       height="142"
+|       src="w3schools.jpg"
+|       width="104"
+|     "
+
+
+
+"

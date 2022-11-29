@@ -1,0 +1,4 @@
+(1,4): expected-doctype-but-got-start-tag
+(1,45): end-tag-too-early
+(1,58): end-tag-too-early
+(1,69): adoption-agency-1.3

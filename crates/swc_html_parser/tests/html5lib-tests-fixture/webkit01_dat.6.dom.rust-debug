@@ -1,0 +1,15 @@
+| <html>
+|   <head>
+|   <body>
+|     <div>
+|       "Hello"
+|     "
+"
+|     <script>
+|       "
+console.log("FOO<span>BAR</span>BAZ");
+"
+|     "
+"
+|     <div>
+|       "Bye"

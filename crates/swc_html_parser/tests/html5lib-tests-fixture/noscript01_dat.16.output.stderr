@@ -1,0 +1,4 @@
+Line: 1 Col: 6 Unexpected start tag (head). Expected DOCTYPE.
+Line: 1 Col: 19 Unexpected non-space character. Expected inhead-noscript content
+Line: 1 Col: 30 Unexpected end tag (noscript). Ignored.
+Line: 1 Col: 37 Unexpected end tag (head). Ignored.

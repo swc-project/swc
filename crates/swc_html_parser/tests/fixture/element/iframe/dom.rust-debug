@@ -1,0 +1,30 @@
+| <!DOCTYPE html>
+| <html>
+|   lang="en"
+|   <head>
+|     "
+    "
+|     <title>
+|       "Document"
+|     "
+"
+|   "
+"
+|   <body>
+|     "
+"
+|     <iframe>
+|       frameborder="0"
+|       src="test.html"
+|     "
+
+"
+|     <iframe>
+|       align="left"
+|       height="60"
+|       src="banner.html"
+|       width="468"
+|       "   Text   "
+|     "
+
+"

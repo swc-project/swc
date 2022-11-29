@@ -1,0 +1,5 @@
+no doctype
+bogus /div
+bogus tr
+bogus /tr
+eof in template

@@ -1,0 +1,2 @@
+(1,10): expected-doctype-but-got-start-tag
+(2,10): expected-named-closing-tag-but-got-eof

@@ -1,0 +1,11 @@
+| <!DOCTYPE html>
+| <html>
+|   <head>
+|   <body>
+|     <svg svg>
+|       <svg g>
+|         "foo"
+|       <svg g>
+|         "bar"
+|     <table>
+|       <tbody>

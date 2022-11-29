@@ -1,0 +1,58 @@
+| <!-- ?xml version="1.0" encoding="UTF-8"? -->
+| <!DOCTYPE html "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+| <html>
+|   xml:lang="en"
+|   xmlns="http://www.w3.org/1999/xhtml"
+|   <head>
+|     "
+    "
+|     <title>
+|       "XHTML 1.0 Strict Example"
+|     "
+    "
+|     <script>
+|       type="application/javascript"
+|       "
+        <![CDATA[
+        function loadpdf() {
+            document.getElementById("pdf-object").src="http://www.w3.org/TR/xhtml1/xhtml1.pdf";
+        }
+        ]]>
+    "
+|     "
+"
+|   "
+"
+|   <body>
+|     onload="loadpdf()"
+|     "
+"
+|     <p>
+|       "This is an example of an
+    "
+|       <abbr>
+|         title="Extensible HyperText Markup Language"
+|         "XHTML"
+|       " 1.0 Strict document."
+|       <br>
+|       "
+    "
+|       <img>
+|         alt="Valid XHTML 1.0 Strict"
+|         id="validation-icon"
+|         src="http://www.w3.org/Icons/valid-xhtml10"
+|       <br>
+|       "
+    "
+|       <object>
+|         data="http://www.w3.org/TR/xhtml1/xhtml1.pdf"
+|         height="500"
+|         id="pdf-object"
+|         type="application/pdf"
+|         width="100%"
+|       "
+"
+|     "
+
+
+"

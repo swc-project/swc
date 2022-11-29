@@ -1,0 +1,2 @@
+(1,1): expected-tag-name-but-got-question-mark
+(1,47): expected-doctype-but-got-eof

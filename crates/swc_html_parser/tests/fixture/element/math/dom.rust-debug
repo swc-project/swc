@@ -1,0 +1,502 @@
+| <!DOCTYPE html>
+| <html>
+|   <head>
+|     "
+    "
+|     <title>
+|       "MathML in HTML5"
+|     "
+"
+|   "
+"
+|   <body>
+|     "
+
+"
+|     <math math>
+|       "
+    "
+|       <math mrow>
+|         "
+        "
+|         <math mrow>
+|           "
+            "
+|           <math msup>
+|             "
+                "
+|             <math mi>
+|               "a"
+|             "
+                "
+|             <math mn>
+|               "2"
+|             "
+            "
+|           "
+            "
+|           <math mo>
+|             "+"
+|           "
+            "
+|           <math msup>
+|             "
+                "
+|             <math mi>
+|               "b"
+|             "
+                "
+|             <math mn>
+|               "2"
+|             "
+            "
+|           "
+        "
+|         "
+        "
+|         <math mo>
+|           "="
+|         "
+        "
+|         <math msup>
+|           "
+            "
+|           <math mi>
+|             "c"
+|           "
+            "
+|           <math mn>
+|             "2"
+|           "
+        "
+|         "
+    "
+|       "
+"
+|     "
+
+"
+|     <math math>
+|       xmlns="http://www.w3.org/1998/Math/MathML"
+|       "
+    "
+|       <math matrix>
+|         "
+        "
+|         <math matrixrow>
+|           "
+            "
+|           <math cn>
+|             " 0 "
+|           " "
+|           <math cn>
+|             " 1 "
+|           " "
+|           <math cn>
+|             " 0 "
+|           "
+        "
+|         "
+        "
+|         <math matrixrow>
+|           "
+            "
+|           <math cn>
+|             " 0 "
+|           " "
+|           <math cn>
+|             " 0 "
+|           " "
+|           <math cn>
+|             " 1 "
+|           "
+        "
+|         "
+        "
+|         <math matrixrow>
+|           "
+            "
+|           <math cn>
+|             " 1 "
+|           " "
+|           <math cn>
+|             " 0 "
+|           " "
+|           <math cn>
+|             " 0 "
+|           "
+        "
+|         "
+    "
+|       "
+"
+|     "
+
+"
+|     <math math>
+|       xmlns="http://www.w3.org/1998/Math/MathML"
+|       "
+    "
+|       <math infinity>
+|       "
+"
+|     "
+
+"
+|     <math math>
+|       "
+    "
+|       <math semantics>
+|         "
+
+        "
+|         <!--  Presentation MathML  -->
+|         "
+        "
+|         <math mrow>
+|           "
+            "
+|           <math msup>
+|             "
+                "
+|             <math mi>
+|               "x"
+|             "
+                "
+|             <math mn>
+|               "2"
+|             "
+            "
+|           "
+            "
+|           <math mo>
+|             "+"
+|           "
+            "
+|           <math mi>
+|             "y"
+|           "
+        "
+|         "
+
+        "
+|         <!--  Content MathML  -->
+|         "
+        "
+|         <math annotation-xml>
+|           encoding="MathML-Content"
+|           "
+            "
+|           <math apply>
+|             "
+                "
+|             <math plus>
+|             "
+                "
+|             <math apply>
+|               "
+                    "
+|               <math power>
+|               "
+                    "
+|               <math ci>
+|                 "x"
+|               "
+                    "
+|               <math cn>
+|                 type="integer"
+|                 "2"
+|               "
+                "
+|             "
+                "
+|             <math ci>
+|               "y"
+|             "
+            "
+|           "
+        "
+|         "
+
+        "
+|         <!--  annotate an image  -->
+|         "
+        "
+|         <math annotation>
+|           encoding="image/png"
+|           src="some/path/formula.png"
+|         "
+
+        "
+|         <!--  annotate TeX  -->
+|         "
+        "
+|         <math annotation>
+|           encoding="application/x-tex"
+|           "
+            x^{2} + y
+        "
+|         "
+
+    "
+|       "
+"
+|     "
+
+"
+|     <math math>
+|       "
+    "
+|       <math mtable>
+|         "
+        "
+|         <math mtr>
+|           groupalign="{left}"
+|           "
+            "
+|           <math mtd>
+|             "
+                "
+|             <math mrow>
+|               "
+                    "
+|               <math mn>
+|                 "2"
+|               "
+                    "
+|               <math mo>
+|                 "⁢"
+|               "
+                    "
+|               <math maligngroup>
+|               <math mi>
+|                 "x"
+|               "
+                    "
+|               <math maligngroup>
+|               <math mo>
+|                 "+"
+|               "
+                    "
+|               <math maligngroup>
+|               <math mi>
+|                 "y"
+|               "
+                    "
+|               <math maligngroup>
+|               <math mo>
+|                 "="
+|               "
+                    "
+|               <math mo>
+|                 "-"
+|               "
+                    "
+|               <math maligngroup>
+|               <math mn>
+|                 "5"
+|               "
+                "
+|             "
+            "
+|           "
+        "
+|         "
+        "
+|         <math mtr>
+|           "
+            "
+|           <math mtd>
+|             "
+                "
+|             <math mrow>
+|               "
+                    "
+|               <math maligngroup>
+|               <math mi>
+|                 "x"
+|               "
+                    "
+|               <math maligngroup>
+|               <math mo>
+|                 "-"
+|               "
+                    "
+|               <math mn>
+|                 "2"
+|               "
+                    "
+|               <math mo>
+|                 "⁢"
+|               "
+                    "
+|               <math maligngroup>
+|               <math mi>
+|                 "y"
+|               "
+                    "
+|               <math maligngroup>
+|               <math mo>
+|                 "="
+|               "
+                    "
+|               <math maligngroup>
+|               <math mn>
+|                 "1"
+|               "
+                "
+|             "
+            "
+|           "
+        "
+|         "
+    "
+|       "
+"
+|     "
+
+"
+|     <math math>
+|       "
+
+    "
+|       <math mtext>
+|         " Theorem of Pythagoras "
+|       "
+
+    "
+|       <math mtext>
+|         " /* comment here */ "
+|       "
+
+"
+|     "
+
+"
+|     <math math>
+|       "
+    "
+|       <math mtext>
+|         "
+        "
+|         <div>
+|           "test"
+|         "
+    "
+|       "
+"
+|     "
+
+"
+|     <math math>
+|       "
+    "
+|       <math msup>
+|         "
+        "
+|         <math mrow>
+|           "
+            "
+|           <math mi>
+|             " x "
+|           "
+            "
+|           <math malignmark>
+|             edge="right"
+|           "
+        "
+|         "
+        "
+|         <math mn>
+|           " 2 "
+|         "
+    "
+|       "
+"
+|     "
+
+"
+|     <math math>
+|       "
+    "
+|       <math annotation-xml>
+|         "
+        "
+|         <svg svg>
+|           height="220px"
+|           style="font-size: 20px"
+|           viewBox="0 0 200 110"
+|           width="400px"
+|           "
+            "
+|           <svg g>
+|             transform="translate(10,80)"
+|             "
+                "
+|             <svg path>
+|               d="M 0 0 L 150 0 A 75 75 0 0 0 0 0
+             M 30 0 L 30 -60 M 30 -10 L 40 -10 L 40 0"
+|               fill="none"
+|               stroke="black"
+|             "
+                "
+|             <svg text>
+|               transform="translate(10,20)"
+|               "1"
+|             "
+                "
+|             <svg switch>
+|               transform="translate(35,-40)"
+|               "
+                    "
+|               <svg foreignObject>
+|                 height="50"
+|                 requiredExtensions="http://www.w3.org/1998/Math/MathML"
+|                 width="200"
+|                 "
+                        "
+|                 <math math>
+|                   "
+                            "
+|                   <math msqrt>
+|                     "
+                                "
+|                     <math mn>
+|                       "2"
+|                     "
+                                "
+|                     <math mi>
+|                       "r"
+|                     "
+                                "
+|                     <math mo>
+|                       "−"
+|                     "
+                                "
+|                     <math mn>
+|                       "1"
+|                     "
+                            "
+|                   "
+                        "
+|                 "
+                    "
+|               "
+                    "
+|               <svg text>
+|                 "\sqrt{2r - 1}"
+|               "
+                "
+|             "
+            "
+|           "
+        "
+|         "
+    "
+|       "
+"
+|     "
+
+
+
+"

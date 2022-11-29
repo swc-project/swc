@@ -1,0 +1,3 @@
+(1,1): invalid-codepoint
+(1,1): expected-doctype-but-got-chars
+(1,1): invalid-codepoint-in-body

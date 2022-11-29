@@ -1,0 +1,7 @@
+| <html>
+|   <head>
+|   <body>
+|     <table>
+|       <colgroup>
+|         <col>
+|           foo="bar"

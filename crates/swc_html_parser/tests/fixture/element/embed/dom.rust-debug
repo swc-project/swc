@@ -1,0 +1,36 @@
+| <!DOCTYPE html>
+| <html>
+|   lang="en"
+|   <head>
+|     "
+    "
+|     <title>
+|       "Document"
+|     "
+"
+|   "
+"
+|   <body>
+|     "
+    "
+|     <embed>
+|       height="200"
+|       src="/media/examples/flower.mp4"
+|       type="vide/webm"
+|       width="200"
+|     "
+    "
+|     <noembed>
+|       "
+        <h1>Alternative content</h1>
+    "
+|     "
+    "
+|     <embed>
+|       height="200"
+|       src="/media/cc0-videos/flower.mp4"
+|       type="video/webm"
+|       width="250"
+|     "
+
+"

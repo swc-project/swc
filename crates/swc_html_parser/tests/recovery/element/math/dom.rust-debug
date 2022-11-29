@@ -1,0 +1,141 @@
+| <!DOCTYPE html>
+| <html>
+|   xmlns="http://www.w3.org/1999/xhtml"
+|   <head>
+|     "
+    "
+|     <title>
+|       "MathML in HTML5"
+|     "
+"
+|   "
+"
+|   <body>
+|     "
+
+"
+|     <math math>
+|       "
+    "
+|       <math semantics>
+|         "
+
+        "
+|         <!--  Presentation MathML  -->
+|         "
+        "
+|         <math mrow>
+|           "
+            "
+|           <math msup>
+|             "
+                "
+|             <math mi>
+|               "x"
+|             "
+                "
+|             <math mn>
+|               "2"
+|             "
+            "
+|           "
+            "
+|           <math mo>
+|             "+"
+|           "
+            "
+|           <math mi>
+|             "y"
+|           "
+        "
+|         "
+
+        "
+|         <!--  Content MathML  -->
+|         "
+        "
+|         <math annotation-xml>
+|           encoding="MathML-Content"
+|           "
+            "
+|           <math apply>
+|             "
+                "
+|             <math plus>
+|             "
+                "
+|             <math apply>
+|               "
+                    "
+|               <math power>
+|               "
+                    "
+|               <math ci>
+|                 "x"
+|               "
+                    "
+|               <math cn>
+|                 type="integer"
+|                 "2"
+|               "
+                "
+|             "
+                "
+|             <math ci>
+|               "y"
+|             "
+            "
+|           "
+        "
+|         "
+
+        "
+|         <!--  Content HTML  -->
+|         "
+        "
+|         <math annotation-xml>
+|           encoding="application/xhtml+xml"
+|           "
+            
+            "
+|           <title>
+|             "INNER HTML TITLE"
+|           "
+            
+            "
+|           <p>
+|             "The base of the natural logarithms, approximately 2.71828."
+|           "
+            
+            
+        "
+|         "
+
+        "
+|         <!--  annotate an image  -->
+|         "
+        "
+|         <math annotation>
+|           encoding="image/png"
+|           src="some/path/formula.png"
+|         "
+
+        "
+|         <!--  annotate TeX  -->
+|         "
+        "
+|         <math annotation>
+|           encoding="application/x-tex"
+|           "
+            x^{2} + y
+        "
+|         "
+
+    "
+|       "
+"
+|     "
+
+
+
+"

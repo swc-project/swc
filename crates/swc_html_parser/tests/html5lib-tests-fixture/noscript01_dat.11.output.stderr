@@ -1,0 +1,4 @@
+Line: 1 Col: 6 Unexpected start tag (head). Expected DOCTYPE.
+Line: 1 Col: 21 Element br not allowed in a inhead-noscript context
+Line: 1 Col: 21 Unexpected end tag (br). Treated as br element.
+Line: 1 Col: 42 Unexpected end tag (noscript). Ignored.

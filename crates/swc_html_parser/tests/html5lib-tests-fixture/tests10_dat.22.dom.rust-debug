@@ -1,0 +1,7 @@
+| <!DOCTYPE html>
+| <html>
+|   <head>
+|   <body>
+|     xlink:href="foo"
+|     <svg svg>
+|       xlink href="foo"

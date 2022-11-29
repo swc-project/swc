@@ -1,0 +1,65 @@
+| <!DOCTYPE html>
+| <html>
+|   lang="en"
+|   <head>
+|     "
+    "
+|     <title>
+|       "Document"
+|     "
+"
+|   "
+"
+|   <body>
+|     "
+"
+|     <table>
+|       "
+    "
+|       <caption>
+|         "Superheros and sidekicks"
+|       "
+    "
+|       <colgroup>
+|         <col>
+|         <col>
+|           class="batman"
+|           span="2"
+|         <col>
+|           class="flash"
+|           span="2"
+|       "
+    "
+|       <tbody>
+|         <tr>
+|           "
+        "
+|           <td>
+|             " "
+|           "
+        "
+|           <th>
+|             scope="col"
+|             "Batman"
+|           "
+        "
+|           <th>
+|             scope="col"
+|             "Robin"
+|           "
+        "
+|           <th>
+|             scope="col"
+|             "The Flash"
+|           "
+        "
+|           <th>
+|             scope="col"
+|             "Kid Flash"
+|           "
+    "
+|         "
+"
+|     "
+
+"

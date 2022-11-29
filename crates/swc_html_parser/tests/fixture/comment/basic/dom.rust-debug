@@ -1,0 +1,45 @@
+| <!DOCTYPE html>
+| <html>
+|   lang="en"
+|   <head>
+|     "
+    "
+|     <title>
+|       "Document"
+|     "
+"
+|   "
+"
+|   <body>
+|     "
+"
+|     <!--  test  -->
+|     "
+
+"
+|     <!--  foo  -->
+|     <div>
+|       "baz"
+|     <!--  bar
+
+moo  -->
+|     "
+"
+|     <script>
+|       "<!-- alert(1) -->"
+|     "
+"
+|     <script>
+|       "alert('<!--')"
+|     "
+"
+|     <script>
+|       "alert('<!-- foo -->')"
+|     "
+"
+|     <script>
+|       "alert('-->')"
+|     "
+
+
+"

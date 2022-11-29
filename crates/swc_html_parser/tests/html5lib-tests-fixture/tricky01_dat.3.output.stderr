@@ -1,0 +1,4 @@
+(1,6): expected-doctype-but-got-start-tag
+(4,4): end-tag-too-early
+(5,5): end-tag-too-early
+(6,7): expected-one-end-tag-but-got-another

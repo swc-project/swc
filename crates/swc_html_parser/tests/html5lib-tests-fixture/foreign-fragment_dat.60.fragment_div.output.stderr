@@ -1,0 +1,3 @@
+9: HTML end tag “p” in a foreign namespace context.
+(1:6) Unexpected </p> from in body insertion mode
+(1:15) Unexpected EOF
