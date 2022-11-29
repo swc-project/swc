@@ -761,7 +761,7 @@
             createTextVNode(children)
         ] : Array.isArray(children) ? function normalizeArrayChildren(children, nestedIndex) {
             var i, c, lastIndex, last, res = [];
-            for(i = 0; i < children.length; i++)!isUndef(c = children[i]) && 'boolean' != typeof c && (last = res[lastIndex = res.length - 1], Array.isArray(c) ? c.length > 0 && (isTextNode((c = normalizeArrayChildren(c, (nestedIndex || '') + "_" + i))[0]) && isTextNode(last) && (res[lastIndex] = createTextVNode(last.text + c[0].text), c.shift()), res.push.apply(res, c)) : isPrimitive(c) ? isTextNode(last) ? res[lastIndex] = createTextVNode(last.text + c) : '' !== c && res.push(createTextVNode(c)) : isTextNode(c) && isTextNode(last) ? res[lastIndex] = createTextVNode(last.text + c.text) : (isTrue(children._isVList) && isDef(c.tag) && isUndef(c.key) && isDef(nestedIndex) && (c.key = "__vlist" + nestedIndex + "_" + i + "__"), res.push(c)));
+            for(i = 0; i < children.length; i++)!isUndef(c = children[i]) && 'boolean' != typeof c && (lastIndex = res.length - 1, last = res[lastIndex], Array.isArray(c) ? c.length > 0 && (isTextNode((c = normalizeArrayChildren(c, (nestedIndex || '') + "_" + i))[0]) && isTextNode(last) && (res[lastIndex] = createTextVNode(last.text + c[0].text), c.shift()), res.push.apply(res, c)) : isPrimitive(c) ? isTextNode(last) ? res[lastIndex] = createTextVNode(last.text + c) : '' !== c && res.push(createTextVNode(c)) : isTextNode(c) && isTextNode(last) ? res[lastIndex] = createTextVNode(last.text + c.text) : (isTrue(children._isVList) && isDef(c.tag) && isUndef(c.key) && isDef(nestedIndex) && (c.key = "__vlist" + nestedIndex + "_" + i + "__"), res.push(c)));
             return res;
         }(children) : void 0;
     }

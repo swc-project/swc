@@ -241,7 +241,7 @@
             ], function(require, exports, module) {
                 "use strict";
                 var oop = require("./oop"), Keys = function() {
-                    var i, ret = {
+                    var name, i, ret = {
                         MODIFIER_KEYS: {
                             16: "Shift",
                             17: "Ctrl",
@@ -364,8 +364,8 @@
                             106: "*"
                         }
                     };
-                    for(i in ret.FUNCTION_KEYS)ret[ret.FUNCTION_KEYS[i].toLowerCase()] = parseInt(i, 10);
-                    for(i in ret.PRINTABLE_KEYS)ret[ret.PRINTABLE_KEYS[i].toLowerCase()] = parseInt(i, 10);
+                    for(i in ret.FUNCTION_KEYS)name = ret.FUNCTION_KEYS[i].toLowerCase(), ret[name] = parseInt(i, 10);
+                    for(i in ret.PRINTABLE_KEYS)name = ret.PRINTABLE_KEYS[i].toLowerCase(), ret[name] = parseInt(i, 10);
                     return oop.mixin(ret, ret.MODIFIER_KEYS), oop.mixin(ret, ret.PRINTABLE_KEYS), oop.mixin(ret, ret.FUNCTION_KEYS), ret.enter = ret.return, ret.escape = ret.esc, ret.del = ret.delete, ret[173] = "-", function() {
                         for(var mods = [
                             "cmd",

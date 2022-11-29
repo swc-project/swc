@@ -722,7 +722,7 @@
             arg.replace(FN_ARG, function(all, underscore, name) {
                 $inject.push(name);
             });
-        }), fn.$inject = $inject) : isArray(fn) ? (assertArgFn(fn[last = fn.length - 1], "fn"), $inject = fn.slice(0, last)) : assertArgFn(fn, "fn", !0), $inject;
+        }), fn.$inject = $inject) : isArray(fn) ? (last = fn.length - 1, assertArgFn(fn[last], "fn"), $inject = fn.slice(0, last)) : assertArgFn(fn, "fn", !0), $inject;
     }
     function createInjector(modulesToLoad) {
         var INSTANTIATING = {}, providerSuffix = "Provider", path = [], loadedModules = new HashMap(), providerCache = {
@@ -3990,7 +3990,7 @@
                             for(key in trackByIdFn = trackByIdExpFn || trackByIdObjFn, collectionKeys = [], collection)collection.hasOwnProperty(key) && "$" != key.charAt(0) && collectionKeys.push(key);
                             collectionKeys.sort();
                         }
-                        for(index = 0, arrayLength = collectionKeys.length, length = nextBlockOrder.length = collectionKeys.length; index < length; index++)if (value = collection[key = collection === collectionKeys ? index : collectionKeys[index]], assertNotHasOwnProperty(trackById = trackByIdFn(key, value, index), "`track by` id"), lastBlockMap.hasOwnProperty(trackById)) block = lastBlockMap[trackById], delete lastBlockMap[trackById], nextBlockMap[trackById] = block, nextBlockOrder[index] = block;
+                        for(index = 0, arrayLength = collectionKeys.length, length = nextBlockOrder.length = collectionKeys.length; index < length; index++)if (key = collection === collectionKeys ? index : collectionKeys[index], value = collection[key], assertNotHasOwnProperty(trackById = trackByIdFn(key, value, index), "`track by` id"), lastBlockMap.hasOwnProperty(trackById)) block = lastBlockMap[trackById], delete lastBlockMap[trackById], nextBlockMap[trackById] = block, nextBlockOrder[index] = block;
                         else if (nextBlockMap.hasOwnProperty(trackById)) throw forEach(nextBlockOrder, function(block) {
                             block && block.scope && (lastBlockMap[block.id] = block);
                         }), ngRepeatMinErr("dupes", "Duplicates in a repeater are not allowed. Use 'track by' expression to specify unique keys. Repeater: {0}, Duplicate key: {1}", expression, trackById);
@@ -4001,7 +4001,7 @@
                             element[NG_REMOVED] = !0;
                         }), block.scope.$destroy());
                         for(index = 0, length = collectionKeys.length; index < length; index++){
-                            if (value = collection[key = collection === collectionKeys ? index : collectionKeys[index]], block = nextBlockOrder[index], nextBlockOrder[index - 1] && (previousNode = getBlockEnd(nextBlockOrder[index - 1])), block.scope) {
+                            if (key = collection === collectionKeys ? index : collectionKeys[index], value = collection[key], block = nextBlockOrder[index], nextBlockOrder[index - 1] && (previousNode = getBlockEnd(nextBlockOrder[index - 1])), block.scope) {
                                 childScope = block.scope, nextNode = previousNode;
                                 do nextNode = nextNode.nextSibling;
                                 while (nextNode && nextNode[NG_REMOVED])

@@ -3149,7 +3149,7 @@
                             });
                         }) || H(n);
                     });
-                    var T = V[Math.min(V.length - 1, Math.floor(R() / 50))];
+                    var y, T = (y = Math.min(V.length - 1, Math.floor(R() / 50)), V[y]);
                     T && T.latency !== w.value && (w.value = T.latency, w.entries = T.entries, C());
                 }, P = s("event", a, {
                     durationThreshold: y.durationThreshold || 40
