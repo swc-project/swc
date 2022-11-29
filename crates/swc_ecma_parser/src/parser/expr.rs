@@ -495,12 +495,7 @@ impl<I: Tokens> Parser<I> {
             })));
         }
 
-        unexpected!(
-            self,
-            "this, import, async, function, [ for array literal, { for object literal, @ for \
-             decorator, function, class, null, true, false, number, bigint, string, regexp, ` for \
-             template literal, (, or an identifier"
-        )
+        syntax_error!(self, self.input.cur_span(), SyntaxError::TS1109)
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
