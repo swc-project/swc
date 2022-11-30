@@ -321,14 +321,10 @@ where
     #[inline(always)]
     fn current_end_tag_token_is_an_appropriate_end_tag_token(&mut self) -> bool {
         if let Some(last_start_tag_name) = &self.last_start_tag_name {
-            if let Some(Tag {
-                kind: TagKind::End,
-                tag_name,
-                ..
-            }) = &self.current_tag_token
-            {
-                return last_start_tag_name == tag_name;
-            }
+            let b = self.buf.clone();
+            let buf = b.borrow();
+
+            return *last_start_tag_name == *buf;
         }
 
         false
@@ -535,7 +531,7 @@ where
         self.current_tag_token = Some(Tag {
             kind: TagKind::Start,
             // Maximum known tag is `feComponentTransfer` (SVG)
-            tag_name: String::with_capacity(19),
+            tag_name: String::new(),
             raw_tag_name: None,
             is_self_closing: false,
             attributes: vec![],
@@ -546,7 +542,7 @@ where
         self.current_tag_token = Some(Tag {
             kind: TagKind::End,
             // Maximum known tag is `feComponentTransfer` (SVG)
-            tag_name: String::with_capacity(19),
+            tag_name: String::new(),
             raw_tag_name: None,
             is_self_closing: false,
             // In valid HTML code closed tags do not have attributes
@@ -555,23 +551,33 @@ where
     }
 
     fn append_to_tag_token_name(&mut self, c: char, raw_c: char) {
-        if let Some(Tag { tag_name, .. }) = &mut self.current_tag_token {
-            tag_name.push(c);
-
+        if let Some(Tag { .. }) = &mut self.current_tag_token {
+            let b = self.buf.clone();
+            let mut buf = b.borrow_mut();
             let b = self.sub_buf.clone();
             let mut sub_buf = b.borrow_mut();
 
+            buf.push(c);
             sub_buf.push(raw_c);
         }
     }
 
     fn finish_tag_token_name(&mut self) {
-        if let Some(Tag { raw_tag_name, .. }) = &mut self.current_tag_token {
+        if let Some(Tag {
+            tag_name,
+            raw_tag_name,
+            ..
+        }) = &mut self.current_tag_token
+        {
+            let b = self.buf.clone();
+            let mut buf = b.borrow_mut();
             let b = self.sub_buf.clone();
             let mut sub_buf = b.borrow_mut();
 
+            *tag_name = buf.clone().into();
             *raw_tag_name = Some(Atom::new(sub_buf.clone()));
 
+            buf.clear();
             sub_buf.clear();
         }
     }
@@ -1232,6 +1238,7 @@ where
             // https://html.spec.whatwg.org/multipage/parsing.html#rcdata-end-tag-name-state
             State::RcdataEndTagName => {
                 let anything_else = |lexer: &mut Lexer<I>| {
+                    lexer.finish_tag_token_name();
                     lexer.emit_character_token('<');
                     lexer.emit_character_token('/');
                     lexer.emit_temporary_buffer_as_character_tokens();
@@ -1351,6 +1358,7 @@ where
             // https://html.spec.whatwg.org/multipage/parsing.html#rawtext-end-tag-name-state
             State::RawtextEndTagName => {
                 let anything_else = |lexer: &mut Lexer<I>| {
+                    lexer.finish_tag_token_name();
                     lexer.emit_character_token('<');
                     lexer.emit_character_token('/');
                     lexer.emit_temporary_buffer_as_character_tokens();
@@ -1478,6 +1486,7 @@ where
             // https://html.spec.whatwg.org/multipage/parsing.html#script-data-end-tag-name-state
             State::ScriptDataEndTagName => {
                 let anything_else = |lexer: &mut Lexer<I>| {
+                    lexer.finish_tag_token_name();
                     lexer.emit_character_token('<');
                     lexer.emit_character_token('/');
                     lexer.emit_temporary_buffer_as_character_tokens();
@@ -1773,6 +1782,7 @@ where
             // https://html.spec.whatwg.org/multipage/parsing.html#script-data-escaped-end-tag-name-state
             State::ScriptDataEscapedEndTagName => {
                 let anything_else = |lexer: &mut Lexer<I>| {
+                    lexer.finish_tag_token_name();
                     lexer.emit_character_token('<');
                     lexer.emit_character_token('/');
                     lexer.emit_temporary_buffer_as_character_tokens();
