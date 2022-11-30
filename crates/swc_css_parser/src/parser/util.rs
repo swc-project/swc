@@ -267,27 +267,21 @@ where
         &mut self,
         mut function: Function,
     ) -> PResult<Function> {
-        match self.ctx.block_contents_grammar {
-            BlockContentsGrammar::DeclarationList => {}
-            _ => {
-                let function_name = function.name.value.to_ascii_lowercase();
+        let function_name = function.name.value.to_ascii_lowercase();
+        let locv = self.create_locv(function.value);
 
-                let locv = self.create_locv(function.value);
+        function.value = match self.parse_according_to_grammar(&locv, |parser| {
+            parser.parse_function_values(&function_name)
+        }) {
+            Ok(values) => values,
+            Err(err) => {
+                if *err.kind() != ErrorKind::Ignore {
+                    self.errors.push(err);
+                }
 
-                function.value = match self.parse_according_to_grammar(&locv, |parser| {
-                    parser.parse_function_values(&function_name)
-                }) {
-                    Ok(values) => values,
-                    Err(err) => {
-                        if *err.kind() != ErrorKind::Ignore {
-                            self.errors.push(err);
-                        }
-
-                        locv.children
-                    }
-                };
+                locv.children
             }
-        }
+        };
 
         Ok(function)
     }

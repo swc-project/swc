@@ -55,7 +55,6 @@ pub enum BlockContentsGrammar {
     DeclarationList,
     RuleList,
     Stylesheet,
-    DeclarationValue,
 }
 
 impl Default for BlockContentsGrammar {
@@ -64,11 +63,12 @@ impl Default for BlockContentsGrammar {
     }
 }
 
-#[derive(Debug, Default, Clone, Copy)]
+#[derive(Debug, Clone, Copy)]
 struct Ctx {
     is_top_level: bool,
     block_contents_grammar: BlockContentsGrammar,
     mixed_with_declarations: bool,
+    need_canonicalize: bool,
 
     in_keyframes_at_rule: bool,
     in_supports_at_rule: bool,
@@ -76,6 +76,24 @@ struct Ctx {
     in_page_at_rule: bool,
     in_container_at_rule: bool,
     in_font_feature_values_at_rule: bool,
+}
+
+impl Default for Ctx {
+    fn default() -> Self {
+        Ctx {
+            is_top_level: false,
+            block_contents_grammar: BlockContentsGrammar::default(),
+            mixed_with_declarations: false,
+            need_canonicalize: true,
+
+            in_keyframes_at_rule: false,
+            in_supports_at_rule: false,
+            in_import_at_rule: false,
+            in_page_at_rule: false,
+            in_container_at_rule: false,
+            in_font_feature_values_at_rule: false,
+        }
+    }
 }
 
 #[derive(Debug, Clone)]
