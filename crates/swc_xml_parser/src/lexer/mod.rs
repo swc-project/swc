@@ -35,8 +35,6 @@ pub enum State {
     CdataEnd,
     TagOpen,
     EndTagOpen,
-    EndTagName,
-    EndTagNameAfter,
     TagName,
     EmptyTag,
     TagAttributeNameBefore,
@@ -1668,79 +1666,7 @@ where
                     Some(c) => {
                         self.validate_input_stream_character(c);
                         self.create_tag_token(TagKind::End);
-                        self.append_to_tag_token_name(c);
-                        self.state = State::EndTagName
-                    }
-                }
-            }
-            State::EndTagName => {
-                // Consume the next input character:
-                match self.consume_next_char() {
-                    // U+0009 CHARACTER TABULATION (Tab)
-                    // U+000A LINE FEED (LF)
-                    // U+0020 SPACE (Space)
-                    // Switch to the end tag name after state.
-                    Some(c) if is_spacy_except_ff(c) => {
-                        self.state = State::EndTagNameAfter;
-                    }
-                    // U+002F SOLIDUS (/)
-                    // Parse error. Switch to the end tag name after state.
-                    Some('/') => {
-                        self.emit_error(ErrorKind::EndTagWithTrailingSolidus);
-                        self.state = State::EndTagNameAfter;
-                    }
-                    // EOF
-                    // Parse error. Emit the start tag token and then reprocess the current input
-                    // character in the data state.
-                    None => {
-                        self.emit_error(ErrorKind::EofInTag);
-                        self.emit_tag_token(Some(TagKind::Start));
-                        self.reconsume_in_state(State::Data);
-                    }
-                    // U+003E GREATER-THAN SIGN (>)
-                    // Emit the current token and then switch to the data state.
-                    Some('>') => {
-                        self.emit_tag_token(None);
-                        self.state = State::Data;
-                    }
-                    // Anything else
-                    // Append the current input character to the tag name and stay in the current
-                    // state.
-                    Some(c) => {
-                        self.validate_input_stream_character(c);
-                        self.append_to_tag_token_name(c);
-                    }
-                }
-            }
-            State::EndTagNameAfter => {
-                // Consume the next input character:
-                match self.consume_next_char() {
-                    // U+003E GREATER-THAN SIGN (>)
-                    // Emit the current token and then switch to the data state.
-                    Some('>') => {
-                        self.emit_tag_token(None);
-                        self.state = State::Data;
-                    }
-                    // U+0009 CHARACTER TABULATION (Tab)
-                    // U+000A LINE FEED (LF)
-                    // U+0020 SPACE (Space)
-                    // Stay in the current state.
-                    Some(c) if is_spacy_except_ff(c) => {
-                        self.skip_next_lf(c);
-                    }
-                    // EOF
-                    // Parse error. Emit the current token and then reprocess the current input
-                    // character in the data state.
-                    None => {
-                        self.emit_error(ErrorKind::EofInTag);
-                        self.emit_tag_token(None);
-                        self.reconsume_in_state(State::Data);
-                    }
-                    // Anything else
-                    // Parse error. Stay in the current state.
-                    Some(c) => {
-                        self.validate_input_stream_character(c);
-                        self.emit_error(ErrorKind::InvalidCharacterInTag);
+                        self.reconsume_in_state(State::TagName);
                     }
                 }
             }
@@ -1765,7 +1691,7 @@ where
                     // Switch to the data state. Emit the current tag token.
                     Some('>') => {
                         self.state = State::Data;
-                        self.emit_tag_token(Some(TagKind::Start));
+                        self.emit_tag_token(None);
                     }
                     // EOF
                     // This is an eof-in-tag parse error. Emit an end-of-file token.
