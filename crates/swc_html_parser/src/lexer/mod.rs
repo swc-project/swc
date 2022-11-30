@@ -733,18 +733,22 @@ where
         }
     }
 
-    fn create_comment_token(&mut self, new_data: Option<String>, raw_start: &str) {
+    fn create_comment_token(&mut self, raw_start: &str) {
+        let b = self.sub_buf.clone();
+        let mut sub_buf = b.borrow_mut();
+
+        sub_buf.push_str(raw_start);
+    }
+
+    fn create_comment_token_with_cdata(&mut self) {
         let b = self.buf.clone();
         let mut buf = b.borrow_mut();
         let b = self.sub_buf.clone();
         let mut sub_buf = b.borrow_mut();
 
-        sub_buf.push_str(raw_start);
-
-        if let Some(new_data) = new_data {
-            buf.push_str(&new_data);
-            sub_buf.push_str(&new_data);
-        };
+        buf.push_str("[CDATA[");
+        sub_buf.push_str("<!");
+        sub_buf.push_str("[CDATA[");
     }
 
     fn append_to_comment_token(&mut self, c: char, raw_c: char) {
@@ -1063,7 +1067,7 @@ where
                     // bogus comment state.
                     Some('?') => {
                         self.emit_error(ErrorKind::UnexpectedQuestionMarkInsteadOfTagName);
-                        self.create_comment_token(None, "<");
+                        self.create_comment_token("<");
                         self.reconsume_in_state(State::BogusComment);
                     }
                     // EOF
@@ -1121,7 +1125,7 @@ where
                     // comment state.
                     _ => {
                         self.emit_error(ErrorKind::InvalidFirstCharacterOfTagName);
-                        self.create_comment_token(None, "</");
+                        self.create_comment_token("</");
                         self.reconsume_in_state(State::BogusComment);
                     }
                 }
@@ -2595,7 +2599,7 @@ where
                 let cur_pos = self.input.cur_pos();
                 let anything_else = |lexer: &mut Lexer<I>| {
                     lexer.emit_error(ErrorKind::IncorrectlyOpenedComment);
-                    lexer.create_comment_token(None, "<!");
+                    lexer.create_comment_token("<!");
                     lexer.state = State::BogusComment;
                     lexer.cur_pos = cur_pos;
                     // We don't validate input here because we reset position
@@ -2609,7 +2613,7 @@ where
                     // is the empty string, and switch to the comment start state.
                     Some('-') => match self.consume_next_char() {
                         Some('-') => {
-                            self.create_comment_token(None, "<!--");
+                            self.create_comment_token("<!--");
                             self.state = State::CommentStart;
                         }
                         _ => {
@@ -2672,11 +2676,11 @@ where
                     // error. Create a comment token whose data is the "[CDATA[" string.
                     // Switch to the bogus comment state.
                     Some('[') => match self.consume_next_char() {
-                        Some(c @ 'C') => match self.consume_next_char() {
-                            Some(d @ 'D') => match self.consume_next_char() {
-                                Some(a1 @ 'A') => match self.consume_next_char() {
-                                    Some(t @ 'T') => match self.consume_next_char() {
-                                        Some(a2 @ 'A') => match self.consume_next_char() {
+                        Some('C') => match self.consume_next_char() {
+                            Some('D') => match self.consume_next_char() {
+                                Some('A') => match self.consume_next_char() {
+                                    Some('T') => match self.consume_next_char() {
+                                        Some('A') => match self.consume_next_char() {
                                             Some('[') => {
                                                 if let Some(false) = self.is_adjusted_current_node_is_element_in_html_namespace {
                                                     self.state = State::CdataSection;
@@ -2684,17 +2688,8 @@ where
                                                     self.emit_error(
                                                         ErrorKind::CdataInHtmlContent,
                                                     );
-                                                    let mut data = String::with_capacity(7);
+                                                    self.create_comment_token_with_cdata();
 
-                                                    data.push('[');
-                                                    data.push(c);
-                                                    data.push(d);
-                                                    data.push(a1);
-                                                    data.push(t);
-                                                    data.push(a2);
-                                                    data.push('[');
-
-                                                    self.create_comment_token(Some(data), "<!");
                                                     self.state = State::BogusComment;
                                                 }
                                             }
