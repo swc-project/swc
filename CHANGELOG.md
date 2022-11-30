@@ -49,6 +49,12 @@
 
 - **(common)** Fix perf bug of sourcemap for inputs with multi-byte chars (#6523) ([47908a4](https://github.com/swc-project/swc/commit/47908a49d3d773b7ffacf6ffa6e38c7e091101cb))
 
+### Refactor
+
+
+
+- **(css/parser)** Canonicalize only if required (#6532) ([251e98c](https://github.com/swc-project/swc/commit/251e98c05576d0495647e93ae0fe179da7435db9))
+
 ### Testing
 
 
