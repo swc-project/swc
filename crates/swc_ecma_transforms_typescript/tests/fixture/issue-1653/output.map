@@ -1,0 +1,1 @@
+{"version":3,"sources":["input.js"],"sourcesContent":["namespace X {\n    export namespace Z {\n        export const foo = 0;\n    }\n}\n\nnamespace Y {\n    export namespace Z {\n        export const bar = 1;\n    }\n}\n"],"names":[],"mappings":"AAAA,IAAU;;IACC,IAAU;;YACA,QAAA,MAAM;OADN;GADX,MAAA;AAMV,IAAU;;IACC,IAAU;;YACA,QAAA,MAAM;OADN;GADX,MAAA"}
