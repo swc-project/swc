@@ -380,6 +380,7 @@ where
         }
     }
 
+    #[inline(always)]
     fn create_doctype_token(&mut self) {
         self.current_token = Some(Token::Doctype {
             name: None,
@@ -431,12 +432,14 @@ where
         }
     }
 
+    #[inline(always)]
     fn set_doctype_token_force_quirks(&mut self) {
         if let Some(Token::Doctype { force_quirks, .. }) = &mut self.current_token {
             *force_quirks = true;
         }
     }
 
+    #[inline(always)]
     fn set_doctype_token_name(&mut self, c: char) {
         let b = self.buf.clone();
         let mut buf = b.borrow_mut();
@@ -444,12 +447,14 @@ where
         buf.push(c);
     }
 
+    #[inline(always)]
     fn set_doctype_token_public_id(&mut self) {
         if let Some(Token::Doctype { public_id, .. }) = &mut self.current_token {
             *public_id = Some(js_word!(""));
         }
     }
 
+    #[inline(always)]
     fn set_doctype_token_system_id(&mut self) {
         if let Some(Token::Doctype { system_id, .. }) = &mut self.current_token {
             // The Longest system id is `http://www.ibm.com/data/dtd/v11/ibmxhtml1-transitional.dtd`
@@ -510,6 +515,7 @@ where
         }
     }
 
+    #[inline(always)]
     fn create_start_tag_token(&mut self) {
         self.current_token = Some(Token::StartTag {
             // Maximum known tag is `feComponentTransfer` (SVG)
@@ -520,6 +526,7 @@ where
         });
     }
 
+    #[inline(always)]
     fn create_end_tag_token(&mut self) {
         self.current_token = Some(Token::EndTag {
             // Maximum known tag is `feComponentTransfer` (SVG)
@@ -733,6 +740,7 @@ where
         }
     }
 
+    #[inline(always)]
     fn create_comment_token(&mut self, raw_start: &str) {
         let b = self.sub_buf.clone();
         let mut sub_buf = b.borrow_mut();
@@ -740,6 +748,7 @@ where
         sub_buf.push_str(raw_start);
     }
 
+    #[inline(always)]
     fn create_comment_token_with_cdata(&mut self) {
         let b = self.buf.clone();
         let mut buf = b.borrow_mut();
