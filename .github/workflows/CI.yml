@@ -188,7 +188,6 @@ jobs:
 
       - name: Build
         run: |
-          (cd bindings/binding_core_wasm && yarn)
           (cd bindings/binding_core_wasm && ./scripts/build.sh --features plugin)
 
       - name: Test

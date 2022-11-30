@@ -32,6 +32,9 @@
 - **(es/parser)** Make error message helpful (#6535) ([cb15721](https://github.com/swc-project/swc/commit/cb157215d26e5acfe74f7592da011ab9d5206207))
 
 
+- **(es/preset-env)** Update data (#6538) ([ae63220](https://github.com/swc-project/swc/commit/ae6322064d67bc24d65f560f699a2a554bbfdb37))
+
+
 - **(xml/parser)** Parse cdata section (#6531) ([7f8c4e0](https://github.com/swc-project/swc/commit/7f8c4e04b246bef493a044f794ea1608f4550457))
 
 ### Miscellaneous Tasks
@@ -46,14 +49,29 @@
 
 - **(common)** Fix perf bug of sourcemap for inputs with multi-byte chars (#6523) ([47908a4](https://github.com/swc-project/swc/commit/47908a49d3d773b7ffacf6ffa6e38c7e091101cb))
 
+### Refactor
+
+
+
+- **(css/parser)** Canonicalize only if required (#6532) ([251e98c](https://github.com/swc-project/swc/commit/251e98c05576d0495647e93ae0fe179da7435db9))
+
 ### Testing
 
+
+
+- **(es/minifier)** Add tests for preserving top-level directives (#6545) ([8d8f150](https://github.com/swc-project/swc/commit/8d8f15079224de52482397c1a36b9b9575ba1464))
 
 
 - **(es/transforms)** Add tests about preserving top-level directives (#6518) ([5ff87af](https://github.com/swc-project/swc/commit/5ff87afa78e5bb56f2b03678577279256c18e4da))
 
 
 - **(ts/compat)** Migrate inline tests to fixture testing (#6475) ([cc4646a](https://github.com/swc-project/swc/commit/cc4646a4cc455c08680f7dedb344337f90f0c668))- **general**: Use correct extensions for fixture tests (#6539) ([7ee86d1](https://github.com/swc-project/swc/commit/7ee86d1d2579d861501a525cbc6ddd3669d4c25c))
+
+### Build
+
+
+
+- **(cargo)** Update `browerslist-rs` (#6547) ([d730186](https://github.com/swc-project/swc/commit/d730186e9f49b9481b89b35121d7095e05781565))
 
 ## [1.3.20] - 2022-11-26
 
