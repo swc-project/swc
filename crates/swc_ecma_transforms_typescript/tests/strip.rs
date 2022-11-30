@@ -49,6 +49,22 @@ fn properties(t: &Tester, loose: bool) -> impl Fold {
     )
 }
 
+macro_rules! to {
+    ($name:ident, $from:expr, $to:expr) => {
+        test!(
+            Syntax::Typescript(TsConfig {
+                decorators: true,
+                ..Default::default()
+            }),
+            |t| chain!(tr(), properties(t, true)),
+            $name,
+            $from,
+            $to,
+            ok_if_code_eq
+        );
+    };
+}
+
 macro_rules! test_with_config {
     ($name:ident, $config:expr, $from:expr, $to:expr) => {
         test!(
