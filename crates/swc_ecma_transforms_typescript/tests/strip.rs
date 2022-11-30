@@ -96,21 +96,6 @@ test!(
 // TODO: Test function / variable hoisting
 
 to!(
-    issue_179_01,
-    "import {Types} from 'other';
-const a: Types.foo = {};",
-    "const a = {};"
-);
-
-to!(
-    issue_179_02,
-    "import {Types} from 'other';
-const a: Types = Types.foo;",
-    "import {Types} from 'other';
-const a = Types.foo;"
-);
-
-to!(
     issue_236,
     "function foo(this: any, $scope: angular.IScope){}",
     "function foo($scope){}"
