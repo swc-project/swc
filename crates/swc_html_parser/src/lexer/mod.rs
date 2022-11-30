@@ -1067,15 +1067,15 @@ where
             State::TagOpen => {
                 // Consume the next input character:
                 match self.consume_next_char() {
-                    // U+0021 EXCLAMATION MARK (!)
-                    // Switch to the markup declaration open state.
-                    Some('!') => {
-                        self.state = State::MarkupDeclarationOpen;
-                    }
                     // U+002F SOLIDUS (/)
                     // Switch to the end tag open state.
                     Some('/') => {
                         self.state = State::EndTagOpen;
+                    }
+                    // U+0021 EXCLAMATION MARK (!)
+                    // Switch to the markup declaration open state.
+                    Some('!') => {
+                        self.state = State::MarkupDeclarationOpen;
                     }
                     // ASCII alpha
                     // Create a new start tag token, set its tag name to the empty string.

@@ -1645,43 +1645,40 @@ where
                     Some('/') => {
                         self.state = State::EndTagOpen;
                     }
-                    // U+003F QUESTION MARK(?)
-                    // Switch to the pi state.
-                    Some('?') => {
-                        self.state = State::Pi;
-                    }
                     // U+0021 EXCLAMATION MARK (!)
                     // Switch to the markup declaration open state.
                     Some('!') => {
                         self.state = State::MarkupDeclaration;
                     }
-                    // U+0009 CHARACTER TABULATION (Tab)
-                    // U+000A LINE FEED (LF)
-                    // U+0020 SPACE (Space)
-                    // U+003A (:)
-                    // U+003C LESSER-THAN SIGN (<)
-                    // U+003E GREATER-THAN SIGN (>)
-                    // EOF
-                    // Parse error. Emit a U+003C LESSER-THAN SIGN (<) character. Reconsume the
-                    // current input character in the data state.
-                    Some(c) if is_spacy_except_ff(c) => {
-                        self.emit_error(ErrorKind::InvalidFirstCharacterOfTagName);
-                        self.emit_character_token(('<', '<'));
-                        self.reconsume_in_state(State::Data);
-                    }
-                    Some(':') | Some('<') | Some('>') | None => {
-                        self.emit_error(ErrorKind::InvalidFirstCharacterOfTagName);
-                        self.emit_character_token(('<', '<'));
-                        self.reconsume_in_state(State::Data);
+                    // U+003F QUESTION MARK(?)
+                    // Switch to the pi state.
+                    Some('?') => {
+                        self.state = State::Pi;
                     }
                     // Anything else
                     // Create a new tag token and set its name to the input character, then switch
                     // to the tag name state.
-                    Some(c) => {
-                        self.validate_input_stream_character(c);
+                    Some(c) if is_name_start_char(c) => {
                         self.create_tag_token(TagKind::Start);
-                        self.append_to_tag_token_name(c);
-                        self.state = State::TagName;
+                        self.reconsume_in_state(State::TagName);
+                    }
+                    // EOF
+                    // This is an eof-before-tag-name parse error. Emit a U+003C LESS-THAN SIGN
+                    // character token and an end-of-file token.
+                    None => {
+                        self.emit_error(ErrorKind::EofBeforeTagName);
+                        self.emit_character_token(('<', '<'));
+                        self.emit_token(Token::Eof);
+
+                        return Ok(());
+                    }
+                    // Anything else
+                    // This is an invalid-first-character-of-tag-name parse error. Emit a U+003C
+                    // LESS-THAN SIGN character token. Reconsume in the data state.
+                    _ => {
+                        self.emit_error(ErrorKind::InvalidFirstCharacterOfTagName);
+                        self.emit_character_token(('<', '<'));
+                        self.reconsume_in_state(State::Data);
                     }
                 }
             }
@@ -3086,4 +3083,20 @@ fn is_upper_hex_digit(c: char) -> bool {
 #[inline(always)]
 fn is_lower_hex_digit(c: char) -> bool {
     matches!(c, '0'..='9' | 'a'..='f')
+}
+
+// NameStartChar ::=
+// ":" | [A-Z] | "_" | [a-z] | [#xC0-#xD6] | [#xD8-#xF6] |
+// [#xF8-#x2FF] | [#x370-#x37D] | [#x37F-#x1FFF] | [#x200C-#x200D] |
+// [#x2070-#x218F] | [#x2C00-#x2FEF] | [#x3001-#xD7FF] | [#xF900-#xFDCF] |
+// [#xFDF0-#xFFFD] | [#x10000-#xEFFFF]
+#[inline(always)]
+fn is_name_start_char(c: char) -> bool {
+    match c {
+        ':' | 'A'..='Z' | '_' | 'a'..='z' => true,
+        _ if matches!(c as u32, 0xc0..=0xd6 | 0xd8..=0x2ff | 0x370..=0x37d | 0x37f..=0x1fff | 0x200c..=0x200d | 0x2070..=0x218f | 0x2c00..=0x2fef | 0x3001..=0xd7ff | 0xf900..=0xfdcf | 0xfdf0..=0xfffd | 0x10000..=0xeffff) => {
+            true
+        }
+        _ => false,
+    }
 }
