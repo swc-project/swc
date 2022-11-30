@@ -1633,40 +1633,40 @@ where
             State::EndTagOpen => {
                 // Consume the next input character:
                 match self.consume_next_char() {
-                    // U+003E GREATER-THAN SIGN (>)
-                    // Emit a short end tag token and then switch to the data state.
-                    Some('>') => {
-                        self.emit_tag_token(Some(TagKind::End));
-                        self.state = State::Data;
-                    }
-                    // U+0009 CHARACTER TABULATION (Tab)
-                    // U+000A LINE FEED (LF)
-                    // U+0020 SPACE (Space)
-                    // U+003C LESSER-THAN SIGN (<)
-                    // U+003A (:)
-                    // EOF
-                    // Parse error. Emit a U+003C LESSER-THAN SIGN (<) character token and a U+002F
-                    // SOLIDUS (/) character token. Reconsume the current input character in the
-                    // data state.
-                    Some(c) if is_spacy_except_ff(c) => {
-                        self.emit_error(ErrorKind::InvalidFirstCharacterOfTagName);
-                        self.emit_character_token(('<', '<'));
-                        self.emit_character_token(('/', '/'));
-                        self.reconsume_in_state(State::Data);
-                    }
-                    Some('<') | Some(':') | None => {
-                        self.emit_error(ErrorKind::InvalidFirstCharacterOfTagName);
-                        self.emit_character_token(('<', '<'));
-                        self.emit_character_token(('/', '/'));
-                        self.reconsume_in_state(State::Data);
-                    }
-                    // Anything else
-                    // Create an end tag token and set its name to the input character, then switch
-                    // to the end tag name state.
-                    Some(c) => {
-                        self.validate_input_stream_character(c);
+                    // ASCII alpha
+                    // Create a new end tag token, set its tag name to the empty string.
+                    // Reconsume in the tag name state.
+                    Some(c) if is_name_char(c) => {
                         self.create_tag_token(TagKind::End);
                         self.reconsume_in_state(State::TagName);
+                    }
+                    // U+003E GREATER-THAN SIGN (>)
+                    // This is a missing-end-tag-name parse error. Switch to the data state.
+                    Some('>') => {
+                        self.emit_error(ErrorKind::MissingEndTagName);
+                        self.state = State::Data;
+                    }
+                    // EOF
+                    // This is an eof-before-tag-name parse error. Emit a U+003C LESS-THAN SIGN
+                    // character token, a U+002F SOLIDUS character token and an end-of-file
+                    // token.
+                    None => {
+                        self.emit_error(ErrorKind::EofBeforeTagName);
+                        self.emit_character_token(('<', '<'));
+                        self.emit_character_token(('/', '/'));
+                        self.emit_token(Token::Eof);
+
+                        return Ok(());
+                    }
+                    // Anything else
+                    // This is an invalid-first-character-of-tag-name parse error. Create a
+                    // comment token whose data is the empty string. Reconsume in the bogus
+                    // comment state.
+                    _ => {
+                        self.emit_error(ErrorKind::InvalidFirstCharacterOfTagName);
+                        self.emit_character_token(('<', '<'));
+                        self.emit_character_token(('/', '/'));
+                        self.reconsume_in_state(State::BogusComment);
                     }
                 }
             }
