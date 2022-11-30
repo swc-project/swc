@@ -666,36 +666,36 @@ where
                 current_tag_token.kind = kind;
             }
 
+            let mut already_seen: AHashSet<JsWord> = Default::default();
+
+            let attributes = current_tag_token
+                .attributes
+                .drain(..)
+                .map(|attribute| {
+                    let name = JsWord::from(attribute.name);
+
+                    if already_seen.contains(&name) {
+                        self.errors
+                            .push(Error::new(attribute.span, ErrorKind::DuplicateAttribute));
+                    }
+
+                    already_seen.insert(name.clone());
+
+                    AttributeToken {
+                        span: attribute.span,
+                        name,
+                        raw_name: attribute.raw_name.map(JsWord::from),
+                        value: attribute.value.map(JsWord::from),
+                        raw_value: attribute.raw_value.map(JsWord::from),
+                    }
+                })
+                .collect();
+
             match current_tag_token.kind {
                 TagKind::Start => {
-                    let mut already_seen: AHashSet<JsWord> = Default::default();
-
                     let start_tag_token = Token::StartTag {
                         tag_name: current_tag_token.tag_name.into(),
-                        attributes: current_tag_token
-                            .attributes
-                            .drain(..)
-                            .map(|attribute| {
-                                let name = JsWord::from(attribute.name);
-
-                                if already_seen.contains(&name) {
-                                    self.errors.push(Error::new(
-                                        attribute.span,
-                                        ErrorKind::DuplicateAttribute,
-                                    ));
-                                }
-
-                                already_seen.insert(name.clone());
-
-                                AttributeToken {
-                                    span: attribute.span,
-                                    name,
-                                    raw_name: attribute.raw_name.map(JsWord::from),
-                                    value: attribute.value.map(JsWord::from),
-                                    raw_value: attribute.raw_value.map(JsWord::from),
-                                }
-                            })
-                            .collect(),
+                        attributes,
                     };
 
                     self.emit_token(start_tag_token);
@@ -705,67 +705,17 @@ where
                         self.emit_error(ErrorKind::EndTagWithAttributes);
                     }
 
-                    let mut already_seen: AHashSet<JsWord> = Default::default();
-
                     let end_tag_token = Token::EndTag {
                         tag_name: current_tag_token.tag_name.into(),
-                        attributes: current_tag_token
-                            .attributes
-                            .drain(..)
-                            .map(|attribute| {
-                                let name = JsWord::from(attribute.name);
-
-                                if already_seen.contains(&name) {
-                                    self.errors.push(Error::new(
-                                        attribute.span,
-                                        ErrorKind::DuplicateAttribute,
-                                    ));
-                                }
-
-                                already_seen.insert(name.clone());
-
-                                AttributeToken {
-                                    span: attribute.span,
-                                    name,
-                                    raw_name: attribute.raw_name.map(JsWord::from),
-                                    value: attribute.value.map(JsWord::from),
-                                    raw_value: attribute.raw_value.map(JsWord::from),
-                                }
-                            })
-                            .collect(),
+                        attributes,
                     };
 
                     self.emit_token(end_tag_token);
                 }
                 TagKind::Empty => {
-                    let mut already_seen: AHashSet<JsWord> = Default::default();
-
                     let empty_tag = Token::EmptyTag {
                         tag_name: current_tag_token.tag_name.into(),
-                        attributes: current_tag_token
-                            .attributes
-                            .drain(..)
-                            .map(|attribute| {
-                                let name = JsWord::from(attribute.name);
-
-                                if already_seen.contains(&name) {
-                                    self.errors.push(Error::new(
-                                        attribute.span,
-                                        ErrorKind::DuplicateAttribute,
-                                    ));
-                                }
-
-                                already_seen.insert(name.clone());
-
-                                AttributeToken {
-                                    span: attribute.span,
-                                    name,
-                                    raw_name: attribute.raw_name.map(JsWord::from),
-                                    value: attribute.value.map(JsWord::from),
-                                    raw_value: attribute.raw_value.map(JsWord::from),
-                                }
-                            })
-                            .collect(),
+                        attributes,
                     };
 
                     self.emit_token(empty_tag);
@@ -1655,7 +1605,7 @@ where
                     Some('?') => {
                         self.state = State::Pi;
                     }
-                    // Anything else
+                    // Name start character
                     // Create a new tag token and set its name to the input character, then switch
                     // to the tag name state.
                     Some(c) if is_name_start_char(c) => {
@@ -1805,30 +1755,38 @@ where
                         self.skip_next_lf(c);
                         self.state = State::TagAttributeNameBefore;
                     }
-                    // U+003E GREATER-THAN SIGN (>)
-                    // Emit the start tag token and then switch to the data state.
-                    Some('>') => {
-                        self.emit_tag_token(Some(TagKind::Start));
-                        self.state = State::Data;
-                    }
-                    // EOF
-                    // Parse error. Emit the current token and then reprocess the current input
-                    // character in the data state.
-                    None => {
-                        self.emit_error(ErrorKind::EofInTag);
-                        self.emit_tag_token(None);
-                        self.reconsume_in_state(State::Data);
-                    }
                     // U+002F SOLIDUS (/)
                     // Set current tag to empty tag. Switch to the empty tag state.
                     Some('/') => {
                         self.set_tag_to_empty_tag();
                         self.state = State::EmptyTag;
                     }
-                    // Anything else
+                    // U+003E GREATER-THAN SIGN (>)
+                    // Switch to the data state. Emit the current tag token.
+                    Some('>') => {
+                        self.state = State::Data;
+                        self.emit_tag_token(Some(TagKind::Start));
+                    }
+                    // EOF
+                    // This is an eof-in-tag parse error. Emit an end-of-file token.
+                    None => {
+                        self.emit_error(ErrorKind::EofInTag);
+                        self.emit_tag_token(None);
+
+                        return Ok(());
+                    }
+                    // Name character
                     // Append the current input character to the tag name and stay in the current
                     // state.
+                    Some(c) if is_name_char(c) => {
+                        self.validate_input_stream_character(c);
+                        self.append_to_tag_token_name(c);
+                    }
+                    // Anything else
+                    // Parse error. Append the current input character to the tag name and stay in
+                    // the current state.
                     Some(c) => {
+                        self.emit_error(ErrorKind::InvalidCharacterInTag);
                         self.validate_input_stream_character(c);
                         self.append_to_tag_token_name(c);
                     }
@@ -1841,7 +1799,7 @@ where
                     // Emit the current tag token as empty tag token and then switch to the data
                     // state.
                     Some('>') => {
-                        self.emit_tag_token(None);
+                        self.emit_tag_token(Some(TagKind::Empty));
                         self.state = State::Data;
                     }
                     // Anything else
@@ -3097,6 +3055,19 @@ fn is_name_start_char(c: char) -> bool {
         _ if matches!(c as u32, 0xc0..=0xd6 | 0xd8..=0x2ff | 0x370..=0x37d | 0x37f..=0x1fff | 0x200c..=0x200d | 0x2070..=0x218f | 0x2c00..=0x2fef | 0x3001..=0xd7ff | 0xf900..=0xfdcf | 0xfdf0..=0xfffd | 0x10000..=0xeffff) => {
             true
         }
+        _ => false,
+    }
+}
+
+// NameChar	::=
+// NameStartChar | "-" | "." | [0-9] | #xB7 | [#x0300-#x036F] |
+// [#x203F-#x2040]
+#[inline(always)]
+fn is_name_char(c: char) -> bool {
+    match c {
+        '-' | '.' | '0'..='9' => true,
+        _ if matches!(c as u32, 0xb7 | 0x0300..=0x036f | 0x203f..=0x2040) => true,
+        _ if is_name_start_char(c) => true,
         _ => false,
     }
 }
