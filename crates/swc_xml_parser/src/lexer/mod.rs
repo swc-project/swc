@@ -13,10 +13,6 @@ use crate::{
 pub enum State {
     Data,
     CharacterReferenceInData,
-    TagOpen,
-    EndTagOpen,
-    EndTagName,
-    EndTagNameAfter,
     Pi,
     PiTarget,
     PiTargetQuestion,
@@ -37,6 +33,10 @@ pub enum State {
     Cdata,
     CdataBracket,
     CdataEnd,
+    TagOpen,
+    EndTagOpen,
+    EndTagName,
+    EndTagNameAfter,
     TagName,
     EmptyTag,
     TagAttributeNameBefore,
@@ -996,166 +996,6 @@ where
                     self.emit_character_token(('&', '&'));
                 }
             }
-            State::TagOpen => {
-                // Consume the next input character:
-                match self.consume_next_char() {
-                    // U+002F SOLIDUS (/)
-                    // Switch to the end tag open state.
-                    Some('/') => {
-                        self.state = State::EndTagOpen;
-                    }
-                    // U+003F QUESTION MARK(?)
-                    // Switch to the pi state.
-                    Some('?') => {
-                        self.state = State::Pi;
-                    }
-                    // U+0021 EXCLAMATION MARK (!)
-                    // Switch to the markup declaration open state.
-                    Some('!') => {
-                        self.state = State::MarkupDeclaration;
-                    }
-                    // U+0009 CHARACTER TABULATION (Tab)
-                    // U+000A LINE FEED (LF)
-                    // U+0020 SPACE (Space)
-                    // U+003A (:)
-                    // U+003C LESSER-THAN SIGN (<)
-                    // U+003E GREATER-THAN SIGN (>)
-                    // EOF
-                    // Parse error. Emit a U+003C LESSER-THAN SIGN (<) character. Reconsume the
-                    // current input character in the data state.
-                    Some(c) if is_spacy_except_ff(c) => {
-                        self.emit_error(ErrorKind::InvalidFirstCharacterOfTagName);
-                        self.emit_character_token(('<', '<'));
-                        self.reconsume_in_state(State::Data);
-                    }
-                    Some(':') | Some('<') | Some('>') | None => {
-                        self.emit_error(ErrorKind::InvalidFirstCharacterOfTagName);
-                        self.emit_character_token(('<', '<'));
-                        self.reconsume_in_state(State::Data);
-                    }
-                    // Anything else
-                    // Create a new tag token and set its name to the input character, then switch
-                    // to the tag name state.
-                    Some(c) => {
-                        self.validate_input_stream_character(c);
-                        self.create_tag_token(TagKind::Start);
-                        self.append_to_tag_token_name(c);
-                        self.state = State::TagName;
-                    }
-                }
-            }
-            State::EndTagOpen => {
-                // Consume the next input character:
-                match self.consume_next_char() {
-                    // U+003E GREATER-THAN SIGN (>)
-                    // Emit a short end tag token and then switch to the data state.
-                    Some('>') => {
-                        self.emit_tag_token(Some(TagKind::End));
-                        self.state = State::Data;
-                    }
-                    // U+0009 CHARACTER TABULATION (Tab)
-                    // U+000A LINE FEED (LF)
-                    // U+0020 SPACE (Space)
-                    // U+003C LESSER-THAN SIGN (<)
-                    // U+003A (:)
-                    // EOF
-                    // Parse error. Emit a U+003C LESSER-THAN SIGN (<) character token and a U+002F
-                    // SOLIDUS (/) character token. Reconsume the current input character in the
-                    // data state.
-                    Some(c) if is_spacy_except_ff(c) => {
-                        self.emit_error(ErrorKind::InvalidFirstCharacterOfTagName);
-                        self.emit_character_token(('<', '<'));
-                        self.emit_character_token(('/', '/'));
-                        self.reconsume_in_state(State::Data);
-                    }
-                    Some('<') | Some(':') | None => {
-                        self.emit_error(ErrorKind::InvalidFirstCharacterOfTagName);
-                        self.emit_character_token(('<', '<'));
-                        self.emit_character_token(('/', '/'));
-                        self.reconsume_in_state(State::Data);
-                    }
-                    // Anything else
-                    // Create an end tag token and set its name to the input character, then switch
-                    // to the end tag name state.
-                    Some(c) => {
-                        self.validate_input_stream_character(c);
-                        self.create_tag_token(TagKind::End);
-                        self.append_to_tag_token_name(c);
-                        self.state = State::EndTagName
-                    }
-                }
-            }
-            State::EndTagName => {
-                // Consume the next input character:
-                match self.consume_next_char() {
-                    // U+0009 CHARACTER TABULATION (Tab)
-                    // U+000A LINE FEED (LF)
-                    // U+0020 SPACE (Space)
-                    // Switch to the end tag name after state.
-                    Some(c) if is_spacy_except_ff(c) => {
-                        self.state = State::EndTagNameAfter;
-                    }
-                    // U+002F SOLIDUS (/)
-                    // Parse error. Switch to the end tag name after state.
-                    Some('/') => {
-                        self.emit_error(ErrorKind::EndTagWithTrailingSolidus);
-                        self.state = State::EndTagNameAfter;
-                    }
-                    // EOF
-                    // Parse error. Emit the start tag token and then reprocess the current input
-                    // character in the data state.
-                    None => {
-                        self.emit_error(ErrorKind::EofInTag);
-                        self.emit_tag_token(Some(TagKind::Start));
-                        self.reconsume_in_state(State::Data);
-                    }
-                    // U+003E GREATER-THAN SIGN (>)
-                    // Emit the current token and then switch to the data state.
-                    Some('>') => {
-                        self.emit_tag_token(None);
-                        self.state = State::Data;
-                    }
-                    // Anything else
-                    // Append the current input character to the tag name and stay in the current
-                    // state.
-                    Some(c) => {
-                        self.validate_input_stream_character(c);
-                        self.append_to_tag_token_name(c);
-                    }
-                }
-            }
-            State::EndTagNameAfter => {
-                // Consume the next input character:
-                match self.consume_next_char() {
-                    // U+003E GREATER-THAN SIGN (>)
-                    // Emit the current token and then switch to the data state.
-                    Some('>') => {
-                        self.emit_tag_token(None);
-                        self.state = State::Data;
-                    }
-                    // U+0009 CHARACTER TABULATION (Tab)
-                    // U+000A LINE FEED (LF)
-                    // U+0020 SPACE (Space)
-                    // Stay in the current state.
-                    Some(c) if is_spacy_except_ff(c) => {
-                        self.skip_next_lf(c);
-                    }
-                    // EOF
-                    // Parse error. Emit the current token and then reprocess the current input
-                    // character in the data state.
-                    None => {
-                        self.emit_error(ErrorKind::EofInTag);
-                        self.emit_tag_token(None);
-                        self.reconsume_in_state(State::Data);
-                    }
-                    // Anything else
-                    // Parse error. Stay in the current state.
-                    Some(c) => {
-                        self.validate_input_stream_character(c);
-                        self.emit_error(ErrorKind::InvalidCharacterInTag);
-                    }
-                }
-            }
             State::Pi => {
                 // Consume the next input character:
                 match self.consume_next_char() {
@@ -1797,7 +1637,166 @@ where
                     }
                 }
             }
-            // https://html.spec.whatwg.org/multipage/parsing.html#tag-name-state
+            State::TagOpen => {
+                // Consume the next input character:
+                match self.consume_next_char() {
+                    // U+002F SOLIDUS (/)
+                    // Switch to the end tag open state.
+                    Some('/') => {
+                        self.state = State::EndTagOpen;
+                    }
+                    // U+003F QUESTION MARK(?)
+                    // Switch to the pi state.
+                    Some('?') => {
+                        self.state = State::Pi;
+                    }
+                    // U+0021 EXCLAMATION MARK (!)
+                    // Switch to the markup declaration open state.
+                    Some('!') => {
+                        self.state = State::MarkupDeclaration;
+                    }
+                    // U+0009 CHARACTER TABULATION (Tab)
+                    // U+000A LINE FEED (LF)
+                    // U+0020 SPACE (Space)
+                    // U+003A (:)
+                    // U+003C LESSER-THAN SIGN (<)
+                    // U+003E GREATER-THAN SIGN (>)
+                    // EOF
+                    // Parse error. Emit a U+003C LESSER-THAN SIGN (<) character. Reconsume the
+                    // current input character in the data state.
+                    Some(c) if is_spacy_except_ff(c) => {
+                        self.emit_error(ErrorKind::InvalidFirstCharacterOfTagName);
+                        self.emit_character_token(('<', '<'));
+                        self.reconsume_in_state(State::Data);
+                    }
+                    Some(':') | Some('<') | Some('>') | None => {
+                        self.emit_error(ErrorKind::InvalidFirstCharacterOfTagName);
+                        self.emit_character_token(('<', '<'));
+                        self.reconsume_in_state(State::Data);
+                    }
+                    // Anything else
+                    // Create a new tag token and set its name to the input character, then switch
+                    // to the tag name state.
+                    Some(c) => {
+                        self.validate_input_stream_character(c);
+                        self.create_tag_token(TagKind::Start);
+                        self.append_to_tag_token_name(c);
+                        self.state = State::TagName;
+                    }
+                }
+            }
+            State::EndTagOpen => {
+                // Consume the next input character:
+                match self.consume_next_char() {
+                    // U+003E GREATER-THAN SIGN (>)
+                    // Emit a short end tag token and then switch to the data state.
+                    Some('>') => {
+                        self.emit_tag_token(Some(TagKind::End));
+                        self.state = State::Data;
+                    }
+                    // U+0009 CHARACTER TABULATION (Tab)
+                    // U+000A LINE FEED (LF)
+                    // U+0020 SPACE (Space)
+                    // U+003C LESSER-THAN SIGN (<)
+                    // U+003A (:)
+                    // EOF
+                    // Parse error. Emit a U+003C LESSER-THAN SIGN (<) character token and a U+002F
+                    // SOLIDUS (/) character token. Reconsume the current input character in the
+                    // data state.
+                    Some(c) if is_spacy_except_ff(c) => {
+                        self.emit_error(ErrorKind::InvalidFirstCharacterOfTagName);
+                        self.emit_character_token(('<', '<'));
+                        self.emit_character_token(('/', '/'));
+                        self.reconsume_in_state(State::Data);
+                    }
+                    Some('<') | Some(':') | None => {
+                        self.emit_error(ErrorKind::InvalidFirstCharacterOfTagName);
+                        self.emit_character_token(('<', '<'));
+                        self.emit_character_token(('/', '/'));
+                        self.reconsume_in_state(State::Data);
+                    }
+                    // Anything else
+                    // Create an end tag token and set its name to the input character, then switch
+                    // to the end tag name state.
+                    Some(c) => {
+                        self.validate_input_stream_character(c);
+                        self.create_tag_token(TagKind::End);
+                        self.append_to_tag_token_name(c);
+                        self.state = State::EndTagName
+                    }
+                }
+            }
+            State::EndTagName => {
+                // Consume the next input character:
+                match self.consume_next_char() {
+                    // U+0009 CHARACTER TABULATION (Tab)
+                    // U+000A LINE FEED (LF)
+                    // U+0020 SPACE (Space)
+                    // Switch to the end tag name after state.
+                    Some(c) if is_spacy_except_ff(c) => {
+                        self.state = State::EndTagNameAfter;
+                    }
+                    // U+002F SOLIDUS (/)
+                    // Parse error. Switch to the end tag name after state.
+                    Some('/') => {
+                        self.emit_error(ErrorKind::EndTagWithTrailingSolidus);
+                        self.state = State::EndTagNameAfter;
+                    }
+                    // EOF
+                    // Parse error. Emit the start tag token and then reprocess the current input
+                    // character in the data state.
+                    None => {
+                        self.emit_error(ErrorKind::EofInTag);
+                        self.emit_tag_token(Some(TagKind::Start));
+                        self.reconsume_in_state(State::Data);
+                    }
+                    // U+003E GREATER-THAN SIGN (>)
+                    // Emit the current token and then switch to the data state.
+                    Some('>') => {
+                        self.emit_tag_token(None);
+                        self.state = State::Data;
+                    }
+                    // Anything else
+                    // Append the current input character to the tag name and stay in the current
+                    // state.
+                    Some(c) => {
+                        self.validate_input_stream_character(c);
+                        self.append_to_tag_token_name(c);
+                    }
+                }
+            }
+            State::EndTagNameAfter => {
+                // Consume the next input character:
+                match self.consume_next_char() {
+                    // U+003E GREATER-THAN SIGN (>)
+                    // Emit the current token and then switch to the data state.
+                    Some('>') => {
+                        self.emit_tag_token(None);
+                        self.state = State::Data;
+                    }
+                    // U+0009 CHARACTER TABULATION (Tab)
+                    // U+000A LINE FEED (LF)
+                    // U+0020 SPACE (Space)
+                    // Stay in the current state.
+                    Some(c) if is_spacy_except_ff(c) => {
+                        self.skip_next_lf(c);
+                    }
+                    // EOF
+                    // Parse error. Emit the current token and then reprocess the current input
+                    // character in the data state.
+                    None => {
+                        self.emit_error(ErrorKind::EofInTag);
+                        self.emit_tag_token(None);
+                        self.reconsume_in_state(State::Data);
+                    }
+                    // Anything else
+                    // Parse error. Stay in the current state.
+                    Some(c) => {
+                        self.validate_input_stream_character(c);
+                        self.emit_error(ErrorKind::InvalidCharacterInTag);
+                    }
+                }
+            }
             State::TagName => {
                 // Consume the next input character:
                 match self.consume_next_char() {
