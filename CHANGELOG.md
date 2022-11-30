@@ -59,6 +59,9 @@
 
 
 
+- **(es/minifier)** Add tests for preserving top-level directives (#6545) ([8d8f150](https://github.com/swc-project/swc/commit/8d8f15079224de52482397c1a36b9b9575ba1464))
+
+
 - **(es/transforms)** Add tests about preserving top-level directives (#6518) ([5ff87af](https://github.com/swc-project/swc/commit/5ff87afa78e5bb56f2b03678577279256c18e4da))
 
 
