@@ -32,6 +32,9 @@
 - **(es/parser)** Make error message helpful (#6535) ([cb15721](https://github.com/swc-project/swc/commit/cb157215d26e5acfe74f7592da011ab9d5206207))
 
 
+- **(es/preset-env)** Update data (#6538) ([ae63220](https://github.com/swc-project/swc/commit/ae6322064d67bc24d65f560f699a2a554bbfdb37))
+
+
 - **(xml/parser)** Parse cdata section (#6531) ([7f8c4e0](https://github.com/swc-project/swc/commit/7f8c4e04b246bef493a044f794ea1608f4550457))
 
 ### Miscellaneous Tasks
@@ -45,6 +48,12 @@
 
 
 - **(common)** Fix perf bug of sourcemap for inputs with multi-byte chars (#6523) ([47908a4](https://github.com/swc-project/swc/commit/47908a49d3d773b7ffacf6ffa6e38c7e091101cb))
+
+### Refactor
+
+
+
+- **(css/parser)** Canonicalize only if required (#6532) ([251e98c](https://github.com/swc-project/swc/commit/251e98c05576d0495647e93ae0fe179da7435db9))
 
 ### Testing
 

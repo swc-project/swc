@@ -363,8 +363,10 @@
     "esnext.string.at",
     "esnext.string.cooked",
     "esnext.string.code-points",
+    "esnext.string.is-well-formed",
     "esnext.string.match-all",
     "esnext.string.replace-all",
+    "esnext.string.to-well-formed",
     "esnext.symbol.async-dispose",
     "esnext.symbol.dispose",
     "esnext.symbol.matcher",
@@ -403,6 +405,7 @@
     "web.dom-exception.to-string-tag",
     "web.immediate",
     "web.queue-microtask",
+    "web.self",
     "web.structured-clone",
     "web.timers",
     "web.url",
@@ -644,6 +647,7 @@
     "es.weak-map",
     "es.weak-set",
     "esnext.aggregate-error",
+    "esnext.array.from-async",
     "esnext.array.at",
     "esnext.array.find-last",
     "esnext.array.find-last-index",
@@ -677,6 +681,7 @@
     "web.dom-exception.to-string-tag",
     "web.immediate",
     "web.queue-microtask",
+    "web.self",
     "web.structured-clone",
     "web.timers",
     "web.url",
@@ -730,6 +735,7 @@
     "es.map",
     "es.object.to-string",
     "es.string.iterator",
+    "esnext.array.from-async",
     "esnext.array.find-last",
     "esnext.array.find-last-index",
     "esnext.array.group",
@@ -808,6 +814,13 @@
   "core-js/actual/array/from": [
     "es.array.from",
     "es.string.iterator"
+  ],
+  "core-js/actual/array/from-async": [
+    "es.array.iterator",
+    "es.object.to-string",
+    "es.promise",
+    "es.string.iterator",
+    "esnext.array.from-async"
   ],
   "core-js/actual/array/group": [
     "esnext.array.group"
@@ -1826,6 +1839,9 @@
   ],
   "core-js/actual/regexp/to-string": [
     "es.regexp.to-string"
+  ],
+  "core-js/actual/self": [
+    "web.self"
   ],
   "core-js/actual/set": [
     "es.array.iterator",
@@ -5273,8 +5289,10 @@
     "esnext.string.at",
     "esnext.string.cooked",
     "esnext.string.code-points",
+    "esnext.string.is-well-formed",
     "esnext.string.match-all",
     "esnext.string.replace-all",
+    "esnext.string.to-well-formed",
     "esnext.symbol.async-dispose",
     "esnext.symbol.dispose",
     "esnext.symbol.matcher",
@@ -5313,6 +5331,7 @@
     "web.dom-exception.to-string-tag",
     "web.immediate",
     "web.queue-microtask",
+    "web.self",
     "web.structured-clone",
     "web.timers",
     "web.url",
@@ -6131,6 +6150,9 @@
   "core-js/features/instance/index-of": [
     "es.array.index-of"
   ],
+  "core-js/features/instance/is-well-formed": [
+    "esnext.string.is-well-formed"
+  ],
   "core-js/features/instance/keys": [
     "es.array.iterator",
     "es.object.to-string",
@@ -6198,6 +6220,9 @@
   ],
   "core-js/features/instance/to-spliced": [
     "esnext.array.to-spliced"
+  ],
+  "core-js/features/instance/to-well-formed": [
+    "esnext.string.to-well-formed"
   ],
   "core-js/features/instance/trim": [
     "es.string.trim"
@@ -7011,6 +7036,9 @@
   "core-js/features/regexp/to-string": [
     "es.regexp.to-string"
   ],
+  "core-js/features/self": [
+    "web.self"
+  ],
   "core-js/features/set": [
     "es.array.iterator",
     "es.object.to-string",
@@ -7182,8 +7210,10 @@
     "esnext.string.at",
     "esnext.string.cooked",
     "esnext.string.code-points",
+    "esnext.string.is-well-formed",
     "esnext.string.match-all",
-    "esnext.string.replace-all"
+    "esnext.string.replace-all",
+    "esnext.string.to-well-formed"
   ],
   "core-js/features/string/anchor": [
     "es.string.anchor"
@@ -7228,6 +7258,9 @@
   ],
   "core-js/features/string/includes": [
     "es.string.includes"
+  ],
+  "core-js/features/string/is-well-formed": [
+    "esnext.string.is-well-formed"
   ],
   "core-js/features/string/italics": [
     "es.string.italics"
@@ -7297,6 +7330,9 @@
   "core-js/features/string/sup": [
     "es.string.sup"
   ],
+  "core-js/features/string/to-well-formed": [
+    "esnext.string.to-well-formed"
+  ],
   "core-js/features/string/trim": [
     "es.string.trim"
   ],
@@ -7349,8 +7385,10 @@
     "es.string.sup",
     "esnext.string.at",
     "esnext.string.code-points",
+    "esnext.string.is-well-formed",
     "esnext.string.match-all",
-    "esnext.string.replace-all"
+    "esnext.string.replace-all",
+    "esnext.string.to-well-formed"
   ],
   "core-js/features/string/virtual/anchor": [
     "es.string.anchor"
@@ -7389,6 +7427,9 @@
   ],
   "core-js/features/string/virtual/includes": [
     "es.string.includes"
+  ],
+  "core-js/features/string/virtual/is-well-formed": [
+    "esnext.string.is-well-formed"
   ],
   "core-js/features/string/virtual/italics": [
     "es.string.italics"
@@ -7438,6 +7479,9 @@
   ],
   "core-js/features/string/virtual/sup": [
     "es.string.sup"
+  ],
+  "core-js/features/string/virtual/to-well-formed": [
+    "esnext.string.to-well-formed"
   ],
   "core-js/features/string/virtual/trim": [
     "es.string.trim"
@@ -8708,8 +8752,10 @@
     "esnext.string.at",
     "esnext.string.cooked",
     "esnext.string.code-points",
+    "esnext.string.is-well-formed",
     "esnext.string.match-all",
     "esnext.string.replace-all",
+    "esnext.string.to-well-formed",
     "esnext.symbol.async-dispose",
     "esnext.symbol.dispose",
     "esnext.symbol.matcher",
@@ -8748,6 +8794,7 @@
     "web.dom-exception.to-string-tag",
     "web.immediate",
     "web.queue-microtask",
+    "web.self",
     "web.structured-clone",
     "web.timers",
     "web.url",
@@ -9566,6 +9613,9 @@
   "core-js/full/instance/index-of": [
     "es.array.index-of"
   ],
+  "core-js/full/instance/is-well-formed": [
+    "esnext.string.is-well-formed"
+  ],
   "core-js/full/instance/keys": [
     "es.array.iterator",
     "es.object.to-string",
@@ -9633,6 +9683,9 @@
   ],
   "core-js/full/instance/to-spliced": [
     "esnext.array.to-spliced"
+  ],
+  "core-js/full/instance/to-well-formed": [
+    "esnext.string.to-well-formed"
   ],
   "core-js/full/instance/trim": [
     "es.string.trim"
@@ -10446,6 +10499,9 @@
   "core-js/full/regexp/to-string": [
     "es.regexp.to-string"
   ],
+  "core-js/full/self": [
+    "web.self"
+  ],
   "core-js/full/set": [
     "es.array.iterator",
     "es.object.to-string",
@@ -10617,8 +10673,10 @@
     "esnext.string.at",
     "esnext.string.cooked",
     "esnext.string.code-points",
+    "esnext.string.is-well-formed",
     "esnext.string.match-all",
-    "esnext.string.replace-all"
+    "esnext.string.replace-all",
+    "esnext.string.to-well-formed"
   ],
   "core-js/full/string/anchor": [
     "es.string.anchor"
@@ -10663,6 +10721,9 @@
   ],
   "core-js/full/string/includes": [
     "es.string.includes"
+  ],
+  "core-js/full/string/is-well-formed": [
+    "esnext.string.is-well-formed"
   ],
   "core-js/full/string/italics": [
     "es.string.italics"
@@ -10732,6 +10793,9 @@
   "core-js/full/string/sup": [
     "es.string.sup"
   ],
+  "core-js/full/string/to-well-formed": [
+    "esnext.string.to-well-formed"
+  ],
   "core-js/full/string/trim": [
     "es.string.trim"
   ],
@@ -10784,8 +10848,10 @@
     "es.string.sup",
     "esnext.string.at",
     "esnext.string.code-points",
+    "esnext.string.is-well-formed",
     "esnext.string.match-all",
-    "esnext.string.replace-all"
+    "esnext.string.replace-all",
+    "esnext.string.to-well-formed"
   ],
   "core-js/full/string/virtual/anchor": [
     "es.string.anchor"
@@ -10824,6 +10890,9 @@
   ],
   "core-js/full/string/virtual/includes": [
     "es.string.includes"
+  ],
+  "core-js/full/string/virtual/is-well-formed": [
+    "esnext.string.is-well-formed"
   ],
   "core-js/full/string/virtual/italics": [
     "es.string.italics"
@@ -10873,6 +10942,9 @@
   ],
   "core-js/full/string/virtual/sup": [
     "es.string.sup"
+  ],
+  "core-js/full/string/virtual/to-well-formed": [
+    "esnext.string.to-well-formed"
   ],
   "core-js/full/string/virtual/trim": [
     "es.string.trim"
@@ -12934,11 +13006,17 @@
   "core-js/modules/esnext.string.cooked": [
     "esnext.string.cooked"
   ],
+  "core-js/modules/esnext.string.is-well-formed": [
+    "esnext.string.is-well-formed"
+  ],
   "core-js/modules/esnext.string.match-all": [
     "esnext.string.match-all"
   ],
   "core-js/modules/esnext.string.replace-all": [
     "esnext.string.replace-all"
+  ],
+  "core-js/modules/esnext.string.to-well-formed": [
+    "esnext.string.to-well-formed"
   ],
   "core-js/modules/esnext.symbol.async-dispose": [
     "esnext.symbol.async-dispose"
@@ -13056,6 +13134,9 @@
   ],
   "core-js/modules/web.queue-microtask": [
     "web.queue-microtask"
+  ],
+  "core-js/modules/web.self": [
+    "web.self"
   ],
   "core-js/modules/web.set-immediate": [
     "web.set-immediate"
@@ -13220,8 +13301,10 @@
     "esnext.string.at",
     "esnext.string.cooked",
     "esnext.string.code-points",
+    "esnext.string.is-well-formed",
     "esnext.string.match-all",
     "esnext.string.replace-all",
+    "esnext.string.to-well-formed",
     "esnext.symbol.async-dispose",
     "esnext.symbol.dispose",
     "esnext.symbol.matcher",
@@ -13585,6 +13668,10 @@
   "core-js/proposals/well-formed-stringify": [
     "es.json.stringify"
   ],
+  "core-js/proposals/well-formed-unicode-strings": [
+    "esnext.string.is-well-formed",
+    "esnext.string.to-well-formed"
+  ],
   "core-js/stable": [
     "es.symbol",
     "es.symbol.description",
@@ -13828,6 +13915,7 @@
     "web.dom-exception.to-string-tag",
     "web.immediate",
     "web.queue-microtask",
+    "web.self",
     "web.structured-clone",
     "web.timers",
     "web.url",
@@ -14862,6 +14950,9 @@
   ],
   "core-js/stable/regexp/to-string": [
     "es.regexp.to-string"
+  ],
+  "core-js/stable/self": [
+    "web.self"
   ],
   "core-js/stable/set": [
     "es.array.iterator",
@@ -15915,8 +16006,10 @@
     "esnext.string.at",
     "esnext.string.cooked",
     "esnext.string.code-points",
+    "esnext.string.is-well-formed",
     "esnext.string.match-all",
     "esnext.string.replace-all",
+    "esnext.string.to-well-formed",
     "esnext.symbol.async-dispose",
     "esnext.symbol.dispose",
     "esnext.symbol.matcher",
@@ -16074,8 +16167,10 @@
     "esnext.string.at",
     "esnext.string.cooked",
     "esnext.string.code-points",
+    "esnext.string.is-well-formed",
     "esnext.string.match-all",
     "esnext.string.replace-all",
+    "esnext.string.to-well-formed",
     "esnext.symbol.async-dispose",
     "esnext.symbol.dispose",
     "esnext.symbol.matcher",
@@ -16224,8 +16319,10 @@
     "esnext.set.union",
     "esnext.string.cooked",
     "esnext.string.code-points",
+    "esnext.string.is-well-formed",
     "esnext.string.match-all",
     "esnext.string.replace-all",
+    "esnext.string.to-well-formed",
     "esnext.symbol.async-dispose",
     "esnext.symbol.dispose",
     "esnext.symbol.matcher",
@@ -16314,8 +16411,10 @@
     "esnext.set.is-superset-of",
     "esnext.set.symmetric-difference",
     "esnext.set.union",
+    "esnext.string.is-well-formed",
     "esnext.string.match-all",
     "esnext.string.replace-all",
+    "esnext.string.to-well-formed",
     "esnext.symbol.async-dispose",
     "esnext.symbol.dispose",
     "esnext.symbol.metadata",
@@ -16333,6 +16432,7 @@
   "core-js/stage/3": [
     "es.string.at-alternative",
     "esnext.aggregate-error",
+    "esnext.array.from-async",
     "esnext.array.at",
     "esnext.array.find-last",
     "esnext.array.find-last-index",
@@ -16507,8 +16607,10 @@
     "esnext.string.at",
     "esnext.string.cooked",
     "esnext.string.code-points",
+    "esnext.string.is-well-formed",
     "esnext.string.match-all",
     "esnext.string.replace-all",
+    "esnext.string.to-well-formed",
     "esnext.symbol.async-dispose",
     "esnext.symbol.dispose",
     "esnext.symbol.matcher",
@@ -16552,6 +16654,7 @@
     "web.dom-exception.to-string-tag",
     "web.immediate",
     "web.queue-microtask",
+    "web.self",
     "web.structured-clone",
     "web.timers",
     "web.url",
