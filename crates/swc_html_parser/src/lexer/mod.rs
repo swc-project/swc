@@ -103,7 +103,7 @@ enum TagKind {
 #[derive(PartialEq, Eq, Clone, Debug)]
 struct Tag {
     kind: TagKind,
-    tag_name: String,
+    tag_name: JsWord,
     raw_tag_name: Option<Atom>,
     is_self_closing: bool,
     attributes: Vec<AttributeToken>,
@@ -531,7 +531,7 @@ where
         self.current_tag_token = Some(Tag {
             kind: TagKind::Start,
             // Maximum known tag is `feComponentTransfer` (SVG)
-            tag_name: String::new(),
+            tag_name: js_word!(""),
             raw_tag_name: None,
             is_self_closing: false,
             attributes: vec![],
@@ -542,7 +542,7 @@ where
         self.current_tag_token = Some(Tag {
             kind: TagKind::End,
             // Maximum known tag is `feComponentTransfer` (SVG)
-            tag_name: String::new(),
+            tag_name: js_word!(""),
             raw_tag_name: None,
             is_self_closing: false,
             // In valid HTML code closed tags do not have attributes
@@ -711,10 +711,10 @@ where
 
             match current_tag_token.kind {
                 TagKind::Start => {
-                    self.last_start_tag_name = Some(current_tag_token.tag_name.clone().into());
+                    self.last_start_tag_name = Some(current_tag_token.tag_name.clone());
 
                     let start_tag_token = Token::StartTag {
-                        tag_name: current_tag_token.tag_name.into(),
+                        tag_name: current_tag_token.tag_name,
                         raw_tag_name: current_tag_token.raw_tag_name,
                         is_self_closing: current_tag_token.is_self_closing,
                         attributes: current_tag_token.attributes,
@@ -732,7 +732,7 @@ where
                     }
 
                     let end_tag_token = Token::EndTag {
-                        tag_name: current_tag_token.tag_name.into(),
+                        tag_name: current_tag_token.tag_name,
                         raw_tag_name: current_tag_token.raw_tag_name,
                         is_self_closing: current_tag_token.is_self_closing,
                         attributes: current_tag_token.attributes,
