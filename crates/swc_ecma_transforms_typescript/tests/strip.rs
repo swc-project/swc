@@ -94,18 +94,6 @@ test!(
 );
 
 to!(
-    constructor_01,
-    "class Foo {
-    constructor(public readonly foo) {}
-}",
-    "class Foo {
-    constructor(foo) {
-        this.foo = foo;
-    }
-}"
-);
-
-to!(
     constructor_02,
     "class Foo {
     constructor(readonly foo) {
