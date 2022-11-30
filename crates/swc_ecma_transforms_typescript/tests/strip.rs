@@ -115,16 +115,6 @@ function enter(foo: string): number;
     ""
 );
 
-to!(
-    issue_392_1,
-    "
-import { PlainObject } from 'simplytyped';
-const dict: PlainObject = {};
-",
-    "
-const dict = {};"
-);
-
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
     |_| tr(),
