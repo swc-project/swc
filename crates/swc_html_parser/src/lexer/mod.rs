@@ -180,11 +180,11 @@ impl<I> ParserInput for Lexer<I>
 where
     I: Input,
 {
-    fn start_pos(&mut self) -> swc_common::BytePos {
+    fn start_pos(&mut self) -> BytePos {
         self.input.cur_pos()
     }
 
-    fn last_pos(&mut self) -> swc_common::BytePos {
+    fn last_pos(&mut self) -> BytePos {
         self.input.last_pos()
     }
 
