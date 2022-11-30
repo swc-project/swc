@@ -2,7 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 174,
+    "end": 224,
     "ctxt": 0
   },
   "children": [
@@ -10,7 +10,7 @@
       "type": "Element",
       "span": {
         "start": 1,
-        "end": 174,
+        "end": 224,
         "ctxt": 0
       },
       "tagName": "root",
@@ -41,7 +41,7 @@
           "type": "Element",
           "span": {
             "start": 15,
-            "end": 22,
+            "end": 19,
             "ctxt": 0
           },
           "tagName": "a",
@@ -51,8 +51,8 @@
         {
           "type": "Text",
           "span": {
-            "start": 22,
-            "end": 23,
+            "start": 19,
+            "end": 20,
             "ctxt": 0
           },
           "data": "\n",
@@ -61,8 +61,8 @@
         {
           "type": "Comment",
           "span": {
-            "start": 23,
-            "end": 53,
+            "start": 20,
+            "end": 50,
             "ctxt": 0
           },
           "data": " start tag and end tag ",
@@ -71,8 +71,8 @@
         {
           "type": "Text",
           "span": {
-            "start": 53,
-            "end": 54,
+            "start": 50,
+            "end": 51,
             "ctxt": 0
           },
           "data": "\n",
@@ -81,8 +81,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 54,
-            "end": 82,
+            "start": 51,
+            "end": 79,
             "ctxt": 0
           },
           "tagName": "start-tag",
@@ -91,8 +91,8 @@
             {
               "type": "Text",
               "span": {
-                "start": 65,
-                "end": 70,
+                "start": 62,
+                "end": 67,
                 "ctxt": 0
               },
               "data": "Start",
@@ -103,8 +103,8 @@
         {
           "type": "Text",
           "span": {
-            "start": 82,
-            "end": 83,
+            "start": 79,
+            "end": 80,
             "ctxt": 0
           },
           "data": "\n",
@@ -113,8 +113,8 @@
         {
           "type": "Comment",
           "span": {
-            "start": 83,
-            "end": 101,
+            "start": 80,
+            "end": 98,
             "ctxt": 0
           },
           "data": " empty tag ",
@@ -123,8 +123,8 @@
         {
           "type": "Text",
           "span": {
-            "start": 101,
-            "end": 102,
+            "start": 98,
+            "end": 99,
             "ctxt": 0
           },
           "data": "\n",
@@ -133,8 +133,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 102,
-            "end": 115,
+            "start": 99,
+            "end": 112,
             "ctxt": 0
           },
           "tagName": "short-tag",
@@ -144,8 +144,8 @@
         {
           "type": "Text",
           "span": {
-            "start": 115,
-            "end": 116,
+            "start": 112,
+            "end": 113,
             "ctxt": 0
           },
           "data": "\n",
@@ -154,8 +154,8 @@
         {
           "type": "Element",
           "span": {
-            "start": 116,
-            "end": 129,
+            "start": 113,
+            "end": 126,
             "ctxt": 0
           },
           "tagName": "test",
@@ -165,49 +165,135 @@
         {
           "type": "Text",
           "span": {
-            "start": 129,
-            "end": 130,
+            "start": 126,
+            "end": 127,
             "ctxt": 0
           },
           "data": "\n",
           "raw": "\n"
         },
         {
-          "type": "Comment",
+          "type": "Element",
           "span": {
-            "start": 130,
-            "end": 148,
+            "start": 127,
+            "end": 140,
             "ctxt": 0
           },
-          "data": " short tag ",
-          "raw": "<!-- short tag -->"
+          "tagName": "test",
+          "attributes": [],
+          "children": []
         },
         {
           "type": "Text",
           "span": {
-            "start": 148,
+            "start": 140,
+            "end": 141,
+            "ctxt": 0
+          },
+          "data": "\n",
+          "raw": "\n"
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 141,
+            "end": 152,
+            "ctxt": 0
+          },
+          "tagName": "тест",
+          "attributes": [],
+          "children": []
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 152,
             "end": 153,
             "ctxt": 0
           },
-          "data": "\n\n",
-          "raw": "\n\n"
+          "data": "\n",
+          "raw": "\n"
         },
         {
           "type": "Element",
           "span": {
             "start": 153,
-            "end": 166,
+            "end": 178,
             "ctxt": 0
           },
-          "tagName": "test",
+          "tagName": "тест",
+          "attributes": [],
+          "children": [
+            {
+              "type": "Text",
+              "span": {
+                "start": 163,
+                "end": 167,
+                "ctxt": 0
+              },
+              "data": "test",
+              "raw": "test"
+            }
+          ]
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 178,
+            "end": 179,
+            "ctxt": 0
+          },
+          "data": "\n",
+          "raw": "\n"
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 179,
+            "end": 190,
+            "ctxt": 0
+          },
+          "tagName": "html:bar",
           "attributes": [],
           "children": []
         },
         {
           "type": "Text",
           "span": {
-            "start": 166,
-            "end": 167,
+            "start": 190,
+            "end": 191,
+            "ctxt": 0
+          },
+          "data": "\n",
+          "raw": "\n"
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 191,
+            "end": 216,
+            "ctxt": 0
+          },
+          "tagName": "html:bar",
+          "attributes": [],
+          "children": [
+            {
+              "type": "Text",
+              "span": {
+                "start": 201,
+                "end": 205,
+                "ctxt": 0
+              },
+              "data": "test",
+              "raw": "test"
+            }
+          ]
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 216,
+            "end": 217,
             "ctxt": 0
           },
           "data": "\n",

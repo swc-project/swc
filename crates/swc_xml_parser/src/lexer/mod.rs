@@ -79,7 +79,6 @@ struct Doctype {
 enum TagKind {
     Start,
     End,
-    Short,
     Empty,
 }
 
@@ -738,43 +737,6 @@ where
 
                     self.emit_token(end_tag_token);
                 }
-                TagKind::Short => {
-                    if !current_tag_token.attributes.is_empty() {
-                        self.emit_error(ErrorKind::ShortTagWithAttributes);
-                    }
-
-                    let mut already_seen: AHashSet<JsWord> = Default::default();
-
-                    let short_tag = Token::ShortTag {
-                        tag_name: current_tag_token.tag_name.into(),
-                        attributes: current_tag_token
-                            .attributes
-                            .drain(..)
-                            .map(|attribute| {
-                                let name = JsWord::from(attribute.name);
-
-                                if already_seen.contains(&name) {
-                                    self.errors.push(Error::new(
-                                        attribute.span,
-                                        ErrorKind::DuplicateAttribute,
-                                    ));
-                                }
-
-                                already_seen.insert(name.clone());
-
-                                AttributeToken {
-                                    span: attribute.span,
-                                    name,
-                                    raw_name: attribute.raw_name.map(JsWord::from),
-                                    value: attribute.value.map(JsWord::from),
-                                    raw_value: attribute.raw_value.map(JsWord::from),
-                                }
-                            })
-                            .collect(),
-                    };
-
-                    self.emit_token(short_tag);
-                }
                 TagKind::Empty => {
                     let mut already_seen: AHashSet<JsWord> = Default::default();
 
@@ -1088,7 +1050,7 @@ where
                     // U+003E GREATER-THAN SIGN (>)
                     // Emit a short end tag token and then switch to the data state.
                     Some('>') => {
-                        self.emit_tag_token(Some(TagKind::Short));
+                        self.emit_tag_token(Some(TagKind::End));
                         self.state = State::Data;
                     }
                     // U+0009 CHARACTER TABULATION (Tab)
