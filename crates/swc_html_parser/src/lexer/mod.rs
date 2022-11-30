@@ -409,18 +409,9 @@ where
         }
     }
 
-    fn create_doctype_token(&mut self, name_c: Option<char>) {
-        let mut new_name = None;
-
-        if let Some(name_c) = name_c {
-            let mut name = String::with_capacity(4);
-
-            name.push(name_c);
-            new_name = Some(name);
-        }
-
+    fn create_doctype_token(&mut self) {
         self.current_doctype_token = Some(Doctype {
-            name: new_name,
+            name: None,
             force_quirks: false,
             public_id: None,
             system_id: None,
@@ -454,13 +445,10 @@ where
     ) {
         if let Some(ref mut token) = self.current_doctype_token {
             if let Some(name) = name {
-                if let Doctype {
-                    name: Some(old_name),
-                    ..
-                } = token
-                {
-                    old_name.push(name);
-                }
+                let b = self.buf.clone();
+                let mut buf = b.borrow_mut();
+
+                buf.push(name);
             }
 
             if let Some(public_id) = public_id {
@@ -491,6 +479,13 @@ where
         }
     }
 
+    fn set_doctype_name(&mut self, c: char) {
+        let b = self.buf.clone();
+        let mut buf = b.borrow_mut();
+
+        buf.push(c);
+    }
+
     fn set_doctype_token_public_id(&mut self) {
         if let Some(Doctype { public_id, .. }) = &mut self.current_doctype_token {
             // The Longest public id is `-//softquad software//dtd hotmetal pro
@@ -503,6 +498,17 @@ where
         if let Some(Doctype { system_id, .. }) = &mut self.current_doctype_token {
             // The Longest system id is `http://www.ibm.com/data/dtd/v11/ibmxhtml1-transitional.dtd`
             *system_id = Some(String::with_capacity(58));
+        }
+    }
+
+    fn finish_doctype_name(&mut self) {
+        if let Some(Doctype { name, .. }) = &mut self.current_doctype_token {
+            let b = self.buf.clone();
+            let mut buf = b.borrow_mut();
+
+            *name = Some(buf.clone());
+
+            buf.clear();
         }
     }
 
@@ -3002,7 +3008,7 @@ where
                     // token.
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
-                        self.create_doctype_token(None);
+                        self.create_doctype_token();
                         self.set_force_quirks();
                         self.emit_doctype_token();
                         self.emit_token(Token::Eof);
@@ -3036,7 +3042,8 @@ where
                     // point). Switch to the DOCTYPE name state.
                     Some(c) if is_ascii_upper_alpha(c) => {
                         self.append_raw_to_doctype_token(c);
-                        self.create_doctype_token(Some(c.to_ascii_lowercase()));
+                        self.create_doctype_token();
+                        self.set_doctype_name(c.to_ascii_lowercase());
                         self.state = State::DoctypeName;
                     }
                     // U+0000 NULL
@@ -3046,7 +3053,8 @@ where
                     Some(c @ '\x00') => {
                         self.append_raw_to_doctype_token(c);
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-                        self.create_doctype_token(Some(REPLACEMENT_CHARACTER));
+                        self.create_doctype_token();
+                        self.set_doctype_name(REPLACEMENT_CHARACTER);
                         self.state = State::DoctypeName;
                     }
                     // U+003E GREATER-THAN SIGN (>)
@@ -3056,7 +3064,7 @@ where
                     Some(c @ '>') => {
                         self.append_raw_to_doctype_token(c);
                         self.emit_error(ErrorKind::MissingDoctypeName);
-                        self.create_doctype_token(None);
+                        self.create_doctype_token();
                         self.set_force_quirks();
                         self.state = State::Data;
                         self.emit_doctype_token();
@@ -3067,7 +3075,7 @@ where
                     // token.
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
-                        self.create_doctype_token(None);
+                        self.create_doctype_token();
                         self.set_force_quirks();
                         self.emit_doctype_token();
                         self.emit_token(Token::Eof);
@@ -3080,7 +3088,8 @@ where
                     Some(c) => {
                         self.validate_input_stream_character(c);
                         self.append_raw_to_doctype_token(c);
-                        self.create_doctype_token(Some(c));
+                        self.create_doctype_token();
+                        self.set_doctype_name(c);
                         self.state = State::DoctypeName;
                     }
                 }
@@ -3096,12 +3105,14 @@ where
                     // Switch to the after DOCTYPE name state.
                     Some(c) if is_spacy(c) => {
                         self.append_raw_to_doctype_token(c);
+                        self.finish_doctype_name();
                         self.state = State::AfterDoctypeName;
                     }
                     // U+003E GREATER-THAN SIGN (>)
                     // Switch to the data state. Emit the current DOCTYPE token.
                     Some(c @ '>') => {
                         self.append_raw_to_doctype_token(c);
+                        self.finish_doctype_name();
                         self.state = State::Data;
                         self.emit_doctype_token();
                     }
@@ -3127,6 +3138,7 @@ where
                     None => {
                         self.emit_error(ErrorKind::EofInDoctype);
                         self.set_force_quirks();
+                        self.finish_doctype_name();
                         self.emit_doctype_token();
                         self.emit_token(Token::Eof);
 
