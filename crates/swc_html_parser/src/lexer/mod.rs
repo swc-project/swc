@@ -104,7 +104,7 @@ enum TagKind {
 struct Tag {
     kind: TagKind,
     tag_name: String,
-    raw_tag_name: Option<String>,
+    raw_tag_name: Option<Atom>,
     is_self_closing: bool,
     attributes: Vec<AttributeToken>,
 }
@@ -536,7 +536,7 @@ where
             kind: TagKind::Start,
             // Maximum known tag is `feComponentTransfer` (SVG)
             tag_name: String::with_capacity(19),
-            raw_tag_name: Some(String::with_capacity(19)),
+            raw_tag_name: None,
             is_self_closing: false,
             attributes: vec![],
         });
@@ -547,7 +547,7 @@ where
             kind: TagKind::End,
             // Maximum known tag is `feComponentTransfer` (SVG)
             tag_name: String::with_capacity(19),
-            raw_tag_name: Some(String::with_capacity(19)),
+            raw_tag_name: None,
             is_self_closing: false,
             // In valid HTML code closed tags do not have attributes
             attributes: vec![],
@@ -555,14 +555,24 @@ where
     }
 
     fn append_to_tag_token_name(&mut self, c: char, raw_c: char) {
-        if let Some(Tag {
-            tag_name,
-            raw_tag_name: Some(raw_tag_name),
-            ..
-        }) = &mut self.current_tag_token
-        {
+        if let Some(Tag { tag_name, .. }) = &mut self.current_tag_token {
             tag_name.push(c);
-            raw_tag_name.push(raw_c);
+
+            let b = self.sub_buf.clone();
+            let mut sub_buf = b.borrow_mut();
+
+            sub_buf.push(raw_c);
+        }
+    }
+
+    fn finish_tag_token_name(&mut self) {
+        if let Some(Tag { raw_tag_name, .. }) = &mut self.current_tag_token {
+            let b = self.sub_buf.clone();
+            let mut sub_buf = b.borrow_mut();
+
+            *raw_tag_name = Some(Atom::new(sub_buf.clone()));
+
+            sub_buf.clear();
         }
     }
 
@@ -699,7 +709,7 @@ where
 
                     let start_tag_token = Token::StartTag {
                         tag_name: current_tag_token.tag_name.into(),
-                        raw_tag_name: current_tag_token.raw_tag_name.map(Atom::new),
+                        raw_tag_name: current_tag_token.raw_tag_name,
                         is_self_closing: current_tag_token.is_self_closing,
                         attributes: current_tag_token.attributes,
                     };
@@ -717,7 +727,7 @@ where
 
                     let end_tag_token = Token::EndTag {
                         tag_name: current_tag_token.tag_name.into(),
-                        raw_tag_name: current_tag_token.raw_tag_name.map(Atom::new),
+                        raw_tag_name: current_tag_token.raw_tag_name,
                         is_self_closing: current_tag_token.is_self_closing,
                         attributes: current_tag_token.attributes,
                     };
@@ -1131,17 +1141,20 @@ where
                     // U+0020 SPACE
                     // Switch to the before attribute name state.
                     Some(c) if is_spacy(c) => {
+                        self.finish_tag_token_name();
                         self.skip_next_lf(c);
                         self.state = State::BeforeAttributeName;
                     }
                     // U+002F SOLIDUS (/)
                     // Switch to the self-closing start tag state.
                     Some('/') => {
+                        self.finish_tag_token_name();
                         self.state = State::SelfClosingStartTag;
                     }
                     // U+003E GREATER-THAN SIGN (>)
                     // Switch to the data state. Emit the current tag token.
                     Some('>') => {
+                        self.finish_tag_token_name();
                         self.state = State::Data;
                         self.emit_tag_token();
                     }
@@ -1161,6 +1174,7 @@ where
                     // EOF
                     // This is an eof-in-tag parse error. Emit an end-of-file token.
                     None => {
+                        self.finish_tag_token_name();
                         self.emit_error(ErrorKind::EofInTag);
                         self.emit_token(Token::Eof);
 
@@ -1237,6 +1251,7 @@ where
                         self.skip_next_lf(c);
 
                         if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
+                            self.finish_tag_token_name();
                             self.state = State::BeforeAttributeName;
                         } else {
                             anything_else(self);
@@ -1248,6 +1263,7 @@ where
                     // "anything else" entry below.
                     Some('/') => {
                         if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
+                            self.finish_tag_token_name();
                             self.state = State::SelfClosingStartTag;
                         } else {
                             anything_else(self);
@@ -1259,6 +1275,7 @@ where
                     // per the "anything else" entry below.
                     Some('>') => {
                         if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
+                            self.finish_tag_token_name();
                             self.state = State::Data;
                             self.emit_tag_token();
                         } else {
@@ -1353,6 +1370,7 @@ where
                         self.skip_next_lf(c);
 
                         if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
+                            self.finish_tag_token_name();
                             self.state = State::BeforeAttributeName;
                         } else {
                             anything_else(self);
@@ -1364,6 +1382,7 @@ where
                     // "anything else" entry below.
                     Some('/') => {
                         if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
+                            self.finish_tag_token_name();
                             self.state = State::SelfClosingStartTag;
                         } else {
                             anything_else(self);
@@ -1375,6 +1394,7 @@ where
                     // per the "anything else" entry below.
                     Some('>') => {
                         if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
+                            self.finish_tag_token_name();
                             self.state = State::Data;
                             self.emit_tag_token();
                         } else {
@@ -1477,6 +1497,7 @@ where
                         self.skip_next_lf(c);
 
                         if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
+                            self.finish_tag_token_name();
                             self.state = State::BeforeAttributeName;
                         } else {
                             anything_else(self);
@@ -1488,6 +1509,7 @@ where
                     // "anything else" entry below.
                     Some('/') => {
                         if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
+                            self.finish_tag_token_name();
                             self.state = State::SelfClosingStartTag;
                         } else {
                             anything_else(self);
@@ -1499,6 +1521,7 @@ where
                     // per the "anything else" entry below.
                     Some('>') => {
                         if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
+                            self.finish_tag_token_name();
                             self.state = State::Data;
                             self.emit_tag_token();
                         } else {
@@ -1769,6 +1792,7 @@ where
                         self.skip_next_lf(c);
 
                         if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
+                            self.finish_tag_token_name();
                             self.state = State::BeforeAttributeName;
                         } else {
                             anything_else(self);
@@ -1780,6 +1804,7 @@ where
                     // "anything else" entry below.
                     Some('/') => {
                         if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
+                            self.finish_tag_token_name();
                             self.state = State::SelfClosingStartTag;
                         } else {
                             anything_else(self);
@@ -1791,6 +1816,7 @@ where
                     // per the "anything else" entry below.
                     Some('>') => {
                         if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
+                            self.finish_tag_token_name();
                             self.state = State::Data;
                             self.emit_tag_token();
                         } else {
