@@ -1,0 +1,7 @@
+<!DOCTYPE svg [
+    <!ELEMENT sgml ANY>
+    <!ENTITY ns_extend "http://ns.adobe.com/Extensibility/1.0/">
+    <!NOTATION example1SVG-rdf SYSTEM "example1.svg.rdf">
+    <!ATTLIST img data ENTITY #IMPLIED>
+]>
+<root>test</root>

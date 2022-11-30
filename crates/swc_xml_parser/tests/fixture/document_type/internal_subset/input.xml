@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE people_list [
+<!ELEMENT people_list (person*)>
+<!ELEMENT person (name, birthdate?, gender?, socialsecuritynumber?)>
+<!ELEMENT name (#PCDATA)>
+<!ELEMENT birthdate (#PCDATA)>
+<!ELEMENT gender (#PCDATA)>
+<!ELEMENT socialsecuritynumber (#PCDATA)>
+]>
+<people_list>
+    <person>
+        <name>Fred Bloggs</name>
+        <birthdate>2008-11-27</birthdate>
+        <gender>Male</gender>
+    </person>
+</people_list>

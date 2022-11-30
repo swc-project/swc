@@ -1,0 +1,182 @@
+{
+  "type": "Document",
+  "span": {
+    "start": 1,
+    "end": 473,
+    "ctxt": 0
+  },
+  "children": [
+    {
+      "type": "ProcessingInstruction",
+      "span": {
+        "start": 1,
+        "end": 56,
+        "ctxt": 0
+      },
+      "target": "xml",
+      "data": "version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\""
+    },
+    {
+      "type": "DocumentType",
+      "span": {
+        "start": 57,
+        "end": 312,
+        "ctxt": 0
+      },
+      "name": "people_list",
+      "publicId": null,
+      "systemId": null,
+      "raw": "<!DOCTYPE people_list [\n<!ELEMENT people_list (person*)>\n<!ELEMENT person (name, birthdate?, gender?, socialsecuritynumber?)>\n<!ELEMENT name (#PCDATA)>\n<!ELEMENT birthdate (#PCDATA)>\n<!ELEMENT gender (#PCDATA)>\n<!ELEMENT socialsecuritynumber (#PCDATA)>\n]>"
+    },
+    {
+      "type": "Element",
+      "span": {
+        "start": 313,
+        "end": 473,
+        "ctxt": 0
+      },
+      "tagName": "people_list",
+      "attributes": [],
+      "children": [
+        {
+          "type": "Text",
+          "span": {
+            "start": 326,
+            "end": 331,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 331,
+            "end": 458,
+            "ctxt": 0
+          },
+          "tagName": "person",
+          "attributes": [],
+          "children": [
+            {
+              "type": "Text",
+              "span": {
+                "start": 339,
+                "end": 348,
+                "ctxt": 0
+              },
+              "data": "\n        ",
+              "raw": "\n        "
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 348,
+                "end": 372,
+                "ctxt": 0
+              },
+              "tagName": "name",
+              "attributes": [],
+              "children": [
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 354,
+                    "end": 365,
+                    "ctxt": 0
+                  },
+                  "data": "Fred Bloggs",
+                  "raw": "Fred Bloggs"
+                }
+              ]
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 372,
+                "end": 381,
+                "ctxt": 0
+              },
+              "data": "\n        ",
+              "raw": "\n        "
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 381,
+                "end": 414,
+                "ctxt": 0
+              },
+              "tagName": "birthdate",
+              "attributes": [],
+              "children": [
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 392,
+                    "end": 402,
+                    "ctxt": 0
+                  },
+                  "data": "2008-11-27",
+                  "raw": "2008-11-27"
+                }
+              ]
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 414,
+                "end": 423,
+                "ctxt": 0
+              },
+              "data": "\n        ",
+              "raw": "\n        "
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 423,
+                "end": 444,
+                "ctxt": 0
+              },
+              "tagName": "gender",
+              "attributes": [],
+              "children": [
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 431,
+                    "end": 435,
+                    "ctxt": 0
+                  },
+                  "data": "Male",
+                  "raw": "Male"
+                }
+              ]
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 444,
+                "end": 449,
+                "ctxt": 0
+              },
+              "data": "\n    ",
+              "raw": "\n    "
+            }
+          ]
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 458,
+            "end": 459,
+            "ctxt": 0
+          },
+          "data": "\n",
+          "raw": "\n"
+        }
+      ]
+    }
+  ]
+}
