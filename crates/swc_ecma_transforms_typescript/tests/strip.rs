@@ -93,8 +93,6 @@ test!(
     }"
 );
 
-to!(export_equals, "export = Foo", "module.exports = Foo;");
-
 to!(
     issue_196_01,
     "export type Link = { key: string; text: string };",
