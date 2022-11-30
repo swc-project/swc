@@ -3750,7 +3750,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_testing"
-version = "0.20.7"
+version = "0.20.8"
 dependencies = [
  "anyhow",
  "hex",
@@ -3977,7 +3977,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_testing"
-version = "0.115.1"
+version = "0.115.2"
 dependencies = [
  "ansi_term",
  "anyhow",
