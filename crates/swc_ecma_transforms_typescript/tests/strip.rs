@@ -93,28 +93,6 @@ test!(
     }"
 );
 
-to!(
-    issue_196_01,
-    "export type Link = { key: string; text: string };",
-    ""
-);
-
-to!(
-    issue_196_02,
-    "type Link = { key: string; text: string };
-export { Link };",
-    ""
-);
-
-to!(
-    issue_196_03,
-    "type Link = { key: string; text: string };
-const Link = 'Boo';
-export { Link };",
-    "const Link = 'Boo';
-export { Link };"
-);
-
 // TODO: Test function / variable hoisting
 
 to!(
