@@ -10,7 +10,7 @@ use swc_ecma_transforms_compat::{
     es2022::class_properties,
 };
 use swc_ecma_transforms_proposal::decorators;
-use swc_ecma_transforms_testing::{test, test_exec, test_fixture, Tester};
+use swc_ecma_transforms_testing::{test, test_exec, test_fixture, FixtureTestConfig, Tester};
 use swc_ecma_transforms_typescript::{strip, strip::strip_with_config, TsImportExportAssignConfig};
 use swc_ecma_visit::Fold;
 
@@ -4538,7 +4538,10 @@ fn exec(input: PathBuf) {
         &|t| chain!(tr(), properties(t, true)),
         &input,
         &output,
-        Default::default(),
+        FixtureTestConfig {
+            sourcemap: true,
+            ..Default::default()
+        },
     );
 }
 
