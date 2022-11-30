@@ -1,0 +1,1 @@
+{"version":3,"sources":["input.js"],"sourcesContent":["import * as mongo from \"https://deno.land/x/mongo@v0.27.0/mod.ts\";\nimport MongoClient = mongo.MongoClient;\nconst mongoClient = new MongoClient();\n"],"names":[],"mappings":"AAAA,YAAY,WAAW,2CAA2C;IAC3D,cAAc,MAAM;AAC3B,MAAM,cAAc,IAAI"}
