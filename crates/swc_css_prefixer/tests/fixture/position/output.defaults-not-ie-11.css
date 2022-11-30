@@ -2,6 +2,5 @@
   position: relative;
 }
 .class {
-  position: -webkit-sticky;
   position: sticky;
 }

@@ -1,6 +1,6 @@
 {
     "name": "@swc/core",
-    "version": "1.3.20",
+    "version": "1.3.21",
     "description": "Super-fast alternative for babel",
     "homepage": "https://swc.rs",
     "main": "./index.js",
@@ -173,5 +173,5 @@
         "postinstall.js",
         "bindings/binding_core_wasm/pkg/binding_core_wasm.d.ts"
     ],
-    "packageManager": "yarn@3.2.4"
+    "packageManager": "yarn@3.3.0"
 }

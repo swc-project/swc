@@ -1,11 +1,5 @@
-input[type=file]::-webkit-file-upload-button {
-  border: 2px solid #6c5ce7;
-}
 input[type=file]::file-selector-button {
   border: 2px solid #6c5ce7;
-}
-input[type=file]::-webkit-file-upload-button:hover {
-  border: 2px solid #00cec9;
 }
 input[type=file]::file-selector-button:hover {
   border: 2px solid #00cec9;
