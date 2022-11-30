@@ -97,14 +97,7 @@
  3 | `-> }
    `----
 
-  x Declaration
-   ,-[$DIR/tests/recovery/value/url/parenthesis/input.css:1:1]
- 1 |     a {
- 2 | ,->     background: url(test\);
- 3 | `-> }
-   `----
-
-  x DeclarationName
+  x ComponentValue
    ,-[$DIR/tests/recovery/value/url/parenthesis/input.css:1:1]
  1 | a {
  2 |     background: url(test\);
@@ -112,11 +105,43 @@
  3 | }
    `----
 
-  x Ident
+  x Ident { value: Atom('background' type=dynamic), raw: "background" }
    ,-[$DIR/tests/recovery/value/url/parenthesis/input.css:1:1]
  1 | a {
  2 |     background: url(test\);
    :     ^^^^^^^^^^
+ 3 | }
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/value/url/parenthesis/input.css:1:1]
+ 1 | a {
+ 2 |     background: url(test\);
+   :               ^
+ 3 | }
+   `----
+
+  x Colon
+   ,-[$DIR/tests/recovery/value/url/parenthesis/input.css:1:1]
+ 1 | a {
+ 2 |     background: url(test\);
+   :               ^
+ 3 | }
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/value/url/parenthesis/input.css:1:1]
+ 1 | a {
+ 2 |     background: url(test\);
+   :                ^
+ 3 | }
+   `----
+
+  x WhiteSpace { value: " " }
+   ,-[$DIR/tests/recovery/value/url/parenthesis/input.css:1:1]
+ 1 | a {
+ 2 |     background: url(test\);
+   :                ^
  3 | }
    `----
 

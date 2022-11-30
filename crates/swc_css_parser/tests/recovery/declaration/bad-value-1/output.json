@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 55,
+    "end": 20,
     "ctxt": 0
   },
   "rules": [
@@ -10,7 +10,7 @@
       "type": "QualifiedRule",
       "span": {
         "start": 1,
-        "end": 54,
+        "end": 20,
         "ctxt": 0
       },
       "prelude": {
@@ -74,7 +74,7 @@
         "type": "SimpleBlock",
         "span": {
           "start": 3,
-          "end": 54,
+          "end": 20,
           "ctxt": 0
         },
         "name": {
@@ -88,74 +88,75 @@
         },
         "value": [
           {
-            "type": "ListOfComponentValues",
+            "type": "Declaration",
             "span": {
               "start": 9,
-              "end": 52,
+              "end": 20,
               "ctxt": 0
             },
-            "children": [
+            "name": {
+              "type": "DashedIdent",
+              "span": {
+                "start": 9,
+                "end": 14,
+                "ctxt": 0
+              },
+              "value": "var",
+              "raw": "--var"
+            },
+            "value": [
               {
-                "type": "PreservedToken",
+                "type": "SimpleBlock",
                 "span": {
-                  "start": 9,
-                  "end": 25,
+                  "start": 16,
+                  "end": 20,
                   "ctxt": 0
                 },
-                "token": {
-                  "Ident": {
-                    "value": "background-image",
-                    "raw": "background-image"
+                "name": {
+                  "type": "PreservedToken",
+                  "span": {
+                    "start": 16,
+                    "end": 17,
+                    "ctxt": 0
+                  },
+                  "token": "LBracket"
+                },
+                "value": [
+                  {
+                    "type": "PreservedToken",
+                    "span": {
+                      "start": 17,
+                      "end": 18,
+                      "ctxt": 0
+                    },
+                    "token": "Semi"
+                  },
+                  {
+                    "type": "PreservedToken",
+                    "span": {
+                      "start": 18,
+                      "end": 19,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": "\n"
+                      }
+                    }
+                  },
+                  {
+                    "type": "PreservedToken",
+                    "span": {
+                      "start": 19,
+                      "end": 20,
+                      "ctxt": 0
+                    },
+                    "token": "RBrace"
                   }
-                }
-              },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 25,
-                  "end": 26,
-                  "ctxt": 0
-                },
-                "token": "Colon"
-              },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 26,
-                  "end": 27,
-                  "ctxt": 0
-                },
-                "token": {
-                  "WhiteSpace": {
-                    "value": " "
-                  }
-                }
-              },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 27,
-                  "end": 51,
-                  "ctxt": 0
-                },
-                "token": {
-                  "BadUrl": {
-                    "name": "url",
-                    "raw_name": "url",
-                    "raw_value": "   ./image.jpg  a  "
-                  }
-                }
-              },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 51,
-                  "end": 52,
-                  "ctxt": 0
-                },
-                "token": "Semi"
+                ]
               }
-            ]
+            ],
+            "important": null
           }
         ]
       }

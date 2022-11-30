@@ -634,7 +634,7 @@ where
                         // TODO improve me to `<declaration-value>`
                         self.errors.push(Error::new(
                             *span,
-                            ErrorKind::Unexpected("'!' in <declaration-value>"),
+                            ErrorKind::Unexpected("'!' in declaration value"),
                         ));
                     }
                 }
@@ -645,17 +645,7 @@ where
             let component_value = self.parse_as::<ComponentValue>()?;
 
             match &component_value {
-                // Optimization for step 5
-                ComponentValue::PreservedToken(
-                    token_and_span @ TokenAndSpan {
-                        token: Token::Ident { value, .. },
-                        ..
-                    },
-                ) if exclamation_point_span.is_some()
-                    && value.to_ascii_lowercase() == js_word!("important") =>
-                {
-                    important_ident = Some(token_and_span.clone());
-                }
+                // Optimization for step 6
                 ComponentValue::PreservedToken(TokenAndSpan {
                     span,
                     token: Token::Delim { value: '!', .. },
@@ -669,7 +659,16 @@ where
                         last_whitespaces = (last_whitespaces.2, 0, 0);
                     }
                 }
-                // Optimization for step 6
+                ComponentValue::PreservedToken(
+                    token_and_span @ TokenAndSpan {
+                        token: Token::Ident { value, .. },
+                        ..
+                    },
+                ) if exclamation_point_span.is_some()
+                    && value.to_ascii_lowercase() == js_word!("important") =>
+                {
+                    important_ident = Some(token_and_span.clone());
+                }
                 ComponentValue::PreservedToken(TokenAndSpan {
                     token: Token::WhiteSpace { .. },
                     ..
@@ -688,13 +687,14 @@ where
                     }
                 },
                 _ => {
+                    self.validate_declaration_value(&component_value)?;
+
                     last_whitespaces = (0, 0, 0);
 
                     if let Some(span) = &exclamation_point_span {
-                        // TODO improve me to `<declaration-value>`
                         self.errors.push(Error::new(
                             *span,
-                            ErrorKind::Unexpected("'!' in <declaration-value>"),
+                            ErrorKind::Unexpected("'!' in declaration value"),
                         ));
 
                         important_ident = None;

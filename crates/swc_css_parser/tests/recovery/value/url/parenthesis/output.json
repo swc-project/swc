@@ -88,23 +88,49 @@
         },
         "value": [
           {
-            "type": "Declaration",
+            "type": "ListOfComponentValues",
             "span": {
               "start": 9,
               "end": 34,
               "ctxt": 0
             },
-            "name": {
-              "type": "Ident",
-              "span": {
-                "start": 9,
-                "end": 19,
-                "ctxt": 0
+            "children": [
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 9,
+                  "end": 19,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "background",
+                    "raw": "background"
+                  }
+                }
               },
-              "value": "background",
-              "raw": "background"
-            },
-            "value": [
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 19,
+                  "end": 20,
+                  "ctxt": 0
+                },
+                "token": "Colon"
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 20,
+                  "end": 21,
+                  "ctxt": 0
+                },
+                "token": {
+                  "WhiteSpace": {
+                    "value": " "
+                  }
+                }
+              },
               {
                 "type": "PreservedToken",
                 "span": {
@@ -120,8 +146,7 @@
                   }
                 }
               }
-            ],
-            "important": null
+            ]
           }
         ]
       }

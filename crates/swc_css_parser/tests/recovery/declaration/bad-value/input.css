@@ -1,0 +1,11 @@
+a {
+    value: );
+    value: ];
+    value: url(test test);
+    --foo: !;
+    --foo: );
+    --foo: ];
+    --foo: !;
+    value: !!;
+    value: ! !important;
+}

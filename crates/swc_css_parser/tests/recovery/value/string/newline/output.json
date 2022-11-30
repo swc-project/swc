@@ -88,23 +88,49 @@
         },
         "value": [
           {
-            "type": "Declaration",
+            "type": "ListOfComponentValues",
             "span": {
               "start": 9,
               "end": 17,
               "ctxt": 0
             },
-            "name": {
-              "type": "Ident",
-              "span": {
-                "start": 9,
-                "end": 13,
-                "ctxt": 0
+            "children": [
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 9,
+                  "end": 13,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "prop",
+                    "raw": "prop"
+                  }
+                }
               },
-              "value": "prop",
-              "raw": "prop"
-            },
-            "value": [
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 13,
+                  "end": 14,
+                  "ctxt": 0
+                },
+                "token": "Colon"
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 14,
+                  "end": 15,
+                  "ctxt": 0
+                },
+                "token": {
+                  "WhiteSpace": {
+                    "value": " "
+                  }
+                }
+              },
               {
                 "type": "PreservedToken",
                 "span": {
@@ -117,9 +143,21 @@
                     "raw_value": "\""
                   }
                 }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 16,
+                  "end": 17,
+                  "ctxt": 0
+                },
+                "token": {
+                  "WhiteSpace": {
+                    "value": "\n"
+                  }
+                }
               }
-            ],
-            "important": null
+            ]
           }
         ]
       }

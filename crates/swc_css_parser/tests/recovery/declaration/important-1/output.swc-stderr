@@ -7,7 +7,7 @@
  3 | }
    `----
 
-  x Unexpected '!' in <declaration-value>
+  x Unexpected '!' in declaration value
    ,-[$DIR/tests/recovery/declaration/important-1/input.css:1:1]
  1 | a {
  2 |     color: red !importan;

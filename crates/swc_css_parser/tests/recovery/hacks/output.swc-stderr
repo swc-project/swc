@@ -219,7 +219,7 @@
  137 |     color: red;
      `----
 
-  x Unexpected '!' in <declaration-value>
+  x Unexpected '!' in declaration value
      ,-[$DIR/tests/recovery/hacks/input.css:179:1]
  179 | 
  180 | .selector { property: value !ie; }
