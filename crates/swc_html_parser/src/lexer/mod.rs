@@ -94,21 +94,6 @@ pub enum State {
     NumericCharacterReferenceEnd,
 }
 
-#[derive(PartialEq, Eq, Hash, Copy, Clone, Debug)]
-enum TagKind {
-    Start,
-    End,
-}
-
-#[derive(PartialEq, Eq, Clone, Debug)]
-struct Tag {
-    kind: TagKind,
-    tag_name: JsWord,
-    raw_tag_name: Option<Atom>,
-    is_self_closing: bool,
-    attributes: Vec<AttributeToken>,
-}
-
 pub(crate) type LexResult<T> = Result<T, ErrorKind>;
 
 pub struct Lexer<I>
@@ -127,8 +112,7 @@ where
     pending_tokens: VecDeque<TokenAndSpan>,
     buf: Rc<RefCell<String>>,
     sub_buf: Rc<RefCell<String>>,
-    current_doctype_token: Option<Token>,
-    current_tag_token: Option<Tag>,
+    current_token: Option<Token>,
     attributes_validator: AHashSet<JsWord>,
     attribute_start_position: Option<BytePos>,
     character_reference_code: Option<Vec<(u8, u32, Option<char>)>>,
@@ -156,8 +140,7 @@ where
             pending_tokens: VecDeque::with_capacity(16),
             buf: Rc::new(RefCell::new(String::with_capacity(32))),
             sub_buf: Rc::new(RefCell::new(String::with_capacity(32))),
-            current_doctype_token: None,
-            current_tag_token: None,
+            current_token: None,
             attributes_validator: Default::default(),
             attribute_start_position: None,
             character_reference_code: None,
@@ -398,7 +381,7 @@ where
     }
 
     fn create_doctype_token(&mut self) {
-        self.current_doctype_token = Some(Token::Doctype {
+        self.current_token = Some(Token::Doctype {
             name: None,
             force_quirks: false,
             public_id: None,
@@ -449,7 +432,7 @@ where
     }
 
     fn set_doctype_token_force_quirks(&mut self) {
-        if let Some(Token::Doctype { force_quirks, .. }) = &mut self.current_doctype_token {
+        if let Some(Token::Doctype { force_quirks, .. }) = &mut self.current_token {
             *force_quirks = true;
         }
     }
@@ -462,20 +445,20 @@ where
     }
 
     fn set_doctype_token_public_id(&mut self) {
-        if let Some(Token::Doctype { public_id, .. }) = &mut self.current_doctype_token {
+        if let Some(Token::Doctype { public_id, .. }) = &mut self.current_token {
             *public_id = Some(js_word!(""));
         }
     }
 
     fn set_doctype_token_system_id(&mut self) {
-        if let Some(Token::Doctype { system_id, .. }) = &mut self.current_doctype_token {
+        if let Some(Token::Doctype { system_id, .. }) = &mut self.current_token {
             // The Longest system id is `http://www.ibm.com/data/dtd/v11/ibmxhtml1-transitional.dtd`
             *system_id = Some(js_word!(""));
         }
     }
 
     fn finish_doctype_token_name(&mut self) {
-        if let Some(Token::Doctype { name, .. }) = &mut self.current_doctype_token {
+        if let Some(Token::Doctype { name, .. }) = &mut self.current_token {
             let b = self.buf.clone();
             let mut buf = b.borrow_mut();
 
@@ -486,7 +469,7 @@ where
     }
 
     fn finish_doctype_token_public_id(&mut self) {
-        if let Some(Token::Doctype { public_id, .. }) = &mut self.current_doctype_token {
+        if let Some(Token::Doctype { public_id, .. }) = &mut self.current_token {
             let b = self.buf.clone();
             let mut buf = b.borrow_mut();
 
@@ -497,7 +480,7 @@ where
     }
 
     fn finish_doctype_token_system_id(&mut self) {
-        if let Some(Token::Doctype { system_id, .. }) = &mut self.current_doctype_token {
+        if let Some(Token::Doctype { system_id, .. }) = &mut self.current_token {
             let b = self.buf.clone();
             let mut buf = b.borrow_mut();
 
@@ -508,7 +491,7 @@ where
     }
 
     fn emit_doctype_token(&mut self) {
-        if let Some(mut token @ Token::Doctype { .. }) = self.current_doctype_token.take() {
+        if let Some(mut token @ Token::Doctype { .. }) = self.current_token.take() {
             let b = self.sub_buf.clone();
             let mut sub_buf = b.borrow_mut();
 
@@ -528,8 +511,7 @@ where
     }
 
     fn create_start_tag_token(&mut self) {
-        self.current_tag_token = Some(Tag {
-            kind: TagKind::Start,
+        self.current_token = Some(Token::StartTag {
             // Maximum known tag is `feComponentTransfer` (SVG)
             tag_name: js_word!(""),
             raw_tag_name: None,
@@ -539,8 +521,7 @@ where
     }
 
     fn create_end_tag_token(&mut self) {
-        self.current_tag_token = Some(Tag {
-            kind: TagKind::End,
+        self.current_token = Some(Token::EndTag {
             // Maximum known tag is `feComponentTransfer` (SVG)
             tag_name: js_word!(""),
             raw_tag_name: None,
@@ -551,7 +532,7 @@ where
     }
 
     fn append_to_tag_token_name(&mut self, c: char, raw_c: char) {
-        if let Some(Tag { .. }) = &mut self.current_tag_token {
+        if let Some(Token::StartTag { .. } | Token::EndTag { .. }) = &mut self.current_token {
             let b = self.buf.clone();
             let mut buf = b.borrow_mut();
             let b = self.sub_buf.clone();
@@ -563,11 +544,18 @@ where
     }
 
     fn finish_tag_token_name(&mut self) {
-        if let Some(Tag {
-            tag_name,
-            raw_tag_name,
-            ..
-        }) = &mut self.current_tag_token
+        if let Some(
+            Token::StartTag {
+                tag_name,
+                raw_tag_name,
+                ..
+            }
+            | Token::EndTag {
+                tag_name,
+                raw_tag_name,
+                ..
+            },
+        ) = &mut self.current_token
         {
             let b = self.buf.clone();
             let mut buf = b.borrow_mut();
@@ -583,7 +571,9 @@ where
     }
 
     fn start_new_attribute_token(&mut self) {
-        if let Some(Tag { attributes, .. }) = &mut self.current_tag_token {
+        if let Some(Token::StartTag { attributes, .. } | Token::EndTag { attributes, .. }) =
+            &mut self.current_token
+        {
             attributes.push(AttributeToken {
                 span: Default::default(),
                 name: js_word!(""),
@@ -608,9 +598,14 @@ where
 
     fn finish_attribute_token_name(&mut self) {
         if let Some(attribute_start_position) = self.attribute_start_position {
-            if let Some(Tag {
-                ref mut attributes, ..
-            }) = self.current_tag_token
+            if let Some(
+                Token::StartTag {
+                    ref mut attributes, ..
+                }
+                | Token::EndTag {
+                    ref mut attributes, ..
+                },
+            ) = self.current_token
             {
                 if let Some(last) = attributes.last_mut() {
                     let b = self.buf.clone();
@@ -672,9 +667,14 @@ where
 
     fn finish_attribute_token_value(&mut self) {
         if let Some(attribute_start_position) = self.attribute_start_position {
-            if let Some(Tag {
-                ref mut attributes, ..
-            }) = self.current_tag_token
+            if let Some(
+                Token::StartTag {
+                    ref mut attributes, ..
+                }
+                | Token::EndTag {
+                    ref mut attributes, ..
+                },
+            ) = self.current_token
             {
                 if let Some(last) = attributes.last_mut() {
                     let b = self.buf.clone();
@@ -704,43 +704,32 @@ where
     }
 
     fn emit_tag_token(&mut self) {
-        if let Some(current_tag_token) = self.current_tag_token.take() {
+        if let Some(current_tag_token) = self.current_token.take() {
             self.attributes_validator.clear();
 
-            let is_empty = current_tag_token.attributes.is_empty();
-
-            match current_tag_token.kind {
-                TagKind::Start => {
-                    self.last_start_tag_name = Some(current_tag_token.tag_name.clone());
-
-                    let start_tag_token = Token::StartTag {
-                        tag_name: current_tag_token.tag_name,
-                        raw_tag_name: current_tag_token.raw_tag_name,
-                        is_self_closing: current_tag_token.is_self_closing,
-                        attributes: current_tag_token.attributes,
-                    };
-
-                    self.emit_token(start_tag_token);
+            match &current_tag_token {
+                Token::StartTag { ref tag_name, .. } => {
+                    self.last_start_tag_name = Some(tag_name.clone());
                 }
-                TagKind::End => {
-                    if !is_empty {
+                Token::EndTag {
+                    ref is_self_closing,
+                    ref attributes,
+                    ..
+                } => {
+                    if !attributes.is_empty() {
                         self.emit_error(ErrorKind::EndTagWithAttributes);
                     }
 
-                    if current_tag_token.is_self_closing {
+                    if *is_self_closing {
                         self.emit_error(ErrorKind::EndTagWithTrailingSolidus);
                     }
-
-                    let end_tag_token = Token::EndTag {
-                        tag_name: current_tag_token.tag_name,
-                        raw_tag_name: current_tag_token.raw_tag_name,
-                        is_self_closing: current_tag_token.is_self_closing,
-                        attributes: current_tag_token.attributes,
-                    };
-
-                    self.emit_token(end_tag_token);
+                }
+                _ => {
+                    unreachable!();
                 }
             }
+
+            self.emit_token(current_tag_token);
         }
     }
 
@@ -2536,8 +2525,16 @@ where
                     // Set the self-closing flag of the current tag token. Switch to the data
                     // state. Emit the current tag token.
                     Some('>') => {
-                        if let Some(current_tag_token) = &mut self.current_tag_token {
-                            current_tag_token.is_self_closing = true;
+                        if let Some(
+                            Token::StartTag {
+                                is_self_closing, ..
+                            }
+                            | Token::EndTag {
+                                is_self_closing, ..
+                            },
+                        ) = &mut self.current_token
+                        {
+                            *is_self_closing = true;
                         }
 
                         self.state = State::Data;
