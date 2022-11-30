@@ -3267,7 +3267,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.44.0"
+version = "0.44.1"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -3294,6 +3294,7 @@ dependencies = [
  "swc_ecma_preset_env",
  "swc_ecma_quote_macros",
  "swc_ecma_transforms_base",
+ "swc_ecma_transforms_compat",
  "swc_ecma_transforms_module",
  "swc_ecma_transforms_optimization",
  "swc_ecma_transforms_proposal",

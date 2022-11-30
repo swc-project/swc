@@ -43,6 +43,9 @@
 
 - **(bindings)** Fix jemalloc on aarch64 (#6541) ([d56b5a8](https://github.com/swc-project/swc/commit/d56b5a890a69a9a9177eed2a955f2c959fd1eaa1))
 
+
+- **(swc_core)** Reexport more modules (#6548) ([9b58cce](https://github.com/swc-project/swc/commit/9b58cce10bf5d313b6397c0366222c51db19eaca))
+
 ### Performance
 
 
