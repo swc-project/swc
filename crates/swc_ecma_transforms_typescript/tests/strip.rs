@@ -93,8 +93,6 @@ test!(
     }"
 );
 
-to!(export_import, "export import A = B", "export var A = B;");
-
 to!(export_equals, "export = Foo", "module.exports = Foo;");
 
 to!(
