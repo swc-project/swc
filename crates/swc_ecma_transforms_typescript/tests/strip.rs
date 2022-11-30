@@ -95,26 +95,6 @@ test!(
 
 // TODO: Test function / variable hoisting
 
-to!(
-    issue_366_01,
-    "
-class App {
-  public enter?(): void;
-  public leave?(): void;
-  public destroy?(): void;
-}",
-    "class App {}"
-);
-
-to!(
-    issue_366_02,
-    "
-function enter(): string;
-function enter(foo: string): number;
-",
-    ""
-);
-
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
     |_| tr(),
