@@ -121,6 +121,15 @@ impl Pure<'_> {
         }
 
         if let Prop::KeyValue(kv) = p {
+            // See https://github.com/swc-project/swc/pull/6521
+            //
+            // ({foo(){}}).foo.toString()
+            //
+            // returns `foo(){}`
+            if !self.options.unsafe_methods {
+                return;
+            }
+
             //
             if contains_this_expr(&kv.value) {
                 return;

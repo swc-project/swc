@@ -449,13 +449,27 @@ impl<'a, I: Tokens> Parser<I> {
         let start = cur_pos!(self);
 
         assert_and_bump!(self, "if");
+        let if_token = self.input.prev_span();
 
         expect!(self, '(');
         let ctx = Context {
             ignore_else_clause: false,
             ..self.ctx()
         };
-        let test = self.with_ctx(ctx).include_in_expr(true).parse_expr()?;
+        let test = self
+            .with_ctx(ctx)
+            .include_in_expr(true)
+            .parse_expr()
+            .map_err(|err| {
+                Error::new(
+                    err.span(),
+                    SyntaxError::WithLabel {
+                        inner: Box::new(err),
+                        span: if_token,
+                        note: "Tried to parse the condition for an if statement",
+                    },
+                )
+            })?;
         if !eat!(self, ')') {
             self.emit_err(self.input.cur_span(), SyntaxError::TS1005);
 

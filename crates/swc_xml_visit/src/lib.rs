@@ -26,6 +26,7 @@ define!({
         DocumentType(DocumentType),
         Element(Element),
         Text(Text),
+        CdataSection(CdataSection),
         Comment(Comment),
         ProcessingInstruction(ProcessingInstruction),
     }
@@ -65,6 +66,12 @@ define!({
     }
 
     pub struct Text {
+        pub span: Span,
+        pub data: JsWord,
+        pub raw: Option<JsWord>,
+    }
+
+    pub struct CdataSection {
         pub span: Span,
         pub data: JsWord,
         pub raw: Option<JsWord>,

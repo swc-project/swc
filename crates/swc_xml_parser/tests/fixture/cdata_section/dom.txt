@@ -1,0 +1,57 @@
+| <root>
+|   "
+    "
+|   <description>
+|     "An example of escaped CENDs"
+|   "
+    "
+|   <!--  This text contains a CEND ]]>  -->
+|   "
+    "
+|   <!--  In this first case we put the ]] at the end of the first CDATA block
+         and the > in the second CDATA block  -->
+|   "
+    "
+|   <exampleOfACDATA>
+|     "
+    "
+|     "
+    "
+|   "
+    "
+|   <p>
+|   "
+    "
+|   <p>
+|   "
+    "
+|   <p>
+|   "
+    "
+|   <p>
+|   "
+    "
+|   <p>
+|   "
+    "
+|   <p>
+|   "
+    "
+|   <p>
+|   "
+    "
+|   <p>
+|   "
+    "
+|   <p>
+|     "
+        "
+|     "  "
+|   "
+    "
+|   <p>
+|   "
+    "
+|   <p>
+|   "
+"

@@ -56,7 +56,7 @@ fn document_test(input: PathBuf, config: ParserConfig) {
 }
 
 fn document_recovery_test(input: PathBuf, config: ParserConfig) {
-    let stderr_path = input.parent().unwrap().join("output.stderr");
+    let stderr_path = input.parent().unwrap().join("output.swc-stderr");
     let mut recovered = false;
 
     let stderr = testing::run_test2(false, |cm, handler| {
@@ -147,7 +147,7 @@ fn document_span_visualizer(input: PathBuf, config: ParserConfig) {
     .unwrap_err();
 
     output
-        .compare_to_file(&dir.join("span.rust-debug"))
+        .compare_to_file(&dir.join("span.swc-stderr"))
         .unwrap();
 }
 
@@ -176,7 +176,7 @@ fn document_dom_visualizer(input: PathBuf, config: ParserConfig) {
                 });
 
                 NormalizedOutput::from(dom_buf)
-                    .compare_to_file(&dir.join("dom.rust-debug"))
+                    .compare_to_file(&dir.join("dom.txt"))
                     .unwrap();
 
                 Ok(())

@@ -60,5 +60,9 @@ pub enum Token {
         target: JsWord,
         data: JsWord,
     },
+    Cdata {
+        data: JsWord,
+        raw: JsWord,
+    },
     Eof,
 }

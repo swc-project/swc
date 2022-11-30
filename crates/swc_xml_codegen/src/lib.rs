@@ -62,6 +62,7 @@ where
             Child::Text(n) => emit!(self, n),
             Child::Comment(n) => emit!(self, n),
             Child::ProcessingInstruction(n) => emit!(self, n),
+            Child::CdataSection(n) => emit!(self, n),
         }
     }
 
@@ -285,6 +286,17 @@ where
         processing_instruction.push_str("?>");
 
         write_multiline_raw!(self, n.span, &processing_instruction);
+    }
+
+    #[emitter]
+    fn emit_cdata_section(&mut self, n: &CdataSection) -> Result {
+        let mut cdata_section = String::with_capacity(n.data.len() + 12);
+
+        cdata_section.push_str("<![CDATA[");
+        cdata_section.push_str(&n.data);
+        cdata_section.push_str("]]>");
+
+        write_multiline_raw!(self, n.span, &cdata_section);
     }
 
     fn create_context_for_element(&self, n: &Element) -> Ctx {

@@ -1,6 +1,0 @@
-
-  x Unexpected initializer in for in/of loop
-   ,-[$DIR/tests/test262-parser/fail/e3fbcf63d7e43ead.js:1:1]
- 1 | for(var x=1 in [1,2,3]) 0
-   :         ^
-   `----

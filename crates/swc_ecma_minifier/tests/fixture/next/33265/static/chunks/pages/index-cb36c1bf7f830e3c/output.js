@@ -3175,7 +3175,11 @@
                     var formatted = addSidxSegmentsToPlaylist$1(formatAudioPlaylist(playlist, isAudioOnly), sidxMapping);
                     return a[label].playlists.push(formatted), void 0 === mainPlaylist && "main" === role && ((mainPlaylist = playlist).default = !0), a;
                 }, {});
-                return mainPlaylist || (formattedPlaylists[Object.keys(formattedPlaylists)[0]].default = !0), formattedPlaylists;
+                if (!mainPlaylist) {
+                    var firstLabel = Object.keys(formattedPlaylists)[0];
+                    formattedPlaylists[firstLabel].default = !0;
+                }
+                return formattedPlaylists;
             }, formatVideoPlaylist = function(_ref3) {
                 var _attributes2, attributes = _ref3.attributes, segments = _ref3.segments, sidx = _ref3.sidx, playlist = {
                     attributes: ((_attributes2 = {

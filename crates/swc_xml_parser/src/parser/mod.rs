@@ -188,6 +188,11 @@ where
                     data,
                 })
             }
+            Data::CdataSection { data, raw } => Child::CdataSection(CdataSection {
+                span: start_span,
+                data,
+                raw,
+            }),
             _ => {
                 unreachable!();
             }
@@ -266,6 +271,14 @@ where
                 }
                 Token::ProcessingInstruction { .. } => {
                     self.append_processing_instruction_to_doc(token_and_info)?;
+                }
+                Token::Cdata { .. } => {
+                    self.errors.push(Error::new(
+                        token_and_info.span,
+                        ErrorKind::UnexpectedTokenInStartPhase,
+                    ));
+
+                    self.append_cdata_to_doc(token_and_info)?;
                 }
                 Token::Character { value, .. } => {
                     if !is_whitespace(*value) {
@@ -354,6 +367,11 @@ where
 
                     self.append_node(self.get_current_element(), processing_instruction);
                 }
+                Token::Cdata { .. } => {
+                    let cdata = self.create_cdata_section(token_and_info);
+
+                    self.append_node(self.get_current_element(), cdata);
+                }
                 Token::Eof => {
                     self.errors.push(Error::new(
                         token_and_info.span,
@@ -375,6 +393,14 @@ where
                 }
                 Token::ProcessingInstruction { .. } => {
                     self.append_processing_instruction_to_doc(token_and_info)?;
+                }
+                Token::Cdata { .. } => {
+                    self.errors.push(Error::new(
+                        token_and_info.span,
+                        ErrorKind::UnexpectedTokenInEndPhase,
+                    ));
+
+                    self.append_cdata_to_doc(token_and_info)?;
                 }
                 Token::Character { value, .. } => {
                     if !is_whitespace(*value) {
@@ -597,6 +623,25 @@ where
         token_and_info: &mut TokenAndInfo,
     ) -> PResult<()> {
         let child = self.create_processing_instruction(token_and_info);
+
+        self.append_node(self.document.as_ref().unwrap(), child);
+
+        Ok(())
+    }
+
+    fn create_cdata_section(&self, token_and_info: &mut TokenAndInfo) -> RcNode {
+        let (data, raw) = match &token_and_info.token {
+            Token::Cdata { data, raw } => (data.clone(), Some(raw.clone())),
+            _ => {
+                unreachable!()
+            }
+        };
+
+        Node::new(Data::CdataSection { data, raw }, token_and_info.span)
+    }
+
+    fn append_cdata_to_doc(&mut self, token_and_info: &mut TokenAndInfo) -> PResult<()> {
+        let child = self.create_cdata_section(token_and_info);
 
         self.append_node(self.document.as_ref().unwrap(), child);
 
