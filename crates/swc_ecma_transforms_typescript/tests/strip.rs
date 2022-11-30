@@ -93,25 +93,6 @@ test!(
     }"
 );
 
-to!(
-    private_method_overload_and_abstract,
-    "class test {
-    #test();
-    #test() {
-    }
-
-    abstract #test();
-}",
-    "var _test = new WeakSet();
-    class test {
-        constructor(){
-            _classPrivateMethodInit(this, _test);
-        }
-    }
-    function test1() {}
-"
-);
-
 to!(export_import, "export import A = B", "export var A = B;");
 
 to!(export_equals, "export = Foo", "module.exports = Foo;");
