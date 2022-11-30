@@ -10,8 +10,7 @@
 //!  6 |         private[key] = value;
 //!    `----
 //! 
-//!   x Unexpected token `private`. Expected this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string,
-//!   | regexp, ` for template literal, (, or an identifier
+//!   x Expression expected
 //!    ,-[3:1]
 //!  3 |   "set": function (key, value) {
 //!  4 | 

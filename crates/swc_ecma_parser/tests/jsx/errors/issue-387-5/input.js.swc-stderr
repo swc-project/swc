@@ -1,0 +1,7 @@
+
+  x Expected ';', '}' or <eof>
+   ,-[$DIR/tests/jsx/errors/issue-387-5/input.js:1:1]
+ 1 | {a:1, b:2}
+   :    ^^|^^
+   :      `-- This is the expression part of an expression statement
+   `----

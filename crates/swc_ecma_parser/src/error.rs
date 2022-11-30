@@ -272,6 +272,12 @@ pub enum SyntaxError {
     TS4112,
     TSTypeAnnotationAfterAssign,
     TsNonNullAssertionNotAllowed(JsWord),
+
+    WithLabel {
+        inner: Box<Error>,
+        span: Span,
+        note: &'static str,
+    },
 }
 
 impl SyntaxError {
@@ -698,6 +704,7 @@ impl SyntaxError {
                 };
                 format!("Unexpected token. Did you mean {}?", did_you_mean).into()
             }
+            SyntaxError::WithLabel { inner, .. } => inner.error.1.msg(),
         }
     }
 }
@@ -706,23 +713,28 @@ impl Error {
     #[cold]
     #[inline(never)]
     pub fn into_diagnostic(self, handler: &Handler) -> DiagnosticBuilder {
+        if let SyntaxError::WithLabel { inner, note, span } = self.error.1 {
+            let mut db = inner.into_diagnostic(handler);
+            db.span_label(span, note);
+            return db;
+        }
+
         let span = self.span();
 
         let kind = self.into_kind();
         let msg = kind.msg();
 
-        let mut db = handler.struct_err(&msg);
-        db.set_span(span);
+        let mut db = handler.struct_span_err(span, &msg);
 
         match kind {
             SyntaxError::ExpectedSemiForExprStmt { expr } => {
-                db.span_note(
+                db.span_label(
                     expr,
                     "This is the expression part of an expression statement",
                 );
             }
             SyntaxError::MultipleDefault { previous } => {
-                db.span_note(previous, "previous default case is declared at here");
+                db.span_label(previous, "previous default case is declared at here");
             }
             _ => {}
         }

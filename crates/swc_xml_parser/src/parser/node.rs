@@ -36,6 +36,10 @@ pub enum Data {
         target: JsWord,
         data: JsWord,
     },
+    CdataSection {
+        data: JsWord,
+        raw: Option<JsWord>,
+    },
     Comment {
         data: JsWord,
         raw: Option<JsWord>,

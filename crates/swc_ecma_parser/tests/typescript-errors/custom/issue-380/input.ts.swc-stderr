@@ -1,0 +1,8 @@
+
+  x Expression expected
+   ,-[$DIR/tests/typescript-errors/custom/issue-380/input.ts:2:1]
+ 2 |     componentDidMount() {
+ 3 |         import(../foo/bar)
+   :                ^
+ 4 |             .then(bar => {
+   `----

@@ -1,7 +1,0 @@
-
-  x Unexpected token `const`. Expected this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string, regexp,
-  | ` for template literal, (, or an identifier
-   ,-[$DIR/tests/test262-parser/fail/cc1519d0d99fc450.js:1:1]
- 1 | if(true) const a = 1;
-   :          ^^^^^
-   `----

@@ -1,0 +1,7 @@
+
+  x Expression expected
+   ,-[$DIR/tests/typescript-errors/reserved-words/reserved/input.ts:2:1]
+ 2 | 
+ 3 | let a = interface;
+   :         ^^^^^^^^^
+   `----

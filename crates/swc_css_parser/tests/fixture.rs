@@ -547,7 +547,7 @@ fn stylesheet_span_visualizer(input: PathBuf, config: Option<ParserConfig>) {
     .unwrap_err();
 
     output
-        .compare_to_file(&dir.join("span.rust-debug"))
+        .compare_to_file(&dir.join("span.swc-stderr"))
         .unwrap();
 }
 
