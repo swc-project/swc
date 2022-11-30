@@ -7,6 +7,12 @@
 
 - **(es/parser)** Fix `typeof` in `TSCallSignatureDeclaration` (#6553) ([aa28aa0](https://github.com/swc-project/swc/commit/aa28aa0c7fefcaea063340c711a5ea8a3ba60e7b))
 
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Add debug logs for cli binaries (#6556) ([8083484](https://github.com/swc-project/swc/commit/80834843f4180bc292f8b2959b1390a07bec0a77))
+
 ## [1.3.21] - 2022-11-30
 
 ### Bug Fixes
