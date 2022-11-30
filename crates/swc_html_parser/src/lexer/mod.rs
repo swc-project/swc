@@ -443,33 +443,19 @@ where
         public_id: Option<char>,
         system_id: Option<char>,
     ) {
-        if let Some(ref mut token) = self.current_doctype_token {
-            if let Some(name) = name {
-                let b = self.buf.clone();
-                let mut buf = b.borrow_mut();
+        let b = self.buf.clone();
+        let mut buf = b.borrow_mut();
 
-                buf.push(name);
-            }
+        if let Some(name) = name {
+            buf.push(name);
+        }
 
-            if let Some(public_id) = public_id {
-                if let Doctype {
-                    public_id: Some(old_public_id),
-                    ..
-                } = token
-                {
-                    old_public_id.push(public_id);
-                }
-            }
+        if let Some(public_id) = public_id {
+            buf.push(public_id);
+        }
 
-            if let Some(system_id) = system_id {
-                if let Doctype {
-                    system_id: Some(old_system_id),
-                    ..
-                } = token
-                {
-                    old_system_id.push(system_id);
-                }
-            }
+        if let Some(system_id) = system_id {
+            buf.push(system_id);
         }
     }
 
@@ -488,16 +474,14 @@ where
 
     fn set_doctype_token_public_id(&mut self) {
         if let Some(Doctype { public_id, .. }) = &mut self.current_doctype_token {
-            // The Longest public id is `-//softquad software//dtd hotmetal pro
-            // 6.0::19990601::extensions to html 4.0//`
-            *public_id = Some(String::with_capacity(78));
+            *public_id = Some(String::new());
         }
     }
 
     fn set_doctype_token_system_id(&mut self) {
         if let Some(Doctype { system_id, .. }) = &mut self.current_doctype_token {
             // The Longest system id is `http://www.ibm.com/data/dtd/v11/ibmxhtml1-transitional.dtd`
-            *system_id = Some(String::with_capacity(58));
+            *system_id = Some(String::new());
         }
     }
 
@@ -507,6 +491,28 @@ where
             let mut buf = b.borrow_mut();
 
             *name = Some(buf.clone());
+
+            buf.clear();
+        }
+    }
+
+    fn finish_public_id(&mut self) {
+        if let Some(Doctype { public_id, .. }) = &mut self.current_doctype_token {
+            let b = self.buf.clone();
+            let mut buf = b.borrow_mut();
+
+            *public_id = Some(buf.clone());
+
+            buf.clear();
+        }
+    }
+
+    fn finish_system_id(&mut self) {
+        if let Some(Doctype { system_id, .. }) = &mut self.current_doctype_token {
+            let b = self.buf.clone();
+            let mut buf = b.borrow_mut();
+
+            *system_id = Some(buf.clone());
 
             buf.clear();
         }
@@ -3386,6 +3392,7 @@ where
                     // Switch to the after DOCTYPE public identifier state.
                     Some(c @ '"') => {
                         self.append_raw_to_doctype_token(c);
+                        self.finish_public_id();
                         self.state = State::AfterDoctypePublicIdentifier;
                     }
                     // U+0000 NULL
@@ -3403,6 +3410,7 @@ where
                     // the current DOCTYPE token.
                     Some(c @ '>') => {
                         self.append_raw_to_doctype_token(c);
+                        self.finish_public_id();
                         self.emit_error(ErrorKind::AbruptDoctypePublicIdentifier);
                         self.set_force_quirks();
                         self.state = State::Data;
@@ -3413,6 +3421,7 @@ where
                     // force-quirks flag to on. Emit the current DOCTYPE token. Emit an
                     // end-of-file token.
                     None => {
+                        self.finish_public_id();
                         self.emit_error(ErrorKind::EofInDoctype);
                         self.set_force_quirks();
                         self.emit_doctype_token();
@@ -3437,6 +3446,7 @@ where
                     // U+0027 APOSTROPHE (')
                     // Switch to the after DOCTYPE public identifier state.
                     Some(c @ '\'') => {
+                        self.finish_public_id();
                         self.append_raw_to_doctype_token(c);
                         self.state = State::AfterDoctypePublicIdentifier;
                     }
@@ -3454,6 +3464,7 @@ where
                     // DOCTYPE token's force-quirks flag to on. Switch to the data state. Emit
                     // the current DOCTYPE token.
                     Some(c @ '>') => {
+                        self.finish_public_id();
                         self.append_raw_to_doctype_token(c);
                         self.emit_error(ErrorKind::AbruptDoctypePublicIdentifier);
                         self.set_force_quirks();
@@ -3465,6 +3476,7 @@ where
                     // force-quirks flag to on. Emit the current DOCTYPE token. Emit an
                     // end-of-file token.
                     None => {
+                        self.finish_public_id();
                         self.emit_error(ErrorKind::EofInDoctype);
                         self.set_force_quirks();
                         self.emit_doctype_token();
@@ -3751,6 +3763,7 @@ where
                     // U+0027 APOSTROPHE (')
                     // Switch to the after DOCTYPE system identifier state.
                     Some(c @ '"') => {
+                        self.finish_system_id();
                         self.append_raw_to_doctype_token(c);
                         self.state = State::AfterDoctypeSystemIdentifier;
                     }
@@ -3768,6 +3781,7 @@ where
                     // DOCTYPE token's force-quirks flag to on. Switch to the data state. Emit
                     // the current DOCTYPE token.
                     Some(c @ '>') => {
+                        self.finish_system_id();
                         self.append_raw_to_doctype_token(c);
                         self.emit_error(ErrorKind::AbruptDoctypeSystemIdentifier);
                         self.set_force_quirks();
@@ -3779,6 +3793,7 @@ where
                     // force-quirks flag to on. Emit the current DOCTYPE token. Emit an
                     // end-of-file token.
                     None => {
+                        self.finish_system_id();
                         self.emit_error(ErrorKind::EofInDoctype);
                         self.set_force_quirks();
                         self.emit_doctype_token();
@@ -3803,6 +3818,7 @@ where
                     // U+0027 APOSTROPHE (')
                     // Switch to the after DOCTYPE system identifier state.
                     Some(c @ '\'') => {
+                        self.finish_system_id();
                         self.append_raw_to_doctype_token(c);
                         self.state = State::AfterDoctypeSystemIdentifier;
                     }
@@ -3820,6 +3836,7 @@ where
                     // DOCTYPE token's force-quirks flag to on. Switch to the data state. Emit
                     // the current DOCTYPE token.
                     Some(c @ '>') => {
+                        self.finish_system_id();
                         self.append_raw_to_doctype_token(c);
                         self.emit_error(ErrorKind::AbruptDoctypeSystemIdentifier);
                         self.set_force_quirks();
@@ -3831,6 +3848,7 @@ where
                     // force-quirks flag to on. Emit the current DOCTYPE token. Emit an
                     // end-of-file token.
                     None => {
+                        self.finish_system_id();
                         self.emit_error(ErrorKind::EofInDoctype);
                         self.set_force_quirks();
                         self.emit_doctype_token();
