@@ -94,21 +94,6 @@ test!(
 );
 
 to!(
-    constructor_02,
-    "class Foo {
-    constructor(readonly foo) {
-        this.bar = 1;
-    }
-}",
-    "class Foo {
-    constructor(foo) {
-        this.foo = foo;
-        this.bar = 1;
-    }
-}"
-);
-
-to!(
     private_method_overload_and_abstract,
     "class test {
     #test();
