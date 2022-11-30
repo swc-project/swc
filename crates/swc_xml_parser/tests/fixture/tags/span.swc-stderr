@@ -13,7 +13,10 @@
  10 | |   <тест>test</тест>
  11 | |   <html:bar/>
  12 | |   <html:bar>test</html:bar>
- 13 | `-> </root>
+ 13 | |   <俄语 լեզու="ռուսերեն">данные</俄语>
+ 14 | |   <svg:circle></svg:circle>
+ 15 | |   <:circle/>
+ 16 | `-> </root>
     `----
 
   x Child
@@ -30,7 +33,10 @@
  10 | |   <тест>test</тест>
  11 | |   <html:bar/>
  12 | |   <html:bar>test</html:bar>
- 13 | `-> </root>
+ 13 | |   <俄语 լեզու="ռուսերեն">данные</俄语>
+ 14 | |   <svg:circle></svg:circle>
+ 15 | |   <:circle/>
+ 16 | `-> </root>
     `----
 
   x Element
@@ -47,7 +53,10 @@
  10 | |   <тест>test</тест>
  11 | |   <html:bar/>
  12 | |   <html:bar>test</html:bar>
- 13 | `-> </root>
+ 13 | |   <俄语 լեզու="ռուսերեն">данные</俄语>
+ 14 | |   <svg:circle></svg:circle>
+ 15 | |   <:circle/>
+ 16 | `-> </root>
     `----
 
   x Child
@@ -442,7 +451,7 @@
  11 | <html:bar/>
     :            ^
  12 | <html:bar>test</html:bar>
- 13 | </root>
+ 13 | <俄语 լեզու="ռուսերեն">данные</俄语>
     `----
 
   x Text
@@ -451,7 +460,7 @@
  11 | <html:bar/>
     :            ^
  12 | <html:bar>test</html:bar>
- 13 | </root>
+ 13 | <俄语 լեզու="ռուսերեն">данные</俄语>
     `----
 
   x Child
@@ -459,7 +468,7 @@
  11 | <html:bar/>
  12 | <html:bar>test</html:bar>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^
- 13 | </root>
+ 13 | <俄语 լեզու="ռուսերեն">данные</俄语>
     `----
 
   x Element
@@ -467,7 +476,7 @@
  11 | <html:bar/>
  12 | <html:bar>test</html:bar>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^
- 13 | </root>
+ 13 | <俄语 լեզու="ռուսերեն">данные</俄语>
     `----
 
   x Child
@@ -475,7 +484,7 @@
  11 | <html:bar/>
  12 | <html:bar>test</html:bar>
     :           ^^^^
- 13 | </root>
+ 13 | <俄语 լեզու="ռուսերեն">данные</俄语>
     `----
 
   x Text
@@ -483,7 +492,7 @@
  11 | <html:bar/>
  12 | <html:bar>test</html:bar>
     :           ^^^^
- 13 | </root>
+ 13 | <俄语 լեզու="ռուսերեն">данные</俄语>
     `----
 
   x Child
@@ -491,7 +500,8 @@
  11 | <html:bar/>
  12 | <html:bar>test</html:bar>
     :                          ^
- 13 | </root>
+ 13 | <俄语 լեզու="ռուսերեն">данные</俄语>
+ 14 | <svg:circle></svg:circle>
     `----
 
   x Text
@@ -499,5 +509,124 @@
  11 | <html:bar/>
  12 | <html:bar>test</html:bar>
     :                          ^
- 13 | </root>
+ 13 | <俄语 լեզու="ռուսերեն">данные</俄语>
+ 14 | <svg:circle></svg:circle>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tags/input.xml:12:1]
+ 12 | <html:bar>test</html:bar>
+ 13 | <俄语 լեզու="ռուսերեն">данные</俄语>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 14 | <svg:circle></svg:circle>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tags/input.xml:12:1]
+ 12 | <html:bar>test</html:bar>
+ 13 | <俄语 լեզու="ռուսերեն">данные</俄语>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 14 | <svg:circle></svg:circle>
+    `----
+
+  x Attribute
+
+  x Child
+    ,-[$DIR/tests/fixture/tags/input.xml:12:1]
+ 12 | <html:bar>test</html:bar>
+ 13 | <俄语 լեզու="ռուսերեն">данные</俄语>
+    :                                       ^^^^^^^^^^^^
+ 14 | <svg:circle></svg:circle>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tags/input.xml:12:1]
+ 12 | <html:bar>test</html:bar>
+ 13 | <俄语 լեզու="ռուսերեն">данные</俄语>
+    :                                       ^^^^^^^^^^^^
+ 14 | <svg:circle></svg:circle>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tags/input.xml:12:1]
+ 12 | <html:bar>test</html:bar>
+ 13 | <俄语 լեզու="ռուսերեն">данные</俄语>
+    :                                                            ^
+ 14 | <svg:circle></svg:circle>
+ 15 | <:circle/>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tags/input.xml:12:1]
+ 12 | <html:bar>test</html:bar>
+ 13 | <俄语 լեզու="ռուսերեն">данные</俄语>
+    :                                                            ^
+ 14 | <svg:circle></svg:circle>
+ 15 | <:circle/>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tags/input.xml:13:1]
+ 13 | <俄语 լեզու="ռուսերեն">данные</俄语>
+ 14 | <svg:circle></svg:circle>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^
+ 15 | <:circle/>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tags/input.xml:13:1]
+ 13 | <俄语 լեզու="ռուսերեն">данные</俄语>
+ 14 | <svg:circle></svg:circle>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^
+ 15 | <:circle/>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tags/input.xml:13:1]
+ 13 | <俄语 լեզու="ռուսերեն">данные</俄语>
+ 14 | <svg:circle></svg:circle>
+    :                          ^
+ 15 | <:circle/>
+ 16 | </root>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tags/input.xml:13:1]
+ 13 | <俄语 լեզու="ռուսերեն">данные</俄语>
+ 14 | <svg:circle></svg:circle>
+    :                          ^
+ 15 | <:circle/>
+ 16 | </root>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tags/input.xml:14:1]
+ 14 | <svg:circle></svg:circle>
+ 15 | <:circle/>
+    : ^^^^^^^^^^
+ 16 | </root>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/tags/input.xml:14:1]
+ 14 | <svg:circle></svg:circle>
+ 15 | <:circle/>
+    : ^^^^^^^^^^
+ 16 | </root>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/tags/input.xml:14:1]
+ 14 | <svg:circle></svg:circle>
+ 15 | <:circle/>
+    :           ^
+ 16 | </root>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/tags/input.xml:14:1]
+ 14 | <svg:circle></svg:circle>
+ 15 | <:circle/>
+    :           ^
+ 16 | </root>
     `----

@@ -1,0 +1,8 @@
+
+  x Invalid first character of tag name
+   ,-[$DIR/tests/recovery/element/input.xml:1:1]
+ 1 | <root>
+ 2 |     <>
+   :      ^
+ 3 | </root>
+   `----
