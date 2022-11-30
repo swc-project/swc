@@ -170,7 +170,7 @@ jobs:
         run: |
           echo '[patch.crates-io]' >> bindings/Cargo.toml
           ./scripts/cargo/patch-section.sh >> bindings/Cargo.toml
-          cd bindings && cargo upgrade swc_core && cargo update
+          cd bindings && cargo upgrade --workspace swc_core && cargo update
 
       - name: Install wasm-pack
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
@@ -733,7 +733,7 @@ jobs:
           echo '[patch.crates-io]' >> bindings/Cargo.toml
           ./scripts/cargo/patch-section.sh
           ./scripts/cargo/patch-section.sh >> bindings/Cargo.toml
-          cd bindings && cargo upgrade swc_core && cargo update
+          cd bindings && cargo upgrade --workspace swc_core && cargo update
 
       - name: Cache
         uses: actions/cache@v3
@@ -795,7 +795,7 @@ jobs:
         run: |
           echo '[patch.crates-io]' >> bindings/Cargo.toml
           ./scripts/cargo/patch-section.sh >> bindings/Cargo.toml
-          cd bindings && cargo upgrade swc_core && cargo update
+          cd bindings && cargo upgrade --workspace swc_core && cargo update
 
       - name: Prepare
         run: |
