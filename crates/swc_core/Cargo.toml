@@ -99,11 +99,13 @@ ecma_utils = ["__utils", "__common"]
 
 # Enable swc_ecma_transforms base features
 ecma_transforms = ["__ecma_transforms"]
+ecma_transforms_compat = ["__ecma_transforms", "swc_ecma_transforms_compat"]
 ecma_transforms_module = ["__ecma_transforms", "swc_ecma_transforms_module"]
 ecma_transforms_optimization = [
   "__ecma_transforms",
   "swc_ecma_transforms_optimization",
 ]
+ecma_transforms_proposal = ["__ecma_transforms", "swc_ecma_transforms_proposal"]
 ecma_transforms_react = ["__ecma_transforms", "swc_ecma_transforms_react"]
 ecma_transforms_typescript = [
   "__ecma_transforms",
@@ -340,6 +342,7 @@ swc_ecma_parser                  = { optional = true, version = "0.123.0", path 
 swc_ecma_preset_env              = { optional = true, version = "0.175.0", path = "../swc_ecma_preset_env" }
 swc_ecma_quote_macros            = { optional = true, version = "0.34.0", path = "../swc_ecma_quote_macros" }
 swc_ecma_transforms_base         = { optional = true, version = "0.112.0", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_compat       = { optional = true, version = "0.136.52", path = "../swc_ecma_transforms_compat" }
 swc_ecma_transforms_module       = { optional = true, version = "0.154.0", path = "../swc_ecma_transforms_module" }
 swc_ecma_transforms_optimization = { optional = true, version = "0.168.0", path = "../swc_ecma_transforms_optimization" }
 swc_ecma_transforms_proposal     = { optional = true, version = "0.145.0", path = "../swc_ecma_transforms_proposal" }
