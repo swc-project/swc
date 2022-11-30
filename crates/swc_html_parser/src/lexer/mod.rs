@@ -428,21 +428,21 @@ where
     }
 
     fn append_raw_to_doctype_token(&mut self, c: char) {
-        let b = self.buf.clone();
-        let mut buf = b.borrow_mut();
+        let b = self.sub_buf.clone();
+        let mut sub_buf = b.borrow_mut();
 
         let is_cr = c == '\r';
 
         if is_cr {
-            buf.push(c);
+            sub_buf.push(c);
 
             if self.input.cur() == Some('\n') {
                 self.input.bump();
 
-                buf.push('\n');
+                sub_buf.push('\n');
             }
         } else {
-            buf.push(c);
+            sub_buf.push(c);
         }
     }
 
@@ -508,18 +508,18 @@ where
 
     fn emit_doctype_token(&mut self) {
         if let Some(current_doctype_token) = self.current_doctype_token.take() {
-            let b = self.buf.clone();
-            let mut buf = b.borrow_mut();
+            let b = self.sub_buf.clone();
+            let mut sub_buf = b.borrow_mut();
 
             let token = Token::Doctype {
                 name: current_doctype_token.name.map(JsWord::from),
                 force_quirks: current_doctype_token.force_quirks,
                 public_id: current_doctype_token.public_id.map(JsWord::from),
                 system_id: current_doctype_token.system_id.map(JsWord::from),
-                raw: Some(Atom::new(buf.clone())),
+                raw: Some(Atom::new(sub_buf.clone())),
             };
 
-            buf.clear();
+            sub_buf.clear();
 
             self.emit_token(token);
         }
@@ -532,7 +532,7 @@ where
             tag_name: String::with_capacity(19),
             raw_tag_name: Some(String::with_capacity(19)),
             is_self_closing: false,
-            attributes: Vec::with_capacity(16),
+            attributes: vec![],
         });
     }
 
@@ -1804,7 +1804,6 @@ where
                     // Append the current input character to the temporary buffer.
                     Some(c) if is_ascii_lower_alpha(c) => {
                         self.append_to_tag_token_name(c, c);
-
                         self.temporary_buffer.push(c);
                     }
                     // Anything else
@@ -2589,18 +2588,18 @@ where
                                             Some(e @ 'e' | e @ 'E') => {
                                                 self.state = State::Doctype;
 
-                                                let b = self.buf.clone();
-                                                let mut buf = b.borrow_mut();
+                                                let b = self.sub_buf.clone();
+                                                let mut sub_buf = b.borrow_mut();
 
-                                                buf.push('<');
-                                                buf.push('!');
-                                                buf.push(d);
-                                                buf.push(o);
-                                                buf.push(c);
-                                                buf.push(t);
-                                                buf.push(y);
-                                                buf.push(p);
-                                                buf.push(e);
+                                                sub_buf.push('<');
+                                                sub_buf.push('!');
+                                                sub_buf.push(d);
+                                                sub_buf.push(o);
+                                                sub_buf.push(c);
+                                                sub_buf.push(t);
+                                                sub_buf.push(y);
+                                                sub_buf.push(p);
+                                                sub_buf.push(e);
                                             }
                                             _ => {
                                                 anything_else(self);
@@ -3208,18 +3207,18 @@ where
                             "public" => {
                                 self.state = State::AfterDoctypePublicKeyword;
 
-                                let b = self.buf.clone();
-                                let mut buf = b.borrow_mut();
+                                let b = self.sub_buf.clone();
+                                let mut sub_buf = b.borrow_mut();
 
-                                buf.push_str(&first_six_chars);
+                                sub_buf.push_str(&first_six_chars);
                             }
                             "system" => {
                                 self.state = State::AfterDoctypeSystemKeyword;
 
-                                let b = self.buf.clone();
-                                let mut buf = b.borrow_mut();
+                                let b = self.sub_buf.clone();
+                                let mut sub_buf = b.borrow_mut();
 
-                                buf.push_str(&first_six_chars);
+                                sub_buf.push_str(&first_six_chars);
                             }
                             _ => {
                                 self.cur_pos = cur_pos;
