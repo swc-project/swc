@@ -3228,14 +3228,15 @@ where
                     // error. Set the current DOCTYPE token's force-quirks flag to on. Reconsume
                     // in the bogus DOCTYPE state.
                     Some(c) => {
-                        let mut first_six_chars = String::with_capacity(6);
+                        let b = self.buf.clone();
+                        let mut buf = b.borrow_mut();
 
-                        first_six_chars.push(c);
+                        buf.push(c);
 
                         for _ in 0..5 {
                             match self.consume_next_char() {
                                 Some(c) => {
-                                    first_six_chars.push(c);
+                                    buf.push(c);
                                 }
                                 _ => {
                                     break;
@@ -3243,14 +3244,15 @@ where
                             }
                         }
 
-                        match &*first_six_chars.to_lowercase() {
+                        match &*buf.to_lowercase() {
                             "public" => {
                                 self.state = State::AfterDoctypePublicKeyword;
 
                                 let b = self.sub_buf.clone();
                                 let mut sub_buf = b.borrow_mut();
 
-                                sub_buf.push_str(&first_six_chars);
+                                sub_buf.push_str(&buf);
+                                buf.clear();
                             }
                             "system" => {
                                 self.state = State::AfterDoctypeSystemKeyword;
@@ -3258,9 +3260,11 @@ where
                                 let b = self.sub_buf.clone();
                                 let mut sub_buf = b.borrow_mut();
 
-                                sub_buf.push_str(&first_six_chars);
+                                sub_buf.push_str(&buf);
+                                buf.clear();
                             }
                             _ => {
+                                buf.clear();
                                 self.cur_pos = cur_pos;
                                 self.input.reset_to(cur_pos);
                                 self.emit_error(
