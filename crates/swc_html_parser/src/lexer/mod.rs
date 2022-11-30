@@ -808,14 +808,14 @@ where
     }
 
     #[inline(always)]
-    fn emit_character_token_with_raw(&mut self, value: (char, char)) {
+    fn emit_character_token_with_raw(&mut self, c: char, raw_c: char) {
         let b = self.buf.clone();
         let mut buf = b.borrow_mut();
 
-        buf.push(value.1);
+        buf.push(raw_c);
 
         self.emit_token(Token::Character {
-            value: value.0,
+            value: c,
             raw: Some(Raw::Atom(Atom::new(&**buf))),
         });
 
@@ -935,7 +935,7 @@ where
                     // REPLACEMENT CHARACTER character token.
                     Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-                        self.emit_character_token_with_raw((REPLACEMENT_CHARACTER, c));
+                        self.emit_character_token_with_raw(REPLACEMENT_CHARACTER, c);
                     }
                     // EOF
                     // Emit an end-of-file token.
@@ -964,7 +964,7 @@ where
                     // REPLACEMENT CHARACTER character token.
                     Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-                        self.emit_character_token_with_raw((REPLACEMENT_CHARACTER, c));
+                        self.emit_character_token_with_raw(REPLACEMENT_CHARACTER, c);
                     }
                     // EOF
                     // Emit an end-of-file token.
@@ -993,7 +993,7 @@ where
                     // REPLACEMENT CHARACTER character token.
                     Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-                        self.emit_character_token_with_raw((REPLACEMENT_CHARACTER, c));
+                        self.emit_character_token_with_raw(REPLACEMENT_CHARACTER, c);
                     }
                     // EOF
                     // Emit an end-of-file token.
@@ -1019,7 +1019,7 @@ where
                     // REPLACEMENT CHARACTER character token.
                     Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-                        self.emit_character_token_with_raw((REPLACEMENT_CHARACTER, c));
+                        self.emit_character_token_with_raw(REPLACEMENT_CHARACTER, c);
                     }
                     // EOF
                     // Emit an end-of-file token.
@@ -1608,7 +1608,7 @@ where
                     // REPLACEMENT CHARACTER character token.
                     Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-                        self.emit_character_token_with_raw((REPLACEMENT_CHARACTER, c));
+                        self.emit_character_token_with_raw(REPLACEMENT_CHARACTER, c);
                     }
                     // EOF
                     // This is an eof-in-script-html-comment-like-text parse error. Emit an
@@ -1649,7 +1649,7 @@ where
                     Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
                         self.state = State::ScriptDataEscaped;
-                        self.emit_character_token_with_raw((REPLACEMENT_CHARACTER, c));
+                        self.emit_character_token_with_raw(REPLACEMENT_CHARACTER, c);
                     }
                     // EOF
                     // This is an eof-in-script-html-comment-like-text parse error. Emit an
@@ -1697,7 +1697,7 @@ where
                     Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
                         self.state = State::ScriptDataEscaped;
-                        self.emit_character_token_with_raw((REPLACEMENT_CHARACTER, c));
+                        self.emit_character_token_with_raw(REPLACEMENT_CHARACTER, c);
                     }
                     // EOF
                     // This is an eof-in-script-html-comment-like-text parse error. Emit an
@@ -1927,7 +1927,7 @@ where
                     // REPLACEMENT CHARACTER character token.
                     Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
-                        self.emit_character_token_with_raw((REPLACEMENT_CHARACTER, c));
+                        self.emit_character_token_with_raw(REPLACEMENT_CHARACTER, c);
                     }
                     // EOF
                     // This is an eof-in-script-html-comment-like-text parse error. Emit an
@@ -1971,7 +1971,7 @@ where
                     Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
                         self.state = State::ScriptDataDoubleEscaped;
-                        self.emit_character_token_with_raw((REPLACEMENT_CHARACTER, c));
+                        self.emit_character_token_with_raw(REPLACEMENT_CHARACTER, c);
                     }
                     // EOF
                     // This is an eof-in-script-html-comment-like-text parse error. Emit an
@@ -2022,7 +2022,7 @@ where
                     Some(c @ '\x00') => {
                         self.emit_error(ErrorKind::UnexpectedNullCharacter);
                         self.state = State::ScriptDataDoubleEscaped;
-                        self.emit_character_token_with_raw((REPLACEMENT_CHARACTER, c));
+                        self.emit_character_token_with_raw(REPLACEMENT_CHARACTER, c);
                     }
                     // EOF
                     // This is an eof-in-script-html-comment-like-text parse error. Emit an
@@ -4017,7 +4017,7 @@ where
                     // U+005D RIGHT SQUARE BRACKET (])
                     // Emit a U+005D RIGHT SQUARE BRACKET character token.
                     Some(c @ ']') => {
-                        self.emit_character_token_with_raw((']', c));
+                        self.emit_character_token_with_raw(']', c);
                     }
                     // U+003E GREATER-THAN SIGN character
                     // Switch to the data state.
