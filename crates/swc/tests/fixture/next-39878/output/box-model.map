@@ -1,0 +1,52 @@
+{
+  "mappings": "AACA,SAASA,mBAAmB,QAAQ,kBAAkB;AAEtD,SAASC,oBAAoB,EAAEC,qBAAqB,QAAQ,0BAA0B;AAEtF,SAASC,YAAY,QAAQ,+BAA+B;AAC5D,SAASC,qBAAqB,EAAUC,aAAa,QAAQ,wBAAwB;AAErF,OAAO,SAASC,cAAcC,KAAc,EAAEC,iBAAoC,EAAE;IAClF,yDAAyD;IACzD,0CAA0C;IAC1CA,kBAAkB;QAChBC,eAAeN;QACfO,QAAQ,OAAOC,QAAQC,cAAgB;YACrC,MAAM,EAAEC,MAAK,EAAEC,SAAQ,EAAEC,SAAQ,EAAE,GAAGH;YACtC,MAAM,EAAEI,YAAW,EAAEC,eAAc,EAAEC,aAAY,EAAE,GAAGL;YACtD,MAAMM,QAAQL;YACd,MAAM,EAAEM,aAAY,EAAEC,KAAI,EAAE,GAAGF,MAAMG,MAAM;YAE3C,IAAI,CAACtB,oBAAoBmB,UAAU,CAACC,gBAAgB,CAACJ,YAAYO,YAAY,EAAEC,SAAS;gBACtF;YACF,CAAC;YAED,MAAMC,WAAWJ,KAAKK,QAAQ,CAACN,aAAa;YAE5C,IAAI,CAACK,UAAU;gBACb;YACF,CAAC;YAED,MAAM,CAACE,QAAQC,MAAM,GAAG,MAAMC,QAAQC,GAAG,CAAC;gBACxC7B,qBACEgB,gBACAD,YAAYe,SAAS,EACrBf,YAAYO,YAAY,CAACC,OAAO,EAChCJ;gBAEFlB,sBACEe,gBACAD,YAAYe,SAAS,EACrBf,YAAYO,YAAY,CAACC,OAAO,EAChCJ;aAEH;YAED,IAAI,CAACO,UAAU,CAACC,OAAO;gBACrB;YACF,CAAC;YAED,MAAMI,SAAS;gBACbC,OAAOC,WAAWP,OAAOM,KAAK,CAACE,WAAW,CAAC;gBAC3CC,QAAQF,WAAWP,OAAOS,MAAM,CAACD,WAAW,CAAC;gBAC7CE,aAAa,CAAC;YAChB;YAEA,KAAK,MAAMC,QAAQlC,sBAAuB;gBACxC4B,MAAM,CAACM,KAAK,GAAGV,MAAMW,GAAG,CAACD;YAC3B;YAEA,0FAA0F;YAC1FvB,SAASV,cAAc2B;QACzB;IACF;AACF,CAAC",
+  "names": [
+    "isInspectorSelected",
+    "getBoundingRectAsync",
+    "getComputedStyleAsync",
+    "nodeSelected",
+    "LAYOUT_NUMERIC_FIELDS",
+    "layoutUpdated",
+    "setupBoxModel",
+    "store",
+    "startAppListening",
+    "actionCreator",
+    "effect",
+    "action",
+    "listenerApi",
+    "extra",
+    "getState",
+    "dispatch",
+    "ThreadFront",
+    "protocolClient",
+    "replayClient",
+    "state",
+    "selectedNode",
+    "tree",
+    "markup",
+    "currentPause",
+    "pauseId",
+    "nodeInfo",
+    "entities",
+    "bounds",
+    "style",
+    "Promise",
+    "all",
+    "sessionId",
+    "layout",
+    "width",
+    "parseFloat",
+    "toPrecision",
+    "height",
+    "autoMargins",
+    "prop",
+    "get"
+  ],
+  "sources": [
+    "../../input/box-model.ts"
+  ],
+  "sourcesContent": [
+    "import type { UIStore, UIThunkAction } from \"ui/actions\";\nimport { isInspectorSelected } from \"ui/reducers/app\";\nimport { AppStartListening } from \"ui/setup/listenerMiddleware\";\nimport { getBoundingRectAsync, getComputedStyleAsync } from \"ui/suspense/styleCaches\";\n\nimport { nodeSelected } from \"../../markup/reducers/markup\";\nimport { LAYOUT_NUMERIC_FIELDS, Layout, layoutUpdated } from \"../reducers/box-model\";\n\nexport function setupBoxModel(store: UIStore, startAppListening: AppStartListening) {\n  // Any time a new node is selected in the \"Markup\" panel,\n  // try to update the box model layout data\n  startAppListening({\n    actionCreator: nodeSelected,\n    effect: async (action, listenerApi) => {\n      const { extra, getState, dispatch } = listenerApi;\n      const { ThreadFront, protocolClient, replayClient } = extra;\n      const state = getState();\n      const { selectedNode, tree } = state.markup;\n\n      if (!isInspectorSelected(state) || !selectedNode || !ThreadFront.currentPause?.pauseId) {\n        return;\n      }\n\n      const nodeInfo = tree.entities[selectedNode];\n\n      if (!nodeInfo) {\n        return;\n      }\n\n      const [bounds, style] = await Promise.all([\n        getBoundingRectAsync(\n          protocolClient,\n          ThreadFront.sessionId!,\n          ThreadFront.currentPause.pauseId,\n          selectedNode\n        ),\n        getComputedStyleAsync(\n          protocolClient,\n          ThreadFront.sessionId!,\n          ThreadFront.currentPause.pauseId,\n          selectedNode\n        ),\n      ]);\n\n      if (!bounds || !style) {\n        return;\n      }\n\n      const layout = {\n        width: parseFloat(bounds.width.toPrecision(6)),\n        height: parseFloat(bounds.height.toPrecision(6)),\n        autoMargins: {},\n      } as Layout;\n\n      for (const prop of LAYOUT_NUMERIC_FIELDS) {\n        layout[prop] = style.get(prop)!;\n      }\n\n      // Update the redux store with the latest layout properties and update the box model view.\n      dispatch(layoutUpdated(layout));\n    },\n  });\n}\n"
+  ],
+  "version": 3
+}
