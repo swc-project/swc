@@ -11,13 +11,13 @@ use std::{
 
 use anyhow::{Context, Error};
 use swc::{
-    config::{Config, IsModule, ModuleConfig, Options, SourceMapsConfig},
+    config::{Config, InputSourceMap, IsModule, ModuleConfig, Options, SourceMapsConfig},
     Compiler,
 };
 use testing::{assert_eq, NormalizedOutput, StdErr, Tester};
 use walkdir::WalkDir;
 
-fn file(f: &str) -> Result<(), StdErr> {
+fn file(f: &str, config: Config) -> Result<(), StdErr> {
     Tester::new().print_errors(|cm, handler| {
         let path = canonicalize(f).expect("failed to canonicalize");
 
@@ -32,7 +32,7 @@ fn file(f: &str) -> Result<(), StdErr> {
                     config: Config {
                         is_module: IsModule::Bool(true),
                         inline_sources_content: true.into(),
-                        ..Default::default()
+                        ..config
                     },
                     swcrc: true,
                     source_maps: Some(SourceMapsConfig::Bool(true)),
@@ -69,7 +69,7 @@ fn file(f: &str) -> Result<(), StdErr> {
 
 #[test]
 fn issue_622() {
-    file("tests/srcmap/issue-622/index.js").unwrap();
+    file("tests/srcmap/issue-622/index.js", Default::default()).unwrap();
 }
 
 fn inline(f: &str) -> Result<(), StdErr> {
@@ -415,5 +415,12 @@ fn should_work_with_emit_source_map_columns() {
 
 #[test]
 fn issue_4578() {
-    //
+    file(
+        "tests/srcmap/issue-4578/after-babel.js",
+        Config {
+            input_source_map: Some(InputSourceMap::Str("inline".into())),
+            ..Default::default()
+        },
+    )
+    .unwrap();
 }
