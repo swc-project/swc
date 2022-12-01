@@ -1,41 +1,41 @@
 
   x Document
-   ,-[$DIR/tests/recovery/attribute/input.xml:1:1]
+   ,-[$DIR/tests/recovery/attribute-unquoted/input.xml:1:1]
  1 | ,-> <root>
  2 | |       <c foo=test></c>
  3 | `-> </root>
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/attribute/input.xml:1:1]
+   ,-[$DIR/tests/recovery/attribute-unquoted/input.xml:1:1]
  1 | ,-> <root>
  2 | |       <c foo=test></c>
  3 | `-> </root>
    `----
 
   x Element
-   ,-[$DIR/tests/recovery/attribute/input.xml:1:1]
+   ,-[$DIR/tests/recovery/attribute-unquoted/input.xml:1:1]
  1 | ,-> <root>
  2 | |       <c foo=test></c>
  3 | `-> </root>
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/attribute/input.xml:1:1]
+   ,-[$DIR/tests/recovery/attribute-unquoted/input.xml:1:1]
  1 | ,-> <root>
  2 | `->     <c foo=test></c>
  3 |     </root>
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/attribute/input.xml:1:1]
+   ,-[$DIR/tests/recovery/attribute-unquoted/input.xml:1:1]
  1 | ,-> <root>
  2 | `->     <c foo=test></c>
  3 |     </root>
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/attribute/input.xml:1:1]
+   ,-[$DIR/tests/recovery/attribute-unquoted/input.xml:1:1]
  1 | <root>
  2 |     <c foo=test></c>
    :     ^^^^^^^^^^^^^^^^
@@ -43,7 +43,7 @@
    `----
 
   x Element
-   ,-[$DIR/tests/recovery/attribute/input.xml:1:1]
+   ,-[$DIR/tests/recovery/attribute-unquoted/input.xml:1:1]
  1 | <root>
  2 |     <c foo=test></c>
    :     ^^^^^^^^^^^^^^^^
@@ -51,7 +51,7 @@
    `----
 
   x Attribute
-   ,-[$DIR/tests/recovery/attribute/input.xml:1:1]
+   ,-[$DIR/tests/recovery/attribute-unquoted/input.xml:1:1]
  1 | <root>
  2 |     <c foo=test></c>
    :        ^^^^^^^^
@@ -59,7 +59,7 @@
    `----
 
   x Child
-   ,-[$DIR/tests/recovery/attribute/input.xml:1:1]
+   ,-[$DIR/tests/recovery/attribute-unquoted/input.xml:1:1]
  1 | <root>
  2 |     <c foo=test></c>
    :                     ^
@@ -67,7 +67,7 @@
    `----
 
   x Text
-   ,-[$DIR/tests/recovery/attribute/input.xml:1:1]
+   ,-[$DIR/tests/recovery/attribute-unquoted/input.xml:1:1]
  1 | <root>
  2 |     <c foo=test></c>
    :                     ^
