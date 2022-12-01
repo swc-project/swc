@@ -350,13 +350,6 @@ where
                         self.phase = Phase::EndPhase;
                     }
                 }
-                Token::ShortTag { .. } => {
-                    self.open_elements_stack.items.pop();
-
-                    if self.open_elements_stack.items.is_empty() {
-                        self.phase = Phase::EndPhase;
-                    }
-                }
                 Token::Comment { .. } => {
                     let comment = self.create_comment(token_and_info);
 
@@ -478,11 +471,6 @@ where
                 ..
             }
             | Token::EndTag {
-                tag_name,
-                attributes,
-                ..
-            }
-            | Token::ShortTag {
                 tag_name,
                 attributes,
                 ..

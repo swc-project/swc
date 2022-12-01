@@ -13,10 +13,6 @@ use crate::{
 pub enum State {
     Data,
     CharacterReferenceInData,
-    TagOpen,
-    EndTagOpen,
-    EndTagName,
-    EndTagNameAfter,
     Pi,
     PiTarget,
     PiTargetQuestion,
@@ -37,6 +33,8 @@ pub enum State {
     Cdata,
     CdataBracket,
     CdataEnd,
+    TagOpen,
+    EndTagOpen,
     TagName,
     EmptyTag,
     TagAttributeNameBefore,
@@ -79,7 +77,6 @@ struct Doctype {
 enum TagKind {
     Start,
     End,
-    Short,
     Empty,
 }
 
@@ -667,36 +664,36 @@ where
                 current_tag_token.kind = kind;
             }
 
+            let mut already_seen: AHashSet<JsWord> = Default::default();
+
+            let attributes = current_tag_token
+                .attributes
+                .drain(..)
+                .map(|attribute| {
+                    let name = JsWord::from(attribute.name);
+
+                    if already_seen.contains(&name) {
+                        self.errors
+                            .push(Error::new(attribute.span, ErrorKind::DuplicateAttribute));
+                    }
+
+                    already_seen.insert(name.clone());
+
+                    AttributeToken {
+                        span: attribute.span,
+                        name,
+                        raw_name: attribute.raw_name.map(JsWord::from),
+                        value: attribute.value.map(JsWord::from),
+                        raw_value: attribute.raw_value.map(JsWord::from),
+                    }
+                })
+                .collect();
+
             match current_tag_token.kind {
                 TagKind::Start => {
-                    let mut already_seen: AHashSet<JsWord> = Default::default();
-
                     let start_tag_token = Token::StartTag {
                         tag_name: current_tag_token.tag_name.into(),
-                        attributes: current_tag_token
-                            .attributes
-                            .drain(..)
-                            .map(|attribute| {
-                                let name = JsWord::from(attribute.name);
-
-                                if already_seen.contains(&name) {
-                                    self.errors.push(Error::new(
-                                        attribute.span,
-                                        ErrorKind::DuplicateAttribute,
-                                    ));
-                                }
-
-                                already_seen.insert(name.clone());
-
-                                AttributeToken {
-                                    span: attribute.span,
-                                    name,
-                                    raw_name: attribute.raw_name.map(JsWord::from),
-                                    value: attribute.value.map(JsWord::from),
-                                    raw_value: attribute.raw_value.map(JsWord::from),
-                                }
-                            })
-                            .collect(),
+                        attributes,
                     };
 
                     self.emit_token(start_tag_token);
@@ -706,104 +703,17 @@ where
                         self.emit_error(ErrorKind::EndTagWithAttributes);
                     }
 
-                    let mut already_seen: AHashSet<JsWord> = Default::default();
-
                     let end_tag_token = Token::EndTag {
                         tag_name: current_tag_token.tag_name.into(),
-                        attributes: current_tag_token
-                            .attributes
-                            .drain(..)
-                            .map(|attribute| {
-                                let name = JsWord::from(attribute.name);
-
-                                if already_seen.contains(&name) {
-                                    self.errors.push(Error::new(
-                                        attribute.span,
-                                        ErrorKind::DuplicateAttribute,
-                                    ));
-                                }
-
-                                already_seen.insert(name.clone());
-
-                                AttributeToken {
-                                    span: attribute.span,
-                                    name,
-                                    raw_name: attribute.raw_name.map(JsWord::from),
-                                    value: attribute.value.map(JsWord::from),
-                                    raw_value: attribute.raw_value.map(JsWord::from),
-                                }
-                            })
-                            .collect(),
+                        attributes,
                     };
 
                     self.emit_token(end_tag_token);
                 }
-                TagKind::Short => {
-                    if !current_tag_token.attributes.is_empty() {
-                        self.emit_error(ErrorKind::ShortTagWithAttributes);
-                    }
-
-                    let mut already_seen: AHashSet<JsWord> = Default::default();
-
-                    let short_tag = Token::ShortTag {
-                        tag_name: current_tag_token.tag_name.into(),
-                        attributes: current_tag_token
-                            .attributes
-                            .drain(..)
-                            .map(|attribute| {
-                                let name = JsWord::from(attribute.name);
-
-                                if already_seen.contains(&name) {
-                                    self.errors.push(Error::new(
-                                        attribute.span,
-                                        ErrorKind::DuplicateAttribute,
-                                    ));
-                                }
-
-                                already_seen.insert(name.clone());
-
-                                AttributeToken {
-                                    span: attribute.span,
-                                    name,
-                                    raw_name: attribute.raw_name.map(JsWord::from),
-                                    value: attribute.value.map(JsWord::from),
-                                    raw_value: attribute.raw_value.map(JsWord::from),
-                                }
-                            })
-                            .collect(),
-                    };
-
-                    self.emit_token(short_tag);
-                }
                 TagKind::Empty => {
-                    let mut already_seen: AHashSet<JsWord> = Default::default();
-
                     let empty_tag = Token::EmptyTag {
                         tag_name: current_tag_token.tag_name.into(),
-                        attributes: current_tag_token
-                            .attributes
-                            .drain(..)
-                            .map(|attribute| {
-                                let name = JsWord::from(attribute.name);
-
-                                if already_seen.contains(&name) {
-                                    self.errors.push(Error::new(
-                                        attribute.span,
-                                        ErrorKind::DuplicateAttribute,
-                                    ));
-                                }
-
-                                already_seen.insert(name.clone());
-
-                                AttributeToken {
-                                    span: attribute.span,
-                                    name,
-                                    raw_name: attribute.raw_name.map(JsWord::from),
-                                    value: attribute.value.map(JsWord::from),
-                                    raw_value: attribute.raw_value.map(JsWord::from),
-                                }
-                            })
-                            .collect(),
+                        attributes,
                     };
 
                     self.emit_token(empty_tag);
@@ -1032,166 +942,6 @@ where
                     self.emit_character_token((c, c));
                 } else {
                     self.emit_character_token(('&', '&'));
-                }
-            }
-            State::TagOpen => {
-                // Consume the next input character:
-                match self.consume_next_char() {
-                    // U+002F SOLIDUS (/)
-                    // Switch to the end tag open state.
-                    Some('/') => {
-                        self.state = State::EndTagOpen;
-                    }
-                    // U+003F QUESTION MARK(?)
-                    // Switch to the pi state.
-                    Some('?') => {
-                        self.state = State::Pi;
-                    }
-                    // U+0021 EXCLAMATION MARK (!)
-                    // Switch to the markup declaration open state.
-                    Some('!') => {
-                        self.state = State::MarkupDeclaration;
-                    }
-                    // U+0009 CHARACTER TABULATION (Tab)
-                    // U+000A LINE FEED (LF)
-                    // U+0020 SPACE (Space)
-                    // U+003A (:)
-                    // U+003C LESSER-THAN SIGN (<)
-                    // U+003E GREATER-THAN SIGN (>)
-                    // EOF
-                    // Parse error. Emit a U+003C LESSER-THAN SIGN (<) character. Reconsume the
-                    // current input character in the data state.
-                    Some(c) if is_spacy_except_ff(c) => {
-                        self.emit_error(ErrorKind::InvalidFirstCharacterOfTagName);
-                        self.emit_character_token(('<', '<'));
-                        self.reconsume_in_state(State::Data);
-                    }
-                    Some(':') | Some('<') | Some('>') | None => {
-                        self.emit_error(ErrorKind::InvalidFirstCharacterOfTagName);
-                        self.emit_character_token(('<', '<'));
-                        self.reconsume_in_state(State::Data);
-                    }
-                    // Anything else
-                    // Create a new tag token and set its name to the input character, then switch
-                    // to the tag name state.
-                    Some(c) => {
-                        self.validate_input_stream_character(c);
-                        self.create_tag_token(TagKind::Start);
-                        self.append_to_tag_token_name(c);
-                        self.state = State::TagName;
-                    }
-                }
-            }
-            State::EndTagOpen => {
-                // Consume the next input character:
-                match self.consume_next_char() {
-                    // U+003E GREATER-THAN SIGN (>)
-                    // Emit a short end tag token and then switch to the data state.
-                    Some('>') => {
-                        self.emit_tag_token(Some(TagKind::Short));
-                        self.state = State::Data;
-                    }
-                    // U+0009 CHARACTER TABULATION (Tab)
-                    // U+000A LINE FEED (LF)
-                    // U+0020 SPACE (Space)
-                    // U+003C LESSER-THAN SIGN (<)
-                    // U+003A (:)
-                    // EOF
-                    // Parse error. Emit a U+003C LESSER-THAN SIGN (<) character token and a U+002F
-                    // SOLIDUS (/) character token. Reconsume the current input character in the
-                    // data state.
-                    Some(c) if is_spacy_except_ff(c) => {
-                        self.emit_error(ErrorKind::InvalidFirstCharacterOfTagName);
-                        self.emit_character_token(('<', '<'));
-                        self.emit_character_token(('/', '/'));
-                        self.reconsume_in_state(State::Data);
-                    }
-                    Some('<') | Some(':') | None => {
-                        self.emit_error(ErrorKind::InvalidFirstCharacterOfTagName);
-                        self.emit_character_token(('<', '<'));
-                        self.emit_character_token(('/', '/'));
-                        self.reconsume_in_state(State::Data);
-                    }
-                    // Anything else
-                    // Create an end tag token and set its name to the input character, then switch
-                    // to the end tag name state.
-                    Some(c) => {
-                        self.validate_input_stream_character(c);
-                        self.create_tag_token(TagKind::End);
-                        self.append_to_tag_token_name(c);
-                        self.state = State::EndTagName
-                    }
-                }
-            }
-            State::EndTagName => {
-                // Consume the next input character:
-                match self.consume_next_char() {
-                    // U+0009 CHARACTER TABULATION (Tab)
-                    // U+000A LINE FEED (LF)
-                    // U+0020 SPACE (Space)
-                    // Switch to the end tag name after state.
-                    Some(c) if is_spacy_except_ff(c) => {
-                        self.state = State::EndTagNameAfter;
-                    }
-                    // U+002F SOLIDUS (/)
-                    // Parse error. Switch to the end tag name after state.
-                    Some('/') => {
-                        self.emit_error(ErrorKind::EndTagWithTrailingSolidus);
-                        self.state = State::EndTagNameAfter;
-                    }
-                    // EOF
-                    // Parse error. Emit the start tag token and then reprocess the current input
-                    // character in the data state.
-                    None => {
-                        self.emit_error(ErrorKind::EofInTag);
-                        self.emit_tag_token(Some(TagKind::Start));
-                        self.reconsume_in_state(State::Data);
-                    }
-                    // U+003E GREATER-THAN SIGN (>)
-                    // Emit the current token and then switch to the data state.
-                    Some('>') => {
-                        self.emit_tag_token(None);
-                        self.state = State::Data;
-                    }
-                    // Anything else
-                    // Append the current input character to the tag name and stay in the current
-                    // state.
-                    Some(c) => {
-                        self.validate_input_stream_character(c);
-                        self.append_to_tag_token_name(c);
-                    }
-                }
-            }
-            State::EndTagNameAfter => {
-                // Consume the next input character:
-                match self.consume_next_char() {
-                    // U+003E GREATER-THAN SIGN (>)
-                    // Emit the current token and then switch to the data state.
-                    Some('>') => {
-                        self.emit_tag_token(None);
-                        self.state = State::Data;
-                    }
-                    // U+0009 CHARACTER TABULATION (Tab)
-                    // U+000A LINE FEED (LF)
-                    // U+0020 SPACE (Space)
-                    // Stay in the current state.
-                    Some(c) if is_spacy_except_ff(c) => {
-                        self.skip_next_lf(c);
-                    }
-                    // EOF
-                    // Parse error. Emit the current token and then reprocess the current input
-                    // character in the data state.
-                    None => {
-                        self.emit_error(ErrorKind::EofInTag);
-                        self.emit_tag_token(None);
-                        self.reconsume_in_state(State::Data);
-                    }
-                    // Anything else
-                    // Parse error. Stay in the current state.
-                    Some(c) => {
-                        self.validate_input_stream_character(c);
-                        self.emit_error(ErrorKind::InvalidCharacterInTag);
-                    }
                 }
             }
             State::Pi => {
@@ -1835,7 +1585,91 @@ where
                     }
                 }
             }
-            // https://html.spec.whatwg.org/multipage/parsing.html#tag-name-state
+            State::TagOpen => {
+                // Consume the next input character:
+                match self.consume_next_char() {
+                    // U+002F SOLIDUS (/)
+                    // Switch to the end tag open state.
+                    Some('/') => {
+                        self.state = State::EndTagOpen;
+                    }
+                    // U+0021 EXCLAMATION MARK (!)
+                    // Switch to the markup declaration open state.
+                    Some('!') => {
+                        self.state = State::MarkupDeclaration;
+                    }
+                    // U+003F QUESTION MARK(?)
+                    // Switch to the pi state.
+                    Some('?') => {
+                        self.state = State::Pi;
+                    }
+                    // Name start character
+                    // Create a new tag token and set its name to the input character, then switch
+                    // to the tag name state.
+                    Some(c) if is_name_start_char(c) => {
+                        self.create_tag_token(TagKind::Start);
+                        self.reconsume_in_state(State::TagName);
+                    }
+                    // EOF
+                    // This is an eof-before-tag-name parse error. Emit a U+003C LESS-THAN SIGN
+                    // character token and an end-of-file token.
+                    None => {
+                        self.emit_error(ErrorKind::EofBeforeTagName);
+                        self.emit_character_token(('<', '<'));
+                        self.emit_token(Token::Eof);
+
+                        return Ok(());
+                    }
+                    // Anything else
+                    // This is an invalid-first-character-of-tag-name parse error. Emit a U+003C
+                    // LESS-THAN SIGN character token. Reconsume in the data state.
+                    _ => {
+                        self.emit_error(ErrorKind::InvalidFirstCharacterOfTagName);
+                        self.emit_character_token(('<', '<'));
+                        self.reconsume_in_state(State::Data);
+                    }
+                }
+            }
+            State::EndTagOpen => {
+                // Consume the next input character:
+                match self.consume_next_char() {
+                    // ASCII alpha
+                    // Create a new end tag token, set its tag name to the empty string.
+                    // Reconsume in the tag name state.
+                    Some(c) if is_name_char(c) => {
+                        self.create_tag_token(TagKind::End);
+                        self.reconsume_in_state(State::TagName);
+                    }
+                    // U+003E GREATER-THAN SIGN (>)
+                    // This is a missing-end-tag-name parse error. Switch to the data state.
+                    Some('>') => {
+                        self.emit_error(ErrorKind::MissingEndTagName);
+                        self.state = State::Data;
+                    }
+                    // EOF
+                    // This is an eof-before-tag-name parse error. Emit a U+003C LESS-THAN SIGN
+                    // character token, a U+002F SOLIDUS character token and an end-of-file
+                    // token.
+                    None => {
+                        self.emit_error(ErrorKind::EofBeforeTagName);
+                        self.emit_character_token(('<', '<'));
+                        self.emit_character_token(('/', '/'));
+                        self.emit_token(Token::Eof);
+
+                        return Ok(());
+                    }
+                    // Anything else
+                    // This is an invalid-first-character-of-tag-name parse error. Create a
+                    // comment token whose data is the empty string. Reconsume in the bogus
+                    // comment state.
+                    _ => {
+                        self.emit_error(ErrorKind::InvalidFirstCharacterOfTagName);
+                        self.emit_character_token(('<', '<'));
+                        self.emit_character_token(('/', '/'));
+                        self.reconsume_in_state(State::BogusComment);
+                    }
+                }
+            }
             State::TagName => {
                 // Consume the next input character:
                 match self.consume_next_char() {
@@ -1847,30 +1681,38 @@ where
                         self.skip_next_lf(c);
                         self.state = State::TagAttributeNameBefore;
                     }
-                    // U+003E GREATER-THAN SIGN (>)
-                    // Emit the start tag token and then switch to the data state.
-                    Some('>') => {
-                        self.emit_tag_token(Some(TagKind::Start));
-                        self.state = State::Data;
-                    }
-                    // EOF
-                    // Parse error. Emit the current token and then reprocess the current input
-                    // character in the data state.
-                    None => {
-                        self.emit_error(ErrorKind::EofInTag);
-                        self.emit_tag_token(None);
-                        self.reconsume_in_state(State::Data);
-                    }
                     // U+002F SOLIDUS (/)
                     // Set current tag to empty tag. Switch to the empty tag state.
                     Some('/') => {
                         self.set_tag_to_empty_tag();
                         self.state = State::EmptyTag;
                     }
-                    // Anything else
+                    // U+003E GREATER-THAN SIGN (>)
+                    // Switch to the data state. Emit the current tag token.
+                    Some('>') => {
+                        self.state = State::Data;
+                        self.emit_tag_token(None);
+                    }
+                    // EOF
+                    // This is an eof-in-tag parse error. Emit an end-of-file token.
+                    None => {
+                        self.emit_error(ErrorKind::EofInTag);
+                        self.emit_tag_token(None);
+
+                        return Ok(());
+                    }
+                    // Name character
                     // Append the current input character to the tag name and stay in the current
                     // state.
+                    Some(c) if is_name_char(c) => {
+                        self.validate_input_stream_character(c);
+                        self.append_to_tag_token_name(c);
+                    }
+                    // Anything else
+                    // Parse error. Append the current input character to the tag name and stay in
+                    // the current state.
                     Some(c) => {
+                        self.emit_error(ErrorKind::InvalidCharacterInTag);
                         self.validate_input_stream_character(c);
                         self.append_to_tag_token_name(c);
                     }
@@ -1883,7 +1725,7 @@ where
                     // Emit the current tag token as empty tag token and then switch to the data
                     // state.
                     Some('>') => {
-                        self.emit_tag_token(None);
+                        self.emit_tag_token(Some(TagKind::Empty));
                         self.state = State::Data;
                     }
                     // Anything else
@@ -3125,4 +2967,33 @@ fn is_upper_hex_digit(c: char) -> bool {
 #[inline(always)]
 fn is_lower_hex_digit(c: char) -> bool {
     matches!(c, '0'..='9' | 'a'..='f')
+}
+
+// NameStartChar ::=
+// ":" | [A-Z] | "_" | [a-z] | [#xC0-#xD6] | [#xD8-#xF6] |
+// [#xF8-#x2FF] | [#x370-#x37D] | [#x37F-#x1FFF] | [#x200C-#x200D] |
+// [#x2070-#x218F] | [#x2C00-#x2FEF] | [#x3001-#xD7FF] | [#xF900-#xFDCF] |
+// [#xFDF0-#xFFFD] | [#x10000-#xEFFFF]
+#[inline(always)]
+fn is_name_start_char(c: char) -> bool {
+    match c {
+        ':' | 'A'..='Z' | '_' | 'a'..='z' => true,
+        _ if matches!(c as u32, 0xc0..=0xd6 | 0xd8..=0x2ff | 0x370..=0x37d | 0x37f..=0x1fff | 0x200c..=0x200d | 0x2070..=0x218f | 0x2c00..=0x2fef | 0x3001..=0xd7ff | 0xf900..=0xfdcf | 0xfdf0..=0xfffd | 0x10000..=0xeffff) => {
+            true
+        }
+        _ => false,
+    }
+}
+
+// NameChar	::=
+// NameStartChar | "-" | "." | [0-9] | #xB7 | [#x0300-#x036F] |
+// [#x203F-#x2040]
+#[inline(always)]
+fn is_name_char(c: char) -> bool {
+    match c {
+        '-' | '.' | '0'..='9' => true,
+        _ if matches!(c as u32, 0xb7 | 0x0300..=0x036f | 0x203f..=0x2040) => true,
+        _ if is_name_start_char(c) => true,
+        _ => false,
+    }
 }
