@@ -338,10 +338,13 @@ impl Compiler {
                             ),
                             Some(v) => v,
                         };
-                        let encoded = &fm.src[idx + s.len()..];
+                        let encoded = fm.src[idx + s.len()..].trim();
 
-                        let res = base64::decode(encoded.as_bytes())
-                            .context("failed to decode base64-encoded source map")?;
+                        let res = base64::decode_config(
+                            encoded.as_bytes(),
+                            base64::Config::new(base64::CharacterSet::Standard, true),
+                        )
+                        .context("failed to decode base64-encoded source map")?;
 
                         Ok(Some(sourcemap::SourceMap::from_slice(&res).context(
                             "failed to read input source map from inlined base64 encoded string",
