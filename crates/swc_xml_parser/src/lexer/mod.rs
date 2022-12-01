@@ -1880,6 +1880,7 @@ where
                     // the current input character and its value to the empty string and then switch
                     // to the tag attribute name state.
                     Some(c) => {
+                        self.emit_error(ErrorKind::MissingEqualAfterAttributeName);
                         self.validate_input_stream_character(c);
                         self.start_new_attribute(Some(c));
                         self.state = State::TagAttributeName;
