@@ -1,3 +1,8 @@
 <root>
+    <c a></c>
+    <c a/>
+    <c a='b' q/>
     <c q a='b'/>
+    <c a='b' q></c>
+    <c q a='b'></c>
 </root>

@@ -2,7 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 32,
+    "end": 114,
     "ctxt": 0
   },
   "children": [
@@ -10,7 +10,7 @@
       "type": "Element",
       "span": {
         "start": 1,
-        "end": 32,
+        "end": 114,
         "ctxt": 0
       },
       "tagName": "root",
@@ -30,7 +30,7 @@
           "type": "Element",
           "span": {
             "start": 12,
-            "end": 24,
+            "end": 21,
             "ctxt": 0
           },
           "tagName": "c",
@@ -38,8 +38,130 @@
             {
               "type": "Attribute",
               "span": {
-                "start": 15,
-                "end": 16,
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "namespace": null,
+              "prefix": null,
+              "name": "a",
+              "rawName": "a",
+              "value": null,
+              "rawValue": null
+            }
+          ],
+          "children": []
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 21,
+            "end": 26,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 26,
+            "end": 32,
+            "ctxt": 0
+          },
+          "tagName": "c",
+          "attributes": [
+            {
+              "type": "Attribute",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "namespace": null,
+              "prefix": null,
+              "name": "a",
+              "rawName": "a",
+              "value": null,
+              "rawValue": null
+            }
+          ],
+          "children": []
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 32,
+            "end": 37,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 37,
+            "end": 49,
+            "ctxt": 0
+          },
+          "tagName": "c",
+          "attributes": [
+            {
+              "type": "Attribute",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "namespace": null,
+              "prefix": null,
+              "name": "a",
+              "rawName": "a",
+              "value": "b",
+              "rawValue": "'b'"
+            },
+            {
+              "type": "Attribute",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "namespace": null,
+              "prefix": null,
+              "name": "q",
+              "rawName": "q",
+              "value": null,
+              "rawValue": null
+            }
+          ],
+          "children": []
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 49,
+            "end": 54,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 54,
+            "end": 66,
+            "ctxt": 0
+          },
+          "tagName": "c",
+          "attributes": [
+            {
+              "type": "Attribute",
+              "span": {
+                "start": 57,
+                "end": 58,
                 "ctxt": 0
               },
               "namespace": null,
@@ -69,8 +191,108 @@
         {
           "type": "Text",
           "span": {
-            "start": 24,
-            "end": 25,
+            "start": 66,
+            "end": 71,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 71,
+            "end": 86,
+            "ctxt": 0
+          },
+          "tagName": "c",
+          "attributes": [
+            {
+              "type": "Attribute",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "namespace": null,
+              "prefix": null,
+              "name": "a",
+              "rawName": "a",
+              "value": "b",
+              "rawValue": "'b'"
+            },
+            {
+              "type": "Attribute",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "namespace": null,
+              "prefix": null,
+              "name": "q",
+              "rawName": "q",
+              "value": null,
+              "rawValue": null
+            }
+          ],
+          "children": []
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 86,
+            "end": 91,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 91,
+            "end": 106,
+            "ctxt": 0
+          },
+          "tagName": "c",
+          "attributes": [
+            {
+              "type": "Attribute",
+              "span": {
+                "start": 94,
+                "end": 95,
+                "ctxt": 0
+              },
+              "namespace": null,
+              "prefix": null,
+              "name": "q",
+              "rawName": "q",
+              "value": null,
+              "rawValue": null
+            },
+            {
+              "type": "Attribute",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "namespace": null,
+              "prefix": null,
+              "name": "a",
+              "rawName": "a",
+              "value": "b",
+              "rawValue": "'b'"
+            }
+          ],
+          "children": []
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 106,
+            "end": 107,
             "ctxt": 0
           },
           "data": "\n",
