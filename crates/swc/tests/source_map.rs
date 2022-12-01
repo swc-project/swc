@@ -412,3 +412,8 @@ fn should_work_with_emit_source_map_columns() {
         Ok(())
     });
 }
+
+#[test]
+fn issue_4578() {
+    //
+}
