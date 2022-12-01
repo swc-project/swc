@@ -328,6 +328,7 @@ where
             // Not a character reference. No characters are consumed and nothing is returned (This
             // is not an error, either).
             Some(c) if self.additional_allowed_character == Some(c) => {
+                self.emit_error(ErrorKind::InvalidEntityCharacter);
                 self.cur_pos = cur_pos;
                 self.input.reset_to(cur_pos);
             }

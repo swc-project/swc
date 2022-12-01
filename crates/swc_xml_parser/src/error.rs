@@ -57,6 +57,7 @@ impl Error {
                 "Invalid character of processing instruction".into()
             }
             ErrorKind::InvalidCharacterInTag => "Invalid character in tag".into(),
+            ErrorKind::InvalidEntityCharacter => "Invalid entity character".into(),
             ErrorKind::MissingDoctypeName => "Missing doctype name".into(),
             ErrorKind::MissingDoctypePublicIdentifier => "Missing doctype public identifier".into(),
             ErrorKind::MissingQuoteBeforeDoctypePublicIdentifier => {
@@ -151,6 +152,7 @@ pub enum ErrorKind {
     InvalidFirstCharacterOfTagName,
     InvalidCharacterOfProcessingInstruction,
     InvalidCharacterInTag,
+    InvalidEntityCharacter,
     MissingDoctypeName,
     MissingDoctypePublicIdentifier,
     MissingQuoteBeforeDoctypePublicIdentifier,
