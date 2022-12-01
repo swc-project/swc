@@ -26,4 +26,8 @@
 |   <copyright>
 |     "&copy; O'Reilly &amp; Associates"
 |   "
+    "
+|   <foo>
+|     "©©™™"
+|   "
 "

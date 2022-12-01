@@ -7,4 +7,5 @@
     <test test="&#x112;"></test>
     <Geschlecht>&#x2642;</Geschlecht>
     <copyright>&copy; O'Reilly &amp; Associates</copyright>
+    <foo>&#169;&#xa9;&#8482;&#x2122;</foo>
 </root>

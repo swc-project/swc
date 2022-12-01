@@ -2,7 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 309,
+    "end": 352,
     "ctxt": 0
   },
   "children": [
@@ -30,7 +30,7 @@
       "type": "Element",
       "span": {
         "start": 91,
-        "end": 309,
+        "end": 352,
         "ctxt": 0
       },
       "tagName": "root",
@@ -248,7 +248,39 @@
           "type": "Text",
           "span": {
             "start": 301,
-            "end": 302,
+            "end": 306,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 306,
+            "end": 344,
+            "ctxt": 0
+          },
+          "tagName": "foo",
+          "attributes": [],
+          "children": [
+            {
+              "type": "Text",
+              "span": {
+                "start": 311,
+                "end": 338,
+                "ctxt": 0
+              },
+              "data": "©©™™",
+              "raw": "©©™™"
+            }
+          ]
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 344,
+            "end": 345,
             "ctxt": 0
           },
           "data": "\n",

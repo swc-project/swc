@@ -10,7 +10,8 @@
   7 | |       <test test="&#x112;"></test>
   8 | |       <Geschlecht>&#x2642;</Geschlecht>
   9 | |       <copyright>&copy; O'Reilly &amp; Associates</copyright>
- 10 | `-> </root>
+ 10 | |       <foo>&#169;&#xa9;&#8482;&#x2122;</foo>
+ 11 | `-> </root>
     `----
 
   x Child
@@ -53,7 +54,8 @@
   7 | |       <test test="&#x112;"></test>
   8 | |       <Geschlecht>&#x2642;</Geschlecht>
   9 | |       <copyright>&copy; O'Reilly &amp; Associates</copyright>
- 10 | `-> </root>
+ 10 | |       <foo>&#169;&#xa9;&#8482;&#x2122;</foo>
+ 11 | `-> </root>
     `----
 
   x Element
@@ -66,7 +68,8 @@
   7 | |       <test test="&#x112;"></test>
   8 | |       <Geschlecht>&#x2642;</Geschlecht>
   9 | |       <copyright>&copy; O'Reilly &amp; Associates</copyright>
- 10 | `-> </root>
+ 10 | |       <foo>&#169;&#xa9;&#8482;&#x2122;</foo>
+ 11 | `-> </root>
     `----
 
   x Child
@@ -252,7 +255,7 @@
   7 |         <test test="&#x112;"></test>
   8 | ,->     <Geschlecht>&#x2642;</Geschlecht>
   9 | `->     <copyright>&copy; O'Reilly &amp; Associates</copyright>
- 10 |     </root>
+ 10 |         <foo>&#169;&#xa9;&#8482;&#x2122;</foo>
     `----
 
   x Text
@@ -260,7 +263,7 @@
   7 |         <test test="&#x112;"></test>
   8 | ,->     <Geschlecht>&#x2642;</Geschlecht>
   9 | `->     <copyright>&copy; O'Reilly &amp; Associates</copyright>
- 10 |     </root>
+ 10 |         <foo>&#169;&#xa9;&#8482;&#x2122;</foo>
     `----
 
   x Child
@@ -268,7 +271,7 @@
   8 |     <Geschlecht>&#x2642;</Geschlecht>
   9 |     <copyright>&copy; O'Reilly &amp; Associates</copyright>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 10 | </root>
+ 10 |     <foo>&#169;&#xa9;&#8482;&#x2122;</foo>
     `----
 
   x Element
@@ -276,7 +279,7 @@
   8 |     <Geschlecht>&#x2642;</Geschlecht>
   9 |     <copyright>&copy; O'Reilly &amp; Associates</copyright>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 10 | </root>
+ 10 |     <foo>&#169;&#xa9;&#8482;&#x2122;</foo>
     `----
 
   x Child
@@ -284,7 +287,7 @@
   8 |     <Geschlecht>&#x2642;</Geschlecht>
   9 |     <copyright>&copy; O'Reilly &amp; Associates</copyright>
     :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 10 | </root>
+ 10 |     <foo>&#169;&#xa9;&#8482;&#x2122;</foo>
     `----
 
   x Text
@@ -292,21 +295,69 @@
   8 |     <Geschlecht>&#x2642;</Geschlecht>
   9 |     <copyright>&copy; O'Reilly &amp; Associates</copyright>
     :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 10 | </root>
+ 10 |     <foo>&#169;&#xa9;&#8482;&#x2122;</foo>
     `----
 
   x Child
     ,-[$DIR/tests/fixture/entity/input.xml:8:1]
-  8 |     <Geschlecht>&#x2642;</Geschlecht>
-  9 |     <copyright>&copy; O'Reilly &amp; Associates</copyright>
-    :                                                            ^
- 10 | </root>
+  8 |         <Geschlecht>&#x2642;</Geschlecht>
+  9 | ,->     <copyright>&copy; O'Reilly &amp; Associates</copyright>
+ 10 | `->     <foo>&#169;&#xa9;&#8482;&#x2122;</foo>
+ 11 |     </root>
     `----
 
   x Text
     ,-[$DIR/tests/fixture/entity/input.xml:8:1]
-  8 |     <Geschlecht>&#x2642;</Geschlecht>
+  8 |         <Geschlecht>&#x2642;</Geschlecht>
+  9 | ,->     <copyright>&copy; O'Reilly &amp; Associates</copyright>
+ 10 | `->     <foo>&#169;&#xa9;&#8482;&#x2122;</foo>
+ 11 |     </root>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/entity/input.xml:9:1]
   9 |     <copyright>&copy; O'Reilly &amp; Associates</copyright>
-    :                                                            ^
- 10 | </root>
+ 10 |     <foo>&#169;&#xa9;&#8482;&#x2122;</foo>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 11 | </root>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/entity/input.xml:9:1]
+  9 |     <copyright>&copy; O'Reilly &amp; Associates</copyright>
+ 10 |     <foo>&#169;&#xa9;&#8482;&#x2122;</foo>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 11 | </root>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/entity/input.xml:9:1]
+  9 |     <copyright>&copy; O'Reilly &amp; Associates</copyright>
+ 10 |     <foo>&#169;&#xa9;&#8482;&#x2122;</foo>
+    :          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 11 | </root>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/entity/input.xml:9:1]
+  9 |     <copyright>&copy; O'Reilly &amp; Associates</copyright>
+ 10 |     <foo>&#169;&#xa9;&#8482;&#x2122;</foo>
+    :          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 11 | </root>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/entity/input.xml:9:1]
+  9 |     <copyright>&copy; O'Reilly &amp; Associates</copyright>
+ 10 |     <foo>&#169;&#xa9;&#8482;&#x2122;</foo>
+    :                                           ^
+ 11 | </root>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/entity/input.xml:9:1]
+  9 |     <copyright>&copy; O'Reilly &amp; Associates</copyright>
+ 10 |     <foo>&#169;&#xa9;&#8482;&#x2122;</foo>
+    :                                           ^
+ 11 | </root>
     `----
