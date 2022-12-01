@@ -44,6 +44,7 @@ pub enum State {
     TagAttributeValueDoubleQuoted,
     TagAttributeValueSingleQuoted,
     TagAttributeValueUnquoted,
+    TagAttributeValueAfter,
     CharacterReferenceInAttributeValue,
     BogusComment,
     Doctype,
@@ -1943,7 +1944,7 @@ where
                     // We set value to support empty attributes (i.e. `attr=""`)
                     Some(c @ '"') => {
                         self.append_to_attribute(None, Some((false, None, Some(c))));
-                        self.state = State::TagAttributeNameBefore;
+                        self.state = State::TagAttributeValueAfter;
                     }
                     // U+0026 AMPERSAND (&)
                     // Switch to character reference in attribute value state, with the additional
@@ -1983,7 +1984,7 @@ where
                     // We set value to support empty attributes (i.e. `attr=''`)
                     Some(c @ '\'') => {
                         self.append_to_attribute(None, Some((false, None, Some(c))));
-                        self.state = State::TagAttributeNameBefore;
+                        self.state = State::TagAttributeValueAfter;
                     }
                     // U+0026 AMPERSAND (&)
                     // Switch to character reference in attribute value state, with the additional
@@ -2024,7 +2025,7 @@ where
                     Some(c) if is_spacy_except_ff(c) => {
                         self.update_attribute_span();
                         self.skip_next_lf(c);
-                        self.state = State::TagAttributeNameBefore;
+                        self.state = State::TagAttributeValueAfter;
                     }
                     // U+0026 AMPERSAND (&)
                     // Set the return state to the attribute value (unquoted) state. Switch to
@@ -2064,6 +2065,24 @@ where
                     }
                 }
             }
+            State::TagAttributeValueAfter => match self.consume_next_char() {
+                Some(c) if is_spacy_except_ff(c) => {
+                    self.reconsume_in_state(State::TagAttributeNameBefore);
+                }
+                Some('>') | Some('/') => {
+                    self.reconsume_in_state(State::TagAttributeNameBefore);
+                }
+                None => {
+                    self.emit_error(ErrorKind::EofInTag);
+                    self.update_attribute_span();
+                    self.emit_tag_token(Some(TagKind::Start));
+                    self.reconsume_in_state(State::Data);
+                }
+                _ => {
+                    self.emit_error(ErrorKind::MissingSpaceBetweenAttributes);
+                    self.reconsume_in_state(State::TagAttributeNameBefore);
+                }
+            },
             State::CharacterReferenceInAttributeValue => {
                 // Attempt to consume a character reference.
                 //

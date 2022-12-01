@@ -88,6 +88,7 @@ impl Error {
             ErrorKind::MissingEqualAfterAttributeName => {
                 "Missing equal after attribute name".into()
             }
+            ErrorKind::MissingSpaceBetweenAttributes => "Missing space between attributes".into(),
             ErrorKind::NestedComment => "Nested comment".into(),
             ErrorKind::DoubleHyphenWithInComment => "Double hyper within comment".into(),
             ErrorKind::NoncharacterInInputStream => "Noncharacter in input stream".into(),
@@ -165,6 +166,7 @@ pub enum ErrorKind {
     MissingEndTagName,
     MissingQuoteBeforeAttributeValue,
     MissingEqualAfterAttributeName,
+    MissingSpaceBetweenAttributes,
     NestedComment,
     DoubleHyphenWithInComment,
     NoncharacterInInputStream,
