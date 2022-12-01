@@ -25,7 +25,12 @@
  22 | |           <![CDATA[data]]>  </p>
  23 | |       <p><![CDATA[bracket ]after]]></p>
  24 | |       <p><![CDATA[]]></p>
- 25 | `-> </root>
+ 25 | |       <DocumentElement>
+ 26 | |           <foo>
+ 27 | |               bar<![CDATA[ Some <!-- My Comment --> Value ]]>foo
+ 28 | |           </foo>
+ 29 | |       </DocumentElement>"
+ 30 | `-> </root>
     `----
 
   x Child
@@ -54,7 +59,12 @@
  22 | |           <![CDATA[data]]>  </p>
  23 | |       <p><![CDATA[bracket ]after]]></p>
  24 | |       <p><![CDATA[]]></p>
- 25 | `-> </root>
+ 25 | |       <DocumentElement>
+ 26 | |           <foo>
+ 27 | |               bar<![CDATA[ Some <!-- My Comment --> Value ]]>foo
+ 28 | |           </foo>
+ 29 | |       </DocumentElement>"
+ 30 | `-> </root>
     `----
 
   x Element
@@ -83,7 +93,12 @@
  22 | |           <![CDATA[data]]>  </p>
  23 | |       <p><![CDATA[bracket ]after]]></p>
  24 | |       <p><![CDATA[]]></p>
- 25 | `-> </root>
+ 25 | |       <DocumentElement>
+ 26 | |           <foo>
+ 27 | |               bar<![CDATA[ Some <!-- My Comment --> Value ]]>foo
+ 28 | |           </foo>
+ 29 | |       </DocumentElement>"
+ 30 | `-> </root>
     `----
 
   x Child
@@ -726,7 +741,7 @@
  22 |             <![CDATA[data]]>  </p>
  23 | ,->     <p><![CDATA[bracket ]after]]></p>
  24 | `->     <p><![CDATA[]]></p>
- 25 |     </root>
+ 25 |         <DocumentElement>
     `----
 
   x Text
@@ -734,7 +749,7 @@
  22 |             <![CDATA[data]]>  </p>
  23 | ,->     <p><![CDATA[bracket ]after]]></p>
  24 | `->     <p><![CDATA[]]></p>
- 25 |     </root>
+ 25 |         <DocumentElement>
     `----
 
   x Child
@@ -742,7 +757,7 @@
  23 |     <p><![CDATA[bracket ]after]]></p>
  24 |     <p><![CDATA[]]></p>
     :     ^^^^^^^^^^^^^^^^^^^
- 25 | </root>
+ 25 |     <DocumentElement>
     `----
 
   x Element
@@ -750,7 +765,7 @@
  23 |     <p><![CDATA[bracket ]after]]></p>
  24 |     <p><![CDATA[]]></p>
     :     ^^^^^^^^^^^^^^^^^^^
- 25 | </root>
+ 25 |     <DocumentElement>
     `----
 
   x Child
@@ -758,21 +773,149 @@
  23 |     <p><![CDATA[bracket ]after]]></p>
  24 |     <p><![CDATA[]]></p>
     :        ^^^^^^^^^^^^
- 25 | </root>
+ 25 |     <DocumentElement>
     `----
 
   x Child
     ,-[$DIR/tests/fixture/cdata_section/input.xml:23:1]
- 23 |     <p><![CDATA[bracket ]after]]></p>
- 24 |     <p><![CDATA[]]></p>
-    :                        ^
- 25 | </root>
+ 23 |         <p><![CDATA[bracket ]after]]></p>
+ 24 | ,->     <p><![CDATA[]]></p>
+ 25 | `->     <DocumentElement>
+ 26 |             <foo>
     `----
 
   x Text
     ,-[$DIR/tests/fixture/cdata_section/input.xml:23:1]
- 23 |     <p><![CDATA[bracket ]after]]></p>
- 24 |     <p><![CDATA[]]></p>
-    :                        ^
- 25 | </root>
+ 23 |         <p><![CDATA[bracket ]after]]></p>
+ 24 | ,->     <p><![CDATA[]]></p>
+ 25 | `->     <DocumentElement>
+ 26 |             <foo>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:24:1]
+ 24 |         <p><![CDATA[]]></p>
+ 25 | ,->     <DocumentElement>
+ 26 | |           <foo>
+ 27 | |               bar<![CDATA[ Some <!-- My Comment --> Value ]]>foo
+ 28 | |           </foo>
+ 29 | `->     </DocumentElement>"
+ 30 |     </root>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:24:1]
+ 24 |         <p><![CDATA[]]></p>
+ 25 | ,->     <DocumentElement>
+ 26 | |           <foo>
+ 27 | |               bar<![CDATA[ Some <!-- My Comment --> Value ]]>foo
+ 28 | |           </foo>
+ 29 | `->     </DocumentElement>"
+ 30 |     </root>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:24:1]
+ 24 |         <p><![CDATA[]]></p>
+ 25 | ,->     <DocumentElement>
+ 26 | `->         <foo>
+ 27 |                 bar<![CDATA[ Some <!-- My Comment --> Value ]]>foo
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:24:1]
+ 24 |         <p><![CDATA[]]></p>
+ 25 | ,->     <DocumentElement>
+ 26 | `->         <foo>
+ 27 |                 bar<![CDATA[ Some <!-- My Comment --> Value ]]>foo
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:25:1]
+ 25 |         <DocumentElement>
+ 26 | ,->         <foo>
+ 27 | |               bar<![CDATA[ Some <!-- My Comment --> Value ]]>foo
+ 28 | `->         </foo>
+ 29 |         </DocumentElement>"
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:25:1]
+ 25 |         <DocumentElement>
+ 26 | ,->         <foo>
+ 27 | |               bar<![CDATA[ Some <!-- My Comment --> Value ]]>foo
+ 28 | `->         </foo>
+ 29 |         </DocumentElement>"
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:25:1]
+ 25 |         <DocumentElement>
+ 26 | ,->         <foo>
+ 27 | `->             bar<![CDATA[ Some <!-- My Comment --> Value ]]>foo
+ 28 |             </foo>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:25:1]
+ 25 |         <DocumentElement>
+ 26 | ,->         <foo>
+ 27 | `->             bar<![CDATA[ Some <!-- My Comment --> Value ]]>foo
+ 28 |             </foo>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:26:1]
+ 26 |         <foo>
+ 27 |             bar<![CDATA[ Some <!-- My Comment --> Value ]]>foo
+    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 28 |         </foo>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:26:1]
+ 26 |             <foo>
+ 27 | ,->             bar<![CDATA[ Some <!-- My Comment --> Value ]]>foo
+ 28 | `->         </foo>
+ 29 |         </DocumentElement>"
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:26:1]
+ 26 |             <foo>
+ 27 | ,->             bar<![CDATA[ Some <!-- My Comment --> Value ]]>foo
+ 28 | `->         </foo>
+ 29 |         </DocumentElement>"
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:27:1]
+ 27 |                 bar<![CDATA[ Some <!-- My Comment --> Value ]]>foo
+ 28 | ,->         </foo>
+ 29 | `->     </DocumentElement>"
+ 30 |     </root>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:27:1]
+ 27 |                 bar<![CDATA[ Some <!-- My Comment --> Value ]]>foo
+ 28 | ,->         </foo>
+ 29 | `->     </DocumentElement>"
+ 30 |     </root>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:28:1]
+ 28 |         </foo>
+ 29 |     </DocumentElement>"
+    :                       ^^
+ 30 | </root>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:28:1]
+ 28 |         </foo>
+ 29 |     </DocumentElement>"
+    :                       ^^
+ 30 | </root>
     `----

@@ -54,4 +54,16 @@
     "
 |   <p>
 |   "
+    "
+|   <DocumentElement>
+|     "
+        "
+|     <foo>
+|       "
+            bar"
+|       "foo
+        "
+|     "
+    "
+|   ""
 "

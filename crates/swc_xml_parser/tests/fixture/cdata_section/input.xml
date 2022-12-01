@@ -22,4 +22,9 @@
         <![CDATA[data]]>  </p>
     <p><![CDATA[bracket ]after]]></p>
     <p><![CDATA[]]></p>
+    <DocumentElement>
+        <foo>
+            bar<![CDATA[ Some <!-- My Comment --> Value ]]>foo
+        </foo>
+    </DocumentElement>"
 </root>
