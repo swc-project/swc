@@ -35,4 +35,35 @@
 |   <foo>
 |     a="test1"
 |   "
+    "
+|   <foo>
+|     foo=""
+|   "
+    "
+|   <foo>
+|     foo="'"
+|   "
+    "
+|   <foo>
+|     foo=""
+|   "
+    "
+|   <foo>
+|     foo="""
+|   "
+    "
+|   <MyElement>
+|     myAttribute="attribute value"
+|   "
+    "
+|   <MyElement>
+|     myAttribute="attribute
+    value"
+|   "
+    "
+|   <MyElement>
+|     myAttribute2="attribute value"
+|     nsA:myAttribute1="attribute value"
+|     "..."
+|   "
 "

@@ -1,42 +1,66 @@
 
   x Document
-   ,-[$DIR/tests/fixture/attribute/input.xml:1:1]
- 1 | ,-> <root>
- 2 | |       <foo a='b'/>
- 3 | |       <foo a="test">test</foo>
- 4 | |       <foo a='"test1"' b="'test2'"/>
- 5 | |       <foo a='"test1"' b="'test2'">test</foo>
- 6 | |       <foo foo:a="test">test</foo>
- 7 | |       <foo foo:a='"test1"' bar:b="'test2'">test</foo>
- 8 | |       <foo   a   =    'test1'     />
- 9 | `-> </root>
-   `----
+    ,-[$DIR/tests/fixture/attribute/input.xml:1:1]
+  1 | ,-> <root>
+  2 | |       <foo a='b'/>
+  3 | |       <foo a="test">test</foo>
+  4 | |       <foo a='"test1"' b="'test2'"/>
+  5 | |       <foo a='"test1"' b="'test2'">test</foo>
+  6 | |       <foo foo:a="test">test</foo>
+  7 | |       <foo foo:a='"test1"' bar:b="'test2'">test</foo>
+  8 | |       <foo   a   =    'test1'     />
+  9 | |       <foo foo=""></foo>
+ 10 | |       <foo foo="'"></foo>
+ 11 | |       <foo foo=''></foo>
+ 12 | |       <foo foo='"'></foo>
+ 13 | |       <MyElement myAttribute="attribute value"/>
+ 14 | |       <MyElement myAttribute="attribute
+ 15 | |       value"/>
+ 16 | |       <MyElement nsA:myAttribute1="attribute value" myAttribute2="attribute value">...</MyElement>
+ 17 | `-> </root>
+    `----
 
   x Child
-   ,-[$DIR/tests/fixture/attribute/input.xml:1:1]
- 1 | ,-> <root>
- 2 | |       <foo a='b'/>
- 3 | |       <foo a="test">test</foo>
- 4 | |       <foo a='"test1"' b="'test2'"/>
- 5 | |       <foo a='"test1"' b="'test2'">test</foo>
- 6 | |       <foo foo:a="test">test</foo>
- 7 | |       <foo foo:a='"test1"' bar:b="'test2'">test</foo>
- 8 | |       <foo   a   =    'test1'     />
- 9 | `-> </root>
-   `----
+    ,-[$DIR/tests/fixture/attribute/input.xml:1:1]
+  1 | ,-> <root>
+  2 | |       <foo a='b'/>
+  3 | |       <foo a="test">test</foo>
+  4 | |       <foo a='"test1"' b="'test2'"/>
+  5 | |       <foo a='"test1"' b="'test2'">test</foo>
+  6 | |       <foo foo:a="test">test</foo>
+  7 | |       <foo foo:a='"test1"' bar:b="'test2'">test</foo>
+  8 | |       <foo   a   =    'test1'     />
+  9 | |       <foo foo=""></foo>
+ 10 | |       <foo foo="'"></foo>
+ 11 | |       <foo foo=''></foo>
+ 12 | |       <foo foo='"'></foo>
+ 13 | |       <MyElement myAttribute="attribute value"/>
+ 14 | |       <MyElement myAttribute="attribute
+ 15 | |       value"/>
+ 16 | |       <MyElement nsA:myAttribute1="attribute value" myAttribute2="attribute value">...</MyElement>
+ 17 | `-> </root>
+    `----
 
   x Element
-   ,-[$DIR/tests/fixture/attribute/input.xml:1:1]
- 1 | ,-> <root>
- 2 | |       <foo a='b'/>
- 3 | |       <foo a="test">test</foo>
- 4 | |       <foo a='"test1"' b="'test2'"/>
- 5 | |       <foo a='"test1"' b="'test2'">test</foo>
- 6 | |       <foo foo:a="test">test</foo>
- 7 | |       <foo foo:a='"test1"' bar:b="'test2'">test</foo>
- 8 | |       <foo   a   =    'test1'     />
- 9 | `-> </root>
-   `----
+    ,-[$DIR/tests/fixture/attribute/input.xml:1:1]
+  1 | ,-> <root>
+  2 | |       <foo a='b'/>
+  3 | |       <foo a="test">test</foo>
+  4 | |       <foo a='"test1"' b="'test2'"/>
+  5 | |       <foo a='"test1"' b="'test2'">test</foo>
+  6 | |       <foo foo:a="test">test</foo>
+  7 | |       <foo foo:a='"test1"' bar:b="'test2'">test</foo>
+  8 | |       <foo   a   =    'test1'     />
+  9 | |       <foo foo=""></foo>
+ 10 | |       <foo foo="'"></foo>
+ 11 | |       <foo foo=''></foo>
+ 12 | |       <foo foo='"'></foo>
+ 13 | |       <MyElement myAttribute="attribute value"/>
+ 14 | |       <MyElement myAttribute="attribute
+ 15 | |       value"/>
+ 16 | |       <MyElement nsA:myAttribute1="attribute value" myAttribute2="attribute value">...</MyElement>
+ 17 | `-> </root>
+    `----
 
   x Child
    ,-[$DIR/tests/fixture/attribute/input.xml:1:1]
@@ -299,7 +323,7 @@
  6 |         <foo foo:a="test">test</foo>
  7 | ,->     <foo foo:a='"test1"' bar:b="'test2'">test</foo>
  8 | `->     <foo   a   =    'test1'     />
- 9 |     </root>
+ 9 |         <foo foo=""></foo>
    `----
 
   x Text
@@ -307,7 +331,7 @@
  6 |         <foo foo:a="test">test</foo>
  7 | ,->     <foo foo:a='"test1"' bar:b="'test2'">test</foo>
  8 | `->     <foo   a   =    'test1'     />
- 9 |     </root>
+ 9 |         <foo foo=""></foo>
    `----
 
   x Child
@@ -315,7 +339,7 @@
  7 |     <foo foo:a='"test1"' bar:b="'test2'">test</foo>
  8 |     <foo   a   =    'test1'     />
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 9 | </root>
+ 9 |     <foo foo=""></foo>
    `----
 
   x Element
@@ -323,7 +347,7 @@
  7 |     <foo foo:a='"test1"' bar:b="'test2'">test</foo>
  8 |     <foo   a   =    'test1'     />
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 9 | </root>
+ 9 |     <foo foo=""></foo>
    `----
 
   x Attribute
@@ -331,21 +355,261 @@
  7 |     <foo foo:a='"test1"' bar:b="'test2'">test</foo>
  8 |     <foo   a   =    'test1'     />
    :            ^
- 9 | </root>
+ 9 |     <foo foo=""></foo>
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/attribute/input.xml:7:1]
- 7 |     <foo foo:a='"test1"' bar:b="'test2'">test</foo>
- 8 |     <foo   a   =    'test1'     />
-   :                                   ^
- 9 | </root>
-   `----
+    ,-[$DIR/tests/fixture/attribute/input.xml:7:1]
+  7 |         <foo foo:a='"test1"' bar:b="'test2'">test</foo>
+  8 | ,->     <foo   a   =    'test1'     />
+  9 | `->     <foo foo=""></foo>
+ 10 |         <foo foo="'"></foo>
+    `----
 
   x Text
-   ,-[$DIR/tests/fixture/attribute/input.xml:7:1]
- 7 |     <foo foo:a='"test1"' bar:b="'test2'">test</foo>
- 8 |     <foo   a   =    'test1'     />
-   :                                   ^
- 9 | </root>
-   `----
+    ,-[$DIR/tests/fixture/attribute/input.xml:7:1]
+  7 |         <foo foo:a='"test1"' bar:b="'test2'">test</foo>
+  8 | ,->     <foo   a   =    'test1'     />
+  9 | `->     <foo foo=""></foo>
+ 10 |         <foo foo="'"></foo>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/attribute/input.xml:8:1]
+  8 |     <foo   a   =    'test1'     />
+  9 |     <foo foo=""></foo>
+    :     ^^^^^^^^^^^^^^^^^^
+ 10 |     <foo foo="'"></foo>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/attribute/input.xml:8:1]
+  8 |     <foo   a   =    'test1'     />
+  9 |     <foo foo=""></foo>
+    :     ^^^^^^^^^^^^^^^^^^
+ 10 |     <foo foo="'"></foo>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/attribute/input.xml:8:1]
+  8 |         <foo   a   =    'test1'     />
+  9 | ,->     <foo foo=""></foo>
+ 10 | `->     <foo foo="'"></foo>
+ 11 |         <foo foo=''></foo>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/attribute/input.xml:8:1]
+  8 |         <foo   a   =    'test1'     />
+  9 | ,->     <foo foo=""></foo>
+ 10 | `->     <foo foo="'"></foo>
+ 11 |         <foo foo=''></foo>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/attribute/input.xml:9:1]
+  9 |     <foo foo=""></foo>
+ 10 |     <foo foo="'"></foo>
+    :     ^^^^^^^^^^^^^^^^^^^
+ 11 |     <foo foo=''></foo>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/attribute/input.xml:9:1]
+  9 |     <foo foo=""></foo>
+ 10 |     <foo foo="'"></foo>
+    :     ^^^^^^^^^^^^^^^^^^^
+ 11 |     <foo foo=''></foo>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/attribute/input.xml:9:1]
+  9 |         <foo foo=""></foo>
+ 10 | ,->     <foo foo="'"></foo>
+ 11 | `->     <foo foo=''></foo>
+ 12 |         <foo foo='"'></foo>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/attribute/input.xml:9:1]
+  9 |         <foo foo=""></foo>
+ 10 | ,->     <foo foo="'"></foo>
+ 11 | `->     <foo foo=''></foo>
+ 12 |         <foo foo='"'></foo>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/attribute/input.xml:10:1]
+ 10 |     <foo foo="'"></foo>
+ 11 |     <foo foo=''></foo>
+    :     ^^^^^^^^^^^^^^^^^^
+ 12 |     <foo foo='"'></foo>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/attribute/input.xml:10:1]
+ 10 |     <foo foo="'"></foo>
+ 11 |     <foo foo=''></foo>
+    :     ^^^^^^^^^^^^^^^^^^
+ 12 |     <foo foo='"'></foo>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/attribute/input.xml:10:1]
+ 10 |         <foo foo="'"></foo>
+ 11 | ,->     <foo foo=''></foo>
+ 12 | `->     <foo foo='"'></foo>
+ 13 |         <MyElement myAttribute="attribute value"/>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/attribute/input.xml:10:1]
+ 10 |         <foo foo="'"></foo>
+ 11 | ,->     <foo foo=''></foo>
+ 12 | `->     <foo foo='"'></foo>
+ 13 |         <MyElement myAttribute="attribute value"/>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/attribute/input.xml:11:1]
+ 11 |     <foo foo=''></foo>
+ 12 |     <foo foo='"'></foo>
+    :     ^^^^^^^^^^^^^^^^^^^
+ 13 |     <MyElement myAttribute="attribute value"/>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/attribute/input.xml:11:1]
+ 11 |     <foo foo=''></foo>
+ 12 |     <foo foo='"'></foo>
+    :     ^^^^^^^^^^^^^^^^^^^
+ 13 |     <MyElement myAttribute="attribute value"/>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/attribute/input.xml:11:1]
+ 11 |         <foo foo=''></foo>
+ 12 | ,->     <foo foo='"'></foo>
+ 13 | `->     <MyElement myAttribute="attribute value"/>
+ 14 |         <MyElement myAttribute="attribute
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/attribute/input.xml:11:1]
+ 11 |         <foo foo=''></foo>
+ 12 | ,->     <foo foo='"'></foo>
+ 13 | `->     <MyElement myAttribute="attribute value"/>
+ 14 |         <MyElement myAttribute="attribute
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/attribute/input.xml:12:1]
+ 12 |     <foo foo='"'></foo>
+ 13 |     <MyElement myAttribute="attribute value"/>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 14 |     <MyElement myAttribute="attribute
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/attribute/input.xml:12:1]
+ 12 |     <foo foo='"'></foo>
+ 13 |     <MyElement myAttribute="attribute value"/>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 14 |     <MyElement myAttribute="attribute
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/attribute/input.xml:12:1]
+ 12 |         <foo foo='"'></foo>
+ 13 | ,->     <MyElement myAttribute="attribute value"/>
+ 14 | `->     <MyElement myAttribute="attribute
+ 15 |         value"/>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/attribute/input.xml:12:1]
+ 12 |         <foo foo='"'></foo>
+ 13 | ,->     <MyElement myAttribute="attribute value"/>
+ 14 | `->     <MyElement myAttribute="attribute
+ 15 |         value"/>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/attribute/input.xml:13:1]
+ 13 |         <MyElement myAttribute="attribute value"/>
+ 14 | ,->     <MyElement myAttribute="attribute
+ 15 | `->     value"/>
+ 16 |         <MyElement nsA:myAttribute1="attribute value" myAttribute2="attribute value">...</MyElement>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/attribute/input.xml:13:1]
+ 13 |         <MyElement myAttribute="attribute value"/>
+ 14 | ,->     <MyElement myAttribute="attribute
+ 15 | `->     value"/>
+ 16 |         <MyElement nsA:myAttribute1="attribute value" myAttribute2="attribute value">...</MyElement>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/attribute/input.xml:14:1]
+ 14 |         <MyElement myAttribute="attribute
+ 15 | ,->     value"/>
+ 16 | `->     <MyElement nsA:myAttribute1="attribute value" myAttribute2="attribute value">...</MyElement>
+ 17 |     </root>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/attribute/input.xml:14:1]
+ 14 |         <MyElement myAttribute="attribute
+ 15 | ,->     value"/>
+ 16 | `->     <MyElement nsA:myAttribute1="attribute value" myAttribute2="attribute value">...</MyElement>
+ 17 |     </root>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/attribute/input.xml:15:1]
+ 15 |     value"/>
+ 16 |     <MyElement nsA:myAttribute1="attribute value" myAttribute2="attribute value">...</MyElement>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 17 | </root>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/attribute/input.xml:15:1]
+ 15 |     value"/>
+ 16 |     <MyElement nsA:myAttribute1="attribute value" myAttribute2="attribute value">...</MyElement>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 17 | </root>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/attribute/input.xml:15:1]
+ 15 |     value"/>
+ 16 |     <MyElement nsA:myAttribute1="attribute value" myAttribute2="attribute value">...</MyElement>
+    :                                                                                  ^^^
+ 17 | </root>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/attribute/input.xml:15:1]
+ 15 |     value"/>
+ 16 |     <MyElement nsA:myAttribute1="attribute value" myAttribute2="attribute value">...</MyElement>
+    :                                                                                  ^^^
+ 17 | </root>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/attribute/input.xml:15:1]
+ 15 |     value"/>
+ 16 |     <MyElement nsA:myAttribute1="attribute value" myAttribute2="attribute value">...</MyElement>
+    :                                                                                                 ^
+ 17 | </root>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/attribute/input.xml:15:1]
+ 15 |     value"/>
+ 16 |     <MyElement nsA:myAttribute1="attribute value" myAttribute2="attribute value">...</MyElement>
+    :                                                                                                 ^
+ 17 | </root>
+    `----

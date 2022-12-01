@@ -10,4 +10,8 @@
     <foo foo="'"></foo>
     <foo foo=''></foo>
     <foo foo='"'></foo>
+    <MyElement myAttribute="attribute value"/>
+    <MyElement myAttribute="attribute
+    value"/>
+    <MyElement nsA:myAttribute1="attribute value" myAttribute2="attribute value">...</MyElement>
 </root>
