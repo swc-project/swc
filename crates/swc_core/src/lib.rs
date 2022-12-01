@@ -61,6 +61,16 @@ pub mod ecma {
         pub mod module {
             pub use swc_ecma_transforms_module::*;
         }
+        #[cfg(feature = "ecma_transforms_proposal")]
+        #[cfg_attr(docsrs, doc(cfg(feature = "transforms_proposal")))]
+        pub mod proposal {
+            pub use swc_ecma_transforms_proposal::*;
+        }
+        #[cfg(feature = "ecma_transforms_compat")]
+        #[cfg_attr(docsrs, doc(cfg(feature = "transforms_compat")))]
+        pub mod compat {
+            pub use swc_ecma_transforms_compat::*;
+        }
         #[cfg(feature = "__testing_transform")]
         #[cfg_attr(docsrs, doc(cfg(feature = "__testing_transform")))]
         pub mod testing {

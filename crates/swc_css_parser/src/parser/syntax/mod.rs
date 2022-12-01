@@ -181,7 +181,9 @@ where
                     at_rule.span = span!(self, span.lo);
 
                     // Canonicalization against a grammar
-                    at_rule = self.canonicalize_at_rule_prelude(at_rule)?;
+                    if self.ctx.need_canonicalize {
+                        at_rule = self.canonicalize_at_rule_prelude(at_rule)?;
+                    }
 
                     return Ok(at_rule);
                 }
@@ -197,8 +199,10 @@ where
                     at_rule.span = span!(self, span.lo);
 
                     // Canonicalization against a grammar
-                    at_rule = self.canonicalize_at_rule_prelude(at_rule)?;
-                    at_rule = self.canonicalize_at_rule_block(at_rule)?;
+                    if self.ctx.need_canonicalize {
+                        at_rule = self.canonicalize_at_rule_prelude(at_rule)?;
+                        at_rule = self.canonicalize_at_rule_block(at_rule)?;
+                    }
 
                     return Ok(at_rule);
                 }
@@ -267,8 +271,11 @@ where
                     };
 
                     // Canonicalization against a grammar
-                    qualified_rule = self.canonicalize_qualified_rule_prelude(qualified_rule)?;
-                    qualified_rule = self.canonicalize_qualified_rule_block(qualified_rule)?;
+                    if self.ctx.need_canonicalize {
+                        qualified_rule =
+                            self.canonicalize_qualified_rule_prelude(qualified_rule)?;
+                        qualified_rule = self.canonicalize_qualified_rule_block(qualified_rule)?;
+                    }
 
                     return Ok(qualified_rule);
                 }
@@ -748,7 +755,9 @@ where
         }
 
         // Canonicalization against a grammar
-        declaration = self.canonicalize_declaration_value(declaration)?;
+        if self.ctx.need_canonicalize {
+            declaration = self.canonicalize_declaration_value(declaration)?;
+        }
 
         // 8. Return the declaration.
         Ok(declaration)
@@ -774,7 +783,8 @@ where
                 let function = self
                     .with_ctx({
                         Ctx {
-                            block_contents_grammar: BlockContentsGrammar::DeclarationList,
+                            // We canonize it later
+                            need_canonicalize: false,
                             ..self.ctx
                         }
                     })
@@ -944,7 +954,9 @@ where
         function.span = span!(self, span.lo);
 
         // Canonicalization against a grammar
-        function = self.canonicalize_function_value(function)?;
+        if self.ctx.need_canonicalize {
+            function = self.canonicalize_function_value(function)?;
+        }
 
         return Ok(function);
     }

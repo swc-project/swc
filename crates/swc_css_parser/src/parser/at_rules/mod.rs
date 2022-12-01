@@ -187,7 +187,6 @@ where
                         {
                             let ctx = Ctx {
                                 in_import_at_rule: true,
-                                block_contents_grammar: BlockContentsGrammar::DeclarationValue,
                                 ..self.ctx
                             };
                             let func = self.with_ctx(ctx).parse_as::<Function>()?;
@@ -784,7 +783,6 @@ where
                 Token::Function { value, .. } if *value.to_ascii_lowercase() == *"supports" => {
                     let ctx = Ctx {
                         in_import_at_rule: true,
-                        block_contents_grammar: BlockContentsGrammar::DeclarationValue,
                         ..self.ctx
                     };
                     let func = self.with_ctx(ctx).parse_as::<Function>()?;
@@ -1189,7 +1187,6 @@ where
             Token::Function { value, .. } if &*value.to_ascii_lowercase() == "selector" => {
                 // TODO improve me
                 let ctx = Ctx {
-                    block_contents_grammar: BlockContentsGrammar::DeclarationValue,
                     in_supports_at_rule: true,
                     ..self.ctx
                 };
@@ -1217,7 +1214,7 @@ where
         match cur!(self) {
             tok!("function") => {
                 let ctx = Ctx {
-                    block_contents_grammar: BlockContentsGrammar::DeclarationList,
+                    need_canonicalize: false,
                     ..self.ctx
                 };
                 let function = self.with_ctx(ctx).parse_as::<Function>()?;
@@ -1297,11 +1294,7 @@ where
                     Ok(DocumentPreludeMatchingFunction::Url(self.parse()?))
                 } else {
                     // TODO improve me
-                    let ctx = Ctx {
-                        block_contents_grammar: BlockContentsGrammar::DeclarationValue,
-                        ..self.ctx
-                    };
-                    let function = self.with_ctx(ctx).parse_as::<Function>()?;
+                    let function = self.parse()?;
 
                     Ok(DocumentPreludeMatchingFunction::Function(function))
                 }
@@ -1881,11 +1874,7 @@ where
             tok!("ident") => Ok(MediaFeatureValue::Ident(self.parse()?)),
             tok!("dimension") => Ok(MediaFeatureValue::Dimension(self.parse()?)),
             Token::Function { value, .. } if is_math_function(value) => {
-                let ctx = Ctx {
-                    block_contents_grammar: BlockContentsGrammar::DeclarationValue,
-                    ..self.ctx
-                };
-                let function = self.with_ctx(ctx).parse_as::<Function>()?;
+                let function = self.parse()?;
 
                 Ok(MediaFeatureValue::Function(function))
             }
@@ -2478,11 +2467,7 @@ where
             tok!("ident") => Ok(SizeFeatureValue::Ident(self.parse()?)),
             tok!("dimension") => Ok(SizeFeatureValue::Dimension(self.parse()?)),
             Token::Function { value, .. } if is_math_function(value) => {
-                let ctx = Ctx {
-                    block_contents_grammar: BlockContentsGrammar::DeclarationValue,
-                    ..self.ctx
-                };
-                let function = self.with_ctx(ctx).parse_as::<Function>()?;
+                let function = self.parse()?;
 
                 Ok(SizeFeatureValue::Function(function))
             }
