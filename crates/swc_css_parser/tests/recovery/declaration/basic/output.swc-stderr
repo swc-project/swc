@@ -11,6 +11,14 @@
    ,-[$DIR/tests/recovery/declaration/basic/input.css:6:1]
  6 | .class {
  7 |     prop: !!;
+   :           ^
+ 8 |     color: red;
+   `----
+
+  x Unexpected '!' in declaration value
+   ,-[$DIR/tests/recovery/declaration/basic/input.css:6:1]
+ 6 | .class {
+ 7 |     prop: !!;
    :            ^
  8 |     color: red;
    `----

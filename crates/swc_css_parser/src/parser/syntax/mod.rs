@@ -629,19 +629,7 @@ where
         let mut important_ident = None;
 
         loop {
-            if is_one_of!(self, EOF) {
-                if important_ident.is_none() {
-                    if let Some(span) = &exclamation_point_span {
-                        is_valid_to_canonicalize = false;
-
-                        // TODO improve me to `<declaration-value>`
-                        self.errors.push(Error::new(
-                            *span,
-                            ErrorKind::Unexpected("'!' in declaration value"),
-                        ));
-                    }
-                }
-
+            if is!(self, EOF) {
                 break;
             }
 
@@ -653,10 +641,16 @@ where
                     span,
                     token: Token::Delim { value: '!', .. },
                     ..
-                }) => {
-                    if exclamation_point_span.is_some() {
-                        important_ident = None;
+                }) if is!(self, " ") || is_case_insensitive_ident!(self, "important") => {
+                    if let Some(span) = &exclamation_point_span {
+                        is_valid_to_canonicalize = false;
 
+                        self.errors.push(Error::new(
+                            *span,
+                            ErrorKind::Unexpected("'!' in declaration value"),
+                        ));
+
+                        important_ident = None;
                         last_whitespaces = (last_whitespaces.2, 0, 0);
                     }
 
