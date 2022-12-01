@@ -1,0 +1,8 @@
+
+  x Missing quote before attribute
+   ,-[$DIR/tests/recovery/attribute/input.xml:1:1]
+ 1 | <root>
+ 2 |     <c foo=test></c>
+   :            ^
+ 3 | </root>
+   `----

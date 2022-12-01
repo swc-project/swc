@@ -81,6 +81,7 @@ impl Error {
                 "Missing whitespace between doctype public and system identifiers".into()
             }
             ErrorKind::MissingEndTagName => "Missing end tag name".into(),
+            ErrorKind::MissingQuoteBeforeAttribute => "Missing quote before attribute".into(),
             ErrorKind::NestedComment => "Nested comment".into(),
             ErrorKind::DoubleHyphenWithInComment => "Double hyper within comment".into(),
             ErrorKind::NoncharacterInInputStream => "Noncharacter in input stream".into(),
@@ -152,6 +153,7 @@ pub enum ErrorKind {
     MissingWhitespaceBeforeDoctypeName,
     MissingWhitespaceBetweenDoctypePublicAndSystemIdentifiers,
     MissingEndTagName,
+    MissingQuoteBeforeAttribute,
     NestedComment,
     DoubleHyphenWithInComment,
     NoncharacterInInputStream,

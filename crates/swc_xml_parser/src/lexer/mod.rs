@@ -1908,11 +1908,6 @@ where
                         self.append_to_attribute(None, Some((true, None, Some(c))));
                         self.state = State::TagAttributeValueSingleQuoted;
                     }
-                    // U+0026 AMPERSAND (&):
-                    // Reprocess the input character in the tag attribute value unquoted state.
-                    Some('&') => {
-                        self.reconsume_in_state(State::TagAttributeValueUnquoted);
-                    }
                     // U+003E GREATER-THAN SIGN(>)
                     // Emit the current token and then switch to the data state.
                     Some('>') => {
@@ -1931,6 +1926,7 @@ where
                     // Append the current input character to the current attribute’s value and then
                     // switch to the tag attribute value unquoted state.
                     Some(c) => {
+                        self.emit_error(ErrorKind::MissingQuoteBeforeAttribute);
                         self.validate_input_stream_character(c);
                         self.append_to_attribute(None, Some((true, Some(c), Some(c))));
                         self.state = State::TagAttributeValueUnquoted;
