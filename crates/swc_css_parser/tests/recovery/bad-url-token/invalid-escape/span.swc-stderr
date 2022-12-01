@@ -103,7 +103,15 @@
  4 |     }
    `----
 
-  x ComponentValue
+  x Declaration
+   ,-[$DIR/tests/recovery/bad-url-token/invalid-escape/input.css:1:1]
+ 1 |     div {
+ 2 | ,->     background: url(image.png\
+ 3 | `->     );
+ 4 |     }
+   `----
+
+  x DeclarationName
    ,-[$DIR/tests/recovery/bad-url-token/invalid-escape/input.css:1:1]
  1 | div {
  2 |     background: url(image.png\
@@ -111,43 +119,11 @@
  3 |     );
    `----
 
-  x Ident { value: Atom('background' type=dynamic), raw: "background" }
+  x Ident
    ,-[$DIR/tests/recovery/bad-url-token/invalid-escape/input.css:1:1]
  1 | div {
  2 |     background: url(image.png\
    :     ^^^^^^^^^^
- 3 |     );
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/recovery/bad-url-token/invalid-escape/input.css:1:1]
- 1 | div {
- 2 |     background: url(image.png\
-   :               ^
- 3 |     );
-   `----
-
-  x Colon
-   ,-[$DIR/tests/recovery/bad-url-token/invalid-escape/input.css:1:1]
- 1 | div {
- 2 |     background: url(image.png\
-   :               ^
- 3 |     );
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/recovery/bad-url-token/invalid-escape/input.css:1:1]
- 1 | div {
- 2 |     background: url(image.png\
-   :                ^
- 3 |     );
-   `----
-
-  x WhiteSpace { value: " " }
-   ,-[$DIR/tests/recovery/bad-url-token/invalid-escape/input.css:1:1]
- 1 | div {
- 2 |     background: url(image.png\
-   :                ^
  3 |     );
    `----
 
@@ -165,20 +141,4 @@
  2 | ,->     background: url(image.png\
  3 | `->     );
  4 |     }
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/recovery/bad-url-token/invalid-escape/input.css:2:1]
- 2 |     background: url(image.png\
- 3 |     );
-   :      ^
- 4 | }
-   `----
-
-  x Semi
-   ,-[$DIR/tests/recovery/bad-url-token/invalid-escape/input.css:2:1]
- 2 |     background: url(image.png\
- 3 |     );
-   :      ^
- 4 | }
    `----

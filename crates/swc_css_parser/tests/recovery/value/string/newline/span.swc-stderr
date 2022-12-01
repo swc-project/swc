@@ -93,46 +93,25 @@
    :     ^^^^^^^^
    `----
 
-  x ComponentValue
+  x Declaration
+   ,-[$DIR/tests/recovery/value/string/newline/input.css:1:1]
+ 1 | a {
+ 2 |     prop: "
+   :     ^^^^^^^^
+   `----
+
+  x DeclarationName
    ,-[$DIR/tests/recovery/value/string/newline/input.css:1:1]
  1 | a {
  2 |     prop: "
    :     ^^^^
    `----
 
-  x Ident { value: Atom('prop' type=inline), raw: "prop" }
+  x Ident
    ,-[$DIR/tests/recovery/value/string/newline/input.css:1:1]
  1 | a {
  2 |     prop: "
    :     ^^^^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/recovery/value/string/newline/input.css:1:1]
- 1 | a {
- 2 |     prop: "
-   :         ^
-   `----
-
-  x Colon
-   ,-[$DIR/tests/recovery/value/string/newline/input.css:1:1]
- 1 | a {
- 2 |     prop: "
-   :         ^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/recovery/value/string/newline/input.css:1:1]
- 1 | a {
- 2 |     prop: "
-   :          ^
-   `----
-
-  x WhiteSpace { value: " " }
-   ,-[$DIR/tests/recovery/value/string/newline/input.css:1:1]
- 1 | a {
- 2 |     prop: "
-   :          ^
    `----
 
   x ComponentValue
@@ -147,18 +126,4 @@
  1 | a {
  2 |     prop: "
    :           ^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/recovery/value/string/newline/input.css:1:1]
- 1 | a {
- 2 |     prop: "
-   :            ^
-   `----
-
-  x WhiteSpace { value: "\n" }
-   ,-[$DIR/tests/recovery/value/string/newline/input.css:1:1]
- 1 | a {
- 2 |     prop: "
-   :            ^
    `----

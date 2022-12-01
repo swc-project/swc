@@ -1,34 +1,10 @@
 
   x Expected Declaration value
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:8:1]
-  8 |     --foo: !;
-  9 |     value: !!;
-    :            ^
- 10 |     value: ! !important;
-    `----
-
-  x Expected Declaration value
     ,-[$DIR/tests/recovery/declaration/bad-value/input.css:9:1]
   9 |     value: !!;
  10 |     value: ! !important;
     :            ^
  11 |     value: ! !important unknown;
-    `----
-
-  x Expected Declaration value
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:10:1]
- 10 |     value: ! !important;
- 11 |     value: ! !important unknown;
-    :            ^
- 12 |     value: ! unknown;
-    `----
-
-  x Expected Declaration value
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:11:1]
- 11 |     value: ! !important unknown;
- 12 |     value: ! unknown;
-    :            ^
- 13 | }
     `----
 
   x Unexpected '!' in declaration value

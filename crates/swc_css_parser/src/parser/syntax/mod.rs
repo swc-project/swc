@@ -623,6 +623,7 @@ where
 
         // 5. As long as the next input token is anything other than an <EOF-token>,
         // consume a component value and append it to the declaration’s value.
+        let mut is_valid_to_canonicalize = true;
         let mut last_whitespaces = (0, 0, 0);
         let mut exclamation_point_span = None;
         let mut important_ident = None;
@@ -631,6 +632,8 @@ where
             if is_one_of!(self, EOF) {
                 if important_ident.is_none() {
                     if let Some(span) = &exclamation_point_span {
+                        is_valid_to_canonicalize = false;
+
                         // TODO improve me to `<declaration-value>`
                         self.errors.push(Error::new(
                             *span,
@@ -659,16 +662,6 @@ where
                         last_whitespaces = (last_whitespaces.2, 0, 0);
                     }
                 }
-                ComponentValue::PreservedToken(
-                    token_and_span @ TokenAndSpan {
-                        token: Token::Ident { value, .. },
-                        ..
-                    },
-                ) if exclamation_point_span.is_some()
-                    && value.to_ascii_lowercase() == js_word!("important") =>
-                {
-                    important_ident = Some(token_and_span.clone());
-                }
                 ComponentValue::PreservedToken(TokenAndSpan {
                     token: Token::WhiteSpace { .. },
                     ..
@@ -686,12 +679,28 @@ where
                         unreachable!();
                     }
                 },
+                ComponentValue::PreservedToken(
+                    token_and_span @ TokenAndSpan {
+                        token: Token::Ident { value, .. },
+                        ..
+                    },
+                ) if exclamation_point_span.is_some()
+                    && value.to_ascii_lowercase() == js_word!("important") =>
+                {
+                    important_ident = Some(token_and_span.clone());
+                }
                 _ => {
-                    self.validate_declaration_value(&component_value)?;
+                    if let Err(err) = self.validate_declaration_value(&component_value) {
+                        is_valid_to_canonicalize = false;
+
+                        self.errors.push(err);
+                    }
 
                     last_whitespaces = (0, 0, 0);
 
                     if let Some(span) = &exclamation_point_span {
+                        is_valid_to_canonicalize = false;
+
                         self.errors.push(Error::new(
                             *span,
                             ErrorKind::Unexpected("'!' in declaration value"),
@@ -755,7 +764,7 @@ where
         }
 
         // Canonicalization against a grammar
-        if self.ctx.need_canonicalize {
+        if is_valid_to_canonicalize && self.ctx.need_canonicalize {
             declaration = self.canonicalize_declaration_value(declaration)?;
         }
 

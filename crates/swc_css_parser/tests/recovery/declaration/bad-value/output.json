@@ -88,49 +88,23 @@
         },
         "value": [
           {
-            "type": "ListOfComponentValues",
+            "type": "Declaration",
             "span": {
               "start": 9,
-              "end": 18,
+              "end": 17,
               "ctxt": 0
             },
-            "children": [
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 9,
-                  "end": 14,
-                  "ctxt": 0
-                },
-                "token": {
-                  "Ident": {
-                    "value": "value",
-                    "raw": "value"
-                  }
-                }
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 9,
+                "end": 14,
+                "ctxt": 0
               },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 14,
-                  "end": 15,
-                  "ctxt": 0
-                },
-                "token": "Colon"
-              },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 15,
-                  "end": 16,
-                  "ctxt": 0
-                },
-                "token": {
-                  "WhiteSpace": {
-                    "value": " "
-                  }
-                }
-              },
+              "value": "value",
+              "raw": "value"
+            },
+            "value": [
               {
                 "type": "PreservedToken",
                 "span": {
@@ -139,62 +113,28 @@
                   "ctxt": 0
                 },
                 "token": "RParen"
-              },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 17,
-                  "end": 18,
-                  "ctxt": 0
-                },
-                "token": "Semi"
               }
-            ]
+            ],
+            "important": null
           },
           {
-            "type": "ListOfComponentValues",
+            "type": "Declaration",
             "span": {
               "start": 23,
-              "end": 32,
+              "end": 31,
               "ctxt": 0
             },
-            "children": [
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 23,
-                  "end": 28,
-                  "ctxt": 0
-                },
-                "token": {
-                  "Ident": {
-                    "value": "value",
-                    "raw": "value"
-                  }
-                }
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 23,
+                "end": 28,
+                "ctxt": 0
               },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 28,
-                  "end": 29,
-                  "ctxt": 0
-                },
-                "token": "Colon"
-              },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 29,
-                  "end": 30,
-                  "ctxt": 0
-                },
-                "token": {
-                  "WhiteSpace": {
-                    "value": " "
-                  }
-                }
-              },
+              "value": "value",
+              "raw": "value"
+            },
+            "value": [
               {
                 "type": "PreservedToken",
                 "span": {
@@ -203,62 +143,28 @@
                   "ctxt": 0
                 },
                 "token": "RBracket"
-              },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 31,
-                  "end": 32,
-                  "ctxt": 0
-                },
-                "token": "Semi"
               }
-            ]
+            ],
+            "important": null
           },
           {
-            "type": "ListOfComponentValues",
+            "type": "Declaration",
             "span": {
               "start": 37,
-              "end": 59,
+              "end": 58,
               "ctxt": 0
             },
-            "children": [
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 37,
-                  "end": 42,
-                  "ctxt": 0
-                },
-                "token": {
-                  "Ident": {
-                    "value": "value",
-                    "raw": "value"
-                  }
-                }
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 37,
+                "end": 42,
+                "ctxt": 0
               },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 42,
-                  "end": 43,
-                  "ctxt": 0
-                },
-                "token": "Colon"
-              },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 43,
-                  "end": 44,
-                  "ctxt": 0
-                },
-                "token": {
-                  "WhiteSpace": {
-                    "value": " "
-                  }
-                }
-              },
+              "value": "value",
+              "raw": "value"
+            },
+            "value": [
               {
                 "type": "PreservedToken",
                 "span": {
@@ -273,17 +179,9 @@
                     "raw_value": "test test"
                   }
                 }
-              },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 58,
-                  "end": 59,
-                  "ctxt": 0
-                },
-                "token": "Semi"
               }
-            ]
+            ],
+            "important": null
           },
           {
             "type": "Declaration",
@@ -320,49 +218,23 @@
             "important": null
           },
           {
-            "type": "ListOfComponentValues",
+            "type": "Declaration",
             "span": {
               "start": 78,
-              "end": 87,
+              "end": 86,
               "ctxt": 0
             },
-            "children": [
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 78,
-                  "end": 83,
-                  "ctxt": 0
-                },
-                "token": {
-                  "Ident": {
-                    "value": "--foo",
-                    "raw": "--foo"
-                  }
-                }
+            "name": {
+              "type": "DashedIdent",
+              "span": {
+                "start": 78,
+                "end": 83,
+                "ctxt": 0
               },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 83,
-                  "end": 84,
-                  "ctxt": 0
-                },
-                "token": "Colon"
-              },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 84,
-                  "end": 85,
-                  "ctxt": 0
-                },
-                "token": {
-                  "WhiteSpace": {
-                    "value": " "
-                  }
-                }
-              },
+              "value": "foo",
+              "raw": "--foo"
+            },
+            "value": [
               {
                 "type": "PreservedToken",
                 "span": {
@@ -371,62 +243,28 @@
                   "ctxt": 0
                 },
                 "token": "RParen"
-              },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 86,
-                  "end": 87,
-                  "ctxt": 0
-                },
-                "token": "Semi"
               }
-            ]
+            ],
+            "important": null
           },
           {
-            "type": "ListOfComponentValues",
+            "type": "Declaration",
             "span": {
               "start": 92,
-              "end": 101,
+              "end": 100,
               "ctxt": 0
             },
-            "children": [
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 92,
-                  "end": 97,
-                  "ctxt": 0
-                },
-                "token": {
-                  "Ident": {
-                    "value": "--foo",
-                    "raw": "--foo"
-                  }
-                }
+            "name": {
+              "type": "DashedIdent",
+              "span": {
+                "start": 92,
+                "end": 97,
+                "ctxt": 0
               },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 97,
-                  "end": 98,
-                  "ctxt": 0
-                },
-                "token": "Colon"
-              },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 98,
-                  "end": 99,
-                  "ctxt": 0
-                },
-                "token": {
-                  "WhiteSpace": {
-                    "value": " "
-                  }
-                }
-              },
+              "value": "foo",
+              "raw": "--foo"
+            },
+            "value": [
               {
                 "type": "PreservedToken",
                 "span": {
@@ -435,17 +273,9 @@
                   "ctxt": 0
                 },
                 "token": "RBracket"
-              },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 100,
-                  "end": 101,
-                  "ctxt": 0
-                },
-                "token": "Semi"
               }
-            ]
+            ],
+            "important": null
           },
           {
             "type": "Declaration",

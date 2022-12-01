@@ -87,7 +87,7 @@
    ,-[$DIR/tests/recovery/bad-url-token/whitespace-in-middle/input.css:1:1]
  1 | a {
  2 |     background-image: url(   ./image.jpg  a  );
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 | }
    `----
 
@@ -95,11 +95,19 @@
    ,-[$DIR/tests/recovery/bad-url-token/whitespace-in-middle/input.css:1:1]
  1 | a {
  2 |     background-image: url(   ./image.jpg  a  );
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 | }
    `----
 
-  x ComponentValue
+  x Declaration
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace-in-middle/input.css:1:1]
+ 1 | a {
+ 2 |     background-image: url(   ./image.jpg  a  );
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 3 | }
+   `----
+
+  x DeclarationName
    ,-[$DIR/tests/recovery/bad-url-token/whitespace-in-middle/input.css:1:1]
  1 | a {
  2 |     background-image: url(   ./image.jpg  a  );
@@ -107,43 +115,11 @@
  3 | }
    `----
 
-  x Ident { value: Atom('background-image' type=dynamic), raw: "background-image" }
+  x Ident
    ,-[$DIR/tests/recovery/bad-url-token/whitespace-in-middle/input.css:1:1]
  1 | a {
  2 |     background-image: url(   ./image.jpg  a  );
    :     ^^^^^^^^^^^^^^^^
- 3 | }
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/recovery/bad-url-token/whitespace-in-middle/input.css:1:1]
- 1 | a {
- 2 |     background-image: url(   ./image.jpg  a  );
-   :                     ^
- 3 | }
-   `----
-
-  x Colon
-   ,-[$DIR/tests/recovery/bad-url-token/whitespace-in-middle/input.css:1:1]
- 1 | a {
- 2 |     background-image: url(   ./image.jpg  a  );
-   :                     ^
- 3 | }
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/recovery/bad-url-token/whitespace-in-middle/input.css:1:1]
- 1 | a {
- 2 |     background-image: url(   ./image.jpg  a  );
-   :                      ^
- 3 | }
-   `----
-
-  x WhiteSpace { value: " " }
-   ,-[$DIR/tests/recovery/bad-url-token/whitespace-in-middle/input.css:1:1]
- 1 | a {
- 2 |     background-image: url(   ./image.jpg  a  );
-   :                      ^
  3 | }
    `----
 
@@ -160,21 +136,5 @@
  1 | a {
  2 |     background-image: url(   ./image.jpg  a  );
    :                       ^^^^^^^^^^^^^^^^^^^^^^^^
- 3 | }
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/recovery/bad-url-token/whitespace-in-middle/input.css:1:1]
- 1 | a {
- 2 |     background-image: url(   ./image.jpg  a  );
-   :                                               ^
- 3 | }
-   `----
-
-  x Semi
-   ,-[$DIR/tests/recovery/bad-url-token/whitespace-in-middle/input.css:1:1]
- 1 | a {
- 2 |     background-image: url(   ./image.jpg  a  );
-   :                                               ^
  3 | }
    `----

@@ -23,3 +23,11 @@
    :              ^^^^
  3 |     t";
    `----
+
+  x Unexpected bad string in declaration value
+   ,-[$DIR/tests/recovery/value/quotes/input.css:2:1]
+ 2 |     content: "tes
+ 3 |     t";
+   :      ^^
+ 4 | }
+   `----

@@ -124,7 +124,15 @@
  4 |     }
    `----
 
-  x ComponentValue
+  x Declaration
+   ,-[$DIR/tests/recovery/value/quotes/input.css:1:1]
+ 1 |     p::before {
+ 2 | ,->     content: "tes
+ 3 | `->     t";
+ 4 |     }
+   `----
+
+  x DeclarationName
    ,-[$DIR/tests/recovery/value/quotes/input.css:1:1]
  1 | p::before {
  2 |     content: "tes
@@ -132,43 +140,11 @@
  3 |     t";
    `----
 
-  x Ident { value: Atom('content' type=static), raw: "content" }
+  x Ident
    ,-[$DIR/tests/recovery/value/quotes/input.css:1:1]
  1 | p::before {
  2 |     content: "tes
    :     ^^^^^^^
- 3 |     t";
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/recovery/value/quotes/input.css:1:1]
- 1 | p::before {
- 2 |     content: "tes
-   :            ^
- 3 |     t";
-   `----
-
-  x Colon
-   ,-[$DIR/tests/recovery/value/quotes/input.css:1:1]
- 1 | p::before {
- 2 |     content: "tes
-   :            ^
- 3 |     t";
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/recovery/value/quotes/input.css:1:1]
- 1 | p::before {
- 2 |     content: "tes
-   :             ^
- 3 |     t";
-   `----
-
-  x WhiteSpace { value: " " }
-   ,-[$DIR/tests/recovery/value/quotes/input.css:1:1]
- 1 | p::before {
- 2 |     content: "tes
-   :             ^
  3 |     t";
    `----
 
@@ -233,21 +209,5 @@
  2 |     content: "tes
  3 |     t";
    :      ^^
- 4 | }
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/recovery/value/quotes/input.css:2:1]
- 2 |     content: "tes
- 3 |     t";
-   :        ^
- 4 | }
-   `----
-
-  x WhiteSpace { value: "\n" }
-   ,-[$DIR/tests/recovery/value/quotes/input.css:2:1]
- 2 |     content: "tes
- 3 |     t";
-   :        ^
  4 | }
    `----

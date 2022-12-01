@@ -91,7 +91,7 @@
    ,-[$DIR/tests/recovery/bad-url-token/left-parenthesis/input.css:1:1]
  1 | div {
  2 |     background: url(image(.png);
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 |     color: red;
    `----
 
@@ -99,11 +99,19 @@
    ,-[$DIR/tests/recovery/bad-url-token/left-parenthesis/input.css:1:1]
  1 | div {
  2 |     background: url(image(.png);
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 |     color: red;
    `----
 
-  x ComponentValue
+  x Declaration
+   ,-[$DIR/tests/recovery/bad-url-token/left-parenthesis/input.css:1:1]
+ 1 | div {
+ 2 |     background: url(image(.png);
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 3 |     color: red;
+   `----
+
+  x DeclarationName
    ,-[$DIR/tests/recovery/bad-url-token/left-parenthesis/input.css:1:1]
  1 | div {
  2 |     background: url(image(.png);
@@ -111,43 +119,11 @@
  3 |     color: red;
    `----
 
-  x Ident { value: Atom('background' type=dynamic), raw: "background" }
+  x Ident
    ,-[$DIR/tests/recovery/bad-url-token/left-parenthesis/input.css:1:1]
  1 | div {
  2 |     background: url(image(.png);
    :     ^^^^^^^^^^
- 3 |     color: red;
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/recovery/bad-url-token/left-parenthesis/input.css:1:1]
- 1 | div {
- 2 |     background: url(image(.png);
-   :               ^
- 3 |     color: red;
-   `----
-
-  x Colon
-   ,-[$DIR/tests/recovery/bad-url-token/left-parenthesis/input.css:1:1]
- 1 | div {
- 2 |     background: url(image(.png);
-   :               ^
- 3 |     color: red;
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/recovery/bad-url-token/left-parenthesis/input.css:1:1]
- 1 | div {
- 2 |     background: url(image(.png);
-   :                ^
- 3 |     color: red;
-   `----
-
-  x WhiteSpace { value: " " }
-   ,-[$DIR/tests/recovery/bad-url-token/left-parenthesis/input.css:1:1]
- 1 | div {
- 2 |     background: url(image(.png);
-   :                ^
  3 |     color: red;
    `----
 
@@ -164,22 +140,6 @@
  1 | div {
  2 |     background: url(image(.png);
    :                 ^^^^^^^^^^^^^^^
- 3 |     color: red;
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/recovery/bad-url-token/left-parenthesis/input.css:1:1]
- 1 | div {
- 2 |     background: url(image(.png);
-   :                                ^
- 3 |     color: red;
-   `----
-
-  x Semi
-   ,-[$DIR/tests/recovery/bad-url-token/left-parenthesis/input.css:1:1]
- 1 | div {
- 2 |     background: url(image(.png);
-   :                                ^
  3 |     color: red;
    `----
 

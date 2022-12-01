@@ -107,7 +107,15 @@
  4 |         color: red;
    `----
 
-  x ComponentValue
+  x Declaration
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:1:1]
+ 1 |     div {
+ 2 | ,->     background: url(image.
+ 3 | `->     png);
+ 4 |         color: red;
+   `----
+
+  x DeclarationName
    ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:1:1]
  1 | div {
  2 |     background: url(image.
@@ -115,43 +123,11 @@
  3 |     png);
    `----
 
-  x Ident { value: Atom('background' type=dynamic), raw: "background" }
+  x Ident
    ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:1:1]
  1 | div {
  2 |     background: url(image.
    :     ^^^^^^^^^^
- 3 |     png);
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:1:1]
- 1 | div {
- 2 |     background: url(image.
-   :               ^
- 3 |     png);
-   `----
-
-  x Colon
-   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:1:1]
- 1 | div {
- 2 |     background: url(image.
-   :               ^
- 3 |     png);
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:1:1]
- 1 | div {
- 2 |     background: url(image.
-   :                ^
- 3 |     png);
-   `----
-
-  x WhiteSpace { value: " " }
-   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:1:1]
- 1 | div {
- 2 |     background: url(image.
-   :                ^
  3 |     png);
    `----
 
@@ -169,22 +145,6 @@
  2 | ,->     background: url(image.
  3 | `->     png);
  4 |         color: red;
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:2:1]
- 2 |     background: url(image.
- 3 |     png);
-   :         ^
- 4 |     color: red;
-   `----
-
-  x Semi
-   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:2:1]
- 2 |     background: url(image.
- 3 |     png);
-   :         ^
- 4 |     color: red;
    `----
 
   x ComponentValue
