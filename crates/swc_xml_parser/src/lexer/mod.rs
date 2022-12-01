@@ -1777,11 +1777,9 @@ where
                     // Start a new attribute in the current tag token. Set that attribute’s name to
                     // the current input character and its value to the empty string and then switch
                     // to the tag attribute name state.
-                    // We set `None` for `value` to support boolean attributes in AST
-                    Some(c) => {
-                        self.validate_input_stream_character(c);
-                        self.start_new_attribute(Some(c));
-                        self.state = State::TagAttributeName;
+                    _ => {
+                        self.start_new_attribute(None);
+                        self.reconsume_in_state(State::TagAttributeName);
                     }
                 }
             }
@@ -1796,6 +1794,7 @@ where
                     // U+003E GREATER-THEN SIGN (>)
                     // Emit the current token as start tag token. Switch to the data state.
                     Some('>') => {
+                        self.emit_error(ErrorKind::MissingEqualAfterAttributeName);
                         self.emit_tag_token(None);
                         self.state = State::Data;
                     }
@@ -1811,6 +1810,7 @@ where
                     // U+002F SOLIDUS (/)
                     // Set current tag to empty tag. Switch to the empty tag state.
                     Some('/') => {
+                        self.emit_error(ErrorKind::MissingEqualAfterAttributeName);
                         self.set_tag_to_empty_tag();
                         self.state = State::EmptyTag;
                     }
@@ -1926,7 +1926,7 @@ where
                     // Append the current input character to the current attribute’s value and then
                     // switch to the tag attribute value unquoted state.
                     Some(c) => {
-                        self.emit_error(ErrorKind::MissingQuoteBeforeAttribute);
+                        self.emit_error(ErrorKind::MissingQuoteBeforeAttributeValue);
                         self.validate_input_stream_character(c);
                         self.append_to_attribute(None, Some((true, Some(c), Some(c))));
                         self.state = State::TagAttributeValueUnquoted;

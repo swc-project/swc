@@ -1,0 +1,5 @@
+<root>
+    <c a></c>
+    <c a/>
+    <c a='b' q/>
+</root>

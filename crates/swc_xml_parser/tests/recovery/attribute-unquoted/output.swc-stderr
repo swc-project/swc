@@ -1,5 +1,5 @@
 
-  x Missing quote before attribute
+  x Missing quote before attribute value
    ,-[$DIR/tests/recovery/attribute-unquoted/input.xml:1:1]
  1 | <root>
  2 |     <c foo=test></c>
