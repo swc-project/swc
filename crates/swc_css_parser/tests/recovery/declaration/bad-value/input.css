@@ -8,4 +8,6 @@ a {
     --foo: !;
     value: !!;
     value: ! !important;
+    value: ! !important unknown;
+    value: ! unknown;
 }
