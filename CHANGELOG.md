@@ -13,6 +13,9 @@
 
 - **(ci)** Add debug logs for cli binaries (#6556) ([8083484](https://github.com/swc-project/swc/commit/80834843f4180bc292f8b2959b1390a07bec0a77))
 
+
+- **(ci)** Fix CI (#6558) ([8587589](https://github.com/swc-project/swc/commit/85875897f1fd3e71fe5e5d1877bb0e80458835d9))
+
 ## [1.3.21] - 2022-11-30
 
 ### Bug Fixes
