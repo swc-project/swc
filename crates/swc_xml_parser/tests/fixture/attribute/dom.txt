@@ -90,4 +90,9 @@
 |   <foo>
 |     attributeName="He said &OK&"
 |   "
+    "
+|   <foo>
+|     a="b"
+|     c="d"
+|   "
 "

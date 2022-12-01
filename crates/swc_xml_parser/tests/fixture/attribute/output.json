@@ -2,7 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 859,
+    "end": 900,
     "ctxt": 0
   },
   "children": [
@@ -10,7 +10,7 @@
       "type": "Element",
       "span": {
         "start": 1,
-        "end": 859,
+        "end": 900,
         "ctxt": 0
       },
       "tagName": "root",
@@ -851,7 +851,57 @@
           "type": "Text",
           "span": {
             "start": 851,
-            "end": 852,
+            "end": 856,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 856,
+            "end": 892,
+            "ctxt": 0
+          },
+          "tagName": "foo",
+          "attributes": [
+            {
+              "type": "Attribute",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "namespace": null,
+              "prefix": null,
+              "name": "a",
+              "rawName": "a",
+              "value": "b",
+              "rawValue": "\"b\""
+            },
+            {
+              "type": "Attribute",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "namespace": null,
+              "prefix": null,
+              "name": "c",
+              "rawName": "c",
+              "value": "d",
+              "rawValue": "\"d\""
+            }
+          ],
+          "children": []
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 892,
+            "end": 893,
             "ctxt": 0
           },
           "data": "\n",

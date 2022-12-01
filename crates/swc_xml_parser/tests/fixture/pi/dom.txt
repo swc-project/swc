@@ -4,8 +4,7 @@
 <?xslt ma>
 |   "
     "
-<?xslt
- m>
+<?xslt m>
 |   "
     "
 <?xslt >

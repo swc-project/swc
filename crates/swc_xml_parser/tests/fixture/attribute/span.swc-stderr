@@ -23,7 +23,11 @@
  20 | |       <foo attributeName="He said >OK>"></foo>
  21 | |       <foo attributeName="He said &apos;OK&apos;"></foo>
  22 | |       <foo attributeName="He said &amp;OK&amp;"></foo>
- 23 | `-> </root>
+ 23 | |       <foo
+ 24 | |       a="b"
+ 25 | |       c="d"
+ 26 | |       ></foo>
+ 27 | `-> </root>
     `----
 
   x Child
@@ -50,7 +54,11 @@
  20 | |       <foo attributeName="He said >OK>"></foo>
  21 | |       <foo attributeName="He said &apos;OK&apos;"></foo>
  22 | |       <foo attributeName="He said &amp;OK&amp;"></foo>
- 23 | `-> </root>
+ 23 | |       <foo
+ 24 | |       a="b"
+ 25 | |       c="d"
+ 26 | |       ></foo>
+ 27 | `-> </root>
     `----
 
   x Element
@@ -77,7 +85,11 @@
  20 | |       <foo attributeName="He said >OK>"></foo>
  21 | |       <foo attributeName="He said &apos;OK&apos;"></foo>
  22 | |       <foo attributeName="He said &amp;OK&amp;"></foo>
- 23 | `-> </root>
+ 23 | |       <foo
+ 24 | |       a="b"
+ 25 | |       c="d"
+ 26 | |       ></foo>
+ 27 | `-> </root>
     `----
 
   x Child
@@ -781,7 +793,7 @@
  20 |         <foo attributeName="He said >OK>"></foo>
  21 | ,->     <foo attributeName="He said &apos;OK&apos;"></foo>
  22 | `->     <foo attributeName="He said &amp;OK&amp;"></foo>
- 23 |     </root>
+ 23 |         <foo
     `----
 
   x Text
@@ -789,7 +801,7 @@
  20 |         <foo attributeName="He said >OK>"></foo>
  21 | ,->     <foo attributeName="He said &apos;OK&apos;"></foo>
  22 | `->     <foo attributeName="He said &amp;OK&amp;"></foo>
- 23 |     </root>
+ 23 |         <foo
     `----
 
   x Child
@@ -797,7 +809,7 @@
  21 |     <foo attributeName="He said &apos;OK&apos;"></foo>
  22 |     <foo attributeName="He said &amp;OK&amp;"></foo>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 23 | </root>
+ 23 |     <foo
     `----
 
   x Element
@@ -805,21 +817,57 @@
  21 |     <foo attributeName="He said &apos;OK&apos;"></foo>
  22 |     <foo attributeName="He said &amp;OK&amp;"></foo>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 23 | </root>
+ 23 |     <foo
     `----
 
   x Child
     ,-[$DIR/tests/fixture/attribute/input.xml:21:1]
- 21 |     <foo attributeName="He said &apos;OK&apos;"></foo>
- 22 |     <foo attributeName="He said &amp;OK&amp;"></foo>
-    :                                                     ^
- 23 | </root>
+ 21 |         <foo attributeName="He said &apos;OK&apos;"></foo>
+ 22 | ,->     <foo attributeName="He said &amp;OK&amp;"></foo>
+ 23 | `->     <foo
+ 24 |         a="b"
     `----
 
   x Text
     ,-[$DIR/tests/fixture/attribute/input.xml:21:1]
- 21 |     <foo attributeName="He said &apos;OK&apos;"></foo>
- 22 |     <foo attributeName="He said &amp;OK&amp;"></foo>
-    :                                                     ^
- 23 | </root>
+ 21 |         <foo attributeName="He said &apos;OK&apos;"></foo>
+ 22 | ,->     <foo attributeName="He said &amp;OK&amp;"></foo>
+ 23 | `->     <foo
+ 24 |         a="b"
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/attribute/input.xml:22:1]
+ 22 |         <foo attributeName="He said &amp;OK&amp;"></foo>
+ 23 | ,->     <foo
+ 24 | |       a="b"
+ 25 | |       c="d"
+ 26 | `->     ></foo>
+ 27 |     </root>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/attribute/input.xml:22:1]
+ 22 |         <foo attributeName="He said &amp;OK&amp;"></foo>
+ 23 | ,->     <foo
+ 24 | |       a="b"
+ 25 | |       c="d"
+ 26 | `->     ></foo>
+ 27 |     </root>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/attribute/input.xml:25:1]
+ 25 |     c="d"
+ 26 |     ></foo>
+    :            ^
+ 27 | </root>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/attribute/input.xml:25:1]
+ 25 |     c="d"
+ 26 |     ></foo>
+    :            ^
+ 27 | </root>
     `----

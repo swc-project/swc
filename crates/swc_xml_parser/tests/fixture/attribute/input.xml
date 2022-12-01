@@ -20,4 +20,8 @@
     <foo attributeName="He said >OK>"></foo>
     <foo attributeName="He said &apos;OK&apos;"></foo>
     <foo attributeName="He said &amp;OK&amp;"></foo>
+    <foo
+    a="b"
+    c="d"
+    ></foo>
 </root>

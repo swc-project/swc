@@ -1081,7 +1081,7 @@ where
                     // EOF
                     // Parse error.
                     // Switch to the pi target after state.
-                    Some(c) if is_spacy_except_ff(c) => {
+                    Some(c) if is_whitespace(c) => {
                         self.emit_error(ErrorKind::InvalidCharacterOfProcessingInstruction);
                         self.create_processing_instruction_token();
                         self.state = State::PiTargetAfter;
@@ -1115,7 +1115,7 @@ where
                     // U+000A LINE FEED (LF)
                     // U+0020 SPACE
                     // Switch to the pi target state.
-                    Some(c) if is_spacy_except_ff(c) => {
+                    Some(c) if is_whitespace(c) => {
                         self.state = State::PiTargetAfter;
                     }
                     // EOF
@@ -1168,7 +1168,7 @@ where
                     // U+000A LINE FEED (LF)
                     // U+0020 SPACE (Space)
                     // Stay in the current state.
-                    Some(c) if is_spacy_except_ff(c) => {
+                    Some(c) if is_whitespace(c) => {
                         self.skip_next_lf(c);
                     }
                     // Anything else
@@ -1805,7 +1805,7 @@ where
                     // U+000A LINE FEED (LF)
                     // U+0020 SPACE (Space)
                     // Switch to the before attribute name state.
-                    Some(c) if is_spacy_except_ff(c) => {
+                    Some(c) if is_whitespace(c) => {
                         self.skip_next_lf(c);
                         self.state = State::TagAttributeNameBefore;
                     }
@@ -1872,7 +1872,7 @@ where
                     // U+000A LINE FEED (LF)
                     // U+0020 SPACE
                     // Ignore the character.
-                    Some(c) if is_spacy_except_ff(c) => {
+                    Some(c) if is_whitespace(c) => {
                         self.skip_next_lf(c);
                     }
                     // U+003E GREATER-THAN SIGN(>)
@@ -1929,7 +1929,7 @@ where
                     // U+000A LINE FEED (LF)
                     // U+0020 SPACE (Space)
                     // Switch to the tag attribute name after state.
-                    Some(c) if is_spacy_except_ff(c) => {
+                    Some(c) if is_whitespace(c) => {
                         self.update_attribute_span();
                         self.skip_next_lf(c);
                         self.reconsume_in_state(State::TagAttributeNameAfter);
@@ -1974,7 +1974,7 @@ where
                     // U+000A LINE FEED (LF)
                     // U+0020 SPACE
                     // Ignore the character.
-                    Some(c) if is_spacy_except_ff(c) => {
+                    Some(c) if is_whitespace(c) => {
                         self.skip_next_lf(c);
                     }
                     // U+003D EQUALS SIGN(=)
@@ -2021,7 +2021,7 @@ where
                     // U+000A LINE FEED (LF)
                     // U+0020 SPACE
                     // Ignore the character.
-                    Some(c) if is_spacy_except_ff(c) => {
+                    Some(c) if is_whitespace(c) => {
                         self.skip_next_lf(c);
                     }
                     // U+0022 QUOTATION MARK (")
@@ -2147,7 +2147,7 @@ where
                     // U+000A LINE FEED (LF)
                     // U+0020 SPACE (Space)
                     // Switch to the before attribute name state.
-                    Some(c) if is_spacy_except_ff(c) => {
+                    Some(c) if is_whitespace(c) => {
                         self.update_attribute_span();
                         self.skip_next_lf(c);
                         self.state = State::TagAttributeValueAfter;
@@ -2191,7 +2191,7 @@ where
                 }
             }
             State::TagAttributeValueAfter => match self.consume_next_char() {
-                Some(c) if is_spacy_except_ff(c) => {
+                Some(c) if is_whitespace(c) => {
                     self.reconsume_in_state(State::TagAttributeNameBefore);
                 }
                 Some('>') | Some('/') => {
@@ -2266,7 +2266,7 @@ where
                     // U+000C FORM FEED (FF)
                     // U+0020 SPACE
                     // Switch to the before DOCTYPE name state.
-                    Some(c) if is_spacy(c) => {
+                    Some(c) if is_whitespace(c) => {
                         self.append_raw_to_doctype_token(c);
                         self.state = State::BeforeDoctypeName;
                     }
@@ -2297,7 +2297,7 @@ where
                     // U+000C FORM FEED (FF)
                     // U+0020 SPACE
                     // Ignore the character.
-                    Some(c) if is_spacy(c) => {
+                    Some(c) if is_whitespace(c) => {
                         self.append_raw_to_doctype_token(c);
                     }
                     // Uppercase ASCII letter
@@ -2348,7 +2348,7 @@ where
                     // U+000C FORM FEED (FF)
                     // U+0020 SPACE
                     // Switch to the after DOCTYPE name state.
-                    Some(c) if is_spacy(c) => {
+                    Some(c) if is_whitespace(c) => {
                         self.append_raw_to_doctype_token(c);
                         self.state = State::AfterDoctypeName;
                     }
@@ -2393,7 +2393,7 @@ where
                     // U+000C FORM FEED (FF)
                     // U+0020 SPACE
                     // Ignore the character.
-                    Some(c) if is_spacy(c) => {
+                    Some(c) if is_whitespace(c) => {
                         self.append_raw_to_doctype_token(c);
                     }
                     // U+003E GREATER-THAN SIGN (>)
@@ -2482,7 +2482,7 @@ where
                     // U+000C FORM FEED (FF)
                     // U+0020 SPACE (Space)
                     // Switch to the before DOCTYPE public identifier state.
-                    Some(c) if is_spacy(c) => {
+                    Some(c) if is_whitespace(c) => {
                         self.append_raw_to_doctype_token(c);
                         self.state = State::BeforeDoctypePublicIdentifier;
                     }
@@ -2546,7 +2546,7 @@ where
                     // U+000C FORM FEED (FF)
                     // U+0020 SPACE
                     // Switch to the before DOCTYPE system identifier state.
-                    Some(c) if is_spacy(c) => {
+                    Some(c) if is_whitespace(c) => {
                         self.append_raw_to_doctype_token(c);
                         self.state = State::BeforeDoctypeSystemIdentifier;
                     }
@@ -2608,7 +2608,7 @@ where
                     // U+000C FORM FEED (FF)
                     // U+0020 SPACE
                     // Ignore the character.
-                    Some(c) if is_spacy(c) => {
+                    Some(c) if is_whitespace(c) => {
                         self.append_raw_to_doctype_token(c);
                     }
                     // U+0022 QUOTATION MARK (")
@@ -2665,7 +2665,7 @@ where
                     // U+000C FORM FEED (FF)
                     // U+0020 SPACE
                     // Ignore the character.
-                    Some(c) if is_spacy(c) => {
+                    Some(c) if is_whitespace(c) => {
                         self.append_raw_to_doctype_token(c);
                     }
                     // U+0022 QUOTATION MARK (")
@@ -2793,7 +2793,7 @@ where
                     // U+000C FORM FEED (FF)
                     // U+0020 SPACE
                     // Switch to the between DOCTYPE public and system identifiers state.
-                    Some(c) if is_spacy(c) => {
+                    Some(c) if is_whitespace(c) => {
                         self.append_raw_to_doctype_token(c);
                         self.state = State::BetweenDoctypePublicAndSystemIdentifiers;
                     }
@@ -2854,7 +2854,7 @@ where
                     // U+000C FORM FEED (FF)
                     // U+0020 SPACE
                     // Ignore the character.
-                    Some(c) if is_spacy(c) => {
+                    Some(c) if is_whitespace(c) => {
                         self.append_raw_to_doctype_token(c);
                     }
                     // U+003E GREATER-THAN SIGN (>)
@@ -2979,7 +2979,7 @@ where
                     // U+000C FORM FEED (FF)
                     // U+0020 SPACE
                     // Ignore the character.
-                    Some(c) if is_spacy(c) => {
+                    Some(c) if is_whitespace(c) => {
                         self.append_raw_to_doctype_token(c);
                     }
                     // U+003E GREATER-THAN SIGN (>)
@@ -3079,18 +3079,12 @@ where
     }
 }
 
-// By spec '\r` removed before tokenizer, but we keep them to have better AST
-// and don't break logic to ignore characters
-#[inline(always)]
-fn is_spacy(c: char) -> bool {
-    matches!(c, '\x09' | '\x0a' | '\x0c' | '\x0d' | '\x20')
-}
+// S ::=
+// 	(#x20 | #x9 | #xD | #xA)+
 
-// By spec '\r` removed before tokenizer, but we keep them to have better AST
-// and don't break logic to ignore characters
 #[inline(always)]
-fn is_spacy_except_ff(c: char) -> bool {
-    matches!(c, '\x09' | '\x0c' | '\x0d' | '\x20')
+fn is_whitespace(c: char) -> bool {
+    matches!(c, '\x20' | '\x09' | '\x0d' | '\x0a')
 }
 
 #[inline(always)]
