@@ -1,0 +1,1 @@
+{"version":3,"sources":["input.js"],"sourcesContent":["export namespace TEST {\n    export const VALUE = \"value\";\n}\n\nexport default TEST;\n"],"names":[],"mappings":"AAAA,OAAO,IAAU,KAEhB;;QADgB,aAAA,QAAQ;GADR,SAAA;AAIjB,eAAe,KAAK"}
