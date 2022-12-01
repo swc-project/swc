@@ -1,0 +1,9 @@
+<root>
+    <foo a='b'/>
+    <foo a="test">test</foo>
+    <foo a='"test1"' b="'test2'"/>
+    <foo a='"test1"' b="'test2'">test</foo>
+    <foo foo:a="test">test</foo>
+    <foo foo:a='"test1"' bar:b="'test2'">test</foo>
+    <foo   a   =    'test1'     />
+</root>

@@ -1,0 +1,351 @@
+
+  x Document
+   ,-[$DIR/tests/fixture/attributes/input.xml:1:1]
+ 1 | ,-> <root>
+ 2 | |       <foo a='b'/>
+ 3 | |       <foo a="test">test</foo>
+ 4 | |       <foo a='"test1"' b="'test2'"/>
+ 5 | |       <foo a='"test1"' b="'test2'">test</foo>
+ 6 | |       <foo foo:a="test">test</foo>
+ 7 | |       <foo foo:a='"test1"' bar:b="'test2'">test</foo>
+ 8 | |       <foo   a   =    'test1'     />
+ 9 | `-> </root>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/attributes/input.xml:1:1]
+ 1 | ,-> <root>
+ 2 | |       <foo a='b'/>
+ 3 | |       <foo a="test">test</foo>
+ 4 | |       <foo a='"test1"' b="'test2'"/>
+ 5 | |       <foo a='"test1"' b="'test2'">test</foo>
+ 6 | |       <foo foo:a="test">test</foo>
+ 7 | |       <foo foo:a='"test1"' bar:b="'test2'">test</foo>
+ 8 | |       <foo   a   =    'test1'     />
+ 9 | `-> </root>
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/attributes/input.xml:1:1]
+ 1 | ,-> <root>
+ 2 | |       <foo a='b'/>
+ 3 | |       <foo a="test">test</foo>
+ 4 | |       <foo a='"test1"' b="'test2'"/>
+ 5 | |       <foo a='"test1"' b="'test2'">test</foo>
+ 6 | |       <foo foo:a="test">test</foo>
+ 7 | |       <foo foo:a='"test1"' bar:b="'test2'">test</foo>
+ 8 | |       <foo   a   =    'test1'     />
+ 9 | `-> </root>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/attributes/input.xml:1:1]
+ 1 | ,-> <root>
+ 2 | `->     <foo a='b'/>
+ 3 |         <foo a="test">test</foo>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/attributes/input.xml:1:1]
+ 1 | ,-> <root>
+ 2 | `->     <foo a='b'/>
+ 3 |         <foo a="test">test</foo>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/attributes/input.xml:1:1]
+ 1 | <root>
+ 2 |     <foo a='b'/>
+   :     ^^^^^^^^^^^^
+ 3 |     <foo a="test">test</foo>
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/attributes/input.xml:1:1]
+ 1 | <root>
+ 2 |     <foo a='b'/>
+   :     ^^^^^^^^^^^^
+ 3 |     <foo a="test">test</foo>
+   `----
+
+  x Attribute
+
+  x Child
+   ,-[$DIR/tests/fixture/attributes/input.xml:1:1]
+ 1 |     <root>
+ 2 | ,->     <foo a='b'/>
+ 3 | `->     <foo a="test">test</foo>
+ 4 |         <foo a='"test1"' b="'test2'"/>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/attributes/input.xml:1:1]
+ 1 |     <root>
+ 2 | ,->     <foo a='b'/>
+ 3 | `->     <foo a="test">test</foo>
+ 4 |         <foo a='"test1"' b="'test2'"/>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/attributes/input.xml:2:1]
+ 2 |     <foo a='b'/>
+ 3 |     <foo a="test">test</foo>
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^
+ 4 |     <foo a='"test1"' b="'test2'"/>
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/attributes/input.xml:2:1]
+ 2 |     <foo a='b'/>
+ 3 |     <foo a="test">test</foo>
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^
+ 4 |     <foo a='"test1"' b="'test2'"/>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/attributes/input.xml:2:1]
+ 2 |     <foo a='b'/>
+ 3 |     <foo a="test">test</foo>
+   :                   ^^^^
+ 4 |     <foo a='"test1"' b="'test2'"/>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/attributes/input.xml:2:1]
+ 2 |     <foo a='b'/>
+ 3 |     <foo a="test">test</foo>
+   :                   ^^^^
+ 4 |     <foo a='"test1"' b="'test2'"/>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/attributes/input.xml:2:1]
+ 2 |         <foo a='b'/>
+ 3 | ,->     <foo a="test">test</foo>
+ 4 | `->     <foo a='"test1"' b="'test2'"/>
+ 5 |         <foo a='"test1"' b="'test2'">test</foo>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/attributes/input.xml:2:1]
+ 2 |         <foo a='b'/>
+ 3 | ,->     <foo a="test">test</foo>
+ 4 | `->     <foo a='"test1"' b="'test2'"/>
+ 5 |         <foo a='"test1"' b="'test2'">test</foo>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/attributes/input.xml:3:1]
+ 3 |     <foo a="test">test</foo>
+ 4 |     <foo a='"test1"' b="'test2'"/>
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 5 |     <foo a='"test1"' b="'test2'">test</foo>
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/attributes/input.xml:3:1]
+ 3 |     <foo a="test">test</foo>
+ 4 |     <foo a='"test1"' b="'test2'"/>
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 5 |     <foo a='"test1"' b="'test2'">test</foo>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/attributes/input.xml:3:1]
+ 3 |         <foo a="test">test</foo>
+ 4 | ,->     <foo a='"test1"' b="'test2'"/>
+ 5 | `->     <foo a='"test1"' b="'test2'">test</foo>
+ 6 |         <foo foo:a="test">test</foo>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/attributes/input.xml:3:1]
+ 3 |         <foo a="test">test</foo>
+ 4 | ,->     <foo a='"test1"' b="'test2'"/>
+ 5 | `->     <foo a='"test1"' b="'test2'">test</foo>
+ 6 |         <foo foo:a="test">test</foo>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/attributes/input.xml:4:1]
+ 4 |     <foo a='"test1"' b="'test2'"/>
+ 5 |     <foo a='"test1"' b="'test2'">test</foo>
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 6 |     <foo foo:a="test">test</foo>
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/attributes/input.xml:4:1]
+ 4 |     <foo a='"test1"' b="'test2'"/>
+ 5 |     <foo a='"test1"' b="'test2'">test</foo>
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 6 |     <foo foo:a="test">test</foo>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/attributes/input.xml:4:1]
+ 4 |     <foo a='"test1"' b="'test2'"/>
+ 5 |     <foo a='"test1"' b="'test2'">test</foo>
+   :                                  ^^^^
+ 6 |     <foo foo:a="test">test</foo>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/attributes/input.xml:4:1]
+ 4 |     <foo a='"test1"' b="'test2'"/>
+ 5 |     <foo a='"test1"' b="'test2'">test</foo>
+   :                                  ^^^^
+ 6 |     <foo foo:a="test">test</foo>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/attributes/input.xml:4:1]
+ 4 |         <foo a='"test1"' b="'test2'"/>
+ 5 | ,->     <foo a='"test1"' b="'test2'">test</foo>
+ 6 | `->     <foo foo:a="test">test</foo>
+ 7 |         <foo foo:a='"test1"' bar:b="'test2'">test</foo>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/attributes/input.xml:4:1]
+ 4 |         <foo a='"test1"' b="'test2'"/>
+ 5 | ,->     <foo a='"test1"' b="'test2'">test</foo>
+ 6 | `->     <foo foo:a="test">test</foo>
+ 7 |         <foo foo:a='"test1"' bar:b="'test2'">test</foo>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/attributes/input.xml:5:1]
+ 5 |     <foo a='"test1"' b="'test2'">test</foo>
+ 6 |     <foo foo:a="test">test</foo>
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 7 |     <foo foo:a='"test1"' bar:b="'test2'">test</foo>
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/attributes/input.xml:5:1]
+ 5 |     <foo a='"test1"' b="'test2'">test</foo>
+ 6 |     <foo foo:a="test">test</foo>
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 7 |     <foo foo:a='"test1"' bar:b="'test2'">test</foo>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/attributes/input.xml:5:1]
+ 5 |     <foo a='"test1"' b="'test2'">test</foo>
+ 6 |     <foo foo:a="test">test</foo>
+   :                       ^^^^
+ 7 |     <foo foo:a='"test1"' bar:b="'test2'">test</foo>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/attributes/input.xml:5:1]
+ 5 |     <foo a='"test1"' b="'test2'">test</foo>
+ 6 |     <foo foo:a="test">test</foo>
+   :                       ^^^^
+ 7 |     <foo foo:a='"test1"' bar:b="'test2'">test</foo>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/attributes/input.xml:5:1]
+ 5 |         <foo a='"test1"' b="'test2'">test</foo>
+ 6 | ,->     <foo foo:a="test">test</foo>
+ 7 | `->     <foo foo:a='"test1"' bar:b="'test2'">test</foo>
+ 8 |         <foo   a   =    'test1'     />
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/attributes/input.xml:5:1]
+ 5 |         <foo a='"test1"' b="'test2'">test</foo>
+ 6 | ,->     <foo foo:a="test">test</foo>
+ 7 | `->     <foo foo:a='"test1"' bar:b="'test2'">test</foo>
+ 8 |         <foo   a   =    'test1'     />
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/attributes/input.xml:6:1]
+ 6 |     <foo foo:a="test">test</foo>
+ 7 |     <foo foo:a='"test1"' bar:b="'test2'">test</foo>
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 8 |     <foo   a   =    'test1'     />
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/attributes/input.xml:6:1]
+ 6 |     <foo foo:a="test">test</foo>
+ 7 |     <foo foo:a='"test1"' bar:b="'test2'">test</foo>
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 8 |     <foo   a   =    'test1'     />
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/attributes/input.xml:6:1]
+ 6 |     <foo foo:a="test">test</foo>
+ 7 |     <foo foo:a='"test1"' bar:b="'test2'">test</foo>
+   :                                          ^^^^
+ 8 |     <foo   a   =    'test1'     />
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/attributes/input.xml:6:1]
+ 6 |     <foo foo:a="test">test</foo>
+ 7 |     <foo foo:a='"test1"' bar:b="'test2'">test</foo>
+   :                                          ^^^^
+ 8 |     <foo   a   =    'test1'     />
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/attributes/input.xml:6:1]
+ 6 |         <foo foo:a="test">test</foo>
+ 7 | ,->     <foo foo:a='"test1"' bar:b="'test2'">test</foo>
+ 8 | `->     <foo   a   =    'test1'     />
+ 9 |     </root>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/attributes/input.xml:6:1]
+ 6 |         <foo foo:a="test">test</foo>
+ 7 | ,->     <foo foo:a='"test1"' bar:b="'test2'">test</foo>
+ 8 | `->     <foo   a   =    'test1'     />
+ 9 |     </root>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/attributes/input.xml:7:1]
+ 7 |     <foo foo:a='"test1"' bar:b="'test2'">test</foo>
+ 8 |     <foo   a   =    'test1'     />
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 9 | </root>
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/attributes/input.xml:7:1]
+ 7 |     <foo foo:a='"test1"' bar:b="'test2'">test</foo>
+ 8 |     <foo   a   =    'test1'     />
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 9 | </root>
+   `----
+
+  x Attribute
+   ,-[$DIR/tests/fixture/attributes/input.xml:7:1]
+ 7 |     <foo foo:a='"test1"' bar:b="'test2'">test</foo>
+ 8 |     <foo   a   =    'test1'     />
+   :            ^
+ 9 | </root>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/attributes/input.xml:7:1]
+ 7 |     <foo foo:a='"test1"' bar:b="'test2'">test</foo>
+ 8 |     <foo   a   =    'test1'     />
+   :                                   ^
+ 9 | </root>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/attributes/input.xml:7:1]
+ 7 |     <foo foo:a='"test1"' bar:b="'test2'">test</foo>
+ 8 |     <foo   a   =    'test1'     />
+   :                                   ^
+ 9 | </root>
+   `----
