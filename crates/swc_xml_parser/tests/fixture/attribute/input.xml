@@ -14,4 +14,10 @@
     <MyElement myAttribute="attribute
     value"/>
     <MyElement nsA:myAttribute1="attribute value" myAttribute2="attribute value">...</MyElement>
+    <foo attributeName="He said &quot;OK&quot;"></foo>
+    <foo attributeName="He said &lt;OK&lt;"></foo>
+    <foo attributeName="He said &gt;OK&gt;"></foo>
+    <foo attributeName="He said >OK>"></foo>
+    <foo attributeName="He said &apos;OK&apos;"></foo>
+    <foo attributeName="He said &amp;OK&amp;"></foo>
 </root>

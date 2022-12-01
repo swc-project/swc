@@ -17,7 +17,13 @@
  14 | |       <MyElement myAttribute="attribute
  15 | |       value"/>
  16 | |       <MyElement nsA:myAttribute1="attribute value" myAttribute2="attribute value">...</MyElement>
- 17 | `-> </root>
+ 17 | |       <foo attributeName="He said &quot;OK&quot;"></foo>
+ 18 | |       <foo attributeName="He said &lt;OK&lt;"></foo>
+ 19 | |       <foo attributeName="He said &gt;OK&gt;"></foo>
+ 20 | |       <foo attributeName="He said >OK>"></foo>
+ 21 | |       <foo attributeName="He said &apos;OK&apos;"></foo>
+ 22 | |       <foo attributeName="He said &amp;OK&amp;"></foo>
+ 23 | `-> </root>
     `----
 
   x Child
@@ -38,7 +44,13 @@
  14 | |       <MyElement myAttribute="attribute
  15 | |       value"/>
  16 | |       <MyElement nsA:myAttribute1="attribute value" myAttribute2="attribute value">...</MyElement>
- 17 | `-> </root>
+ 17 | |       <foo attributeName="He said &quot;OK&quot;"></foo>
+ 18 | |       <foo attributeName="He said &lt;OK&lt;"></foo>
+ 19 | |       <foo attributeName="He said &gt;OK&gt;"></foo>
+ 20 | |       <foo attributeName="He said >OK>"></foo>
+ 21 | |       <foo attributeName="He said &apos;OK&apos;"></foo>
+ 22 | |       <foo attributeName="He said &amp;OK&amp;"></foo>
+ 23 | `-> </root>
     `----
 
   x Element
@@ -59,7 +71,13 @@
  14 | |       <MyElement myAttribute="attribute
  15 | |       value"/>
  16 | |       <MyElement nsA:myAttribute1="attribute value" myAttribute2="attribute value">...</MyElement>
- 17 | `-> </root>
+ 17 | |       <foo attributeName="He said &quot;OK&quot;"></foo>
+ 18 | |       <foo attributeName="He said &lt;OK&lt;"></foo>
+ 19 | |       <foo attributeName="He said &gt;OK&gt;"></foo>
+ 20 | |       <foo attributeName="He said >OK>"></foo>
+ 21 | |       <foo attributeName="He said &apos;OK&apos;"></foo>
+ 22 | |       <foo attributeName="He said &amp;OK&amp;"></foo>
+ 23 | `-> </root>
     `----
 
   x Child
@@ -555,7 +573,7 @@
  14 |         <MyElement myAttribute="attribute
  15 | ,->     value"/>
  16 | `->     <MyElement nsA:myAttribute1="attribute value" myAttribute2="attribute value">...</MyElement>
- 17 |     </root>
+ 17 |         <foo attributeName="He said &quot;OK&quot;"></foo>
     `----
 
   x Text
@@ -563,7 +581,7 @@
  14 |         <MyElement myAttribute="attribute
  15 | ,->     value"/>
  16 | `->     <MyElement nsA:myAttribute1="attribute value" myAttribute2="attribute value">...</MyElement>
- 17 |     </root>
+ 17 |         <foo attributeName="He said &quot;OK&quot;"></foo>
     `----
 
   x Child
@@ -571,7 +589,7 @@
  15 |     value"/>
  16 |     <MyElement nsA:myAttribute1="attribute value" myAttribute2="attribute value">...</MyElement>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 17 | </root>
+ 17 |     <foo attributeName="He said &quot;OK&quot;"></foo>
     `----
 
   x Element
@@ -579,7 +597,7 @@
  15 |     value"/>
  16 |     <MyElement nsA:myAttribute1="attribute value" myAttribute2="attribute value">...</MyElement>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 17 | </root>
+ 17 |     <foo attributeName="He said &quot;OK&quot;"></foo>
     `----
 
   x Child
@@ -587,7 +605,7 @@
  15 |     value"/>
  16 |     <MyElement nsA:myAttribute1="attribute value" myAttribute2="attribute value">...</MyElement>
     :                                                                                  ^^^
- 17 | </root>
+ 17 |     <foo attributeName="He said &quot;OK&quot;"></foo>
     `----
 
   x Text
@@ -595,21 +613,213 @@
  15 |     value"/>
  16 |     <MyElement nsA:myAttribute1="attribute value" myAttribute2="attribute value">...</MyElement>
     :                                                                                  ^^^
- 17 | </root>
+ 17 |     <foo attributeName="He said &quot;OK&quot;"></foo>
     `----
 
   x Child
     ,-[$DIR/tests/fixture/attribute/input.xml:15:1]
- 15 |     value"/>
- 16 |     <MyElement nsA:myAttribute1="attribute value" myAttribute2="attribute value">...</MyElement>
-    :                                                                                                 ^
- 17 | </root>
+ 15 |         value"/>
+ 16 | ,->     <MyElement nsA:myAttribute1="attribute value" myAttribute2="attribute value">...</MyElement>
+ 17 | `->     <foo attributeName="He said &quot;OK&quot;"></foo>
+ 18 |         <foo attributeName="He said &lt;OK&lt;"></foo>
     `----
 
   x Text
     ,-[$DIR/tests/fixture/attribute/input.xml:15:1]
- 15 |     value"/>
+ 15 |         value"/>
+ 16 | ,->     <MyElement nsA:myAttribute1="attribute value" myAttribute2="attribute value">...</MyElement>
+ 17 | `->     <foo attributeName="He said &quot;OK&quot;"></foo>
+ 18 |         <foo attributeName="He said &lt;OK&lt;"></foo>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/attribute/input.xml:16:1]
  16 |     <MyElement nsA:myAttribute1="attribute value" myAttribute2="attribute value">...</MyElement>
-    :                                                                                                 ^
- 17 | </root>
+ 17 |     <foo attributeName="He said &quot;OK&quot;"></foo>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 18 |     <foo attributeName="He said &lt;OK&lt;"></foo>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/attribute/input.xml:16:1]
+ 16 |     <MyElement nsA:myAttribute1="attribute value" myAttribute2="attribute value">...</MyElement>
+ 17 |     <foo attributeName="He said &quot;OK&quot;"></foo>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 18 |     <foo attributeName="He said &lt;OK&lt;"></foo>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/attribute/input.xml:16:1]
+ 16 |         <MyElement nsA:myAttribute1="attribute value" myAttribute2="attribute value">...</MyElement>
+ 17 | ,->     <foo attributeName="He said &quot;OK&quot;"></foo>
+ 18 | `->     <foo attributeName="He said &lt;OK&lt;"></foo>
+ 19 |         <foo attributeName="He said &gt;OK&gt;"></foo>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/attribute/input.xml:16:1]
+ 16 |         <MyElement nsA:myAttribute1="attribute value" myAttribute2="attribute value">...</MyElement>
+ 17 | ,->     <foo attributeName="He said &quot;OK&quot;"></foo>
+ 18 | `->     <foo attributeName="He said &lt;OK&lt;"></foo>
+ 19 |         <foo attributeName="He said &gt;OK&gt;"></foo>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/attribute/input.xml:17:1]
+ 17 |     <foo attributeName="He said &quot;OK&quot;"></foo>
+ 18 |     <foo attributeName="He said &lt;OK&lt;"></foo>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 19 |     <foo attributeName="He said &gt;OK&gt;"></foo>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/attribute/input.xml:17:1]
+ 17 |     <foo attributeName="He said &quot;OK&quot;"></foo>
+ 18 |     <foo attributeName="He said &lt;OK&lt;"></foo>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 19 |     <foo attributeName="He said &gt;OK&gt;"></foo>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/attribute/input.xml:17:1]
+ 17 |         <foo attributeName="He said &quot;OK&quot;"></foo>
+ 18 | ,->     <foo attributeName="He said &lt;OK&lt;"></foo>
+ 19 | `->     <foo attributeName="He said &gt;OK&gt;"></foo>
+ 20 |         <foo attributeName="He said >OK>"></foo>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/attribute/input.xml:17:1]
+ 17 |         <foo attributeName="He said &quot;OK&quot;"></foo>
+ 18 | ,->     <foo attributeName="He said &lt;OK&lt;"></foo>
+ 19 | `->     <foo attributeName="He said &gt;OK&gt;"></foo>
+ 20 |         <foo attributeName="He said >OK>"></foo>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/attribute/input.xml:18:1]
+ 18 |     <foo attributeName="He said &lt;OK&lt;"></foo>
+ 19 |     <foo attributeName="He said &gt;OK&gt;"></foo>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 20 |     <foo attributeName="He said >OK>"></foo>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/attribute/input.xml:18:1]
+ 18 |     <foo attributeName="He said &lt;OK&lt;"></foo>
+ 19 |     <foo attributeName="He said &gt;OK&gt;"></foo>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 20 |     <foo attributeName="He said >OK>"></foo>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/attribute/input.xml:18:1]
+ 18 |         <foo attributeName="He said &lt;OK&lt;"></foo>
+ 19 | ,->     <foo attributeName="He said &gt;OK&gt;"></foo>
+ 20 | `->     <foo attributeName="He said >OK>"></foo>
+ 21 |         <foo attributeName="He said &apos;OK&apos;"></foo>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/attribute/input.xml:18:1]
+ 18 |         <foo attributeName="He said &lt;OK&lt;"></foo>
+ 19 | ,->     <foo attributeName="He said &gt;OK&gt;"></foo>
+ 20 | `->     <foo attributeName="He said >OK>"></foo>
+ 21 |         <foo attributeName="He said &apos;OK&apos;"></foo>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/attribute/input.xml:19:1]
+ 19 |     <foo attributeName="He said &gt;OK&gt;"></foo>
+ 20 |     <foo attributeName="He said >OK>"></foo>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 21 |     <foo attributeName="He said &apos;OK&apos;"></foo>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/attribute/input.xml:19:1]
+ 19 |     <foo attributeName="He said &gt;OK&gt;"></foo>
+ 20 |     <foo attributeName="He said >OK>"></foo>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 21 |     <foo attributeName="He said &apos;OK&apos;"></foo>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/attribute/input.xml:19:1]
+ 19 |         <foo attributeName="He said &gt;OK&gt;"></foo>
+ 20 | ,->     <foo attributeName="He said >OK>"></foo>
+ 21 | `->     <foo attributeName="He said &apos;OK&apos;"></foo>
+ 22 |         <foo attributeName="He said &amp;OK&amp;"></foo>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/attribute/input.xml:19:1]
+ 19 |         <foo attributeName="He said &gt;OK&gt;"></foo>
+ 20 | ,->     <foo attributeName="He said >OK>"></foo>
+ 21 | `->     <foo attributeName="He said &apos;OK&apos;"></foo>
+ 22 |         <foo attributeName="He said &amp;OK&amp;"></foo>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/attribute/input.xml:20:1]
+ 20 |     <foo attributeName="He said >OK>"></foo>
+ 21 |     <foo attributeName="He said &apos;OK&apos;"></foo>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 22 |     <foo attributeName="He said &amp;OK&amp;"></foo>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/attribute/input.xml:20:1]
+ 20 |     <foo attributeName="He said >OK>"></foo>
+ 21 |     <foo attributeName="He said &apos;OK&apos;"></foo>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 22 |     <foo attributeName="He said &amp;OK&amp;"></foo>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/attribute/input.xml:20:1]
+ 20 |         <foo attributeName="He said >OK>"></foo>
+ 21 | ,->     <foo attributeName="He said &apos;OK&apos;"></foo>
+ 22 | `->     <foo attributeName="He said &amp;OK&amp;"></foo>
+ 23 |     </root>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/attribute/input.xml:20:1]
+ 20 |         <foo attributeName="He said >OK>"></foo>
+ 21 | ,->     <foo attributeName="He said &apos;OK&apos;"></foo>
+ 22 | `->     <foo attributeName="He said &amp;OK&amp;"></foo>
+ 23 |     </root>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/attribute/input.xml:21:1]
+ 21 |     <foo attributeName="He said &apos;OK&apos;"></foo>
+ 22 |     <foo attributeName="He said &amp;OK&amp;"></foo>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 23 | </root>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/attribute/input.xml:21:1]
+ 21 |     <foo attributeName="He said &apos;OK&apos;"></foo>
+ 22 |     <foo attributeName="He said &amp;OK&amp;"></foo>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 23 | </root>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/attribute/input.xml:21:1]
+ 21 |     <foo attributeName="He said &apos;OK&apos;"></foo>
+ 22 |     <foo attributeName="He said &amp;OK&amp;"></foo>
+    :                                                     ^
+ 23 | </root>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/attribute/input.xml:21:1]
+ 21 |     <foo attributeName="He said &apos;OK&apos;"></foo>
+ 22 |     <foo attributeName="He said &amp;OK&amp;"></foo>
+    :                                                     ^
+ 23 | </root>
     `----

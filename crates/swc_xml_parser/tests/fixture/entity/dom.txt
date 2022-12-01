@@ -4,11 +4,11 @@
 |   "
     "
 |   <h>
-|     a="&noti;"
+|     a="noti;"
 |   "
     "
 |   <h>
-|     a="&lang="
+|     a="lang="
 |   "
     "
 |   <test>
@@ -24,7 +24,7 @@
 |   "
     "
 |   <copyright>
-|     "&copy; O'Reilly &amp; Associates"
+|     "O'Reilly & Associates"
 |   "
     "
 |   <foo>

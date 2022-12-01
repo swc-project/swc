@@ -23,6 +23,30 @@
  6 | <com>CDATA sections</com>
    `----
 
+  x Invalid entity character
+    ,-[$DIR/tests/recovery/comments/bad-40/input.xml:13:1]
+ 13 | <prod id="NT-simpleDTD"><lhs>simpleDTD</lhs>
+ 14 | <rhs>'&lt;!&como;'
+    :             ^
+ 15 | (<nt def='NT-Char'>Char</nt>* -
+    `----
+
+  x Invalid entity character
+    ,-[$DIR/tests/recovery/comments/bad-40/input.xml:15:1]
+ 15 | (<nt def='NT-Char'>Char</nt>* -
+ 16 | (<nt def='NT-Char'>Char</nt>* '&comc;' <nt def='NT-Char'>Char</nt>*))
+    :                                 ^
+ 17 | '&comc;&gt;'</rhs>-->
+    `----
+
+  x Invalid entity character
+    ,-[$DIR/tests/recovery/comments/bad-40/input.xml:16:1]
+ 16 | (<nt def='NT-Char'>Char</nt>* '&comc;' <nt def='NT-Char'>Char</nt>*))
+ 17 | '&comc;&gt;'</rhs>-->
+    :   ^
+ 18 | </foo>
+    `----
+
   x Opening and ending tag mismatch
     ,-[$DIR/tests/recovery/comments/bad-40/input.xml:17:1]
  17 | '&comc;&gt;'</rhs>-->

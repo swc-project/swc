@@ -66,4 +66,28 @@
 |     nsA:myAttribute1="attribute value"
 |     "..."
 |   "
+    "
+|   <foo>
+|     attributeName="He said "OK""
+|   "
+    "
+|   <foo>
+|     attributeName="He said <OK<"
+|   "
+    "
+|   <foo>
+|     attributeName="He said >OK>"
+|   "
+    "
+|   <foo>
+|     attributeName="He said >OK>"
+|   "
+    "
+|   <foo>
+|     attributeName="He said 'OK'"
+|   "
+    "
+|   <foo>
+|     attributeName="He said &OK&"
+|   "
 "

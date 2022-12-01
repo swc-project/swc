@@ -294,8 +294,13 @@ where
         self.pending_tokens.push_back(TokenAndSpan { span, token });
     }
 
-    fn consume_character_reference(&mut self) -> Option<char> {
+    fn consume_character_reference(&mut self) -> Option<(char, String)> {
         let cur_pos = self.input.cur_pos();
+        let anything_else = |lexer: &mut Lexer<I>| {
+            lexer.emit_error(ErrorKind::InvalidEntityCharacter);
+            lexer.cur_pos = cur_pos;
+            lexer.input.reset_to(cur_pos);
+        };
 
         // This section defines how to consume a character reference, optionally with an
         // additional allowed character, which, if specified where the algorithm is
@@ -307,24 +312,6 @@ where
         // The behavior depends on identity of next character (the one immediately after
         // the U+0026 AMPERSAND character), as follows:
         match self.consume_next_char() {
-            // U+0009 CHARACTER TABULATION (Tab)
-            // U+000A LINE FEED (LF)
-            // U+000C FORM FEED (FF)
-            // U+0020 SPACE (Space)
-            // U+003C LESSER-THAN SIGN (<)
-            // U+003E GREATER-THAN SIGN (%)
-            // U+0026 AMPERSAND (&)
-            // EOF
-            // Not a character reference. No characters are consumed and nothing is returned (This
-            // is not an error, either).
-            Some(c) if is_spacy(c) => {
-                self.cur_pos = cur_pos;
-                self.input.reset_to(cur_pos);
-            }
-            Some('<') | Some('%') | Some('&') | None => {
-                self.cur_pos = cur_pos;
-                self.input.reset_to(cur_pos);
-            }
             // The additional allowed character if there is one
             // Not a character reference. No characters are consumed and nothing is returned (This
             // is not an error, either).
@@ -333,6 +320,105 @@ where
                 self.cur_pos = cur_pos;
                 self.input.reset_to(cur_pos);
             }
+            Some('l') => match self.consume_next_char() {
+                Some('t') => {
+                    match self.consume_next_char() {
+                        Some(';') => {}
+                        _ => {
+                            self.emit_error(ErrorKind::MissingSemicolonAfterCharacterReference);
+                        }
+                    }
+
+                    return Some(('<', String::from("&lt;")));
+                }
+                _ => {
+                    anything_else(self);
+                }
+            },
+            Some('g') => match self.consume_next_char() {
+                Some('t') => {
+                    match self.consume_next_char() {
+                        Some(';') => {}
+                        _ => {
+                            self.emit_error(ErrorKind::MissingSemicolonAfterCharacterReference);
+                        }
+                    }
+
+                    return Some(('>', String::from("&gt;")));
+                }
+                _ => {
+                    anything_else(self);
+                }
+            },
+            Some('q') => match self.consume_next_char() {
+                Some('u') => match self.consume_next_char() {
+                    Some('o') => match self.consume_next_char() {
+                        Some('t') => {
+                            match self.consume_next_char() {
+                                Some(';') => {}
+                                _ => {
+                                    self.emit_error(
+                                        ErrorKind::MissingSemicolonAfterCharacterReference,
+                                    );
+                                }
+                            }
+
+                            return Some(('"', String::from("&quot;")));
+                        }
+                        _ => {
+                            anything_else(self);
+                        }
+                    },
+                    _ => {
+                        anything_else(self);
+                    }
+                },
+                _ => {
+                    anything_else(self);
+                }
+            },
+            Some('a') => match self.consume_next_char() {
+                Some('p') => match self.consume_next_char() {
+                    Some('o') => match self.consume_next_char() {
+                        Some('s') => {
+                            match self.consume_next_char() {
+                                Some(';') => {}
+                                _ => {
+                                    self.emit_error(
+                                        ErrorKind::MissingSemicolonAfterCharacterReference,
+                                    );
+                                }
+                            }
+
+                            return Some(('\'', String::from("&apos;")));
+                        }
+                        _ => {
+                            anything_else(self);
+                        }
+                    },
+                    _ => {
+                        anything_else(self);
+                    }
+                },
+                Some('m') => match self.consume_next_char() {
+                    Some('p') => {
+                        match self.consume_next_char() {
+                            Some(';') => {}
+                            _ => {
+                                self.emit_error(ErrorKind::MissingSemicolonAfterCharacterReference);
+                            }
+                        }
+
+                        return Some(('&', String::from("&amp;")));
+                    }
+                    _ => {
+                        anything_else(self);
+                    }
+                },
+                _ => {
+                    anything_else(self);
+                }
+            },
             Some('#') => {
                 let mut base = 10;
                 let mut characters = vec![];
@@ -420,7 +506,7 @@ where
                 if is_surrogate(cr) {
                     self.emit_error(ErrorKind::SurrogateCharacterReference);
 
-                    return Some(char::REPLACEMENT_CHARACTER);
+                    return Some((char::REPLACEMENT_CHARACTER, String::from("empty")));
                 }
 
                 let c = match char::from_u32(cr) {
@@ -430,11 +516,10 @@ where
                     }
                 };
 
-                return Some(c);
+                return Some((c, String::from("empty")));
             }
             _ => {
-                self.cur_pos = cur_pos;
-                self.input.reset_to(cur_pos);
+                anything_else(self);
             }
         }
 
@@ -632,6 +717,38 @@ where
                             let mut raw_new_value = String::with_capacity(255);
 
                             raw_new_value.push(c);
+
+                            attribute.raw_value = Some(raw_new_value);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fn append_to_attribute_with_entity(&mut self, value: Option<(Option<char>, Option<&str>)>) {
+        if let Some(Tag { attributes, .. }) = &mut self.current_tag_token {
+            if let Some(attribute) = attributes.last_mut() {
+                if let Some(value) = value {
+                    if let Some(c) = value.0 {
+                        if let Some(old_value) = &mut attribute.value {
+                            old_value.push(c);
+                        } else {
+                            let mut new_value = String::with_capacity(255);
+
+                            new_value.push(c);
+
+                            attribute.value = Some(new_value);
+                        }
+                    }
+
+                    if let Some(c) = value.1 {
+                        if let Some(raw_value) = &mut attribute.raw_value {
+                            raw_value.push_str(c);
+                        } else {
+                            let mut raw_new_value = String::with_capacity(255);
+
+                            raw_new_value.push_str(c);
 
                             attribute.raw_value = Some(raw_new_value);
                         }
@@ -877,6 +994,14 @@ where
         });
     }
 
+    #[inline(always)]
+    fn emit_character_token_with_entity(&mut self, c: char, raw: &str) {
+        self.emit_token(Token::Character {
+            value: c,
+            raw: Some(raw.into()),
+        });
+    }
+
     fn read_token_and_span(&mut self) -> LexResult<TokenAndSpan> {
         if self.finished {
             return Err(ErrorKind::Eof);
@@ -941,8 +1066,8 @@ where
 
                 let character_reference = self.consume_character_reference();
 
-                if let Some(c) = character_reference {
-                    self.emit_character_token((c, c));
+                if let Some((c, raw)) = character_reference {
+                    self.emit_character_token_with_entity(c, &raw);
                 } else {
                     self.emit_character_token(('&', '&'));
                 }
@@ -2095,8 +2220,8 @@ where
 
                 let character_reference = self.consume_character_reference();
 
-                if let Some(c) = character_reference {
-                    self.append_to_attribute(None, Some((false, Some(c), Some(c))));
+                if let Some((c, raw)) = character_reference {
+                    self.append_to_attribute_with_entity(Some((Some(c), Some(&raw))));
                 } else {
                     self.append_to_attribute(None, Some((false, Some('&'), Some('&'))));
                 }
