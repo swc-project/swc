@@ -25,15 +25,18 @@
  22 | |       prop: center / 1em;
  23 | |       c\olor: red;
  24 | |       prop/**/: big;
- 25 | |   }
- 26 | |   
- 27 | |   a { color: a/* ; */ b  ; }
- 28 | |   a{color:black}
+ 25 | |       prop: (;);
+ 26 | |       prop: [;];
+ 27 | |       prop: {;};
+ 28 | |   }
  29 | |   
- 30 | |   a {;;
- 31 | |       color: black;
- 32 | |       ; ;
- 33 | `-> }
+ 30 | |   a { color: a/* ; */ b  ; }
+ 31 | |   a{color:black}
+ 32 | |   
+ 33 | |   a {;;
+ 34 | |       color: black;
+ 35 | |       ; ;
+ 36 | `-> }
     `----
 
   x Rule
@@ -62,7 +65,10 @@
  22 | |       prop: center / 1em;
  23 | |       c\olor: red;
  24 | |       prop/**/: big;
- 25 | `-> }
+ 25 | |       prop: (;);
+ 26 | |       prop: [;];
+ 27 | |       prop: {;};
+ 28 | `-> }
     `----
 
   x QualifiedRule
@@ -91,7 +97,10 @@
  22 | |       prop: center / 1em;
  23 | |       c\olor: red;
  24 | |       prop/**/: big;
- 25 | `-> }
+ 25 | |       prop: (;);
+ 26 | |       prop: [;];
+ 27 | |       prop: {;};
+ 28 | `-> }
     `----
 
   x SelectorList
@@ -169,7 +178,10 @@
  22 | |       prop: center / 1em;
  23 | |       c\olor: red;
  24 | |       prop/**/: big;
- 25 | `-> }
+ 25 | |       prop: (;);
+ 26 | |       prop: [;];
+ 27 | |       prop: {;};
+ 28 | `-> }
     `----
 
   x LBrace
@@ -2264,7 +2276,7 @@
  23 |     c\olor: red;
  24 |     prop/**/: big;
     :     ^^^^^^^^^^^^^
- 25 | }
+ 25 |     prop: (;);
     `----
 
   x StyleBlock
@@ -2272,7 +2284,7 @@
  23 |     c\olor: red;
  24 |     prop/**/: big;
     :     ^^^^^^^^^^^^^
- 25 | }
+ 25 |     prop: (;);
     `----
 
   x Declaration
@@ -2280,7 +2292,7 @@
  23 |     c\olor: red;
  24 |     prop/**/: big;
     :     ^^^^^^^^^^^^^
- 25 | }
+ 25 |     prop: (;);
     `----
 
   x DeclarationName
@@ -2288,7 +2300,7 @@
  23 |     c\olor: red;
  24 |     prop/**/: big;
     :     ^^^^
- 25 | }
+ 25 |     prop: (;);
     `----
 
   x Ident
@@ -2296,7 +2308,7 @@
  23 |     c\olor: red;
  24 |     prop/**/: big;
     :     ^^^^
- 25 | }
+ 25 |     prop: (;);
     `----
 
   x ComponentValue
@@ -2304,7 +2316,7 @@
  23 |     c\olor: red;
  24 |     prop/**/: big;
     :               ^^^
- 25 | }
+ 25 |     prop: (;);
     `----
 
   x Ident
@@ -2312,438 +2324,678 @@
  23 |     c\olor: red;
  24 |     prop/**/: big;
     :               ^^^
- 25 | }
+ 25 |     prop: (;);
     `----
 
-  x Rule
-    ,-[$DIR/tests/fixture/declaration/input.css:26:1]
- 26 | 
- 27 | a { color: a/* ; */ b  ; }
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
- 28 | a{color:black}
+  x ComponentValue
+    ,-[$DIR/tests/fixture/declaration/input.css:24:1]
+ 24 |     prop/**/: big;
+ 25 |     prop: (;);
+    :     ^^^^^^^^^
+ 26 |     prop: [;];
     `----
 
-  x QualifiedRule
-    ,-[$DIR/tests/fixture/declaration/input.css:26:1]
- 26 | 
- 27 | a { color: a/* ; */ b  ; }
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
- 28 | a{color:black}
+  x StyleBlock
+    ,-[$DIR/tests/fixture/declaration/input.css:24:1]
+ 24 |     prop/**/: big;
+ 25 |     prop: (;);
+    :     ^^^^^^^^^
+ 26 |     prop: [;];
     `----
 
-  x SelectorList
-    ,-[$DIR/tests/fixture/declaration/input.css:26:1]
- 26 | 
- 27 | a { color: a/* ; */ b  ; }
-    : ^
- 28 | a{color:black}
+  x Declaration
+    ,-[$DIR/tests/fixture/declaration/input.css:24:1]
+ 24 |     prop/**/: big;
+ 25 |     prop: (;);
+    :     ^^^^^^^^^
+ 26 |     prop: [;];
     `----
 
-  x ComplexSelector
-    ,-[$DIR/tests/fixture/declaration/input.css:26:1]
- 26 | 
- 27 | a { color: a/* ; */ b  ; }
-    : ^
- 28 | a{color:black}
+  x DeclarationName
+    ,-[$DIR/tests/fixture/declaration/input.css:24:1]
+ 24 |     prop/**/: big;
+ 25 |     prop: (;);
+    :     ^^^^
+ 26 |     prop: [;];
     `----
 
-  x CompoundSelector
-    ,-[$DIR/tests/fixture/declaration/input.css:26:1]
- 26 | 
- 27 | a { color: a/* ; */ b  ; }
-    : ^
- 28 | a{color:black}
+  x Ident
+    ,-[$DIR/tests/fixture/declaration/input.css:24:1]
+ 24 |     prop/**/: big;
+ 25 |     prop: (;);
+    :     ^^^^
+ 26 |     prop: [;];
     `----
 
-  x TypeSelector
-    ,-[$DIR/tests/fixture/declaration/input.css:26:1]
- 26 | 
- 27 | a { color: a/* ; */ b  ; }
-    : ^
- 28 | a{color:black}
+  x ComponentValue
+    ,-[$DIR/tests/fixture/declaration/input.css:24:1]
+ 24 |     prop/**/: big;
+ 25 |     prop: (;);
+    :           ^^^
+ 26 |     prop: [;];
     `----
 
-  x TagNameSelector
-    ,-[$DIR/tests/fixture/declaration/input.css:26:1]
- 26 | 
- 27 | a { color: a/* ; */ b  ; }
-    : ^
- 28 | a{color:black}
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/declaration/input.css:24:1]
+ 24 |     prop/**/: big;
+ 25 |     prop: (;);
+    :           ^^^
+ 26 |     prop: [;];
     `----
 
-  x WqName
+  x LParen
+    ,-[$DIR/tests/fixture/declaration/input.css:24:1]
+ 24 |     prop/**/: big;
+ 25 |     prop: (;);
+    :           ^
+ 26 |     prop: [;];
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/declaration/input.css:24:1]
+ 24 |     prop/**/: big;
+ 25 |     prop: (;);
+    :            ^
+ 26 |     prop: [;];
+    `----
+
+  x Delimiter
+    ,-[$DIR/tests/fixture/declaration/input.css:24:1]
+ 24 |     prop/**/: big;
+ 25 |     prop: (;);
+    :            ^
+ 26 |     prop: [;];
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/declaration/input.css:25:1]
+ 25 |     prop: (;);
+ 26 |     prop: [;];
+    :     ^^^^^^^^^
+ 27 |     prop: {;};
+    `----
+
+  x StyleBlock
+    ,-[$DIR/tests/fixture/declaration/input.css:25:1]
+ 25 |     prop: (;);
+ 26 |     prop: [;];
+    :     ^^^^^^^^^
+ 27 |     prop: {;};
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/declaration/input.css:25:1]
+ 25 |     prop: (;);
+ 26 |     prop: [;];
+    :     ^^^^^^^^^
+ 27 |     prop: {;};
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/declaration/input.css:25:1]
+ 25 |     prop: (;);
+ 26 |     prop: [;];
+    :     ^^^^
+ 27 |     prop: {;};
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/declaration/input.css:25:1]
+ 25 |     prop: (;);
+ 26 |     prop: [;];
+    :     ^^^^
+ 27 |     prop: {;};
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/declaration/input.css:25:1]
+ 25 |     prop: (;);
+ 26 |     prop: [;];
+    :           ^^^
+ 27 |     prop: {;};
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/declaration/input.css:25:1]
+ 25 |     prop: (;);
+ 26 |     prop: [;];
+    :           ^^^
+ 27 |     prop: {;};
+    `----
+
+  x LBracket
+    ,-[$DIR/tests/fixture/declaration/input.css:25:1]
+ 25 |     prop: (;);
+ 26 |     prop: [;];
+    :           ^
+ 27 |     prop: {;};
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/declaration/input.css:25:1]
+ 25 |     prop: (;);
+ 26 |     prop: [;];
+    :            ^
+ 27 |     prop: {;};
+    `----
+
+  x Delimiter
+    ,-[$DIR/tests/fixture/declaration/input.css:25:1]
+ 25 |     prop: (;);
+ 26 |     prop: [;];
+    :            ^
+ 27 |     prop: {;};
+    `----
+
+  x ComponentValue
     ,-[$DIR/tests/fixture/declaration/input.css:26:1]
- 26 | 
- 27 | a { color: a/* ; */ b  ; }
-    : ^
- 28 | a{color:black}
+ 26 |     prop: [;];
+ 27 |     prop: {;};
+    :     ^^^^^^^^^
+ 28 | }
+    `----
+
+  x StyleBlock
+    ,-[$DIR/tests/fixture/declaration/input.css:26:1]
+ 26 |     prop: [;];
+ 27 |     prop: {;};
+    :     ^^^^^^^^^
+ 28 | }
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/declaration/input.css:26:1]
+ 26 |     prop: [;];
+ 27 |     prop: {;};
+    :     ^^^^^^^^^
+ 28 | }
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/declaration/input.css:26:1]
+ 26 |     prop: [;];
+ 27 |     prop: {;};
+    :     ^^^^
+ 28 | }
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/declaration/input.css:26:1]
- 26 | 
- 27 | a { color: a/* ; */ b  ; }
-    : ^
- 28 | a{color:black}
+ 26 |     prop: [;];
+ 27 |     prop: {;};
+    :     ^^^^
+ 28 | }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/declaration/input.css:26:1]
+ 26 |     prop: [;];
+ 27 |     prop: {;};
+    :           ^^^
+ 28 | }
     `----
 
   x SimpleBlock
     ,-[$DIR/tests/fixture/declaration/input.css:26:1]
- 26 | 
- 27 | a { color: a/* ; */ b  ; }
-    :   ^^^^^^^^^^^^^^^^^^^^^^^^
- 28 | a{color:black}
+ 26 |     prop: [;];
+ 27 |     prop: {;};
+    :           ^^^
+ 28 | }
     `----
 
   x LBrace
     ,-[$DIR/tests/fixture/declaration/input.css:26:1]
- 26 | 
- 27 | a { color: a/* ; */ b  ; }
-    :   ^
- 28 | a{color:black}
+ 26 |     prop: [;];
+ 27 |     prop: {;};
+    :           ^
+ 28 | }
     `----
 
   x ComponentValue
     ,-[$DIR/tests/fixture/declaration/input.css:26:1]
- 26 | 
- 27 | a { color: a/* ; */ b  ; }
-    :     ^^^^^^^^^^^^^^^^^^^
- 28 | a{color:black}
-    `----
-
-  x StyleBlock
-    ,-[$DIR/tests/fixture/declaration/input.css:26:1]
- 26 | 
- 27 | a { color: a/* ; */ b  ; }
-    :     ^^^^^^^^^^^^^^^^^^^
- 28 | a{color:black}
-    `----
-
-  x Declaration
-    ,-[$DIR/tests/fixture/declaration/input.css:26:1]
- 26 | 
- 27 | a { color: a/* ; */ b  ; }
-    :     ^^^^^^^^^^^^^^^^^^^
- 28 | a{color:black}
-    `----
-
-  x DeclarationName
-    ,-[$DIR/tests/fixture/declaration/input.css:26:1]
- 26 | 
- 27 | a { color: a/* ; */ b  ; }
-    :     ^^^^^
- 28 | a{color:black}
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/declaration/input.css:26:1]
- 26 | 
- 27 | a { color: a/* ; */ b  ; }
-    :     ^^^^^
- 28 | a{color:black}
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/declaration/input.css:26:1]
- 26 | 
- 27 | a { color: a/* ; */ b  ; }
+ 26 |     prop: [;];
+ 27 |     prop: {;};
     :            ^
- 28 | a{color:black}
+ 28 | }
     `----
 
-  x Ident
+  x Delimiter
     ,-[$DIR/tests/fixture/declaration/input.css:26:1]
- 26 | 
- 27 | a { color: a/* ; */ b  ; }
+ 26 |     prop: [;];
+ 27 |     prop: {;};
     :            ^
- 28 | a{color:black}
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/declaration/input.css:26:1]
- 26 | 
- 27 | a { color: a/* ; */ b  ; }
-    :                     ^
- 28 | a{color:black}
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/declaration/input.css:26:1]
- 26 | 
- 27 | a { color: a/* ; */ b  ; }
-    :                     ^
- 28 | a{color:black}
+ 28 | }
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/declaration/input.css:27:1]
- 27 | a { color: a/* ; */ b  ; }
- 28 | a{color:black}
+    ,-[$DIR/tests/fixture/declaration/input.css:29:1]
+ 29 | 
+ 30 | a { color: a/* ; */ b  ; }
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 31 | a{color:black}
+    `----
+
+  x QualifiedRule
+    ,-[$DIR/tests/fixture/declaration/input.css:29:1]
+ 29 | 
+ 30 | a { color: a/* ; */ b  ; }
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 31 | a{color:black}
+    `----
+
+  x SelectorList
+    ,-[$DIR/tests/fixture/declaration/input.css:29:1]
+ 29 | 
+ 30 | a { color: a/* ; */ b  ; }
+    : ^
+ 31 | a{color:black}
+    `----
+
+  x ComplexSelector
+    ,-[$DIR/tests/fixture/declaration/input.css:29:1]
+ 29 | 
+ 30 | a { color: a/* ; */ b  ; }
+    : ^
+ 31 | a{color:black}
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/declaration/input.css:29:1]
+ 29 | 
+ 30 | a { color: a/* ; */ b  ; }
+    : ^
+ 31 | a{color:black}
+    `----
+
+  x TypeSelector
+    ,-[$DIR/tests/fixture/declaration/input.css:29:1]
+ 29 | 
+ 30 | a { color: a/* ; */ b  ; }
+    : ^
+ 31 | a{color:black}
+    `----
+
+  x TagNameSelector
+    ,-[$DIR/tests/fixture/declaration/input.css:29:1]
+ 29 | 
+ 30 | a { color: a/* ; */ b  ; }
+    : ^
+ 31 | a{color:black}
+    `----
+
+  x WqName
+    ,-[$DIR/tests/fixture/declaration/input.css:29:1]
+ 29 | 
+ 30 | a { color: a/* ; */ b  ; }
+    : ^
+ 31 | a{color:black}
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/declaration/input.css:29:1]
+ 29 | 
+ 30 | a { color: a/* ; */ b  ; }
+    : ^
+ 31 | a{color:black}
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/declaration/input.css:29:1]
+ 29 | 
+ 30 | a { color: a/* ; */ b  ; }
+    :   ^^^^^^^^^^^^^^^^^^^^^^^^
+ 31 | a{color:black}
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/declaration/input.css:29:1]
+ 29 | 
+ 30 | a { color: a/* ; */ b  ; }
+    :   ^
+ 31 | a{color:black}
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/declaration/input.css:29:1]
+ 29 | 
+ 30 | a { color: a/* ; */ b  ; }
+    :     ^^^^^^^^^^^^^^^^^^^
+ 31 | a{color:black}
+    `----
+
+  x StyleBlock
+    ,-[$DIR/tests/fixture/declaration/input.css:29:1]
+ 29 | 
+ 30 | a { color: a/* ; */ b  ; }
+    :     ^^^^^^^^^^^^^^^^^^^
+ 31 | a{color:black}
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/declaration/input.css:29:1]
+ 29 | 
+ 30 | a { color: a/* ; */ b  ; }
+    :     ^^^^^^^^^^^^^^^^^^^
+ 31 | a{color:black}
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/declaration/input.css:29:1]
+ 29 | 
+ 30 | a { color: a/* ; */ b  ; }
+    :     ^^^^^
+ 31 | a{color:black}
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/declaration/input.css:29:1]
+ 29 | 
+ 30 | a { color: a/* ; */ b  ; }
+    :     ^^^^^
+ 31 | a{color:black}
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/declaration/input.css:29:1]
+ 29 | 
+ 30 | a { color: a/* ; */ b  ; }
+    :            ^
+ 31 | a{color:black}
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/declaration/input.css:29:1]
+ 29 | 
+ 30 | a { color: a/* ; */ b  ; }
+    :            ^
+ 31 | a{color:black}
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/declaration/input.css:29:1]
+ 29 | 
+ 30 | a { color: a/* ; */ b  ; }
+    :                     ^
+ 31 | a{color:black}
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/declaration/input.css:29:1]
+ 29 | 
+ 30 | a { color: a/* ; */ b  ; }
+    :                     ^
+ 31 | a{color:black}
+    `----
+
+  x Rule
+    ,-[$DIR/tests/fixture/declaration/input.css:30:1]
+ 30 | a { color: a/* ; */ b  ; }
+ 31 | a{color:black}
     : ^^^^^^^^^^^^^^
     `----
 
   x QualifiedRule
-    ,-[$DIR/tests/fixture/declaration/input.css:27:1]
- 27 | a { color: a/* ; */ b  ; }
- 28 | a{color:black}
+    ,-[$DIR/tests/fixture/declaration/input.css:30:1]
+ 30 | a { color: a/* ; */ b  ; }
+ 31 | a{color:black}
     : ^^^^^^^^^^^^^^
     `----
 
   x SelectorList
-    ,-[$DIR/tests/fixture/declaration/input.css:27:1]
- 27 | a { color: a/* ; */ b  ; }
- 28 | a{color:black}
+    ,-[$DIR/tests/fixture/declaration/input.css:30:1]
+ 30 | a { color: a/* ; */ b  ; }
+ 31 | a{color:black}
     : ^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/declaration/input.css:27:1]
- 27 | a { color: a/* ; */ b  ; }
- 28 | a{color:black}
+    ,-[$DIR/tests/fixture/declaration/input.css:30:1]
+ 30 | a { color: a/* ; */ b  ; }
+ 31 | a{color:black}
     : ^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/declaration/input.css:27:1]
- 27 | a { color: a/* ; */ b  ; }
- 28 | a{color:black}
+    ,-[$DIR/tests/fixture/declaration/input.css:30:1]
+ 30 | a { color: a/* ; */ b  ; }
+ 31 | a{color:black}
     : ^
     `----
 
   x TypeSelector
-    ,-[$DIR/tests/fixture/declaration/input.css:27:1]
- 27 | a { color: a/* ; */ b  ; }
- 28 | a{color:black}
+    ,-[$DIR/tests/fixture/declaration/input.css:30:1]
+ 30 | a { color: a/* ; */ b  ; }
+ 31 | a{color:black}
     : ^
     `----
 
   x TagNameSelector
-    ,-[$DIR/tests/fixture/declaration/input.css:27:1]
- 27 | a { color: a/* ; */ b  ; }
- 28 | a{color:black}
+    ,-[$DIR/tests/fixture/declaration/input.css:30:1]
+ 30 | a { color: a/* ; */ b  ; }
+ 31 | a{color:black}
     : ^
     `----
 
   x WqName
-    ,-[$DIR/tests/fixture/declaration/input.css:27:1]
- 27 | a { color: a/* ; */ b  ; }
- 28 | a{color:black}
+    ,-[$DIR/tests/fixture/declaration/input.css:30:1]
+ 30 | a { color: a/* ; */ b  ; }
+ 31 | a{color:black}
     : ^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/declaration/input.css:27:1]
- 27 | a { color: a/* ; */ b  ; }
- 28 | a{color:black}
+    ,-[$DIR/tests/fixture/declaration/input.css:30:1]
+ 30 | a { color: a/* ; */ b  ; }
+ 31 | a{color:black}
     : ^
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/declaration/input.css:27:1]
- 27 | a { color: a/* ; */ b  ; }
- 28 | a{color:black}
+    ,-[$DIR/tests/fixture/declaration/input.css:30:1]
+ 30 | a { color: a/* ; */ b  ; }
+ 31 | a{color:black}
     :  ^^^^^^^^^^^^^
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/declaration/input.css:27:1]
- 27 | a { color: a/* ; */ b  ; }
- 28 | a{color:black}
+    ,-[$DIR/tests/fixture/declaration/input.css:30:1]
+ 30 | a { color: a/* ; */ b  ; }
+ 31 | a{color:black}
     :  ^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/declaration/input.css:27:1]
- 27 | a { color: a/* ; */ b  ; }
- 28 | a{color:black}
+    ,-[$DIR/tests/fixture/declaration/input.css:30:1]
+ 30 | a { color: a/* ; */ b  ; }
+ 31 | a{color:black}
     :   ^^^^^^^^^^^
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/declaration/input.css:27:1]
- 27 | a { color: a/* ; */ b  ; }
- 28 | a{color:black}
+    ,-[$DIR/tests/fixture/declaration/input.css:30:1]
+ 30 | a { color: a/* ; */ b  ; }
+ 31 | a{color:black}
     :   ^^^^^^^^^^^
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/declaration/input.css:27:1]
- 27 | a { color: a/* ; */ b  ; }
- 28 | a{color:black}
+    ,-[$DIR/tests/fixture/declaration/input.css:30:1]
+ 30 | a { color: a/* ; */ b  ; }
+ 31 | a{color:black}
     :   ^^^^^^^^^^^
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/declaration/input.css:27:1]
- 27 | a { color: a/* ; */ b  ; }
- 28 | a{color:black}
+    ,-[$DIR/tests/fixture/declaration/input.css:30:1]
+ 30 | a { color: a/* ; */ b  ; }
+ 31 | a{color:black}
     :   ^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/declaration/input.css:27:1]
- 27 | a { color: a/* ; */ b  ; }
- 28 | a{color:black}
+    ,-[$DIR/tests/fixture/declaration/input.css:30:1]
+ 30 | a { color: a/* ; */ b  ; }
+ 31 | a{color:black}
     :   ^^^^^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/declaration/input.css:27:1]
- 27 | a { color: a/* ; */ b  ; }
- 28 | a{color:black}
+    ,-[$DIR/tests/fixture/declaration/input.css:30:1]
+ 30 | a { color: a/* ; */ b  ; }
+ 31 | a{color:black}
     :         ^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/declaration/input.css:27:1]
- 27 | a { color: a/* ; */ b  ; }
- 28 | a{color:black}
+    ,-[$DIR/tests/fixture/declaration/input.css:30:1]
+ 30 | a { color: a/* ; */ b  ; }
+ 31 | a{color:black}
     :         ^^^^^
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/declaration/input.css:29:1]
- 29 |     
- 30 | ,-> a {;;
- 31 | |       color: black;
- 32 | |       ; ;
- 33 | `-> }
+    ,-[$DIR/tests/fixture/declaration/input.css:32:1]
+ 32 |     
+ 33 | ,-> a {;;
+ 34 | |       color: black;
+ 35 | |       ; ;
+ 36 | `-> }
     `----
 
   x QualifiedRule
-    ,-[$DIR/tests/fixture/declaration/input.css:29:1]
- 29 |     
- 30 | ,-> a {;;
- 31 | |       color: black;
- 32 | |       ; ;
- 33 | `-> }
+    ,-[$DIR/tests/fixture/declaration/input.css:32:1]
+ 32 |     
+ 33 | ,-> a {;;
+ 34 | |       color: black;
+ 35 | |       ; ;
+ 36 | `-> }
     `----
 
   x SelectorList
-    ,-[$DIR/tests/fixture/declaration/input.css:29:1]
- 29 | 
- 30 | a {;;
+    ,-[$DIR/tests/fixture/declaration/input.css:32:1]
+ 32 | 
+ 33 | a {;;
     : ^
- 31 |     color: black;
+ 34 |     color: black;
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/declaration/input.css:29:1]
- 29 | 
- 30 | a {;;
+    ,-[$DIR/tests/fixture/declaration/input.css:32:1]
+ 32 | 
+ 33 | a {;;
     : ^
- 31 |     color: black;
+ 34 |     color: black;
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/declaration/input.css:29:1]
- 29 | 
- 30 | a {;;
+    ,-[$DIR/tests/fixture/declaration/input.css:32:1]
+ 32 | 
+ 33 | a {;;
     : ^
- 31 |     color: black;
+ 34 |     color: black;
     `----
 
   x TypeSelector
-    ,-[$DIR/tests/fixture/declaration/input.css:29:1]
- 29 | 
- 30 | a {;;
+    ,-[$DIR/tests/fixture/declaration/input.css:32:1]
+ 32 | 
+ 33 | a {;;
     : ^
- 31 |     color: black;
+ 34 |     color: black;
     `----
 
   x TagNameSelector
-    ,-[$DIR/tests/fixture/declaration/input.css:29:1]
- 29 | 
- 30 | a {;;
+    ,-[$DIR/tests/fixture/declaration/input.css:32:1]
+ 32 | 
+ 33 | a {;;
     : ^
- 31 |     color: black;
+ 34 |     color: black;
     `----
 
   x WqName
-    ,-[$DIR/tests/fixture/declaration/input.css:29:1]
- 29 | 
- 30 | a {;;
+    ,-[$DIR/tests/fixture/declaration/input.css:32:1]
+ 32 | 
+ 33 | a {;;
     : ^
- 31 |     color: black;
+ 34 |     color: black;
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/declaration/input.css:29:1]
- 29 | 
- 30 | a {;;
+    ,-[$DIR/tests/fixture/declaration/input.css:32:1]
+ 32 | 
+ 33 | a {;;
     : ^
- 31 |     color: black;
+ 34 |     color: black;
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/declaration/input.css:29:1]
- 29 |     
- 30 | ,-> a {;;
- 31 | |       color: black;
- 32 | |       ; ;
- 33 | `-> }
+    ,-[$DIR/tests/fixture/declaration/input.css:32:1]
+ 32 |     
+ 33 | ,-> a {;;
+ 34 | |       color: black;
+ 35 | |       ; ;
+ 36 | `-> }
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/declaration/input.css:29:1]
- 29 | 
- 30 | a {;;
+    ,-[$DIR/tests/fixture/declaration/input.css:32:1]
+ 32 | 
+ 33 | a {;;
     :   ^
- 31 |     color: black;
+ 34 |     color: black;
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/declaration/input.css:30:1]
- 30 | a {;;
- 31 |     color: black;
+    ,-[$DIR/tests/fixture/declaration/input.css:33:1]
+ 33 | a {;;
+ 34 |     color: black;
     :     ^^^^^^^^^^^^
- 32 |     ; ;
+ 35 |     ; ;
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/declaration/input.css:30:1]
- 30 | a {;;
- 31 |     color: black;
+    ,-[$DIR/tests/fixture/declaration/input.css:33:1]
+ 33 | a {;;
+ 34 |     color: black;
     :     ^^^^^^^^^^^^
- 32 |     ; ;
+ 35 |     ; ;
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/declaration/input.css:30:1]
- 30 | a {;;
- 31 |     color: black;
+    ,-[$DIR/tests/fixture/declaration/input.css:33:1]
+ 33 | a {;;
+ 34 |     color: black;
     :     ^^^^^^^^^^^^
- 32 |     ; ;
+ 35 |     ; ;
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/declaration/input.css:30:1]
- 30 | a {;;
- 31 |     color: black;
+    ,-[$DIR/tests/fixture/declaration/input.css:33:1]
+ 33 | a {;;
+ 34 |     color: black;
     :     ^^^^^
- 32 |     ; ;
+ 35 |     ; ;
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/declaration/input.css:30:1]
- 30 | a {;;
- 31 |     color: black;
+    ,-[$DIR/tests/fixture/declaration/input.css:33:1]
+ 33 | a {;;
+ 34 |     color: black;
     :     ^^^^^
- 32 |     ; ;
+ 35 |     ; ;
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/declaration/input.css:30:1]
- 30 | a {;;
- 31 |     color: black;
+    ,-[$DIR/tests/fixture/declaration/input.css:33:1]
+ 33 | a {;;
+ 34 |     color: black;
     :            ^^^^^
- 32 |     ; ;
+ 35 |     ; ;
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/declaration/input.css:30:1]
- 30 | a {;;
- 31 |     color: black;
+    ,-[$DIR/tests/fixture/declaration/input.css:33:1]
+ 33 | a {;;
+ 34 |     color: black;
     :            ^^^^^
- 32 |     ; ;
+ 35 |     ; ;
     `----

@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 213,
+    "end": 231,
     "ctxt": 0
   },
   "rules": [
@@ -10,7 +10,7 @@
       "type": "QualifiedRule",
       "span": {
         "start": 1,
-        "end": 212,
+        "end": 230,
         "ctxt": 0
       },
       "prelude": {
@@ -74,7 +74,7 @@
         "type": "SimpleBlock",
         "span": {
           "start": 3,
-          "end": 212,
+          "end": 230,
           "ctxt": 0
         },
         "name": {
@@ -578,6 +578,92 @@
                   "Ident": {
                     "value": "unknown",
                     "raw": "unknown"
+                  }
+                }
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 215,
+              "end": 227,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 215,
+                "end": 220,
+                "ctxt": 0
+              },
+              "value": "value",
+              "raw": "value"
+            },
+            "value": [
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 222,
+                  "end": 223,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Delim": {
+                    "value": "!"
+                  }
+                }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 223,
+                  "end": 224,
+                  "ctxt": 0
+                },
+                "token": {
+                  "WhiteSpace": {
+                    "value": " "
+                  }
+                }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 224,
+                  "end": 225,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Delim": {
+                    "value": "!"
+                  }
+                }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 225,
+                  "end": 226,
+                  "ctxt": 0
+                },
+                "token": {
+                  "WhiteSpace": {
+                    "value": " "
+                  }
+                }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 226,
+                  "end": 227,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Delim": {
+                    "value": "!"
                   }
                 }
               }

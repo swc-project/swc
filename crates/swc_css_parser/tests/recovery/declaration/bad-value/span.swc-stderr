@@ -13,7 +13,8 @@
  10 | |       value: ! !important;
  11 | |       value: ! !important unknown;
  12 | |       value: ! unknown;
- 13 | `-> }
+ 13 | |       value: ! ! !;
+ 14 | `-> }
     `----
 
   x Rule
@@ -30,7 +31,8 @@
  10 | |       value: ! !important;
  11 | |       value: ! !important unknown;
  12 | |       value: ! unknown;
- 13 | `-> }
+ 13 | |       value: ! ! !;
+ 14 | `-> }
     `----
 
   x QualifiedRule
@@ -47,7 +49,8 @@
  10 | |       value: ! !important;
  11 | |       value: ! !important unknown;
  12 | |       value: ! unknown;
- 13 | `-> }
+ 13 | |       value: ! ! !;
+ 14 | `-> }
     `----
 
   x SelectorList
@@ -113,7 +116,8 @@
  10 | |       value: ! !important;
  11 | |       value: ! !important unknown;
  12 | |       value: ! unknown;
- 13 | `-> }
+ 13 | |       value: ! ! !;
+ 14 | `-> }
     `----
 
   x LBrace
@@ -816,7 +820,7 @@
  11 |     value: ! !important unknown;
  12 |     value: ! unknown;
     :     ^^^^^^^^^^^^^^^^
- 13 | }
+ 13 |     value: ! ! !;
     `----
 
   x StyleBlock
@@ -824,7 +828,7 @@
  11 |     value: ! !important unknown;
  12 |     value: ! unknown;
     :     ^^^^^^^^^^^^^^^^
- 13 | }
+ 13 |     value: ! ! !;
     `----
 
   x Declaration
@@ -832,7 +836,7 @@
  11 |     value: ! !important unknown;
  12 |     value: ! unknown;
     :     ^^^^^^^^^^^^^^^^
- 13 | }
+ 13 |     value: ! ! !;
     `----
 
   x DeclarationName
@@ -840,7 +844,7 @@
  11 |     value: ! !important unknown;
  12 |     value: ! unknown;
     :     ^^^^^
- 13 | }
+ 13 |     value: ! ! !;
     `----
 
   x Ident
@@ -848,7 +852,7 @@
  11 |     value: ! !important unknown;
  12 |     value: ! unknown;
     :     ^^^^^
- 13 | }
+ 13 |     value: ! ! !;
     `----
 
   x ComponentValue
@@ -856,7 +860,7 @@
  11 |     value: ! !important unknown;
  12 |     value: ! unknown;
     :            ^
- 13 | }
+ 13 |     value: ! ! !;
     `----
 
   x Delim { value: '!' }
@@ -864,7 +868,7 @@
  11 |     value: ! !important unknown;
  12 |     value: ! unknown;
     :            ^
- 13 | }
+ 13 |     value: ! ! !;
     `----
 
   x ComponentValue
@@ -872,7 +876,7 @@
  11 |     value: ! !important unknown;
  12 |     value: ! unknown;
     :             ^
- 13 | }
+ 13 |     value: ! ! !;
     `----
 
   x WhiteSpace { value: " " }
@@ -880,7 +884,7 @@
  11 |     value: ! !important unknown;
  12 |     value: ! unknown;
     :             ^
- 13 | }
+ 13 |     value: ! ! !;
     `----
 
   x ComponentValue
@@ -888,7 +892,7 @@
  11 |     value: ! !important unknown;
  12 |     value: ! unknown;
     :              ^^^^^^^
- 13 | }
+ 13 |     value: ! ! !;
     `----
 
   x Ident { value: Atom('unknown' type=static), raw: "unknown" }
@@ -896,5 +900,125 @@
  11 |     value: ! !important unknown;
  12 |     value: ! unknown;
     :              ^^^^^^^
- 13 | }
+ 13 |     value: ! ! !;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:12:1]
+ 12 |     value: ! unknown;
+ 13 |     value: ! ! !;
+    :     ^^^^^^^^^^^^
+ 14 | }
+    `----
+
+  x StyleBlock
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:12:1]
+ 12 |     value: ! unknown;
+ 13 |     value: ! ! !;
+    :     ^^^^^^^^^^^^
+ 14 | }
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:12:1]
+ 12 |     value: ! unknown;
+ 13 |     value: ! ! !;
+    :     ^^^^^^^^^^^^
+ 14 | }
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:12:1]
+ 12 |     value: ! unknown;
+ 13 |     value: ! ! !;
+    :     ^^^^^
+ 14 | }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:12:1]
+ 12 |     value: ! unknown;
+ 13 |     value: ! ! !;
+    :     ^^^^^
+ 14 | }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:12:1]
+ 12 |     value: ! unknown;
+ 13 |     value: ! ! !;
+    :            ^
+ 14 | }
+    `----
+
+  x Delim { value: '!' }
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:12:1]
+ 12 |     value: ! unknown;
+ 13 |     value: ! ! !;
+    :            ^
+ 14 | }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:12:1]
+ 12 |     value: ! unknown;
+ 13 |     value: ! ! !;
+    :             ^
+ 14 | }
+    `----
+
+  x WhiteSpace { value: " " }
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:12:1]
+ 12 |     value: ! unknown;
+ 13 |     value: ! ! !;
+    :             ^
+ 14 | }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:12:1]
+ 12 |     value: ! unknown;
+ 13 |     value: ! ! !;
+    :              ^
+ 14 | }
+    `----
+
+  x Delim { value: '!' }
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:12:1]
+ 12 |     value: ! unknown;
+ 13 |     value: ! ! !;
+    :              ^
+ 14 | }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:12:1]
+ 12 |     value: ! unknown;
+ 13 |     value: ! ! !;
+    :               ^
+ 14 | }
+    `----
+
+  x WhiteSpace { value: " " }
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:12:1]
+ 12 |     value: ! unknown;
+ 13 |     value: ! ! !;
+    :               ^
+ 14 | }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:12:1]
+ 12 |     value: ! unknown;
+ 13 |     value: ! ! !;
+    :                ^
+ 14 | }
+    `----
+
+  x Delim { value: '!' }
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:12:1]
+ 12 |     value: ! unknown;
+ 13 |     value: ! ! !;
+    :                ^
+ 14 | }
     `----

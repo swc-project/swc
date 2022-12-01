@@ -60,7 +60,31 @@
  11 |     value: ! !important unknown;
  12 |     value: ! unknown;
     :            ^
- 13 | }
+ 13 |     value: ! ! !;
+    `----
+
+  x Unexpected '!' in declaration value
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:12:1]
+ 12 |     value: ! unknown;
+ 13 |     value: ! ! !;
+    :            ^
+ 14 | }
+    `----
+
+  x Unexpected '!' in declaration value
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:12:1]
+ 12 |     value: ! unknown;
+ 13 |     value: ! ! !;
+    :                ^
+ 14 | }
+    `----
+
+  x Unexpected '!' in declaration value
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:12:1]
+ 12 |     value: ! unknown;
+ 13 |     value: ! ! !;
+    :              ^
+ 14 | }
     `----
 
   x Unexpected ')' in declaration value
