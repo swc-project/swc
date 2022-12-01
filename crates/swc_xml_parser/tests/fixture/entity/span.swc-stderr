@@ -6,7 +6,8 @@
  3 | |       <h a='&lang='/>
  4 | |       <test test="&#1234;"></test>
  5 | |       <test test="&#x112;"></test>
- 6 | `-> </root>
+ 6 | |       <Geschlecht>&#x2642;</Geschlecht>
+ 7 | `-> </root>
    `----
 
   x Child
@@ -16,7 +17,8 @@
  3 | |       <h a='&lang='/>
  4 | |       <test test="&#1234;"></test>
  5 | |       <test test="&#x112;"></test>
- 6 | `-> </root>
+ 6 | |       <Geschlecht>&#x2642;</Geschlecht>
+ 7 | `-> </root>
    `----
 
   x Element
@@ -26,7 +28,8 @@
  3 | |       <h a='&lang='/>
  4 | |       <test test="&#1234;"></test>
  5 | |       <test test="&#x112;"></test>
- 6 | `-> </root>
+ 6 | |       <Geschlecht>&#x2642;</Geschlecht>
+ 7 | `-> </root>
    `----
 
   x Child
@@ -130,7 +133,7 @@
  3 |         <h a='&lang='/>
  4 | ,->     <test test="&#1234;"></test>
  5 | `->     <test test="&#x112;"></test>
- 6 |     </root>
+ 6 |         <Geschlecht>&#x2642;</Geschlecht>
    `----
 
   x Text
@@ -138,7 +141,7 @@
  3 |         <h a='&lang='/>
  4 | ,->     <test test="&#1234;"></test>
  5 | `->     <test test="&#x112;"></test>
- 6 |     </root>
+ 6 |         <Geschlecht>&#x2642;</Geschlecht>
    `----
 
   x Child
@@ -146,7 +149,7 @@
  4 |     <test test="&#1234;"></test>
  5 |     <test test="&#x112;"></test>
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 6 | </root>
+ 6 |     <Geschlecht>&#x2642;</Geschlecht>
    `----
 
   x Element
@@ -154,21 +157,69 @@
  4 |     <test test="&#1234;"></test>
  5 |     <test test="&#x112;"></test>
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 6 | </root>
+ 6 |     <Geschlecht>&#x2642;</Geschlecht>
    `----
 
   x Child
    ,-[$DIR/tests/fixture/entity/input.xml:4:1]
- 4 |     <test test="&#1234;"></test>
- 5 |     <test test="&#x112;"></test>
-   :                                 ^
- 6 | </root>
+ 4 |         <test test="&#1234;"></test>
+ 5 | ,->     <test test="&#x112;"></test>
+ 6 | `->     <Geschlecht>&#x2642;</Geschlecht>
+ 7 |     </root>
    `----
 
   x Text
    ,-[$DIR/tests/fixture/entity/input.xml:4:1]
- 4 |     <test test="&#1234;"></test>
+ 4 |         <test test="&#1234;"></test>
+ 5 | ,->     <test test="&#x112;"></test>
+ 6 | `->     <Geschlecht>&#x2642;</Geschlecht>
+ 7 |     </root>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/entity/input.xml:5:1]
  5 |     <test test="&#x112;"></test>
-   :                                 ^
- 6 | </root>
+ 6 |     <Geschlecht>&#x2642;</Geschlecht>
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 7 | </root>
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/entity/input.xml:5:1]
+ 5 |     <test test="&#x112;"></test>
+ 6 |     <Geschlecht>&#x2642;</Geschlecht>
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 7 | </root>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/entity/input.xml:5:1]
+ 5 |     <test test="&#x112;"></test>
+ 6 |     <Geschlecht>&#x2642;</Geschlecht>
+   :                 ^^^^^^^^
+ 7 | </root>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/entity/input.xml:5:1]
+ 5 |     <test test="&#x112;"></test>
+ 6 |     <Geschlecht>&#x2642;</Geschlecht>
+   :                 ^^^^^^^^
+ 7 | </root>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/entity/input.xml:5:1]
+ 5 |     <test test="&#x112;"></test>
+ 6 |     <Geschlecht>&#x2642;</Geschlecht>
+   :                                      ^
+ 7 | </root>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/entity/input.xml:5:1]
+ 5 |     <test test="&#x112;"></test>
+ 6 |     <Geschlecht>&#x2642;</Geschlecht>
+   :                                      ^
+ 7 | </root>
    `----

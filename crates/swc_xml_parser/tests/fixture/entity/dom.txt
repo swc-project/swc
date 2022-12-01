@@ -16,4 +16,8 @@
 |   <test>
 |     test="Ē"
 |   "
+    "
+|   <Geschlecht>
+|     "♂"
+|   "
 "
