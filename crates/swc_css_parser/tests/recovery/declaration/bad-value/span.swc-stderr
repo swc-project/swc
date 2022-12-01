@@ -643,6 +643,22 @@
  11 |     value: ! !important unknown;
     `----
 
+  x ComponentValue
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:9:1]
+  9 |     value: !!;
+ 10 |     value: ! !important;
+    :             ^
+ 11 |     value: ! !important unknown;
+    `----
+
+  x WhiteSpace { value: " " }
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:9:1]
+  9 |     value: !!;
+ 10 |     value: ! !important;
+    :             ^
+ 11 |     value: ! !important unknown;
+    `----
+
   x ImportantFlag
     ,-[$DIR/tests/recovery/declaration/bad-value/input.css:9:1]
   9 |     value: !!;

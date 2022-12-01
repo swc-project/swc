@@ -388,6 +388,19 @@
                     "value": "!"
                   }
                 }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 143,
+                  "end": 144,
+                  "ctxt": 0
+                },
+                "token": {
+                  "WhiteSpace": {
+                    "value": " "
+                  }
+                }
               }
             ],
             "important": {

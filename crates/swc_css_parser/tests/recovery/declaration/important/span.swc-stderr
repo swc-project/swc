@@ -168,6 +168,22 @@
  3 | }
    `----
 
+  x ComponentValue
+   ,-[$DIR/tests/recovery/declaration/important/input.css:1:1]
+ 1 | .a {
+ 2 |     color: white !!important;
+   :                  ^
+ 3 | }
+   `----
+
+  x Delim { value: '!' }
+   ,-[$DIR/tests/recovery/declaration/important/input.css:1:1]
+ 1 | .a {
+ 2 |     color: white !!important;
+   :                  ^
+ 3 | }
+   `----
+
   x ImportantFlag
    ,-[$DIR/tests/recovery/declaration/important/input.css:1:1]
  1 | .a {

@@ -654,13 +654,13 @@ where
                     token: Token::Delim { value: '!', .. },
                     ..
                 }) => {
-                    exclamation_point_span = Some(*span);
-
-                    if important_ident.is_some() {
+                    if exclamation_point_span.is_some() {
                         important_ident = None;
 
                         last_whitespaces = (last_whitespaces.2, 0, 0);
                     }
+
+                    exclamation_point_span = Some(*span);
                 }
                 ComponentValue::PreservedToken(TokenAndSpan {
                     token: Token::WhiteSpace { .. },

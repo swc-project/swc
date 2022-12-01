@@ -1,5 +1,13 @@
 
   x Expected Declaration value
+   ,-[$DIR/tests/recovery/declaration/important/input.css:1:1]
+ 1 | .a {
+ 2 |     color: white !!important;
+   :                  ^
+ 3 | }
+   `----
+
+  x Expected Declaration value
    ,-[$DIR/tests/recovery/declaration/important/input.css:5:1]
  5 | .class {
  6 |     color: red red red !important !important;
@@ -38,11 +46,3 @@
     :                                   ^
  23 | }
     `----
-
-  x Unexpected end of file
-   ,-[$DIR/tests/recovery/declaration/important/input.css:1:1]
- 1 | .a {
- 2 |     color: white !!important;
-   :                  ^
- 3 | }
-   `----
