@@ -158,6 +158,7 @@ use swc_ecma_visit::{noop_visit_type, FoldWith, Visit, VisitMutWith, VisitWith};
 pub use swc_error_reporters::handler::{try_with_handler, HandlerOpts};
 pub use swc_node_comments::SwcComments;
 use swc_timer::timer;
+use url::Url;
 
 pub use crate::builder::PassBuilder;
 use crate::config::{
