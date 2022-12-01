@@ -1,225 +1,312 @@
 
   x Document
+    ,-[$DIR/tests/fixture/entity/input.xml:1:1]
+  1 | ,-> <?xml version="1.0" encoding="UTF-8"?>
+  2 | |   <?xml-stylesheet href="copy.css" type="text/css"?>
+  3 | |   <root>
+  4 | |       <h a='&noti;'/>
+  5 | |       <h a='&lang='/>
+  6 | |       <test test="&#1234;"></test>
+  7 | |       <test test="&#x112;"></test>
+  8 | |       <Geschlecht>&#x2642;</Geschlecht>
+  9 | |       <copyright>&copy; O'Reilly &amp; Associates</copyright>
+ 10 | `-> </root>
+    `----
+
+  x Child
    ,-[$DIR/tests/fixture/entity/input.xml:1:1]
- 1 | ,-> <root>
- 2 | |       <h a='&noti;'/>
- 3 | |       <h a='&lang='/>
- 4 | |       <test test="&#1234;"></test>
- 5 | |       <test test="&#x112;"></test>
- 6 | |       <Geschlecht>&#x2642;</Geschlecht>
- 7 | `-> </root>
+ 1 | <?xml version="1.0" encoding="UTF-8"?>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 2 | <?xml-stylesheet href="copy.css" type="text/css"?>
+   `----
+
+  x ProcessingInstruction
+   ,-[$DIR/tests/fixture/entity/input.xml:1:1]
+ 1 | <?xml version="1.0" encoding="UTF-8"?>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 2 | <?xml-stylesheet href="copy.css" type="text/css"?>
    `----
 
   x Child
    ,-[$DIR/tests/fixture/entity/input.xml:1:1]
- 1 | ,-> <root>
- 2 | |       <h a='&noti;'/>
- 3 | |       <h a='&lang='/>
- 4 | |       <test test="&#1234;"></test>
- 5 | |       <test test="&#x112;"></test>
- 6 | |       <Geschlecht>&#x2642;</Geschlecht>
- 7 | `-> </root>
+ 1 | <?xml version="1.0" encoding="UTF-8"?>
+ 2 | <?xml-stylesheet href="copy.css" type="text/css"?>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 3 | <root>
    `----
+
+  x ProcessingInstruction
+   ,-[$DIR/tests/fixture/entity/input.xml:1:1]
+ 1 | <?xml version="1.0" encoding="UTF-8"?>
+ 2 | <?xml-stylesheet href="copy.css" type="text/css"?>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 3 | <root>
+   `----
+
+  x Child
+    ,-[$DIR/tests/fixture/entity/input.xml:2:1]
+  2 |     <?xml-stylesheet href="copy.css" type="text/css"?>
+  3 | ,-> <root>
+  4 | |       <h a='&noti;'/>
+  5 | |       <h a='&lang='/>
+  6 | |       <test test="&#1234;"></test>
+  7 | |       <test test="&#x112;"></test>
+  8 | |       <Geschlecht>&#x2642;</Geschlecht>
+  9 | |       <copyright>&copy; O'Reilly &amp; Associates</copyright>
+ 10 | `-> </root>
+    `----
 
   x Element
-   ,-[$DIR/tests/fixture/entity/input.xml:1:1]
- 1 | ,-> <root>
- 2 | |       <h a='&noti;'/>
- 3 | |       <h a='&lang='/>
- 4 | |       <test test="&#1234;"></test>
- 5 | |       <test test="&#x112;"></test>
- 6 | |       <Geschlecht>&#x2642;</Geschlecht>
- 7 | `-> </root>
-   `----
+    ,-[$DIR/tests/fixture/entity/input.xml:2:1]
+  2 |     <?xml-stylesheet href="copy.css" type="text/css"?>
+  3 | ,-> <root>
+  4 | |       <h a='&noti;'/>
+  5 | |       <h a='&lang='/>
+  6 | |       <test test="&#1234;"></test>
+  7 | |       <test test="&#x112;"></test>
+  8 | |       <Geschlecht>&#x2642;</Geschlecht>
+  9 | |       <copyright>&copy; O'Reilly &amp; Associates</copyright>
+ 10 | `-> </root>
+    `----
 
   x Child
-   ,-[$DIR/tests/fixture/entity/input.xml:1:1]
- 1 | ,-> <root>
- 2 | `->     <h a='&noti;'/>
- 3 |         <h a='&lang='/>
+   ,-[$DIR/tests/fixture/entity/input.xml:2:1]
+ 2 |     <?xml-stylesheet href="copy.css" type="text/css"?>
+ 3 | ,-> <root>
+ 4 | `->     <h a='&noti;'/>
+ 5 |         <h a='&lang='/>
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/entity/input.xml:1:1]
- 1 | ,-> <root>
- 2 | `->     <h a='&noti;'/>
- 3 |         <h a='&lang='/>
+   ,-[$DIR/tests/fixture/entity/input.xml:2:1]
+ 2 |     <?xml-stylesheet href="copy.css" type="text/css"?>
+ 3 | ,-> <root>
+ 4 | `->     <h a='&noti;'/>
+ 5 |         <h a='&lang='/>
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/entity/input.xml:1:1]
- 1 | <root>
- 2 |     <h a='&noti;'/>
+   ,-[$DIR/tests/fixture/entity/input.xml:3:1]
+ 3 | <root>
+ 4 |     <h a='&noti;'/>
    :     ^^^^^^^^^^^^^^^
- 3 |     <h a='&lang='/>
+ 5 |     <h a='&lang='/>
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/entity/input.xml:1:1]
- 1 | <root>
- 2 |     <h a='&noti;'/>
+   ,-[$DIR/tests/fixture/entity/input.xml:3:1]
+ 3 | <root>
+ 4 |     <h a='&noti;'/>
    :     ^^^^^^^^^^^^^^^
- 3 |     <h a='&lang='/>
+ 5 |     <h a='&lang='/>
    `----
 
   x Attribute
 
   x Child
-   ,-[$DIR/tests/fixture/entity/input.xml:1:1]
- 1 |     <root>
- 2 | ,->     <h a='&noti;'/>
- 3 | `->     <h a='&lang='/>
- 4 |         <test test="&#1234;"></test>
+   ,-[$DIR/tests/fixture/entity/input.xml:3:1]
+ 3 |     <root>
+ 4 | ,->     <h a='&noti;'/>
+ 5 | `->     <h a='&lang='/>
+ 6 |         <test test="&#1234;"></test>
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/entity/input.xml:1:1]
- 1 |     <root>
- 2 | ,->     <h a='&noti;'/>
- 3 | `->     <h a='&lang='/>
- 4 |         <test test="&#1234;"></test>
+   ,-[$DIR/tests/fixture/entity/input.xml:3:1]
+ 3 |     <root>
+ 4 | ,->     <h a='&noti;'/>
+ 5 | `->     <h a='&lang='/>
+ 6 |         <test test="&#1234;"></test>
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/entity/input.xml:2:1]
- 2 |     <h a='&noti;'/>
- 3 |     <h a='&lang='/>
+   ,-[$DIR/tests/fixture/entity/input.xml:4:1]
+ 4 |     <h a='&noti;'/>
+ 5 |     <h a='&lang='/>
    :     ^^^^^^^^^^^^^^^
- 4 |     <test test="&#1234;"></test>
+ 6 |     <test test="&#1234;"></test>
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/entity/input.xml:2:1]
- 2 |     <h a='&noti;'/>
- 3 |     <h a='&lang='/>
+   ,-[$DIR/tests/fixture/entity/input.xml:4:1]
+ 4 |     <h a='&noti;'/>
+ 5 |     <h a='&lang='/>
    :     ^^^^^^^^^^^^^^^
- 4 |     <test test="&#1234;"></test>
-   `----
-
-  x Child
-   ,-[$DIR/tests/fixture/entity/input.xml:2:1]
- 2 |         <h a='&noti;'/>
- 3 | ,->     <h a='&lang='/>
- 4 | `->     <test test="&#1234;"></test>
- 5 |         <test test="&#x112;"></test>
-   `----
-
-  x Text
-   ,-[$DIR/tests/fixture/entity/input.xml:2:1]
- 2 |         <h a='&noti;'/>
- 3 | ,->     <h a='&lang='/>
- 4 | `->     <test test="&#1234;"></test>
- 5 |         <test test="&#x112;"></test>
-   `----
-
-  x Child
-   ,-[$DIR/tests/fixture/entity/input.xml:3:1]
- 3 |     <h a='&lang='/>
- 4 |     <test test="&#1234;"></test>
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 5 |     <test test="&#x112;"></test>
-   `----
-
-  x Element
-   ,-[$DIR/tests/fixture/entity/input.xml:3:1]
- 3 |     <h a='&lang='/>
- 4 |     <test test="&#1234;"></test>
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 5 |     <test test="&#x112;"></test>
-   `----
-
-  x Child
-   ,-[$DIR/tests/fixture/entity/input.xml:3:1]
- 3 |         <h a='&lang='/>
- 4 | ,->     <test test="&#1234;"></test>
- 5 | `->     <test test="&#x112;"></test>
- 6 |         <Geschlecht>&#x2642;</Geschlecht>
-   `----
-
-  x Text
-   ,-[$DIR/tests/fixture/entity/input.xml:3:1]
- 3 |         <h a='&lang='/>
- 4 | ,->     <test test="&#1234;"></test>
- 5 | `->     <test test="&#x112;"></test>
- 6 |         <Geschlecht>&#x2642;</Geschlecht>
+ 6 |     <test test="&#1234;"></test>
    `----
 
   x Child
    ,-[$DIR/tests/fixture/entity/input.xml:4:1]
- 4 |     <test test="&#1234;"></test>
- 5 |     <test test="&#x112;"></test>
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 6 |     <Geschlecht>&#x2642;</Geschlecht>
-   `----
-
-  x Element
-   ,-[$DIR/tests/fixture/entity/input.xml:4:1]
- 4 |     <test test="&#1234;"></test>
- 5 |     <test test="&#x112;"></test>
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 6 |     <Geschlecht>&#x2642;</Geschlecht>
-   `----
-
-  x Child
-   ,-[$DIR/tests/fixture/entity/input.xml:4:1]
- 4 |         <test test="&#1234;"></test>
- 5 | ,->     <test test="&#x112;"></test>
- 6 | `->     <Geschlecht>&#x2642;</Geschlecht>
- 7 |     </root>
+ 4 |         <h a='&noti;'/>
+ 5 | ,->     <h a='&lang='/>
+ 6 | `->     <test test="&#1234;"></test>
+ 7 |         <test test="&#x112;"></test>
    `----
 
   x Text
    ,-[$DIR/tests/fixture/entity/input.xml:4:1]
- 4 |         <test test="&#1234;"></test>
- 5 | ,->     <test test="&#x112;"></test>
- 6 | `->     <Geschlecht>&#x2642;</Geschlecht>
- 7 |     </root>
+ 4 |         <h a='&noti;'/>
+ 5 | ,->     <h a='&lang='/>
+ 6 | `->     <test test="&#1234;"></test>
+ 7 |         <test test="&#x112;"></test>
    `----
 
   x Child
    ,-[$DIR/tests/fixture/entity/input.xml:5:1]
- 5 |     <test test="&#x112;"></test>
- 6 |     <Geschlecht>&#x2642;</Geschlecht>
+ 5 |     <h a='&lang='/>
+ 6 |     <test test="&#1234;"></test>
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 7 |     <test test="&#x112;"></test>
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/entity/input.xml:5:1]
+ 5 |     <h a='&lang='/>
+ 6 |     <test test="&#1234;"></test>
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 7 |     <test test="&#x112;"></test>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/entity/input.xml:5:1]
+ 5 |         <h a='&lang='/>
+ 6 | ,->     <test test="&#1234;"></test>
+ 7 | `->     <test test="&#x112;"></test>
+ 8 |         <Geschlecht>&#x2642;</Geschlecht>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/entity/input.xml:5:1]
+ 5 |         <h a='&lang='/>
+ 6 | ,->     <test test="&#1234;"></test>
+ 7 | `->     <test test="&#x112;"></test>
+ 8 |         <Geschlecht>&#x2642;</Geschlecht>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/entity/input.xml:6:1]
+ 6 |     <test test="&#1234;"></test>
+ 7 |     <test test="&#x112;"></test>
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 8 |     <Geschlecht>&#x2642;</Geschlecht>
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/entity/input.xml:6:1]
+ 6 |     <test test="&#1234;"></test>
+ 7 |     <test test="&#x112;"></test>
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 8 |     <Geschlecht>&#x2642;</Geschlecht>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/entity/input.xml:6:1]
+ 6 |         <test test="&#1234;"></test>
+ 7 | ,->     <test test="&#x112;"></test>
+ 8 | `->     <Geschlecht>&#x2642;</Geschlecht>
+ 9 |         <copyright>&copy; O'Reilly &amp; Associates</copyright>
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/entity/input.xml:6:1]
+ 6 |         <test test="&#1234;"></test>
+ 7 | ,->     <test test="&#x112;"></test>
+ 8 | `->     <Geschlecht>&#x2642;</Geschlecht>
+ 9 |         <copyright>&copy; O'Reilly &amp; Associates</copyright>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/entity/input.xml:7:1]
+ 7 |     <test test="&#x112;"></test>
+ 8 |     <Geschlecht>&#x2642;</Geschlecht>
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 7 | </root>
+ 9 |     <copyright>&copy; O'Reilly &amp; Associates</copyright>
    `----
 
   x Element
-   ,-[$DIR/tests/fixture/entity/input.xml:5:1]
- 5 |     <test test="&#x112;"></test>
- 6 |     <Geschlecht>&#x2642;</Geschlecht>
+   ,-[$DIR/tests/fixture/entity/input.xml:7:1]
+ 7 |     <test test="&#x112;"></test>
+ 8 |     <Geschlecht>&#x2642;</Geschlecht>
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 7 | </root>
+ 9 |     <copyright>&copy; O'Reilly &amp; Associates</copyright>
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/entity/input.xml:5:1]
- 5 |     <test test="&#x112;"></test>
- 6 |     <Geschlecht>&#x2642;</Geschlecht>
+   ,-[$DIR/tests/fixture/entity/input.xml:7:1]
+ 7 |     <test test="&#x112;"></test>
+ 8 |     <Geschlecht>&#x2642;</Geschlecht>
    :                 ^^^^^^^^
- 7 | </root>
+ 9 |     <copyright>&copy; O'Reilly &amp; Associates</copyright>
    `----
 
   x Text
-   ,-[$DIR/tests/fixture/entity/input.xml:5:1]
- 5 |     <test test="&#x112;"></test>
- 6 |     <Geschlecht>&#x2642;</Geschlecht>
+   ,-[$DIR/tests/fixture/entity/input.xml:7:1]
+ 7 |     <test test="&#x112;"></test>
+ 8 |     <Geschlecht>&#x2642;</Geschlecht>
    :                 ^^^^^^^^
- 7 | </root>
+ 9 |     <copyright>&copy; O'Reilly &amp; Associates</copyright>
    `----
 
   x Child
-   ,-[$DIR/tests/fixture/entity/input.xml:5:1]
- 5 |     <test test="&#x112;"></test>
- 6 |     <Geschlecht>&#x2642;</Geschlecht>
-   :                                      ^
- 7 | </root>
-   `----
+    ,-[$DIR/tests/fixture/entity/input.xml:7:1]
+  7 |         <test test="&#x112;"></test>
+  8 | ,->     <Geschlecht>&#x2642;</Geschlecht>
+  9 | `->     <copyright>&copy; O'Reilly &amp; Associates</copyright>
+ 10 |     </root>
+    `----
 
   x Text
-   ,-[$DIR/tests/fixture/entity/input.xml:5:1]
- 5 |     <test test="&#x112;"></test>
- 6 |     <Geschlecht>&#x2642;</Geschlecht>
-   :                                      ^
- 7 | </root>
-   `----
+    ,-[$DIR/tests/fixture/entity/input.xml:7:1]
+  7 |         <test test="&#x112;"></test>
+  8 | ,->     <Geschlecht>&#x2642;</Geschlecht>
+  9 | `->     <copyright>&copy; O'Reilly &amp; Associates</copyright>
+ 10 |     </root>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/entity/input.xml:8:1]
+  8 |     <Geschlecht>&#x2642;</Geschlecht>
+  9 |     <copyright>&copy; O'Reilly &amp; Associates</copyright>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 10 | </root>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/entity/input.xml:8:1]
+  8 |     <Geschlecht>&#x2642;</Geschlecht>
+  9 |     <copyright>&copy; O'Reilly &amp; Associates</copyright>
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 10 | </root>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/entity/input.xml:8:1]
+  8 |     <Geschlecht>&#x2642;</Geschlecht>
+  9 |     <copyright>&copy; O'Reilly &amp; Associates</copyright>
+    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 10 | </root>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/entity/input.xml:8:1]
+  8 |     <Geschlecht>&#x2642;</Geschlecht>
+  9 |     <copyright>&copy; O'Reilly &amp; Associates</copyright>
+    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 10 | </root>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/entity/input.xml:8:1]
+  8 |     <Geschlecht>&#x2642;</Geschlecht>
+  9 |     <copyright>&copy; O'Reilly &amp; Associates</copyright>
+    :                                                            ^
+ 10 | </root>
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/entity/input.xml:8:1]
+  8 |     <Geschlecht>&#x2642;</Geschlecht>
+  9 |     <copyright>&copy; O'Reilly &amp; Associates</copyright>
+    :                                                            ^
+ 10 | </root>
+    `----
