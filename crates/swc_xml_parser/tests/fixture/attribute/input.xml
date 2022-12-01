@@ -6,4 +6,8 @@
     <foo foo:a="test">test</foo>
     <foo foo:a='"test1"' bar:b="'test2'">test</foo>
     <foo   a   =    'test1'     />
+    <foo foo=""></foo>
+    <foo foo="'"></foo>
+    <foo foo=''></foo>
+    <foo foo='"'></foo>
 </root>
