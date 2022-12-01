@@ -7,6 +7,12 @@
 
 - **(es/parser)** Fix `typeof` in `TSCallSignatureDeclaration` (#6553) ([aa28aa0](https://github.com/swc-project/swc/commit/aa28aa0c7fefcaea063340c711a5ea8a3ba60e7b))
 
+### Features
+
+
+
+- **(html/parser)** Improve lexer (#6543) ([49b7e9e](https://github.com/swc-project/swc/commit/49b7e9e224c36346a8fe5ccbec623ae76f0cc79d))
+
 ### Miscellaneous Tasks
 
 

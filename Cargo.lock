@@ -4148,7 +4148,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html"
-version = "0.97.1"
+version = "0.97.2"
 dependencies = [
  "swc_html_ast",
  "swc_html_codegen",
@@ -4172,7 +4172,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_codegen"
-version = "0.37.15"
+version = "0.37.16"
 dependencies = [
  "auto_impl",
  "bitflags",
@@ -4200,7 +4200,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "0.94.1"
+version = "0.94.2"
 dependencies = [
  "criterion",
  "once_cell",
@@ -4230,7 +4230,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_parser"
-version = "0.34.15"
+version = "0.34.16"
 dependencies = [
  "criterion",
  "serde",
