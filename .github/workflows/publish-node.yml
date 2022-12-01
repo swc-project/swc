@@ -448,6 +448,7 @@ jobs:
         shell: bash
         run: |
           ./scripts/cli_artifacts.sh
+          ls -R ./artifacts_cli
           npm run artifacts
 
       - name: List npm

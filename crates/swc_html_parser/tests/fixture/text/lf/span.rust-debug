@@ -55,7 +55,21 @@
  52 | |       <!-- Test -->
  53 | |   }
  54 | |   
- 55 | `-> </style>
+ 55 | |   </style>
+ 56 | |   <div test="test
+ 57 | |   
+ 58 | |   test
+ 59 | |   
+ 60 | |   test"></div>
+ 61 | |   <div test="
+ 62 | |   
+ 63 | |   test
+ 64 | |   
+ 65 | |   test
+ 66 | |   
+ 67 | |   test
+ 68 | |   
+ 69 | `-> "></div>
     `----
 
   x Child
@@ -616,6 +630,7 @@
  53 | |   }
  54 | |   
  55 | `-> </style>
+ 56 |     <div test="test
     `----
 
   x Element
@@ -629,6 +644,7 @@
  53 | |   }
  54 | |   
  55 | `-> </style>
+ 56 |     <div test="test
     `----
 
   x Child
@@ -642,6 +658,7 @@
  53 | |   }
  54 | `-> 
  55 |     </style>
+ 56 |     <div test="test
     `----
 
   x Text
@@ -655,4 +672,126 @@
  53 | |   }
  54 | `-> 
  55 |     </style>
+ 56 |     <div test="test
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/lf/input.html:54:1]
+ 54 | 
+ 55 | </style>
+    :         ^
+ 56 | <div test="test
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/lf/input.html:54:1]
+ 54 | 
+ 55 | </style>
+    :         ^
+ 56 | <div test="test
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/lf/input.html:55:1]
+ 55 |     </style>
+ 56 | ,-> <div test="test
+ 57 | |   
+ 58 | |   test
+ 59 | |   
+ 60 | `-> test"></div>
+ 61 |     <div test="
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/text/lf/input.html:55:1]
+ 55 |     </style>
+ 56 | ,-> <div test="test
+ 57 | |   
+ 58 | |   test
+ 59 | |   
+ 60 | `-> test"></div>
+ 61 |     <div test="
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/text/lf/input.html:55:1]
+ 55 |     </style>
+ 56 | ,-> <div test="test
+ 57 | |   
+ 58 | |   test
+ 59 | |   
+ 60 | `-> test"></div>
+ 61 |     <div test="
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/lf/input.html:59:1]
+ 59 | 
+ 60 | test"></div>
+    :             ^
+ 61 | <div test="
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/lf/input.html:59:1]
+ 59 | 
+ 60 | test"></div>
+    :             ^
+ 61 | <div test="
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/lf/input.html:60:1]
+ 60 |     test"></div>
+ 61 | ,-> <div test="
+ 62 | |   
+ 63 | |   test
+ 64 | |   
+ 65 | |   test
+ 66 | |   
+ 67 | |   test
+ 68 | |   
+ 69 | `-> "></div>
+    `----
+
+  x Element
+    ,-[$DIR/tests/fixture/text/lf/input.html:60:1]
+ 60 |     test"></div>
+ 61 | ,-> <div test="
+ 62 | |   
+ 63 | |   test
+ 64 | |   
+ 65 | |   test
+ 66 | |   
+ 67 | |   test
+ 68 | |   
+ 69 | `-> "></div>
+    `----
+
+  x Attribute
+    ,-[$DIR/tests/fixture/text/lf/input.html:60:1]
+ 60 |     test"></div>
+ 61 | ,-> <div test="
+ 62 | |   
+ 63 | |   test
+ 64 | |   
+ 65 | |   test
+ 66 | |   
+ 67 | |   test
+ 68 | |   
+ 69 | `-> "></div>
+    `----
+
+  x Child
+    ,-[$DIR/tests/fixture/text/lf/input.html:68:1]
+ 68 | 
+ 69 | "></div>
+    :         ^
+    `----
+
+  x Text
+    ,-[$DIR/tests/fixture/text/lf/input.html:68:1]
+ 68 | 
+ 69 | "></div>
+    :         ^
     `----
