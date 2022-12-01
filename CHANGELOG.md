@@ -16,6 +16,12 @@
 
 - **(ci)** Fix CI (#6558) ([8587589](https://github.com/swc-project/swc/commit/85875897f1fd3e71fe5e5d1877bb0e80458835d9))
 
+### Refactor
+
+
+
+- **(xml/parser)** Simplify logic for parsing elements (#6557) ([85a03e7](https://github.com/swc-project/swc/commit/85a03e71b7fe98d6f4f7c3fd0e49ce862130dfcc))
+
 ## [1.3.21] - 2022-11-30
 
 ### Bug Fixes
