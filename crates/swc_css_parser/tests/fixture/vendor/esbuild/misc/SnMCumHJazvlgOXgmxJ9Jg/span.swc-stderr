@@ -1,54 +1,54 @@
 
   x Stylesheet
-   ,-[$DIR/tests/fixture/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:1:1]
  1 | @unknown x;
    : ^^^^^^^^^^^
    `----
 
   x Rule
-   ,-[$DIR/tests/fixture/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:1:1]
  1 | @unknown x;
    : ^^^^^^^^^^^
    `----
 
   x AtRule
-   ,-[$DIR/tests/fixture/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:1:1]
  1 | @unknown x;
    : ^^^^^^^^^^^
    `----
 
   x AtRuleName
-   ,-[$DIR/tests/fixture/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:1:1]
  1 | @unknown x;
    :  ^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:1:1]
  1 | @unknown x;
    :  ^^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:1:1]
  1 | @unknown x;
    :         ^
    `----
 
   x WhiteSpace { value: " " }
-   ,-[$DIR/tests/fixture/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:1:1]
  1 | @unknown x;
    :         ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:1:1]
  1 | @unknown x;
    :          ^
    `----
 
   x Ident { value: Atom('x' type=static), raw: "x" }
-   ,-[$DIR/tests/fixture/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:1:1]
  1 | @unknown x;
    :          ^
    `----

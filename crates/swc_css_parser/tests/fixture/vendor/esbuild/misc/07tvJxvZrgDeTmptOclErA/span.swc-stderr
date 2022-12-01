@@ -1,150 +1,150 @@
 
   x Stylesheet
-   ,-[$DIR/tests/fixture/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:1]
  1 | a { margin: 0 1 0 1 }
    : ^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Rule
-   ,-[$DIR/tests/fixture/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:1]
  1 | a { margin: 0 1 0 1 }
    : ^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x QualifiedRule
-   ,-[$DIR/tests/fixture/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:1]
  1 | a { margin: 0 1 0 1 }
    : ^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x SelectorList
-   ,-[$DIR/tests/fixture/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:1]
  1 | a { margin: 0 1 0 1 }
    : ^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:1]
  1 | a { margin: 0 1 0 1 }
    : ^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:1]
  1 | a { margin: 0 1 0 1 }
    : ^
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/fixture/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:1]
  1 | a { margin: 0 1 0 1 }
    : ^
    `----
 
   x TagNameSelector
-   ,-[$DIR/tests/fixture/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:1]
  1 | a { margin: 0 1 0 1 }
    : ^
    `----
 
   x WqName
-   ,-[$DIR/tests/fixture/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:1]
  1 | a { margin: 0 1 0 1 }
    : ^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:1]
  1 | a { margin: 0 1 0 1 }
    : ^
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:1]
  1 | a { margin: 0 1 0 1 }
    :   ^^^^^^^^^^^^^^^^^^^
    `----
 
   x LBrace
-   ,-[$DIR/tests/fixture/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:1]
  1 | a { margin: 0 1 0 1 }
    :   ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:1]
  1 | a { margin: 0 1 0 1 }
    :     ^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:1]
  1 | a { margin: 0 1 0 1 }
    :     ^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:1]
  1 | a { margin: 0 1 0 1 }
    :     ^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:1]
  1 | a { margin: 0 1 0 1 }
    :     ^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:1]
  1 | a { margin: 0 1 0 1 }
    :     ^^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:1]
  1 | a { margin: 0 1 0 1 }
    :             ^
    `----
 
   x Integer
-   ,-[$DIR/tests/fixture/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:1]
  1 | a { margin: 0 1 0 1 }
    :             ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:1]
  1 | a { margin: 0 1 0 1 }
    :               ^
    `----
 
   x Integer
-   ,-[$DIR/tests/fixture/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:1]
  1 | a { margin: 0 1 0 1 }
    :               ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:1]
  1 | a { margin: 0 1 0 1 }
    :                 ^
    `----
 
   x Integer
-   ,-[$DIR/tests/fixture/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:1]
  1 | a { margin: 0 1 0 1 }
    :                 ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:1]
  1 | a { margin: 0 1 0 1 }
    :                   ^
    `----
 
   x Integer
-   ,-[$DIR/tests/fixture/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/07tvJxvZrgDeTmptOclErA/input.css:1:1]
  1 | a { margin: 0 1 0 1 }
    :                   ^
    `----

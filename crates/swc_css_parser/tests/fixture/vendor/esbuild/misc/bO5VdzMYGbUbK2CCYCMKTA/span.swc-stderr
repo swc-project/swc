@@ -1,108 +1,108 @@
 
   x Stylesheet
-   ,-[$DIR/tests/fixture/esbuild/misc/bO5VdzMYGbUbK2CCYCMKTA/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/bO5VdzMYGbUbK2CCYCMKTA/input.css:1:1]
  1 | .decl { a: b }
    : ^^^^^^^^^^^^^^
    `----
 
   x Rule
-   ,-[$DIR/tests/fixture/esbuild/misc/bO5VdzMYGbUbK2CCYCMKTA/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/bO5VdzMYGbUbK2CCYCMKTA/input.css:1:1]
  1 | .decl { a: b }
    : ^^^^^^^^^^^^^^
    `----
 
   x QualifiedRule
-   ,-[$DIR/tests/fixture/esbuild/misc/bO5VdzMYGbUbK2CCYCMKTA/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/bO5VdzMYGbUbK2CCYCMKTA/input.css:1:1]
  1 | .decl { a: b }
    : ^^^^^^^^^^^^^^
    `----
 
   x SelectorList
-   ,-[$DIR/tests/fixture/esbuild/misc/bO5VdzMYGbUbK2CCYCMKTA/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/bO5VdzMYGbUbK2CCYCMKTA/input.css:1:1]
  1 | .decl { a: b }
    : ^^^^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/esbuild/misc/bO5VdzMYGbUbK2CCYCMKTA/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/bO5VdzMYGbUbK2CCYCMKTA/input.css:1:1]
  1 | .decl { a: b }
    : ^^^^^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/esbuild/misc/bO5VdzMYGbUbK2CCYCMKTA/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/bO5VdzMYGbUbK2CCYCMKTA/input.css:1:1]
  1 | .decl { a: b }
    : ^^^^^
    `----
 
   x SubclassSelector
-   ,-[$DIR/tests/fixture/esbuild/misc/bO5VdzMYGbUbK2CCYCMKTA/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/bO5VdzMYGbUbK2CCYCMKTA/input.css:1:1]
  1 | .decl { a: b }
    : ^^^^^
    `----
 
   x ClassSelector
-   ,-[$DIR/tests/fixture/esbuild/misc/bO5VdzMYGbUbK2CCYCMKTA/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/bO5VdzMYGbUbK2CCYCMKTA/input.css:1:1]
  1 | .decl { a: b }
    : ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/esbuild/misc/bO5VdzMYGbUbK2CCYCMKTA/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/bO5VdzMYGbUbK2CCYCMKTA/input.css:1:1]
  1 | .decl { a: b }
    :  ^^^^
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/esbuild/misc/bO5VdzMYGbUbK2CCYCMKTA/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/bO5VdzMYGbUbK2CCYCMKTA/input.css:1:1]
  1 | .decl { a: b }
    :       ^^^^^^^^
    `----
 
   x LBrace
-   ,-[$DIR/tests/fixture/esbuild/misc/bO5VdzMYGbUbK2CCYCMKTA/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/bO5VdzMYGbUbK2CCYCMKTA/input.css:1:1]
  1 | .decl { a: b }
    :       ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/esbuild/misc/bO5VdzMYGbUbK2CCYCMKTA/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/bO5VdzMYGbUbK2CCYCMKTA/input.css:1:1]
  1 | .decl { a: b }
    :         ^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/esbuild/misc/bO5VdzMYGbUbK2CCYCMKTA/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/bO5VdzMYGbUbK2CCYCMKTA/input.css:1:1]
  1 | .decl { a: b }
    :         ^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/esbuild/misc/bO5VdzMYGbUbK2CCYCMKTA/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/bO5VdzMYGbUbK2CCYCMKTA/input.css:1:1]
  1 | .decl { a: b }
    :         ^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/esbuild/misc/bO5VdzMYGbUbK2CCYCMKTA/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/bO5VdzMYGbUbK2CCYCMKTA/input.css:1:1]
  1 | .decl { a: b }
    :         ^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/esbuild/misc/bO5VdzMYGbUbK2CCYCMKTA/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/bO5VdzMYGbUbK2CCYCMKTA/input.css:1:1]
  1 | .decl { a: b }
    :         ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/esbuild/misc/bO5VdzMYGbUbK2CCYCMKTA/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/bO5VdzMYGbUbK2CCYCMKTA/input.css:1:1]
  1 | .decl { a: b }
    :            ^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/esbuild/misc/bO5VdzMYGbUbK2CCYCMKTA/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/bO5VdzMYGbUbK2CCYCMKTA/input.css:1:1]
  1 | .decl { a: b }
    :            ^
    `----

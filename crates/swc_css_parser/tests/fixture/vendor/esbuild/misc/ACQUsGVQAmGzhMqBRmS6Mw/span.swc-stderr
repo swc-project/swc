@@ -1,114 +1,114 @@
 
   x Stylesheet
-   ,-[$DIR/tests/fixture/esbuild/misc/ACQUsGVQAmGzhMqBRmS6Mw/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/ACQUsGVQAmGzhMqBRmS6Mw/input.css:1:1]
  1 | a { width: .10; }
    : ^^^^^^^^^^^^^^^^^
    `----
 
   x Rule
-   ,-[$DIR/tests/fixture/esbuild/misc/ACQUsGVQAmGzhMqBRmS6Mw/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/ACQUsGVQAmGzhMqBRmS6Mw/input.css:1:1]
  1 | a { width: .10; }
    : ^^^^^^^^^^^^^^^^^
    `----
 
   x QualifiedRule
-   ,-[$DIR/tests/fixture/esbuild/misc/ACQUsGVQAmGzhMqBRmS6Mw/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/ACQUsGVQAmGzhMqBRmS6Mw/input.css:1:1]
  1 | a { width: .10; }
    : ^^^^^^^^^^^^^^^^^
    `----
 
   x SelectorList
-   ,-[$DIR/tests/fixture/esbuild/misc/ACQUsGVQAmGzhMqBRmS6Mw/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/ACQUsGVQAmGzhMqBRmS6Mw/input.css:1:1]
  1 | a { width: .10; }
    : ^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/esbuild/misc/ACQUsGVQAmGzhMqBRmS6Mw/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/ACQUsGVQAmGzhMqBRmS6Mw/input.css:1:1]
  1 | a { width: .10; }
    : ^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/esbuild/misc/ACQUsGVQAmGzhMqBRmS6Mw/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/ACQUsGVQAmGzhMqBRmS6Mw/input.css:1:1]
  1 | a { width: .10; }
    : ^
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/fixture/esbuild/misc/ACQUsGVQAmGzhMqBRmS6Mw/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/ACQUsGVQAmGzhMqBRmS6Mw/input.css:1:1]
  1 | a { width: .10; }
    : ^
    `----
 
   x TagNameSelector
-   ,-[$DIR/tests/fixture/esbuild/misc/ACQUsGVQAmGzhMqBRmS6Mw/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/ACQUsGVQAmGzhMqBRmS6Mw/input.css:1:1]
  1 | a { width: .10; }
    : ^
    `----
 
   x WqName
-   ,-[$DIR/tests/fixture/esbuild/misc/ACQUsGVQAmGzhMqBRmS6Mw/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/ACQUsGVQAmGzhMqBRmS6Mw/input.css:1:1]
  1 | a { width: .10; }
    : ^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/esbuild/misc/ACQUsGVQAmGzhMqBRmS6Mw/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/ACQUsGVQAmGzhMqBRmS6Mw/input.css:1:1]
  1 | a { width: .10; }
    : ^
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/esbuild/misc/ACQUsGVQAmGzhMqBRmS6Mw/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/ACQUsGVQAmGzhMqBRmS6Mw/input.css:1:1]
  1 | a { width: .10; }
    :   ^^^^^^^^^^^^^^^
    `----
 
   x LBrace
-   ,-[$DIR/tests/fixture/esbuild/misc/ACQUsGVQAmGzhMqBRmS6Mw/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/ACQUsGVQAmGzhMqBRmS6Mw/input.css:1:1]
  1 | a { width: .10; }
    :   ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/esbuild/misc/ACQUsGVQAmGzhMqBRmS6Mw/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/ACQUsGVQAmGzhMqBRmS6Mw/input.css:1:1]
  1 | a { width: .10; }
    :     ^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/esbuild/misc/ACQUsGVQAmGzhMqBRmS6Mw/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/ACQUsGVQAmGzhMqBRmS6Mw/input.css:1:1]
  1 | a { width: .10; }
    :     ^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/esbuild/misc/ACQUsGVQAmGzhMqBRmS6Mw/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/ACQUsGVQAmGzhMqBRmS6Mw/input.css:1:1]
  1 | a { width: .10; }
    :     ^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/esbuild/misc/ACQUsGVQAmGzhMqBRmS6Mw/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/ACQUsGVQAmGzhMqBRmS6Mw/input.css:1:1]
  1 | a { width: .10; }
    :     ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/esbuild/misc/ACQUsGVQAmGzhMqBRmS6Mw/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/ACQUsGVQAmGzhMqBRmS6Mw/input.css:1:1]
  1 | a { width: .10; }
    :     ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/esbuild/misc/ACQUsGVQAmGzhMqBRmS6Mw/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/ACQUsGVQAmGzhMqBRmS6Mw/input.css:1:1]
  1 | a { width: .10; }
    :            ^^^
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/esbuild/misc/ACQUsGVQAmGzhMqBRmS6Mw/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/ACQUsGVQAmGzhMqBRmS6Mw/input.css:1:1]
  1 | a { width: .10; }
    :            ^^^
    `----

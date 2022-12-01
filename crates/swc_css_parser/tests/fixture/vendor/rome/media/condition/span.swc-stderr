@@ -1,6 +1,6 @@
 
   x Stylesheet
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
   1 | ,-> @media (min-width: 800px) {}
   2 | |   @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
   3 | |   @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
@@ -26,147 +26,147 @@
     `----
 
   x Rule
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    `----
 
   x AtRule
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    `----
 
   x AtRuleName
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
    :  ^^^^^
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
    :  ^^^^^
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    `----
 
   x MediaQueryList
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
    :        ^^^^^^^^^^^^^^^^^^
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    `----
 
   x MediaQuery
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
    :        ^^^^^^^^^^^^^^^^^^
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    `----
 
   x MediaCondition
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
    :        ^^^^^^^^^^^^^^^^^^
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    `----
 
   x MediaConditionAllType
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
    :        ^^^^^^^^^^^^^^^^^^
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    `----
 
   x MediaInParens
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
    :        ^^^^^^^^^^^^^^^^^^
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    `----
 
   x MediaFeature
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
    :        ^^^^^^^^^^^^^^^^^^
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    `----
 
   x MediaFeaturePlain
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
    :        ^^^^^^^^^^^^^^^^^^
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    `----
 
   x MediaFeatureName
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
    :         ^^^^^^^^^
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
    :         ^^^^^^^^^
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    `----
 
   x MediaFeatureValue
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
    :                    ^^^^^
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    `----
 
   x Dimension
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
    :                    ^^^^^
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    `----
 
   x Length
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
    :                    ^^^^^
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
    :                    ^^^
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
    :                       ^^
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
    :                           ^^
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    `----
 
   x LBrace
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
    :                           ^
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    `----
 
   x Rule
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -174,7 +174,7 @@
    `----
 
   x AtRule
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -182,7 +182,7 @@
    `----
 
   x AtRuleName
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :  ^^^^^
@@ -190,7 +190,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :  ^^^^^
@@ -198,7 +198,7 @@
    `----
 
   x MediaQueryList
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -206,7 +206,7 @@
    `----
 
   x MediaQuery
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -214,7 +214,7 @@
    `----
 
   x MediaCondition
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -222,7 +222,7 @@
    `----
 
   x MediaConditionAllType
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :        ^^^^^^^^^^^^^^^^^^
@@ -230,7 +230,7 @@
    `----
 
   x MediaInParens
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :        ^^^^^^^^^^^^^^^^^^
@@ -238,7 +238,7 @@
    `----
 
   x MediaFeature
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :        ^^^^^^^^^^^^^^^^^^
@@ -246,7 +246,7 @@
    `----
 
   x MediaFeaturePlain
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :        ^^^^^^^^^^^^^^^^^^
@@ -254,7 +254,7 @@
    `----
 
   x MediaFeatureName
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :         ^^^^^^^^^
@@ -262,7 +262,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :         ^^^^^^^^^
@@ -270,7 +270,7 @@
    `----
 
   x MediaFeatureValue
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                    ^^^^^
@@ -278,7 +278,7 @@
    `----
 
   x Dimension
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                    ^^^^^
@@ -286,7 +286,7 @@
    `----
 
   x Length
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                    ^^^^^
@@ -294,7 +294,7 @@
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                    ^^^
@@ -302,7 +302,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                       ^^
@@ -310,7 +310,7 @@
    `----
 
   x MediaConditionAllType
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                           ^^^^^^^^^^^^^^^^^^^^^^
@@ -318,7 +318,7 @@
    `----
 
   x MediaAnd
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                           ^^^^^^^^^^^^^^^^^^^^^^
@@ -326,7 +326,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                           ^^^
@@ -334,7 +334,7 @@
    `----
 
   x MediaInParens
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                               ^^^^^^^^^^^^^^^^^^
@@ -342,7 +342,7 @@
    `----
 
   x MediaFeature
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                               ^^^^^^^^^^^^^^^^^^
@@ -350,7 +350,7 @@
    `----
 
   x MediaFeaturePlain
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                               ^^^^^^^^^^^^^^^^^^
@@ -358,7 +358,7 @@
    `----
 
   x MediaFeatureName
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                                ^^^^^^^^^
@@ -366,7 +366,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                                ^^^^^^^^^
@@ -374,7 +374,7 @@
    `----
 
   x MediaFeatureValue
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                                           ^^^^^
@@ -382,7 +382,7 @@
    `----
 
   x Dimension
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                                           ^^^^^
@@ -390,7 +390,7 @@
    `----
 
   x Length
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                                           ^^^^^
@@ -398,7 +398,7 @@
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                                           ^^^
@@ -406,7 +406,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                                              ^^
@@ -414,7 +414,7 @@
    `----
 
   x MediaConditionAllType
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                                                  ^^^^^^^^^^^^^^^^^^^^^^
@@ -422,7 +422,7 @@
    `----
 
   x MediaAnd
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                                                  ^^^^^^^^^^^^^^^^^^^^^^
@@ -430,7 +430,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                                                  ^^^
@@ -438,7 +438,7 @@
    `----
 
   x MediaInParens
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                                                      ^^^^^^^^^^^^^^^^^^
@@ -446,7 +446,7 @@
    `----
 
   x MediaFeature
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                                                      ^^^^^^^^^^^^^^^^^^
@@ -454,7 +454,7 @@
    `----
 
   x MediaFeaturePlain
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                                                      ^^^^^^^^^^^^^^^^^^
@@ -462,7 +462,7 @@
    `----
 
   x MediaFeatureName
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                                                       ^^^^^^^^^
@@ -470,7 +470,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                                                       ^^^^^^^^^
@@ -478,7 +478,7 @@
    `----
 
   x MediaFeatureValue
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                                                                  ^^^^^
@@ -486,7 +486,7 @@
    `----
 
   x Dimension
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                                                                  ^^^^^
@@ -494,7 +494,7 @@
    `----
 
   x Length
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                                                                  ^^^^^
@@ -502,7 +502,7 @@
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                                                                  ^^^
@@ -510,7 +510,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                                                                     ^^
@@ -518,7 +518,7 @@
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                                                                         ^^
@@ -526,7 +526,7 @@
    `----
 
   x LBrace
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:1:1]
  1 | @media (min-width: 800px) {}
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                                                                         ^
@@ -534,7 +534,7 @@
    `----
 
   x Rule
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:2:1]
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -542,7 +542,7 @@
    `----
 
   x AtRule
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:2:1]
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -550,7 +550,7 @@
    `----
 
   x AtRuleName
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:2:1]
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :  ^^^^^
@@ -558,7 +558,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:2:1]
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :  ^^^^^
@@ -566,7 +566,7 @@
    `----
 
   x MediaQueryList
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:2:1]
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -574,7 +574,7 @@
    `----
 
   x MediaQuery
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:2:1]
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -582,7 +582,7 @@
    `----
 
   x MediaCondition
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:2:1]
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -590,7 +590,7 @@
    `----
 
   x MediaConditionAllType
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:2:1]
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :        ^^^^^^^^^^^^^^^^^^
@@ -598,7 +598,7 @@
    `----
 
   x MediaInParens
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:2:1]
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :        ^^^^^^^^^^^^^^^^^^
@@ -606,7 +606,7 @@
    `----
 
   x MediaFeature
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:2:1]
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :        ^^^^^^^^^^^^^^^^^^
@@ -614,7 +614,7 @@
    `----
 
   x MediaFeaturePlain
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:2:1]
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :        ^^^^^^^^^^^^^^^^^^
@@ -622,7 +622,7 @@
    `----
 
   x MediaFeatureName
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:2:1]
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :         ^^^^^^^^^
@@ -630,7 +630,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:2:1]
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :         ^^^^^^^^^
@@ -638,7 +638,7 @@
    `----
 
   x MediaFeatureValue
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:2:1]
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                    ^^^^^
@@ -646,7 +646,7 @@
    `----
 
   x Dimension
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:2:1]
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                    ^^^^^
@@ -654,7 +654,7 @@
    `----
 
   x Length
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:2:1]
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                    ^^^^^
@@ -662,7 +662,7 @@
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:2:1]
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                    ^^^
@@ -670,7 +670,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:2:1]
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                       ^^
@@ -678,7 +678,7 @@
    `----
 
   x MediaConditionAllType
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:2:1]
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                           ^^^^^^^^^^^^^^^^^^^^^^
@@ -686,7 +686,7 @@
    `----
 
   x MediaAnd
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:2:1]
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                           ^^^^^^^^^^^^^^^^^^^^^^
@@ -694,7 +694,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:2:1]
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                           ^^^
@@ -702,7 +702,7 @@
    `----
 
   x MediaInParens
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:2:1]
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                               ^^^^^^^^^^^^^^^^^^
@@ -710,7 +710,7 @@
    `----
 
   x MediaFeature
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:2:1]
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                               ^^^^^^^^^^^^^^^^^^
@@ -718,7 +718,7 @@
    `----
 
   x MediaFeaturePlain
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:2:1]
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                               ^^^^^^^^^^^^^^^^^^
@@ -726,7 +726,7 @@
    `----
 
   x MediaFeatureName
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:2:1]
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                                ^^^^^^^^^
@@ -734,7 +734,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:2:1]
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                                ^^^^^^^^^
@@ -742,7 +742,7 @@
    `----
 
   x MediaFeatureValue
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:2:1]
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                                           ^^^^^
@@ -750,7 +750,7 @@
    `----
 
   x Dimension
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:2:1]
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                                           ^^^^^
@@ -758,7 +758,7 @@
    `----
 
   x Length
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:2:1]
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                                           ^^^^^
@@ -766,7 +766,7 @@
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:2:1]
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                                           ^^^
@@ -774,7 +774,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:2:1]
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                                              ^^
@@ -782,7 +782,7 @@
    `----
 
   x MediaConditionAllType
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:2:1]
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                                                  ^^^^^^^^^^^^^^^^^^^^^^
@@ -790,7 +790,7 @@
    `----
 
   x MediaAnd
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:2:1]
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                                                  ^^^^^^^^^^^^^^^^^^^^^^
@@ -798,7 +798,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:2:1]
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                                                  ^^^
@@ -806,7 +806,7 @@
    `----
 
   x MediaInParens
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:2:1]
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                                                      ^^^^^^^^^^^^^^^^^^
@@ -814,7 +814,7 @@
    `----
 
   x MediaFeature
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:2:1]
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                                                      ^^^^^^^^^^^^^^^^^^
@@ -822,7 +822,7 @@
    `----
 
   x MediaFeaturePlain
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:2:1]
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                                                      ^^^^^^^^^^^^^^^^^^
@@ -830,7 +830,7 @@
    `----
 
   x MediaFeatureName
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:2:1]
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                                                       ^^^^^^^^^
@@ -838,7 +838,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:2:1]
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                                                       ^^^^^^^^^
@@ -846,7 +846,7 @@
    `----
 
   x MediaFeatureValue
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:2:1]
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                                                                  ^^^^^
@@ -854,7 +854,7 @@
    `----
 
   x Dimension
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:2:1]
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                                                                  ^^^^^
@@ -862,7 +862,7 @@
    `----
 
   x Length
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:2:1]
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                                                                  ^^^^^
@@ -870,7 +870,7 @@
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:2:1]
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                                                                  ^^^
@@ -878,7 +878,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:2:1]
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                                                                     ^^
@@ -886,7 +886,7 @@
    `----
 
   x MediaConditionAllType
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:2:1]
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                                                                         ^^^^^^^^^^^^^^^^^^^^^^
@@ -894,7 +894,7 @@
    `----
 
   x MediaAnd
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:2:1]
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                                                                         ^^^^^^^^^^^^^^^^^^^^^^
@@ -902,7 +902,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:2:1]
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                                                                         ^^^
@@ -910,7 +910,7 @@
    `----
 
   x MediaInParens
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:2:1]
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                                                                             ^^^^^^^^^^^^^^^^^^
@@ -918,7 +918,7 @@
    `----
 
   x MediaFeature
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:2:1]
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                                                                             ^^^^^^^^^^^^^^^^^^
@@ -926,7 +926,7 @@
    `----
 
   x MediaFeaturePlain
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:2:1]
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                                                                             ^^^^^^^^^^^^^^^^^^
@@ -934,7 +934,7 @@
    `----
 
   x MediaFeatureName
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:2:1]
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                                                                              ^^^^^^^^^
@@ -942,7 +942,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:2:1]
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                                                                              ^^^^^^^^^
@@ -950,7 +950,7 @@
    `----
 
   x MediaFeatureValue
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:2:1]
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                                                                                         ^^^^^
@@ -958,7 +958,7 @@
    `----
 
   x Dimension
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:2:1]
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                                                                                         ^^^^^
@@ -966,7 +966,7 @@
    `----
 
   x Length
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:2:1]
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                                                                                         ^^^^^
@@ -974,7 +974,7 @@
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:2:1]
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                                                                                         ^^^
@@ -982,7 +982,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:2:1]
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                                                                                            ^^
@@ -990,7 +990,7 @@
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:2:1]
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                                                                                                ^^
@@ -998,7 +998,7 @@
    `----
 
   x LBrace
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:2:1]
  2 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                                                                                                ^
@@ -1006,7 +1006,7 @@
    `----
 
   x Rule
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:3:1]
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  4 | @media not (min-width: 800px) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1014,7 +1014,7 @@
    `----
 
   x AtRule
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:3:1]
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  4 | @media not (min-width: 800px) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1022,7 +1022,7 @@
    `----
 
   x AtRuleName
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:3:1]
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  4 | @media not (min-width: 800px) {}
    :  ^^^^^
@@ -1030,7 +1030,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:3:1]
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  4 | @media not (min-width: 800px) {}
    :  ^^^^^
@@ -1038,7 +1038,7 @@
    `----
 
   x MediaQueryList
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:3:1]
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  4 | @media not (min-width: 800px) {}
    :        ^^^^^^^^^^^^^^^^^^^^^^
@@ -1046,7 +1046,7 @@
    `----
 
   x MediaQuery
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:3:1]
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  4 | @media not (min-width: 800px) {}
    :        ^^^^^^^^^^^^^^^^^^^^^^
@@ -1054,7 +1054,7 @@
    `----
 
   x MediaCondition
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:3:1]
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  4 | @media not (min-width: 800px) {}
    :        ^^^^^^^^^^^^^^^^^^^^^^
@@ -1062,7 +1062,7 @@
    `----
 
   x MediaConditionAllType
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:3:1]
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  4 | @media not (min-width: 800px) {}
    :        ^^^^^^^^^^^^^^^^^^^^^^
@@ -1070,7 +1070,7 @@
    `----
 
   x MediaNot
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:3:1]
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  4 | @media not (min-width: 800px) {}
    :        ^^^^^^^^^^^^^^^^^^^^^^
@@ -1078,7 +1078,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:3:1]
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  4 | @media not (min-width: 800px) {}
    :        ^^^
@@ -1086,7 +1086,7 @@
    `----
 
   x MediaInParens
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:3:1]
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  4 | @media not (min-width: 800px) {}
    :            ^^^^^^^^^^^^^^^^^^
@@ -1094,7 +1094,7 @@
    `----
 
   x MediaFeature
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:3:1]
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  4 | @media not (min-width: 800px) {}
    :            ^^^^^^^^^^^^^^^^^^
@@ -1102,7 +1102,7 @@
    `----
 
   x MediaFeaturePlain
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:3:1]
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  4 | @media not (min-width: 800px) {}
    :            ^^^^^^^^^^^^^^^^^^
@@ -1110,7 +1110,7 @@
    `----
 
   x MediaFeatureName
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:3:1]
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  4 | @media not (min-width: 800px) {}
    :             ^^^^^^^^^
@@ -1118,7 +1118,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:3:1]
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  4 | @media not (min-width: 800px) {}
    :             ^^^^^^^^^
@@ -1126,7 +1126,7 @@
    `----
 
   x MediaFeatureValue
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:3:1]
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  4 | @media not (min-width: 800px) {}
    :                        ^^^^^
@@ -1134,7 +1134,7 @@
    `----
 
   x Dimension
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:3:1]
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  4 | @media not (min-width: 800px) {}
    :                        ^^^^^
@@ -1142,7 +1142,7 @@
    `----
 
   x Length
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:3:1]
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  4 | @media not (min-width: 800px) {}
    :                        ^^^^^
@@ -1150,7 +1150,7 @@
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:3:1]
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  4 | @media not (min-width: 800px) {}
    :                        ^^^
@@ -1158,7 +1158,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:3:1]
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  4 | @media not (min-width: 800px) {}
    :                           ^^
@@ -1166,7 +1166,7 @@
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:3:1]
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  4 | @media not (min-width: 800px) {}
    :                               ^^
@@ -1174,7 +1174,7 @@
    `----
 
   x LBrace
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:3:1]
  3 | @media (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
  4 | @media not (min-width: 800px) {}
    :                               ^
@@ -1182,7 +1182,7 @@
    `----
 
   x Rule
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:4:1]
  4 | @media not (min-width: 800px) {}
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1190,7 +1190,7 @@
    `----
 
   x AtRule
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:4:1]
  4 | @media not (min-width: 800px) {}
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1198,7 +1198,7 @@
    `----
 
   x AtRuleName
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:4:1]
  4 | @media not (min-width: 800px) {}
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
    :  ^^^^^
@@ -1206,7 +1206,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:4:1]
  4 | @media not (min-width: 800px) {}
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
    :  ^^^^^
@@ -1214,7 +1214,7 @@
    `----
 
   x MediaQueryList
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:4:1]
  4 | @media not (min-width: 800px) {}
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
    :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1222,7 +1222,7 @@
    `----
 
   x MediaQuery
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:4:1]
  4 | @media not (min-width: 800px) {}
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
    :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1230,7 +1230,7 @@
    `----
 
   x MediaCondition
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:4:1]
  4 | @media not (min-width: 800px) {}
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
    :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1238,7 +1238,7 @@
    `----
 
   x MediaConditionAllType
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:4:1]
  4 | @media not (min-width: 800px) {}
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1246,7 +1246,7 @@
    `----
 
   x MediaInParens
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:4:1]
  4 | @media not (min-width: 800px) {}
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1254,7 +1254,7 @@
    `----
 
   x MediaCondition
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:4:1]
  4 | @media not (min-width: 800px) {}
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1262,7 +1262,7 @@
    `----
 
   x MediaConditionAllType
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:4:1]
  4 | @media not (min-width: 800px) {}
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
    :         ^^^^^^^^^^^^^^^^^^
@@ -1270,7 +1270,7 @@
    `----
 
   x MediaInParens
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:4:1]
  4 | @media not (min-width: 800px) {}
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
    :         ^^^^^^^^^^^^^^^^^^
@@ -1278,7 +1278,7 @@
    `----
 
   x MediaFeature
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:4:1]
  4 | @media not (min-width: 800px) {}
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
    :         ^^^^^^^^^^^^^^^^^^
@@ -1286,7 +1286,7 @@
    `----
 
   x MediaFeaturePlain
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:4:1]
  4 | @media not (min-width: 800px) {}
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
    :         ^^^^^^^^^^^^^^^^^^
@@ -1294,7 +1294,7 @@
    `----
 
   x MediaFeatureName
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:4:1]
  4 | @media not (min-width: 800px) {}
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
    :          ^^^^^^^^^
@@ -1302,7 +1302,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:4:1]
  4 | @media not (min-width: 800px) {}
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
    :          ^^^^^^^^^
@@ -1310,7 +1310,7 @@
    `----
 
   x MediaFeatureValue
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:4:1]
  4 | @media not (min-width: 800px) {}
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
    :                     ^^^^^
@@ -1318,7 +1318,7 @@
    `----
 
   x Dimension
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:4:1]
  4 | @media not (min-width: 800px) {}
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
    :                     ^^^^^
@@ -1326,7 +1326,7 @@
    `----
 
   x Length
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:4:1]
  4 | @media not (min-width: 800px) {}
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
    :                     ^^^^^
@@ -1334,7 +1334,7 @@
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:4:1]
  4 | @media not (min-width: 800px) {}
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
    :                     ^^^
@@ -1342,7 +1342,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:4:1]
  4 | @media not (min-width: 800px) {}
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
    :                        ^^
@@ -1350,7 +1350,7 @@
    `----
 
   x MediaConditionAllType
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:4:1]
  4 | @media not (min-width: 800px) {}
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
    :                            ^^^^^^^^^^^^^^^^^^^^^^
@@ -1358,7 +1358,7 @@
    `----
 
   x MediaAnd
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:4:1]
  4 | @media not (min-width: 800px) {}
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
    :                            ^^^^^^^^^^^^^^^^^^^^^^
@@ -1366,7 +1366,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:4:1]
  4 | @media not (min-width: 800px) {}
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
    :                            ^^^
@@ -1374,7 +1374,7 @@
    `----
 
   x MediaInParens
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:4:1]
  4 | @media not (min-width: 800px) {}
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
    :                                ^^^^^^^^^^^^^^^^^^
@@ -1382,7 +1382,7 @@
    `----
 
   x MediaFeature
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:4:1]
  4 | @media not (min-width: 800px) {}
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
    :                                ^^^^^^^^^^^^^^^^^^
@@ -1390,7 +1390,7 @@
    `----
 
   x MediaFeaturePlain
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:4:1]
  4 | @media not (min-width: 800px) {}
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
    :                                ^^^^^^^^^^^^^^^^^^
@@ -1398,7 +1398,7 @@
    `----
 
   x MediaFeatureName
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:4:1]
  4 | @media not (min-width: 800px) {}
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
    :                                 ^^^^^^^^^
@@ -1406,7 +1406,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:4:1]
  4 | @media not (min-width: 800px) {}
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
    :                                 ^^^^^^^^^
@@ -1414,7 +1414,7 @@
    `----
 
   x MediaFeatureValue
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:4:1]
  4 | @media not (min-width: 800px) {}
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
    :                                            ^^^^^
@@ -1422,7 +1422,7 @@
    `----
 
   x Dimension
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:4:1]
  4 | @media not (min-width: 800px) {}
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
    :                                            ^^^^^
@@ -1430,7 +1430,7 @@
    `----
 
   x Length
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:4:1]
  4 | @media not (min-width: 800px) {}
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
    :                                            ^^^^^
@@ -1438,7 +1438,7 @@
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:4:1]
  4 | @media not (min-width: 800px) {}
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
    :                                            ^^^
@@ -1446,7 +1446,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:4:1]
  4 | @media not (min-width: 800px) {}
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
    :                                               ^^
@@ -1454,7 +1454,7 @@
    `----
 
   x MediaConditionAllType
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:4:1]
  4 | @media not (min-width: 800px) {}
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
    :                                                    ^^^^^^^^^^^^^^^^^^^^^
@@ -1462,7 +1462,7 @@
    `----
 
   x MediaOr
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:4:1]
  4 | @media not (min-width: 800px) {}
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
    :                                                    ^^^^^^^^^^^^^^^^^^^^^
@@ -1470,7 +1470,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:4:1]
  4 | @media not (min-width: 800px) {}
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
    :                                                    ^^
@@ -1478,7 +1478,7 @@
    `----
 
   x MediaInParens
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:4:1]
  4 | @media not (min-width: 800px) {}
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
    :                                                       ^^^^^^^^^^^^^^^^^^
@@ -1486,7 +1486,7 @@
    `----
 
   x MediaFeature
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:4:1]
  4 | @media not (min-width: 800px) {}
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
    :                                                       ^^^^^^^^^^^^^^^^^^
@@ -1494,7 +1494,7 @@
    `----
 
   x MediaFeaturePlain
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:4:1]
  4 | @media not (min-width: 800px) {}
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
    :                                                       ^^^^^^^^^^^^^^^^^^
@@ -1502,7 +1502,7 @@
    `----
 
   x MediaFeatureName
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:4:1]
  4 | @media not (min-width: 800px) {}
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
    :                                                        ^^^^^^^^^
@@ -1510,7 +1510,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:4:1]
  4 | @media not (min-width: 800px) {}
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
    :                                                        ^^^^^^^^^
@@ -1518,7 +1518,7 @@
    `----
 
   x MediaFeatureValue
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:4:1]
  4 | @media not (min-width: 800px) {}
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
    :                                                                   ^^^^^
@@ -1526,7 +1526,7 @@
    `----
 
   x Dimension
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:4:1]
  4 | @media not (min-width: 800px) {}
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
    :                                                                   ^^^^^
@@ -1534,7 +1534,7 @@
    `----
 
   x Length
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:4:1]
  4 | @media not (min-width: 800px) {}
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
    :                                                                   ^^^^^
@@ -1542,7 +1542,7 @@
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:4:1]
  4 | @media not (min-width: 800px) {}
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
    :                                                                   ^^^
@@ -1550,7 +1550,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:4:1]
  4 | @media not (min-width: 800px) {}
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
    :                                                                      ^^
@@ -1558,7 +1558,7 @@
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:4:1]
  4 | @media not (min-width: 800px) {}
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
    :                                                                          ^^
@@ -1566,7 +1566,7 @@
    `----
 
   x LBrace
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:4:1]
  4 | @media not (min-width: 800px) {}
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
    :                                                                          ^
@@ -1574,7 +1574,7 @@
    `----
 
   x Rule
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:5:1]
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1582,7 +1582,7 @@
    `----
 
   x AtRule
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:5:1]
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1590,7 +1590,7 @@
    `----
 
   x AtRuleName
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:5:1]
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
    :  ^^^^^
@@ -1598,7 +1598,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:5:1]
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
    :  ^^^^^
@@ -1606,7 +1606,7 @@
    `----
 
   x MediaQueryList
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:5:1]
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
    :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1614,7 +1614,7 @@
    `----
 
   x MediaQuery
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:5:1]
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
    :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1622,7 +1622,7 @@
    `----
 
   x MediaCondition
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:5:1]
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
    :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1630,7 +1630,7 @@
    `----
 
   x MediaConditionAllType
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:5:1]
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
    :        ^^^^^^^^^^^^^^^^^^
@@ -1638,7 +1638,7 @@
    `----
 
   x MediaInParens
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:5:1]
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
    :        ^^^^^^^^^^^^^^^^^^
@@ -1646,7 +1646,7 @@
    `----
 
   x MediaFeature
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:5:1]
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
    :        ^^^^^^^^^^^^^^^^^^
@@ -1654,7 +1654,7 @@
    `----
 
   x MediaFeaturePlain
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:5:1]
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
    :        ^^^^^^^^^^^^^^^^^^
@@ -1662,7 +1662,7 @@
    `----
 
   x MediaFeatureName
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:5:1]
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
    :         ^^^^^^^^^
@@ -1670,7 +1670,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:5:1]
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
    :         ^^^^^^^^^
@@ -1678,7 +1678,7 @@
    `----
 
   x MediaFeatureValue
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:5:1]
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
    :                    ^^^^^
@@ -1686,7 +1686,7 @@
    `----
 
   x Dimension
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:5:1]
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
    :                    ^^^^^
@@ -1694,7 +1694,7 @@
    `----
 
   x Length
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:5:1]
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
    :                    ^^^^^
@@ -1702,7 +1702,7 @@
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:5:1]
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
    :                    ^^^
@@ -1710,7 +1710,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:5:1]
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
    :                       ^^
@@ -1718,7 +1718,7 @@
    `----
 
   x MediaConditionAllType
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:5:1]
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
    :                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1726,7 +1726,7 @@
    `----
 
   x MediaAnd
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:5:1]
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
    :                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1734,7 +1734,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:5:1]
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
    :                           ^^^
@@ -1742,7 +1742,7 @@
    `----
 
   x MediaInParens
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:5:1]
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
    :                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1750,7 +1750,7 @@
    `----
 
   x MediaCondition
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:5:1]
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
    :                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -1758,7 +1758,7 @@
    `----
 
   x MediaConditionAllType
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:5:1]
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
    :                                ^^^^^^^^^^^^^^^^^^
@@ -1766,7 +1766,7 @@
    `----
 
   x MediaInParens
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:5:1]
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
    :                                ^^^^^^^^^^^^^^^^^^
@@ -1774,7 +1774,7 @@
    `----
 
   x MediaFeature
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:5:1]
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
    :                                ^^^^^^^^^^^^^^^^^^
@@ -1782,7 +1782,7 @@
    `----
 
   x MediaFeaturePlain
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:5:1]
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
    :                                ^^^^^^^^^^^^^^^^^^
@@ -1790,7 +1790,7 @@
    `----
 
   x MediaFeatureName
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:5:1]
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
    :                                 ^^^^^^^^^
@@ -1798,7 +1798,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:5:1]
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
    :                                 ^^^^^^^^^
@@ -1806,7 +1806,7 @@
    `----
 
   x MediaFeatureValue
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:5:1]
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
    :                                            ^^^^^
@@ -1814,7 +1814,7 @@
    `----
 
   x Dimension
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:5:1]
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
    :                                            ^^^^^
@@ -1822,7 +1822,7 @@
    `----
 
   x Length
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:5:1]
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
    :                                            ^^^^^
@@ -1830,7 +1830,7 @@
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:5:1]
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
    :                                            ^^^
@@ -1838,7 +1838,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:5:1]
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
    :                                               ^^
@@ -1846,7 +1846,7 @@
    `----
 
   x MediaConditionAllType
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:5:1]
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
    :                                                   ^^^^^^^^^^^^^^^^^^^^^
@@ -1854,7 +1854,7 @@
    `----
 
   x MediaOr
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:5:1]
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
    :                                                   ^^^^^^^^^^^^^^^^^^^^^
@@ -1862,7 +1862,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:5:1]
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
    :                                                   ^^
@@ -1870,7 +1870,7 @@
    `----
 
   x MediaInParens
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:5:1]
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
    :                                                      ^^^^^^^^^^^^^^^^^^
@@ -1878,7 +1878,7 @@
    `----
 
   x MediaFeature
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:5:1]
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
    :                                                      ^^^^^^^^^^^^^^^^^^
@@ -1886,7 +1886,7 @@
    `----
 
   x MediaFeaturePlain
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:5:1]
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
    :                                                      ^^^^^^^^^^^^^^^^^^
@@ -1894,7 +1894,7 @@
    `----
 
   x MediaFeatureName
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:5:1]
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
    :                                                       ^^^^^^^^^
@@ -1902,7 +1902,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:5:1]
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
    :                                                       ^^^^^^^^^
@@ -1910,7 +1910,7 @@
    `----
 
   x MediaFeatureValue
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:5:1]
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
    :                                                                  ^^^^^
@@ -1918,7 +1918,7 @@
    `----
 
   x Dimension
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:5:1]
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
    :                                                                  ^^^^^
@@ -1926,7 +1926,7 @@
    `----
 
   x Length
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:5:1]
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
    :                                                                  ^^^^^
@@ -1934,7 +1934,7 @@
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:5:1]
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
    :                                                                  ^^^
@@ -1942,7 +1942,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:5:1]
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
    :                                                                     ^^
@@ -1950,7 +1950,7 @@
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:5:1]
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
    :                                                                          ^^
@@ -1958,7 +1958,7 @@
    `----
 
   x LBrace
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:5:1]
  5 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
    :                                                                          ^
@@ -1966,7 +1966,7 @@
    `----
 
   x Rule
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:6:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:6:1]
   6 |     @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
   7 | ,-> @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
   8 | |   	a {
@@ -1980,7 +1980,7 @@
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:6:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:6:1]
   6 |     @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
   7 | ,-> @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
   8 | |   	a {
@@ -1994,7 +1994,7 @@
     `----
 
   x AtRuleName
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:6:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:6:1]
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
  7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
    :  ^^^^^
@@ -2002,7 +2002,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:6:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:6:1]
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
  7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
    :  ^^^^^
@@ -2010,7 +2010,7 @@
    `----
 
   x MediaQueryList
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:6:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:6:1]
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
  7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
    :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -2018,7 +2018,7 @@
    `----
 
   x MediaQuery
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:6:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:6:1]
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
  7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
    :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -2026,7 +2026,7 @@
    `----
 
   x MediaCondition
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:6:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:6:1]
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
  7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
    :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -2034,7 +2034,7 @@
    `----
 
   x MediaConditionAllType
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:6:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:6:1]
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
  7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -2042,7 +2042,7 @@
    `----
 
   x MediaInParens
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:6:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:6:1]
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
  7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -2050,7 +2050,7 @@
    `----
 
   x MediaCondition
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:6:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:6:1]
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
  7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -2058,7 +2058,7 @@
    `----
 
   x MediaConditionAllType
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:6:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:6:1]
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
  7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
    :         ^^^^^^^^^^^^^^^^^^
@@ -2066,7 +2066,7 @@
    `----
 
   x MediaInParens
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:6:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:6:1]
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
  7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
    :         ^^^^^^^^^^^^^^^^^^
@@ -2074,7 +2074,7 @@
    `----
 
   x MediaFeature
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:6:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:6:1]
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
  7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
    :         ^^^^^^^^^^^^^^^^^^
@@ -2082,7 +2082,7 @@
    `----
 
   x MediaFeaturePlain
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:6:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:6:1]
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
  7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
    :         ^^^^^^^^^^^^^^^^^^
@@ -2090,7 +2090,7 @@
    `----
 
   x MediaFeatureName
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:6:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:6:1]
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
  7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
    :          ^^^^^^^^^
@@ -2098,7 +2098,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:6:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:6:1]
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
  7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
    :          ^^^^^^^^^
@@ -2106,7 +2106,7 @@
    `----
 
   x MediaFeatureValue
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:6:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:6:1]
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
  7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
    :                     ^^^^^
@@ -2114,7 +2114,7 @@
    `----
 
   x Dimension
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:6:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:6:1]
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
  7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
    :                     ^^^^^
@@ -2122,7 +2122,7 @@
    `----
 
   x Length
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:6:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:6:1]
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
  7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
    :                     ^^^^^
@@ -2130,7 +2130,7 @@
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:6:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:6:1]
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
  7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
    :                     ^^^
@@ -2138,7 +2138,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:6:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:6:1]
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
  7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
    :                        ^^
@@ -2146,7 +2146,7 @@
    `----
 
   x MediaConditionAllType
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:6:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:6:1]
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
  7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
    :                            ^^^^^^^^^^^^^^^^^^^^^^
@@ -2154,7 +2154,7 @@
    `----
 
   x MediaAnd
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:6:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:6:1]
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
  7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
    :                            ^^^^^^^^^^^^^^^^^^^^^^
@@ -2162,7 +2162,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:6:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:6:1]
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
  7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
    :                            ^^^
@@ -2170,7 +2170,7 @@
    `----
 
   x MediaInParens
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:6:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:6:1]
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
  7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
    :                                ^^^^^^^^^^^^^^^^^^
@@ -2178,7 +2178,7 @@
    `----
 
   x MediaFeature
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:6:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:6:1]
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
  7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
    :                                ^^^^^^^^^^^^^^^^^^
@@ -2186,7 +2186,7 @@
    `----
 
   x MediaFeaturePlain
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:6:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:6:1]
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
  7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
    :                                ^^^^^^^^^^^^^^^^^^
@@ -2194,7 +2194,7 @@
    `----
 
   x MediaFeatureName
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:6:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:6:1]
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
  7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
    :                                 ^^^^^^^^^
@@ -2202,7 +2202,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:6:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:6:1]
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
  7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
    :                                 ^^^^^^^^^
@@ -2210,7 +2210,7 @@
    `----
 
   x MediaFeatureValue
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:6:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:6:1]
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
  7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
    :                                            ^^^^^
@@ -2218,7 +2218,7 @@
    `----
 
   x Dimension
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:6:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:6:1]
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
  7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
    :                                            ^^^^^
@@ -2226,7 +2226,7 @@
    `----
 
   x Length
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:6:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:6:1]
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
  7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
    :                                            ^^^^^
@@ -2234,7 +2234,7 @@
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:6:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:6:1]
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
  7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
    :                                            ^^^
@@ -2242,7 +2242,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:6:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:6:1]
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
  7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
    :                                               ^^
@@ -2250,7 +2250,7 @@
    `----
 
   x MediaConditionAllType
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:6:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:6:1]
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
  7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
    :                                                    ^^^^^^^^^^^^^^^^^^^^^
@@ -2258,7 +2258,7 @@
    `----
 
   x MediaOr
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:6:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:6:1]
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
  7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
    :                                                    ^^^^^^^^^^^^^^^^^^^^^
@@ -2266,7 +2266,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:6:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:6:1]
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
  7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
    :                                                    ^^
@@ -2274,7 +2274,7 @@
    `----
 
   x MediaInParens
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:6:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:6:1]
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
  7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
    :                                                       ^^^^^^^^^^^^^^^^^^
@@ -2282,7 +2282,7 @@
    `----
 
   x MediaFeature
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:6:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:6:1]
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
  7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
    :                                                       ^^^^^^^^^^^^^^^^^^
@@ -2290,7 +2290,7 @@
    `----
 
   x MediaFeaturePlain
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:6:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:6:1]
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
  7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
    :                                                       ^^^^^^^^^^^^^^^^^^
@@ -2298,7 +2298,7 @@
    `----
 
   x MediaFeatureName
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:6:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:6:1]
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
  7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
    :                                                        ^^^^^^^^^
@@ -2306,7 +2306,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:6:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:6:1]
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
  7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
    :                                                        ^^^^^^^^^
@@ -2314,7 +2314,7 @@
    `----
 
   x MediaFeatureValue
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:6:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:6:1]
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
  7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
    :                                                                   ^^^^^
@@ -2322,7 +2322,7 @@
    `----
 
   x Dimension
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:6:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:6:1]
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
  7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
    :                                                                   ^^^^^
@@ -2330,7 +2330,7 @@
    `----
 
   x Length
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:6:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:6:1]
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
  7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
    :                                                                   ^^^^^
@@ -2338,7 +2338,7 @@
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:6:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:6:1]
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
  7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
    :                                                                   ^^^
@@ -2346,7 +2346,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:6:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:6:1]
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
  7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
    :                                                                      ^^
@@ -2354,7 +2354,7 @@
    `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:6:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:6:1]
   6 |     @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
   7 | ,-> @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
   8 | |   	a {
@@ -2368,7 +2368,7 @@
     `----
 
   x LBrace
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:6:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:6:1]
  6 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
  7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
    :                                                                          ^
@@ -2376,7 +2376,7 @@
    `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:7:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:7:1]
   7 |     @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
   8 | ,-> 	a {
   9 | |   
@@ -2385,7 +2385,7 @@
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:7:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:7:1]
   7 |     @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
   8 | ,-> 	a {
   9 | |   
@@ -2394,7 +2394,7 @@
     `----
 
   x QualifiedRule
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:7:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:7:1]
   7 |     @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
   8 | ,-> 	a {
   9 | |   
@@ -2403,56 +2403,56 @@
     `----
 
   x SelectorList
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:7:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:7:1]
  7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
  8 | 	a {
    :  ^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:7:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:7:1]
  7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
  8 | 	a {
    :  ^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:7:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:7:1]
  7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
  8 | 	a {
    :  ^
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:7:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:7:1]
  7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
  8 | 	a {
    :  ^
    `----
 
   x TagNameSelector
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:7:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:7:1]
  7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
  8 | 	a {
    :  ^
    `----
 
   x WqName
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:7:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:7:1]
  7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
  8 | 	a {
    :  ^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:7:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:7:1]
  7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
  8 | 	a {
    :  ^
    `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:7:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:7:1]
   7 |     @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
   8 | ,-> 	a {
   9 | |   
@@ -2461,14 +2461,14 @@
     `----
 
   x LBrace
-   ,-[$DIR/tests/fixture/rome/media/condition/input.css:7:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:7:1]
  7 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
  8 | 	a {
    :    ^
    `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:10:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:10:1]
  10 |     	}
  11 | ,-> 	.style {
  12 | |   
@@ -2477,7 +2477,7 @@
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:10:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:10:1]
  10 |     	}
  11 | ,-> 	.style {
  12 | |   
@@ -2486,7 +2486,7 @@
     `----
 
   x QualifiedRule
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:10:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:10:1]
  10 |     	}
  11 | ,-> 	.style {
  12 | |   
@@ -2495,49 +2495,49 @@
     `----
 
   x SelectorList
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:10:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:10:1]
  10 | 	}
  11 | 	.style {
     :  ^^^^^^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:10:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:10:1]
  10 | 	}
  11 | 	.style {
     :  ^^^^^^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:10:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:10:1]
  10 | 	}
  11 | 	.style {
     :  ^^^^^^
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:10:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:10:1]
  10 | 	}
  11 | 	.style {
     :  ^^^^^^
     `----
 
   x ClassSelector
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:10:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:10:1]
  10 | 	}
  11 | 	.style {
     :  ^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:10:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:10:1]
  10 | 	}
  11 | 	.style {
     :   ^^^^^
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:10:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:10:1]
  10 |     	}
  11 | ,-> 	.style {
  12 | |   
@@ -2546,14 +2546,14 @@
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:10:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:10:1]
  10 | 	}
  11 | 	.style {
     :         ^
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:14:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:14:1]
  14 |     }
  15 | ,-> @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
  16 | |   	a {
@@ -2566,7 +2566,7 @@
     `----
 
   x AtRule
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:14:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:14:1]
  14 |     }
  15 | ,-> @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
  16 | |   	a {
@@ -2579,7 +2579,7 @@
     `----
 
   x AtRuleName
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:14:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:14:1]
  14 | }
  15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
     :  ^^^^^
@@ -2587,7 +2587,7 @@
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:14:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:14:1]
  14 | }
  15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
     :  ^^^^^
@@ -2595,7 +2595,7 @@
     `----
 
   x MediaQueryList
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:14:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:14:1]
  14 | }
  15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -2603,7 +2603,7 @@
     `----
 
   x MediaQuery
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:14:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:14:1]
  14 | }
  15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -2611,7 +2611,7 @@
     `----
 
   x MediaCondition
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:14:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:14:1]
  14 | }
  15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -2619,7 +2619,7 @@
     `----
 
   x MediaConditionAllType
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:14:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:14:1]
  14 | }
  15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
     :        ^^^^^^^^^^^^^^^^^^
@@ -2627,7 +2627,7 @@
     `----
 
   x MediaInParens
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:14:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:14:1]
  14 | }
  15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
     :        ^^^^^^^^^^^^^^^^^^
@@ -2635,7 +2635,7 @@
     `----
 
   x MediaFeature
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:14:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:14:1]
  14 | }
  15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
     :        ^^^^^^^^^^^^^^^^^^
@@ -2643,7 +2643,7 @@
     `----
 
   x MediaFeaturePlain
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:14:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:14:1]
  14 | }
  15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
     :        ^^^^^^^^^^^^^^^^^^
@@ -2651,7 +2651,7 @@
     `----
 
   x MediaFeatureName
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:14:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:14:1]
  14 | }
  15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
     :         ^^^^^^^^^
@@ -2659,7 +2659,7 @@
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:14:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:14:1]
  14 | }
  15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
     :         ^^^^^^^^^
@@ -2667,7 +2667,7 @@
     `----
 
   x MediaFeatureValue
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:14:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:14:1]
  14 | }
  15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
     :                    ^^^^^
@@ -2675,7 +2675,7 @@
     `----
 
   x Dimension
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:14:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:14:1]
  14 | }
  15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
     :                    ^^^^^
@@ -2683,7 +2683,7 @@
     `----
 
   x Length
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:14:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:14:1]
  14 | }
  15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
     :                    ^^^^^
@@ -2691,7 +2691,7 @@
     `----
 
   x Number
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:14:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:14:1]
  14 | }
  15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
     :                    ^^^
@@ -2699,7 +2699,7 @@
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:14:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:14:1]
  14 | }
  15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
     :                       ^^
@@ -2707,7 +2707,7 @@
     `----
 
   x MediaConditionAllType
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:14:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:14:1]
  14 | }
  15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
     :                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -2715,7 +2715,7 @@
     `----
 
   x MediaAnd
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:14:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:14:1]
  14 | }
  15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
     :                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -2723,7 +2723,7 @@
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:14:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:14:1]
  14 | }
  15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
     :                           ^^^
@@ -2731,7 +2731,7 @@
     `----
 
   x MediaInParens
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:14:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:14:1]
  14 | }
  15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
     :                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -2739,7 +2739,7 @@
     `----
 
   x MediaCondition
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:14:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:14:1]
  14 | }
  15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
     :                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -2747,7 +2747,7 @@
     `----
 
   x MediaConditionAllType
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:14:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:14:1]
  14 | }
  15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
     :                                ^^^^^^^^^^^^^^^^^^
@@ -2755,7 +2755,7 @@
     `----
 
   x MediaInParens
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:14:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:14:1]
  14 | }
  15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
     :                                ^^^^^^^^^^^^^^^^^^
@@ -2763,7 +2763,7 @@
     `----
 
   x MediaFeature
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:14:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:14:1]
  14 | }
  15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
     :                                ^^^^^^^^^^^^^^^^^^
@@ -2771,7 +2771,7 @@
     `----
 
   x MediaFeaturePlain
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:14:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:14:1]
  14 | }
  15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
     :                                ^^^^^^^^^^^^^^^^^^
@@ -2779,7 +2779,7 @@
     `----
 
   x MediaFeatureName
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:14:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:14:1]
  14 | }
  15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
     :                                 ^^^^^^^^^
@@ -2787,7 +2787,7 @@
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:14:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:14:1]
  14 | }
  15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
     :                                 ^^^^^^^^^
@@ -2795,7 +2795,7 @@
     `----
 
   x MediaFeatureValue
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:14:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:14:1]
  14 | }
  15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
     :                                            ^^^^^
@@ -2803,7 +2803,7 @@
     `----
 
   x Dimension
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:14:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:14:1]
  14 | }
  15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
     :                                            ^^^^^
@@ -2811,7 +2811,7 @@
     `----
 
   x Length
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:14:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:14:1]
  14 | }
  15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
     :                                            ^^^^^
@@ -2819,7 +2819,7 @@
     `----
 
   x Number
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:14:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:14:1]
  14 | }
  15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
     :                                            ^^^
@@ -2827,7 +2827,7 @@
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:14:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:14:1]
  14 | }
  15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
     :                                               ^^
@@ -2835,7 +2835,7 @@
     `----
 
   x MediaConditionAllType
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:14:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:14:1]
  14 | }
  15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
     :                                                   ^^^^^^^^^^^^^^^^^^^^^
@@ -2843,7 +2843,7 @@
     `----
 
   x MediaOr
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:14:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:14:1]
  14 | }
  15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
     :                                                   ^^^^^^^^^^^^^^^^^^^^^
@@ -2851,7 +2851,7 @@
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:14:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:14:1]
  14 | }
  15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
     :                                                   ^^
@@ -2859,7 +2859,7 @@
     `----
 
   x MediaInParens
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:14:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:14:1]
  14 | }
  15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
     :                                                      ^^^^^^^^^^^^^^^^^^
@@ -2867,7 +2867,7 @@
     `----
 
   x MediaFeature
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:14:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:14:1]
  14 | }
  15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
     :                                                      ^^^^^^^^^^^^^^^^^^
@@ -2875,7 +2875,7 @@
     `----
 
   x MediaFeaturePlain
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:14:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:14:1]
  14 | }
  15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
     :                                                      ^^^^^^^^^^^^^^^^^^
@@ -2883,7 +2883,7 @@
     `----
 
   x MediaFeatureName
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:14:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:14:1]
  14 | }
  15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
     :                                                       ^^^^^^^^^
@@ -2891,7 +2891,7 @@
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:14:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:14:1]
  14 | }
  15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
     :                                                       ^^^^^^^^^
@@ -2899,7 +2899,7 @@
     `----
 
   x MediaFeatureValue
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:14:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:14:1]
  14 | }
  15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
     :                                                                  ^^^^^
@@ -2907,7 +2907,7 @@
     `----
 
   x Dimension
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:14:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:14:1]
  14 | }
  15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
     :                                                                  ^^^^^
@@ -2915,7 +2915,7 @@
     `----
 
   x Length
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:14:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:14:1]
  14 | }
  15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
     :                                                                  ^^^^^
@@ -2923,7 +2923,7 @@
     `----
 
   x Number
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:14:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:14:1]
  14 | }
  15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
     :                                                                  ^^^
@@ -2931,7 +2931,7 @@
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:14:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:14:1]
  14 | }
  15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
     :                                                                     ^^
@@ -2939,7 +2939,7 @@
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:14:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:14:1]
  14 |     }
  15 | ,-> @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
  16 | |   	a {
@@ -2952,7 +2952,7 @@
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:14:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:14:1]
  14 | }
  15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
     :                                                                          ^
@@ -2960,7 +2960,7 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:15:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:15:1]
  15 |     @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
  16 | ,-> 	a {
  17 | |   
@@ -2969,7 +2969,7 @@
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:15:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:15:1]
  15 |     @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
  16 | ,-> 	a {
  17 | |   
@@ -2978,7 +2978,7 @@
     `----
 
   x QualifiedRule
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:15:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:15:1]
  15 |     @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
  16 | ,-> 	a {
  17 | |   
@@ -2987,56 +2987,56 @@
     `----
 
   x SelectorList
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:15:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:15:1]
  15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
  16 | 	a {
     :  ^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:15:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:15:1]
  15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
  16 | 	a {
     :  ^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:15:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:15:1]
  15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
  16 | 	a {
     :  ^
     `----
 
   x TypeSelector
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:15:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:15:1]
  15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
  16 | 	a {
     :  ^
     `----
 
   x TagNameSelector
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:15:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:15:1]
  15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
  16 | 	a {
     :  ^
     `----
 
   x WqName
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:15:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:15:1]
  15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
  16 | 	a {
     :  ^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:15:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:15:1]
  15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
  16 | 	a {
     :  ^
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:15:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:15:1]
  15 |     @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
  16 | ,-> 	a {
  17 | |   
@@ -3045,14 +3045,14 @@
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:15:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:15:1]
  15 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
  16 | 	a {
     :    ^
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:18:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:18:1]
  18 |     	}
  19 | ,-> 	.style {
  20 | |   
@@ -3061,7 +3061,7 @@
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:18:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:18:1]
  18 |     	}
  19 | ,-> 	.style {
  20 | |   
@@ -3070,7 +3070,7 @@
     `----
 
   x QualifiedRule
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:18:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:18:1]
  18 |     	}
  19 | ,-> 	.style {
  20 | |   
@@ -3079,49 +3079,49 @@
     `----
 
   x SelectorList
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:18:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:18:1]
  18 | 	}
  19 | 	.style {
     :  ^^^^^^
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:18:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:18:1]
  18 | 	}
  19 | 	.style {
     :  ^^^^^^
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:18:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:18:1]
  18 | 	}
  19 | 	.style {
     :  ^^^^^^
     `----
 
   x SubclassSelector
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:18:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:18:1]
  18 | 	}
  19 | 	.style {
     :  ^^^^^^
     `----
 
   x ClassSelector
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:18:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:18:1]
  18 | 	}
  19 | 	.style {
     :  ^^^^^^
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:18:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:18:1]
  18 | 	}
  19 | 	.style {
     :   ^^^^^
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:18:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:18:1]
  18 |     	}
  19 | ,-> 	.style {
  20 | |   
@@ -3130,7 +3130,7 @@
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/rome/media/condition/input.css:18:1]
+    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:18:1]
  18 | 	}
  19 | 	.style {
     :         ^

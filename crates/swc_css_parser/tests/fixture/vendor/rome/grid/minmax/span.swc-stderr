@@ -1,83 +1,83 @@
 
   x Stylesheet
-   ,-[$DIR/tests/fixture/rome/grid/minmax/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/grid/minmax/input.css:1:1]
  1 | ,-> .style {
  2 | |   	grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
  3 | `-> }
    `----
 
   x Rule
-   ,-[$DIR/tests/fixture/rome/grid/minmax/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/grid/minmax/input.css:1:1]
  1 | ,-> .style {
  2 | |   	grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
  3 | `-> }
    `----
 
   x QualifiedRule
-   ,-[$DIR/tests/fixture/rome/grid/minmax/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/grid/minmax/input.css:1:1]
  1 | ,-> .style {
  2 | |   	grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
  3 | `-> }
    `----
 
   x SelectorList
-   ,-[$DIR/tests/fixture/rome/grid/minmax/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/grid/minmax/input.css:1:1]
  1 | .style {
    : ^^^^^^
  2 | 	grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/rome/grid/minmax/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/grid/minmax/input.css:1:1]
  1 | .style {
    : ^^^^^^
  2 | 	grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/rome/grid/minmax/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/grid/minmax/input.css:1:1]
  1 | .style {
    : ^^^^^^
  2 | 	grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
    `----
 
   x SubclassSelector
-   ,-[$DIR/tests/fixture/rome/grid/minmax/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/grid/minmax/input.css:1:1]
  1 | .style {
    : ^^^^^^
  2 | 	grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
    `----
 
   x ClassSelector
-   ,-[$DIR/tests/fixture/rome/grid/minmax/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/grid/minmax/input.css:1:1]
  1 | .style {
    : ^^^^^^
  2 | 	grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/grid/minmax/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/grid/minmax/input.css:1:1]
  1 | .style {
    :  ^^^^^
  2 | 	grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/rome/grid/minmax/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/grid/minmax/input.css:1:1]
  1 | ,-> .style {
  2 | |   	grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
  3 | `-> }
    `----
 
   x LBrace
-   ,-[$DIR/tests/fixture/rome/grid/minmax/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/grid/minmax/input.css:1:1]
  1 | .style {
    :        ^
  2 | 	grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/grid/minmax/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/grid/minmax/input.css:1:1]
  1 | .style {
  2 | 	grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -85,7 +85,7 @@
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/rome/grid/minmax/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/grid/minmax/input.css:1:1]
  1 | .style {
  2 | 	grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -93,7 +93,7 @@
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/rome/grid/minmax/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/grid/minmax/input.css:1:1]
  1 | .style {
  2 | 	grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -101,7 +101,7 @@
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/rome/grid/minmax/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/grid/minmax/input.css:1:1]
  1 | .style {
  2 | 	grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
    :  ^^^^^^^^^^^^^^^^^^^^^
@@ -109,7 +109,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/grid/minmax/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/grid/minmax/input.css:1:1]
  1 | .style {
  2 | 	grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
    :  ^^^^^^^^^^^^^^^^^^^^^
@@ -117,7 +117,7 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/grid/minmax/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/grid/minmax/input.css:1:1]
  1 | .style {
  2 | 	grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
    :                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -125,7 +125,7 @@
    `----
 
   x Function
-   ,-[$DIR/tests/fixture/rome/grid/minmax/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/grid/minmax/input.css:1:1]
  1 | .style {
  2 | 	grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
    :                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -133,7 +133,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/grid/minmax/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/grid/minmax/input.css:1:1]
  1 | .style {
  2 | 	grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
    :                         ^^^^^^
@@ -141,7 +141,7 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/grid/minmax/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/grid/minmax/input.css:1:1]
  1 | .style {
  2 | 	grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
    :                                ^^^^^^^^^^^
@@ -149,7 +149,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/grid/minmax/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/grid/minmax/input.css:1:1]
  1 | .style {
  2 | 	grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
    :                                ^^^^^^^^^^^
@@ -157,7 +157,7 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/grid/minmax/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/grid/minmax/input.css:1:1]
  1 | .style {
  2 | 	grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
    :                                           ^
@@ -165,7 +165,7 @@
    `----
 
   x Delimiter
-   ,-[$DIR/tests/fixture/rome/grid/minmax/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/grid/minmax/input.css:1:1]
  1 | .style {
  2 | 	grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
    :                                           ^
@@ -173,7 +173,7 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/grid/minmax/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/grid/minmax/input.css:1:1]
  1 | .style {
  2 | 	grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
    :                                             ^^^^^
@@ -181,7 +181,7 @@
    `----
 
   x Dimension
-   ,-[$DIR/tests/fixture/rome/grid/minmax/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/grid/minmax/input.css:1:1]
  1 | .style {
  2 | 	grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
    :                                             ^^^^^
@@ -189,7 +189,7 @@
    `----
 
   x Length
-   ,-[$DIR/tests/fixture/rome/grid/minmax/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/grid/minmax/input.css:1:1]
  1 | .style {
  2 | 	grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
    :                                             ^^^^^
@@ -197,7 +197,7 @@
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/rome/grid/minmax/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/grid/minmax/input.css:1:1]
  1 | .style {
  2 | 	grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
    :                                             ^^^
@@ -205,7 +205,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/grid/minmax/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/grid/minmax/input.css:1:1]
  1 | .style {
  2 | 	grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
    :                                                ^^
@@ -213,7 +213,7 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/grid/minmax/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/grid/minmax/input.css:1:1]
  1 | .style {
  2 | 	grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
    :                                                    ^^^^^^^^^^^^^^^^^^
@@ -221,7 +221,7 @@
    `----
 
   x Function
-   ,-[$DIR/tests/fixture/rome/grid/minmax/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/grid/minmax/input.css:1:1]
  1 | .style {
  2 | 	grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
    :                                                    ^^^^^^^^^^^^^^^^^^
@@ -229,7 +229,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/grid/minmax/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/grid/minmax/input.css:1:1]
  1 | .style {
  2 | 	grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
    :                                                    ^^^^^^
@@ -237,7 +237,7 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/grid/minmax/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/grid/minmax/input.css:1:1]
  1 | .style {
  2 | 	grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
    :                                                           ^^^^^
@@ -245,7 +245,7 @@
    `----
 
   x Dimension
-   ,-[$DIR/tests/fixture/rome/grid/minmax/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/grid/minmax/input.css:1:1]
  1 | .style {
  2 | 	grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
    :                                                           ^^^^^
@@ -253,7 +253,7 @@
    `----
 
   x Length
-   ,-[$DIR/tests/fixture/rome/grid/minmax/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/grid/minmax/input.css:1:1]
  1 | .style {
  2 | 	grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
    :                                                           ^^^^^
@@ -261,7 +261,7 @@
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/rome/grid/minmax/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/grid/minmax/input.css:1:1]
  1 | .style {
  2 | 	grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
    :                                                           ^^^
@@ -269,7 +269,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/grid/minmax/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/grid/minmax/input.css:1:1]
  1 | .style {
  2 | 	grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
    :                                                              ^^
@@ -277,7 +277,7 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/grid/minmax/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/grid/minmax/input.css:1:1]
  1 | .style {
  2 | 	grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
    :                                                                ^
@@ -285,7 +285,7 @@
    `----
 
   x Delimiter
-   ,-[$DIR/tests/fixture/rome/grid/minmax/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/grid/minmax/input.css:1:1]
  1 | .style {
  2 | 	grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
    :                                                                ^
@@ -293,7 +293,7 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/grid/minmax/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/grid/minmax/input.css:1:1]
  1 | .style {
  2 | 	grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
    :                                                                  ^^^
@@ -301,7 +301,7 @@
    `----
 
   x Dimension
-   ,-[$DIR/tests/fixture/rome/grid/minmax/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/grid/minmax/input.css:1:1]
  1 | .style {
  2 | 	grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
    :                                                                  ^^^
@@ -309,7 +309,7 @@
    `----
 
   x Flex
-   ,-[$DIR/tests/fixture/rome/grid/minmax/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/grid/minmax/input.css:1:1]
  1 | .style {
  2 | 	grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
    :                                                                  ^^^
@@ -317,7 +317,7 @@
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/rome/grid/minmax/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/grid/minmax/input.css:1:1]
  1 | .style {
  2 | 	grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
    :                                                                  ^
@@ -325,7 +325,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/grid/minmax/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/grid/minmax/input.css:1:1]
  1 | .style {
  2 | 	grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
    :                                                                   ^^
@@ -333,7 +333,7 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/grid/minmax/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/grid/minmax/input.css:1:1]
  1 | .style {
  2 | 	grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
    :                                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -341,7 +341,7 @@
    `----
 
   x Function
-   ,-[$DIR/tests/fixture/rome/grid/minmax/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/grid/minmax/input.css:1:1]
  1 | .style {
  2 | 	grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
    :                                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -349,7 +349,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/grid/minmax/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/grid/minmax/input.css:1:1]
  1 | .style {
  2 | 	grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
    :                                                                       ^^^^^^
@@ -357,7 +357,7 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/grid/minmax/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/grid/minmax/input.css:1:1]
  1 | .style {
  2 | 	grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
    :                                                                              ^^^^^^^^^^^
@@ -365,7 +365,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/grid/minmax/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/grid/minmax/input.css:1:1]
  1 | .style {
  2 | 	grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
    :                                                                              ^^^^^^^^^^^
@@ -373,7 +373,7 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/grid/minmax/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/grid/minmax/input.css:1:1]
  1 | .style {
  2 | 	grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
    :                                                                                         ^
@@ -381,7 +381,7 @@
    `----
 
   x Delimiter
-   ,-[$DIR/tests/fixture/rome/grid/minmax/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/grid/minmax/input.css:1:1]
  1 | .style {
  2 | 	grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
    :                                                                                         ^
@@ -389,7 +389,7 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/grid/minmax/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/grid/minmax/input.css:1:1]
  1 | .style {
  2 | 	grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
    :                                                                                           ^^^^^^^^^^^
@@ -397,7 +397,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/grid/minmax/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/grid/minmax/input.css:1:1]
  1 | .style {
  2 | 	grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);
    :                                                                                           ^^^^^^^^^^^

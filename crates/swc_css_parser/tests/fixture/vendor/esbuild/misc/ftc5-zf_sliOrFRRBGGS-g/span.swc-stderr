@@ -1,120 +1,120 @@
 
   x Stylesheet
-   ,-[$DIR/tests/fixture/esbuild/misc/ftc5-zf_sliOrFRRBGGS-g/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/ftc5-zf_sliOrFRRBGGS-g/input.css:1:1]
  1 | a { color: #122233ff }
    : ^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Rule
-   ,-[$DIR/tests/fixture/esbuild/misc/ftc5-zf_sliOrFRRBGGS-g/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/ftc5-zf_sliOrFRRBGGS-g/input.css:1:1]
  1 | a { color: #122233ff }
    : ^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x QualifiedRule
-   ,-[$DIR/tests/fixture/esbuild/misc/ftc5-zf_sliOrFRRBGGS-g/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/ftc5-zf_sliOrFRRBGGS-g/input.css:1:1]
  1 | a { color: #122233ff }
    : ^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x SelectorList
-   ,-[$DIR/tests/fixture/esbuild/misc/ftc5-zf_sliOrFRRBGGS-g/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/ftc5-zf_sliOrFRRBGGS-g/input.css:1:1]
  1 | a { color: #122233ff }
    : ^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/esbuild/misc/ftc5-zf_sliOrFRRBGGS-g/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/ftc5-zf_sliOrFRRBGGS-g/input.css:1:1]
  1 | a { color: #122233ff }
    : ^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/esbuild/misc/ftc5-zf_sliOrFRRBGGS-g/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/ftc5-zf_sliOrFRRBGGS-g/input.css:1:1]
  1 | a { color: #122233ff }
    : ^
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/fixture/esbuild/misc/ftc5-zf_sliOrFRRBGGS-g/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/ftc5-zf_sliOrFRRBGGS-g/input.css:1:1]
  1 | a { color: #122233ff }
    : ^
    `----
 
   x TagNameSelector
-   ,-[$DIR/tests/fixture/esbuild/misc/ftc5-zf_sliOrFRRBGGS-g/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/ftc5-zf_sliOrFRRBGGS-g/input.css:1:1]
  1 | a { color: #122233ff }
    : ^
    `----
 
   x WqName
-   ,-[$DIR/tests/fixture/esbuild/misc/ftc5-zf_sliOrFRRBGGS-g/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/ftc5-zf_sliOrFRRBGGS-g/input.css:1:1]
  1 | a { color: #122233ff }
    : ^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/esbuild/misc/ftc5-zf_sliOrFRRBGGS-g/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/ftc5-zf_sliOrFRRBGGS-g/input.css:1:1]
  1 | a { color: #122233ff }
    : ^
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/esbuild/misc/ftc5-zf_sliOrFRRBGGS-g/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/ftc5-zf_sliOrFRRBGGS-g/input.css:1:1]
  1 | a { color: #122233ff }
    :   ^^^^^^^^^^^^^^^^^^^^
    `----
 
   x LBrace
-   ,-[$DIR/tests/fixture/esbuild/misc/ftc5-zf_sliOrFRRBGGS-g/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/ftc5-zf_sliOrFRRBGGS-g/input.css:1:1]
  1 | a { color: #122233ff }
    :   ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/esbuild/misc/ftc5-zf_sliOrFRRBGGS-g/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/ftc5-zf_sliOrFRRBGGS-g/input.css:1:1]
  1 | a { color: #122233ff }
    :     ^^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/esbuild/misc/ftc5-zf_sliOrFRRBGGS-g/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/ftc5-zf_sliOrFRRBGGS-g/input.css:1:1]
  1 | a { color: #122233ff }
    :     ^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/esbuild/misc/ftc5-zf_sliOrFRRBGGS-g/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/ftc5-zf_sliOrFRRBGGS-g/input.css:1:1]
  1 | a { color: #122233ff }
    :     ^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/esbuild/misc/ftc5-zf_sliOrFRRBGGS-g/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/ftc5-zf_sliOrFRRBGGS-g/input.css:1:1]
  1 | a { color: #122233ff }
    :     ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/esbuild/misc/ftc5-zf_sliOrFRRBGGS-g/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/ftc5-zf_sliOrFRRBGGS-g/input.css:1:1]
  1 | a { color: #122233ff }
    :     ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/esbuild/misc/ftc5-zf_sliOrFRRBGGS-g/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/ftc5-zf_sliOrFRRBGGS-g/input.css:1:1]
  1 | a { color: #122233ff }
    :            ^^^^^^^^^
    `----
 
   x Color
-   ,-[$DIR/tests/fixture/esbuild/misc/ftc5-zf_sliOrFRRBGGS-g/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/ftc5-zf_sliOrFRRBGGS-g/input.css:1:1]
  1 | a { color: #122233ff }
    :            ^^^^^^^^^
    `----
 
   x HexColor
-   ,-[$DIR/tests/fixture/esbuild/misc/ftc5-zf_sliOrFRRBGGS-g/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/ftc5-zf_sliOrFRRBGGS-g/input.css:1:1]
  1 | a { color: #122233ff }
    :            ^^^^^^^^^
    `----

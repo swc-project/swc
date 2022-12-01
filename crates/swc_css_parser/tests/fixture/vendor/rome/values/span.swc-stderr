@@ -1,6 +1,6 @@
 
   x Stylesheet
-    ,-[$DIR/tests/fixture/rome/values/input.css:1:1]
+    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:1:1]
   1 | ,-> p::before {
   2 | |   	content: ' content ';
   3 | |   }
@@ -23,105 +23,105 @@
     `----
 
   x Rule
-   ,-[$DIR/tests/fixture/rome/values/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/values/input.css:1:1]
  1 | ,-> p::before {
  2 | |   	content: ' content ';
  3 | `-> }
    `----
 
   x QualifiedRule
-   ,-[$DIR/tests/fixture/rome/values/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/values/input.css:1:1]
  1 | ,-> p::before {
  2 | |   	content: ' content ';
  3 | `-> }
    `----
 
   x SelectorList
-   ,-[$DIR/tests/fixture/rome/values/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/values/input.css:1:1]
  1 | p::before {
    : ^^^^^^^^^
  2 | 	content: ' content ';
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/rome/values/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/values/input.css:1:1]
  1 | p::before {
    : ^^^^^^^^^
  2 | 	content: ' content ';
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/rome/values/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/values/input.css:1:1]
  1 | p::before {
    : ^^^^^^^^^
  2 | 	content: ' content ';
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/fixture/rome/values/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/values/input.css:1:1]
  1 | p::before {
    : ^
  2 | 	content: ' content ';
    `----
 
   x TagNameSelector
-   ,-[$DIR/tests/fixture/rome/values/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/values/input.css:1:1]
  1 | p::before {
    : ^
  2 | 	content: ' content ';
    `----
 
   x WqName
-   ,-[$DIR/tests/fixture/rome/values/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/values/input.css:1:1]
  1 | p::before {
    : ^
  2 | 	content: ' content ';
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/values/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/values/input.css:1:1]
  1 | p::before {
    : ^
  2 | 	content: ' content ';
    `----
 
   x SubclassSelector
-   ,-[$DIR/tests/fixture/rome/values/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/values/input.css:1:1]
  1 | p::before {
    :  ^^^^^^^^
  2 | 	content: ' content ';
    `----
 
   x PseudoElementSelector
-   ,-[$DIR/tests/fixture/rome/values/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/values/input.css:1:1]
  1 | p::before {
    :  ^^^^^^^^
  2 | 	content: ' content ';
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/values/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/values/input.css:1:1]
  1 | p::before {
    :    ^^^^^^
  2 | 	content: ' content ';
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/rome/values/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/values/input.css:1:1]
  1 | ,-> p::before {
  2 | |   	content: ' content ';
  3 | `-> }
    `----
 
   x LBrace
-   ,-[$DIR/tests/fixture/rome/values/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/values/input.css:1:1]
  1 | p::before {
    :           ^
  2 | 	content: ' content ';
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/values/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/values/input.css:1:1]
  1 | p::before {
  2 | 	content: ' content ';
    :  ^^^^^^^^^^^^^^^^^^^^
@@ -129,7 +129,7 @@
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/rome/values/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/values/input.css:1:1]
  1 | p::before {
  2 | 	content: ' content ';
    :  ^^^^^^^^^^^^^^^^^^^^
@@ -137,7 +137,7 @@
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/rome/values/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/values/input.css:1:1]
  1 | p::before {
  2 | 	content: ' content ';
    :  ^^^^^^^^^^^^^^^^^^^^
@@ -145,7 +145,7 @@
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/rome/values/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/values/input.css:1:1]
  1 | p::before {
  2 | 	content: ' content ';
    :  ^^^^^^^
@@ -153,7 +153,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/values/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/values/input.css:1:1]
  1 | p::before {
  2 | 	content: ' content ';
    :  ^^^^^^^
@@ -161,7 +161,7 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/values/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/values/input.css:1:1]
  1 | p::before {
  2 | 	content: ' content ';
    :           ^^^^^^^^^^^
@@ -169,7 +169,7 @@
    `----
 
   x Str
-   ,-[$DIR/tests/fixture/rome/values/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/values/input.css:1:1]
  1 | p::before {
  2 | 	content: ' content ';
    :           ^^^^^^^^^^^
@@ -177,7 +177,7 @@
    `----
 
   x Rule
-    ,-[$DIR/tests/fixture/rome/values/input.css:4:1]
+    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:4:1]
   4 |     
   5 | ,-> .number {
   6 | |   	opacity: 1e-3;
@@ -188,7 +188,7 @@
     `----
 
   x QualifiedRule
-    ,-[$DIR/tests/fixture/rome/values/input.css:4:1]
+    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:4:1]
   4 |     
   5 | ,-> .number {
   6 | |   	opacity: 1e-3;
@@ -199,7 +199,7 @@
     `----
 
   x SelectorList
-   ,-[$DIR/tests/fixture/rome/values/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/values/input.css:4:1]
  4 | 
  5 | .number {
    : ^^^^^^^
@@ -207,7 +207,7 @@
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/rome/values/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/values/input.css:4:1]
  4 | 
  5 | .number {
    : ^^^^^^^
@@ -215,7 +215,7 @@
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/rome/values/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/values/input.css:4:1]
  4 | 
  5 | .number {
    : ^^^^^^^
@@ -223,7 +223,7 @@
    `----
 
   x SubclassSelector
-   ,-[$DIR/tests/fixture/rome/values/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/values/input.css:4:1]
  4 | 
  5 | .number {
    : ^^^^^^^
@@ -231,7 +231,7 @@
    `----
 
   x ClassSelector
-   ,-[$DIR/tests/fixture/rome/values/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/values/input.css:4:1]
  4 | 
  5 | .number {
    : ^^^^^^^
@@ -239,7 +239,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/values/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/values/input.css:4:1]
  4 | 
  5 | .number {
    :  ^^^^^^
@@ -247,7 +247,7 @@
    `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/rome/values/input.css:4:1]
+    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:4:1]
   4 |     
   5 | ,-> .number {
   6 | |   	opacity: 1e-3;
@@ -258,7 +258,7 @@
     `----
 
   x LBrace
-   ,-[$DIR/tests/fixture/rome/values/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/values/input.css:4:1]
  4 | 
  5 | .number {
    :         ^
@@ -266,7 +266,7 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/values/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/values/input.css:5:1]
  5 | .number {
  6 | 	opacity: 1e-3;
    :  ^^^^^^^^^^^^^
@@ -274,7 +274,7 @@
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/rome/values/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/values/input.css:5:1]
  5 | .number {
  6 | 	opacity: 1e-3;
    :  ^^^^^^^^^^^^^
@@ -282,7 +282,7 @@
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/rome/values/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/values/input.css:5:1]
  5 | .number {
  6 | 	opacity: 1e-3;
    :  ^^^^^^^^^^^^^
@@ -290,7 +290,7 @@
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/rome/values/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/values/input.css:5:1]
  5 | .number {
  6 | 	opacity: 1e-3;
    :  ^^^^^^^
@@ -298,7 +298,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/values/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/values/input.css:5:1]
  5 | .number {
  6 | 	opacity: 1e-3;
    :  ^^^^^^^
@@ -306,7 +306,7 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/values/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/values/input.css:5:1]
  5 | .number {
  6 | 	opacity: 1e-3;
    :           ^^^^
@@ -314,7 +314,7 @@
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/rome/values/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/values/input.css:5:1]
  5 | .number {
  6 | 	opacity: 1e-3;
    :           ^^^^
@@ -322,7 +322,7 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/values/input.css:6:1]
+   ,-[$DIR/tests/fixture/vendor/rome/values/input.css:6:1]
  6 | 	opacity: 1e-3;
  7 | 	line-height: 0.2;
    :  ^^^^^^^^^^^^^^^^
@@ -330,7 +330,7 @@
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/rome/values/input.css:6:1]
+   ,-[$DIR/tests/fixture/vendor/rome/values/input.css:6:1]
  6 | 	opacity: 1e-3;
  7 | 	line-height: 0.2;
    :  ^^^^^^^^^^^^^^^^
@@ -338,7 +338,7 @@
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/rome/values/input.css:6:1]
+   ,-[$DIR/tests/fixture/vendor/rome/values/input.css:6:1]
  6 | 	opacity: 1e-3;
  7 | 	line-height: 0.2;
    :  ^^^^^^^^^^^^^^^^
@@ -346,7 +346,7 @@
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/rome/values/input.css:6:1]
+   ,-[$DIR/tests/fixture/vendor/rome/values/input.css:6:1]
  6 | 	opacity: 1e-3;
  7 | 	line-height: 0.2;
    :  ^^^^^^^^^^^
@@ -354,7 +354,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/values/input.css:6:1]
+   ,-[$DIR/tests/fixture/vendor/rome/values/input.css:6:1]
  6 | 	opacity: 1e-3;
  7 | 	line-height: 0.2;
    :  ^^^^^^^^^^^
@@ -362,7 +362,7 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/values/input.css:6:1]
+   ,-[$DIR/tests/fixture/vendor/rome/values/input.css:6:1]
  6 | 	opacity: 1e-3;
  7 | 	line-height: 0.2;
    :               ^^^
@@ -370,7 +370,7 @@
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/rome/values/input.css:6:1]
+   ,-[$DIR/tests/fixture/vendor/rome/values/input.css:6:1]
  6 | 	opacity: 1e-3;
  7 | 	line-height: 0.2;
    :               ^^^
@@ -378,7 +378,7 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/values/input.css:7:1]
+   ,-[$DIR/tests/fixture/vendor/rome/values/input.css:7:1]
  7 | 	line-height: 0.2;
  8 | 	width: 20%;
    :  ^^^^^^^^^^
@@ -386,7 +386,7 @@
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/rome/values/input.css:7:1]
+   ,-[$DIR/tests/fixture/vendor/rome/values/input.css:7:1]
  7 | 	line-height: 0.2;
  8 | 	width: 20%;
    :  ^^^^^^^^^^
@@ -394,7 +394,7 @@
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/rome/values/input.css:7:1]
+   ,-[$DIR/tests/fixture/vendor/rome/values/input.css:7:1]
  7 | 	line-height: 0.2;
  8 | 	width: 20%;
    :  ^^^^^^^^^^
@@ -402,7 +402,7 @@
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/rome/values/input.css:7:1]
+   ,-[$DIR/tests/fixture/vendor/rome/values/input.css:7:1]
  7 | 	line-height: 0.2;
  8 | 	width: 20%;
    :  ^^^^^
@@ -410,7 +410,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/values/input.css:7:1]
+   ,-[$DIR/tests/fixture/vendor/rome/values/input.css:7:1]
  7 | 	line-height: 0.2;
  8 | 	width: 20%;
    :  ^^^^^
@@ -418,7 +418,7 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/values/input.css:7:1]
+   ,-[$DIR/tests/fixture/vendor/rome/values/input.css:7:1]
  7 | 	line-height: 0.2;
  8 | 	width: 20%;
    :         ^^^
@@ -426,7 +426,7 @@
    `----
 
   x Percentage
-   ,-[$DIR/tests/fixture/rome/values/input.css:7:1]
+   ,-[$DIR/tests/fixture/vendor/rome/values/input.css:7:1]
  7 | 	line-height: 0.2;
  8 | 	width: 20%;
    :         ^^^
@@ -434,7 +434,7 @@
    `----
 
   x Number
-   ,-[$DIR/tests/fixture/rome/values/input.css:7:1]
+   ,-[$DIR/tests/fixture/vendor/rome/values/input.css:7:1]
  7 | 	line-height: 0.2;
  8 | 	width: 20%;
    :         ^^
@@ -442,7 +442,7 @@
    `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/values/input.css:8:1]
+    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:8:1]
   8 | 	width: 20%;
   9 | 	margin-top: -5%;
     :  ^^^^^^^^^^^^^^^
@@ -450,7 +450,7 @@
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/rome/values/input.css:8:1]
+    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:8:1]
   8 | 	width: 20%;
   9 | 	margin-top: -5%;
     :  ^^^^^^^^^^^^^^^
@@ -458,7 +458,7 @@
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/rome/values/input.css:8:1]
+    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:8:1]
   8 | 	width: 20%;
   9 | 	margin-top: -5%;
     :  ^^^^^^^^^^^^^^^
@@ -466,7 +466,7 @@
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/rome/values/input.css:8:1]
+    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:8:1]
   8 | 	width: 20%;
   9 | 	margin-top: -5%;
     :  ^^^^^^^^^^
@@ -474,7 +474,7 @@
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/values/input.css:8:1]
+    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:8:1]
   8 | 	width: 20%;
   9 | 	margin-top: -5%;
     :  ^^^^^^^^^^
@@ -482,7 +482,7 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/values/input.css:8:1]
+    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:8:1]
   8 | 	width: 20%;
   9 | 	margin-top: -5%;
     :              ^^^
@@ -490,7 +490,7 @@
     `----
 
   x Percentage
-    ,-[$DIR/tests/fixture/rome/values/input.css:8:1]
+    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:8:1]
   8 | 	width: 20%;
   9 | 	margin-top: -5%;
     :              ^^^
@@ -498,7 +498,7 @@
     `----
 
   x Number
-    ,-[$DIR/tests/fixture/rome/values/input.css:8:1]
+    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:8:1]
   8 | 	width: 20%;
   9 | 	margin-top: -5%;
     :              ^^
@@ -506,7 +506,7 @@
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/rome/values/input.css:11:1]
+    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:11:1]
  11 |     
  12 | ,-> foo {
  13 | |   	color: yellow
@@ -514,7 +514,7 @@
     `----
 
   x QualifiedRule
-    ,-[$DIR/tests/fixture/rome/values/input.css:11:1]
+    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:11:1]
  11 |     
  12 | ,-> foo {
  13 | |   	color: yellow
@@ -522,7 +522,7 @@
     `----
 
   x SelectorList
-    ,-[$DIR/tests/fixture/rome/values/input.css:11:1]
+    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:11:1]
  11 | 
  12 | foo {
     : ^^^
@@ -530,7 +530,7 @@
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/rome/values/input.css:11:1]
+    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:11:1]
  11 | 
  12 | foo {
     : ^^^
@@ -538,7 +538,7 @@
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/rome/values/input.css:11:1]
+    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:11:1]
  11 | 
  12 | foo {
     : ^^^
@@ -546,7 +546,7 @@
     `----
 
   x TypeSelector
-    ,-[$DIR/tests/fixture/rome/values/input.css:11:1]
+    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:11:1]
  11 | 
  12 | foo {
     : ^^^
@@ -554,7 +554,7 @@
     `----
 
   x TagNameSelector
-    ,-[$DIR/tests/fixture/rome/values/input.css:11:1]
+    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:11:1]
  11 | 
  12 | foo {
     : ^^^
@@ -562,7 +562,7 @@
     `----
 
   x WqName
-    ,-[$DIR/tests/fixture/rome/values/input.css:11:1]
+    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:11:1]
  11 | 
  12 | foo {
     : ^^^
@@ -570,7 +570,7 @@
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/values/input.css:11:1]
+    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:11:1]
  11 | 
  12 | foo {
     : ^^^
@@ -578,7 +578,7 @@
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/rome/values/input.css:11:1]
+    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:11:1]
  11 |     
  12 | ,-> foo {
  13 | |   	color: yellow
@@ -586,7 +586,7 @@
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/rome/values/input.css:11:1]
+    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:11:1]
  11 | 
  12 | foo {
     :     ^
@@ -594,7 +594,7 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/values/input.css:12:1]
+    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:12:1]
  12 | foo {
  13 | 	color: yellow
     :  ^^^^^^^^^^^^^^
@@ -602,7 +602,7 @@
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/rome/values/input.css:12:1]
+    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:12:1]
  12 | foo {
  13 | 	color: yellow
     :  ^^^^^^^^^^^^^^
@@ -610,7 +610,7 @@
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/rome/values/input.css:12:1]
+    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:12:1]
  12 | foo {
  13 | 	color: yellow
     :  ^^^^^^^^^^^^^^
@@ -618,7 +618,7 @@
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/rome/values/input.css:12:1]
+    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:12:1]
  12 | foo {
  13 | 	color: yellow
     :  ^^^^^
@@ -626,7 +626,7 @@
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/values/input.css:12:1]
+    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:12:1]
  12 | foo {
  13 | 	color: yellow
     :  ^^^^^
@@ -634,7 +634,7 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/values/input.css:12:1]
+    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:12:1]
  12 | foo {
  13 | 	color: yellow
     :         ^^^^^^
@@ -642,7 +642,7 @@
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/values/input.css:12:1]
+    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:12:1]
  12 | foo {
  13 | 	color: yellow
     :         ^^^^^^
@@ -650,7 +650,7 @@
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/rome/values/input.css:15:1]
+    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:15:1]
  15 |     
  16 | ,-> bar {
  17 | |   	color: yellow;
@@ -659,7 +659,7 @@
     `----
 
   x QualifiedRule
-    ,-[$DIR/tests/fixture/rome/values/input.css:15:1]
+    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:15:1]
  15 |     
  16 | ,-> bar {
  17 | |   	color: yellow;
@@ -668,7 +668,7 @@
     `----
 
   x SelectorList
-    ,-[$DIR/tests/fixture/rome/values/input.css:15:1]
+    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:15:1]
  15 | 
  16 | bar {
     : ^^^
@@ -676,7 +676,7 @@
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/rome/values/input.css:15:1]
+    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:15:1]
  15 | 
  16 | bar {
     : ^^^
@@ -684,7 +684,7 @@
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/rome/values/input.css:15:1]
+    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:15:1]
  15 | 
  16 | bar {
     : ^^^
@@ -692,7 +692,7 @@
     `----
 
   x TypeSelector
-    ,-[$DIR/tests/fixture/rome/values/input.css:15:1]
+    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:15:1]
  15 | 
  16 | bar {
     : ^^^
@@ -700,7 +700,7 @@
     `----
 
   x TagNameSelector
-    ,-[$DIR/tests/fixture/rome/values/input.css:15:1]
+    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:15:1]
  15 | 
  16 | bar {
     : ^^^
@@ -708,7 +708,7 @@
     `----
 
   x WqName
-    ,-[$DIR/tests/fixture/rome/values/input.css:15:1]
+    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:15:1]
  15 | 
  16 | bar {
     : ^^^
@@ -716,7 +716,7 @@
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/values/input.css:15:1]
+    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:15:1]
  15 | 
  16 | bar {
     : ^^^
@@ -724,7 +724,7 @@
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/rome/values/input.css:15:1]
+    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:15:1]
  15 |     
  16 | ,-> bar {
  17 | |   	color: yellow;
@@ -733,7 +733,7 @@
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/rome/values/input.css:15:1]
+    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:15:1]
  15 | 
  16 | bar {
     :     ^
@@ -741,7 +741,7 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/values/input.css:16:1]
+    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:16:1]
  16 | bar {
  17 | 	color: yellow;
     :  ^^^^^^^^^^^^^
@@ -749,7 +749,7 @@
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/rome/values/input.css:16:1]
+    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:16:1]
  16 | bar {
  17 | 	color: yellow;
     :  ^^^^^^^^^^^^^
@@ -757,7 +757,7 @@
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/rome/values/input.css:16:1]
+    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:16:1]
  16 | bar {
  17 | 	color: yellow;
     :  ^^^^^^^^^^^^^
@@ -765,7 +765,7 @@
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/rome/values/input.css:16:1]
+    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:16:1]
  16 | bar {
  17 | 	color: yellow;
     :  ^^^^^
@@ -773,7 +773,7 @@
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/values/input.css:16:1]
+    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:16:1]
  16 | bar {
  17 | 	color: yellow;
     :  ^^^^^
@@ -781,7 +781,7 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/values/input.css:16:1]
+    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:16:1]
  16 | bar {
  17 | 	color: yellow;
     :         ^^^^^^
@@ -789,7 +789,7 @@
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/values/input.css:16:1]
+    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:16:1]
  16 | bar {
  17 | 	color: yellow;
     :         ^^^^^^
@@ -797,7 +797,7 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/values/input.css:17:1]
+    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:17:1]
  17 | 	color: yellow;
  18 | 	background: none
     :  ^^^^^^^^^^^^^^^^^
@@ -805,7 +805,7 @@
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/rome/values/input.css:17:1]
+    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:17:1]
  17 | 	color: yellow;
  18 | 	background: none
     :  ^^^^^^^^^^^^^^^^^
@@ -813,7 +813,7 @@
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/rome/values/input.css:17:1]
+    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:17:1]
  17 | 	color: yellow;
  18 | 	background: none
     :  ^^^^^^^^^^^^^^^^^
@@ -821,7 +821,7 @@
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/rome/values/input.css:17:1]
+    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:17:1]
  17 | 	color: yellow;
  18 | 	background: none
     :  ^^^^^^^^^^
@@ -829,7 +829,7 @@
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/values/input.css:17:1]
+    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:17:1]
  17 | 	color: yellow;
  18 | 	background: none
     :  ^^^^^^^^^^
@@ -837,7 +837,7 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/values/input.css:17:1]
+    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:17:1]
  17 | 	color: yellow;
  18 | 	background: none
     :              ^^^^
@@ -845,7 +845,7 @@
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/values/input.css:17:1]
+    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:17:1]
  17 | 	color: yellow;
  18 | 	background: none
     :              ^^^^

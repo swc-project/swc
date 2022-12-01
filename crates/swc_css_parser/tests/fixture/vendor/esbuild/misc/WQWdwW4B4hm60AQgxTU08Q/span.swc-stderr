@@ -1,102 +1,102 @@
 
   x Stylesheet
-   ,-[$DIR/tests/fixture/esbuild/misc/WQWdwW4B4hm60AQgxTU08Q/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/WQWdwW4B4hm60AQgxTU08Q/input.css:1:1]
  1 | a::b(c) {}
    : ^^^^^^^^^^
    `----
 
   x Rule
-   ,-[$DIR/tests/fixture/esbuild/misc/WQWdwW4B4hm60AQgxTU08Q/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/WQWdwW4B4hm60AQgxTU08Q/input.css:1:1]
  1 | a::b(c) {}
    : ^^^^^^^^^^
    `----
 
   x QualifiedRule
-   ,-[$DIR/tests/fixture/esbuild/misc/WQWdwW4B4hm60AQgxTU08Q/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/WQWdwW4B4hm60AQgxTU08Q/input.css:1:1]
  1 | a::b(c) {}
    : ^^^^^^^^^^
    `----
 
   x SelectorList
-   ,-[$DIR/tests/fixture/esbuild/misc/WQWdwW4B4hm60AQgxTU08Q/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/WQWdwW4B4hm60AQgxTU08Q/input.css:1:1]
  1 | a::b(c) {}
    : ^^^^^^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/esbuild/misc/WQWdwW4B4hm60AQgxTU08Q/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/WQWdwW4B4hm60AQgxTU08Q/input.css:1:1]
  1 | a::b(c) {}
    : ^^^^^^^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/esbuild/misc/WQWdwW4B4hm60AQgxTU08Q/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/WQWdwW4B4hm60AQgxTU08Q/input.css:1:1]
  1 | a::b(c) {}
    : ^^^^^^^
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/fixture/esbuild/misc/WQWdwW4B4hm60AQgxTU08Q/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/WQWdwW4B4hm60AQgxTU08Q/input.css:1:1]
  1 | a::b(c) {}
    : ^
    `----
 
   x TagNameSelector
-   ,-[$DIR/tests/fixture/esbuild/misc/WQWdwW4B4hm60AQgxTU08Q/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/WQWdwW4B4hm60AQgxTU08Q/input.css:1:1]
  1 | a::b(c) {}
    : ^
    `----
 
   x WqName
-   ,-[$DIR/tests/fixture/esbuild/misc/WQWdwW4B4hm60AQgxTU08Q/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/WQWdwW4B4hm60AQgxTU08Q/input.css:1:1]
  1 | a::b(c) {}
    : ^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/esbuild/misc/WQWdwW4B4hm60AQgxTU08Q/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/WQWdwW4B4hm60AQgxTU08Q/input.css:1:1]
  1 | a::b(c) {}
    : ^
    `----
 
   x SubclassSelector
-   ,-[$DIR/tests/fixture/esbuild/misc/WQWdwW4B4hm60AQgxTU08Q/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/WQWdwW4B4hm60AQgxTU08Q/input.css:1:1]
  1 | a::b(c) {}
    :  ^^^^^^
    `----
 
   x PseudoElementSelector
-   ,-[$DIR/tests/fixture/esbuild/misc/WQWdwW4B4hm60AQgxTU08Q/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/WQWdwW4B4hm60AQgxTU08Q/input.css:1:1]
  1 | a::b(c) {}
    :  ^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/esbuild/misc/WQWdwW4B4hm60AQgxTU08Q/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/WQWdwW4B4hm60AQgxTU08Q/input.css:1:1]
  1 | a::b(c) {}
    :    ^
    `----
 
   x PseudoElementSelectorChildren
-   ,-[$DIR/tests/fixture/esbuild/misc/WQWdwW4B4hm60AQgxTU08Q/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/WQWdwW4B4hm60AQgxTU08Q/input.css:1:1]
  1 | a::b(c) {}
    :      ^
    `----
 
   x Ident { value: Atom('c' type=inline), raw: "c" }
-   ,-[$DIR/tests/fixture/esbuild/misc/WQWdwW4B4hm60AQgxTU08Q/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/WQWdwW4B4hm60AQgxTU08Q/input.css:1:1]
  1 | a::b(c) {}
    :      ^
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/esbuild/misc/WQWdwW4B4hm60AQgxTU08Q/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/WQWdwW4B4hm60AQgxTU08Q/input.css:1:1]
  1 | a::b(c) {}
    :         ^^
    `----
 
   x LBrace
-   ,-[$DIR/tests/fixture/esbuild/misc/WQWdwW4B4hm60AQgxTU08Q/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/WQWdwW4B4hm60AQgxTU08Q/input.css:1:1]
  1 | a::b(c) {}
    :         ^
    `----

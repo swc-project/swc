@@ -1,72 +1,72 @@
 
   x Stylesheet
-   ,-[$DIR/tests/fixture/esbuild/misc/AMheAL_TeyLZpn77YdNTZA/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/AMheAL_TeyLZpn77YdNTZA/input.css:1:1]
  1 | @keyframes abc { \66rom {} }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Rule
-   ,-[$DIR/tests/fixture/esbuild/misc/AMheAL_TeyLZpn77YdNTZA/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/AMheAL_TeyLZpn77YdNTZA/input.css:1:1]
  1 | @keyframes abc { \66rom {} }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x AtRule
-   ,-[$DIR/tests/fixture/esbuild/misc/AMheAL_TeyLZpn77YdNTZA/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/AMheAL_TeyLZpn77YdNTZA/input.css:1:1]
  1 | @keyframes abc { \66rom {} }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x AtRuleName
-   ,-[$DIR/tests/fixture/esbuild/misc/AMheAL_TeyLZpn77YdNTZA/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/AMheAL_TeyLZpn77YdNTZA/input.css:1:1]
  1 | @keyframes abc { \66rom {} }
    :  ^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/esbuild/misc/AMheAL_TeyLZpn77YdNTZA/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/AMheAL_TeyLZpn77YdNTZA/input.css:1:1]
  1 | @keyframes abc { \66rom {} }
    :  ^^^^^^^^^
    `----
 
   x CustomIdent
-   ,-[$DIR/tests/fixture/esbuild/misc/AMheAL_TeyLZpn77YdNTZA/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/AMheAL_TeyLZpn77YdNTZA/input.css:1:1]
  1 | @keyframes abc { \66rom {} }
    :            ^^^
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/esbuild/misc/AMheAL_TeyLZpn77YdNTZA/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/AMheAL_TeyLZpn77YdNTZA/input.css:1:1]
  1 | @keyframes abc { \66rom {} }
    :                ^^^^^^^^^^^^^
    `----
 
   x LBrace
-   ,-[$DIR/tests/fixture/esbuild/misc/AMheAL_TeyLZpn77YdNTZA/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/AMheAL_TeyLZpn77YdNTZA/input.css:1:1]
  1 | @keyframes abc { \66rom {} }
    :                ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/esbuild/misc/AMheAL_TeyLZpn77YdNTZA/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/AMheAL_TeyLZpn77YdNTZA/input.css:1:1]
  1 | @keyframes abc { \66rom {} }
    :                  ^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/esbuild/misc/AMheAL_TeyLZpn77YdNTZA/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/AMheAL_TeyLZpn77YdNTZA/input.css:1:1]
  1 | @keyframes abc { \66rom {} }
    :                  ^^^^^^
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/esbuild/misc/AMheAL_TeyLZpn77YdNTZA/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/AMheAL_TeyLZpn77YdNTZA/input.css:1:1]
  1 | @keyframes abc { \66rom {} }
    :                         ^^
    `----
 
   x LBrace
-   ,-[$DIR/tests/fixture/esbuild/misc/AMheAL_TeyLZpn77YdNTZA/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/AMheAL_TeyLZpn77YdNTZA/input.css:1:1]
  1 | @keyframes abc { \66rom {} }
    :                         ^
    `----

@@ -1,66 +1,66 @@
 
   x Stylesheet
-   ,-[$DIR/tests/fixture/esbuild/misc/PwUHqMTSmtZW7IYn9gsinQ/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/PwUHqMTSmtZW7IYn9gsinQ/input.css:1:1]
  1 | #\2d {}
    : ^^^^^^^
    `----
 
   x Rule
-   ,-[$DIR/tests/fixture/esbuild/misc/PwUHqMTSmtZW7IYn9gsinQ/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/PwUHqMTSmtZW7IYn9gsinQ/input.css:1:1]
  1 | #\2d {}
    : ^^^^^^^
    `----
 
   x QualifiedRule
-   ,-[$DIR/tests/fixture/esbuild/misc/PwUHqMTSmtZW7IYn9gsinQ/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/PwUHqMTSmtZW7IYn9gsinQ/input.css:1:1]
  1 | #\2d {}
    : ^^^^^^^
    `----
 
   x SelectorList
-   ,-[$DIR/tests/fixture/esbuild/misc/PwUHqMTSmtZW7IYn9gsinQ/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/PwUHqMTSmtZW7IYn9gsinQ/input.css:1:1]
  1 | #\2d {}
    : ^^^^^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/esbuild/misc/PwUHqMTSmtZW7IYn9gsinQ/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/PwUHqMTSmtZW7IYn9gsinQ/input.css:1:1]
  1 | #\2d {}
    : ^^^^^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/esbuild/misc/PwUHqMTSmtZW7IYn9gsinQ/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/PwUHqMTSmtZW7IYn9gsinQ/input.css:1:1]
  1 | #\2d {}
    : ^^^^^
    `----
 
   x SubclassSelector
-   ,-[$DIR/tests/fixture/esbuild/misc/PwUHqMTSmtZW7IYn9gsinQ/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/PwUHqMTSmtZW7IYn9gsinQ/input.css:1:1]
  1 | #\2d {}
    : ^^^^^
    `----
 
   x IdSelector
-   ,-[$DIR/tests/fixture/esbuild/misc/PwUHqMTSmtZW7IYn9gsinQ/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/PwUHqMTSmtZW7IYn9gsinQ/input.css:1:1]
  1 | #\2d {}
    : ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/esbuild/misc/PwUHqMTSmtZW7IYn9gsinQ/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/PwUHqMTSmtZW7IYn9gsinQ/input.css:1:1]
  1 | #\2d {}
    : ^^^^^
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/esbuild/misc/PwUHqMTSmtZW7IYn9gsinQ/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/PwUHqMTSmtZW7IYn9gsinQ/input.css:1:1]
  1 | #\2d {}
    :      ^^
    `----
 
   x LBrace
-   ,-[$DIR/tests/fixture/esbuild/misc/PwUHqMTSmtZW7IYn9gsinQ/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/PwUHqMTSmtZW7IYn9gsinQ/input.css:1:1]
  1 | #\2d {}
    :      ^
    `----

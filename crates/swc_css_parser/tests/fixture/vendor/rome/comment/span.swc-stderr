@@ -1,6 +1,6 @@
 
   x Stylesheet
-    ,-[$DIR/tests/fixture/rome/comment/input.css:2:1]
+    ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:2:1]
   2 |      * comments
   3 | ,->  */
   4 | |   
@@ -18,7 +18,7 @@
     `----
 
   x Rule
-   ,-[$DIR/tests/fixture/rome/comment/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:4:1]
  4 |     
  5 | ,-> a {
  6 | |   	color: white; /* comment */
@@ -26,7 +26,7 @@
    `----
 
   x QualifiedRule
-   ,-[$DIR/tests/fixture/rome/comment/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:4:1]
  4 |     
  5 | ,-> a {
  6 | |   	color: white; /* comment */
@@ -34,7 +34,7 @@
    `----
 
   x SelectorList
-   ,-[$DIR/tests/fixture/rome/comment/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:4:1]
  4 | 
  5 | a {
    : ^
@@ -42,7 +42,7 @@
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/rome/comment/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:4:1]
  4 | 
  5 | a {
    : ^
@@ -50,7 +50,7 @@
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/rome/comment/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:4:1]
  4 | 
  5 | a {
    : ^
@@ -58,7 +58,7 @@
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/fixture/rome/comment/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:4:1]
  4 | 
  5 | a {
    : ^
@@ -66,7 +66,7 @@
    `----
 
   x TagNameSelector
-   ,-[$DIR/tests/fixture/rome/comment/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:4:1]
  4 | 
  5 | a {
    : ^
@@ -74,7 +74,7 @@
    `----
 
   x WqName
-   ,-[$DIR/tests/fixture/rome/comment/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:4:1]
  4 | 
  5 | a {
    : ^
@@ -82,7 +82,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/comment/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:4:1]
  4 | 
  5 | a {
    : ^
@@ -90,7 +90,7 @@
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/rome/comment/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:4:1]
  4 |     
  5 | ,-> a {
  6 | |   	color: white; /* comment */
@@ -98,7 +98,7 @@
    `----
 
   x LBrace
-   ,-[$DIR/tests/fixture/rome/comment/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:4:1]
  4 | 
  5 | a {
    :   ^
@@ -106,7 +106,7 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/comment/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:5:1]
  5 | a {
  6 | 	color: white; /* comment */
    :  ^^^^^^^^^^^^
@@ -114,7 +114,7 @@
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/rome/comment/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:5:1]
  5 | a {
  6 | 	color: white; /* comment */
    :  ^^^^^^^^^^^^
@@ -122,7 +122,7 @@
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/rome/comment/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:5:1]
  5 | a {
  6 | 	color: white; /* comment */
    :  ^^^^^^^^^^^^
@@ -130,7 +130,7 @@
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/rome/comment/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:5:1]
  5 | a {
  6 | 	color: white; /* comment */
    :  ^^^^^
@@ -138,7 +138,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/comment/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:5:1]
  5 | a {
  6 | 	color: white; /* comment */
    :  ^^^^^
@@ -146,7 +146,7 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/comment/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:5:1]
  5 | a {
  6 | 	color: white; /* comment */
    :         ^^^^^
@@ -154,7 +154,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/comment/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:5:1]
  5 | a {
  6 | 	color: white; /* comment */
    :         ^^^^^
@@ -162,7 +162,7 @@
    `----
 
   x Rule
-    ,-[$DIR/tests/fixture/rome/comment/input.css:8:1]
+    ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:8:1]
   8 |     
   9 | ,-> a {
  10 | |   	color: /* comment */ white;
@@ -170,7 +170,7 @@
     `----
 
   x QualifiedRule
-    ,-[$DIR/tests/fixture/rome/comment/input.css:8:1]
+    ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:8:1]
   8 |     
   9 | ,-> a {
  10 | |   	color: /* comment */ white;
@@ -178,7 +178,7 @@
     `----
 
   x SelectorList
-    ,-[$DIR/tests/fixture/rome/comment/input.css:8:1]
+    ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:8:1]
   8 | 
   9 | a {
     : ^
@@ -186,7 +186,7 @@
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/rome/comment/input.css:8:1]
+    ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:8:1]
   8 | 
   9 | a {
     : ^
@@ -194,7 +194,7 @@
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/rome/comment/input.css:8:1]
+    ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:8:1]
   8 | 
   9 | a {
     : ^
@@ -202,7 +202,7 @@
     `----
 
   x TypeSelector
-    ,-[$DIR/tests/fixture/rome/comment/input.css:8:1]
+    ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:8:1]
   8 | 
   9 | a {
     : ^
@@ -210,7 +210,7 @@
     `----
 
   x TagNameSelector
-    ,-[$DIR/tests/fixture/rome/comment/input.css:8:1]
+    ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:8:1]
   8 | 
   9 | a {
     : ^
@@ -218,7 +218,7 @@
     `----
 
   x WqName
-    ,-[$DIR/tests/fixture/rome/comment/input.css:8:1]
+    ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:8:1]
   8 | 
   9 | a {
     : ^
@@ -226,7 +226,7 @@
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/comment/input.css:8:1]
+    ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:8:1]
   8 | 
   9 | a {
     : ^
@@ -234,7 +234,7 @@
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/rome/comment/input.css:8:1]
+    ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:8:1]
   8 |     
   9 | ,-> a {
  10 | |   	color: /* comment */ white;
@@ -242,7 +242,7 @@
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/rome/comment/input.css:8:1]
+    ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:8:1]
   8 | 
   9 | a {
     :   ^
@@ -250,7 +250,7 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/comment/input.css:9:1]
+    ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:9:1]
   9 | a {
  10 | 	color: /* comment */ white;
     :  ^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -258,7 +258,7 @@
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/rome/comment/input.css:9:1]
+    ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:9:1]
   9 | a {
  10 | 	color: /* comment */ white;
     :  ^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -266,7 +266,7 @@
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/rome/comment/input.css:9:1]
+    ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:9:1]
   9 | a {
  10 | 	color: /* comment */ white;
     :  ^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -274,7 +274,7 @@
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/rome/comment/input.css:9:1]
+    ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:9:1]
   9 | a {
  10 | 	color: /* comment */ white;
     :  ^^^^^
@@ -282,7 +282,7 @@
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/comment/input.css:9:1]
+    ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:9:1]
   9 | a {
  10 | 	color: /* comment */ white;
     :  ^^^^^
@@ -290,7 +290,7 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/comment/input.css:9:1]
+    ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:9:1]
   9 | a {
  10 | 	color: /* comment */ white;
     :                       ^^^^^
@@ -298,7 +298,7 @@
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/comment/input.css:9:1]
+    ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:9:1]
   9 | a {
  10 | 	color: /* comment */ white;
     :                       ^^^^^
@@ -306,7 +306,7 @@
     `----
 
   x Rule
-    ,-[$DIR/tests/fixture/rome/comment/input.css:12:1]
+    ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:12:1]
  12 |     
  13 | ,-> a /* comment */ {
  14 | |   	color: white;
@@ -314,7 +314,7 @@
     `----
 
   x QualifiedRule
-    ,-[$DIR/tests/fixture/rome/comment/input.css:12:1]
+    ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:12:1]
  12 |     
  13 | ,-> a /* comment */ {
  14 | |   	color: white;
@@ -322,7 +322,7 @@
     `----
 
   x SelectorList
-    ,-[$DIR/tests/fixture/rome/comment/input.css:12:1]
+    ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:12:1]
  12 | 
  13 | a /* comment */ {
     : ^
@@ -330,7 +330,7 @@
     `----
 
   x ComplexSelector
-    ,-[$DIR/tests/fixture/rome/comment/input.css:12:1]
+    ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:12:1]
  12 | 
  13 | a /* comment */ {
     : ^
@@ -338,7 +338,7 @@
     `----
 
   x CompoundSelector
-    ,-[$DIR/tests/fixture/rome/comment/input.css:12:1]
+    ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:12:1]
  12 | 
  13 | a /* comment */ {
     : ^
@@ -346,7 +346,7 @@
     `----
 
   x TypeSelector
-    ,-[$DIR/tests/fixture/rome/comment/input.css:12:1]
+    ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:12:1]
  12 | 
  13 | a /* comment */ {
     : ^
@@ -354,7 +354,7 @@
     `----
 
   x TagNameSelector
-    ,-[$DIR/tests/fixture/rome/comment/input.css:12:1]
+    ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:12:1]
  12 | 
  13 | a /* comment */ {
     : ^
@@ -362,7 +362,7 @@
     `----
 
   x WqName
-    ,-[$DIR/tests/fixture/rome/comment/input.css:12:1]
+    ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:12:1]
  12 | 
  13 | a /* comment */ {
     : ^
@@ -370,7 +370,7 @@
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/comment/input.css:12:1]
+    ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:12:1]
  12 | 
  13 | a /* comment */ {
     : ^
@@ -378,7 +378,7 @@
     `----
 
   x SimpleBlock
-    ,-[$DIR/tests/fixture/rome/comment/input.css:12:1]
+    ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:12:1]
  12 |     
  13 | ,-> a /* comment */ {
  14 | |   	color: white;
@@ -386,7 +386,7 @@
     `----
 
   x LBrace
-    ,-[$DIR/tests/fixture/rome/comment/input.css:12:1]
+    ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:12:1]
  12 | 
  13 | a /* comment */ {
     :                 ^
@@ -394,7 +394,7 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/comment/input.css:13:1]
+    ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:13:1]
  13 | a /* comment */ {
  14 | 	color: white;
     :  ^^^^^^^^^^^^
@@ -402,7 +402,7 @@
     `----
 
   x StyleBlock
-    ,-[$DIR/tests/fixture/rome/comment/input.css:13:1]
+    ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:13:1]
  13 | a /* comment */ {
  14 | 	color: white;
     :  ^^^^^^^^^^^^
@@ -410,7 +410,7 @@
     `----
 
   x Declaration
-    ,-[$DIR/tests/fixture/rome/comment/input.css:13:1]
+    ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:13:1]
  13 | a /* comment */ {
  14 | 	color: white;
     :  ^^^^^^^^^^^^
@@ -418,7 +418,7 @@
     `----
 
   x DeclarationName
-    ,-[$DIR/tests/fixture/rome/comment/input.css:13:1]
+    ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:13:1]
  13 | a /* comment */ {
  14 | 	color: white;
     :  ^^^^^
@@ -426,7 +426,7 @@
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/comment/input.css:13:1]
+    ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:13:1]
  13 | a /* comment */ {
  14 | 	color: white;
     :  ^^^^^
@@ -434,7 +434,7 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/rome/comment/input.css:13:1]
+    ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:13:1]
  13 | a /* comment */ {
  14 | 	color: white;
     :         ^^^^^
@@ -442,7 +442,7 @@
     `----
 
   x Ident
-    ,-[$DIR/tests/fixture/rome/comment/input.css:13:1]
+    ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:13:1]
  13 | a /* comment */ {
  14 | 	color: white;
     :         ^^^^^

@@ -1,96 +1,96 @@
 
   x Stylesheet
-   ,-[$DIR/tests/fixture/esbuild/misc/lS8DPMFU-dQY4SnMMBW4Aw/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/lS8DPMFU-dQY4SnMMBW4Aw/input.css:1:1]
  1 | @keyframes test { from {} to {} }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Rule
-   ,-[$DIR/tests/fixture/esbuild/misc/lS8DPMFU-dQY4SnMMBW4Aw/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/lS8DPMFU-dQY4SnMMBW4Aw/input.css:1:1]
  1 | @keyframes test { from {} to {} }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x AtRule
-   ,-[$DIR/tests/fixture/esbuild/misc/lS8DPMFU-dQY4SnMMBW4Aw/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/lS8DPMFU-dQY4SnMMBW4Aw/input.css:1:1]
  1 | @keyframes test { from {} to {} }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x AtRuleName
-   ,-[$DIR/tests/fixture/esbuild/misc/lS8DPMFU-dQY4SnMMBW4Aw/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/lS8DPMFU-dQY4SnMMBW4Aw/input.css:1:1]
  1 | @keyframes test { from {} to {} }
    :  ^^^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/esbuild/misc/lS8DPMFU-dQY4SnMMBW4Aw/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/lS8DPMFU-dQY4SnMMBW4Aw/input.css:1:1]
  1 | @keyframes test { from {} to {} }
    :  ^^^^^^^^^
    `----
 
   x CustomIdent
-   ,-[$DIR/tests/fixture/esbuild/misc/lS8DPMFU-dQY4SnMMBW4Aw/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/lS8DPMFU-dQY4SnMMBW4Aw/input.css:1:1]
  1 | @keyframes test { from {} to {} }
    :            ^^^^
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/esbuild/misc/lS8DPMFU-dQY4SnMMBW4Aw/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/lS8DPMFU-dQY4SnMMBW4Aw/input.css:1:1]
  1 | @keyframes test { from {} to {} }
    :                 ^^^^^^^^^^^^^^^^^
    `----
 
   x LBrace
-   ,-[$DIR/tests/fixture/esbuild/misc/lS8DPMFU-dQY4SnMMBW4Aw/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/lS8DPMFU-dQY4SnMMBW4Aw/input.css:1:1]
  1 | @keyframes test { from {} to {} }
    :                 ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/esbuild/misc/lS8DPMFU-dQY4SnMMBW4Aw/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/lS8DPMFU-dQY4SnMMBW4Aw/input.css:1:1]
  1 | @keyframes test { from {} to {} }
    :                   ^^^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/esbuild/misc/lS8DPMFU-dQY4SnMMBW4Aw/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/lS8DPMFU-dQY4SnMMBW4Aw/input.css:1:1]
  1 | @keyframes test { from {} to {} }
    :                   ^^^^
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/esbuild/misc/lS8DPMFU-dQY4SnMMBW4Aw/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/lS8DPMFU-dQY4SnMMBW4Aw/input.css:1:1]
  1 | @keyframes test { from {} to {} }
    :                        ^^
    `----
 
   x LBrace
-   ,-[$DIR/tests/fixture/esbuild/misc/lS8DPMFU-dQY4SnMMBW4Aw/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/lS8DPMFU-dQY4SnMMBW4Aw/input.css:1:1]
  1 | @keyframes test { from {} to {} }
    :                        ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/esbuild/misc/lS8DPMFU-dQY4SnMMBW4Aw/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/lS8DPMFU-dQY4SnMMBW4Aw/input.css:1:1]
  1 | @keyframes test { from {} to {} }
    :                           ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/esbuild/misc/lS8DPMFU-dQY4SnMMBW4Aw/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/lS8DPMFU-dQY4SnMMBW4Aw/input.css:1:1]
  1 | @keyframes test { from {} to {} }
    :                           ^^
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/esbuild/misc/lS8DPMFU-dQY4SnMMBW4Aw/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/lS8DPMFU-dQY4SnMMBW4Aw/input.css:1:1]
  1 | @keyframes test { from {} to {} }
    :                              ^^
    `----
 
   x LBrace
-   ,-[$DIR/tests/fixture/esbuild/misc/lS8DPMFU-dQY4SnMMBW4Aw/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/lS8DPMFU-dQY4SnMMBW4Aw/input.css:1:1]
  1 | @keyframes test { from {} to {} }
    :                              ^
    `----

@@ -1,55 +1,55 @@
 
   x Stylesheet
-   ,-[$DIR/tests/fixture/rome/font/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/font/input.css:1:1]
  1 | ,-> @font-face {
  2 | |   	src: url("");
  3 | `-> }
    `----
 
   x Rule
-   ,-[$DIR/tests/fixture/rome/font/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/font/input.css:1:1]
  1 | ,-> @font-face {
  2 | |   	src: url("");
  3 | `-> }
    `----
 
   x AtRule
-   ,-[$DIR/tests/fixture/rome/font/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/font/input.css:1:1]
  1 | ,-> @font-face {
  2 | |   	src: url("");
  3 | `-> }
    `----
 
   x AtRuleName
-   ,-[$DIR/tests/fixture/rome/font/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/font/input.css:1:1]
  1 | @font-face {
    :  ^^^^^^^^^
  2 | 	src: url("");
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/font/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/font/input.css:1:1]
  1 | @font-face {
    :  ^^^^^^^^^
  2 | 	src: url("");
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/rome/font/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/font/input.css:1:1]
  1 | ,-> @font-face {
  2 | |   	src: url("");
  3 | `-> }
    `----
 
   x LBrace
-   ,-[$DIR/tests/fixture/rome/font/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/font/input.css:1:1]
  1 | @font-face {
    :            ^
  2 | 	src: url("");
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/font/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/font/input.css:1:1]
  1 | @font-face {
  2 | 	src: url("");
    :  ^^^^^^^^^^^^
@@ -57,7 +57,7 @@
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/rome/font/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/font/input.css:1:1]
  1 | @font-face {
  2 | 	src: url("");
    :  ^^^^^^^^^^^^
@@ -65,7 +65,7 @@
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/rome/font/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/font/input.css:1:1]
  1 | @font-face {
  2 | 	src: url("");
    :  ^^^
@@ -73,7 +73,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/font/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/font/input.css:1:1]
  1 | @font-face {
  2 | 	src: url("");
    :  ^^^
@@ -81,7 +81,7 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/rome/font/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/font/input.css:1:1]
  1 | @font-face {
  2 | 	src: url("");
    :       ^^^^^^^
@@ -89,7 +89,7 @@
    `----
 
   x Url
-   ,-[$DIR/tests/fixture/rome/font/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/font/input.css:1:1]
  1 | @font-face {
  2 | 	src: url("");
    :       ^^^^^^^
@@ -97,7 +97,7 @@
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/rome/font/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/font/input.css:1:1]
  1 | @font-face {
  2 | 	src: url("");
    :       ^^^
@@ -105,7 +105,7 @@
    `----
 
   x UrlValue
-   ,-[$DIR/tests/fixture/rome/font/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/font/input.css:1:1]
  1 | @font-face {
  2 | 	src: url("");
    :           ^^
@@ -113,7 +113,7 @@
    `----
 
   x Str
-   ,-[$DIR/tests/fixture/rome/font/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/font/input.css:1:1]
  1 | @font-face {
  2 | 	src: url("");
    :           ^^

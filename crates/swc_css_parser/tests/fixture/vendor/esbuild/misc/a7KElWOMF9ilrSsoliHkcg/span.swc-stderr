@@ -1,120 +1,120 @@
 
   x Stylesheet
-   ,-[$DIR/tests/fixture/esbuild/misc/a7KElWOMF9ilrSsoliHkcg/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/a7KElWOMF9ilrSsoliHkcg/input.css:1:1]
  1 | a { color: #AABBCDDD }
    : ^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Rule
-   ,-[$DIR/tests/fixture/esbuild/misc/a7KElWOMF9ilrSsoliHkcg/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/a7KElWOMF9ilrSsoliHkcg/input.css:1:1]
  1 | a { color: #AABBCDDD }
    : ^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x QualifiedRule
-   ,-[$DIR/tests/fixture/esbuild/misc/a7KElWOMF9ilrSsoliHkcg/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/a7KElWOMF9ilrSsoliHkcg/input.css:1:1]
  1 | a { color: #AABBCDDD }
    : ^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x SelectorList
-   ,-[$DIR/tests/fixture/esbuild/misc/a7KElWOMF9ilrSsoliHkcg/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/a7KElWOMF9ilrSsoliHkcg/input.css:1:1]
  1 | a { color: #AABBCDDD }
    : ^
    `----
 
   x ComplexSelector
-   ,-[$DIR/tests/fixture/esbuild/misc/a7KElWOMF9ilrSsoliHkcg/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/a7KElWOMF9ilrSsoliHkcg/input.css:1:1]
  1 | a { color: #AABBCDDD }
    : ^
    `----
 
   x CompoundSelector
-   ,-[$DIR/tests/fixture/esbuild/misc/a7KElWOMF9ilrSsoliHkcg/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/a7KElWOMF9ilrSsoliHkcg/input.css:1:1]
  1 | a { color: #AABBCDDD }
    : ^
    `----
 
   x TypeSelector
-   ,-[$DIR/tests/fixture/esbuild/misc/a7KElWOMF9ilrSsoliHkcg/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/a7KElWOMF9ilrSsoliHkcg/input.css:1:1]
  1 | a { color: #AABBCDDD }
    : ^
    `----
 
   x TagNameSelector
-   ,-[$DIR/tests/fixture/esbuild/misc/a7KElWOMF9ilrSsoliHkcg/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/a7KElWOMF9ilrSsoliHkcg/input.css:1:1]
  1 | a { color: #AABBCDDD }
    : ^
    `----
 
   x WqName
-   ,-[$DIR/tests/fixture/esbuild/misc/a7KElWOMF9ilrSsoliHkcg/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/a7KElWOMF9ilrSsoliHkcg/input.css:1:1]
  1 | a { color: #AABBCDDD }
    : ^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/esbuild/misc/a7KElWOMF9ilrSsoliHkcg/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/a7KElWOMF9ilrSsoliHkcg/input.css:1:1]
  1 | a { color: #AABBCDDD }
    : ^
    `----
 
   x SimpleBlock
-   ,-[$DIR/tests/fixture/esbuild/misc/a7KElWOMF9ilrSsoliHkcg/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/a7KElWOMF9ilrSsoliHkcg/input.css:1:1]
  1 | a { color: #AABBCDDD }
    :   ^^^^^^^^^^^^^^^^^^^^
    `----
 
   x LBrace
-   ,-[$DIR/tests/fixture/esbuild/misc/a7KElWOMF9ilrSsoliHkcg/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/a7KElWOMF9ilrSsoliHkcg/input.css:1:1]
  1 | a { color: #AABBCDDD }
    :   ^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/esbuild/misc/a7KElWOMF9ilrSsoliHkcg/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/a7KElWOMF9ilrSsoliHkcg/input.css:1:1]
  1 | a { color: #AABBCDDD }
    :     ^^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/fixture/esbuild/misc/a7KElWOMF9ilrSsoliHkcg/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/a7KElWOMF9ilrSsoliHkcg/input.css:1:1]
  1 | a { color: #AABBCDDD }
    :     ^^^^^^^^^^^^^^^^^
    `----
 
   x Declaration
-   ,-[$DIR/tests/fixture/esbuild/misc/a7KElWOMF9ilrSsoliHkcg/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/a7KElWOMF9ilrSsoliHkcg/input.css:1:1]
  1 | a { color: #AABBCDDD }
    :     ^^^^^^^^^^^^^^^^^
    `----
 
   x DeclarationName
-   ,-[$DIR/tests/fixture/esbuild/misc/a7KElWOMF9ilrSsoliHkcg/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/a7KElWOMF9ilrSsoliHkcg/input.css:1:1]
  1 | a { color: #AABBCDDD }
    :     ^^^^^
    `----
 
   x Ident
-   ,-[$DIR/tests/fixture/esbuild/misc/a7KElWOMF9ilrSsoliHkcg/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/a7KElWOMF9ilrSsoliHkcg/input.css:1:1]
  1 | a { color: #AABBCDDD }
    :     ^^^^^
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/esbuild/misc/a7KElWOMF9ilrSsoliHkcg/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/a7KElWOMF9ilrSsoliHkcg/input.css:1:1]
  1 | a { color: #AABBCDDD }
    :            ^^^^^^^^^
    `----
 
   x Color
-   ,-[$DIR/tests/fixture/esbuild/misc/a7KElWOMF9ilrSsoliHkcg/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/a7KElWOMF9ilrSsoliHkcg/input.css:1:1]
  1 | a { color: #AABBCDDD }
    :            ^^^^^^^^^
    `----
 
   x HexColor
-   ,-[$DIR/tests/fixture/esbuild/misc/a7KElWOMF9ilrSsoliHkcg/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/a7KElWOMF9ilrSsoliHkcg/input.css:1:1]
  1 | a { color: #AABBCDDD }
    :            ^^^^^^^^^
    `----
