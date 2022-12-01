@@ -97,7 +97,7 @@
         "@napi-rs/cli": "^2.10.0",
         "@swc/core": "=1.2.220",
         "@swc/helpers": "^0.4.2",
-        "@swc/plugin-jest": "^1.2.12",
+        "@swc/plugin-jest": "1.5.25",
         "@taplo/cli": "^0.3.2",
         "@types/jest": "^28.1.4",
         "@types/node": "^14.14.41",
