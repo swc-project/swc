@@ -1281,18 +1281,17 @@ impl SourceMap {
             let mut col = max(chpos, linechpos) - min(chpos, linechpos);
 
             if let Some(orig) = &orig {
-                dbg!(line, col);
-
                 if let Some(token) = orig
                     .tokens()
                     .find(|token| token.get_src_line() == line - 1 && token.get_src_col() == col)
                 {
-                    dbg!(&token);
                     line = token.get_src_line() + 1;
                     col = token.get_src_col();
                     if let Some(src) = token.get_source() {
                         src_id = builder.add_source(src);
                     }
+                } else {
+                    continue;
                 }
             }
 
