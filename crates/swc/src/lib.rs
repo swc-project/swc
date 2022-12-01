@@ -344,12 +344,14 @@ impl Compiler {
                             format!("failed to parse inline source map url\n{}", data_url)
                         })?;
 
-                        let content = match url.path().strip_prefix("base64,") {
+                        let idx = match url.path().find("base64,") {
                             Some(v) => v,
                             None => {
-                                bail!("failed to parse inline source map: not base64")
+                                bail!("failed to parse inline source map: not base64: {:?}", url)
                             }
                         };
+
+                        let content = url.path()[idx + "base64,".len()..].trim();
 
                         let res = base64::decode_config(
                             content.as_bytes(),
