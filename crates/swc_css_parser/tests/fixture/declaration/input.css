@@ -22,6 +22,9 @@ div {
     prop: center / 1em;
     c\olor: red;
     prop/**/: big;
+    prop: (;);
+    prop: [;];
+    prop: {;};
 }
 
 a { color: a/* ; */ b  ; }

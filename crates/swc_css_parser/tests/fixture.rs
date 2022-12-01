@@ -587,7 +587,6 @@ fn span_visualizer_line_comment(input: PathBuf) {
         "at-rule/page/without-page/input.css",
         "function/calc/division/input.css",
         "function/var/input.css",
-        "qualified-rule/only-block/input.css",
         "whitespaces/input.css",
     )
 )]

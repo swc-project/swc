@@ -7,7 +7,7 @@
  3 |     );
    `----
 
-  x Expected Declaration value
+  x Unexpected bad url in declaration value
    ,-[$DIR/tests/recovery/bad-url-token/invalid-escape/input.css:1:1]
  1 |     div {
  2 | ,->     background: url(image.png\
