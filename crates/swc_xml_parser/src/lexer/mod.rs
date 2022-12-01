@@ -1952,6 +1952,11 @@ where
                         self.state = State::CharacterReferenceInAttributeValue;
                         self.additional_allowed_character = Some('"');
                     }
+                    // (<)
+                    Some(c @ '<') => {
+                        self.emit_error(ErrorKind::UnescapedCharacterInAttributeValue('<'));
+                        self.append_to_attribute(None, Some((false, Some(c), Some(c))));
+                    }
                     // EOF
                     // Parse error. Emit the current token and then reprocess the current input
                     // character in the data state.
@@ -1986,6 +1991,11 @@ where
                         self.return_state = Some(self.state.clone());
                         self.state = State::CharacterReferenceInAttributeValue;
                         self.additional_allowed_character = Some('\'');
+                    }
+                    // (<)
+                    Some(c @ '<') => {
+                        self.emit_error(ErrorKind::UnescapedCharacterInAttributeValue('<'));
+                        self.append_to_attribute(None, Some((false, Some(c), Some(c))));
                     }
                     // EOF
                     // Parse error. Emit the current token and then reprocess the current input
@@ -2022,6 +2032,11 @@ where
                         self.return_state = Some(self.state.clone());
                         self.state = State::CharacterReferenceInAttributeValue;
                         self.additional_allowed_character = Some('>');
+                    }
+                    // (<)
+                    Some(c @ '<') => {
+                        self.emit_error(ErrorKind::UnescapedCharacterInAttributeValue('<'));
+                        self.append_to_attribute(None, Some((false, Some(c), Some(c))));
                     }
                     // U+003E GREATER-THAN SIGN (>)
                     // Emit the current token as start tag token and then switch to the data state.

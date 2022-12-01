@@ -103,6 +103,9 @@ impl Error {
             ErrorKind::MissingWhitespaceBeforeQuestionInProcessingInstruction => {
                 "Missing whitespace before '?'".into()
             }
+            ErrorKind::UnescapedCharacterInAttributeValue(c) => {
+                format!("Unescaped \"{}\" not allowed in attribute values", c).into()
+            }
 
             // Parser errors
             ErrorKind::UnexpectedTokenInStartPhase => "Unexpected token in start phase".into(),
@@ -170,6 +173,7 @@ pub enum ErrorKind {
     UnexpectedSolidusInTag,
     NoTargetNameInProcessingInstruction,
     MissingWhitespaceBeforeQuestionInProcessingInstruction,
+    UnescapedCharacterInAttributeValue(char),
 
     // Parser errors
     UnexpectedTokenInStartPhase,

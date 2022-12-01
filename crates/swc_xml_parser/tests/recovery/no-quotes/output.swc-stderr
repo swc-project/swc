@@ -1,4 +1,35 @@
 
+  x Unescaped "<" not allowed in attribute values
+   ,-[$DIR/tests/recovery/no-quotes/input.xml:4:1]
+ 4 |     <from>Jani</from>
+ 5 |     <heading foo="bar>Reminder</heading>
+   :                               ^
+ 6 |     <body>Don't forget me this weekend!</body>
+   `----
+
+  x Unescaped "<" not allowed in attribute values
+   ,-[$DIR/tests/recovery/no-quotes/input.xml:5:1]
+ 5 |     <heading foo="bar>Reminder</heading>
+ 6 |     <body>Don't forget me this weekend!</body>
+   :     ^
+ 7 | </note>
+   `----
+
+  x Unescaped "<" not allowed in attribute values
+   ,-[$DIR/tests/recovery/no-quotes/input.xml:5:1]
+ 5 |     <heading foo="bar>Reminder</heading>
+ 6 |     <body>Don't forget me this weekend!</body>
+   :                                        ^
+ 7 | </note>
+   `----
+
+  x Unescaped "<" not allowed in attribute values
+   ,-[$DIR/tests/recovery/no-quotes/input.xml:6:1]
+ 6 |     <body>Don't forget me this weekend!</body>
+ 7 | </note>
+   : ^
+   `----
+
   x Eof in tag
    ,-[$DIR/tests/recovery/no-quotes/input.xml:6:1]
  6 |     <body>Don't forget me this weekend!</body>
