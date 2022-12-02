@@ -555,32 +555,19 @@ where
 
         // If the next 3 input code points would start an identifier, then:
         if self.would_start_ident(next_first, next_second, next_third)? {
-            // Create a <dimension-token> with the same value and type flag as number, and a
-            // unit set initially to the empty string.
-            let mut token = Token::Dimension {
-                value: number.0,
-                raw_value: number.1,
-                unit: js_word!(""),
-                raw_unit: "".into(),
-                type_flag: number.2,
-            };
-
+            // Swap logic to avoid create empty strings, because it doesn't make sense
+            //
             // Consume a name. Set the <dimension-token>’s unit to the returned value.
             let ident_sequence = self.read_ident_sequence()?;
-
-            match token {
-                Token::Dimension {
-                    ref mut unit,
-                    ref mut raw_unit,
-                    ..
-                } => {
-                    *unit = ident_sequence.0;
-                    *raw_unit = ident_sequence.1;
-                }
-                _ => {
-                    unreachable!();
-                }
-            }
+            // Create a <dimension-token> with the same value and type flag as number, and a
+            // unit set initially to the empty string.
+            let token = Token::Dimension {
+                value: number.0,
+                raw_value: number.1,
+                unit: ident_sequence.0,
+                raw_unit: ident_sequence.1,
+                type_flag: number.2,
+            };
 
             // Return the <dimension-token>.
             return Ok(token);
