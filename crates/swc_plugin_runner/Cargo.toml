@@ -23,21 +23,15 @@ plugin_transform_schema_v1 = ["swc_common/plugin_transform_schema_v1"]
 plugin_transform_schema_vtest = ["swc_common/plugin_transform_schema_vtest"]
 
 # Enable ECMASCript support
-ecma = ["swc_ecma_ast"]
+ecma = ["swc_ecma_ast/rkyv-impl"]
 
 __rkyv = []
 rkyv-bytecheck-impl = [
   "__rkyv",
   "swc_common/plugin-bytecheck-rt",
   "swc_plugin_proxy/plugin-bytecheck-rt",
-  "swc_ecma_ast/rkyv-bytecheck-impl",
 ]
-rkyv-impl = [
-  "__rkyv",
-  "swc_common/plugin-rt",
-  "swc_plugin_proxy/plugin-rt",
-  "swc_ecma_ast/rkyv-impl",
-]
+rkyv-impl = ["__rkyv", "swc_common/plugin-rt", "swc_plugin_proxy/plugin-rt"]
 
 [dependencies]
 anyhow = "1.0.42"
