@@ -124,17 +124,17 @@ pub enum ComponentValue {
     #[tag("Ratio")]
     Ratio(Box<Ratio>),
     #[tag("UnicodeRange")]
-    UnicodeRange(UnicodeRange),
+    UnicodeRange(Box<UnicodeRange>),
     #[tag("Color")]
     Color(Box<Color>),
     #[tag("AlphaValue")]
-    AlphaValue(AlphaValue),
+    AlphaValue(Box<AlphaValue>),
     #[tag("Hue")]
     Hue(Box<Hue>),
     #[tag("CmykComponent")]
     CmykComponent(Box<CmykComponent>),
     #[tag("Delimiter")]
-    Delimiter(Delimiter),
+    Delimiter(Box<Delimiter>),
 
     // Special function Contents grammar
     #[tag("CalcSum")]
