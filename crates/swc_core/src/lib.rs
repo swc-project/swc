@@ -12,8 +12,8 @@ pub mod quote;
 pub extern crate swc_ecma_quote_macros;
 
 // Plugins
-#[cfg(feature = "__plugin_transform")]
-#[cfg_attr(docsrs, doc(cfg(feature = "__plugin_transform")))]
+#[cfg(feature = "__common_plugin_transform")]
+#[cfg_attr(docsrs, doc(cfg(feature = "__common_plugin_transform")))]
 pub mod plugin;
 
 #[cfg(feature = "__ecma")]
