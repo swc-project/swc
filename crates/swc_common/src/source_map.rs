@@ -1195,6 +1195,7 @@ impl SourceMap {
         let mut ch_start = 0;
         let mut line_prev_extra_bytes = 0;
         let mut line_ch_start = 0;
+        let mut inline_sources_content = false;
 
         for (pos, lc) in mappings.iter() {
             let pos = *pos;
@@ -1223,7 +1224,8 @@ impl SourceMap {
                     f = self.lookup_source_file(pos);
                     src_id = builder.add_source(&config.file_name_to_source(&f.name));
 
-                    if config.inline_sources_content(&f.name) {
+                    inline_sources_content = config.inline_sources_content(&f.name);
+                    if inline_sources_content && !orig.is_some() {
                         builder.set_source_contents(src_id, Some(&f.src));
                     }
 
@@ -1252,13 +1254,10 @@ impl SourceMap {
                 None => continue,
             };
 
+            let mut name = config.name_for_bytepos(pos);
             let mut name_idx = None;
 
-            if let Some(name) = config.name_for_bytepos(pos) {
-                name_idx = Some(builder.add_name(name))
-            }
-
-            let mut line = a + 1; // Line numbers start at 1
+            let mut line = a;
 
             let linebpos = f.lines[a as usize];
             debug_assert!(
@@ -1282,20 +1281,32 @@ impl SourceMap {
 
             if let Some(orig) = &orig {
                 if let Some(token) = orig
-                    .tokens()
-                    .find(|token| token.get_src_line() == line - 1 && token.get_src_col() == col)
+                    .lookup_token(line, col)
+                    .filter(|t| t.get_dst_line() == line)
                 {
-                    line = token.get_src_line() + 1;
+                    line = token.get_src_line();
                     col = token.get_src_col();
+                    if token.has_name() {
+                        name = token.get_name();
+                    }
                     if let Some(src) = token.get_source() {
                         src_id = builder.add_source(src);
+                        if inline_sources_content && !builder.has_source_contents(src_id) {
+                            if let Some(contents) = token.get_source_view() {
+                                builder.set_source_contents(src_id, Some(contents.source()));
+                            }
+                        }
                     }
                 } else {
                     continue;
                 }
             }
 
-            builder.add_raw(lc.line, lc.col, line - 1, col, Some(src_id), name_idx);
+            if let Some(name) = name {
+                name_idx = Some(builder.add_name(name))
+            }
+
+            builder.add_raw(lc.line, lc.col, line, col, Some(src_id), name_idx);
             prev_dst_line = lc.line;
         }
 
