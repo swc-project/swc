@@ -220,15 +220,15 @@ pub enum InputType<'a> {
 }
 
 #[derive(Debug)]
-pub enum TokenOrBlock {
-    Token(TokenAndSpan),
-    Function(Span, JsWord, Atom),
-    LBracket(Span),
-    LParen(Span),
-    LBrace(Span),
-    RParen(Span),
-    RBracket(Span),
-    RBrace(Span),
+enum TokenOrBlock {
+    Token(Box<TokenAndSpan>),
+    Function(Box<(Span, JsWord, Atom)>),
+    LBracket(Box<Span>),
+    LParen(Box<Span>),
+    LBrace(Box<Span>),
+    RParen(Box<Span>),
+    RBracket(Box<Span>),
+    RBrace(Box<Span>),
 }
 
 impl<'a> Input<'a> {
@@ -267,11 +267,11 @@ impl<'a> Input<'a> {
 
         match list.get(*index) {
             Some(ComponentValue::PreservedToken(token_and_span)) => {
-                Some(TokenOrBlock::Token(token_and_span.clone()))
+                Some(TokenOrBlock::Token(Box::new(token_and_span.clone())))
             }
             Some(ComponentValue::Function(function)) => {
                 if self.idx.len() - 1 == deep {
-                    return Some(TokenOrBlock::Function(
+                    return Some(TokenOrBlock::Function(Box::new((
                         Span::new(
                             function.span_lo(),
                             function.name.span_hi() + BytePos(1),
@@ -282,17 +282,17 @@ impl<'a> Input<'a> {
                             Some(raw) => raw.clone(),
                             _ => Atom::from(function.name.value.clone()),
                         },
-                    ));
+                    ))));
                 }
 
                 let res = self.get_component_value(&function.value, deep + 1);
 
                 if res.is_none() {
-                    return Some(TokenOrBlock::RParen(Span::new(
+                    return Some(TokenOrBlock::RParen(Box::new(Span::new(
                         function.span_hi() - BytePos(1),
                         function.span_hi(),
                         Default::default(),
-                    )));
+                    ))));
                 }
 
                 res
@@ -300,9 +300,9 @@ impl<'a> Input<'a> {
             Some(ComponentValue::SimpleBlock(simple_block)) => {
                 if self.idx.len() - 1 == deep {
                     let close = match simple_block.name.token {
-                        Token::LBracket => TokenOrBlock::LBracket(simple_block.name.span),
-                        Token::LParen => TokenOrBlock::LParen(simple_block.name.span),
-                        Token::LBrace => TokenOrBlock::LBrace(simple_block.name.span),
+                        Token::LBracket => TokenOrBlock::LBracket(Box::new(simple_block.name.span)),
+                        Token::LParen => TokenOrBlock::LParen(Box::new(simple_block.name.span)),
+                        Token::LBrace => TokenOrBlock::LBrace(Box::new(simple_block.name.span)),
                         _ => {
                             unreachable!();
                         }
@@ -320,9 +320,9 @@ impl<'a> Input<'a> {
                         Default::default(),
                     );
                     let close = match simple_block.name.token {
-                        Token::LBracket => TokenOrBlock::RBracket(span),
-                        Token::LParen => TokenOrBlock::RParen(span),
-                        Token::LBrace => TokenOrBlock::RBrace(span),
+                        Token::LBracket => TokenOrBlock::RBracket(Box::new(span)),
+                        Token::LParen => TokenOrBlock::RParen(Box::new(span)),
+                        Token::LBrace => TokenOrBlock::RBrace(Box::new(span)),
                         _ => {
                             unreachable!();
                         }
@@ -368,33 +368,36 @@ impl<'a> Input<'a> {
             InputType::ListOfComponentValues(input) => {
                 let token_and_span = match self.get_component_value(&input.children, 0) {
                     Some(token_or_block) => match token_or_block {
-                        TokenOrBlock::Token(token_and_span) => token_and_span,
-                        TokenOrBlock::Function(span, value, raw) => TokenAndSpan {
-                            span,
-                            token: Token::Function { value, raw },
+                        TokenOrBlock::Token(token_and_span) => *token_and_span,
+                        TokenOrBlock::Function(function) => TokenAndSpan {
+                            span: function.0,
+                            token: Token::Function {
+                                value: function.1,
+                                raw: function.2,
+                            },
                         },
                         TokenOrBlock::LBracket(span) => TokenAndSpan {
-                            span,
+                            span: *span,
                             token: Token::LBracket,
                         },
                         TokenOrBlock::LBrace(span) => TokenAndSpan {
-                            span,
+                            span: *span,
                             token: Token::LBrace,
                         },
                         TokenOrBlock::LParen(span) => TokenAndSpan {
-                            span,
+                            span: *span,
                             token: Token::LParen,
                         },
                         TokenOrBlock::RBracket(span) => TokenAndSpan {
-                            span,
+                            span: *span,
                             token: Token::RBracket,
                         },
                         TokenOrBlock::RBrace(span) => TokenAndSpan {
-                            span,
+                            span: *span,
                             token: Token::RBrace,
                         },
                         TokenOrBlock::RParen(span) => TokenAndSpan {
-                            span,
+                            span: *span,
                             token: Token::RParen,
                         },
                     },
