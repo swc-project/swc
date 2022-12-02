@@ -1,5 +1,5 @@
 
-  x Expected identifier in id selector
+  x Unexpected characters in ID selector
    ,-[$DIR/tests/recovery/selector/id/invalid/input.css:1:1]
  1 | #1234 {
    : ^^^^^

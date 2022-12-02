@@ -3,7 +3,7 @@
    ,-[$DIR/tests/recovery/attribute/duplicate/input.html:6:1]
  6 | <body>
  7 | <div class="test" class="test-1" class="test-2"></div>
-   :                   ^^^^^^^^^^^^^^
+   :                   ^^^^^
  8 | <div></div class="test" class="test-1" class="test-2">
    `----
 
@@ -11,7 +11,7 @@
    ,-[$DIR/tests/recovery/attribute/duplicate/input.html:6:1]
  6 | <body>
  7 | <div class="test" class="test-1" class="test-2"></div>
-   :                                  ^^^^^^^^^^^^^^
+   :                                  ^^^^^
  8 | <div></div class="test" class="test-1" class="test-2">
    `----
 
@@ -19,7 +19,7 @@
    ,-[$DIR/tests/recovery/attribute/duplicate/input.html:7:1]
  7 | <div class="test" class="test-1" class="test-2"></div>
  8 | <div></div class="test" class="test-1" class="test-2">
-   :                         ^^^^^^^^^^^^^^
+   :                         ^^^^^
  9 | </div/>
    `----
 
@@ -27,7 +27,7 @@
    ,-[$DIR/tests/recovery/attribute/duplicate/input.html:7:1]
  7 | <div class="test" class="test-1" class="test-2"></div>
  8 | <div></div class="test" class="test-1" class="test-2">
-   :                                        ^^^^^^^^^^^^^^
+   :                                        ^^^^^
  9 | </div/>
    `----
 

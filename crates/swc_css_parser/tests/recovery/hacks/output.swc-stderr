@@ -204,13 +204,6 @@
  248 | }
      `----
 
-  x Expected Declaration value
-     ,-[$DIR/tests/recovery/hacks/input.css:179:1]
- 179 | 
- 180 | .selector { property: value !ie; }
-     :                             ^
-     `----
-
   x Expected Ident
      ,-[$DIR/tests/recovery/hacks/input.css:135:1]
  135 | .selector { 
@@ -219,7 +212,7 @@
  137 |     color: red;
      `----
 
-  x Unexpected '!' in <declaration-value>
+  x Unexpected '!' in declaration value
      ,-[$DIR/tests/recovery/hacks/input.css:179:1]
  179 | 
  180 | .selector { property: value !ie; }

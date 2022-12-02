@@ -1,12 +1,4 @@
 
-  x Expected Declaration value
-   ,-[$DIR/tests/recovery/value/quotes/input.css:1:1]
- 1 | p::before {
- 2 |     content: "tes
-   :              ^^^^
- 3 |     t";
-   `----
-
   x Newline in string
    ,-[$DIR/tests/recovery/value/quotes/input.css:1:1]
  1 | p::before {
@@ -21,5 +13,21 @@
  2 |     content: "tes
  3 |     t";
    :        ^
+ 4 | }
+   `----
+
+  x Unexpected bad string in declaration value
+   ,-[$DIR/tests/recovery/value/quotes/input.css:1:1]
+ 1 | p::before {
+ 2 |     content: "tes
+   :              ^^^^
+ 3 |     t";
+   `----
+
+  x Unexpected bad string in declaration value
+   ,-[$DIR/tests/recovery/value/quotes/input.css:2:1]
+ 2 |     content: "tes
+ 3 |     t";
+   :      ^^
  4 | }
    `----

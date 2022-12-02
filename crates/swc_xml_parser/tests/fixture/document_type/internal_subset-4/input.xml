@@ -1,0 +1,4 @@
+<!DOCTYPE svg [
+    <!ENTITY hatch-pic SYSTEM "../grafix/OpenHatch.gif" NDATA gif >
+]>
+<root>test</root>

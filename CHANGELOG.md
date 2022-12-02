@@ -5,7 +5,22 @@
 
 
 
+- **(css/parser)** Fix recovery more for invalid component values in declaration value (#6560) ([db1eb48](https://github.com/swc-project/swc/commit/db1eb483fda71ca5f88342d8c53cb795707c6221))
+
+
+- **(css/parser)** Fix parsing of nested rules (#6563) ([a1fe907](https://github.com/swc-project/swc/commit/a1fe9076c231ca1eef05c558f43803ec006559c3))
+
+
 - **(es/parser)** Fix `typeof` in `TSCallSignatureDeclaration` (#6553) ([aa28aa0](https://github.com/swc-project/swc/commit/aa28aa0c7fefcaea063340c711a5ea8a3ba60e7b))
+
+
+- **(xml/parser)** Fix parsing of legacy document types (#6555) ([cdf0d8a](https://github.com/swc-project/swc/commit/cdf0d8a8b59a05498b6ca609d8a2ecf3c2f35f28))
+
+### Features
+
+
+
+- **(html/parser)** Improve lexer (#6543) ([49b7e9e](https://github.com/swc-project/swc/commit/49b7e9e224c36346a8fe5ccbec623ae76f0cc79d))
 
 ### Miscellaneous Tasks
 
@@ -15,6 +30,18 @@
 
 
 - **(ci)** Fix CI (#6558) ([8587589](https://github.com/swc-project/swc/commit/85875897f1fd3e71fe5e5d1877bb0e80458835d9))
+
+### Refactor
+
+
+
+- **(xml/parser)** Simplify logic for parsing elements (#6557) ([85a03e7](https://github.com/swc-project/swc/commit/85a03e71b7fe98d6f4f7c3fd0e49ce862130dfcc))
+
+### Testing
+
+
+
+- **(css/parser)** Move vendor tests (#6564) ([4d422b6](https://github.com/swc-project/swc/commit/4d422b6228c0a29e3e540697e805be5ae33f4cf2))
 
 ## [1.3.21] - 2022-11-30
 

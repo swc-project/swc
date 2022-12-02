@@ -1,0 +1,48 @@
+
+  x Document
+   ,-[$DIR/tests/fixture/document_type/internal_subset_empty/input.xml:1:1]
+ 1 | ,-> <!DOCTYPE greeting []>
+ 2 | `-> <root>test</root>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/document_type/internal_subset_empty/input.xml:1:1]
+ 1 | <!DOCTYPE greeting []>
+   : ^^^^^^^^^^^^^^^^^^^^^^
+ 2 | <root>test</root>
+   `----
+
+  x DocumentType
+   ,-[$DIR/tests/fixture/document_type/internal_subset_empty/input.xml:1:1]
+ 1 | <!DOCTYPE greeting []>
+   : ^^^^^^^^^^^^^^^^^^^^^^
+ 2 | <root>test</root>
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/document_type/internal_subset_empty/input.xml:1:1]
+ 1 | <!DOCTYPE greeting []>
+ 2 | <root>test</root>
+   : ^^^^^^^^^^^^^^^^^
+   `----
+
+  x Element
+   ,-[$DIR/tests/fixture/document_type/internal_subset_empty/input.xml:1:1]
+ 1 | <!DOCTYPE greeting []>
+ 2 | <root>test</root>
+   : ^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/fixture/document_type/internal_subset_empty/input.xml:1:1]
+ 1 | <!DOCTYPE greeting []>
+ 2 | <root>test</root>
+   :       ^^^^
+   `----
+
+  x Text
+   ,-[$DIR/tests/fixture/document_type/internal_subset_empty/input.xml:1:1]
+ 1 | <!DOCTYPE greeting []>
+ 2 | <root>test</root>
+   :       ^^^^
+   `----

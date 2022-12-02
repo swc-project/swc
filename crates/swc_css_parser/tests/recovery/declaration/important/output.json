@@ -124,6 +124,19 @@
                     "value": " "
                   }
                 }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 23,
+                  "end": 24,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Delim": {
+                    "value": "!"
+                  }
+                }
               }
             ],
             "important": {
