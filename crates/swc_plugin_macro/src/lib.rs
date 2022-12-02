@@ -12,12 +12,25 @@ pub fn plugin_transform(
     let token = proc_macro2::TokenStream::from(input);
     let parsed_results = syn::parse2::<SynItem>(token).expect("Failed to parse tokens");
     match parsed_results {
-        SynItem::Fn(func) => handle_func(func),
+        SynItem::Fn(func) => handle_func(func, Ident::new("Program", Span::call_site())),
         _ => panic!("Please confirm if plugin macro is specified for the function"),
     }
 }
 
-fn handle_func(func: ItemFn) -> TokenStream {
+#[proc_macro_attribute]
+pub fn css_plugin_transform(
+    _args: proc_macro::TokenStream,
+    input: proc_macro::TokenStream,
+) -> proc_macro::TokenStream {
+    let token = proc_macro2::TokenStream::from(input);
+    let parsed_results = syn::parse2::<SynItem>(token).expect("Failed to parse tokens");
+    match parsed_results {
+        SynItem::Fn(func) => handle_func(func, Ident::new("Stylesheet", Span::call_site())),
+        _ => panic!("Please confirm if plugin macro is specified for the function"),
+    }
+}
+
+fn handle_func(func: ItemFn, ast_type: Ident) -> TokenStream {
     let ident = func.sig.ident.clone();
     let transform_process_impl_ident =
         Ident::new("__transform_plugin_process_impl", Span::call_site());
@@ -119,7 +132,7 @@ fn handle_func(func: ItemFn) -> TokenStream {
                 let err = swc_core::common::plugin::serialized::PluginError::Deserialize("Failed to deserialize program received from host".to_string());
                 return construct_error_ptr(err);
             }
-            let program: Program = program.expect("Should be a program");
+            let program: #ast_type = program.expect("Should be a program");
 
             // Create a handler wired with plugin's diagnostic emitter, set it for global context.
             let handler = swc_core::common::errors::Handler::with_emitter(
