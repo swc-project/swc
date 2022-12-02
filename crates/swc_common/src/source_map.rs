@@ -1282,8 +1282,8 @@ impl SourceMap {
 
             if let Some(orig) = &orig {
                 if let Some(token) = orig
-                    .tokens()
-                    .find(|token| token.get_src_line() == line - 1 && token.get_src_col() == col)
+                    .lookup_token(line, col)
+                    .filter(|t| t.get_dst_line() == line)
                 {
                     line = token.get_src_line() + 1;
                     col = token.get_src_col();
