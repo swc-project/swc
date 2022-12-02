@@ -630,10 +630,12 @@
                 "token": {
                   "Dimension": {
                     "value": 100.0,
-                    "raw_value": "100",
                     "unit": "vw",
-                    "raw_unit": "vw",
-                    "type": "integer"
+                    "type": "integer",
+                    "raw": [
+                      "100",
+                      "vw"
+                    ]
                   }
                 }
               }
@@ -2809,10 +2811,12 @@
                     "token": {
                       "Dimension": {
                         "value": 16.0,
-                        "raw_value": "16",
                         "unit": "px",
-                        "raw_unit": "px",
-                        "type": "integer"
+                        "type": "integer",
+                        "raw": [
+                          "16",
+                          "px"
+                        ]
                       }
                     }
                   },
@@ -2884,10 +2888,12 @@
                     "token": {
                       "Dimension": {
                         "value": 16.0,
-                        "raw_value": "16",
                         "unit": "px",
-                        "raw_unit": "px",
-                        "type": "integer"
+                        "type": "integer",
+                        "raw": [
+                          "16",
+                          "px"
+                        ]
                       }
                     }
                   },

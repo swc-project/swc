@@ -15242,10 +15242,12 @@
                       "token": {
                         "Dimension": {
                           "value": 600.0,
-                          "raw_value": "600",
                           "unit": "px",
-                          "raw_unit": "px",
-                          "type": "integer"
+                          "type": "integer",
+                          "raw": [
+                            "600",
+                            "px"
+                          ]
                         }
                       }
                     }
@@ -15699,10 +15701,12 @@
                       "token": {
                         "Dimension": {
                           "value": 600.0,
-                          "raw_value": "600",
                           "unit": "px",
-                          "raw_unit": "px",
-                          "type": "integer"
+                          "type": "integer",
+                          "raw": [
+                            "600",
+                            "px"
+                          ]
                         }
                       }
                     }
@@ -16093,10 +16097,12 @@
                       "token": {
                         "Dimension": {
                           "value": 100.0,
-                          "raw_value": "100",
                           "unit": "px",
-                          "raw_unit": "px",
-                          "type": "integer"
+                          "type": "integer",
+                          "raw": [
+                            "100",
+                            "px"
+                          ]
                         }
                       }
                     }
@@ -16215,10 +16221,12 @@
                       "token": {
                         "Dimension": {
                           "value": 100.0,
-                          "raw_value": "100",
                           "unit": "px",
-                          "raw_unit": "px",
-                          "type": "integer"
+                          "type": "integer",
+                          "raw": [
+                            "100",
+                            "px"
+                          ]
                         }
                       }
                     }

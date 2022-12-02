@@ -209,10 +209,12 @@
                     "token": {
                       "Dimension": {
                         "value": 12.0,
-                        "raw_value": "12",
                         "unit": "px",
-                        "raw_unit": "px",
-                        "type": "integer"
+                        "type": "integer",
+                        "raw": [
+                          "12",
+                          "px"
+                        ]
                       }
                     }
                   },

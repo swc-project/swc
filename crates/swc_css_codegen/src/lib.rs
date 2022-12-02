@@ -1955,15 +1955,11 @@ where
 
                 write_raw!(self, span, &percentage);
             }
-            Token::Dimension {
-                raw_value,
-                raw_unit,
-                ..
-            } => {
-                let mut dimension = String::with_capacity(raw_value.len() + raw_unit.len());
+            Token::Dimension { raw, .. } => {
+                let mut dimension = String::with_capacity(raw.0.len() + raw.1.len());
 
-                dimension.push_str(raw_value);
-                dimension.push_str(raw_unit);
+                dimension.push_str(&raw.0);
+                dimension.push_str(&raw.1);
 
                 write_raw!(self, span, &dimension);
             }
@@ -1978,36 +1974,28 @@ where
 
                 write_raw!(self, span, &function);
             }
-            Token::BadString { raw_value } => {
-                write_str!(self, span, raw_value);
+            Token::BadString { raw } => {
+                write_str!(self, span, raw);
             }
             Token::String { raw, .. } => {
                 write_str!(self, span, raw);
             }
-            Token::Url {
-                raw_name,
-                raw_value,
-                ..
-            } => {
-                let mut url = String::with_capacity(raw_name.len() + raw_value.len() + 2);
+            Token::Url { raw, .. } => {
+                let mut url = String::with_capacity(raw.0.len() + raw.1.len() + 2);
 
-                url.push_str(raw_name);
+                url.push_str(&raw.0);
                 url.push('(');
-                url.push_str(raw_value);
+                url.push_str(&raw.1);
                 url.push(')');
 
                 write_str!(self, span, &url);
             }
-            Token::BadUrl {
-                raw_name,
-                raw_value,
-                ..
-            } => {
-                let mut bad_url = String::with_capacity(raw_value.len() + 2);
+            Token::BadUrl { raw, .. } => {
+                let mut bad_url = String::with_capacity(raw.0.len() + raw.1.len() + 2);
 
-                bad_url.push_str(raw_name);
+                bad_url.push_str(&raw.0);
                 bad_url.push('(');
-                bad_url.push_str(raw_value);
+                bad_url.push_str(&raw.1);
                 bad_url.push(')');
 
                 write_str!(self, span, &bad_url);

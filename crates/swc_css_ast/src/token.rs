@@ -119,12 +119,12 @@ pub enum Token {
 
     Dimension {
         value: f64,
-        raw_value: Atom,
         #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         unit: JsWord,
-        raw_unit: Atom,
         #[serde(rename = "type")]
         type_flag: NumberType,
+        /// Value and unit
+        raw: Box<(Atom, Atom)>,
     },
 
     /// One or more whitespace.
@@ -226,16 +226,14 @@ impl Hash for Token {
             }
             Token::Dimension {
                 value,
-                raw_value,
                 unit,
-                raw_unit,
                 type_flag,
+                raw,
             } => {
                 integer_decode(*value).hash(state);
-                raw_value.hash(state);
                 unit.hash(state);
-                raw_unit.hash(state);
                 type_flag.hash(state);
+                raw.hash(state);
             }
             Token::WhiteSpace { value } => {
                 value.hash(state);

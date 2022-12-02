@@ -218,7 +218,7 @@
  3 | }
    `----
 
-  x Dimension { value: 1024.0, raw_value: "1024", unit: Atom('px' type=static), raw_unit: "px", type_flag: Integer }
+  x Dimension { value: 1024.0, unit: Atom('px' type=static), type_flag: Integer, raw: ("1024", "px") }
    ,-[$DIR/tests/recovery/at-rule/media/invalid-nesting/input.css:1:1]
  1 | @media (min-width: 480px) {
  2 |     max-inline-size: 1024px;

@@ -1266,7 +1266,7 @@ where
                     }
                     tok!("dimension") => {
                         let dimension = match bump!(self) {
-                            Token::Dimension { value, raw_value, unit, .. } => (value, raw_value, unit),
+                            Token::Dimension { value, raw, unit, .. } => (value, raw, unit),
                             _ => {
                                 unreachable!();
                             }
@@ -1282,7 +1282,7 @@ where
                         }
 
                         a = Some(dimension.0 as i32);
-                        a_raw = Some(dimension.1);
+                        a_raw = Some(dimension.1.0);
 
                         n_value =  (*dimension.2).to_string();
                     }

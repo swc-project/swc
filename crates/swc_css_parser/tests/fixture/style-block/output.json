@@ -3459,10 +3459,12 @@
                   "token": {
                     "Dimension": {
                       "value": 100.0,
-                      "raw_value": "100",
                       "unit": "px",
-                      "raw_unit": "px",
-                      "type": "integer"
+                      "type": "integer",
+                      "raw": [
+                        "100",
+                        "px"
+                      ]
                     }
                   }
                 },
@@ -4380,10 +4382,12 @@
                     "token": {
                       "Dimension": {
                         "value": 16.0,
-                        "raw_value": "16",
                         "unit": "px",
-                        "raw_unit": "px",
-                        "type": "integer"
+                        "type": "integer",
+                        "raw": [
+                          "16",
+                          "px"
+                        ]
                       }
                     }
                   },
@@ -4455,10 +4459,12 @@
                     "token": {
                       "Dimension": {
                         "value": 16.0,
-                        "raw_value": "16",
                         "unit": "px",
-                        "raw_unit": "px",
-                        "type": "integer"
+                        "type": "integer",
+                        "raw": [
+                          "16",
+                          "px"
+                        ]
                       }
                     }
                   },

@@ -343,10 +343,12 @@
                     "token": {
                       "Dimension": {
                         "value": 10.0,
-                        "raw_value": "10",
                         "unit": "deg",
-                        "raw_unit": "deg",
-                        "type": "integer"
+                        "type": "integer",
+                        "raw": [
+                          "10",
+                          "deg"
+                        ]
                       }
                     }
                   }

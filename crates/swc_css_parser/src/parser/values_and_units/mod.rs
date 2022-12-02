@@ -1981,27 +1981,23 @@ where
 
         match bump!(self) {
             Token::Dimension {
-                value,
-                raw_value,
-                unit,
-                raw_unit,
-                ..
+                value, unit, raw, ..
             } => {
                 // TODO validate
 
-                let unit_len = raw_unit.len() as u32;
+                let unit_len = raw.1.len() as u32;
 
                 Ok(Length {
                     span,
                     value: Number {
                         span: Span::new(span.lo, span.hi - BytePos(unit_len), Default::default()),
                         value,
-                        raw: Some(raw_value),
+                        raw: Some(raw.0),
                     },
                     unit: Ident {
                         span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
                         value: unit,
-                        raw: Some(raw_unit),
+                        raw: Some(raw.1),
                     },
                 })
             }
@@ -2025,11 +2021,7 @@ where
 
         match bump!(self) {
             Token::Dimension {
-                value,
-                raw_value,
-                unit,
-                raw_unit,
-                ..
+                value, unit, raw, ..
             } => {
                 if !is_angle_unit(&unit) {
                     return Err(Error::new(
@@ -2038,19 +2030,19 @@ where
                     ));
                 }
 
-                let unit_len = raw_unit.len() as u32;
+                let unit_len = raw.1.len() as u32;
 
                 Ok(Angle {
                     span,
                     value: Number {
                         span: Span::new(span.lo, span.hi - BytePos(unit_len), Default::default()),
                         value,
-                        raw: Some(raw_value),
+                        raw: Some(raw.0),
                     },
                     unit: Ident {
                         span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
                         value: unit,
-                        raw: Some(raw_unit),
+                        raw: Some(raw.1),
                     },
                 })
             }
@@ -2074,29 +2066,25 @@ where
 
         match bump!(self) {
             Token::Dimension {
-                value,
-                raw_value,
-                unit,
-                raw_unit,
-                ..
+                value, unit, raw, ..
             } => {
                 if !is_time_unit(&unit) {
                     return Err(Error::new(span, ErrorKind::Expected("'s' or 'ms' units")));
                 }
 
-                let unit_len = raw_unit.len() as u32;
+                let unit_len = raw.1.len() as u32;
 
                 Ok(Time {
                     span,
                     value: Number {
                         span: Span::new(span.lo, span.hi - BytePos(unit_len), Default::default()),
                         value,
-                        raw: Some(raw_value),
+                        raw: Some(raw.0),
                     },
                     unit: Ident {
                         span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
                         value: unit,
-                        raw: Some(raw_unit),
+                        raw: Some(raw.1),
                     },
                 })
             }
@@ -2120,29 +2108,25 @@ where
 
         match bump!(self) {
             Token::Dimension {
-                value,
-                raw_value,
-                unit,
-                raw_unit,
-                ..
+                value, unit, raw, ..
             } => {
                 if !is_frequency_unit(&unit) {
                     return Err(Error::new(span, ErrorKind::Expected("'Hz' or 'kHz' units")));
                 }
 
-                let unit_len = raw_unit.len() as u32;
+                let unit_len = raw.1.len() as u32;
 
                 Ok(Frequency {
                     span,
                     value: Number {
                         span: Span::new(span.lo, span.hi - BytePos(unit_len), Default::default()),
                         value,
-                        raw: Some(raw_value),
+                        raw: Some(raw.0),
                     },
                     unit: Ident {
                         span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
                         value: unit,
-                        raw: Some(raw_unit),
+                        raw: Some(raw.1),
                     },
                 })
             }
@@ -2166,11 +2150,7 @@ where
 
         match bump!(self) {
             Token::Dimension {
-                value,
-                raw_value,
-                unit,
-                raw_unit,
-                ..
+                value, unit, raw, ..
             } => {
                 if !is_resolution_unit(&unit) {
                     return Err(Error::new(
@@ -2179,19 +2159,19 @@ where
                     ));
                 }
 
-                let unit_len = raw_unit.len() as u32;
+                let unit_len = raw.1.len() as u32;
 
                 Ok(Resolution {
                     span,
                     value: Number {
                         span: Span::new(span.lo, span.hi - BytePos(unit_len), Default::default()),
                         value,
-                        raw: Some(raw_value),
+                        raw: Some(raw.0),
                     },
                     unit: Ident {
                         span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
                         value: unit,
-                        raw: Some(raw_unit),
+                        raw: Some(raw.1),
                     },
                 })
             }
@@ -2215,29 +2195,25 @@ where
 
         match bump!(self) {
             Token::Dimension {
-                value,
-                raw_value,
-                unit,
-                raw_unit,
-                ..
+                value, unit, raw, ..
             } => {
                 if !is_flex_unit(&unit) {
                     return Err(Error::new(span, ErrorKind::Expected("'fr' unit")));
                 }
 
-                let unit_len = raw_unit.len() as u32;
+                let unit_len = raw.1.len() as u32;
 
                 Ok(Flex {
                     span,
                     value: Number {
                         span: Span::new(span.lo, span.hi - BytePos(unit_len), Default::default()),
                         value,
-                        raw: Some(raw_value),
+                        raw: Some(raw.0),
                     },
                     unit: Ident {
                         span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
                         value: unit,
-                        raw: Some(raw_unit),
+                        raw: Some(raw.1),
                     },
                 })
             }
@@ -2261,25 +2237,21 @@ where
 
         match bump!(self) {
             Token::Dimension {
-                value,
-                raw_value,
-                unit,
-                raw_unit,
-                ..
+                value, unit, raw, ..
             } => {
-                let unit_len = raw_unit.len() as u32;
+                let unit_len = raw.1.len() as u32;
 
                 Ok(UnknownDimension {
                     span,
                     value: Number {
                         span: Span::new(span.lo, span.hi - BytePos(unit_len), Default::default()),
                         value,
-                        raw: Some(raw_value),
+                        raw: Some(raw.0),
                     },
                     unit: Ident {
                         span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
                         value: unit,
-                        raw: Some(raw_unit),
+                        raw: Some(raw.1),
                     },
                 })
             }
@@ -2763,19 +2735,15 @@ where
                             }
                         }
                         tok!("dimension") => {
-                            let dimension = match bump!(self) {
-                                Token::Dimension {
-                                    raw_value,
-                                    raw_unit,
-                                    ..
-                                } => (raw_value, raw_unit),
+                            let raw = match bump!(self) {
+                                Token::Dimension { raw, .. } => raw,
                                 _ => {
                                     unreachable!();
                                 }
                             };
 
-                            unicode_range.push_str(&dimension.0);
-                            unicode_range.push_str(&dimension.1);
+                            unicode_range.push_str(&raw.0);
+                            unicode_range.push_str(&raw.1);
                         }
                         tok!("number") => {
                             let number = match bump!(self) {
@@ -2793,19 +2761,15 @@ where
             }
             // u <dimension-token> '?'*
             tok!("dimension") => {
-                let dimension = match bump!(self) {
-                    Token::Dimension {
-                        raw_value,
-                        raw_unit,
-                        ..
-                    } => (raw_value, raw_unit),
+                let raw = match bump!(self) {
+                    Token::Dimension { raw, .. } => raw,
                     _ => {
                         unreachable!();
                     }
                 };
 
-                unicode_range.push_str(&dimension.0);
-                unicode_range.push_str(&dimension.1);
+                unicode_range.push_str(&raw.0);
+                unicode_range.push_str(&raw.1);
 
                 loop {
                     if !is!(self, "?") {

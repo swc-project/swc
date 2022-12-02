@@ -320,10 +320,12 @@
                 "token": {
                   "Dimension": {
                     "value": 12.0,
-                    "raw_value": "12",
                     "unit": "em",
-                    "raw_unit": "em",
-                    "type": "integer"
+                    "type": "integer",
+                    "raw": [
+                      "12",
+                      "em"
+                    ]
                   }
                 }
               }
@@ -358,10 +360,12 @@
                 "token": {
                   "Dimension": {
                     "value": 75.0,
-                    "raw_value": "75",
                     "unit": "ms",
-                    "raw_unit": "ms",
-                    "type": "integer"
+                    "type": "integer",
+                    "raw": [
+                      "75",
+                      "ms"
+                    ]
                   }
                 }
               }

@@ -143,7 +143,7 @@
  3 | }
    `----
 
-  x Dimension { value: 500.0, raw_value: "500", unit: Atom('px' type=static), raw_unit: "px", type_flag: Integer }
+  x Dimension { value: 500.0, unit: Atom('px' type=static), type_flag: Integer, raw: ("500", "px") }
    ,-[$DIR/tests/recovery/function/unclosed/input.css:1:1]
  1 | .style {
  2 | 	width: min(500px;

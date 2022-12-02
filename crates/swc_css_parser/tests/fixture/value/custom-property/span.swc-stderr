@@ -1110,7 +1110,7 @@
  19 |     --color: #06c;
     `----
 
-  x Dimension { value: 100.0, raw_value: "100", unit: Atom('vw' type=static), raw_unit: "vw", type_flag: Integer }
+  x Dimension { value: 100.0, unit: Atom('vw' type=static), type_flag: Integer, raw: ("100", "vw") }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:17:1]
  17 |     --number: 1;
  18 |     --unit: 100vw;
@@ -4154,7 +4154,7 @@
  54 |         height: 16px;
     `----
 
-  x Dimension { value: 16.0, raw_value: "16", unit: Atom('px' type=static), raw_unit: "px", type_flag: Integer }
+  x Dimension { value: 16.0, unit: Atom('px' type=static), type_flag: Integer, raw: ("16", "px") }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:52:1]
  52 |     --small-icon: {
  53 |         width: 16px;
@@ -4250,7 +4250,7 @@
  55 |     }
     `----
 
-  x Dimension { value: 16.0, raw_value: "16", unit: Atom('px' type=static), raw_unit: "px", type_flag: Integer }
+  x Dimension { value: 16.0, unit: Atom('px' type=static), type_flag: Integer, raw: ("16", "px") }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:53:1]
  53 |         width: 16px;
  54 |         height: 16px;
