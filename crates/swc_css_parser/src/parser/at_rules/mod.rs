@@ -606,11 +606,11 @@ where
                                 Ok(keyframes_selectors)
                             }) {
                                 Ok(keyframes_selectors) => {
-                                    ComponentValue::KeyframeBlock(KeyframeBlock {
+                                    ComponentValue::KeyframeBlock(Box::new(KeyframeBlock {
                                         span: qualified_rule.span,
                                         prelude: keyframes_selectors,
                                         block: qualified_rule.block,
-                                    })
+                                    }))
                                 }
                                 Err(err) => {
                                     self.errors.push(err);

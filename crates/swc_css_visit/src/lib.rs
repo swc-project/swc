@@ -30,7 +30,7 @@ define!({
         DeclarationOrAtRule(DeclarationOrAtRule),
         Rule(Rule),
         StyleBlock(StyleBlock),
-        KeyframeBlock(KeyframeBlock),
+        KeyframeBlock(Box<KeyframeBlock>),
 
         Ident(Ident),
         DashedIdent(DashedIdent),
@@ -52,7 +52,7 @@ define!({
         ComplexSelector(ComplexSelector),
         LayerName(LayerName),
         SupportsCondition(SupportsCondition),
-        Declaration(Declaration),
+        Declaration(Box<Declaration>),
     }
 
     pub struct Ident {

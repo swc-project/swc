@@ -102,7 +102,7 @@ pub enum ComponentValue {
     #[tag("StyleBlock")]
     StyleBlock(StyleBlock),
     #[tag("KeyframeBlock")]
-    KeyframeBlock(KeyframeBlock),
+    KeyframeBlock(Box<KeyframeBlock>),
 
     // Arbitrary Contents grammar
     #[tag("Ident")]
@@ -146,7 +146,7 @@ pub enum ComponentValue {
     #[tag("SupportsCondition")]
     SupportsCondition(SupportsCondition),
     #[tag("Declaration")]
-    Declaration(Declaration),
+    Declaration(Box<Declaration>),
 }
 
 #[ast_node]
