@@ -4,6 +4,6 @@ use swc_core::{
 };
 
 #[css_plugin_transform]
-pub fn process(program: Stylesheet, metadata: TransformPluginProgramMetadata) -> Program {
+pub fn process(program: Stylesheet, metadata: TransformPluginProgramMetadata) -> Stylesheet {
     program
 }
