@@ -660,7 +660,7 @@ jobs:
       - name: Run cargo test (plugin)
         if: matrix.settings.crate == 'swc_plugin_runner'
         run: |
-          cargo test -p swc_plugin_runner --release --features plugin_transform_schema_v1 --features rkyv-impl
+          cargo test -p swc_plugin_runner --release --features plugin_transform_schema_v1 --features rkyv-impl --features emca --features css
 
       - name: Run cargo test (swc_ecma_minifier)
         if: matrix.settings.crate == 'swc_ecma_minifier'
