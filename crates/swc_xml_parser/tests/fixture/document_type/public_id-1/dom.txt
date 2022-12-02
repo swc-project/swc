@@ -1,0 +1,3 @@
+| <!DOCTYPE greeting "hello.dtd" "goodbye.dtd">
+| <root>
+|   "test"

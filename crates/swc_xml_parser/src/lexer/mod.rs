@@ -61,6 +61,7 @@ pub enum State {
     DoctypeSystemIdentifierSingleQuoted,
     DoctypeSystemIdentifierDoubleQuoted,
     AfterDoctypeSystemIdentifier,
+    DoctypeTypeInternalSubSet,
     BogusDoctype,
 }
 
@@ -2245,6 +2246,12 @@ where
                         self.state = State::Data;
                         self.emit_doctype_token();
                     }
+                    // U+005B LEFT SQUARE BRACKET ([)
+                    // Switch to the doctype internal subset state.
+                    Some(c @ '[') => {
+                        self.append_raw_to_doctype_token(c);
+                        self.state = State::DoctypeTypeInternalSubSet;
+                    }
                     // EOF
                     // Parse error. Switch to the data state. Emit DOCTYPE token. Reconsume the EOF
                     // character.
@@ -2825,6 +2832,12 @@ where
                         self.state = State::Data;
                         self.emit_doctype_token();
                     }
+                    // U+005B LEFT SQUARE BRACKET ([)
+                    // Switch to the doctype internal subset state.
+                    Some(c @ '[') => {
+                        self.append_raw_to_doctype_token(c);
+                        self.state = State::DoctypeTypeInternalSubSet;
+                    }
                     // EOF
                     // Parse error. Switch to the data state. Emit DOCTYPE token. Reconsume the EOF
                     // character.
@@ -2840,6 +2853,34 @@ where
                         self.validate_input_stream_character(c);
                         self.emit_error(ErrorKind::UnexpectedCharacterAfterDoctypeSystemIdentifier);
                         self.state = State::BogusDoctype;
+                    }
+                }
+            }
+            State::DoctypeTypeInternalSubSet => {
+                // Consume the next input character:
+                match self.consume_next_char() {
+                    // U+005D RIGHT SQUARE BRACKET (])
+                    // Switch to the CDATA bracket state.
+                    Some(c @ ']') => {
+                        self.append_raw_to_doctype_token(c);
+                        self.state = State::AfterDoctypeName;
+                    }
+                    // EOF
+                    // Parse error. Switch to the data state. Emit DOCTYPE token. Reconsume the EOF
+                    // character.
+                    None => {
+                        self.emit_error(ErrorKind::EofInDoctype);
+                        self.state = State::Data;
+                        self.emit_doctype_token();
+                        self.reconsume();
+                    }
+                    // Anything else
+                    // Append the current input character to the current DOCTYPE token's system
+                    // identifier.
+                    Some(c) => {
+                        // TODO improve parse legacy declarations
+                        self.validate_input_stream_character(c);
+                        self.append_raw_to_doctype_token(c);
                     }
                 }
             }

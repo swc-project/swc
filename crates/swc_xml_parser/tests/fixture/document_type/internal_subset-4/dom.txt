@@ -1,0 +1,3 @@
+| <!DOCTYPE svg>
+| <root>
+|   "test"

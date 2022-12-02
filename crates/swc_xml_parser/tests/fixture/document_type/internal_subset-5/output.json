@@ -1,0 +1,44 @@
+{
+  "type": "Document",
+  "span": {
+    "start": 1,
+    "end": 224,
+    "ctxt": 0
+  },
+  "children": [
+    {
+      "type": "DocumentType",
+      "span": {
+        "start": 1,
+        "end": 206,
+        "ctxt": 0
+      },
+      "name": "svg",
+      "publicId": null,
+      "systemId": null,
+      "raw": "<!DOCTYPE svg [\n    <!ELEMENT sgml ANY>\n    <!ENTITY ns_extend \"http://ns.adobe.com/Extensibility/1.0/\">\n    <!NOTATION example1SVG-rdf SYSTEM \"example1.svg.rdf\">\n    <!ATTLIST img data ENTITY #IMPLIED>\n]>"
+    },
+    {
+      "type": "Element",
+      "span": {
+        "start": 207,
+        "end": 224,
+        "ctxt": 0
+      },
+      "tagName": "root",
+      "attributes": [],
+      "children": [
+        {
+          "type": "Text",
+          "span": {
+            "start": 213,
+            "end": 217,
+            "ctxt": 0
+          },
+          "data": "test",
+          "raw": "test"
+        }
+      ]
+    }
+  ]
+}
