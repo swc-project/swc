@@ -47,6 +47,12 @@ where
         let mut rules = vec![];
 
         // Repeatedly consume the next input token:
+
+        // Reset the `is_top_level` value
+        let ctx = Ctx {
+            is_top_level: false,
+            ..self.ctx
+        };
         loop {
             // <EOF-token>
             // Return the list of rules.
@@ -70,21 +76,28 @@ where
                     // Otherwise, reconsume the current input token. Consume a qualified rule. If
                     // anything is returned, append it to the list of rules.
                     else {
-                        rules.push(Rule::QualifiedRule(self.parse()?));
+                        let qualified_rule = self.with_ctx(ctx).parse_as::<Box<QualifiedRule>>()?;
+
+                        rules.push(Rule::QualifiedRule(qualified_rule));
                     }
                 }
                 // <at-keyword-token>
                 // Reconsume the current input token. Consume an at-rule, and append the returned
                 // value to the list of rules.
                 tok!("@") => {
-                    rules.push(Rule::AtRule(self.parse()?));
+                    let at_rule = self.with_ctx(ctx).parse_as::<Box<AtRule>>()?;
+
+                    rules.push(Rule::AtRule(at_rule));
                 }
                 // anything else
                 // Reconsume the current input token. Consume a qualified rule. If anything is
                 // returned, append it to the list of rules.
+                //
+                // For better recovery we parse broken code into the list of component values and
+                // append it to the list of rules.
                 _ => {
                     let state = self.input.state();
-                    let qualified_rule = self.parse();
+                    let qualified_rule = self.with_ctx(ctx).parse_as::<Box<QualifiedRule>>();
 
                     match qualified_rule {
                         Ok(i) => rules.push(Rule::QualifiedRule(i)),
@@ -99,7 +112,8 @@ where
                             };
 
                             while !is_one_of!(self, EOF) {
-                                let component_value = self.parse_as::<ComponentValue>()?;
+                                let component_value =
+                                    self.with_ctx(ctx).parse_as::<ComponentValue>()?;
 
                                 list_of_component_values.children.push(component_value);
                             }

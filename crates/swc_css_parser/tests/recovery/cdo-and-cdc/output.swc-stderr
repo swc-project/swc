@@ -1,4 +1,12 @@
 
+  x Expected 'from', 'to' or percentage
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:40:1]
+ 40 | @keyframes box {
+ 41 |     <!-- -->
+    :     ^^^^
+ 42 |     50% { left: 0; }
+    `----
+
   x Expected '{'
     ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:19:1]
  19 | 
