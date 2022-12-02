@@ -28,7 +28,11 @@ debug = ["swc_ecma_visit/debug"]
 default = ["es3"]
 es3 = []
 node = ["napi", "napi-derive"]
-plugin = ["swc_plugin_runner/rkyv-impl", "swc_plugin_proxy/plugin-rt"]
+plugin = [
+  "swc_plugin_runner/ecma",
+  "swc_plugin_runner/rkyv-impl",
+  "swc_plugin_proxy/plugin-rt",
+]
 plugin-bytecheck = [
   "swc_plugin_runner/rkyv-bytecheck-impl",
   "swc_plugin_proxy/plugin-bytecheck-rt",
