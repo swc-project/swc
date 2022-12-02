@@ -92,7 +92,7 @@ pub enum ComponentValue {
     #[tag("Function")]
     Function(Function),
     #[tag("SimpleBlock")]
-    SimpleBlock(SimpleBlock),
+    SimpleBlock(Box<SimpleBlock>),
 
     // Block Contents grammar
     #[tag("DeclarationOrAtRule")]

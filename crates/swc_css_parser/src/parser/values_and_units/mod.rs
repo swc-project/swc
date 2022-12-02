@@ -103,7 +103,7 @@ where
                     }
                 };
 
-                return Ok(ComponentValue::SimpleBlock(block));
+                return Ok(ComponentValue::SimpleBlock(Box::new(block)));
             }
 
             tok!("#") => {

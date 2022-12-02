@@ -25,7 +25,7 @@ define!({
     pub enum ComponentValue {
         PreservedToken(TokenAndSpan),
         Function(Function),
-        SimpleBlock(SimpleBlock),
+        SimpleBlock(Box<SimpleBlock>),
 
         DeclarationOrAtRule(DeclarationOrAtRule),
         Rule(Rule),
