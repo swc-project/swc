@@ -1,9 +1,9 @@
 use swc_core::{
-    ecma::ast::*,
-    plugin::{metadata::TransformPluginProgramMetadata, plugin_transform},
+    css::ast::Stylesheet,
+    plugin::{css_plugin_transform, metadata::TransformPluginProgramMetadata},
 };
 
-#[plugin_transform]
-pub fn process(program: Program, metadata: TransformPluginProgramMetadata) -> Program {
+#[css_plugin_transform]
+pub fn process(program: Stylesheet, metadata: TransformPluginProgramMetadata) -> Program {
     program
 }

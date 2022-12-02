@@ -10,5 +10,8 @@ version = "0.1.0"
 crate-type = ["cdylib"]
 
 [dependencies]
-serde    = "1"
-swc_core = { path = "../../../../swc_core", features = ["css_ast"] }
+serde = "1"
+swc_core = { path = "../../../../swc_core", features = [
+  "css_ast",
+  "css_plugin_transform",
+] }
