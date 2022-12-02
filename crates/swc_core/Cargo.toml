@@ -176,6 +176,7 @@ plugin_transform = [
   "__testing_transform",
 ]
 
+css_plugin_transform  = ["plugin_transform", "__css_plugin_transform"]
 ecma_plugin_transform = ["plugin_transform", "__ecma_plugin_transform"]
 
 # Host features to enable plugin `runner` runtime.
@@ -234,6 +235,14 @@ __common_plugin_transform = [
   "once_cell",
 ]
 
+__css_plugin_transform = [
+  # Dependent features
+  "__common_plugin_transform",
+  "css_visit",
+  "css_ast",                   # Enable optional packages
+  "swc_css_ast/rkyv-impl",
+  "swc_plugin",
+]
 __ecma_plugin_transform = [
   # Dependent features
   "__common_plugin_transform",
