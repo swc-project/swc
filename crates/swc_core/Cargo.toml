@@ -233,6 +233,7 @@ __common_plugin_transform = [
   "swc_plugin_proxy/plugin-mode",
   "swc_plugin_macro",
   "once_cell",
+  "swc_plugin",
 ]
 
 __css_plugin_transform = [
@@ -241,7 +242,6 @@ __css_plugin_transform = [
   "css_visit",
   "css_ast",                   # Enable optional packages
   "swc_css_ast/rkyv-impl",
-  "swc_plugin",
 ]
 __ecma_plugin_transform = [
   # Dependent features
@@ -249,7 +249,6 @@ __ecma_plugin_transform = [
   "ecma_visit",
   "ecma_ast",                  # Enable optional packages
   "swc_ecma_ast/rkyv-impl",
-  "swc_plugin",
 ]
 
 __plugin_transform_bytecheck = [
