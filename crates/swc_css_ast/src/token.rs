@@ -83,22 +83,22 @@ pub enum Token {
     },
 
     BadString {
-        raw_value: Atom,
+        raw: Atom,
     },
 
     /// `url(value)`
     Url {
         #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         name: JsWord,
-        raw_name: Atom,
         #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         value: JsWord,
-        raw_value: Atom,
+        /// Name and value
+        raw: Box<(Atom, Atom)>,
     },
 
     BadUrl {
-        raw_name: Atom,
-        raw_value: Atom,
+        /// Name and value
+        raw: Box<(Atom, Atom)>,
     },
 
     Delim {
@@ -192,31 +192,21 @@ impl Hash for Token {
                 value.hash(state);
                 raw.hash(state);
             }
-            Token::BadString { raw_value } => {
-                raw_value.hash(state);
+            Token::BadString { raw } => {
+                raw.hash(state);
             }
             Token::Hash { value, raw, is_id } => {
                 value.hash(state);
                 raw.hash(state);
                 is_id.hash(state);
             }
-            Token::Url {
-                name,
-                raw_name,
-                value,
-                raw_value,
-            } => {
+            Token::Url { name, value, raw } => {
                 name.hash(state);
-                raw_name.hash(state);
                 value.hash(state);
-                raw_value.hash(state);
+                raw.hash(state);
             }
-            Token::BadUrl {
-                raw_name,
-                raw_value,
-            } => {
-                raw_name.hash(state);
-                raw_value.hash(state);
+            Token::BadUrl { raw } => {
+                raw.hash(state);
             }
             Token::Delim { value } => {
                 value.hash(state);

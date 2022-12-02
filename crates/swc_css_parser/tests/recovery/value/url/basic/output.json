@@ -149,8 +149,10 @@
                 },
                 "token": {
                   "BadUrl": {
-                    "raw_name": "url",
-                    "raw_value": "var(--foo"
+                    "raw": [
+                      "url",
+                      "var(--foo"
+                    ]
                   }
                 }
               },
@@ -551,8 +553,10 @@
                 },
                 "token": {
                   "BadUrl": {
-                    "raw_name": "url",
-                    "raw_value": "image.png param(var(--url"
+                    "raw": [
+                      "url",
+                      "image.png param(var(--url"
+                    ]
                   }
                 }
               },

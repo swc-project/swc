@@ -2037,7 +2037,7 @@
  16 | :unknown({!}) {}
     `----
 
-  x Url { name: Atom('url' type=static), raw_name: "url", value: Atom('foo.png' type=inline), raw_value: "foo.png" }
+  x Url { name: Atom('url' type=static), value: Atom('foo.png' type=inline), raw: ("url", "foo.png") }
     ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:14:1]
  14 | :unknown('string') {}
  15 | :unknown(url(foo.png)) {}

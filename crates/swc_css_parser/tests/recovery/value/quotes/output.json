@@ -134,7 +134,7 @@
                 },
                 "token": {
                   "BadString": {
-                    "raw_value": "\"tes"
+                    "raw": "\"tes"
                   }
                 }
               },
@@ -174,7 +174,7 @@
                 },
                 "token": {
                   "BadString": {
-                    "raw_value": "\";"
+                    "raw": "\";"
                   }
                 }
               }

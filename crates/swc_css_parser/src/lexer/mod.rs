@@ -730,7 +730,7 @@ where
                         l.reconsume();
 
                         return Ok(Token::BadString {
-                            raw_value: (&**raw).into(),
+                            raw: (&**raw).into(),
                         });
                     }
 
@@ -805,9 +805,8 @@ where
                     Some(')') => {
                         return Ok(Token::Url {
                             name: name.0,
-                            raw_name: name.1,
                             value: (&**out).into(),
-                            raw_value: (&**raw).into(),
+                            raw: Box::new((name.1, (&**raw).into())),
                         });
                     }
 
@@ -818,9 +817,8 @@ where
 
                         return Ok(Token::Url {
                             name: name.0,
-                            raw_name: name.1,
                             value: (&**out).into(),
-                            raw_value: (&**raw).into(),
+                            raw: Box::new((name.1, (&**raw).into())),
                         });
                     }
 
@@ -854,9 +852,8 @@ where
 
                                 return Ok(Token::Url {
                                     name: name.0,
-                                    raw_name: name.1,
                                     value: (&**out).into(),
-                                    raw_value: (&**raw).into(),
+                                    raw: Box::new((name.1, (&**raw).into())),
                                 });
                             }
                             None => {
@@ -866,9 +863,8 @@ where
 
                                 return Ok(Token::Url {
                                     name: name.0,
-                                    raw_name: name.1,
                                     value: (&**out).into(),
-                                    raw_value: (&**raw).into(),
+                                    raw: Box::new((name.1, (&**raw).into())),
                                 });
                             }
                             _ => {}
@@ -885,8 +881,7 @@ where
                         raw.push_str(&remnants.1);
 
                         return Ok(Token::BadUrl {
-                            raw_name: name.1,
-                            raw_value: (&**raw).into(),
+                            raw: Box::new((name.1, (&**raw).into())),
                         });
                     }
 
@@ -907,8 +902,7 @@ where
                         raw.push_str(&remnants.1);
 
                         return Ok(Token::BadUrl {
-                            raw_name: name.1,
-                            raw_value: (&**raw).into(),
+                            raw: Box::new((name.1, (&**raw).into())),
                         });
                     }
 
@@ -937,8 +931,7 @@ where
                             raw.push_str(&remnants.1);
 
                             return Ok(Token::BadUrl {
-                                raw_name: name.1,
-                                raw_value: (&**raw).into(),
+                                raw: Box::new((name.1, (&**raw).into())),
                             });
                         }
                     }

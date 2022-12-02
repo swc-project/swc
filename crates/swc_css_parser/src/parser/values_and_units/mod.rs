@@ -2535,17 +2535,12 @@ where
         }
 
         match bump!(self) {
-            Token::Url {
-                name,
-                raw_name,
-                value,
-                raw_value,
-            } => {
-                let name_length = raw_name.len() as u32;
+            Token::Url { name, value, raw } => {
+                let name_length = raw.0.len() as u32;
                 let name = Ident {
                     span: Span::new(span.lo, span.lo + BytePos(name_length), Default::default()),
                     value: name,
-                    raw: Some(raw_name),
+                    raw: Some(raw.0),
                 };
                 let value = Some(Box::new(UrlValue::Raw(UrlValueRaw {
                     span: Span::new(
@@ -2554,7 +2549,7 @@ where
                         Default::default(),
                     ),
                     value,
-                    raw: Some(raw_value),
+                    raw: Some(raw.1),
                 })));
 
                 Ok(Url {

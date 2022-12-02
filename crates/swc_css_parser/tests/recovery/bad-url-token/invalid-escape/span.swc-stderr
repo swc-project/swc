@@ -135,7 +135,7 @@
  4 |     }
    `----
 
-  x BadUrl { raw_name: "url", raw_value: "image.png\\\n    " }
+  x BadUrl { raw: ("url", "image.png\\\n    ") }
    ,-[$DIR/tests/recovery/bad-url-token/invalid-escape/input.css:1:1]
  1 |     div {
  2 | ,->     background: url(image.png\
