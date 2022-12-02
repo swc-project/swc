@@ -55,7 +55,7 @@ static PLUGIN_PATH: Lazy<PathBuf> = Lazy::new(|| {
     build_plugin(
         &PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap())
             .join("tests")
-            .join("css")
+            .join("css-plugins")
             .join("swc_noop_plugin"),
     )
     .unwrap()
@@ -64,7 +64,7 @@ static PLUGIN_PATH: Lazy<PathBuf> = Lazy::new(|| {
 #[cfg(feature = "__rkyv")]
 #[testing::fixture("../swc_ecma_parser/tests/tsc/*.ts")]
 #[testing::fixture("../swc_ecma_parser/tests/tsc/*.tsx")]
-fn internal(input: PathBuf) -> Result<(), Error> {
+fn invoke(input: PathBuf) -> Result<(), Error> {
     let path = PLUGIN_PATH.clone();
 
     // run single plugin
