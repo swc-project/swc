@@ -1,0 +1,14 @@
+{
+    "env": {
+        "targets": {
+            "chrome": "95"
+        }
+    },
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "tsx": true
+        }
+    },
+    "sourceMaps": true
+}

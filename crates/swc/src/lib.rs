@@ -158,6 +158,7 @@ use swc_ecma_visit::{noop_visit_type, FoldWith, Visit, VisitMutWith, VisitWith};
 pub use swc_error_reporters::handler::{try_with_handler, HandlerOpts};
 pub use swc_node_comments::SwcComments;
 use swc_timer::timer;
+use url::Url;
 
 pub use crate::builder::PassBuilder;
 use crate::config::{
@@ -328,20 +329,35 @@ impl Compiler {
                 }
                 InputSourceMap::Str(ref s) => {
                     if s == "inline" {
+                        const NEEDLE: &str = "sourceMappingURL=";
                         // Load inline source map by simple string
                         // operations
-                        let s = "sourceMappingURL=data:application/json;base64,";
-                        let idx = fm.src.rfind(s);
+                        let idx = fm.src.rfind(NEEDLE);
                         let idx = match idx {
                             None => bail!(
                                 "failed to parse inline source map: `sourceMappingURL` not found"
                             ),
                             Some(v) => v,
                         };
-                        let encoded = &fm.src[idx + s.len()..];
+                        let data_url = fm.src[idx + NEEDLE.len()..].trim();
+                        let url = Url::parse(data_url).with_context(|| {
+                            format!("failed to parse inline source map url\n{}", data_url)
+                        })?;
 
-                        let res = base64::decode(encoded.as_bytes())
-                            .context("failed to decode base64-encoded source map")?;
+                        let idx = match url.path().find("base64,") {
+                            Some(v) => v,
+                            None => {
+                                bail!("failed to parse inline source map: not base64: {:?}", url)
+                            }
+                        };
+
+                        let content = url.path()[idx + "base64,".len()..].trim();
+
+                        let res = base64::decode_config(
+                            content.as_bytes(),
+                            base64::Config::new(base64::CharacterSet::Standard, true),
+                        )
+                        .context("failed to decode base64-encoded source map")?;
 
                         Ok(Some(sourcemap::SourceMap::from_slice(&res).context(
                             "failed to read input source map from inlined base64 encoded string",

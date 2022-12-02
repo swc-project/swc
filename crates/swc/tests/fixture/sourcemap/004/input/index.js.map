@@ -1,18 +1,34 @@
 {
-    "version": 3,
-    "file": "x",
-    "mappings": ";;;;;;;;;;;;;;AAAe,SAASA,UAAT,OAA8B;AAAA,MAARC,IAAQ,QAARA,IAAQ;AAC3C,sBAAO;AAAA,cAAMA,IAAI,CAACC;AAAX,IAAP;AACD;;;;;;;;ACDD;AACA;AACA;AACA,eAAe,mBAAO,CAAC,IAA8B;AACrD;AACA;AACA,OAAO,KAAU,EAAE,EAId;AACL",
-    "sources": [
-        "webpack://./pages/static.js",
-        "webpack://../../../packages/next/dist/build/webpack/loaders/next-client-pages-loader.js?page=%2Fstatic&absolutePagePath=private-next-pages%2Fstatic.js!"
-    ],
-    "sourcesContent": [
-        "export default function StaticPage({ data }) {\n  return <div>{data.foo}</div>\n}\n\nexport async function getStaticProps() {\n  return {\n    props: {\n      data: {\n        foo: 'bar',\n      },\n    },\n  }\n}\n",
-        "\n    (window.__NEXT_P = window.__NEXT_P || []).push([\n      \"/static\",\n      function () {\n        return require(\"private-next-pages/static.js\");\n      }\n    ]);\n    if(module.hot) {\n      module.hot.dispose(function () {\n        window.__NEXT_P.push([\"/static\"])\n      });\n    }\n  "
-    ],
-    "names": [
-        "StaticPage",
-        "data",
-        "foo"
-    ]
+  "mappings": "AAACA,CAAAA,KAAK,gBAAmB,GAAGA,KAAK,gBAAmB,IAAI,EAAE,AAAD,EAAGC,IAAI,CAAC;IAC7D;QACI;KACH;IACD;QACU,MAAY,SAAUC,CAAuB,EAAEC,CAAmB,EAAEC,CAAmB,EAAE;YAC3F;YACA,IAAIC,IAAa,SAAoBC,CAAI,EAAE;gBACvC,IAAIC,IAAOD,EAAKC,IAAI;gBACpB,OAAqB,AAAC,CAAA,GAAGC,EAA+CC,GAAG,AAAD,EAAG,OAAO;oBAChFC,UAAUH,EAAKI,GAAG;gBACtB;YACJ;YACAP,EAAoBQ,CAAC,CAACT,IACDC,EAAoBS,CAAC,CAACV,GAAqB;gBACvCW,SAAS,WAAoB;oBAC9C,OAAqBA;gBACzB;gBACqBC,SAAS,WAAoB;oBAC9C,OAAqBV;gBACzB;YACJ;YACqB,IAAIG,IAAiDJ,EAAoB,OAC1FU,IAAU,CAAA;QAE1B;QACc,MAAY,SAAUZ,CAAuB,EAAEc,CAAwB,EAAEZ,CAAmB,EAAE;YAC/Fa,CAAAA,OAAOC,QAAQ,GAAGD,OAAOC,QAAQ,IAAI,EAAE,AAAD,EAAGjB,IAAI,CAAC;gBAC3C;gBACA,WAAY;oBACR,OAAOG,EAAoB;gBAC/B;aACH;QAGb;IACI;IACS,SAAUA,CAAmB,EAAE;QAK3BA,EAAoBe,CAAC,CAAC,GAAG;YAC9B;YACA;YACA;SACH,EAAE,WAAY;YACX,OAPOf,EAAoBA,EAAoBgB,CAAC,GAOxB;QAC5B,IAESC,OAD0BjB,EAAoBe,CAAC;IAGhE;CACC",
+  "names": [
+    "self",
+    "push",
+    "__unused_webpack_module",
+    "__webpack_exports__",
+    "__webpack_require__",
+    "StaticPage",
+    "_ref",
+    "data",
+    "react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__",
+    "jsx",
+    "children",
+    "foo",
+    "r",
+    "d",
+    "__N_SSG",
+    "default",
+    "__unused_webpack_exports",
+    "window",
+    "__NEXT_P",
+    "O",
+    "s",
+    "_N_E"
+  ],
+  "sources": [
+    "../../input/index.js"
+  ],
+  "sourcesContent": [
+    "(self[\"webpackChunk_N_E\"] = self[\"webpackChunk_N_E\"] || []).push([\n    [\n        158\n    ],\n    {\n        /***/ 2943: /***/ function (__unused_webpack_module, __webpack_exports__, __webpack_require__) {\n            \"use strict\";\n            var StaticPage = function StaticPage(_ref) {\n                var data = _ref.data;\n                return /*#__PURE__*/ (0, react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(\"div\", {\n                    children: data.foo\n                });\n            };\n            __webpack_require__.r(__webpack_exports__);\n            /* harmony export */ __webpack_require__.d(__webpack_exports__, {\n                /* harmony export */ __N_SSG: function __N_SSG1() {\n                    return /* binding */ __N_SSG;\n                },\n                /* harmony export */ default: function _default() {\n                    return /* binding */ StaticPage;\n                }\n            });\n            /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4512);\n            var __N_SSG = true;\n            /***/\n},\n        /***/ 7139: /***/ function (__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {\n            (window.__NEXT_P = window.__NEXT_P || []).push([\n                \"/static\",\n                function () {\n                    return __webpack_require__(2943);\n                }\n            ]);\n            if (false) { }\n            /***/\n}\n    },\n    /******/ function (__webpack_require__) {\n        // webpackRuntimeModules\n        /******/ var __webpack_exec__ = function __webpack_exec__(moduleId) {\n            return __webpack_require__(__webpack_require__.s = moduleId);\n        };\n        /******/ __webpack_require__.O(0, [\n            774,\n            888,\n            179\n        ], function () {\n            return __webpack_exec__(7139);\n        });\n        /******/ var __webpack_exports__ = __webpack_require__.O();\n        /******/ _N_E = __webpack_exports__;\n        /******/\n}\n]);\n"
+  ],
+  "version": 3
 }
