@@ -93,6 +93,7 @@ fn handle_func(func: ItemFn, ast_type: Ident) -> TokenStream {
         }
 
         #[no_mangle]
+        #[allow(clippy::not_unsafe_ptr_arg_deref)]
         pub fn #transform_core_pkg_diag_ident() -> u32 {
             let schema_version = swc_core::common::plugin::PLUGIN_TRANSFORM_AST_SCHEMA_VERSION;
             let core_pkg_diag = swc_core::diagnostics::get_core_engine_diagnostics();
@@ -122,6 +123,7 @@ fn handle_func(func: ItemFn, ast_type: Ident) -> TokenStream {
         // There are some cases error won't be wrapped up however - for example, we expect
         // serialization of PluginError itself should succeed.
         #[no_mangle]
+        #[allow(clippy::not_unsafe_ptr_arg_deref)]
         pub fn #transform_process_impl_ident(
             ast_ptr: *const u8, ast_ptr_len: u32,
             unresolved_mark: u32, should_enable_comments_proxy: i32) -> u32 {
