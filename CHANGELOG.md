@@ -34,6 +34,12 @@
 
 - **(xml/parser)** Simplify logic for parsing elements (#6557) ([85a03e7](https://github.com/swc-project/swc/commit/85a03e71b7fe98d6f4f7c3fd0e49ce862130dfcc))
 
+### Testing
+
+
+
+- **(css/parser)** Move vendor tests (#6564) ([4d422b6](https://github.com/swc-project/swc/commit/4d422b6228c0a29e3e540697e805be5ae33f4cf2))
+
 ## [1.3.21] - 2022-11-30
 
 ### Bug Fixes
