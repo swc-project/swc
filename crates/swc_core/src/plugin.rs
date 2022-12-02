@@ -1,7 +1,7 @@
 // #[plugin_transform] macro
 #[cfg(any(docsrs, feature = "__common_plugin_transform"))]
 #[cfg_attr(docsrs, doc(cfg(feature = "__common_plugin_transform")))]
-pub use swc_plugin_macro::plugin_transform;
+pub use swc_plugin_macro::{css_plugin_transform, plugin_transform};
 
 /// exported __alloc / __free fn for the guest (plugin)
 /// allows to allocate memory from the host side.
