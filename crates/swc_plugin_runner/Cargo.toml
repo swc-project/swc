@@ -22,19 +22,18 @@ memory_cache                  = []
 plugin_transform_schema_v1    = ["swc_common/plugin_transform_schema_v1"]
 plugin_transform_schema_vtest = ["swc_common/plugin_transform_schema_vtest"]
 
+# Enable ECMASCript support
+ecma = ["swc_ecma_ast/rkyv-impl"]
+# Enable CSS support
+css = ["swc_css_ast/rkyv-impl"]
+
 __rkyv = []
 rkyv-bytecheck-impl = [
   "__rkyv",
   "swc_common/plugin-bytecheck-rt",
   "swc_plugin_proxy/plugin-bytecheck-rt",
-  "swc_ecma_ast/rkyv-bytecheck-impl",
 ]
-rkyv-impl = [
-  "__rkyv",
-  "swc_common/plugin-rt",
-  "swc_plugin_proxy/plugin-rt",
-  "swc_ecma_ast/rkyv-impl",
-]
+rkyv-impl = ["__rkyv", "swc_common/plugin-rt", "swc_plugin_proxy/plugin-rt"]
 
 [dependencies]
 anyhow = "1.0.42"
@@ -46,11 +45,11 @@ serde_json = "1.0.64"
 swc_common = { version = "0.29.17", path = "../swc_common", features = [
   "concurrent",
 ] }
-swc_ecma_ast = { version = "0.95.1", path = "../swc_ecma_ast" }
-swc_plugin_proxy = { version = "0.23.1", path = "../swc_plugin_proxy" }
-
-tracing     = "0.1.32"
-wasmer      = { version = "2.3.0", default-features = false }
+swc_css_ast = { version = "0.128.1", path = "../swc_css_ast", optional = true }
+swc_ecma_ast = { version = "0.95.1", path = "../swc_ecma_ast", optional = true }
+swc_plugin_proxy = { version = "0.23.0", path = "../swc_plugin_proxy" }
+tracing = "0.1.32"
+wasmer = { version = "2.3.0", default-features = false }
 wasmer-wasi = { version = "2.3.0", default-features = false }
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
@@ -67,9 +66,12 @@ swc_ecma_visit  = { version = "0.81.1", path = "../swc_ecma_visit" }
 swc_node_base   = { version = "0.5.8", path = "../swc_node_base" }
 testing         = { version = "0.31.18", path = "../testing" }
 # This allows we can run non-wasm32 target build command while some pkg select features for wasmer/js omits its transitive deps
-wasmer      = "2.3.0"
+swc_ecma_ast = { version = "0.95.1", path = "../swc_ecma_ast", feature = [
+  "rkyv-impl",
+] }
+wasmer = "2.3.0"
 wasmer-wasi = "2.3.0"
 
 [[bench]]
 harness = false
-name    = "invoke"
+name    = "ecma_invoke"

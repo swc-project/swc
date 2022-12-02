@@ -4371,6 +4371,7 @@ dependencies = [
  "serde_json",
  "swc_atoms",
  "swc_common",
+ "swc_css_ast",
  "swc_ecma_ast",
  "swc_ecma_loader",
  "swc_ecma_parser",
