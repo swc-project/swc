@@ -622,7 +622,7 @@ where
                 if !is_id {
                     return Err(Error::new(
                         span,
-                        ErrorKind::Expected("identifier in id selector"),
+                        ErrorKind::Unexpected("characters in ID selector"),
                     ));
                 }
 

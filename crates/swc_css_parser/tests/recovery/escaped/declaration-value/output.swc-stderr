@@ -1,0 +1,6 @@
+
+  x Expected Declaration value
+   ,-[$DIR/tests/recovery/escaped/declaration-value/input.css:1:1]
+ 1 | a { value: x }
+   :             ^
+   `----
