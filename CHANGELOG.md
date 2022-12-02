@@ -26,6 +26,9 @@
 - **(css/plugin)** Prepare Wasm plugins (#6567) ([8cdc28c](https://github.com/swc-project/swc/commit/8cdc28cdfa17f1773bdd30c2187c79e1db0a3ffe))
 
 
+- **(css/plugin)** Support Wasm plugin (#6568) ([fa8f7b0](https://github.com/swc-project/swc/commit/fa8f7b00fc458c4ee2a74b431fb9004f67e54dde))
+
+
 - **(html/parser)** Improve lexer (#6543) ([49b7e9e](https://github.com/swc-project/swc/commit/49b7e9e224c36346a8fe5ccbec623ae76f0cc79d))
 
 ### Miscellaneous Tasks
