@@ -1,4 +1,3 @@
-#![cfg(feature = "ecma")]
 #![cfg_attr(not(feature = "__rkyv"), allow(warnings))]
 use std::{
     env, fs,
