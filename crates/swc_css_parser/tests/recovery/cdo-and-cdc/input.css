@@ -36,3 +36,9 @@ a {
          color: red;
      }
 }
+
+@keyframes box {
+    <!-- -->
+    50% { left: 0; }
+    90% { left: 300px; }
+}

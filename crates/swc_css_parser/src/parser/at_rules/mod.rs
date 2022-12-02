@@ -456,7 +456,6 @@ where
                 }
                 _ => {
                     let ctx = Ctx {
-                        is_top_level: false,
                         in_container_at_rule: true,
                         ..self.ctx
                     };
@@ -493,11 +492,7 @@ where
                         style_blocks
                     }
                     _ => {
-                        let ctx = Ctx {
-                            is_top_level: false,
-                            ..self.ctx
-                        };
-                        let rule_list = self.with_ctx(ctx).parse_as::<Vec<Rule>>()?;
+                        let rule_list = self.parse_as::<Vec<Rule>>()?;
                         let rule_list: Vec<ComponentValue> =
                             rule_list.into_iter().map(ComponentValue::Rule).collect();
 
@@ -565,7 +560,6 @@ where
             | js_word!("-ms-keyframes") => {
                 let ctx = Ctx {
                     block_contents_grammar: BlockContentsGrammar::RuleList,
-                    is_top_level: false,
                     in_keyframes_at_rule: true,
                     ..self.ctx
                 };
@@ -636,11 +630,7 @@ where
                 rule_list
             }
             js_word!("layer") => {
-                let ctx = Ctx {
-                    is_top_level: false,
-                    ..self.ctx
-                };
-                let rule_list = self.with_ctx(ctx).parse_as::<Vec<Rule>>()?;
+                let rule_list = self.parse_as::<Vec<Rule>>()?;
                 let rule_list: Vec<ComponentValue> =
                     rule_list.into_iter().map(ComponentValue::Rule).collect();
 
@@ -657,11 +647,7 @@ where
                     style_blocks
                 }
                 _ => {
-                    let ctx = Ctx {
-                        is_top_level: false,
-                        ..self.ctx
-                    };
-                    let rule_list = self.with_ctx(ctx).parse_as::<Vec<Rule>>()?;
+                    let rule_list = self.parse_as::<Vec<Rule>>()?;
                     let rule_list: Vec<ComponentValue> =
                         rule_list.into_iter().map(ComponentValue::Rule).collect();
 
@@ -742,11 +728,7 @@ where
                     style_blocks
                 }
                 _ => {
-                    let ctx = Ctx {
-                        is_top_level: false,
-                        ..self.ctx
-                    };
-                    let rule_list = self.with_ctx(ctx).parse_as::<Vec<Rule>>()?;
+                    let rule_list = self.parse_as::<Vec<Rule>>()?;
                     let rule_list: Vec<ComponentValue> =
                         rule_list.into_iter().map(ComponentValue::Rule).collect();
 
@@ -934,7 +916,7 @@ where
 
                 return Err(Error::new(
                     span,
-                    ErrorKind::Expected("ident or percentage token"),
+                    ErrorKind::Expected("'from', 'to' or percentage"),
                 ));
             }
         }
