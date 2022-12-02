@@ -90,7 +90,7 @@ pub enum ComponentValue {
     #[tag("TokenAndSpan")]
     PreservedToken(TokenAndSpan),
     #[tag("Function")]
-    Function(Function),
+    Function(Box<Function>),
     #[tag("SimpleBlock")]
     SimpleBlock(Box<SimpleBlock>),
 

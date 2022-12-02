@@ -805,7 +805,7 @@ where
                             ..self.ctx
                         }
                     })
-                    .parse_as::<Function>()?;
+                    .parse_as::<Box<Function>>()?;
 
                 Ok(ComponentValue::Function(function))
             }
