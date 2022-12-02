@@ -1589,7 +1589,7 @@ where
                     ));
                 }
 
-                let layer_name = self.parse_as::<LayerName>()?;
+                let layer_name = self.parse_as::<Box<LayerName>>()?;
 
                 values.push(ComponentValue::LayerName(layer_name));
 

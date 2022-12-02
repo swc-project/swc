@@ -48,10 +48,10 @@ define!({
         CmykComponent(Box<CmykComponent>),
         Delimiter(Box<Delimiter>),
 
-        CalcSum(CalcSum),
-        ComplexSelector(ComplexSelector),
-        LayerName(LayerName),
-        SupportsCondition(SupportsCondition),
+        CalcSum(Box<CalcSum>),
+        ComplexSelector(Box<ComplexSelector>),
+        LayerName(Box<LayerName>),
+        SupportsCondition(Box<SupportsCondition>),
         Declaration(Box<Declaration>),
     }
 

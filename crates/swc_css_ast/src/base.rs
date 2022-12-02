@@ -138,13 +138,13 @@ pub enum ComponentValue {
 
     // Special function Contents grammar
     #[tag("CalcSum")]
-    CalcSum(CalcSum),
+    CalcSum(Box<CalcSum>),
     #[tag("ComplexSelector")]
-    ComplexSelector(ComplexSelector),
+    ComplexSelector(Box<ComplexSelector>),
     #[tag("LayerName")]
-    LayerName(LayerName),
+    LayerName(Box<LayerName>),
     #[tag("SupportsCondition")]
-    SupportsCondition(SupportsCondition),
+    SupportsCondition(Box<SupportsCondition>),
     #[tag("Declaration")]
     Declaration(Box<Declaration>),
 }
