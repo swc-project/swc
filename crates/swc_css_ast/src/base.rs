@@ -112,7 +112,7 @@ pub enum ComponentValue {
     #[tag("String")]
     Str(Str),
     #[tag("Url")]
-    Url(Url),
+    Url(Box<Url>),
     #[tag("Integer")]
     Integer(Integer),
     #[tag("Number")]
@@ -120,19 +120,19 @@ pub enum ComponentValue {
     #[tag("Percentage")]
     Percentage(Percentage),
     #[tag("Dimension")]
-    Dimension(Dimension),
+    Dimension(Box<Dimension>),
     #[tag("Ratio")]
-    Ratio(Ratio),
+    Ratio(Box<Ratio>),
     #[tag("UnicodeRange")]
     UnicodeRange(UnicodeRange),
     #[tag("Color")]
-    Color(Color),
+    Color(Box<Color>),
     #[tag("AlphaValue")]
     AlphaValue(AlphaValue),
     #[tag("Hue")]
-    Hue(Hue),
+    Hue(Box<Hue>),
     #[tag("CmykComponent")]
-    CmykComponent(CmykComponent),
+    CmykComponent(Box<CmykComponent>),
     #[tag("Delimiter")]
     Delimiter(Delimiter),
 
