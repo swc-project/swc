@@ -5,6 +5,9 @@
 
 
 
+- **(common)** Fix handling of input source maps (#6561) ([4af52c7](https://github.com/swc-project/swc/commit/4af52c79aea73f2e916bd11ce089bb4a4317179c))
+
+
 - **(css/parser)** Fix recovery more for invalid component values in declaration value (#6560) ([db1eb48](https://github.com/swc-project/swc/commit/db1eb483fda71ca5f88342d8c53cb795707c6221))
 
 
