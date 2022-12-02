@@ -1225,7 +1225,7 @@ impl SourceMap {
                     src_id = builder.add_source(&config.file_name_to_source(&f.name));
 
                     inline_sources_content = config.inline_sources_content(&f.name);
-                    if inline_sources_content && !orig.is_some() {
+                    if inline_sources_content && orig.is_none() {
                         builder.set_source_contents(src_id, Some(&f.src));
                     }
 
