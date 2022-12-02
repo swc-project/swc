@@ -34,11 +34,11 @@ define!({
 
         Ident(Ident),
         DashedIdent(DashedIdent),
-        Str(Str),
+        Str(Box<Str>),
         Url(Box<Url>),
         Integer(Integer),
         Number(Number),
-        Percentage(Percentage),
+        Percentage(Box<Percentage>),
         Dimension(Box<Dimension>),
         Ratio(Box<Ratio>),
         UnicodeRange(Box<UnicodeRange>),

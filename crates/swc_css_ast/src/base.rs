@@ -110,7 +110,7 @@ pub enum ComponentValue {
     #[tag("DashedIdent")]
     DashedIdent(DashedIdent),
     #[tag("String")]
-    Str(Str),
+    Str(Box<Str>),
     #[tag("Url")]
     Url(Box<Url>),
     #[tag("Integer")]
@@ -118,7 +118,7 @@ pub enum ComponentValue {
     #[tag("Number")]
     Number(Number),
     #[tag("Percentage")]
-    Percentage(Percentage),
+    Percentage(Box<Percentage>),
     #[tag("Dimension")]
     Dimension(Box<Dimension>),
     #[tag("Ratio")]
