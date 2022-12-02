@@ -55,7 +55,7 @@ static PLUGIN_PATH: Lazy<PathBuf> = Lazy::new(|| {
     build_plugin(
         &PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap())
             .join("tests")
-            .join("fixture")
+            .join("css")
             .join("swc_noop_plugin"),
     )
     .unwrap()
