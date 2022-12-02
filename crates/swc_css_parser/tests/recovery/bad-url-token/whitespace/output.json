@@ -114,7 +114,6 @@
                 },
                 "token": {
                   "BadUrl": {
-                    "name": "url",
                     "raw_name": "url",
                     "raw_value": "image.\n    png"
                   }

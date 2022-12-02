@@ -139,7 +139,7 @@
  4 |         color: red;
    `----
 
-  x BadUrl { name: Atom('url' type=static), raw_name: "url", raw_value: "image.\n    png" }
+  x BadUrl { raw_name: "url", raw_value: "image.\n    png" }
    ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:1:1]
  1 |     div {
  2 | ,->     background: url(image.

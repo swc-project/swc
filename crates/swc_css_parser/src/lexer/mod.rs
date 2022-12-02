@@ -885,7 +885,6 @@ where
                         raw.push_str(&remnants.1);
 
                         return Ok(Token::BadUrl {
-                            name: name.0,
                             raw_name: name.1,
                             raw_value: (&**raw).into(),
                         });
@@ -908,7 +907,6 @@ where
                         raw.push_str(&remnants.1);
 
                         return Ok(Token::BadUrl {
-                            name: name.0,
                             raw_name: name.1,
                             raw_value: (&**raw).into(),
                         });
@@ -939,7 +937,6 @@ where
                             raw.push_str(&remnants.1);
 
                             return Ok(Token::BadUrl {
-                                name: name.0,
                                 raw_name: name.1,
                                 raw_value: (&**raw).into(),
                             });
