@@ -462,7 +462,6 @@ fn escape_string(value: &str, is_attribute_mode: bool) -> String {
             '&' => {
                 result.push_str("&amp;");
             }
-            '\u{00A0}' => result.push_str("&nbsp;"),
             '"' if is_attribute_mode => result.push_str("&quot;"),
             '<' if !is_attribute_mode => {
                 result.push_str("&lt;");

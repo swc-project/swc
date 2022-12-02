@@ -47,6 +47,12 @@ where
         let mut rules = vec![];
 
         // Repeatedly consume the next input token:
+
+        // Reset the `is_top_level` value
+        let ctx = Ctx {
+            is_top_level: false,
+            ..self.ctx
+        };
         loop {
             // <EOF-token>
             // Return the list of rules.
@@ -70,21 +76,28 @@ where
                     // Otherwise, reconsume the current input token. Consume a qualified rule. If
                     // anything is returned, append it to the list of rules.
                     else {
-                        rules.push(Rule::QualifiedRule(self.parse()?));
+                        let qualified_rule = self.with_ctx(ctx).parse_as::<Box<QualifiedRule>>()?;
+
+                        rules.push(Rule::QualifiedRule(qualified_rule));
                     }
                 }
                 // <at-keyword-token>
                 // Reconsume the current input token. Consume an at-rule, and append the returned
                 // value to the list of rules.
                 tok!("@") => {
-                    rules.push(Rule::AtRule(self.parse()?));
+                    let at_rule = self.with_ctx(ctx).parse_as::<Box<AtRule>>()?;
+
+                    rules.push(Rule::AtRule(at_rule));
                 }
                 // anything else
                 // Reconsume the current input token. Consume a qualified rule. If anything is
                 // returned, append it to the list of rules.
+                //
+                // For better recovery we parse broken code into the list of component values and
+                // append it to the list of rules.
                 _ => {
                     let state = self.input.state();
-                    let qualified_rule = self.parse();
+                    let qualified_rule = self.with_ctx(ctx).parse_as::<Box<QualifiedRule>>();
 
                     match qualified_rule {
                         Ok(i) => rules.push(Rule::QualifiedRule(i)),
@@ -99,7 +112,8 @@ where
                             };
 
                             while !is_one_of!(self, EOF) {
-                                let component_value = self.parse_as::<ComponentValue>()?;
+                                let component_value =
+                                    self.with_ctx(ctx).parse_as::<ComponentValue>()?;
 
                                 list_of_component_values.children.push(component_value);
                             }
@@ -623,53 +637,39 @@ where
 
         // 5. As long as the next input token is anything other than an <EOF-token>,
         // consume a component value and append it to the declaration’s value.
+        let mut is_valid_to_canonicalize = true;
         let mut last_whitespaces = (0, 0, 0);
         let mut exclamation_point_span = None;
         let mut important_ident = None;
 
         loop {
-            if is_one_of!(self, EOF) {
-                if important_ident.is_none() {
-                    if let Some(span) = &exclamation_point_span {
-                        // TODO improve me to `<declaration-value>`
-                        self.errors.push(Error::new(
-                            *span,
-                            ErrorKind::Unexpected("'!' in <declaration-value>"),
-                        ));
-                    }
-                }
-
+            if is!(self, EOF) {
                 break;
             }
 
             let component_value = self.parse_as::<ComponentValue>()?;
 
             match &component_value {
-                // Optimization for step 5
-                ComponentValue::PreservedToken(
-                    token_and_span @ TokenAndSpan {
-                        token: Token::Ident { value, .. },
-                        ..
-                    },
-                ) if exclamation_point_span.is_some()
-                    && value.to_ascii_lowercase() == js_word!("important") =>
-                {
-                    important_ident = Some(token_and_span.clone());
-                }
+                // Optimization for step 6
                 ComponentValue::PreservedToken(TokenAndSpan {
                     span,
                     token: Token::Delim { value: '!', .. },
                     ..
-                }) => {
-                    exclamation_point_span = Some(*span);
+                }) if is!(self, " ") || is_case_insensitive_ident!(self, "important") => {
+                    if let Some(span) = &exclamation_point_span {
+                        is_valid_to_canonicalize = false;
 
-                    if important_ident.is_some() {
+                        self.errors.push(Error::new(
+                            *span,
+                            ErrorKind::Unexpected("'!' in declaration value"),
+                        ));
+
                         important_ident = None;
-
                         last_whitespaces = (last_whitespaces.2, 0, 0);
                     }
+
+                    exclamation_point_span = Some(*span);
                 }
-                // Optimization for step 6
                 ComponentValue::PreservedToken(TokenAndSpan {
                     token: Token::WhiteSpace { .. },
                     ..
@@ -687,14 +687,31 @@ where
                         unreachable!();
                     }
                 },
+                ComponentValue::PreservedToken(
+                    token_and_span @ TokenAndSpan {
+                        token: Token::Ident { value, .. },
+                        ..
+                    },
+                ) if exclamation_point_span.is_some()
+                    && value.to_ascii_lowercase() == js_word!("important") =>
+                {
+                    important_ident = Some(token_and_span.clone());
+                }
                 _ => {
+                    if let Err(err) = self.validate_declaration_value(&component_value) {
+                        is_valid_to_canonicalize = false;
+
+                        self.errors.push(err);
+                    }
+
                     last_whitespaces = (0, 0, 0);
 
                     if let Some(span) = &exclamation_point_span {
-                        // TODO improve me to `<declaration-value>`
+                        is_valid_to_canonicalize = false;
+
                         self.errors.push(Error::new(
                             *span,
-                            ErrorKind::Unexpected("'!' in <declaration-value>"),
+                            ErrorKind::Unexpected("'!' in declaration value"),
                         ));
 
                         important_ident = None;
@@ -755,7 +772,7 @@ where
         }
 
         // Canonicalization against a grammar
-        if self.ctx.need_canonicalize {
+        if is_valid_to_canonicalize && self.ctx.need_canonicalize {
             declaration = self.canonicalize_declaration_value(declaration)?;
         }
 

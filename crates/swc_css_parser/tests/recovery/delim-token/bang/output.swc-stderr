@@ -1,5 +1,5 @@
 
-  x Expected Declaration value
+  x Unexpected '!' in declaration value
    ,-[$DIR/tests/recovery/delim-token/bang/input.css:1:1]
  1 | a {
  2 |     color: !!;
@@ -7,7 +7,7 @@
  3 | }
    `----
 
-  x Unexpected '!' in <declaration-value>
+  x Unexpected '!' in declaration value
    ,-[$DIR/tests/recovery/delim-token/bang/input.css:1:1]
  1 | a {
  2 |     color: !!;

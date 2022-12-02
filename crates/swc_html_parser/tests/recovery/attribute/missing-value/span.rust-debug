@@ -72,6 +72,12 @@
    `----
 
   x Attribute
+   ,-[$DIR/tests/recovery/attribute/missing-value/input.html:1:1]
+ 1 | <div>test</div>
+ 2 | <a a=>
+   :    ^
+ 3 | <div>test</div>
+   `----
 
   x Child
    ,-[$DIR/tests/recovery/attribute/missing-value/input.html:1:1]

@@ -367,6 +367,85 @@ where
     ) -> PResult<Declaration> {
         self.parse_according_to_grammar::<Declaration>(temporary_list, |parser| parser.parse_as())
     }
+
+    // The <declaration-value> production matches any sequence of one or more
+    // tokens, so long as the sequence does not contain <bad-string-token>,
+    // <bad-url-token>, unmatched <)-token>, <]-token>, or <}-token>, or top-level
+    // <semicolon-token> tokens or <delim-token> tokens with a value of "!". It
+    // represents the entirety of what a valid declaration can have as its value.
+    pub(super) fn validate_declaration_value(
+        &mut self,
+        component_value: &ComponentValue,
+    ) -> PResult<()> {
+        match component_value {
+            ComponentValue::PreservedToken(TokenAndSpan {
+                span,
+                token: Token::BadString { .. },
+            }) => {
+                return Err(Error::new(
+                    *span,
+                    ErrorKind::Unexpected("bad string in declaration value"),
+                ));
+            }
+            ComponentValue::PreservedToken(TokenAndSpan {
+                span,
+                token: Token::BadUrl { .. },
+            }) => {
+                return Err(Error::new(
+                    *span,
+                    ErrorKind::Unexpected("bad url in declaration value"),
+                ));
+            }
+            ComponentValue::PreservedToken(TokenAndSpan {
+                span,
+                token: Token::RParen,
+            }) => {
+                return Err(Error::new(
+                    *span,
+                    ErrorKind::Unexpected("')' in declaration value"),
+                ));
+            }
+            ComponentValue::PreservedToken(TokenAndSpan {
+                span,
+                token: Token::RBracket,
+            }) => {
+                return Err(Error::new(
+                    *span,
+                    ErrorKind::Unexpected("']' in declaration value"),
+                ));
+            }
+            ComponentValue::PreservedToken(TokenAndSpan {
+                span,
+                token: Token::RBrace,
+            }) => {
+                return Err(Error::new(
+                    *span,
+                    ErrorKind::Unexpected("'}' in declaration value"),
+                ));
+            }
+            ComponentValue::PreservedToken(TokenAndSpan {
+                span,
+                token: Token::Semi,
+            }) => {
+                return Err(Error::new(
+                    *span,
+                    ErrorKind::Unexpected("';' in declaration value"),
+                ));
+            }
+            ComponentValue::PreservedToken(TokenAndSpan {
+                span,
+                token: Token::Delim { value: '!' },
+            }) => {
+                return Err(Error::new(
+                    *span,
+                    ErrorKind::Unexpected("'!' in declaration value"),
+                ));
+            }
+            _ => {}
+        }
+
+        Ok(())
+    }
 }
 
 pub(super) struct WithCtx<'w, I: 'w + ParserInput> {

@@ -14,13 +14,13 @@
         "ctxt": 0
       },
       "prelude": {
-        "type": "Tokens",
+        "type": "ListOfComponentValues",
         "span": {
           "start": 0,
           "end": 0,
           "ctxt": 0
         },
-        "tokens": []
+        "children": []
       },
       "block": {
         "type": "SimpleBlock",
@@ -29,7 +29,15 @@
           "end": 5,
           "ctxt": 0
         },
-        "name": "{",
+        "name": {
+          "type": "PreservedToken",
+          "span": {
+            "start": 1,
+            "end": 2,
+            "ctxt": 0
+          },
+          "token": "LBrace"
+        },
         "value": []
       }
     },
@@ -41,13 +49,13 @@
         "ctxt": 0
       },
       "prelude": {
-        "type": "Tokens",
+        "type": "ListOfComponentValues",
         "span": {
           "start": 0,
           "end": 0,
           "ctxt": 0
         },
-        "tokens": []
+        "children": []
       },
       "block": {
         "type": "SimpleBlock",
@@ -56,7 +64,15 @@
           "end": 9,
           "ctxt": 0
         },
-        "name": "{",
+        "name": {
+          "type": "PreservedToken",
+          "span": {
+            "start": 7,
+            "end": 8,
+            "ctxt": 0
+          },
+          "token": "LBrace"
+        },
         "value": []
       }
     },
@@ -68,13 +84,13 @@
         "ctxt": 0
       },
       "prelude": {
-        "type": "Tokens",
+        "type": "ListOfComponentValues",
         "span": {
           "start": 0,
           "end": 0,
           "ctxt": 0
         },
-        "tokens": []
+        "children": []
       },
       "block": {
         "type": "SimpleBlock",
@@ -83,7 +99,15 @@
           "end": 30,
           "ctxt": 0
         },
-        "name": "{",
+        "name": {
+          "type": "PreservedToken",
+          "span": {
+            "start": 11,
+            "end": 12,
+            "ctxt": 0
+          },
+          "token": "LBrace"
+        },
         "value": [
           {
             "type": "Declaration",

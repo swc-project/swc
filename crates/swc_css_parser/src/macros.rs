@@ -166,16 +166,4 @@ macro_rules! tok {
     (">") => {
         swc_css_ast::Token::Delim { value: '>', .. }
     };
-
-    ("important") => {
-        ident_tok!("important")
-    };
-
-    ("local") => {
-        ident_tok!("local")
-    };
-
-    ("global") => {
-        ident_tok!("global")
-    };
 }

@@ -355,7 +355,7 @@ impl<I: Tokens> Parser<I> {
             .map(From::from)?
         };
 
-        let type_args = if is!(self, '<') {
+        let type_args = if !self.input.had_line_break_before_cur() && is!(self, '<') {
             Some(self.parse_ts_type_args()?)
         } else {
             None
