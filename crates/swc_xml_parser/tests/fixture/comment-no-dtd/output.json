@@ -1,0 +1,31 @@
+{
+  "type": "Document",
+  "span": {
+    "start": 1,
+    "end": 39,
+    "ctxt": 0
+  },
+  "children": [
+    {
+      "type": "Comment",
+      "span": {
+        "start": 1,
+        "end": 20,
+        "ctxt": 0
+      },
+      "data": " My Comment ",
+      "raw": "<!-- My Comment -->"
+    },
+    {
+      "type": "Element",
+      "span": {
+        "start": 21,
+        "end": 39,
+        "ctxt": 0
+      },
+      "tagName": "DocumentElement",
+      "attributes": [],
+      "children": []
+    }
+  ]
+}
