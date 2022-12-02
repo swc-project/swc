@@ -1316,6 +1316,7 @@ dependencies = [
  "bitflags",
  "is-macro",
  "num-bigint",
+ "rkyv",
  "scoped-tls",
  "serde",
  "string_enum",
