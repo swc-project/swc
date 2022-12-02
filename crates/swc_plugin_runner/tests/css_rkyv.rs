@@ -14,8 +14,6 @@ use swc_common::{
     collections::AHashMap, plugin::metadata::TransformPluginMetadataContext, sync::Lazy, FileName,
     Mark,
 };
-use swc_ecma_ast::{EsVersion, Program};
-use swc_ecma_parser::{parse_file_as_program, EsConfig, Syntax, TsConfig};
 use swc_plugin_runner::cache::{init_plugin_module_cache_once, PLUGIN_MODULE_CACHE};
 use tracing::info;
 
@@ -62,26 +60,18 @@ static PLUGIN_PATH: Lazy<PathBuf> = Lazy::new(|| {
 });
 
 #[cfg(feature = "__rkyv")]
-#[testing::fixture("../swc_ecma_parser/tests/tsc/*.ts")]
-#[testing::fixture("../swc_ecma_parser/tests/tsc/*.tsx")]
+#[testing::fixture("../swc_css_parser/tests/fixture/**/input.css")]
 fn invoke(input: PathBuf) -> Result<(), Error> {
+    use swc_css_ast::Stylesheet;
+
     let path = PLUGIN_PATH.clone();
 
     // run single plugin
     testing::run_test(false, |cm, _handler| {
         let fm = cm.new_source_file(FileName::Anon, "console.log(foo)".into());
 
-        let parsed = parse_file_as_program(
-            &fm,
-            Syntax::Typescript(TsConfig {
-                tsx: input.to_string_lossy().ends_with(".tsx"),
-                ..Default::default()
-            }),
-            EsVersion::latest(),
-            None,
-            &mut vec![],
-        )
-        .unwrap();
+        let parsed: Stylesheet =
+            swc_css_parser::parse_file(&fm, Default::default(), &mut vec![]).unwrap();
 
         let program = PluginSerializedBytes::try_serialize(&parsed).expect("Should serializable");
         let experimental_metadata: AHashMap<String, String> = [
@@ -115,7 +105,7 @@ fn invoke(input: PathBuf) -> Result<(), Error> {
             .transform(&program, Mark::new(), false)
             .expect("Plugin should apply transform");
 
-        let program: Program = program_bytes
+        let program: Stylesheet = program_bytes
             .deserialize()
             .expect("Should able to deserialize");
 
@@ -129,16 +119,8 @@ fn invoke(input: PathBuf) -> Result<(), Error> {
     testing::run_test(false, |cm, _handler| {
         let fm = cm.new_source_file(FileName::Anon, "console.log(foo)".into());
 
-        let parsed = parse_file_as_program(
-            &fm,
-            Syntax::Es(EsConfig {
-                ..Default::default()
-            }),
-            EsVersion::latest(),
-            None,
-            &mut vec![],
-        )
-        .unwrap();
+        let parsed: Stylesheet =
+            swc_css_parser::parse_file(&fm, Default::default(), &mut vec![]).unwrap();
 
         let mut serialized_program =
             PluginSerializedBytes::try_serialize(&parsed).expect("Should serializable");
@@ -188,7 +170,7 @@ fn invoke(input: PathBuf) -> Result<(), Error> {
             .transform(&serialized_program, Mark::new(), false)
             .expect("Plugin should apply transform");
 
-        let program: Program = serialized_program
+        let program: Stylesheet = serialized_program
             .deserialize()
             .expect("Should able to deserialize");
 
