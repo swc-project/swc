@@ -4,19 +4,19 @@
     "
 |   <!--  def='NT-Char' -->
 |   <!--  -->
-|   "Char* ']]&gt;' "
+|   "Char* ']]>' "
 |   <nt>
 |     def="NT-Char"
 |     "Char"
 |   "*))
-']]&gt;'
+']]>'
 "
 |   <com>
 |     "CDATA sections"
 |   "
 "
 |   <rhs>
-|     "| '&lt;!DOCTYPE'
+|     "| '<!DOCTYPE'
 ("
 |     <nt>
 |       def="NT-Char"
@@ -28,7 +28,7 @@
 |       def="NT-simpleDTD"
 |       "simpleDTD"
 |     "*
-']')? '&gt;'"
+']')? '>'"
 |   "
 "
 |   <com>
@@ -42,7 +42,7 @@
 |     "
 "
 |     <rhs>
-|       "'&lt;!&como;'
+|       "'<!&como;'
 ("
 |       <nt>
 |         def="NT-Char"
@@ -57,6 +57,6 @@
 |         def="NT-Char"
 |         "Char"
 |       "*))
-'&comc;&gt;'"
+'&comc;>'"
 |     "-->
 "

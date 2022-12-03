@@ -1,12 +1,14 @@
+<?xml version="1.0" encoding="UTF-8">
+<?xml-stylesheet href="copy.css" type="text/css">
 | <root>
 |   "
     "
 |   <h>
-|     a="&noti;"
+|     a="noti;"
 |   "
     "
 |   <h>
-|     a="&lang="
+|     a="lang="
 |   "
     "
 |   <test>
@@ -15,5 +17,17 @@
     "
 |   <test>
 |     test="Ē"
+|   "
+    "
+|   <Geschlecht>
+|     "♂"
+|   "
+    "
+|   <copyright>
+|     "O'Reilly & Associates"
+|   "
+    "
+|   <foo>
+|     "©©™™"
 |   "
 "

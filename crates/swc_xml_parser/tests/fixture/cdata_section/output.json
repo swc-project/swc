@@ -2,7 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 883,
+    "end": 1021,
     "ctxt": 0
   },
   "children": [
@@ -10,7 +10,7 @@
       "type": "Element",
       "span": {
         "start": 1,
-        "end": 882,
+        "end": 1020,
         "ctxt": 0
       },
       "tagName": "root",
@@ -526,11 +526,95 @@
           "type": "Text",
           "span": {
             "start": 874,
-            "end": 875,
+            "end": 879,
             "ctxt": 0
           },
-          "data": "\n",
-          "raw": "\n"
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 879,
+            "end": 1011,
+            "ctxt": 0
+          },
+          "tagName": "DocumentElement",
+          "attributes": [],
+          "children": [
+            {
+              "type": "Text",
+              "span": {
+                "start": 896,
+                "end": 905,
+                "ctxt": 0
+              },
+              "data": "\n        ",
+              "raw": "\n        "
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 905,
+                "end": 988,
+                "ctxt": 0
+              },
+              "tagName": "foo",
+              "attributes": [],
+              "children": [
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 910,
+                    "end": 926,
+                    "ctxt": 0
+                  },
+                  "data": "\n            bar",
+                  "raw": "\n            bar"
+                },
+                {
+                  "type": "CdataSection",
+                  "span": {
+                    "start": 926,
+                    "end": 970,
+                    "ctxt": 0
+                  },
+                  "data": " Some <!-- My Comment --> Value ",
+                  "raw": "<![CDATA[ Some <!-- My Comment --> Value ]]>"
+                },
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 970,
+                    "end": 982,
+                    "ctxt": 0
+                  },
+                  "data": "foo\n        ",
+                  "raw": "foo\n        "
+                }
+              ]
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 988,
+                "end": 993,
+                "ctxt": 0
+              },
+              "data": "\n    ",
+              "raw": "\n    "
+            }
+          ]
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 1011,
+            "end": 1013,
+            "ctxt": 0
+          },
+          "data": "\"\n",
+          "raw": "\"\n"
         }
       ]
     }

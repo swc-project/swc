@@ -63,7 +63,7 @@
             "end": 97,
             "ctxt": 0
           },
-          "data": "Char* ']]&gt;' ",
+          "data": "Char* ']]>' ",
           "raw": "Char* ']]&gt;' "
         },
         {
@@ -110,7 +110,7 @@
             "end": 143,
             "ctxt": 0
           },
-          "data": "*))\n']]&gt;'\n",
+          "data": "*))\n']]>'\n",
           "raw": "*))\n']]&gt;'\n"
         },
         {
@@ -162,7 +162,7 @@
                 "end": 192,
                 "ctxt": 0
               },
-              "data": "| '&lt;!DOCTYPE'\n(",
+              "data": "| '<!DOCTYPE'\n(",
               "raw": "| '&lt;!DOCTYPE'\n("
             },
             {
@@ -256,7 +256,7 @@
                 "end": 292,
                 "ctxt": 0
               },
-              "data": "*\n']')? '&gt;'",
+              "data": "*\n']')? '>'",
               "raw": "*\n']')? '&gt;'"
             }
           ]
@@ -377,7 +377,7 @@
                     "end": 396,
                     "ctxt": 0
                   },
-                  "data": "'&lt;!&como;'\n(",
+                  "data": "'<!&como;'\n(",
                   "raw": "'&lt;!&como;'\n("
                 },
                 {
@@ -518,7 +518,7 @@
                     "end": 509,
                     "ctxt": 0
                   },
-                  "data": "*))\n'&comc;&gt;'",
+                  "data": "*))\n'&comc;>'",
                   "raw": "*))\n'&comc;&gt;'"
                 }
               ]

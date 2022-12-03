@@ -352,7 +352,7 @@ fn normalize_attribute_value(value: &str) -> String {
     let mut normalized = String::with_capacity(value.len() + 2);
 
     normalized.push('"');
-    normalized.push_str(value);
+    normalized.push_str(&escape_string(value, true));
     normalized.push('"');
 
     normalized
@@ -463,7 +463,7 @@ fn escape_string(value: &str, is_attribute_mode: bool) -> String {
                 result.push_str("&amp;");
             }
             '"' if is_attribute_mode => result.push_str("&quot;"),
-            '<' if !is_attribute_mode => {
+            '<' if is_attribute_mode => {
                 result.push_str("&lt;");
             }
             '>' if !is_attribute_mode => {

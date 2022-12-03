@@ -1,0 +1,82 @@
+{
+  "type": "Document",
+  "span": {
+    "start": 1,
+    "end": 35,
+    "ctxt": 0
+  },
+  "children": [
+    {
+      "type": "Element",
+      "span": {
+        "start": 1,
+        "end": 35,
+        "ctxt": 0
+      },
+      "tagName": "root",
+      "attributes": [],
+      "children": [
+        {
+          "type": "Text",
+          "span": {
+            "start": 7,
+            "end": 12,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 12,
+            "end": 27,
+            "ctxt": 0
+          },
+          "tagName": "c",
+          "attributes": [
+            {
+              "type": "Attribute",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "namespace": null,
+              "prefix": null,
+              "name": "a",
+              "rawName": "a",
+              "value": "v",
+              "rawValue": "'v'"
+            },
+            {
+              "type": "Attribute",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "namespace": null,
+              "prefix": null,
+              "name": "b",
+              "rawName": "b",
+              "value": "v",
+              "rawValue": "'v'"
+            }
+          ],
+          "children": []
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 27,
+            "end": 28,
+            "ctxt": 0
+          },
+          "data": "\n",
+          "raw": "\n"
+        }
+      ]
+    }
+  ]
+}

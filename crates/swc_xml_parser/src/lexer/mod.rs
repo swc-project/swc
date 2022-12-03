@@ -44,6 +44,7 @@ pub enum State {
     TagAttributeValueDoubleQuoted,
     TagAttributeValueSingleQuoted,
     TagAttributeValueUnquoted,
+    TagAttributeValueAfter,
     CharacterReferenceInAttributeValue,
     BogusComment,
     Doctype,
@@ -293,8 +294,13 @@ where
         self.pending_tokens.push_back(TokenAndSpan { span, token });
     }
 
-    fn consume_character_reference(&mut self) -> Option<char> {
+    fn consume_character_reference(&mut self) -> Option<(char, String)> {
         let cur_pos = self.input.cur_pos();
+        let anything_else = |lexer: &mut Lexer<I>| {
+            lexer.emit_error(ErrorKind::InvalidEntityCharacter);
+            lexer.cur_pos = cur_pos;
+            lexer.input.reset_to(cur_pos);
+        };
 
         // This section defines how to consume a character reference, optionally with an
         // additional allowed character, which, if specified where the algorithm is
@@ -306,31 +312,113 @@ where
         // The behavior depends on identity of next character (the one immediately after
         // the U+0026 AMPERSAND character), as follows:
         match self.consume_next_char() {
-            // U+0009 CHARACTER TABULATION (Tab)
-            // U+000A LINE FEED (LF)
-            // U+000C FORM FEED (FF)
-            // U+0020 SPACE (Space)
-            // U+003C LESSER-THAN SIGN (<)
-            // U+003E GREATER-THAN SIGN (%)
-            // U+0026 AMPERSAND (&)
-            // EOF
-            // Not a character reference. No characters are consumed and nothing is returned (This
-            // is not an error, either).
-            Some(c) if is_spacy(c) => {
-                self.cur_pos = cur_pos;
-                self.input.reset_to(cur_pos);
-            }
-            Some('<') | Some('%') | Some('&') | None => {
-                self.cur_pos = cur_pos;
-                self.input.reset_to(cur_pos);
-            }
             // The additional allowed character if there is one
             // Not a character reference. No characters are consumed and nothing is returned (This
             // is not an error, either).
             Some(c) if self.additional_allowed_character == Some(c) => {
+                self.emit_error(ErrorKind::InvalidEntityCharacter);
                 self.cur_pos = cur_pos;
                 self.input.reset_to(cur_pos);
             }
+            Some('l') => match self.consume_next_char() {
+                Some('t') => {
+                    match self.consume_next_char() {
+                        Some(';') => {}
+                        _ => {
+                            self.emit_error(ErrorKind::MissingSemicolonAfterCharacterReference);
+                        }
+                    }
+
+                    return Some(('<', String::from("&lt;")));
+                }
+                _ => {
+                    anything_else(self);
+                }
+            },
+            Some('g') => match self.consume_next_char() {
+                Some('t') => {
+                    match self.consume_next_char() {
+                        Some(';') => {}
+                        _ => {
+                            self.emit_error(ErrorKind::MissingSemicolonAfterCharacterReference);
+                        }
+                    }
+
+                    return Some(('>', String::from("&gt;")));
+                }
+                _ => {
+                    anything_else(self);
+                }
+            },
+            Some('q') => match self.consume_next_char() {
+                Some('u') => match self.consume_next_char() {
+                    Some('o') => match self.consume_next_char() {
+                        Some('t') => {
+                            match self.consume_next_char() {
+                                Some(';') => {}
+                                _ => {
+                                    self.emit_error(
+                                        ErrorKind::MissingSemicolonAfterCharacterReference,
+                                    );
+                                }
+                            }
+
+                            return Some(('"', String::from("&quot;")));
+                        }
+                        _ => {
+                            anything_else(self);
+                        }
+                    },
+                    _ => {
+                        anything_else(self);
+                    }
+                },
+                _ => {
+                    anything_else(self);
+                }
+            },
+            Some('a') => match self.consume_next_char() {
+                Some('p') => match self.consume_next_char() {
+                    Some('o') => match self.consume_next_char() {
+                        Some('s') => {
+                            match self.consume_next_char() {
+                                Some(';') => {}
+                                _ => {
+                                    self.emit_error(
+                                        ErrorKind::MissingSemicolonAfterCharacterReference,
+                                    );
+                                }
+                            }
+
+                            return Some(('\'', String::from("&apos;")));
+                        }
+                        _ => {
+                            anything_else(self);
+                        }
+                    },
+                    _ => {
+                        anything_else(self);
+                    }
+                },
+                Some('m') => match self.consume_next_char() {
+                    Some('p') => {
+                        match self.consume_next_char() {
+                            Some(';') => {}
+                            _ => {
+                                self.emit_error(ErrorKind::MissingSemicolonAfterCharacterReference);
+                            }
+                        }
+
+                        return Some(('&', String::from("&amp;")));
+                    }
+                    _ => {
+                        anything_else(self);
+                    }
+                },
+                _ => {
+                    anything_else(self);
+                }
+            },
             Some('#') => {
                 let mut base = 10;
                 let mut characters = vec![];
@@ -418,7 +506,7 @@ where
                 if is_surrogate(cr) {
                     self.emit_error(ErrorKind::SurrogateCharacterReference);
 
-                    return Some(char::REPLACEMENT_CHARACTER);
+                    return Some((char::REPLACEMENT_CHARACTER, String::from("empty")));
                 }
 
                 let c = match char::from_u32(cr) {
@@ -428,11 +516,10 @@ where
                     }
                 };
 
-                return Some(c);
+                return Some((c, String::from("empty")));
             }
             _ => {
-                self.cur_pos = cur_pos;
-                self.input.reset_to(cur_pos);
+                anything_else(self);
             }
         }
 
@@ -630,6 +717,38 @@ where
                             let mut raw_new_value = String::with_capacity(255);
 
                             raw_new_value.push(c);
+
+                            attribute.raw_value = Some(raw_new_value);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fn append_to_attribute_with_entity(&mut self, value: Option<(Option<char>, Option<&str>)>) {
+        if let Some(Tag { attributes, .. }) = &mut self.current_tag_token {
+            if let Some(attribute) = attributes.last_mut() {
+                if let Some(value) = value {
+                    if let Some(c) = value.0 {
+                        if let Some(old_value) = &mut attribute.value {
+                            old_value.push(c);
+                        } else {
+                            let mut new_value = String::with_capacity(255);
+
+                            new_value.push(c);
+
+                            attribute.value = Some(new_value);
+                        }
+                    }
+
+                    if let Some(c) = value.1 {
+                        if let Some(raw_value) = &mut attribute.raw_value {
+                            raw_value.push_str(c);
+                        } else {
+                            let mut raw_new_value = String::with_capacity(255);
+
+                            raw_new_value.push_str(c);
 
                             attribute.raw_value = Some(raw_new_value);
                         }
@@ -875,6 +994,14 @@ where
         });
     }
 
+    #[inline(always)]
+    fn emit_character_token_with_entity(&mut self, c: char, raw: &str) {
+        self.emit_token(Token::Character {
+            value: c,
+            raw: Some(raw.into()),
+        });
+    }
+
     fn read_token_and_span(&mut self) -> LexResult<TokenAndSpan> {
         if self.finished {
             return Err(ErrorKind::Eof);
@@ -939,8 +1066,8 @@ where
 
                 let character_reference = self.consume_character_reference();
 
-                if let Some(c) = character_reference {
-                    self.emit_character_token((c, c));
+                if let Some((c, raw)) = character_reference {
+                    self.emit_character_token_with_entity(c, &raw);
                 } else {
                     self.emit_character_token(('&', '&'));
                 }
@@ -954,7 +1081,7 @@ where
                     // EOF
                     // Parse error.
                     // Switch to the pi target after state.
-                    Some(c) if is_spacy_except_ff(c) => {
+                    Some(c) if is_whitespace(c) => {
                         self.emit_error(ErrorKind::InvalidCharacterOfProcessingInstruction);
                         self.create_processing_instruction_token();
                         self.state = State::PiTargetAfter;
@@ -988,7 +1115,7 @@ where
                     // U+000A LINE FEED (LF)
                     // U+0020 SPACE
                     // Switch to the pi target state.
-                    Some(c) if is_spacy_except_ff(c) => {
+                    Some(c) if is_whitespace(c) => {
                         self.state = State::PiTargetAfter;
                     }
                     // EOF
@@ -1041,7 +1168,7 @@ where
                     // U+000A LINE FEED (LF)
                     // U+0020 SPACE (Space)
                     // Stay in the current state.
-                    Some(c) if is_spacy_except_ff(c) => {
+                    Some(c) if is_whitespace(c) => {
                         self.skip_next_lf(c);
                     }
                     // Anything else
@@ -1678,7 +1805,7 @@ where
                     // U+000A LINE FEED (LF)
                     // U+0020 SPACE (Space)
                     // Switch to the before attribute name state.
-                    Some(c) if is_spacy_except_ff(c) => {
+                    Some(c) if is_whitespace(c) => {
                         self.skip_next_lf(c);
                         self.state = State::TagAttributeNameBefore;
                     }
@@ -1745,7 +1872,7 @@ where
                     // U+000A LINE FEED (LF)
                     // U+0020 SPACE
                     // Ignore the character.
-                    Some(c) if is_spacy_except_ff(c) => {
+                    Some(c) if is_whitespace(c) => {
                         self.skip_next_lf(c);
                     }
                     // U+003E GREATER-THAN SIGN(>)
@@ -1777,11 +1904,9 @@ where
                     // Start a new attribute in the current tag token. Set that attribute’s name to
                     // the current input character and its value to the empty string and then switch
                     // to the tag attribute name state.
-                    // We set `None` for `value` to support boolean attributes in AST
-                    Some(c) => {
-                        self.validate_input_stream_character(c);
-                        self.start_new_attribute(Some(c));
-                        self.state = State::TagAttributeName;
+                    _ => {
+                        self.start_new_attribute(None);
+                        self.reconsume_in_state(State::TagAttributeName);
                     }
                 }
             }
@@ -1796,6 +1921,7 @@ where
                     // U+003E GREATER-THEN SIGN (>)
                     // Emit the current token as start tag token. Switch to the data state.
                     Some('>') => {
+                        self.emit_error(ErrorKind::MissingEqualAfterAttributeName);
                         self.emit_tag_token(None);
                         self.state = State::Data;
                     }
@@ -1803,7 +1929,7 @@ where
                     // U+000A LINE FEED (LF)
                     // U+0020 SPACE (Space)
                     // Switch to the tag attribute name after state.
-                    Some(c) if is_spacy_except_ff(c) => {
+                    Some(c) if is_whitespace(c) => {
                         self.update_attribute_span();
                         self.skip_next_lf(c);
                         self.reconsume_in_state(State::TagAttributeNameAfter);
@@ -1811,6 +1937,7 @@ where
                     // U+002F SOLIDUS (/)
                     // Set current tag to empty tag. Switch to the empty tag state.
                     Some('/') => {
+                        self.emit_error(ErrorKind::MissingEqualAfterAttributeName);
                         self.set_tag_to_empty_tag();
                         self.state = State::EmptyTag;
                     }
@@ -1847,7 +1974,7 @@ where
                     // U+000A LINE FEED (LF)
                     // U+0020 SPACE
                     // Ignore the character.
-                    Some(c) if is_spacy_except_ff(c) => {
+                    Some(c) if is_whitespace(c) => {
                         self.skip_next_lf(c);
                     }
                     // U+003D EQUALS SIGN(=)
@@ -1880,6 +2007,7 @@ where
                     // the current input character and its value to the empty string and then switch
                     // to the tag attribute name state.
                     Some(c) => {
+                        self.emit_error(ErrorKind::MissingEqualAfterAttributeName);
                         self.validate_input_stream_character(c);
                         self.start_new_attribute(Some(c));
                         self.state = State::TagAttributeName;
@@ -1893,7 +2021,7 @@ where
                     // U+000A LINE FEED (LF)
                     // U+0020 SPACE
                     // Ignore the character.
-                    Some(c) if is_spacy_except_ff(c) => {
+                    Some(c) if is_whitespace(c) => {
                         self.skip_next_lf(c);
                     }
                     // U+0022 QUOTATION MARK (")
@@ -1907,11 +2035,6 @@ where
                     Some(c @ '\'') => {
                         self.append_to_attribute(None, Some((true, None, Some(c))));
                         self.state = State::TagAttributeValueSingleQuoted;
-                    }
-                    // U+0026 AMPERSAND (&):
-                    // Reprocess the input character in the tag attribute value unquoted state.
-                    Some('&') => {
-                        self.reconsume_in_state(State::TagAttributeValueUnquoted);
                     }
                     // U+003E GREATER-THAN SIGN(>)
                     // Emit the current token and then switch to the data state.
@@ -1931,6 +2054,7 @@ where
                     // Append the current input character to the current attribute’s value and then
                     // switch to the tag attribute value unquoted state.
                     Some(c) => {
+                        self.emit_error(ErrorKind::MissingQuoteBeforeAttributeValue);
                         self.validate_input_stream_character(c);
                         self.append_to_attribute(None, Some((true, Some(c), Some(c))));
                         self.state = State::TagAttributeValueUnquoted;
@@ -1945,7 +2069,7 @@ where
                     // We set value to support empty attributes (i.e. `attr=""`)
                     Some(c @ '"') => {
                         self.append_to_attribute(None, Some((false, None, Some(c))));
-                        self.state = State::TagAttributeNameBefore;
+                        self.state = State::TagAttributeValueAfter;
                     }
                     // U+0026 AMPERSAND (&)
                     // Switch to character reference in attribute value state, with the additional
@@ -1954,6 +2078,11 @@ where
                         self.return_state = Some(self.state.clone());
                         self.state = State::CharacterReferenceInAttributeValue;
                         self.additional_allowed_character = Some('"');
+                    }
+                    // (<)
+                    Some(c @ '<') => {
+                        self.emit_error(ErrorKind::UnescapedCharacterInAttributeValue('<'));
+                        self.append_to_attribute(None, Some((false, Some(c), Some(c))));
                     }
                     // EOF
                     // Parse error. Emit the current token and then reprocess the current input
@@ -1980,7 +2109,7 @@ where
                     // We set value to support empty attributes (i.e. `attr=''`)
                     Some(c @ '\'') => {
                         self.append_to_attribute(None, Some((false, None, Some(c))));
-                        self.state = State::TagAttributeNameBefore;
+                        self.state = State::TagAttributeValueAfter;
                     }
                     // U+0026 AMPERSAND (&)
                     // Switch to character reference in attribute value state, with the additional
@@ -1989,6 +2118,11 @@ where
                         self.return_state = Some(self.state.clone());
                         self.state = State::CharacterReferenceInAttributeValue;
                         self.additional_allowed_character = Some('\'');
+                    }
+                    // (<)
+                    Some(c @ '<') => {
+                        self.emit_error(ErrorKind::UnescapedCharacterInAttributeValue('<'));
+                        self.append_to_attribute(None, Some((false, Some(c), Some(c))));
                     }
                     // EOF
                     // Parse error. Emit the current token and then reprocess the current input
@@ -2013,10 +2147,10 @@ where
                     // U+000A LINE FEED (LF)
                     // U+0020 SPACE (Space)
                     // Switch to the before attribute name state.
-                    Some(c) if is_spacy_except_ff(c) => {
+                    Some(c) if is_whitespace(c) => {
                         self.update_attribute_span();
                         self.skip_next_lf(c);
-                        self.state = State::TagAttributeNameBefore;
+                        self.state = State::TagAttributeValueAfter;
                     }
                     // U+0026 AMPERSAND (&)
                     // Set the return state to the attribute value (unquoted) state. Switch to
@@ -2025,6 +2159,11 @@ where
                         self.return_state = Some(self.state.clone());
                         self.state = State::CharacterReferenceInAttributeValue;
                         self.additional_allowed_character = Some('>');
+                    }
+                    // (<)
+                    Some(c @ '<') => {
+                        self.emit_error(ErrorKind::UnescapedCharacterInAttributeValue('<'));
+                        self.append_to_attribute(None, Some((false, Some(c), Some(c))));
                     }
                     // U+003E GREATER-THAN SIGN (>)
                     // Emit the current token as start tag token and then switch to the data state.
@@ -2051,6 +2190,24 @@ where
                     }
                 }
             }
+            State::TagAttributeValueAfter => match self.consume_next_char() {
+                Some(c) if is_whitespace(c) => {
+                    self.reconsume_in_state(State::TagAttributeNameBefore);
+                }
+                Some('>') | Some('/') => {
+                    self.reconsume_in_state(State::TagAttributeNameBefore);
+                }
+                None => {
+                    self.emit_error(ErrorKind::EofInTag);
+                    self.update_attribute_span();
+                    self.emit_tag_token(Some(TagKind::Start));
+                    self.reconsume_in_state(State::Data);
+                }
+                _ => {
+                    self.emit_error(ErrorKind::MissingSpaceBetweenAttributes);
+                    self.reconsume_in_state(State::TagAttributeNameBefore);
+                }
+            },
             State::CharacterReferenceInAttributeValue => {
                 // Attempt to consume a character reference.
                 //
@@ -2063,8 +2220,8 @@ where
 
                 let character_reference = self.consume_character_reference();
 
-                if let Some(c) = character_reference {
-                    self.append_to_attribute(None, Some((false, Some(c), Some(c))));
+                if let Some((c, raw)) = character_reference {
+                    self.append_to_attribute_with_entity(Some((Some(c), Some(&raw))));
                 } else {
                     self.append_to_attribute(None, Some((false, Some('&'), Some('&'))));
                 }
@@ -2109,7 +2266,7 @@ where
                     // U+000C FORM FEED (FF)
                     // U+0020 SPACE
                     // Switch to the before DOCTYPE name state.
-                    Some(c) if is_spacy(c) => {
+                    Some(c) if is_whitespace(c) => {
                         self.append_raw_to_doctype_token(c);
                         self.state = State::BeforeDoctypeName;
                     }
@@ -2140,7 +2297,7 @@ where
                     // U+000C FORM FEED (FF)
                     // U+0020 SPACE
                     // Ignore the character.
-                    Some(c) if is_spacy(c) => {
+                    Some(c) if is_whitespace(c) => {
                         self.append_raw_to_doctype_token(c);
                     }
                     // Uppercase ASCII letter
@@ -2191,7 +2348,7 @@ where
                     // U+000C FORM FEED (FF)
                     // U+0020 SPACE
                     // Switch to the after DOCTYPE name state.
-                    Some(c) if is_spacy(c) => {
+                    Some(c) if is_whitespace(c) => {
                         self.append_raw_to_doctype_token(c);
                         self.state = State::AfterDoctypeName;
                     }
@@ -2236,7 +2393,7 @@ where
                     // U+000C FORM FEED (FF)
                     // U+0020 SPACE
                     // Ignore the character.
-                    Some(c) if is_spacy(c) => {
+                    Some(c) if is_whitespace(c) => {
                         self.append_raw_to_doctype_token(c);
                     }
                     // U+003E GREATER-THAN SIGN (>)
@@ -2325,7 +2482,7 @@ where
                     // U+000C FORM FEED (FF)
                     // U+0020 SPACE (Space)
                     // Switch to the before DOCTYPE public identifier state.
-                    Some(c) if is_spacy(c) => {
+                    Some(c) if is_whitespace(c) => {
                         self.append_raw_to_doctype_token(c);
                         self.state = State::BeforeDoctypePublicIdentifier;
                     }
@@ -2389,7 +2546,7 @@ where
                     // U+000C FORM FEED (FF)
                     // U+0020 SPACE
                     // Switch to the before DOCTYPE system identifier state.
-                    Some(c) if is_spacy(c) => {
+                    Some(c) if is_whitespace(c) => {
                         self.append_raw_to_doctype_token(c);
                         self.state = State::BeforeDoctypeSystemIdentifier;
                     }
@@ -2451,7 +2608,7 @@ where
                     // U+000C FORM FEED (FF)
                     // U+0020 SPACE
                     // Ignore the character.
-                    Some(c) if is_spacy(c) => {
+                    Some(c) if is_whitespace(c) => {
                         self.append_raw_to_doctype_token(c);
                     }
                     // U+0022 QUOTATION MARK (")
@@ -2508,7 +2665,7 @@ where
                     // U+000C FORM FEED (FF)
                     // U+0020 SPACE
                     // Ignore the character.
-                    Some(c) if is_spacy(c) => {
+                    Some(c) if is_whitespace(c) => {
                         self.append_raw_to_doctype_token(c);
                     }
                     // U+0022 QUOTATION MARK (")
@@ -2636,7 +2793,7 @@ where
                     // U+000C FORM FEED (FF)
                     // U+0020 SPACE
                     // Switch to the between DOCTYPE public and system identifiers state.
-                    Some(c) if is_spacy(c) => {
+                    Some(c) if is_whitespace(c) => {
                         self.append_raw_to_doctype_token(c);
                         self.state = State::BetweenDoctypePublicAndSystemIdentifiers;
                     }
@@ -2697,7 +2854,7 @@ where
                     // U+000C FORM FEED (FF)
                     // U+0020 SPACE
                     // Ignore the character.
-                    Some(c) if is_spacy(c) => {
+                    Some(c) if is_whitespace(c) => {
                         self.append_raw_to_doctype_token(c);
                     }
                     // U+003E GREATER-THAN SIGN (>)
@@ -2822,7 +2979,7 @@ where
                     // U+000C FORM FEED (FF)
                     // U+0020 SPACE
                     // Ignore the character.
-                    Some(c) if is_spacy(c) => {
+                    Some(c) if is_whitespace(c) => {
                         self.append_raw_to_doctype_token(c);
                     }
                     // U+003E GREATER-THAN SIGN (>)
@@ -2922,18 +3079,12 @@ where
     }
 }
 
-// By spec '\r` removed before tokenizer, but we keep them to have better AST
-// and don't break logic to ignore characters
-#[inline(always)]
-fn is_spacy(c: char) -> bool {
-    matches!(c, '\x09' | '\x0a' | '\x0c' | '\x0d' | '\x20')
-}
+// S ::=
+// 	(#x20 | #x9 | #xD | #xA)+
 
-// By spec '\r` removed before tokenizer, but we keep them to have better AST
-// and don't break logic to ignore characters
 #[inline(always)]
-fn is_spacy_except_ff(c: char) -> bool {
-    matches!(c, '\x09' | '\x0c' | '\x0d' | '\x20')
+fn is_whitespace(c: char) -> bool {
+    matches!(c, '\x20' | '\x09' | '\x0d' | '\x0a')
 }
 
 #[inline(always)]

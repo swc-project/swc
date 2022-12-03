@@ -2,7 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 264,
+    "end": 606,
     "ctxt": 0
   },
   "children": [
@@ -17,10 +17,20 @@
       "data": "version=\"1.0\" encoding=\"UTF-8\""
     },
     {
-      "type": "Element",
+      "type": "Comment",
       "span": {
         "start": 40,
-        "end": 262,
+        "end": 59,
+        "ctxt": 0
+      },
+      "data": " My Comment ",
+      "raw": "<!-- My Comment -->"
+    },
+    {
+      "type": "Element",
+      "span": {
+        "start": 60,
+        "end": 604,
         "ctxt": 0
       },
       "tagName": "root",
@@ -29,8 +39,8 @@
         {
           "type": "Text",
           "span": {
-            "start": 46,
-            "end": 51,
+            "start": 66,
+            "end": 71,
             "ctxt": 0
           },
           "data": "\n    ",
@@ -39,8 +49,8 @@
         {
           "type": "Comment",
           "span": {
-            "start": 51,
-            "end": 65,
+            "start": 71,
+            "end": 85,
             "ctxt": 0
           },
           "data": "comment",
@@ -49,8 +59,8 @@
         {
           "type": "Text",
           "span": {
-            "start": 65,
-            "end": 70,
+            "start": 85,
+            "end": 90,
             "ctxt": 0
           },
           "data": "\n    ",
@@ -59,8 +69,8 @@
         {
           "type": "Comment",
           "span": {
-            "start": 70,
-            "end": 83,
+            "start": 90,
+            "end": 103,
             "ctxt": 0
           },
           "data": "<head>",
@@ -69,8 +79,8 @@
         {
           "type": "Text",
           "span": {
-            "start": 83,
-            "end": 88,
+            "start": 103,
+            "end": 108,
             "ctxt": 0
           },
           "data": "\n    ",
@@ -79,8 +89,8 @@
         {
           "type": "Comment",
           "span": {
-            "start": 88,
-            "end": 99,
+            "start": 108,
+            "end": 119,
             "ctxt": 0
           },
           "data": "<!-x",
@@ -89,8 +99,8 @@
         {
           "type": "Text",
           "span": {
-            "start": 99,
-            "end": 104,
+            "start": 119,
+            "end": 124,
             "ctxt": 0
           },
           "data": "\n    ",
@@ -99,8 +109,8 @@
         {
           "type": "Comment",
           "span": {
-            "start": 104,
-            "end": 114,
+            "start": 124,
+            "end": 134,
             "ctxt": 0
           },
           "data": "<!x",
@@ -109,8 +119,8 @@
         {
           "type": "Text",
           "span": {
-            "start": 114,
-            "end": 119,
+            "start": 134,
+            "end": 139,
             "ctxt": 0
           },
           "data": "\n    ",
@@ -119,8 +129,8 @@
         {
           "type": "Comment",
           "span": {
-            "start": 119,
-            "end": 130,
+            "start": 139,
+            "end": 150,
             "ctxt": 0
           },
           "data": "<<!x",
@@ -129,8 +139,8 @@
         {
           "type": "Text",
           "span": {
-            "start": 130,
-            "end": 135,
+            "start": 150,
+            "end": 155,
             "ctxt": 0
           },
           "data": "\n    ",
@@ -139,8 +149,8 @@
         {
           "type": "Comment",
           "span": {
-            "start": 135,
-            "end": 147,
+            "start": 155,
+            "end": 167,
             "ctxt": 0
           },
           "data": "<<!-x",
@@ -149,8 +159,8 @@
         {
           "type": "Text",
           "span": {
-            "start": 147,
-            "end": 152,
+            "start": 167,
+            "end": 172,
             "ctxt": 0
           },
           "data": "\n    ",
@@ -159,8 +169,8 @@
         {
           "type": "Comment",
           "span": {
-            "start": 152,
-            "end": 161,
+            "start": 172,
+            "end": 181,
             "ctxt": 0
           },
           "data": "<x",
@@ -169,8 +179,8 @@
         {
           "type": "Text",
           "span": {
-            "start": 161,
-            "end": 166,
+            "start": 181,
+            "end": 186,
             "ctxt": 0
           },
           "data": "\n    ",
@@ -179,8 +189,8 @@
         {
           "type": "Comment",
           "span": {
-            "start": 166,
-            "end": 175,
+            "start": 186,
+            "end": 195,
             "ctxt": 0
           },
           "data": "<>",
@@ -189,8 +199,8 @@
         {
           "type": "Text",
           "span": {
-            "start": 175,
-            "end": 180,
+            "start": 195,
+            "end": 200,
             "ctxt": 0
           },
           "data": "\n    ",
@@ -199,8 +209,8 @@
         {
           "type": "Comment",
           "span": {
-            "start": 180,
-            "end": 188,
+            "start": 200,
+            "end": 208,
             "ctxt": 0
           },
           "data": "<",
@@ -209,8 +219,8 @@
         {
           "type": "Text",
           "span": {
-            "start": 188,
-            "end": 193,
+            "start": 208,
+            "end": 213,
             "ctxt": 0
           },
           "data": "\n    ",
@@ -219,8 +229,8 @@
         {
           "type": "Comment",
           "span": {
-            "start": 193,
-            "end": 202,
+            "start": 213,
+            "end": 222,
             "ctxt": 0
           },
           "data": "<!",
@@ -229,8 +239,8 @@
         {
           "type": "Text",
           "span": {
-            "start": 202,
-            "end": 207,
+            "start": 222,
+            "end": 227,
             "ctxt": 0
           },
           "data": "\n    ",
@@ -239,8 +249,8 @@
         {
           "type": "Comment",
           "span": {
-            "start": 207,
-            "end": 214,
+            "start": 227,
+            "end": 234,
             "ctxt": 0
           },
           "data": "",
@@ -249,8 +259,8 @@
         {
           "type": "Text",
           "span": {
-            "start": 214,
-            "end": 219,
+            "start": 234,
+            "end": 239,
             "ctxt": 0
           },
           "data": "\n    ",
@@ -259,8 +269,8 @@
         {
           "type": "Comment",
           "span": {
-            "start": 219,
-            "end": 232,
+            "start": 239,
+            "end": 252,
             "ctxt": 0
           },
           "data": "-a->-a",
@@ -269,8 +279,8 @@
         {
           "type": "Text",
           "span": {
-            "start": 232,
-            "end": 237,
+            "start": 252,
+            "end": 257,
             "ctxt": 0
           },
           "data": "\n    ",
@@ -279,8 +289,8 @@
         {
           "type": "Comment",
           "span": {
-            "start": 237,
-            "end": 254,
+            "start": 257,
+            "end": 274,
             "ctxt": 0
           },
           "data": "-<!-test->",
@@ -289,8 +299,206 @@
         {
           "type": "Text",
           "span": {
-            "start": 254,
-            "end": 255,
+            "start": 274,
+            "end": 279,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 279,
+            "end": 429,
+            "ctxt": 0
+          },
+          "tagName": "DocumentElement",
+          "attributes": [
+            {
+              "type": "Attribute",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "namespace": null,
+              "prefix": null,
+              "name": "myAttribute",
+              "rawName": "myAttribute",
+              "value": "myAttributeValue",
+              "rawValue": "\"myAttributeValue\""
+            }
+          ],
+          "children": [
+            {
+              "type": "Text",
+              "span": {
+                "start": 327,
+                "end": 336,
+                "ctxt": 0
+              },
+              "data": "\n        ",
+              "raw": "\n        "
+            },
+            {
+              "type": "Comment",
+              "span": {
+                "start": 336,
+                "end": 355,
+                "ctxt": 0
+              },
+              "data": " My Comment ",
+              "raw": "<!-- My Comment -->"
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 355,
+                "end": 364,
+                "ctxt": 0
+              },
+              "data": "\n        ",
+              "raw": "\n        "
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 364,
+                "end": 406,
+                "ctxt": 0
+              },
+              "tagName": "ChildElement",
+              "attributes": [],
+              "children": [
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 378,
+                    "end": 391,
+                    "ctxt": 0
+                  },
+                  "data": "Element Value",
+                  "raw": "Element Value"
+                }
+              ]
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 406,
+                "end": 411,
+                "ctxt": 0
+              },
+              "data": "\n    ",
+              "raw": "\n    "
+            }
+          ]
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 429,
+            "end": 434,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 434,
+            "end": 596,
+            "ctxt": 0
+          },
+          "tagName": "DocumentElement",
+          "attributes": [
+            {
+              "type": "Attribute",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "namespace": null,
+              "prefix": null,
+              "name": "myAttribute",
+              "rawName": "myAttribute",
+              "value": "my Attribute Value",
+              "rawValue": "\"my Attribute Value\""
+            }
+          ],
+          "children": [
+            {
+              "type": "Text",
+              "span": {
+                "start": 484,
+                "end": 493,
+                "ctxt": 0
+              },
+              "data": "\n        ",
+              "raw": "\n        "
+            },
+            {
+              "type": "Element",
+              "span": {
+                "start": 493,
+                "end": 573,
+                "ctxt": 0
+              },
+              "tagName": "ChildElement",
+              "attributes": [],
+              "children": [
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 507,
+                    "end": 524,
+                    "ctxt": 0
+                  },
+                  "data": "\n        Element ",
+                  "raw": "\n        Element "
+                },
+                {
+                  "type": "Comment",
+                  "span": {
+                    "start": 524,
+                    "end": 543,
+                    "ctxt": 0
+                  },
+                  "data": " My Comment ",
+                  "raw": "<!-- My Comment -->"
+                },
+                {
+                  "type": "Text",
+                  "span": {
+                    "start": 543,
+                    "end": 558,
+                    "ctxt": 0
+                  },
+                  "data": " Value\n        ",
+                  "raw": " Value\n        "
+                }
+              ]
+            },
+            {
+              "type": "Text",
+              "span": {
+                "start": 573,
+                "end": 578,
+                "ctxt": 0
+              },
+              "data": "\n    ",
+              "raw": "\n    "
+            }
+          ]
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 596,
+            "end": 597,
             "ctxt": 0
           },
           "data": "\n",

@@ -1,0 +1,98 @@
+| <root>
+|   "
+    "
+|   <foo>
+|     a="b"
+|   "
+    "
+|   <foo>
+|     a="test"
+|     "test"
+|   "
+    "
+|   <foo>
+|     a=""test1""
+|     b="'test2'"
+|   "
+    "
+|   <foo>
+|     a=""test1""
+|     b="'test2'"
+|     "test"
+|   "
+    "
+|   <foo>
+|     foo:a="test"
+|     "test"
+|   "
+    "
+|   <foo>
+|     bar:b="'test2'"
+|     foo:a=""test1""
+|     "test"
+|   "
+    "
+|   <foo>
+|     a="test1"
+|   "
+    "
+|   <foo>
+|     foo=""
+|   "
+    "
+|   <foo>
+|     foo="'"
+|   "
+    "
+|   <foo>
+|     foo=""
+|   "
+    "
+|   <foo>
+|     foo="""
+|   "
+    "
+|   <MyElement>
+|     myAttribute="attribute value"
+|   "
+    "
+|   <MyElement>
+|     myAttribute="attribute
+    value"
+|   "
+    "
+|   <MyElement>
+|     myAttribute2="attribute value"
+|     nsA:myAttribute1="attribute value"
+|     "..."
+|   "
+    "
+|   <foo>
+|     attributeName="He said "OK""
+|   "
+    "
+|   <foo>
+|     attributeName="He said <OK<"
+|   "
+    "
+|   <foo>
+|     attributeName="He said >OK>"
+|   "
+    "
+|   <foo>
+|     attributeName="He said >OK>"
+|   "
+    "
+|   <foo>
+|     attributeName="He said 'OK'"
+|   "
+    "
+|   <foo>
+|     attributeName="He said &OK&"
+|   "
+    "
+|   <foo>
+|     a="b"
+|     c="d"
+|   "
+"

@@ -1,11 +1,11 @@
+<?xml-stylesheet type="text/xsl" href="/Content/Glossary/main.xsl">
 | <root>
 |   "
     "
 <?xslt ma>
 |   "
     "
-<?xslt
- m>
+<?xslt m>
 |   "
     "
 <?xslt >

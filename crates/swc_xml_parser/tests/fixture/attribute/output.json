@@ -1,0 +1,913 @@
+{
+  "type": "Document",
+  "span": {
+    "start": 1,
+    "end": 900,
+    "ctxt": 0
+  },
+  "children": [
+    {
+      "type": "Element",
+      "span": {
+        "start": 1,
+        "end": 900,
+        "ctxt": 0
+      },
+      "tagName": "root",
+      "attributes": [],
+      "children": [
+        {
+          "type": "Text",
+          "span": {
+            "start": 7,
+            "end": 12,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 12,
+            "end": 24,
+            "ctxt": 0
+          },
+          "tagName": "foo",
+          "attributes": [
+            {
+              "type": "Attribute",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "namespace": null,
+              "prefix": null,
+              "name": "a",
+              "rawName": "a",
+              "value": "b",
+              "rawValue": "'b'"
+            }
+          ],
+          "children": []
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 24,
+            "end": 29,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 29,
+            "end": 53,
+            "ctxt": 0
+          },
+          "tagName": "foo",
+          "attributes": [
+            {
+              "type": "Attribute",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "namespace": null,
+              "prefix": null,
+              "name": "a",
+              "rawName": "a",
+              "value": "test",
+              "rawValue": "\"test\""
+            }
+          ],
+          "children": [
+            {
+              "type": "Text",
+              "span": {
+                "start": 43,
+                "end": 47,
+                "ctxt": 0
+              },
+              "data": "test",
+              "raw": "test"
+            }
+          ]
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 53,
+            "end": 58,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 58,
+            "end": 88,
+            "ctxt": 0
+          },
+          "tagName": "foo",
+          "attributes": [
+            {
+              "type": "Attribute",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "namespace": null,
+              "prefix": null,
+              "name": "a",
+              "rawName": "a",
+              "value": "\"test1\"",
+              "rawValue": "'\"test1\"'"
+            },
+            {
+              "type": "Attribute",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "namespace": null,
+              "prefix": null,
+              "name": "b",
+              "rawName": "b",
+              "value": "'test2'",
+              "rawValue": "\"'test2'\""
+            }
+          ],
+          "children": []
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 88,
+            "end": 93,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 93,
+            "end": 132,
+            "ctxt": 0
+          },
+          "tagName": "foo",
+          "attributes": [
+            {
+              "type": "Attribute",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "namespace": null,
+              "prefix": null,
+              "name": "a",
+              "rawName": "a",
+              "value": "\"test1\"",
+              "rawValue": "'\"test1\"'"
+            },
+            {
+              "type": "Attribute",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "namespace": null,
+              "prefix": null,
+              "name": "b",
+              "rawName": "b",
+              "value": "'test2'",
+              "rawValue": "\"'test2'\""
+            }
+          ],
+          "children": [
+            {
+              "type": "Text",
+              "span": {
+                "start": 122,
+                "end": 126,
+                "ctxt": 0
+              },
+              "data": "test",
+              "raw": "test"
+            }
+          ]
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 132,
+            "end": 137,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 137,
+            "end": 165,
+            "ctxt": 0
+          },
+          "tagName": "foo",
+          "attributes": [
+            {
+              "type": "Attribute",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "namespace": null,
+              "prefix": null,
+              "name": "foo:a",
+              "rawName": "foo:a",
+              "value": "test",
+              "rawValue": "\"test\""
+            }
+          ],
+          "children": [
+            {
+              "type": "Text",
+              "span": {
+                "start": 155,
+                "end": 159,
+                "ctxt": 0
+              },
+              "data": "test",
+              "raw": "test"
+            }
+          ]
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 165,
+            "end": 170,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 170,
+            "end": 217,
+            "ctxt": 0
+          },
+          "tagName": "foo",
+          "attributes": [
+            {
+              "type": "Attribute",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "namespace": null,
+              "prefix": null,
+              "name": "foo:a",
+              "rawName": "foo:a",
+              "value": "\"test1\"",
+              "rawValue": "'\"test1\"'"
+            },
+            {
+              "type": "Attribute",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "namespace": null,
+              "prefix": null,
+              "name": "bar:b",
+              "rawName": "bar:b",
+              "value": "'test2'",
+              "rawValue": "\"'test2'\""
+            }
+          ],
+          "children": [
+            {
+              "type": "Text",
+              "span": {
+                "start": 207,
+                "end": 211,
+                "ctxt": 0
+              },
+              "data": "test",
+              "raw": "test"
+            }
+          ]
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 217,
+            "end": 222,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 222,
+            "end": 252,
+            "ctxt": 0
+          },
+          "tagName": "foo",
+          "attributes": [
+            {
+              "type": "Attribute",
+              "span": {
+                "start": 229,
+                "end": 230,
+                "ctxt": 0
+              },
+              "namespace": null,
+              "prefix": null,
+              "name": "a",
+              "rawName": "a",
+              "value": "test1",
+              "rawValue": "'test1'"
+            }
+          ],
+          "children": []
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 252,
+            "end": 257,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 257,
+            "end": 275,
+            "ctxt": 0
+          },
+          "tagName": "foo",
+          "attributes": [
+            {
+              "type": "Attribute",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "namespace": null,
+              "prefix": null,
+              "name": "foo",
+              "rawName": "foo",
+              "value": "",
+              "rawValue": "\"\""
+            }
+          ],
+          "children": []
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 275,
+            "end": 280,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 280,
+            "end": 299,
+            "ctxt": 0
+          },
+          "tagName": "foo",
+          "attributes": [
+            {
+              "type": "Attribute",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "namespace": null,
+              "prefix": null,
+              "name": "foo",
+              "rawName": "foo",
+              "value": "'",
+              "rawValue": "\"'\""
+            }
+          ],
+          "children": []
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 299,
+            "end": 304,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 304,
+            "end": 322,
+            "ctxt": 0
+          },
+          "tagName": "foo",
+          "attributes": [
+            {
+              "type": "Attribute",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "namespace": null,
+              "prefix": null,
+              "name": "foo",
+              "rawName": "foo",
+              "value": "",
+              "rawValue": "''"
+            }
+          ],
+          "children": []
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 322,
+            "end": 327,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 327,
+            "end": 346,
+            "ctxt": 0
+          },
+          "tagName": "foo",
+          "attributes": [
+            {
+              "type": "Attribute",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "namespace": null,
+              "prefix": null,
+              "name": "foo",
+              "rawName": "foo",
+              "value": "\"",
+              "rawValue": "'\"'"
+            }
+          ],
+          "children": []
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 346,
+            "end": 351,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 351,
+            "end": 393,
+            "ctxt": 0
+          },
+          "tagName": "MyElement",
+          "attributes": [
+            {
+              "type": "Attribute",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "namespace": null,
+              "prefix": null,
+              "name": "myAttribute",
+              "rawName": "myAttribute",
+              "value": "attribute value",
+              "rawValue": "\"attribute value\""
+            }
+          ],
+          "children": []
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 393,
+            "end": 398,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 398,
+            "end": 444,
+            "ctxt": 0
+          },
+          "tagName": "MyElement",
+          "attributes": [
+            {
+              "type": "Attribute",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "namespace": null,
+              "prefix": null,
+              "name": "myAttribute",
+              "rawName": "myAttribute",
+              "value": "attribute\n    value",
+              "rawValue": "\"attribute\n    value\""
+            }
+          ],
+          "children": []
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 444,
+            "end": 449,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 449,
+            "end": 541,
+            "ctxt": 0
+          },
+          "tagName": "MyElement",
+          "attributes": [
+            {
+              "type": "Attribute",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "namespace": null,
+              "prefix": null,
+              "name": "nsA:myAttribute1",
+              "rawName": "nsA:myAttribute1",
+              "value": "attribute value",
+              "rawValue": "\"attribute value\""
+            },
+            {
+              "type": "Attribute",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "namespace": null,
+              "prefix": null,
+              "name": "myAttribute2",
+              "rawName": "myAttribute2",
+              "value": "attribute value",
+              "rawValue": "\"attribute value\""
+            }
+          ],
+          "children": [
+            {
+              "type": "Text",
+              "span": {
+                "start": 526,
+                "end": 529,
+                "ctxt": 0
+              },
+              "data": "...",
+              "raw": "..."
+            }
+          ]
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 541,
+            "end": 546,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 546,
+            "end": 596,
+            "ctxt": 0
+          },
+          "tagName": "foo",
+          "attributes": [
+            {
+              "type": "Attribute",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "namespace": null,
+              "prefix": null,
+              "name": "attributeName",
+              "rawName": "attributeName",
+              "value": "He said \"OK\"",
+              "rawValue": "\"He said &quot;OK&quot;\""
+            }
+          ],
+          "children": []
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 596,
+            "end": 601,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 601,
+            "end": 647,
+            "ctxt": 0
+          },
+          "tagName": "foo",
+          "attributes": [
+            {
+              "type": "Attribute",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "namespace": null,
+              "prefix": null,
+              "name": "attributeName",
+              "rawName": "attributeName",
+              "value": "He said <OK<",
+              "rawValue": "\"He said &lt;OK&lt;\""
+            }
+          ],
+          "children": []
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 647,
+            "end": 652,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 652,
+            "end": 698,
+            "ctxt": 0
+          },
+          "tagName": "foo",
+          "attributes": [
+            {
+              "type": "Attribute",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "namespace": null,
+              "prefix": null,
+              "name": "attributeName",
+              "rawName": "attributeName",
+              "value": "He said >OK>",
+              "rawValue": "\"He said &gt;OK&gt;\""
+            }
+          ],
+          "children": []
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 698,
+            "end": 703,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 703,
+            "end": 743,
+            "ctxt": 0
+          },
+          "tagName": "foo",
+          "attributes": [
+            {
+              "type": "Attribute",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "namespace": null,
+              "prefix": null,
+              "name": "attributeName",
+              "rawName": "attributeName",
+              "value": "He said >OK>",
+              "rawValue": "\"He said >OK>\""
+            }
+          ],
+          "children": []
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 743,
+            "end": 748,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 748,
+            "end": 798,
+            "ctxt": 0
+          },
+          "tagName": "foo",
+          "attributes": [
+            {
+              "type": "Attribute",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "namespace": null,
+              "prefix": null,
+              "name": "attributeName",
+              "rawName": "attributeName",
+              "value": "He said 'OK'",
+              "rawValue": "\"He said &apos;OK&apos;\""
+            }
+          ],
+          "children": []
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 798,
+            "end": 803,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 803,
+            "end": 851,
+            "ctxt": 0
+          },
+          "tagName": "foo",
+          "attributes": [
+            {
+              "type": "Attribute",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "namespace": null,
+              "prefix": null,
+              "name": "attributeName",
+              "rawName": "attributeName",
+              "value": "He said &OK&",
+              "rawValue": "\"He said &amp;OK&amp;\""
+            }
+          ],
+          "children": []
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 851,
+            "end": 856,
+            "ctxt": 0
+          },
+          "data": "\n    ",
+          "raw": "\n    "
+        },
+        {
+          "type": "Element",
+          "span": {
+            "start": 856,
+            "end": 892,
+            "ctxt": 0
+          },
+          "tagName": "foo",
+          "attributes": [
+            {
+              "type": "Attribute",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "namespace": null,
+              "prefix": null,
+              "name": "a",
+              "rawName": "a",
+              "value": "b",
+              "rawValue": "\"b\""
+            },
+            {
+              "type": "Attribute",
+              "span": {
+                "start": 0,
+                "end": 0,
+                "ctxt": 0
+              },
+              "namespace": null,
+              "prefix": null,
+              "name": "c",
+              "rawName": "c",
+              "value": "d",
+              "rawValue": "\"d\""
+            }
+          ],
+          "children": []
+        },
+        {
+          "type": "Text",
+          "span": {
+            "start": 892,
+            "end": 893,
+            "ctxt": 0
+          },
+          "data": "\n",
+          "raw": "\n"
+        }
+      ]
+    }
+  ]
+}
