@@ -19,6 +19,9 @@
 
 - **(xml/parser)** Fix parsing of legacy document types (#6555) ([cdf0d8a](https://github.com/swc-project/swc/commit/cdf0d8a8b59a05498b6ca609d8a2ecf3c2f35f28))
 
+
+- **(xml/parser)** Fix various bugs (#6566) ([01232f0](https://github.com/swc-project/swc/commit/01232f09883de34eb3eb94d364f9bd2a3b985703))
+
 ### Features
 
 
