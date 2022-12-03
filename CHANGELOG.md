@@ -44,6 +44,9 @@
 
 
 
+- **(common)** Cleanup source_map.rs (#6570) ([b3ea52f](https://github.com/swc-project/swc/commit/b3ea52f8637998721f6762f93f486892f7676993))
+
+
 - **(xml/parser)** Simplify logic for parsing elements (#6557) ([85a03e7](https://github.com/swc-project/swc/commit/85a03e71b7fe98d6f4f7c3fd0e49ce862130dfcc))
 
 ### Testing
