@@ -17,9 +17,7 @@
 //! within the SourceMap, which upon request can be converted to line and column
 //! information, source code snippets, etc.
 use std::{
-    cmp,
-    cmp::{max, min},
-    env, fs,
+    cmp, env, fs,
     hash::Hash,
     io,
     path::{Path, PathBuf},
@@ -295,8 +293,7 @@ impl SourceMap {
                 );
 
                 let linechpos = self.bytepos_to_file_charpos_with(&f, linebpos);
-
-                let col = max(chpos, linechpos) - min(chpos, linechpos);
+                let col = chpos - linechpos;
 
                 let col_display = {
                     let start_width_idx = f
@@ -954,7 +951,7 @@ impl SourceMap {
     }
 
     fn bytepos_to_file_charpos_with(&self, map: &SourceFile, bpos: BytePos) -> CharPos {
-        let total_extra_bytes = self.calc_extra_bytes(map, &mut 0, &mut 0, bpos);
+        let total_extra_bytes = self.calc_utf16_offset(map, &mut 0, &mut 0, bpos);
         assert!(
             map.start_pos.to_u32() + total_extra_bytes <= bpos.to_u32(),
             "map.start_pos = {:?}; total_extra_bytes = {}; bpos = {:?}",
@@ -966,7 +963,7 @@ impl SourceMap {
     }
 
     /// Converts an absolute BytePos to a CharPos relative to the source_file.
-    fn calc_extra_bytes(
+    pub fn calc_utf16_offset(
         &self,
         map: &SourceFile,
         prev_total_extra_bytes: &mut u32,
@@ -975,13 +972,18 @@ impl SourceMap {
     ) -> u32 {
         // The number of extra bytes due to multibyte chars in the SourceFile
         let mut total_extra_bytes = *prev_total_extra_bytes;
+        let mut i = *start;
 
-        for (i, &mbc) in map.multibyte_chars[*start..].iter().enumerate() {
+        for &mbc in map.multibyte_chars[i..].iter() {
             debug!("{}-byte char at {:?}", mbc.bytes, mbc.pos);
             if mbc.pos < bpos {
-                // every character is at least one byte, so we only
-                // count the actual extra bytes.
-                total_extra_bytes += mbc.bytes as u32 - 1;
+                // 1, 2, and 3 UTF-8 bytes maps to 1 UTF-16 char, but 4 UTF-8
+                // bytes maps to 2.
+                total_extra_bytes += if mbc.bytes == 4 {
+                    2
+                } else {
+                    mbc.bytes as u32 - 1
+                };
                 // We should never see a byte position in the middle of a
                 // character
                 debug_assert!(
@@ -991,13 +993,14 @@ impl SourceMap {
                     mbc.pos,
                     mbc.bytes
                 );
+                i += 1;
             } else {
-                *start += i;
                 break;
             }
         }
 
         *prev_total_extra_bytes = total_extra_bytes;
+        *start = i;
 
         total_extra_bytes
     }
@@ -1197,6 +1200,9 @@ impl SourceMap {
         let mut line_ch_start = 0;
         let mut inline_sources_content = false;
 
+        let mut prev_bpos = BytePos(0);
+        let mut prev_linebpos = BytePos(0);
+
         for (pos, lc) in mappings.iter() {
             let pos = *pos;
 
@@ -1235,6 +1241,9 @@ impl SourceMap {
                     line_prev_extra_bytes = 0;
                     line_ch_start = 0;
 
+                    prev_bpos = BytePos(0);
+                    prev_linebpos = BytePos(0);
+
                     cur_file = Some(f.clone());
                     &f
                 }
@@ -1253,7 +1262,6 @@ impl SourceMap {
                 Some(line) => line as u32,
                 None => continue,
             };
-            let mut name = config.name_for_bytepos(pos);
 
             let linebpos = f.lines[line as usize];
             debug_assert!(
@@ -1263,18 +1271,43 @@ impl SourceMap {
                 pos,
                 linebpos,
             );
-            let chpos =
-                pos.to_u32() - self.calc_extra_bytes(f, &mut prev_extra_bytes, &mut ch_start, pos);
+            // TODO: mappings really should be ordered, but it's not.
+            // debug_assert!(line >= prev_line);
+            if linebpos < prev_linebpos {
+                line_prev_extra_bytes = 0;
+                line_ch_start = 0;
+            }
+            prev_linebpos = linebpos;
+
             let linechpos = linebpos.to_u32()
-                - self.calc_extra_bytes(
+                - self.calc_utf16_offset(
                     f,
                     &mut line_prev_extra_bytes,
                     &mut line_ch_start,
                     linebpos,
                 );
 
-            let mut col = max(chpos, linechpos) - min(chpos, linechpos);
+            // TODO: mappings really should be ordered, but it's not.
+            // debug_assert(pos >= prev_bpos);
+            if pos < prev_bpos {
+                prev_extra_bytes = line_prev_extra_bytes;
+                ch_start = line_ch_start;
+            }
+            prev_bpos = pos;
 
+            let chpos =
+                pos.to_u32() - self.calc_utf16_offset(f, &mut prev_extra_bytes, &mut ch_start, pos);
+
+            debug_assert!(
+                chpos >= linechpos,
+                "{}: chpos = {:?}; linechpos = {:?};",
+                f.name,
+                chpos,
+                linechpos,
+            );
+
+            let mut col = chpos - linechpos;
+            let mut name = None;
             if let Some(orig) = &orig {
                 if let Some(token) = orig
                     .lookup_token(line, col)
@@ -1298,7 +1331,9 @@ impl SourceMap {
                 }
             }
 
-            let name_idx = name.map(|name| builder.add_name(name));
+            let name_idx = name
+                .or_else(|| config.name_for_bytepos(pos))
+                .map(|name| builder.add_name(name));
 
             builder.add_raw(lc.line, lc.col, line, col, Some(src_id), name_idx);
             prev_dst_line = lc.line;
@@ -1651,6 +1686,45 @@ mod tests {
         let span2 = span_from_selection(inputtext, selection2);
 
         assert!(sm.merge_spans(span1, span2).is_none());
+    }
+
+    #[test]
+    fn calc_utf16_offset() {
+        let input = "t¢e∆s💩t";
+        let sm = SourceMap::new(FilePathMapping::empty());
+        let file = sm.new_source_file(PathBuf::from("blork.rs").into(), input.to_string());
+
+        let mut prev_extra_bytes = 0_u32;
+        let mut start = 0;
+        let mut bpos = file.start_pos;
+        let mut cpos = CharPos(bpos.to_usize());
+        for c in input.chars() {
+            let actual = bpos.to_u32()
+                - sm.calc_utf16_offset(&file, &mut prev_extra_bytes, &mut start, bpos);
+
+            assert_eq!(actual, cpos.to_u32());
+
+            bpos = bpos + BytePos(c.len_utf8() as u32);
+            cpos = cpos + CharPos(c.len_utf16());
+        }
+    }
+
+    #[test]
+    fn bytepos_to_charpos() {
+        let input = "t¢e∆s💩t";
+        let sm = SourceMap::new(FilePathMapping::empty());
+        let file = sm.new_source_file(PathBuf::from("blork.rs").into(), input.to_string());
+
+        let mut bpos = file.start_pos;
+        let mut cpos = CharPos(0);
+        for c in input.chars() {
+            let actual = sm.bytepos_to_file_charpos_with(&file, bpos);
+
+            assert_eq!(actual, cpos);
+
+            bpos = bpos + BytePos(c.len_utf8() as u32);
+            cpos = cpos + CharPos(c.len_utf16());
+        }
     }
 
     /// Returns the span corresponding to the `n`th occurrence of

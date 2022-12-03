@@ -4,6 +4,7 @@ use rayon::prelude::*;
 use serde::{de::DeserializeOwned, Serialize};
 use swc_common::{
     comments::{CommentKind, Comments},
+    source_map::Pos,
     sync::Lrc,
     BytePos, SourceFile, SourceMap, Span,
 };
@@ -43,18 +44,19 @@ impl Context {
         // We rename this to feel more comfortable while doing math.
         let start_offset = self.fm.start_pos;
 
-        let mut start = span.lo.0 - start_offset.0;
-        let mut end = span.hi.0 - start_offset.0;
+        let mut prev_extra_bytes = 0;
+        let mut ch_start = 0;
 
-        for mb in self.fm.multibyte_chars.iter() {
-            if mb.pos < span.lo {
-                start -= (mb.bytes - 1) as u32;
-            }
-
-            if mb.pos < span.hi {
-                end -= (mb.bytes - 1) as u32;
-            }
-        }
+        let start = span.lo.to_u32()
+            - start_offset.to_u32()
+            - self
+                .cm
+                .calc_utf16_offset(&self.fm, &mut prev_extra_bytes, &mut ch_start, span.lo);
+        let end = span.hi.to_u32()
+            - start_offset.to_u32()
+            - self
+                .cm
+                .calc_utf16_offset(&self.fm, &mut prev_extra_bytes, &mut ch_start, span.hi);
 
         (Some(start), Some(end))
     }
