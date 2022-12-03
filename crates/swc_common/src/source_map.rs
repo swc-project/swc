@@ -1249,17 +1249,13 @@ impl SourceMap {
                 continue;
             }
 
-            let a = match f.lookup_line(pos) {
+            let mut line = match f.lookup_line(pos) {
                 Some(line) => line as u32,
                 None => continue,
             };
-
             let mut name = config.name_for_bytepos(pos);
-            let mut name_idx = None;
 
-            let mut line = a;
-
-            let linebpos = f.lines[a as usize];
+            let linebpos = f.lines[line as usize];
             debug_assert!(
                 pos >= linebpos,
                 "{}: bpos = {:?}; linebpos = {:?};",
@@ -1302,9 +1298,7 @@ impl SourceMap {
                 }
             }
 
-            if let Some(name) = name {
-                name_idx = Some(builder.add_name(name))
-            }
+            let name_idx = name.map(|name| builder.add_name(name));
 
             builder.add_raw(lc.line, lc.col, line, col, Some(src_id), name_idx);
             prev_dst_line = lc.line;

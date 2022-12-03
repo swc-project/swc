@@ -26,6 +26,9 @@
 - **(css/plugin)** Prepare Wasm plugins (#6567) ([8cdc28c](https://github.com/swc-project/swc/commit/8cdc28cdfa17f1773bdd30c2187c79e1db0a3ffe))
 
 
+- **(css/plugin)** Support Wasm plugin (#6568) ([fa8f7b0](https://github.com/swc-project/swc/commit/fa8f7b00fc458c4ee2a74b431fb9004f67e54dde))
+
+
 - **(html/parser)** Improve lexer (#6543) ([49b7e9e](https://github.com/swc-project/swc/commit/49b7e9e224c36346a8fe5ccbec623ae76f0cc79d))
 
 ### Miscellaneous Tasks
@@ -39,6 +42,9 @@
 
 ### Refactor
 
+
+
+- **(common)** Cleanup source_map.rs (#6570) ([b3ea52f](https://github.com/swc-project/swc/commit/b3ea52f8637998721f6762f93f486892f7676993))
 
 
 - **(xml/parser)** Simplify logic for parsing elements (#6557) ([85a03e7](https://github.com/swc-project/swc/commit/85a03e71b7fe98d6f4f7c3fd0e49ce862130dfcc))
