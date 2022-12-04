@@ -35,7 +35,7 @@
    :          ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :          ^
@@ -65,7 +65,7 @@
    :            ^^^^^^^^^^^^^^^^^^^
    `----
 
-  x Ident { value: Atom('transition-property' type=dynamic), raw: "transition-property" }
+  x Ident(IdentToken { value: Atom('transition-property' type=dynamic), raw: "transition-property" })
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :            ^^^^^^^^^^^^^^^^^^^
@@ -89,7 +89,7 @@
    :                                ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                ^
@@ -101,7 +101,7 @@
    :                                 ^^^^^
    `----
 
-  x Ident { value: Atom('color' type=static), raw: "color" }
+  x Ident(IdentToken { value: Atom('color' type=static), raw: "color" })
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                 ^^^^^
@@ -113,7 +113,7 @@
    :                                       ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                       ^
@@ -125,7 +125,7 @@
    :                                        ^^
    `----
 
-  x Ident { value: Atom('or' type=static), raw: "or" }
+  x Ident(IdentToken { value: Atom('or' type=static), raw: "or" })
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                        ^^
@@ -137,7 +137,7 @@
    :                                          ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                          ^
@@ -167,7 +167,7 @@
    :                                            ^^^^^^^^^^^^^^
    `----
 
-  x Ident { value: Atom('animation-name' type=static), raw: "animation-name" }
+  x Ident(IdentToken { value: Atom('animation-name' type=static), raw: "animation-name" })
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                            ^^^^^^^^^^^^^^
@@ -191,7 +191,7 @@
    :                                                           ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                                           ^
@@ -203,7 +203,7 @@
    :                                                            ^^^
    `----
 
-  x Ident { value: Atom('foo' type=inline), raw: "foo" }
+  x Ident(IdentToken { value: Atom('foo' type=inline), raw: "foo" })
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                                            ^^^
@@ -215,7 +215,7 @@
    :                                                                ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                                                ^
@@ -227,7 +227,7 @@
    :                                                                 ^^^
    `----
 
-  x Ident { value: Atom('and' type=static), raw: "and" }
+  x Ident(IdentToken { value: Atom('and' type=static), raw: "and" })
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                                                 ^^^
@@ -239,7 +239,7 @@
    :                                                                    ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                                                    ^
@@ -269,7 +269,7 @@
    :                                                                      ^^^^^^^^^
    `----
 
-  x Ident { value: Atom('transform' type=static), raw: "transform" }
+  x Ident(IdentToken { value: Atom('transform' type=static), raw: "transform" })
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                                                      ^^^^^^^^^
@@ -293,7 +293,7 @@
    :                                                                                ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                                                                ^
@@ -323,7 +323,7 @@
    :                                                                                        ^^^^^
    `----
 
-  x Dimension { value: 10.0, unit: Atom('deg' type=static), type_flag: Integer, raw: ("10", "deg") }
+  x Dimension(DimensionToken { value: 10.0, unit: Atom('deg' type=static), type_flag: Integer, raw: ("10", "deg") })
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                                                                        ^^^^^
@@ -335,7 +335,7 @@
    :                                                                                               ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                                                                               ^

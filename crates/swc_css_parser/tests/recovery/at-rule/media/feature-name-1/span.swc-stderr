@@ -35,7 +35,7 @@
    :       ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/media/feature-name-1/input.css:1:1]
  1 | @media (20px: 20px) {}
    :       ^
@@ -65,7 +65,7 @@
    :         ^^^^
    `----
 
-  x Dimension { value: 20.0, unit: Atom('px' type=static), type_flag: Integer, raw: ("20", "px") }
+  x Dimension(DimensionToken { value: 20.0, unit: Atom('px' type=static), type_flag: Integer, raw: ("20", "px") })
    ,-[$DIR/tests/recovery/at-rule/media/feature-name-1/input.css:1:1]
  1 | @media (20px: 20px) {}
    :         ^^^^
@@ -89,7 +89,7 @@
    :              ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/media/feature-name-1/input.css:1:1]
  1 | @media (20px: 20px) {}
    :              ^
@@ -101,7 +101,7 @@
    :               ^^^^
    `----
 
-  x Dimension { value: 20.0, unit: Atom('px' type=static), type_flag: Integer, raw: ("20", "px") }
+  x Dimension(DimensionToken { value: 20.0, unit: Atom('px' type=static), type_flag: Integer, raw: ("20", "px") })
    ,-[$DIR/tests/recovery/at-rule/media/feature-name-1/input.css:1:1]
  1 | @media (20px: 20px) {}
    :               ^^^^
@@ -113,7 +113,7 @@
    :                    ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/media/feature-name-1/input.css:1:1]
  1 | @media (20px: 20px) {}
    :                    ^

@@ -174,7 +174,7 @@
  5 |         margin: 1em;
    `----
 
-  x Ident { value: Atom('input' type=static), raw: "input" }
+  x Ident(IdentToken { value: Atom('input' type=static), raw: "input" })
    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-1/input.css:3:1]
  3 | 
  4 |     input {
@@ -190,7 +190,7 @@
  5 |         margin: 1em;
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-1/input.css:3:1]
  3 | 
  4 |     input {
@@ -232,7 +232,7 @@
  6 |         }
    `----
 
-  x WhiteSpace { value: "\n        " }
+  x WhiteSpace(WhiteSpaceToken { value: "\n        " })
    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-1/input.css:3:1]
  3 |     
  4 | ,->     input {
@@ -248,7 +248,7 @@
  6 |     }
    `----
 
-  x Ident { value: Atom('margin' type=static), raw: "margin" }
+  x Ident(IdentToken { value: Atom('margin' type=static), raw: "margin" })
    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-1/input.css:4:1]
  4 |     input {
  5 |         margin: 1em;
@@ -280,7 +280,7 @@
  6 |     }
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-1/input.css:4:1]
  4 |     input {
  5 |         margin: 1em;
@@ -296,7 +296,7 @@
  6 |     }
    `----
 
-  x Dimension { value: 1.0, unit: Atom('em' type=static), type_flag: Integer, raw: ("1", "em") }
+  x Dimension(DimensionToken { value: 1.0, unit: Atom('em' type=static), type_flag: Integer, raw: ("1", "em") })
    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-1/input.css:4:1]
  4 |     input {
  5 |         margin: 1em;
@@ -328,7 +328,7 @@
  7 |     }
    `----
 
-  x WhiteSpace { value: "\n    " }
+  x WhiteSpace(WhiteSpaceToken { value: "\n    " })
    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-1/input.css:4:1]
  4 |         input {
  5 | ,->         margin: 1em;
@@ -344,7 +344,7 @@
  7 | }
    `----
 
-  x WhiteSpace { value: "\n" }
+  x WhiteSpace(WhiteSpaceToken { value: "\n" })
    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-1/input.css:5:1]
  5 |         margin: 1em;
  6 |     }

@@ -159,7 +159,7 @@
  3 |         /* comment */:
    `----
 
-  x String { value: Atom('test' type=inline), raw: "\"test\"" }
+  x String(StringToken { value: Atom('test' type=inline), raw: "\"test\"" })
    ,-[$DIR/tests/recovery/comments/declaration/input.css:1:1]
  1 | a {
  2 |     prop: url("test") /* comment */   /* comment */
@@ -175,7 +175,7 @@
  3 |         /* comment */:
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/comments/declaration/input.css:1:1]
  1 | a {
  2 |     prop: url("test") /* comment */   /* comment */
@@ -191,7 +191,7 @@
  3 |         /* comment */:
    `----
 
-  x WhiteSpace { value: "   " }
+  x WhiteSpace(WhiteSpaceToken { value: "   " })
    ,-[$DIR/tests/recovery/comments/declaration/input.css:1:1]
  1 | a {
  2 |     prop: url("test") /* comment */   /* comment */
@@ -207,7 +207,7 @@
  4 |     }
    `----
 
-  x WhiteSpace { value: "\n        " }
+  x WhiteSpace(WhiteSpaceToken { value: "\n        " })
    ,-[$DIR/tests/recovery/comments/declaration/input.css:1:1]
  1 |     a {
  2 | ,->     prop: url("test") /* comment */   /* comment */

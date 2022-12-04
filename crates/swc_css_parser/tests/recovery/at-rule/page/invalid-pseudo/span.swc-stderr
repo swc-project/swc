@@ -41,7 +41,7 @@
  2 |     margin: 2cm;
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:1:1]
  1 | @page :unknown {
    :      ^
@@ -69,7 +69,7 @@
  2 |     margin: 2cm;
    `----
 
-  x Ident { value: Atom('unknown' type=static), raw: "unknown" }
+  x Ident(IdentToken { value: Atom('unknown' type=static), raw: "unknown" })
    ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:1:1]
  1 | @page :unknown {
    :        ^^^^^^^
@@ -83,7 +83,7 @@
  2 |     margin: 2cm;
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:1:1]
  1 | @page :unknown {
    :               ^

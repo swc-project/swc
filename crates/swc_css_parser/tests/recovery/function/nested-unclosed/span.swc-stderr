@@ -155,7 +155,7 @@
  3 | }
    `----
 
-  x String { value: Atom('test' type=inline), raw: "\"test\"" }
+  x String(StringToken { value: Atom('test' type=inline), raw: "\"test\"" })
    ,-[$DIR/tests/recovery/function/nested-unclosed/input.css:1:1]
  1 | a {
  2 |     prop: url("test") :
@@ -171,7 +171,7 @@
  3 | }
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/function/nested-unclosed/input.css:1:1]
  1 | a {
  2 |     prop: url("test") :

@@ -41,7 +41,7 @@
    :  ^^^^
    `----
 
-  x Ident { value: Atom('href' type=static), raw: "href" }
+  x Ident(IdentToken { value: Atom('href' type=static), raw: "href" })
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-1/input.css:1:1]
  1 | [href=] {}
    :  ^^^^
@@ -53,7 +53,7 @@
    :      ^
    `----
 
-  x Delim { value: '=' }
+  x Delim(DelimToken { value: '=' })
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-1/input.css:1:1]
  1 | [href=] {}
    :      ^
@@ -65,7 +65,7 @@
    :        ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-1/input.css:1:1]
  1 | [href=] {}
    :        ^

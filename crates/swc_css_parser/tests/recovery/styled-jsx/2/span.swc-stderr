@@ -104,7 +104,7 @@
  2 |     flex-basis: __styled-jsx-placeholder__0%;
    `----
 
-  x Delim { value: '>' }
+  x Delim(DelimToken { value: '>' })
    ,-[$DIR/tests/recovery/styled-jsx/2/input.css:1:1]
  1 | .a :global(> .b) {
    :            ^
@@ -118,7 +118,7 @@
  2 |     flex-basis: __styled-jsx-placeholder__0%;
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/styled-jsx/2/input.css:1:1]
  1 | .a :global(> .b) {
    :             ^
@@ -132,7 +132,7 @@
  2 |     flex-basis: __styled-jsx-placeholder__0%;
    `----
 
-  x Delim { value: '.' }
+  x Delim(DelimToken { value: '.' })
    ,-[$DIR/tests/recovery/styled-jsx/2/input.css:1:1]
  1 | .a :global(> .b) {
    :              ^
@@ -146,7 +146,7 @@
  2 |     flex-basis: __styled-jsx-placeholder__0%;
    `----
 
-  x Ident { value: Atom('b' type=static), raw: "b" }
+  x Ident(IdentToken { value: Atom('b' type=static), raw: "b" })
    ,-[$DIR/tests/recovery/styled-jsx/2/input.css:1:1]
  1 | .a :global(> .b) {
    :               ^
@@ -215,7 +215,7 @@
  3 | }
    `----
 
-  x Ident { value: Atom('__styled-jsx-placeholder__0' type=dynamic), raw: "__styled-jsx-placeholder__0" }
+  x Ident(IdentToken { value: Atom('__styled-jsx-placeholder__0' type=dynamic), raw: "__styled-jsx-placeholder__0" })
    ,-[$DIR/tests/recovery/styled-jsx/2/input.css:1:1]
  1 | .a :global(> .b) {
  2 |     flex-basis: __styled-jsx-placeholder__0%;
@@ -231,7 +231,7 @@
  3 | }
    `----
 
-  x Delim { value: '%' }
+  x Delim(DelimToken { value: '%' })
    ,-[$DIR/tests/recovery/styled-jsx/2/input.css:1:1]
  1 | .a :global(> .b) {
  2 |     flex-basis: __styled-jsx-placeholder__0%;

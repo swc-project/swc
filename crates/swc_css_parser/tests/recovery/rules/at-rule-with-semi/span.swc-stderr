@@ -77,7 +77,7 @@
  3 |     a { color: red }
    `----
 
-  x WhiteSpace { value: "\n\n" }
+  x WhiteSpace(WhiteSpaceToken { value: "\n\n" })
    ,-[$DIR/tests/recovery/rules/at-rule-with-semi/input.css:1:1]
  1 | ,-> @media {};
  2 | `-> 
@@ -91,7 +91,7 @@
    : ^
    `----
 
-  x Ident { value: Atom('a' type=static), raw: "a" }
+  x Ident(IdentToken { value: Atom('a' type=static), raw: "a" })
    ,-[$DIR/tests/recovery/rules/at-rule-with-semi/input.css:2:1]
  2 | 
  3 | a { color: red }
@@ -105,7 +105,7 @@
    :  ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/rules/at-rule-with-semi/input.css:2:1]
  2 | 
  3 | a { color: red }

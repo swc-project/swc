@@ -43,7 +43,7 @@
  2 | @keyframes inherit {}
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-css-wide-keywords/input.css:1:1]
  1 | @keyframes initial {}
    :           ^
@@ -57,7 +57,7 @@
  2 | @keyframes inherit {}
    `----
 
-  x Ident { value: Atom('initial' type=static), raw: "initial" }
+  x Ident(IdentToken { value: Atom('initial' type=static), raw: "initial" })
    ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-css-wide-keywords/input.css:1:1]
  1 | @keyframes initial {}
    :            ^^^^^^^
@@ -71,7 +71,7 @@
  2 | @keyframes inherit {}
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-css-wide-keywords/input.css:1:1]
  1 | @keyframes initial {}
    :                   ^
@@ -132,7 +132,7 @@
  3 | @keyframes unset {}
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-css-wide-keywords/input.css:1:1]
  1 | @keyframes initial {}
  2 | @keyframes inherit {}
@@ -148,7 +148,7 @@
  3 | @keyframes unset {}
    `----
 
-  x Ident { value: Atom('inherit' type=static), raw: "inherit" }
+  x Ident(IdentToken { value: Atom('inherit' type=static), raw: "inherit" })
    ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-css-wide-keywords/input.css:1:1]
  1 | @keyframes initial {}
  2 | @keyframes inherit {}
@@ -164,7 +164,7 @@
  3 | @keyframes unset {}
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-css-wide-keywords/input.css:1:1]
  1 | @keyframes initial {}
  2 | @keyframes inherit {}
@@ -228,7 +228,7 @@
  4 | @keyframes none {}
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-css-wide-keywords/input.css:2:1]
  2 | @keyframes inherit {}
  3 | @keyframes unset {}
@@ -244,7 +244,7 @@
  4 | @keyframes none {}
    `----
 
-  x Ident { value: Atom('unset' type=static), raw: "unset" }
+  x Ident(IdentToken { value: Atom('unset' type=static), raw: "unset" })
    ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-css-wide-keywords/input.css:2:1]
  2 | @keyframes inherit {}
  3 | @keyframes unset {}
@@ -260,7 +260,7 @@
  4 | @keyframes none {}
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-css-wide-keywords/input.css:2:1]
  2 | @keyframes inherit {}
  3 | @keyframes unset {}
@@ -324,7 +324,7 @@
  5 | @keyframes iNiTiAl {}
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-css-wide-keywords/input.css:3:1]
  3 | @keyframes unset {}
  4 | @keyframes none {}
@@ -340,7 +340,7 @@
  5 | @keyframes iNiTiAl {}
    `----
 
-  x Ident { value: Atom('none' type=static), raw: "none" }
+  x Ident(IdentToken { value: Atom('none' type=static), raw: "none" })
    ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-css-wide-keywords/input.css:3:1]
  3 | @keyframes unset {}
  4 | @keyframes none {}
@@ -356,7 +356,7 @@
  5 | @keyframes iNiTiAl {}
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-css-wide-keywords/input.css:3:1]
  3 | @keyframes unset {}
  4 | @keyframes none {}
@@ -415,7 +415,7 @@
    :           ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-css-wide-keywords/input.css:4:1]
  4 | @keyframes none {}
  5 | @keyframes iNiTiAl {}
@@ -429,7 +429,7 @@
    :            ^^^^^^^
    `----
 
-  x Ident { value: Atom('iNiTiAl' type=inline), raw: "iNiTiAl" }
+  x Ident(IdentToken { value: Atom('iNiTiAl' type=inline), raw: "iNiTiAl" })
    ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-css-wide-keywords/input.css:4:1]
  4 | @keyframes none {}
  5 | @keyframes iNiTiAl {}
@@ -443,7 +443,7 @@
    :                   ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-css-wide-keywords/input.css:4:1]
  4 | @keyframes none {}
  5 | @keyframes iNiTiAl {}

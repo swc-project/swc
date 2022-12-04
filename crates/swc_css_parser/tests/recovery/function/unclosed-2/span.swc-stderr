@@ -143,7 +143,7 @@
  3 | }
    `----
 
-  x Number { value: 4.0, raw: "4", type_flag: Integer }
+  x Number(NumberToken { value: 4.0, raw: "4", type_flag: Integer })
    ,-[$DIR/tests/recovery/function/unclosed-2/input.css:1:1]
  1 | .style {
  2 | 	grid-template-columns: repeat(4, [col-start] 12px
@@ -175,7 +175,7 @@
  3 | }
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/function/unclosed-2/input.css:1:1]
  1 | .style {
  2 | 	grid-template-columns: repeat(4, [col-start] 12px
@@ -215,7 +215,7 @@
  3 | }
    `----
 
-  x Ident { value: Atom('col-start' type=dynamic), raw: "col-start" }
+  x Ident(IdentToken { value: Atom('col-start' type=dynamic), raw: "col-start" })
    ,-[$DIR/tests/recovery/function/unclosed-2/input.css:1:1]
  1 | .style {
  2 | 	grid-template-columns: repeat(4, [col-start] 12px
@@ -231,7 +231,7 @@
  3 | }
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/function/unclosed-2/input.css:1:1]
  1 | .style {
  2 | 	grid-template-columns: repeat(4, [col-start] 12px
@@ -247,7 +247,7 @@
  3 | }
    `----
 
-  x Dimension { value: 12.0, unit: Atom('px' type=static), type_flag: Integer, raw: ("12", "px") }
+  x Dimension(DimensionToken { value: 12.0, unit: Atom('px' type=static), type_flag: Integer, raw: ("12", "px") })
    ,-[$DIR/tests/recovery/function/unclosed-2/input.css:1:1]
  1 | .style {
  2 | 	grid-template-columns: repeat(4, [col-start] 12px
@@ -263,7 +263,7 @@
  3 | }
    `----
 
-  x WhiteSpace { value: "\n" }
+  x WhiteSpace(WhiteSpaceToken { value: "\n" })
    ,-[$DIR/tests/recovery/function/unclosed-2/input.css:1:1]
  1 | .style {
  2 | 	grid-template-columns: repeat(4, [col-start] 12px
@@ -292,7 +292,7 @@
    :  ^
    `----
 
-  x WhiteSpace { value: "\n" }
+  x WhiteSpace(WhiteSpaceToken { value: "\n" })
    ,-[$DIR/tests/recovery/function/unclosed-2/input.css:2:1]
  2 | 	grid-template-columns: repeat(4, [col-start] 12px
  3 | }

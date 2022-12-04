@@ -344,7 +344,7 @@
    :         ^^^^^
    `----
 
-  x Ident { value: Atom('value' type=inline), raw: "value" }
+  x Ident(IdentToken { value: Atom('value' type=inline), raw: "value" })
    ,-[$DIR/tests/fixture/value/custom-property/input.css:1:1]
  1 | :root {
  2 |     ---:value;
@@ -399,7 +399,7 @@
  5 |     --important1: value!important;
    `----
 
-  x Ident { value: Atom('value' type=inline), raw: "value" }
+  x Ident(IdentToken { value: Atom('value' type=inline), raw: "value" })
    ,-[$DIR/tests/fixture/value/custom-property/input.css:3:1]
  3 | 
  4 |     --important:value!important;
@@ -471,7 +471,7 @@
  6 |     --important2: value !important;
    `----
 
-  x Ident { value: Atom('value' type=inline), raw: "value" }
+  x Ident(IdentToken { value: Atom('value' type=inline), raw: "value" })
    ,-[$DIR/tests/fixture/value/custom-property/input.css:4:1]
  4 |     --important:value!important;
  5 |     --important1: value!important;
@@ -543,7 +543,7 @@
  7 |     --important3:value !important;
    `----
 
-  x Ident { value: Atom('value' type=inline), raw: "value" }
+  x Ident(IdentToken { value: Atom('value' type=inline), raw: "value" })
    ,-[$DIR/tests/fixture/value/custom-property/input.css:5:1]
  5 |     --important1: value!important;
  6 |     --important2: value !important;
@@ -615,7 +615,7 @@
  8 |     --important4: calc(1)!important;
    `----
 
-  x Ident { value: Atom('value' type=inline), raw: "value" }
+  x Ident(IdentToken { value: Atom('value' type=inline), raw: "value" })
    ,-[$DIR/tests/fixture/value/custom-property/input.css:6:1]
  6 |     --important2: value !important;
  7 |     --important3:value !important;
@@ -702,7 +702,7 @@
    :                        ^
    `----
 
-  x Number { value: 1.0, raw: "1", type_flag: Integer }
+  x Number(NumberToken { value: 1.0, raw: "1", type_flag: Integer })
    ,-[$DIR/tests/fixture/value/custom-property/input.css:7:1]
  7 |     --important3:value !important;
  8 |     --important4: calc(1)!important;
@@ -998,7 +998,7 @@
  17 |     --number: 1;
     `----
 
-  x Ident { value: Atom('ident' type=inline), raw: "ident" }
+  x Ident(IdentToken { value: Atom('ident' type=inline), raw: "ident" })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:15:1]
  15 | 
  16 |     --no-whitespace:ident;
@@ -1054,7 +1054,7 @@
  18 |     --unit: 100vw;
     `----
 
-  x Number { value: 1.0, raw: "1", type_flag: Integer }
+  x Number(NumberToken { value: 1.0, raw: "1", type_flag: Integer })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:16:1]
  16 |     --no-whitespace:ident;
  17 |     --number: 1;
@@ -1110,7 +1110,7 @@
  19 |     --color: #06c;
     `----
 
-  x Dimension { value: 100.0, unit: Atom('vw' type=static), type_flag: Integer, raw: ("100", "vw") }
+  x Dimension(DimensionToken { value: 100.0, unit: Atom('vw' type=static), type_flag: Integer, raw: ("100", "vw") })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:17:1]
  17 |     --number: 1;
  18 |     --unit: 100vw;
@@ -1160,7 +1160,7 @@
     :              ^^^^
     `----
 
-  x Hash { is_id: false, value: Atom('06c' type=inline), raw: "06c" }
+  x Hash(HashToken { is_id: false, value: Atom('06c' type=inline), raw: "06c" })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:18:1]
  18 |     --unit: 100vw;
  19 |     --color: #06c;
@@ -1239,7 +1239,7 @@
  22 |     --variable: var(--unit);
     `----
 
-  x Number { value: 1.0, raw: "1", type_flag: Integer }
+  x Number(NumberToken { value: 1.0, raw: "1", type_flag: Integer })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:20:1]
  20 | 
  21 |     --function: calc(1 + 1);
@@ -1255,7 +1255,7 @@
  22 |     --variable: var(--unit);
     `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:20:1]
  20 | 
  21 |     --function: calc(1 + 1);
@@ -1271,7 +1271,7 @@
  22 |     --variable: var(--unit);
     `----
 
-  x Delim { value: '+' }
+  x Delim(DelimToken { value: '+' })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:20:1]
  20 | 
  21 |     --function: calc(1 + 1);
@@ -1287,7 +1287,7 @@
  22 |     --variable: var(--unit);
     `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:20:1]
  20 | 
  21 |     --function: calc(1 + 1);
@@ -1303,7 +1303,7 @@
  22 |     --variable: var(--unit);
     `----
 
-  x Number { value: 1.0, raw: "1", type_flag: Integer }
+  x Number(NumberToken { value: 1.0, raw: "1", type_flag: Integer })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:20:1]
  20 | 
  21 |     --function: calc(1 + 1);
@@ -1374,7 +1374,7 @@
     :                     ^^^^^^
     `----
 
-  x Ident { value: Atom('--unit' type=inline), raw: "--unit" }
+  x Ident(IdentToken { value: Atom('--unit' type=inline), raw: "--unit" })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:21:1]
  21 |     --function: calc(1 + 1);
  22 |     --variable: var(--unit);
@@ -1429,7 +1429,7 @@
  25 |     --string: "double quoted string";
     `----
 
-  x String { value: Atom('single quoted string' type=dynamic), raw: "'single quoted string'" }
+  x String(StringToken { value: Atom('single quoted string' type=dynamic), raw: "'single quoted string'" })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:23:1]
  23 | 
  24 |     --string: 'single quoted string';
@@ -1479,7 +1479,7 @@
     :               ^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x String { value: Atom('double quoted string' type=dynamic), raw: "\"double quoted string\"" }
+  x String(StringToken { value: Atom('double quoted string' type=dynamic), raw: "\"double quoted string\"" })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:24:1]
  24 |     --string: 'single quoted string';
  25 |     --string: "double quoted string";
@@ -1558,7 +1558,7 @@
  28 |     --square-block1: [];
     `----
 
-  x Number { value: 1.0, raw: "1", type_flag: Integer }
+  x Number(NumberToken { value: 1.0, raw: "1", type_flag: Integer })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:26:1]
  26 | 
  27 |     --square-block: [1, 2, 3];
@@ -1590,7 +1590,7 @@
  28 |     --square-block1: [];
     `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:26:1]
  26 | 
  27 |     --square-block: [1, 2, 3];
@@ -1606,7 +1606,7 @@
  28 |     --square-block1: [];
     `----
 
-  x Number { value: 2.0, raw: "2", type_flag: Integer }
+  x Number(NumberToken { value: 2.0, raw: "2", type_flag: Integer })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:26:1]
  26 | 
  27 |     --square-block: [1, 2, 3];
@@ -1638,7 +1638,7 @@
  28 |     --square-block1: [];
     `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:26:1]
  26 | 
  27 |     --square-block: [1, 2, 3];
@@ -1654,7 +1654,7 @@
  28 |     --square-block1: [];
     `----
 
-  x Number { value: 3.0, raw: "3", type_flag: Integer }
+  x Number(NumberToken { value: 3.0, raw: "3", type_flag: Integer })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:26:1]
  26 | 
  27 |     --square-block: [1, 2, 3];
@@ -1862,7 +1862,7 @@
  31 |     --round-block1: ();
     `----
 
-  x Number { value: 1.0, raw: "1", type_flag: Integer }
+  x Number(NumberToken { value: 1.0, raw: "1", type_flag: Integer })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:29:1]
  29 |     --square-block2:[];
  30 |     --round-block: (1, 2, 3);
@@ -1894,7 +1894,7 @@
  31 |     --round-block1: ();
     `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:29:1]
  29 |     --square-block2:[];
  30 |     --round-block: (1, 2, 3);
@@ -1910,7 +1910,7 @@
  31 |     --round-block1: ();
     `----
 
-  x Number { value: 2.0, raw: "2", type_flag: Integer }
+  x Number(NumberToken { value: 2.0, raw: "2", type_flag: Integer })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:29:1]
  29 |     --square-block2:[];
  30 |     --round-block: (1, 2, 3);
@@ -1942,7 +1942,7 @@
  31 |     --round-block1: ();
     `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:29:1]
  29 |     --square-block2:[];
  30 |     --round-block: (1, 2, 3);
@@ -1958,7 +1958,7 @@
  31 |     --round-block1: ();
     `----
 
-  x Number { value: 3.0, raw: "3", type_flag: Integer }
+  x Number(NumberToken { value: 3.0, raw: "3", type_flag: Integer })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:29:1]
  29 |     --square-block2:[];
  30 |     --round-block: (1, 2, 3);
@@ -2166,7 +2166,7 @@
  34 |     --bracket-block1: {};
     `----
 
-  x Number { value: 1.0, raw: "1", type_flag: Integer }
+  x Number(NumberToken { value: 1.0, raw: "1", type_flag: Integer })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:32:1]
  32 |     --round-block2:();
  33 |     --bracket-block: {1, 2, 3};
@@ -2198,7 +2198,7 @@
  34 |     --bracket-block1: {};
     `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:32:1]
  32 |     --round-block2:();
  33 |     --bracket-block: {1, 2, 3};
@@ -2214,7 +2214,7 @@
  34 |     --bracket-block1: {};
     `----
 
-  x Number { value: 2.0, raw: "2", type_flag: Integer }
+  x Number(NumberToken { value: 2.0, raw: "2", type_flag: Integer })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:32:1]
  32 |     --round-block2:();
  33 |     --bracket-block: {1, 2, 3};
@@ -2246,7 +2246,7 @@
  34 |     --bracket-block1: {};
     `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:32:1]
  32 |     --round-block2:();
  33 |     --bracket-block: {1, 2, 3};
@@ -2262,7 +2262,7 @@
  34 |     --bracket-block1: {};
     `----
 
-  x Number { value: 3.0, raw: "3", type_flag: Integer }
+  x Number(NumberToken { value: 3.0, raw: "3", type_flag: Integer })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:32:1]
  32 |     --round-block2:();
  33 |     --bracket-block: {1, 2, 3};
@@ -2462,7 +2462,7 @@
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
 
-  x Number { value: 1.0, raw: "1", type_flag: Integer }
+  x Number(NumberToken { value: 1.0, raw: "1", type_flag: Integer })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
@@ -2494,7 +2494,7 @@
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
@@ -2510,7 +2510,7 @@
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
 
-  x String { value: Atom('2' type=inline), raw: "\"2\"" }
+  x String(StringToken { value: Atom('2' type=inline), raw: "\"2\"" })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
@@ -2542,7 +2542,7 @@
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
@@ -2582,7 +2582,7 @@
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
 
-  x String { value: Atom('three' type=inline), raw: "\"three\"" }
+  x String(StringToken { value: Atom('three' type=inline), raw: "\"three\"" })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
@@ -2614,7 +2614,7 @@
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
@@ -2654,7 +2654,7 @@
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
 
-  x String { value: Atom('a' type=static), raw: "\"a\"" }
+  x String(StringToken { value: Atom('a' type=static), raw: "\"a\"" })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
@@ -2686,7 +2686,7 @@
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
 
-  x Number { value: 1.0, raw: "1", type_flag: Integer }
+  x Number(NumberToken { value: 1.0, raw: "1", type_flag: Integer })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
@@ -2718,7 +2718,7 @@
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
@@ -2758,7 +2758,7 @@
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
 
-  x Number { value: 4.0, raw: "4", type_flag: Integer }
+  x Number(NumberToken { value: 4.0, raw: "4", type_flag: Integer })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
@@ -2829,7 +2829,7 @@
     :                            ^^^^
     `----
 
-  x Ident { value: Atom('rule' type=inline), raw: "rule" }
+  x Ident(IdentToken { value: Atom('rule' type=inline), raw: "rule" })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
  39 |     --javascript: function(rule) { console.log(rule) };
@@ -2843,7 +2843,7 @@
     :                                 ^
     `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
  39 |     --javascript: function(rule) { console.log(rule) };
@@ -2878,7 +2878,7 @@
     :                                   ^
     `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
  39 |     --javascript: function(rule) { console.log(rule) };
@@ -2892,7 +2892,7 @@
     :                                    ^^^^^^^
     `----
 
-  x Ident { value: Atom('console' type=inline), raw: "console" }
+  x Ident(IdentToken { value: Atom('console' type=inline), raw: "console" })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
  39 |     --javascript: function(rule) { console.log(rule) };
@@ -2906,7 +2906,7 @@
     :                                           ^
     `----
 
-  x Delim { value: '.' }
+  x Delim(DelimToken { value: '.' })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
  39 |     --javascript: function(rule) { console.log(rule) };
@@ -2941,7 +2941,7 @@
     :                                                ^^^^
     `----
 
-  x Ident { value: Atom('rule' type=inline), raw: "rule" }
+  x Ident(IdentToken { value: Atom('rule' type=inline), raw: "rule" })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
  39 |     --javascript: function(rule) { console.log(rule) };
@@ -2955,7 +2955,7 @@
     :                                                     ^
     `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
  39 |     --javascript: function(rule) { console.log(rule) };
@@ -3539,7 +3539,7 @@
  46 |     --semicolon-not-top-level: (;);
     `----
 
-  x Delim { value: '!' }
+  x Delim(DelimToken { value: '!' })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
  45 |     --fake-important:{!important};
@@ -3555,7 +3555,7 @@
  46 |     --semicolon-not-top-level: (;);
     `----
 
-  x Ident { value: Atom('important' type=static), raw: "important" }
+  x Ident(IdentToken { value: Atom('important' type=static), raw: "important" })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
  45 |     --fake-important:{!important};
@@ -3715,7 +3715,7 @@
  48 |     --zero-size: {
     `----
 
-  x Delim { value: '!' }
+  x Delim(DelimToken { value: '!' })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:46:1]
  46 |     --semicolon-not-top-level: (;);
  47 |     --delim-not-top-level: (!);
@@ -3805,7 +3805,7 @@
  50 |             height: 0;
     `----
 
-  x WhiteSpace { value: "\n        " }
+  x WhiteSpace(WhiteSpaceToken { value: "\n        " })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:47:1]
  47 |         --delim-not-top-level: (!);
  48 | ,->     --zero-size: {
@@ -3821,7 +3821,7 @@
  50 |         height: 0;
     `----
 
-  x Ident { value: Atom('width' type=inline), raw: "width" }
+  x Ident(IdentToken { value: Atom('width' type=inline), raw: "width" })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:48:1]
  48 |     --zero-size: {
  49 |         width: 0;
@@ -3853,7 +3853,7 @@
  50 |         height: 0;
     `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:48:1]
  48 |     --zero-size: {
  49 |         width: 0;
@@ -3869,7 +3869,7 @@
  50 |         height: 0;
     `----
 
-  x Number { value: 0.0, raw: "0", type_flag: Integer }
+  x Number(NumberToken { value: 0.0, raw: "0", type_flag: Integer })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:48:1]
  48 |     --zero-size: {
  49 |         width: 0;
@@ -3901,7 +3901,7 @@
  51 |         };
     `----
 
-  x WhiteSpace { value: "\n        " }
+  x WhiteSpace(WhiteSpaceToken { value: "\n        " })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:48:1]
  48 |         --zero-size: {
  49 | ,->         width: 0;
@@ -3917,7 +3917,7 @@
  51 |     };
     `----
 
-  x Ident { value: Atom('height' type=inline), raw: "height" }
+  x Ident(IdentToken { value: Atom('height' type=inline), raw: "height" })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:49:1]
  49 |         width: 0;
  50 |         height: 0;
@@ -3949,7 +3949,7 @@
  51 |     };
     `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:49:1]
  49 |         width: 0;
  50 |         height: 0;
@@ -3965,7 +3965,7 @@
  51 |     };
     `----
 
-  x Number { value: 0.0, raw: "0", type_flag: Integer }
+  x Number(NumberToken { value: 0.0, raw: "0", type_flag: Integer })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:49:1]
  49 |         width: 0;
  50 |         height: 0;
@@ -3997,7 +3997,7 @@
  52 |         --small-icon: {
     `----
 
-  x WhiteSpace { value: "\n    " }
+  x WhiteSpace(WhiteSpaceToken { value: "\n    " })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:49:1]
  49 |             width: 0;
  50 | ,->         height: 0;
@@ -4090,7 +4090,7 @@
  54 |             height: 16px;
     `----
 
-  x WhiteSpace { value: "\n        " }
+  x WhiteSpace(WhiteSpaceToken { value: "\n        " })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:51:1]
  51 |         };
  52 | ,->     --small-icon: {
@@ -4106,7 +4106,7 @@
  54 |         height: 16px;
     `----
 
-  x Ident { value: Atom('width' type=inline), raw: "width" }
+  x Ident(IdentToken { value: Atom('width' type=inline), raw: "width" })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:52:1]
  52 |     --small-icon: {
  53 |         width: 16px;
@@ -4138,7 +4138,7 @@
  54 |         height: 16px;
     `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:52:1]
  52 |     --small-icon: {
  53 |         width: 16px;
@@ -4154,7 +4154,7 @@
  54 |         height: 16px;
     `----
 
-  x Dimension { value: 16.0, unit: Atom('px' type=static), type_flag: Integer, raw: ("16", "px") }
+  x Dimension(DimensionToken { value: 16.0, unit: Atom('px' type=static), type_flag: Integer, raw: ("16", "px") })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:52:1]
  52 |     --small-icon: {
  53 |         width: 16px;
@@ -4186,7 +4186,7 @@
  55 |         }
     `----
 
-  x WhiteSpace { value: "\n        " }
+  x WhiteSpace(WhiteSpaceToken { value: "\n        " })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:52:1]
  52 |         --small-icon: {
  53 | ,->         width: 16px;
@@ -4202,7 +4202,7 @@
  55 |     }
     `----
 
-  x Ident { value: Atom('height' type=inline), raw: "height" }
+  x Ident(IdentToken { value: Atom('height' type=inline), raw: "height" })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:53:1]
  53 |         width: 16px;
  54 |         height: 16px;
@@ -4234,7 +4234,7 @@
  55 |     }
     `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:53:1]
  53 |         width: 16px;
  54 |         height: 16px;
@@ -4250,7 +4250,7 @@
  55 |     }
     `----
 
-  x Dimension { value: 16.0, unit: Atom('px' type=static), type_flag: Integer, raw: ("16", "px") }
+  x Dimension(DimensionToken { value: 16.0, unit: Atom('px' type=static), type_flag: Integer, raw: ("16", "px") })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:53:1]
  53 |         width: 16px;
  54 |         height: 16px;
@@ -4282,7 +4282,7 @@
  56 |         ;
     `----
 
-  x WhiteSpace { value: "\n    " }
+  x WhiteSpace(WhiteSpaceToken { value: "\n    " })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:53:1]
  53 |             width: 16px;
  54 | ,->         height: 16px;
@@ -4418,7 +4418,7 @@
  60 | :root {--foo: }
     `----
 
-  x Number { value: 1.0, raw: "1", type_flag: Integer }
+  x Number(NumberToken { value: 1.0, raw: "1", type_flag: Integer })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:58:1]
  58 | 
  59 | :root{--a:1}
@@ -4794,7 +4794,7 @@
  67 | }
     `----
 
-  x Ident { value: Atom('value' type=inline), raw: "value" }
+  x Ident(IdentToken { value: Atom('value' type=inline), raw: "value" })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:65:1]
  65 | :root {
  66 |     --var:  value;

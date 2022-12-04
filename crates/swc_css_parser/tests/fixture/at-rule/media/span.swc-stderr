@@ -21363,7 +21363,7 @@
  143 | @media (height foo bar) {}
      `----
 
-  x Ident { value: Atom('height' type=inline), raw: "height" }
+  x Ident(IdentToken { value: Atom('height' type=inline), raw: "height" })
      ,-[$DIR/tests/fixture/at-rule/media/input.css:141:1]
  141 | 
  142 | @media (height << 600px) {}
@@ -21379,7 +21379,7 @@
  143 | @media (height foo bar) {}
      `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
      ,-[$DIR/tests/fixture/at-rule/media/input.css:141:1]
  141 | 
  142 | @media (height << 600px) {}
@@ -21395,7 +21395,7 @@
  143 | @media (height foo bar) {}
      `----
 
-  x Delim { value: '<' }
+  x Delim(DelimToken { value: '<' })
      ,-[$DIR/tests/fixture/at-rule/media/input.css:141:1]
  141 | 
  142 | @media (height << 600px) {}
@@ -21411,7 +21411,7 @@
  143 | @media (height foo bar) {}
      `----
 
-  x Delim { value: '<' }
+  x Delim(DelimToken { value: '<' })
      ,-[$DIR/tests/fixture/at-rule/media/input.css:141:1]
  141 | 
  142 | @media (height << 600px) {}
@@ -21427,7 +21427,7 @@
  143 | @media (height foo bar) {}
      `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
      ,-[$DIR/tests/fixture/at-rule/media/input.css:141:1]
  141 | 
  142 | @media (height << 600px) {}
@@ -21443,7 +21443,7 @@
  143 | @media (height foo bar) {}
      `----
 
-  x Dimension { value: 600.0, unit: Atom('px' type=static), type_flag: Integer, raw: ("600", "px") }
+  x Dimension(DimensionToken { value: 600.0, unit: Atom('px' type=static), type_flag: Integer, raw: ("600", "px") })
      ,-[$DIR/tests/fixture/at-rule/media/input.css:141:1]
  141 | 
  142 | @media (height << 600px) {}
@@ -21563,7 +21563,7 @@
  144 | @media (height foo("bar")) {}
      `----
 
-  x Ident { value: Atom('height' type=inline), raw: "height" }
+  x Ident(IdentToken { value: Atom('height' type=inline), raw: "height" })
      ,-[$DIR/tests/fixture/at-rule/media/input.css:142:1]
  142 | @media (height << 600px) {}
  143 | @media (height foo bar) {}
@@ -21579,7 +21579,7 @@
  144 | @media (height foo("bar")) {}
      `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
      ,-[$DIR/tests/fixture/at-rule/media/input.css:142:1]
  142 | @media (height << 600px) {}
  143 | @media (height foo bar) {}
@@ -21595,7 +21595,7 @@
  144 | @media (height foo("bar")) {}
      `----
 
-  x Ident { value: Atom('foo' type=inline), raw: "foo" }
+  x Ident(IdentToken { value: Atom('foo' type=inline), raw: "foo" })
      ,-[$DIR/tests/fixture/at-rule/media/input.css:142:1]
  142 | @media (height << 600px) {}
  143 | @media (height foo bar) {}
@@ -21611,7 +21611,7 @@
  144 | @media (height foo("bar")) {}
      `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
      ,-[$DIR/tests/fixture/at-rule/media/input.css:142:1]
  142 | @media (height << 600px) {}
  143 | @media (height foo bar) {}
@@ -21627,7 +21627,7 @@
  144 | @media (height foo("bar")) {}
      `----
 
-  x Ident { value: Atom('bar' type=inline), raw: "bar" }
+  x Ident(IdentToken { value: Atom('bar' type=inline), raw: "bar" })
      ,-[$DIR/tests/fixture/at-rule/media/input.css:142:1]
  142 | @media (height << 600px) {}
  143 | @media (height foo bar) {}
@@ -21747,7 +21747,7 @@
  145 | @media (height + 600px) {}
      `----
 
-  x Ident { value: Atom('height' type=inline), raw: "height" }
+  x Ident(IdentToken { value: Atom('height' type=inline), raw: "height" })
      ,-[$DIR/tests/fixture/at-rule/media/input.css:143:1]
  143 | @media (height foo bar) {}
  144 | @media (height foo("bar")) {}
@@ -21763,7 +21763,7 @@
  145 | @media (height + 600px) {}
      `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
      ,-[$DIR/tests/fixture/at-rule/media/input.css:143:1]
  143 | @media (height foo bar) {}
  144 | @media (height foo("bar")) {}
@@ -21803,7 +21803,7 @@
  145 | @media (height + 600px) {}
      `----
 
-  x String { value: Atom('bar' type=inline), raw: "\"bar\"" }
+  x String(StringToken { value: Atom('bar' type=inline), raw: "\"bar\"" })
      ,-[$DIR/tests/fixture/at-rule/media/input.css:143:1]
  143 | @media (height foo bar) {}
  144 | @media (height foo("bar")) {}
@@ -21923,7 +21923,7 @@
  146 | @media screen and (min-width: ) {}
      `----
 
-  x Ident { value: Atom('height' type=inline), raw: "height" }
+  x Ident(IdentToken { value: Atom('height' type=inline), raw: "height" })
      ,-[$DIR/tests/fixture/at-rule/media/input.css:144:1]
  144 | @media (height foo("bar")) {}
  145 | @media (height + 600px) {}
@@ -21939,7 +21939,7 @@
  146 | @media screen and (min-width: ) {}
      `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
      ,-[$DIR/tests/fixture/at-rule/media/input.css:144:1]
  144 | @media (height foo("bar")) {}
  145 | @media (height + 600px) {}
@@ -21955,7 +21955,7 @@
  146 | @media screen and (min-width: ) {}
      `----
 
-  x Delim { value: '+' }
+  x Delim(DelimToken { value: '+' })
      ,-[$DIR/tests/fixture/at-rule/media/input.css:144:1]
  144 | @media (height foo("bar")) {}
  145 | @media (height + 600px) {}
@@ -21971,7 +21971,7 @@
  146 | @media screen and (min-width: ) {}
      `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
      ,-[$DIR/tests/fixture/at-rule/media/input.css:144:1]
  144 | @media (height foo("bar")) {}
  145 | @media (height + 600px) {}
@@ -21987,7 +21987,7 @@
  146 | @media screen and (min-width: ) {}
      `----
 
-  x Dimension { value: 600.0, unit: Atom('px' type=static), type_flag: Integer, raw: ("600", "px") }
+  x Dimension(DimensionToken { value: 600.0, unit: Atom('px' type=static), type_flag: Integer, raw: ("600", "px") })
      ,-[$DIR/tests/fixture/at-rule/media/input.css:144:1]
  144 | @media (height foo("bar")) {}
  145 | @media (height + 600px) {}
@@ -22131,7 +22131,7 @@
  147 | @media (aspect-ratio: 12/) {}
      `----
 
-  x Ident { value: Atom('min-width' type=dynamic), raw: "min-width" }
+  x Ident(IdentToken { value: Atom('min-width' type=dynamic), raw: "min-width" })
      ,-[$DIR/tests/fixture/at-rule/media/input.css:145:1]
  145 | @media (height + 600px) {}
  146 | @media screen and (min-width: ) {}
@@ -22163,7 +22163,7 @@
  147 | @media (aspect-ratio: 12/) {}
      `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
      ,-[$DIR/tests/fixture/at-rule/media/input.css:145:1]
  145 | @media (height + 600px) {}
  146 | @media screen and (min-width: ) {}
@@ -22283,7 +22283,7 @@
  148 | @media func(100px) {}
      `----
 
-  x Ident { value: Atom('aspect-ratio' type=dynamic), raw: "aspect-ratio" }
+  x Ident(IdentToken { value: Atom('aspect-ratio' type=dynamic), raw: "aspect-ratio" })
      ,-[$DIR/tests/fixture/at-rule/media/input.css:146:1]
  146 | @media screen and (min-width: ) {}
  147 | @media (aspect-ratio: 12/) {}
@@ -22315,7 +22315,7 @@
  148 | @media func(100px) {}
      `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
      ,-[$DIR/tests/fixture/at-rule/media/input.css:146:1]
  146 | @media screen and (min-width: ) {}
  147 | @media (aspect-ratio: 12/) {}
@@ -22331,7 +22331,7 @@
  148 | @media func(100px) {}
      `----
 
-  x Number { value: 12.0, raw: "12", type_flag: Integer }
+  x Number(NumberToken { value: 12.0, raw: "12", type_flag: Integer })
      ,-[$DIR/tests/fixture/at-rule/media/input.css:146:1]
  146 | @media screen and (min-width: ) {}
  147 | @media (aspect-ratio: 12/) {}
@@ -22347,7 +22347,7 @@
  148 | @media func(100px) {}
      `----
 
-  x Delim { value: '/' }
+  x Delim(DelimToken { value: '/' })
      ,-[$DIR/tests/fixture/at-rule/media/input.css:146:1]
  146 | @media screen and (min-width: ) {}
  147 | @media (aspect-ratio: 12/) {}
@@ -22467,7 +22467,7 @@
  149 | @media screen and func(100px) {}
      `----
 
-  x Dimension { value: 100.0, unit: Atom('px' type=static), type_flag: Integer, raw: ("100", "px") }
+  x Dimension(DimensionToken { value: 100.0, unit: Atom('px' type=static), type_flag: Integer, raw: ("100", "px") })
      ,-[$DIR/tests/fixture/at-rule/media/input.css:147:1]
  147 | @media (aspect-ratio: 12/) {}
  148 | @media func(100px) {}
@@ -22611,7 +22611,7 @@
  150 | @media(min-width:calc(10px + 10px)) {}
      `----
 
-  x Dimension { value: 100.0, unit: Atom('px' type=static), type_flag: Integer, raw: ("100", "px") }
+  x Dimension(DimensionToken { value: 100.0, unit: Atom('px' type=static), type_flag: Integer, raw: ("100", "px") })
      ,-[$DIR/tests/fixture/at-rule/media/input.css:148:1]
  148 | @media func(100px) {}
  149 | @media screen and func(100px) {}

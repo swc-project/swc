@@ -35,7 +35,7 @@
    :       ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
  1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
    :       ^
@@ -47,7 +47,7 @@
    :        ^^^^^^
    `----
 
-  x Ident { value: Atom('screen' type=inline), raw: "screen" }
+  x Ident(IdentToken { value: Atom('screen' type=inline), raw: "screen" })
    ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
  1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
    :        ^^^^^^
@@ -59,7 +59,7 @@
    :              ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
  1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
    :              ^
@@ -71,7 +71,7 @@
    :               ^^^
    `----
 
-  x Ident { value: Atom('and' type=static), raw: "and" }
+  x Ident(IdentToken { value: Atom('and' type=static), raw: "and" })
    ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
  1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
    :               ^^^
@@ -83,7 +83,7 @@
    :                  ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
  1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
    :                  ^
@@ -113,7 +113,7 @@
    :                    ^^^^^^^^^
    `----
 
-  x Ident { value: Atom('min-width' type=dynamic), raw: "min-width" }
+  x Ident(IdentToken { value: Atom('min-width' type=dynamic), raw: "min-width" })
    ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
  1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
    :                    ^^^^^^^^^
@@ -137,7 +137,7 @@
    :                              ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
  1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
    :                              ^
@@ -149,7 +149,7 @@
    :                               ^^^^^
    `----
 
-  x Dimension { value: 900.0, unit: Atom('px' type=static), type_flag: Integer, raw: ("900", "px") }
+  x Dimension(DimensionToken { value: 900.0, unit: Atom('px' type=static), type_flag: Integer, raw: ("900", "px") })
    ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
  1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
    :                               ^^^^^
@@ -161,7 +161,7 @@
    :                                     ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
  1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
    :                                     ^
@@ -173,7 +173,7 @@
    :                                      ^^
    `----
 
-  x Ident { value: Atom('or' type=static), raw: "or" }
+  x Ident(IdentToken { value: Atom('or' type=static), raw: "or" })
    ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
  1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
    :                                      ^^
@@ -185,7 +185,7 @@
    :                                        ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
  1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
    :                                        ^
@@ -215,7 +215,7 @@
    :                                          ^^^^^^^^^
    `----
 
-  x Ident { value: Atom('min-width' type=dynamic), raw: "min-width" }
+  x Ident(IdentToken { value: Atom('min-width' type=dynamic), raw: "min-width" })
    ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
  1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
    :                                          ^^^^^^^^^
@@ -239,7 +239,7 @@
    :                                                    ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
  1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
    :                                                    ^
@@ -251,7 +251,7 @@
    :                                                     ^^^^^^
    `----
 
-  x Dimension { value: 1200.0, unit: Atom('px' type=static), type_flag: Integer, raw: ("1200", "px") }
+  x Dimension(DimensionToken { value: 1200.0, unit: Atom('px' type=static), type_flag: Integer, raw: ("1200", "px") })
    ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
  1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
    :                                                     ^^^^^^
@@ -263,7 +263,7 @@
    :                                                            ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
  1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
    :                                                            ^

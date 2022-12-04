@@ -44,7 +44,7 @@
  2 |     content: "foo";
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:1:1]
  1 | @top-left {
    :          ^
@@ -73,7 +73,7 @@
  3 |         color: blue;
    `----
 
-  x WhiteSpace { value: "\n    " }
+  x WhiteSpace(WhiteSpaceToken { value: "\n    " })
    ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:1:1]
  1 | ,-> @top-left {
  2 | `->     content: "foo";
@@ -88,7 +88,7 @@
  3 |     color: blue;
    `----
 
-  x Ident { value: Atom('content' type=static), raw: "content" }
+  x Ident(IdentToken { value: Atom('content' type=static), raw: "content" })
    ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:1:1]
  1 | @top-left {
  2 |     content: "foo";
@@ -120,7 +120,7 @@
  3 |     color: blue;
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:1:1]
  1 | @top-left {
  2 |     content: "foo";
@@ -136,7 +136,7 @@
  3 |     color: blue;
    `----
 
-  x String { value: Atom('foo' type=inline), raw: "\"foo\"" }
+  x String(StringToken { value: Atom('foo' type=inline), raw: "\"foo\"" })
    ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:1:1]
  1 | @top-left {
  2 |     content: "foo";
@@ -168,7 +168,7 @@
  4 |     }
    `----
 
-  x WhiteSpace { value: "\n    " }
+  x WhiteSpace(WhiteSpaceToken { value: "\n    " })
    ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:1:1]
  1 |     @top-left {
  2 | ,->     content: "foo";
@@ -184,7 +184,7 @@
  4 | }
    `----
 
-  x Ident { value: Atom('color' type=static), raw: "color" }
+  x Ident(IdentToken { value: Atom('color' type=static), raw: "color" })
    ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:2:1]
  2 |     content: "foo";
  3 |     color: blue;
@@ -216,7 +216,7 @@
  4 | }
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:2:1]
  2 |     content: "foo";
  3 |     color: blue;
@@ -232,7 +232,7 @@
  4 | }
    `----
 
-  x Ident { value: Atom('blue' type=inline), raw: "blue" }
+  x Ident(IdentToken { value: Atom('blue' type=inline), raw: "blue" })
    ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:2:1]
  2 |     content: "foo";
  3 |     color: blue;
@@ -264,7 +264,7 @@
  4 | }
    `----
 
-  x WhiteSpace { value: "\n" }
+  x WhiteSpace(WhiteSpaceToken { value: "\n" })
    ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:2:1]
  2 |     content: "foo";
  3 |     color: blue;

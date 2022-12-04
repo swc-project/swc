@@ -629,7 +629,7 @@
    :                   ^^^
    `----
 
-  x Percentage { value: 10.0, raw: "10" }
+  x Percentage(PercentageToken { value: 10.0, raw: "10" })
    ,-[$DIR/tests/fixture/function/calc/input.css:5:1]
  5 | div {
  6 |     --width: calc(10% + 30px);
@@ -643,7 +643,7 @@
    :                      ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/fixture/function/calc/input.css:5:1]
  5 | div {
  6 |     --width: calc(10% + 30px);
@@ -657,7 +657,7 @@
    :                       ^
    `----
 
-  x Delim { value: '+' }
+  x Delim(DelimToken { value: '+' })
    ,-[$DIR/tests/fixture/function/calc/input.css:5:1]
  5 | div {
  6 |     --width: calc(10% + 30px);
@@ -671,7 +671,7 @@
    :                        ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/fixture/function/calc/input.css:5:1]
  5 | div {
  6 |     --width: calc(10% + 30px);
@@ -685,7 +685,7 @@
    :                         ^^^^
    `----
 
-  x Dimension { value: 30.0, unit: Atom('px' type=static), type_flag: Integer, raw: ("30", "px") }
+  x Dimension(DimensionToken { value: 30.0, unit: Atom('px' type=static), type_flag: Integer, raw: ("30", "px") })
    ,-[$DIR/tests/fixture/function/calc/input.css:5:1]
  5 | div {
  6 |     --width: calc(10% + 30px);

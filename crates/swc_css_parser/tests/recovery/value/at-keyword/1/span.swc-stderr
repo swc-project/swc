@@ -107,7 +107,7 @@
    :            ^^^^^^
    `----
 
-  x AtKeyword { value: Atom('x,' type=inline), raw: "x\\2c " }
+  x AtKeyword(AtKeywordToken { value: Atom('x,' type=inline), raw: "x\\2c " })
    ,-[$DIR/tests/recovery/value/at-keyword/1/input.css:1:1]
  1 | a { value: @x\2c }
    :            ^^^^^^

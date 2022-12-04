@@ -131,7 +131,7 @@
  3 | }
    `----
 
-  x Delim { value: '&' }
+  x Delim(DelimToken { value: '&' })
    ,-[$DIR/tests/recovery/delim-token/ampersand/input.css:1:1]
  1 | a {
  2 |     prop: &;

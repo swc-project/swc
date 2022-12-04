@@ -2782,7 +2782,7 @@
  14 | a:has(   <>  img, > img) {}
     `----
 
-  x Delim { value: '<' }
+  x Delim(DelimToken { value: '<' })
     ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:12:1]
  12 | /* Forgiving */
  13 | a:has(<>  img, > img) {}
@@ -2798,7 +2798,7 @@
  14 | a:has(   <>  img, > img) {}
     `----
 
-  x Delim { value: '>' }
+  x Delim(DelimToken { value: '>' })
     ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:12:1]
  12 | /* Forgiving */
  13 | a:has(<>  img, > img) {}
@@ -2814,7 +2814,7 @@
  14 | a:has(   <>  img, > img) {}
     `----
 
-  x WhiteSpace { value: "  " }
+  x WhiteSpace(WhiteSpaceToken { value: "  " })
     ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:12:1]
  12 | /* Forgiving */
  13 | a:has(<>  img, > img) {}
@@ -2830,7 +2830,7 @@
  14 | a:has(   <>  img, > img) {}
     `----
 
-  x Ident { value: Atom('img' type=static), raw: "img" }
+  x Ident(IdentToken { value: Atom('img' type=static), raw: "img" })
     ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:12:1]
  12 | /* Forgiving */
  13 | a:has(<>  img, > img) {}
@@ -3038,7 +3038,7 @@
  15 | a:has(> img, <>  img) {}
     `----
 
-  x WhiteSpace { value: "   " }
+  x WhiteSpace(WhiteSpaceToken { value: "   " })
     ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:13:1]
  13 | a:has(<>  img, > img) {}
  14 | a:has(   <>  img, > img) {}
@@ -3054,7 +3054,7 @@
  15 | a:has(> img, <>  img) {}
     `----
 
-  x Delim { value: '<' }
+  x Delim(DelimToken { value: '<' })
     ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:13:1]
  13 | a:has(<>  img, > img) {}
  14 | a:has(   <>  img, > img) {}
@@ -3070,7 +3070,7 @@
  15 | a:has(> img, <>  img) {}
     `----
 
-  x Delim { value: '>' }
+  x Delim(DelimToken { value: '>' })
     ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:13:1]
  13 | a:has(<>  img, > img) {}
  14 | a:has(   <>  img, > img) {}
@@ -3086,7 +3086,7 @@
  15 | a:has(> img, <>  img) {}
     `----
 
-  x WhiteSpace { value: "  " }
+  x WhiteSpace(WhiteSpaceToken { value: "  " })
     ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:13:1]
  13 | a:has(<>  img, > img) {}
  14 | a:has(   <>  img, > img) {}
@@ -3102,7 +3102,7 @@
  15 | a:has(> img, <>  img) {}
     `----
 
-  x Ident { value: Atom('img' type=static), raw: "img" }
+  x Ident(IdentToken { value: Atom('img' type=static), raw: "img" })
     ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:13:1]
  13 | a:has(<>  img, > img) {}
  14 | a:has(   <>  img, > img) {}
@@ -3374,7 +3374,7 @@
  16 | a:has(> img, <>  img   ) {}
     `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
     ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:14:1]
  14 | a:has(   <>  img, > img) {}
  15 | a:has(> img, <>  img) {}
@@ -3390,7 +3390,7 @@
  16 | a:has(> img, <>  img   ) {}
     `----
 
-  x Delim { value: '<' }
+  x Delim(DelimToken { value: '<' })
     ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:14:1]
  14 | a:has(   <>  img, > img) {}
  15 | a:has(> img, <>  img) {}
@@ -3406,7 +3406,7 @@
  16 | a:has(> img, <>  img   ) {}
     `----
 
-  x Delim { value: '>' }
+  x Delim(DelimToken { value: '>' })
     ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:14:1]
  14 | a:has(   <>  img, > img) {}
  15 | a:has(> img, <>  img) {}
@@ -3422,7 +3422,7 @@
  16 | a:has(> img, <>  img   ) {}
     `----
 
-  x WhiteSpace { value: "  " }
+  x WhiteSpace(WhiteSpaceToken { value: "  " })
     ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:14:1]
  14 | a:has(   <>  img, > img) {}
  15 | a:has(> img, <>  img) {}
@@ -3438,7 +3438,7 @@
  16 | a:has(> img, <>  img   ) {}
     `----
 
-  x Ident { value: Atom('img' type=static), raw: "img" }
+  x Ident(IdentToken { value: Atom('img' type=static), raw: "img" })
     ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:14:1]
  14 | a:has(   <>  img, > img) {}
  15 | a:has(> img, <>  img) {}
@@ -3623,7 +3623,7 @@
     :             ^
     `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
     ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:15:1]
  15 | a:has(> img, <>  img) {}
  16 | a:has(> img, <>  img   ) {}
@@ -3637,7 +3637,7 @@
     :              ^
     `----
 
-  x Delim { value: '<' }
+  x Delim(DelimToken { value: '<' })
     ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:15:1]
  15 | a:has(> img, <>  img) {}
  16 | a:has(> img, <>  img   ) {}
@@ -3651,7 +3651,7 @@
     :               ^
     `----
 
-  x Delim { value: '>' }
+  x Delim(DelimToken { value: '>' })
     ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:15:1]
  15 | a:has(> img, <>  img) {}
  16 | a:has(> img, <>  img   ) {}
@@ -3665,7 +3665,7 @@
     :                ^^
     `----
 
-  x WhiteSpace { value: "  " }
+  x WhiteSpace(WhiteSpaceToken { value: "  " })
     ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:15:1]
  15 | a:has(> img, <>  img) {}
  16 | a:has(> img, <>  img   ) {}
@@ -3679,7 +3679,7 @@
     :                  ^^^
     `----
 
-  x Ident { value: Atom('img' type=static), raw: "img" }
+  x Ident(IdentToken { value: Atom('img' type=static), raw: "img" })
     ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:15:1]
  15 | a:has(> img, <>  img) {}
  16 | a:has(> img, <>  img   ) {}
@@ -3693,7 +3693,7 @@
     :                     ^^^
     `----
 
-  x WhiteSpace { value: "   " }
+  x WhiteSpace(WhiteSpaceToken { value: "   " })
     ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:15:1]
  15 | a:has(> img, <>  img) {}
  16 | a:has(> img, <>  img   ) {}
@@ -3875,7 +3875,7 @@
     :             ^^^^
     `----
 
-  x WhiteSpace { value: "    " }
+  x WhiteSpace(WhiteSpaceToken { value: "    " })
     ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:17:1]
  17 | 
  18 | a:has(> img,    <>  img   , > img) {}
@@ -3889,7 +3889,7 @@
     :                 ^
     `----
 
-  x Delim { value: '<' }
+  x Delim(DelimToken { value: '<' })
     ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:17:1]
  17 | 
  18 | a:has(> img,    <>  img   , > img) {}
@@ -3903,7 +3903,7 @@
     :                  ^
     `----
 
-  x Delim { value: '>' }
+  x Delim(DelimToken { value: '>' })
     ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:17:1]
  17 | 
  18 | a:has(> img,    <>  img   , > img) {}
@@ -3917,7 +3917,7 @@
     :                   ^^
     `----
 
-  x WhiteSpace { value: "  " }
+  x WhiteSpace(WhiteSpaceToken { value: "  " })
     ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:17:1]
  17 | 
  18 | a:has(> img,    <>  img   , > img) {}
@@ -3931,7 +3931,7 @@
     :                     ^^^
     `----
 
-  x Ident { value: Atom('img' type=static), raw: "img" }
+  x Ident(IdentToken { value: Atom('img' type=static), raw: "img" })
     ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:17:1]
  17 | 
  18 | a:has(> img,    <>  img   , > img) {}
@@ -3945,7 +3945,7 @@
     :                        ^^^
     `----
 
-  x WhiteSpace { value: "   " }
+  x WhiteSpace(WhiteSpaceToken { value: "   " })
     ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:17:1]
  17 | 
  18 | a:has(> img,    <>  img   , > img) {}

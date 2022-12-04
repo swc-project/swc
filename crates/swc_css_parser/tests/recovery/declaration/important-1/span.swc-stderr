@@ -131,7 +131,7 @@
  3 | }
    `----
 
-  x Ident { value: Atom('red' type=inline), raw: "red" }
+  x Ident(IdentToken { value: Atom('red' type=inline), raw: "red" })
    ,-[$DIR/tests/recovery/declaration/important-1/input.css:1:1]
  1 | a {
  2 |     color: red !importan;
@@ -147,7 +147,7 @@
  3 | }
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/declaration/important-1/input.css:1:1]
  1 | a {
  2 |     color: red !importan;
@@ -163,7 +163,7 @@
  3 | }
    `----
 
-  x Delim { value: '!' }
+  x Delim(DelimToken { value: '!' })
    ,-[$DIR/tests/recovery/declaration/important-1/input.css:1:1]
  1 | a {
  2 |     color: red !importan;
@@ -179,7 +179,7 @@
  3 | }
    `----
 
-  x Ident { value: Atom('importan' type=dynamic), raw: "importan" }
+  x Ident(IdentToken { value: Atom('importan' type=dynamic), raw: "importan" })
    ,-[$DIR/tests/recovery/declaration/important-1/input.css:1:1]
  1 | a {
  2 |     color: red !importan;

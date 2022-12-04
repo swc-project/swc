@@ -41,7 +41,7 @@
    :  ^^^^
    `----
 
-  x Ident { value: Atom('href' type=static), raw: "href" }
+  x Ident(IdentToken { value: Atom('href' type=static), raw: "href" })
    ,-[$DIR/tests/recovery/selector/attribute/invalid-modifier/input.css:1:1]
  1 | [href="test" "z"] {}
    :  ^^^^
@@ -53,7 +53,7 @@
    :      ^
    `----
 
-  x Delim { value: '=' }
+  x Delim(DelimToken { value: '=' })
    ,-[$DIR/tests/recovery/selector/attribute/invalid-modifier/input.css:1:1]
  1 | [href="test" "z"] {}
    :      ^
@@ -65,7 +65,7 @@
    :       ^^^^^^
    `----
 
-  x String { value: Atom('test' type=inline), raw: "\"test\"" }
+  x String(StringToken { value: Atom('test' type=inline), raw: "\"test\"" })
    ,-[$DIR/tests/recovery/selector/attribute/invalid-modifier/input.css:1:1]
  1 | [href="test" "z"] {}
    :       ^^^^^^
@@ -77,7 +77,7 @@
    :             ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/selector/attribute/invalid-modifier/input.css:1:1]
  1 | [href="test" "z"] {}
    :             ^
@@ -89,7 +89,7 @@
    :              ^^^
    `----
 
-  x String { value: Atom('z' type=inline), raw: "\"z\"" }
+  x String(StringToken { value: Atom('z' type=inline), raw: "\"z\"" })
    ,-[$DIR/tests/recovery/selector/attribute/invalid-modifier/input.css:1:1]
  1 | [href="test" "z"] {}
    :              ^^^
@@ -101,7 +101,7 @@
    :                  ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/selector/attribute/invalid-modifier/input.css:1:1]
  1 | [href="test" "z"] {}
    :                  ^

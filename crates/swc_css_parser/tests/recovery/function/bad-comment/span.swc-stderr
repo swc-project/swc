@@ -151,7 +151,7 @@
  6 |     }
    `----
 
-  x BadUrl { raw: ("url", "\n        /* test */\n        test.png\n    ") }
+  x BadUrl(BadUrlToken { raw: ("url", "\n        /* test */\n        test.png\n    ") })
    ,-[$DIR/tests/recovery/function/bad-comment/input.css:1:1]
  1 |     a {
  2 | ,->     background: url(

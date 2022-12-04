@@ -23,7 +23,7 @@
    : ^^^^^^^^^
    `----
 
-  x Hash { is_id: false, value: Atom('0,hash' type=inline), raw: "0\\2chash" }
+  x Hash(HashToken { is_id: false, value: Atom('0,hash' type=inline), raw: "0\\2chash" })
    ,-[$DIR/tests/recovery/escaped/id-selector/input.css:1:1]
  1 | #0\2chash {}
    : ^^^^^^^^^
@@ -35,7 +35,7 @@
    :          ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/escaped/id-selector/input.css:1:1]
  1 | #0\2chash {}
    :          ^

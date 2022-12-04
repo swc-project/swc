@@ -204,7 +204,7 @@
  3 | 	--lore-ipsum: "foo";
    `----
 
-  x String { value: Atom('bar' type=inline), raw: "'bar'" }
+  x String(StringToken { value: Atom('bar' type=inline), raw: "'bar'" })
    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:1:1]
  1 | .style {
  2 | 	--foo: 'bar';
@@ -260,7 +260,7 @@
  4 | 	--FANCY: "abort";
    `----
 
-  x String { value: Atom('foo' type=inline), raw: "\"foo\"" }
+  x String(StringToken { value: Atom('foo' type=inline), raw: "\"foo\"" })
    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:2:1]
  2 | 	--foo: 'bar';
  3 | 	--lore-ipsum: "foo";
@@ -316,7 +316,7 @@
  5 | 	--test: 1987;
    `----
 
-  x String { value: Atom('abort' type=inline), raw: "\"abort\"" }
+  x String(StringToken { value: Atom('abort' type=inline), raw: "\"abort\"" })
    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:3:1]
  3 | 	--lore-ipsum: "foo";
  4 | 	--FANCY: "abort";
@@ -372,7 +372,7 @@
  6 | 	--percentage: 25%;
    `----
 
-  x Number { value: 1987.0, raw: "1987", type_flag: Integer }
+  x Number(NumberToken { value: 1987.0, raw: "1987", type_flag: Integer })
    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:4:1]
  4 | 	--FANCY: "abort";
  5 | 	--test: 1987;
@@ -428,7 +428,7 @@
  7 | 	--number: 37;
    `----
 
-  x Percentage { value: 25.0, raw: "25" }
+  x Percentage(PercentageToken { value: 25.0, raw: "25" })
    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:5:1]
  5 | 	--test: 1987;
  6 | 	--percentage: 25%;
@@ -484,7 +484,7 @@
  8 | 	--length: 12em;
    `----
 
-  x Number { value: 37.0, raw: "37", type_flag: Integer }
+  x Number(NumberToken { value: 37.0, raw: "37", type_flag: Integer })
    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:6:1]
  6 | 	--percentage: 25%;
  7 | 	--number: 37;
@@ -540,7 +540,7 @@
  9 | 	--time: 75ms;
    `----
 
-  x Dimension { value: 12.0, unit: Atom('em' type=static), type_flag: Integer, raw: ("12", "em") }
+  x Dimension(DimensionToken { value: 12.0, unit: Atom('em' type=static), type_flag: Integer, raw: ("12", "em") })
    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:7:1]
  7 | 	--number: 37;
  8 | 	--length: 12em;
@@ -596,7 +596,7 @@
  10 | 	--function: foo();
     `----
 
-  x Dimension { value: 75.0, unit: Atom('ms' type=static), type_flag: Integer, raw: ("75", "ms") }
+  x Dimension(DimensionToken { value: 75.0, unit: Atom('ms' type=static), type_flag: Integer, raw: ("75", "ms") })
     ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:8:1]
   8 | 	--length: 12em;
   9 | 	--time: 75ms;
@@ -828,7 +828,7 @@
  13 | 	--braces: { };
     `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
     ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:11:1]
  11 | 	--nested-function: foo(bar());
  12 | 	--parentheses: ( );
@@ -908,7 +908,7 @@
  14 | 	--brackets: [ ];
     `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
     ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:12:1]
  12 | 	--parentheses: ( );
  13 | 	--braces: { };
@@ -988,7 +988,7 @@
  15 | 	--at-keyword-unknown: @foobar;
     `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
     ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:13:1]
  13 | 	--braces: { };
  14 | 	--brackets: [ ];
@@ -1044,7 +1044,7 @@
  16 | 	--at-keyword-known: @media;
     `----
 
-  x AtKeyword { value: Atom('foobar' type=inline), raw: "foobar" }
+  x AtKeyword(AtKeywordToken { value: Atom('foobar' type=inline), raw: "foobar" })
     ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:14:1]
  14 | 	--brackets: [ ];
  15 | 	--at-keyword-unknown: @foobar;
@@ -1100,7 +1100,7 @@
  17 | 	--at-keyword-unknown-block: @foobar {};
     `----
 
-  x AtKeyword { value: Atom('media' type=static), raw: "media" }
+  x AtKeyword(AtKeywordToken { value: Atom('media' type=static), raw: "media" })
     ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:15:1]
  15 | 	--at-keyword-unknown: @foobar;
  16 | 	--at-keyword-known: @media;
@@ -1156,7 +1156,7 @@
  18 | 	--at-keyword-known-block: @media {};
     `----
 
-  x AtKeyword { value: Atom('foobar' type=inline), raw: "foobar" }
+  x AtKeyword(AtKeywordToken { value: Atom('foobar' type=inline), raw: "foobar" })
     ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:16:1]
  16 | 	--at-keyword-known: @media;
  17 | 	--at-keyword-unknown-block: @foobar {};
@@ -1172,7 +1172,7 @@
  18 | 	--at-keyword-known-block: @media {};
     `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
     ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:16:1]
  16 | 	--at-keyword-known: @media;
  17 | 	--at-keyword-unknown-block: @foobar {};
@@ -1252,7 +1252,7 @@
  19 | 	--cdo-at-top-level: <!--;
     `----
 
-  x AtKeyword { value: Atom('media' type=static), raw: "media" }
+  x AtKeyword(AtKeywordToken { value: Atom('media' type=static), raw: "media" })
     ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:17:1]
  17 | 	--at-keyword-unknown-block: @foobar {};
  18 | 	--at-keyword-known-block: @media {};
@@ -1268,7 +1268,7 @@
  19 | 	--cdo-at-top-level: <!--;
     `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
     ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:17:1]
  17 | 	--at-keyword-unknown-block: @foobar {};
  18 | 	--at-keyword-known-block: @media {};

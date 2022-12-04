@@ -38,7 +38,7 @@
    :  ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/selector/pseudo-class/invalid-function/input.css:1:1]
  1 | : nth-child(2) {
    :  ^
@@ -68,7 +68,7 @@
    :             ^
    `----
 
-  x Number { value: 2.0, raw: "2", type_flag: Integer }
+  x Number(NumberToken { value: 2.0, raw: "2", type_flag: Integer })
    ,-[$DIR/tests/recovery/selector/pseudo-class/invalid-function/input.css:1:1]
  1 | : nth-child(2) {
    :             ^
@@ -80,7 +80,7 @@
    :               ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/selector/pseudo-class/invalid-function/input.css:1:1]
  1 | : nth-child(2) {
    :               ^

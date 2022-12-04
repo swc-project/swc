@@ -35,7 +35,7 @@
    :        ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/import/indent/input.css:1:1]
  1 | @import foo-bar;
    :        ^
@@ -47,7 +47,7 @@
    :         ^^^^^^^
    `----
 
-  x Ident { value: Atom('foo-bar' type=inline), raw: "foo-bar" }
+  x Ident(IdentToken { value: Atom('foo-bar' type=inline), raw: "foo-bar" })
    ,-[$DIR/tests/recovery/at-rule/import/indent/input.css:1:1]
  1 | @import foo-bar;
    :         ^^^^^^^

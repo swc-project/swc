@@ -1752,7 +1752,7 @@
  39 | }
     `----
 
-  x Ident { value: Atom('a' type=static), raw: "a" }
+  x Ident(IdentToken { value: Atom('a' type=static), raw: "a" })
     ,-[$DIR/tests/fixture/vendor/rome/selectors/input.css:37:1]
  37 | 
  38 | ::pseudo-elem(a, b) {
@@ -1784,7 +1784,7 @@
  39 | }
     `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
     ,-[$DIR/tests/fixture/vendor/rome/selectors/input.css:37:1]
  37 | 
  38 | ::pseudo-elem(a, b) {
@@ -1800,7 +1800,7 @@
  39 | }
     `----
 
-  x Ident { value: Atom('b' type=static), raw: "b" }
+  x Ident(IdentToken { value: Atom('b' type=static), raw: "b" })
     ,-[$DIR/tests/fixture/vendor/rome/selectors/input.css:37:1]
  37 | 
  38 | ::pseudo-elem(a, b) {

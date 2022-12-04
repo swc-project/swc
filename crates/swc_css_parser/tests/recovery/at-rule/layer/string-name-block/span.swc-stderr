@@ -53,7 +53,7 @@
  2 |     h1, h2 { color: maroon; background: white;}
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:1:1]
  1 | @layer "framework" {
    :       ^
@@ -67,7 +67,7 @@
  2 |     h1, h2 { color: maroon; background: white;}
    `----
 
-  x String { value: Atom('framework' type=dynamic), raw: "\"framework\"" }
+  x String(StringToken { value: Atom('framework' type=dynamic), raw: "\"framework\"" })
    ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:1:1]
  1 | @layer "framework" {
    :        ^^^^^^^^^^^
@@ -81,7 +81,7 @@
  2 |     h1, h2 { color: maroon; background: white;}
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:1:1]
  1 | @layer "framework" {
    :                   ^

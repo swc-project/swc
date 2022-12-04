@@ -148,7 +148,7 @@
  3 | }
    `----
 
-  x Dimension { value: 2.0, unit: Atom('px' type=static), type_flag: Integer, raw: ("2", "px") }
+  x Dimension(DimensionToken { value: 2.0, unit: Atom('px' type=static), type_flag: Integer, raw: ("2", "px") })
    ,-[$DIR/tests/recovery/function/calc/space/input.css:1:1]
  1 | .style {
  2 | 	width: calc(2px+1px);
@@ -164,7 +164,7 @@
  3 | }
    `----
 
-  x Dimension { value: 1.0, unit: Atom('px' type=static), type_flag: Integer, raw: ("+1", "px") }
+  x Dimension(DimensionToken { value: 1.0, unit: Atom('px' type=static), type_flag: Integer, raw: ("+1", "px") })
    ,-[$DIR/tests/recovery/function/calc/space/input.css:1:1]
  1 | .style {
  2 | 	width: calc(2px+1px);

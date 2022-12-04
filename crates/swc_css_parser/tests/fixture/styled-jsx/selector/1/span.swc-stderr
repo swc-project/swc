@@ -69,7 +69,7 @@
  2 |     color: red;
    `----
 
-  x Delim { value: '.' }
+  x Delim(DelimToken { value: '.' })
    ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
  1 | :global(.foo + a) {
    :         ^
@@ -83,7 +83,7 @@
  2 |     color: red;
    `----
 
-  x Ident { value: Atom('foo' type=inline), raw: "foo" }
+  x Ident(IdentToken { value: Atom('foo' type=inline), raw: "foo" })
    ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
  1 | :global(.foo + a) {
    :          ^^^
@@ -97,7 +97,7 @@
  2 |     color: red;
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
  1 | :global(.foo + a) {
    :             ^
@@ -111,7 +111,7 @@
  2 |     color: red;
    `----
 
-  x Delim { value: '+' }
+  x Delim(DelimToken { value: '+' })
    ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
  1 | :global(.foo + a) {
    :              ^
@@ -125,7 +125,7 @@
  2 |     color: red;
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
  1 | :global(.foo + a) {
    :               ^
@@ -139,7 +139,7 @@
  2 |     color: red;
    `----
 
-  x Ident { value: Atom('a' type=static), raw: "a" }
+  x Ident(IdentToken { value: Atom('a' type=static), raw: "a" })
    ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
  1 | :global(.foo + a) {
    :                ^

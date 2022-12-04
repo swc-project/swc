@@ -196,7 +196,7 @@
  5 |     a { color: blue }
    `----
 
-  x WhiteSpace { value: "\n\n" }
+  x WhiteSpace(WhiteSpaceToken { value: "\n\n" })
    ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:2:1]
  2 |     
  3 | ,-> @media {};
@@ -211,7 +211,7 @@
    : ^
    `----
 
-  x Ident { value: Atom('a' type=static), raw: "a" }
+  x Ident(IdentToken { value: Atom('a' type=static), raw: "a" })
    ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:4:1]
  4 | 
  5 | a { color: blue }
@@ -225,7 +225,7 @@
    :  ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:4:1]
  4 | 
  5 | a { color: blue }

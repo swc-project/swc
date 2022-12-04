@@ -35,7 +35,7 @@
    :           ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/keyframes/custom-ident-1/input.css:1:1]
  1 | @keyframes None {}
    :           ^
@@ -47,7 +47,7 @@
    :            ^^^^
    `----
 
-  x Ident { value: Atom('None' type=inline), raw: "None" }
+  x Ident(IdentToken { value: Atom('None' type=inline), raw: "None" })
    ,-[$DIR/tests/recovery/at-rule/keyframes/custom-ident-1/input.css:1:1]
  1 | @keyframes None {}
    :            ^^^^
@@ -59,7 +59,7 @@
    :                ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/keyframes/custom-ident-1/input.css:1:1]
  1 | @keyframes None {}
    :                ^

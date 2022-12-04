@@ -35,7 +35,7 @@
    :        ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/import/no-semi/input.css:1:1]
  1 | @import url('http://') :root {}
    :        ^
@@ -65,7 +65,7 @@
    :             ^^^^^^^^^
    `----
 
-  x String { value: Atom('http://' type=inline), raw: "'http://'" }
+  x String(StringToken { value: Atom('http://' type=inline), raw: "'http://'" })
    ,-[$DIR/tests/recovery/at-rule/import/no-semi/input.css:1:1]
  1 | @import url('http://') :root {}
    :             ^^^^^^^^^
@@ -77,7 +77,7 @@
    :                       ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/import/no-semi/input.css:1:1]
  1 | @import url('http://') :root {}
    :                       ^
@@ -101,7 +101,7 @@
    :                         ^^^^
    `----
 
-  x Ident { value: Atom('root' type=inline), raw: "root" }
+  x Ident(IdentToken { value: Atom('root' type=inline), raw: "root" })
    ,-[$DIR/tests/recovery/at-rule/import/no-semi/input.css:1:1]
  1 | @import url('http://') :root {}
    :                         ^^^^
@@ -113,7 +113,7 @@
    :                             ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/import/no-semi/input.css:1:1]
  1 | @import url('http://') :root {}
    :                             ^

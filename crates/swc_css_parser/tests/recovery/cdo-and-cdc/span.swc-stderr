@@ -81,7 +81,7 @@
    :      ^^^
    `----
 
-  x Number { value: 123.0, raw: "123", type_flag: Integer }
+  x Number(NumberToken { value: 123.0, raw: "123", type_flag: Integer })
    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:1:1]
  1 | <!-- 123 -->
    :      ^^^
@@ -93,7 +93,7 @@
    :         ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:1:1]
  1 | <!-- 123 -->
    :         ^
@@ -119,7 +119,7 @@
  4 |         color: red;
    `----
 
-  x WhiteSpace { value: "\n\n" }
+  x WhiteSpace(WhiteSpaceToken { value: "\n\n" })
    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:1:1]
  1 | ,-> <!-- 123 -->
  2 | `-> 
@@ -135,7 +135,7 @@
  4 |     color: red;
    `----
 
-  x Ident { value: Atom('div' type=static), raw: "div" }
+  x Ident(IdentToken { value: Atom('div' type=static), raw: "div" })
    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:2:1]
  2 | 
  3 | div {
@@ -151,7 +151,7 @@
  4 |     color: red;
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:2:1]
  2 | 
  3 | div {
@@ -280,7 +280,7 @@
  7 |     test
    `----
 
-  x WhiteSpace { value: "\n\n" }
+  x WhiteSpace(WhiteSpaceToken { value: "\n\n" })
    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:4:1]
  4 |         color: red;
  5 | ,-> <!--
@@ -295,7 +295,7 @@
    : ^^^^
    `----
 
-  x Ident { value: Atom('test' type=inline), raw: "test" }
+  x Ident(IdentToken { value: Atom('test' type=inline), raw: "test" })
    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:6:1]
  6 | 
  7 | test
@@ -311,7 +311,7 @@
  10 |     }
     `----
 
-  x WhiteSpace { value: "\n\n" }
+  x WhiteSpace(WhiteSpaceToken { value: "\n\n" })
     ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:6:1]
   6 |     
   7 | ,-> test
@@ -344,7 +344,7 @@
  10 | }
     `----
 
-  x WhiteSpace { value: "\n" }
+  x WhiteSpace(WhiteSpaceToken { value: "\n" })
     ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:8:1]
   8 | 
   9 | -->
@@ -565,7 +565,7 @@
  16 |     test
     `----
 
-  x WhiteSpace { value: "\n\n" }
+  x WhiteSpace(WhiteSpaceToken { value: "\n\n" })
     ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:13:1]
  13 |         color: red;
  14 | ,-> <!--
@@ -580,7 +580,7 @@
     : ^^^^
     `----
 
-  x Ident { value: Atom('test' type=inline), raw: "test" }
+  x Ident(IdentToken { value: Atom('test' type=inline), raw: "test" })
     ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:15:1]
  15 | 
  16 | test
@@ -595,7 +595,7 @@
  18 |     -->
     `----
 
-  x WhiteSpace { value: "\n\n" }
+  x WhiteSpace(WhiteSpaceToken { value: "\n\n" })
     ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:15:1]
  15 |     
  16 | ,-> test
@@ -626,7 +626,7 @@
  21 |     }
     `----
 
-  x WhiteSpace { value: "\n\n    " }
+  x WhiteSpace(WhiteSpaceToken { value: "\n\n    " })
     ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:17:1]
  17 |     
  18 | ,-> -->
@@ -643,7 +643,7 @@
  21 | }
     `----
 
-  x Ident { value: Atom('color' type=static), raw: "color" }
+  x Ident(IdentToken { value: Atom('color' type=static), raw: "color" })
     ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:19:1]
  19 | 
  20 |     color: blue;
@@ -675,7 +675,7 @@
  21 | }
     `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
     ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:19:1]
  19 | 
  20 |     color: blue;
@@ -691,7 +691,7 @@
  21 | }
     `----
 
-  x Ident { value: Atom('blue' type=inline), raw: "blue" }
+  x Ident(IdentToken { value: Atom('blue' type=inline), raw: "blue" })
     ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:19:1]
  19 | 
  20 |     color: blue;
@@ -922,7 +922,7 @@
  27 |     test
     `----
 
-  x WhiteSpace { value: "\n\n" }
+  x WhiteSpace(WhiteSpaceToken { value: "\n\n" })
     ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:24:1]
  24 |         color: red;
  25 | ,-> <!--
@@ -937,7 +937,7 @@
     : ^^^^
     `----
 
-  x Ident { value: Atom('test' type=inline), raw: "test" }
+  x Ident(IdentToken { value: Atom('test' type=inline), raw: "test" })
     ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:26:1]
  26 | 
  27 | test
@@ -952,7 +952,7 @@
  29 |     -->;
     `----
 
-  x WhiteSpace { value: "\n\n" }
+  x WhiteSpace(WhiteSpaceToken { value: "\n\n" })
     ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:26:1]
  26 |     
  27 | ,-> test
@@ -1189,7 +1189,7 @@
  36 |          color: red;
     `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
     ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:34:1]
  34 | a {
  35 |     <!-- .class {
@@ -1205,7 +1205,7 @@
  36 |          color: red;
     `----
 
-  x Delim { value: '.' }
+  x Delim(DelimToken { value: '.' })
     ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:34:1]
  34 | a {
  35 |     <!-- .class {
@@ -1221,7 +1221,7 @@
  36 |          color: red;
     `----
 
-  x Ident { value: Atom('class' type=static), raw: "class" }
+  x Ident(IdentToken { value: Atom('class' type=static), raw: "class" })
     ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:34:1]
  34 | a {
  35 |     <!-- .class {
@@ -1237,7 +1237,7 @@
  36 |          color: red;
     `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
     ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:34:1]
  34 | a {
  35 |     <!-- .class {
@@ -1420,7 +1420,7 @@
  42 |     50% { left: 0; }
     `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
     ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:40:1]
  40 | @keyframes box {
  41 |     <!-- -->
@@ -1452,7 +1452,7 @@
  43 |         90% { left: 300px; }
     `----
 
-  x WhiteSpace { value: "\n    " }
+  x WhiteSpace(WhiteSpaceToken { value: "\n    " })
     ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:40:1]
  40 |     @keyframes box {
  41 | ,->     <!-- -->
@@ -1468,7 +1468,7 @@
  43 |     90% { left: 300px; }
     `----
 
-  x Percentage { value: 50.0, raw: "50" }
+  x Percentage(PercentageToken { value: 50.0, raw: "50" })
     ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:41:1]
  41 |     <!-- -->
  42 |     50% { left: 0; }
@@ -1484,7 +1484,7 @@
  43 |     90% { left: 300px; }
     `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
     ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:41:1]
  41 |     <!-- -->
  42 |     50% { left: 0; }

@@ -35,7 +35,7 @@
    :       ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/media/feature-range-6/input.css:1:1]
  1 | @media (400px >= width <= 700px) {}
    :       ^
@@ -65,7 +65,7 @@
    :         ^^^^^
    `----
 
-  x Dimension { value: 400.0, unit: Atom('px' type=static), type_flag: Integer, raw: ("400", "px") }
+  x Dimension(DimensionToken { value: 400.0, unit: Atom('px' type=static), type_flag: Integer, raw: ("400", "px") })
    ,-[$DIR/tests/recovery/at-rule/media/feature-range-6/input.css:1:1]
  1 | @media (400px >= width <= 700px) {}
    :         ^^^^^
@@ -77,7 +77,7 @@
    :              ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/media/feature-range-6/input.css:1:1]
  1 | @media (400px >= width <= 700px) {}
    :              ^
@@ -89,7 +89,7 @@
    :               ^
    `----
 
-  x Delim { value: '>' }
+  x Delim(DelimToken { value: '>' })
    ,-[$DIR/tests/recovery/at-rule/media/feature-range-6/input.css:1:1]
  1 | @media (400px >= width <= 700px) {}
    :               ^
@@ -101,7 +101,7 @@
    :                ^
    `----
 
-  x Delim { value: '=' }
+  x Delim(DelimToken { value: '=' })
    ,-[$DIR/tests/recovery/at-rule/media/feature-range-6/input.css:1:1]
  1 | @media (400px >= width <= 700px) {}
    :                ^
@@ -113,7 +113,7 @@
    :                 ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/media/feature-range-6/input.css:1:1]
  1 | @media (400px >= width <= 700px) {}
    :                 ^
@@ -125,7 +125,7 @@
    :                  ^^^^^
    `----
 
-  x Ident { value: Atom('width' type=inline), raw: "width" }
+  x Ident(IdentToken { value: Atom('width' type=inline), raw: "width" })
    ,-[$DIR/tests/recovery/at-rule/media/feature-range-6/input.css:1:1]
  1 | @media (400px >= width <= 700px) {}
    :                  ^^^^^
@@ -137,7 +137,7 @@
    :                       ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/media/feature-range-6/input.css:1:1]
  1 | @media (400px >= width <= 700px) {}
    :                       ^
@@ -149,7 +149,7 @@
    :                        ^
    `----
 
-  x Delim { value: '<' }
+  x Delim(DelimToken { value: '<' })
    ,-[$DIR/tests/recovery/at-rule/media/feature-range-6/input.css:1:1]
  1 | @media (400px >= width <= 700px) {}
    :                        ^
@@ -161,7 +161,7 @@
    :                         ^
    `----
 
-  x Delim { value: '=' }
+  x Delim(DelimToken { value: '=' })
    ,-[$DIR/tests/recovery/at-rule/media/feature-range-6/input.css:1:1]
  1 | @media (400px >= width <= 700px) {}
    :                         ^
@@ -173,7 +173,7 @@
    :                          ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/media/feature-range-6/input.css:1:1]
  1 | @media (400px >= width <= 700px) {}
    :                          ^
@@ -185,7 +185,7 @@
    :                           ^^^^^
    `----
 
-  x Dimension { value: 700.0, unit: Atom('px' type=static), type_flag: Integer, raw: ("700", "px") }
+  x Dimension(DimensionToken { value: 700.0, unit: Atom('px' type=static), type_flag: Integer, raw: ("700", "px") })
    ,-[$DIR/tests/recovery/at-rule/media/feature-range-6/input.css:1:1]
  1 | @media (400px >= width <= 700px) {}
    :                           ^^^^^
@@ -197,7 +197,7 @@
    :                                 ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/media/feature-range-6/input.css:1:1]
  1 | @media (400px >= width <= 700px) {}
    :                                 ^

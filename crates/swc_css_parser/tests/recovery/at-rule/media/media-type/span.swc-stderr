@@ -47,7 +47,7 @@
  2 |     a {
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:1:1]
  1 | @media only layer {
    :       ^
@@ -61,7 +61,7 @@
  2 |     a {
    `----
 
-  x Ident { value: Atom('only' type=static), raw: "only" }
+  x Ident(IdentToken { value: Atom('only' type=static), raw: "only" })
    ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:1:1]
  1 | @media only layer {
    :        ^^^^
@@ -75,7 +75,7 @@
  2 |     a {
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:1:1]
  1 | @media only layer {
    :            ^
@@ -89,7 +89,7 @@
  2 |     a {
    `----
 
-  x Ident { value: Atom('layer' type=static), raw: "layer" }
+  x Ident(IdentToken { value: Atom('layer' type=static), raw: "layer" })
    ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:1:1]
  1 | @media only layer {
    :             ^^^^^
@@ -103,7 +103,7 @@
  2 |     a {
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:1:1]
  1 | @media only layer {
    :                  ^

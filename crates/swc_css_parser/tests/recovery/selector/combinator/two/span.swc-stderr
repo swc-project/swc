@@ -23,7 +23,7 @@
    : ^^^^
    `----
 
-  x Ident { value: Atom('span' type=static), raw: "span" }
+  x Ident(IdentToken { value: Atom('span' type=static), raw: "span" })
    ,-[$DIR/tests/recovery/selector/combinator/two/input.css:1:1]
  1 | span ~ + {}
    : ^^^^
@@ -35,7 +35,7 @@
    :     ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/selector/combinator/two/input.css:1:1]
  1 | span ~ + {}
    :     ^
@@ -47,7 +47,7 @@
    :      ^
    `----
 
-  x Delim { value: '~' }
+  x Delim(DelimToken { value: '~' })
    ,-[$DIR/tests/recovery/selector/combinator/two/input.css:1:1]
  1 | span ~ + {}
    :      ^
@@ -59,7 +59,7 @@
    :       ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/selector/combinator/two/input.css:1:1]
  1 | span ~ + {}
    :       ^
@@ -71,7 +71,7 @@
    :        ^
    `----
 
-  x Delim { value: '+' }
+  x Delim(DelimToken { value: '+' })
    ,-[$DIR/tests/recovery/selector/combinator/two/input.css:1:1]
  1 | span ~ + {}
    :        ^
@@ -83,7 +83,7 @@
    :         ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/selector/combinator/two/input.css:1:1]
  1 | span ~ + {}
    :         ^

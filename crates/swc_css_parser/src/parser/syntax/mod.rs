@@ -143,7 +143,7 @@ where
         // and its value initially set to nothing.
         let span = self.input.cur_span();
         let at_keyword_name = match bump!(self) {
-            Token::AtKeyword { value, raw } => (value, raw),
+            Token::AtKeyword(box AtKeywordToken { value, raw }) => (value, raw),
             _ => {
                 unreachable!()
             }
@@ -371,7 +371,7 @@ where
                     // Constructions like `a { prop: {value}; }` still affected this problem, but
                     // `{`/`}` doesn't used in declarations
                     if self.config.legacy_nesting
-                        && matches!(self.input.cur(), Some(Token::Ident { value, .. }) if !value.starts_with("--"))
+                        && matches!(self.input.cur(), Some(Token::Ident(box IdentToken { value, .. })) if !value.starts_with("--"))
                     {
                         if let Some(legacy_nested) = self.try_to_parse_legacy_nesting() {
                             rules.push(StyleBlock::QualifiedRule(Box::new(legacy_nested)));
@@ -606,7 +606,7 @@ where
         // Return nothing.
         let span = self.input.cur_span();
         let is_dashed_ident = match cur!(self) {
-            Token::Ident { value, .. } => value.starts_with("--"),
+            Token::Ident(box IdentToken { value, .. }) => value.starts_with("--"),
             _ => {
                 return Err(Error::new(span, ErrorKind::Expected("ident")));
             }
@@ -653,7 +653,7 @@ where
                 // Optimization for step 6
                 ComponentValue::PreservedToken(box TokenAndSpan {
                     span,
-                    token: Token::Delim { value: '!', .. },
+                    token: Token::Delim(box DelimToken { value: '!', .. }),
                     ..
                 }) if is!(self, " ") || is_case_insensitive_ident!(self, "important") => {
                     if let Some(span) = &exclamation_point_span {
@@ -689,7 +689,7 @@ where
                 },
                 ComponentValue::PreservedToken(
                     token_and_span @ box TokenAndSpan {
-                        token: Token::Ident { value, .. },
+                        token: Token::Ident(box IdentToken { value, .. }),
                         ..
                     },
                 ) if exclamation_point_span.is_some()
@@ -736,7 +736,7 @@ where
                 Default::default(),
             );
             let value = match important_ident.token {
-                Token::Ident { value, raw } => (value, raw),
+                Token::Ident(box IdentToken { value, raw, .. }) => (value, raw),
                 _ => {
                     unreachable!();
                 }
@@ -920,7 +920,7 @@ where
         // and with its value initially set to an empty list.
         let span = self.input.cur_span();
         let ident = match bump!(self) {
-            Token::Function { value, raw } => (value, raw),
+            Token::Function(box FunctionToken { value, raw }) => (value, raw),
             _ => {
                 unreachable!()
             }

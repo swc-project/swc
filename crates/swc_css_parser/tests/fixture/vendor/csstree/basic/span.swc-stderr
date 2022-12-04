@@ -3218,7 +3218,7 @@
  28 |         --custom2: ([]) !important;
     `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
     ,-[$DIR/tests/fixture/vendor/csstree/basic/input.css:26:1]
  26 |     *|span:before {
  27 |         --custom1: { something !important };
@@ -3234,7 +3234,7 @@
  28 |         --custom2: ([]) !important;
     `----
 
-  x Ident { value: Atom('something' type=dynamic), raw: "something" }
+  x Ident(IdentToken { value: Atom('something' type=dynamic), raw: "something" })
     ,-[$DIR/tests/fixture/vendor/csstree/basic/input.css:26:1]
  26 |     *|span:before {
  27 |         --custom1: { something !important };
@@ -3250,7 +3250,7 @@
  28 |         --custom2: ([]) !important;
     `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
     ,-[$DIR/tests/fixture/vendor/csstree/basic/input.css:26:1]
  26 |     *|span:before {
  27 |         --custom1: { something !important };
@@ -3266,7 +3266,7 @@
  28 |         --custom2: ([]) !important;
     `----
 
-  x Delim { value: '!' }
+  x Delim(DelimToken { value: '!' })
     ,-[$DIR/tests/fixture/vendor/csstree/basic/input.css:26:1]
  26 |     *|span:before {
  27 |         --custom1: { something !important };
@@ -3282,7 +3282,7 @@
  28 |         --custom2: ([]) !important;
     `----
 
-  x Ident { value: Atom('important' type=static), raw: "important" }
+  x Ident(IdentToken { value: Atom('important' type=static), raw: "important" })
     ,-[$DIR/tests/fixture/vendor/csstree/basic/input.css:26:1]
  26 |     *|span:before {
  27 |         --custom1: { something !important };
@@ -3298,7 +3298,7 @@
  28 |         --custom2: ([]) !important;
     `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
     ,-[$DIR/tests/fixture/vendor/csstree/basic/input.css:26:1]
  26 |     *|span:before {
  27 |         --custom1: { something !important };

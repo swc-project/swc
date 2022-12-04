@@ -60,7 +60,7 @@
  3 | c: d;
    `----
 
-  x WhiteSpace { value: "\n" }
+  x WhiteSpace(WhiteSpaceToken { value: "\n" })
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:1:1]
  1 | @unknown{
    :          ^
@@ -76,7 +76,7 @@
  3 | c: d;
    `----
 
-  x Ident { value: Atom('a' type=static), raw: "a" }
+  x Ident(IdentToken { value: Atom('a' type=static), raw: "a" })
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:1:1]
  1 | @unknown{
  2 | a: b;
@@ -108,7 +108,7 @@
  3 | c: d;
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:1:1]
  1 | @unknown{
  2 | a: b;
@@ -124,7 +124,7 @@
  3 | c: d;
    `----
 
-  x Ident { value: Atom('b' type=static), raw: "b" }
+  x Ident(IdentToken { value: Atom('b' type=static), raw: "b" })
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:1:1]
  1 | @unknown{
  2 | a: b;
@@ -157,7 +157,7 @@
  4 | }
    `----
 
-  x WhiteSpace { value: "\n" }
+  x WhiteSpace(WhiteSpaceToken { value: "\n" })
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:1:1]
  1 | @unknown{
  2 | a: b;
@@ -174,7 +174,7 @@
  4 | }
    `----
 
-  x Ident { value: Atom('c' type=inline), raw: "c" }
+  x Ident(IdentToken { value: Atom('c' type=inline), raw: "c" })
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:1]
  2 | a: b;
  3 | c: d;
@@ -206,7 +206,7 @@
  4 | }
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:1]
  2 | a: b;
  3 | c: d;
@@ -222,7 +222,7 @@
  4 | }
    `----
 
-  x Ident { value: Atom('d' type=inline), raw: "d" }
+  x Ident(IdentToken { value: Atom('d' type=inline), raw: "d" })
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:1]
  2 | a: b;
  3 | c: d;
@@ -254,7 +254,7 @@
  4 | }
    `----
 
-  x WhiteSpace { value: "\n" }
+  x WhiteSpace(WhiteSpaceToken { value: "\n" })
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:1]
  2 | a: b;
  3 | c: d;

@@ -171,7 +171,7 @@
  4 |     background: red
    `----
 
-  x Delim { value: '&' }
+  x Delim(DelimToken { value: '&' })
    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:2:1]
  2 |     color: red;
  3 |     & test;
@@ -187,7 +187,7 @@
  4 |     background: red
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:2:1]
  2 |     color: red;
  3 |     & test;
@@ -203,7 +203,7 @@
  4 |     background: red
    `----
 
-  x Ident { value: Atom('test' type=inline), raw: "test" }
+  x Ident(IdentToken { value: Atom('test' type=inline), raw: "test" })
    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:2:1]
  2 |     color: red;
  3 |     & test;

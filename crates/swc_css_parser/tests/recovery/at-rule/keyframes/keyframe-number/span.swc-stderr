@@ -84,7 +84,7 @@
    :  ^^
    `----
 
-  x Number { value: 10.0, raw: "10", type_flag: Integer }
+  x Number(NumberToken { value: 10.0, raw: "10", type_flag: Integer })
    ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-number/input.css:1:1]
  1 | @keyframes foo {
  2 | 	10 {
@@ -98,7 +98,7 @@
    :    ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-number/input.css:1:1]
  1 | @keyframes foo {
  2 | 	10 {

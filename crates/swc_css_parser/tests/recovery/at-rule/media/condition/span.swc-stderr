@@ -35,7 +35,7 @@
    :       ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/media/condition/input.css:1:1]
  1 | @media (update: slow) unknown (hover: none) {}
    :       ^
@@ -65,7 +65,7 @@
    :         ^^^^^^
    `----
 
-  x Ident { value: Atom('update' type=inline), raw: "update" }
+  x Ident(IdentToken { value: Atom('update' type=inline), raw: "update" })
    ,-[$DIR/tests/recovery/at-rule/media/condition/input.css:1:1]
  1 | @media (update: slow) unknown (hover: none) {}
    :         ^^^^^^
@@ -89,7 +89,7 @@
    :                ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/media/condition/input.css:1:1]
  1 | @media (update: slow) unknown (hover: none) {}
    :                ^
@@ -101,7 +101,7 @@
    :                 ^^^^
    `----
 
-  x Ident { value: Atom('slow' type=inline), raw: "slow" }
+  x Ident(IdentToken { value: Atom('slow' type=inline), raw: "slow" })
    ,-[$DIR/tests/recovery/at-rule/media/condition/input.css:1:1]
  1 | @media (update: slow) unknown (hover: none) {}
    :                 ^^^^
@@ -113,7 +113,7 @@
    :                      ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/media/condition/input.css:1:1]
  1 | @media (update: slow) unknown (hover: none) {}
    :                      ^
@@ -125,7 +125,7 @@
    :                       ^^^^^^^
    `----
 
-  x Ident { value: Atom('unknown' type=static), raw: "unknown" }
+  x Ident(IdentToken { value: Atom('unknown' type=static), raw: "unknown" })
    ,-[$DIR/tests/recovery/at-rule/media/condition/input.css:1:1]
  1 | @media (update: slow) unknown (hover: none) {}
    :                       ^^^^^^^
@@ -137,7 +137,7 @@
    :                              ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/media/condition/input.css:1:1]
  1 | @media (update: slow) unknown (hover: none) {}
    :                              ^
@@ -167,7 +167,7 @@
    :                                ^^^^^
    `----
 
-  x Ident { value: Atom('hover' type=inline), raw: "hover" }
+  x Ident(IdentToken { value: Atom('hover' type=inline), raw: "hover" })
    ,-[$DIR/tests/recovery/at-rule/media/condition/input.css:1:1]
  1 | @media (update: slow) unknown (hover: none) {}
    :                                ^^^^^
@@ -191,7 +191,7 @@
    :                                      ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/media/condition/input.css:1:1]
  1 | @media (update: slow) unknown (hover: none) {}
    :                                      ^
@@ -203,7 +203,7 @@
    :                                       ^^^^
    `----
 
-  x Ident { value: Atom('none' type=static), raw: "none" }
+  x Ident(IdentToken { value: Atom('none' type=static), raw: "none" })
    ,-[$DIR/tests/recovery/at-rule/media/condition/input.css:1:1]
  1 | @media (update: slow) unknown (hover: none) {}
    :                                       ^^^^
@@ -215,7 +215,7 @@
    :                                            ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/media/condition/input.css:1:1]
  1 | @media (update: slow) unknown (hover: none) {}
    :                                            ^

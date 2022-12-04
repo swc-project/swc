@@ -47,18 +47,20 @@ where
                 return Ok(ComponentValue::Url(self.parse()?));
             }
 
-            Token::Function { value, .. } => match &*value.to_ascii_lowercase() {
-                "url" | "src" => {
-                    return Ok(ComponentValue::Url(self.parse()?));
+            Token::Function(box FunctionToken { value, .. }) => {
+                match &*value.to_ascii_lowercase() {
+                    "url" | "src" => {
+                        return Ok(ComponentValue::Url(self.parse()?));
+                    }
+                    "rgb" | "rgba" | "hsl" | "hsla" | "hwb" | "lab" | "lch" | "oklab" | "oklch"
+                    | "color" | "device-cmyk" | "color-mix" | "color-contrast" => {
+                        return Ok(ComponentValue::Color(self.parse()?));
+                    }
+                    _ => {
+                        return Ok(ComponentValue::Function(self.parse()?));
+                    }
                 }
-                "rgb" | "rgba" | "hsl" | "hsla" | "hwb" | "lab" | "lch" | "oklab" | "oklch"
-                | "color" | "device-cmyk" | "color-mix" | "color-contrast" => {
-                    return Ok(ComponentValue::Color(self.parse()?));
-                }
-                _ => {
-                    return Ok(ComponentValue::Function(self.parse()?));
-                }
-            },
+            }
 
             tok!("percentage") => {
                 return Ok(ComponentValue::Percentage(self.parse()?));
@@ -66,7 +68,7 @@ where
 
             tok!("dimension") => return Ok(ComponentValue::Dimension(self.parse()?)),
 
-            Token::Number { type_flag, .. } => {
+            Token::Number(box NumberToken { type_flag, .. }) => {
                 if *type_flag == NumberType::Integer {
                     return Ok(ComponentValue::Integer(self.parse()?));
                 }
@@ -74,7 +76,7 @@ where
                 return Ok(ComponentValue::Number(self.parse()?));
             }
 
-            Token::Ident { value, .. } => {
+            Token::Ident(box IdentToken { value, .. }) => {
                 if value.starts_with("--") {
                     return Ok(ComponentValue::DashedIdent(self.parse()?));
                 } else if &*value.to_ascii_lowercase() == "u"
@@ -370,7 +372,9 @@ where
                 let mut is_legacy_syntax = true;
 
                 match cur!(self) {
-                    Token::Ident { value, .. } if &*value.to_ascii_lowercase() == "from" => {
+                    Token::Ident(box IdentToken { value, .. })
+                        if &*value.to_ascii_lowercase() == "from" =>
+                    {
                         is_legacy_syntax = false;
 
                         values.push(ComponentValue::Ident(self.parse()?));
@@ -399,7 +403,9 @@ where
                                     Ok(Some(ComponentValue::Percentage(parser.parse()?)))
                                 }
                                 tok!("number") => Ok(Some(ComponentValue::Number(parser.parse()?))),
-                                Token::Function { value, .. } if is_math_function(value) => {
+                                Token::Function(box FunctionToken { value, .. })
+                                    if is_math_function(value) =>
+                                {
                                     Ok(Some(ComponentValue::Function(parser.parse()?)))
                                 }
                                 tok!("ident") => {
@@ -457,7 +463,9 @@ where
                                         ))
                                     }
                                 }
-                                Token::Function { value, .. } if is_math_function(value) => {
+                                Token::Function(box FunctionToken { value, .. })
+                                    if is_math_function(value) =>
+                                {
                                     Ok(Some(ComponentValue::Function(parser.parse()?)))
                                 }
                                 _ => {
@@ -512,7 +520,9 @@ where
                                     Ok(Some(ComponentValue::Percentage(parser.parse()?)))
                                 }
                                 tok!("number") => Ok(Some(ComponentValue::Number(parser.parse()?))),
-                                Token::Function { value, .. } if is_math_function(value) => {
+                                Token::Function(box FunctionToken { value, .. })
+                                    if is_math_function(value) =>
+                                {
                                     Ok(Some(ComponentValue::Function(parser.parse()?)))
                                 }
                                 tok!("ident") if !is_legacy_syntax => {
@@ -556,7 +566,9 @@ where
                                 tok!("percentage") => {
                                     Ok(Some(ComponentValue::Percentage(parser.parse()?)))
                                 }
-                                Token::Function { value, .. } if is_math_function(value) => {
+                                Token::Function(box FunctionToken { value, .. })
+                                    if is_math_function(value) =>
+                                {
                                     Ok(Some(ComponentValue::Function(parser.parse()?)))
                                 }
                                 tok!("ident") => {
@@ -628,7 +640,9 @@ where
                                     Ok(Some(ComponentValue::Percentage(parser.parse()?)))
                                 }
                                 tok!("number") => Ok(Some(ComponentValue::Number(parser.parse()?))),
-                                Token::Function { value, .. } if is_math_function(value) => {
+                                Token::Function(box FunctionToken { value, .. })
+                                    if is_math_function(value) =>
+                                {
                                     Ok(Some(ComponentValue::Function(parser.parse()?)))
                                 }
                                 tok!("ident") if !is_legacy_syntax => {
@@ -672,7 +686,9 @@ where
                                 tok!("percentage") => {
                                     Ok(Some(ComponentValue::Percentage(parser.parse()?)))
                                 }
-                                Token::Function { value, .. } if is_math_function(value) => {
+                                Token::Function(box FunctionToken { value, .. })
+                                    if is_math_function(value) =>
+                                {
                                     Ok(Some(ComponentValue::Function(parser.parse()?)))
                                 }
                                 tok!("ident") => {
@@ -725,7 +741,9 @@ where
                             tok!("number") | tok!("percentage") => {
                                 Ok(Some(ComponentValue::AlphaValue(parser.parse()?)))
                             }
-                            Token::Function { value, .. } if is_math_function(value) => {
+                            Token::Function(box FunctionToken { value, .. })
+                                if is_math_function(value) =>
+                            {
                                 Ok(Some(ComponentValue::Function(parser.parse()?)))
                             }
                             _ => {
@@ -759,7 +777,9 @@ where
                             tok!("number") | tok!("percentage") => {
                                 Ok(Some(ComponentValue::AlphaValue(parser.parse()?)))
                             }
-                            Token::Function { value, .. } if is_math_function(value) => {
+                            Token::Function(box FunctionToken { value, .. })
+                                if is_math_function(value) =>
+                            {
                                 Ok(Some(ComponentValue::Function(parser.parse()?)))
                             }
                             tok!("ident") => {
@@ -804,7 +824,7 @@ where
                 let mut has_variable = false;
 
                 match cur!(self) {
-                    Token::Ident { value, .. }
+                    Token::Ident(box IdentToken { value, .. })
                         if &*value.to_ascii_lowercase() == "from"
                             && function_name != "device-cmyk" =>
                     {
@@ -833,7 +853,9 @@ where
                                 tok!("number") | tok!("dimension") => {
                                     Ok(Some(ComponentValue::Hue(parser.parse()?)))
                                 }
-                                Token::Function { value, .. } if is_math_function(value) => {
+                                Token::Function(box FunctionToken { value, .. })
+                                    if is_math_function(value) =>
+                                {
                                     Ok(Some(ComponentValue::Function(parser.parse()?)))
                                 }
                                 tok!("ident") => {
@@ -878,7 +900,9 @@ where
                                     Ok(Some(ComponentValue::Percentage(parser.parse()?)))
                                 }
                                 tok!("number") => Ok(Some(ComponentValue::Number(parser.parse()?))),
-                                Token::Function { value, .. } if is_math_function(value) => {
+                                Token::Function(box FunctionToken { value, .. })
+                                    if is_math_function(value) =>
+                                {
                                     Ok(Some(ComponentValue::Function(parser.parse()?)))
                                 }
                                 tok!("ident") => {
@@ -941,7 +965,9 @@ where
                                     tok!("percentage") => {
                                         Ok(Some(ComponentValue::Percentage(parser.parse()?)))
                                     }
-                                    Token::Function { value, .. } if is_math_function(value) => {
+                                    Token::Function(box FunctionToken { value, .. })
+                                        if is_math_function(value) =>
+                                    {
                                         Ok(Some(ComponentValue::Function(parser.parse()?)))
                                     }
                                     tok!("ident") => {
@@ -990,7 +1016,9 @@ where
                                     tok!("number") => {
                                         Ok(Some(ComponentValue::Number(parser.parse()?)))
                                     }
-                                    Token::Function { value, .. } if is_math_function(value) => {
+                                    Token::Function(box FunctionToken { value, .. })
+                                        if is_math_function(value) =>
+                                    {
                                         Ok(Some(ComponentValue::Function(parser.parse()?)))
                                     }
                                     tok!("ident") => {
@@ -1058,7 +1086,9 @@ where
                                     tok!("percentage") => {
                                         Ok(Some(ComponentValue::Percentage(parser.parse()?)))
                                     }
-                                    Token::Function { value, .. } if is_math_function(value) => {
+                                    Token::Function(box FunctionToken { value, .. })
+                                        if is_math_function(value) =>
+                                    {
                                         Ok(Some(ComponentValue::Function(parser.parse()?)))
                                     }
                                     tok!("ident") => {
@@ -1107,7 +1137,9 @@ where
                                     tok!("number") => {
                                         Ok(Some(ComponentValue::Number(parser.parse()?)))
                                     }
-                                    Token::Function { value, .. } if is_math_function(value) => {
+                                    Token::Function(box FunctionToken { value, .. })
+                                        if is_math_function(value) =>
+                                    {
                                         Ok(Some(ComponentValue::Function(parser.parse()?)))
                                     }
                                     tok!("ident") => {
@@ -1153,7 +1185,9 @@ where
                                     tok!("number") | tok!("dimension") => {
                                         Ok(Some(ComponentValue::Hue(parser.parse()?)))
                                     }
-                                    Token::Function { value, .. } if is_math_function(value) => {
+                                    Token::Function(box FunctionToken { value, .. })
+                                        if is_math_function(value) =>
+                                    {
                                         Ok(Some(ComponentValue::Function(parser.parse()?)))
                                     }
                                     tok!("ident") => {
@@ -1236,7 +1270,9 @@ where
                             tok!("number") | tok!("percentage") => {
                                 Ok(Some(ComponentValue::AlphaValue(parser.parse()?)))
                             }
-                            Token::Function { value, .. } if is_math_function(value) => {
+                            Token::Function(box FunctionToken { value, .. })
+                                if is_math_function(value) =>
+                            {
                                 Ok(Some(ComponentValue::Function(parser.parse()?)))
                             }
                             tok!("ident") if !matches!(function_name, "device-cmyk") => {
@@ -1281,7 +1317,9 @@ where
                 let mut has_variable = false;
 
                 match cur!(self) {
-                    Token::Ident { value, .. } if &*value.to_ascii_lowercase() == "from" => {
+                    Token::Ident(box IdentToken { value, .. })
+                        if &*value.to_ascii_lowercase() == "from" =>
+                    {
                         values.push(ComponentValue::Ident(self.parse()?));
 
                         self.input.skip_ws();
@@ -1305,7 +1343,7 @@ where
 
                 let ident = self.try_parse_variable_function(
                     |parser, _| match cur!(parser) {
-                        Token::Ident { value, .. } => {
+                        Token::Ident(box IdentToken { value, .. }) => {
                             if value.starts_with("--") && value.len() > 2 {
                                 is_custom_params = true;
 
@@ -1345,7 +1383,9 @@ where
                         tok!("percentage") if !is_xyz => {
                             Ok(Some(ComponentValue::Percentage(parser.parse()?)))
                         }
-                        Token::Function { value, .. } if is_math_function(value) => {
+                        Token::Function(box FunctionToken { value, .. })
+                            if is_math_function(value) =>
+                        {
                             Ok(Some(ComponentValue::Function(parser.parse()?)))
                         }
                         tok!("ident") => {
@@ -1394,7 +1434,7 @@ where
                             tok!("percentage") if !is_xyz => {
                                 ComponentValue::Percentage(self.parse()?)
                             }
-                            Token::Function { value, .. }
+                            Token::Function(box FunctionToken { value, .. })
                                 if is_math_function(value)
                                     || matches!(
                                         &*value.to_ascii_lowercase(),
@@ -1431,7 +1471,9 @@ where
                             tok!("percentage") if !is_xyz => {
                                 Ok(Some(ComponentValue::Percentage(parser.parse()?)))
                             }
-                            Token::Function { value, .. } if is_math_function(value) => {
+                            Token::Function(box FunctionToken { value, .. })
+                                if is_math_function(value) =>
+                            {
                                 Ok(Some(ComponentValue::Function(parser.parse()?)))
                             }
                             tok!("ident") => {
@@ -1487,7 +1529,9 @@ where
                                     ))
                                 }
                             }
-                            Token::Function { value, .. } if is_math_function(value) => {
+                            Token::Function(box FunctionToken { value, .. })
+                                if is_math_function(value) =>
+                            {
                                 Ok(Some(ComponentValue::Function(parser.parse()?)))
                             }
                             _ => {
@@ -1524,7 +1568,9 @@ where
                             tok!("number") | tok!("percentage") => {
                                 Ok(Some(ComponentValue::AlphaValue(parser.parse()?)))
                             }
-                            Token::Function { value, .. } if is_math_function(value) => {
+                            Token::Function(box FunctionToken { value, .. })
+                                if is_math_function(value) =>
+                            {
                                 Ok(Some(ComponentValue::Function(parser.parse()?)))
                             }
                             tok!("ident") if !matches!(function_name, "device-cmyk") => {
@@ -1672,7 +1718,7 @@ where
         }
 
         match cur!(self) {
-            Token::Function { value, .. }
+            Token::Function(box FunctionToken { value, .. })
                 if matches!(&*value.to_ascii_lowercase(), "var" | "env" | "constant") =>
             {
                 *has_before_variable = true;
@@ -1744,12 +1790,12 @@ where
         let value = bump!(self);
 
         match value {
-            Token::Number {
+            Token::Number(box NumberToken {
                 value,
                 raw,
                 type_flag,
                 ..
-            } => {
+            }) => {
                 if type_flag == NumberType::Number {
                     return Err(Error::new(span, ErrorKind::Expected("integer type")));
                 }
@@ -1781,7 +1827,7 @@ where
         let value = bump!(self);
 
         match value {
-            Token::Number { value, raw, .. } => Ok(Number {
+            Token::Number(box NumberToken { value, raw, .. }) => Ok(Number {
                 span,
                 value,
                 raw: Some(raw),
@@ -1805,7 +1851,7 @@ where
         }
 
         match bump!(self) {
-            Token::Ident { value, raw } => {
+            Token::Ident(box IdentToken { value, raw, .. }) => {
                 match &*value.to_ascii_lowercase() {
                     "initial" | "inherit" | "unset" | "revert" | "default" => {
                         return Err(Error::new(span, ErrorKind::InvalidCustomIdent(value)));
@@ -1838,7 +1884,7 @@ where
         }
 
         match bump!(self) {
-            Token::Ident { value, raw } => {
+            Token::Ident(box IdentToken { value, raw, .. }) => {
                 if !value.starts_with("--") {
                     return Err(Error::new(
                         span,
@@ -1878,7 +1924,7 @@ where
         }
 
         match bump!(self) {
-            Token::Ident { value, raw } => {
+            Token::Ident(box IdentToken { value, raw, .. }) => {
                 if !value.starts_with("--") {
                     return Err(Error::new(
                         span,
@@ -1916,7 +1962,7 @@ where
         }
 
         match bump!(self) {
-            Token::Ident { value, raw } => Ok(Ident {
+            Token::Ident(box IdentToken { value, raw, .. }) => Ok(Ident {
                 span,
                 value,
                 raw: Some(raw),
@@ -1940,7 +1986,7 @@ where
         }
 
         match cur!(self) {
-            Token::Dimension { unit, .. } => {
+            Token::Dimension(box DimensionToken { unit, .. }) => {
                 match unit {
                     // <length>
                     unit if is_length_unit(unit)
@@ -1980,9 +2026,9 @@ where
         }
 
         match bump!(self) {
-            Token::Dimension {
+            Token::Dimension(box DimensionToken {
                 value, unit, raw, ..
-            } => {
+            }) => {
                 // TODO validate
 
                 let unit_len = raw.1.len() as u32;
@@ -2020,9 +2066,9 @@ where
         }
 
         match bump!(self) {
-            Token::Dimension {
+            Token::Dimension(box DimensionToken {
                 value, unit, raw, ..
-            } => {
+            }) => {
                 if !is_angle_unit(&unit) {
                     return Err(Error::new(
                         span,
@@ -2065,9 +2111,9 @@ where
         }
 
         match bump!(self) {
-            Token::Dimension {
+            Token::Dimension(box DimensionToken {
                 value, unit, raw, ..
-            } => {
+            }) => {
                 if !is_time_unit(&unit) {
                     return Err(Error::new(span, ErrorKind::Expected("'s' or 'ms' units")));
                 }
@@ -2107,9 +2153,9 @@ where
         }
 
         match bump!(self) {
-            Token::Dimension {
+            Token::Dimension(box DimensionToken {
                 value, unit, raw, ..
-            } => {
+            }) => {
                 if !is_frequency_unit(&unit) {
                     return Err(Error::new(span, ErrorKind::Expected("'Hz' or 'kHz' units")));
                 }
@@ -2149,9 +2195,9 @@ where
         }
 
         match bump!(self) {
-            Token::Dimension {
+            Token::Dimension(box DimensionToken {
                 value, unit, raw, ..
-            } => {
+            }) => {
                 if !is_resolution_unit(&unit) {
                     return Err(Error::new(
                         span,
@@ -2194,9 +2240,9 @@ where
         }
 
         match bump!(self) {
-            Token::Dimension {
+            Token::Dimension(box DimensionToken {
                 value, unit, raw, ..
-            } => {
+            }) => {
                 if !is_flex_unit(&unit) {
                     return Err(Error::new(span, ErrorKind::Expected("'fr' unit")));
                 }
@@ -2236,9 +2282,9 @@ where
         }
 
         match bump!(self) {
-            Token::Dimension {
+            Token::Dimension(box DimensionToken {
                 value, unit, raw, ..
-            } => {
+            }) => {
                 let unit_len = raw.1.len() as u32;
 
                 Ok(UnknownDimension {
@@ -2271,14 +2317,16 @@ where
 
         match cur!(self) {
             // currentcolor | <system-color>
-            Token::Ident { value, .. }
+            Token::Ident(box IdentToken { value, .. })
                 if value.as_ref().eq_ignore_ascii_case("currentcolor")
                     || is_system_color(value) =>
             {
                 Ok(Color::CurrentColorOrSystemColor(self.parse()?))
             }
             // <device-cmyk()>
-            Token::Function { value, .. } if value.as_ref().eq_ignore_ascii_case("device-cmyk") => {
+            Token::Function(box FunctionToken { value, .. })
+                if value.as_ref().eq_ignore_ascii_case("device-cmyk") =>
+            {
                 Ok(Color::Function(self.parse()?))
             }
             // <absolute-color-base>
@@ -2307,7 +2355,7 @@ where
 
         match cur!(self) {
             tok!("#") => Ok(AbsoluteColorBase::HexColor(self.parse()?)),
-            Token::Ident { value, .. } => {
+            Token::Ident(box IdentToken { value, .. }) => {
                 if !(is_named_color(value) || value.as_ref().eq_ignore_ascii_case("transparent")) {
                     let span = self.input.cur_span();
 
@@ -2319,7 +2367,9 @@ where
 
                 Ok(AbsoluteColorBase::NamedColorOrTransparent(self.parse()?))
             }
-            Token::Function { value, .. } if is_absolute_color_base_function(value) => {
+            Token::Function(box FunctionToken { value, .. })
+                if is_absolute_color_base_function(value) =>
+            {
                 Ok(AbsoluteColorBase::Function(self.parse()?))
             }
             _ => {
@@ -2347,7 +2397,7 @@ where
         }
 
         match bump!(self) {
-            Token::Hash { value, raw, .. } => Ok(HexColor {
+            Token::Hash(box HashToken { value, raw, .. }) => Ok(HexColor {
                 span,
                 value,
                 raw: Some(raw),
@@ -2424,7 +2474,7 @@ where
         match cur!(self) {
             tok!("number") => Ok(CmykComponent::Number(self.parse()?)),
             tok!("percentage") => Ok(CmykComponent::Percentage(self.parse()?)),
-            Token::Function { value, .. } => {
+            Token::Function(box FunctionToken { value, .. }) => {
                 if !is_math_function(value) {
                     let span = self.input.cur_span();
 
@@ -2452,7 +2502,7 @@ where
         }
 
         match bump!(self) {
-            Token::Percentage { value, raw } => {
+            Token::Percentage(box PercentageToken { value, raw }) => {
                 let value = Number {
                     span: Span::new(span.lo, span.hi - BytePos(1), Default::default()),
                     value,
@@ -2480,7 +2530,7 @@ where
         }
 
         match bump!(self) {
-            Token::String { value, raw } => Ok(Str {
+            Token::String(box StringToken { value, raw }) => Ok(Str {
                 span,
                 value,
                 raw: Some(raw),
@@ -2507,7 +2557,7 @@ where
         }
 
         match bump!(self) {
-            Token::Url { name, value, raw } => {
+            Token::Url(box UrlToken { name, value, raw }) => {
                 let name_length = raw.0.len() as u32;
                 let name = Ident {
                     span: Span::new(span.lo, span.lo + BytePos(name_length), Default::default()),
@@ -2531,10 +2581,10 @@ where
                     modifiers: None,
                 })
             }
-            Token::Function {
+            Token::Function(box FunctionToken {
                 value: function_name,
                 raw: raw_function_name,
-            } => {
+            }) => {
                 if &*function_name.to_ascii_lowercase() != "url"
                     && &*function_name.to_ascii_lowercase() != "src"
                 {
@@ -2616,9 +2666,9 @@ where
 
         // should start with `u` or `U`
         match cur!(self) {
-            Token::Ident { value, .. } if &*value.to_ascii_lowercase() == "u" => {
+            Token::Ident(box IdentToken { value, .. }) if &*value.to_ascii_lowercase() == "u" => {
                 let ident = match bump!(self) {
-                    Token::Ident { value, .. } => value,
+                    Token::Ident(box IdentToken { value, .. }) => value,
                     _ => {
                         unreachable!();
                     }
@@ -2634,9 +2684,9 @@ where
         match cur!(self) {
             // u '+' <ident-token> '?'*
             // u '+' '?'+
-            Token::Delim { value } if *value == '+' => {
+            Token::Delim(box DelimToken { value }) if *value == '+' => {
                 let plus = match bump!(self) {
-                    Token::Delim { value } => value,
+                    Token::Delim(box DelimToken { value }) => value,
                     _ => {
                         unreachable!();
                     }
@@ -2646,7 +2696,7 @@ where
 
                 if is!(self, Ident) {
                     let ident = match bump!(self) {
-                        Token::Ident { value, .. } => value,
+                        Token::Ident(box IdentToken { value, .. }) => value,
                         _ => {
                             unreachable!();
                         }
@@ -2660,7 +2710,7 @@ where
                         }
 
                         let question = match bump!(self) {
-                            Token::Delim { value } => value,
+                            Token::Delim(box DelimToken { value }) => value,
                             _ => {
                                 unreachable!();
                             }
@@ -2670,7 +2720,7 @@ where
                     }
                 } else {
                     let question = match bump!(self) {
-                        Token::Delim { value } if value == '?' => value,
+                        Token::Delim(box DelimToken { value }) if value == '?' => value,
                         _ => {
                             return Err(Error::new(span, ErrorKind::Expected("'?' delim token")));
                         }
@@ -2684,7 +2734,7 @@ where
                         }
 
                         let question = match bump!(self) {
-                            Token::Delim { value } => value,
+                            Token::Delim(box DelimToken { value }) => value,
                             _ => {
                                 unreachable!();
                             }
@@ -2699,7 +2749,7 @@ where
             // u <number-token> <number-token>
             tok!("number") => {
                 let number = match bump!(self) {
-                    Token::Number { raw, .. } => raw,
+                    Token::Number(box NumberToken { raw, .. }) => raw,
                     _ => {
                         unreachable!();
                     }
@@ -2711,7 +2761,7 @@ where
                     match cur!(self) {
                         tok!("?") => {
                             let question = match bump!(self) {
-                                Token::Delim { value } => value,
+                                Token::Delim(box DelimToken { value }) => value,
                                 _ => {
                                     unreachable!();
                                 }
@@ -2725,7 +2775,7 @@ where
                                 }
 
                                 let question = match bump!(self) {
-                                    Token::Delim { value } => value,
+                                    Token::Delim(box DelimToken { value }) => value,
                                     _ => {
                                         unreachable!();
                                     }
@@ -2736,7 +2786,7 @@ where
                         }
                         tok!("dimension") => {
                             let raw = match bump!(self) {
-                                Token::Dimension { raw, .. } => raw,
+                                Token::Dimension(box DimensionToken { raw, .. }) => raw,
                                 _ => {
                                     unreachable!();
                                 }
@@ -2747,7 +2797,7 @@ where
                         }
                         tok!("number") => {
                             let number = match bump!(self) {
-                                Token::Number { raw, .. } => raw,
+                                Token::Number(box NumberToken { raw, .. }) => raw,
                                 _ => {
                                     unreachable!();
                                 }
@@ -2762,7 +2812,7 @@ where
             // u <dimension-token> '?'*
             tok!("dimension") => {
                 let raw = match bump!(self) {
-                    Token::Dimension { raw, .. } => raw,
+                    Token::Dimension(box DimensionToken { raw, .. }) => raw,
                     _ => {
                         unreachable!();
                     }
@@ -2777,7 +2827,7 @@ where
                     }
 
                     let question = match bump!(self) {
-                        Token::Delim { value } => value,
+                        Token::Delim(box DelimToken { value }) => value,
                         _ => {
                             unreachable!();
                         }
@@ -3166,7 +3216,7 @@ where
             tok!("number") => Ok(CalcValue::Number(self.parse()?)),
             tok!("dimension") => Ok(CalcValue::Dimension(self.parse()?)),
             tok!("percentage") => Ok(CalcValue::Percentage(self.parse()?)),
-            Token::Ident { value, .. } => {
+            Token::Ident(box IdentToken { value, .. }) => {
                 match &*value.to_ascii_lowercase() {
                     "e" | "pi" | "infinity" | "-infinity" | "nan" => {}
                     _ => {

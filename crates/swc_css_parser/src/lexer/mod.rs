@@ -2,7 +2,11 @@ use std::{cell::RefCell, char::REPLACEMENT_CHARACTER, rc::Rc};
 
 use swc_atoms::{js_word, Atom, JsWord};
 use swc_common::{input::Input, BytePos, Span};
-use swc_css_ast::{NumberType, Token, TokenAndSpan};
+use swc_css_ast::{
+    AtKeywordToken, BadStringToken, BadUrlToken, DelimToken, DimensionToken, FunctionToken,
+    HashToken, IdentToken, NumberToken, NumberType, PercentageToken, StringToken, Token,
+    TokenAndSpan, WhiteSpaceToken,
+};
 
 use crate::{
     error::{Error, ErrorKind},
@@ -253,9 +257,9 @@ where
                     }
                 }
 
-                return Ok(Token::WhiteSpace {
+                return Ok(Token::WhiteSpace(Box::new(WhiteSpaceToken {
                     value: (&**buf).into(),
-                });
+                })));
             }),
             // U+0022 QUOTATION MARK (")
             // Consume a string token and return it.
@@ -271,11 +275,11 @@ where
                     || self.is_valid_escape(first, second)?
                 {
                     // Create a <hash-token>.
-                    let mut hash_token = Token::Hash {
+                    let mut hash_token = Token::Hash(Box::new(HashToken {
                         is_id: Default::default(),
                         value: Default::default(),
                         raw: Default::default(),
-                    };
+                    }));
 
                     // If the next 3 input code points would start an identifier, set the
                     // <hash-token>’s type flag to "id".
@@ -283,7 +287,7 @@ where
                     let is_would_start_ident = self.would_start_ident(first, second, third)?;
 
                     match hash_token {
-                        Token::Hash { ref mut is_id, .. } => {
+                        Token::Hash(box HashToken { ref mut is_id, .. }) => {
                             *is_id = is_would_start_ident;
                         }
                         _ => {
@@ -295,11 +299,11 @@ where
                     let ident_sequence = self.read_ident_sequence()?;
 
                     match hash_token {
-                        Token::Hash {
+                        Token::Hash(box HashToken {
                             ref mut value,
                             ref mut raw,
                             ..
-                        } => {
+                        }) => {
                             *value = ident_sequence.0;
                             *raw = ident_sequence.1;
                         }
@@ -312,7 +316,7 @@ where
                     return Ok(hash_token);
                 }
 
-                Ok(Token::Delim { value: '#' })
+                Ok(Token::Delim(Box::new(DelimToken { value: '#' })))
             }
             // U+0027 APOSTROPHE (')
             // Consume a string token and return it.
@@ -335,7 +339,7 @@ where
 
                 // Otherwise, return a <delim-token> with its value set to the current input
                 // code point.
-                Ok(Token::Delim { value: '+' })
+                Ok(Token::Delim(Box::new(DelimToken { value: '+' })))
             }
             // U+002C COMMA (,)
             // Return a <comma-token>.
@@ -367,7 +371,7 @@ where
 
                 // Otherwise, return a <delim-token> with its value set to the current input
                 // code point.
-                Ok(Token::Delim { value: '-' })
+                Ok(Token::Delim(Box::new(DelimToken { value: '-' })))
             }
             // U+002E FULL STOP (.)
             Some('.') => {
@@ -381,7 +385,7 @@ where
 
                 // Otherwise, return a <delim-token> with its value set to the current input
                 // code point.
-                Ok(Token::Delim { value: '.' })
+                Ok(Token::Delim(Box::new(DelimToken { value: '.' })))
             }
             // U+003A COLON (:)
             // Return a <colon-token>.
@@ -407,7 +411,7 @@ where
 
                 // Otherwise, return a <delim-token> with its value set to the current input
                 // code point.
-                Ok(Token::Delim { value: '<' })
+                Ok(Token::Delim(Box::new(DelimToken { value: '<' })))
             }
             // U+0040 COMMERCIAL AT (@)
             Some('@') => {
@@ -421,15 +425,15 @@ where
                 if self.would_start_ident(first, second, third)? {
                     let ident_sequence = self.read_ident_sequence()?;
 
-                    return Ok(Token::AtKeyword {
+                    return Ok(Token::AtKeyword(Box::new(AtKeywordToken {
                         value: ident_sequence.0,
                         raw: ident_sequence.1,
-                    });
+                    })));
                 }
 
                 // Otherwise, return a <delim-token> with its value set to the current input
                 // code point.
-                Ok(Token::Delim { value: '@' })
+                Ok(Token::Delim(Box::new(DelimToken { value: '@' })))
             }
             // U+005B LEFT SQUARE BRACKET ([)
             // Return a <[-token>.
@@ -448,7 +452,7 @@ where
                 // to the current input code point.
                 self.emit_error(ErrorKind::InvalidEscape);
 
-                Ok(Token::Delim { value: '\\' })
+                Ok(Token::Delim(Box::new(DelimToken { value: '\\' })))
             }
             // U+005D RIGHT SQUARE BRACKET (])
             // Return a <]-token>.
@@ -478,7 +482,7 @@ where
             None => Err(ErrorKind::Eof),
             // anything else
             // Return a <delim-token> with its value set to the current input code point.
-            Some(c) => Ok(Token::Delim { value: c }),
+            Some(c) => Ok(Token::Delim(Box::new(DelimToken { value: c }))),
         }
     }
 
@@ -561,12 +565,12 @@ where
             let ident_sequence = self.read_ident_sequence()?;
             // Create a <dimension-token> with the same value and type flag as number, and a
             // unit set initially to the empty string.
-            let token = Token::Dimension {
+            let token = Token::Dimension(Box::new(DimensionToken {
                 value: number.0,
                 unit: ident_sequence.0,
                 type_flag: number.2,
                 raw: Box::new((number.1, ident_sequence.1)),
-            };
+            }));
 
             // Return the <dimension-token>.
             return Ok(token);
@@ -576,19 +580,19 @@ where
         else if next_first == Some('%') {
             self.consume();
 
-            return Ok(Token::Percentage {
+            return Ok(Token::Percentage(Box::new(PercentageToken {
                 value: number.0,
                 raw: number.1,
-            });
+            })));
         }
 
         // Otherwise, create a <number-token> with the same value and type flag as
         // number, and return it.
-        Ok(Token::Number {
+        Ok(Token::Number(Box::new(NumberToken {
             value: number.0,
             raw: number.1,
             type_flag: number.2,
-        })
+        })))
     }
 
     // This section describes how to consume an ident-like token from a stream of
@@ -634,16 +638,16 @@ where
                     // should not be part of token
                     self.last_pos = Some(start_whitespace);
 
-                    return Ok(Token::Function {
+                    return Ok(Token::Function(Box::new(FunctionToken {
                         value: ident_sequence.0,
                         raw: ident_sequence.1,
-                    });
+                    })));
                 }
                 Some('"' | '\'') => {
-                    return Ok(Token::Function {
+                    return Ok(Token::Function(Box::new(FunctionToken {
                         value: ident_sequence.0,
                         raw: ident_sequence.1,
-                    });
+                    })));
                 }
                 // Otherwise, consume a url token, and return it.
                 _ => {
@@ -656,18 +660,18 @@ where
         else if self.next() == Some('(') {
             self.consume();
 
-            return Ok(Token::Function {
+            return Ok(Token::Function(Box::new(FunctionToken {
                 value: ident_sequence.0,
                 raw: ident_sequence.1,
-            });
+            })));
         }
 
         // Otherwise, create an <ident-token> with its value set to string and return
         // it.
-        Ok(Token::Ident {
+        Ok(Token::Ident(Box::new(IdentToken {
             value: ident_sequence.0,
             raw: ident_sequence.1,
-        })
+        })))
     }
 
     // This section describes how to consume a string token from a stream of code
@@ -702,10 +706,10 @@ where
                     None => {
                         l.emit_error(ErrorKind::UnterminatedString);
 
-                        return Ok(Token::String {
+                        return Ok(Token::String(Box::new(StringToken {
                             value: (&**buf).into(),
                             raw: (&**raw).into(),
-                        });
+                        })));
                     }
 
                     // Newline
@@ -715,9 +719,9 @@ where
                         l.emit_error(ErrorKind::NewlineInString);
                         l.reconsume();
 
-                        return Ok(Token::BadString {
+                        return Ok(Token::BadString(Box::new(BadStringToken {
                             raw: (&**raw).into(),
-                        });
+                        })));
                     }
 
                     // U+005C REVERSE SOLIDUS (\)
@@ -756,10 +760,10 @@ where
                 }
             }
 
-            Ok(Token::String {
+            Ok(Token::String(Box::new(StringToken {
                 value: (&**buf).into(),
                 raw: (&**raw).into(),
-            })
+            })))
         })
     }
 
@@ -789,11 +793,11 @@ where
                     // U+0029 RIGHT PARENTHESIS ())
                     // Return the <url-token>.
                     Some(')') => {
-                        return Ok(Token::Url {
+                        return Ok(Token::Url(Box::new(swc_css_ast::UrlToken {
                             name: name.0,
                             value: (&**out).into(),
                             raw: Box::new((name.1, (&**raw).into())),
-                        });
+                        })));
                     }
 
                     // EOF
@@ -801,11 +805,11 @@ where
                     None => {
                         l.emit_error(ErrorKind::UnterminatedUrl);
 
-                        return Ok(Token::Url {
+                        return Ok(Token::Url(Box::new(swc_css_ast::UrlToken {
                             name: name.0,
                             value: (&**out).into(),
                             raw: Box::new((name.1, (&**raw).into())),
-                        });
+                        })));
                     }
 
                     // whitespace
@@ -836,22 +840,22 @@ where
 
                                 raw.push_str(&whitespaces);
 
-                                return Ok(Token::Url {
+                                return Ok(Token::Url(Box::new(swc_css_ast::UrlToken {
                                     name: name.0,
                                     value: (&**out).into(),
                                     raw: Box::new((name.1, (&**raw).into())),
-                                });
+                                })));
                             }
                             None => {
                                 l.emit_error(ErrorKind::UnterminatedUrl);
 
                                 raw.push_str(&whitespaces);
 
-                                return Ok(Token::Url {
+                                return Ok(Token::Url(Box::new(swc_css_ast::UrlToken {
                                     name: name.0,
                                     value: (&**out).into(),
                                     raw: Box::new((name.1, (&**raw).into())),
-                                });
+                                })));
                             }
                             _ => {}
                         }
@@ -866,9 +870,9 @@ where
                         out.push_str(&remnants.0);
                         raw.push_str(&remnants.1);
 
-                        return Ok(Token::BadUrl {
+                        return Ok(Token::BadUrl(Box::new(BadUrlToken {
                             raw: Box::new((name.1, (&**raw).into())),
-                        });
+                        })));
                     }
 
                     // U+0022 QUOTATION MARK (")
@@ -887,9 +891,9 @@ where
                         raw.push(c);
                         raw.push_str(&remnants.1);
 
-                        return Ok(Token::BadUrl {
+                        return Ok(Token::BadUrl(Box::new(swc_css_ast::BadUrlToken {
                             raw: Box::new((name.1, (&**raw).into())),
-                        });
+                        })));
                     }
 
                     // U+005C REVERSE SOLIDUS (\)
@@ -916,9 +920,9 @@ where
                             raw.push(c);
                             raw.push_str(&remnants.1);
 
-                            return Ok(Token::BadUrl {
+                            return Ok(Token::BadUrl(Box::new(swc_css_ast::BadUrlToken {
                                 raw: Box::new((name.1, (&**raw).into())),
-                            });
+                            })));
                         }
                     }
 

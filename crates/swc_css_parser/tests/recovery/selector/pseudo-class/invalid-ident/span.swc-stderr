@@ -41,7 +41,7 @@
  2 |     
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/selector/pseudo-class/invalid-ident/input.css:1:1]
  1 | : first-child {
    :  ^
@@ -55,7 +55,7 @@
  2 |     
    `----
 
-  x Ident { value: Atom('first-child' type=static), raw: "first-child" }
+  x Ident(IdentToken { value: Atom('first-child' type=static), raw: "first-child" })
    ,-[$DIR/tests/recovery/selector/pseudo-class/invalid-ident/input.css:1:1]
  1 | : first-child {
    :   ^^^^^^^^^^^
@@ -69,7 +69,7 @@
  2 |     
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/selector/pseudo-class/invalid-ident/input.css:1:1]
  1 | : first-child {
    :              ^

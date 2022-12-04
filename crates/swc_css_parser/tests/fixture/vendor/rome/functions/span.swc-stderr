@@ -144,7 +144,7 @@
  3 | 	border: var(--fancy);
    `----
 
-  x Dimension { value: 2.0, unit: Atom('px' type=static), type_flag: Integer, raw: ("2", "px") }
+  x Dimension(DimensionToken { value: 2.0, unit: Atom('px' type=static), type_flag: Integer, raw: ("2", "px") })
    ,-[$DIR/tests/fixture/vendor/rome/functions/input.css:1:1]
  1 | .style {
  2 | 	--fancy: 2px;

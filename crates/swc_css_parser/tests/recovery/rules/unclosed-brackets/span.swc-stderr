@@ -27,7 +27,7 @@
    : ^
    `----
 
-  x Delim { value: '.' }
+  x Delim(DelimToken { value: '.' })
    ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:1:1]
  1 | .class[attr= {
    : ^
@@ -39,7 +39,7 @@
    :  ^^^^^
    `----
 
-  x Ident { value: Atom('class' type=static), raw: "class" }
+  x Ident(IdentToken { value: Atom('class' type=static), raw: "class" })
    ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:1:1]
  1 | .class[attr= {
    :  ^^^^^
@@ -79,7 +79,7 @@
    :        ^^^^
    `----
 
-  x Ident { value: Atom('attr' type=inline), raw: "attr" }
+  x Ident(IdentToken { value: Atom('attr' type=inline), raw: "attr" })
    ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:1:1]
  1 | .class[attr= {
    :        ^^^^
@@ -91,7 +91,7 @@
    :            ^
    `----
 
-  x Delim { value: '=' }
+  x Delim(DelimToken { value: '=' })
    ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:1:1]
  1 | .class[attr= {
    :            ^
@@ -103,7 +103,7 @@
    :             ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:1:1]
  1 | .class[attr= {
    :             ^
@@ -136,7 +136,7 @@
  3 |     }
    `----
 
-  x WhiteSpace { value: "\n\n" }
+  x WhiteSpace(WhiteSpaceToken { value: "\n\n" })
    ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:1:1]
  1 | ,-> .class[attr= {
  2 | `-> 
@@ -151,7 +151,7 @@
  5 |     .class { color: red }
    `----
 
-  x WhiteSpace { value: "\n\n" }
+  x WhiteSpace(WhiteSpaceToken { value: "\n\n" })
    ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:2:1]
  2 |     
  3 | ,-> }
@@ -166,7 +166,7 @@
    : ^
    `----
 
-  x Delim { value: '.' }
+  x Delim(DelimToken { value: '.' })
    ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:4:1]
  4 | 
  5 | .class { color: red }
@@ -180,7 +180,7 @@
    :  ^^^^^
    `----
 
-  x Ident { value: Atom('class' type=static), raw: "class" }
+  x Ident(IdentToken { value: Atom('class' type=static), raw: "class" })
    ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:4:1]
  4 | 
  5 | .class { color: red }
@@ -194,7 +194,7 @@
    :       ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:4:1]
  4 | 
  5 | .class { color: red }
@@ -229,7 +229,7 @@
    :         ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:4:1]
  4 | 
  5 | .class { color: red }
@@ -243,7 +243,7 @@
    :          ^^^^^
    `----
 
-  x Ident { value: Atom('color' type=static), raw: "color" }
+  x Ident(IdentToken { value: Atom('color' type=static), raw: "color" })
    ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:4:1]
  4 | 
  5 | .class { color: red }
@@ -271,7 +271,7 @@
    :                ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:4:1]
  4 | 
  5 | .class { color: red }
@@ -285,7 +285,7 @@
    :                 ^^^
    `----
 
-  x Ident { value: Atom('red' type=inline), raw: "red" }
+  x Ident(IdentToken { value: Atom('red' type=inline), raw: "red" })
    ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:4:1]
  4 | 
  5 | .class { color: red }
@@ -299,7 +299,7 @@
    :                    ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:4:1]
  4 | 
  5 | .class { color: red }
@@ -314,7 +314,7 @@
  7 |     .class { color: blue }
    `----
 
-  x WhiteSpace { value: "\n\n" }
+  x WhiteSpace(WhiteSpaceToken { value: "\n\n" })
    ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:4:1]
  4 |     
  5 | ,-> .class { color: red }
@@ -329,7 +329,7 @@
    : ^
    `----
 
-  x Delim { value: '.' }
+  x Delim(DelimToken { value: '.' })
    ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:6:1]
  6 | 
  7 | .class { color: blue }
@@ -343,7 +343,7 @@
    :  ^^^^^
    `----
 
-  x Ident { value: Atom('class' type=static), raw: "class" }
+  x Ident(IdentToken { value: Atom('class' type=static), raw: "class" })
    ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:6:1]
  6 | 
  7 | .class { color: blue }
@@ -357,7 +357,7 @@
    :       ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:6:1]
  6 | 
  7 | .class { color: blue }
@@ -392,7 +392,7 @@
    :         ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:6:1]
  6 | 
  7 | .class { color: blue }
@@ -406,7 +406,7 @@
    :          ^^^^^
    `----
 
-  x Ident { value: Atom('color' type=static), raw: "color" }
+  x Ident(IdentToken { value: Atom('color' type=static), raw: "color" })
    ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:6:1]
  6 | 
  7 | .class { color: blue }
@@ -434,7 +434,7 @@
    :                ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:6:1]
  6 | 
  7 | .class { color: blue }
@@ -448,7 +448,7 @@
    :                 ^^^^
    `----
 
-  x Ident { value: Atom('blue' type=inline), raw: "blue" }
+  x Ident(IdentToken { value: Atom('blue' type=inline), raw: "blue" })
    ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:6:1]
  6 | 
  7 | .class { color: blue }
@@ -462,7 +462,7 @@
    :                     ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:6:1]
  6 | 
  7 | .class { color: blue }

@@ -534,7 +534,7 @@ where
                     name,
                 }));
             }
-            Token::Delim { value, .. } if *value == '*' => {
+            Token::Delim(box DelimToken { value, .. }) if *value == '*' => {
                 bump!(self);
 
                 namespace = Some(Namespace::Any(AnyNamespace {
@@ -618,9 +618,9 @@ where
     fn parse(&mut self) -> PResult<IdSelector> {
         let span = self.input.cur_span();
         let text = match bump!(self) {
-            Token::Hash {
+            Token::Hash(box HashToken {
                 is_id, value, raw, ..
-            } => {
+            }) => {
                 if !is_id {
                     return Err(Error::new(
                         span,
@@ -845,7 +845,7 @@ where
             let fn_span = self.input.cur_span();
             let name = bump!(self);
             let names = match name {
-                Token::Function { value, raw } => (value, raw),
+                Token::Function(box FunctionToken { value, raw }) => (value, raw),
                 _ => unreachable!(),
             };
             let state = self.input.state();
@@ -1073,7 +1073,7 @@ where
             let fn_span = self.input.cur_span();
             let name = bump!(self);
             let names = match name {
-                Token::Function { value, raw } => (value, raw),
+                Token::Function(box FunctionToken { value, raw }) => (value, raw),
                 _ => unreachable!(),
             };
             let state = self.input.state();
@@ -1186,7 +1186,7 @@ where
 
         match cur!(self) {
             //  odd | even
-            Token::Ident { value, .. }
+            Token::Ident(box IdentToken { value, .. })
             if &(*value).to_ascii_lowercase() == "odd"
                 || &(*value).to_ascii_lowercase() == "even" =>
                 {
@@ -1195,7 +1195,7 @@ where
             // <integer>
             tok!("number") => {
                 let number = match bump!(self) {
-                    Token::Number { value, raw, .. } => (value, raw),
+                    Token::Number(box NumberToken { value, raw, .. }) => (value, raw),
                     _ => {
                         unreachable!();
                     }
@@ -1229,7 +1229,7 @@ where
                 let mut has_plus_sign = false;
 
                 // '+' n
-                if let  Token::Delim { value: '+' } = cur!(self){
+                if let  Token::Delim(box DelimToken { value: '+' }) = cur!(self){
                     let peeked = self.input.peek();
 
                     if let Some(Token::Ident { .. }) = peeked {
@@ -1245,7 +1245,7 @@ where
                 match cur!(self) {
                     Token::Ident {  .. } => {
                         let ident_value = match bump!(self) {
-                            Token::Ident { value, .. } => value,
+                            Token::Ident(box IdentToken { value, .. }) => value,
                             _ => {
                                 unreachable!();
                             }
@@ -1268,7 +1268,7 @@ where
                     }
                     tok!("dimension") => {
                         let dimension = match bump!(self) {
-                            Token::Dimension { value, raw, unit, .. } => (value, raw, unit),
+                            Token::Dimension(box DimensionToken { value, unit, raw, .. }) => (value, raw, unit),
                             _ => {
                                 unreachable!();
                             }
@@ -1306,7 +1306,7 @@ where
                     // <n-dimension> <signed-integer>
                     tok!("number") if dash_after_n.is_none() => {
                         let number = match bump!(self) {
-                            Token::Number { value, raw, .. } => (value, raw),
+                            Token::Number(box NumberToken { value, raw, .. }) => (value, raw),
                             _ => {
                                 unreachable!();
                             }
@@ -1320,7 +1320,7 @@ where
                     // <ndash-dimension> <signless-integer>
                     tok!("number") if dash_after_n == Some('-') => {
                         let number = match bump!(self) {
-                            Token::Number { value, raw, .. } => (value, raw),
+                            Token::Number(box NumberToken { value, raw, .. }) => (value, raw),
                             _ => {
                                 unreachable!();
                             }
@@ -1339,7 +1339,7 @@ where
                     // <n-dimension> ['+' | '-'] <signless-integer>
                     tok!("-") | tok!("+") => {
                         let (b_sign, b_sign_raw) = match bump!(self) {
-                            Token::Delim { value, .. } => (if value == '-' { -1 } else { 1 }, value),
+                            Token::Delim(box DelimToken { value, .. }) => (if value == '-' { -1 } else { 1 }, value),
                             _ => {
                                 unreachable!();
                             }
@@ -1348,7 +1348,7 @@ where
                         self.input.skip_ws();
 
                         let number = match bump!(self) {
-                            Token::Number { value, raw, .. } => (value, raw),
+                            Token::Number(box NumberToken { value, raw, .. }) => (value, raw),
                             _ => {
                                 return Err(Error::new(span, ErrorKind::Expected("Num")));
                             }
@@ -1420,7 +1420,7 @@ where
         }
 
         match bump!(self) {
-            Token::Ident { value, raw } => Ok(CustomHighlightName {
+            Token::Ident(box IdentToken { value, raw, .. }) => Ok(CustomHighlightName {
                 span,
                 value,
                 raw: Some(raw),

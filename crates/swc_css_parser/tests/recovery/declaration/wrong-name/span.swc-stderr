@@ -107,7 +107,7 @@
  3 | }
    `----
 
-  x Number { value: 20.0, raw: "20", type_flag: Integer }
+  x Number(NumberToken { value: 20.0, raw: "20", type_flag: Integer })
    ,-[$DIR/tests/recovery/declaration/wrong-name/input.css:1:1]
  1 | a {
  2 |     20: red;
@@ -139,7 +139,7 @@
  3 | }
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/declaration/wrong-name/input.css:1:1]
  1 | a {
  2 |     20: red;
@@ -155,7 +155,7 @@
  3 | }
    `----
 
-  x Ident { value: Atom('red' type=inline), raw: "red" }
+  x Ident(IdentToken { value: Atom('red' type=inline), raw: "red" })
    ,-[$DIR/tests/recovery/declaration/wrong-name/input.css:1:1]
  1 | a {
  2 |     20: red;

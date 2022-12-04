@@ -28,7 +28,7 @@
    : ^^^^
    `----
 
-  x Ident { value: Atom('test' type=inline), raw: "test" }
+  x Ident(IdentToken { value: Atom('test' type=inline), raw: "test" })
    ,-[$DIR/tests/recovery/rules/unclosed-curly/input.css:1:1]
  1 | test};
    : ^^^^
@@ -65,7 +65,7 @@
  3 |     a { color: red }
    `----
 
-  x WhiteSpace { value: "\n\n" }
+  x WhiteSpace(WhiteSpaceToken { value: "\n\n" })
    ,-[$DIR/tests/recovery/rules/unclosed-curly/input.css:1:1]
  1 | ,-> test};
  2 | `-> 
@@ -79,7 +79,7 @@
    : ^
    `----
 
-  x Ident { value: Atom('a' type=static), raw: "a" }
+  x Ident(IdentToken { value: Atom('a' type=static), raw: "a" })
    ,-[$DIR/tests/recovery/rules/unclosed-curly/input.css:2:1]
  2 | 
  3 | a { color: red }
@@ -93,7 +93,7 @@
    :  ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/rules/unclosed-curly/input.css:2:1]
  2 | 
  3 | a { color: red }

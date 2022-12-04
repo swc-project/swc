@@ -83,7 +83,7 @@
    :      ^
    `----
 
-  x Ident { value: Atom('c' type=inline), raw: "c" }
+  x Ident(IdentToken { value: Atom('c' type=inline), raw: "c" })
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/WQWdwW4B4hm60AQgxTU08Q/input.css:1:1]
  1 | a::b(c) {}
    :      ^

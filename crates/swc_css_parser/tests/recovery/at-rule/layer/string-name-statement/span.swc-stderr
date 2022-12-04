@@ -35,7 +35,7 @@
    :       ^
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/at-rule/layer/string-name-statement/input.css:1:1]
  1 | @layer "default";
    :       ^
@@ -47,7 +47,7 @@
    :        ^^^^^^^^^
    `----
 
-  x String { value: Atom('default' type=static), raw: "\"default\"" }
+  x String(StringToken { value: Atom('default' type=static), raw: "\"default\"" })
    ,-[$DIR/tests/recovery/at-rule/layer/string-name-statement/input.css:1:1]
  1 | @layer "default";
    :        ^^^^^^^^^

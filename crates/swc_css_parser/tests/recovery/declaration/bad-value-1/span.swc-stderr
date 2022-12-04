@@ -166,7 +166,7 @@
  3 | }
    `----
 
-  x WhiteSpace { value: "\n" }
+  x WhiteSpace(WhiteSpaceToken { value: "\n" })
    ,-[$DIR/tests/recovery/declaration/bad-value-1/input.css:1:1]
  1 | a {
  2 |     --var: [;

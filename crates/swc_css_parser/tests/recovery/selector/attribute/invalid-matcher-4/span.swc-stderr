@@ -27,7 +27,7 @@
  2 |   color: purple;
    `----
 
-  x Ident { value: Atom('a' type=static), raw: "a" }
+  x Ident(IdentToken { value: Atom('a' type=static), raw: "a" })
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-4/input.css:1:1]
  1 | a[title%="title"] {
    : ^
@@ -62,7 +62,7 @@
  2 |   color: purple;
    `----
 
-  x Ident { value: Atom('title' type=static), raw: "title" }
+  x Ident(IdentToken { value: Atom('title' type=static), raw: "title" })
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-4/input.css:1:1]
  1 | a[title%="title"] {
    :   ^^^^^
@@ -76,7 +76,7 @@
  2 |   color: purple;
    `----
 
-  x Delim { value: '%' }
+  x Delim(DelimToken { value: '%' })
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-4/input.css:1:1]
  1 | a[title%="title"] {
    :        ^
@@ -90,7 +90,7 @@
  2 |   color: purple;
    `----
 
-  x Delim { value: '=' }
+  x Delim(DelimToken { value: '=' })
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-4/input.css:1:1]
  1 | a[title%="title"] {
    :         ^
@@ -104,7 +104,7 @@
  2 |   color: purple;
    `----
 
-  x String { value: Atom('title' type=static), raw: "\"title\"" }
+  x String(StringToken { value: Atom('title' type=static), raw: "\"title\"" })
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-4/input.css:1:1]
  1 | a[title%="title"] {
    :          ^^^^^^^
@@ -118,7 +118,7 @@
  2 |   color: purple;
    `----
 
-  x WhiteSpace { value: " " }
+  x WhiteSpace(WhiteSpaceToken { value: " " })
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-4/input.css:1:1]
  1 | a[title%="title"] {
    :                  ^

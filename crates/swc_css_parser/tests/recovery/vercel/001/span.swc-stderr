@@ -1033,7 +1033,7 @@
  15 | }
     `----
 
-  x Ident { value: Atom('__styled-jsx-placeholder__7' type=dynamic), raw: "__styled-jsx-placeholder__7" }
+  x Ident(IdentToken { value: Atom('__styled-jsx-placeholder__7' type=dynamic), raw: "__styled-jsx-placeholder__7" })
     ,-[$DIR/tests/recovery/vercel/001/input.css:13:1]
  13 |     }
  14 |     __styled-jsx-placeholder__7
@@ -1049,7 +1049,7 @@
  15 | }
     `----
 
-  x WhiteSpace { value: "\n" }
+  x WhiteSpace(WhiteSpaceToken { value: "\n" })
     ,-[$DIR/tests/recovery/vercel/001/input.css:13:1]
  13 |     }
  14 |     __styled-jsx-placeholder__7
