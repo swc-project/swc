@@ -51,7 +51,7 @@ impl Visit for UnitNoUnknown {
 
     fn visit_component_value(&mut self, component_value: &ComponentValue) {
         if let ComponentValue::PreservedToken(
-            token_and_span @ TokenAndSpan {
+            token_and_span @ box TokenAndSpan {
                 token: Token::Dimension { unit, .. },
                 ..
             },

@@ -231,14 +231,14 @@ impl NestingHandler {
 
         for value in rule.block.value.take() {
             match value {
-                ComponentValue::StyleBlock(StyleBlock::QualifiedRule(mut nested)) => {
+                ComponentValue::StyleBlock(box StyleBlock::QualifiedRule(mut nested)) => {
                     self.process_prelude(&rule.prelude, &mut nested.prelude);
 
                     nested_rules.push(Rule::QualifiedRule(nested));
 
                     continue;
                 }
-                ComponentValue::StyleBlock(StyleBlock::AtRule(ref at_rule)) => {
+                ComponentValue::StyleBlock(box StyleBlock::AtRule(ref at_rule)) => {
                     if let Some(
                         AtRulePrelude::MediaPrelude(..)
                         | AtRulePrelude::SupportsPrelude(..)
@@ -252,7 +252,9 @@ impl NestingHandler {
 
                             for n in &block.value {
                                 match n {
-                                    ComponentValue::StyleBlock(StyleBlock::QualifiedRule(n)) => {
+                                    ComponentValue::StyleBlock(box StyleBlock::QualifiedRule(
+                                        n,
+                                    )) => {
                                         let mut q = n.clone();
 
                                         self.process_prelude(&rule.prelude, &mut q.prelude);
@@ -284,7 +286,9 @@ impl NestingHandler {
 
                                 nested_of_media.insert(
                                     0,
-                                    ComponentValue::StyleBlock(StyleBlock::QualifiedRule(rule)),
+                                    ComponentValue::StyleBlock(Box::new(
+                                        StyleBlock::QualifiedRule(rule),
+                                    )),
                                 );
                             }
 
@@ -340,12 +344,14 @@ impl VisitMut for NestingHandler {
 
         for n in n.take() {
             match n {
-                ComponentValue::StyleBlock(StyleBlock::QualifiedRule(mut n)) => {
+                ComponentValue::StyleBlock(box StyleBlock::QualifiedRule(mut n)) => {
                     let mut rules = self.extract_nested_rules(&mut n);
 
                     rules.visit_mut_with(self);
 
-                    new.push(ComponentValue::StyleBlock(StyleBlock::QualifiedRule(n)));
+                    new.push(ComponentValue::StyleBlock(Box::new(
+                        StyleBlock::QualifiedRule(n),
+                    )));
                     new.extend(rules.into_iter().map(rule_to_component_value));
                 }
 
@@ -361,8 +367,10 @@ impl VisitMut for NestingHandler {
 
 fn rule_to_component_value(rule: Rule) -> ComponentValue {
     match rule {
-        Rule::QualifiedRule(q) => ComponentValue::StyleBlock(StyleBlock::QualifiedRule(q)),
-        Rule::AtRule(r) => ComponentValue::StyleBlock(StyleBlock::AtRule(r)),
-        Rule::ListOfComponentValues(..) => ComponentValue::Rule(rule),
+        Rule::QualifiedRule(q) => {
+            ComponentValue::StyleBlock(Box::new(StyleBlock::QualifiedRule(q)))
+        }
+        Rule::AtRule(r) => ComponentValue::StyleBlock(Box::new(StyleBlock::AtRule(r))),
+        Rule::ListOfComponentValues(..) => ComponentValue::Rule(Box::new(rule)),
     }
 }

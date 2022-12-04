@@ -47,7 +47,7 @@ impl FontFamilyNoDuplicateNames {
                 Option::<(String, Span)>::None,
             ),
             |(mut fonts, last_identifier), item| match item {
-                ComponentValue::Ident(Ident { value, span, .. }) => {
+                ComponentValue::Ident(box Ident { value, span, .. }) => {
                     if let Some((mut identifier, last_span)) = last_identifier {
                         identifier.push(' ');
                         identifier.push_str(value);
