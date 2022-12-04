@@ -178,12 +178,12 @@ impl VisitMut for InfoMarker<'_> {
                 )
             })
         {
-            if is_standalone(&mut n.function, self.unresolved_mark) {
-                // self.state.is_bundle = true;
+            // if is_standalone(&mut n.function, self.unresolved_mark) {
+            //     // self.state.is_bundle = true;
 
-                // n.function.span =
-                // n.function.span.apply_mark(self.marks.standalone);
-            }
+            //     // n.function.span =
+            //     // n.function.span.apply_mark(self.marks.standalone);
+            // }
         }
     }
 
