@@ -467,7 +467,7 @@ impl Compressor {
                     block: Some(block),
                     ..
                 }))
-                | ComponentValue::KeyframeBlock(KeyframeBlock { block, .. })
+                | ComponentValue::KeyframeBlock(box KeyframeBlock { block, .. })
                     if block.value.is_empty() =>
                 {
                     false

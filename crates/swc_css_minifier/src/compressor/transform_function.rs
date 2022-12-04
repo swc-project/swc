@@ -6,7 +6,7 @@ use super::Compressor;
 impl Compressor {
     pub(super) fn compress_transform_function(&self, component_value: &mut ComponentValue) {
         match component_value {
-            ComponentValue::Function(Function {
+            ComponentValue::Function(box Function {
                 name,
                 value: function_value,
                 ..
@@ -40,7 +40,7 @@ impl Compressor {
                     _ => {}
                 }
             }
-            ComponentValue::Function(Function {
+            ComponentValue::Function(box Function {
                 name,
                 value: function_value,
                 ..
@@ -73,7 +73,7 @@ impl Compressor {
                     _ => {}
                 }
             }
-            ComponentValue::Function(Function {
+            ComponentValue::Function(box Function {
                 name,
                 value: function_value,
                 ..
@@ -126,7 +126,7 @@ impl Compressor {
                     _ => {}
                 }
             }
-            ComponentValue::Function(Function {
+            ComponentValue::Function(box Function {
                 name,
                 value: function_value,
                 ..
@@ -195,7 +195,7 @@ impl Compressor {
                     _ => {}
                 }
             }
-            ComponentValue::Function(Function {
+            ComponentValue::Function(box Function {
                 name,
                 value: function_value,
                 ..
@@ -310,7 +310,7 @@ impl Compressor {
                     _ => {}
                 }
             }
-            ComponentValue::Function(Function {
+            ComponentValue::Function(box Function {
                 name,
                 value: function_value,
                 ..
@@ -392,7 +392,7 @@ impl Compressor {
                     _ => {}
                 }
             }
-            ComponentValue::Function(Function {
+            ComponentValue::Function(box Function {
                 name,
                 value: function_value,
                 ..
@@ -406,7 +406,7 @@ impl Compressor {
                 };
             }
 
-            ComponentValue::Function(Function {
+            ComponentValue::Function(box Function {
                 name,
                 value: function_value,
                 ..

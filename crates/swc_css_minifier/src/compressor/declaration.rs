@@ -442,11 +442,11 @@ impl Compressor {
                                             raw: None,
                                         })
                                     } else {
-                                        ComponentValue::Str(Str {
+                                        ComponentValue::Str(Box::new(Str {
                                             span: ident.span,
                                             value: to_be_identify.into(),
                                             raw: None,
-                                        })
+                                        }))
                                     },
                                 );
                             }
@@ -475,11 +475,11 @@ impl Compressor {
                                                 raw: None,
                                             })
                                         } else {
-                                            ComponentValue::Str(Str {
+                                            ComponentValue::Str(Box::new(Str {
                                                 span: ident.span,
                                                 value: to_be_identify.into(),
                                                 raw: None,
-                                            })
+                                            }))
                                         }
                                     }
                                 }
@@ -500,12 +500,12 @@ impl Compressor {
     ) -> bool {
         match (node_1, node_2) {
             (
-                Some(ComponentValue::Dimension(Dimension::Length(Length {
+                Some(ComponentValue::Dimension(box Dimension::Length(Length {
                     value: value_1,
                     unit: unit_1,
                     ..
                 }))),
-                Some(ComponentValue::Dimension(Dimension::Length(Length {
+                Some(ComponentValue::Dimension(box Dimension::Length(Length {
                     value: value_2,
                     unit: unit_2,
                     ..
@@ -540,12 +540,12 @@ impl Compressor {
     ) -> bool {
         match (node_1, node_2) {
             (
-                Some(ComponentValue::Dimension(Dimension::Length(Length {
+                Some(ComponentValue::Dimension(box Dimension::Length(Length {
                     value: value_1,
                     unit: unit_1,
                     ..
                 }))),
-                Some(ComponentValue::Dimension(Dimension::Length(Length {
+                Some(ComponentValue::Dimension(box Dimension::Length(Length {
                     value: value_2,
                     unit: unit_2,
                     ..
@@ -556,8 +556,8 @@ impl Compressor {
                 true
             }
             (
-                Some(ComponentValue::Percentage(Percentage { value: value_1, .. })),
-                Some(ComponentValue::Percentage(Percentage { value: value_2, .. })),
+                Some(ComponentValue::Percentage(box Percentage { value: value_1, .. })),
+                Some(ComponentValue::Percentage(box Percentage { value: value_2, .. })),
             ) if value_1.value == value_2.value => true,
             (
                 Some(ComponentValue::Integer(Integer { value: 0, .. })),

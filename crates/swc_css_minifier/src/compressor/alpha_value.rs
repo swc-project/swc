@@ -48,7 +48,7 @@ impl Compressor {
         }
 
         match component_value {
-            ComponentValue::Percentage(Percentage {
+            ComponentValue::Percentage(box Percentage {
                 span,
                 value: number,
             }) if number.value % 10.0 == 0.0 => {

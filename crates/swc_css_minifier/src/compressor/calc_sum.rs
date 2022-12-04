@@ -977,11 +977,11 @@ impl Compressor {
         match &component_value {
             // Transform "calc(calc-sum)" into "simple value" when calc-sum is not a complex
             // expression
-            ComponentValue::Function(Function { name, value, .. })
+            ComponentValue::Function(box Function { name, value, .. })
                 if is_calc_function_name(name) && value.len() == 1 =>
             {
                 match &value[0] {
-                    ComponentValue::CalcSum(CalcSum {
+                    ComponentValue::CalcSum(box CalcSum {
                         expressions: calc_sum_expressions,
                         ..
                     }) if calc_sum_expressions.len() == 1 => match &calc_sum_expressions[0] {

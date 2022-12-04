@@ -336,7 +336,7 @@ impl Compressor {
                 if is_calc_function_name(name) && value.len() == 1 =>
             {
                 match &value[0] {
-                    ComponentValue::CalcSum(CalcSum {
+                    ComponentValue::CalcSum(box CalcSum {
                         expressions: calc_sum_expressions,
                         ..
                     }) if calc_sum_expressions.len() == 1 => match &calc_sum_expressions[0] {
@@ -349,10 +349,10 @@ impl Compressor {
                             {
                                 match transform_calc_value_into_component_value(calc_value) {
                                     Some(ComponentValue::Function(function)) => {
-                                        *n = MediaFeatureValue::Function(function);
+                                        *n = MediaFeatureValue::Function(*function);
                                     }
                                     Some(ComponentValue::Dimension(dimension)) => {
-                                        *n = MediaFeatureValue::Dimension(dimension);
+                                        *n = MediaFeatureValue::Dimension(*dimension);
                                     }
                                     Some(ComponentValue::Number(number)) => {
                                         *n = MediaFeatureValue::Number(number);
