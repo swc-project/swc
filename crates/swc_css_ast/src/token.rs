@@ -35,7 +35,7 @@ pub enum NumberType {
     Number,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, EqIgnoreSpan)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, EqIgnoreSpan)]
 #[cfg_attr(
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
@@ -46,7 +46,7 @@ pub struct IdentToken {
     pub raw: Atom,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, EqIgnoreSpan)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, EqIgnoreSpan)]
 #[cfg_attr(
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
@@ -57,7 +57,7 @@ pub struct FunctionToken {
     pub raw: Atom,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, EqIgnoreSpan)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, EqIgnoreSpan)]
 #[cfg_attr(
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
@@ -68,7 +68,7 @@ pub struct AtKeywordToken {
     pub raw: Atom,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, EqIgnoreSpan)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, EqIgnoreSpan)]
 #[cfg_attr(
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
@@ -80,7 +80,7 @@ pub struct HashToken {
     pub raw: Atom,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, EqIgnoreSpan)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, EqIgnoreSpan)]
 #[cfg_attr(
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
@@ -91,7 +91,7 @@ pub struct StringToken {
     pub raw: Atom,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, EqIgnoreSpan)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, EqIgnoreSpan)]
 #[cfg_attr(
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
@@ -101,7 +101,7 @@ pub struct BadStringToken {
 }
 
 /// `url(value)`
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, EqIgnoreSpan)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, EqIgnoreSpan)]
 #[cfg_attr(
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
@@ -115,7 +115,7 @@ pub struct UrlToken {
     pub raw: Box<(Atom, Atom)>,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, EqIgnoreSpan)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, EqIgnoreSpan)]
 #[cfg_attr(
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
@@ -125,7 +125,7 @@ pub struct BadUrlToken {
     pub raw: Box<(Atom, Atom)>,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, EqIgnoreSpan)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, EqIgnoreSpan)]
 #[cfg_attr(
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
@@ -134,7 +134,7 @@ pub struct DelimToken {
     pub value: char,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, EqIgnoreSpan)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, EqIgnoreSpan)]
 #[cfg_attr(
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
@@ -146,7 +146,7 @@ pub struct NumberToken {
     pub type_flag: NumberType,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, EqIgnoreSpan)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, EqIgnoreSpan)]
 #[cfg_attr(
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
@@ -156,7 +156,7 @@ pub struct PercentageToken {
     pub raw: Atom,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, EqIgnoreSpan)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, EqIgnoreSpan)]
 #[cfg_attr(
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
@@ -171,7 +171,7 @@ pub struct DimensionToken {
     pub raw: Box<(Atom, Atom)>,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, EqIgnoreSpan)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, EqIgnoreSpan)]
 #[cfg_attr(
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
