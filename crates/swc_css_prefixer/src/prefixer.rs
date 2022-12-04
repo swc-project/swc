@@ -133,7 +133,7 @@ impl VisitMut for CrossFadeFunctionReplacerOnLegacyVariant<'_> {
             for group in n.value.split_mut(|n| {
                 matches!(
                     n,
-                    ComponentValue::Delimiter(Delimiter {
+                    ComponentValue::Delimiter(delimiter) if matches!(&**delimiter, Delimiter {
                         value: DelimiterValue::Comma,
                         ..
                     })
@@ -147,15 +147,12 @@ impl VisitMut for CrossFadeFunctionReplacerOnLegacyVariant<'_> {
 
                 for n in group {
                     match n {
-                        ComponentValue::Percentage(Percentage {
-                            value: Number { value, .. },
-                            ..
-                        }) => {
+                        ComponentValue::Percentage(percentage) => {
                             if transparency_value.is_some() {
                                 return;
                             }
 
-                            transparency_value = Some(*value / 100.0);
+                            transparency_value = Some(percentage.value.value / 100.0);
                         }
                         ComponentValue::Number(Number { value, .. }) => {
                             if transparency_value.is_some() {
@@ -207,10 +204,10 @@ impl VisitMut for CrossFadeFunctionReplacerOnLegacyVariant<'_> {
                 .collect();
 
             new_value.extend(vec![
-                ComponentValue::Delimiter(Delimiter {
+                ComponentValue::Delimiter(Box::new(Delimiter {
                     span: DUMMY_SP,
                     value: DelimiterValue::Comma,
-                }),
+                })),
                 ComponentValue::Number(Number {
                     span: DUMMY_SP,
                     value: transparency_value,
@@ -247,9 +244,9 @@ impl VisitMut for ImageSetFunctionReplacerOnLegacyVariant<'_> {
             return;
         }
 
-        if let ComponentValue::Str(Str { span, value, .. }) = n {
-            *n = ComponentValue::Url(Url {
-                span: *span,
+        if let ComponentValue::Str(node) = n {
+            *n = ComponentValue::Url(Box::new(Url {
+                span: node.span,
                 name: Ident {
                     span: DUMMY_SP,
                     value: js_word!("url"),
@@ -257,11 +254,11 @@ impl VisitMut for ImageSetFunctionReplacerOnLegacyVariant<'_> {
                 },
                 value: Some(Box::new(UrlValue::Str(Str {
                     span: DUMMY_SP,
-                    value: value.as_ref().into(),
+                    value: node.value.as_ref().into(),
                     raw: None,
                 }))),
                 modifiers: Some(vec![]),
-            })
+            }))
         }
     }
 
@@ -370,17 +367,21 @@ impl VisitMut for LinearGradientFunctionReplacerOnLegacyVariant<'_> {
                         _ => {}
                     }
                 }
-                Some(ComponentValue::Dimension(Dimension::Angle(Angle {
-                    value,
-                    unit,
-                    span,
-                    ..
-                }))) => {
-                    let angle = match &*unit.value {
-                        "deg" => (value.value % 360.0 + 360.0) % 360.0,
-                        "grad" => value.value * 180.0 / 200.0,
-                        "rad" => value.value * 180.0 / PI,
-                        "turn" => value.value * 360.0,
+                Some(ComponentValue::Dimension(dimension))
+                    if matches!(&**dimension, Dimension::Angle(_)) =>
+                {
+                    let node = match &**dimension {
+                        Dimension::Angle(angle) => angle,
+                        _ => {
+                            unreachable!()
+                        }
+                    };
+
+                    let angle = match node.unit.value {
+                        js_word!("deg") => (node.value.value % 360.0 + 360.0) % 360.0,
+                        js_word!("grad") => node.value.value * 180.0 / 200.0,
+                        js_word!("rad") => node.value.value * 180.0 / PI,
+                        js_word!("turn") => node.value.value * 360.0,
                         _ => {
                             return;
                         }
@@ -388,44 +389,44 @@ impl VisitMut for LinearGradientFunctionReplacerOnLegacyVariant<'_> {
 
                     if angle == 0.0 {
                         n.value[0] = ComponentValue::Ident(Ident {
-                            span: *span,
+                            span: node.span,
                             value: js_word!("bottom"),
                             raw: None,
                         });
                     } else if angle == 90.0 {
                         n.value[0] = ComponentValue::Ident(Ident {
-                            span: *span,
+                            span: node.span,
                             value: js_word!("left"),
                             raw: None,
                         });
                     } else if angle == 180.0 {
                         n.value[0] = ComponentValue::Ident(Ident {
-                            span: *span,
+                            span: node.span,
                             value: js_word!("top"),
                             raw: None,
                         });
                     } else if angle == 270.0 {
                         n.value[0] = ComponentValue::Ident(Ident {
-                            span: *span,
+                            span: node.span,
                             value: js_word!("right"),
                             raw: None,
                         });
                     } else {
                         let new_value = ((450.0 - angle).abs() % 360.0 * 1000.0).round() / 1000.0;
 
-                        n.value[0] = ComponentValue::Dimension(Dimension::Angle(Angle {
-                            span: *span,
+                        n.value[0] = ComponentValue::Dimension(Box::new(Dimension::Angle(Angle {
+                            span: node.span,
                             value: Number {
-                                span: value.span,
+                                span: node.value.span,
                                 value: new_value,
                                 raw: None,
                             },
                             unit: Ident {
-                                span: unit.span,
+                                span: node.unit.span,
                                 value: js_word!("deg"),
                                 raw: None,
                             },
-                        }));
+                        })));
                     }
                 }
                 Some(_) | None => {}
@@ -436,7 +437,7 @@ impl VisitMut for LinearGradientFunctionReplacerOnLegacyVariant<'_> {
                 let first_comma_index = n.value.iter().position(|n| {
                     matches!(
                         n,
-                        ComponentValue::Delimiter(Delimiter {
+                        ComponentValue::Delimiter(delimiter) if matches!(&**delimiter, Delimiter {
                             value: DelimiterValue::Comma,
                             ..
                         })
@@ -447,10 +448,10 @@ impl VisitMut for LinearGradientFunctionReplacerOnLegacyVariant<'_> {
                     let mut new_value = vec![];
 
                     new_value.append(&mut n.value[at_index + 1..first_comma_index].to_vec());
-                    new_value.append(&mut vec![ComponentValue::Delimiter(Delimiter {
+                    new_value.append(&mut vec![ComponentValue::Delimiter(Box::new(Delimiter {
                         span: DUMMY_SP,
                         value: DelimiterValue::Comma,
-                    })]);
+                    }))]);
                     new_value.append(&mut n.value[0..at_index].to_vec());
 
                     n.value.splice(0..first_comma_index, new_value);
@@ -711,9 +712,9 @@ impl VisitMut for Prefixer {
 
                 if let Some(ComponentValue::Declaration(declaration)) = supports.value.get(0) {
                     conditions.push(SupportsConditionType::SupportsInParens(
-                        SupportsInParens::Feature(SupportsFeature::Declaration(Box::new(
+                        SupportsInParens::Feature(SupportsFeature::Declaration(
                             declaration.clone(),
-                        ))),
+                        )),
                     ));
                 }
 
@@ -732,10 +733,12 @@ impl VisitMut for Prefixer {
                 import_conditions.supports = Some(Box::new(Function {
                     span: supports.span,
                     name: supports.name,
-                    value: vec![ComponentValue::SupportsCondition(SupportsCondition {
-                        span: DUMMY_SP,
-                        conditions,
-                    })],
+                    value: vec![ComponentValue::SupportsCondition(Box::new(
+                        SupportsCondition {
+                            span: DUMMY_SP,
+                            conditions,
+                        },
+                    ))],
                 }));
             }
         }
@@ -1774,19 +1777,21 @@ impl VisitMut for Prefixer {
                                 value: 0, span, ..
                             })) = value.get(2)
                             {
-                                value[2] = ComponentValue::Dimension(Dimension::Length(Length {
-                                    span: *span,
-                                    value: Number {
-                                        span: DUMMY_SP,
-                                        value: 0.0,
-                                        raw: None,
+                                value[2] = ComponentValue::Dimension(Box::new(Dimension::Length(
+                                    Length {
+                                        span: *span,
+                                        value: Number {
+                                            span: DUMMY_SP,
+                                            value: 0.0,
+                                            raw: None,
+                                        },
+                                        unit: Ident {
+                                            span: DUMMY_SP,
+                                            value: js_word!("px"),
+                                            raw: None,
+                                        },
                                     },
-                                    unit: Ident {
-                                        span: DUMMY_SP,
-                                        value: js_word!("px"),
-                                        raw: None,
-                                    },
-                                }));
+                                )));
                             }
 
                             value
@@ -2161,8 +2166,8 @@ impl VisitMut for Prefixer {
 
             "filter" => match &n.value[0] {
                 ComponentValue::PreservedToken(_) => {}
-                ComponentValue::Function(Function { name, .. })
-                    if name.value.as_ref().eq_ignore_ascii_case("alpha") => {}
+                ComponentValue::Function(function)
+                    if function.name.value.as_ref().eq_ignore_ascii_case("alpha") => {}
                 _ => {
                     add_declaration!(Prefix::Webkit, "-webkit-filter", None);
                 }
@@ -2326,9 +2331,9 @@ impl VisitMut for Prefixer {
                 add_declaration!(Prefix::Moz, "-moz-transform", None);
 
                 let has_3d_function = n.value.iter().any(|n| match n {
-                    ComponentValue::Function(Function { name, .. })
+                    ComponentValue::Function(function)
                         if matches!(
-                            &*name.value.to_ascii_lowercase(),
+                            &*function.name.value.to_ascii_lowercase(),
                             "matrix3d"
                                 | "translate3d"
                                 | "translatez"

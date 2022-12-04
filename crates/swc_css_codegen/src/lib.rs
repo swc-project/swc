@@ -1159,32 +1159,62 @@ where
                 let need_delim = match node {
                     ComponentValue::SimpleBlock(_)
                     | ComponentValue::Function(_)
-                    | ComponentValue::Color(Color::Function(_))
-                    | ComponentValue::Color(Color::AbsoluteColorBase(
-                        AbsoluteColorBase::Function(_),
-                    ))
                     | ComponentValue::Delimiter(_)
                     | ComponentValue::Str(_)
                     | ComponentValue::Url(_)
                     | ComponentValue::Percentage(_) => match next {
-                        Some(ComponentValue::Delimiter(Delimiter {
-                            value: DelimiterValue::Comma,
-                            ..
-                        })) => false,
+                        Some(ComponentValue::Delimiter(delimiter))
+                            if matches!(
+                                **delimiter,
+                                Delimiter {
+                                    value: DelimiterValue::Comma,
+                                    ..
+                                }
+                            ) =>
+                        {
+                            false
+                        }
                         _ => !self.config.minify,
                     },
+                    ComponentValue::Color(color)
+                        if matches!(
+                            **color,
+                            Color::AbsoluteColorBase(AbsoluteColorBase::Function(_))
+                                | Color::Function(_)
+                        ) =>
+                    {
+                        match next {
+                            Some(ComponentValue::Delimiter(delimiter))
+                                if matches!(
+                                    **delimiter,
+                                    Delimiter {
+                                        value: DelimiterValue::Comma,
+                                        ..
+                                    }
+                                ) =>
+                            {
+                                false
+                            }
+                            _ => !self.config.minify,
+                        }
+                    }
                     ComponentValue::Ident(_) | ComponentValue::DashedIdent(_) => match next {
-                        Some(ComponentValue::SimpleBlock(SimpleBlock { name, .. })) => {
-                            if name.token == Token::LParen {
+                        Some(ComponentValue::SimpleBlock(simple_block)) => {
+                            if simple_block.name.token == Token::LParen {
                                 true
                             } else {
                                 !self.config.minify
                             }
                         }
-                        Some(ComponentValue::Color(Color::AbsoluteColorBase(
-                            AbsoluteColorBase::HexColor(_),
-                        )))
-                        | Some(ComponentValue::Str(_)) => !self.config.minify,
+                        Some(ComponentValue::Color(color))
+                            if matches!(
+                                **color,
+                                Color::AbsoluteColorBase(AbsoluteColorBase::HexColor(_),)
+                            ) =>
+                        {
+                            !self.config.minify
+                        }
+                        Some(ComponentValue::Str(_)) => !self.config.minify,
                         Some(ComponentValue::Delimiter(_)) => false,
                         Some(ComponentValue::Number(n)) => {
                             if self.config.minify {
@@ -1197,7 +1227,7 @@ where
                         }
                         Some(ComponentValue::Dimension(dimension)) => {
                             if self.config.minify {
-                                let value = match dimension {
+                                let value = match &**dimension {
                                     Dimension::Length(i) => i.value.value,
                                     Dimension::Angle(i) => i.value.value,
                                     Dimension::Time(i) => i.value.value,
@@ -1217,10 +1247,15 @@ where
                         _ => true,
                     },
                     _ => match next {
-                        Some(ComponentValue::SimpleBlock(_))
-                        | Some(ComponentValue::Color(Color::AbsoluteColorBase(
-                            AbsoluteColorBase::HexColor(_),
-                        ))) => !self.config.minify,
+                        Some(ComponentValue::SimpleBlock(_)) => !self.config.minify,
+                        Some(ComponentValue::Color(color))
+                            if matches!(
+                                &**color,
+                                Color::AbsoluteColorBase(AbsoluteColorBase::HexColor(_))
+                            ) =>
+                        {
+                            !self.config.minify
+                        }
                         Some(ComponentValue::Delimiter(_)) => false,
                         _ => true,
                     },
