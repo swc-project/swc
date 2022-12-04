@@ -1,6 +1,6 @@
 use swc_common::{
     comments::{Comment, CommentKind, Comments},
-    EqIgnoreSpan, Mark, Span, SyntaxContext,
+    EqIgnoreSpan, Span, SyntaxContext,
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::find_pat_ids;
@@ -18,13 +18,13 @@ pub(crate) fn info_marker<'a>(
     options: Option<&'a CompressOptions>,
     comments: Option<&'a dyn Comments>,
     marks: Marks,
-    unresolved_mark: Mark,
+    // unresolved_mark: Mark,
 ) -> impl 'a + VisitMut {
     InfoMarker {
         options,
         comments,
         marks,
-        unresolved_mark,
+        // unresolved_mark,
         state: Default::default(),
     }
 }
@@ -40,7 +40,7 @@ struct InfoMarker<'a> {
 
     comments: Option<&'a dyn Comments>,
     marks: Marks,
-    unresolved_mark: Mark,
+    // unresolved_mark: Mark,
     state: State,
 }
 
@@ -267,71 +267,71 @@ impl Visit for TopLevelBindingCollector {
     }
 }
 
-fn is_standalone<N>(n: &mut N, unresolved_mark: Mark) -> bool
-where
-    N: VisitMutWith<IdentCollector>,
-{
-    let unresolved_ctxt = SyntaxContext::empty().apply_mark(unresolved_mark);
+// fn is_standalone<N>(n: &mut N, unresolved_mark: Mark) -> bool
+// where
+//     N: VisitMutWith<IdentCollector>,
+// {
+//     let unresolved_ctxt = SyntaxContext::empty().apply_mark(unresolved_mark);
 
-    let bindings = {
-        let mut v = IdentCollector {
-            ids: Default::default(),
-            for_binding: true,
-            is_pat_decl: false,
-        };
-        n.visit_mut_with(&mut v);
-        v.ids
-    };
+//     let bindings = {
+//         let mut v = IdentCollector {
+//             ids: Default::default(),
+//             for_binding: true,
+//             is_pat_decl: false,
+//         };
+//         n.visit_mut_with(&mut v);
+//         v.ids
+//     };
 
-    let used = {
-        let mut v = IdentCollector {
-            ids: Default::default(),
-            for_binding: false,
-            is_pat_decl: false,
-        };
-        n.visit_mut_with(&mut v);
-        v.ids
-    };
+//     let used = {
+//         let mut v = IdentCollector {
+//             ids: Default::default(),
+//             for_binding: false,
+//             is_pat_decl: false,
+//         };
+//         n.visit_mut_with(&mut v);
+//         v.ids
+//     };
 
-    for used_id in &used {
-        if used_id.0.starts_with("__WEBPACK_EXTERNAL_MODULE_") {
-            continue;
-        }
+//     for used_id in &used {
+//         if used_id.0.starts_with("__WEBPACK_EXTERNAL_MODULE_") {
+//             continue;
+//         }
 
-        match &*used_id.0 {
-            "__webpack_require__" | "exports" => continue,
-            _ => {}
-        }
+//         match &*used_id.0 {
+//             "__webpack_require__" | "exports" => continue,
+//             _ => {}
+//         }
 
-        if used_id.1 == unresolved_ctxt {
-            // if cfg!(feature = "debug") {
-            //     debug!("bundle: Ignoring {}{:?} (top level)", used_id.0,
-            // used_id.1); }
-            continue;
-        }
+//         if used_id.1 == unresolved_ctxt {
+//             // if cfg!(feature = "debug") {
+//             //     debug!("bundle: Ignoring {}{:?} (top level)", used_id.0,
+//             // used_id.1); }
+//             continue;
+//         }
 
-        if bindings.contains(used_id) {
-            // if cfg!(feature = "debug") {
-            //     debug!(
-            //         "bundle: Ignoring {}{:?} (local to fn)",
-            //         used_id.0,
-            //         used_id.1
-            //     );
-            // }
-            continue;
-        }
+//         if bindings.contains(used_id) {
+//             // if cfg!(feature = "debug") {
+//             //     debug!(
+//             //         "bundle: Ignoring {}{:?} (local to fn)",
+//             //         used_id.0,
+//             //         used_id.1
+//             //     );
+//             // }
+//             continue;
+//         }
 
-        trace_op!(
-            "bundle: Due to {}{:?}, it's not a bundle",
-            used_id.0,
-            used_id.1
-        );
+//         trace_op!(
+//             "bundle: Due to {}{:?}, it's not a bundle",
+//             used_id.0,
+//             used_id.1
+//         );
 
-        return false;
-    }
+//         return false;
+//     }
 
-    true
-}
+//     true
+// }
 
 struct IdentCollector {
     ids: Vec<Id>,
