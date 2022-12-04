@@ -396,22 +396,28 @@ impl VisitMut for Compressor {
 
         if !self.need_utf8_at_rule {
             match &token_and_span.token {
-                Token::Ident { value, .. }
-                | Token::Function { value, .. }
-                | Token::AtKeyword { value, .. }
-                | Token::String { value, .. }
-                | Token::Url { value, .. }
+                Token::Ident(box IdentToken { value, .. })
+                | Token::Function(box FunctionToken { value, .. })
+                | Token::AtKeyword(box AtKeywordToken { value, .. })
+                | Token::String(box StringToken { value, .. })
+                | Token::Url(box UrlToken { value, .. })
                     if !contains_only_ascii_characters(value) =>
                 {
                     self.need_utf8_at_rule = true;
                 }
-                Token::BadString { raw: value, .. } if !contains_only_ascii_characters(value) => {
+                Token::BadString(box BadStringToken { raw: value, .. })
+                    if !contains_only_ascii_characters(value) =>
+                {
                     self.need_utf8_at_rule = true;
                 }
-                Token::BadUrl { raw: value, .. } if !contains_only_ascii_characters(&value.1) => {
+                Token::BadUrl(box BadUrlToken { raw: value, .. })
+                    if !contains_only_ascii_characters(&value.1) =>
+                {
                     self.need_utf8_at_rule = true;
                 }
-                Token::Dimension { unit: value, .. } if !contains_only_ascii_characters(value) => {
+                Token::Dimension(box DimensionToken { unit: value, .. })
+                    if !contains_only_ascii_characters(value) =>
+                {
                     self.need_utf8_at_rule = true;
                 }
                 _ => {}

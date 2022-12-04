@@ -56,8 +56,8 @@ impl FontFamilyNoDuplicateNames {
                         (fonts, Some((value.to_string(), *span)))
                     }
                 }
-                ComponentValue::Str(str) if str.raw.is_some() => {
-                    fonts.push((FontNameKind::from(str.raw.as_ref().unwrap()), str.span));
+                ComponentValue::Str(value) if value.raw.is_some() => {
+                    fonts.push((FontNameKind::from(value.raw.as_ref().unwrap()), value.span));
                     (fonts, None)
                 }
                 ComponentValue::Delimiter(delimiter)
