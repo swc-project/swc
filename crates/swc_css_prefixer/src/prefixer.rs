@@ -367,21 +367,17 @@ impl VisitMut for LinearGradientFunctionReplacerOnLegacyVariant<'_> {
                         _ => {}
                     }
                 }
-                Some(ComponentValue::Dimension(dimension))
-                    if matches!(&**dimension, Dimension::Angle(_)) =>
-                {
-                    let node = match &**dimension {
-                        Dimension::Angle(angle) => angle,
-                        _ => {
-                            unreachable!()
-                        }
-                    };
-
-                    let angle = match node.unit.value {
-                        js_word!("deg") => (node.value.value % 360.0 + 360.0) % 360.0,
-                        js_word!("grad") => node.value.value * 180.0 / 200.0,
-                        js_word!("rad") => node.value.value * 180.0 / PI,
-                        js_word!("turn") => node.value.value * 360.0,
+                Some(ComponentValue::Dimension(box Dimension::Angle(Angle {
+                    value,
+                    unit,
+                    span,
+                    ..
+                }))) => {
+                    let angle = match &*unit.value {
+                        "deg" => (value.value % 360.0 + 360.0) % 360.0,
+                        "grad" => value.value * 180.0 / 200.0,
+                        "rad" => value.value * 180.0 / PI,
+                        "turn" => value.value * 360.0,
                         _ => {
                             return;
                         }
@@ -389,25 +385,25 @@ impl VisitMut for LinearGradientFunctionReplacerOnLegacyVariant<'_> {
 
                     if angle == 0.0 {
                         n.value[0] = ComponentValue::Ident(Ident {
-                            span: node.span,
+                            span: *span,
                             value: js_word!("bottom"),
                             raw: None,
                         });
                     } else if angle == 90.0 {
                         n.value[0] = ComponentValue::Ident(Ident {
-                            span: node.span,
+                            span: *span,
                             value: js_word!("left"),
                             raw: None,
                         });
                     } else if angle == 180.0 {
                         n.value[0] = ComponentValue::Ident(Ident {
-                            span: node.span,
+                            span: *span,
                             value: js_word!("top"),
                             raw: None,
                         });
                     } else if angle == 270.0 {
                         n.value[0] = ComponentValue::Ident(Ident {
-                            span: node.span,
+                            span: *span,
                             value: js_word!("right"),
                             raw: None,
                         });
@@ -415,14 +411,14 @@ impl VisitMut for LinearGradientFunctionReplacerOnLegacyVariant<'_> {
                         let new_value = ((450.0 - angle).abs() % 360.0 * 1000.0).round() / 1000.0;
 
                         n.value[0] = ComponentValue::Dimension(Box::new(Dimension::Angle(Angle {
-                            span: node.span,
+                            span: *span,
                             value: Number {
-                                span: node.value.span,
+                                span: value.span,
                                 value: new_value,
                                 raw: None,
                             },
                             unit: Ident {
-                                span: node.unit.span,
+                                span: unit.span,
                                 value: js_word!("deg"),
                                 raw: None,
                             },

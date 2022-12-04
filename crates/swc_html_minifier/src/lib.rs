@@ -2394,13 +2394,13 @@ impl Minifier<'_> {
                                     },
                                     // TODO make the `compress_empty` option for CSS minifier and
                                     // remove it
-                                    value: vec![swc_css_ast::ComponentValue::Str(
+                                    value: vec![swc_css_ast::ComponentValue::Str(Box::new(
                                         swc_css_ast::Str {
                                             span: Default::default(),
                                             value: js_word!("placeholder"),
                                             raw: None,
                                         },
-                                    )],
+                                    ))],
                                 }),
                             }
                             .into(),
