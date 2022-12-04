@@ -28,7 +28,7 @@ define!({
         SimpleBlock(Box<SimpleBlock>),
 
         DeclarationOrAtRule(DeclarationOrAtRule),
-        Rule(Rule),
+        Rule(Box<Rule>),
         StyleBlock(StyleBlock),
         KeyframeBlock(Box<KeyframeBlock>),
 

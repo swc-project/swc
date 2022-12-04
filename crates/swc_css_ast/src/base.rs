@@ -98,7 +98,7 @@ pub enum ComponentValue {
     #[tag("DeclarationOrAtRule")]
     DeclarationOrAtRule(DeclarationOrAtRule),
     #[tag("Rule")]
-    Rule(Rule),
+    Rule(Box<Rule>),
     #[tag("StyleBlock")]
     StyleBlock(StyleBlock),
     #[tag("KeyframeBlock")]

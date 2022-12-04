@@ -460,8 +460,10 @@ where
                         ..self.ctx
                     };
                     let rule_list = self.with_ctx(ctx).parse_as::<Vec<Rule>>()?;
-                    let rule_list: Vec<ComponentValue> =
-                        rule_list.into_iter().map(ComponentValue::Rule).collect();
+                    let rule_list: Vec<ComponentValue> = rule_list
+                        .into_iter()
+                        .map(|node| ComponentValue::Rule(Box::new(node)))
+                        .collect();
 
                     rule_list
                 }
@@ -493,8 +495,10 @@ where
                     }
                     _ => {
                         let rule_list = self.parse_as::<Vec<Rule>>()?;
-                        let rule_list: Vec<ComponentValue> =
-                            rule_list.into_iter().map(ComponentValue::Rule).collect();
+                        let rule_list: Vec<ComponentValue> = rule_list
+                            .into_iter()
+                            .map(|node| ComponentValue::Rule(Box::new(node)))
+                            .collect();
 
                         rule_list
                     }
@@ -573,7 +577,7 @@ where
                                 ErrorKind::Unexpected("at-rules are not allowed here"),
                             ));
 
-                            ComponentValue::Rule(Rule::AtRule(at_rule))
+                            ComponentValue::Rule(Box::new(Rule::AtRule(at_rule)))
                         }
                         Rule::QualifiedRule(qualified_rule) => {
                             let locv = match qualified_rule.prelude {
@@ -615,14 +619,14 @@ where
                                 Err(err) => {
                                     self.errors.push(err);
 
-                                    ComponentValue::Rule(Rule::ListOfComponentValues(Box::new(
-                                        locv,
+                                    ComponentValue::Rule(Box::new(Rule::ListOfComponentValues(
+                                        Box::new(locv),
                                     )))
                                 }
                             }
                         }
                         Rule::ListOfComponentValues(locv) => {
-                            ComponentValue::Rule(Rule::ListOfComponentValues(locv))
+                            ComponentValue::Rule(Box::new(Rule::ListOfComponentValues(locv)))
                         }
                     })
                     .collect();
@@ -631,8 +635,10 @@ where
             }
             js_word!("layer") => {
                 let rule_list = self.parse_as::<Vec<Rule>>()?;
-                let rule_list: Vec<ComponentValue> =
-                    rule_list.into_iter().map(ComponentValue::Rule).collect();
+                let rule_list: Vec<ComponentValue> = rule_list
+                    .into_iter()
+                    .map(|node| ComponentValue::Rule(Box::new(node)))
+                    .collect();
 
                 rule_list
             }
@@ -648,8 +654,10 @@ where
                 }
                 _ => {
                     let rule_list = self.parse_as::<Vec<Rule>>()?;
-                    let rule_list: Vec<ComponentValue> =
-                        rule_list.into_iter().map(ComponentValue::Rule).collect();
+                    let rule_list: Vec<ComponentValue> = rule_list
+                        .into_iter()
+                        .map(|node| ComponentValue::Rule(Box::new(node)))
+                        .collect();
 
                     rule_list
                 }
@@ -729,8 +737,10 @@ where
                 }
                 _ => {
                     let rule_list = self.parse_as::<Vec<Rule>>()?;
-                    let rule_list: Vec<ComponentValue> =
-                        rule_list.into_iter().map(ComponentValue::Rule).collect();
+                    let rule_list: Vec<ComponentValue> = rule_list
+                        .into_iter()
+                        .map(|node| ComponentValue::Rule(Box::new(node)))
+                        .collect();
 
                     rule_list
                 }
