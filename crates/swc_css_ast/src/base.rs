@@ -96,11 +96,11 @@ pub enum ComponentValue {
 
     // Block Contents grammar
     #[tag("DeclarationOrAtRule")]
-    DeclarationOrAtRule(DeclarationOrAtRule),
+    DeclarationOrAtRule(Box<DeclarationOrAtRule>),
     #[tag("Rule")]
     Rule(Box<Rule>),
     #[tag("StyleBlock")]
-    StyleBlock(StyleBlock),
+    StyleBlock(Box<StyleBlock>),
     #[tag("KeyframeBlock")]
     KeyframeBlock(Box<KeyframeBlock>),
 

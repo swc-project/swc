@@ -435,7 +435,7 @@ where
                 let declaration_list: Vec<DeclarationOrAtRule> = self.parse()?;
                 let declaration_list: Vec<ComponentValue> = declaration_list
                     .into_iter()
-                    .map(ComponentValue::DeclarationOrAtRule)
+                    .map(|node| ComponentValue::DeclarationOrAtRule(Box::new(node)))
                     .collect();
 
                 declaration_list
@@ -449,7 +449,7 @@ where
                     let style_blocks = self.with_ctx(ctx).parse_as::<Vec<StyleBlock>>()?;
                     let style_blocks: Vec<ComponentValue> = style_blocks
                         .into_iter()
-                        .map(ComponentValue::StyleBlock)
+                        .map(|node| ComponentValue::StyleBlock(Box::new(node)))
                         .collect();
 
                     style_blocks
@@ -472,7 +472,7 @@ where
                 let declaration_list: Vec<DeclarationOrAtRule> = self.parse()?;
                 let declaration_list: Vec<ComponentValue> = declaration_list
                     .into_iter()
-                    .map(ComponentValue::DeclarationOrAtRule)
+                    .map(|node| ComponentValue::DeclarationOrAtRule(Box::new(node)))
                     .collect();
 
                 declaration_list
@@ -488,7 +488,7 @@ where
                         let style_blocks: Vec<StyleBlock> = self.parse()?;
                         let style_blocks: Vec<ComponentValue> = style_blocks
                             .into_iter()
-                            .map(ComponentValue::StyleBlock)
+                            .map(|node| ComponentValue::StyleBlock(Box::new(node)))
                             .collect();
 
                         style_blocks
@@ -508,7 +508,7 @@ where
                 let declaration_list: Vec<DeclarationOrAtRule> = self.parse()?;
                 let declaration_list: Vec<ComponentValue> = declaration_list
                     .into_iter()
-                    .map(ComponentValue::DeclarationOrAtRule)
+                    .map(|node| ComponentValue::DeclarationOrAtRule(Box::new(node)))
                     .collect();
 
                 declaration_list
@@ -521,7 +521,7 @@ where
                 let declaration_list = self.with_ctx(ctx).parse_as::<Vec<DeclarationOrAtRule>>()?;
                 let declaration_list: Vec<ComponentValue> = declaration_list
                     .into_iter()
-                    .map(ComponentValue::DeclarationOrAtRule)
+                    .map(|node| ComponentValue::DeclarationOrAtRule(Box::new(node)))
                     .collect();
 
                 declaration_list
@@ -538,7 +538,7 @@ where
                 let declaration_list: Vec<DeclarationOrAtRule> = self.parse()?;
                 let declaration_list: Vec<ComponentValue> = declaration_list
                     .into_iter()
-                    .map(ComponentValue::DeclarationOrAtRule)
+                    .map(|node| ComponentValue::DeclarationOrAtRule(Box::new(node)))
                     .collect();
 
                 declaration_list
@@ -547,7 +547,7 @@ where
                 let declaration_list: Vec<DeclarationOrAtRule> = self.parse()?;
                 let declaration_list: Vec<ComponentValue> = declaration_list
                     .into_iter()
-                    .map(ComponentValue::DeclarationOrAtRule)
+                    .map(|node| ComponentValue::DeclarationOrAtRule(Box::new(node)))
                     .collect();
 
                 declaration_list
@@ -647,7 +647,7 @@ where
                     let style_blocks: Vec<StyleBlock> = self.parse()?;
                     let style_blocks: Vec<ComponentValue> = style_blocks
                         .into_iter()
-                        .map(ComponentValue::StyleBlock)
+                        .map(|node| ComponentValue::StyleBlock(Box::new(node)))
                         .collect();
 
                     style_blocks
@@ -671,7 +671,7 @@ where
                 let style_blocks: Vec<StyleBlock> = self.parse()?;
                 let style_blocks: Vec<ComponentValue> = style_blocks
                     .into_iter()
-                    .map(ComponentValue::StyleBlock)
+                    .map(|node| ComponentValue::StyleBlock(Box::new(node)))
                     .collect();
 
                 style_blocks
@@ -685,7 +685,7 @@ where
                     .parse_as::<Vec<DeclarationOrAtRule>>()?;
                 let declaration_list: Vec<ComponentValue> = declaration_list
                     .into_iter()
-                    .map(ComponentValue::DeclarationOrAtRule)
+                    .map(|node| ComponentValue::DeclarationOrAtRule(Box::new(node)))
                     .collect();
 
                 declaration_list
@@ -711,7 +711,7 @@ where
                 let declaration_list: Vec<DeclarationOrAtRule> = self.parse()?;
                 let declaration_list: Vec<ComponentValue> = declaration_list
                     .into_iter()
-                    .map(ComponentValue::DeclarationOrAtRule)
+                    .map(|node| ComponentValue::DeclarationOrAtRule(Box::new(node)))
                     .collect();
 
                 declaration_list
@@ -720,7 +720,7 @@ where
                 let declaration_list: Vec<DeclarationOrAtRule> = self.parse()?;
                 let declaration_list: Vec<ComponentValue> = declaration_list
                     .into_iter()
-                    .map(ComponentValue::DeclarationOrAtRule)
+                    .map(|node| ComponentValue::DeclarationOrAtRule(Box::new(node)))
                     .collect();
 
                 declaration_list
@@ -730,7 +730,7 @@ where
                     let style_blocks: Vec<StyleBlock> = self.parse()?;
                     let style_blocks: Vec<ComponentValue> = style_blocks
                         .into_iter()
-                        .map(ComponentValue::StyleBlock)
+                        .map(|node| ComponentValue::StyleBlock(Box::new(node)))
                         .collect();
 
                     style_blocks
@@ -749,7 +749,7 @@ where
                 let declaration_list: Vec<DeclarationOrAtRule> = self.parse()?;
                 let declaration_list: Vec<ComponentValue> = declaration_list
                     .into_iter()
-                    .map(ComponentValue::DeclarationOrAtRule)
+                    .map(|node| ComponentValue::DeclarationOrAtRule(Box::new(node)))
                     .collect();
 
                 declaration_list
