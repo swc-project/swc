@@ -106,17 +106,17 @@ pub enum ComponentValue {
 
     // Arbitrary Contents grammar
     #[tag("Ident")]
-    Ident(Ident),
+    Ident(Box<Ident>),
     #[tag("DashedIdent")]
-    DashedIdent(DashedIdent),
+    DashedIdent(Box<DashedIdent>),
     #[tag("String")]
     Str(Box<Str>),
     #[tag("Url")]
     Url(Box<Url>),
     #[tag("Integer")]
-    Integer(Integer),
+    Integer(Box<Integer>),
     #[tag("Number")]
-    Number(Number),
+    Number(Box<Number>),
     #[tag("Percentage")]
     Percentage(Box<Percentage>),
     #[tag("Dimension")]

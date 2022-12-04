@@ -405,7 +405,7 @@ where
                                 tok!("ident") => {
                                     is_legacy_syntax = false;
 
-                                    let ident: Ident = parser.parse()?;
+                                    let ident: Box<Ident> = parser.parse()?;
 
                                     if ident.value.eq_str_ignore_ascii_case("none") {
                                         Ok(Some(ComponentValue::Ident(ident)))
@@ -446,7 +446,7 @@ where
                                     Ok(Some(ComponentValue::Hue(parser.parse()?)))
                                 }
                                 tok!("ident") => {
-                                    let ident: Ident = parser.parse()?;
+                                    let ident: Box<Ident> = parser.parse()?;
 
                                     if ident.value.eq_str_ignore_ascii_case("none") {
                                         Ok(Some(ComponentValue::Ident(ident)))
@@ -516,7 +516,7 @@ where
                                     Ok(Some(ComponentValue::Function(parser.parse()?)))
                                 }
                                 tok!("ident") if !is_legacy_syntax => {
-                                    let ident: Ident = parser.parse()?;
+                                    let ident: Box<Ident> = parser.parse()?;
 
                                     if ident.value.eq_str_ignore_ascii_case("none") {
                                         Ok(Some(ComponentValue::Ident(ident)))
@@ -560,7 +560,7 @@ where
                                     Ok(Some(ComponentValue::Function(parser.parse()?)))
                                 }
                                 tok!("ident") => {
-                                    let ident: Ident = parser.parse()?;
+                                    let ident: Box<Ident> = parser.parse()?;
 
                                     if ident.value.eq_str_ignore_ascii_case("none") {
                                         Ok(Some(ComponentValue::Ident(ident)))
@@ -632,7 +632,7 @@ where
                                     Ok(Some(ComponentValue::Function(parser.parse()?)))
                                 }
                                 tok!("ident") if !is_legacy_syntax => {
-                                    let ident: Ident = parser.parse()?;
+                                    let ident: Box<Ident> = parser.parse()?;
 
                                     if ident.value.eq_str_ignore_ascii_case("none") {
                                         Ok(Some(ComponentValue::Ident(ident)))
@@ -676,7 +676,7 @@ where
                                     Ok(Some(ComponentValue::Function(parser.parse()?)))
                                 }
                                 tok!("ident") => {
-                                    let ident: Ident = parser.parse()?;
+                                    let ident: Box<Ident> = parser.parse()?;
 
                                     if ident.value.eq_str_ignore_ascii_case("none") {
                                         Ok(Some(ComponentValue::Ident(ident)))
@@ -763,7 +763,7 @@ where
                                 Ok(Some(ComponentValue::Function(parser.parse()?)))
                             }
                             tok!("ident") => {
-                                let ident: Ident = parser.parse()?;
+                                let ident: Box<Ident> = parser.parse()?;
 
                                 if ident.value.eq_str_ignore_ascii_case("none") {
                                     Ok(Some(ComponentValue::Ident(ident)))
@@ -837,7 +837,7 @@ where
                                     Ok(Some(ComponentValue::Function(parser.parse()?)))
                                 }
                                 tok!("ident") => {
-                                    let ident: Ident = parser.parse()?;
+                                    let ident: Box<Ident> = parser.parse()?;
 
                                     if ident.value.eq_str_ignore_ascii_case("none") {
                                         Ok(Some(ComponentValue::Ident(ident)))
@@ -882,7 +882,7 @@ where
                                     Ok(Some(ComponentValue::Function(parser.parse()?)))
                                 }
                                 tok!("ident") => {
-                                    let ident: Ident = parser.parse()?;
+                                    let ident: Box<Ident> = parser.parse()?;
 
                                     if ident.value.eq_str_ignore_ascii_case("none") {
                                         Ok(Some(ComponentValue::Ident(ident)))
@@ -945,7 +945,7 @@ where
                                         Ok(Some(ComponentValue::Function(parser.parse()?)))
                                     }
                                     tok!("ident") => {
-                                        let ident: Ident = parser.parse()?;
+                                        let ident: Box<Ident> = parser.parse()?;
 
                                         if ident.value.eq_str_ignore_ascii_case("none") {
                                             Ok(Some(ComponentValue::Ident(ident)))
@@ -994,7 +994,7 @@ where
                                         Ok(Some(ComponentValue::Function(parser.parse()?)))
                                     }
                                     tok!("ident") => {
-                                        let ident: Ident = parser.parse()?;
+                                        let ident: Box<Ident> = parser.parse()?;
 
                                         if ident.value.eq_str_ignore_ascii_case("none") {
                                             Ok(Some(ComponentValue::Ident(ident)))
@@ -1062,7 +1062,7 @@ where
                                         Ok(Some(ComponentValue::Function(parser.parse()?)))
                                     }
                                     tok!("ident") => {
-                                        let ident: Ident = parser.parse()?;
+                                        let ident: Box<Ident> = parser.parse()?;
 
                                         if ident.value.eq_str_ignore_ascii_case("none") {
                                             Ok(Some(ComponentValue::Ident(ident)))
@@ -1111,7 +1111,7 @@ where
                                         Ok(Some(ComponentValue::Function(parser.parse()?)))
                                     }
                                     tok!("ident") => {
-                                        let ident: Ident = parser.parse()?;
+                                        let ident: Box<Ident> = parser.parse()?;
 
                                         if ident.value.eq_str_ignore_ascii_case("none") {
                                             Ok(Some(ComponentValue::Ident(ident)))
@@ -1157,7 +1157,7 @@ where
                                         Ok(Some(ComponentValue::Function(parser.parse()?)))
                                     }
                                     tok!("ident") => {
-                                        let ident: Ident = parser.parse()?;
+                                        let ident: Box<Ident> = parser.parse()?;
 
                                         if ident.value.eq_str_ignore_ascii_case("none") {
                                             Ok(Some(ComponentValue::Ident(ident)))
@@ -1240,7 +1240,7 @@ where
                                 Ok(Some(ComponentValue::Function(parser.parse()?)))
                             }
                             tok!("ident") if !matches!(function_name, "device-cmyk") => {
-                                let ident: Ident = parser.parse()?;
+                                let ident: Box<Ident> = parser.parse()?;
 
                                 if ident.value.eq_str_ignore_ascii_case("none") {
                                     Ok(Some(ComponentValue::Ident(ident)))
@@ -1349,7 +1349,7 @@ where
                             Ok(Some(ComponentValue::Function(parser.parse()?)))
                         }
                         tok!("ident") => {
-                            let ident: Ident = parser.parse()?;
+                            let ident: Box<Ident> = parser.parse()?;
 
                             if ident.value.eq_str_ignore_ascii_case("none") {
                                 Ok(Some(ComponentValue::Ident(ident)))
@@ -1404,7 +1404,7 @@ where
                                 ComponentValue::Function(self.parse()?)
                             }
                             tok!("ident") => {
-                                let ident: Ident = self.parse()?;
+                                let ident: Box<Ident> = self.parse()?;
 
                                 if ident.value.eq_str_ignore_ascii_case("none") {
                                     ComponentValue::Ident(ident)
@@ -1435,7 +1435,7 @@ where
                                 Ok(Some(ComponentValue::Function(parser.parse()?)))
                             }
                             tok!("ident") => {
-                                let ident: Ident = parser.parse()?;
+                                let ident: Box<Ident> = parser.parse()?;
 
                                 if ident.value.eq_str_ignore_ascii_case("none") {
                                     Ok(Some(ComponentValue::Ident(ident)))
@@ -1476,7 +1476,7 @@ where
                                 Ok(Some(ComponentValue::Percentage(parser.parse()?)))
                             }
                             tok!("ident") => {
-                                let ident: Ident = parser.parse()?;
+                                let ident: Box<Ident> = parser.parse()?;
 
                                 if ident.value.eq_str_ignore_ascii_case("none") {
                                     Ok(Some(ComponentValue::Ident(ident)))
@@ -1528,7 +1528,7 @@ where
                                 Ok(Some(ComponentValue::Function(parser.parse()?)))
                             }
                             tok!("ident") if !matches!(function_name, "device-cmyk") => {
-                                let ident: Ident = parser.parse()?;
+                                let ident: Box<Ident> = parser.parse()?;
 
                                 if ident.value.eq_str_ignore_ascii_case("none") {
                                     Ok(Some(ComponentValue::Ident(ident)))
