@@ -1642,7 +1642,7 @@ where
                         if is_one_of!(self, ";", ":") {
                             let tok = self.input.bump().unwrap();
 
-                            ComponentValue::PreservedToken(tok)
+                            ComponentValue::PreservedToken(Box::new(tok))
                         } else {
                             return Err(Error::new(
                                 self.input.cur_span(),

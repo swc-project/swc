@@ -267,7 +267,7 @@ impl<'a> Input<'a> {
 
         match list.get(*index) {
             Some(ComponentValue::PreservedToken(token_and_span)) => {
-                Some(TokenOrBlock::Token(Box::new(token_and_span.clone())))
+                Some(TokenOrBlock::Token(token_and_span.clone()))
             }
             Some(ComponentValue::Function(function)) => {
                 if self.idx.len() - 1 == deep {

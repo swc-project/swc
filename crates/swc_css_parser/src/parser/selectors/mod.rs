@@ -70,7 +70,8 @@ where
 
                         while !is_one_of!(parser, EOF, ",", ")") {
                             if let Some(token_and_span) = parser.input.bump() {
-                                children.push(ComponentValue::PreservedToken(token_and_span));
+                                children
+                                    .push(ComponentValue::PreservedToken(Box::new(token_and_span)));
                             }
                         }
 
@@ -224,7 +225,8 @@ where
 
                         while !is_one_of!(parser, EOF, ",", ")") {
                             if let Some(token_and_span) = parser.input.bump() {
-                                children.push(ComponentValue::PreservedToken(token_and_span));
+                                children
+                                    .push(ComponentValue::PreservedToken(Box::new(token_and_span)));
                             }
                         }
 

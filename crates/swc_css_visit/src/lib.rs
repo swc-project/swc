@@ -23,7 +23,7 @@ define!({
     }
 
     pub enum ComponentValue {
-        PreservedToken(TokenAndSpan),
+        PreservedToken(Box<TokenAndSpan>),
         Function(Box<Function>),
         SimpleBlock(Box<SimpleBlock>),
 

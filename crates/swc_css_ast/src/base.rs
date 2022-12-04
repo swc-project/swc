@@ -88,7 +88,7 @@ pub struct ListOfComponentValues {
 pub enum ComponentValue {
     // No grammar
     #[tag("TokenAndSpan")]
-    PreservedToken(TokenAndSpan),
+    PreservedToken(Box<TokenAndSpan>),
     #[tag("Function")]
     Function(Box<Function>),
     #[tag("SimpleBlock")]
