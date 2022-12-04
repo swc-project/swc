@@ -1355,8 +1355,8 @@ where
                     formatting_newline!(self);
                     decrease_indent!(self);
                 }
-                ComponentValue::StyleBlock(i) => {
-                    match i {
+                ComponentValue::StyleBlock(node) => {
+                    match &**node {
                         StyleBlock::AtRule(_) | StyleBlock::QualifiedRule(_) => {
                             formatting_newline!(self);
                         }
@@ -1381,8 +1381,8 @@ where
 
                     decrease_indent!(self);
                 }
-                ComponentValue::DeclarationOrAtRule(i) => {
-                    match i {
+                ComponentValue::DeclarationOrAtRule(node) => {
+                    match &**node {
                         DeclarationOrAtRule::AtRule(_) => {
                             formatting_newline!(self);
                         }
