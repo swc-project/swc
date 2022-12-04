@@ -951,7 +951,7 @@ impl SourceMap {
     }
 
     fn bytepos_to_file_charpos_with(&self, map: &SourceFile, bpos: BytePos) -> CharPos {
-        let total_extra_bytes = self.calc_utf16_offset(map, &mut 0, &mut 0, bpos);
+        let total_extra_bytes = self.calc_utf16_offset(map, bpos, &mut Default::default());
         assert!(
             map.start_pos.to_u32() + total_extra_bytes <= bpos.to_u32(),
             "map.start_pos = {:?}; total_extra_bytes = {}; bpos = {:?}",
@@ -962,28 +962,43 @@ impl SourceMap {
         CharPos(bpos.to_usize() - map.start_pos.to_usize() - total_extra_bytes as usize)
     }
 
-    /// Converts an absolute BytePos to a CharPos relative to the source_file.
-    pub fn calc_utf16_offset(
-        &self,
-        map: &SourceFile,
-        prev_total_extra_bytes: &mut u32,
-        start: &mut usize,
-        bpos: BytePos,
-    ) -> u32 {
-        // The number of extra bytes due to multibyte chars in the SourceFile
-        let mut total_extra_bytes = *prev_total_extra_bytes;
-        let mut i = *start;
+    /// Converts a span of absolute BytePos to a CharPos relative to the
+    /// source_file.
+    pub fn span_to_char_offset(&self, file: &SourceFile, span: Span) -> (u32, u32) {
+        // We rename this to feel more comfortable while doing math.
+        let start_offset = file.start_pos;
 
-        for &mbc in map.multibyte_chars[i..].iter() {
-            debug!("{}-byte char at {:?}", mbc.bytes, mbc.pos);
-            if mbc.pos < bpos {
-                // 1, 2, and 3 UTF-8 bytes maps to 1 UTF-16 char, but 4 UTF-8
-                // bytes maps to 2.
-                total_extra_bytes += if mbc.bytes == 4 {
-                    2
-                } else {
-                    mbc.bytes as u32 - 1
-                };
+        let mut state = ByteToCharPosState::default();
+        let start = span.lo.to_u32()
+            - start_offset.to_u32()
+            - self.calc_utf16_offset(file, span.lo, &mut state);
+        let end = span.hi.to_u32()
+            - start_offset.to_u32()
+            - self.calc_utf16_offset(file, span.hi, &mut state);
+
+        (start, end)
+    }
+
+    /// Calculates the number of excess chars seen in the UTF-8 encoding of a
+    /// file compared with the UTF-16 encoding.
+    fn calc_utf16_offset(
+        &self,
+        file: &SourceFile,
+        bpos: BytePos,
+        state: &mut ByteToCharPosState,
+    ) -> u32 {
+        let mut total_extra_bytes = state.total_extra_bytes;
+        let mut index = state.mbc_index;
+
+        if bpos >= state.pos {
+            let range = index..file.multibyte_chars.len();
+            for i in range {
+                let mbc = &file.multibyte_chars[i];
+                debug!("{}-byte char at {:?}", mbc.bytes, mbc.pos);
+                if mbc.pos >= bpos {
+                    break;
+                }
+                total_extra_bytes += mbc.byte_to_char_diff() as u32;
                 // We should never see a byte position in the middle of a
                 // character
                 debug_assert!(
@@ -993,14 +1008,32 @@ impl SourceMap {
                     mbc.pos,
                     mbc.bytes
                 );
-                i += 1;
-            } else {
-                break;
+                index = i;
+            }
+        } else {
+            let range = 0..index;
+            for i in range.rev() {
+                let mbc = &file.multibyte_chars[i];
+                debug!("{}-byte char at {:?}", mbc.bytes, mbc.pos);
+                if mbc.pos < bpos {
+                    break;
+                }
+                total_extra_bytes -= mbc.byte_to_char_diff() as u32;
+                // We should never see a byte position in the middle of a
+                // character
+                debug_assert!(
+                    bpos.to_u32() <= mbc.pos.to_u32(),
+                    "bpos = {:?}, mbc.pos = {:?}",
+                    bpos,
+                    mbc.pos,
+                );
+                index = i;
             }
         }
 
-        *prev_total_extra_bytes = total_extra_bytes;
-        *start = i;
+        state.pos = bpos;
+        state.total_extra_bytes = total_extra_bytes;
+        state.mbc_index = index;
 
         total_extra_bytes
     }
@@ -1194,14 +1227,9 @@ impl SourceMap {
 
         let mut prev_dst_line = u32::MAX;
 
-        let mut prev_extra_bytes = 0;
-        let mut ch_start = 0;
-        let mut line_prev_extra_bytes = 0;
-        let mut line_ch_start = 0;
         let mut inline_sources_content = false;
-
-        let mut prev_bpos = BytePos(0);
-        let mut prev_linebpos = BytePos(0);
+        let mut ch_state = ByteToCharPosState::default();
+        let mut line_state = ByteToCharPosState::default();
 
         for (pos, lc) in mappings.iter() {
             let pos = *pos;
@@ -1235,14 +1263,8 @@ impl SourceMap {
                         builder.set_source_contents(src_id, Some(&f.src));
                     }
 
-                    prev_extra_bytes = 0;
-                    ch_start = 0;
-
-                    line_prev_extra_bytes = 0;
-                    line_ch_start = 0;
-
-                    prev_bpos = BytePos(0);
-                    prev_linebpos = BytePos(0);
+                    ch_state = ByteToCharPosState::default();
+                    line_state = ByteToCharPosState::default();
 
                     cur_file = Some(f.clone());
                     &f
@@ -1271,32 +1293,10 @@ impl SourceMap {
                 pos,
                 linebpos,
             );
-            // TODO: mappings really should be ordered, but it's not.
-            // debug_assert!(line >= prev_line);
-            if linebpos < prev_linebpos {
-                line_prev_extra_bytes = 0;
-                line_ch_start = 0;
-            }
-            prev_linebpos = linebpos;
 
-            let linechpos = linebpos.to_u32()
-                - self.calc_utf16_offset(
-                    f,
-                    &mut line_prev_extra_bytes,
-                    &mut line_ch_start,
-                    linebpos,
-                );
-
-            // TODO: mappings really should be ordered, but it's not.
-            // debug_assert(pos >= prev_bpos);
-            if pos < prev_bpos {
-                prev_extra_bytes = line_prev_extra_bytes;
-                ch_start = line_ch_start;
-            }
-            prev_bpos = pos;
-
-            let chpos =
-                pos.to_u32() - self.calc_utf16_offset(f, &mut prev_extra_bytes, &mut ch_start, pos);
+            let linechpos =
+                linebpos.to_u32() - self.calc_utf16_offset(f, linebpos, &mut line_state);
+            let chpos = pos.to_u32() - self.calc_utf16_offset(f, pos, &mut ch_state);
 
             debug_assert!(
                 chpos >= linechpos,
@@ -1467,6 +1467,20 @@ impl SourceMapGenConfig for DefaultSourceMapGenConfig {
     fn file_name_to_source(&self, f: &FileName) -> String {
         f.to_string()
     }
+}
+
+/// Stores the state of the last conversion between BytePos and CharPos.
+#[derive(Debug, Clone, Default)]
+pub struct ByteToCharPosState {
+    /// The last BytePos to convert.
+    pos: BytePos,
+
+    /// The total number of extra chars in the UTF-8 encoding.
+    total_extra_bytes: u32,
+
+    /// The index of the last MultiByteChar read to compute the extra bytes of
+    /// the last conversion.
+    mbc_index: usize,
 }
 
 // _____________________________________________________________________________
@@ -1694,18 +1708,26 @@ mod tests {
         let sm = SourceMap::new(FilePathMapping::empty());
         let file = sm.new_source_file(PathBuf::from("blork.rs").into(), input.to_string());
 
-        let mut prev_extra_bytes = 0_u32;
-        let mut start = 0;
+        let mut state = ByteToCharPosState::default();
         let mut bpos = file.start_pos;
         let mut cpos = CharPos(bpos.to_usize());
         for c in input.chars() {
-            let actual = bpos.to_u32()
-                - sm.calc_utf16_offset(&file, &mut prev_extra_bytes, &mut start, bpos);
+            let actual = bpos.to_u32() - sm.calc_utf16_offset(&file, bpos, &mut state);
 
+            dbg!(&bpos, &cpos, &state);
             assert_eq!(actual, cpos.to_u32());
 
             bpos = bpos + BytePos(c.len_utf8() as u32);
             cpos = cpos + CharPos(c.len_utf16());
+        }
+
+        for c in input.chars().rev() {
+            bpos = bpos - BytePos(c.len_utf8() as u32);
+            cpos = cpos - CharPos(c.len_utf16());
+
+            let actual = bpos.to_u32() - sm.calc_utf16_offset(&file, bpos, &mut state);
+
+            assert_eq!(actual, cpos.to_u32());
         }
     }
 

@@ -737,6 +737,21 @@ pub struct MultiByteChar {
     pub bytes: u8,
 }
 
+impl MultiByteChar {
+    /// Computes the extra number of UTF-8 bytes necessary to encode a code
+    /// point, compared to UTF-16 encoding.
+    ///
+    /// 1, 2, and 3 UTF-8 bytes encode into 1 UTF-16 char, but 4 UTF-8 bytes
+    /// encode into 2.
+    pub fn byte_to_char_diff(&self) -> u8 {
+        if self.bytes == 4 {
+            2
+        } else {
+            self.bytes - 1
+        }
+    }
+}
+
 /// Identifies an offset of a non-narrow character in a SourceFile
 #[cfg_attr(
     any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
@@ -1002,7 +1017,9 @@ pub trait Pos {
 ///  - Values larger than `u32::MAX - 2^16` are reserved for the comments.
 ///
 /// `u32::MAX` is special value used to generate source map entries.
-#[derive(Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, Debug, Serialize, Deserialize)]
+#[derive(
+    Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, Debug, Serialize, Deserialize, Default,
+)]
 #[serde(transparent)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(

@@ -41,22 +41,7 @@ impl Context {
             return (None, None);
         }
 
-        // We rename this to feel more comfortable while doing math.
-        let start_offset = self.fm.start_pos;
-
-        let mut prev_extra_bytes = 0;
-        let mut ch_start = 0;
-
-        let start = span.lo.to_u32()
-            - start_offset.to_u32()
-            - self
-                .cm
-                .calc_utf16_offset(&self.fm, &mut prev_extra_bytes, &mut ch_start, span.lo);
-        let end = span.hi.to_u32()
-            - start_offset.to_u32()
-            - self
-                .cm
-                .calc_utf16_offset(&self.fm, &mut prev_extra_bytes, &mut ch_start, span.hi);
+        let (start, end) = self.cm.span_to_char_offset(&self.fm, span);
 
         (Some(start), Some(end))
     }
