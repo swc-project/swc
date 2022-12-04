@@ -382,7 +382,7 @@ impl VisitMut for NormalizeTest {
         n.visit_mut_children_with(self);
 
         if let Token::WhiteSpace { .. } = &n.token {
-            n.token = Token::WhiteSpace { value: "".into() }
+            n.token = Token::WhiteSpace(Box::new(WhiteSpaceToken { value: "".into() }))
         }
     }
 
