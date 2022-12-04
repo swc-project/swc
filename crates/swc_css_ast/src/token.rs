@@ -36,6 +36,10 @@ pub enum NumberType {
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, EqIgnoreSpan)]
+#[cfg_attr(
+    feature = "rkyv",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
 pub struct IdentToken {
     #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub value: JsWord,
@@ -43,6 +47,10 @@ pub struct IdentToken {
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, EqIgnoreSpan)]
+#[cfg_attr(
+    feature = "rkyv",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
 pub struct FunctionToken {
     #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub value: JsWord,
@@ -50,6 +58,10 @@ pub struct FunctionToken {
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, EqIgnoreSpan)]
+#[cfg_attr(
+    feature = "rkyv",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
 pub struct AtKeywordToken {
     #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub value: JsWord,
@@ -57,6 +69,10 @@ pub struct AtKeywordToken {
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, EqIgnoreSpan)]
+#[cfg_attr(
+    feature = "rkyv",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
 pub struct HashToken {
     pub is_id: bool,
     #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
@@ -65,6 +81,10 @@ pub struct HashToken {
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, EqIgnoreSpan)]
+#[cfg_attr(
+    feature = "rkyv",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
 pub struct StringToken {
     #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub value: JsWord,
@@ -72,12 +92,20 @@ pub struct StringToken {
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, EqIgnoreSpan)]
+#[cfg_attr(
+    feature = "rkyv",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
 pub struct BadStringToken {
     pub raw: Atom,
 }
 
 /// `url(value)`
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, EqIgnoreSpan)]
+#[cfg_attr(
+    feature = "rkyv",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
 pub struct UrlToken {
     #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub name: JsWord,
@@ -88,17 +116,29 @@ pub struct UrlToken {
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, EqIgnoreSpan)]
+#[cfg_attr(
+    feature = "rkyv",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
 pub struct BadUrlToken {
     /// Name and value
     pub raw: Box<(Atom, Atom)>,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, EqIgnoreSpan)]
+#[cfg_attr(
+    feature = "rkyv",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
 pub struct DelimToken {
     pub value: char,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, EqIgnoreSpan)]
+#[cfg_attr(
+    feature = "rkyv",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
 pub struct NumberToken {
     pub value: f64,
     pub raw: Atom,
@@ -107,12 +147,20 @@ pub struct NumberToken {
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, EqIgnoreSpan)]
+#[cfg_attr(
+    feature = "rkyv",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
 pub struct PercentageToken {
     pub value: f64,
     pub raw: Atom,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, EqIgnoreSpan)]
+#[cfg_attr(
+    feature = "rkyv",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
 pub struct DimensionToken {
     pub value: f64,
     #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
@@ -124,6 +172,10 @@ pub struct DimensionToken {
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, EqIgnoreSpan)]
+#[cfg_attr(
+    feature = "rkyv",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
 pub struct WhiteSpaceToken {
     pub value: Atom,
 }
