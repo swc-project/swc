@@ -40,21 +40,7 @@ impl Context {
             return (None, None);
         }
 
-        // We rename this to feel more comfortable while doing math.
-        let start_offset = self.fm.start_pos;
-
-        let mut start = span.lo.0 - start_offset.0;
-        let mut end = span.hi.0 - start_offset.0;
-
-        for mb in self.fm.multibyte_chars.iter() {
-            if mb.pos < span.lo {
-                start -= (mb.bytes - 1) as u32;
-            }
-
-            if mb.pos < span.hi {
-                end -= (mb.bytes - 1) as u32;
-            }
-        }
+        let (start, end) = self.cm.span_to_char_offset(&self.fm, span);
 
         (Some(start), Some(end))
     }
