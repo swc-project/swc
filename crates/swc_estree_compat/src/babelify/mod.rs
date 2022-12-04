@@ -4,7 +4,6 @@ use rayon::prelude::*;
 use serde::{de::DeserializeOwned, Serialize};
 use swc_common::{
     comments::{CommentKind, Comments},
-    source_map::Pos,
     sync::Lrc,
     BytePos, SourceFile, SourceMap, Span,
 };

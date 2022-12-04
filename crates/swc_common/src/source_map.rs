@@ -1008,7 +1008,7 @@ impl SourceMap {
                     mbc.pos,
                     mbc.bytes
                 );
-                index = i;
+                index += 1;
             }
         } else {
             let range = 0..index;
@@ -1027,7 +1027,7 @@ impl SourceMap {
                     bpos,
                     mbc.pos,
                 );
-                index = i;
+                index -= 1;
             }
         }
 
