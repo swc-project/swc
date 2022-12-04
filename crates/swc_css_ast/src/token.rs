@@ -134,7 +134,7 @@ pub struct DelimToken {
     pub value: char,
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, EqIgnoreSpan)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, EqIgnoreSpan)]
 #[cfg_attr(
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
@@ -146,7 +146,7 @@ pub struct NumberToken {
     pub type_flag: NumberType,
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, EqIgnoreSpan)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, EqIgnoreSpan)]
 #[cfg_attr(
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
@@ -156,7 +156,7 @@ pub struct PercentageToken {
     pub raw: Atom,
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, EqIgnoreSpan)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, EqIgnoreSpan)]
 #[cfg_attr(
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
