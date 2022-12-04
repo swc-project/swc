@@ -1714,7 +1714,6 @@ mod tests {
         for c in input.chars() {
             let actual = bpos.to_u32() - sm.calc_utf16_offset(&file, bpos, &mut state);
 
-            dbg!(&bpos, &cpos, &state);
             assert_eq!(actual, cpos.to_u32());
 
             bpos = bpos + BytePos(c.len_utf8() as u32);
