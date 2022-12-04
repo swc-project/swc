@@ -124,7 +124,7 @@ impl Compressor {
 
         if let ComponentValue::Dimension(dimension) = n {
             if let Some(number) = self.length_to_zero(dimension) {
-                *n = ComponentValue::Number(number)
+                *n = ComponentValue::Number(Box::new(number))
             }
         }
     }

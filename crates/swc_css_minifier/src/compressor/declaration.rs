@@ -15,7 +15,7 @@ impl Compressor {
 
                     for value in declaration.value.iter() {
                         match value {
-                            outside_node @ ComponentValue::Ident(Ident { value, .. })
+                            outside_node @ ComponentValue::Ident(box Ident { value, .. })
                                 if matches!(
                                     value.to_ascii_lowercase(),
                                     js_word!("block") | js_word!("inline") | js_word!("run-in")
@@ -23,7 +23,7 @@ impl Compressor {
                             {
                                 outside = Some(outside_node);
                             }
-                            inside_node @ ComponentValue::Ident(Ident { value, .. })
+                            inside_node @ ComponentValue::Ident(box Ident { value, .. })
                                 if matches!(
                                     value.to_ascii_lowercase(),
                                     js_word!("flow")
@@ -36,10 +36,11 @@ impl Compressor {
                             {
                                 inside = Some(inside_node);
                             }
-                            list_item_node @ ComponentValue::Ident(Ident { value, .. })
+                            list_item_node @ ComponentValue::Ident(box Ident { value, .. })
                                 if value.to_ascii_lowercase() == js_word!("list-item") =>
                             {
-                                if let Some(ComponentValue::Ident(Ident { value, .. })) = inside {
+                                if let Some(ComponentValue::Ident(box Ident { value, .. })) = inside
+                                {
                                     if !matches!(
                                         value.to_ascii_lowercase(),
                                         js_word!("flow") | js_word!("flow-root")
@@ -60,7 +61,7 @@ impl Compressor {
                         // `run-in flow` -> `run-in`
                         (
                             Some(outside),
-                            Some(ComponentValue::Ident(Ident {
+                            Some(ComponentValue::Ident(box Ident {
                                 value: inside_value,
                                 ..
                             })),
@@ -70,12 +71,12 @@ impl Compressor {
                         }
                         // `block flow-root` -> `flow-root`
                         (
-                            Some(ComponentValue::Ident(Ident {
+                            Some(ComponentValue::Ident(box Ident {
                                 value: outside_value,
                                 ..
                             })),
                             Some(
-                                inside @ ComponentValue::Ident(Ident {
+                                inside @ ComponentValue::Ident(box Ident {
                                     value: inside_value,
                                     ..
                                 }),
@@ -88,12 +89,12 @@ impl Compressor {
                         }
                         // `inline flow-root` -> `inline-block`
                         (
-                            Some(ComponentValue::Ident(Ident {
+                            Some(ComponentValue::Ident(box Ident {
                                 value: outside_value,
                                 span,
                                 ..
                             })),
-                            Some(ComponentValue::Ident(Ident {
+                            Some(ComponentValue::Ident(box Ident {
                                 value: inside_value,
                                 ..
                             })),
@@ -101,19 +102,19 @@ impl Compressor {
                         ) if outside_value.to_ascii_lowercase() == js_word!("inline")
                             && inside_value.to_ascii_lowercase() == js_word!("flow-root") =>
                         {
-                            declaration.value = vec![ComponentValue::Ident(Ident {
+                            declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                                 span: *span,
                                 value: js_word!("inline-block"),
                                 raw: None,
-                            })];
+                            }))];
                         }
                         // `block flow list-item` -> `list-item`
                         (
-                            Some(ComponentValue::Ident(Ident {
+                            Some(ComponentValue::Ident(box Ident {
                                 value: outside_value,
                                 ..
                             })),
-                            Some(ComponentValue::Ident(Ident {
+                            Some(ComponentValue::Ident(box Ident {
                                 value: inside_value,
                                 ..
                             })),
@@ -125,7 +126,7 @@ impl Compressor {
                         }
                         // `block list-item` -> `list-item`
                         (
-                            Some(ComponentValue::Ident(Ident {
+                            Some(ComponentValue::Ident(box Ident {
                                 value: outside_value,
                                 ..
                             })),
@@ -137,7 +138,7 @@ impl Compressor {
                         // `flow list-item` -> `list-item`
                         (
                             None,
-                            Some(ComponentValue::Ident(Ident {
+                            Some(ComponentValue::Ident(box Ident {
                                 value: inside_value,
                                 ..
                             })),
@@ -148,12 +149,12 @@ impl Compressor {
                         // `inline flow list-item` -> `inline list-item`
                         (
                             Some(
-                                outside @ ComponentValue::Ident(Ident {
+                                outside @ ComponentValue::Ident(box Ident {
                                     value: outside_value,
                                     ..
                                 }),
                             ),
-                            Some(ComponentValue::Ident(Ident {
+                            Some(ComponentValue::Ident(box Ident {
                                 value: inside_value,
                                 ..
                             })),
@@ -167,12 +168,12 @@ impl Compressor {
                         // `block grid` -> `grid`
                         // `block table` -> `table`
                         (
-                            Some(ComponentValue::Ident(Ident {
+                            Some(ComponentValue::Ident(box Ident {
                                 value: outside_value,
                                 ..
                             })),
                             Some(
-                                inside @ ComponentValue::Ident(Ident {
+                                inside @ ComponentValue::Ident(box Ident {
                                     value: inside_value,
                                     ..
                                 }),
@@ -188,12 +189,12 @@ impl Compressor {
                         }
                         // `inline ruby` -> `ruby`
                         (
-                            Some(ComponentValue::Ident(Ident {
+                            Some(ComponentValue::Ident(box Ident {
                                 value: outside_value,
                                 ..
                             })),
                             Some(
-                                inside @ ComponentValue::Ident(Ident {
+                                inside @ ComponentValue::Ident(box Ident {
                                     value: inside_value,
                                     ..
                                 }),
@@ -334,23 +335,23 @@ impl Compressor {
                         .take()
                         .into_iter()
                         .map(|node| match node {
-                            ComponentValue::Ident(Ident { value, span, .. })
+                            ComponentValue::Ident(box Ident { value, span, .. })
                                 if value.to_ascii_lowercase() == js_word!("normal") =>
                             {
-                                ComponentValue::Number(Number {
+                                ComponentValue::Number(Box::new(Number {
                                     span,
                                     value: 400.0,
                                     raw: None,
-                                })
+                                }))
                             }
-                            ComponentValue::Ident(Ident { value, span, .. })
+                            ComponentValue::Ident(box Ident { value, span, .. })
                                 if value.to_ascii_lowercase() == js_word!("bold") =>
                             {
-                                ComponentValue::Number(Number {
+                                ComponentValue::Number(Box::new(Number {
                                     span,
                                     value: 700.0,
                                     raw: None,
-                                })
+                                }))
                             }
                             _ => node,
                         })
@@ -365,12 +366,12 @@ impl Compressor {
                     let second = declaration.value.get(1);
 
                     if let (
-                        Some(ComponentValue::Ident(Ident {
+                        Some(ComponentValue::Ident(box Ident {
                             span,
                             value: first_value,
                             ..
                         })),
-                        Some(ComponentValue::Ident(Ident {
+                        Some(ComponentValue::Ident(box Ident {
                             value: second_value,
                             ..
                         })),
@@ -381,18 +382,18 @@ impl Compressor {
                             second_value.to_ascii_lowercase(),
                         ) {
                             (js_word!("repeat"), js_word!("no-repeat")) => {
-                                declaration.value = vec![ComponentValue::Ident(Ident {
+                                declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                                     span: *span,
                                     value: js_word!("repeat-x"),
                                     raw: None,
-                                })];
+                                }))];
                             }
                             (js_word!("no-repeat"), js_word!("repeat")) => {
-                                declaration.value = vec![ComponentValue::Ident(Ident {
+                                declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                                     span: *span,
                                     value: js_word!("repeat-y"),
                                     raw: None,
-                                })];
+                                }))];
                             }
                             (js_word!("repeat"), js_word!("repeat"))
                             | (js_word!("space"), js_word!("space"))
@@ -436,11 +437,11 @@ impl Compressor {
                                 declaration.value.insert(
                                     0,
                                     if self.is_ident_shorter_than_str(to_be_identify) {
-                                        ComponentValue::Ident(Ident {
+                                        ComponentValue::Ident(Box::new(Ident {
                                             span: ident.span,
                                             value: to_be_identify.into(),
                                             raw: None,
-                                        })
+                                        }))
                                     } else {
                                         ComponentValue::Str(Box::new(Str {
                                             span: ident.span,
@@ -469,11 +470,11 @@ impl Compressor {
                                     }
                                     to_be_identify => {
                                         if self.is_ident_shorter_than_str(to_be_identify) {
-                                            ComponentValue::Ident(Ident {
+                                            ComponentValue::Ident(Box::new(Ident {
                                                 span: ident.span,
                                                 value: to_be_identify.into(),
                                                 raw: None,
-                                            })
+                                            }))
                                         } else {
                                             ComponentValue::Str(Box::new(Str {
                                                 span: ident.span,
@@ -516,15 +517,15 @@ impl Compressor {
                 true
             }
             (
-                Some(ComponentValue::Integer(Integer { value: 0, .. })),
-                Some(ComponentValue::Integer(Integer { value: 0, .. })),
+                Some(ComponentValue::Integer(box Integer { value: 0, .. })),
+                Some(ComponentValue::Integer(box Integer { value: 0, .. })),
             ) => true,
             (
-                Some(ComponentValue::Number(Number {
+                Some(ComponentValue::Number(box Number {
                     value: first_number,
                     ..
                 })),
-                Some(ComponentValue::Number(Number {
+                Some(ComponentValue::Number(box Number {
                     value: second_number,
                     ..
                 })),
@@ -560,15 +561,15 @@ impl Compressor {
                 Some(ComponentValue::Percentage(box Percentage { value: value_2, .. })),
             ) if value_1.value == value_2.value => true,
             (
-                Some(ComponentValue::Integer(Integer { value: 0, .. })),
-                Some(ComponentValue::Integer(Integer { value: 0, .. })),
+                Some(ComponentValue::Integer(box Integer { value: 0, .. })),
+                Some(ComponentValue::Integer(box Integer { value: 0, .. })),
             ) => true,
             (
-                Some(ComponentValue::Number(Number {
+                Some(ComponentValue::Number(box Number {
                     value: first_number,
                     ..
                 })),
-                Some(ComponentValue::Number(Number {
+                Some(ComponentValue::Number(box Number {
                     value: second_number,
                     ..
                 })),
@@ -583,8 +584,8 @@ impl Compressor {
         node_2: Option<&ComponentValue>,
     ) -> bool {
         matches!((node_1, node_2), (
-                 Some(ComponentValue::Ident(Ident { value: value_1, .. })),
-                Some(ComponentValue::Ident(Ident { value: value_2, .. })),
+                 Some(ComponentValue::Ident(box Ident { value: value_1, .. })),
+                Some(ComponentValue::Ident(box Ident { value: value_2, .. })),
             ) if value_1.to_ascii_lowercase() == value_2.to_ascii_lowercase())
     }
 }

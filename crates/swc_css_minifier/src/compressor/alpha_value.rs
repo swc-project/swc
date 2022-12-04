@@ -54,11 +54,11 @@ impl Compressor {
             }) if number.value % 10.0 == 0.0 => {
                 let new_value = number.value / 100.0;
 
-                *component_value = ComponentValue::Number(Number {
+                *component_value = ComponentValue::Number(Box::new(Number {
                     span: *span,
                     value: new_value,
                     raw: None,
-                });
+                }));
             }
             _ => {}
         }

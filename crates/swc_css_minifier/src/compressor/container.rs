@@ -29,7 +29,7 @@ impl Compressor {
                                         *n = SizeFeatureValue::Dimension(*dimension);
                                     }
                                     Some(ComponentValue::Number(number)) => {
-                                        *n = SizeFeatureValue::Number(number);
+                                        *n = SizeFeatureValue::Number(*number);
                                     }
                                     _ => {}
                                 }

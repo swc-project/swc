@@ -162,29 +162,29 @@ macro_rules! make_color {
                         raw: None,
                     },
                     value: vec![
-                        ComponentValue::Number(Number {
+                        ComponentValue::Number(Box::new(Number {
                             span: DUMMY_SP,
                             value: r,
                             raw: None,
-                        }),
+                        })),
                         ComponentValue::Delimiter(Box::new(Delimiter {
                             span: DUMMY_SP,
                             value: DelimiterValue::Comma,
                         })),
-                        ComponentValue::Number(Number {
+                        ComponentValue::Number(Box::new(Number {
                             span: DUMMY_SP,
                             value: g,
                             raw: None,
-                        }),
+                        })),
                         ComponentValue::Delimiter(Box::new(Delimiter {
                             span: DUMMY_SP,
                             value: DelimiterValue::Comma,
                         })),
-                        ComponentValue::Number(Number {
+                        ComponentValue::Number(Box::new(Number {
                             span: DUMMY_SP,
                             value: b,
                             raw: None,
-                        }),
+                        })),
                         ComponentValue::Delimiter(Box::new(Delimiter {
                             span: DUMMY_SP,
                             value: DelimiterValue::Comma,
@@ -283,7 +283,7 @@ impl Compressor {
 
                 Some(*value / 100.0)
             }
-            Some(ComponentValue::Ident(Ident { value, .. }))
+            Some(ComponentValue::Ident(box Ident { value, .. }))
                 if value.to_ascii_lowercase() == js_word!("none") =>
             {
                 Some(0.0)
@@ -320,7 +320,7 @@ impl Compressor {
 
                 Some(value)
             }
-            Some(ComponentValue::Ident(Ident { value, .. }))
+            Some(ComponentValue::Ident(box Ident { value, .. }))
                 if value.to_ascii_lowercase() == js_word!("none") =>
             {
                 Some(0.0)
@@ -343,7 +343,7 @@ impl Compressor {
 
                 Some(*value / 100.0)
             }
-            Some(ComponentValue::Ident(Ident { value, .. }))
+            Some(ComponentValue::Ident(box Ident { value, .. }))
                 if value.to_ascii_lowercase() == js_word!("none") =>
             {
                 Some(0.0)
@@ -357,7 +357,7 @@ impl Compressor {
         number_or_percentage: Option<&&ComponentValue>,
     ) -> Option<f64> {
         match number_or_percentage {
-            Some(ComponentValue::Number(Number { value, .. })) => {
+            Some(ComponentValue::Number(box Number { value, .. })) => {
                 if *value > 255.0 {
                     return Some(255.0);
                 } else if *value < 0.0 {
@@ -378,7 +378,7 @@ impl Compressor {
 
                 Some((2.55 * *value).round())
             }
-            Some(ComponentValue::Ident(Ident { value, .. }))
+            Some(ComponentValue::Ident(box Ident { value, .. }))
                 if value.to_ascii_lowercase() == js_word!("none") =>
             {
                 Some(0.0)

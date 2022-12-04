@@ -21,11 +21,11 @@ impl Compressor {
                     span,
                     ..
                 })) if *number_value == 0.0 => {
-                    *component_value = ComponentValue::Number(Number {
+                    *component_value = ComponentValue::Number(Box::new(Number {
                         span: *span,
                         value: 0.0,
                         raw: None,
-                    });
+                    }));
                 }
                 _ => {}
             }

@@ -355,7 +355,7 @@ impl Compressor {
                                         *n = MediaFeatureValue::Dimension(*dimension);
                                     }
                                     Some(ComponentValue::Number(number)) => {
-                                        *n = MediaFeatureValue::Number(number);
+                                        *n = MediaFeatureValue::Number(*number);
                                     }
                                     _ => {}
                                 }

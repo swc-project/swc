@@ -9,7 +9,7 @@ pub fn is_calc_function_name(ident: &Ident) -> bool {
 
 pub fn transform_calc_value_into_component_value(calc_value: &CalcValue) -> Option<ComponentValue> {
     match &calc_value {
-        CalcValue::Number(n) => Some(ComponentValue::Number(n.clone())),
+        CalcValue::Number(n) => Some(ComponentValue::Number(Box::new(n.clone()))),
         CalcValue::Dimension(Dimension::Length(l)) => Some(ComponentValue::Dimension(Box::new(
             Dimension::Length(Length {
                 span: l.span,
