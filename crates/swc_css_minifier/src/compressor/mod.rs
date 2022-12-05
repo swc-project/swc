@@ -400,7 +400,7 @@ impl VisitMut for Compressor {
                 | Token::Function { value, .. }
                 | Token::AtKeyword { value, .. }
                 | Token::String { value, .. }
-                | Token::Url(box UrlToken { value, .. })
+                | Token::Url { value, .. }
                     if !contains_only_ascii_characters(value) =>
                 {
                     self.need_utf8_at_rule = true;

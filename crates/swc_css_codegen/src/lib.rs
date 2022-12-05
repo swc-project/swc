@@ -2015,12 +2015,12 @@ where
             Token::String { raw, .. } => {
                 write_str!(self, span, raw);
             }
-            Token::Url(token) => {
-                let mut url = String::with_capacity(token.raw.0.len() + token.raw.1.len() + 2);
+            Token::Url { raw, .. } => {
+                let mut url = String::with_capacity(raw.0.len() + raw.1.len() + 2);
 
-                url.push_str(&token.raw.0);
+                url.push_str(&raw.0);
                 url.push('(');
-                url.push_str(&token.raw.1);
+                url.push_str(&raw.1);
                 url.push(')');
 
                 write_str!(self, span, &url);

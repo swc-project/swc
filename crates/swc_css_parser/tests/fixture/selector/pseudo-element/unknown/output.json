@@ -1769,7 +1769,6 @@
                         },
                         "token": {
                           "Url": {
-                            "name": "url",
                             "value": "foo.png",
                             "raw": [
                               "url",

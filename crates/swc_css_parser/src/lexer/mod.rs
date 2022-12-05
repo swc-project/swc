@@ -789,11 +789,10 @@ where
                     // U+0029 RIGHT PARENTHESIS ())
                     // Return the <url-token>.
                     Some(')') => {
-                        return Ok(Token::Url(Box::new(swc_css_ast::UrlToken {
-                            name: name.0,
+                        return Ok(Token::Url {
                             value: (&**out).into(),
                             raw: Box::new((name.1, (&**raw).into())),
-                        })));
+                        });
                     }
 
                     // EOF
@@ -801,11 +800,10 @@ where
                     None => {
                         l.emit_error(ErrorKind::UnterminatedUrl);
 
-                        return Ok(Token::Url(Box::new(swc_css_ast::UrlToken {
-                            name: name.0,
+                        return Ok(Token::Url {
                             value: (&**out).into(),
                             raw: Box::new((name.1, (&**raw).into())),
-                        })));
+                        });
                     }
 
                     // whitespace
@@ -836,22 +834,20 @@ where
 
                                 raw.push_str(&whitespaces);
 
-                                return Ok(Token::Url(Box::new(swc_css_ast::UrlToken {
-                                    name: name.0,
+                                return Ok(Token::Url {
                                     value: (&**out).into(),
                                     raw: Box::new((name.1, (&**raw).into())),
-                                })));
+                                });
                             }
                             None => {
                                 l.emit_error(ErrorKind::UnterminatedUrl);
 
                                 raw.push_str(&whitespaces);
 
-                                return Ok(Token::Url(Box::new(swc_css_ast::UrlToken {
-                                    name: name.0,
+                                return Ok(Token::Url {
                                     value: (&**out).into(),
                                     raw: Box::new((name.1, (&**raw).into())),
-                                })));
+                                });
                             }
                             _ => {}
                         }

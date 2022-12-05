@@ -1,3 +1,4 @@
+use swc_atoms::js_word;
 use swc_common::{BytePos, Span};
 use swc_css_ast::*;
 
@@ -2507,11 +2508,11 @@ where
         }
 
         match bump!(self) {
-            Token::Url(box UrlToken { name, value, raw }) => {
+            Token::Url { value, raw } => {
                 let name_length = raw.0.len() as u32;
                 let name = Ident {
                     span: Span::new(span.lo, span.lo + BytePos(name_length), Default::default()),
-                    value: name,
+                    value: js_word!("url"),
                     raw: Some(raw.0),
                 };
                 let value = Some(Box::new(UrlValue::Raw(UrlValueRaw {

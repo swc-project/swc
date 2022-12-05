@@ -2036,7 +2036,7 @@
  16 | ::unknown({!}) {}
     `----
 
-  x Url(UrlToken { name: Atom('url' type=static), value: Atom('foo.png' type=inline), raw: ("url", "foo.png") })
+  x Url { value: Atom('foo.png' type=inline), raw: ("url", "foo.png") }
     ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:14:1]
  14 | ::unknown('string') {}
  15 | ::unknown(url(foo.png)) {}

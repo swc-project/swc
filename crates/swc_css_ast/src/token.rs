@@ -35,21 +35,6 @@ pub enum NumberType {
     Number,
 }
 
-/// `url(value)`
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, EqIgnoreSpan)]
-#[cfg_attr(
-    feature = "rkyv",
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-pub struct UrlToken {
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-    pub name: JsWord,
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-    pub value: JsWord,
-    /// Name and value
-    pub raw: Box<(Atom, Atom)>,
-}
-
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, EqIgnoreSpan)]
 #[cfg_attr(
     feature = "rkyv",
@@ -111,7 +96,12 @@ pub enum Token {
         raw: Atom,
     },
     /// `url(value)`
-    Url(Box<UrlToken>),
+    Url {
+        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
+        value: JsWord,
+        /// Name and value
+        raw: Box<(Atom, Atom)>,
+    },
     BadUrl {
         raw: Box<(Atom, Atom)>,
     },
@@ -200,10 +190,9 @@ impl Hash for Token {
                 raw.hash(state);
                 is_id.hash(state);
             }
-            Token::Url(url) => {
-                url.name.hash(state);
-                url.value.hash(state);
-                url.raw.hash(state);
+            Token::Url { value, raw } => {
+                value.hash(state);
+                raw.hash(state);
             }
             Token::BadUrl { raw, .. } => {
                 raw.hash(state);
