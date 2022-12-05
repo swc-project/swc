@@ -2252,7 +2252,7 @@
  43 |     .card { margin-block: 2em; }
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/container/input.css:41:1]
  41 | 
  42 | @container card (inline-size > 30em) and style(--responsive: true) {
@@ -2604,7 +2604,7 @@
  47 |     .card { margin-block: 2em; }
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/at-rule/container/input.css:45:1]
  45 | 
  46 | @container card (inline-size > 30em) or style(--responsive: true) {
@@ -7434,7 +7434,7 @@
  114 |     #inner {
      `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/at-rule/container/input.css:112:1]
  112 | 
  113 | @container test style(--responsive: true) {
@@ -7716,7 +7716,7 @@
  120 |     #inner {
      `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/at-rule/container/input.css:118:1]
  118 | 
  119 | @container style(--responsive: true) {
@@ -8119,7 +8119,7 @@
  127 |         #inner {
      `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/at-rule/container/input.css:125:1]
  125 | @container card (inline-size > 30em) {
  126 |     @container style(--responsive: true) {

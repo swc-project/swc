@@ -158,7 +158,7 @@
  3 |     main {
    `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/media/wrong-stylesheet/input.css:1:1]
  1 | @media print {
  2 |     color: teal;
@@ -206,7 +206,7 @@
  4 |             color: orange;
    `----
 
-  x WhiteSpace(WhiteSpaceToken { value: "\n    " })
+  x WhiteSpace { value: "\n    " }
    ,-[$DIR/tests/recovery/at-rule/media/wrong-stylesheet/input.css:1:1]
  1 |     @media print {
  2 | ,->     color: teal;
@@ -238,7 +238,7 @@
  4 |         color: orange;
    `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/media/wrong-stylesheet/input.css:2:1]
  2 |     color: teal;
  3 |     main {

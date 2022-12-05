@@ -359,7 +359,7 @@
  7 |         }
    `----
 
-  x WhiteSpace(WhiteSpaceToken { value: "\n        " })
+  x WhiteSpace { value: "\n        " }
    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:4:1]
  4 |         &.foo {
  5 | ,->         ident
@@ -407,7 +407,7 @@
  7 |     }
    `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:5:1]
  5 |         ident
  6 |         color: green;
@@ -834,7 +834,7 @@
  15 |             }
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: "\n            " })
+  x WhiteSpace { value: "\n            " }
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:12:1]
  12 |             & .class { 
  13 | ,->             ident
@@ -882,7 +882,7 @@
  15 |         }
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:13:1]
  13 |             ident
  14 |             color: red 
@@ -914,7 +914,7 @@
  16 |         }
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " \n        " })
+  x WhiteSpace { value: " \n        " }
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:13:1]
  13 |                 ident
  14 | ,->             color: red 
@@ -1933,7 +1933,7 @@
  40 | }
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:38:1]
  38 |     color: red;
  39 |     & test;
@@ -2207,7 +2207,7 @@
  47 |     }
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: "\n    " })
+  x WhiteSpace { value: "\n    " }
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:44:1]
  44 |         &.foo {
  45 | ,->         __ident__

@@ -56,7 +56,7 @@
    :   ^
    `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/qualified-rule/basic/input.css:1:1]
  1 | // test
    :   ^
@@ -82,7 +82,7 @@
  4 |         color: red;
    `----
 
-  x WhiteSpace(WhiteSpaceToken { value: "\n\n" })
+  x WhiteSpace { value: "\n\n" }
    ,-[$DIR/tests/recovery/qualified-rule/basic/input.css:1:1]
  1 | ,-> // test
  2 | `-> 
@@ -114,7 +114,7 @@
  4 |     color: red;
    `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/qualified-rule/basic/input.css:2:1]
  2 | 
  3 | a {

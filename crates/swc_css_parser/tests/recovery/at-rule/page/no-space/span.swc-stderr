@@ -44,7 +44,7 @@
  2 | 	@top-center { content: none }
    `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:1:1]
  1 | @page Page: blank {
    :      ^
@@ -86,7 +86,7 @@
  2 | 	@top-center { content: none }
    `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:1:1]
  1 | @page Page: blank {
    :            ^
@@ -114,7 +114,7 @@
  2 | 	@top-center { content: none }
    `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:1:1]
  1 | @page Page: blank {
    :                  ^

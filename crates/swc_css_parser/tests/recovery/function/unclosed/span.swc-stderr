@@ -175,7 +175,7 @@
  3 | }
    `----
 
-  x WhiteSpace(WhiteSpaceToken { value: "\n" })
+  x WhiteSpace { value: "\n" }
    ,-[$DIR/tests/recovery/function/unclosed/input.css:1:1]
  1 | .style {
  2 | 	width: min(500px;
@@ -204,7 +204,7 @@
    :  ^
    `----
 
-  x WhiteSpace(WhiteSpaceToken { value: "\n" })
+  x WhiteSpace { value: "\n" }
    ,-[$DIR/tests/recovery/function/unclosed/input.css:2:1]
  2 | 	width: min(500px;
  3 | }

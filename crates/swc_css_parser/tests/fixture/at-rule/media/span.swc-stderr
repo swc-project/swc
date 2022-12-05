@@ -21379,7 +21379,7 @@
  143 | @media (height foo bar) {}
      `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/at-rule/media/input.css:141:1]
  141 | 
  142 | @media (height << 600px) {}
@@ -21427,7 +21427,7 @@
  143 | @media (height foo bar) {}
      `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/at-rule/media/input.css:141:1]
  141 | 
  142 | @media (height << 600px) {}
@@ -21579,7 +21579,7 @@
  144 | @media (height foo("bar")) {}
      `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/at-rule/media/input.css:142:1]
  142 | @media (height << 600px) {}
  143 | @media (height foo bar) {}
@@ -21611,7 +21611,7 @@
  144 | @media (height foo("bar")) {}
      `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/at-rule/media/input.css:142:1]
  142 | @media (height << 600px) {}
  143 | @media (height foo bar) {}
@@ -21763,7 +21763,7 @@
  145 | @media (height + 600px) {}
      `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/at-rule/media/input.css:143:1]
  143 | @media (height foo bar) {}
  144 | @media (height foo("bar")) {}
@@ -21939,7 +21939,7 @@
  146 | @media screen and (min-width: ) {}
      `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/at-rule/media/input.css:144:1]
  144 | @media (height foo("bar")) {}
  145 | @media (height + 600px) {}
@@ -21971,7 +21971,7 @@
  146 | @media screen and (min-width: ) {}
      `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/at-rule/media/input.css:144:1]
  144 | @media (height foo("bar")) {}
  145 | @media (height + 600px) {}
@@ -22163,7 +22163,7 @@
  147 | @media (aspect-ratio: 12/) {}
      `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/at-rule/media/input.css:145:1]
  145 | @media (height + 600px) {}
  146 | @media screen and (min-width: ) {}
@@ -22315,7 +22315,7 @@
  148 | @media func(100px) {}
      `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/at-rule/media/input.css:146:1]
  146 | @media screen and (min-width: ) {}
  147 | @media (aspect-ratio: 12/) {}

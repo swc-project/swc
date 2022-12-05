@@ -1049,7 +1049,7 @@
  15 | }
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: "\n" })
+  x WhiteSpace { value: "\n" }
     ,-[$DIR/tests/recovery/vercel/001/input.css:13:1]
  13 |     }
  14 |     __styled-jsx-placeholder__7

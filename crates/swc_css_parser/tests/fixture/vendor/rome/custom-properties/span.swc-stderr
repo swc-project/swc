@@ -828,7 +828,7 @@
  13 | 	--braces: { };
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:11:1]
  11 | 	--nested-function: foo(bar());
  12 | 	--parentheses: ( );
@@ -908,7 +908,7 @@
  14 | 	--brackets: [ ];
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:12:1]
  12 | 	--parentheses: ( );
  13 | 	--braces: { };
@@ -988,7 +988,7 @@
  15 | 	--at-keyword-unknown: @foobar;
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:13:1]
  13 | 	--braces: { };
  14 | 	--brackets: [ ];
@@ -1172,7 +1172,7 @@
  18 | 	--at-keyword-known-block: @media {};
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:16:1]
  16 | 	--at-keyword-known: @media;
  17 | 	--at-keyword-unknown-block: @foobar {};
@@ -1268,7 +1268,7 @@
  19 | 	--cdo-at-top-level: <!--;
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:17:1]
  17 | 	--at-keyword-unknown-block: @foobar {};
  18 | 	--at-keyword-known-block: @media {};

@@ -60,7 +60,7 @@
  3 | c: d;
    `----
 
-  x WhiteSpace(WhiteSpaceToken { value: "\n" })
+  x WhiteSpace { value: "\n" }
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:1:1]
  1 | @unknown{
    :          ^
@@ -108,7 +108,7 @@
  3 | c: d;
    `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:1:1]
  1 | @unknown{
  2 | a: b;
@@ -157,7 +157,7 @@
  4 | }
    `----
 
-  x WhiteSpace(WhiteSpaceToken { value: "\n" })
+  x WhiteSpace { value: "\n" }
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:1:1]
  1 | @unknown{
  2 | a: b;
@@ -206,7 +206,7 @@
  4 | }
    `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:1]
  2 | a: b;
  3 | c: d;
@@ -254,7 +254,7 @@
  4 | }
    `----
 
-  x WhiteSpace(WhiteSpaceToken { value: "\n" })
+  x WhiteSpace { value: "\n" }
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:1]
  2 | a: b;
  3 | c: d;

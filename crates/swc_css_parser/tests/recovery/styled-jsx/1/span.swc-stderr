@@ -405,7 +405,7 @@
  8 |     padding: __styled-jsx-placeholder__1;
    `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:6:1]
  6 | 
  7 | .removed-214123 :global(> .removed-214123-item) {
@@ -929,7 +929,7 @@
  16 |         flex-basis: __styled-jsx-placeholder__3%;
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/recovery/styled-jsx/1/input.css:14:1]
  14 | @media screen {
  15 |     .removed-214123 :global(> .removed-214123-item) {
@@ -1283,7 +1283,7 @@
  22 |         flex-basis: __styled-jsx-placeholder__4%;
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/recovery/styled-jsx/1/input.css:20:1]
  20 | @media screen {
  21 |     .removed-214123 :global(> .removed-214123-item) {

@@ -58,7 +58,7 @@
  2 | a {
    `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/qualified-rule/double-slash-comment/input.css:1:1]
  1 | // test
    :   ^
@@ -87,7 +87,7 @@
  3 |     color: red;
    `----
 
-  x WhiteSpace(WhiteSpaceToken { value: "\n" })
+  x WhiteSpace { value: "\n" }
    ,-[$DIR/tests/recovery/qualified-rule/double-slash-comment/input.css:1:1]
  1 | // test
    :        ^
@@ -119,7 +119,7 @@
  3 |     color: red;
    `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/qualified-rule/double-slash-comment/input.css:1:1]
  1 | // test
  2 | a {

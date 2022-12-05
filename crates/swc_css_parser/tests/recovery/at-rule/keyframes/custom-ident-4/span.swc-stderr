@@ -35,7 +35,7 @@
    :           ^
    `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/keyframes/custom-ident-4/input.css:1:1]
  1 | @keyframes default {}
    :           ^
@@ -59,7 +59,7 @@
    :                   ^
    `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/keyframes/custom-ident-4/input.css:1:1]
  1 | @keyframes default {}
    :                   ^

@@ -3218,7 +3218,7 @@
  28 |         --custom2: ([]) !important;
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/vendor/csstree/basic/input.css:26:1]
  26 |     *|span:before {
  27 |         --custom1: { something !important };
@@ -3250,7 +3250,7 @@
  28 |         --custom2: ([]) !important;
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/vendor/csstree/basic/input.css:26:1]
  26 |     *|span:before {
  27 |         --custom1: { something !important };
@@ -3298,7 +3298,7 @@
  28 |         --custom2: ([]) !important;
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/vendor/csstree/basic/input.css:26:1]
  26 |     *|span:before {
  27 |         --custom1: { something !important };

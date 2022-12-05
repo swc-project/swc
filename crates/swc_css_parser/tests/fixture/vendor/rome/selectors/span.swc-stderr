@@ -1784,7 +1784,7 @@
  39 | }
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/vendor/rome/selectors/input.css:37:1]
  37 | 
  38 | ::pseudo-elem(a, b) {

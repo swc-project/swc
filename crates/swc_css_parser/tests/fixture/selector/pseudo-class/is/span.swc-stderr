@@ -5323,7 +5323,7 @@
  26 | :is(   a >< b, a > b, d > c) {}
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:24:1]
  24 | /* Forgiving */
  25 | :is(a >< b, a > b, d > c) {}
@@ -5371,7 +5371,7 @@
  26 | :is(   a >< b, a > b, d > c) {}
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:24:1]
  24 | /* Forgiving */
  25 | :is(a >< b, a > b, d > c) {}
@@ -5691,7 +5691,7 @@
  27 | :is(a > b, d > c, a >< b) {}
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: "   " })
+  x WhiteSpace { value: "   " }
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:25:1]
  25 | :is(a >< b, a > b, d > c) {}
  26 | :is(   a >< b, a > b, d > c) {}
@@ -5723,7 +5723,7 @@
  27 | :is(a > b, d > c, a >< b) {}
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:25:1]
  25 | :is(a >< b, a > b, d > c) {}
  26 | :is(   a >< b, a > b, d > c) {}
@@ -5771,7 +5771,7 @@
  27 | :is(a > b, d > c, a >< b) {}
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:25:1]
  25 | :is(a >< b, a > b, d > c) {}
  26 | :is(   a >< b, a > b, d > c) {}
@@ -6283,7 +6283,7 @@
  28 | :is(a > b, d > c, a >< b   ) {}
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:26:1]
  26 | :is(   a >< b, a > b, d > c) {}
  27 | :is(a > b, d > c, a >< b) {}
@@ -6315,7 +6315,7 @@
  28 | :is(a > b, d > c, a >< b   ) {}
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:26:1]
  26 | :is(   a >< b, a > b, d > c) {}
  27 | :is(a > b, d > c, a >< b) {}
@@ -6363,7 +6363,7 @@
  28 | :is(a > b, d > c, a >< b   ) {}
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:26:1]
  26 | :is(   a >< b, a > b, d > c) {}
  27 | :is(a > b, d > c, a >< b) {}
@@ -6683,7 +6683,7 @@
  29 | :is(a > b,   a >< b   ,  d > c) {}
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:27:1]
  27 | :is(a > b, d > c, a >< b) {}
  28 | :is(a > b, d > c, a >< b   ) {}
@@ -6715,7 +6715,7 @@
  29 | :is(a > b,   a >< b   ,  d > c) {}
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:27:1]
  27 | :is(a > b, d > c, a >< b) {}
  28 | :is(a > b, d > c, a >< b   ) {}
@@ -6763,7 +6763,7 @@
  29 | :is(a > b,   a >< b   ,  d > c) {}
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:27:1]
  27 | :is(a > b, d > c, a >< b) {}
  28 | :is(a > b, d > c, a >< b   ) {}
@@ -6795,7 +6795,7 @@
  29 | :is(a > b,   a >< b   ,  d > c) {}
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: "   " })
+  x WhiteSpace { value: "   " }
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:27:1]
  27 | :is(a > b, d > c, a >< b) {}
  28 | :is(a > b, d > c, a >< b   ) {}
@@ -6980,7 +6980,7 @@
     :           ^^^
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: "   " })
+  x WhiteSpace { value: "   " }
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:28:1]
  28 | :is(a > b, d > c, a >< b   ) {}
  29 | :is(a > b,   a >< b   ,  d > c) {}
@@ -7008,7 +7008,7 @@
     :               ^
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:28:1]
  28 | :is(a > b, d > c, a >< b   ) {}
  29 | :is(a > b,   a >< b   ,  d > c) {}
@@ -7050,7 +7050,7 @@
     :                  ^
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:28:1]
  28 | :is(a > b, d > c, a >< b   ) {}
  29 | :is(a > b,   a >< b   ,  d > c) {}
@@ -7078,7 +7078,7 @@
     :                    ^^^
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: "   " })
+  x WhiteSpace { value: "   " }
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:28:1]
  28 | :is(a > b, d > c, a >< b   ) {}
  29 | :is(a > b,   a >< b   ,  d > c) {}

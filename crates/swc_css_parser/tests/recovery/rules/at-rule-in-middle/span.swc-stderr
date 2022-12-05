@@ -196,7 +196,7 @@
  5 |     a { color: blue }
    `----
 
-  x WhiteSpace(WhiteSpaceToken { value: "\n\n" })
+  x WhiteSpace { value: "\n\n" }
    ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:2:1]
  2 |     
  3 | ,-> @media {};
@@ -225,7 +225,7 @@
    :  ^
    `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:4:1]
  4 | 
  5 | a { color: blue }

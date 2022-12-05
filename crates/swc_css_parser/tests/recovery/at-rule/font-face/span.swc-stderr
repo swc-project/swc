@@ -98,7 +98,7 @@
  3 | }
    `----
 
-  x WhiteSpace(WhiteSpaceToken { value: "\n" })
+  x WhiteSpace { value: "\n" }
    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:1:1]
  1 | @font-face {
  2 |     invalid
@@ -274,7 +274,7 @@
  11 | }
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: "\n" })
+  x WhiteSpace { value: "\n" }
     ,-[$DIR/tests/recovery/at-rule/font-face/input.css:9:1]
   9 | @font-face {
  10 |     123
@@ -405,7 +405,7 @@
     :           ^
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/recovery/at-rule/font-face/input.css:16:1]
  16 | 
  17 | @font-face foo {}
@@ -433,7 +433,7 @@
     :               ^
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/recovery/at-rule/font-face/input.css:16:1]
  16 | 
  17 | @font-face foo {}
@@ -489,7 +489,7 @@
     :           ^
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/recovery/at-rule/font-face/input.css:18:1]
  18 | 
  19 | @font-face foo;

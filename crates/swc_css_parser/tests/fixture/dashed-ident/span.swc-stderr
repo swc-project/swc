@@ -587,7 +587,7 @@
  15 | @--library1-custom {}
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/dashed-ident/input.css:13:1]
  13 | 
  14 | @--custom {}
@@ -646,7 +646,7 @@
     :                   ^
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/dashed-ident/input.css:14:1]
  14 | @--custom {}
  15 | @--library1-custom {}

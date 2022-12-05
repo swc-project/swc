@@ -77,7 +77,7 @@
  3 |     a { color: red }
    `----
 
-  x WhiteSpace(WhiteSpaceToken { value: "\n\n" })
+  x WhiteSpace { value: "\n\n" }
    ,-[$DIR/tests/recovery/rules/at-rule-with-semi/input.css:1:1]
  1 | ,-> @media {};
  2 | `-> 
@@ -105,7 +105,7 @@
    :  ^
    `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/rules/at-rule-with-semi/input.css:2:1]
  2 | 
  3 | a { color: red }

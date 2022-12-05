@@ -38,7 +38,7 @@
    :  ^
    `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/selector/combinator/only/input.css:1:1]
  1 | > {
    :  ^

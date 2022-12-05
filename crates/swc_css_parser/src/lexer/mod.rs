@@ -5,7 +5,7 @@ use swc_common::{input::Input, BytePos, Span};
 use swc_css_ast::{
     AtKeywordToken, BadStringToken, BadUrlToken, DelimToken, DimensionToken, FunctionToken,
     HashToken, IdentToken, NumberToken, NumberType, PercentageToken, StringToken, Token,
-    TokenAndSpan, WhiteSpaceToken,
+    TokenAndSpan,
 };
 
 use crate::{
@@ -257,9 +257,9 @@ where
                     }
                 }
 
-                return Ok(Token::WhiteSpace(Box::new(WhiteSpaceToken {
+                return Ok(Token::WhiteSpace {
                     value: (&**buf).into(),
-                })));
+                });
             }),
             // U+0022 QUOTATION MARK (")
             // Consume a string token and return it.

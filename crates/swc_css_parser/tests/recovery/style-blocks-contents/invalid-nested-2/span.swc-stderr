@@ -187,7 +187,7 @@
  4 |     background: red
    `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:2:1]
  2 |     color: red;
  3 |     & test;

@@ -655,7 +655,7 @@
  11 |     value: ! !important unknown;
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/recovery/declaration/bad-value/input.css:9:1]
   9 |     value: !!;
  10 |     value: ! !important;
@@ -743,7 +743,7 @@
  12 |     value: ! unknown;
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/recovery/declaration/bad-value/input.css:10:1]
  10 |     value: ! !important;
  11 |     value: ! !important unknown;
@@ -791,7 +791,7 @@
  12 |     value: ! unknown;
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/recovery/declaration/bad-value/input.css:10:1]
  10 |     value: ! !important;
  11 |     value: ! !important unknown;
@@ -879,7 +879,7 @@
  13 |     value: ! ! !;
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/recovery/declaration/bad-value/input.css:11:1]
  11 |     value: ! !important unknown;
  12 |     value: ! unknown;
@@ -967,7 +967,7 @@
  14 | }
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/recovery/declaration/bad-value/input.css:12:1]
  12 |     value: ! unknown;
  13 |     value: ! ! !;
@@ -999,7 +999,7 @@
  14 | }
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/recovery/declaration/bad-value/input.css:12:1]
  12 |     value: ! unknown;
  13 |     value: ! ! !;

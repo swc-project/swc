@@ -118,7 +118,7 @@
  2 |     flex-basis: __styled-jsx-placeholder__0%;
    `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/styled-jsx/2/input.css:1:1]
  1 | .a :global(> .b) {
    :             ^

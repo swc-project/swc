@@ -97,7 +97,7 @@
  2 |     color: red;
    `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
  1 | :global(.foo + a) {
    :             ^
@@ -125,7 +125,7 @@
  2 |     color: red;
    `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
  1 | :global(.foo + a) {
    :               ^

@@ -41,7 +41,7 @@
  2 |     margin: 2cm;
    `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:1:1]
  1 | @page :unknown {
    :      ^
@@ -83,7 +83,7 @@
  2 |     margin: 2cm;
    `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:1:1]
  1 | @page :unknown {
    :               ^

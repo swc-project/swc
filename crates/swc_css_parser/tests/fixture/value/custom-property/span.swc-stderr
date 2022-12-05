@@ -1255,7 +1255,7 @@
  22 |     --variable: var(--unit);
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:20:1]
  20 | 
  21 |     --function: calc(1 + 1);
@@ -1287,7 +1287,7 @@
  22 |     --variable: var(--unit);
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:20:1]
  20 | 
  21 |     --function: calc(1 + 1);
@@ -1590,7 +1590,7 @@
  28 |     --square-block1: [];
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:26:1]
  26 | 
  27 |     --square-block: [1, 2, 3];
@@ -1638,7 +1638,7 @@
  28 |     --square-block1: [];
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:26:1]
  26 | 
  27 |     --square-block: [1, 2, 3];
@@ -1894,7 +1894,7 @@
  31 |     --round-block1: ();
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:29:1]
  29 |     --square-block2:[];
  30 |     --round-block: (1, 2, 3);
@@ -1942,7 +1942,7 @@
  31 |     --round-block1: ();
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:29:1]
  29 |     --square-block2:[];
  30 |     --round-block: (1, 2, 3);
@@ -2198,7 +2198,7 @@
  34 |     --bracket-block1: {};
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:32:1]
  32 |     --round-block2:();
  33 |     --bracket-block: {1, 2, 3};
@@ -2246,7 +2246,7 @@
  34 |     --bracket-block1: {};
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:32:1]
  32 |     --round-block2:();
  33 |     --bracket-block: {1, 2, 3};
@@ -2494,7 +2494,7 @@
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
@@ -2542,7 +2542,7 @@
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
@@ -2614,7 +2614,7 @@
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
@@ -2718,7 +2718,7 @@
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
@@ -2843,7 +2843,7 @@
     :                                 ^
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
  39 |     --javascript: function(rule) { console.log(rule) };
@@ -2878,7 +2878,7 @@
     :                                   ^
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
  39 |     --javascript: function(rule) { console.log(rule) };
@@ -2955,7 +2955,7 @@
     :                                                     ^
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
  39 |     --javascript: function(rule) { console.log(rule) };
@@ -3805,7 +3805,7 @@
  50 |             height: 0;
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: "\n        " })
+  x WhiteSpace { value: "\n        " }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:47:1]
  47 |         --delim-not-top-level: (!);
  48 | ,->     --zero-size: {
@@ -3853,7 +3853,7 @@
  50 |         height: 0;
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:48:1]
  48 |     --zero-size: {
  49 |         width: 0;
@@ -3901,7 +3901,7 @@
  51 |         };
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: "\n        " })
+  x WhiteSpace { value: "\n        " }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:48:1]
  48 |         --zero-size: {
  49 | ,->         width: 0;
@@ -3949,7 +3949,7 @@
  51 |     };
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:49:1]
  49 |         width: 0;
  50 |         height: 0;
@@ -3997,7 +3997,7 @@
  52 |         --small-icon: {
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: "\n    " })
+  x WhiteSpace { value: "\n    " }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:49:1]
  49 |             width: 0;
  50 | ,->         height: 0;
@@ -4090,7 +4090,7 @@
  54 |             height: 16px;
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: "\n        " })
+  x WhiteSpace { value: "\n        " }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:51:1]
  51 |         };
  52 | ,->     --small-icon: {
@@ -4138,7 +4138,7 @@
  54 |         height: 16px;
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:52:1]
  52 |     --small-icon: {
  53 |         width: 16px;
@@ -4186,7 +4186,7 @@
  55 |         }
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: "\n        " })
+  x WhiteSpace { value: "\n        " }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:52:1]
  52 |         --small-icon: {
  53 | ,->         width: 16px;
@@ -4234,7 +4234,7 @@
  55 |     }
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:53:1]
  53 |         width: 16px;
  54 |         height: 16px;
@@ -4282,7 +4282,7 @@
  56 |         ;
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: "\n    " })
+  x WhiteSpace { value: "\n    " }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:53:1]
  53 |             width: 16px;
  54 | ,->         height: 16px;

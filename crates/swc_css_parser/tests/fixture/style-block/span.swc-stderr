@@ -4714,7 +4714,7 @@
  92 |         height: 100px;
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/style-block/input.css:90:1]
  90 |     width: 10px;
  91 |     @mixin mobile {
@@ -4746,7 +4746,7 @@
  92 |         height: 100px;
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/style-block/input.css:90:1]
  90 |     width: 10px;
  91 |     @mixin mobile {
@@ -4779,7 +4779,7 @@
  93 |         }
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: "\n        " })
+  x WhiteSpace { value: "\n        " }
     ,-[$DIR/tests/fixture/style-block/input.css:90:1]
  90 |         width: 10px;
  91 | ,->     @mixin mobile {
@@ -4827,7 +4827,7 @@
  93 |     }
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/style-block/input.css:91:1]
  91 |     @mixin mobile {
  92 |         height: 100px;
@@ -4875,7 +4875,7 @@
  94 |     }
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: "\n    " })
+  x WhiteSpace { value: "\n    " }
     ,-[$DIR/tests/fixture/style-block/input.css:91:1]
  91 |         @mixin mobile {
  92 | ,->         height: 100px;
@@ -5142,7 +5142,7 @@
     :             ^
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/fixture/style-block/input.css:97:1]
  97 | 
  98 | a { @unknown "a.css"; }
@@ -5282,7 +5282,7 @@
      :             ^
      `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/style-block/input.css:99:1]
   99 | 
  100 | a { @unknown foo {} }
@@ -5310,7 +5310,7 @@
      :                 ^
      `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/style-block/input.css:99:1]
   99 | 
  100 | a { @unknown foo {} }
@@ -5601,7 +5601,7 @@
  108 |             height: 0;
      `----
 
-  x WhiteSpace(WhiteSpaceToken { value: "\n        " })
+  x WhiteSpace { value: "\n        " }
      ,-[$DIR/tests/fixture/style-block/input.css:105:1]
  105 |     :root {
  106 | ,->     --zero-size: {
@@ -5649,7 +5649,7 @@
  108 |         height: 0;
      `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/style-block/input.css:106:1]
  106 |     --zero-size: {
  107 |         width: 0;
@@ -5697,7 +5697,7 @@
  109 |         };
      `----
 
-  x WhiteSpace(WhiteSpaceToken { value: "\n        " })
+  x WhiteSpace { value: "\n        " }
      ,-[$DIR/tests/fixture/style-block/input.css:106:1]
  106 |         --zero-size: {
  107 | ,->         width: 0;
@@ -5745,7 +5745,7 @@
  109 |     };
      `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/style-block/input.css:107:1]
  107 |         width: 0;
  108 |         height: 0;
@@ -5793,7 +5793,7 @@
  110 |         --small-icon: {
      `----
 
-  x WhiteSpace(WhiteSpaceToken { value: "\n    " })
+  x WhiteSpace { value: "\n    " }
      ,-[$DIR/tests/fixture/style-block/input.css:107:1]
  107 |             width: 0;
  108 | ,->         height: 0;
@@ -5886,7 +5886,7 @@
  112 |             height: 16px;
      `----
 
-  x WhiteSpace(WhiteSpaceToken { value: "\n        " })
+  x WhiteSpace { value: "\n        " }
      ,-[$DIR/tests/fixture/style-block/input.css:109:1]
  109 |         };
  110 | ,->     --small-icon: {
@@ -5934,7 +5934,7 @@
  112 |         height: 16px;
      `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/style-block/input.css:110:1]
  110 |     --small-icon: {
  111 |         width: 16px;
@@ -5982,7 +5982,7 @@
  113 |         }
      `----
 
-  x WhiteSpace(WhiteSpaceToken { value: "\n        " })
+  x WhiteSpace { value: "\n        " }
      ,-[$DIR/tests/fixture/style-block/input.css:110:1]
  110 |         --small-icon: {
  111 | ,->         width: 16px;
@@ -6030,7 +6030,7 @@
  113 |     }
      `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/fixture/style-block/input.css:111:1]
  111 |         width: 16px;
  112 |         height: 16px;
@@ -6078,7 +6078,7 @@
  114 |     ;
      `----
 
-  x WhiteSpace(WhiteSpaceToken { value: "\n    " })
+  x WhiteSpace { value: "\n    " }
      ,-[$DIR/tests/fixture/style-block/input.css:111:1]
  111 |             width: 16px;
  112 | ,->         height: 16px;

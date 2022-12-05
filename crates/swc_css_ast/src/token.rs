@@ -171,15 +171,6 @@ pub struct DimensionToken {
     pub raw: Box<(Atom, Atom)>,
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, EqIgnoreSpan)]
-#[cfg_attr(
-    feature = "rkyv",
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-pub struct WhiteSpaceToken {
-    pub value: Atom,
-}
-
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, EqIgnoreSpan)]
 #[cfg_attr(
     feature = "rkyv",
@@ -210,7 +201,9 @@ pub enum Token {
     Percentage(Box<PercentageToken>),
     Dimension(Box<DimensionToken>),
     /// One or more whitespace.
-    WhiteSpace(Box<WhiteSpaceToken>),
+    WhiteSpace {
+        value: Atom,
+    },
     /// `<!--`
     CDO,
     /// `-->`
@@ -304,8 +297,8 @@ impl Hash for Token {
                 dimension.type_flag.hash(state);
                 dimension.raw.hash(state);
             }
-            Token::WhiteSpace(white_space) => {
-                white_space.value.hash(state);
+            Token::WhiteSpace { value, .. } => {
+                value.hash(state);
             }
             Token::CDO
             | Token::CDC

@@ -1015,7 +1015,7 @@
  14 | .selector { [;property: value;]; }
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/recovery/hacks/input.css:12:1]
  12 | 
  13 | .selector { (;property: value;); }
@@ -1225,7 +1225,7 @@
     :                        ^
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/recovery/hacks/input.css:13:1]
  13 | .selector { (;property: value;); }
  14 | .selector { [;property: value;]; }
@@ -1309,7 +1309,7 @@
     :       ^
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/recovery/hacks/input.css:15:1]
  15 | 
  16 | @media \\0 screen {}
@@ -1337,7 +1337,7 @@
     :           ^
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/recovery/hacks/input.css:15:1]
  15 | 
  16 | @media \\0 screen {}
@@ -1365,7 +1365,7 @@
     :                  ^
     `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
     ,-[$DIR/tests/recovery/hacks/input.css:15:1]
  15 | 
  16 | @media \\0 screen {}
@@ -9503,7 +9503,7 @@
  105 |     color: red;
      `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/recovery/hacks/input.css:103:1]
  103 | .selector {
  104 |     !property: value;
@@ -9757,7 +9757,7 @@
  109 |     color: red;
      `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/recovery/hacks/input.css:107:1]
  107 | .selector { 
  108 |     $property: value;
@@ -10011,7 +10011,7 @@
  113 |     color: red;
      `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/recovery/hacks/input.css:111:1]
  111 | .selector { 
  112 |     &property: value;
@@ -10265,7 +10265,7 @@
  117 |     color: red;
      `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/recovery/hacks/input.css:115:1]
  115 | .selector { 
  116 |     *property: value;
@@ -10519,7 +10519,7 @@
  121 |     color: red;
      `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/recovery/hacks/input.css:119:1]
  119 | .selector { 
  120 |     )property: value;
@@ -10773,7 +10773,7 @@
  125 |     color: red;
      `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/recovery/hacks/input.css:123:1]
  123 | .selector { 
  124 |     =property: value;
@@ -11027,7 +11027,7 @@
  129 |     color: red;
      `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/recovery/hacks/input.css:127:1]
  127 | .selector { 
  128 |     %property: value;
@@ -11281,7 +11281,7 @@
  133 |     color: red;
      `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/recovery/hacks/input.css:131:1]
  131 | .selector { 
  132 |     +property: value;
@@ -11583,7 +11583,7 @@
  137 |     color: red;
      `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/recovery/hacks/input.css:135:1]
  135 | .selector { 
  136 |     @property: value;
@@ -11765,7 +11765,7 @@
  141 |     color: red;
      `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/recovery/hacks/input.css:139:1]
  139 | .selector { 
  140 |     ,property: value;
@@ -12019,7 +12019,7 @@
  145 |     color: red;
      `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/recovery/hacks/input.css:143:1]
  143 | .selector { 
  144 |     .property: value;
@@ -12273,7 +12273,7 @@
  149 |     color: red;
      `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/recovery/hacks/input.css:147:1]
  147 | .selector { 
  148 |     /property: value;
@@ -12527,7 +12527,7 @@
  153 |     color: red;
      `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/recovery/hacks/input.css:151:1]
  151 | .selector { 
  152 |     `property: value;
@@ -12781,7 +12781,7 @@
  157 |     color: red;
      `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/recovery/hacks/input.css:155:1]
  155 | .selector { 
  156 |     ]property: value;
@@ -13019,7 +13019,7 @@
  161 |     color: red;
      `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/recovery/hacks/input.css:159:1]
  159 | .selector { 
  160 |     #property: value;
@@ -13273,7 +13273,7 @@
  165 |     color: red;
      `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/recovery/hacks/input.css:163:1]
  163 | .selector { 
  164 |     ~property: value;
@@ -13527,7 +13527,7 @@
  169 |     color: red;
      `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/recovery/hacks/input.css:167:1]
  167 | .selector { 
  168 |     ?property: value;
@@ -13781,7 +13781,7 @@
  173 |     color: red;
      `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/recovery/hacks/input.css:171:1]
  171 | .selector { 
  172 |     :property: value;
@@ -14032,7 +14032,7 @@
  177 |     color: red;
      `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/recovery/hacks/input.css:175:1]
  175 | .selector { 
  176 |     |property: value;
@@ -14254,7 +14254,7 @@
      :                            ^
      `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/recovery/hacks/input.css:179:1]
  179 | 
  180 | .selector { property: value !ie; }
@@ -15858,7 +15858,7 @@
  205 | .selector { [;property: value;]; }
      `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/recovery/hacks/input.css:203:1]
  203 | 
  204 | .selector { (;property: value;); }
@@ -16068,7 +16068,7 @@
      :                        ^
      `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/recovery/hacks/input.css:204:1]
  204 | .selector { (;property: value;); }
  205 | .selector { [;property: value;]; }
@@ -17889,7 +17889,7 @@
  226 | .selector { [;property: value;]; }
      `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/recovery/hacks/input.css:224:1]
  224 | 
  225 | .selector { (;property: value;); }
@@ -18099,7 +18099,7 @@
      :                        ^
      `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/recovery/hacks/input.css:225:1]
  225 | .selector { (;property: value;); }
  226 | .selector { [;property: value;]; }
@@ -19482,7 +19482,7 @@
      :       ^
      `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/recovery/hacks/input.css:240:1]
  240 | 
  241 | @media \\0 screen {}
@@ -19510,7 +19510,7 @@
      :           ^
      `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/recovery/hacks/input.css:240:1]
  240 | 
  241 | @media \\0 screen {}
@@ -19538,7 +19538,7 @@
      :                  ^
      `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/recovery/hacks/input.css:240:1]
  240 | 
  241 | @media \\0 screen {}
@@ -19712,7 +19712,7 @@
  245 |     _background: white;
      `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/recovery/hacks/input.css:243:1]
  243 | a {
  244 |     *color : black;
@@ -19744,7 +19744,7 @@
  245 |     _background: white;
      `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/recovery/hacks/input.css:243:1]
  243 | a {
  244 |     *color : black;
@@ -20008,7 +20008,7 @@
  248 | }
      `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
      ,-[$DIR/tests/recovery/hacks/input.css:246:1]
  246 |     font-size/**/: big;
  247 |     $(var)-size: 100%;

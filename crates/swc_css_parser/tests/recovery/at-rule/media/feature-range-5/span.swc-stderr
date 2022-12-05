@@ -35,7 +35,7 @@
    :       ^
    `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/media/feature-range-5/input.css:1:1]
  1 | @media (400px <= width >= 700px) {}
    :       ^
@@ -77,7 +77,7 @@
    :              ^
    `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/media/feature-range-5/input.css:1:1]
  1 | @media (400px <= width >= 700px) {}
    :              ^
@@ -113,7 +113,7 @@
    :                 ^
    `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/media/feature-range-5/input.css:1:1]
  1 | @media (400px <= width >= 700px) {}
    :                 ^
@@ -137,7 +137,7 @@
    :                       ^
    `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/media/feature-range-5/input.css:1:1]
  1 | @media (400px <= width >= 700px) {}
    :                       ^
@@ -173,7 +173,7 @@
    :                          ^
    `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/media/feature-range-5/input.css:1:1]
  1 | @media (400px <= width >= 700px) {}
    :                          ^
@@ -197,7 +197,7 @@
    :                                 ^
    `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/media/feature-range-5/input.css:1:1]
  1 | @media (400px <= width >= 700px) {}
    :                                 ^

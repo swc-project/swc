@@ -87,7 +87,7 @@
    :             ^
    `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:1:1]
  1 | .class[attr= {
    :             ^
@@ -120,7 +120,7 @@
  3 |     }
    `----
 
-  x WhiteSpace(WhiteSpaceToken { value: "\n\n" })
+  x WhiteSpace { value: "\n\n" }
    ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:1:1]
  1 | ,-> .class[attr= {
  2 | `-> 
@@ -134,7 +134,7 @@
    :  ^
    `----
 
-  x WhiteSpace(WhiteSpaceToken { value: "\n" })
+  x WhiteSpace { value: "\n" }
    ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:2:1]
  2 | 
  3 | }

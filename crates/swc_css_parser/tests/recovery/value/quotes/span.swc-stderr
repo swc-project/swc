@@ -172,7 +172,7 @@
  4 |     }
    `----
 
-  x WhiteSpace(WhiteSpaceToken { value: "\n    " })
+  x WhiteSpace { value: "\n    " }
    ,-[$DIR/tests/recovery/value/quotes/input.css:1:1]
  1 |     p::before {
  2 | ,->     content: "tes

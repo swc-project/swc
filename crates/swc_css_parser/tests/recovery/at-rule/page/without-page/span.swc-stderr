@@ -44,7 +44,7 @@
  2 |     content: "foo";
    `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:1:1]
  1 | @top-left {
    :          ^
@@ -73,7 +73,7 @@
  3 |         color: blue;
    `----
 
-  x WhiteSpace(WhiteSpaceToken { value: "\n    " })
+  x WhiteSpace { value: "\n    " }
    ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:1:1]
  1 | ,-> @top-left {
  2 | `->     content: "foo";
@@ -120,7 +120,7 @@
  3 |     color: blue;
    `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:1:1]
  1 | @top-left {
  2 |     content: "foo";
@@ -168,7 +168,7 @@
  4 |     }
    `----
 
-  x WhiteSpace(WhiteSpaceToken { value: "\n    " })
+  x WhiteSpace { value: "\n    " }
    ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:1:1]
  1 |     @top-left {
  2 | ,->     content: "foo";
@@ -216,7 +216,7 @@
  4 | }
    `----
 
-  x WhiteSpace(WhiteSpaceToken { value: " " })
+  x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:2:1]
  2 |     content: "foo";
  3 |     color: blue;
@@ -264,7 +264,7 @@
  4 | }
    `----
 
-  x WhiteSpace(WhiteSpaceToken { value: "\n" })
+  x WhiteSpace { value: "\n" }
    ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:2:1]
  2 |     content: "foo";
  3 |     color: blue;
