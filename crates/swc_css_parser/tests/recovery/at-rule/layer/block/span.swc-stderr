@@ -61,7 +61,7 @@
  2 |     .a {
    `----
 
-  x Ident(IdentToken { value: Atom('framework' type=dynamic), raw: "framework" })
+  x Ident { value: Atom('framework' type=dynamic), raw: "framework" }
    ,-[$DIR/tests/recovery/at-rule/layer/block/input.css:1:1]
  1 | @layer framework, override   ,    foo   {
    :        ^^^^^^^^^
@@ -103,7 +103,7 @@
  2 |     .a {
    `----
 
-  x Ident(IdentToken { value: Atom('override' type=static), raw: "override" })
+  x Ident { value: Atom('override' type=static), raw: "override" }
    ,-[$DIR/tests/recovery/at-rule/layer/block/input.css:1:1]
  1 | @layer framework, override   ,    foo   {
    :                   ^^^^^^^^
@@ -159,7 +159,7 @@
  2 |     .a {
    `----
 
-  x Ident(IdentToken { value: Atom('foo' type=inline), raw: "foo" })
+  x Ident { value: Atom('foo' type=inline), raw: "foo" }
    ,-[$DIR/tests/recovery/at-rule/layer/block/input.css:1:1]
  1 | @layer framework, override   ,    foo   {
    :                                   ^^^

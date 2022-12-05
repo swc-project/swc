@@ -32,7 +32,7 @@
    : ^
    `----
 
-  x Delim(DelimToken { value: '/' })
+  x Delim { value: '/' }
    ,-[$DIR/tests/recovery/qualified-rule/basic/input.css:1:1]
  1 | // test
    : ^
@@ -44,7 +44,7 @@
    :  ^
    `----
 
-  x Delim(DelimToken { value: '/' })
+  x Delim { value: '/' }
    ,-[$DIR/tests/recovery/qualified-rule/basic/input.css:1:1]
  1 | // test
    :  ^
@@ -68,7 +68,7 @@
    :    ^^^^
    `----
 
-  x Ident(IdentToken { value: Atom('test' type=inline), raw: "test" })
+  x Ident { value: Atom('test' type=inline), raw: "test" }
    ,-[$DIR/tests/recovery/qualified-rule/basic/input.css:1:1]
  1 | // test
    :    ^^^^
@@ -98,7 +98,7 @@
  4 |     color: red;
    `----
 
-  x Ident(IdentToken { value: Atom('a' type=static), raw: "a" })
+  x Ident { value: Atom('a' type=static), raw: "a" }
    ,-[$DIR/tests/recovery/qualified-rule/basic/input.css:2:1]
  2 | 
  3 | a {

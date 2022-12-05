@@ -156,7 +156,7 @@
  3 |     t";
    `----
 
-  x BadString(BadStringToken { raw: "\"tes" })
+  x BadString { raw: "\"tes" }
    ,-[$DIR/tests/recovery/value/quotes/input.css:1:1]
  1 | p::before {
  2 |     content: "tes
@@ -188,7 +188,7 @@
  4 | }
    `----
 
-  x Ident(IdentToken { value: Atom('t' type=inline), raw: "t" })
+  x Ident { value: Atom('t' type=inline), raw: "t" }
    ,-[$DIR/tests/recovery/value/quotes/input.css:2:1]
  2 |     content: "tes
  3 |     t";
@@ -204,7 +204,7 @@
  4 | }
    `----
 
-  x BadString(BadStringToken { raw: "\";" })
+  x BadString { raw: "\";" }
    ,-[$DIR/tests/recovery/value/quotes/input.css:2:1]
  2 |     content: "tes
  3 |     t";

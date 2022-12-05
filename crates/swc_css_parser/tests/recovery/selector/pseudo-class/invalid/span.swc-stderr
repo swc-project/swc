@@ -26,7 +26,7 @@
    : ^
    `----
 
-  x Ident(IdentToken { value: Atom('a' type=static), raw: "a" })
+  x Ident { value: Atom('a' type=static), raw: "a" }
    ,-[$DIR/tests/recovery/selector/pseudo-class/invalid/input.css:1:1]
  1 | a: b {}
    : ^
@@ -62,7 +62,7 @@
    :    ^
    `----
 
-  x Ident(IdentToken { value: Atom('b' type=static), raw: "b" })
+  x Ident { value: Atom('b' type=static), raw: "b" }
    ,-[$DIR/tests/recovery/selector/pseudo-class/invalid/input.css:1:1]
  1 | a: b {}
    :    ^
@@ -116,7 +116,7 @@
  4 |     color: red;
    `----
 
-  x Ident(IdentToken { value: Atom('a' type=static), raw: "a" })
+  x Ident { value: Atom('a' type=static), raw: "a" }
    ,-[$DIR/tests/recovery/selector/pseudo-class/invalid/input.css:2:1]
  2 | 
  3 | a: b {
@@ -164,7 +164,7 @@
  4 |     color: red;
    `----
 
-  x Ident(IdentToken { value: Atom('b' type=static), raw: "b" })
+  x Ident { value: Atom('b' type=static), raw: "b" }
    ,-[$DIR/tests/recovery/selector/pseudo-class/invalid/input.css:2:1]
  2 | 
  3 | a: b {

@@ -131,7 +131,7 @@
  3 | }
    `----
 
-  x Delim(DelimToken { value: '#' })
+  x Delim { value: '#' }
    ,-[$DIR/tests/recovery/delim-token/hash/input.css:1:1]
  1 | a {
  2 |     color: ##;
@@ -147,7 +147,7 @@
  3 | }
    `----
 
-  x Delim(DelimToken { value: '#' })
+  x Delim { value: '#' }
    ,-[$DIR/tests/recovery/delim-token/hash/input.css:1:1]
  1 | a {
  2 |     color: ##;

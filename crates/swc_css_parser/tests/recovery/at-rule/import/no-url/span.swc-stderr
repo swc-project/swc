@@ -75,7 +75,7 @@
  2 | @import 123;
    `----
 
-  x Ident(IdentToken { value: Atom('test' type=inline), raw: "test" })
+  x Ident { value: Atom('test' type=inline), raw: "test" }
    ,-[$DIR/tests/recovery/at-rule/import/no-url/input.css:1:1]
  1 | @import nourl(test);
    :               ^^^^
@@ -131,7 +131,7 @@
    :         ^^^
    `----
 
-  x Number(NumberToken { value: 123.0, raw: "123", type_flag: Integer })
+  x Number { value: 123.0, raw: "123", type_flag: Integer }
    ,-[$DIR/tests/recovery/at-rule/import/no-url/input.css:1:1]
  1 | @import nourl(test);
  2 | @import 123;

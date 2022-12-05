@@ -131,7 +131,7 @@
  3 | }
    `----
 
-  x BadUrl(BadUrlToken { raw: ("\\url", "te st") })
+  x BadUrl { raw: ("\\url", "te st") }
    ,-[$DIR/tests/recovery/bad-url-token/escaped/input.css:1:1]
  1 | a {
  2 |     background: \url(te st);

@@ -41,7 +41,7 @@
    :  ^^^^
    `----
 
-  x Ident(IdentToken { value: Atom('href' type=static), raw: "href" })
+  x Ident { value: Atom('href' type=static), raw: "href" }
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-1/input.css:1:1]
  1 | [href=] {}
    :  ^^^^
@@ -53,7 +53,7 @@
    :      ^
    `----
 
-  x Delim(DelimToken { value: '=' })
+  x Delim { value: '=' }
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-1/input.css:1:1]
  1 | [href=] {}
    :      ^

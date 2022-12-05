@@ -143,7 +143,7 @@
  3 | }
    `----
 
-  x Number(NumberToken { value: 4.0, raw: "4", type_flag: Integer })
+  x Number { value: 4.0, raw: "4", type_flag: Integer }
    ,-[$DIR/tests/recovery/function/unclosed-2/input.css:1:1]
  1 | .style {
  2 | 	grid-template-columns: repeat(4, [col-start] 12px
@@ -215,7 +215,7 @@
  3 | }
    `----
 
-  x Ident(IdentToken { value: Atom('col-start' type=dynamic), raw: "col-start" })
+  x Ident { value: Atom('col-start' type=dynamic), raw: "col-start" }
    ,-[$DIR/tests/recovery/function/unclosed-2/input.css:1:1]
  1 | .style {
  2 | 	grid-template-columns: repeat(4, [col-start] 12px

@@ -170,7 +170,7 @@
  3 | }
    `----
 
-  x Ident(IdentToken { value: Atom('max-inline-size' type=dynamic), raw: "max-inline-size" })
+  x Ident { value: Atom('max-inline-size' type=dynamic), raw: "max-inline-size" }
    ,-[$DIR/tests/recovery/at-rule/media/invalid-nesting/input.css:1:1]
  1 | @media (min-width: 480px) {
  2 |     max-inline-size: 1024px;

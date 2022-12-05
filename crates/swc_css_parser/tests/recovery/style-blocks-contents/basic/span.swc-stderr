@@ -343,7 +343,7 @@
  6 |         color: green;
    `----
 
-  x Ident(IdentToken { value: Atom('ident' type=inline), raw: "ident" })
+  x Ident { value: Atom('ident' type=inline), raw: "ident" }
    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:4:1]
  4 |     &.foo {
  5 |         ident
@@ -375,7 +375,7 @@
  7 |     }
    `----
 
-  x Ident(IdentToken { value: Atom('color' type=static), raw: "color" })
+  x Ident { value: Atom('color' type=static), raw: "color" }
    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:5:1]
  5 |         ident
  6 |         color: green;
@@ -423,7 +423,7 @@
  7 |     }
    `----
 
-  x Ident(IdentToken { value: Atom('green' type=inline), raw: "green" })
+  x Ident { value: Atom('green' type=inline), raw: "green" }
    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:5:1]
  5 |         ident
  6 |         color: green;
@@ -818,7 +818,7 @@
  14 |             color: red 
     `----
 
-  x Ident(IdentToken { value: Atom('ident' type=inline), raw: "ident" })
+  x Ident { value: Atom('ident' type=inline), raw: "ident" }
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:12:1]
  12 |         & .class { 
  13 |             ident
@@ -850,7 +850,7 @@
  15 |         }
     `----
 
-  x Ident(IdentToken { value: Atom('color' type=static), raw: "color" })
+  x Ident { value: Atom('color' type=static), raw: "color" }
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:13:1]
  13 |             ident
  14 |             color: red 
@@ -898,7 +898,7 @@
  15 |         }
     `----
 
-  x Ident(IdentToken { value: Atom('red' type=inline), raw: "red" })
+  x Ident { value: Atom('red' type=inline), raw: "red" }
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:13:1]
  13 |             ident
  14 |             color: red 
@@ -1225,7 +1225,7 @@
  24 |         color: green;
     `----
 
-  x Ident(IdentToken { value: Atom('ident' type=inline), raw: "ident" })
+  x Ident { value: Atom('ident' type=inline), raw: "ident" }
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:22:1]
  22 |     &.foo {
  23 |         ident;
@@ -1674,7 +1674,7 @@
  32 |             color: red
     `----
 
-  x Ident(IdentToken { value: Atom('ident' type=inline), raw: "ident" })
+  x Ident { value: Atom('ident' type=inline), raw: "ident" }
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:30:1]
  30 |         & .class {
  31 |             ident;
@@ -1917,7 +1917,7 @@
  40 | }
     `----
 
-  x Delim(DelimToken { value: '&' })
+  x Delim { value: '&' }
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:38:1]
  38 |     color: red;
  39 |     & test;
@@ -1949,7 +1949,7 @@
  40 | }
     `----
 
-  x Ident(IdentToken { value: Atom('test' type=inline), raw: "test" })
+  x Ident { value: Atom('test' type=inline), raw: "test" }
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:38:1]
  38 |     color: red;
  39 |     & test;
@@ -2191,7 +2191,7 @@
  46 |     }
     `----
 
-  x Ident(IdentToken { value: Atom('__ident__' type=dynamic), raw: "__ident__" })
+  x Ident { value: Atom('__ident__' type=dynamic), raw: "__ident__" }
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:44:1]
  44 |     &.foo {
  45 |         __ident__

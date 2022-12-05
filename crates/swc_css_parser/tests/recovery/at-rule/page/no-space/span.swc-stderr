@@ -58,7 +58,7 @@
  2 | 	@top-center { content: none }
    `----
 
-  x Ident(IdentToken { value: Atom('Page' type=inline), raw: "Page" })
+  x Ident { value: Atom('Page' type=inline), raw: "Page" }
    ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:1:1]
  1 | @page Page: blank {
    :       ^^^^
@@ -100,7 +100,7 @@
  2 | 	@top-center { content: none }
    `----
 
-  x Ident(IdentToken { value: Atom('blank' type=inline), raw: "blank" })
+  x Ident { value: Atom('blank' type=inline), raw: "blank" }
    ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:1:1]
  1 | @page Page: blank {
    :             ^^^^^

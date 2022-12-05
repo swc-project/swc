@@ -139,7 +139,7 @@
  3 |     --accent-color: #006;
    `----
 
-  x Hash(HashToken { is_id: false, value: Atom('06c' type=inline), raw: "06c" })
+  x Hash { is_id: false, value: Atom('06c' type=inline), raw: "06c" }
    ,-[$DIR/tests/fixture/dashed-ident/input.css:1:1]
  1 | :root {
  2 |     --main-color: #06c;
@@ -195,7 +195,7 @@
  4 | }
    `----
 
-  x Hash(HashToken { is_id: false, value: Atom('006' type=inline), raw: "006" })
+  x Hash { is_id: false, value: Atom('006' type=inline), raw: "006" }
    ,-[$DIR/tests/fixture/dashed-ident/input.css:2:1]
  2 |     --main-color: #06c;
  3 |     --accent-color: #006;
@@ -331,7 +331,7 @@
  8 | }
    `----
 
-  x Ident(IdentToken { value: Atom('blue' type=inline), raw: "blue" })
+  x Ident { value: Atom('blue' type=inline), raw: "blue" }
    ,-[$DIR/tests/fixture/dashed-ident/input.css:6:1]
  6 | .foo {
  7 |     --fg-color: blue;

@@ -174,7 +174,7 @@
  5 |         margin: 1em;
    `----
 
-  x Ident(IdentToken { value: Atom('input' type=static), raw: "input" })
+  x Ident { value: Atom('input' type=static), raw: "input" }
    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-1/input.css:3:1]
  3 | 
  4 |     input {
@@ -248,7 +248,7 @@
  6 |     }
    `----
 
-  x Ident(IdentToken { value: Atom('margin' type=static), raw: "margin" })
+  x Ident { value: Atom('margin' type=static), raw: "margin" }
    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-1/input.css:4:1]
  4 |     input {
  5 |         margin: 1em;

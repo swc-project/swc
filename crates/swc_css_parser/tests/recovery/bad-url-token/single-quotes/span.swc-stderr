@@ -135,7 +135,7 @@
  3 |     color: red;
    `----
 
-  x BadUrl(BadUrlToken { raw: ("url", "image'.png") })
+  x BadUrl { raw: ("url", "image'.png") }
    ,-[$DIR/tests/recovery/bad-url-token/single-quotes/input.css:1:1]
  1 | div {
  2 |     background: url(image'.png);

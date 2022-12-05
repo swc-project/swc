@@ -47,7 +47,7 @@
    :        ^^^^^^
    `----
 
-  x Ident(IdentToken { value: Atom('screen' type=inline), raw: "screen" })
+  x Ident { value: Atom('screen' type=inline), raw: "screen" }
    ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
  1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
    :        ^^^^^^
@@ -71,7 +71,7 @@
    :               ^^^
    `----
 
-  x Ident(IdentToken { value: Atom('and' type=static), raw: "and" })
+  x Ident { value: Atom('and' type=static), raw: "and" }
    ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
  1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
    :               ^^^
@@ -113,7 +113,7 @@
    :                    ^^^^^^^^^
    `----
 
-  x Ident(IdentToken { value: Atom('min-width' type=dynamic), raw: "min-width" })
+  x Ident { value: Atom('min-width' type=dynamic), raw: "min-width" }
    ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
  1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
    :                    ^^^^^^^^^
@@ -173,7 +173,7 @@
    :                                      ^^
    `----
 
-  x Ident(IdentToken { value: Atom('or' type=static), raw: "or" })
+  x Ident { value: Atom('or' type=static), raw: "or" }
    ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
  1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
    :                                      ^^
@@ -215,7 +215,7 @@
    :                                          ^^^^^^^^^
    `----
 
-  x Ident(IdentToken { value: Atom('min-width' type=dynamic), raw: "min-width" })
+  x Ident { value: Atom('min-width' type=dynamic), raw: "min-width" }
    ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
  1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
    :                                          ^^^^^^^^^

@@ -317,7 +317,7 @@
  8 |     color: red;
    `----
 
-  x Delim(DelimToken { value: '!' })
+  x Delim { value: '!' }
    ,-[$DIR/tests/recovery/declaration/basic/input.css:6:1]
  6 | .class {
  7 |     prop: !!;
@@ -333,7 +333,7 @@
  8 |     color: red;
    `----
 
-  x Delim(DelimToken { value: '!' })
+  x Delim { value: '!' }
    ,-[$DIR/tests/recovery/declaration/basic/input.css:6:1]
  6 | .class {
  7 |     prop: !!;
@@ -512,7 +512,7 @@
  13 |     color: red;
     `----
 
-  x Ident(IdentToken { value: Atom('test' type=inline), raw: "test" })
+  x Ident { value: Atom('test' type=inline), raw: "test" }
     ,-[$DIR/tests/recovery/declaration/basic/input.css:11:1]
  11 | a {
  12 |     test;

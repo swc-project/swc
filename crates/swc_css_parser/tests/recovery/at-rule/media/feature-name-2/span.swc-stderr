@@ -65,7 +65,7 @@
    :         ^^^^^^^^
    `----
 
-  x String(StringToken { value: Atom('string' type=static), raw: "\"string\"" })
+  x String { value: Atom('string' type=static), raw: "\"string\"" }
    ,-[$DIR/tests/recovery/at-rule/media/feature-name-2/input.css:1:1]
  1 | @media ("string") {}
    :         ^^^^^^^^

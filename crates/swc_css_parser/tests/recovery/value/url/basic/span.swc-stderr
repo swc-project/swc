@@ -167,7 +167,7 @@
  3 |     background: url(var(--foo));
    `----
 
-  x String(StringToken { value: Atom('http://www.example.com/pinkish.gif' type=dynamic), raw: "\"http://www.example.com/pinkish.gif\"" })
+  x String { value: Atom('http://www.example.com/pinkish.gif' type=dynamic), raw: "\"http://www.example.com/pinkish.gif\"" }
    ,-[$DIR/tests/recovery/value/url/basic/input.css:1:1]
  1 | div {
  2 |     --foo: "http://www.example.com/pinkish.gif";
@@ -223,7 +223,7 @@
  4 |     background: url(image.png\999999);
    `----
 
-  x BadUrl(BadUrlToken { raw: ("url", "var(--foo") })
+  x BadUrl { raw: ("url", "var(--foo") }
    ,-[$DIR/tests/recovery/value/url/basic/input.css:2:1]
  2 |     --foo: "http://www.example.com/pinkish.gif";
  3 |     background: url(var(--foo));
@@ -831,7 +831,7 @@
  14 | }
     `----
 
-  x BadUrl(BadUrlToken { raw: ("url", "image.png param(var(--url") })
+  x BadUrl { raw: ("url", "image.png param(var(--url") }
     ,-[$DIR/tests/recovery/value/url/basic/input.css:12:1]
  12 | .foo {
  13 |     background: url(image.png param(var(--url)));
@@ -1023,7 +1023,7 @@
  18 | }
     `----
 
-  x String(StringToken { value: Atom('foo' type=inline), raw: "\"foo\"" })
+  x String { value: Atom('foo' type=inline), raw: "\"foo\"" }
     ,-[$DIR/tests/recovery/value/url/basic/input.css:16:1]
  16 | .style {
  17 |     background: url("foo", "bar");
@@ -1071,7 +1071,7 @@
  18 | }
     `----
 
-  x String(StringToken { value: Atom('bar' type=inline), raw: "\"bar\"" })
+  x String { value: Atom('bar' type=inline), raw: "\"bar\"" }
     ,-[$DIR/tests/recovery/value/url/basic/input.css:16:1]
  16 | .style {
  17 |     background: url("foo", "bar");

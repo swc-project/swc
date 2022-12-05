@@ -19,7 +19,7 @@
    : ^
    `----
 
-  x Delim(DelimToken { value: '.' })
+  x Delim { value: '.' }
    ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:1:1]
  1 | .class[attr= {
    : ^
@@ -31,7 +31,7 @@
    :  ^^^^^
    `----
 
-  x Ident(IdentToken { value: Atom('class' type=static), raw: "class" })
+  x Ident { value: Atom('class' type=static), raw: "class" }
    ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:1:1]
  1 | .class[attr= {
    :  ^^^^^
@@ -63,7 +63,7 @@
    :        ^^^^
    `----
 
-  x Ident(IdentToken { value: Atom('attr' type=inline), raw: "attr" })
+  x Ident { value: Atom('attr' type=inline), raw: "attr" }
    ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:1:1]
  1 | .class[attr= {
    :        ^^^^
@@ -75,7 +75,7 @@
    :            ^
    `----
 
-  x Delim(DelimToken { value: '=' })
+  x Delim { value: '=' }
    ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:1:1]
  1 | .class[attr= {
    :            ^

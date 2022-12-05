@@ -89,7 +89,7 @@
    :               ^
    `----
 
-  x Delim(DelimToken { value: '>' })
+  x Delim { value: '>' }
    ,-[$DIR/tests/recovery/at-rule/media/feature-range-3/input.css:1:1]
  1 | @media (400px > = width > = 700px) {}
    :               ^
@@ -113,7 +113,7 @@
    :                 ^
    `----
 
-  x Delim(DelimToken { value: '=' })
+  x Delim { value: '=' }
    ,-[$DIR/tests/recovery/at-rule/media/feature-range-3/input.css:1:1]
  1 | @media (400px > = width > = 700px) {}
    :                 ^
@@ -137,7 +137,7 @@
    :                   ^^^^^
    `----
 
-  x Ident(IdentToken { value: Atom('width' type=inline), raw: "width" })
+  x Ident { value: Atom('width' type=inline), raw: "width" }
    ,-[$DIR/tests/recovery/at-rule/media/feature-range-3/input.css:1:1]
  1 | @media (400px > = width > = 700px) {}
    :                   ^^^^^
@@ -161,7 +161,7 @@
    :                         ^
    `----
 
-  x Delim(DelimToken { value: '>' })
+  x Delim { value: '>' }
    ,-[$DIR/tests/recovery/at-rule/media/feature-range-3/input.css:1:1]
  1 | @media (400px > = width > = 700px) {}
    :                         ^
@@ -185,7 +185,7 @@
    :                           ^
    `----
 
-  x Delim(DelimToken { value: '=' })
+  x Delim { value: '=' }
    ,-[$DIR/tests/recovery/at-rule/media/feature-range-3/input.css:1:1]
  1 | @media (400px > = width > = 700px) {}
    :                           ^

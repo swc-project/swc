@@ -159,7 +159,7 @@
  3 |         /* comment */:
    `----
 
-  x String(StringToken { value: Atom('test' type=inline), raw: "\"test\"" })
+  x String { value: Atom('test' type=inline), raw: "\"test\"" }
    ,-[$DIR/tests/recovery/comments/declaration/input.css:1:1]
  1 | a {
  2 |     prop: url("test") /* comment */   /* comment */

@@ -47,7 +47,7 @@
    :            ^^^^^^^
    `----
 
-  x Ident(IdentToken { value: Atom('inherit' type=static), raw: "inherit" })
+  x Ident { value: Atom('inherit' type=static), raw: "inherit" }
    ,-[$DIR/tests/recovery/at-rule/keyframes/custom-ident-2/input.css:1:1]
  1 | @keyframes inherit {}
    :            ^^^^^^^

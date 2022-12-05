@@ -131,7 +131,7 @@
  3 | }
    `----
 
-  x Delim(DelimToken { value: '@' })
+  x Delim { value: '@' }
    ,-[$DIR/tests/recovery/delim-token/at-sign/input.css:1:1]
  1 | a {
  2 |     color: @ red;
@@ -163,7 +163,7 @@
  3 | }
    `----
 
-  x Ident(IdentToken { value: Atom('red' type=inline), raw: "red" })
+  x Ident { value: Atom('red' type=inline), raw: "red" }
    ,-[$DIR/tests/recovery/delim-token/at-sign/input.css:1:1]
  1 | a {
  2 |     color: @ red;

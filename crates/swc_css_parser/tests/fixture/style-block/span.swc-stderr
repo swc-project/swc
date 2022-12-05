@@ -4730,7 +4730,7 @@
  92 |         height: 100px;
     `----
 
-  x Ident(IdentToken { value: Atom('mobile' type=inline), raw: "mobile" })
+  x Ident { value: Atom('mobile' type=inline), raw: "mobile" }
     ,-[$DIR/tests/fixture/style-block/input.css:90:1]
  90 |     width: 10px;
  91 |     @mixin mobile {
@@ -4795,7 +4795,7 @@
  93 |     }
     `----
 
-  x Ident(IdentToken { value: Atom('height' type=inline), raw: "height" })
+  x Ident { value: Atom('height' type=inline), raw: "height" }
     ,-[$DIR/tests/fixture/style-block/input.css:91:1]
  91 |     @mixin mobile {
  92 |         height: 100px;
@@ -5156,7 +5156,7 @@
     :              ^^^^^^^
     `----
 
-  x String(StringToken { value: Atom('a.css' type=inline), raw: "\"a.css\"" })
+  x String { value: Atom('a.css' type=inline), raw: "\"a.css\"" }
     ,-[$DIR/tests/fixture/style-block/input.css:97:1]
  97 | 
  98 | a { @unknown "a.css"; }
@@ -5296,7 +5296,7 @@
      :              ^^^
      `----
 
-  x Ident(IdentToken { value: Atom('foo' type=inline), raw: "foo" })
+  x Ident { value: Atom('foo' type=inline), raw: "foo" }
      ,-[$DIR/tests/fixture/style-block/input.css:99:1]
   99 | 
  100 | a { @unknown foo {} }
@@ -5617,7 +5617,7 @@
  108 |         height: 0;
      `----
 
-  x Ident(IdentToken { value: Atom('width' type=inline), raw: "width" })
+  x Ident { value: Atom('width' type=inline), raw: "width" }
      ,-[$DIR/tests/fixture/style-block/input.css:106:1]
  106 |     --zero-size: {
  107 |         width: 0;
@@ -5665,7 +5665,7 @@
  108 |         height: 0;
      `----
 
-  x Number(NumberToken { value: 0.0, raw: "0", type_flag: Integer })
+  x Number { value: 0.0, raw: "0", type_flag: Integer }
      ,-[$DIR/tests/fixture/style-block/input.css:106:1]
  106 |     --zero-size: {
  107 |         width: 0;
@@ -5713,7 +5713,7 @@
  109 |     };
      `----
 
-  x Ident(IdentToken { value: Atom('height' type=inline), raw: "height" })
+  x Ident { value: Atom('height' type=inline), raw: "height" }
      ,-[$DIR/tests/fixture/style-block/input.css:107:1]
  107 |         width: 0;
  108 |         height: 0;
@@ -5761,7 +5761,7 @@
  109 |     };
      `----
 
-  x Number(NumberToken { value: 0.0, raw: "0", type_flag: Integer })
+  x Number { value: 0.0, raw: "0", type_flag: Integer }
      ,-[$DIR/tests/fixture/style-block/input.css:107:1]
  107 |         width: 0;
  108 |         height: 0;
@@ -5902,7 +5902,7 @@
  112 |         height: 16px;
      `----
 
-  x Ident(IdentToken { value: Atom('width' type=inline), raw: "width" })
+  x Ident { value: Atom('width' type=inline), raw: "width" }
      ,-[$DIR/tests/fixture/style-block/input.css:110:1]
  110 |     --small-icon: {
  111 |         width: 16px;
@@ -5998,7 +5998,7 @@
  113 |     }
      `----
 
-  x Ident(IdentToken { value: Atom('height' type=inline), raw: "height" })
+  x Ident { value: Atom('height' type=inline), raw: "height" }
      ,-[$DIR/tests/fixture/style-block/input.css:111:1]
  111 |         width: 16px;
  112 |         height: 16px;

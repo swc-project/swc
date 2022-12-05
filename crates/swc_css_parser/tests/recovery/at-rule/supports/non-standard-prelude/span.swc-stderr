@@ -109,7 +109,7 @@
  2 |     [--self] {
    `----
 
-  x String(StringToken { value: Atom('.minwidth' type=dynamic), raw: "\".minwidth\"" })
+  x String { value: Atom('.minwidth' type=dynamic), raw: "\".minwidth\"" }
    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:1:1]
  1 | @supports (--element(".minwidth", { "minWidth": 300 })) {
    :                      ^^^^^^^^^^^
@@ -186,7 +186,7 @@
  2 |     [--self] {
    `----
 
-  x String(StringToken { value: Atom('minWidth' type=dynamic), raw: "\"minWidth\"" })
+  x String { value: Atom('minWidth' type=dynamic), raw: "\"minWidth\"" }
    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:1:1]
  1 | @supports (--element(".minwidth", { "minWidth": 300 })) {
    :                                     ^^^^^^^^^^
@@ -228,7 +228,7 @@
  2 |     [--self] {
    `----
 
-  x Number(NumberToken { value: 300.0, raw: "300", type_flag: Integer })
+  x Number { value: 300.0, raw: "300", type_flag: Integer }
    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:1:1]
  1 | @supports (--element(".minwidth", { "minWidth": 300 })) {
    :                                                 ^^^
@@ -525,7 +525,7 @@
  8 |     * { background: red; }
    `----
 
-  x String(StringToken { value: Atom('example' type=inline), raw: "\"example\"" })
+  x String { value: Atom('example' type=inline), raw: "\"example\"" }
    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:6:1]
  6 | 
  7 | @supports ({"example": 1}) {
@@ -573,7 +573,7 @@
  8 |     * { background: red; }
    `----
 
-  x Number(NumberToken { value: 1.0, raw: "1", type_flag: Integer })
+  x Number { value: 1.0, raw: "1", type_flag: Integer }
    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:6:1]
  6 | 
  7 | @supports ({"example": 1}) {
@@ -853,7 +853,7 @@
  12 |     * { background: red; }
     `----
 
-  x String(StringToken { value: Atom('example' type=inline), raw: "\"example\"" })
+  x String { value: Atom('example' type=inline), raw: "\"example\"" }
     ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:10:1]
  10 | 
  11 | @supports (("example": 1)) {
@@ -901,7 +901,7 @@
  12 |     * { background: red; }
     `----
 
-  x Number(NumberToken { value: 1.0, raw: "1", type_flag: Integer })
+  x Number { value: 1.0, raw: "1", type_flag: Integer }
     ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:10:1]
  10 | 
  11 | @supports (("example": 1)) {
@@ -1445,7 +1445,7 @@
  20 |     * { background: red; }
     `----
 
-  x Ident(IdentToken { value: Atom('color' type=static), raw: "color" })
+  x Ident { value: Atom('color' type=static), raw: "color" }
     ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:18:1]
  18 | 
  19 | @supports ([color: red]) {
@@ -1493,7 +1493,7 @@
  20 |     * { background: red; }
     `----
 
-  x Ident(IdentToken { value: Atom('red' type=inline), raw: "red" })
+  x Ident { value: Atom('red' type=inline), raw: "red" }
     ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:18:1]
  18 | 
  19 | @supports ([color: red]) {
@@ -1933,7 +1933,7 @@
  24 |     * { background: red; }
     `----
 
-  x Ident(IdentToken { value: Atom('color' type=static), raw: "color" })
+  x Ident { value: Atom('color' type=static), raw: "color" }
     ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:22:1]
  22 | 
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
@@ -2021,7 +2021,7 @@
  24 |     * { background: red; }
     `----
 
-  x Ident(IdentToken { value: Atom('red' type=inline), raw: "red" })
+  x Ident { value: Atom('red' type=inline), raw: "red" }
     ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:22:1]
  22 | 
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {

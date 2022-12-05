@@ -629,7 +629,7 @@
    :                   ^^^
    `----
 
-  x Percentage(PercentageToken { value: 10.0, raw: "10" })
+  x Percentage { value: 10.0, raw: "10" }
    ,-[$DIR/tests/fixture/function/calc/input.css:5:1]
  5 | div {
  6 |     --width: calc(10% + 30px);
@@ -657,7 +657,7 @@
    :                       ^
    `----
 
-  x Delim(DelimToken { value: '+' })
+  x Delim { value: '+' }
    ,-[$DIR/tests/fixture/function/calc/input.css:5:1]
  5 | div {
  6 |     --width: calc(10% + 30px);

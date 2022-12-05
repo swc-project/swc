@@ -136,7 +136,7 @@
  4 |     border-radius: 7px;
    `----
 
-  x Ident(IdentToken { value: Atom('__ident__' type=dynamic), raw: "__ident__" })
+  x Ident { value: Atom('__ident__' type=dynamic), raw: "__ident__" }
    ,-[$DIR/tests/recovery/vercel/005/input.css:2:1]
  2 |     margin: 0;
  3 |     __ident__
@@ -168,7 +168,7 @@
  5 |     color: white;
    `----
 
-  x Ident(IdentToken { value: Atom('border-radius' type=dynamic), raw: "border-radius" })
+  x Ident { value: Atom('border-radius' type=dynamic), raw: "border-radius" }
    ,-[$DIR/tests/recovery/vercel/005/input.css:3:1]
  3 |     __ident__
  4 |     border-radius: 7px;
@@ -352,7 +352,7 @@
  8 |     __ident__
    `----
 
-  x Ident(IdentToken { value: Atom('__ident__' type=dynamic), raw: "__ident__" })
+  x Ident { value: Atom('__ident__' type=dynamic), raw: "__ident__" }
    ,-[$DIR/tests/recovery/vercel/005/input.css:6:1]
  6 |     background:  __ident__;
  7 |     __ident__
@@ -384,7 +384,7 @@
  9 | }
    `----
 
-  x Ident(IdentToken { value: Atom('__ident__' type=dynamic), raw: "__ident__" })
+  x Ident { value: Atom('__ident__' type=dynamic), raw: "__ident__" }
    ,-[$DIR/tests/recovery/vercel/005/input.css:7:1]
  7 |     __ident__
  8 |     __ident__

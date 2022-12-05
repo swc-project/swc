@@ -69,7 +69,7 @@
  2 |     
    `----
 
-  x Ident(IdentToken { value: Atom('foo' type=inline), raw: "foo" })
+  x Ident { value: Atom('foo' type=inline), raw: "foo" }
    ,-[$DIR/tests/recovery/selector/pseudo-element/between/input.css:1:1]
  1 | : :foo {
    :    ^^^

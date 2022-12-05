@@ -81,7 +81,7 @@
    :      ^^^
    `----
 
-  x Number(NumberToken { value: 123.0, raw: "123", type_flag: Integer })
+  x Number { value: 123.0, raw: "123", type_flag: Integer }
    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:1:1]
  1 | <!-- 123 -->
    :      ^^^
@@ -135,7 +135,7 @@
  4 |     color: red;
    `----
 
-  x Ident(IdentToken { value: Atom('div' type=static), raw: "div" })
+  x Ident { value: Atom('div' type=static), raw: "div" }
    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:2:1]
  2 | 
  3 | div {
@@ -295,7 +295,7 @@
    : ^^^^
    `----
 
-  x Ident(IdentToken { value: Atom('test' type=inline), raw: "test" })
+  x Ident { value: Atom('test' type=inline), raw: "test" }
    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:6:1]
  6 | 
  7 | test
@@ -580,7 +580,7 @@
     : ^^^^
     `----
 
-  x Ident(IdentToken { value: Atom('test' type=inline), raw: "test" })
+  x Ident { value: Atom('test' type=inline), raw: "test" }
     ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:15:1]
  15 | 
  16 | test
@@ -643,7 +643,7 @@
  21 | }
     `----
 
-  x Ident(IdentToken { value: Atom('color' type=static), raw: "color" })
+  x Ident { value: Atom('color' type=static), raw: "color" }
     ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:19:1]
  19 | 
  20 |     color: blue;
@@ -691,7 +691,7 @@
  21 | }
     `----
 
-  x Ident(IdentToken { value: Atom('blue' type=inline), raw: "blue" })
+  x Ident { value: Atom('blue' type=inline), raw: "blue" }
     ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:19:1]
  19 | 
  20 |     color: blue;
@@ -937,7 +937,7 @@
     : ^^^^
     `----
 
-  x Ident(IdentToken { value: Atom('test' type=inline), raw: "test" })
+  x Ident { value: Atom('test' type=inline), raw: "test" }
     ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:26:1]
  26 | 
  27 | test
@@ -1205,7 +1205,7 @@
  36 |          color: red;
     `----
 
-  x Delim(DelimToken { value: '.' })
+  x Delim { value: '.' }
     ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:34:1]
  34 | a {
  35 |     <!-- .class {
@@ -1221,7 +1221,7 @@
  36 |          color: red;
     `----
 
-  x Ident(IdentToken { value: Atom('class' type=static), raw: "class" })
+  x Ident { value: Atom('class' type=static), raw: "class" }
     ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:34:1]
  34 | a {
  35 |     <!-- .class {
@@ -1468,7 +1468,7 @@
  43 |     90% { left: 300px; }
     `----
 
-  x Percentage(PercentageToken { value: 50.0, raw: "50" })
+  x Percentage { value: 50.0, raw: "50" }
     ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:41:1]
  41 |     <!-- -->
  42 |     50% { left: 0; }

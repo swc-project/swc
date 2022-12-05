@@ -30,7 +30,7 @@
  2 | a {
    `----
 
-  x Delim(DelimToken { value: '/' })
+  x Delim { value: '/' }
    ,-[$DIR/tests/recovery/qualified-rule/double-slash-comment/input.css:1:1]
  1 | // test
    : ^
@@ -44,7 +44,7 @@
  2 | a {
    `----
 
-  x Delim(DelimToken { value: '/' })
+  x Delim { value: '/' }
    ,-[$DIR/tests/recovery/qualified-rule/double-slash-comment/input.css:1:1]
  1 | // test
    :  ^
@@ -72,7 +72,7 @@
  2 | a {
    `----
 
-  x Ident(IdentToken { value: Atom('test' type=inline), raw: "test" })
+  x Ident { value: Atom('test' type=inline), raw: "test" }
    ,-[$DIR/tests/recovery/qualified-rule/double-slash-comment/input.css:1:1]
  1 | // test
    :    ^^^^
@@ -103,7 +103,7 @@
  3 |     color: red;
    `----
 
-  x Ident(IdentToken { value: Atom('a' type=static), raw: "a" })
+  x Ident { value: Atom('a' type=static), raw: "a" }
    ,-[$DIR/tests/recovery/qualified-rule/double-slash-comment/input.css:1:1]
  1 | // test
  2 | a {

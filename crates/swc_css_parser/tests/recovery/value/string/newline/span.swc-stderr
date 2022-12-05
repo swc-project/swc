@@ -121,7 +121,7 @@
    :           ^
    `----
 
-  x BadString(BadStringToken { raw: "\"" })
+  x BadString { raw: "\"" }
    ,-[$DIR/tests/recovery/value/string/newline/input.css:1:1]
  1 | a {
  2 |     prop: "

@@ -59,7 +59,7 @@
    :         ^^^^^^
    `----
 
-  x Ident(IdentToken { value: Atom('cl,ss' type=inline), raw: "cl\\,ss" })
+  x Ident { value: Atom('cl,ss' type=inline), raw: "cl\\,ss" }
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/6s_VBuRPHbPiUrh1fWCR_Q/input.css:1:1]
  1 | :pseudo(cl\,ss) {}
    :         ^^^^^^

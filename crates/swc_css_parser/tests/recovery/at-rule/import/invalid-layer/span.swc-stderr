@@ -119,7 +119,7 @@
  3 | @import "foo.css" layer(foo, bar);
    `----
 
-  x String(StringToken { value: Atom('invalid' type=inline), raw: "\"invalid\"" })
+  x String { value: Atom('invalid' type=inline), raw: "\"invalid\"" }
    ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:1:1]
  1 | @import "foo.css" layer();
  2 | @import "foo.css" layer("invalid");
@@ -183,7 +183,7 @@
    :                         ^^^
    `----
 
-  x Ident(IdentToken { value: Atom('foo' type=inline), raw: "foo" })
+  x Ident { value: Atom('foo' type=inline), raw: "foo" }
    ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:2:1]
  2 | @import "foo.css" layer("invalid");
  3 | @import "foo.css" layer(foo, bar);
@@ -225,7 +225,7 @@
    :                              ^^^
    `----
 
-  x Ident(IdentToken { value: Atom('bar' type=inline), raw: "bar" })
+  x Ident { value: Atom('bar' type=inline), raw: "bar" }
    ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:2:1]
  2 | @import "foo.css" layer("invalid");
  3 | @import "foo.css" layer(foo, bar);

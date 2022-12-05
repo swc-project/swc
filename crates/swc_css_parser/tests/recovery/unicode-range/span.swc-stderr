@@ -128,7 +128,7 @@
  3 |     unicode-range: U+1e1ee1-FFZFFF;
    `----
 
-  x Ident(IdentToken { value: Atom('U' type=inline), raw: "U" })
+  x Ident { value: Atom('U' type=inline), raw: "U" }
    ,-[$DIR/tests/recovery/unicode-range/input.css:1:1]
  1 | .class {
  2 |     unicode-range: U+1Z1ee1-FFFFFF;
@@ -200,7 +200,7 @@
  4 | }
    `----
 
-  x Ident(IdentToken { value: Atom('U' type=inline), raw: "U" })
+  x Ident { value: Atom('U' type=inline), raw: "U" }
    ,-[$DIR/tests/recovery/unicode-range/input.css:2:1]
  2 |     unicode-range: U+1Z1ee1-FFFFFF;
  3 |     unicode-range: U+1e1ee1-FFZFFF;

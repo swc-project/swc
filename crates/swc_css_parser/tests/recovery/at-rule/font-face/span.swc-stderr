@@ -82,7 +82,7 @@
  3 | }
    `----
 
-  x Ident(IdentToken { value: Atom('invalid' type=inline), raw: "invalid" })
+  x Ident { value: Atom('invalid' type=inline), raw: "invalid" }
    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:1:1]
  1 | @font-face {
  2 |     invalid
@@ -170,7 +170,7 @@
  7 | }
    `----
 
-  x Ident(IdentToken { value: Atom('invalid' type=inline), raw: "invalid" })
+  x Ident { value: Atom('invalid' type=inline), raw: "invalid" }
    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:5:1]
  5 | @font-face {
  6 |     invalid;
@@ -258,7 +258,7 @@
  11 | }
     `----
 
-  x Number(NumberToken { value: 123.0, raw: "123", type_flag: Integer })
+  x Number { value: 123.0, raw: "123", type_flag: Integer }
     ,-[$DIR/tests/recovery/at-rule/font-face/input.css:9:1]
   9 | @font-face {
  10 |     123
@@ -346,7 +346,7 @@
  15 | }
     `----
 
-  x Number(NumberToken { value: 123.0, raw: "123", type_flag: Integer })
+  x Number { value: 123.0, raw: "123", type_flag: Integer }
     ,-[$DIR/tests/recovery/at-rule/font-face/input.css:13:1]
  13 | @font-face {
  14 |     123;
@@ -419,7 +419,7 @@
     :            ^^^
     `----
 
-  x Ident(IdentToken { value: Atom('foo' type=inline), raw: "foo" })
+  x Ident { value: Atom('foo' type=inline), raw: "foo" }
     ,-[$DIR/tests/recovery/at-rule/font-face/input.css:16:1]
  16 | 
  17 | @font-face foo {}
@@ -503,7 +503,7 @@
     :            ^^^
     `----
 
-  x Ident(IdentToken { value: Atom('foo' type=inline), raw: "foo" })
+  x Ident { value: Atom('foo' type=inline), raw: "foo" }
     ,-[$DIR/tests/recovery/at-rule/font-face/input.css:18:1]
  18 | 
  19 | @font-face foo;
