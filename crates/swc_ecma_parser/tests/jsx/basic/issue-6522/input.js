@@ -1,6 +1,10 @@
 let x
 <Comp></Comp>
 
+let x
+
+<Comp></Comp>
+
 let x;
 <Comp></Comp>
 
@@ -10,8 +14,19 @@ var x
 var x;
 <Comp></Comp>
 
-const x
+function x() {
+    let x
+    <div />
+}
+
+{ foo: 'test' }
 <Comp></Comp>
 
-const x;
+function test1() {}
 <Comp></Comp>
+
+class Foo {}
+<>
+<Comp></Comp>
+<Comp></Comp>
+</>
