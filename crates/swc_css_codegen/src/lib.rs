@@ -2058,8 +2058,8 @@ where
 
                 write_raw!(self, span, &hash);
             }
-            Token::WhiteSpace(token) => {
-                write_str!(self, span, &token.value);
+            Token::WhiteSpace { value } => {
+                write_str!(self, span, value);
             }
             Token::CDC => {
                 write_raw!(self, span, "-->");
