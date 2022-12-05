@@ -2027,7 +2027,7 @@ where
                 write_str!(self, span, &url);
             }
             Token::BadUrl { raw, .. } => {
-                write_str!(self, span, &raw);
+                write_str!(self, span, raw);
             }
             Token::Comma => {
                 write_raw!(self, span, ",");
