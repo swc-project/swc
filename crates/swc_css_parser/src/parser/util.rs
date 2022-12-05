@@ -434,7 +434,7 @@ where
             }
             ComponentValue::PreservedToken(box TokenAndSpan {
                 span,
-                token: Token::Delim(box DelimToken { value: '!' }),
+                token: Token::Delim { value: '!' },
             }) => {
                 return Err(Error::new(
                     *span,

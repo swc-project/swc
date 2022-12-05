@@ -7,7 +7,7 @@ macro_rules! span {
 
 macro_rules! tok_pat {
     (Ident) => {
-        swc_css_ast::Token::Ident(box IdentToken { .. })
+        swc_css_ast::Token::Ident { .. }
     };
 
     (Percentage) => {
@@ -94,7 +94,7 @@ macro_rules! bump {
 macro_rules! is_case_insensitive_ident {
     ($parser:expr, $tt:tt) => {{
         match $parser.input.cur() {
-            Some(swc_css_ast::Token::Ident(box IdentToken { value, .. }))
+            Some(swc_css_ast::Token::Ident { value, .. })
                 if &*value.to_ascii_lowercase() == $tt =>
             {
                 true
@@ -107,7 +107,7 @@ macro_rules! is_case_insensitive_ident {
 macro_rules! is_one_of_case_insensitive_ident {
     ($parser:expr, $($tt:tt),+) => {
         match $parser.input.cur() {
-            Some(swc_css_ast::Token::Ident(box IdentToken { value, .. })) => {
+            Some(swc_css_ast::Token::Ident { value, .. }) => {
                 let lowercased = &*value.to_ascii_lowercase();
 
                 if $(lowercased == $tt)||* {

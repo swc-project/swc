@@ -1956,16 +1956,16 @@ where
         let span = n.span;
 
         match &n.token {
-            Token::AtKeyword(token) => {
-                let mut at_keyword = String::with_capacity(1 + token.raw.len());
+            Token::AtKeyword { raw, .. } => {
+                let mut at_keyword = String::with_capacity(1 + raw.len());
 
                 at_keyword.push('@');
-                at_keyword.push_str(&token.raw);
+                at_keyword.push_str(raw);
 
                 write_raw!(self, span, &at_keyword);
             }
-            Token::Delim(token) => {
-                write_raw!(self, span, &token.value.to_string());
+            Token::Delim { value } => {
+                write_raw!(self, span, &value.to_string());
             }
             Token::LParen => {
                 write_raw!(self, span, "(");
@@ -1979,13 +1979,13 @@ where
             Token::RBracket => {
                 write_raw!(self, span, "]");
             }
-            Token::Number(token) => {
-                write_raw!(self, span, &token.raw);
+            Token::Number { raw, .. } => {
+                write_raw!(self, span, raw);
             }
-            Token::Percentage(token) => {
-                let mut percentage = String::with_capacity(token.raw.len() + 1);
+            Token::Percentage { raw, .. } => {
+                let mut percentage = String::with_capacity(raw.len() + 1);
 
-                percentage.push_str(&token.raw);
+                percentage.push_str(&raw);
                 percentage.push('%');
 
                 write_raw!(self, span, &percentage);
@@ -1998,22 +1998,22 @@ where
 
                 write_raw!(self, span, &dimension);
             }
-            Token::Ident(token) => {
-                write_raw!(self, span, &token.raw);
+            Token::Ident { raw, .. } => {
+                write_raw!(self, span, raw);
             }
-            Token::Function(token) => {
-                let mut function = String::with_capacity(token.raw.len() + 1);
+            Token::Function { raw, .. } => {
+                let mut function = String::with_capacity(raw.len() + 1);
 
-                function.push_str(&token.raw);
+                function.push_str(raw);
                 function.push('(');
 
                 write_raw!(self, span, &function);
             }
-            Token::BadString(token) => {
-                write_str!(self, span, &token.raw);
+            Token::BadString { raw } => {
+                write_str!(self, span, raw);
             }
-            Token::String(token) => {
-                write_str!(self, span, &token.raw);
+            Token::String { raw, .. } => {
+                write_str!(self, span, raw);
             }
             Token::Url(token) => {
                 let mut url = String::with_capacity(token.raw.0.len() + token.raw.1.len() + 2);
@@ -2025,12 +2025,12 @@ where
 
                 write_str!(self, span, &url);
             }
-            Token::BadUrl(token) => {
-                let mut bad_url = String::with_capacity(token.raw.0.len() + token.raw.1.len() + 2);
+            Token::BadUrl { raw, .. } => {
+                let mut bad_url = String::with_capacity(raw.0.len() + raw.1.len() + 2);
 
-                bad_url.push_str(&token.raw.0);
+                bad_url.push_str(&raw.0);
                 bad_url.push('(');
-                bad_url.push_str(&token.raw.1);
+                bad_url.push_str(&raw.1);
                 bad_url.push(')');
 
                 write_str!(self, span, &bad_url);
@@ -2050,11 +2050,11 @@ where
             Token::Colon => {
                 write_raw!(self, span, ":");
             }
-            Token::Hash(token) => {
-                let mut hash = String::with_capacity(token.raw.len() + 1);
+            Token::Hash { raw, .. } => {
+                let mut hash = String::with_capacity(raw.len() + 1);
 
                 hash.push('#');
-                hash.push_str(&token.raw);
+                hash.push_str(raw);
 
                 write_raw!(self, span, &hash);
             }

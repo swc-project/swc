@@ -31,7 +31,7 @@ where
                 self.input.skip_ws();
 
                 let name = match cur!(self) {
-                    Token::Ident(box IdentToken { value, .. }) => {
+                    Token::Ident { value, .. } => {
                         if value.starts_with("--") {
                             ColorProfileName::DashedIdent(self.parse()?)
                         } else {
@@ -175,16 +175,14 @@ where
 
                 let layer_name = if !is!(self, EOF) {
                     match cur!(self) {
-                        Token::Ident(box IdentToken { value, .. })
-                            if *value.to_ascii_lowercase() == *"layer" =>
-                        {
+                        Token::Ident { value, .. } if *value.to_ascii_lowercase() == *"layer" => {
                             let name = ImportLayerName::Ident(self.parse()?);
 
                             self.input.skip_ws();
 
                             Some(Box::new(name))
                         }
-                        Token::Function(box FunctionToken { value, .. })
+                        Token::Function { value, .. }
                             if *value.to_ascii_lowercase() == *"layer" =>
                         {
                             let ctx = Ctx {
@@ -774,9 +772,7 @@ where
 
         let supports = if !is!(self, EOF) {
             match cur!(self) {
-                Token::Function(box FunctionToken { value, .. })
-                    if *value.to_ascii_lowercase() == *"supports" =>
-                {
+                Token::Function { value, .. } if *value.to_ascii_lowercase() == *"supports" => {
                     let ctx = Ctx {
                         in_import_at_rule: true,
                         ..self.ctx
@@ -823,13 +819,13 @@ where
                 bump!(self);
 
                 match cur!(self) {
-                    Token::Function(box FunctionToken { value, .. })
+                    Token::Function { value, .. }
                         if (&*value.to_ascii_lowercase() == "local"
                             || &*value.to_ascii_lowercase() == "global") =>
                     {
                         let span = self.input.cur_span();
                         let pseudo = match bump!(self) {
-                            Token::Function(box FunctionToken { value, raw }) => Ident {
+                            Token::Function { value, raw } => Ident {
                                 span: span!(self, span.lo),
                                 value,
                                 raw: Some(raw),
@@ -855,7 +851,7 @@ where
                             },
                         )))
                     }
-                    Token::Ident(box IdentToken { value, .. })
+                    Token::Ident { value, .. }
                         if (&*value.to_ascii_lowercase() == "local"
                             || &*value.to_ascii_lowercase() == "global") =>
                     {
@@ -1026,9 +1022,7 @@ where
     fn parse(&mut self) -> PResult<SupportsNot> {
         let span = self.input.cur_span();
         let keyword = match cur!(self) {
-            Token::Ident(box IdentToken { value, .. })
-                if value.as_ref().eq_ignore_ascii_case("not") =>
-            {
+            Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("not") => {
                 Some(self.parse()?)
             }
             _ => {
@@ -1058,9 +1052,7 @@ where
     fn parse(&mut self) -> PResult<SupportsAnd> {
         let span = self.input.cur_span();
         let keyword = match cur!(self) {
-            Token::Ident(box IdentToken { value, .. })
-                if value.as_ref().eq_ignore_ascii_case("and") =>
-            {
+            Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("and") => {
                 Some(self.parse()?)
             }
             _ => {
@@ -1090,9 +1082,7 @@ where
     fn parse(&mut self) -> PResult<SupportsOr> {
         let span = self.input.cur_span();
         let keyword = match cur!(self) {
-            Token::Ident(box IdentToken { value, .. })
-                if value.as_ref().eq_ignore_ascii_case("or") =>
-            {
+            Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("or") => {
                 Some(self.parse()?)
             }
             _ => {
@@ -1186,9 +1176,7 @@ where
 
                 Ok(SupportsFeature::Declaration(Box::new(declaration)))
             }
-            Token::Function(box FunctionToken { value, .. })
-                if &*value.to_ascii_lowercase() == "selector" =>
-            {
+            Token::Function { value, .. } if &*value.to_ascii_lowercase() == "selector" => {
                 // TODO improve me
                 let ctx = Ctx {
                     in_supports_at_rule: true,
@@ -1288,10 +1276,10 @@ where
     fn parse(&mut self) -> PResult<DocumentPreludeMatchingFunction> {
         match cur!(self) {
             tok!("url") => Ok(DocumentPreludeMatchingFunction::Url(self.parse()?)),
-            Token::Function(box FunctionToken {
+            Token::Function {
                 value: function_name,
                 ..
-            }) => {
+            } => {
                 if &*function_name.to_ascii_lowercase() == "url"
                     || &*function_name.to_ascii_lowercase() == "src"
                 {
@@ -1556,9 +1544,7 @@ where
     fn parse(&mut self) -> PResult<MediaNot> {
         let span = self.input.cur_span();
         let keyword = match cur!(self) {
-            Token::Ident(box IdentToken { value, .. })
-                if value.as_ref().eq_ignore_ascii_case("not") =>
-            {
+            Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("not") => {
                 Some(self.parse()?)
             }
             _ => {
@@ -1588,9 +1574,7 @@ where
     fn parse(&mut self) -> PResult<MediaAnd> {
         let span = self.input.cur_span();
         let keyword = match cur!(self) {
-            Token::Ident(box IdentToken { value, .. })
-                if value.as_ref().eq_ignore_ascii_case("and") =>
-            {
+            Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("and") => {
                 Some(self.parse()?)
             }
             _ => {
@@ -1620,9 +1604,7 @@ where
     fn parse(&mut self) -> PResult<MediaOr> {
         let span = self.input.cur_span();
         let keyword = match cur!(self) {
-            Token::Ident(box IdentToken { value, .. })
-                if value.as_ref().eq_ignore_ascii_case("or") =>
-            {
+            Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("or") => {
                 Some(self.parse()?)
             }
             _ => {
@@ -1883,7 +1865,7 @@ where
             }
             tok!("ident") => Ok(MediaFeatureValue::Ident(self.parse()?)),
             tok!("dimension") => Ok(MediaFeatureValue::Dimension(self.parse()?)),
-            Token::Function(box FunctionToken { value, .. }) if is_math_function(value) => {
+            Token::Function { value, .. } if is_math_function(value) => {
                 let function = self.parse()?;
 
                 Ok(MediaFeatureValue::Function(function))
@@ -2002,7 +1984,7 @@ where
         expect!(self, ":");
 
         let value = match cur!(self) {
-            Token::Ident(box IdentToken { value, .. })
+            Token::Ident { value, .. }
                 if matches!(
                     &*value.to_ascii_lowercase(),
                     "left" | "right" | "first" | "blank"
@@ -2159,9 +2141,7 @@ where
     fn parse(&mut self) -> PResult<ContainerQueryNot> {
         let span = self.input.cur_span();
         let keyword = match cur!(self) {
-            Token::Ident(box IdentToken { value, .. })
-                if value.as_ref().eq_ignore_ascii_case("not") =>
-            {
+            Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("not") => {
                 Some(self.parse()?)
             }
             _ => {
@@ -2191,9 +2171,7 @@ where
     fn parse(&mut self) -> PResult<ContainerQueryAnd> {
         let span = self.input.cur_span();
         let keyword = match cur!(self) {
-            Token::Ident(box IdentToken { value, .. })
-                if value.as_ref().eq_ignore_ascii_case("and") =>
-            {
+            Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("and") => {
                 Some(self.parse()?)
             }
             _ => {
@@ -2223,9 +2201,7 @@ where
     fn parse(&mut self) -> PResult<ContainerQueryOr> {
         let span = self.input.cur_span();
         let keyword = match cur!(self) {
-            Token::Ident(box IdentToken { value, .. })
-                if value.as_ref().eq_ignore_ascii_case("or") =>
-            {
+            Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("or") => {
                 Some(self.parse()?)
             }
             _ => {
@@ -2482,7 +2458,7 @@ where
             }
             tok!("ident") => Ok(SizeFeatureValue::Ident(self.parse()?)),
             tok!("dimension") => Ok(SizeFeatureValue::Dimension(self.parse()?)),
-            Token::Function(box FunctionToken { value, .. }) if is_math_function(value) => {
+            Token::Function { value, .. } if is_math_function(value) => {
                 let function = self.parse()?;
 
                 Ok(SizeFeatureValue::Function(function))
@@ -2507,7 +2483,7 @@ where
         }
 
         match bump!(self) {
-            Token::Ident(box IdentToken { value, raw, .. }) => {
+            Token::Ident { value, raw, .. } => {
                 if !value.starts_with("--") {
                     return Err(Error::new(
                         span,

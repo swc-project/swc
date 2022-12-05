@@ -35,71 +35,6 @@ pub enum NumberType {
     Number,
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, EqIgnoreSpan)]
-#[cfg_attr(
-    feature = "rkyv",
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-pub struct IdentToken {
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-    pub value: JsWord,
-    pub raw: Atom,
-}
-
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, EqIgnoreSpan)]
-#[cfg_attr(
-    feature = "rkyv",
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-pub struct FunctionToken {
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-    pub value: JsWord,
-    pub raw: Atom,
-}
-
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, EqIgnoreSpan)]
-#[cfg_attr(
-    feature = "rkyv",
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-pub struct AtKeywordToken {
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-    pub value: JsWord,
-    pub raw: Atom,
-}
-
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, EqIgnoreSpan)]
-#[cfg_attr(
-    feature = "rkyv",
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-pub struct HashToken {
-    pub is_id: bool,
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-    pub value: JsWord,
-    pub raw: Atom,
-}
-
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, EqIgnoreSpan)]
-#[cfg_attr(
-    feature = "rkyv",
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-pub struct StringToken {
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-    pub value: JsWord,
-    pub raw: Atom,
-}
-
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, EqIgnoreSpan)]
-#[cfg_attr(
-    feature = "rkyv",
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-pub struct BadStringToken {
-    pub raw: Atom,
-}
-
 /// `url(value)`
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, EqIgnoreSpan)]
 #[cfg_attr(
@@ -113,47 +48,6 @@ pub struct UrlToken {
     pub value: JsWord,
     /// Name and value
     pub raw: Box<(Atom, Atom)>,
-}
-
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, EqIgnoreSpan)]
-#[cfg_attr(
-    feature = "rkyv",
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-pub struct BadUrlToken {
-    /// Name and value
-    pub raw: Box<(Atom, Atom)>,
-}
-
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, EqIgnoreSpan)]
-#[cfg_attr(
-    feature = "rkyv",
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-pub struct DelimToken {
-    pub value: char,
-}
-
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, EqIgnoreSpan)]
-#[cfg_attr(
-    feature = "rkyv",
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-pub struct NumberToken {
-    pub value: f64,
-    pub raw: Atom,
-    #[serde(rename = "type")]
-    pub type_flag: NumberType,
-}
-
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, EqIgnoreSpan)]
-#[cfg_attr(
-    feature = "rkyv",
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-pub struct PercentageToken {
-    pub value: f64,
-    pub raw: Atom,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, EqIgnoreSpan)]
@@ -185,20 +79,55 @@ pub struct DimensionToken {
     ))
 )]
 pub enum Token {
-    Ident(Box<IdentToken>),
-    Function(Box<FunctionToken>),
+    Ident {
+        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
+        value: JsWord,
+        raw: Atom,
+    },
+    Function {
+        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
+        value: JsWord,
+        raw: Atom,
+    },
     /// `@`
-    AtKeyword(Box<AtKeywordToken>),
+    AtKeyword {
+        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
+        value: JsWord,
+        raw: Atom,
+    },
     /// `#`
-    Hash(Box<HashToken>),
-    String(Box<StringToken>),
-    BadString(Box<BadStringToken>),
+    Hash {
+        is_id: bool,
+        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
+        value: JsWord,
+        raw: Atom,
+    },
+    String {
+        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
+        value: JsWord,
+        raw: Atom,
+    },
+    BadString {
+        raw: Atom,
+    },
     /// `url(value)`
     Url(Box<UrlToken>),
-    BadUrl(Box<BadUrlToken>),
-    Delim(Box<DelimToken>),
-    Number(Box<NumberToken>),
-    Percentage(Box<PercentageToken>),
+    BadUrl {
+        raw: Box<(Atom, Atom)>,
+    },
+    Delim {
+        value: char,
+    },
+    Number {
+        value: f64,
+        raw: Atom,
+        #[serde(rename = "type")]
+        type_flag: NumberType,
+    },
+    Percentage {
+        value: f64,
+        raw: Atom,
+    },
     Dimension(Box<DimensionToken>),
     /// One or more whitespace.
     WhiteSpace {
@@ -247,49 +176,53 @@ impl Hash for Token {
         }
 
         match self {
-            Token::Ident(ident) => {
-                ident.value.hash(state);
-                ident.raw.hash(state);
+            Token::Ident { value, raw } => {
+                value.hash(state);
+                raw.hash(state);
             }
-            Token::Function(function) => {
-                function.value.hash(state);
-                function.raw.hash(state);
+            Token::Function { value, raw } => {
+                value.hash(state);
+                raw.hash(state);
             }
-            Token::AtKeyword(at_keyword) => {
-                at_keyword.value.hash(state);
-                at_keyword.raw.hash(state);
+            Token::AtKeyword { value, raw } => {
+                value.hash(state);
+                raw.hash(state);
             }
-            Token::String(string) => {
-                string.value.hash(state);
-                string.raw.hash(state);
+            Token::String { value, raw } => {
+                value.hash(state);
+                raw.hash(state);
             }
-            Token::BadString(bad_string) => {
-                bad_string.raw.hash(state);
+            Token::BadString { raw } => {
+                raw.hash(state);
             }
-            Token::Hash(hash) => {
-                hash.value.hash(state);
-                hash.raw.hash(state);
-                hash.is_id.hash(state);
+            Token::Hash { value, raw, is_id } => {
+                value.hash(state);
+                raw.hash(state);
+                is_id.hash(state);
             }
             Token::Url(url) => {
                 url.name.hash(state);
                 url.value.hash(state);
                 url.raw.hash(state);
             }
-            Token::BadUrl(bad_url) => {
-                bad_url.raw.hash(state);
+            Token::BadUrl { raw, .. } => {
+                raw.hash(state);
             }
-            Token::Delim(delim) => {
-                delim.value.hash(state);
+            Token::Delim { value } => {
+                value.hash(state);
             }
-            Token::Number(number) => {
-                integer_decode(number.value).hash(state);
-                number.raw.hash(state);
-                number.type_flag.hash(state);
+            Token::Number {
+                value,
+                raw,
+                type_flag,
+            } => {
+                integer_decode(*value).hash(state);
+                raw.hash(state);
+                type_flag.hash(state);
             }
-            Token::Percentage(percentage) => {
-                integer_decode(percentage.value).hash(state);
-                percentage.raw.hash(state);
+            Token::Percentage { value, raw } => {
+                integer_decode(*value).hash(state);
+                raw.hash(state);
             }
             Token::Dimension(dimension) => {
                 integer_decode(dimension.value).hash(state);

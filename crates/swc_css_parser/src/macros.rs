@@ -32,7 +32,7 @@ macro_rules! tok {
     };
 
     ("bad-url") => {
-        swc_css_ast::Token::BadUrl(_)
+        swc_css_ast::Token::BadUrl { .. }
     };
 
     ("[") => {
@@ -52,7 +52,7 @@ macro_rules! tok {
     };
 
     ("%") => {
-        swc_css_ast::Token::Delim(box DelimToken { value: '%', .. })
+        swc_css_ast::Token::Delim { value: '%', .. }
     };
 
     (",") => {
@@ -64,11 +64,11 @@ macro_rules! tok {
     };
 
     ("!") => {
-       swc_css_ast::Token::Delim(box DelimToken { value: '!', .. })
+       swc_css_ast::Token::Delim { value: '!', .. }
     };
 
     ("?") => {
-       swc_css_ast::Token::Delim(box DelimToken { value: '?', .. })
+       swc_css_ast::Token::Delim { value: '?', .. }
     };
 
     ("{") => {
@@ -92,7 +92,7 @@ macro_rules! tok {
     };
 
     ("*") => {
-       swc_css_ast::Token::Delim(box DelimToken { value: '*', .. })
+       swc_css_ast::Token::Delim { value: '*', .. }
     };
 
     ("@") => {
@@ -104,27 +104,27 @@ macro_rules! tok {
     };
 
     ("&") => {
-        swc_css_ast::Token::Delim(box DelimToken { value: '&', .. })
+        swc_css_ast::Token::Delim { value: '&', .. }
     };
 
     ("|") => {
-        swc_css_ast::Token::Delim(box DelimToken { value: '|', .. })
+        swc_css_ast::Token::Delim { value: '|', .. }
     };
 
     ("$") => {
-       swc_css_ast::Token::Delim(box DelimToken { value: '$', .. })
+       swc_css_ast::Token::Delim { value: '$', .. }
     };
 
     ("^") => {
-       swc_css_ast::Token::Delim(box DelimToken { value: '^', .. })
+       swc_css_ast::Token::Delim { value: '^', .. }
     };
 
     ("~") => {
-        swc_css_ast::Token::Delim(box DelimToken { value: '~', .. })
+        swc_css_ast::Token::Delim { value: '~', .. }
     };
 
     ("=") => {
-        swc_css_ast::Token::Delim(box DelimToken { value: '=', .. })
+        swc_css_ast::Token::Delim { value: '=', .. }
     };
 
     (" ") => {
@@ -140,26 +140,26 @@ macro_rules! tok {
     };
 
     ("+") => {
-        swc_css_ast::Token::Delim(box DelimToken { value: '+', .. })
+        swc_css_ast::Token::Delim { value: '+', .. }
     };
 
     ("-") => {
-        swc_css_ast::Token::Delim(box DelimToken { value: '-', .. })
+        swc_css_ast::Token::Delim { value: '-', .. }
     };
 
     (".") => {
-        swc_css_ast::Token::Delim(box DelimToken { value: '.', .. })
+        swc_css_ast::Token::Delim { value: '.', .. }
     };
 
     ("/") => {
-        swc_css_ast::Token::Delim(box DelimToken { value: '/', .. })
+        swc_css_ast::Token::Delim { value: '/', .. }
     };
 
     ("<") => {
-        swc_css_ast::Token::Delim(box DelimToken { value: '<', .. })
+        swc_css_ast::Token::Delim { value: '<', .. }
     };
 
     (">") => {
-        swc_css_ast::Token::Delim(box DelimToken { value: '>', .. })
+        swc_css_ast::Token::Delim { value: '>', .. }
     };
 }

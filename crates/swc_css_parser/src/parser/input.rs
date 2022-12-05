@@ -2,7 +2,7 @@ use std::{fmt::Debug, mem::take};
 
 use swc_atoms::{Atom, JsWord};
 use swc_common::{BytePos, Span, Spanned, SyntaxContext};
-use swc_css_ast::{ComponentValue, FunctionToken, ListOfComponentValues, Token, TokenAndSpan};
+use swc_css_ast::{ComponentValue, ListOfComponentValues, Token, TokenAndSpan};
 
 use super::PResult;
 use crate::error::{Error, ErrorKind};
@@ -371,10 +371,10 @@ impl<'a> Input<'a> {
                         TokenOrBlock::Token(token_and_span) => *token_and_span,
                         TokenOrBlock::Function(function) => TokenAndSpan {
                             span: function.0,
-                            token: Token::Function(Box::new(FunctionToken {
+                            token: Token::Function {
                                 value: function.1,
                                 raw: function.2,
-                            })),
+                            },
                         },
                         TokenOrBlock::LBracket(span) => TokenAndSpan {
                             span: *span,
