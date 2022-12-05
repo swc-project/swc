@@ -171,7 +171,7 @@ pub fn optimize(
             options.compress.as_ref(),
             comments,
             marks,
-            extra.unresolved_mark,
+            // extra.unresolved_mark,
         ));
         debug_assert_valid(&n);
     }
