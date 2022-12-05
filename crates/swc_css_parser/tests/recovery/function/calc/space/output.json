@@ -126,12 +126,10 @@
                     "token": {
                       "Dimension": {
                         "value": 2.0,
+                        "raw_value": "2",
                         "unit": "px",
                         "type": "integer",
-                        "raw": [
-                          "2",
-                          "px"
-                        ]
+                        "raw_unit": "px"
                       }
                     }
                   },
@@ -145,12 +143,10 @@
                     "token": {
                       "Dimension": {
                         "value": 1.0,
+                        "raw_value": "+1",
                         "unit": "px",
                         "type": "integer",
-                        "raw": [
-                          "+1",
-                          "px"
-                        ]
+                        "raw_unit": "px"
                       }
                     }
                   }

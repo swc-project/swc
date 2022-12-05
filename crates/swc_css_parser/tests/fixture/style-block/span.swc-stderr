@@ -4843,7 +4843,7 @@
  93 |     }
     `----
 
-  x Dimension(DimensionToken { value: 100.0, unit: Atom('px' type=static), type_flag: Integer, raw: ("100", "px") })
+  x Dimension(DimensionToken { value: 100.0, raw_value: "100", unit: Atom('px' type=static), type_flag: Integer, raw_unit: "px" })
     ,-[$DIR/tests/fixture/style-block/input.css:91:1]
  91 |     @mixin mobile {
  92 |         height: 100px;
@@ -5950,7 +5950,7 @@
  112 |         height: 16px;
      `----
 
-  x Dimension(DimensionToken { value: 16.0, unit: Atom('px' type=static), type_flag: Integer, raw: ("16", "px") })
+  x Dimension(DimensionToken { value: 16.0, raw_value: "16", unit: Atom('px' type=static), type_flag: Integer, raw_unit: "px" })
      ,-[$DIR/tests/fixture/style-block/input.css:110:1]
  110 |     --small-icon: {
  111 |         width: 16px;
@@ -6046,7 +6046,7 @@
  113 |     }
      `----
 
-  x Dimension(DimensionToken { value: 16.0, unit: Atom('px' type=static), type_flag: Integer, raw: ("16", "px") })
+  x Dimension(DimensionToken { value: 16.0, raw_value: "16", unit: Atom('px' type=static), type_flag: Integer, raw_unit: "px" })
      ,-[$DIR/tests/fixture/style-block/input.css:111:1]
  111 |         width: 16px;
  112 |         height: 16px;

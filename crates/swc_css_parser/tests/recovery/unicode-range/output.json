@@ -122,12 +122,10 @@
                 "token": {
                   "Dimension": {
                     "value": 1.0,
+                    "raw_value": "+1",
                     "unit": "Z1ee1-FFFFFF",
                     "type": "integer",
-                    "raw": [
-                      "+1",
-                      "Z1ee1-FFFFFF"
-                    ]
+                    "raw_unit": "Z1ee1-FFFFFF"
                   }
                 }
               }
@@ -176,12 +174,10 @@
                 "token": {
                   "Dimension": {
                     "value": 10.0,
+                    "raw_value": "+1e1",
                     "unit": "ee1-FFZFFF",
                     "type": "number",
-                    "raw": [
-                      "+1e1",
-                      "ee1-FFZFFF"
-                    ]
+                    "raw_unit": "ee1-FFZFFF"
                   }
                 }
               }

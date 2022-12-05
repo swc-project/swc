@@ -1985,16 +1985,17 @@ where
             Token::Percentage { raw, .. } => {
                 let mut percentage = String::with_capacity(raw.len() + 1);
 
-                percentage.push_str(&raw);
+                percentage.push_str(raw);
                 percentage.push('%');
 
                 write_raw!(self, span, &percentage);
             }
             Token::Dimension(token) => {
-                let mut dimension = String::with_capacity(token.raw.0.len() + token.raw.1.len());
+                let mut dimension =
+                    String::with_capacity(token.raw_value.len() + token.raw_unit.len());
 
-                dimension.push_str(&token.raw.0);
-                dimension.push_str(&token.raw.1);
+                dimension.push_str(&token.raw_value);
+                dimension.push_str(&token.raw_unit);
 
                 write_raw!(self, span, &dimension);
             }

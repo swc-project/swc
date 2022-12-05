@@ -247,7 +247,7 @@
  3 | }
    `----
 
-  x Dimension(DimensionToken { value: 12.0, unit: Atom('px' type=static), type_flag: Integer, raw: ("12", "px") })
+  x Dimension(DimensionToken { value: 12.0, raw_value: "12", unit: Atom('px' type=static), type_flag: Integer, raw_unit: "px" })
    ,-[$DIR/tests/recovery/function/unclosed-2/input.css:1:1]
  1 | .style {
  2 | 	grid-template-columns: repeat(4, [col-start] 12px

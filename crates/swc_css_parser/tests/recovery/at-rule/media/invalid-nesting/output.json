@@ -171,12 +171,10 @@
                 "token": {
                   "Dimension": {
                     "value": 1024.0,
+                    "raw_value": "1024",
                     "unit": "px",
                     "type": "integer",
-                    "raw": [
-                      "1024",
-                      "px"
-                    ]
+                    "raw_unit": "px"
                   }
                 }
               },

@@ -229,12 +229,10 @@
                     "token": {
                       "Dimension": {
                         "value": 1.0,
+                        "raw_value": "1",
                         "unit": "em",
                         "type": "integer",
-                        "raw": [
-                          "1",
-                          "em"
-                        ]
+                        "raw_unit": "em"
                       }
                     }
                   },

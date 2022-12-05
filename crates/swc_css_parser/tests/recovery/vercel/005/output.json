@@ -153,12 +153,10 @@
                 "token": {
                   "Dimension": {
                     "value": 7.0,
+                    "raw_value": "7",
                     "unit": "px",
                     "type": "integer",
-                    "raw": [
-                      "7",
-                      "px"
-                    ]
+                    "raw_unit": "px"
                   }
                 }
               },

@@ -149,7 +149,7 @@
  3 |     prop1: 10px
    `----
 
-  x Dimension(DimensionToken { value: 10.1, unit: Atom('px' type=static), type_flag: Number, raw: ("10.10", "px") })
+  x Dimension(DimensionToken { value: 10.1, raw_value: "10.10", unit: Atom('px' type=static), type_flag: Number, raw_unit: "px" })
    ,-[$DIR/tests/recovery/number/input.css:1:1]
  1 | a {
  2 |     prop: 10.10px
@@ -229,7 +229,7 @@
  4 |     prop2: 10
    `----
 
-  x Dimension(DimensionToken { value: 10.0, unit: Atom('px' type=static), type_flag: Integer, raw: ("10", "px") })
+  x Dimension(DimensionToken { value: 10.0, raw_value: "10", unit: Atom('px' type=static), type_flag: Integer, raw_unit: "px" })
    ,-[$DIR/tests/recovery/number/input.css:2:1]
  2 |     prop: 10.10px
  3 |     prop1: 10px

@@ -296,7 +296,7 @@
  6 |     }
    `----
 
-  x Dimension(DimensionToken { value: 1.0, unit: Atom('em' type=static), type_flag: Integer, raw: ("1", "em") })
+  x Dimension(DimensionToken { value: 1.0, raw_value: "1", unit: Atom('em' type=static), type_flag: Integer, raw_unit: "em" })
    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-1/input.css:4:1]
  4 |     input {
  5 |         margin: 1em;

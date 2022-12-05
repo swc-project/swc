@@ -42,12 +42,12 @@ pub enum NumberType {
 )]
 pub struct DimensionToken {
     pub value: f64,
+    pub raw_value: Atom,
     #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub unit: JsWord,
     #[serde(rename = "type")]
     pub type_flag: NumberType,
-    /// Value and unit
-    pub raw: Box<(Atom, Atom)>,
+    pub raw_unit: Atom,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, EqIgnoreSpan)]
@@ -217,7 +217,8 @@ impl Hash for Token {
                 integer_decode(dimension.value).hash(state);
                 dimension.unit.hash(state);
                 dimension.type_flag.hash(state);
-                dimension.raw.hash(state);
+                dimension.raw_value.hash(state);
+                dimension.raw_unit.hash(state);
             }
             Token::WhiteSpace { value, .. } => {
                 value.hash(state);

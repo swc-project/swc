@@ -372,12 +372,10 @@
                     "token": {
                       "Dimension": {
                         "value": 30.0,
+                        "raw_value": "30",
                         "unit": "px",
                         "type": "integer",
-                        "raw": [
-                          "30",
-                          "px"
-                        ]
+                        "raw_unit": "px"
                       }
                     }
                   }

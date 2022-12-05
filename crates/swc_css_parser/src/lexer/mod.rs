@@ -563,9 +563,10 @@ where
             // unit set initially to the empty string.
             let token = Token::Dimension(Box::new(DimensionToken {
                 value: number.0,
+                raw_value: number.1,
                 unit: ident_sequence.0,
+                raw_unit: ident_sequence.1,
                 type_flag: number.2,
-                raw: Box::new((number.1, ident_sequence.1)),
             }));
 
             // Return the <dimension-token>.

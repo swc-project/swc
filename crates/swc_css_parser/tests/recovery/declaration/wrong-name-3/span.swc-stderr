@@ -131,7 +131,7 @@
  3 | }
    `----
 
-  x Dimension(DimensionToken { value: 20.0, unit: Atom('px' type=static), type_flag: Integer, raw: ("20", "px") })
+  x Dimension(DimensionToken { value: 20.0, raw_value: "20", unit: Atom('px' type=static), type_flag: Integer, raw_unit: "px" })
    ,-[$DIR/tests/recovery/declaration/wrong-name-3/input.css:1:1]
  1 | a {
  2 |     func(20px);
