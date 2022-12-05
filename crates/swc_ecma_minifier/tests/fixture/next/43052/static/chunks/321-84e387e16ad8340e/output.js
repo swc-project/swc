@@ -8,12 +8,11 @@
                 t(exports, __webpack_require__(7294));
             }(this, function(e, t) {
                 "use strict";
-                function r(e) {
+                var n = function(e) {
                     return e && "object" == typeof e && "default" in e ? e : {
                         default: e
                     };
-                }
-                var n = r(t), o = ("undefined" != typeof globalThis ? globalThis : "undefined" != typeof window ? window : void 0 !== __webpack_require__.g ? __webpack_require__.g : "undefined" != typeof self && self, {
+                }(t), o = ("undefined" != typeof globalThis ? globalThis : "undefined" != typeof window ? window : void 0 !== __webpack_require__.g ? __webpack_require__.g : "undefined" != typeof self && self, {
                     exports: {}
                 });
                 !function(e, t) {
@@ -177,7 +176,9 @@
                                     for(let r = 0; r < e.length; r++)if (e[r] !== t[r]) return !1;
                                     return !0;
                                 }(A(a), e) || I(a)) throw Error(i);
-                                const c = $(a * a), u = $(n + t * c), h = $(n - t * c), f = $(u * u), d = $(h * h), p = $(t * o * f - d), { isValid: w , value: y  } = N($(p * d)), b = $(y * h), m = $(y * b * p);
+                                const c = $(a * a), u = $(n + t * c), h = $(n - t * c), f = $(u * u), d = $(h * h), p = $(t * o * f - d), { isValid: w , value: y  } = function(e) {
+                                    return _(n, e);
+                                }($(p * d)), b = $(y * h), m = $(y * b * p);
                                 let v = $((a + a) * b);
                                 I(v) && (v = $(-v));
                                 const x = $(u * m), E = $(v * x);
@@ -185,14 +186,16 @@
                                 return new g(new l(v, x, n, E));
                             }
                             toRawBytes() {
-                                let { x: e , y: t , z: r , t: n  } = this.ep;
-                                const o = $($(r + t) * $(r - t)), i = $(e * t), s = $(i * i), { value: a  } = N($(o * s)), u = $(a * o), f = $(a * i), d = $(u * f * n);
+                                let { x: e1 , y: t , z: r , t: n1  } = this.ep;
+                                const o = $($(r + t) * $(r - t)), i = $(e1 * t), s = $(i * i), { value: a  } = function(e) {
+                                    return _(n, e);
+                                }($(o * s)), u = $(a * o), f = $(a * i), d = $(u * f * n1);
                                 let l;
-                                if (I(n * d)) {
-                                    let r1 = $(t * c), n1 = $(e * c);
-                                    e = r1, t = n1, l = $(u * h);
+                                if (I(n1 * d)) {
+                                    let r1 = $(t * c), n2 = $(e1 * c);
+                                    e1 = r1, t = n2, l = $(u * h);
                                 } else l = f;
-                                I(e * d) && (t = $(-t));
+                                I(e1 * d) && (t = $(-t));
                                 let p = $((r - t) * l);
                                 return I(p) && (p = $(-p)), A(p);
                             }
@@ -491,21 +494,21 @@
                                 }
                             }
                         });
-                        var F = function e(t, r, n) {
-                            r = r || [];
-                            for(var o = n = n || 0; t >= H;)r[n++] = 255 & t | 128, t /= 128;
-                            for(; -128 & t;)r[n++] = 255 & t | 128, t >>>= 7;
-                            return r[n] = 0 | t, e.bytes = n - o + 1, r;
-                        }, H = Math.pow(2, 31), q = function e(t, r) {
-                            var n, o = 0, i = 0, s = r = r || 0, a = t.length;
-                            do {
-                                if (s >= a) throw e.bytes = 0, RangeError("Could not decode varint");
-                                n = t[s++], o += i < 28 ? (127 & n) << i : (127 & n) * Math.pow(2, i), i += 7;
-                            }while (n >= 128)
-                            return e.bytes = s - r, o;
-                        }, J = Math.pow(2, 7), G = Math.pow(2, 14), Z = Math.pow(2, 21), K = Math.pow(2, 28), X = Math.pow(2, 35), Q = Math.pow(2, 42), Y = Math.pow(2, 49), ee = Math.pow(2, 56), te = Math.pow(2, 63), re = {
-                            encode: F,
-                            decode: q,
+                        var H = Math.pow(2, 31), J = Math.pow(2, 7), G = Math.pow(2, 14), Z = Math.pow(2, 21), K = Math.pow(2, 28), X = Math.pow(2, 35), Q = Math.pow(2, 42), Y = Math.pow(2, 49), ee = Math.pow(2, 56), te = Math.pow(2, 63), re = {
+                            encode: function e(t, r, n) {
+                                r = r || [];
+                                for(var o = n = n || 0; t >= H;)r[n++] = 255 & t | 128, t /= 128;
+                                for(; -128 & t;)r[n++] = 255 & t | 128, t >>>= 7;
+                                return r[n] = 0 | t, e.bytes = n - o + 1, r;
+                            },
+                            decode: function e(t, r) {
+                                var n, o = 0, i = 0, s = r = r || 0, a = t.length;
+                                do {
+                                    if (s >= a) throw e.bytes = 0, RangeError("Could not decode varint");
+                                    n = t[s++], o += i < 28 ? (127 & n) << i : (127 & n) * Math.pow(2, i), i += 7;
+                                }while (n >= 128)
+                                return e.bytes = s - r, o;
+                            },
                             encodingLength: function(e) {
                                 return e < J ? 1 : e < G ? 2 : e < Z ? 3 : e < K ? 4 : e < X ? 5 : e < Q ? 6 : e < Y ? 7 : e < ee ? 8 : e < te ? 9 : 10;
                             }
@@ -531,7 +534,7 @@
                                 this.code = e, this.size = t, this.digest = r, this.bytes = n;
                             }
                         }
-                        var he = function(e, t) {
+                        var fe = function(e, t) {
                             if (e.length >= 255) throw TypeError("Alphabet too long");
                             for(var r = new Uint8Array(256), n = 0; n < r.length; n++)r[n] = 255;
                             for(var o = 0; o < e.length; o++){
@@ -581,7 +584,7 @@
                                     throw Error(`Non-${t} character`);
                                 }
                             };
-                        }, fe = he;
+                        };
                         class de {
                             constructor(e, t, r){
                                 this.name = e, this.prefix = t, this.baseEncode = r;
@@ -881,29 +884,20 @@
                         const ke = (e, t)=>{
                             switch(e[0]){
                                 case "Q":
-                                    {
-                                        const r = t || ve;
-                                        return [
-                                            ve.prefix,
-                                            r.decode(`${ve.prefix}${e}`)
-                                        ];
-                                    }
+                                    return [
+                                        ve.prefix,
+                                        (t || ve).decode(`${ve.prefix}${e}`)
+                                    ];
                                 case ve.prefix:
-                                    {
-                                        const r1 = t || ve;
-                                        return [
-                                            ve.prefix,
-                                            r1.decode(e)
-                                        ];
-                                    }
+                                    return [
+                                        ve.prefix,
+                                        (t || ve).decode(e)
+                                    ];
                                 case xe.prefix:
-                                    {
-                                        const r2 = t || xe;
-                                        return [
-                                            xe.prefix,
-                                            r2.decode(e)
-                                        ];
-                                    }
+                                    return [
+                                        xe.prefix,
+                                        (t || xe).decode(e)
+                                    ];
                                 default:
                                     if (null == t) throw Error("To parse non base32 or base58btc encoded CID multibase decoder must be provided");
                                     return [
@@ -975,9 +969,9 @@
                                 return Pe(this);
                             }
                         }
-                        const Fe = 237, He = ie(Fe), qe = 32 + He, Je = (e)=>Ge(De(e)), Ge = (e)=>{
+                        const He = ie(237), qe = 32 + He, Je = (e)=>Ge(De(e)), Ge = (e)=>{
                             const [t] = ne(e);
-                            if (t !== Fe) throw RangeError(`Unsupported key algorithm with multicode 0x${Fe.toString(16)}`);
+                            if (237 !== t) throw RangeError(`Unsupported key algorithm with multicode 0x${237..toString(16)}`);
                             if (e.byteLength !== qe) throw RangeError(`Expected Uint8Array with byteLength ${qe}, instead got Uint8Array with byteLength ${e.byteLength}`);
                             return new Ze(e.buffer, e.byteOffset);
                         };
@@ -1030,19 +1024,19 @@
                             alphabet: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_=",
                             bitsPerChar: 6
                         });
-                        const Ye = 4864, et = ie(Ye), tt = ie(Fe), rt = 32, nt = et + rt + tt + rt, ot = async (e)=>{
-                            if (e.byteLength !== rt) throw Error(`Expected Uint8Array with byteLength of 32 instead not ${e.byteLength}`);
+                        const et = ie(4864), tt = ie(237), nt = et + 32 + tt + 32, ot = async (e)=>{
+                            if (32 !== e.byteLength) throw Error(`Expected Uint8Array with byteLength of 32 instead not ${e.byteLength}`);
                             const t = await async function(e) {
                                 return (await L(e)).pointBytes;
                             }(e), r = new Uint8Array(nt);
-                            return oe(Ye, r, 0), r.set(e, et), oe(Fe, r, et + rt), r.set(t, et + rt + tt), new it(r);
+                            return oe(4864, r, 0), r.set(e, et), oe(237, r, et + 32), r.set(t, et + 32 + tt), new it(r);
                         };
                         class it {
                             constructor(e){
                                 this.buffer = e.buffer, this.byteOffset = e.byteOffset, this.byteLength = nt, this.bytes = e;
                             }
                             get principal() {
-                                const e = new Uint8Array(this.buffer, et + rt), t = Ge(e);
+                                const e = new Uint8Array(this.buffer, et + 32), t = Ge(e);
                                 return Object.defineProperties(this, {
                                     principal: {
                                         value: t
@@ -1050,7 +1044,7 @@
                                 }), t;
                             }
                             get secret() {
-                                const e = new Uint8Array(this.buffer, et, rt);
+                                const e = new Uint8Array(this.buffer, et, 32);
                                 return Object.defineProperties(this, {
                                     secret: {
                                         value: e
@@ -1112,23 +1106,6 @@
                             "BigInt64Array",
                             "BigUint64Array"
                         ];
-                        function ct(e) {
-                            if (null === e) return "null";
-                            if (void 0 === e) return "undefined";
-                            if (!0 === e || !1 === e) return "boolean";
-                            const t = typeof e;
-                            if (st.includes(t)) return t;
-                            if ("function" === t) return "Function";
-                            if (Array.isArray(e)) return "Array";
-                            if (function(e) {
-                                return e && e.constructor && e.constructor.isBuffer && e.constructor.isBuffer.call(null, e);
-                            }(e)) return "Buffer";
-                            const r = function(e) {
-                                const t = Object.prototype.toString.call(e).slice(8, -1);
-                                if (at.includes(t)) return t;
-                            }(e);
-                            return r || "Object";
-                        }
                         class ut {
                             constructor(e, t, r){
                                 this.major = e, this.majorEncoded = e << 5, this.name = t, this.terminal = r;
@@ -1361,8 +1338,8 @@
                         };
                         const _t = BigInt(-1), Nt = BigInt(1);
                         function jt(e, t) {
-                            const r = t.value, n = "bigint" == typeof r ? r * _t - Nt : -1 * r - 1;
-                            Ut(e, t.type.majorEncoded, n);
+                            const r = t.value;
+                            Ut(e, t.type.majorEncoded, "bigint" == typeof r ? r * _t - Nt : -1 * r - 1);
                         }
                         function zt(e, t, r, n) {
                             At(e, t, r + n);
@@ -1404,7 +1381,6 @@
                             }(r, n);
                             var r, n;
                         };
-                        const Wt = Lt;
                         function Ft(e, t, r, n) {
                             return new ht(ut.array, n, r);
                         }
@@ -1452,7 +1428,7 @@
                             ]);
                             else {
                                 let t1, i = !1;
-                                r && !0 === r.float64 || (nr(n), t1 = or(rr, 1), n === t1 || Number.isNaN(n) ? (rr[0] = 249, e.push(rr.slice(0, 3)), i = !0) : (ir(n), t1 = sr(rr, 1), n === t1 && (rr[0] = 250, e.push(rr.slice(0, 5)), i = !0))), i || (o = n, tr.setFloat64(0, o, !1), t1 = ar(rr, 1), rr[0] = 251, e.push(rr.slice(0, 9)));
+                                r && !0 === r.float64 || (nr(n), t1 = or(rr, 1), n === t1 || Number.isNaN(n) ? (rr[0] = 249, e.push(rr.slice(0, 3)), i = !0) : (ir(n), t1 = sr(rr, 1), n === t1 && (rr[0] = 250, e.push(rr.slice(0, 5)), i = !0))), i || (tr.setFloat64(0, n, !1), t1 = ar(rr, 1), rr[0] = 251, e.push(rr.slice(0, 9)));
                             }
                             var o;
                         }
@@ -1682,7 +1658,7 @@
                         };
                         function pr() {
                             const e = [];
-                            return e[ut.uint.major] = Tt, e[ut.negint.major] = jt, e[ut.bytes.major] = Lt, e[ut.string.major] = Wt, e[ut.array.major] = qt, e[ut.map.major] = Zt, e[ut.tag.major] = Xt, e[ut.float.major] = Yt, e;
+                            return e[ut.uint.major] = Tt, e[ut.negint.major] = jt, e[ut.bytes.major] = Lt, e[ut.string.major] = Lt, e[ut.array.major] = qt, e[ut.map.major] = Zt, e[ut.tag.major] = Xt, e[ut.float.major] = Yt, e;
                         }
                         const wr = pr(), yr = new Bt;
                         class gr {
@@ -1764,7 +1740,23 @@
                         mr.Map = mr.Object, mr.Buffer = mr.Uint8Array;
                         for (const e11 of "Uint8Clamped Uint16 Uint32 Int8 Int16 Int32 BigUint64 BigInt64 Float32 Float64".split(" "))mr[`${e11}Array`] = mr.DataView;
                         function vr(e, t = {}, r) {
-                            const n = ct(e), o = t && t.typeEncoders && t.typeEncoders[n] || mr[n];
+                            const n = function(e) {
+                                if (null === e) return "null";
+                                if (void 0 === e) return "undefined";
+                                if (!0 === e || !1 === e) return "boolean";
+                                const t = typeof e;
+                                if (st.includes(t)) return t;
+                                if ("function" === t) return "Function";
+                                if (Array.isArray(e)) return "Array";
+                                if (function(e) {
+                                    return e && e.constructor && e.constructor.isBuffer && e.constructor.isBuffer.call(null, e);
+                                }(e)) return "Buffer";
+                                const r = function(e) {
+                                    const t = Object.prototype.toString.call(e).slice(8, -1);
+                                    if (at.includes(t)) return t;
+                                }(e);
+                                return r || "Object";
+                            }(e), o = t && t.typeEncoders && t.typeEncoders[n] || mr[n];
                             if ("function" == typeof o) {
                                 const i = o(e, n, t, r);
                                 if (null != i) return i;
@@ -1772,10 +1764,6 @@
                             const i1 = mr[n];
                             if (!i1) throw Error(`CBOR encode error: unsupported type: ${n}`);
                             return i1(e, n, t, r);
-                        }
-                        function xr(e, t, r, n) {
-                            if (Array.isArray(t)) for (const o of t)xr(e, o, r, n);
-                            else r[t.type.major](e, t, n);
                         }
                         function Er(e, t, r) {
                             const n = vr(e, r);
@@ -1789,7 +1777,10 @@
                                     return wt(t1.chunks[0]);
                                 }
                             }
-                            return yr.reset(), xr(yr, n, t, r), yr.toBytes(!0);
+                            return yr.reset(), function xr(e, t, r, n) {
+                                if (Array.isArray(t)) for (const o of t)xr(e, o, r, n);
+                                else r[t.type.major](e, t, n);
+                            }(yr, n, t, r), yr.toBytes(!0);
                         }
                         const kr = {
                             strict: !1,
@@ -1810,59 +1801,57 @@
                                 if (void 0 === t) {
                                     const r = hr[e];
                                     if (!r) throw Error(`CBOR decode error: no decoder for major type ${e >>> 5} (byte 0x${e.toString(16).padStart(2, "0")})`);
-                                    const n = 31 & e;
-                                    t = r(this.data, this.pos, n, this.options);
+                                    t = r(this.data, this.pos, 31 & e, this.options);
                                 }
                                 return this.pos += t.encodedLength, t;
                             }
                         }
                         const Br = Symbol.for("DONE"), Ar = Symbol.for("BREAK");
-                        function Ir(e, t) {
-                            if (e.done()) return Br;
-                            const r = e.next();
-                            if (r.type === ut.break) return Ar;
-                            if (r.type.terminal) return r.value;
-                            if (r.type === ut.array) return function(e, t, r) {
-                                const n = [];
-                                for(let o = 0; o < e.value; o++){
-                                    const i = Ir(t, r);
-                                    if (i === Ar) {
-                                        if (e.value === 1 / 0) break;
-                                        throw Error("CBOR decode error: got unexpected break to lengthed array");
-                                    }
-                                    if (i === Br) throw Error(`CBOR decode error: found array but not enough entries (got ${o}, expected ${e.value})`);
-                                    n[o] = i;
-                                }
-                                return n;
-                            }(r, e, t);
-                            if (r.type === ut.map) return function(e, t, r) {
-                                const n = !0 === r.useMaps, o = n ? void 0 : {}, i = n ? new Map : void 0;
-                                for(let s = 0; s < e.value; s++){
-                                    const a = Ir(t, r);
-                                    if (a === Ar) {
-                                        if (e.value === 1 / 0) break;
-                                        throw Error("CBOR decode error: got unexpected break to lengthed map");
-                                    }
-                                    if (a === Br) throw Error(`CBOR decode error: found map but not enough entries (got ${s} [no key], expected ${e.value})`);
-                                    if (!0 !== n && "string" != typeof a) throw Error(`CBOR decode error: non-string keys not supported (got ${typeof a})`);
-                                    const c = Ir(t, r);
-                                    if (c === Br) throw Error(`CBOR decode error: found map but not enough entries (got ${s} [no value], expected ${e.value})`);
-                                    n ? i.set(a, c) : o[a] = c;
-                                }
-                                return n ? i : o;
-                            }(r, e, t);
-                            if (r.type === ut.tag) {
-                                if (t.tags && "function" == typeof t.tags[r.value]) {
-                                    const n = Ir(e, t);
-                                    return t.tags[r.value](n);
-                                }
-                                throw Error(`CBOR decode error: tag not supported (${r.value})`);
-                            }
-                            throw Error("unsupported");
-                        }
                         function Cr(e, t) {
                             if (!(e instanceof Uint8Array)) throw Error("CBOR decode error: data to decode must be a Uint8Array");
-                            const r = (t = Object.assign({}, kr, t)).tokenizer || new Sr(e, t), n = Ir(r, t);
+                            const r = (t = Object.assign({}, kr, t)).tokenizer || new Sr(e, t), n = function Ir(e, t) {
+                                if (e.done()) return Br;
+                                const r = e.next();
+                                if (r.type === ut.break) return Ar;
+                                if (r.type.terminal) return r.value;
+                                if (r.type === ut.array) return function(e, t, r) {
+                                    const n = [];
+                                    for(let o = 0; o < e.value; o++){
+                                        const i = Ir(t, r);
+                                        if (i === Ar) {
+                                            if (e.value === 1 / 0) break;
+                                            throw Error("CBOR decode error: got unexpected break to lengthed array");
+                                        }
+                                        if (i === Br) throw Error(`CBOR decode error: found array but not enough entries (got ${o}, expected ${e.value})`);
+                                        n[o] = i;
+                                    }
+                                    return n;
+                                }(r, e, t);
+                                if (r.type === ut.map) return function(e, t, r) {
+                                    const n = !0 === r.useMaps, o = n ? void 0 : {}, i = n ? new Map : void 0;
+                                    for(let s = 0; s < e.value; s++){
+                                        const a = Ir(t, r);
+                                        if (a === Ar) {
+                                            if (e.value === 1 / 0) break;
+                                            throw Error("CBOR decode error: got unexpected break to lengthed map");
+                                        }
+                                        if (a === Br) throw Error(`CBOR decode error: found map but not enough entries (got ${s} [no key], expected ${e.value})`);
+                                        if (!0 !== n && "string" != typeof a) throw Error(`CBOR decode error: non-string keys not supported (got ${typeof a})`);
+                                        const c = Ir(t, r);
+                                        if (c === Br) throw Error(`CBOR decode error: found map but not enough entries (got ${s} [no value], expected ${e.value})`);
+                                        n ? i.set(a, c) : o[a] = c;
+                                    }
+                                    return n ? i : o;
+                                }(r, e, t);
+                                if (r.type === ut.tag) {
+                                    if (t.tags && "function" == typeof t.tags[r.value]) {
+                                        const n = Ir(e, t);
+                                        return t.tags[r.value](n);
+                                    }
+                                    throw Error(`CBOR decode error: tag not supported (${r.value})`);
+                                }
+                                throw Error("unsupported");
+                            }(r, t);
                             if (n === Br) throw Error("CBOR decode error: did not find any content to decode");
                             if (n === Ar) throw Error("CBOR decode error: got unexpected break");
                             if (!r.done()) throw Error("CBOR decode error: too many terminals, data makes no sense");
@@ -1905,7 +1894,7 @@
                             return Ee.decode(e.subarray(1));
                         };
                         const $r = (e)=>{
-                            return t = e, r = Or, r = Object.assign({}, lr, r), Er(t, wr, r);
+                            return r = Or, r = Object.assign({}, lr, r), Er(e, wr, r);
                             var t, r;
                         }, Tr = (e)=>Cr(e, Rr), Ur = new TextEncoder, _r = new TextDecoder, Nr = (e)=>Ur.encode(e);
                         class jr extends Array {
@@ -2341,7 +2330,7 @@
                         };
                         Vr.tags[42] = Ee.parse;
                         const Wr = (e)=>{
-                            return t = e, r = Lr, r = Object.assign({}, zr, r), Er(t, new jr, r);
+                            return r = Lr, r = Object.assign({}, zr, r), Er(e, new jr, r);
                             var t, r;
                         }, Fr = (e)=>(function(e, t) {
                                 return Cr(e, t = Object.assign({
@@ -2349,7 +2338,7 @@
                                 }, t));
                             })(e, Object.assign(Vr, {
                                 tokenizer: new Mr(e, Vr)
-                            })), Hr = se, qr = (e)=>ae(0, Hr(e)), Jr = (e)=>{
+                            })), qr = (e)=>ae(0, se(e)), Jr = (e)=>{
                             const { ucv: t , alg: r , typ: n  } = Fr(Qe.baseDecode(e));
                             return pn(n), wn(r), {
                                 version: dn(t, "ucv")
@@ -2567,7 +2556,7 @@
                         }, _n = async (e, t)=>{
                             const r = t?.hasher || Tn, [n, o] = e instanceof Uint8Array ? [
                                 85,
-                                (i = e, new Uint8Array(i.buffer, i.byteOffset, i.byteLength))
+                                new Uint8Array(e.buffer, e.byteOffset, e.byteLength)
                             ] : [
                                 113,
                                 vn(e)
@@ -2600,7 +2589,7 @@
                                 proofs: a,
                                 nonce: c,
                                 signature: Dn
-                            }), h = Nr(`${Sn(f = u)}.${Bn(f)}`);
+                            }), h = Nr(`${Sn(u)}.${Bn(u)}`);
                             var f;
                             const d = await e.sign(h);
                             return mn({
@@ -2609,9 +2598,6 @@
                             });
                         }, zn = (e, t)=>e && "function" == typeof e.did ? un(e.did(), `${t}.did()`) : yn.throw(`The ${t}.did() must be a function that returns DID`), Dn = new Uint8Array;
                         var Pn = globalThis.fetch;
-                        function Ln(e) {
-                            return e && e.__esModule && Object.prototype.hasOwnProperty.call(e, "default") ? e.default : e;
-                        }
                         var Mn = {
                             exports: {}
                         }, Vn = {};
@@ -2620,7 +2606,6 @@
                                 forever: t
                             }), this._originalTimeouts = JSON.parse(JSON.stringify(e)), this._timeouts = e, this._options = t || {}, this._maxRetryTime = t && t.maxRetryTime || 1 / 0, this._fn = null, this._errors = [], this._attempts = 1, this._operationTimeout = null, this._operationTimeoutCb = null, this._timeout = null, this._operationStart = null, this._timer = null, this._options.forever && (this._cachedTimeouts = this._timeouts.slice(0));
                         }
-                        var Fn = Wn;
                         Wn.prototype.reset = function() {
                             this._attempts = 1, this._timeouts = this._originalTimeouts.slice(0);
                         }, Wn.prototype.stop = function() {
@@ -2663,10 +2648,9 @@
                             }
                             return t;
                         }, function(e) {
-                            var t = Fn;
                             e.operation = function(r) {
                                 var n = e.timeouts(r);
-                                return new t(n, {
+                                return new Wn(n, {
                                     forever: r && (r.forever || r.retries === 1 / 0),
                                     unref: r && r.unref,
                                     maxRetryTime: r && r.maxRetryTime
@@ -2706,7 +2690,9 @@
                         }(Vn), function(e) {
                             e.exports = Vn;
                         }(Mn);
-                        var Hn = Ln(Mn.exports);
+                        var Hn = function(e) {
+                            return e && e.__esModule && Object.prototype.hasOwnProperty.call(e, "default") ? e.default : e;
+                        }(Mn.exports);
                         const qn = new Set([
                             "Failed to fetch",
                             "NetworkError when attempting to fetch resource.",
@@ -2760,7 +2746,7 @@
                         const Kn = (e, t)=>Ee.createV1(e, t), Xn = Ee.asCID;
                         Ee.parse, Ee.decode;
                         const Qn = (e)=>{
-                            return !(null != (t = e) && t.asCID === t);
+                            return !(null != e && e.asCID === e);
                             var t;
                         };
                         class Yn {
@@ -3497,22 +3483,22 @@
                             const r = await t.encoder.encode(e, t), n = await t.channel.request(r);
                             return await t.decoder.decode(n);
                         };
-                        var ti = function e(t, r, n) {
-                            if (Number.MAX_SAFE_INTEGER && t > Number.MAX_SAFE_INTEGER) throw e.bytes = 0, RangeError("Could not encode varint");
-                            r = r || [];
-                            for(var o = n = n || 0; t >= ri;)r[n++] = 255 & t | 128, t /= 128;
-                            for(; -128 & t;)r[n++] = 255 & t | 128, t >>>= 7;
-                            return r[n] = 0 | t, e.bytes = n - o + 1, r;
-                        }, ri = Math.pow(2, 31), ni = function e(t, r) {
-                            var n, o = 0, i = 0, s = r = r || 0, a = t.length;
-                            do {
-                                if (s >= a || i > 49) throw e.bytes = 0, RangeError("Could not decode varint");
-                                n = t[s++], o += i < 28 ? (127 & n) << i : (127 & n) * Math.pow(2, i), i += 7;
-                            }while (n >= 128)
-                            return e.bytes = s - r, o;
-                        }, oi = Math.pow(2, 7), ii = Math.pow(2, 14), si = Math.pow(2, 21), ai = Math.pow(2, 28), ci = Math.pow(2, 35), ui = Math.pow(2, 42), hi = Math.pow(2, 49), fi = Math.pow(2, 56), di = Math.pow(2, 63), li = {
-                            encode: ti,
-                            decode: ni,
+                        var ri = Math.pow(2, 31), oi = Math.pow(2, 7), ii = Math.pow(2, 14), si = Math.pow(2, 21), ai = Math.pow(2, 28), ci = Math.pow(2, 35), ui = Math.pow(2, 42), hi = Math.pow(2, 49), fi = Math.pow(2, 56), di = Math.pow(2, 63), li = {
+                            encode: function e(t, r, n) {
+                                if (Number.MAX_SAFE_INTEGER && t > Number.MAX_SAFE_INTEGER) throw e.bytes = 0, RangeError("Could not encode varint");
+                                r = r || [];
+                                for(var o = n = n || 0; t >= ri;)r[n++] = 255 & t | 128, t /= 128;
+                                for(; -128 & t;)r[n++] = 255 & t | 128, t >>>= 7;
+                                return r[n] = 0 | t, e.bytes = n - o + 1, r;
+                            },
+                            decode: function e(t, r) {
+                                var n, o = 0, i = 0, s = r = r || 0, a = t.length;
+                                do {
+                                    if (s >= a || i > 49) throw e.bytes = 0, RangeError("Could not decode varint");
+                                    n = t[s++], o += i < 28 ? (127 & n) << i : (127 & n) * Math.pow(2, i), i += 7;
+                                }while (n >= 128)
+                                return e.bytes = s - r, o;
+                            },
                             encodingLength: function(e) {
                                 return e < oi ? 1 : e < ii ? 2 : e < si ? 3 : e < ai ? 4 : e < ci ? 5 : e < ui ? 6 : e < hi ? 7 : e < fi ? 8 : e < di ? 9 : 10;
                             }
@@ -3521,18 +3507,6 @@
                             float64: !1,
                             quickEncodeToken: dr
                         };
-                        function yi(e, t = pi, r = wi) {
-                            if (Array.isArray(e)) {
-                                let n = 0;
-                                for (const o of e)n += yi(o, t, r);
-                                return n;
-                            }
-                            {
-                                const n1 = t[e.type.major];
-                                if (void 0 === n1.encodedSize || "function" != typeof n1.encodedSize) throw Error(`Encoder for ${e.type.name} does not have an encodedSize()`);
-                                return n1.encodedSize(e, r);
-                            }
-                        }
                         class gi {
                             constructor(e, t){
                                 this.bytes = e, this.byteOffset = t, this.roots = [], this.headerSize = t;
@@ -3591,7 +3565,18 @@
                             for (const r of e)t.push(Ai), t.push(new ht(ut.bytes, {
                                 length: r + 1
                             }));
-                            const r1 = yi(t);
+                            const r1 = function yi(e, t = pi, r = wi) {
+                                if (Array.isArray(e)) {
+                                    let n = 0;
+                                    for (const o of e)n += yi(o, t, r);
+                                    return n;
+                                }
+                                {
+                                    const n1 = t[e.type.major];
+                                    if (void 0 === n1.encodedSize || "function" != typeof n1.encodedSize) throw Error(`Encoder for ${e.type.name} does not have an encodedSize()`);
+                                    return n1.encodedSize(e, r);
+                                }
+                            }(t);
                             return li.encodingLength(r1) + r1;
                         }, Ci = ({ roots: e  })=>Ii(e.map((e)=>e.bytes.byteLength)), Oi = {
                             Null: (e)=>null === e,
@@ -3615,7 +3600,7 @@
                                     "version"
                                 ].every((e)=>t.includes(e)) && Object.entries(e).every(([e, t])=>Ri["CarHeader > " + e] && Ri["CarHeader > " + e](t));
                             }
-                        }, $i = Ri.CarHeader, Ti = 18, Ui = 32, _i = 112;
+                        }, $i = Ri.CarHeader;
                         async function Ni(e) {
                             const t = await e.upTo(8);
                             if (!t.length) throw Error("Unexpected end of data");
@@ -3654,11 +3639,11 @@
                         }
                         async function zi(e) {
                             const t = await e.exactly(2);
-                            if (t[0] === Ti && t[1] === Ui) {
+                            if (18 === t[0] && 32 === t[1]) {
                                 const t1 = await e.exactly(34);
                                 e.seek(34);
                                 const r = ce(t1);
-                                return Ee.create(0, _i, r);
+                                return Ee.create(0, 112, r);
                             }
                             const r1 = await Ni(e);
                             if (1 !== r1) throw Error(`Unexpected CID version (${r1})`);
@@ -3696,81 +3681,6 @@
                                 blockOffset: e.pos
                             };
                             return e.seek(i.blockLength), i;
-                        }
-                        function Mi(e) {
-                            const t = (async ()=>{
-                                const t = await ji(e);
-                                if (2 === t.version) {
-                                    const r = e.pos - t.dataOffset;
-                                    e = function(e, t) {
-                                        let r = 0;
-                                        return {
-                                            async upTo (n) {
-                                                let o = await e.upTo(n);
-                                                return o.length + r > t && (o = o.subarray(0, t - r)), o;
-                                            },
-                                            async exactly (n) {
-                                                const o = await e.exactly(n);
-                                                if (o.length + r > t) throw Error("Unexpected end of data");
-                                                return o;
-                                            },
-                                            seek (t) {
-                                                r += t, e.seek(t);
-                                            },
-                                            get pos () {
-                                                return e.pos;
-                                            }
-                                        };
-                                    }(e, t.dataSize - r);
-                                }
-                                return t;
-                            })();
-                            return {
-                                header: ()=>t,
-                                async *blocks () {
-                                    for(await t; (await e.upTo(8)).length > 0;)yield await Pi(e);
-                                },
-                                async *blocksIndex () {
-                                    for(await t; (await e.upTo(8)).length > 0;)yield await Li(e);
-                                }
-                            };
-                        }
-                        function Vi(e) {
-                            const t = e[Symbol.asyncIterator]();
-                            return function(e) {
-                                let t = 0, r = 0, n = 0, o = new Uint8Array(0);
-                                const i = async (t)=>{
-                                    r = o.length - n;
-                                    const i = [
-                                        o.subarray(n)
-                                    ];
-                                    for(; r < t;){
-                                        const t1 = await e();
-                                        if (null == t1) break;
-                                        r < 0 ? t1.length > r && i.push(t1.subarray(-r)) : i.push(t1), r += t1.length;
-                                    }
-                                    o = new Uint8Array(i.reduce((e, t)=>e + t.length, 0));
-                                    let s = 0;
-                                    for (const e1 of i)o.set(e1, s), s += e1.length;
-                                    n = 0;
-                                };
-                                return {
-                                    upTo: async (e)=>(o.length - n < e && await i(e), o.subarray(n, n + Math.min(o.length - n, e))),
-                                    async exactly (e) {
-                                        if (o.length - n < e && await i(e), o.length - n < e) throw Error("Unexpected end of data");
-                                        return o.subarray(n, n + e);
-                                    },
-                                    seek (e) {
-                                        t += e, n += e;
-                                    },
-                                    get pos () {
-                                        return t;
-                                    }
-                                };
-                            }(async function() {
-                                const e = await t.next();
-                                return e.done ? null : e.value;
-                            });
                         }
                         class Wi {
                             constructor(e, t){
@@ -3816,11 +3726,84 @@
                             }
                             static async fromIterable(e) {
                                 if (!e || "function" != typeof e[Symbol.asyncIterator]) throw TypeError("fromIterable() requires an async iterable");
-                                return Fi(Vi(e));
+                                return Fi(function(e) {
+                                    const t = e[Symbol.asyncIterator]();
+                                    return function(e) {
+                                        let t = 0, r = 0, n = 0, o = new Uint8Array(0);
+                                        const i = async (t)=>{
+                                            r = o.length - n;
+                                            const i = [
+                                                o.subarray(n)
+                                            ];
+                                            for(; r < t;){
+                                                const t1 = await e();
+                                                if (null == t1) break;
+                                                r < 0 ? t1.length > r && i.push(t1.subarray(-r)) : i.push(t1), r += t1.length;
+                                            }
+                                            o = new Uint8Array(i.reduce((e, t)=>e + t.length, 0));
+                                            let s = 0;
+                                            for (const e1 of i)o.set(e1, s), s += e1.length;
+                                            n = 0;
+                                        };
+                                        return {
+                                            upTo: async (e)=>(o.length - n < e && await i(e), o.subarray(n, n + Math.min(o.length - n, e))),
+                                            async exactly (e) {
+                                                if (o.length - n < e && await i(e), o.length - n < e) throw Error("Unexpected end of data");
+                                                return o.subarray(n, n + e);
+                                            },
+                                            seek (e) {
+                                                t += e, n += e;
+                                            },
+                                            get pos () {
+                                                return t;
+                                            }
+                                        };
+                                    }(async function() {
+                                        const e = await t.next();
+                                        return e.done ? null : e.value;
+                                    });
+                                }(e));
                             }
                         }
                         async function Fi(e) {
-                            const t = Mi(e), r = await t.header(), n = [];
+                            const t = function(e) {
+                                const t = (async ()=>{
+                                    const t = await ji(e);
+                                    if (2 === t.version) {
+                                        const r = e.pos - t.dataOffset;
+                                        e = function(e, t) {
+                                            let r = 0;
+                                            return {
+                                                async upTo (n) {
+                                                    let o = await e.upTo(n);
+                                                    return o.length + r > t && (o = o.subarray(0, t - r)), o;
+                                                },
+                                                async exactly (n) {
+                                                    const o = await e.exactly(n);
+                                                    if (o.length + r > t) throw Error("Unexpected end of data");
+                                                    return o;
+                                                },
+                                                seek (t) {
+                                                    r += t, e.seek(t);
+                                                },
+                                                get pos () {
+                                                    return e.pos;
+                                                }
+                                            };
+                                        }(e, t.dataSize - r);
+                                    }
+                                    return t;
+                                })();
+                                return {
+                                    header: ()=>t,
+                                    async *blocks () {
+                                        for(await t; (await e.upTo(8)).length > 0;)yield await Pi(e);
+                                    },
+                                    async *blocksIndex () {
+                                        for(await t; (await e.upTo(8)).length > 0;)yield await Li(e);
+                                    }
+                                };
+                            }(e), r = await t.header(), n = [];
                             for await (const e1 of t.blocks())n.push(e1);
                             return new Wi(r, n);
                         }
@@ -3963,10 +3946,10 @@
                         });
                         const rs = Object.freeze({
                             "content-type": "application/cbor"
-                        }), ns = ts;
+                        });
                         var os = Object.freeze({
                             __proto__: null,
-                            codec: ns,
+                            codec: ts,
                             encode: (e)=>({
                                     headers: rs,
                                     body: Yi(e)
@@ -4081,11 +4064,11 @@
                                     if (e.byteLength !== nt) throw Error(`Expected Uint8Array with byteLength of ${nt} instead not ${e.byteLength}`);
                                     {
                                         const [t] = ne(e);
-                                        if (t !== Ye) throw Error("Given bytes must be a multiformat with 4864 tag");
+                                        if (4864 !== t) throw Error("Given bytes must be a multiformat with 4864 tag");
                                     }
                                     {
-                                        const [t1] = ne(e.subarray(et + rt));
-                                        if (t1 !== Fe) throw Error("Given bytes must contain public key in multiformats with 237 tag");
+                                        const [t1] = ne(e.subarray(et + 32));
+                                        if (237 !== t1) throw Error("Given bytes must contain public key in multiformats with 237 tag");
                                     }
                                     return new it(e);
                                 })(Xe.decode(n));
@@ -4183,44 +4166,44 @@
                         }
                     }, d = async ()=>{
                         s(o.exports.AuthStatus.SignedOut), c(void 0);
-                    }, l = {
-                        authStatus: r,
-                        identity: a,
-                        loadDefaultIdentity: async ()=>{
-                            const e = await o.exports.loadDefaultIdentity();
-                            if (null != e) {
-                                if (c(e), e.verified) return void s(o.exports.AuthStatus.SignedIn);
-                                await f(e);
-                            }
-                        },
-                        unloadIdentity: d,
-                        unloadAndRemoveIdentity: async ()=>{
-                            if (null == a) throw Error("missing current identity");
-                            await Promise.all([
-                                o.exports.removeIdentity(a),
-                                d()
-                            ]);
-                        },
-                        registerAndStoreIdentity: async (e)=>{
-                            let t;
-                            if (null != a) {
-                                if (a.email !== e) throw Error("unload current identity before registering a new one");
-                                t = a;
-                            } else t = await o.exports.loadIdentity({
-                                email: e
-                            }), null == t && (t = await o.exports.createIdentity({
-                                email: e
-                            }), await o.exports.storeIdentity(t));
-                            if (c(t), t.verified) return void s(o.exports.AuthStatus.SignedIn);
-                            const r = t;
-                            await o.exports.sendVerificationEmail(r), await f(r);
-                        },
-                        cancelRegisterAndStoreIdentity: ()=>{
-                            null != u && u.abort();
-                        }
                     };
                     return n.default.createElement(i.Provider, {
-                        value: l
+                        value: {
+                            authStatus: r,
+                            identity: a,
+                            loadDefaultIdentity: async ()=>{
+                                const e = await o.exports.loadDefaultIdentity();
+                                if (null != e) {
+                                    if (c(e), e.verified) return void s(o.exports.AuthStatus.SignedIn);
+                                    await f(e);
+                                }
+                            },
+                            unloadIdentity: d,
+                            unloadAndRemoveIdentity: async ()=>{
+                                if (null == a) throw Error("missing current identity");
+                                await Promise.all([
+                                    o.exports.removeIdentity(a),
+                                    d()
+                                ]);
+                            },
+                            registerAndStoreIdentity: async (e)=>{
+                                let t;
+                                if (null != a) {
+                                    if (a.email !== e) throw Error("unload current identity before registering a new one");
+                                    t = a;
+                                } else t = await o.exports.loadIdentity({
+                                    email: e
+                                }), null == t && (t = await o.exports.createIdentity({
+                                    email: e
+                                }), await o.exports.storeIdentity(t));
+                                if (c(t), t.verified) return void s(o.exports.AuthStatus.SignedIn);
+                                const r = t;
+                                await o.exports.sendVerificationEmail(r), await f(r);
+                            },
+                            cancelRegisterAndStoreIdentity: ()=>{
+                                null != u && u.abort();
+                            }
+                        }
                     }, e);
                 }, e.AuthStatus = o.exports.AuthStatus, e.Identity = o.exports.Identity, e.useAuth = function() {
                     return t.useContext(i);

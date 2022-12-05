@@ -6,11 +6,10 @@
         932: function(__unused_webpack_module, exports) {
             "use strict";
             var __webpack_unused_export__;
-            __webpack_unused_export__ = {
+            ({
                 value: true
-            };
-            exports.Z = _asyncToGenerator;
-            function _asyncToGenerator(fn) {
+            });
+            exports.Z = function(fn) {
                 return function() {
                     var self1 = this, args = arguments;
                     return new Promise(function(resolve, reject) {
@@ -24,7 +23,7 @@
                         _next(void 0);
                     });
                 };
-            }
+            };
             function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
                 try {
                     var info = gen[key](arg);
@@ -40,13 +39,12 @@
         6495: function(__unused_webpack_module, exports) {
             "use strict";
             var __webpack_unused_export__;
-            __webpack_unused_export__ = {
+            ({
                 value: true
-            };
-            exports.Z = _extends;
-            function _extends() {
+            });
+            exports.Z = function() {
                 return extends_.apply(this, arguments);
-            }
+            };
             function extends_() {
                 extends_ = Object.assign || function(target) {
                     for(var i = 1; i < arguments.length; i++){
@@ -61,24 +59,22 @@
         2648: function(__unused_webpack_module, exports) {
             "use strict";
             var __webpack_unused_export__;
-            __webpack_unused_export__ = {
+            ({
                 value: true
-            };
-            exports.Z = _interopRequireDefault;
-            function _interopRequireDefault(obj) {
+            });
+            exports.Z = function(obj) {
                 return obj && obj.__esModule ? obj : {
                     default: obj
                 };
-            }
+            };
         },
         1598: function(__unused_webpack_module, exports) {
             "use strict";
             var __webpack_unused_export__;
-            __webpack_unused_export__ = {
+            ({
                 value: true
-            };
-            exports.Z = _interopRequireWildcard;
-            function _interopRequireWildcard(obj, nodeInterop) {
+            });
+            exports.Z = function(obj, nodeInterop) {
                 if (!nodeInterop && obj && obj.__esModule) {
                     return obj;
                 }
@@ -101,7 +97,7 @@
                 newObj.default = obj;
                 if (cache) cache.set(obj, newObj);
                 return newObj;
-            }
+            };
             function _getRequireWildcardCache(nodeInterop1) {
                 if ("function" != typeof WeakMap) return null;
                 var cacheBabelInterop = new WeakMap();
@@ -114,11 +110,10 @@
         7273: function(__unused_webpack_module, exports) {
             "use strict";
             var __webpack_unused_export__;
-            __webpack_unused_export__ = {
+            ({
                 value: true
-            };
-            exports.Z = _objectWithoutPropertiesLoose;
-            function _objectWithoutPropertiesLoose(source, excluded) {
+            });
+            exports.Z = function(source, excluded) {
                 if (null == source) return {};
                 var target = {};
                 var sourceKeys = Object.keys(source);
@@ -128,7 +123,7 @@
                     if (!(excluded.indexOf(key) >= 0)) target[key] = source[key];
                 }
                 return target;
-            }
+            };
         },
         37: function() {
             "trimStart" in String.prototype || (String.prototype.trimStart = String.prototype.trimLeft), "trimEnd" in String.prototype || (String.prototype.trimEnd = String.prototype.trimRight), "description" in Symbol.prototype || Object.defineProperty(Symbol.prototype, "description", {
@@ -164,14 +159,12 @@
             Object.defineProperty(exports, "__esModule", {
                 value: true
             });
-            exports.addBasePath = addBasePath;
+            exports.addBasePath = function(path, required) {
+                if (false) ;
+                return _normalizeTrailingSlash.normalizePathTrailingSlash(_addPathPrefix.addPathPrefix(path, ""));
+            };
             var _addPathPrefix = __webpack_require__(4135);
             var _normalizeTrailingSlash = __webpack_require__(2700);
-            const basePath = "";
-            function addBasePath(path, required) {
-                if (false) ;
-                return _normalizeTrailingSlash.normalizePathTrailingSlash(_addPathPrefix.addPathPrefix(path, basePath));
-            }
             if (("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule) {
                 Object.defineProperty(exports.default, "__esModule", {
                     value: true
@@ -187,12 +180,11 @@
             });
             exports.addLocale = void 0;
             var _normalizeTrailingSlash = __webpack_require__(2700);
-            const addLocale = function(path) {
+            exports.addLocale = function(path) {
                 for(var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)args[_key - 1] = arguments[_key];
                 if (false) ;
                 return path;
             };
-            exports.addLocale = addLocale;
             if (("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule) {
                 Object.defineProperty(exports.default, "__esModule", {
                     value: true
@@ -207,11 +199,10 @@
                 value: true
             });
             exports.detectDomainLocale = void 0;
-            const detectDomainLocale = function() {
+            exports.detectDomainLocale = function() {
                 for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                 if (false) ;
             };
-            exports.detectDomainLocale = detectDomainLocale;
             if (("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule) {
                 Object.defineProperty(exports.default, "__esModule", {
                     value: true
@@ -225,12 +216,10 @@
             Object.defineProperty(exports, "__esModule", {
                 value: true
             });
-            exports.hasBasePath = hasBasePath;
+            exports.hasBasePath = function(path) {
+                return _pathHasPrefix.pathHasPrefix(path, "");
+            };
             var _pathHasPrefix = __webpack_require__(3210);
-            const basePath = "";
-            function hasBasePath(path) {
-                return _pathHasPrefix.pathHasPrefix(path, basePath);
-            }
             if (("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule) {
                 Object.defineProperty(exports.default, "__esModule", {
                     value: true
@@ -244,10 +233,7 @@
             Object.defineProperty(exports, "__esModule", {
                 value: true
             });
-            exports["default"] = initHeadManager;
-            exports.isEqualNode = isEqualNode;
-            exports.DOMAttributeNames = void 0;
-            function initHeadManager() {
+            exports["default"] = function() {
                 return {
                     mountedInstances: new Set(),
                     updateHead: (head)=>{
@@ -278,11 +264,39 @@
                             "style",
                             "script"
                         ].forEach((type)=>{
-                            updateElements(type, tags[type] || []);
+                            (function(type, components) {
+                                const headEl = document.getElementsByTagName("head")[0];
+                                const headCountEl = headEl.querySelector("meta[name=next-head-count]");
+                                if (false) ;
+                                const headCount = Number(headCountEl.content);
+                                const oldTags = [];
+                                for(let i = 0, j = headCountEl.previousElementSibling; i < headCount; i++, j = (null == j ? void 0 : j.previousElementSibling) || null){
+                                    var ref;
+                                    if ((null == j ? void 0 : null == (ref = j.tagName) ? void 0 : ref.toLowerCase()) === type) oldTags.push(j);
+                                }
+                                const newTags = components.map(reactElementToDOM).filter((newTag)=>{
+                                    for(let k = 0, len = oldTags.length; k < len; k++){
+                                        const oldTag = oldTags[k];
+                                        if (isEqualNode(oldTag, newTag)) {
+                                            oldTags.splice(k, 1);
+                                            return false;
+                                        }
+                                    }
+                                    return true;
+                                });
+                                oldTags.forEach((t)=>{
+                                    var ref;
+                                    return null == (ref = t.parentNode) ? void 0 : ref.removeChild(t);
+                                });
+                                newTags.forEach((t)=>headEl.insertBefore(t, headCountEl));
+                                headCountEl.content = (headCount - oldTags.length + newTags.length).toString();
+                            })(type, tags[type] || []);
                         });
                     }
                 };
-            }
+            };
+            exports.isEqualNode = isEqualNode;
+            exports.DOMAttributeNames = void 0;
             const DOMAttributeNames = {
                 acceptCharset: "accept-charset",
                 className: "class",
@@ -319,33 +333,6 @@
                 }
                 return oldTag.isEqualNode(newTag);
             }
-            function updateElements(type, components) {
-                const headEl = document.getElementsByTagName("head")[0];
-                const headCountEl = headEl.querySelector("meta[name=next-head-count]");
-                if (false) ;
-                const headCount = Number(headCountEl.content);
-                const oldTags = [];
-                for(let i = 0, j = headCountEl.previousElementSibling; i < headCount; i++, j = (null == j ? void 0 : j.previousElementSibling) || null){
-                    var ref;
-                    if ((null == j ? void 0 : null == (ref = j.tagName) ? void 0 : ref.toLowerCase()) === type) oldTags.push(j);
-                }
-                const newTags = components.map(reactElementToDOM).filter((newTag)=>{
-                    for(let k = 0, len = oldTags.length; k < len; k++){
-                        const oldTag = oldTags[k];
-                        if (isEqualNode(oldTag, newTag)) {
-                            oldTags.splice(k, 1);
-                            return false;
-                        }
-                    }
-                    return true;
-                });
-                oldTags.forEach((t)=>{
-                    var ref;
-                    return null == (ref = t.parentNode) ? void 0 : ref.removeChild(t);
-                });
-                newTags.forEach((t)=>headEl.insertBefore(t, headCountEl));
-                headCountEl.content = (headCount - oldTags.length + newTags.length).toString();
-            }
             if (("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule) {
                 Object.defineProperty(exports.default, "__esModule", {
                     value: true
@@ -363,8 +350,12 @@
             Object.defineProperty(exports, "__esModule", {
                 value: true
             });
-            exports.initialize = initialize;
-            exports.hydrate = hydrate;
+            exports.initialize = function() {
+                return _initialize.apply(this, arguments);
+            };
+            exports.hydrate = function(opts) {
+                return _hydrate.apply(this, arguments);
+            };
             exports.emitter = exports.router = exports.version = void 0;
             var _async_to_generator = __webpack_require__(932).Z;
             var _extends = __webpack_require__(6495).Z;
@@ -393,8 +384,7 @@
             var _appRouterContext = __webpack_require__(8245);
             var _adapters = __webpack_require__(401);
             var _hooksClientContext = __webpack_require__(8914);
-            const version = "13.0.3";
-            exports.version = version;
+            exports.version = "13.0.3";
             let router;
             exports.router = router;
             const emitter = _mitt.default();
@@ -442,9 +432,6 @@
                         return this.props.children;
                     }
                 }
-            }
-            function initialize() {
-                return _initialize.apply(this, arguments);
             }
             function _initialize() {
                 _initialize = _async_to_generator(function*() {
@@ -630,19 +617,6 @@
                     "Next.js-render"
                 ].forEach((measure)=>performance.clearMeasures(measure));
             }
-            function renderReactElement(domEl, fn) {
-                if (_utils.ST) performance.mark("beforeRender");
-                const reactEl = fn(shouldHydrate ? markHydrateComplete : markRenderComplete);
-                if (reactRoot) {
-                    const startTransition = _react.default.startTransition;
-                    startTransition(()=>{
-                        reactRoot.render(reactEl);
-                    });
-                } else {
-                    reactRoot = _client.default.hydrateRoot(domEl, reactEl);
-                    shouldHydrate = false;
-                }
-            }
             function Root(param) {
                 let { callbacks , children  } = param;
                 _react.default.useLayoutEffect(()=>callbacks.forEach((callback)=>callback()), [
@@ -681,7 +655,10 @@
                         reject(error);
                     };
                 });
-                function onStart() {
+                function onRootCommit() {
+                    resolvePromise();
+                }
+                (function() {
                     if (!styleSheets) {
                         return false;
                     }
@@ -701,45 +678,52 @@
                         }
                     });
                     return true;
-                }
-                function onHeadCommit() {
-                    if (styleSheets && !canceled) {
-                        const desiredHrefs = new Set(styleSheets.map((s)=>s.href));
-                        const currentStyleTags = looseToArray(document.querySelectorAll("style[data-n-href]"));
-                        const currentHrefs = currentStyleTags.map((tag)=>tag.getAttribute("data-n-href"));
-                        for(let idx = 0; idx < currentHrefs.length; ++idx)if (desiredHrefs.has(currentHrefs[idx])) currentStyleTags[idx].removeAttribute("media");
-                        else currentStyleTags[idx].setAttribute("media", "x");
-                        let referenceNode = document.querySelector("noscript[data-n-css]");
-                        if (referenceNode) styleSheets.forEach((param)=>{
-                            let { href  } = param;
-                            const targetTag = document.querySelector('style[data-n-href="'.concat(href, '"]'));
-                            if (targetTag) {
-                                referenceNode.parentNode.insertBefore(targetTag, referenceNode.nextSibling);
-                                referenceNode = targetTag;
-                            }
-                        });
-                        looseToArray(document.querySelectorAll("link[data-n-p]")).forEach((el)=>{
-                            el.parentNode.removeChild(el);
-                        });
-                    }
-                    if (input.scroll) {
-                        const htmlElement = document.documentElement;
-                        const existing = htmlElement.style.scrollBehavior;
-                        htmlElement.style.scrollBehavior = "auto";
-                        window.scrollTo(input.scroll.x, input.scroll.y);
-                        htmlElement.style.scrollBehavior = existing;
-                    }
-                }
-                function onRootCommit() {
-                    resolvePromise();
-                }
-                onStart();
+                })();
                 const elem = _react.default.createElement(_react.default.Fragment, null, _react.default.createElement(Head, {
-                    callback: onHeadCommit
+                    callback: function() {
+                        if (styleSheets && !canceled) {
+                            const desiredHrefs = new Set(styleSheets.map((s)=>s.href));
+                            const currentStyleTags = looseToArray(document.querySelectorAll("style[data-n-href]"));
+                            const currentHrefs = currentStyleTags.map((tag)=>tag.getAttribute("data-n-href"));
+                            for(let idx = 0; idx < currentHrefs.length; ++idx)if (desiredHrefs.has(currentHrefs[idx])) currentStyleTags[idx].removeAttribute("media");
+                            else currentStyleTags[idx].setAttribute("media", "x");
+                            let referenceNode = document.querySelector("noscript[data-n-css]");
+                            if (referenceNode) styleSheets.forEach((param)=>{
+                                let { href  } = param;
+                                const targetTag = document.querySelector('style[data-n-href="'.concat(href, '"]'));
+                                if (targetTag) {
+                                    referenceNode.parentNode.insertBefore(targetTag, referenceNode.nextSibling);
+                                    referenceNode = targetTag;
+                                }
+                            });
+                            looseToArray(document.querySelectorAll("link[data-n-p]")).forEach((el)=>{
+                                el.parentNode.removeChild(el);
+                            });
+                        }
+                        if (input.scroll) {
+                            const htmlElement = document.documentElement;
+                            const existing = htmlElement.style.scrollBehavior;
+                            htmlElement.style.scrollBehavior = "auto";
+                            window.scrollTo(input.scroll.x, input.scroll.y);
+                            htmlElement.style.scrollBehavior = existing;
+                        }
+                    }
                 }), _react.default.createElement(AppContainer, null, renderApp(App, appProps), _react.default.createElement(_portal.Portal, {
                     type: "next-route-announcer"
                 }, _react.default.createElement(_routeAnnouncer.RouteAnnouncer, null))));
-                renderReactElement(appElement, (callback)=>_react.default.createElement(Root, {
+                (function(domEl, fn) {
+                    if (_utils.ST) performance.mark("beforeRender");
+                    const reactEl = fn(shouldHydrate ? markHydrateComplete : markRenderComplete);
+                    if (reactRoot) {
+                        const startTransition = _react.default.startTransition;
+                        startTransition(()=>{
+                            reactRoot.render(reactEl);
+                        });
+                    } else {
+                        reactRoot = _client.default.hydrateRoot(domEl, reactEl);
+                        shouldHydrate = false;
+                    }
+                })(appElement, (callback)=>_react.default.createElement(Root, {
                         callbacks: [
                             callback,
                             onRootCommit
@@ -770,9 +754,6 @@
                     }
                 });
                 return _render.apply(this, arguments);
-            }
-            function hydrate(opts) {
-                return _hydrate.apply(this, arguments);
             }
             function _hydrate() {
                 _hydrate = _async_to_generator(function*(opts) {
@@ -908,7 +889,7 @@
             var _parseRelativeUrl = __webpack_require__(2864);
             var _removeTrailingSlash = __webpack_require__(12);
             var _routeLoader = __webpack_require__(2497);
-            class PageLoader {
+            exports["default"] = class PageLoader {
                 getPageList() {
                     if (true) {
                         return _routeLoader.getClientBuildManifest().then((manifest)=>manifest.sortedPages);
@@ -916,8 +897,7 @@
                 }
                 getMiddleware() {
                     if (true) {
-                        const middlewareMatchers = [];
-                        window.__MIDDLEWARE_MATCHERS = middlewareMatchers || void 0;
+                        window.__MIDDLEWARE_MATCHERS = [] || void 0;
                         return window.__MIDDLEWARE_MATCHERS;
                     }
                 }
@@ -929,11 +909,10 @@
                     if ("/" !== route[0]) {
                         throw Error('Route name should start with a "/", got "'.concat(route, '"'));
                     }
-                    const getHrefForSlug = (path)=>{
+                    return ((path)=>{
                         const dataRoute = _getAssetPathFromRoute.default(_removeTrailingSlash.removeTrailingSlash(_addLocale.addLocale(path, locale)), ".json");
                         return _addBasePath.addBasePath("/_next/data/".concat(this.buildId).concat(dataRoute).concat(search), true);
-                    };
-                    return getHrefForSlug(params.skipInterpolation ? asPathname : _isDynamic.isDynamicRoute(route) ? _router.interpolateAs(hrefPathname, asPathname, query).result : route);
+                    })(params.skipInterpolation ? asPathname : _isDynamic.isDynamicRoute(route) ? _router.interpolateAs(hrefPathname, asPathname, query).result : route);
                 }
                 _isSsg(route) {
                     return this.promisedSsgManifest.then((manifest)=>manifest.has(route));
@@ -967,8 +946,7 @@
                         };
                     });
                 }
-            }
-            exports["default"] = PageLoader;
+            };
             if (("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule) {
                 Object.defineProperty(exports.default, "__esModule", {
                     value: true
@@ -1062,15 +1040,13 @@
             Object.defineProperty(exports, "__esModule", {
                 value: true
             });
-            exports.removeBasePath = removeBasePath;
-            var _hasBasePath = __webpack_require__(928);
-            const basePath = "";
-            function removeBasePath(path) {
+            exports.removeBasePath = function(path) {
                 if (false) ;
-                path = path.slice(basePath.length);
+                path = path.slice(0);
                 if (!path.startsWith("/")) path = "/".concat(path);
                 return path;
-            }
+            };
+            var _hasBasePath = __webpack_require__(928);
             if (("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule) {
                 Object.defineProperty(exports.default, "__esModule", {
                     value: true
@@ -1084,12 +1060,11 @@
             Object.defineProperty(exports, "__esModule", {
                 value: true
             });
-            exports.removeLocale = removeLocale;
-            var _parsePath = __webpack_require__(6727);
-            function removeLocale(path, locale) {
+            exports.removeLocale = function(path, locale) {
                 if (false) ;
                 return path;
-            }
+            };
+            var _parsePath = __webpack_require__(6727);
             if (("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule) {
                 Object.defineProperty(exports.default, "__esModule", {
                     value: true
@@ -1174,8 +1149,7 @@
                 }, routeAnnouncement);
             };
             exports.RouteAnnouncer = RouteAnnouncer;
-            var _default = RouteAnnouncer;
-            exports["default"] = _default;
+            exports["default"] = RouteAnnouncer;
             if (("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule) {
                 Object.defineProperty(exports.default, "__esModule", {
                     value: true
@@ -1190,118 +1164,11 @@
                 value: true
             });
             exports.markAssetError = markAssetError;
-            exports.isAssetError = isAssetError;
-            exports.getClientBuildManifest = getClientBuildManifest;
-            exports.createRouteLoader = createRouteLoader;
-            var _interop_require_default = __webpack_require__(2648).Z;
-            var _getAssetPathFromRoute = _interop_require_default(__webpack_require__(7929));
-            var _trustedTypes = __webpack_require__(5407);
-            var _requestIdleCallback = __webpack_require__(4686);
-            const MS_MAX_IDLE_DELAY = 3800;
-            function withFuture(key, map, generator) {
-                let entry = map.get(key);
-                if (entry) {
-                    if ("future" in entry) {
-                        return entry.future;
-                    }
-                    return Promise.resolve(entry);
-                }
-                let resolver;
-                const prom = new Promise((resolve)=>{
-                    resolver = resolve;
-                });
-                map.set(key, entry = {
-                    resolve: resolver,
-                    future: prom
-                });
-                return generator ? generator().then((value)=>(resolver(value), value)).catch((err)=>{
-                    map.delete(key);
-                    throw err;
-                }) : prom;
-            }
-            const ASSET_LOAD_ERROR = Symbol("ASSET_LOAD_ERROR");
-            function markAssetError(err) {
-                return Object.defineProperty(err, ASSET_LOAD_ERROR, {});
-            }
-            function isAssetError(err) {
+            exports.isAssetError = function(err) {
                 return err && ASSET_LOAD_ERROR in err;
-            }
-            function hasPrefetch(link) {
-                try {
-                    link = document.createElement("link");
-                    return !!window.MSInputMethodContext && !!document.documentMode || link.relList.supports("prefetch");
-                } catch (e) {
-                    return false;
-                }
-            }
-            const canPrefetch = hasPrefetch();
-            function prefetchViaDom(href, as, link) {
-                return new Promise((resolve, reject)=>{
-                    const selector = '\n      link[rel="prefetch"][href^="'.concat(href, '"],\n      link[rel="preload"][href^="').concat(href, '"],\n      script[src^="').concat(href, '"]');
-                    if (document.querySelector(selector)) {
-                        return resolve();
-                    }
-                    link = document.createElement("link");
-                    if (as) link.as = as;
-                    link.rel = "prefetch";
-                    link.crossOrigin = void 0;
-                    link.onload = resolve;
-                    link.onerror = ()=>reject(markAssetError(Error("Failed to prefetch: ".concat(href))));
-                    link.href = href;
-                    document.head.appendChild(link);
-                });
-            }
-            function appendScript(src, script) {
-                return new Promise((resolve, reject)=>{
-                    script = document.createElement("script");
-                    script.onload = resolve;
-                    script.onerror = ()=>reject(markAssetError(Error("Failed to load script: ".concat(src))));
-                    script.crossOrigin = void 0;
-                    script.src = src;
-                    document.body.appendChild(script);
-                });
-            }
-            let devBuildPromise;
-            function resolvePromiseWithTimeout(p, ms, err) {
-                return new Promise((resolve, reject)=>{
-                    let cancelled = false;
-                    p.then((r)=>{
-                        cancelled = true;
-                        resolve(r);
-                    }).catch(reject);
-                    if (false) ;
-                    if (true) _requestIdleCallback.requestIdleCallback(()=>setTimeout(()=>{
-                            if (!cancelled) reject(err);
-                        }, ms));
-                });
-            }
-            function getClientBuildManifest() {
-                if (self.__BUILD_MANIFEST) {
-                    return Promise.resolve(self.__BUILD_MANIFEST);
-                }
-                const onBuildManifest = new Promise((resolve)=>{
-                    const cb = self.__BUILD_MANIFEST_CB;
-                    self.__BUILD_MANIFEST_CB = ()=>{
-                        resolve(self.__BUILD_MANIFEST);
-                        cb && cb();
-                    };
-                });
-                return resolvePromiseWithTimeout(onBuildManifest, MS_MAX_IDLE_DELAY, markAssetError(Error("Failed to load client build manifest")));
-            }
-            function getFilesForRoute(assetPrefix, route) {
-                if (false) ;
-                return getClientBuildManifest().then((manifest)=>{
-                    if (!(route in manifest)) {
-                        throw markAssetError(Error("Failed to lookup route: ".concat(route)));
-                    }
-                    const allFiles = manifest[route].map((entry)=>assetPrefix + "/_next/" + encodeURI(entry));
-                    return {
-                        scripts: allFiles.filter((v)=>v.endsWith(".js")).map((v)=>_trustedTypes.__unsafeCreateTrustedScriptURL(v)),
-                        css: allFiles.filter((v)=>v.endsWith(".css"))
-                    };
-                });
-            }
-            function createRouteLoader(assetPrefix) {
+            };
+            exports.getClientBuildManifest = getClientBuildManifest;
+            exports.createRouteLoader = function(assetPrefix) {
                 const entrypoints = new Map();
                 const loadedScripts = new Map();
                 const styleSheets = new Map();
@@ -1315,7 +1182,16 @@
                         if (document.querySelector('script[src^="'.concat(src, '"]'))) {
                             return Promise.resolve();
                         }
-                        loadedScripts.set(src.toString(), prom = appendScript(src));
+                        loadedScripts.set(src.toString(), prom = function(src, script) {
+                            return new Promise((resolve, reject)=>{
+                                script = document.createElement("script");
+                                script.onload = resolve;
+                                script.onerror = ()=>reject(markAssetError(Error("Failed to load script: ".concat(src))));
+                                script.crossOrigin = void 0;
+                                script.src = src;
+                                document.body.appendChild(script);
+                            });
+                        }(src));
                         return prom;
                     }
                 }
@@ -1376,7 +1252,7 @@
                                         entrypoint,
                                         styles: res[1]
                                     }));
-                            }), MS_MAX_IDLE_DELAY, markAssetError(Error("Route did not complete loading: ".concat(route)))).then((param)=>{
+                            }), 3800, markAssetError(Error("Route did not complete loading: ".concat(route)))).then((param)=>{
                                 let { entrypoint , styles  } = param;
                                 const res = Object.assign({
                                     styles: styles
@@ -1399,11 +1275,103 @@
                         if (cn = navigator.connection) {
                             if (cn.saveData || /2g/.test(cn.effectiveType)) return Promise.resolve();
                         }
-                        return getFilesForRoute(assetPrefix, route).then((output)=>Promise.all(canPrefetch ? output.scripts.map((script)=>prefetchViaDom(script.toString(), "script")) : [])).then(()=>{
+                        return getFilesForRoute(assetPrefix, route).then((output)=>Promise.all(canPrefetch ? output.scripts.map((script)=>(function(href, as, link) {
+                                    return new Promise((resolve, reject)=>{
+                                        const selector = '\n      link[rel="prefetch"][href^="'.concat(href, '"],\n      link[rel="preload"][href^="').concat(href, '"],\n      script[src^="').concat(href, '"]');
+                                        if (document.querySelector(selector)) {
+                                            return resolve();
+                                        }
+                                        link = document.createElement("link");
+                                        if (as) link.as = as;
+                                        link.rel = "prefetch";
+                                        link.crossOrigin = void 0;
+                                        link.onload = resolve;
+                                        link.onerror = ()=>reject(markAssetError(Error("Failed to prefetch: ".concat(href))));
+                                        link.href = href;
+                                        document.head.appendChild(link);
+                                    });
+                                })(script.toString(), "script")) : [])).then(()=>{
                             _requestIdleCallback.requestIdleCallback(()=>this.loadRoute(route, true).catch(()=>{}));
                         }).catch(()=>{});
                     }
                 };
+            };
+            var _interop_require_default = __webpack_require__(2648).Z;
+            var _getAssetPathFromRoute = _interop_require_default(__webpack_require__(7929));
+            var _trustedTypes = __webpack_require__(5407);
+            var _requestIdleCallback = __webpack_require__(4686);
+            function withFuture(key, map, generator) {
+                let entry = map.get(key);
+                if (entry) {
+                    if ("future" in entry) {
+                        return entry.future;
+                    }
+                    return Promise.resolve(entry);
+                }
+                let resolver;
+                const prom = new Promise((resolve)=>{
+                    resolver = resolve;
+                });
+                map.set(key, entry = {
+                    resolve: resolver,
+                    future: prom
+                });
+                return generator ? generator().then((value)=>(resolver(value), value)).catch((err)=>{
+                    map.delete(key);
+                    throw err;
+                }) : prom;
+            }
+            const ASSET_LOAD_ERROR = Symbol("ASSET_LOAD_ERROR");
+            function markAssetError(err) {
+                return Object.defineProperty(err, ASSET_LOAD_ERROR, {});
+            }
+            const canPrefetch = function(link) {
+                try {
+                    link = document.createElement("link");
+                    return !!window.MSInputMethodContext && !!document.documentMode || link.relList.supports("prefetch");
+                } catch (e) {
+                    return false;
+                }
+            }();
+            let devBuildPromise;
+            function resolvePromiseWithTimeout(p, ms, err) {
+                return new Promise((resolve, reject)=>{
+                    let cancelled = false;
+                    p.then((r)=>{
+                        cancelled = true;
+                        resolve(r);
+                    }).catch(reject);
+                    if (false) ;
+                    if (true) _requestIdleCallback.requestIdleCallback(()=>setTimeout(()=>{
+                            if (!cancelled) reject(err);
+                        }, ms));
+                });
+            }
+            function getClientBuildManifest() {
+                if (self.__BUILD_MANIFEST) {
+                    return Promise.resolve(self.__BUILD_MANIFEST);
+                }
+                const onBuildManifest = new Promise((resolve)=>{
+                    const cb = self.__BUILD_MANIFEST_CB;
+                    self.__BUILD_MANIFEST_CB = ()=>{
+                        resolve(self.__BUILD_MANIFEST);
+                        cb && cb();
+                    };
+                });
+                return resolvePromiseWithTimeout(onBuildManifest, 3800, markAssetError(Error("Failed to load client build manifest")));
+            }
+            function getFilesForRoute(assetPrefix, route) {
+                if (false) ;
+                return getClientBuildManifest().then((manifest)=>{
+                    if (!(route in manifest)) {
+                        throw markAssetError(Error("Failed to lookup route: ".concat(route)));
+                    }
+                    const allFiles = manifest[route].map((entry)=>assetPrefix + "/_next/" + encodeURI(entry));
+                    return {
+                        scripts: allFiles.filter((v)=>v.endsWith(".js")).map((v)=>_trustedTypes.__unsafeCreateTrustedScriptURL(v)),
+                        css: allFiles.filter((v)=>v.endsWith(".css"))
+                    };
+                });
             }
             if (("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule) {
                 Object.defineProperty(exports.default, "__esModule", {
@@ -1430,9 +1398,38 @@
                     return _withRouter.default;
                 }
             });
-            exports.useRouter = useRouter;
-            exports.createRouter = createRouter;
-            exports.makePublicRouterInstance = makePublicRouterInstance;
+            exports.useRouter = function() {
+                const router = _react.default.useContext(_routerContext.RouterContext);
+                if (!router) {
+                    throw Error("Error: NextRouter was not mounted. https://nextjs.org/docs/messages/next-router-not-mounted");
+                }
+                return router;
+            };
+            exports.createRouter = function() {
+                for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+                singletonRouter.router = new _router.default(...args);
+                singletonRouter.readyCallbacks.forEach((cb)=>cb());
+                singletonRouter.readyCallbacks = [];
+                return singletonRouter.router;
+            };
+            exports.makePublicRouterInstance = function(router) {
+                const instance = {};
+                for (const property of urlPropertyFields){
+                    if ("object" == typeof router[property]) {
+                        instance[property] = Object.assign(Array.isArray(router[property]) ? [] : {}, router[property]);
+                        continue;
+                    }
+                    instance[property] = router[property];
+                }
+                instance.events = _router.default.events;
+                coreMethodFields.forEach((field)=>{
+                    instance[field] = function() {
+                        for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+                        return router[field](...args);
+                    };
+                });
+                return instance;
+            };
             exports["default"] = void 0;
             var _interop_require_default = __webpack_require__(2648).Z;
             var _react = _interop_require_default(__webpack_require__(7294));
@@ -1464,14 +1461,6 @@
                 "isLocaleDomain",
                 "domainLocales"
             ];
-            const routerEvents = [
-                "routeChangeStart",
-                "beforeHistoryChange",
-                "routeChangeComplete",
-                "routeChangeError",
-                "hashChangeStart",
-                "hashChangeComplete"
-            ];
             const coreMethodFields = [
                 "push",
                 "replace",
@@ -1487,8 +1476,7 @@
             });
             function getRouter() {
                 if (!singletonRouter.router) {
-                    const message = 'No router instance found.\nYou should only use "next/router" on the client side of your app.\n';
-                    throw Error(message);
+                    throw Error('No router instance found.\nYou should only use "next/router" on the client side of your app.\n');
                 }
                 return singletonRouter.router;
             }
@@ -1507,15 +1495,21 @@
                     return router[field](...args);
                 };
             });
-            routerEvents.forEach((event)=>{
+            [
+                "routeChangeStart",
+                "beforeHistoryChange",
+                "routeChangeComplete",
+                "routeChangeError",
+                "hashChangeStart",
+                "hashChangeComplete"
+            ].forEach((event)=>{
                 singletonRouter.ready(()=>{
                     _router.default.events.on(event, function() {
                         for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                         const eventField = "on".concat(event.charAt(0).toUpperCase()).concat(event.substring(1));
-                        const _singletonRouter = singletonRouter;
-                        if (_singletonRouter[eventField]) {
+                        if (singletonRouter[eventField]) {
                             try {
-                                _singletonRouter[eventField](...args);
+                                singletonRouter[eventField](...args);
                             } catch (err) {
                                 console.error("Error when running the Router event: ".concat(eventField));
                                 console.error(_isError.default(err) ? "".concat(err.message, "\n").concat(err.stack) : err + "");
@@ -1524,41 +1518,7 @@
                     });
                 });
             });
-            var _default = singletonRouter;
-            exports["default"] = _default;
-            function useRouter() {
-                const router = _react.default.useContext(_routerContext.RouterContext);
-                if (!router) {
-                    throw Error("Error: NextRouter was not mounted. https://nextjs.org/docs/messages/next-router-not-mounted");
-                }
-                return router;
-            }
-            function createRouter() {
-                for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
-                singletonRouter.router = new _router.default(...args);
-                singletonRouter.readyCallbacks.forEach((cb)=>cb());
-                singletonRouter.readyCallbacks = [];
-                return singletonRouter.router;
-            }
-            function makePublicRouterInstance(router) {
-                const scopedRouter = router;
-                const instance = {};
-                for (const property of urlPropertyFields){
-                    if ("object" == typeof scopedRouter[property]) {
-                        instance[property] = Object.assign(Array.isArray(scopedRouter[property]) ? [] : {}, scopedRouter[property]);
-                        continue;
-                    }
-                    instance[property] = scopedRouter[property];
-                }
-                instance.events = _router.default.events;
-                coreMethodFields.forEach((field)=>{
-                    instance[field] = function() {
-                        for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
-                        return scopedRouter[field](...args);
-                    };
-                });
-                return instance;
-            }
+            exports["default"] = singletonRouter;
             if (("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule) {
                 Object.defineProperty(exports.default, "__esModule", {
                     value: true
@@ -1574,7 +1534,19 @@
                 value: true
             });
             exports.handleClientScriptLoad = handleClientScriptLoad;
-            exports.initScriptLoader = initScriptLoader;
+            exports.initScriptLoader = function(scriptLoaderItems) {
+                scriptLoaderItems.forEach(handleClientScriptLoad);
+                (function() {
+                    const scripts = [
+                        ...document.querySelectorAll('[data-nscript="beforeInteractive"]'),
+                        ...document.querySelectorAll('[data-nscript="beforePageRender"]')
+                    ];
+                    scripts.forEach((script)=>{
+                        const cacheKey = script.id || script.getAttribute("src");
+                        LoadCache.add(cacheKey);
+                    });
+                })();
+            };
             exports["default"] = void 0;
             var _extends = __webpack_require__(6495).Z;
             var _interop_require_default = __webpack_require__(2648).Z;
@@ -1652,26 +1624,6 @@
                 });
                 else loadScript(props);
             }
-            function loadLazyScript(props) {
-                if ("complete" === document.readyState) _requestIdleCallback.requestIdleCallback(()=>loadScript(props));
-                else window.addEventListener("load", ()=>{
-                    _requestIdleCallback.requestIdleCallback(()=>loadScript(props));
-                });
-            }
-            function addBeforeInteractiveToCache() {
-                const scripts = [
-                    ...document.querySelectorAll('[data-nscript="beforeInteractive"]'),
-                    ...document.querySelectorAll('[data-nscript="beforePageRender"]')
-                ];
-                scripts.forEach((script)=>{
-                    const cacheKey = script.id || script.getAttribute("src");
-                    LoadCache.add(cacheKey);
-                });
-            }
-            function initScriptLoader(scriptLoaderItems) {
-                scriptLoaderItems.forEach(handleClientScriptLoad);
-                addBeforeInteractiveToCache();
-            }
             function Script(props) {
                 const { id , src ="" , onLoad =()=>{} , onReady =null , strategy ="afterInteractive" , onError  } = props, restProps = _object_without_properties_loose(props, [
                     "id",
@@ -1698,7 +1650,12 @@
                 _react.useEffect(()=>{
                     if (!hasLoadScriptEffectCalled.current) {
                         if ("afterInteractive" === strategy) loadScript(props);
-                        else if ("lazyOnload" === strategy) loadLazyScript(props);
+                        else if ("lazyOnload" === strategy) (function(props) {
+                            if ("complete" === document.readyState) _requestIdleCallback.requestIdleCallback(()=>loadScript(props));
+                            else window.addEventListener("load", ()=>{
+                                _requestIdleCallback.requestIdleCallback(()=>loadScript(props));
+                            });
+                        })(props);
                         hasLoadScriptEffectCalled.current = true;
                     }
                 }, [
@@ -1766,8 +1723,7 @@
             Object.defineProperty(Script, "__nextScript", {
                 value: true
             });
-            var _default = Script;
-            exports["default"] = _default;
+            exports["default"] = Script;
             if (("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule) {
                 Object.defineProperty(exports.default, "__esModule", {
                     value: true
@@ -1781,23 +1737,21 @@
             Object.defineProperty(exports, "__esModule", {
                 value: true
             });
-            exports.__unsafeCreateTrustedScriptURL = __unsafeCreateTrustedScriptURL;
-            let policy;
-            function getPolicy() {
-                if (void 0 === policy) {
-                    var ref;
-                    policy = (null == (ref = window.trustedTypes) ? void 0 : ref.createPolicy("nextjs", {
-                        createHTML: (input)=>input,
-                        createScript: (input)=>input,
-                        createScriptURL: (input)=>input
-                    })) || null;
-                }
-                return policy;
-            }
-            function __unsafeCreateTrustedScriptURL(url) {
+            exports.__unsafeCreateTrustedScriptURL = function(url) {
                 var ref;
-                return (null == (ref = getPolicy()) ? void 0 : ref.createScriptURL(url)) || url;
-            }
+                return (null == (ref = function() {
+                    if (void 0 === policy) {
+                        var ref;
+                        policy = (null == (ref = window.trustedTypes) ? void 0 : ref.createPolicy("nextjs", {
+                            createHTML: (input)=>input,
+                            createScript: (input)=>input,
+                            createScriptURL: (input)=>input
+                        })) || null;
+                    }
+                    return policy;
+                }()) ? void 0 : ref.createScriptURL(url)) || url;
+            };
+            let policy;
             if (("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule) {
                 Object.defineProperty(exports.default, "__esModule", {
                     value: true
@@ -1811,11 +1765,7 @@
             Object.defineProperty(exports, "__esModule", {
                 value: true
             });
-            exports["default"] = withRouter;
-            var _interop_require_default = __webpack_require__(2648).Z;
-            var _react = _interop_require_default(__webpack_require__(7294));
-            var _router = __webpack_require__(880);
-            function withRouter(ComposedComponent) {
+            exports["default"] = function(ComposedComponent) {
                 function WithRouterWrapper(props) {
                     return _react.default.createElement(ComposedComponent, Object.assign({
                         router: _router.useRouter()
@@ -1825,7 +1775,10 @@
                 WithRouterWrapper.origGetInitialProps = ComposedComponent.origGetInitialProps;
                 if (false) ;
                 return WithRouterWrapper;
-            }
+            };
+            var _interop_require_default = __webpack_require__(2648).Z;
+            var _react = _interop_require_default(__webpack_require__(7294));
+            var _router = __webpack_require__(880);
             if (("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule) {
                 Object.defineProperty(exports.default, "__esModule", {
                     value: true
@@ -1968,11 +1921,10 @@
             Object.defineProperty(exports, "__esModule", {
                 value: true
             });
-            exports.isInAmpMode = isInAmpMode;
-            function isInAmpMode() {
+            exports.isInAmpMode = function() {
                 let { ampFirst =false , hybrid =false , hasQuery =false  } = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {};
                 return ampFirst || hybrid && hasQuery;
-            }
+            };
         },
         8245: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
@@ -2006,15 +1958,14 @@
             Object.defineProperty(exports, "__esModule", {
                 value: true
             });
-            exports.escapeStringRegexp = escapeStringRegexp;
-            const reHasRegExp = /[|\\{}()[\]^$+*?.-]/;
-            const reReplaceRegExp = /[|\\{}()[\]^$+*?.-]/g;
-            function escapeStringRegexp(str) {
+            exports.escapeStringRegexp = function(str) {
                 if (reHasRegExp.test(str)) {
                     return str.replace(reReplaceRegExp, "\\$&");
                 }
                 return str;
-            }
+            };
+            const reHasRegExp = /[|\\{}()[\]^$+*?.-]/;
+            const reReplaceRegExp = /[|\\{}()[\]^$+*?.-]/g;
         },
         4664: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
@@ -2079,49 +2030,48 @@
                 "charSet",
                 "itemProp"
             ];
-            function unique() {
-                const keys = new Set();
-                const tags = new Set();
-                const metaTypes = new Set();
-                const metaCategories = {};
-                return (h)=>{
-                    let isUnique = true;
-                    let hasKey = false;
-                    if (h.key && "number" != typeof h.key && h.key.indexOf("$") > 0) {
-                        hasKey = true;
-                        const key = h.key.slice(h.key.indexOf("$") + 1);
-                        if (keys.has(key)) isUnique = false;
-                        else keys.add(key);
-                    }
-                    switch(h.type){
-                        case "title":
-                        case "base":
-                            if (tags.has(h.type)) isUnique = false;
-                            else tags.add(h.type);
-                            break;
-                        case "meta":
-                            for(let i = 0, len = METATYPES.length; i < len; i++){
-                                const metatype = METATYPES[i];
-                                if (!!h.props.hasOwnProperty(metatype)) if ("charSet" === metatype) if (metaTypes.has(metatype)) isUnique = false;
-                                else metaTypes.add(metatype);
-                                else {
-                                    const category = h.props[metatype];
-                                    const categories = metaCategories[metatype] || new Set();
-                                    if (("name" !== metatype || !hasKey) && categories.has(category)) isUnique = false;
-                                    else {
-                                        categories.add(category);
-                                        metaCategories[metatype] = categories;
-                                    }
-                                }
-                            }
-                            break;
-                    }
-                    return isUnique;
-                };
-            }
             function reduceComponents(headChildrenElements, props) {
                 const { inAmpMode  } = props;
-                return headChildrenElements.reduce(onlyReactElement, []).reverse().concat(defaultHead(inAmpMode).reverse()).filter(unique()).reverse().map((c, i)=>{
+                return headChildrenElements.reduce(onlyReactElement, []).reverse().concat(defaultHead(inAmpMode).reverse()).filter(function() {
+                    const keys = new Set();
+                    const tags = new Set();
+                    const metaTypes = new Set();
+                    const metaCategories = {};
+                    return (h)=>{
+                        let isUnique = true;
+                        let hasKey = false;
+                        if (h.key && "number" != typeof h.key && h.key.indexOf("$") > 0) {
+                            hasKey = true;
+                            const key = h.key.slice(h.key.indexOf("$") + 1);
+                            if (keys.has(key)) isUnique = false;
+                            else keys.add(key);
+                        }
+                        switch(h.type){
+                            case "title":
+                            case "base":
+                                if (tags.has(h.type)) isUnique = false;
+                                else tags.add(h.type);
+                                break;
+                            case "meta":
+                                for(let i = 0, len = METATYPES.length; i < len; i++){
+                                    const metatype = METATYPES[i];
+                                    if (!!h.props.hasOwnProperty(metatype)) if ("charSet" === metatype) if (metaTypes.has(metatype)) isUnique = false;
+                                    else metaTypes.add(metatype);
+                                    else {
+                                        const category = h.props[metatype];
+                                        const categories = metaCategories[metatype] || new Set();
+                                        if (("name" !== metatype || !hasKey) && categories.has(category)) isUnique = false;
+                                        else {
+                                            categories.add(category);
+                                            metaCategories[metatype] = categories;
+                                        }
+                                    }
+                                }
+                                break;
+                        }
+                        return isUnique;
+                    };
+                }()).reverse().map((c, i)=>{
                     const key = c.key || i;
                     if (!inAmpMode) {
                         if ("link" === c.type && c.props["href"] && [
@@ -2141,7 +2091,7 @@
                     });
                 });
             }
-            function Head(param) {
+            exports["default"] = function(param) {
                 let { children  } = param;
                 const ampState = _react.useContext(_ampContext.AmpStateContext);
                 const headManager = _react.useContext(_headManagerContext.HeadManagerContext);
@@ -2150,9 +2100,7 @@
                     headManager: headManager,
                     inAmpMode: _ampMode.isInAmpMode(ampState)
                 }, children);
-            }
-            var _default = Head;
-            exports["default"] = _default;
+            };
             if (("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule) {
                 Object.defineProperty(exports.default, "__esModule", {
                     value: true
@@ -2185,8 +2133,7 @@
             Object.defineProperty(exports, "__esModule", {
                 value: true
             });
-            exports.normalizeLocalePath = normalizeLocalePath;
-            function normalizeLocalePath(pathname, locales) {
+            exports.normalizeLocalePath = function(pathname, locales) {
                 let detectedLocale;
                 const pathnameParts = pathname.split("/");
                 (locales || []).some((locale)=>{
@@ -2202,7 +2149,7 @@
                     pathname,
                     detectedLocale
                 };
-            }
+            };
         },
         8730: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
@@ -2223,15 +2170,14 @@
                 value: true
             });
             exports.imageConfigDefault = exports.VALID_LOADERS = void 0;
-            const VALID_LOADERS = [
+            exports.VALID_LOADERS = [
                 "default",
                 "imgix",
                 "cloudinary",
                 "akamai",
                 "custom"
             ];
-            exports.VALID_LOADERS = VALID_LOADERS;
-            const imageConfigDefault = {
+            exports.imageConfigDefault = {
                 deviceSizes: [
                     640,
                     750,
@@ -2266,7 +2212,6 @@
                 remotePatterns: [],
                 unoptimized: false
             };
-            exports.imageConfigDefault = imageConfigDefault;
         },
         2849: function(__unused_webpack_module, exports) {
             "use strict";
@@ -2274,16 +2219,15 @@
                 value: true
             });
             exports.getObjectClassLabel = getObjectClassLabel;
-            exports.isPlainObject = isPlainObject;
-            function getObjectClassLabel(value) {
-                return Object.prototype.toString.call(value);
-            }
-            function isPlainObject(value) {
+            exports.isPlainObject = function(value) {
                 if ("[object Object]" !== getObjectClassLabel(value)) {
                     return false;
                 }
                 const prototype = Object.getPrototypeOf(value);
                 return null === prototype || prototype.hasOwnProperty("isPrototypeOf");
+            };
+            function getObjectClassLabel(value) {
+                return Object.prototype.toString.call(value);
             }
         },
         8550: function(__unused_webpack_module, exports) {
@@ -2291,8 +2235,7 @@
             Object.defineProperty(exports, "__esModule", {
                 value: true
             });
-            exports["default"] = mitt;
-            function mitt() {
+            exports["default"] = function() {
                 const all = Object.create(null);
                 return {
                     on (type, handler) {
@@ -2308,30 +2251,28 @@
                         });
                     }
                 };
-            }
+            };
         },
         6301: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
                 value: true
             });
-            exports.denormalizePagePath = denormalizePagePath;
-            var _utils = __webpack_require__(8588);
-            var _normalizePathSep = __webpack_require__(9997);
-            function denormalizePagePath(page) {
+            exports.denormalizePagePath = function(page) {
                 let _page = _normalizePathSep.normalizePathSep(page);
                 return _page.startsWith("/index/") && !_utils.isDynamicRoute(_page) ? _page.slice(6) : "/index" !== _page ? _page : "/";
-            }
+            };
+            var _utils = __webpack_require__(8588);
+            var _normalizePathSep = __webpack_require__(9997);
         },
         9997: function(__unused_webpack_module, exports) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
                 value: true
             });
-            exports.normalizePathSep = normalizePathSep;
-            function normalizePathSep(path) {
+            exports.normalizePathSep = function(path) {
                 return path.replace(/\\/g, "/");
-            }
+            };
         },
         2692: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
@@ -2350,15 +2291,7 @@
             Object.defineProperty(exports, "__esModule", {
                 value: true
             });
-            exports.adaptForAppRouterInstance = adaptForAppRouterInstance;
-            exports.adaptForSearchParams = adaptForSearchParams;
-            exports.PathnameContextProviderAdapter = PathnameContextProviderAdapter;
-            var _interop_require_wildcard = __webpack_require__(1598).Z;
-            var _object_without_properties_loose = __webpack_require__(7273).Z;
-            var _react = _interop_require_wildcard(__webpack_require__(7294));
-            var _hooksClientContext = __webpack_require__(8914);
-            var _utils = __webpack_require__(8588);
-            function adaptForAppRouterInstance(router) {
+            exports.adaptForAppRouterInstance = function(router) {
                 return {
                     back () {
                         router.back();
@@ -2379,21 +2312,20 @@
                         void router.prefetch(href);
                     }
                 };
-            }
-            function transformQuery(query) {
-                const params = new URLSearchParams();
-                for (const [name, value] of Object.entries(query))if (Array.isArray(value)) {
-                    for (const val of value)params.append(name, val);
-                } else if (void 0 !== value) params.append(name, value);
-                return params;
-            }
-            function adaptForSearchParams(router) {
+            };
+            exports.adaptForSearchParams = function(router) {
                 if (!router.isReady || !router.query) {
                     return new URLSearchParams();
                 }
-                return transformQuery(router.query);
-            }
-            function PathnameContextProviderAdapter(_param) {
+                return function(query) {
+                    const params = new URLSearchParams();
+                    for (const [name, value] of Object.entries(query))if (Array.isArray(value)) {
+                        for (const val of value)params.append(name, val);
+                    } else if (void 0 !== value) params.append(name, value);
+                    return params;
+                }(router.query);
+            };
+            exports.PathnameContextProviderAdapter = function(_param) {
                 var { children , router  } = _param, props = _object_without_properties_loose(_param, [
                     "children",
                     "router"
@@ -2421,7 +2353,12 @@
                 return _react.default.createElement(_hooksClientContext.PathnameContext.Provider, {
                     value: value
                 }, children);
-            }
+            };
+            var _interop_require_wildcard = __webpack_require__(1598).Z;
+            var _object_without_properties_loose = __webpack_require__(7273).Z;
+            var _react = _interop_require_wildcard(__webpack_require__(7294));
+            var _hooksClientContext = __webpack_require__(8914);
+            var _utils = __webpack_require__(8588);
         },
         1003: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
@@ -2599,125 +2536,8 @@
                 });
                 return _removeTrailingSlash.removeTrailingSlash(pathname);
             }
-            function getMiddlewareData(source, response, options) {
-                const nextConfig = {
-                    basePath: options.router.basePath,
-                    i18n: {
-                        locales: options.router.locales
-                    },
-                    trailingSlash: Boolean(false)
-                };
-                const rewriteHeader = response.headers.get("x-nextjs-rewrite");
-                let rewriteTarget = rewriteHeader || response.headers.get("x-nextjs-matched-path");
-                const matchedPath = response.headers.get("x-matched-path");
-                if (matchedPath && !rewriteTarget && !matchedPath.includes("__next_data_catchall") && !matchedPath.includes("/_error") && !matchedPath.includes("/404")) rewriteTarget = matchedPath;
-                if (rewriteTarget) {
-                    if (rewriteTarget.startsWith("/")) {
-                        const parsedRewriteTarget = _parseRelativeUrl.parseRelativeUrl(rewriteTarget);
-                        const pathnameInfo = _getNextPathnameInfo.getNextPathnameInfo(parsedRewriteTarget.pathname, {
-                            nextConfig,
-                            parseData: true
-                        });
-                        let fsPathname = _removeTrailingSlash.removeTrailingSlash(pathnameInfo.pathname);
-                        return Promise.all([
-                            options.router.pageLoader.getPageList(),
-                            _routeLoader.getClientBuildManifest()
-                        ]).then((param)=>{
-                            let [pages, { __rewrites: rewrites  }] = param;
-                            let as = _addLocale.addLocale(pathnameInfo.pathname, pathnameInfo.locale);
-                            if (_isDynamic.isDynamicRoute(as) || !rewriteHeader && pages.includes(_normalizeLocalePath.normalizeLocalePath(_removeBasePath.removeBasePath(as), options.router.locales).pathname)) {
-                                const parsedSource = _getNextPathnameInfo.getNextPathnameInfo(_parseRelativeUrl.parseRelativeUrl(source).pathname, {
-                                    parseData: true
-                                });
-                                as = _addBasePath.addBasePath(parsedSource.pathname);
-                                parsedRewriteTarget.pathname = as;
-                            }
-                            if (false) ;
-                            else if (!pages.includes(fsPathname)) {
-                                const resolvedPathname = resolveDynamicRoute(fsPathname, pages);
-                                if (resolvedPathname !== fsPathname) fsPathname = resolvedPathname;
-                            }
-                            const resolvedHref = pages.includes(fsPathname) ? fsPathname : resolveDynamicRoute(_normalizeLocalePath.normalizeLocalePath(_removeBasePath.removeBasePath(parsedRewriteTarget.pathname), options.router.locales).pathname, pages);
-                            if (_isDynamic.isDynamicRoute(resolvedHref)) {
-                                const matches = _routeMatcher.getRouteMatcher(_routeRegex.getRouteRegex(resolvedHref))(as);
-                                Object.assign(parsedRewriteTarget.query, matches || {});
-                            }
-                            return {
-                                type: "rewrite",
-                                parsedAs: parsedRewriteTarget,
-                                resolvedHref
-                            };
-                        });
-                    }
-                    const src = _parsePath.parsePath(source);
-                    const pathname = _formatNextPathnameInfo.formatNextPathnameInfo(_extends({}, _getNextPathnameInfo.getNextPathnameInfo(src.pathname, {
-                        nextConfig,
-                        parseData: true
-                    }), {
-                        defaultLocale: options.router.defaultLocale,
-                        buildId: ""
-                    }));
-                    return Promise.resolve({
-                        type: "redirect-external",
-                        destination: "".concat(pathname).concat(src.query).concat(src.hash)
-                    });
-                }
-                const redirectTarget = response.headers.get("x-nextjs-redirect");
-                if (redirectTarget) {
-                    if (redirectTarget.startsWith("/")) {
-                        const src1 = _parsePath.parsePath(redirectTarget);
-                        const pathname1 = _formatNextPathnameInfo.formatNextPathnameInfo(_extends({}, _getNextPathnameInfo.getNextPathnameInfo(src1.pathname, {
-                            nextConfig,
-                            parseData: true
-                        }), {
-                            defaultLocale: options.router.defaultLocale,
-                            buildId: ""
-                        }));
-                        return Promise.resolve({
-                            type: "redirect-internal",
-                            newAs: "".concat(pathname1).concat(src1.query).concat(src1.hash),
-                            newUrl: "".concat(pathname1).concat(src1.query).concat(src1.hash)
-                        });
-                    }
-                    return Promise.resolve({
-                        type: "redirect-external",
-                        destination: redirectTarget
-                    });
-                }
-                return Promise.resolve({
-                    type: "next"
-                });
-            }
-            function withMiddlewareEffects(options) {
-                return matchesMiddleware(options).then((matches)=>{
-                    if (matches && options.fetchData) {
-                        return options.fetchData().then((data)=>getMiddlewareData(data.dataHref, data.response, options).then((effect)=>({
-                                    dataHref: data.dataHref,
-                                    cacheKey: data.cacheKey,
-                                    json: data.json,
-                                    response: data.response,
-                                    text: data.text,
-                                    effect
-                                }))).catch((_err)=>{
-                            return null;
-                        });
-                    }
-                    return null;
-                });
-            }
             const manualScrollRestoration = null;
             const SSG_DATA_NOT_FOUND = Symbol("SSG_DATA_NOT_FOUND");
-            function fetchRetry(url, attempts, options) {
-                return fetch(url, {
-                    credentials: "same-origin",
-                    method: options.method || "GET",
-                    headers: Object.assign({}, options.headers, {
-                        "x-nextjs-data": "1"
-                    })
-                }).then((response)=>{
-                    return !response.ok && attempts > 1 && response.status >= 500 ? fetchRetry(url, attempts - 1, options) : response;
-                });
-            }
             const backgroundCache = {};
             function handleSmoothScroll(fn) {
                 const htmlElement = document.documentElement;
@@ -2738,7 +2558,17 @@
                 const { href: cacheKey  } = new URL(dataHref, window.location.href);
                 var ref1;
                 const getData = (params)=>{
-                    return fetchRetry(dataHref, isServerRender ? 3 : 1, {
+                    return (function fetchRetry(url, attempts, options) {
+                        return fetch(url, {
+                            credentials: "same-origin",
+                            method: options.method || "GET",
+                            headers: Object.assign({}, options.headers, {
+                                "x-nextjs-data": "1"
+                            })
+                        }).then((response)=>{
+                            return !response.ok && attempts > 1 && response.status >= 500 ? fetchRetry(url, attempts - 1, options) : response;
+                        });
+                    })(dataHref, isServerRender ? 3 : 1, {
                         headers: isPrefetch ? {
                             purpose: "prefetch"
                         } : {},
@@ -3085,10 +2915,6 @@
                             const isValidShallowRoute = options.shallow && nextState.route === (null != (_route = routeInfo.route) ? _route : route);
                             var _scroll;
                             const shouldScroll = null != (_scroll = options.scroll) ? _scroll : !options._h && !isValidShallowRoute;
-                            const resetScroll = shouldScroll ? {
-                                x: 0,
-                                y: 0
-                            } : null;
                             const upcomingRouterState = _extends({}, nextState, {
                                 route,
                                 pathname,
@@ -3096,7 +2922,10 @@
                                 asPath: cleanedAs,
                                 isFallback: false
                             });
-                            const upcomingScrollState = null != forcedScroll ? forcedScroll : resetScroll;
+                            const upcomingScrollState = null != forcedScroll ? forcedScroll : shouldScroll ? {
+                                x: 0,
+                                y: 0
+                            } : null;
                             const canSkipUpdating = options._h && !upcomingScrollState && !readyStateChange && !localeChange && _compareStates.compareRouterStates(upcomingRouterState, _this.state);
                             if (!canSkipUpdating) {
                                 yield _this.set(upcomingRouterState, routeInfo, upcomingScrollState).catch((e)=>{
@@ -3109,8 +2938,7 @@
                                 }
                                 if (false) ;
                                 if (!isQueryUpdating) Router.events.emit("routeChangeComplete", as, routeProps);
-                                const hashRegex = /#.+$/;
-                                if (shouldScroll && hashRegex.test(as)) _this.scrollToHash(as);
+                                if (shouldScroll && /#.+$/.test(as)) _this.scrollToHash(as);
                             }
                             return true;
                         } catch (err11) {
@@ -3214,7 +3042,111 @@
                                 unstable_skipClientCache,
                                 isBackground: isQueryUpdating
                             };
-                            const data = isQueryUpdating ? {} : yield withMiddlewareEffects({
+                            const data = isQueryUpdating ? {} : yield function(options) {
+                                return matchesMiddleware(options).then((matches)=>{
+                                    if (matches && options.fetchData) {
+                                        return options.fetchData().then((data)=>(function(source, response, options) {
+                                                const nextConfig = {
+                                                    basePath: options.router.basePath,
+                                                    i18n: {
+                                                        locales: options.router.locales
+                                                    },
+                                                    trailingSlash: Boolean(false)
+                                                };
+                                                const rewriteHeader = response.headers.get("x-nextjs-rewrite");
+                                                let rewriteTarget = rewriteHeader || response.headers.get("x-nextjs-matched-path");
+                                                const matchedPath = response.headers.get("x-matched-path");
+                                                if (matchedPath && !rewriteTarget && !matchedPath.includes("__next_data_catchall") && !matchedPath.includes("/_error") && !matchedPath.includes("/404")) rewriteTarget = matchedPath;
+                                                if (rewriteTarget) {
+                                                    if (rewriteTarget.startsWith("/")) {
+                                                        const parsedRewriteTarget = _parseRelativeUrl.parseRelativeUrl(rewriteTarget);
+                                                        const pathnameInfo = _getNextPathnameInfo.getNextPathnameInfo(parsedRewriteTarget.pathname, {
+                                                            nextConfig,
+                                                            parseData: true
+                                                        });
+                                                        let fsPathname = _removeTrailingSlash.removeTrailingSlash(pathnameInfo.pathname);
+                                                        return Promise.all([
+                                                            options.router.pageLoader.getPageList(),
+                                                            _routeLoader.getClientBuildManifest()
+                                                        ]).then((param)=>{
+                                                            let [pages, { __rewrites: rewrites  }] = param;
+                                                            let as = _addLocale.addLocale(pathnameInfo.pathname, pathnameInfo.locale);
+                                                            if (_isDynamic.isDynamicRoute(as) || !rewriteHeader && pages.includes(_normalizeLocalePath.normalizeLocalePath(_removeBasePath.removeBasePath(as), options.router.locales).pathname)) {
+                                                                const parsedSource = _getNextPathnameInfo.getNextPathnameInfo(_parseRelativeUrl.parseRelativeUrl(source).pathname, {
+                                                                    parseData: true
+                                                                });
+                                                                as = _addBasePath.addBasePath(parsedSource.pathname);
+                                                                parsedRewriteTarget.pathname = as;
+                                                            }
+                                                            if (false) ;
+                                                            else if (!pages.includes(fsPathname)) {
+                                                                const resolvedPathname = resolveDynamicRoute(fsPathname, pages);
+                                                                if (resolvedPathname !== fsPathname) fsPathname = resolvedPathname;
+                                                            }
+                                                            const resolvedHref = pages.includes(fsPathname) ? fsPathname : resolveDynamicRoute(_normalizeLocalePath.normalizeLocalePath(_removeBasePath.removeBasePath(parsedRewriteTarget.pathname), options.router.locales).pathname, pages);
+                                                            if (_isDynamic.isDynamicRoute(resolvedHref)) {
+                                                                const matches = _routeMatcher.getRouteMatcher(_routeRegex.getRouteRegex(resolvedHref))(as);
+                                                                Object.assign(parsedRewriteTarget.query, matches || {});
+                                                            }
+                                                            return {
+                                                                type: "rewrite",
+                                                                parsedAs: parsedRewriteTarget,
+                                                                resolvedHref
+                                                            };
+                                                        });
+                                                    }
+                                                    const src = _parsePath.parsePath(source);
+                                                    const pathname = _formatNextPathnameInfo.formatNextPathnameInfo(_extends({}, _getNextPathnameInfo.getNextPathnameInfo(src.pathname, {
+                                                        nextConfig,
+                                                        parseData: true
+                                                    }), {
+                                                        defaultLocale: options.router.defaultLocale,
+                                                        buildId: ""
+                                                    }));
+                                                    return Promise.resolve({
+                                                        type: "redirect-external",
+                                                        destination: "".concat(pathname).concat(src.query).concat(src.hash)
+                                                    });
+                                                }
+                                                const redirectTarget = response.headers.get("x-nextjs-redirect");
+                                                if (redirectTarget) {
+                                                    if (redirectTarget.startsWith("/")) {
+                                                        const src1 = _parsePath.parsePath(redirectTarget);
+                                                        const pathname1 = _formatNextPathnameInfo.formatNextPathnameInfo(_extends({}, _getNextPathnameInfo.getNextPathnameInfo(src1.pathname, {
+                                                            nextConfig,
+                                                            parseData: true
+                                                        }), {
+                                                            defaultLocale: options.router.defaultLocale,
+                                                            buildId: ""
+                                                        }));
+                                                        return Promise.resolve({
+                                                            type: "redirect-internal",
+                                                            newAs: "".concat(pathname1).concat(src1.query).concat(src1.hash),
+                                                            newUrl: "".concat(pathname1).concat(src1.query).concat(src1.hash)
+                                                        });
+                                                    }
+                                                    return Promise.resolve({
+                                                        type: "redirect-external",
+                                                        destination: redirectTarget
+                                                    });
+                                                }
+                                                return Promise.resolve({
+                                                    type: "next"
+                                                });
+                                            })(data.dataHref, data.response, options).then((effect)=>({
+                                                    dataHref: data.dataHref,
+                                                    cacheKey: data.cacheKey,
+                                                    json: data.json,
+                                                    response: data.response,
+                                                    text: data.text,
+                                                    effect
+                                                }))).catch((_err)=>{
+                                            return null;
+                                        });
+                                    }
+                                    return null;
+                                });
+                            }({
                                 fetchData: ()=>fetchNextData(fetchNextDataParams),
                                 asPath: resolvedAs,
                                 locale: locale,
@@ -3354,7 +3286,6 @@
                         let { pathname , query  } = parsed;
                         if (false) ;
                         const pages = yield _this.pageLoader.getPageList();
-                        let resolvedAs = asPath;
                         const locale = void 0 !== options.locale ? options.locale || void 0 : _this.locale;
                         if (false) ;
                         parsed.pathname = resolveDynamicRoute(parsed.pathname, pages);
@@ -3371,7 +3302,7 @@
                                 return !!isSsg && fetchNextData({
                                     dataHref: _this.pageLoader.getDataHref({
                                         href: url,
-                                        asPath: resolvedAs,
+                                        asPath: asPath,
                                         locale: locale
                                     }),
                                     isServerRender: false,
@@ -3576,53 +3507,49 @@
             Object.defineProperty(exports, "__esModule", {
                 value: true
             });
-            exports.addLocale = addLocale;
-            var _addPathPrefix = __webpack_require__(4135);
-            var _pathHasPrefix = __webpack_require__(3210);
-            function addLocale(path, locale, defaultLocale, ignorePrefix) {
+            exports.addLocale = function(path, locale, defaultLocale, ignorePrefix) {
                 if (locale && locale !== defaultLocale && (ignorePrefix || !_pathHasPrefix.pathHasPrefix(path.toLowerCase(), "/".concat(locale.toLowerCase())) && !_pathHasPrefix.pathHasPrefix(path.toLowerCase(), "/api"))) {
                     return _addPathPrefix.addPathPrefix(path, "/".concat(locale));
                 }
                 return path;
-            }
+            };
+            var _addPathPrefix = __webpack_require__(4135);
+            var _pathHasPrefix = __webpack_require__(3210);
         },
         4135: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
                 value: true
             });
-            exports.addPathPrefix = addPathPrefix;
-            var _parsePath = __webpack_require__(6727);
-            function addPathPrefix(path, prefix) {
+            exports.addPathPrefix = function(path, prefix) {
                 if (!path.startsWith("/") || !prefix) {
                     return path;
                 }
                 const { pathname , query , hash  } = _parsePath.parsePath(path);
                 return "".concat(prefix).concat(pathname).concat(query).concat(hash);
-            }
+            };
+            var _parsePath = __webpack_require__(6727);
         },
         6074: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
                 value: true
             });
-            exports.addPathSuffix = addPathSuffix;
-            var _parsePath = __webpack_require__(6727);
-            function addPathSuffix(path, suffix) {
+            exports.addPathSuffix = function(path, suffix) {
                 if (!path.startsWith("/") || !suffix) {
                     return path;
                 }
                 const { pathname , query , hash  } = _parsePath.parsePath(path);
                 return "".concat(pathname).concat(suffix).concat(query).concat(hash);
-            }
+            };
+            var _parsePath = __webpack_require__(6727);
         },
         9002: function(__unused_webpack_module, exports) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
                 value: true
             });
-            exports.compareRouterStates = compareRouterStates;
-            function compareRouterStates(a, b) {
+            exports.compareRouterStates = function(a, b) {
                 const stateKeys = Object.keys(a);
                 if (stateKeys.length !== Object.keys(b).length) return false;
                 for(let i = stateKeys.length; i--;){
@@ -3643,25 +3570,24 @@
                     }
                 }
                 return true;
-            }
+            };
         },
         7429: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
                 value: true
             });
-            exports.formatNextPathnameInfo = formatNextPathnameInfo;
-            var _removeTrailingSlash = __webpack_require__(12);
-            var _addPathPrefix = __webpack_require__(4135);
-            var _addPathSuffix = __webpack_require__(6074);
-            var _addLocale = __webpack_require__(4441);
-            function formatNextPathnameInfo(info) {
+            exports.formatNextPathnameInfo = function(info) {
                 let pathname = _addLocale.addLocale(info.pathname, info.locale, info.buildId ? void 0 : info.defaultLocale, info.ignorePrefix);
                 if (info.buildId || !info.trailingSlash) pathname = _removeTrailingSlash.removeTrailingSlash(pathname);
                 if (info.buildId) pathname = _addPathSuffix.addPathSuffix(_addPathPrefix.addPathPrefix(pathname, "/_next/data/".concat(info.buildId)), "/" === info.pathname ? "index.json" : ".json");
                 pathname = _addPathPrefix.addPathPrefix(pathname, info.basePath);
                 return !info.buildId && info.trailingSlash ? pathname.endsWith("/") ? pathname : _addPathSuffix.addPathSuffix(pathname, "/") : _removeTrailingSlash.removeTrailingSlash(pathname);
-            }
+            };
+            var _removeTrailingSlash = __webpack_require__(12);
+            var _addPathPrefix = __webpack_require__(4135);
+            var _addPathSuffix = __webpack_require__(6074);
+            var _addLocale = __webpack_require__(4441);
         },
         7795: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
@@ -3669,7 +3595,10 @@
                 value: true
             });
             exports.formatUrl = formatUrl;
-            exports.formatWithValidation = formatWithValidation;
+            exports.formatWithValidation = function(url) {
+                if (false) ;
+                return formatUrl(url);
+            };
             exports.urlObjectKeys = void 0;
             var _interop_require_wildcard = __webpack_require__(1598).Z;
             var querystring = _interop_require_wildcard(__webpack_require__(4919));
@@ -3700,7 +3629,7 @@
                 search = search.replace("#", "%23");
                 return "".concat(protocol).concat(host).concat(pathname).concat(search).concat(hash);
             }
-            const urlObjectKeys = [
+            exports.urlObjectKeys = [
                 "auth",
                 "hash",
                 "host",
@@ -3714,34 +3643,24 @@
                 "search",
                 "slashes"
             ];
-            exports.urlObjectKeys = urlObjectKeys;
-            function formatWithValidation(url) {
-                if (false) ;
-                return formatUrl(url);
-            }
         },
         7929: function(__unused_webpack_module, exports) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
                 value: true
             });
-            exports["default"] = getAssetPathFromRoute;
-            function getAssetPathFromRoute(route) {
+            exports["default"] = function(route) {
                 let ext = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : "";
                 const path = "/" === route ? "/index" : /^\/index(\/|$)/.test(route) ? "/index".concat(route) : "".concat(route);
                 return path + ext;
-            }
+            };
         },
         8756: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
                 value: true
             });
-            exports.getNextPathnameInfo = getNextPathnameInfo;
-            var _normalizeLocalePath = __webpack_require__(4769);
-            var _removePathPrefix = __webpack_require__(2650);
-            var _pathHasPrefix = __webpack_require__(3210);
-            function getNextPathnameInfo(pathname, options) {
+            exports.getNextPathnameInfo = function(pathname, options) {
                 var _nextConfig;
                 const { basePath , i18n , trailingSlash  } = null != (_nextConfig = options.nextConfig) ? _nextConfig : {};
                 const info = {
@@ -3764,7 +3683,10 @@
                     info.pathname = (null == pathLocale ? void 0 : pathLocale.pathname) || info.pathname;
                 }
                 return info;
-            }
+            };
+            var _normalizeLocalePath = __webpack_require__(4769);
+            var _removePathPrefix = __webpack_require__(2650);
+            var _pathHasPrefix = __webpack_require__(3210);
         },
         8588: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
@@ -3791,29 +3713,26 @@
             Object.defineProperty(exports, "__esModule", {
                 value: true
             });
-            exports.isBot = isBot;
-            function isBot(userAgent) {
+            exports.isBot = function(userAgent) {
                 return /Googlebot|Mediapartners-Google|AdsBot-Google|googleweblight|Storebot-Google|Google-PageRenderer|Bingbot|BingPreview|Slurp|DuckDuckBot|baiduspider|yandex|sogou|LinkedInBot|bitlybot|tumblr|vkShare|quora link preview|facebookexternalhit|facebookcatalog|Twitterbot|applebot|redditbot|Slackbot|Discordbot|WhatsApp|SkypeUriPreview|ia_archiver/i.test(userAgent);
-            }
+            };
         },
         6238: function(__unused_webpack_module, exports) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
                 value: true
             });
-            exports.isDynamicRoute = isDynamicRoute;
-            const TEST_ROUTE = /\/\[[^/]+?\](?=\/|$)/;
-            function isDynamicRoute(route) {
+            exports.isDynamicRoute = function(route) {
                 return TEST_ROUTE.test(route);
-            }
+            };
+            const TEST_ROUTE = /\/\[[^/]+?\](?=\/|$)/;
         },
         6727: function(__unused_webpack_module, exports) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
                 value: true
             });
-            exports.parsePath = parsePath;
-            function parsePath(path) {
+            exports.parsePath = function(path) {
                 const hashIndex = path.indexOf("#");
                 const queryIndex = path.indexOf("?");
                 const hasQuery = queryIndex > -1 && (hashIndex < 0 || queryIndex < hashIndex);
@@ -3829,17 +3748,14 @@
                     query: "",
                     hash: ""
                 };
-            }
+            };
         },
         2864: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
                 value: true
             });
-            exports.parseRelativeUrl = parseRelativeUrl;
-            var _utils = __webpack_require__(670);
-            var _querystring = __webpack_require__(4919);
-            function parseRelativeUrl(url, base) {
+            exports.parseRelativeUrl = function(url, base) {
                 const globalBase = new URL(_utils.getLocationOrigin());
                 const resolvedBase = base ? new URL(base, globalBase) : url.startsWith(".") ? new URL(window.location.href) : globalBase;
                 const { pathname , searchParams , search , hash , href , origin  } = new URL(url, resolvedBase);
@@ -3853,32 +3769,30 @@
                     hash,
                     href: href.slice(globalBase.origin.length)
                 };
-            }
+            };
+            var _utils = __webpack_require__(670);
+            var _querystring = __webpack_require__(4919);
         },
         3210: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
                 value: true
             });
-            exports.pathHasPrefix = pathHasPrefix;
-            var _parsePath = __webpack_require__(6727);
-            function pathHasPrefix(path, prefix) {
+            exports.pathHasPrefix = function(path, prefix) {
                 if ("string" != typeof path) {
                     return false;
                 }
                 const { pathname  } = _parsePath.parsePath(path);
                 return pathname === prefix || pathname.startsWith(prefix + "/");
-            }
+            };
+            var _parsePath = __webpack_require__(6727);
         },
         4919: function(__unused_webpack_module, exports) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
                 value: true
             });
-            exports.searchParamsToUrlQuery = searchParamsToUrlQuery;
-            exports.urlQueryToSearchParams = urlQueryToSearchParams;
-            exports.assign = assign;
-            function searchParamsToUrlQuery(searchParams) {
+            exports.searchParamsToUrlQuery = function(searchParams) {
                 const query = {};
                 searchParams.forEach((value, key)=>{
                     if (void 0 === query[key]) query[key] = value;
@@ -3889,14 +3803,8 @@
                     ];
                 });
                 return query;
-            }
-            function stringifyUrlQueryParam(param) {
-                if ("string" != typeof param && ("number" != typeof param || isNaN(param)) && "boolean" != typeof param) {
-                    return "";
-                }
-                return String(param);
-            }
-            function urlQueryToSearchParams(urlQuery) {
+            };
+            exports.urlQueryToSearchParams = function(urlQuery) {
                 const result = new URLSearchParams();
                 Object.entries(urlQuery).forEach((param)=>{
                     let [key, value] = param;
@@ -3904,14 +3812,20 @@
                     else result.set(key, stringifyUrlQueryParam(value));
                 });
                 return result;
-            }
-            function assign(target) {
+            };
+            exports.assign = function(target) {
                 for(var _len = arguments.length, searchParamsList = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)searchParamsList[_key - 1] = arguments[_key];
                 searchParamsList.forEach((searchParams)=>{
                     Array.from(searchParams.keys()).forEach((key)=>target.delete(key));
                     searchParams.forEach((value, key)=>target.append(key, value));
                 });
                 return target;
+            };
+            function stringifyUrlQueryParam(param) {
+                if ("string" != typeof param && ("number" != typeof param || isNaN(param)) && "boolean" != typeof param) {
+                    return "";
+                }
+                return String(param);
             }
         },
         2650: function(__unused_webpack_module, exports, __webpack_require__) {
@@ -3919,34 +3833,30 @@
             Object.defineProperty(exports, "__esModule", {
                 value: true
             });
-            exports.removePathPrefix = removePathPrefix;
-            var _pathHasPrefix = __webpack_require__(3210);
-            function removePathPrefix(path, prefix) {
+            exports.removePathPrefix = function(path, prefix) {
                 if (_pathHasPrefix.pathHasPrefix(path, prefix)) {
                     const withoutPrefix = path.slice(prefix.length);
                     return withoutPrefix.startsWith("/") ? withoutPrefix : "/".concat(withoutPrefix);
                 }
                 return path;
-            }
+            };
+            var _pathHasPrefix = __webpack_require__(3210);
         },
         12: function(__unused_webpack_module, exports) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
                 value: true
             });
-            exports.removeTrailingSlash = removeTrailingSlash;
-            function removeTrailingSlash(route) {
+            exports.removeTrailingSlash = function(route) {
                 return route.replace(/\/$/, "") || "/";
-            }
+            };
         },
         3156: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
                 value: true
             });
-            exports.getRouteMatcher = getRouteMatcher;
-            var _utils = __webpack_require__(670);
-            function getRouteMatcher(param) {
+            exports.getRouteMatcher = function(param) {
                 let { re , groups  } = param;
                 return (pathname)=>{
                     const routeMatch = re.exec(pathname);
@@ -3970,7 +3880,8 @@
                     });
                     return params;
                 };
-            }
+            };
+            var _utils = __webpack_require__(670);
         },
         4903: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
@@ -3978,8 +3889,26 @@
                 value: true
             });
             exports.getRouteRegex = getRouteRegex;
-            exports.getNamedRouteRegex = getNamedRouteRegex;
-            exports.getNamedMiddlewareRegex = getNamedMiddlewareRegex;
+            exports.getNamedRouteRegex = function(normalizedRoute) {
+                const result = getNamedParametrizedRoute(normalizedRoute);
+                return _extends({}, getRouteRegex(normalizedRoute), {
+                    namedRegex: "^".concat(result.namedParameterizedRoute, "(?:/)?$"),
+                    routeKeys: result.routeKeys
+                });
+            };
+            exports.getNamedMiddlewareRegex = function(normalizedRoute, options) {
+                const { parameterizedRoute  } = getParametrizedRoute(normalizedRoute);
+                const { catchAll =true  } = options;
+                if ("/" === parameterizedRoute) {
+                    return {
+                        namedRegex: "^/".concat(catchAll ? ".*" : "", "$")
+                    };
+                }
+                const { namedParameterizedRoute  } = getNamedParametrizedRoute(normalizedRoute);
+                return {
+                    namedRegex: "^".concat(namedParameterizedRoute).concat(catchAll ? "(?:(/.*)?)" : "", "$")
+                };
+            };
             var _extends = __webpack_require__(6495).Z;
             var _escapeRegexp = __webpack_require__(8659);
             var _removeTrailingSlash = __webpack_require__(12);
@@ -4021,25 +3950,24 @@
                     groups: groups
                 };
             }
-            function buildGetSafeRouteKey() {
-                let routeKeyCharCode = 97;
-                let routeKeyCharLength = 1;
-                return ()=>{
-                    let routeKey = "";
-                    for(let i = 0; i < routeKeyCharLength; i++){
-                        routeKey += String.fromCharCode(routeKeyCharCode);
-                        routeKeyCharCode++;
-                        if (routeKeyCharCode > 122) {
-                            routeKeyCharLength++;
-                            routeKeyCharCode = 97;
-                        }
-                    }
-                    return routeKey;
-                };
-            }
             function getNamedParametrizedRoute(route) {
                 const segments = _removeTrailingSlash.removeTrailingSlash(route).slice(1).split("/");
-                const getSafeRouteKey = buildGetSafeRouteKey();
+                const getSafeRouteKey = function() {
+                    let routeKeyCharCode = 97;
+                    let routeKeyCharLength = 1;
+                    return ()=>{
+                        let routeKey = "";
+                        for(let i = 0; i < routeKeyCharLength; i++){
+                            routeKey += String.fromCharCode(routeKeyCharCode);
+                            routeKeyCharCode++;
+                            if (routeKeyCharCode > 122) {
+                                routeKeyCharLength++;
+                                routeKeyCharCode = 97;
+                            }
+                        }
+                        return routeKey;
+                    };
+                }();
                 const routeKeys = {};
                 return {
                     namedParameterizedRoute: segments.map((segment)=>{
@@ -4058,35 +3986,17 @@
                     routeKeys
                 };
             }
-            function getNamedRouteRegex(normalizedRoute) {
-                const result = getNamedParametrizedRoute(normalizedRoute);
-                return _extends({}, getRouteRegex(normalizedRoute), {
-                    namedRegex: "^".concat(result.namedParameterizedRoute, "(?:/)?$"),
-                    routeKeys: result.routeKeys
-                });
-            }
-            function getNamedMiddlewareRegex(normalizedRoute, options) {
-                const { parameterizedRoute  } = getParametrizedRoute(normalizedRoute);
-                const { catchAll =true  } = options;
-                if ("/" === parameterizedRoute) {
-                    let catchAllRegex = catchAll ? ".*" : "";
-                    return {
-                        namedRegex: "^/".concat(catchAllRegex, "$")
-                    };
-                }
-                const { namedParameterizedRoute  } = getNamedParametrizedRoute(normalizedRoute);
-                let catchAllGroupedRegex = catchAll ? "(?:(/.*)?)" : "";
-                return {
-                    namedRegex: "^".concat(namedParameterizedRoute).concat(catchAllGroupedRegex, "$")
-                };
-            }
         },
         566: function(__unused_webpack_module, exports) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
                 value: true
             });
-            exports.getSortedRoutes = getSortedRoutes;
+            exports.getSortedRoutes = function(normalizedPages) {
+                const root = new UrlNode();
+                normalizedPages.forEach((pagePath)=>root.insert(pagePath));
+                return root.smoosh();
+            };
             class UrlNode {
                 insert(urlPath) {
                     this._insert(urlPath.split("/").filter(Boolean), [], false);
@@ -4195,27 +4105,23 @@
                     this.optionalRestSlugName = null;
                 }
             }
-            function getSortedRoutes(normalizedPages) {
-                const root = new UrlNode();
-                normalizedPages.forEach((pagePath)=>root.insert(pagePath));
-                return root.smoosh();
-            }
         },
         6949: function(module, exports) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
                 value: true
             });
-            exports.setConfig = setConfig;
+            exports.setConfig = function(configValue) {
+                runtimeConfig = configValue;
+            };
             exports["default"] = void 0;
             let runtimeConfig;
             var _default = ()=>{
                 return runtimeConfig;
             };
-            exports["default"] = _default;
-            function setConfig(configValue) {
-                runtimeConfig = configValue;
-            }
+            exports["default"] = ()=>{
+                return runtimeConfig;
+            };
             if (("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule) {
                 Object.defineProperty(exports.default, "__esModule", {
                     value: true
@@ -4229,10 +4135,7 @@
             Object.defineProperty(exports, "__esModule", {
                 value: true
             });
-            exports["default"] = SideEffect;
-            var _interop_require_wildcard = __webpack_require__(1598).Z;
-            var _react = _interop_require_wildcard(__webpack_require__(7294));
-            function SideEffect(props) {
+            exports["default"] = function(props) {
                 const { headManager , reduceComponentsToState  } = props;
                 function emitChange() {
                     if (headManager && headManager.mountedInstances) {
@@ -4272,7 +4175,9 @@
                     };
                 });
                 return null;
-            }
+            };
+            var _interop_require_wildcard = __webpack_require__(1598).Z;
+            var _react = _interop_require_wildcard(__webpack_require__(7294));
             const isServer = false;
             const useClientOnlyLayoutEffect = isServer ? ()=>{} : _react.useLayoutEffect;
             const useClientOnlyEffect = isServer ? ()=>{} : _react.useEffect;
@@ -4282,25 +4187,7 @@
             Object.defineProperty(exports, "__esModule", {
                 value: true
             });
-            exports.execOnce = execOnce;
-            exports.getLocationOrigin = getLocationOrigin;
-            exports.getURL = getURL;
-            exports.getDisplayName = getDisplayName;
-            exports.isResSent = isResSent;
-            exports.normalizeRepeatedSlashes = normalizeRepeatedSlashes;
-            exports.loadGetInitialProps = loadGetInitialProps;
-            exports.ST = exports.SP = exports.isAbsoluteUrl = exports.WEB_VITALS = void 0;
-            var _async_to_generator = __webpack_require__(932).Z;
-            const WEB_VITALS = [
-                "CLS",
-                "FCP",
-                "FID",
-                "INP",
-                "LCP",
-                "TTFB"
-            ];
-            exports.WEB_VITALS = WEB_VITALS;
-            function execOnce(fn) {
+            exports.execOnce = function(fn) {
                 let used = false;
                 let result;
                 return function() {
@@ -4311,7 +4198,31 @@
                     }
                     return result;
                 };
-            }
+            };
+            exports.getLocationOrigin = getLocationOrigin;
+            exports.getURL = function() {
+                const { href  } = window.location;
+                const origin = getLocationOrigin();
+                return href.substring(origin.length);
+            };
+            exports.getDisplayName = getDisplayName;
+            exports.isResSent = isResSent;
+            exports.normalizeRepeatedSlashes = function(url) {
+                const urlParts = url.split("?");
+                const urlNoQuery = urlParts[0];
+                return urlNoQuery.replace(/\\/g, "/").replace(/\/\/+/g, "/") + (urlParts[1] ? "?".concat(urlParts.slice(1).join("?")) : "");
+            };
+            exports.loadGetInitialProps = loadGetInitialProps;
+            exports.ST = exports.SP = exports.isAbsoluteUrl = exports.WEB_VITALS = void 0;
+            var _async_to_generator = __webpack_require__(932).Z;
+            exports.WEB_VITALS = [
+                "CLS",
+                "FCP",
+                "FID",
+                "INP",
+                "LCP",
+                "TTFB"
+            ];
             const ABSOLUTE_URL_REGEX = /^[a-zA-Z][a-zA-Z\d+\-.]*?:/;
             const isAbsoluteUrl = (url)=>ABSOLUTE_URL_REGEX.test(url);
             exports.isAbsoluteUrl = isAbsoluteUrl;
@@ -4319,21 +4230,11 @@
                 const { protocol , hostname , port  } = window.location;
                 return "".concat(protocol, "//").concat(hostname).concat(port ? ":" + port : "");
             }
-            function getURL() {
-                const { href  } = window.location;
-                const origin = getLocationOrigin();
-                return href.substring(origin.length);
-            }
             function getDisplayName(Component) {
                 return "string" == typeof Component ? Component : Component.displayName || Component.name || "Unknown";
             }
             function isResSent(res) {
                 return res.finished || res.headersSent;
-            }
-            function normalizeRepeatedSlashes(url) {
-                const urlParts = url.split("?");
-                const urlNoQuery = urlParts[0];
-                return urlNoQuery.replace(/\\/g, "/").replace(/\/\/+/g, "/") + (urlParts[1] ? "?".concat(urlParts.slice(1).join("?")) : "");
             }
             function loadGetInitialProps(App, ctx) {
                 return _loadGetInitialProps.apply(this, arguments);
@@ -4371,35 +4272,30 @@
                 "getEntriesByName"
             ].every((method)=>"function" == typeof performance[method]);
             exports.ST = ST;
-            class DecodeError extends Error {
-            }
-            exports.DecodeError = DecodeError;
-            class NormalizeError extends Error {
-            }
-            exports.NormalizeError = NormalizeError;
-            class PageNotFoundError extends Error {
+            exports.DecodeError = class DecodeError extends Error {
+            };
+            exports.NormalizeError = class NormalizeError extends Error {
+            };
+            exports.PageNotFoundError = class PageNotFoundError extends Error {
                 constructor(page){
                     super();
                     this.code = "ENOENT";
                     this.message = "Cannot find module for page: ".concat(page);
                 }
-            }
-            exports.PageNotFoundError = PageNotFoundError;
-            class MissingStaticPage extends Error {
+            };
+            exports.MissingStaticPage = class MissingStaticPage extends Error {
                 constructor(page, message){
                     super();
                     this.message = "Failed to load static file for page: ".concat(page, " ").concat(message);
                 }
-            }
-            exports.MissingStaticPage = MissingStaticPage;
-            class MiddlewareNotFoundError extends Error {
+            };
+            exports.MiddlewareNotFoundError = class MiddlewareNotFoundError extends Error {
                 constructor(){
                     super();
                     this.code = "ENOENT";
                     this.message = "Cannot find the middleware module";
                 }
-            }
-            exports.MiddlewareNotFoundError = MiddlewareNotFoundError;
+            };
         },
         7238: function(__unused_webpack_module, exports) {
             "use strict";
@@ -4412,7 +4308,6 @@
             exports.warnOnce = warnOnce;
         },
         8018: function(module) {
-            var __dirname = "/";
             (function() {
                 "use strict";
                 var n = {};
@@ -4439,7 +4334,7 @@
                         });
                     };
                 }();
-                if (void 0 !== n) n.ab = __dirname + "/";
+                if (void 0 !== n) n.ab = "//";
                 var y = {};
                 n.r(y);
                 n.d(y, {
@@ -4642,7 +4537,7 @@
                         m(j.takeRecords()), j.disconnect();
                     }, !0), j && o(function() {
                         var k;
-                        N = f("FID"), w = l(n, N, I, y.reportAllChanges), P = [], C = -1, T = null, A(addEventListener), k = v, P.push(k), S();
+                        N = f("FID"), w = l(n, N, I, y.reportAllChanges), P = [], C = -1, T = null, A(addEventListener), P.push(v), S();
                     });
                 }, J = 0, K = 1 / 0, Q = 0, M = function(n) {
                     n.forEach(function(n) {
@@ -4774,29 +4669,27 @@
                 value: true
             });
             exports["default"] = isError;
-            exports.getProperError = getProperError;
-            var _isPlainObject = __webpack_require__(2849);
-            function isError(err) {
-                return "object" == typeof err && null !== err && "name" in err && "message" in err;
-            }
-            function getProperError(err) {
+            exports.getProperError = function(err) {
                 if (isError(err)) {
                     return err;
                 }
                 if (false) ;
                 return Error(_isPlainObject.isPlainObject(err) ? JSON.stringify(err) : err + "");
+            };
+            var _isPlainObject = __webpack_require__(2849);
+            function isError(err) {
+                return "object" == typeof err && null !== err && "name" in err && "message" in err;
             }
         },
         2431: function() {}
     },
     function(__webpack_require__) {
-        var __webpack_exec__ = function(moduleId) {
-            return __webpack_require__(__webpack_require__.s = moduleId);
-        };
         __webpack_require__.O(0, [
             774
         ], function() {
-            return __webpack_exec__(1783);
+            return function(moduleId) {
+                return __webpack_require__(__webpack_require__.s = 1783);
+            }(1783);
         });
         var __webpack_exports__ = __webpack_require__.O();
         _N_E = __webpack_exports__;
