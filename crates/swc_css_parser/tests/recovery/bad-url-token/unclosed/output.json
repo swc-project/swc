@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 72,
+    "end": 38,
     "ctxt": 0
   },
   "rules": [
@@ -10,14 +10,14 @@
       "type": "QualifiedRule",
       "span": {
         "start": 1,
-        "end": 72,
+        "end": 38,
         "ctxt": 0
       },
       "prelude": {
         "type": "SelectorList",
         "span": {
           "start": 1,
-          "end": 2,
+          "end": 5,
           "ctxt": 0
         },
         "children": [
@@ -25,7 +25,7 @@
             "type": "ComplexSelector",
             "span": {
               "start": 1,
-              "end": 2,
+              "end": 5,
               "ctxt": 0
             },
             "children": [
@@ -33,38 +33,31 @@
                 "type": "CompoundSelector",
                 "span": {
                   "start": 1,
-                  "end": 2,
+                  "end": 5,
                   "ctxt": 0
                 },
                 "nestingSelector": null,
-                "typeSelector": {
-                  "type": "TagNameSelector",
-                  "span": {
-                    "start": 1,
-                    "end": 2,
-                    "ctxt": 0
-                  },
-                  "name": {
-                    "type": "WqName",
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "ClassSelector",
                     "span": {
                       "start": 1,
-                      "end": 2,
+                      "end": 5,
                       "ctxt": 0
                     },
-                    "prefix": null,
-                    "value": {
+                    "text": {
                       "type": "Ident",
                       "span": {
-                        "start": 1,
-                        "end": 2,
+                        "start": 2,
+                        "end": 5,
                         "ctxt": 0
                       },
-                      "value": "a",
-                      "raw": "a"
+                      "value": "foo",
+                      "raw": "foo"
                     }
                   }
-                },
-                "subclassSelectors": []
+                ]
               }
             ]
           }
@@ -73,15 +66,15 @@
       "block": {
         "type": "SimpleBlock",
         "span": {
-          "start": 3,
-          "end": 72,
+          "start": 6,
+          "end": 38,
           "ctxt": 0
         },
         "name": {
           "type": "PreservedToken",
           "span": {
-            "start": 3,
-            "end": 4,
+            "start": 6,
+            "end": 7,
             "ctxt": 0
           },
           "token": "LBrace"
@@ -90,15 +83,15 @@
           {
             "type": "Declaration",
             "span": {
-              "start": 9,
-              "end": 69,
+              "start": 12,
+              "end": 38,
               "ctxt": 0
             },
             "name": {
               "type": "Ident",
               "span": {
-                "start": 9,
-                "end": 19,
+                "start": 12,
+                "end": 22,
                 "ctxt": 0
               },
               "value": "background",
@@ -108,13 +101,13 @@
               {
                 "type": "PreservedToken",
                 "span": {
-                  "start": 21,
-                  "end": 69,
+                  "start": 24,
+                  "end": 38,
                   "ctxt": 0
                 },
                 "token": {
                   "BadUrl": {
-                    "raw": "url(\n        /* test */\n        \"test.png\"\n    )"
+                    "raw": "url(foo bar;\n}"
                   }
                 }
               }

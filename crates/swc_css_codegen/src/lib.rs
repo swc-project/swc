@@ -2027,14 +2027,7 @@ where
                 write_str!(self, span, &url);
             }
             Token::BadUrl { raw, .. } => {
-                let mut bad_url = String::with_capacity(raw.0.len() + raw.1.len() + 2);
-
-                bad_url.push_str(&raw.0);
-                bad_url.push('(');
-                bad_url.push_str(&raw.1);
-                bad_url.push(')');
-
-                write_str!(self, span, &bad_url);
+                write_str!(self, span, &raw);
             }
             Token::Comma => {
                 write_raw!(self, span, ",");

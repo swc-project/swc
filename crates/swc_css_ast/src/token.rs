@@ -103,7 +103,7 @@ pub enum Token {
         raw: Box<(Atom, Atom)>,
     },
     BadUrl {
-        raw: Box<(Atom, Atom)>,
+        raw: Atom,
     },
     Delim {
         value: char,

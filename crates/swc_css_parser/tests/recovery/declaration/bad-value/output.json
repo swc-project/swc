@@ -174,10 +174,7 @@
                 },
                 "token": {
                   "BadUrl": {
-                    "raw": [
-                      "url",
-                      "test test"
-                    ]
+                    "raw": "url(test test)"
                   }
                 }
               }

@@ -26,7 +26,6 @@ where
     buf: Rc<RefCell<String>>,
     raw_buf: Rc<RefCell<String>>,
     sub_buf: Rc<RefCell<String>>,
-    sub_raw_buf: Rc<RefCell<String>>,
     errors: Rc<RefCell<Vec<Error>>>,
 }
 
@@ -47,7 +46,6 @@ where
             buf: Rc::new(RefCell::new(String::with_capacity(256))),
             raw_buf: Rc::new(RefCell::new(String::with_capacity(256))),
             sub_buf: Rc::new(RefCell::new(String::with_capacity(32))),
-            sub_raw_buf: Rc::new(RefCell::new(String::with_capacity(32))),
             errors: Default::default(),
         }
     }
@@ -89,21 +87,6 @@ where
         raw.clear();
 
         op(self, &mut buf, &mut raw)
-    }
-
-    fn with_sub_buf_and_raw_buf<F, Ret>(&mut self, op: F) -> LexResult<Ret>
-    where
-        F: for<'any> FnOnce(&mut Lexer<I>, &mut String, &mut String) -> LexResult<Ret>,
-    {
-        let b = self.sub_buf.clone();
-        let r = self.sub_raw_buf.clone();
-        let mut sub_buf = b.borrow_mut();
-        let mut sub_raw_buf = r.borrow_mut();
-
-        sub_buf.clear();
-        sub_raw_buf.clear();
-
-        op(self, &mut sub_buf, &mut sub_raw_buf)
     }
 }
 
@@ -855,16 +838,14 @@ where
 
                         // otherwise, consume the remnants of a bad url, create a <bad-url-token>,
                         // and return it.
-                        out.push_str(&whitespaces);
                         raw.push_str(&whitespaces);
 
                         let remnants = l.read_bad_url_remnants()?;
 
-                        out.push_str(&remnants.0);
-                        raw.push_str(&remnants.1);
+                        raw.push_str(&remnants);
 
                         return Ok(Token::BadUrl {
-                            raw: Box::new((name.1, (&**raw).into())),
+                            raw: Atom::new(format!("{}{}{}", name.1, "(", raw)),
                         });
                     }
 
@@ -879,13 +860,11 @@ where
 
                         let remnants = l.read_bad_url_remnants()?;
 
-                        out.push(c);
-                        out.push_str(&remnants.0);
                         raw.push(c);
-                        raw.push_str(&remnants.1);
+                        raw.push_str(&remnants);
 
                         return Ok(Token::BadUrl {
-                            raw: Box::new((name.1, (&**raw).into())),
+                            raw: Atom::new(format!("{}{}{}", name.1, "(", raw)),
                         });
                     }
 
@@ -908,13 +887,11 @@ where
 
                             let remnants = l.read_bad_url_remnants()?;
 
-                            out.push(c);
-                            out.push_str(&remnants.0);
                             raw.push(c);
-                            raw.push_str(&remnants.1);
+                            raw.push_str(&remnants);
 
                             return Ok(Token::BadUrl {
-                                raw: Box::new((name.1, (&**raw).into())),
+                                raw: Atom::new(format!("{}{}{}", name.1, "(", raw)),
                             });
                         }
                     }
@@ -1310,8 +1287,8 @@ where
     // its sole use is to consume enough of the input stream to reach a recovery
     // point where normal tokenizing can resume. But for recovery purpose we return
     // bad URL remnants.
-    fn read_bad_url_remnants(&mut self) -> LexResult<(String, String)> {
-        self.with_sub_buf_and_raw_buf(|l, buf, raw| {
+    fn read_bad_url_remnants(&mut self) -> LexResult<String> {
+        self.with_sub_buf(|l, raw| {
             // Repeatedly consume the next input code point from the stream:
             loop {
                 l.consume();
@@ -1320,7 +1297,9 @@ where
                     // U+0029 RIGHT PARENTHESIS ())
                     // EOF
                     // Return.
-                    Some(')') => {
+                    Some(c @ ')') => {
+                        raw.push(c);
+
                         break;
                     }
                     None => {
@@ -1332,20 +1311,18 @@ where
                         // ("\)") to be encountered without ending the <bad-url-token>.
                         let escaped = l.read_escape()?;
 
-                        buf.push(escaped.0);
                         raw.push(c);
                         raw.push_str(&escaped.1);
                     }
                     // anything else
                     // Do nothing.
                     Some(c) => {
-                        buf.push(c);
                         raw.push(c);
                     }
                 }
             }
 
-            Ok(((&**buf).into(), (&**raw).into()))
+            Ok((&**raw).into())
         })
     }
 }
