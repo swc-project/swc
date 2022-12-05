@@ -177,7 +177,7 @@ dependencies = [
 
 [[package]]
 name = "binding_macros"
-version = "0.21.6"
+version = "0.21.7"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -842,7 +842,7 @@ dependencies = [
 
 [[package]]
 name = "dbg-swc"
-version = "0.59.7"
+version = "0.59.8"
 dependencies = [
  "anyhow",
  "clap 3.1.0",
@@ -3073,7 +3073,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.233.6"
+version = "0.233.7"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3145,7 +3145,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.193.4"
+version = "0.193.5"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3260,7 +3260,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.45.2"
+version = "0.45.3"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -3622,7 +3622,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.160.4"
+version = "0.160.5"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -4045,7 +4045,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.206.4"
+version = "0.206.5"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -4093,7 +4093,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.155.6"
+version = "0.155.7"
 dependencies = [
  "ahash",
  "anyhow",
@@ -4141,7 +4141,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html"
-version = "0.97.7"
+version = "0.97.8"
 dependencies = [
  "swc_html_ast",
  "swc_html_codegen",
@@ -4193,7 +4193,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "0.94.7"
+version = "0.94.8"
 dependencies = [
  "criterion",
  "once_cell",
@@ -4279,7 +4279,7 @@ dependencies = [
 
 [[package]]
 name = "swc_node_bundler"
-version = "0.19.6"
+version = "0.19.7"
 dependencies = [
  "anyhow",
  "dashmap",
