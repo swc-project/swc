@@ -24,6 +24,7 @@ pub(super) struct State {
     pub is_expr_allowed: bool,
     pub next_regexp: Option<BytePos>,
     /// if line break exists between previous token and new token?
+    pub prev_had_line_break: bool,
     pub had_line_break: bool,
     /// TODO: Remove this field.
     is_first: bool,
@@ -352,8 +353,10 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
                     });
                 }
             }
+
             self.state.update(start, token);
             self.state.prev_hi = self.last_pos();
+            self.state.prev_had_line_break = self.state.had_line_break;
         }
 
         token.map(|token| {
@@ -376,6 +379,7 @@ impl State {
             next_regexp: None,
             is_first: true,
             had_line_break: false,
+            prev_had_line_break: false,
             prev_hi: start_pos,
             context,
             token_type: None,
@@ -438,6 +442,7 @@ impl State {
             start,
             next,
             self.had_line_break,
+            self.prev_had_line_break,
             self.is_expr_allowed,
         );
     }
@@ -451,6 +456,7 @@ impl State {
         start: BytePos,
         next: &Token,
         had_line_break: bool,
+        prev_had_line_break: bool,
         is_expr_allowed: bool,
     ) -> bool {
         let is_next_keyword = matches!(*next, Word(Word::Keyword(..)));
@@ -544,7 +550,7 @@ impl State {
                             TokenType::Keyword(Let)
                             | TokenType::Keyword(Const)
                             | TokenType::Keyword(Var)
-                                if had_line_break =>
+                                if prev_had_line_break =>
                             {
                                 true
                             }
