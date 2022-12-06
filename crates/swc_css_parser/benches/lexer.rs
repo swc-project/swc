@@ -20,18 +20,30 @@ fn bench_stylesheet(b: &mut Bencher, src: &'static str) {
     });
 }
 
+fn run(c: &mut Criterion, id: &str, src: &'static str) {
+    c.bench_function(&format!("css/parser/{}", id), |b| {
+        bench_stylesheet(b, src);
+    });
+}
+
 fn bench_files(c: &mut Criterion) {
-    c.bench_function("css/lexer/bootstrap_5_1_3", |b| {
-        bench_stylesheet(b, include_str!("./files/bootstrap_5_1_3.css"))
-    });
+    run(
+        c,
+        "bootstrap_5_1_3",
+        include_str!("./files/bootstrap_5_1_3.css"),
+    );
 
-    c.bench_function("css/lexer/foundation_6_7_4", |b| {
-        bench_stylesheet(b, include_str!("./files/foundation_6_7_4.css"))
-    });
+    run(
+        c,
+        "foundation_6_7_4",
+        include_str!("./files/foundation_6_7_4.css"),
+    );
 
-    c.bench_function("css/lexer/tailwind_3_1_1", |b| {
-        bench_stylesheet(b, include_str!("./files/tailwind_3_1_1.css"))
-    });
+    run(
+        c,
+        "tailwind_3_1_1",
+        include_str!("./files/tailwind_3_1_1.css"),
+    );
 }
 
 criterion_group!(benches, bench_files);
