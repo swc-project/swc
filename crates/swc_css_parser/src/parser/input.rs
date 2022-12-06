@@ -1,4 +1,4 @@
-use std::{fmt::Debug, mem::take};
+use std::{borrow::Cow, fmt::Debug, mem::take};
 
 use swc_atoms::{Atom, JsWord};
 use swc_common::{BytePos, Span, Spanned, SyntaxContext};
@@ -340,7 +340,7 @@ impl<'a> Input<'a> {
         }
     }
 
-    fn cur(&mut self) -> PResult<TokenAndSpan> {
+    fn cur(&mut self) -> PResult<Cow<TokenAndSpan>> {
         match self.input {
             InputType::Tokens(input) => {
                 let idx = match self.idx.last() {
@@ -354,7 +354,7 @@ impl<'a> Input<'a> {
                 };
 
                 let token_and_span = match input.tokens.get(*idx) {
-                    Some(token_and_span) => token_and_span.clone(),
+                    Some(token_and_span) => token_and_span,
                     None => {
                         let bp = input.span.hi;
                         let span = Span::new(bp, bp, SyntaxContext::empty());
@@ -363,7 +363,7 @@ impl<'a> Input<'a> {
                     }
                 };
 
-                Ok(token_and_span)
+                Ok(Cow::Borrowed(token_and_span))
             }
             InputType::ListOfComponentValues(input) => {
                 let token_and_span = match self.get_component_value(&input.children, 0) {
@@ -409,7 +409,7 @@ impl<'a> Input<'a> {
                     }
                 };
 
-                Ok(token_and_span)
+                Ok(Cow::Owned(token_and_span))
             }
         }
     }
@@ -447,7 +447,7 @@ impl<'a> ParserInput for Input<'a> {
         while let Ok(TokenAndSpan {
             token: tok!(" "),
             span,
-        }) = self.cur()
+        }) = self.cur().as_deref()
         {
             last_pos = Some(span.hi);
 
@@ -465,7 +465,7 @@ impl<'a> Iterator for Input<'a> {
 
     fn next(&mut self) -> Option<Self::Item> {
         let token_and_span = match self.cur() {
-            Ok(token_and_span) => token_and_span,
+            Ok(token_and_span) => token_and_span.into_owned(),
             _ => return None,
         };
 
