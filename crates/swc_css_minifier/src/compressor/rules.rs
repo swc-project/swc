@@ -482,12 +482,23 @@ impl Compressor {
 
     pub(super) fn compress_simple_block(&mut self, simple_block: &mut SimpleBlock) {
         let mut names: AHashMap<Name, isize> = Default::default();
-        let mut prev_rule: Option<ComponentValue> = None;
+        let mut prev_rule_idx = None;
         let mut remove_rules_list = vec![];
         let mut prev_index = 0;
-        let mut index = 0;
 
-        simple_block.value.retain_mut(|rule| {
+        for index in 0..simple_block.value.len() {
+            // We need two &mut
+            let (a, b) = simple_block.value.split_at_mut(index);
+
+            let mut prev_rule = match prev_rule_idx {
+                Some(idx) => a.get_mut(idx),
+                None => None,
+            };
+            let rule = match b.first_mut() {
+                Some(v) => v,
+                None => continue,
+            };
+
             let result = match rule {
                 ComponentValue::Rule(box Rule::AtRule(box AtRule {
                     block: Some(block), ..
@@ -600,24 +611,24 @@ impl Compressor {
                         if self.is_mergeable_at_rule(at_rule) =>
                     {
                         prev_index = index;
-                        prev_rule = Some(rule.clone());
+                        prev_rule_idx = Some(index);
                     }
 
                     ComponentValue::Rule(box Rule::QualifiedRule(_))
                     | ComponentValue::StyleBlock(box StyleBlock::QualifiedRule(_)) => {
                         prev_index = index;
-                        prev_rule = Some(rule.clone());
+                        prev_rule_idx = Some(index);
                     }
                     _ => {
-                        prev_rule = None;
+                        prev_rule_idx = None;
                     }
                 }
-
-                index += 1;
             }
 
-            result
-        });
+            if !result {
+                remove_rules_list.push(index);
+            }
+        }
 
         if !names.is_empty() {
             self.discard_overridden(

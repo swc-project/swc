@@ -49,6 +49,9 @@
 
 - **(ci)** Fix CI (#6558) ([8587589](https://github.com/swc-project/swc/commit/85875897f1fd3e71fe5e5d1877bb0e80458835d9))
 
+
+- **(ci)** Fix benchmark action (#6582) ([d8adc58](https://github.com/swc-project/swc/commit/d8adc580110e0764686f5aea848425905605daa0))
+
 ### Performance
 
 
@@ -60,6 +63,9 @@
 
 
 - **(css/minifier)** Remove more redundant clones (#6580) ([4171ee7](https://github.com/swc-project/swc/commit/4171ee7fb353966c5a11e4701b2bdf28bc895ad1))
+
+
+- **(css/minifier)** Improve performance (#6583) ([7895599](https://github.com/swc-project/swc/commit/78955995a2fd381a9d56a325e368aa29dcc3c7be))
 
 ### Refactor
 
