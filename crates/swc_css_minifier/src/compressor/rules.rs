@@ -90,7 +90,12 @@ impl Compressor {
         }
     }
 
-    fn discard_overridden(&self, parent_node: ParentNode, names: &mut AHashMap<Name, isize>) {
+    fn discard_overridden(
+        &self,
+        parent_node: ParentNode,
+        names: &mut AHashMap<Name, isize>,
+        remove_rules_list: &mut Vec<usize>,
+    ) {
         let mut discarder = |at_rule: &AtRule| match &at_rule.prelude {
             Some(box AtRulePrelude::CounterStylePrelude(CustomIdent { value: name, .. })) => {
                 if let Some(counter) = names.get_mut(&Name::CounterStyle(name.clone())) {
@@ -134,15 +139,33 @@ impl Compressor {
 
         match parent_node {
             ParentNode::Stylesheet(stylesheet) => {
-                stylesheet.rules.retain(|rule| match rule {
-                    Rule::AtRule(box at_rule) => discarder(at_rule),
-                    _ => true,
-                });
+                for index in 0..stylesheet.rules.len() {
+                    let node = stylesheet.rules.get(index);
+
+                    match node {
+                        Some(Rule::AtRule(box at_rule)) => {
+                            if !discarder(&at_rule) {
+                                remove_rules_list.push(index);
+                            }
+                        }
+                        _ => {}
+                    }
+                }
             }
-            ParentNode::SimpleBlock(simple_block) => simple_block.value.retain(|rule| match rule {
-                ComponentValue::Rule(box Rule::AtRule(box at_rule)) => discarder(at_rule),
-                _ => true,
-            }),
+            ParentNode::SimpleBlock(simple_block) => {
+                for index in 0..simple_block.value.len() {
+                    let node = simple_block.value.get(index);
+
+                    match node {
+                        Some(ComponentValue::Rule(box Rule::AtRule(box at_rule))) => {
+                            if !discarder(&at_rule) {
+                                remove_rules_list.push(index);
+                            }
+                        }
+                        _ => {}
+                    }
+                }
+            }
         }
     }
 
@@ -423,7 +446,11 @@ impl Compressor {
         }
 
         if !names.is_empty() {
-            self.discard_overridden(ParentNode::Stylesheet(stylesheet), &mut names);
+            self.discard_overridden(
+                ParentNode::Stylesheet(stylesheet),
+                &mut names,
+                &mut remove_rules_list,
+            );
         }
 
         if !remove_rules_list.is_empty() {
@@ -599,7 +626,11 @@ impl Compressor {
         });
 
         if !names.is_empty() {
-            self.discard_overridden(ParentNode::SimpleBlock(simple_block), &mut names);
+            self.discard_overridden(
+                ParentNode::SimpleBlock(simple_block),
+                &mut names,
+                &mut remove_rules_list,
+            );
         }
 
         if !remove_rules_list.is_empty() {
