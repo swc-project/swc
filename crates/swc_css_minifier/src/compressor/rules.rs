@@ -341,9 +341,9 @@ impl Compressor {
         let mut remove_rules_list = vec![];
         let mut prev_index = 0;
 
-        for j in 0..stylesheet.rules.len() {
+        for index in 0..stylesheet.rules.len() {
             // We need two &mut
-            let (a, b) = stylesheet.rules.split_at_mut(j);
+            let (a, b) = stylesheet.rules.split_at_mut(index);
 
             let mut prev_rule = match prev_rule_idx {
                 Some(idx) => a.get_mut(idx),
@@ -404,12 +404,12 @@ impl Compressor {
                     Rule::AtRule(box at_rule @ AtRule { .. })
                         if self.is_mergeable_at_rule(at_rule) =>
                     {
-                        prev_index = j;
-                        prev_rule_idx = Some(j);
+                        prev_index = index;
+                        prev_rule_idx = Some(index);
                     }
                     Rule::QualifiedRule(_) => {
-                        prev_index = j;
-                        prev_rule_idx = Some(j);
+                        prev_index = index;
+                        prev_rule_idx = Some(index);
                     }
                     _ => {
                         prev_rule_idx = None;
@@ -418,7 +418,7 @@ impl Compressor {
             }
 
             if !result {
-                remove_rules_list.push(j);
+                remove_rules_list.push(index);
             }
         }
 
