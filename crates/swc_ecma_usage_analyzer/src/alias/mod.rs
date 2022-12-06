@@ -32,10 +32,7 @@ impl InfectableNode for Function {
 
 impl InfectableNode for Expr {
     fn is_fn_or_arrow_expr(&self) -> bool {
-        match self {
-            Expr::Arrow(..) | Expr::Fn(..) => true,
-            _ => false,
-        }
+        matches!(self, Expr::Arrow(..) | Expr::Fn(..))
     }
 }
 
@@ -107,10 +104,8 @@ impl InfectionCollector<'_> {
             return;
         }
 
-        if self.unresolved_ctxt == Some(e.1) {
-            if is_global_var_with_pure_property_access(&e.0) {
-                return;
-            }
+        if self.unresolved_ctxt == Some(e.1) && is_global_var_with_pure_property_access(&e.0) {
+            return;
         }
 
         self.accesses.insert((

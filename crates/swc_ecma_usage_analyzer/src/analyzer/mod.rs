@@ -250,60 +250,62 @@ impl ProgramData {
         module_info: &ModuleInfo,
         ids: FxHashSet<Access>,
         max_num: usize,
-    ) -> Result<FxHashSet<Access>, ()> {
+    ) -> Option<FxHashSet<Access>> {
         let init =
             HashSet::with_capacity_and_hasher(max_num, BuildHasherDefault::<FxHasher>::default());
-        ids.into_iter().try_fold(init, |mut res, id| {
-            let mut ids = Vec::with_capacity(max_num);
-            ids.push(id);
-            let mut ranges = vec![0..1usize];
-            loop {
-                let range = ranges.remove(0);
-                for index in range {
-                    let iid = ids.get(index).unwrap();
+        ids.into_iter()
+            .try_fold(init, |mut res, id| {
+                let mut ids = Vec::with_capacity(max_num);
+                ids.push(id);
+                let mut ranges = vec![0..1usize];
+                loop {
+                    let range = ranges.remove(0);
+                    for index in range {
+                        let iid = ids.get(index).unwrap();
 
-                    // Abort on imported variables, because we can't analyze them
-                    if module_info.blackbox_imports.contains(&iid.0) {
-                        return Err(());
-                    }
-                    if !res.insert(iid.clone()) {
-                        continue;
-                    }
-                    if res.len() >= max_num {
-                        return Err(());
-                    }
-                    if let Some(info) = self.vars.get(&iid.0) {
-                        let infects = &info.infects;
-                        if !infects.is_empty() {
-                            let old_len = ids.len();
+                        // Abort on imported variables, because we can't analyze them
+                        if module_info.blackbox_imports.contains(&iid.0) {
+                            return Err(());
+                        }
+                        if !res.insert(iid.clone()) {
+                            continue;
+                        }
+                        if res.len() >= max_num {
+                            return Err(());
+                        }
+                        if let Some(info) = self.vars.get(&iid.0) {
+                            let infects = &info.infects;
+                            if !infects.is_empty() {
+                                let old_len = ids.len();
 
-                            // This is not a call, so effects from call can be skipped
-                            let can_skip_non_call = matches!(iid.1, AccessKind::Reference)
-                                || (info.declared_count == 1
-                                    && info.declared_as_fn_decl
-                                    && !info.reassigned());
+                                // This is not a call, so effects from call can be skipped
+                                let can_skip_non_call = matches!(iid.1, AccessKind::Reference)
+                                    || (info.declared_count == 1
+                                        && info.declared_as_fn_decl
+                                        && !info.reassigned());
 
-                            if can_skip_non_call {
-                                ids.extend(
-                                    infects
-                                        .iter()
-                                        .filter(|(_, kind)| *kind != AccessKind::Call)
-                                        .cloned(),
-                                );
-                            } else {
-                                ids.extend_from_slice(infects.as_slice());
+                                if can_skip_non_call {
+                                    ids.extend(
+                                        infects
+                                            .iter()
+                                            .filter(|(_, kind)| *kind != AccessKind::Call)
+                                            .cloned(),
+                                    );
+                                } else {
+                                    ids.extend_from_slice(infects.as_slice());
+                                }
+                                let new_len = ids.len();
+                                ranges.push(old_len..new_len);
                             }
-                            let new_len = ids.len();
-                            ranges.push(old_len..new_len);
                         }
                     }
+                    if ranges.is_empty() {
+                        break;
+                    }
                 }
-                if ranges.is_empty() {
-                    break;
-                }
-            }
-            Ok(res)
-        })
+                Ok(res)
+            })
+            .ok()
     }
 
     pub fn contains_unresolved(&self, e: &Expr) -> bool {
@@ -1504,10 +1506,8 @@ where
                 } = e
                 {
                     // TODO: merge with may_have_side_effects
-                    let can_ignore = match &**init {
-                        Expr::Call(call) if call.span.has_mark(marks.pure) => true,
-                        _ => false,
-                    };
+                    let can_ignore =
+                        matches!(&**init, Expr::Call(call) if call.span.has_mark(marks.pure));
                     let id = id.to_id();
                     self.used_recursively
                         .insert(id.clone(), RecursiveUsage::Var { can_ignore });

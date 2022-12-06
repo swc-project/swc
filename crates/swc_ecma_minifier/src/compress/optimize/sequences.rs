@@ -1170,8 +1170,8 @@ where
                                 .expand_infected(self.module_info, ids_used_by_a_init, 64);
 
                         let deps = match deps {
-                            Ok(v) => v,
-                            Err(()) => return false,
+                            Some(v) => v,
+                            _ => return false,
                         };
                         if deps.contains(&(e.to_id(), AccessKind::Reference))
                             || deps.contains(&(e.to_id(), AccessKind::Call))
