@@ -27,12 +27,28 @@ pub enum Rule {
     ListOfComponentValues(Box<ListOfComponentValues>),
 }
 
+impl Take for Rule {
+    fn dummy() -> Self {
+        Self::QualifiedRule(Take::dummy())
+    }
+}
+
 #[ast_node("QualifiedRule")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct QualifiedRule {
     pub span: Span,
     pub prelude: QualifiedRulePrelude,
     pub block: SimpleBlock,
+}
+
+impl Take for QualifiedRule {
+    fn dummy() -> Self {
+        Self {
+            span: Take::dummy(),
+            prelude: Take::dummy(),
+            block: Take::dummy(),
+        }
+    }
 }
 
 #[ast_node]
