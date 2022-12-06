@@ -46,6 +46,12 @@ pub enum QualifiedRulePrelude {
     ListOfComponentValues(ListOfComponentValues),
 }
 
+impl Take for QualifiedRulePrelude {
+    fn dummy() -> Self {
+        Self::SelectorList(Take::dummy())
+    }
+}
+
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum StyleBlock {

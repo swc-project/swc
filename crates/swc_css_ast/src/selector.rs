@@ -12,6 +12,15 @@ pub struct SelectorList {
     pub children: Vec<ComplexSelector>,
 }
 
+impl Take for SelectorList {
+    fn dummy() -> Self {
+        Self {
+            span: Take::dummy(),
+            children: Take::dummy(),
+        }
+    }
+}
+
 #[ast_node("SelectorList")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct ForgivingSelectorList {
