@@ -349,77 +349,85 @@ impl Compressor {
                 }
 
                 // We need two &mut
-            }
-        }
+                let (a, b) = stylesheet.rules.split_at_mut(j);
 
-        stylesheet.rules.retain_mut(|rule| {
-            let result = match rule {
-                Rule::AtRule(box AtRule {
-                    name: AtRuleName::Ident(Ident { value, .. }),
-                    block: Some(block),
-                    ..
-                }) if !need_keep_by_name(value) && block.value.is_empty() => false,
-                Rule::QualifiedRule(box QualifiedRule { block, .. }) if block.value.is_empty() => {
-                    false
-                }
-                Rule::AtRule(box at_rule @ AtRule { .. })
-                    if self.is_mergeable_at_rule(at_rule)
-                        && matches!(prev_rule, Some(Rule::AtRule(_))) =>
-                {
-                    if let Some(Rule::AtRule(box prev_rule)) = &mut prev_rule {
-                        if let Some(at_rule) = self.try_merge_at_rule(prev_rule, at_rule) {
-                            *rule = Rule::AtRule(Box::new(at_rule));
+                let mut rule = match b.first_mut() {
+                    Some(v) => v,
+                    None => continue,
+                };
 
-                            remove_rules_list.push(prev_index);
-                        }
-                    }
-
-                    true
-                }
-                Rule::QualifiedRule(box qualified_rule @ QualifiedRule { .. })
-                    if matches!(prev_rule, Some(Rule::QualifiedRule(_))) =>
-                {
-                    if let Some(Rule::QualifiedRule(box prev_rule)) = &mut prev_rule {
-                        if let Some(qualified_rule) =
-                            self.try_merge_qualified_rules(prev_rule, qualified_rule)
-                        {
-                            *rule = Rule::QualifiedRule(Box::new(qualified_rule));
-
-                            remove_rules_list.push(prev_index);
-                        }
-                    }
-
-                    true
-                }
-                _ => {
-                    self.collect_names(rule, &mut names);
-
-                    true
-                }
-            };
-
-            if result {
-                match rule {
-                    Rule::AtRule(box at_rule @ AtRule { .. })
-                        if self.is_mergeable_at_rule(at_rule) =>
+                let result = match rule {
+                    Rule::AtRule(box AtRule {
+                        name: AtRuleName::Ident(Ident { value, .. }),
+                        block: Some(block),
+                        ..
+                    }) if !need_keep_by_name(value) && block.value.is_empty() => false,
+                    Rule::QualifiedRule(box QualifiedRule { block, .. })
+                        if block.value.is_empty() =>
                     {
-                        prev_index = index;
-                        prev_rule = Some(rule.clone());
+                        false
                     }
-                    Rule::QualifiedRule(_) => {
-                        prev_index = index;
-                        prev_rule = Some(rule.clone());
+                    Rule::AtRule(box at_rule @ AtRule { .. })
+                        if self.is_mergeable_at_rule(at_rule)
+                            && matches!(prev_rule, Some(Rule::AtRule(_))) =>
+                    {
+                        if let Some(Rule::AtRule(box prev_rule)) = &mut prev_rule {
+                            if let Some(at_rule) = self.try_merge_at_rule(prev_rule, at_rule) {
+                                *rule = Rule::AtRule(Box::new(at_rule));
+
+                                remove_rules_list.push(prev_index);
+                            }
+                        }
+
+                        true
+                    }
+                    Rule::QualifiedRule(box qualified_rule @ QualifiedRule { .. })
+                        if matches!(prev_rule, Some(Rule::QualifiedRule(_))) =>
+                    {
+                        if let Some(Rule::QualifiedRule(box prev_rule)) = &mut prev_rule {
+                            if let Some(qualified_rule) =
+                                self.try_merge_qualified_rules(prev_rule, qualified_rule)
+                            {
+                                *rule = Rule::QualifiedRule(Box::new(qualified_rule));
+
+                                remove_rules_list.push(prev_index);
+                            }
+                        }
+
+                        true
                     }
                     _ => {
-                        prev_rule = None;
+                        self.collect_names(rule, &mut names);
+
+                        true
                     }
+                };
+
+                if result {
+                    match rule {
+                        Rule::AtRule(box at_rule @ AtRule { .. })
+                            if self.is_mergeable_at_rule(at_rule) =>
+                        {
+                            prev_index = index;
+                            prev_rule = Some(rule.clone());
+                        }
+                        Rule::QualifiedRule(_) => {
+                            prev_index = index;
+                            prev_rule = Some(rule.clone());
+                        }
+                        _ => {
+                            prev_rule = None;
+                        }
+                    }
+
+                    index += 1;
                 }
 
-                index += 1;
+                if !result {
+                    rule.take();
+                }
             }
-
-            result
-        });
+        }
 
         if !names.is_empty() {
             self.discard_overridden(ParentNode::Stylesheet(stylesheet), &mut names);
