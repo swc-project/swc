@@ -238,7 +238,7 @@ impl Compressor {
                     let mut qualified_rule = QualifiedRule {
                         span: Span::new(left.span_lo(), right.span_hi(), SyntaxContext::empty()),
                         prelude: QualifiedRulePrelude::SelectorList(selector_list),
-                        block: left.block.clone(),
+                        block: left.block.take(),
                     };
 
                     qualified_rule.visit_mut_children_with(self);
@@ -256,7 +256,7 @@ impl Compressor {
                     let mut qualified_rule = QualifiedRule {
                         span: Span::new(left.span_lo(), right.span_hi(), SyntaxContext::empty()),
                         prelude: QualifiedRulePrelude::RelativeSelectorList(relative_selector_list),
-                        block: left.block.clone(),
+                        block: left.block.take(),
                     };
 
                     qualified_rule.visit_mut_children_with(self);
