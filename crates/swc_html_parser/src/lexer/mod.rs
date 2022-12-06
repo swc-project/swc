@@ -672,6 +672,14 @@ where
         }
     }
 
+    #[inline(always)]
+    fn append_to_attribute_token_value_raw(&mut self, raw_c: char) {
+        let b = self.sub_buf.clone();
+        let mut sub_buf = b.borrow_mut();
+
+        sub_buf.push(raw_c);
+    }
+
     fn finish_attribute_token_value(&mut self) {
         if let Some(attribute_start_position) = self.attribute_start_position {
             if let Some(
@@ -2308,13 +2316,13 @@ where
                     // U+0022 QUOTATION MARK (")
                     // Switch to the attribute value (double-quoted) state.
                     Some(c @ '"') => {
-                        self.append_to_attribute_token_value(None, Some(c));
+                        self.append_to_attribute_token_value_raw(c);
                         self.state = State::AttributeValueDoubleQuoted;
                     }
                     // U+0027 APOSTROPHE (')
                     // Switch to the attribute value (single-quoted) state.
                     Some(c @ '\'') => {
-                        self.append_to_attribute_token_value(None, Some(c));
+                        self.append_to_attribute_token_value_raw(c);
                         self.state = State::AttributeValueSingleQuoted;
                     }
                     // U+003E GREATER-THAN SIGN (>)
@@ -2340,7 +2348,7 @@ where
                     // Switch to the after attribute value (quoted) state.
                     // We set value to support empty attributes (i.e. `attr=""`)
                     Some(c @ '"') => {
-                        self.append_to_attribute_token_value(None, Some(c));
+                        self.append_to_attribute_token_value_raw(c);
                         self.state = State::AfterAttributeValueQuoted;
                     }
                     // U+0026 AMPERSAND (&)
@@ -2381,7 +2389,7 @@ where
                     // Switch to the after attribute value (quoted) state.
                     // We set value to support empty attributes (i.e. `attr=''`)
                     Some(c @ '\'') => {
-                        self.append_to_attribute_token_value(None, Some(c));
+                        self.append_to_attribute_token_value_raw(c);
                         self.state = State::AfterAttributeValueQuoted;
                     }
                     // U+0026 AMPERSAND (&)
