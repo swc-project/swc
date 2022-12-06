@@ -222,8 +222,8 @@ pub enum InputType<'a> {
 type SpanLike = (BytePos, BytePos);
 
 #[derive(Debug)]
-enum TokenOrBlock {
-    Token(Box<TokenAndSpan>),
+enum TokenOrBlock<'a> {
+    Token(&'a TokenAndSpan),
     Function(Box<(Span, JsWord, Atom)>),
     LBracket(SpanLike),
     LParen(SpanLike),
@@ -261,7 +261,7 @@ impl<'a> Input<'a> {
         &mut self,
         list: &'a [ComponentValue],
         deep: usize,
-    ) -> Option<TokenOrBlock> {
+    ) -> Option<TokenOrBlock<'a>> {
         let index = match self.idx.get(deep) {
             Some(index) => index,
             _ => return None,
@@ -269,7 +269,7 @@ impl<'a> Input<'a> {
 
         match list.get(*index) {
             Some(ComponentValue::PreservedToken(token_and_span)) => {
-                Some(TokenOrBlock::Token(token_and_span.clone()))
+                Some(TokenOrBlock::Token(token_and_span))
             }
             Some(ComponentValue::Function(function)) => {
                 if self.idx.len() - 1 == deep {
@@ -378,7 +378,9 @@ impl<'a> Input<'a> {
             InputType::ListOfComponentValues(input) => {
                 let token_and_span = match self.get_component_value(&input.children, 0) {
                     Some(token_or_block) => match token_or_block {
-                        TokenOrBlock::Token(token_and_span) => *token_and_span,
+                        TokenOrBlock::Token(token_and_span) => {
+                            return Ok(Cow::Borrowed(token_and_span))
+                        }
                         TokenOrBlock::Function(function) => TokenAndSpan {
                             span: function.0,
                             token: Token::Function {
