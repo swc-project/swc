@@ -4,12 +4,10 @@ use swc_atoms::Atom;
 use swc_common::{sync::Lrc, FileName, Mark, SourceMap};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
-use swc_ecma_minifier::{
-    eval::{EvalResult, Evaluator},
-    marks::Marks,
-};
+use swc_ecma_minifier::eval::{EvalResult, Evaluator};
 use swc_ecma_parser::{parse_file_as_expr, parse_file_as_module, EsConfig, Syntax};
 use swc_ecma_transforms_base::resolver;
+use swc_ecma_usage_analyzer::marks::Marks;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use testing::{assert_eq, DebugUsingDisplay};
 
