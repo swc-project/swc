@@ -340,7 +340,6 @@ impl Compressor {
         let mut prev_rule_idx = None;
         let mut remove_rules_list = vec![];
         let mut prev_index = 0;
-        let mut index = 0;
 
         for j in 0..stylesheet.rules.len() {
             // We need two &mut
@@ -416,8 +415,6 @@ impl Compressor {
                         prev_rule_idx = None;
                     }
                 }
-
-                index += 1;
             }
 
             if !result {
