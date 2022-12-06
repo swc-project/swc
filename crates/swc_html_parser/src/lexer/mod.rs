@@ -639,6 +639,28 @@ where
         sub_buf.push_str(value);
     }
 
+    fn consume_and_append_to_attribute_token_name_and_temp_buf<F>(&mut self, c: char, f: F)
+    where
+        F: FnMut(char) -> bool,
+    {
+        let b = self.buf.clone();
+        let mut buf = b.borrow_mut();
+        let b = self.sub_buf.clone();
+        let mut sub_buf = b.borrow_mut();
+
+        buf.push(c.to_ascii_lowercase());
+        sub_buf.push(c);
+
+        self.temporary_buffer.push(c);
+
+        let value = self.input.uncons_while(f);
+
+        buf.push_str(&value.to_ascii_lowercase());
+        sub_buf.push_str(value);
+
+        self.temporary_buffer.push_str(value);
+    }
+
     fn finish_attribute_token_name(&mut self) {
         if let Some(attribute_start_position) = self.attribute_start_position {
             if let Some(
@@ -1381,15 +1403,19 @@ where
                     // to the character's code point) to the current tag token's tag name.
                     // Append the current input character to the temporary buffer.
                     Some(c) if is_ascii_upper_alpha(c) => {
-                        self.append_to_tag_token_name(c.to_ascii_lowercase(), c);
-                        self.temporary_buffer.push(c);
+                        self.consume_and_append_to_attribute_token_name_and_temp_buf(
+                            c,
+                            is_ascii_upper_alpha,
+                        );
                     }
                     // ASCII lower alpha
                     // Append the current input character to the current tag token's tag name.
                     // Append the current input character to the temporary buffer.
                     Some(c) if is_ascii_lower_alpha(c) => {
-                        self.append_to_tag_token_name(c, c);
-                        self.temporary_buffer.push(c);
+                        self.consume_and_append_to_attribute_token_name_and_temp_buf(
+                            c,
+                            is_ascii_lower_alpha,
+                        );
                     }
                     // Anything else
                     // Emit a U+003C LESS-THAN SIGN character token, a U+002F SOLIDUS character
@@ -1501,15 +1527,19 @@ where
                     // to the character's code point) to the current tag token's tag name.
                     // Append the current input character to the temporary buffer.
                     Some(c) if is_ascii_upper_alpha(c) => {
-                        self.append_to_tag_token_name(c.to_ascii_lowercase(), c);
-                        self.temporary_buffer.push(c);
+                        self.consume_and_append_to_attribute_token_name_and_temp_buf(
+                            c,
+                            is_ascii_upper_alpha,
+                        );
                     }
                     // ASCII lower alpha
                     // Append the current input character to the current tag token's tag name.
                     // Append the current input character to the temporary buffer.
                     Some(c) if is_ascii_lower_alpha(c) => {
-                        self.append_to_tag_token_name(c, c);
-                        self.temporary_buffer.push(c);
+                        self.consume_and_append_to_attribute_token_name_and_temp_buf(
+                            c,
+                            is_ascii_lower_alpha,
+                        );
                     }
                     // Anything else
                     // Emit a U+003C LESS-THAN SIGN character token, a U+002F SOLIDUS character
@@ -1629,15 +1659,19 @@ where
                     // to the character's code point) to the current tag token's tag name.
                     // Append the current input character to the temporary buffer.
                     Some(c) if is_ascii_upper_alpha(c) => {
-                        self.append_to_tag_token_name(c.to_ascii_lowercase(), c);
-                        self.temporary_buffer.push(c);
+                        self.consume_and_append_to_attribute_token_name_and_temp_buf(
+                            c,
+                            is_ascii_upper_alpha,
+                        );
                     }
                     // ASCII lower alpha
                     // Append the current input character to the current tag token's tag name.
                     // Append the current input character to the temporary buffer.
                     Some(c) if is_ascii_lower_alpha(c) => {
-                        self.append_to_tag_token_name(c, c);
-                        self.temporary_buffer.push(c);
+                        self.consume_and_append_to_attribute_token_name_and_temp_buf(
+                            c,
+                            is_ascii_lower_alpha,
+                        );
                     }
                     // Anything else
                     // Emit a U+003C LESS-THAN SIGN character token, a U+002F SOLIDUS character
@@ -1925,15 +1959,19 @@ where
                     // to the character's code point) to the current tag token's tag name.
                     // Append the current input character to the temporary buffer.
                     Some(c) if is_ascii_upper_alpha(c) => {
-                        self.append_to_tag_token_name(c.to_ascii_lowercase(), c);
-                        self.temporary_buffer.push(c);
+                        self.consume_and_append_to_attribute_token_name_and_temp_buf(
+                            c,
+                            is_ascii_upper_alpha,
+                        );
                     }
                     // ASCII lower alpha
                     // Append the current input character to the current tag token's tag name.
                     // Append the current input character to the temporary buffer.
                     Some(c) if is_ascii_lower_alpha(c) => {
-                        self.append_to_tag_token_name(c, c);
-                        self.temporary_buffer.push(c);
+                        self.consume_and_append_to_attribute_token_name_and_temp_buf(
+                            c,
+                            is_ascii_lower_alpha,
+                        );
                     }
                     // Anything else
                     // Emit a U+003C LESS-THAN SIGN character token, a U+002F SOLIDUS character
