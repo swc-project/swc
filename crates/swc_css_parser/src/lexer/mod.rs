@@ -1274,7 +1274,7 @@ where
                         break;
                     }
                     // the input stream starts with a valid escape
-                    Some(c) if l.is_valid_escape(None, None) == true => {
+                    Some(c) if l.is_valid_escape(None, None) => {
                         // Consume an escaped code point. This allows an escaped right parenthesis
                         // ("\)") to be encountered without ending the <bad-url-token>.
                         let escaped = l.read_escape()?;
