@@ -49,6 +49,12 @@
 
 - **(ci)** Fix CI (#6558) ([8587589](https://github.com/swc-project/swc/commit/85875897f1fd3e71fe5e5d1877bb0e80458835d9))
 
+### Performance
+
+
+
+- **(css/ast)** Reduce token size (#6569) ([8633d27](https://github.com/swc-project/swc/commit/8633d27df0f429cd024c3b36f686c136b2bb945f))
+
 ### Refactor
 
 
