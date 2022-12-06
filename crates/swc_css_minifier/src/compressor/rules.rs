@@ -337,7 +337,7 @@ impl Compressor {
 
     pub(super) fn compress_stylesheet(&mut self, stylesheet: &mut Stylesheet) {
         let mut names: AHashMap<Name, isize> = Default::default();
-        let mut prev_rule: Option<Rule> = None;
+        let mut prev_rule_idx = None;
         let mut remove_rules_list = vec![];
         let mut prev_index = 0;
         let mut index = 0;
@@ -351,7 +351,11 @@ impl Compressor {
                 // We need two &mut
                 let (a, b) = stylesheet.rules.split_at_mut(j);
 
-                let mut rule = match b.first_mut() {
+                let mut prev_rule = match prev_rule_idx {
+                    Some(idx) => a.get_mut(idx),
+                    None => None,
+                };
+                let rule = match b.first_mut() {
                     Some(v) => v,
                     None => continue,
                 };
@@ -409,14 +413,14 @@ impl Compressor {
                             if self.is_mergeable_at_rule(at_rule) =>
                         {
                             prev_index = index;
-                            prev_rule = Some(rule.clone());
+                            prev_rule_idx = Some(index);
                         }
                         Rule::QualifiedRule(_) => {
                             prev_index = index;
-                            prev_rule = Some(rule.clone());
+                            prev_rule_idx = Some(index);
                         }
                         _ => {
-                            prev_rule = None;
+                            prev_rule_idx = None;
                         }
                     }
 
