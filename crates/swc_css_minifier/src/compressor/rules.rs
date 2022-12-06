@@ -344,8 +344,8 @@ impl Compressor {
 
         for i in 0..stylesheet.rules.len() {
             for j in 0..stylesheet.rules.len() {
-                if i >= j {
-                    continue;
+                if i > j {
+                    break;
                 }
 
                 // We need two &mut
@@ -428,13 +428,10 @@ impl Compressor {
                 }
 
                 if !result {
-                    rule.take();
+                    remove_rules_list.push(j);
                 }
             }
         }
-
-        // Drop taken rules
-        stylesheet.rules.retain(|v| *v != Take::dummy());
 
         if !names.is_empty() {
             self.discard_overridden(ParentNode::Stylesheet(stylesheet), &mut names);
