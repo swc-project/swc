@@ -23,10 +23,10 @@ use crate::{
 };
 
 mod ctx;
-pub(crate) mod storage;
+pub mod storage;
 
 #[derive(Debug, Default)]
-pub(crate) struct ModuleInfo {
+pub struct ModuleInfo {
     /// Imported identifiers which should be treated as a black box.
     ///
     /// Imports from `@swc/helpers` are excluded as helpers are not modified by
@@ -34,7 +34,7 @@ pub(crate) struct ModuleInfo {
     pub blackbox_imports: AHashSet<Id>,
 }
 
-pub(crate) fn analyze<N>(n: &N, _module_info: &ModuleInfo, marks: Option<Marks>) -> ProgramData
+pub fn analyze<N>(n: &N, _module_info: &ModuleInfo, marks: Option<Marks>) -> ProgramData
 where
     N: VisitWith<UsageAnalyzer>,
 {
@@ -45,7 +45,7 @@ where
 /// TODO: Scope-local. (Including block)
 ///
 /// If `marks` is [None], markers are ignored.
-pub(crate) fn analyze_with_storage<S, N>(n: &N, marks: Option<Marks>) -> S
+pub fn analyze_with_storage<S, N>(n: &N, marks: Option<Marks>) -> S
 where
     S: Storage,
     N: VisitWith<UsageAnalyzer<S>>,
@@ -69,7 +69,7 @@ where
 }
 
 #[derive(Debug, Clone)]
-pub(crate) struct VarUsageInfo {
+pub struct VarUsageInfo {
     pub inline_prevented: bool,
 
     /// The number of direct reference to this identifier.
@@ -214,13 +214,13 @@ impl VarUsageInfo {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub(crate) enum ScopeKind {
+pub enum ScopeKind {
     Fn,
     Block,
 }
 
 #[derive(Debug, Default, Clone)]
-pub(crate) struct ScopeData {
+pub struct ScopeData {
     pub has_with_stmt: bool,
     pub has_eval_call: bool,
     pub used_arguments: bool,
@@ -234,7 +234,7 @@ enum RecursiveUsage {
 
 /// Analyzed info of a whole program we are working on.
 #[derive(Debug, Default)]
-pub(crate) struct ProgramData {
+pub struct ProgramData {
     pub vars: FxHashMap<Id, VarUsageInfo>,
 
     pub top: ScopeData,
@@ -245,7 +245,7 @@ pub(crate) struct ProgramData {
 }
 
 impl ProgramData {
-    pub(crate) fn expand_infected(
+    pub fn expand_infected(
         &self,
         module_info: &ModuleInfo,
         ids: FxHashSet<Access>,
@@ -306,7 +306,7 @@ impl ProgramData {
         })
     }
 
-    pub(crate) fn contains_unresolved(&self, e: &Expr) -> bool {
+    pub fn contains_unresolved(&self, e: &Expr) -> bool {
         match e {
             Expr::Ident(i) => {
                 if let Some(v) = self.vars.get(&i.to_id()) {
@@ -353,7 +353,7 @@ impl ProgramData {
 
 /// This assumes there are no two variable with same name and same span hygiene.
 #[derive(Debug)]
-pub(crate) struct UsageAnalyzer<S = ProgramData>
+pub struct UsageAnalyzer<S = ProgramData>
 where
     S: Storage,
 {

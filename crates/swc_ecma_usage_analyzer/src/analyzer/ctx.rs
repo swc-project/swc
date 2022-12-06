@@ -21,7 +21,7 @@ where
 }
 
 #[derive(Debug, Default, Clone, Copy)]
-pub(crate) struct Ctx {
+pub struct Ctx {
     /// See [crate::marks::Marks]
     pub(super) skip_standalone: bool,
 

@@ -156,7 +156,10 @@ impl Storage for ProgramData {
         let v = self.vars.entry(i.to_id()).or_default();
 
         if has_init && (v.declared || v.var_initialized) {
-            trace_op!("declare_decl(`{}`): Already declared", i);
+            #[cfg(feature = "debug")]
+            {
+                tracing::trace!("declare_decl(`{}`): Already declared", i);
+            }
 
             v.mutated = true;
             v.reassigned_with_var_decl = true;

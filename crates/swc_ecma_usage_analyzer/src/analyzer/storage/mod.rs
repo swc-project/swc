@@ -7,7 +7,7 @@ use crate::alias::Access;
 
 pub mod normal;
 
-pub(crate) trait Storage: Sized + Default {
+pub trait Storage: Sized + Default {
     type ScopeData: ScopeDataLike;
     type VarData: VarDataLike;
 
@@ -33,7 +33,7 @@ pub(crate) trait Storage: Sized + Default {
     fn truncate_initialized_cnt(&mut self, len: usize);
 }
 
-pub(crate) trait ScopeDataLike: Sized + Default + Clone {
+pub trait ScopeDataLike: Sized + Default + Clone {
     fn add_declared_symbol(&mut self, id: &Ident);
 
     fn merge(&mut self, other: Self, is_child: bool);
@@ -45,7 +45,7 @@ pub(crate) trait ScopeDataLike: Sized + Default + Clone {
     fn mark_with_stmt(&mut self);
 }
 
-pub(crate) trait VarDataLike: Sized {
+pub trait VarDataLike: Sized {
     /// See `declared_as_fn_param` of [crate::analyzer::VarUsageInfo].
     fn mark_declared_as_fn_param(&mut self);
 

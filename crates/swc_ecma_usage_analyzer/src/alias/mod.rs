@@ -12,7 +12,7 @@ use crate::{marks::Marks, util::is_global_var_with_pure_property_access};
 mod ctx;
 
 #[derive(Default)]
-pub(crate) struct AliasConfig {
+pub struct AliasConfig {
     pub marks: Option<Marks>,
     pub ignore_nested: bool,
     /// TODO(kdy1): This field is used for sequential inliner.
@@ -20,7 +20,7 @@ pub(crate) struct AliasConfig {
     pub need_all: bool,
 }
 
-pub(crate) trait InfectableNode {
+pub trait InfectableNode {
     fn is_fn_or_arrow_expr(&self) -> bool;
 }
 
@@ -50,14 +50,14 @@ where
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 
-pub(crate) enum AccessKind {
+pub enum AccessKind {
     Reference,
     Call,
 }
 
-pub(crate) type Access = (Id, AccessKind);
+pub type Access = (Id, AccessKind);
 
-pub(crate) fn collect_infects_from<N>(node: &N, config: AliasConfig) -> FxHashSet<Access>
+pub fn collect_infects_from<N>(node: &N, config: AliasConfig) -> FxHashSet<Access>
 where
     N: InfectableNode
         + VisitWith<BindingCollector<Id>>
@@ -89,7 +89,7 @@ where
     visitor.accesses
 }
 
-pub(crate) struct InfectionCollector<'a> {
+pub struct InfectionCollector<'a> {
     #[allow(unused)]
     config: AliasConfig,
     unresolved_ctxt: Option<SyntaxContext>,

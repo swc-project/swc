@@ -8,6 +8,10 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::debug_assert_valid;
+use swc_ecma_usage_analyzer::{
+    analyzer::{ModuleInfo, ProgramData, UsageAnalyzer},
+    marks::Marks,
+};
 use swc_ecma_utils::{
     prepend_stmts, undefined, ExprCtx, ExprExt, ExprFactory, IsEmpty, ModuleItemLike, StmtLike,
     Type, Value,
@@ -25,10 +29,8 @@ use super::util::{drop_invalid_stmts, is_fine_for_if_cons};
 #[cfg(feature = "debug")]
 use crate::debug::dump;
 use crate::{
-    analyzer::{ModuleInfo, ProgramData, UsageAnalyzer},
     compress::util::is_pure_undefined,
     debug::AssertValid,
-    marks::Marks,
     maybe_par,
     mode::Mode,
     option::CompressOptions,

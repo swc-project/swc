@@ -1,6 +1,7 @@
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, Span, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_usage_analyzer::util::is_global_var_with_pure_property_access;
 use swc_ecma_utils::contains_ident_ref;
 
 use super::Optimizer;
@@ -8,7 +9,6 @@ use super::Optimizer;
 use crate::debug::dump;
 use crate::{
     compress::optimize::util::extract_class_side_effect, mode::Mode, option::PureGetterOption,
-    util::is_global_var_with_pure_property_access,
 };
 
 #[derive(Debug, Default, Clone, Copy)]

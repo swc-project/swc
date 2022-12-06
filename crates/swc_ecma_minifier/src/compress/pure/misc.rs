@@ -4,20 +4,17 @@ use swc_atoms::js_word;
 use swc_common::{iter::IdentifyLast, util::take::Take, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::debug_assert_valid;
+use swc_ecma_usage_analyzer::util::is_global_var_with_pure_property_access;
 use swc_ecma_utils::{
     ExprExt, ExprFactory, IdentUsageFinder, Type,
     Value::{self, Known},
 };
 
 use super::Pure;
-use crate::{
-    compress::{
-        pure::strings::{convert_str_value_to_tpl_cooked, convert_str_value_to_tpl_raw},
-        util::is_pure_undefined,
-    },
-    util::is_global_var_with_pure_property_access,
+use crate::compress::{
+    pure::strings::{convert_str_value_to_tpl_cooked, convert_str_value_to_tpl_raw},
+    util::is_pure_undefined,
 };
-
 impl Pure<'_> {
     pub(super) fn remove_invalid(&mut self, e: &mut Expr) {
         match e {

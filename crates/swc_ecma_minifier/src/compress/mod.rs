@@ -17,6 +17,10 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::simplify::{
     dead_branch_remover, expr_simplifier, ExprSimplifierConfig,
 };
+use swc_ecma_usage_analyzer::{
+    analyzer::{analyze, ModuleInfo, UsageAnalyzer},
+    marks::Marks,
+};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 use swc_timer::timer;
 use tracing::{debug, error};
@@ -24,10 +28,8 @@ use tracing::{debug, error};
 pub(crate) use self::pure::{pure_optimizer, PureOptimizerConfig};
 use self::{hoist_decls::DeclHoisterConfig, optimize::optimizer};
 use crate::{
-    analyzer::{analyze, ModuleInfo, UsageAnalyzer},
     compress::hoist_decls::decl_hoister,
     debug::{dump, AssertValid},
-    marks::Marks,
     mode::Mode,
     option::CompressOptions,
     util::{now, unit::CompileUnit},
