@@ -67,6 +67,9 @@
 
 - **(css/minifier)** Improve performance (#6583) ([7895599](https://github.com/swc-project/swc/commit/78955995a2fd381a9d56a325e368aa29dcc3c7be))
 
+
+- **(css/parser)** Reduce clones and allocations (#6585) ([6479670](https://github.com/swc-project/swc/commit/64796701e45a59a9d9ba439064d012b5ad3ce144))
+
 ### Refactor
 
 
