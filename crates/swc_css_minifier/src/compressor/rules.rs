@@ -1,7 +1,9 @@
 use std::mem::take;
 
 use swc_atoms::{js_word, JsWord};
-use swc_common::{collections::AHashMap, EqIgnoreSpan, Span, Spanned, SyntaxContext};
+use swc_common::{
+    collections::AHashMap, util::take::Take, EqIgnoreSpan, Span, Spanned, SyntaxContext,
+};
 use swc_css_ast::*;
 use swc_css_visit::{Visit, VisitMutWith, VisitWith};
 
@@ -144,10 +146,14 @@ impl Compressor {
         }
     }
 
-    fn merge_selector_list(&self, left: &SelectorList, right: &SelectorList) -> SelectorList {
-        let mut children = left.children.clone();
+    fn merge_selector_list(
+        &self,
+        left: &mut SelectorList,
+        right: &mut SelectorList,
+    ) -> SelectorList {
+        let mut children = left.children.take();
 
-        children.extend(right.children.clone());
+        children.extend(right.children.take());
 
         SelectorList {
             span: Span::new(left.span_lo(), right.span_hi(), SyntaxContext::empty()),
@@ -157,12 +163,12 @@ impl Compressor {
 
     fn merge_relative_selector_list(
         &self,
-        left: &RelativeSelectorList,
-        right: &RelativeSelectorList,
+        left: &mut RelativeSelectorList,
+        right: &mut RelativeSelectorList,
     ) -> RelativeSelectorList {
-        let mut children = left.children.clone();
+        let mut children = left.children.take();
 
-        children.extend(right.children.clone());
+        children.extend(right.children.take());
 
         RelativeSelectorList {
             span: Span::new(left.span_lo(), right.span_hi(), SyntaxContext::empty()),
@@ -212,8 +218,8 @@ impl Compressor {
 
     fn try_merge_qualified_rules(
         &mut self,
-        left: &QualifiedRule,
-        right: &QualifiedRule,
+        left: &mut QualifiedRule,
+        right: &mut QualifiedRule,
     ) -> Option<QualifiedRule> {
         if !self.can_merge_qualified_rules(left, right) {
             return None;
@@ -222,7 +228,7 @@ impl Compressor {
         // Merge when declarations are exactly equal
         // e.g. h1 { color: red } h2 { color: red }
         if left.block.eq_ignore_span(&right.block) {
-            match (&left.prelude, &right.prelude) {
+            match (&mut left.prelude, &mut right.prelude) {
                 (
                     QualifiedRulePrelude::SelectorList(prev_selector_list),
                     QualifiedRulePrelude::SelectorList(current_selector_list),
@@ -363,7 +369,7 @@ impl Compressor {
                 Rule::QualifiedRule(box qualified_rule @ QualifiedRule { .. })
                     if matches!(prev_rule, Some(Rule::QualifiedRule(_))) =>
                 {
-                    if let Some(Rule::QualifiedRule(box prev_rule)) = &prev_rule {
+                    if let Some(Rule::QualifiedRule(box prev_rule)) = &mut prev_rule {
                         if let Some(qualified_rule) =
                             self.try_merge_qualified_rules(prev_rule, qualified_rule)
                         {
@@ -510,7 +516,7 @@ impl Compressor {
                     box qualified_rule @ QualifiedRule { .. },
                 )) if prev_rule.is_some() => {
                     if let Some(ComponentValue::Rule(box Rule::QualifiedRule(box prev_rule))) =
-                        &prev_rule
+                        &mut prev_rule
                     {
                         if let Some(qualified_rule) =
                             self.try_merge_qualified_rules(prev_rule, qualified_rule)
@@ -530,7 +536,7 @@ impl Compressor {
                 )) if prev_rule.is_some() => {
                     if let Some(ComponentValue::StyleBlock(box StyleBlock::QualifiedRule(
                         box prev_rule,
-                    ))) = &prev_rule
+                    ))) = &mut prev_rule
                     {
                         if let Some(qualified_rule) =
                             self.try_merge_qualified_rules(prev_rule, qualified_rule)
