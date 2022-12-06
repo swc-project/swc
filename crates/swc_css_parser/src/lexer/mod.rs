@@ -350,7 +350,7 @@ where
 
                 // Otherwise, return a <delim-token> with its value set to the current input
                 // code point.
-                Ok(Token::Delim { value: '-' })
+                Ok(tok!("-"))
             }
             // U+002E FULL STOP (.)
             Some('.') => {
@@ -364,7 +364,7 @@ where
 
                 // Otherwise, return a <delim-token> with its value set to the current input
                 // code point.
-                Ok(Token::Delim { value: '.' })
+                Ok(tok!("."))
             }
             // U+003A COLON (:)
             // Return a <colon-token>.
@@ -390,7 +390,7 @@ where
 
                 // Otherwise, return a <delim-token> with its value set to the current input
                 // code point.
-                Ok(Token::Delim { value: '<' })
+                Ok(tok!("<"))
             }
             // U+0040 COMMERCIAL AT (@)
             Some('@') => {
