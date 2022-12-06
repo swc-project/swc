@@ -49,10 +49,10 @@ impl Visit for Analyzer {
 
         if let DeclarationName::Ident(name) = &d.name {
             if &*name.value == "composes" {
-                // comoses: name from 'foo.css'
+                // composes: name from 'foo.css'
                 if d.value.len() >= 3 {
                     if let (
-                        ComponentValue::Ident(Ident {
+                        ComponentValue::Ident(box Ident {
                             value: js_word!("from"),
                             ..
                         }),

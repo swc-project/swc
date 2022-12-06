@@ -6,7 +6,7 @@ use super::Compressor;
 impl Compressor {
     pub(super) fn compress_transform_function(&self, component_value: &mut ComponentValue) {
         match component_value {
-            ComponentValue::Function(Function {
+            ComponentValue::Function(box Function {
                 name,
                 value: function_value,
                 ..
@@ -16,7 +16,7 @@ impl Compressor {
                 match (function_value.get(0), function_value.get(2)) {
                     (
                         Some(first),
-                        Some(ComponentValue::Number(Number {
+                        Some(ComponentValue::Number(box Number {
                             value: second_number,
                             ..
                         })),
@@ -24,7 +24,7 @@ impl Compressor {
                         *function_value = vec![first.clone()];
                     }
                     (
-                        Some(ComponentValue::Number(Number {
+                        Some(ComponentValue::Number(box Number {
                             value: first_number,
                             ..
                         })),
@@ -40,7 +40,7 @@ impl Compressor {
                     _ => {}
                 }
             }
-            ComponentValue::Function(Function {
+            ComponentValue::Function(box Function {
                 name,
                 value: function_value,
                 ..
@@ -53,11 +53,11 @@ impl Compressor {
                     function_value.get(4),
                 ) {
                     (
-                        Some(ComponentValue::Number(Number {
+                        Some(ComponentValue::Number(box Number {
                             value: first_number,
                             ..
                         })),
-                        Some(ComponentValue::Number(Number {
+                        Some(ComponentValue::Number(box Number {
                             value: second_number,
                             ..
                         })),
@@ -73,7 +73,7 @@ impl Compressor {
                     _ => {}
                 }
             }
-            ComponentValue::Function(Function {
+            ComponentValue::Function(box Function {
                 name,
                 value: function_value,
                 ..
@@ -83,12 +83,12 @@ impl Compressor {
                 match (function_value.get(0), function_value.get(2)) {
                     (
                         Some(
-                            first @ ComponentValue::Number(Number {
+                            first @ ComponentValue::Number(box Number {
                                 value: first_number,
                                 ..
                             }),
                         ),
-                        Some(ComponentValue::Number(Number {
+                        Some(ComponentValue::Number(box Number {
                             value: second_number,
                             ..
                         })),
@@ -97,7 +97,7 @@ impl Compressor {
                     }
                     (
                         Some(first),
-                        Some(ComponentValue::Number(Number {
+                        Some(ComponentValue::Number(box Number {
                             value: second_number,
                             ..
                         })),
@@ -110,7 +110,7 @@ impl Compressor {
                         *function_value = vec![first.clone()];
                     }
                     (
-                        Some(ComponentValue::Number(Number {
+                        Some(ComponentValue::Number(box Number {
                             value: first_number,
                             ..
                         })),
@@ -126,7 +126,7 @@ impl Compressor {
                     _ => {}
                 }
             }
-            ComponentValue::Function(Function {
+            ComponentValue::Function(box Function {
                 name,
                 value: function_value,
                 ..
@@ -140,11 +140,11 @@ impl Compressor {
                 ) {
                     (
                         Some(first),
-                        Some(ComponentValue::Number(Number {
+                        Some(ComponentValue::Number(box Number {
                             value: second_number,
                             ..
                         })),
-                        Some(ComponentValue::Number(Number {
+                        Some(ComponentValue::Number(box Number {
                             value: third_number,
                             ..
                         })),
@@ -157,12 +157,12 @@ impl Compressor {
                         *function_value = vec![first.clone()];
                     }
                     (
-                        Some(ComponentValue::Number(Number {
+                        Some(ComponentValue::Number(box Number {
                             value: first_number,
                             ..
                         })),
                         Some(second),
-                        Some(ComponentValue::Number(Number {
+                        Some(ComponentValue::Number(box Number {
                             value: third_number,
                             ..
                         })),
@@ -175,11 +175,11 @@ impl Compressor {
                         *function_value = vec![second.clone()];
                     }
                     (
-                        Some(ComponentValue::Number(Number {
+                        Some(ComponentValue::Number(box Number {
                             value: first_number,
                             ..
                         })),
-                        Some(ComponentValue::Number(Number {
+                        Some(ComponentValue::Number(box Number {
                             value: second_number,
                             ..
                         })),
@@ -195,7 +195,7 @@ impl Compressor {
                     _ => {}
                 }
             }
-            ComponentValue::Function(Function {
+            ComponentValue::Function(box Function {
                 name,
                 value: function_value,
                 ..
@@ -230,11 +230,11 @@ impl Compressor {
                         Some(first_comma),
                         Some(second),
                         Some(second_comma),
-                        Some(ComponentValue::Number(Number {
+                        Some(ComponentValue::Number(box Number {
                             value: third_number,
                             ..
                         })),
-                        Some(ComponentValue::Number(Number {
+                        Some(ComponentValue::Number(box Number {
                             value: fourth_number,
                             ..
                         })),
@@ -242,38 +242,38 @@ impl Compressor {
                         Some(fifth_comma),
                         Some(sixth),
                         Some(sixth_comma),
-                        Some(ComponentValue::Number(Number {
+                        Some(ComponentValue::Number(box Number {
                             value: seventh_number,
                             ..
                         })),
-                        Some(ComponentValue::Number(Number {
+                        Some(ComponentValue::Number(box Number {
                             value: eighth_number,
                             ..
                         })),
-                        Some(ComponentValue::Number(Number {
+                        Some(ComponentValue::Number(box Number {
                             value: ninth_number,
                             ..
                         })),
-                        Some(ComponentValue::Number(Number {
+                        Some(ComponentValue::Number(box Number {
                             value: tenth_number,
                             ..
                         })),
-                        Some(ComponentValue::Number(Number {
+                        Some(ComponentValue::Number(box Number {
                             value: eleventh_number,
                             ..
                         })),
-                        Some(ComponentValue::Number(Number {
+                        Some(ComponentValue::Number(box Number {
                             value: twelfth_number,
                             ..
                         })),
                         Some(thirteenth),
                         Some(thirteenth_comma),
                         Some(fourteenth),
-                        Some(ComponentValue::Number(Number {
+                        Some(ComponentValue::Number(box Number {
                             value: fifteenth_number,
                             ..
                         })),
-                        Some(ComponentValue::Number(Number {
+                        Some(ComponentValue::Number(box Number {
                             value: sixteenth_number,
                             ..
                         })),
@@ -310,7 +310,7 @@ impl Compressor {
                     _ => {}
                 }
             }
-            ComponentValue::Function(Function {
+            ComponentValue::Function(box Function {
                 name,
                 value: function_value,
                 ..
@@ -324,15 +324,15 @@ impl Compressor {
                     function_value.get(6),
                 ) {
                     (
-                        Some(ComponentValue::Number(Number {
+                        Some(ComponentValue::Number(box Number {
                             value: first_number,
                             ..
                         })),
-                        Some(ComponentValue::Number(Number {
+                        Some(ComponentValue::Number(box Number {
                             value: second_number,
                             ..
                         })),
-                        Some(ComponentValue::Number(Number {
+                        Some(ComponentValue::Number(box Number {
                             value: third_number,
                             ..
                         })),
@@ -346,15 +346,15 @@ impl Compressor {
                         *function_value = vec![fourth_value.clone()];
                     }
                     (
-                        Some(ComponentValue::Number(Number {
+                        Some(ComponentValue::Number(box Number {
                             value: first_number,
                             ..
                         })),
-                        Some(ComponentValue::Number(Number {
+                        Some(ComponentValue::Number(box Number {
                             value: second_number,
                             ..
                         })),
-                        Some(ComponentValue::Number(Number {
+                        Some(ComponentValue::Number(box Number {
                             value: third_number,
                             ..
                         })),
@@ -368,15 +368,15 @@ impl Compressor {
                         *function_value = vec![fourth_value.clone()];
                     }
                     (
-                        Some(ComponentValue::Number(Number {
+                        Some(ComponentValue::Number(box Number {
                             value: first_number,
                             ..
                         })),
-                        Some(ComponentValue::Number(Number {
+                        Some(ComponentValue::Number(box Number {
                             value: second_number,
                             ..
                         })),
-                        Some(ComponentValue::Number(Number {
+                        Some(ComponentValue::Number(box Number {
                             value: third_number,
                             ..
                         })),
@@ -392,7 +392,7 @@ impl Compressor {
                     _ => {}
                 }
             }
-            ComponentValue::Function(Function {
+            ComponentValue::Function(box Function {
                 name,
                 value: function_value,
                 ..
@@ -406,7 +406,7 @@ impl Compressor {
                 };
             }
 
-            ComponentValue::Function(Function {
+            ComponentValue::Function(box Function {
                 name,
                 value: function_value,
                 ..
@@ -416,7 +416,7 @@ impl Compressor {
                 match (function_value.get(0), function_value.get(2)) {
                     (
                         Some(first),
-                        Some(ComponentValue::Number(Number {
+                        Some(ComponentValue::Number(box Number {
                             value: second_number,
                             ..
                         })),
@@ -430,7 +430,7 @@ impl Compressor {
                     }
 
                     (
-                        Some(ComponentValue::Number(Number {
+                        Some(ComponentValue::Number(box Number {
                             value: first_number,
                             ..
                         })),

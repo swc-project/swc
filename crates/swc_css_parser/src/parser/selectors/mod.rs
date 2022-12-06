@@ -70,7 +70,8 @@ where
 
                         while !is_one_of!(parser, EOF, ",", ")") {
                             if let Some(token_and_span) = parser.input.bump() {
-                                children.push(ComponentValue::PreservedToken(token_and_span));
+                                children
+                                    .push(ComponentValue::PreservedToken(Box::new(token_and_span)));
                             }
                         }
 
@@ -224,7 +225,8 @@ where
 
                         while !is_one_of!(parser, EOF, ",", ")") {
                             if let Some(token_and_span) = parser.input.bump() {
-                                children.push(ComponentValue::PreservedToken(token_and_span));
+                                children
+                                    .push(ComponentValue::PreservedToken(Box::new(token_and_span)));
                             }
                         }
 
@@ -1266,7 +1268,7 @@ where
                     }
                     tok!("dimension") => {
                         let dimension = match bump!(self) {
-                            Token::Dimension { value, raw_value, unit, .. } => (value, raw_value, unit),
+                            Token::Dimension(box DimensionToken { value, raw_value, unit, .. }) => (value, raw_value, unit),
                             _ => {
                                 unreachable!();
                             }
@@ -1283,7 +1285,6 @@ where
 
                         a = Some(dimension.0 as i32);
                         a_raw = Some(dimension.1);
-
                         n_value =  (*dimension.2).to_string();
                     }
                     _ => {
@@ -1418,7 +1419,7 @@ where
         }
 
         match bump!(self) {
-            Token::Ident { value, raw } => Ok(CustomHighlightName {
+            Token::Ident { value, raw, .. } => Ok(CustomHighlightName {
                 span,
                 value,
                 raw: Some(raw),

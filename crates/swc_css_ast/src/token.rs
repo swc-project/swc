@@ -40,6 +40,21 @@ pub enum NumberType {
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
+pub struct DimensionToken {
+    pub value: f64,
+    pub raw_value: Atom,
+    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
+    pub unit: JsWord,
+    #[serde(rename = "type")]
+    pub type_flag: NumberType,
+    pub raw_unit: Atom,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, EqIgnoreSpan)]
+#[cfg_attr(
+    feature = "rkyv",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
 #[cfg_attr(
     feature = "rkyv",
     archive(bound(
@@ -54,20 +69,17 @@ pub enum Token {
         value: JsWord,
         raw: Atom,
     },
-
     Function {
         #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         value: JsWord,
         raw: Atom,
     },
-
     /// `@`
     AtKeyword {
         #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         value: JsWord,
         raw: Atom,
     },
-
     /// `#`
     Hash {
         is_id: bool,
@@ -75,95 +87,62 @@ pub enum Token {
         value: JsWord,
         raw: Atom,
     },
-
     String {
         #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         value: JsWord,
         raw: Atom,
     },
-
     BadString {
-        raw_value: Atom,
+        raw: Atom,
     },
-
     /// `url(value)`
     Url {
         #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-        name: JsWord,
-        raw_name: Atom,
-        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         value: JsWord,
-        raw_value: Atom,
+        /// Name and value
+        raw: Box<(Atom, Atom)>,
     },
-
     BadUrl {
-        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-        name: JsWord,
-        raw_name: Atom,
-        raw_value: Atom,
+        raw: Atom,
     },
-
     Delim {
         value: char,
     },
-
     Number {
         value: f64,
         raw: Atom,
         #[serde(rename = "type")]
         type_flag: NumberType,
     },
-
     Percentage {
         value: f64,
         raw: Atom,
     },
-
-    Dimension {
-        value: f64,
-        raw_value: Atom,
-        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-        unit: JsWord,
-        raw_unit: Atom,
-        #[serde(rename = "type")]
-        type_flag: NumberType,
-    },
-
+    Dimension(Box<DimensionToken>),
     /// One or more whitespace.
     WhiteSpace {
         value: Atom,
     },
-
     /// `<!--`
     CDO,
-
     /// `-->`
     CDC,
-
     /// `:``
     Colon,
-
     /// `;`
     Semi,
-
     /// `,`
     Comma,
-
     /// `[`
     LBracket,
-
     /// `]`
     RBracket,
-
     /// `(`
     LParen,
-
     /// `)`
     RParen,
-
     /// `{`
     LBrace,
-
     /// `}`
     RBrace,
 }
@@ -187,40 +166,36 @@ impl Hash for Token {
         }
 
         match self {
-            Token::Ident { value, raw }
-            | Token::Function { value, raw }
-            | Token::AtKeyword { value, raw }
-            | Token::String { value, raw } => {
+            Token::Ident { value, raw } => {
                 value.hash(state);
                 raw.hash(state);
             }
-            Token::BadString { raw_value } => {
-                raw_value.hash(state);
+            Token::Function { value, raw } => {
+                value.hash(state);
+                raw.hash(state);
+            }
+            Token::AtKeyword { value, raw } => {
+                value.hash(state);
+                raw.hash(state);
+            }
+            Token::String { value, raw } => {
+                value.hash(state);
+                raw.hash(state);
+            }
+            Token::BadString { raw } => {
+                raw.hash(state);
             }
             Token::Hash { value, raw, is_id } => {
                 value.hash(state);
                 raw.hash(state);
                 is_id.hash(state);
             }
-            Token::Url {
-                name,
-                raw_name,
-                value,
-                raw_value,
-            } => {
-                name.hash(state);
-                raw_name.hash(state);
+            Token::Url { value, raw } => {
                 value.hash(state);
-                raw_value.hash(state);
+                raw.hash(state);
             }
-            Token::BadUrl {
-                name,
-                raw_name,
-                raw_value,
-            } => {
-                name.hash(state);
-                raw_name.hash(state);
-                raw_value.hash(state);
+            Token::BadUrl { raw, .. } => {
+                raw.hash(state);
             }
             Token::Delim { value } => {
                 value.hash(state);
@@ -238,20 +213,14 @@ impl Hash for Token {
                 integer_decode(*value).hash(state);
                 raw.hash(state);
             }
-            Token::Dimension {
-                value,
-                raw_value,
-                unit,
-                raw_unit,
-                type_flag,
-            } => {
-                integer_decode(*value).hash(state);
-                raw_value.hash(state);
-                unit.hash(state);
-                raw_unit.hash(state);
-                type_flag.hash(state);
+            Token::Dimension(dimension) => {
+                integer_decode(dimension.value).hash(state);
+                dimension.unit.hash(state);
+                dimension.type_flag.hash(state);
+                dimension.raw_value.hash(state);
+                dimension.raw_unit.hash(state);
             }
-            Token::WhiteSpace { value } => {
+            Token::WhiteSpace { value, .. } => {
                 value.hash(state);
             }
             Token::CDO

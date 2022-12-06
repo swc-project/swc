@@ -114,7 +114,7 @@
                 },
                 "token": {
                   "BadString": {
-                    "raw_value": "\""
+                    "raw": "\""
                   }
                 }
               }

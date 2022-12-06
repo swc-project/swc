@@ -55,10 +55,6 @@ macro_rules! tok {
         swc_css_ast::Token::Delim { value: '%', .. }
     };
 
-    ("--") => {
-        swc_css_ast::Token::MinusMinus
-    };
-
     (",") => {
         swc_css_ast::Token::Comma
     };
@@ -128,7 +124,7 @@ macro_rules! tok {
     };
 
     ("=") => {
-       swc_css_ast::Token::Delim { value: '=', .. }
+        swc_css_ast::Token::Delim { value: '=', .. }
     };
 
     (" ") => {
@@ -156,7 +152,7 @@ macro_rules! tok {
     };
 
     ("/") => {
-       swc_css_ast::Token::Delim { value: '/', .. }
+        swc_css_ast::Token::Delim { value: '/', .. }
     };
 
     ("<") => {

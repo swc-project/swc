@@ -117,8 +117,8 @@
                     "value": 10.1,
                     "raw_value": "10.10",
                     "unit": "px",
-                    "raw_unit": "px",
-                    "type": "number"
+                    "type": "number",
+                    "raw_unit": "px"
                   }
                 }
               },
@@ -183,8 +183,8 @@
                     "value": 10.0,
                     "raw_value": "10",
                     "unit": "px",
-                    "raw_unit": "px",
-                    "type": "integer"
+                    "type": "integer",
+                    "raw_unit": "px"
                   }
                 }
               },

@@ -63,3 +63,7 @@ div {
 .foo {
     background: url(__ident__);
 }
+
+.foo {
+    background: url(foo bar);
+}

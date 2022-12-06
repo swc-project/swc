@@ -128,8 +128,8 @@
                         "value": 2.0,
                         "raw_value": "2",
                         "unit": "px",
-                        "raw_unit": "px",
-                        "type": "integer"
+                        "type": "integer",
+                        "raw_unit": "px"
                       }
                     }
                   },
@@ -145,8 +145,8 @@
                         "value": 1.0,
                         "raw_value": "+1",
                         "unit": "px",
-                        "raw_unit": "px",
-                        "type": "integer"
+                        "type": "integer",
+                        "raw_unit": "px"
                       }
                     }
                   }

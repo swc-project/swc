@@ -173,8 +173,8 @@
                     "value": 1024.0,
                     "raw_value": "1024",
                     "unit": "px",
-                    "raw_unit": "px",
-                    "type": "integer"
+                    "type": "integer",
+                    "raw_unit": "px"
                   }
                 }
               },

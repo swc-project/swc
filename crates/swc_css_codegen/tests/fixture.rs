@@ -233,12 +233,12 @@ impl VisitMut for NormalizeTest {
         n.visit_mut_children_with(self);
 
         match n {
-            ComponentValue::Number(Number { value, .. }) if value.fract() == 0.0 => {
-                *n = ComponentValue::Integer(Integer {
+            ComponentValue::Number(number) if number.value.fract() == 0.0 => {
+                *n = ComponentValue::Integer(Box::new(Integer {
                     span: Default::default(),
-                    value: value.round() as i64,
+                    value: number.value.round() as i64,
                     raw: None,
-                })
+                }))
             }
             _ => {}
         }
@@ -382,7 +382,7 @@ impl VisitMut for NormalizeTest {
         n.visit_mut_children_with(self);
 
         if let Token::WhiteSpace { .. } = &n.token {
-            n.token = Token::WhiteSpace { value: "".into() }
+            n.token = Token::WhiteSpace { value: "".into() };
         }
     }
 

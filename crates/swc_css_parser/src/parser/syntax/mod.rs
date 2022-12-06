@@ -344,7 +344,7 @@ where
                         );
                         list_of_component_values
                             .children
-                            .push(ComponentValue::PreservedToken(token_and_span));
+                            .push(ComponentValue::PreservedToken(Box::new(token_and_span)));
                     }
                 }
                 // <at-keyword-token>
@@ -494,7 +494,7 @@ where
                         );
                         list_of_component_values
                             .children
-                            .push(ComponentValue::PreservedToken(token_and_span));
+                            .push(ComponentValue::PreservedToken(Box::new(token_and_span)));
                     }
                 }
                 // <at-keyword-token>
@@ -521,7 +521,7 @@ where
                     let cur = self.input.bump().unwrap();
                     let mut temporary_list = ListOfComponentValues {
                         span: Default::default(),
-                        children: vec![ComponentValue::PreservedToken(cur)],
+                        children: vec![ComponentValue::PreservedToken(Box::new(cur))],
                     };
 
                     while !is_one_of!(self, ";", EOF) {
@@ -651,7 +651,7 @@ where
 
             match &component_value {
                 // Optimization for step 6
-                ComponentValue::PreservedToken(TokenAndSpan {
+                ComponentValue::PreservedToken(box TokenAndSpan {
                     span,
                     token: Token::Delim { value: '!', .. },
                     ..
@@ -670,7 +670,7 @@ where
 
                     exclamation_point_span = Some(*span);
                 }
-                ComponentValue::PreservedToken(TokenAndSpan {
+                ComponentValue::PreservedToken(box TokenAndSpan {
                     token: Token::WhiteSpace { .. },
                     ..
                 }) => match (&exclamation_point_span, &important_ident) {
@@ -688,7 +688,7 @@ where
                     }
                 },
                 ComponentValue::PreservedToken(
-                    token_and_span @ TokenAndSpan {
+                    token_and_span @ box TokenAndSpan {
                         token: Token::Ident { value, .. },
                         ..
                     },
@@ -736,7 +736,7 @@ where
                 Default::default(),
             );
             let value = match important_ident.token {
-                Token::Ident { value, raw } => (value, raw),
+                Token::Ident { value, raw, .. } => (value, raw),
                 _ => {
                     unreachable!();
                 }
@@ -805,16 +805,16 @@ where
                             ..self.ctx
                         }
                     })
-                    .parse_as::<Function>()?;
+                    .parse_as::<Box<Function>>()?;
 
                 Ok(ComponentValue::Function(function))
             }
             // Otherwise, return the current input token.
             _ => {
-                let token = self.input.bump();
+                let token_and_span = self.input.bump();
 
-                match token {
-                    Some(t) => Ok(ComponentValue::PreservedToken(t)),
+                match token_and_span {
+                    Some(t) => Ok(ComponentValue::PreservedToken(Box::new(t))),
                     _ => {
                         unreachable!();
                     }

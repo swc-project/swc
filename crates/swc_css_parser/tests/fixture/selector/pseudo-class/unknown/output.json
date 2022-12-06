@@ -1769,10 +1769,11 @@
                         },
                         "token": {
                           "Url": {
-                            "name": "url",
-                            "raw_name": "url",
                             "value": "foo.png",
-                            "raw_value": "foo.png"
+                            "raw": [
+                              "url",
+                              "foo.png"
+                            ]
                           }
                         }
                       }

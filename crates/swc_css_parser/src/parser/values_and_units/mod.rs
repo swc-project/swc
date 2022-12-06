@@ -1,3 +1,4 @@
+use swc_atoms::js_word;
 use swc_common::{BytePos, Span};
 use swc_css_ast::*;
 
@@ -103,7 +104,7 @@ where
                     }
                 };
 
-                return Ok(ComponentValue::SimpleBlock(block));
+                return Ok(ComponentValue::SimpleBlock(Box::new(block)));
             }
 
             tok!("#") => {
@@ -405,7 +406,7 @@ where
                                 tok!("ident") => {
                                     is_legacy_syntax = false;
 
-                                    let ident: Ident = parser.parse()?;
+                                    let ident: Box<Ident> = parser.parse()?;
 
                                     if ident.value.eq_str_ignore_ascii_case("none") {
                                         Ok(Some(ComponentValue::Ident(ident)))
@@ -446,7 +447,7 @@ where
                                     Ok(Some(ComponentValue::Hue(parser.parse()?)))
                                 }
                                 tok!("ident") => {
-                                    let ident: Ident = parser.parse()?;
+                                    let ident: Box<Ident> = parser.parse()?;
 
                                     if ident.value.eq_str_ignore_ascii_case("none") {
                                         Ok(Some(ComponentValue::Ident(ident)))
@@ -516,7 +517,7 @@ where
                                     Ok(Some(ComponentValue::Function(parser.parse()?)))
                                 }
                                 tok!("ident") if !is_legacy_syntax => {
-                                    let ident: Ident = parser.parse()?;
+                                    let ident: Box<Ident> = parser.parse()?;
 
                                     if ident.value.eq_str_ignore_ascii_case("none") {
                                         Ok(Some(ComponentValue::Ident(ident)))
@@ -560,7 +561,7 @@ where
                                     Ok(Some(ComponentValue::Function(parser.parse()?)))
                                 }
                                 tok!("ident") => {
-                                    let ident: Ident = parser.parse()?;
+                                    let ident: Box<Ident> = parser.parse()?;
 
                                     if ident.value.eq_str_ignore_ascii_case("none") {
                                         Ok(Some(ComponentValue::Ident(ident)))
@@ -632,7 +633,7 @@ where
                                     Ok(Some(ComponentValue::Function(parser.parse()?)))
                                 }
                                 tok!("ident") if !is_legacy_syntax => {
-                                    let ident: Ident = parser.parse()?;
+                                    let ident: Box<Ident> = parser.parse()?;
 
                                     if ident.value.eq_str_ignore_ascii_case("none") {
                                         Ok(Some(ComponentValue::Ident(ident)))
@@ -676,7 +677,7 @@ where
                                     Ok(Some(ComponentValue::Function(parser.parse()?)))
                                 }
                                 tok!("ident") => {
-                                    let ident: Ident = parser.parse()?;
+                                    let ident: Box<Ident> = parser.parse()?;
 
                                     if ident.value.eq_str_ignore_ascii_case("none") {
                                         Ok(Some(ComponentValue::Ident(ident)))
@@ -763,7 +764,7 @@ where
                                 Ok(Some(ComponentValue::Function(parser.parse()?)))
                             }
                             tok!("ident") => {
-                                let ident: Ident = parser.parse()?;
+                                let ident: Box<Ident> = parser.parse()?;
 
                                 if ident.value.eq_str_ignore_ascii_case("none") {
                                     Ok(Some(ComponentValue::Ident(ident)))
@@ -837,7 +838,7 @@ where
                                     Ok(Some(ComponentValue::Function(parser.parse()?)))
                                 }
                                 tok!("ident") => {
-                                    let ident: Ident = parser.parse()?;
+                                    let ident: Box<Ident> = parser.parse()?;
 
                                     if ident.value.eq_str_ignore_ascii_case("none") {
                                         Ok(Some(ComponentValue::Ident(ident)))
@@ -882,7 +883,7 @@ where
                                     Ok(Some(ComponentValue::Function(parser.parse()?)))
                                 }
                                 tok!("ident") => {
-                                    let ident: Ident = parser.parse()?;
+                                    let ident: Box<Ident> = parser.parse()?;
 
                                     if ident.value.eq_str_ignore_ascii_case("none") {
                                         Ok(Some(ComponentValue::Ident(ident)))
@@ -945,7 +946,7 @@ where
                                         Ok(Some(ComponentValue::Function(parser.parse()?)))
                                     }
                                     tok!("ident") => {
-                                        let ident: Ident = parser.parse()?;
+                                        let ident: Box<Ident> = parser.parse()?;
 
                                         if ident.value.eq_str_ignore_ascii_case("none") {
                                             Ok(Some(ComponentValue::Ident(ident)))
@@ -994,7 +995,7 @@ where
                                         Ok(Some(ComponentValue::Function(parser.parse()?)))
                                     }
                                     tok!("ident") => {
-                                        let ident: Ident = parser.parse()?;
+                                        let ident: Box<Ident> = parser.parse()?;
 
                                         if ident.value.eq_str_ignore_ascii_case("none") {
                                             Ok(Some(ComponentValue::Ident(ident)))
@@ -1062,7 +1063,7 @@ where
                                         Ok(Some(ComponentValue::Function(parser.parse()?)))
                                     }
                                     tok!("ident") => {
-                                        let ident: Ident = parser.parse()?;
+                                        let ident: Box<Ident> = parser.parse()?;
 
                                         if ident.value.eq_str_ignore_ascii_case("none") {
                                             Ok(Some(ComponentValue::Ident(ident)))
@@ -1111,7 +1112,7 @@ where
                                         Ok(Some(ComponentValue::Function(parser.parse()?)))
                                     }
                                     tok!("ident") => {
-                                        let ident: Ident = parser.parse()?;
+                                        let ident: Box<Ident> = parser.parse()?;
 
                                         if ident.value.eq_str_ignore_ascii_case("none") {
                                             Ok(Some(ComponentValue::Ident(ident)))
@@ -1157,7 +1158,7 @@ where
                                         Ok(Some(ComponentValue::Function(parser.parse()?)))
                                     }
                                     tok!("ident") => {
-                                        let ident: Ident = parser.parse()?;
+                                        let ident: Box<Ident> = parser.parse()?;
 
                                         if ident.value.eq_str_ignore_ascii_case("none") {
                                             Ok(Some(ComponentValue::Ident(ident)))
@@ -1240,7 +1241,7 @@ where
                                 Ok(Some(ComponentValue::Function(parser.parse()?)))
                             }
                             tok!("ident") if !matches!(function_name, "device-cmyk") => {
-                                let ident: Ident = parser.parse()?;
+                                let ident: Box<Ident> = parser.parse()?;
 
                                 if ident.value.eq_str_ignore_ascii_case("none") {
                                     Ok(Some(ComponentValue::Ident(ident)))
@@ -1349,7 +1350,7 @@ where
                             Ok(Some(ComponentValue::Function(parser.parse()?)))
                         }
                         tok!("ident") => {
-                            let ident: Ident = parser.parse()?;
+                            let ident: Box<Ident> = parser.parse()?;
 
                             if ident.value.eq_str_ignore_ascii_case("none") {
                                 Ok(Some(ComponentValue::Ident(ident)))
@@ -1404,7 +1405,7 @@ where
                                 ComponentValue::Function(self.parse()?)
                             }
                             tok!("ident") => {
-                                let ident: Ident = self.parse()?;
+                                let ident: Box<Ident> = self.parse()?;
 
                                 if ident.value.eq_str_ignore_ascii_case("none") {
                                     ComponentValue::Ident(ident)
@@ -1435,7 +1436,7 @@ where
                                 Ok(Some(ComponentValue::Function(parser.parse()?)))
                             }
                             tok!("ident") => {
-                                let ident: Ident = parser.parse()?;
+                                let ident: Box<Ident> = parser.parse()?;
 
                                 if ident.value.eq_str_ignore_ascii_case("none") {
                                     Ok(Some(ComponentValue::Ident(ident)))
@@ -1476,7 +1477,7 @@ where
                                 Ok(Some(ComponentValue::Percentage(parser.parse()?)))
                             }
                             tok!("ident") => {
-                                let ident: Ident = parser.parse()?;
+                                let ident: Box<Ident> = parser.parse()?;
 
                                 if ident.value.eq_str_ignore_ascii_case("none") {
                                     Ok(Some(ComponentValue::Ident(ident)))
@@ -1528,7 +1529,7 @@ where
                                 Ok(Some(ComponentValue::Function(parser.parse()?)))
                             }
                             tok!("ident") if !matches!(function_name, "device-cmyk") => {
-                                let ident: Ident = parser.parse()?;
+                                let ident: Box<Ident> = parser.parse()?;
 
                                 if ident.value.eq_str_ignore_ascii_case("none") {
                                     Ok(Some(ComponentValue::Ident(ident)))
@@ -1589,7 +1590,7 @@ where
                     ));
                 }
 
-                let layer_name = self.parse_as::<LayerName>()?;
+                let layer_name = self.parse_as::<Box<LayerName>>()?;
 
                 values.push(ComponentValue::LayerName(layer_name));
 
@@ -1642,7 +1643,7 @@ where
                         if is_one_of!(self, ";", ":") {
                             let tok = self.input.bump().unwrap();
 
-                            ComponentValue::PreservedToken(tok)
+                            ComponentValue::PreservedToken(Box::new(tok))
                         } else {
                             return Err(Error::new(
                                 self.input.cur_span(),
@@ -1805,7 +1806,7 @@ where
         }
 
         match bump!(self) {
-            Token::Ident { value, raw } => {
+            Token::Ident { value, raw, .. } => {
                 match &*value.to_ascii_lowercase() {
                     "initial" | "inherit" | "unset" | "revert" | "default" => {
                         return Err(Error::new(span, ErrorKind::InvalidCustomIdent(value)));
@@ -1838,7 +1839,7 @@ where
         }
 
         match bump!(self) {
-            Token::Ident { value, raw } => {
+            Token::Ident { value, raw, .. } => {
                 if !value.starts_with("--") {
                     return Err(Error::new(
                         span,
@@ -1878,7 +1879,7 @@ where
         }
 
         match bump!(self) {
-            Token::Ident { value, raw } => {
+            Token::Ident { value, raw, .. } => {
                 if !value.starts_with("--") {
                     return Err(Error::new(
                         span,
@@ -1916,7 +1917,7 @@ where
         }
 
         match bump!(self) {
-            Token::Ident { value, raw } => Ok(Ident {
+            Token::Ident { value, raw, .. } => Ok(Ident {
                 span,
                 value,
                 raw: Some(raw),
@@ -1940,7 +1941,7 @@ where
         }
 
         match cur!(self) {
-            Token::Dimension { unit, .. } => {
+            Token::Dimension(box DimensionToken { unit, .. }) => {
                 match unit {
                     // <length>
                     unit if is_length_unit(unit)
@@ -1980,13 +1981,13 @@ where
         }
 
         match bump!(self) {
-            Token::Dimension {
+            Token::Dimension(box DimensionToken {
                 value,
-                raw_value,
                 unit,
+                raw_value,
                 raw_unit,
                 ..
-            } => {
+            }) => {
                 // TODO validate
 
                 let unit_len = raw_unit.len() as u32;
@@ -2024,13 +2025,13 @@ where
         }
 
         match bump!(self) {
-            Token::Dimension {
+            Token::Dimension(box DimensionToken {
                 value,
-                raw_value,
                 unit,
+                raw_value,
                 raw_unit,
                 ..
-            } => {
+            }) => {
                 if !is_angle_unit(&unit) {
                     return Err(Error::new(
                         span,
@@ -2073,13 +2074,13 @@ where
         }
 
         match bump!(self) {
-            Token::Dimension {
+            Token::Dimension(box DimensionToken {
                 value,
-                raw_value,
                 unit,
+                raw_value,
                 raw_unit,
                 ..
-            } => {
+            }) => {
                 if !is_time_unit(&unit) {
                     return Err(Error::new(span, ErrorKind::Expected("'s' or 'ms' units")));
                 }
@@ -2119,13 +2120,13 @@ where
         }
 
         match bump!(self) {
-            Token::Dimension {
+            Token::Dimension(box DimensionToken {
                 value,
-                raw_value,
                 unit,
+                raw_value,
                 raw_unit,
                 ..
-            } => {
+            }) => {
                 if !is_frequency_unit(&unit) {
                     return Err(Error::new(span, ErrorKind::Expected("'Hz' or 'kHz' units")));
                 }
@@ -2165,13 +2166,13 @@ where
         }
 
         match bump!(self) {
-            Token::Dimension {
+            Token::Dimension(box DimensionToken {
                 value,
-                raw_value,
                 unit,
+                raw_value,
                 raw_unit,
                 ..
-            } => {
+            }) => {
                 if !is_resolution_unit(&unit) {
                     return Err(Error::new(
                         span,
@@ -2214,13 +2215,13 @@ where
         }
 
         match bump!(self) {
-            Token::Dimension {
+            Token::Dimension(box DimensionToken {
                 value,
-                raw_value,
                 unit,
+                raw_value,
                 raw_unit,
                 ..
-            } => {
+            }) => {
                 if !is_flex_unit(&unit) {
                     return Err(Error::new(span, ErrorKind::Expected("'fr' unit")));
                 }
@@ -2260,13 +2261,13 @@ where
         }
 
         match bump!(self) {
-            Token::Dimension {
+            Token::Dimension(box DimensionToken {
                 value,
-                raw_value,
                 unit,
+                raw_value,
                 raw_unit,
                 ..
-            } => {
+            }) => {
                 let unit_len = raw_unit.len() as u32;
 
                 Ok(UnknownDimension {
@@ -2535,17 +2536,12 @@ where
         }
 
         match bump!(self) {
-            Token::Url {
-                name,
-                raw_name,
-                value,
-                raw_value,
-            } => {
-                let name_length = raw_name.len() as u32;
+            Token::Url { value, raw } => {
+                let name_length = raw.0.len() as u32;
                 let name = Ident {
                     span: Span::new(span.lo, span.lo + BytePos(name_length), Default::default()),
-                    value: name,
-                    raw: Some(raw_name),
+                    value: js_word!("url"),
+                    raw: Some(raw.0),
                 };
                 let value = Some(Box::new(UrlValue::Raw(UrlValueRaw {
                     span: Span::new(
@@ -2554,7 +2550,7 @@ where
                         Default::default(),
                     ),
                     value,
-                    raw: Some(raw_value),
+                    raw: Some(raw.1),
                 })));
 
                 Ok(Url {
@@ -2768,19 +2764,19 @@ where
                             }
                         }
                         tok!("dimension") => {
-                            let dimension = match bump!(self) {
-                                Token::Dimension {
+                            let raw = match bump!(self) {
+                                Token::Dimension(box DimensionToken {
                                     raw_value,
                                     raw_unit,
                                     ..
-                                } => (raw_value, raw_unit),
+                                }) => (raw_value, raw_unit),
                                 _ => {
                                     unreachable!();
                                 }
                             };
 
-                            unicode_range.push_str(&dimension.0);
-                            unicode_range.push_str(&dimension.1);
+                            unicode_range.push_str(&raw.0);
+                            unicode_range.push_str(&raw.1);
                         }
                         tok!("number") => {
                             let number = match bump!(self) {
@@ -2798,19 +2794,19 @@ where
             }
             // u <dimension-token> '?'*
             tok!("dimension") => {
-                let dimension = match bump!(self) {
-                    Token::Dimension {
+                let raw = match bump!(self) {
+                    Token::Dimension(box DimensionToken {
                         raw_value,
                         raw_unit,
                         ..
-                    } => (raw_value, raw_unit),
+                    }) => (raw_value, raw_unit),
                     _ => {
                         unreachable!();
                     }
                 };
 
-                unicode_range.push_str(&dimension.0);
-                unicode_range.push_str(&dimension.1);
+                unicode_range.push_str(&raw.0);
+                unicode_range.push_str(&raw.1);
 
                 loop {
                     if !is!(self, "?") {

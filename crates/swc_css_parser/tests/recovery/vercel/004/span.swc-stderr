@@ -288,7 +288,7 @@
  5 |     color: white;
    `----
 
-  x Dimension { value: 7.0, raw_value: "7", unit: Atom('px' type=static), raw_unit: "px", type_flag: Integer }
+  x Dimension(DimensionToken { value: 7.0, raw_value: "7", unit: Atom('px' type=static), type_flag: Integer, raw_unit: "px" })
    ,-[$DIR/tests/recovery/vercel/004/input.css:3:1]
  3 |     __ident__
  4 |     border-radius: 7px;

@@ -125,8 +125,8 @@
                         "value": 20.0,
                         "raw_value": "20",
                         "unit": "px",
-                        "raw_unit": "px",
-                        "type": "integer"
+                        "type": "integer",
+                        "raw_unit": "px"
                       }
                     }
                   }

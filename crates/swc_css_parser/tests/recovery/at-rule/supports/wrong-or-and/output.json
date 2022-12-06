@@ -345,8 +345,8 @@
                         "value": 10.0,
                         "raw_value": "10",
                         "unit": "deg",
-                        "raw_unit": "deg",
-                        "type": "integer"
+                        "type": "integer",
+                        "raw_unit": "deg"
                       }
                     }
                   }

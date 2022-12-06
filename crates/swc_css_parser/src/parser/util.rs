@@ -241,7 +241,7 @@ where
                     },
                 )?
                 .into_iter()
-                .map(ComponentValue::DeclarationOrAtRule)
+                .map(|node| ComponentValue::DeclarationOrAtRule(Box::new(node)))
                 .collect(),
             _ => self
                 .parse_according_to_grammar(
@@ -256,7 +256,7 @@ where
                     },
                 )?
                 .into_iter()
-                .map(ComponentValue::StyleBlock)
+                .map(|node| ComponentValue::StyleBlock(Box::new(node)))
                 .collect(),
         };
 
@@ -378,7 +378,7 @@ where
         component_value: &ComponentValue,
     ) -> PResult<()> {
         match component_value {
-            ComponentValue::PreservedToken(TokenAndSpan {
+            ComponentValue::PreservedToken(box TokenAndSpan {
                 span,
                 token: Token::BadString { .. },
             }) => {
@@ -387,7 +387,7 @@ where
                     ErrorKind::Unexpected("bad string in declaration value"),
                 ));
             }
-            ComponentValue::PreservedToken(TokenAndSpan {
+            ComponentValue::PreservedToken(box TokenAndSpan {
                 span,
                 token: Token::BadUrl { .. },
             }) => {
@@ -396,7 +396,7 @@ where
                     ErrorKind::Unexpected("bad url in declaration value"),
                 ));
             }
-            ComponentValue::PreservedToken(TokenAndSpan {
+            ComponentValue::PreservedToken(box TokenAndSpan {
                 span,
                 token: Token::RParen,
             }) => {
@@ -405,7 +405,7 @@ where
                     ErrorKind::Unexpected("')' in declaration value"),
                 ));
             }
-            ComponentValue::PreservedToken(TokenAndSpan {
+            ComponentValue::PreservedToken(box TokenAndSpan {
                 span,
                 token: Token::RBracket,
             }) => {
@@ -414,7 +414,7 @@ where
                     ErrorKind::Unexpected("']' in declaration value"),
                 ));
             }
-            ComponentValue::PreservedToken(TokenAndSpan {
+            ComponentValue::PreservedToken(box TokenAndSpan {
                 span,
                 token: Token::RBrace,
             }) => {
@@ -423,7 +423,7 @@ where
                     ErrorKind::Unexpected("'}' in declaration value"),
                 ));
             }
-            ComponentValue::PreservedToken(TokenAndSpan {
+            ComponentValue::PreservedToken(box TokenAndSpan {
                 span,
                 token: Token::Semi,
             }) => {
@@ -432,7 +432,7 @@ where
                     ErrorKind::Unexpected("';' in declaration value"),
                 ));
             }
-            ComponentValue::PreservedToken(TokenAndSpan {
+            ComponentValue::PreservedToken(box TokenAndSpan {
                 span,
                 token: Token::Delim { value: '!' },
             }) => {

@@ -2336,7 +2336,9 @@ impl Minifier<'_> {
                         let declaration_list: Vec<swc_css_ast::ComponentValue> =
                             list_of_declarations
                                 .into_iter()
-                                .map(swc_css_ast::ComponentValue::DeclarationOrAtRule)
+                                .map(|node| {
+                                    swc_css_ast::ComponentValue::DeclarationOrAtRule(Box::new(node))
+                                })
                                 .collect();
 
                         swc_css_ast::Stylesheet {
@@ -2394,13 +2396,13 @@ impl Minifier<'_> {
                                     },
                                     // TODO make the `compress_empty` option for CSS minifier and
                                     // remove it
-                                    value: vec![swc_css_ast::ComponentValue::Str(
+                                    value: vec![swc_css_ast::ComponentValue::Str(Box::new(
                                         swc_css_ast::Str {
                                             span: Default::default(),
                                             value: js_word!("placeholder"),
                                             raw: None,
                                         },
-                                    )],
+                                    ))],
                                 }),
                             }
                             .into(),

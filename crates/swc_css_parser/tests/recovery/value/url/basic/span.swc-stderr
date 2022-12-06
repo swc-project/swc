@@ -223,7 +223,7 @@
  4 |     background: url(image.png\999999);
    `----
 
-  x BadUrl { name: Atom('url' type=static), raw_name: "url", raw_value: "var(--foo" }
+  x BadUrl { raw: "url(var(--foo)" }
    ,-[$DIR/tests/recovery/value/url/basic/input.css:2:1]
  2 |     --foo: "http://www.example.com/pinkish.gif";
  3 |     background: url(var(--foo));
@@ -831,7 +831,7 @@
  14 | }
     `----
 
-  x BadUrl { name: Atom('url' type=static), raw_name: "url", raw_value: "image.png param(var(--url" }
+  x BadUrl { raw: "url(image.png param(var(--url)" }
     ,-[$DIR/tests/recovery/value/url/basic/input.css:12:1]
  12 | .foo {
  13 |     background: url(image.png param(var(--url)));

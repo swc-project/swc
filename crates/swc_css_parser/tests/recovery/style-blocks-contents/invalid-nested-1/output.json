@@ -231,8 +231,8 @@
                         "value": 1.0,
                         "raw_value": "1",
                         "unit": "em",
-                        "raw_unit": "em",
-                        "type": "integer"
+                        "type": "integer",
+                        "raw_unit": "em"
                       }
                     }
                   },

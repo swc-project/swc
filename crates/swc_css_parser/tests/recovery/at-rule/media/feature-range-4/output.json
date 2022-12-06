@@ -73,8 +73,8 @@
                     "value": 400.0,
                     "raw_value": "400",
                     "unit": "px",
-                    "raw_unit": "px",
-                    "type": "integer"
+                    "type": "integer",
+                    "raw_unit": "px"
                   }
                 }
               },
@@ -195,8 +195,8 @@
                     "value": 700.0,
                     "raw_value": "700",
                     "unit": "px",
-                    "raw_unit": "px",
-                    "type": "integer"
+                    "type": "integer",
+                    "raw_unit": "px"
                   }
                 }
               }

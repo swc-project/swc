@@ -162,34 +162,34 @@ macro_rules! make_color {
                         raw: None,
                     },
                     value: vec![
-                        ComponentValue::Number(Number {
+                        ComponentValue::Number(Box::new(Number {
                             span: DUMMY_SP,
                             value: r,
                             raw: None,
-                        }),
-                        ComponentValue::Delimiter(Delimiter {
+                        })),
+                        ComponentValue::Delimiter(Box::new(Delimiter {
                             span: DUMMY_SP,
                             value: DelimiterValue::Comma,
-                        }),
-                        ComponentValue::Number(Number {
+                        })),
+                        ComponentValue::Number(Box::new(Number {
                             span: DUMMY_SP,
                             value: g,
                             raw: None,
-                        }),
-                        ComponentValue::Delimiter(Delimiter {
+                        })),
+                        ComponentValue::Delimiter(Box::new(Delimiter {
                             span: DUMMY_SP,
                             value: DelimiterValue::Comma,
-                        }),
-                        ComponentValue::Number(Number {
+                        })),
+                        ComponentValue::Number(Box::new(Number {
                             span: DUMMY_SP,
                             value: b,
                             raw: None,
-                        }),
-                        ComponentValue::Delimiter(Delimiter {
+                        })),
+                        ComponentValue::Delimiter(Box::new(Delimiter {
                             span: DUMMY_SP,
                             value: DelimiterValue::Comma,
-                        }),
-                        ComponentValue::AlphaValue(alpha_value),
+                        })),
+                        ComponentValue::AlphaValue(Box::new(alpha_value)),
                     ],
                 }))
             }
@@ -262,7 +262,7 @@ impl Compressor {
 
     fn get_alpha_value(&self, alpha_value: Option<&&ComponentValue>) -> Option<f64> {
         match alpha_value {
-            Some(ComponentValue::AlphaValue(AlphaValue::Number(Number { value, .. }))) => {
+            Some(ComponentValue::AlphaValue(box AlphaValue::Number(Number { value, .. }))) => {
                 if *value > 1.0 {
                     return Some(1.0);
                 } else if *value < 0.0 {
@@ -271,7 +271,7 @@ impl Compressor {
 
                 Some(*value)
             }
-            Some(ComponentValue::AlphaValue(AlphaValue::Percentage(Percentage {
+            Some(ComponentValue::AlphaValue(box AlphaValue::Percentage(Percentage {
                 value: Number { value, .. },
                 ..
             }))) => {
@@ -283,7 +283,7 @@ impl Compressor {
 
                 Some(*value / 100.0)
             }
-            Some(ComponentValue::Ident(Ident { value, .. }))
+            Some(ComponentValue::Ident(box Ident { value, .. }))
                 if value.to_ascii_lowercase() == js_word!("none") =>
             {
                 Some(0.0)
@@ -295,7 +295,7 @@ impl Compressor {
 
     fn get_hue(&self, hue: Option<&&ComponentValue>) -> Option<f64> {
         match hue {
-            Some(ComponentValue::Hue(hue)) => {
+            Some(ComponentValue::Hue(box hue)) => {
                 let mut value = match hue {
                     Hue::Number(Number { value, .. }) => *value,
                     Hue::Angle(Angle {
@@ -320,7 +320,7 @@ impl Compressor {
 
                 Some(value)
             }
-            Some(ComponentValue::Ident(Ident { value, .. }))
+            Some(ComponentValue::Ident(box Ident { value, .. }))
                 if value.to_ascii_lowercase() == js_word!("none") =>
             {
                 Some(0.0)
@@ -331,7 +331,7 @@ impl Compressor {
 
     fn get_percentage(&self, percentage: Option<&&ComponentValue>) -> Option<f64> {
         match percentage {
-            Some(ComponentValue::Percentage(Percentage {
+            Some(ComponentValue::Percentage(box Percentage {
                 value: Number { value, .. },
                 ..
             })) => {
@@ -343,7 +343,7 @@ impl Compressor {
 
                 Some(*value / 100.0)
             }
-            Some(ComponentValue::Ident(Ident { value, .. }))
+            Some(ComponentValue::Ident(box Ident { value, .. }))
                 if value.to_ascii_lowercase() == js_word!("none") =>
             {
                 Some(0.0)
@@ -357,7 +357,7 @@ impl Compressor {
         number_or_percentage: Option<&&ComponentValue>,
     ) -> Option<f64> {
         match number_or_percentage {
-            Some(ComponentValue::Number(Number { value, .. })) => {
+            Some(ComponentValue::Number(box Number { value, .. })) => {
                 if *value > 255.0 {
                     return Some(255.0);
                 } else if *value < 0.0 {
@@ -366,7 +366,7 @@ impl Compressor {
 
                 Some(*value)
             }
-            Some(ComponentValue::Percentage(Percentage {
+            Some(ComponentValue::Percentage(box Percentage {
                 value: Number { value, .. },
                 ..
             })) => {
@@ -378,7 +378,7 @@ impl Compressor {
 
                 Some((2.55 * *value).round())
             }
-            Some(ComponentValue::Ident(Ident { value, .. }))
+            Some(ComponentValue::Ident(box Ident { value, .. }))
                 if value.to_ascii_lowercase() == js_word!("none") =>
             {
                 Some(0.0)
@@ -435,7 +435,7 @@ impl Compressor {
                     .filter(|n| {
                         !matches!(
                             n,
-                            ComponentValue::Delimiter(Delimiter {
+                            ComponentValue::Delimiter(box Delimiter {
                                 value: DelimiterValue::Comma | DelimiterValue::Solidus,
                                 ..
                             })
@@ -473,7 +473,7 @@ impl Compressor {
                     .filter(|n| {
                         !matches!(
                             n,
-                            ComponentValue::Delimiter(Delimiter {
+                            ComponentValue::Delimiter(box Delimiter {
                                 value: DelimiterValue::Comma | DelimiterValue::Solidus,
                                 ..
                             })
@@ -513,7 +513,7 @@ impl Compressor {
                     .filter(|n| {
                         !matches!(
                             n,
-                            ComponentValue::Delimiter(Delimiter {
+                            ComponentValue::Delimiter(box Delimiter {
                                 value: DelimiterValue::Comma | DelimiterValue::Solidus,
                                 ..
                             })

@@ -88,65 +88,65 @@ pub struct ListOfComponentValues {
 pub enum ComponentValue {
     // No grammar
     #[tag("TokenAndSpan")]
-    PreservedToken(TokenAndSpan),
+    PreservedToken(Box<TokenAndSpan>),
     #[tag("Function")]
-    Function(Function),
+    Function(Box<Function>),
     #[tag("SimpleBlock")]
-    SimpleBlock(SimpleBlock),
+    SimpleBlock(Box<SimpleBlock>),
 
     // Block Contents grammar
     #[tag("DeclarationOrAtRule")]
-    DeclarationOrAtRule(DeclarationOrAtRule),
+    DeclarationOrAtRule(Box<DeclarationOrAtRule>),
     #[tag("Rule")]
-    Rule(Rule),
+    Rule(Box<Rule>),
     #[tag("StyleBlock")]
-    StyleBlock(StyleBlock),
+    StyleBlock(Box<StyleBlock>),
     #[tag("KeyframeBlock")]
-    KeyframeBlock(KeyframeBlock),
+    KeyframeBlock(Box<KeyframeBlock>),
 
     // Arbitrary Contents grammar
     #[tag("Ident")]
-    Ident(Ident),
+    Ident(Box<Ident>),
     #[tag("DashedIdent")]
-    DashedIdent(DashedIdent),
+    DashedIdent(Box<DashedIdent>),
     #[tag("String")]
-    Str(Str),
+    Str(Box<Str>),
     #[tag("Url")]
-    Url(Url),
+    Url(Box<Url>),
     #[tag("Integer")]
-    Integer(Integer),
+    Integer(Box<Integer>),
     #[tag("Number")]
-    Number(Number),
+    Number(Box<Number>),
     #[tag("Percentage")]
-    Percentage(Percentage),
+    Percentage(Box<Percentage>),
     #[tag("Dimension")]
-    Dimension(Dimension),
+    Dimension(Box<Dimension>),
     #[tag("Ratio")]
-    Ratio(Ratio),
+    Ratio(Box<Ratio>),
     #[tag("UnicodeRange")]
-    UnicodeRange(UnicodeRange),
+    UnicodeRange(Box<UnicodeRange>),
     #[tag("Color")]
-    Color(Color),
+    Color(Box<Color>),
     #[tag("AlphaValue")]
-    AlphaValue(AlphaValue),
+    AlphaValue(Box<AlphaValue>),
     #[tag("Hue")]
-    Hue(Hue),
+    Hue(Box<Hue>),
     #[tag("CmykComponent")]
-    CmykComponent(CmykComponent),
+    CmykComponent(Box<CmykComponent>),
     #[tag("Delimiter")]
-    Delimiter(Delimiter),
+    Delimiter(Box<Delimiter>),
 
     // Special function Contents grammar
     #[tag("CalcSum")]
-    CalcSum(CalcSum),
+    CalcSum(Box<CalcSum>),
     #[tag("ComplexSelector")]
-    ComplexSelector(ComplexSelector),
+    ComplexSelector(Box<ComplexSelector>),
     #[tag("LayerName")]
-    LayerName(LayerName),
+    LayerName(Box<LayerName>),
     #[tag("SupportsCondition")]
-    SupportsCondition(SupportsCondition),
+    SupportsCondition(Box<SupportsCondition>),
     #[tag("Declaration")]
-    Declaration(Declaration),
+    Declaration(Box<Declaration>),
 }
 
 #[ast_node]

@@ -12,7 +12,7 @@ impl Compressor {
     ) {
         if self.ctx.in_transform_function {
             match &component_value {
-                ComponentValue::Dimension(Dimension::Angle(Angle {
+                ComponentValue::Dimension(box Dimension::Angle(Angle {
                     value:
                         Number {
                             value: number_value,
@@ -21,11 +21,11 @@ impl Compressor {
                     span,
                     ..
                 })) if *number_value == 0.0 => {
-                    *component_value = ComponentValue::Number(Number {
+                    *component_value = ComponentValue::Number(Box::new(Number {
                         span: *span,
                         value: 0.0,
                         raw: None,
-                    });
+                    }));
                 }
                 _ => {}
             }

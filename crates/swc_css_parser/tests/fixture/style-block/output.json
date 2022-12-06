@@ -3461,8 +3461,8 @@
                       "value": 100.0,
                       "raw_value": "100",
                       "unit": "px",
-                      "raw_unit": "px",
-                      "type": "integer"
+                      "type": "integer",
+                      "raw_unit": "px"
                     }
                   }
                 },
@@ -4382,8 +4382,8 @@
                         "value": 16.0,
                         "raw_value": "16",
                         "unit": "px",
-                        "raw_unit": "px",
-                        "type": "integer"
+                        "type": "integer",
+                        "raw_unit": "px"
                       }
                     }
                   },
@@ -4457,8 +4457,8 @@
                         "value": 16.0,
                         "raw_value": "16",
                         "unit": "px",
-                        "raw_unit": "px",
-                        "type": "integer"
+                        "type": "integer",
+                        "raw_unit": "px"
                       }
                     }
                   },

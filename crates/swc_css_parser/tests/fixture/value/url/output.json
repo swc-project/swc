@@ -169,7 +169,7 @@
                     "end": 78,
                     "ctxt": 0
                   },
-                  "value": "URL",
+                  "value": "url",
                   "raw": "URL"
                 },
                 "value": {
@@ -219,7 +219,7 @@
                     "end": 131,
                     "ctxt": 0
                   },
-                  "value": "URL",
+                  "value": "url",
                   "raw": "\\URL"
                 },
                 "value": {
@@ -1409,7 +1409,7 @@
                     "end": 1299,
                     "ctxt": 0
                   },
-                  "value": "URL",
+                  "value": "url",
                   "raw": "URL"
                 },
                 "value": {

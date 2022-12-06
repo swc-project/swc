@@ -47,7 +47,7 @@ impl FontFamilyNoDuplicateNames {
                 Option::<(String, Span)>::None,
             ),
             |(mut fonts, last_identifier), item| match item {
-                ComponentValue::Ident(Ident { value, span, .. }) => {
+                ComponentValue::Ident(box Ident { value, span, .. }) => {
                     if let Some((mut identifier, last_span)) = last_identifier {
                         identifier.push(' ');
                         identifier.push_str(value);
@@ -56,7 +56,7 @@ impl FontFamilyNoDuplicateNames {
                         (fonts, Some((value.to_string(), *span)))
                     }
                 }
-                ComponentValue::Str(Str {
+                ComponentValue::Str(box Str {
                     raw: Some(raw),
                     span,
                     ..
@@ -64,7 +64,7 @@ impl FontFamilyNoDuplicateNames {
                     fonts.push((FontNameKind::from(raw), *span));
                     (fonts, None)
                 }
-                ComponentValue::Delimiter(Delimiter {
+                ComponentValue::Delimiter(box Delimiter {
                     value: DelimiterValue::Comma,
                     ..
                 }) => {

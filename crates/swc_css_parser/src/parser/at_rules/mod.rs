@@ -435,7 +435,7 @@ where
                 let declaration_list: Vec<DeclarationOrAtRule> = self.parse()?;
                 let declaration_list: Vec<ComponentValue> = declaration_list
                     .into_iter()
-                    .map(ComponentValue::DeclarationOrAtRule)
+                    .map(|node| ComponentValue::DeclarationOrAtRule(Box::new(node)))
                     .collect();
 
                 declaration_list
@@ -449,7 +449,7 @@ where
                     let style_blocks = self.with_ctx(ctx).parse_as::<Vec<StyleBlock>>()?;
                     let style_blocks: Vec<ComponentValue> = style_blocks
                         .into_iter()
-                        .map(ComponentValue::StyleBlock)
+                        .map(|node| ComponentValue::StyleBlock(Box::new(node)))
                         .collect();
 
                     style_blocks
@@ -460,8 +460,10 @@ where
                         ..self.ctx
                     };
                     let rule_list = self.with_ctx(ctx).parse_as::<Vec<Rule>>()?;
-                    let rule_list: Vec<ComponentValue> =
-                        rule_list.into_iter().map(ComponentValue::Rule).collect();
+                    let rule_list: Vec<ComponentValue> = rule_list
+                        .into_iter()
+                        .map(|node| ComponentValue::Rule(Box::new(node)))
+                        .collect();
 
                     rule_list
                 }
@@ -470,7 +472,7 @@ where
                 let declaration_list: Vec<DeclarationOrAtRule> = self.parse()?;
                 let declaration_list: Vec<ComponentValue> = declaration_list
                     .into_iter()
-                    .map(ComponentValue::DeclarationOrAtRule)
+                    .map(|node| ComponentValue::DeclarationOrAtRule(Box::new(node)))
                     .collect();
 
                 declaration_list
@@ -486,15 +488,17 @@ where
                         let style_blocks: Vec<StyleBlock> = self.parse()?;
                         let style_blocks: Vec<ComponentValue> = style_blocks
                             .into_iter()
-                            .map(ComponentValue::StyleBlock)
+                            .map(|node| ComponentValue::StyleBlock(Box::new(node)))
                             .collect();
 
                         style_blocks
                     }
                     _ => {
                         let rule_list = self.parse_as::<Vec<Rule>>()?;
-                        let rule_list: Vec<ComponentValue> =
-                            rule_list.into_iter().map(ComponentValue::Rule).collect();
+                        let rule_list: Vec<ComponentValue> = rule_list
+                            .into_iter()
+                            .map(|node| ComponentValue::Rule(Box::new(node)))
+                            .collect();
 
                         rule_list
                     }
@@ -504,7 +508,7 @@ where
                 let declaration_list: Vec<DeclarationOrAtRule> = self.parse()?;
                 let declaration_list: Vec<ComponentValue> = declaration_list
                     .into_iter()
-                    .map(ComponentValue::DeclarationOrAtRule)
+                    .map(|node| ComponentValue::DeclarationOrAtRule(Box::new(node)))
                     .collect();
 
                 declaration_list
@@ -517,7 +521,7 @@ where
                 let declaration_list = self.with_ctx(ctx).parse_as::<Vec<DeclarationOrAtRule>>()?;
                 let declaration_list: Vec<ComponentValue> = declaration_list
                     .into_iter()
-                    .map(ComponentValue::DeclarationOrAtRule)
+                    .map(|node| ComponentValue::DeclarationOrAtRule(Box::new(node)))
                     .collect();
 
                 declaration_list
@@ -534,7 +538,7 @@ where
                 let declaration_list: Vec<DeclarationOrAtRule> = self.parse()?;
                 let declaration_list: Vec<ComponentValue> = declaration_list
                     .into_iter()
-                    .map(ComponentValue::DeclarationOrAtRule)
+                    .map(|node| ComponentValue::DeclarationOrAtRule(Box::new(node)))
                     .collect();
 
                 declaration_list
@@ -543,7 +547,7 @@ where
                 let declaration_list: Vec<DeclarationOrAtRule> = self.parse()?;
                 let declaration_list: Vec<ComponentValue> = declaration_list
                     .into_iter()
-                    .map(ComponentValue::DeclarationOrAtRule)
+                    .map(|node| ComponentValue::DeclarationOrAtRule(Box::new(node)))
                     .collect();
 
                 declaration_list
@@ -573,7 +577,7 @@ where
                                 ErrorKind::Unexpected("at-rules are not allowed here"),
                             ));
 
-                            ComponentValue::Rule(Rule::AtRule(at_rule))
+                            ComponentValue::Rule(Box::new(Rule::AtRule(at_rule)))
                         }
                         Rule::QualifiedRule(qualified_rule) => {
                             let locv = match qualified_rule.prelude {
@@ -606,23 +610,23 @@ where
                                 Ok(keyframes_selectors)
                             }) {
                                 Ok(keyframes_selectors) => {
-                                    ComponentValue::KeyframeBlock(KeyframeBlock {
+                                    ComponentValue::KeyframeBlock(Box::new(KeyframeBlock {
                                         span: qualified_rule.span,
                                         prelude: keyframes_selectors,
                                         block: qualified_rule.block,
-                                    })
+                                    }))
                                 }
                                 Err(err) => {
                                     self.errors.push(err);
 
-                                    ComponentValue::Rule(Rule::ListOfComponentValues(Box::new(
-                                        locv,
+                                    ComponentValue::Rule(Box::new(Rule::ListOfComponentValues(
+                                        Box::new(locv),
                                     )))
                                 }
                             }
                         }
                         Rule::ListOfComponentValues(locv) => {
-                            ComponentValue::Rule(Rule::ListOfComponentValues(locv))
+                            ComponentValue::Rule(Box::new(Rule::ListOfComponentValues(locv)))
                         }
                     })
                     .collect();
@@ -631,8 +635,10 @@ where
             }
             js_word!("layer") => {
                 let rule_list = self.parse_as::<Vec<Rule>>()?;
-                let rule_list: Vec<ComponentValue> =
-                    rule_list.into_iter().map(ComponentValue::Rule).collect();
+                let rule_list: Vec<ComponentValue> = rule_list
+                    .into_iter()
+                    .map(|node| ComponentValue::Rule(Box::new(node)))
+                    .collect();
 
                 rule_list
             }
@@ -641,15 +647,17 @@ where
                     let style_blocks: Vec<StyleBlock> = self.parse()?;
                     let style_blocks: Vec<ComponentValue> = style_blocks
                         .into_iter()
-                        .map(ComponentValue::StyleBlock)
+                        .map(|node| ComponentValue::StyleBlock(Box::new(node)))
                         .collect();
 
                     style_blocks
                 }
                 _ => {
                     let rule_list = self.parse_as::<Vec<Rule>>()?;
-                    let rule_list: Vec<ComponentValue> =
-                        rule_list.into_iter().map(ComponentValue::Rule).collect();
+                    let rule_list: Vec<ComponentValue> = rule_list
+                        .into_iter()
+                        .map(|node| ComponentValue::Rule(Box::new(node)))
+                        .collect();
 
                     rule_list
                 }
@@ -663,7 +671,7 @@ where
                 let style_blocks: Vec<StyleBlock> = self.parse()?;
                 let style_blocks: Vec<ComponentValue> = style_blocks
                     .into_iter()
-                    .map(ComponentValue::StyleBlock)
+                    .map(|node| ComponentValue::StyleBlock(Box::new(node)))
                     .collect();
 
                 style_blocks
@@ -677,7 +685,7 @@ where
                     .parse_as::<Vec<DeclarationOrAtRule>>()?;
                 let declaration_list: Vec<ComponentValue> = declaration_list
                     .into_iter()
-                    .map(ComponentValue::DeclarationOrAtRule)
+                    .map(|node| ComponentValue::DeclarationOrAtRule(Box::new(node)))
                     .collect();
 
                 declaration_list
@@ -703,7 +711,7 @@ where
                 let declaration_list: Vec<DeclarationOrAtRule> = self.parse()?;
                 let declaration_list: Vec<ComponentValue> = declaration_list
                     .into_iter()
-                    .map(ComponentValue::DeclarationOrAtRule)
+                    .map(|node| ComponentValue::DeclarationOrAtRule(Box::new(node)))
                     .collect();
 
                 declaration_list
@@ -712,7 +720,7 @@ where
                 let declaration_list: Vec<DeclarationOrAtRule> = self.parse()?;
                 let declaration_list: Vec<ComponentValue> = declaration_list
                     .into_iter()
-                    .map(ComponentValue::DeclarationOrAtRule)
+                    .map(|node| ComponentValue::DeclarationOrAtRule(Box::new(node)))
                     .collect();
 
                 declaration_list
@@ -722,15 +730,17 @@ where
                     let style_blocks: Vec<StyleBlock> = self.parse()?;
                     let style_blocks: Vec<ComponentValue> = style_blocks
                         .into_iter()
-                        .map(ComponentValue::StyleBlock)
+                        .map(|node| ComponentValue::StyleBlock(Box::new(node)))
                         .collect();
 
                     style_blocks
                 }
                 _ => {
                     let rule_list = self.parse_as::<Vec<Rule>>()?;
-                    let rule_list: Vec<ComponentValue> =
-                        rule_list.into_iter().map(ComponentValue::Rule).collect();
+                    let rule_list: Vec<ComponentValue> = rule_list
+                        .into_iter()
+                        .map(|node| ComponentValue::Rule(Box::new(node)))
+                        .collect();
 
                     rule_list
                 }
@@ -739,7 +749,7 @@ where
                 let declaration_list: Vec<DeclarationOrAtRule> = self.parse()?;
                 let declaration_list: Vec<ComponentValue> = declaration_list
                     .into_iter()
-                    .map(ComponentValue::DeclarationOrAtRule)
+                    .map(|node| ComponentValue::DeclarationOrAtRule(Box::new(node)))
                     .collect();
 
                 declaration_list
@@ -815,7 +825,7 @@ where
                     {
                         let span = self.input.cur_span();
                         let pseudo = match bump!(self) {
-                            Token::Function { value, raw, .. } => Ident {
+                            Token::Function { value, raw } => Ident {
                                 span: span!(self, span.lo),
                                 value,
                                 raw: Some(raw),
@@ -2473,7 +2483,7 @@ where
         }
 
         match bump!(self) {
-            Token::Ident { value, raw } => {
+            Token::Ident { value, raw, .. } => {
                 if !value.starts_with("--") {
                     return Err(Error::new(
                         span,

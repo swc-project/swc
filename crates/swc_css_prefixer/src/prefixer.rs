@@ -133,7 +133,7 @@ impl VisitMut for CrossFadeFunctionReplacerOnLegacyVariant<'_> {
             for group in n.value.split_mut(|n| {
                 matches!(
                     n,
-                    ComponentValue::Delimiter(Delimiter {
+                    ComponentValue::Delimiter(delimiter) if matches!(&**delimiter, Delimiter {
                         value: DelimiterValue::Comma,
                         ..
                     })
@@ -147,29 +147,26 @@ impl VisitMut for CrossFadeFunctionReplacerOnLegacyVariant<'_> {
 
                 for n in group {
                     match n {
-                        ComponentValue::Percentage(Percentage {
-                            value: Number { value, .. },
-                            ..
-                        }) => {
+                        ComponentValue::Percentage(percentage) => {
                             if transparency_value.is_some() {
                                 return;
                             }
 
-                            transparency_value = Some(*value / 100.0);
+                            transparency_value = Some(percentage.value.value / 100.0);
                         }
-                        ComponentValue::Number(Number { value, .. }) => {
+                        ComponentValue::Number(number) => {
                             if transparency_value.is_some() {
                                 return;
                             }
 
-                            transparency_value = Some(*value);
+                            transparency_value = Some(number.value);
                         }
-                        ComponentValue::Integer(Integer { value, .. }) => {
+                        ComponentValue::Integer(integer) => {
                             if transparency_value.is_some() {
                                 return;
                             }
 
-                            transparency_value = Some((*value) as f64);
+                            transparency_value = Some((integer.value) as f64);
                         }
                         _ => {}
                     }
@@ -207,15 +204,15 @@ impl VisitMut for CrossFadeFunctionReplacerOnLegacyVariant<'_> {
                 .collect();
 
             new_value.extend(vec![
-                ComponentValue::Delimiter(Delimiter {
+                ComponentValue::Delimiter(Box::new(Delimiter {
                     span: DUMMY_SP,
                     value: DelimiterValue::Comma,
-                }),
-                ComponentValue::Number(Number {
+                })),
+                ComponentValue::Number(Box::new(Number {
                     span: DUMMY_SP,
                     value: transparency_value,
                     raw: None,
-                }),
+                })),
             ]);
 
             n.value = new_value;
@@ -247,9 +244,9 @@ impl VisitMut for ImageSetFunctionReplacerOnLegacyVariant<'_> {
             return;
         }
 
-        if let ComponentValue::Str(Str { span, value, .. }) = n {
-            *n = ComponentValue::Url(Url {
-                span: *span,
+        if let ComponentValue::Str(node) = n {
+            *n = ComponentValue::Url(Box::new(Url {
+                span: node.span,
                 name: Ident {
                     span: DUMMY_SP,
                     value: js_word!("url"),
@@ -257,11 +254,11 @@ impl VisitMut for ImageSetFunctionReplacerOnLegacyVariant<'_> {
                 },
                 value: Some(Box::new(UrlValue::Str(Str {
                     span: DUMMY_SP,
-                    value: value.as_ref().into(),
+                    value: node.value.as_ref().into(),
                     raw: None,
                 }))),
                 modifiers: Some(vec![]),
-            })
+            }))
         }
     }
 
@@ -310,8 +307,8 @@ impl VisitMut for LinearGradientFunctionReplacerOnLegacyVariant<'_> {
             let first = n.value.get(0);
 
             match first {
-                Some(ComponentValue::Ident(Ident { value, .. }))
-                    if value.as_ref().eq_ignore_ascii_case("to") =>
+                Some(ComponentValue::Ident(ident))
+                    if ident.value.as_ref().eq_ignore_ascii_case("to") =>
                 {
                     fn get_old_direction(direction: &str) -> Option<&str> {
                         match direction {
@@ -325,12 +322,12 @@ impl VisitMut for LinearGradientFunctionReplacerOnLegacyVariant<'_> {
 
                     match (n.value.get(1), n.value.get(2)) {
                         (
-                            Some(ComponentValue::Ident(Ident {
+                            Some(ComponentValue::Ident(box Ident {
                                 value: first_value,
                                 span: first_span,
                                 ..
                             })),
-                            Some(ComponentValue::Ident(Ident {
+                            Some(ComponentValue::Ident(box Ident {
                                 value: second_value,
                                 span: second_span,
                                 ..
@@ -341,28 +338,28 @@ impl VisitMut for LinearGradientFunctionReplacerOnLegacyVariant<'_> {
                                 get_old_direction(second_value),
                             ) {
                                 let new_value = vec![
-                                    ComponentValue::Ident(Ident {
+                                    ComponentValue::Ident(Box::new(Ident {
                                         span: *first_span,
                                         value: new_first_direction.into(),
                                         raw: None,
-                                    }),
-                                    ComponentValue::Ident(Ident {
+                                    })),
+                                    ComponentValue::Ident(Box::new(Ident {
                                         span: *second_span,
                                         value: new_second_direction.into(),
                                         raw: None,
-                                    }),
+                                    })),
                                 ];
 
                                 n.value.splice(0..3, new_value);
                             }
                         }
-                        (Some(ComponentValue::Ident(Ident { value, span, .. })), Some(_)) => {
+                        (Some(ComponentValue::Ident(box Ident { value, span, .. })), Some(_)) => {
                             if let Some(new_direction) = get_old_direction(value) {
-                                let new_value = vec![ComponentValue::Ident(Ident {
+                                let new_value = vec![ComponentValue::Ident(Box::new(Ident {
                                     span: *span,
                                     value: new_direction.into(),
                                     raw: None,
-                                })];
+                                }))];
 
                                 n.value.splice(0..2, new_value);
                             }
@@ -370,7 +367,7 @@ impl VisitMut for LinearGradientFunctionReplacerOnLegacyVariant<'_> {
                         _ => {}
                     }
                 }
-                Some(ComponentValue::Dimension(Dimension::Angle(Angle {
+                Some(ComponentValue::Dimension(box Dimension::Angle(Angle {
                     value,
                     unit,
                     span,
@@ -387,33 +384,33 @@ impl VisitMut for LinearGradientFunctionReplacerOnLegacyVariant<'_> {
                     };
 
                     if angle == 0.0 {
-                        n.value[0] = ComponentValue::Ident(Ident {
+                        n.value[0] = ComponentValue::Ident(Box::new(Ident {
                             span: *span,
                             value: js_word!("bottom"),
                             raw: None,
-                        });
+                        }));
                     } else if angle == 90.0 {
-                        n.value[0] = ComponentValue::Ident(Ident {
+                        n.value[0] = ComponentValue::Ident(Box::new(Ident {
                             span: *span,
                             value: js_word!("left"),
                             raw: None,
-                        });
+                        }));
                     } else if angle == 180.0 {
-                        n.value[0] = ComponentValue::Ident(Ident {
+                        n.value[0] = ComponentValue::Ident(Box::new(Ident {
                             span: *span,
                             value: js_word!("top"),
                             raw: None,
-                        });
+                        }));
                     } else if angle == 270.0 {
-                        n.value[0] = ComponentValue::Ident(Ident {
+                        n.value[0] = ComponentValue::Ident(Box::new(Ident {
                             span: *span,
                             value: js_word!("right"),
                             raw: None,
-                        });
+                        }));
                     } else {
                         let new_value = ((450.0 - angle).abs() % 360.0 * 1000.0).round() / 1000.0;
 
-                        n.value[0] = ComponentValue::Dimension(Dimension::Angle(Angle {
+                        n.value[0] = ComponentValue::Dimension(Box::new(Dimension::Angle(Angle {
                             span: *span,
                             value: Number {
                                 span: value.span,
@@ -425,18 +422,18 @@ impl VisitMut for LinearGradientFunctionReplacerOnLegacyVariant<'_> {
                                 value: js_word!("deg"),
                                 raw: None,
                             },
-                        }));
+                        })));
                     }
                 }
                 Some(_) | None => {}
             }
 
             if matches!(self.from, "radial-gradient" | "repeating-radial-gradient") {
-                let at_index = n.value.iter().position(|n| matches!(n, ComponentValue::Ident(Ident { value, .. }) if value.as_ref().eq_ignore_ascii_case("at")));
+                let at_index = n.value.iter().position(|n| matches!(n, ComponentValue::Ident(box Ident { value, .. }) if value.as_ref().eq_ignore_ascii_case("at")));
                 let first_comma_index = n.value.iter().position(|n| {
                     matches!(
                         n,
-                        ComponentValue::Delimiter(Delimiter {
+                        ComponentValue::Delimiter(delimiter) if matches!(&**delimiter, Delimiter {
                             value: DelimiterValue::Comma,
                             ..
                         })
@@ -447,10 +444,10 @@ impl VisitMut for LinearGradientFunctionReplacerOnLegacyVariant<'_> {
                     let mut new_value = vec![];
 
                     new_value.append(&mut n.value[at_index + 1..first_comma_index].to_vec());
-                    new_value.append(&mut vec![ComponentValue::Delimiter(Delimiter {
+                    new_value.append(&mut vec![ComponentValue::Delimiter(Box::new(Delimiter {
                         span: DUMMY_SP,
                         value: DelimiterValue::Comma,
-                    })]);
+                    }))]);
                     new_value.append(&mut n.value[0..at_index].to_vec());
 
                     n.value.splice(0..first_comma_index, new_value);
@@ -520,21 +517,21 @@ where
 
 macro_rules! to_ident {
     ($val:expr) => {{
-        ComponentValue::Ident(Ident {
+        ComponentValue::Ident(Box::new(Ident {
             span: DUMMY_SP,
             value: $val.into(),
             raw: None,
-        })
+        }))
     }};
 }
 
 macro_rules! to_integer {
     ($val:expr) => {{
-        ComponentValue::Integer(Integer {
+        ComponentValue::Integer(Box::new(Integer {
             span: DUMMY_SP,
             value: $val,
             raw: None,
-        })
+        }))
     }};
 }
 
@@ -711,9 +708,9 @@ impl VisitMut for Prefixer {
 
                 if let Some(ComponentValue::Declaration(declaration)) = supports.value.get(0) {
                     conditions.push(SupportsConditionType::SupportsInParens(
-                        SupportsInParens::Feature(SupportsFeature::Declaration(Box::new(
+                        SupportsInParens::Feature(SupportsFeature::Declaration(
                             declaration.clone(),
-                        ))),
+                        )),
                     ));
                 }
 
@@ -732,10 +729,12 @@ impl VisitMut for Prefixer {
                 import_conditions.supports = Some(Box::new(Function {
                     span: supports.span,
                     name: supports.name,
-                    value: vec![ComponentValue::SupportsCondition(SupportsCondition {
-                        span: DUMMY_SP,
-                        conditions,
-                    })],
+                    value: vec![ComponentValue::SupportsCondition(Box::new(
+                        SupportsCondition {
+                            span: DUMMY_SP,
+                            conditions,
+                        },
+                    ))],
                 }));
             }
         }
@@ -1134,12 +1133,9 @@ impl VisitMut for Prefixer {
 
             match n {
                 ComponentValue::DeclarationOrAtRule(_) => {
-                    new.extend(
-                        self.added_declarations
-                            .drain(..)
-                            .map(StyleBlock::Declaration)
-                            .map(ComponentValue::StyleBlock),
-                    );
+                    new.extend(self.added_declarations.drain(..).map(|node| {
+                        ComponentValue::StyleBlock(Box::new(StyleBlock::Declaration(node)))
+                    }));
 
                     for mut n in take(&mut self.added_at_rules) {
                         let old_rule_prefix = self.rule_prefix.take();
@@ -1148,7 +1144,9 @@ impl VisitMut for Prefixer {
 
                         n.1.visit_mut_children_with(self);
 
-                        new.push(ComponentValue::StyleBlock(StyleBlock::AtRule(n.1)));
+                        new.push(ComponentValue::StyleBlock(Box::new(StyleBlock::AtRule(
+                            n.1,
+                        ))));
 
                         self.rule_prefix = old_rule_prefix;
                     }
@@ -1161,7 +1159,9 @@ impl VisitMut for Prefixer {
 
                         n.1.visit_mut_children_with(self);
 
-                        new.push(ComponentValue::StyleBlock(StyleBlock::QualifiedRule(n.1)));
+                        new.push(ComponentValue::StyleBlock(Box::new(
+                            StyleBlock::QualifiedRule(n.1),
+                        )));
 
                         self.rule_prefix = old_rule_prefix;
                     }
@@ -1173,18 +1173,17 @@ impl VisitMut for Prefixer {
 
                         n.1.visit_mut_children_with(self);
 
-                        new.push(ComponentValue::StyleBlock(StyleBlock::AtRule(n.1)));
+                        new.push(ComponentValue::StyleBlock(Box::new(StyleBlock::AtRule(
+                            n.1,
+                        ))));
 
                         self.rule_prefix = old_rule_prefix;
                     }
                 }
                 ComponentValue::StyleBlock(_) => {
-                    new.extend(
-                        self.added_declarations
-                            .drain(..)
-                            .map(StyleBlock::Declaration)
-                            .map(ComponentValue::StyleBlock),
-                    );
+                    new.extend(self.added_declarations.drain(..).map(|node| {
+                        ComponentValue::StyleBlock(Box::new(StyleBlock::Declaration(node)))
+                    }));
 
                     for mut n in take(&mut self.added_qualified_rules) {
                         let old_rule_prefix = self.rule_prefix.take();
@@ -1193,7 +1192,9 @@ impl VisitMut for Prefixer {
 
                         n.1.visit_mut_children_with(self);
 
-                        new.push(ComponentValue::StyleBlock(StyleBlock::QualifiedRule(n.1)));
+                        new.push(ComponentValue::StyleBlock(Box::new(
+                            StyleBlock::QualifiedRule(n.1),
+                        )));
 
                         self.rule_prefix = old_rule_prefix;
                     }
@@ -1205,7 +1206,9 @@ impl VisitMut for Prefixer {
 
                         n.1.visit_mut_children_with(self);
 
-                        new.push(ComponentValue::StyleBlock(StyleBlock::AtRule(n.1)));
+                        new.push(ComponentValue::StyleBlock(Box::new(StyleBlock::AtRule(
+                            n.1,
+                        ))));
 
                         self.rule_prefix = old_rule_prefix;
                     }
@@ -1393,12 +1396,12 @@ impl VisitMut for Prefixer {
 
                 for n in simple_block.value.iter() {
                     match n {
-                        ComponentValue::DeclarationOrAtRule(DeclarationOrAtRule::Declaration(
-                            declaration,
-                        )) => {
+                        ComponentValue::DeclarationOrAtRule(
+                            box DeclarationOrAtRule::Declaration(declaration),
+                        ) => {
                             declarations.push(declaration);
                         }
-                        ComponentValue::StyleBlock(StyleBlock::Declaration(declaration)) => {
+                        ComponentValue::StyleBlock(box StyleBlock::Declaration(declaration)) => {
                             declarations.push(declaration);
                         }
                         _ => {}
@@ -1480,9 +1483,10 @@ impl VisitMut for Prefixer {
 
             "animation" => {
                 let need_prefix = n.value.iter().all(|n| match n {
-                    ComponentValue::Ident(Ident { value, .. }) => {
-                        !matches!(&*value.to_lowercase(), "reverse" | "alternate-reverse")
-                    }
+                    ComponentValue::Ident(ident) => !matches!(
+                        &*ident.value.to_lowercase(),
+                        "reverse" | "alternate-reverse"
+                    ),
                     _ => true,
                 });
 
@@ -1512,8 +1516,8 @@ impl VisitMut for Prefixer {
             }
 
             "animation-direction" => {
-                if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
-                    match &*value.to_lowercase() {
+                if let ComponentValue::Ident(ident) = &n.value[0] {
+                    match &*ident.value.to_lowercase() {
                         "alternate-reverse" | "reverse" => {}
                         _ => {
                             add_declaration!(Prefix::Webkit, "-webkit-animation-direction", None);
@@ -1549,8 +1553,8 @@ impl VisitMut for Prefixer {
             }
 
             "background-clip" => {
-                if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
-                    if &*value.to_lowercase() == "text" {
+                if let ComponentValue::Ident(ident) = &n.value[0] {
+                    if &*ident.value.to_lowercase() == "text" {
                         add_declaration!(Prefix::Webkit, "-webkit-background-clip", None);
                     }
                 }
@@ -1719,23 +1723,23 @@ impl VisitMut for Prefixer {
 
             "flex" => {
                 let spec_2009_value = match n.value.get(0) {
-                    Some(ComponentValue::Ident(Ident { value, span, .. }))
-                        if value.as_ref().eq_ignore_ascii_case("none") =>
+                    Some(ComponentValue::Ident(ident))
+                        if ident.value.as_ref().eq_ignore_ascii_case("none") =>
                     {
-                        Some(ComponentValue::Integer(Integer {
-                            span: *span,
+                        Some(ComponentValue::Integer(Box::new(Integer {
+                            span: ident.span,
                             value: 0,
                             raw: None,
-                        }))
+                        })))
                     }
-                    Some(ComponentValue::Ident(Ident { value, span, .. }))
-                        if value.as_ref().eq_ignore_ascii_case("auto") =>
+                    Some(ComponentValue::Ident(ident))
+                        if ident.value.as_ref().eq_ignore_ascii_case("auto") =>
                     {
-                        Some(ComponentValue::Integer(Integer {
-                            span: *span,
+                        Some(ComponentValue::Integer(Box::new(Integer {
+                            span: ident.span,
                             value: 1,
                             raw: None,
-                        }))
+                        })))
                     }
                     Some(any) => Some(any.clone()),
                     None => None,
@@ -1770,23 +1774,27 @@ impl VisitMut for Prefixer {
                         Some(Box::new(|| {
                             let mut value = ms_value.clone();
 
-                            if let Some(ComponentValue::Integer(Integer {
-                                value: 0, span, ..
+                            if let Some(ComponentValue::Integer(box Integer {
+                                value: 0,
+                                span,
+                                ..
                             })) = value.get(2)
                             {
-                                value[2] = ComponentValue::Dimension(Dimension::Length(Length {
-                                    span: *span,
-                                    value: Number {
-                                        span: DUMMY_SP,
-                                        value: 0.0,
-                                        raw: None,
+                                value[2] = ComponentValue::Dimension(Box::new(Dimension::Length(
+                                    Length {
+                                        span: *span,
+                                        value: Number {
+                                            span: DUMMY_SP,
+                                            value: 0.0,
+                                            raw: None,
+                                        },
+                                        unit: Ident {
+                                            span: DUMMY_SP,
+                                            value: js_word!("px"),
+                                            raw: None,
+                                        },
                                     },
-                                    unit: Ident {
-                                        span: DUMMY_SP,
-                                        value: js_word!("px"),
-                                        raw: None,
-                                    },
-                                }));
+                                )));
                             }
 
                             value
@@ -1816,23 +1824,23 @@ impl VisitMut for Prefixer {
 
             "flex-direction" => {
                 let old_values = match n.value.get(0) {
-                    Some(ComponentValue::Ident(Ident { value, .. }))
-                        if value.as_ref().eq_ignore_ascii_case("row") =>
+                    Some(ComponentValue::Ident(ident))
+                        if ident.value.as_ref().eq_ignore_ascii_case("row") =>
                     {
                         Some(("horizontal", "normal"))
                     }
-                    Some(ComponentValue::Ident(Ident { value, .. }))
-                        if value.as_ref().eq_ignore_ascii_case("column") =>
+                    Some(ComponentValue::Ident(ident))
+                        if ident.value.as_ref().eq_ignore_ascii_case("column") =>
                     {
                         Some(("vertical", "normal"))
                     }
-                    Some(ComponentValue::Ident(Ident { value, .. }))
-                        if value.as_ref().eq_ignore_ascii_case("row-reverse") =>
+                    Some(ComponentValue::Ident(ident))
+                        if ident.value.as_ref().eq_ignore_ascii_case("row-reverse") =>
                     {
                         Some(("horizontal", "reverse"))
                     }
-                    Some(ComponentValue::Ident(Ident { value, .. }))
-                        if value.as_ref().eq_ignore_ascii_case("column-reverse") =>
+                    Some(ComponentValue::Ident(ident))
+                        if ident.value.as_ref().eq_ignore_ascii_case("column-reverse") =>
                     {
                         Some(("vertical", "reverse"))
                     }
@@ -1876,7 +1884,7 @@ impl VisitMut for Prefixer {
             }
 
             "flex-flow" => {
-                let is_single_flex_wrap = matches!(n.value.get(0), Some(ComponentValue::Ident(Ident { value, .. })) if n.value.len() == 1
+                let is_single_flex_wrap = matches!(n.value.get(0), Some(ComponentValue::Ident(box Ident { value, .. })) if n.value.len() == 1
                 && matches!(
                     &*value.to_lowercase(),
                     "wrap" | "nowrap" | "wrap-reverse"
@@ -1886,23 +1894,23 @@ impl VisitMut for Prefixer {
                     true => None,
                     _ => {
                         let get_old_values = |index: usize| match n.value.get(index) {
-                            Some(ComponentValue::Ident(Ident { value, .. }))
-                                if value.as_ref().eq_ignore_ascii_case("row") =>
+                            Some(ComponentValue::Ident(ident))
+                                if ident.value.as_ref().eq_ignore_ascii_case("row") =>
                             {
                                 Some(("horizontal", "normal"))
                             }
-                            Some(ComponentValue::Ident(Ident { value, .. }))
-                                if value.as_ref().eq_ignore_ascii_case("column") =>
+                            Some(ComponentValue::Ident(ident))
+                                if ident.value.as_ref().eq_ignore_ascii_case("column") =>
                             {
                                 Some(("vertical", "normal"))
                             }
-                            Some(ComponentValue::Ident(Ident { value, .. }))
-                                if value.as_ref().eq_ignore_ascii_case("row-reverse") =>
+                            Some(ComponentValue::Ident(ident))
+                                if ident.value.as_ref().eq_ignore_ascii_case("row-reverse") =>
                             {
                                 Some(("horizontal", "reverse"))
                             }
-                            Some(ComponentValue::Ident(Ident { value, .. }))
-                                if value.as_ref().eq_ignore_ascii_case("column-reverse") =>
+                            Some(ComponentValue::Ident(ident))
+                                if ident.value.as_ref().eq_ignore_ascii_case("column-reverse") =>
                             {
                                 Some(("vertical", "reverse"))
                             }
@@ -1945,7 +1953,7 @@ impl VisitMut for Prefixer {
             }
 
             "justify-content" => {
-                let need_old_spec = !matches!(n.value.get(0), Some(ComponentValue::Ident(Ident { value, .. })) if value.as_ref().eq_ignore_ascii_case("space-around"));
+                let need_old_spec = !matches!(n.value.get(0), Some(ComponentValue::Ident(box Ident { value, .. })) if value.as_ref().eq_ignore_ascii_case("space-around"));
 
                 if need_old_spec {
                     add_declaration!(
@@ -2003,7 +2011,7 @@ impl VisitMut for Prefixer {
 
             "order" => {
                 let old_spec_num = match n.value.get(0) {
-                    Some(ComponentValue::Integer(Integer { value, .. })) => Some(value + 1),
+                    Some(ComponentValue::Integer(integer)) => Some(integer.value + 1),
                     _ => None,
                 };
 
@@ -2161,8 +2169,8 @@ impl VisitMut for Prefixer {
 
             "filter" => match &n.value[0] {
                 ComponentValue::PreservedToken(_) => {}
-                ComponentValue::Function(Function { name, .. })
-                    if name.value.as_ref().eq_ignore_ascii_case("alpha") => {}
+                ComponentValue::Function(function)
+                    if function.name.value.as_ref().eq_ignore_ascii_case("alpha") => {}
                 _ => {
                     add_declaration!(Prefix::Webkit, "-webkit-filter", None);
                 }
@@ -2304,8 +2312,8 @@ impl VisitMut for Prefixer {
                 add_declaration!(Prefix::Webkit, "-webkit-user-select", None);
                 add_declaration!(Prefix::Moz, "-moz-user-select", None);
 
-                if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
-                    match &*value.to_lowercase() {
+                if let ComponentValue::Ident(ident) = &n.value[0] {
+                    match &*ident.value.to_lowercase() {
                         "contain" => {
                             add_declaration!(
                                 Prefix::Ms,
@@ -2326,9 +2334,9 @@ impl VisitMut for Prefixer {
                 add_declaration!(Prefix::Moz, "-moz-transform", None);
 
                 let has_3d_function = n.value.iter().any(|n| match n {
-                    ComponentValue::Function(Function { name, .. })
+                    ComponentValue::Function(function)
                         if matches!(
-                            &*name.value.to_ascii_lowercase(),
+                            &*function.name.value.to_ascii_lowercase(),
                             "matrix3d"
                                 | "translate3d"
                                 | "translatez"
@@ -2384,9 +2392,9 @@ impl VisitMut for Prefixer {
             "text-decoration" => {
                 if n.value.len() == 1 {
                     match &n.value[0] {
-                        ComponentValue::Ident(Ident { value, .. })
+                        ComponentValue::Ident(ident)
                             if matches!(
-                                &*value.to_lowercase(),
+                                &*ident.value.to_lowercase(),
                                 "none"
                                     | "underline"
                                     | "overline"
@@ -2428,8 +2436,8 @@ impl VisitMut for Prefixer {
             }
 
             "text-decoration-skip-ink" => {
-                if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
-                    match &*value.to_lowercase() {
+                if let ComponentValue::Ident(ident) = &n.value[0] {
+                    match &*ident.value.to_lowercase() {
                         "auto" => {
                             add_declaration!(
                                 Prefix::Webkit,
@@ -2449,8 +2457,8 @@ impl VisitMut for Prefixer {
             }
 
             "text-size-adjust" if n.value.len() == 1 => {
-                if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
-                    if &*value.to_lowercase() == "none" {
+                if let ComponentValue::Ident(ident) = &n.value[0] {
+                    if &*ident.value.to_lowercase() == "none" {
                         add_declaration!(Prefix::Webkit, "-webkit-text-size-adjust", None);
                         add_declaration!(Prefix::Moz, "-moz-text-size-adjust", None);
                         add_declaration!(Prefix::Ms, "-ms-text-size-adjust", None);
@@ -2546,8 +2554,8 @@ impl VisitMut for Prefixer {
                             } if value.as_ref().eq_ignore_ascii_case("direction"))
                 }) {
                     Some(box Declaration { value, .. }) => match value.get(0) {
-                        Some(ComponentValue::Ident(Ident { value, .. }))
-                            if value.as_ref().eq_ignore_ascii_case("rtl") =>
+                        Some(ComponentValue::Ident(ident))
+                            if ident.value.as_ref().eq_ignore_ascii_case("rtl") =>
                         {
                             Some("rtl")
                         }
@@ -2556,8 +2564,8 @@ impl VisitMut for Prefixer {
                     _ => Some("ltr"),
                 };
 
-                if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
-                    match &*value.to_lowercase() {
+                if let ComponentValue::Ident(ident) = &n.value[0] {
+                    match &*ident.value.to_lowercase() {
                         "vertical-lr" => {
                             add_declaration!(Prefix::Webkit, "-webkit-writing-mode", None);
 
@@ -2926,8 +2934,8 @@ impl VisitMut for Prefixer {
             }
 
             "overscroll-behavior" => {
-                if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
-                    match &*value.to_lowercase() {
+                if let ComponentValue::Ident(ident) = &n.value[0] {
+                    match &*ident.value.to_lowercase() {
                         "auto" => {
                             add_declaration!(
                                 Prefix::Ms,
@@ -2961,8 +2969,8 @@ impl VisitMut for Prefixer {
             }
 
             "break-inside" => {
-                if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
-                    match &*value.to_lowercase() {
+                if let ComponentValue::Ident(ident) = &n.value[0] {
+                    match &*ident.value.to_lowercase() {
                         "auto" | "avoid" => {
                             add_declaration!(Prefix::Webkit, "-webkit-column-break-inside", None);
                         }
@@ -2972,8 +2980,8 @@ impl VisitMut for Prefixer {
             }
 
             "break-before" => {
-                if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
-                    match &*value.to_lowercase() {
+                if let ComponentValue::Ident(ident) = &n.value[0] {
+                    match &*ident.value.to_lowercase() {
                         "auto" | "avoid" => {
                             add_declaration!(Prefix::Webkit, "-webkit-column-break-before", None);
                         }
@@ -2990,8 +2998,8 @@ impl VisitMut for Prefixer {
             }
 
             "break-after" => {
-                if let ComponentValue::Ident(Ident { value, .. }) = &n.value[0] {
-                    match &*value.to_lowercase() {
+                if let ComponentValue::Ident(ident) = &n.value[0] {
+                    match &*ident.value.to_lowercase() {
                         "auto" | "avoid" => {
                             add_declaration!(Prefix::Webkit, "-webkit-column-break-after", None);
                         }

@@ -149,7 +149,7 @@
    :                               ^^^^^
    `----
 
-  x Dimension { value: 900.0, raw_value: "900", unit: Atom('px' type=static), raw_unit: "px", type_flag: Integer }
+  x Dimension(DimensionToken { value: 900.0, raw_value: "900", unit: Atom('px' type=static), type_flag: Integer, raw_unit: "px" })
    ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
  1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
    :                               ^^^^^
@@ -251,7 +251,7 @@
    :                                                     ^^^^^^
    `----
 
-  x Dimension { value: 1200.0, raw_value: "1200", unit: Atom('px' type=static), raw_unit: "px", type_flag: Integer }
+  x Dimension(DimensionToken { value: 1200.0, raw_value: "1200", unit: Atom('px' type=static), type_flag: Integer, raw_unit: "px" })
    ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
  1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
    :                                                     ^^^^^^
