@@ -342,6 +342,16 @@ impl Compressor {
         let mut prev_index = 0;
         let mut index = 0;
 
+        for i in 0..stylesheet.rules.len() {
+            for j in 0..stylesheet.rules.len() {
+                if i >= j {
+                    continue;
+                }
+
+                // We need two &mut
+            }
+        }
+
         stylesheet.rules.retain_mut(|rule| {
             let result = match rule {
                 Rule::AtRule(box AtRule {
