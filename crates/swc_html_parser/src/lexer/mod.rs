@@ -432,6 +432,68 @@ where
         }
     }
 
+    fn consume_and_append_to_doctype_token_public_id<F>(&mut self, c: char, f: F)
+    where
+        F: Fn(char) -> bool,
+    {
+        let b = self.buf.clone();
+        let mut buf = b.borrow_mut();
+        let b = self.sub_buf.clone();
+        let mut sub_buf = b.borrow_mut();
+
+        let is_cr = c == '\r';
+
+        if is_cr {
+            buf.push('\n');
+            sub_buf.push(c);
+
+            if self.input.cur() == Some('\n') {
+                self.input.bump();
+
+                sub_buf.push('\n');
+            }
+        } else {
+            buf.push(c);
+            sub_buf.push(c);
+        }
+
+        let value = self.input.uncons_while(f);
+
+        buf.push_str(value);
+        sub_buf.push_str(value);
+    }
+
+    fn consume_and_append_to_doctype_token_system_id<F>(&mut self, c: char, f: F)
+    where
+        F: Fn(char) -> bool,
+    {
+        let b = self.buf.clone();
+        let mut buf = b.borrow_mut();
+        let b = self.sub_buf.clone();
+        let mut sub_buf = b.borrow_mut();
+
+        let is_cr = c == '\r';
+
+        if is_cr {
+            buf.push('\n');
+            sub_buf.push(c);
+
+            if self.input.cur() == Some('\n') {
+                self.input.bump();
+
+                sub_buf.push('\n');
+            }
+        } else {
+            buf.push(c);
+            sub_buf.push(c);
+        }
+
+        let value = self.input.uncons_while(f);
+
+        buf.push_str(value);
+        sub_buf.push_str(value);
+    }
+
     #[inline(always)]
     fn set_doctype_token_force_quirks(&mut self) {
         if let Some(Token::Doctype { force_quirks, .. }) = &mut self.current_token {
@@ -3646,8 +3708,13 @@ where
                     // identifier.
                     Some(c) => {
                         self.validate_input_stream_character(c);
-                        self.append_raw_to_doctype_token(c);
-                        self.append_to_doctype_token(None, Some(c), None);
+                        self.consume_and_append_to_doctype_token_public_id(c, |c| {
+                            if is_allowed_character(c) {
+                                return false;
+                            }
+
+                            !matches!(c, '"' | '\x00' | '>' | '\r')
+                        });
                     }
                 }
             }
@@ -3701,8 +3768,13 @@ where
                     // identifier.
                     Some(c) => {
                         self.validate_input_stream_character(c);
-                        self.append_raw_to_doctype_token(c);
-                        self.append_to_doctype_token(None, Some(c), None);
+                        self.consume_and_append_to_doctype_token_public_id(c, |c| {
+                            if is_allowed_character(c) {
+                                return false;
+                            }
+
+                            !matches!(c, '\'' | '\x00' | '>' | '\r')
+                        });
                     }
                 }
             }
@@ -4018,8 +4090,13 @@ where
                     // identifier.
                     Some(c) => {
                         self.validate_input_stream_character(c);
-                        self.append_raw_to_doctype_token(c);
-                        self.append_to_doctype_token(None, None, Some(c));
+                        self.consume_and_append_to_doctype_token_system_id(c, |c| {
+                            if is_allowed_character(c) {
+                                return false;
+                            }
+
+                            !matches!(c, '"' | '\x00' | '>' | '\r')
+                        });
                     }
                 }
             }
@@ -4073,8 +4150,13 @@ where
                     // identifier.
                     Some(c) => {
                         self.validate_input_stream_character(c);
-                        self.append_raw_to_doctype_token(c);
-                        self.append_to_doctype_token(None, None, Some(c));
+                        self.consume_and_append_to_doctype_token_system_id(c, |c| {
+                            if is_allowed_character(c) {
+                                return false;
+                            }
+
+                            !matches!(c, '\'' | '\x00' | '>' | '\r')
+                        });
                     }
                 }
             }
