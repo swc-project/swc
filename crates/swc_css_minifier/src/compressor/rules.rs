@@ -273,7 +273,7 @@ impl Compressor {
             let block = self.merge_simple_block(&mut left.block, &mut right.block);
             let mut qualified_rule = QualifiedRule {
                 span: Span::new(left.span_lo(), right.span_hi(), SyntaxContext::empty()),
-                prelude: left.prelude.clone(),
+                prelude: left.prelude.take(),
                 block,
             };
 
@@ -321,7 +321,7 @@ impl Compressor {
                             SyntaxContext::empty(),
                         ),
                         name: left.name.clone(),
-                        prelude: left.prelude.clone(),
+                        prelude: left.prelude.take(),
                         block: Some(block),
                     };
 
