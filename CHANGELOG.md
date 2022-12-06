@@ -55,6 +55,9 @@
 
 - **(css/ast)** Reduce token size (#6569) ([8633d27](https://github.com/swc-project/swc/commit/8633d27df0f429cd024c3b36f686c136b2bb945f))
 
+
+- **(css/minifier)** Remove redundant clone (#6579) ([70ac028](https://github.com/swc-project/swc/commit/70ac0286e50d8117e918e11131ffb15d77d9ed18))
+
 ### Refactor
 
 
