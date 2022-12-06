@@ -413,11 +413,11 @@ impl Compressor {
                             if self.is_mergeable_at_rule(at_rule) =>
                         {
                             prev_index = index;
-                            prev_rule_idx = Some(index);
+                            prev_rule_idx = Some(j);
                         }
                         Rule::QualifiedRule(_) => {
                             prev_index = index;
-                            prev_rule_idx = Some(index);
+                            prev_rule_idx = Some(j);
                         }
                         _ => {
                             prev_rule_idx = None;
