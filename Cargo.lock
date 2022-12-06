@@ -3260,7 +3260,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.46.2"
+version = "0.46.3"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -3312,7 +3312,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css"
-version = "0.142.2"
+version = "0.142.3"
 dependencies = [
  "swc_css_ast",
  "swc_css_codegen",
@@ -3405,7 +3405,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_minifier"
-version = "0.104.2"
+version = "0.104.3"
 dependencies = [
  "criterion",
  "serde",
@@ -4141,7 +4141,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html"
-version = "0.98.2"
+version = "0.98.3"
 dependencies = [
  "swc_html_ast",
  "swc_html_codegen",
@@ -4193,7 +4193,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "0.95.2"
+version = "0.95.3"
 dependencies = [
  "criterion",
  "once_cell",

@@ -64,6 +64,9 @@
 
 - **(css/minifier)** Remove more redundant clones (#6580) ([4171ee7](https://github.com/swc-project/swc/commit/4171ee7fb353966c5a11e4701b2bdf28bc895ad1))
 
+
+- **(css/minifier)** Improve performance (#6583) ([7895599](https://github.com/swc-project/swc/commit/78955995a2fd381a9d56a325e368aa29dcc3c7be))
+
 ### Refactor
 
 
