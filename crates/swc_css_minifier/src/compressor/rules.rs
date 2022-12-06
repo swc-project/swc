@@ -142,13 +142,10 @@ impl Compressor {
                 for index in 0..stylesheet.rules.len() {
                     let node = stylesheet.rules.get(index);
 
-                    match node {
-                        Some(Rule::AtRule(box at_rule)) => {
-                            if !discarder(&at_rule) {
-                                remove_rules_list.push(index);
-                            }
+                    if let Some(Rule::AtRule(box at_rule)) = node {
+                        if !discarder(at_rule) {
+                            remove_rules_list.push(index);
                         }
-                        _ => {}
                     }
                 }
             }
@@ -156,13 +153,10 @@ impl Compressor {
                 for index in 0..simple_block.value.len() {
                     let node = simple_block.value.get(index);
 
-                    match node {
-                        Some(ComponentValue::Rule(box Rule::AtRule(box at_rule))) => {
-                            if !discarder(&at_rule) {
-                                remove_rules_list.push(index);
-                            }
+                    if let Some(ComponentValue::Rule(box Rule::AtRule(box at_rule))) = node {
+                        if !discarder(at_rule) {
+                            remove_rules_list.push(index);
                         }
-                        _ => {}
                     }
                 }
             }
