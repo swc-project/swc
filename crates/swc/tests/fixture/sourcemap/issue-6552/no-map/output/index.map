@@ -1,0 +1,17 @@
+{
+  "mappings": "AAAA,aAAA,IAAMA,IAAM,cACZC,QAAQC,KAAK,CAAC,AAAC,KAAY,OAARC,UAEnB,IAAMC,IAAM",
+  "names": [
+    "xxx",
+    "console",
+    "error",
+    "message",
+    "bbb"
+  ],
+  "sources": [
+    "../../input/index.js"
+  ],
+  "sourcesContent": [
+    "const xxx = ', something'\nconsole.error(`❌ ${message}`);\n\nconst bbb = ''\n"
+  ],
+  "version": 3
+}

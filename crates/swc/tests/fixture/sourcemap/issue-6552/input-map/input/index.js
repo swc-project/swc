@@ -1,0 +1,4 @@
+const xxx = ', something';
+console.error(`❌ ${message}`);
+const bbb = '';
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJuYW1lcyI6WyJ4eHgiLCJjb25zb2xlIiwiZXJyb3IiLCJtZXNzYWdlIiwiYmJiIl0sInNvdXJjZXMiOlsidW5rbm93biJdLCJzb3VyY2VzQ29udGVudCI6WyJjb25zdCB4eHggPSAnLCBzb21ldGhpbmcnXG5jb25zb2xlLmVycm9yKGDinYwgJHttZXNzYWdlfWApO1xuXG5jb25zdCBiYmIgPSAnJ1xuIl0sIm1hcHBpbmdzIjoiQUFBQSxNQUFNQSxHQUFHLEdBQUcsYUFBWjtBQUNBQyxPQUFPLENBQUNDLEtBQVIsQ0FBZSxLQUFJQyxPQUFRLEVBQTNCO0FBRUEsTUFBTUMsR0FBRyxHQUFHLEVBQVoifQ==

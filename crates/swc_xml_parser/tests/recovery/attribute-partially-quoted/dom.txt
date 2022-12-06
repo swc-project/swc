@@ -1,0 +1,6 @@
+| <root>
+|   "
+    "
+|   <c>
+|     foo="test></c>
+</root>"

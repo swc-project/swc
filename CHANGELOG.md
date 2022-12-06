@@ -8,6 +8,9 @@
 - **(common)** Fix handling of input source maps (#6561) ([4af52c7](https://github.com/swc-project/swc/commit/4af52c79aea73f2e916bd11ce089bb4a4317179c))
 
 
+- **(common)** Fix `BytePos` -> `CharPos` calculations (#6574) ([a203fdb](https://github.com/swc-project/swc/commit/a203fdb1b62ce2df855421d46905f8b821eeabbd))
+
+
 - **(css/parser)** Fix recovery more for invalid component values in declaration value (#6560) ([db1eb48](https://github.com/swc-project/swc/commit/db1eb483fda71ca5f88342d8c53cb795707c6221))
 
 
@@ -17,13 +20,22 @@
 - **(es/parser)** Fix `typeof` in `TSCallSignatureDeclaration` (#6553) ([aa28aa0](https://github.com/swc-project/swc/commit/aa28aa0c7fefcaea063340c711a5ea8a3ba60e7b))
 
 
+- **(es/parser)** Fix parsing of JSX with ASI (#6577) ([ad95ead](https://github.com/swc-project/swc/commit/ad95ead291640b1ada65860af1adf5e8185c80a4))
+
+
 - **(xml/parser)** Fix parsing of legacy document types (#6555) ([cdf0d8a](https://github.com/swc-project/swc/commit/cdf0d8a8b59a05498b6ca609d8a2ecf3c2f35f28))
+
+
+- **(xml/parser)** Fix various bugs (#6566) ([01232f0](https://github.com/swc-project/swc/commit/01232f09883de34eb3eb94d364f9bd2a3b985703))
 
 ### Features
 
 
 
 - **(css/plugin)** Prepare Wasm plugins (#6567) ([8cdc28c](https://github.com/swc-project/swc/commit/8cdc28cdfa17f1773bdd30c2187c79e1db0a3ffe))
+
+
+- **(css/plugin)** Support Wasm plugin (#6568) ([fa8f7b0](https://github.com/swc-project/swc/commit/fa8f7b00fc458c4ee2a74b431fb9004f67e54dde))
 
 
 - **(html/parser)** Improve lexer (#6543) ([49b7e9e](https://github.com/swc-project/swc/commit/49b7e9e224c36346a8fe5ccbec623ae76f0cc79d))
@@ -39,6 +51,12 @@
 
 ### Refactor
 
+
+
+- **(common)** Cleanup source_map.rs (#6570) ([b3ea52f](https://github.com/swc-project/swc/commit/b3ea52f8637998721f6762f93f486892f7676993))
+
+
+- **(es/minifier)** Remove unnecessary code (#6575) ([586bfd5](https://github.com/swc-project/swc/commit/586bfd5480aa6e0d37cc50505efa61a6343b1bc8))
 
 
 - **(xml/parser)** Simplify logic for parsing elements (#6557) ([85a03e7](https://github.com/swc-project/swc/commit/85a03e71b7fe98d6f4f7c3fd0e49ce862130dfcc))

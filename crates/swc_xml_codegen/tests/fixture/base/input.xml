@@ -4,4 +4,10 @@
     <from>Jani</from>
     <heading>Reminder</heading>
     <body>Don't forget me this weekend!</body>
+    <foo attributeName="He said &quot;OK&quot;"></foo>
+    <foo attributeName="He said &lt;OK&lt;"></foo>
+    <foo attributeName="He said &gt;OK&gt;"></foo>
+    <foo attributeName="He said >OK>"></foo>
+    <foo attributeName="He said &apos;OK&apos;"></foo>
+    <foo attributeName="He said &amp;OK&amp;"></foo>
 </note>
