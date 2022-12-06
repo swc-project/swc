@@ -98,7 +98,10 @@ impl<I: Input> Iterator for Lexer<I> {
 
         match token {
             Ok(token) => {
-                let end = self.last_pos.take().unwrap_or_else(|| self.input.cur_pos());
+                let end = self
+                    .last_pos
+                    .take()
+                    .unwrap_or_else(|| self.input.last_pos());
                 let span = Span::new(self.start_pos, end, Default::default());
 
                 let token_and_span = TokenAndSpan { span, token };
@@ -124,12 +127,12 @@ where
     type State = LexerState;
 
     fn start_pos(&mut self) -> BytePos {
-        self.input.cur_pos()
+        self.input.last_pos()
     }
 
     fn state(&mut self) -> Self::State {
         LexerState {
-            pos: self.input.cur_pos(),
+            pos: self.input.last_pos(),
         }
     }
 
@@ -189,7 +192,7 @@ where
     #[inline(always)]
     fn consume(&mut self) {
         self.cur = self.input.cur();
-        self.cur_pos = self.input.cur_pos();
+        self.cur_pos = self.input.last_pos();
 
         if self.cur.is_some() {
             self.input.bump();
@@ -204,14 +207,14 @@ where
     #[cold]
     fn emit_error(&mut self, kind: ErrorKind) {
         self.errors.borrow_mut().push(Error::new(
-            Span::new(self.cur_pos, self.input.cur_pos(), Default::default()),
+            Span::new(self.cur_pos, self.input.last_pos(), Default::default()),
             kind,
         ));
     }
 
     fn consume_token(&mut self) -> LexResult<Token> {
         self.read_comments();
-        self.start_pos = self.input.cur_pos();
+        self.start_pos = self.input.last_pos();
         self.consume();
 
         // Consume the next input code point.
@@ -489,8 +492,11 @@ where
                             break;
                         }
                         None => {
-                            let end = self.last_pos.take().unwrap_or_else(|| self.input.cur_pos());
-                            let span = Span::new(self.start_pos, end, Default::default());
+                            let span = Span::new(
+                                self.start_pos,
+                                self.input.last_pos(),
+                                Default::default(),
+                            );
 
                             self.errors
                                 .borrow_mut()
@@ -587,7 +593,7 @@ where
         if ident_sequence.0.to_ascii_lowercase() == js_word!("url") && self.next() == Some('(') {
             self.consume();
 
-            let start_whitespace = self.input.cur_pos();
+            let start_whitespace = self.input.last_pos();
 
             // While the next two input code points are whitespace, consume the next input
             // code point.
