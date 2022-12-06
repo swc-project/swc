@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_plugin_runner"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.78.6"
+version       = "0.78.7"
 
 [lib]
 bench = false
@@ -68,7 +68,7 @@ swc_ecma_ast = { version = "0.95.3", path = "../swc_ecma_ast", features = [
   "rkyv-impl",
 ] }
 swc_ecma_loader = { version = "0.41.20", path = "../swc_ecma_loader" }
-swc_ecma_parser = { version = "0.123.4", path = "../swc_ecma_parser" }
+swc_ecma_parser = { version = "0.123.5", path = "../swc_ecma_parser" }
 swc_ecma_visit = { version = "0.81.3", path = "../swc_ecma_visit" }
 swc_node_base = { version = "0.5.8", path = "../swc_node_base" }
 testing = { version = "0.31.20", path = "../testing" }

@@ -20,6 +20,9 @@
 - **(es/parser)** Fix `typeof` in `TSCallSignatureDeclaration` (#6553) ([aa28aa0](https://github.com/swc-project/swc/commit/aa28aa0c7fefcaea063340c711a5ea8a3ba60e7b))
 
 
+- **(es/parser)** Fix parsing of JSX with ASI (#6577) ([ad95ead](https://github.com/swc-project/swc/commit/ad95ead291640b1ada65860af1adf5e8185c80a4))
+
+
 - **(xml/parser)** Fix parsing of legacy document types (#6555) ([cdf0d8a](https://github.com/swc-project/swc/commit/cdf0d8a8b59a05498b6ca609d8a2ecf3c2f35f28))
 
 
