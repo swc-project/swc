@@ -1,5 +1,5 @@
 use is_macro::Is;
-use swc_common::{ast_node, EqIgnoreSpan, Span};
+use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span};
 
 use crate::{
     AlphaValue, AtRule, CalcSum, CmykComponent, Color, ComplexSelector, DashedIdent, Delimiter,
@@ -65,6 +65,16 @@ pub struct SimpleBlock {
     pub span: Span,
     pub name: TokenAndSpan,
     pub value: Vec<ComponentValue>,
+}
+
+impl Take for SimpleBlock {
+    fn dummy() -> Self {
+        Self {
+            span: Take::dummy(),
+            name: Take::dummy(),
+            value: Take::dummy(),
+        }
+    }
 }
 
 #[ast_node("Function")]
