@@ -318,7 +318,7 @@ where
 
                 // Otherwise, return a <delim-token> with its value set to the current input
                 // code point.
-                Ok(Token::Delim { value: '+' })
+                Ok(tok!("+"))
             }
             // U+002C COMMA (,)
             // Return a <comma-token>.
