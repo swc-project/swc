@@ -6,13 +6,22 @@ use std::{
 use is_macro::Is;
 use serde::{Deserialize, Serialize};
 use swc_atoms::{Atom, JsWord};
-use swc_common::{ast_node, EqIgnoreSpan, Span};
+use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span};
 
 #[ast_node("PreservedToken")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct TokenAndSpan {
     pub span: Span,
     pub token: Token,
+}
+
+impl Take for TokenAndSpan {
+    fn dummy() -> Self {
+        Self {
+            span: Take::dummy(),
+            token: Take::dummy(),
+        }
+    }
 }
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash, Serialize, Deserialize, Is, EqIgnoreSpan)]
@@ -145,6 +154,12 @@ pub enum Token {
     LBrace,
     /// `}`
     RBrace,
+}
+
+impl Take for Token {
+    fn dummy() -> Self {
+        Self::Semi
+    }
 }
 
 #[allow(clippy::derive_hash_xor_eq)]
