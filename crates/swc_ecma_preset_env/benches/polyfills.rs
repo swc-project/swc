@@ -2,32 +2,35 @@ use criterion::{black_box, criterion_group, criterion_main, Bencher, Criterion};
 use swc_common::{comments::SingleThreadedComments, FileName, Mark};
 use swc_ecma_parser::{Parser, StringInput, Syntax};
 use swc_ecma_preset_env::{preset_env, Config};
+use swc_ecma_transforms::helpers::{Helpers, HELPERS};
 use swc_ecma_visit::FoldWith;
 
 fn run(b: &mut Bencher, src: &str, config: Config) {
     let _ = ::testing::run_test(false, |cm, handler| {
-        let fm = cm.new_source_file(FileName::Anon, src.into());
+        HELPERS.set(&Helpers::new(true), || {
+            let fm = cm.new_source_file(FileName::Anon, src.into());
 
-        let mut parser = Parser::new(Syntax::default(), StringInput::from(&*fm), None);
-        let module = parser
-            .parse_module()
-            .map_err(|e| e.into_diagnostic(handler).emit())
-            .unwrap();
+            let mut parser = Parser::new(Syntax::default(), StringInput::from(&*fm), None);
+            let module = parser
+                .parse_module()
+                .map_err(|e| e.into_diagnostic(handler).emit())
+                .unwrap();
 
-        for e in parser.take_errors() {
-            e.into_diagnostic(handler).emit()
-        }
+            for e in parser.take_errors() {
+                e.into_diagnostic(handler).emit()
+            }
 
-        let mut folder = preset_env(
-            Mark::fresh(Mark::root()),
-            Some(SingleThreadedComments::default()),
-            config,
-            Default::default(),
-            &mut Default::default(),
-        );
+            let mut folder = preset_env(
+                Mark::fresh(Mark::root()),
+                Some(SingleThreadedComments::default()),
+                config,
+                Default::default(),
+                &mut Default::default(),
+            );
 
-        b.iter(|| black_box(module.clone().fold_with(&mut folder)));
-        Ok(())
+            b.iter(|| black_box(module.clone().fold_with(&mut folder)));
+            Ok(())
+        })
     });
 }
 
