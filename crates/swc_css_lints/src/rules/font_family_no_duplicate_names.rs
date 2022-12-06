@@ -56,19 +56,18 @@ impl FontFamilyNoDuplicateNames {
                         (fonts, Some((value.to_string(), *span)))
                     }
                 }
-                ComponentValue::Str(value) if value.raw.is_some() => {
-                    fonts.push((FontNameKind::from(value.raw.as_ref().unwrap()), value.span));
+                ComponentValue::Str(box Str {
+                    raw: Some(raw),
+                    span,
+                    ..
+                }) => {
+                    fonts.push((FontNameKind::from(raw), *span));
                     (fonts, None)
                 }
-                ComponentValue::Delimiter(delimiter)
-                    if matches!(
-                        **delimiter,
-                        Delimiter {
-                            value: DelimiterValue::Comma,
-                            ..
-                        }
-                    ) =>
-                {
+                ComponentValue::Delimiter(box Delimiter {
+                    value: DelimiterValue::Comma,
+                    ..
+                }) => {
                     if let Some((identifier, span)) = last_identifier {
                         fonts.push((FontNameKind::from(identifier), span));
                     }
