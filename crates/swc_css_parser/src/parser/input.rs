@@ -1,4 +1,4 @@
-use std::{fmt::Debug, mem::take};
+use std::{borrow::Cow, fmt::Debug, mem::take};
 
 use swc_atoms::{Atom, JsWord};
 use swc_common::{BytePos, Span, Spanned, SyntaxContext};
@@ -219,16 +219,18 @@ pub enum InputType<'a> {
     ListOfComponentValues(&'a ListOfComponentValues),
 }
 
+type SpanLike = (BytePos, BytePos);
+
 #[derive(Debug)]
-enum TokenOrBlock {
-    Token(Box<TokenAndSpan>),
+enum TokenOrBlock<'a> {
+    Token(&'a TokenAndSpan),
     Function(Box<(Span, JsWord, Atom)>),
-    LBracket(Box<Span>),
-    LParen(Box<Span>),
-    LBrace(Box<Span>),
-    RParen(Box<Span>),
-    RBracket(Box<Span>),
-    RBrace(Box<Span>),
+    LBracket(SpanLike),
+    LParen(SpanLike),
+    LBrace(SpanLike),
+    RParen(SpanLike),
+    RBracket(SpanLike),
+    RBrace(SpanLike),
 }
 
 impl<'a> Input<'a> {
@@ -259,7 +261,7 @@ impl<'a> Input<'a> {
         &mut self,
         list: &'a [ComponentValue],
         deep: usize,
-    ) -> Option<TokenOrBlock> {
+    ) -> Option<TokenOrBlock<'a>> {
         let index = match self.idx.get(deep) {
             Some(index) => index,
             _ => return None,
@@ -267,7 +269,7 @@ impl<'a> Input<'a> {
 
         match list.get(*index) {
             Some(ComponentValue::PreservedToken(token_and_span)) => {
-                Some(TokenOrBlock::Token(token_and_span.clone()))
+                Some(TokenOrBlock::Token(token_and_span))
             }
             Some(ComponentValue::Function(function)) => {
                 if self.idx.len() - 1 == deep {
@@ -288,11 +290,10 @@ impl<'a> Input<'a> {
                 let res = self.get_component_value(&function.value, deep + 1);
 
                 if res.is_none() {
-                    return Some(TokenOrBlock::RParen(Box::new(Span::new(
+                    return Some(TokenOrBlock::RParen((
                         function.span_hi() - BytePos(1),
                         function.span_hi(),
-                        Default::default(),
-                    ))));
+                    )));
                 }
 
                 res
@@ -300,9 +301,18 @@ impl<'a> Input<'a> {
             Some(ComponentValue::SimpleBlock(simple_block)) => {
                 if self.idx.len() - 1 == deep {
                     let close = match simple_block.name.token {
-                        Token::LBracket => TokenOrBlock::LBracket(Box::new(simple_block.name.span)),
-                        Token::LParen => TokenOrBlock::LParen(Box::new(simple_block.name.span)),
-                        Token::LBrace => TokenOrBlock::LBrace(Box::new(simple_block.name.span)),
+                        Token::LBracket => TokenOrBlock::LBracket((
+                            simple_block.name.span.lo,
+                            simple_block.name.span.hi,
+                        )),
+                        Token::LParen => TokenOrBlock::LParen((
+                            simple_block.name.span.lo,
+                            simple_block.name.span.hi,
+                        )),
+                        Token::LBrace => TokenOrBlock::LBrace((
+                            simple_block.name.span.lo,
+                            simple_block.name.span.hi,
+                        )),
                         _ => {
                             unreachable!();
                         }
@@ -320,9 +330,9 @@ impl<'a> Input<'a> {
                         Default::default(),
                     );
                     let close = match simple_block.name.token {
-                        Token::LBracket => TokenOrBlock::RBracket(Box::new(span)),
-                        Token::LParen => TokenOrBlock::RParen(Box::new(span)),
-                        Token::LBrace => TokenOrBlock::RBrace(Box::new(span)),
+                        Token::LBracket => TokenOrBlock::RBracket((span.lo, span.hi)),
+                        Token::LParen => TokenOrBlock::RParen((span.lo, span.hi)),
+                        Token::LBrace => TokenOrBlock::RBrace((span.lo, span.hi)),
                         _ => {
                             unreachable!();
                         }
@@ -340,7 +350,7 @@ impl<'a> Input<'a> {
         }
     }
 
-    fn cur(&mut self) -> PResult<TokenAndSpan> {
+    fn cur(&mut self) -> PResult<Cow<TokenAndSpan>> {
         match self.input {
             InputType::Tokens(input) => {
                 let idx = match self.idx.last() {
@@ -354,7 +364,7 @@ impl<'a> Input<'a> {
                 };
 
                 let token_and_span = match input.tokens.get(*idx) {
-                    Some(token_and_span) => token_and_span.clone(),
+                    Some(token_and_span) => token_and_span,
                     None => {
                         let bp = input.span.hi;
                         let span = Span::new(bp, bp, SyntaxContext::empty());
@@ -363,12 +373,14 @@ impl<'a> Input<'a> {
                     }
                 };
 
-                Ok(token_and_span)
+                Ok(Cow::Borrowed(token_and_span))
             }
             InputType::ListOfComponentValues(input) => {
                 let token_and_span = match self.get_component_value(&input.children, 0) {
                     Some(token_or_block) => match token_or_block {
-                        TokenOrBlock::Token(token_and_span) => *token_and_span,
+                        TokenOrBlock::Token(token_and_span) => {
+                            return Ok(Cow::Borrowed(token_and_span))
+                        }
                         TokenOrBlock::Function(function) => TokenAndSpan {
                             span: function.0,
                             token: Token::Function {
@@ -377,27 +389,27 @@ impl<'a> Input<'a> {
                             },
                         },
                         TokenOrBlock::LBracket(span) => TokenAndSpan {
-                            span: *span,
+                            span: Span::new(span.0, span.1, Default::default()),
                             token: Token::LBracket,
                         },
                         TokenOrBlock::LBrace(span) => TokenAndSpan {
-                            span: *span,
+                            span: Span::new(span.0, span.1, Default::default()),
                             token: Token::LBrace,
                         },
                         TokenOrBlock::LParen(span) => TokenAndSpan {
-                            span: *span,
+                            span: Span::new(span.0, span.1, Default::default()),
                             token: Token::LParen,
                         },
                         TokenOrBlock::RBracket(span) => TokenAndSpan {
-                            span: *span,
+                            span: Span::new(span.0, span.1, Default::default()),
                             token: Token::RBracket,
                         },
                         TokenOrBlock::RBrace(span) => TokenAndSpan {
-                            span: *span,
+                            span: Span::new(span.0, span.1, Default::default()),
                             token: Token::RBrace,
                         },
                         TokenOrBlock::RParen(span) => TokenAndSpan {
-                            span: *span,
+                            span: Span::new(span.0, span.1, Default::default()),
                             token: Token::RParen,
                         },
                     },
@@ -409,7 +421,7 @@ impl<'a> Input<'a> {
                     }
                 };
 
-                Ok(token_and_span)
+                Ok(Cow::Owned(token_and_span))
             }
         }
     }
@@ -447,7 +459,7 @@ impl<'a> ParserInput for Input<'a> {
         while let Ok(TokenAndSpan {
             token: tok!(" "),
             span,
-        }) = self.cur()
+        }) = self.cur().as_deref()
         {
             last_pos = Some(span.hi);
 
@@ -465,7 +477,7 @@ impl<'a> Iterator for Input<'a> {
 
     fn next(&mut self) -> Option<Self::Item> {
         let token_and_span = match self.cur() {
-            Ok(token_and_span) => token_and_span,
+            Ok(token_and_span) => token_and_span.into_owned(),
             _ => return None,
         };
 
