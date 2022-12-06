@@ -432,6 +432,24 @@ where
         }
     }
 
+    fn consume_and_append_to_doctype_token_name<F>(&mut self, c: char, f: F)
+    where
+        F: Fn(char) -> bool,
+    {
+        let b = self.buf.clone();
+        let mut buf = b.borrow_mut();
+        let b = self.sub_buf.clone();
+        let mut sub_buf = b.borrow_mut();
+
+        buf.push(c.to_ascii_lowercase());
+        sub_buf.push(c);
+
+        let value = self.input.uncons_while(f);
+
+        buf.push_str(&value.to_ascii_lowercase());
+        sub_buf.push_str(value);
+    }
+
     fn consume_and_append_to_doctype_token_public_id<F>(&mut self, c: char, f: F)
     where
         F: Fn(char) -> bool,
@@ -3396,8 +3414,7 @@ where
                     // Append the lowercase version of the current input character (add 0x0020
                     // to the character's code point) to the current DOCTYPE token's name.
                     Some(c) if is_ascii_upper_alpha(c) => {
-                        self.append_raw_to_doctype_token(c);
-                        self.append_to_doctype_token(Some(c.to_ascii_lowercase()), None, None);
+                        self.consume_and_append_to_doctype_token_name(c, is_ascii_upper_alpha);
                     }
                     // U+0000 NULL
                     // This is an unexpected-null-character parse error. Append a U+FFFD
@@ -3424,8 +3441,13 @@ where
                     // Append the current input character to the current DOCTYPE token's name.
                     Some(c) => {
                         self.validate_input_stream_character(c);
-                        self.append_raw_to_doctype_token(c);
-                        self.append_to_doctype_token(Some(c), None, None);
+                        self.consume_and_append_to_doctype_token_name(c, |c| {
+                            if !is_allowed_character(c) {
+                                return false;
+                            }
+
+                            !is_spacy(c) && !matches!(c, '>' | '\x00') && !is_ascii_upper_alpha(c)
+                        });
                     }
                 }
             }
@@ -3709,7 +3731,7 @@ where
                     Some(c) => {
                         self.validate_input_stream_character(c);
                         self.consume_and_append_to_doctype_token_public_id(c, |c| {
-                            if is_allowed_character(c) {
+                            if !is_allowed_character(c) {
                                 return false;
                             }
 
@@ -3769,7 +3791,7 @@ where
                     Some(c) => {
                         self.validate_input_stream_character(c);
                         self.consume_and_append_to_doctype_token_public_id(c, |c| {
-                            if is_allowed_character(c) {
+                            if !is_allowed_character(c) {
                                 return false;
                             }
 
@@ -4091,7 +4113,7 @@ where
                     Some(c) => {
                         self.validate_input_stream_character(c);
                         self.consume_and_append_to_doctype_token_system_id(c, |c| {
-                            if is_allowed_character(c) {
+                            if !is_allowed_character(c) {
                                 return false;
                             }
 
@@ -4151,7 +4173,7 @@ where
                     Some(c) => {
                         self.validate_input_stream_character(c);
                         self.consume_and_append_to_doctype_token_system_id(c, |c| {
-                            if is_allowed_character(c) {
+                            if !is_allowed_character(c) {
                                 return false;
                             }
 
