@@ -176,10 +176,10 @@ impl Compressor {
         }
     }
 
-    fn merge_simple_block(&self, left: &SimpleBlock, right: &SimpleBlock) -> SimpleBlock {
-        let mut value = left.value.clone();
+    fn merge_simple_block(&self, left: &mut SimpleBlock, right: &mut SimpleBlock) -> SimpleBlock {
+        let mut value = left.value.take();
 
-        value.extend(right.value.clone());
+        value.extend(right.value.take());
 
         SimpleBlock {
             span: Span::new(left.span_lo(), right.span_hi(), SyntaxContext::empty()),
@@ -270,7 +270,7 @@ impl Compressor {
         // Merge when both selectors are exactly equal
         // e.g. a { color: blue } a { font-weight: bold }
         if left.prelude.eq_ignore_span(&right.prelude) {
-            let block = self.merge_simple_block(&left.block, &right.block);
+            let block = self.merge_simple_block(&mut left.block, &mut right.block);
             let mut qualified_rule = QualifiedRule {
                 span: Span::new(left.span_lo(), right.span_hi(), SyntaxContext::empty()),
                 prelude: left.prelude.clone(),
@@ -305,14 +305,14 @@ impl Compressor {
         }
     }
 
-    fn try_merge_at_rule(&mut self, left: &AtRule, right: &AtRule) -> Option<AtRule> {
+    fn try_merge_at_rule(&mut self, left: &mut AtRule, right: &mut AtRule) -> Option<AtRule> {
         // Merge when both at-rule's prelude is exactly equal
         // e.g.
         // @media print { .color { color: red; } }
         // @media print { .color { color: blue; } }
         if left.prelude.eq_ignore_span(&right.prelude) {
-            if let Some(left_block) = &left.block {
-                if let Some(right_block) = &right.block {
+            if let Some(left_block) = &mut left.block {
+                if let Some(right_block) = &mut right.block {
                     let block = self.merge_simple_block(left_block, right_block);
                     let mut at_rule = AtRule {
                         span: Span::new(
@@ -356,7 +356,7 @@ impl Compressor {
                     if self.is_mergeable_at_rule(at_rule)
                         && matches!(prev_rule, Some(Rule::AtRule(_))) =>
                 {
-                    if let Some(Rule::AtRule(box prev_rule)) = &prev_rule {
+                    if let Some(Rule::AtRule(box prev_rule)) = &mut prev_rule {
                         if let Some(at_rule) = self.try_merge_at_rule(prev_rule, at_rule) {
                             *rule = Rule::AtRule(Box::new(at_rule));
 
@@ -484,7 +484,8 @@ impl Compressor {
                 ComponentValue::Rule(box Rule::AtRule(box at_rule @ AtRule { .. }))
                     if prev_rule.is_some() && self.is_mergeable_at_rule(at_rule) =>
                 {
-                    if let Some(ComponentValue::Rule(box Rule::AtRule(box prev_rule))) = &prev_rule
+                    if let Some(ComponentValue::Rule(box Rule::AtRule(box prev_rule))) =
+                        &mut prev_rule
                     {
                         if let Some(at_rule) = self.try_merge_at_rule(prev_rule, at_rule) {
                             *rule = ComponentValue::Rule(Box::new(Rule::AtRule(Box::new(at_rule))));
@@ -499,7 +500,7 @@ impl Compressor {
                     if prev_rule.is_some() && self.is_mergeable_at_rule(at_rule) =>
                 {
                     if let Some(ComponentValue::StyleBlock(box StyleBlock::AtRule(box prev_rule))) =
-                        &prev_rule
+                        &mut prev_rule
                     {
                         if let Some(at_rule) = self.try_merge_at_rule(prev_rule, at_rule) {
                             *rule = ComponentValue::StyleBlock(Box::new(StyleBlock::AtRule(
