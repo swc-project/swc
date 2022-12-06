@@ -433,6 +433,9 @@ impl Compressor {
             }
         }
 
+        // Drop taken rules
+        stylesheet.rules.retain(|v| *v != Take::dummy());
+
         if !names.is_empty() {
             self.discard_overridden(ParentNode::Stylesheet(stylesheet), &mut names);
         }
