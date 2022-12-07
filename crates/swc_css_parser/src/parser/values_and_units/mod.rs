@@ -78,7 +78,7 @@ where
             Token::Ident { value, .. } => {
                 if value.starts_with("--") {
                     return Ok(ComponentValue::DashedIdent(self.parse()?));
-                } else if &*value.to_ascii_lowercase() == "u"
+                } else if matches_eq_ignore_ascii_case!(value, js_word!("u"))
                     && peeked_is_one_of!(self, "+", "number", "dimension")
                 {
                     return Ok(ComponentValue::UnicodeRange(self.parse()?));
@@ -3604,28 +3604,25 @@ fn is_length_unit(unit: &str) -> bool {
 }
 
 fn is_container_lengths_unit(unit: &str) -> bool {
-    matches!(
-        &*unit.to_ascii_lowercase(),
-        "cqw" | "cqh" | "cqi" | "cqb" | "cqmin" | "cqmax"
-    )
+    matches_eq_ignore_ascii_case!(unit, "cqw", "cqh", "cqi", "cqb", "cqmin", "cqmax")
 }
 
 fn is_angle_unit(unit: &str) -> bool {
-    matches!(&*unit.to_ascii_lowercase(), "deg" | "grad" | "rad" | "turn")
+    matches_eq_ignore_ascii_case!(unit, "deg", "grad", "rad", "turn")
 }
 
 fn is_time_unit(unit: &str) -> bool {
-    matches!(&*unit.to_ascii_lowercase(), "s" | "ms")
+    matches_eq_ignore_ascii_case!(unit, "s", "ms")
 }
 
 fn is_frequency_unit(unit: &str) -> bool {
-    matches!(&*unit.to_ascii_lowercase(), "hz" | "khz")
+    matches_eq_ignore_ascii_case!(unit, "hz", "khz")
 }
 
 fn is_resolution_unit(unit: &str) -> bool {
-    matches!(&*unit.to_ascii_lowercase(), "dpi" | "dpcm" | "dppx" | "x")
+    matches_eq_ignore_ascii_case!(unit, "dpi", "dpcm", "dppx", "x")
 }
 
 fn is_flex_unit(unit: &str) -> bool {
-    matches!(&*unit.to_ascii_lowercase(), "fr")
+    matches_eq_ignore_ascii_case!(unit, "fr")
 }
