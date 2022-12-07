@@ -518,10 +518,9 @@ where
                 // it to the list of declarations.
                 tok!("ident") => {
                     let span = self.input.cur_span();
-                    let cur = self.input.bump().unwrap();
                     let mut temporary_list = ListOfComponentValues {
                         span: Default::default(),
-                        children: vec![ComponentValue::PreservedToken(Box::new(cur))],
+                        children: vec![],
                     };
 
                     while !is_one_of!(self, ";", EOF) {
