@@ -774,7 +774,9 @@ where
 
         let supports = if !is!(self, EOF) {
             match cur!(self) {
-                Token::Function { value, .. } if *value.to_ascii_lowercase() == *"supports" => {
+                Token::Function { value, .. }
+                    if matches_eq_ignore_ascii_case!(value, js_word!("supports")) =>
+                {
                     let ctx = Ctx {
                         in_import_at_rule: true,
                         ..self.ctx
@@ -890,7 +892,7 @@ where
             tok!("ident") => {
                 let custom_ident: CustomIdent = self.parse()?;
 
-                if &*custom_ident.value.to_ascii_lowercase() == "none" {
+                if matches_eq_ignore_ascii_case!(custom_ident.value, js_word!("none")) {
                     return Err(Error::new(
                         custom_ident.span,
                         ErrorKind::InvalidCustomIdent(custom_ident.value),
