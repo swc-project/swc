@@ -17,6 +17,9 @@
 - **(css/parser)** Fix parsing of nested rules (#6563) ([a1fe907](https://github.com/swc-project/swc/commit/a1fe9076c231ca1eef05c558f43803ec006559c3))
 
 
+- **(css/parser)** Fix a small bug (#6591) ([4de378c](https://github.com/swc-project/swc/commit/4de378cb1e170df496b277bc141dacaa1c21738f))
+
+
 - **(es/parser)** Fix `typeof` in `TSCallSignatureDeclaration` (#6553) ([aa28aa0](https://github.com/swc-project/swc/commit/aa28aa0c7fefcaea063340c711a5ea8a3ba60e7b))
 
 
