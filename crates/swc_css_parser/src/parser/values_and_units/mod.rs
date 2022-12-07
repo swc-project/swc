@@ -1284,7 +1284,9 @@ where
                 let mut has_variable = false;
 
                 match cur!(self) {
-                    Token::Ident { value, .. } if &*value.to_ascii_lowercase() == "from" => {
+                    Token::Ident { value, .. }
+                        if matches_eq_ignore_ascii_case!(value, js_word!("from")) =>
+                    {
                         values.push(ComponentValue::Ident(self.parse()?));
 
                         self.input.skip_ws();
