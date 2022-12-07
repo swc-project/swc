@@ -1,8 +1,5 @@
-use swc_atoms::{js_word};
-use swc_common::{
-    collections::{AHashMap},
-    SyntaxContext,
-};
+use swc_atoms::js_word;
+use swc_common::{collections::AHashMap, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_pat_ids, IsEmpty, StmtExt};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
