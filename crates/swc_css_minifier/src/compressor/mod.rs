@@ -245,14 +245,14 @@ impl VisitMut for Compressor {
     fn visit_mut_pseudo_class_selector(&mut self, n: &mut PseudoClassSelector) {
         match &n.name {
             Ident { value, .. }
-                if matches!(
-                    value.to_ascii_lowercase(),
-                    js_word!("not")
-                        | js_word!("is")
-                        | js_word!("where")
-                        | js_word!("matches")
-                        | js_word!("-moz-any")
-                        | js_word!("-webkit-any")
+                if matches_eq_ignore_ascii_case!(
+                    value,
+                    js_word!("not"),
+                    js_word!("is"),
+                    js_word!("where"),
+                    js_word!("matches"),
+                    js_word!("-moz-any"),
+                    js_word!("-webkit-any")
                 ) =>
             {
                 n.visit_mut_children_with(&mut *self.with_ctx(Ctx {
