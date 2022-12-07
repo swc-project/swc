@@ -73,6 +73,9 @@
 
 - **(css/parser)** Reduce clones and allocations (#6585) ([6479670](https://github.com/swc-project/swc/commit/64796701e45a59a9d9ba439064d012b5ad3ce144))
 
+
+- **(css/parser)** Reduce number of function calls (#6587) ([252edb5](https://github.com/swc-project/swc/commit/252edb550be2464d34c1ccce668d1666f3799878))
+
 ### Refactor
 
 
