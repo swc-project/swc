@@ -175,7 +175,9 @@ where
 
                 let layer_name = if !is!(self, EOF) {
                     match cur!(self) {
-                        Token::Ident { value, .. } if *value.to_ascii_lowercase() == *"layer" => {
+                        Token::Ident { value, .. }
+                            if matches_eq_ignore_ascii_case!(value, js_word!("layer")) =>
+                        {
                             let name = ImportLayerName::Ident(self.parse()?);
 
                             self.input.skip_ws();
@@ -183,7 +185,7 @@ where
                             Some(Box::new(name))
                         }
                         Token::Function { value, .. }
-                            if *value.to_ascii_lowercase() == *"layer" =>
+                            if matches_eq_ignore_ascii_case!(value, js_word!("layer")) =>
                         {
                             let ctx = Ctx {
                                 in_import_at_rule: true,
