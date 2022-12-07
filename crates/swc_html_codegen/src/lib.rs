@@ -199,7 +199,7 @@ where
 
         doctype.push('>');
 
-        write_raw!(self, n.span, &doctype);
+        write_multiline_raw!(self, n.span, &doctype);
         formatting_newline!(self);
     }
 

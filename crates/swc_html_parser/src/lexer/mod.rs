@@ -225,9 +225,9 @@ where
     fn validate_input_stream_character(&mut self, c: char) {
         let code = c as u32;
 
-        if (0xd800..=0xdfff).contains(&code) {
+        if is_surrogate(code) {
             self.emit_error(ErrorKind::SurrogateInInputStream);
-        } else if code != 0x00 && is_control(code) {
+        } else if is_allowed_control_character(code) {
             self.emit_error(ErrorKind::ControlCharacterInInputStream);
         } else if is_noncharacter(code) {
             self.emit_error(ErrorKind::NoncharacterInInputStream);
@@ -432,6 +432,86 @@ where
         }
     }
 
+    fn consume_and_append_to_doctype_token_name<F>(&mut self, c: char, f: F)
+    where
+        F: Fn(char) -> bool,
+    {
+        let b = self.buf.clone();
+        let mut buf = b.borrow_mut();
+        let b = self.sub_buf.clone();
+        let mut sub_buf = b.borrow_mut();
+
+        buf.push(c.to_ascii_lowercase());
+        sub_buf.push(c);
+
+        let value = self.input.uncons_while(f);
+
+        buf.push_str(&value.to_ascii_lowercase());
+        sub_buf.push_str(value);
+    }
+
+    fn consume_and_append_to_doctype_token_public_id<F>(&mut self, c: char, f: F)
+    where
+        F: Fn(char) -> bool,
+    {
+        let b = self.buf.clone();
+        let mut buf = b.borrow_mut();
+        let b = self.sub_buf.clone();
+        let mut sub_buf = b.borrow_mut();
+
+        let is_cr = c == '\r';
+
+        if is_cr {
+            buf.push('\n');
+            sub_buf.push(c);
+
+            if self.input.cur() == Some('\n') {
+                self.input.bump();
+
+                sub_buf.push('\n');
+            }
+        } else {
+            buf.push(c);
+            sub_buf.push(c);
+        }
+
+        let value = self.input.uncons_while(f);
+
+        buf.push_str(value);
+        sub_buf.push_str(value);
+    }
+
+    fn consume_and_append_to_doctype_token_system_id<F>(&mut self, c: char, f: F)
+    where
+        F: Fn(char) -> bool,
+    {
+        let b = self.buf.clone();
+        let mut buf = b.borrow_mut();
+        let b = self.sub_buf.clone();
+        let mut sub_buf = b.borrow_mut();
+
+        let is_cr = c == '\r';
+
+        if is_cr {
+            buf.push('\n');
+            sub_buf.push(c);
+
+            if self.input.cur() == Some('\n') {
+                self.input.bump();
+
+                sub_buf.push('\n');
+            }
+        } else {
+            buf.push(c);
+            sub_buf.push(c);
+        }
+
+        let value = self.input.uncons_while(f);
+
+        buf.push_str(value);
+        sub_buf.push_str(value);
+    }
+
     #[inline(always)]
     fn set_doctype_token_force_quirks(&mut self) {
         if let Some(Token::Doctype { force_quirks, .. }) = &mut self.current_token {
@@ -550,6 +630,24 @@ where
         }
     }
 
+    fn consume_and_append_to_tag_token_name<F>(&mut self, c: char, f: F)
+    where
+        F: Fn(char) -> bool,
+    {
+        let b = self.buf.clone();
+        let mut buf = b.borrow_mut();
+        let b = self.sub_buf.clone();
+        let mut sub_buf = b.borrow_mut();
+
+        buf.push(c.to_ascii_lowercase());
+        sub_buf.push(c);
+
+        let value = self.input.uncons_while(f);
+
+        buf.push_str(&value.to_ascii_lowercase());
+        sub_buf.push_str(value);
+    }
+
     fn finish_tag_token_name(&mut self) {
         if let Some(
             Token::StartTag {
@@ -601,6 +699,46 @@ where
 
         buf.push(c);
         sub_buf.push(raw_c);
+    }
+
+    fn consume_and_append_to_attribute_token_name<F>(&mut self, c: char, f: F)
+    where
+        F: FnMut(char) -> bool,
+    {
+        let b = self.buf.clone();
+        let mut buf = b.borrow_mut();
+        let b = self.sub_buf.clone();
+        let mut sub_buf = b.borrow_mut();
+
+        buf.push(c.to_ascii_lowercase());
+        sub_buf.push(c);
+
+        let value = self.input.uncons_while(f);
+
+        buf.push_str(&value.to_ascii_lowercase());
+        sub_buf.push_str(value);
+    }
+
+    fn consume_and_append_to_attribute_token_name_and_temp_buf<F>(&mut self, c: char, f: F)
+    where
+        F: FnMut(char) -> bool,
+    {
+        let b = self.buf.clone();
+        let mut buf = b.borrow_mut();
+        let b = self.sub_buf.clone();
+        let mut sub_buf = b.borrow_mut();
+
+        buf.push(c.to_ascii_lowercase());
+        sub_buf.push(c);
+
+        self.temporary_buffer.push(c);
+
+        let value = self.input.uncons_while(f);
+
+        buf.push_str(&value.to_ascii_lowercase());
+        sub_buf.push_str(value);
+
+        self.temporary_buffer.push_str(value);
     }
 
     fn finish_attribute_token_name(&mut self) {
@@ -670,6 +808,37 @@ where
                 sub_buf.push(raw_c);
             }
         }
+    }
+
+    fn consume_and_append_to_attribute_token_value<F>(&mut self, c: char, f: F)
+    where
+        F: FnMut(char) -> bool,
+    {
+        let b = self.buf.clone();
+        let mut buf = b.borrow_mut();
+        let b = self.sub_buf.clone();
+        let mut sub_buf = b.borrow_mut();
+
+        let is_cr = c == '\r';
+
+        if is_cr {
+            buf.push('\n');
+            sub_buf.push(c);
+
+            if self.input.cur() == Some('\n') {
+                self.input.bump();
+
+                sub_buf.push('\n');
+            }
+        } else {
+            buf.push(c);
+            sub_buf.push(c);
+        }
+
+        let value = self.input.uncons_while(f);
+
+        buf.push_str(value);
+        sub_buf.push_str(value);
     }
 
     fn finish_attribute_token_value(&mut self) {
@@ -770,7 +939,10 @@ where
         sub_buf.push(raw_c);
     }
 
-    fn handle_raw_and_append_to_comment_token(&mut self, c: char) {
+    fn consume_and_append_to_comment_token<F>(&mut self, c: char, f: F)
+    where
+        F: Fn(char) -> bool,
+    {
         let b = self.buf.clone();
         let mut buf = b.borrow_mut();
         let b = self.sub_buf.clone();
@@ -791,6 +963,11 @@ where
             buf.push(c);
             sub_buf.push(c);
         }
+
+        let value = self.input.uncons_while(f);
+
+        buf.push_str(value);
+        sub_buf.push_str(value);
     }
 
     fn emit_comment_token(&mut self, raw_end: Option<&str>) {
@@ -1150,7 +1327,7 @@ where
                     // Switch to the before attribute name state.
                     Some(c) if is_spacy(c) => {
                         self.finish_tag_token_name();
-                        self.skip_next_lf(c);
+                        self.skip_whitespaces(c);
                         self.state = State::BeforeAttributeName;
                     }
                     // U+002F SOLIDUS (/)
@@ -1170,7 +1347,7 @@ where
                     // Append the lowercase version of the current input character (add 0x0020
                     // to the character's code point) to the current tag token's tag name.
                     Some(c) if is_ascii_upper_alpha(c) => {
-                        self.append_to_tag_token_name(c.to_ascii_lowercase(), c);
+                        self.consume_and_append_to_tag_token_name(c, is_ascii_upper_alpha);
                     }
                     // U+0000 NULL
                     // This is an unexpected-null-character parse error. Append a U+FFFD
@@ -1192,7 +1369,17 @@ where
                     // Append the current input character to the current tag token's tag name.
                     Some(c) => {
                         self.validate_input_stream_character(c);
-                        self.append_to_tag_token_name(c, c);
+                        self.consume_and_append_to_tag_token_name(c, |c| {
+                            if !is_allowed_character(c) {
+                                return false;
+                            }
+
+                            // List of characters from above to stop consumption and a certain
+                            // branch took control
+                            !is_spacy(c)
+                                && !matches!(c, '/' | '>' | '\x00')
+                                && !is_ascii_upper_alpha(c)
+                        });
                     }
                 }
             }
@@ -1257,7 +1444,7 @@ where
                     // to the before attribute name state. Otherwise, treat it as per the
                     // "anything else" entry below.
                     Some(c) if is_spacy(c) => {
-                        self.skip_next_lf(c);
+                        self.skip_whitespaces(c);
 
                         if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
                             self.finish_tag_token_name();
@@ -1296,15 +1483,19 @@ where
                     // to the character's code point) to the current tag token's tag name.
                     // Append the current input character to the temporary buffer.
                     Some(c) if is_ascii_upper_alpha(c) => {
-                        self.append_to_tag_token_name(c.to_ascii_lowercase(), c);
-                        self.temporary_buffer.push(c);
+                        self.consume_and_append_to_attribute_token_name_and_temp_buf(
+                            c,
+                            is_ascii_upper_alpha,
+                        );
                     }
                     // ASCII lower alpha
                     // Append the current input character to the current tag token's tag name.
                     // Append the current input character to the temporary buffer.
                     Some(c) if is_ascii_lower_alpha(c) => {
-                        self.append_to_tag_token_name(c, c);
-                        self.temporary_buffer.push(c);
+                        self.consume_and_append_to_attribute_token_name_and_temp_buf(
+                            c,
+                            is_ascii_lower_alpha,
+                        );
                     }
                     // Anything else
                     // Emit a U+003C LESS-THAN SIGN character token, a U+002F SOLIDUS character
@@ -1377,7 +1568,7 @@ where
                     // to the before attribute name state. Otherwise, treat it as per the
                     // "anything else" entry below.
                     Some(c) if is_spacy(c) => {
-                        self.skip_next_lf(c);
+                        self.skip_whitespaces(c);
 
                         if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
                             self.finish_tag_token_name();
@@ -1416,15 +1607,19 @@ where
                     // to the character's code point) to the current tag token's tag name.
                     // Append the current input character to the temporary buffer.
                     Some(c) if is_ascii_upper_alpha(c) => {
-                        self.append_to_tag_token_name(c.to_ascii_lowercase(), c);
-                        self.temporary_buffer.push(c);
+                        self.consume_and_append_to_attribute_token_name_and_temp_buf(
+                            c,
+                            is_ascii_upper_alpha,
+                        );
                     }
                     // ASCII lower alpha
                     // Append the current input character to the current tag token's tag name.
                     // Append the current input character to the temporary buffer.
                     Some(c) if is_ascii_lower_alpha(c) => {
-                        self.append_to_tag_token_name(c, c);
-                        self.temporary_buffer.push(c);
+                        self.consume_and_append_to_attribute_token_name_and_temp_buf(
+                            c,
+                            is_ascii_lower_alpha,
+                        );
                     }
                     // Anything else
                     // Emit a U+003C LESS-THAN SIGN character token, a U+002F SOLIDUS character
@@ -1505,7 +1700,7 @@ where
                     // to the before attribute name state. Otherwise, treat it as per the
                     // "anything else" entry below.
                     Some(c) if is_spacy(c) => {
-                        self.skip_next_lf(c);
+                        self.skip_whitespaces(c);
 
                         if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
                             self.finish_tag_token_name();
@@ -1544,15 +1739,19 @@ where
                     // to the character's code point) to the current tag token's tag name.
                     // Append the current input character to the temporary buffer.
                     Some(c) if is_ascii_upper_alpha(c) => {
-                        self.append_to_tag_token_name(c.to_ascii_lowercase(), c);
-                        self.temporary_buffer.push(c);
+                        self.consume_and_append_to_attribute_token_name_and_temp_buf(
+                            c,
+                            is_ascii_upper_alpha,
+                        );
                     }
                     // ASCII lower alpha
                     // Append the current input character to the current tag token's tag name.
                     // Append the current input character to the temporary buffer.
                     Some(c) if is_ascii_lower_alpha(c) => {
-                        self.append_to_tag_token_name(c, c);
-                        self.temporary_buffer.push(c);
+                        self.consume_and_append_to_attribute_token_name_and_temp_buf(
+                            c,
+                            is_ascii_lower_alpha,
+                        );
                     }
                     // Anything else
                     // Emit a U+003C LESS-THAN SIGN character token, a U+002F SOLIDUS character
@@ -1801,7 +2000,7 @@ where
                     // to the before attribute name state. Otherwise, treat it as per the
                     // "anything else" entry below.
                     Some(c) if is_spacy(c) => {
-                        self.skip_next_lf(c);
+                        self.skip_whitespaces(c);
 
                         if self.current_end_tag_token_is_an_appropriate_end_tag_token() {
                             self.finish_tag_token_name();
@@ -1840,15 +2039,19 @@ where
                     // to the character's code point) to the current tag token's tag name.
                     // Append the current input character to the temporary buffer.
                     Some(c) if is_ascii_upper_alpha(c) => {
-                        self.append_to_tag_token_name(c.to_ascii_lowercase(), c);
-                        self.temporary_buffer.push(c);
+                        self.consume_and_append_to_attribute_token_name_and_temp_buf(
+                            c,
+                            is_ascii_upper_alpha,
+                        );
                     }
                     // ASCII lower alpha
                     // Append the current input character to the current tag token's tag name.
                     // Append the current input character to the temporary buffer.
                     Some(c) if is_ascii_lower_alpha(c) => {
-                        self.append_to_tag_token_name(c, c);
-                        self.temporary_buffer.push(c);
+                        self.consume_and_append_to_attribute_token_name_and_temp_buf(
+                            c,
+                            is_ascii_lower_alpha,
+                        );
                     }
                     // Anything else
                     // Emit a U+003C LESS-THAN SIGN character token, a U+002F SOLIDUS character
@@ -2143,7 +2346,7 @@ where
                     // U+0020 SPACE
                     // Ignore the character.
                     Some(c) if is_spacy(c) => {
-                        self.skip_next_lf(c);
+                        self.skip_whitespaces(c);
                     }
                     // U+002F SOLIDUS (/)
                     // U+003E GREATER-THAN SIGN (>)
@@ -2192,7 +2395,7 @@ where
                     // Reconsume in the after attribute name state.
                     Some(c) if is_spacy(c) => {
                         self.finish_attribute_token_name();
-                        self.skip_next_lf(c);
+                        self.skip_whitespaces(c);
                         self.reconsume_in_state(State::AfterAttributeName);
                     }
                     Some('/' | '>') | None => {
@@ -2209,7 +2412,9 @@ where
                     // Append the lowercase version of the current input character (add 0x0020
                     // to the character's code point) to the current attribute's name.
                     Some(c) if is_ascii_upper_alpha(c) => {
-                        self.append_to_attribute_token_name(c.to_ascii_lowercase(), c);
+                        self.consume_and_append_to_attribute_token_name(c, |c| {
+                            is_ascii_upper_alpha(c)
+                        });
                     }
                     // U+0000 NULL
                     // This is an unexpected-null-character parse error. Append a U+FFFD
@@ -2232,8 +2437,17 @@ where
                     // Append the current input character to the current attribute's name.
                     Some(c) => {
                         self.validate_input_stream_character(c);
+                        self.consume_and_append_to_attribute_token_name(c, |c| {
+                            if !is_allowed_character(c) {
+                                return false;
+                            }
 
-                        anything_else(self, c);
+                            // List of characters from above to stop consumption and a certain
+                            // branch took control
+                            !is_spacy(c)
+                                && !matches!(c, '/' | '>' | '=' | '\x00' | '"' | '\'' | '<')
+                                && !is_ascii_upper_alpha(c)
+                        });
                     }
                 }
 
@@ -2257,7 +2471,7 @@ where
                     // U+0020 SPACE
                     // Ignore the character.
                     Some(c) if is_spacy(c) => {
-                        self.skip_next_lf(c);
+                        self.skip_whitespaces(c);
                     }
                     // U+002F SOLIDUS (/)
                     // Switch to the self-closing start tag state.
@@ -2303,7 +2517,7 @@ where
                     // U+0020 SPACE
                     // Ignore the character.
                     Some(c) if is_spacy(c) => {
-                        self.skip_next_lf(c);
+                        self.skip_whitespaces(c);
                     }
                     // U+0022 QUOTATION MARK (")
                     // Switch to the attribute value (double-quoted) state.
@@ -2369,7 +2583,15 @@ where
                     // Append the current input character to the current attribute's value.
                     Some(c) => {
                         self.validate_input_stream_character(c);
-                        self.append_to_attribute_token_value(Some(c), Some(c));
+                        self.consume_and_append_to_attribute_token_value(c, |c| {
+                            if !is_allowed_character(c) {
+                                return false;
+                            }
+
+                            // List of characters from above to stop consumption and a certain
+                            // branch took control, `\r` is in list because of newline normalization
+                            !matches!(c, '"' | '&' | '\x00' | '\r')
+                        });
                     }
                 }
             }
@@ -2410,7 +2632,15 @@ where
                     // Append the current input character to the current attribute's value.
                     Some(c) => {
                         self.validate_input_stream_character(c);
-                        self.append_to_attribute_token_value(Some(c), Some(c));
+                        self.consume_and_append_to_attribute_token_value(c, |c| {
+                            if !is_allowed_character(c) {
+                                return false;
+                            }
+
+                            // List of characters from above to stop consumption and a certain
+                            // branch took control, `\r` is in list because of newline normalization
+                            !matches!(c, '\'' | '&' | '\x00' | '\r')
+                        });
                     }
                 }
             }
@@ -2429,7 +2659,7 @@ where
                     // Switch to the before attribute name state.
                     Some(c) if is_spacy(c) => {
                         self.finish_attribute_token_value();
-                        self.skip_next_lf(c);
+                        self.skip_whitespaces(c);
                         self.state = State::BeforeAttributeName;
                     }
                     // U+0026 AMPERSAND (&)
@@ -2479,8 +2709,19 @@ where
                     // Append the current input character to the current attribute's value.
                     Some(c) => {
                         self.validate_input_stream_character(c);
+                        self.consume_and_append_to_attribute_token_value(c, |c| {
+                            if !is_allowed_character(c) {
+                                return false;
+                            }
 
-                        anything_else(self, c);
+                            // List of characters from above to stop consumption and a certain
+                            // branch took control, `\r` is in list because of newline normalization
+                            !is_spacy(c)
+                                && !matches!(
+                                    c,
+                                    '&' | '>' | '\x00' | '"' | '\'' | '<' | '=' | '`' | '\r'
+                                )
+                        });
                     }
                 }
             }
@@ -2495,7 +2736,7 @@ where
                     // Switch to the before attribute name state.
                     Some(c) if is_spacy(c) => {
                         self.finish_attribute_token_value();
-                        self.skip_next_lf(c);
+                        self.skip_whitespaces(c);
                         self.state = State::BeforeAttributeName;
                     }
                     // U+002F SOLIDUS (/)
@@ -2599,7 +2840,15 @@ where
                     // Append the current input character to the comment token's data.
                     Some(c) => {
                         self.validate_input_stream_character(c);
-                        self.handle_raw_and_append_to_comment_token(c);
+                        self.consume_and_append_to_comment_token(c, |c| {
+                            if !is_allowed_character(c) {
+                                return false;
+                            }
+
+                            // List of characters from above to stop consumption and a certain
+                            // branch took control, `\r` is in list because of newline normalization
+                            !matches!(c, '>' | '\x00' | '\r')
+                        });
                     }
                 }
             }
@@ -2832,7 +3081,15 @@ where
                     // Append the current input character to the comment token's data.
                     Some(c) => {
                         self.validate_input_stream_character(c);
-                        self.handle_raw_and_append_to_comment_token(c);
+                        self.consume_and_append_to_comment_token(c, |c| {
+                            if !is_allowed_character(c) {
+                                return false;
+                            }
+
+                            // List of characters from above to stop consumption and a certain
+                            // branch took control, `\r` is in list because of newline normalization
+                            !matches!(c, '<' | '-' | '\x00' | '\r')
+                        });
                     }
                 }
             }
@@ -3157,8 +3414,7 @@ where
                     // Append the lowercase version of the current input character (add 0x0020
                     // to the character's code point) to the current DOCTYPE token's name.
                     Some(c) if is_ascii_upper_alpha(c) => {
-                        self.append_raw_to_doctype_token(c);
-                        self.append_to_doctype_token(Some(c.to_ascii_lowercase()), None, None);
+                        self.consume_and_append_to_doctype_token_name(c, is_ascii_upper_alpha);
                     }
                     // U+0000 NULL
                     // This is an unexpected-null-character parse error. Append a U+FFFD
@@ -3185,8 +3441,13 @@ where
                     // Append the current input character to the current DOCTYPE token's name.
                     Some(c) => {
                         self.validate_input_stream_character(c);
-                        self.append_raw_to_doctype_token(c);
-                        self.append_to_doctype_token(Some(c), None, None);
+                        self.consume_and_append_to_doctype_token_name(c, |c| {
+                            if !is_allowed_character(c) {
+                                return false;
+                            }
+
+                            !is_spacy(c) && !matches!(c, '>' | '\x00') && !is_ascii_upper_alpha(c)
+                        });
                     }
                 }
             }
@@ -3469,8 +3730,13 @@ where
                     // identifier.
                     Some(c) => {
                         self.validate_input_stream_character(c);
-                        self.append_raw_to_doctype_token(c);
-                        self.append_to_doctype_token(None, Some(c), None);
+                        self.consume_and_append_to_doctype_token_public_id(c, |c| {
+                            if !is_allowed_character(c) {
+                                return false;
+                            }
+
+                            !matches!(c, '"' | '\x00' | '>' | '\r')
+                        });
                     }
                 }
             }
@@ -3524,8 +3790,13 @@ where
                     // identifier.
                     Some(c) => {
                         self.validate_input_stream_character(c);
-                        self.append_raw_to_doctype_token(c);
-                        self.append_to_doctype_token(None, Some(c), None);
+                        self.consume_and_append_to_doctype_token_public_id(c, |c| {
+                            if !is_allowed_character(c) {
+                                return false;
+                            }
+
+                            !matches!(c, '\'' | '\x00' | '>' | '\r')
+                        });
                     }
                 }
             }
@@ -3841,8 +4112,13 @@ where
                     // identifier.
                     Some(c) => {
                         self.validate_input_stream_character(c);
-                        self.append_raw_to_doctype_token(c);
-                        self.append_to_doctype_token(None, None, Some(c));
+                        self.consume_and_append_to_doctype_token_system_id(c, |c| {
+                            if !is_allowed_character(c) {
+                                return false;
+                            }
+
+                            !matches!(c, '"' | '\x00' | '>' | '\r')
+                        });
                     }
                 }
             }
@@ -3896,8 +4172,13 @@ where
                     // identifier.
                     Some(c) => {
                         self.validate_input_stream_character(c);
-                        self.append_raw_to_doctype_token(c);
-                        self.append_to_doctype_token(None, None, Some(c));
+                        self.consume_and_append_to_doctype_token_system_id(c, |c| {
+                            if !is_allowed_character(c) {
+                                return false;
+                            }
+
+                            !matches!(c, '\'' | '\x00' | '>' | '\r')
+                        });
                     }
                 }
             }
@@ -4061,7 +4342,6 @@ where
                     // numeric character reference state.
                     Some(c @ '#') => {
                         self.temporary_buffer.push(c);
-
                         self.state = State::NumericCharacterReference;
                     }
                     // Anything else
@@ -4532,7 +4812,7 @@ where
     }
 
     #[inline(always)]
-    fn skip_next_lf(&mut self, c: char) {
+    fn skip_whitespaces(&mut self, c: char) {
         if c == '\r' && self.input.cur() == Some('\n') {
             self.input.bump();
         }
@@ -4633,4 +4913,20 @@ fn is_ascii_lower_alpha(c: char) -> bool {
 #[inline(always)]
 fn is_ascii_alpha(c: char) -> bool {
     is_ascii_upper_alpha(c) || is_ascii_lower_alpha(c)
+}
+
+#[inline(always)]
+fn is_allowed_control_character(c: u32) -> bool {
+    c != 0x00 && is_control(c)
+}
+
+#[inline(always)]
+fn is_allowed_character(c: char) -> bool {
+    let c = c as u32;
+
+    if is_surrogate(c) || is_allowed_control_character(c) || is_noncharacter(c) {
+        return false;
+    }
+
+    return true;
 }

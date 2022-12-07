@@ -51,30 +51,52 @@ fn bench_document_fragment(b: &mut Bencher, src: &'static str) {
     });
 }
 
+fn run_document(c: &mut Criterion, id: &str, src: &'static str) {
+    c.bench_function(&format!("html/parser/{}", id), |b| {
+        bench_document(b, src);
+    });
+}
+fn run_document_fragment(c: &mut Criterion, id: &str, src: &'static str) {
+    c.bench_function(&format!("html/parser/{}", id), |b| {
+        bench_document_fragment(b, src);
+    });
+}
+
 fn bench_files(c: &mut Criterion) {
-    c.bench_function("html/parser_document/css_2021_spec", |b| {
-        bench_document(b, include_str!("./files/css_2021_spec.html"))
-    });
+    run_document(
+        c,
+        "parser_document/css_2021_spec",
+        include_str!("./files/css_2021_spec.html"),
+    );
 
-    c.bench_function("html/parser_document/github_com_17_05_2022", |b| {
-        bench_document(b, include_str!("./files/github_com_17_05_2022.html"))
-    });
+    run_document(
+        c,
+        "parser_document/github_com_17_05_2022",
+        include_str!("./files/github_com_17_05_2022.html"),
+    );
 
-    c.bench_function("html/parser_document/stackoverflow_com_17_05_2022", |b| {
-        bench_document(b, include_str!("./files/stackoverflow_com_17_05_2022.html"))
-    });
+    run_document(
+        c,
+        "parser_document/stackoverflow_com_17_05_2022",
+        include_str!("./files/stackoverflow_com_17_05_2022.html"),
+    );
 
-    c.bench_function("html/parser_document_fragment/css_2021_spec", |b| {
-        bench_document_fragment(b, include_str!("./files/css_2021_spec.html"))
-    });
+    run_document_fragment(
+        c,
+        "parser_document_fragment/css_2021_spec",
+        include_str!("./files/css_2021_spec.html"),
+    );
 
-    c.bench_function("html/parser_document_fragment/github_com_17_05_2022", |b| {
-        bench_document_fragment(b, include_str!("./files/github_com_17_05_2022.html"))
-    });
+    run_document_fragment(
+        c,
+        "parser_document_fragment/github_com_17_05_2022",
+        include_str!("./files/github_com_17_05_2022.html"),
+    );
 
-    c.bench_function(
-        "html/parser_document_fragment/stackoverflow_com_17_05_2022",
-        |b| bench_document_fragment(b, include_str!("./files/stackoverflow_com_17_05_2022.html")),
+    run_document_fragment(
+        c,
+        "parser_document_fragment/stackoverflow_com_17_05_2022",
+        include_str!("./files/stackoverflow_com_17_05_2022.html"),
     );
 }
 
