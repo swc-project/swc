@@ -16,34 +16,37 @@ impl Compressor {
                     for value in declaration.value.iter() {
                         match value {
                             outside_node @ ComponentValue::Ident(box Ident { value, .. })
-                                if matches!(
-                                    value.to_ascii_lowercase(),
-                                    js_word!("block") | js_word!("inline") | js_word!("run-in")
+                                if matches_eq_ignore_ascii_case!(
+                                    value,
+                                    js_word!("block"),
+                                    js_word!("inline"),
+                                    js_word!("run-in")
                                 ) =>
                             {
                                 outside = Some(outside_node);
                             }
                             inside_node @ ComponentValue::Ident(box Ident { value, .. })
-                                if matches!(
-                                    value.to_ascii_lowercase(),
-                                    js_word!("flow")
-                                        | js_word!("flow-root")
-                                        | js_word!("table")
-                                        | js_word!("flex")
-                                        | js_word!("grid")
-                                        | js_word!("ruby")
+                                if matches_eq_ignore_ascii_case!(
+                                    value,
+                                    js_word!("flow"),
+                                    js_word!("flow-root"),
+                                    js_word!("table"),
+                                    js_word!("flex"),
+                                    js_word!("grid"),
+                                    js_word!("ruby")
                                 ) =>
                             {
                                 inside = Some(inside_node);
                             }
                             list_item_node @ ComponentValue::Ident(box Ident { value, .. })
-                                if value.to_ascii_lowercase() == js_word!("list-item") =>
+                                if value.eq_ignore_ascii_case(&js_word!("list-item")) =>
                             {
                                 if let Some(ComponentValue::Ident(box Ident { value, .. })) = inside
                                 {
-                                    if !matches!(
-                                        value.to_ascii_lowercase(),
-                                        js_word!("flow") | js_word!("flow-root")
+                                    if !matches_eq_ignore_ascii_case!(
+                                        value,
+                                        js_word!("flow"),
+                                        js_word!("flow-root")
                                     ) {
                                         continue;
                                     }
@@ -66,7 +69,7 @@ impl Compressor {
                                 ..
                             })),
                             None,
-                        ) if inside_value.to_ascii_lowercase() == js_word!("flow") => {
+                        ) if inside_value.eq_ignore_ascii_case(&js_word!("flow")) => {
                             declaration.value = vec![outside.clone()];
                         }
                         // `block flow-root` -> `flow-root`
