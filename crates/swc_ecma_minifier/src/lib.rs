@@ -41,14 +41,13 @@ use once_cell::sync::Lazy;
 use swc_common::{comments::Comments, pass::Repeated, sync::Lrc, SourceMap, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::debug_assert_valid;
+use swc_ecma_usage_analyzer::marks::Marks;
 use swc_ecma_visit::VisitMutWith;
 use swc_timer::timer;
 
 pub use crate::pass::unique_scope::unique_scope;
 use crate::{
-    analyzer::ModuleInfo,
     compress::{compressor, pure_optimizer, PureOptimizerConfig},
-    marks::Marks,
     metadata::info_marker,
     mode::{Minification, Mode},
     option::{CompressOptions, ExtraOptions, MinifyOptions},
@@ -61,24 +60,27 @@ use crate::{
         postcompress::postcompress_optimizer,
         precompress::precompress_optimizer,
     },
+    program_data::ModuleInfo,
     timing::Timings,
     util::base54::CharFreq,
 };
 
 #[macro_use]
 mod macros;
-mod alias;
-mod analyzer;
 mod compress;
 mod debug;
 pub mod eval;
-pub mod marks;
 mod metadata;
 mod mode;
 pub mod option;
 mod pass;
+mod program_data;
 pub mod timing;
 mod util;
+
+pub mod marks {
+    pub use swc_ecma_usage_analyzer::marks::Marks;
+}
 
 const DISABLE_BUGGY_PASSES: bool = true;
 

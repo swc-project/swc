@@ -3,12 +3,13 @@ use swc_common::{
     EqIgnoreSpan, Span, SyntaxContext,
 };
 use swc_ecma_ast::*;
+use swc_ecma_usage_analyzer::marks::Marks;
 use swc_ecma_utils::find_pat_ids;
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
 };
 
-use crate::{marks::Marks, option::CompressOptions};
+use crate::option::CompressOptions;
 
 #[cfg(test)]
 mod tests;

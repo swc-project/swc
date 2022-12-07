@@ -146,6 +146,9 @@ ecma_minifier = ["__ecma", "swc_ecma_minifier"]
 # Enable swc_ecma_preset_env
 ecma_preset_env = ["__ecma", "swc_ecma_preset_env"]
 
+# Enable swc_ecma_usage_analyzer
+ecma_usage_analyzer = ["__ecma", "swc_ecma_usage_analyzer"]
+
 # Enable swc_css
 css_ast        = ["__css", "swc_css_ast"]
 css_codegen    = ["__css", "swc_css_codegen"]
@@ -366,6 +369,7 @@ swc_ecma_transforms_proposal     = { optional = true, version = "0.145.5", path 
 swc_ecma_transforms_react        = { optional = true, version = "0.156.5", path = "../swc_ecma_transforms_react" }
 swc_ecma_transforms_testing      = { optional = true, version = "0.115.6", path = "../swc_ecma_transforms_testing" }
 swc_ecma_transforms_typescript   = { optional = true, version = "0.160.5", path = "../swc_ecma_transforms_typescript" }
+swc_ecma_usage_analyzer          = { optional = true, version = "0.1.0", path = "../swc_ecma_usage_analyzer" }
 swc_ecma_utils                   = { optional = true, version = "0.106.5", path = "../swc_ecma_utils" }
 swc_ecma_visit                   = { optional = true, version = "0.81.3", path = "../swc_ecma_visit" }
 swc_node_base                    = { optional = true, version = "0.5.8", path = "../swc_node_base" }

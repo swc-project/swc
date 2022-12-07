@@ -21,45 +21,45 @@ where
 }
 
 #[derive(Debug, Default, Clone, Copy)]
-pub(crate) struct Ctx {
+pub struct Ctx {
     /// See [crate::marks::Marks]
-    pub(super) skip_standalone: bool,
+    pub skip_standalone: bool,
 
-    pub(super) var_decl_kind_of_pat: Option<VarDeclKind>,
+    pub var_decl_kind_of_pat: Option<VarDeclKind>,
 
-    pub(super) in_decl_with_no_side_effect_for_member_access: bool,
+    pub in_decl_with_no_side_effect_for_member_access: bool,
 
-    pub(super) in_pat_of_var_decl: bool,
-    pub(super) in_pat_of_var_decl_with_init: bool,
-    pub(super) in_pat_of_param: bool,
-    pub(super) in_catch_param: bool,
+    pub in_pat_of_var_decl: bool,
+    pub in_pat_of_var_decl_with_init: bool,
+    pub in_pat_of_param: bool,
+    pub in_catch_param: bool,
     /// `true` for `foo.bar` and `false` for `foo` in `foo.bar++`
-    pub(super) is_exact_reassignment: bool,
+    pub is_exact_reassignment: bool,
 
-    pub(super) is_callee: bool,
+    pub is_callee: bool,
 
     /// `true` for arguments of [swc_ecma_ast::Expr::Call] or
     /// [swc_ecma_ast::Expr::New]
-    pub(super) in_call_arg: bool,
+    pub in_call_arg: bool,
 
     /// `false` for `array` in `array.length.
-    pub(super) is_exact_arg: bool,
+    pub is_exact_arg: bool,
 
-    pub(super) in_await_arg: bool,
+    pub in_await_arg: bool,
 
-    pub(super) is_delete_arg: bool,
+    pub is_delete_arg: bool,
 
-    pub(super) in_left_of_for_loop: bool,
+    pub in_left_of_for_loop: bool,
 
-    pub(super) executed_multiple_time: bool,
+    pub executed_multiple_time: bool,
     /// Are we handling argument of an update expression.
-    pub(super) in_update_arg: bool,
-    pub(super) in_assign_lhs: bool,
-    pub(super) in_cond: bool,
+    pub in_update_arg: bool,
+    pub in_assign_lhs: bool,
+    pub in_cond: bool,
 
-    pub(super) inline_prevented: bool,
+    pub inline_prevented: bool,
 
-    pub(super) is_op_assign: bool,
+    pub is_op_assign: bool,
 }
 
 pub(super) struct WithCtx<'a, S>

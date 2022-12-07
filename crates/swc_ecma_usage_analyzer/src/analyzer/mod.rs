@@ -1,51 +1,26 @@
-use std::{collections::HashSet, hash::BuildHasherDefault};
-
-use indexmap::IndexSet;
-use rustc_hash::{FxHashMap, FxHashSet, FxHasher};
-use swc_atoms::{js_word, JsWord};
-use swc_common::{
-    collections::{AHashMap, AHashSet},
-    SyntaxContext,
-};
+use swc_atoms::js_word;
+use swc_common::{collections::AHashMap, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_pat_ids, IsEmpty, StmtExt};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use swc_timer::timer;
 
-use self::{
-    ctx::Ctx,
-    storage::{Storage, *},
-};
+pub use self::ctx::Ctx;
+use self::storage::{Storage, *};
 use crate::{
-    alias::{collect_infects_from, Access, AccessKind, AliasConfig},
+    alias::{collect_infects_from, AliasConfig},
     marks::Marks,
     util::can_end_conditionally,
 };
 
 mod ctx;
-pub(crate) mod storage;
-
-#[derive(Debug, Default)]
-pub(crate) struct ModuleInfo {
-    /// Imported identifiers which should be treated as a black box.
-    ///
-    /// Imports from `@swc/helpers` are excluded as helpers are not modified by
-    /// accessing/calling other modules.
-    pub blackbox_imports: AHashSet<Id>,
-}
-
-pub(crate) fn analyze<N>(n: &N, _module_info: &ModuleInfo, marks: Option<Marks>) -> ProgramData
-where
-    N: VisitWith<UsageAnalyzer>,
-{
-    analyze_with_storage::<ProgramData, _>(n, marks)
-}
+pub mod storage;
 
 /// TODO: Track assignments to variables via `arguments`.
 /// TODO: Scope-local. (Including block)
 ///
 /// If `marks` is [None], markers are ignored.
-pub(crate) fn analyze_with_storage<S, N>(n: &N, marks: Option<Marks>) -> S
+pub fn analyze_with_storage<S, N>(n: &N, marks: Option<Marks>) -> S
 where
     S: Storage,
     N: VisitWith<UsageAnalyzer<S>>,
@@ -68,162 +43,10 @@ where
     v.data
 }
 
-#[derive(Debug, Clone)]
-pub(crate) struct VarUsageInfo {
-    pub inline_prevented: bool,
-
-    /// The number of direct reference to this identifier.
-    pub ref_count: u32,
-
-    /// `true` if a variable is conditionally initialized.
-    pub cond_init: bool,
-
-    /// `false` if it's only used.
-    pub declared: bool,
-    pub declared_count: u32,
-
-    /// `true` if the enclosing function defines this variable as a parameter.
-    pub declared_as_fn_param: bool,
-
-    pub declared_as_fn_decl: bool,
-    pub declared_as_fn_expr: bool,
-
-    pub assign_count: u32,
-    pub mutation_by_call_count: u32,
-
-    /// The number of direct and indirect reference to this identifier.
-    /// ## Things to note
-    ///
-    /// - Update is counted as usage, but assign is not
-    pub usage_count: u32,
-
-    /// The variable itself is modified.
-    reassigned_with_assignment: bool,
-    reassigned_with_var_decl: bool,
-    /// The variable itself or a property of it is modified.
-    pub mutated: bool,
-
-    pub has_property_access: bool,
-    pub has_property_mutation: bool,
-
-    pub exported: bool,
-    /// True if used **above** the declaration or in init. (Not eval order).
-    pub used_above_decl: bool,
-    /// `true` if it's declared by function parameters or variables declared in
-    /// a closest function and used only within it and not used by child
-    /// functions.
-    pub is_fn_local: bool,
-
-    pub executed_multiple_time: bool,
-    pub used_in_cond: bool,
-
-    pub var_kind: Option<VarDeclKind>,
-    pub var_initialized: bool,
-
-    pub declared_as_catch_param: bool,
-
-    pub no_side_effect_for_member_access: bool,
-
-    pub callee_count: u32,
-
-    pub used_as_arg: bool,
-
-    pub indexed_with_dynamic_key: bool,
-
-    pub pure_fn: bool,
-
-    /// `infects_to`. This should be renamed, but it will be done with another
-    /// PR. (because it's hard to review)
-    infects: Vec<Access>,
-
-    pub used_in_non_child_fn: bool,
-    /// Only **string** properties.
-    pub accessed_props: Box<AHashMap<JsWord, u32>>,
-
-    pub used_recursively: bool,
-}
-
-impl Default for VarUsageInfo {
-    fn default() -> Self {
-        Self {
-            inline_prevented: Default::default(),
-            ref_count: Default::default(),
-            cond_init: Default::default(),
-            declared: Default::default(),
-            declared_count: Default::default(),
-            declared_as_fn_param: Default::default(),
-            declared_as_fn_decl: Default::default(),
-            declared_as_fn_expr: Default::default(),
-            assign_count: Default::default(),
-            mutation_by_call_count: Default::default(),
-            usage_count: Default::default(),
-            reassigned_with_assignment: Default::default(),
-            reassigned_with_var_decl: Default::default(),
-            mutated: Default::default(),
-            has_property_access: Default::default(),
-            has_property_mutation: Default::default(),
-            exported: Default::default(),
-            used_above_decl: Default::default(),
-            is_fn_local: true,
-            executed_multiple_time: Default::default(),
-            used_in_cond: Default::default(),
-            var_kind: Default::default(),
-            var_initialized: Default::default(),
-            declared_as_catch_param: Default::default(),
-            no_side_effect_for_member_access: Default::default(),
-            callee_count: Default::default(),
-            used_as_arg: Default::default(),
-            indexed_with_dynamic_key: Default::default(),
-            pure_fn: Default::default(),
-            infects: Default::default(),
-            used_in_non_child_fn: Default::default(),
-            accessed_props: Default::default(),
-            used_recursively: Default::default(),
-        }
-    }
-}
-
-impl VarUsageInfo {
-    pub fn is_mutated_only_by_one_call(&self) -> bool {
-        self.assign_count == 0 && self.mutation_by_call_count == 1
-    }
-
-    pub fn is_infected(&self) -> bool {
-        !self.infects.is_empty()
-    }
-
-    pub fn reassigned(&self) -> bool {
-        self.reassigned_with_assignment
-            || self.reassigned_with_var_decl
-            || (u32::from(self.var_initialized)
-                + u32::from(self.declared_as_catch_param)
-                + u32::from(self.declared_as_fn_param)
-                + self.assign_count)
-                > 1
-    }
-
-    pub fn can_inline_var(&self) -> bool {
-        !self.mutated
-            || (self.assign_count == 0 && !self.reassigned() && !self.has_property_mutation)
-    }
-
-    pub fn can_inline_fn_once(&self) -> bool {
-        self.callee_count > 0
-            || !self.executed_multiple_time && (self.is_fn_local || !self.used_in_non_child_fn)
-    }
-}
-
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub(crate) enum ScopeKind {
+pub enum ScopeKind {
     Fn,
     Block,
-}
-
-#[derive(Debug, Default, Clone)]
-pub(crate) struct ScopeData {
-    pub has_with_stmt: bool,
-    pub has_eval_call: bool,
-    pub used_arguments: bool,
 }
 
 #[derive(Debug, Clone)]
@@ -232,128 +55,9 @@ enum RecursiveUsage {
     Var { can_ignore: bool },
 }
 
-/// Analyzed info of a whole program we are working on.
-#[derive(Debug, Default)]
-pub(crate) struct ProgramData {
-    pub vars: FxHashMap<Id, VarUsageInfo>,
-
-    pub top: ScopeData,
-
-    pub scopes: FxHashMap<SyntaxContext, ScopeData>,
-
-    initialized_vars: IndexSet<Id, ahash::RandomState>,
-}
-
-impl ProgramData {
-    pub(crate) fn expand_infected(
-        &self,
-        module_info: &ModuleInfo,
-        ids: FxHashSet<Access>,
-        max_num: usize,
-    ) -> Result<FxHashSet<Access>, ()> {
-        let init =
-            HashSet::with_capacity_and_hasher(max_num, BuildHasherDefault::<FxHasher>::default());
-        ids.into_iter().try_fold(init, |mut res, id| {
-            let mut ids = Vec::with_capacity(max_num);
-            ids.push(id);
-            let mut ranges = vec![0..1usize];
-            loop {
-                let range = ranges.remove(0);
-                for index in range {
-                    let iid = ids.get(index).unwrap();
-
-                    // Abort on imported variables, because we can't analyze them
-                    if module_info.blackbox_imports.contains(&iid.0) {
-                        return Err(());
-                    }
-                    if !res.insert(iid.clone()) {
-                        continue;
-                    }
-                    if res.len() >= max_num {
-                        return Err(());
-                    }
-                    if let Some(info) = self.vars.get(&iid.0) {
-                        let infects = &info.infects;
-                        if !infects.is_empty() {
-                            let old_len = ids.len();
-
-                            // This is not a call, so effects from call can be skipped
-                            let can_skip_non_call = matches!(iid.1, AccessKind::Reference)
-                                || (info.declared_count == 1
-                                    && info.declared_as_fn_decl
-                                    && !info.reassigned());
-
-                            if can_skip_non_call {
-                                ids.extend(
-                                    infects
-                                        .iter()
-                                        .filter(|(_, kind)| *kind != AccessKind::Call)
-                                        .cloned(),
-                                );
-                            } else {
-                                ids.extend_from_slice(infects.as_slice());
-                            }
-                            let new_len = ids.len();
-                            ranges.push(old_len..new_len);
-                        }
-                    }
-                }
-                if ranges.is_empty() {
-                    break;
-                }
-            }
-            Ok(res)
-        })
-    }
-
-    pub(crate) fn contains_unresolved(&self, e: &Expr) -> bool {
-        match e {
-            Expr::Ident(i) => {
-                if let Some(v) = self.vars.get(&i.to_id()) {
-                    return !v.declared;
-                }
-
-                true
-            }
-
-            Expr::Member(MemberExpr { obj, prop, .. }) => {
-                if self.contains_unresolved(obj) {
-                    return true;
-                }
-
-                if let MemberProp::Computed(prop) = prop {
-                    if self.contains_unresolved(&prop.expr) {
-                        return true;
-                    }
-                }
-
-                false
-            }
-
-            Expr::Call(CallExpr {
-                callee: Callee::Expr(callee),
-                args,
-                ..
-            }) => {
-                if self.contains_unresolved(callee) {
-                    return true;
-                }
-
-                if args.iter().any(|arg| self.contains_unresolved(&arg.expr)) {
-                    return true;
-                }
-
-                false
-            }
-
-            _ => false,
-        }
-    }
-}
-
 /// This assumes there are no two variable with same name and same span hygiene.
 #[derive(Debug)]
-pub(crate) struct UsageAnalyzer<S = ProgramData>
+pub struct UsageAnalyzer<S>
 where
     S: Storage,
 {
@@ -1504,10 +1208,8 @@ where
                 } = e
                 {
                     // TODO: merge with may_have_side_effects
-                    let can_ignore = match &**init {
-                        Expr::Call(call) if call.span.has_mark(marks.pure) => true,
-                        _ => false,
-                    };
+                    let can_ignore =
+                        matches!(&**init, Expr::Call(call) if call.span.has_mark(marks.pure));
                     let id = id.to_id();
                     self.used_recursively
                         .insert(id.clone(), RecursiveUsage::Var { can_ignore });

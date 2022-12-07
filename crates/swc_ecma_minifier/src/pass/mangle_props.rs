@@ -10,8 +10,8 @@ use swc_ecma_ast::{
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 use crate::{
-    analyzer::{analyze, ModuleInfo, ProgramData},
     option::ManglePropertiesOptions,
+    program_data::{analyze, ModuleInfo, ProgramData},
     util::base54::Base54Chars,
 };
 
