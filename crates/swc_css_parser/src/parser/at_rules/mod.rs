@@ -822,8 +822,11 @@ where
 
                 match cur!(self) {
                     Token::Function { value, .. }
-                        if (&*value.to_ascii_lowercase() == "local"
-                            || &*value.to_ascii_lowercase() == "global") =>
+                        if matches_eq_ignore_ascii_case!(
+                            value,
+                            js_word!("local"),
+                            js_word!("global")
+                        ) =>
                     {
                         let span = self.input.cur_span();
                         let pseudo = match bump!(self) {
@@ -854,8 +857,11 @@ where
                         )))
                     }
                     Token::Ident { value, .. }
-                        if (&*value.to_ascii_lowercase() == "local"
-                            || &*value.to_ascii_lowercase() == "global") =>
+                        if matches_eq_ignore_ascii_case!(
+                            value,
+                            js_word!("local"),
+                            js_word!("global")
+                        ) =>
                     {
                         let pseudo = self.parse()?;
 
@@ -1282,9 +1288,7 @@ where
                 value: function_name,
                 ..
             } => {
-                if &*function_name.to_ascii_lowercase() == "url"
-                    || &*function_name.to_ascii_lowercase() == "src"
-                {
+                if matches_eq_ignore_ascii_case!(function_name, js_word!("url"), js_word!("src")) {
                     Ok(DocumentPreludeMatchingFunction::Url(self.parse()?))
                 } else {
                     // TODO improve me
