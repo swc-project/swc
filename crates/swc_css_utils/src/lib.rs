@@ -87,7 +87,7 @@ impl VisitMut for PseudoElementSelectorNameReplacer<'_> {
     fn visit_mut_pseudo_element_selector(&mut self, n: &mut PseudoElementSelector) {
         n.visit_mut_children_with(self);
 
-        if &*n.name.value.to_lowercase() == self.from {
+        if n.name.value.eq_str_ignore_ascii_case(self.from) {
             n.name.value = self.to.into();
             n.name.raw = None;
         }
@@ -112,7 +112,7 @@ impl VisitMut for PseudoElementOnPseudoClassReplacer<'_> {
 
         match n {
             SubclassSelector::PseudoElement(PseudoElementSelector { name, span, .. })
-                if &*name.value.to_lowercase() == self.from =>
+                if name.value.eq_str_ignore_ascii_case(self.from) =>
             {
                 *n = SubclassSelector::PseudoClass(PseudoClassSelector {
                     span: *span,
