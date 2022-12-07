@@ -2335,18 +2335,18 @@ impl VisitMut for Prefixer {
 
                 let has_3d_function = n.value.iter().any(|n| match n {
                     ComponentValue::Function(function)
-                        if matches!(
-                            &*function.name.value.to_ascii_lowercase(),
-                            "matrix3d"
-                                | "translate3d"
-                                | "translatez"
-                                | "scale3d"
-                                | "scalez"
-                                | "rotate3d"
-                                | "rotatex"
-                                | "rotatey"
-                                | "rotatez"
-                                | "perspective"
+                        if matches_eq_ignore_ascii_case!(
+                            &*function.name.value,
+                            "matrix3d",
+                            "translate3d",
+                            "translatez",
+                            "scale3d",
+                            "scalez",
+                            "rotate3d",
+                            "rotatex",
+                            "rotatey",
+                            "rotatez",
+                            "perspective"
                         ) =>
                     {
                         true
