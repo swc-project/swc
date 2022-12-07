@@ -63,7 +63,7 @@ impl Compressor {
             }
             // `even` => `2n`
             AnPlusB::Ident(Ident { value, span, .. })
-                if value.to_ascii_lowercase() == js_word!("even") =>
+                if value.eq_ignore_ascii_case(&js_word!("even")) =>
             {
                 *an_plus_b = AnPlusB::AnPlusBNotation(AnPlusBNotation {
                     span: *span,
