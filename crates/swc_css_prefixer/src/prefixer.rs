@@ -127,7 +127,7 @@ impl VisitMut for CrossFadeFunctionReplacerOnLegacyVariant<'_> {
     fn visit_mut_function(&mut self, n: &mut Function) {
         n.visit_mut_children_with(self);
 
-        if &*n.name.value.to_ascii_lowercase() == self.from {
+        if n.name.value.eq_str_ignore_ascii_case(self.from) {
             let mut transparency_values = vec![];
 
             for group in n.value.split_mut(|n| {
@@ -269,7 +269,7 @@ impl VisitMut for ImageSetFunctionReplacerOnLegacyVariant<'_> {
 
         n.visit_mut_children_with(self);
 
-        if &*n.name.value.to_ascii_lowercase() == self.from {
+        if n.name.value.eq_str_ignore_ascii_case(self.from) {
             n.name.value = self.to.into();
             n.name.raw = None;
         }
