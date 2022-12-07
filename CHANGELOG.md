@@ -44,6 +44,9 @@
 - **(css/plugin)** Support Wasm plugin (#6568) ([fa8f7b0](https://github.com/swc-project/swc/commit/fa8f7b00fc458c4ee2a74b431fb9004f67e54dde))
 
 
+- **(es/analyzer)** Extract the analyzer from the minifier to a separate crate (#6586) ([e1d01d8](https://github.com/swc-project/swc/commit/e1d01d8b7aa23d1bf3f3894546691c0b249ab647))
+
+
 - **(html/parser)** Improve lexer (#6543) ([49b7e9e](https://github.com/swc-project/swc/commit/49b7e9e224c36346a8fe5ccbec623ae76f0cc79d))
 
 ### Miscellaneous Tasks
