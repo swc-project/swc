@@ -19,6 +19,7 @@ mod value;
 /// ```
 /// use swc_atoms::JsWord;
 /// use swc_atoms::js_word;
+/// use swc_css_ast::*;
 ///
 /// assert!(matches_eq_ignore_ascii_case!(JsWord::from("A"), js_word!("a")));
 /// assert!(matches_eq_ignore_ascii_case!("A", "a"));
