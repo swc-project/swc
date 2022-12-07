@@ -129,7 +129,7 @@ impl Compressor {
                 children: Some(children),
                 span,
                 ..
-            }) if name.value.to_ascii_lowercase() == js_word!("nth-child")
+            }) if name.value.eq_ignore_ascii_case(&js_word!("nth-child"))
                 && children.len() == 1 =>
             {
                 match children.get(0) {
@@ -158,7 +158,9 @@ impl Compressor {
                 children: Some(children),
                 span,
                 ..
-            }) if name.value.to_ascii_lowercase() == js_word!("nth-last-child")
+            }) if name
+                .value
+                .eq_str_ignore_ascii_case(&js_word!("nth-last-child"))
                 && children.len() == 1 =>
             {
                 match children.get(0) {
