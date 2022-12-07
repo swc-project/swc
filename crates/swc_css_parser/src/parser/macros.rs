@@ -95,7 +95,7 @@ macro_rules! is_case_insensitive_ident {
     ($parser:expr, $tt:tt) => {{
         match $parser.input.cur() {
             Some(swc_css_ast::Token::Ident { value, .. })
-                if &*value.to_ascii_lowercase() == $tt =>
+                if (&**value).eq_ignore_ascii_case($tt) =>
             {
                 true
             }
