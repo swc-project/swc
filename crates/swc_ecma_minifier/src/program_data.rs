@@ -22,7 +22,7 @@ use swc_ecma_usage_analyzer::{
 };
 use swc_ecma_visit::VisitWith;
 
-pub fn analyze<N>(n: &N, _module_info: &ModuleInfo, marks: Option<Marks>) -> ProgramData
+pub(crate) fn analyze<N>(n: &N, _module_info: &ModuleInfo, marks: Option<Marks>) -> ProgramData
 where
     N: VisitWith<UsageAnalyzer<ProgramData>>,
 {
@@ -31,105 +31,105 @@ where
 
 /// Analyzed info of a whole program we are working on.
 #[derive(Debug, Default)]
-pub struct ProgramData {
-    pub vars: FxHashMap<Id, VarUsageInfo>,
+pub(crate) struct ProgramData {
+    pub(crate) vars: FxHashMap<Id, VarUsageInfo>,
 
-    pub top: ScopeData,
+    pub(crate) top: ScopeData,
 
-    pub scopes: FxHashMap<SyntaxContext, ScopeData>,
+    pub(crate) scopes: FxHashMap<SyntaxContext, ScopeData>,
 
     initialized_vars: IndexSet<Id, ahash::RandomState>,
 }
 
 #[derive(Debug, Default, Clone)]
-pub struct ScopeData {
-    pub has_with_stmt: bool,
-    pub has_eval_call: bool,
-    pub used_arguments: bool,
+pub(crate) struct ScopeData {
+    pub(crate) has_with_stmt: bool,
+    pub(crate) has_eval_call: bool,
+    pub(crate) used_arguments: bool,
 }
 
 #[derive(Debug, Default)]
-pub struct ModuleInfo {
+pub(crate) struct ModuleInfo {
     /// Imported identifiers which should be treated as a black box.
     ///
     /// Imports from `@swc/helpers` are excluded as helpers are not modified by
     /// accessing/calling other modules.
-    pub blackbox_imports: AHashSet<Id>,
+    pub(crate) blackbox_imports: AHashSet<Id>,
 }
 
 #[derive(Debug, Clone)]
-pub struct VarUsageInfo {
-    pub inline_prevented: bool,
+pub(crate) struct VarUsageInfo {
+    pub(crate) inline_prevented: bool,
 
     /// The number of direct reference to this identifier.
-    pub ref_count: u32,
+    pub(crate) ref_count: u32,
 
     /// `true` if a variable is conditionally initialized.
-    pub cond_init: bool,
+    pub(crate) cond_init: bool,
 
     /// `false` if it's only used.
-    pub declared: bool,
-    pub declared_count: u32,
+    pub(crate) declared: bool,
+    pub(crate) declared_count: u32,
 
     /// `true` if the enclosing function defines this variable as a parameter.
-    pub declared_as_fn_param: bool,
+    pub(crate) declared_as_fn_param: bool,
 
-    pub declared_as_fn_decl: bool,
-    pub declared_as_fn_expr: bool,
+    pub(crate) declared_as_fn_decl: bool,
+    pub(crate) declared_as_fn_expr: bool,
 
-    pub assign_count: u32,
-    pub mutation_by_call_count: u32,
+    pub(crate) assign_count: u32,
+    pub(crate) mutation_by_call_count: u32,
 
     /// The number of direct and indirect reference to this identifier.
     /// ## Things to note
     ///
     /// - Update is counted as usage, but assign is not
-    pub usage_count: u32,
+    pub(crate) usage_count: u32,
 
     /// The variable itself is modified.
     reassigned_with_assignment: bool,
     reassigned_with_var_decl: bool,
     /// The variable itself or a property of it is modified.
-    pub mutated: bool,
+    pub(crate) mutated: bool,
 
-    pub has_property_access: bool,
-    pub has_property_mutation: bool,
+    pub(crate) has_property_access: bool,
+    pub(crate) has_property_mutation: bool,
 
-    pub exported: bool,
+    pub(crate) exported: bool,
     /// True if used **above** the declaration or in init. (Not eval order).
-    pub used_above_decl: bool,
+    pub(crate) used_above_decl: bool,
     /// `true` if it's declared by function parameters or variables declared in
     /// a closest function and used only within it and not used by child
     /// functions.
-    pub is_fn_local: bool,
+    pub(crate) is_fn_local: bool,
 
-    pub executed_multiple_time: bool,
-    pub used_in_cond: bool,
+    pub(crate) executed_multiple_time: bool,
+    pub(crate) used_in_cond: bool,
 
-    pub var_kind: Option<VarDeclKind>,
-    pub var_initialized: bool,
+    pub(crate) var_kind: Option<VarDeclKind>,
+    pub(crate) var_initialized: bool,
 
-    pub declared_as_catch_param: bool,
+    pub(crate) declared_as_catch_param: bool,
 
-    pub no_side_effect_for_member_access: bool,
+    pub(crate) no_side_effect_for_member_access: bool,
 
-    pub callee_count: u32,
+    pub(crate) callee_count: u32,
 
-    pub used_as_arg: bool,
+    pub(crate) used_as_arg: bool,
 
-    pub indexed_with_dynamic_key: bool,
+    pub(crate) indexed_with_dynamic_key: bool,
 
-    pub pure_fn: bool,
+    pub(crate) pure_fn: bool,
 
     /// `infects_to`. This should be renamed, but it will be done with another
     /// PR. (because it's hard to review)
     infects: Vec<Access>,
 
-    pub used_in_non_child_fn: bool,
+    pub(crate) used_in_non_child_fn: bool,
     /// Only **string** properties.
-    pub accessed_props: Box<AHashMap<JsWord, u32>>,
+    pub(crate) accessed_props: Box<AHashMap<JsWord, u32>>,
 
-    pub used_recursively: bool,
+    pub(crate) used_recursively: bool,
 }
 
 impl Default for VarUsageInfo {
@@ -173,15 +173,15 @@ impl Default for VarUsageInfo {
 }
 
 impl VarUsageInfo {
-    pub fn is_mutated_only_by_one_call(&self) -> bool {
+    pub(crate) fn is_mutated_only_by_one_call(&self) -> bool {
         self.assign_count == 0 && self.mutation_by_call_count == 1
     }
 
-    pub fn is_infected(&self) -> bool {
+    pub(crate) fn is_infected(&self) -> bool {
         !self.infects.is_empty()
     }
 
-    pub fn reassigned(&self) -> bool {
+    pub(crate) fn reassigned(&self) -> bool {
         self.reassigned_with_assignment
             || self.reassigned_with_var_decl
             || (u32::from(self.var_initialized)
@@ -191,12 +191,12 @@ impl VarUsageInfo {
                 > 1
     }
 
-    pub fn can_inline_var(&self) -> bool {
+    pub(crate) fn can_inline_var(&self) -> bool {
         !self.mutated
             || (self.assign_count == 0 && !self.reassigned() && !self.has_property_mutation)
     }
 
-    pub fn can_inline_fn_once(&self) -> bool {
+    pub(crate) fn can_inline_fn_once(&self) -> bool {
         self.callee_count > 0
             || !self.executed_multiple_time && (self.is_fn_local || !self.used_in_non_child_fn)
     }
@@ -484,7 +484,7 @@ impl VarDataLike for VarUsageInfo {
 }
 
 impl ProgramData {
-    pub fn expand_infected(
+    pub(crate) fn expand_infected(
         &self,
         module_info: &ModuleInfo,
         ids: FxHashSet<Access>,
@@ -547,7 +547,7 @@ impl ProgramData {
             .ok()
     }
 
-    pub fn contains_unresolved(&self, e: &Expr) -> bool {
+    pub(crate) fn contains_unresolved(&self, e: &Expr) -> bool {
         match e {
             Expr::Ident(i) => {
                 if let Some(v) = self.vars.get(&i.to_id()) {
