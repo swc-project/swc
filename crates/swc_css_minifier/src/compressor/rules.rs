@@ -90,7 +90,12 @@ impl Compressor {
         }
     }
 
-    fn discard_overridden(&self, parent_node: ParentNode, names: &mut AHashMap<Name, isize>) {
+    fn discard_overridden(
+        &self,
+        parent_node: ParentNode,
+        names: &mut AHashMap<Name, isize>,
+        remove_rules_list: &mut Vec<usize>,
+    ) {
         let mut discarder = |at_rule: &AtRule| match &at_rule.prelude {
             Some(box AtRulePrelude::CounterStylePrelude(CustomIdent { value: name, .. })) => {
                 if let Some(counter) = names.get_mut(&Name::CounterStyle(name.clone())) {
@@ -134,15 +139,27 @@ impl Compressor {
 
         match parent_node {
             ParentNode::Stylesheet(stylesheet) => {
-                stylesheet.rules.retain(|rule| match rule {
-                    Rule::AtRule(box at_rule) => discarder(at_rule),
-                    _ => true,
-                });
+                for index in 0..stylesheet.rules.len() {
+                    let node = stylesheet.rules.get(index);
+
+                    if let Some(Rule::AtRule(box at_rule)) = node {
+                        if !discarder(at_rule) {
+                            remove_rules_list.push(index);
+                        }
+                    }
+                }
             }
-            ParentNode::SimpleBlock(simple_block) => simple_block.value.retain(|rule| match rule {
-                ComponentValue::Rule(box Rule::AtRule(box at_rule)) => discarder(at_rule),
-                _ => true,
-            }),
+            ParentNode::SimpleBlock(simple_block) => {
+                for index in 0..simple_block.value.len() {
+                    let node = simple_block.value.get(index);
+
+                    if let Some(ComponentValue::Rule(box Rule::AtRule(box at_rule))) = node {
+                        if !discarder(at_rule) {
+                            remove_rules_list.push(index);
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -337,12 +354,23 @@ impl Compressor {
 
     pub(super) fn compress_stylesheet(&mut self, stylesheet: &mut Stylesheet) {
         let mut names: AHashMap<Name, isize> = Default::default();
-        let mut prev_rule: Option<Rule> = None;
+        let mut prev_rule_idx = None;
         let mut remove_rules_list = vec![];
         let mut prev_index = 0;
-        let mut index = 0;
 
-        stylesheet.rules.retain_mut(|rule| {
+        for index in 0..stylesheet.rules.len() {
+            // We need two &mut
+            let (a, b) = stylesheet.rules.split_at_mut(index);
+
+            let mut prev_rule = match prev_rule_idx {
+                Some(idx) => a.get_mut(idx),
+                None => None,
+            };
+            let rule = match b.first_mut() {
+                Some(v) => v,
+                None => continue,
+            };
+
             let result = match rule {
                 Rule::AtRule(box AtRule {
                     name: AtRuleName::Ident(Ident { value, .. }),
@@ -394,25 +422,29 @@ impl Compressor {
                         if self.is_mergeable_at_rule(at_rule) =>
                     {
                         prev_index = index;
-                        prev_rule = Some(rule.clone());
+                        prev_rule_idx = Some(index);
                     }
                     Rule::QualifiedRule(_) => {
                         prev_index = index;
-                        prev_rule = Some(rule.clone());
+                        prev_rule_idx = Some(index);
                     }
                     _ => {
-                        prev_rule = None;
+                        prev_rule_idx = None;
                     }
                 }
-
-                index += 1;
             }
 
-            result
-        });
+            if !result {
+                remove_rules_list.push(index);
+            }
+        }
 
         if !names.is_empty() {
-            self.discard_overridden(ParentNode::Stylesheet(stylesheet), &mut names);
+            self.discard_overridden(
+                ParentNode::Stylesheet(stylesheet),
+                &mut names,
+                &mut remove_rules_list,
+            );
         }
 
         if !remove_rules_list.is_empty() {
@@ -450,12 +482,23 @@ impl Compressor {
 
     pub(super) fn compress_simple_block(&mut self, simple_block: &mut SimpleBlock) {
         let mut names: AHashMap<Name, isize> = Default::default();
-        let mut prev_rule: Option<ComponentValue> = None;
+        let mut prev_rule_idx = None;
         let mut remove_rules_list = vec![];
         let mut prev_index = 0;
-        let mut index = 0;
 
-        simple_block.value.retain_mut(|rule| {
+        for index in 0..simple_block.value.len() {
+            // We need two &mut
+            let (a, b) = simple_block.value.split_at_mut(index);
+
+            let mut prev_rule = match prev_rule_idx {
+                Some(idx) => a.get_mut(idx),
+                None => None,
+            };
+            let rule = match b.first_mut() {
+                Some(v) => v,
+                None => continue,
+            };
+
             let result = match rule {
                 ComponentValue::Rule(box Rule::AtRule(box AtRule {
                     block: Some(block), ..
@@ -568,27 +611,31 @@ impl Compressor {
                         if self.is_mergeable_at_rule(at_rule) =>
                     {
                         prev_index = index;
-                        prev_rule = Some(rule.clone());
+                        prev_rule_idx = Some(index);
                     }
 
                     ComponentValue::Rule(box Rule::QualifiedRule(_))
                     | ComponentValue::StyleBlock(box StyleBlock::QualifiedRule(_)) => {
                         prev_index = index;
-                        prev_rule = Some(rule.clone());
+                        prev_rule_idx = Some(index);
                     }
                     _ => {
-                        prev_rule = None;
+                        prev_rule_idx = None;
                     }
                 }
-
-                index += 1;
             }
 
-            result
-        });
+            if !result {
+                remove_rules_list.push(index);
+            }
+        }
 
         if !names.is_empty() {
-            self.discard_overridden(ParentNode::SimpleBlock(simple_block), &mut names);
+            self.discard_overridden(
+                ParentNode::SimpleBlock(simple_block),
+                &mut names,
+                &mut remove_rules_list,
+            );
         }
 
         if !remove_rules_list.is_empty() {
