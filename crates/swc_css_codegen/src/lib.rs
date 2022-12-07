@@ -1565,7 +1565,7 @@ where
     fn emit_ident(&mut self, n: &Ident) -> Result {
         if self.config.minify {
             let value = if self.ctx.allow_to_lowercase && self.config.minify {
-                n.value.to_lowercase()
+                n.value.to_ascii_lowercase().to_string()
             } else {
                 n.value.to_string()
             };
