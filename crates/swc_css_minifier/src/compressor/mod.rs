@@ -100,19 +100,19 @@ impl VisitMut for Compressor {
 
     fn visit_mut_declaration(&mut self, n: &mut Declaration) {
         if let DeclarationName::Ident(Ident { value, .. }) = &n.name {
-            match value.to_ascii_lowercase() {
-                js_word!("opacity")
-                | js_word!("fill-opacity")
-                | js_word!("stroke-opacity")
-                | js_word!("shape-image-threshold") => {
-                    n.visit_mut_children_with(&mut *self.with_ctx(Ctx {
-                        preserve_alpha_value: false,
-                        ..self.ctx
-                    }));
-                }
-                _ => {
-                    n.visit_mut_children_with(self);
-                }
+            if matches_eq_ignore_ascii_case!(
+                value,
+                js_word!("opacity"),
+                js_word!("fill-opacity"),
+                js_word!("stroke-opacity"),
+                js_word!("shape-image-threshold")
+            ) {
+                n.visit_mut_children_with(&mut *self.with_ctx(Ctx {
+                    preserve_alpha_value: false,
+                    ..self.ctx
+                }));
+            } else {
+                n.visit_mut_children_with(self);
             }
         } else {
             n.visit_mut_children_with(self);
