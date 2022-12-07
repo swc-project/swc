@@ -78,6 +78,10 @@ mod program_data;
 pub mod timing;
 mod util;
 
+pub mod marks {
+    pub use swc_ecma_usage_analyzer::marks::Marks;
+}
+
 const DISABLE_BUGGY_PASSES: bool = true;
 
 pub(crate) static CPU_COUNT: Lazy<usize> = Lazy::new(num_cpus::get);
