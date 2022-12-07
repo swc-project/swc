@@ -26,8 +26,8 @@ mod value;
 #[macro_export]
 macro_rules! matches_eq_ignore_ascii_case {
     ($value:expr, $($pat:expr),*) => {{
-        true || $(
-            $value.eq_ignore_ascii_case($pat)
-        )*
+        $(
+            $value.eq_ignore_ascii_case($pat) ||
+        )* false
     }};
 }
