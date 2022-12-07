@@ -5,7 +5,7 @@ use rayon::prelude::*;
 use swc_common::{pass::Repeated, util::take::Take, SyntaxContext, DUMMY_SP, GLOBALS};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::debug_assert_valid;
-use swc_ecma_usage_analyzer::{analyzer::ProgramData, marks::Marks};
+use swc_ecma_usage_analyzer::marks::Marks;
 use swc_ecma_utils::{undefined, ExprCtx};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 #[cfg(feature = "debug")]
@@ -14,7 +14,10 @@ use tracing::{debug, span, Level};
 use self::{ctx::Ctx, misc::DropOpts};
 #[cfg(feature = "debug")]
 use crate::debug::dump;
-use crate::{debug::AssertValid, maybe_par, option::CompressOptions, util::ModuleItemExt};
+use crate::{
+    debug::AssertValid, maybe_par, option::CompressOptions, program_data::ProgramData,
+    util::ModuleItemExt,
+};
 
 mod arrows;
 mod bools;

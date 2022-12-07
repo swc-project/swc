@@ -6,7 +6,7 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{collect_decls, BindingCollector};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
-use self::ctx::Ctx;
+pub use self::ctx::Ctx;
 use crate::{marks::Marks, util::is_global_var_with_pure_property_access};
 
 mod ctx;

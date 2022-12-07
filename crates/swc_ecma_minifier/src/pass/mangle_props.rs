@@ -7,10 +7,13 @@ use swc_ecma_ast::{
     CallExpr, Callee, Expr, Ident, KeyValueProp, Lit, MemberExpr, MemberProp, Program, Prop,
     PropName, Str, SuperProp, SuperPropExpr,
 };
-use swc_ecma_usage_analyzer::analyzer::{analyze, ModuleInfo, ProgramData};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
-use crate::{option::ManglePropertiesOptions, util::base54::Base54Chars};
+use crate::{
+    option::ManglePropertiesOptions,
+    program_data::{analyze, ModuleInfo, ProgramData},
+    util::base54::Base54Chars,
+};
 
 pub static JS_ENVIRONMENT_PROPS: Lazy<AHashSet<JsWord>> = Lazy::new(|| {
     let domprops: Vec<JsWord> = serde_json::from_str(include_str!("../lists/domprops.json"))

@@ -5,8 +5,6 @@ use swc_ecma_ast::*;
 use super::{ctx::Ctx, ScopeKind};
 use crate::alias::Access;
 
-pub mod normal;
-
 pub trait Storage: Sized + Default {
     type ScopeData: ScopeDataLike;
     type VarData: VarDataLike;

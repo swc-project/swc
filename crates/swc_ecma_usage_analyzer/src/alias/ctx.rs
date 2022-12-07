@@ -15,7 +15,7 @@ impl<'a> InfectionCollector<'a> {
 }
 
 #[derive(Debug, Default, Clone, Copy)]
-pub(super) struct Ctx {
+pub struct Ctx {
     pub track_expr_ident: bool,
     pub is_callee: bool,
 }

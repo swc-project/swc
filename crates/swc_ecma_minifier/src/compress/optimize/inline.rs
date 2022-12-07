@@ -2,10 +2,7 @@ use swc_atoms::js_word;
 use swc_common::{util::take::Take, EqIgnoreSpan, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::simplify::expr_simplifier;
-use swc_ecma_usage_analyzer::{
-    alias::{collect_infects_from, AliasConfig},
-    analyzer::VarUsageInfo,
-};
+use swc_ecma_usage_analyzer::alias::{collect_infects_from, AliasConfig};
 use swc_ecma_utils::{class_has_side_effect, find_pat_ids, ExprExt};
 use swc_ecma_visit::VisitMutWith;
 
@@ -13,6 +10,7 @@ use super::Optimizer;
 use crate::{
     compress::optimize::util::is_valid_for_lhs,
     mode::Mode,
+    program_data::VarUsageInfo,
     util::{
         idents_captured_by, idents_used_by, idents_used_by_ignoring_nested, size::SizeWithCtxt,
     },
