@@ -110,18 +110,18 @@ impl Compressor {
     pub(super) fn compress_subclass_selector(&mut self, subclass_selector: &mut SubclassSelector) {
         match &subclass_selector {
             SubclassSelector::PseudoElement(PseudoElementSelector { name, span, .. }) => {
-                match name.value.to_ascii_lowercase() {
-                    js_word!("before")
-                    | js_word!("after")
-                    | js_word!("first-letter")
-                    | js_word!("first-line") => {
-                        *subclass_selector = SubclassSelector::PseudoClass(PseudoClassSelector {
-                            span: *span,
-                            name: name.clone(),
-                            children: None,
-                        })
-                    }
-                    _ => {}
+                if matches_eq_ignore_ascii_case!(
+                    name.value,
+                    js_word!("before"),
+                    js_word!("after"),
+                    js_word!("first-letter"),
+                    js_word!("first-line")
+                ) {
+                    *subclass_selector = SubclassSelector::PseudoClass(PseudoClassSelector {
+                        span: *span,
+                        name: name.clone(),
+                        children: None,
+                    })
                 }
             }
             SubclassSelector::PseudoClass(PseudoClassSelector {
@@ -189,7 +189,7 @@ impl Compressor {
                 children: Some(children),
                 span,
                 ..
-            }) if name.value.to_ascii_lowercase() == js_word!("nth-of-type")
+            }) if name.value.eq_ignore_ascii_case(&js_word!("nth-of-type"))
                 && children.len() == 1 =>
             {
                 match children.get(0) {
@@ -218,7 +218,9 @@ impl Compressor {
                 children: Some(children),
                 span,
                 ..
-            }) if name.value.to_ascii_lowercase() == js_word!("nth-last-of-type")
+            }) if name
+                .value
+                .eq_ignore_ascii_case(&js_word!("nth-last-of-type"))
                 && children.len() == 1 =>
             {
                 match children.get(0) {
