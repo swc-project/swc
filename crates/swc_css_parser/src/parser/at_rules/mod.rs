@@ -1186,7 +1186,9 @@ where
 
                 Ok(SupportsFeature::Declaration(Box::new(declaration)))
             }
-            Token::Function { value, .. } if &*value.to_ascii_lowercase() == "selector" => {
+            Token::Function { value, .. }
+                if matches_eq_ignore_ascii_case!(&**value, "selector") =>
+            {
                 // TODO improve me
                 let ctx = Ctx {
                     in_supports_at_rule: true,
@@ -1993,10 +1995,7 @@ where
 
         let value = match cur!(self) {
             Token::Ident { value, .. }
-                if matches!(
-                    &*value.to_ascii_lowercase(),
-                    "left" | "right" | "first" | "blank"
-                ) =>
+                if matches_eq_ignore_ascii_case!(&**value, "left", "right", "first", "blank") =>
             {
                 self.parse()?
             }
