@@ -314,7 +314,7 @@ impl Compressor {
                 name,
                 value: function_value,
                 ..
-            }) if name.value.to_ascii_lowercase() == js_word!("rotate3d")
+            }) if name.value.eq_ignore_ascii_case(&js_word!("rotate3d"))
                 && function_value.len() == 7 =>
             {
                 match (
@@ -396,7 +396,7 @@ impl Compressor {
                 name,
                 value: function_value,
                 ..
-            }) if name.value.to_ascii_lowercase() == js_word!("rotatez")
+            }) if name.value.eq_ignore_ascii_case(&js_word!("rotatez"))
                 && function_value.len() == 1 =>
             {
                 *name = Ident {
@@ -410,7 +410,7 @@ impl Compressor {
                 name,
                 value: function_value,
                 ..
-            }) if name.value.to_ascii_lowercase() == js_word!("skew")
+            }) if name.value.eq_ignore_ascii_case(&js_word!("skew"))
                 && function_value.len() == 3 =>
             {
                 match (function_value.get(0), function_value.get(2)) {
