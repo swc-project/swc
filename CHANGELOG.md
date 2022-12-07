@@ -20,6 +20,9 @@
 - **(css/parser)** Fix a small bug (#6591) ([4de378c](https://github.com/swc-project/swc/commit/4de378cb1e170df496b277bc141dacaa1c21738f))
 
 
+- **(css/parser)** Avoid skipping extra whitespaces (#6592) ([d8936ad](https://github.com/swc-project/swc/commit/d8936ade5b34f682af08e01833d629a67c54f888))
+
+
 - **(es/parser)** Fix `typeof` in `TSCallSignatureDeclaration` (#6553) ([aa28aa0](https://github.com/swc-project/swc/commit/aa28aa0c7fefcaea063340c711a5ea8a3ba60e7b))
 
 

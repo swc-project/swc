@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = "Apache-2.0"
 name          = "swc_css_parser"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.138.5"
+version       = "0.138.6"
 
 [lib]
 bench = false
