@@ -1402,9 +1402,8 @@ where
                             }
                             Token::Function { value, .. }
                                 if is_math_function(value)
-                                    || matches!(
-                                        &*value.to_ascii_lowercase(),
-                                        "var" | "env" | "constant"
+                                    || matches_eq_ignore_ascii_case!(
+                                        &**value, "var", "env", "constant"
                                     ) =>
                             {
                                 ComponentValue::Function(self.parse()?)
@@ -1679,7 +1678,7 @@ where
 
         match cur!(self) {
             Token::Function { value, .. }
-                if matches!(&*value.to_ascii_lowercase(), "var" | "env" | "constant") =>
+                if matches_eq_ignore_ascii_case!(&**value, "var", "env", "constant") =>
             {
                 *has_before_variable = true;
 
