@@ -85,8 +85,8 @@ impl Compressor {
                                 }),
                             ),
                             None,
-                        ) if outside_value.eq_ignore_ascii_case() == js_word!("block")
-                            && inside_value.eq_ignore_ascii_case() == js_word!("flow-root") =>
+                        ) if outside_value.eq_ignore_ascii_case(&js_word!("block"))
+                            && inside_value.eq_ignore_ascii_case(&js_word!("flow-root")) =>
                         {
                             declaration.value = vec![inside.clone()];
                         }
@@ -102,8 +102,8 @@ impl Compressor {
                                 ..
                             })),
                             None,
-                        ) if outside_value.eq_ignore_ascii_case() == js_word!("inline")
-                            && inside_value.eq_ignore_ascii_case() == js_word!("flow-root") =>
+                        ) if outside_value.eq_ignore_ascii_case(&js_word!("inline"))
+                            && inside_value.eq_ignore_ascii_case(&js_word!("flow-root")) =>
                         {
                             declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                                 span: *span,
@@ -122,8 +122,8 @@ impl Compressor {
                                 ..
                             })),
                             Some(list_item),
-                        ) if outside_value.eq_ignore_ascii_case() == js_word!("block")
-                            && inside_value.eq_ignore_ascii_case() == js_word!("flow") =>
+                        ) if outside_value.eq_ignore_ascii_case(&js_word!("block"))
+                            && inside_value.eq_ignore_ascii_case(&js_word!("flow")) =>
                         {
                             declaration.value = vec![list_item.clone()];
                         }
