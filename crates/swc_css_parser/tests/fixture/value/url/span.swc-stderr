@@ -39,7 +39,8 @@
  36 | |   
  37 | |   );
  38 | |       background: URL(https://example.com/ima\)ge.png);
- 39 | `-> }
+ 39 | |       background: url(   "https://example.com/image.png"   );
+ 40 | `-> }
     `----
 
   x Rule
@@ -82,7 +83,8 @@
  36 | |   
  37 | |   );
  38 | |       background: URL(https://example.com/ima\)ge.png);
- 39 | `-> }
+ 39 | |       background: url(   "https://example.com/image.png"   );
+ 40 | `-> }
     `----
 
   x QualifiedRule
@@ -125,7 +127,8 @@
  36 | |   
  37 | |   );
  38 | |       background: URL(https://example.com/ima\)ge.png);
- 39 | `-> }
+ 39 | |       background: url(   "https://example.com/image.png"   );
+ 40 | `-> }
     `----
 
   x SelectorList
@@ -217,7 +220,8 @@
  36 | |   
  37 | |   );
  38 | |       background: URL(https://example.com/ima\)ge.png);
- 39 | `-> }
+ 39 | |       background: url(   "https://example.com/image.png"   );
+ 40 | `-> }
     `----
 
   x LBrace
@@ -2248,7 +2252,7 @@
  37 | );
  38 |     background: URL(https://example.com/ima\)ge.png);
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 39 | }
+ 39 |     background: url(   "https://example.com/image.png"   );
     `----
 
   x StyleBlock
@@ -2256,7 +2260,7 @@
  37 | );
  38 |     background: URL(https://example.com/ima\)ge.png);
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 39 | }
+ 39 |     background: url(   "https://example.com/image.png"   );
     `----
 
   x Declaration
@@ -2264,7 +2268,7 @@
  37 | );
  38 |     background: URL(https://example.com/ima\)ge.png);
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 39 | }
+ 39 |     background: url(   "https://example.com/image.png"   );
     `----
 
   x DeclarationName
@@ -2272,7 +2276,7 @@
  37 | );
  38 |     background: URL(https://example.com/ima\)ge.png);
     :     ^^^^^^^^^^
- 39 | }
+ 39 |     background: url(   "https://example.com/image.png"   );
     `----
 
   x Ident
@@ -2280,7 +2284,7 @@
  37 | );
  38 |     background: URL(https://example.com/ima\)ge.png);
     :     ^^^^^^^^^^
- 39 | }
+ 39 |     background: url(   "https://example.com/image.png"   );
     `----
 
   x ComponentValue
@@ -2288,7 +2292,7 @@
  37 | );
  38 |     background: URL(https://example.com/ima\)ge.png);
     :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 39 | }
+ 39 |     background: url(   "https://example.com/image.png"   );
     `----
 
   x Url
@@ -2296,7 +2300,7 @@
  37 | );
  38 |     background: URL(https://example.com/ima\)ge.png);
     :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 39 | }
+ 39 |     background: url(   "https://example.com/image.png"   );
     `----
 
   x Ident
@@ -2304,7 +2308,7 @@
  37 | );
  38 |     background: URL(https://example.com/ima\)ge.png);
     :                 ^^^
- 39 | }
+ 39 |     background: url(   "https://example.com/image.png"   );
     `----
 
   x UrlValue
@@ -2312,7 +2316,7 @@
  37 | );
  38 |     background: URL(https://example.com/ima\)ge.png);
     :                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 39 | }
+ 39 |     background: url(   "https://example.com/image.png"   );
     `----
 
   x UrlValueRaw
@@ -2320,5 +2324,85 @@
  37 | );
  38 |     background: URL(https://example.com/ima\)ge.png);
     :                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 39 | }
+ 39 |     background: url(   "https://example.com/image.png"   );
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/value/url/input.css:38:1]
+ 38 |     background: URL(https://example.com/ima\)ge.png);
+ 39 |     background: url(   "https://example.com/image.png"   );
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 40 | }
+    `----
+
+  x StyleBlock
+    ,-[$DIR/tests/fixture/value/url/input.css:38:1]
+ 38 |     background: URL(https://example.com/ima\)ge.png);
+ 39 |     background: url(   "https://example.com/image.png"   );
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 40 | }
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/value/url/input.css:38:1]
+ 38 |     background: URL(https://example.com/ima\)ge.png);
+ 39 |     background: url(   "https://example.com/image.png"   );
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 40 | }
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/value/url/input.css:38:1]
+ 38 |     background: URL(https://example.com/ima\)ge.png);
+ 39 |     background: url(   "https://example.com/image.png"   );
+    :     ^^^^^^^^^^
+ 40 | }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/value/url/input.css:38:1]
+ 38 |     background: URL(https://example.com/ima\)ge.png);
+ 39 |     background: url(   "https://example.com/image.png"   );
+    :     ^^^^^^^^^^
+ 40 | }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/value/url/input.css:38:1]
+ 38 |     background: URL(https://example.com/ima\)ge.png);
+ 39 |     background: url(   "https://example.com/image.png"   );
+    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 40 | }
+    `----
+
+  x Url
+    ,-[$DIR/tests/fixture/value/url/input.css:38:1]
+ 38 |     background: URL(https://example.com/ima\)ge.png);
+ 39 |     background: url(   "https://example.com/image.png"   );
+    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 40 | }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/value/url/input.css:38:1]
+ 38 |     background: URL(https://example.com/ima\)ge.png);
+ 39 |     background: url(   "https://example.com/image.png"   );
+    :                 ^^^
+ 40 | }
+    `----
+
+  x UrlValue
+    ,-[$DIR/tests/fixture/value/url/input.css:38:1]
+ 38 |     background: URL(https://example.com/ima\)ge.png);
+ 39 |     background: url(   "https://example.com/image.png"   );
+    :                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 40 | }
+    `----
+
+  x Str
+    ,-[$DIR/tests/fixture/value/url/input.css:38:1]
+ 38 |     background: URL(https://example.com/ima\)ge.png);
+ 39 |     background: url(   "https://example.com/image.png"   );
+    :                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 40 | }
     `----
