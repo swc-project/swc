@@ -808,7 +808,7 @@ where
 
                 match cur!(self) {
                     Token::Ident { value, .. }
-                        if &*value.to_ascii_lowercase() == "from"
+                        if matches_eq_ignore_ascii_case!(value, js_word!("from"))
                             && function_name != "device-cmyk" =>
                     {
                         values.push(ComponentValue::Ident(self.parse()?));
@@ -1314,15 +1314,16 @@ where
 
                                 Ok(Some(ComponentValue::DashedIdent(parser.parse()?)))
                             } else {
-                                match &*value.to_ascii_lowercase() {
-                                    "xyz" | "xyz-d50" | "xyz-d65" => is_xyz = true,
-                                    _ => {
-                                        // There are predefined-rgb-params , but
-                                        // For unknown, we don't return an error
-                                        // to
-                                        // continue to support invalid color,
-                                        // because they fallback in browser
-                                    }
+                                if matches_eq_ignore_ascii_case!(
+                                    &**value, "xyz", "xyz-d50", "xyz-d65"
+                                ) {
+                                    is_xyz = true
+                                } else {
+                                    // There are predefined-rgb-params , but
+                                    // For unknown, we don't return an error
+                                    // to
+                                    // continue to support invalid color,
+                                    // because they fallback in browser
                                 }
 
                                 Ok(Some(ComponentValue::Ident(parser.parse()?)))
