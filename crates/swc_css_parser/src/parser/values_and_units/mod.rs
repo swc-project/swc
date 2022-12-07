@@ -1811,11 +1811,10 @@ where
 
         match bump!(self) {
             Token::Ident { value, raw, .. } => {
-                match &*value.to_ascii_lowercase() {
-                    "initial" | "inherit" | "unset" | "revert" | "default" => {
-                        return Err(Error::new(span, ErrorKind::InvalidCustomIdent(value)));
-                    }
-                    _ => {}
+                if matches_eq_ignore_ascii_case!(
+                    &*value, "initial", "inherit", "unset", "revert", "default"
+                ) {
+                    return Err(Error::new(span, ErrorKind::InvalidCustomIdent(value)));
                 }
 
                 Ok(CustomIdent {
@@ -2568,9 +2567,7 @@ where
                 value: function_name,
                 raw: raw_function_name,
             } => {
-                if &*function_name.to_ascii_lowercase() != "url"
-                    && &*function_name.to_ascii_lowercase() != "src"
-                {
+                if matches_eq_ignore_ascii_case!(function_name, js_word!("url"), js_word!("src")) {
                     return Err(Error::new(
                         span,
                         ErrorKind::Expected("'url' or 'src' name of a function token"),
@@ -2649,7 +2646,7 @@ where
 
         // should start with `u` or `U`
         match cur!(self) {
-            Token::Ident { value, .. } if &*value.to_ascii_lowercase() == "u" => {
+            Token::Ident { value, .. } if matches_eq_ignore_ascii_case!(value, js_word!("u")) => {
                 let ident = match bump!(self) {
                     Token::Ident { value, .. } => value,
                     _ => {
