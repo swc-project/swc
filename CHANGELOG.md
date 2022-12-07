@@ -29,6 +29,9 @@
 - **(es/parser)** Fix parsing of JSX with ASI (#6577) ([ad95ead](https://github.com/swc-project/swc/commit/ad95ead291640b1ada65860af1adf5e8185c80a4))
 
 
+- **(es/resolver)** Reset `in_type` flag correctly (#6597) ([29ba05d](https://github.com/swc-project/swc/commit/29ba05d137c606f9e67fec9db8bd2377671900e1))
+
+
 - **(xml/parser)** Fix parsing of legacy document types (#6555) ([cdf0d8a](https://github.com/swc-project/swc/commit/cdf0d8a8b59a05498b6ca609d8a2ecf3c2f35f28))
 
 
