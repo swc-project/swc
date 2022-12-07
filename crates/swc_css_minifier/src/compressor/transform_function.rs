@@ -10,7 +10,7 @@ impl Compressor {
                 name,
                 value: function_value,
                 ..
-            }) if name.value.to_ascii_lowercase() == js_word!("translate")
+            }) if name.value.eq_ignore_ascii_case(&js_word!("translate"))
                 && function_value.len() == 3 =>
             {
                 match (function_value.get(0), function_value.get(2)) {
