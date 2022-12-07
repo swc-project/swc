@@ -83,6 +83,9 @@
 - **(css/parser)** Reduce number of function calls (#6587) ([252edb5](https://github.com/swc-project/swc/commit/252edb550be2464d34c1ccce668d1666f3799878))
 
 
+- **(css/parser)** Don't allocate for comparisons (#6593) ([08b6eab](https://github.com/swc-project/swc/commit/08b6eab0103ed7b42b6053392161ea8bd4fd597a))
+
+
 - **(html/parser)** Optimize usage of buffers (#6590) ([d6e9613](https://github.com/swc-project/swc/commit/d6e961368bb231dfa842b7cd37f77e2f0fb9c8c2))
 
 ### Refactor
