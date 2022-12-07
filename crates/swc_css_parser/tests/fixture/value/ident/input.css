@@ -1,0 +1,6 @@
+a { animation: test; }
+a { animation: тест; }
+a { animation: т\ест; }
+a { animation: 😋; }
+a { animation: \\😋; }
+a { animation: \😋; }

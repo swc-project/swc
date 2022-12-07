@@ -17,6 +17,9 @@
 - **(css/parser)** Fix parsing of nested rules (#6563) ([a1fe907](https://github.com/swc-project/swc/commit/a1fe9076c231ca1eef05c558f43803ec006559c3))
 
 
+- **(css/parser)** Fix a small bug (#6591) ([4de378c](https://github.com/swc-project/swc/commit/4de378cb1e170df496b277bc141dacaa1c21738f))
+
+
 - **(es/parser)** Fix `typeof` in `TSCallSignatureDeclaration` (#6553) ([aa28aa0](https://github.com/swc-project/swc/commit/aa28aa0c7fefcaea063340c711a5ea8a3ba60e7b))
 
 
@@ -52,6 +55,9 @@
 
 - **(ci)** Fix benchmark action (#6582) ([d8adc58](https://github.com/swc-project/swc/commit/d8adc580110e0764686f5aea848425905605daa0))
 
+
+- **(css/lexer)** Fix typo (#6588) ([f383836](https://github.com/swc-project/swc/commit/f383836bad48a791c93d1f6bd5670a2d19a545d8))
+
 ### Performance
 
 
@@ -69,6 +75,12 @@
 
 
 - **(css/parser)** Reduce clones and allocations (#6585) ([6479670](https://github.com/swc-project/swc/commit/64796701e45a59a9d9ba439064d012b5ad3ce144))
+
+
+- **(css/parser)** Reduce number of function calls (#6587) ([252edb5](https://github.com/swc-project/swc/commit/252edb550be2464d34c1ccce668d1666f3799878))
+
+
+- **(html/parser)** Optimize usage of buffers (#6590) ([d6e9613](https://github.com/swc-project/swc/commit/d6e961368bb231dfa842b7cd37f77e2f0fb9c8c2))
 
 ### Refactor
 
