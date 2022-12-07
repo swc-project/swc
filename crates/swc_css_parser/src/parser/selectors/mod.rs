@@ -1,3 +1,4 @@
+use swc_atoms::js_word;
 use swc_common::{BytePos, Span, Spanned};
 use swc_css_ast::*;
 
@@ -1187,8 +1188,7 @@ where
         match cur!(self) {
             //  odd | even
             Token::Ident { value, .. }
-            if &(*value).to_ascii_lowercase() == "odd"
-                || &(*value).to_ascii_lowercase() == "even" =>
+                if matches_eq_ignore_ascii_case!(value, js_word!("odd"), js_word!("even")) =>
                 {
                     Ok(AnPlusB::Ident(self.parse()?))
                 }

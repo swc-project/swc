@@ -284,7 +284,7 @@ impl Compressor {
                 Some(*value / 100.0)
             }
             Some(ComponentValue::Ident(box Ident { value, .. }))
-                if value.to_ascii_lowercase() == js_word!("none") =>
+                if value.eq_ignore_ascii_case(&js_word!("none")) =>
             {
                 Some(0.0)
             }
@@ -321,7 +321,7 @@ impl Compressor {
                 Some(value)
             }
             Some(ComponentValue::Ident(box Ident { value, .. }))
-                if value.to_ascii_lowercase() == js_word!("none") =>
+                if value.eq_ignore_ascii_case(&js_word!("none")) =>
             {
                 Some(0.0)
             }
@@ -344,7 +344,7 @@ impl Compressor {
                 Some(*value / 100.0)
             }
             Some(ComponentValue::Ident(box Ident { value, .. }))
-                if value.to_ascii_lowercase() == js_word!("none") =>
+                if value.eq_ignore_ascii_case(&js_word!("none")) =>
             {
                 Some(0.0)
             }
@@ -379,7 +379,7 @@ impl Compressor {
                 Some((2.55 * *value).round())
             }
             Some(ComponentValue::Ident(box Ident { value, .. }))
-                if value.to_ascii_lowercase() == js_word!("none") =>
+                if value.eq_ignore_ascii_case(&js_word!("none")) =>
             {
                 Some(0.0)
             }

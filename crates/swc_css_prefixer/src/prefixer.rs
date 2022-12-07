@@ -127,7 +127,7 @@ impl VisitMut for CrossFadeFunctionReplacerOnLegacyVariant<'_> {
     fn visit_mut_function(&mut self, n: &mut Function) {
         n.visit_mut_children_with(self);
 
-        if &*n.name.value.to_lowercase() == self.from {
+        if n.name.value.eq_str_ignore_ascii_case(self.from) {
             let mut transparency_values = vec![];
 
             for group in n.value.split_mut(|n| {
@@ -269,7 +269,7 @@ impl VisitMut for ImageSetFunctionReplacerOnLegacyVariant<'_> {
 
         n.visit_mut_children_with(self);
 
-        if &*n.name.value.to_lowercase() == self.from {
+        if n.name.value.eq_str_ignore_ascii_case(self.from) {
             n.name.value = self.to.into();
             n.name.raw = None;
         }
@@ -300,7 +300,7 @@ impl VisitMut for LinearGradientFunctionReplacerOnLegacyVariant<'_> {
     fn visit_mut_function(&mut self, n: &mut Function) {
         n.visit_mut_children_with(self);
 
-        if &*n.name.value.to_lowercase() == self.from {
+        if &*n.name.value.to_ascii_lowercase() == self.from {
             n.name.value = self.to.into();
             n.name.raw = None;
 
@@ -485,14 +485,14 @@ impl VisitMut for MediaFeatureResolutionReplacerOnLegacyVariant<'_> {
                 ..
             }) = &n.name;
 
-            if &*feature_name_value.to_lowercase() == self.from {
+            if &*feature_name_value.to_ascii_lowercase() == self.from {
                 n.name = MediaFeatureName::Ident(Ident {
                     span: *feature_name_span,
                     value: self.to.into(),
                     raw: None,
                 });
 
-                let left = match &*resolution_unit.value.to_lowercase() {
+                let left = match &*resolution_unit.value.to_ascii_lowercase() {
                     "dpi" => (resolution_value.value / 96.0 * 100.0).round() / 100.0,
                     "dpcm" => (((resolution_value.value * 2.54) / 96.0) * 100.0).round() / 100.0,
                     _ => resolution_value.value,
@@ -1472,7 +1472,7 @@ impl VisitMut for Prefixer {
             }};
         }
 
-        let property_name = &*name.to_lowercase();
+        let property_name = &*name.to_ascii_lowercase();
 
         match property_name {
             "appearance" => {
@@ -1484,7 +1484,7 @@ impl VisitMut for Prefixer {
             "animation" => {
                 let need_prefix = n.value.iter().all(|n| match n {
                     ComponentValue::Ident(ident) => !matches!(
-                        &*ident.value.to_lowercase(),
+                        &*ident.value.to_ascii_lowercase(),
                         "reverse" | "alternate-reverse"
                     ),
                     _ => true,
@@ -1517,7 +1517,7 @@ impl VisitMut for Prefixer {
 
             "animation-direction" => {
                 if let ComponentValue::Ident(ident) = &n.value[0] {
-                    match &*ident.value.to_lowercase() {
+                    match &*ident.value.to_ascii_lowercase() {
                         "alternate-reverse" | "reverse" => {}
                         _ => {
                             add_declaration!(Prefix::Webkit, "-webkit-animation-direction", None);
@@ -1554,7 +1554,7 @@ impl VisitMut for Prefixer {
 
             "background-clip" => {
                 if let ComponentValue::Ident(ident) = &n.value[0] {
-                    if &*ident.value.to_lowercase() == "text" {
+                    if &*ident.value.to_ascii_lowercase() == "text" {
                         add_declaration!(Prefix::Webkit, "-webkit-background-clip", None);
                     }
                 }
@@ -1886,7 +1886,7 @@ impl VisitMut for Prefixer {
             "flex-flow" => {
                 let is_single_flex_wrap = matches!(n.value.get(0), Some(ComponentValue::Ident(box Ident { value, .. })) if n.value.len() == 1
                 && matches!(
-                    &*value.to_lowercase(),
+                    &*value.to_ascii_lowercase(),
                     "wrap" | "nowrap" | "wrap-reverse"
                 ));
 
@@ -2313,7 +2313,7 @@ impl VisitMut for Prefixer {
                 add_declaration!(Prefix::Moz, "-moz-user-select", None);
 
                 if let ComponentValue::Ident(ident) = &n.value[0] {
-                    match &*ident.value.to_lowercase() {
+                    match &*ident.value.to_ascii_lowercase() {
                         "contain" => {
                             add_declaration!(
                                 Prefix::Ms,
@@ -2335,18 +2335,18 @@ impl VisitMut for Prefixer {
 
                 let has_3d_function = n.value.iter().any(|n| match n {
                     ComponentValue::Function(function)
-                        if matches!(
-                            &*function.name.value.to_ascii_lowercase(),
-                            "matrix3d"
-                                | "translate3d"
-                                | "translatez"
-                                | "scale3d"
-                                | "scalez"
-                                | "rotate3d"
-                                | "rotatex"
-                                | "rotatey"
-                                | "rotatez"
-                                | "perspective"
+                        if matches_eq_ignore_ascii_case!(
+                            &*function.name.value,
+                            "matrix3d",
+                            "translate3d",
+                            "translatez",
+                            "scale3d",
+                            "scalez",
+                            "rotate3d",
+                            "rotatex",
+                            "rotatey",
+                            "rotatez",
+                            "perspective"
                         ) =>
                     {
                         true
@@ -2394,7 +2394,7 @@ impl VisitMut for Prefixer {
                     match &n.value[0] {
                         ComponentValue::Ident(ident)
                             if matches!(
-                                &*ident.value.to_lowercase(),
+                                &*ident.value.to_ascii_lowercase(),
                                 "none"
                                     | "underline"
                                     | "overline"
@@ -2437,7 +2437,7 @@ impl VisitMut for Prefixer {
 
             "text-decoration-skip-ink" => {
                 if let ComponentValue::Ident(ident) = &n.value[0] {
-                    match &*ident.value.to_lowercase() {
+                    match &*ident.value.to_ascii_lowercase() {
                         "auto" => {
                             add_declaration!(
                                 Prefix::Webkit,
@@ -2458,7 +2458,7 @@ impl VisitMut for Prefixer {
 
             "text-size-adjust" if n.value.len() == 1 => {
                 if let ComponentValue::Ident(ident) = &n.value[0] {
-                    if &*ident.value.to_lowercase() == "none" {
+                    if &*ident.value.to_ascii_lowercase() == "none" {
                         add_declaration!(Prefix::Webkit, "-webkit-text-size-adjust", None);
                         add_declaration!(Prefix::Moz, "-moz-text-size-adjust", None);
                         add_declaration!(Prefix::Ms, "-ms-text-size-adjust", None);
@@ -2565,7 +2565,7 @@ impl VisitMut for Prefixer {
                 };
 
                 if let ComponentValue::Ident(ident) = &n.value[0] {
-                    match &*ident.value.to_lowercase() {
+                    match &*ident.value.to_ascii_lowercase() {
                         "vertical-lr" => {
                             add_declaration!(Prefix::Webkit, "-webkit-writing-mode", None);
 
@@ -2935,7 +2935,7 @@ impl VisitMut for Prefixer {
 
             "overscroll-behavior" => {
                 if let ComponentValue::Ident(ident) = &n.value[0] {
-                    match &*ident.value.to_lowercase() {
+                    match &*ident.value.to_ascii_lowercase() {
                         "auto" => {
                             add_declaration!(
                                 Prefix::Ms,
@@ -2970,7 +2970,7 @@ impl VisitMut for Prefixer {
 
             "break-inside" => {
                 if let ComponentValue::Ident(ident) = &n.value[0] {
-                    match &*ident.value.to_lowercase() {
+                    match &*ident.value.to_ascii_lowercase() {
                         "auto" | "avoid" => {
                             add_declaration!(Prefix::Webkit, "-webkit-column-break-inside", None);
                         }
@@ -2981,7 +2981,7 @@ impl VisitMut for Prefixer {
 
             "break-before" => {
                 if let ComponentValue::Ident(ident) = &n.value[0] {
-                    match &*ident.value.to_lowercase() {
+                    match &*ident.value.to_ascii_lowercase() {
                         "auto" | "avoid" => {
                             add_declaration!(Prefix::Webkit, "-webkit-column-break-before", None);
                         }
@@ -2999,7 +2999,7 @@ impl VisitMut for Prefixer {
 
             "break-after" => {
                 if let ComponentValue::Ident(ident) = &n.value[0] {
-                    match &*ident.value.to_lowercase() {
+                    match &*ident.value.to_ascii_lowercase() {
                         "auto" | "avoid" => {
                             add_declaration!(Prefix::Webkit, "-webkit-column-break-after", None);
                         }

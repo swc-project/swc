@@ -312,14 +312,14 @@ impl Compressor {
             _ => return false,
         };
 
-        match name.to_ascii_lowercase() {
-            js_word!("media")
-            | js_word!("supports")
-            | js_word!("container")
-            | js_word!("layer")
-            | js_word!("nest") => true,
-            _ => false,
-        }
+        matches_eq_ignore_ascii_case!(
+            name,
+            js_word!("media"),
+            js_word!("supports"),
+            js_word!("container"),
+            js_word!("layer"),
+            js_word!("nest")
+        )
     }
 
     fn try_merge_at_rule(&mut self, left: &mut AtRule, right: &mut AtRule) -> Option<AtRule> {
@@ -675,5 +675,5 @@ impl Compressor {
 }
 
 fn need_keep_by_name(name: &JsWord) -> bool {
-    matches!(name.to_ascii_lowercase(), js_word!("color-profile"))
+    matches_eq_ignore_ascii_case!(name, js_word!("color-profile"))
 }

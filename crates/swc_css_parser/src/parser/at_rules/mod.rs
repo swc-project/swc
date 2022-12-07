@@ -175,7 +175,9 @@ where
 
                 let layer_name = if !is!(self, EOF) {
                     match cur!(self) {
-                        Token::Ident { value, .. } if *value.to_ascii_lowercase() == *"layer" => {
+                        Token::Ident { value, .. }
+                            if matches_eq_ignore_ascii_case!(value, js_word!("layer")) =>
+                        {
                             let name = ImportLayerName::Ident(self.parse()?);
 
                             self.input.skip_ws();
@@ -183,7 +185,7 @@ where
                             Some(Box::new(name))
                         }
                         Token::Function { value, .. }
-                            if *value.to_ascii_lowercase() == *"layer" =>
+                            if matches_eq_ignore_ascii_case!(value, js_word!("layer")) =>
                         {
                             let ctx = Ctx {
                                 in_import_at_rule: true,
@@ -772,7 +774,9 @@ where
 
         let supports = if !is!(self, EOF) {
             match cur!(self) {
-                Token::Function { value, .. } if *value.to_ascii_lowercase() == *"supports" => {
+                Token::Function { value, .. }
+                    if matches_eq_ignore_ascii_case!(value, js_word!("supports")) =>
+                {
                     let ctx = Ctx {
                         in_import_at_rule: true,
                         ..self.ctx
@@ -820,8 +824,11 @@ where
 
                 match cur!(self) {
                     Token::Function { value, .. }
-                        if (&*value.to_ascii_lowercase() == "local"
-                            || &*value.to_ascii_lowercase() == "global") =>
+                        if matches_eq_ignore_ascii_case!(
+                            value,
+                            js_word!("local"),
+                            js_word!("global")
+                        ) =>
                     {
                         let span = self.input.cur_span();
                         let pseudo = match bump!(self) {
@@ -852,8 +859,11 @@ where
                         )))
                     }
                     Token::Ident { value, .. }
-                        if (&*value.to_ascii_lowercase() == "local"
-                            || &*value.to_ascii_lowercase() == "global") =>
+                        if matches_eq_ignore_ascii_case!(
+                            value,
+                            js_word!("local"),
+                            js_word!("global")
+                        ) =>
                     {
                         let pseudo = self.parse()?;
 
@@ -882,7 +892,7 @@ where
             tok!("ident") => {
                 let custom_ident: CustomIdent = self.parse()?;
 
-                if &*custom_ident.value.to_ascii_lowercase() == "none" {
+                if matches_eq_ignore_ascii_case!(custom_ident.value, js_word!("none")) {
                     return Err(Error::new(
                         custom_ident.span,
                         ErrorKind::InvalidCustomIdent(custom_ident.value),
@@ -1176,7 +1186,9 @@ where
 
                 Ok(SupportsFeature::Declaration(Box::new(declaration)))
             }
-            Token::Function { value, .. } if &*value.to_ascii_lowercase() == "selector" => {
+            Token::Function { value, .. }
+                if matches_eq_ignore_ascii_case!(&**value, "selector") =>
+            {
                 // TODO improve me
                 let ctx = Ctx {
                     in_supports_at_rule: true,
@@ -1280,9 +1292,7 @@ where
                 value: function_name,
                 ..
             } => {
-                if &*function_name.to_ascii_lowercase() == "url"
-                    || &*function_name.to_ascii_lowercase() == "src"
-                {
+                if matches_eq_ignore_ascii_case!(function_name, js_word!("url"), js_word!("src")) {
                     Ok(DocumentPreludeMatchingFunction::Url(self.parse()?))
                 } else {
                     // TODO improve me
@@ -1985,10 +1995,7 @@ where
 
         let value = match cur!(self) {
             Token::Ident { value, .. }
-                if matches!(
-                    &*value.to_ascii_lowercase(),
-                    "left" | "right" | "first" | "blank"
-                ) =>
+                if matches_eq_ignore_ascii_case!(&**value, "left", "right", "first", "blank") =>
             {
                 self.parse()?
             }

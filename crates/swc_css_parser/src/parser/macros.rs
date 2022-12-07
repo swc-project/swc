@@ -73,7 +73,7 @@ macro_rules! is_case_insensitive_ident {
     ($parser:expr, $tt:tt) => {{
         match $parser.input.cur() {
             Some(swc_css_ast::Token::Ident { value, .. })
-                if &*value.to_ascii_lowercase() == $tt =>
+                if (&**value).eq_ignore_ascii_case($tt) =>
             {
                 true
             }
@@ -86,9 +86,7 @@ macro_rules! is_one_of_case_insensitive_ident {
     ($parser:expr, $($tt:tt),+) => {
         match $parser.input.cur() {
             Some(swc_css_ast::Token::Ident { value, .. }) => {
-                let lowercased = &*value.to_ascii_lowercase();
-
-                if $(lowercased == $tt)||* {
+                if $((&**value).eq_ignore_ascii_case($tt))||* {
                     true
                 } else {
                     false

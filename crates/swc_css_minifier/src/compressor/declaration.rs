@@ -16,34 +16,37 @@ impl Compressor {
                     for value in declaration.value.iter() {
                         match value {
                             outside_node @ ComponentValue::Ident(box Ident { value, .. })
-                                if matches!(
-                                    value.to_ascii_lowercase(),
-                                    js_word!("block") | js_word!("inline") | js_word!("run-in")
+                                if matches_eq_ignore_ascii_case!(
+                                    value,
+                                    js_word!("block"),
+                                    js_word!("inline"),
+                                    js_word!("run-in")
                                 ) =>
                             {
                                 outside = Some(outside_node);
                             }
                             inside_node @ ComponentValue::Ident(box Ident { value, .. })
-                                if matches!(
-                                    value.to_ascii_lowercase(),
-                                    js_word!("flow")
-                                        | js_word!("flow-root")
-                                        | js_word!("table")
-                                        | js_word!("flex")
-                                        | js_word!("grid")
-                                        | js_word!("ruby")
+                                if matches_eq_ignore_ascii_case!(
+                                    value,
+                                    js_word!("flow"),
+                                    js_word!("flow-root"),
+                                    js_word!("table"),
+                                    js_word!("flex"),
+                                    js_word!("grid"),
+                                    js_word!("ruby")
                                 ) =>
                             {
                                 inside = Some(inside_node);
                             }
                             list_item_node @ ComponentValue::Ident(box Ident { value, .. })
-                                if value.to_ascii_lowercase() == js_word!("list-item") =>
+                                if value.eq_ignore_ascii_case(&js_word!("list-item")) =>
                             {
                                 if let Some(ComponentValue::Ident(box Ident { value, .. })) = inside
                                 {
-                                    if !matches!(
-                                        value.to_ascii_lowercase(),
-                                        js_word!("flow") | js_word!("flow-root")
+                                    if !matches_eq_ignore_ascii_case!(
+                                        value,
+                                        js_word!("flow"),
+                                        js_word!("flow-root")
                                     ) {
                                         continue;
                                     }
@@ -66,7 +69,7 @@ impl Compressor {
                                 ..
                             })),
                             None,
-                        ) if inside_value.to_ascii_lowercase() == js_word!("flow") => {
+                        ) if inside_value.eq_ignore_ascii_case(&js_word!("flow")) => {
                             declaration.value = vec![outside.clone()];
                         }
                         // `block flow-root` -> `flow-root`
@@ -82,8 +85,8 @@ impl Compressor {
                                 }),
                             ),
                             None,
-                        ) if outside_value.to_ascii_lowercase() == js_word!("block")
-                            && inside_value.to_ascii_lowercase() == js_word!("flow-root") =>
+                        ) if outside_value.eq_ignore_ascii_case(&js_word!("block"))
+                            && inside_value.eq_ignore_ascii_case(&js_word!("flow-root")) =>
                         {
                             declaration.value = vec![inside.clone()];
                         }
@@ -99,8 +102,8 @@ impl Compressor {
                                 ..
                             })),
                             None,
-                        ) if outside_value.to_ascii_lowercase() == js_word!("inline")
-                            && inside_value.to_ascii_lowercase() == js_word!("flow-root") =>
+                        ) if outside_value.eq_ignore_ascii_case(&js_word!("inline"))
+                            && inside_value.eq_ignore_ascii_case(&js_word!("flow-root")) =>
                         {
                             declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                                 span: *span,
@@ -119,8 +122,8 @@ impl Compressor {
                                 ..
                             })),
                             Some(list_item),
-                        ) if outside_value.to_ascii_lowercase() == js_word!("block")
-                            && inside_value.to_ascii_lowercase() == js_word!("flow") =>
+                        ) if outside_value.eq_ignore_ascii_case(&js_word!("block"))
+                            && inside_value.eq_ignore_ascii_case(&js_word!("flow")) =>
                         {
                             declaration.value = vec![list_item.clone()];
                         }
@@ -132,7 +135,7 @@ impl Compressor {
                             })),
                             None,
                             Some(list_item),
-                        ) if outside_value.to_ascii_lowercase() == js_word!("block") => {
+                        ) if outside_value.eq_ignore_ascii_case(&js_word!("block")) => {
                             declaration.value = vec![list_item.clone()];
                         }
                         // `flow list-item` -> `list-item`
@@ -143,7 +146,7 @@ impl Compressor {
                                 ..
                             })),
                             Some(list_item),
-                        ) if inside_value.to_ascii_lowercase() == js_word!("flow") => {
+                        ) if inside_value.eq_ignore_ascii_case(&js_word!("flow")) => {
                             declaration.value = vec![list_item.clone()];
                         }
                         // `inline flow list-item` -> `inline list-item`
@@ -159,8 +162,8 @@ impl Compressor {
                                 ..
                             })),
                             Some(list_item),
-                        ) if outside_value.to_ascii_lowercase() == js_word!("inline")
-                            && inside_value.to_ascii_lowercase() == js_word!("flow") =>
+                        ) if outside_value.eq_ignore_ascii_case(&js_word!("inline"))
+                            && inside_value.eq_ignore_ascii_case(&js_word!("flow")) =>
                         {
                             declaration.value = vec![outside.clone(), list_item.clone()];
                         }
@@ -179,10 +182,12 @@ impl Compressor {
                                 }),
                             ),
                             None,
-                        ) if outside_value.to_ascii_lowercase() == js_word!("block")
-                            && matches!(
-                                inside_value.to_ascii_lowercase(),
-                                js_word!("flex") | js_word!("grid") | js_word!("table")
+                        ) if outside_value.eq_ignore_ascii_case(&js_word!("block"))
+                            && matches_eq_ignore_ascii_case!(
+                                inside_value,
+                                js_word!("flex"),
+                                js_word!("grid"),
+                                js_word!("table")
                             ) =>
                         {
                             declaration.value = vec![inside.clone()];
@@ -200,8 +205,8 @@ impl Compressor {
                                 }),
                             ),
                             None,
-                        ) if outside_value.to_ascii_lowercase() == js_word!("inline")
-                            && inside_value.to_ascii_lowercase() == js_word!("ruby") =>
+                        ) if outside_value.eq_ignore_ascii_case(&js_word!("inline"))
+                            && inside_value.eq_ignore_ascii_case(&js_word!("ruby")) =>
                         {
                             declaration.value = vec![inside.clone()];
                         }
@@ -336,7 +341,7 @@ impl Compressor {
                         .into_iter()
                         .map(|node| match node {
                             ComponentValue::Ident(box Ident { value, span, .. })
-                                if value.to_ascii_lowercase() == js_word!("normal") =>
+                                if value.eq_ignore_ascii_case(&js_word!("normal")) =>
                             {
                                 ComponentValue::Number(Box::new(Number {
                                     span,
@@ -345,7 +350,7 @@ impl Compressor {
                                 }))
                             }
                             ComponentValue::Ident(box Ident { value, span, .. })
-                                if value.to_ascii_lowercase() == js_word!("bold") =>
+                                if value.eq_ignore_ascii_case(&js_word!("bold")) =>
                             {
                                 ComponentValue::Number(Box::new(Number {
                                     span,
@@ -464,7 +469,7 @@ impl Compressor {
                                 let value = ident.value.to_ascii_lowercase();
                                 match &*value {
                                     _ if crate::is_css_wide_keyword(&ident.value)
-                                        || ident.value.to_ascii_lowercase() == js_word!("none") =>
+                                        || ident.value.eq_ignore_ascii_case(&js_word!("none")) =>
                                     {
                                         node
                                     }
@@ -512,7 +517,7 @@ impl Compressor {
                     ..
                 }))),
             ) if value_1.value == value_2.value
-                && unit_1.value.to_ascii_lowercase() == unit_2.value.to_ascii_lowercase() =>
+                && unit_1.value.eq_ignore_ascii_case(&unit_2.value) =>
             {
                 true
             }
@@ -552,7 +557,7 @@ impl Compressor {
                     ..
                 }))),
             ) if value_1.value == value_2.value
-                && unit_1.value.to_ascii_lowercase() == unit_2.value.to_ascii_lowercase() =>
+                && unit_1.value.eq_ignore_ascii_case(&unit_2.value) =>
             {
                 true
             }
@@ -586,6 +591,6 @@ impl Compressor {
         matches!((node_1, node_2), (
                  Some(ComponentValue::Ident(box Ident { value: value_1, .. })),
                 Some(ComponentValue::Ident(box Ident { value: value_2, .. })),
-            ) if value_1.to_ascii_lowercase() == value_2.to_ascii_lowercase())
+            ) if value_1.eq_ignore_ascii_case(value_2))
     }
 }

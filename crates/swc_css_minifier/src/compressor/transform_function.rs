@@ -10,7 +10,7 @@ impl Compressor {
                 name,
                 value: function_value,
                 ..
-            }) if name.value.to_ascii_lowercase() == js_word!("translate")
+            }) if name.value.eq_ignore_ascii_case(&js_word!("translate"))
                 && function_value.len() == 3 =>
             {
                 match (function_value.get(0), function_value.get(2)) {
@@ -44,7 +44,7 @@ impl Compressor {
                 name,
                 value: function_value,
                 ..
-            }) if name.value.to_ascii_lowercase() == js_word!("translate3d")
+            }) if name.value.eq_ignore_ascii_case(&js_word!("translate3d"))
                 && function_value.len() == 5 =>
             {
                 match (
@@ -77,7 +77,7 @@ impl Compressor {
                 name,
                 value: function_value,
                 ..
-            }) if name.value.to_ascii_lowercase() == js_word!("scale")
+            }) if name.value.eq_ignore_ascii_case(&js_word!("scale"))
                 && function_value.len() == 3 =>
             {
                 match (function_value.get(0), function_value.get(2)) {
@@ -130,7 +130,7 @@ impl Compressor {
                 name,
                 value: function_value,
                 ..
-            }) if name.value.to_ascii_lowercase() == js_word!("scale3d")
+            }) if name.value.eq_ignore_ascii_case(&js_word!("scale3d"))
                 && function_value.len() == 5 =>
             {
                 match (
@@ -199,7 +199,7 @@ impl Compressor {
                 name,
                 value: function_value,
                 ..
-            }) if name.value.to_ascii_lowercase() == js_word!("matrix3d")
+            }) if name.value.eq_ignore_ascii_case(&js_word!("matrix3d"))
                 && function_value.len() == 31 =>
             {
                 match (
@@ -314,7 +314,7 @@ impl Compressor {
                 name,
                 value: function_value,
                 ..
-            }) if name.value.to_ascii_lowercase() == js_word!("rotate3d")
+            }) if name.value.eq_ignore_ascii_case(&js_word!("rotate3d"))
                 && function_value.len() == 7 =>
             {
                 match (
@@ -396,7 +396,7 @@ impl Compressor {
                 name,
                 value: function_value,
                 ..
-            }) if name.value.to_ascii_lowercase() == js_word!("rotatez")
+            }) if name.value.eq_ignore_ascii_case(&js_word!("rotatez"))
                 && function_value.len() == 1 =>
             {
                 *name = Ident {
@@ -410,7 +410,7 @@ impl Compressor {
                 name,
                 value: function_value,
                 ..
-            }) if name.value.to_ascii_lowercase() == js_word!("skew")
+            }) if name.value.eq_ignore_ascii_case(&js_word!("skew"))
                 && function_value.len() == 3 =>
             {
                 match (function_value.get(0), function_value.get(2)) {

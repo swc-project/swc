@@ -78,7 +78,7 @@ where
             Token::Ident { value, .. } => {
                 if value.starts_with("--") {
                     return Ok(ComponentValue::DashedIdent(self.parse()?));
-                } else if &*value.to_ascii_lowercase() == "u"
+                } else if matches_eq_ignore_ascii_case!(value, js_word!("u"))
                     && peeked_is_one_of!(self, "+", "number", "dimension")
                 {
                     return Ok(ComponentValue::UnicodeRange(self.parse()?));
@@ -371,7 +371,9 @@ where
                 let mut is_legacy_syntax = true;
 
                 match cur!(self) {
-                    Token::Ident { value, .. } if &*value.to_ascii_lowercase() == "from" => {
+                    Token::Ident { value, .. }
+                        if matches_eq_ignore_ascii_case!(value, js_word!("from")) =>
+                    {
                         is_legacy_syntax = false;
 
                         values.push(ComponentValue::Ident(self.parse()?));
@@ -806,7 +808,7 @@ where
 
                 match cur!(self) {
                     Token::Ident { value, .. }
-                        if &*value.to_ascii_lowercase() == "from"
+                        if matches_eq_ignore_ascii_case!(value, js_word!("from"))
                             && function_name != "device-cmyk" =>
                     {
                         values.push(ComponentValue::Ident(self.parse()?));
@@ -1282,7 +1284,9 @@ where
                 let mut has_variable = false;
 
                 match cur!(self) {
-                    Token::Ident { value, .. } if &*value.to_ascii_lowercase() == "from" => {
+                    Token::Ident { value, .. }
+                        if matches_eq_ignore_ascii_case!(value, js_word!("from")) =>
+                    {
                         values.push(ComponentValue::Ident(self.parse()?));
 
                         self.input.skip_ws();
@@ -1312,15 +1316,16 @@ where
 
                                 Ok(Some(ComponentValue::DashedIdent(parser.parse()?)))
                             } else {
-                                match &*value.to_ascii_lowercase() {
-                                    "xyz" | "xyz-d50" | "xyz-d65" => is_xyz = true,
-                                    _ => {
-                                        // There are predefined-rgb-params , but
-                                        // For unknown, we don't return an error
-                                        // to
-                                        // continue to support invalid color,
-                                        // because they fallback in browser
-                                    }
+                                if matches_eq_ignore_ascii_case!(
+                                    &**value, "xyz", "xyz-d50", "xyz-d65"
+                                ) {
+                                    is_xyz = true
+                                } else {
+                                    // There are predefined-rgb-params , but
+                                    // For unknown, we don't return an error
+                                    // to
+                                    // continue to support invalid color,
+                                    // because they fallback in browser
                                 }
 
                                 Ok(Some(ComponentValue::Ident(parser.parse()?)))
@@ -1397,9 +1402,8 @@ where
                             }
                             Token::Function { value, .. }
                                 if is_math_function(value)
-                                    || matches!(
-                                        &*value.to_ascii_lowercase(),
-                                        "var" | "env" | "constant"
+                                    || matches_eq_ignore_ascii_case!(
+                                        &**value, "var", "env", "constant"
                                     ) =>
                             {
                                 ComponentValue::Function(self.parse()?)
@@ -1674,7 +1678,7 @@ where
 
         match cur!(self) {
             Token::Function { value, .. }
-                if matches!(&*value.to_ascii_lowercase(), "var" | "env" | "constant") =>
+                if matches_eq_ignore_ascii_case!(&**value, "var", "env", "constant") =>
             {
                 *has_before_variable = true;
 
@@ -1807,11 +1811,10 @@ where
 
         match bump!(self) {
             Token::Ident { value, raw, .. } => {
-                match &*value.to_ascii_lowercase() {
-                    "initial" | "inherit" | "unset" | "revert" | "default" => {
-                        return Err(Error::new(span, ErrorKind::InvalidCustomIdent(value)));
-                    }
-                    _ => {}
+                if matches_eq_ignore_ascii_case!(
+                    &*value, "initial", "inherit", "unset", "revert", "default"
+                ) {
+                    return Err(Error::new(span, ErrorKind::InvalidCustomIdent(value)));
                 }
 
                 Ok(CustomIdent {
@@ -2564,9 +2567,7 @@ where
                 value: function_name,
                 raw: raw_function_name,
             } => {
-                if &*function_name.to_ascii_lowercase() != "url"
-                    && &*function_name.to_ascii_lowercase() != "src"
-                {
+                if !matches_eq_ignore_ascii_case!(function_name, js_word!("url"), js_word!("src")) {
                     return Err(Error::new(
                         span,
                         ErrorKind::Expected("'url' or 'src' name of a function token"),
@@ -2645,7 +2646,7 @@ where
 
         // should start with `u` or `U`
         match cur!(self) {
-            Token::Ident { value, .. } if &*value.to_ascii_lowercase() == "u" => {
+            Token::Ident { value, .. } if matches_eq_ignore_ascii_case!(value, js_word!("u")) => {
                 let ident = match bump!(self) {
                     Token::Ident { value, .. } => value,
                     _ => {
@@ -3604,28 +3605,25 @@ fn is_length_unit(unit: &str) -> bool {
 }
 
 fn is_container_lengths_unit(unit: &str) -> bool {
-    matches!(
-        &*unit.to_ascii_lowercase(),
-        "cqw" | "cqh" | "cqi" | "cqb" | "cqmin" | "cqmax"
-    )
+    matches_eq_ignore_ascii_case!(unit, "cqw", "cqh", "cqi", "cqb", "cqmin", "cqmax")
 }
 
 fn is_angle_unit(unit: &str) -> bool {
-    matches!(&*unit.to_ascii_lowercase(), "deg" | "grad" | "rad" | "turn")
+    matches_eq_ignore_ascii_case!(unit, "deg", "grad", "rad", "turn")
 }
 
 fn is_time_unit(unit: &str) -> bool {
-    matches!(&*unit.to_ascii_lowercase(), "s" | "ms")
+    matches_eq_ignore_ascii_case!(unit, "s", "ms")
 }
 
 fn is_frequency_unit(unit: &str) -> bool {
-    matches!(&*unit.to_ascii_lowercase(), "hz" | "khz")
+    matches_eq_ignore_ascii_case!(unit, "hz", "khz")
 }
 
 fn is_resolution_unit(unit: &str) -> bool {
-    matches!(&*unit.to_ascii_lowercase(), "dpi" | "dpcm" | "dppx" | "x")
+    matches_eq_ignore_ascii_case!(unit, "dpi", "dpcm", "dppx", "x")
 }
 
 fn is_flex_unit(unit: &str) -> bool {
-    matches!(&*unit.to_ascii_lowercase(), "fr")
+    matches_eq_ignore_ascii_case!(unit, "fr")
 }

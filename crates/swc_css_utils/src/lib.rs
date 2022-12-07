@@ -18,7 +18,7 @@ impl VisitMut for IdentReplacer<'_> {
     fn visit_mut_ident(&mut self, n: &mut Ident) {
         n.visit_mut_children_with(self);
 
-        if &*n.value.to_lowercase() == self.from {
+        if n.value.eq_str_ignore_ascii_case(self.from) {
             n.value = self.to.into();
             n.raw = None;
         }
@@ -41,7 +41,7 @@ impl VisitMut for FunctionNameReplacer<'_> {
     fn visit_mut_function(&mut self, n: &mut Function) {
         n.visit_mut_children_with(self);
 
-        if &*n.name.value.to_lowercase() == self.from {
+        if n.name.value.eq_str_ignore_ascii_case(self.from) {
             n.name.value = self.to.into();
             n.name.raw = None;
         }
@@ -64,7 +64,7 @@ impl VisitMut for PseudoClassSelectorNameReplacer<'_> {
     fn visit_mut_pseudo_class_selector(&mut self, n: &mut PseudoClassSelector) {
         n.visit_mut_children_with(self);
 
-        if &*n.name.value.to_lowercase() == self.from {
+        if n.name.value.eq_str_ignore_ascii_case(self.from) {
             n.name.value = self.to.into();
             n.name.raw = None;
         }
@@ -87,7 +87,7 @@ impl VisitMut for PseudoElementSelectorNameReplacer<'_> {
     fn visit_mut_pseudo_element_selector(&mut self, n: &mut PseudoElementSelector) {
         n.visit_mut_children_with(self);
 
-        if &*n.name.value.to_lowercase() == self.from {
+        if n.name.value.eq_str_ignore_ascii_case(self.from) {
             n.name.value = self.to.into();
             n.name.raw = None;
         }
@@ -112,7 +112,7 @@ impl VisitMut for PseudoElementOnPseudoClassReplacer<'_> {
 
         match n {
             SubclassSelector::PseudoElement(PseudoElementSelector { name, span, .. })
-                if &*name.value.to_lowercase() == self.from =>
+                if name.value.eq_str_ignore_ascii_case(self.from) =>
             {
                 *n = SubclassSelector::PseudoClass(PseudoClassSelector {
                     span: *span,

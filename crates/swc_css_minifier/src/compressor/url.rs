@@ -5,7 +5,7 @@ use super::Compressor;
 
 impl Compressor {
     pub(super) fn compress_url(&self, url: &mut Url) {
-        if url.name.value.to_ascii_lowercase() != js_word!("url") {
+        if !url.name.value.eq_ignore_ascii_case(&js_word!("url")) {
             return;
         }
 

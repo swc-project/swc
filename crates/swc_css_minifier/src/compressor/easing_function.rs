@@ -10,7 +10,7 @@ impl Compressor {
                 name,
                 value: function_value,
                 span,
-            }) if name.value.to_ascii_lowercase() == js_word!("cubic-bezier")
+            }) if name.value.eq_ignore_ascii_case(&js_word!("cubic-bezier"))
                 && function_value.len() == 7 =>
             {
                 if let (
@@ -61,7 +61,7 @@ impl Compressor {
                 name,
                 value: function_value,
                 span,
-            }) if name.value.to_ascii_lowercase() == js_word!("steps")
+            }) if name.value.eq_ignore_ascii_case(&js_word!("steps"))
                 && function_value.len() == 3 =>
             {
                 match (&function_value[0], &function_value[2]) {
@@ -95,7 +95,7 @@ impl Compressor {
                         ComponentValue::Ident(box Ident {
                             value: ident_value, ..
                         }),
-                    ) if ident_value.to_ascii_lowercase() == js_word!("jump-start") => {
+                    ) if ident_value.eq_ignore_ascii_case(&js_word!("jump-start")) => {
                         function_value[2] = ComponentValue::Ident(Box::new(Ident {
                             span: *span,
                             value: js_word!("start"),
