@@ -10,7 +10,7 @@ impl Compressor {
         match at_rule.prelude.as_deref() {
             Some(AtRulePrelude::KeyframesPrelude(KeyframesName::Str(string)))
                 if !is_css_wide_keyword(&string.value)
-                    && string.value.to_ascii_lowercase() != js_word!("none") =>
+                    && string.value.eq_ignore_ascii_case() != js_word!("none") =>
             {
                 at_rule.prelude = Some(Box::new(AtRulePrelude::KeyframesPrelude(
                     if self.is_ident_shorter_than_str(&string.value) {
@@ -34,7 +34,7 @@ impl Compressor {
 
     pub(super) fn compress_keyframe_selector(&mut self, keyframe_selector: &mut KeyframeSelector) {
         match keyframe_selector {
-            KeyframeSelector::Ident(i) if i.value.to_ascii_lowercase() == js_word!("from") => {
+            KeyframeSelector::Ident(i) if i.value.eq_ignore_ascii_case() == js_word!("from") => {
                 *keyframe_selector = KeyframeSelector::Percentage(Percentage {
                     span: i.span,
                     value: Number {

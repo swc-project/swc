@@ -325,23 +325,23 @@ impl VisitMut for Compressor {
     }
 
     fn visit_mut_function(&mut self, n: &mut Function) {
-        match n.name.value.to_ascii_lowercase() {
+        if matches_eq_ignore_ascii_case!(
+            n.name.value,
             js_word!("rotate")
-            | js_word!("skew")
-            | js_word!("skewx")
-            | js_word!("skewy")
-            | js_word!("rotate3d")
-            | js_word!("rotatex")
-            | js_word!("rotatey")
-            | js_word!("rotatez") => {
-                n.visit_mut_children_with(&mut *self.with_ctx(Ctx {
-                    in_transform_function: true,
-                    ..self.ctx
-                }));
-            }
-            _ => {
-                n.visit_mut_children_with(self);
-            }
+                | js_word!("skew")
+                | js_word!("skewx")
+                | js_word!("skewy")
+                | js_word!("rotate3d")
+                | js_word!("rotatex")
+                | js_word!("rotatey")
+                | js_word!("rotatez")
+        ) {
+            n.visit_mut_children_with(&mut *self.with_ctx(Ctx {
+                in_transform_function: true,
+                ..self.ctx
+            }));
+        } else {
+            n.visit_mut_children_with(self);
         }
     }
 
