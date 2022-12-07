@@ -2567,7 +2567,7 @@ where
                 value: function_name,
                 raw: raw_function_name,
             } => {
-                if matches_eq_ignore_ascii_case!(function_name, js_word!("url"), js_word!("src")) {
+                if !matches_eq_ignore_ascii_case!(function_name, js_word!("url"), js_word!("src")) {
                     return Err(Error::new(
                         span,
                         ErrorKind::Expected("'url' or 'src' name of a function token"),
