@@ -36,4 +36,5 @@ https://example.com/image.png
 
 );
     background: URL(https://example.com/ima\)ge.png);
+    background: url(   "https://example.com/image.png"   );
 }
