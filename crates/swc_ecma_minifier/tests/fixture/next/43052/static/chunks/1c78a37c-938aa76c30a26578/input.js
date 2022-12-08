@@ -111,7 +111,6 @@
 
 							function base$2(e, t) {
 							}
-							var src = base$2;
 							class ComposedDecoder {
 								constructor(e) {
 									this.decoders = e
@@ -2356,20 +2355,6 @@
 									const n = t[e.type.major];
 									if (void 0 === n.encodedSize || "function" != typeof n.encodedSize) throw new Error(`Encoder for ${e.type.name} does not have an encodedSize()`);
 									return n.encodedSize(e, r)
-								}
-							}
-							class CarBufferWriter {
-								constructor(e, t) {
-									this.bytes = e, this.byteOffset = t, this.roots = [], this.headerSize = t
-								}
-								addRoot(e, t) {
-									return addRoot(this, e, t), this
-								}
-								write(e) {
-									return addBlock(this, e), this
-								}
-								close(e) {
-									return close$6(this, e)
 								}
 							}
 							const addRoot = (e, t, r = {}) => {
@@ -5423,14 +5408,6 @@
 									}
 								}
 							}
-							const loop = function* (e, t) {
-								const r = yield* current(), n = new Group(r);
-								for (Group.enqueue(e[Symbol.iterator](), n); ;) {
-									for (const e of step(n)) Group.enqueue(t(e)[Symbol.iterator](), n);
-									if (!(Stack.size(n.stack) > 0)) break;
-									yield* suspend()
-								}
-							};
 							let ID = 0;
 							const IDLE = "idle",
 								ACTIVE = "active",
@@ -5504,26 +5481,7 @@
 								for (const t of e.segments) yield* t
 							}
 							class BufferView extends Indexed {
-								constructor(e = [], t = 0, r = 0) {
-									super(), this.segments = e, this.byteLength = r, this.length = r, this.byteOffset = t
-								} [Symbol.iterator]() {
-									return iterate(this)
-								}
-								slice(e, t) {
-									return slice(this, e, t)
-								}
-								subarray(e, t) {
-									return slice(this, e, t)
-								}
-								push(e) {
-									return push(this, e)
-								}
-								get(e) {
-									return get(this, e)
-								}
-								copyTo(e, t) {
-									return copyTo(this, e, t)
-								}
+
 							}
 							const panic = e => {
 								throw new Error(e)
@@ -5541,51 +5499,12 @@
 								},
 								close$5 = e => split(e.config, e.buffer, !0),
 								split = (e, t, r) => {
-									const n = e.chunker,
-										o = [];
-									let i = 0;
-									for (const e of n.cut(n.context, t, r))
-										if (e > 0) {
-											const r = t.subarray(i, i + e);
-											o.push(r), i += e
-										} return {
-											config: e,
-											chunks: o,
-											buffer: t.subarray(i)
-										}
+
 								},
 								mutable = () => ({
-									mutable: !0,
-									needs: {},
-									nodes: {},
-									links: {},
-									linked: EMPTY$1
+
 								}),
 								addNodes = (e, t) => {
-									let r = patch(t, {});
-									for (const t of e) {
-										const {
-											ready: e,
-											has: n,
-											wants: o
-										} = collect$1(t.children, r.links);
-										r = 0 === o.length ? patch(r, {
-											links: assign(void 0, n),
-											linked: [{
-												id: t.id,
-												links: e
-											}]
-										}) : patch(r, {
-											needs: assign(t.id, o),
-											nodes: {
-												[t.id]: {
-													children: t.children,
-													count: o.length
-												}
-											}
-										})
-									}
-									return r
 								},
 								addLink = (e, t, r) => {
 									const n = r.needs[e],
@@ -5629,76 +5548,25 @@
 										})
 									}
 									return patch(r, {
-										links: {
-											[e]: t
-										}
 									})
 								},
 								patch = (e, {
-									needs: t,
-									nodes: r,
-									links: n,
-									linked: o
 								}) => {
-									const i = e.mutable ? e : {
-										...e
-									},
-										s = e.mutable ? BLANK : void 0;
-									return t && (i.needs = patchDict(e.needs, t, s)), r && (i.nodes = patchDict(e.nodes, r, s)), n && (i.links = patchDict(e.links, n, s)), i.linked = o ? append(e.linked || EMPTY$1, o, EMPTY$1) : e.linked || [], i
 								},
 								assign = (e, t) => {
-									const r = {};
-									for (const n of t) r[n] = e;
-									return r
+
 								},
 								patchDict = (e, t, r = e) => {
-									const n = e === r ? {
-										...e
-									} : e;
-									for (const e of Object.entries(t)) {
-										const [t, r] = e;
-										null == r ? delete n[t] : n[t] = r
-									}
-									return n
+
 								},
 								append = (e, t, r = e) => {
-									if (e === r) return [...e, ...t];
-									for (const r of t) e.push(r);
-									return e
+
 								},
 								collect$1 = (e, t) => {
-									const r = [],
-										n = [],
-										o = [];
-									for (const i of e) {
-										const e = t[i];
-										e ? (r.push(i), o.push(e)) : n.push(i)
-									}
-									return {
-										has: r,
-										wants: n,
-										ready: o
-									}
+
 								},
 								EMPTY$1 = Object.freeze([]),
 								BLANK = Object.freeze({}),
-								update = (e, t) => {
-									switch (e.type) {
-										case "write":
-											return write$2(t, e.bytes);
-										case "link":
-											return link(t, e.link);
-										case "block":
-										case "end":
-											return {
-												state: t, effect: none()
-											};
-										case "close":
-											return close$4(t);
-										default:
-											return unreachable`File Writer got unknown message ${e}`
-									}
-								},
 								init = (e, t, r) => ({
 									status: "open",
 									metadata: t,
