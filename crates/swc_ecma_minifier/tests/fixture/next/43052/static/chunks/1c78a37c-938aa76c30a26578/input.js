@@ -75,23 +75,17 @@
 							},
 								_brrp_varint = varint$1;
 							const decode$l = (e, t = 0) => [_brrp_varint.decode(e, t), _brrp_varint.decode.bytes],
-								encodeTo = (e, t, r = 0) => (_brrp_varint.encode(e, t, r), t),
 								encodingLength = e => _brrp_varint.encodingLength(e),
-								equals$1 = (e, t) => {
-								},
 								coerce = e => {
 									if (e instanceof Uint8Array && "Uint8Array" === e.constructor.name) return e;
 									if (e instanceof ArrayBuffer) return new Uint8Array(e);
 									if (ArrayBuffer.isView(e)) return new Uint8Array(e.buffer, e.byteOffset, e.byteLength);
 									throw new Error("Unknown type, must be binary type")
 								},
-								create$7 = (e, t) => {
+								create$7 = () => {
 								},
-								decode$k = e => {
-								},
-								equals = (e, t) => e === t || e.code === t.code && e.size === t.size && equals$1(e.bytes, t.bytes);
-							class Digest {
-							}
+								decode$k = () => {
+								};
 
 							class ComposedDecoder {
 								constructor(e) {
@@ -129,8 +123,6 @@
 								});
 							baseX({
 							});
-							const base32 = rfc4648({
-							});
 							rfc4648({
 							}), rfc4648({
 							}), rfc4648({
@@ -142,77 +134,11 @@
 							});
 							class CID {
 							}
-							const parseCIDtoBytes = (e, t) => {
-								switch (e[0]) {
-									case "Q": {
-										const r = t || base58btc;
-										return [base58btc.prefix, r.decode(`${base58btc.prefix}${e}`)]
-									}
-									case base58btc.prefix: {
-										const r = t || base58btc;
-										return [base58btc.prefix, r.decode(e)]
-									}
-									case base32.prefix: {
-										const r = t || base32;
-										return [base32.prefix, r.decode(e)]
-									}
-									default:
-										if (null == t) throw Error("To parse non base32 or base58btc encoded CID multibase decoder must be provided");
-										return [e[0], t.decode(e)]
-								}
-							},
-								toStringV0 = (e, t, r) => {
-									const {
-										prefix: n
-									} = r;
-									if (n !== base58btc.prefix) throw Error(`Cannot string encode V0 in ${r.name} encoding`);
-									const o = t.get(n);
-									if (null == o) {
-										const o = r.encode(e).slice(1);
-										return t.set(n, o), o
-									}
-									return o
-								},
-								toStringV1 = (e, t, r) => {
-									const {
-										prefix: n
-									} = r, o = t.get(n);
-									if (null == o) {
-										const o = r.encode(e);
-										return t.set(n, o), o
-									}
-									return o
-								},
-								DAG_PB_CODE = 112,
-								SHA_256_CODE = 18,
-								encodeCID = (e, t, r) => {
-									const n = encodingLength(e),
-										o = n + encodingLength(t),
-										i = new Uint8Array(o + r.byteLength);
-									return encodeTo(e, i, 0), encodeTo(t, i, n), i.set(r, o), i
-								},
-								cidSymbol = Symbol.for("@ipld/js-cid/CID"),
-								readonly = {
-									writable: !1,
-									configurable: !1,
-									enumerable: !0
-								},
-								hidden = {
-									writable: !1,
-									enumerable: !1,
-									configurable: !1
-								},
-								version = "0.0.0-dev",
-								deprecate = (e, t) => {
-									if (!e.test(version)) throw new Error(t);
-									console.warn(t)
-								},
-								IS_CID_DEPRECATION = "CID.isCID(v) is deprecated and will be removed in the next major release.\nFollowing code pattern:\n\nif (CID.isCID(value)) {\n  doSomethingWithCID(value)\n}\n\nIs replaced with:\n\nconst cid = CID.asCID(value)\nif (cid) {\n  // Make sure to use cid instead of value\n  doSomethingWithCID(cid)\n}\n",
-								from$1 = ({
-									name: e,
-									code: t,
-									encode: r
-								}) => new Hasher(e, t, r);
+							const from$1 = ({
+								name: e,
+								code: t,
+								encode: r
+							}) => new Hasher(e, t, r);
 							class Hasher {
 								constructor(e, t, r) {
 									this.name = e, this.code = t, this.encode = r
@@ -349,23 +275,16 @@
 							}
 							Type.uint = new Type(0, "uint", !0), Type.negint = new Type(1, "negint", !0), Type.bytes = new Type(2, "bytes", !0), Type.string = new Type(3, "string", !0), Type.array = new Type(4, "array", !1), Type.map = new Type(5, "map", !1), Type.tag = new Type(6, "tag", !1), Type.float = new Type(7, "float", !0), Type.false = new Type(7, "false", !0), Type.true = new Type(7, "true", !0), Type.null = new Type(7, "null", !0), Type.undefined = new Type(7, "undefined", !0), Type.break = new Type(7, "break", !0);
 							class Token {
-								constructor(e, t, r) {
-									this.type = e, this.value = t, this.encodedLength = r, this.encodedBytes = void 0, this.byteValue = void 0
-								}
-								toString() {
-									return `Token[${this.type}].${this.value}`
-								}
+
 							}
 							const useBuffer = globalThis.process && !globalThis.process.browser && globalThis.Buffer && "function" == typeof globalThis.Buffer.isBuffer,
 								textDecoder$1 = new TextDecoder,
 								textEncoder$2 = new TextEncoder;
 
 							function isBuffer(e) {
-								return useBuffer && globalThis.Buffer.isBuffer(e)
 							}
 
 							function asU8A(e) {
-								return e instanceof Uint8Array ? isBuffer(e) ? new Uint8Array(e.buffer, e.byteOffset, e.byteLength) : e : Uint8Array.from(e)
 							}
 							const toString = useBuffer ? (e, t, r) => r - t > 64 ? globalThis.Buffer.from(e.subarray(t, r)).toString("utf8") : utf8Slice(e, t, r) : (e, t, r) => r - t > 64 ? textDecoder$1.decode(e.subarray(t, r)) : utf8Slice(e, t, r),
 								fromString = useBuffer ? e => e.length > 64 ? globalThis.Buffer.from(e) : utf8ToBytes(e) : e => e.length > 64 ? textEncoder$2.encode(e) : utf8ToBytes(e),
@@ -387,173 +306,49 @@
 							}
 
 							function utf8ToBytes(e, t = 1 / 0) {
-								let r;
-								const n = e.length;
-								let o = null;
-								const i = [];
-								for (let s = 0; s < n; ++s) {
-									if (r = e.charCodeAt(s), r > 55295 && r < 57344) {
-										if (!o) {
-											if (r > 56319) {
-												(t -= 3) > -1 && i.push(239, 191, 189);
-												continue
-											}
-											if (s + 1 === n) {
-												(t -= 3) > -1 && i.push(239, 191, 189);
-												continue
-											}
-											o = r;
-											continue
-										}
-										if (r < 56320) {
-											(t -= 3) > -1 && i.push(239, 191, 189), o = r;
-											continue
-										}
-										r = 65536 + (o - 55296 << 10 | r - 56320)
-									} else o && (t -= 3) > -1 && i.push(239, 191, 189);
-									if (o = null, r < 128) {
-										if ((t -= 1) < 0) break;
-										i.push(r)
-									} else if (r < 2048) {
-										if ((t -= 2) < 0) break;
-										i.push(r >> 6 | 192, 63 & r | 128)
-									} else if (r < 65536) {
-										if ((t -= 3) < 0) break;
-										i.push(r >> 12 | 224, r >> 6 & 63 | 128, 63 & r | 128)
-									} else {
-										if (!(r < 1114112)) throw new Error("Invalid code point");
-										if ((t -= 4) < 0) break;
-										i.push(r >> 18 | 240, r >> 12 & 63 | 128, r >> 6 & 63 | 128, 63 & r | 128)
-									}
-								}
-								return i
+
 							}
 
 							function utf8Slice(e, t, r) {
-								const n = [];
-								for (; t < r;) {
-									const o = e[t];
-									let i = null,
-										s = o > 239 ? 4 : o > 223 ? 3 : o > 191 ? 2 : 1;
-									if (t + s <= r) {
-										let r, n, a, c;
-										switch (s) {
-											case 1:
-												o < 128 && (i = o);
-												break;
-											case 2:
-												r = e[t + 1], 128 == (192 & r) && (c = (31 & o) << 6 | 63 & r, c > 127 && (i = c));
-												break;
-											case 3:
-												r = e[t + 1], n = e[t + 2], 128 == (192 & r) && 128 == (192 & n) && (c = (15 & o) << 12 | (63 & r) << 6 | 63 & n, c > 2047 && (c < 55296 || c > 57343) && (i = c));
-												break;
-											case 4:
-												r = e[t + 1], n = e[t + 2], a = e[t + 3], 128 == (192 & r) && 128 == (192 & n) && 128 == (192 & a) && (c = (15 & o) << 18 | (63 & r) << 12 | (63 & n) << 6 | 63 & a, c > 65535 && c < 1114112 && (i = c))
-										}
-									}
-									null === i ? (i = 65533, s = 1) : i > 65535 && (i -= 65536, n.push(i >>> 10 & 1023 | 55296), i = 56320 | 1023 & i), n.push(i), t += s
-								}
-								return decodeCodePointsArray(n)
-							}
-							const MAX_ARGUMENTS_LENGTH = 4096;
 
-							function decodeCodePointsArray(e) {
-								const t = e.length;
-								if (t <= MAX_ARGUMENTS_LENGTH) return String.fromCharCode.apply(String, e);
-								let r = "",
-									n = 0;
-								for (; n < t;) r += String.fromCharCode.apply(String, e.slice(n, n += MAX_ARGUMENTS_LENGTH));
-								return r
 							}
+
 							const defaultChunkSize = 256;
 							class Bl {
-								constructor(e = defaultChunkSize) {
-									this.chunkSize = e, this.cursor = 0, this.maxCursor = -1, this.chunks = [], this._initReuseChunk = null
-								}
-								reset() {
-									this.cursor = 0, this.maxCursor = -1, this.chunks.length && (this.chunks = []), null !== this._initReuseChunk && (this.chunks.push(this._initReuseChunk), this.maxCursor = this._initReuseChunk.length - 1)
-								}
-								push(e) {
-									let t = this.chunks[this.chunks.length - 1];
-									if (this.cursor + e.length <= this.maxCursor + 1) {
-										const r = t.length - (this.maxCursor - this.cursor) - 1;
-										t.set(e, r)
-									} else {
-										if (t) {
-											const e = t.length - (this.maxCursor - this.cursor) - 1;
-											e < t.length && (this.chunks[this.chunks.length - 1] = t.subarray(0, e), this.maxCursor = this.cursor - 1)
-										}
-										e.length < 64 && e.length < this.chunkSize ? (t = alloc(this.chunkSize), this.chunks.push(t), this.maxCursor += t.length, null === this._initReuseChunk && (this._initReuseChunk = t), t.set(e, 0)) : (this.chunks.push(e), this.maxCursor += e.length)
-									}
-									this.cursor += e.length
-								}
-								toBytes(e = !1) {
-									let t;
-									if (1 === this.chunks.length) {
-										const r = this.chunks[0];
-										e && this.cursor > r.length / 2 ? (t = this.cursor === r.length ? r : r.subarray(0, this.cursor), this._initReuseChunk = null, this.chunks = []) : t = slice$1(r, 0, this.cursor)
-									} else t = concat(this.chunks, this.cursor);
-									return e && this.reset(), t
-								}
+
 							}
 							const decodeErrPrefix = "CBOR decode error:",
 								encodeErrPrefix = "CBOR encode error:";
 
 							function assertEnoughData(e, t, r) {
-								if (e.length - t < r) throw new Error(`${decodeErrPrefix} not enough data for type`)
 							}
 							const uintBoundaries = [24, 256, 65536, 4294967296, BigInt("18446744073709551616")];
 
 							function readUint8(e, t, r) {
-								assertEnoughData(e, t, 1);
-								const n = e[t];
-								if (!0 === r.strict && n < uintBoundaries[0]) throw new Error(`${decodeErrPrefix} integer encoded in more bytes than necessary (strict decode)`);
-								return n
 							}
 
 							function readUint16(e, t, r) {
-								assertEnoughData(e, t, 2);
-								const n = e[t] << 8 | e[t + 1];
-								if (!0 === r.strict && n < uintBoundaries[1]) throw new Error(`${decodeErrPrefix} integer encoded in more bytes than necessary (strict decode)`);
-								return n
 							}
 
 							function readUint32(e, t, r) {
-								assertEnoughData(e, t, 4);
-								const n = 16777216 * e[t] + (e[t + 1] << 16) + (e[t + 2] << 8) + e[t + 3];
-								if (!0 === r.strict && n < uintBoundaries[2]) throw new Error(`${decodeErrPrefix} integer encoded in more bytes than necessary (strict decode)`);
-								return n
 							}
 
 							function readUint64(e, t, r) {
-								assertEnoughData(e, t, 8);
-								const n = 16777216 * e[t] + (e[t + 1] << 16) + (e[t + 2] << 8) + e[t + 3],
-									o = 16777216 * e[t + 4] + (e[t + 5] << 16) + (e[t + 6] << 8) + e[t + 7],
-									i = (BigInt(n) << BigInt(32)) + BigInt(o);
-								if (!0 === r.strict && i < uintBoundaries[3]) throw new Error(`${decodeErrPrefix} integer encoded in more bytes than necessary (strict decode)`);
-								if (i <= Number.MAX_SAFE_INTEGER) return Number(i);
-								if (!0 === r.allowBigInt) return i;
-								throw new Error(`${decodeErrPrefix} integers outside of the safe integer range are not supported`)
 							}
 
 							function decodeUint8(e, t, r, n) {
-								return new Token(Type.uint, readUint8(e, t + 1, n), 2)
 							}
 
 							function decodeUint16(e, t, r, n) {
-								return new Token(Type.uint, readUint16(e, t + 1, n), 3)
 							}
 
 							function decodeUint32(e, t, r, n) {
-								return new Token(Type.uint, readUint32(e, t + 1, n), 5)
 							}
 
 							function decodeUint64(e, t, r, n) {
-								return new Token(Type.uint, readUint64(e, t + 1, n), 9)
 							}
 
 							function encodeUint(e, t) {
-								return encodeUintValue(e, 0, t.value)
 							}
 
 							function encodeUintValue(e, t, r) {
@@ -1173,14 +968,8 @@
 							}
 							const CID_CBOR_TAG = 42;
 
-							function cidEncoder$1(e) {
-							}
 
-							function undefinedEncoder$1() {
-							}
 
-							function numberEncoder$1(e) {
-							}
 							const encodeOptions$1 = {
 							};
 
@@ -1206,75 +995,7 @@
 								decoder = new TextDecoder,
 								encode$d = e => encoder.encode(e),
 								decode$e = e => decoder.decode(e);
-							class JSONEncoder extends Array {
-								constructor() {
-									super(), this.inRecursive = []
-								}
-								prefix(e) {
-									const t = this.inRecursive[this.inRecursive.length - 1];
-									t && (t.type === Type.array && (t.elements++, 1 !== t.elements && e.push([44])), t.type === Type.map && (t.elements++, 1 !== t.elements && (t.elements % 2 == 1 ? e.push([44]) : e.push([58]))))
-								} [Type.uint.major](e, t) {
-									this.prefix(e);
-									const r = String(t.value),
-										n = [];
-									for (let e = 0; e < r.length; e++) n[e] = r.charCodeAt(e);
-									e.push(n)
-								} [Type.negint.major](e, t) {
-									this[Type.uint.major](e, t)
-								} [Type.bytes.major]() {
-									throw new Error(`${encodeErrPrefix} unsupported type: Uint8Array`)
-								} [Type.string.major](e, t) {
-									this.prefix(e);
-									const r = fromString(JSON.stringify(t.value));
-									e.push(r.length > 32 ? asU8A(r) : r)
-								} [Type.array.major](e) {
-									this.prefix(e), this.inRecursive.push({
-										type: Type.array,
-										elements: 0
-									}), e.push([91])
-								} [Type.map.major](e) {
-									this.prefix(e), this.inRecursive.push({
-										type: Type.map,
-										elements: 0
-									}), e.push([123])
-								} [Type.tag.major]() { } [Type.float.major](e, t) {
-									if ("break" === t.type.name) {
-										const t = this.inRecursive.pop();
-										if (t) {
-											if (t.type === Type.array) e.push([93]);
-											else {
-												if (t.type !== Type.map) throw new Error("Unexpected recursive type; this should not happen!");
-												e.push([125])
-											}
-											return
-										}
-										throw new Error("Unexpected break; this should not happen!")
-									}
-									if (void 0 === t.value) throw new Error(`${encodeErrPrefix} unsupported type: undefined`);
-									if (this.prefix(e), "true" === t.type.name) return void e.push([116, 114, 117, 101]);
-									if ("false" === t.type.name) return void e.push([102, 97, 108, 115, 101]);
-									if ("null" === t.type.name) return void e.push([110, 117, 108, 108]);
-									const r = String(t.value),
-										n = [];
-									let o = !1;
-									for (let e = 0; e < r.length; e++) n[e] = r.charCodeAt(e), o || 46 !== n[e] && 101 !== n[e] && 69 !== n[e] || (o = !0);
-									o || (n.push(46), n.push(48)), e.push(n)
-								}
-							}
 
-							function mapSorter(e, t) {
-								if (Array.isArray(e[0]) || Array.isArray(t[0])) throw new Error(`${encodeErrPrefix} complex map keys are not supported`);
-								const r = e[0],
-									n = t[0];
-								if (r.type !== Type.string || n.type !== Type.string) throw new Error(`${encodeErrPrefix} non-string map keys are not supported`);
-								if (r < n) return -1;
-								if (r > n) return 1;
-								throw new Error(`${encodeErrPrefix} unexpected duplicate map keys, this is not supported`)
-							}
-							const defaultEncodeOptions$1 = {
-								addBreakTokens: !0,
-								mapSorter: mapSorter
-							};
 
 							function encode$c(e, t) {
 							}
@@ -1284,17 +1005,9 @@
 							function decode$d(e, t) {
 							}
 
-							function cidEncoder(e) {
-							}
 
-							function bytesEncoder(e) {
-							}
 
-							function undefinedEncoder() {
-							}
 
-							function numberEncoder(e) {
-							}
 							const encodeOptions = {
 							};
 							class DagJsonTokenizer extends Tokenizer {
@@ -1938,35 +1651,8 @@
 									return n.encodedSize(e, r)
 								}
 							}
-							const resizeHeader = (e, t) => {
-								const {
-									bytes: r,
-									headerSize: n
-								} = e;
-								r.set(r.subarray(n, e.byteOffset), t), e.byteOffset += t - n, e.headerSize = t
-							},
-								writeBytes$1 = (e, t) => {
-									e.bytes.set(t, e.byteOffset), e.byteOffset += t.length
-								},
-								writeHeader = ({
-									bytes: e
-								}, t, r) => {
-									e.set(t), e.set(r, t.length)
-								},
-								headerPreludeTokens = [new Token(Type.map, 2), new Token(Type.string, "version"), new Token(Type.uint, 1), new Token(Type.string, "roots")],
+							const headerPreludeTokens = [new Token(Type.map, 2), new Token(Type.string, "version"), new Token(Type.uint, 1), new Token(Type.string, "roots")],
 								CID_TAG = new Token(Type.tag, 42),
-								calculateHeaderLength = e => {
-									const t = [...headerPreludeTokens];
-									t.push(new Token(Type.array, e.length));
-									for (const r of e) t.push(CID_TAG), t.push(new Token(Type.bytes, {
-										length: r + 1
-									}));
-									const r = tokensToLength(t);
-									return varint.encodingLength(r) + r
-								},
-								headerLength = ({
-									roots: e
-								}) => calculateHeaderLength(e.map((e => e.bytes.byteLength))),
 								Kinds = {
 									Null: e => null === e,
 									Int: e => Number.isInteger(e),
@@ -4629,10 +4315,6 @@
 								filesize: filesize,
 								NodeType: NodeType
 							});
-							const effect = function* (e) {
-								const t = yield* e;
-								yield* send(t)
-							};
 
 							function* current() {
 								return yield CURRENT
@@ -4660,23 +4342,8 @@
 							const isAsync = e => null != e && "function" == typeof e.then,
 								send = function* (e) {
 									yield e
-								},
-								listen = function* (e) {
-									const t = [];
-									for (const r of Object.entries(e)) {
-										const [e, n] = r;
-										n !== NONE && t.push(yield* fork$1(tag(n, e)))
-									}
-									yield* group(t)
-								},
-								effects = e => e.length > 0 ? batch(e.map(effect)) : NONE;
+								};
 
-							function* batch(e) {
-								const t = [];
-								for (const r of e) t.push(yield* fork$1(r));
-								yield* group(t)
-							}
-							const tag = (e, t) => e === NONE ? NONE : e instanceof Tagger ? new Tagger([...e.tags, t], e.source) : new Tagger([t], e);
 							class Tagger {
 								constructor(e, t) {
 									this.tags = e, this.source = t, this.controller
@@ -4712,11 +4379,10 @@
 									return "TaggedEffect"
 								}
 							}
-							const none = () => NONE,
-								withTag = (e, t) => ({
-									type: e,
-									[e]: t
-								}),
+							const withTag = (e, t) => ({
+								type: e,
+								[e]: t
+							}),
 								CURRENT = Symbol("current"),
 								SUSPEND = Symbol("suspend");
 							class Group {
@@ -4972,81 +4638,14 @@
 							class BufferView extends Indexed {
 
 							}
-							const panic = e => {
-								throw new Error(e)
-							},
-								EMPTY_BUFFER = new Uint8Array(0),
-								EMPTY$2 = [],
+							const EMPTY_BUFFER = new Uint8Array(0),
 								open$1 = e => ({
 									config: e,
 									buffer: empty()
 								}),
-								write$3 = (e, t) => t.byteLength > 0 ? split(e.config, e.buffer.push(t), !1) : {
-									...e,
-									chunks: EMPTY$2
-								},
-								close$5 = e => split(e.config, e.buffer, !0),
-								split = () => {
-
-								},
 								mutable = () => ({
 
 								}),
-								addNodes = () => {
-								},
-								addLink = (e, t, r) => {
-									const n = r.needs[e],
-										o = r.nodes[n];
-									if (null != o) {
-										if (1 === o.count) {
-											const {
-												ready: i,
-												has: s
-											} = collect$1(o.children, {
-												...r.links,
-												[e]: t
-											});
-											return patch(r, {
-												needs: {
-													[e]: void 0
-												},
-												links: assign(void 0, s),
-												nodes: {
-													[n]: void 0
-												},
-												linked: [{
-													id: n,
-													links: i
-												}]
-											})
-										}
-										return patch(r, {
-											needs: {
-												[e]: void 0
-											},
-											links: {
-												[e]: t
-											},
-											nodes: {
-												[n]: {
-													...o,
-													count: o.count - 1
-												}
-											}
-										})
-									}
-									return patch(r, {
-									})
-								},
-								patch = (e, {
-								}) => {
-								},
-								assign = () => {
-
-								},
-								collect$1 = () => {
-
-								},
 								init = (e, t, r) => ({
 									status: "open",
 									metadata: t,
@@ -5058,59 +4657,7 @@
 									layout: r.fileLayout.open(),
 									nodeQueue: mutable()
 								}),
-								encodeLeaves = (e, t) => e.map((e => encodeLeaf(t, e, t.fileChunkEncoder))),
-								encodeLeaf = function* ({
-									hasher: e,
-									linker: t
-								}, {
-									id: r,
-									content: n
-								}, o) {
-									const i = o.encode(n ? asUint8Array(n) : EMPTY_BUFFER),
-										s = yield* wait(e.digest(i)), a = t.createLink(o.code, s);
-									return {
-										id: r,
-										block: {
-											cid: a,
-											bytes: i
-										},
-										link: {
-											cid: a,
-											contentByteLength: n ? n.byteLength : 0,
-											dagByteLength: i.byteLength
-										}
-									}
-								},
-								encodeBranches = (e, t) => e.map((e => encodeBranch(t, e))),
-								encodeBranch = function* (e, {
-									id: t,
-									links: r
-								}, n) {
-									const o = e.fileEncoder.encode({
-										type: NodeType.File,
-										layout: "advanced",
-										parts: r,
-										metadata: n
-									}),
-										i = yield* wait(Promise.resolve(e.hasher.digest(o))), s = e.linker.createLink(e.fileEncoder.code, i);
-									return {
-										id: t,
-										block: {
-											bytes: o,
-											cid: s
-										},
-										link: {
-											cid: s,
-											contentByteLength: cumulativeContentByteLength(r),
-											dagByteLength: cumulativeDagByteLength(o, r)
-										}
-									}
-								},
-								writeBlock = function* (e, t) {
-									(e.desiredSize || 0) <= 0 && (yield* wait(e.ready)), e.write(t)
-								},
 								asUint8Array = e => e instanceof Uint8Array ? e : e.copyTo(new Uint8Array(e.byteLength), 0),
-								isLeafNode = e => null == e.children,
 								name = "fixed",
 								context = {
 									maxChunkSize: 262144
