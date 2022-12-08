@@ -223,7 +223,6 @@
 							function transform(e, t, r) {
 								return void 0 === t ? (t, r) => r ? transform(e, t, r) : transform(e, t) : void 0 === r ? r => transform(e, t, r) : _transform(e, t, r)
 							}
-							var id = 0;
 
 
 							const textDecoder = new TextDecoder;
@@ -282,28 +281,6 @@
 								return t
 							}
 
-							function decodeNode(e) {
-								const t = e.length;
-								let r, n, o = 0,
-									i = !1;
-								for (; o < t;) {
-									let t, s;
-									if ([t, s, o] = decodeKey(e, o), 2 !== t) throw new Error(`protobuf: (PBNode) invalid wireType, expected 2, got ${t}`);
-									if (1 === s) {
-										if (n) throw new Error("protobuf: (PBNode) duplicate Data section");
-										[n, o] = decodeBytes(e, o), r && (i = !0)
-									} else {
-										if (2 !== s) throw new Error(`protobuf: (PBNode) invalid fieldNumber, expected 1 or 2, got ${s}`); {
-											if (i) throw new Error("protobuf: (PBNode) duplicate Links section");
-											let t;
-											r || (r = []), [t, o] = decodeBytes(e, o), r.push(decodeLink(t))
-										}
-									}
-								}
-								if (o > t) throw new Error("protobuf: (PBNode) unexpected end of data");
-								const s = {};
-								return n && (s.Data = n), s.Links = r || [], s
-							}
 							const textEncoder$1 = new TextEncoder,
 								maxInt32 = 2 ** 32,
 								maxUInt32 = 2 ** 31;
@@ -322,17 +299,6 @@
 								return e.Hash && (r -= e.Hash.length, t.set(e.Hash, r), r = encodeVarint(t, r, e.Hash.length) - 1, t[r] = 10), t.length - r
 							}
 
-							function encodeNode(e) {
-								const t = sizeNode(e),
-									r = new Uint8Array(t);
-								let n = t;
-								if (e.Data && (n -= e.Data.length, r.set(e.Data, n), n = encodeVarint(r, n, e.Data.length) - 1, r[n] = 10), e.Links)
-									for (let t = e.Links.length - 1; t >= 0; t--) {
-										const o = encodeLink$1(e.Links[t], r.subarray(0, n));
-										n -= o, n = encodeVarint(r, n, o) - 1, r[n] = 18
-									}
-								return r
-							}
 
 							function sizeLink(e) {
 								let t = 0;
@@ -398,46 +364,8 @@
 								return !Object.keys(e).some((e => !t.includes(e)))
 							}
 
-							function asLink(e) {
-								if ("object" == typeof e.asCID) {
-									const t = CID.asCID(e);
-									if (!t) throw new TypeError("Invalid DAG-PB form");
-									return {
-										Hash: t
-									}
-								}
-								if ("object" != typeof e || Array.isArray(e)) throw new TypeError("Invalid DAG-PB form");
-								const t = {};
-								if (e.Hash) {
-									let r = CID.asCID(e.Hash);
-									try {
-										r || ("string" == typeof e.Hash ? r = CID.parse(e.Hash) : e.Hash instanceof Uint8Array && (r = CID.decode(e.Hash)))
-									} catch (e) {
-										throw new TypeError(`Invalid DAG-PB form: ${e.message}`)
-									}
-									r && (t.Hash = r)
-								}
-								if (!t.Hash) throw new TypeError("Invalid DAG-PB form");
-								return "string" == typeof e.Name && (t.Name = e.Name), "number" == typeof e.Tsize && (t.Tsize = e.Tsize), t
-							}
 
 
-							function validate(e) {
-								if (!e || "object" != typeof e || Array.isArray(e)) throw new TypeError("Invalid DAG-PB form");
-								if (!hasOnlyProperties(e, pbNodeProperties)) throw new TypeError("Invalid DAG-PB form (extraneous properties)");
-								if (void 0 !== e.Data && !(e.Data instanceof Uint8Array)) throw new TypeError("Invalid DAG-PB form (Data must be a Uint8Array)");
-								if (!Array.isArray(e.Links)) throw new TypeError("Invalid DAG-PB form (Links must be an array)");
-								for (let t = 0; t < e.Links.length; t++) {
-									const r = e.Links[t];
-									if (!r || "object" != typeof r || Array.isArray(r)) throw new TypeError("Invalid DAG-PB form (bad link object)");
-									if (!hasOnlyProperties(r, pbLinkProperties)) throw new TypeError("Invalid DAG-PB form (extraneous properties on link object)");
-									if (!r.Hash) throw new TypeError("Invalid DAG-PB form (link must have a Hash)");
-									if (r.Hash.asCID !== r.Hash) throw new TypeError("Invalid DAG-PB form (link Hash must be a CID)");
-									if (void 0 !== r.Name && "string" != typeof r.Name) throw new TypeError("Invalid DAG-PB form (link Name must be a string)");
-									if (void 0 !== r.Tsize && ("number" != typeof r.Tsize || r.Tsize % 1 != 0)) throw new TypeError("Invalid DAG-PB form (link Tsize must be an integer)");
-									if (t > 0 && -1 === linkComparator(r, e.Links[t - 1])) throw new TypeError("Invalid DAG-PB form (links must be sorted by Name bytes)")
-								}
-							}
 
 
 							var minimal = {},
@@ -829,11 +757,8 @@
 									}
 								}(minimal)), minimal
 							}
-							var writer = Writer$1,
-								util$4 = requireMinimal(),
-								BufferWriter$1, LongBits$1 = util$4.LongBits,
-								base64 = util$4.base64,
-								utf8$1 = util$4.utf8;
+							var util$4 = requireMinimal(),
+								BufferWriter$1;
 
 							function Op(e, t, r) {
 								this.fn = e, this.len = t, this.next = void 0, this.val = r
@@ -841,31 +766,12 @@
 
 							function noop$1() { }
 
-							function State(e) {
-								this.head = e.head, this.tail = e.tail, this.len = e.len, this.next = e.states
-							}
 
 							function Writer$1() {
 								this.len = 0, this.head = new Op(noop$1, 0, 0), this.tail = this.head, this.states = null
 							}
-							var create$4 = function () {
-								return util$4.Buffer ? function () {
-									return (Writer$1.create = function () {
-										return new BufferWriter$1
-									})()
-								} : function () {
-									return new Writer$1
-								}
-							};
 
-							function writeByte(e, t, r) {
-								t[r] = 255 & e
-							}
 
-							function writeVarint32(e, t, r) {
-								for (; e > 127;) t[r++] = 127 & e | 128, e >>>= 7;
-								t[r] = e
-							}
 
 
 							async function* chunkBlocks(e, t = {}) {
