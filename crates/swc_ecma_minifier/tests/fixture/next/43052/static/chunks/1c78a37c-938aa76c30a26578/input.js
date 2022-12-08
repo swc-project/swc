@@ -285,67 +285,6 @@
 							}
 
 							function requireLongbits() {
-								if (hasRequiredLongbits) return longbits;
-								hasRequiredLongbits = 1, longbits = t;
-								var e = requireMinimal();
-
-								function t(e, t) {
-									this.lo = e >>> 0, this.hi = t >>> 0
-								}
-								var r = t.zero = new t(0, 0);
-								r.toNumber = function () {
-									return 0
-								}, r.zzEncode = r.zzDecode = function () {
-									return this
-								}, r.length = function () {
-									return 1
-								};
-								var n = t.zeroHash = "\0\0\0\0\0\0\0\0";
-								t.fromNumber = function (e) {
-									if (0 === e) return r;
-									var n = e < 0;
-									n && (e = -e);
-									var o = e >>> 0,
-										i = (e - o) / 4294967296 >>> 0;
-									return n && (i = ~i >>> 0, o = ~o >>> 0, ++o > 4294967295 && (o = 0, ++i > 4294967295 && (i = 0))), new t(o, i)
-								}, t.from = function (n) {
-									if ("number" == typeof n) return t.fromNumber(n);
-									if (e.isString(n)) {
-										if (!e.Long) return t.fromNumber(parseInt(n, 10));
-										n = e.Long.fromString(n)
-									}
-									return n.low || n.high ? new t(n.low >>> 0, n.high >>> 0) : r
-								}, t.prototype.toNumber = function (e) {
-									if (!e && this.hi >>> 31) {
-										var t = 1 + ~this.lo >>> 0,
-											r = ~this.hi >>> 0;
-										return t || (r = r + 1 >>> 0), -(t + 4294967296 * r)
-									}
-									return this.lo + 4294967296 * this.hi
-								}, t.prototype.toLong = function (t) {
-									return e.Long ? new e.Long(0 | this.lo, 0 | this.hi, Boolean(t)) : {
-										low: 0 | this.lo,
-										high: 0 | this.hi,
-										unsigned: Boolean(t)
-									}
-								};
-								var o = String.prototype.charCodeAt;
-								return t.fromHash = function (e) {
-									return e === n ? r : new t((o.call(e, 0) | o.call(e, 1) << 8 | o.call(e, 2) << 16 | o.call(e, 3) << 24) >>> 0, (o.call(e, 4) | o.call(e, 5) << 8 | o.call(e, 6) << 16 | o.call(e, 7) << 24) >>> 0)
-								}, t.prototype.toHash = function () {
-									return String.fromCharCode(255 & this.lo, this.lo >>> 8 & 255, this.lo >>> 16 & 255, this.lo >>> 24, 255 & this.hi, this.hi >>> 8 & 255, this.hi >>> 16 & 255, this.hi >>> 24)
-								}, t.prototype.zzEncode = function () {
-									var e = this.hi >> 31;
-									return this.hi = ((this.hi << 1 | this.lo >>> 31) ^ e) >>> 0, this.lo = (this.lo << 1 ^ e) >>> 0, this
-								}, t.prototype.zzDecode = function () {
-									var e = -(1 & this.lo);
-									return this.lo = ((this.lo >>> 1 | this.hi << 31) ^ e) >>> 0, this.hi = (this.hi >>> 1 ^ e) >>> 0, this
-								}, t.prototype.length = function () {
-									var e = this.lo,
-										t = (this.lo >>> 28 | this.hi << 4) >>> 0,
-										r = this.hi >>> 24;
-									return 0 === r ? 0 === t ? e < 16384 ? e < 128 ? 1 : 2 : e < 2097152 ? 3 : 4 : t < 16384 ? t < 128 ? 5 : 6 : t < 2097152 ? 7 : 8 : r < 128 ? 9 : 10
-								}, longbits
 							}
 
 							function requireMinimal() {
