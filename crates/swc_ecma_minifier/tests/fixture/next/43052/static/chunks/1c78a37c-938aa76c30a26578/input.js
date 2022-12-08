@@ -135,92 +135,13 @@
 
 							function factory(e) {
 								return "undefined" != typeof Float32Array ? function () {
-									var t = new Float32Array([-0]),
-										r = new Uint8Array(t.buffer),
-										n = 128 === r[3];
 
-									function o(e, n, o) {
-										t[0] = e, n[o] = r[0], n[o + 1] = r[1], n[o + 2] = r[2], n[o + 3] = r[3]
-									}
-
-									function i(e, n, o) {
-										t[0] = e, n[o] = r[3], n[o + 1] = r[2], n[o + 2] = r[1], n[o + 3] = r[0]
-									}
-
-									function s(e, n) {
-										return r[0] = e[n], r[1] = e[n + 1], r[2] = e[n + 2], r[3] = e[n + 3], t[0]
-									}
-
-									function a(e, n) {
-										return r[3] = e[n], r[2] = e[n + 1], r[1] = e[n + 2], r[0] = e[n + 3], t[0]
-									}
-									e.writeFloatLE = n ? o : i, e.writeFloatBE = n ? i : o, e.readFloatLE = n ? s : a, e.readFloatBE = n ? a : s
 								}() : function () {
-									function t(e, t, r, n) {
-										var o = t < 0 ? 1 : 0;
-										if (o && (t = -t), 0 === t) e(1 / t > 0 ? 0 : 2147483648, r, n);
-										else if (isNaN(t)) e(2143289344, r, n);
-										else if (t > 34028234663852886e22) e((o << 31 | 2139095040) >>> 0, r, n);
-										else if (t < 11754943508222875e-54) e((o << 31 | Math.round(t / 1401298464324817e-60)) >>> 0, r, n);
-										else {
-											var i = Math.floor(Math.log(t) / Math.LN2);
-											e((o << 31 | i + 127 << 23 | 8388607 & Math.round(t * Math.pow(2, -i) * 8388608)) >>> 0, r, n)
-										}
-									}
 
-									function r(e, t, r) {
-										var n = e(t, r),
-											o = 2 * (n >> 31) + 1,
-											i = n >>> 23 & 255,
-											s = 8388607 & n;
-										return 255 === i ? s ? NaN : o * (1 / 0) : 0 === i ? 1401298464324817e-60 * o * s : o * Math.pow(2, i - 150) * (s + 8388608)
-									}
-									e.writeFloatLE = t.bind(null, writeUintLE), e.writeFloatBE = t.bind(null, writeUintBE), e.readFloatLE = r.bind(null, readUintLE), e.readFloatBE = r.bind(null, readUintBE)
 								}(), "undefined" != typeof Float64Array ? function () {
-									var t = new Float64Array([-0]),
-										r = new Uint8Array(t.buffer),
-										n = 128 === r[7];
 
-									function o(e, n, o) {
-										t[0] = e, n[o] = r[0], n[o + 1] = r[1], n[o + 2] = r[2], n[o + 3] = r[3], n[o + 4] = r[4], n[o + 5] = r[5], n[o + 6] = r[6], n[o + 7] = r[7]
-									}
-
-									function i(e, n, o) {
-										t[0] = e, n[o] = r[7], n[o + 1] = r[6], n[o + 2] = r[5], n[o + 3] = r[4], n[o + 4] = r[3], n[o + 5] = r[2], n[o + 6] = r[1], n[o + 7] = r[0]
-									}
-
-									function s(e, n) {
-										return r[0] = e[n], r[1] = e[n + 1], r[2] = e[n + 2], r[3] = e[n + 3], r[4] = e[n + 4], r[5] = e[n + 5], r[6] = e[n + 6], r[7] = e[n + 7], t[0]
-									}
-
-									function a(e, n) {
-										return r[7] = e[n], r[6] = e[n + 1], r[5] = e[n + 2], r[4] = e[n + 3], r[3] = e[n + 4], r[2] = e[n + 5], r[1] = e[n + 6], r[0] = e[n + 7], t[0]
-									}
 									e.writeDoubleLE = n ? o : i, e.writeDoubleBE = n ? i : o, e.readDoubleLE = n ? s : a, e.readDoubleBE = n ? a : s
 								}() : function () {
-									function t(e, t, r, n, o, i) {
-										var s = n < 0 ? 1 : 0;
-										if (s && (n = -n), 0 === n) e(0, o, i + t), e(1 / n > 0 ? 0 : 2147483648, o, i + r);
-										else if (isNaN(n)) e(0, o, i + t), e(2146959360, o, i + r);
-										else if (n > 17976931348623157e292) e(0, o, i + t), e((s << 31 | 2146435072) >>> 0, o, i + r);
-										else {
-											var a;
-											if (n < 22250738585072014e-324) e((a = n / 5e-324) >>> 0, o, i + t), e((s << 31 | a / 4294967296) >>> 0, o, i + r);
-											else {
-												var c = Math.floor(Math.log(n) / Math.LN2);
-												1024 === c && (c = 1023), e(4503599627370496 * (a = n * Math.pow(2, -c)) >>> 0, o, i + t), e((s << 31 | c + 1023 << 20 | 1048576 * a & 1048575) >>> 0, o, i + r)
-											}
-										}
-									}
-
-									function r(e, t, r, n, o) {
-										var i = e(n, o + t),
-											s = e(n, o + r),
-											a = 2 * (s >> 31) + 1,
-											c = s >>> 20 & 2047,
-											u = 4294967296 * (1048575 & s) + i;
-										return 2047 === c ? u ? NaN : a * (1 / 0) : 0 === c ? 5e-324 * a * u : a * Math.pow(2, c - 1075) * (u + 4503599627370496)
-									}
 									e.writeDoubleLE = t.bind(null, writeUintLE, 0, 4), e.writeDoubleBE = t.bind(null, writeUintBE, 4, 0), e.readDoubleLE = r.bind(null, readUintLE, 0, 4), e.readDoubleBE = r.bind(null, readUintBE, 4, 0)
 								}(), e
 							}
