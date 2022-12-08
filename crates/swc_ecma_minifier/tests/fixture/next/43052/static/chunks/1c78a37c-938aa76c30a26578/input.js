@@ -21,10 +21,9 @@
 				}(this, (function (exports, React) {
 					"use strict";
 
-					var commonjsGlobal = "undefined" != typeof globalThis ? globalThis : "undefined" != typeof window ? window : "undefined" != typeof __webpack_require__.g ? __webpack_require__.g : "undefined" != typeof self ? self : {},
-						index_production = {
-							exports: {}
-						};
+					var index_production = {
+						exports: {}
+					};
 					/**
 					 * uploader-core
 					 *
@@ -67,8 +66,6 @@
 
 
 
-							async function verify(e, t, r) {
-							}
 
 
 							var varint$1 = {
@@ -76,12 +73,6 @@
 								_brrp_varint = varint$1;
 							const decode$l = (e, t = 0) => [_brrp_varint.decode(e, t), _brrp_varint.decode.bytes],
 								encodingLength = e => _brrp_varint.encodingLength(e),
-								coerce = e => {
-									if (e instanceof Uint8Array && "Uint8Array" === e.constructor.name) return e;
-									if (e instanceof ArrayBuffer) return new Uint8Array(e);
-									if (ArrayBuffer.isView(e)) return new Uint8Array(e.buffer, e.byteOffset, e.byteLength);
-									throw new Error("Unknown type, must be binary type")
-								},
 								create$7 = () => {
 								},
 								decode$k = () => {
@@ -134,11 +125,6 @@
 							});
 							class CID {
 							}
-							const from$1 = ({
-								name: e,
-								code: t,
-								encode: r
-							}) => new Hasher(e, t, r);
 							class Hasher {
 								constructor(e, t, r) {
 									this.name = e, this.code = t, this.encode = r
@@ -174,8 +160,7 @@
 								},
 								format$3 = e => `${DID_KEY_PREFIX}${base58btc.encode(encode$g(e))}`,
 								decode$i = e => (algorithm(e), new DID(e.buffer, e.byteOffset, e.byteLength)),
-								encode$g = e => e,
-								from = e => e instanceof DID ? e : e instanceof Uint8Array ? decode$i(e) : parse$4(e);
+								encode$g = e => e;
 							class DID extends Uint8Array {
 								did() {
 									return format$3(this)
@@ -190,8 +175,7 @@
 									if (t !== code$8) throw new RangeError(`Unsupported key algorithm with multicode 0x${code$8.toString(16)}`);
 									if (e.byteLength !== SIZE) throw new RangeError(`Expected Uint8Array with byteLength ${SIZE}, instead got Uint8Array with byteLength ${e.byteLength}`);
 									return new Principal(e.buffer, e.byteOffset)
-								},
-								format$2 = e => format$3(e.bytes);
+								};
 
 							const simpleTokens = {
 								null: new Token(Type.null, null),
@@ -1328,14 +1312,7 @@
 							}
 							var id = 0;
 
-							function _classPrivateFieldLooseKey(e) {
-								return "__private_" + id++ + "_" + e
-							}
 
-							function _classPrivateFieldLooseBase(e, t) {
-								if (!Object.prototype.hasOwnProperty.call(e, t)) throw new TypeError("attempted to use private field on non-instance");
-								return e
-							}
 							const textDecoder = new TextDecoder;
 
 							function decodeVarint(e, t) {
@@ -1531,22 +1508,6 @@
 								return "string" == typeof e.Name && (t.Name = e.Name), "number" == typeof e.Tsize && (t.Tsize = e.Tsize), t
 							}
 
-							function prepare(e) {
-								if ((e instanceof Uint8Array || "string" == typeof e) && (e = {
-									Data: e
-								}), "object" != typeof e || Array.isArray(e)) throw new TypeError("Invalid DAG-PB form");
-								const t = {};
-								if (void 0 !== e.Data)
-									if ("string" == typeof e.Data) t.Data = textEncoder.encode(e.Data);
-									else {
-										if (!(e.Data instanceof Uint8Array)) throw new TypeError("Invalid DAG-PB form");
-										t.Data = e.Data
-									} if (void 0 !== e.Links) {
-										if (!Array.isArray(e.Links)) throw new TypeError("Invalid DAG-PB form");
-										t.Links = e.Links.map(asLink), t.Links.sort(linkComparator)
-									} else t.Links = [];
-								return t
-							}
 
 							function validate(e) {
 								if (!e || "object" != typeof e || Array.isArray(e)) throw new TypeError("Invalid DAG-PB form");
@@ -1564,34 +1525,9 @@
 									if (t > 0 && -1 === linkComparator(r, e.Links[t - 1])) throw new TypeError("Invalid DAG-PB form (links must be sorted by Name bytes)")
 								}
 							}
-							const code$1 = 112;
 
-							function encode$1(e) {
-								validate(e);
-								const t = {};
-								return e.Links && (t.Links = e.Links.map((e => {
-									const t = {};
-									return e.Hash && (t.Hash = e.Hash.bytes), void 0 !== e.Name && (t.Name = e.Name), void 0 !== e.Tsize && (t.Tsize = e.Tsize), t
-								}))), e.Data && (t.Data = e.Data), encodeNode(t)
-							}
 
-							function decode$1(e) {
-								const t = decodeNode(e),
-									r = {};
-								return t.Data && (r.Data = t.Data), t.Links && (r.Links = t.Links.map((e => {
-									const t = {};
-									try {
-										t.Hash = CID.decode(e.Hash)
-									} catch (e) { }
-									if (!t.Hash) throw new Error("Invalid Hash field found in link, expected CID");
-									return void 0 !== e.Name && (t.Name = e.Name), void 0 !== e.Tsize && (t.Tsize = e.Tsize), t
-								}))), r
-							}
-							var minimal$1 = {
-								exports: {}
-							},
-								indexMinimal = {},
-								minimal = {},
+							var minimal = {},
 								aspromise = asPromise;
 
 							function asPromise(e, t) {
@@ -2090,8 +2026,7 @@
 							}, Writer$1._configure = function (e) {
 								BufferWriter$1 = e, Writer$1.create = create$4(), BufferWriter$1._configure()
 							};
-							var writer_buffer = BufferWriter,
-								Writer = writer;
+							var Writer = writer;
 							(BufferWriter.prototype = Object.create(Writer.prototype)).constructor = BufferWriter;
 							var util$3 = requireMinimal();
 
@@ -2267,8 +2202,7 @@
 									}
 								})
 							};
-							var reader_buffer = BufferReader,
-								Reader = reader;
+							var Reader = reader;
 							(BufferReader.prototype = Object.create(Reader.prototype)).constructor = BufferReader;
 							var util$1 = requireMinimal();
 
@@ -2281,18 +2215,9 @@
 								var e = this.uint32();
 								return this.buf.utf8Slice ? this.buf.utf8Slice(this.pos, this.pos = Math.min(this.pos + e, this.len)) : this.buf.toString("utf-8", this.pos, this.pos = Math.min(this.pos + e, this.len))
 							}, BufferReader._configure();
-							var rpc = {},
-								service = Service,
-								util = requireMinimal();
 
 
-							function encodeWriter() {
 
-							}
-
-							function toRoots(e) {
-
-							}
 							async function* chunkBlocks(e, t = {}) {
 							}
 
