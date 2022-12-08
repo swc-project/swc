@@ -44,8 +44,7 @@
 									default: _nodeResolve_empty
 								});
 							/*! noble-ed25519 - MIT License (c) 2019 Paul Miller (paulmillr.com) */
-							const _0n = BigInt(0),
-								_1n = BigInt(1),
+							const _1n = BigInt(1),
 								_2n = BigInt(2),
 								CU_O = BigInt("7237005577332262213973186563042994240857116359379907606001950938285454250989"),
 								CURVE = Object.freeze({
@@ -57,9 +56,7 @@
 									h: BigInt(8),
 									Gx: BigInt("15112221349535400772501151409588531511454012693041857206046113283949847762202"),
 									Gy: BigInt("46316835694926478169428394003475163141307993866256225615783033603165251855960")
-								}),
-								POW_2_256 = BigInt("0x10000000000000000000000000000000000000000000000000000000000000000"),
-								SQRT_M1 = BigInt("19681161376707505956807079304988542015446066515923890162744021073123829784752");
+								});
 							BigInt("6853475219497561581579357271197624642482790079785650197046958215289687604742");
 							class ExtendedPoint {
 
@@ -67,19 +64,12 @@
 
 
 
-							class RistrettoPoint {
-							}
 							class Point {
-							}
-							class Signature {
 							}
 
 							function concatBytes(...e) {
 
 							}
-							const hexes = Array.from({
-								length: 256
-							}, ((e, t) => t.toString(16).padStart(2, "0")));
 
 							function bytesToHex(e) {
 
@@ -89,19 +79,12 @@
 
 							}
 
-							function numberTo32BytesBE(e) {
-
-							}
 
 
-							function edIsNegative(e) {
-
-							}
 
 							function bytesToNumberLE(e) {
 
 							}
-							const MAX_255B = BigInt("0x7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
 
 
 							function mod(e, t = CURVE.P) {
@@ -113,36 +96,20 @@
 							}
 
 
-							function pow2(e, t) {
 
-							}
 
-							function pow_2_252_3(e) {
-							}
-
-							function uvRatio(e, t) {
-
-							}
 
 
 							function modlLE(e) {
 							}
 
 
-							function ensureBytes(e, t) {
+							function ensureBytes(e) {
 							}
 
-							function normalizeScalar(e, t, r = !0) {
-							}
 
-							function adjustBytes25519(e) {
-							}
 
-							function checkPrivateKey(e) {
-							}
 
-							function getKeyFromHash(e) {
-							}
 							let _sha512Sync;
 							async function getExtendedPublicKey(e) {
 							}
@@ -151,71 +118,15 @@
 							}
 
 							function finishVerification(e, t, r, n) {
-								const o = modlLE(n),
-									i = ExtendedPoint.fromAffine(e).multiplyUnsafe(o);
-								return ExtendedPoint.fromAffine(t).add(i).subtract(r).multiplyUnsafe(CURVE.h).equals(ExtendedPoint.ZERO)
 							}
 							async function verify(e, t, r) {
-								const {
-									r: n,
-									SB: o,
-									msg: i,
-									pub: s
-								} = prepareVerification(e, t, r), a = await utils.sha512(n.toRawBytes(), s.toRawBytes(), i);
-								return finishVerification(s, n, o, a)
 							}
-							Point.BASE._setWindowSize(8);
 							const crypto$1 = {
 								node: nodeCrypto,
 								web: "object" == typeof self && "crypto" in self ? self.crypto : void 0
 							},
 								utils = {
-									bytesToHex: bytesToHex,
-									hexToBytes: hexToBytes,
-									concatBytes: concatBytes,
-									getExtendedPublicKey: getExtendedPublicKey,
-									mod: mod,
-									invert: invert,
-									TORSION_SUBGROUP: ["0100000000000000000000000000000000000000000000000000000000000000", "c7176a703d4dd84fba3c0b760d10670f2a2053fa2c39ccc64ec7fd7792ac037a", "0000000000000000000000000000000000000000000000000000000000000080", "26e8958fc2b227b045c3f489f2ef98f0d5dfac05d3c63339b13802886d53fc05", "ecffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff7f", "26e8958fc2b227b045c3f489f2ef98f0d5dfac05d3c63339b13802886d53fc85", "0000000000000000000000000000000000000000000000000000000000000000", "c7176a703d4dd84fba3c0b760d10670f2a2053fa2c39ccc64ec7fd7792ac03fa"],
-									hashToPrivateScalar: e => {
-										if ((e = ensureBytes(e)).length < 40 || e.length > 1024) throw new Error("Expected 40-1024 bytes of private key as per FIPS 186");
-										return mod(bytesToNumberLE(e), CURVE.l - _1n) + _1n
-									},
-									randomBytes: (e = 32) => {
-										if (crypto$1.web) return crypto$1.web.getRandomValues(new Uint8Array(e));
-										if (crypto$1.node) {
-											const {
-												randomBytes: t
-											} = crypto$1.node;
-											return new Uint8Array(t(e).buffer)
-										}
-										throw new Error("The environment doesn't have randomBytes function")
-									},
-									randomPrivateKey: () => utils.randomBytes(32),
-									sha512: async (...e) => {
-										const t = concatBytes(...e);
-										if (crypto$1.web) {
-											const e = await crypto$1.web.subtle.digest("SHA-512", t.buffer);
-											return new Uint8Array(e)
-										}
-										if (crypto$1.node) return Uint8Array.from(crypto$1.node.createHash("sha512").update(t).digest());
-										throw new Error("The environment doesn't have sha512 function")
-									},
-									precompute(e = 8, t = Point.BASE) {
-										const r = t.equals(Point.BASE) ? t : new Point(t.x, t.y);
-										return r._setWindowSize(e), r.multiply(_2n), r
-									},
-									sha512Sync: void 0
 								};
-							Object.defineProperties(utils, {
-								sha512Sync: {
-									configurable: !1,
-									get: () => _sha512Sync,
-									set(e) {
-										_sha512Sync || (_sha512Sync = e)
-									}
-								}
-							});
 							var encode_1$1 = encode$i,
 								MSB$2 = 128,
 								REST$2 = 127,
@@ -223,25 +134,12 @@
 								INT$1 = Math.pow(2, 31);
 
 							function encode$i(e, t, r) {
-								t = t || [];
-								for (var n = r = r || 0; e >= INT$1;) t[r++] = 255 & e | MSB$2, e /= 128;
-								for (; e & MSBALL$1;) t[r++] = 255 & e | MSB$2, e >>>= 7;
-								return t[r] = 0 | e, encode$i.bytes = r - n + 1, t
 							}
 							var decode$m = read$1,
 								MSB$1$1 = 128,
 								REST$1$1 = 127;
 
 							function read$1(e, t) {
-								var r, n = 0,
-									o = 0,
-									i = t = t || 0,
-									s = e.length;
-								do {
-									if (i >= s) throw read$1.bytes = 0, new RangeError("Could not decode varint");
-									r = e[i++], n += o < 28 ? (r & REST$1$1) << o : (r & REST$1$1) * Math.pow(2, o), o += 7
-								} while (r >= MSB$1$1);
-								return read$1.bytes = i - t, n
 							}
 							var N1$1 = Math.pow(2, 7),
 								N2$1 = Math.pow(2, 14),
@@ -256,9 +154,6 @@
 									return e < N1$1 ? 1 : e < N2$1 ? 2 : e < N3$1 ? 3 : e < N4$1 ? 4 : e < N5$1 ? 5 : e < N6$1 ? 6 : e < N7$1 ? 7 : e < N8$1 ? 8 : e < N9$1 ? 9 : 10
 								},
 								varint$1 = {
-									encode: encode_1$1,
-									decode: decode$m,
-									encodingLength: length$1
 								},
 								_brrp_varint = varint$1;
 							const decode$l = (e, t = 0) => [_brrp_varint.decode(e, t), _brrp_varint.decode.bytes],
@@ -294,95 +189,15 @@
 								},
 								equals = (e, t) => e === t || e.code === t.code && e.size === t.size && equals$1(e.bytes, t.bytes);
 							class Digest {
-								constructor(e, t, r, n) {
-									this.code = e, this.size = t, this.digest = r, this.bytes = n
-								}
 							}
 
 							function base$2(e, t) {
-								if (e.length >= 255) throw new TypeError("Alphabet too long");
-								for (var r = new Uint8Array(256), n = 0; n < r.length; n++) r[n] = 255;
-								for (var o = 0; o < e.length; o++) {
-									var i = e.charAt(o),
-										s = i.charCodeAt(0);
-									if (255 !== r[s]) throw new TypeError(i + " is ambiguous");
-									r[s] = o
-								}
-								var a = e.length,
-									c = e.charAt(0),
-									u = Math.log(a) / Math.log(256),
-									d = Math.log(256) / Math.log(a);
-
-								function l(e) {
-									if ("string" != typeof e) throw new TypeError("Expected String");
-									if (0 === e.length) return new Uint8Array;
-									var t = 0;
-									if (" " !== e[t]) {
-										for (var n = 0, o = 0; e[t] === c;) n++, t++;
-										for (var i = (e.length - t) * u + 1 >>> 0, s = new Uint8Array(i); e[t];) {
-											var d = r[e.charCodeAt(t)];
-											if (255 === d) return;
-											for (var l = 0, f = i - 1;
-												(0 !== d || l < o) && -1 !== f; f--, l++) d += a * s[f] >>> 0, s[f] = d % 256 >>> 0, d = d / 256 >>> 0;
-											if (0 !== d) throw new Error("Non-zero carry");
-											o = l, t++
-										}
-										if (" " !== e[t]) {
-											for (var h = i - o; h !== i && 0 === s[h];) h++;
-											for (var p = new Uint8Array(n + (i - h)), y = n; h !== i;) p[y++] = s[h++];
-											return p
-										}
-									}
-								}
-								return {
-									encode: function (t) {
-										if (t instanceof Uint8Array || (ArrayBuffer.isView(t) ? t = new Uint8Array(t.buffer, t.byteOffset, t.byteLength) : Array.isArray(t) && (t = Uint8Array.from(t))), !(t instanceof Uint8Array)) throw new TypeError("Expected Uint8Array");
-										if (0 === t.length) return "";
-										for (var r = 0, n = 0, o = 0, i = t.length; o !== i && 0 === t[o];) o++, r++;
-										for (var s = (i - o) * d + 1 >>> 0, u = new Uint8Array(s); o !== i;) {
-											for (var l = t[o], f = 0, h = s - 1;
-												(0 !== l || f < n) && -1 !== h; h--, f++) l += 256 * u[h] >>> 0, u[h] = l % a >>> 0, l = l / a >>> 0;
-											if (0 !== l) throw new Error("Non-zero carry");
-											n = f, o++
-										}
-										for (var p = s - n; p !== s && 0 === u[p];) p++;
-										for (var y = c.repeat(r); p < s; ++p) y += e.charAt(u[p]);
-										return y
-									},
-									decodeUnsafe: l,
-									decode: function (e) {
-										var r = l(e);
-										if (r) return r;
-										throw new Error(`Non-${t} character`)
-									}
-								}
 							}
 							var src = base$2,
 								_brrp__multiformats_scope_baseX = src;
 							class Encoder {
-								constructor(e, t, r) {
-									this.name = e, this.prefix = t, this.baseEncode = r
-								}
-								encode(e) {
-									if (e instanceof Uint8Array) return `${this.prefix}${this.baseEncode(e)}`;
-									throw Error("Unknown type, must be binary type")
-								}
 							}
 							class Decoder {
-								constructor(e, t, r) {
-									if (this.name = e, this.prefix = t, void 0 === t.codePointAt(0)) throw new Error("Invalid prefix character");
-									this.prefixCodePoint = t.codePointAt(0), this.baseDecode = r
-								}
-								decode(e) {
-									if ("string" == typeof e) {
-										if (e.codePointAt(0) !== this.prefixCodePoint) throw Error(`Unable to decode multibase string ${JSON.stringify(e)}, ${this.name} decoder only supports inputs prefixed with ${this.prefix}`);
-										return this.baseDecode(e.slice(this.prefix.length))
-									}
-									throw Error("Can only multibase decode strings")
-								}
-								or(e) {
-									return or$1(this, e)
-								}
 							}
 							class ComposedDecoder {
 								constructor(e) {
@@ -2679,17 +2494,6 @@
 										bytes: r
 									}
 								};
-							var CBOR$1 = Object.freeze({
-								__proto__: null,
-								encode: encode$6,
-								link: link$2,
-								write: write$5,
-								code: code$7,
-								decode: decode$f
-							});
-							const HEADERS$1 = Object.freeze({
-								"content-type": "application/cbor"
-							});
 							var commonjsGlobal$1 = "undefined" != typeof globalThis ? globalThis : "undefined" != typeof window ? window : void 0 !== commonjsGlobal ? commonjsGlobal : "undefined" != typeof self ? self : {};
 
 							function getDefaultExportFromCjs(e) {
@@ -3157,57 +2961,19 @@
 									return n.close()
 								}
 							}
-							const createWriter$1 = () => new Writer$2,
-								encode$3 = ({
-									roots: e = [],
-									blocks: t
-								}) => {
-									const r = new Writer$2;
-									return t && r.write(...t.values()), r.flush(...e)
-								},
-								decode$5 = async e => {
-									const t = await CarReader.fromBytes(e),
-										{
-											_header: r,
-											_blocks: n,
-											_keys: o
-										} = t,
-										i = [],
-										s = new Map,
-										a = r.roots.map((e => o.indexOf(String(e))));
-									for (const [e, t] of n.entries()) a.includes(e) ? i.push(t) : s.set(t.cid.toString(), t);
-									return {
-										roots: i,
-										blocks: s
-									}
-								}, link$1 = async (e, {
+							const encode$3 = ({
+								roots: e = [],
+								blocks: t
+							}) => {
+								const r = new Writer$2;
+								return t && r.write(...t.values()), r.flush(...e)
+							},
+								link$1 = async (e, {
 									hasher: t = sha256
-								} = {}) => create$6(code$2, await t.digest(e)), write$4 = async (e, t) => {
-									const r = encode$3(e);
-									return {
-										bytes: r,
-										cid: await link$1(r, t)
-									}
-								};
-							const HEADERS = Object.freeze({
-								"content-type": "application/car"
-							});
+								} = {}) => create$6(code$2, await t.digest(e));
 							new TextEncoder, new TextDecoder, Object.freeze({
 								"content-type": "application/json"
 							});
-							class HTTPError extends Error {
-								static
-									throw(e, t) {
-									throw new this(e, t)
-								}
-								constructor(e, {
-									url: t,
-									status: r = 500,
-									statusText: n = "Server error"
-								}) {
-									super(e), this.name = "HTTPError", this.url = t, this.status = r, this.statusText = n
-								}
-							}
 							const the = e => e,
 								entries = e => Object.entries(e),
 								combine = ([e, ...t]) => {
@@ -3835,11 +3601,6 @@
 								}),
 								derives: equalWith
 							});
-							const execute = async (e, t) => {
-								const r = await t.encoder.encode(e, t),
-									n = await t.channel.request(r);
-								return await t.decoder.decode(n)
-							};
 
 							parse$3("did:key:z6MkkHafoFWxxWVNpNXocFdU6PL2RVLyTEgS1qTnD3bRP7V9");
 							var retry$2 = {
