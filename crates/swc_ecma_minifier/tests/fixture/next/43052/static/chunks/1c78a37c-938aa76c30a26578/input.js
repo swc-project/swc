@@ -78,11 +78,6 @@
 								encodeTo = (e, t, r = 0) => (_brrp_varint.encode(e, t, r), t),
 								encodingLength = e => _brrp_varint.encodingLength(e),
 								equals$1 = (e, t) => {
-									if (e === t) return !0;
-									if (e.byteLength !== t.byteLength) return !1;
-									for (let r = 0; r < e.byteLength; r++)
-										if (e[r] !== t[r]) return !1;
-									return !0
 								},
 								coerce = e => {
 									if (e instanceof Uint8Array && "Uint8Array" === e.constructor.name) return e;
@@ -91,26 +86,13 @@
 									throw new Error("Unknown type, must be binary type")
 								},
 								create$7 = (e, t) => {
-									const r = t.byteLength,
-										n = encodingLength(e),
-										o = n + encodingLength(r),
-										i = new Uint8Array(o + r);
-									return encodeTo(e, i, 0), encodeTo(r, i, n), i.set(t, o), new Digest(e, r, t, i)
 								},
 								decode$k = e => {
-									const t = coerce(e),
-										[r, n] = decode$l(t),
-										[o, i] = decode$l(t.subarray(n)),
-										s = t.subarray(n + i);
-									if (s.byteLength !== o) throw new Error("Incorrect length");
-									return new Digest(r, o, s, t)
 								},
 								equals = (e, t) => e === t || e.code === t.code && e.size === t.size && equals$1(e.bytes, t.bytes);
 							class Digest {
 							}
 
-							function base$2(e, t) {
-							}
 							class ComposedDecoder {
 								constructor(e) {
 									this.decoders = e
@@ -159,166 +141,6 @@
 							}), rfc4648({
 							});
 							class CID {
-								constructor(e, t, r, n) {
-									this.code = t, this.version = e, this.multihash = r, this.bytes = n, this.byteOffset = n.byteOffset, this.byteLength = n.byteLength, this.asCID = this, this._baseCache = new Map, Object.defineProperties(this, {
-										byteOffset: hidden,
-										byteLength: hidden,
-										code: readonly,
-										version: readonly,
-										multihash: readonly,
-										bytes: readonly,
-										_baseCache: hidden,
-										asCID: hidden
-									})
-								}
-								toV0() {
-									if (0 === this.version) return this; {
-										const {
-											code: e,
-											multihash: t
-										} = this;
-										if (e !== DAG_PB_CODE) throw new Error("Cannot convert a non dag-pb CID to CIDv0");
-										if (t.code !== SHA_256_CODE) throw new Error("Cannot convert non sha2-256 multihash CID to CIDv0");
-										return CID.createV0(t)
-									}
-								}
-								toV1() {
-									switch (this.version) {
-										case 0: {
-											const {
-												code: e,
-												digest: t
-											} = this.multihash, r = create$7(e, t);
-											return CID.createV1(this.code, r)
-										}
-										case 1:
-											return this;
-										default:
-											throw Error(`Can not convert CID version ${this.version} to version 0. This is a bug please report`)
-									}
-								}
-								equals(e) {
-									return e && this.code === e.code && this.version === e.version && equals(this.multihash, e.multihash)
-								}
-								toString(e) {
-									const {
-										bytes: t,
-										version: r,
-										_baseCache: n
-									} = this;
-									return 0 === r ? toStringV0(t, n, e || base58btc.encoder) : toStringV1(t, n, e || base32.encoder)
-								}
-								toJSON() {
-									return {
-										code: this.code,
-										version: this.version,
-										hash: this.multihash.bytes
-									}
-								}
-								get [Symbol.toStringTag]() {
-									return "CID"
-								} [Symbol.for("nodejs.util.inspect.custom")]() {
-									return "CID(" + this.toString() + ")"
-								}
-								static isCID(e) {
-									return deprecate(/^0\.0/, IS_CID_DEPRECATION), !(!e || !e[cidSymbol] && e.asCID !== e)
-								}
-								get toBaseEncodedString() {
-									throw new Error("Deprecated, use .toString()")
-								}
-								get codec() {
-									throw new Error('"codec" property is deprecated, use integer "code" property instead')
-								}
-								get buffer() {
-									throw new Error("Deprecated .buffer property, use .bytes to get Uint8Array instead")
-								}
-								get multibaseName() {
-									throw new Error('"multibaseName" property is deprecated')
-								}
-								get prefix() {
-									throw new Error('"prefix" property is deprecated')
-								}
-								static asCID(e) {
-									if (e instanceof CID) return e;
-									if (null != e && e.asCID === e) {
-										const {
-											version: t,
-											code: r,
-											multihash: n,
-											bytes: o
-										} = e;
-										return new CID(t, r, n, o || encodeCID(t, r, n.bytes))
-									}
-									if (null != e && !0 === e[cidSymbol]) {
-										const {
-											version: t,
-											multihash: r,
-											code: n
-										} = e, o = decode$k(r);
-										return CID.create(t, n, o)
-									}
-									return null
-								}
-								static create(e, t, r) {
-									if ("number" != typeof t) throw new Error("String codecs are no longer supported");
-									switch (e) {
-										case 0:
-											if (t !== DAG_PB_CODE) throw new Error(`Version 0 CID must use dag-pb (code: ${DAG_PB_CODE}) block encoding`);
-											return new CID(e, t, r, r.bytes);
-										case 1: {
-											const n = encodeCID(e, t, r.bytes);
-											return new CID(e, t, r, n)
-										}
-										default:
-											throw new Error("Invalid version")
-									}
-								}
-								static createV0(e) {
-									return CID.create(0, DAG_PB_CODE, e)
-								}
-								static createV1(e, t) {
-									return CID.create(1, e, t)
-								}
-								static decode(e) {
-									const [t, r] = CID.decodeFirst(e);
-									if (r.length) throw new Error("Incorrect length");
-									return t
-								}
-								static decodeFirst(e) {
-									const t = CID.inspectBytes(e),
-										r = t.size - t.multihashSize,
-										n = coerce(e.subarray(r, r + t.multihashSize));
-									if (n.byteLength !== t.multihashSize) throw new Error("Incorrect length");
-									const o = n.subarray(t.multihashSize - t.digestSize),
-										i = new Digest(t.multihashCode, t.digestSize, o, n);
-									return [0 === t.version ? CID.createV0(i) : CID.createV1(t.codec, i), e.subarray(t.size)]
-								}
-								static inspectBytes(e) {
-									let t = 0;
-									const r = () => {
-										const [r, n] = decode$l(e.subarray(t));
-										return t += n, r
-									};
-									let n = r(),
-										o = DAG_PB_CODE;
-									if (18 === n ? (n = 0, t = 0) : 1 === n && (o = r()), 0 !== n && 1 !== n) throw new RangeError(`Invalid CID version ${n}`);
-									const i = t,
-										s = r(),
-										a = r(),
-										c = t + a;
-									return {
-										version: n,
-										codec: o,
-										multihashCode: s,
-										digestSize: a,
-										multihashSize: c - i,
-										size: c
-									}
-								}
-								static parse(e, t) {
-									const [r, n] = parseCIDtoBytes(e, t), o = CID.decode(n);
-									return o._baseCache.set(r, e), o
-								}
 							}
 							const parseCIDtoBytes = (e, t) => {
 								switch (e[0]) {
@@ -1352,44 +1174,19 @@
 							const CID_CBOR_TAG = 42;
 
 							function cidEncoder$1(e) {
-								if (e.asCID !== e) return null;
-								const t = CID.asCID(e);
-								if (!t) return null;
-								const r = new Uint8Array(t.bytes.byteLength + 1);
-								return r.set(t.bytes, 1), [new Token(Type.tag, CID_CBOR_TAG), new Token(Type.bytes, r)]
 							}
 
 							function undefinedEncoder$1() {
-								throw new Error("`undefined` is not supported by the IPLD Data Model and cannot be encoded")
 							}
 
 							function numberEncoder$1(e) {
-								if (Number.isNaN(e)) throw new Error("`NaN` is not supported by the IPLD Data Model and cannot be encoded");
-								if (e === 1 / 0 || e === -1 / 0) throw new Error("`Infinity` and `-Infinity` is not supported by the IPLD Data Model and cannot be encoded");
-								return null
 							}
 							const encodeOptions$1 = {
-								float64: !0,
-								typeEncoders: {
-									Object: cidEncoder$1,
-									undefined: undefinedEncoder$1,
-									number: numberEncoder$1
-								}
 							};
 
 							function cidDecoder(e) {
-								if (0 !== e[0]) throw new Error("Invalid CID for CBOR tag 42; expected leading 0x00");
-								return CID.decode(e.subarray(1))
 							}
 							const decodeOptions$1 = {
-								allowIndefinite: !1,
-								coerceUndefinedToNull: !0,
-								allowNaN: !1,
-								allowInfinity: !1,
-								allowBigInt: !0,
-								strict: !0,
-								useMaps: !1,
-								tags: []
 							};
 							decodeOptions$1.tags[CID_CBOR_TAG] = cidDecoder;
 							const code$7 = 113,
@@ -1480,241 +1277,25 @@
 							};
 
 							function encode$c(e, t) {
-								return t = Object.assign({}, defaultEncodeOptions$1, t), encodeCustom(e, new JSONEncoder, t)
 							}
 							class Tokenizer {
-								constructor(e, t = {}) {
-									this.pos = 0, this.data = e, this.options = t, this.modeStack = ["value"], this.lastToken = ""
-								}
-								done() {
-									return this.pos >= this.data.length
-								}
-								ch() {
-									return this.data[this.pos]
-								}
-								currentMode() {
-									return this.modeStack[this.modeStack.length - 1]
-								}
-								skipWhitespace() {
-									let e = this.ch();
-									for (; 32 === e || 9 === e || 13 === e || 10 === e;) e = this.data[++this.pos]
-								}
-								expect(e) {
-									if (this.data.length - this.pos < e.length) throw new Error(`${decodeErrPrefix} unexpected end of input at position ${this.pos}`);
-									for (let t = 0; t < e.length; t++)
-										if (this.data[this.pos++] !== e[t]) throw new Error(`${decodeErrPrefix} unexpected token at position ${this.pos}, expected to find '${String.fromCharCode(...e)}'`)
-								}
-								parseNumber() {
-									const e = this.pos;
-									let t = !1,
-										r = !1;
-									const n = e => {
-										for (; !this.done();) {
-											const t = this.ch();
-											if (!e.includes(t)) break;
-											this.pos++
-										}
-									};
-									if (45 === this.ch() && (t = !0, this.pos++), 48 === this.ch()) {
-										if (this.pos++, 46 !== this.ch()) return new Token(Type.uint, 0, this.pos - e);
-										this.pos++, r = !0
-									}
-									if (n([48, 49, 50, 51, 52, 53, 54, 55, 56, 57]), t && this.pos === e + 1) throw new Error(`${decodeErrPrefix} unexpected token at position ${this.pos}`);
-									if (!this.done() && 46 === this.ch()) {
-										if (r) throw new Error(`${decodeErrPrefix} unexpected token at position ${this.pos}`);
-										r = !0, this.pos++, n([48, 49, 50, 51, 52, 53, 54, 55, 56, 57])
-									}
-									this.done() || 101 !== this.ch() && 69 !== this.ch() || (r = !0, this.pos++, this.done() || 43 !== this.ch() && 45 !== this.ch() || this.pos++, n([48, 49, 50, 51, 52, 53, 54, 55, 56, 57]));
-									const o = String.fromCharCode.apply(null, this.data.subarray(e, this.pos)),
-										i = parseFloat(o);
-									return r ? new Token(Type.float, i, this.pos - e) : !0 !== this.options.allowBigInt || Number.isSafeInteger(i) ? new Token(i >= 0 ? Type.uint : Type.negint, i, this.pos - e) : new Token(i >= 0 ? Type.uint : Type.negint, BigInt(o), this.pos - e)
-								}
-								parseString() {
-									if (34 !== this.ch()) throw new Error(`${decodeErrPrefix} unexpected character at position ${this.pos}; this shouldn't happen`);
-									this.pos++;
-									for (let e = this.pos, t = 0; e < this.data.length && t < 65536; e++, t++) {
-										const r = this.data[e];
-										if (92 === r || r < 32 || r >= 128) break;
-										if (34 === r) {
-											const r = String.fromCharCode.apply(null, this.data.subarray(this.pos, e));
-											return this.pos = e + 1, new Token(Type.string, r, t)
-										}
-									}
-									const e = this.pos,
-										t = [],
-										r = () => {
-											if (this.pos + 4 >= this.data.length) throw new Error(`${decodeErrPrefix} unexpected end of unicode escape sequence at position ${this.pos}`);
-											let e = 0;
-											for (let t = 0; t < 4; t++) {
-												let t = this.ch();
-												if (t >= 48 && t <= 57) t -= 48;
-												else if (t >= 97 && t <= 102) t = t - 97 + 10;
-												else {
-													if (!(t >= 65 && t <= 70)) throw new Error(`${decodeErrPrefix} unexpected unicode escape character at position ${this.pos}`);
-													t = t - 65 + 10
-												}
-												e = 16 * e + t, this.pos++
-											}
-											return e
-										},
-										n = () => {
-											const e = this.ch();
-											let r, n, o, i, s = null,
-												a = e > 239 ? 4 : e > 223 ? 3 : e > 191 ? 2 : 1;
-											if (this.pos + a > this.data.length) throw new Error(`${decodeErrPrefix} unexpected unicode sequence at position ${this.pos}`);
-											switch (a) {
-												case 1:
-													e < 128 && (s = e);
-													break;
-												case 2:
-													r = this.data[this.pos + 1], 128 == (192 & r) && (i = (31 & e) << 6 | 63 & r, i > 127 && (s = i));
-													break;
-												case 3:
-													r = this.data[this.pos + 1], n = this.data[this.pos + 2], 128 == (192 & r) && 128 == (192 & n) && (i = (15 & e) << 12 | (63 & r) << 6 | 63 & n, i > 2047 && (i < 55296 || i > 57343) && (s = i));
-													break;
-												case 4:
-													r = this.data[this.pos + 1], n = this.data[this.pos + 2], o = this.data[this.pos + 3], 128 == (192 & r) && 128 == (192 & n) && 128 == (192 & o) && (i = (15 & e) << 18 | (63 & r) << 12 | (63 & n) << 6 | 63 & o, i > 65535 && i < 1114112 && (s = i))
-											}
-											null === s ? (s = 65533, a = 1) : s > 65535 && (s -= 65536, t.push(s >>> 10 & 1023 | 55296), s = 56320 | 1023 & s), t.push(s), this.pos += a
-										};
-									for (; !this.done();) {
-										const o = this.ch();
-										let i;
-										switch (o) {
-											case 92:
-												if (this.pos++, this.done()) throw new Error(`${decodeErrPrefix} unexpected string termination at position ${this.pos}`);
-												switch (i = this.ch(), this.pos++, i) {
-													case 34:
-													case 39:
-													case 92:
-													case 47:
-														t.push(i);
-														break;
-													case 98:
-														t.push(8);
-														break;
-													case 116:
-														t.push(9);
-														break;
-													case 110:
-														t.push(10);
-														break;
-													case 102:
-														t.push(12);
-														break;
-													case 114:
-														t.push(13);
-														break;
-													case 117:
-														t.push(r());
-														break;
-													default:
-														throw new Error(`${decodeErrPrefix} unexpected string escape character at position ${this.pos}`)
-												}
-												break;
-											case 34:
-												return this.pos++, new Token(Type.string, decodeCodePointsArray(t), this.pos - e);
-											default:
-												if (o < 32) throw new Error(`${decodeErrPrefix} invalid control character at position ${this.pos}`);
-												o < 128 ? (t.push(o), this.pos++) : n()
-										}
-									}
-									throw new Error(`${decodeErrPrefix} unexpected end of string at position ${this.pos}`)
-								}
-								parseValue() {
-									switch (this.ch()) {
-										case 123:
-											return this.modeStack.push("obj-start"), this.pos++, new Token(Type.map, 1 / 0, 1);
-										case 91:
-											return this.modeStack.push("array-start"), this.pos++, new Token(Type.array, 1 / 0, 1);
-										case 34:
-											return this.parseString();
-										case 110:
-											return this.expect([110, 117, 108, 108]), new Token(Type.null, null, 4);
-										case 102:
-											return this.expect([102, 97, 108, 115, 101]), new Token(Type.false, !1, 5);
-										case 116:
-											return this.expect([116, 114, 117, 101]), new Token(Type.true, !0, 4);
-										case 45:
-										case 48:
-										case 49:
-										case 50:
-										case 51:
-										case 52:
-										case 53:
-										case 54:
-										case 55:
-										case 56:
-										case 57:
-											return this.parseNumber();
-										default:
-											throw new Error(`${decodeErrPrefix} unexpected character at position ${this.pos}`)
-									}
-								}
-								next() {
-									switch (this.skipWhitespace(), this.currentMode()) {
-										case "value":
-											return this.modeStack.pop(), this.parseValue();
-										case "array-value":
-											if (this.modeStack.pop(), 93 === this.ch()) return this.pos++, this.skipWhitespace(), new Token(Type.break, void 0, 1);
-											if (44 !== this.ch()) throw new Error(`${decodeErrPrefix} unexpected character at position ${this.pos}, was expecting array delimiter but found '${String.fromCharCode(this.ch())}'`);
-											return this.pos++, this.modeStack.push("array-value"), this.skipWhitespace(), this.parseValue();
-										case "array-start":
-											return this.modeStack.pop(), 93 === this.ch() ? (this.pos++, this.skipWhitespace(), new Token(Type.break, void 0, 1)) : (this.modeStack.push("array-value"), this.skipWhitespace(), this.parseValue());
-										case "obj-key":
-											if (125 === this.ch()) return this.modeStack.pop(), this.pos++, this.skipWhitespace(), new Token(Type.break, void 0, 1);
-											if (44 !== this.ch()) throw new Error(`${decodeErrPrefix} unexpected character at position ${this.pos}, was expecting object delimiter but found '${String.fromCharCode(this.ch())}'`);
-											this.pos++, this.skipWhitespace();
-										case "obj-start": {
-											if (this.modeStack.pop(), 125 === this.ch()) return this.pos++, this.skipWhitespace(), new Token(Type.break, void 0, 1);
-											const e = this.parseString();
-											if (this.skipWhitespace(), 58 !== this.ch()) throw new Error(`${decodeErrPrefix} unexpected character at position ${this.pos}, was expecting key/value delimiter ':' but found '${String.fromCharCode(this.ch())}'`);
-											return this.pos++, this.modeStack.push("obj-value"), e
-										}
-										case "obj-value":
-											return this.modeStack.pop(), this.modeStack.push("obj-key"), this.skipWhitespace(), this.parseValue();
-										default:
-											throw new Error(`${decodeErrPrefix} unexpected parse state at position ${this.pos}; this shouldn't happen`)
-									}
-								}
 							}
 
 							function decode$d(e, t) {
-								return decode$g(e, t = Object.assign({
-									tokenizer: new Tokenizer(e, t)
-								}, t))
 							}
 
 							function cidEncoder(e) {
-								if (e.asCID !== e) return null;
-								const t = CID.asCID(e);
-								if (!t) return null;
-								const r = t.toString();
-								return [new Token(Type.map, 1 / 0, 1), new Token(Type.string, "/", 1), new Token(Type.string, r, r.length), new Token(Type.break, void 0, 1)]
 							}
 
 							function bytesEncoder(e) {
-								const t = base64$2.encode(e).slice(1);
-								return [new Token(Type.map, 1 / 0, 1), new Token(Type.string, "/", 1), new Token(Type.map, 1 / 0, 1), new Token(Type.string, "bytes", 5), new Token(Type.string, t, t.length), new Token(Type.break, void 0, 1), new Token(Type.break, void 0, 1)]
 							}
 
 							function undefinedEncoder() {
-								throw new Error("`undefined` is not supported by the IPLD Data Model and cannot be encoded")
 							}
 
 							function numberEncoder(e) {
-								if (Number.isNaN(e)) throw new Error("`NaN` is not supported by the IPLD Data Model and cannot be encoded");
-								if (e === 1 / 0 || e === -1 / 0) throw new Error("`Infinity` and `-Infinity` is not supported by the IPLD Data Model and cannot be encoded");
-								return null
 							}
 							const encodeOptions = {
-								typeEncoders: {
-									Object: cidEncoder,
-									Uint8Array: bytesEncoder,
-									Buffer: bytesEncoder,
-									undefined: undefinedEncoder,
-									number: numberEncoder
-								}
 							};
 							class DagJsonTokenizer extends Tokenizer {
 								constructor(e, t) {
@@ -2357,55 +1938,13 @@
 									return n.encodedSize(e, r)
 								}
 							}
-							const addRoot = (e, t, r = {}) => {
+							const resizeHeader = (e, t) => {
 								const {
-									resize: n = !1
-								} = r, {
-									bytes: o,
-									headerSize: i,
-									byteOffset: s,
-									roots: a
+									bytes: r,
+									headerSize: n
 								} = e;
-								e.roots.push(t);
-								const c = headerLength(e);
-								if (c > i) {
-									if (!(c - i + s < o.byteLength)) throw a.pop(), new RangeError(`Buffer has no capacity for a new root ${t}`);
-									if (!n) throw a.pop(), new RangeError(`Header of size ${i} has no capacity for new root ${t}.\n  However there is a space in the buffer and you could call addRoot(root, { resize: root }) to resize header to make a space for this root.`);
-									resizeHeader(e, c)
-								}
+								r.set(r.subarray(n, e.byteOffset), t), e.byteOffset += t - n, e.headerSize = t
 							},
-								addBlock = (e, {
-									cid: t,
-									bytes: r
-								}) => {
-									const n = t.bytes.byteLength + r.byteLength,
-										o = varint.encode(n);
-									if (e.byteOffset + o.length + n > e.bytes.byteLength) throw new RangeError("Buffer has no capacity for this block");
-									writeBytes$1(e, o), writeBytes$1(e, t.bytes), writeBytes$1(e, r)
-								},
-								close$6 = (e, t = {}) => {
-									const {
-										resize: r = !1
-									} = t, {
-										roots: n,
-										bytes: o,
-										byteOffset: i,
-										headerSize: s
-									} = e, a = encode$e({
-										version: 1,
-										roots: n
-									}), c = varint.encode(a.length), u = c.length + a.byteLength;
-									if (0 == s - u) return writeHeader(e, c, a), o.subarray(0, i);
-									if (r) return resizeHeader(e, u), writeHeader(e, c, a), o.subarray(0, e.byteOffset);
-									throw new RangeError("Header size was overestimated.\nYou can use close({ resize: true }) to resize header")
-								},
-								resizeHeader = (e, t) => {
-									const {
-										bytes: r,
-										headerSize: n
-									} = e;
-									r.set(r.subarray(n, e.byteOffset), t), e.byteOffset += t - n, e.headerSize = t
-								},
 								writeBytes$1 = (e, t) => {
 									e.bytes.set(t, e.byteOffset), e.byteOffset += t.length
 								},
@@ -5428,65 +4967,14 @@
 									})
 								}
 							});
-							const empty = () => new BufferView,
-								slice = (e, t = 0, r = e.byteLength) => {
-									const n = [],
-										o = t < 0 ? e.byteLength - t : t,
-										i = r < 0 ? e.byteLength - r : r;
-									if (0 === o && i >= e.byteLength) return e;
-									if (o > i || o > e.byteLength || i <= 0) return empty();
-									let s = 0,
-										a = 0;
-									for (const t of e.segments) {
-										const e = a + t.byteLength;
-										if (0 === s) {
-											if (i <= e) {
-												const e = t.subarray(o - a, i - a);
-												n.push(e), s = e.byteLength;
-												break
-											}
-											if (o < e) {
-												const e = o === a ? t : t.subarray(o - a);
-												n.push(e), s = e.byteLength
-											}
-										} else {
-											if (i <= e) {
-												const r = i === e ? t : t.subarray(0, i - a);
-												n.push(r), s += r.byteLength;
-												break
-											}
-											n.push(t), s += t.byteLength
-										}
-										a = e
-									}
-									return new BufferView(n, e.byteOffset + o, s)
-								},
-								push = (e, t) => t.byteLength > 0 ? (e.segments.push(t), new BufferView(e.segments, e.byteOffset, e.byteLength + t.byteLength)) : e,
-								get = (e, t) => {
-									if (t < e.byteLength) {
-										let r = 0;
-										for (const n of e.segments) {
-											if (t < r + n.byteLength) return n[t - r];
-											r += n.byteLength
-										}
-									}
-								},
-								copyTo = (e, t, r) => {
-									let n = r;
-									for (const r of e.segments) t.set(r, n), n += r.byteLength;
-									return t
-								};
+							const empty = () => new BufferView;
 
-							function* iterate(e) {
-								for (const t of e.segments) yield* t
-							}
 							class BufferView extends Indexed {
 
 							}
 							const panic = e => {
 								throw new Error(e)
 							},
-								unreachable = (e, t, ...r) => panic(String.raw(e, JSON.stringify(t), ...r)),
 								EMPTY_BUFFER = new Uint8Array(0),
 								EMPTY$2 = [],
 								open$1 = e => ({
@@ -5498,13 +4986,13 @@
 									chunks: EMPTY$2
 								},
 								close$5 = e => split(e.config, e.buffer, !0),
-								split = (e, t, r) => {
+								split = () => {
 
 								},
 								mutable = () => ({
 
 								}),
-								addNodes = (e, t) => {
+								addNodes = () => {
 								},
 								addLink = (e, t, r) => {
 									const n = r.needs[e],
@@ -5553,20 +5041,12 @@
 								patch = (e, {
 								}) => {
 								},
-								assign = (e, t) => {
+								assign = () => {
 
 								},
-								patchDict = (e, t, r = e) => {
+								collect$1 = () => {
 
 								},
-								append = (e, t, r = e) => {
-
-								},
-								collect$1 = (e, t) => {
-
-								},
-								EMPTY$1 = Object.freeze([]),
-								BLANK = Object.freeze({}),
 								init = (e, t, r) => ({
 									status: "open",
 									metadata: t,
@@ -5578,103 +5058,6 @@
 									layout: r.fileLayout.open(),
 									nodeQueue: mutable()
 								}),
-								write$2 = (e, t) => {
-									if ("open" === e.status) {
-										const {
-											chunks: r,
-											...n
-										} = write$3(e.chunker, t), {
-											nodes: o,
-											leaves: i,
-											layout: s
-										} = e.config.fileLayout.write(e.layout, r), {
-											linked: a,
-											...c
-										} = addNodes(o, e.nodeQueue), u = [...encodeLeaves(i, e.config), ...encodeBranches(a, e.config)];
-										return {
-											state: {
-												...e,
-												chunker: n,
-												layout: s,
-												nodeQueue: c
-											},
-											effect: listen({
-												link: effects(u)
-											})
-										}
-									}
-									return panic("Unable to perform write on closed file")
-								},
-								link = (e, {
-									id: t,
-									link: r,
-									block: n
-								}) => {
-									let {
-										linked: o,
-										...i
-									} = addLink(t, r, e.nodeQueue);
-									const s = encodeBranches(o, e.config),
-										a = "closed" === e.status && t === e.rootID ? {
-											...e,
-											status: "linked",
-											link: r,
-											nodeQueue: i
-										} : {
-											...e,
-											nodeQueue: i
-										},
-										c = "closed" === e.status && t === e.rootID && e.end ? e.end.resume() : none();
-									return {
-										state: a,
-										effect: listen({
-											link: effects(s),
-											block: writeBlock(e.writer, n),
-											end: c
-										})
-									}
-								},
-								close$4 = e => {
-									if ("open" === e.status) {
-										const {
-											chunks: t
-										} = close$5(e.chunker), {
-											layout: r,
-											...n
-										} = e.config.fileLayout.write(e.layout, t), {
-											root: o,
-											...i
-										} = e.config.fileLayout.close(r, e.metadata), [s, a] = isLeafNode(o) ? [
-											[...n.nodes, ...i.nodes],
-											[...n.leaves, ...i.leaves, o]
-										] : [
-											[...n.nodes, ...i.nodes, o],
-											[...n.leaves, ...i.leaves]
-										], {
-											linked: c,
-											...u
-										} = addNodes(s, e.nodeQueue), d = [...encodeLeaves(a, e.config), ...encodeBranches(c, e.config)], l = fork$1(suspend());
-										return {
-											state: {
-												...e,
-												chunker: null,
-												layout: null,
-												rootID: o.id,
-												status: "closed",
-												end: l,
-												nodeQueue: u
-											},
-											effect: listen({
-												link: effects(d),
-												end: join(l)
-											})
-										}
-									}
-									return {
-										state: e,
-										effect: none()
-									}
-								},
 								encodeLeaves = (e, t) => e.map((e => encodeLeaf(t, e, t.fileChunkEncoder))),
 								encodeLeaf = function* ({
 									hasher: e,
