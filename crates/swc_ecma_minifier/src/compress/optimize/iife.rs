@@ -15,7 +15,7 @@ use crate::debug::dump;
 use crate::{
     compress::optimize::{util::Remapper, Ctx},
     mode::Mode,
-    util::{idents_captured_by, idents_used_by, make_number},
+    util::{contains_eval, idents_captured_by, idents_used_by, make_number},
 };
 
 /// Methods related to the option `negate_iife`.
@@ -728,6 +728,13 @@ where
             }
         }
 
+        // If we has an eval, we cannot remap variables correctly.
+        let has_eval = contains_eval(body, false);
+        if !param_ids.is_empty() && has_eval {
+            log_abort!("iife: [x] Aborting because of eval");
+            return false;
+        }
+
         if self.ctx.executed_multiple_time {
             if !param_ids.is_empty() {
                 let captured = idents_captured_by(body);
@@ -754,6 +761,10 @@ where
                     }
                 ) =>
             {
+                if has_eval {
+                    return false;
+                }
+
                 if var.decls.iter().any(|decl| match &decl.name {
                     Pat::Ident(BindingIdent {
                         id:
