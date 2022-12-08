@@ -155,17 +155,35 @@ pub static NAMED_COLORS: Lazy<AHashMap<JsWord, NamedColor>> = Lazy::new(|| {
 
 #[inline]
 fn is_escape_not_required(value: &str, raw: Option<&str>) -> bool {
-    value.chars().enumerate().all(|(i, c)| {
+    if value.is_empty() {
+        return true;
+    }
+
+    if raw.is_some() && value.contains(REPLACEMENT_CHARACTER) {
+        return false;
+    }
+
+    if (b'0'..=b'9').contains(&value.as_bytes()[0]) {
+        return false;
+    }
+
+    if value.len() == 1 && value.as_bytes()[0] == b'-' {
+        return false;
+    }
+
+    if value.len() >= 2
+        && value.as_bytes()[0] == b'-'
+        && (b'0'..=b'9').contains(&value.as_bytes()[1])
+    {
+        return false;
+    }
+
+    value.chars().all(|c| {
         match c {
-            REPLACEMENT_CHARACTER if raw.is_some() => false,
             '\x00' => false,
             '\x01'..='\x1f' | '\x7F' => false,
-            '0'..='9' if i == 0 => false,
-            '0'..='9' if i == 1 && &value[0..1] == "-" => false,
-            '-' if i == 0 && value.len() == 1 => false,
+            '-' | '_' => true,
             _ if !c.is_ascii()
-                || c == '-'
-                || c == '_'
                 || c.is_ascii_digit()
                 || c.is_ascii_uppercase()
                 || c.is_ascii_lowercase() =>
