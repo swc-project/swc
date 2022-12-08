@@ -61,23 +61,16 @@
 								POW_2_256 = BigInt("0x10000000000000000000000000000000000000000000000000000000000000000"),
 								SQRT_M1 = BigInt("19681161376707505956807079304988542015446066515923890162744021073123829784752");
 							BigInt("6853475219497561581579357271197624642482790079785650197046958215289687604742");
-							const SQRT_AD_MINUS_ONE = BigInt("25063068953384623474111414158702152701244531502492656460079210482610430750235"),
-								INVSQRT_A_MINUS_D = BigInt("54469307008909316920995813868745141605393597292927456921205312896311721017578"),
-								ONE_MINUS_D_SQ = BigInt("1159843021668779879193775521855586647937357759715417654439879720876111806838"),
-								D_MINUS_ONE_SQ = BigInt("40440834346308536858101042469323190826248399146238708352240133220865137265952");
 							class ExtendedPoint {
 
 							}
 
 
-							function assertRstPoint(e) {
-							}
 
 							ExtendedPoint.BASE = new ExtendedPoint(CURVE.Gx, CURVE.Gy, _1n, mod(CURVE.Gx * CURVE.Gy)), ExtendedPoint.ZERO = new ExtendedPoint(_0n, _1n, _1n, _0n);
 							class RistrettoPoint {
 							}
 							RistrettoPoint.BASE = new RistrettoPoint(ExtendedPoint.BASE), RistrettoPoint.ZERO = new RistrettoPoint(ExtendedPoint.ZERO);
-							const pointPrecomputes = new WeakMap;
 							class Point {
 							}
 							Point.BASE = new Point(CURVE.Gx, CURVE.Gy), Point.ZERO = new Point(_0n, _1n);
@@ -124,9 +117,6 @@
 								return hexToBytes(e.toString(16).padStart(64, "0"))
 							}
 
-							function numberTo32BytesLE(e) {
-								return numberTo32BytesBE(e).reverse()
-							}
 
 							function edIsNegative(e) {
 								return (mod(e) & _1n) === _1n
@@ -138,9 +128,6 @@
 							}
 							const MAX_255B = BigInt("0x7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
 
-							function bytes255ToNumberLE(e) {
-								return mod(bytesToNumberLE(e) & MAX_255B)
-							}
 
 							function mod(e, t = CURVE.P) {
 								const r = e % t;
@@ -198,20 +185,11 @@
 								}
 							}
 
-							function invertSqrt(e) {
-								return uvRatio(_1n, e)
-							}
 
 							function modlLE(e) {
 								return mod(bytesToNumberLE(e), CURVE.l)
 							}
 
-							function equalBytes(e, t) {
-								if (e.length !== t.length) return !1;
-								for (let r = 0; r < e.length; r++)
-									if (e[r] !== t[r]) return !1;
-								return !0
-							}
 
 							function ensureBytes(e, t) {
 								const r = e instanceof Uint8Array ? Uint8Array.from(e) : hexToBytes(e);
@@ -2810,20 +2788,7 @@
 							});
 							const HEADERS$1 = Object.freeze({
 								"content-type": "application/cbor"
-							}),
-								codec$1 = CBOR$1,
-								encode$5 = e => ({
-									headers: HEADERS$1,
-									body: encode$6(e)
-								}),
-								decode$7 = async ({
-									headers: e,
-									body: t
-								}) => {
-									const r = e["content-type"] || e["Content-Type"];
-									if ("application/cbor" !== r) throw TypeError(`Only 'content-type: application/cbor' is supported, intsead got '${r}'`);
-									return decode$f(t)
-								};
+							});
 							var commonjsGlobal$1 = "undefined" != typeof globalThis ? globalThis : "undefined" != typeof window ? window : void 0 !== commonjsGlobal ? commonjsGlobal : "undefined" != typeof self ? self : {};
 
 							function getDefaultExportFromCjs(e) {
@@ -3323,78 +3288,12 @@
 										cid: await link$1(r, t)
 									}
 								};
-							var codec = Object.freeze({
-								__proto__: null,
-								code: code$2,
-								createWriter: createWriter$1,
-								encode: encode$3,
-								decode: decode$5,
-								link: link$1,
-								write: write$4
-							});
 							const HEADERS = Object.freeze({
 								"content-type": "application/car"
-							}),
-								encode$2 = async (e, t) => {
-									const r = [],
-										n = new Map;
-									for (const o of e) {
-										const e = await delegate(o, t);
-										r.push(e.root);
-										for (const t of e.export()) n.set(t.cid.toString(), t);
-										n.delete(e.root.cid.toString())
-									}
-									const o = encode$3({
-										roots: r,
-										blocks: n
-									});
-									return {
-										headers: HEADERS,
-										body: o
-									}
-								}, decode$4 = async ({
-									headers: e,
-									body: t
-								}) => {
-									const r = e["content-type"] || e["Content-Type"];
-									if ("application/car" !== r) throw TypeError(`Only 'content-type: application/car' is supported, instead got '${r}'`);
-									const {
-										roots: n,
-										blocks: o
-									} = await decode$5(t), i = [];
-									for (const e of n) i.push(create$5({
-										root: e,
-										blocks: o
-									}));
-									return i
-								};
+							});
 							new TextEncoder, new TextDecoder, Object.freeze({
 								"content-type": "application/json"
 							});
-							class Channel {
-								constructor({
-									url: e,
-									fetch: t,
-									method: r
-								}) {
-									this.fetch = t, this.method = r, this.url = e
-								}
-								async request({
-									headers: e,
-									body: t
-								}) {
-									const r = await this.fetch(this.url.href, {
-										headers: e,
-										body: t,
-										method: this.method
-									}),
-										n = r.ok ? await r.arrayBuffer() : HTTPError.throw("HTTP Request failed", r);
-									return {
-										headers: Object.fromEntries(r.headers.entries()),
-										body: new Uint8Array(n)
-									}
-								}
-							}
 							class HTTPError extends Error {
 								static
 									throw(e, t) {
@@ -3877,9 +3776,6 @@
 										return null == r ? new Failure(`Expected link to be a CID instead of ${e}`) : null != t.code && r.code !== t.code ? new Failure(`Expected link to be CID with 0x${t.code.toString(16)} codec`) : null != t.algorithm && r.multihash.code !== t.algorithm ? new Failure(`Expected link to be CID with 0x${t.algorithm.toString(16)} hashing algorithm`) : null != t.version && r.version !== t.version ? new Failure(`Expected link to be CID version ${t.version} instead of ${r.version}`) : r
 									}
 								},
-								match = e => ({
-									decode: t => decode$2(t, e)
-								}),
 								optional = e => ({
 									decode: t => void 0 === t ? void 0 : decode$2(t, e)
 								});
@@ -4038,14 +3934,6 @@
 								}),
 								derives: equalWith
 							});
-							class Connection {
-								constructor(e) {
-									this.id = e.id, this.options = e, this.encoder = e.encoder, this.decoder = e.decoder, this.channel = e.channel, this.hasher = e.hasher || sha256
-								}
-								execute(...e) {
-									return execute(e, this)
-								}
-							}
 							const execute = async (e, t) => {
 								const r = await t.encoder.encode(e, t),
 									n = await t.channel.request(r);
@@ -4155,7 +4043,6 @@
 								function (e) {
 									e.exports = retry$1
 								}(retry$2);
-							const networkErrorMsgs = new Set(["Failed to fetch", "NetworkError when attempting to fetch resource.", "The Internet connection appears to be offline.", "Network request failed"]);
 
 							function getIterator(e) {
 								if ("function" == typeof e.next) return e;
