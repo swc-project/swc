@@ -67,186 +67,87 @@
 
 
 
-							ExtendedPoint.BASE = new ExtendedPoint(CURVE.Gx, CURVE.Gy, _1n, mod(CURVE.Gx * CURVE.Gy)), ExtendedPoint.ZERO = new ExtendedPoint(_0n, _1n, _1n, _0n);
 							class RistrettoPoint {
 							}
-							RistrettoPoint.BASE = new RistrettoPoint(ExtendedPoint.BASE), RistrettoPoint.ZERO = new RistrettoPoint(ExtendedPoint.ZERO);
 							class Point {
 							}
-							Point.BASE = new Point(CURVE.Gx, CURVE.Gy), Point.ZERO = new Point(_0n, _1n);
 							class Signature {
 							}
 
 							function concatBytes(...e) {
-								if (!e.every((e => e instanceof Uint8Array))) throw new Error("Expected Uint8Array list");
-								if (1 === e.length) return e[0];
-								const t = e.reduce(((e, t) => e + t.length), 0),
-									r = new Uint8Array(t);
-								for (let t = 0, n = 0; t < e.length; t++) {
-									const o = e[t];
-									r.set(o, n), n += o.length
-								}
-								return r
+
 							}
 							const hexes = Array.from({
 								length: 256
 							}, ((e, t) => t.toString(16).padStart(2, "0")));
 
 							function bytesToHex(e) {
-								if (!(e instanceof Uint8Array)) throw new Error("Uint8Array expected");
-								let t = "";
-								for (let r = 0; r < e.length; r++) t += hexes[e[r]];
-								return t
+
 							}
 
 							function hexToBytes(e) {
-								if ("string" != typeof e) throw new TypeError("hexToBytes: expected string, got " + typeof e);
-								if (e.length % 2) throw new Error("hexToBytes: received invalid unpadded hex");
-								const t = new Uint8Array(e.length / 2);
-								for (let r = 0; r < t.length; r++) {
-									const n = 2 * r,
-										o = e.slice(n, n + 2),
-										i = Number.parseInt(o, 16);
-									if (Number.isNaN(i) || i < 0) throw new Error("Invalid byte sequence");
-									t[r] = i
-								}
-								return t
+
 							}
 
 							function numberTo32BytesBE(e) {
-								return hexToBytes(e.toString(16).padStart(64, "0"))
+
 							}
 
 
 							function edIsNegative(e) {
-								return (mod(e) & _1n) === _1n
+
 							}
 
 							function bytesToNumberLE(e) {
-								if (!(e instanceof Uint8Array)) throw new Error("Expected Uint8Array");
-								return BigInt("0x" + bytesToHex(Uint8Array.from(e).reverse()))
+
 							}
 							const MAX_255B = BigInt("0x7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
 
 
 							function mod(e, t = CURVE.P) {
-								const r = e % t;
-								return r >= _0n ? r : t + r
+
 							}
 
 							function invert(e, t = CURVE.P) {
-								if (e === _0n || t <= _0n) throw new Error(`invert: expected positive integers, got n=${e} mod=${t}`);
-								let r = mod(e, t),
-									n = t,
-									o = _0n,
-									i = _1n;
-								for (; r !== _0n;) {
-									const e = n % r,
-										t = o - i * (n / r);
-									n = r, r = e, o = i, i = t
-								}
-								if (n !== _1n) throw new Error("invert: does not exist");
-								return mod(o, t)
+
 							}
 
 
 							function pow2(e, t) {
-								const {
-									P: r
-								} = CURVE;
-								let n = e;
-								for (; t-- > _0n;) n *= n, n %= r;
-								return n
+
 							}
 
 							function pow_2_252_3(e) {
-								const {
-									P: t
-								} = CURVE, r = BigInt(5), n = BigInt(10), o = BigInt(20), i = BigInt(40), s = BigInt(80), a = e * e % t * e % t, c = pow2(a, _2n) * a % t, u = pow2(c, _1n) * e % t, d = pow2(u, r) * u % t, l = pow2(d, n) * d % t, f = pow2(l, o) * l % t, h = pow2(f, i) * f % t, p = pow2(h, s) * h % t, y = pow2(p, s) * h % t, m = pow2(y, n) * d % t;
-								return {
-									pow_p_5_8: pow2(m, _2n) * e % t,
-									b2: a
-								}
 							}
 
 							function uvRatio(e, t) {
-								const r = mod(t * t * t),
-									n = mod(r * r * t);
-								let o = mod(e * r * pow_2_252_3(e * n).pow_p_5_8);
-								const i = mod(t * o * o),
-									s = o,
-									a = mod(o * SQRT_M1),
-									c = i === e,
-									u = i === mod(-e),
-									d = i === mod(-e * SQRT_M1);
-								return c && (o = s), (u || d) && (o = a), edIsNegative(o) && (o = mod(-o)), {
-									isValid: c || u,
-									value: o
-								}
+
 							}
 
 
 							function modlLE(e) {
-								return mod(bytesToNumberLE(e), CURVE.l)
 							}
 
 
 							function ensureBytes(e, t) {
-								const r = e instanceof Uint8Array ? Uint8Array.from(e) : hexToBytes(e);
-								if ("number" == typeof t && r.length !== t) throw new Error(`Expected ${t} bytes`);
-								return r
 							}
 
 							function normalizeScalar(e, t, r = !0) {
-								if (!t) throw new TypeError("Specify max value");
-								if ("number" == typeof e && Number.isSafeInteger(e) && (e = BigInt(e)), "bigint" == typeof e && e < t)
-									if (r) {
-										if (_0n < e) return e
-									} else if (_0n <= e) return e;
-								throw new TypeError("Expected valid scalar: 0 < scalar < max")
 							}
 
 							function adjustBytes25519(e) {
-								return e[0] &= 248, e[31] &= 127, e[31] |= 64, e
 							}
 
 							function checkPrivateKey(e) {
-								if (32 !== (e = "bigint" == typeof e || "number" == typeof e ? numberTo32BytesBE(normalizeScalar(e, POW_2_256)) : ensureBytes(e)).length) throw new Error("Expected 32 bytes");
-								return e
 							}
 
 							function getKeyFromHash(e) {
-								const t = adjustBytes25519(e.slice(0, 32)),
-									r = e.slice(32, 64),
-									n = modlLE(t),
-									o = Point.BASE.multiply(n),
-									i = o.toRawBytes();
-								return {
-									head: t,
-									prefix: r,
-									scalar: n,
-									point: o,
-									pointBytes: i
-								}
 							}
 							let _sha512Sync;
 							async function getExtendedPublicKey(e) {
-								return getKeyFromHash(await utils.sha512(checkPrivateKey(e)))
 							}
 
 							function prepareVerification(e, t, r) {
-								t = ensureBytes(t), r instanceof Point || (r = Point.fromHex(r, !1));
-								const {
-									r: n,
-									s: o
-								} = e instanceof Signature ? e.assertValidity() : Signature.fromHex(e);
-								return {
-									r: n,
-									s: o,
-									SB: ExtendedPoint.BASE.multiplyUnsafe(o),
-									pub: r,
-									msg: t
-								}
 							}
 
 							function finishVerification(e, t, r, n) {
