@@ -43,7 +43,7 @@ jobs:
   benchmark:
     name: Performance regression check
     if: >-
-      ${{ !contains(github.event.head_commit.message, 'chore: ') && github.repository_owner == 'swc-project' }}
+      ${{ !contains(github.event.head_commit.message, 'chore: ') && github.repository_owner == 'swc-project' && github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-large
     steps:
       - uses: actions/checkout@v3
