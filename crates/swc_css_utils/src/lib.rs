@@ -159,10 +159,6 @@ fn is_escape_not_required(value: &str, raw: Option<&str>) -> bool {
         return true;
     }
 
-    if raw.is_some() && value.contains(REPLACEMENT_CHARACTER) {
-        return false;
-    }
-
     if (b'0'..=b'9').contains(&value.as_bytes()[0]) {
         return false;
     }
@@ -180,6 +176,7 @@ fn is_escape_not_required(value: &str, raw: Option<&str>) -> bool {
 
     value.chars().all(|c| {
         match c {
+            REPLACEMENT_CHARACTER if raw.is_some() => false,
             '\x00' => false,
             '\x01'..='\x1f' | '\x7F' => false,
             '-' | '_' => true,
