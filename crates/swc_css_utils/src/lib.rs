@@ -155,35 +155,39 @@ pub static NAMED_COLORS: Lazy<AHashMap<JsWord, NamedColor>> = Lazy::new(|| {
 
 // https://drafts.csswg.org/cssom/#serialize-an-identifier
 pub fn serialize_ident<'a>(value: &'a str, raw: Option<&str>, minify: bool) -> Cow<'a, str> {
-    // Fast-path
-    if value.chars().enumerate().all(|(i, c)| {
-        match c {
-            // Old browser hacks with `\0` and other - IE
-            REPLACEMENT_CHARACTER if raw.is_some() => false,
-            '\x00' => false,
-            '\x01'..='\x1f' | '\x7F' => false,
-            '0'..='9' if i == 0 => false,
-            '0'..='9' if i == 1 && &value[0..1] == "-" => false,
-            // If the character is the first character and is a "-" (U+002D), and there is no second
-            // character, then the escaped character.
-            '-' if i == 0 && value.len() == 1 => false,
-            // If the character is not handled by one of the above rules and is greater than or
-            // equal to U+0080, is "-" (U+002D) or "_" (U+005F), or is in one of the ranges [0-9]
-            // (U+0030 to U+0039), [A-Z] (U+0041 to U+005A), or \[a-z] (U+0061 to U+007A), then the
-            // character itself.
-            _ if !c.is_ascii()
-                || c == '-'
-                || c == '_'
-                || c.is_ascii_digit()
-                || c.is_ascii_uppercase()
-                || c.is_ascii_lowercase() =>
-            {
-                true
+    fn can_skip(value: &str, raw: Option<&str>) -> bool {
+        value.chars().enumerate().all(|(i, c)| {
+            match c {
+                // Old browser hacks with `\0` and other - IE
+                REPLACEMENT_CHARACTER if raw.is_some() => false,
+                '\x00' => false,
+                '\x01'..='\x1f' | '\x7F' => false,
+                '0'..='9' if i == 0 => false,
+                '0'..='9' if i == 1 && &value[0..1] == "-" => false,
+                // If the character is the first character and is a "-" (U+002D), and there is no
+                // second character, then the escaped character.
+                '-' if i == 0 && value.len() == 1 => false,
+                // If the character is not handled by one of the above rules and is greater than or
+                // equal to U+0080, is "-" (U+002D) or "_" (U+005F), or is in one of the ranges
+                // [0-9] (U+0030 to U+0039), [A-Z] (U+0041 to U+005A), or \[a-z]
+                // (U+0061 to U+007A), then the character itself.
+                _ if !c.is_ascii()
+                    || c == '-'
+                    || c == '_'
+                    || c.is_ascii_digit()
+                    || c.is_ascii_uppercase()
+                    || c.is_ascii_lowercase() =>
+                {
+                    true
+                }
+                // Otherwise, the escaped character.
+                _ => false,
             }
-            // Otherwise, the escaped character.
-            _ => false,
-        }
-    }) {
+        })
+    }
+
+    // Fast-path
+    if can_skip(value, raw) {
         return Cow::Borrowed(value);
     }
 
