@@ -142,135 +142,33 @@
 								}
 							});
 							class Codec {
-								constructor(e, t, r, n) {
-									this.name = e, this.prefix = t, this.baseEncode = r, this.baseDecode = n, this.encoder = new Encoder(e, t, r), this.decoder = new Decoder(e, t, n)
-								}
-								encode(e) {
-									return this.encoder.encode(e)
-								}
-								decode(e) {
-									return this.decoder.decode(e)
-								}
 							}
 							const from$2 = ({
-								name: e,
-								prefix: t,
-								encode: r,
-								decode: n
 							}) => new Codec(e, t, r, n),
 								baseX = ({
-									prefix: e,
-									name: t,
-									alphabet: r
 								}) => {
-									const {
-										encode: n,
-										decode: o
-									} = _brrp__multiformats_scope_baseX(r, t);
-									return from$2({
-										prefix: e,
-										name: t,
-										encode: n,
-										decode: e => coerce(o(e))
-									})
 								},
 								decode$j = (e, t, r, n) => {
-									const o = {};
-									for (let e = 0; e < t.length; ++e) o[t[e]] = e;
-									let i = e.length;
-									for (;
-										"=" === e[i - 1];) --i;
-									const s = new Uint8Array(i * r / 8 | 0);
-									let a = 0,
-										c = 0,
-										u = 0;
-									for (let t = 0; t < i; ++t) {
-										const i = o[e[t]];
-										if (void 0 === i) throw new SyntaxError(`Non-${n} character`);
-										c = c << r | i, a += r, a >= 8 && (a -= 8, s[u++] = 255 & c >> a)
-									}
-									if (a >= r || 255 & c << 8 - a) throw new SyntaxError("Unexpected end of data");
-									return s
 								},
 								encode$h = (e, t, r) => {
-									const n = "=" === t[t.length - 1],
-										o = (1 << r) - 1;
-									let i = "",
-										s = 0,
-										a = 0;
-									for (let n = 0; n < e.length; ++n)
-										for (a = a << 8 | e[n], s += 8; s > r;) s -= r, i += t[o & a >> s];
-									if (s && (i += t[o & a << r - s]), n)
-										for (; i.length * r & 7;) i += "=";
-									return i
 								},
 								rfc4648 = ({
-									name: e,
-									prefix: t,
-									bitsPerChar: r,
-									alphabet: n
 								}) => from$2({
-									prefix: t,
-									name: e,
-									encode: e => encode$h(e, n, r),
-									decode: t => decode$j(t, n, r, e)
 								}),
 								base58btc = baseX({
-									name: "base58btc",
-									prefix: "z",
-									alphabet: "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
 								});
 							baseX({
-								name: "base58flickr",
-								prefix: "Z",
-								alphabet: "123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ"
 							});
 							const base32 = rfc4648({
-								prefix: "b",
-								name: "base32",
-								alphabet: "abcdefghijklmnopqrstuvwxyz234567",
-								bitsPerChar: 5
 							});
 							rfc4648({
-								prefix: "B",
-								name: "base32upper",
-								alphabet: "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567",
-								bitsPerChar: 5
 							}), rfc4648({
-								prefix: "c",
-								name: "base32pad",
-								alphabet: "abcdefghijklmnopqrstuvwxyz234567=",
-								bitsPerChar: 5
 							}), rfc4648({
-								prefix: "C",
-								name: "base32padupper",
-								alphabet: "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567=",
-								bitsPerChar: 5
 							}), rfc4648({
-								prefix: "v",
-								name: "base32hex",
-								alphabet: "0123456789abcdefghijklmnopqrstuv",
-								bitsPerChar: 5
 							}), rfc4648({
-								prefix: "V",
-								name: "base32hexupper",
-								alphabet: "0123456789ABCDEFGHIJKLMNOPQRSTUV",
-								bitsPerChar: 5
 							}), rfc4648({
-								prefix: "t",
-								name: "base32hexpad",
-								alphabet: "0123456789abcdefghijklmnopqrstuv=",
-								bitsPerChar: 5
 							}), rfc4648({
-								prefix: "T",
-								name: "base32hexpadupper",
-								alphabet: "0123456789ABCDEFGHIJKLMNOPQRSTUV=",
-								bitsPerChar: 5
 							}), rfc4648({
-								prefix: "h",
-								name: "base32z",
-								alphabet: "ybndrfg8ejkmcpqxot1uwisza345h769",
-								bitsPerChar: 5
 							});
 							class CID {
 								constructor(e, t, r, n) {
