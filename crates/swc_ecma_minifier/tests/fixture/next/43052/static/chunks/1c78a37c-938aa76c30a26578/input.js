@@ -430,17 +430,10 @@
 
 
 
+							async function* chunkBlocks(e, t = {}) { }
 
-
-
-
-							async function* chunkBlocks(e, t = {}) {
-							}
-
-							async function uploadCarChunks(e, t, r = {}) {
-							}
-							async function createUpload(e, t, r) {
-							}
+							async function uploadCarChunks(e, t, r = {}) { }
+							async function createUpload(e, t, r) { }
 							async function uploadCarBytes(e, t, r = {}) {
 
 							}
@@ -451,11 +444,9 @@
 					})(index_production, index_production.exports);
 					const UploaderContext = React.createContext([{
 						uploadedCarChunks: []
-					}, {
-					}]);
+					}, {}]);
 
-					function UploaderProvider({
-					}) {
+					function UploaderProvider({ }) {
 
 					}
 
