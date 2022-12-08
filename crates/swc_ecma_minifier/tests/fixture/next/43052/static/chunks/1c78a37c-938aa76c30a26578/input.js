@@ -18,7 +18,7 @@
 				 */
 				! function (e, t) {
 					true ? t(exports, __webpack_require__(7294), __webpack_require__(1321)) : 0
-				}(this, (function (exports, React, reactKeyring) {
+				}(this, (function (exports, React) {
 					"use strict";
 
 					function _interopDefaultLegacy(e) {
@@ -26,8 +26,7 @@
 							default: e
 						}
 					}
-					var React__default = _interopDefaultLegacy(React),
-						commonjsGlobal = "undefined" != typeof globalThis ? globalThis : "undefined" != typeof window ? window : "undefined" != typeof __webpack_require__.g ? __webpack_require__.g : "undefined" != typeof self ? self : {},
+					var commonjsGlobal = "undefined" != typeof globalThis ? globalThis : "undefined" != typeof window ? window : "undefined" != typeof __webpack_require__.g ? __webpack_require__.g : "undefined" != typeof self ? self : {},
 						index_production = {
 							exports: {}
 						};
@@ -2033,16 +2032,16 @@
 								emptyMap: new Token(Type.map, 0)
 							},
 								typeEncoders = {
-									number: (e, t, r, n) => Number.isInteger(e) && Number.isSafeInteger(e) ? new Token(e >= 0 ? Type.uint : Type.negint, e) : new Token(Type.float, e),
-									bigint: (e, t, r, n) => e >= BigInt(0) ? new Token(Type.uint, e) : new Token(Type.negint, e),
-									Uint8Array: (e, t, r, n) => new Token(Type.bytes, e),
-									string: (e, t, r, n) => new Token(Type.string, e),
-									boolean: (e, t, r, n) => e ? simpleTokens.true : simpleTokens.false,
-									null: (e, t, r, n) => simpleTokens.null,
-									undefined: (e, t, r, n) => simpleTokens.undefined,
-									ArrayBuffer: (e, t, r, n) => new Token(Type.bytes, new Uint8Array(e)),
-									DataView: (e, t, r, n) => new Token(Type.bytes, new Uint8Array(e.buffer, e.byteOffset, e.byteLength)),
-									Array(e, t, r, n) {
+									number: (e) => Number.isInteger(e) && Number.isSafeInteger(e) ? new Token(e >= 0 ? Type.uint : Type.negint, e) : new Token(Type.float, e),
+									bigint: (e) => e >= BigInt(0) ? new Token(Type.uint, e) : new Token(Type.negint, e),
+									Uint8Array: (e) => new Token(Type.bytes, e),
+									string: (e) => new Token(Type.string, e),
+									boolean: (e) => e ? simpleTokens.true : simpleTokens.false,
+									null: () => simpleTokens.null,
+									undefined: () => simpleTokens.undefined,
+									ArrayBuffer: (e) => new Token(Type.bytes, new Uint8Array(e)),
+									DataView: (e) => new Token(Type.bytes, new Uint8Array(e.buffer, e.byteOffset, e.byteLength)),
+									Array(e, r, n) {
 										if (!e.length) return !0 === r.addBreakTokens ? [simpleTokens.emptyArray, new Token(Type.break)] : simpleTokens.emptyArray;
 										n = Ref.createCheck(n, e);
 										const o = [];
@@ -2277,23 +2276,23 @@
 									e.push(n)
 								} [Type.negint.major](e, t) {
 									this[Type.uint.major](e, t)
-								} [Type.bytes.major](e, t) {
+								} [Type.bytes.major]() {
 									throw new Error(`${encodeErrPrefix} unsupported type: Uint8Array`)
 								} [Type.string.major](e, t) {
 									this.prefix(e);
 									const r = fromString(JSON.stringify(t.value));
 									e.push(r.length > 32 ? asU8A(r) : r)
-								} [Type.array.major](e, t) {
+								} [Type.array.major](e) {
 									this.prefix(e), this.inRecursive.push({
 										type: Type.array,
 										elements: 0
 									}), e.push([91])
-								} [Type.map.major](e, t) {
+								} [Type.map.major](e) {
 									this.prefix(e), this.inRecursive.push({
 										type: Type.map,
 										elements: 0
 									}), e.push([123])
-								} [Type.tag.major](e, t) { } [Type.float.major](e, t) {
+								} [Type.tag.major]() { } [Type.float.major](e, t) {
 									if ("break" === t.type.name) {
 										const t = this.inRecursive.pop();
 										if (t) {
@@ -4178,9 +4177,7 @@
 									with: n,
 									caveats: o
 								} = e.descriptor, {
-									delegation: i,
-									index: s
-								} = t, a = t.capability;
+									delegation: i } = t, a = t.capability;
 								if (a.can !== r) return new UnknownCapability(a);
 								const c = n.decode(a.with);
 								if (c.error) return new MalformedCapability(a, c);
@@ -4420,20 +4417,6 @@
 								CARLink = match({
 									code: code$2,
 									version: 1
-								}),
-								add = base.derive({
-									to: capability({
-										can: "upload/add",
-										with: match$1({
-											protocol: "did:"
-										}),
-										caveats: {
-											root: optional(),
-											shards: List.of(CARLink).optional()
-										},
-										derives: (e, t) => fail(equalWith(e, t)) || fail(equal(e.caveats.root, t.caveats.root, "root")) || fail(equal(e.caveats.shards, t.caveats.shards, "shards")) || !0
-									}),
-									derives: equalWith
 								});
 							base.derive({
 								to: capability({
@@ -4471,22 +4454,6 @@
 								return await t.decoder.decode(n)
 							}, url = new URL("https://access-api.web3.storage");
 
-							function connection({
-								id: e,
-								url: t = url,
-								fetch: r
-							}) {
-								return connect({
-									id: e,
-									encoder: CAR,
-									decoder: CBOR,
-									channel: open$2({
-										url: t,
-										method: "POST",
-										fetch: r
-									})
-								})
-							}
 							parse$3("did:key:z6MkkHafoFWxxWVNpNXocFdU6PL2RVLyTEgS1qTnD3bRP7V9");
 							var retry$2 = {
 								exports: {}
@@ -4605,40 +4572,6 @@
 							},
 								isNetworkError = e => networkErrorMsgs.has(e),
 								getDOMException = e => void 0 === globalThis.DOMException ? new Error(e) : new DOMException(e);
-							async function pRetry(e, t) {
-								return new Promise(((r, n) => {
-									t = {
-										onFailedAttempt() { },
-										retries: 10,
-										...t
-									};
-									const o = retry.operation(t);
-									o.attempt((async i => {
-										try {
-											r(await e(i))
-										} catch (e) {
-											if (!(e instanceof Error)) return void n(new TypeError(`Non-error was thrown: "${e}". You should only throw errors.`));
-											if (e instanceof AbortError) o.stop(), n(e.originalError);
-											else if (e instanceof TypeError && !isNetworkError(e.message)) o.stop(), n(e);
-											else {
-												decorateErrorWithCounts(e, i, t);
-												try {
-													await t.onFailedAttempt(e)
-												} catch (e) {
-													return void n(e)
-												}
-												o.retry(e) || n(o.mainError())
-											}
-										}
-									})), t.signal && !t.signal.aborted && t.signal.addEventListener("abort", (() => {
-										o.stop();
-										const e = void 0 === t.signal.reason ? getDOMException("The operation was aborted.") : t.signal.reason;
-										n(e instanceof Error ? e : getDOMException(e))
-									}), {
-										once: !0
-									})
-								}))
-							}
 
 							function getIterator(e) {
 								if ("function" == typeof e.next) return e;
@@ -6193,9 +6126,7 @@
 								matchFile = ({
 									content: e = EMPTY_BUFFER$1,
 									parts: t = EMPTY$3,
-									metadata: r = BLANK$2,
-									...n
-								}) => 0 === t.length ? new SimpleFileView(e, r) : 0 === e.byteLength ? new AdvancedFileView(t, r) : new ComplexFileView(e, t, r);
+									metadata: r = BLANK$2 }) => 0 === t.length ? new SimpleFileView(e, r) : 0 === e.byteLength ? new AdvancedFileView(t, r) : new ComplexFileView(e, t, r);
 							class SimpleFileView {
 								constructor(e, t) {
 									this.content = e, this.metadata = t, this.layout = "simple", this.type = NodeType.File
@@ -6435,7 +6366,7 @@
 									}
 									if (MAIN.status === IDLE)
 										for (MAIN.status = ACTIVE; ;) try {
-											for (const e of step(MAIN));
+											for (const { } of step(MAIN));
 											MAIN.status = IDLE;
 											break
 										} catch (e) {
@@ -7720,25 +7651,15 @@
 								}
 								return t
 							}
-							const CHUNK_SIZE = 31457280;
 							async function* chunkBlocks(e, t = {}) {
 							}
 
-							function encodeCar(e, t) {
-
-							}
-							const serviceUrl = new URL("https://8609r1772a.execute-api.us-east-1.amazonaws.com"),
-								serviceDid = parse$3("did:key:z6MkrZ1r5XBFZjBU34qyD8fueMbMRkKw17BZaq2ivKFjnz2z"),
-								RETRIES = 3,
-								CONCURRENT_UPLOADS = 3;
 							async function uploadCarChunks(e, t, r = {}) {
 							}
 							async function createUpload(e, t, r) {
 							}
 							async function uploadCarBytes(e, t, r = {}) {
 
-							}
-							async function collect(e) {
 							}
 							exports.chunkBlocks = chunkBlocks, exports.createUpload = createUpload, exports.encodeDirectory = encodeDirectory, exports.encodeFile = encodeFile, exports.uploadCarBytes = uploadCarBytes, exports.uploadCarChunks = uploadCarChunks, Object.defineProperty(exports, "__esModule", {
 								value: !0
