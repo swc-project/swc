@@ -7722,100 +7722,23 @@
 							}
 							const CHUNK_SIZE = 31457280;
 							async function* chunkBlocks(e, t = {}) {
-								const r = toIterable(e),
-									n = t.chunkSize ?? CHUNK_SIZE;
-								let o = [],
-									i = null,
-									s = 0;
-								for await (const e of r) null != i && (yield encodeCar(i), i = null), s + e.bytes.length > n && (i = o, o = [], s = 0), o.push(e), s += e.bytes.length;
-								null != i && (yield encodeCar(i)), o.length > 0 && (yield encodeCar(o, [o[o.length - 1].cid]))
 							}
 
 							function encodeCar(e, t) {
-								const {
-									writer: r,
-									out: n
-								} = CarWriter.create(t);
-								return (async () => {
-									for (const t of e) await r.put(t);
-									await r.close()
-								})(), n
+
 							}
 							const serviceUrl = new URL("https://8609r1772a.execute-api.us-east-1.amazonaws.com"),
 								serviceDid = parse$3("did:key:z6MkrZ1r5XBFZjBU34qyD8fueMbMRkKw17BZaq2ivKFjnz2z"),
 								RETRIES = 3,
 								CONCURRENT_UPLOADS = 3;
 							async function uploadCarChunks(e, t, r = {}) {
-								const n = r.onChunkUploaded ?? (() => { }),
-									o = transform(CONCURRENT_UPLOADS, (async t => {
-										const o = await collect(t),
-											i = new Uint8Array(await new Blob(o).arrayBuffer()),
-											s = await uploadCarBytes(e, i, r);
-										return n({
-											meta: {
-												cid: s,
-												size: i.length
-											}
-										}), s
-									}), t);
-								return await collect(o)
 							}
 							async function createUpload(e, t, r) {
-								const n = connection({
-									id: serviceDid,
-									url: serviceUrl
-								}),
-									o = await add.invoke({
-										issuer: e,
-										audience: serviceDid,
-										with: e.did(),
-										caveats: {
-											root: t,
-											shards: r
-										}
-									}).execute(n);
-								if (!0 === (null == o ? void 0 : o.error)) throw o
 							}
 							async function uploadCarBytes(e, t, r = {}) {
-								const n = await link$1(t),
-									o = connection({
-										id: serviceDid,
-										url: serviceUrl
-									}),
-									i = await pRetry((async () => await add$1.invoke({
-										issuer: e,
-										audience: serviceDid,
-										with: e.did(),
-										caveats: {
-											link: n
-										}
-									}).execute(o)), {
-										onFailedAttempt: console.warn,
-										retries: r.retries ?? RETRIES
-									});
-								if ("done" === i.status) return n;
-								if (null != i.error) throw new Error("failed store/add invocation", {
-									cause: i.error
-								});
-								if (!(await pRetry((async () => {
-									const e = await fetch(i.url, {
-										method: "PUT",
-										mode: "cors",
-										body: t,
-										headers: i.headers
-									});
-									if (e.status >= 400 && e.status < 500) throw new AbortError(`upload failed: ${e.status}`);
-									return e
-								}), {
-									onFailedAttempt: console.warn,
-									retries: r.retries ?? RETRIES
-								})).ok) throw new Error("upload failed");
-								return n
+
 							}
 							async function collect(e) {
-								const t = [];
-								for await (const r of e) t.push(r);
-								return t
 							}
 							exports.chunkBlocks = chunkBlocks, exports.createUpload = createUpload, exports.encodeDirectory = encodeDirectory, exports.encodeFile = encodeFile, exports.uploadCarBytes = uploadCarBytes, exports.uploadCarChunks = uploadCarChunks, Object.defineProperty(exports, "__esModule", {
 								value: !0
@@ -7837,42 +7760,8 @@
 					}]);
 
 					function UploaderProvider({
-						children: e
 					}) {
-						const {
-							identity: t
-						} = reactKeyring.useAuth(), [r, n] = React.useState([]), o = {
-							uploadedCarChunks: r
-						}, i = {
-							async uploadFile(e) {
-								if (null == t) throw new Error("missing identity");
-								const {
-									cid: r,
-									blocks: n
-								} = index_production.exports.encodeFile(e), o = await i.uploadCarChunks(index_production.exports.chunkBlocks(n)), s = await r;
-								return await index_production.exports.createUpload(t.signingPrincipal, s, o), s
-							},
-							async uploadDirectory(e) {
-								if (null == t) throw new Error("missing identity");
-								const {
-									cid: r,
-									blocks: n
-								} = index_production.exports.encodeDirectory(e), o = await i.uploadCarChunks(index_production.exports.chunkBlocks(n)), s = await r;
-								return await index_production.exports.createUpload(t.signingPrincipal, s, o), s
-							},
-							async uploadCarChunks(e) {
-								if (null == t) throw new Error("missing identity");
-								const r = [];
-								return n(r), await index_production.exports.uploadCarChunks(t.signingPrincipal, e, {
-									onChunkUploaded: e => {
-										r.push(e.meta), n([...r])
-									}
-								})
-							}
-						};
-						return React__default.default.createElement(UploaderContext.Provider, {
-							value: [o, i]
-						}, e)
+
 					}
 
 					function useUploader() {
