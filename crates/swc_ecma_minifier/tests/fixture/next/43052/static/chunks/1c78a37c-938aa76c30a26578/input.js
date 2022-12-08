@@ -37,8 +37,6 @@
 					(function (module, exports) {
 						var t;
 						t = function (exports) {
-							var minimal = {},
-								aspromise = asPromise;
 
 							function asPromise(e, t) {
 								for (var r = new Array(arguments.length - 1), n = 0, o = 2, i = !0; o < arguments.length;) r[n++] = arguments[o++];
@@ -111,7 +109,6 @@
 									return /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/.test(e)
 								}
 							}(base64$1);
-							var eventemitter = EventEmitter;
 
 							function EventEmitter() {
 								this._listeners = {}
@@ -135,7 +132,6 @@
 								}
 								return this
 							};
-							var float = factory(factory);
 
 							function factory(e) {
 								return "undefined" != typeof Float32Array ? function () {
@@ -244,7 +240,6 @@
 							function readUintBE(e, t) {
 								return (e[t] << 24 | e[t + 1] << 16 | e[t + 2] << 8 | e[t + 3]) >>> 0
 							}
-							var inquire_1 = inquire;
 
 							function inquire(moduleName) {
 								try {
@@ -268,8 +263,6 @@
 									return r - i
 								}
 							}(utf8$2);
-							var pool_1 = pool,
-								longbits, hasRequiredLongbits, hasRequiredMinimal;
 
 							function pool(e, t, r) {
 								var n = r || 8192,
@@ -283,91 +276,6 @@
 									return 7 & s && (s = 1 + (7 | s)), a
 								}
 							}
-
-							function requireLongbits() {
-							}
-
-							function requireMinimal() {
-								return hasRequiredMinimal || (hasRequiredMinimal = 1, function (e) {
-									var t = e;
-
-									function r(e, t, r) {
-										for (var n = Object.keys(t), o = 0; o < n.length; ++o) void 0 !== e[n[o]] && r || (e[n[o]] = t[n[o]]);
-										return e
-									}
-
-									function n(e) {
-										function t(e, n) {
-											if (!(this instanceof t)) return new t(e, n);
-											Object.defineProperty(this, "message", {
-												get: function () {
-													return e
-												}
-											}), Error.captureStackTrace ? Error.captureStackTrace(this, t) : Object.defineProperty(this, "stack", {
-												value: (new Error).stack || ""
-											}), n && r(this, n)
-										}
-										return (t.prototype = Object.create(Error.prototype)).constructor = t, Object.defineProperty(t.prototype, "name", {
-											get: function () {
-												return e
-											}
-										}), t.prototype.toString = function () {
-											return this.name + ": " + this.message
-										}, t
-									}
-									t.asPromise = aspromise, t.base64 = base64$1, t.EventEmitter = eventemitter, t.float = float, t.inquire = inquire_1, t.utf8 = utf8$2, t.pool = pool_1, t.LongBits = requireLongbits(), t.isNode = Boolean(void 0 !== commonjsGlobal$1 && commonjsGlobal$1 && commonjsGlobal$1.process && commonjsGlobal$1.process.versions && commonjsGlobal$1.process.versions.node), t.global = t.isNode && commonjsGlobal$1 || "undefined" != typeof window && window || "undefined" != typeof self && self || commonjsGlobal$1, t.emptyArray = Object.freeze ? Object.freeze([]) : [], t.emptyObject = Object.freeze ? Object.freeze({}) : {}, t.isInteger = Number.isInteger || function (e) {
-										return "number" == typeof e && isFinite(e) && Math.floor(e) === e
-									}, t.isString = function (e) {
-										return "string" == typeof e || e instanceof String
-									}, t.isObject = function (e) {
-										return e && "object" == typeof e
-									}, t.isset = t.isSet = function (e, t) {
-										var r = e[t];
-										return !(null == r || !e.hasOwnProperty(t)) && ("object" != typeof r || (Array.isArray(r) ? r.length : Object.keys(r).length) > 0)
-									}, t.Buffer = function () {
-										try {
-											var e = t.inquire("buffer").Buffer;
-											return e.prototype.utf8Write ? e : null
-										} catch (e) {
-											return null
-										}
-									}(), t._Buffer_from = null, t._Buffer_allocUnsafe = null, t.newBuffer = function (e) {
-										return "number" == typeof e ? t.Buffer ? t._Buffer_allocUnsafe(e) : new t.Array(e) : t.Buffer ? t._Buffer_from(e) : "undefined" == typeof Uint8Array ? e : new Uint8Array(e)
-									}, t.Array = "undefined" != typeof Uint8Array ? Uint8Array : Array, t.Long = t.global.dcodeIO && t.global.dcodeIO.Long || t.global.Long || t.inquire("long"), t.key2Re = /^true|false|0|1$/, t.key32Re = /^-?(?:0|[1-9][0-9]*)$/, t.key64Re = /^(?:[\\x00-\\xff]{8}|-?(?:0|[1-9][0-9]*))$/, t.longToHash = function (e) {
-										return e ? t.LongBits.from(e).toHash() : t.LongBits.zeroHash
-									}, t.longFromHash = function (e, r) {
-										var n = t.LongBits.fromHash(e);
-										return t.Long ? t.Long.fromBits(n.lo, n.hi, r) : n.toNumber(Boolean(r))
-									}, t.merge = r, t.lcFirst = function (e) {
-										return e.charAt(0).toLowerCase() + e.substring(1)
-									}, t.newError = n, t.ProtocolError = n("ProtocolError"), t.oneOfGetter = function (e) {
-										for (var t = {}, r = 0; r < e.length; ++r) t[e[r]] = 1;
-										return function () {
-											for (var e = Object.keys(this), r = e.length - 1; r > -1; --r)
-												if (1 === t[e[r]] && void 0 !== this[e[r]] && null !== this[e[r]]) return e[r]
-										}
-									}, t.oneOfSetter = function (e) {
-										return function (t) {
-											for (var r = 0; r < e.length; ++r) e[r] !== t && delete this[e[r]]
-										}
-									}, t.toJSONOptions = {
-										longs: String,
-										enums: String,
-										bytes: String,
-										json: !0
-									}, t._configure = function () {
-										var e = t.Buffer;
-										e ? (t._Buffer_from = e.from !== Uint8Array.from && e.from || function (t, r) {
-											return new e(t, r)
-										}, t._Buffer_allocUnsafe = e.allocUnsafe || function (t) {
-											return new e(t)
-										}) : t._Buffer_from = t._Buffer_allocUnsafe = null
-									}
-								}(minimal)), minimal
-							}
-
-
-
 
 							async function* chunkBlocks(e, t = {}) { }
 
