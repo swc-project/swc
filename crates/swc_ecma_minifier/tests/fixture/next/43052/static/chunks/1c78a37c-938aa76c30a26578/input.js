@@ -44,9 +44,7 @@
 									default: _nodeResolve_empty
 								});
 							/*! noble-ed25519 - MIT License (c) 2019 Paul Miller (paulmillr.com) */
-							const _1n = BigInt(1),
-								_2n = BigInt(2),
-								CU_O = BigInt("7237005577332262213973186563042994240857116359379907606001950938285454250989"),
+							const CU_O = BigInt("7237005577332262213973186563042994240857116359379907606001950938285454250989"),
 								CURVE = Object.freeze({
 									a: BigInt(-1),
 									d: BigInt("37095705934669439343138083508754565189542113879843219016388785533085940283555"),
@@ -58,86 +56,39 @@
 									Gy: BigInt("46316835694926478169428394003475163141307993866256225615783033603165251855960")
 								});
 							BigInt("6853475219497561581579357271197624642482790079785650197046958215289687604742");
-							class ExtendedPoint {
-
-							}
-
-
-
-							class Point {
-							}
-
-							function concatBytes(...e) {
-
-							}
-
-							function bytesToHex(e) {
-
-							}
-
-							function hexToBytes(e) {
-
-							}
-
-
-
-
-							function bytesToNumberLE(e) {
-
-							}
-
-
-							function mod(e, t = CURVE.P) {
-
-							}
-
-							function invert(e, t = CURVE.P) {
-
-							}
 
 
 
 
 
 
-							function modlLE(e) {
-							}
-
-
-							function ensureBytes(e) {
-							}
 
 
 
 
-							let _sha512Sync;
-							async function getExtendedPublicKey(e) {
-							}
 
-							function prepareVerification(e, t, r) {
-							}
 
-							function finishVerification(e, t, r, n) {
-							}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 							async function verify(e, t, r) {
 							}
-							const crypto$1 = {
-								node: nodeCrypto,
-								web: "object" == typeof self && "crypto" in self ? self.crypto : void 0
-							},
-								utils = {
-								};
-							var encode_1$1 = encode$i,
-								MSB$2 = 128,
-								REST$2 = 127,
-								MSBALL$1 = ~REST$2,
-								INT$1 = Math.pow(2, 31);
+							var REST$2 = 127;
 
 							function encode$i(e, t, r) {
 							}
-							var decode$m = read$1,
-								MSB$1$1 = 128,
-								REST$1$1 = 127;
 
 							function read$1(e, t) {
 							}
@@ -150,9 +101,6 @@
 								N7$1 = Math.pow(2, 49),
 								N8$1 = Math.pow(2, 56),
 								N9$1 = Math.pow(2, 63),
-								length$1 = function (e) {
-									return e < N1$1 ? 1 : e < N2$1 ? 2 : e < N3$1 ? 3 : e < N4$1 ? 4 : e < N5$1 ? 5 : e < N6$1 ? 6 : e < N7$1 ? 7 : e < N8$1 ? 8 : e < N9$1 ? 9 : 10
-								},
 								varint$1 = {
 								},
 								_brrp_varint = varint$1;
@@ -2487,13 +2435,7 @@
 								encode$6 = e => encode$e(prepare$1(e, new Set)),
 								link$2 = async (e, {
 									hasher: t = sha256
-								} = {}) => create$6(code$7, await t.digest(e)), write$5 = async (e, t) => {
-									const r = encode$6(e);
-									return {
-										cid: await link$2(r, t),
-										bytes: r
-									}
-								};
+								} = {}) => create$6(code$7, await t.digest(e));
 							var commonjsGlobal$1 = "undefined" != typeof globalThis ? globalThis : "undefined" != typeof window ? window : void 0 !== commonjsGlobal ? commonjsGlobal : "undefined" != typeof self ? self : {};
 
 							function getDefaultExportFromCjs(e) {
@@ -2961,16 +2903,6 @@
 									return n.close()
 								}
 							}
-							const encode$3 = ({
-								roots: e = [],
-								blocks: t
-							}) => {
-								const r = new Writer$2;
-								return t && r.write(...t.values()), r.flush(...e)
-							},
-								link$1 = async (e, {
-									hasher: t = sha256
-								} = {}) => create$6(code$2, await t.digest(e));
 							new TextEncoder, new TextDecoder, Object.freeze({
 								"content-type": "application/json"
 							});
@@ -6749,40 +6681,15 @@
 								}
 							}
 							class CarWriterOut {
-								constructor(e) {
-									this._iterator = e
-								} [Symbol.asyncIterator]() {
-									if (this._iterating) throw new Error("Multiple iterator not supported");
-									return this._iterating = !0, this._iterator
-								}
+
 							}
 
 							function encodeWriter() {
-								const e = create(),
-									{
-										writer: t,
-										iterator: r
-									} = e;
-								return {
-									encoder: createEncoder(t),
-									iterator: r
-								}
+
 							}
 
 							function toRoots(e) {
-								if (void 0 === e) return [];
-								if (!Array.isArray(e)) {
-									const t = CID.asCID(e);
-									if (!t) throw new TypeError("roots must be a single CID or an array of CIDs");
-									return [t]
-								}
-								const t = [];
-								for (const r of e) {
-									const e = CID.asCID(r);
-									if (!e) throw new TypeError("roots must be a single CID or an array of CIDs");
-									t.push(e)
-								}
-								return t
+
 							}
 							async function* chunkBlocks(e, t = {}) {
 							}
@@ -6802,15 +6709,6 @@
 					const UploaderContext = React.createContext([{
 						uploadedCarChunks: []
 					}, {
-						uploadFile: async () => {
-							throw new Error("missing uploader context provider")
-						},
-						uploadDirectory: async () => {
-							throw new Error("missing uploader context provider")
-						},
-						uploadCarChunks: async () => {
-							throw new Error("missing uploader context provider")
-						}
 					}]);
 
 					function UploaderProvider({
