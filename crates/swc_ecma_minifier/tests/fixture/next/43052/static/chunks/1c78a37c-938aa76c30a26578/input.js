@@ -38,9 +38,7 @@
 					(function (module, exports) {
 						var t;
 						t = function (exports) {
-							var _nodeResolve_empty = {};
 							/*! noble-ed25519 - MIT License (c) 2019 Paul Miller (paulmillr.com) */
-							const CU_O = BigInt("7237005577332262213973186563042994240857116359379907606001950938285454250989");
 							BigInt("6853475219497561581579357271197624642482790079785650197046958215289687604742");
 
 
@@ -113,12 +111,7 @@
 
 							function base$2(e, t) {
 							}
-							var src = base$2,
-								_brrp__multiformats_scope_baseX = src;
-							class Encoder {
-							}
-							class Decoder {
-							}
+							var src = base$2;
 							class ComposedDecoder {
 								constructor(e) {
 									this.decoders = e
@@ -147,10 +140,6 @@
 							}) => new Codec(e, t, r, n),
 								baseX = ({
 								}) => {
-								},
-								decode$j = (e, t, r, n) => {
-								},
-								encode$h = (e, t, r) => {
 								},
 								rfc4648 = ({
 								}) => from$2({
@@ -2114,7 +2103,7 @@
 										...u,
 										signature: l
 									})
-								}, parseDID = (e, t) => e && "function" == typeof e.did ? parseDID$2(e.did(), `${t}.did()`) : ParseError.throw(`The ${t}.did() must be a function that returns DID`), EMPTY$4 = new Uint8Array, create$6 = (e, t) => CID.createV1(e, t), isLink = e => null != e && e.asCID === e, asLink$1 = CID.asCID;
+								}, parseDID = (e, t) => e && "function" == typeof e.did ? parseDID$2(e.did(), `${t}.did()`) : ParseError.throw(`The ${t}.did() must be a function that returns DID`), EMPTY$4 = new Uint8Array, isLink = e => null != e && e.asCID === e, asLink$1 = CID.asCID;
 							CID.parse, CID.decode;
 							const isDelegation = e => !isLink(e);
 							class Delegation {
@@ -2400,13 +2389,6 @@
 									resizeHeader(e, c)
 								}
 							},
-								blockLength = ({
-									cid: e,
-									bytes: t
-								}) => {
-									const r = e.bytes.byteLength + t.byteLength;
-									return varint.encodingLength(r) + r
-								},
 								addBlock = (e, {
 									cid: t,
 									bytes: r
@@ -2461,18 +2443,6 @@
 								headerLength = ({
 									roots: e
 								}) => calculateHeaderLength(e.map((e => e.bytes.byteLength))),
-								createWriter$2 = (e, t = {}) => {
-									const {
-										roots: r = [],
-										byteOffset: n = 0,
-										byteLength: o = e.byteLength,
-										headerSize: i = headerLength({
-											roots: r
-										})
-									} = t, s = new Uint8Array(e, n, o), a = new CarBufferWriter(s, i);
-									for (const e of r) a.addRoot(e);
-									return a
-								},
 								Kinds = {
 									Null: e => null === e,
 									Int: e => Number.isInteger(e),
@@ -6084,14 +6054,7 @@
 								UnixFSLeaf = {
 								},
 								create$2 = ({
-								}) => new FileWriterView(init(e, t, configure(r))),
-								perform = (e, t) => fork$1(loop(t, (t => {
-									const {
-										state: r,
-										effect: n
-									} = update(t, e.state);
-									return e.state = r, n
-								})));
+								}) => new FileWriterView(init(e, t, configure(r)));
 							class FileWriterView {
 
 							}
@@ -6358,7 +6321,6 @@
 							}
 
 
-							function noop() { }
 
 							class CarWriter {
 								constructor(e, t) {
