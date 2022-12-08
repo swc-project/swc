@@ -361,6 +361,30 @@ impl BlockScoping {
             *body = Box::new(call.take().into_stmt());
         }
     }
+
+    /// This method will turn stmt like
+    /// ```js
+    /// for (let i in [1, 2])
+    ///   for (let j in [1, 2])
+    ///     console.log(i, j)
+    /// ```
+    /// into
+    /// ```js
+    /// for (let i in [1, 2]) {
+    ///   for (let j in [1, 2]) {
+    ///     console.log(i, j)
+    ///   }
+    /// }
+    /// ```
+    /// which fixes https://github.com/swc-project/swc/issues/6573
+    fn blockify_for_stmt_body(&self, body: &mut Box<Stmt>) {
+        if !body.is_block() {
+            *body = Box::new(Stmt::Block(BlockStmt {
+                span: Default::default(),
+                stmts: vec![*body.take()],
+            }));
+        }
+    }
 }
 
 #[swc_trace]
@@ -400,6 +424,7 @@ impl VisitMut for BlockScoping {
     }
 
     fn visit_mut_for_in_stmt(&mut self, node: &mut ForInStmt) {
+        self.blockify_for_stmt_body(&mut node.body);
         let lexical_var = if let VarDeclOrPat::VarDecl(decl) = &node.left {
             find_lexical_vars(decl)
         } else {
@@ -423,6 +448,7 @@ impl VisitMut for BlockScoping {
     }
 
     fn visit_mut_for_of_stmt(&mut self, node: &mut ForOfStmt) {
+        self.blockify_for_stmt_body(&mut node.body);
         let vars = if let VarDeclOrPat::VarDecl(decl) = &node.left {
             find_lexical_vars(decl)
         } else {
@@ -447,6 +473,7 @@ impl VisitMut for BlockScoping {
     }
 
     fn visit_mut_for_stmt(&mut self, node: &mut ForStmt) {
+        self.blockify_for_stmt_body(&mut node.body);
         let lexical_var = if let Some(VarDeclOrExpr::VarDecl(decl)) = &node.init {
             find_lexical_vars(decl)
         } else {
