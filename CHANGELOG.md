@@ -65,6 +65,9 @@
 - **(ci)** Fix benchmark action (#6582) ([d8adc58](https://github.com/swc-project/swc/commit/d8adc580110e0764686f5aea848425905605daa0))
 
 
+- **(ci)** Fix benchmark action (#6596) ([154c315](https://github.com/swc-project/swc/commit/154c315d91f20466ae90b83f5300017e57e4a078))
+
+
 - **(css/lexer)** Fix typo (#6588) ([f383836](https://github.com/swc-project/swc/commit/f383836bad48a791c93d1f6bd5670a2d19a545d8))
 
 ### Performance
