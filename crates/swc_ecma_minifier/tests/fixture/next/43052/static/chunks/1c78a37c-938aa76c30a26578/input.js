@@ -6246,34 +6246,14 @@
 									}
 								}),
 								configure = e => ({
-									...defaults$1(),
-									...e
 								}),
 								UnixFSLeaf = {
-									code: code,
-									name: name$1,
-									encode: encodeFileChunk
 								},
 								create$2 = ({
-									writer: e,
-									metadata: t = {},
-									settings: r = defaults$1()
 								}) => new FileWriterView(init(e, t, configure(r))),
 								write = async (e, t) => (await perform(e, send({
-									type: "write",
-									bytes: t
 								})), e), close$2 = async (e, {
-									releaseLock: t = !1,
-									closeWriter: r = !1
 								} = {}) => {
-									await perform(e, send({
-										type: "close"
-									}));
-									const {
-										state: n
-									} = e;
-									if ("linked" === n.status) return r ? await e.state.writer.close() : t && e.state.writer.releaseLock(), n.link;
-									panic(`Expected writer to be in 'linked' state after close, but it is in "${n.status}" instead`)
 								}, perform = (e, t) => fork$1(loop(t, (t => {
 									const {
 										state: r,
@@ -6282,33 +6262,11 @@
 									return e.state = r, n
 								})));
 							class FileWriterView {
-								constructor(e) {
-									this.state = e
-								}
-								get writer() {
-									return this.state.writer
-								}
-								get settings() {
-									return this.state.config
-								}
-								write(e) {
-									return write(this, e)
-								}
-								close(e) {
-									return close$2(this, e)
-								}
+
 							}
 							const defaults = defaults$1,
 								create$1 = ({
-									writer: e,
-									settings: t = defaults(),
-									metadata: r = {}
 								}) => new DirectoryWriter({
-									writer: e,
-									metadata: r,
-									settings: t,
-									entries: new Map,
-									closed: !1
 								}),
 								set = (e, t, r, {
 									overwrite: n = !1
