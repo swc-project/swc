@@ -21,11 +21,6 @@
 				}(this, (function (exports, React) {
 					"use strict";
 
-					function _interopDefaultLegacy(e) {
-						return e && "object" == typeof e && "default" in e ? e : {
-							default: e
-						}
-					}
 					var commonjsGlobal = "undefined" != typeof globalThis ? globalThis : "undefined" != typeof window ? window : "undefined" != typeof __webpack_require__.g ? __webpack_require__.g : "undefined" != typeof self ? self : {},
 						index_production = {
 							exports: {}
@@ -71,164 +66,13 @@
 								ONE_MINUS_D_SQ = BigInt("1159843021668779879193775521855586647937357759715417654439879720876111806838"),
 								D_MINUS_ONE_SQ = BigInt("40440834346308536858101042469323190826248399146238708352240133220865137265952");
 							class ExtendedPoint {
-								constructor(e, t, r, n) {
-									this.x = e, this.y = t, this.z = r, this.t = n
-								}
-								static fromAffine(e) {
-									if (!(e instanceof Point)) throw new TypeError("ExtendedPoint#fromAffine: expected Point");
-									return e.equals(Point.ZERO) ? ExtendedPoint.ZERO : new ExtendedPoint(e.x, e.y, _1n, mod(e.x * e.y))
-								}
-								static toAffineBatch(e) {
-									const t = invertBatch(e.map((e => e.z)));
-									return e.map(((e, r) => e.toAffine(t[r])))
-								}
-								static normalizeZ(e) {
-									return this.toAffineBatch(e).map(this.fromAffine)
-								}
-								equals(e) {
-									assertExtPoint(e);
-									const {
-										x: t,
-										y: r,
-										z: n
-									} = this, {
-										x: o,
-										y: i,
-										z: s
-									} = e, a = mod(t * s), c = mod(o * n), u = mod(r * s), d = mod(i * n);
-									return a === c && u === d
-								}
-								negate() {
-									return new ExtendedPoint(mod(-this.x), this.y, this.z, mod(-this.t))
-								}
-								double() {
-									const {
-										x: e,
-										y: t,
-										z: r
-									} = this, {
-										a: n
-									} = CURVE, o = mod(e * e), i = mod(t * t), s = mod(_2n * mod(r * r)), a = mod(n * o), c = e + t, u = mod(mod(c * c) - o - i), d = a + i, l = d - s, f = a - i, h = mod(u * l), p = mod(d * f), y = mod(u * f), m = mod(l * d);
-									return new ExtendedPoint(h, p, m, y)
-								}
-								add(e) {
-									assertExtPoint(e);
-									const {
-										x: t,
-										y: r,
-										z: n,
-										t: o
-									} = this, {
-										x: i,
-										y: s,
-										z: a,
-										t: c
-									} = e, u = mod((r - t) * (s + i)), d = mod((r + t) * (s - i)), l = mod(d - u);
-									if (l === _0n) return this.double();
-									const f = mod(n * _2n * c),
-										h = mod(o * _2n * a),
-										p = h + f,
-										y = d + u,
-										m = h - f,
-										g = mod(p * l),
-										w = mod(y * m),
-										b = mod(p * m),
-										v = mod(l * y);
-									return new ExtendedPoint(g, w, v, b)
-								}
-								subtract(e) {
-									return this.add(e.negate())
-								}
-								precomputeWindow(e) {
-									const t = 1 + 256 / e,
-										r = [];
-									let n = this,
-										o = n;
-									for (let i = 0; i < t; i++) {
-										o = n, r.push(o);
-										for (let t = 1; t < 2 ** (e - 1); t++) o = o.add(n), r.push(o);
-										n = o.double()
-									}
-									return r
-								}
-								wNAF(e, t) {
-									!t && this.equals(ExtendedPoint.BASE) && (t = Point.BASE);
-									const r = t && t._WINDOW_SIZE || 1;
-									if (256 % r) throw new Error("Point#wNAF: Invalid precomputation window, must be power of 2");
-									let n = t && pointPrecomputes.get(t);
-									n || (n = this.precomputeWindow(r), t && 1 !== r && (n = ExtendedPoint.normalizeZ(n), pointPrecomputes.set(t, n)));
-									let o = ExtendedPoint.ZERO,
-										i = ExtendedPoint.ZERO;
-									const s = 1 + 256 / r,
-										a = 2 ** (r - 1),
-										c = BigInt(2 ** r - 1),
-										u = 2 ** r,
-										d = BigInt(r);
-									for (let t = 0; t < s; t++) {
-										const r = t * a;
-										let s = Number(e & c);
-										if (e >>= d, s > a && (s -= u, e += _1n), 0 === s) {
-											let e = n[r];
-											t % 2 && (e = e.negate()), i = i.add(e)
-										} else {
-											let e = n[r + Math.abs(s) - 1];
-											s < 0 && (e = e.negate()), o = o.add(e)
-										}
-									}
-									return ExtendedPoint.normalizeZ([o, i])[0]
-								}
-								multiply(e, t) {
-									return this.wNAF(normalizeScalar(e, CURVE.l), t)
-								}
-								multiplyUnsafe(e) {
-									let t = normalizeScalar(e, CURVE.l, !1);
-									const r = ExtendedPoint.BASE,
-										n = ExtendedPoint.ZERO;
-									if (t === _0n) return n;
-									if (this.equals(n) || t === _1n) return this;
-									if (this.equals(r)) return this.wNAF(t);
-									let o = n,
-										i = this;
-									for (; t > _0n;) t & _1n && (o = o.add(i)), i = i.double(), t >>= _1n;
-									return o
-								}
-								isSmallOrder() {
-									return this.multiplyUnsafe(CURVE.h).equals(ExtendedPoint.ZERO)
-								}
-								isTorsionFree() {
-									return this.multiplyUnsafe(CURVE.l).equals(ExtendedPoint.ZERO)
-								}
-								toAffine(e = invert(this.z)) {
-									const {
-										x: t,
-										y: r,
-										z: n
-									} = this, o = mod(t * e), i = mod(r * e);
-									if (mod(n * e) !== _1n) throw new Error("invZ was invalid");
-									return new Point(o, i)
-								}
-								fromRistrettoBytes() {
-									legacyRist()
-								}
-								toRistrettoBytes() {
-									legacyRist()
-								}
-								fromRistrettoHash() {
-									legacyRist()
-								}
+
 							}
 
-							function assertExtPoint(e) {
-								if (!(e instanceof ExtendedPoint)) throw new TypeError("ExtendedPoint expected")
-							}
 
 							function assertRstPoint(e) {
-								if (!(e instanceof RistrettoPoint)) throw new TypeError("RistrettoPoint expected")
 							}
 
-							function legacyRist() {
-								throw new Error("Legacy method: switch to RistrettoPoint")
-							}
 							ExtendedPoint.BASE = new ExtendedPoint(CURVE.Gx, CURVE.Gy, _1n, mod(CURVE.Gx * CURVE.Gy)), ExtendedPoint.ZERO = new ExtendedPoint(_0n, _1n, _1n, _0n);
 							class RistrettoPoint {
 								constructor(e) {
@@ -509,11 +353,6 @@
 								return mod(o, t)
 							}
 
-							function invertBatch(e, t = CURVE.P) {
-								const r = new Array(e.length),
-									n = invert(e.reduce(((e, n, o) => n === _0n ? e : (r[o] = e, mod(e * n, t))), _1n), t);
-								return e.reduceRight(((e, n, o) => n === _0n ? e : (r[o] = mod(e * r[o], t), mod(e * n, t))), n), r
-							}
 
 							function pow2(e, t) {
 								const {
@@ -3176,13 +3015,7 @@
 									if ("application/cbor" !== r) throw TypeError(`Only 'content-type: application/cbor' is supported, intsead got '${r}'`);
 									return decode$f(t)
 								};
-							var CBOR = Object.freeze({
-								__proto__: null,
-								codec: codec$1,
-								encode: encode$5,
-								decode: decode$7
-							}),
-								commonjsGlobal$1 = "undefined" != typeof globalThis ? globalThis : "undefined" != typeof window ? window : void 0 !== commonjsGlobal ? commonjsGlobal : "undefined" != typeof self ? self : {};
+							var commonjsGlobal$1 = "undefined" != typeof globalThis ? globalThis : "undefined" != typeof window ? window : void 0 !== commonjsGlobal ? commonjsGlobal : "undefined" != typeof self ? self : {};
 
 							function getDefaultExportFromCjs(e) {
 								return e && e.__esModule && Object.prototype.hasOwnProperty.call(e, "default") ? e.default : e
@@ -3726,30 +3559,9 @@
 									}));
 									return i
 								};
-							var CAR = Object.freeze({
-								__proto__: null,
-								codec: codec,
-								encode: encode$2,
-								decode: decode$4
-							});
 							new TextEncoder, new TextDecoder, Object.freeze({
 								"content-type": "application/json"
 							});
-							const open$2 = ({
-								url: e,
-								method: t = "POST",
-								fetch: r
-							}) => {
-								if (!r) {
-									if (void 0 === globalThis.fetch) throw new TypeError("ucanto HTTP transport got undefined `fetch`. Try passing in a `fetch` implementation explicitly.");
-									r = globalThis.fetch.bind(globalThis)
-								}
-								return new Channel({
-									url: e,
-									method: t,
-									fetch: r
-								})
-							};
 							class Channel {
 								constructor({
 									url: e,
@@ -4294,24 +4106,6 @@
 									return void 0 === e ? void 0 : this.decoder.decode(e)
 								}
 							}
-							class List extends Never {
-								static of(e) {
-									return new this(e)
-								}
-								constructor(e) {
-									super(), this.decoder = e
-								}
-								decode(e) {
-									if (!Array.isArray(e)) return new Failure(`Expected to be an array instead got ${e} `);
-									const t = [];
-									for (const r of e) {
-										const e = this.decoder.decode(r);
-										if (e?.error) return new Failure(`Array containts invalid element: ${e.message}`);
-										t.push(e)
-									}
-									return t
-								}
-							}
 							class IntegerDecoder extends Never {
 								constructor({
 									min: e = -1 / 0,
@@ -4413,11 +4207,7 @@
 								}),
 								derives: equalWith
 							}),
-								base = any.or(upload),
-								CARLink = match({
-									code: code$2,
-									version: 1
-								});
+								base = any.or(upload);
 							base.derive({
 								to: capability({
 									can: "upload/remove",
@@ -4439,7 +4229,6 @@
 								}),
 								derives: equalWith
 							});
-							const connect = e => new Connection(e);
 							class Connection {
 								constructor(e) {
 									this.id = e.id, this.options = e, this.encoder = e.encoder, this.decoder = e.decoder, this.channel = e.channel, this.hasher = e.hasher || sha256
@@ -4452,7 +4241,7 @@
 								const r = await t.encoder.encode(e, t),
 									n = await t.channel.request(r);
 								return await t.decoder.decode(n)
-							}, url = new URL("https://access-api.web3.storage");
+							};
 
 							parse$3("did:key:z6MkkHafoFWxxWVNpNXocFdU6PL2RVLyTEgS1qTnD3bRP7V9");
 							var retry$2 = {
@@ -4557,21 +4346,7 @@
 								function (e) {
 									e.exports = retry$1
 								}(retry$2);
-							var retry = getDefaultExportFromCjs(retry$2.exports);
 							const networkErrorMsgs = new Set(["Failed to fetch", "NetworkError when attempting to fetch resource.", "The Internet connection appears to be offline.", "Network request failed"]);
-							class AbortError extends Error {
-								constructor(e) {
-									super(), e instanceof Error ? (this.originalError = e, ({
-										message: e
-									} = e)) : (this.originalError = new Error(e), this.originalError.stack = this.stack), this.name = "AbortError", this.message = e
-								}
-							}
-							const decorateErrorWithCounts = (e, t, r) => {
-								const n = r.retries - (t - 1);
-								return e.attemptNumber = t, e.retriesLeft = n, e
-							},
-								isNetworkError = e => networkErrorMsgs.has(e),
-								getDOMException = e => void 0 === globalThis.DOMException ? new Error(e) : new DOMException(e);
 
 							function getIterator(e) {
 								if ("function" == typeof e.next) return e;
