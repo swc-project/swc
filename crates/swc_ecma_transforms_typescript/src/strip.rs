@@ -1596,11 +1596,19 @@ where
                 ImportSpecifier::Default(ImportDefaultSpecifier { local, .. })
                 | ImportSpecifier::Named(ImportNamedSpecifier { local, .. })
                 | ImportSpecifier::Namespace(ImportStarAsSpecifier { local, .. }) => {
+                    let type_only = n.type_only
+                        || matches!(
+                            s,
+                            ImportSpecifier::Named(ImportNamedSpecifier {
+                                is_type_only: true,
+                                ..
+                            })
+                        );
                     self.scope
                         .referenced_idents
                         .entry((local.sym.clone(), local.span.ctxt()))
                         .or_default();
-                    if n.type_only {
+                    if type_only {
                         self.scope.decls.entry(local.to_id()).or_default();
                     }
                 }

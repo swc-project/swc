@@ -32,6 +32,9 @@
 - **(es/resolver)** Reset `in_type` flag correctly (#6597) ([29ba05d](https://github.com/swc-project/swc/commit/29ba05d137c606f9e67fec9db8bd2377671900e1))
 
 
+- **(es/typescript)** Strip inline type declarations (#6600) ([fe0c651](https://github.com/swc-project/swc/commit/fe0c65195d2308b1475e958a7051b5f529bf4580))
+
+
 - **(xml/parser)** Fix parsing of legacy document types (#6555) ([cdf0d8a](https://github.com/swc-project/swc/commit/cdf0d8a8b59a05498b6ca609d8a2ecf3c2f35f28))
 
 
@@ -63,6 +66,9 @@
 
 
 - **(ci)** Fix benchmark action (#6582) ([d8adc58](https://github.com/swc-project/swc/commit/d8adc580110e0764686f5aea848425905605daa0))
+
+
+- **(ci)** Fix benchmark action (#6596) ([154c315](https://github.com/swc-project/swc/commit/154c315d91f20466ae90b83f5300017e57e4a078))
 
 
 - **(css/lexer)** Fix typo (#6588) ([f383836](https://github.com/swc-project/swc/commit/f383836bad48a791c93d1f6bd5670a2d19a545d8))
