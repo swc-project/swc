@@ -225,7 +225,6 @@
 							}
 
 
-							const textDecoder = new TextDecoder;
 
 							function decodeVarint(e, t) {
 								let r = 0;
@@ -238,101 +237,17 @@
 								return [r, t]
 							}
 
-							function decodeBytes(e, t) {
-								let r;
-								[r, t] = decodeVarint(e, t);
-								const n = t + r;
-								if (r < 0 || n < 0) throw new Error("protobuf: invalid length");
-								if (n > e.length) throw new Error("protobuf: unexpected end of data");
-								return [e.subarray(t, n), n]
-							}
 
-							function decodeKey(e, t) {
-								let r;
-								return [r, t] = decodeVarint(e, t), [7 & r, r >> 3, t]
-							}
 
-							function decodeLink(e) {
-								const t = {},
-									r = e.length;
-								let n = 0;
-								for (; n < r;) {
-									let r, o;
-									if ([r, o, n] = decodeKey(e, n), 1 === o) {
-										if (t.Hash) throw new Error("protobuf: (PBLink) duplicate Hash section");
-										if (2 !== r) throw new Error(`protobuf: (PBLink) wrong wireType (${r}) for Hash`);
-										if (void 0 !== t.Name) throw new Error("protobuf: (PBLink) invalid order, found Name before Hash");
-										if (void 0 !== t.Tsize) throw new Error("protobuf: (PBLink) invalid order, found Tsize before Hash");
-										[t.Hash, n] = decodeBytes(e, n)
-									} else if (2 === o) {
-										if (void 0 !== t.Name) throw new Error("protobuf: (PBLink) duplicate Name section");
-										if (2 !== r) throw new Error(`protobuf: (PBLink) wrong wireType (${r}) for Name`);
-										if (void 0 !== t.Tsize) throw new Error("protobuf: (PBLink) invalid order, found Tsize before Name");
-										let o;
-										[o, n] = decodeBytes(e, n), t.Name = textDecoder.decode(o)
-									} else {
-										if (3 !== o) throw new Error(`protobuf: (PBLink) invalid fieldNumber, expected 1, 2 or 3, got ${o}`);
-										if (void 0 !== t.Tsize) throw new Error("protobuf: (PBLink) duplicate Tsize section");
-										if (0 !== r) throw new Error(`protobuf: (PBLink) wrong wireType (${r}) for Tsize`);
-										[t.Tsize, n] = decodeVarint(e, n)
-									}
-								}
-								if (n > r) throw new Error("protobuf: (PBLink) unexpected end of data");
-								return t
-							}
 
 							const textEncoder$1 = new TextEncoder,
 								maxInt32 = 2 ** 32,
 								maxUInt32 = 2 ** 31;
 
-							function encodeLink$1(e, t) {
-								let r = t.length;
-								if ("number" == typeof e.Tsize) {
-									if (e.Tsize < 0) throw new Error("Tsize cannot be negative");
-									if (!Number.isSafeInteger(e.Tsize)) throw new Error("Tsize too large for encoding");
-									r = encodeVarint(t, r, e.Tsize) - 1, t[r] = 24
-								}
-								if ("string" == typeof e.Name) {
-									const n = textEncoder$1.encode(e.Name);
-									r -= n.length, t.set(n, r), r = encodeVarint(t, r, n.length) - 1, t[r] = 18
-								}
-								return e.Hash && (r -= e.Hash.length, t.set(e.Hash, r), r = encodeVarint(t, r, e.Hash.length) - 1, t[r] = 10), t.length - r
-							}
 
 
-							function sizeLink(e) {
-								let t = 0;
-								if (e.Hash) {
-									const r = e.Hash.length;
-									t += 1 + r + sov(r)
-								}
-								if ("string" == typeof e.Name) {
-									const r = textEncoder$1.encode(e.Name).length;
-									t += 1 + r + sov(r)
-								}
-								return "number" == typeof e.Tsize && (t += 1 + sov(e.Tsize)), t
-							}
 
-							function sizeNode(e) {
-								let t = 0;
-								if (e.Data) {
-									const r = e.Data.length;
-									t += 1 + r + sov(r)
-								}
-								if (e.Links)
-									for (const r of e.Links) {
-										const e = sizeLink(r);
-										t += 1 + e + sov(e)
-									}
-								return t
-							}
 
-							function encodeVarint(e, t, r) {
-								const n = t -= sov(r);
-								for (; r >= maxUInt32;) e[t++] = 127 & r | 128, r /= 128;
-								for (; r >= 128;) e[t++] = 127 & r | 128, r >>>= 7;
-								return e[t] = r, n
-							}
 
 							function sov(e) {
 								return e % 2 == 0 && e++, Math.floor((len64(e) + 6) / 7)
@@ -342,27 +257,9 @@
 								let t = 0;
 								return e >= maxInt32 && (e = Math.floor(e / maxInt32), t = 32), e >= 65536 && (e >>>= 16, t += 16), e >= 256 && (e >>>= 8, t += 8), t + len8tab[e]
 							}
-							const len8tab = [0, 1, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8],
-								pbNodeProperties = ["Data", "Links"],
-								pbLinkProperties = ["Hash", "Name", "Tsize"],
-								textEncoder = new TextEncoder;
+							const len8tab = [0, 1, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8];
 
-							function linkComparator(e, t) {
-								if (e === t) return 0;
-								const r = e.Name ? textEncoder.encode(e.Name) : [],
-									n = t.Name ? textEncoder.encode(t.Name) : [];
-								let o = r.length,
-									i = n.length;
-								for (let e = 0, t = Math.min(o, i); e < t; ++e)
-									if (r[e] !== n[e]) {
-										o = r[e], i = n[e];
-										break
-									} return o < i ? -1 : i < o ? 1 : 0
-							}
 
-							function hasOnlyProperties(e, t) {
-								return !Object.keys(e).some((e => !t.includes(e)))
-							}
 
 
 
@@ -757,19 +654,10 @@
 									}
 								}(minimal)), minimal
 							}
-							var util$4 = requireMinimal(),
-								BufferWriter$1;
-
-							function Op(e, t, r) {
-								this.fn = e, this.len = t, this.next = void 0, this.val = r
-							}
-
-							function noop$1() { }
 
 
-							function Writer$1() {
-								this.len = 0, this.head = new Op(noop$1, 0, 0), this.tail = this.head, this.states = null
-							}
+
+
 
 
 
