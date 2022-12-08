@@ -38,23 +38,9 @@
 					(function (module, exports) {
 						var t;
 						t = function (exports) {
-							var _nodeResolve_empty = {},
-								nodeCrypto = Object.freeze({
-									__proto__: null,
-									default: _nodeResolve_empty
-								});
+							var _nodeResolve_empty = {};
 							/*! noble-ed25519 - MIT License (c) 2019 Paul Miller (paulmillr.com) */
-							const CU_O = BigInt("7237005577332262213973186563042994240857116359379907606001950938285454250989"),
-								CURVE = Object.freeze({
-									a: BigInt(-1),
-									d: BigInt("37095705934669439343138083508754565189542113879843219016388785533085940283555"),
-									P: BigInt("57896044618658097711785492504343953926634992332820282019728792003956564819949"),
-									l: CU_O,
-									n: CU_O,
-									h: BigInt(8),
-									Gx: BigInt("15112221349535400772501151409588531511454012693041857206046113283949847762202"),
-									Gy: BigInt("46316835694926478169428394003475163141307993866256225615783033603165251855960")
-								});
+							const CU_O = BigInt("7237005577332262213973186563042994240857116359379907606001950938285454250989");
 							BigInt("6853475219497561581579357271197624642482790079785650197046958215289687604742");
 
 
@@ -85,24 +71,10 @@
 
 							async function verify(e, t, r) {
 							}
-							var REST$2 = 127;
 
-							function encode$i(e, t, r) {
-							}
 
-							function read$1(e, t) {
-							}
-							var N1$1 = Math.pow(2, 7),
-								N2$1 = Math.pow(2, 14),
-								N3$1 = Math.pow(2, 21),
-								N4$1 = Math.pow(2, 28),
-								N5$1 = Math.pow(2, 35),
-								N6$1 = Math.pow(2, 42),
-								N7$1 = Math.pow(2, 49),
-								N8$1 = Math.pow(2, 56),
-								N9$1 = Math.pow(2, 63),
-								varint$1 = {
-								},
+							var varint$1 = {
+							},
 								_brrp_varint = varint$1;
 							const decode$l = (e, t = 0) => [_brrp_varint.decode(e, t), _brrp_varint.decode.bytes],
 								encodeTo = (e, t, r = 0) => (_brrp_varint.encode(e, t, r), t),
@@ -2431,11 +2403,7 @@
 									return r
 								}
 								return e
-							},
-								encode$6 = e => encode$e(prepare$1(e, new Set)),
-								link$2 = async (e, {
-									hasher: t = sha256
-								} = {}) => create$6(code$7, await t.digest(e));
+							};
 							var commonjsGlobal$1 = "undefined" != typeof globalThis ? globalThis : "undefined" != typeof window ? window : void 0 !== commonjsGlobal ? commonjsGlobal : "undefined" != typeof self ? self : {};
 
 							function getDefaultExportFromCjs(e) {
@@ -2870,38 +2838,6 @@
 									n = [];
 								for await (const e of t.blocks()) n.push(e);
 								return new CarReader(r, n)
-							}
-							const code$2 = 514;
-							class Writer$2 {
-								constructor(e = [], t = 0) {
-									this.written = new Set, this.blocks = e, this.byteLength = t
-								}
-								write(...e) {
-									for (const t of e) {
-										const e = t.cid.toString(base32);
-										this.written.has(e) || (this.blocks.push(t), this.byteLength += blockLength(t), this.written.add(e))
-									}
-									return this
-								}
-								flush(...e) {
-									const t = [];
-									for (const r of e.reverse()) {
-										const e = r.cid.toString(base32);
-										this.written.has(e) || (this.blocks.unshift(r), this.byteLength += blockLength({
-											cid: r.cid,
-											bytes: r.bytes
-										}), this.written.add(e)), t.push(r.cid)
-									}
-									this.byteLength += headerLength({
-										roots: t
-									});
-									const r = new ArrayBuffer(this.byteLength),
-										n = createWriter$2(r, {
-											roots: t
-										});
-									for (const e of this.blocks) n.write(e);
-									return n.close()
-								}
 							}
 							new TextEncoder, new TextDecoder, Object.freeze({
 								"content-type": "application/json"
@@ -6245,16 +6181,13 @@
 										createLink: CID.createV1
 									}
 								}),
-								configure = e => ({
+								configure = () => ({
 								}),
 								UnixFSLeaf = {
 								},
 								create$2 = ({
 								}) => new FileWriterView(init(e, t, configure(r))),
-								write = async (e, t) => (await perform(e, send({
-								})), e), close$2 = async (e, {
-								} = {}) => {
-								}, perform = (e, t) => fork$1(loop(t, (t => {
+								perform = (e, t) => fork$1(loop(t, (t => {
 									const {
 										state: r,
 										effect: n
@@ -6264,10 +6197,9 @@
 							class FileWriterView {
 
 							}
-							const defaults = defaults$1,
-								create$1 = ({
-								}) => new DirectoryWriter({
-								}),
+							const create$1 = ({
+							}) => new DirectoryWriter({
+							}),
 								set = (e, t, r, {
 									overwrite: n = !1
 								} = {}) => {
@@ -6527,70 +6459,9 @@
 								return n.set(r, 0), n.set(t, r.length), n
 							}
 
-							function createEncoder(e) {
-								return {
-									async setRoots(t) {
-										const r = createHeader(t);
-										await e.write(r)
-									},
-									async writeBlock(t) {
-										const {
-											cid: r,
-											bytes: n
-										} = t;
-										await e.write(new Uint8Array(varint.encode(r.bytes.length + n.length))), await e.write(r.bytes), n.length && await e.write(n)
-									},
-									async close() {
-										await e.end()
-									}
-								}
-							}
 
 							function noop() { }
 
-							function create() {
-								const e = [];
-								let t = null,
-									r = noop,
-									n = !1,
-									o = null,
-									i = noop;
-								const s = () => (t || (t = new Promise((e => {
-									r = () => {
-										t = null, r = noop, e()
-									}
-								}))), t),
-									a = {
-										write(t) {
-											e.push(t);
-											const r = s();
-											return i(), r
-										},
-										async end() {
-											n = !0;
-											const e = s();
-											i(), await e
-										}
-									},
-									c = {
-										async next() {
-											const t = e.shift();
-											return t ? (0 === e.length && r(), {
-												done: !1,
-												value: t
-											}) : n ? (r(), {
-												done: !0,
-												value: void 0
-											}) : (o || (o = new Promise((e => {
-												i = () => (o = null, i = noop, e(c.next()))
-											}))), o)
-										}
-									};
-								return {
-									writer: a,
-									iterator: c
-								}
-							}
 							class CarWriter {
 								constructor(e, t) {
 									this._encoder = t, this._mutex = t.setRoots(e), this._ended = !1
