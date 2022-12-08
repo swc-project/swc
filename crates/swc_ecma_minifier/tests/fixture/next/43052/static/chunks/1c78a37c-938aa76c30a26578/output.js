@@ -4,9 +4,8 @@
     ],
     {
         1522: function(__unused_webpack_module, exports, __webpack_require__) {
-            !function(e, t) {
-                t(exports, __webpack_require__(7294), __webpack_require__(1321));
-            }(this, function(exports, React, reactKeyring) {
+            var e, t;
+            e = this, t = function(exports, React, reactKeyring) {
                 "use strict";
                 function _interopDefaultLegacy(e) {
                     return e && "object" == typeof e && "default" in e ? e : {
@@ -3979,6 +3978,7 @@
                             }), this._originalTimeouts = JSON.parse(JSON.stringify(e)), this._timeouts = e, this._options = t || {}, this._maxRetryTime = t && t.maxRetryTime || 1 / 0, this._fn = null, this._errors = [], this._attempts = 1, this._operationTimeout = null, this._operationTimeoutCb = null, this._timeout = null, this._operationStart = null, this._timer = null, this._options.forever && (this._cachedTimeouts = this._timeouts.slice(0));
                         }
                         var retry_operation = RetryOperation, e, t;
+                        var e;
                         RetryOperation.prototype.reset = function() {
                             this._attempts = 1, this._timeouts = this._originalTimeouts.slice(0);
                         }, RetryOperation.prototype.stop = function() {
@@ -4058,9 +4058,7 @@
                                     });
                                 }).bind(t, a), t[s].options = r;
                             }
-                        }, function(e) {
-                            e.exports = retry$1;
-                        }(retry$2);
+                        }, e = retry$2, void (e.exports = retry$1);
                         var retry = getDefaultExportFromCjs(retry$2.exports);
                         const networkErrorMsgs = new Set([
                             "Failed to fetch",
@@ -5304,6 +5302,7 @@
                             if ("function" != typeof e) throw TypeError("rpcImpl must be a function");
                             util.EventEmitter.call(this), this.rpcImpl = e, this.requestDelimited = Boolean(t), this.responseDelimited = Boolean(r);
                         }
+                        var e;
                         (Service.prototype = Object.create(util.EventEmitter.prototype)).constructor = Service, Service.prototype.rpcCall = function e(t, r, n, o, i) {
                             if (!o) throw TypeError("request must be specified");
                             var s = this;
@@ -5331,19 +5330,16 @@
                             }, 0);
                         }, Service.prototype.end = function(e) {
                             return this.rpcImpl && (e || this.rpcImpl(null, null, null), this.rpcImpl = null, this.emit("end").off()), this;
-                        }, function(e) {
-                            e.Service = service;
-                        }(rpc);
+                        }, e = rpc, void (e.Service = service);
                         var roots = {};
+                        var e;
                         (function(e) {
                             var t = e;
                             function r() {
                                 t.util._configure(), t.Writer._configure(t.BufferWriter), t.Reader._configure(t.BufferReader);
                             }
                             t.build = "minimal", t.Writer = writer, t.BufferWriter = writer_buffer, t.Reader = reader, t.BufferReader = reader_buffer, t.util = requireMinimal(), t.rpc = rpc, t.roots = roots, t.configure = r, r();
-                        })(indexMinimal), function(e) {
-                            e.exports = indexMinimal;
-                        }(minimal$1);
+                        })(indexMinimal), e = minimal$1, void (e.exports = indexMinimal);
                         var $protobuf = getDefaultExportFromCjs(minimal$1.exports);
                         const $Reader = $protobuf.Reader, $Writer = $protobuf.Writer, $util = $protobuf.util, $root = $protobuf.roots.unixfs || ($protobuf.roots.unixfs = {}), Data = $root.Data = (()=>{
                             function e(e) {
@@ -7154,7 +7150,7 @@
                 exports.UploaderProvider = UploaderProvider, exports.chunkBlocks = index_production.exports.chunkBlocks, exports.encodeDirectory = index_production.exports.encodeDirectory, exports.encodeFile = index_production.exports.encodeFile, exports.useUploader = useUploader, Object.defineProperty(exports, "__esModule", {
                     value: !0
                 });
-            });
+            }, t(exports, __webpack_require__(7294), __webpack_require__(1321)), true;
         }
     }
 ]);

@@ -1182,16 +1182,15 @@
                         if (document.querySelector('script[src^="'.concat(src, '"]'))) {
                             return Promise.resolve();
                         }
-                        loadedScripts.set(src.toString(), prom = function(src, script) {
-                            return new Promise((resolve, reject)=>{
-                                script = document.createElement("script");
-                                script.onload = resolve;
-                                script.onerror = ()=>reject(markAssetError(Error("Failed to load script: ".concat(src))));
-                                script.crossOrigin = void 0;
-                                script.src = src;
-                                document.body.appendChild(script);
-                            });
-                        }(src));
+                        var src1, script;
+                        loadedScripts.set(src.toString(), prom = new Promise((resolve, reject)=>{
+                            script = document.createElement("script");
+                            script.onload = resolve;
+                            script.onerror = ()=>reject(markAssetError(Error("Failed to load script: ".concat(src))));
+                            script.crossOrigin = void 0;
+                            script.src = src;
+                            document.body.appendChild(script);
+                        }));
                         return prom;
                     }
                 }
@@ -1275,22 +1274,23 @@
                         if (cn = navigator.connection) {
                             if (cn.saveData || /2g/.test(cn.effectiveType)) return Promise.resolve();
                         }
-                        return getFilesForRoute(assetPrefix, route).then((output)=>Promise.all(canPrefetch ? output.scripts.map((script)=>(function(href, as, link) {
-                                    return new Promise((resolve, reject)=>{
-                                        const selector = '\n      link[rel="prefetch"][href^="'.concat(href, '"],\n      link[rel="preload"][href^="').concat(href, '"],\n      script[src^="').concat(href, '"]');
-                                        if (document.querySelector(selector)) {
-                                            return resolve();
-                                        }
-                                        link = document.createElement("link");
-                                        if (as) link.as = as;
-                                        link.rel = "prefetch";
-                                        link.crossOrigin = void 0;
-                                        link.onload = resolve;
-                                        link.onerror = ()=>reject(markAssetError(Error("Failed to prefetch: ".concat(href))));
-                                        link.href = href;
-                                        document.head.appendChild(link);
-                                    });
-                                })(script.toString(), "script")) : [])).then(()=>{
+                        return getFilesForRoute(assetPrefix, route).then((output)=>Promise.all(canPrefetch ? output.scripts.map((script)=>{
+                                var href, as, link;
+                                return href = script.toString(), as = "script", new Promise((resolve, reject)=>{
+                                    const selector = '\n      link[rel="prefetch"][href^="'.concat(href, '"],\n      link[rel="preload"][href^="').concat(href, '"],\n      script[src^="').concat(href, '"]');
+                                    if (document.querySelector(selector)) {
+                                        return resolve();
+                                    }
+                                    link = document.createElement("link");
+                                    if (as) link.as = as;
+                                    link.rel = "prefetch";
+                                    link.crossOrigin = void 0;
+                                    link.onload = resolve;
+                                    link.onerror = ()=>reject(markAssetError(Error("Failed to prefetch: ".concat(href))));
+                                    link.href = href;
+                                    document.head.appendChild(link);
+                                });
+                            }) : [])).then(()=>{
                             _requestIdleCallback.requestIdleCallback(()=>this.loadRoute(route, true).catch(()=>{}));
                         }).catch(()=>{});
                     }
@@ -1938,11 +1938,8 @@
             "use client";
             var CacheStates;
             exports.CacheStates = CacheStates;
-            (function(CacheStates) {
-                CacheStates["LAZYINITIALIZED"] = "LAZYINITIALIZED";
-                CacheStates["DATAFETCH"] = "DATAFETCH";
-                CacheStates["READY"] = "READY";
-            })(CacheStates || (exports.CacheStates = CacheStates = {}));
+            var CacheStates1;
+            (CacheStates1 = CacheStates || (exports.CacheStates = CacheStates = {}))["LAZYINITIALIZED"] = "LAZYINITIALIZED", CacheStates1["DATAFETCH"] = "DATAFETCH", void (CacheStates1["READY"] = "READY");
             const AppRouterContext = _react.default.createContext(null);
             exports.AppRouterContext = AppRouterContext;
             const LayoutRouterContext = _react.default.createContext(null);
@@ -3042,61 +3039,82 @@
                                 unstable_skipClientCache,
                                 isBackground: isQueryUpdating
                             };
-                            const data = isQueryUpdating ? {} : yield function(options) {
-                                return matchesMiddleware(options).then((matches)=>{
-                                    if (matches && options.fetchData) {
-                                        return options.fetchData().then((data)=>(function(source, response, options) {
-                                                const nextConfig = {
-                                                    basePath: options.router.basePath,
-                                                    i18n: {
-                                                        locales: options.router.locales
-                                                    },
-                                                    trailingSlash: Boolean(false)
-                                                };
-                                                const rewriteHeader = response.headers.get("x-nextjs-rewrite");
-                                                let rewriteTarget = rewriteHeader || response.headers.get("x-nextjs-matched-path");
-                                                const matchedPath = response.headers.get("x-matched-path");
-                                                if (matchedPath && !rewriteTarget && !matchedPath.includes("__next_data_catchall") && !matchedPath.includes("/_error") && !matchedPath.includes("/404")) rewriteTarget = matchedPath;
-                                                if (rewriteTarget) {
-                                                    if (rewriteTarget.startsWith("/")) {
-                                                        const parsedRewriteTarget = _parseRelativeUrl.parseRelativeUrl(rewriteTarget);
-                                                        const pathnameInfo = _getNextPathnameInfo.getNextPathnameInfo(parsedRewriteTarget.pathname, {
-                                                            nextConfig,
-                                                            parseData: true
-                                                        });
-                                                        let fsPathname = _removeTrailingSlash.removeTrailingSlash(pathnameInfo.pathname);
-                                                        return Promise.all([
-                                                            options.router.pageLoader.getPageList(),
-                                                            _routeLoader.getClientBuildManifest()
-                                                        ]).then((param)=>{
-                                                            let [pages, { __rewrites: rewrites  }] = param;
-                                                            let as = _addLocale.addLocale(pathnameInfo.pathname, pathnameInfo.locale);
-                                                            if (_isDynamic.isDynamicRoute(as) || !rewriteHeader && pages.includes(_normalizeLocalePath.normalizeLocalePath(_removeBasePath.removeBasePath(as), options.router.locales).pathname)) {
-                                                                const parsedSource = _getNextPathnameInfo.getNextPathnameInfo(_parseRelativeUrl.parseRelativeUrl(source).pathname, {
-                                                                    parseData: true
-                                                                });
-                                                                as = _addBasePath.addBasePath(parsedSource.pathname);
-                                                                parsedRewriteTarget.pathname = as;
-                                                            }
-                                                            if (false) ;
-                                                            else if (!pages.includes(fsPathname)) {
-                                                                const resolvedPathname = resolveDynamicRoute(fsPathname, pages);
-                                                                if (resolvedPathname !== fsPathname) fsPathname = resolvedPathname;
-                                                            }
-                                                            const resolvedHref = pages.includes(fsPathname) ? fsPathname : resolveDynamicRoute(_normalizeLocalePath.normalizeLocalePath(_removeBasePath.removeBasePath(parsedRewriteTarget.pathname), options.router.locales).pathname, pages);
-                                                            if (_isDynamic.isDynamicRoute(resolvedHref)) {
-                                                                const matches = _routeMatcher.getRouteMatcher(_routeRegex.getRouteRegex(resolvedHref))(as);
-                                                                Object.assign(parsedRewriteTarget.query, matches || {});
-                                                            }
-                                                            return {
-                                                                type: "rewrite",
-                                                                parsedAs: parsedRewriteTarget,
-                                                                resolvedHref
-                                                            };
-                                                        });
-                                                    }
-                                                    const src = _parsePath.parsePath(source);
-                                                    const pathname = _formatNextPathnameInfo.formatNextPathnameInfo(_extends({}, _getNextPathnameInfo.getNextPathnameInfo(src.pathname, {
+                            var options;
+                            const data = isQueryUpdating ? {} : yield (options = {
+                                fetchData: ()=>fetchNextData(fetchNextDataParams),
+                                asPath: resolvedAs,
+                                locale: locale,
+                                router: _this
+                            }, matchesMiddleware(options).then((matches)=>{
+                                if (matches && options.fetchData) {
+                                    return options.fetchData().then((data)=>(function(source, response, options) {
+                                            const nextConfig = {
+                                                basePath: options.router.basePath,
+                                                i18n: {
+                                                    locales: options.router.locales
+                                                },
+                                                trailingSlash: Boolean(false)
+                                            };
+                                            const rewriteHeader = response.headers.get("x-nextjs-rewrite");
+                                            let rewriteTarget = rewriteHeader || response.headers.get("x-nextjs-matched-path");
+                                            const matchedPath = response.headers.get("x-matched-path");
+                                            if (matchedPath && !rewriteTarget && !matchedPath.includes("__next_data_catchall") && !matchedPath.includes("/_error") && !matchedPath.includes("/404")) rewriteTarget = matchedPath;
+                                            if (rewriteTarget) {
+                                                if (rewriteTarget.startsWith("/")) {
+                                                    const parsedRewriteTarget = _parseRelativeUrl.parseRelativeUrl(rewriteTarget);
+                                                    const pathnameInfo = _getNextPathnameInfo.getNextPathnameInfo(parsedRewriteTarget.pathname, {
+                                                        nextConfig,
+                                                        parseData: true
+                                                    });
+                                                    let fsPathname = _removeTrailingSlash.removeTrailingSlash(pathnameInfo.pathname);
+                                                    return Promise.all([
+                                                        options.router.pageLoader.getPageList(),
+                                                        _routeLoader.getClientBuildManifest()
+                                                    ]).then((param)=>{
+                                                        let [pages, { __rewrites: rewrites  }] = param;
+                                                        let as = _addLocale.addLocale(pathnameInfo.pathname, pathnameInfo.locale);
+                                                        if (_isDynamic.isDynamicRoute(as) || !rewriteHeader && pages.includes(_normalizeLocalePath.normalizeLocalePath(_removeBasePath.removeBasePath(as), options.router.locales).pathname)) {
+                                                            const parsedSource = _getNextPathnameInfo.getNextPathnameInfo(_parseRelativeUrl.parseRelativeUrl(source).pathname, {
+                                                                parseData: true
+                                                            });
+                                                            as = _addBasePath.addBasePath(parsedSource.pathname);
+                                                            parsedRewriteTarget.pathname = as;
+                                                        }
+                                                        if (false) ;
+                                                        else if (!pages.includes(fsPathname)) {
+                                                            const resolvedPathname = resolveDynamicRoute(fsPathname, pages);
+                                                            if (resolvedPathname !== fsPathname) fsPathname = resolvedPathname;
+                                                        }
+                                                        const resolvedHref = pages.includes(fsPathname) ? fsPathname : resolveDynamicRoute(_normalizeLocalePath.normalizeLocalePath(_removeBasePath.removeBasePath(parsedRewriteTarget.pathname), options.router.locales).pathname, pages);
+                                                        if (_isDynamic.isDynamicRoute(resolvedHref)) {
+                                                            const matches = _routeMatcher.getRouteMatcher(_routeRegex.getRouteRegex(resolvedHref))(as);
+                                                            Object.assign(parsedRewriteTarget.query, matches || {});
+                                                        }
+                                                        return {
+                                                            type: "rewrite",
+                                                            parsedAs: parsedRewriteTarget,
+                                                            resolvedHref
+                                                        };
+                                                    });
+                                                }
+                                                const src = _parsePath.parsePath(source);
+                                                const pathname = _formatNextPathnameInfo.formatNextPathnameInfo(_extends({}, _getNextPathnameInfo.getNextPathnameInfo(src.pathname, {
+                                                    nextConfig,
+                                                    parseData: true
+                                                }), {
+                                                    defaultLocale: options.router.defaultLocale,
+                                                    buildId: ""
+                                                }));
+                                                return Promise.resolve({
+                                                    type: "redirect-external",
+                                                    destination: "".concat(pathname).concat(src.query).concat(src.hash)
+                                                });
+                                            }
+                                            const redirectTarget = response.headers.get("x-nextjs-redirect");
+                                            if (redirectTarget) {
+                                                if (redirectTarget.startsWith("/")) {
+                                                    const src1 = _parsePath.parsePath(redirectTarget);
+                                                    const pathname1 = _formatNextPathnameInfo.formatNextPathnameInfo(_extends({}, _getNextPathnameInfo.getNextPathnameInfo(src1.pathname, {
                                                         nextConfig,
                                                         parseData: true
                                                     }), {
@@ -3104,54 +3122,32 @@
                                                         buildId: ""
                                                     }));
                                                     return Promise.resolve({
-                                                        type: "redirect-external",
-                                                        destination: "".concat(pathname).concat(src.query).concat(src.hash)
-                                                    });
-                                                }
-                                                const redirectTarget = response.headers.get("x-nextjs-redirect");
-                                                if (redirectTarget) {
-                                                    if (redirectTarget.startsWith("/")) {
-                                                        const src1 = _parsePath.parsePath(redirectTarget);
-                                                        const pathname1 = _formatNextPathnameInfo.formatNextPathnameInfo(_extends({}, _getNextPathnameInfo.getNextPathnameInfo(src1.pathname, {
-                                                            nextConfig,
-                                                            parseData: true
-                                                        }), {
-                                                            defaultLocale: options.router.defaultLocale,
-                                                            buildId: ""
-                                                        }));
-                                                        return Promise.resolve({
-                                                            type: "redirect-internal",
-                                                            newAs: "".concat(pathname1).concat(src1.query).concat(src1.hash),
-                                                            newUrl: "".concat(pathname1).concat(src1.query).concat(src1.hash)
-                                                        });
-                                                    }
-                                                    return Promise.resolve({
-                                                        type: "redirect-external",
-                                                        destination: redirectTarget
+                                                        type: "redirect-internal",
+                                                        newAs: "".concat(pathname1).concat(src1.query).concat(src1.hash),
+                                                        newUrl: "".concat(pathname1).concat(src1.query).concat(src1.hash)
                                                     });
                                                 }
                                                 return Promise.resolve({
-                                                    type: "next"
+                                                    type: "redirect-external",
+                                                    destination: redirectTarget
                                                 });
-                                            })(data.dataHref, data.response, options).then((effect)=>({
-                                                    dataHref: data.dataHref,
-                                                    cacheKey: data.cacheKey,
-                                                    json: data.json,
-                                                    response: data.response,
-                                                    text: data.text,
-                                                    effect
-                                                }))).catch((_err)=>{
-                                            return null;
-                                        });
-                                    }
-                                    return null;
-                                });
-                            }({
-                                fetchData: ()=>fetchNextData(fetchNextDataParams),
-                                asPath: resolvedAs,
-                                locale: locale,
-                                router: _this
-                            });
+                                            }
+                                            return Promise.resolve({
+                                                type: "next"
+                                            });
+                                        })(data.dataHref, data.response, options).then((effect)=>({
+                                                dataHref: data.dataHref,
+                                                cacheKey: data.cacheKey,
+                                                json: data.json,
+                                                response: data.response,
+                                                text: data.text,
+                                                effect
+                                            }))).catch((_err)=>{
+                                        return null;
+                                    });
+                                }
+                                return null;
+                            }));
                             if (isQueryUpdating && data) data.json = self.__NEXT_DATA__.props;
                             handleCancelled();
                             if ((null == data ? void 0 : null == (ref = data.effect) ? void 0 : ref.type) === "redirect-internal" || (null == data ? void 0 : null == (ref4 = data.effect) ? void 0 : ref4.type) === "redirect-external") {
@@ -4311,29 +4307,23 @@
             (function() {
                 "use strict";
                 var n = {};
-                !function() {
-                    n.d = function(y, T) {
-                        for(var C in T)if (n.o(T, C) && !n.o(y, C)) Object.defineProperty(y, C, {
-                            enumerable: true,
-                            get: T[C]
-                        });
-                    };
-                }();
-                !function() {
-                    n.o = function(n, y) {
-                        return Object.prototype.hasOwnProperty.call(n, y);
-                    };
-                }();
-                !function() {
-                    n.r = function(n) {
-                        if ("undefined" != typeof Symbol && Symbol.toStringTag) Object.defineProperty(n, Symbol.toStringTag, {
-                            value: "Module"
-                        });
-                        Object.defineProperty(n, "__esModule", {
-                            value: true
-                        });
-                    };
-                }();
+                n.d = function(y, T) {
+                    for(var C in T)if (n.o(T, C) && !n.o(y, C)) Object.defineProperty(y, C, {
+                        enumerable: true,
+                        get: T[C]
+                    });
+                }, true;
+                n.o = function(n, y) {
+                    return Object.prototype.hasOwnProperty.call(n, y);
+                }, true;
+                n.r = function(n) {
+                    if ("undefined" != typeof Symbol && Symbol.toStringTag) Object.defineProperty(n, Symbol.toStringTag, {
+                        value: "Module"
+                    });
+                    Object.defineProperty(n, "__esModule", {
+                        value: true
+                    });
+                }, true;
                 if (void 0 !== n) n.ab = "//";
                 var y = {};
                 n.r(y);
@@ -4415,9 +4405,8 @@
                 }, l = function(n, y, T, C) {
                     var w, P;
                     return function(I) {
-                        y.value >= 0 && (I || C) && ((P = y.value - (w || 0)) || void 0 === w) && (w = y.value, y.delta = P, y.rating = function(n, y) {
-                            return n > y[1] ? "poor" : n > y[0] ? "needs-improvement" : "good";
-                        }(y.value, T), n(y));
+                        var n1, y1;
+                        y.value >= 0 && (I || C) && ((P = y.value - (w || 0)) || void 0 === w) && (w = y.value, y.delta = P, y.rating = (n1 = y.value) > T[1] ? "poor" : n1 > T[0] ? "needs-improvement" : "good", n(y));
                     };
                 }, N = -1, v = function() {
                     return "hidden" !== document.visibilityState || document.prerendering ? 1 / 0 : 0;
@@ -4687,9 +4676,7 @@
         __webpack_require__.O(0, [
             774
         ], function() {
-            return function(moduleId) {
-                return __webpack_require__(__webpack_require__.s = 1783);
-            }(1783);
+            return __webpack_require__(__webpack_require__.s = 1783);
         });
         var __webpack_exports__ = __webpack_require__.O();
         _N_E = __webpack_exports__;

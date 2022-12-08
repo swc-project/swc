@@ -55,55 +55,43 @@
             return result;
         };
     }();
-    !function() {
-        __webpack_require__.n = function(module) {
-            var getter = module && module.__esModule ? function() {
-                return module['default'];
-            } : function() {
-                return module;
-            };
-            __webpack_require__.d(getter, {
-                a: getter
-            });
-            return getter;
+    __webpack_require__.n = function(module) {
+        var getter = module && module.__esModule ? function() {
+            return module['default'];
+        } : function() {
+            return module;
         };
-    }();
-    !function() {
-        __webpack_require__.d = function(exports, definition) {
-            for(var key in definition)if (__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) Object.defineProperty(exports, key, {
-                enumerable: true,
-                get: definition[key]
-            });
-        };
-    }();
-    !function() {
-        __webpack_require__.g = function() {
-            if ('object' == typeof globalThis) return globalThis;
-            try {
-                return this || Function('return this')();
-            } catch (e) {
-                if ('object' == typeof window) return window;
-            }
-        }();
-    }();
-    !function() {
-        __webpack_require__.o = function(obj, prop) {
-            return Object.prototype.hasOwnProperty.call(obj, prop);
-        };
-    }();
-    !function() {
-        __webpack_require__.r = function(exports) {
-            if ('undefined' != typeof Symbol && Symbol.toStringTag) Object.defineProperty(exports, Symbol.toStringTag, {
-                value: 'Module'
-            });
-            Object.defineProperty(exports, '__esModule', {
-                value: true
-            });
-        };
-    }();
-    !function() {
-        __webpack_require__.p = "/_next/";
-    }();
+        __webpack_require__.d(getter, {
+            a: getter
+        });
+        return getter;
+    }, true;
+    __webpack_require__.d = function(exports, definition) {
+        for(var key in definition)if (__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) Object.defineProperty(exports, key, {
+            enumerable: true,
+            get: definition[key]
+        });
+    }, true;
+    __webpack_require__.g = function() {
+        if ('object' == typeof globalThis) return globalThis;
+        try {
+            return this || Function('return this')();
+        } catch (e) {
+            if ('object' == typeof window) return window;
+        }
+    }(), true;
+    __webpack_require__.o = function(obj, prop) {
+        return Object.prototype.hasOwnProperty.call(obj, prop);
+    }, true;
+    __webpack_require__.r = function(exports) {
+        if ('undefined' != typeof Symbol && Symbol.toStringTag) Object.defineProperty(exports, Symbol.toStringTag, {
+            value: 'Module'
+        });
+        Object.defineProperty(exports, '__esModule', {
+            value: true
+        });
+    }, true;
+    __webpack_require__.p = "/_next/", true;
     !function() {
         var installedChunks = {
             272: 0
