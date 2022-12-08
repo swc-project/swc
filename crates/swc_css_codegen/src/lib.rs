@@ -2,7 +2,7 @@
 #![allow(clippy::needless_update)]
 
 pub use std::fmt::Result;
-use std::{str, str::from_utf8};
+use std::{borrow::Cow, str, str::from_utf8};
 
 use serde::{Deserialize, Serialize};
 use swc_atoms::*;
@@ -1565,9 +1565,9 @@ where
     fn emit_ident(&mut self, n: &Ident) -> Result {
         if self.config.minify {
             let value = if self.ctx.allow_to_lowercase && self.config.minify {
-                n.value.to_ascii_lowercase().to_string()
+                Cow::Owned(n.value.to_ascii_lowercase())
             } else {
-                n.value.to_string()
+                Cow::Borrowed(&n.value)
             };
             let serialized = serialize_ident(&value, n.raw.as_deref(), true);
 

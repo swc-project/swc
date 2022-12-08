@@ -1,6 +1,6 @@
 #![deny(clippy::all)]
 
-use std::{char::REPLACEMENT_CHARACTER, str};
+use std::{borrow::Cow, char::REPLACEMENT_CHARACTER, str};
 
 use once_cell::sync::Lazy;
 use serde::{Deserialize, Serialize};
@@ -153,8 +153,53 @@ pub static NAMED_COLORS: Lazy<AHashMap<JsWord, NamedColor>> = Lazy::new(|| {
     named_colors
 });
 
+#[inline]
+fn is_escape_not_required(value: &str, raw: Option<&str>) -> bool {
+    if value.is_empty() {
+        return true;
+    }
+
+    if (b'0'..=b'9').contains(&value.as_bytes()[0]) {
+        return false;
+    }
+
+    if value.len() == 1 && value.as_bytes()[0] == b'-' {
+        return false;
+    }
+
+    if value.len() >= 2
+        && value.as_bytes()[0] == b'-'
+        && (b'0'..=b'9').contains(&value.as_bytes()[1])
+    {
+        return false;
+    }
+
+    value.chars().all(|c| {
+        match c {
+            REPLACEMENT_CHARACTER if raw.is_some() => false,
+            '\x00' => false,
+            '\x01'..='\x1f' | '\x7F' => false,
+            '-' | '_' => true,
+            _ if !c.is_ascii()
+                || c.is_ascii_digit()
+                || c.is_ascii_uppercase()
+                || c.is_ascii_lowercase() =>
+            {
+                true
+            }
+            // Otherwise, the escaped character.
+            _ => false,
+        }
+    })
+}
+
 // https://drafts.csswg.org/cssom/#serialize-an-identifier
-pub fn serialize_ident(value: &str, raw: Option<&str>, minify: bool) -> String {
+pub fn serialize_ident<'a>(value: &'a str, raw: Option<&str>, minify: bool) -> Cow<'a, str> {
+    // Fast-path
+    if is_escape_not_required(value, raw) {
+        return Cow::Borrowed(value);
+    }
+
     let mut result = String::with_capacity(value.len());
 
     //
@@ -175,7 +220,7 @@ pub fn serialize_ident(value: &str, raw: Option<&str>, minify: bool) -> String {
             REPLACEMENT_CHARACTER if raw.is_some() => {
                 result.push_str(raw.unwrap());
 
-                return result;
+                return Cow::Owned(result);
             }
             // If the character is NULL (U+0000), then the REPLACEMENT CHARACTER (U+FFFD).
             '\x00' => {
@@ -225,7 +270,7 @@ pub fn serialize_ident(value: &str, raw: Option<&str>, minify: bool) -> String {
         }
     }
 
-    result
+    Cow::Owned(result)
 }
 
 // https://github.com/servo/rust-cssparser/blob/4c5d065798ea1be649412532bde481dbd404f44a/src/serializer.rs#L166
