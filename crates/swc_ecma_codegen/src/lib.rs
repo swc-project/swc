@@ -2481,23 +2481,12 @@ where
         self.emit_leading_comments_of_span(node.span(), false)?;
 
         srcmap!(node, true);
-
-        let is_last_rest = match node.props.last() {
-            Some(ObjectPatProp::Rest(..)) => true,
-            _ => false,
-        };
-        let format = if is_last_rest {
-            ListFormat::ObjectBindingPatternElements ^ ListFormat::AllowTrailingComma
-        } else {
-            ListFormat::ObjectBindingPatternElements
-        };
-
         punct!("{");
 
         self.emit_list(
             node.span(),
             Some(&node.props),
-            format | ListFormat::CanSkipTrailingComma,
+            ListFormat::ObjectBindingPatternElements | ListFormat::CanSkipTrailingComma,
         )?;
 
         punct!("}");
