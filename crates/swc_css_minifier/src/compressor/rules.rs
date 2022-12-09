@@ -500,12 +500,10 @@ impl Compressor {
             };
 
             let result = match rule {
-                ComponentValue::Rule(box Rule::AtRule(box AtRule {
+                ComponentValue::AtRule(box AtRule {
                     block: Some(block), ..
-                }))
-                | ComponentValue::Rule(box Rule::QualifiedRule(box QualifiedRule {
-                    block, ..
-                }))
+                })
+                | ComponentValue::QualifiedRule(box QualifiedRule { block, .. })
                 | ComponentValue::StyleBlock(box StyleBlock::QualifiedRule(box QualifiedRule {
                     block,
                     ..
