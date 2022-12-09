@@ -1040,83 +1040,83 @@ define!({
     //     TsExportAssignment(TsExportAssignment),
     //     TsNamespaceExport(TsNamespaceExportDecl),
     // }
-    // pub struct ExportDefaultExpr {
-    //     pub span: Span,
-    //     pub expr: Box<Expr>,
-    // }
-    // pub struct ExportDecl {
-    //     pub span: Span,
-    //     pub decl: Decl,
-    // }
-    // pub struct ImportDecl {
-    //     pub span: Span,
-    //     pub specifiers: Vec<ImportSpecifier>,
-    //     pub src: Box<Str>,
-    //     pub type_only: bool,
-    //     pub asserts: Option<Box<ObjectLit>>,
-    // }
-    // pub struct ExportAll {
-    //     pub span: Span,
-    //     pub src: Box<Str>,
-    //     pub asserts: Option<Box<ObjectLit>>,
-    // }
-    // pub struct NamedExport {
-    //     pub span: Span,
-    //     pub specifiers: Vec<ExportSpecifier>,
-    //     pub src: Option<Box<Str>>,
-    //     pub type_only: bool,
-    //     pub asserts: Option<Box<ObjectLit>>,
-    // }
-    // pub struct ExportDefaultDecl {
-    //     pub span: Span,
-    //     pub decl: DefaultDecl,
-    // }
-    // pub enum DefaultDecl {
-    //     Class(ClassExpr),
-    //     Fn(FnExpr),
-    //     TsInterfaceDecl(Box<TsInterfaceDecl>),
-    // }
-    // pub enum ImportSpecifier {
-    //     Named(ImportNamedSpecifier),
-    //     Default(ImportDefaultSpecifier),
-    //     Namespace(ImportStarAsSpecifier),
-    // }
-    // pub struct ImportDefaultSpecifier {
-    //     pub span: Span,
-    //     pub local: Ident,
-    // }
-    // pub struct ImportStarAsSpecifier {
-    //     pub span: Span,
-    //     pub local: Ident,
-    // }
-    // pub struct ImportNamedSpecifier {
-    //     pub span: Span,
-    //     pub local: Ident,
-    //     pub imported: Option<ModuleExportName>,
-    //     pub is_type_only: bool,
-    // }
-    // pub enum ExportSpecifier {
-    //     Namespace(ExportNamespaceSpecifier),
-    //     Default(ExportDefaultSpecifier),
-    //     Named(ExportNamedSpecifier),
-    // }
-    // pub struct ExportNamespaceSpecifier {
-    //     pub span: Span,
-    //     pub name: ModuleExportName,
-    // }
-    // pub struct ExportDefaultSpecifier {
-    //     pub exported: Ident,
-    // }
-    // pub enum ModuleExportName {
-    //     Ident(Ident),
-    //     Str(Str),
-    // }
-    // pub struct ExportNamedSpecifier {
-    //     pub span: Span,
-    //     pub orig: ModuleExportName,
-    //     pub exported: Option<ModuleExportName>,
-    //     pub is_type_only: bool,
-    // }
+    pub struct ExportDefaultExpr {
+        pub span: Span,
+        pub expr: Box<Expr>,
+    }
+    pub struct ExportDecl {
+        pub span: Span,
+        pub decl: Decl,
+    }
+    pub struct ImportDecl {
+        pub span: Span,
+        pub specifiers: Vec<ImportSpecifier>,
+        pub src: Box<Str>,
+        pub type_only: bool,
+        pub asserts: Option<Box<ObjectLit>>,
+    }
+    pub struct ExportAll {
+        pub span: Span,
+        pub src: Box<Str>,
+        pub asserts: Option<Box<ObjectLit>>,
+    }
+    pub struct NamedExport {
+        pub span: Span,
+        pub specifiers: Vec<ExportSpecifier>,
+        pub src: Option<Box<Str>>,
+        pub type_only: bool,
+        pub asserts: Option<Box<ObjectLit>>,
+    }
+    pub struct ExportDefaultDecl {
+        pub span: Span,
+        pub decl: DefaultDecl,
+    }
+    pub enum DefaultDecl {
+        Class(ClassExpr),
+        Fn(FnExpr),
+        TsInterfaceDecl(Box<TsInterfaceDecl>),
+    }
+    pub enum ImportSpecifier {
+        Named(ImportNamedSpecifier),
+        Default(ImportDefaultSpecifier),
+        Namespace(ImportStarAsSpecifier),
+    }
+    pub struct ImportDefaultSpecifier {
+        pub span: Span,
+        pub local: Ident,
+    }
+    pub struct ImportStarAsSpecifier {
+        pub span: Span,
+        pub local: Ident,
+    }
+    pub struct ImportNamedSpecifier {
+        pub span: Span,
+        pub local: Ident,
+        pub imported: Option<ModuleExportName>,
+        pub is_type_only: bool,
+    }
+    pub enum ExportSpecifier {
+        Namespace(ExportNamespaceSpecifier),
+        Default(ExportDefaultSpecifier),
+        Named(ExportNamedSpecifier),
+    }
+    pub struct ExportNamespaceSpecifier {
+        pub span: Span,
+        pub name: ModuleExportName,
+    }
+    pub struct ExportDefaultSpecifier {
+        pub exported: Ident,
+    }
+    pub enum ModuleExportName {
+        Ident(Ident),
+        Str(Str),
+    }
+    pub struct ExportNamedSpecifier {
+        pub span: Span,
+        pub orig: ModuleExportName,
+        pub exported: Option<ModuleExportName>,
+        pub is_type_only: bool,
+    }
     pub enum BinaryOp {
         EqEq,
         NotEq,
