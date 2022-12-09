@@ -1327,24 +1327,20 @@ where
 
         for (idx, node) in n.value.iter().enumerate() {
             match node {
-                ComponentValue::StyleBlock(_) => {
+                ComponentValue::ListOfComponentValues(_) | ComponentValue::Declaration(_) => {
                     if idx == 0 {
                         formatting_newline!(self);
                     }
 
                     increase_indent!(self);
                 }
-                ComponentValue::Rule(_) | ComponentValue::KeyframeBlock(_) => {
+                ComponentValue::AtRule(_)
+                | ComponentValue::QualifiedRule(_)
+                | ComponentValue::KeyframeBlock(_) => {
                     formatting_newline!(self);
                     increase_indent!(self);
                 }
-                ComponentValue::DeclarationOrAtRule(_) => {
-                    if idx == 0 {
-                        formatting_newline!(self);
-                    }
 
-                    increase_indent!(self);
-                }
                 _ => {}
             }
 
