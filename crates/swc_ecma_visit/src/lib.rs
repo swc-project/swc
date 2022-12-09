@@ -1306,49 +1306,49 @@ define!({
         pub obj: Box<Expr>,
         pub body: Box<Stmt>,
     }
-    // pub struct ReturnStmt {
-    //     pub span: Span,
-    //     pub arg: Option<Box<Expr>>,
-    // }
-    // pub struct LabeledStmt {
-    //     pub span: Span,
-    //     pub label: Ident,
-    //     pub body: Box<Stmt>,
-    // }
-    // pub struct BreakStmt {
-    //     pub span: Span,
-    //     pub label: Option<Ident>,
-    // }
-    // pub struct ContinueStmt {
-    //     pub span: Span,
-    //     pub label: Option<Ident>,
-    // }
-    // pub struct IfStmt {
-    //     pub span: Span,
-    //     pub test: Box<Expr>,
-    //     pub cons: Box<Stmt>,
-    //     pub alt: Option<Box<Stmt>>,
-    // }
-    // pub struct SwitchStmt {
-    //     pub span: Span,
-    //     pub discriminant: Box<Expr>,
-    //     pub cases: Vec<SwitchCase>,
-    // }
-    // pub struct ThrowStmt {
-    //     pub span: Span,
-    //     pub arg: Box<Expr>,
-    // }
-    // pub struct TryStmt {
-    //     pub span: Span,
-    //     pub block: BlockStmt,
-    //     pub handler: Option<CatchClause>,
-    //     pub finalizer: Option<BlockStmt>,
-    // }
-    // pub struct WhileStmt {
-    //     pub span: Span,
-    //     pub test: Box<Expr>,
-    //     pub body: Box<Stmt>,
-    // }
+    pub struct ReturnStmt {
+        pub span: Span,
+        pub arg: Option<Box<Expr>>,
+    }
+    pub struct LabeledStmt {
+        pub span: Span,
+        pub label: Ident,
+        pub body: Box<Stmt>,
+    }
+    pub struct BreakStmt {
+        pub span: Span,
+        pub label: Option<Ident>,
+    }
+    pub struct ContinueStmt {
+        pub span: Span,
+        pub label: Option<Ident>,
+    }
+    pub struct IfStmt {
+        pub span: Span,
+        pub test: Box<Expr>,
+        pub cons: Box<Stmt>,
+        pub alt: Option<Box<Stmt>>,
+    }
+    pub struct SwitchStmt {
+        pub span: Span,
+        pub discriminant: Box<Expr>,
+        pub cases: Vec<SwitchCase>,
+    }
+    pub struct ThrowStmt {
+        pub span: Span,
+        pub arg: Box<Expr>,
+    }
+    pub struct TryStmt {
+        pub span: Span,
+        pub block: BlockStmt,
+        pub handler: Option<CatchClause>,
+        pub finalizer: Option<BlockStmt>,
+    }
+    pub struct WhileStmt {
+        pub span: Span,
+        pub test: Box<Expr>,
+        pub body: Box<Stmt>,
+    }
     pub struct DoWhileStmt {
         pub span: Span,
         pub test: Box<Expr>,
