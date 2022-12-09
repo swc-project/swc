@@ -1391,16 +1391,8 @@ impl VisitMut for Prefixer {
                 let mut declarations = Vec::with_capacity(simple_block.value.len());
 
                 for n in simple_block.value.iter() {
-                    match n {
-                        ComponentValue::DeclarationOrAtRule(
-                            box DeclarationOrAtRule::Declaration(declaration),
-                        ) => {
-                            declarations.push(declaration);
-                        }
-                        ComponentValue::StyleBlock(box StyleBlock::Declaration(declaration)) => {
-                            declarations.push(declaration);
-                        }
-                        _ => {}
+                    if let ComponentValue::Declaration(declaration) = n {
+                        declarations.push(declaration);
                     }
                 }
 
