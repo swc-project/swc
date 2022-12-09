@@ -497,549 +497,549 @@ macro_rules! noop_visit_mut_type {
 define!({
     use BigIntValue;
 
-    // pub struct Class {
-    //     pub span: Span,
-    //     pub decorators: Vec<Decorator>,
-    //     pub body: Vec<ClassMember>,
-    //     pub super_class: Option<Box<Expr>>,
-    //     pub is_abstract: bool,
-    //     pub type_params: Option<Box<TsTypeParamDecl>>,
-    //     pub super_type_params: Option<Box<TsTypeParamInstantiation>>,
-    //     pub implements: Vec<TsExprWithTypeArgs>,
-    // }
+    pub struct Class {
+        pub span: Span,
+        pub decorators: Vec<Decorator>,
+        pub body: Vec<ClassMember>,
+        pub super_class: Option<Box<Expr>>,
+        pub is_abstract: bool,
+        pub type_params: Option<Box<TsTypeParamDecl>>,
+        pub super_type_params: Option<Box<TsTypeParamInstantiation>>,
+        pub implements: Vec<TsExprWithTypeArgs>,
+    }
 
-    // pub enum ClassMember {
-    //     Constructor(Constructor),
-    //     Method(ClassMethod),
-    //     PrivateMethod(PrivateMethod),
-    //     ClassProp(ClassProp),
-    //     PrivateProp(PrivateProp),
-    //     TsIndexSignature(TsIndexSignature),
-    //     Empty(EmptyStmt),
-    //     StaticBlock(StaticBlock),
-    // }
+    pub enum ClassMember {
+        Constructor(Constructor),
+        Method(ClassMethod),
+        PrivateMethod(PrivateMethod),
+        ClassProp(ClassProp),
+        PrivateProp(PrivateProp),
+        TsIndexSignature(TsIndexSignature),
+        Empty(EmptyStmt),
+        StaticBlock(StaticBlock),
+    }
 
-    // pub struct ClassProp {
-    //     pub span: Span,
-    //     pub key: PropName,
-    //     pub value: Option<Box<Expr>>,
-    //     pub type_ann: Option<Box<TsTypeAnn>>,
-    //     pub is_static: bool,
-    //     pub decorators: Vec<Decorator>,
-    //     pub accessibility: Option<Accessibility>,
-    //     pub is_abstract: bool,
-    //     pub is_optional: bool,
-    //     pub is_override: bool,
-    //     pub readonly: bool,
-    //     pub declare: bool,
-    //     pub definite: bool,
-    // }
-    // pub struct PrivateProp {
-    //     pub span: Span,
-    //     pub key: PrivateName,
-    //     pub value: Option<Box<Expr>>,
-    //     pub type_ann: Option<Box<TsTypeAnn>>,
-    //     pub is_static: bool,
-    //     pub decorators: Vec<Decorator>,
-    //     pub accessibility: Option<Accessibility>,
-    //     pub is_optional: bool,
-    //     pub is_override: bool,
-    //     pub readonly: bool,
-    //     pub definite: bool,
-    // }
-    // pub struct ClassMethod {
-    //     pub span: Span,
-    //     pub key: PropName,
-    //     pub function: Box<Function>,
-    //     pub kind: MethodKind,
-    //     pub is_static: bool,
-    //     pub accessibility: Option<Accessibility>,
-    //     pub is_abstract: bool,
-    //     pub is_optional: bool,
-    //     pub is_override: bool,
-    // }
-    // pub struct PrivateMethod {
-    //     pub span: Span,
-    //     pub key: PrivateName,
-    //     pub function: Box<Function>,
-    //     pub kind: MethodKind,
-    //     pub is_static: bool,
-    //     pub accessibility: Option<Accessibility>,
-    //     pub is_abstract: bool,
-    //     pub is_optional: bool,
-    //     pub is_override: bool,
-    // }
-    // pub struct Constructor {
-    //     pub span: Span,
-    //     pub key: PropName,
-    //     pub params: Vec<ParamOrTsParamProp>,
-    //     pub body: Option<BlockStmt>,
-    //     pub accessibility: Option<Accessibility>,
-    //     pub is_optional: bool,
-    // }
-    // pub struct Decorator {
-    //     pub span: Span,
-    //     pub expr: Box<Expr>,
-    // }
-    // pub struct StaticBlock {
-    //     pub span: Span,
-    //     pub body: BlockStmt,
-    // }
-    // pub enum MethodKind {
-    //     Method,
-    //     Getter,
-    //     Setter,
-    // }
-    // pub enum Decl {
-    //     Class(ClassDecl),
-    //     Fn(FnDecl),
-    //     Var(Box<VarDecl>),
-    //     TsInterface(Box<TsInterfaceDecl>),
-    //     TsTypeAlias(Box<TsTypeAliasDecl>),
-    //     TsEnum(Box<TsEnumDecl>),
-    //     TsModule(Box<TsModuleDecl>),
-    // }
-    // pub struct FnDecl {
-    //     pub ident: Ident,
-    //     pub declare: bool,
-    //     pub function: Box<Function>,
-    // }
-    // pub struct ClassDecl {
-    //     pub ident: Ident,
-    //     pub declare: bool,
-    //     pub class: Box<Class>,
-    // }
-    // pub struct VarDecl {
-    //     pub span: Span,
-    //     pub kind: VarDeclKind,
-    //     pub declare: bool,
-    //     pub decls: Vec<VarDeclarator>,
-    // }
-    // pub enum VarDeclKind {
-    //     Var,
-    //     Let,
-    //     Const,
-    // }
-    // pub struct VarDeclarator {
-    //     pub span: Span,
-    //     pub name: Pat,
-    //     pub init: Option<Box<Expr>>,
-    //     pub definite: bool,
-    // }
-    // pub enum Expr {
-    //     This(ThisExpr),
-    //     Array(ArrayLit),
-    //     Object(ObjectLit),
-    //     Fn(FnExpr),
-    //     Unary(UnaryExpr),
-    //     Update(UpdateExpr),
-    //     Bin(BinExpr),
-    //     Assign(AssignExpr),
-    //     Member(MemberExpr),
-    //     SuperProp(SuperPropExpr),
-    //     Cond(CondExpr),
-    //     Call(CallExpr),
-    //     New(NewExpr),
-    //     Seq(SeqExpr),
-    //     Ident(Ident),
-    //     Lit(Lit),
-    //     Tpl(Tpl),
-    //     TaggedTpl(TaggedTpl),
-    //     Arrow(ArrowExpr),
-    //     Class(ClassExpr),
-    //     Yield(YieldExpr),
-    //     MetaProp(MetaPropExpr),
-    //     Await(AwaitExpr),
-    //     Paren(ParenExpr),
-    //     JSXMember(JSXMemberExpr),
-    //     JSXNamespacedName(JSXNamespacedName),
-    //     JSXEmpty(JSXEmptyExpr),
-    //     JSXElement(Box<JSXElement>),
-    //     JSXFragment(JSXFragment),
-    //     TsTypeAssertion(TsTypeAssertion),
-    //     TsConstAssertion(TsConstAssertion),
-    //     TsNonNull(TsNonNullExpr),
-    //     TsAs(TsAsExpr),
-    //     TsSatisfies(TsSatisfiesExpr),
-    //     TsInstantiation(TsInstantiation),
-    //     PrivateName(PrivateName),
-    //     OptChain(OptChainExpr),
-    //     Invalid(Invalid),
-    // }
+    pub struct ClassProp {
+        pub span: Span,
+        pub key: PropName,
+        pub value: Option<Box<Expr>>,
+        pub type_ann: Option<Box<TsTypeAnn>>,
+        pub is_static: bool,
+        pub decorators: Vec<Decorator>,
+        pub accessibility: Option<Accessibility>,
+        pub is_abstract: bool,
+        pub is_optional: bool,
+        pub is_override: bool,
+        pub readonly: bool,
+        pub declare: bool,
+        pub definite: bool,
+    }
+    pub struct PrivateProp {
+        pub span: Span,
+        pub key: PrivateName,
+        pub value: Option<Box<Expr>>,
+        pub type_ann: Option<Box<TsTypeAnn>>,
+        pub is_static: bool,
+        pub decorators: Vec<Decorator>,
+        pub accessibility: Option<Accessibility>,
+        pub is_optional: bool,
+        pub is_override: bool,
+        pub readonly: bool,
+        pub definite: bool,
+    }
+    pub struct ClassMethod {
+        pub span: Span,
+        pub key: PropName,
+        pub function: Box<Function>,
+        pub kind: MethodKind,
+        pub is_static: bool,
+        pub accessibility: Option<Accessibility>,
+        pub is_abstract: bool,
+        pub is_optional: bool,
+        pub is_override: bool,
+    }
+    pub struct PrivateMethod {
+        pub span: Span,
+        pub key: PrivateName,
+        pub function: Box<Function>,
+        pub kind: MethodKind,
+        pub is_static: bool,
+        pub accessibility: Option<Accessibility>,
+        pub is_abstract: bool,
+        pub is_optional: bool,
+        pub is_override: bool,
+    }
+    pub struct Constructor {
+        pub span: Span,
+        pub key: PropName,
+        pub params: Vec<ParamOrTsParamProp>,
+        pub body: Option<BlockStmt>,
+        pub accessibility: Option<Accessibility>,
+        pub is_optional: bool,
+    }
+    pub struct Decorator {
+        pub span: Span,
+        pub expr: Box<Expr>,
+    }
+    pub struct StaticBlock {
+        pub span: Span,
+        pub body: BlockStmt,
+    }
+    pub enum MethodKind {
+        Method,
+        Getter,
+        Setter,
+    }
+    pub enum Decl {
+        Class(ClassDecl),
+        Fn(FnDecl),
+        Var(Box<VarDecl>),
+        TsInterface(Box<TsInterfaceDecl>),
+        TsTypeAlias(Box<TsTypeAliasDecl>),
+        TsEnum(Box<TsEnumDecl>),
+        TsModule(Box<TsModuleDecl>),
+    }
+    pub struct FnDecl {
+        pub ident: Ident,
+        pub declare: bool,
+        pub function: Box<Function>,
+    }
+    pub struct ClassDecl {
+        pub ident: Ident,
+        pub declare: bool,
+        pub class: Box<Class>,
+    }
+    pub struct VarDecl {
+        pub span: Span,
+        pub kind: VarDeclKind,
+        pub declare: bool,
+        pub decls: Vec<VarDeclarator>,
+    }
+    pub enum VarDeclKind {
+        Var,
+        Let,
+        Const,
+    }
+    pub struct VarDeclarator {
+        pub span: Span,
+        pub name: Pat,
+        pub init: Option<Box<Expr>>,
+        pub definite: bool,
+    }
+    pub enum Expr {
+        This(ThisExpr),
+        Array(ArrayLit),
+        Object(ObjectLit),
+        Fn(FnExpr),
+        Unary(UnaryExpr),
+        Update(UpdateExpr),
+        Bin(BinExpr),
+        Assign(AssignExpr),
+        Member(MemberExpr),
+        SuperProp(SuperPropExpr),
+        Cond(CondExpr),
+        Call(CallExpr),
+        New(NewExpr),
+        Seq(SeqExpr),
+        Ident(Ident),
+        Lit(Lit),
+        Tpl(Tpl),
+        TaggedTpl(TaggedTpl),
+        Arrow(ArrowExpr),
+        Class(ClassExpr),
+        Yield(YieldExpr),
+        MetaProp(MetaPropExpr),
+        Await(AwaitExpr),
+        Paren(ParenExpr),
+        JSXMember(JSXMemberExpr),
+        JSXNamespacedName(JSXNamespacedName),
+        JSXEmpty(JSXEmptyExpr),
+        JSXElement(Box<JSXElement>),
+        JSXFragment(JSXFragment),
+        TsTypeAssertion(TsTypeAssertion),
+        TsConstAssertion(TsConstAssertion),
+        TsNonNull(TsNonNullExpr),
+        TsAs(TsAsExpr),
+        TsSatisfies(TsSatisfiesExpr),
+        TsInstantiation(TsInstantiation),
+        PrivateName(PrivateName),
+        OptChain(OptChainExpr),
+        Invalid(Invalid),
+    }
     pub struct ThisExpr {
         pub span: Span,
     }
-    // pub struct ArrayLit {
-    //     pub span: Span,
-    //     pub elems: Vec<Option<ExprOrSpread>>,
-    // }
-    // pub struct ObjectLit {
-    //     pub span: Span,
-    //     pub props: Vec<PropOrSpread>,
-    // }
-    // pub enum PropOrSpread {
-    //     Spread(SpreadElement),
-    //     Prop(Box<Prop>),
-    // }
-    // pub struct SpreadElement {
-    //     pub dot3_token: Span,
-    //     pub expr: Box<Expr>,
-    // }
-    // pub struct UnaryExpr {
-    //     pub span: Span,
-    //     pub op: UnaryOp,
-    //     pub arg: Box<Expr>,
-    // }
-    // pub struct UpdateExpr {
-    //     pub span: Span,
-    //     pub op: UpdateOp,
-    //     pub prefix: bool,
-    //     pub arg: Box<Expr>,
-    // }
-    // pub struct BinExpr {
-    //     pub span: Span,
-    //     pub op: BinaryOp,
-    //     pub left: Box<Expr>,
-    //     pub right: Box<Expr>,
-    // }
-    // pub struct FnExpr {
-    //     pub ident: Option<Ident>,
-    //     pub function: Box<Function>,
-    // }
-    // pub struct ClassExpr {
-    //     pub ident: Option<Ident>,
-    //     pub class: Box<Class>,
-    // }
-    // pub struct AssignExpr {
-    //     pub span: Span,
-    //     pub op: AssignOp,
-    //     pub left: PatOrExpr,
-    //     pub right: Box<Expr>,
-    // }
-    // pub struct MemberExpr {
-    //     pub span: Span,
-    //     pub obj: Box<Expr>,
-    //     pub prop: MemberProp,
-    // }
-    // pub enum MemberProp {
-    //     Ident(Ident),
-    //     PrivateName(PrivateName),
-    //     Computed(ComputedPropName),
-    // }
-    // pub struct SuperPropExpr {
-    //     pub span: Span,
-    //     pub obj: Super,
-    //     pub prop: SuperProp,
-    // }
-    // pub enum SuperProp {
-    //     Ident(Ident),
-    //     Computed(ComputedPropName),
-    // }
-    // pub struct CondExpr {
-    //     pub span: Span,
-    //     pub test: Box<Expr>,
-    //     pub cons: Box<Expr>,
-    //     pub alt: Box<Expr>,
-    // }
-    // pub struct CallExpr {
-    //     pub span: Span,
-    //     pub callee: Callee,
-    //     pub args: Vec<ExprOrSpread>,
-    //     pub type_args: Option<Box<TsTypeParamInstantiation>>,
-    // }
-    // pub struct NewExpr {
-    //     pub span: Span,
-    //     pub callee: Box<Expr>,
-    //     pub args: Option<Vec<ExprOrSpread>>,
-    //     pub type_args: Option<Box<TsTypeParamInstantiation>>,
-    // }
-    // pub struct SeqExpr {
-    //     pub span: Span,
-    //     pub exprs: Vec<Box<Expr>>,
-    // }
-    // pub struct ArrowExpr {
-    //     pub span: Span,
-    //     pub params: Vec<Pat>,
-    //     pub body: BlockStmtOrExpr,
-    //     pub is_async: bool,
-    //     pub is_generator: bool,
-    //     pub type_params: Option<Box<TsTypeParamDecl>>,
-    //     pub return_type: Option<Box<TsTypeAnn>>,
-    // }
-    // pub struct YieldExpr {
-    //     pub span: Span,
-    //     pub arg: Option<Box<Expr>>,
-    //     pub delegate: bool,
-    // }
-    // pub struct MetaPropExpr {
-    //     pub span: Span,
-    //     pub kind: MetaPropKind,
-    // }
-    // pub enum MetaPropKind {
-    //     NewTarget,
-    //     ImportMeta,
-    // }
-    // pub struct AwaitExpr {
-    //     pub span: Span,
-    //     pub arg: Box<Expr>,
-    // }
-    // pub struct Tpl {
-    //     pub span: Span,
-    //     pub exprs: Vec<Box<Expr>>,
-    //     pub quasis: Vec<TplElement>,
-    // }
-    // pub struct TaggedTpl {
-    //     pub span: Span,
-    //     pub tag: Box<Expr>,
-    //     pub type_params: Option<Box<TsTypeParamInstantiation>>,
-    //     pub tpl: Tpl,
-    // }
-    // pub struct TplElement {
-    //     pub span: Span,
-    //     pub tail: bool,
-    //     pub cooked: Option<Atom>,
-    //     pub raw: Atom,
-    // }
-    // pub struct ParenExpr {
-    //     pub span: Span,
-    //     pub expr: Box<Expr>,
-    // }
-    // pub enum Callee {
-    //     Super(Super),
-    //     Import(Import),
-    //     Expr(Box<Expr>),
-    // }
-    // pub struct Super {
-    //     pub span: Span,
-    // }
-    // pub struct Import {
-    //     pub span: Span,
-    // }
-    // pub struct ExprOrSpread {
-    //     pub spread: Option<Span>,
-    //     pub expr: Box<Expr>,
-    // }
-    // pub enum BlockStmtOrExpr {
-    //     BlockStmt(BlockStmt),
-    //     Expr(Box<Expr>),
-    // }
-    // pub enum PatOrExpr {
-    //     Expr(Box<Expr>),
-    //     Pat(Box<Pat>),
-    // }
-    // pub struct OptChainExpr {
-    //     pub span: Span,
-    //     pub question_dot_token: Span,
-    //     pub base: OptChainBase,
-    // }
-    // pub enum OptChainBase {
-    //     Member(MemberExpr),
-    //     Call(OptCall),
-    // }
-    // pub struct OptCall {
-    //     pub span: Span,
-    //     pub callee: Box<Expr>,
-    //     pub args: Vec<ExprOrSpread>,
-    //     pub type_args: Option<Box<TsTypeParamInstantiation>>,
-    // }
-    // pub struct Function {
-    //     pub params: Vec<Param>,
-    //     pub decorators: Vec<Decorator>,
-    //     pub span: Span,
-    //     pub body: Option<BlockStmt>,
-    //     pub is_generator: bool,
-    //     pub is_async: bool,
-    //     pub type_params: Option<Box<TsTypeParamDecl>>,
-    //     pub return_type: Option<Box<TsTypeAnn>>,
-    // }
-    // pub struct Param {
-    //     pub span: Span,
-    //     pub decorators: Vec<Decorator>,
-    //     pub pat: Pat,
-    // }
-    // pub enum ParamOrTsParamProp {
-    //     TsParamProp(TsParamProp),
-    //     Param(Param),
-    // }
+    pub struct ArrayLit {
+        pub span: Span,
+        pub elems: Vec<Option<ExprOrSpread>>,
+    }
+    pub struct ObjectLit {
+        pub span: Span,
+        pub props: Vec<PropOrSpread>,
+    }
+    pub enum PropOrSpread {
+        Spread(SpreadElement),
+        Prop(Box<Prop>),
+    }
+    pub struct SpreadElement {
+        pub dot3_token: Span,
+        pub expr: Box<Expr>,
+    }
+    pub struct UnaryExpr {
+        pub span: Span,
+        pub op: UnaryOp,
+        pub arg: Box<Expr>,
+    }
+    pub struct UpdateExpr {
+        pub span: Span,
+        pub op: UpdateOp,
+        pub prefix: bool,
+        pub arg: Box<Expr>,
+    }
+    pub struct BinExpr {
+        pub span: Span,
+        pub op: BinaryOp,
+        pub left: Box<Expr>,
+        pub right: Box<Expr>,
+    }
+    pub struct FnExpr {
+        pub ident: Option<Ident>,
+        pub function: Box<Function>,
+    }
+    pub struct ClassExpr {
+        pub ident: Option<Ident>,
+        pub class: Box<Class>,
+    }
+    pub struct AssignExpr {
+        pub span: Span,
+        pub op: AssignOp,
+        pub left: PatOrExpr,
+        pub right: Box<Expr>,
+    }
+    pub struct MemberExpr {
+        pub span: Span,
+        pub obj: Box<Expr>,
+        pub prop: MemberProp,
+    }
+    pub enum MemberProp {
+        Ident(Ident),
+        PrivateName(PrivateName),
+        Computed(ComputedPropName),
+    }
+    pub struct SuperPropExpr {
+        pub span: Span,
+        pub obj: Super,
+        pub prop: SuperProp,
+    }
+    pub enum SuperProp {
+        Ident(Ident),
+        Computed(ComputedPropName),
+    }
+    pub struct CondExpr {
+        pub span: Span,
+        pub test: Box<Expr>,
+        pub cons: Box<Expr>,
+        pub alt: Box<Expr>,
+    }
+    pub struct CallExpr {
+        pub span: Span,
+        pub callee: Callee,
+        pub args: Vec<ExprOrSpread>,
+        pub type_args: Option<Box<TsTypeParamInstantiation>>,
+    }
+    pub struct NewExpr {
+        pub span: Span,
+        pub callee: Box<Expr>,
+        pub args: Option<Vec<ExprOrSpread>>,
+        pub type_args: Option<Box<TsTypeParamInstantiation>>,
+    }
+    pub struct SeqExpr {
+        pub span: Span,
+        pub exprs: Vec<Box<Expr>>,
+    }
+    pub struct ArrowExpr {
+        pub span: Span,
+        pub params: Vec<Pat>,
+        pub body: BlockStmtOrExpr,
+        pub is_async: bool,
+        pub is_generator: bool,
+        pub type_params: Option<Box<TsTypeParamDecl>>,
+        pub return_type: Option<Box<TsTypeAnn>>,
+    }
+    pub struct YieldExpr {
+        pub span: Span,
+        pub arg: Option<Box<Expr>>,
+        pub delegate: bool,
+    }
+    pub struct MetaPropExpr {
+        pub span: Span,
+        pub kind: MetaPropKind,
+    }
+    pub enum MetaPropKind {
+        NewTarget,
+        ImportMeta,
+    }
+    pub struct AwaitExpr {
+        pub span: Span,
+        pub arg: Box<Expr>,
+    }
+    pub struct Tpl {
+        pub span: Span,
+        pub exprs: Vec<Box<Expr>>,
+        pub quasis: Vec<TplElement>,
+    }
+    pub struct TaggedTpl {
+        pub span: Span,
+        pub tag: Box<Expr>,
+        pub type_params: Option<Box<TsTypeParamInstantiation>>,
+        pub tpl: Tpl,
+    }
+    pub struct TplElement {
+        pub span: Span,
+        pub tail: bool,
+        pub cooked: Option<Atom>,
+        pub raw: Atom,
+    }
+    pub struct ParenExpr {
+        pub span: Span,
+        pub expr: Box<Expr>,
+    }
+    pub enum Callee {
+        Super(Super),
+        Import(Import),
+        Expr(Box<Expr>),
+    }
+    pub struct Super {
+        pub span: Span,
+    }
+    pub struct Import {
+        pub span: Span,
+    }
+    pub struct ExprOrSpread {
+        pub spread: Option<Span>,
+        pub expr: Box<Expr>,
+    }
+    pub enum BlockStmtOrExpr {
+        BlockStmt(BlockStmt),
+        Expr(Box<Expr>),
+    }
+    pub enum PatOrExpr {
+        Expr(Box<Expr>),
+        Pat(Box<Pat>),
+    }
+    pub struct OptChainExpr {
+        pub span: Span,
+        pub question_dot_token: Span,
+        pub base: OptChainBase,
+    }
+    pub enum OptChainBase {
+        Member(MemberExpr),
+        Call(OptCall),
+    }
+    pub struct OptCall {
+        pub span: Span,
+        pub callee: Box<Expr>,
+        pub args: Vec<ExprOrSpread>,
+        pub type_args: Option<Box<TsTypeParamInstantiation>>,
+    }
+    pub struct Function {
+        pub params: Vec<Param>,
+        pub decorators: Vec<Decorator>,
+        pub span: Span,
+        pub body: Option<BlockStmt>,
+        pub is_generator: bool,
+        pub is_async: bool,
+        pub type_params: Option<Box<TsTypeParamDecl>>,
+        pub return_type: Option<Box<TsTypeAnn>>,
+    }
+    pub struct Param {
+        pub span: Span,
+        pub decorators: Vec<Decorator>,
+        pub pat: Pat,
+    }
+    pub enum ParamOrTsParamProp {
+        TsParamProp(TsParamProp),
+        Param(Param),
+    }
 
-    // pub struct BindingIdent {
-    //     pub id: Ident,
-    //     pub type_ann: Option<Box<TsTypeAnn>>,
-    // }
+    pub struct BindingIdent {
+        pub id: Ident,
+        pub type_ann: Option<Box<TsTypeAnn>>,
+    }
 
-    // pub struct Ident {
-    //     pub span: Span,
-    //     pub sym: JsWord,
-    //     pub optional: bool,
-    // }
+    pub struct Ident {
+        pub span: Span,
+        pub sym: JsWord,
+        pub optional: bool,
+    }
 
     pub struct PrivateName {
         pub span: Span,
         pub id: Ident,
     }
 
-    // pub enum JSXObject {
-    //     JSXMemberExpr(Box<JSXMemberExpr>),
-    //     Ident(Ident),
-    // }
-    // pub struct JSXMemberExpr {
-    //     pub obj: JSXObject,
-    //     pub prop: Ident,
-    // }
-    // pub struct JSXNamespacedName {
-    //     pub ns: Ident,
-    //     pub name: Ident,
-    // }
-    // pub struct JSXEmptyExpr {
-    //     pub span: Span,
-    // }
-    // pub struct JSXExprContainer {
-    //     pub span: Span,
-    //     pub expr: JSXExpr,
-    // }
-    // pub enum JSXExpr {
-    //     JSXEmptyExpr(JSXEmptyExpr),
-    //     Expr(Box<Expr>),
-    // }
-    // pub struct JSXSpreadChild {
-    //     pub span: Span,
-    //     pub expr: Box<Expr>,
-    // }
-    // pub enum JSXElementName {
-    //     Ident(Ident),
-    //     JSXMemberExpr(JSXMemberExpr),
-    //     JSXNamespacedName(JSXNamespacedName),
-    // }
-    // pub struct JSXOpeningElement {
-    //     pub name: JSXElementName,
-    //     pub span: Span,
-    //     pub attrs: Vec<JSXAttrOrSpread>,
-    //     pub self_closing: bool,
-    //     pub type_args: Option<Box<TsTypeParamInstantiation>>,
-    // }
-    // pub enum JSXAttrOrSpread {
-    //     JSXAttr(JSXAttr),
-    //     SpreadElement(SpreadElement),
-    // }
-    // pub struct JSXClosingElement {
-    //     pub span: Span,
-    //     pub name: JSXElementName,
-    // }
-    // pub struct JSXAttr {
-    //     pub span: Span,
-    //     pub name: JSXAttrName,
-    //     pub value: Option<JSXAttrValue>,
-    // }
-    // pub enum JSXAttrName {
-    //     Ident(Ident),
-    //     JSXNamespacedName(JSXNamespacedName),
-    // }
-    // pub enum JSXAttrValue {
-    //     Lit(Lit),
-    //     JSXExprContainer(JSXExprContainer),
-    //     JSXElement(Box<JSXElement>),
-    //     JSXFragment(JSXFragment),
-    // }
-    // pub struct JSXText {
-    //     pub span: Span,
-    //     pub value: Atom,
-    //     pub raw: Atom,
-    // }
-    // pub struct JSXElement {
-    //     pub span: Span,
-    //     pub opening: JSXOpeningElement,
-    //     pub children: Vec<JSXElementChild>,
-    //     pub closing: Option<JSXClosingElement>,
-    // }
-    // pub enum JSXElementChild {
-    //     JSXText(JSXText),
-    //     JSXExprContainer(JSXExprContainer),
-    //     JSXSpreadChild(JSXSpreadChild),
-    //     JSXElement(Box<JSXElement>),
-    //     JSXFragment(JSXFragment),
-    // }
-    // pub struct JSXFragment {
-    //     pub span: Span,
-    //     pub opening: JSXOpeningFragment,
-    //     pub children: Vec<JSXElementChild>,
-    //     pub closing: JSXClosingFragment,
-    // }
-    // pub struct JSXOpeningFragment {
-    //     pub span: Span,
-    // }
-    // pub struct JSXClosingFragment {
-    //     pub span: Span,
-    // }
-    // pub struct Invalid {
-    //     pub span: Span,
-    // }
-    // pub enum Lit {
-    //     Str(Str),
-    //     Bool(Bool),
-    //     Null(Null),
-    //     Num(Number),
-    //     BigInt(BigInt),
-    //     Regex(Regex),
-    //     JSXText(JSXText),
-    // }
-    // pub struct BigInt {
-    //     pub span: Span,
-    //     pub value: Box<BigIntValue>,
-    //     pub raw: Option<Atom>,
-    // }
-    // pub struct Str {
-    //     pub span: Span,
-    //     pub value: JsWord,
-    //     pub raw: Option<Atom>,
-    // }
-    // pub struct Bool {
-    //     pub span: Span,
-    //     pub value: bool,
-    // }
-    // pub struct Null {
-    //     pub span: Span,
-    // }
-    // pub struct Regex {
-    //     pub span: Span,
-    //     pub exp: Atom,
-    //     pub flags: Atom,
-    // }
-    // pub struct Number {
-    //     pub span: Span,
-    //     pub value: f64,
-    //     pub raw: Option<Atom>,
-    // }
-    // pub enum Program {
-    //     Module(Module),
-    //     Script(Script),
-    //     // TODO: reenable once experimental_metadata breaking change is merged
-    //     // ReservedUnused(ReservedUnused),
-    // }
-    // pub struct Module {
-    //     pub span: Span,
-    //     pub body: Vec<ModuleItem>,
-    //     pub shebang: Option<Atom>,
-    // }
-    // pub struct Script {
-    //     pub span: Span,
-    //     pub body: Vec<Stmt>,
-    //     pub shebang: Option<Atom>,
-    // }
-    // pub enum ModuleItem {
-    //     ModuleDecl(ModuleDecl),
-    //     Stmt(Stmt),
-    // }
-    // pub enum ModuleDecl {
-    //     Import(ImportDecl),
-    //     ExportDecl(ExportDecl),
-    //     ExportNamed(NamedExport),
-    //     ExportDefaultDecl(ExportDefaultDecl),
-    //     ExportDefaultExpr(ExportDefaultExpr),
-    //     ExportAll(ExportAll),
-    //     TsImportEquals(Box<TsImportEqualsDecl>),
-    //     TsExportAssignment(TsExportAssignment),
-    //     TsNamespaceExport(TsNamespaceExportDecl),
-    // }
+    pub enum JSXObject {
+        JSXMemberExpr(Box<JSXMemberExpr>),
+        Ident(Ident),
+    }
+    pub struct JSXMemberExpr {
+        pub obj: JSXObject,
+        pub prop: Ident,
+    }
+    pub struct JSXNamespacedName {
+        pub ns: Ident,
+        pub name: Ident,
+    }
+    pub struct JSXEmptyExpr {
+        pub span: Span,
+    }
+    pub struct JSXExprContainer {
+        pub span: Span,
+        pub expr: JSXExpr,
+    }
+    pub enum JSXExpr {
+        JSXEmptyExpr(JSXEmptyExpr),
+        Expr(Box<Expr>),
+    }
+    pub struct JSXSpreadChild {
+        pub span: Span,
+        pub expr: Box<Expr>,
+    }
+    pub enum JSXElementName {
+        Ident(Ident),
+        JSXMemberExpr(JSXMemberExpr),
+        JSXNamespacedName(JSXNamespacedName),
+    }
+    pub struct JSXOpeningElement {
+        pub name: JSXElementName,
+        pub span: Span,
+        pub attrs: Vec<JSXAttrOrSpread>,
+        pub self_closing: bool,
+        pub type_args: Option<Box<TsTypeParamInstantiation>>,
+    }
+    pub enum JSXAttrOrSpread {
+        JSXAttr(JSXAttr),
+        SpreadElement(SpreadElement),
+    }
+    pub struct JSXClosingElement {
+        pub span: Span,
+        pub name: JSXElementName,
+    }
+    pub struct JSXAttr {
+        pub span: Span,
+        pub name: JSXAttrName,
+        pub value: Option<JSXAttrValue>,
+    }
+    pub enum JSXAttrName {
+        Ident(Ident),
+        JSXNamespacedName(JSXNamespacedName),
+    }
+    pub enum JSXAttrValue {
+        Lit(Lit),
+        JSXExprContainer(JSXExprContainer),
+        JSXElement(Box<JSXElement>),
+        JSXFragment(JSXFragment),
+    }
+    pub struct JSXText {
+        pub span: Span,
+        pub value: Atom,
+        pub raw: Atom,
+    }
+    pub struct JSXElement {
+        pub span: Span,
+        pub opening: JSXOpeningElement,
+        pub children: Vec<JSXElementChild>,
+        pub closing: Option<JSXClosingElement>,
+    }
+    pub enum JSXElementChild {
+        JSXText(JSXText),
+        JSXExprContainer(JSXExprContainer),
+        JSXSpreadChild(JSXSpreadChild),
+        JSXElement(Box<JSXElement>),
+        JSXFragment(JSXFragment),
+    }
+    pub struct JSXFragment {
+        pub span: Span,
+        pub opening: JSXOpeningFragment,
+        pub children: Vec<JSXElementChild>,
+        pub closing: JSXClosingFragment,
+    }
+    pub struct JSXOpeningFragment {
+        pub span: Span,
+    }
+    pub struct JSXClosingFragment {
+        pub span: Span,
+    }
+    pub struct Invalid {
+        pub span: Span,
+    }
+    pub enum Lit {
+        Str(Str),
+        Bool(Bool),
+        Null(Null),
+        Num(Number),
+        BigInt(BigInt),
+        Regex(Regex),
+        JSXText(JSXText),
+    }
+    pub struct BigInt {
+        pub span: Span,
+        pub value: Box<BigIntValue>,
+        pub raw: Option<Atom>,
+    }
+    pub struct Str {
+        pub span: Span,
+        pub value: JsWord,
+        pub raw: Option<Atom>,
+    }
+    pub struct Bool {
+        pub span: Span,
+        pub value: bool,
+    }
+    pub struct Null {
+        pub span: Span,
+    }
+    pub struct Regex {
+        pub span: Span,
+        pub exp: Atom,
+        pub flags: Atom,
+    }
+    pub struct Number {
+        pub span: Span,
+        pub value: f64,
+        pub raw: Option<Atom>,
+    }
+    pub enum Program {
+        Module(Module),
+        Script(Script),
+        // TODO: reenable once experimental_metadata breaking change is merged
+        // ReservedUnused(ReservedUnused),
+    }
+    pub struct Module {
+        pub span: Span,
+        pub body: Vec<ModuleItem>,
+        pub shebang: Option<Atom>,
+    }
+    pub struct Script {
+        pub span: Span,
+        pub body: Vec<Stmt>,
+        pub shebang: Option<Atom>,
+    }
+    pub enum ModuleItem {
+        ModuleDecl(ModuleDecl),
+        Stmt(Stmt),
+    }
+    pub enum ModuleDecl {
+        Import(ImportDecl),
+        ExportDecl(ExportDecl),
+        ExportNamed(NamedExport),
+        ExportDefaultDecl(ExportDefaultDecl),
+        ExportDefaultExpr(ExportDefaultExpr),
+        ExportAll(ExportAll),
+        TsImportEquals(Box<TsImportEqualsDecl>),
+        TsExportAssignment(TsExportAssignment),
+        TsNamespaceExport(TsNamespaceExportDecl),
+    }
     pub struct ExportDefaultExpr {
         pub span: Span,
         pub expr: Box<Expr>,
@@ -1176,21 +1176,21 @@ define!({
         Void,
         Delete,
     }
-    // pub enum Pat {
-    //     Ident(BindingIdent),
-    //     Array(ArrayPat),
-    //     Rest(RestPat),
-    //     Object(ObjectPat),
-    //     Assign(AssignPat),
-    //     Invalid(Invalid),
-    //     Expr(Box<Expr>),
-    // }
-    // pub struct ArrayPat {
-    //     pub span: Span,
-    //     pub elems: Vec<Option<Pat>>,
-    //     pub optional: bool,
-    //     pub type_ann: Option<Box<TsTypeAnn>>,
-    // }
+    pub enum Pat {
+        Ident(BindingIdent),
+        Array(ArrayPat),
+        Rest(RestPat),
+        Object(ObjectPat),
+        Assign(AssignPat),
+        Invalid(Invalid),
+        Expr(Box<Expr>),
+    }
+    pub struct ArrayPat {
+        pub span: Span,
+        pub elems: Vec<Option<Pat>>,
+        pub optional: bool,
+        pub type_ann: Option<Box<TsTypeAnn>>,
+    }
     pub struct ObjectPat {
         pub span: Span,
         pub props: Vec<ObjectPatProp>,
