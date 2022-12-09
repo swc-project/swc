@@ -58,35 +58,30 @@ impl Compressor {
         }
     }
 
-    fn collect_names(&self, rule: &Rule, names: &mut AHashMap<Name, isize>) {
-        if let Rule::AtRule(box at_rule) = rule {
-            match &at_rule.prelude {
-                Some(box AtRulePrelude::CounterStylePrelude(CustomIdent {
-                    value: name, ..
-                })) => {
-                    names
-                        .entry(Name::CounterStyle(name.clone()))
-                        .and_modify(|mana| *mana += 1)
-                        .or_insert(1);
-                }
-                Some(box AtRulePrelude::KeyframesPrelude(KeyframesName::CustomIdent(
-                    box CustomIdent { value: name, .. },
-                )))
-                | Some(box AtRulePrelude::KeyframesPrelude(KeyframesName::Str(box Str {
-                    value: name,
-                    ..
-                }))) => {
-                    names
-                        .entry(Name::Keyframes(
-                            self.get_at_rule_name(at_rule),
-                            name.clone(),
-                        ))
-                        .and_modify(|mana| *mana += 1)
-                        .or_insert(1);
-                }
-
-                _ => {}
+    fn collect_names(&self, at_rule: &AtRule, names: &mut AHashMap<Name, isize>) {
+        match &at_rule.prelude {
+            Some(box AtRulePrelude::CounterStylePrelude(CustomIdent { value: name, .. })) => {
+                names
+                    .entry(Name::CounterStyle(name.clone()))
+                    .and_modify(|mana| *mana += 1)
+                    .or_insert(1);
             }
+            Some(box AtRulePrelude::KeyframesPrelude(KeyframesName::CustomIdent(
+                box CustomIdent { value: name, .. },
+            )))
+            | Some(box AtRulePrelude::KeyframesPrelude(KeyframesName::Str(box Str {
+                value: name,
+                ..
+            }))) => {
+                names
+                    .entry(Name::Keyframes(
+                        self.get_at_rule_name(at_rule),
+                        name.clone(),
+                    ))
+                    .and_modify(|mana| *mana += 1)
+                    .or_insert(1);
+            }
+            _ => {}
         }
     }
 
@@ -410,7 +405,9 @@ impl Compressor {
                     true
                 }
                 _ => {
-                    self.collect_names(rule, &mut names);
+                    if let Rule::AtRule(rule) = rule {
+                        self.collect_names(rule, &mut names);
+                    }
 
                     true
                 }
@@ -536,7 +533,7 @@ impl Compressor {
                     true
                 }
                 _ => {
-                    if let ComponentValue::Rule(rule) = rule {
+                    if let ComponentValue::AtRule(rule) = rule {
                         self.collect_names(rule, &mut names);
                     }
 
