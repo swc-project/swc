@@ -511,10 +511,11 @@ impl Compressor {
 
             if let Some(span) = is_initial {
                 self.compress_from_initial(declaration, *span);
-            } else {
-                // TODO `browserslist` support
-                self.compress_to_initial(declaration);
             }
+            // TODO `browserslist` support
+            // else {
+            // self.compress_to_initial(declaration);
+            // }
         }
     }
 
@@ -1279,7 +1280,7 @@ impl Compressor {
         }
     }
 
-    fn compress_to_initial(&self, declaration: &mut Declaration) {
+    fn _compress_to_initial(&self, declaration: &mut Declaration) {
         let name = if let DeclarationName::Ident(Ident { value, .. }) = &declaration.name {
             value.to_ascii_lowercase()
         } else {
