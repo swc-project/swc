@@ -214,6 +214,19 @@ impl From<DeclarationOrAtRule> for ComponentValue {
     }
 }
 
+impl From<Rule> for ComponentValue {
+    #[inline]
+    fn from(rule: Rule) -> Self {
+        match rule {
+            Rule::AtRule(at_rule) => ComponentValue::AtRule(at_rule),
+            Rule::QualifiedRule(qualified_rule) => ComponentValue::QualifiedRule(qualified_rule),
+            Rule::ListOfComponentValues(list_of_component_values) => {
+                ComponentValue::ListOfComponentValues(list_of_component_values)
+            }
+        }
+    }
+}
+
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum DeclarationOrAtRule {
