@@ -555,31 +555,11 @@ impl Compressor {
                     true
                 }
                 ComponentValue::QualifiedRule(box qualified_rule) if prev_rule.is_some() => {
-                    if let Some(ComponentValue::QualifiedRule(box box prev_rule)) = &mut prev_rule {
+                    if let Some(ComponentValue::QualifiedRule(box prev_rule)) = &mut prev_rule {
                         if let Some(qualified_rule) =
                             self.try_merge_qualified_rules(prev_rule, qualified_rule)
                         {
-                            *rule = ComponentValue::QualifiedRule(qualified_rule);
-
-                            remove_rules_list.push(prev_index);
-                        }
-                    }
-
-                    true
-                }
-                ComponentValue::StyleBlock(box StyleBlock::QualifiedRule(
-                    box qualified_rule @ QualifiedRule { .. },
-                )) if prev_rule.is_some() => {
-                    if let Some(ComponentValue::StyleBlock(box StyleBlock::QualifiedRule(
-                        box prev_rule,
-                    ))) = &mut prev_rule
-                    {
-                        if let Some(qualified_rule) =
-                            self.try_merge_qualified_rules(prev_rule, qualified_rule)
-                        {
-                            *rule = ComponentValue::StyleBlock(Box::new(
-                                StyleBlock::QualifiedRule(Box::new(qualified_rule)),
-                            ));
+                            *rule = ComponentValue::QualifiedRule(Box::new(qualified_rule));
 
                             remove_rules_list.push(prev_index);
                         }
