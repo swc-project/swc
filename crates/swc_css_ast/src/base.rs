@@ -135,8 +135,6 @@ pub enum ComponentValue {
     #[tag("ListOfComponentValues")]
     ListOfComponentValues(Box<ListOfComponentValues>),
 
-    #[tag("StyleBlock")]
-    StyleBlock(Box<StyleBlock>),
     #[tag("KeyframeBlock")]
     KeyframeBlock(Box<KeyframeBlock>),
 
