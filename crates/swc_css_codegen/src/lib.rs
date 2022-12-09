@@ -1351,29 +1351,24 @@ where
             emit!(self, node);
 
             match node {
-                ComponentValue::Rule(_) => {
+                ComponentValue::AtRule(_) | ComponentValue::QualifiedRule(_) => {
                     formatting_newline!(self);
                     decrease_indent!(self);
                 }
-                ComponentValue::StyleBlock(node) => {
-                    match &**node {
-                        StyleBlock::AtRule(_) | StyleBlock::QualifiedRule(_) => {
-                            formatting_newline!(self);
-                        }
-                        StyleBlock::Declaration(_) => {
-                            if idx != len - 1 {
-                                semi!(self);
-                            } else {
-                                formatting_semi!(self);
-                            }
-
-                            formatting_newline!(self);
-                        }
-                        StyleBlock::ListOfComponentValues(_) => {}
+                ComponentValue::Declaration(_) => {
+                    if idx != len - 1 {
+                        semi!(self);
+                    } else {
+                        formatting_semi!(self);
                     }
 
+                    formatting_newline!(self);
                     decrease_indent!(self);
                 }
+                ComponentValue::ListOfComponentValues(_) => {
+                    decrease_indent!(self);
+                }
+
                 ComponentValue::KeyframeBlock(_) => {
                     if idx == len - 1 {
                         formatting_newline!(self);
@@ -1381,25 +1376,7 @@ where
 
                     decrease_indent!(self);
                 }
-                ComponentValue::DeclarationOrAtRule(node) => {
-                    match &**node {
-                        DeclarationOrAtRule::AtRule(_) => {
-                            formatting_newline!(self);
-                        }
-                        DeclarationOrAtRule::Declaration(_) => {
-                            if idx != len - 1 {
-                                semi!(self);
-                            } else {
-                                formatting_semi!(self);
-                            }
 
-                            formatting_newline!(self);
-                        }
-                        DeclarationOrAtRule::ListOfComponentValues(_) => {}
-                    }
-
-                    decrease_indent!(self);
-                }
                 _ => {
                     if !self.ctx.in_list_of_component_values && ending == "]" && idx != len - 1 {
                         space!(self);
