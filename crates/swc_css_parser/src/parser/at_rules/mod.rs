@@ -577,7 +577,7 @@ where
                                 ErrorKind::Unexpected("at-rules are not allowed here"),
                             ));
 
-                            ComponentValue::Rule(Box::new(Rule::AtRule(at_rule)))
+                            ComponentValue::AtRule(at_rule)
                         }
                         Rule::QualifiedRule(qualified_rule) => {
                             let locv = match qualified_rule.prelude {
@@ -619,14 +619,12 @@ where
                                 Err(err) => {
                                     self.errors.push(err);
 
-                                    ComponentValue::Rule(Box::new(Rule::ListOfComponentValues(
-                                        Box::new(locv),
-                                    )))
+                                    ComponentValue::ListOfComponentValues(Box::new(locv))
                                 }
                             }
                         }
                         Rule::ListOfComponentValues(locv) => {
-                            ComponentValue::Rule(Box::new(Rule::ListOfComponentValues(locv)))
+                            ComponentValue::ListOfComponentValues(locv)
                         }
                     })
                     .collect();
