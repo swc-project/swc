@@ -153,7 +153,7 @@ impl Compressor {
                 for index in 0..simple_block.value.len() {
                     let node = simple_block.value.get(index);
 
-                    if let Some(ComponentValue::Rule(box Rule::AtRule(box at_rule))) = node {
+                    if let Some(ComponentValue::AtRule(box at_rule)) = node {
                         if !discarder(at_rule) {
                             remove_rules_list.push(index);
                         }
