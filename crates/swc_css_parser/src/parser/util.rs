@@ -256,7 +256,7 @@ where
                     },
                 )?
                 .into_iter()
-                .map(|node| ComponentValue::StyleBlock(Box::new(node)))
+                .map(|node| ComponentValue::from(node))
                 .collect(),
         };
 
