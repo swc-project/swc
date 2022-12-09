@@ -1173,9 +1173,7 @@ impl VisitMut for Prefixer {
 
                         n.1.visit_mut_children_with(self);
 
-                        new.push(ComponentValue::StyleBlock(Box::new(StyleBlock::AtRule(
-                            n.1,
-                        ))));
+                        new.push(ComponentValue::AtRule(n.1));
 
                         self.rule_prefix = old_rule_prefix;
                     }

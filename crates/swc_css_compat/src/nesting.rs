@@ -231,14 +231,14 @@ impl NestingHandler {
 
         for value in rule.block.value.take() {
             match value {
-                ComponentValue::StyleBlock(box StyleBlock::QualifiedRule(mut nested)) => {
+                ComponentValue::QualifiedRule(mut nested) => {
                     self.process_prelude(&rule.prelude, &mut nested.prelude);
 
                     nested_rules.push(Rule::QualifiedRule(nested));
 
                     continue;
                 }
-                ComponentValue::StyleBlock(box StyleBlock::AtRule(ref at_rule)) => {
+                ComponentValue::AtRule(ref at_rule) => {
                     if let Some(
                         AtRulePrelude::MediaPrelude(..)
                         | AtRulePrelude::SupportsPrelude(..)
