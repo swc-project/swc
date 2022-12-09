@@ -554,18 +554,12 @@ impl Compressor {
 
                     true
                 }
-                ComponentValue::Rule(box Rule::QualifiedRule(
-                    box qualified_rule @ QualifiedRule { .. },
-                )) if prev_rule.is_some() => {
-                    if let Some(ComponentValue::Rule(box Rule::QualifiedRule(box prev_rule))) =
-                        &mut prev_rule
-                    {
+                ComponentValue::QualifiedRule(box qualified_rule) if prev_rule.is_some() => {
+                    if let Some(ComponentValue::QualifiedRule(box box prev_rule)) = &mut prev_rule {
                         if let Some(qualified_rule) =
                             self.try_merge_qualified_rules(prev_rule, qualified_rule)
                         {
-                            *rule = ComponentValue::Rule(Box::new(Rule::QualifiedRule(Box::new(
-                                qualified_rule,
-                            ))));
+                            *rule = ComponentValue::QualifiedRule(qualified_rule);
 
                             remove_rules_list.push(prev_index);
                         }
