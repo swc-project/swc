@@ -504,32 +504,17 @@ impl Compressor {
                     block: Some(block), ..
                 })
                 | ComponentValue::QualifiedRule(box QualifiedRule { block, .. })
-                | ComponentValue::StyleBlock(box StyleBlock::QualifiedRule(box QualifiedRule {
-                    block,
-                    ..
-                }))
-                | ComponentValue::StyleBlock(box StyleBlock::AtRule(box AtRule {
-                    block: Some(block),
-                    ..
-                }))
-                | ComponentValue::DeclarationOrAtRule(box DeclarationOrAtRule::AtRule(
-                    box AtRule {
-                        block: Some(block), ..
-                    },
-                ))
                 | ComponentValue::KeyframeBlock(box KeyframeBlock { block, .. })
                     if block.value.is_empty() =>
                 {
                     false
                 }
-                ComponentValue::AtRule(box Rule::AtRule(box at_rule @ AtRule { .. }))
+                ComponentValue::AtRule(at_rule)
                     if prev_rule.is_some() && self.is_mergeable_at_rule(at_rule) =>
                 {
-                    if let Some(ComponentValue::Rule(box Rule::AtRule(box prev_rule))) =
-                        &mut prev_rule
-                    {
+                    if let Some(ComponentValue::AtRule(prev_rule)) = &mut prev_rule {
                         if let Some(at_rule) = self.try_merge_at_rule(prev_rule, at_rule) {
-                            *rule = ComponentValue::Rule(Box::new(Rule::AtRule(Box::new(at_rule))));
+                            *rule = ComponentValue::AtRule(Box::new(at_rule));
 
                             remove_rules_list.push(prev_index);
                         }

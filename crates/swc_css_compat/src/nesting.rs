@@ -337,7 +337,7 @@ impl VisitMut for NestingHandler {
 
         for n in n.take() {
             match n {
-                ComponentValue::QualifiedRule(n) => {
+                ComponentValue::QualifiedRule(mut n) => {
                     let mut rules = self.extract_nested_rules(&mut n);
 
                     rules.visit_mut_with(self);
