@@ -1177,9 +1177,11 @@ impl VisitMut for Prefixer {
                     }
                 }
                 ComponentValue::StyleBlock(_) => {
-                    new.extend(self.added_declarations.drain(..).map(|node| {
-                        ComponentValue::StyleBlock(Box::new(StyleBlock::Declaration(node)))
-                    }));
+                    new.extend(
+                        self.added_declarations
+                            .drain(..)
+                            .map(|node| ComponentValue::Declaration(node)),
+                    );
 
                     for mut n in take(&mut self.added_qualified_rules) {
                         let old_rule_prefix = self.rule_prefix.take();
@@ -1188,9 +1190,7 @@ impl VisitMut for Prefixer {
 
                         n.1.visit_mut_children_with(self);
 
-                        new.push(ComponentValue::StyleBlock(Box::new(
-                            StyleBlock::QualifiedRule(n.1),
-                        )));
+                        new.push(ComponentValue::QualifiedRule(n.1));
 
                         self.rule_prefix = old_rule_prefix;
                     }
