@@ -35,6 +35,9 @@
 - **(es/typescript)** Strip inline type declarations (#6600) ([fe0c651](https://github.com/swc-project/swc/commit/fe0c65195d2308b1475e958a7051b5f529bf4580))
 
 
+- **(node-swc)** Sync types for `jsc.optimizer.globals` (#6603) ([b97aa45](https://github.com/swc-project/swc/commit/b97aa45c5c0ef5cfccc15294767c2bc8f0a7307d))
+
+
 - **(xml/parser)** Fix parsing of legacy document types (#6555) ([cdf0d8a](https://github.com/swc-project/swc/commit/cdf0d8a8b59a05498b6ca609d8a2ecf3c2f35f28))
 
 
