@@ -970,7 +970,6 @@ impl Compressor {
             | js_word!("border-end-start-radius")
             | js_word!("shape-margin")
             | js_word!("offset-distance") => {
-                // TODO check `0px` -> `0`
                 declaration.value = vec![ComponentValue::LengthPercentage(Box::new(
                     LengthPercentage::Length(Length {
                         span,
@@ -1027,7 +1026,6 @@ impl Compressor {
             | js_word!("outline-offset")
             | js_word!("line-height-step")
             | js_word!("border-spacing") => {
-                // TODO check `0px` -> `0`
                 declaration.value = vec![ComponentValue::Dimension(Box::new(Dimension::Length(
                     Length {
                         span,
@@ -1197,7 +1195,6 @@ impl Compressor {
                     raw: None,
                 }))];
             }
-            // TODO test on - we should not remove `px`
             js_word!("overflow-clip-margin") => {
                 declaration.value = vec![ComponentValue::Dimension(Box::new(Dimension::Length(
                     Length {
