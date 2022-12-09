@@ -879,18 +879,25 @@ export interface OptimizerConfig {
  */
 export interface GlobalPassOption {
   /**
-   * Global variables.
+   * Global variables that should be inlined with passed value.
    *
    * e.g. `{ __DEBUG__: true }`
    */
-  vars?: { [key: string]: string };
+  vars?: Record<string, string>;
 
   /**
-   * Name of environment variables to inline.
+   * Names of environment variables that should be inlined with the value of corresponding env during build.
    *
    * Defaults to `["NODE_ENV", "SWC_ENV"]`
    */
   envs?: string[];
+
+  /**
+   * Replaces typeof calls for passed variables with corresponding value
+   *
+   * e.g. `{ window: 'object' }`
+   */
+  typeofs?: Record<string, string>;
 }
 
 export type ModuleConfig = Es6Config | CommonJsConfig | UmdConfig | AmdConfig | NodeNextConfig | SystemjsConfig;
