@@ -107,14 +107,6 @@
  9 | }
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:7:1]
- 7 | {
- 8 |     color: red;
-   :     ^^^^^^^^^^
- 9 | }
-   `----
-
   x Declaration
    ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:7:1]
  7 | {

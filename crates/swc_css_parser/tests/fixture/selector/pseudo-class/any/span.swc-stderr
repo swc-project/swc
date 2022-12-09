@@ -2191,14 +2191,6 @@
  14 | }
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:12:1]
- 12 | :-webkit-any(i,p,:link,span:focus) {
- 13 |     background-color: blue;
-    :     ^^^^^^^^^^^^^^^^^^^^^^
- 14 | }
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:12:1]
  12 | :-webkit-any(i,p,:link,span:focus) {
@@ -2904,14 +2896,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:19:1]
- 19 | h1:-webkit-any(.h1class, #bar) {
- 20 |     background-color: green;
-    :     ^^^^^^^^^^^^^^^^^^^^^^^
- 21 | }
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:19:1]
  19 | h1:-webkit-any(.h1class, #bar) {
  20 |     background-color: green;

@@ -83,13 +83,6 @@
  3 | `-> }
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/recovery/bad-url-token/unclosed/input.css:1:1]
- 1 |     .foo {
- 2 | ,->     background: url(foo bar;
- 3 | `-> }
-   `----
-
   x Declaration
    ,-[$DIR/tests/recovery/bad-url-token/unclosed/input.css:1:1]
  1 |     .foo {

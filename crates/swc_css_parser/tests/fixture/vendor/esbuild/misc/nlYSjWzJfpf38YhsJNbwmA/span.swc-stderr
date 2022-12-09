@@ -77,12 +77,6 @@
    :     ^^^^^^^^^^^^^
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/nlYSjWzJfpf38YhsJNbwmA/input.css:1:1]
- 1 | a { color: #f00f }
-   :     ^^^^^^^^^^^^^
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/nlYSjWzJfpf38YhsJNbwmA/input.css:1:1]
  1 | a { color: #f00f }

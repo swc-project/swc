@@ -77,12 +77,6 @@
    :     ^^^^^^^^^^^^^
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/recovery/value/at-keyword/4/input.css:1:1]
- 1 | a { value: @\2cx }
-   :     ^^^^^^^^^^^^^
-   `----
-
   x Declaration
    ,-[$DIR/tests/recovery/value/at-keyword/4/input.css:1:1]
  1 | a { value: @\2cx }

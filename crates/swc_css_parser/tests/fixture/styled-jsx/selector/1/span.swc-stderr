@@ -168,14 +168,6 @@
  3 | }
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
- 1 | :global(.foo + a) {
- 2 |     color: red;
-   :     ^^^^^^^^^^
- 3 | }
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
  1 | :global(.foo + a) {

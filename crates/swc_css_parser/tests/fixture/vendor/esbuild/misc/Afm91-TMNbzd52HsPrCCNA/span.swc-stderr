@@ -77,12 +77,6 @@
    :     ^^^^^^^^^^^^^^^^^
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/Afm91-TMNbzd52HsPrCCNA/input.css:1:1]
- 1 | a { color: #abbbccff }
-   :     ^^^^^^^^^^^^^^^^^
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Afm91-TMNbzd52HsPrCCNA/input.css:1:1]
  1 | a { color: #abbbccff }

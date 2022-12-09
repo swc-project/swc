@@ -99,14 +99,6 @@
  3 |     --accent-color: #006;
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/dashed-ident/input.css:1:1]
- 1 | :root {
- 2 |     --main-color: #06c;
-   :     ^^^^^^^^^^^^^^^^^^
- 3 |     --accent-color: #006;
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/dashed-ident/input.css:1:1]
  1 | :root {
@@ -148,14 +140,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/dashed-ident/input.css:2:1]
- 2 |     --main-color: #06c;
- 3 |     --accent-color: #006;
-   :     ^^^^^^^^^^^^^^^^^^^^
- 4 | }
-   `----
-
-  x StyleBlock
    ,-[$DIR/tests/fixture/dashed-ident/input.css:2:1]
  2 |     --main-color: #06c;
  3 |     --accent-color: #006;
@@ -284,14 +268,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/dashed-ident/input.css:6:1]
- 6 | .foo {
- 7 |     --fg-color: blue;
-   :     ^^^^^^^^^^^^^^^^
- 8 | }
-   `----
-
-  x StyleBlock
    ,-[$DIR/tests/fixture/dashed-ident/input.css:6:1]
  6 | .foo {
  7 |     --fg-color: blue;
@@ -468,14 +444,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/dashed-ident/input.css:10:1]
- 10 | #foo h1 {
- 11 |     color: var(--main-color);
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^
- 12 | }
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/dashed-ident/input.css:10:1]
  10 | #foo h1 {
  11 |     color: var(--main-color);

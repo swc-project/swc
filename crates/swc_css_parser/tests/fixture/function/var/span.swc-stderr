@@ -99,14 +99,6 @@
  3 |     color: var(--a,);
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/function/var/input.css:1:1]
- 1 | div {
- 2 |     color: var(--a);
-   :     ^^^^^^^^^^^^^^^
- 3 |     color: var(--a,);
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/function/var/input.css:1:1]
  1 | div {
@@ -172,14 +164,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/var/input.css:2:1]
- 2 |     color: var(--a);
- 3 |     color: var(--a,);
-   :     ^^^^^^^^^^^^^^^^
- 4 |     color: var(--a, blue);
-   `----
-
-  x StyleBlock
    ,-[$DIR/tests/fixture/function/var/input.css:2:1]
  2 |     color: var(--a);
  3 |     color: var(--a,);
@@ -268,14 +252,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/var/input.css:3:1]
- 3 |     color: var(--a,);
- 4 |     color: var(--a, blue);
-   :     ^^^^^^^^^^^^^^^^^^^^^
- 5 | }
-   `----
-
-  x StyleBlock
    ,-[$DIR/tests/fixture/function/var/input.css:3:1]
  3 |     color: var(--a,);
  4 |     color: var(--a, blue);

@@ -77,12 +77,6 @@
    :     ^^^^^^^^^^
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/recovery/value/number/minus-dot/input.css:1:1]
- 1 | a { width: -0.; }
-   :     ^^^^^^^^^^
-   `----
-
   x Declaration
    ,-[$DIR/tests/recovery/value/number/minus-dot/input.css:1:1]
  1 | a { width: -0.; }

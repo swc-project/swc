@@ -72,12 +72,6 @@
    :                ^^^^^^^^
    `----
 
-  x Rule
-   ,-[$DIR/tests/recovery/at-rule/no-semi/input.css:1:1]
- 1 | @media screen {@content}
-   :                ^^^^^^^^
-   `----
-
   x AtRule
    ,-[$DIR/tests/recovery/at-rule/no-semi/input.css:1:1]
  1 | @media screen {@content}

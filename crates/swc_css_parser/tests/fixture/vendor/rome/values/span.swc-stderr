@@ -128,14 +128,6 @@
  3 | }
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/vendor/rome/values/input.css:1:1]
- 1 | p::before {
- 2 | 	content: ' content ';
-   :  ^^^^^^^^^^^^^^^^^^^^
- 3 | }
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:1:1]
  1 | p::before {
@@ -273,14 +265,6 @@
  7 | 	line-height: 0.2;
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/vendor/rome/values/input.css:5:1]
- 5 | .number {
- 6 | 	opacity: 1e-3;
-   :  ^^^^^^^^^^^^^
- 7 | 	line-height: 0.2;
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:5:1]
  5 | .number {
@@ -329,14 +313,6 @@
  8 | 	width: 20%;
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/vendor/rome/values/input.css:6:1]
- 6 | 	opacity: 1e-3;
- 7 | 	line-height: 0.2;
-   :  ^^^^^^^^^^^^^^^^
- 8 | 	width: 20%;
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:6:1]
  6 | 	opacity: 1e-3;
@@ -378,14 +354,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/vendor/rome/values/input.css:7:1]
- 7 | 	line-height: 0.2;
- 8 | 	width: 20%;
-   :  ^^^^^^^^^^
- 9 | 	margin-top: -5%;
-   `----
-
-  x StyleBlock
    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:7:1]
  7 | 	line-height: 0.2;
  8 | 	width: 20%;
@@ -442,14 +410,6 @@
    `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:8:1]
-  8 | 	width: 20%;
-  9 | 	margin-top: -5%;
-    :  ^^^^^^^^^^^^^^^
- 10 | }
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/vendor/rome/values/input.css:8:1]
   8 | 	width: 20%;
   9 | 	margin-top: -5%;
@@ -601,14 +561,6 @@
  14 | }
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:12:1]
- 12 | foo {
- 13 | 	color: yellow
-    :  ^^^^^^^^^^^^^^
- 14 | }
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/vendor/rome/values/input.css:12:1]
  12 | foo {
@@ -748,14 +700,6 @@
  18 | 	background: none
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:16:1]
- 16 | bar {
- 17 | 	color: yellow;
-    :  ^^^^^^^^^^^^^
- 18 | 	background: none
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/vendor/rome/values/input.css:16:1]
  16 | bar {
@@ -797,14 +741,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:17:1]
- 17 | 	color: yellow;
- 18 | 	background: none
-    :  ^^^^^^^^^^^^^^^^^
- 19 | }
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/vendor/rome/values/input.css:17:1]
  17 | 	color: yellow;
  18 | 	background: none

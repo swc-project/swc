@@ -203,15 +203,6 @@
  5 |         .video:last-child {
    `----
 
-  x Rule
-   ,-[$DIR/tests/recovery/vercel/001/input.css:1:1]
- 1 |     @media (min-width: 935px) {
- 2 | ,->     .video:nth-child(4n) {
- 3 | |           margin-right: 0;
- 4 | `->     }
- 5 |         .video:last-child {
-   `----
-
   x QualifiedRule
    ,-[$DIR/tests/recovery/vercel/001/input.css:1:1]
  1 |     @media (min-width: 935px) {
@@ -342,14 +333,6 @@
  4 |     }
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/recovery/vercel/001/input.css:2:1]
- 2 |     .video:nth-child(4n) {
- 3 |         margin-right: 0;
-   :         ^^^^^^^^^^^^^^^
- 4 |     }
-   `----
-
   x Declaration
    ,-[$DIR/tests/recovery/vercel/001/input.css:2:1]
  2 |     .video:nth-child(4n) {
@@ -391,15 +374,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/vercel/001/input.css:4:1]
- 4 |         }
- 5 | ,->     .video:last-child {
- 6 | |           margin-right: 0;
- 7 | `->     }
- 8 |         .video:first-child,
-   `----
-
-  x Rule
    ,-[$DIR/tests/recovery/vercel/001/input.css:4:1]
  4 |         }
  5 | ,->     .video:last-child {
@@ -514,14 +488,6 @@
  7 |     }
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/recovery/vercel/001/input.css:5:1]
- 5 |     .video:last-child {
- 6 |         margin-right: 0;
-   :         ^^^^^^^^^^^^^^^
- 7 |     }
-   `----
-
   x Declaration
    ,-[$DIR/tests/recovery/vercel/001/input.css:5:1]
  5 |     .video:last-child {
@@ -563,18 +529,6 @@
    `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/vercel/001/input.css:7:1]
-  7 |         }
-  8 | ,->     .video:first-child,
-  9 | |       .video:nth-child(5),
- 10 | |       .video:nth-child(9),
- 11 | |       .video:nth-child(13) {
- 12 | |           margin-left: 0;
- 13 | `->     }
- 14 |         __styled-jsx-placeholder__7
-    `----
-
-  x Rule
     ,-[$DIR/tests/recovery/vercel/001/input.css:7:1]
   7 |         }
   8 | ,->     .video:first-child,
@@ -961,14 +915,6 @@
  13 |     }
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/recovery/vercel/001/input.css:11:1]
- 11 |     .video:nth-child(13) {
- 12 |         margin-left: 0;
-    :         ^^^^^^^^^^^^^^
- 13 |     }
-    `----
-
   x Declaration
     ,-[$DIR/tests/recovery/vercel/001/input.css:11:1]
  11 |     .video:nth-child(13) {
@@ -1010,14 +956,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/vercel/001/input.css:13:1]
- 13 |     }
- 14 |     __styled-jsx-placeholder__7
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 15 | }
-    `----
-
-  x Rule
     ,-[$DIR/tests/recovery/vercel/001/input.css:13:1]
  13 |     }
  14 |     __styled-jsx-placeholder__7

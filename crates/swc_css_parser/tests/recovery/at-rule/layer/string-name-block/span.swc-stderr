@@ -113,13 +113,6 @@
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x Rule
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:1:1]
- 1 | @layer "framework" {
- 2 |     h1, h2 { color: maroon; background: white;}
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
   x QualifiedRule
    ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:1:1]
  1 | @layer "framework" {
@@ -239,13 +232,6 @@
    :              ^^^^^^^^^^^^^
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:1:1]
- 1 | @layer "framework" {
- 2 |     h1, h2 { color: maroon; background: white;}
-   :              ^^^^^^^^^^^^^
-   `----
-
   x Declaration
    ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:1:1]
  1 | @layer "framework" {
@@ -288,13 +274,6 @@
    :                             ^^^^^^^^^^^^^^^^^
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:1:1]
- 1 | @layer "framework" {
- 2 |     h1, h2 { color: maroon; background: white;}
-   :                             ^^^^^^^^^^^^^^^^^
-   `----
-
   x Declaration
    ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:1:1]
  1 | @layer "framework" {
@@ -331,15 +310,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:3:1]
- 3 |     
- 4 | ,->     @media (prefers-color-scheme: dark) {
- 5 | |           h1, h2 { color: red; background: black; }
- 6 | `->     }
- 7 |     }
-   `----
-
-  x Rule
    ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:3:1]
  3 |     
  4 | ,->     @media (prefers-color-scheme: dark) {
@@ -486,14 +456,6 @@
  6 |     }
    `----
 
-  x Rule
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:1]
- 4 |     @media (prefers-color-scheme: dark) {
- 5 |         h1, h2 { color: red; background: black; }
-   :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 6 |     }
-   `----
-
   x QualifiedRule
    ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:1]
  4 |     @media (prefers-color-scheme: dark) {
@@ -630,14 +592,6 @@
  6 |     }
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:1]
- 4 |     @media (prefers-color-scheme: dark) {
- 5 |         h1, h2 { color: red; background: black; }
-   :                  ^^^^^^^^^^
- 6 |     }
-   `----
-
   x Declaration
    ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:1]
  4 |     @media (prefers-color-scheme: dark) {
@@ -679,14 +633,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:1]
- 4 |     @media (prefers-color-scheme: dark) {
- 5 |         h1, h2 { color: red; background: black; }
-   :                              ^^^^^^^^^^^^^^^^^
- 6 |     }
-   `----
-
-  x StyleBlock
    ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:1]
  4 |     @media (prefers-color-scheme: dark) {
  5 |         h1, h2 { color: red; background: black; }

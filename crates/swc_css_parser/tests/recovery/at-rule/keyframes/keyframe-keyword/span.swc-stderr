@@ -67,14 +67,6 @@
  3 | }
    `----
 
-  x Rule
-   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:1:1]
- 1 | @keyframes foo {
- 2 | 	form {}
-   :  ^^^^^
- 3 | }
-   `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:1:1]
  1 | @keyframes foo {
@@ -164,14 +156,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:5:1]
- 5 | @keyframes foo {
- 6 | 	ot {}
-   :  ^^^
- 7 | }
-   `----
-
-  x Rule
    ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:5:1]
  5 | @keyframes foo {
  6 | 	ot {}

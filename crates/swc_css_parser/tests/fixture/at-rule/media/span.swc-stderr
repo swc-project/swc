@@ -18494,16 +18494,6 @@
  122 |     }
      `----
 
-  x Rule
-     ,-[$DIR/tests/fixture/at-rule/media/input.css:117:1]
- 117 |     @media print {
- 118 | ,->     html
- 119 | |       main {
- 120 | |           color: orange;
- 121 | `->     }
- 122 |     }
-     `----
-
   x QualifiedRule
      ,-[$DIR/tests/fixture/at-rule/media/input.css:117:1]
  117 |     @media print {
@@ -18636,14 +18626,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/media/input.css:119:1]
- 119 |     main {
- 120 |         color: orange;
-     :         ^^^^^^^^^^^^^
- 121 |     }
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/at-rule/media/input.css:119:1]
  119 |     main {
  120 |         color: orange;
@@ -18790,16 +18772,6 @@
  129 |     }
      `----
 
-  x Rule
-     ,-[$DIR/tests/fixture/at-rule/media/input.css:124:1]
- 124 |     @media print {
- 125 | ,->     html,
- 126 | |       main {
- 127 | |           color: orange;
- 128 | `->     }
- 129 |     }
-     `----
-
   x QualifiedRule
      ,-[$DIR/tests/fixture/at-rule/media/input.css:124:1]
  124 |     @media print {
@@ -18932,14 +18904,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/media/input.css:126:1]
- 126 |     main {
- 127 |         color: orange;
-     :         ^^^^^^^^^^^^^
- 128 |     }
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/at-rule/media/input.css:126:1]
  126 |     main {
  127 |         color: orange;

@@ -428,15 +428,6 @@
  10 |     }
     `----
 
-  x Rule
-    ,-[$DIR/tests/fixture/vendor/csstree/basic/input.css:6:1]
-  6 |     @media screen and (foo: 1) {
-  7 | ,->     .class {
-  8 | |           color: red;
-  9 | `->     }
- 10 |     }
-    `----
-
   x QualifiedRule
     ,-[$DIR/tests/fixture/vendor/csstree/basic/input.css:6:1]
   6 |     @media screen and (foo: 1) {
@@ -512,14 +503,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/vendor/csstree/basic/input.css:7:1]
- 7 |     .class {
- 8 |         color: red;
-   :         ^^^^^^^^^^
- 9 |     }
-   `----
-
-  x StyleBlock
    ,-[$DIR/tests/fixture/vendor/csstree/basic/input.css:7:1]
  7 |     .class {
  8 |         color: red;
@@ -1913,14 +1896,6 @@
  16 |     /*filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='img.png',sizingMethod='scale') alpha(opacity=80);*/
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/vendor/csstree/basic/input.css:14:1]
- 14 | :has(> img) {
- 15 |     color: green;
-    :     ^^^^^^^^^^^^
- 16 |     /*filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='img.png',sizingMethod='scale') alpha(opacity=80);*/
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/vendor/csstree/basic/input.css:14:1]
  14 | :has(> img) {
@@ -1962,17 +1937,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/vendor/csstree/basic/input.css:17:1]
- 17 |         /*width: expression(1 + 2);*/
- 18 | ,->     background:
- 19 | |       ident 1.2e+3 100% 4em/5ex calc(1em + 3% * 5),
- 20 | |       url(path/to.png) url( 'path/test.svg' )
- 21 | |       u+123-456 u+123???
- 22 | `->     rgba(1, 2, 3, 4) #def #123abc "string" 'string' (parenthesis) [ident] !important;
- 23 |     }
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/vendor/csstree/basic/input.css:17:1]
  17 |         /*width: expression(1 + 2);*/
  18 | ,->     background:
@@ -3001,17 +2965,6 @@
  31 |     }
     `----
 
-  x Rule
-    ,-[$DIR/tests/fixture/vendor/csstree/basic/input.css:25:1]
- 25 |     @media (device-aspect-ratio: 16/9) {
- 26 | ,->     *|span:before {
- 27 | |           --custom1: { something !important };
- 28 | |           --custom2: ([]) !important;
- 29 | |           background: element(#id);
- 30 | `->     }
- 31 |     }
-    `----
-
   x QualifiedRule
     ,-[$DIR/tests/fixture/vendor/csstree/basic/input.css:25:1]
  25 |     @media (device-aspect-ratio: 16/9) {
@@ -3147,14 +3100,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/vendor/csstree/basic/input.css:26:1]
- 26 |     *|span:before {
- 27 |         --custom1: { something !important };
-    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 28 |         --custom2: ([]) !important;
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/vendor/csstree/basic/input.css:26:1]
  26 |     *|span:before {
  27 |         --custom1: { something !important };
@@ -3314,14 +3259,6 @@
  29 |         background: element(#id);
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/vendor/csstree/basic/input.css:27:1]
- 27 |         --custom1: { something !important };
- 28 |         --custom2: ([]) !important;
-    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^
- 29 |         background: element(#id);
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/vendor/csstree/basic/input.css:27:1]
  27 |         --custom1: { something !important };
@@ -3411,14 +3348,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/vendor/csstree/basic/input.css:28:1]
- 28 |         --custom2: ([]) !important;
- 29 |         background: element(#id);
-    :         ^^^^^^^^^^^^^^^^^^^^^^^^
- 30 |     }
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/vendor/csstree/basic/input.css:28:1]
  28 |         --custom2: ([]) !important;
  29 |         background: element(#id);
@@ -3729,15 +3658,6 @@
  37 |     }
     `----
 
-  x Rule
-    ,-[$DIR/tests/fixture/vendor/csstree/basic/input.css:33:1]
- 33 |     @supports (box-shadow: 1px 2px black !important) {
- 34 | ,->     .rule {
- 35 | |           box-shadow: var(--something, fallback);
- 36 | `->     }
- 37 |     }
-    `----
-
   x QualifiedRule
     ,-[$DIR/tests/fixture/vendor/csstree/basic/input.css:33:1]
  33 |     @supports (box-shadow: 1px 2px black !important) {
@@ -3813,14 +3733,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/vendor/csstree/basic/input.css:34:1]
- 34 |     .rule {
- 35 |         box-shadow: var(--something, fallback);
-    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 36 |     }
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/vendor/csstree/basic/input.css:34:1]
  34 |     .rule {
  35 |         box-shadow: var(--something, fallback);
@@ -4181,14 +4093,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/vendor/csstree/basic/input.css:39:1]
- 39 | .-a#-b:-c::-d[-e][*|-f] {
- 40 |     -foo: 123;
-    :     ^^^^^^^^^
- 41 | }
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/vendor/csstree/basic/input.css:39:1]
  39 | .-a#-b:-c::-d[-e][*|-f] {
  40 |     -foo: 123;
@@ -4800,14 +4704,6 @@
  53 |     --bad-var:;
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/vendor/csstree/basic/input.css:51:1]
- 51 | edge\ .c\61ases {
- 52 |     --empty-var: ;
-    :     ^^^^^^^^^^^^^
- 53 |     --bad-var:;
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/vendor/csstree/basic/input.css:51:1]
  51 | edge\ .c\61ases {
@@ -4840,14 +4736,6 @@
  54 |     number: 0.1.2.3;
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/vendor/csstree/basic/input.css:52:1]
- 52 |     --empty-var: ;
- 53 |     --bad-var:;
-    :     ^^^^^^^^^^
- 54 |     number: 0.1.2.3;
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/vendor/csstree/basic/input.css:52:1]
  52 |     --empty-var: ;
@@ -4873,14 +4761,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/vendor/csstree/basic/input.css:53:1]
- 53 |     --bad-var:;
- 54 |     number: 0.1.2.3;
-    :     ^^^^^^^^^^^^^^^
- 55 | }
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/vendor/csstree/basic/input.css:53:1]
  53 |     --bad-var:;
  54 |     number: 0.1.2.3;

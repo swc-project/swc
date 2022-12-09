@@ -84,14 +84,6 @@
  3 | }
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/vendor/rome/grid/repeat/minmax/input.css:1:1]
- 1 | .style {
- 2 | 	grid-template-columns: repeat(4, minmax(min-content, 300px));
-   :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 3 | }
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/vendor/rome/grid/repeat/minmax/input.css:1:1]
  1 | .style {

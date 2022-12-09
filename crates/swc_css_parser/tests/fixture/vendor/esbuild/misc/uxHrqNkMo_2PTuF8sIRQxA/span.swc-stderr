@@ -77,12 +77,6 @@
    :     ^^^^^^^^^^^^^
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/uxHrqNkMo_2PTuF8sIRQxA/input.css:1:1]
- 1 | a { value: 10\,x }
-   :     ^^^^^^^^^^^^^
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/uxHrqNkMo_2PTuF8sIRQxA/input.css:1:1]
  1 | a { value: 10\,x }

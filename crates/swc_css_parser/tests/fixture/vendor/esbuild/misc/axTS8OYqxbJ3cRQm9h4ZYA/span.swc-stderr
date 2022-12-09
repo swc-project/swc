@@ -77,12 +77,6 @@
    :     ^^^^^^^^^^^^^^^^
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/axTS8OYqxbJ3cRQm9h4ZYA/input.css:1:1]
- 1 | a { value: '\61 bc' }
-   :     ^^^^^^^^^^^^^^^^
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/axTS8OYqxbJ3cRQm9h4ZYA/input.css:1:1]
  1 | a { value: '\61 bc' }

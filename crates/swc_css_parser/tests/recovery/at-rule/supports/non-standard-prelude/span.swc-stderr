@@ -274,15 +274,6 @@
  5 |     }
    `----
 
-  x Rule
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:1:1]
- 1 |     @supports (--element(".minwidth", { "minWidth": 300 })) {
- 2 | ,->     [--self] {
- 3 | |           background: greenyellow;
- 4 | `->     }
- 5 |     }
-   `----
-
   x QualifiedRule
    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:1:1]
  1 |     @supports (--element(".minwidth", { "minWidth": 300 })) {
@@ -366,14 +357,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:2:1]
- 2 |     [--self] {
- 3 |         background: greenyellow;
-   :         ^^^^^^^^^^^^^^^^^^^^^^^
- 4 |     }
-   `----
-
-  x StyleBlock
    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:2:1]
  2 |     [--self] {
  3 |         background: greenyellow;
@@ -621,14 +604,6 @@
  9 | }
    `----
 
-  x Rule
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:7:1]
- 7 | @supports ({"example": 1}) {
- 8 |     * { background: red; }
-   :     ^^^^^^^^^^^^^^^^^^^^^^
- 9 | }
-   `----
-
   x QualifiedRule
    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:7:1]
  7 | @supports ({"example": 1}) {
@@ -694,14 +669,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:7:1]
- 7 | @supports ({"example": 1}) {
- 8 |     * { background: red; }
-   :         ^^^^^^^^^^^^^^^
- 9 | }
-   `----
-
-  x StyleBlock
    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:7:1]
  7 | @supports ({"example": 1}) {
  8 |     * { background: red; }
@@ -949,14 +916,6 @@
  13 | }
     `----
 
-  x Rule
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:11:1]
- 11 | @supports (("example": 1)) {
- 12 |     * { background: red; }
-    :     ^^^^^^^^^^^^^^^^^^^^^^
- 13 | }
-    `----
-
   x QualifiedRule
     ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:11:1]
  11 | @supports (("example": 1)) {
@@ -1022,14 +981,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:11:1]
- 11 | @supports (("example": 1)) {
- 12 |     * { background: red; }
-    :         ^^^^^^^^^^^^^^^
- 13 | }
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:11:1]
  11 | @supports (("example": 1)) {
  12 |     * { background: red; }
@@ -1213,14 +1164,6 @@
  17 | }
     `----
 
-  x Rule
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:15:1]
- 15 | @supports ([]) {
- 16 |     * { background: red; }
-    :     ^^^^^^^^^^^^^^^^^^^^^^
- 17 | }
-    `----
-
   x QualifiedRule
     ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:15:1]
  15 | @supports ([]) {
@@ -1286,14 +1229,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:15:1]
- 15 | @supports ([]) {
- 16 |     * { background: red; }
-    :         ^^^^^^^^^^^^^^^
- 17 | }
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:15:1]
  15 | @supports ([]) {
  16 |     * { background: red; }
@@ -1541,14 +1476,6 @@
  21 | }
     `----
 
-  x Rule
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:19:1]
- 19 | @supports ([color: red]) {
- 20 |     * { background: red; }
-    :     ^^^^^^^^^^^^^^^^^^^^^^
- 21 | }
-    `----
-
   x QualifiedRule
     ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:19:1]
  19 | @supports ([color: red]) {
@@ -1614,14 +1541,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:19:1]
- 19 | @supports ([color: red]) {
- 20 |     * { background: red; }
-    :         ^^^^^^^^^^^^^^^
- 21 | }
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:19:1]
  19 | @supports ([color: red]) {
  20 |     * { background: red; }
@@ -2101,14 +2020,6 @@
  25 | }
     `----
 
-  x Rule
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
- 23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
- 24 |     * { background: red; }
-    :     ^^^^^^^^^^^^^^^^^^^^^^
- 25 | }
-    `----
-
   x QualifiedRule
     ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
@@ -2174,14 +2085,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
- 23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
- 24 |     * { background: red; }
-    :         ^^^^^^^^^^^^^^^
- 25 | }
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
  24 |     * { background: red; }

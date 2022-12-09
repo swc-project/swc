@@ -105,14 +105,6 @@
  3 | }
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/vendor/vercel/001/input.css:1:1]
- 1 | :nth-child(4n) {
- 2 |     margin-right: 0;
-   :     ^^^^^^^^^^^^^^^
- 3 | }
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/vendor/vercel/001/input.css:1:1]
  1 | :nth-child(4n) {

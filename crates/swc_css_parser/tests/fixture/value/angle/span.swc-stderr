@@ -103,14 +103,6 @@
  3 |     transform: rotate(-50grad);
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/value/angle/input.css:1:1]
- 1 | div {
- 2 |     transform: rotate(45deg);
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^
- 3 |     transform: rotate(-50grad);
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/value/angle/input.css:1:1]
  1 | div {
@@ -200,14 +192,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/angle/input.css:2:1]
- 2 |     transform: rotate(45deg);
- 3 |     transform: rotate(-50grad);
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^
- 4 |     transform: rotate(3.1416rad);
-   `----
-
-  x StyleBlock
    ,-[$DIR/tests/fixture/value/angle/input.css:2:1]
  2 |     transform: rotate(45deg);
  3 |     transform: rotate(-50grad);
@@ -311,14 +295,6 @@
  5 |     transform: rotate(1.75turn);
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/value/angle/input.css:3:1]
- 3 |     transform: rotate(-50grad);
- 4 |     transform: rotate(3.1416rad);
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 5 |     transform: rotate(1.75turn);
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/value/angle/input.css:3:1]
  3 |     transform: rotate(-50grad);
@@ -408,14 +384,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/angle/input.css:4:1]
- 4 |     transform: rotate(3.1416rad);
- 5 |     transform: rotate(1.75turn);
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 6 | }
-   `----
-
-  x StyleBlock
    ,-[$DIR/tests/fixture/value/angle/input.css:4:1]
  4 |     transform: rotate(3.1416rad);
  5 |     transform: rotate(1.75turn);

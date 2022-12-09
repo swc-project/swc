@@ -88,14 +88,6 @@
  3 | }
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:1:1]
- 1 | :root {
- 2 |     --:value;
-   :     ^^^^^^^^^
- 3 | }
-   `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:1:1]
  1 | :root {
@@ -241,14 +233,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:5:1]
- 5 | .a {
- 6 |     counter-reset: -- --a -a;
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^
- 7 | }
-   `----
-
-  x StyleBlock
    ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:5:1]
  5 | .a {
  6 |     counter-reset: -- --a -a;

@@ -86,13 +86,6 @@
    :     ^^^^^^^^^^
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/recovery/simple-block/unclosed-3/input.css:1:1]
- 1 | a {
- 2 |     color: red;
-   :     ^^^^^^^^^^
-   `----
-
   x Declaration
    ,-[$DIR/tests/recovery/simple-block/unclosed-3/input.css:1:1]
  1 | a {

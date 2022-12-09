@@ -379,14 +379,6 @@
  3 |     color: #0000ffcc;
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/value/color/input.css:1:1]
- 1 | .hex-color {
- 2 |     color: #00ff00;
-   :     ^^^^^^^^^^^^^^
- 3 |     color: #0000ffcc;
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/value/color/input.css:1:1]
  1 | .hex-color {
@@ -443,14 +435,6 @@
  4 |     color: #123;
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/value/color/input.css:2:1]
- 2 |     color: #00ff00;
- 3 |     color: #0000ffcc;
-   :     ^^^^^^^^^^^^^^^^
- 4 |     color: #123;
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/value/color/input.css:2:1]
  2 |     color: #00ff00;
@@ -507,14 +491,6 @@
  5 |     color: #123c;
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/value/color/input.css:3:1]
- 3 |     color: #0000ffcc;
- 4 |     color: #123;
-   :     ^^^^^^^^^^^
- 5 |     color: #123c;
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/value/color/input.css:3:1]
  3 |     color: #0000ffcc;
@@ -564,14 +540,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/color/input.css:4:1]
- 4 |     color: #123;
- 5 |     color: #123c;
-   :     ^^^^^^^^^^^^
- 6 | }
-   `----
-
-  x StyleBlock
    ,-[$DIR/tests/fixture/value/color/input.css:4:1]
  4 |     color: #123;
  5 |     color: #123c;
@@ -754,14 +722,6 @@
  10 |     color: rgb(255,165,0);
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/value/color/input.css:8:1]
-  8 | .rgb {
-  9 |     color: rgb(255, 165, 0);
-    :     ^^^^^^^^^^^^^^^^^^^^^^^
- 10 |     color: rgb(255,165,0);
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/value/color/input.css:8:1]
   8 | .rgb {
@@ -906,14 +866,6 @@
  11 |     color: rGb(255,165,0);
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/value/color/input.css:9:1]
-  9 |     color: rgb(255, 165, 0);
- 10 |     color: rgb(255,165,0);
-    :     ^^^^^^^^^^^^^^^^^^^^^
- 11 |     color: rGb(255,165,0);
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/value/color/input.css:9:1]
   9 |     color: rgb(255, 165, 0);
@@ -1058,14 +1010,6 @@
  12 |     color: rgb(0 255 0);
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/value/color/input.css:10:1]
- 10 |     color: rgb(255,165,0);
- 11 |     color: rGb(255,165,0);
-    :     ^^^^^^^^^^^^^^^^^^^^^
- 12 |     color: rgb(0 255 0);
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/value/color/input.css:10:1]
  10 |     color: rgb(255,165,0);
@@ -1203,14 +1147,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/color/input.css:11:1]
- 11 |     color: rGb(255,165,0);
- 12 |     color: rgb(0 255 0);
-    :     ^^^^^^^^^^^^^^^^^^^
- 13 |     color: rgb(0%100%0%);
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/value/color/input.css:11:1]
  11 |     color: rGb(255,165,0);
  12 |     color: rgb(0 255 0);
@@ -1323,14 +1259,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/color/input.css:12:1]
- 12 |     color: rgb(0 255 0);
- 13 |     color: rgb(0%100%0%);
-    :     ^^^^^^^^^^^^^^^^^^^^
- 14 |     color: rgb(29 164 192 / 95%);
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/value/color/input.css:12:1]
  12 |     color: rgb(0 255 0);
  13 |     color: rgb(0%100%0%);
@@ -1467,14 +1395,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/color/input.css:13:1]
- 13 |     color: rgb(0%100%0%);
- 14 |     color: rgb(29 164 192 / 95%);
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 15 |     color: rgb(123 255 255 / .5);
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/value/color/input.css:13:1]
  13 |     color: rgb(0%100%0%);
  14 |     color: rgb(29 164 192 / 95%);
@@ -1642,14 +1562,6 @@
  16 |     color: rgb(123 255 255 / 50%);
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/value/color/input.css:14:1]
- 14 |     color: rgb(29 164 192 / 95%);
- 15 |     color: rgb(123 255 255 / .5);
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 16 |     color: rgb(123 255 255 / 50%);
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/value/color/input.css:14:1]
  14 |     color: rgb(29 164 192 / 95%);
@@ -1795,14 +1707,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/color/input.css:15:1]
- 15 |     color: rgb(123 255 255 / .5);
- 16 |     color: rgb(123 255 255 / 50%);
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 17 |     color: rgb(48% 100% 100% / 50%);
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/value/color/input.css:15:1]
  15 |     color: rgb(123 255 255 / .5);
  16 |     color: rgb(123 255 255 / 50%);
@@ -1963,14 +1867,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/color/input.css:16:1]
- 16 |     color: rgb(123 255 255 / 50%);
- 17 |     color: rgb(48% 100% 100% / 50%);
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 18 |     color: rgb(48% none 100% / 50%);
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/value/color/input.css:16:1]
  16 |     color: rgb(123 255 255 / 50%);
  17 |     color: rgb(48% 100% 100% / 50%);
@@ -2162,14 +2058,6 @@
  19 |     color: rgb(48% 100% 100% / none);
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/value/color/input.css:17:1]
- 17 |     color: rgb(48% 100% 100% / 50%);
- 18 |     color: rgb(48% none 100% / 50%);
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 19 |     color: rgb(48% 100% 100% / none);
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/value/color/input.css:17:1]
  17 |     color: rgb(48% 100% 100% / 50%);
@@ -2346,14 +2234,6 @@
  20 |     color: rgb(var(--red), var(--green), var(--blue));
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/value/color/input.css:18:1]
- 18 |     color: rgb(48% none 100% / 50%);
- 19 |     color: rgb(48% 100% 100% / none);
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 20 |     color: rgb(var(--red), var(--green), var(--blue));
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/value/color/input.css:18:1]
  18 |     color: rgb(48% none 100% / 50%);
@@ -2515,14 +2395,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/color/input.css:19:1]
- 19 |     color: rgb(48% 100% 100% / none);
- 20 |     color: rgb(var(--red), var(--green), var(--blue));
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 21 |     color: rgb(var(--red) var(--green) var(--blue));
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/value/color/input.css:19:1]
  19 |     color: rgb(48% 100% 100% / none);
  20 |     color: rgb(var(--red), var(--green), var(--blue));
@@ -2746,14 +2618,6 @@
  22 |     color: rgb(var(--red) var(--green) var(--blue) / var(--alpha));
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/value/color/input.css:20:1]
- 20 |     color: rgb(var(--red), var(--green), var(--blue));
- 21 |     color: rgb(var(--red) var(--green) var(--blue));
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 22 |     color: rgb(var(--red) var(--green) var(--blue) / var(--alpha));
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/value/color/input.css:20:1]
  20 |     color: rgb(var(--red), var(--green), var(--blue));
@@ -2931,14 +2795,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/color/input.css:21:1]
- 21 |     color: rgb(var(--red) var(--green) var(--blue));
- 22 |     color: rgb(var(--red) var(--green) var(--blue) / var(--alpha));
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 23 | }
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/value/color/input.css:21:1]
  21 |     color: rgb(var(--red) var(--green) var(--blue));
  22 |     color: rgb(var(--red) var(--green) var(--blue) / var(--alpha));
@@ -3314,14 +3170,6 @@
  27 |     color: rgba(255, 255, 0, 1);
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/value/color/input.css:25:1]
- 25 | .rgba {
- 26 |     color: rgba(255, 0, 0, 100%);
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 27 |     color: rgba(255, 255, 0, 1);
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/value/color/input.css:25:1]
  25 | .rgba {
@@ -3514,14 +3362,6 @@
  28 |     color: rgba(255, 255, 0, 0.8);
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/value/color/input.css:26:1]
- 26 |     color: rgba(255, 0, 0, 100%);
- 27 |     color: rgba(255, 255, 0, 1);
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 28 |     color: rgba(255, 255, 0, 0.8);
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/value/color/input.css:26:1]
  26 |     color: rgba(255, 0, 0, 100%);
@@ -3699,14 +3539,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/color/input.css:27:1]
- 27 |     color: rgba(255, 255, 0, 1);
- 28 |     color: rgba(255, 255, 0, 0.8);
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 29 |     color: rgba(255, 165, 0);
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/value/color/input.css:27:1]
  27 |     color: rgba(255, 255, 0, 1);
  28 |     color: rgba(255, 255, 0, 0.8);
@@ -3898,14 +3730,6 @@
  30 |     color: rgba(255,165,0);
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/value/color/input.css:28:1]
- 28 |     color: rgba(255, 255, 0, 0.8);
- 29 |     color: rgba(255, 165, 0);
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^
- 30 |     color: rgba(255,165,0);
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/value/color/input.css:28:1]
  28 |     color: rgba(255, 255, 0, 0.8);
@@ -4050,14 +3874,6 @@
  31 |     color: rGbA(255,165,0);
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/value/color/input.css:29:1]
- 29 |     color: rgba(255, 165, 0);
- 30 |     color: rgba(255,165,0);
-    :     ^^^^^^^^^^^^^^^^^^^^^^
- 31 |     color: rGbA(255,165,0);
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/value/color/input.css:29:1]
  29 |     color: rgba(255, 165, 0);
@@ -4202,14 +4018,6 @@
  32 |     color: rgba(0 255 0);
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/value/color/input.css:30:1]
- 30 |     color: rgba(255,165,0);
- 31 |     color: rGbA(255,165,0);
-    :     ^^^^^^^^^^^^^^^^^^^^^^
- 32 |     color: rgba(0 255 0);
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/value/color/input.css:30:1]
  30 |     color: rgba(255,165,0);
@@ -4347,14 +4155,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/color/input.css:31:1]
- 31 |     color: rGbA(255,165,0);
- 32 |     color: rgba(0 255 0);
-    :     ^^^^^^^^^^^^^^^^^^^^
- 33 |     color: rgba(0%100%0%);
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/value/color/input.css:31:1]
  31 |     color: rGbA(255,165,0);
  32 |     color: rgba(0 255 0);
@@ -4467,14 +4267,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/color/input.css:32:1]
- 32 |     color: rgba(0 255 0);
- 33 |     color: rgba(0%100%0%);
-    :     ^^^^^^^^^^^^^^^^^^^^^
- 34 |     color: rgba(29 164 192 / 95%);
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/value/color/input.css:32:1]
  32 |     color: rgba(0 255 0);
  33 |     color: rgba(0%100%0%);
@@ -4611,14 +4403,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/color/input.css:33:1]
- 33 |     color: rgba(0%100%0%);
- 34 |     color: rgba(29 164 192 / 95%);
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 35 |     color: rgba(123 255 255 / .5);
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/value/color/input.css:33:1]
  33 |     color: rgba(0%100%0%);
  34 |     color: rgba(29 164 192 / 95%);
@@ -4786,14 +4570,6 @@
  36 |     color: rgba(123 255 255 / 50%);
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/value/color/input.css:34:1]
- 34 |     color: rgba(29 164 192 / 95%);
- 35 |     color: rgba(123 255 255 / .5);
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 36 |     color: rgba(123 255 255 / 50%);
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/value/color/input.css:34:1]
  34 |     color: rgba(29 164 192 / 95%);
@@ -4939,14 +4715,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/color/input.css:35:1]
- 35 |     color: rgba(123 255 255 / .5);
- 36 |     color: rgba(123 255 255 / 50%);
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 37 |     color: rgba(48% 100% 100% / 50%);
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/value/color/input.css:35:1]
  35 |     color: rgba(123 255 255 / .5);
  36 |     color: rgba(123 255 255 / 50%);
@@ -5107,14 +4875,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/color/input.css:36:1]
- 36 |     color: rgba(123 255 255 / 50%);
- 37 |     color: rgba(48% 100% 100% / 50%);
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 38 |     color: rgba(48% none 100% / 50%);
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/value/color/input.css:36:1]
  36 |     color: rgba(123 255 255 / 50%);
  37 |     color: rgba(48% 100% 100% / 50%);
@@ -5306,14 +5066,6 @@
  39 |     color: rgba(48% 100% 100% / none);
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/value/color/input.css:37:1]
- 37 |     color: rgba(48% 100% 100% / 50%);
- 38 |     color: rgba(48% none 100% / 50%);
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 39 |     color: rgba(48% 100% 100% / none);
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/value/color/input.css:37:1]
  37 |     color: rgba(48% 100% 100% / 50%);
@@ -5490,14 +5242,6 @@
  40 |     color: rgba(123 none 123 / 50%);
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/value/color/input.css:38:1]
- 38 |     color: rgba(48% none 100% / 50%);
- 39 |     color: rgba(48% 100% 100% / none);
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 40 |     color: rgba(123 none 123 / 50%);
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/value/color/input.css:38:1]
  38 |     color: rgba(48% none 100% / 50%);
@@ -5659,14 +5403,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/color/input.css:39:1]
- 39 |     color: rgba(48% 100% 100% / none);
- 40 |     color: rgba(123 none 123 / 50%);
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 41 |     color: rgba(123 123 123 / none);
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/value/color/input.css:39:1]
  39 |     color: rgba(48% 100% 100% / none);
  40 |     color: rgba(123 none 123 / 50%);
@@ -5834,14 +5570,6 @@
  42 |     color: rgb(var(--red), var(--green), var(--blue), var(--alpha));
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/value/color/input.css:40:1]
- 40 |     color: rgba(123 none 123 / 50%);
- 41 |     color: rgba(123 123 123 / none);
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 42 |     color: rgb(var(--red), var(--green), var(--blue), var(--alpha));
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/value/color/input.css:40:1]
  40 |     color: rgba(123 none 123 / 50%);
@@ -5979,14 +5707,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/color/input.css:41:1]
- 41 |     color: rgba(123 123 123 / none);
- 42 |     color: rgb(var(--red), var(--green), var(--blue), var(--alpha));
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 43 | }
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/value/color/input.css:41:1]
  41 |     color: rgba(123 123 123 / none);
  42 |     color: rgb(var(--red), var(--green), var(--blue), var(--alpha));
@@ -6376,14 +6096,6 @@
  47 |     color: HsL(39 100% 50%);
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/value/color/input.css:45:1]
- 45 | .hsl {
- 46 |     color: hsl(38.824 100% 50%);
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 47 |     color: HsL(39 100% 50%);
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/value/color/input.css:45:1]
  45 | .hsl {
@@ -6520,14 +6232,6 @@
  48 |     color: hsl(100deg, 100%, 50%);
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/value/color/input.css:46:1]
- 46 |     color: hsl(38.824 100% 50%);
- 47 |     color: HsL(39 100% 50%);
-    :     ^^^^^^^^^^^^^^^^^^^^^^^
- 48 |     color: hsl(100deg, 100%, 50%);
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/value/color/input.css:46:1]
  46 |     color: hsl(38.824 100% 50%);
@@ -6657,14 +6361,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/color/input.css:47:1]
- 47 |     color: HsL(39 100% 50%);
- 48 |     color: hsl(100deg, 100%, 50%);
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 49 |     color: hsl(100, 100%, 50%);
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/value/color/input.css:47:1]
  47 |     color: HsL(39 100% 50%);
  48 |     color: hsl(100deg, 100%, 50%);
@@ -6856,14 +6552,6 @@
  50 |     color: hsl(100 100% 50%);
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/value/color/input.css:48:1]
- 48 |     color: hsl(100deg, 100%, 50%);
- 49 |     color: hsl(100, 100%, 50%);
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^
- 50 |     color: hsl(100 100% 50%);
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/value/color/input.css:48:1]
  48 |     color: hsl(100deg, 100%, 50%);
@@ -7032,14 +6720,6 @@
  51 |     color: hsl(100, 100%, 50%, .8);
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/value/color/input.css:49:1]
- 49 |     color: hsl(100, 100%, 50%);
- 50 |     color: hsl(100 100% 50%);
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^
- 51 |     color: hsl(100, 100%, 50%, .8);
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/value/color/input.css:49:1]
  49 |     color: hsl(100, 100%, 50%);
@@ -7169,14 +6849,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/color/input.css:50:1]
- 50 |     color: hsl(100 100% 50%);
- 51 |     color: hsl(100, 100%, 50%, .8);
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 52 |     color: hsl(100 100% 50% / .8);
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/value/color/input.css:50:1]
  50 |     color: hsl(100 100% 50%);
  51 |     color: hsl(100, 100%, 50%, .8);
@@ -7392,14 +7064,6 @@
  53 |     color: hsl(var(--a), var(--b), var(--c));
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/value/color/input.css:51:1]
- 51 |     color: hsl(100, 100%, 50%, .8);
- 52 |     color: hsl(100 100% 50% / .8);
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 53 |     color: hsl(var(--a), var(--b), var(--c));
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/value/color/input.css:51:1]
  51 |     color: hsl(100, 100%, 50%, .8);
@@ -7569,14 +7233,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/color/input.css:52:1]
- 52 |     color: hsl(100 100% 50% / .8);
- 53 |     color: hsl(var(--a), var(--b), var(--c));
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 54 |     color: hsl(var(--a), var(--b), var(--c), var(--d));
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/value/color/input.css:52:1]
  52 |     color: hsl(100 100% 50% / .8);
  53 |     color: hsl(var(--a), var(--b), var(--c));
@@ -7793,14 +7449,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/color/input.css:53:1]
- 53 |     color: hsl(var(--a), var(--b), var(--c));
- 54 |     color: hsl(var(--a), var(--b), var(--c), var(--d));
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 55 |     color: hsl(var(--a) var(--b) var(--c));
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/value/color/input.css:53:1]
  53 |     color: hsl(var(--a), var(--b), var(--c));
  54 |     color: hsl(var(--a), var(--b), var(--c), var(--d));
@@ -8080,14 +7728,6 @@
  56 |     color: hsl(var(--a) var(--b) var(--c) / var(--d));
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/value/color/input.css:54:1]
- 54 |     color: hsl(var(--a), var(--b), var(--c), var(--d));
- 55 |     color: hsl(var(--a) var(--b) var(--c));
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 56 |     color: hsl(var(--a) var(--b) var(--c) / var(--d));
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/value/color/input.css:54:1]
  54 |     color: hsl(var(--a), var(--b), var(--c), var(--d));
@@ -8265,14 +7905,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/color/input.css:55:1]
- 55 |     color: hsl(var(--a) var(--b) var(--c));
- 56 |     color: hsl(var(--a) var(--b) var(--c) / var(--d));
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 57 | }
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/value/color/input.css:55:1]
  55 |     color: hsl(var(--a) var(--b) var(--c));
  56 |     color: hsl(var(--a) var(--b) var(--c) / var(--d));
@@ -8606,14 +8238,6 @@
  61 |     color: hsla(100 100% 50% / .8);
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/value/color/input.css:59:1]
- 59 | .hsla {
- 60 |     color: hsla(100, 100%, 50%, .8);
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 61 |     color: hsla(100 100% 50% / .8);
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/value/color/input.css:59:1]
  59 | .hsla {
@@ -8822,14 +8446,6 @@
  62 |     color: hsla(var(--a), var(--b), var(--c), var(--d));
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/value/color/input.css:60:1]
- 60 |     color: hsla(100, 100%, 50%, .8);
- 61 |     color: hsla(100 100% 50% / .8);
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 62 |     color: hsla(var(--a), var(--b), var(--c), var(--d));
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/value/color/input.css:60:1]
  60 |     color: hsla(100, 100%, 50%, .8);
@@ -8999,14 +8615,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/color/input.css:61:1]
- 61 |     color: hsla(100 100% 50% / .8);
- 62 |     color: hsla(var(--a), var(--b), var(--c), var(--d));
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 63 | }
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/value/color/input.css:61:1]
  61 |     color: hsla(100 100% 50% / .8);
  62 |     color: hsla(var(--a), var(--b), var(--c), var(--d));
@@ -9384,14 +8992,6 @@
  67 |     color: hwb(194 0% 0% / 50%);
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/value/color/input.css:65:1]
- 65 | .hwb {
- 66 |     color: hwb(194 0% 0%);
-    :     ^^^^^^^^^^^^^^^^^^^^^
- 67 |     color: hwb(194 0% 0% / 50%);
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/value/color/input.css:65:1]
  65 | .hwb {
@@ -9521,14 +9121,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/color/input.css:66:1]
- 66 |     color: hwb(194 0% 0%);
- 67 |     color: hwb(194 0% 0% / 50%);
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 68 |     color: hwb(194 0% 50%);
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/value/color/input.css:66:1]
  66 |     color: hwb(194 0% 0%);
  67 |     color: hwb(194 0% 0% / 50%);
@@ -9720,14 +9312,6 @@
  69 |     color: hwb(194 50% 0%);
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/value/color/input.css:67:1]
- 67 |     color: hwb(194 0% 0% / 50%);
- 68 |     color: hwb(194 0% 50%);
-    :     ^^^^^^^^^^^^^^^^^^^^^^
- 69 |     color: hwb(194 50% 0%);
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/value/color/input.css:67:1]
  67 |     color: hwb(194 0% 0% / 50%);
@@ -9857,14 +9441,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/color/input.css:68:1]
- 68 |     color: hwb(194 0% 50%);
- 69 |     color: hwb(194 50% 0%);
-    :     ^^^^^^^^^^^^^^^^^^^^^^
- 70 |     color: hwb(194 50% 50%);
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/value/color/input.css:68:1]
  68 |     color: hwb(194 0% 50%);
  69 |     color: hwb(194 50% 0%);
@@ -10008,14 +9584,6 @@
  71 |     color: hwb(var(--a) var(--b) var(--c));
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/value/color/input.css:69:1]
- 69 |     color: hwb(194 50% 0%);
- 70 |     color: hwb(194 50% 50%);
-    :     ^^^^^^^^^^^^^^^^^^^^^^^
- 71 |     color: hwb(var(--a) var(--b) var(--c));
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/value/color/input.css:69:1]
  69 |     color: hwb(194 50% 0%);
@@ -10145,14 +9713,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/color/input.css:70:1]
- 70 |     color: hwb(194 50% 50%);
- 71 |     color: hwb(var(--a) var(--b) var(--c));
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 72 |     color: hwb(var(--a) var(--b) var(--c) / var(--d));
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/value/color/input.css:70:1]
  70 |     color: hwb(194 50% 50%);
  71 |     color: hwb(var(--a) var(--b) var(--c));
@@ -10337,14 +9897,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/color/input.css:71:1]
- 71 |     color: hwb(var(--a) var(--b) var(--c));
- 72 |     color: hwb(var(--a) var(--b) var(--c) / var(--d));
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 73 | }
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/value/color/input.css:71:1]
  71 |     color: hwb(var(--a) var(--b) var(--c));
  72 |     color: hwb(var(--a) var(--b) var(--c) / var(--d));
@@ -10684,14 +10236,6 @@
  77 |     color: lab(29.2345% 39.3825 20.0664 / 100%);
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/value/color/input.css:75:1]
- 75 | .lab {
- 76 |     color: lab(29.2345% 39.3825 20.0664);
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 77 |     color: lab(29.2345% 39.3825 20.0664 / 100%);
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/value/color/input.css:75:1]
  75 | .lab {
@@ -10805,14 +10349,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/color/input.css:76:1]
- 76 |     color: lab(29.2345% 39.3825 20.0664);
- 77 |     color: lab(29.2345% 39.3825 20.0664 / 100%);
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 78 |     color: lab(29.2345% 39.3825 20.0664 / 50%);
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/value/color/input.css:76:1]
  76 |     color: lab(29.2345% 39.3825 20.0664);
  77 |     color: lab(29.2345% 39.3825 20.0664 / 100%);
@@ -10981,14 +10517,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/color/input.css:77:1]
- 77 |     color: lab(29.2345% 39.3825 20.0664 / 100%);
- 78 |     color: lab(29.2345% 39.3825 20.0664 / 50%);
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 79 |     color: lab(var(--a) var(--b) var(--c));
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/value/color/input.css:77:1]
  77 |     color: lab(29.2345% 39.3825 20.0664 / 100%);
  78 |     color: lab(29.2345% 39.3825 20.0664 / 50%);
@@ -11164,14 +10692,6 @@
  80 |     color: lab(var(--a) var(--b) var(--c) / var(--d));
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/value/color/input.css:78:1]
- 78 |     color: lab(29.2345% 39.3825 20.0664 / 50%);
- 79 |     color: lab(var(--a) var(--b) var(--c));
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 80 |     color: lab(var(--a) var(--b) var(--c) / var(--d));
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/value/color/input.css:78:1]
  78 |     color: lab(29.2345% 39.3825 20.0664 / 50%);
@@ -11349,14 +10869,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/color/input.css:79:1]
- 79 |     color: lab(var(--a) var(--b) var(--c));
- 80 |     color: lab(var(--a) var(--b) var(--c) / var(--d));
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 81 | }
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/value/color/input.css:79:1]
  79 |     color: lab(var(--a) var(--b) var(--c));
  80 |     color: lab(var(--a) var(--b) var(--c) / var(--d));
@@ -11705,14 +11217,6 @@
  85 |     color: lch(29.2345% 44.2 27);
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/value/color/input.css:83:1]
- 83 | .lch {
- 84 |     color: lch(52.2345% 72.2 56.2 / 1);
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 85 |     color: lch(29.2345% 44.2 27);
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/value/color/input.css:83:1]
  83 | .lch {
@@ -11881,14 +11385,6 @@
  86 |     color: lch(29.2345% 44.2 45deg);
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/value/color/input.css:84:1]
- 84 |     color: lch(52.2345% 72.2 56.2 / 1);
- 85 |     color: lch(29.2345% 44.2 27);
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 86 |     color: lch(29.2345% 44.2 45deg);
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/value/color/input.css:84:1]
  84 |     color: lch(52.2345% 72.2 56.2 / 1);
@@ -12010,14 +11506,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/color/input.css:85:1]
- 85 |     color: lch(29.2345% 44.2 27);
- 86 |     color: lch(29.2345% 44.2 45deg);
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 87 |     color: lch(29.2345% 44.2 .5turn);
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/value/color/input.css:85:1]
  85 |     color: lch(29.2345% 44.2 27);
  86 |     color: lch(29.2345% 44.2 45deg);
@@ -12169,14 +11657,6 @@
  88 |     color: lch(29.2345% 44.2 27 / 100%);
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/value/color/input.css:86:1]
- 86 |     color: lch(29.2345% 44.2 45deg);
- 87 |     color: lch(29.2345% 44.2 .5turn);
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 88 |     color: lch(29.2345% 44.2 27 / 100%);
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/value/color/input.css:86:1]
  86 |     color: lch(29.2345% 44.2 45deg);
@@ -12314,14 +11794,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/color/input.css:87:1]
- 87 |     color: lch(29.2345% 44.2 .5turn);
- 88 |     color: lch(29.2345% 44.2 27 / 100%);
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 89 |     color: lch(29.2345% 44.2 27 / 50%);
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/value/color/input.css:87:1]
  87 |     color: lch(29.2345% 44.2 .5turn);
  88 |     color: lch(29.2345% 44.2 27 / 100%);
@@ -12498,14 +11970,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/color/input.css:88:1]
- 88 |     color: lch(29.2345% 44.2 27 / 100%);
- 89 |     color: lch(29.2345% 44.2 27 / 50%);
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 90 |     color: lch(var(--a) var(--b) var(--c));
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/value/color/input.css:88:1]
  88 |     color: lch(29.2345% 44.2 27 / 100%);
  89 |     color: lch(29.2345% 44.2 27 / 50%);
@@ -12689,14 +12153,6 @@
  91 |     color: lch(var(--a) var(--b) var(--c) / var(--d));
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/value/color/input.css:89:1]
- 89 |     color: lch(29.2345% 44.2 27 / 50%);
- 90 |     color: lch(var(--a) var(--b) var(--c));
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 91 |     color: lch(var(--a) var(--b) var(--c) / var(--d));
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/value/color/input.css:89:1]
  89 |     color: lch(29.2345% 44.2 27 / 50%);
@@ -12874,14 +12330,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/color/input.css:90:1]
- 90 |     color: lch(var(--a) var(--b) var(--c));
- 91 |     color: lch(var(--a) var(--b) var(--c) / var(--d));
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 92 | }
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/value/color/input.css:90:1]
  90 |     color: lch(var(--a) var(--b) var(--c));
  91 |     color: lch(var(--a) var(--b) var(--c) / var(--d));
@@ -13212,14 +12660,6 @@
  96 |     color: oklab(var(--a) var(--b) var(--c));
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/value/color/input.css:94:1]
- 94 | .oklab {
- 95 |     color: oklab(40.101% 0.1147 0.0453);
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 96 |     color: oklab(var(--a) var(--b) var(--c));
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/value/color/input.css:94:1]
  94 | .oklab {
@@ -13333,14 +12773,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/color/input.css:95:1]
- 95 |     color: oklab(40.101% 0.1147 0.0453);
- 96 |     color: oklab(var(--a) var(--b) var(--c));
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 97 | }
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/value/color/input.css:95:1]
  95 |     color: oklab(40.101% 0.1147 0.0453);
  96 |     color: oklab(var(--a) var(--b) var(--c));
@@ -13621,14 +13053,6 @@
  101 |     color: oklch(42.1% 0.192 328.6);
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:99:1]
-  99 | .oklch {
- 100 |     color: oklch(42.1% 0.192 328.6 / 1);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 101 |     color: oklch(42.1% 0.192 328.6);
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:99:1]
   99 | .oklch {
@@ -13797,14 +13221,6 @@
  102 |     color: oklch(var(--a) var(--b) var(--c));
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:100:1]
- 100 |     color: oklch(42.1% 0.192 328.6 / 1);
- 101 |     color: oklch(42.1% 0.192 328.6);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 102 |     color: oklch(var(--a) var(--b) var(--c));
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:100:1]
  100 |     color: oklch(42.1% 0.192 328.6 / 1);
@@ -13926,14 +13342,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:101:1]
- 101 |     color: oklch(42.1% 0.192 328.6);
- 102 |     color: oklch(var(--a) var(--b) var(--c));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 103 |     color: oklch(var(--a) var(--b) var(--c) / var(--d));
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:101:1]
  101 |     color: oklch(42.1% 0.192 328.6);
  102 |     color: oklch(var(--a) var(--b) var(--c));
@@ -14118,14 +13526,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:102:1]
- 102 |     color: oklch(var(--a) var(--b) var(--c));
- 103 |     color: oklch(var(--a) var(--b) var(--c) / var(--d));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 104 | }
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:102:1]
  102 |     color: oklch(var(--a) var(--b) var(--c));
  103 |     color: oklch(var(--a) var(--b) var(--c) / var(--d));
@@ -14519,14 +13919,6 @@
  108 |     color: color(srgb-linear 0 1 0);
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:106:1]
- 106 | .color {
- 107 |     color: color(sRGB 0 1 0);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^
- 108 |     color: color(srgb-linear 0 1 0);
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:106:1]
  106 | .color {
@@ -14648,14 +14040,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:107:1]
- 107 |     color: color(sRGB 0 1 0);
- 108 |     color: color(srgb-linear 0 1 0);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 109 |     color: color(display-p3 0 1 0);
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:107:1]
  107 |     color: color(sRGB 0 1 0);
  108 |     color: color(srgb-linear 0 1 0);
@@ -14791,14 +14175,6 @@
  110 |     color: color(a98-rgb 0 1 0);
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:108:1]
- 108 |     color: color(srgb-linear 0 1 0);
- 109 |     color: color(display-p3 0 1 0);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 110 |     color: color(a98-rgb 0 1 0);
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:108:1]
  108 |     color: color(srgb-linear 0 1 0);
@@ -14927,14 +14303,6 @@
  111 |     color: color(prophoto-rgb 0 1 0);
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:109:1]
- 109 |     color: color(display-p3 0 1 0);
- 110 |     color: color(a98-rgb 0 1 0);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 111 |     color: color(prophoto-rgb 0 1 0);
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:109:1]
  109 |     color: color(display-p3 0 1 0);
@@ -15056,14 +14424,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:110:1]
- 110 |     color: color(a98-rgb 0 1 0);
- 111 |     color: color(prophoto-rgb 0 1 0);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 112 |     color: color(rec2020 0 1 0);
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:110:1]
  110 |     color: color(a98-rgb 0 1 0);
  111 |     color: color(prophoto-rgb 0 1 0);
@@ -15199,14 +14559,6 @@
  113 |     color: color(sRGB 0 none 0);
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:111:1]
- 111 |     color: color(prophoto-rgb 0 1 0);
- 112 |     color: color(rec2020 0 1 0);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 113 |     color: color(sRGB 0 none 0);
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:111:1]
  111 |     color: color(prophoto-rgb 0 1 0);
@@ -15335,14 +14687,6 @@
  114 |     color: color(display-p3 0.823 0.6554 0.2537 /1);
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:112:1]
- 112 |     color: color(rec2020 0 1 0);
- 113 |     color: color(sRGB 0 none 0);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 114 |     color: color(display-p3 0.823 0.6554 0.2537 /1);
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:112:1]
  112 |     color: color(rec2020 0 1 0);
@@ -15464,14 +14808,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:113:1]
- 113 |     color: color(sRGB 0 none 0);
- 114 |     color: color(display-p3 0.823 0.6554 0.2537 /1);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 115 |     color: color(display-p3 0.823 0.6554 0.2537 / 1);
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:113:1]
  113 |     color: color(sRGB 0 none 0);
  114 |     color: color(display-p3 0.823 0.6554 0.2537 /1);
@@ -15647,14 +14983,6 @@
  116 |     color: color(display-p3 0.823 0.6554 0.2537/1);
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:114:1]
- 114 |     color: color(display-p3 0.823 0.6554 0.2537 /1);
- 115 |     color: color(display-p3 0.823 0.6554 0.2537 / 1);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 116 |     color: color(display-p3 0.823 0.6554 0.2537/1);
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:114:1]
  114 |     color: color(display-p3 0.823 0.6554 0.2537 /1);
@@ -15816,14 +15144,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:115:1]
- 115 |     color: color(display-p3 0.823 0.6554 0.2537 / 1);
- 116 |     color: color(display-p3 0.823 0.6554 0.2537/1);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 117 |     color: color(display-p3 0.823 0.6554 0.2537);
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:115:1]
  115 |     color: color(display-p3 0.823 0.6554 0.2537 / 1);
  116 |     color: color(display-p3 0.823 0.6554 0.2537/1);
@@ -15999,14 +15319,6 @@
  118 |     color: color(xyz 0.472 0.372 0.131);
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:116:1]
- 116 |     color: color(display-p3 0.823 0.6554 0.2537/1);
- 117 |     color: color(display-p3 0.823 0.6554 0.2537);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 118 |     color: color(xyz 0.472 0.372 0.131);
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:116:1]
  116 |     color: color(display-p3 0.823 0.6554 0.2537/1);
@@ -16128,14 +15440,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:117:1]
- 117 |     color: color(display-p3 0.823 0.6554 0.2537);
- 118 |     color: color(xyz 0.472 0.372 0.131);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 119 |     color: color(xyz-d50 0.472 0.372 0.131);
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:117:1]
  117 |     color: color(display-p3 0.823 0.6554 0.2537);
  118 |     color: color(xyz 0.472 0.372 0.131);
@@ -16271,14 +15575,6 @@
  120 |     color: color(xyz-d65 0.472 0.372 0.131);
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:118:1]
- 118 |     color: color(xyz 0.472 0.372 0.131);
- 119 |     color: color(xyz-d50 0.472 0.372 0.131);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 120 |     color: color(xyz-d65 0.472 0.372 0.131);
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:118:1]
  118 |     color: color(xyz 0.472 0.372 0.131);
@@ -16407,14 +15703,6 @@
  121 |     color: color(display-p3 -0.6112 1.0079 -0.2192);
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:119:1]
- 119 |     color: color(xyz-d50 0.472 0.372 0.131);
- 120 |     color: color(xyz-d65 0.472 0.372 0.131);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 121 |     color: color(display-p3 -0.6112 1.0079 -0.2192);
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:119:1]
  119 |     color: color(xyz-d50 0.472 0.372 0.131);
@@ -16536,14 +15824,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:120:1]
- 120 |     color: color(xyz-d65 0.472 0.372 0.131);
- 121 |     color: color(display-p3 -0.6112 1.0079 -0.2192);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 122 |     color: color(sRGB 0.41587 0.503670 0.36664);
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:120:1]
  120 |     color: color(xyz-d65 0.472 0.372 0.131);
  121 |     color: color(display-p3 -0.6112 1.0079 -0.2192);
@@ -16679,14 +15959,6 @@
  123 |     color: color(display-p3 0.43313 0.50108 0.37950);
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:121:1]
- 121 |     color: color(display-p3 -0.6112 1.0079 -0.2192);
- 122 |     color: color(sRGB 0.41587 0.503670 0.36664);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 123 |     color: color(display-p3 0.43313 0.50108 0.37950);
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:121:1]
  121 |     color: color(display-p3 -0.6112 1.0079 -0.2192);
@@ -16808,14 +16080,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:122:1]
- 122 |     color: color(sRGB 0.41587 0.503670 0.36664);
- 123 |     color: color(display-p3 0.43313 0.50108 0.37950);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 124 |     color: color(a98-rgb 0.44091 0.49971 0.37408);
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:122:1]
  122 |     color: color(sRGB 0.41587 0.503670 0.36664);
  123 |     color: color(display-p3 0.43313 0.50108 0.37950);
@@ -16951,14 +16215,6 @@
  125 |     color: color(prophoto-rgb 0.36589 0.41717 0.31333);
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:123:1]
- 123 |     color: color(display-p3 0.43313 0.50108 0.37950);
- 124 |     color: color(a98-rgb 0.44091 0.49971 0.37408);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 125 |     color: color(prophoto-rgb 0.36589 0.41717 0.31333);
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:123:1]
  123 |     color: color(display-p3 0.43313 0.50108 0.37950);
@@ -17080,14 +16336,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:124:1]
- 124 |     color: color(a98-rgb 0.44091 0.49971 0.37408);
- 125 |     color: color(prophoto-rgb 0.36589 0.41717 0.31333);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 126 |     color: color(rec2020 0.42210 0.47580 0.35605);
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:124:1]
  124 |     color: color(a98-rgb 0.44091 0.49971 0.37408);
  125 |     color: color(prophoto-rgb 0.36589 0.41717 0.31333);
@@ -17223,14 +16471,6 @@
  127 |     color: color(profoto-rgb 0.4835 0.9167 0.2188);
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:125:1]
- 125 |     color: color(prophoto-rgb 0.36589 0.41717 0.31333);
- 126 |     color: color(rec2020 0.42210 0.47580 0.35605);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 127 |     color: color(profoto-rgb 0.4835 0.9167 0.2188);
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:125:1]
  125 |     color: color(prophoto-rgb 0.36589 0.41717 0.31333);
@@ -17359,14 +16599,6 @@
  128 |     color: color(var(--a) var(--b) var(--c) var(--d));
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:126:1]
- 126 |     color: color(rec2020 0.42210 0.47580 0.35605);
- 127 |     color: color(profoto-rgb 0.4835 0.9167 0.2188);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 128 |     color: color(var(--a) var(--b) var(--c) var(--d));
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:126:1]
  126 |     color: color(rec2020 0.42210 0.47580 0.35605);
@@ -17488,14 +16720,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:127:1]
- 127 |     color: color(profoto-rgb 0.4835 0.9167 0.2188);
- 128 |     color: color(var(--a) var(--b) var(--c) var(--d));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 129 |     color: color(var(--a) var(--b) var(--c) var(--d) / var(--e));
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:127:1]
  127 |     color: color(profoto-rgb 0.4835 0.9167 0.2188);
  128 |     color: color(var(--a) var(--b) var(--c) var(--d));
@@ -17720,14 +16944,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:128:1]
- 128 |     color: color(var(--a) var(--b) var(--c) var(--d));
- 129 |     color: color(var(--a) var(--b) var(--c) var(--d) / var(--e));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 130 | }
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:128:1]
  128 |     color: color(var(--a) var(--b) var(--c) var(--d));
  129 |     color: color(var(--a) var(--b) var(--c) var(--d) / var(--e));
@@ -18238,14 +17454,6 @@
  138 |     background-color: color(--fogra55beta 0.070804 0.334971 0.321802 0.215606 0.103107 0.000000 0.000000);
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:136:1]
- 136 | .dark_skin {
- 137 |     background-color: color(--fogra55beta 0.183596 0.464444 0.461729 0.612490 0.156903 0.000000 0.000000);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 138 |     background-color: color(--fogra55beta 0.070804 0.334971 0.321802 0.215606 0.103107 0.000000 0.000000);
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:136:1]
  136 | .dark_skin {
@@ -18431,14 +17639,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:137:1]
- 137 |     background-color: color(--fogra55beta 0.183596 0.464444 0.461729 0.612490 0.156903 0.000000 0.000000);
- 138 |     background-color: color(--fogra55beta 0.070804 0.334971 0.321802 0.215606 0.103107 0.000000 0.000000);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 139 |     background-color: color(--fogra55beta 0.572088 0.229346 0.081708 0.282044 0.000000 0.000000 0.168260);
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:137:1]
  137 |     background-color: color(--fogra55beta 0.183596 0.464444 0.461729 0.612490 0.156903 0.000000 0.000000);
  138 |     background-color: color(--fogra55beta 0.070804 0.334971 0.321802 0.215606 0.103107 0.000000 0.000000);
@@ -18638,14 +17838,6 @@
  140 |     background-color: color(--fogra55beta 0.314566 0.145687 0.661941 0.582879 0.000000 0.234362 0.000000);
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:138:1]
- 138 |     background-color: color(--fogra55beta 0.070804 0.334971 0.321802 0.215606 0.103107 0.000000 0.000000);
- 139 |     background-color: color(--fogra55beta 0.572088 0.229346 0.081708 0.282044 0.000000 0.000000 0.168260);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 140 |     background-color: color(--fogra55beta 0.314566 0.145687 0.661941 0.582879 0.000000 0.234362 0.000000);
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:138:1]
  138 |     background-color: color(--fogra55beta 0.070804 0.334971 0.321802 0.215606 0.103107 0.000000 0.000000);
@@ -18831,14 +18023,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:139:1]
- 139 |     background-color: color(--fogra55beta 0.572088 0.229346 0.081708 0.282044 0.000000 0.000000 0.168260);
- 140 |     background-color: color(--fogra55beta 0.314566 0.145687 0.661941 0.582879 0.000000 0.234362 0.000000);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 141 |     background-color: color(--fogra55beta 0.375515 0.259934 0.034849 0.107161 0.000000 0.000000 0.308200);
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:139:1]
  139 |     background-color: color(--fogra55beta 0.572088 0.229346 0.081708 0.282044 0.000000 0.000000 0.168260);
  140 |     background-color: color(--fogra55beta 0.314566 0.145687 0.661941 0.582879 0.000000 0.234362 0.000000);
@@ -19038,14 +18222,6 @@
  142 |     background-color: color(--fogra55beta 0.397575 0.010047 0.223682 0.031140 0.000000 0.317066 0.000000);
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:140:1]
- 140 |     background-color: color(--fogra55beta 0.314566 0.145687 0.661941 0.582879 0.000000 0.234362 0.000000);
- 141 |     background-color: color(--fogra55beta 0.375515 0.259934 0.034849 0.107161 0.000000 0.000000 0.308200);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 142 |     background-color: color(--fogra55beta 0.397575 0.010047 0.223682 0.031140 0.000000 0.317066 0.000000);
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:140:1]
  140 |     background-color: color(--fogra55beta 0.314566 0.145687 0.661941 0.582879 0.000000 0.234362 0.000000);
@@ -19231,14 +18407,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:141:1]
- 141 |     background-color: color(--fogra55beta 0.375515 0.259934 0.034849 0.107161 0.000000 0.000000 0.308200);
- 142 |     background-color: color(--fogra55beta 0.397575 0.010047 0.223682 0.031140 0.000000 0.317066 0.000000);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 143 | }
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:141:1]
  141 |     background-color: color(--fogra55beta 0.375515 0.259934 0.034849 0.107161 0.000000 0.000000 0.308200);
  142 |     background-color: color(--fogra55beta 0.397575 0.010047 0.223682 0.031140 0.000000 0.317066 0.000000);
@@ -19530,14 +18698,6 @@
  147 |     color: device-cmyk(0% 70% 20% 0%);
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:145:1]
- 145 | .device-cmyk {
- 146 |     color: device-cmyk(0 81% 81% 30%);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 147 |     color: device-cmyk(0% 70% 20% 0%);
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:145:1]
  145 | .device-cmyk {
@@ -19722,14 +18882,6 @@
  148 |     color: device-cmyk(0% 70% 20% 0%);
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:146:1]
- 146 |     color: device-cmyk(0 81% 81% 30%);
- 147 |     color: device-cmyk(0% 70% 20% 0%);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 148 |     color: device-cmyk(0% 70% 20% 0%);
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:146:1]
  146 |     color: device-cmyk(0 81% 81% 30%);
@@ -19915,14 +19067,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:147:1]
- 147 |     color: device-cmyk(0% 70% 20% 0%);
- 148 |     color: device-cmyk(0% 70% 20% 0%);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 149 |     color: device-cmyk(0 0.7 0.2 0);
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:147:1]
  147 |     color: device-cmyk(0% 70% 20% 0%);
  148 |     color: device-cmyk(0% 70% 20% 0%);
@@ -20122,14 +19266,6 @@
  150 |     color: device-cmyk(var(--a) var(--b) var(--c) var(--d));
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:148:1]
- 148 |     color: device-cmyk(0% 70% 20% 0%);
- 149 |     color: device-cmyk(0 0.7 0.2 0);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 150 |     color: device-cmyk(var(--a) var(--b) var(--c) var(--d));
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:148:1]
  148 |     color: device-cmyk(0% 70% 20% 0%);
@@ -20283,14 +19419,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:149:1]
- 149 |     color: device-cmyk(0 0.7 0.2 0);
- 150 |     color: device-cmyk(var(--a) var(--b) var(--c) var(--d));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 151 | }
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:149:1]
  149 |     color: device-cmyk(0 0.7 0.2 0);
  150 |     color: device-cmyk(var(--a) var(--b) var(--c) var(--d));
@@ -20617,14 +19745,6 @@
  155 |     color: color-mix(in lch, purple 50%, plum);
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:153:1]
- 153 | .color-mix {
- 154 |     color: color-mix(in lch, purple 50%, plum 50%);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 155 |     color: color-mix(in lch, purple 50%, plum);
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:153:1]
  153 | .color-mix {
@@ -20833,14 +19953,6 @@
  156 |     color: color-mix(in lch, purple, plum 50%);
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:154:1]
- 154 |     color: color-mix(in lch, purple 50%, plum 50%);
- 155 |     color: color-mix(in lch, purple 50%, plum);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 156 |     color: color-mix(in lch, purple, plum 50%);
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:154:1]
  154 |     color: color-mix(in lch, purple 50%, plum 50%);
@@ -21018,14 +20130,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:155:1]
- 155 |     color: color-mix(in lch, purple 50%, plum);
- 156 |     color: color-mix(in lch, purple, plum 50%);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 157 |     color: color-mix(in lch, purple, plum);
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:155:1]
  155 |     color: color-mix(in lch, purple 50%, plum);
  156 |     color: color-mix(in lch, purple, plum 50%);
@@ -21217,14 +20321,6 @@
  158 |     color: color-mix(in lch, plum, purple);
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:156:1]
- 156 |     color: color-mix(in lch, purple, plum 50%);
- 157 |     color: color-mix(in lch, purple, plum);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 158 |     color: color-mix(in lch, plum, purple);
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:156:1]
  156 |     color: color-mix(in lch, purple, plum 50%);
@@ -21385,14 +20481,6 @@
  159 |     color: color-mix(in lch, purple 80%, plum 80%);
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:157:1]
- 157 |     color: color-mix(in lch, purple, plum);
- 158 |     color: color-mix(in lch, plum, purple);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 159 |     color: color-mix(in lch, purple 80%, plum 80%);
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:157:1]
  157 |     color: color-mix(in lch, purple, plum);
@@ -21546,14 +20634,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:158:1]
- 158 |     color: color-mix(in lch, plum, purple);
- 159 |     color: color-mix(in lch, purple 80%, plum 80%);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 160 | }
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:158:1]
  158 |     color: color-mix(in lch, plum, purple);
  159 |     color: color-mix(in lch, purple 80%, plum 80%);
@@ -21852,14 +20932,6 @@
  164 |     color: color-contrast(currentColor vs rgb(10 75 107), rgb(128 0 128) to 4.5);
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:162:1]
- 162 | .color-contrast {
- 163 |     color: color-contrast(currentColor vs hsl(200 83% 23%), purple to AA);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 164 |     color: color-contrast(currentColor vs rgb(10 75 107), rgb(128 0 128) to 4.5);
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:162:1]
  162 | .color-contrast {
@@ -22117,14 +21189,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:163:1]
- 163 |     color: color-contrast(currentColor vs hsl(200 83% 23%), purple to AA);
- 164 |     color: color-contrast(currentColor vs rgb(10 75 107), rgb(128 0 128) to 4.5);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 165 | }
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:163:1]
  163 |     color: color-contrast(currentColor vs hsl(200 83% 23%), purple to AA);
  164 |     color: color-contrast(currentColor vs rgb(10 75 107), rgb(128 0 128) to 4.5);
@@ -22522,14 +21586,6 @@
  169 |     color: rgb(178 34 34);
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:167:1]
- 167 | .foo {
- 168 |     color: device-cmyk(0 81% 81% 30%);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 169 |     color: rgb(178 34 34);
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:167:1]
  167 | .foo {
@@ -22714,14 +21770,6 @@
  170 |     color: firebrick;
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:168:1]
- 168 |     color: device-cmyk(0 81% 81% 30%);
- 169 |     color: rgb(178 34 34);
-     :     ^^^^^^^^^^^^^^^^^^^^^
- 170 |     color: firebrick;
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:168:1]
  168 |     color: device-cmyk(0 81% 81% 30%);
@@ -22827,14 +21875,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:169:1]
- 169 |     color: rgb(178 34 34);
- 170 |     color: firebrick;
-     :     ^^^^^^^^^^^^^^^^
- 171 | }
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:169:1]
  169 |     color: rgb(178 34 34);
  170 |     color: firebrick;
@@ -22976,14 +22016,6 @@
  175 |     color: lab(45.060% 45.477 35.459);
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:173:1]
- 173 | .bar {
- 174 |     color: device-cmyk(0 81% 81% 30%);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 175 |     color: lab(45.060% 45.477 35.459);
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:173:1]
  173 | .bar {
@@ -23168,14 +22200,6 @@
  176 |     color: rgb(70.690% 26.851% 19.724%);
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:174:1]
- 174 |     color: device-cmyk(0 81% 81% 30%);
- 175 |     color: lab(45.060% 45.477 35.459);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 176 |     color: rgb(70.690% 26.851% 19.724%);
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:174:1]
  174 |     color: device-cmyk(0 81% 81% 30%);
@@ -23289,14 +22313,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:175:1]
- 175 |     color: lab(45.060% 45.477 35.459);
- 176 |     color: rgb(70.690% 26.851% 19.724%);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 177 | }
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:175:1]
  175 |     color: lab(45.060% 45.477 35.459);
  176 |     color: rgb(70.690% 26.851% 19.724%);
@@ -23543,14 +22559,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:179:1]
- 179 | .calc {
- 180 |     color: rgba(calc(255 - 1), 255, 255, 1);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 181 |     color: rgba(255, calc(255 - 1), 255, 1);
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:179:1]
  179 | .calc {
  180 |     color: rgba(calc(255 - 1), 255, 255, 1);
@@ -23855,14 +22863,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:180:1]
- 180 |     color: rgba(calc(255 - 1), 255, 255, 1);
- 181 |     color: rgba(255, calc(255 - 1), 255, 1);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 182 |     color: rgba(255, 255, calc(255 - 1), 1);
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:180:1]
  180 |     color: rgba(calc(255 - 1), 255, 255, 1);
  181 |     color: rgba(255, calc(255 - 1), 255, 1);
@@ -24174,14 +23174,6 @@
  183 |     color: rgba(255, 255, 255, calc(1 - 1));
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:181:1]
- 181 |     color: rgba(255, calc(255 - 1), 255, 1);
- 182 |     color: rgba(255, 255, calc(255 - 1), 1);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 183 |     color: rgba(255, 255, 255, calc(1 - 1));
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:181:1]
  181 |     color: rgba(255, calc(255 - 1), 255, 1);
@@ -24486,14 +23478,6 @@
  184 |     color: hsla(calc(120deg + 16deg) 100% 50%);
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:182:1]
- 182 |     color: rgba(255, 255, calc(255 - 1), 1);
- 183 |     color: rgba(255, 255, 255, calc(1 - 1));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 184 |     color: hsla(calc(120deg + 16deg) 100% 50%);
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:182:1]
  182 |     color: rgba(255, 255, calc(255 - 1), 1);
@@ -24783,14 +23767,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:183:1]
- 183 |     color: rgba(255, 255, 255, calc(1 - 1));
- 184 |     color: hsla(calc(120deg + 16deg) 100% 50%);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 185 |     color: hsla(120deg calc(20% + 10%) 50%);
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:183:1]
  183 |     color: rgba(255, 255, 255, calc(1 - 1));
  184 |     color: hsla(calc(120deg + 16deg) 100% 50%);
@@ -25094,14 +24070,6 @@
  186 |     color: hsla(120deg 40% calc(20% + 10%));
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:184:1]
- 184 |     color: hsla(calc(120deg + 16deg) 100% 50%);
- 185 |     color: hsla(120deg calc(20% + 10%) 50%);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 186 |     color: hsla(120deg 40% calc(20% + 10%));
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:184:1]
  184 |     color: hsla(calc(120deg + 16deg) 100% 50%);
@@ -25382,14 +24350,6 @@
  187 |     color: hsl(120deg 40% 20% / calc(20% + 10%));
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:185:1]
- 185 |     color: hsla(120deg calc(20% + 10%) 50%);
- 186 |     color: hsla(120deg 40% calc(20% + 10%));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 187 |     color: hsl(120deg 40% 20% / calc(20% + 10%));
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:185:1]
  185 |     color: hsla(120deg calc(20% + 10%) 50%);
@@ -25663,14 +24623,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:186:1]
- 186 |     color: hsla(120deg 40% calc(20% + 10%));
- 187 |     color: hsl(120deg 40% 20% / calc(20% + 10%));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 188 |     color: hwb(194 calc(20% + 10%) 0% / .5);
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:186:1]
  186 |     color: hsla(120deg 40% calc(20% + 10%));
  187 |     color: hsl(120deg 40% 20% / calc(20% + 10%));
@@ -25998,14 +24950,6 @@
  189 |     color: device-cmyk(0 calc(20%) 81% 30%);
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:187:1]
- 187 |     color: hsl(120deg 40% 20% / calc(20% + 10%));
- 188 |     color: hwb(194 calc(20% + 10%) 0% / .5);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 189 |     color: device-cmyk(0 calc(20%) 81% 30%);
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:187:1]
  187 |     color: hsl(120deg 40% 20% / calc(20% + 10%));
@@ -26310,14 +25254,6 @@
  190 |     color: color(display-p3 calc(1 + 2) 0.5 0);
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:188:1]
- 188 |     color: hwb(194 calc(20% + 10%) 0% / .5);
- 189 |     color: device-cmyk(0 calc(20%) 81% 30%);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 190 |     color: color(display-p3 calc(1 + 2) 0.5 0);
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:188:1]
  188 |     color: hwb(194 calc(20% + 10%) 0% / .5);
@@ -26559,14 +25495,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:189:1]
- 189 |     color: device-cmyk(0 calc(20%) 81% 30%);
- 190 |     color: color(display-p3 calc(1 + 2) 0.5 0);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 191 | }
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:189:1]
  189 |     color: device-cmyk(0 calc(20%) 81% 30%);
  190 |     color: color(display-p3 calc(1 + 2) 0.5 0);
@@ -26926,14 +25854,6 @@
  195 |     color: rgb(from transparent 255 255 255);
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:193:1]
- 193 | .relative {
- 194 |     color: rgb(from indianred 255 255 255);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 195 |     color: rgb(from transparent 255 255 255);
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:193:1]
  193 | .relative {
@@ -27086,14 +26006,6 @@
  196 |     color: lch(from var(--mygray) 62% 30 -34);
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:194:1]
- 194 |     color: rgb(from indianred 255 255 255);
- 195 |     color: rgb(from transparent 255 255 255);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 196 |     color: lch(from var(--mygray) 62% 30 -34);
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:194:1]
  194 |     color: rgb(from indianred 255 255 255);
@@ -27239,14 +26151,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:195:1]
- 195 |     color: rgb(from transparent 255 255 255);
- 196 |     color: lch(from var(--mygray) 62% 30 -34);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 197 |     color: rgb(from Canvas 255 255 255);
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:195:1]
  195 |     color: rgb(from transparent 255 255 255);
  196 |     color: lch(from var(--mygray) 62% 30 -34);
@@ -27438,14 +26342,6 @@
  198 |     color: rgb(from canvas 255 255 255);
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:196:1]
- 196 |     color: lch(from var(--mygray) 62% 30 -34);
- 197 |     color: rgb(from Canvas 255 255 255);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 198 |     color: rgb(from canvas 255 255 255);
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:196:1]
  196 |     color: lch(from var(--mygray) 62% 30 -34);
@@ -27598,14 +26494,6 @@
  199 |     color: rgb(from ActiveBorder 255 255 255);
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:197:1]
- 197 |     color: rgb(from Canvas 255 255 255);
- 198 |     color: rgb(from canvas 255 255 255);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 199 |     color: rgb(from ActiveBorder 255 255 255);
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:197:1]
  197 |     color: rgb(from Canvas 255 255 255);
@@ -27751,14 +26639,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:198:1]
- 198 |     color: rgb(from canvas 255 255 255);
- 199 |     color: rgb(from ActiveBorder 255 255 255);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 200 |     color: rgb(from -moz-buttondefault 255 255 255);
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:198:1]
  198 |     color: rgb(from canvas 255 255 255);
  199 |     color: rgb(from ActiveBorder 255 255 255);
@@ -27918,14 +26798,6 @@
  201 |     color: rgb(from -moz-activehyperlinktext 255 255 255);
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:199:1]
- 199 |     color: rgb(from ActiveBorder 255 255 255);
- 200 |     color: rgb(from -moz-buttondefault 255 255 255);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 201 |     color: rgb(from -moz-activehyperlinktext 255 255 255);
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:199:1]
  199 |     color: rgb(from ActiveBorder 255 255 255);
@@ -28078,14 +26950,6 @@
  202 |     color: rgb(from currentColor 255 255 255);
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:200:1]
- 200 |     color: rgb(from -moz-buttondefault 255 255 255);
- 201 |     color: rgb(from -moz-activehyperlinktext 255 255 255);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 202 |     color: rgb(from currentColor 255 255 255);
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:200:1]
  200 |     color: rgb(from -moz-buttondefault 255 255 255);
@@ -28231,14 +27095,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:201:1]
- 201 |     color: rgb(from -moz-activehyperlinktext 255 255 255);
- 202 |     color: rgb(from currentColor 255 255 255);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 203 | }
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:201:1]
  201 |     color: rgb(from -moz-activehyperlinktext 255 255 255);
  202 |     color: rgb(from currentColor 255 255 255);
@@ -28499,14 +27355,6 @@
  208 |     color: rgb(var(--red) var(--green) var(--blue) / var(--alpha));
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:206:1]
- 206 | .var {
- 207 |     color: rgb(var(--red) var(--green) var(--blue));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 208 |     color: rgb(var(--red) var(--green) var(--blue) / var(--alpha));
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:206:1]
  206 | .var {
@@ -28684,13 +27532,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:207:1]
- 207 |     color: rgb(var(--red) var(--green) var(--blue));
- 208 |     color: rgb(var(--red) var(--green) var(--blue) / var(--alpha));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:207:1]
  207 |     color: rgb(var(--red) var(--green) var(--blue));
  208 |     color: rgb(var(--red) var(--green) var(--blue) / var(--alpha));
@@ -28908,14 +27749,6 @@
  211 |     color: rgb(env(--red) env(--green) env(--blue) / env(--alpha));
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:209:1]
- 209 | 
- 210 |     color: rgb(env(--red) env(--green) env(--blue));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 211 |     color: rgb(env(--red) env(--green) env(--blue) / env(--alpha));
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:209:1]
  209 | 
@@ -29093,13 +27926,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:210:1]
- 210 |     color: rgb(env(--red) env(--green) env(--blue));
- 211 |     color: rgb(env(--red) env(--green) env(--blue) / env(--alpha));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:210:1]
  210 |     color: rgb(env(--red) env(--green) env(--blue));
  211 |     color: rgb(env(--red) env(--green) env(--blue) / env(--alpha));
@@ -29310,14 +28136,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:212:1]
- 212 | 
- 213 |     color: rgb(constant(--red) constant(--green) constant(--blue));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 214 |     color: rgb(constant(--red) constant(--green) constant(--blue) / constant(--alpha));
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:212:1]
  212 | 
  213 |     color: rgb(constant(--red) constant(--green) constant(--blue));
@@ -29502,14 +28320,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:213:1]
- 213 |     color: rgb(constant(--red) constant(--green) constant(--blue));
- 214 |     color: rgb(constant(--red) constant(--green) constant(--blue) / constant(--alpha));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 215 | }
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:213:1]
  213 |     color: rgb(constant(--red) constant(--green) constant(--blue));
  214 |     color: rgb(constant(--red) constant(--green) constant(--blue) / constant(--alpha));
@@ -30055,14 +28865,6 @@
  219 |     color: lab(var(--mycolor));
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:217:1]
- 217 | div {
- 218 |     color: hsl(var(--b2, var(--b1)) / var(--tw-bg-opacity));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 219 |     color: lab(var(--mycolor));
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:217:1]
  217 | div {
@@ -30279,14 +29081,6 @@
  220 |     color: rgba(var(--bg-color) 1);
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:218:1]
- 218 |     color: hsl(var(--b2, var(--b1)) / var(--tw-bg-opacity));
- 219 |     color: lab(var(--mycolor));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^
- 220 |     color: rgba(var(--bg-color) 1);
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:218:1]
  218 |     color: hsl(var(--b2, var(--b1)) / var(--tw-bg-opacity));
@@ -30384,14 +29178,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:219:1]
- 219 |     color: lab(var(--mycolor));
- 220 |     color: rgba(var(--bg-color) 1);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 221 |     color: rgba(var(--bg-color) / 1);
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:219:1]
  219 |     color: lab(var(--mycolor));
  220 |     color: rgba(var(--bg-color) 1);
@@ -30512,14 +29298,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:220:1]
- 220 |     color: rgba(var(--bg-color) 1);
- 221 |     color: rgba(var(--bg-color) / 1);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 222 |     color: lab(var(--mycolor) 0);
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:220:1]
  220 |     color: rgba(var(--bg-color) 1);
  221 |     color: rgba(var(--bg-color) / 1);
@@ -30671,14 +29449,6 @@
  223 |     color: lab(var(--mycolor) var(--mycolor));
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:221:1]
- 221 |     color: rgba(var(--bg-color) / 1);
- 222 |     color: lab(var(--mycolor) 0);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 223 |     color: lab(var(--mycolor) var(--mycolor));
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:221:1]
  221 |     color: rgba(var(--bg-color) / 1);
@@ -30792,14 +29562,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:222:1]
- 222 |     color: lab(var(--mycolor) 0);
- 223 |     color: lab(var(--mycolor) var(--mycolor));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 224 |     color: lab(from var(--mycolor) 0 0 0);
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:222:1]
  222 |     color: lab(var(--mycolor) 0);
  223 |     color: lab(var(--mycolor) var(--mycolor));
@@ -30944,14 +29706,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:223:1]
- 223 |     color: lab(var(--mycolor) var(--mycolor));
- 224 |     color: lab(from var(--mycolor) 0 0 0);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 225 |     color: lab(from var(--mycolor) var(--color));
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:223:1]
  223 |     color: lab(var(--mycolor) var(--mycolor));
  224 |     color: lab(from var(--mycolor) 0 0 0);
@@ -31120,14 +29874,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:224:1]
- 224 |     color: lab(from var(--mycolor) 0 0 0);
- 225 |     color: lab(from var(--mycolor) var(--color));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 226 |     color: rgb(var(--bg-color));
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:224:1]
  224 |     color: lab(from var(--mycolor) 0 0 0);
  225 |     color: lab(from var(--mycolor) var(--color));
@@ -31295,14 +30041,6 @@
  227 |     color: rgb(var(--bg-color), var(--bg-color-a));
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:225:1]
- 225 |     color: lab(from var(--mycolor) var(--color));
- 226 |     color: rgb(var(--bg-color));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 227 |     color: rgb(var(--bg-color), var(--bg-color-a));
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:225:1]
  225 |     color: lab(from var(--mycolor) var(--color));
@@ -31400,14 +30138,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:226:1]
- 226 |     color: rgb(var(--bg-color));
- 227 |     color: rgb(var(--bg-color), var(--bg-color-a));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 228 |     color: rgb(var(--bg-color) var(--bg-color-a));
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:226:1]
  226 |     color: rgb(var(--bg-color));
  227 |     color: rgb(var(--bg-color), var(--bg-color-a));
@@ -31575,14 +30305,6 @@
  229 |     color: rgba(var(--bg-color) 1);
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:227:1]
- 227 |     color: rgb(var(--bg-color), var(--bg-color-a));
- 228 |     color: rgb(var(--bg-color) var(--bg-color-a));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 229 |     color: rgba(var(--bg-color) 1);
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:227:1]
  227 |     color: rgb(var(--bg-color), var(--bg-color-a));
@@ -31727,14 +30449,6 @@
  230 |     color: rgb(var(--mycolor) var(--mycolor) var(--mycolor));
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:228:1]
- 228 |     color: rgb(var(--bg-color) var(--bg-color-a));
- 229 |     color: rgba(var(--bg-color) 1);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 230 |     color: rgb(var(--mycolor) var(--mycolor) var(--mycolor));
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:228:1]
  228 |     color: rgb(var(--bg-color) var(--bg-color-a));
@@ -31855,14 +30569,6 @@
  231 |     color: lab(var(--mycolor) var(--mycolor) var(--mycolor));
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:229:1]
- 229 |     color: rgba(var(--bg-color) 1);
- 230 |     color: rgb(var(--mycolor) var(--mycolor) var(--mycolor));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 231 |     color: lab(var(--mycolor) var(--mycolor) var(--mycolor));
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:229:1]
  229 |     color: rgba(var(--bg-color) 1);
@@ -32047,14 +30753,6 @@
  232 |     color: color(from var(--bg-color) var(--bg-color));
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:230:1]
- 230 |     color: rgb(var(--mycolor) var(--mycolor) var(--mycolor));
- 231 |     color: lab(var(--mycolor) var(--mycolor) var(--mycolor));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 232 |     color: color(from var(--bg-color) var(--bg-color));
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:230:1]
  230 |     color: rgb(var(--mycolor) var(--mycolor) var(--mycolor));
@@ -32232,14 +30930,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:231:1]
- 231 |     color: lab(var(--mycolor) var(--mycolor) var(--mycolor));
- 232 |     color: color(from var(--bg-color) var(--bg-color));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 233 |     color: color(from var(--bg-color) var(--bg-color) var(--bg-color));
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:231:1]
  231 |     color: lab(var(--mycolor) var(--mycolor) var(--mycolor));
  232 |     color: color(from var(--bg-color) var(--bg-color));
@@ -32400,14 +31090,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:232:1]
- 232 |     color: color(from var(--bg-color) var(--bg-color));
- 233 |     color: color(from var(--bg-color) var(--bg-color) var(--bg-color));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 234 |     color: color(var(--bg-color) var(--bg-color));
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:232:1]
  232 |     color: color(from var(--bg-color) var(--bg-color));
  233 |     color: color(from var(--bg-color) var(--bg-color) var(--bg-color));
@@ -32615,14 +31297,6 @@
  235 |     color: color(var(--bg-color));
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:233:1]
- 233 |     color: color(from var(--bg-color) var(--bg-color) var(--bg-color));
- 234 |     color: color(var(--bg-color) var(--bg-color));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 235 |     color: color(var(--bg-color));
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:233:1]
  233 |     color: color(from var(--bg-color) var(--bg-color) var(--bg-color));
@@ -32767,14 +31441,6 @@
  236 |     color: color(from var(--base) mi calc(pi * 2) calc(pi / 2));
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:234:1]
- 234 |     color: color(var(--bg-color) var(--bg-color));
- 235 |     color: color(var(--bg-color));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 236 |     color: color(from var(--base) mi calc(pi * 2) calc(pi / 2));
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:234:1]
  234 |     color: color(var(--bg-color) var(--bg-color));
@@ -32872,14 +31538,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:235:1]
- 235 |     color: color(var(--bg-color));
- 236 |     color: color(from var(--base) mi calc(pi * 2) calc(pi / 2));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 237 |     color: color(var(--bg-color));
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:235:1]
  235 |     color: color(var(--bg-color));
  236 |     color: color(from var(--base) mi calc(pi * 2) calc(pi / 2));
@@ -33263,14 +31921,6 @@
  238 |     color: color(--unwise 35% 20% 8%);
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:236:1]
- 236 |     color: color(from var(--base) mi calc(pi * 2) calc(pi / 2));
- 237 |     color: color(var(--bg-color));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 238 |     color: color(--unwise 35% 20% 8%);
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:236:1]
  236 |     color: color(from var(--base) mi calc(pi * 2) calc(pi / 2));
@@ -33368,14 +32018,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:237:1]
- 237 |     color: color(var(--bg-color));
- 238 |     color: color(--unwise 35% 20% 8%);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 239 |     color: color(--unwise var(--bg-color));
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:237:1]
  237 |     color: color(var(--bg-color));
  238 |     color: color(--unwise 35% 20% 8%);
@@ -33535,14 +32177,6 @@
  240 |     color: color(--unwise var(--bg-color) var(--bg-color));
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:238:1]
- 238 |     color: color(--unwise 35% 20% 8%);
- 239 |     color: color(--unwise var(--bg-color));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 240 |     color: color(--unwise var(--bg-color) var(--bg-color));
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:238:1]
  238 |     color: color(--unwise 35% 20% 8%);
@@ -33656,14 +32290,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:239:1]
- 239 |     color: color(--unwise var(--bg-color));
- 240 |     color: color(--unwise var(--bg-color) var(--bg-color));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 241 |     color: device-cmyk(var(--bg-color));
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:239:1]
  239 |     color: color(--unwise var(--bg-color));
  240 |     color: color(--unwise var(--bg-color) var(--bg-color));
@@ -33831,14 +32457,6 @@
  242 |     color: device-cmyk(var(--bg-color) var(--bg-color));
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:240:1]
- 240 |     color: color(--unwise var(--bg-color) var(--bg-color));
- 241 |     color: device-cmyk(var(--bg-color));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 242 |     color: device-cmyk(var(--bg-color) var(--bg-color));
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:240:1]
  240 |     color: color(--unwise var(--bg-color) var(--bg-color));
@@ -33936,14 +32554,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:241:1]
- 241 |     color: device-cmyk(var(--bg-color));
- 242 |     color: device-cmyk(var(--bg-color) var(--bg-color));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 243 |     color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color));
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:241:1]
  241 |     color: device-cmyk(var(--bg-color));
  242 |     color: device-cmyk(var(--bg-color) var(--bg-color));
@@ -34088,14 +32698,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:242:1]
- 242 |     color: device-cmyk(var(--bg-color) var(--bg-color));
- 243 |     color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 244 |     color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color));
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:242:1]
  242 |     color: device-cmyk(var(--bg-color) var(--bg-color));
  243 |     color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color));
@@ -34280,14 +32882,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:243:1]
- 243 |     color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color));
- 244 |     color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 245 |     color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:243:1]
  243 |     color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color));
  244 |     color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color));
@@ -34512,14 +33106,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:244:1]
- 244 |     color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color));
- 245 |     color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 246 |     color: device-cmyk(var(--bg-color) var(--bg-color) / var(--bg-color));
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:244:1]
  244 |     color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color));
  245 |     color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
@@ -34807,14 +33393,6 @@
  247 |     color: device-cmyk(var(--bg-color) / var(--bg-color));
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:245:1]
- 245 |     color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
- 246 |     color: device-cmyk(var(--bg-color) var(--bg-color) / var(--bg-color));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 247 |     color: device-cmyk(var(--bg-color) / var(--bg-color));
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:245:1]
  245 |     color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
@@ -35015,14 +33593,6 @@
  248 |     color: device-cmyk(var(--bg-color) var(--bg-color));
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:246:1]
- 246 |     color: device-cmyk(var(--bg-color) var(--bg-color) / var(--bg-color));
- 247 |     color: device-cmyk(var(--bg-color) / var(--bg-color));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 248 |     color: device-cmyk(var(--bg-color) var(--bg-color));
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:246:1]
  246 |     color: device-cmyk(var(--bg-color) var(--bg-color) / var(--bg-color));
@@ -35183,14 +33753,6 @@
  249 |     color: rgb(var(--bg-color));
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:247:1]
- 247 |     color: device-cmyk(var(--bg-color) / var(--bg-color));
- 248 |     color: device-cmyk(var(--bg-color) var(--bg-color));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 249 |     color: rgb(var(--bg-color));
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:247:1]
  247 |     color: device-cmyk(var(--bg-color) / var(--bg-color));
@@ -35335,14 +33897,6 @@
  250 |     color: rgb(var(--bg-color) var(--bg-color));
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:248:1]
- 248 |     color: device-cmyk(var(--bg-color) var(--bg-color));
- 249 |     color: rgb(var(--bg-color));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 250 |     color: rgb(var(--bg-color) var(--bg-color));
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:248:1]
  248 |     color: device-cmyk(var(--bg-color) var(--bg-color));
@@ -35440,14 +33994,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:249:1]
- 249 |     color: rgb(var(--bg-color));
- 250 |     color: rgb(var(--bg-color) var(--bg-color));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 251 |     color: rgb(var(--bg-color) var(--bg-color) var(--bg-color));
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:249:1]
  249 |     color: rgb(var(--bg-color));
  250 |     color: rgb(var(--bg-color) var(--bg-color));
@@ -35592,14 +34138,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:250:1]
- 250 |     color: rgb(var(--bg-color) var(--bg-color));
- 251 |     color: rgb(var(--bg-color) var(--bg-color) var(--bg-color));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 252 |     color: rgb(var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:250:1]
  250 |     color: rgb(var(--bg-color) var(--bg-color));
  251 |     color: rgb(var(--bg-color) var(--bg-color) var(--bg-color));
@@ -35784,14 +34322,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:251:1]
- 251 |     color: rgb(var(--bg-color) var(--bg-color) var(--bg-color));
- 252 |     color: rgb(var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 253 |     color: rgb(var(--bg-color) var(--bg-color) / var(--bg-color));
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:251:1]
  251 |     color: rgb(var(--bg-color) var(--bg-color) var(--bg-color));
  252 |     color: rgb(var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
@@ -36039,14 +34569,6 @@
  254 |     color: rgb(var(--bg-color) / var(--bg-color));
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:252:1]
- 252 |     color: rgb(var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
- 253 |     color: rgb(var(--bg-color) var(--bg-color) / var(--bg-color));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 254 |     color: rgb(var(--bg-color) / var(--bg-color));
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:252:1]
  252 |     color: rgb(var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
@@ -36240,14 +34762,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:253:1]
- 253 |     color: rgb(var(--bg-color) var(--bg-color) / var(--bg-color));
- 254 |     color: rgb(var(--bg-color) / var(--bg-color));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 255 |     color: rgb(var(--bg-color) var(--bg-color));
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:253:1]
  253 |     color: rgb(var(--bg-color) var(--bg-color) / var(--bg-color));
  254 |     color: rgb(var(--bg-color) / var(--bg-color));
@@ -36415,14 +34929,6 @@
  256 |     color: rgb(var(--bg-color));
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:254:1]
- 254 |     color: rgb(var(--bg-color) / var(--bg-color));
- 255 |     color: rgb(var(--bg-color) var(--bg-color));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 256 |     color: rgb(var(--bg-color));
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:254:1]
  254 |     color: rgb(var(--bg-color) / var(--bg-color));
@@ -36567,14 +35073,6 @@
  257 |     color: rgb(var(--bg-color), var(--bg-color));
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:255:1]
- 255 |     color: rgb(var(--bg-color) var(--bg-color));
- 256 |     color: rgb(var(--bg-color));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 257 |     color: rgb(var(--bg-color), var(--bg-color));
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:255:1]
  255 |     color: rgb(var(--bg-color) var(--bg-color));
@@ -36672,14 +35170,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:256:1]
- 256 |     color: rgb(var(--bg-color));
- 257 |     color: rgb(var(--bg-color), var(--bg-color));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 258 |     color: rgb(var(--bg-color), var(--bg-color), var(--bg-color));
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:256:1]
  256 |     color: rgb(var(--bg-color));
  257 |     color: rgb(var(--bg-color), var(--bg-color));
@@ -36840,14 +35330,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:257:1]
- 257 |     color: rgb(var(--bg-color), var(--bg-color));
- 258 |     color: rgb(var(--bg-color), var(--bg-color), var(--bg-color));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 259 |     color: rgb(var(--bg-color), var(--bg-color), var(--bg-color), var(--bg-color));
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:257:1]
  257 |     color: rgb(var(--bg-color), var(--bg-color));
  258 |     color: rgb(var(--bg-color), var(--bg-color), var(--bg-color));
@@ -37064,14 +35546,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:258:1]
- 258 |     color: rgb(var(--bg-color), var(--bg-color), var(--bg-color));
- 259 |     color: rgb(var(--bg-color), var(--bg-color), var(--bg-color), var(--bg-color));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 260 |     color: rgb(var(--bg-color), var(--bg-color), var(--bg-color));
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:258:1]
  258 |     color: rgb(var(--bg-color), var(--bg-color), var(--bg-color));
  259 |     color: rgb(var(--bg-color), var(--bg-color), var(--bg-color), var(--bg-color));
@@ -37351,14 +35825,6 @@
  261 |     color: hwb(var(--bg-color));
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:259:1]
- 259 |     color: rgb(var(--bg-color), var(--bg-color), var(--bg-color), var(--bg-color));
- 260 |     color: rgb(var(--bg-color), var(--bg-color), var(--bg-color));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 261 |     color: hwb(var(--bg-color));
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:259:1]
  259 |     color: rgb(var(--bg-color), var(--bg-color), var(--bg-color), var(--bg-color));
@@ -37575,14 +36041,6 @@
  262 |     color: hwb(var(--bg-color) var(--bg-color));
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:260:1]
- 260 |     color: rgb(var(--bg-color), var(--bg-color), var(--bg-color));
- 261 |     color: hwb(var(--bg-color));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 262 |     color: hwb(var(--bg-color) var(--bg-color));
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:260:1]
  260 |     color: rgb(var(--bg-color), var(--bg-color), var(--bg-color));
@@ -37680,14 +36138,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:261:1]
- 261 |     color: hwb(var(--bg-color));
- 262 |     color: hwb(var(--bg-color) var(--bg-color));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 263 |     color: hwb(var(--bg-color) var(--bg-color) var(--bg-color));
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:261:1]
  261 |     color: hwb(var(--bg-color));
  262 |     color: hwb(var(--bg-color) var(--bg-color));
@@ -37832,14 +36282,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:262:1]
- 262 |     color: hwb(var(--bg-color) var(--bg-color));
- 263 |     color: hwb(var(--bg-color) var(--bg-color) var(--bg-color));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 264 |     color: hwb(var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:262:1]
  262 |     color: hwb(var(--bg-color) var(--bg-color));
  263 |     color: hwb(var(--bg-color) var(--bg-color) var(--bg-color));
@@ -38024,14 +36466,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:263:1]
- 263 |     color: hwb(var(--bg-color) var(--bg-color) var(--bg-color));
- 264 |     color: hwb(var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 265 |     color: hwb(var(--bg-color) var(--bg-color) / var(--bg-color));
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:263:1]
  263 |     color: hwb(var(--bg-color) var(--bg-color) var(--bg-color));
  264 |     color: hwb(var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
@@ -38279,14 +36713,6 @@
  266 |     color: hwb(var(--bg-color) / var(--bg-color));
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:264:1]
- 264 |     color: hwb(var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
- 265 |     color: hwb(var(--bg-color) var(--bg-color) / var(--bg-color));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 266 |     color: hwb(var(--bg-color) / var(--bg-color));
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:264:1]
  264 |     color: hwb(var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
@@ -38487,14 +36913,6 @@
  267 |     color: hwb(var(--bg-color) var(--bg-color));
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:265:1]
- 265 |     color: hwb(var(--bg-color) var(--bg-color) / var(--bg-color));
- 266 |     color: hwb(var(--bg-color) / var(--bg-color));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 267 |     color: hwb(var(--bg-color) var(--bg-color));
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:265:1]
  265 |     color: hwb(var(--bg-color) var(--bg-color) / var(--bg-color));
@@ -38655,14 +37073,6 @@
  268 |     color: hwb(var(--bg-color));
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:266:1]
- 266 |     color: hwb(var(--bg-color) / var(--bg-color));
- 267 |     color: hwb(var(--bg-color) var(--bg-color));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 268 |     color: hwb(var(--bg-color));
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:266:1]
  266 |     color: hwb(var(--bg-color) / var(--bg-color));
@@ -38807,14 +37217,6 @@
  269 |     color: hwb(120 0% 49.8039%);
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:267:1]
- 267 |     color: hwb(var(--bg-color) var(--bg-color));
- 268 |     color: hwb(var(--bg-color));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 269 |     color: hwb(120 0% 49.8039%);
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:267:1]
  267 |     color: hwb(var(--bg-color) var(--bg-color));
@@ -38912,14 +37314,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:268:1]
- 268 |     color: hwb(var(--bg-color));
- 269 |     color: hwb(120 0% 49.8039%);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 270 |     color: hwb(120 var(--bg-color) 49.8039%);
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:268:1]
  268 |     color: hwb(var(--bg-color));
  269 |     color: hwb(120 0% 49.8039%);
@@ -39063,14 +37457,6 @@
  271 |     color: hwb(120 var(--bg-color) 49.8039% / 1);
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:269:1]
- 269 |     color: hwb(120 0% 49.8039%);
- 270 |     color: hwb(120 var(--bg-color) 49.8039%);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 271 |     color: hwb(120 var(--bg-color) 49.8039% / 1);
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:269:1]
  269 |     color: hwb(120 0% 49.8039%);
@@ -39216,14 +37602,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:270:1]
- 270 |     color: hwb(120 var(--bg-color) 49.8039%);
- 271 |     color: hwb(120 var(--bg-color) 49.8039% / 1);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 272 |     color: hwb(120 var(--bg-color) 49.8039% / 100);
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:270:1]
  270 |     color: hwb(120 var(--bg-color) 49.8039%);
  271 |     color: hwb(120 var(--bg-color) 49.8039% / 1);
@@ -39423,14 +37801,6 @@
  273 |     color: hwb(120 var(--bg-color) var(--bg-color));
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:271:1]
- 271 |     color: hwb(120 var(--bg-color) 49.8039% / 1);
- 272 |     color: hwb(120 var(--bg-color) 49.8039% / 100);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 273 |     color: hwb(120 var(--bg-color) var(--bg-color));
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:271:1]
  271 |     color: hwb(120 var(--bg-color) 49.8039% / 1);
@@ -39616,14 +37986,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:272:1]
- 272 |     color: hwb(120 var(--bg-color) 49.8039% / 100);
- 273 |     color: hwb(120 var(--bg-color) var(--bg-color));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 274 |     color: hwb(var(--bg-color) var(--bg-color) var(--bg-color));
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:272:1]
  272 |     color: hwb(120 var(--bg-color) 49.8039% / 100);
  273 |     color: hwb(120 var(--bg-color) var(--bg-color));
@@ -39792,14 +38154,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:273:1]
- 273 |     color: hwb(120 var(--bg-color) var(--bg-color));
- 274 |     color: hwb(var(--bg-color) var(--bg-color) var(--bg-color));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 275 |     color: color(rec2020 0.42053 0.979780 0.00579);
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:273:1]
  273 |     color: hwb(120 var(--bg-color) var(--bg-color));
  274 |     color: hwb(var(--bg-color) var(--bg-color) var(--bg-color));
@@ -39991,14 +38345,6 @@
  276 |     color: color(rec2020 0.42053 0.979780 0.00579 / var(--color));
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:274:1]
- 274 |     color: hwb(var(--bg-color) var(--bg-color) var(--bg-color));
- 275 |     color: color(rec2020 0.42053 0.979780 0.00579);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 276 |     color: color(rec2020 0.42053 0.979780 0.00579 / var(--color));
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:274:1]
  274 |     color: hwb(var(--bg-color) var(--bg-color) var(--bg-color));
@@ -40120,14 +38466,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:275:1]
- 275 |     color: color(rec2020 0.42053 0.979780 0.00579);
- 276 |     color: color(rec2020 0.42053 0.979780 0.00579 / var(--color));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 277 |     color: color(rec2020 0.42053 var(--color));
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:275:1]
  275 |     color: color(rec2020 0.42053 0.979780 0.00579);
  276 |     color: color(rec2020 0.42053 0.979780 0.00579 / var(--color));
@@ -40319,14 +38657,6 @@
  278 |     color: color(rec2020 0.42053 var(--color) / 100%);
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:276:1]
- 276 |     color: color(rec2020 0.42053 0.979780 0.00579 / var(--color));
- 277 |     color: color(rec2020 0.42053 var(--color));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 278 |     color: color(rec2020 0.42053 var(--color) / 100%);
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:276:1]
  276 |     color: color(rec2020 0.42053 0.979780 0.00579 / var(--color));
@@ -40456,14 +38786,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:277:1]
- 277 |     color: color(rec2020 0.42053 var(--color));
- 278 |     color: color(rec2020 0.42053 var(--color) / 100%);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 279 |     color: color(rec2020 var(--color));
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:277:1]
  277 |     color: color(rec2020 0.42053 var(--color));
  278 |     color: color(rec2020 0.42053 var(--color) / 100%);
@@ -40655,14 +38977,6 @@
  280 |     color: color(rec2020 var(--color) / var(--color));
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:278:1]
- 278 |     color: color(rec2020 0.42053 var(--color) / 100%);
- 279 |     color: color(rec2020 var(--color));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 280 |     color: color(rec2020 var(--color) / var(--color));
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:278:1]
  278 |     color: color(rec2020 0.42053 var(--color) / 100%);
@@ -40776,14 +39090,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:279:1]
- 279 |     color: color(rec2020 var(--color));
- 280 |     color: color(rec2020 var(--color) / var(--color));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 281 |     color: color(var(--color) var(--color));
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:279:1]
  279 |     color: color(rec2020 var(--color));
  280 |     color: color(rec2020 var(--color) / var(--color));
@@ -40967,14 +39273,6 @@
  282 |     color: color(var(--color));
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:280:1]
- 280 |     color: color(rec2020 var(--color) / var(--color));
- 281 |     color: color(var(--color) var(--color));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 282 |     color: color(var(--color));
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:280:1]
  280 |     color: color(rec2020 var(--color) / var(--color));
@@ -41119,14 +39417,6 @@
  283 |     color: color(xyz-d50 0.2005 0.14089 0.4472);
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:281:1]
- 281 |     color: color(var(--color) var(--color));
- 282 |     color: color(var(--color));
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^
- 283 |     color: color(xyz-d50 0.2005 0.14089 0.4472);
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:281:1]
  281 |     color: color(var(--color) var(--color));
@@ -41231,14 +39521,6 @@
  284 |     color: color(sRGB 0.41587 0.503670 0.36664);
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:282:1]
- 282 |     color: color(var(--color));
- 283 |     color: color(xyz-d50 0.2005 0.14089 0.4472);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 284 |     color: color(sRGB 0.41587 0.503670 0.36664);
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:282:1]
  282 |     color: color(var(--color));
@@ -41360,14 +39642,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:283:1]
- 283 |     color: color(xyz-d50 0.2005 0.14089 0.4472);
- 284 |     color: color(sRGB 0.41587 0.503670 0.36664);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 285 |     color: color(display-p3 0.43313 0.50108 0.37950);
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:283:1]
  283 |     color: color(xyz-d50 0.2005 0.14089 0.4472);
  284 |     color: color(sRGB 0.41587 0.503670 0.36664);
@@ -41503,14 +39777,6 @@
  286 |     color: color(a98-rgb 0.44091 0.49971 0.37408);
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:284:1]
- 284 |     color: color(sRGB 0.41587 0.503670 0.36664);
- 285 |     color: color(display-p3 0.43313 0.50108 0.37950);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 286 |     color: color(a98-rgb 0.44091 0.49971 0.37408);
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:284:1]
  284 |     color: color(sRGB 0.41587 0.503670 0.36664);
@@ -41632,14 +39898,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:285:1]
- 285 |     color: color(display-p3 0.43313 0.50108 0.37950);
- 286 |     color: color(a98-rgb 0.44091 0.49971 0.37408);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 287 |     color: color(prophoto-rgb 0.36589 0.41717 0.31333);
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:285:1]
  285 |     color: color(display-p3 0.43313 0.50108 0.37950);
  286 |     color: color(a98-rgb 0.44091 0.49971 0.37408);
@@ -41775,14 +40033,6 @@
  288 |     color: color(rec2020 0.42210 0.47580 0.35605);
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/value/color/input.css:286:1]
- 286 |     color: color(a98-rgb 0.44091 0.49971 0.37408);
- 287 |     color: color(prophoto-rgb 0.36589 0.41717 0.31333);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 288 |     color: color(rec2020 0.42210 0.47580 0.35605);
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/value/color/input.css:286:1]
  286 |     color: color(a98-rgb 0.44091 0.49971 0.37408);
@@ -41904,14 +40154,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/value/color/input.css:287:1]
- 287 |     color: color(prophoto-rgb 0.36589 0.41717 0.31333);
- 288 |     color: color(rec2020 0.42210 0.47580 0.35605);
-     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 289 | }
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/value/color/input.css:287:1]
  287 |     color: color(prophoto-rgb 0.36589 0.41717 0.31333);
  288 |     color: color(rec2020 0.42210 0.47580 0.35605);

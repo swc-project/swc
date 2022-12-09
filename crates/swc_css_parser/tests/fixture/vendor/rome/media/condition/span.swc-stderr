@@ -2384,15 +2384,6 @@
  11 |     	.style {
     `----
 
-  x Rule
-    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:7:1]
-  7 |     @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
-  8 | ,-> 	a {
-  9 | |   
- 10 | `-> 	}
- 11 |     	.style {
-    `----
-
   x QualifiedRule
     ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:7:1]
   7 |     @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {
@@ -2468,15 +2459,6 @@
    `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:10:1]
- 10 |     	}
- 11 | ,-> 	.style {
- 12 | |   
- 13 | `-> 	}
- 14 |     }
-    `----
-
-  x Rule
     ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:10:1]
  10 |     	}
  11 | ,-> 	.style {
@@ -2968,15 +2950,6 @@
  19 |     	.style {
     `----
 
-  x Rule
-    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:15:1]
- 15 |     @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
- 16 | ,-> 	a {
- 17 | |   
- 18 | `-> 	}
- 19 |     	.style {
-    `----
-
   x QualifiedRule
     ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:15:1]
  15 |     @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {
@@ -3052,15 +3025,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:18:1]
- 18 |     	}
- 19 | ,-> 	.style {
- 20 | |   
- 21 | `-> 	}
- 22 |     }
-    `----
-
-  x Rule
     ,-[$DIR/tests/fixture/vendor/rome/media/condition/input.css:18:1]
  18 |     	}
  19 | ,-> 	.style {

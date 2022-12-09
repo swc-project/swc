@@ -111,14 +111,6 @@
  3 |     prop:  [ ];
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:1:1]
- 1 | div {
- 2 |     prop:  [];
-   :     ^^^^^^^^^
- 3 |     prop:  [ ];
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/value/square-brackets/input.css:1:1]
  1 | div {
@@ -175,14 +167,6 @@
  4 |     prop:  [row1-start];
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:2:1]
- 2 |     prop:  [];
- 3 |     prop:  [ ];
-   :     ^^^^^^^^^^
- 4 |     prop:  [row1-start];
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/value/square-brackets/input.css:2:1]
  2 |     prop:  [];
@@ -232,14 +216,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:3:1]
- 3 |     prop:  [ ];
- 4 |     prop:  [row1-start];
-   :     ^^^^^^^^^^^^^^^^^^^
- 5 |     prop:  [   row1-start-with-spaces-around   ];
-   `----
-
-  x StyleBlock
    ,-[$DIR/tests/fixture/value/square-brackets/input.css:3:1]
  3 |     prop:  [ ];
  4 |     prop:  [row1-start];
@@ -319,14 +295,6 @@
  6 |     prop:  [red #fff 12px];
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:4:1]
- 4 |     prop:  [row1-start];
- 5 |     prop:  [   row1-start-with-spaces-around   ];
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 6 |     prop:  [red #fff 12px];
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/value/square-brackets/input.css:4:1]
  4 |     prop:  [row1-start];
@@ -392,14 +360,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:5:1]
- 5 |     prop:  [   row1-start-with-spaces-around   ];
- 6 |     prop:  [red #fff 12px];
-   :     ^^^^^^^^^^^^^^^^^^^^^^
- 7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
-   `----
-
-  x StyleBlock
    ,-[$DIR/tests/fixture/value/square-brackets/input.css:5:1]
  5 |     prop:  [   row1-start-with-spaces-around   ];
  6 |     prop:  [red #fff 12px];
@@ -536,14 +496,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:6:1]
- 6 |     prop:  [red #fff 12px];
- 7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 8 | }
-   `----
-
-  x StyleBlock
    ,-[$DIR/tests/fixture/value/square-brackets/input.css:6:1]
  6 |     prop:  [red #fff 12px];
  7 |     prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];

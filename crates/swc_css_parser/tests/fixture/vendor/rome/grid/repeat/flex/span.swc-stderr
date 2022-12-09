@@ -84,14 +84,6 @@
  3 | }
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/vendor/rome/grid/repeat/flex/input.css:1:1]
- 1 | .style {
- 2 | 	grid-template-columns: repeat(4, 1fr);
-   :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 3 | }
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/vendor/rome/grid/repeat/flex/input.css:1:1]
  1 | .style {
