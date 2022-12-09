@@ -183,6 +183,37 @@ pub enum ComponentValue {
     Declaration(Box<Declaration>),
 }
 
+impl From<StyleBlock> for ComponentValue {
+    #[inline]
+    fn from(block: StyleBlock) -> Self {
+        match block {
+            StyleBlock::AtRule(at_rule) => ComponentValue::AtRule(at_rule),
+            StyleBlock::Declaration(declaration) => ComponentValue::Declaration(declaration),
+            StyleBlock::QualifiedRule(qualified_rule) => {
+                ComponentValue::QualifiedRule(qualified_rule)
+            }
+            StyleBlock::ListOfComponentValues(list_of_component_values) => {
+                ComponentValue::ListOfComponentValues(list_of_component_values)
+            }
+        }
+    }
+}
+
+impl From<DeclarationOrAtRule> for ComponentValue {
+    #[inline]
+    fn from(rule: DeclarationOrAtRule) -> Self {
+        match rule {
+            DeclarationOrAtRule::Declaration(declaration) => {
+                ComponentValue::Declaration(declaration)
+            }
+            DeclarationOrAtRule::AtRule(at_rule) => ComponentValue::AtRule(at_rule),
+            DeclarationOrAtRule::ListOfComponentValues(list_of_component_values) => {
+                ComponentValue::ListOfComponentValues(list_of_component_values)
+            }
+        }
+    }
+}
+
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum DeclarationOrAtRule {
