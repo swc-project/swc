@@ -129,8 +129,16 @@ pub enum ComponentValue {
     // Block Contents grammar
     #[tag("DeclarationOrAtRule")]
     DeclarationOrAtRule(Box<DeclarationOrAtRule>),
-    #[tag("Rule")]
-    Rule(Box<Rule>),
+
+    #[tag("QualifiedRule")]
+    QualifiedRule(Box<QualifiedRule>),
+
+    #[tag("AtRule")]
+    AtRule(Box<AtRule>),
+
+    #[tag("ListOfComponentValues")]
+    ListOfComponentValues(Box<ListOfComponentValues>),
+
     #[tag("StyleBlock")]
     StyleBlock(Box<StyleBlock>),
     #[tag("KeyframeBlock")]
