@@ -241,7 +241,7 @@ where
                     },
                 )?
                 .into_iter()
-                .map(|node| ComponentValue::DeclarationOrAtRule(Box::new(node)))
+                .map(|node| ComponentValue::from(node))
                 .collect(),
             _ => self
                 .parse_according_to_grammar(
