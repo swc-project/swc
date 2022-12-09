@@ -72,3 +72,33 @@ function exampleFunction9() {
         ? async (): Promise<void> => console.log('this line causes a syntax error')
         : async (): Promise<void> => console.log('this line causes a syntax error');
 }
+
+function exampleFunction10() {
+    const foo = "Oranges";
+
+    switch (foo) {
+        case 'Oranges': {
+            return `<button @click="${(): void => console.log('this line causes a syntax error')}" ></button>`;
+        }
+        default:
+            console.log(`Sorry, we are out of test.`);
+    }
+}
+
+function exampleFunction11() {
+    switch (true) {
+        case ((): boolean => true)(): {
+            console.log('This shape is a square.');
+            break;
+        }
+    }
+}
+
+function exampleFunction12() {
+    switch (((): boolean => true)()) {
+        case ((): boolean => true)(): {
+            console.log('This shape is a square.');
+            break;
+        }
+    }
+}

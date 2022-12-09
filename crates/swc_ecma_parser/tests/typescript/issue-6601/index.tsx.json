@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 2715,
+    "end": 3403,
     "ctxt": 0
   },
   "body": [
@@ -3400,6 +3400,784 @@
                 }
               }
             }
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 2726,
+          "end": 2743,
+          "ctxt": 0
+        },
+        "value": "exampleFunction10",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 2717,
+        "end": 3022,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 2746,
+          "end": 3022,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 2752,
+              "end": 2774,
+              "ctxt": 0
+            },
+            "kind": "const",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 2758,
+                  "end": 2773,
+                  "ctxt": 0
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 2758,
+                    "end": 2761,
+                    "ctxt": 0
+                  },
+                  "value": "foo",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 2764,
+                    "end": 2773,
+                    "ctxt": 0
+                  },
+                  "value": "Oranges",
+                  "raw": "\"Oranges\""
+                },
+                "definite": false
+              }
+            ]
+          },
+          {
+            "type": "SwitchStatement",
+            "span": {
+              "start": 2780,
+              "end": 3020,
+              "ctxt": 0
+            },
+            "discriminant": {
+              "type": "Identifier",
+              "span": {
+                "start": 2788,
+                "end": 2791,
+                "ctxt": 0
+              },
+              "value": "foo",
+              "optional": false
+            },
+            "cases": [
+              {
+                "type": "SwitchCase",
+                "span": {
+                  "start": 2803,
+                  "end": 2942,
+                  "ctxt": 0
+                },
+                "test": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 2808,
+                    "end": 2817,
+                    "ctxt": 0
+                  },
+                  "value": "Oranges",
+                  "raw": "'Oranges'"
+                },
+                "consequent": [
+                  {
+                    "type": "BlockStatement",
+                    "span": {
+                      "start": 2819,
+                      "end": 2942,
+                      "ctxt": 0
+                    },
+                    "stmts": [
+                      {
+                        "type": "ReturnStatement",
+                        "span": {
+                          "start": 2833,
+                          "end": 2932,
+                          "ctxt": 0
+                        },
+                        "argument": {
+                          "type": "TemplateLiteral",
+                          "span": {
+                            "start": 2840,
+                            "end": 2931,
+                            "ctxt": 0
+                          },
+                          "expressions": [
+                            {
+                              "type": "ArrowFunctionExpression",
+                              "span": {
+                                "start": 2859,
+                                "end": 2917,
+                                "ctxt": 0
+                              },
+                              "params": [],
+                              "body": {
+                                "type": "CallExpression",
+                                "span": {
+                                  "start": 2871,
+                                  "end": 2917,
+                                  "ctxt": 0
+                                },
+                                "callee": {
+                                  "type": "MemberExpression",
+                                  "span": {
+                                    "start": 2871,
+                                    "end": 2882,
+                                    "ctxt": 0
+                                  },
+                                  "object": {
+                                    "type": "Identifier",
+                                    "span": {
+                                      "start": 2871,
+                                      "end": 2878,
+                                      "ctxt": 0
+                                    },
+                                    "value": "console",
+                                    "optional": false
+                                  },
+                                  "property": {
+                                    "type": "Identifier",
+                                    "span": {
+                                      "start": 2879,
+                                      "end": 2882,
+                                      "ctxt": 0
+                                    },
+                                    "value": "log",
+                                    "optional": false
+                                  }
+                                },
+                                "arguments": [
+                                  {
+                                    "spread": null,
+                                    "expression": {
+                                      "type": "StringLiteral",
+                                      "span": {
+                                        "start": 2883,
+                                        "end": 2916,
+                                        "ctxt": 0
+                                      },
+                                      "value": "this line causes a syntax error",
+                                      "raw": "'this line causes a syntax error'"
+                                    }
+                                  }
+                                ],
+                                "typeArguments": null
+                              },
+                              "async": false,
+                              "generator": false,
+                              "typeParameters": null,
+                              "returnType": {
+                                "type": "TsTypeAnnotation",
+                                "span": {
+                                  "start": 2861,
+                                  "end": 2867,
+                                  "ctxt": 0
+                                },
+                                "typeAnnotation": {
+                                  "type": "TsKeywordType",
+                                  "span": {
+                                    "start": 2863,
+                                    "end": 2867,
+                                    "ctxt": 0
+                                  },
+                                  "kind": "void"
+                                }
+                              }
+                            }
+                          ],
+                          "quasis": [
+                            {
+                              "type": "TemplateElement",
+                              "span": {
+                                "start": 2841,
+                                "end": 2857,
+                                "ctxt": 0
+                              },
+                              "tail": false,
+                              "cooked": "<button @click=\"",
+                              "raw": "<button @click=\""
+                            },
+                            {
+                              "type": "TemplateElement",
+                              "span": {
+                                "start": 2918,
+                                "end": 2930,
+                                "ctxt": 0
+                              },
+                              "tail": true,
+                              "cooked": "\" ></button>",
+                              "raw": "\" ></button>"
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "SwitchCase",
+                "span": {
+                  "start": 2951,
+                  "end": 3014,
+                  "ctxt": 0
+                },
+                "test": null,
+                "consequent": [
+                  {
+                    "type": "ExpressionStatement",
+                    "span": {
+                      "start": 2972,
+                      "end": 3014,
+                      "ctxt": 0
+                    },
+                    "expression": {
+                      "type": "CallExpression",
+                      "span": {
+                        "start": 2972,
+                        "end": 3013,
+                        "ctxt": 0
+                      },
+                      "callee": {
+                        "type": "MemberExpression",
+                        "span": {
+                          "start": 2972,
+                          "end": 2983,
+                          "ctxt": 0
+                        },
+                        "object": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 2972,
+                            "end": 2979,
+                            "ctxt": 0
+                          },
+                          "value": "console",
+                          "optional": false
+                        },
+                        "property": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 2980,
+                            "end": 2983,
+                            "ctxt": 0
+                          },
+                          "value": "log",
+                          "optional": false
+                        }
+                      },
+                      "arguments": [
+                        {
+                          "spread": null,
+                          "expression": {
+                            "type": "TemplateLiteral",
+                            "span": {
+                              "start": 2984,
+                              "end": 3012,
+                              "ctxt": 0
+                            },
+                            "expressions": [],
+                            "quasis": [
+                              {
+                                "type": "TemplateElement",
+                                "span": {
+                                  "start": 2985,
+                                  "end": 3011,
+                                  "ctxt": 0
+                                },
+                                "tail": true,
+                                "cooked": "Sorry, we are out of test.",
+                                "raw": "Sorry, we are out of test."
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "typeArguments": null
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 3033,
+          "end": 3050,
+          "ctxt": 0
+        },
+        "value": "exampleFunction11",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 3024,
+        "end": 3203,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 3053,
+          "end": 3203,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "SwitchStatement",
+            "span": {
+              "start": 3059,
+              "end": 3201,
+              "ctxt": 0
+            },
+            "discriminant": {
+              "type": "BooleanLiteral",
+              "span": {
+                "start": 3067,
+                "end": 3071,
+                "ctxt": 0
+              },
+              "value": true
+            },
+            "cases": [
+              {
+                "type": "SwitchCase",
+                "span": {
+                  "start": 3083,
+                  "end": 3195,
+                  "ctxt": 0
+                },
+                "test": {
+                  "type": "CallExpression",
+                  "span": {
+                    "start": 3088,
+                    "end": 3111,
+                    "ctxt": 0
+                  },
+                  "callee": {
+                    "type": "ParenthesisExpression",
+                    "span": {
+                      "start": 3088,
+                      "end": 3109,
+                      "ctxt": 0
+                    },
+                    "expression": {
+                      "type": "ArrowFunctionExpression",
+                      "span": {
+                        "start": 3089,
+                        "end": 3108,
+                        "ctxt": 0
+                      },
+                      "params": [],
+                      "body": {
+                        "type": "BooleanLiteral",
+                        "span": {
+                          "start": 3104,
+                          "end": 3108,
+                          "ctxt": 0
+                        },
+                        "value": true
+                      },
+                      "async": false,
+                      "generator": false,
+                      "typeParameters": null,
+                      "returnType": {
+                        "type": "TsTypeAnnotation",
+                        "span": {
+                          "start": 3091,
+                          "end": 3100,
+                          "ctxt": 0
+                        },
+                        "typeAnnotation": {
+                          "type": "TsKeywordType",
+                          "span": {
+                            "start": 3093,
+                            "end": 3100,
+                            "ctxt": 0
+                          },
+                          "kind": "boolean"
+                        }
+                      }
+                    }
+                  },
+                  "arguments": [],
+                  "typeArguments": null
+                },
+                "consequent": [
+                  {
+                    "type": "BlockStatement",
+                    "span": {
+                      "start": 3113,
+                      "end": 3195,
+                      "ctxt": 0
+                    },
+                    "stmts": [
+                      {
+                        "type": "ExpressionStatement",
+                        "span": {
+                          "start": 3127,
+                          "end": 3166,
+                          "ctxt": 0
+                        },
+                        "expression": {
+                          "type": "CallExpression",
+                          "span": {
+                            "start": 3127,
+                            "end": 3165,
+                            "ctxt": 0
+                          },
+                          "callee": {
+                            "type": "MemberExpression",
+                            "span": {
+                              "start": 3127,
+                              "end": 3138,
+                              "ctxt": 0
+                            },
+                            "object": {
+                              "type": "Identifier",
+                              "span": {
+                                "start": 3127,
+                                "end": 3134,
+                                "ctxt": 0
+                              },
+                              "value": "console",
+                              "optional": false
+                            },
+                            "property": {
+                              "type": "Identifier",
+                              "span": {
+                                "start": 3135,
+                                "end": 3138,
+                                "ctxt": 0
+                              },
+                              "value": "log",
+                              "optional": false
+                            }
+                          },
+                          "arguments": [
+                            {
+                              "spread": null,
+                              "expression": {
+                                "type": "StringLiteral",
+                                "span": {
+                                  "start": 3139,
+                                  "end": 3164,
+                                  "ctxt": 0
+                                },
+                                "value": "This shape is a square.",
+                                "raw": "'This shape is a square.'"
+                              }
+                            }
+                          ],
+                          "typeArguments": null
+                        }
+                      },
+                      {
+                        "type": "BreakStatement",
+                        "span": {
+                          "start": 3179,
+                          "end": 3185,
+                          "ctxt": 0
+                        },
+                        "label": null
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 3214,
+          "end": 3231,
+          "ctxt": 0
+        },
+        "value": "exampleFunction12",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 3205,
+        "end": 3403,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 3234,
+          "end": 3403,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "SwitchStatement",
+            "span": {
+              "start": 3240,
+              "end": 3401,
+              "ctxt": 0
+            },
+            "discriminant": {
+              "type": "CallExpression",
+              "span": {
+                "start": 3248,
+                "end": 3271,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "ParenthesisExpression",
+                "span": {
+                  "start": 3248,
+                  "end": 3269,
+                  "ctxt": 0
+                },
+                "expression": {
+                  "type": "ArrowFunctionExpression",
+                  "span": {
+                    "start": 3249,
+                    "end": 3268,
+                    "ctxt": 0
+                  },
+                  "params": [],
+                  "body": {
+                    "type": "BooleanLiteral",
+                    "span": {
+                      "start": 3264,
+                      "end": 3268,
+                      "ctxt": 0
+                    },
+                    "value": true
+                  },
+                  "async": false,
+                  "generator": false,
+                  "typeParameters": null,
+                  "returnType": {
+                    "type": "TsTypeAnnotation",
+                    "span": {
+                      "start": 3251,
+                      "end": 3260,
+                      "ctxt": 0
+                    },
+                    "typeAnnotation": {
+                      "type": "TsKeywordType",
+                      "span": {
+                        "start": 3253,
+                        "end": 3260,
+                        "ctxt": 0
+                      },
+                      "kind": "boolean"
+                    }
+                  }
+                }
+              },
+              "arguments": [],
+              "typeArguments": null
+            },
+            "cases": [
+              {
+                "type": "SwitchCase",
+                "span": {
+                  "start": 3283,
+                  "end": 3395,
+                  "ctxt": 0
+                },
+                "test": {
+                  "type": "CallExpression",
+                  "span": {
+                    "start": 3288,
+                    "end": 3311,
+                    "ctxt": 0
+                  },
+                  "callee": {
+                    "type": "ParenthesisExpression",
+                    "span": {
+                      "start": 3288,
+                      "end": 3309,
+                      "ctxt": 0
+                    },
+                    "expression": {
+                      "type": "ArrowFunctionExpression",
+                      "span": {
+                        "start": 3289,
+                        "end": 3308,
+                        "ctxt": 0
+                      },
+                      "params": [],
+                      "body": {
+                        "type": "BooleanLiteral",
+                        "span": {
+                          "start": 3304,
+                          "end": 3308,
+                          "ctxt": 0
+                        },
+                        "value": true
+                      },
+                      "async": false,
+                      "generator": false,
+                      "typeParameters": null,
+                      "returnType": {
+                        "type": "TsTypeAnnotation",
+                        "span": {
+                          "start": 3291,
+                          "end": 3300,
+                          "ctxt": 0
+                        },
+                        "typeAnnotation": {
+                          "type": "TsKeywordType",
+                          "span": {
+                            "start": 3293,
+                            "end": 3300,
+                            "ctxt": 0
+                          },
+                          "kind": "boolean"
+                        }
+                      }
+                    }
+                  },
+                  "arguments": [],
+                  "typeArguments": null
+                },
+                "consequent": [
+                  {
+                    "type": "BlockStatement",
+                    "span": {
+                      "start": 3313,
+                      "end": 3395,
+                      "ctxt": 0
+                    },
+                    "stmts": [
+                      {
+                        "type": "ExpressionStatement",
+                        "span": {
+                          "start": 3327,
+                          "end": 3366,
+                          "ctxt": 0
+                        },
+                        "expression": {
+                          "type": "CallExpression",
+                          "span": {
+                            "start": 3327,
+                            "end": 3365,
+                            "ctxt": 0
+                          },
+                          "callee": {
+                            "type": "MemberExpression",
+                            "span": {
+                              "start": 3327,
+                              "end": 3338,
+                              "ctxt": 0
+                            },
+                            "object": {
+                              "type": "Identifier",
+                              "span": {
+                                "start": 3327,
+                                "end": 3334,
+                                "ctxt": 0
+                              },
+                              "value": "console",
+                              "optional": false
+                            },
+                            "property": {
+                              "type": "Identifier",
+                              "span": {
+                                "start": 3335,
+                                "end": 3338,
+                                "ctxt": 0
+                              },
+                              "value": "log",
+                              "optional": false
+                            }
+                          },
+                          "arguments": [
+                            {
+                              "spread": null,
+                              "expression": {
+                                "type": "StringLiteral",
+                                "span": {
+                                  "start": 3339,
+                                  "end": 3364,
+                                  "ctxt": 0
+                                },
+                                "value": "This shape is a square.",
+                                "raw": "'This shape is a square.'"
+                              }
+                            }
+                          ],
+                          "typeArguments": null
+                        }
+                      },
+                      {
+                        "type": "BreakStatement",
+                        "span": {
+                          "start": 3379,
+                          "end": 3385,
+                          "ctxt": 0
+                        },
+                        "label": null
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
           }
         ]
       },

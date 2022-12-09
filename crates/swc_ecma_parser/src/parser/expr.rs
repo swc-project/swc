@@ -218,7 +218,6 @@ impl<I: Tokens> Parser<I> {
             let ctx = Context {
                 in_cond_expr: true,
                 will_expect_colon_for_cond: false,
-                dont_parse_colon_as_type_ann: false,
                 ..self.ctx()
             };
             let alt = self.with_ctx(ctx).parse_assignment_expr()?;
@@ -306,7 +305,6 @@ impl<I: Tokens> Parser<I> {
                 tok!('[') => {
                     let ctx = Context {
                         will_expect_colon_for_cond: false,
-                        dont_parse_colon_as_type_ann: false,
                         ..self.ctx()
                     };
                     return self.with_ctx(ctx).parse_array_lit();
@@ -846,7 +844,6 @@ impl<I: Tokens> Parser<I> {
         let return_type = if !self.ctx().will_expect_colon_for_cond
             && self.input.syntax().typescript()
             && is!(self, ':')
-            && !self.ctx().dont_parse_colon_as_type_ann
         {
             self.try_parse_ts(|p| {
                 let return_type = p.parse_ts_type_or_type_predicate_ann(&tok!(':'))?;
