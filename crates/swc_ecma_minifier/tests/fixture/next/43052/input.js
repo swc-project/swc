@@ -94,34 +94,6 @@
 
 
 
-							function factory(e) {
-								return "undefined" != typeof Float32Array ? function () {
-
-								}() : function () {
-
-								}(), "undefined" != typeof Float64Array ? function () {
-
-									e.writeDoubleLE = n ? o : i, e.writeDoubleBE = n ? i : o, e.readDoubleLE = n ? s : a, e.readDoubleBE = n ? a : s
-								}() : function () {
-									e.writeDoubleLE = t.bind(null, writeUintLE, 0, 4), e.writeDoubleBE = t.bind(null, writeUintBE, 4, 0), e.readDoubleLE = r.bind(null, readUintLE, 0, 4), e.readDoubleBE = r.bind(null, readUintBE, 4, 0)
-								}(), e
-							}
-
-							function writeUintLE(e, t, r) {
-								t[r] = 255 & e, t[r + 1] = e >>> 8 & 255, t[r + 2] = e >>> 16 & 255, t[r + 3] = e >>> 24
-							}
-
-							function writeUintBE(e, t, r) {
-								t[r] = e >>> 24, t[r + 1] = e >>> 16 & 255, t[r + 2] = e >>> 8 & 255, t[r + 3] = 255 & e
-							}
-
-							function readUintLE(e, t) {
-								return (e[t] | e[t + 1] << 8 | e[t + 2] << 16 | e[t + 3] << 24) >>> 0
-							}
-
-							function readUintBE(e, t) {
-								return (e[t] << 24 | e[t + 1] << 16 | e[t + 2] << 8 | e[t + 3]) >>> 0
-							}
 
 							function inquire(moduleName) {
 								try {
