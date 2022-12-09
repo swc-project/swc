@@ -415,3 +415,13 @@
         background: red;
     }
 }
+
+a {
+    > b {
+        position: initial;
+    }
+
+    @media screen {
+        position: initial;
+    }
+}
