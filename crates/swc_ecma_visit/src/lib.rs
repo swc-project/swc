@@ -873,10 +873,10 @@ define!({
     //     pub optional: bool,
     // }
 
-    // pub struct PrivateName {
-    //     pub span: Span,
-    //     pub id: Ident,
-    // }
+    pub struct PrivateName {
+        pub span: Span,
+        pub id: Ident,
+    }
 
     // pub enum JSXObject {
     //     JSXMemberExpr(Box<JSXMemberExpr>),
