@@ -25,3 +25,7 @@ use(function(__unused_webpack_module, exports, __webpack_require__) {
         });
     }, t(exports, __webpack_require__(7294), __webpack_require__(1321)), true;
 });
+(function e() {
+    const e = 1;
+    use(e);
+});
