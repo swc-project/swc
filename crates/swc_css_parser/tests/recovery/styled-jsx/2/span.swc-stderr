@@ -175,14 +175,6 @@
  3 | }
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/recovery/styled-jsx/2/input.css:1:1]
- 1 | .a :global(> .b) {
- 2 |     flex-basis: __styled-jsx-placeholder__0%;
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 3 | }
-   `----
-
   x Declaration
    ,-[$DIR/tests/recovery/styled-jsx/2/input.css:1:1]
  1 | .a :global(> .b) {

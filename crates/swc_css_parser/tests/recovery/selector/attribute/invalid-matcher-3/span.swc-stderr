@@ -231,14 +231,6 @@
  3 | }
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-3/input.css:1:1]
- 1 | a[title * = "title" i ] {
- 2 |   color: purple;
-   :   ^^^^^^^^^^^^^
- 3 | }
-   `----
-
   x Declaration
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-3/input.css:1:1]
  1 | a[title * = "title" i ] {

@@ -2336,9 +2336,7 @@ impl Minifier<'_> {
                         let declaration_list: Vec<swc_css_ast::ComponentValue> =
                             list_of_declarations
                                 .into_iter()
-                                .map(|node| {
-                                    swc_css_ast::ComponentValue::DeclarationOrAtRule(Box::new(node))
-                                })
+                                .map(|node| node.into())
                                 .collect();
 
                         swc_css_ast::Stylesheet {

@@ -97,13 +97,6 @@
    :             ^^^^^^^^^^^
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:4:1]
- 4 | 
- 5 | <!-- .foo { color: red }  -->
-   :             ^^^^^^^^^^^
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:4:1]
  4 | 
@@ -235,14 +228,6 @@
  9 | }
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:7:1]
- 7 | div {
- 8 |     color: red;
-   :     ^^^^^^^^^^
- 9 | }
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:7:1]
  7 | div {
@@ -364,14 +349,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:13:1]
- 13 | .class {
- 14 |     color: red;
-    :     ^^^^^^^^^^
- 15 | }
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:13:1]
  13 | .class {
  14 |     color: red;

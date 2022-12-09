@@ -241,7 +241,7 @@ where
                     },
                 )?
                 .into_iter()
-                .map(|node| ComponentValue::DeclarationOrAtRule(Box::new(node)))
+                .map(ComponentValue::from)
                 .collect(),
             _ => self
                 .parse_according_to_grammar(
@@ -256,7 +256,7 @@ where
                     },
                 )?
                 .into_iter()
-                .map(|node| ComponentValue::StyleBlock(Box::new(node)))
+                .map(ComponentValue::from)
                 .collect(),
         };
 

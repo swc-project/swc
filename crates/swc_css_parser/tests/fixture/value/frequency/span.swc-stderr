@@ -95,14 +95,6 @@
  3 |     prop: 1kHz;
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/value/frequency/input.css:1:1]
- 1 | div {
- 2 |     prop: 1Hz;
-   :     ^^^^^^^^^
- 3 |     prop: 1kHz;
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/value/frequency/input.css:1:1]
  1 | div {
@@ -168,14 +160,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/frequency/input.css:2:1]
- 2 |     prop: 1Hz;
- 3 |     prop: 1kHz;
-   :     ^^^^^^^^^^
- 4 | }
-   `----
-
-  x StyleBlock
    ,-[$DIR/tests/fixture/value/frequency/input.css:2:1]
  2 |     prop: 1Hz;
  3 |     prop: 1kHz;

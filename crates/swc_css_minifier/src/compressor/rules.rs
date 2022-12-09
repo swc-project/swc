@@ -58,35 +58,30 @@ impl Compressor {
         }
     }
 
-    fn collect_names(&self, rule: &Rule, names: &mut AHashMap<Name, isize>) {
-        if let Rule::AtRule(box at_rule) = rule {
-            match &at_rule.prelude {
-                Some(box AtRulePrelude::CounterStylePrelude(CustomIdent {
-                    value: name, ..
-                })) => {
-                    names
-                        .entry(Name::CounterStyle(name.clone()))
-                        .and_modify(|mana| *mana += 1)
-                        .or_insert(1);
-                }
-                Some(box AtRulePrelude::KeyframesPrelude(KeyframesName::CustomIdent(
-                    box CustomIdent { value: name, .. },
-                )))
-                | Some(box AtRulePrelude::KeyframesPrelude(KeyframesName::Str(box Str {
-                    value: name,
-                    ..
-                }))) => {
-                    names
-                        .entry(Name::Keyframes(
-                            self.get_at_rule_name(at_rule),
-                            name.clone(),
-                        ))
-                        .and_modify(|mana| *mana += 1)
-                        .or_insert(1);
-                }
-
-                _ => {}
+    fn collect_names(&self, at_rule: &AtRule, names: &mut AHashMap<Name, isize>) {
+        match &at_rule.prelude {
+            Some(box AtRulePrelude::CounterStylePrelude(CustomIdent { value: name, .. })) => {
+                names
+                    .entry(Name::CounterStyle(name.clone()))
+                    .and_modify(|mana| *mana += 1)
+                    .or_insert(1);
             }
+            Some(box AtRulePrelude::KeyframesPrelude(KeyframesName::CustomIdent(
+                box CustomIdent { value: name, .. },
+            )))
+            | Some(box AtRulePrelude::KeyframesPrelude(KeyframesName::Str(box Str {
+                value: name,
+                ..
+            }))) => {
+                names
+                    .entry(Name::Keyframes(
+                        self.get_at_rule_name(at_rule),
+                        name.clone(),
+                    ))
+                    .and_modify(|mana| *mana += 1)
+                    .or_insert(1);
+            }
+            _ => {}
         }
     }
 
@@ -153,7 +148,7 @@ impl Compressor {
                 for index in 0..simple_block.value.len() {
                     let node = simple_block.value.get(index);
 
-                    if let Some(ComponentValue::Rule(box Rule::AtRule(box at_rule))) = node {
+                    if let Some(ComponentValue::AtRule(box at_rule)) = node {
                         if !discarder(at_rule) {
                             remove_rules_list.push(index);
                         }
@@ -410,7 +405,9 @@ impl Compressor {
                     true
                 }
                 _ => {
-                    self.collect_names(rule, &mut names);
+                    if let Rule::AtRule(rule) = rule {
+                        self.collect_names(rule, &mut names);
+                    }
 
                     true
                 }
@@ -500,38 +497,21 @@ impl Compressor {
             };
 
             let result = match rule {
-                ComponentValue::Rule(box Rule::AtRule(box AtRule {
+                ComponentValue::AtRule(box AtRule {
                     block: Some(block), ..
-                }))
-                | ComponentValue::Rule(box Rule::QualifiedRule(box QualifiedRule {
-                    block, ..
-                }))
-                | ComponentValue::StyleBlock(box StyleBlock::QualifiedRule(box QualifiedRule {
-                    block,
-                    ..
-                }))
-                | ComponentValue::StyleBlock(box StyleBlock::AtRule(box AtRule {
-                    block: Some(block),
-                    ..
-                }))
-                | ComponentValue::DeclarationOrAtRule(box DeclarationOrAtRule::AtRule(
-                    box AtRule {
-                        block: Some(block), ..
-                    },
-                ))
+                })
+                | ComponentValue::QualifiedRule(box QualifiedRule { block, .. })
                 | ComponentValue::KeyframeBlock(box KeyframeBlock { block, .. })
                     if block.value.is_empty() =>
                 {
                     false
                 }
-                ComponentValue::Rule(box Rule::AtRule(box at_rule @ AtRule { .. }))
+                ComponentValue::AtRule(at_rule)
                     if prev_rule.is_some() && self.is_mergeable_at_rule(at_rule) =>
                 {
-                    if let Some(ComponentValue::Rule(box Rule::AtRule(box prev_rule))) =
-                        &mut prev_rule
-                    {
+                    if let Some(ComponentValue::AtRule(prev_rule)) = &mut prev_rule {
                         if let Some(at_rule) = self.try_merge_at_rule(prev_rule, at_rule) {
-                            *rule = ComponentValue::Rule(Box::new(Rule::AtRule(Box::new(at_rule))));
+                            *rule = ComponentValue::AtRule(Box::new(at_rule));
 
                             remove_rules_list.push(prev_index);
                         }
@@ -539,55 +519,12 @@ impl Compressor {
 
                     true
                 }
-                ComponentValue::StyleBlock(box StyleBlock::AtRule(box at_rule @ AtRule { .. }))
-                    if prev_rule.is_some() && self.is_mergeable_at_rule(at_rule) =>
-                {
-                    if let Some(ComponentValue::StyleBlock(box StyleBlock::AtRule(box prev_rule))) =
-                        &mut prev_rule
-                    {
-                        if let Some(at_rule) = self.try_merge_at_rule(prev_rule, at_rule) {
-                            *rule = ComponentValue::StyleBlock(Box::new(StyleBlock::AtRule(
-                                Box::new(at_rule),
-                            )));
-
-                            remove_rules_list.push(prev_index);
-                        }
-                    }
-
-                    true
-                }
-                ComponentValue::Rule(box Rule::QualifiedRule(
-                    box qualified_rule @ QualifiedRule { .. },
-                )) if prev_rule.is_some() => {
-                    if let Some(ComponentValue::Rule(box Rule::QualifiedRule(box prev_rule))) =
-                        &mut prev_rule
-                    {
+                ComponentValue::QualifiedRule(box qualified_rule) if prev_rule.is_some() => {
+                    if let Some(ComponentValue::QualifiedRule(box prev_rule)) = &mut prev_rule {
                         if let Some(qualified_rule) =
                             self.try_merge_qualified_rules(prev_rule, qualified_rule)
                         {
-                            *rule = ComponentValue::Rule(Box::new(Rule::QualifiedRule(Box::new(
-                                qualified_rule,
-                            ))));
-
-                            remove_rules_list.push(prev_index);
-                        }
-                    }
-
-                    true
-                }
-                ComponentValue::StyleBlock(box StyleBlock::QualifiedRule(
-                    box qualified_rule @ QualifiedRule { .. },
-                )) if prev_rule.is_some() => {
-                    if let Some(ComponentValue::StyleBlock(box StyleBlock::QualifiedRule(
-                        box prev_rule,
-                    ))) = &mut prev_rule
-                    {
-                        if let Some(qualified_rule) =
-                            self.try_merge_qualified_rules(prev_rule, qualified_rule)
-                        {
-                            *rule = ComponentValue::StyleBlock(Box::new(
-                                StyleBlock::QualifiedRule(Box::new(qualified_rule)),
-                            ));
+                            *rule = ComponentValue::QualifiedRule(Box::new(qualified_rule));
 
                             remove_rules_list.push(prev_index);
                         }
@@ -596,7 +533,7 @@ impl Compressor {
                     true
                 }
                 _ => {
-                    if let ComponentValue::Rule(rule) = rule {
+                    if let ComponentValue::AtRule(rule) = rule {
                         self.collect_names(rule, &mut names);
                     }
 
@@ -606,16 +543,12 @@ impl Compressor {
 
             if result {
                 match rule {
-                    ComponentValue::Rule(box Rule::AtRule(box at_rule))
-                    | ComponentValue::StyleBlock(box StyleBlock::AtRule(box at_rule))
-                        if self.is_mergeable_at_rule(at_rule) =>
-                    {
+                    ComponentValue::AtRule(box at_rule) if self.is_mergeable_at_rule(at_rule) => {
                         prev_index = index;
                         prev_rule_idx = Some(index);
                     }
 
-                    ComponentValue::Rule(box Rule::QualifiedRule(_))
-                    | ComponentValue::StyleBlock(box StyleBlock::QualifiedRule(_)) => {
+                    ComponentValue::QualifiedRule(_) => {
                         prev_index = index;
                         prev_rule_idx = Some(index);
                     }

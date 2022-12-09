@@ -128,14 +128,6 @@
  4 | }
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/comment/input.css:2:1]
- 2 | {
- 3 | /* comment */color/* comment */:/* comment */red/* comment */;
-   :              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 4 | }
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/comment/input.css:2:1]
  2 | {
@@ -287,14 +279,6 @@
  12 |     /* between */
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/comment/input.css:10:1]
- 10 |     /* inside */
- 11 |     color: black;
-    :     ^^^^^^^^^^^^
- 12 |     /* between */
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/comment/input.css:10:1]
  10 |     /* inside */
@@ -336,14 +320,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/comment/input.css:12:1]
- 12 |     /* between */
- 13 |     background: red;
-    :     ^^^^^^^^^^^^^^^
- 14 |     /* end */
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/comment/input.css:12:1]
  12 |     /* between */
  13 |     background: red;
@@ -483,14 +459,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/comment/input.css:18:1]
- 18 | a {
- 19 |     color: black;
-    :     ^^^^^^^^^^^^
- 20 |     /* c */
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/comment/input.css:18:1]
  18 | a {
  19 |     color: black;

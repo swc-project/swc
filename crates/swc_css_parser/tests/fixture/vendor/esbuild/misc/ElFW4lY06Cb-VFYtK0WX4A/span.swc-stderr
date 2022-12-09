@@ -59,12 +59,6 @@
    :                               ^^^^^^^^^^^^^^^^^^^
    `----
 
-  x Rule
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:1]
- 1 | @-moz-document url-prefix() { h1 { color: green } }
-   :                               ^^^^^^^^^^^^^^^^^^^
-   `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:1]
  1 | @-moz-document url-prefix() { h1 { color: green } }
@@ -126,12 +120,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:1]
- 1 | @-moz-document url-prefix() { h1 { color: green } }
-   :                                    ^^^^^^^^^^^^^
-   `----
-
-  x StyleBlock
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:1]
  1 | @-moz-document url-prefix() { h1 { color: green } }
    :                                    ^^^^^^^^^^^^^

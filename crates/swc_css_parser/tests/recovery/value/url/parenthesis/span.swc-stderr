@@ -90,13 +90,6 @@
  3 | `-> }
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/recovery/value/url/parenthesis/input.css:1:1]
- 1 |     a {
- 2 | ,->     background: url(test\);
- 3 | `-> }
-   `----
-
   x Declaration
    ,-[$DIR/tests/recovery/value/url/parenthesis/input.css:1:1]
  1 |     a {

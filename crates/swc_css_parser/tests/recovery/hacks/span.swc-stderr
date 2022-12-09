@@ -927,14 +927,6 @@
  14 | .selector { [;property: value;]; }
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/recovery/hacks/input.css:12:1]
- 12 | 
- 13 | .selector { (;property: value;); }
-    :             ^^^^^^^^^^^^^^^^^^^^
- 14 | .selector { [;property: value;]; }
-    `----
-
   x ComponentValue
     ,-[$DIR/tests/recovery/hacks/input.css:12:1]
  12 | 
@@ -1142,13 +1134,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/hacks/input.css:13:1]
- 13 | .selector { (;property: value;); }
- 14 | .selector { [;property: value;]; }
-    :             ^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/recovery/hacks/input.css:13:1]
  13 | .selector { (;property: value;); }
  14 | .selector { [;property: value;]; }
@@ -1618,13 +1603,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/hacks/input.css:17:1]
- 17 | 
- 18 | @media all and (-webkit-min-device-pixel-ratio:0) and (min-resolution: .001dpcm) { .selector {} }
-    :                                                                                    ^^^^^^^^^^^^
-    `----
-
-  x Rule
     ,-[$DIR/tests/recovery/hacks/input.css:17:1]
  17 | 
  18 | @media all and (-webkit-min-device-pixel-ratio:0) and (min-resolution: .001dpcm) { .selector {} }
@@ -3673,14 +3651,6 @@
  42 | @media all and (-moz-images-in-menus:0) { @media (min-width: 0px) {} }
     `----
 
-  x Rule
-    ,-[$DIR/tests/recovery/hacks/input.css:40:1]
- 40 | 
- 41 | @media all and (min--moz-device-pixel-ratio:0) { @media (min-width: 0px) {} }
-    :                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^
- 42 | @media all and (-moz-images-in-menus:0) { @media (min-width: 0px) {} }
-    `----
-
   x AtRule
     ,-[$DIR/tests/recovery/hacks/input.css:40:1]
  40 | 
@@ -3974,13 +3944,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/hacks/input.css:41:1]
- 41 | @media all and (min--moz-device-pixel-ratio:0) { @media (min-width: 0px) {} }
- 42 | @media all and (-moz-images-in-menus:0) { @media (min-width: 0px) {} }
-    :                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x Rule
     ,-[$DIR/tests/recovery/hacks/input.css:41:1]
  41 | @media all and (min--moz-device-pixel-ratio:0) { @media (min-width: 0px) {} }
  42 | @media all and (-moz-images-in-menus:0) { @media (min-width: 0px) {} }
@@ -8923,14 +8886,6 @@
  98 | .selector { -property: value; }
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/recovery/hacks/input.css:96:1]
- 96 | 
- 97 | .selector { _property: value; }
-    :             ^^^^^^^^^^^^^^^^
- 98 | .selector { -property: value; }
-    `----
-
   x Declaration
     ,-[$DIR/tests/recovery/hacks/input.css:96:1]
  96 | 
@@ -9042,13 +8997,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/hacks/input.css:97:1]
- 97 | .selector { _property: value; }
- 98 | .selector { -property: value; }
-    :             ^^^^^^^^^^^^^^^^
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/recovery/hacks/input.css:97:1]
  97 | .selector { _property: value; }
  98 | .selector { -property: value; }
@@ -9178,14 +9126,6 @@
  101 | .selector { property/*\**/: value\9; }
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:99:1]
-  99 | 
- 100 | .selector { property: value\9; }
-     :             ^^^^^^^^^^^^^^^^^
- 101 | .selector { property/*\**/: value\9; }
-     `----
-
   x Declaration
      ,-[$DIR/tests/recovery/hacks/input.css:99:1]
   99 | 
@@ -9303,13 +9243,6 @@
      :             ^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:100:1]
- 100 | .selector { property: value\9; }
- 101 | .selector { property/*\**/: value\9; }
-     :             ^^^^^^^^^^^^^^^^^^^^^^^
-     `----
-
   x Declaration
      ,-[$DIR/tests/recovery/hacks/input.css:100:1]
  100 | .selector { property: value\9; }
@@ -9432,14 +9365,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:103:1]
- 103 | .selector {
- 104 |     !property: value;
-     :     ^^^^^^^^^^^^^^^^^
- 105 |     color: red;
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/recovery/hacks/input.css:103:1]
  103 | .selector {
  104 |     !property: value;
@@ -9551,14 +9476,6 @@
  106 | }
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:104:1]
- 104 |     !property: value;
- 105 |     color: red;
-     :     ^^^^^^^^^^
- 106 | }
-     `----
-
   x Declaration
      ,-[$DIR/tests/recovery/hacks/input.css:104:1]
  104 |     !property: value;
@@ -9686,14 +9603,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:107:1]
- 107 | .selector { 
- 108 |     $property: value;
-     :     ^^^^^^^^^^^^^^^^^
- 109 |     color: red;
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/recovery/hacks/input.css:107:1]
  107 | .selector { 
  108 |     $property: value;
@@ -9805,14 +9714,6 @@
  110 | }
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:108:1]
- 108 |     $property: value;
- 109 |     color: red;
-     :     ^^^^^^^^^^
- 110 | }
-     `----
-
   x Declaration
      ,-[$DIR/tests/recovery/hacks/input.css:108:1]
  108 |     $property: value;
@@ -9940,14 +9841,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:111:1]
- 111 | .selector { 
- 112 |     &property: value;
-     :     ^^^^^^^^^^^^^^^^^
- 113 |     color: red;
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/recovery/hacks/input.css:111:1]
  111 | .selector { 
  112 |     &property: value;
@@ -10059,14 +9952,6 @@
  114 | }
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:112:1]
- 112 |     &property: value;
- 113 |     color: red;
-     :     ^^^^^^^^^^
- 114 | }
-     `----
-
   x Declaration
      ,-[$DIR/tests/recovery/hacks/input.css:112:1]
  112 |     &property: value;
@@ -10194,14 +10079,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:115:1]
- 115 | .selector { 
- 116 |     *property: value;
-     :     ^^^^^^^^^^^^^^^^^
- 117 |     color: red;
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/recovery/hacks/input.css:115:1]
  115 | .selector { 
  116 |     *property: value;
@@ -10313,14 +10190,6 @@
  118 | }
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:116:1]
- 116 |     *property: value;
- 117 |     color: red;
-     :     ^^^^^^^^^^
- 118 | }
-     `----
-
   x Declaration
      ,-[$DIR/tests/recovery/hacks/input.css:116:1]
  116 |     *property: value;
@@ -10448,14 +10317,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:119:1]
- 119 | .selector { 
- 120 |     )property: value;
-     :     ^^^^^^^^^^^^^^^^^
- 121 |     color: red;
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/recovery/hacks/input.css:119:1]
  119 | .selector { 
  120 |     )property: value;
@@ -10567,14 +10428,6 @@
  122 | }
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:120:1]
- 120 |     )property: value;
- 121 |     color: red;
-     :     ^^^^^^^^^^
- 122 | }
-     `----
-
   x Declaration
      ,-[$DIR/tests/recovery/hacks/input.css:120:1]
  120 |     )property: value;
@@ -10702,14 +10555,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:123:1]
- 123 | .selector { 
- 124 |     =property: value;
-     :     ^^^^^^^^^^^^^^^^^
- 125 |     color: red;
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/recovery/hacks/input.css:123:1]
  123 | .selector { 
  124 |     =property: value;
@@ -10821,14 +10666,6 @@
  126 | }
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:124:1]
- 124 |     =property: value;
- 125 |     color: red;
-     :     ^^^^^^^^^^
- 126 | }
-     `----
-
   x Declaration
      ,-[$DIR/tests/recovery/hacks/input.css:124:1]
  124 |     =property: value;
@@ -10956,14 +10793,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:127:1]
- 127 | .selector { 
- 128 |     %property: value;
-     :     ^^^^^^^^^^^^^^^^^
- 129 |     color: red;
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/recovery/hacks/input.css:127:1]
  127 | .selector { 
  128 |     %property: value;
@@ -11075,14 +10904,6 @@
  130 | }
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:128:1]
- 128 |     %property: value;
- 129 |     color: red;
-     :     ^^^^^^^^^^
- 130 | }
-     `----
-
   x Declaration
      ,-[$DIR/tests/recovery/hacks/input.css:128:1]
  128 |     %property: value;
@@ -11210,14 +11031,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:131:1]
- 131 | .selector { 
- 132 |     +property: value;
-     :     ^^^^^^^^^^^^^^^^^
- 133 |     color: red;
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/recovery/hacks/input.css:131:1]
  131 | .selector { 
  132 |     +property: value;
@@ -11329,14 +11142,6 @@
  134 | }
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:132:1]
- 132 |     +property: value;
- 133 |     color: red;
-     :     ^^^^^^^^^^
- 134 | }
-     `----
-
   x Declaration
      ,-[$DIR/tests/recovery/hacks/input.css:132:1]
  132 |     +property: value;
@@ -11471,14 +11276,6 @@
  138 | }
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:136:1]
- 136 |     @property: value;
- 137 |     color: red;
-     :     ^^^^^^^^^^
- 138 | }
-     `----
-
   x Declaration
      ,-[$DIR/tests/recovery/hacks/input.css:136:1]
  136 |     @property: value;
@@ -11520,14 +11317,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:135:1]
- 135 | .selector { 
- 136 |     @property: value;
-     :     ^^^^^^^^^^^^^^^^^
- 137 |     color: red;
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/recovery/hacks/input.css:135:1]
  135 | .selector { 
  136 |     @property: value;
@@ -11701,14 +11490,6 @@
  141 |     color: red;
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:139:1]
- 139 | .selector { 
- 140 |     ,property: value;
-     :     ^^^^^^^^^^^^^^^^^
- 141 |     color: red;
-     `----
-
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:139:1]
  139 | .selector { 
@@ -11806,14 +11587,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:140:1]
- 140 |     ,property: value;
- 141 |     color: red;
-     :     ^^^^^^^^^^
- 142 | }
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/recovery/hacks/input.css:140:1]
  140 |     ,property: value;
  141 |     color: red;
@@ -11948,14 +11721,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:143:1]
- 143 | .selector { 
- 144 |     .property: value;
-     :     ^^^^^^^^^^^^^^^^^
- 145 |     color: red;
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/recovery/hacks/input.css:143:1]
  143 | .selector { 
  144 |     .property: value;
@@ -12067,14 +11832,6 @@
  146 | }
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:144:1]
- 144 |     .property: value;
- 145 |     color: red;
-     :     ^^^^^^^^^^
- 146 | }
-     `----
-
   x Declaration
      ,-[$DIR/tests/recovery/hacks/input.css:144:1]
  144 |     .property: value;
@@ -12202,14 +11959,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:147:1]
- 147 | .selector { 
- 148 |     /property: value;
-     :     ^^^^^^^^^^^^^^^^^
- 149 |     color: red;
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/recovery/hacks/input.css:147:1]
  147 | .selector { 
  148 |     /property: value;
@@ -12321,14 +12070,6 @@
  150 | }
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:148:1]
- 148 |     /property: value;
- 149 |     color: red;
-     :     ^^^^^^^^^^
- 150 | }
-     `----
-
   x Declaration
      ,-[$DIR/tests/recovery/hacks/input.css:148:1]
  148 |     /property: value;
@@ -12456,14 +12197,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:151:1]
- 151 | .selector { 
- 152 |     `property: value;
-     :     ^^^^^^^^^^^^^^^^^
- 153 |     color: red;
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/recovery/hacks/input.css:151:1]
  151 | .selector { 
  152 |     `property: value;
@@ -12575,14 +12308,6 @@
  154 | }
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:152:1]
- 152 |     `property: value;
- 153 |     color: red;
-     :     ^^^^^^^^^^
- 154 | }
-     `----
-
   x Declaration
      ,-[$DIR/tests/recovery/hacks/input.css:152:1]
  152 |     `property: value;
@@ -12710,14 +12435,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:155:1]
- 155 | .selector { 
- 156 |     ]property: value;
-     :     ^^^^^^^^^^^^^^^^^
- 157 |     color: red;
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/recovery/hacks/input.css:155:1]
  155 | .selector { 
  156 |     ]property: value;
@@ -12829,14 +12546,6 @@
  158 | }
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:156:1]
- 156 |     ]property: value;
- 157 |     color: red;
-     :     ^^^^^^^^^^
- 158 | }
-     `----
-
   x Declaration
      ,-[$DIR/tests/recovery/hacks/input.css:156:1]
  156 |     ]property: value;
@@ -12964,14 +12673,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:159:1]
- 159 | .selector { 
- 160 |     #property: value;
-     :     ^^^^^^^^^^^^^^^^^
- 161 |     color: red;
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/recovery/hacks/input.css:159:1]
  159 | .selector { 
  160 |     #property: value;
@@ -13067,14 +12768,6 @@
  162 | }
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:160:1]
- 160 |     #property: value;
- 161 |     color: red;
-     :     ^^^^^^^^^^
- 162 | }
-     `----
-
   x Declaration
      ,-[$DIR/tests/recovery/hacks/input.css:160:1]
  160 |     #property: value;
@@ -13202,14 +12895,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:163:1]
- 163 | .selector { 
- 164 |     ~property: value;
-     :     ^^^^^^^^^^^^^^^^^
- 165 |     color: red;
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/recovery/hacks/input.css:163:1]
  163 | .selector { 
  164 |     ~property: value;
@@ -13321,14 +13006,6 @@
  166 | }
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:164:1]
- 164 |     ~property: value;
- 165 |     color: red;
-     :     ^^^^^^^^^^
- 166 | }
-     `----
-
   x Declaration
      ,-[$DIR/tests/recovery/hacks/input.css:164:1]
  164 |     ~property: value;
@@ -13456,14 +13133,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:167:1]
- 167 | .selector { 
- 168 |     ?property: value;
-     :     ^^^^^^^^^^^^^^^^^
- 169 |     color: red;
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/recovery/hacks/input.css:167:1]
  167 | .selector { 
  168 |     ?property: value;
@@ -13575,14 +13244,6 @@
  170 | }
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:168:1]
- 168 |     ?property: value;
- 169 |     color: red;
-     :     ^^^^^^^^^^
- 170 | }
-     `----
-
   x Declaration
      ,-[$DIR/tests/recovery/hacks/input.css:168:1]
  168 |     ?property: value;
@@ -13710,14 +13371,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:171:1]
- 171 | .selector { 
- 172 |     :property: value;
-     :     ^^^^^^^^^^^^^^^^^
- 173 |     color: red;
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/recovery/hacks/input.css:171:1]
  171 | .selector { 
  172 |     :property: value;
@@ -13829,14 +13482,6 @@
  174 | }
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:172:1]
- 172 |     :property: value;
- 173 |     color: red;
-     :     ^^^^^^^^^^
- 174 | }
-     `----
-
   x Declaration
      ,-[$DIR/tests/recovery/hacks/input.css:172:1]
  172 |     :property: value;
@@ -13961,14 +13606,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:175:1]
- 175 | .selector { 
- 176 |     |property: value;
-     :     ^^^^^^^^^^^^^^^^^
- 177 |     color: red;
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/recovery/hacks/input.css:175:1]
  175 | .selector { 
  176 |     |property: value;
@@ -14073,14 +13710,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:176:1]
- 176 |     |property: value;
- 177 |     color: red;
-     :     ^^^^^^^^^^
- 178 | }
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/recovery/hacks/input.css:176:1]
  176 |     |property: value;
  177 |     color: red;
@@ -14199,13 +13828,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:179:1]
- 179 | 
- 180 | .selector { property: value !ie; }
-     :             ^^^^^^^^^^^^^^^^^^^
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/recovery/hacks/input.css:179:1]
  179 | 
  180 | .selector { property: value !ie; }
@@ -15283,13 +14905,6 @@
      :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
-  x Rule
-     ,-[$DIR/tests/recovery/hacks/input.css:195:1]
- 195 | 
- 196 | @media screen { @media (min-width: 0px) {} }
-     :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^
-     `----
-
   x AtRule
      ,-[$DIR/tests/recovery/hacks/input.css:195:1]
  195 | 
@@ -15770,14 +15385,6 @@
  205 | .selector { [;property: value;]; }
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:203:1]
- 203 | 
- 204 | .selector { (;property: value;); }
-     :             ^^^^^^^^^^^^^^^^^^^^
- 205 | .selector { [;property: value;]; }
-     `----
-
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:203:1]
  203 | 
@@ -15985,13 +15592,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:204:1]
- 204 | .selector { (;property: value;); }
- 205 | .selector { [;property: value;]; }
-     :             ^^^^^^^^^^^^^^^^^^^^
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/recovery/hacks/input.css:204:1]
  204 | .selector { (;property: value;); }
  205 | .selector { [;property: value;]; }
@@ -16831,13 +16431,6 @@
      :                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
-  x Rule
-     ,-[$DIR/tests/recovery/hacks/input.css:212:1]
- 212 | 
- 213 | @media (min-resolution: .001dpcm) { _:-o-prefocus, .selector {} }
-     :                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-     `----
-
   x QualifiedRule
      ,-[$DIR/tests/recovery/hacks/input.css:212:1]
  212 | 
@@ -17384,13 +16977,6 @@
      :                                                                                    ^^^^^^^^^^^^
      `----
 
-  x Rule
-     ,-[$DIR/tests/recovery/hacks/input.css:216:1]
- 216 | 
- 217 | @media all and (-webkit-min-device-pixel-ratio:0) and (min-resolution: .001dpcm) { .selector {} }
-     :                                                                                    ^^^^^^^^^^^^
-     `----
-
   x QualifiedRule
      ,-[$DIR/tests/recovery/hacks/input.css:216:1]
  216 | 
@@ -17801,14 +17387,6 @@
  226 | .selector { [;property: value;]; }
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:224:1]
- 224 | 
- 225 | .selector { (;property: value;); }
-     :             ^^^^^^^^^^^^^^^^^^^^
- 226 | .selector { [;property: value;]; }
-     `----
-
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:224:1]
  224 | 
@@ -18016,13 +17594,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:225:1]
- 225 | .selector { (;property: value;); }
- 226 | .selector { [;property: value;]; }
-     :             ^^^^^^^^^^^^^^^^^^^^
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/recovery/hacks/input.css:225:1]
  225 | .selector { (;property: value;); }
  226 | .selector { [;property: value;]; }
@@ -18380,13 +17951,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:229:1]
- 229 | 
- 230 | @media screen { @media (min-width: 0px) {} }
-     :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^
-     `----
-
-  x Rule
      ,-[$DIR/tests/recovery/hacks/input.css:229:1]
  229 | 
  230 | @media screen { @media (min-width: 0px) {} }
@@ -19664,14 +19228,6 @@
  245 |     _background: white;
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:243:1]
- 243 | a {
- 244 |     *color : black;
-     :     ^^^^^^^^^^^^^^^
- 245 |     _background: white;
-     `----
-
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:243:1]
  243 | a {
@@ -19792,14 +19348,6 @@
  246 |     font-size/**/: big;
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:244:1]
- 244 |     *color : black;
- 245 |     _background: white;
-     :     ^^^^^^^^^^^^^^^^^^
- 246 |     font-size/**/: big;
-     `----
-
   x Declaration
      ,-[$DIR/tests/recovery/hacks/input.css:244:1]
  244 |     *color : black;
@@ -19848,14 +19396,6 @@
  247 |     $(var)-size: 100%;
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:245:1]
- 245 |     _background: white;
- 246 |     font-size/**/: big;
-     :     ^^^^^^^^^^^^^^^^^^
- 247 |     $(var)-size: 100%;
-     `----
-
   x Declaration
      ,-[$DIR/tests/recovery/hacks/input.css:245:1]
  245 |     _background: white;
@@ -19897,14 +19437,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:246:1]
- 246 |     font-size/**/: big;
- 247 |     $(var)-size: 100%;
-     :     ^^^^^^^^^^^^^^^^^^
- 248 | }
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/recovery/hacks/input.css:246:1]
  246 |     font-size/**/: big;
  247 |     $(var)-size: 100%;
@@ -20132,13 +19664,6 @@
      :   ^^^^
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:249:1]
- 249 | 
- 250 | a{*b:c}
-     :   ^^^^
-     `----
-
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:249:1]
  249 | 
@@ -20291,14 +19816,6 @@
  254 | }
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:252:1]
- 252 | div {
- 253 |     color: red;
-     :     ^^^^^^^^^^
- 254 | }
-     `----
-
   x Declaration
      ,-[$DIR/tests/recovery/hacks/input.css:252:1]
  252 | div {
@@ -20423,13 +19940,6 @@
      :            ^^^^^^^^^^^^^^
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:256:1]
- 256 | /*\*//*/ selector { property:value; } /**/
- 257 | selector { property:value; p\roperty: normal-value; }
-     :            ^^^^^^^^^^^^^^
-     `----
-
   x Declaration
      ,-[$DIR/tests/recovery/hacks/input.css:256:1]
  256 | /*\*//*/ selector { property:value; } /**/
@@ -20466,13 +19976,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:256:1]
- 256 | /*\*//*/ selector { property:value; } /**/
- 257 | selector { property:value; p\roperty: normal-value; }
-     :                            ^^^^^^^^^^^^^^^^^^^^^^^
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/recovery/hacks/input.css:256:1]
  256 | /*\*//*/ selector { property:value; } /**/
  257 | selector { property:value; p\roperty: normal-value; }
@@ -20603,14 +20106,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:260:1]
- 260 | div {
- 261 |     color: red;
-     :     ^^^^^^^^^^
- 262 | }
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/recovery/hacks/input.css:260:1]
  260 | div {
  261 |     color: red;

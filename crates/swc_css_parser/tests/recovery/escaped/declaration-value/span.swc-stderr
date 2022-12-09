@@ -77,12 +77,6 @@
    :     ^^^^^^^^^^
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/recovery/escaped/declaration-value/input.css:1:1]
- 1 | a { value: x }
-   :     ^^^^^^^^^^
-   `----
-
   x Declaration
    ,-[$DIR/tests/recovery/escaped/declaration-value/input.css:1:1]
  1 | a { value: x }

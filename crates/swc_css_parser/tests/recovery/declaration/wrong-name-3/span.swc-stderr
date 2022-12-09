@@ -91,14 +91,6 @@
  3 | }
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/recovery/declaration/wrong-name-3/input.css:1:1]
- 1 | a {
- 2 |     func(20px);
-   :     ^^^^^^^^^^^
- 3 | }
-   `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/declaration/wrong-name-3/input.css:1:1]
  1 | a {

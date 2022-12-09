@@ -77,12 +77,6 @@
    :     ^^^^^^^^^^^^^^^^^
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/Z4J4sVA4UnGhTMiN5tdMMQ/input.css:1:1]
- 1 | a { padding: 0 1 0 1 }
-   :     ^^^^^^^^^^^^^^^^^
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Z4J4sVA4UnGhTMiN5tdMMQ/input.css:1:1]
  1 | a { padding: 0 1 0 1 }

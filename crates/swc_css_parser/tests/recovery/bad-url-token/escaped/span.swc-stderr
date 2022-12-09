@@ -91,14 +91,6 @@
  3 | }
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/recovery/bad-url-token/escaped/input.css:1:1]
- 1 | a {
- 2 |     background: \url(te st);
-   :     ^^^^^^^^^^^^^^^^^^^^^^^
- 3 | }
-   `----
-
   x Declaration
    ,-[$DIR/tests/recovery/bad-url-token/escaped/input.css:1:1]
  1 | a {

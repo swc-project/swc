@@ -77,12 +77,6 @@
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/vendor/esbuild/value/mixed-separator-01/input.css:1:1]
- 1 | a { box-shadow: rebeccapurple , yellow , black }
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/vendor/esbuild/value/mixed-separator-01/input.css:1:1]
  1 | a { box-shadow: rebeccapurple , yellow , black }

@@ -199,14 +199,6 @@
  3 |     prop: (value);
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/declaration/input.css:1:1]
- 1 | div {
- 2 |     prop: value;
-   :     ^^^^^^^^^^^
- 3 |     prop: (value);
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/declaration/input.css:1:1]
  1 | div {
@@ -248,14 +240,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/declaration/input.css:2:1]
- 2 |     prop: value;
- 3 |     prop: (value);
-   :     ^^^^^^^^^^^^^
- 4 |     prop: {value};
-   `----
-
-  x StyleBlock
    ,-[$DIR/tests/fixture/declaration/input.css:2:1]
  2 |     prop: value;
  3 |     prop: (value);
@@ -335,14 +319,6 @@
  5 |     prop: [value];
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/declaration/input.css:3:1]
- 3 |     prop: (value);
- 4 |     prop: {value};
-   :     ^^^^^^^^^^^^^
- 5 |     prop: [value];
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/declaration/input.css:3:1]
  3 |     prop: (value);
@@ -408,14 +384,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/declaration/input.css:4:1]
- 4 |     prop: {value};
- 5 |     prop: [value];
-   :     ^^^^^^^^^^^^^
- 6 |     prop: fn(value);
-   `----
-
-  x StyleBlock
    ,-[$DIR/tests/fixture/declaration/input.css:4:1]
  4 |     prop: {value};
  5 |     prop: [value];
@@ -495,14 +463,6 @@
  7 |     prop: fn(value)fn(value);
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/declaration/input.css:5:1]
- 5 |     prop: [value];
- 6 |     prop: fn(value);
-   :     ^^^^^^^^^^^^^^^
- 7 |     prop: fn(value)fn(value);
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/declaration/input.css:5:1]
  5 |     prop: [value];
@@ -568,14 +528,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/declaration/input.css:6:1]
- 6 |     prop: fn(value);
- 7 |     prop: fn(value)fn(value);
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^
- 8 |     prop: value, value;
-   `----
-
-  x StyleBlock
    ,-[$DIR/tests/fixture/declaration/input.css:6:1]
  6 |     prop: fn(value);
  7 |     prop: fn(value)fn(value);
@@ -695,14 +647,6 @@
  9 |     prop: value ,value;
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/declaration/input.css:7:1]
- 7 |     prop: fn(value)fn(value);
- 8 |     prop: value, value;
-   :     ^^^^^^^^^^^^^^^^^^
- 9 |     prop: value ,value;
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/declaration/input.css:7:1]
  7 |     prop: fn(value)fn(value);
@@ -776,14 +720,6 @@
    `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/declaration/input.css:8:1]
-  8 |     prop: value, value;
-  9 |     prop: value ,value;
-    :     ^^^^^^^^^^^^^^^^^^
- 10 |     prop: value,value;
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/declaration/input.css:8:1]
   8 |     prop: value, value;
   9 |     prop: value ,value;
@@ -871,14 +807,6 @@
  11 |     prop: value , value;
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/declaration/input.css:9:1]
-  9 |     prop: value ,value;
- 10 |     prop: value,value;
-    :     ^^^^^^^^^^^^^^^^^
- 11 |     prop: value , value;
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/declaration/input.css:9:1]
   9 |     prop: value ,value;
@@ -959,14 +887,6 @@
  12 |     prop: 100%100%;
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/declaration/input.css:10:1]
- 10 |     prop: value,value;
- 11 |     prop: value , value;
-    :     ^^^^^^^^^^^^^^^^^^^
- 12 |     prop: 100%100%;
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/declaration/input.css:10:1]
  10 |     prop: value,value;
@@ -1040,14 +960,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/declaration/input.css:11:1]
- 11 |     prop: value , value;
- 12 |     prop: 100%100%;
-    :     ^^^^^^^^^^^^^^
- 13 |     prop: "string""string";
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/declaration/input.css:11:1]
  11 |     prop: value , value;
  12 |     prop: 100%100%;
@@ -1135,14 +1047,6 @@
  14 |     prop: #ccc#ccc;
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/declaration/input.css:12:1]
- 12 |     prop: 100%100%;
- 13 |     prop: "string""string";
-    :     ^^^^^^^^^^^^^^^^^^^^^^
- 14 |     prop: #ccc#ccc;
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/declaration/input.css:12:1]
  12 |     prop: 100%100%;
@@ -1200,14 +1104,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/declaration/input.css:13:1]
- 13 |     prop: "string""string";
- 14 |     prop: #ccc#ccc;
-    :     ^^^^^^^^^^^^^^
- 15 |     prop: url(value)url(value);
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/declaration/input.css:13:1]
  13 |     prop: "string""string";
  14 |     prop: #ccc#ccc;
@@ -1288,14 +1184,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/declaration/input.css:14:1]
- 14 |     prop: #ccc#ccc;
- 15 |     prop: url(value)url(value);
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^
- 16 |     prop: (value)(value);
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/declaration/input.css:14:1]
  14 |     prop: #ccc#ccc;
  15 |     prop: url(value)url(value);
@@ -1415,14 +1303,6 @@
  17 |     prop: {value}{value};
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/declaration/input.css:15:1]
- 15 |     prop: url(value)url(value);
- 16 |     prop: (value)(value);
-    :     ^^^^^^^^^^^^^^^^^^^^
- 17 |     prop: {value}{value};
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/declaration/input.css:15:1]
  15 |     prop: url(value)url(value);
@@ -1528,14 +1408,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/declaration/input.css:16:1]
- 16 |     prop: (value)(value);
- 17 |     prop: {value}{value};
-    :     ^^^^^^^^^^^^^^^^^^^^
- 18 |     prop: [value][value];
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/declaration/input.css:16:1]
  16 |     prop: (value)(value);
  17 |     prop: {value}{value};
@@ -1655,14 +1527,6 @@
  19 |     prop: center/1em;
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/declaration/input.css:17:1]
- 17 |     prop: {value}{value};
- 18 |     prop: [value][value];
-    :     ^^^^^^^^^^^^^^^^^^^^
- 19 |     prop: center/1em;
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/declaration/input.css:17:1]
  17 |     prop: {value}{value};
@@ -1768,14 +1632,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/declaration/input.css:18:1]
- 18 |     prop: [value][value];
- 19 |     prop: center/1em;
-    :     ^^^^^^^^^^^^^^^^
- 20 |     prop: center/ 1em;
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/declaration/input.css:18:1]
  18 |     prop: [value][value];
  19 |     prop: center/1em;
@@ -1887,14 +1743,6 @@
  21 |     prop: center /1em;
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/declaration/input.css:19:1]
- 19 |     prop: center/1em;
- 20 |     prop: center/ 1em;
-    :     ^^^^^^^^^^^^^^^^^
- 21 |     prop: center /1em;
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/declaration/input.css:19:1]
  19 |     prop: center/1em;
@@ -1999,14 +1847,6 @@
  22 |     prop: center / 1em;
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/declaration/input.css:20:1]
- 20 |     prop: center/ 1em;
- 21 |     prop: center /1em;
-    :     ^^^^^^^^^^^^^^^^^
- 22 |     prop: center / 1em;
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/declaration/input.css:20:1]
  20 |     prop: center/ 1em;
@@ -2104,14 +1944,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/declaration/input.css:21:1]
- 21 |     prop: center /1em;
- 22 |     prop: center / 1em;
-    :     ^^^^^^^^^^^^^^^^^^
- 23 |     c\olor: red;
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/declaration/input.css:21:1]
  21 |     prop: center /1em;
  22 |     prop: center / 1em;
@@ -2223,14 +2055,6 @@
  24 |     prop/**/: big;
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/declaration/input.css:22:1]
- 22 |     prop: center / 1em;
- 23 |     c\olor: red;
-    :     ^^^^^^^^^^^
- 24 |     prop/**/: big;
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/declaration/input.css:22:1]
  22 |     prop: center / 1em;
@@ -2279,14 +2103,6 @@
  25 |     prop: (;);
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/declaration/input.css:23:1]
- 23 |     c\olor: red;
- 24 |     prop/**/: big;
-    :     ^^^^^^^^^^^^^
- 25 |     prop: (;);
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/declaration/input.css:23:1]
  23 |     c\olor: red;
@@ -2328,14 +2144,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/declaration/input.css:24:1]
- 24 |     prop/**/: big;
- 25 |     prop: (;);
-    :     ^^^^^^^^^
- 26 |     prop: [;];
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/declaration/input.css:24:1]
  24 |     prop/**/: big;
  25 |     prop: (;);
@@ -2415,14 +2223,6 @@
  27 |     prop: {;};
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/declaration/input.css:25:1]
- 25 |     prop: (;);
- 26 |     prop: [;];
-    :     ^^^^^^^^^
- 27 |     prop: {;};
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/declaration/input.css:25:1]
  25 |     prop: (;);
@@ -2488,14 +2288,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/declaration/input.css:26:1]
- 26 |     prop: [;];
- 27 |     prop: {;};
-    :     ^^^^^^^^^
- 28 | }
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/declaration/input.css:26:1]
  26 |     prop: [;];
  27 |     prop: {;};
@@ -2663,14 +2455,6 @@
  31 | a{color:black}
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/declaration/input.css:29:1]
- 29 | 
- 30 | a { color: a/* ; */ b  ; }
-    :     ^^^^^^^^^^^^^^^^^^^
- 31 | a{color:black}
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/declaration/input.css:29:1]
  29 | 
@@ -2811,13 +2595,6 @@
     :   ^^^^^^^^^^^
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/declaration/input.css:30:1]
- 30 | a { color: a/* ; */ b  ; }
- 31 | a{color:black}
-    :   ^^^^^^^^^^^
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/declaration/input.css:30:1]
  30 | a { color: a/* ; */ b  ; }
@@ -2945,14 +2722,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/declaration/input.css:33:1]
- 33 | a {;;
- 34 |     color: black;
-    :     ^^^^^^^^^^^^
- 35 |     ; ;
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/declaration/input.css:33:1]
  33 | a {;;
  34 |     color: black;

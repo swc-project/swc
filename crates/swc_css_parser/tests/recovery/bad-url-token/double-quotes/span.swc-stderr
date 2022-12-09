@@ -95,14 +95,6 @@
  3 |     color: red;
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/recovery/bad-url-token/double-quotes/input.css:1:1]
- 1 | div {
- 2 |     background: url(image".png);
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 3 |     color: red;
-   `----
-
   x Declaration
    ,-[$DIR/tests/recovery/bad-url-token/double-quotes/input.css:1:1]
  1 | div {
@@ -144,14 +136,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/bad-url-token/double-quotes/input.css:2:1]
- 2 |     background: url(image".png);
- 3 |     color: red;
-   :     ^^^^^^^^^^
- 4 | }
-   `----
-
-  x StyleBlock
    ,-[$DIR/tests/recovery/bad-url-token/double-quotes/input.css:2:1]
  2 |     background: url(image".png);
  3 |     color: red;

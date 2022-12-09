@@ -113,14 +113,6 @@
  7 | }
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:5:1]
- 5 | a {
- 6 | 	color: white; /* comment */
-   :  ^^^^^^^^^^^^
- 7 | }
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:5:1]
  5 | a {
@@ -257,14 +249,6 @@
  11 | }
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:9:1]
-  9 | a {
- 10 | 	color: /* comment */ white;
-    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^
- 11 | }
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:9:1]
   9 | a {
@@ -394,14 +378,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:13:1]
- 13 | a /* comment */ {
- 14 | 	color: white;
-    :  ^^^^^^^^^^^^
- 15 | }
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:13:1]
  13 | a /* comment */ {
  14 | 	color: white;

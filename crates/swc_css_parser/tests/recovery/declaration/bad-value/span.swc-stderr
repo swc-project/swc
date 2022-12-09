@@ -135,14 +135,6 @@
  3 |     value: ];
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:1:1]
- 1 | a {
- 2 |     value: );
-   :     ^^^^^^^^
- 3 |     value: ];
-   `----
-
   x Declaration
    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:1:1]
  1 | a {
@@ -191,14 +183,6 @@
  4 |     value: url(test test);
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:2:1]
- 2 |     value: );
- 3 |     value: ];
-   :     ^^^^^^^^
- 4 |     value: url(test test);
-   `----
-
   x Declaration
    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:2:1]
  2 |     value: );
@@ -240,14 +224,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:3:1]
- 3 |     value: ];
- 4 |     value: url(test test);
-   :     ^^^^^^^^^^^^^^^^^^^^^
- 5 |     --foo: !;
-   `----
-
-  x StyleBlock
    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:3:1]
  3 |     value: ];
  4 |     value: url(test test);
@@ -303,14 +279,6 @@
  6 |     --foo: );
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:4:1]
- 4 |     value: url(test test);
- 5 |     --foo: !;
-   :     ^^^^^^^^
- 6 |     --foo: );
-   `----
-
   x Declaration
    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:4:1]
  4 |     value: url(test test);
@@ -352,14 +320,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:5:1]
- 5 |     --foo: !;
- 6 |     --foo: );
-   :     ^^^^^^^^
- 7 |     --foo: ];
-   `----
-
-  x StyleBlock
    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:5:1]
  5 |     --foo: !;
  6 |     --foo: );
@@ -415,14 +375,6 @@
  8 |     --foo: !;
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:6:1]
- 6 |     --foo: );
- 7 |     --foo: ];
-   :     ^^^^^^^^
- 8 |     --foo: !;
-   `----
-
   x Declaration
    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:6:1]
  6 |     --foo: );
@@ -471,14 +423,6 @@
  9 |     value: !!;
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:7:1]
- 7 |     --foo: ];
- 8 |     --foo: !;
-   :     ^^^^^^^^
- 9 |     value: !!;
-   `----
-
   x Declaration
    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:7:1]
  7 |     --foo: ];
@@ -520,14 +464,6 @@
    `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:8:1]
-  8 |     --foo: !;
-  9 |     value: !!;
-    :     ^^^^^^^^^
- 10 |     value: ! !important;
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/recovery/declaration/bad-value/input.css:8:1]
   8 |     --foo: !;
   9 |     value: !!;
@@ -592,14 +528,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:9:1]
-  9 |     value: !!;
- 10 |     value: ! !important;
-    :     ^^^^^^^^^^^^^^^^^^^
- 11 |     value: ! !important unknown;
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/recovery/declaration/bad-value/input.css:9:1]
   9 |     value: !!;
  10 |     value: ! !important;
@@ -680,14 +608,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:10:1]
- 10 |     value: ! !important;
- 11 |     value: ! !important unknown;
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 12 |     value: ! unknown;
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/recovery/declaration/bad-value/input.css:10:1]
  10 |     value: ! !important;
  11 |     value: ! !important unknown;
@@ -823,14 +743,6 @@
  13 |     value: ! ! !;
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:11:1]
- 11 |     value: ! !important unknown;
- 12 |     value: ! unknown;
-    :     ^^^^^^^^^^^^^^^^
- 13 |     value: ! ! !;
-    `----
-
   x Declaration
     ,-[$DIR/tests/recovery/declaration/bad-value/input.css:11:1]
  11 |     value: ! !important unknown;
@@ -904,14 +816,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:12:1]
- 12 |     value: ! unknown;
- 13 |     value: ! ! !;
-    :     ^^^^^^^^^^^^
- 14 | }
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/recovery/declaration/bad-value/input.css:12:1]
  12 |     value: ! unknown;
  13 |     value: ! ! !;

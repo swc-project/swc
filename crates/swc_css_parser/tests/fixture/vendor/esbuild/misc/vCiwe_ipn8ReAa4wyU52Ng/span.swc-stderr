@@ -77,12 +77,6 @@
    :     ^^^^^^^^^^^^^^^^^
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/vCiwe_ipn8ReAa4wyU52Ng/input.css:1:1]
- 1 | a { color: tUrQuOiSe }
-   :     ^^^^^^^^^^^^^^^^^
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/vCiwe_ipn8ReAa4wyU52Ng/input.css:1:1]
  1 | a { color: tUrQuOiSe }

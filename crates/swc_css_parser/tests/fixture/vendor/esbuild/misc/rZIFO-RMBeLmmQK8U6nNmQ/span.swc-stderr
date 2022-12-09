@@ -77,12 +77,6 @@
    :     ^^^^^^^^^^^^^^^^^
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/rZIFO-RMBeLmmQK8U6nNmQ/input.css:1:1]
- 1 | a { color: #11223444 }
-   :     ^^^^^^^^^^^^^^^^^
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/rZIFO-RMBeLmmQK8U6nNmQ/input.css:1:1]
  1 | a { color: #11223444 }

@@ -611,14 +611,6 @@
  15 | }
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/vendor/rome/selectors/input.css:13:1]
- 13 | a[title] {
- 14 |   color: purple;
-    :   ^^^^^^^^^^^^^
- 15 | }
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/vendor/rome/selectors/input.css:13:1]
  13 | a[title] {
@@ -804,14 +796,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/vendor/rome/selectors/input.css:17:1]
- 17 | a[title = "title"] {
- 18 |   color: purple;
-    :   ^^^^^^^^^^^^^
- 19 | }
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/vendor/rome/selectors/input.css:17:1]
  17 | a[title = "title"] {
  18 |   color: purple;
@@ -1020,14 +1004,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/vendor/rome/selectors/input.css:21:1]
- 21 | a[title~="title" i] {
- 22 |   color: purple;
-    :   ^^^^^^^^^^^^^
- 23 | }
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/vendor/rome/selectors/input.css:21:1]
  21 | a[title~="title" i] {
  22 |   color: purple;
@@ -1292,14 +1268,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/vendor/rome/selectors/input.css:25:1]
- 25 | a[title = "title"][href*="image/*" S] {
- 26 | 	color: purple;
-    :  ^^^^^^^^^^^^^
- 27 | }
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/vendor/rome/selectors/input.css:25:1]
  25 | a[title = "title"][href*="image/*" S] {
  26 | 	color: purple;

@@ -105,16 +105,6 @@
  6 |     }
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/recovery/number/input.css:1:1]
- 1 |     a {
- 2 | ,->     prop: 10.10px
- 3 | |       prop1: 10px
- 4 | |       prop2: 10
- 5 | `->     prop3: 10.10
- 6 |     }
-   `----
-
   x Declaration
    ,-[$DIR/tests/recovery/number/input.css:1:1]
  1 |     a {

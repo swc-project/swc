@@ -136,14 +136,6 @@
  3 |     __ident__
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/recovery/vercel/004/input.css:1:1]
- 1 | a.invert {
- 2 |     margin: 0;
-   :     ^^^^^^^^^
- 3 |     __ident__
-   `----
-
   x Declaration
    ,-[$DIR/tests/recovery/vercel/004/input.css:1:1]
  1 | a.invert {
@@ -185,14 +177,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/vercel/004/input.css:2:1]
- 2 |         margin: 0;
- 3 | ,->     __ident__
- 4 | `->     border-radius: 7px;
- 5 |         color: white;
-   `----
-
-  x StyleBlock
    ,-[$DIR/tests/recovery/vercel/004/input.css:2:1]
  2 |         margin: 0;
  3 | ,->     __ident__
@@ -320,14 +304,6 @@
  6 |     background:  __ident__;
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/recovery/vercel/004/input.css:4:1]
- 4 |     border-radius: 7px;
- 5 |     color: white;
-   :     ^^^^^^^^^^^^
- 6 |     background:  __ident__;
-   `----
-
   x Declaration
    ,-[$DIR/tests/recovery/vercel/004/input.css:4:1]
  4 |     border-radius: 7px;
@@ -376,14 +352,6 @@
  7 |     __ident__
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/recovery/vercel/004/input.css:5:1]
- 5 |     color: white;
- 6 |     background:  __ident__;
-   :     ^^^^^^^^^^^^^^^^^^^^^^
- 7 |     __ident__
-   `----
-
   x Declaration
    ,-[$DIR/tests/recovery/vercel/004/input.css:5:1]
  5 |     color: white;
@@ -425,14 +393,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/vercel/004/input.css:6:1]
- 6 |         background:  __ident__;
- 7 | ,->     __ident__
- 8 | `->     __ident__
- 9 |     }
-   `----
-
-  x StyleBlock
    ,-[$DIR/tests/recovery/vercel/004/input.css:6:1]
  6 |         background:  __ident__;
  7 | ,->     __ident__

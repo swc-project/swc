@@ -84,14 +84,6 @@
  3 | }
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/vendor/rome/fit-content/input.css:1:1]
- 1 | .style {
- 2 | 	grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;
-   :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 3 | }
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/vendor/rome/fit-content/input.css:1:1]
  1 | .style {

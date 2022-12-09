@@ -1132,10 +1132,12 @@ impl VisitMut for Prefixer {
             n.visit_mut_children_with(self);
 
             match n {
-                ComponentValue::DeclarationOrAtRule(_) => {
-                    new.extend(self.added_declarations.drain(..).map(|node| {
-                        ComponentValue::StyleBlock(Box::new(StyleBlock::Declaration(node)))
-                    }));
+                ComponentValue::Declaration(_) => {
+                    new.extend(
+                        self.added_declarations
+                            .drain(..)
+                            .map(ComponentValue::Declaration),
+                    );
 
                     for mut n in take(&mut self.added_at_rules) {
                         let old_rule_prefix = self.rule_prefix.take();
@@ -1144,46 +1146,17 @@ impl VisitMut for Prefixer {
 
                         n.1.visit_mut_children_with(self);
 
-                        new.push(ComponentValue::StyleBlock(Box::new(StyleBlock::AtRule(
-                            n.1,
-                        ))));
+                        new.push(ComponentValue::AtRule(n.1));
 
                         self.rule_prefix = old_rule_prefix;
                     }
                 }
-                ComponentValue::Rule(_) => {
-                    for mut n in take(&mut self.added_qualified_rules) {
-                        let old_rule_prefix = self.rule_prefix.take();
-
-                        self.rule_prefix = Some(n.0);
-
-                        n.1.visit_mut_children_with(self);
-
-                        new.push(ComponentValue::StyleBlock(Box::new(
-                            StyleBlock::QualifiedRule(n.1),
-                        )));
-
-                        self.rule_prefix = old_rule_prefix;
-                    }
-
-                    for mut n in take(&mut self.added_at_rules) {
-                        let old_rule_prefix = self.rule_prefix.take();
-
-                        self.rule_prefix = Some(n.0);
-
-                        n.1.visit_mut_children_with(self);
-
-                        new.push(ComponentValue::StyleBlock(Box::new(StyleBlock::AtRule(
-                            n.1,
-                        ))));
-
-                        self.rule_prefix = old_rule_prefix;
-                    }
-                }
-                ComponentValue::StyleBlock(_) => {
-                    new.extend(self.added_declarations.drain(..).map(|node| {
-                        ComponentValue::StyleBlock(Box::new(StyleBlock::Declaration(node)))
-                    }));
+                ComponentValue::QualifiedRule(_) | ComponentValue::AtRule(_) => {
+                    new.extend(
+                        self.added_declarations
+                            .drain(..)
+                            .map(ComponentValue::Declaration),
+                    );
 
                     for mut n in take(&mut self.added_qualified_rules) {
                         let old_rule_prefix = self.rule_prefix.take();
@@ -1192,9 +1165,7 @@ impl VisitMut for Prefixer {
 
                         n.1.visit_mut_children_with(self);
 
-                        new.push(ComponentValue::StyleBlock(Box::new(
-                            StyleBlock::QualifiedRule(n.1),
-                        )));
+                        new.push(ComponentValue::QualifiedRule(n.1));
 
                         self.rule_prefix = old_rule_prefix;
                     }
@@ -1206,9 +1177,7 @@ impl VisitMut for Prefixer {
 
                         n.1.visit_mut_children_with(self);
 
-                        new.push(ComponentValue::StyleBlock(Box::new(StyleBlock::AtRule(
-                            n.1,
-                        ))));
+                        new.push(ComponentValue::AtRule(n.1));
 
                         self.rule_prefix = old_rule_prefix;
                     }
@@ -1395,16 +1364,8 @@ impl VisitMut for Prefixer {
                 let mut declarations = Vec::with_capacity(simple_block.value.len());
 
                 for n in simple_block.value.iter() {
-                    match n {
-                        ComponentValue::DeclarationOrAtRule(
-                            box DeclarationOrAtRule::Declaration(declaration),
-                        ) => {
-                            declarations.push(declaration);
-                        }
-                        ComponentValue::StyleBlock(box StyleBlock::Declaration(declaration)) => {
-                            declarations.push(declaration);
-                        }
-                        _ => {}
+                    if let ComponentValue::Declaration(declaration) = n {
+                        declarations.push(declaration);
                     }
                 }
 

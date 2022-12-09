@@ -83,13 +83,6 @@
  3 | `->         color: red;
    `----
 
-  x Rule
-   ,-[$DIR/tests/recovery/simple-block/unclosed-2/input.css:1:1]
- 1 |     @media screen {
- 2 | ,->     a {
- 3 | `->         color: red;
-   `----
-
   x QualifiedRule
    ,-[$DIR/tests/recovery/simple-block/unclosed-2/input.css:1:1]
  1 |     @media screen {
@@ -169,13 +162,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/simple-block/unclosed-2/input.css:2:1]
- 2 |     a {
- 3 |         color: red;
-   :         ^^^^^^^^^^
-   `----
-
-  x StyleBlock
    ,-[$DIR/tests/recovery/simple-block/unclosed-2/input.css:2:1]
  2 |     a {
  3 |         color: red;

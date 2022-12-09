@@ -77,12 +77,6 @@
    :     ^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/gVzUgfEllenh46I3Psx-uQ/input.css:1:1]
- 1 | a { margin: 0 1 0px 1px }
-   :     ^^^^^^^^^^^^^^^^^^^^
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/gVzUgfEllenh46I3Psx-uQ/input.css:1:1]
  1 | a { margin: 0 1 0px 1px }

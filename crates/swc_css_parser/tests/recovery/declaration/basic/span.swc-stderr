@@ -98,14 +98,6 @@
  3 |     color: red;
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/recovery/declaration/basic/input.css:1:1]
- 1 | .class {
- 2 |     prop: ;
-   :     ^^^^^^
- 3 |     color: red;
-   `----
-
   x Declaration
    ,-[$DIR/tests/recovery/declaration/basic/input.css:1:1]
  1 | .class {
@@ -131,14 +123,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/declaration/basic/input.css:2:1]
- 2 |     prop: ;
- 3 |     color: red;
-   :     ^^^^^^^^^^
- 4 | }
-   `----
-
-  x StyleBlock
    ,-[$DIR/tests/recovery/declaration/basic/input.css:2:1]
  2 |     prop: ;
  3 |     color: red;
@@ -277,14 +261,6 @@
  8 |     color: red;
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/recovery/declaration/basic/input.css:6:1]
- 6 | .class {
- 7 |     prop: !!;
-   :     ^^^^^^^^
- 8 |     color: red;
-   `----
-
   x Declaration
    ,-[$DIR/tests/recovery/declaration/basic/input.css:6:1]
  6 | .class {
@@ -342,14 +318,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/declaration/basic/input.css:7:1]
- 7 |     prop: !!;
- 8 |     color: red;
-   :     ^^^^^^^^^^
- 9 | }
-   `----
-
-  x StyleBlock
    ,-[$DIR/tests/recovery/declaration/basic/input.css:7:1]
  7 |     prop: !!;
  8 |     color: red;
@@ -496,14 +464,6 @@
  13 |     color: red;
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/recovery/declaration/basic/input.css:11:1]
- 11 | a {
- 12 |     test;
-    :     ^^^^^
- 13 |     color: red;
-    `----
-
   x ComponentValue
     ,-[$DIR/tests/recovery/declaration/basic/input.css:11:1]
  11 | a {
@@ -537,14 +497,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/basic/input.css:12:1]
- 12 |     test;
- 13 |     color: red;
-    :     ^^^^^^^^^^
- 14 | }
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/recovery/declaration/basic/input.css:12:1]
  12 |     test;
  13 |     color: red;

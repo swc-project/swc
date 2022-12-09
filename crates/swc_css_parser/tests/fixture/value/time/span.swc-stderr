@@ -105,14 +105,6 @@
  3 |     transition-property: font-size;
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/value/time/input.css:1:1]
- 1 | #delay {
- 2 |     font-size: 14px;
-   :     ^^^^^^^^^^^^^^^
- 3 |     transition-property: font-size;
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/value/time/input.css:1:1]
  1 | #delay {
@@ -185,14 +177,6 @@
  4 |     transition-duration: 4s;
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/value/time/input.css:2:1]
- 2 |     font-size: 14px;
- 3 |     transition-property: font-size;
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 4 |     transition-duration: 4s;
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/value/time/input.css:2:1]
  2 |     font-size: 14px;
@@ -234,14 +218,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/time/input.css:3:1]
- 3 |     transition-property: font-size;
- 4 |     transition-duration: 4s;
-   :     ^^^^^^^^^^^^^^^^^^^^^^^
- 5 |     transition-delay: 2s;
-   `----
-
-  x StyleBlock
    ,-[$DIR/tests/fixture/value/time/input.css:3:1]
  3 |     transition-property: font-size;
  4 |     transition-duration: 4s;
@@ -314,14 +290,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/time/input.css:4:1]
- 4 |     transition-duration: 4s;
- 5 |     transition-delay: 2s;
-   :     ^^^^^^^^^^^^^^^^^^^^
- 6 | }
-   `----
-
-  x StyleBlock
    ,-[$DIR/tests/fixture/value/time/input.css:4:1]
  4 |     transition-duration: 4s;
  5 |     transition-delay: 2s;
@@ -474,14 +442,6 @@
    `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/time/input.css:8:1]
-  8 | .box {
-  9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 10 | }
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/value/time/input.css:8:1]
   8 | .box {
   9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
@@ -876,14 +836,6 @@
  14 |     transition-duration: 4000ms;
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/value/time/input.css:12:1]
- 12 | .time {
- 13 |     transition-duration: 4s;
-    :     ^^^^^^^^^^^^^^^^^^^^^^^
- 14 |     transition-duration: 4000ms;
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/value/time/input.css:12:1]
  12 | .time {
@@ -949,14 +901,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/time/input.css:13:1]
- 13 |     transition-duration: 4s;
- 14 |     transition-duration: 4000ms;
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 15 | }
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/value/time/input.css:13:1]
  13 |     transition-duration: 4s;
  14 |     transition-duration: 4000ms;

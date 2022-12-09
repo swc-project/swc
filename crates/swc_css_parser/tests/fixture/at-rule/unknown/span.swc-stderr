@@ -6820,14 +6820,6 @@
  56 | }
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:54:1]
- 54 | 
- 55 |     color: red;
-    :     ^^^^^^^^^^
- 56 | }
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:54:1]
  54 | 
@@ -6869,13 +6861,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/unknown/input.css:52:1]
- 52 | .foo {
- 53 |     @unknown {s{p:v}}
-    :     ^^^^^^^^^^^^^^^^^
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:52:1]
  52 | .foo {
  53 |     @unknown {s{p:v}}

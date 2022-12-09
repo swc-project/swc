@@ -95,12 +95,6 @@
    :           ^^^^^^^^^^^^^^^^^^
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/6kUhG0W7hwZxIuaCsZ7pHg/input.css:1:1]
- 1 | a:after { content: 'a\62 c' }
-   :           ^^^^^^^^^^^^^^^^^^
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/6kUhG0W7hwZxIuaCsZ7pHg/input.css:1:1]
  1 | a:after { content: 'a\62 c' }

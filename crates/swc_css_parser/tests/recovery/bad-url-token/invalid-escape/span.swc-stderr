@@ -95,14 +95,6 @@
  4 |     }
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/recovery/bad-url-token/invalid-escape/input.css:1:1]
- 1 |     div {
- 2 | ,->     background: url(image.png\
- 3 | `->     );
- 4 |     }
-   `----
-
   x Declaration
    ,-[$DIR/tests/recovery/bad-url-token/invalid-escape/input.css:1:1]
  1 |     div {

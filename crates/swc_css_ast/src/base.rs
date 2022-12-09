@@ -126,13 +126,15 @@ pub enum ComponentValue {
     #[tag("SimpleBlock")]
     SimpleBlock(Box<SimpleBlock>),
 
-    // Block Contents grammar
-    #[tag("DeclarationOrAtRule")]
-    DeclarationOrAtRule(Box<DeclarationOrAtRule>),
-    #[tag("Rule")]
-    Rule(Box<Rule>),
-    #[tag("StyleBlock")]
-    StyleBlock(Box<StyleBlock>),
+    #[tag("AtRule")]
+    AtRule(Box<AtRule>),
+
+    #[tag("QualifiedRule")]
+    QualifiedRule(Box<QualifiedRule>),
+
+    #[tag("ListOfComponentValues")]
+    ListOfComponentValues(Box<ListOfComponentValues>),
+
     #[tag("KeyframeBlock")]
     KeyframeBlock(Box<KeyframeBlock>),
 
@@ -179,6 +181,50 @@ pub enum ComponentValue {
     SupportsCondition(Box<SupportsCondition>),
     #[tag("Declaration")]
     Declaration(Box<Declaration>),
+}
+
+impl From<StyleBlock> for ComponentValue {
+    #[inline]
+    fn from(block: StyleBlock) -> Self {
+        match block {
+            StyleBlock::AtRule(at_rule) => ComponentValue::AtRule(at_rule),
+            StyleBlock::Declaration(declaration) => ComponentValue::Declaration(declaration),
+            StyleBlock::QualifiedRule(qualified_rule) => {
+                ComponentValue::QualifiedRule(qualified_rule)
+            }
+            StyleBlock::ListOfComponentValues(list_of_component_values) => {
+                ComponentValue::ListOfComponentValues(list_of_component_values)
+            }
+        }
+    }
+}
+
+impl From<DeclarationOrAtRule> for ComponentValue {
+    #[inline]
+    fn from(rule: DeclarationOrAtRule) -> Self {
+        match rule {
+            DeclarationOrAtRule::Declaration(declaration) => {
+                ComponentValue::Declaration(declaration)
+            }
+            DeclarationOrAtRule::AtRule(at_rule) => ComponentValue::AtRule(at_rule),
+            DeclarationOrAtRule::ListOfComponentValues(list_of_component_values) => {
+                ComponentValue::ListOfComponentValues(list_of_component_values)
+            }
+        }
+    }
+}
+
+impl From<Rule> for ComponentValue {
+    #[inline]
+    fn from(rule: Rule) -> Self {
+        match rule {
+            Rule::AtRule(at_rule) => ComponentValue::AtRule(at_rule),
+            Rule::QualifiedRule(qualified_rule) => ComponentValue::QualifiedRule(qualified_rule),
+            Rule::ListOfComponentValues(list_of_component_values) => {
+                ComponentValue::ListOfComponentValues(list_of_component_values)
+            }
+        }
+    }
 }
 
 #[ast_node]

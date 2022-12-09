@@ -105,14 +105,6 @@
  3 |     flex-wrap: wrap;
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/recovery/vercel/003/input.css:1:1]
- 1 | .geist-list {
- 2 |     display: flex;
-   :     ^^^^^^^^^^^^^
- 3 |     flex-wrap: wrap;
-   `----
-
   x Declaration
    ,-[$DIR/tests/recovery/vercel/003/input.css:1:1]
  1 | .geist-list {
@@ -154,14 +146,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/vercel/003/input.css:2:1]
- 2 |     display: flex;
- 3 |     flex-wrap: wrap;
-   :     ^^^^^^^^^^^^^^^
- 4 |     margin: __ident__;
-   `----
-
-  x StyleBlock
    ,-[$DIR/tests/recovery/vercel/003/input.css:2:1]
  2 |     display: flex;
  3 |     flex-wrap: wrap;
@@ -217,14 +201,6 @@
  5 |     box-sizing: border-box;
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/recovery/vercel/003/input.css:3:1]
- 3 |     flex-wrap: wrap;
- 4 |     margin: __ident__;
-   :     ^^^^^^^^^^^^^^^^^
- 5 |     box-sizing: border-box;
-   `----
-
   x Declaration
    ,-[$DIR/tests/recovery/vercel/003/input.css:3:1]
  3 |     flex-wrap: wrap;
@@ -266,14 +242,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/vercel/003/input.css:4:1]
- 4 |     margin: __ident__;
- 5 |     box-sizing: border-box;
-   :     ^^^^^^^^^^^^^^^^^^^^^^
- 6 | }
-   `----
-
-  x StyleBlock
    ,-[$DIR/tests/recovery/vercel/003/input.css:4:1]
  4 |     margin: __ident__;
  5 |     box-sizing: border-box;
@@ -522,14 +490,6 @@
  9 |     flex-grow: 0;
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/recovery/vercel/003/input.css:7:1]
- 7 | .geist-list :global(> .geist-list-item) {
- 8 |     padding: __ident__;
-   :     ^^^^^^^^^^^^^^^^^^
- 9 |     flex-grow: 0;
-   `----
-
   x Declaration
    ,-[$DIR/tests/recovery/vercel/003/input.css:7:1]
  7 | .geist-list :global(> .geist-list-item) {
@@ -571,14 +531,6 @@
    `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/vercel/003/input.css:8:1]
-  8 |     padding: __ident__;
-  9 |     flex-grow: 0;
-    :     ^^^^^^^^^^^^
- 10 |     flex-basis: __ident__%;
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/recovery/vercel/003/input.css:8:1]
   8 |     padding: __ident__;
   9 |     flex-grow: 0;
@@ -627,14 +579,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/vercel/003/input.css:9:1]
-  9 |     flex-grow: 0;
- 10 |     flex-basis: __ident__%;
-    :     ^^^^^^^^^^^^^^^^^^^^^^
- 11 |     min-width: 0;
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/recovery/vercel/003/input.css:9:1]
   9 |     flex-grow: 0;
  10 |     flex-basis: __ident__%;
@@ -699,14 +643,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/vercel/003/input.css:10:1]
- 10 |     flex-basis: __ident__%;
- 11 |     min-width: 0;
-    :     ^^^^^^^^^^^^
- 12 | }
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/recovery/vercel/003/input.css:10:1]
  10 |     flex-basis: __ident__%;
  11 |     min-width: 0;

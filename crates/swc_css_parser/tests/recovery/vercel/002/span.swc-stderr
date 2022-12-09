@@ -120,14 +120,6 @@
  3 |     height: __styled-jsx-placeholder__7px;
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/recovery/vercel/002/input.css:1:1]
- 1 | .slide {
- 2 |     width: __styled-jsx-placeholder__7px;
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 3 |     height: __styled-jsx-placeholder__7px;
-   `----
-
   x Declaration
    ,-[$DIR/tests/recovery/vercel/002/input.css:1:1]
  1 | .slide {
@@ -176,14 +168,6 @@
  4 |     margin: 0 calc(__styled-jsx-placeholder__7vw - __styled-jsx-placeholder__7px);
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/recovery/vercel/002/input.css:2:1]
- 2 |     width: __styled-jsx-placeholder__7px;
- 3 |     height: __styled-jsx-placeholder__7px;
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 4 |     margin: 0 calc(__styled-jsx-placeholder__7vw - __styled-jsx-placeholder__7px);
-   `----
-
   x Declaration
    ,-[$DIR/tests/recovery/vercel/002/input.css:2:1]
  2 |     width: __styled-jsx-placeholder__7px;
@@ -225,14 +209,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/vercel/002/input.css:3:1]
- 3 |     height: __styled-jsx-placeholder__7px;
- 4 |     margin: 0 calc(__styled-jsx-placeholder__7vw - __styled-jsx-placeholder__7px);
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 5 |     border-radius: 7px;
-   `----
-
-  x StyleBlock
    ,-[$DIR/tests/recovery/vercel/002/input.css:3:1]
  3 |     height: __styled-jsx-placeholder__7px;
  4 |     margin: 0 calc(__styled-jsx-placeholder__7vw - __styled-jsx-placeholder__7px);
@@ -392,14 +368,6 @@
  6 |     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08),
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/recovery/vercel/002/input.css:4:1]
- 4 |     margin: 0 calc(__styled-jsx-placeholder__7vw - __styled-jsx-placeholder__7px);
- 5 |     border-radius: 7px;
-   :     ^^^^^^^^^^^^^^^^^^
- 6 |     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08),
-   `----
-
   x Declaration
    ,-[$DIR/tests/recovery/vercel/002/input.css:4:1]
  4 |     margin: 0 calc(__styled-jsx-placeholder__7vw - __styled-jsx-placeholder__7px);
@@ -465,14 +433,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/vercel/002/input.css:5:1]
- 5 |         border-radius: 7px;
- 6 | ,->     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08),
- 7 | `->         0 5px 12px rgba(0, 0, 0, 0.1);
- 8 |         transition: all 0.5s ease;
-   `----
-
-  x StyleBlock
    ,-[$DIR/tests/recovery/vercel/002/input.css:5:1]
  5 |         border-radius: 7px;
  6 | ,->     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08),
@@ -1024,14 +984,6 @@
  9 |     cursor: pointer;
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/recovery/vercel/002/input.css:7:1]
- 7 |         0 5px 12px rgba(0, 0, 0, 0.1);
- 8 |     transition: all 0.5s ease;
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^
- 9 |     cursor: pointer;
-   `----
-
   x Declaration
    ,-[$DIR/tests/recovery/vercel/002/input.css:7:1]
  7 |         0 5px 12px rgba(0, 0, 0, 0.1);
@@ -1136,14 +1088,6 @@
  10 |     overflow: hidden;
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/recovery/vercel/002/input.css:8:1]
-  8 |     transition: all 0.5s ease;
-  9 |     cursor: pointer;
-    :     ^^^^^^^^^^^^^^^
- 10 |     overflow: hidden;
-    `----
-
   x Declaration
     ,-[$DIR/tests/recovery/vercel/002/input.css:8:1]
   8 |     transition: all 0.5s ease;
@@ -1192,14 +1136,6 @@
  11 |     background: white;
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/recovery/vercel/002/input.css:9:1]
-  9 |     cursor: pointer;
- 10 |     overflow: hidden;
-    :     ^^^^^^^^^^^^^^^^
- 11 |     background: white;
-    `----
-
   x Declaration
     ,-[$DIR/tests/recovery/vercel/002/input.css:9:1]
   9 |     cursor: pointer;
@@ -1241,14 +1177,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/vercel/002/input.css:10:1]
- 10 |     overflow: hidden;
- 11 |     background: white;
-    :     ^^^^^^^^^^^^^^^^^
- 12 | }
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/recovery/vercel/002/input.css:10:1]
  10 |     overflow: hidden;
  11 |     background: white;
