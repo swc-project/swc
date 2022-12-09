@@ -1,19 +1,19 @@
 function exampleFunction1() {
     return Math.random() > 0.5
-        ? `<button               
+        ? `<button
         @click="${(): void => console.log('this line causes a syntax error')}"
       ></button>`
-        : `<button               
+        : `<button
         @click="${(): void => console.log('this line does NOT causes a syntax error')}"
       ></button>`;
 }
 
 function exampleFunction2() {
     return Math.random() > 0.5
-        ? `<button               
+        ? `<bar></bar>` + `<button
         @click="${(): void => console.log('this line causes a syntax error')}"
       ></button>`
-        : `<button               
+        : `<bar></bar>` + `<button
         @click="${(): void => console.log('this line does NOT causes a syntax error')}"
       ></button>`;
 }
@@ -38,10 +38,31 @@ function exampleFunction5() {
 
 function exampleFunction6() {
     return Math.random() > 0.5
-        ? foo`<button               
-        @click="${(): void => console.log('this line causes a syntax error')}"
-      ></button>`
-        : bar`<button               
+        ? "test" == "test"
+            ? `<button @click="${(): void => console.log('this line causes a syntax error')}"></button>`
+            : "bar"
+        : `<button
         @click="${(): void => console.log('this line does NOT causes a syntax error')}"
       ></button>`;
+}
+
+
+function exampleFunction6() {
+    return Math.random() > 0.5
+        ? `<button @click="${(): void => console.log('this line causes a syntax error')}"></button>`
+        : "test" == "test"
+            ? `<button @click="${(): void => console.log('this line causes a syntax error')}"></button>`
+            : "bar";
+}
+
+function exampleFunction7() {
+    return Math.random() > 0.5
+        ? foo`<button @click="${(): void => console.log('this line causes a syntax error')}"></button>`
+        : bar`<button @click="${(): void => console.log('this line does NOT causes a syntax error')}"></button>`;
+}
+
+function exampleFunction8() {
+    return Math.random() > 0.5
+        ? ((): void => console.log('this line causes a syntax error'))
+        : ((): void => console.log('this line does NOT causes a syntax error'));
 }
