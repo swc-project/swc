@@ -284,12 +284,7 @@ impl NestingHandler {
                                     },
                                 });
 
-                                nested_of_media.insert(
-                                    0,
-                                    ComponentValue::StyleBlock(Box::new(
-                                        StyleBlock::QualifiedRule(rule),
-                                    )),
-                                );
+                                nested_of_media.insert(0, ComponentValue::QualifiedRule(rule));
                             }
 
                             nested_rules.push(Rule::AtRule(Box::new(AtRule {
