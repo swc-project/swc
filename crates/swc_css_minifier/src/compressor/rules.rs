@@ -606,16 +606,12 @@ impl Compressor {
 
             if result {
                 match rule {
-                    ComponentValue::Rule(box Rule::AtRule(box at_rule))
-                    | ComponentValue::StyleBlock(box StyleBlock::AtRule(box at_rule))
-                        if self.is_mergeable_at_rule(at_rule) =>
-                    {
+                    ComponentValue::AtRule(box at_rule) if self.is_mergeable_at_rule(at_rule) => {
                         prev_index = index;
                         prev_rule_idx = Some(index);
                     }
 
-                    ComponentValue::Rule(box Rule::QualifiedRule(_))
-                    | ComponentValue::StyleBlock(box StyleBlock::QualifiedRule(_)) => {
+                    ComponentValue::QualifiedRule(_) => {
                         prev_index = index;
                         prev_rule_idx = Some(index);
                     }
