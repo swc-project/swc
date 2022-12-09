@@ -66,3 +66,9 @@ function exampleFunction8() {
         ? ((): void => console.log('this line causes a syntax error'))
         : ((): void => console.log('this line does NOT causes a syntax error'));
 }
+
+function exampleFunction9() {
+    return Math.random() > 0.5
+        ? async (): Promise<void> => console.log('this line causes a syntax error')
+        : async (): Promise<void> => console.log('this line causes a syntax error');
+}

@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 2482,
+    "end": 2715,
     "ctxt": 0
   },
   "body": [
@@ -3069,6 +3069,332 @@
                         "ctxt": 0
                       },
                       "kind": "void"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 2493,
+          "end": 2509,
+          "ctxt": 0
+        },
+        "value": "exampleFunction9",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 2484,
+        "end": 2715,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 2512,
+          "end": 2715,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ReturnStatement",
+            "span": {
+              "start": 2518,
+              "end": 2713,
+              "ctxt": 0
+            },
+            "argument": {
+              "type": "ConditionalExpression",
+              "span": {
+                "start": 2525,
+                "end": 2712,
+                "ctxt": 0
+              },
+              "test": {
+                "type": "BinaryExpression",
+                "span": {
+                  "start": 2525,
+                  "end": 2544,
+                  "ctxt": 0
+                },
+                "operator": ">",
+                "left": {
+                  "type": "CallExpression",
+                  "span": {
+                    "start": 2525,
+                    "end": 2538,
+                    "ctxt": 0
+                  },
+                  "callee": {
+                    "type": "MemberExpression",
+                    "span": {
+                      "start": 2525,
+                      "end": 2536,
+                      "ctxt": 0
+                    },
+                    "object": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 2525,
+                        "end": 2529,
+                        "ctxt": 0
+                      },
+                      "value": "Math",
+                      "optional": false
+                    },
+                    "property": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 2530,
+                        "end": 2536,
+                        "ctxt": 0
+                      },
+                      "value": "random",
+                      "optional": false
+                    }
+                  },
+                  "arguments": [],
+                  "typeArguments": null
+                },
+                "right": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 2541,
+                    "end": 2544,
+                    "ctxt": 0
+                  },
+                  "value": 0.5,
+                  "raw": "0.5"
+                }
+              },
+              "consequent": {
+                "type": "ArrowFunctionExpression",
+                "span": {
+                  "start": 2555,
+                  "end": 2628,
+                  "ctxt": 0
+                },
+                "params": [],
+                "body": {
+                  "type": "CallExpression",
+                  "span": {
+                    "start": 2582,
+                    "end": 2628,
+                    "ctxt": 0
+                  },
+                  "callee": {
+                    "type": "MemberExpression",
+                    "span": {
+                      "start": 2582,
+                      "end": 2593,
+                      "ctxt": 0
+                    },
+                    "object": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 2582,
+                        "end": 2589,
+                        "ctxt": 0
+                      },
+                      "value": "console",
+                      "optional": false
+                    },
+                    "property": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 2590,
+                        "end": 2593,
+                        "ctxt": 0
+                      },
+                      "value": "log",
+                      "optional": false
+                    }
+                  },
+                  "arguments": [
+                    {
+                      "spread": null,
+                      "expression": {
+                        "type": "StringLiteral",
+                        "span": {
+                          "start": 2594,
+                          "end": 2627,
+                          "ctxt": 0
+                        },
+                        "value": "this line causes a syntax error",
+                        "raw": "'this line causes a syntax error'"
+                      }
+                    }
+                  ],
+                  "typeArguments": null
+                },
+                "async": true,
+                "generator": false,
+                "typeParameters": null,
+                "returnType": {
+                  "type": "TsTypeAnnotation",
+                  "span": {
+                    "start": 2563,
+                    "end": 2578,
+                    "ctxt": 0
+                  },
+                  "typeAnnotation": {
+                    "type": "TsTypeReference",
+                    "span": {
+                      "start": 2565,
+                      "end": 2578,
+                      "ctxt": 0
+                    },
+                    "typeName": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 2565,
+                        "end": 2572,
+                        "ctxt": 0
+                      },
+                      "value": "Promise",
+                      "optional": false
+                    },
+                    "typeParams": {
+                      "type": "TsTypeParameterInstantiation",
+                      "span": {
+                        "start": 2572,
+                        "end": 2578,
+                        "ctxt": 0
+                      },
+                      "params": [
+                        {
+                          "type": "TsKeywordType",
+                          "span": {
+                            "start": 2573,
+                            "end": 2577,
+                            "ctxt": 0
+                          },
+                          "kind": "void"
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              "alternate": {
+                "type": "ArrowFunctionExpression",
+                "span": {
+                  "start": 2639,
+                  "end": 2712,
+                  "ctxt": 0
+                },
+                "params": [],
+                "body": {
+                  "type": "CallExpression",
+                  "span": {
+                    "start": 2666,
+                    "end": 2712,
+                    "ctxt": 0
+                  },
+                  "callee": {
+                    "type": "MemberExpression",
+                    "span": {
+                      "start": 2666,
+                      "end": 2677,
+                      "ctxt": 0
+                    },
+                    "object": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 2666,
+                        "end": 2673,
+                        "ctxt": 0
+                      },
+                      "value": "console",
+                      "optional": false
+                    },
+                    "property": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 2674,
+                        "end": 2677,
+                        "ctxt": 0
+                      },
+                      "value": "log",
+                      "optional": false
+                    }
+                  },
+                  "arguments": [
+                    {
+                      "spread": null,
+                      "expression": {
+                        "type": "StringLiteral",
+                        "span": {
+                          "start": 2678,
+                          "end": 2711,
+                          "ctxt": 0
+                        },
+                        "value": "this line causes a syntax error",
+                        "raw": "'this line causes a syntax error'"
+                      }
+                    }
+                  ],
+                  "typeArguments": null
+                },
+                "async": true,
+                "generator": false,
+                "typeParameters": null,
+                "returnType": {
+                  "type": "TsTypeAnnotation",
+                  "span": {
+                    "start": 2647,
+                    "end": 2662,
+                    "ctxt": 0
+                  },
+                  "typeAnnotation": {
+                    "type": "TsTypeReference",
+                    "span": {
+                      "start": 2649,
+                      "end": 2662,
+                      "ctxt": 0
+                    },
+                    "typeName": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 2649,
+                        "end": 2656,
+                        "ctxt": 0
+                      },
+                      "value": "Promise",
+                      "optional": false
+                    },
+                    "typeParams": {
+                      "type": "TsTypeParameterInstantiation",
+                      "span": {
+                        "start": 2656,
+                        "end": 2662,
+                        "ctxt": 0
+                      },
+                      "params": [
+                        {
+                          "type": "TsKeywordType",
+                          "span": {
+                            "start": 2657,
+                            "end": 2661,
+                            "ctxt": 0
+                          },
+                          "kind": "void"
+                        }
+                      ]
                     }
                   }
                 }
