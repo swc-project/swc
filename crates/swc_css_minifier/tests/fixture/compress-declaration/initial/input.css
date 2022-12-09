@@ -409,3 +409,9 @@
     word-wrap: initial;
     z-index: initial
 }
+
+@supports (CURSOR: INITIAL) {
+    a {
+        background: red;
+    }
+}
