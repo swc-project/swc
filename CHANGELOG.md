@@ -23,6 +23,9 @@
 - **(css/parser)** Avoid skipping extra whitespaces (#6592) ([d8936ad](https://github.com/swc-project/swc/commit/d8936ade5b34f682af08e01833d629a67c54f888))
 
 
+- **(es/compat)** Prepend generated `_loop` to the correct scope (#6604) ([4c2d422](https://github.com/swc-project/swc/commit/4c2d42261ed0382c49e8a564b574362a5ab182a3))
+
+
 - **(es/parser)** Fix `typeof` in `TSCallSignatureDeclaration` (#6553) ([aa28aa0](https://github.com/swc-project/swc/commit/aa28aa0c7fefcaea063340c711a5ea8a3ba60e7b))
 
 
