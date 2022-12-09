@@ -1418,9 +1418,9 @@ where
             ComponentValue::Function(n) => emit!(self, n),
             ComponentValue::SimpleBlock(n) => emit!(self, n),
 
-            ComponentValue::StyleBlock(n) => emit!(self, n),
-            ComponentValue::DeclarationOrAtRule(n) => emit!(self, n),
-            ComponentValue::Rule(n) => emit!(self, n),
+            ComponentValue::ListOfComponentValues(n) => emit!(self, n),
+            ComponentValue::QualifiedRule(n) => emit!(self, n),
+            ComponentValue::AtRule(n) => emit!(self, n),
             ComponentValue::KeyframeBlock(n) => emit!(self, n),
 
             ComponentValue::Ident(n) => emit!(self, n),
@@ -1669,7 +1669,7 @@ where
     }
 
     #[emitter]
-    fn emit_frequency_cercentage(&mut self, n: &FrequencyPercentage) -> Result {
+    fn emit_frequency_percentage(&mut self, n: &FrequencyPercentage) -> Result {
         match n {
             FrequencyPercentage::Frequency(n) => emit!(self, n),
             FrequencyPercentage::Percentage(n) => emit!(self, n),
