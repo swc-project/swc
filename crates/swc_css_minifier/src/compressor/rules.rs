@@ -522,7 +522,7 @@ impl Compressor {
                 {
                     false
                 }
-                ComponentValue::Rule(box Rule::AtRule(box at_rule @ AtRule { .. }))
+                ComponentValue::AtRule(box Rule::AtRule(box at_rule @ AtRule { .. }))
                     if prev_rule.is_some() && self.is_mergeable_at_rule(at_rule) =>
                 {
                     if let Some(ComponentValue::Rule(box Rule::AtRule(box prev_rule))) =
@@ -530,23 +530,6 @@ impl Compressor {
                     {
                         if let Some(at_rule) = self.try_merge_at_rule(prev_rule, at_rule) {
                             *rule = ComponentValue::Rule(Box::new(Rule::AtRule(Box::new(at_rule))));
-
-                            remove_rules_list.push(prev_index);
-                        }
-                    }
-
-                    true
-                }
-                ComponentValue::StyleBlock(box StyleBlock::AtRule(box at_rule @ AtRule { .. }))
-                    if prev_rule.is_some() && self.is_mergeable_at_rule(at_rule) =>
-                {
-                    if let Some(ComponentValue::StyleBlock(box StyleBlock::AtRule(box prev_rule))) =
-                        &mut prev_rule
-                    {
-                        if let Some(at_rule) = self.try_merge_at_rule(prev_rule, at_rule) {
-                            *rule = ComponentValue::StyleBlock(Box::new(StyleBlock::AtRule(
-                                Box::new(at_rule),
-                            )));
 
                             remove_rules_list.push(prev_index);
                         }
