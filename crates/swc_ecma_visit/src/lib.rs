@@ -666,9 +666,9 @@ define!({
     //     OptChain(OptChainExpr),
     //     Invalid(Invalid),
     // }
-    // pub struct ThisExpr {
-    //     pub span: Span,
-    // }
+    pub struct ThisExpr {
+        pub span: Span,
+    }
     // pub struct ArrayLit {
     //     pub span: Span,
     //     pub elems: Vec<Option<ExprOrSpread>>,
