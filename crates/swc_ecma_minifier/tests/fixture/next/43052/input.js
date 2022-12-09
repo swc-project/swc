@@ -1,15 +1,4 @@
 use((function (__unused_webpack_module, exports, __webpack_require__) {
-
-	/**
-	 * react-uploader
-	 *
-	 * Copyright (c) Web3.Storage
-	 *
-	 * This source code is licensed under Apache-2.0 OR MIT license found in the
-	 * LICENSE.md file in the root directory of this source tree.
-	 *
-	 * @license Apache-2.0 OR MIT
-	 */
 	! function (e, t) {
 		true ? t(exports, __webpack_require__(7294), __webpack_require__(1321)) : 0
 	}(this, (function (exports, React) {
@@ -39,8 +28,10 @@ use((function (__unused_webpack_module, exports, __webpack_require__) {
 			value: !0
 		})
 	}));
-	//# sourceMappingURL=index.production.js.map
+}));
 
 
-	/***/
-}))
+(function checkMangler() {
+	const longName = 1;
+	use(longName)
+})
