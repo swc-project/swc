@@ -50,6 +50,9 @@
 
 
 
+- **(css/ast)** Make AST intuitive (#6606) ([b4eef53](https://github.com/swc-project/swc/commit/b4eef53680b0e553f14404f641b521a346e55f1f))
+
+
 - **(css/plugin)** Prepare Wasm plugins (#6567) ([8cdc28c](https://github.com/swc-project/swc/commit/8cdc28cdfa17f1773bdd30c2187c79e1db0a3ffe))
 
 
