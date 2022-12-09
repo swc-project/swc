@@ -38,24 +38,6 @@
 						var t;
 						t = function (exports) {
 
-							function asPromise(e, t) {
-								for (var r = new Array(arguments.length - 1), n = 0, o = 2, i = !0; o < arguments.length;) r[n++] = arguments[o++];
-								return new Promise((function (o, s) {
-									r[n] = function (e) {
-										if (i)
-											if (i = !1, e) s(e);
-											else {
-												for (var t = new Array(arguments.length - 1), r = 0; r < t.length;) t[r++] = arguments[r];
-												o.apply(null, t)
-											}
-									};
-									try {
-										e.apply(t || null, r)
-									} catch (e) {
-										i && (i = !1, s(e))
-									}
-								}))
-							}
 							var base64$1 = {};
 							! function (e) {
 								var t = e;
@@ -110,28 +92,7 @@
 								}
 							}(base64$1);
 
-							function EventEmitter() {
-								this._listeners = {}
-							}
-							EventEmitter.prototype.on = function (e, t, r) {
-								return (this._listeners[e] || (this._listeners[e] = [])).push({
-									fn: t,
-									ctx: r || this
-								}), this
-							}, EventEmitter.prototype.off = function (e, t) {
-								if (void 0 === e) this._listeners = {};
-								else if (void 0 === t) this._listeners[e] = [];
-								else
-									for (var r = this._listeners[e], n = 0; n < r.length;) r[n].fn === t ? r.splice(n, 1) : ++n;
-								return this
-							}, EventEmitter.prototype.emit = function (e) {
-								var t = this._listeners[e];
-								if (t) {
-									for (var r = [], n = 1; n < arguments.length;) r.push(arguments[n++]);
-									for (n = 0; n < t.length;) t[n].fn.apply(t[n++].ctx, r)
-								}
-								return this
-							};
+
 
 							function factory(e) {
 								return "undefined" != typeof Float32Array ? function () {
