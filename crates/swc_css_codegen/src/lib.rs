@@ -1344,7 +1344,20 @@ where
                 _ => {}
             }
 
-            emit!(self, node);
+            match node {
+                ComponentValue::ListOfComponentValues(node) => {
+                    emit!(
+                        &mut *self.with_ctx(Ctx {
+                            in_list_of_component_values: true,
+                            ..self.ctx
+                        }),
+                        node
+                    );
+                }
+                _ => {
+                    emit!(self, node);
+                }
+            }
 
             match node {
                 ComponentValue::AtRule(_) | ComponentValue::QualifiedRule(_) => {
