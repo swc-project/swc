@@ -610,15 +610,8 @@ impl<'a, I: Tokens> Parser<I> {
                 let is_case = is!(p, "case");
                 let case_start = cur_pos!(p);
                 bump!(p);
-                let ctx = Context {
-                    dont_parse_colon_as_type_ann: true,
-                    ..p.ctx()
-                };
                 let test = if is_case {
-                    p.with_ctx(ctx)
-                        .include_in_expr(true)
-                        .parse_expr()
-                        .map(Some)?
+                    p.include_in_expr(true).parse_expr().map(Some)?
                 } else {
                     if let Some(previous) = span_of_previous_default {
                         syntax_error!(p, SyntaxError::MultipleDefault { previous });
