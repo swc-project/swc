@@ -503,6 +503,8 @@ impl Compressor {
                 None => continue,
             };
 
+            println!("RULE: {:?}", rule);
+
             let result = match rule {
                 ComponentValue::AtRule(box AtRule {
                     block: Some(block), ..
