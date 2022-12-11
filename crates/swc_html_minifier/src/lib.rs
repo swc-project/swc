@@ -1,7 +1,7 @@
 #![deny(clippy::all)]
 #![feature(box_patterns)]
 
-use std::{cmp::Ordering, mem::take};
+use std::{borrow::Cow, cmp::Ordering, mem::take};
 
 use once_cell::sync::Lazy;
 use serde_json::Value;
@@ -681,7 +681,12 @@ impl Minifier<'_> {
                     &SVG_ELEMENTS_AND_ATTRIBUTES
                 };
 
-                let attribute_name = if let Some(prefix) = &attribute.prefix {
+                let attributes = match default_attributes.get(&element.tag_name) {
+                    Some(element) => element,
+                    None => return false,
+                };
+
+                let attribute_info = if let Some(prefix) = &attribute.prefix {
                     let mut with_namespace =
                         String::with_capacity(prefix.len() + 1 + attribute.name.len());
 
@@ -689,24 +694,20 @@ impl Minifier<'_> {
                     with_namespace.push(':');
                     with_namespace.push_str(&attribute.name);
 
-                    with_namespace.into()
+                    attributes.other.get(&JsWord::from(with_namespace))
                 } else {
-                    attribute.name.clone()
-                };
-                let normalized_value = attribute_value.trim();
-
-                let attributes = match default_attributes.get(&element.tag_name) {
-                    Some(element) => element,
-                    None => return false,
+                    attributes.other.get(&attribute.name)
                 };
 
-                let attribute_info = match attributes.other.get(&attribute_name) {
+                let attribute_info = match attribute_info {
                     Some(attribute_info) => attribute_info,
                     None => return false,
                 };
 
                 match (attribute_info.inherited, &attribute_info.initial) {
                     (None, Some(initial)) | (Some(false), Some(initial)) => {
+                        let normalized_value = attribute_value.trim();
+
                         match self.options.remove_redundant_attributes {
                             RemoveRedundantAttributes::None => false,
                             RemoveRedundantAttributes::Smart => {
@@ -782,7 +783,7 @@ impl Minifier<'_> {
         false
     }
 
-    fn is_preserved_comment(&self, data: &str) -> bool {
+    fn is_preserved_comment(&self, data: &JsWord) -> bool {
         if let Some(preserve_comments) = &self.options.preserve_comments {
             return preserve_comments.iter().any(|regex| regex.is_match(data));
         }
@@ -790,7 +791,7 @@ impl Minifier<'_> {
         false
     }
 
-    fn is_conditional_comment(&self, data: &str) -> bool {
+    fn is_conditional_comment(&self, data: &JsWord) -> bool {
         if CONDITIONAL_COMMENT_START.is_match(data) || CONDITIONAL_COMMENT_END.is_match(data) {
             return true;
         }
@@ -1273,7 +1274,15 @@ impl Minifier<'_> {
         }
     }
 
-    fn collapse_whitespace(&self, data: &str) -> String {
+    fn collapse_whitespace<'a>(&self, data: &'a str) -> Cow<'a, str> {
+        if data.is_empty() {
+            return Cow::Borrowed(data);
+        }
+
+        if data.chars().all(|c| !matches!(c, c if is_whitespace(c))) {
+            return Cow::Borrowed(data);
+        }
+
         let mut collapsed = String::with_capacity(data.len());
         let mut in_whitespace = false;
 
@@ -1294,10 +1303,10 @@ impl Minifier<'_> {
             };
         }
 
-        collapsed
+        Cow::Owned(collapsed)
     }
 
-    fn is_additional_minifier_attribute(&self, name: &str) -> Option<MinifierType> {
+    fn is_additional_minifier_attribute(&self, name: &JsWord) -> Option<MinifierType> {
         if let Some(minify_additional_attributes) = &self.options.minify_additional_attributes {
             for item in minify_additional_attributes {
                 if item.0.is_match(name) {
@@ -2713,7 +2722,7 @@ impl Minifier<'_> {
                                         _ => trimmed.to_string(),
                                     }
                                 } else if matches!(n.name, js_word!("points")) {
-                                    self.collapse_whitespace(value.trim())
+                                    self.collapse_whitespace(value.trim()).to_string()
                                 } else if matches!(n.name, js_word!("exportparts")) {
                                     value.chars().filter(|c| !c.is_whitespace()).collect()
                                 } else {
