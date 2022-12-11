@@ -960,7 +960,18 @@ fn minify_attribute_value(value: &str, quotes: bool) -> (Cow<'_, str>, Option<ch
     while let Some(c) = chars.next() {
         match c {
             '&' => {
-                minified.push_str(&minify_amp(&mut chars));
+                let next = chars.next();
+
+                if let Some(next) = next {
+                    if matches!(next, '#' | 'a'..='z' | 'A'..='Z') {
+                        minified.push_str(&minify_amp(next, &mut chars));
+                    } else {
+                        minified.push('&');
+                        minified.push(next);
+                    }
+                } else {
+                    minified.push('&');
+                }
 
                 continue;
             }
@@ -1017,7 +1028,18 @@ fn minify_text(value: &str) -> Cow<'_, str> {
     while let Some(c) = chars.next() {
         match c {
             '&' => {
-                result.push_str(&minify_amp(&mut chars));
+                let next = chars.next();
+
+                if let Some(next) = next {
+                    if matches!(next, '#' | 'a'..='z' | 'A'..='Z') {
+                        result.push_str(&minify_amp(next, &mut chars));
+                    } else {
+                        result.push('&');
+                        result.push(next);
+                    }
+                } else {
+                    result.push('&');
+                }
             }
             '<' => {
                 result.push_str("&lt;");
@@ -1029,11 +1051,11 @@ fn minify_text(value: &str) -> Cow<'_, str> {
     Cow::Owned(result)
 }
 
-fn minify_amp(chars: &mut Peekable<Chars>) -> String {
+fn minify_amp(next: char, chars: &mut Peekable<Chars>) -> String {
     let mut result = String::with_capacity(7);
 
-    match chars.next() {
-        Some(hash @ '#') => {
+    match next {
+        hash @ '#' => {
             match chars.next() {
                 // HTML CODE
                 // Prevent `&amp;#38;` -> `&#38`
@@ -1070,7 +1092,7 @@ fn minify_amp(chars: &mut Peekable<Chars>) -> String {
         }
         // Named entity
         // Prevent `&amp;current` -> `&current`
-        Some(c @ 'a'..='z') | Some(c @ 'A'..='Z') => {
+        c @ 'a'..='z' | c @ 'A'..='Z' => {
             let mut entity_temporary_buffer = String::with_capacity(33);
 
             entity_temporary_buffer.push('&');
@@ -1107,10 +1129,7 @@ fn minify_amp(chars: &mut Peekable<Chars>) -> String {
         }
         any => {
             result.push('&');
-
-            if let Some(any) = any {
-                result.push(any);
-            }
+            result.push(any);
         }
     }
 
