@@ -1,1 +1,1 @@
-a{color:red;.class{color:red}@media screen and (min-width:100px){color:red}@supports(display:flex){color:red;.other{color:red}}.case-insensitivity{color:red}}.font{>h1{font-weight:700;font-weight:700}}
+a{color:red;.class{color:red}@media screen and (min-width:100px){color:red}@supports(display:flex){color:red;.other{color:red}}.case-insensitivity{color:red}}.font{>h1{font-weight:700;font-weight:700}}.class{>h1{font-weight:700}}.other{>h1{font-weight:700}}
