@@ -3,7 +3,7 @@
 #![allow(clippy::match_like_matches_macro)]
 
 pub use std::fmt::Result;
-use std::{iter::Peekable, str::Chars};
+use std::{borrow::Cow, iter::Peekable, str::Chars};
 
 use swc_atoms::{js_word, JsWord};
 use swc_common::Spanned;
@@ -994,7 +994,20 @@ fn normalize_attribute_value(value: &str) -> String {
 }
 
 #[allow(clippy::unused_peekable)]
-fn minify_text(value: &str) -> String {
+fn minify_text<'a>(value: &'a str) -> Cow<'a, str> {
+    // Fast-path
+    if value.is_empty() {
+        return Cow::Borrowed(value);
+    }
+
+    // Fast-path
+    if value.chars().all(|c| match c {
+        '&' | '<' => false,
+        _ => true,
+    }) {
+        return Cow::Borrowed(value);
+    }
+
     let mut result = String::with_capacity(value.len());
     let mut chars = value.chars().peekable();
 
@@ -1010,7 +1023,7 @@ fn minify_text(value: &str) -> String {
         }
     }
 
-    result
+    Cow::Owned(result)
 }
 
 fn minify_amp(chars: &mut Peekable<Chars>) -> String {
@@ -1115,7 +1128,22 @@ fn minify_amp(chars: &mut Peekable<Chars>) -> String {
 // 4. If the algorithm was not invoked in the attribute mode, replace any
 // occurrences of the "<" character by the string "&lt;", and any occurrences of
 // the ">" character by the string "&gt;".
-fn escape_string(value: &str, is_attribute_mode: bool) -> String {
+fn escape_string<'a>(value: &'a str, is_attribute_mode: bool) -> Cow<'a, str> {
+    // Fast-path
+    if value.is_empty() {
+        return Cow::Borrowed(value);
+    }
+
+    if value.chars().all(|c| match c {
+        '&' | '\u{00A0}' => false,
+        '"' if is_attribute_mode => false,
+        '<' if !is_attribute_mode => false,
+        '>' if !is_attribute_mode => false,
+        _ => true,
+    }) {
+        return Cow::Borrowed(value);
+    }
+
     let mut result = String::with_capacity(value.len());
 
     for c in value.chars() {
@@ -1135,7 +1163,7 @@ fn escape_string(value: &str, is_attribute_mode: bool) -> String {
         }
     }
 
-    result
+    Cow::Owned(result)
 }
 
 fn is_html_tag_name(namespace: Namespace, tag_name: &JsWord) -> bool {
