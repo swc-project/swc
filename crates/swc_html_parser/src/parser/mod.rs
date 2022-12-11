@@ -533,12 +533,7 @@ where
     fn run(&mut self) -> PResult<()> {
         while !self.stopped {
             let adjusted_current_node = self.get_adjusted_current_node();
-            let is_element_in_html_namespace =
-                if is_element_in_html_namespace(adjusted_current_node) {
-                    true
-                } else {
-                    is_html_integration_point(adjusted_current_node)
-                };
+            let is_element_in_html_namespace = is_element_in_html_namespace(adjusted_current_node);
 
             self.input
                 .set_adjusted_current_node_to_html_namespace(is_element_in_html_namespace);
