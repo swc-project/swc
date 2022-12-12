@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = "Apache-2.0"
 name          = "swc_ecma_transforms_optimization"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.168.10"
+version       = "0.168.11"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [lib]
@@ -34,7 +34,7 @@ swc_atoms                  = { version = "0.4.25", path = "../swc_atoms" }
 swc_common                 = { version = "0.29.19", path = "../swc_common" }
 swc_ecma_ast               = { version = "0.95.3", path = "../swc_ecma_ast" }
 swc_ecma_parser            = { version = "0.123.6", path = "../swc_ecma_parser" }
-swc_ecma_transforms_base   = { version = "0.112.8", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_base   = { version = "0.112.9", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_macros = { version = "0.5.0", path = "../swc_ecma_transforms_macros" }
 swc_ecma_utils             = { version = "0.106.6", path = "../swc_ecma_utils" }
 swc_ecma_visit             = { version = "0.81.3", path = "../swc_ecma_visit" }
@@ -42,10 +42,10 @@ swc_fast_graph             = { version = "0.17.20", path = "../swc_fast_graph" }
 tracing                    = "0.1.32"
 
 [dev-dependencies]
-swc_ecma_transforms_compat     = { version = "0.137.9", path = "../swc_ecma_transforms_compat" }
-swc_ecma_transforms_module     = { version = "0.154.9", path = "../swc_ecma_transforms_module" }
-swc_ecma_transforms_proposal   = { version = "0.145.9", path = "../swc_ecma_transforms_proposal" }
-swc_ecma_transforms_react      = { version = "0.156.9", path = "../swc_ecma_transforms_react" }
-swc_ecma_transforms_testing    = { version = "0.115.9", path = "../swc_ecma_transforms_testing" }
-swc_ecma_transforms_typescript = { version = "0.160.10", path = "../swc_ecma_transforms_typescript" }
+swc_ecma_transforms_compat     = { version = "0.137.10", path = "../swc_ecma_transforms_compat" }
+swc_ecma_transforms_module     = { version = "0.154.10", path = "../swc_ecma_transforms_module" }
+swc_ecma_transforms_proposal   = { version = "0.145.10", path = "../swc_ecma_transforms_proposal" }
+swc_ecma_transforms_react      = { version = "0.156.10", path = "../swc_ecma_transforms_react" }
+swc_ecma_transforms_testing    = { version = "0.115.10", path = "../swc_ecma_transforms_testing" }
+swc_ecma_transforms_typescript = { version = "0.160.11", path = "../swc_ecma_transforms_typescript" }
 testing                        = { version = "0.31.20", path = "../testing" }
