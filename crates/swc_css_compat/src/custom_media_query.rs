@@ -117,15 +117,6 @@ impl VisitMut for CustomMediaQueryTransform {
             }) => !is_feature_taken(feature),
         })
     }
-
-    fn visit_mut_rules(&mut self, n: &mut Vec<Rule>) {
-        n.visit_mut_children_with(self);
-
-        n.retain(|n| match n {
-            Rule::AtRule(n) => n.name != *"custom-media",
-            _ => true,
-        });
-    }
 }
 
 fn is_feature_taken(feature: &MediaInParens) -> bool {
