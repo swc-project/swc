@@ -87,7 +87,7 @@ fn test_custom_media_query(input: PathBuf) {
         let fm = cm.load_file(&input).unwrap();
         let mut ss = parse_stylesheet(&fm);
 
-        ss.visit_mut_with(&mut nesting());
+        ss.visit_mut_with(&mut custom_media_query());
 
         let s = print_stylesheet(&ss);
 
