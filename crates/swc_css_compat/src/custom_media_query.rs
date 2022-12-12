@@ -14,69 +14,8 @@ pub fn process_custom_media_query(ss: &mut Stylesheet) {
 #[derive(Debug, Default)]
 struct CustomMediaQueryTransform {
     medias: Vec<CustomMediaQuery>,
-}
 
-impl CustomMediaQueryTransform {
-    fn expand_media_query(&self, to: &mut Vec<MediaQuery>, q: MediaQuery) {
-        if let MediaQuery {
-            modifier: None,
-            media_type: None,
-            keyword: None,
-            condition: Some(cond),
-            ..
-        } = q
-        {
-            self.expand_media_condition_type(to, cond);
-            return;
-        }
-
-        to.push(q);
-    }
-
-    fn expand_media_condition_type(&self, to: &mut Vec<MediaQuery>, cond: Box<MediaConditionType>) {
-        match *cond {
-            MediaConditionType::All(cond) => {
-                self.expand_media_condition(to, cond);
-            }
-            MediaConditionType::WithoutOr(cond) => {
-                self.expand_media_condition_without_or(to, cond);
-            }
-        }
-    }
-
-    fn expand_media_condition(&self, to: &mut Vec<MediaQuery>, cond: MediaCondition) {
-        for cond in cond.conditions {
-            self.expand_media_condition_all_type(to, cond);
-        }
-    }
-
-    fn expand_media_condition_without_or(
-        &self,
-        to: &mut Vec<MediaQuery>,
-        cond: MediaConditionWithoutOr,
-    ) {
-    }
-
-    fn expand_media_condition_all_type(
-        &self,
-        to: &mut Vec<MediaQuery>,
-        cond: MediaConditionAllType,
-    ) {
-        match cond {
-            MediaConditionAllType::Not(cond) => self.expand_media_not(to, cond),
-            MediaConditionAllType::And(cond) => self.expand_media_and(to, cond),
-            MediaConditionAllType::Or(cond) => self.expand_media_or(to, cond),
-            MediaConditionAllType::MediaInParens(cond) => self.expand_media_in_parens(to, cond),
-        }
-    }
-
-    fn expand_media_not(&self, to: &mut Vec<MediaQuery>, cond: MediaNot) {}
-
-    fn expand_media_and(&self, to: &mut Vec<MediaQuery>, cond: MediaAnd) {}
-
-    fn expand_media_or(&self, to: &mut Vec<MediaQuery>, cond: MediaOr) {}
-
-    fn expand_media_in_parens(&self, to: &mut Vec<MediaQuery>, cond: MediaInParens) {}
+    new_medias: Vec<MediaQuery>,
 }
 
 impl VisitMut for CustomMediaQueryTransform {
@@ -91,15 +30,20 @@ impl VisitMut for CustomMediaQueryTransform {
     }
 
     fn visit_mut_media_query_list(&mut self, n: &mut MediaQueryList) {
-        n.visit_mut_children_with(self);
+        let prev = self.new_medias.take();
 
         let mut new = Vec::with_capacity(n.queries.len());
 
-        for q in n.queries.take() {
-            self.expand_media_query(&mut new, q);
+        for mut q in n.queries.take() {
+            q.visit_mut_with(self);
+
+            new.push(q);
+
+            new.append(&mut self.new_medias);
         }
 
         n.queries = new;
+        self.new_medias = prev;
     }
 
     fn visit_mut_media_in_parens(&mut self, n: &mut MediaInParens) {
