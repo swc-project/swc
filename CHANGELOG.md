@@ -1,4 +1,24 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es/codegen)** Don't print trailing coma for a rest argument (#6610) ([68d76af](https://github.com/swc-project/swc/commit/68d76afe5d99f834dd4578cc50bd48624f76c21d))
+
+
+- **(es/parser)** Parse types in `CallExpression` inside templates (#6611) ([c44f1d0](https://github.com/swc-project/swc/commit/c44f1d0a7fd31b6c8019e5a17b0f80dab4c9c01c))
+
+
+- **(node-swc)** Add missing `const_to_let` to the type (#6615) ([7e841a5](https://github.com/swc-project/swc/commit/7e841a5d3061e6ef8b48995bdcd492ffa02b3b8d))
+
+### Features
+
+
+
+- **(dbg-swc)** Kill `creduce` on drop (#6614) ([2bf7805](https://github.com/swc-project/swc/commit/2bf78059801d8f07bf31eab6b077d7fb723837f8))
+
 ## [1.3.22] - 2022-12-09
 
 ### Bug Fixes

@@ -1,7 +1,7 @@
 use std::{
     io::Write,
     path::{Path, PathBuf},
-    process::{Command, Stdio},
+    process::{Child, Command, Stdio},
     sync::Arc,
 };
 
@@ -129,4 +129,14 @@ pub fn all_js_files(path: &Path) -> Result<Vec<PathBuf>> {
         }
     })
     .with_context(|| format!("failed to get list of `.js` files in {}", path.display()))
+}
+
+pub(crate) struct ChildGuard(pub Child);
+
+impl Drop for ChildGuard {
+    fn drop(&mut self) {
+        if let Err(e) = self.0.kill() {
+            eprintln!("Could not kill child process: {}", e)
+        }
+    }
 }

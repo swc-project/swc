@@ -218,7 +218,6 @@ impl<I: Tokens> Parser<I> {
             let ctx = Context {
                 in_cond_expr: true,
                 will_expect_colon_for_cond: false,
-                dont_parse_colon_as_type_ann: false,
                 ..self.ctx()
             };
             let alt = self.with_ctx(ctx).parse_assignment_expr()?;
@@ -306,7 +305,6 @@ impl<I: Tokens> Parser<I> {
                 tok!('[') => {
                     let ctx = Context {
                         will_expect_colon_for_cond: false,
-                        dont_parse_colon_as_type_ann: false,
                         ..self.ctx()
                     };
                     return self.with_ctx(ctx).parse_array_lit();
@@ -378,8 +376,13 @@ impl<I: Tokens> Parser<I> {
                 }
 
                 tok!('`') => {
+                    let ctx = Context {
+                        will_expect_colon_for_cond: false,
+                        ..self.ctx()
+                    };
+
                     // parse template literal
-                    return Ok(Box::new(Expr::Tpl(self.parse_tpl(false)?)));
+                    return Ok(Box::new(Expr::Tpl(self.with_ctx(ctx).parse_tpl(false)?)));
                 }
 
                 tok!('(') => {
@@ -841,7 +844,6 @@ impl<I: Tokens> Parser<I> {
         let return_type = if !self.ctx().will_expect_colon_for_cond
             && self.input.syntax().typescript()
             && is!(self, ':')
-            && !self.ctx().dont_parse_colon_as_type_ann
         {
             self.try_parse_ts(|p| {
                 let return_type = p.parse_ts_type_or_type_predicate_ann(&tok!(':'))?;
@@ -1470,7 +1472,12 @@ impl<I: Tokens> Parser<I> {
 
                 // MemberExpression[?Yield, ?Await] TemplateLiteral[?Yield, ?Await, +Tagged]
                 if is!(self, '`') {
-                    let tpl = self.parse_tagged_tpl(expr, None)?;
+                    let ctx = Context {
+                        will_expect_colon_for_cond: false,
+                        ..self.ctx()
+                    };
+
+                    let tpl = self.with_ctx(ctx).parse_tagged_tpl(expr, None)?;
                     return Ok((Box::new(Expr::TaggedTpl(tpl)), true));
                 }
 

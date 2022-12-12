@@ -343,6 +343,7 @@ export interface TerserCompressOptions {
 
   unused?: boolean,
 
+  const_to_let?: boolean
 
   module?: boolean,
 }
