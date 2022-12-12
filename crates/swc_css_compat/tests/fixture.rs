@@ -60,6 +60,6 @@ fn test_nesting(input: PathBuf, suffix: Option<&str>) {
 }
 
 #[testing::fixture("tests/nesting/**/input.css")]
-fn test_without_env(input: PathBuf) {
+fn test_nesting_without_env(input: PathBuf) {
     test_nesting(input, None)
 }
