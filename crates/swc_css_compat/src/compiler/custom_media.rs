@@ -41,6 +41,7 @@ impl CustomMediaHandler {
             );
         }
 
+        dbg!(&*q);
         to.push(q.take());
     }
 
@@ -70,11 +71,14 @@ impl CustomMediaHandler {
     }
 
     fn process_media_condition(&mut self, to: &mut Vec<MediaQuery>, cond: &mut MediaCondition) {
-        for cond in cond.conditions.iter_mut() {
+        cond.conditions.retain_mut(|cond| {
             if let Some(added) = self.process_media_condition_all_type(cond) {
                 to.extend(added.queries);
+                return false;
             }
-        }
+
+            true
+        })
     }
 
     fn process_media_condition_without_or(
@@ -82,11 +86,14 @@ impl CustomMediaHandler {
         to: &mut Vec<MediaQuery>,
         cond: &mut MediaConditionWithoutOr,
     ) {
-        for cond in cond.conditions.iter_mut() {
+        cond.conditions.retain_mut(|cond| {
             if let Some(added) = self.process_media_condition_without_or_type(cond) {
                 to.extend(added.queries);
+                return false;
             }
-        }
+
+            true
+        })
     }
 
     fn process_media_condition_all_type(
