@@ -1,0 +1,29 @@
+@media (--mq-a) {
+	body {
+		order: 1;
+	}
+}
+
+@media (--mq-a), (--mq-a) {
+	body {
+		order: 1;
+	}
+}
+
+@media not all and (--mq-a) {
+	body {
+		order: 2;
+	}
+}
+
+@media (--not-mq-a) {
+	body {
+		order: 1;
+	}
+}
+
+@media not all and (--not-mq-a) {
+	body {
+		order: 2;
+	}
+}

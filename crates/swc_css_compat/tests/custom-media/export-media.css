@@ -1,0 +1,8 @@
+@custom-media --mq-a (max-width: 30em), (max-height: 30em);
+@custom-media --mq-b screen and (max-width: 30em);
+@custom-media --not-mq-a not all and (--mq-a);
+@custom-media --circular-mq-a (--circular-mq-b);
+@custom-media --circular-mq-b (--circular-mq-a);
+@custom-media --min (min-width: 320px);
+@custom-media --max (max-width: 640px);
+@custom-media --concat (min-width: 320px) and (max-width: 640px);

@@ -1,0 +1,61 @@
+@custom-media --🧑🏾‍🎤 (min-width: 1);
+
+@media (--🧑🏾‍🎤) {
+	.a {
+		order: 1;
+	}
+}
+
+@custom-media --\(\)-escaped (min-width: 2);
+
+@media (--\(\)-escaped) {
+	.a {
+		order: 2;
+	}
+}
+
+@custom-media --modern (min-width: 3), (min-width: 4);
+
+@media (--modern) and (width > 1024px) {
+	.a { order: 3; }
+}
+
+/* #region https://github.com/csstools/postcss-custom-media/issues/51 */
+/* TODO: This is broken at the moment */
+@custom-media --screen only screen;
+@custom-media --md-and-larger1 --screen and (width >= 570px);
+@custom-media --md-and-larger2 (--screen) and (width >= 570px);
+@custom-media --md-and-larger3 only screen and (width >= 570px);
+@custom-media --md-larger4 (width >=570px);
+@custom-media --md-smaller4 (width < 1000px);
+
+@media (--md-and-larger1) {
+	body {
+		background-color: red;
+	}
+}
+
+@media (--md-and-larger2) {
+	body {
+		background-color: yellow;
+	}
+}
+
+@media (--md-and-larger3) {
+	body {
+		background-color: green;
+	}
+}
+
+@media (--screen) and (--md-larger4) {
+	body {
+		background-color: green;
+	}
+}
+
+@media (--md-larger4) and (--md-smaller4) {
+	body {
+		background-color: green;
+	}
+}
+/* #endregion https://github.com/csstools/postcss-custom-media/issues/51 */

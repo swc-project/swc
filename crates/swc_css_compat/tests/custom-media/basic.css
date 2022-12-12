@@ -1,0 +1,132 @@
+@custom-media --mq-a (max-width: 30em), (max-height: 30em);
+@custom-media --mq-b screen and (max-width: 30em);
+@custom-media --not-mq-a not all and (--mq-a);
+
+@media (--mq-a) {
+	body {
+		order: 1;
+	}
+}
+
+@media (--mq-b) {
+	body {
+		order: 1;
+	}
+}
+
+@media (--mq-a), (--mq-a) {
+	body {
+		order: 1;
+	}
+}
+
+@media not all and (--mq-a) {
+	body {
+		order: 2;
+	}
+}
+
+@media (--not-mq-a) {
+	body {
+		order: 1;
+	}
+}
+
+@media not all and (--not-mq-a) {
+	body {
+		order: 2;
+	}
+}
+
+@custom-media --circular-mq-a (--circular-mq-b);
+@custom-media --circular-mq-b (--circular-mq-a);
+
+@media (--circular-mq-a) {
+	body {
+		order: 3;
+	}
+}
+
+@media (--circular-mq-b) {
+	body {
+		order: 4;
+	}
+}
+
+@media (--unresolved-mq) {
+	body {
+		order: 5;
+	}
+}
+
+@custom-media --min (min-width: 320px);
+@custom-media --max (max-width: 640px);
+
+@media (--min) and (--max) {
+	body {
+		order: 6;
+	}
+}
+
+@custom-media --concat (min-width: 320px) and (max-width: 640px);
+
+@media (--concat) {
+	body {
+		order: 7;
+	}
+}
+
+@media (--concat) and (min-aspect-ratio: 16/9) {
+	body {
+		order: 8;
+	}
+}
+
+@media ( --mq-a ) {
+	body {
+		order: 1000;
+	}
+}
+
+@media (	--mq-a	) {
+	body {
+		order: 1001;
+	}
+}
+
+@media ( --mq-a ), (   --mq-a    ) {
+	body {
+		order: 1002;
+	}
+}
+
+@media (	--mq-a	), (			--mq-a				) {
+	body {
+		order: 1003;
+	}
+}
+
+@media ( --mq-a   ), (   --mq-a           ) {
+	body {
+		order: 1004;
+	}
+}
+
+@media (
+	--mq-a
+),
+(
+	--mq-a
+) {
+	body {
+		order: 1005;
+	}
+}
+
+@media (trailer--) {
+	body {
+		order: 1006;
+	}
+}
+
+@custom-media trailer-- (min-width: 320px);

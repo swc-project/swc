@@ -1,0 +1,49 @@
+@media (min-width: 1) {
+	.a {
+		order: 1;
+	}
+}
+
+@media (min-width: 2) {
+	.a {
+		order: 2;
+	}
+}
+
+@media (min-width: 3) and (width > 1024px),(min-width: 4) and (width > 1024px) {
+	.a { order: 3; }
+}
+
+/* #region https://github.com/csstools/postcss-custom-media/issues/51 */
+/* TODO: This is broken at the moment */
+
+@media only screen(width >= 570px) {
+	body {
+		background-color: red;
+	}
+}
+
+@media only screen(width >= 570px) {
+	body {
+		background-color: yellow;
+	}
+}
+
+@media only screen and (width >= 570px) {
+	body {
+		background-color: green;
+	}
+}
+
+@media only screen(width >=570px) {
+	body {
+		background-color: green;
+	}
+}
+
+@media (width >=570px) and (width < 1000px) {
+	body {
+		background-color: green;
+	}
+}
+/* #endregion https://github.com/csstools/postcss-custom-media/issues/51 */
