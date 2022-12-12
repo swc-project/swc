@@ -81,3 +81,13 @@
     order: 1;
   }
 }
+@media (--foo) {
+  body {
+    background-color: red;
+  }
+}
+@media only screen and (--screen) {
+  body {
+    background-color: red;
+  }
+}

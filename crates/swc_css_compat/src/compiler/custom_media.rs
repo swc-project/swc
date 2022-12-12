@@ -38,6 +38,9 @@ impl CustomMediaHandler {
     }
 
     pub(crate) fn process_media_query(&mut self, n: &mut MediaQuery) {
+        // Limited support for `modifier` and `media_type`, it is impossible to lowering
+        // syntax for multiple media types, so we handle only case when only one media
+        // type exists.
         if let Some((modifier, media_type)) = self.modifier_and_media_type.take() {
             n.modifier = modifier;
             n.media_type = media_type;
@@ -156,6 +159,10 @@ impl CustomMediaHandler {
                             }
                         }
                     }
+                }
+
+                if new_media_condition.conditions.len() == 0 {
+                    return;
                 }
 
                 if new_media_condition.conditions.len() == 1 {

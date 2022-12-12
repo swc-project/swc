@@ -107,3 +107,20 @@
 		order: 1;
 	}
 }
+
+/* TODO do prescan */
+@media (--foo) {
+	body {
+		background-color: red;
+	}
+}
+
+@custom-media --foo print;
+
+@custom-media --screen only screen;
+
+@media (--screen) {
+	body {
+		background-color: red;
+	}
+}

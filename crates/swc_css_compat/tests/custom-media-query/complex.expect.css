@@ -28,17 +28,17 @@
     color: green;
   }
 }
-@media only screen and (() and (width >= 570px)) {
+@media only screen and ((--screen) and (width >= 570px)) {
   body {
     background-color: red;
   }
 }
-@media only screen and (() and (width >= 570px)) {
+@media only screen and ((--screen) and (width >= 570px)) {
   body {
     background-color: red;
   }
 }
-@media only screen and (() and (width >= 570px)) {
+@media only screen and ((--screen) and (width >= 570px)) {
   body {
     background-color: yellow;
   }
@@ -48,7 +48,7 @@
     background-color: green;
   }
 }
-@media only screen and () and (width >= 570px) {
+@media only screen and (--screen) and (width >= 570px) {
   body {
     background-color: green;
   }
