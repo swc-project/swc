@@ -28,6 +28,12 @@
 
 - **(dbg-swc)** Kill `creduce` on drop (#6614) ([2bf7805](https://github.com/swc-project/swc/commit/2bf78059801d8f07bf31eab6b077d7fb723837f8))
 
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Adjust upload of cli binaries (#6624) ([81b352d](https://github.com/swc-project/swc/commit/81b352d9667c8874b1d9d87a92cca5b8d4c9fd41))
+
 ## [1.3.22] - 2022-12-09
 
 ### Bug Fixes
