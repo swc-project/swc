@@ -57,10 +57,10 @@ impl VisitMut for CustomMediaQueryTransform {
             } = q
             {
                 continue;
+            } else {
+                dbg!(&q);
+                new.push(q);
             }
-
-            dbg!(&q);
-            new.push(q);
 
             new.append(&mut self.new_medias);
         }
