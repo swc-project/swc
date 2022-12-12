@@ -1,3 +1,6 @@
+@import url("narrow.css") supports(display: flex) screen and ((max-width: 30em) or (max-height: 30em));
+@import url("narrow.css") supports(display: flex) ((max-width: 30em) or (max-height: 30em));
+@import url("narrow.css") ((max-width: 30em) or (max-height: 30em));
 @media ((max-width: 30em) or (max-height: 30em)) {
   body {
     order: 1;
@@ -71,5 +74,10 @@
 @media (--unresolved-mq) {
   body {
     order: 5;
+  }
+}
+@media ((max-width: 30em) or (max-height: 30em)) {
+  body {
+    order: 1;
   }
 }

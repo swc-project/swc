@@ -2,6 +2,10 @@
 @custom-media --mq-b screen and (max-width: 30em);
 @custom-media --not-mq-a not all and (--mq-a);
 
+@import url("narrow.css") supports(display: flex) screen and (--mq-a);
+@import url("narrow.css") supports(display: flex) (--mq-a);
+@import url("narrow.css") (--mq-a);
+
 @media (--mq-a) {
 	body {
 		order: 1;
@@ -93,5 +97,13 @@
 @media (--unresolved-mq) {
 	body {
 		order: 5;
+	}
+}
+
+@CUSTOM-MEDIA --CASE (max-width: 30em), (max-height: 30em);
+
+@media (--CASE) {
+	body {
+		order: 1;
 	}
 }

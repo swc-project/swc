@@ -57,15 +57,8 @@ impl VisitMut for Compiler {
     fn visit_mut_rules(&mut self, n: &mut Vec<Rule>) {
         n.visit_mut_children_with(self);
 
-        n.retain(|n| match n {
-            Rule::AtRule(n) => {
-                if self.c.process.contains(Features::CUSTOM_MEDIA) && n.name == *"custom-media" {
-                    return false;
-                }
-
-                true
-            }
-            _ => true,
-        });
+        if self.c.process.contains(Features::CUSTOM_MEDIA) {
+            self.custom_media.process_rules(n);
+        }
     }
 }

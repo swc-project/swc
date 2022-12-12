@@ -1,9 +1,10 @@
+use swc_atoms::js_word;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_css_ast::{
-    AtRule, AtRulePrelude, CustomMediaQuery, CustomMediaQueryMediaType, Ident, MediaCondition,
-    MediaConditionAllType, MediaConditionType, MediaConditionWithoutOr,
+    AtRule, AtRuleName, AtRulePrelude, CustomMediaQuery, CustomMediaQueryMediaType, Ident,
+    MediaCondition, MediaConditionAllType, MediaConditionType, MediaConditionWithoutOr,
     MediaConditionWithoutOrType, MediaFeature, MediaFeatureBoolean, MediaFeatureName,
-    MediaInParens, MediaOr, MediaQuery, MediaType,
+    MediaInParens, MediaOr, MediaQuery, MediaType, Rule,
 };
 
 #[derive(Debug, Default)]
@@ -14,11 +15,26 @@ pub(super) struct CustomMediaHandler {
 
 impl CustomMediaHandler {
     pub(crate) fn store_custom_media(&mut self, n: &mut AtRule) {
-        if n.name == *"custom-media" {
-            if let Some(box AtRulePrelude::CustomMediaPrelude(prelude)) = &mut n.prelude {
-                self.medias.push(prelude.take());
+        if let AtRuleName::Ident(name) = &n.name {
+            if name.value.eq_ignore_ascii_case(&js_word!("custom-media")) {
+                if let Some(box AtRulePrelude::CustomMediaPrelude(prelude)) = &mut n.prelude {
+                    self.medias.push(prelude.take());
+                }
             }
         }
+    }
+
+    pub(crate) fn process_rules(&mut self, n: &mut Vec<Rule>) {
+        n.retain(|n| match n {
+            Rule::AtRule(n) => {
+                if matches!(&n.name, AtRuleName::Ident(ident) if ident.value.eq_ignore_ascii_case(&js_word!("custom-media"))) {
+                    return false;
+                }
+
+                true
+            }
+            _ => true,
+        });
     }
 
     pub(crate) fn process_media_query(&mut self, n: &mut MediaQuery) {
@@ -87,28 +103,26 @@ impl CustomMediaHandler {
                                             ),
                                         );
                                     }
+                                } else if let Some(MediaConditionAllType::MediaInParens(inner)) =
+                                    media_condition.conditions.get(0)
+                                {
+                                    new_media_condition
+                                        .conditions
+                                        .push(MediaConditionAllType::Or(MediaOr {
+                                            span: DUMMY_SP,
+                                            keyword: None,
+                                            condition: inner.clone(),
+                                        }));
                                 } else {
-                                    if let Some(MediaConditionAllType::MediaInParens(inner)) =
-                                        media_condition.conditions.get(0)
-                                    {
-                                        new_media_condition.conditions.push(
-                                            MediaConditionAllType::Or(MediaOr {
-                                                span: DUMMY_SP,
-                                                keyword: None,
-                                                condition: inner.clone(),
-                                            }),
-                                        );
-                                    } else {
-                                        new_media_condition.conditions.push(
-                                            MediaConditionAllType::Or(MediaOr {
-                                                span: DUMMY_SP,
-                                                keyword: None,
-                                                condition: MediaInParens::MediaCondition(
-                                                    media_condition.clone(),
-                                                ),
-                                            }),
-                                        );
-                                    }
+                                    new_media_condition
+                                        .conditions
+                                        .push(MediaConditionAllType::Or(MediaOr {
+                                            span: DUMMY_SP,
+                                            keyword: None,
+                                            condition: MediaInParens::MediaCondition(
+                                                media_condition.clone(),
+                                            ),
+                                        }));
                                 }
                             }
                             MediaConditionType::WithoutOr(media_condition) => {
