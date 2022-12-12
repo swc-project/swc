@@ -1,9 +1,9 @@
 use swc_common::util::take::Take;
 use swc_css_ast::{
-    AtRule, AtRulePrelude, CustomMediaQuery, CustomMediaQueryMediaType, MediaCondition,
+    AtRule, AtRulePrelude, CustomMediaQuery, CustomMediaQueryMediaType, MediaAnd, MediaCondition,
     MediaConditionAllType, MediaConditionType, MediaConditionWithoutOr, MediaFeature,
-    MediaFeatureBoolean, MediaFeatureName, MediaInParens, MediaQuery, MediaQueryList, Rule,
-    Stylesheet,
+    MediaFeatureBoolean, MediaFeatureName, MediaInParens, MediaNot, MediaOr, MediaQuery,
+    MediaQueryList, Rule, Stylesheet,
 };
 use swc_css_visit::{VisitMut, VisitMutWith};
 
@@ -63,12 +63,20 @@ impl CustomMediaQueryTransform {
         cond: MediaConditionAllType,
     ) {
         match cond {
-            MediaConditionAllType::Not(cond) => {}
-            MediaConditionAllType::And(cond) => {}
-            MediaConditionAllType::Or(cond) => {}
-            MediaConditionAllType::MediaInParens(cond) => {}
+            MediaConditionAllType::Not(cond) => self.expand_media_not(to, cond),
+            MediaConditionAllType::And(cond) => self.expand_media_and(to, cond),
+            MediaConditionAllType::Or(cond) => self.expand_media_or(to, cond),
+            MediaConditionAllType::MediaInParens(cond) => self.expand_media_in_parens(to, cond),
         }
     }
+
+    fn expand_media_not(&self, to: &mut Vec<MediaQuery>, cond: MediaNot) {}
+
+    fn expand_media_and(&self, to: &mut Vec<MediaQuery>, cond: MediaAnd) {}
+
+    fn expand_media_or(&self, to: &mut Vec<MediaQuery>, cond: MediaOr) {}
+
+    fn expand_media_in_parens(&self, to: &mut Vec<MediaQuery>, cond: MediaInParens) {}
 }
 
 impl VisitMut for CustomMediaQueryTransform {
