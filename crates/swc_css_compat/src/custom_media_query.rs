@@ -48,8 +48,18 @@ impl VisitMut for CustomMediaQueryTransform {
         for mut q in n.queries.take() {
             q.visit_mut_with(self);
 
-            dbg!(&q);
-            new.push(q);
+            if let MediaQuery {
+                modifier: None,
+                media_type: None,
+                keyword: None,
+                condition: None,
+                ..
+            } = q
+            {
+            } else {
+                dbg!(&q);
+                new.push(q);
+            }
 
             new.append(&mut self.new_medias);
         }
