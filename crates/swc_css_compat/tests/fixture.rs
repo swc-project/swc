@@ -18,34 +18,6 @@ use swc_css_parser::{parse_file, parser::ParserConfig};
 use swc_css_visit::VisitMutWith;
 use testing::NormalizedOutput;
 
-fn test_nesting(input: PathBuf, suffix: Option<&str>) {
-    let parent = input.parent().unwrap();
-    let output = match suffix {
-        Some(suffix) => parent.join("output.".to_owned() + suffix + ".css"),
-        _ => parent.join("output.css"),
-    };
-
-    testing::run_test(false, |cm, _| {
-        //
-        let fm = cm.load_file(&input).unwrap();
-        let mut ss = parse_stylesheet(&fm);
-
-        ss.visit_mut_with(&mut nesting());
-
-        let s = print_stylesheet(&ss);
-
-        NormalizedOutput::from(s).compare_to_file(&output).unwrap();
-
-        Ok(())
-    })
-    .unwrap();
-}
-
-#[testing::fixture("tests/nesting/**/input.css")]
-fn test_nesting_without_env(input: PathBuf) {
-    test_nesting(input, None)
-}
-
 fn parse_stylesheet(fm: &Lrc<SourceFile>) -> Stylesheet {
     let mut errors = vec![];
     let ss: Stylesheet = parse_file(
@@ -76,4 +48,32 @@ fn print_stylesheet(ss: &Stylesheet) -> String {
     }
 
     s
+}
+
+fn test_nesting(input: PathBuf, suffix: Option<&str>) {
+    let parent = input.parent().unwrap();
+    let output = match suffix {
+        Some(suffix) => parent.join("output.".to_owned() + suffix + ".css"),
+        _ => parent.join("output.css"),
+    };
+
+    testing::run_test(false, |cm, _| {
+        //
+        let fm = cm.load_file(&input).unwrap();
+        let mut ss = parse_stylesheet(&fm);
+
+        ss.visit_mut_with(&mut nesting());
+
+        let s = print_stylesheet(&ss);
+
+        NormalizedOutput::from(s).compare_to_file(&output).unwrap();
+
+        Ok(())
+    })
+    .unwrap();
+}
+
+#[testing::fixture("tests/nesting/**/input.css")]
+fn test_nesting_without_env(input: PathBuf) {
+    test_nesting(input, None)
 }
