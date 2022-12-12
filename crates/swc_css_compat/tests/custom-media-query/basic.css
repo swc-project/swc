@@ -124,3 +124,44 @@
 		background-color: red;
 	}
 }
+
+@media ((((((--mq-a)))))) {
+	body {
+		order: 1;
+	}
+}
+
+@custom-media --mq-d (max-width: 40em);
+
+@media ((((((--mq-a))))) or ((((--mq-d))))) {
+	body {
+		order: 1;
+	}
+}
+
+@custom-media --mq-e (max-width: 40em), (max-height: 40em);
+
+@media ((((((--mq-a))))) or ((((--mq-e))))) {
+	body {
+		order: 1;
+	}
+}
+
+
+@media ((((((--mq-a)))))), ((((((--mq-a)))))) {
+	body {
+		order: 1;
+	}
+}
+
+@media ((((((--mq-a))))) or ((((--mq-e))))), ((((((--mq-a))))) or ((((--mq-e))))) {
+	body {
+		order: 1;
+	}
+}
+
+@media (--mq-a) or (--mq-e), (--mq-a) or (--mq-e) {
+	body {
+		order: 1;
+	}
+}
