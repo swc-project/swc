@@ -194,18 +194,28 @@ impl CustomMediaHandler {
                                 }
                             }
                             MediaConditionType::WithoutOr(media_condition) => {
-                                let media_condition = self
+                                let mut media_condition = self
                                     .media_condition_without_or_to_media_condition(media_condition);
 
                                 if new_media_condition.conditions.is_empty() {
-                                    let media_in_parens =
-                                        if let Some(MediaConditionAllType::MediaInParens(inner)) =
-                                            media_condition.conditions.get(0)
+                                    let media_in_parens = if matches!(
+                                        media_condition.conditions.get(0),
+                                        Some(MediaConditionAllType::MediaInParens(_))
+                                    ) {
+                                        let media_in_parens = match media_condition.conditions.pop()
                                         {
-                                            inner.clone()
-                                        } else {
-                                            MediaInParens::MediaCondition(media_condition)
+                                            Some(MediaConditionAllType::MediaInParens(inner)) => {
+                                                inner
+                                            }
+                                            _ => {
+                                                unreachable!();
+                                            }
                                         };
+
+                                        media_in_parens
+                                    } else {
+                                        MediaInParens::MediaCondition(media_condition)
+                                    };
 
                                     new_media_condition.conditions.push(
                                         MediaConditionAllType::MediaInParens(media_in_parens),

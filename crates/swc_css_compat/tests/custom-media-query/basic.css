@@ -177,3 +177,21 @@
 		color: red;
 	}
 }
+
+@media ((max-width: 30em) or (--mq-a)) {
+	body {
+		order: 1;
+	}
+}
+
+@media ((max-width: 30em) and (--mq-a)) {
+	body {
+		order: 1;
+	}
+}
+
+@media ((max-width: 30em) and (not (--mq-a))) {
+	body {
+		order: 1;
+	}
+}
