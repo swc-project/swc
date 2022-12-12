@@ -2,9 +2,9 @@ use swc_atoms::js_word;
 use swc_common::util::take::Take;
 use swc_css_ast::{
     AtRule, AtRulePrelude, CustomMediaQuery, CustomMediaQueryMediaType, Ident, MediaAnd,
-    MediaCondition, MediaConditionAllType, MediaConditionWithoutOr, MediaConditionWithoutOrType,
-    MediaFeature, MediaFeatureBoolean, MediaFeatureName, MediaInParens, MediaNot, MediaOr,
-    MediaQuery, MediaQueryList, Rule, Stylesheet,
+    MediaCondition, MediaConditionAllType, MediaConditionType, MediaConditionWithoutOr,
+    MediaConditionWithoutOrType, MediaFeature, MediaFeatureBoolean, MediaFeatureName,
+    MediaInParens, MediaNot, MediaOr, MediaQuery, MediaQueryList, Rule, Stylesheet,
 };
 use swc_css_visit::{VisitMut, VisitMutWith};
 
@@ -27,6 +27,19 @@ impl VisitMut for CustomMediaQueryTransform {
             if let Some(box AtRulePrelude::CustomMediaPrelude(prelude)) = &mut n.prelude {
                 self.medias.push(prelude.take());
             }
+        }
+    }
+
+    fn visit_mut_media_query(&mut self, n: &mut MediaQuery) {
+        n.visit_mut_children_with(self);
+
+        match &n.condition {
+            Some(box MediaConditionType::All(cond)) => {
+                if cond.conditions.is_empty() {
+                    n.condition = None;
+                }
+            }
+            _ => {}
         }
     }
 
