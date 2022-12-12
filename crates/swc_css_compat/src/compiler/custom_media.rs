@@ -1,8 +1,9 @@
 use swc_common::util::take::Take;
 use swc_css_ast::{
     AtRule, AtRulePrelude, CustomMediaQuery, MediaAnd, MediaCondition, MediaConditionAllType,
-    MediaConditionType, MediaConditionWithoutOr, MediaConditionWithoutOrType, MediaInParens,
-    MediaNot, MediaOr, MediaQuery, MediaQueryList,
+    MediaConditionType, MediaConditionWithoutOr, MediaConditionWithoutOrType, MediaFeature,
+    MediaFeatureBoolean, MediaFeatureName, MediaInParens, MediaNot, MediaOr, MediaQuery,
+    MediaQueryList,
 };
 
 #[derive(Debug, Default)]
@@ -36,7 +37,6 @@ impl CustomMediaHandler {
     }
 
     fn process_media_condition_type(&mut self, cond: &mut MediaConditionType) {
-        dbg!(&*cond);
         match cond {
             MediaConditionType::All(cond) => self.process_media_condition(cond),
             MediaConditionType::WithoutOr(cond) => self.process_media_condition_without_or(cond),
@@ -78,5 +78,17 @@ impl CustomMediaHandler {
 
     fn process_media_or(&mut self, n: &mut MediaOr) {}
 
-    fn process_media_in_parens(&mut self, n: &mut MediaInParens) {}
+    fn process_media_in_parens(&mut self, n: &mut MediaInParens) {
+        dbg!(&*n);
+
+        if let MediaInParens::Feature(box MediaFeature::Boolean(MediaFeatureBoolean {
+            name: MediaFeatureName::Ident(name),
+            ..
+        })) = n
+        {
+            if let Some(custom_media) = self.medias.iter().find(|m| m.name.value == name.value) {
+                // Replace media query with custom media query
+            }
+        }
+    }
 }
