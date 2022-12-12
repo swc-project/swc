@@ -5,6 +5,9 @@
 
 
 
+- **(css/minifier)** Fix compressions of transform functions (#6617) ([208fd55](https://github.com/swc-project/swc/commit/208fd559ba383b32c72ffdf5d8ad50cbf9679ec6))
+
+
 - **(es/codegen)** Don't print trailing coma for a rest argument (#6610) ([68d76af](https://github.com/swc-project/swc/commit/68d76afe5d99f834dd4578cc50bd48624f76c21d))
 
 
@@ -18,6 +21,9 @@
 
 ### Features
 
+
+
+- **(css/minifier)** Support `to` and `from` with `initial` (#6613) ([cb49fa6](https://github.com/swc-project/swc/commit/cb49fa6f1ddf2ae37262769c538ef1a51adc404c))
 
 
 - **(dbg-swc)** Kill `creduce` on drop (#6614) ([2bf7805](https://github.com/swc-project/swc/commit/2bf78059801d8f07bf31eab6b077d7fb723837f8))

@@ -3532,7 +3532,7 @@
  50 |         height: 0;
     `----
 
-  x Ident { value: Atom('width' type=inline), raw: "width" }
+  x Ident { value: Atom('width' type=static), raw: "width" }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:48:1]
  48 |     --zero-size: {
  49 |         width: 0;
@@ -3628,7 +3628,7 @@
  51 |     };
     `----
 
-  x Ident { value: Atom('height' type=inline), raw: "height" }
+  x Ident { value: Atom('height' type=static), raw: "height" }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:49:1]
  49 |         width: 0;
  50 |         height: 0;
@@ -3806,7 +3806,7 @@
  54 |         height: 16px;
     `----
 
-  x Ident { value: Atom('width' type=inline), raw: "width" }
+  x Ident { value: Atom('width' type=static), raw: "width" }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:52:1]
  52 |     --small-icon: {
  53 |         width: 16px;
@@ -3902,7 +3902,7 @@
  55 |     }
     `----
 
-  x Ident { value: Atom('height' type=inline), raw: "height" }
+  x Ident { value: Atom('height' type=static), raw: "height" }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:53:1]
  53 |         width: 16px;
  54 |         height: 16px;
