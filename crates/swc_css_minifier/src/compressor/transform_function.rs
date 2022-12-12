@@ -16,20 +16,20 @@ impl Compressor {
                 match (function_value.get(0), function_value.get(2)) {
                     (
                         Some(first),
-                        Some(ComponentValue::Number(box Number {
+                        Some(ComponentValue::Integer(box Integer {
                             value: second_number,
                             ..
                         })),
-                    ) if *second_number == 0.0 => {
+                    ) if *second_number == 0 => {
                         *function_value = vec![first.clone()];
                     }
                     (
-                        Some(ComponentValue::Number(box Number {
+                        Some(ComponentValue::Integer(box Integer {
                             value: first_number,
                             ..
                         })),
                         Some(second),
-                    ) if *first_number == 0.0 => {
+                    ) if *first_number == 0 => {
                         *name = Ident {
                             span: name.span,
                             value: js_word!("translateY"),
@@ -53,16 +53,16 @@ impl Compressor {
                     function_value.get(4),
                 ) {
                     (
-                        Some(ComponentValue::Number(box Number {
+                        Some(ComponentValue::Integer(box Integer {
                             value: first_number,
                             ..
                         })),
-                        Some(ComponentValue::Number(box Number {
+                        Some(ComponentValue::Integer(box Integer {
                             value: second_number,
                             ..
                         })),
                         Some(third),
-                    ) if *first_number == 0.0 && *second_number == 0.0 => {
+                    ) if *first_number == 0 && *second_number == 0 => {
                         *name = Ident {
                             span: name.span,
                             value: js_word!("translateZ"),
@@ -83,12 +83,12 @@ impl Compressor {
                 match (function_value.get(0), function_value.get(2)) {
                     (
                         Some(
-                            first @ ComponentValue::Number(box Number {
+                            first @ ComponentValue::Integer(box Integer {
                                 value: first_number,
                                 ..
                             }),
                         ),
-                        Some(ComponentValue::Number(box Number {
+                        Some(ComponentValue::Integer(box Integer {
                             value: second_number,
                             ..
                         })),
@@ -97,11 +97,11 @@ impl Compressor {
                     }
                     (
                         Some(first),
-                        Some(ComponentValue::Number(box Number {
+                        Some(ComponentValue::Integer(box Integer {
                             value: second_number,
                             ..
                         })),
-                    ) if *second_number == 1.0 => {
+                    ) if *second_number == 1 => {
                         *name = Ident {
                             span: name.span,
                             value: js_word!("scaleX"),
@@ -110,12 +110,12 @@ impl Compressor {
                         *function_value = vec![first.clone()];
                     }
                     (
-                        Some(ComponentValue::Number(box Number {
+                        Some(ComponentValue::Integer(box Integer {
                             value: first_number,
                             ..
                         })),
                         Some(second),
-                    ) if *first_number == 1.0 => {
+                    ) if *first_number == 1 => {
                         *name = Ident {
                             span: name.span,
                             value: js_word!("scaleY"),
@@ -140,15 +140,15 @@ impl Compressor {
                 ) {
                     (
                         Some(first),
-                        Some(ComponentValue::Number(box Number {
+                        Some(ComponentValue::Integer(box Integer {
                             value: second_number,
                             ..
                         })),
-                        Some(ComponentValue::Number(box Number {
+                        Some(ComponentValue::Integer(box Integer {
                             value: third_number,
                             ..
                         })),
-                    ) if *second_number == 1.0 && *third_number == 1.0 => {
+                    ) if *second_number == 1 && *third_number == 1 => {
                         *name = Ident {
                             span: name.span,
                             value: js_word!("scaleX"),
@@ -157,16 +157,16 @@ impl Compressor {
                         *function_value = vec![first.clone()];
                     }
                     (
-                        Some(ComponentValue::Number(box Number {
+                        Some(ComponentValue::Integer(box Integer {
                             value: first_number,
                             ..
                         })),
                         Some(second),
-                        Some(ComponentValue::Number(box Number {
+                        Some(ComponentValue::Integer(box Integer {
                             value: third_number,
                             ..
                         })),
-                    ) if *first_number == 1.0 && *third_number == 1.0 => {
+                    ) if *first_number == 1 && *third_number == 1 => {
                         *name = Ident {
                             span: name.span,
                             value: js_word!("scaleY"),
@@ -175,16 +175,16 @@ impl Compressor {
                         *function_value = vec![second.clone()];
                     }
                     (
-                        Some(ComponentValue::Number(box Number {
+                        Some(ComponentValue::Integer(box Integer {
                             value: first_number,
                             ..
                         })),
-                        Some(ComponentValue::Number(box Number {
+                        Some(ComponentValue::Integer(box Integer {
                             value: second_number,
                             ..
                         })),
                         Some(third),
-                    ) if *first_number == 1.0 && *second_number == 1.0 => {
+                    ) if *first_number == 1 && *second_number == 1 => {
                         *name = Ident {
                             span: name.span,
                             value: js_word!("scaleZ"),
@@ -230,11 +230,11 @@ impl Compressor {
                         Some(first_comma),
                         Some(second),
                         Some(second_comma),
-                        Some(ComponentValue::Number(box Number {
+                        Some(ComponentValue::Integer(box Integer {
                             value: third_number,
                             ..
                         })),
-                        Some(ComponentValue::Number(box Number {
+                        Some(ComponentValue::Integer(box Integer {
                             value: fourth_number,
                             ..
                         })),
@@ -242,51 +242,51 @@ impl Compressor {
                         Some(fifth_comma),
                         Some(sixth),
                         Some(sixth_comma),
-                        Some(ComponentValue::Number(box Number {
+                        Some(ComponentValue::Integer(box Integer {
                             value: seventh_number,
                             ..
                         })),
-                        Some(ComponentValue::Number(box Number {
+                        Some(ComponentValue::Integer(box Integer {
                             value: eighth_number,
                             ..
                         })),
-                        Some(ComponentValue::Number(box Number {
+                        Some(ComponentValue::Integer(box Integer {
                             value: ninth_number,
                             ..
                         })),
-                        Some(ComponentValue::Number(box Number {
+                        Some(ComponentValue::Integer(box Integer {
                             value: tenth_number,
                             ..
                         })),
-                        Some(ComponentValue::Number(box Number {
+                        Some(ComponentValue::Integer(box Integer {
                             value: eleventh_number,
                             ..
                         })),
-                        Some(ComponentValue::Number(box Number {
+                        Some(ComponentValue::Integer(box Integer {
                             value: twelfth_number,
                             ..
                         })),
                         Some(thirteenth),
                         Some(thirteenth_comma),
                         Some(fourteenth),
-                        Some(ComponentValue::Number(box Number {
+                        Some(ComponentValue::Integer(box Integer {
                             value: fifteenth_number,
                             ..
                         })),
-                        Some(ComponentValue::Number(box Number {
+                        Some(ComponentValue::Integer(box Integer {
                             value: sixteenth_number,
                             ..
                         })),
-                    ) if *third_number == 0.0
-                        && *fourth_number == 0.0
-                        && *seventh_number == 0.0
-                        && *eighth_number == 0.0
-                        && *ninth_number == 0.0
-                        && *tenth_number == 0.0
-                        && *eleventh_number == 1.0
-                        && *twelfth_number == 0.0
-                        && *fifteenth_number == 0.0
-                        && *sixteenth_number == 1.0 =>
+                    ) if *third_number == 0
+                        && *fourth_number == 0
+                        && *seventh_number == 0
+                        && *eighth_number == 0
+                        && *ninth_number == 0
+                        && *tenth_number == 0
+                        && *eleventh_number == 1
+                        && *twelfth_number == 0
+                        && *fifteenth_number == 0
+                        && *sixteenth_number == 1 =>
                     {
                         *name = Ident {
                             span: name.span,
@@ -324,20 +324,20 @@ impl Compressor {
                     function_value.get(6),
                 ) {
                     (
-                        Some(ComponentValue::Number(box Number {
+                        Some(ComponentValue::Integer(box Integer {
                             value: first_number,
                             ..
                         })),
-                        Some(ComponentValue::Number(box Number {
+                        Some(ComponentValue::Integer(box Integer {
                             value: second_number,
                             ..
                         })),
-                        Some(ComponentValue::Number(box Number {
+                        Some(ComponentValue::Integer(box Integer {
                             value: third_number,
                             ..
                         })),
                         Some(fourth_value),
-                    ) if *first_number == 1.0 && *second_number == 0.0 && *third_number == 0.0 => {
+                    ) if *first_number == 1 && *second_number == 0 && *third_number == 0 => {
                         *name = Ident {
                             span: name.span,
                             value: js_word!("rotateX"),
@@ -346,20 +346,20 @@ impl Compressor {
                         *function_value = vec![fourth_value.clone()];
                     }
                     (
-                        Some(ComponentValue::Number(box Number {
+                        Some(ComponentValue::Integer(box Integer {
                             value: first_number,
                             ..
                         })),
-                        Some(ComponentValue::Number(box Number {
+                        Some(ComponentValue::Integer(box Integer {
                             value: second_number,
                             ..
                         })),
-                        Some(ComponentValue::Number(box Number {
+                        Some(ComponentValue::Integer(box Integer {
                             value: third_number,
                             ..
                         })),
                         Some(fourth_value),
-                    ) if *first_number == 0.0 && *second_number == 1.0 && *third_number == 0.0 => {
+                    ) if *first_number == 0 && *second_number == 1 && *third_number == 0 => {
                         *name = Ident {
                             span: name.span,
                             value: js_word!("rotateY"),
@@ -368,20 +368,20 @@ impl Compressor {
                         *function_value = vec![fourth_value.clone()];
                     }
                     (
-                        Some(ComponentValue::Number(box Number {
+                        Some(ComponentValue::Integer(box Integer {
                             value: first_number,
                             ..
                         })),
-                        Some(ComponentValue::Number(box Number {
+                        Some(ComponentValue::Integer(box Integer {
                             value: second_number,
                             ..
                         })),
-                        Some(ComponentValue::Number(box Number {
+                        Some(ComponentValue::Integer(box Integer {
                             value: third_number,
                             ..
                         })),
                         Some(fourth_value),
-                    ) if *first_number == 0.0 && *second_number == 0.0 && *third_number == 1.0 => {
+                    ) if *first_number == 0 && *second_number == 0 && *third_number == 1 => {
                         *name = Ident {
                             span: name.span,
                             value: js_word!("rotate"),
@@ -416,11 +416,11 @@ impl Compressor {
                 match (function_value.get(0), function_value.get(2)) {
                     (
                         Some(first),
-                        Some(ComponentValue::Number(box Number {
+                        Some(ComponentValue::Integer(box Integer {
                             value: second_number,
                             ..
                         })),
-                    ) if *second_number == 0.0 => {
+                    ) if *second_number == 0 => {
                         *name = Ident {
                             span: name.span,
                             value: js_word!("skewX"),
@@ -430,12 +430,12 @@ impl Compressor {
                     }
 
                     (
-                        Some(ComponentValue::Number(box Number {
+                        Some(ComponentValue::Integer(box Integer {
                             value: first_number,
                             ..
                         })),
                         Some(second),
-                    ) if *first_number == 0.0 => {
+                    ) if *first_number == 0 => {
                         *name = Ident {
                             span: name.span,
                             value: js_word!("skewY"),
