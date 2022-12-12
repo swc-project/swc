@@ -2,8 +2,9 @@ use swc_atoms::js_word;
 use swc_common::util::take::Take;
 use swc_css_ast::{
     AtRule, AtRulePrelude, CustomMediaQuery, CustomMediaQueryMediaType, Ident, MediaAnd,
-    MediaCondition, MediaConditionAllType, MediaFeature, MediaFeatureBoolean, MediaFeatureName,
-    MediaInParens, MediaQuery, MediaQueryList, Rule, Stylesheet,
+    MediaCondition, MediaConditionAllType, MediaConditionWithoutOr, MediaConditionWithoutOrType,
+    MediaFeature, MediaFeatureBoolean, MediaFeatureName, MediaInParens, MediaNot, MediaOr,
+    MediaQuery, MediaQueryList, Rule, Stylesheet,
 };
 use swc_css_visit::{VisitMut, VisitMutWith};
 
@@ -83,18 +84,30 @@ impl VisitMut for CustomMediaQueryTransform {
             MediaConditionAllType::MediaInParens(feature)
             | MediaConditionAllType::And(MediaAnd {
                 condition: feature, ..
-            }) => match feature {
-                MediaInParens::Feature(box MediaFeature::Boolean(MediaFeatureBoolean {
-                    name:
-                        MediaFeatureName::Ident(Ident {
-                            value: js_word!(""),
-                            ..
-                        }),
-                    ..
-                })) => false,
-                _ => true,
-            },
-            _ => true,
+            })
+            | MediaConditionAllType::Not(MediaNot {
+                condition: feature, ..
+            })
+            | MediaConditionAllType::Or(MediaOr {
+                condition: feature, ..
+            }) => !is_feature_taken(feature),
+        })
+    }
+
+    fn visit_mut_media_condition_without_or_types(
+        &mut self,
+        n: &mut Vec<MediaConditionWithoutOrType>,
+    ) {
+        n.visit_mut_children_with(self);
+
+        n.retain(|n| match n {
+            MediaConditionWithoutOrType::MediaInParens(feature)
+            | MediaConditionWithoutOrType::And(MediaAnd {
+                condition: feature, ..
+            })
+            | MediaConditionWithoutOrType::Not(MediaNot {
+                condition: feature, ..
+            }) => !is_feature_taken(feature),
         })
     }
 
@@ -106,4 +119,17 @@ impl VisitMut for CustomMediaQueryTransform {
             _ => true,
         });
     }
+}
+
+fn is_feature_taken(feature: &MediaInParens) -> bool {
+    !matches!(
+        feature,
+        MediaInParens::Feature(box MediaFeature::Boolean(MediaFeatureBoolean {
+            name: MediaFeatureName::Ident(Ident {
+                value: js_word!(""),
+                ..
+            }),
+            ..
+        }))
+    )
 }
