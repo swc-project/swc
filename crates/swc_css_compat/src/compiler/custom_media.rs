@@ -39,6 +39,19 @@ impl CustomMediaHandler {
                 q.keyword.as_ref(),
                 cond,
             );
+
+            match &**cond {
+                MediaConditionType::All(cond) => {
+                    if cond.conditions.is_empty() {
+                        return;
+                    }
+                }
+                MediaConditionType::WithoutOr(cond) => {
+                    if cond.conditions.is_empty() {
+                        return;
+                    }
+                }
+            }
         }
 
         dbg!(&*q);
