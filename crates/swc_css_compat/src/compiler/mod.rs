@@ -1,5 +1,6 @@
 use swc_css_visit::VisitMut;
 
+use self::custom_media::CustomMediaHandler;
 use crate::feature::Features;
 
 mod custom_media;
@@ -9,6 +10,7 @@ mod custom_media;
 pub struct Compiler {
     #[allow(unused)]
     c: Config,
+    custom_media: CustomMediaHandler,
 }
 
 #[derive(Debug)]
@@ -19,7 +21,10 @@ pub struct Config {
 
 impl Compiler {
     pub fn new(config: Config) -> Self {
-        Self { c: config }
+        Self {
+            c: config,
+            custom_media: Default::default(),
+        }
     }
 }
 
