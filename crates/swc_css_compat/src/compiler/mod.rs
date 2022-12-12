@@ -1,5 +1,5 @@
 use swc_css_ast::AtRule;
-use swc_css_visit::VisitMut;
+use swc_css_visit::{VisitMut, VisitMutWith};
 
 use self::custom_media::CustomMediaHandler;
 use crate::feature::Features;
