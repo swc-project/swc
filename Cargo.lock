@@ -3372,6 +3372,7 @@ dependencies = [
 name = "swc_css_compat"
 version = "0.16.0"
 dependencies = [
+ "bitflags",
  "once_cell",
  "serde",
  "serde_json",
