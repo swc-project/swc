@@ -50,7 +50,71 @@ impl CustomMediaHandler {
         self.modifier_and_media_type = None;
     }
 
-    pub(crate) fn process_media_in_parens(&mut self, n: &mut MediaInParens) {
+    pub(crate) fn process_media_condition(&mut self, media_condition: &mut MediaCondition) {
+        for (i, node) in media_condition.conditions.iter_mut().enumerate() {
+            match node {
+                MediaConditionAllType::Not(media_not) => {
+                    if let Some(new_media_in_parens) =
+                        self.process_media_in_parens(&media_not.condition)
+                    {
+                        media_not.condition = new_media_in_parens;
+                    }
+                }
+                MediaConditionAllType::And(media_and) => {
+                    if let Some(new_media_in_parens) =
+                        self.process_media_in_parens(&media_and.condition)
+                    {
+                        media_and.condition = new_media_in_parens;
+                    }
+                }
+                MediaConditionAllType::Or(media_or) => {
+                    if let Some(new_media_in_parens) =
+                        self.process_media_in_parens(&media_or.condition)
+                    {
+                        media_or.condition = new_media_in_parens;
+                    }
+                }
+                MediaConditionAllType::MediaInParens(media_in_parens) => {
+                    if let Some(new_media_in_parens) = self.process_media_in_parens(media_in_parens)
+                    {
+                        *media_in_parens = new_media_in_parens;
+                    }
+                }
+            }
+        }
+    }
+
+    pub(crate) fn process_media_condition_without_or(
+        &mut self,
+        media_condition: &mut MediaConditionWithoutOr,
+    ) {
+        for (i, node) in media_condition.conditions.iter_mut().enumerate() {
+            match node {
+                MediaConditionWithoutOrType::Not(media_not) => {
+                    if let Some(new_media_in_parens) =
+                        self.process_media_in_parens(&media_not.condition)
+                    {
+                        media_not.condition = new_media_in_parens;
+                    }
+                }
+                MediaConditionWithoutOrType::And(media_and) => {
+                    if let Some(new_media_in_parens) =
+                        self.process_media_in_parens(&media_and.condition)
+                    {
+                        media_and.condition = new_media_in_parens;
+                    }
+                }
+                MediaConditionWithoutOrType::MediaInParens(media_in_parens) => {
+                    if let Some(new_media_in_parens) = self.process_media_in_parens(media_in_parens)
+                    {
+                        *media_in_parens = new_media_in_parens;
+                    }
+                }
+            }
+        }
+    }
+
+    pub(crate) fn process_media_in_parens(&mut self, n: &MediaInParens) -> Option<MediaInParens> {
         if let MediaInParens::Feature(box MediaFeature::Boolean(MediaFeatureBoolean {
             name: MediaFeatureName::Ident(name),
             ..
@@ -163,25 +227,27 @@ impl CustomMediaHandler {
                 }
 
                 if new_media_condition.conditions.is_empty() {
-                    return;
+                    return None;
                 }
 
                 if new_media_condition.conditions.len() == 1 {
                     if let Some(MediaConditionAllType::MediaInParens(media_in_parens)) =
                         new_media_condition.conditions.get(0)
                     {
-                        *n = media_in_parens.clone();
+                        return Some(media_in_parens.clone());
                     } else {
-                        *n = MediaInParens::MediaCondition(new_media_condition);
+                        return Some(MediaInParens::MediaCondition(new_media_condition));
                     }
                 } else {
-                    *n = MediaInParens::MediaCondition(new_media_condition);
+                    return Some(MediaInParens::MediaCondition(new_media_condition));
                 }
             }
         }
+
+        None
     }
 
-    fn media_condition_without_or_to_media_condition(
+    pub(crate) fn media_condition_without_or_to_media_condition(
         &self,
         media_condition: &MediaConditionWithoutOr,
     ) -> MediaCondition {

@@ -126,3 +126,8 @@
     order: 1;
   }
 }
+@media (not ((max-width: 30em) or (max-height: 30em))) or (hover) {
+  .a {
+    color: red;
+  }
+}

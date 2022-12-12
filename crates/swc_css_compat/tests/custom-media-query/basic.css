@@ -171,3 +171,9 @@
 		order: 1;
 	}
 }
+
+@media (not (--mq-a)) or (hover) {
+	.a {
+		color: red;
+	}
+}
