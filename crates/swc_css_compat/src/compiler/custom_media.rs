@@ -1,9 +1,9 @@
 use swc_common::util::take::Take;
 use swc_css_ast::{
-    AtRule, AtRulePrelude, CustomMediaQuery, MediaAnd, MediaCondition, MediaConditionAllType,
-    MediaConditionType, MediaConditionWithoutOr, MediaConditionWithoutOrType, MediaFeature,
-    MediaFeatureBoolean, MediaFeatureName, MediaInParens, MediaNot, MediaOr, MediaQuery,
-    MediaQueryList,
+    AtRule, AtRulePrelude, CustomMediaQuery, CustomMediaQueryMediaType, MediaAnd, MediaCondition,
+    MediaConditionAllType, MediaConditionType, MediaConditionWithoutOr,
+    MediaConditionWithoutOrType, MediaFeature, MediaFeatureBoolean, MediaFeatureName,
+    MediaInParens, MediaNot, MediaOr, MediaQuery, MediaQueryList,
 };
 
 #[derive(Debug, Default)]
@@ -34,6 +34,8 @@ impl CustomMediaHandler {
         if let Some(cond) = &mut q.condition {
             self.process_media_condition_type(cond);
         }
+
+        to.push(q.take());
     }
 
     fn process_media_condition_type(&mut self, cond: &mut MediaConditionType) {
@@ -79,8 +81,6 @@ impl CustomMediaHandler {
     fn process_media_or(&mut self, n: &mut MediaOr) {}
 
     fn process_media_in_parens(&mut self, n: &mut MediaInParens) {
-        dbg!(&*n);
-
         if let MediaInParens::Feature(box MediaFeature::Boolean(MediaFeatureBoolean {
             name: MediaFeatureName::Ident(name),
             ..
@@ -88,6 +88,15 @@ impl CustomMediaHandler {
         {
             if let Some(custom_media) = self.medias.iter().find(|m| m.name.value == name.value) {
                 // Replace media query with custom media query
+
+                match &custom_media.media {
+                    CustomMediaQueryMediaType::Ident(media) => {
+                        *name = media.clone();
+                    }
+                    CustomMediaQueryMediaType::MediaQueryList(_) => {
+                        dbg!(&*n);
+                    }
+                }
             }
         }
     }
