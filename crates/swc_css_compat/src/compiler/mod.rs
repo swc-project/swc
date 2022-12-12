@@ -4,7 +4,7 @@ use crate::feature::Features;
 
 mod custom_media;
 
-/// Compiles a modern CSS file to a legacy CSS file.
+/// Compiles a modern CSS file to a CSS file which works with old browsers.
 #[derive(Debug)]
 pub struct Compiler {
     #[allow(unused)]
