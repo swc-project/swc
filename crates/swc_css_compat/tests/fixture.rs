@@ -13,7 +13,11 @@ use swc_css_codegen::{
     writer::basic::{BasicCssWriter, BasicCssWriterConfig},
     CodegenConfig, Emit,
 };
-use swc_css_compat::{custom_media_query::process_custom_media_query, nesting::nesting};
+use swc_css_compat::{
+    compiler::{Compiler, Config},
+    feature::Features,
+    nesting::nesting,
+};
 use swc_css_parser::{parse_file, parser::ParserConfig};
 use swc_css_visit::VisitMutWith;
 use testing::NormalizedOutput;
@@ -87,7 +91,9 @@ fn test_custom_media_query(input: PathBuf) {
         let fm = cm.load_file(&input).unwrap();
         let mut ss = parse_stylesheet(&fm);
 
-        process_custom_media_query(&mut ss);
+        ss.visit_mut_with(&mut Compiler::new(Config {
+            process: Features::CUSTOM_MEDIA,
+        }));
 
         let s = print_stylesheet(&ss);
 

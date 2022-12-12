@@ -19,7 +19,7 @@ impl CustomMediaHandler {
         let mut new = Vec::with_capacity(n.queries.len());
 
         for q in n.queries.iter_mut() {
-            self.process_media_query(&mut new, &mut q);
+            self.process_media_query(&mut new, q);
         }
 
         n.queries = new;
