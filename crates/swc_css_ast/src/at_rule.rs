@@ -27,6 +27,15 @@ pub enum AtRuleName {
     Ident(Ident),
 }
 
+impl PartialEq<str> for AtRuleName {
+    fn eq(&self, other: &str) -> bool {
+        match self {
+            AtRuleName::DashedIdent(v) => *v == *other,
+            AtRuleName::Ident(v) => *v == *other,
+        }
+    }
+}
+
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum AtRulePrelude {

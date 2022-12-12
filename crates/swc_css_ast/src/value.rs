@@ -20,12 +20,21 @@ pub struct Ident {
 }
 
 impl EqIgnoreSpan for Ident {
+    #[inline]
     fn eq_ignore_span(&self, other: &Self) -> bool {
         self.value == other.value
     }
 }
 
+impl PartialEq<str> for Ident {
+    #[inline]
+    fn eq(&self, other: &str) -> bool {
+        &*self.value == other
+    }
+}
+
 impl Take for Ident {
+    #[inline]
     fn dummy() -> Self {
         Self {
             span: Default::default(),
@@ -45,6 +54,7 @@ pub struct CustomIdent {
 }
 
 impl EqIgnoreSpan for CustomIdent {
+    #[inline]
     fn eq_ignore_span(&self, other: &Self) -> bool {
         self.value == other.value
     }
@@ -60,8 +70,16 @@ pub struct DashedIdent {
 }
 
 impl EqIgnoreSpan for DashedIdent {
+    #[inline]
     fn eq_ignore_span(&self, other: &Self) -> bool {
         self.value == other.value
+    }
+}
+
+impl PartialEq<str> for DashedIdent {
+    #[inline]
+    fn eq(&self, other: &str) -> bool {
+        &*self.value == other
     }
 }
 
