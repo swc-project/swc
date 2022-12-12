@@ -20,6 +20,9 @@
 
 
 
+- **(css/minifier)** Support `to` and `from` with `initial` (#6613) ([cb49fa6](https://github.com/swc-project/swc/commit/cb49fa6f1ddf2ae37262769c538ef1a51adc404c))
+
+
 - **(dbg-swc)** Kill `creduce` on drop (#6614) ([2bf7805](https://github.com/swc-project/swc/commit/2bf78059801d8f07bf31eab6b077d7fb723837f8))
 
 ## [1.3.22] - 2022-12-09
