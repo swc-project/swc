@@ -1,9 +1,9 @@
+use swc_atoms::js_word;
 use swc_common::util::take::Take;
 use swc_css_ast::{
-    AtRule, AtRulePrelude, CustomMediaQuery, CustomMediaQueryMediaType, MediaAnd, MediaCondition,
-    MediaConditionAllType, MediaConditionType, MediaConditionWithoutOr, MediaFeature,
-    MediaFeatureBoolean, MediaFeatureName, MediaInParens, MediaNot, MediaOr, MediaQuery,
-    MediaQueryList, Rule, Stylesheet,
+    AtRule, AtRulePrelude, CustomMediaQuery, CustomMediaQueryMediaType, Ident, MediaCondition,
+    MediaConditionAllType, MediaFeature, MediaFeatureBoolean, MediaFeatureName, MediaInParens,
+    MediaQuery, MediaQueryList, Rule, Stylesheet,
 };
 use swc_css_visit::{VisitMut, VisitMutWith};
 
@@ -56,6 +56,8 @@ impl VisitMut for CustomMediaQueryTransform {
         {
             //
             if let Some(media) = self.medias.iter().find(|m| m.name.value == name.value) {
+                name.take();
+
                 match &media.media {
                     CustomMediaQueryMediaType::Ident(m) => {
                         *n = MediaInParens::Feature(box MediaFeature::Boolean(
@@ -65,10 +67,30 @@ impl VisitMut for CustomMediaQueryTransform {
                             },
                         ));
                     }
-                    CustomMediaQueryMediaType::MediaQueryList(m) => {}
+                    CustomMediaQueryMediaType::MediaQueryList(m) => {
+                        self.new_medias.extend(m.queries.iter().cloned());
+                    }
                 }
             }
         }
+    }
+
+    fn visit_mut_media_condition_all_types(&mut self, n: &mut Vec<MediaConditionAllType>) {
+        n.visit_mut_children_with(self);
+
+        n.retain(|n| match n {
+            MediaConditionAllType::MediaInParens(MediaInParens::Feature(
+                box MediaFeature::Boolean(MediaFeatureBoolean {
+                    name:
+                        MediaFeatureName::Ident(Ident {
+                            value: js_word!(""),
+                            ..
+                        }),
+                    ..
+                }),
+            )) => false,
+            _ => true,
+        })
     }
 
     fn visit_mut_rules(&mut self, n: &mut Vec<Rule>) {
