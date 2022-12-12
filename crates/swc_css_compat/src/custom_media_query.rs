@@ -1,8 +1,8 @@
 use swc_common::util::take::Take;
 use swc_css_ast::{
-    AtRule, AtRulePrelude, CustomMediaQuery, CustomMediaQueryMediaType, MediaFeature,
-    MediaFeatureBoolean, MediaFeatureName, MediaInParens, MediaQuery, MediaQueryList, Rule,
-    Stylesheet,
+    AtRule, AtRulePrelude, CustomMediaQuery, CustomMediaQueryMediaType, MediaCondition,
+    MediaConditionType, MediaConditionWithoutOr, MediaFeature, MediaFeatureBoolean,
+    MediaFeatureName, MediaInParens, MediaQuery, MediaQueryList, Rule, Stylesheet,
 };
 use swc_css_visit::{VisitMut, VisitMutWith};
 
@@ -16,7 +16,41 @@ struct CustomMediaQueryTransform {
 }
 
 impl CustomMediaQueryTransform {
-    fn expand_media_query(&self, to: &mut Vec<MediaQuery>, q: MediaQuery) {}
+    fn expand_media_query(&self, to: &mut Vec<MediaQuery>, q: MediaQuery) {
+        if let MediaQuery {
+            modifier: None,
+            media_type: None,
+            keyword: None,
+            condition: Some(cond),
+            ..
+        } = q
+        {
+            self.expand_media_condition_type(to, cond);
+            return;
+        }
+
+        to.push(q);
+    }
+
+    fn expand_media_condition_type(&self, to: &mut Vec<MediaQuery>, cond: Box<MediaConditionType>) {
+        match *cond {
+            MediaConditionType::All(cond) => {
+                self.expand_media_condition(to, cond);
+            }
+            MediaConditionType::WithoutOr(cond) => {
+                self.expand_media_condition_without_or(to, cond);
+            }
+        }
+    }
+
+    fn expand_media_condition(&self, to: &mut Vec<MediaQuery>, cond: MediaCondition) {}
+
+    fn expand_media_condition_without_or(
+        &self,
+        to: &mut Vec<MediaQuery>,
+        cond: MediaConditionWithoutOr,
+    ) {
+    }
 }
 
 impl VisitMut for CustomMediaQueryTransform {
@@ -25,7 +59,6 @@ impl VisitMut for CustomMediaQueryTransform {
 
         if n.name == *"custom-media" {
             if let Some(box AtRulePrelude::CustomMediaPrelude(prelude)) = &mut n.prelude {
-                dbg!(&prelude.media);
                 self.medias.push(prelude.take());
             }
         }
