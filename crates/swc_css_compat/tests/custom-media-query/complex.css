@@ -46,3 +46,40 @@
 		background-color: red;
 	}
 }
+
+@custom-media --screen only screen;
+@custom-media --md-and-larger1 --screen and (width >= 570px);
+@custom-media --md-and-larger2 (--screen) and (width >= 570px);
+@custom-media --md-and-larger3 only screen and (width >= 570px);
+@custom-media --md-larger4 (width >=570px);
+@custom-media --md-smaller4 (width < 1000px);
+
+@media (--md-and-larger1) {
+	body {
+		background-color: red;
+	}
+}
+
+@media (--md-and-larger2) {
+	body {
+		background-color: yellow;
+	}
+}
+
+@media (--md-and-larger3) {
+	body {
+		background-color: green;
+	}
+}
+
+@media (--screen) and (--md-larger4) {
+	body {
+		background-color: green;
+	}
+}
+
+@media (--md-larger4) and (--md-smaller4) {
+	body {
+		background-color: green;
+	}
+}
