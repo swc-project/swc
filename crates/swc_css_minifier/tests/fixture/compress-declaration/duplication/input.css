@@ -1,0 +1,108 @@
+a {
+    color: red;
+    color: red;
+
+    .class {
+        color: red;
+        color: red;
+    }
+
+    @media screen and (min-width: 100px) {
+        color: red;
+        color: red;
+    }
+
+    @supports (display: flex) {
+        color: red;
+        color: red;
+
+        .other {
+            color: red;
+            color: red;
+        }
+    }
+
+    .case-insensitivity {
+        color: red;
+        COLOR: red;
+    }
+}
+
+.font {
+    > h1 { font-weight: bold }
+    > h1 { font-weight: 700 }
+}
+
+.class {
+    > h1 { font-weight: bold }
+    > h1 { font-weight: bold }
+}
+
+.other {
+    > h1 { font-weight: 700 }
+    > h1 { font-weight: 700 }
+}
+
+.base {
+    color: red;
+
+    .class {
+        color: red;
+    }
+
+    .class-other {
+        color: red;
+    }
+
+    @media screen {
+        .class {
+            color: red;
+        }
+
+        .class-other {
+            color: red;
+        }
+    }
+}
+
+h1{/*test*/font-weight:bold}
+h1{/*test*/font-weight:bold}
+
+.white {
+    _color:white;
+    color:white
+}
+
+h1,h2{font-weight:bold}
+h2,h1{font-weight:bold}
+
+.margin{margin:10px 0 10px 0;margin:10px 0}
+
+h1{font-weight:bold;font-weight:bold}
+h1{font-weight:bold}
+
+@media print{
+    h1 {
+        display:block
+    }
+}
+@media print{
+    h1 {
+        display:block
+    }
+}
+
+.other {
+    & h1 { font-weight: bold }
+    & h1 { font-weight: bold }
+}
+
+@media print{
+    h1, h2 {
+        font-weight:bold
+    }
+
+    h2, h1{
+        font-weight:bold
+    }
+}
