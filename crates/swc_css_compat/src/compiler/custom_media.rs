@@ -43,10 +43,24 @@ impl CustomMediaHandler {
         // Limited support for `modifier` and `media_type`, it is impossible to lowering
         // syntax for multiple media types, so we handle only case when only one media
         // type exists.
-        // TODO throw warning on multiple cases
         if let Some((modifier, media_type)) = self.modifier_and_media_type.take() {
             n.modifier = modifier;
             n.media_type = media_type;
+
+            if let Some(condition) = &mut n.condition {
+                match &mut **condition {
+                    MediaConditionType::WithoutOr(condition) => {
+                        if condition.conditions.is_empty() {
+                            n.condition = None;
+                        }
+                    }
+                    MediaConditionType::All(condition) => {
+                        if condition.conditions.is_empty() {
+                            n.condition = None;
+                        }
+                    }
+                }
+            }
         }
 
         self.modifier_and_media_type = None;
@@ -235,6 +249,7 @@ impl CustomMediaHandler {
 
                 for query in queries {
                     if query.media_type.is_some() || query.modifier.is_some() {
+                        // TODO throw a warning on multiple media types
                         self.modifier_and_media_type =
                             Some((query.modifier.clone(), query.media_type.clone()));
                     }

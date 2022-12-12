@@ -125,6 +125,14 @@
 	}
 }
 
+@custom-media --screen only screen;
+
+@media only screen and (--screen) {
+	body {
+		background-color: red;
+	}
+}
+
 @media ((((((--mq-a)))))) {
 	body {
 		order: 1;
@@ -193,5 +201,24 @@
 @media ((max-width: 30em) and (not (--mq-a))) {
 	body {
 		order: 1;
+	}
+}
+
+/* We can't lower the syntax here and should print a warning */
+@custom-media --screen screen and (max-width: 30em);
+@custom-media --print print and (max-width: 30em);
+
+@media (--screen) or (--print) {
+	.a {
+		color: red;
+	}
+}
+
+/* We can't lower the syntax here and should print a warning */
+@custom-media --print print and (max-width: 30em);
+
+@media screen and (--print) {
+	.a {
+		color: red;
 	}
 }

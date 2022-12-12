@@ -86,7 +86,12 @@
     background-color: red;
   }
 }
-@media only screen and  {
+@media only screen {
+  body {
+    background-color: red;
+  }
+}
+@media only screen {
   body {
     background-color: red;
   }
@@ -144,5 +149,15 @@
 @media ((max-width: 30em) and (not ((max-width: 30em) or (max-height: 30em)))) {
   body {
     order: 1;
+  }
+}
+@media print and (max-width: 30em) {
+  .a {
+    color: red;
+  }
+}
+@media print and (max-width: 30em) {
+  .a {
+    color: red;
   }
 }
