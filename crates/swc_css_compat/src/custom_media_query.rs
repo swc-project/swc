@@ -1,9 +1,9 @@
 use swc_common::util::take::Take;
-use swc_css_ast::{AtRule, AtRulePrelude, CustomMediaQuery, Rule};
+use swc_css_ast::{AtRule, AtRulePrelude, CustomMediaQuery, Rule, Stylesheet};
 use swc_css_visit::{VisitMut, VisitMutWith};
 
-pub fn custom_media_query() -> impl VisitMut {
-    CustomMediaQueryTransform::default()
+pub fn process_custom_media_query(ss: &mut Stylesheet) {
+    ss.visit_mut_with(&mut CustomMediaQueryTransform::default());
 }
 
 #[derive(Debug, Default)]
