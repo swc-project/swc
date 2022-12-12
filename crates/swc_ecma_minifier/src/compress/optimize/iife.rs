@@ -728,9 +728,9 @@ where
             }
         }
 
-        // If we has an eval, we cannot remap variables correctly.
-        let has_eval = contains_eval(body, false);
-        if !param_ids.is_empty() && has_eval {
+        // Abort on eval.
+        // See https://github.com/swc-project/swc/pull/6478
+        if contains_eval(body, false) {
             log_abort!("iife: [x] Aborting because of eval");
             return false;
         }
@@ -761,10 +761,6 @@ where
                     }
                 ) =>
             {
-                if has_eval {
-                    return false;
-                }
-
                 if var.decls.iter().any(|decl| match &decl.name {
                     Pat::Ident(BindingIdent {
                         id:
