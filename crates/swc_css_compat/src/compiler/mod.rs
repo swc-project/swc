@@ -1,4 +1,4 @@
-use swc_css_ast::AtRule;
+use swc_css_ast::{AtRule, Rule};
 use swc_css_visit::{VisitMut, VisitMutWith};
 
 use self::custom_media::CustomMediaHandler;
@@ -36,5 +36,20 @@ impl VisitMut for Compiler {
         if self.c.process.contains(Features::CUSTOM_MEDIA) {
             self.custom_media.store_custom_media(n);
         }
+    }
+
+    fn visit_mut_rules(&mut self, n: &mut Vec<Rule>) {
+        n.visit_mut_children_with(self);
+
+        n.retain(|n| match n {
+            Rule::AtRule(n) => {
+                if self.c.process.contains(Features::CUSTOM_MEDIA) && n.name == *"custom-media" {
+                    return false;
+                }
+
+                true
+            }
+            _ => true,
+        });
     }
 }
