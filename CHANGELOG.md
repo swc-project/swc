@@ -35,6 +35,9 @@
 - **(css/minifier)** Support `to` and `from` with `initial` (#6613) ([cb49fa6](https://github.com/swc-project/swc/commit/cb49fa6f1ddf2ae37262769c538ef1a51adc404c))
 
 
+- **(css/minifier)** Remove adjacent identical declarations (#6619) ([fb94694](https://github.com/swc-project/swc/commit/fb94694cf3d95c26cc10aa9824f58e68b73b17ca))
+
+
 - **(dbg-swc)** Kill `creduce` on drop (#6614) ([2bf7805](https://github.com/swc-project/swc/commit/2bf78059801d8f07bf31eab6b077d7fb723837f8))
 
 ### Miscellaneous Tasks
