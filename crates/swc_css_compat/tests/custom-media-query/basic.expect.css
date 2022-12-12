@@ -86,7 +86,7 @@
     background-color: red;
   }
 }
-@media only screen and (--screen) {
+@media only screen and  {
   body {
     background-color: red;
   }

@@ -1,3 +1,5 @@
+use std::mem::take;
+
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_css_ast::{
@@ -51,36 +53,86 @@ impl CustomMediaHandler {
     }
 
     pub(crate) fn process_media_condition(&mut self, media_condition: &mut MediaCondition) {
+        let mut remove_rules_list = vec![];
+
         for (i, node) in media_condition.conditions.iter_mut().enumerate() {
             match node {
                 MediaConditionAllType::Not(media_not) => {
                     if let Some(new_media_in_parens) =
                         self.process_media_in_parens(&media_not.condition)
                     {
-                        media_not.condition = new_media_in_parens;
+                        if self.is_empty_media_parens(&new_media_in_parens) {
+                            remove_rules_list.push(i);
+                        } else {
+                            media_not.condition = new_media_in_parens;
+                        }
                     }
                 }
                 MediaConditionAllType::And(media_and) => {
                     if let Some(new_media_in_parens) =
                         self.process_media_in_parens(&media_and.condition)
                     {
-                        media_and.condition = new_media_in_parens;
+                        if self.is_empty_media_parens(&new_media_in_parens) {
+                            remove_rules_list.push(i);
+                        } else {
+                            media_and.condition = new_media_in_parens;
+                        }
                     }
                 }
                 MediaConditionAllType::Or(media_or) => {
                     if let Some(new_media_in_parens) =
                         self.process_media_in_parens(&media_or.condition)
                     {
-                        media_or.condition = new_media_in_parens;
+                        if self.is_empty_media_parens(&new_media_in_parens) {
+                            remove_rules_list.push(i);
+                        } else {
+                            media_or.condition = new_media_in_parens;
+                        }
                     }
                 }
                 MediaConditionAllType::MediaInParens(media_in_parens) => {
                     if let Some(new_media_in_parens) = self.process_media_in_parens(media_in_parens)
                     {
-                        *media_in_parens = new_media_in_parens;
+                        if self.is_empty_media_parens(&new_media_in_parens) {
+                            remove_rules_list.push(i);
+                        } else {
+                            *media_in_parens = new_media_in_parens;
+                        }
                     }
                 }
             }
+        }
+
+        if !remove_rules_list.is_empty() {
+            let mut need_change_next = false;
+
+            media_condition.conditions = take(&mut media_condition.conditions)
+                .into_iter()
+                .enumerate()
+                .filter_map(|(idx, value)| {
+                    if remove_rules_list.contains(&idx) {
+                        if idx == 0 {
+                            need_change_next = true;
+                        }
+
+                        None
+                    } else if need_change_next {
+                        need_change_next = false;
+
+                        match value {
+                            MediaConditionAllType::And(media_and) => {
+                                Some(MediaConditionAllType::MediaInParens(media_and.condition))
+                            }
+                            MediaConditionAllType::Or(media_and) => {
+                                Some(MediaConditionAllType::MediaInParens(media_and.condition))
+                            }
+                            _ => Some(value),
+                        }
+                    } else {
+                        Some(value)
+                    }
+                })
+                .collect::<Vec<_>>();
         }
     }
 
@@ -88,29 +140,72 @@ impl CustomMediaHandler {
         &mut self,
         media_condition: &mut MediaConditionWithoutOr,
     ) {
+        let mut remove_rules_list = vec![];
+
         for (i, node) in media_condition.conditions.iter_mut().enumerate() {
             match node {
                 MediaConditionWithoutOrType::Not(media_not) => {
                     if let Some(new_media_in_parens) =
                         self.process_media_in_parens(&media_not.condition)
                     {
-                        media_not.condition = new_media_in_parens;
+                        if self.is_empty_media_parens(&new_media_in_parens) {
+                            remove_rules_list.push(i);
+                        } else {
+                            media_not.condition = new_media_in_parens;
+                        }
                     }
                 }
                 MediaConditionWithoutOrType::And(media_and) => {
                     if let Some(new_media_in_parens) =
                         self.process_media_in_parens(&media_and.condition)
                     {
-                        media_and.condition = new_media_in_parens;
+                        if self.is_empty_media_parens(&new_media_in_parens) {
+                            remove_rules_list.push(i);
+                        } else {
+                            media_and.condition = new_media_in_parens;
+                        }
                     }
                 }
                 MediaConditionWithoutOrType::MediaInParens(media_in_parens) => {
                     if let Some(new_media_in_parens) = self.process_media_in_parens(media_in_parens)
                     {
-                        *media_in_parens = new_media_in_parens;
+                        if self.is_empty_media_parens(&new_media_in_parens) {
+                            remove_rules_list.push(i);
+                        } else {
+                            *media_in_parens = new_media_in_parens;
+                        }
                     }
                 }
             }
+        }
+
+        if !remove_rules_list.is_empty() {
+            let mut need_change_next = false;
+
+            media_condition.conditions = take(&mut media_condition.conditions)
+                .into_iter()
+                .enumerate()
+                .filter_map(|(idx, value)| {
+                    if remove_rules_list.contains(&idx) {
+                        if idx == 0 {
+                            need_change_next = true;
+                        }
+
+                        None
+                    } else if need_change_next {
+                        need_change_next = false;
+
+                        match value {
+                            MediaConditionWithoutOrType::And(media_and) => Some(
+                                MediaConditionWithoutOrType::MediaInParens(media_and.condition),
+                            ),
+                            _ => Some(value),
+                        }
+                    } else {
+                        Some(value)
+                    }
+                })
+                .collect::<Vec<_>>();
         }
     }
 
@@ -233,10 +328,6 @@ impl CustomMediaHandler {
                     }
                 }
 
-                if new_media_condition.conditions.is_empty() {
-                    return None;
-                }
-
                 if new_media_condition.conditions.len() == 1
                     && matches!(
                         new_media_condition.conditions.get(0),
@@ -257,7 +348,7 @@ impl CustomMediaHandler {
         None
     }
 
-    pub(crate) fn media_condition_without_or_to_media_condition(
+    fn media_condition_without_or_to_media_condition(
         &self,
         media_condition: &MediaConditionWithoutOr,
     ) -> MediaCondition {
@@ -279,5 +370,15 @@ impl CustomMediaHandler {
         }
 
         new_media_condition
+    }
+
+    fn is_empty_media_parens(&self, media_in_parens: &MediaInParens) -> bool {
+        if let MediaInParens::MediaCondition(MediaCondition { conditions, .. }) = media_in_parens {
+            if conditions.is_empty() {
+                return true;
+            }
+        }
+
+        false
     }
 }
