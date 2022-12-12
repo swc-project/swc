@@ -3,7 +3,7 @@
 #![allow(clippy::match_like_matches_macro)]
 
 pub use std::fmt::Result;
-use std::{iter::Peekable, str::Chars};
+use std::{borrow::Cow, iter::Peekable, str::Chars};
 
 use swc_atoms::{js_word, JsWord};
 use swc_common::Spanned;
@@ -804,13 +804,23 @@ where
             attribute.push('=');
 
             if self.config.minify {
-                let minifier = minify_attribute_value(value, self.quotes);
+                let (minifier, quote) = minify_attribute_value(value, self.quotes);
+
+                if let Some(quote) = quote {
+                    attribute.push(quote);
+                }
 
                 attribute.push_str(&minifier);
-            } else {
-                let normalized = normalize_attribute_value(value);
 
+                if let Some(quote) = quote {
+                    attribute.push(quote);
+                }
+            } else {
+                let normalized = escape_string(value, true);
+
+                attribute.push('"');
                 attribute.push_str(&normalized);
+                attribute.push('"');
             }
         }
 
@@ -820,15 +830,11 @@ where
     #[emitter]
     fn emit_text(&mut self, n: &Text) -> Result {
         if self.ctx.need_escape_text {
-            let mut data = String::with_capacity(n.data.len());
-
             if self.config.minify {
-                data.push_str(&minify_text(&n.data));
+                write_multiline_raw!(self, n.span, &minify_text(&n.data));
             } else {
-                data.push_str(&escape_string(&n.data, false));
+                write_multiline_raw!(self, n.span, &escape_string(&n.data, false));
             }
-
-            write_multiline_raw!(self, n.span, &data);
         } else {
             write_multiline_raw!(self, n.span, &n.data);
         }
@@ -927,9 +933,20 @@ where
 }
 
 #[allow(clippy::unused_peekable)]
-fn minify_attribute_value(value: &str, quotes: bool) -> String {
+fn minify_attribute_value(value: &str, quotes: bool) -> (Cow<'_, str>, Option<char>) {
     if value.is_empty() {
-        return "\"\"".to_string();
+        return (Cow::Borrowed(value), Some('"'));
+    }
+
+    // Fast-path
+    if !quotes
+        && value.chars().all(|c| match c {
+            '&' | '`' | '=' | '<' | '>' | '"' | '\'' => false,
+            c if c.is_ascii_whitespace() => false,
+            _ => true,
+        })
+    {
+        return (Cow::Borrowed(value), None);
     }
 
     let mut minified = String::with_capacity(value.len());
@@ -943,7 +960,18 @@ fn minify_attribute_value(value: &str, quotes: bool) -> String {
     while let Some(c) = chars.next() {
         match c {
             '&' => {
-                minified.push_str(&minify_amp(&mut chars));
+                let next = chars.next();
+
+                if let Some(next) = next {
+                    if matches!(next, '#' | 'a'..='z' | 'A'..='Z') {
+                        minified.push_str(&minify_amp(next, &mut chars));
+                    } else {
+                        minified.push('&');
+                        minified.push(next);
+                    }
+                } else {
+                    minified.push('&');
+                }
 
                 continue;
             }
@@ -969,39 +997,49 @@ fn minify_attribute_value(value: &str, quotes: bool) -> String {
     }
 
     if !quotes && unquoted {
-        return minified;
+        return (Cow::Owned(minified), None);
     }
 
     if dq > sq {
-        format!("'{}'", minified.replace('\'', "&apos;"))
+        return (Cow::Owned(minified.replace('\'', "&apos;")), Some('\''));
     } else {
-        format!("\"{}\"", minified.replace('"', "&quot;"))
+        return (Cow::Owned(minified.replace('"', "&quot;")), Some('"'));
     }
-}
-
-fn normalize_attribute_value(value: &str) -> String {
-    if value.is_empty() {
-        return "\"\"".to_string();
-    }
-
-    let mut normalized = String::with_capacity(value.len() + 2);
-
-    normalized.push('"');
-    normalized.push_str(&escape_string(value, true));
-    normalized.push('"');
-
-    normalized
 }
 
 #[allow(clippy::unused_peekable)]
-fn minify_text(value: &str) -> String {
+fn minify_text(value: &str) -> Cow<'_, str> {
+    // Fast-path
+    if value.is_empty() {
+        return Cow::Borrowed(value);
+    }
+
+    // Fast-path
+    if value.chars().all(|c| match c {
+        '&' | '<' => false,
+        _ => true,
+    }) {
+        return Cow::Borrowed(value);
+    }
+
     let mut result = String::with_capacity(value.len());
     let mut chars = value.chars().peekable();
 
     while let Some(c) = chars.next() {
         match c {
             '&' => {
-                result.push_str(&minify_amp(&mut chars));
+                let next = chars.next();
+
+                if let Some(next) = next {
+                    if matches!(next, '#' | 'a'..='z' | 'A'..='Z') {
+                        result.push_str(&minify_amp(next, &mut chars));
+                    } else {
+                        result.push('&');
+                        result.push(next);
+                    }
+                } else {
+                    result.push('&');
+                }
             }
             '<' => {
                 result.push_str("&lt;");
@@ -1010,14 +1048,14 @@ fn minify_text(value: &str) -> String {
         }
     }
 
-    result
+    Cow::Owned(result)
 }
 
-fn minify_amp(chars: &mut Peekable<Chars>) -> String {
+fn minify_amp(next: char, chars: &mut Peekable<Chars>) -> String {
     let mut result = String::with_capacity(7);
 
-    match chars.next() {
-        Some(hash @ '#') => {
+    match next {
+        hash @ '#' => {
             match chars.next() {
                 // HTML CODE
                 // Prevent `&amp;#38;` -> `&#38`
@@ -1054,7 +1092,7 @@ fn minify_amp(chars: &mut Peekable<Chars>) -> String {
         }
         // Named entity
         // Prevent `&amp;current` -> `&current`
-        Some(c @ 'a'..='z') | Some(c @ 'A'..='Z') => {
+        c @ 'a'..='z' | c @ 'A'..='Z' => {
             let mut entity_temporary_buffer = String::with_capacity(33);
 
             entity_temporary_buffer.push('&');
@@ -1091,10 +1129,7 @@ fn minify_amp(chars: &mut Peekable<Chars>) -> String {
         }
         any => {
             result.push('&');
-
-            if let Some(any) = any {
-                result.push(any);
-            }
+            result.push(any);
         }
     }
 
@@ -1115,7 +1150,22 @@ fn minify_amp(chars: &mut Peekable<Chars>) -> String {
 // 4. If the algorithm was not invoked in the attribute mode, replace any
 // occurrences of the "<" character by the string "&lt;", and any occurrences of
 // the ">" character by the string "&gt;".
-fn escape_string(value: &str, is_attribute_mode: bool) -> String {
+fn escape_string(value: &str, is_attribute_mode: bool) -> Cow<'_, str> {
+    // Fast-path
+    if value.is_empty() {
+        return Cow::Borrowed(value);
+    }
+
+    if value.chars().all(|c| match c {
+        '&' | '\u{00A0}' => false,
+        '"' if is_attribute_mode => false,
+        '<' if !is_attribute_mode => false,
+        '>' if !is_attribute_mode => false,
+        _ => true,
+    }) {
+        return Cow::Borrowed(value);
+    }
+
     let mut result = String::with_capacity(value.len());
 
     for c in value.chars() {
@@ -1135,7 +1185,7 @@ fn escape_string(value: &str, is_attribute_mode: bool) -> String {
         }
     }
 
-    result
+    Cow::Owned(result)
 }
 
 fn is_html_tag_name(namespace: Namespace, tag_name: &JsWord) -> bool {
