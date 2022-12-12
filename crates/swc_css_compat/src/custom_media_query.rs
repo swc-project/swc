@@ -1,18 +1,23 @@
-use swc_css_ast::AtRule;
+use swc_css_ast::{AtRule, AtRulePrelude, CustomMediaQuery};
 use swc_css_visit::{VisitMut, VisitMutWith};
 
 pub fn custom_media_query() -> impl VisitMut {
-    CustomMediaQuery {}
+    CustomMediaQueryTransform::default()
 }
 
-struct CustomMediaQuery {}
+#[derive(Debug, Default)]
+struct CustomMediaQueryTransform {
+    medias: Vec<CustomMediaQuery>,
+}
 
-impl VisitMut for CustomMediaQuery {
+impl VisitMut for CustomMediaQueryTransform {
     fn visit_mut_at_rule(&mut self, n: &mut AtRule) {
         n.visit_mut_children_with(self);
 
         if n.name == *"custom-media" {
-            dbg!(n);
+            if let Some(box AtRulePrelude::CustomMediaPrelude(prelude)) = &n.prelude {
+                self.medias.push(prelude.clone());
+            }
         }
     }
 }
