@@ -122,7 +122,7 @@ impl VisitMut for CustomMediaQueryTransform {
 }
 
 fn is_feature_taken(feature: &MediaInParens) -> bool {
-    !matches!(
+    matches!(
         feature,
         MediaInParens::Feature(box MediaFeature::Boolean(MediaFeatureBoolean {
             name: MediaFeatureName::Ident(Ident {
