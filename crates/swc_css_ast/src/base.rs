@@ -2,9 +2,10 @@ use is_macro::Is;
 use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span};
 
 use crate::{
-    AlphaValue, AtRule, CalcSum, CmykComponent, Color, ComplexSelector, DashedIdent, Delimiter,
-    Dimension, Hue, Ident, Integer, KeyframeBlock, LayerName, Number, Percentage, Ratio,
-    RelativeSelectorList, SelectorList, Str, SupportsCondition, TokenAndSpan, UnicodeRange, Url,
+    AlphaValue, AnglePercentage, AtRule, CalcSum, CmykComponent, Color, ComplexSelector,
+    DashedIdent, Delimiter, Dimension, FrequencyPercentage, Hue, Ident, Integer, KeyframeBlock,
+    LayerName, LengthPercentage, Number, Percentage, Ratio, RelativeSelectorList, SelectorList,
+    Str, SupportsCondition, TimePercentage, TokenAndSpan, UnicodeRange, Url,
 };
 
 #[ast_node("Stylesheet")]
@@ -155,6 +156,14 @@ pub enum ComponentValue {
     Percentage(Box<Percentage>),
     #[tag("Dimension")]
     Dimension(Box<Dimension>),
+    #[tag("LengthPercentage")]
+    LengthPercentage(Box<LengthPercentage>),
+    #[tag("FrequencyPercentage")]
+    FrequencyPercentage(Box<FrequencyPercentage>),
+    #[tag("AnglePercentage")]
+    AnglePercentage(Box<AnglePercentage>),
+    #[tag("TimePercentage")]
+    TimePercentage(Box<TimePercentage>),
     #[tag("Ratio")]
     Ratio(Box<Ratio>),
     #[tag("UnicodeRange")]

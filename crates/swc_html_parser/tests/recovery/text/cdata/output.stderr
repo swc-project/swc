@@ -86,27 +86,3 @@
     :            ^
  18 | <svg viewBox="0 0 100 100">
     `----
-
-  x Cdata in html content
-    ,-[$DIR/tests/recovery/text/cdata/input.html:18:1]
- 18 | <svg viewBox="0 0 100 100">
- 19 |     <foreignObject width="100px" height="100px"><![CDATA[content]]>a</foreignObject>
-    :                                                         ^
- 20 |     <desc><![CDATA[content]]></desc>
-    `----
-
-  x Cdata in html content
-    ,-[$DIR/tests/recovery/text/cdata/input.html:19:1]
- 19 |     <foreignObject width="100px" height="100px"><![CDATA[content]]>a</foreignObject>
- 20 |     <desc><![CDATA[content]]></desc>
-    :                   ^
- 21 |     <title><![CDATA[content]]></title>
-    `----
-
-  x Cdata in html content
-    ,-[$DIR/tests/recovery/text/cdata/input.html:20:1]
- 20 |     <desc><![CDATA[content]]></desc>
- 21 |     <title><![CDATA[content]]></title>
-    :                    ^
- 22 | </svg>
-    `----

@@ -5,10 +5,22 @@
 
 
 
+- **(css/minifier)** Fix compressions of transform functions (#6617) ([208fd55](https://github.com/swc-project/swc/commit/208fd559ba383b32c72ffdf5d8ad50cbf9679ec6))
+
+
+- **(css/minifier)** Fix compression of timing functions (#6618) ([59e8bf4](https://github.com/swc-project/swc/commit/59e8bf49761c9f2434dcfb18153f93234d3d69a7))
+
+
 - **(es/codegen)** Don't print trailing coma for a rest argument (#6610) ([68d76af](https://github.com/swc-project/swc/commit/68d76afe5d99f834dd4578cc50bd48624f76c21d))
 
 
+- **(es/codegen)** Fix codegen of TypeScript mapped types (#6621) ([5c53a74](https://github.com/swc-project/swc/commit/5c53a74f55fc9d6ba1f54f9f2ea517853fa62a74))
+
+
 - **(es/parser)** Parse types in `CallExpression` inside templates (#6611) ([c44f1d0](https://github.com/swc-project/swc/commit/c44f1d0a7fd31b6c8019e5a17b0f80dab4c9c01c))
+
+
+- **(html/parser)** Fix parsing of CDATA in the svg context (#6620) ([19c2ee5](https://github.com/swc-project/swc/commit/19c2ee593d1b2c32243dbc5c099f17cea0b9ed26))
 
 
 - **(node-swc)** Add missing `const_to_let` to the type (#6615) ([7e841a5](https://github.com/swc-project/swc/commit/7e841a5d3061e6ef8b48995bdcd492ffa02b3b8d))
@@ -17,7 +29,16 @@
 
 
 
+- **(css/minifier)** Support `to` and `from` with `initial` (#6613) ([cb49fa6](https://github.com/swc-project/swc/commit/cb49fa6f1ddf2ae37262769c538ef1a51adc404c))
+
+
 - **(dbg-swc)** Kill `creduce` on drop (#6614) ([2bf7805](https://github.com/swc-project/swc/commit/2bf78059801d8f07bf31eab6b077d7fb723837f8))
+
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Adjust upload of cli binaries (#6624) ([81b352d](https://github.com/swc-project/swc/commit/81b352d9667c8874b1d9d87a92cca5b8d4c9fd41))
 
 ## [1.3.22] - 2022-12-09
 
