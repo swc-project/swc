@@ -7,6 +7,7 @@
 
 use std::path::PathBuf;
 
+use swc_common::{errors::HANDLER, sync::Lrc, SourceFile};
 use swc_css_ast::Stylesheet;
 use swc_css_codegen::{
     writer::basic::{BasicCssWriter, BasicCssWriterConfig},
@@ -24,22 +25,10 @@ fn test_nesting(input: PathBuf, suffix: Option<&str>) {
         _ => parent.join("output.css"),
     };
 
-    testing::run_test2(false, |cm, handler| {
+    testing::run_test(false, |cm, _| {
         //
         let fm = cm.load_file(&input).unwrap();
-        let mut errors = vec![];
-        let mut ss: Stylesheet = parse_file(
-            &fm,
-            ParserConfig {
-                allow_wrong_line_comments: true,
-                ..Default::default()
-            },
-            &mut errors,
-        )
-        .unwrap();
-        for err in errors {
-            err.to_diagnostics(&handler).emit();
-        }
+        let mut ss = parse_stylesheet(&fm);
 
         ss.visit_mut_with(&mut nesting());
 
@@ -55,6 +44,26 @@ fn test_nesting(input: PathBuf, suffix: Option<&str>) {
 #[testing::fixture("tests/nesting/**/input.css")]
 fn test_nesting_without_env(input: PathBuf) {
     test_nesting(input, None)
+}
+
+fn parse_stylesheet(fm: &Lrc<SourceFile>) -> Stylesheet {
+    let mut errors = vec![];
+    let ss: Stylesheet = parse_file(
+        fm,
+        ParserConfig {
+            allow_wrong_line_comments: true,
+            ..Default::default()
+        },
+        &mut errors,
+    )
+    .unwrap();
+    for err in errors {
+        HANDLER.with(|handler| {
+            err.to_diagnostics(handler).emit();
+        });
+    }
+
+    ss
 }
 
 fn print_stylesheet(ss: &Stylesheet) -> String {
