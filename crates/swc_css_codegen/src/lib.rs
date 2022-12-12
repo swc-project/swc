@@ -1,3 +1,4 @@
+#![feature(box_patterns)]
 #![deny(clippy::all)]
 #![allow(clippy::needless_update)]
 
@@ -1162,20 +1163,26 @@ where
                     | ComponentValue::Delimiter(_)
                     | ComponentValue::Str(_)
                     | ComponentValue::Url(_)
-                    | ComponentValue::Percentage(_) => match next {
-                        Some(ComponentValue::Delimiter(delimiter))
-                            if matches!(
-                                **delimiter,
-                                Delimiter {
-                                    value: DelimiterValue::Comma,
-                                    ..
-                                }
-                            ) =>
-                        {
-                            false
+                    | ComponentValue::Percentage(_)
+                    | ComponentValue::LengthPercentage(box LengthPercentage::Percentage(_))
+                    | ComponentValue::FrequencyPercentage(box FrequencyPercentage::Percentage(_))
+                    | ComponentValue::AnglePercentage(box AnglePercentage::Percentage(_))
+                    | ComponentValue::TimePercentage(box TimePercentage::Percentage(_)) => {
+                        match next {
+                            Some(ComponentValue::Delimiter(delimiter))
+                                if matches!(
+                                    **delimiter,
+                                    Delimiter {
+                                        value: DelimiterValue::Comma,
+                                        ..
+                                    }
+                                ) =>
+                            {
+                                false
+                            }
+                            _ => !self.config.minify,
                         }
-                        _ => !self.config.minify,
-                    },
+                    }
                     ComponentValue::Color(color)
                         if matches!(
                             **color,
@@ -1219,6 +1226,27 @@ where
                         Some(ComponentValue::Number(n)) => {
                             if self.config.minify {
                                 let minified = minify_numeric(n.value);
+
+                                !minified.starts_with('.')
+                            } else {
+                                true
+                            }
+                        }
+                        Some(ComponentValue::LengthPercentage(box LengthPercentage::Length(
+                            Length { value, .. },
+                        )))
+                        | Some(ComponentValue::FrequencyPercentage(
+                            box FrequencyPercentage::Frequency(Frequency { value, .. }),
+                        ))
+                        | Some(ComponentValue::AnglePercentage(box AnglePercentage::Angle(
+                            Angle { value, .. },
+                        )))
+                        | Some(ComponentValue::TimePercentage(box TimePercentage::Time(Time {
+                            value,
+                            ..
+                        }))) => {
+                            if self.config.minify {
+                                let minified = minify_numeric(value.value);
 
                                 !minified.starts_with('.')
                             } else {
@@ -1417,6 +1445,10 @@ where
             ComponentValue::Number(n) => emit!(self, n),
             ComponentValue::Percentage(n) => emit!(self, n),
             ComponentValue::Dimension(n) => emit!(self, n),
+            ComponentValue::LengthPercentage(n) => emit!(self, n),
+            ComponentValue::FrequencyPercentage(n) => emit!(self, n),
+            ComponentValue::AnglePercentage(n) => emit!(self, n),
+            ComponentValue::TimePercentage(n) => emit!(self, n),
             ComponentValue::Ratio(n) => emit!(self, n),
             ComponentValue::UnicodeRange(n) => emit!(self, n),
             ComponentValue::Color(n) => emit!(self, n),

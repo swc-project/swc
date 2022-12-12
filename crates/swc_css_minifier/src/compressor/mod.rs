@@ -99,6 +99,14 @@ impl VisitMut for Compressor {
     }
 
     fn visit_mut_declaration(&mut self, n: &mut Declaration) {
+        if self.in_supports_conidition {
+            n.visit_mut_children_with(self);
+
+            return;
+        }
+
+        self.compress_declaration(n);
+
         if let DeclarationName::Ident(Ident { value, .. }) = &n.name {
             if matches_eq_ignore_ascii_case!(
                 value,
@@ -117,8 +125,6 @@ impl VisitMut for Compressor {
         } else {
             n.visit_mut_children_with(self);
         }
-
-        self.compress_declaration(n);
     }
 
     fn visit_mut_color(&mut self, n: &mut Color) {

@@ -98,9 +98,9 @@ impl Compressor {
 }
 
 impl Compressor {
-    pub(super) fn length_to_zero(&mut self, n: &mut Dimension) -> Option<Number> {
+    pub(super) fn length_to_zero(&mut self, n: &mut Length) -> Option<Number> {
         match &n {
-            Dimension::Length(Length {
+            Length {
                 value:
                     Number {
                         value: number_value,
@@ -108,7 +108,7 @@ impl Compressor {
                     },
                 span,
                 ..
-            }) if *number_value == 0.0 => Some(Number {
+            } if *number_value == 0.0 => Some(Number {
                 span: *span,
                 value: 0.0,
                 raw: None,
@@ -122,8 +122,12 @@ impl Compressor {
             return;
         }
 
-        if let ComponentValue::Dimension(dimension) = n {
-            if let Some(number) = self.length_to_zero(dimension) {
+        if let ComponentValue::Dimension(box Dimension::Length(length)) = n {
+            if let Some(number) = self.length_to_zero(length) {
+                *n = ComponentValue::Number(Box::new(number))
+            }
+        } else if let ComponentValue::LengthPercentage(box LengthPercentage::Length(length)) = n {
+            if let Some(number) = self.length_to_zero(length) {
                 *n = ComponentValue::Number(Box::new(number))
             }
         }
