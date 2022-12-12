@@ -33,13 +33,10 @@ impl VisitMut for CustomMediaQueryTransform {
     fn visit_mut_media_query(&mut self, n: &mut MediaQuery) {
         n.visit_mut_children_with(self);
 
-        match &n.condition {
-            Some(box MediaConditionType::All(cond)) => {
-                if cond.conditions.is_empty() {
-                    n.condition = None;
-                }
+        if let Some(box MediaConditionType::All(cond)) = &n.condition {
+            if cond.conditions.is_empty() {
+                n.condition = None;
             }
-            _ => {}
         }
     }
 
@@ -50,6 +47,17 @@ impl VisitMut for CustomMediaQueryTransform {
 
         for mut q in n.queries.take() {
             q.visit_mut_with(self);
+
+            if let MediaQuery {
+                modifier: None,
+                media_type: None,
+                keyword: None,
+                condition: None,
+                ..
+            } = q
+            {
+                continue;
+            }
 
             dbg!(&q);
             new.push(q);
