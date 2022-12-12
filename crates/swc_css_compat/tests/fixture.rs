@@ -43,14 +43,7 @@ fn test_nesting(input: PathBuf, suffix: Option<&str>) {
 
         ss.visit_mut_with(&mut nesting());
 
-        let mut s = String::new();
-        {
-            let mut wr = BasicCssWriter::new(&mut s, None, BasicCssWriterConfig::default());
-            let mut gen =
-                swc_css_codegen::CodeGenerator::new(&mut wr, CodegenConfig { minify: false });
-
-            gen.emit(&ss).unwrap();
-        }
+        let s = print_stylesheet(&ss);
 
         NormalizedOutput::from(s).compare_to_file(&output).unwrap();
 
@@ -62,4 +55,16 @@ fn test_nesting(input: PathBuf, suffix: Option<&str>) {
 #[testing::fixture("tests/nesting/**/input.css")]
 fn test_nesting_without_env(input: PathBuf) {
     test_nesting(input, None)
+}
+
+fn print_stylesheet(ss: &Stylesheet) -> String {
+    let mut s = String::new();
+    {
+        let mut wr = BasicCssWriter::new(&mut s, None, BasicCssWriterConfig::default());
+        let mut gen = swc_css_codegen::CodeGenerator::new(&mut wr, CodegenConfig { minify: false });
+
+        gen.emit(&ss).unwrap();
+    }
+
+    s
 }
