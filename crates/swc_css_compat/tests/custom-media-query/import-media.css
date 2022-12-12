@@ -1,2 +1,0 @@
-@custom-media --mq-a (max-width: 30em), (max-height: 30em);
-@custom-media --not-mq-a not all and (--mq-a);
