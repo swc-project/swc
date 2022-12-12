@@ -127,7 +127,7 @@ impl CustomMediaHandler {
                     CustomMediaQueryMediaType::Ident(media) => {
                         *name = media.clone();
                     }
-                    CustomMediaQueryMediaType::MediaQueryList(q) => return Some(q.clone()),
+                    CustomMediaQueryMediaType::MediaQueryList(list) => return Some(list.clone()),
                 }
             }
         }
