@@ -15,6 +15,10 @@ struct CustomMediaQueryTransform {
     medias: Vec<CustomMediaQuery>,
 }
 
+impl CustomMediaQueryTransform {
+    fn expand_media_query(&self, to: &mut Vec<MediaQuery>, q: MediaQuery) {}
+}
+
 impl VisitMut for CustomMediaQueryTransform {
     fn visit_mut_at_rule(&mut self, n: &mut AtRule) {
         n.visit_mut_children_with(self);
@@ -30,7 +34,13 @@ impl VisitMut for CustomMediaQueryTransform {
     fn visit_mut_media_query_list(&mut self, n: &mut MediaQueryList) {
         n.visit_mut_children_with(self);
 
-        dbg!(&*n);
+        let mut new = Vec::with_capacity(n.queries.len());
+
+        for q in n.queries.take() {
+            self.expand_media_query(&mut new, q);
+        }
+
+        n.queries = new;
     }
 
     fn visit_mut_media_in_parens(&mut self, n: &mut MediaInParens) {
