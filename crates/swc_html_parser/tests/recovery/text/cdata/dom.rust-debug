@@ -63,16 +63,15 @@
 |       <svg foreignObject>
 |         height="100px"
 |         width="100px"
-|         <!-- [CDATA[content]] -->
-|         "a"
+|         "contenta"
 |       "
     "
 |       <svg desc>
-|         <!-- [CDATA[content]] -->
+|         "content"
 |       "
     "
 |       <svg title>
-|         <!-- [CDATA[content]] -->
+|         "content"
 |       "
 "
 |     "
