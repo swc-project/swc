@@ -1,7 +1,8 @@
 use swc_common::util::take::Take;
 use swc_css_ast::{
     AtRule, AtRulePrelude, CustomMediaQuery, CustomMediaQueryMediaType, MediaFeature,
-    MediaFeatureBoolean, MediaFeatureName, MediaInParens, MediaQuery, Rule, Stylesheet,
+    MediaFeatureBoolean, MediaFeatureName, MediaInParens, MediaQuery, MediaQueryList, Rule,
+    Stylesheet,
 };
 use swc_css_visit::{VisitMut, VisitMutWith};
 
@@ -20,13 +21,13 @@ impl VisitMut for CustomMediaQueryTransform {
 
         if n.name == *"custom-media" {
             if let Some(box AtRulePrelude::CustomMediaPrelude(prelude)) = &mut n.prelude {
+                dbg!(&prelude.media);
                 self.medias.push(prelude.take());
             }
-            return;
         }
     }
 
-    fn visit_mut_media_query(&mut self, n: &mut MediaQuery) {
+    fn visit_mut_media_query_list(&mut self, n: &mut MediaQueryList) {
         n.visit_mut_children_with(self);
 
         dbg!(&*n);
