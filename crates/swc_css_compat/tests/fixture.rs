@@ -78,7 +78,7 @@ fn test_nesting_without_env(input: PathBuf) {
     test_nesting(input, None)
 }
 
-#[testing::fixture("tests/custom-media-query/**/*.css")]
+#[testing::fixture("tests/custom-media-query/**/*.css", exclude("expect.css"))]
 fn test_custom_media_query(input: PathBuf) {
     let output = input.with_extension("expect.css");
 
