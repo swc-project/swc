@@ -2,6 +2,5 @@
 #![allow(clippy::vec_box)]
 
 pub mod compiler;
-pub mod custom_media_query;
 pub mod nesting;
 pub mod target;
