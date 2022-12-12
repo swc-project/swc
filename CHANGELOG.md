@@ -29,6 +29,9 @@
 
 
 
+- **(css/compat)** Add `Compiler` (#6626) ([b3bbd74](https://github.com/swc-project/swc/commit/b3bbd742bf5a3bc51105e16cf6260b63ef9b124a))
+
+
 - **(css/minifier)** Support `to` and `from` with `initial` (#6613) ([cb49fa6](https://github.com/swc-project/swc/commit/cb49fa6f1ddf2ae37262769c538ef1a51adc404c))
 
 
