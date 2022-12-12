@@ -41,6 +41,7 @@ impl CustomMediaHandler {
         // Limited support for `modifier` and `media_type`, it is impossible to lowering
         // syntax for multiple media types, so we handle only case when only one media
         // type exists.
+        // TODO throw warning on multiple cases
         if let Some((modifier, media_type)) = self.modifier_and_media_type.take() {
             n.modifier = modifier;
             n.media_type = media_type;
