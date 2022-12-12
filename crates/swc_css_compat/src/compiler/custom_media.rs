@@ -119,6 +119,8 @@ impl CustomMediaHandler {
         })) = n
         {
             if let Some(custom_media) = self.medias.iter().find(|m| m.name.value == name.value) {
+                name.take();
+
                 // Replace media query with custom media query
 
                 match &custom_media.media {
