@@ -13,7 +13,7 @@ use swc_css_codegen::{
     writer::basic::{BasicCssWriter, BasicCssWriterConfig},
     CodegenConfig, Emit,
 };
-use swc_css_compat::nesting::nesting;
+use swc_css_compat::{custom_media_query::custom_media_query, nesting::nesting};
 use swc_css_parser::{parse_file, parser::ParserConfig};
 use swc_css_visit::VisitMutWith;
 use testing::NormalizedOutput;
