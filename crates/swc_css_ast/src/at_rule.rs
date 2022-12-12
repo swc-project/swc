@@ -226,6 +226,19 @@ pub struct MediaQuery {
     pub condition: Option<Box<MediaConditionType>>,
 }
 
+impl Take for MediaQuery {
+    #[inline]
+    fn dummy() -> Self {
+        Self {
+            span: Take::dummy(),
+            modifier: Take::dummy(),
+            media_type: Take::dummy(),
+            keyword: Take::dummy(),
+            condition: Take::dummy(),
+        }
+    }
+}
+
 impl EqIgnoreSpan for MediaQuery {
     fn eq_ignore_span(&self, other: &Self) -> bool {
         self.modifier.eq_ignore_span(&other.modifier)
