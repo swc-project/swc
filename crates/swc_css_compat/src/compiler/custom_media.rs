@@ -162,7 +162,7 @@ impl CustomMediaHandler {
                     }
                 }
 
-                if new_media_condition.conditions.len() == 0 {
+                if new_media_condition.conditions.is_empty() {
                     return;
                 }
 
