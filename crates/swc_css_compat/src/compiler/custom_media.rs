@@ -1,9 +1,9 @@
 use swc_common::util::take::Take;
 use swc_css_ast::{
-    AtRule, AtRulePrelude, CustomMediaQuery, CustomMediaQueryMediaType, MediaAnd, MediaCondition,
-    MediaConditionAllType, MediaConditionType, MediaConditionWithoutOr,
+    AtRule, AtRulePrelude, CustomMediaQuery, CustomMediaQueryMediaType, Ident, MediaAnd,
+    MediaCondition, MediaConditionAllType, MediaConditionType, MediaConditionWithoutOr,
     MediaConditionWithoutOrType, MediaFeature, MediaFeatureBoolean, MediaFeatureName,
-    MediaInParens, MediaNot, MediaOr, MediaQuery, MediaQueryList,
+    MediaInParens, MediaNot, MediaOr, MediaQuery, MediaQueryList, MediaType,
 };
 
 #[derive(Debug, Default)]
@@ -32,7 +32,13 @@ impl CustomMediaHandler {
 
     fn process_media_query(&mut self, to: &mut Vec<MediaQuery>, q: &mut MediaQuery) {
         if let Some(cond) = &mut q.condition {
-            self.process_media_condition_type(to, cond);
+            self.process_media_condition_type(
+                to,
+                q.modifier.as_ref(),
+                q.media_type.as_ref(),
+                q.keyword.as_ref(),
+                cond,
+            );
         }
 
         to.push(q.take());
@@ -41,14 +47,26 @@ impl CustomMediaHandler {
     fn process_media_condition_type(
         &mut self,
         to: &mut Vec<MediaQuery>,
+        modifier: Option<&Ident>,
+        media_type: Option<&MediaType>,
+        keyword: Option<&Ident>,
         cond: &mut MediaConditionType,
     ) {
+        let mut buf = vec![];
         match cond {
-            MediaConditionType::All(cond) => self.process_media_condition(to, cond),
+            MediaConditionType::All(cond) => self.process_media_condition(&mut buf, cond),
             MediaConditionType::WithoutOr(cond) => {
-                self.process_media_condition_without_or(to, cond)
+                self.process_media_condition_without_or(&mut buf, cond)
             }
         }
+
+        to.extend(buf.into_iter().map(|q| MediaQuery {
+            span: q.span,
+            modifier: q.modifier.or_else(|| modifier.cloned()),
+            media_type: q.media_type.or_else(|| media_type.cloned()),
+            keyword: q.keyword.or_else(|| keyword.cloned()),
+            condition: q.condition,
+        }))
     }
 
     fn process_media_condition(&mut self, to: &mut Vec<MediaQuery>, cond: &mut MediaCondition) {
