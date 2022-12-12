@@ -1,9 +1,9 @@
 use swc_atoms::js_word;
 use swc_common::util::take::Take;
 use swc_css_ast::{
-    AtRule, AtRulePrelude, CustomMediaQuery, CustomMediaQueryMediaType, Ident, MediaCondition,
-    MediaConditionAllType, MediaFeature, MediaFeatureBoolean, MediaFeatureName, MediaInParens,
-    MediaQuery, MediaQueryList, Rule, Stylesheet,
+    AtRule, AtRulePrelude, CustomMediaQuery, CustomMediaQueryMediaType, Ident, MediaAnd,
+    MediaCondition, MediaConditionAllType, MediaFeature, MediaFeatureBoolean, MediaFeatureName,
+    MediaInParens, MediaQuery, MediaQueryList, Rule, Stylesheet,
 };
 use swc_css_visit::{VisitMut, VisitMutWith};
 
@@ -37,6 +37,7 @@ impl VisitMut for CustomMediaQueryTransform {
         for mut q in n.queries.take() {
             q.visit_mut_with(self);
 
+            dbg!(&q);
             new.push(q);
 
             new.append(&mut self.new_medias);
@@ -79,16 +80,20 @@ impl VisitMut for CustomMediaQueryTransform {
         n.visit_mut_children_with(self);
 
         n.retain(|n| match n {
-            MediaConditionAllType::MediaInParens(MediaInParens::Feature(
-                box MediaFeature::Boolean(MediaFeatureBoolean {
+            MediaConditionAllType::MediaInParens(feature)
+            | MediaConditionAllType::And(MediaAnd {
+                condition: feature, ..
+            }) => match feature {
+                MediaInParens::Feature(box MediaFeature::Boolean(MediaFeatureBoolean {
                     name:
                         MediaFeatureName::Ident(Ident {
                             value: js_word!(""),
                             ..
                         }),
                     ..
-                }),
-            )) => false,
+                })) => false,
+                _ => true,
+            },
             _ => true,
         })
     }
