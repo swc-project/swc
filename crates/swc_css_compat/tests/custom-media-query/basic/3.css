@@ -1,9 +1,0 @@
-@custom-media --mq-a (max-width: 30em), (max-height: 30em);
-@custom-media --mq-b screen and (max-width: 30em);
-@custom-media --not-mq-a not all and (--mq-a);
-
-@media (--not-mq-a) {
-	body {
-		order: 1;
-	}
-}
