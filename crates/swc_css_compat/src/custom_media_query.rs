@@ -14,22 +14,10 @@ pub fn process_custom_media_query(ss: &mut Stylesheet) {
 
 #[derive(Debug, Default)]
 struct CustomMediaQueryTransform {
-    medias: Vec<CustomMediaQuery>,
-
     new_medias: Vec<MediaQuery>,
 }
 
 impl VisitMut for CustomMediaQueryTransform {
-    fn visit_mut_at_rule(&mut self, n: &mut AtRule) {
-        n.visit_mut_children_with(self);
-
-        if n.name == *"custom-media" {
-            if let Some(box AtRulePrelude::CustomMediaPrelude(prelude)) = &mut n.prelude {
-                self.medias.push(prelude.take());
-            }
-        }
-    }
-
     fn visit_mut_media_query(&mut self, n: &mut MediaQuery) {
         n.visit_mut_children_with(self);
 

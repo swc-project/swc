@@ -1,3 +1,4 @@
+use swc_css_ast::AtRule;
 use swc_css_visit::VisitMut;
 
 use self::custom_media::CustomMediaHandler;
@@ -28,4 +29,10 @@ impl Compiler {
     }
 }
 
-impl VisitMut for Compiler {}
+impl VisitMut for Compiler {
+    fn visit_mut_at_rule(&mut self, n: &mut AtRule) {
+        n.visit_mut_children_with(self);
+
+        self.custom_media.store_custom_media(n);
+    }
+}
