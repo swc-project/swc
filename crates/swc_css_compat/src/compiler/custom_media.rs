@@ -202,17 +202,14 @@ impl CustomMediaHandler {
                                         media_condition.conditions.get(0),
                                         Some(MediaConditionAllType::MediaInParens(_))
                                     ) {
-                                        let media_in_parens = match media_condition.conditions.pop()
-                                        {
+                                        match media_condition.conditions.pop() {
                                             Some(MediaConditionAllType::MediaInParens(inner)) => {
                                                 inner
                                             }
                                             _ => {
                                                 unreachable!();
                                             }
-                                        };
-
-                                        media_in_parens
+                                        }
                                     } else {
                                         MediaInParens::MediaCondition(media_condition)
                                     };
