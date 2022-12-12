@@ -40,6 +40,12 @@
 
 - **(ci)** Adjust upload of cli binaries (#6624) ([81b352d](https://github.com/swc-project/swc/commit/81b352d9667c8874b1d9d87a92cca5b8d4c9fd41))
 
+### Performance
+
+
+
+- **(html/codegen)** Reduce allocations (#6622) ([bfdafdb](https://github.com/swc-project/swc/commit/bfdafdbb898aa3429172f71c8d018689133e4fd6))
+
 ## [1.3.22] - 2022-12-09
 
 ### Bug Fixes
