@@ -27,34 +27,6 @@ impl VisitMut for CustomMediaQueryTransform {
         }
     }
 
-    fn visit_mut_media_query_list(&mut self, n: &mut MediaQueryList) {
-        let prev = self.new_medias.take();
-
-        let mut new = Vec::with_capacity(n.queries.len());
-
-        for mut q in n.queries.take() {
-            q.visit_mut_with(self);
-
-            if let MediaQuery {
-                modifier: None,
-                media_type: None,
-                keyword: None,
-                condition: None,
-                ..
-            } = q
-            {
-            } else {
-                dbg!(&q);
-                new.push(q);
-            }
-
-            new.append(&mut self.new_medias);
-        }
-
-        n.queries = new;
-        self.new_medias = prev;
-    }
-
     fn visit_mut_media_in_parens(&mut self, n: &mut MediaInParens) {
         n.visit_mut_children_with(self);
 
