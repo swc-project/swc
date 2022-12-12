@@ -1,8 +1,7 @@
 use swc_atoms::js_word;
 use swc_common::util::take::Take;
 use swc_css_ast::{
-    AtRule, AtRulePrelude, CustomMediaQuery, CustomMediaQueryMediaType, Ident, MediaAnd,
-    MediaCondition, MediaConditionAllType, MediaConditionType, MediaConditionWithoutOr,
+    CustomMediaQueryMediaType, Ident, MediaAnd, MediaConditionAllType, MediaConditionType,
     MediaConditionWithoutOrType, MediaFeature, MediaFeatureBoolean, MediaFeatureName,
     MediaInParens, MediaNot, MediaOr, MediaQuery, MediaQueryList, Rule, Stylesheet,
 };

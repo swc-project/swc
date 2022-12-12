@@ -33,6 +33,8 @@ impl VisitMut for Compiler {
     fn visit_mut_at_rule(&mut self, n: &mut AtRule) {
         n.visit_mut_children_with(self);
 
-        self.custom_media.store_custom_media(n);
+        if self.c.process.contains(Features::CUSTOM_MEDIA) {
+            self.custom_media.store_custom_media(n);
+        }
     }
 }
