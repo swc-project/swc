@@ -3,7 +3,7 @@
     order: 1;
   }
 }
-@media (max-width: 30em) {
+@media screen and (max-width: 30em) {
   body {
     order: 1;
   }
@@ -18,7 +18,7 @@
     order: 2;
   }
 }
-@media ((max-width: 30em) or (max-height: 30em)) {
+@media not all and ((max-width: 30em) or (max-height: 30em)) {
   body {
     order: 1;
   }

@@ -1,13 +1,14 @@
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_css_ast::{
-    AtRule, AtRulePrelude, CustomMediaQuery, CustomMediaQueryMediaType, MediaCondition,
+    AtRule, AtRulePrelude, CustomMediaQuery, CustomMediaQueryMediaType, Ident, MediaCondition,
     MediaConditionAllType, MediaConditionType, MediaConditionWithoutOr,
     MediaConditionWithoutOrType, MediaFeature, MediaFeatureBoolean, MediaFeatureName,
-    MediaInParens, MediaOr,
+    MediaInParens, MediaOr, MediaQuery, MediaType,
 };
 
 #[derive(Debug, Default)]
 pub(super) struct CustomMediaHandler {
+    modifier_and_media_type: Option<(Option<Ident>, Option<MediaType>)>,
     medias: Vec<CustomMediaQuery>,
 }
 
@@ -18,6 +19,15 @@ impl CustomMediaHandler {
                 self.medias.push(prelude.take());
             }
         }
+    }
+
+    pub(crate) fn process_media_query(&mut self, n: &mut MediaQuery) {
+        if let Some((modifier, media_type)) = self.modifier_and_media_type.take() {
+            n.modifier = modifier;
+            n.media_type = media_type;
+        }
+
+        self.modifier_and_media_type = None;
     }
 
     pub(crate) fn process_media_in_parens(&mut self, n: &mut MediaInParens) {
@@ -36,7 +46,7 @@ impl CustomMediaHandler {
                     CustomMediaQueryMediaType::Ident(_) => {
                         // TODO make me warning, we should keep code as is in such cases
                         unimplemented!(
-                            "Boolean logic in @custom-media rules is not supported by swc"
+                            "Boolean logic in @custom-media at-rules is not supported by swc"
                         );
                     }
                     CustomMediaQueryMediaType::MediaQueryList(media_query_list) => {
@@ -45,6 +55,11 @@ impl CustomMediaHandler {
                 };
 
                 for query in queries {
+                    if query.media_type.is_some() || query.modifier.is_some() {
+                        self.modifier_and_media_type =
+                            Some((query.modifier.clone(), query.media_type.clone()));
+                    }
+
                     for condition in &query.condition {
                         match &**condition {
                             MediaConditionType::All(media_condition) => {

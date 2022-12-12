@@ -28,7 +28,7 @@
     color: green;
   }
 }
-@media (() and (width >= 570px)) {
+@media only screen and (() and (width >= 570px)) {
   body {
     background-color: red;
   }
