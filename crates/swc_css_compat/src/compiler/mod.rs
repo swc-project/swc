@@ -1,4 +1,4 @@
-use swc_css_ast::{AtRule, MediaQueryList, Rule};
+use swc_css_ast::{AtRule, MediaInParens, Rule};
 use swc_css_visit::{VisitMut, VisitMutWith};
 
 use self::custom_media::CustomMediaHandler;
@@ -38,11 +38,11 @@ impl VisitMut for Compiler {
         }
     }
 
-    fn visit_mut_media_query_list(&mut self, n: &mut MediaQueryList) {
+    fn visit_mut_media_in_parens(&mut self, n: &mut MediaInParens) {
         n.visit_mut_children_with(self);
 
         if self.c.process.contains(Features::CUSTOM_MEDIA) {
-            self.custom_media.process_media_query_list(n);
+            self.custom_media.process_media_in_parens(n);
         }
     }
 

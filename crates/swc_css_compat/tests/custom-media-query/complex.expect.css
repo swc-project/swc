@@ -1,49 +1,35 @@
 @media (min-width: 1) {
-	.a {
-		order: 1;
-	}
+  .a {
+    order: 1;
+  }
 }
-
 @media (min-width: 2) {
-	.a {
-		order: 2;
-	}
+  .a {
+    order: 2;
+  }
 }
-
-@media (min-width: 3) and (width > 1024px),(min-width: 4) and (width > 1024px) {
-	.a { order: 3; }
+@media ((min-width: 3) or (min-width: 4)) and (width > 1024px) {
+  .a {
+    order: 3;
+  }
 }
-
-/* #region https://github.com/csstools/postcss-custom-media/issues/51 */
-/* TODO: This is broken at the moment */
-
-@media only screen(width >= 570px) {
-	body {
-		background-color: red;
-	}
+@media ((color) or (hover)) and (width > 1024px) {
+  .a {
+    color: green;
+  }
 }
-
-@media only screen(width >= 570px) {
-	body {
-		background-color: yellow;
-	}
+@media ((not (color)) or (hover)) and (width > 1024px) {
+  body {
+    background: red;
+  }
 }
-
-@media only screen and (width >= 570px) {
-	body {
-		background-color: green;
-	}
+@media (((color) and (min-width: 20px)) or (hover)) and (min-height: 20px) {
+  .a {
+    color: green;
+  }
 }
-
-@media only screen(width >=570px) {
-	body {
-		background-color: green;
-	}
+@media (() and (width >= 570px)) {
+  body {
+    background-color: red;
+  }
 }
-
-@media (width >=570px) and (width < 1000px) {
-	body {
-		background-color: green;
-	}
-}
-/* #endregion https://github.com/csstools/postcss-custom-media/issues/51 */
