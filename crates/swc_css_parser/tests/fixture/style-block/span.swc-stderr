@@ -4473,7 +4473,7 @@
  93 |     }
     `----
 
-  x Ident { value: Atom('height' type=inline), raw: "height" }
+  x Ident { value: Atom('height' type=static), raw: "height" }
     ,-[$DIR/tests/fixture/style-block/input.css:91:1]
  91 |     @mixin mobile {
  92 |         height: 100px;
@@ -5264,7 +5264,7 @@
  108 |         height: 0;
      `----
 
-  x Ident { value: Atom('width' type=inline), raw: "width" }
+  x Ident { value: Atom('width' type=static), raw: "width" }
      ,-[$DIR/tests/fixture/style-block/input.css:106:1]
  106 |     --zero-size: {
  107 |         width: 0;
@@ -5360,7 +5360,7 @@
  109 |     };
      `----
 
-  x Ident { value: Atom('height' type=inline), raw: "height" }
+  x Ident { value: Atom('height' type=static), raw: "height" }
      ,-[$DIR/tests/fixture/style-block/input.css:107:1]
  107 |         width: 0;
  108 |         height: 0;
@@ -5538,7 +5538,7 @@
  112 |         height: 16px;
      `----
 
-  x Ident { value: Atom('width' type=inline), raw: "width" }
+  x Ident { value: Atom('width' type=static), raw: "width" }
      ,-[$DIR/tests/fixture/style-block/input.css:110:1]
  110 |     --small-icon: {
  111 |         width: 16px;
@@ -5634,7 +5634,7 @@
  113 |     }
      `----
 
-  x Ident { value: Atom('height' type=inline), raw: "height" }
+  x Ident { value: Atom('height' type=static), raw: "height" }
      ,-[$DIR/tests/fixture/style-block/input.css:111:1]
  111 |         width: 16px;
  112 |         height: 16px;
