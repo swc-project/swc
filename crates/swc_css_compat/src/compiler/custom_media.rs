@@ -1,8 +1,8 @@
 use swc_common::util::take::Take;
 use swc_css_ast::{
-    AtRule, AtRulePrelude, CustomMediaQuery, MediaCondition, MediaConditionAllType,
-    MediaConditionType, MediaConditionWithoutOr, MediaConditionWithoutOrType, MediaQuery,
-    MediaQueryList,
+    AtRule, AtRulePrelude, CustomMediaQuery, MediaAnd, MediaCondition, MediaConditionAllType,
+    MediaConditionType, MediaConditionWithoutOr, MediaConditionWithoutOrType, MediaInParens,
+    MediaNot, MediaOr, MediaQuery, MediaQueryList,
 };
 
 #[derive(Debug, Default)]
@@ -57,18 +57,26 @@ impl CustomMediaHandler {
 
     fn process_media_condition_all_type(&mut self, cond: &mut MediaConditionAllType) {
         match cond {
-            MediaConditionAllType::Not(cond) => {}
-            MediaConditionAllType::And(cond) => {}
-            MediaConditionAllType::Or(cond) => {}
-            MediaConditionAllType::MediaInParens(cond) => {}
+            MediaConditionAllType::Not(cond) => self.process_media_not(cond),
+            MediaConditionAllType::And(cond) => self.process_media_and(cond),
+            MediaConditionAllType::Or(cond) => self.process_media_or(cond),
+            MediaConditionAllType::MediaInParens(cond) => self.process_media_in_parens(cond),
         }
     }
 
     fn process_media_condition_without_or_type(&mut self, cond: &mut MediaConditionWithoutOrType) {
         match cond {
-            MediaConditionWithoutOrType::Not(cond) => {}
-            MediaConditionWithoutOrType::And(cond) => {}
-            MediaConditionWithoutOrType::MediaInParens(cond) => {}
+            MediaConditionWithoutOrType::Not(cond) => self.process_media_not(cond),
+            MediaConditionWithoutOrType::And(cond) => self.process_media_and(cond),
+            MediaConditionWithoutOrType::MediaInParens(cond) => self.process_media_in_parens(cond),
         }
     }
+
+    fn process_media_not(&mut self, n: &mut MediaNot) {}
+
+    fn process_media_and(&mut self, n: &mut MediaAnd) {}
+
+    fn process_media_or(&mut self, n: &mut MediaOr) {}
+
+    fn process_media_in_parens(&mut self, n: &mut MediaInParens) {}
 }
