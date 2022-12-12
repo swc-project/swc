@@ -44,6 +44,9 @@
 
 
 
+- **(atoms)** Make `sort.sh` cross-platform (#6629) ([3f469ff](https://github.com/swc-project/swc/commit/3f469fff0bdd642d5ed5d3c78bfbd6a36a20dadb))
+
+
 - **(ci)** Adjust upload of cli binaries (#6624) ([81b352d](https://github.com/swc-project/swc/commit/81b352d9667c8874b1d9d87a92cca5b8d4c9fd41))
 
 ### Performance
