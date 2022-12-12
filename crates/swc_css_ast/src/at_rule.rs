@@ -1,7 +1,7 @@
 use is_macro::Is;
 use string_enum::StringEnum;
 use swc_atoms::{Atom, JsWord};
-use swc_common::{ast_node, EqIgnoreSpan, Span};
+use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span};
 
 use crate::{
     CustomIdent, CustomPropertyName, DashedIdent, Declaration, Dimension, FamilyName, Function,
@@ -822,8 +822,20 @@ pub struct ExtensionName {
 }
 
 impl EqIgnoreSpan for ExtensionName {
+    #[inline]
     fn eq_ignore_span(&self, other: &Self) -> bool {
         self.value == other.value
+    }
+}
+
+impl Take for ExtensionName {
+    #[inline]
+    fn dummy() -> Self {
+        Self {
+            span: Take::dummy(),
+            value: Default::default(),
+            raw: Take::dummy(),
+        }
     }
 }
 
@@ -835,6 +847,17 @@ pub struct CustomMediaQuery {
     pub media: CustomMediaQueryMediaType,
 }
 
+impl Take for CustomMediaQuery {
+    #[inline]
+    fn dummy() -> Self {
+        Self {
+            span: Take::dummy(),
+            name: Take::dummy(),
+            media: Take::dummy(),
+        }
+    }
+}
+
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum CustomMediaQueryMediaType {
@@ -842,4 +865,11 @@ pub enum CustomMediaQueryMediaType {
     Ident(Ident),
     #[tag("MediaQueryList")]
     MediaQueryList(MediaQueryList),
+}
+
+impl Take for CustomMediaQueryMediaType {
+    #[inline]
+    fn dummy() -> Self {
+        Self::Ident(Take::dummy())
+    }
 }
