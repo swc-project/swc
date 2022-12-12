@@ -217,7 +217,7 @@ impl CustomMediaHandler {
                                             span: DUMMY_SP,
                                             keyword: None,
                                             condition: MediaInParens::MediaCondition(
-                                                media_condition.clone(),
+                                                media_condition,
                                             ),
                                         }));
                                 }
@@ -230,17 +230,20 @@ impl CustomMediaHandler {
                     return None;
                 }
 
-                if new_media_condition.conditions.len() == 1 {
-                    if let Some(MediaConditionAllType::MediaInParens(media_in_parens)) =
-                        new_media_condition.conditions.get(0)
-                    {
-                        return Some(media_in_parens.clone());
-                    } else {
-                        return Some(MediaInParens::MediaCondition(new_media_condition));
+                if new_media_condition.conditions.len() == 1
+                    && matches!(
+                        new_media_condition.conditions.get(0),
+                        Some(MediaConditionAllType::MediaInParens(_))
+                    )
+                {
+                    let only_one = new_media_condition.conditions.pop().unwrap();
+
+                    if let MediaConditionAllType::MediaInParens(media_in_parens) = only_one {
+                        return Some(media_in_parens);
                     }
-                } else {
-                    return Some(MediaInParens::MediaCondition(new_media_condition));
                 }
+
+                return Some(MediaInParens::MediaCondition(new_media_condition));
             }
         }
 
