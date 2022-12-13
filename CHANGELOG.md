@@ -58,6 +58,9 @@
 
 - **(ci)** Adjust upload of cli binaries (#6624) ([81b352d](https://github.com/swc-project/swc/commit/81b352d9667c8874b1d9d87a92cca5b8d4c9fd41))
 
+
+- **(es/minifier)** Expose `globals_defs` pass (#6633) ([08ccb83](https://github.com/swc-project/swc/commit/08ccb8384cd186c18100338db35e99cf4de52daa))
+
 ### Performance
 
 
