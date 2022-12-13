@@ -16,3 +16,65 @@ div {
   background-size: -moz-calc(20px);
   background-size: calc(20px);
 }
+.basic {
+  opacity: -webkit-calc(1 + (2 * 2));
+  opacity: -moz-calc(1 + (2 * 2));
+  opacity: calc(1 + calc(2 * 2));
+}
+.mixed-casing {
+  width: -webkit-calc(1 + (2 * 2));
+  width: -moz-calc(1 + (2 * 2));
+  width: calc(1 + cAlC(2 * 2));
+}
+.multi-line {
+  width: -webkit-calc(1 + (2 * 2));
+  width: -moz-calc(1 + (2 * 2));
+  width: calc(1 + calc(2 * 2));
+}
+.multiple-nested {
+  width: -webkit-calc(2 + (2 * 2) + (2 * 2));
+  width: -moz-calc(2 + (2 * 2) + (2 * 2));
+  width: calc(2 + calc(2 * 2) + calc(2 * 2));
+}
+.triple-nested {
+  width: -webkit-calc(3 + (2 * (2 * 2)));
+  width: -moz-calc(3 + (2 * (2 * 2)));
+  width: calc(3 + calc(2 * calc(2 * 2)));
+}
+.triple-nested-in-other-func {
+  width: var(--foo, -webkit-calc(4 + (2 * (2 * 2))));
+  width: var(--foo, -moz-calc(4 + (2 * (2 * 2))));
+  width: var(--foo, calc(4 + calc(2 * calc(2 * 2))));
+}
+.complex {
+  width: -webkit-calc(5 + (2 * (2 * var(--foo, -webkit-calc(6 + (2 * (2 * 2)))))));
+  width: -moz-calc(5 + (2 * (2 * var(--foo, -moz-calc(6 + (2 * (2 * 2)))))));
+  width: calc(5 + calc(2 * calc(2 * var(--foo, calc(6 + calc(2 * calc(2 * 2)))))));
+}
+.ignore {
+  width: -webkit-calc(1 + var(--foo, -webkit-calc(2 * 2)));
+  width: -moz-calc(1 + var(--foo, -moz-calc(2 * 2)));
+  width: calc(1 + var(--foo, calc(2 * 2)));
+}
+.custom-props {
+  --order: calc(1 + calc(2 * 2));
+}
+.foo {
+  width: -webkit-calc((1 + (2 * 2)) * 10px);
+  width: -moz-calc((1 + (2 * 2)) * 10px);
+  width: calc((1 + calc(2 * 2)) * 10px);
+  width: -webkit-calc((1 + (2 * 2)) * 10px);
+  width: -moz-calc((1 + (2 * 2)) * 10px);
+  width: CALC((1 + CALC(2 * 2)) * 10px);
+  padding: -webkit-calc((1 + (2 * 2)) * 10px) -webkit-calc((1 + (2 * 2)) * 10px);
+  padding: -moz-calc((1 + (2 * 2)) * 10px) -moz-calc((1 + (2 * 2)) * 10px);
+  padding: calc((1 + calc(2 * 2)) * 10px) calc((1 + calc(2 * 2)) * 10px);
+  padding: -webkit-calc((1 + (2 * 2)) * 10px);
+  padding: -moz-calc((1 + (2 * 2)) * 10px);
+  padding: calc((1 + -webkit-calc(2 * 2)) * 10px);
+}
+.bar {
+  padding: -webkit-calc((1 + -webkit-calc(2 * 2)) * 10px);
+  padding: -webkit-calc((1 + -moz-calc(2 * 2)) * 10px);
+  padding: -webkit-calc((1 + calc(2 * 2)) * 10px);
+}

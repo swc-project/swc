@@ -515,6 +515,67 @@ where
     node.visit_mut_with(&mut MediaFeatureResolutionReplacerOnLegacyVariant { from, to });
 }
 
+struct CalcReplacer<'a> {
+    inside_calc: bool,
+    to: &'a str,
+}
+
+impl VisitMut for CalcReplacer<'_> {
+    fn visit_mut_function(&mut self, n: &mut Function) {
+        let old_inside_calc = self.inside_calc;
+
+        let is_calc = n.name.value.eq_ignore_ascii_case(&js_word!("calc"));
+
+        self.inside_calc = is_calc;
+
+        n.visit_mut_children_with(self);
+
+        if is_calc {
+            n.name.value = self.to.into();
+            n.name.raw = None;
+        }
+
+        self.inside_calc = old_inside_calc;
+    }
+
+    fn visit_mut_calc_value(&mut self, n: &mut CalcValue) {
+        n.visit_mut_children_with(self);
+
+        if !self.inside_calc {
+            return;
+        }
+
+        if let CalcValue::Function(function) = n {
+            let name = function.name.value.to_ascii_lowercase();
+
+            if matches!(
+                name,
+                js_word!("calc") | js_word!("-webkit-calc") | js_word!("-moz-calc")
+            ) {
+                let calc_sum = match function.value.get(0) {
+                    Some(ComponentValue::CalcSum(calc_sum)) => *calc_sum.clone(),
+                    _ => return,
+                };
+
+                *n = CalcValue::Sum(CalcSum {
+                    span: function.span,
+                    expressions: calc_sum.expressions,
+                });
+            }
+        }
+    }
+}
+
+fn replace_calc<N>(node: &mut N, to: &str)
+where
+    N: for<'aa> VisitMutWith<CalcReplacer<'aa>>,
+{
+    node.visit_mut_with(&mut CalcReplacer {
+        inside_calc: false,
+        to,
+    });
+}
+
 macro_rules! to_ident {
     ($val:expr) => {{
         ComponentValue::Ident(Box::new(Ident {
@@ -1243,7 +1304,7 @@ impl VisitMut for Prefixer {
             }
 
             if should_prefix("-webkit-calc()", self.env, false) {
-                replace_function_name(&mut webkit_value, "calc", "-webkit-calc");
+                replace_calc(&mut webkit_value, "-webkit-calc");
             }
 
             if should_prefix("-webkit-cross-fade()", self.env, false) {
@@ -1295,7 +1356,7 @@ impl VisitMut for Prefixer {
             }
 
             if should_prefix("-moz-calc()", self.env, false) {
-                replace_function_name(&mut moz_value, "calc", "-moz-calc");
+                replace_calc(&mut moz_value, "-moz-calc");
             }
 
             if should_prefix("-moz-linear-gradient()", self.env, false) {
