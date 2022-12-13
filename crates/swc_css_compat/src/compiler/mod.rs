@@ -9,6 +9,7 @@ use self::custom_media::CustomMediaHandler;
 use crate::feature::Features;
 
 mod color_hex_alpha;
+mod colors5;
 mod custom_media;
 mod media_query_ranges;
 
