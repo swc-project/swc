@@ -7,7 +7,7 @@ include = ["Cargo.toml", "src/**/*.rs"]
 license = "Apache-2.0"
 name = "swc_css_modules"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.17.0"
+version = "0.17.2"
 
 [lib]
 bench = false
@@ -17,14 +17,14 @@ bench = false
 [dependencies]
 rustc-hash = "1.1.0"
 serde = {version = "1", features = ["derive"]}
-swc_atoms = {version = "0.4.26", path = "../swc_atoms"}
-swc_common = {version = "0.29.20", path = "../swc_common"}
-swc_css_ast = {version = "0.131.0", path = "../swc_css_ast"}
-swc_css_codegen = {version = "0.141.0", path = "../swc_css_codegen"}
-swc_css_parser = {version = "0.140.0", path = "../swc_css_parser"}
-swc_css_visit = {version = "0.130.0", path = "../swc_css_visit"}
+swc_atoms = {version = "0.4.27", path = "../swc_atoms"}
+swc_common = {version = "0.29.21", path = "../swc_common"}
+swc_css_ast = {version = "0.131.1", path = "../swc_css_ast"}
+swc_css_codegen = {version = "0.141.1", path = "../swc_css_codegen"}
+swc_css_parser = {version = "0.140.1", path = "../swc_css_parser"}
+swc_css_visit = {version = "0.130.1", path = "../swc_css_visit"}
 
 [dev-dependencies]
 serde_json = "1"
-swc_css_compat = {version = "0.16.0", path = "../swc_css_compat"}
-testing = {version = "0.31.21", path = "../testing"}
+swc_css_compat = {version = "0.16.2", path = "../swc_css_compat"}
+testing = {version = "0.31.22", path = "../testing"}

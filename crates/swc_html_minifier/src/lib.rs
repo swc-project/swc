@@ -1,7 +1,7 @@
 #![deny(clippy::all)]
 #![feature(box_patterns)]
 
-use std::{cmp::Ordering, mem::take};
+use std::{borrow::Cow, cmp::Ordering, mem::take};
 
 use once_cell::sync::Lazy;
 use serde_json::Value;
@@ -23,262 +23,145 @@ use crate::option::{
 
 pub mod option;
 
-// Global attributes
-static EVENT_HANDLER_ATTRIBUTES: &[&str] = &[
-    "onabort",
-    "onautocomplete",
-    "onautocompleteerror",
-    "onauxclick",
-    "onbeforematch",
-    "oncancel",
-    "oncanplay",
-    "oncanplaythrough",
-    "onchange",
-    "onclick",
-    "onclose",
-    "oncontextlost",
-    "oncontextmenu",
-    "oncontextrestored",
-    "oncuechange",
-    "ondblclick",
-    "ondrag",
-    "ondragend",
-    "ondragenter",
-    "ondragexit",
-    "ondragleave",
-    "ondragover",
-    "ondragstart",
-    "ondrop",
-    "ondurationchange",
-    "onemptied",
-    "onended",
-    "onformdata",
-    "oninput",
-    "oninvalid",
-    "onkeydown",
-    "onkeypress",
-    "onkeyup",
-    "onmousewheel",
-    "onmousedown",
-    "onmouseenter",
-    "onmouseleave",
-    "onmousemove",
-    "onmouseout",
-    "onmouseover",
-    "onmouseup",
-    "onpause",
-    "onplay",
-    "onplaying",
-    "onprogress",
-    "onratechange",
-    "onreset",
-    "onsecuritypolicyviolation",
-    "onseeked",
-    "onseeking",
-    "onselect",
-    "onslotchange",
-    "onstalled",
-    "onsubmit",
-    "onsuspend",
-    "ontimeupdate",
-    "ontoggle",
-    "onvolumechange",
-    "onwaiting",
-    "onwebkitanimationend",
-    "onwebkitanimationiteration",
-    "onwebkitanimationstart",
-    "onwebkittransitionend",
-    "onwheel",
-    "onblur",
-    "onerror",
-    "onfocus",
-    "onload",
-    "onloadeddata",
-    "onloadedmetadata",
-    "onloadstart",
-    "onresize",
-    "onscroll",
-    "onafterprint",
-    "onbeforeprint",
-    "onbeforeunload",
-    "onhashchange",
-    "onlanguagechange",
-    "onmessage",
-    "onmessageerror",
-    "onoffline",
-    "ononline",
-    "onpagehide",
-    "onpageshow",
-    "onpopstate",
-    "onrejectionhandled",
-    "onstorage",
-    "onunhandledrejection",
-    "onunload",
-    "oncut",
-    "oncopy",
-    "onpaste",
-    "onreadystatechange",
-    "onvisibilitychange",
-    "onshow",
-    "onsort",
-    "onbegin",
-    "onend",
-    "onrepeat",
+static ALLOW_TO_TRIM_HTML_ATTRIBUTES: &[(&JsWord, &JsWord)] = &[
+    (&js_word!("head"), &js_word!("profile")),
+    (&js_word!("audio"), &js_word!("src")),
+    (&js_word!("embed"), &js_word!("src")),
+    (&js_word!("iframe"), &js_word!("src")),
+    (&js_word!("img"), &js_word!("src")),
+    (&js_word!("input"), &js_word!("src")),
+    (&js_word!("input"), &js_word!("usemap")),
+    (&js_word!("input"), &js_word!("longdesc")),
+    (&js_word!("script"), &js_word!("src")),
+    (&js_word!("source"), &js_word!("src")),
+    (&js_word!("track"), &js_word!("src")),
+    (&js_word!("video"), &js_word!("src")),
+    (&js_word!("video"), &js_word!("poster")),
+    (&js_word!("td"), &js_word!("colspan")),
+    (&js_word!("td"), &js_word!("rowspan")),
+    (&js_word!("th"), &js_word!("colspan")),
+    (&js_word!("th"), &js_word!("rowspan")),
+    (&js_word!("col"), &js_word!("span")),
+    (&js_word!("colgroup"), &js_word!("span")),
+    (&js_word!("textarea"), &js_word!("cols")),
+    (&js_word!("textarea"), &js_word!("rows")),
+    (&js_word!("textarea"), &js_word!("maxlength")),
+    (&js_word!("input"), &js_word!("size")),
+    (&js_word!("input"), &js_word!("formaction")),
+    (&js_word!("input"), &js_word!("maxlength")),
+    (&js_word!("button"), &js_word!("formaction")),
+    (&js_word!("select"), &js_word!("size")),
+    (&js_word!("form"), &js_word!("action")),
+    (&js_word!("object"), &js_word!("data")),
+    (&js_word!("object"), &js_word!("codebase")),
+    (&js_word!("object"), &js_word!("classid")),
+    (&js_word!("applet"), &js_word!("codebase")),
+    (&js_word!("a"), &js_word!("href")),
+    (&js_word!("area"), &js_word!("href")),
+    (&js_word!("link"), &js_word!("href")),
+    (&js_word!("base"), &js_word!("href")),
+    (&js_word!("q"), &js_word!("cite")),
+    (&js_word!("blockquote"), &js_word!("cite")),
+    (&js_word!("del"), &js_word!("cite")),
+    (&js_word!("ins"), &js_word!("cite")),
+    (&js_word!("img"), &js_word!("usemap")),
+    (&js_word!("object"), &js_word!("usemap")),
 ];
 
-static ALLOW_TO_TRIM_GLOBAL_ATTRIBUTES: &[&str] = &["style", "tabindex", "itemid"];
+static ALLOW_TO_TRIM_SVG_ATTRIBUTES: &[(&JsWord, &JsWord)] = &[(&js_word!("a"), &js_word!("href"))];
 
-static ALLOW_TO_TRIM_HTML_ATTRIBUTES: &[(&str, &str)] = &[
-    ("head", "profile"),
-    ("audio", "src"),
-    ("embed", "src"),
-    ("iframe", "src"),
-    ("img", "src"),
-    ("input", "src"),
-    ("input", "usemap"),
-    ("input", "longdesc"),
-    ("script", "src"),
-    ("source", "src"),
-    ("track", "src"),
-    ("video", "src"),
-    ("video", "poster"),
-    ("td", "colspan"),
-    ("td", "rowspan"),
-    ("th", "colspan"),
-    ("th", "rowspan"),
-    ("col", "span"),
-    ("colgroup", "span"),
-    ("textarea", "cols"),
-    ("textarea", "rows"),
-    ("textarea", "maxlength"),
-    ("input", "size"),
-    ("input", "formaction"),
-    ("input", "maxlength"),
-    ("button", "formaction"),
-    ("select", "size"),
-    ("form", "action"),
-    ("object", "data"),
-    ("object", "codebase"),
-    ("object", "classid"),
-    ("applet", "codebase"),
-    ("a", "href"),
-    ("area", "href"),
-    ("link", "href"),
-    ("base", "href"),
-    ("q", "cite"),
-    ("blockquote", "cite"),
-    ("del", "cite"),
-    ("ins", "cite"),
-    ("img", "usemap"),
-    ("object", "usemap"),
+static COMMA_SEPARATED_HTML_ATTRIBUTES: &[(&JsWord, &JsWord)] = &[
+    (&js_word!("img"), &js_word!("srcset")),
+    (&js_word!("source"), &js_word!("srcset")),
+    (&js_word!("img"), &js_word!("sizes")),
+    (&js_word!("source"), &js_word!("sizes")),
+    (&js_word!("link"), &js_word!("media")),
+    (&js_word!("source"), &js_word!("media")),
+    (&js_word!("style"), &js_word!("media")),
 ];
 
-static ALLOW_TO_TRIM_SVG_ATTRIBUTES: &[(&str, &str)] = &[("a", "href")];
-
-static COMMA_SEPARATED_HTML_ATTRIBUTES: &[(&str, &str)] = &[
-    ("img", "srcset"),
-    ("source", "srcset"),
-    ("img", "sizes"),
-    ("source", "sizes"),
-    ("link", "media"),
-    ("source", "media"),
-    ("style", "media"),
+static COMMA_SEPARATED_SVG_ATTRIBUTES: &[(&JsWord, &JsWord)] = &[
+    (&js_word!("style"), &js_word!("media")),
+    (&js_word!("polyline"), &js_word!("points")),
+    (&js_word!("polygon"), &js_word!("points")),
 ];
 
-static COMMA_SEPARATED_SVG_ATTRIBUTES: &[(&str, &str)] = &[
-    ("style", "media"),
-    ("polyline", "points"),
-    ("polygon", "points"),
+static SPACE_SEPARATED_HTML_ATTRIBUTES: &[(&JsWord, &JsWord)] = &[
+    (&js_word!("a"), &js_word!("rel")),
+    (&js_word!("a"), &js_word!("ping")),
+    (&js_word!("area"), &js_word!("rel")),
+    (&js_word!("area"), &js_word!("ping")),
+    (&js_word!("link"), &js_word!("rel")),
+    (&js_word!("link"), &js_word!("sizes")),
+    (&js_word!("link"), &js_word!("blocking")),
+    (&js_word!("iframe"), &js_word!("sandbox")),
+    (&js_word!("td"), &js_word!("headers")),
+    (&js_word!("th"), &js_word!("headers")),
+    (&js_word!("output"), &js_word!("for")),
+    (&js_word!("script"), &js_word!("blocking")),
+    (&js_word!("style"), &js_word!("blocking")),
+    (&js_word!("input"), &js_word!("autocomplete")),
+    (&js_word!("form"), &js_word!("rel")),
+    (&js_word!("form"), &js_word!("autocomplete")),
 ];
 
-static SPACE_SEPARATED_GLOBAL_ATTRIBUTES: &[&str] = &[
-    "class",
-    "itemprop",
-    "itemref",
-    "itemtype",
-    "part",
-    "accesskey",
-    "aria-describedby",
-    "aria-labelledby",
-    "aria-owns",
-];
-
-static SPACE_SEPARATED_HTML_ATTRIBUTES: &[(&str, &str)] = &[
-    ("a", "rel"),
-    ("a", "ping"),
-    ("area", "rel"),
-    ("area", "ping"),
-    ("link", "rel"),
-    ("link", "sizes"),
-    ("link", "blocking"),
-    ("iframe", "sandbox"),
-    ("td", "headers"),
-    ("th", "headers"),
-    ("output", "for"),
-    ("script", "blocking"),
-    ("style", "blocking"),
-    ("input", "autocomplete"),
-    ("form", "rel"),
-    ("form", "autocomplete"),
-];
-
-static SPACE_SEPARATED_SVG_ATTRIBUTES: &[(&str, &str)] = &[
-    ("svg", "preserveAspectRatio"),
-    ("svg", "viewBox"),
-    ("symbol", "preserveAspectRatio"),
-    ("symbol", "viewBox"),
-    ("image", "preserveAspectRatio"),
-    ("feImage", "preserveAspectRatio"),
-    ("marker", "preserveAspectRatio"),
-    ("pattern", "preserveAspectRatio"),
-    ("pattern", "viewBox"),
-    ("pattern", "patternTransform"),
-    ("view", "preserveAspectRatio"),
-    ("view", "viewBox"),
-    ("path", "d"),
+static SPACE_SEPARATED_SVG_ATTRIBUTES: &[(&JsWord, &JsWord)] = &[
+    (&js_word!("svg"), &js_word!("preserveAspectRatio")),
+    (&js_word!("svg"), &js_word!("viewBox")),
+    (&js_word!("symbol"), &js_word!("preserveAspectRatio")),
+    (&js_word!("symbol"), &js_word!("viewBox")),
+    (&js_word!("image"), &js_word!("preserveAspectRatio")),
+    (&js_word!("feImage"), &js_word!("preserveAspectRatio")),
+    (&js_word!("marker"), &js_word!("preserveAspectRatio")),
+    (&js_word!("pattern"), &js_word!("preserveAspectRatio")),
+    (&js_word!("pattern"), &js_word!("viewBox")),
+    (&js_word!("pattern"), &js_word!("patternTransform")),
+    (&js_word!("view"), &js_word!("preserveAspectRatio")),
+    (&js_word!("view"), &js_word!("viewBox")),
+    (&js_word!("path"), &js_word!("d")),
     // TODO improve me more
-    ("textPath", "path"),
-    ("animateMotion", "path"),
-    ("glyph", "d"),
-    ("missing-glyph", "d"),
-    ("feColorMatrix", "values"),
-    ("feConvolveMatrix", "kernelMatrix"),
-    ("text", "rotate"),
-    ("tspan", "rotate"),
-    ("feFuncA", "tableValues"),
-    ("feFuncB", "tableValues"),
-    ("feFuncG", "tableValues"),
-    ("feFuncR", "tableValues"),
-    ("linearGradient", "gradientTransform"),
-    ("radialGradient", "gradientTransform"),
-    ("font-face", "panose-1"),
-    ("a", "rel"),
+    (&js_word!("textPath"), &js_word!("path")),
+    (&js_word!("animateMotion"), &js_word!("path")),
+    (&js_word!("glyph"), &js_word!("d")),
+    (&js_word!("missing-glyph"), &js_word!("d")),
+    (&js_word!("feColorMatrix"), &js_word!("values")),
+    (&js_word!("feConvolveMatrix"), &js_word!("kernelMatrix")),
+    (&js_word!("text"), &js_word!("rotate")),
+    (&js_word!("tspan"), &js_word!("rotate")),
+    (&js_word!("feFuncA"), &js_word!("tableValues")),
+    (&js_word!("feFuncB"), &js_word!("tableValues")),
+    (&js_word!("feFuncG"), &js_word!("tableValues")),
+    (&js_word!("feFuncR"), &js_word!("tableValues")),
+    (&js_word!("linearGradient"), &js_word!("gradientTransform")),
+    (&js_word!("radialGradient"), &js_word!("gradientTransform")),
+    (&js_word!("font-face"), &js_word!("panose-1")),
+    (&js_word!("a"), &js_word!("rel")),
 ];
 
-static SEMICOLON_SEPARATED_SVG_ATTRIBUTES: &[(&str, &str)] = &[
-    ("animate", "keyTimes"),
-    ("animate", "keySplines"),
-    ("animate", "values"),
-    ("animate", "begin"),
-    ("animate", "end"),
-    ("animateColor", "keyTimes"),
-    ("animateColor", "keySplines"),
-    ("animateColor", "values"),
-    ("animateColor", "begin"),
-    ("animateColor", "end"),
-    ("animateMotion", "keyTimes"),
-    ("animateMotion", "keySplines"),
-    ("animateMotion", "values"),
-    ("animateMotion", "values"),
-    ("animateMotion", "end"),
-    ("animateTransform", "keyTimes"),
-    ("animateTransform", "keySplines"),
-    ("animateTransform", "values"),
-    ("animateTransform", "begin"),
-    ("animateTransform", "end"),
-    ("discard", "begin"),
-    ("set", "begin"),
-    ("set", "end"),
+static SEMICOLON_SEPARATED_SVG_ATTRIBUTES: &[(&JsWord, &JsWord)] = &[
+    (&js_word!("animate"), &js_word!("keyTimes")),
+    (&js_word!("animate"), &js_word!("keySplines")),
+    (&js_word!("animate"), &js_word!("values")),
+    (&js_word!("animate"), &js_word!("begin")),
+    (&js_word!("animate"), &js_word!("end")),
+    (&js_word!("animateColor"), &js_word!("keyTimes")),
+    (&js_word!("animateColor"), &js_word!("keySplines")),
+    (&js_word!("animateColor"), &js_word!("values")),
+    (&js_word!("animateColor"), &js_word!("begin")),
+    (&js_word!("animateColor"), &js_word!("end")),
+    (&js_word!("animateMotion"), &js_word!("keyTimes")),
+    (&js_word!("animateMotion"), &js_word!("keySplines")),
+    (&js_word!("animateMotion"), &js_word!("values")),
+    (&js_word!("animateMotion"), &js_word!("values")),
+    (&js_word!("animateMotion"), &js_word!("end")),
+    (&js_word!("animateTransform"), &js_word!("keyTimes")),
+    (&js_word!("animateTransform"), &js_word!("keySplines")),
+    (&js_word!("animateTransform"), &js_word!("values")),
+    (&js_word!("animateTransform"), &js_word!("begin")),
+    (&js_word!("animateTransform"), &js_word!("end")),
+    (&js_word!("discard"), &js_word!("begin")),
+    (&js_word!("set"), &js_word!("begin")),
+    (&js_word!("set"), &js_word!("end")),
 ];
 
 enum CssMinificationMode {
@@ -368,7 +251,108 @@ fn get_white_space(namespace: Namespace, tag_name: &JsWord) -> WhiteSpace {
 
 impl Minifier<'_> {
     fn is_event_handler_attribute(&self, attribute: &Attribute) -> bool {
-        EVENT_HANDLER_ATTRIBUTES.contains(&&*attribute.name)
+        matches!(
+            attribute.name,
+            js_word!("onabort")
+                | js_word!("onautocomplete")
+                | js_word!("onautocompleteerror")
+                | js_word!("onauxclick")
+                | js_word!("onbeforematch")
+                | js_word!("oncancel")
+                | js_word!("oncanplay")
+                | js_word!("oncanplaythrough")
+                | js_word!("onchange")
+                | js_word!("onclick")
+                | js_word!("onclose")
+                | js_word!("oncontextlost")
+                | js_word!("oncontextmenu")
+                | js_word!("oncontextrestored")
+                | js_word!("oncuechange")
+                | js_word!("ondblclick")
+                | js_word!("ondrag")
+                | js_word!("ondragend")
+                | js_word!("ondragenter")
+                | js_word!("ondragexit")
+                | js_word!("ondragleave")
+                | js_word!("ondragover")
+                | js_word!("ondragstart")
+                | js_word!("ondrop")
+                | js_word!("ondurationchange")
+                | js_word!("onemptied")
+                | js_word!("onended")
+                | js_word!("onformdata")
+                | js_word!("oninput")
+                | js_word!("oninvalid")
+                | js_word!("onkeydown")
+                | js_word!("onkeypress")
+                | js_word!("onkeyup")
+                | js_word!("onmousewheel")
+                | js_word!("onmousedown")
+                | js_word!("onmouseenter")
+                | js_word!("onmouseleave")
+                | js_word!("onmousemove")
+                | js_word!("onmouseout")
+                | js_word!("onmouseover")
+                | js_word!("onmouseup")
+                | js_word!("onpause")
+                | js_word!("onplay")
+                | js_word!("onplaying")
+                | js_word!("onprogress")
+                | js_word!("onratechange")
+                | js_word!("onreset")
+                | js_word!("onsecuritypolicyviolation")
+                | js_word!("onseeked")
+                | js_word!("onseeking")
+                | js_word!("onselect")
+                | js_word!("onslotchange")
+                | js_word!("onstalled")
+                | js_word!("onsubmit")
+                | js_word!("onsuspend")
+                | js_word!("ontimeupdate")
+                | js_word!("ontoggle")
+                | js_word!("onvolumechange")
+                | js_word!("onwaiting")
+                | js_word!("onwebkitanimationend")
+                | js_word!("onwebkitanimationiteration")
+                | js_word!("onwebkitanimationstart")
+                | js_word!("onwebkittransitionend")
+                | js_word!("onwheel")
+                | js_word!("onblur")
+                | js_word!("onerror")
+                | js_word!("onfocus")
+                | js_word!("onload")
+                | js_word!("onloadeddata")
+                | js_word!("onloadedmetadata")
+                | js_word!("onloadstart")
+                | js_word!("onresize")
+                | js_word!("onscroll")
+                | js_word!("onafterprint")
+                | js_word!("onbeforeprint")
+                | js_word!("onbeforeunload")
+                | js_word!("onhashchange")
+                | js_word!("onlanguagechange")
+                | js_word!("onmessage")
+                | js_word!("onmessageerror")
+                | js_word!("onoffline")
+                | js_word!("ononline")
+                | js_word!("onpagehide")
+                | js_word!("onpageshow")
+                | js_word!("onpopstate")
+                | js_word!("onrejectionhandled")
+                | js_word!("onstorage")
+                | js_word!("onunhandledrejection")
+                | js_word!("onunload")
+                | js_word!("oncut")
+                | js_word!("oncopy")
+                | js_word!("onpaste")
+                | js_word!("onreadystatechange")
+                | js_word!("onvisibilitychange")
+                | js_word!("onshow")
+                | js_word!("onsort")
+                | js_word!("onbegin")
+                | js_word!("onend")
+                | js_word!("onrepeat")
+        )
     }
 
     fn is_boolean_attribute(&self, element: &Element, attribute: &Attribute) -> bool {
@@ -396,16 +380,17 @@ impl Minifier<'_> {
     }
 
     fn is_trimable_separated_attribute(&self, element: &Element, attribute: &Attribute) -> bool {
-        if ALLOW_TO_TRIM_GLOBAL_ATTRIBUTES.contains(&&*attribute.name) {
-            return true;
+        match attribute.name {
+            js_word!("style") | js_word!("tabindex") | js_word!("itemid") => return true,
+            _ => {}
         }
 
         match element.namespace {
             Namespace::HTML => {
-                ALLOW_TO_TRIM_HTML_ATTRIBUTES.contains(&(&element.tag_name, &*attribute.name))
+                ALLOW_TO_TRIM_HTML_ATTRIBUTES.contains(&(&element.tag_name, &attribute.name))
             }
             Namespace::SVG => {
-                ALLOW_TO_TRIM_SVG_ATTRIBUTES.contains(&(&element.tag_name, &*attribute.name))
+                ALLOW_TO_TRIM_SVG_ATTRIBUTES.contains(&(&element.tag_name, &attribute.name))
             }
             _ => false,
         }
@@ -456,24 +441,33 @@ impl Minifier<'_> {
                 }
                 _ if attribute.name == js_word!("exportparts") => true,
                 _ => {
-                    COMMA_SEPARATED_HTML_ATTRIBUTES.contains(&(&element.tag_name, &*attribute.name))
+                    COMMA_SEPARATED_HTML_ATTRIBUTES.contains(&(&element.tag_name, &attribute.name))
                 }
             },
             Namespace::SVG => {
-                COMMA_SEPARATED_SVG_ATTRIBUTES.contains(&(&element.tag_name, &*attribute.name))
+                COMMA_SEPARATED_SVG_ATTRIBUTES.contains(&(&element.tag_name, &attribute.name))
             }
             _ => false,
         }
     }
 
     fn is_space_separated_attribute(&self, element: &Element, attribute: &Attribute) -> bool {
-        if SPACE_SEPARATED_GLOBAL_ATTRIBUTES.contains(&&*attribute.name) {
-            return true;
+        match attribute.name {
+            js_word!("class")
+            | js_word!("itemprop")
+            | js_word!("itemref")
+            | js_word!("itemtype")
+            | js_word!("part")
+            | js_word!("accesskey")
+            | js_word!("aria-describedby")
+            | js_word!("aria-labelledby")
+            | js_word!("aria-owns") => return true,
+            _ => {}
         }
 
         match element.namespace {
             Namespace::HTML => {
-                SPACE_SEPARATED_HTML_ATTRIBUTES.contains(&(&element.tag_name, &*attribute.name))
+                SPACE_SEPARATED_HTML_ATTRIBUTES.contains(&(&element.tag_name, &attribute.name))
             }
             Namespace::SVG => {
                 match attribute.name {
@@ -484,7 +478,7 @@ impl Minifier<'_> {
                     _ => {}
                 }
 
-                SPACE_SEPARATED_SVG_ATTRIBUTES.contains(&(&element.tag_name, &*attribute.name))
+                SPACE_SEPARATED_SVG_ATTRIBUTES.contains(&(&element.tag_name, &attribute.name))
             }
             _ => false,
         }
@@ -493,7 +487,7 @@ impl Minifier<'_> {
     fn is_semicolon_separated_attribute(&self, element: &Element, attribute: &Attribute) -> bool {
         match element.namespace {
             Namespace::SVG => {
-                SEMICOLON_SEPARATED_SVG_ATTRIBUTES.contains(&(&element.tag_name, &*attribute.name))
+                SEMICOLON_SEPARATED_SVG_ATTRIBUTES.contains(&(&element.tag_name, &attribute.name))
             }
             _ => false,
         }
@@ -681,7 +675,12 @@ impl Minifier<'_> {
                     &SVG_ELEMENTS_AND_ATTRIBUTES
                 };
 
-                let attribute_name = if let Some(prefix) = &attribute.prefix {
+                let attributes = match default_attributes.get(&element.tag_name) {
+                    Some(element) => element,
+                    None => return false,
+                };
+
+                let attribute_info = if let Some(prefix) = &attribute.prefix {
                     let mut with_namespace =
                         String::with_capacity(prefix.len() + 1 + attribute.name.len());
 
@@ -689,24 +688,20 @@ impl Minifier<'_> {
                     with_namespace.push(':');
                     with_namespace.push_str(&attribute.name);
 
-                    with_namespace.into()
+                    attributes.other.get(&JsWord::from(with_namespace))
                 } else {
-                    attribute.name.clone()
-                };
-                let normalized_value = attribute_value.trim();
-
-                let attributes = match default_attributes.get(&element.tag_name) {
-                    Some(element) => element,
-                    None => return false,
+                    attributes.other.get(&attribute.name)
                 };
 
-                let attribute_info = match attributes.other.get(&attribute_name) {
+                let attribute_info = match attribute_info {
                     Some(attribute_info) => attribute_info,
                     None => return false,
                 };
 
                 match (attribute_info.inherited, &attribute_info.initial) {
                     (None, Some(initial)) | (Some(false), Some(initial)) => {
+                        let normalized_value = attribute_value.trim();
+
                         match self.options.remove_redundant_attributes {
                             RemoveRedundantAttributes::None => false,
                             RemoveRedundantAttributes::Smart => {
@@ -782,7 +777,7 @@ impl Minifier<'_> {
         false
     }
 
-    fn is_preserved_comment(&self, data: &str) -> bool {
+    fn is_preserved_comment(&self, data: &JsWord) -> bool {
         if let Some(preserve_comments) = &self.options.preserve_comments {
             return preserve_comments.iter().any(|regex| regex.is_match(data));
         }
@@ -790,7 +785,7 @@ impl Minifier<'_> {
         false
     }
 
-    fn is_conditional_comment(&self, data: &str) -> bool {
+    fn is_conditional_comment(&self, data: &JsWord) -> bool {
         if CONDITIONAL_COMMENT_START.is_match(data) || CONDITIONAL_COMMENT_END.is_match(data) {
             return true;
         }
@@ -1273,7 +1268,15 @@ impl Minifier<'_> {
         }
     }
 
-    fn collapse_whitespace(&self, data: &str) -> String {
+    fn collapse_whitespace<'a>(&self, data: &'a str) -> Cow<'a, str> {
+        if data.is_empty() {
+            return Cow::Borrowed(data);
+        }
+
+        if data.chars().all(|c| !matches!(c, c if is_whitespace(c))) {
+            return Cow::Borrowed(data);
+        }
+
         let mut collapsed = String::with_capacity(data.len());
         let mut in_whitespace = false;
 
@@ -1294,10 +1297,10 @@ impl Minifier<'_> {
             };
         }
 
-        collapsed
+        Cow::Owned(collapsed)
     }
 
-    fn is_additional_minifier_attribute(&self, name: &str) -> Option<MinifierType> {
+    fn is_additional_minifier_attribute(&self, name: &JsWord) -> Option<MinifierType> {
         if let Some(minify_additional_attributes) = &self.options.minify_additional_attributes {
             for item in minify_additional_attributes {
                 if item.0.is_match(name) {
@@ -1912,7 +1915,7 @@ impl Minifier<'_> {
         type_attribute_value
     }
 
-    fn is_additional_scripts_content(&self, name: &str) -> Option<MinifierType> {
+    fn is_additional_scripts_content(&self, name: &JsWord) -> Option<MinifierType> {
         if let Some(minify_additional_scripts_content) =
             &self.options.minify_additional_scripts_content
         {
@@ -2713,7 +2716,7 @@ impl Minifier<'_> {
                                         _ => trimmed.to_string(),
                                     }
                                 } else if matches!(n.name, js_word!("points")) {
-                                    self.collapse_whitespace(value.trim())
+                                    self.collapse_whitespace(value.trim()).to_string()
                                 } else if matches!(n.name, js_word!("exportparts")) {
                                     value.chars().filter(|c| !c.is_whitespace()).collect()
                                 } else {

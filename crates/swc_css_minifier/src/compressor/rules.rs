@@ -58,6 +58,13 @@ impl Compressor {
         }
     }
 
+    fn get_declaration_name(&self, declaration: &Declaration) -> JsWord {
+        match &declaration.name {
+            DeclarationName::Ident(Ident { value, .. }) => value.to_ascii_lowercase(),
+            DeclarationName::DashedIdent(DashedIdent { value, .. }) => value.to_ascii_lowercase(),
+        }
+    }
+
     fn collect_names(&self, at_rule: &AtRule, names: &mut AHashMap<Name, isize>) {
         match &at_rule.prelude {
             Some(box AtRulePrelude::CounterStylePrelude(CustomIdent { value: name, .. })) => {
@@ -532,6 +539,18 @@ impl Compressor {
 
                     true
                 }
+                ComponentValue::Declaration(box declaration) if prev_rule.is_some() => {
+                    if let Some(ComponentValue::Declaration(box prev_rule)) = &mut prev_rule {
+                        if self.get_declaration_name(prev_rule)
+                            == self.get_declaration_name(declaration)
+                            && prev_rule.value.eq_ignore_span(&declaration.value)
+                        {
+                            remove_rules_list.push(prev_index);
+                        }
+                    }
+
+                    true
+                }
                 _ => {
                     if let ComponentValue::AtRule(rule) = rule {
                         self.collect_names(rule, &mut names);
@@ -547,8 +566,11 @@ impl Compressor {
                         prev_index = index;
                         prev_rule_idx = Some(index);
                     }
-
                     ComponentValue::QualifiedRule(_) => {
+                        prev_index = index;
+                        prev_rule_idx = Some(index);
+                    }
+                    ComponentValue::Declaration(_) => {
                         prev_index = index;
                         prev_rule_idx = Some(index);
                     }

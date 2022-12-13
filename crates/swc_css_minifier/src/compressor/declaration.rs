@@ -343,18 +343,18 @@ impl Compressor {
                             ComponentValue::Ident(box Ident { value, span, .. })
                                 if value.eq_ignore_ascii_case(&js_word!("normal")) =>
                             {
-                                ComponentValue::Number(Box::new(Number {
+                                ComponentValue::Integer(Box::new(Integer {
                                     span,
-                                    value: 400.0,
+                                    value: 400,
                                     raw: None,
                                 }))
                             }
                             ComponentValue::Ident(box Ident { value, span, .. })
                                 if value.eq_ignore_ascii_case(&js_word!("bold")) =>
                             {
-                                ComponentValue::Number(Box::new(Number {
+                                ComponentValue::Integer(Box::new(Integer {
                                     span,
-                                    value: 700.0,
+                                    value: 700,
                                     raw: None,
                                 }))
                             }
