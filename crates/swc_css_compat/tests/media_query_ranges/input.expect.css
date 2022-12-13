@@ -1,4 +1,4 @@
-@import "foo1.css" screen and ((max-width: 199.999px) and (min-width: 200.001px));
+@import "foo1.css" screen and ((max-width: 99.999px) and (min-width: 200.001px));
 @import "foo2.css" screen and (min-width: 500px);
 @media (min-width: 500px) {
   a {
@@ -50,12 +50,22 @@
     color: blue;
   }
 }
-@media ((max-width: 767.999px) and (min-width: 768.001px)) {
+@media ((max-width: 1023.999px) and (min-width: 768px)) {
   a {
     color: red;
   }
 }
-@media ((min-width: 768px) and (max-width: 1024px)) {
+@media ((min-width: 768px) and (max-width: 1023.999px)) {
+  a {
+    color: red;
+  }
+}
+@media ((max-width: 1024px) and (min-width: 768.001px)) {
+  a {
+    color: red;
+  }
+}
+@media ((min-width: 768.001px) and (max-width: 1024px)) {
   a {
     color: red;
   }
@@ -65,22 +75,12 @@
     color: red;
   }
 }
-@media ((min-width: 768.001px) and (max-width: 1023.999px)) {
-  a {
-    color: red;
-  }
-}
-@media ((max-width: 1024px) and (min-width: 768px)) {
-  a {
-    color: red;
-  }
-}
 @media ((min-width: 768px) and (max-width: 1024px)) {
   a {
     color: red;
   }
 }
-@media ((max-width: 767.999px) and (min-width: 768.001px)) {
+@media ((max-width: 1023.999px) and (min-width: 768.001px)) {
   a {
     color: red;
   }
@@ -210,7 +210,7 @@
     color: red;
   }
 }
-@media screen and ((min-width: 13.801rem) and (max-width: 51.199000000000005rem)) {
+@media screen and ((min-width: 13.801rem) and (max-width: 51.2rem)) {
   a {
     color: red;
   }
@@ -245,7 +245,7 @@
     color: red;
   }
 }
-@media screen and ((min-height: 13.8rem) and (max-height: 51.2rem)) {
+@media screen and ((min-height: 13.8rem) and (max-height: 51.199000000000005rem)) {
   a {
     color: red;
   }
@@ -440,7 +440,7 @@
     color: red;
   }
 }
-@media ((max-width: 767.999px) and (min-width: 768.001px)) {
+@media ((max-width: 1023.999px) and (min-width: 768px)) {
   a {
     color: red;
   }
@@ -450,22 +450,22 @@
     color: red;
   }
 }
-@media ((min-width: 1024.001px) and (max-width: 767.999px)) {
+@media ((min-width: 1024.001px) and (max-width: 768px)) {
   a {
     color: red;
   }
 }
-@media ((min-width: 1024px) and (max-width: 768px)) {
+@media ((min-width: 1024px) and (max-width: 767.999px)) {
   a {
     color: red;
   }
 }
-@media ((max-width: 399.999px) and (min-width: 400.001px)) {
+@media ((max-width: 99.999px) and (min-width: 400.001px)) {
   a {
     color: red;
   }
 }
-@media ((max-width: 399.999px) and (min-width: 400.001px)) {
+@media ((max-width: 99.999px) and (min-width: 400.001px)) {
   a {
     color: red;
   }
@@ -496,6 +496,26 @@
   }
 }
 @media ((max-width: 768px) and (min-width: 768px)) {
+  a {
+    color: red;
+  }
+}
+@media ((max-width: 199.999px) and (min-width: 500.001px)) {
+  a {
+    color: red;
+  }
+}
+@media ((max-width: 199.999px) and (min-width: 500px)) {
+  a {
+    color: red;
+  }
+}
+@media ((max-width: 200px) and (min-width: 500.001px)) {
+  a {
+    color: red;
+  }
+}
+@media ((max-width: 200px) and (min-width: 500px)) {
   a {
     color: red;
   }

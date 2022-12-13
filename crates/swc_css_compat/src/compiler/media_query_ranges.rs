@@ -90,16 +90,16 @@ impl Compiler {
                     _ => self.get_left_media_feature_name(name),
                 }?;
 
-                let value = match left_comparison {
+                let left_value = match left_comparison {
                     MediaFeatureRangeComparison::Lt => self.get_gt_value(left.clone()),
-                    MediaFeatureRangeComparison::Gt => self.get_lt_value(right.clone()),
+                    MediaFeatureRangeComparison::Gt => self.get_lt_value(left.clone()),
                     _ => Some(left.clone()),
                 }?;
 
                 let left = MediaFeature::Plain(MediaFeaturePlain {
                     span: *span,
                     name: left_name,
-                    value: Box::new(value),
+                    value: Box::new(left_value),
                 });
 
                 let right_name = match right_comparison {
@@ -109,7 +109,7 @@ impl Compiler {
                     _ => self.get_right_media_feature_name(name),
                 }?;
 
-                let value = match left_comparison {
+                let right_value = match right_comparison {
                     MediaFeatureRangeComparison::Lt => self.get_lt_value(right.clone()),
                     MediaFeatureRangeComparison::Gt => self.get_gt_value(right.clone()),
                     _ => Some(right.clone()),
@@ -118,7 +118,7 @@ impl Compiler {
                 let right = MediaFeature::Plain(MediaFeaturePlain {
                     span: *span,
                     name: right_name,
-                    value: Box::new(value),
+                    value: Box::new(right_value),
                 });
 
                 return Some((left, Some(right)));
