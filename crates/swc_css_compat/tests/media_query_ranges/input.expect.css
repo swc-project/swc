@@ -5,12 +5,12 @@
     color: red;
   }
 }
-@media (min-width: 499.999px) {
+@media (max-width: 499.999px) {
   a {
     color: red;
   }
 }
-@media (min-width: 500px) {
+@media (max-width: 500px) {
   a {
     color: red;
   }
@@ -30,12 +30,12 @@
     color: blue;
   }
 }
-@media (max-width: 500.001px) {
+@media (min-width: 500.001px) {
   a {
     color: blue;
   }
 }
-@media (max-width: 500px) {
+@media (min-width: 500px) {
   a {
     color: blue;
   }
@@ -90,7 +90,7 @@
     color: red;
   }
 }
-@media screen and (min-resolution: 1dpi) and (min-resolution: 192dpi) {
+@media screen and (min-resolution: 1dpi) and (max-resolution: 192dpi) {
   a {
     color: red;
   }
@@ -131,16 +131,16 @@
   }
 }
 @media screen and (color-index) {}
-@media screen and (min-color-index: 0) and (min-color-index: 1000) {}
-@media screen and (min-monochrome: 0) and (min-monochrome: 1000) {}
-@media screen and (min-resolution: 96dpi) and (min-resolution: 3dppx) {}
-@media screen and (min-width: -200px) and (min-width: 900.56px) {}
-@media screen and (min-width: -0.58px) and (min-width: .99px) {}
+@media screen and (min-color-index: 0) and (max-color-index: 1000) {}
+@media screen and (min-monochrome: 0) and (max-monochrome: 1000) {}
+@media screen and (min-resolution: 96dpi) and (max-resolution: 3dppx) {}
+@media screen and (min-width: -200px) and (max-width: 900.56px) {}
+@media screen and (min-width: -0.58px) and (max-width: .99px) {}
 @media screen and (resolution) {}
-@media screen and (min-resolution: 1000dpi) and (min-resolution: 3dppx) {}
+@media screen and (min-resolution: 1000dpi) and (max-resolution: 3dppx) {}
 @media screen and (1000000dpi <= resolution <= 1000000dpcm) {}
 @media screen and (1/1000 <= resolution <= 16/9) {}
-@media screen and (min-monochrome: 0) and (min-monochrome: 1000) {
+@media screen and (min-monochrome: 0) and (max-monochrome: 1000) {
   a {
     color: red;
   }
@@ -155,7 +155,7 @@
     color: red;
   }
 }
-@media screen and (min-width: 500.001px) and (min-width: 1199.999px) {
+@media screen and (min-width: 500.001px) and (max-width: 1199.999px) {
   a {
     color: red;
   }
@@ -190,7 +190,7 @@
     color: red;
   }
 }
-@media screen and (min-height: 500.001px) and (min-height: 1199.999px) {
+@media screen and (min-height: 500.001px) and (max-height: 1199.999px) {
   a {
     color: red;
   }
@@ -225,7 +225,7 @@
     color: red;
   }
 }
-@media screen and (min-device-width: 500px) and (min-device-width: 1200px) {
+@media screen and (min-device-width: 500px) and (max-device-width: 1200px) {
   a {
     color: red;
   }
@@ -245,7 +245,7 @@
     color: red;
   }
 }
-@media screen and (min-device-height: 500px) and (min-device-height: 1200px) {
+@media screen and (min-device-height: 500px) and (max-device-height: 1200px) {
   a {
     color: red;
   }
@@ -265,7 +265,7 @@
     color: red;
   }
 }
-@media screen and (min-device-aspect-ratio: 1/1000) and (min-device-aspect-ratio: 16/9) {
+@media screen and (min-device-aspect-ratio: 1/1000) and (max-device-aspect-ratio: 16/9) {
   a {
     color: red;
   }
@@ -285,7 +285,7 @@
     color: red;
   }
 }
-@media screen and (min-color: 0) and (min-color: 8) {
+@media screen and (min-color: 0) and (max-color: 8) {
   a {
     color: red;
   }
@@ -300,7 +300,7 @@
     color: red;
   }
 }
-@media screen and (min-color-index: 0) and (min-color-index: 8) {
+@media screen and (min-color-index: 0) and (max-color-index: 8) {
   a {
     color: red;
   }
@@ -315,7 +315,7 @@
     color: red;
   }
 }
-@media screen and (min-aspect-ratio: 1/1000) and (min-aspect-ratio: 16/9) {
+@media screen and (min-aspect-ratio: 1/1000) and (max-aspect-ratio: 16/9) {
   a {
     color: red;
   }
@@ -335,7 +335,7 @@
     color: red;
   }
 }
-@media screen and (min-width: 500.001px) and (min-width: 1200px) {
+@media screen and (min-width: 500.001px) and (max-width: 1200px) {
   a {
     color: red;
   }
@@ -355,7 +355,7 @@
     color: red;
   }
 }
-@media screen and (min-height: 500px) and (min-height: 1200px) {
+@media screen and (min-height: 500px) and (max-height: 1200px) {
   a {
     color: red;
   }
@@ -371,6 +371,31 @@
   }
 }
 @media screen and (height) and (.08px <= height <= 0.68px) {
+  a {
+    color: red;
+  }
+}
+@media screen and (min-aspect-ratio: 1.001/1000) {
+  a {
+    color: red;
+  }
+}
+@media screen and (max-aspect-ratio: 0.999/1000) {
+  a {
+    color: red;
+  }
+}
+@media screen and (max-aspect-ratio: 0.999/1000) {
+  a {
+    color: red;
+  }
+}
+@media screen and (max-color: 9) {
+  a {
+    color: red;
+  }
+}
+@media screen and (min-color: 11) {
   a {
     color: red;
   }

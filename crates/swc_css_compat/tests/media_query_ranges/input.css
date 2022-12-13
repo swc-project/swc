@@ -334,3 +334,23 @@
 @media screen and (height) and (.08px <= height <= 0.68px) {
     a { color: red }
 }
+
+@media screen and (aspect-ratio > 1/1000) {
+    a { color: red }
+}
+
+@media screen and (aspect-ratio < 1/1000) {
+    a { color: red }
+}
+
+@media screen and (aspect-ratio < 1/1000) {
+    a { color: red }
+}
+
+@media screen and (color < 10) {
+    a { color: red }
+}
+
+@media screen and (color > 10) {
+    a { color: red }
+}

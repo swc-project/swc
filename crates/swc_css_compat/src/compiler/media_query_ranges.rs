@@ -19,6 +19,9 @@ impl Compiler {
             }) => {
                 if let MediaFeatureValue::Ident(name) = &left {
                     let name = match comparison {
+                        MediaFeatureRangeComparison::Lt | MediaFeatureRangeComparison::Le => {
+                            self.get_right_media_feature_name(name)
+                        }
                         MediaFeatureRangeComparison::Eq => {
                             Some(MediaFeatureName::Ident(name.clone()))
                         }
@@ -44,6 +47,9 @@ impl Compiler {
                     }
                 } else if let MediaFeatureValue::Ident(name) = &right {
                     let name = match comparison {
+                        MediaFeatureRangeComparison::Lt | MediaFeatureRangeComparison::Le => {
+                            self.get_left_media_feature_name(name)
+                        }
                         MediaFeatureRangeComparison::Eq => {
                             Some(MediaFeatureName::Ident(name.clone()))
                         }
@@ -120,7 +126,7 @@ impl Compiler {
     fn get_lt_value(&self, mut value: MediaFeatureValue) -> Option<MediaFeatureValue> {
         match &mut value {
             MediaFeatureValue::Number(number) => {
-                number.value -= 0.001;
+                number.value -= 1.0;
                 number.raw = None;
 
                 Some(value)
@@ -138,6 +144,12 @@ impl Compiler {
 
                 Some(value)
             }
+            MediaFeatureValue::Ratio(ration) => {
+                ration.left.value -= 0.001;
+                ration.left.raw = None;
+
+                Some(value)
+            }
             _ => None,
         }
     }
@@ -145,7 +157,7 @@ impl Compiler {
     fn get_gt_value(&self, mut value: MediaFeatureValue) -> Option<MediaFeatureValue> {
         match &mut value {
             MediaFeatureValue::Number(number) => {
-                number.value += 0.001;
+                number.value += 1.0;
                 number.raw = None;
 
                 Some(value)
@@ -160,6 +172,12 @@ impl Compiler {
                         return None;
                     }
                 }
+
+                Some(value)
+            }
+            MediaFeatureValue::Ratio(ration) => {
+                ration.left.value += 0.001;
+                ration.left.raw = None;
 
                 Some(value)
             }
