@@ -1444,8 +1444,6 @@ impl VisitMut for Prefixer {
 
             ($property:expr, $value:expr) => {{
                 if should_prefix($property, self.env, true) {
-                    // Check we don't have prefixed property
-
                     let name = DeclarationName::Ident(Ident {
                         span: DUMMY_SP,
                         value: $property.into(),
