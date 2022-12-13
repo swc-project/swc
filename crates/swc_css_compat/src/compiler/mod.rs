@@ -5,7 +5,7 @@ use swc_css_ast::{
 };
 use swc_css_visit::{VisitMut, VisitMutWith};
 
-use self::custom_media::CustomMediaHandler;
+use self::{colors5::Color5Handler, custom_media::CustomMediaHandler};
 use crate::feature::Features;
 
 mod color_hex_alpha;
@@ -18,8 +18,11 @@ mod media_query_ranges;
 pub struct Compiler {
     #[allow(unused)]
     c: Config,
+
     custom_media: CustomMediaHandler,
     in_supports_condition: bool,
+
+    colors5: Color5Handler,
 }
 
 #[derive(Debug)]
@@ -34,6 +37,7 @@ impl Compiler {
             c: config,
             custom_media: Default::default(),
             in_supports_condition: Default::default(),
+            colors5: Default::default(),
         }
     }
 }
