@@ -55,6 +55,9 @@
 
 - **(html/codegen)** Reduce allocations (#6622) ([bfdafdb](https://github.com/swc-project/swc/commit/bfdafdbb898aa3429172f71c8d018689133e4fd6))
 
+
+- **(html/minifier)** Reduce allocations (#6623) ([7d3aa66](https://github.com/swc-project/swc/commit/7d3aa66bb8786d6d8cebcc37aa6ed4d486ec4b53))
+
 ## [1.3.22] - 2022-12-09
 
 ### Bug Fixes
