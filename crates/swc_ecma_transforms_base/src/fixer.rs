@@ -157,7 +157,6 @@ impl VisitMut for Fixer<'_> {
         let ctx = self.ctx;
         self.ctx = Context::FreeExpr;
         expr.right.visit_mut_with(self);
-
         self.ctx = ctx;
 
         fn rhs_need_paren(e: &Expr) -> bool {
@@ -469,7 +468,7 @@ impl VisitMut for Fixer<'_> {
         e.visit_mut_children_with(self);
 
         self.ctx = ctx;
-        self.wrap_with_paren_if_required(e);
+        self.wrap_with_paren_if_required(e)
     }
 
     fn visit_mut_expr_or_spread(&mut self, e: &mut ExprOrSpread) {
