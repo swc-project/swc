@@ -17,6 +17,9 @@
 - **(es/codegen)** Fix codegen of TypeScript mapped types (#6621) ([5c53a74](https://github.com/swc-project/swc/commit/5c53a74f55fc9d6ba1f54f9f2ea517853fa62a74))
 
 
+- **(es/minifier)** Abort IIFE invoker on `eval` (#6478) ([8b2e1d1](https://github.com/swc-project/swc/commit/8b2e1d17e59eaf21d4189aa4b9d2773cb10a1ab4))
+
+
 - **(es/parser)** Parse types in `CallExpression` inside templates (#6611) ([c44f1d0](https://github.com/swc-project/swc/commit/c44f1d0a7fd31b6c8019e5a17b0f80dab4c9c01c))
 
 
@@ -30,6 +33,9 @@
 
 
 - **(css/compat)** Add `Compiler` (#6626) ([b3bbd74](https://github.com/swc-project/swc/commit/b3bbd742bf5a3bc51105e16cf6260b63ef9b124a))
+
+
+- **(css/compat)** Support custom media queries (#6625) ([a5f7b4b](https://github.com/swc-project/swc/commit/a5f7b4b8aa48d3d920dcebf72d766b6e3f458fb7))
 
 
 - **(css/minifier)** Support `to` and `from` with `initial` (#6613) ([cb49fa6](https://github.com/swc-project/swc/commit/cb49fa6f1ddf2ae37262769c538ef1a51adc404c))
@@ -54,6 +60,9 @@
 
 
 - **(html/codegen)** Reduce allocations (#6622) ([bfdafdb](https://github.com/swc-project/swc/commit/bfdafdbb898aa3429172f71c8d018689133e4fd6))
+
+
+- **(html/minifier)** Reduce allocations (#6623) ([7d3aa66](https://github.com/swc-project/swc/commit/7d3aa66bb8786d6d8cebcc37aa6ed4d486ec4b53))
 
 ## [1.3.22] - 2022-12-09
 

@@ -17,12 +17,6 @@
       "name": "__local__c"
     }
   ],
-  "d": [
-    {
-      "type": "local",
-      "name": "__local__d"
-    }
-  ],
   "y": [
     {
       "type": "local",
@@ -45,6 +39,12 @@
     {
       "type": "local",
       "name": "__local__x"
+    }
+  ],
+  "d": [
+    {
+      "type": "local",
+      "name": "__local__d"
     }
   ]
 }
