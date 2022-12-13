@@ -34,3 +34,13 @@ body {
   color: rgba(0, 0, 0, 0);
   color: rgba(0, 0, 17, 0.933);
 }
+@supports (color: #1111) {
+  .a {
+    color: rgba(17, 17, 17, 0.067);
+  }
+}
+@supports (color: #11111111) {
+  .a {
+    color: rgba(17, 17, 17, 0.067);
+  }
+}

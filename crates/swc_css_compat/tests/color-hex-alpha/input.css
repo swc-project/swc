@@ -38,3 +38,15 @@ body {
     color: #0000;
     color: #001e;
 }
+
+@supports (color: #1111) {
+    .a {
+        color: #1111;
+    }
+}
+
+@supports (color: #11111111) {
+    .a {
+        color: #11111111;
+    }
+}
