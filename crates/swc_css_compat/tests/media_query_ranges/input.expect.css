@@ -520,3 +520,23 @@
     color: red;
   }
 }
+@media ((min-width: 200.001px) and (max-width: 499.999px)) {
+  a {
+    color: red;
+  }
+}
+@media ((min-width: 200.001px) and (max-width: 500px)) {
+  a {
+    color: red;
+  }
+}
+@media ((min-width: 200px) and (max-width: 499.999px)) {
+  a {
+    color: red;
+  }
+}
+@media ((min-width: 200px) and (max-width: 500px)) {
+  a {
+    color: red;
+  }
+}
