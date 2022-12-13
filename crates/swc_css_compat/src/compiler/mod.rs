@@ -1,10 +1,15 @@
-use swc_css_ast::{AtRule, MediaCondition, MediaConditionWithoutOr, MediaQuery, Rule};
+use swc_common::{Spanned, DUMMY_SP};
+use swc_css_ast::{
+    AtRule, MediaAnd, MediaCondition, MediaConditionAllType, MediaConditionWithoutOr,
+    MediaInParens, MediaQuery, Rule,
+};
 use swc_css_visit::{VisitMut, VisitMutWith};
 
 use self::custom_media::CustomMediaHandler;
 use crate::feature::Features;
 
 mod custom_media;
+mod media_query_ranges;
 
 /// Compiles a modern CSS file to a CSS file which works with old browsers.
 #[derive(Debug)]
@@ -67,6 +72,37 @@ impl VisitMut for Compiler {
 
         if self.c.process.contains(Features::CUSTOM_MEDIA) {
             self.custom_media.process_rules(n);
+        }
+    }
+
+    fn visit_mut_media_in_parens(&mut self, n: &mut MediaInParens) {
+        n.visit_mut_children_with(self);
+
+        if self.c.process.contains(Features::MEDIA_QUERY_RANGES) {
+            if let MediaInParens::Feature(media_feature) = n {
+                if let Some(legacy_media_feature) = self.get_legacy_media_feature(media_feature) {
+                    match legacy_media_feature {
+                        (legacy_media_feature, None) => {
+                            *media_feature = Box::new(legacy_media_feature);
+                        }
+                        (left, Some(right)) => {
+                            *n = MediaInParens::MediaCondition(MediaCondition {
+                                span: n.span(),
+                                conditions: vec![
+                                    MediaConditionAllType::MediaInParens(*Box::new(
+                                        MediaInParens::Feature(Box::new(left)),
+                                    )),
+                                    MediaConditionAllType::And(MediaAnd {
+                                        span: DUMMY_SP,
+                                        keyword: None,
+                                        condition: MediaInParens::Feature(Box::new(right)),
+                                    }),
+                                ],
+                            });
+                        }
+                    }
+                }
+            }
         }
     }
 }
