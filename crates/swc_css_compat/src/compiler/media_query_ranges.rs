@@ -29,28 +29,23 @@ impl Compiler {
                             Some(MediaFeatureName::Ident(name.clone()))
                         }
                         _ => self.get_left_media_feature_name(name),
-                    };
+                    }?;
 
-                    if let Some(name) = name {
-                        let original_value = right.clone();
+                    let original_value = right.clone();
+                    let value = match comparison {
+                        MediaFeatureRangeComparison::Lt => self.get_lt_value(original_value),
+                        MediaFeatureRangeComparison::Gt => self.get_gt_value(original_value),
+                        _ => Some(original_value),
+                    }?;
 
-                        let value = match comparison {
-                            MediaFeatureRangeComparison::Lt => self.get_lt_value(original_value),
-                            MediaFeatureRangeComparison::Gt => self.get_gt_value(original_value),
-                            _ => Some(original_value),
-                        };
-
-                        if let Some(value) = value {
-                            return Some((
-                                MediaFeature::Plain(MediaFeaturePlain {
-                                    span: *span,
-                                    name,
-                                    value: Box::new(value),
-                                }),
-                                None,
-                            ));
-                        }
-                    }
+                    return Some((
+                        MediaFeature::Plain(MediaFeaturePlain {
+                            span: *span,
+                            name,
+                            value: Box::new(value),
+                        }),
+                        None,
+                    ));
                 } else if let MediaFeatureValue::Ident(name) = &right {
                     let name = match comparison {
                         MediaFeatureRangeComparison::Lt | MediaFeatureRangeComparison::Le => {
@@ -60,28 +55,23 @@ impl Compiler {
                             Some(MediaFeatureName::Ident(name.clone()))
                         }
                         _ => self.get_right_media_feature_name(name),
-                    };
+                    }?;
 
-                    if let Some(name) = name {
-                        let original_value = left.clone();
+                    let original_value = left.clone();
+                    let value = match comparison {
+                        MediaFeatureRangeComparison::Lt => self.get_gt_value(original_value),
+                        MediaFeatureRangeComparison::Gt => self.get_lt_value(original_value),
+                        _ => Some(original_value),
+                    }?;
 
-                        let value = match comparison {
-                            MediaFeatureRangeComparison::Lt => self.get_gt_value(original_value),
-                            MediaFeatureRangeComparison::Gt => self.get_lt_value(original_value),
-                            _ => Some(original_value),
-                        };
-
-                        if let Some(value) = value {
-                            return Some((
-                                MediaFeature::Plain(MediaFeaturePlain {
-                                    span: *span,
-                                    name,
-                                    value: Box::new(value),
-                                }),
-                                None,
-                            ));
-                        }
-                    }
+                    return Some((
+                        MediaFeature::Plain(MediaFeaturePlain {
+                            span: *span,
+                            name,
+                            value: Box::new(value),
+                        }),
+                        None,
+                    ));
                 }
             }
             MediaFeature::RangeInterval(MediaFeatureRangeInterval {
@@ -93,53 +83,45 @@ impl Compiler {
                 right_comparison,
                 ..
             }) => {
-                let first_name = match left_comparison {
+                let left_name = match left_comparison {
                     MediaFeatureRangeComparison::Gt | MediaFeatureRangeComparison::Ge => {
                         self.get_right_media_feature_name(name)
                     }
                     _ => self.get_left_media_feature_name(name),
-                };
+                }?;
 
-                if let Some(first_name) = first_name {
-                    let value = match left_comparison {
-                        MediaFeatureRangeComparison::Lt => self.get_gt_value(left.clone()),
-                        MediaFeatureRangeComparison::Gt => self.get_lt_value(right.clone()),
-                        _ => Some(left.clone()),
-                    };
+                let value = match left_comparison {
+                    MediaFeatureRangeComparison::Lt => self.get_gt_value(left.clone()),
+                    MediaFeatureRangeComparison::Gt => self.get_lt_value(right.clone()),
+                    _ => Some(left.clone()),
+                }?;
 
-                    if let Some(value) = value {
-                        let left = MediaFeature::Plain(MediaFeaturePlain {
-                            span: *span,
-                            name: first_name,
-                            value: Box::new(value),
-                        });
+                let left = MediaFeature::Plain(MediaFeaturePlain {
+                    span: *span,
+                    name: left_name,
+                    value: Box::new(value),
+                });
 
-                        let second_name = match right_comparison {
-                            MediaFeatureRangeComparison::Gt | MediaFeatureRangeComparison::Ge => {
-                                self.get_left_media_feature_name(name)
-                            }
-                            _ => self.get_right_media_feature_name(name),
-                        };
-
-                        if let Some(second_name) = second_name {
-                            let value = match left_comparison {
-                                MediaFeatureRangeComparison::Lt => self.get_lt_value(right.clone()),
-                                MediaFeatureRangeComparison::Gt => self.get_gt_value(right.clone()),
-                                _ => Some(right.clone()),
-                            };
-
-                            if let Some(value) = value {
-                                let right = MediaFeature::Plain(MediaFeaturePlain {
-                                    span: *span,
-                                    name: second_name,
-                                    value: Box::new(value),
-                                });
-
-                                return Some((left, Some(right)));
-                            }
-                        }
+                let right_name = match right_comparison {
+                    MediaFeatureRangeComparison::Gt | MediaFeatureRangeComparison::Ge => {
+                        self.get_left_media_feature_name(name)
                     }
-                }
+                    _ => self.get_right_media_feature_name(name),
+                }?;
+
+                let value = match left_comparison {
+                    MediaFeatureRangeComparison::Lt => self.get_lt_value(right.clone()),
+                    MediaFeatureRangeComparison::Gt => self.get_gt_value(right.clone()),
+                    _ => Some(right.clone()),
+                }?;
+
+                let right = MediaFeature::Plain(MediaFeaturePlain {
+                    span: *span,
+                    name: right_name,
+                    value: Box::new(value),
+                });
+
+                return Some((left, Some(right)));
             }
             _ => {}
         }
