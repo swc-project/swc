@@ -80,12 +80,6 @@
    :     ^^^^^^^^^^^
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:1:1]
- 1 | a { color: red }
-   :     ^^^^^^^^^^^
-   `----
-
   x Declaration
    ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:1:1]
  1 | a { color: red }
@@ -247,13 +241,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:4:1]
- 4 | 
- 5 | a { color: blue }
-   :     ^^^^^^^^^^^^
-   `----
-
-  x StyleBlock
    ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:4:1]
  4 | 
  5 | a { color: blue }

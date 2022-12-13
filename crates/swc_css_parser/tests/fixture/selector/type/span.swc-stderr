@@ -2781,14 +2781,6 @@
  30 | }
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/selector/type/input.css:28:1]
- 28 | h1\\{
- 29 |     color: \\;
-    :     ^^^^^^^^^
- 30 | }
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/selector/type/input.css:28:1]
  28 | h1\\{

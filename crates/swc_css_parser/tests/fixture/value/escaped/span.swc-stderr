@@ -117,14 +117,6 @@
  3 | }
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/value/escaped/input.css:1:1]
- 1 | table {
- 2 |     color: \red;
-   :     ^^^^^^^^^^^
- 3 | }
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/value/escaped/input.css:1:1]
  1 | table {
@@ -273,14 +265,6 @@
  7 |     background: url(a;a);
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/value/escaped/input.css:5:1]
- 5 | a {
- 6 |     background: url("a).png");
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^
- 7 |     background: url(a;a);
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/value/escaped/input.css:5:1]
  5 | a {
@@ -353,14 +337,6 @@
  8 |     background: url(a/*);
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/value/escaped/input.css:6:1]
- 6 |     background: url("a).png");
- 7 |     background: url(a;a);
-   :     ^^^^^^^^^^^^^^^^^^^^
- 8 |     background: url(a/*);
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/value/escaped/input.css:6:1]
  6 |     background: url("a).png");
@@ -433,14 +409,6 @@
  9 |     background: \;a;
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/value/escaped/input.css:7:1]
- 7 |     background: url(a;a);
- 8 |     background: url(a/*);
-   :     ^^^^^^^^^^^^^^^^^^^^
- 9 |     background: \;a;
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/value/escaped/input.css:7:1]
  7 |     background: url(a;a);
@@ -506,14 +474,6 @@
    `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/escaped/input.css:8:1]
-  8 |     background: url(a/*);
-  9 |     background: \;a;
-    :     ^^^^^^^^^^^^^^^
- 10 | }
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/value/escaped/input.css:8:1]
   8 |     background: url(a/*);
   9 |     background: \;a;
@@ -1744,14 +1704,6 @@
  23 | }
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/value/escaped/input.css:21:1]
- 21 | h1\\{
- 22 |     color: \\;
-    :     ^^^^^^^^^
- 23 | }
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/value/escaped/input.css:21:1]
  21 | h1\\{
@@ -1971,14 +1923,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/escaped/input.css:27:1]
- 27 | .prop {
- 28 |     \62 olor: red
-    :     ^^^^^^^^^^^^^^
- 29 | }
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/value/escaped/input.css:27:1]
  27 | .prop {
  28 |     \62 olor: red

@@ -111,14 +111,6 @@
  3 |     margin: __styled-jsx-placeholder__0;
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:1:1]
- 1 | .removed-214123 {
- 2 |     flex-wrap: wrap;
-   :     ^^^^^^^^^^^^^^^
- 3 |     margin: __styled-jsx-placeholder__0;
-   `----
-
   x Declaration
    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:1:1]
  1 | .removed-214123 {
@@ -167,14 +159,6 @@
  4 |     box-sizing: border-box;
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:2:1]
- 2 |     flex-wrap: wrap;
- 3 |     margin: __styled-jsx-placeholder__0;
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 4 |     box-sizing: border-box;
-   `----
-
   x Declaration
    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:2:1]
  2 |     flex-wrap: wrap;
@@ -216,14 +200,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:3:1]
- 3 |     margin: __styled-jsx-placeholder__0;
- 4 |     box-sizing: border-box;
-   :     ^^^^^^^^^^^^^^^^^^^^^^
- 5 | }
-   `----
-
-  x StyleBlock
    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:3:1]
  3 |     margin: __styled-jsx-placeholder__0;
  4 |     box-sizing: border-box;
@@ -472,14 +448,6 @@
  9 |     flex-grow: 0;
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/recovery/styled-jsx/1/input.css:7:1]
- 7 | .removed-214123 :global(> .removed-214123-item) {
- 8 |     padding: __styled-jsx-placeholder__1;
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 9 |     flex-grow: 0;
-   `----
-
   x Declaration
    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:7:1]
  7 | .removed-214123 :global(> .removed-214123-item) {
@@ -521,14 +489,6 @@
    `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:8:1]
-  8 |     padding: __styled-jsx-placeholder__1;
-  9 |     flex-grow: 0;
-    :     ^^^^^^^^^^^^
- 10 |     flex-basis: __styled-jsx-placeholder__2%;
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/recovery/styled-jsx/1/input.css:8:1]
   8 |     padding: __styled-jsx-placeholder__1;
   9 |     flex-grow: 0;
@@ -577,14 +537,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:9:1]
-  9 |     flex-grow: 0;
- 10 |     flex-basis: __styled-jsx-placeholder__2%;
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 11 |     min-width: 0;
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/recovery/styled-jsx/1/input.css:9:1]
   9 |     flex-grow: 0;
  10 |     flex-basis: __styled-jsx-placeholder__2%;
@@ -649,14 +601,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:10:1]
- 10 |     flex-basis: __styled-jsx-placeholder__2%;
- 11 |     min-width: 0;
-    :     ^^^^^^^^^^^^
- 12 | }
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/recovery/styled-jsx/1/input.css:10:1]
  10 |     flex-basis: __styled-jsx-placeholder__2%;
  11 |     min-width: 0;
@@ -791,15 +735,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:14:1]
- 14 |     @media screen {
- 15 | ,->     .removed-214123 :global(> .removed-214123-item) {
- 16 | |           flex-basis: __styled-jsx-placeholder__3%;
- 17 | `->     }
- 18 |     }
-    `----
-
-  x Rule
     ,-[$DIR/tests/recovery/styled-jsx/1/input.css:14:1]
  14 |     @media screen {
  15 | ,->     .removed-214123 :global(> .removed-214123-item) {
@@ -987,14 +922,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:15:1]
- 15 |     .removed-214123 :global(> .removed-214123-item) {
- 16 |         flex-basis: __styled-jsx-placeholder__3%;
-    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 17 |     }
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/recovery/styled-jsx/1/input.css:15:1]
  15 |     .removed-214123 :global(> .removed-214123-item) {
  16 |         flex-basis: __styled-jsx-placeholder__3%;
@@ -1153,15 +1080,6 @@
  24 |       }
     `----
 
-  x Rule
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:20:1]
- 20 |     @media screen {
- 21 | ,->     .removed-214123 :global(> .removed-214123-item) {
- 22 | |           flex-basis: __styled-jsx-placeholder__4%;
- 23 | `->     }
- 24 |       }
-    `----
-
   x QualifiedRule
     ,-[$DIR/tests/recovery/styled-jsx/1/input.css:20:1]
  20 |     @media screen {
@@ -1341,14 +1259,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:21:1]
- 21 |     .removed-214123 :global(> .removed-214123-item) {
- 22 |         flex-basis: __styled-jsx-placeholder__4%;
-    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 23 |     }
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/recovery/styled-jsx/1/input.css:21:1]
  21 |     .removed-214123 :global(> .removed-214123-item) {
  22 |         flex-basis: __styled-jsx-placeholder__4%;

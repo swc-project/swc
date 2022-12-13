@@ -810,15 +810,6 @@
  10 |         background-image: image-set(
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/value/resolution/input.css:6:1]
-  6 |     .box {
-  7 | ,->     background-image: -webkit-image-set(
-  8 | |               url("small-balloons.jpg") 1x,
-  9 | `->             url("large-balloons.jpg") 2x);
- 10 |         background-image: image-set(
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/value/resolution/input.css:6:1]
   6 |     .box {
@@ -1047,15 +1038,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/resolution/input.css:9:1]
-  9 |                 url("large-balloons.jpg") 2x);
- 10 | ,->     background-image: image-set(
- 11 | |               url("small-balloons.jpg") 1x,
- 12 | `->             url("large-balloons.jpg") 2x);
- 13 |     }
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/value/resolution/input.css:9:1]
   9 |                 url("large-balloons.jpg") 2x);
  10 | ,->     background-image: image-set(

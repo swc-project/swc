@@ -205,15 +205,6 @@
  5 |     }
    `----
 
-  x Rule
-   ,-[$DIR/tests/recovery/at-rule/layer/block/input.css:1:1]
- 1 |     @layer framework, override   ,    foo   {
- 2 | ,->     .a {
- 3 | |           color: red;
- 4 | `->     }
- 5 |     }
-   `----
-
   x QualifiedRule
    ,-[$DIR/tests/recovery/at-rule/layer/block/input.css:1:1]
  1 |     @layer framework, override   ,    foo   {
@@ -289,14 +280,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/layer/block/input.css:2:1]
- 2 |     .a {
- 3 |         color: red;
-   :         ^^^^^^^^^^
- 4 |     }
-   `----
-
-  x StyleBlock
    ,-[$DIR/tests/recovery/at-rule/layer/block/input.css:2:1]
  2 |     .a {
  3 |         color: red;

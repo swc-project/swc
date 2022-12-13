@@ -77,12 +77,6 @@
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/Rq1DOaNCa5Dl2jaozalLXQ/input.css:1:1]
- 1 | a { box-shadow: inset 0px 0px 0px 0px black }
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Rq1DOaNCa5Dl2jaozalLXQ/input.css:1:1]
  1 | a { box-shadow: inset 0px 0px 0px 0px black }

@@ -93,13 +93,6 @@
  2 | a { animation: тест; }
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/value/ident/input.css:1:1]
- 1 | a { animation: test; }
-   :     ^^^^^^^^^^^^^^^
- 2 | a { animation: тест; }
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/value/ident/input.css:1:1]
  1 | a { animation: test; }
@@ -224,14 +217,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/ident/input.css:1:1]
- 1 | a { animation: test; }
- 2 | a { animation: тест; }
-   :     ^^^^^^^^^^^^^^^^^^^
- 3 | a { animation: т\ест; }
-   `----
-
-  x StyleBlock
    ,-[$DIR/tests/fixture/value/ident/input.css:1:1]
  1 | a { animation: test; }
  2 | a { animation: тест; }
@@ -375,14 +360,6 @@
  4 | a { animation: 😋; }
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/value/ident/input.css:2:1]
- 2 | a { animation: тест; }
- 3 | a { animation: т\ест; }
-   :     ^^^^^^^^^^^^^^^^^^^^
- 4 | a { animation: 😋; }
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/value/ident/input.css:2:1]
  2 | a { animation: тест; }
@@ -512,14 +489,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/ident/input.css:3:1]
- 3 | a { animation: т\ест; }
- 4 | a { animation: 😋; }
-   :     ^^^^^^^^^^^^^^^
- 5 | a { animation: \\😋; }
-   `----
-
-  x StyleBlock
    ,-[$DIR/tests/fixture/value/ident/input.css:3:1]
  3 | a { animation: т\ест; }
  4 | a { animation: 😋; }
@@ -663,14 +632,6 @@
  6 | a { animation: \😋; }
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/value/ident/input.css:4:1]
- 4 | a { animation: 😋; }
- 5 | a { animation: \\😋; }
-   :     ^^^^^^^^^^^^^^^^^
- 6 | a { animation: \😋; }
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/value/ident/input.css:4:1]
  4 | a { animation: 😋; }
@@ -789,13 +750,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/ident/input.css:5:1]
- 5 | a { animation: \\😋; }
- 6 | a { animation: \😋; }
-   :     ^^^^^^^^^^^^^^^^
-   `----
-
-  x StyleBlock
    ,-[$DIR/tests/fixture/value/ident/input.css:5:1]
  5 | a { animation: \\😋; }
  6 | a { animation: \😋; }

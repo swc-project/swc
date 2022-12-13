@@ -151,14 +151,6 @@
  4 | }
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/recovery/qualified-rule/double-slash-comment/input.css:2:1]
- 2 | a {
- 3 |     color: red;
-   :     ^^^^^^^^^^
- 4 | }
-   `----
-
   x Declaration
    ,-[$DIR/tests/recovery/qualified-rule/double-slash-comment/input.css:2:1]
  2 | a {

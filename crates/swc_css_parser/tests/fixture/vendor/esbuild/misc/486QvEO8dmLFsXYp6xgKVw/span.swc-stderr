@@ -77,12 +77,6 @@
    :     ^^^^^^^^^^^^^^^^
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/486QvEO8dmLFsXYp6xgKVw/input.css:1:1]
- 1 | a { value: #\30hash }
-   :     ^^^^^^^^^^^^^^^^
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/486QvEO8dmLFsXYp6xgKVw/input.css:1:1]
  1 | a { value: #\30hash }

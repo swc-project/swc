@@ -99,14 +99,6 @@
  3 |     // Line comment
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/line-comment/css-in-js/4/input.css:1:1]
- 1 | foo {
- 2 |     color: red;
-   :     ^^^^^^^^^^
- 3 |     // Line comment
-   `----
-
   x Declaration
    ,-[$DIR/tests/line-comment/css-in-js/4/input.css:1:1]
  1 | foo {
@@ -148,14 +140,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/line-comment/css-in-js/4/input.css:3:1]
- 3 |     // Line comment
- 4 |     top: 0;
-   :     ^^^^^^
- 5 | }
-   `----
-
-  x StyleBlock
    ,-[$DIR/tests/line-comment/css-in-js/4/input.css:3:1]
  3 |     // Line comment
  4 |     top: 0;

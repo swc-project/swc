@@ -14,7 +14,6 @@ impl<I: Tokens> Parser<I> {
     {
         let ctx = Context {
             will_expect_colon_for_cond: false,
-            dont_parse_colon_as_type_ann: false,
             ..self.ctx()
         };
         self.with_ctx(ctx).parse_with(|p| {

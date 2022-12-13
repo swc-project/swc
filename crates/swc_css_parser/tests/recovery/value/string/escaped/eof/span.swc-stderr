@@ -95,14 +95,6 @@
  4 |     }
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:1:1]
- 1 |     a {
- 2 | ,->     color: \
- 3 | `->     ;
- 4 |     }
-   `----
-
   x Declaration
    ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:1:1]
  1 |     a {

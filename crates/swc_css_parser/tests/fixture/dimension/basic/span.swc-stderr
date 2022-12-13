@@ -115,14 +115,6 @@
  3 |     prop: .10px;
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:1:1]
- 1 | a {
- 2 |     prop: 10px;
-   :     ^^^^^^^^^^
- 3 |     prop: .10px;
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/dimension/basic/input.css:1:1]
  1 | a {
@@ -188,14 +180,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:2:1]
- 2 |     prop: 10px;
- 3 |     prop: .10px;
-   :     ^^^^^^^^^^^
- 4 |     prop: 12.34px;
-   `----
-
-  x StyleBlock
    ,-[$DIR/tests/fixture/dimension/basic/input.css:2:1]
  2 |     prop: 10px;
  3 |     prop: .10px;
@@ -275,14 +259,6 @@
  5 |     prop: 0000.000px;
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:3:1]
- 3 |     prop: .10px;
- 4 |     prop: 12.34px;
-   :     ^^^^^^^^^^^^^
- 5 |     prop: 0000.000px;
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/dimension/basic/input.css:3:1]
  3 |     prop: .10px;
@@ -348,14 +324,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:4:1]
- 4 |     prop: 12.34px;
- 5 |     prop: 0000.000px;
-   :     ^^^^^^^^^^^^^^^^
- 6 |     prop: 1px\\9;
-   `----
-
-  x StyleBlock
    ,-[$DIR/tests/fixture/dimension/basic/input.css:4:1]
  4 |     prop: 12.34px;
  5 |     prop: 0000.000px;
@@ -435,14 +403,6 @@
  7 |     prop: 1e;
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:5:1]
- 5 |     prop: 0000.000px;
- 6 |     prop: 1px\\9;
-   :     ^^^^^^^^^^^^
- 7 |     prop: 1e;
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/dimension/basic/input.css:5:1]
  5 |     prop: 0000.000px;
@@ -515,14 +475,6 @@
  8 |     prop: 1unknown;
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:6:1]
- 6 |     prop: 1px\\9;
- 7 |     prop: 1e;
-   :     ^^^^^^^^
- 8 |     prop: 1unknown;
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/dimension/basic/input.css:6:1]
  6 |     prop: 1px\\9;
@@ -588,14 +540,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:7:1]
- 7 |     prop: 1e;
- 8 |     prop: 1unknown;
-   :     ^^^^^^^^^^^^^^
- 9 | }
-   `----
-
-  x StyleBlock
    ,-[$DIR/tests/fixture/dimension/basic/input.css:7:1]
  7 |     prop: 1e;
  8 |     prop: 1unknown;

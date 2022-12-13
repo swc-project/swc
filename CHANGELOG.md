@@ -5,6 +5,65 @@
 
 
 
+- **(css/minifier)** Fix compressions of transform functions (#6617) ([208fd55](https://github.com/swc-project/swc/commit/208fd559ba383b32c72ffdf5d8ad50cbf9679ec6))
+
+
+- **(css/minifier)** Fix compression of timing functions (#6618) ([59e8bf4](https://github.com/swc-project/swc/commit/59e8bf49761c9f2434dcfb18153f93234d3d69a7))
+
+
+- **(es/codegen)** Don't print trailing coma for a rest argument (#6610) ([68d76af](https://github.com/swc-project/swc/commit/68d76afe5d99f834dd4578cc50bd48624f76c21d))
+
+
+- **(es/codegen)** Fix codegen of TypeScript mapped types (#6621) ([5c53a74](https://github.com/swc-project/swc/commit/5c53a74f55fc9d6ba1f54f9f2ea517853fa62a74))
+
+
+- **(es/parser)** Parse types in `CallExpression` inside templates (#6611) ([c44f1d0](https://github.com/swc-project/swc/commit/c44f1d0a7fd31b6c8019e5a17b0f80dab4c9c01c))
+
+
+- **(html/parser)** Fix parsing of CDATA in the svg context (#6620) ([19c2ee5](https://github.com/swc-project/swc/commit/19c2ee593d1b2c32243dbc5c099f17cea0b9ed26))
+
+
+- **(node-swc)** Add missing `const_to_let` to the type (#6615) ([7e841a5](https://github.com/swc-project/swc/commit/7e841a5d3061e6ef8b48995bdcd492ffa02b3b8d))
+
+### Features
+
+
+
+- **(css/compat)** Add `Compiler` (#6626) ([b3bbd74](https://github.com/swc-project/swc/commit/b3bbd742bf5a3bc51105e16cf6260b63ef9b124a))
+
+
+- **(css/minifier)** Support `to` and `from` with `initial` (#6613) ([cb49fa6](https://github.com/swc-project/swc/commit/cb49fa6f1ddf2ae37262769c538ef1a51adc404c))
+
+
+- **(css/minifier)** Remove adjacent identical declarations (#6619) ([fb94694](https://github.com/swc-project/swc/commit/fb94694cf3d95c26cc10aa9824f58e68b73b17ca))
+
+
+- **(dbg-swc)** Kill `creduce` on drop (#6614) ([2bf7805](https://github.com/swc-project/swc/commit/2bf78059801d8f07bf31eab6b077d7fb723837f8))
+
+### Miscellaneous Tasks
+
+
+
+- **(atoms)** Make `sort.sh` cross-platform (#6629) ([3f469ff](https://github.com/swc-project/swc/commit/3f469fff0bdd642d5ed5d3c78bfbd6a36a20dadb))
+
+
+- **(ci)** Adjust upload of cli binaries (#6624) ([81b352d](https://github.com/swc-project/swc/commit/81b352d9667c8874b1d9d87a92cca5b8d4c9fd41))
+
+### Performance
+
+
+
+- **(html/codegen)** Reduce allocations (#6622) ([bfdafdb](https://github.com/swc-project/swc/commit/bfdafdbb898aa3429172f71c8d018689133e4fd6))
+
+
+- **(html/minifier)** Reduce allocations (#6623) ([7d3aa66](https://github.com/swc-project/swc/commit/7d3aa66bb8786d6d8cebcc37aa6ed4d486ec4b53))
+
+## [1.3.22] - 2022-12-09
+
+### Bug Fixes
+
+
+
 - **(common)** Fix handling of input source maps (#6561) ([4af52c7](https://github.com/swc-project/swc/commit/4af52c79aea73f2e916bd11ce089bb4a4317179c))
 
 
@@ -23,6 +82,9 @@
 - **(css/parser)** Avoid skipping extra whitespaces (#6592) ([d8936ad](https://github.com/swc-project/swc/commit/d8936ade5b34f682af08e01833d629a67c54f888))
 
 
+- **(es/compat)** Prepend generated `_loop` to the correct scope (#6604) ([4c2d422](https://github.com/swc-project/swc/commit/4c2d42261ed0382c49e8a564b574362a5ab182a3))
+
+
 - **(es/parser)** Fix `typeof` in `TSCallSignatureDeclaration` (#6553) ([aa28aa0](https://github.com/swc-project/swc/commit/aa28aa0c7fefcaea063340c711a5ea8a3ba60e7b))
 
 
@@ -35,6 +97,9 @@
 - **(es/typescript)** Strip inline type declarations (#6600) ([fe0c651](https://github.com/swc-project/swc/commit/fe0c65195d2308b1475e958a7051b5f529bf4580))
 
 
+- **(node-swc)** Sync types for `jsc.optimizer.globals` (#6603) ([b97aa45](https://github.com/swc-project/swc/commit/b97aa45c5c0ef5cfccc15294767c2bc8f0a7307d))
+
+
 - **(xml/parser)** Fix parsing of legacy document types (#6555) ([cdf0d8a](https://github.com/swc-project/swc/commit/cdf0d8a8b59a05498b6ca609d8a2ecf3c2f35f28))
 
 
@@ -42,6 +107,9 @@
 
 ### Features
 
+
+
+- **(css/ast)** Make AST intuitive (#6606) ([b4eef53](https://github.com/swc-project/swc/commit/b4eef53680b0e553f14404f641b521a346e55f1f))
 
 
 - **(css/plugin)** Prepare Wasm plugins (#6567) ([8cdc28c](https://github.com/swc-project/swc/commit/8cdc28cdfa17f1773bdd30c2187c79e1db0a3ffe))

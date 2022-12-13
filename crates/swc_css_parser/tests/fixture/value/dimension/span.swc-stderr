@@ -95,14 +95,6 @@
  3 |     width: 100px2p;
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/value/dimension/input.css:1:1]
- 1 | div {
- 2 |     width: 100\%;
-   :     ^^^^^^^^^^^^
- 3 |     width: 100px2p;
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/value/dimension/input.css:1:1]
  1 | div {
@@ -168,14 +160,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/dimension/input.css:2:1]
- 2 |     width: 100\%;
- 3 |     width: 100px2p;
-   :     ^^^^^^^^^^^^^^
- 4 | }
-   `----
-
-  x StyleBlock
    ,-[$DIR/tests/fixture/value/dimension/input.css:2:1]
  2 |     width: 100\%;
  3 |     width: 100px2p;

@@ -164,14 +164,6 @@
  3 | 	--lore-ipsum: "foo";
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:1:1]
- 1 | .style {
- 2 | 	--foo: 'bar';
-   :  ^^^^^^^^^^^^
- 3 | 	--lore-ipsum: "foo";
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:1:1]
  1 | .style {
@@ -213,14 +205,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:2:1]
- 2 | 	--foo: 'bar';
- 3 | 	--lore-ipsum: "foo";
-   :  ^^^^^^^^^^^^^^^^^^^
- 4 | 	--FANCY: "abort";
-   `----
-
-  x StyleBlock
    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:2:1]
  2 | 	--foo: 'bar';
  3 | 	--lore-ipsum: "foo";
@@ -276,14 +260,6 @@
  5 | 	--test: 1987;
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:3:1]
- 3 | 	--lore-ipsum: "foo";
- 4 | 	--FANCY: "abort";
-   :  ^^^^^^^^^^^^^^^^
- 5 | 	--test: 1987;
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:3:1]
  3 | 	--lore-ipsum: "foo";
@@ -325,14 +301,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:4:1]
- 4 | 	--FANCY: "abort";
- 5 | 	--test: 1987;
-   :  ^^^^^^^^^^^^
- 6 | 	--percentage: 25%;
-   `----
-
-  x StyleBlock
    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:4:1]
  4 | 	--FANCY: "abort";
  5 | 	--test: 1987;
@@ -388,14 +356,6 @@
  7 | 	--number: 37;
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:5:1]
- 5 | 	--test: 1987;
- 6 | 	--percentage: 25%;
-   :  ^^^^^^^^^^^^^^^^^
- 7 | 	--number: 37;
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:5:1]
  5 | 	--test: 1987;
@@ -437,14 +397,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:6:1]
- 6 | 	--percentage: 25%;
- 7 | 	--number: 37;
-   :  ^^^^^^^^^^^^
- 8 | 	--length: 12em;
-   `----
-
-  x StyleBlock
    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:6:1]
  6 | 	--percentage: 25%;
  7 | 	--number: 37;
@@ -500,14 +452,6 @@
  9 | 	--time: 75ms;
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:7:1]
- 7 | 	--number: 37;
- 8 | 	--length: 12em;
-   :  ^^^^^^^^^^^^^^
- 9 | 	--time: 75ms;
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:7:1]
  7 | 	--number: 37;
@@ -556,14 +500,6 @@
  10 | 	--function: foo();
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:8:1]
-  8 | 	--length: 12em;
-  9 | 	--time: 75ms;
-    :  ^^^^^^^^^^^^
- 10 | 	--function: foo();
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:8:1]
   8 | 	--length: 12em;
@@ -605,14 +541,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:9:1]
-  9 | 	--time: 75ms;
- 10 | 	--function: foo();
-    :  ^^^^^^^^^^^^^^^^^
- 11 | 	--nested-function: foo(bar());
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:9:1]
   9 | 	--time: 75ms;
  10 | 	--function: foo();
@@ -669,14 +597,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:10:1]
- 10 | 	--function: foo();
- 11 | 	--nested-function: foo(bar());
-    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 12 | 	--parentheses: ( );
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:10:1]
  10 | 	--function: foo();
  11 | 	--nested-function: foo(bar());
@@ -764,14 +684,6 @@
  13 | 	--braces: { };
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:11:1]
- 11 | 	--nested-function: foo(bar());
- 12 | 	--parentheses: ( );
-    :  ^^^^^^^^^^^^^^^^^^
- 13 | 	--braces: { };
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:11:1]
  11 | 	--nested-function: foo(bar());
@@ -837,14 +749,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:12:1]
- 12 | 	--parentheses: ( );
- 13 | 	--braces: { };
-    :  ^^^^^^^^^^^^^
- 14 | 	--brackets: [ ];
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:12:1]
  12 | 	--parentheses: ( );
  13 | 	--braces: { };
@@ -924,14 +828,6 @@
  15 | 	--at-keyword-unknown: @foobar;
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:13:1]
- 13 | 	--braces: { };
- 14 | 	--brackets: [ ];
-    :  ^^^^^^^^^^^^^^^
- 15 | 	--at-keyword-unknown: @foobar;
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:13:1]
  13 | 	--braces: { };
@@ -1004,14 +900,6 @@
  16 | 	--at-keyword-known: @media;
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:14:1]
- 14 | 	--brackets: [ ];
- 15 | 	--at-keyword-unknown: @foobar;
-    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 16 | 	--at-keyword-known: @media;
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:14:1]
  14 | 	--brackets: [ ];
@@ -1060,14 +948,6 @@
  17 | 	--at-keyword-unknown-block: @foobar {};
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:15:1]
- 15 | 	--at-keyword-unknown: @foobar;
- 16 | 	--at-keyword-known: @media;
-    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^
- 17 | 	--at-keyword-unknown-block: @foobar {};
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:15:1]
  15 | 	--at-keyword-unknown: @foobar;
@@ -1109,14 +989,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:16:1]
- 16 | 	--at-keyword-known: @media;
- 17 | 	--at-keyword-unknown-block: @foobar {};
-    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 18 | 	--at-keyword-known-block: @media {};
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:16:1]
  16 | 	--at-keyword-known: @media;
  17 | 	--at-keyword-unknown-block: @foobar {};
@@ -1212,14 +1084,6 @@
  19 | 	--cdo-at-top-level: <!--;
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:17:1]
- 17 | 	--at-keyword-unknown-block: @foobar {};
- 18 | 	--at-keyword-known-block: @media {};
-    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 19 | 	--cdo-at-top-level: <!--;
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:17:1]
  17 | 	--at-keyword-unknown-block: @foobar {};
@@ -1308,14 +1172,6 @@
  20 | 	--cdc-at-top-level: -->;
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:18:1]
- 18 | 	--at-keyword-known-block: @media {};
- 19 | 	--cdo-at-top-level: <!--;
-    :  ^^^^^^^^^^^^^^^^^^^^^^^^
- 20 | 	--cdc-at-top-level: -->;
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:18:1]
  18 | 	--at-keyword-known-block: @media {};
@@ -1364,14 +1220,6 @@
  21 | 	--cdo-not-top-level: (<!--);
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:19:1]
- 19 | 	--cdo-at-top-level: <!--;
- 20 | 	--cdc-at-top-level: -->;
-    :  ^^^^^^^^^^^^^^^^^^^^^^^
- 21 | 	--cdo-not-top-level: (<!--);
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:19:1]
  19 | 	--cdo-at-top-level: <!--;
@@ -1413,14 +1261,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:20:1]
- 20 | 	--cdc-at-top-level: -->;
- 21 | 	--cdo-not-top-level: (<!--);
-    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 22 | 	--cdc-not-top-level: (-->);
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:20:1]
  20 | 	--cdc-at-top-level: -->;
  21 | 	--cdo-not-top-level: (<!--);
@@ -1493,14 +1333,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:21:1]
- 21 | 	--cdo-not-top-level: (<!--);
- 22 | 	--cdc-not-top-level: (-->);
-    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^
- 23 | }
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:21:1]
  21 | 	--cdo-not-top-level: (<!--);
  22 | 	--cdc-not-top-level: (-->);

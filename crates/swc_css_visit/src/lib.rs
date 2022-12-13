@@ -27,9 +27,9 @@ define!({
         Function(Box<Function>),
         SimpleBlock(Box<SimpleBlock>),
 
-        DeclarationOrAtRule(Box<DeclarationOrAtRule>),
-        Rule(Box<Rule>),
-        StyleBlock(Box<StyleBlock>),
+        AtRule(Box<AtRule>),
+        QualifiedRule(Box<QualifiedRule>),
+        ListOfComponentValues(Box<ListOfComponentValues>),
         KeyframeBlock(Box<KeyframeBlock>),
 
         Ident(Box<Ident>),
@@ -40,6 +40,10 @@ define!({
         Number(Box<Number>),
         Percentage(Box<Percentage>),
         Dimension(Box<Dimension>),
+        LengthPercentage(Box<LengthPercentage>),
+        FrequencyPercentage(Box<FrequencyPercentage>),
+        AnglePercentage(Box<AnglePercentage>),
+        TimePercentage(Box<TimePercentage>),
         Ratio(Box<Ratio>),
         UnicodeRange(Box<UnicodeRange>),
         Color(Box<Color>),

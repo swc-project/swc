@@ -14,7 +14,7 @@ use swc_common::{SourceMap, GLOBALS};
 use tempdir::TempDir;
 
 use crate::{
-    util::{all_js_files, parse_js, print_js},
+    util::{all_js_files, parse_js, print_js, ChildGuard},
     CREDUCE_INPUT_ENV_VAR, CREDUCE_MODE_ENV_VAR,
 };
 
@@ -82,7 +82,8 @@ impl ReduceCommand {
         let exe = current_exe()?;
         c.arg(&exe);
         c.arg(&input);
-        let status = c.status().context("failed to run creduce")?;
+        let mut child = ChildGuard(c.spawn().context("failed to run creduce")?);
+        let status = child.0.wait().context("failed to wait for creduce")?;
 
         if status.success() {
             move_to_data_dir(&input)?;

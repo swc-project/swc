@@ -135,15 +135,6 @@
  5 |     }
    `----
 
-  x Rule
-   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:1:1]
- 1 |     @media only layer {
- 2 | ,->     a {
- 3 | |           color: red;
- 4 | `->     }
- 5 |     }
-   `----
-
   x QualifiedRule
    ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:1:1]
  1 |     @media only layer {
@@ -227,14 +218,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:2:1]
- 2 |     a {
- 3 |         color: red;
-   :         ^^^^^^^^^^
- 4 |     }
-   `----
-
-  x StyleBlock
    ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:2:1]
  2 |     a {
  3 |         color: red;

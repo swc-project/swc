@@ -77,12 +77,6 @@
    :     ^^^^^^^^^^^
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/dVUzkh7NtbXySLzWGW0t9g/input.css:1:1]
- 1 | a { color: red } a { color: green } a { color: red }
-   :     ^^^^^^^^^^^
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/dVUzkh7NtbXySLzWGW0t9g/input.css:1:1]
  1 | a { color: red } a { color: green } a { color: red }
@@ -185,12 +179,6 @@
    :                      ^^^^^^^^^^^^^
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/dVUzkh7NtbXySLzWGW0t9g/input.css:1:1]
- 1 | a { color: red } a { color: green } a { color: red }
-   :                      ^^^^^^^^^^^^^
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/dVUzkh7NtbXySLzWGW0t9g/input.css:1:1]
  1 | a { color: red } a { color: green } a { color: red }
@@ -288,12 +276,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/dVUzkh7NtbXySLzWGW0t9g/input.css:1:1]
- 1 | a { color: red } a { color: green } a { color: red }
-   :                                         ^^^^^^^^^^^
-   `----
-
-  x StyleBlock
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/dVUzkh7NtbXySLzWGW0t9g/input.css:1:1]
  1 | a { color: red } a { color: green } a { color: red }
    :                                         ^^^^^^^^^^^

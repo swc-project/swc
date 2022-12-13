@@ -86,13 +86,6 @@
    :   ^^^^^^^^
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/recovery/value/number/eof/input.css:1:1]
- 1 | a {
- 2 |   prop: 12
-   :   ^^^^^^^^
-   `----
-
   x Declaration
    ,-[$DIR/tests/recovery/value/number/eof/input.css:1:1]
  1 | a {

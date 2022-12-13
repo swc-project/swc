@@ -71,12 +71,6 @@
    :                                             ^^^^^^^^^^^^^^^^^^^
    `----
 
-  x Rule
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:1]
- 1 | @document url("https://www.example.com/") { h1 { color: green } }
-   :                                             ^^^^^^^^^^^^^^^^^^^
-   `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:1]
  1 | @document url("https://www.example.com/") { h1 { color: green } }
@@ -138,12 +132,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:1]
- 1 | @document url("https://www.example.com/") { h1 { color: green } }
-   :                                                  ^^^^^^^^^^^^^
-   `----
-
-  x StyleBlock
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:1]
  1 | @document url("https://www.example.com/") { h1 { color: green } }
    :                                                  ^^^^^^^^^^^^^

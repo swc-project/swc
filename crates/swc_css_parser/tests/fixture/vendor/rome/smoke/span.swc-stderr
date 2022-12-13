@@ -114,14 +114,6 @@
  4 |     width: calc(1px + 2%);
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:2:1]
- 2 | body {
- 3 |     background: red;
-   :     ^^^^^^^^^^^^^^^
- 4 |     width: calc(1px + 2%);
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:2:1]
  2 | body {
@@ -163,14 +155,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:3:1]
- 3 |     background: red;
- 4 |     width: calc(1px + 2%);
-   :     ^^^^^^^^^^^^^^^^^^^^^
- 5 | }
-   `----
-
-  x StyleBlock
    ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:3:1]
  3 |     background: red;
  4 |     width: calc(1px + 2%);

@@ -91,14 +91,6 @@
  3 | }
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/recovery/declaration/important-1/input.css:1:1]
- 1 | a {
- 2 |     color: red !importan;
-   :     ^^^^^^^^^^^^^^^^^^^^
- 3 | }
-   `----
-
   x Declaration
    ,-[$DIR/tests/recovery/declaration/important-1/input.css:1:1]
  1 | a {

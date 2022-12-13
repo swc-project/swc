@@ -222,7 +222,7 @@
  4 | }
    `----
 
-  x Ident { value: Atom('d' type=inline), raw: "d" }
+  x Ident { value: Atom('d' type=static), raw: "d" }
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:1]
  2 | a: b;
  3 | c: d;

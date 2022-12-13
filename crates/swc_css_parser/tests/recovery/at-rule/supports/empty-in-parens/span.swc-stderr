@@ -119,14 +119,6 @@
  3 | }
    `----
 
-  x Rule
-   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:1:1]
- 1 | @supports (      ) {
- 2 |     * { background: red; }
-   :     ^^^^^^^^^^^^^^^^^^^^^^
- 3 | }
-   `----
-
   x QualifiedRule
    ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:1:1]
  1 | @supports (      ) {
@@ -192,14 +184,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:1:1]
- 1 | @supports (      ) {
- 2 |     * { background: red; }
-   :         ^^^^^^^^^^^^^^^
- 3 | }
-   `----
-
-  x StyleBlock
    ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:1:1]
  1 | @supports (      ) {
  2 |     * { background: red; }

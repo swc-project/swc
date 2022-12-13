@@ -239,14 +239,6 @@
  3 |     background: URL(https://example.com/image.png);
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/value/url/input.css:1:1]
- 1 | div {
- 2 |     background: url(https://example.com/image.png);
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 3 |     background: URL(https://example.com/image.png);
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/value/url/input.css:1:1]
  1 | div {
@@ -319,14 +311,6 @@
  4 |     background: \URL(https://example.com/image.png);
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/value/url/input.css:2:1]
- 2 |     background: url(https://example.com/image.png);
- 3 |     background: URL(https://example.com/image.png);
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 4 |     background: \URL(https://example.com/image.png);
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/value/url/input.css:2:1]
  2 |     background: url(https://example.com/image.png);
@@ -392,14 +376,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/url/input.css:3:1]
- 3 |     background: URL(https://example.com/image.png);
- 4 |     background: \URL(https://example.com/image.png);
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 5 |     background: url("https://example.com/image.png");
-   `----
-
-  x StyleBlock
    ,-[$DIR/tests/fixture/value/url/input.css:3:1]
  3 |     background: URL(https://example.com/image.png);
  4 |     background: \URL(https://example.com/image.png);
@@ -479,14 +455,6 @@
  6 |     background: url('https://example.com/image.png');
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/value/url/input.css:4:1]
- 4 |     background: \URL(https://example.com/image.png);
- 5 |     background: url("https://example.com/image.png");
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 6 |     background: url('https://example.com/image.png');
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/value/url/input.css:4:1]
  4 |     background: \URL(https://example.com/image.png);
@@ -552,14 +520,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/url/input.css:5:1]
- 5 |     background: url("https://example.com/image.png");
- 6 |     background: url('https://example.com/image.png');
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 7 |     background: URL('https://example.com/image.png');
-   `----
-
-  x StyleBlock
    ,-[$DIR/tests/fixture/value/url/input.css:5:1]
  5 |     background: url("https://example.com/image.png");
  6 |     background: url('https://example.com/image.png');
@@ -639,14 +599,6 @@
  8 |     background: \URL('https://example.com/image.png');
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/value/url/input.css:6:1]
- 6 |     background: url('https://example.com/image.png');
- 7 |     background: URL('https://example.com/image.png');
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 8 |     background: \URL('https://example.com/image.png');
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/value/url/input.css:6:1]
  6 |     background: url('https://example.com/image.png');
@@ -712,14 +664,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/url/input.css:7:1]
- 7 |     background: URL('https://example.com/image.png');
- 8 |     background: \URL('https://example.com/image.png');
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 9 |     background: url(data:image/png;base64,iRxVB0);
-   `----
-
-  x StyleBlock
    ,-[$DIR/tests/fixture/value/url/input.css:7:1]
  7 |     background: URL('https://example.com/image.png');
  8 |     background: \URL('https://example.com/image.png');
@@ -799,14 +743,6 @@
  10 |     background: url(#IDofSVGpath);
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/value/url/input.css:8:1]
-  8 |     background: \URL('https://example.com/image.png');
-  9 |     background: url(data:image/png;base64,iRxVB0);
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 10 |     background: url(#IDofSVGpath);
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/value/url/input.css:8:1]
   8 |     background: \URL('https://example.com/image.png');
@@ -878,13 +814,6 @@
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/value/url/input.css:9:1]
-  9 |     background: url(data:image/png;base64,iRxVB0);
- 10 |     background: url(#IDofSVGpath);
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/value/url/input.css:9:1]
   9 |     background: url(data:image/png;base64,iRxVB0);
@@ -942,14 +871,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/url/input.css:12:1]
- 12 |     /* A <url-modifier> is either an <ident> or a functional notation. */
- 13 |     background: url("//aa.com/img.svg" prefetch);
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 14 |     background: url("//aa.com/img.svg" foo bar baz func(test));
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/value/url/input.css:12:1]
  12 |     /* A <url-modifier> is either an <ident> or a functional notation. */
  13 |     background: url("//aa.com/img.svg" prefetch);
@@ -1038,14 +959,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/url/input.css:13:1]
- 13 |     background: url("//aa.com/img.svg" prefetch);
- 14 |     background: url("//aa.com/img.svg" foo bar baz func(test));
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 15 |     background: url("http://example.com/image.svg" param(--color var(--primary-color)));
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/value/url/input.css:13:1]
  13 |     background: url("//aa.com/img.svg" prefetch);
  14 |     background: url("//aa.com/img.svg" foo bar baz func(test));
@@ -1212,13 +1125,6 @@
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/value/url/input.css:14:1]
- 14 |     background: url("//aa.com/img.svg" foo bar baz func(test));
- 15 |     background: url("http://example.com/image.svg" param(--color var(--primary-color)));
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/value/url/input.css:14:1]
  14 |     background: url("//aa.com/img.svg" foo bar baz func(test));
@@ -1353,14 +1259,6 @@
  18 |     background: url("");
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/value/url/input.css:16:1]
- 16 | 
- 17 |     background: url();
-    :     ^^^^^^^^^^^^^^^^^
- 18 |     background: url("");
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/value/url/input.css:16:1]
  16 | 
@@ -1433,14 +1331,6 @@
  19 |     background: url('');
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/value/url/input.css:17:1]
- 17 |     background: url();
- 18 |     background: url("");
-    :     ^^^^^^^^^^^^^^^^^^^
- 19 |     background: url('');
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/value/url/input.css:17:1]
  17 |     background: url();
@@ -1512,13 +1402,6 @@
     :     ^^^^^^^^^^^^^^^^^^^
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/value/url/input.css:18:1]
- 18 |     background: url("");
- 19 |     background: url('');
-    :     ^^^^^^^^^^^^^^^^^^^
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/value/url/input.css:18:1]
  18 |     background: url("");
@@ -1576,13 +1459,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/url/input.css:20:1]
- 20 | 
- 21 |     --foo: "http://www.example.com/pinkish.gif";
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/value/url/input.css:20:1]
  20 | 
  21 |     --foo: "http://www.example.com/pinkish.gif";
@@ -1632,14 +1508,6 @@
  24 |     background: SRC("http://www.example.com/pinkish.gif");
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/value/url/input.css:22:1]
- 22 | 
- 23 |     background: src("http://www.example.com/pinkish.gif");
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 24 |     background: SRC("http://www.example.com/pinkish.gif");
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/value/url/input.css:22:1]
  22 | 
@@ -1712,14 +1580,6 @@
  25 |     background: src(var(--foo));
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/value/url/input.css:23:1]
- 23 |     background: src("http://www.example.com/pinkish.gif");
- 24 |     background: SRC("http://www.example.com/pinkish.gif");
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 25 |     background: src(var(--foo));
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/value/url/input.css:23:1]
  23 |     background: src("http://www.example.com/pinkish.gif");
@@ -1785,14 +1645,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/url/input.css:24:1]
- 24 |     background: SRC("http://www.example.com/pinkish.gif");
- 25 |     background: src(var(--foo));
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 26 |     background: url(   https://example.com/image.png   );
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/value/url/input.css:24:1]
  24 |     background: SRC("http://www.example.com/pinkish.gif");
  25 |     background: src(var(--foo));
@@ -1896,14 +1748,6 @@
  27 |     background: u\rl(   https://example.com/image.png   );
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/value/url/input.css:25:1]
- 25 |     background: src(var(--foo));
- 26 |     background: url(   https://example.com/image.png   );
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 27 |     background: u\rl(   https://example.com/image.png   );
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/value/url/input.css:25:1]
  25 |     background: src(var(--foo));
@@ -1969,14 +1813,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/url/input.css:26:1]
- 26 |     background: url(   https://example.com/image.png   );
- 27 |     background: u\rl(   https://example.com/image.png   );
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 28 |     background: url(   
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/value/url/input.css:26:1]
  26 |     background: url(   https://example.com/image.png   );
  27 |     background: u\rl(   https://example.com/image.png   );
@@ -2057,15 +1893,6 @@
  31 |         background: url(
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/value/url/input.css:27:1]
- 27 |         background: u\rl(   https://example.com/image.png   );
- 28 | ,->     background: url(   
- 29 | |                       https://example.com/image.png   
- 30 | `->     );
- 31 |         background: url(
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/value/url/input.css:27:1]
  27 |         background: u\rl(   https://example.com/image.png   );
@@ -2136,19 +1963,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/url/input.css:30:1]
- 30 |         );
- 31 | ,->     background: url(
- 32 | |   
- 33 | |   
- 34 | |   https://example.com/image.png
- 35 | |   
- 36 | |   
- 37 | `-> );
- 38 |         background: URL(https://example.com/ima\)ge.png);
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/value/url/input.css:30:1]
  30 |         );
  31 | ,->     background: url(
@@ -2255,14 +2069,6 @@
  39 |     background: url(   "https://example.com/image.png"   );
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/value/url/input.css:37:1]
- 37 | );
- 38 |     background: URL(https://example.com/ima\)ge.png);
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 39 |     background: url(   "https://example.com/image.png"   );
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/value/url/input.css:37:1]
  37 | );
@@ -2328,14 +2134,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/url/input.css:38:1]
- 38 |     background: URL(https://example.com/ima\)ge.png);
- 39 |     background: url(   "https://example.com/image.png"   );
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 40 | }
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/value/url/input.css:38:1]
  38 |     background: URL(https://example.com/ima\)ge.png);
  39 |     background: url(   "https://example.com/image.png"   );

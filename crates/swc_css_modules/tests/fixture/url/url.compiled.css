@@ -72,7 +72,6 @@ b {
 }
 @keyframes __local__anim {
   background: green url('./img.png') xyz;
-
 }
 .__local__a {
   background-image: -webkit-image-set(url('./img1x.png') 1x, url('./img2x.png') 2x);

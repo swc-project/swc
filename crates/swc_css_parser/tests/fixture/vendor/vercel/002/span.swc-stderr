@@ -84,14 +84,6 @@
  3 | }
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/vendor/vercel/002/input.css:1:1]
- 1 | .a {
- 2 |     -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 3 | }
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/vendor/vercel/002/input.css:1:1]
  1 | .a {

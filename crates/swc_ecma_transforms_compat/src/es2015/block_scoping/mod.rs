@@ -361,6 +361,44 @@ impl BlockScoping {
             *body = Box::new(call.take().into_stmt());
         }
     }
+
+    /// This method will turn stmt like
+    /// ```js
+    /// for (let i in [1, 2])
+    ///   for (let j in [1, 2])
+    ///     console.log(i, j)
+    /// ```
+    /// into
+    /// ```js
+    /// for (let i in [1, 2]) {
+    ///   for (let j in [1, 2]) {
+    ///     console.log(i, j)
+    ///   }
+    /// }
+    /// ```
+    /// which fixes https://github.com/swc-project/swc/issues/6573
+    fn blockify_for_stmt_body(&self, body: &mut Box<Stmt>) -> bool {
+        if !body.is_block() {
+            *body = Box::new(Stmt::Block(BlockStmt {
+                span: Default::default(),
+                stmts: vec![*body.take()],
+            }));
+            true
+        } else {
+            false
+        }
+    }
+
+    fn undo_blockify_for_stmt_body(&self, body: &mut Box<Stmt>, blockifyed: bool) {
+        if blockifyed {
+            let stmt = body
+                .as_mut_block()
+                .and_then(|block| (block.stmts.len() == 1).then(|| block.stmts[0].take()));
+            if let Some(stmt) = stmt {
+                *body = Box::new(stmt)
+            }
+        }
+    }
 }
 
 #[swc_trace]
@@ -400,6 +438,7 @@ impl VisitMut for BlockScoping {
     }
 
     fn visit_mut_for_in_stmt(&mut self, node: &mut ForInStmt) {
+        let blockifyed = self.blockify_for_stmt_body(&mut node.body);
         let lexical_var = if let VarDeclOrPat::VarDecl(decl) = &node.left {
             find_lexical_vars(decl)
         } else {
@@ -420,9 +459,11 @@ impl VisitMut for BlockScoping {
 
         self.visit_mut_with_scope(kind, &mut node.body);
         self.handle_capture_of_vars(&mut node.body);
+        self.undo_blockify_for_stmt_body(&mut node.body, blockifyed);
     }
 
     fn visit_mut_for_of_stmt(&mut self, node: &mut ForOfStmt) {
+        let blockifyed = self.blockify_for_stmt_body(&mut node.body);
         let vars = if let VarDeclOrPat::VarDecl(decl) = &node.left {
             find_lexical_vars(decl)
         } else {
@@ -444,9 +485,11 @@ impl VisitMut for BlockScoping {
 
         self.visit_mut_with_scope(kind, &mut node.body);
         self.handle_capture_of_vars(&mut node.body);
+        self.undo_blockify_for_stmt_body(&mut node.body, blockifyed);
     }
 
     fn visit_mut_for_stmt(&mut self, node: &mut ForStmt) {
+        let blockifyed = self.blockify_for_stmt_body(&mut node.body);
         let lexical_var = if let Some(VarDeclOrExpr::VarDecl(decl)) = &node.init {
             find_lexical_vars(decl)
         } else {
@@ -467,6 +510,7 @@ impl VisitMut for BlockScoping {
         };
         self.visit_mut_with_scope(kind, &mut node.body);
         self.handle_capture_of_vars(&mut node.body);
+        self.undo_blockify_for_stmt_body(&mut node.body, blockifyed);
     }
 
     fn visit_mut_function(&mut self, f: &mut Function) {

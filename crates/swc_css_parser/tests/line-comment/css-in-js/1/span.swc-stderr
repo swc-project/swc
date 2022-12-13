@@ -103,14 +103,6 @@
  4 | }
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/line-comment/css-in-js/1/input.css:2:1]
- 2 | foo {
- 3 |     color: red;
-   :     ^^^^^^^^^^
- 4 | }
-   `----
-
   x Declaration
    ,-[$DIR/tests/line-comment/css-in-js/1/input.css:2:1]
  2 | foo {

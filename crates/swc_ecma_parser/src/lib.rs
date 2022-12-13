@@ -369,9 +369,6 @@ pub struct Context {
 
     in_forced_jsx_context: bool,
 
-    /// If true, `:` should not be treated as a type annotation.
-    dont_parse_colon_as_type_ann: bool,
-
     // If true, allow super.x and super[x]
     allow_direct_super: bool,
 

@@ -106,12 +106,6 @@
  2 | `-> b' }
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:1:1]
- 1 | ,-> a:after { content: 'a\
- 2 | `-> b' }
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:1:1]
  1 | ,-> a:after { content: 'a\

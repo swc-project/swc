@@ -292,15 +292,6 @@
  5 |     }
    `----
 
-  x Rule
-   ,-[$DIR/tests/fixture/at-rule/supports/input.css:1:1]
- 1 |     @supports (display: grid) {
- 2 | ,->     div {
- 3 | |           display: grid;
- 4 | `->     }
- 5 |     }
-   `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/at-rule/supports/input.css:1:1]
  1 |     @supports (display: grid) {
@@ -384,14 +375,6 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/supports/input.css:2:1]
- 2 |     div {
- 3 |         display: grid;
-   :         ^^^^^^^^^^^^^
- 4 |     }
-   `----
-
-  x StyleBlock
    ,-[$DIR/tests/fixture/at-rule/supports/input.css:2:1]
  2 |     div {
  3 |         display: grid;
@@ -594,14 +577,6 @@
  10 | `->     }
     `----
 
-  x Rule
-    ,-[$DIR/tests/fixture/at-rule/supports/input.css:7:1]
-  7 |     @supports (display: flex) {
-  8 | ,->     body {
-  9 | |           color: blue;
- 10 | `->     }
-    `----
-
   x QualifiedRule
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:7:1]
   7 |     @supports (display: flex) {
@@ -690,14 +665,6 @@
  10 |     }
     `----
 
-  x StyleBlock
-    ,-[$DIR/tests/fixture/at-rule/supports/input.css:8:1]
-  8 |     body {
-  9 |         color: blue;
-    :         ^^^^^^^^^^^
- 10 |     }
-    `----
-
   x Declaration
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:8:1]
   8 |     body {
@@ -739,17 +706,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/supports/input.css:11:1]
- 11 |     
- 12 | ,->     @media screen and (min-width: 900px) {
- 13 | |           article {
- 14 | |               display: flex;
- 15 | |           }
- 16 | `->     }
- 17 |     }
-    `----
-
-  x Rule
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:11:1]
  11 |     
  12 | ,->     @media screen and (min-width: 900px) {
@@ -951,15 +907,6 @@
  16 |         }
     `----
 
-  x Rule
-    ,-[$DIR/tests/fixture/at-rule/supports/input.css:12:1]
- 12 |         @media screen and (min-width: 900px) {
- 13 | ,->         article {
- 14 | |               display: flex;
- 15 | `->         }
- 16 |         }
-    `----
-
   x QualifiedRule
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:12:1]
  12 |         @media screen and (min-width: 900px) {
@@ -1043,14 +990,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/supports/input.css:13:1]
- 13 |         article {
- 14 |             display: flex;
-    :             ^^^^^^^^^^^^^
- 15 |         }
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:13:1]
  13 |         article {
  14 |             display: flex;
@@ -5801,15 +5740,6 @@
  43 |     }
     `----
 
-  x Rule
-    ,-[$DIR/tests/fixture/at-rule/supports/input.css:39:1]
- 39 |     @supports selector(col || td) {
- 40 | ,->     col.selected || td {
- 41 | |           background: tan;
- 42 | `->     }
- 43 |     }
-    `----
-
   x QualifiedRule
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:39:1]
  39 |     @supports selector(col || td) {
@@ -5965,14 +5895,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/supports/input.css:40:1]
- 40 |     col.selected || td {
- 41 |         background: tan;
-    :         ^^^^^^^^^^^^^^^
- 42 |     }
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:40:1]
  40 |     col.selected || td {
  41 |         background: tan;
@@ -6179,15 +6101,6 @@
  49 |     }
     `----
 
-  x Rule
-    ,-[$DIR/tests/fixture/at-rule/supports/input.css:45:1]
- 45 |     @supports selector(:focus-visible) {
- 46 | ,->     a:focus-visible {
- 47 | |           background: yellow;
- 48 | `->     }
- 49 |     }
-    `----
-
   x QualifiedRule
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:45:1]
  45 |     @supports selector(:focus-visible) {
@@ -6295,14 +6208,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/supports/input.css:46:1]
- 46 |     a:focus-visible {
- 47 |         background: yellow;
-    :         ^^^^^^^^^^^^^^^^^^
- 48 |     }
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:46:1]
  46 |     a:focus-visible {
  47 |         background: yellow;
@@ -6477,15 +6382,6 @@
  55 |     }
     `----
 
-  x Rule
-    ,-[$DIR/tests/fixture/at-rule/supports/input.css:51:1]
- 51 |     @supports (--element(".minwidth")) {
- 52 | ,->     [--self] {
- 53 | |           background: greenyellow;
- 54 | `->     }
- 55 |     }
-    `----
-
   x QualifiedRule
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:51:1]
  51 |     @supports (--element(".minwidth")) {
@@ -6569,14 +6465,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/supports/input.css:52:1]
- 52 |     [--self] {
- 53 |         background: greenyellow;
-    :         ^^^^^^^^^^^^^^^^^^^^^^^
- 54 |     }
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:52:1]
  52 |     [--self] {
  53 |         background: greenyellow;
@@ -6752,14 +6640,6 @@
  59 | }
     `----
 
-  x Rule
-    ,-[$DIR/tests/fixture/at-rule/supports/input.css:57:1]
- 57 | @supports (ident: 1) {
- 58 |     * { background: red; }
-    :     ^^^^^^^^^^^^^^^^^^^^^^
- 59 | }
-    `----
-
   x QualifiedRule
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:57:1]
  57 | @supports (ident: 1) {
@@ -6825,14 +6705,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/supports/input.css:57:1]
- 57 | @supports (ident: 1) {
- 58 |     * { background: red; }
-    :         ^^^^^^^^^^^^^^^
- 59 | }
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:57:1]
  57 | @supports (ident: 1) {
  58 |     * { background: red; }
@@ -7032,14 +6904,6 @@
  63 | }
     `----
 
-  x Rule
-    ,-[$DIR/tests/fixture/at-rule/supports/input.css:61:1]
- 61 | @supports ((ident: 1)) {
- 62 |     * { background: red; }
-    :     ^^^^^^^^^^^^^^^^^^^^^^
- 63 | }
-    `----
-
   x QualifiedRule
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:61:1]
  61 | @supports ((ident: 1)) {
@@ -7105,14 +6969,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/supports/input.css:61:1]
- 61 | @supports ((ident: 1)) {
- 62 |     * { background: red; }
-    :         ^^^^^^^^^^^^^^^
- 63 | }
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:61:1]
  61 | @supports ((ident: 1)) {
  62 |     * { background: red; }
@@ -7304,14 +7160,6 @@
  67 | }
     `----
 
-  x Rule
-    ,-[$DIR/tests/fixture/at-rule/supports/input.css:65:1]
- 65 | @supports (ident "str") {
- 66 |     * { background: red; }
-    :     ^^^^^^^^^^^^^^^^^^^^^^
- 67 | }
-    `----
-
   x QualifiedRule
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:65:1]
  65 | @supports (ident "str") {
@@ -7377,14 +7225,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/supports/input.css:65:1]
- 65 | @supports (ident "str") {
- 66 |     * { background: red; }
-    :         ^^^^^^^^^^^^^^^
- 67 | }
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:65:1]
  65 | @supports (ident "str") {
  66 |     * { background: red; }
@@ -7584,14 +7424,6 @@
  71 | }
     `----
 
-  x Rule
-    ,-[$DIR/tests/fixture/at-rule/supports/input.css:69:1]
- 69 | @supports ((ident "str")) {
- 70 |     * { background: red; }
-    :     ^^^^^^^^^^^^^^^^^^^^^^
- 71 | }
-    `----
-
   x QualifiedRule
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:69:1]
  69 | @supports ((ident "str")) {
@@ -7657,14 +7489,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/supports/input.css:69:1]
- 69 | @supports ((ident "str")) {
- 70 |     * { background: red; }
-    :         ^^^^^^^^^^^^^^^
- 71 | }
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:69:1]
  69 | @supports ((ident "str")) {
  70 |     * { background: red; }
@@ -7920,14 +7744,6 @@
  75 | }
     `----
 
-  x Rule
-    ,-[$DIR/tests/fixture/at-rule/supports/input.css:73:1]
- 73 | @supports func(10, 20, 40) {
- 74 |     * { background: red; }
-    :     ^^^^^^^^^^^^^^^^^^^^^^
- 75 | }
-    `----
-
   x QualifiedRule
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:73:1]
  73 | @supports func(10, 20, 40) {
@@ -7993,14 +7809,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/supports/input.css:73:1]
- 73 | @supports func(10, 20, 40) {
- 74 |     * { background: red; }
-    :         ^^^^^^^^^^^^^^^
- 75 | }
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:73:1]
  73 | @supports func(10, 20, 40) {
  74 |     * { background: red; }
@@ -8264,14 +8072,6 @@
  79 | }
     `----
 
-  x Rule
-    ,-[$DIR/tests/fixture/at-rule/supports/input.css:77:1]
- 77 | @supports (func(10, 20, 40)) {
- 78 |     * { background: red; }
-    :     ^^^^^^^^^^^^^^^^^^^^^^
- 79 | }
-    `----
-
   x QualifiedRule
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:77:1]
  77 | @supports (func(10, 20, 40)) {
@@ -8337,14 +8137,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/supports/input.css:77:1]
- 77 | @supports (func(10, 20, 40)) {
- 78 |     * { background: red; }
-    :         ^^^^^^^^^^^^^^^
- 79 | }
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:77:1]
  77 | @supports (func(10, 20, 40)) {
  78 |     * { background: red; }
@@ -8672,14 +8464,6 @@
  83 | }
     `----
 
-  x Rule
-    ,-[$DIR/tests/fixture/at-rule/supports/input.css:81:1]
- 81 | @supports (   func(   10   ,   20   ,   40   )  ) {
- 82 |     * { background: red; }
-    :     ^^^^^^^^^^^^^^^^^^^^^^
- 83 | }
-    `----
-
   x QualifiedRule
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:81:1]
  81 | @supports (   func(   10   ,   20   ,   40   )  ) {
@@ -8745,14 +8529,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/supports/input.css:81:1]
- 81 | @supports (   func(   10   ,   20   ,   40   )  ) {
- 82 |     * { background: red; }
-    :         ^^^^^^^^^^^^^^^
- 83 | }
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:81:1]
  81 | @supports (   func(   10   ,   20   ,   40   )  ) {
  82 |     * { background: red; }
@@ -8942,20 +8718,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/supports/input.css:85:1]
- 85 |     @supports (animation-name: test) {
- 86 | ,->     @-custom-keyframe anim {
- 87 | |           from {
- 88 | |               color: black;
- 89 | |           }
- 90 | |           to {
- 91 | |               color: white
- 92 | |           }
- 93 | `->     }
- 94 |     }
-    `----
-
-  x Rule
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:85:1]
  85 |     @supports (animation-name: test) {
  86 | ,->     @-custom-keyframe anim {
@@ -9553,14 +9315,6 @@
  98 | }
     `----
 
-  x Rule
-    ,-[$DIR/tests/fixture/at-rule/supports/input.css:96:1]
- 96 | @supports (--var) {
- 97 |     * { background: red; }
-    :     ^^^^^^^^^^^^^^^^^^^^^^
- 98 | }
-    `----
-
   x QualifiedRule
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:96:1]
  96 | @supports (--var) {
@@ -9626,14 +9380,6 @@
     `----
 
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/supports/input.css:96:1]
- 96 | @supports (--var) {
- 97 |     * { background: red; }
-    :         ^^^^^^^^^^^^^^^
- 98 | }
-    `----
-
-  x StyleBlock
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:96:1]
  96 | @supports (--var) {
  97 |     * { background: red; }
@@ -9816,15 +9562,6 @@
  104 |     }
      `----
 
-  x Rule
-     ,-[$DIR/tests/fixture/at-rule/supports/input.css:100:1]
- 100 |     @supports (--foo: green) {
- 101 | ,->     body {
- 102 | |           color: var(--varName);
- 103 | `->     }
- 104 |     }
-     `----
-
   x QualifiedRule
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:100:1]
  100 |     @supports (--foo: green) {
@@ -9908,14 +9645,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/supports/input.css:101:1]
- 101 |     body {
- 102 |         color: var(--varName);
-     :         ^^^^^^^^^^^^^^^^^^^^^
- 103 |     }
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:101:1]
  101 |     body {
  102 |         color: var(--varName);
@@ -10278,16 +10007,6 @@
  111 |     }
      `----
 
-  x Rule
-     ,-[$DIR/tests/fixture/at-rule/supports/input.css:106:1]
- 106 |     @supports not selector(:is(a, b)) {
- 107 | ,->     ul > li,
- 108 | |       ol > li {
- 109 | |           color: red;
- 110 | `->     }
- 111 |     }
-     `----
-
   x QualifiedRule
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:106:1]
  106 |     @supports not selector(:is(a, b)) {
@@ -10516,14 +10235,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/supports/input.css:108:1]
- 108 |     ol > li {
- 109 |         color: red;
-     :         ^^^^^^^^^^
- 110 |     }
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:108:1]
  108 |     ol > li {
  109 |         color: red;
@@ -10883,18 +10594,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/supports/input.css:113:1]
- 113 |     @supports selector(:nth-child(1n of a, b)) {
- 114 | ,->     :is(
- 115 | |         :nth-child(1n of ul, ol) a,
- 116 | |         details > summary
- 117 | |     ) {
- 118 | |         color: red
- 119 | `->     }
- 120 |     }
-     `----
-
-  x Rule
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:113:1]
  113 |     @supports selector(:nth-child(1n of a, b)) {
  114 | ,->     :is(
@@ -11353,14 +11052,6 @@
  120 |     }
      `----
 
-  x StyleBlock
-     ,-[$DIR/tests/fixture/at-rule/supports/input.css:117:1]
- 117 |       ) {
- 118 | ,->       color: red
- 119 | `->     }
- 120 |     }
-     `----
-
   x Declaration
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:117:1]
  117 |       ) {
@@ -11543,20 +11234,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/supports/input.css:122:1]
- 122 |     @supports (animation-name: test) {
- 123 | ,->     @-custom-keyframe anim {
- 124 | |           from {
- 125 | |               color: black;
- 126 | |           }
- 127 | |           to {
- 128 | |               color: white
- 129 | |           }
- 130 | `->     }
- 131 |     }
-     `----
-
-  x Rule
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:122:1]
  122 |     @supports (animation-name: test) {
  123 | ,->     @-custom-keyframe anim {
@@ -12201,15 +11878,6 @@
  137 |     }
      `----
 
-  x Rule
-     ,-[$DIR/tests/fixture/at-rule/supports/input.css:133:1]
- 133 |     @supports selector(:focus-visible) {
- 134 | ,->     a:focus-visible {
- 135 | |           background: yellow;
- 136 | `->     }
- 137 |     }
-     `----
-
   x QualifiedRule
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:133:1]
  133 |     @supports selector(:focus-visible) {
@@ -12317,14 +11985,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/supports/input.css:134:1]
- 134 |     a:focus-visible {
- 135 |         background: yellow;
-     :         ^^^^^^^^^^^^^^^^^^
- 136 |     }
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:134:1]
  134 |     a:focus-visible {
  135 |         background: yellow;
@@ -12675,15 +12335,6 @@
  143 |     }
      `----
 
-  x Rule
-     ,-[$DIR/tests/fixture/at-rule/supports/input.css:139:1]
- 139 |     @supports (width: calc(100px + 100px)) {
- 140 | ,->     div {
- 141 | |           background: red;
- 142 | `->     }
- 143 |     }
-     `----
-
   x QualifiedRule
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:139:1]
  139 |     @supports (width: calc(100px + 100px)) {
@@ -12767,14 +12418,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/supports/input.css:140:1]
- 140 |     div {
- 141 |         background: red;
-     :         ^^^^^^^^^^^^^^^
- 142 |     }
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:140:1]
  140 |     div {
  141 |         background: red;
@@ -12990,14 +12633,6 @@
  147 | }
      `----
 
-  x Rule
-     ,-[$DIR/tests/fixture/at-rule/supports/input.css:145:1]
- 145 | @supports (func("example": 1)) {
- 146 |     * { background: red; }
-     :     ^^^^^^^^^^^^^^^^^^^^^^
- 147 | }
-     `----
-
   x QualifiedRule
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:145:1]
  145 | @supports (func("example": 1)) {
@@ -13063,14 +12698,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/supports/input.css:145:1]
- 145 | @supports (func("example": 1)) {
- 146 |     * { background: red; }
-     :         ^^^^^^^^^^^^^^^
- 147 | }
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:145:1]
  145 | @supports (func("example": 1)) {
  146 |     * { background: red; }
@@ -13230,14 +12857,6 @@
  151 | }
      `----
 
-  x Rule
-     ,-[$DIR/tests/fixture/at-rule/supports/input.css:149:1]
- 149 | @supports (--var) {
- 150 |     * { background: red; }
-     :     ^^^^^^^^^^^^^^^^^^^^^^
- 151 | }
-     `----
-
   x QualifiedRule
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:149:1]
  149 | @supports (--var) {
@@ -13303,14 +12922,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/supports/input.css:149:1]
- 149 | @supports (--var) {
- 150 |     * { background: red; }
-     :         ^^^^^^^^^^^^^^^
- 151 | }
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:149:1]
  149 | @supports (--var) {
  150 |     * { background: red; }
@@ -13581,15 +13192,6 @@
  157 |     }
      `----
 
-  x Rule
-     ,-[$DIR/tests/fixture/at-rule/supports/input.css:153:1]
- 153 |     @supports (   selector(   col || td   )   ) {
- 154 | ,->     col.selected || td {
- 155 | |           background: tan;
- 156 | `->     }
- 157 |     }
-     `----
-
   x QualifiedRule
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:153:1]
  153 |     @supports (   selector(   col || td   )   ) {
@@ -13745,14 +13347,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/supports/input.css:154:1]
- 154 |     col.selected || td {
- 155 |         background: tan;
-     :         ^^^^^^^^^^^^^^^
- 156 |     }
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:154:1]
  154 |     col.selected || td {
  155 |         background: tan;
@@ -13968,14 +13562,6 @@
  161 | }
      `----
 
-  x Rule
-     ,-[$DIR/tests/fixture/at-rule/supports/input.css:159:1]
- 159 | @supports (   func("example": 1)   ) {
- 160 |     * { background: red; }
-     :     ^^^^^^^^^^^^^^^^^^^^^^
- 161 | }
-     `----
-
   x QualifiedRule
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:159:1]
  159 | @supports (   func("example": 1)   ) {
@@ -14041,14 +13627,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/supports/input.css:159:1]
- 159 | @supports (   func("example": 1)   ) {
- 160 |     * { background: red; }
-     :         ^^^^^^^^^^^^^^^
- 161 | }
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:159:1]
  159 | @supports (   func("example": 1)   ) {
  160 |     * { background: red; }
@@ -14240,14 +13818,6 @@
  165 | }
      `----
 
-  x Rule
-     ,-[$DIR/tests/fixture/at-rule/supports/input.css:163:1]
- 163 | @supports (   --var   ) {
- 164 |     * { background: red; }
-     :     ^^^^^^^^^^^^^^^^^^^^^^
- 165 | }
-     `----
-
   x QualifiedRule
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:163:1]
  163 | @supports (   --var   ) {
@@ -14313,14 +13883,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/supports/input.css:163:1]
- 163 | @supports (   --var   ) {
- 164 |     * { background: red; }
-     :         ^^^^^^^^^^^^^^^
- 165 | }
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:163:1]
  163 | @supports (   --var   ) {
  164 |     * { background: red; }
@@ -14544,14 +14106,6 @@
  169 | }
      `----
 
-  x Rule
-     ,-[$DIR/tests/fixture/at-rule/supports/input.css:167:1]
- 167 | @supports (   --var   "test"   ) {
- 168 |     * { background: red; }
-     :     ^^^^^^^^^^^^^^^^^^^^^^
- 169 | }
-     `----
-
   x QualifiedRule
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:167:1]
  167 | @supports (   --var   "test"   ) {
@@ -14617,14 +14171,6 @@
      `----
 
   x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/supports/input.css:167:1]
- 167 | @supports (   --var   "test"   ) {
- 168 |     * { background: red; }
-     :         ^^^^^^^^^^^^^^^
- 169 | }
-     `----
-
-  x StyleBlock
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:167:1]
  167 | @supports (   --var   "test"   ) {
  168 |     * { background: red; }

@@ -146,14 +146,6 @@
  5 | }
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/recovery/qualified-rule/basic/input.css:3:1]
- 3 | a {
- 4 |     color: red;
-   :     ^^^^^^^^^^
- 5 | }
-   `----
-
   x Declaration
    ,-[$DIR/tests/recovery/qualified-rule/basic/input.css:3:1]
  3 | a {

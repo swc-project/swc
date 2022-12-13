@@ -1,3 +1,4 @@
+#![feature(box_patterns)]
 #![deny(clippy::all)]
 #![allow(clippy::needless_update)]
 
@@ -1162,20 +1163,26 @@ where
                     | ComponentValue::Delimiter(_)
                     | ComponentValue::Str(_)
                     | ComponentValue::Url(_)
-                    | ComponentValue::Percentage(_) => match next {
-                        Some(ComponentValue::Delimiter(delimiter))
-                            if matches!(
-                                **delimiter,
-                                Delimiter {
-                                    value: DelimiterValue::Comma,
-                                    ..
-                                }
-                            ) =>
-                        {
-                            false
+                    | ComponentValue::Percentage(_)
+                    | ComponentValue::LengthPercentage(box LengthPercentage::Percentage(_))
+                    | ComponentValue::FrequencyPercentage(box FrequencyPercentage::Percentage(_))
+                    | ComponentValue::AnglePercentage(box AnglePercentage::Percentage(_))
+                    | ComponentValue::TimePercentage(box TimePercentage::Percentage(_)) => {
+                        match next {
+                            Some(ComponentValue::Delimiter(delimiter))
+                                if matches!(
+                                    **delimiter,
+                                    Delimiter {
+                                        value: DelimiterValue::Comma,
+                                        ..
+                                    }
+                                ) =>
+                            {
+                                false
+                            }
+                            _ => !self.config.minify,
                         }
-                        _ => !self.config.minify,
-                    },
+                    }
                     ComponentValue::Color(color)
                         if matches!(
                             **color,
@@ -1219,6 +1226,27 @@ where
                         Some(ComponentValue::Number(n)) => {
                             if self.config.minify {
                                 let minified = minify_numeric(n.value);
+
+                                !minified.starts_with('.')
+                            } else {
+                                true
+                            }
+                        }
+                        Some(ComponentValue::LengthPercentage(box LengthPercentage::Length(
+                            Length { value, .. },
+                        )))
+                        | Some(ComponentValue::FrequencyPercentage(
+                            box FrequencyPercentage::Frequency(Frequency { value, .. }),
+                        ))
+                        | Some(ComponentValue::AnglePercentage(box AnglePercentage::Angle(
+                            Angle { value, .. },
+                        )))
+                        | Some(ComponentValue::TimePercentage(box TimePercentage::Time(Time {
+                            value,
+                            ..
+                        }))) => {
+                            if self.config.minify {
+                                let minified = minify_numeric(value.value);
 
                                 !minified.starts_with('.')
                             } else {
@@ -1327,53 +1355,57 @@ where
 
         for (idx, node) in n.value.iter().enumerate() {
             match node {
-                ComponentValue::StyleBlock(_) => {
+                ComponentValue::ListOfComponentValues(_) | ComponentValue::Declaration(_) => {
                     if idx == 0 {
                         formatting_newline!(self);
                     }
 
                     increase_indent!(self);
                 }
-                ComponentValue::Rule(_) | ComponentValue::KeyframeBlock(_) => {
+                ComponentValue::AtRule(_)
+                | ComponentValue::QualifiedRule(_)
+                | ComponentValue::KeyframeBlock(_) => {
                     formatting_newline!(self);
                     increase_indent!(self);
                 }
-                ComponentValue::DeclarationOrAtRule(_) => {
-                    if idx == 0 {
-                        formatting_newline!(self);
-                    }
 
-                    increase_indent!(self);
-                }
                 _ => {}
             }
 
-            emit!(self, node);
+            match node {
+                ComponentValue::ListOfComponentValues(node) => {
+                    emit!(
+                        &mut *self.with_ctx(Ctx {
+                            in_list_of_component_values: true,
+                            ..self.ctx
+                        }),
+                        node
+                    );
+                }
+                _ => {
+                    emit!(self, node);
+                }
+            }
 
             match node {
-                ComponentValue::Rule(_) => {
+                ComponentValue::AtRule(_) | ComponentValue::QualifiedRule(_) => {
                     formatting_newline!(self);
                     decrease_indent!(self);
                 }
-                ComponentValue::StyleBlock(node) => {
-                    match &**node {
-                        StyleBlock::AtRule(_) | StyleBlock::QualifiedRule(_) => {
-                            formatting_newline!(self);
-                        }
-                        StyleBlock::Declaration(_) => {
-                            if idx != len - 1 {
-                                semi!(self);
-                            } else {
-                                formatting_semi!(self);
-                            }
-
-                            formatting_newline!(self);
-                        }
-                        StyleBlock::ListOfComponentValues(_) => {}
+                ComponentValue::Declaration(_) => {
+                    if idx != len - 1 {
+                        semi!(self);
+                    } else {
+                        formatting_semi!(self);
                     }
 
+                    formatting_newline!(self);
                     decrease_indent!(self);
                 }
+                ComponentValue::ListOfComponentValues(_) => {
+                    decrease_indent!(self);
+                }
+
                 ComponentValue::KeyframeBlock(_) => {
                     if idx == len - 1 {
                         formatting_newline!(self);
@@ -1381,25 +1413,7 @@ where
 
                     decrease_indent!(self);
                 }
-                ComponentValue::DeclarationOrAtRule(node) => {
-                    match &**node {
-                        DeclarationOrAtRule::AtRule(_) => {
-                            formatting_newline!(self);
-                        }
-                        DeclarationOrAtRule::Declaration(_) => {
-                            if idx != len - 1 {
-                                semi!(self);
-                            } else {
-                                formatting_semi!(self);
-                            }
 
-                            formatting_newline!(self);
-                        }
-                        DeclarationOrAtRule::ListOfComponentValues(_) => {}
-                    }
-
-                    decrease_indent!(self);
-                }
                 _ => {
                     if !self.ctx.in_list_of_component_values && ending == "]" && idx != len - 1 {
                         space!(self);
@@ -1418,9 +1432,9 @@ where
             ComponentValue::Function(n) => emit!(self, n),
             ComponentValue::SimpleBlock(n) => emit!(self, n),
 
-            ComponentValue::StyleBlock(n) => emit!(self, n),
-            ComponentValue::DeclarationOrAtRule(n) => emit!(self, n),
-            ComponentValue::Rule(n) => emit!(self, n),
+            ComponentValue::ListOfComponentValues(n) => emit!(self, n),
+            ComponentValue::QualifiedRule(n) => emit!(self, n),
+            ComponentValue::AtRule(n) => emit!(self, n),
             ComponentValue::KeyframeBlock(n) => emit!(self, n),
 
             ComponentValue::Ident(n) => emit!(self, n),
@@ -1431,6 +1445,10 @@ where
             ComponentValue::Number(n) => emit!(self, n),
             ComponentValue::Percentage(n) => emit!(self, n),
             ComponentValue::Dimension(n) => emit!(self, n),
+            ComponentValue::LengthPercentage(n) => emit!(self, n),
+            ComponentValue::FrequencyPercentage(n) => emit!(self, n),
+            ComponentValue::AnglePercentage(n) => emit!(self, n),
+            ComponentValue::TimePercentage(n) => emit!(self, n),
             ComponentValue::Ratio(n) => emit!(self, n),
             ComponentValue::UnicodeRange(n) => emit!(self, n),
             ComponentValue::Color(n) => emit!(self, n),
@@ -1669,7 +1687,7 @@ where
     }
 
     #[emitter]
-    fn emit_frequency_cercentage(&mut self, n: &FrequencyPercentage) -> Result {
+    fn emit_frequency_percentage(&mut self, n: &FrequencyPercentage) -> Result {
         match n {
             FrequencyPercentage::Frequency(n) => emit!(self, n),
             FrequencyPercentage::Percentage(n) => emit!(self, n),

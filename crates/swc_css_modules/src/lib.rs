@@ -6,9 +6,8 @@ use swc_atoms::{js_word, JsWord};
 use swc_common::util::take::Take;
 use swc_css_ast::{
     ComplexSelector, ComplexSelectorChildren, ComponentValue, Declaration, DeclarationName,
-    DeclarationOrAtRule, Delimiter, DelimiterValue, Ident, KeyframesName,
-    PseudoClassSelectorChildren, QualifiedRule, QualifiedRulePrelude, StyleBlock, Stylesheet,
-    SubclassSelector,
+    Delimiter, DelimiterValue, Ident, KeyframesName, PseudoClassSelectorChildren, QualifiedRule,
+    QualifiedRulePrelude, Stylesheet, SubclassSelector,
 };
 use swc_css_visit::{VisitMut, VisitMutWith};
 
@@ -235,8 +234,7 @@ where
         n.visit_mut_children_with(self);
 
         n.retain(|v| match v {
-            ComponentValue::StyleBlock(box StyleBlock::Declaration(d))
-            | ComponentValue::DeclarationOrAtRule(box DeclarationOrAtRule::Declaration(d)) => {
+            ComponentValue::Declaration(d) => {
                 if let DeclarationName::Ident(ident) = &d.name {
                     if &*ident.value == "composes" {
                         return false;

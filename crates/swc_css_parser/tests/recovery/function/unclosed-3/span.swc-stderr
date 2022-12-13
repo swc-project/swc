@@ -79,13 +79,6 @@
    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:1:1]
- 1 | .style {
- 2 | 	grid-template-columns: rgb(255, 255, 255
-   :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
   x Declaration
    ,-[$DIR/tests/recovery/function/unclosed-3/input.css:1:1]
  1 | .style {

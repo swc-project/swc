@@ -77,12 +77,6 @@
    :     ^^^^^^^^^^^
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/5al65IRQbw_x4yG3ke74fQ/input.css:1:1]
- 1 | a { width: +0.1; }
-   :     ^^^^^^^^^^^
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/5al65IRQbw_x4yG3ke74fQ/input.css:1:1]
  1 | a { width: +0.1; }

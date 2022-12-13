@@ -91,14 +91,6 @@
  3 | }
    `----
 
-  x StyleBlock
-   ,-[$DIR/tests/fixture/property/escaped/input.css:1:1]
- 1 | table {
- 2 |     colo\r: \red;
-   :     ^^^^^^^^^^^^
- 3 | }
-   `----
-
   x Declaration
    ,-[$DIR/tests/fixture/property/escaped/input.css:1:1]
  1 | table {
