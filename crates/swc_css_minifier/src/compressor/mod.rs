@@ -36,7 +36,7 @@ pub fn compressor() -> impl VisitMut {
 struct Compressor {
     ctx: Ctx,
     need_utf8_at_rule: bool,
-    in_supports_conidition: bool,
+    in_supports_condition: bool,
 }
 
 impl Compressor {
@@ -99,7 +99,7 @@ impl VisitMut for Compressor {
     }
 
     fn visit_mut_declaration(&mut self, n: &mut Declaration) {
-        if self.in_supports_conidition {
+        if self.in_supports_condition {
             n.visit_mut_children_with(self);
 
             return;
@@ -183,13 +183,13 @@ impl VisitMut for Compressor {
     }
 
     fn visit_mut_supports_condition(&mut self, n: &mut SupportsCondition) {
-        let old_in_support_condition = self.in_supports_conidition;
+        let old_in_support_condition = self.in_supports_condition;
 
-        self.in_supports_conidition = true;
+        self.in_supports_condition = true;
 
         n.visit_mut_children_with(self);
 
-        self.in_supports_conidition = old_in_support_condition;
+        self.in_supports_condition = old_in_support_condition;
 
         self.compress_supports_condition(n);
     }
@@ -221,13 +221,17 @@ impl VisitMut for Compressor {
 
         // Don't touch `@supports`, it can be used to check a browser's support for one
         // or more specific CSS features
-        if !self.in_supports_conidition {
+        if !self.in_supports_condition {
             self.compress_calc_sum(n);
         }
     }
 
     fn visit_mut_component_value(&mut self, n: &mut ComponentValue) {
         n.visit_mut_children_with(self);
+
+        if self.in_supports_condition {
+            return;
+        }
 
         self.compress_calc_sum_in_component_value(n);
 
