@@ -1,6 +1,6 @@
 {
     "toplevel": true,
     "defaults": true,
-    "sequences": false,
-    "collapse_vars": false
+    "sequences": true,
+    "collapse_vars": true
 }
