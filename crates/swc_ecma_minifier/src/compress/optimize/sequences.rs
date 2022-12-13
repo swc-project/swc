@@ -1546,9 +1546,7 @@ where
         }
 
         match b {
-            Expr::Update(..) | Expr::Arrow(..) | Expr::Fn(..) | Expr::OptChain(..) => {
-                return Ok(false)
-            }
+            Expr::Update(..) | Expr::Arrow(..) | Expr::Fn(..) => return Ok(false),
 
             Expr::Cond(b) => {
                 trace_op!("seq: Try test of cond");
