@@ -1,5 +1,4 @@
 #![allow(clippy::match_like_matches_macro)]
-
 use core::f64::consts::PI;
 use std::mem::take;
 
@@ -265,7 +264,7 @@ impl VisitMut for ImageSetFunctionReplacerOnLegacyVariant<'_> {
     fn visit_mut_function(&mut self, n: &mut Function) {
         let old_in_function = self.in_function;
 
-        self.in_function = true;
+        self.in_function = n.name.value.eq_str_ignore_ascii_case(self.from);
 
         n.visit_mut_children_with(self);
 
@@ -578,8 +577,9 @@ impl VisitMut for CalcReplacer<'_> {
                 });
             }
 pub struct FontFaceFormat {}
+pub struct FontFaceFormatOldSyntax {}
 
-impl VisitMut for FontFaceFormat {
+impl VisitMut for FontFaceFormatOldSyntax {
     fn visit_mut_function(&mut self, n: &mut Function) {
         n.visit_mut_children_with(self);
 
@@ -592,8 +592,22 @@ impl VisitMut for FontFaceFormat {
         }
 
         if let Some(ComponentValue::Ident(box ident)) = n.value.get(0) {
+            let new_value: JsWord = ident.value.clone().to_ascii_lowercase();
+            let new_value = match new_value {
+                js_word!("woff")
+                | js_word!("truetype")
+                | js_word!("opentype")
+                | js_word!("woff2")
+                | js_word!("embedded-opentype")
+                | js_word!("collection")
+                | js_word!("svg") => new_value,
+                _ => {
+                    return;
+                }
+            };
+
             let new_value = Str {
-                value: ident.value.clone(),
+                value: new_value,
                 span: ident.span,
                 raw: None,
             };
@@ -612,10 +626,11 @@ where
         to,
     });
 pub fn font_face_format<N>(node: &mut N)
+pub fn font_face_format_old_syntax<N>(node: &mut N)
 where
-    N: VisitMutWith<FontFaceFormat>,
+    N: VisitMutWith<FontFaceFormatOldSyntax>,
 {
-    node.visit_mut_with(&mut FontFaceFormat {});
+    node.visit_mut_with(&mut FontFaceFormatOldSyntax {});
 }
 
 macro_rules! to_ident {
@@ -3321,10 +3336,10 @@ impl VisitMut for Prefixer {
                 add_declaration!(Prefix::Moz, "-moz-border-radius-bottomleft", None);
             }
 
-            "src" => {
+            "src" if should_prefix("font-face-format-ident", self.env, true) => {
                 let mut new_declaration = n.clone();
 
-                font_face_format(&mut new_declaration);
+                font_face_format_old_syntax(&mut new_declaration);
 
                 if n.value != new_declaration.value {
                     self.added_declarations.push(Box::new(new_declaration));
