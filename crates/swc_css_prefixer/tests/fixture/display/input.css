@@ -17,3 +17,84 @@
 :fullscreen a {
     display: flex;
 }
+
+.block-flow {
+    display: block flow;
+    display: flow block;
+}
+
+.block-flow-root {
+    display: block flow-root;
+}
+
+.inline-flow {
+    display: inline flow;
+}
+
+.inline-flow-root {
+    display: inline flow-root;
+}
+
+.run-in-flow {
+    display: run-in flow;
+}
+
+.list-item-block-flow {
+    display: list-item block flow;
+}
+
+.inline-flow-list-item {
+    display: inline flow list-item;
+    display: inline list-item flow;
+
+    display: flow inline list-item;
+    display: flow list-item inline;
+
+    display: list-item flow inline;
+    display: list-item inline flow;
+
+}
+
+.block-flex {
+    display: block flex;
+}
+
+.inline-flex {
+    display: inline flex;
+}
+
+.block-grid {
+    display: block grid;
+}
+
+.inline-grid {
+    display: inline grid;
+}
+
+.inline-ruby {
+    display: inline ruby;
+}
+
+.block-table {
+    display: block table;
+}
+
+.inline-table {
+    display: inline table;
+}
+
+.table-cell-flow {
+    display: table-cell flow;
+}
+
+.table-caption-flow {
+    display: table-caption flow;
+}
+
+.ruby-base-flow {
+    display: ruby-base flow;
+}
+
+.ruby-text-flow {
+    display: ruby-text flow;
+}

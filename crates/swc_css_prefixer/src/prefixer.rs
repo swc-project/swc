@@ -1667,58 +1667,221 @@ impl VisitMut for Prefixer {
                 }
             }
 
-            "display" if n.value.len() == 1 => {
-                if self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none() {
-                    let mut old_spec_webkit_value = webkit_value.clone();
+            "display" => {
+                if n.value.len() == 1 {
+                    if self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none() {
+                        let mut old_spec_webkit_value = webkit_value.clone();
 
-                    if should_prefix("-webkit-box", self.env, false) {
-                        replace_ident(&mut old_spec_webkit_value, "flex", "-webkit-box");
+                        if should_prefix("-webkit-box", self.env, false) {
+                            replace_ident(&mut old_spec_webkit_value, "flex", "-webkit-box");
+                        }
+
+                        if should_prefix("-webkit-inline-box", self.env, false) {
+                            replace_ident(
+                                &mut old_spec_webkit_value,
+                                "inline-flex",
+                                "-webkit-inline-box",
+                            );
+                        }
+
+                        if n.value != old_spec_webkit_value {
+                            self.added_declarations.push(Box::new(Declaration {
+                                span: n.span,
+                                name: n.name.clone(),
+                                value: old_spec_webkit_value,
+                                important: n.important.clone(),
+                            }));
+                        }
+
+                        if should_prefix("-webkit-flex:display", self.env, false) {
+                            replace_ident(&mut webkit_value, "flex", "-webkit-flex");
+                        }
+
+                        if should_prefix("-webkit-inline-flex", self.env, false) {
+                            replace_ident(&mut webkit_value, "inline-flex", "-webkit-inline-flex");
+                        }
                     }
 
-                    if should_prefix("-webkit-inline-box", self.env, false) {
-                        replace_ident(
-                            &mut old_spec_webkit_value,
-                            "inline-flex",
-                            "-webkit-inline-box",
-                        );
+                    if self.rule_prefix == Some(Prefix::Moz) || self.rule_prefix.is_none() {
+                        if should_prefix("-moz-box", self.env, false) {
+                            replace_ident(&mut moz_value, "flex", "-moz-box");
+                        }
+
+                        if should_prefix("-moz-inline-box", self.env, false) {
+                            replace_ident(&mut moz_value, "inline-flex", "-moz-inline-box");
+                        }
                     }
 
-                    if n.value != old_spec_webkit_value {
-                        self.added_declarations.push(Box::new(Declaration {
-                            span: n.span,
-                            name: n.name.clone(),
-                            value: old_spec_webkit_value,
-                            important: n.important.clone(),
-                        }));
-                    }
+                    if self.rule_prefix == Some(Prefix::Ms) || self.rule_prefix.is_none() {
+                        if should_prefix("-ms-flexbox", self.env, false) {
+                            replace_ident(&mut ms_value, "flex", "-ms-flexbox");
+                        }
 
-                    if should_prefix("-webkit-flex:display", self.env, false) {
-                        replace_ident(&mut webkit_value, "flex", "-webkit-flex");
+                        if should_prefix("-ms-inline-flexbox", self.env, false) {
+                            replace_ident(&mut ms_value, "inline-flex", "-ms-inline-flexbox");
+                        }
                     }
-
-                    if should_prefix("-webkit-inline-flex", self.env, false) {
-                        replace_ident(&mut webkit_value, "inline-flex", "-webkit-inline-flex");
+                } else if n.value.len() == 2
+                    && should_prefix("display:multi-keyword-values", self.env, true)
+                {
+                    if let (
+                        Some(ComponentValue::Ident(first)),
+                        Some(ComponentValue::Ident(second)),
+                    ) = (n.value.get(0), n.value.get(1))
+                    {
+                        match (&first.value, &second.value) {
+                            (&js_word!("block"), &js_word!("flow"))
+                            | (&js_word!("flow"), &js_word!("block")) => {
+                                add_declaration!(
+                                    "display",
+                                    Some(Box::new(|| { vec![to_ident!("block")] }))
+                                );
+                            }
+                            (&js_word!("block"), &js_word!("flow-root"))
+                            | (&js_word!("flow-root"), &js_word!("block")) => {
+                                add_declaration!(
+                                    "display",
+                                    Some(Box::new(|| { vec![to_ident!("flow-root")] }))
+                                );
+                            }
+                            (&js_word!("inline"), &js_word!("flow"))
+                            | (&js_word!("flow"), &js_word!("inline")) => {
+                                add_declaration!(
+                                    "display",
+                                    Some(Box::new(|| { vec![to_ident!("inline")] }))
+                                );
+                            }
+                            (&js_word!("inline"), &js_word!("flow-root"))
+                            | (&js_word!("flow-root"), &js_word!("inline")) => {
+                                add_declaration!(
+                                    "display",
+                                    Some(Box::new(|| { vec![to_ident!("inline-block")] }))
+                                );
+                            }
+                            (&js_word!("run-in"), &js_word!("flow"))
+                            | (&js_word!("flow"), &js_word!("run-in")) => {
+                                add_declaration!(
+                                    "display",
+                                    Some(Box::new(|| { vec![to_ident!("run-in")] }))
+                                );
+                            }
+                            (&js_word!("block"), &js_word!("flex"))
+                            | (&js_word!("flex"), &js_word!("block")) => {
+                                add_declaration!(
+                                    "display",
+                                    Some(Box::new(|| { vec![to_ident!("flex")] }))
+                                );
+                            }
+                            (&js_word!("inline"), &js_word!("flex"))
+                            | (&js_word!("flex"), &js_word!("inline")) => {
+                                add_declaration!(
+                                    "display",
+                                    Some(Box::new(|| { vec![to_ident!("inline-flex")] }))
+                                );
+                            }
+                            (&js_word!("block"), &js_word!("grid"))
+                            | (&js_word!("grid"), &js_word!("block")) => {
+                                add_declaration!(
+                                    "display",
+                                    Some(Box::new(|| { vec![to_ident!("grid")] }))
+                                );
+                            }
+                            (&js_word!("inline"), &js_word!("grid"))
+                            | (&js_word!("grid"), &js_word!("inline")) => {
+                                add_declaration!(
+                                    "display",
+                                    Some(Box::new(|| { vec![to_ident!("inline-grid")] }))
+                                );
+                            }
+                            (&js_word!("inline"), &js_word!("ruby"))
+                            | (&js_word!("ruby"), &js_word!("inline")) => {
+                                add_declaration!(
+                                    "display",
+                                    Some(Box::new(|| { vec![to_ident!("ruby")] }))
+                                );
+                            }
+                            (&js_word!("block"), &js_word!("table"))
+                            | (&js_word!("table"), &js_word!("block")) => {
+                                add_declaration!(
+                                    "display",
+                                    Some(Box::new(|| { vec![to_ident!("table")] }))
+                                );
+                            }
+                            (&js_word!("inline"), &js_word!("table"))
+                            | (&js_word!("table"), &js_word!("inline")) => {
+                                add_declaration!(
+                                    "display",
+                                    Some(Box::new(|| { vec![to_ident!("inline-table")] }))
+                                );
+                            }
+                            (&js_word!("table-cell"), &js_word!("flow"))
+                            | (&js_word!("flow"), &js_word!("table-cell")) => {
+                                add_declaration!(
+                                    "display",
+                                    Some(Box::new(|| { vec![to_ident!("table-cell")] }))
+                                );
+                            }
+                            (&js_word!("table-caption"), &js_word!("flow"))
+                            | (&js_word!("flow"), &js_word!("table-caption")) => {
+                                add_declaration!(
+                                    "display",
+                                    Some(Box::new(|| { vec![to_ident!("table-caption")] }))
+                                );
+                            }
+                            (&js_word!("ruby-base"), &js_word!("flow"))
+                            | (&js_word!("flow"), &js_word!("ruby-base")) => {
+                                add_declaration!(
+                                    "display",
+                                    Some(Box::new(|| { vec![to_ident!("ruby-base")] }))
+                                );
+                            }
+                            (&js_word!("ruby-text"), &js_word!("flow"))
+                            | (&js_word!("flow"), &js_word!("ruby-text")) => {
+                                add_declaration!(
+                                    "display",
+                                    Some(Box::new(|| { vec![to_ident!("ruby-text")] }))
+                                );
+                            }
+                            _ => {}
+                        }
                     }
-                }
-
-                if self.rule_prefix == Some(Prefix::Moz) || self.rule_prefix.is_none() {
-                    if should_prefix("-moz-box", self.env, false) {
-                        replace_ident(&mut moz_value, "flex", "-moz-box");
-                    }
-
-                    if should_prefix("-moz-inline-box", self.env, false) {
-                        replace_ident(&mut moz_value, "inline-flex", "-moz-inline-box");
-                    }
-                }
-
-                if self.rule_prefix == Some(Prefix::Ms) || self.rule_prefix.is_none() {
-                    if should_prefix("-ms-flexbox", self.env, false) {
-                        replace_ident(&mut ms_value, "flex", "-ms-flexbox");
-                    }
-
-                    if should_prefix("-ms-inline-flexbox", self.env, false) {
-                        replace_ident(&mut ms_value, "inline-flex", "-ms-inline-flexbox");
-                    }
+                } else if n.value.len() == 3
+                    && should_prefix("display:multi-keyword-values", self.env, true)
+                {
+                    if let (
+                        Some(ComponentValue::Ident(first)),
+                        Some(ComponentValue::Ident(second)),
+                        Some(ComponentValue::Ident(third)),
+                    ) = (n.value.get(0), n.value.get(1), n.value.get(2))
+                    {
+                        match (&first.value, &second.value, &third.value) {
+                            (&js_word!("list-item"), &js_word!("block"), &js_word!("flow"))
+                            | (&js_word!("list-item"), &js_word!("flow"), &js_word!("block"))
+                            | (&js_word!("block"), &js_word!("list-item"), &js_word!("flow"))
+                            | (&js_word!("block"), &js_word!("flow"), &js_word!("list-item"))
+                            | (&js_word!("flow"), &js_word!("block"), &js_word!("list-item"))
+                            | (&js_word!("flow"), &js_word!("list-item"), &js_word!("block")) => {
+                                add_declaration!(
+                                    "display",
+                                    Some(Box::new(|| { vec![to_ident!("list-item")] }))
+                                );
+                            }
+                            (&js_word!("inline"), &js_word!("flow"), &js_word!("list-item"))
+                            | (&js_word!("inline"), &js_word!("list-item"), &js_word!("flow"))
+                            | (&js_word!("flow"), &js_word!("inline"), &js_word!("list-item"))
+                            | (&js_word!("flow"), &js_word!("list-item"), &js_word!("inline"))
+                            | (&js_word!("list-item"), &js_word!("flow"), &js_word!("inline"))
+                            | (&js_word!("list-item"), &js_word!("inline"), &js_word!("flow")) => {
+                                add_declaration!(
+                                    "display",
+                                    Some(Box::new(|| {
+                                        vec![to_ident!("inline"), to_ident!("list-item")]
+                                    }))
+                                );
+                            }
+                            _ => {}
+                        }
+                    };
                 }
             }
 
