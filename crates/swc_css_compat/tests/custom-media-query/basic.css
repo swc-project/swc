@@ -1,0 +1,224 @@
+@custom-media --mq-a (max-width: 30em), (max-height: 30em);
+@custom-media --mq-b screen and (max-width: 30em);
+@custom-media --not-mq-a not all and (--mq-a);
+
+@import url("narrow.css") supports(display: flex) screen and (--mq-a);
+@import url("narrow.css") supports(display: flex) (--mq-a);
+@import url("narrow.css") (--mq-a);
+
+@media (--mq-a) {
+	body {
+		order: 1;
+	}
+}
+
+@media (--mq-b) {
+	body {
+		order: 1;
+	}
+}
+
+@media (--mq-a), (--mq-a) {
+	body {
+		order: 1;
+	}
+}
+
+@media not all and (--mq-a) {
+	body {
+		order: 2;
+	}
+}
+
+@media (--not-mq-a) {
+	body {
+		order: 1;
+	}
+}
+
+@media not all and (--not-mq-a) {
+	body {
+		order: 2;
+	}
+}
+
+@custom-media --not (not (min-width: 20px));
+
+@media (--not) and (width > 1024px) {
+	.a { color: green; }
+}
+
+@custom-media --not1 (not (min-width: 20px)) and (min-width: 20px);
+
+@media (--not1) and (width > 1024px) {
+	.a { color: green; }
+}
+
+@custom-media --or (min-width: 20px) or (min-width: 20px);
+
+@media (--or) and (width > 1024px) {
+	.a { color: green; }
+}
+
+@custom-media --or1 (not (min-width: 20px)) or (min-width: 20px);
+
+@media (--or1) and (width > 1024px) {
+	.a { color: green; }
+}
+
+@custom-media --and (min-width: 20px) and (min-width: 20px);
+
+@media (--and) and (width > 1024px) {
+	.a { color: green; }
+}
+
+@custom-media --and1 (not (min-width: 20px)) and (min-width: 20px);
+
+@media (--and1) and (width > 1024px) {
+	.a { color: green; }
+}
+
+/* TODO warning on such cases */
+@custom-media --circular-mq-a (--circular-mq-b);
+@custom-media --circular-mq-b (--circular-mq-a);
+
+@media (--circular-mq-a) {
+	body {
+		order: 3;
+	}
+}
+
+@media (--circular-mq-b) {
+	body {
+		order: 4;
+	}
+}
+
+@media (--unresolved-mq) {
+	body {
+		order: 5;
+	}
+}
+
+@CUSTOM-MEDIA --CASE (max-width: 30em), (max-height: 30em);
+
+@media (--CASE) {
+	body {
+		order: 1;
+	}
+}
+
+/* TODO do prescan */
+@media (--foo) {
+	body {
+		background-color: red;
+	}
+}
+
+@custom-media --foo print;
+
+@custom-media --screen only screen;
+
+@media (--screen) {
+	body {
+		background-color: red;
+	}
+}
+
+@custom-media --screen only screen;
+
+@media only screen and (--screen) {
+	body {
+		background-color: red;
+	}
+}
+
+@media ((((((--mq-a)))))) {
+	body {
+		order: 1;
+	}
+}
+
+@custom-media --mq-d (max-width: 40em);
+
+@media ((((((--mq-a))))) or ((((--mq-d))))) {
+	body {
+		order: 1;
+	}
+}
+
+@custom-media --mq-e (max-width: 40em), (max-height: 40em);
+
+@media ((((((--mq-a))))) or ((((--mq-e))))) {
+	body {
+		order: 1;
+	}
+}
+
+
+@media ((((((--mq-a)))))), ((((((--mq-a)))))) {
+	body {
+		order: 1;
+	}
+}
+
+@media ((((((--mq-a))))) or ((((--mq-e))))), ((((((--mq-a))))) or ((((--mq-e))))) {
+	body {
+		order: 1;
+	}
+}
+
+@media (--mq-a) or (--mq-e), (--mq-a) or (--mq-e) {
+	body {
+		order: 1;
+	}
+}
+
+@media ((((((--mq-a) or ((((((--mq-a))))))))))) {
+	body {
+		order: 1;
+	}
+}
+
+@media (not (--mq-a)) or (hover) {
+	.a {
+		color: red;
+	}
+}
+
+@media ((max-width: 30em) or (--mq-a)) {
+	body {
+		order: 1;
+	}
+}
+
+@media ((max-width: 30em) and (--mq-a)) {
+	body {
+		order: 1;
+	}
+}
+
+@media ((max-width: 30em) and (not (--mq-a))) {
+	body {
+		order: 1;
+	}
+}
+
+/* We can't lower the syntax here and should print a warning */
+@custom-media --screen screen and (max-width: 30em);
+@custom-media --print print and (max-width: 30em);
+
+@media (--screen) or (--print) {
+	.a {
+		color: red;
+	}
+}
+
+/* We can't lower the syntax here and should print a warning */
+@custom-media --print print and (max-width: 30em);
+
+@media screen and (--print) {
+	.a {
+		color: red;
+	}
+}
