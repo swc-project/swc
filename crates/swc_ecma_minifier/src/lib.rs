@@ -111,14 +111,14 @@ pub fn optimize(
         // have to see if optimized code matches global definition and we can run
         // this at startup.
 
-        // if !defs.is_empty() {
-        let defs = defs.iter().map(|(k, v)| (k.clone(), v.clone())).collect();
-        n.visit_mut_with(&mut global_defs::globals_defs(
-            defs,
-            extra.unresolved_mark,
-            extra.top_level_mark,
-        ));
-        // }
+        if !defs.is_empty() {
+            let defs = defs.iter().map(|(k, v)| (k.clone(), v.clone())).collect();
+            n.visit_mut_with(&mut global_defs::globals_defs(
+                defs,
+                extra.unresolved_mark,
+                extra.top_level_mark,
+            ));
+        }
     }
 
     let module_info = match &n {
