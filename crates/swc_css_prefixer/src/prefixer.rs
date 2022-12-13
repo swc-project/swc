@@ -524,7 +524,10 @@ impl VisitMut for CalcReplacer<'_> {
     fn visit_mut_function(&mut self, n: &mut Function) {
         let old_inside_calc = self.inside_calc;
 
-        let is_calc = n.name.value.eq_ignore_ascii_case(&js_word!("calc"));
+        let is_calc = matches!(
+            n.name.value.to_ascii_lowercase(),
+            js_word!("calc") | js_word!("-webkit-calc") | js_word!("-moz-calc")
+        );
 
         self.inside_calc = is_calc;
 

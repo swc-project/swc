@@ -63,3 +63,7 @@ div {
 .bar {
     padding: -webkit-calc((1 + calc(2 * 2)) * 10px);
 }
+
+.baz {
+    padding: -webkit-calc((1 + -webkit-calc(2 * 2)) * 10px);
+}
