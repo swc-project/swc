@@ -105,12 +105,6 @@
           throw new Error();
         }
         let column = {
-          id: `${String(id)}`,
-          accessorFn,
-          parent: parent,
-          depth,
-          columnDef: resolvedColumnDef,
-          columns: [],
           getFlatColumns: memo(() => [true], () => {
             return [column, ...column.columns?.flatMap(d => d.getFlatColumns())];
           }, {
@@ -120,19 +114,6 @@
               return (_table$options$debugA = table.options.debugAll) != null ? _table$options$debugA : table.options.debugColumns;
             }
           }),
-          getLeafColumns: memo(() => [table._getOrderColumnsFn()], orderColumns => {
-            if (column.columns?.length) {
-              let leafColumns = column.columns.flatMap(column => column.getLeafColumns());
-              return orderColumns(leafColumns);
-            }
-            return [column];
-          }, {
-            key: true && 'column.getLeafColumns',
-            debug: () => {
-              var _table$options$debugA2;
-              return (_table$options$debugA2 = table.options.debugAll) != null ? _table$options$debugA2 : table.options.debugColumns;
-            }
-          })
         };
         column = table._features.reduce((obj, feature) => {
           return Object.assign(obj, feature.createColumn?.(column, table));
