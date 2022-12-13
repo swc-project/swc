@@ -1,7 +1,8 @@
-use swc_css_ast::{AtRule, MediaCondition, MediaConditionWithoutOr, MediaQuery, Rule};
-use swc_css_ast::MediaFeature;
 use swc_common::{Spanned, DUMMY_SP};
-use swc_css_ast::{MediaAnd, MediaCondition, MediaConditionAllType, MediaInParens};
+use swc_css_ast::{
+    AtRule, MediaAnd, MediaCondition, MediaConditionAllType, MediaConditionWithoutOr,
+    MediaInParens, MediaQuery, Rule,
+};
 use swc_css_visit::{VisitMut, VisitMutWith};
 
 use self::custom_media::CustomMediaHandler;
@@ -71,7 +72,9 @@ impl VisitMut for Compiler {
 
         if self.c.process.contains(Features::CUSTOM_MEDIA) {
             self.custom_media.process_rules(n);
-    fn visit_mut_media_feature(&mut self, n: &mut MediaFeature) {
+        }
+    }
+
     fn visit_mut_media_in_parens(&mut self, n: &mut MediaInParens) {
         n.visit_mut_children_with(self);
 
