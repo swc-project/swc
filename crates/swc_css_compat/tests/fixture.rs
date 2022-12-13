@@ -83,7 +83,28 @@ fn test_nesting_without_env(input: PathBuf) {
 }
 
 #[testing::fixture("tests/custom-media-query/**/*.css", exclude("expect.css"))]
-#[testing::fixture("tests/media_query_ranges/**/*.css", exclude("expect.css"))]
+fn test_custom_media_query(input: PathBuf) {
+    let output = input.with_extension("expect.css");
+
+    testing::run_test(false, |cm, _| {
+        //
+        let fm = cm.load_file(&input).unwrap();
+        let mut ss = parse_stylesheet(&fm);
+
+        ss.visit_mut_with(&mut Compiler::new(Config {
+            process: Features::CUSTOM_MEDIA,
+        }));
+
+        let s = print_stylesheet(&ss);
+
+        NormalizedOutput::from(s).compare_to_file(&output).unwrap();
+
+        Ok(())
+    })
+    .unwrap();
+}
+
+#[testing::fixture("tests/media-query-ranges/**/*.css", exclude("expect.css"))]
 fn test_media_query_ranges(input: PathBuf) {
     let output = input.with_extension("expect.css");
 
