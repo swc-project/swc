@@ -27,3 +27,9 @@
         background: red;
     }
 }
+
+@supports (width: calc(100px)) {
+    div {
+        background: red;
+    }
+}
