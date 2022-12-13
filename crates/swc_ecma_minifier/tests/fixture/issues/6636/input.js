@@ -29,9 +29,6 @@
 
       function functionalUpdate(updater, input) {
       }
-      function noop() {
-        //
-      }
       function makeStateUpdater(key, instance) {
       }
       function isFunction(d) {
@@ -1091,7 +1088,7 @@
           };
         },
 
-        createRow: (row, table) => {
+        createRow: () => {
           return {
             columnFilters: {},
             columnFiltersMeta: {}
@@ -1360,7 +1357,7 @@
             _groupingValuesCache: {}
           };
         },
-        createCell: (cell, column, row, table) => {
+        createCell: (cell, column, row) => {
           return {
             getIsGrouped: () => column.getIsGrouped() && column.id === row.groupingColumnId,
             getIsPlaceholder: () => !cell.getIsGrouped() && column.getIsGrouped(),
@@ -2069,7 +2066,7 @@
         const newSelectedRowsById = {};
 
         // Filters top level and nested rows
-        const recurseRows = function (rows, depth) {
+        const recurseRows = function (rows) {
           return rows.map(row => {
             const isSelected = isRowSelected(row, rowSelection);
             if (isSelected) {
@@ -2097,7 +2094,7 @@
         var _selection$row$id;
         return (_selection$row$id = selection[row.id]) != null ? _selection$row$id : false;
       }
-      function isSubRowSelected(row, selection, table) {
+      function isSubRowSelected(row, selection) {
         if (row.subRows && row.subRows.length) {
           let allChildrenSelected = true;
           let someSelected = false;
@@ -3037,320 +3034,11 @@
         };
       }
 
-      function getFilteredRowModel() {
-        return table => memo(() => [table.getPreFilteredRowModel(), table.getState().columnFilters, table.getState().globalFilter], (rowModel, columnFilters, globalFilter) => {
-          if (!rowModel.rows.length || !columnFilters?.length && !globalFilter) {
-            for (let i = 0; i < rowModel.flatRows.length; i++) {
-              rowModel.flatRows[i].columnFilters = {};
-              rowModel.flatRows[i].columnFiltersMeta = {};
-            }
-            return rowModel;
-          }
-          const resolvedColumnFilters = [];
-          const resolvedGlobalFilters = [];
-          (columnFilters != null ? columnFilters : []).forEach(d => {
-            var _filterFn$resolveFilt;
-            const column = table.getColumn(d.id);
-            if (!column) {
-              if (false) { }
-            }
-            const filterFn = column.getFilterFn();
-            if (!filterFn) {
-              if (false) { }
-              return;
-            }
-            resolvedColumnFilters.push({
-              id: d.id,
-              filterFn,
-              resolvedValue: (_filterFn$resolveFilt = filterFn.resolveFilterValue?.(d.value)) != null ? _filterFn$resolveFilt : d.value
-            });
-          });
-          const filterableIds = columnFilters.map(d => d.id);
-          const globalFilterFn = table.getGlobalFilterFn();
-          const globallyFilterableColumns = table.getAllLeafColumns().filter(column => column.getCanGlobalFilter());
-          if (globalFilter && globalFilterFn && globallyFilterableColumns.length) {
-            filterableIds.push('__global__');
-            globallyFilterableColumns.forEach(column => {
-              var _globalFilterFn$resol;
-              resolvedGlobalFilters.push({
-                id: column.id,
-                filterFn: globalFilterFn,
-                resolvedValue: (_globalFilterFn$resol = globalFilterFn.resolveFilterValue?.(globalFilter)) != null ? _globalFilterFn$resol : globalFilter
-              });
-            });
-          }
-          let currentColumnFilter;
-          let currentGlobalFilter;
 
-          // Flag the prefiltered row model with each filter state
-          for (let j = 0; j < rowModel.flatRows.length; j++) {
-            const row = rowModel.flatRows[j];
-            row.columnFilters = {};
-            if (resolvedColumnFilters.length) {
-              for (let i = 0; i < resolvedColumnFilters.length; i++) {
-                currentColumnFilter = resolvedColumnFilters[i];
-                const id = currentColumnFilter.id;
 
-                // Tag the row with the column filter state
-                row.columnFilters[id] = currentColumnFilter.filterFn(row, id, currentColumnFilter.resolvedValue, filterMeta => {
-                  row.columnFiltersMeta[id] = filterMeta;
-                });
-              }
-            }
-            if (resolvedGlobalFilters.length) {
-              for (let i = 0; i < resolvedGlobalFilters.length; i++) {
-                currentGlobalFilter = resolvedGlobalFilters[i];
-                const id = currentGlobalFilter.id;
-                // Tag the row with the first truthy global filter state
-                if (currentGlobalFilter.filterFn(row, id, currentGlobalFilter.resolvedValue, filterMeta => {
-                  row.columnFiltersMeta[id] = filterMeta;
-                })) {
-                  row.columnFilters.__global__ = true;
-                  break;
-                }
-              }
-              if (row.columnFilters.__global__ !== true) {
-                row.columnFilters.__global__ = false;
-              }
-            }
-          }
-          const filterRowsImpl = row => {
-            // Horizontally filter rows through each column
-            for (let i = 0; i < filterableIds.length; i++) {
-              if (row.columnFilters[filterableIds[i]] === false) {
-                return false;
-              }
-            }
-            return true;
-          };
 
-          // Filter final rows using all of the active filters
-          return filterRows(rowModel.rows, filterRowsImpl, table);
-        }, {
-          key: false && 0,
-          debug: () => {
-            var _table$options$debugA;
-            return (_table$options$debugA = table.options.debugAll) != null ? _table$options$debugA : table.options.debugTable;
-          },
-          onChange: () => {
-            table._autoResetPageIndex();
-          }
-        });
-      }
 
-      function getFacetedRowModel() {
-        return (table, columnId) => memo(() => [table.getPreFilteredRowModel(), table.getState().columnFilters, table.getState().globalFilter, table.getFilteredRowModel()], (preRowModel, columnFilters, globalFilter) => {
-          if (!preRowModel.rows.length || !columnFilters?.length && !globalFilter) {
-            return preRowModel;
-          }
-          const filterableIds = [...columnFilters.map(d => d.id).filter(d => d !== columnId), globalFilter ? '__global__' : undefined].filter(Boolean);
-          const filterRowsImpl = row => {
-            // Horizontally filter rows through each column
-            for (let i = 0; i < filterableIds.length; i++) {
-              if (row.columnFilters[filterableIds[i]] === false) {
-                return false;
-              }
-            }
-            return true;
-          };
-          return filterRows(preRowModel.rows, filterRowsImpl, table);
-        }, {
-          key: false && 0,
-          debug: () => {
-            var _table$options$debugA;
-            return (_table$options$debugA = table.options.debugAll) != null ? _table$options$debugA : table.options.debugTable;
-          },
-          onChange: () => { }
-        });
-      }
 
-      function getFacetedUniqueValues() {
-        return (table, columnId) => memo(() => [table.getColumn(columnId).getFacetedRowModel()], facetedRowModel => {
-          let facetedUniqueValues = new Map();
-          for (let i = 0; i < facetedRowModel.flatRows.length; i++) {
-            const values = facetedRowModel.flatRows[i].getUniqueValues(columnId);
-            for (let j = 0; j < values.length; j++) {
-              const value = values[j];
-              if (facetedUniqueValues.has(value)) {
-                var _facetedUniqueValues$;
-                facetedUniqueValues.set(value, ((_facetedUniqueValues$ = facetedUniqueValues.get(value)) != null ? _facetedUniqueValues$ : 0) + 1);
-              } else {
-                facetedUniqueValues.set(value, 1);
-              }
-            }
-          }
-          return facetedUniqueValues;
-        }, {
-          key: false && 0,
-          debug: () => {
-            var _table$options$debugA;
-            return (_table$options$debugA = table.options.debugAll) != null ? _table$options$debugA : table.options.debugTable;
-          },
-          onChange: () => { }
-        });
-      }
-
-      function getFacetedMinMaxValues() {
-        return (table, columnId) => memo(() => [table.getColumn(columnId).getFacetedRowModel()], facetedRowModel => {
-          const firstValue = facetedRowModel.flatRows[0]?.getUniqueValues(columnId);
-          if (typeof firstValue === 'undefined') {
-            return undefined;
-          }
-          let facetedMinMaxValues = [firstValue, firstValue];
-          for (let i = 0; i < facetedRowModel.flatRows.length; i++) {
-            const values = facetedRowModel.flatRows[i].getUniqueValues(columnId);
-            for (let j = 0; j < values.length; j++) {
-              const value = values[j];
-              if (value < facetedMinMaxValues[0]) {
-                facetedMinMaxValues[0] = value;
-              } else if (value > facetedMinMaxValues[1]) {
-                facetedMinMaxValues[1] = value;
-              }
-            }
-          }
-          return facetedMinMaxValues;
-        }, {
-          key: false && 0,
-          debug: () => {
-            var _table$options$debugA;
-            return (_table$options$debugA = table.options.debugAll) != null ? _table$options$debugA : table.options.debugTable;
-          },
-          onChange: () => { }
-        });
-      }
-
-      function getSortedRowModel() {
-
-      }
-
-      function getGroupedRowModel() {
-        return table => memo(() => [table.getState().grouping, table.getPreGroupedRowModel()], (grouping, rowModel) => {
-          if (!rowModel.rows.length || !grouping.length) {
-            return rowModel;
-          }
-
-          // Filter the grouping list down to columns that exist
-          const existingGrouping = grouping.filter(columnId => table.getColumn(columnId));
-          const groupedFlatRows = [];
-          const groupedRowsById = {};
-          // const onlyGroupedFlatRows: Row[] = [];
-          // const onlyGroupedRowsById: Record<RowId, Row> = {};
-          // const nonGroupedFlatRows: Row[] = [];
-          // const nonGroupedRowsById: Record<RowId, Row> = {};
-
-          // Recursively group the data
-          const groupUpRecursively = function (rows, depth, parentId) {
-            if (depth === void 0) {
-              depth = 0;
-            }
-            // Grouping depth has been been met
-            // Stop grouping and simply rewrite thd depth and row relationships
-            if (depth >= existingGrouping.length) {
-              return rows.map(row => {
-                row.depth = depth;
-                groupedFlatRows.push(row);
-                groupedRowsById[row.id] = row;
-                if (row.subRows) {
-                  row.subRows = groupUpRecursively(row.subRows, depth + 1);
-                }
-                return row;
-              });
-            }
-            const columnId = existingGrouping[depth];
-
-            // Group the rows together for this level
-            const rowGroupsMap = groupBy(rows, columnId);
-
-            // Peform aggregations for each group
-            const aggregatedGroupedRows = Array.from(rowGroupsMap.entries()).map((_ref, index) => {
-              let [groupingValue, groupedRows] = _ref;
-              let id = `${columnId}:${groupingValue}`;
-              id = parentId ? `${parentId}>${id}` : id;
-
-              // First, Recurse to group sub rows before aggregation
-              const subRows = groupUpRecursively(groupedRows, depth + 1, id);
-
-              // Flatten the leaf rows of the rows in this group
-              const leafRows = depth ? flattenBy(groupedRows, row => row.subRows) : groupedRows;
-              const row = createRow(table, id, leafRows[0].original, index, depth);
-              Object.assign(row, {
-                groupingColumnId: columnId,
-                groupingValue,
-                subRows,
-                leafRows,
-                getValue: columnId => {
-                  // Don't aggregate columns that are in the grouping
-                  if (existingGrouping.includes(columnId)) {
-                    if (row._valuesCache.hasOwnProperty(columnId)) {
-                      return row._valuesCache[columnId];
-                    }
-                    if (groupedRows[0]) {
-                      var _groupedRows$0$getVal;
-                      row._valuesCache[columnId] = (_groupedRows$0$getVal = groupedRows[0].getValue(columnId)) != null ? _groupedRows$0$getVal : undefined;
-                    }
-                    return row._valuesCache[columnId];
-                  }
-                  if (row._groupingValuesCache.hasOwnProperty(columnId)) {
-                    return row._groupingValuesCache[columnId];
-                  }
-
-                  // Aggregate the values
-                  const column = table.getColumn(columnId);
-                  const aggregateFn = column.getAggregationFn();
-                  if (aggregateFn) {
-                    row._groupingValuesCache[columnId] = aggregateFn(columnId, leafRows, groupedRows);
-                    return row._groupingValuesCache[columnId];
-                  }
-                }
-              });
-              subRows.forEach(subRow => {
-                groupedFlatRows.push(subRow);
-                groupedRowsById[subRow.id] = subRow;
-                // if (subRow.getIsGrouped?.()) {
-                //   onlyGroupedFlatRows.push(subRow);
-                //   onlyGroupedRowsById[subRow.id] = subRow;
-                // } else {
-                //   nonGroupedFlatRows.push(subRow);
-                //   nonGroupedRowsById[subRow.id] = subRow;
-                // }
-              });
-
-              return row;
-            });
-            return aggregatedGroupedRows;
-          };
-          const groupedRows = groupUpRecursively(rowModel.rows, 0, '');
-          groupedRows.forEach(subRow => {
-            groupedFlatRows.push(subRow);
-            groupedRowsById[subRow.id] = subRow;
-            // if (subRow.getIsGrouped?.()) {
-            //   onlyGroupedFlatRows.push(subRow);
-            //   onlyGroupedRowsById[subRow.id] = subRow;
-            // } else {
-            //   nonGroupedFlatRows.push(subRow);
-            //   nonGroupedRowsById[subRow.id] = subRow;
-            // }
-          });
-
-          return {
-            rows: groupedRows,
-            flatRows: groupedFlatRows,
-            rowsById: groupedRowsById
-          };
-        }, {
-          key: false && 0,
-          debug: () => {
-            var _table$options$debugA;
-            return (_table$options$debugA = table.options.debugAll) != null ? _table$options$debugA : table.options.debugTable;
-          },
-          onChange: () => {
-            table._queue(() => {
-              table._autoResetExpanded();
-              table._autoResetPageIndex();
-            });
-          }
-        });
-      }
       function groupBy(rows, columnId) {
         const groupMap = new Map();
         return rows.reduce((map, row) => {
@@ -3365,24 +3053,6 @@
         }, groupMap);
       }
 
-      function getExpandedRowModel() {
-        return table => memo(() => [table.getState().expanded, table.getPreExpandedRowModel(), table.options.paginateExpandedRows], (expanded, rowModel, paginateExpandedRows) => {
-          if (!rowModel.rows.length || expanded !== true && !Object.keys(expanded != null ? expanded : {}).length) {
-            return rowModel;
-          }
-          if (!paginateExpandedRows) {
-            // Only expand rows at this point if they are being paginated
-            return rowModel;
-          }
-          return expandRows(rowModel);
-        }, {
-          key: false && 0,
-          debug: () => {
-            var _table$options$debugA;
-            return (_table$options$debugA = table.options.debugAll) != null ? _table$options$debugA : table.options.debugTable;
-          }
-        });
-      }
       function expandRows(rowModel) {
         const expandedRows = [];
         const handleRow = row => {
@@ -3399,54 +3069,6 @@
         };
       }
 
-      function getPaginationRowModel(opts) {
-        return table => memo(() => [table.getState().pagination, table.getPrePaginationRowModel(), table.options.paginateExpandedRows ? undefined : table.getState().expanded], (pagination, rowModel) => {
-          if (!rowModel.rows.length) {
-            return rowModel;
-          }
-          const {
-            pageSize,
-            pageIndex
-          } = pagination;
-          let {
-            rows,
-            flatRows,
-            rowsById
-          } = rowModel;
-          const pageStart = pageSize * pageIndex;
-          const pageEnd = pageStart + pageSize;
-          rows = rows.slice(pageStart, pageEnd);
-          let paginatedRowModel;
-          if (!table.options.paginateExpandedRows) {
-            paginatedRowModel = expandRows({
-              rows,
-              flatRows,
-              rowsById
-            });
-          } else {
-            paginatedRowModel = {
-              rows,
-              flatRows,
-              rowsById
-            };
-          }
-          paginatedRowModel.flatRows = [];
-          const handleRow = row => {
-            paginatedRowModel.flatRows.push(row);
-            if (row.subRows.length) {
-              row.subRows.forEach(handleRow);
-            }
-          };
-          paginatedRowModel.rows.forEach(handleRow);
-          return paginatedRowModel;
-        }, {
-          key: false && 0,
-          debug: () => {
-            var _table$options$debugA;
-            return (_table$options$debugA = table.options.debugAll) != null ? _table$options$debugA : table.options.debugTable;
-          }
-        });
-      }
 
 
       //# sourceMappingURL=index.mjs.map
