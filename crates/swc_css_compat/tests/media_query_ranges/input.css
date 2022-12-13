@@ -452,3 +452,15 @@
 @media (200px <= width <= 500px) {
     a { color: red }
 }
+
+@media (1 <= color <= 256) {
+    a { color: red }
+}
+
+@media (1 < color < 256) {
+    a { color: red }
+}
+
+@media (1 > color > 256) {
+    a { color: red }
+}

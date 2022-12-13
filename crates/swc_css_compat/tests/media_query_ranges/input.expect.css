@@ -540,3 +540,18 @@
     color: red;
   }
 }
+@media ((min-color: 1) and (max-color: 256)) {
+  a {
+    color: red;
+  }
+}
+@media ((min-color: 2) and (max-color: 255)) {
+  a {
+    color: red;
+  }
+}
+@media ((max-color: 0) and (min-color: 257)) {
+  a {
+    color: red;
+  }
+}
