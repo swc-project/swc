@@ -535,6 +535,16 @@ macro_rules! to_integer {
     }};
 }
 
+macro_rules! to_number {
+    ($val:expr) => {{
+        ComponentValue::Number(Box::new(Number {
+            span: DUMMY_SP,
+            value: $val,
+            raw: None,
+        }))
+    }};
+}
+
 #[derive(Debug, PartialEq, Eq, Clone, Copy)]
 pub enum Prefix {
     Webkit,
@@ -1431,6 +1441,36 @@ impl VisitMut for Prefixer {
                     }
                 }
             }};
+
+            ($property:expr, $value:expr) => {{
+                if should_prefix($property, self.env, true) {
+                    // Check we don't have prefixed property
+
+                    let name = DeclarationName::Ident(Ident {
+                        span: DUMMY_SP,
+                        value: $property.into(),
+                        raw: None,
+                    });
+
+                    let value: Option<Box<dyn Fn() -> Vec<ComponentValue>>> = $value;
+
+                    if let Some(value) = value {
+                        self.added_declarations.push(Box::new(Declaration {
+                            span: n.span,
+                            name,
+                            value: value(),
+                            important: n.important.clone(),
+                        }));
+                    } else {
+                        self.added_declarations.push(Box::new(Declaration {
+                            span: n.span,
+                            name,
+                            value: n.value.clone(),
+                            important: n.important.clone(),
+                        }));
+                    }
+                }
+            }};
         }
 
         let property_name = &*name.to_ascii_lowercase();
@@ -1968,6 +2008,22 @@ impl VisitMut for Prefixer {
                         old_spec_ms_value
                     }))
                 );
+            }
+
+            "opacity" if should_prefix("opacity", self.env, true) => {
+                let old_value = match n.value.get(0) {
+                    Some(ComponentValue::Percentage(percentage)) => Some(percentage.value.value),
+                    _ => None,
+                };
+
+                if let Some(old_value) = old_value {
+                    let rounded_alpha = (old_value * 1000.0).round() / 100000.0;
+
+                    add_declaration!(
+                        "opacity",
+                        Some(Box::new(|| { vec![to_number!(rounded_alpha)] }))
+                    );
+                }
             }
 
             "order" => {
