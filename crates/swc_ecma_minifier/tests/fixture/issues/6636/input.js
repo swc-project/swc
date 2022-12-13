@@ -26,10 +26,6 @@ export function memo(getDeps, fn, opts) {
           }
           return str;
         };
-        console.info(`%c⏱ ${pad(resultEndTime, 5)} /${pad(depEndTime, 5)} ms`, `
-      font-size: .6rem;
-      font-weight: bold;
-      color: hsl(${Math.max(0, Math.min(120 - 120 * resultFpsPercentage, 120))}deg 100% 31%);`, opts?.key);
       }
     }
     return result;
