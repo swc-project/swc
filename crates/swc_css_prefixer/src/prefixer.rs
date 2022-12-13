@@ -577,6 +577,28 @@ impl VisitMut for CalcReplacer<'_> {
                     expressions: calc_sum.expressions,
                 });
             }
+pub struct FontFaceFormat {}
+
+impl VisitMut for FontFaceFormat {
+    fn visit_mut_function(&mut self, n: &mut Function) {
+        n.visit_mut_children_with(self);
+
+        if !n.name.value.eq_ignore_ascii_case(&js_word!("format")) {
+            return;
+        }
+
+        if n.value.len() != 1 {
+            return;
+        }
+
+        if let Some(ComponentValue::Ident(box ident)) = n.value.get(0) {
+            let new_value = Str {
+                value: ident.value.clone(),
+                span: ident.span,
+                raw: None,
+            };
+
+            n.value = vec![ComponentValue::Str(Box::new(new_value))];
         }
     }
 }
@@ -589,6 +611,11 @@ where
         inside_calc: false,
         to,
     });
+pub fn font_face_format<N>(node: &mut N)
+where
+    N: VisitMutWith<FontFaceFormat>,
+{
+    node.visit_mut_with(&mut FontFaceFormat {});
 }
 
 macro_rules! to_ident {
@@ -3292,6 +3319,16 @@ impl VisitMut for Prefixer {
             "border-bottom-left-radius" => {
                 add_declaration!(Prefix::Webkit, "-webkit-border-bottom-left-radius", None);
                 add_declaration!(Prefix::Moz, "-moz-border-radius-bottomleft", None);
+            }
+
+            "src" => {
+                let mut new_declaration = n.clone();
+
+                font_face_format(&mut new_declaration);
+
+                if n.value != new_declaration.value {
+                    self.added_declarations.push(Box::new(new_declaration));
+                }
             }
 
             // TODO add `grid` support https://github.com/postcss/autoprefixer/tree/main/lib/hacks (starting with grid)

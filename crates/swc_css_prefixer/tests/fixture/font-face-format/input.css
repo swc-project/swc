@@ -1,0 +1,19 @@
+@font-face {
+    src: format(woff);
+}
+
+@font-face {
+    src: url(a) format(woff), url(b) format(svg);
+}
+
+@font-face {
+    src: format(woff), format(truetype), format(opentype), format(woff2), format(embedded-opentype), format(collection), format(svg);
+}
+
+@Font-face {
+    src: FORMAT(WOFF)
+}
+
+@font-face {
+    src: format("woff");
+}
