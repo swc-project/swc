@@ -11,6 +11,9 @@
 - **(css/minifier)** Fix compression of timing functions (#6618) ([59e8bf4](https://github.com/swc-project/swc/commit/59e8bf49761c9f2434dcfb18153f93234d3d69a7))
 
 
+- **(css/minifier)** Fix minification of `@supports` at-rule (#6632) ([d3fbfff](https://github.com/swc-project/swc/commit/d3fbfffb32a4bd91c5faa27e708eccb08c8189b9))
+
+
 - **(es/codegen)** Don't print trailing coma for a rest argument (#6610) ([68d76af](https://github.com/swc-project/swc/commit/68d76afe5d99f834dd4578cc50bd48624f76c21d))
 
 
