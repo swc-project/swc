@@ -16,7 +16,6 @@ pub fn fixer(comments: Option<&dyn Comments>) -> impl '_ + Fold + VisitMut {
         ctx: Default::default(),
         span_map: Default::default(),
         in_for_stmt_head: Default::default(),
-        in_assign_lhs: Default::default(),
         remove_only: false,
     })
 }
@@ -27,7 +26,6 @@ pub fn paren_remover(comments: Option<&dyn Comments>) -> impl '_ + Fold + VisitM
         ctx: Default::default(),
         span_map: Default::default(),
         in_for_stmt_head: Default::default(),
-        in_assign_lhs: Default::default(),
         remove_only: true,
     })
 }
@@ -42,7 +40,6 @@ struct Fixer<'a> {
     span_map: FxHashMap<Span, Span>,
 
     in_for_stmt_head: bool,
-    in_assign_lhs: bool,
 
     remove_only: bool,
 }
@@ -155,18 +152,13 @@ impl VisitMut for Fixer<'_> {
     }
 
     fn visit_mut_assign_expr(&mut self, expr: &mut AssignExpr) {
-        let old = self.in_assign_lhs;
-
-        self.in_assign_lhs = true;
         expr.left.visit_mut_with(self);
 
         let ctx = self.ctx;
         self.ctx = Context::FreeExpr;
-        self.in_assign_lhs = false;
         expr.right.visit_mut_with(self);
 
         self.ctx = ctx;
-        self.in_assign_lhs = old;
 
         fn rhs_need_paren(e: &Expr) -> bool {
             match e {
