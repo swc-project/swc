@@ -1,13 +1,14 @@
 use swc_common::{Spanned, DUMMY_SP};
 use swc_css_ast::{
-    AtRule, MediaAnd, MediaCondition, MediaConditionAllType, MediaConditionWithoutOr,
-    MediaInParens, MediaQuery, Rule,
+    AtRule, ComponentValue, MediaAnd, MediaCondition, MediaConditionAllType,
+    MediaConditionWithoutOr, MediaInParens, MediaQuery, Rule,
 };
 use swc_css_visit::{VisitMut, VisitMutWith};
 
 use self::custom_media::CustomMediaHandler;
 use crate::feature::Features;
 
+mod color_hex_alpha;
 mod custom_media;
 mod media_query_ranges;
 
@@ -103,6 +104,14 @@ impl VisitMut for Compiler {
                     }
                 }
             }
+        }
+    }
+
+    fn visit_mut_component_value(&mut self, n: &mut ComponentValue) {
+        n.visit_mut_children_with(self);
+
+        if self.c.process.contains(Features::COLOR_HEX_ALPHA) {
+            self.process_color_hex_alpha(n);
         }
     }
 }

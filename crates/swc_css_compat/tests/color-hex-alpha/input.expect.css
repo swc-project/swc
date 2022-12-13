@@ -1,0 +1,36 @@
+body {
+  background: #9d9 linear-gradient(rgba(152, 35, 248, 0.663), rgba(152, 35, 248, 0.204));
+  color: red;
+  color: #f00;
+  color: #f00;
+  color: #FC0;
+  color: #0000ff;
+  color: rgba(0, 0, 255, 0);
+  color: #FFFFFF;
+  content: "#f00";
+  content: "#0000ff00";
+}
+body {
+  background-color: rgba(243, 243, 243, 0.953);
+  color: rgba(0, 0, 0, 0.2);
+}
+#svg-element {
+  clip-path: url(#SVGID_1_);
+  clip-path: url(#aaaa);
+}
+.other {
+  background: #ff0099;
+  background: #ff0099;
+  background: rgba(255, 0, 153, 0);
+}
+.short {
+  color: #fff;
+  color: #ffffff;
+  color: #abdabc;
+  color: #000000;
+  color: #abc;
+  color: #ff0;
+  color: #000;
+  color: rgba(0, 0, 0, 0);
+  color: rgba(0, 0, 17, 0.933);
+}
