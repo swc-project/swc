@@ -208,3 +208,10 @@
         color: red;
     }
 }
+
+@supports (animation: fade 3s cubic-bezier(0.25, 0.1, 0.25, 1)) {
+    a {
+        /* it is safe to compress inside block */
+        animation: fade 3s cubic-bezier(0.25, 0.1, 0.25, 1)
+    }
+}

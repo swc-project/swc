@@ -45,7 +45,7 @@ use swc_ecma_usage_analyzer::marks::Marks;
 use swc_ecma_visit::VisitMutWith;
 use swc_timer::timer;
 
-pub use crate::pass::unique_scope::unique_scope;
+pub use crate::pass::{global_defs::globals_defs, unique_scope::unique_scope};
 use crate::{
     compress::{compressor, pure_optimizer, PureOptimizerConfig},
     metadata::info_marker,

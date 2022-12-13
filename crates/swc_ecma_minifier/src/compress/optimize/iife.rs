@@ -15,7 +15,7 @@ use crate::debug::dump;
 use crate::{
     compress::optimize::{util::Remapper, Ctx},
     mode::Mode,
-    util::{idents_captured_by, idents_used_by, make_number},
+    util::{contains_eval, idents_captured_by, idents_used_by, make_number},
 };
 
 /// Methods related to the option `negate_iife`.
@@ -726,6 +726,13 @@ where
                     }
                 }
             }
+        }
+
+        // Abort on eval.
+        // See https://github.com/swc-project/swc/pull/6478
+        if contains_eval(body, false) {
+            log_abort!("iife: [x] Aborting because of eval");
+            return false;
         }
 
         if self.ctx.executed_multiple_time {
