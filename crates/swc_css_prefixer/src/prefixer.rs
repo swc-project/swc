@@ -5,7 +5,7 @@ use std::mem::take;
 
 use once_cell::sync::Lazy;
 use preset_env_base::{query::targets_to_versions, version::Version, BrowserData, Versions};
-use swc_atoms::js_word;
+use swc_atoms::{js_word, JsWord};
 use swc_common::{
     collections::{AHashMap, AHashSet},
     EqIgnoreSpan, DUMMY_SP,
@@ -517,24 +517,30 @@ where
 
 struct CalcReplacer<'a> {
     inside_calc: bool,
-    to: &'a str,
+    to: &'a JsWord,
 }
 
 impl VisitMut for CalcReplacer<'_> {
     fn visit_mut_function(&mut self, n: &mut Function) {
         let old_inside_calc = self.inside_calc;
 
-        let is_calc = matches!(
-            n.name.value.to_ascii_lowercase(),
+        let name = n.name.value.to_ascii_lowercase();
+
+        if (name == js_word!("-webkit-calc") && self.to == &js_word!("-moz-calc"))
+            || (name == js_word!("-moz-calc") && self.to == &js_word!("-webkit-calc"))
+        {
+            return;
+        }
+
+        self.inside_calc = matches!(
+            name,
             js_word!("calc") | js_word!("-webkit-calc") | js_word!("-moz-calc")
         );
 
-        self.inside_calc = is_calc;
-
         n.visit_mut_children_with(self);
 
-        if is_calc {
-            n.name.value = self.to.into();
+        if matches!(name, js_word!("calc")) {
+            n.name.value = self.to.clone();
             n.name.raw = None;
         }
 
@@ -569,7 +575,7 @@ impl VisitMut for CalcReplacer<'_> {
     }
 }
 
-fn replace_calc<N>(node: &mut N, to: &str)
+fn replace_calc<N>(node: &mut N, to: &JsWord)
 where
     N: for<'aa> VisitMutWith<CalcReplacer<'aa>>,
 {
@@ -1307,7 +1313,7 @@ impl VisitMut for Prefixer {
             }
 
             if should_prefix("-webkit-calc()", self.env, false) {
-                replace_calc(&mut webkit_value, "-webkit-calc");
+                replace_calc(&mut webkit_value, &js_word!("-webkit-calc"));
             }
 
             if should_prefix("-webkit-cross-fade()", self.env, false) {
@@ -1359,7 +1365,7 @@ impl VisitMut for Prefixer {
             }
 
             if should_prefix("-moz-calc()", self.env, false) {
-                replace_calc(&mut moz_value, "-moz-calc");
+                replace_calc(&mut moz_value, &js_word!("-moz-calc"));
             }
 
             if should_prefix("-moz-linear-gradient()", self.env, false) {
