@@ -40,24 +40,12 @@
                             ...options.state
                         },
                         onStateChange: (updater)=>{
-                            setState(updater);
-                            options.onStateChange?.(updater);
+                            setState(updater), options.onStateChange?.(updater);
                         }
                     })), tableRef.current;
             }
         },
         7060: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
-            __webpack_require__.d(__webpack_exports__, {
-                Cl: function() {
-                    return createColumnHelper;
-                },
-                W_: function() {
-                    return createTable;
-                },
-                sC: function() {
-                    return getCoreRowModel;
-                }
-            });
             function functionalUpdate(updater, input) {
                 return 'function' == typeof updater ? updater(input) : updater;
             }
@@ -73,21 +61,15 @@
                 return d instanceof Function;
             }
             function memo(getDeps, fn, opts) {
-                let deps = [], result;
+                let result, deps = [];
                 return ()=>{
-                    let depTime;
+                    let depTime, resultTime;
                     opts.key && opts.debug && (depTime = Date.now());
                     const newDeps = getDeps(), depsChanged = newDeps.length !== deps.length || newDeps.some((dep, index)=>deps[index] !== dep);
                     if (!depsChanged) return result;
-                    deps = newDeps;
-                    let resultTime;
-                    opts.key && opts.debug && (resultTime = Date.now());
-                    result = fn(...newDeps);
-                    opts?.onChange?.(result);
-                    if (opts.key && opts.debug && opts?.debug()) {
+                    if (deps = newDeps, opts.key && opts.debug && (resultTime = Date.now()), result = fn(...newDeps), opts?.onChange?.(result), opts.key && opts.debug && opts?.debug()) {
                         const depEndTime = Math.round((Date.now() - depTime) * 100) / 100, resultEndTime = Math.round((Date.now() - resultTime) * 100) / 100, pad = (str, num)=>{
-                            str = String(str);
-                            for(; str.length < num;)str = ' ' + str;
+                            for(str = String(str); str.length < num;)str = ' ' + str;
                             return str;
                         };
                         console.info(`%c⏱ ${pad(resultEndTime, 5)} /${pad(depEndTime, 5)} ms`, `
@@ -114,8 +96,7 @@
                     headerGroup: null,
                     getLeafHeaders: ()=>{
                         const leafHeaders = [], recurseHeader = (h)=>{
-                            h.subHeaders && h.subHeaders.length && h.subHeaders.map(recurseHeader);
-                            leafHeaders.push(h);
+                            h.subHeaders && h.subHeaders.length && h.subHeaders.map(recurseHeader), leafHeaders.push(h);
                         };
                         return recurseHeader(header), leafHeaders;
                     },
@@ -133,9 +114,7 @@
                 var _headerGroups$0$heade;
                 let maxDepth = 0;
                 const findMaxDepth = function(columns, depth) {
-                    void 0 === depth && (depth = 1);
-                    maxDepth = Math.max(maxDepth, depth);
-                    columns.filter((column)=>column.getIsVisible()).forEach((column)=>{
+                    void 0 === depth && (depth = 1), maxDepth = Math.max(maxDepth, depth), columns.filter((column)=>column.getIsVisible()).forEach((column)=>{
                         column.columns?.length && findMaxDepth(column.columns, depth + 1);
                     }, 0);
                 };
@@ -151,16 +130,12 @@
                         headers: []
                     }, pendingParentHeaders = [];
                     headersToGroup.forEach((headerToGroup)=>{
+                        let column;
                         const latestPendingParentHeader = [
                             ...pendingParentHeaders
                         ].reverse()[0], isLeafHeader = headerToGroup.column.depth === headerGroup.depth;
-                        let column, isPlaceholder = !1;
-                        if (isLeafHeader && headerToGroup.column.parent) column = headerToGroup.column.parent;
-                        else {
-                            column = headerToGroup.column;
-                            isPlaceholder = !0;
-                        }
-                        if (latestPendingParentHeader && latestPendingParentHeader?.column === column) latestPendingParentHeader.subHeaders.push(headerToGroup);
+                        let isPlaceholder = !1;
+                        if (isLeafHeader && headerToGroup.column.parent ? column = headerToGroup.column.parent : (column = headerToGroup.column, isPlaceholder = !0), latestPendingParentHeader && latestPendingParentHeader?.column === column) latestPendingParentHeader.subHeaders.push(headerToGroup);
                         else {
                             const header = createHeader(table, column, {
                                 id: [
@@ -174,34 +149,25 @@
                                 depth,
                                 index: pendingParentHeaders.length
                             });
-                            header.subHeaders.push(headerToGroup);
-                            pendingParentHeaders.push(header);
+                            header.subHeaders.push(headerToGroup), pendingParentHeaders.push(header);
                         }
-                        headerGroup.headers.push(headerToGroup);
-                        headerToGroup.headerGroup = headerGroup;
-                    });
-                    headerGroups.push(headerGroup);
-                    depth > 0 && createHeaderGroup(pendingParentHeaders, depth - 1);
+                        headerGroup.headers.push(headerToGroup), headerToGroup.headerGroup = headerGroup;
+                    }), headerGroups.push(headerGroup), depth > 0 && createHeaderGroup(pendingParentHeaders, depth - 1);
                 }, bottomHeaders = columnsToGroup.map((column, index)=>createHeader(table, column, {
                         depth: maxDepth,
                         index
                     }));
-                createHeaderGroup(bottomHeaders, maxDepth - 1);
-                headerGroups.reverse();
+                createHeaderGroup(bottomHeaders, maxDepth - 1), headerGroups.reverse();
                 const recurseHeadersForSpans = (headers)=>{
                     const filteredHeaders = headers.filter((header)=>header.column.getIsVisible());
                     return filteredHeaders.map((header)=>{
                         let colSpan = 0, rowSpan = 0, childRowSpans = [
                             0
                         ];
-                        if (header.subHeaders && header.subHeaders.length) {
-                            childRowSpans = [];
-                            recurseHeadersForSpans(header.subHeaders).forEach((_ref)=>{
-                                let { colSpan: childColSpan , rowSpan: childRowSpan  } = _ref;
-                                colSpan += childColSpan;
-                                childRowSpans.push(childRowSpan);
-                            });
-                        } else colSpan = 1;
+                        header.subHeaders && header.subHeaders.length ? (childRowSpans = [], recurseHeadersForSpans(header.subHeaders).forEach((_ref)=>{
+                            let { colSpan: childColSpan , rowSpan: childRowSpan  } = _ref;
+                            colSpan += childColSpan, childRowSpans.push(childRowSpan);
+                        })) : colSpan = 1;
                         const minChildRowSpan = Math.min(...childRowSpans);
                         return rowSpan += minChildRowSpan, header.colSpan = colSpan, header.rowSpan = rowSpan, {
                             colSpan,
@@ -211,6 +177,17 @@
                 };
                 return recurseHeadersForSpans(null != (_headerGroups$0$heade = headerGroups[0]?.headers) ? _headerGroups$0$heade : []), headerGroups;
             }
+            __webpack_require__.d(__webpack_exports__, {
+                Cl: function() {
+                    return createColumnHelper;
+                },
+                W_: function() {
+                    return createTable;
+                },
+                sC: function() {
+                    return getCoreRowModel;
+                }
+            });
             const defaultColumnSizing = {
                 size: 150,
                 minSize: 20,
@@ -255,15 +232,13 @@
                 let [unsafeMin, unsafeMax] = val, parsedMin = 'number' != typeof unsafeMin ? parseFloat(unsafeMin) : unsafeMin, parsedMax = 'number' != typeof unsafeMax ? parseFloat(unsafeMax) : unsafeMax, min = null === unsafeMin || Number.isNaN(parsedMin) ? -1 / 0 : parsedMin, max = null === unsafeMax || Number.isNaN(parsedMax) ? 1 / 0 : parsedMax;
                 if (min > max) {
                     const temp = min;
-                    min = max;
-                    max = temp;
+                    min = max, max = temp;
                 }
                 return [
                     min,
                     max
                 ];
-            };
-            inNumberRange.autoRemove = (val)=>testFalsey(val) || testFalsey(val[0]) && testFalsey(val[1]);
+            }, inNumberRange.autoRemove = (val)=>testFalsey(val) || testFalsey(val[0]) && testFalsey(val[1]);
             const filterFns = {
                 includesString,
                 includesStringSensitive,
@@ -300,33 +275,23 @@
                 let min, max;
                 return childRows.forEach((row)=>{
                     const value = row.getValue(columnId);
-                    if (null != value) {
-                        if (void 0 === min) value >= value && (min = max = value);
-                        else {
-                            min > value && (min = value);
-                            max < value && (max = value);
-                        }
-                    }
+                    null != value && (void 0 === min ? value >= value && (min = max = value) : (min > value && (min = value), max < value && (max = value)));
                 }), [
                     min,
                     max
                 ];
             }, mean = (columnId, leafRows)=>{
                 let count = 0, sum = 0;
-                leafRows.forEach((row)=>{
+                if (leafRows.forEach((row)=>{
                     let value = row.getValue(columnId);
                     null != value && (value = +value) >= value && (++count, sum += value);
-                });
-                if (count) return sum / count;
+                }), count) return sum / count;
             }, median = (columnId, leafRows)=>{
                 if (!leafRows.length) return;
                 let min = 0, max = 0;
                 return leafRows.forEach((row)=>{
                     let value = row.getValue(columnId);
-                    if ('number' == typeof value) {
-                        min = Math.min(min, value);
-                        max = Math.max(max, value);
-                    }
+                    'number' == typeof value && (min = Math.min(min, value), max = Math.max(max, value));
                 }), (min + max) / 2;
             }, unique = (columnId, leafRows)=>Array.from(new Set(leafRows.map((d)=>d.getValue(columnId))).values()), aggregationFns = {
                 sum,
@@ -346,25 +311,16 @@
                     right: []
                 }), mutateRowIsSelected = (selectedRowIds, id, value, table)=>{
                 const row = table.getRow(id);
-                if (value) {
-                    row.getCanMultiSelect() || Object.keys(selectedRowIds).forEach((key)=>delete selectedRowIds[key]);
-                    row.getCanSelect() && (selectedRowIds[id] = !0);
-                } else delete selectedRowIds[id];
-                row.subRows?.length && row.getCanSelectSubRows() && row.subRows.forEach((row)=>mutateRowIsSelected(selectedRowIds, row.id, value, table));
+                value ? (row.getCanMultiSelect() || Object.keys(selectedRowIds).forEach((key)=>delete selectedRowIds[key]), row.getCanSelect() && (selectedRowIds[id] = !0)) : delete selectedRowIds[id], row.subRows?.length && row.getCanSelectSubRows() && row.subRows.forEach((row)=>mutateRowIsSelected(selectedRowIds, row.id, value, table));
             };
             function selectRowsFn(table, rowModel) {
                 const rowSelection = table.getState().rowSelection, newSelectedFlatRows = [], newSelectedRowsById = {}, recurseRows = function(rows, depth) {
                     return rows.map((row)=>{
                         const isSelected = isRowSelected(row, rowSelection);
-                        if (isSelected) {
-                            newSelectedFlatRows.push(row);
-                            newSelectedRowsById[row.id] = row;
-                        }
-                        row.subRows?.length && (row = {
+                        if (isSelected && (newSelectedFlatRows.push(row), newSelectedRowsById[row.id] = row), row.subRows?.length && (row = {
                             ...row,
                             subRows: recurseRows(row.subRows)
-                        });
-                        if (isSelected) return row;
+                        }), isSelected) return row;
                     }).filter(Boolean);
                 };
                 return {
@@ -691,8 +647,7 @@
                             },
                             toggleAllColumnsVisible: (value)=>{
                                 var _value;
-                                value = null != (_value = value) ? _value : !table.getIsAllColumnsVisible();
-                                table.setColumnVisibility(table.getAllLeafColumns().reduce((obj, column)=>({
+                                value = null != (_value = value) ? _value : !table.getIsAllColumnsVisible(), table.setColumnVisibility(table.getAllLeafColumns().reduce((obj, column)=>({
                                         ...obj,
                                         [column.id]: value || !column.getCanHide?.()
                                     }), {}));
@@ -767,28 +722,20 @@
                             pin: (position)=>{
                                 const columnIds = column.getLeafColumns().map((d)=>d.id).filter(Boolean);
                                 table.setColumnPinning((old)=>{
-                                    var _old$left3, _old$right3;
-                                    if ('right' === position) {
-                                        var _old$left, _old$right;
-                                        return {
-                                            left: (null != (_old$left = old?.left) ? _old$left : []).filter((d)=>!columnIds?.includes(d)),
-                                            right: [
-                                                ...(null != (_old$right = old?.right) ? _old$right : []).filter((d)=>!columnIds?.includes(d)),
-                                                ...columnIds
-                                            ]
-                                        };
-                                    }
-                                    if ('left' === position) {
-                                        var _old$left2, _old$right2;
-                                        return {
-                                            left: [
-                                                ...(null != (_old$left2 = old?.left) ? _old$left2 : []).filter((d)=>!columnIds?.includes(d)),
-                                                ...columnIds
-                                            ],
-                                            right: (null != (_old$right2 = old?.right) ? _old$right2 : []).filter((d)=>!columnIds?.includes(d))
-                                        };
-                                    }
-                                    return {
+                                    var _old$left3, _old$right3, _old$left, _old$right, _old$left2, _old$right2;
+                                    return 'right' === position ? {
+                                        left: (null != (_old$left = old?.left) ? _old$left : []).filter((d)=>!columnIds?.includes(d)),
+                                        right: [
+                                            ...(null != (_old$right = old?.right) ? _old$right : []).filter((d)=>!columnIds?.includes(d)),
+                                            ...columnIds
+                                        ]
+                                    } : 'left' === position ? {
+                                        left: [
+                                            ...(null != (_old$left2 = old?.left) ? _old$left2 : []).filter((d)=>!columnIds?.includes(d)),
+                                            ...columnIds
+                                        ],
+                                        right: (null != (_old$right2 = old?.right) ? _old$right2 : []).filter((d)=>!columnIds?.includes(d))
+                                    } : {
                                         left: (null != (_old$left3 = old?.left) ? _old$left3 : []).filter((d)=>!columnIds?.includes(d)),
                                         right: (null != (_old$right3 = old?.right) ? _old$right3 : []).filter((d)=>!columnIds?.includes(d))
                                     };
@@ -957,20 +904,14 @@
                             },
                             setFilterValue: (value)=>{
                                 table.setColumnFilters((old)=>{
+                                    var _old$filter, _old$map;
                                     const filterFn = column.getFilterFn(), previousfilter = old?.find((d)=>d.id === column.id), newFilter = functionalUpdate(value, previousfilter ? previousfilter.value : void 0);
-                                    if (shouldAutoRemoveFilter(filterFn, newFilter, column)) {
-                                        var _old$filter;
-                                        return null != (_old$filter = old?.filter((d)=>d.id !== column.id)) ? _old$filter : [];
-                                    }
+                                    if (shouldAutoRemoveFilter(filterFn, newFilter, column)) return null != (_old$filter = old?.filter((d)=>d.id !== column.id)) ? _old$filter : [];
                                     const newFilterObj = {
                                         id: column.id,
                                         value: newFilter
                                     };
-                                    if (previousfilter) {
-                                        var _old$map;
-                                        return null != (_old$map = old?.map((d)=>d.id === column.id ? newFilterObj : d)) ? _old$map : [];
-                                    }
-                                    return old?.length ? [
+                                    return previousfilter ? null != (_old$map = old?.map((d)=>d.id === column.id ? newFilterObj : d)) ? _old$map : [] : old?.length ? [
                                         ...old,
                                         newFilterObj
                                     ] : [
@@ -1050,10 +991,7 @@
                                 for (const row of firstRows){
                                     const value = row?.getValue(column.id);
                                     if ('[object Date]' === Object.prototype.toString.call(value)) return sortingFns.datetime;
-                                    if ('string' == typeof value) {
-                                        isString = !0;
-                                        if (value.split(reSplitAlphaNumeric).length > 1) return sortingFns.alphanumeric;
-                                    }
+                                    if ('string' == typeof value && (isString = !0, value.split(reSplitAlphaNumeric).length > 1)) return sortingFns.alphanumeric;
                                 }
                                 return isString ? sortingFns.text : sortingFns.basic;
                             },
@@ -1069,11 +1007,10 @@
                             toggleSorting: (desc, multi)=>{
                                 const nextSortingOrder = column.getNextSortingOrder(), hasManualValue = null != desc;
                                 table.setSorting((old)=>{
+                                    let sortAction;
                                     const existingSorting = old?.find((d)=>d.id === column.id), existingIndex = old?.findIndex((d)=>d.id === column.id);
-                                    let newSorting = [], sortAction, nextDesc = hasManualValue ? desc : 'desc' === nextSortingOrder;
-                                    sortAction = old?.length && column.getCanMultiSort() && multi ? existingSorting ? 'toggle' : 'add' : old?.length && existingIndex !== old.length - 1 ? 'replace' : existingSorting ? 'toggle' : 'replace';
-                                    'toggle' !== sortAction || hasManualValue || nextSortingOrder || (sortAction = 'remove');
-                                    if ('add' === sortAction) {
+                                    let newSorting = [], nextDesc = hasManualValue ? desc : 'desc' === nextSortingOrder;
+                                    if (sortAction = old?.length && column.getCanMultiSort() && multi ? existingSorting ? 'toggle' : 'add' : old?.length && existingIndex !== old.length - 1 ? 'replace' : existingSorting ? 'toggle' : 'replace', 'toggle' !== sortAction || hasManualValue || nextSortingOrder || (sortAction = 'remove'), 'add' === sortAction) {
                                         var _table$options$maxMul;
                                         newSorting = [
                                             ...old,
@@ -1081,8 +1018,7 @@
                                                 id: column.id,
                                                 desc: nextDesc
                                             }
-                                        ];
-                                        newSorting.splice(0, newSorting.length - (null != (_table$options$maxMul = table.options.maxMultiSortColCount) ? _table$options$maxMul : Number.MAX_SAFE_INTEGER));
+                                        ], newSorting.splice(0, newSorting.length - (null != (_table$options$maxMul = table.options.maxMultiSortColCount) ? _table$options$maxMul : Number.MAX_SAFE_INTEGER));
                                     } else newSorting = 'toggle' === sortAction ? old.map((d)=>d.id === column.id ? {
                                             ...d,
                                             desc: nextDesc
@@ -1127,10 +1063,7 @@
                             getToggleSortingHandler: ()=>{
                                 const canSort = column.getCanSort();
                                 return (e)=>{
-                                    if (canSort) {
-                                        e.persist?.();
-                                        column.toggleSorting?.(void 0, !!column.getCanMultiSort() && table.options.isMultiSortEvent?.(e));
-                                    }
+                                    canSort && (e.persist?.(), column.toggleSorting?.(void 0, !!column.getCanMultiSort() && table.options.isMultiSortEvent?.(e)));
                                 };
                             }
                         }),
@@ -1230,10 +1163,8 @@
                                 }
                                 if (null != (_ref = null != (_table$options$autoRe = table.options.autoResetAll) ? _table$options$autoRe : table.options.autoResetExpanded) ? _ref : !table.options.manualExpanding) {
                                     if (queued) return;
-                                    queued = !0;
-                                    table._queue(()=>{
-                                        table.resetExpanded();
-                                        queued = !1;
+                                    queued = !0, table._queue(()=>{
+                                        table.resetExpanded(), queued = !1;
                                     });
                                 }
                             },
@@ -1247,8 +1178,7 @@
                             },
                             getCanSomeRowsExpand: ()=>table.getRowModel().flatRows.some((row)=>row.getCanExpand()),
                             getToggleAllRowsExpandedHandler: ()=>(e)=>{
-                                    e.persist?.();
-                                    table.toggleAllRowsExpanded();
+                                    e.persist?.(), table.toggleAllRowsExpanded();
                                 },
                             getIsSomeRowsExpanded: ()=>{
                                 const expanded = table.getState().expanded;
@@ -1276,11 +1206,9 @@
                                     var _expanded;
                                     const exists = !0 === old || !!old?.[row.id];
                                     let oldExpanded = {};
-                                    !0 === old ? Object.keys(table.getRowModel().rowsById).forEach((rowId)=>{
+                                    if (!0 === old ? Object.keys(table.getRowModel().rowsById).forEach((rowId)=>{
                                         oldExpanded[rowId] = !0;
-                                    }) : oldExpanded = old;
-                                    expanded = null != (_expanded = expanded) ? _expanded : !exists;
-                                    if (!exists && expanded) return {
+                                    }) : oldExpanded = old, expanded = null != (_expanded = expanded) ? _expanded : !exists, !exists && expanded) return {
                                         ...oldExpanded,
                                         [row.id]: !0
                                     };
@@ -1332,10 +1260,8 @@
                                 }
                                 if (null != (_ref = null != (_table$options$autoRe = table.options.autoResetAll) ? _table$options$autoRe : table.options.autoResetPageIndex) ? _ref : !table.options.manualPagination) {
                                     if (queued) return;
-                                    queued = !0;
-                                    table._queue(()=>{
-                                        table.resetPageIndex();
-                                        queued = !1;
+                                    queued = !0, table._queue(()=>{
+                                        table.resetPageIndex(), queued = !1;
                                     });
                                 }
                             },
@@ -1527,8 +1453,7 @@
                             toggleSelected: (value)=>{
                                 const isSelected = row.getIsSelected();
                                 table.setRowSelection((old)=>{
-                                    value = void 0 !== value ? value : !isSelected;
-                                    if (isSelected === value) return old;
+                                    if (value = void 0 !== value ? value : !isSelected, isSelected === value) return old;
                                     const selectedRowIds = {
                                         ...old
                                     };
@@ -1627,9 +1552,7 @@
                             getResizeHandler: ()=>{
                                 const column = table.getColumn(header.column.id), canResize = column.getCanResize();
                                 return (e)=>{
-                                    if (!canResize) return;
-                                    e.persist?.();
-                                    if (isTouchStartEvent(e) && e.touches && e.touches.length > 1) return;
+                                    if (!canResize || (e.persist?.(), isTouchStartEvent(e) && e.touches && e.touches.length > 1)) return;
                                     const startSize = header.getSize(), columnSizingStart = header ? header.getLeafHeaders().map((d)=>[
                                             d.column.id,
                                             d.column.getSize()
@@ -1639,27 +1562,23 @@
                                             column.getSize()
                                         ]
                                     ], clientX = isTouchStartEvent(e) ? Math.round(e.touches[0].clientX) : e.clientX, newColumnSizing = {}, updateOffset = (eventType, clientXPos)=>{
-                                        if ('number' == typeof clientXPos) {
-                                            table.setColumnSizingInfo((old)=>{
-                                                var _old$startOffset, _old$startSize;
-                                                const deltaOffset = clientXPos - (null != (_old$startOffset = old?.startOffset) ? _old$startOffset : 0), deltaPercentage = Math.max(deltaOffset / (null != (_old$startSize = old?.startSize) ? _old$startSize : 0), -0.999999);
-                                                return old.columnSizingStart.forEach((_ref3)=>{
-                                                    let [columnId, headerSize] = _ref3;
-                                                    newColumnSizing[columnId] = Math.round(100 * Math.max(headerSize + headerSize * deltaPercentage, 0)) / 100;
-                                                }), {
-                                                    ...old,
-                                                    deltaOffset,
-                                                    deltaPercentage
-                                                };
-                                            });
-                                            ('onChange' === table.options.columnResizeMode || 'end' === eventType) && table.setColumnSizing((old)=>({
-                                                    ...old,
-                                                    ...newColumnSizing
-                                                }));
-                                        }
+                                        'number' == typeof clientXPos && (table.setColumnSizingInfo((old)=>{
+                                            var _old$startOffset, _old$startSize;
+                                            const deltaOffset = clientXPos - (null != (_old$startOffset = old?.startOffset) ? _old$startOffset : 0), deltaPercentage = Math.max(deltaOffset / (null != (_old$startSize = old?.startSize) ? _old$startSize : 0), -0.999999);
+                                            return old.columnSizingStart.forEach((_ref3)=>{
+                                                let [columnId, headerSize] = _ref3;
+                                                newColumnSizing[columnId] = Math.round(100 * Math.max(headerSize + headerSize * deltaPercentage, 0)) / 100;
+                                            }), {
+                                                ...old,
+                                                deltaOffset,
+                                                deltaPercentage
+                                            };
+                                        }), ('onChange' === table.options.columnResizeMode || 'end' === eventType) && table.setColumnSizing((old)=>({
+                                                ...old,
+                                                ...newColumnSizing
+                                            })));
                                     }, onMove = (clientXPos)=>updateOffset('move', clientXPos), onEnd = (clientXPos)=>{
-                                        updateOffset('end', clientXPos);
-                                        table.setColumnSizingInfo((old)=>({
+                                        updateOffset('end', clientXPos), table.setColumnSizingInfo((old)=>({
                                                 ...old,
                                                 isResizingColumn: !1,
                                                 startOffset: null,
@@ -1671,26 +1590,12 @@
                                     }, mouseEvents = {
                                         moveHandler: (e)=>onMove(e.clientX),
                                         upHandler: (e)=>{
-                                            document.removeEventListener('mousemove', mouseEvents.moveHandler);
-                                            document.removeEventListener('mouseup', mouseEvents.upHandler);
-                                            onEnd(e.clientX);
+                                            document.removeEventListener('mousemove', mouseEvents.moveHandler), document.removeEventListener('mouseup', mouseEvents.upHandler), onEnd(e.clientX);
                                         }
                                     }, touchEvents = {
-                                        moveHandler: (e)=>{
-                                            if (e.cancelable) {
-                                                e.preventDefault();
-                                                e.stopPropagation();
-                                            }
-                                            return onMove(e.touches[0].clientX), !1;
-                                        },
+                                        moveHandler: (e)=>(e.cancelable && (e.preventDefault(), e.stopPropagation()), onMove(e.touches[0].clientX), !1),
                                         upHandler: (e)=>{
-                                            document.removeEventListener('touchmove', touchEvents.moveHandler);
-                                            document.removeEventListener('touchend', touchEvents.upHandler);
-                                            if (e.cancelable) {
-                                                e.preventDefault();
-                                                e.stopPropagation();
-                                            }
-                                            onEnd(e.touches[0]?.clientX);
+                                            document.removeEventListener('touchmove', touchEvents.moveHandler), document.removeEventListener('touchend', touchEvents.upHandler), e.cancelable && (e.preventDefault(), e.stopPropagation()), onEnd(e.touches[0]?.clientX);
                                         }
                                     }, passiveIfSupported = !!function() {
                                         if ('boolean' == typeof passiveSupported) return passiveSupported;
@@ -1698,12 +1603,10 @@
                                         try {
                                             const options = {
                                                 get passive () {
-                                                    supported = !0;
-                                                    return !1;
+                                                    return supported = !0, !1;
                                                 }
                                             }, noop = ()=>{};
-                                            window.addEventListener('test', noop, options);
-                                            window.removeEventListener('test', noop);
+                                            window.addEventListener('test', noop, options), window.removeEventListener('test', noop);
                                         } catch (err) {
                                             supported = !1;
                                         }
@@ -1711,14 +1614,7 @@
                                     }() && {
                                         passive: !1
                                     };
-                                    if (isTouchStartEvent(e)) {
-                                        document.addEventListener('touchmove', touchEvents.moveHandler, passiveIfSupported);
-                                        document.addEventListener('touchend', touchEvents.upHandler, passiveIfSupported);
-                                    } else {
-                                        document.addEventListener('mousemove', mouseEvents.moveHandler, passiveIfSupported);
-                                        document.addEventListener('mouseup', mouseEvents.upHandler, passiveIfSupported);
-                                    }
-                                    table.setColumnSizingInfo((old)=>({
+                                    isTouchStartEvent(e) ? (document.addEventListener('touchmove', touchEvents.moveHandler, passiveIfSupported), document.addEventListener('touchend', touchEvents.upHandler, passiveIfSupported)) : (document.addEventListener('mousemove', mouseEvents.moveHandler, passiveIfSupported), document.addEventListener('mouseup', mouseEvents.upHandler, passiveIfSupported)), table.setColumnSizingInfo((old)=>({
                                             ...old,
                                             startOffset: clientX,
                                             startSize,
@@ -1787,16 +1683,12 @@
                     },
                     initialState,
                     _queue: (cb)=>{
-                        queued.push(cb);
-                        if (!queuedTimeout) {
-                            queuedTimeout = !0;
-                            Promise.resolve().then(()=>{
-                                for(; queued.length;)queued.shift()();
-                                queuedTimeout = !1;
-                            }).catch((error)=>setTimeout(()=>{
-                                    throw error;
-                                }));
-                        }
+                        queued.push(cb), queuedTimeout || (queuedTimeout = !0, Promise.resolve().then(()=>{
+                            for(; queued.length;)queued.shift()();
+                            queuedTimeout = !1;
+                        }).catch((error)=>setTimeout(()=>{
+                                throw error;
+                            })));
                     },
                     reset: ()=>{
                         table.setState(table.initialState);
@@ -1854,17 +1746,17 @@
                             return void 0 === depth && (depth = 0), columnDefs.map((columnDef)=>{
                                 const column = function(table, columnDef, depth, parent) {
                                     var _ref, _resolvedColumnDef$id;
+                                    let accessorFn;
                                     const defaultColumn = table._getDefaultColumnDef(), resolvedColumnDef = {
                                         ...defaultColumn,
                                         ...columnDef
                                     }, accessorKey = resolvedColumnDef.accessorKey;
-                                    let id = null != (_ref = null != (_resolvedColumnDef$id = resolvedColumnDef.id) ? _resolvedColumnDef$id : accessorKey ? accessorKey.replace('.', '_') : void 0) ? _ref : 'string' == typeof resolvedColumnDef.header ? resolvedColumnDef.header : void 0, accessorFn;
-                                    resolvedColumnDef.accessorFn ? accessorFn = resolvedColumnDef.accessorFn : accessorKey && (accessorFn = accessorKey.includes('.') ? (originalRow)=>{
+                                    let id = null != (_ref = null != (_resolvedColumnDef$id = resolvedColumnDef.id) ? _resolvedColumnDef$id : accessorKey ? accessorKey.replace('.', '_') : void 0) ? _ref : 'string' == typeof resolvedColumnDef.header ? resolvedColumnDef.header : void 0;
+                                    if (resolvedColumnDef.accessorFn ? accessorFn = resolvedColumnDef.accessorFn : accessorKey && (accessorFn = accessorKey.includes('.') ? (originalRow)=>{
                                         let result = originalRow;
                                         for (const key of accessorKey.split('.'))result = result[key];
                                         return result;
-                                    } : (originalRow)=>originalRow[resolvedColumnDef.accessorKey]);
-                                    if (!id) throw Error();
+                                    } : (originalRow)=>originalRow[resolvedColumnDef.accessorKey]), !id) throw Error();
                                     let column = {
                                         id: `${String(id)}`,
                                         accessorFn,
@@ -1965,14 +1857,14 @@
                     getValue: (columnId)=>{
                         if (row._valuesCache.hasOwnProperty(columnId)) return row._valuesCache[columnId];
                         const column = table.getColumn(columnId);
-                        return column.accessorFn ? (row._valuesCache[columnId] = column.accessorFn(row.original, rowIndex), row._valuesCache[columnId]) : void 0;
+                        if (column.accessorFn) return row._valuesCache[columnId] = column.accessorFn(row.original, rowIndex), row._valuesCache[columnId];
                     },
                     getUniqueValues: (columnId)=>{
                         if (row._uniqueValuesCache.hasOwnProperty(columnId)) return row._uniqueValuesCache[columnId];
                         const column = table.getColumn(columnId);
-                        if (column.accessorFn) return column.columnDef.getUniqueValues ? (row._uniqueValuesCache[columnId] = column.columnDef.getUniqueValues(row.original, rowIndex), row._uniqueValuesCache[columnId]) : (row._uniqueValuesCache[columnId] = [
+                        return column.accessorFn ? column.columnDef.getUniqueValues ? (row._uniqueValuesCache[columnId] = column.columnDef.getUniqueValues(row.original, rowIndex), row._uniqueValuesCache[columnId]) : (row._uniqueValuesCache[columnId] = [
                             row.getValue(columnId)
-                        ], row._uniqueValuesCache[columnId]);
+                        ], row._uniqueValuesCache[columnId]) : void 0;
                     },
                     renderValue: (columnId)=>{
                         var _row$getValue;
@@ -2070,13 +1962,7 @@
                             const rows = [];
                             for(let i = 0; i < originalRows.length; i++){
                                 const row = createRow(table, table._getRowId(originalRows[i], i, parent), originalRows[i], i, depth);
-                                rowModel.flatRows.push(row);
-                                rowModel.rowsById[row.id] = row;
-                                rows.push(row);
-                                if (table.options.getSubRows) {
-                                    row.originalSubRows = table.options.getSubRows(originalRows[i], i);
-                                    row.originalSubRows?.length && (row.subRows = accessRows(row.originalSubRows, depth + 1, row));
-                                }
+                                rowModel.flatRows.push(row), rowModel.rowsById[row.id] = row, rows.push(row), table.options.getSubRows && (row.originalSubRows = table.options.getSubRows(originalRows[i], i), row.originalSubRows?.length && (row.subRows = accessRows(row.originalSubRows, depth + 1, row)));
                             }
                             return rows;
                         };
