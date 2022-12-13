@@ -1,5 +1,7 @@
 use swc_css_ast::{AtRule, MediaCondition, MediaConditionWithoutOr, MediaQuery, Rule};
 use swc_css_ast::MediaFeature;
+use swc_common::{Spanned, DUMMY_SP};
+use swc_css_ast::{MediaAnd, MediaCondition, MediaConditionAllType, MediaInParens};
 use swc_css_visit::{VisitMut, VisitMutWith};
 
 use self::custom_media::CustomMediaHandler;
@@ -70,10 +72,34 @@ impl VisitMut for Compiler {
         if self.c.process.contains(Features::CUSTOM_MEDIA) {
             self.custom_media.process_rules(n);
     fn visit_mut_media_feature(&mut self, n: &mut MediaFeature) {
+    fn visit_mut_media_in_parens(&mut self, n: &mut MediaInParens) {
         n.visit_mut_children_with(self);
 
         if self.c.process.contains(Features::MEDIA_QUERY_RANGES) {
-            self.process_media_feature(n);
+            if let MediaInParens::Feature(media_feature) = n {
+                if let Some(legacy_media_feature) = self.get_legacy_media_feature(media_feature) {
+                    match legacy_media_feature {
+                        (legacy_media_feature, None) => {
+                            *media_feature = Box::new(legacy_media_feature);
+                        }
+                        (left, Some(right)) => {
+                            *n = MediaInParens::MediaCondition(MediaCondition {
+                                span: n.span(),
+                                conditions: vec![
+                                    MediaConditionAllType::MediaInParens(*Box::new(
+                                        MediaInParens::Feature(Box::new(left)),
+                                    )),
+                                    MediaConditionAllType::And(MediaAnd {
+                                        span: DUMMY_SP,
+                                        keyword: None,
+                                        condition: MediaInParens::Feature(Box::new(right)),
+                                    }),
+                                ],
+                            });
+                        }
+                    }
+                }
+            }
         }
     }
 }

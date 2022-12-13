@@ -2,13 +2,16 @@ use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_css_ast::{
     Dimension, Ident, MediaFeature, MediaFeatureName, MediaFeaturePlain, MediaFeatureRange,
-    MediaFeatureRangeComparison, MediaFeatureValue,
+    MediaFeatureRangeComparison, MediaFeatureRangeInterval, MediaFeatureValue,
 };
 
 use crate::compiler::Compiler;
 
 impl Compiler {
-    pub(crate) fn process_media_feature(&mut self, n: &mut MediaFeature) {
+    pub(crate) fn get_legacy_media_feature(
+        &mut self,
+        n: &mut MediaFeature,
+    ) -> Option<(MediaFeature, Option<MediaFeature>)> {
         match n {
             MediaFeature::Range(MediaFeatureRange {
                 span,
@@ -38,11 +41,14 @@ impl Compiler {
                         };
 
                         if let Some(value) = value {
-                            *n = MediaFeature::Plain(MediaFeaturePlain {
-                                span: *span,
-                                name,
-                                value: Box::new(value),
-                            });
+                            return Some((
+                                MediaFeature::Plain(MediaFeaturePlain {
+                                    span: *span,
+                                    name,
+                                    value: Box::new(value),
+                                }),
+                                None,
+                            ));
                         }
                     }
                 } else if let MediaFeatureValue::Ident(name) = &right {
@@ -66,17 +72,79 @@ impl Compiler {
                         };
 
                         if let Some(value) = value {
-                            *n = MediaFeature::Plain(MediaFeaturePlain {
-                                span: *span,
-                                name,
-                                value: Box::new(value),
-                            });
+                            return Some((
+                                MediaFeature::Plain(MediaFeaturePlain {
+                                    span: *span,
+                                    name,
+                                    value: Box::new(value),
+                                }),
+                                None,
+                            ));
+                        }
+                    }
+                }
+            }
+            MediaFeature::RangeInterval(MediaFeatureRangeInterval {
+                span,
+                left: box left,
+                left_comparison,
+                name: MediaFeatureName::Ident(name),
+                right: box right,
+                right_comparison,
+                ..
+            }) => {
+                let first_name = match left_comparison {
+                    MediaFeatureRangeComparison::Gt | MediaFeatureRangeComparison::Ge => {
+                        self.get_right_media_feature_name(name)
+                    }
+                    _ => self.get_left_media_feature_name(name),
+                };
+
+                if let Some(first_name) = first_name {
+                    let value = match left_comparison {
+                        MediaFeatureRangeComparison::Lt => self.get_gt_value(left.clone()),
+                        MediaFeatureRangeComparison::Gt => self.get_lt_value(right.clone()),
+                        _ => Some(left.clone()),
+                    };
+
+                    if let Some(value) = value {
+                        let left = MediaFeature::Plain(MediaFeaturePlain {
+                            span: *span,
+                            name: first_name,
+                            value: Box::new(value),
+                        });
+
+                        let second_name = match right_comparison {
+                            MediaFeatureRangeComparison::Gt | MediaFeatureRangeComparison::Ge => {
+                                self.get_left_media_feature_name(name)
+                            }
+                            _ => self.get_right_media_feature_name(name),
+                        };
+
+                        if let Some(second_name) = second_name {
+                            let value = match left_comparison {
+                                MediaFeatureRangeComparison::Lt => self.get_lt_value(right.clone()),
+                                MediaFeatureRangeComparison::Gt => self.get_gt_value(right.clone()),
+                                _ => Some(right.clone()),
+                            };
+
+                            if let Some(value) = value {
+                                let right = MediaFeature::Plain(MediaFeaturePlain {
+                                    span: *span,
+                                    name: second_name,
+                                    value: Box::new(value),
+                                });
+
+                                return Some((left, Some(right)));
+                            }
                         }
                     }
                 }
             }
             _ => {}
         }
+
+        None
     }
 
     fn get_left_media_feature_name(&self, name: &Ident) -> Option<MediaFeatureName> {

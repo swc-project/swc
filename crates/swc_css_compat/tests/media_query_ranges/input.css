@@ -115,20 +115,38 @@
 
 
 /* more-units */
-@media screen and (color-index) { }
-@media screen and (color-index >= 0) and (color-index <= 1000) { }
-@media screen and (monochrome >= 0) and (monochrome <= 1000) { }
+@media screen and (color-index) {
+    a { color: red }
+}
+@media screen and (color-index >= 0) and (color-index <= 1000) {
+    a { color: red }
+}
+@media screen and (monochrome >= 0) and (monochrome <= 1000) {
+    a { color: red }
+}
 
+@media screen and (resolution >= 96dpi) and (resolution <= 3dppx) {
+    a { color: red }
+}
+@media screen and (width >= -200px) and (width <= 900.56px) {
+    a { color: red }
+}
+@media screen and (width >= -0.58px) and (width <= .99px) {
+    a { color: red }
+}
 
-@media screen and (resolution >= 96dpi) and (resolution <= 3dppx) { }
-@media screen and (width >= -200px) and (width <= 900.56px) { }
-@media screen and (width >= -0.58px) and (width <= .99px) { }
-
-
-@media screen and (resolution) { }
-@media screen and (resolution >= 1000dpi) and (resolution <= 3dppx) { }
-@media screen and (1000000dpi <= resolution <= 1000000dpcm) { }
-@media screen and (1 / 1000 <= resolution <= 16 /9) { }
+@media screen and (resolution) {
+    a { color: red }
+}
+@media screen and (resolution >= 1000dpi) and (resolution <= 3dppx) {
+    a { color: red }
+}
+@media screen and (1000000dpi <= resolution <= 1000000dpcm) {
+    a { color: red }
+}
+@media screen and (1 / 1000 <= resolution <= 16 /9) {
+    a { color: red }
+}
 
 /* monochrome */
 @media screen and (monochrome >= 0) and (monochrome <= 1000) {
@@ -352,5 +370,53 @@
 }
 
 @media screen and (color > 10) {
+    a { color: red }
+}
+
+@media (1024px > width >= 768px) {
+    a { color: red }
+}
+
+@media (1024px >= width >= 768px) {
+    a { color: red }
+}
+
+@media (1024px < width <= 768px) {
+    a { color: red }
+}
+
+@media (1024px <= width < 768px) {
+    a { color: red }
+}
+
+@media (100px > width > 400px) {
+    a { color: red }
+}
+
+@media (100px > width > 400px) {
+    a { color: red }
+}
+
+@media (100px < width < 400px) {
+    a { color: red }
+}
+
+@media (768px > width > 768px) {
+    a { color: red }
+}
+
+@media (768px < width < 768px) {
+    a { color: red }
+}
+
+@media (768px <= width <= 768px) {
+    a { color: red }
+}
+
+@media (768px > width > 768px) {
+    a { color: red }
+}
+
+@media (768px >= width >= 768px) {
     a { color: red }
 }
