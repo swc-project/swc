@@ -1,0 +1,18 @@
+.class {
+    opacity: 0%;
+    opacity: 45%;
+    opacity: 0.45%;
+    opacity: 0.045%;
+    opacity: 0.00000000000045%;
+    opacity: 0.33%;
+    opacity: 0.3333333333%;
+    opacity: 99%;
+    opacity: 100%;
+    opacity: 120%;
+    opacity: 0.9999999999%;
+}
+
+.bar {
+    opacity: 0.3;
+    opacity: initial;
+}

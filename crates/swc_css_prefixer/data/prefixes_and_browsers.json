@@ -3873,5 +3873,23 @@
       "firefox": "3"
     },
     {}
+  ],
+  "opacity": [
+    {
+      "chrome": "4",
+      "edge": "12",
+      "firefox": "2",
+      "samsung": "4",
+      "ios": "3.2",
+      "opera": "10",
+      "safari": "3.1",
+      "ie": "6"
+    },
+    {
+      "chrome": "77",
+      "edge": "78",
+      "firefox": "69",
+      "samsung": "11.2"
+    }
   ]
 }
