@@ -1,0 +1,72 @@
+@media (width >= 500px) {
+    a { color: red }
+}
+
+@media (width < 500px) {
+    a { color: red }
+}
+
+@media (width <= 500px) {
+    a { color: red }
+}
+
+@media (width > 500px) {
+    a { color: red }
+}
+
+@media (width = 500px) {
+    a { color: red }
+}
+
+@media (500px >= width) {
+    a { color: red }
+}
+
+@media (500px < width) {
+    a { color: red }
+}
+
+@media (500px <= width) {
+    a { color: red }
+}
+
+@media (500px > width) {
+    a { color: red }
+}
+
+@media (500px = width) {
+    a { color: red }
+}
+
+@media screen and (width > 500px) and (width <= 1200px) {
+    a { color: red }
+}
+
+@media screen and (500px <= width <= 1200px) {
+    a { color: red }
+}
+
+@media screen and (0 <= width <= 500.58px) {
+    a { color: red }
+}
+
+@media screen and (width) and (.08px <= width <= 0.68px) {
+    a { color: red }
+}
+
+/* height */
+@media screen and (height >= 500px) and (height <= 1200px) {
+    a { color: red }
+}
+
+@media screen and (500px <= height <= 1200px) {
+    a { color: red }
+}
+
+@media screen and (0 <= height <= 500.58px) {
+    a { color: red }
+}
+
+@media screen and (height) and (.08px <= height <= 0.68px) {
+    a { color: red }
+}
