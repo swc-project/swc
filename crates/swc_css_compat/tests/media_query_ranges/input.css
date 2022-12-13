@@ -1,4 +1,4 @@
-@import "foo1.css" screen and (100px > width 200px);
+@import "foo1.css" screen and (100px > width > 200px);
 @import "foo2.css" screen and (width >= 500px);
 
 @media (width >= 500px) {
