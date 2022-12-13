@@ -1,10 +1,12 @@
 use swc_css_ast::{AtRule, MediaCondition, MediaConditionWithoutOr, MediaQuery, Rule};
+use swc_css_ast::MediaFeature;
 use swc_css_visit::{VisitMut, VisitMutWith};
 
 use self::custom_media::CustomMediaHandler;
 use crate::feature::Features;
 
 mod custom_media;
+mod media_query_ranges;
 
 /// Compiles a modern CSS file to a CSS file which works with old browsers.
 #[derive(Debug)]
@@ -67,6 +69,11 @@ impl VisitMut for Compiler {
 
         if self.c.process.contains(Features::CUSTOM_MEDIA) {
             self.custom_media.process_rules(n);
+    fn visit_mut_media_feature(&mut self, n: &mut MediaFeature) {
+        n.visit_mut_children_with(self);
+
+        if self.c.process.contains(Features::MEDIA_QUERY_RANGES) {
+            self.process_media_feature(n);
         }
     }
 }
