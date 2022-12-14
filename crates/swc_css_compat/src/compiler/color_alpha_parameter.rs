@@ -1,17 +1,14 @@
-use std::mem::take;
-
 use swc_atoms::js_word;
-use swc_common::DUMMY_SP;
-use swc_css_ast::{AbsoluteColorBase, ComponentValue, Delimiter, DelimiterValue};
+use swc_css_ast::{AbsoluteColorBase, ComponentValue};
 
 use crate::compiler::Compiler;
 
 impl Compiler {
     pub(crate) fn process_color_alpha_parameter(&mut self, n: &mut AbsoluteColorBase) {
         if let AbsoluteColorBase::Function(function) = n {
-            let name = function.name.value.to_ascii_lowercase();
-
             if let Some(ComponentValue::AlphaValue(_)) = function.value.last() {
+                let name = function.name.value.to_ascii_lowercase();
+
                 match name {
                     js_word!("rgb") => {
                         function.name.value = js_word!("rgba");

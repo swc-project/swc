@@ -140,6 +140,9 @@ impl VisitMut for Compiler {
             return;
         }
 
+        // TODO handle color functions in custom variables under the option
+        // TODO implement the `preserve` option to preserve the original color
+
         if self
             .c
             .process
