@@ -9,7 +9,6 @@ use self::{custom_media::CustomMediaHandler, lab_function::LabFnHandler};
 use crate::feature::Features;
 
 mod color_hex_alpha;
-mod colors5;
 mod custom_media;
 mod lab_function;
 mod media_query_ranges;
