@@ -25,8 +25,8 @@
   color: hsl(120, 100%, 50%);
   color: hsla(120, 100%, 50%, 1);
   color: hsla(120, 100%, 50%, .5);
-  color: hsla(120, 100%, 50%, 100%);
-  color: hsla(120, 100%, 50%, 50%);
+  color: hsla(120, 100%, 50%, 1);
+  color: hsla(120, 100%, 50%, 0.5);
   color: hsl(120deg, 100%, 50%);
   color: hsl(0.5turn, 100%, 50%);
   color: hsl(200grad, 100%, 50%);
@@ -38,8 +38,8 @@
   color: hsl(120, 100%, 50%);
   color: hsla(120, 100%, 50%, 1);
   color: hsla(120, 100%, 50%, .5);
-  color: hsla(120, 100%, 50%, 100%);
-  color: hsla(120, 100%, 50%, 50%);
+  color: hsla(120, 100%, 50%, 1);
+  color: hsla(120, 100%, 50%, 0.5);
   color: hsla(120, 100%, 50%, var(--alpha-50));
   color: hsla(120, 100%, 50%, calc(1 / 2));
 }
@@ -59,7 +59,7 @@
   color: rgba(0, 0, 0, 0);
 }
 .hsl-with-alpha {
-  color: hsla(120, 100%, 50%, 50%);
+  color: hsla(120, 100%, 50%, 0.5);
   color: hsla(120, 100%, 50%, 0);
 }
 .test-legacy-notation-with-modern-components--rgb {
@@ -74,7 +74,7 @@
   color: rgba(178, 34, 34, 1);
 }
 .test-legacy-notation-with-modern-components--hsla {
-  color: hsla(120, 100%, 50%, 100%);
+  color: hsla(120, 100%, 50%, 1);
 }
 .test-ignore {
   color: rgba(0, 0, 0, 0.1);
