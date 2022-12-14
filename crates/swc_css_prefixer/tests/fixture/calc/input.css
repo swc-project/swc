@@ -9,3 +9,69 @@
 div {
     background-size: calc(20px);
 }
+
+.basic {
+    opacity: calc(1 + calc(2 * 2));
+}
+
+.mixed-casing {
+    width: calc(1 + cAlC(2 * 2));
+}
+
+.multi-line {
+    width: calc(1 +
+        calc(2 * 2)
+    );
+}
+
+.multiple-nested {
+    width: calc(2 + calc(2 * 2) + calc(2 * 2));
+}
+
+.triple-nested {
+    width: calc(3 + calc(2 * calc(2 * 2)));
+}
+
+.triple-nested-in-other-func {
+    width: var(--foo, calc(4 + calc(2 * calc(2 * 2))));
+}
+
+.complex {
+    width: calc(5 + calc(2 * calc(
+        2 * var(
+            --foo,
+            calc(6 + calc(2 * calc(2 * 2)))))
+        )
+    );
+}
+
+.ignore {
+    width: calc(1 + var(--foo, calc(2 * 2)));
+}
+
+.custom-props {
+    --order: calc(1 + calc(2 * 2));
+}
+
+.foo {
+    width: calc((1 + calc(2 * 2)) * 10px);
+    width: CALC((1 + CALC(2 * 2)) * 10px);
+    padding: calc((1 + calc(2 * 2)) * 10px) calc((1 + calc(2 * 2)) * 10px);
+    padding: calc((1 + -webkit-calc(2 * 2)) * 10px);
+}
+
+.bar {
+    padding: -webkit-calc((1 + calc(2 * 2)) * 10px);
+}
+
+.baz {
+    padding: -webkit-calc((1 + -webkit-calc(2 * 2)) * 10px);
+}
+
+.foo1 {
+    padding: -webkit-calc((1 + (2 * 2)) * 10px);
+}
+
+.foo2 {
+    padding: var(--foo, calc((1 + calc(2 * 2)) * 10px));
+}

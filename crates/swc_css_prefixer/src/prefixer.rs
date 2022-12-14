@@ -5,7 +5,7 @@ use std::mem::take;
 
 use once_cell::sync::Lazy;
 use preset_env_base::{query::targets_to_versions, version::Version, BrowserData, Versions};
-use swc_atoms::js_word;
+use swc_atoms::{js_word, JsWord};
 use swc_common::{
     collections::{AHashMap, AHashSet},
     EqIgnoreSpan, DUMMY_SP,
@@ -513,6 +513,82 @@ where
     N: for<'aa> VisitMutWith<MediaFeatureResolutionReplacerOnLegacyVariant<'aa>>,
 {
     node.visit_mut_with(&mut MediaFeatureResolutionReplacerOnLegacyVariant { from, to });
+}
+
+struct CalcReplacer<'a> {
+    inside_calc: bool,
+    to: Option<&'a JsWord>,
+}
+
+impl VisitMut for CalcReplacer<'_> {
+    fn visit_mut_function(&mut self, n: &mut Function) {
+        let old_inside_calc = self.inside_calc;
+
+        let name = n.name.value.to_ascii_lowercase();
+
+        let is_webkit_calc = matches!(name, js_word!("-webkit-calc"));
+        let is_moz_calc = matches!(name, js_word!("-moz-calc"));
+
+        if self.to.is_none() && (is_webkit_calc || is_moz_calc) {
+            return;
+        }
+
+        if (is_webkit_calc && self.to == Some(&js_word!("-moz-calc")))
+            || (is_moz_calc && self.to == Some(&js_word!("-webkit-calc")))
+        {
+            return;
+        }
+
+        self.inside_calc = matches!(name, js_word!("calc")) || is_webkit_calc || is_moz_calc;
+
+        n.visit_mut_children_with(self);
+
+        if matches!(name, js_word!("calc")) {
+            if let Some(to) = self.to {
+                n.name.value = to.clone();
+                n.name.raw = None;
+            }
+        }
+
+        self.inside_calc = old_inside_calc;
+    }
+
+    fn visit_mut_calc_value(&mut self, n: &mut CalcValue) {
+        n.visit_mut_children_with(self);
+
+        if !self.inside_calc {
+            return;
+        }
+
+        if let CalcValue::Function(function) = n {
+            let name = function.name.value.to_ascii_lowercase();
+
+            if matches!(
+                name,
+                js_word!("calc") | js_word!("-webkit-calc") | js_word!("-moz-calc")
+            ) {
+                let calc_sum = match function.value.get(0) {
+                    Some(ComponentValue::CalcSum(calc_sum)) => *calc_sum.clone(),
+                    _ => return,
+                };
+
+                *n = CalcValue::Sum(CalcSum {
+                    span: function.span,
+                    expressions: calc_sum.expressions,
+                });
+            }
+        }
+    }
+}
+
+fn replace_calc<N>(node: &mut N, to: Option<&JsWord>)
+where
+    N: for<'aa> VisitMutWith<CalcReplacer<'aa>>,
+{
+    node.visit_mut_with(&mut CalcReplacer {
+        inside_calc: false,
+        to,
+    });
 }
 
 macro_rules! to_ident {
@@ -1243,7 +1319,7 @@ impl VisitMut for Prefixer {
             }
 
             if should_prefix("-webkit-calc()", self.env, false) {
-                replace_function_name(&mut webkit_value, "calc", "-webkit-calc");
+                replace_calc(&mut webkit_value, Some(&js_word!("-webkit-calc")));
             }
 
             if should_prefix("-webkit-cross-fade()", self.env, false) {
@@ -1295,7 +1371,7 @@ impl VisitMut for Prefixer {
             }
 
             if should_prefix("-moz-calc()", self.env, false) {
-                replace_function_name(&mut moz_value, "calc", "-moz-calc");
+                replace_calc(&mut moz_value, Some(&js_word!("-moz-calc")));
             }
 
             if should_prefix("-moz-linear-gradient()", self.env, false) {
@@ -3257,6 +3333,21 @@ impl VisitMut for Prefixer {
                 value: ms_value,
                 important: n.important.clone(),
             }));
+        }
+
+        if should_prefix("calc-nested", self.env, true) {
+            let mut value = n.value.clone();
+
+            replace_calc(&mut value, None);
+
+            if !n.value.eq_ignore_span(&value) {
+                self.added_declarations.push(Box::new(Declaration {
+                    span: n.span,
+                    name: n.name.clone(),
+                    value,
+                    important: n.important.clone(),
+                }));
+            }
         }
     }
 }

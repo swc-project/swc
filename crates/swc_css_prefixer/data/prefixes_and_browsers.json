@@ -3275,6 +3275,27 @@
       "firefox": "15"
     }
   ],
+  "calc-nested": [
+    {
+      "chrome": "4",
+      "edge": "12",
+      "safari": "3.1",
+      "firefox": "2",
+      "opera": "10",
+      "ie": "6",
+      "ios": "3.2",
+      "samsung": "4"
+    },
+    {
+      "chrome": "50",
+      "edge": "15",
+      "safari": "10.1",
+      "firefox": "47",
+      "opera": "37",
+      "ios": "10.3",
+      "samsung": "4"
+    }
+  ],
 
   "-webkit-image-set()": [
     {
