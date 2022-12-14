@@ -20,11 +20,18 @@ use crate::{
 
 /// Reduce input files to minimal reproduction cases
 ///
-/// This command requires `creduce`.
+/// This command requires `creduce` in PATH.
+/// See https://embed.cs.utah.edu/creduce/ for more information.
 #[derive(Debug, Args)]
 pub struct ReduceCommand {
     pub path: PathBuf,
 
+    /// In 'size' mode, this command tries to find the minimal input file where
+    /// the size of the output file of swc minifier is larger than the one from
+    /// terser.
+    ///
+    /// In 'semantics' mode, this command tries to reduce the input file to a
+    /// minimal reproduction case which trigeers the bug.
     #[clap(long, arg_enum)]
     pub mode: ReduceMode,
 
