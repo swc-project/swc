@@ -1,0 +1,263 @@
+.test-lab {
+	color-1: rgb(179, 35, 35);
+	color-1: lab(40% 56.6 39);
+	color-2: rgba(179, 35, 35, 1);
+	color-2: lab(40% 56.6 39 / 1);
+	color-3: rgba(179, 35, 35, .5);
+	color-3: lab(40% 56.6 39 / .5);
+	color-4: rgba(179, 35, 35, 1);
+	color-4: lab(40% 56.6 39 / 100%);
+	color-5: rgba(179, 35, 35, 0.5);
+	color-5: lab(40% 56.6 39 / 50%);
+	color-6: rgb(222, 105, 147);
+	color-6: lab(60% 50 0);
+	color-7: lab(60% 50 0 foo);
+}
+
+.test-lch {
+	color-1: rgb(179, 35, 35);
+	color-1: lch(40% 68.735435 34.568626);
+	color-2: rgba(179, 35, 35, 1);
+	color-2: lch(40% 68.735435 34.568626 / 1);
+	color-3: rgba(179, 35, 35, .5);
+	color-3: lch(40% 68.735435 34.568626 / .5);
+	color-4: rgba(179, 35, 35, 1);
+	color-4: lch(40% 68.735435 34.568626 / 100%);
+	color-5: rgba(179, 35, 35, 0.5);
+	color-5: lch(40% 68.735435 34.568626 / 50%);
+	color-6: rgb(222, 105, 147);
+	color-6: lch(60% 50 0);
+
+	color-7: rgb(0, 166, 143);
+
+	color-7: lch(60% 50 180);
+	color-8: rgb(0, 166, 143);
+	color-8: lch(60% 50 180deg);
+	color-9: rgb(0, 166, 143);
+	color-9: lch(60% 50 0.5turn);
+	color-10: rgb(0, 166, 143);
+	color-10: lch(60% 50 200grad);
+	color-11: rgb(0, 166, 143);
+	color-11: lch(60% 50 3.14159rad);
+
+	color-12: rgb(212, 118, 84);
+
+	color-12: lch(60% 50 45);
+	color-13: rgb(212, 118, 84);
+	color-13: lch(60% 50 45deg);
+	color-14: rgb(212, 118, 84);
+	color-14: lch(60% 50 0.125turn);
+	color-15: rgb(212, 118, 84);
+	color-15: lch(60% 50 50grad);
+	color-16: rgb(212, 118, 84);
+	color-16: lch(60% 50 0.785398rad);
+	color-17: lch(60% 50 0.785398unknown);
+	color-18: rgb(212, 118, 84);
+	color-18: lch(60% 50 405);
+
+	color-20: rgb(0, 166, 143);
+
+	color-20: LCH(60% 50 180DEG);
+	color-21: rgb(0, 166, 143);
+	color-21: Lch(60% 50 0.5TURN);
+	color-22: rgb(0, 166, 143);
+	color-22: lCh(60% 50 200GRAD);
+	color-23: rgb(0, 166, 143);
+	color-23: lcH(60% 50 3.14159RAD);
+}
+
+.test-percentages {
+	color-1: rgb(163, 57, 35);
+	color-1: lab(40% 35% 30%);
+	color-2: rgb(181, 30, 19);
+	color-2: lch(40% 50% 39);
+}
+
+.test-numbers {
+	color-1: rgb(152, 68, 47);
+	color-1: lab(40 35 30);
+	color-2: rgb(157, 63, 45);
+	color-2: lch(40 50 39);
+}
+
+.test-author-provided-fallback {
+	color: rgb(0, 0, 0);
+	color: lch(100% 0 0);
+}
+
+/* this will most likely be a mistake by the author */
+.test-author-provided-override {
+	color: rgb(255, 255, 255);
+	color: lch(100% 0 0);
+	color: rgb(0, 0, 0);
+}
+
+.test-alpha-lab {
+	color-1: rgba(7, 3, 1, 1);
+	color-1: lab(1% 1 1 / 1);
+	color-2: rgba(7, 3, 1, calc(33 / 22));
+	color-2: lab(1% 1 1 / calc(33 / 22));
+	color-3: rgba(7, 3, 1, calc(20% * 5));
+	color-3: lab(1% 1 1 / calc(20% * 5));
+	color-4: rgba(7, 3, 1, var(--foo));
+	color-4: lab(1% 1 1 / var(--foo));
+	color-5: lab(1% 1 1 /);
+}
+
+.test-alpha-lch {
+	color-1: rgba(6, 3, 4, 1);
+	color-1: lch(1% 1 1 / 1);
+	color-2: rgba(6, 3, 4, calc(33 / 22));
+	color-2: lch(1% 1 1 / calc(33 / 22));
+	color-3: rgba(6, 3, 4, calc(20% * 5));
+	color-3: lch(1% 1 1 / calc(20% * 5));
+	color-4: rgba(6, 3, 4, var(--foo));
+	color-4: lch(1% 1 1 / var(--foo));
+	color-5: lch(1% 1 1 /);
+}
+
+.test-ignore {
+	prop-1: 'lch(1% 1 1 / 1)';
+	prop-2: url('lch(1% 1 1 / 1)');
+	prop-3: 'lab(40% 56.6 39)';
+}
+
+.test-high-luminance {
+	prop-1: rgb(255, 255, 255);
+	prop-1: lch(95% 210 285);
+	prop-2: rgb(255, 255, 255);
+	prop-2: lch(100% 210 285);
+}
+
+.test-low-luminance {
+	/* not teal */
+	prop-1: rgb(0, 0, 0);
+	prop-1: lch(0% 210 90);
+	/* teal */
+	prop-2: rgb(0, 40, 42);
+	prop-2: lch(0% 210 285);
+	/* teal */
+	prop-3: rgb(0, 45, 46);
+	prop-3: lch(5% 210 285);
+}
+
+.test-multiple-colors {
+	background: linear-gradient(rgb(97, 112, 56), rgb(212, 118, 84));
+	background: linear-gradient(lab(45% -13 29), lch(60% 50 45deg));
+}
+
+.test-unparseable-lab-function {
+	background-image: lab(; );
+}
+
+.test-gamut {
+	/* https://romainmenke.github.io/lab-lch-display-p3/lab-interactive-b.html#%5B%5B48%2C-53%2C12%5D%2C%5B58%2C-54%2C69%5D%5D */
+	/* out */
+	prop-1: rgb(0, 132, 94);
+	prop-1: lab(48% -53 12);
+	/* out */
+	prop-2: rgb(38, 161, 0);
+	prop-2: lab(58% -54 69);
+
+	/* https://romainmenke.github.io/lab-lch-display-p3/lab-interactive-b.html#%5B%5B45%2C-13%2C29%5D%2C%5B77%2C33%2C97%5D%5D */
+	/* in */
+	prop-3: rgb(97, 112, 56);
+	prop-3: lab(45% -13 29);
+	/* out */
+	prop-4: rgb(255, 165, 0);
+	prop-4: lab(77% 33 97);
+
+	/* https://romainmenke.github.io/lab-lch-display-p3/lab-interactive-b.html#%5B%5B76%2C-29%2C-23%5D%2C%5B16%2C-32%2C24%5D%5D */
+	/* in */
+	prop-5: rgb(85, 204, 229);
+	prop-5: lab(76% -29 -23);
+	/* out */
+	prop-6: rgb(0, 50, 0);
+	prop-6: lab(16% -32 24);
+
+	/* https://romainmenke.github.io/lab-lch-display-p3/lab-interactive-b.html#%5B%5B85%2C16%2C29%5D%2C%5B55%2C-42%2C58%5D%5D */
+	/* out */
+	prop-7: rgb(255, 201, 158);
+	prop-7: lab(85% 16 29);
+	/* out */
+	prop-8: rgb(70, 149, 0);
+	prop-8: lab(55% -42 58);
+
+	/* https://romainmenke.github.io/lab-lch-display-p3/lab-interactive-b.html#%5B%5B87%2C-94%2C103%5D%2C%5B88%2C-9%2C62%5D%5D */
+	/* out */
+	prop-9: rgb(0, 253, 0);
+	prop-9: lab(87% -94 103);
+	/* in */
+	prop-10: rgb(231, 224, 96);
+	prop-10: lab(88% -9 62);
+
+	/* https://romainmenke.github.io/lab-lch-display-p3/lab-interactive-b.html#%5B%5B69%2C-35%2C-39%5D%2C%5B68%2C61%2C39%5D%5D */
+	/* out */
+	prop-11: rgb(0, 187, 234);
+	prop-11: lab(69% -35 -39);
+	/* out */
+	prop-12: rgb(255, 117, 105);
+	prop-12: lab(68% 61 39);
+
+	/* https://romainmenke.github.io/lab-lch-display-p3/lab-interactive-b.html#%5B%5B60%2C-28%2C74%5D%2C%5B65%2C81%2C-13%5D%5D */
+	/* out */
+	prop-13: rgb(119, 157, 0);
+	prop-13: lab(60% -28 74);
+	/* out */
+	prop-14: rgb(255, 89, 183);
+	prop-14: lab(65% 81 -13);
+
+	/* https://romainmenke.github.io/lab-lch-display-p3/lab-interactive-b.html#%5B%5B60%2C-28%2C15%5D%2C%5B65%2C81%2C-11%5D%5D */
+	/* in */
+	prop-15: rgb(96, 158, 117);
+	prop-15: lab(60% -28 15);
+	/* out */
+	prop-16: rgb(255, 90, 179);
+	prop-16: lab(65% 81 -11);
+
+	/* https://romainmenke.github.io/lab-lch-display-p3/lab-interactive-b.html#%5B%5B78%2C-64%2C-44%5D%2C%5B76%2C81%2C-11%5D%5D */
+	/* out */
+	prop-17: rgb(0, 214, 243);
+	prop-17: lab(78% -64 -44);
+	/* out */
+	prop-18: rgb(255, 156, 205);
+	prop-18: lab(76% 81 -11);
+}
+
+.test-wpt-lab {
+	lab-001: rgb(0, 128, 0);
+	lab-001: lab(46.2775% -47.5621 48.5837);
+	lab-002: rgb(0, 0, 0);
+	lab-002: lab(0% 0 0);
+	lab-003: rgb(255, 255, 255);
+	lab-003: lab(100% 0 0);
+	lab-004: rgb(193, 78, 121);
+	lab-004: lab(50% 50 0);
+	lab-005: rgb(27, 193, 169);
+	lab-005: lab(70% -45 0);
+	lab-006: rgb(195, 169, 14);
+	lab-006: lab(70% 0 70);
+	lab-007: rgb(33, 135, 237);
+	lab-007: lab(55% 0 -60);
+	lab-008: rgb(0, 251, 41);
+	lab-008: lab(86.6146% -106.5599 102.8717);
+}
+
+.test-wpt-lch {
+	lch-001: rgb(0, 128, 0);
+	lch-001: lch(46.2775% 67.9892 134.3912);
+	lch-002: rgb(0, 0, 0);
+	lch-002: lch(0% 0 0);
+	lch-003: rgb(255, 255, 255);
+	lch-003: lch(100% 0 0);
+	lch-004: rgb(193, 78, 121);
+	lch-004: lch(50% 50 0);
+	lch-005: rgb(27, 193, 169);
+	lch-005: lch(70% 45 -180);
+	lch-006: rgb(195, 169, 14);
+	lch-006: lch(70% 70 90);
+	lch-007: rgb(33, 135, 237);
+	lch-007: lch(55% 60 270);
+	lch-008: rgb(0, 251, 41);
+	lch-008: lch(86.6146% 148.1135 136.0089);
+}

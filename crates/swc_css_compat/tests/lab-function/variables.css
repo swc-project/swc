@@ -1,0 +1,10 @@
+:root {
+	--firebrick: lab(40% 56.6 39);
+	--firebrick-a50: lch(40% 68.8 34.5 / 50%);
+
+	--opacity-50: 0.5;
+	--firebrick-a50-var: lch(40% 68.8 34.5 / var(--opacity-50));
+
+	--fifty: 50;
+	--firebrick-var: lch(40% var(--fifty) 34.5 / var(--opacity-50));
+}

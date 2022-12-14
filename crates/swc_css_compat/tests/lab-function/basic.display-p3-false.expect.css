@@ -1,0 +1,180 @@
+.test-lab {
+	color-1: rgb(179, 35, 35);
+	color-2: rgba(179, 35, 35, 1);
+	color-3: rgba(179, 35, 35, .5);
+	color-4: rgba(179, 35, 35, 1);
+	color-5: rgba(179, 35, 35, 0.5);
+	color-6: rgb(222, 105, 147);
+	color-7: lab(60% 50 0 foo);
+}
+
+.test-lch {
+	color-1: rgb(179, 35, 35);
+	color-2: rgba(179, 35, 35, 1);
+	color-3: rgba(179, 35, 35, .5);
+	color-4: rgba(179, 35, 35, 1);
+	color-5: rgba(179, 35, 35, 0.5);
+	color-6: rgb(222, 105, 147);
+
+	color-7: rgb(0, 166, 143);
+	color-8: rgb(0, 166, 143);
+	color-9: rgb(0, 166, 143);
+	color-10: rgb(0, 166, 143);
+	color-11: rgb(0, 166, 143);
+
+	color-12: rgb(212, 118, 84);
+	color-13: rgb(212, 118, 84);
+	color-14: rgb(212, 118, 84);
+	color-15: rgb(212, 118, 84);
+	color-16: rgb(212, 118, 84);
+	color-17: lch(60% 50 0.785398unknown);
+	color-18: rgb(212, 118, 84);
+
+	color-20: rgb(0, 166, 143);
+	color-21: rgb(0, 166, 143);
+	color-22: rgb(0, 166, 143);
+	color-23: rgb(0, 166, 143);
+}
+
+.test-percentages {
+	color-1: rgb(163, 57, 35);
+	color-2: rgb(181, 30, 19);
+}
+
+.test-numbers {
+	color-1: rgb(152, 68, 47);
+	color-2: rgb(157, 63, 45);
+}
+
+.test-author-provided-fallback {
+	color: rgb(0, 0, 0);
+	color: lch(100% 0 0);
+}
+
+/* this will most likely be a mistake by the author */
+.test-author-provided-override {
+	color: rgb(255, 255, 255);
+	color: rgb(0, 0, 0);
+}
+
+.test-alpha-lab {
+	color-1: rgba(7, 3, 1, 1);
+	color-2: rgba(7, 3, 1, calc(33 / 22));
+	color-3: rgba(7, 3, 1, calc(20% * 5));
+	color-4: rgba(7, 3, 1, var(--foo));
+	color-5: lab(1% 1 1 /);
+}
+
+.test-alpha-lch {
+	color-1: rgba(6, 3, 4, 1);
+	color-2: rgba(6, 3, 4, calc(33 / 22));
+	color-3: rgba(6, 3, 4, calc(20% * 5));
+	color-4: rgba(6, 3, 4, var(--foo));
+	color-5: lch(1% 1 1 /);
+}
+
+.test-ignore {
+	prop-1: 'lch(1% 1 1 / 1)';
+	prop-2: url('lch(1% 1 1 / 1)');
+	prop-3: 'lab(40% 56.6 39)';
+}
+
+.test-high-luminance {
+	prop-1: rgb(255, 255, 255);
+	prop-2: rgb(255, 255, 255);
+}
+
+.test-low-luminance {
+	/* not teal */
+	prop-1: rgb(0, 0, 0);
+	/* teal */
+	prop-2: rgb(0, 40, 42);
+	/* teal */
+	prop-3: rgb(0, 45, 46);
+}
+
+.test-multiple-colors {
+	background: linear-gradient(rgb(97, 112, 56), rgb(212, 118, 84));
+}
+
+.test-unparseable-lab-function {
+	background-image: lab(; );
+}
+
+.test-gamut {
+	/* https://romainmenke.github.io/lab-lch-display-p3/lab-interactive-b.html#%5B%5B48%2C-53%2C12%5D%2C%5B58%2C-54%2C69%5D%5D */
+	/* out */
+	prop-1: rgb(0, 132, 94);
+	/* out */
+	prop-2: rgb(38, 161, 0);
+
+	/* https://romainmenke.github.io/lab-lch-display-p3/lab-interactive-b.html#%5B%5B45%2C-13%2C29%5D%2C%5B77%2C33%2C97%5D%5D */
+	/* in */
+	prop-3: rgb(97, 112, 56);
+	/* out */
+	prop-4: rgb(255, 165, 0);
+
+	/* https://romainmenke.github.io/lab-lch-display-p3/lab-interactive-b.html#%5B%5B76%2C-29%2C-23%5D%2C%5B16%2C-32%2C24%5D%5D */
+	/* in */
+	prop-5: rgb(85, 204, 229);
+	/* out */
+	prop-6: rgb(0, 50, 0);
+
+	/* https://romainmenke.github.io/lab-lch-display-p3/lab-interactive-b.html#%5B%5B85%2C16%2C29%5D%2C%5B55%2C-42%2C58%5D%5D */
+	/* out */
+	prop-7: rgb(255, 201, 158);
+	/* out */
+	prop-8: rgb(70, 149, 0);
+
+	/* https://romainmenke.github.io/lab-lch-display-p3/lab-interactive-b.html#%5B%5B87%2C-94%2C103%5D%2C%5B88%2C-9%2C62%5D%5D */
+	/* out */
+	prop-9: rgb(0, 253, 0);
+	/* in */
+	prop-10: rgb(231, 224, 96);
+
+	/* https://romainmenke.github.io/lab-lch-display-p3/lab-interactive-b.html#%5B%5B69%2C-35%2C-39%5D%2C%5B68%2C61%2C39%5D%5D */
+	/* out */
+	prop-11: rgb(0, 187, 234);
+	/* out */
+	prop-12: rgb(255, 117, 105);
+
+	/* https://romainmenke.github.io/lab-lch-display-p3/lab-interactive-b.html#%5B%5B60%2C-28%2C74%5D%2C%5B65%2C81%2C-13%5D%5D */
+	/* out */
+	prop-13: rgb(119, 157, 0);
+	/* out */
+	prop-14: rgb(255, 89, 183);
+
+	/* https://romainmenke.github.io/lab-lch-display-p3/lab-interactive-b.html#%5B%5B60%2C-28%2C15%5D%2C%5B65%2C81%2C-11%5D%5D */
+	/* in */
+	prop-15: rgb(96, 158, 117);
+	/* out */
+	prop-16: rgb(255, 90, 179);
+
+	/* https://romainmenke.github.io/lab-lch-display-p3/lab-interactive-b.html#%5B%5B78%2C-64%2C-44%5D%2C%5B76%2C81%2C-11%5D%5D */
+	/* out */
+	prop-17: rgb(0, 214, 243);
+	/* out */
+	prop-18: rgb(255, 156, 205);
+}
+
+.test-wpt-lab {
+	lab-001: rgb(0, 128, 0);
+	lab-002: rgb(0, 0, 0);
+	lab-003: rgb(255, 255, 255);
+	lab-004: rgb(193, 78, 121);
+	lab-005: rgb(27, 193, 169);
+	lab-006: rgb(195, 169, 14);
+	lab-007: rgb(33, 135, 237);
+	lab-008: rgb(0, 251, 41);
+}
+
+.test-wpt-lch {
+	lch-001: rgb(0, 128, 0);
+	lch-002: rgb(0, 0, 0);
+	lch-003: rgb(255, 255, 255);
+	lch-004: rgb(193, 78, 121);
+	lch-005: rgb(27, 193, 169);
+	lch-006: rgb(195, 169, 14);
+	lch-007: rgb(33, 135, 237);
+	lch-008: rgb(0, 251, 41);
+}
