@@ -65,6 +65,9 @@
 - **(css/prefixer)** Support  `display` (#6640) ([c8b724f](https://github.com/swc-project/swc/commit/c8b724f14db0291fb48cd3d26c925dcf5e730fb8))
 
 
+- **(css/prefixer)** Support nested calc (#6645) ([5d0dc6e](https://github.com/swc-project/swc/commit/5d0dc6e7319f181e468b40dce218dc15cec8b59f))
+
+
 - **(dbg-swc)** Kill `creduce` on drop (#6614) ([2bf7805](https://github.com/swc-project/swc/commit/2bf78059801d8f07bf31eab6b077d7fb723837f8))
 
 ### Miscellaneous Tasks
