@@ -1,6 +1,6 @@
 use swc_common::{Spanned, DUMMY_SP};
 use swc_css_ast::{
-    AtRule, ComponentValue, MediaAnd, MediaCondition, MediaConditionAllType,
+    AbsoluteColorBase, AtRule, ComponentValue, MediaAnd, MediaCondition, MediaConditionAllType,
     MediaConditionWithoutOr, MediaInParens, MediaQuery, Rule, SupportsCondition,
 };
 use swc_css_visit::{VisitMut, VisitMutWith};
@@ -9,6 +9,7 @@ use self::custom_media::CustomMediaHandler;
 use crate::feature::Features;
 
 mod color_hex_alpha;
+mod color_space_separated_function_notation;
 mod custom_media;
 mod media_query_ranges;
 
@@ -128,6 +129,22 @@ impl VisitMut for Compiler {
 
         if self.c.process.contains(Features::COLOR_HEX_ALPHA) {
             self.process_color_hex_alpha(n);
+        }
+    }
+
+    fn visit_mut_absolute_color_base(&mut self, n: &mut AbsoluteColorBase) {
+        n.visit_mut_children_with(self);
+
+        if self.in_supports_condition {
+            return;
+        }
+
+        if self
+            .c
+            .process
+            .contains(Features::COLOR_SPACE_SEPARATED_FUNCTION_NOTATION)
+        {
+            self.process_color_space_separated_function_notation(n);
         }
     }
 }

@@ -1,0 +1,83 @@
+.test-rgb {
+  color: rgb(178, 34, 34);
+  color: rgb(178, 34, 34, 1);
+  color: rGB(178, 34, 34, .5);
+  color: rgb(178, 34, 34, 100%);
+  color: rgb(178, 34, 34, 50%);
+  color: rgb(178, 34, 34, var(--alpha-50));
+  color: rgb(178, 34, 34, calc(1 / 2));
+}
+.test-rgba {
+  color: rgba(178, 34, 34);
+  color: rgbA(178, 34, 34, 1);
+  color: rgba(178, 34, 34, .5);
+  color: rgba(178, 34, 34, VaR(--alpha-50));
+  color: rgba(178, 34, 34, CaLC(1 / 2));
+}
+.test-rgb-percentages {
+  color: rgba(70%, 13.5%, 13.5%);
+  color: rgba(70%, 13.5%, 13.5%, 100%);
+  color: rgba(70%, 13.5%, 13.5%, 50%);
+}
+.test-hsl {
+  color: hsl(0, 0%, 100%);
+  color: hsl(120deg, 100%, 50%);
+  color: hsl(120, 100%, 50%);
+  color: HSL(120, 100%, 50%, 1);
+  color: hsl(120, 100%, 50%, .5);
+  color: hsl(120, 100%, 50%, 100%);
+  color: hsl(120, 100%, 50%, 50%);
+  color: hslA(120deg, 100%, 50%);
+  color: hsl(0.5turn, 100%, 50%);
+  color: hsl(200grad, 100%, 50%);
+  color: hsl(3.14159rad, 100%, 50%);
+  color: hsl(3.14159rad, 100%, 50%, var(--alpha-50));
+  color: hsl(3.14159rad, 100%, 50%, calc(1 / 2));
+}
+.test-hsla {
+  color: hsla(120, 100%, 50%);
+  color: hsla(120, 100%, 50%, 1);
+  color: hsla(120, 100%, 50%, .5);
+  color: hsla(120, 100%, 50%, 100%);
+  color: hsla(120, 100%, 50%, 50%);
+  color: hsla(120, 100%, 50%, var(--alpha-50));
+  color: hsla(120, 100%, 50%, calc(1 / 2));
+}
+.test-hwb {
+  color: hwb(0deg 0% 0%);
+  color: hwb(0 0% 0%);
+  color: hwb(0 0% 0% / 1);
+  color: hwb(0 0% 0% / .5);
+  color: hwb(0 0% 0% / 100%);
+  color: hwb(0 0% 0% / 50%);
+}
+.test-unparseable-color-function {
+  color: rgb(; );
+}
+.rgb-with-alpha {
+  color: rgb(70%, 13.5%, 13.5%, 50%);
+  color: rgb(0, 0, 0, 0);
+}
+.hsl-with-alpha {
+  color: hsl(120, 100%, 50%, 50%);
+  color: hsl(120, 100%, 50%, 0);
+}
+.test-legacy-notation-with-modern-components--rgb {
+  color: rgb(50%, 34, 34);
+  color: rgb(178, 10%, 34);
+  color: rgb(178, 34, 10%);
+}
+.test-legacy-notation-with-modern-components--rgba {
+  color: rgba(50%, 34, 34, 1);
+  color: rgba(178, 10%, 34, 1);
+  color: rgba(178, 34, 10%, 1);
+  color: rgba(178, 34, 34, 100%);
+}
+.test-legacy-notation-with-modern-components--hsla {
+  color: hsla(120, 100%, 50%, 100%);
+}
+.test-ignore {
+  color: rgba(0, 0, 0, 0.1);
+  color: rgba(0, 0, 0, 0.2);
+  color: rGB(178, 34, 34);
+}
