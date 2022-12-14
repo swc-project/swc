@@ -42,7 +42,7 @@ use swc_ecma_testing::{exec_node_js, JsExecOptions};
 use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene, resolver};
 use swc_ecma_utils::drop_span;
 use swc_ecma_visit::{FoldWith, Visit, VisitMut, VisitMutWith, VisitWith};
-use testing::{assert_eq, DebugUsingDisplay, NormalizedOutput};
+use testing::{assert_eq, unignore_fixture, DebugUsingDisplay, NormalizedOutput};
 
 fn load_txt(filename: &str) -> Vec<String> {
     let lines = read_to_string(filename).unwrap();
@@ -431,7 +431,8 @@ fn projects_bench(input: PathBuf) {
 
         Ok(())
     })
-    .unwrap()
+    .unwrap();
+    unignore_fixture(&input);
 }
 
 /// Tests ported from terser.
