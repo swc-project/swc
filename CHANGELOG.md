@@ -20,6 +20,9 @@
 - **(es/codegen)** Fix codegen of TypeScript mapped types (#6621) ([5c53a74](https://github.com/swc-project/swc/commit/5c53a74f55fc9d6ba1f54f9f2ea517853fa62a74))
 
 
+- **(es/fixer)** Add correct parens to `OptChainExpr` in `MemberExpr` (#6639) ([be5ea7f](https://github.com/swc-project/swc/commit/be5ea7fe170cca1532ba3d18f975d025a9fe038b))
+
+
 - **(es/minifier)** Abort IIFE invoker on `eval` (#6478) ([8b2e1d1](https://github.com/swc-project/swc/commit/8b2e1d17e59eaf21d4189aa4b9d2773cb10a1ab4))
 
 
