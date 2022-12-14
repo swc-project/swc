@@ -81,3 +81,98 @@
   color: rgba(0, 0, 0, 0.2);
   color: rGB(178, 34, 34);
 }
+.order-0 {
+  order: rgba(178, 34, 34, 1) !important;
+}
+.order-1 {
+  order: var(1, rgba(178, 34, 34, 1));
+}
+.order-2 {
+  order: var(rgba(178, 34, 34, 1), 1);
+}
+.order-3 {
+  order: var(rgba(178, 34, 34, 1), rgba(178, 34, 34, 1));
+}
+.order-4 {
+  order: prergba(178 34 34/ 1);
+}
+.order-5 {
+  order: pre rgba(178, 34, 34, 1);
+}
+.order-6 {
+  order: pre, rgba(178, 34, 34, 1);
+}
+.order-7 {
+  order: rgba(178, 34, 34, 1) post;
+}
+.order-8 {
+  order: rgba(178, 34, 34, 1) post;
+}
+.order-9 {
+  order: rgba(178, 34, 34, 1), post;
+}
+:root {
+  --some-var: rgba(178 34 34 / 1);
+}
+.content {
+  content: 'rgba(178 34 34 / 1)';
+}
+@supports (order: rgba(178 34 34/ 1)) {
+  .support {
+    order: rgba(178, 34, 34, 1);
+  }
+}
+.order-0 {
+  order: hsl(120, 100%, 50%, 1) !important;
+}
+.order-1 {
+  order: var(1, hsl(120, 100%, 50%, 1));
+}
+.order-2 {
+  order: var(hsl(120, 100%, 50%, 1), 1);
+}
+.order-3 {
+  order: var(hsl(120, 100%, 50%, 1), hsl(120, 100%, 50%, 1));
+}
+.order-4 {
+  order: prehsl(120 100% 50% / 1);
+}
+.order-5 {
+  order: pre hsl(120, 100%, 50%, 1);
+}
+.order-6 {
+  order: pre, hsl(120, 100%, 50%, 1);
+}
+.order-7 {
+  order: hsl(120, 100%, 50%, 1) post;
+}
+.order-8 {
+  order: hsl(120, 100%, 50%, 1) post;
+}
+.order-9 {
+  order: hsl(120, 100%, 50%, 1), post;
+}
+:root {
+  --some-var: hsl(120 100% 50% / 1);
+}
+.content {
+  content: 'hsl(120 100% 50% / 1)';
+}
+@supports (order: hsl(120 100% 50% / 1)) {
+  .support {
+    order: hsl(120, 100%, 50%, 1);
+  }
+}
+:root {
+  --firebrick: rgb(40% 56.6 39);
+  --firebrick-a50: rgb(40% 68.8 34.5 / 50%);
+  --opacity-50: 0.5;
+  --firebrick-a50-var: hsl(40 68.8% 34.5% / var(--opacity-50));
+  --firebrick-rgb-a50-var: rgb(40% 68.8 34.5 / var(--opacity-50));
+  --fifty: 50%;
+  --firebrick-var: hsl(40 var(--fifty) 34.5% / var(--opacity-50));
+}
+:root {
+  --rgba-functional-notation-percentage-alpha: rgba(0, 0, 0, 100%);
+  --hsla-functional-notation-percentage-alpha: hsla(0, 0%, 0%, 100%);
+}
