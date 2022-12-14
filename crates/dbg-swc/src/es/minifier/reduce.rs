@@ -22,6 +22,8 @@ use crate::{
 ///
 /// This command requires `creduce` in PATH.
 /// See https://embed.cs.utah.edu/creduce/ for more information.
+///
+/// After reducing, the reduced file will be moved to `.swc-reduce` directory.
 #[derive(Debug, Args)]
 pub struct ReduceCommand {
     /// The path to the input file. You can specify a directory if you want to
@@ -128,9 +130,9 @@ fn move_to_data_dir(input_path: &Path) -> Result<PathBuf> {
     let result = hasher.finalize();
     let hash_str = format!("{:x}", result);
 
-    create_dir_all(format!("data/{}", hash_str)).context("failed to create `.data`")?;
+    create_dir_all(format!(".swc-reduce/{}", hash_str)).context("failed to create `.data`")?;
 
-    let to = PathBuf::from(format!("data/{}/input.js", hash_str));
+    let to = PathBuf::from(format!(".swc-reduce/{}/input.js", hash_str));
     fs::write(&to, src.as_bytes()).context("failed to write")?;
 
     Ok(to)
