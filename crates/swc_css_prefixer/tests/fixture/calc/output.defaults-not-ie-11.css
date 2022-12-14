@@ -46,3 +46,9 @@ div {
 .baz {
   padding: -webkit-calc((1 + -webkit-calc(2 * 2)) * 10px);
 }
+.foo1 {
+  padding: -webkit-calc((1 + (2 * 2)) * 10px);
+}
+.foo2 {
+  padding: var(--foo, calc((1 + calc(2 * 2)) * 10px));
+}

@@ -517,6 +517,7 @@ where
 
 struct CalcReplacer<'a> {
     inside_calc: bool,
+    only_nested_calc: bool,
     to: &'a JsWord,
 }
 
@@ -525,6 +526,11 @@ impl VisitMut for CalcReplacer<'_> {
         let old_inside_calc = self.inside_calc;
 
         let name = n.name.value.to_ascii_lowercase();
+
+        if self.only_nested_calc && matches!(name, js_word!("-webkit-calc") | js_word!("-moz-calc"))
+        {
+            return;
+        }
 
         if (name == js_word!("-webkit-calc") && self.to == &js_word!("-moz-calc"))
             || (name == js_word!("-moz-calc") && self.to == &js_word!("-webkit-calc"))
@@ -575,12 +581,13 @@ impl VisitMut for CalcReplacer<'_> {
     }
 }
 
-fn replace_calc<N>(node: &mut N, to: &JsWord)
+fn replace_calc<N>(node: &mut N, to: &JsWord, only_nested_calc: bool)
 where
     N: for<'aa> VisitMutWith<CalcReplacer<'aa>>,
 {
     node.visit_mut_with(&mut CalcReplacer {
         inside_calc: false,
+        only_nested_calc,
         to,
     });
 }
@@ -1313,7 +1320,7 @@ impl VisitMut for Prefixer {
             }
 
             if should_prefix("-webkit-calc()", self.env, false) {
-                replace_calc(&mut webkit_value, &js_word!("-webkit-calc"));
+                replace_calc(&mut webkit_value, &js_word!("-webkit-calc"), false);
             }
 
             if should_prefix("-webkit-cross-fade()", self.env, false) {
@@ -1365,7 +1372,7 @@ impl VisitMut for Prefixer {
             }
 
             if should_prefix("-moz-calc()", self.env, false) {
-                replace_calc(&mut moz_value, &js_word!("-moz-calc"));
+                replace_calc(&mut moz_value, &js_word!("-moz-calc"), false);
             }
 
             if should_prefix("-moz-linear-gradient()", self.env, false) {
@@ -3166,6 +3173,21 @@ impl VisitMut for Prefixer {
                 value: ms_value,
                 important: n.important.clone(),
             }));
+        }
+
+        if should_prefix("calc-nested", self.env, true) {
+            let mut value = n.value.clone();
+
+            replace_calc(&mut value, &js_word!("calc"), true);
+
+            if !n.value.eq_ignore_span(&value) {
+                self.added_declarations.push(Box::new(Declaration {
+                    span: n.span,
+                    name: n.name.clone(),
+                    value,
+                    important: n.important.clone(),
+                }));
+            }
         }
     }
 }
