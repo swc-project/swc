@@ -58,10 +58,25 @@ impl Compressor {
         }
     }
 
-    fn get_declaration_name(&self, declaration: &Declaration) -> JsWord {
-        match &declaration.name {
-            DeclarationName::Ident(Ident { value, .. }) => value.to_ascii_lowercase(),
-            DeclarationName::DashedIdent(DashedIdent { value, .. }) => value.to_ascii_lowercase(),
+    fn is_same_declaration_name(&self, left: &Declaration, right: &Declaration) -> bool {
+        match (&left.name, &right.name) {
+            (
+                DeclarationName::Ident(Ident {
+                    value: left_value, ..
+                }),
+                DeclarationName::Ident(Ident {
+                    value: right_value, ..
+                }),
+            ) => left_value.to_ascii_lowercase() == right_value.to_ascii_lowercase(),
+            (
+                DeclarationName::DashedIdent(DashedIdent {
+                    value: left_value, ..
+                }),
+                DeclarationName::DashedIdent(DashedIdent {
+                    value: right_value, ..
+                }),
+            ) => left_value == right_value,
+            _ => false,
         }
     }
 
@@ -541,8 +556,7 @@ impl Compressor {
                 }
                 ComponentValue::Declaration(box declaration) if prev_rule.is_some() => {
                     if let Some(ComponentValue::Declaration(box prev_rule)) = &mut prev_rule {
-                        if self.get_declaration_name(prev_rule)
-                            == self.get_declaration_name(declaration)
+                        if self.is_same_declaration_name(prev_rule, declaration)
                             && prev_rule.value.eq_ignore_span(&declaration.value)
                         {
                             remove_rules_list.push(prev_index);
