@@ -1,4 +1,5 @@
 #![allow(clippy::match_like_matches_macro)]
+
 use core::f64::consts::PI;
 use std::mem::take;
 
@@ -576,7 +577,20 @@ impl VisitMut for CalcReplacer<'_> {
                     expressions: calc_sum.expressions,
                 });
             }
-pub struct FontFaceFormat {}
+        }
+    }
+}
+
+fn replace_calc<N>(node: &mut N, to: Option<&JsWord>)
+where
+    N: for<'aa> VisitMutWith<CalcReplacer<'aa>>,
+{
+    node.visit_mut_with(&mut CalcReplacer {
+        inside_calc: false,
+        to,
+    });
+}
+
 pub struct FontFaceFormatOldSyntax {}
 
 impl VisitMut for FontFaceFormatOldSyntax {
@@ -617,15 +631,6 @@ impl VisitMut for FontFaceFormatOldSyntax {
     }
 }
 
-fn replace_calc<N>(node: &mut N, to: Option<&JsWord>)
-where
-    N: for<'aa> VisitMutWith<CalcReplacer<'aa>>,
-{
-    node.visit_mut_with(&mut CalcReplacer {
-        inside_calc: false,
-        to,
-    });
-pub fn font_face_format<N>(node: &mut N)
 pub fn font_face_format_old_syntax<N>(node: &mut N)
 where
     N: VisitMutWith<FontFaceFormatOldSyntax>,
