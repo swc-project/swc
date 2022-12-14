@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_core"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.48.14"
+version       = "0.48.15"
   [package.metadata.docs.rs]
   features = [
     "common_perf",
@@ -349,7 +349,7 @@ swc_common                       = { optional = true, version = "0.29.23", path 
 swc_css_ast                      = { optional = true, version = "0.131.3", path = "../swc_css_ast" }
 swc_css_codegen                  = { optional = true, version = "0.141.3", path = "../swc_css_codegen" }
 swc_css_minifier                 = { optional = true, version = "0.106.7", path = "../swc_css_minifier" }
-swc_css_modules                  = { optional = true, version = "0.17.5", path = "../swc_css_modules" }
+swc_css_modules                  = { optional = true, version = "0.17.6", path = "../swc_css_modules" }
 swc_css_parser                   = { optional = true, version = "0.140.3", path = "../swc_css_parser" }
 swc_css_prefixer                 = { optional = true, version = "0.142.4", path = "../swc_css_prefixer" }
 swc_css_utils                    = { optional = true, version = "0.128.3", path = "../swc_css_utils/" }
@@ -381,7 +381,7 @@ swc_plugin_proxy                 = { optional = true, version = "0.23.7", path =
 swc_trace_macro                  = { optional = true, version = "0.1.2", path = "../swc_trace_macro" }
 testing                          = { optional = true, version = "0.31.24", path = "../testing" }
 # TODO: eventually swc_plugin_runner needs to remove default features
-swc_css_compat    = { version = "0.16.5", path = "../swc_css_compat", optional = true }
+swc_css_compat    = { version = "0.16.6", path = "../swc_css_compat", optional = true }
 swc_plugin_runner = { optional = true, version = "0.81.3", path = "../swc_plugin_runner", default-features = false }
 
 [build-dependencies]

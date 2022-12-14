@@ -50,6 +50,9 @@
 - **(css/compat)** Implement compat pass for media ranges (#6631) ([704b3ce](https://github.com/swc-project/swc/commit/704b3ceb9c1ceb8bafb5dd83717c182c56043198))
 
 
+- **(css/compat)** Support color with hex alpha (#6643) ([fe06b80](https://github.com/swc-project/swc/commit/fe06b8061c742f0a7ec04cf3f9df6db44deb7174))
+
+
 - **(css/minifier)** Support `to` and `from` with `initial` (#6613) ([cb49fa6](https://github.com/swc-project/swc/commit/cb49fa6f1ddf2ae37262769c538ef1a51adc404c))
 
 
