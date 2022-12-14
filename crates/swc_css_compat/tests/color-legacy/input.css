@@ -226,3 +226,8 @@
 
     --hsla-functional-notation-percentage-alpha: hsla(0, 0%, 0%, 100%);
 }
+
+.foo {
+    color: hsl(720deg 100% 50%);
+    color: hsl(240grad 100% 50%);
+}

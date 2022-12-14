@@ -21,18 +21,18 @@
 }
 .test-hsl {
   color: hsl(0, 0%, 100%);
-  color: hsl(120deg, 100%, 50%);
+  color: hsl(120, 100%, 50%);
   color: hsl(120, 100%, 50%);
   color: hsla(120, 100%, 50%, 1);
   color: hsla(120, 100%, 50%, .5);
   color: hsla(120, 100%, 50%, 1);
   color: hsla(120, 100%, 50%, 0.5);
-  color: hsl(120deg, 100%, 50%);
-  color: hsl(0.5turn, 100%, 50%);
-  color: hsl(200grad, 100%, 50%);
-  color: hsl(3.14159rad, 100%, 50%);
-  color: hsla(3.14159rad, 100%, 50%, var(--alpha-50));
-  color: hsla(3.14159rad, 100%, 50%, calc(1 / 2));
+  color: hsl(120, 100%, 50%);
+  color: hsl(180, 100%, 50%);
+  color: hsl(180, 100%, 50%);
+  color: hsl(180, 100%, 50%);
+  color: hsla(180, 100%, 50%, var(--alpha-50));
+  color: hsla(180, 100%, 50%, calc(1 / 2));
 }
 .test-hsla {
   color: hsl(120, 100%, 50%);
@@ -175,4 +175,8 @@
 :root {
   --rgba-functional-notation-percentage-alpha: rgba(0, 0, 0, 100%);
   --hsla-functional-notation-percentage-alpha: hsla(0, 0%, 0%, 100%);
+}
+.foo {
+  color: hsl(720, 100%, 50%);
+  color: hsl(216, 100%, 50%);
 }
