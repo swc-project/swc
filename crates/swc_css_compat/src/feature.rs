@@ -10,3 +10,10 @@ bitflags! {
         const LAB_FUNCTION = 1 << 4;
     }
 }
+
+impl Default for Features {
+    #[inline(always)]
+    fn default() -> Self {
+        Self::NONE
+    }
+}

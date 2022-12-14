@@ -26,7 +26,7 @@ pub struct Compiler {
     lab_fn: LabFnHandler,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Default)]
 pub struct Config {
     /// The list of features to **process**.
     pub process: Features,
@@ -36,23 +36,12 @@ pub struct Config {
     pub lab_function: LabFunctionConfig,
 }
 
-impl Default for Config {
-    #[inline]
-    fn default() -> Self {
-        Self {
-            process: Features::NONE,
-            lab_function: Default::default(),
-        }
-    }
-}
-
 #[derive(Debug, Default)]
 pub struct LabFunctionConfig {
     pub display_p3: bool,
 }
 
 impl Compiler {
-    #[inline]
     pub fn new(config: Config) -> Self {
         Self {
             c: config,
