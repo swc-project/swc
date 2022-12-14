@@ -27,6 +27,10 @@ use crate::{
 /// comparison.
 ///
 /// After reducing, the reduced file will be moved to `.swc-reduce` directory.
+///
+///
+/// Note: This tool is not perfect, and it may reduce input file way too much,
+/// or fail to reduce an input file.
 #[derive(Debug, Args)]
 pub struct ReduceCommand {
     /// The path to the input file. You can specify a directory if you want to
