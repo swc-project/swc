@@ -798,6 +798,7 @@ code
 codebase
 col
 colgroup
+collection
 color
 color-index
 color-mix
@@ -893,6 +894,7 @@ ellipse
 else
 em
 embed
+embedded-opentype
 empty-cells
 encoding
 end
@@ -1014,6 +1016,7 @@ foreignObject
 foreignobject
 form
 formaction
+format
 frame
 frameset
 from
@@ -1423,6 +1426,7 @@ onwebkitanimationstart
 onwebkittransitionend
 onwheel
 opacity
+opentype
 optgroup
 option
 or
@@ -1793,6 +1797,7 @@ translateZ
 transparent
 tref
 true
+truetype
 try
 tspan
 tt
@@ -1841,6 +1846,8 @@ widows
 width
 will-change
 with
+woff
+woff2
 word-break
 word-spacing
 word-wrap
