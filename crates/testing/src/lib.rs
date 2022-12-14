@@ -1,9 +1,9 @@
 use std::{
     env, fmt,
     fmt::{Debug, Display, Formatter},
-    fs::{create_dir_all, File},
+    fs::{create_dir_all, rename, File},
     io::Write,
-    path::{Path, PathBuf},
+    path::{Component, Path, PathBuf},
     str::FromStr,
     sync::RwLock,
     thread,
@@ -281,4 +281,31 @@ impl<'a> Debug for DebugUsingDisplay<'a> {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         Display::fmt(self.0, f)
     }
+}
+
+/// Rename `foo/.bar/exec.js` => `foo/bar/exec.js`
+pub fn unignore_fixture(fixture_path: &Path) {
+    if fixture_path.components().all(|c| {
+        !matches!(c, Component::Normal(..)) || !c.as_os_str().to_string_lossy().starts_with('.')
+    }) {
+        return;
+    }
+    //
+
+    let mut new_path = PathBuf::new();
+
+    for c in fixture_path.components() {
+        if let Component::Normal(s) = c {
+            if let Some(s) = s.to_string_lossy().strip_prefix('.') {
+                new_path.push(s);
+
+                continue;
+            }
+        }
+        new_path.push(c);
+    }
+
+    create_dir_all(new_path.parent().unwrap()).expect("failed to create parent dir");
+
+    rename(fixture_path, &new_path).expect("failed to rename");
 }
