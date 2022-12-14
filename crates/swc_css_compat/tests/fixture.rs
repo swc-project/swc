@@ -93,6 +93,7 @@ fn test_custom_media_query(input: PathBuf) {
 
         ss.visit_mut_with(&mut Compiler::new(Config {
             process: Features::CUSTOM_MEDIA,
+            ..Default::default()
         }));
 
         let s = print_stylesheet(&ss);
@@ -115,6 +116,7 @@ fn test_media_query_ranges(input: PathBuf) {
 
         ss.visit_mut_with(&mut Compiler::new(Config {
             process: Features::MEDIA_QUERY_RANGES,
+            ..Default::default()
         }));
 
         let s = print_stylesheet(&ss);
@@ -137,6 +139,7 @@ fn test_color_hex_alpha(input: PathBuf) {
 
         ss.visit_mut_with(&mut Compiler::new(Config {
             process: Features::COLOR_HEX_ALPHA,
+            ..Default::default()
         }));
 
         let s = print_stylesheet(&ss);

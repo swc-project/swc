@@ -53,7 +53,6 @@ impl Compiler {
             c: config,
             custom_media: Default::default(),
             in_supports_condition: Default::default(),
-            colors5: Default::default(),
             lab_fn: Default::default(),
         }
     }
