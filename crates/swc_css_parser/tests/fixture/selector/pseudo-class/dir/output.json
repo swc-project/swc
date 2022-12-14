@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 65,
+    "end": 84,
     "ctxt": 0
   },
   "rules": [
@@ -351,6 +351,94 @@
           "span": {
             "start": 62,
             "end": 63,
+            "ctxt": 0
+          },
+          "token": "LBrace"
+        },
+        "value": []
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 65,
+        "end": 83,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 65,
+          "end": 80,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 65,
+              "end": 80,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 65,
+                  "end": 80,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "PseudoClassSelector",
+                    "span": {
+                      "start": 65,
+                      "end": 80,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 66,
+                        "end": 69,
+                        "ctxt": 0
+                      },
+                      "value": "dir",
+                      "raw": "dir"
+                    },
+                    "children": [
+                      {
+                        "type": "Ident",
+                        "span": {
+                          "start": 73,
+                          "end": 76,
+                          "ctxt": 0
+                        },
+                        "value": "rtl",
+                        "raw": "RTL"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 81,
+          "end": 83,
+          "ctxt": 0
+        },
+        "name": {
+          "type": "PreservedToken",
+          "span": {
+            "start": 81,
+            "end": 82,
             "ctxt": 0
           },
           "token": "LBrace"

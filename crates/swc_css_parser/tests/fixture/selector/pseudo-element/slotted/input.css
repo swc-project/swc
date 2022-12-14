@@ -1,3 +1,6 @@
 ::slotted(*) {}
 ::slotted(span) {}
 ::slotted(   span   ) {}
+::SLOTTED(SPAN) {
+    font-weight: bold;
+}
