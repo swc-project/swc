@@ -14,14 +14,17 @@ use rayon::{
     prelude::{IntoParallelIterator, ParallelBridge, ParallelIterator},
     str::ParallelString,
 };
-use serde::{de::DeserializeOwned, Deserialize};
+use serde::Deserialize;
 use swc_common::{errors::HANDLER, SourceMap, GLOBALS};
 use tracing::info;
 
-use crate::util::{
-    gzipped_size, make_pretty,
-    minifier::{get_minified, get_terser_output},
-    print_js, wrap_task,
+use crate::{
+    es::minifier::next::parse_loose_json,
+    util::{
+        gzipped_size, make_pretty,
+        minifier::{get_minified, get_terser_output},
+        print_js, wrap_task,
+    },
 };
 
 /// [Experimental] Ensure that the minification rate of the SWC minifier is
@@ -241,37 +244,6 @@ struct CompareResult {
 struct InputFile {
     name: String,
     source: String,
-}
-
-fn parse_loose_json<T>(s: &str) -> Result<T>
-where
-    T: DeserializeOwned,
-{
-    wrap_task(|| {
-        let mut c = Command::new("node");
-
-        c.arg("-e");
-        c.arg(
-            r###"
-            function looseJsonParse(obj) {
-                return Function('"use strict";return (' + obj + ")")();
-            }
-            console.log(JSON.stringify(looseJsonParse(process.argv[1])));
-            "###,
-        );
-
-        c.arg(s);
-
-        c.stderr(Stdio::inherit());
-
-        let json_str = c
-            .output()
-            .context("failed to parse json loosely using node")?
-            .stdout;
-
-        serde_json::from_slice(&json_str).context("failed to parse json")
-    })
-    .with_context(|| format!("failed to parse loose json: {}", s))
 }
 
 fn get_all_files(path: &Path) -> Result<Vec<PathBuf>> {
