@@ -15,9 +15,9 @@
   color: rgba(178, 34, 34, CaLC(1 / 2));
 }
 .test-rgb-percentages {
-  color: rgb(70, 13.5, 13.5);
-  color: rgba(70, 13.5, 13.5, 1);
-  color: rgba(70, 13.5, 13.5, 0.5);
+  color: rgb(179, 34, 34);
+  color: rgba(179, 34, 34, 1);
+  color: rgba(179, 34, 34, 0.5);
 }
 .test-hsl {
   color: hsl(0, 0%, 100%);
@@ -55,7 +55,7 @@
   color: rgb(; );
 }
 .rgb-with-alpha {
-  color: rgba(70, 13.5, 13.5, 0.5);
+  color: rgba(179, 34, 34, 0.5);
   color: rgba(0, 0, 0, 0);
 }
 .hsl-with-alpha {
@@ -63,14 +63,14 @@
   color: hsla(120, 100%, 50%, 0);
 }
 .test-legacy-notation-with-modern-components--rgb {
-  color: rgb(50, 34, 34);
-  color: rgb(178, 10, 34);
-  color: rgb(178, 34, 10);
+  color: rgb(128, 34, 34);
+  color: rgb(178, 26, 34);
+  color: rgb(178, 34, 26);
 }
 .test-legacy-notation-with-modern-components--rgba {
-  color: rgba(50, 34, 34, 1);
-  color: rgba(178, 10, 34, 1);
-  color: rgba(178, 34, 10, 1);
+  color: rgba(128, 34, 34, 1);
+  color: rgba(178, 26, 34, 1);
+  color: rgba(178, 34, 26, 1);
   color: rgba(178, 34, 34, 1);
 }
 .test-legacy-notation-with-modern-components--hsla {

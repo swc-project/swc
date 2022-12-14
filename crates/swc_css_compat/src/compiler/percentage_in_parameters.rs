@@ -1,8 +1,10 @@
 use swc_atoms::js_word;
 use swc_css_ast::{AbsoluteColorBase, AlphaValue, ComponentValue, Number, Percentage};
 
-use crate::compiler::{utils::round_alpha, Compiler};
-
+use crate::compiler::{
+    utils::{clamp_unit_f32, round_alpha},
+    Compiler,
+};
 impl Compiler {
     pub(crate) fn process_percentage_in_parameters(&mut self, n: &mut AbsoluteColorBase) {
         if let AbsoluteColorBase::Function(function) = n {
@@ -25,7 +27,7 @@ impl Compiler {
                         ..
                     }) => ComponentValue::Number(Box::new(Number {
                         span,
-                        value: round_alpha(value),
+                        value: clamp_unit_f32(value / 100.0) as f64,
                         raw: None,
                     })),
                     _ => n,
