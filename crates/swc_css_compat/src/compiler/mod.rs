@@ -36,9 +36,16 @@ pub struct Config {
     pub lab_function: LabFunctionConfig,
 }
 
-#[derive(Debug, Default)]
+#[derive(Debug)]
 pub struct LabFunctionConfig {
+    /// Defaults to `true`.
     pub display_p3: bool,
+}
+
+impl Default for LabFunctionConfig {
+    fn default() -> Self {
+        Self { display_p3: true }
+    }
 }
 
 impl Compiler {
