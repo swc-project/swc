@@ -1068,7 +1068,7 @@ impl VisitMut for Prefixer {
                     "-moz-placeholder",
                 );
 
-                if new_moz_prelude_with_previous != new_moz_prelude {
+                if !new_moz_prelude_with_previous.eq_ignore_span(&new_moz_prelude) {
                     let qualified_rule = Box::new(QualifiedRule {
                         span: DUMMY_SP,
                         prelude: new_moz_prelude_with_previous,
@@ -1154,7 +1154,7 @@ impl VisitMut for Prefixer {
                     "-ms-input-placeholder",
                 );
 
-                if new_ms_prelude_with_previous != new_ms_prelude {
+                if !new_ms_prelude_with_previous.eq_ignore_span(&new_ms_prelude) {
                     let qualified_rule = Box::new(QualifiedRule {
                         span: DUMMY_SP,
                         prelude: new_ms_prelude_with_previous,
@@ -1758,7 +1758,7 @@ impl VisitMut for Prefixer {
                             );
                         }
 
-                        if n.value != old_spec_webkit_value {
+                        if !n.value.eq_ignore_span(&old_spec_webkit_value) {
                             self.added_declarations.push(Box::new(Declaration {
                                 span: n.span,
                                 name: n.name.clone(),
@@ -2411,7 +2411,7 @@ impl VisitMut for Prefixer {
 
                     replace_ident(&mut old_spec_ms_value, "pixelated", "nearest-neighbor");
 
-                    if ms_value != old_spec_ms_value {
+                    if !ms_value.eq_ignore_span(&old_spec_ms_value) {
                         add_declaration!(
                             Prefix::Ms,
                             "-ms-interpolation-mode",
@@ -3299,7 +3299,7 @@ impl VisitMut for Prefixer {
             _ => {}
         }
 
-        if n.value != webkit_value {
+        if !n.value.eq_ignore_span(&webkit_value) {
             self.added_declarations.push(Box::new(Declaration {
                 span: n.span,
                 name: n.name.clone(),
@@ -3308,7 +3308,7 @@ impl VisitMut for Prefixer {
             }));
         }
 
-        if n.value != moz_value {
+        if !n.value.eq_ignore_span(&moz_value) {
             self.added_declarations.push(Box::new(Declaration {
                 span: n.span,
                 name: n.name.clone(),
@@ -3317,7 +3317,7 @@ impl VisitMut for Prefixer {
             }));
         }
 
-        if n.value != o_value {
+        if !n.value.eq_ignore_span(&o_value) {
             self.added_declarations.push(Box::new(Declaration {
                 span: n.span,
                 name: n.name.clone(),
@@ -3326,7 +3326,7 @@ impl VisitMut for Prefixer {
             }));
         }
 
-        if n.value != ms_value {
+        if !n.value.eq_ignore_span(&ms_value) {
             self.added_declarations.push(Box::new(Declaration {
                 span: n.span,
                 name: n.name.clone(),
