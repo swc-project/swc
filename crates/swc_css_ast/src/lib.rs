@@ -14,7 +14,7 @@ mod value;
 ///
 /// The type of value and patterns should be identical.
 ///
-/// # Exmaples
+/// # Examples
 ///
 /// ```
 /// use swc_atoms::JsWord;

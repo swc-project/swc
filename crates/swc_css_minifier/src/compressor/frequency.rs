@@ -5,7 +5,7 @@ use super::Compressor;
 
 impl Compressor {
     pub(super) fn compress_frequency(&mut self, frequency: &mut Frequency) {
-        match frequency.unit.value.to_ascii_lowercase() {
+        match frequency.unit.value {
             js_word!("hz")
                 if frequency.value.value > 0.0 && frequency.value.value % 1000.0 == 0.0 =>
             {

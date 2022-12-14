@@ -303,7 +303,7 @@ impl Compressor {
                         unit: Ident { value: unit, .. },
                         ..
                     }) => {
-                        let angel_type = match get_angle_type(&unit.to_ascii_lowercase()) {
+                        let angel_type = match get_angle_type(unit) {
                             Some(angel_type) => angel_type,
                             _ => return None,
                         };

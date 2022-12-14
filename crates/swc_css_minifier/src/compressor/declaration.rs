@@ -536,11 +536,7 @@ impl Compressor {
                     unit: unit_2,
                     ..
                 }))),
-            ) if value_1.value == value_2.value
-                && unit_1.value.eq_ignore_ascii_case(&unit_2.value) =>
-            {
-                true
-            }
+            ) if value_1.value == value_2.value && unit_1.value == unit_2.value => true,
             (
                 Some(ComponentValue::Integer(box Integer { value: 0, .. })),
                 Some(ComponentValue::Integer(box Integer { value: 0, .. })),
@@ -576,11 +572,7 @@ impl Compressor {
                     unit: unit_2,
                     ..
                 }))),
-            ) if value_1.value == value_2.value
-                && unit_1.value.eq_ignore_ascii_case(&unit_2.value) =>
-            {
-                true
-            }
+            ) if value_1.value == value_2.value && unit_1.value == unit_2.value => true,
             (
                 Some(ComponentValue::Percentage(box Percentage { value: value_1, .. })),
                 Some(ComponentValue::Percentage(box Percentage { value: value_2, .. })),
