@@ -2,6 +2,7 @@ use std::{env, path::PathBuf, str::FromStr, sync::Arc};
 
 use anyhow::{bail, Result};
 use clap::{StructOpt, Subcommand};
+use es::EsCommand;
 use swc_common::{
     errors::{ColorConfig, HANDLER},
     Globals, SourceMap, GLOBALS,
@@ -9,16 +10,11 @@ use swc_common::{
 use swc_error_reporters::handler::{try_with_handler, HandlerOpts};
 use tracing_subscriber::EnvFilter;
 
-use self::{
-    exec_test::ExecForTestingCommand,
-    minifier::MinifierCommand,
-    util::{minifier::get_esbuild_output, print_js},
-};
+use self::util::{minifier::get_esbuild_output, print_js};
 use crate::util::minifier::{get_minified, get_terser_output};
 
 mod bundle;
-mod exec_test;
-mod minifier;
+mod es;
 mod util;
 
 const CREDUCE_INPUT_ENV_VAR: &str = "CREDUCE_INPUT";
@@ -34,9 +30,7 @@ struct AppArgs {
 #[derive(Debug, Subcommand)]
 enum Cmd {
     #[clap(subcommand)]
-    Minifier(MinifierCommand),
-    #[clap(subcommand)]
-    ExecForTesting(ExecForTestingCommand),
+    Es(EsCommand),
 }
 
 fn init() -> Result<()> {
@@ -142,8 +136,7 @@ fn main() -> Result<()> {
         |handler| {
             GLOBALS.set(&Globals::default(), || {
                 HANDLER.set(handler, || match args.cmd {
-                    Cmd::Minifier(cmd) => cmd.run(cm),
-                    Cmd::ExecForTesting(cmd) => cmd.run(cm),
+                    Cmd::Es(cmd) => cmd.run(cm),
                 })
             })
         },
