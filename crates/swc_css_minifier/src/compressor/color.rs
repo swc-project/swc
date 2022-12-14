@@ -414,7 +414,7 @@ impl Compressor {
             Color::AbsoluteColorBase(AbsoluteColorBase::HexColor(HexColor {
                 span, value, ..
             })) => {
-                if let Some(value) = self.get_named_color_by_hex(&value) {
+                if let Some(value) = self.get_named_color_by_hex(value) {
                     *color = Color::AbsoluteColorBase(AbsoluteColorBase::NamedColorOrTransparent(
                         Ident {
                             span: *span,
