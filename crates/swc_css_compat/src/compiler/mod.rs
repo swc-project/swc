@@ -23,7 +23,7 @@ pub struct Compiler {
     custom_media: CustomMediaHandler,
     in_supports_condition: bool,
 
-    colors5: LabFnHandler,
+    lab_fn: LabFnHandler,
 }
 
 #[derive(Debug)]
@@ -39,6 +39,7 @@ impl Compiler {
             custom_media: Default::default(),
             in_supports_condition: Default::default(),
             colors5: Default::default(),
+            lab_fn: Default::default(),
         }
     }
 }
