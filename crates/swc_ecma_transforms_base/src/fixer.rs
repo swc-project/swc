@@ -170,6 +170,34 @@ impl VisitMut for Fixer<'_> {
         if rhs_need_paren(&expr.right) {
             self.wrap(&mut expr.right);
         }
+
+        fn find_nearest_opt_chain_as_obj(e: &mut Expr) -> Option<&mut Expr> {
+            match e {
+                Expr::Member(MemberExpr { obj, .. }) => {
+                    if obj.is_opt_chain() {
+                        Some(obj)
+                    } else {
+                        find_nearest_opt_chain_as_obj(obj)
+                    }
+                }
+                _ => None,
+            }
+        }
+
+        let lhs_expr = match &mut expr.left {
+            PatOrExpr::Expr(e) => Some(e),
+            PatOrExpr::Pat(pat) => {
+                if let Pat::Expr(e) = pat.as_mut() {
+                    Some(e)
+                } else {
+                    None
+                }
+            }
+        };
+
+        if let Some(e) = lhs_expr.and_then(|e| find_nearest_opt_chain_as_obj(e)) {
+            self.wrap(e)
+        };
     }
 
     fn visit_mut_assign_pat(&mut self, node: &mut AssignPat) {
