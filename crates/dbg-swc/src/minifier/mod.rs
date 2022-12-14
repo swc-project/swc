@@ -15,7 +15,7 @@ mod ensure_size;
 mod next;
 mod reduce;
 
-/// Debug swc es minifier
+/// Debug the ECMAScript Minifier.
 #[derive(Debug, Subcommand)]
 pub enum MinifierCommand {
     #[clap(subcommand)]
