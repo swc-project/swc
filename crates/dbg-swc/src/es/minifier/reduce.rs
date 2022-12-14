@@ -20,8 +20,11 @@ use crate::{
 
 /// Reduce input files to minimal reproduction cases
 ///
-/// This command requires `creduce` in PATH.
+/// This command requires `creduce` and `terser` in PATH.
 /// See https://embed.cs.utah.edu/creduce/ for more information.
+///
+/// For `terser`, this command uses `npx terser` to invoke `terser`  for
+/// comparison.
 ///
 /// After reducing, the reduced file will be moved to `.swc-reduce` directory.
 #[derive(Debug, Args)]
