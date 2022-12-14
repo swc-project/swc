@@ -73,7 +73,7 @@ div {
   width: calc((1 + calc(2 * 2)) * 10px);
   width: -webkit-calc((1 + (2 * 2)) * 10px);
   width: -moz-calc((1 + (2 * 2)) * 10px);
-  width: calc((1 + (2 * 2)) * 10px);
+  width: CALC((1 + (2 * 2)) * 10px);
   width: CALC((1 + CALC(2 * 2)) * 10px);
   padding: -webkit-calc((1 + (2 * 2)) * 10px) -webkit-calc((1 + (2 * 2)) * 10px);
   padding: -moz-calc((1 + (2 * 2)) * 10px) -moz-calc((1 + (2 * 2)) * 10px);

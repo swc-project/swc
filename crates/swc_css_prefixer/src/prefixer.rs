@@ -517,8 +517,7 @@ where
 
 struct CalcReplacer<'a> {
     inside_calc: bool,
-    only_nested_calc: bool,
-    to: &'a JsWord,
+    to: Option<&'a JsWord>,
 }
 
 impl VisitMut for CalcReplacer<'_> {
@@ -527,27 +526,28 @@ impl VisitMut for CalcReplacer<'_> {
 
         let name = n.name.value.to_ascii_lowercase();
 
-        if self.only_nested_calc && matches!(name, js_word!("-webkit-calc") | js_word!("-moz-calc"))
+        let is_webkit_calc = matches!(name, js_word!("-webkit-calc"));
+        let is_moz_calc = matches!(name, js_word!("-moz-calc"));
+
+        if self.to.is_none() && (is_webkit_calc || is_moz_calc) {
+            return;
+        }
+
+        if (is_webkit_calc && self.to == Some(&js_word!("-moz-calc")))
+            || (is_moz_calc && self.to == Some(&js_word!("-webkit-calc")))
         {
             return;
         }
 
-        if (name == js_word!("-webkit-calc") && self.to == &js_word!("-moz-calc"))
-            || (name == js_word!("-moz-calc") && self.to == &js_word!("-webkit-calc"))
-        {
-            return;
-        }
-
-        self.inside_calc = matches!(
-            name,
-            js_word!("calc") | js_word!("-webkit-calc") | js_word!("-moz-calc")
-        );
+        self.inside_calc = matches!(name, js_word!("calc")) || is_webkit_calc || is_moz_calc;
 
         n.visit_mut_children_with(self);
 
         if matches!(name, js_word!("calc")) {
-            n.name.value = self.to.clone();
-            n.name.raw = None;
+            if let Some(to) = self.to {
+                n.name.value = to.clone();
+                n.name.raw = None;
+            }
         }
 
         self.inside_calc = old_inside_calc;
@@ -581,13 +581,12 @@ impl VisitMut for CalcReplacer<'_> {
     }
 }
 
-fn replace_calc<N>(node: &mut N, to: &JsWord, only_nested_calc: bool)
+fn replace_calc<N>(node: &mut N, to: Option<&JsWord>)
 where
     N: for<'aa> VisitMutWith<CalcReplacer<'aa>>,
 {
     node.visit_mut_with(&mut CalcReplacer {
         inside_calc: false,
-        only_nested_calc,
         to,
     });
 }
@@ -1320,7 +1319,7 @@ impl VisitMut for Prefixer {
             }
 
             if should_prefix("-webkit-calc()", self.env, false) {
-                replace_calc(&mut webkit_value, &js_word!("-webkit-calc"), false);
+                replace_calc(&mut webkit_value, Some(&js_word!("-webkit-calc")));
             }
 
             if should_prefix("-webkit-cross-fade()", self.env, false) {
@@ -1372,7 +1371,7 @@ impl VisitMut for Prefixer {
             }
 
             if should_prefix("-moz-calc()", self.env, false) {
-                replace_calc(&mut moz_value, &js_word!("-moz-calc"), false);
+                replace_calc(&mut moz_value, Some(&js_word!("-moz-calc")));
             }
 
             if should_prefix("-moz-linear-gradient()", self.env, false) {
@@ -3178,7 +3177,7 @@ impl VisitMut for Prefixer {
         if should_prefix("calc-nested", self.env, true) {
             let mut value = n.value.clone();
 
-            replace_calc(&mut value, &js_word!("calc"), true);
+            replace_calc(&mut value, None);
 
             if !n.value.eq_ignore_span(&value) {
                 self.added_declarations.push(Box::new(Declaration {
