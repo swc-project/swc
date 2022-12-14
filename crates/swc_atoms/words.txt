@@ -1581,8 +1581,10 @@ rtc
 rtl
 ruby
 ruby-align
+ruby-base
 ruby-merge
 ruby-position
+ruby-text
 run-in
 s
 samp
@@ -1711,6 +1713,8 @@ systemlanguage
 tab-size
 tabindex
 table
+table-caption
+table-cell
 table-layout
 tableValues
 tablevalues

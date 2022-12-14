@@ -50,6 +50,12 @@
 - **(css/minifier)** Remove adjacent identical declarations (#6619) ([fb94694](https://github.com/swc-project/swc/commit/fb94694cf3d95c26cc10aa9824f58e68b73b17ca))
 
 
+- **(css/prefixer)** Prefix percentage with `opacity` (#6638) ([2fee4d1](https://github.com/swc-project/swc/commit/2fee4d167ac908e04c04f65fe6e4a867a2b7d950))
+
+
+- **(css/prefixer)** Support  `display` (#6640) ([c8b724f](https://github.com/swc-project/swc/commit/c8b724f14db0291fb48cd3d26c925dcf5e730fb8))
+
+
 - **(dbg-swc)** Kill `creduce` on drop (#6614) ([2bf7805](https://github.com/swc-project/swc/commit/2bf78059801d8f07bf31eab6b077d7fb723837f8))
 
 ### Miscellaneous Tasks
