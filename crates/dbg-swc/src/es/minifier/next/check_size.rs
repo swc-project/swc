@@ -24,6 +24,7 @@ use crate::util::{
     print_js, wrap_task,
 };
 
+/// [Experimental]
 #[derive(Debug, Args)]
 pub struct CheckSizeCommand {
     /// The directory store inputs to the swc minifier.
