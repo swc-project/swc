@@ -152,4 +152,24 @@ fn test_lab_function(input: PathBuf) {
         Ok(())
     })
     .unwrap();
+
+    testing::run_test(false, |cm, _| {
+        //
+        let fm = cm.load_file(&input).unwrap();
+        let mut ss = parse_stylesheet(&fm);
+
+        ss.visit_mut_with(&mut Compiler::new(Config {
+            process: Features::LAB_FUNCTION,
+            lab_function: swc_css_compat::compiler::LabFunctionConfig { display_p3: false },
+        }));
+
+        let s = print_stylesheet(&ss);
+
+        NormalizedOutput::from(s)
+            .compare_to_file(&input.with_extension("display-p3-false.expect.css"))
+            .unwrap();
+
+        Ok(())
+    })
+    .unwrap();
 }
