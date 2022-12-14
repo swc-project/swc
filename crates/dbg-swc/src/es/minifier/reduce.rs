@@ -18,6 +18,9 @@ use crate::{
     CREDUCE_INPUT_ENV_VAR, CREDUCE_MODE_ENV_VAR,
 };
 
+/// Reduce input files to minimal reproduction cases
+///
+/// This command requires `creduce`.
 #[derive(Debug, Args)]
 pub struct ReduceCommand {
     pub path: PathBuf,
