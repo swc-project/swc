@@ -38,7 +38,7 @@ pub struct ReduceCommand {
     /// terser.
     ///
     /// In 'semantics' mode, this command tries to reduce the input file to a
-    /// minimal reproduction case which trigeers the bug.
+    /// minimal reproduction case which triggers the bug.
     #[clap(long, arg_enum)]
     pub mode: ReduceMode,
 
