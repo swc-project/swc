@@ -24,6 +24,8 @@ use crate::{
 /// See https://embed.cs.utah.edu/creduce/ for more information.
 #[derive(Debug, Args)]
 pub struct ReduceCommand {
+    /// The path to the input file. You can specify a directory if you want to
+    /// reduce every '.js' file within a directory, in a recursive manner.
     pub path: PathBuf,
 
     /// In 'size' mode, this command tries to find the minimal input file where
@@ -35,7 +37,8 @@ pub struct ReduceCommand {
     #[clap(long, arg_enum)]
     pub mode: ReduceMode,
 
-    /// If true, the input file will be removed after the reduction.
+    /// If true, the input file will be removed after the reduction. This can be
+    /// used for pausing and resuming the process of reducing.
     #[clap(long)]
     pub remove: bool,
 }
