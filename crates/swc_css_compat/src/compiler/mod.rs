@@ -13,6 +13,7 @@ mod color_hex_alpha;
 mod color_space_separated_parameters;
 mod custom_media;
 mod media_query_ranges;
+mod utils;
 
 /// Compiles a modern CSS file to a CSS file which works with old browsers.
 #[derive(Debug)]
@@ -143,16 +144,18 @@ impl VisitMut for Compiler {
         // TODO handle color functions in custom variables under the option
         // TODO implement the `preserve` option to preserve the original color
 
-        if self
-            .c
-            .process
-            .contains(Features::COLOR_SPACE_SEPARATED_PARAMETERS)
-        {
+        let process = self.c.process;
+
+        if process.contains(Features::COLOR_SPACE_SEPARATED_PARAMETERS) {
             self.process_color_space_separated_function_notation(n);
         }
 
-        if self.c.process.contains(Features::COLOR_ALPHA_PARAMETER) {
+        if process.contains(Features::COLOR_ALPHA_PARAMETER) {
             self.process_color_alpha_parameter(n);
+        }
+
+        if process.contains(Features::COLOR_FLOAT_VALUES_IN_PARAMETERS) {
+            self.process_float_values_in_parameters(n);
         }
     }
 }

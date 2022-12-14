@@ -158,7 +158,9 @@ fn test_color_space_separated_function_notation(input: PathBuf) {
         let mut ss = parse_stylesheet(&fm);
 
         ss.visit_mut_with(&mut Compiler::new(Config {
-            process: Features::COLOR_SPACE_SEPARATED_PARAMETERS | Features::COLOR_ALPHA_PARAMETER,
+            process: Features::COLOR_SPACE_SEPARATED_PARAMETERS
+                | Features::COLOR_FLOAT_VALUES_IN_PARAMETERS
+                | Features::COLOR_ALPHA_PARAMETER,
         }));
 
         let s = print_stylesheet(&ss);
