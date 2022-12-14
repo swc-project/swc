@@ -8,8 +8,9 @@ use swc_css_visit::{VisitMut, VisitMutWith};
 use self::custom_media::CustomMediaHandler;
 use crate::feature::Features;
 
+mod color_alpha_parameter;
 mod color_hex_alpha;
-mod color_space_separated_function_notation;
+mod color_space_separated_parameters;
 mod custom_media;
 mod media_query_ranges;
 
@@ -142,9 +143,13 @@ impl VisitMut for Compiler {
         if self
             .c
             .process
-            .contains(Features::COLOR_SPACE_SEPARATED_FUNCTION_NOTATION)
+            .contains(Features::COLOR_SPACE_SEPARATED_PARAMETERS)
         {
             self.process_color_space_separated_function_notation(n);
+        }
+
+        if self.c.process.contains(Features::COLOR_ALPHA_PARAMETER) {
+            self.process_color_alpha_parameter(n);
         }
     }
 }
