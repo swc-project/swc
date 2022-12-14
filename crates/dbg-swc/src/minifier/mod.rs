@@ -17,7 +17,7 @@ mod reduce;
 
 /// Debug swc es minifier
 #[derive(Debug, Subcommand)]
-pub enum MinifyCommand {
+pub enum MinifierCommand {
     #[clap(subcommand)]
     Next(NextCommand),
     Reduce(ReduceCommand),
@@ -26,14 +26,14 @@ pub enum MinifyCommand {
     EnsureSize(EnsureSize),
 }
 
-impl MinifyCommand {
+impl MinifierCommand {
     pub fn run(self, cm: Arc<SourceMap>) -> Result<()> {
         match self {
-            MinifyCommand::Next(cmd) => cmd.run(cm),
-            MinifyCommand::Reduce(cmd) => cmd.run(cm),
-            MinifyCommand::EnsureSize(cmd) => cmd.run(cm),
-            MinifyCommand::Compare(cmd) => cmd.run(cm),
-            MinifyCommand::DiffOption(cmd) => cmd.run(cm),
+            MinifierCommand::Next(cmd) => cmd.run(cm),
+            MinifierCommand::Reduce(cmd) => cmd.run(cm),
+            MinifierCommand::EnsureSize(cmd) => cmd.run(cm),
+            MinifierCommand::Compare(cmd) => cmd.run(cm),
+            MinifierCommand::DiffOption(cmd) => cmd.run(cm),
         }
     }
 }
