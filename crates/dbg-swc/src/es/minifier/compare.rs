@@ -10,7 +10,8 @@ use crate::util::{
     print_js,
 };
 
-/// Opens vscode for diffing output of swc minifier and terser/esbuild
+/// [Experimental] Opens vscode for diffing output of swc minifier and
+/// terser/esbuild
 #[derive(Debug, Args)]
 pub struct CompareCommand {
     pub path: PathBuf,

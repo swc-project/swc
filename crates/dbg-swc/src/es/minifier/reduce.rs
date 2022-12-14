@@ -18,14 +18,38 @@ use crate::{
     CREDUCE_INPUT_ENV_VAR, CREDUCE_MODE_ENV_VAR,
 };
 
+/// Reduce input files to minimal reproduction cases
+///
+/// This command requires `creduce` and `terser` in PATH.
+///
+/// For `creduce`, see https://embed.cs.utah.edu/creduce/ for more information.
+/// If you are using homebrew, install it with `brew install creduce`.
+///
+/// For `terser`, this command uses `npx terser` to invoke `terser`  for
+/// comparison.
+///
+/// After reducing, the reduced file will be moved to `.swc-reduce` directory.
+///
+///
+/// Note: This tool is not perfect, and it may reduce input file way too much,
+/// or fail to reduce an input file.
 #[derive(Debug, Args)]
 pub struct ReduceCommand {
+    /// The path to the input file. You can specify a directory if you want to
+    /// reduce every '.js' file within a directory, in a recursive manner.
     pub path: PathBuf,
 
+    /// In 'size' mode, this command tries to find the minimal input file where
+    /// the size of the output file of swc minifier is larger than the one from
+    /// terser.
+    ///
+    /// In 'semantics' mode, this command tries to reduce the input file to a
+    /// minimal reproduction case which triggers the bug.
     #[clap(long, arg_enum)]
     pub mode: ReduceMode,
 
-    /// If true, the input file will be removed after the reduction.
+    /// If true, the input file will be removed after the reduction. This can be
+    /// used for pausing and resuming the process of reducing.
     #[clap(long)]
     pub remove: bool,
 }
@@ -115,9 +139,9 @@ fn move_to_data_dir(input_path: &Path) -> Result<PathBuf> {
     let result = hasher.finalize();
     let hash_str = format!("{:x}", result);
 
-    create_dir_all(format!("data/{}", hash_str)).context("failed to create `.data`")?;
+    create_dir_all(format!(".swc-reduce/{}", hash_str)).context("failed to create `.data`")?;
 
-    let to = PathBuf::from(format!("data/{}/input.js", hash_str));
+    let to = PathBuf::from(format!(".swc-reduce/{}/input.js", hash_str));
     fs::write(&to, src.as_bytes()).context("failed to write")?;
 
     Ok(to)

@@ -16,13 +16,14 @@ use tracing::info;
 
 use crate::{bundle::bundle, util::print_js};
 
-/// Execute a javascript file after performing some preprocessing.
+/// [Experimental] Execute a javascript file after performing some
+/// preprocessing.
 #[derive(Debug, Subcommand)]
-pub enum TestCommand {
+pub enum ExecForTestingCommand {
     MinifiedBundle(TestMinifiedBundleCommand),
 }
 
-impl TestCommand {
+impl ExecForTestingCommand {
     pub fn run(self, cm: Arc<SourceMap>) -> Result<()> {
         let _timer = timer!("test");
 
@@ -30,7 +31,7 @@ impl TestCommand {
             let _timer = timer!("process");
 
             match self {
-                TestCommand::MinifiedBundle(cmd) => cmd.run(cm),
+                ExecForTestingCommand::MinifiedBundle(cmd) => cmd.run(cm),
             }?
         };
 

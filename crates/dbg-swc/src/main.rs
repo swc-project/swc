@@ -2,6 +2,7 @@ use std::{env, path::PathBuf, str::FromStr, sync::Arc};
 
 use anyhow::{bail, Result};
 use clap::{StructOpt, Subcommand};
+use es::EsCommand;
 use swc_common::{
     errors::{ColorConfig, HANDLER},
     Globals, SourceMap, GLOBALS,
@@ -9,16 +10,11 @@ use swc_common::{
 use swc_error_reporters::handler::{try_with_handler, HandlerOpts};
 use tracing_subscriber::EnvFilter;
 
-use self::{
-    minify::MinifyCommand,
-    test::TestCommand,
-    util::{minifier::get_esbuild_output, print_js},
-};
+use self::util::print_js;
 use crate::util::minifier::{get_minified, get_terser_output};
 
 mod bundle;
-mod minify;
-mod test;
+mod es;
 mod util;
 
 const CREDUCE_INPUT_ENV_VAR: &str = "CREDUCE_INPUT";
@@ -34,9 +30,7 @@ struct AppArgs {
 #[derive(Debug, Subcommand)]
 enum Cmd {
     #[clap(subcommand)]
-    Minify(MinifyCommand),
-    #[clap(subcommand)]
-    Test(TestCommand),
+    Es(EsCommand),
 }
 
 fn init() -> Result<()> {
@@ -89,24 +83,6 @@ fn main() -> Result<()> {
                                 return Ok(());
                             }
 
-                            // We only care about length, so we can replace it.
-                            //
-                            // We target es5, but esbuild does not support it
-                            let swc_output = swc_output.replace("\\n", "_");
-
-                            let esbuild_output = get_esbuild_output(&input, true)?;
-
-                            if swc_output.len() > esbuild_output.len() {
-                                // It's interesting, as our output is larger than esbuild's.
-                                return Ok(());
-                            }
-
-                            println!(
-                                "swc size = {}, esbuild size = {}",
-                                swc_output.len(),
-                                esbuild_output.len()
-                            );
-
                             bail!("We don't care about this file")
                         } else if mode == "SEMANTICS" {
                             let m = get_minified(cm.clone(), &input, true, false)?;
@@ -142,8 +118,7 @@ fn main() -> Result<()> {
         |handler| {
             GLOBALS.set(&Globals::default(), || {
                 HANDLER.set(handler, || match args.cmd {
-                    Cmd::Minify(cmd) => cmd.run(cm),
-                    Cmd::Test(cmd) => cmd.run(cm),
+                    Cmd::Es(cmd) => cmd.run(cm),
                 })
             })
         },

@@ -8,7 +8,7 @@ use self::check_size::CheckSizeCommand;
 
 mod check_size;
 
-/// Debug the minifier issue related to next.js application.
+/// [Experimental] Debug the minifier issue related to next.js application.
 #[derive(Debug, Subcommand)]
 pub enum NextCommand {
     CheckSize(CheckSizeCommand),
