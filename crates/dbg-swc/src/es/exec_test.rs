@@ -16,7 +16,8 @@ use tracing::info;
 
 use crate::{bundle::bundle, util::print_js};
 
-/// Execute a javascript file after performing some preprocessing.
+/// [Experimental] Execute a javascript file after performing some
+/// preprocessing.
 #[derive(Debug, Subcommand)]
 pub enum ExecForTestingCommand {
     MinifiedBundle(TestMinifiedBundleCommand),
