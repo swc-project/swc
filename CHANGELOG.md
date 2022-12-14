@@ -50,6 +50,9 @@
 - **(css/compat)** Implement compat pass for media ranges (#6631) ([704b3ce](https://github.com/swc-project/swc/commit/704b3ceb9c1ceb8bafb5dd83717c182c56043198))
 
 
+- **(css/compat)** Support color with hex alpha (#6643) ([fe06b80](https://github.com/swc-project/swc/commit/fe06b8061c742f0a7ec04cf3f9df6db44deb7174))
+
+
 - **(css/minifier)** Support `to` and `from` with `initial` (#6613) ([cb49fa6](https://github.com/swc-project/swc/commit/cb49fa6f1ddf2ae37262769c538ef1a51adc404c))
 
 
@@ -60,6 +63,9 @@
 
 
 - **(css/prefixer)** Support  `display` (#6640) ([c8b724f](https://github.com/swc-project/swc/commit/c8b724f14db0291fb48cd3d26c925dcf5e730fb8))
+
+
+- **(css/prefixer)** Support nested calc (#6645) ([5d0dc6e](https://github.com/swc-project/swc/commit/5d0dc6e7319f181e468b40dce218dc15cec8b59f))
 
 
 - **(dbg-swc)** Kill `creduce` on drop (#6614) ([2bf7805](https://github.com/swc-project/swc/commit/2bf78059801d8f07bf31eab6b077d7fb723837f8))
@@ -84,6 +90,12 @@
 
 
 - **(html/minifier)** Reduce allocations (#6623) ([7d3aa66](https://github.com/swc-project/swc/commit/7d3aa66bb8786d6d8cebcc37aa6ed4d486ec4b53))
+
+### Refactor
+
+
+
+- **(dbg-swc)** Cleanup and document reducer (#6647) ([b13a079](https://github.com/swc-project/swc/commit/b13a079481802d7bc44c9b363f63c74599f11a19))
 
 ## [1.3.22] - 2022-12-09
 

@@ -18,7 +18,8 @@ use crate::util::{
     print_js, wrap_task,
 };
 
-/// Ensure that we are performing better than other minification tools.
+/// [Experimental] Ensure that we are performing better than other minification
+/// tools.
 #[derive(Debug, Args)]
 pub struct EnsureSize {
     #[clap(long)]
