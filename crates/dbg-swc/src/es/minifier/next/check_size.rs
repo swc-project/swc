@@ -24,7 +24,8 @@ use crate::util::{
     print_js, wrap_task,
 };
 
-/// [Experimental]
+/// [Experimental] Ensure that the minification rate of the SWC minifier is
+/// better.
 #[derive(Debug, Args)]
 pub struct CheckSizeCommand {
     /// The directory store inputs to the swc minifier.
