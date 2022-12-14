@@ -1,0 +1,7 @@
+{
+    "passes": 2,
+    "toplevel": true,
+    "defaults": true,
+    "sequences": true,
+    "collapse_vars": true
+}

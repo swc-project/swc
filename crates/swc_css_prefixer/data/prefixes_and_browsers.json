@@ -3912,5 +3912,22 @@
       "firefox": "69",
       "samsung": "11.2"
     }
+  ],
+  "display:multi-keyword-values": [
+    {
+      "chrome": "4",
+      "edge": "12",
+      "samsung": "4",
+      "opera": "10",
+      "ie": "6",
+      "safari": "3.1",
+      "ios": "3.2",
+      "firefox": "2"
+    },
+    {
+      "safari": "14.1",
+      "ios": "14.8",
+      "firefox": "69"
+    }
   ]
 }

@@ -20,7 +20,13 @@
 - **(es/codegen)** Fix codegen of TypeScript mapped types (#6621) ([5c53a74](https://github.com/swc-project/swc/commit/5c53a74f55fc9d6ba1f54f9f2ea517853fa62a74))
 
 
+- **(es/fixer)** Add correct parens to `OptChainExpr` in `MemberExpr` (#6639) ([be5ea7f](https://github.com/swc-project/swc/commit/be5ea7fe170cca1532ba3d18f975d025a9fe038b))
+
+
 - **(es/minifier)** Abort IIFE invoker on `eval` (#6478) ([8b2e1d1](https://github.com/swc-project/swc/commit/8b2e1d17e59eaf21d4189aa4b9d2773cb10a1ab4))
+
+
+- **(es/minifier)** Abort sequential inliner on optional chaining (#6637) ([e4e4d6c](https://github.com/swc-project/swc/commit/e4e4d6cf6bbc2645272d590cd6ae83aeb5c19b1c))
 
 
 - **(es/parser)** Parse types in `CallExpression` inside templates (#6611) ([c44f1d0](https://github.com/swc-project/swc/commit/c44f1d0a7fd31b6c8019e5a17b0f80dab4c9c01c))
@@ -44,6 +50,9 @@
 - **(css/compat)** Implement compat pass for media ranges (#6631) ([704b3ce](https://github.com/swc-project/swc/commit/704b3ceb9c1ceb8bafb5dd83717c182c56043198))
 
 
+- **(css/compat)** Support color with hex alpha (#6643) ([fe06b80](https://github.com/swc-project/swc/commit/fe06b8061c742f0a7ec04cf3f9df6db44deb7174))
+
+
 - **(css/minifier)** Support `to` and `from` with `initial` (#6613) ([cb49fa6](https://github.com/swc-project/swc/commit/cb49fa6f1ddf2ae37262769c538ef1a51adc404c))
 
 
@@ -51,6 +60,9 @@
 
 
 - **(css/prefixer)** Prefix percentage with `opacity` (#6638) ([2fee4d1](https://github.com/swc-project/swc/commit/2fee4d167ac908e04c04f65fe6e4a867a2b7d950))
+
+
+- **(css/prefixer)** Support  `display` (#6640) ([c8b724f](https://github.com/swc-project/swc/commit/c8b724f14db0291fb48cd3d26c925dcf5e730fb8))
 
 
 - **(dbg-swc)** Kill `creduce` on drop (#6614) ([2bf7805](https://github.com/swc-project/swc/commit/2bf78059801d8f07bf31eab6b077d7fb723837f8))

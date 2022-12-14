@@ -1,0 +1,52 @@
+body {
+    background: #9d9 linear-gradient(#9823f8a9, #9823f834);
+    color: red;
+    color: #f00;
+    color: #f00f;
+    color: #FC0F;
+    color: #0000ff;
+    color: #0000ff00;
+    color: #FFFFFF;
+    content: "#f00";
+    content: "#0000ff00";
+}
+
+body {
+    background-color: #f3f3f3f3;
+    color: #0003;
+}
+
+#svg-element {
+    clip-path: url(#SVGID_1_);
+    clip-path: url(#aaaa);
+}
+
+.other {
+    background: #ff0099;
+    background: #ff0099ff;
+    background: #ff009900;
+}
+
+.short {
+    color: #ffff;
+    color: #ffffffff;
+    color: #abdabcff;
+    color: #000000FF;
+    color: #abcf;
+    color: #ff0f;
+    color: #000f;
+    color: #0000;
+    color: #001e;
+}
+
+@supports (color: #1111) {
+    .a {
+        color: #1111;
+    }
+}
+
+@supports (color: #11111111) {
+    .a {
+        color: #11111111;
+    }
+}

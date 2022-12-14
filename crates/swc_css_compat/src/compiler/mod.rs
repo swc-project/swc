@@ -1,13 +1,14 @@
 use swc_common::{Spanned, DUMMY_SP};
 use swc_css_ast::{
-    AtRule, MediaAnd, MediaCondition, MediaConditionAllType, MediaConditionWithoutOr,
-    MediaInParens, MediaQuery, Rule,
+    AtRule, ComponentValue, MediaAnd, MediaCondition, MediaConditionAllType,
+    MediaConditionWithoutOr, MediaInParens, MediaQuery, Rule, SupportsCondition,
 };
 use swc_css_visit::{VisitMut, VisitMutWith};
 
 use self::custom_media::CustomMediaHandler;
 use crate::feature::Features;
 
+mod color_hex_alpha;
 mod custom_media;
 mod media_query_ranges;
 
@@ -17,6 +18,7 @@ pub struct Compiler {
     #[allow(unused)]
     c: Config,
     custom_media: CustomMediaHandler,
+    in_supports_condition: bool,
 }
 
 #[derive(Debug)]
@@ -30,6 +32,7 @@ impl Compiler {
         Self {
             c: config,
             custom_media: Default::default(),
+            in_supports_condition: Default::default(),
         }
     }
 }
@@ -41,6 +44,16 @@ impl VisitMut for Compiler {
         if self.c.process.contains(Features::CUSTOM_MEDIA) {
             self.custom_media.store_custom_media(n);
         }
+    }
+
+    fn visit_mut_supports_condition(&mut self, n: &mut SupportsCondition) {
+        let old_in_support_condition = self.in_supports_condition;
+
+        self.in_supports_condition = true;
+
+        n.visit_mut_children_with(self);
+
+        self.in_supports_condition = old_in_support_condition;
     }
 
     fn visit_mut_media_query(&mut self, n: &mut MediaQuery) {
@@ -103,6 +116,18 @@ impl VisitMut for Compiler {
                     }
                 }
             }
+        }
+    }
+
+    fn visit_mut_component_value(&mut self, n: &mut ComponentValue) {
+        n.visit_mut_children_with(self);
+
+        if self.in_supports_condition {
+            return;
+        }
+
+        if self.c.process.contains(Features::COLOR_HEX_ALPHA) {
+            self.process_color_hex_alpha(n);
         }
     }
 }
