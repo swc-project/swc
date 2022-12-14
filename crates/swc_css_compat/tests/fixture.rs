@@ -128,6 +128,8 @@ fn test_media_query_ranges(input: PathBuf) {
 
 #[testing::fixture("tests/color-hex-alpha/**/*.css", exclude("expect.css"))]
 fn test_color_hex_alpha(input: PathBuf) {
+#[testing::fixture("tests/lab-function/**/*.css", exclude("expect.css"))]
+fn test_lab_function(input: PathBuf) {
     let output = input.with_extension("expect.css");
 
     testing::run_test(false, |cm, _| {
@@ -137,6 +139,7 @@ fn test_color_hex_alpha(input: PathBuf) {
 
         ss.visit_mut_with(&mut Compiler::new(Config {
             process: Features::COLOR_HEX_ALPHA,
+            process: Features::LAB_FUNCTION,
         }));
 
         let s = print_stylesheet(&ss);
