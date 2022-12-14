@@ -13,6 +13,7 @@ mod color_hex_alpha;
 mod color_space_separated_parameters;
 mod custom_media;
 mod media_query_ranges;
+mod percentage_in_parameters;
 mod utils;
 
 /// Compiles a modern CSS file to a CSS file which works with old browsers.
@@ -154,8 +155,8 @@ impl VisitMut for Compiler {
             self.process_color_alpha_parameter(n);
         }
 
-        if process.contains(Features::COLOR_FLOAT_VALUES_IN_PARAMETERS) {
-            self.process_float_values_in_parameters(n);
+        if process.contains(Features::COLOR_PERCENTAGE_IN_PARAMETERS) {
+            self.process_percentage_in_parameters(n);
         }
     }
 }
