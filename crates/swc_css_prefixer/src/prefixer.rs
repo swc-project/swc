@@ -492,9 +492,11 @@ impl VisitMut for MediaFeatureResolutionReplacerOnLegacyVariant<'_> {
                     raw: None,
                 });
 
-                let left = match &*resolution_unit.value.to_ascii_lowercase() {
-                    "dpi" => (resolution_value.value / 96.0 * 100.0).round() / 100.0,
-                    "dpcm" => (((resolution_value.value * 2.54) / 96.0) * 100.0).round() / 100.0,
+                let left = match resolution_unit.value {
+                    js_word!("dpi") => (resolution_value.value / 96.0 * 100.0).round() / 100.0,
+                    js_word!("dpcm") => {
+                        (((resolution_value.value * 2.54) / 96.0) * 100.0).round() / 100.0
+                    }
                     _ => resolution_value.value,
                 };
 

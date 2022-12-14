@@ -2004,7 +2004,7 @@ where
                     },
                     unit: Ident {
                         span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
-                        value: unit,
+                        value: unit.to_ascii_lowercase(),
                         raw: Some(raw_unit),
                     },
                 })
@@ -2053,7 +2053,7 @@ where
                     },
                     unit: Ident {
                         span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
-                        value: unit,
+                        value: unit.to_ascii_lowercase(),
                         raw: Some(raw_unit),
                     },
                 })
@@ -2099,7 +2099,7 @@ where
                     },
                     unit: Ident {
                         span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
-                        value: unit,
+                        value: unit.to_ascii_lowercase(),
                         raw: Some(raw_unit),
                     },
                 })
@@ -2145,7 +2145,7 @@ where
                     },
                     unit: Ident {
                         span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
-                        value: unit,
+                        value: unit.to_ascii_lowercase(),
                         raw: Some(raw_unit),
                     },
                 })
@@ -2194,7 +2194,7 @@ where
                     },
                     unit: Ident {
                         span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
-                        value: unit,
+                        value: unit.to_ascii_lowercase(),
                         raw: Some(raw_unit),
                     },
                 })
@@ -2240,7 +2240,7 @@ where
                     },
                     unit: Ident {
                         span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
-                        value: unit,
+                        value: unit.to_ascii_lowercase(),
                         raw: Some(raw_unit),
                     },
                 })
@@ -2282,7 +2282,7 @@ where
                     },
                     unit: Ident {
                         span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
-                        value: unit,
+                        value: unit.to_lowercase().into(),
                         raw: Some(raw_unit),
                     },
                 })
