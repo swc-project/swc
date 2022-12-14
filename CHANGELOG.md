@@ -97,6 +97,12 @@
 
 - **(dbg-swc)** Cleanup and document reducer (#6647) ([b13a079](https://github.com/swc-project/swc/commit/b13a079481802d7bc44c9b363f63c74599f11a19))
 
+### Testing
+
+
+
+- **(es/minifier)** Enable size tests created from `creduce` (#6646) ([7f3e698](https://github.com/swc-project/swc/commit/7f3e6983e552bc789b7d0331335b760e6d42e51a))
+
 ## [1.3.22] - 2022-12-09
 
 ### Bug Fixes
