@@ -21,7 +21,9 @@ use crate::{
 /// Reduce input files to minimal reproduction cases
 ///
 /// This command requires `creduce` and `terser` in PATH.
-/// See https://embed.cs.utah.edu/creduce/ for more information.
+///
+/// For `creduce`, see https://embed.cs.utah.edu/creduce/ for more information.
+/// If you are using homebrew, install it with `brew install creduce`.
 ///
 /// For `terser`, this command uses `npx terser` to invoke `terser`  for
 /// comparison.
