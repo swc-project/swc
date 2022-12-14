@@ -16,3 +16,87 @@
 :fullscreen a {
   display: flex;
 }
+.block-flow {
+  display: block;
+  display: block flow;
+  display: block;
+  display: flow block;
+}
+.block-flow-root {
+  display: flow-root;
+  display: block flow-root;
+}
+.inline-flow {
+  display: inline;
+  display: inline flow;
+}
+.inline-flow-root {
+  display: inline-block;
+  display: inline flow-root;
+}
+.run-in-flow {
+  display: run-in;
+  display: run-in flow;
+}
+.list-item-block-flow {
+  display: list-item;
+  display: list-item block flow;
+}
+.inline-flow-list-item {
+  display: inline list-item;
+  display: inline flow list-item;
+  display: inline list-item;
+  display: inline list-item flow;
+  display: inline list-item;
+  display: flow inline list-item;
+  display: inline list-item;
+  display: flow list-item inline;
+  display: inline list-item;
+  display: list-item flow inline;
+  display: inline list-item;
+  display: list-item inline flow;
+}
+.block-flex {
+  display: flex;
+  display: block flex;
+}
+.inline-flex {
+  display: inline-flex;
+  display: inline flex;
+}
+.block-grid {
+  display: grid;
+  display: block grid;
+}
+.inline-grid {
+  display: inline-grid;
+  display: inline grid;
+}
+.inline-ruby {
+  display: ruby;
+  display: inline ruby;
+}
+.block-table {
+  display: table;
+  display: block table;
+}
+.inline-table {
+  display: inline-table;
+  display: inline table;
+}
+.table-cell-flow {
+  display: table-cell;
+  display: table-cell flow;
+}
+.table-caption-flow {
+  display: table-caption;
+  display: table-caption flow;
+}
+.ruby-base-flow {
+  display: ruby-base;
+  display: ruby-base flow;
+}
+.ruby-text-flow {
+  display: ruby-text;
+  display: ruby-text flow;
+}
