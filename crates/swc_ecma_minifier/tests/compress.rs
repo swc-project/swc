@@ -432,7 +432,6 @@ fn projects_bench(input: PathBuf) {
         Ok(())
     })
     .unwrap();
-    unignore_fixture(&input);
 }
 
 /// Tests ported from terser.
@@ -1713,7 +1712,8 @@ fn full(input: PathBuf) {
 
         Ok(())
     })
-    .unwrap()
+    .unwrap();
+    unignore_fixture(&input);
 }
 
 struct DropParens;
