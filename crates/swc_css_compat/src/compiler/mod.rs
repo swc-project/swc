@@ -5,12 +5,13 @@ use swc_css_ast::{
 };
 use swc_css_visit::{VisitMut, VisitMutWith};
 
-use self::{colors5::Color5Handler, custom_media::CustomMediaHandler};
+use self::{custom_media::CustomMediaHandler, lab_function::LabFnHandler};
 use crate::feature::Features;
 
 mod color_hex_alpha;
 mod colors5;
 mod custom_media;
+mod lab_function;
 mod media_query_ranges;
 
 /// Compiles a modern CSS file to a CSS file which works with old browsers.
@@ -22,7 +23,7 @@ pub struct Compiler {
     custom_media: CustomMediaHandler,
     in_supports_condition: bool,
 
-    colors5: Color5Handler,
+    colors5: LabFnHandler,
 }
 
 #[derive(Debug)]
