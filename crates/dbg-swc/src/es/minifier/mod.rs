@@ -5,7 +5,7 @@ use clap::Subcommand;
 use swc_common::SourceMap;
 
 use self::{
-    compare::CompareCommand, ensure_size::EnsureSize, next::NextCommand, reduce::ReduceCommand,
+    compare::CompareCommand, ensure_size::EnsureSize, next::NextJsCommand, reduce::ReduceCommand,
 };
 
 mod compare;
@@ -17,7 +17,7 @@ mod reduce;
 #[derive(Debug, Subcommand)]
 pub enum MinifierCommand {
     #[clap(subcommand)]
-    Next(NextCommand),
+    NextJs(NextJsCommand),
     Reduce(ReduceCommand),
     Compare(CompareCommand),
     EnsureSize(EnsureSize),
@@ -26,7 +26,7 @@ pub enum MinifierCommand {
 impl MinifierCommand {
     pub fn run(self, cm: Arc<SourceMap>) -> Result<()> {
         match self {
-            MinifierCommand::Next(cmd) => cmd.run(cm),
+            MinifierCommand::NextJs(cmd) => cmd.run(cm),
             MinifierCommand::Reduce(cmd) => cmd.run(cm),
             MinifierCommand::EnsureSize(cmd) => cmd.run(cm),
             MinifierCommand::Compare(cmd) => cmd.run(cm),
