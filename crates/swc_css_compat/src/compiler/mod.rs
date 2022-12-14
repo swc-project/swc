@@ -30,9 +30,29 @@ pub struct Compiler {
 pub struct Config {
     /// The list of features to **process**.
     pub process: Features,
+
+    /// Has effect only if `process` contains [`Features::LAB_FUNCTION`]. If
+    /// it's not required, you can use `Default::default()`.
+    pub lab_function: LabFunctionConfig,
+}
+
+impl Default for Config {
+    #[inline]
+    fn default() -> Self {
+        Self {
+            process: Features::NONE,
+            lab_function: Default::default(),
+        }
+    }
+}
+
+#[derive(Debug, Default)]
+pub struct LabFunctionConfig {
+    pub display_p3: bool,
 }
 
 impl Compiler {
+    #[inline]
     pub fn new(config: Config) -> Self {
         Self {
             c: config,
