@@ -10,14 +10,14 @@ use swc_error_reporters::handler::{try_with_handler, HandlerOpts};
 use tracing_subscriber::EnvFilter;
 
 use self::{
-    minify::MinifyCommand,
+    minifier::MinifyCommand,
     test::TestCommand,
     util::{minifier::get_esbuild_output, print_js},
 };
 use crate::util::minifier::{get_minified, get_terser_output};
 
 mod bundle;
-mod minify;
+mod minifier;
 mod test;
 mod util;
 
