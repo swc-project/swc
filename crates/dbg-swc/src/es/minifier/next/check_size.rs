@@ -1,30 +1,24 @@
 use std::{
     cmp::Reverse,
     env::current_dir,
-    fs::{self, create_dir_all, read_dir, remove_dir_all},
+    fs::{self, create_dir_all, read_dir},
     path::{Path, PathBuf},
-    process::{Command, Stdio},
+    process::Command,
     sync::Arc,
 };
 
-use anyhow::{bail, Context, Result};
+use anyhow::{Context, Result};
 use clap::Args;
 use dialoguer::{console::Term, theme::ColorfulTheme, Select};
-use rayon::{
-    prelude::{IntoParallelIterator, ParallelBridge, ParallelIterator},
-    str::ParallelString,
-};
-use serde::Deserialize;
+use rayon::prelude::{IntoParallelIterator, ParallelBridge, ParallelIterator};
 use swc_common::{errors::HANDLER, SourceMap, GLOBALS};
 use tracing::info;
 
-use crate::{
-    es::minifier::next::parse_loose_json,
-    util::{
-        gzipped_size, make_pretty,
-        minifier::{get_minified, get_terser_output},
-        print_js, wrap_task,
-    },
+use super::build_next_js_app;
+use crate::util::{
+    gzipped_size, make_pretty,
+    minifier::{get_minified, get_terser_output},
+    print_js, wrap_task,
 };
 
 /// [Experimental] Ensure that the minification rate of the SWC minifier is
@@ -162,7 +156,7 @@ impl CheckSizeCommand {
                     .context("failed to get files from cache");
             }
 
-            let files = self.build_app(app_dir)?;
+            let files = build_next_js_app(app_dir)?;
 
             files
                 .into_par_iter()
@@ -177,43 +171,6 @@ impl CheckSizeCommand {
                 .collect::<Result<_>>()
         })
         .context("failed to extract inputs for the swc minifier")
-    }
-
-    /// Invokes `npm run build` and extacts the inputs for the swc minifier.
-    fn build_app(&self, app_dir: &Path) -> Result<Vec<InputFile>> {
-        wrap_task(|| {
-            info!("Running `npm run build`");
-
-            // Remove cache
-            let _ = remove_dir_all(app_dir.join(".next"));
-
-            let mut c = Command::new("npm");
-            c.current_dir(app_dir);
-            c.env("FORCE_COLOR", "3");
-            c.env("NEXT_DEBUG_MINIFY", "1");
-            c.arg("run").arg("build");
-
-            c.stderr(Stdio::inherit());
-
-            let output = c
-                .output()
-                .context("failed to get output of `npm run build`")?;
-
-            if !output.status.success() {
-                bail!("`npm run build` failed");
-            }
-
-            let output = String::from_utf8_lossy(&output.stdout);
-
-            output
-                .par_lines()
-                .filter(|line| line.contains("{ name:"))
-                .map(|line| {
-                    parse_loose_json::<InputFile>(line).context("failed to parse input file")
-                })
-                .collect::<Result<_>>()
-        })
-        .with_context(|| format!("failed to build app in `{}`", app_dir.display()))
     }
 
     fn minify_file(&self, cm: Arc<SourceMap>, js_file: &Path) -> Result<CompareResult> {
@@ -238,12 +195,6 @@ struct CompareResult {
     path: PathBuf,
     swc: usize,
     terser: usize,
-}
-
-#[derive(Deserialize)]
-struct InputFile {
-    name: String,
-    source: String,
 }
 
 fn get_all_files(path: &Path) -> Result<Vec<PathBuf>> {
