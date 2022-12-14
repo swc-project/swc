@@ -10,7 +10,7 @@ use swc_common::{
 use swc_error_reporters::handler::{try_with_handler, HandlerOpts};
 use tracing_subscriber::EnvFilter;
 
-use self::util::{minifier::get_esbuild_output, print_js};
+use self::util::print_js;
 use crate::util::minifier::{get_minified, get_terser_output};
 
 mod bundle;
@@ -82,24 +82,6 @@ fn main() -> Result<()> {
                                 // It's interesting, as our output is larger than terser's.
                                 return Ok(());
                             }
-
-                            // We only care about length, so we can replace it.
-                            //
-                            // We target es5, but esbuild does not support it
-                            let swc_output = swc_output.replace("\\n", "_");
-
-                            let esbuild_output = get_esbuild_output(&input, true)?;
-
-                            if swc_output.len() > esbuild_output.len() {
-                                // It's interesting, as our output is larger than esbuild's.
-                                return Ok(());
-                            }
-
-                            println!(
-                                "swc size = {}, esbuild size = {}",
-                                swc_output.len(),
-                                esbuild_output.len()
-                            );
 
                             bail!("We don't care about this file")
                         } else if mode == "SEMANTICS" {
