@@ -1711,7 +1711,7 @@ impl VisitMut for Prefixer {
 
             js_word!("background-clip") => {
                 if let ComponentValue::Ident(ident) = &n.value[0] {
-                    if ident.value.to_ascii_lowercase() == js_word!("text") {
+                    if ident.value.eq_ignore_ascii_case(&js_word!("text")) {
                         add_declaration!(Prefix::Webkit, js_word!("-webkit-background-clip"), None);
                     }
                 }
@@ -2213,7 +2213,7 @@ impl VisitMut for Prefixer {
                 let is_single_flex_wrap = matches!(n.value.get(0), Some(ComponentValue::Ident(box Ident { value, .. })) if n.value.len() == 1
                 && matches!(
                     value.to_ascii_lowercase(),
-                    js_word!( "wrap") | js_word!( "nowrap") | js_word!( "wrap-reverse")
+                    js_word!("wrap") | js_word!("nowrap") | js_word!("wrap-reverse")
                 ));
 
                 let old_values = match is_single_flex_wrap {
@@ -2845,7 +2845,7 @@ impl VisitMut for Prefixer {
 
             js_word!("text-size-adjust") if n.value.len() == 1 => {
                 if let ComponentValue::Ident(ident) = &n.value[0] {
-                    if ident.value.to_ascii_lowercase() == js_word!("none") {
+                    if ident.value.eq_ignore_ascii_case(&js_word!("none")) {
                         add_declaration!(
                             Prefix::Webkit,
                             js_word!("-webkit-text-size-adjust"),
@@ -3552,7 +3552,7 @@ impl VisitMut for Prefixer {
                 add_declaration!(Prefix::Moz, js_word!("-moz-border-radius-bottomleft"), None);
             }
 
-            "src" if should_prefix("font-face-format-ident", self.env, true) => {
+            js_word!("src") if should_prefix("font-face-format-ident", self.env, true) => {
                 let mut new_declaration = n.clone();
 
                 font_face_format_old_syntax(&mut new_declaration);
