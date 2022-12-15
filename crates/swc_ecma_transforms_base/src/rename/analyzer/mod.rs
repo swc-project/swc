@@ -3,7 +3,7 @@ use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use self::scope::Scope;
 
-mod rope_map;
+mod reverse_map;
 pub(super) mod scope;
 
 #[derive(Debug, Default)]

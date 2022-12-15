@@ -13,7 +13,7 @@ use swc_common::{collections::AHashMap, util::take::Take, SyntaxContext};
 use swc_ecma_ast::*;
 use tracing::debug;
 
-use super::rope_map::ReverseMap;
+use super::reverse_map::ReverseMap;
 use crate::rename::Renamer;
 
 #[derive(Debug, Default)]
