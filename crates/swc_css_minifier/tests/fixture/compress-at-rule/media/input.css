@@ -73,3 +73,16 @@
 @media (max-width: calc(5px + 1rem)) { body { color: red; } }
 
 @media (-webkit-calc(10px + 100px) < width <= calc(1000px + 10px)) { body { color: red; } }
+
+@media (color) { body { color: red; } }
+@media (min-color: 1) { body { color: red; } }
+@media (color >= 1) { body { color: red; } }
+
+@media (color-index) { body { color: red; } }
+@media (min-color-index: 1) { body { color: red; } }
+@media (color-index >= 1) { body { color: red; } }
+
+@media (monochrome) { body { color: red; } }
+@media (min-monochrome: 1) { body { color: red; } }
+@media (monochrome >= 1) { body { color: red; } }
+
