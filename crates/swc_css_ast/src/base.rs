@@ -1,4 +1,5 @@
 use is_macro::Is;
+use swc_atoms::JsWord;
 use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span};
 
 use crate::{
@@ -114,6 +115,15 @@ impl PartialEq<str> for FunctionName {
         match self {
             FunctionName::DashedIdent(v) => *v == *other,
             FunctionName::Ident(v) => *v == *other,
+        }
+    }
+}
+
+impl PartialEq<JsWord> for FunctionName {
+    fn eq(&self, other: &JsWord) -> bool {
+        match self {
+            FunctionName::DashedIdent(v) => v.value == *other,
+            FunctionName::Ident(v) => v.value == *other,
         }
     }
 }
@@ -290,6 +300,15 @@ impl PartialEq<str> for DeclarationName {
         match self {
             DeclarationName::DashedIdent(v) => *v == *other,
             DeclarationName::Ident(v) => *v == *other,
+        }
+    }
+}
+
+impl PartialEq<JsWord> for DeclarationName {
+    fn eq(&self, other: &JsWord) -> bool {
+        match self {
+            DeclarationName::DashedIdent(v) => v.value == *other,
+            DeclarationName::Ident(v) => v.value == *other,
         }
     }
 }

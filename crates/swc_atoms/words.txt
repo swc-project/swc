@@ -2440,3 +2440,8 @@ z-index
 zoom
 zoomAndPan
 zoomandpan
+scalez
+scaley
+scalex
+translatez
+translatey

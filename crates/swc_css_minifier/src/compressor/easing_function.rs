@@ -10,9 +10,7 @@ impl Compressor {
                 name,
                 value: function_value,
                 span,
-            }) if name.value.eq_ignore_ascii_case(&js_word!("cubic-bezier"))
-                && function_value.len() == 7 =>
-            {
+            }) if name == &js_word!("cubic-bezier") && function_value.len() == 7 => {
                 if let (
                     first,
                     second,
@@ -81,9 +79,7 @@ impl Compressor {
                 name,
                 value: function_value,
                 span,
-            }) if name.value.eq_ignore_ascii_case(&js_word!("steps"))
-                && function_value.len() == 3 =>
-            {
+            }) if name == &js_word!("steps") && function_value.len() == 3 => {
                 match (&function_value[0], &function_value[2]) {
                     (
                         ComponentValue::Integer(box Integer {
