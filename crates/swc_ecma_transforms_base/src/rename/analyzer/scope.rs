@@ -185,7 +185,7 @@ impl Scope {
                 continue;
             }
 
-            if self.data.all.contains(left) {
+            if self.data.all.contains(&left) {
                 return false;
             }
         }

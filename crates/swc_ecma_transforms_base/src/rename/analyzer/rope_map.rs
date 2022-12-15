@@ -14,7 +14,19 @@ impl ReverseMap<'_> {
         self.inner.entry(key).or_default().push(id);
     }
 
-    pub fn get(&self, key: &FastJsWord) -> impl Iterator<Item = &FastId> {}
+    pub fn get(&self, key: &FastJsWord) -> Vec<FastId> {
+        let mut res = vec![];
+
+        let mut cur = Some(self);
+        while let Some(c) = cur {
+            if let Some(v) = c.inner.get(key) {
+                res.extend(v.iter().cloned());
+            }
+
+            cur = c.prev;
+        }
+        res
+    }
 
     pub fn next(&self) -> ReverseMap {
         ReverseMap {
