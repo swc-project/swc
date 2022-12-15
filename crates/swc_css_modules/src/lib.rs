@@ -316,7 +316,7 @@ where
         }
 
         if let DeclarationName::Ident(name) = &n.name {
-            match name.value.to_ascii_lowercase() {
+            match name.value {
                 js_word!("animation") => {
                     let mut can_change = true;
 

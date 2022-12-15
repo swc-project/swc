@@ -2763,9 +2763,9 @@ fn minify_hex_color(value: &str) -> String {
             if length == 6 || chars[6] == b'f' && chars[7] == b'f' {
                 let mut minified = String::with_capacity(3);
 
-                minified.push((chars[0] as char).to_ascii_lowercase());
-                minified.push((chars[2] as char).to_ascii_lowercase());
-                minified.push((chars[4] as char).to_ascii_lowercase());
+                minified.push(chars[0] as char);
+                minified.push(chars[2] as char);
+                minified.push(chars[4] as char);
 
                 return minified;
             }
@@ -2773,17 +2773,17 @@ fn minify_hex_color(value: &str) -> String {
             else if length == 8 && chars[6] == chars[7] {
                 let mut minified = String::with_capacity(4);
 
-                minified.push((chars[0] as char).to_ascii_lowercase());
-                minified.push((chars[2] as char).to_ascii_lowercase());
-                minified.push((chars[4] as char).to_ascii_lowercase());
-                minified.push((chars[6] as char).to_ascii_lowercase());
+                minified.push(chars[0] as char);
+                minified.push(chars[2] as char);
+                minified.push(chars[4] as char);
+                minified.push(chars[6] as char);
 
                 return minified;
             }
         }
     }
 
-    value.to_ascii_lowercase()
+    value.to_string()
 }
 
 fn serialize_string(value: &str) -> String {

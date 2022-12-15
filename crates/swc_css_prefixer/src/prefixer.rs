@@ -1594,7 +1594,7 @@ impl VisitMut for Prefixer {
             }};
         }
 
-        let property_name = &*name.to_ascii_lowercase();
+        let property_name: &str = &*name;
 
         match property_name {
             "appearance" => {
