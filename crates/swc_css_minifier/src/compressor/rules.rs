@@ -67,7 +67,7 @@ impl Compressor {
                 DeclarationName::Ident(Ident {
                     value: right_value, ..
                 }),
-            ) => left_value.to_ascii_lowercase() == right_value.to_ascii_lowercase(),
+            ) => left_value.eq_ignore_ascii_case(&right_value),
             (
                 DeclarationName::DashedIdent(DashedIdent {
                     value: left_value, ..
