@@ -13,7 +13,7 @@ use swc_common::{collections::AHashMap, util::take::Take, SyntaxContext};
 use swc_ecma_ast::*;
 use tracing::debug;
 
-use super::rope_map::RopeMap;
+use super::rope_map::ReverseMap;
 use crate::rename::Renamer;
 
 #[derive(Debug, Default)]
@@ -55,8 +55,6 @@ impl FastJsWord {
 pub(crate) type FastId = (FastJsWord, SyntaxContext);
 
 pub(crate) type RenameMap = AHashMap<FastId, JsWord>;
-
-pub(crate) type ReverseMap = RopeMap<FastJsWord, Vec<FastId>>;
 
 #[derive(Debug, Default)]
 pub(super) struct ScopeData {

@@ -1,14 +1,8 @@
 use rustc_hash::FxHashMap;
 
-#[derive(Debug, Clone)]
-pub(super) struct RopeMap<K, V> {
-    inner: Vec<FxHashMap<K, V>>,
-}
+use super::scope::{FastId, FastJsWord};
 
-impl<K, V> Default for RopeMap<K, V> {
-    fn default() -> Self {
-        Self {
-            inner: Default::default(),
-        }
-    }
+#[derive(Debug, Default)]
+pub(super) struct ReverseMap {
+    inner: Vec<FxHashMap<FastJsWord, Vec<FastId>>>,
 }
