@@ -23,11 +23,8 @@
 -moz-border-start
 -moz-box-align
 -moz-box-direction
--moz-box-direction
--moz-box-flex
 -moz-box-flex
 -moz-box-ordinal-group
--moz-box-orient
 -moz-box-orient
 -moz-box-pack
 -moz-box-shadow
@@ -58,7 +55,6 @@
 -moz-tab-size
 -moz-text-align-last
 -moz-text-decoration
--moz-text-decoration
 -moz-text-decoration-color
 -moz-text-decoration-line
 -moz-text-decoration-style
@@ -69,7 +65,6 @@
 -moz-transition
 -moz-transition-delay
 -moz-transition-duration
--moz-transition-timing-function
 -moz-transition-timing-function
 -moz-user-select
 -ms-appearance
@@ -106,9 +101,6 @@
 -ms-user-select
 -ms-viewport
 -ms-writing-mode
--ms-writing-mode
--ms-writing-mode
--ms-writing-mode
 -o-animation
 -o-animation-delay
 -o-animation-direction
@@ -131,7 +123,6 @@
 -o-transition
 -o-transition-delay
 -o-transition-duration
--o-transition-timing-function
 -o-transition-timing-function
 -o-viewport
 -webkit-align-content
@@ -166,11 +157,8 @@
 -webkit-box-align
 -webkit-box-decoration-break
 -webkit-box-direction
--webkit-box-direction
--webkit-box-flex
 -webkit-box-flex
 -webkit-box-ordinal-group
--webkit-box-orient
 -webkit-box-orient
 -webkit-box-pack
 -webkit-box-shadow
@@ -178,8 +166,6 @@
 -webkit-calc
 -webkit-clip-path
 -webkit-column-break-after
--webkit-column-break-after
--webkit-column-break-before
 -webkit-column-break-before
 -webkit-column-break-inside
 -webkit-column-count
@@ -247,7 +233,6 @@
 -webkit-shape-margin
 -webkit-shape-outside
 -webkit-text-decoration
--webkit-text-decoration
 -webkit-text-decoration-color
 -webkit-text-decoration-line
 -webkit-text-decoration-skip
@@ -268,9 +253,6 @@
 -webkit-transition-property
 -webkit-transition-timing-function
 -webkit-user-select
--webkit-writing-mode
--webkit-writing-mode
--webkit-writing-mode
 -webkit-writing-mode
 AbortController
 AbortSignal
@@ -871,7 +853,6 @@ altGlyphDef
 altGlyphItem
 alternate
 alternate-reverse
-alternate-reverse
 altglyph
 altglyphdef
 altglyphitem
@@ -928,8 +909,6 @@ attributetype
 audio
 auto
 autocomplete
-avoid
-avoid
 avoid
 await
 azimuth
@@ -1080,10 +1059,10 @@ color-scheme
 cols
 colspan
 column
-column
 column-count
 column-fill
 column-gap
+column-reverse
 column-rule
 column-rule-color
 column-rule-style
@@ -1854,7 +1833,6 @@ resize
 resolution
 return
 reverse
-reverse
 revert
 revert-layer
 rex
@@ -1879,6 +1857,7 @@ rotatez
 round
 row
 row-gap
+row-reverse
 rows
 rowspan
 rp

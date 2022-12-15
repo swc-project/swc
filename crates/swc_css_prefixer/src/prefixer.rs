@@ -2048,7 +2048,7 @@ impl VisitMut for Prefixer {
             js_word!("flex") => {
                 let spec_2009_value = match n.value.get(0) {
                     Some(ComponentValue::Ident(ident))
-                        if ident.value.as_ref().eq_ignore_ascii_case("none") =>
+                        if ident.value.eq_ignore_ascii_case(&js_word!("none")) =>
                     {
                         Some(ComponentValue::Integer(Box::new(Integer {
                             span: ident.span,
@@ -2057,7 +2057,7 @@ impl VisitMut for Prefixer {
                         })))
                     }
                     Some(ComponentValue::Ident(ident))
-                        if ident.value.as_ref().eq_ignore_ascii_case("auto") =>
+                        if ident.value.eq_ignore_ascii_case(&js_word!("auto")) =>
                     {
                         Some(ComponentValue::Integer(Box::new(Integer {
                             span: ident.span,
@@ -2149,22 +2149,24 @@ impl VisitMut for Prefixer {
             js_word!("flex-direction") => {
                 let old_values = match n.value.get(0) {
                     Some(ComponentValue::Ident(ident))
-                        if ident.value.as_ref().eq_ignore_ascii_case("row") =>
+                        if ident.value.eq_ignore_ascii_case(&js_word!("row")) =>
                     {
                         Some(("horizontal", "normal"))
                     }
                     Some(ComponentValue::Ident(ident))
-                        if ident.value.as_ref().eq_ignore_ascii_case("column") =>
+                        if ident.value.eq_ignore_ascii_case(&js_word!("column")) =>
                     {
                         Some(("vertical", "normal"))
                     }
                     Some(ComponentValue::Ident(ident))
-                        if ident.value.as_ref().eq_ignore_ascii_case("row-reverse") =>
+                        if ident.value.eq_ignore_ascii_case(&js_word!("row-reverse")) =>
                     {
                         Some(("horizontal", "reverse"))
                     }
                     Some(ComponentValue::Ident(ident))
-                        if ident.value.as_ref().eq_ignore_ascii_case("column-reverse") =>
+                        if ident
+                            .value
+                            .eq_ignore_ascii_case(&js_word!("column-reverse")) =>
                     {
                         Some(("vertical", "reverse"))
                     }
@@ -2219,22 +2221,24 @@ impl VisitMut for Prefixer {
                     _ => {
                         let get_old_values = |index: usize| match n.value.get(index) {
                             Some(ComponentValue::Ident(ident))
-                                if ident.value.as_ref().eq_ignore_ascii_case("row") =>
+                                if ident.value.eq_ignore_ascii_case(&js_word!("row")) =>
                             {
                                 Some(("horizontal", "normal"))
                             }
                             Some(ComponentValue::Ident(ident))
-                                if ident.value.as_ref().eq_ignore_ascii_case("column") =>
+                                if ident.value.eq_ignore_ascii_case(&js_word!("column")) =>
                             {
                                 Some(("vertical", "normal"))
                             }
                             Some(ComponentValue::Ident(ident))
-                                if ident.value.as_ref().eq_ignore_ascii_case("row-reverse") =>
+                                if ident.value.eq_ignore_ascii_case(&js_word!("row-reverse")) =>
                             {
                                 Some(("horizontal", "reverse"))
                             }
                             Some(ComponentValue::Ident(ident))
-                                if ident.value.as_ref().eq_ignore_ascii_case("column-reverse") =>
+                                if ident
+                                    .value
+                                    .eq_ignore_ascii_case(&js_word!("column-reverse")) =>
                             {
                                 Some(("vertical", "reverse"))
                             }
@@ -2277,7 +2281,10 @@ impl VisitMut for Prefixer {
             }
 
             js_word!("justify-content") => {
-                let need_old_spec = !matches!(n.value.get(0), Some(ComponentValue::Ident(box Ident { value, .. })) if value.as_ref().eq_ignore_ascii_case("space-around"));
+                let need_old_spec = !matches!(
+                    n.value.get(0),
+                    Some(ComponentValue::Ident(box Ident { value, .. })) if value.eq_ignore_ascii_case(&js_word!("space-around"))
+                );
 
                 if need_old_spec {
                     add_declaration!(
@@ -2514,7 +2521,7 @@ impl VisitMut for Prefixer {
             js_word!("filter") => match &n.value[0] {
                 ComponentValue::PreservedToken(_) => {}
                 ComponentValue::Function(function)
-                    if function.name.value.as_ref().eq_ignore_ascii_case("alpha") => {}
+                    if function.name.value.eq_ignore_ascii_case(&js_word!("alpha")) => {}
                 _ => {
                     add_declaration!(Prefix::Webkit, js_word!("-webkit-filter"), None);
                 }
@@ -2955,11 +2962,11 @@ impl VisitMut for Prefixer {
                     matches!(&****declaration, Declaration {
                               name: DeclarationName::Ident(Ident { value, .. }),
                                 ..
-                            } if value.as_ref().eq_ignore_ascii_case("direction"))
+                            } if value.eq_ignore_ascii_case(&js_word!("direction")))
                 }) {
                     Some(box Declaration { value, .. }) => match value.get(0) {
                         Some(ComponentValue::Ident(ident))
-                            if ident.value.as_ref().eq_ignore_ascii_case("rtl") =>
+                            if ident.value.eq_ignore_ascii_case(&js_word!("rtl")) =>
                         {
                             Some("rtl")
                         }
