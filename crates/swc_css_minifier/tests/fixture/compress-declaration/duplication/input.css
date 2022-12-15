@@ -106,3 +106,21 @@ h1{font-weight:bold}
         font-weight:bold
     }
 }
+
+:root {
+    --color: red;
+    --color: red;
+    --Color: red;
+}
+
+.class {
+    --color: red;
+    --color: red;
+    --Color: red;
+
+    .nested {
+        --color: red;
+        --color: red;
+        --Color: red;
+    }
+}
