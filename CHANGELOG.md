@@ -1,6 +1,23 @@
 # Changelog
 ## [unreleased]
 
+### Features
+
+
+
+- **(css/parser)** Normalize hex colors (#6652) ([b257d5d](https://github.com/swc-project/swc/commit/b257d5d591c04feedf2f5997a984bf2f843b9d19))
+
+
+- **(css/prefixer)** Support font-face format (#6644) ([199ac74](https://github.com/swc-project/swc/commit/199ac7461814553bab97c1f0f7b1c89f34897122))
+
+### Refactor
+
+
+
+- **(css/prefixer)** Use `eq_ignore_span` (#6656) ([d4660a4](https://github.com/swc-project/swc/commit/d4660a4673e19d628b7720e1352fa905bdc4456a))
+
+## [1.3.23] - 2022-12-14
+
 ### Bug Fixes
 
 

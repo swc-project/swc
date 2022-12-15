@@ -424,3 +424,8 @@
 .class-83 {
     color: rgba(100, 100, 100, -300%);
 }
+
+.color {
+    color: #ff0000;
+    color: #FF0000;
+}

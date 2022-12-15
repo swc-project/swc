@@ -174,7 +174,7 @@
                   "end": 57,
                   "ctxt": 0
                 },
-                "value": "FFFFFF",
+                "value": "ffffff",
                 "raw": "FFFFFF"
               }
             ],
@@ -236,7 +236,7 @@
                   "end": 97,
                   "ctxt": 0
                 },
-                "value": "0000FFCC",
+                "value": "0000ffcc",
                 "raw": "0000FFCC"
               }
             ],
@@ -329,7 +329,7 @@
                   "end": 142,
                   "ctxt": 0
                 },
-                "value": "FFF",
+                "value": "fff",
                 "raw": "FFF"
               }
             ],
@@ -422,7 +422,7 @@
                   "end": 190,
                   "ctxt": 0
                 },
-                "value": "FFFF",
+                "value": "ffff",
                 "raw": "FFFF"
               }
             ],
@@ -484,7 +484,7 @@
                   "end": 217,
                   "ctxt": 0
                 },
-                "value": "FF",
+                "value": "ff",
                 "raw": "FF"
               }
             ],
