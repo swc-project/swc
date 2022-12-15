@@ -22,7 +22,6 @@
         eval();
     }();
     Collector.usePlugin(CepRule, "cep");
-    var Collector$1 = Collector;
 
-    exports.Collector = Collector$1;
+    exports.Collector = Collector;
 })()
