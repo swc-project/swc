@@ -3929,5 +3929,21 @@
       "ios": "14.8",
       "firefox": "69"
     }
+  ],
+  "font-face-format-ident": [
+    {
+      "chrome": "4",
+      "edge": "12",
+      "firefox": "2",
+      "samsung": "4",
+      "ios": "3.2",
+      "opera": "10",
+      "safari": "3.1",
+      "ie": "6"
+    },
+    {
+      "safari": "3.2",
+      "ios": "4.3"
+    }
   ]
 }
