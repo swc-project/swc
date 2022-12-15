@@ -187,3 +187,6 @@ a:has(> a, > a) {color:red}
 a {& *.bar {color: red}}
 a {&*.bar {color: red}}
 .class {&*.bar {color: red}}
+
+h1,H1{color:red}
+*:NOT(H1, H1) {color: blue}

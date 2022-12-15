@@ -1253,7 +1253,7 @@
                           "end": 232,
                           "ctxt": 0
                         },
-                        "value": "I",
+                        "value": "i",
                         "raw": "I"
                       }
                     }
@@ -1497,7 +1497,7 @@
                           "end": 272,
                           "ctxt": 0
                         },
-                        "value": "S",
+                        "value": "s",
                         "raw": "S"
                       }
                     }
