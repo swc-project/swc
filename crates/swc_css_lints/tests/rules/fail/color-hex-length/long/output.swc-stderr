@@ -1,5 +1,5 @@
 
-  x Hex color value '#FFF' should be written into: '#FFFFFF'.
+  x Hex color value '#fff' should be written into: '#ffffff'.
    ,-[$DIR/tests/rules/fail/color-hex-length/long/input.css:1:1]
  1 | a {
  2 |     color: #FFF;
