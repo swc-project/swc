@@ -1507,7 +1507,7 @@ impl VisitMut for Prefixer {
         });
 
         let properties = Lazy::new(|| {
-            let mut properties: AHashSet<&str> = AHashSet::default();
+            let mut properties: AHashSet<&JsWord> = AHashSet::default();
 
             for declaration in declarations.iter() {
                 if let DeclarationName::Ident(ident) = &declaration.name {
@@ -1522,7 +1522,9 @@ impl VisitMut for Prefixer {
         // TODO avoid duplication insert
         macro_rules! add_declaration {
             ($prefix:expr,$property:expr, $value:expr) => {{
-                if should_prefix($property, self.env, true) {
+                let property: JsWord = $property;
+
+                if should_prefix(&*property, self.env, true) {
                     // Use only specific prefix in prefixed at-rules or rule, i.e.
                     // don't use `-moz` prefix for properties in `@-webkit-keyframes` at-rule
                     if self.rule_prefix == Some($prefix) || self.rule_prefix.is_none() {
@@ -1530,7 +1532,7 @@ impl VisitMut for Prefixer {
                         if !properties.contains(&$property) {
                             let name = DeclarationName::Ident(Ident {
                                 span: DUMMY_SP,
-                                value: $property.into(),
+                                value: property,
                                 raw: None,
                             });
 
@@ -1564,10 +1566,12 @@ impl VisitMut for Prefixer {
             }};
 
             ($property:expr, $value:expr) => {{
-                if should_prefix($property, self.env, true) {
+                let property: JsWord = $property;
+
+                if should_prefix(&*property, self.env, true) {
                     let name = DeclarationName::Ident(Ident {
                         span: DUMMY_SP,
-                        value: $property.into(),
+                        value: property,
                         raw: None,
                     });
 
@@ -1597,156 +1601,192 @@ impl VisitMut for Prefixer {
 
         match property_name {
             js_word!("appearance") => {
-                add_declaration!(Prefix::Webkit, "-webkit-appearance", None);
-                add_declaration!(Prefix::Moz, "-moz-appearance", None);
-                add_declaration!(Prefix::Ms, "-ms-appearance", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-appearance"), None);
+                add_declaration!(Prefix::Moz, js_word!("-moz-appearance"), None);
+                add_declaration!(Prefix::Ms, js_word!("-ms-appearance"), None);
             }
 
             js_word!("animation") => {
                 let need_prefix = n.value.iter().all(|n| match n {
                     ComponentValue::Ident(ident) => !matches!(
-                        &*ident.value.to_ascii_lowercase(),
-                        "reverse" | "alternate-reverse"
+                        ident.value.to_ascii_lowercase(),
+                        js_word!("reverse") | js_word!("alternate-reverse")
                     ),
                     _ => true,
                 });
 
                 if need_prefix {
-                    add_declaration!(Prefix::Webkit, "-webkit-animation", None);
-                    add_declaration!(Prefix::Moz, "-moz-animation", None);
-                    add_declaration!(Prefix::O, "-o-animation", None);
+                    add_declaration!(Prefix::Webkit, js_word!("-webkit-animation"), None);
+                    add_declaration!(Prefix::Moz, js_word!("-moz-animation"), None);
+                    add_declaration!(Prefix::O, js_word!("-o-animation"), None);
                 }
             }
 
             js_word!("animation-name") => {
-                add_declaration!(Prefix::Webkit, "-webkit-animation-name", None);
-                add_declaration!(Prefix::Moz, "-moz-animation-name", None);
-                add_declaration!(Prefix::O, "-o-animation-name", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-animation-name"), None);
+                add_declaration!(Prefix::Moz, js_word!("-moz-animation-name"), None);
+                add_declaration!(Prefix::O, js_word!("-o-animation-name"), None);
             }
 
             js_word!("animation-duration") => {
-                add_declaration!(Prefix::Webkit, "-webkit-animation-duration", None);
-                add_declaration!(Prefix::Moz, "-moz-animation-duration", None);
-                add_declaration!(Prefix::O, "-o-animation-duration", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-animation-duration"), None);
+                add_declaration!(Prefix::Moz, js_word!("-moz-animation-duration"), None);
+                add_declaration!(Prefix::O, js_word!("-o-animation-duration"), None);
             }
 
             js_word!("animation-delay") => {
-                add_declaration!(Prefix::Webkit, "-webkit-animation-delay", None);
-                add_declaration!(Prefix::Moz, "-moz-animation-delay", None);
-                add_declaration!(Prefix::O, "-o-animation-delay", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-animation-delay"), None);
+                add_declaration!(Prefix::Moz, js_word!("-moz-animation-delay"), None);
+                add_declaration!(Prefix::O, js_word!("-o-animation-delay"), None);
             }
 
             js_word!("animation-direction") => {
                 if let ComponentValue::Ident(ident) = &n.value[0] {
-                    match &*ident.value.to_ascii_lowercase() {
-                        "alternate-reverse" | "reverse" => {}
+                    match ident.value.to_ascii_lowercase() {
+                        js_word!("alternate-reverse") | js_word!("reverse") => {}
                         _ => {
-                            add_declaration!(Prefix::Webkit, "-webkit-animation-direction", None);
-                            add_declaration!(Prefix::Moz, "-moz-animation-direction", None);
-                            add_declaration!(Prefix::O, "-o-animation-direction", None);
+                            add_declaration!(
+                                Prefix::Webkit,
+                                js_word!("-webkit-animation-direction"),
+                                None
+                            );
+                            add_declaration!(
+                                Prefix::Moz,
+                                js_word!("-moz-animation-direction"),
+                                None
+                            );
+                            add_declaration!(Prefix::O, js_word!("-o-animation-direction"), None);
                         }
                     }
                 }
             }
 
             js_word!("animation-fill-mode") => {
-                add_declaration!(Prefix::Webkit, "-webkit-animation-fill-mode", None);
-                add_declaration!(Prefix::Moz, "-moz-animation-fill-mode", None);
-                add_declaration!(Prefix::O, "-o-animation-fill-mode", None);
+                add_declaration!(
+                    Prefix::Webkit,
+                    js_word!("-webkit-animation-fill-mode"),
+                    None
+                );
+                add_declaration!(Prefix::Moz, js_word!("-moz-animation-fill-mode"), None);
+                add_declaration!(Prefix::O, js_word!("-o-animation-fill-mode"), None);
             }
 
             js_word!("animation-iteration-count") => {
-                add_declaration!(Prefix::Webkit, "-webkit-animation-iteration-count", None);
-                add_declaration!(Prefix::Moz, "-moz-animation-iteration-count", None);
-                add_declaration!(Prefix::O, "-o-animation-iteration-count", None);
+                add_declaration!(
+                    Prefix::Webkit,
+                    js_word!("-webkit-animation-iteration-count"),
+                    None
+                );
+                add_declaration!(
+                    Prefix::Moz,
+                    js_word!("-moz-animation-iteration-count"),
+                    None
+                );
+                add_declaration!(Prefix::O, js_word!("-o-animation-iteration-count"), None);
             }
 
             js_word!("animation-play-state") => {
-                add_declaration!(Prefix::Webkit, "-webkit-animation-play-state", None);
-                add_declaration!(Prefix::Moz, "-moz-animation-play-state", None);
-                add_declaration!(Prefix::O, "-o-animation-play-state", None);
+                add_declaration!(
+                    Prefix::Webkit,
+                    js_word!("-webkit-animation-play-state"),
+                    None
+                );
+                add_declaration!(Prefix::Moz, js_word!("-moz-animation-play-state"), None);
+                add_declaration!(Prefix::O, js_word!("-o-animation-play-state"), None);
             }
 
             js_word!("animation-timing-function") => {
-                add_declaration!(Prefix::Webkit, "-webkit-animation-timing-function", None);
-                add_declaration!(Prefix::Moz, "-moz-animation-timing-function", None);
-                add_declaration!(Prefix::O, "-o-animation-timing-function", None);
+                add_declaration!(
+                    Prefix::Webkit,
+                    js_word!("-webkit-animation-timing-function"),
+                    None
+                );
+                add_declaration!(
+                    Prefix::Moz,
+                    js_word!("-moz-animation-timing-function"),
+                    None
+                );
+                add_declaration!(Prefix::O, js_word!("-o-animation-timing-function"), None);
             }
 
             js_word!("background-clip") => {
                 if let ComponentValue::Ident(ident) = &n.value[0] {
-                    if &*ident.value.to_ascii_lowercase() == "text" {
-                        add_declaration!(Prefix::Webkit, "-webkit-background-clip", None);
+                    if ident.value.to_ascii_lowercase() == js_word!("text") {
+                        add_declaration!(Prefix::Webkit, js_word!("-webkit-background-clip"), None);
                     }
                 }
             }
 
             js_word!("box-decoration-break") => {
-                add_declaration!(Prefix::Webkit, "-webkit-box-decoration-break", None);
+                add_declaration!(
+                    Prefix::Webkit,
+                    js_word!("-webkit-box-decoration-break"),
+                    None
+                );
             }
 
             js_word!("box-sizing") => {
-                add_declaration!(Prefix::Webkit, "-webkit-box-sizing", None);
-                add_declaration!(Prefix::Moz, "-moz-box-sizing", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-box-sizing"), None);
+                add_declaration!(Prefix::Moz, js_word!("-moz-box-sizing"), None);
             }
 
             js_word!("color-adjust") => {
-                add_declaration!(Prefix::Webkit, "-webkit-print-color-adjust", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-print-color-adjust"), None);
             }
 
             js_word!("print-color-adjust") => {
-                add_declaration!(Prefix::Moz, "color-adjust", None);
-                add_declaration!(Prefix::Webkit, "-webkit-print-color-adjust", None);
+                add_declaration!(Prefix::Moz, js_word!("color-adjust"), None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-print-color-adjust"), None);
             }
 
             js_word!("columns") => {
-                add_declaration!(Prefix::Webkit, "-webkit-columns", None);
-                add_declaration!(Prefix::Moz, "-moz-columns", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-columns"), None);
+                add_declaration!(Prefix::Moz, js_word!("-moz-columns"), None);
             }
 
             js_word!("column-width") => {
-                add_declaration!(Prefix::Webkit, "-webkit-column-width", None);
-                add_declaration!(Prefix::Moz, "-moz-column-width", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-column-width"), None);
+                add_declaration!(Prefix::Moz, js_word!("-moz-column-width"), None);
             }
 
             js_word!("column-gap") => {
-                add_declaration!(Prefix::Webkit, "-webkit-column-gap", None);
-                add_declaration!(Prefix::Moz, "-moz-column-gap", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-column-gap"), None);
+                add_declaration!(Prefix::Moz, js_word!("-moz-column-gap"), None);
             }
 
             js_word!("column-rule") => {
-                add_declaration!(Prefix::Webkit, "-webkit-column-rule", None);
-                add_declaration!(Prefix::Moz, "-moz-column-rule", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-column-rule"), None);
+                add_declaration!(Prefix::Moz, js_word!("-moz-column-rule"), None);
             }
 
             js_word!("column-rule-color") => {
-                add_declaration!(Prefix::Webkit, "-webkit-column-rule-color", None);
-                add_declaration!(Prefix::Moz, "-moz-column-rule-color", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-column-rule-color"), None);
+                add_declaration!(Prefix::Moz, js_word!("-moz-column-rule-color"), None);
             }
 
             js_word!("column-rule-width") => {
-                add_declaration!(Prefix::Webkit, "-webkit-column-rule-width", None);
-                add_declaration!(Prefix::Moz, "-moz-column-rule-width", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-column-rule-width"), None);
+                add_declaration!(Prefix::Moz, js_word!("-moz-column-rule-width"), None);
             }
 
             js_word!("column-count") => {
-                add_declaration!(Prefix::Webkit, "-webkit-column-count", None);
-                add_declaration!(Prefix::Moz, "-moz-column-count", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-column-count"), None);
+                add_declaration!(Prefix::Moz, js_word!("-moz-column-count"), None);
             }
 
             js_word!("column-rule-style") => {
-                add_declaration!(Prefix::Webkit, "-webkit-column-rule-style", None);
-                add_declaration!(Prefix::Moz, "-moz-column-rule-style", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-column-rule-style"), None);
+                add_declaration!(Prefix::Moz, js_word!("-moz-column-rule-style"), None);
             }
 
             js_word!("column-span") => {
-                add_declaration!(Prefix::Webkit, "-webkit-column-span", None);
-                add_declaration!(Prefix::Moz, "-moz-column-span", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-column-span"), None);
+                add_declaration!(Prefix::Moz, js_word!("-moz-column-span"), None);
             }
 
             js_word!("column-fill") => {
-                add_declaration!(Prefix::Webkit, "-webkit-column-fill", None);
-                add_declaration!(Prefix::Moz, "-moz-column-fill", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-column-fill"), None);
+                add_declaration!(Prefix::Moz, js_word!("-moz-column-fill"), None);
             }
 
             js_word!("cursor") => {
@@ -1853,112 +1893,112 @@ impl VisitMut for Prefixer {
                             (&js_word!("block"), &js_word!("flow"))
                             | (&js_word!("flow"), &js_word!("block")) => {
                                 add_declaration!(
-                                    "display",
+                                    js_word!("display"),
                                     Some(Box::new(|| { vec![to_ident!("block")] }))
                                 );
                             }
                             (&js_word!("block"), &js_word!("flow-root"))
                             | (&js_word!("flow-root"), &js_word!("block")) => {
                                 add_declaration!(
-                                    "display",
+                                    js_word!("display"),
                                     Some(Box::new(|| { vec![to_ident!("flow-root")] }))
                                 );
                             }
                             (&js_word!("inline"), &js_word!("flow"))
                             | (&js_word!("flow"), &js_word!("inline")) => {
                                 add_declaration!(
-                                    "display",
+                                    js_word!("display"),
                                     Some(Box::new(|| { vec![to_ident!("inline")] }))
                                 );
                             }
                             (&js_word!("inline"), &js_word!("flow-root"))
                             | (&js_word!("flow-root"), &js_word!("inline")) => {
                                 add_declaration!(
-                                    "display",
+                                    js_word!("display"),
                                     Some(Box::new(|| { vec![to_ident!("inline-block")] }))
                                 );
                             }
                             (&js_word!("run-in"), &js_word!("flow"))
                             | (&js_word!("flow"), &js_word!("run-in")) => {
                                 add_declaration!(
-                                    "display",
+                                    js_word!("display"),
                                     Some(Box::new(|| { vec![to_ident!("run-in")] }))
                                 );
                             }
                             (&js_word!("block"), &js_word!("flex"))
                             | (&js_word!("flex"), &js_word!("block")) => {
                                 add_declaration!(
-                                    "display",
+                                    js_word!("display"),
                                     Some(Box::new(|| { vec![to_ident!("flex")] }))
                                 );
                             }
                             (&js_word!("inline"), &js_word!("flex"))
                             | (&js_word!("flex"), &js_word!("inline")) => {
                                 add_declaration!(
-                                    "display",
+                                    js_word!("display"),
                                     Some(Box::new(|| { vec![to_ident!("inline-flex")] }))
                                 );
                             }
                             (&js_word!("block"), &js_word!("grid"))
                             | (&js_word!("grid"), &js_word!("block")) => {
                                 add_declaration!(
-                                    "display",
+                                    js_word!("display"),
                                     Some(Box::new(|| { vec![to_ident!("grid")] }))
                                 );
                             }
                             (&js_word!("inline"), &js_word!("grid"))
                             | (&js_word!("grid"), &js_word!("inline")) => {
                                 add_declaration!(
-                                    "display",
+                                    js_word!("display"),
                                     Some(Box::new(|| { vec![to_ident!("inline-grid")] }))
                                 );
                             }
                             (&js_word!("inline"), &js_word!("ruby"))
                             | (&js_word!("ruby"), &js_word!("inline")) => {
                                 add_declaration!(
-                                    "display",
+                                    js_word!("display"),
                                     Some(Box::new(|| { vec![to_ident!("ruby")] }))
                                 );
                             }
                             (&js_word!("block"), &js_word!("table"))
                             | (&js_word!("table"), &js_word!("block")) => {
                                 add_declaration!(
-                                    "display",
+                                    js_word!("display"),
                                     Some(Box::new(|| { vec![to_ident!("table")] }))
                                 );
                             }
                             (&js_word!("inline"), &js_word!("table"))
                             | (&js_word!("table"), &js_word!("inline")) => {
                                 add_declaration!(
-                                    "display",
+                                    js_word!("display"),
                                     Some(Box::new(|| { vec![to_ident!("inline-table")] }))
                                 );
                             }
                             (&js_word!("table-cell"), &js_word!("flow"))
                             | (&js_word!("flow"), &js_word!("table-cell")) => {
                                 add_declaration!(
-                                    "display",
+                                    js_word!("display"),
                                     Some(Box::new(|| { vec![to_ident!("table-cell")] }))
                                 );
                             }
                             (&js_word!("table-caption"), &js_word!("flow"))
                             | (&js_word!("flow"), &js_word!("table-caption")) => {
                                 add_declaration!(
-                                    "display",
+                                    js_word!("display"),
                                     Some(Box::new(|| { vec![to_ident!("table-caption")] }))
                                 );
                             }
                             (&js_word!("ruby-base"), &js_word!("flow"))
                             | (&js_word!("flow"), &js_word!("ruby-base")) => {
                                 add_declaration!(
-                                    "display",
+                                    js_word!("display"),
                                     Some(Box::new(|| { vec![to_ident!("ruby-base")] }))
                                 );
                             }
                             (&js_word!("ruby-text"), &js_word!("flow"))
                             | (&js_word!("flow"), &js_word!("ruby-text")) => {
                                 add_declaration!(
-                                    "display",
+                                    js_word!("display"),
                                     Some(Box::new(|| { vec![to_ident!("ruby-text")] }))
                                 );
                             }
@@ -1982,7 +2022,7 @@ impl VisitMut for Prefixer {
                             | (&js_word!("flow"), &js_word!("block"), &js_word!("list-item"))
                             | (&js_word!("flow"), &js_word!("list-item"), &js_word!("block")) => {
                                 add_declaration!(
-                                    "display",
+                                    js_word!("display"),
                                     Some(Box::new(|| { vec![to_ident!("list-item")] }))
                                 );
                             }
@@ -1993,7 +2033,7 @@ impl VisitMut for Prefixer {
                             | (&js_word!("list-item"), &js_word!("flow"), &js_word!("inline"))
                             | (&js_word!("list-item"), &js_word!("inline"), &js_word!("flow")) => {
                                 add_declaration!(
-                                    "display",
+                                    js_word!("display"),
                                     Some(Box::new(|| {
                                         vec![to_ident!("inline"), to_ident!("list-item")]
                                     }))
@@ -2032,29 +2072,29 @@ impl VisitMut for Prefixer {
                 if let Some(spec_2009_value) = &spec_2009_value {
                     add_declaration!(
                         Prefix::Webkit,
-                        "-webkit-box-flex",
+                        js_word!("-webkit-box-flex"),
                         Some(Box::new(|| { vec![spec_2009_value.clone()] }))
                     );
                 } else {
-                    add_declaration!(Prefix::Webkit, "-webkit-box-flex", None);
+                    add_declaration!(Prefix::Webkit, js_word!("-webkit-box-flex"), None);
                 }
 
-                add_declaration!(Prefix::Webkit, "-webkit-flex", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-flex"), None);
 
                 if let Some(spec_2009_value) = &spec_2009_value {
                     add_declaration!(
                         Prefix::Moz,
-                        "-moz-box-flex",
+                        js_word!("-moz-box-flex"),
                         Some(Box::new(|| { vec![spec_2009_value.clone()] }))
                     );
                 } else {
-                    add_declaration!(Prefix::Webkit, "-moz-box-flex", None);
+                    add_declaration!(Prefix::Webkit, js_word!("-moz-box-flex"), None);
                 }
 
                 if n.value.len() == 3 {
                     add_declaration!(
                         Prefix::Ms,
-                        "-ms-flex",
+                        js_word!("-ms-flex"),
                         Some(Box::new(|| {
                             let mut value = ms_value.clone();
 
@@ -2085,25 +2125,25 @@ impl VisitMut for Prefixer {
                         }))
                     );
                 } else {
-                    add_declaration!(Prefix::Ms, "-ms-flex", None);
+                    add_declaration!(Prefix::Ms, js_word!("-ms-flex"), None);
                 }
             }
 
             js_word!("flex-grow") => {
-                add_declaration!(Prefix::Webkit, "-webkit-box-flex", None);
-                add_declaration!(Prefix::Webkit, "-webkit-flex-grow", None);
-                add_declaration!(Prefix::Moz, "-moz-box-flex", None);
-                add_declaration!(Prefix::Ms, "-ms-flex-positive", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-box-flex"), None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-flex-grow"), None);
+                add_declaration!(Prefix::Moz, js_word!("-moz-box-flex"), None);
+                add_declaration!(Prefix::Ms, js_word!("-ms-flex-positive"), None);
             }
 
             js_word!("flex-shrink") => {
-                add_declaration!(Prefix::Webkit, "-webkit-flex-shrink", None);
-                add_declaration!(Prefix::Ms, "-ms-flex-negative", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-flex-shrink"), None);
+                add_declaration!(Prefix::Ms, js_word!("-ms-flex-negative"), None);
             }
 
             js_word!("flex-basis") => {
-                add_declaration!(Prefix::Webkit, "-webkit-flex-basis", None);
-                add_declaration!(Prefix::Ms, "-ms-flex-preferred-size", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-flex-basis"), None);
+                add_declaration!(Prefix::Ms, js_word!("-ms-flex-preferred-size"), None);
             }
 
             js_word!("flex-direction") => {
@@ -2134,44 +2174,44 @@ impl VisitMut for Prefixer {
                 if let Some((orient, direction)) = old_values {
                     add_declaration!(
                         Prefix::Webkit,
-                        "-webkit-box-orient",
+                        js_word!("-webkit-box-orient"),
                         Some(Box::new(|| { vec![to_ident!(orient)] }))
                     );
                     add_declaration!(
                         Prefix::Webkit,
-                        "-webkit-box-direction",
+                        js_word!("-webkit-box-direction"),
                         Some(Box::new(|| { vec![to_ident!(direction)] }))
                     );
                 }
 
-                add_declaration!(Prefix::Webkit, "-webkit-flex-direction", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-flex-direction"), None);
 
                 if let Some((orient, direction)) = old_values {
                     add_declaration!(
                         Prefix::Moz,
-                        "-moz-box-orient",
+                        js_word!("-moz-box-orient"),
                         Some(Box::new(|| { vec![to_ident!(orient)] }))
                     );
                     add_declaration!(
                         Prefix::Webkit,
-                        "-moz-box-direction",
+                        js_word!("-moz-box-direction"),
                         Some(Box::new(|| { vec![to_ident!(direction)] }))
                     );
                 }
 
-                add_declaration!(Prefix::Ms, "-ms-flex-direction", None);
+                add_declaration!(Prefix::Ms, js_word!("-ms-flex-direction"), None);
             }
 
             js_word!("flex-wrap") => {
-                add_declaration!(Prefix::Webkit, "-webkit-flex-wrap", None);
-                add_declaration!(Prefix::Ms, "-ms-flex-wrap", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-flex-wrap"), None);
+                add_declaration!(Prefix::Ms, js_word!("-ms-flex-wrap"), None);
             }
 
             js_word!("flex-flow") => {
                 let is_single_flex_wrap = matches!(n.value.get(0), Some(ComponentValue::Ident(box Ident { value, .. })) if n.value.len() == 1
                 && matches!(
-                    &*value.to_ascii_lowercase(),
-                    "wrap" | "nowrap" | "wrap-reverse"
+                    value.to_ascii_lowercase(),
+                    js_word!( "wrap") | js_word!( "nowrap") | js_word!( "wrap-reverse")
                 ));
 
                 let old_values = match is_single_flex_wrap {
@@ -2208,32 +2248,32 @@ impl VisitMut for Prefixer {
                 if let Some((orient, direction)) = old_values {
                     add_declaration!(
                         Prefix::Webkit,
-                        "-webkit-box-orient",
+                        js_word!("-webkit-box-orient"),
                         Some(Box::new(|| { vec![to_ident!(orient)] }))
                     );
                     add_declaration!(
                         Prefix::Webkit,
-                        "-webkit-box-direction",
+                        js_word!("-webkit-box-direction"),
                         Some(Box::new(|| { vec![to_ident!(direction)] }))
                     );
                 }
 
-                add_declaration!(Prefix::Webkit, "-webkit-flex-flow", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-flex-flow"), None);
 
                 if let Some((orient, direction)) = old_values {
                     add_declaration!(
                         Prefix::Moz,
-                        "-moz-box-orient",
+                        js_word!("-moz-box-orient"),
                         Some(Box::new(|| { vec![to_ident!(orient)] }))
                     );
                     add_declaration!(
                         Prefix::Moz,
-                        "-moz-box-direction",
+                        js_word!("-moz-box-direction"),
                         Some(Box::new(|| { vec![to_ident!(direction)] }))
                     );
                 }
 
-                add_declaration!(Prefix::Ms, "-ms-flex-flow", None);
+                add_declaration!(Prefix::Ms, js_word!("-ms-flex-flow"), None);
             }
 
             js_word!("justify-content") => {
@@ -2242,7 +2282,7 @@ impl VisitMut for Prefixer {
                 if need_old_spec {
                     add_declaration!(
                         Prefix::Webkit,
-                        "-webkit-box-pack",
+                        js_word!("-webkit-box-pack"),
                         Some(Box::new(|| {
                             let mut old_spec_webkit_new_value = webkit_value.clone();
 
@@ -2259,12 +2299,12 @@ impl VisitMut for Prefixer {
                     );
                 }
 
-                add_declaration!(Prefix::Webkit, "-webkit-justify-content", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-justify-content"), None);
 
                 if need_old_spec {
                     add_declaration!(
                         Prefix::Moz,
-                        "-moz-box-pack",
+                        js_word!("-moz-box-pack"),
                         Some(Box::new(|| {
                             let mut old_spec_moz_value = moz_value.clone();
 
@@ -2279,7 +2319,7 @@ impl VisitMut for Prefixer {
 
                 add_declaration!(
                     Prefix::Ms,
-                    "-ms-flex-pack",
+                    js_word!("-ms-flex-pack"),
                     Some(Box::new(|| {
                         let mut old_spec_ms_value = ms_value.clone();
 
@@ -2303,7 +2343,7 @@ impl VisitMut for Prefixer {
                     let rounded_alpha = (old_value * 1000.0).round() / 100000.0;
 
                     add_declaration!(
-                        "opacity",
+                        js_word!("opacity"),
                         Some(Box::new(|| { vec![to_number!(rounded_alpha)] }))
                     );
                 }
@@ -2319,37 +2359,41 @@ impl VisitMut for Prefixer {
                     Some(old_spec_num) if n.value.len() == 1 => {
                         add_declaration!(
                             Prefix::Webkit,
-                            "-webkit-box-ordinal-group",
+                            js_word!("-webkit-box-ordinal-group"),
                             Some(Box::new(|| { vec![to_integer!(old_spec_num)] }))
                         );
                     }
                     _ => {
-                        add_declaration!(Prefix::Webkit, "-webkit-box-ordinal-group", None);
+                        add_declaration!(
+                            Prefix::Webkit,
+                            js_word!("-webkit-box-ordinal-group"),
+                            None
+                        );
                     }
                 }
 
-                add_declaration!(Prefix::Webkit, "-webkit-order", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-order"), None);
 
                 match old_spec_num {
                     Some(old_spec_num) if n.value.len() == 1 => {
                         add_declaration!(
                             Prefix::Moz,
-                            "-moz-box-ordinal-group",
+                            js_word!("-moz-box-ordinal-group"),
                             Some(Box::new(|| { vec![to_integer!(old_spec_num)] }))
                         );
                     }
                     _ => {
-                        add_declaration!(Prefix::Webkit, "-moz-box-ordinal-group", None);
+                        add_declaration!(Prefix::Webkit, js_word!("-moz-box-ordinal-group"), None);
                     }
                 }
 
-                add_declaration!(Prefix::Ms, "-ms-flex-order", None);
+                add_declaration!(Prefix::Ms, js_word!("-ms-flex-order"), None);
             }
 
             js_word!("align-items") => {
                 add_declaration!(
                     Prefix::Webkit,
-                    "-webkit-box-align",
+                    js_word!("-webkit-box-align"),
                     Some(Box::new(|| {
                         let mut old_spec_webkit_new_value = webkit_value.clone();
 
@@ -2359,10 +2403,10 @@ impl VisitMut for Prefixer {
                         old_spec_webkit_new_value
                     }))
                 );
-                add_declaration!(Prefix::Webkit, "-webkit-align-items", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-align-items"), None);
                 add_declaration!(
                     Prefix::Moz,
-                    "-moz-box-align",
+                    js_word!("-moz-box-align"),
                     Some(Box::new(|| {
                         let mut old_spec_moz_value = moz_value.clone();
 
@@ -2374,7 +2418,7 @@ impl VisitMut for Prefixer {
                 );
                 add_declaration!(
                     Prefix::Ms,
-                    "-ms-flex-align",
+                    js_word!("-ms-flex-align"),
                     Some(Box::new(|| {
                         let mut old_spec_ms_value = ms_value.clone();
 
@@ -2387,10 +2431,10 @@ impl VisitMut for Prefixer {
             }
 
             js_word!("align-self") => {
-                add_declaration!(Prefix::Webkit, "-webkit-align-self", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-align-self"), None);
                 add_declaration!(
                     Prefix::Ms,
-                    "-ms-flex-item-align",
+                    js_word!("-ms-flex-item-align"),
                     Some(Box::new(|| {
                         let mut spec_2012_ms_value = ms_value.clone();
 
@@ -2403,10 +2447,10 @@ impl VisitMut for Prefixer {
             }
 
             js_word!("align-content") => {
-                add_declaration!(Prefix::Webkit, "-webkit-align-content", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-align-content"), None);
                 add_declaration!(
                     Prefix::Ms,
-                    "-ms-flex-line-pack",
+                    js_word!("-ms-flex-line-pack"),
                     Some(Box::new(|| {
                         let mut spec_2012_ms_value = ms_value.clone();
 
@@ -2460,7 +2504,7 @@ impl VisitMut for Prefixer {
                     if !ms_value.eq_ignore_span(&old_spec_ms_value) {
                         add_declaration!(
                             Prefix::Ms,
-                            "-ms-interpolation-mode",
+                            js_word!("-ms-interpolation-mode"),
                             Some(Box::new(|| { old_spec_ms_value.clone() }))
                         );
                     }
@@ -2472,132 +2516,148 @@ impl VisitMut for Prefixer {
                 ComponentValue::Function(function)
                     if function.name.value.as_ref().eq_ignore_ascii_case("alpha") => {}
                 _ => {
-                    add_declaration!(Prefix::Webkit, "-webkit-filter", None);
+                    add_declaration!(Prefix::Webkit, js_word!("-webkit-filter"), None);
                 }
             },
 
             js_word!("backdrop-filter") => {
-                add_declaration!(Prefix::Webkit, "-webkit-backdrop-filter", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-backdrop-filter"), None);
             }
 
             js_word!("mask-clip") => {
-                add_declaration!(Prefix::Webkit, "-webkit-mask-clip", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-mask-clip"), None);
             }
 
             // Fix me https://github.com/postcss/autoprefixer/blob/main/lib/hacks/mask-composite.js
             js_word!("mask-composite") => {
-                add_declaration!(Prefix::Webkit, "-webkit-mask-composite", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-mask-composite"), None);
             }
 
             js_word!("mask-image") => {
-                add_declaration!(Prefix::Webkit, "-webkit-mask-image", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-mask-image"), None);
             }
 
             js_word!("mask-origin") => {
-                add_declaration!(Prefix::Webkit, "-webkit-mask-origin", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-mask-origin"), None);
             }
 
             js_word!("mask-repeat") => {
-                add_declaration!(Prefix::Webkit, "-webkit-mask-repeat", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-mask-repeat"), None);
             }
 
             js_word!("mask-border-repeat") => {
-                add_declaration!(Prefix::Webkit, "-webkit-mask-border-repeat", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-mask-border-repeat"), None);
             }
 
             js_word!("mask-border-source") => {
-                add_declaration!(Prefix::Webkit, "-webkit-mask-border-source", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-mask-border-source"), None);
             }
 
             js_word!("mask") => {
-                add_declaration!(Prefix::Webkit, "-webkit-mask", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-mask"), None);
             }
 
             js_word!("mask-position") => {
-                add_declaration!(Prefix::Webkit, "-webkit-mask-position", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-mask-position"), None);
             }
 
             js_word!("mask-size") => {
-                add_declaration!(Prefix::Webkit, "-webkit-mask-size", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-mask-size"), None);
             }
 
             js_word!("mask-border") => {
-                add_declaration!(Prefix::Webkit, "-webkit-mask-box-image", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-mask-box-image"), None);
             }
 
             js_word!("mask-border-outset") => {
-                add_declaration!(Prefix::Webkit, "-webkit-mask-box-image-outset", None);
+                add_declaration!(
+                    Prefix::Webkit,
+                    js_word!("-webkit-mask-box-image-outset"),
+                    None
+                );
             }
 
             js_word!("mask-border-width") => {
-                add_declaration!(Prefix::Webkit, "-webkit-mask-box-image-width", None);
+                add_declaration!(
+                    Prefix::Webkit,
+                    js_word!("-webkit-mask-box-image-width"),
+                    None
+                );
             }
 
             js_word!("mask-border-slice") => {
-                add_declaration!(Prefix::Webkit, "-webkit-mask-box-image-slice", None);
+                add_declaration!(
+                    Prefix::Webkit,
+                    js_word!("-webkit-mask-box-image-slice"),
+                    None
+                );
             }
 
             js_word!("border-inline-start") => {
-                add_declaration!(Prefix::Webkit, "-webkit-border-start", None);
-                add_declaration!(Prefix::Moz, "-moz-border-start", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-border-start"), None);
+                add_declaration!(Prefix::Moz, js_word!("-moz-border-start"), None);
             }
 
             js_word!("border-inline-end") => {
-                add_declaration!(Prefix::Webkit, "-webkit-border-end", None);
-                add_declaration!(Prefix::Moz, "-moz-border-end", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-border-end"), None);
+                add_declaration!(Prefix::Moz, js_word!("-moz-border-end"), None);
             }
 
             js_word!("margin-inline-start") => {
-                add_declaration!(Prefix::Webkit, "-webkit-margin-start", None);
-                add_declaration!(Prefix::Moz, "-moz-margin-start", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-margin-start"), None);
+                add_declaration!(Prefix::Moz, js_word!("-moz-margin-start"), None);
             }
 
             js_word!("margin-inline-end") => {
-                add_declaration!(Prefix::Webkit, "-webkit-margin-end", None);
-                add_declaration!(Prefix::Moz, "-moz-margin-end", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-margin-end"), None);
+                add_declaration!(Prefix::Moz, js_word!("-moz-margin-end"), None);
             }
 
             js_word!("padding-inline-start") => {
-                add_declaration!(Prefix::Webkit, "-webkit-padding-start", None);
-                add_declaration!(Prefix::Moz, "-moz-padding-start", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-padding-start"), None);
+                add_declaration!(Prefix::Moz, js_word!("-moz-padding-start"), None);
             }
 
             js_word!("padding-inline-end") => {
-                add_declaration!(Prefix::Webkit, "-webkit-padding-end", None);
-                add_declaration!(Prefix::Moz, "-moz-padding-end", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-padding-end"), None);
+                add_declaration!(Prefix::Moz, js_word!("-moz-padding-end"), None);
             }
 
             js_word!("border-block-start") => {
-                add_declaration!(Prefix::Webkit, "-webkit-border-before", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-border-before"), None);
             }
 
             js_word!("border-block-end") => {
-                add_declaration!(Prefix::Webkit, "-webkit-border-after", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-border-after"), None);
             }
 
             js_word!("margin-block-start") => {
-                add_declaration!(Prefix::Webkit, "-webkit-margin-before", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-margin-before"), None);
             }
 
             js_word!("margin-block-end") => {
-                add_declaration!(Prefix::Webkit, "-webkit-margin-after", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-margin-after"), None);
             }
 
             js_word!("padding-block-start") => {
-                add_declaration!(Prefix::Webkit, "-webkit-padding-before", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-padding-before"), None);
             }
 
             js_word!("padding-block-end") => {
-                add_declaration!(Prefix::Webkit, "-webkit-padding-after", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-padding-after"), None);
             }
 
             js_word!("backface-visibility") => {
-                add_declaration!(Prefix::Webkit, "-webkit-backface-visibility", None);
-                add_declaration!(Prefix::Moz, "-moz-backface-visibility", None);
+                add_declaration!(
+                    Prefix::Webkit,
+                    js_word!("-webkit-backface-visibility"),
+                    None
+                );
+                add_declaration!(Prefix::Moz, js_word!("-moz-backface-visibility"), None);
             }
 
             js_word!("clip-path") => {
-                add_declaration!(Prefix::Webkit, "-webkit-clip-path", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-clip-path"), None);
             }
 
             js_word!("position") if n.value.len() == 1 => {
@@ -2609,29 +2669,29 @@ impl VisitMut for Prefixer {
             }
 
             js_word!("user-select") => {
-                add_declaration!(Prefix::Webkit, "-webkit-user-select", None);
-                add_declaration!(Prefix::Moz, "-moz-user-select", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-user-select"), None);
+                add_declaration!(Prefix::Moz, js_word!("-moz-user-select"), None);
 
                 if let ComponentValue::Ident(ident) = &n.value[0] {
-                    match &*ident.value.to_ascii_lowercase() {
-                        "contain" => {
+                    match ident.value.to_ascii_lowercase() {
+                        js_word!("contain") => {
                             add_declaration!(
                                 Prefix::Ms,
-                                "-ms-user-select",
+                                js_word!("-ms-user-select"),
                                 Some(Box::new(|| { vec![to_ident!("element")] }))
                             );
                         }
-                        "all" => {}
+                        js_word!("all") => {}
                         _ => {
-                            add_declaration!(Prefix::Ms, "-ms-user-select", None);
+                            add_declaration!(Prefix::Ms, js_word!("-ms-user-select"), None);
                         }
                     }
                 }
             }
 
             js_word!("transform") => {
-                add_declaration!(Prefix::Webkit, "-webkit-transform", None);
-                add_declaration!(Prefix::Moz, "-moz-transform", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-transform"), None);
+                add_declaration!(Prefix::Moz, js_word!("-moz-transform"), None);
 
                 let has_3d_function = n.value.iter().any(|n| match n {
                     ComponentValue::Function(function)
@@ -2656,37 +2716,37 @@ impl VisitMut for Prefixer {
 
                 if !has_3d_function {
                     if !self.in_keyframe_block {
-                        add_declaration!(Prefix::Ms, "-ms-transform", None);
+                        add_declaration!(Prefix::Ms, js_word!("-ms-transform"), None);
                     }
 
-                    add_declaration!(Prefix::O, "-o-transform", None);
+                    add_declaration!(Prefix::O, js_word!("-o-transform"), None);
                 }
             }
 
             js_word!("transform-origin") => {
-                add_declaration!(Prefix::Webkit, "-webkit-transform-origin", None);
-                add_declaration!(Prefix::Moz, "-moz-transform-origin", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-transform-origin"), None);
+                add_declaration!(Prefix::Moz, js_word!("-moz-transform-origin"), None);
 
                 if !self.in_keyframe_block {
-                    add_declaration!(Prefix::Ms, "-ms-transform-origin", None);
+                    add_declaration!(Prefix::Ms, js_word!("-ms-transform-origin"), None);
                 }
 
-                add_declaration!(Prefix::O, "-o-transform-origin", None);
+                add_declaration!(Prefix::O, js_word!("-o-transform-origin"), None);
             }
 
             js_word!("transform-style") => {
-                add_declaration!(Prefix::Webkit, "-webkit-transform-style", None);
-                add_declaration!(Prefix::Moz, "-moz-transform-style", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-transform-style"), None);
+                add_declaration!(Prefix::Moz, js_word!("-moz-transform-style"), None);
             }
 
             js_word!("perspective") => {
-                add_declaration!(Prefix::Webkit, "-webkit-perspective", None);
-                add_declaration!(Prefix::Moz, "-moz-perspective", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-perspective"), None);
+                add_declaration!(Prefix::Moz, js_word!("-moz-perspective"), None);
             }
 
             js_word!("perspective-origin") => {
-                add_declaration!(Prefix::Webkit, "-webkit-perspective-origin", None);
-                add_declaration!(Prefix::Moz, "-moz-perspective-origin", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-perspective-origin"), None);
+                add_declaration!(Prefix::Moz, js_word!("-moz-perspective-origin"), None);
             }
 
             js_word!("text-decoration") => {
@@ -2694,61 +2754,81 @@ impl VisitMut for Prefixer {
                     match &n.value[0] {
                         ComponentValue::Ident(ident)
                             if matches!(
-                                &*ident.value.to_ascii_lowercase(),
-                                "none"
-                                    | "underline"
-                                    | "overline"
-                                    | "line-through"
-                                    | "blink"
-                                    | "inherit"
-                                    | "initial"
-                                    | "revert"
-                                    | "unset"
+                                ident.value.to_ascii_lowercase(),
+                                js_word!("none")
+                                    | js_word!("underline")
+                                    | js_word!("overline")
+                                    | js_word!("line-through")
+                                    | js_word!("blink")
+                                    | js_word!("inherit")
+                                    | js_word!("initial")
+                                    | js_word!("revert")
+                                    | js_word!("unset")
                             ) => {}
                         _ => {
-                            add_declaration!(Prefix::Webkit, "-webkit-text-decoration", None);
-                            add_declaration!(Prefix::Moz, "-moz-text-decoration", None);
+                            add_declaration!(
+                                Prefix::Webkit,
+                                js_word!("-webkit-text-decoration"),
+                                None
+                            );
+                            add_declaration!(Prefix::Moz, js_word!("-moz-text-decoration"), None);
                         }
                     }
                 } else {
-                    add_declaration!(Prefix::Webkit, "-webkit-text-decoration", None);
-                    add_declaration!(Prefix::Moz, "-moz-text-decoration", None);
+                    add_declaration!(Prefix::Webkit, js_word!("-webkit-text-decoration"), None);
+                    add_declaration!(Prefix::Moz, js_word!("-moz-text-decoration"), None);
                 }
             }
 
             js_word!("text-decoration-style") => {
-                add_declaration!(Prefix::Webkit, "-webkit-text-decoration-style", None);
-                add_declaration!(Prefix::Moz, "-moz-text-decoration-style", None);
+                add_declaration!(
+                    Prefix::Webkit,
+                    js_word!("-webkit-text-decoration-style"),
+                    None
+                );
+                add_declaration!(Prefix::Moz, js_word!("-moz-text-decoration-style"), None);
             }
 
             js_word!("text-decoration-color") => {
-                add_declaration!(Prefix::Webkit, "-webkit-text-decoration-color", None);
-                add_declaration!(Prefix::Moz, "-moz-text-decoration-color", None);
+                add_declaration!(
+                    Prefix::Webkit,
+                    js_word!("-webkit-text-decoration-color"),
+                    None
+                );
+                add_declaration!(Prefix::Moz, js_word!("-moz-text-decoration-color"), None);
             }
 
             js_word!("text-decoration-line") => {
-                add_declaration!(Prefix::Webkit, "-webkit-text-decoration-line", None);
-                add_declaration!(Prefix::Moz, "-moz-text-decoration-line", None);
+                add_declaration!(
+                    Prefix::Webkit,
+                    js_word!("-webkit-text-decoration-line"),
+                    None
+                );
+                add_declaration!(Prefix::Moz, js_word!("-moz-text-decoration-line"), None);
             }
 
             js_word!("text-decoration-skip") => {
-                add_declaration!(Prefix::Webkit, "-webkit-text-decoration-skip", None);
+                add_declaration!(
+                    Prefix::Webkit,
+                    js_word!("-webkit-text-decoration-skip"),
+                    None
+                );
             }
 
             js_word!("text-decoration-skip-ink") => {
                 if let ComponentValue::Ident(ident) = &n.value[0] {
-                    match &*ident.value.to_ascii_lowercase() {
-                        "auto" => {
+                    match ident.value.to_ascii_lowercase() {
+                        js_word!("auto") => {
                             add_declaration!(
                                 Prefix::Webkit,
-                                "-webkit-text-decoration-skip",
+                                js_word!("-webkit-text-decoration-skip"),
                                 Some(Box::new(|| { vec![to_ident!("ink")] }))
                             );
                         }
                         _ => {
                             add_declaration!(
                                 Prefix::Webkit,
-                                "-webkit-text-decoration-skip-ink",
+                                js_word!("-webkit-text-decoration-skip-ink"),
                                 None
                             );
                         }
@@ -2758,10 +2838,14 @@ impl VisitMut for Prefixer {
 
             js_word!("text-size-adjust") if n.value.len() == 1 => {
                 if let ComponentValue::Ident(ident) = &n.value[0] {
-                    if &*ident.value.to_ascii_lowercase() == "none" {
-                        add_declaration!(Prefix::Webkit, "-webkit-text-size-adjust", None);
-                        add_declaration!(Prefix::Moz, "-moz-text-size-adjust", None);
-                        add_declaration!(Prefix::Ms, "-ms-text-size-adjust", None);
+                    if ident.value.to_ascii_lowercase() == js_word!("none") {
+                        add_declaration!(
+                            Prefix::Webkit,
+                            js_word!("-webkit-text-size-adjust"),
+                            None
+                        );
+                        add_declaration!(Prefix::Moz, js_word!("-moz-text-size-adjust"), None);
+                        add_declaration!(Prefix::Ms, js_word!("-ms-text-size-adjust"), None);
                     }
                 }
             }
@@ -2779,7 +2863,7 @@ impl VisitMut for Prefixer {
                     }
                 }
 
-                add_declaration!(Prefix::Webkit, "-webkit-transition", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-transition"), None);
 
                 if should_prefix("-moz-transform", self.env, false)
                     && (self.rule_prefix == Some(Prefix::Moz) || self.rule_prefix.is_none())
@@ -2787,7 +2871,7 @@ impl VisitMut for Prefixer {
                     replace_ident(&mut moz_value, "transform", "-moz-transform");
                 }
 
-                add_declaration!(Prefix::Moz, "-moz-transition", None);
+                add_declaration!(Prefix::Moz, js_word!("-moz-transition"), None);
 
                 if should_prefix("-o-transform", self.env, false)
                     && (self.rule_prefix == Some(Prefix::O) || self.rule_prefix.is_none())
@@ -2795,7 +2879,7 @@ impl VisitMut for Prefixer {
                     replace_ident(&mut o_value, "transform", "-o-transform");
                 }
 
-                add_declaration!(Prefix::O, "-o-transition", None);
+                add_declaration!(Prefix::O, js_word!("-o-transition"), None);
             }
 
             js_word!("transition-property") => {
@@ -2823,27 +2907,47 @@ impl VisitMut for Prefixer {
                     replace_ident(&mut o_value, "transform", "-o-transform");
                 }
 
-                add_declaration!(Prefix::Webkit, "-webkit-transition-property", None);
-                add_declaration!(Prefix::Moz, "-moz-transition-timing-function", None);
-                add_declaration!(Prefix::O, "-o-transition-timing-function", None);
+                add_declaration!(
+                    Prefix::Webkit,
+                    js_word!("-webkit-transition-property"),
+                    None
+                );
+                add_declaration!(
+                    Prefix::Moz,
+                    js_word!("-moz-transition-timing-function"),
+                    None
+                );
+                add_declaration!(Prefix::O, js_word!("-o-transition-timing-function"), None);
             }
 
             js_word!("transition-duration") => {
-                add_declaration!(Prefix::Webkit, "-webkit-transition-duration", None);
-                add_declaration!(Prefix::Moz, "-moz-transition-duration", None);
-                add_declaration!(Prefix::O, "-o-transition-duration", None);
+                add_declaration!(
+                    Prefix::Webkit,
+                    js_word!("-webkit-transition-duration"),
+                    None
+                );
+                add_declaration!(Prefix::Moz, js_word!("-moz-transition-duration"), None);
+                add_declaration!(Prefix::O, js_word!("-o-transition-duration"), None);
             }
 
             js_word!("transition-delay") => {
-                add_declaration!(Prefix::Webkit, "-webkit-transition-delay", None);
-                add_declaration!(Prefix::Moz, "-moz-transition-delay", None);
-                add_declaration!(Prefix::O, "-o-transition-delay", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-transition-delay"), None);
+                add_declaration!(Prefix::Moz, js_word!("-moz-transition-delay"), None);
+                add_declaration!(Prefix::O, js_word!("-o-transition-delay"), None);
             }
 
             js_word!("transition-timing-function") => {
-                add_declaration!(Prefix::Webkit, "-webkit-transition-timing-function", None);
-                add_declaration!(Prefix::Moz, "-moz-transition-timing-function", None);
-                add_declaration!(Prefix::O, "-o-transition-timing-function", None);
+                add_declaration!(
+                    Prefix::Webkit,
+                    js_word!("-webkit-transition-timing-function"),
+                    None
+                );
+                add_declaration!(
+                    Prefix::Moz,
+                    js_word!("-moz-transition-timing-function"),
+                    None
+                );
+                add_declaration!(Prefix::O, js_word!("-o-transition-timing-function"), None);
             }
 
             js_word!("writing-mode") if n.value.len() == 1 => {
@@ -2865,22 +2969,26 @@ impl VisitMut for Prefixer {
                 };
 
                 if let ComponentValue::Ident(ident) = &n.value[0] {
-                    match &*ident.value.to_ascii_lowercase() {
-                        "vertical-lr" => {
-                            add_declaration!(Prefix::Webkit, "-webkit-writing-mode", None);
+                    match ident.value.to_ascii_lowercase() {
+                        js_word!("vertical-lr") => {
+                            add_declaration!(
+                                Prefix::Webkit,
+                                js_word!("-webkit-writing-mode"),
+                                None
+                            );
 
                             match direction {
                                 Some("ltr") => {
                                     add_declaration!(
                                         Prefix::Ms,
-                                        "-ms-writing-mode",
+                                        js_word!("-ms-writing-mode"),
                                         Some(Box::new(|| { vec![to_ident!("tb-lr")] }))
                                     );
                                 }
                                 Some("rtl") => {
                                     add_declaration!(
                                         Prefix::Ms,
-                                        "-ms-writing-mode",
+                                        js_word!("-ms-writing-mode"),
                                         Some(Box::new(|| { vec![to_ident!("bt-lr")] }))
                                     );
                                 }
@@ -2888,21 +2996,25 @@ impl VisitMut for Prefixer {
                             }
                         }
 
-                        "vertical-rl" => {
-                            add_declaration!(Prefix::Webkit, "-webkit-writing-mode", None);
+                        js_word!("vertical-rl") => {
+                            add_declaration!(
+                                Prefix::Webkit,
+                                js_word!("-webkit-writing-mode"),
+                                None
+                            );
 
                             match direction {
                                 Some("ltr") => {
                                     add_declaration!(
                                         Prefix::Ms,
-                                        "-ms-writing-mode",
+                                        js_word!("-ms-writing-mode"),
                                         Some(Box::new(|| { vec![to_ident!("tb-rl")] }))
                                     );
                                 }
                                 Some("rtl") => {
                                     add_declaration!(
                                         Prefix::Ms,
-                                        "-ms-writing-mode",
+                                        js_word!("-ms-writing-mode"),
                                         Some(Box::new(|| { vec![to_ident!("bt-rl")] }))
                                     );
                                 }
@@ -2910,21 +3022,25 @@ impl VisitMut for Prefixer {
                             }
                         }
 
-                        "horizontal-tb" => {
-                            add_declaration!(Prefix::Webkit, "-webkit-writing-mode", None);
+                        js_word!("horizontal-tb") => {
+                            add_declaration!(
+                                Prefix::Webkit,
+                                js_word!("-webkit-writing-mode"),
+                                None
+                            );
 
                             match direction {
                                 Some("ltr") => {
                                     add_declaration!(
                                         Prefix::Ms,
-                                        "-ms-writing-mode",
+                                        js_word!("-ms-writing-mode"),
                                         Some(Box::new(|| { vec![to_ident!("lr-tb")] }))
                                     );
                                 }
                                 Some("rtl") => {
                                     add_declaration!(
                                         Prefix::Ms,
-                                        "-ms-writing-mode",
+                                        js_word!("-ms-writing-mode"),
                                         Some(Box::new(|| { vec![to_ident!("rl-tb")] }))
                                     );
                                 }
@@ -2932,13 +3048,21 @@ impl VisitMut for Prefixer {
                             }
                         }
 
-                        "sideways-rl" | "sideways-lr" => {
-                            add_declaration!(Prefix::Webkit, "-webkit-writing-mode", None);
+                        js_word!("sideways-rl") | js_word!("sideways-lr") => {
+                            add_declaration!(
+                                Prefix::Webkit,
+                                js_word!("-webkit-writing-mode"),
+                                None
+                            );
                         }
 
                         _ => {
-                            add_declaration!(Prefix::Webkit, "-webkit-writing-mode", None);
-                            add_declaration!(Prefix::Ms, "-ms-writing-mode", None);
+                            add_declaration!(
+                                Prefix::Webkit,
+                                js_word!("-webkit-writing-mode"),
+                                None
+                            );
+                            add_declaration!(Prefix::Ms, js_word!("-ms-writing-mode"), None);
                         }
                     }
                 }
@@ -3022,7 +3146,7 @@ impl VisitMut for Prefixer {
             js_word!("touch-action") => {
                 add_declaration!(
                     Prefix::Ms,
-                    "-ms-touch-action",
+                    js_word!("-ms-touch-action"),
                     Some(Box::new(|| {
                         let mut new_ms_value = ms_value.clone();
 
@@ -3058,11 +3182,11 @@ impl VisitMut for Prefixer {
                     }))
                 );
 
-                add_declaration!(Prefix::Ms, "-ms-touch-action", None);
+                add_declaration!(Prefix::Ms, js_word!("-ms-touch-action"), None);
             }
 
             js_word!("text-orientation") => {
-                add_declaration!(Prefix::Webkit, "-webkit-text-orientation", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-text-orientation"), None);
             }
 
             js_word!("unicode-bidi") => {
@@ -3098,91 +3222,123 @@ impl VisitMut for Prefixer {
             }
 
             js_word!("text-spacing") => {
-                add_declaration!(Prefix::Ms, "-ms-text-spacing", None);
+                add_declaration!(Prefix::Ms, js_word!("-ms-text-spacing"), None);
             }
 
             js_word!("text-emphasis") => {
-                add_declaration!(Prefix::Webkit, "-webkit-text-emphasis", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-text-emphasis"), None);
             }
 
             js_word!("text-emphasis-position") => {
-                add_declaration!(Prefix::Webkit, "-webkit-text-emphasis-position", None);
+                add_declaration!(
+                    Prefix::Webkit,
+                    js_word!("-webkit-text-emphasis-position"),
+                    None
+                );
             }
 
             js_word!("text-emphasis-style") => {
-                add_declaration!(Prefix::Webkit, "-webkit-text-emphasis-style", None);
+                add_declaration!(
+                    Prefix::Webkit,
+                    js_word!("-webkit-text-emphasis-style"),
+                    None
+                );
             }
 
             js_word!("text-emphasis-color") => {
-                add_declaration!(Prefix::Webkit, "-webkit-text-emphasis-color", None);
+                add_declaration!(
+                    Prefix::Webkit,
+                    js_word!("-webkit-text-emphasis-color"),
+                    None
+                );
             }
 
             js_word!("flow-into") => {
-                add_declaration!(Prefix::Webkit, "-webkit-flow-into", None);
-                add_declaration!(Prefix::Ms, "-ms-flow-into", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-flow-into"), None);
+                add_declaration!(Prefix::Ms, js_word!("-ms-flow-into"), None);
             }
 
             js_word!("flow-from") => {
-                add_declaration!(Prefix::Webkit, "-webkit-flow-from", None);
-                add_declaration!(Prefix::Ms, "-ms-flow-from", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-flow-from"), None);
+                add_declaration!(Prefix::Ms, js_word!("-ms-flow-from"), None);
             }
 
             js_word!("region-fragment") => {
-                add_declaration!(Prefix::Webkit, "-webkit-region-fragment", None);
-                add_declaration!(Prefix::Ms, "-ms-region-fragment", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-region-fragment"), None);
+                add_declaration!(Prefix::Ms, js_word!("-ms-region-fragment"), None);
             }
 
             js_word!("scroll-snap-type") => {
-                add_declaration!(Prefix::Webkit, "-webkit-scroll-snap-type", None);
-                add_declaration!(Prefix::Ms, "-ms-scroll-snap-type", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-scroll-snap-type"), None);
+                add_declaration!(Prefix::Ms, js_word!("-ms-scroll-snap-type"), None);
             }
 
             js_word!("scroll-snap-coordinate") => {
-                add_declaration!(Prefix::Webkit, "-webkit-scroll-snap-coordinate", None);
-                add_declaration!(Prefix::Ms, "-ms-scroll-snap-coordinate", None);
+                add_declaration!(
+                    Prefix::Webkit,
+                    js_word!("-webkit-scroll-snap-coordinate"),
+                    None
+                );
+                add_declaration!(Prefix::Ms, js_word!("-ms-scroll-snap-coordinate"), None);
             }
 
             js_word!("scroll-snap-destination") => {
-                add_declaration!(Prefix::Webkit, "-webkit-scroll-snap-destination", None);
-                add_declaration!(Prefix::Ms, "-ms-scroll-snap-destination", None);
+                add_declaration!(
+                    Prefix::Webkit,
+                    js_word!("-webkit-scroll-snap-destination"),
+                    None
+                );
+                add_declaration!(Prefix::Ms, js_word!("-ms-scroll-snap-destination"), None);
             }
 
             js_word!("scroll-snap-points-x") => {
-                add_declaration!(Prefix::Webkit, "-webkit-scroll-snap-points-x", None);
-                add_declaration!(Prefix::Ms, "-ms-scroll-snap-points-x", None);
+                add_declaration!(
+                    Prefix::Webkit,
+                    js_word!("-webkit-scroll-snap-points-x"),
+                    None
+                );
+                add_declaration!(Prefix::Ms, js_word!("-ms-scroll-snap-points-x"), None);
             }
 
             js_word!("scroll-snap-points-y") => {
-                add_declaration!(Prefix::Webkit, "-webkit-scroll-snap-points-y", None);
-                add_declaration!(Prefix::Ms, "-ms-scroll-snap-points-y", None);
+                add_declaration!(
+                    Prefix::Webkit,
+                    js_word!("-webkit-scroll-snap-points-y"),
+                    None
+                );
+                add_declaration!(Prefix::Ms, js_word!("-ms-scroll-snap-points-y"), None);
             }
 
             js_word!("text-align-last") => {
-                add_declaration!(Prefix::Moz, "-moz-text-align-last", None);
+                add_declaration!(Prefix::Moz, js_word!("-moz-text-align-last"), None);
             }
 
             js_word!("text-overflow") => {
-                add_declaration!(Prefix::O, "-o-text-overflow", None);
+                add_declaration!(Prefix::O, js_word!("-o-text-overflow"), None);
             }
 
             js_word!("shape-margin") => {
-                add_declaration!(Prefix::Webkit, "-webkit-shape-margin", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-shape-margin"), None);
             }
 
             js_word!("shape-outside") => {
-                add_declaration!(Prefix::Webkit, "-webkit-shape-outside", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-shape-outside"), None);
             }
 
             js_word!("shape-image-threshold") => {
-                add_declaration!(Prefix::Webkit, "-webkit-shape-image-threshold", None);
+                add_declaration!(
+                    Prefix::Webkit,
+                    js_word!("-webkit-shape-image-threshold"),
+                    None
+                );
             }
 
             js_word!("object-fit") => {
-                add_declaration!(Prefix::O, "-o-object-fit", None);
+                add_declaration!(Prefix::O, js_word!("-o-object-fit"), None);
             }
 
             js_word!("object-position") => {
-                add_declaration!(Prefix::O, "-o-object-position", None);
+                add_declaration!(Prefix::O, js_word!("-o-object-position"), None);
             }
 
             "overflow-wrap" => {
@@ -3191,93 +3347,109 @@ impl VisitMut for Prefixer {
 
             "tab-size" => {
             js_word!("tab-size") => {
-                add_declaration!(Prefix::Moz, "-moz-tab-size", None);
-                add_declaration!(Prefix::O, "-o-tab-size", None);
+                add_declaration!(Prefix::Moz, js_word!("-moz-tab-size"), None);
+                add_declaration!(Prefix::O, js_word!("-o-tab-size"), None);
             }
 
             js_word!("hyphens") => {
-                add_declaration!(Prefix::Webkit, "-webkit-hyphens", None);
-                add_declaration!(Prefix::Moz, "-moz-hyphens", None);
-                add_declaration!(Prefix::Ms, "-ms-hyphens", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-hyphens"), None);
+                add_declaration!(Prefix::Moz, js_word!("-moz-hyphens"), None);
+                add_declaration!(Prefix::Ms, js_word!("-ms-hyphens"), None);
             }
 
             js_word!("border-image") => {
-                add_declaration!(Prefix::Webkit, "-webkit-border-image", None);
-                add_declaration!(Prefix::Moz, "-moz-border-image", None);
-                add_declaration!(Prefix::O, "-o-border-image", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-border-image"), None);
+                add_declaration!(Prefix::Moz, js_word!("-moz-border-image"), None);
+                add_declaration!(Prefix::O, js_word!("-o-border-image"), None);
             }
 
             js_word!("font-kerning") => {
-                add_declaration!(Prefix::Webkit, "-webkit-font-kerning", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-font-kerning"), None);
             }
 
             js_word!("font-feature-settings") => {
-                add_declaration!(Prefix::Webkit, "-webkit-font-feature-settings", None);
-                add_declaration!(Prefix::Moz, "-moz-font-feature-settings", None);
+                add_declaration!(
+                    Prefix::Webkit,
+                    js_word!("-webkit-font-feature-settings"),
+                    None
+                );
+                add_declaration!(Prefix::Moz, js_word!("-moz-font-feature-settings"), None);
             }
 
             js_word!("font-variant-ligatures") => {
-                add_declaration!(Prefix::Webkit, "-webkit-font-variant-ligatures", None);
-                add_declaration!(Prefix::Moz, "-moz-font-variant-ligatures", None);
+                add_declaration!(
+                    Prefix::Webkit,
+                    js_word!("-webkit-font-variant-ligatures"),
+                    None
+                );
+                add_declaration!(Prefix::Moz, js_word!("-moz-font-variant-ligatures"), None);
             }
 
             js_word!("font-language-override") => {
-                add_declaration!(Prefix::Webkit, "-webkit-font-language-override", None);
-                add_declaration!(Prefix::Moz, "-moz-font-language-override", None);
+                add_declaration!(
+                    Prefix::Webkit,
+                    js_word!("-webkit-font-language-override"),
+                    None
+                );
+                add_declaration!(Prefix::Moz, js_word!("-moz-font-language-override"), None);
             }
 
             js_word!("background-origin") => {
-                add_declaration!(Prefix::Webkit, "-webkit-background-origin", None);
-                add_declaration!(Prefix::Moz, "-moz-background-origin", None);
-                add_declaration!(Prefix::O, "-o-background-origin", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-background-origin"), None);
+                add_declaration!(Prefix::Moz, js_word!("-moz-background-origin"), None);
+                add_declaration!(Prefix::O, js_word!("-o-background-origin"), None);
             }
 
             js_word!("background-size") => {
-                add_declaration!(Prefix::Webkit, "-webkit-background-size", None);
-                add_declaration!(Prefix::Moz, "-moz-background-size", None);
-                add_declaration!(Prefix::O, "-o-background-size", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-background-size"), None);
+                add_declaration!(Prefix::Moz, js_word!("-moz-background-size"), None);
+                add_declaration!(Prefix::O, js_word!("-o-background-size"), None);
             }
 
             js_word!("overscroll-behavior") => {
                 if let ComponentValue::Ident(ident) = &n.value[0] {
-                    match &*ident.value.to_ascii_lowercase() {
-                        "auto" => {
+                    match ident.value.to_ascii_lowercase() {
+                        js_word!("auto") => {
                             add_declaration!(
                                 Prefix::Ms,
-                                "-ms-scroll-chaining",
+                                js_word!("-ms-scroll-chaining"),
                                 Some(Box::new(|| { vec![to_ident!("chained")] }))
                             );
                         }
-                        "none" | "contain" => {
+                        js_word!("none") | js_word!("contain") => {
                             add_declaration!(
                                 Prefix::Ms,
-                                "-ms-scroll-chaining",
+                                js_word!("-ms-scroll-chaining"),
                                 Some(Box::new(|| { vec![to_ident!("none")] }))
                             );
                         }
                         _ => {
-                            add_declaration!(Prefix::Ms, "-ms-scroll-chaining", None);
+                            add_declaration!(Prefix::Ms, js_word!("-ms-scroll-chaining"), None);
                         }
                     }
                 } else {
-                    add_declaration!(Prefix::Ms, "-ms-scroll-chaining", None);
+                    add_declaration!(Prefix::Ms, js_word!("-ms-scroll-chaining"), None);
                 }
             }
 
             js_word!("box-shadow") => {
-                add_declaration!(Prefix::Webkit, "-webkit-box-shadow", None);
-                add_declaration!(Prefix::Moz, "-moz-box-shadow", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-box-shadow"), None);
+                add_declaration!(Prefix::Moz, js_word!("-moz-box-shadow"), None);
             }
 
             js_word!("forced-color-adjust") => {
-                add_declaration!(Prefix::Ms, "-ms-high-contrast-adjust", None);
+                add_declaration!(Prefix::Ms, js_word!("-ms-high-contrast-adjust"), None);
             }
 
             js_word!("break-inside") => {
                 if let ComponentValue::Ident(ident) = &n.value[0] {
-                    match &*ident.value.to_ascii_lowercase() {
-                        "auto" | "avoid" => {
-                            add_declaration!(Prefix::Webkit, "-webkit-column-break-inside", None);
+                    match ident.value.to_ascii_lowercase() {
+                        js_word!("auto") | js_word!("avoid") => {
+                            add_declaration!(
+                                Prefix::Webkit,
+                                js_word!("-webkit-column-break-inside"),
+                                None
+                            );
                         }
                         _ => {}
                     }
@@ -3286,14 +3458,18 @@ impl VisitMut for Prefixer {
 
             js_word!("break-before") => {
                 if let ComponentValue::Ident(ident) = &n.value[0] {
-                    match &*ident.value.to_ascii_lowercase() {
-                        "auto" | "avoid" => {
-                            add_declaration!(Prefix::Webkit, "-webkit-column-break-before", None);
-                        }
-                        "column" => {
+                    match ident.value.to_ascii_lowercase() {
+                        js_word!("auto") | js_word!("avoid") => {
                             add_declaration!(
                                 Prefix::Webkit,
-                                "-webkit-column-break-before",
+                                js_word!("-webkit-column-break-before"),
+                                None
+                            );
+                        }
+                        js_word!("column") => {
+                            add_declaration!(
+                                Prefix::Webkit,
+                                js_word!("-webkit-column-break-before"),
                                 Some(Box::new(|| { vec![to_ident!("always")] }))
                             );
                         }
@@ -3304,14 +3480,18 @@ impl VisitMut for Prefixer {
 
             js_word!("break-after") => {
                 if let ComponentValue::Ident(ident) = &n.value[0] {
-                    match &*ident.value.to_ascii_lowercase() {
-                        "auto" | "avoid" => {
-                            add_declaration!(Prefix::Webkit, "-webkit-column-break-after", None);
-                        }
-                        "column" => {
+                    match ident.value.to_ascii_lowercase() {
+                        js_word!("auto") | js_word!("avoid") => {
                             add_declaration!(
                                 Prefix::Webkit,
-                                "-webkit-column-break-after",
+                                js_word!("-webkit-column-break-after"),
+                                None
+                            );
+                        }
+                        js_word!("column") => {
+                            add_declaration!(
+                                Prefix::Webkit,
+                                js_word!("-webkit-column-break-after"),
                                 Some(Box::new(|| { vec![to_ident!("always")] }))
                             );
                         }
@@ -3321,28 +3501,48 @@ impl VisitMut for Prefixer {
             }
 
             js_word!("border-radius") => {
-                add_declaration!(Prefix::Webkit, "-webkit-border-radius", None);
-                add_declaration!(Prefix::Moz, "-moz-border-radius", None);
+                add_declaration!(Prefix::Webkit, js_word!("-webkit-border-radius"), None);
+                add_declaration!(Prefix::Moz, js_word!("-moz-border-radius"), None);
             }
 
             js_word!("border-top-left-radius") => {
-                add_declaration!(Prefix::Webkit, "-webkit-border-top-left-radius", None);
-                add_declaration!(Prefix::Moz, "-moz-border-radius-topleft", None);
+                add_declaration!(
+                    Prefix::Webkit,
+                    js_word!("-webkit-border-top-left-radius"),
+                    None
+                );
+                add_declaration!(Prefix::Moz, js_word!("-moz-border-radius-topleft"), None);
             }
 
             js_word!("border-top-right-radius") => {
-                add_declaration!(Prefix::Webkit, "-webkit-border-top-right-radius", None);
-                add_declaration!(Prefix::Moz, "-moz-border-radius-topright", None);
+                add_declaration!(
+                    Prefix::Webkit,
+                    js_word!("-webkit-border-top-right-radius"),
+                    None
+                );
+                add_declaration!(Prefix::Moz, js_word!("-moz-border-radius-topright"), None);
             }
 
             js_word!("border-bottom-right-radius") => {
-                add_declaration!(Prefix::Webkit, "-webkit-border-bottom-right-radius", None);
-                add_declaration!(Prefix::Moz, "-moz-border-radius-bottomright", None);
+                add_declaration!(
+                    Prefix::Webkit,
+                    js_word!("-webkit-border-bottom-right-radius"),
+                    None
+                );
+                add_declaration!(
+                    Prefix::Moz,
+                    js_word!("-moz-border-radius-bottomright"),
+                    None
+                );
             }
 
             js_word!("border-bottom-left-radius") => {
-                add_declaration!(Prefix::Webkit, "-webkit-border-bottom-left-radius", None);
-                add_declaration!(Prefix::Moz, "-moz-border-radius-bottomleft", None);
+                add_declaration!(
+                    Prefix::Webkit,
+                    js_word!("-webkit-border-bottom-left-radius"),
+                    None
+                );
+                add_declaration!(Prefix::Moz, js_word!("-moz-border-radius-bottomleft"), None);
             }
 
             "src" if should_prefix("font-face-format-ident", self.env, true) => {
