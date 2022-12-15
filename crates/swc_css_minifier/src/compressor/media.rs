@@ -1,5 +1,6 @@
 use std::mem::take;
 
+use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_css_ast::*;
 
@@ -375,6 +376,61 @@ impl Compressor {
             if let Some(number) = self.length_to_zero(length) {
                 *n = MediaFeatureValue::Number(number)
             }
+        }
+    }
+
+    pub(super) fn compress_media_feature(&mut self, n: &mut MediaFeature) {
+        match n {
+            MediaFeature::Plain(MediaFeaturePlain {
+                span,
+                name: MediaFeatureName::Ident(name),
+                value: box MediaFeatureValue::Number(value),
+            }) => {
+                if matches!(
+                    name.value,
+                    js_word!("min-color")
+                        | js_word!("min-color-index")
+                        | js_word!("min-monochrome")
+                ) && value.value == 1.0
+                {
+                    *n = MediaFeature::Boolean(MediaFeatureBoolean {
+                        span: *span,
+                        name: MediaFeatureName::Ident(Ident {
+                            span: name.span,
+                            value: (*name.value).chars().skip(4).collect::<String>().into(),
+                            raw: None,
+                        }),
+                    });
+                }
+            }
+            MediaFeature::Range(range) => {
+                if let MediaFeatureValue::Ident(name) = &*range.left {
+                    if matches!(
+                        name.value,
+                        js_word!("color") | js_word!("color-index") | js_word!("monochrome")
+                    ) && matches!(&*range.right, MediaFeatureValue::Number(number) if number.value == 1.0)
+                        && range.comparison == MediaFeatureRangeComparison::Ge
+                    {
+                        *n = MediaFeature::Boolean(MediaFeatureBoolean {
+                            span: range.span,
+                            name: MediaFeatureName::Ident(name.clone()),
+                        });
+                    }
+                } else if let MediaFeatureValue::Ident(name) = &*range.right {
+                    if matches!(
+                        name.value,
+                        js_word!("color") | js_word!("color-index") | js_word!("monochrome")
+                    ) && matches!(&*range.left, MediaFeatureValue::Number(number) if number.value == 1.0)
+                        && range.comparison == MediaFeatureRangeComparison::Le
+                    {
+                        *n = MediaFeature::Boolean(MediaFeatureBoolean {
+                            span: range.span,
+                            name: MediaFeatureName::Ident(name.clone()),
+                        });
+                    }
+                }
+            }
+            _ => {}
         }
     }
 }

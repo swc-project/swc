@@ -175,6 +175,12 @@ impl VisitMut for Compressor {
         self.compress_media_in_parens(n);
     }
 
+    fn visit_mut_media_feature(&mut self, n: &mut MediaFeature) {
+        n.visit_mut_children_with(self);
+
+        self.compress_media_feature(n);
+    }
+
     fn visit_mut_media_feature_value(&mut self, n: &mut MediaFeatureValue) {
         n.visit_mut_children_with(self);
 

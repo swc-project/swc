@@ -77,12 +77,15 @@
 @media (color) { body { color: red; } }
 @media (min-color: 1) { body { color: red; } }
 @media (color >= 1) { body { color: red; } }
+@media (1 <= color) { body { color: red; } }
 
 @media (color-index) { body { color: red; } }
 @media (min-color-index: 1) { body { color: red; } }
 @media (color-index >= 1) { body { color: red; } }
+@media (1 <= color-index) { body { color: red; } }
 
 @media (monochrome) { body { color: red; } }
 @media (min-monochrome: 1) { body { color: red; } }
 @media (monochrome >= 1) { body { color: red; } }
+@media (1 <= monochrome) { body { color: red; } }
 
