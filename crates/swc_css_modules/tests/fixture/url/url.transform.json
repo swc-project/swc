@@ -53,10 +53,10 @@
       "name": "__local__root-relative"
     }
   ],
-  "my-background": [
+  "highlight": [
     {
       "type": "local",
-      "name": "__local__my-background"
+      "name": "__local__highlight"
     }
   ],
   "aliases": [
@@ -69,6 +69,12 @@
     {
       "type": "local",
       "name": "__local__strange"
+    }
+  ],
+  "my-background": [
+    {
+      "type": "local",
+      "name": "__local__my-background"
     }
   ],
   "other-test-case": [
@@ -105,12 +111,6 @@
     {
       "type": "local",
       "name": "__local__pure-url"
-    }
-  ],
-  "highlight": [
-    {
-      "type": "local",
-      "name": "__local__highlight"
     }
   ]
 }

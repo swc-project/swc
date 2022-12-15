@@ -836,6 +836,9 @@ createClass
 createReactClass
 crossorigin
 cubic-bezier
+cue
+cue-region
+current
 currentColor
 currentcolor
 cursor
@@ -1022,6 +1025,7 @@ frameset
 from
 from-image
 function
+future
 g
 get
 global
@@ -1053,14 +1057,18 @@ h4
 h5
 h6
 hanging-punctuation
+has
 head
 header
 headers
 height
 hgroup
+highlight
 historical-forms
 hkern
 horizontal-tb
+host
+host-context
 hr
 href
 hsl
@@ -1306,7 +1314,9 @@ noscript
 not
 nowrap
 nth-child
+nth-col
 nth-last-child
+nth-last-col
 nth-last-of-type
 nth-of-type
 null
@@ -1474,6 +1484,7 @@ paint-order
 panose-1
 param
 part
+past
 path
 pathLength
 pathlength
@@ -1657,6 +1668,7 @@ skewx
 skewy
 slice
 slot
+slotted
 small
 solid
 solidColor
