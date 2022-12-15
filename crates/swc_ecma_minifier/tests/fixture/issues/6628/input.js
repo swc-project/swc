@@ -1,21 +1,4 @@
 (function () {
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-    function _export(target, all) {
-        for (var name in all) Object.defineProperty(target, name, {
-            enumerable: true,
-            get: all[name]
-        });
-    }
-    _export(exports, {
-        default: function () {
-            return _default;
-        },
-        Collector: function () {
-            return Collector$1;
-        }
-    });
     var Collector = function () {
         var e = function e(e) { };
         return e.usePlugin = function (t, i, n) {
@@ -41,4 +24,7 @@
     Collector.usePlugin(CepRule, "cep");
     var TTTTT = new Collector("default"), Collector$1 = Collector;
     var _default = TTTTT;
+
+    exports.default = _default;
+    exports.Collector = Collector$1;
 })()
