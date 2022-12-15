@@ -8,6 +8,9 @@
 - **(css/parser)** Normalize hex colors (#6652) ([b257d5d](https://github.com/swc-project/swc/commit/b257d5d591c04feedf2f5997a984bf2f843b9d19))
 
 
+- **(css/parser)** Normalize selector AST (#6657) ([649438b](https://github.com/swc-project/swc/commit/649438b76a8ea61f2ddb2160a212d318d9d05267))
+
+
 - **(css/prefixer)** Support font-face format (#6644) ([199ac74](https://github.com/swc-project/swc/commit/199ac7461814553bab97c1f0f7b1c89f34897122))
 
 ### Refactor
