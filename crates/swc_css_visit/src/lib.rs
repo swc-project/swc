@@ -154,9 +154,14 @@ define!({
         pub value: DelimiterValue,
     }
 
+    pub enum FunctionName {
+        Ident(Ident),
+        DashedIdent(DashedIdent),
+    }
+
     pub struct Function {
         pub span: Span,
-        pub name: Ident,
+        pub name: FunctionName,
         pub value: Vec<ComponentValue>,
     }
 

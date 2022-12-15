@@ -307,7 +307,7 @@
  8 | }
    `----
 
-  x Ident { value: Atom('blue' type=inline), raw: "blue" }
+  x Ident { value: Atom('blue' type=static), raw: "blue" }
    ,-[$DIR/tests/fixture/dashed-ident/input.css:6:1]
  6 | .foo {
  7 |     --fg-color: blue;

@@ -47,7 +47,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Ident",
+                  "type": "DashedIdent",
                   "span": {
                     "start": 12,
                     "end": 21,
@@ -1496,7 +1496,7 @@
                                           "ctxt": 0
                                         },
                                         "name": {
-                                          "type": "Ident",
+                                          "type": "DashedIdent",
                                           "span": {
                                             "start": 356,
                                             "end": 362,

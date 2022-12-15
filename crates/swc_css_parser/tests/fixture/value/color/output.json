@@ -491,7 +491,7 @@
                     "end": 171,
                     "ctxt": 0
                   },
-                  "value": "rGb",
+                  "value": "rgb",
                   "raw": "rGb"
                 },
                 "value": [
@@ -2419,7 +2419,7 @@
                     "end": 812,
                     "ctxt": 0
                   },
-                  "value": "rGbA",
+                  "value": "rgba",
                   "raw": "rGbA"
                 },
                 "value": [
@@ -3850,7 +3850,7 @@
                     "end": 1299,
                     "ctxt": 0
                   },
-                  "value": "HsL",
+                  "value": "hsl",
                   "raw": "HsL"
                 },
                 "value": [

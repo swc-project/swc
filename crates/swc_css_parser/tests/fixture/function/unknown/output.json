@@ -182,7 +182,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Ident",
+                  "type": "DashedIdent",
                   "span": {
                     "start": 38,
                     "end": 42,
@@ -193,31 +193,20 @@
                 },
                 "value": [
                   {
-                    "type": "Length",
+                    "type": "PreservedToken",
                     "span": {
                       "start": 43,
                       "end": 48,
                       "ctxt": 0
                     },
-                    "value": {
-                      "type": "Number",
-                      "span": {
-                        "start": 43,
-                        "end": 46,
-                        "ctxt": 0
-                      },
-                      "value": 100.0,
-                      "raw": "100"
-                    },
-                    "unit": {
-                      "type": "Ident",
-                      "span": {
-                        "start": 46,
-                        "end": 48,
-                        "ctxt": 0
-                      },
-                      "value": "px",
-                      "raw": "px"
+                    "token": {
+                      "Dimension": {
+                        "value": 100.0,
+                        "raw_value": "100",
+                        "unit": "px",
+                        "type": "integer",
+                        "raw_unit": "px"
+                      }
                     }
                   }
                 ]
@@ -251,7 +240,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Ident",
+                  "type": "DashedIdent",
                   "span": {
                     "start": 61,
                     "end": 69,
@@ -262,31 +251,20 @@
                 },
                 "value": [
                   {
-                    "type": "Length",
+                    "type": "PreservedToken",
                     "span": {
                       "start": 70,
                       "end": 75,
                       "ctxt": 0
                     },
-                    "value": {
-                      "type": "Number",
-                      "span": {
-                        "start": 70,
-                        "end": 73,
-                        "ctxt": 0
-                      },
-                      "value": 100.0,
-                      "raw": "100"
-                    },
-                    "unit": {
-                      "type": "Ident",
-                      "span": {
-                        "start": 73,
-                        "end": 75,
-                        "ctxt": 0
-                      },
-                      "value": "px",
-                      "raw": "px"
+                    "token": {
+                      "Dimension": {
+                        "value": 100.0,
+                        "raw_value": "100",
+                        "unit": "px",
+                        "type": "integer",
+                        "raw_unit": "px"
+                      }
                     }
                   }
                 ]

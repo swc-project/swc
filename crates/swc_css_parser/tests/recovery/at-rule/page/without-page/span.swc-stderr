@@ -232,7 +232,7 @@
  4 | }
    `----
 
-  x Ident { value: Atom('blue' type=inline), raw: "blue" }
+  x Ident { value: Atom('blue' type=static), raw: "blue" }
    ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:2:1]
  2 |     content: "foo";
  3 |     color: blue;

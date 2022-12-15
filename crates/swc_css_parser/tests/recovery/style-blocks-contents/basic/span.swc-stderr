@@ -399,7 +399,7 @@
  7 |     }
    `----
 
-  x Ident { value: Atom('green' type=inline), raw: "green" }
+  x Ident { value: Atom('green' type=static), raw: "green" }
    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:5:1]
  5 |         ident
  6 |         color: green;
@@ -834,7 +834,7 @@
  15 |         }
     `----
 
-  x Ident { value: Atom('red' type=inline), raw: "red" }
+  x Ident { value: Atom('red' type=static), raw: "red" }
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:13:1]
  13 |             ident
  14 |             color: red 

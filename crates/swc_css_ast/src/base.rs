@@ -100,12 +100,21 @@ impl Take for SimpleBlock {
     }
 }
 
+#[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
+pub enum FunctionName {
+    #[tag("Ident")]
+    Ident(Ident),
+    #[tag("DashedIdent")]
+    DashedIdent(DashedIdent),
+}
+
 #[ast_node("Function")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct Function {
     /// Span starting from the `lo` of identifier and to the end of `)`.
     pub span: Span,
-    pub name: Ident,
+    pub name: FunctionName,
     pub value: Vec<ComponentValue>,
 }
 

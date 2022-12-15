@@ -235,7 +235,7 @@
  4 |     prod: --fn--fn(100px);
    `----
 
-  x Ident
+  x DashedIdent
    ,-[$DIR/tests/fixture/function/unknown/input.css:2:1]
  2 |     prod: fn(100px);
  3 |     prod: --fn(100px);
@@ -251,35 +251,11 @@
  4 |     prod: --fn--fn(100px);
    `----
 
-  x Dimension
+  x Dimension(DimensionToken { value: 100.0, raw_value: "100", unit: Atom('px' type=static), type_flag: Integer, raw_unit: "px" })
    ,-[$DIR/tests/fixture/function/unknown/input.css:2:1]
  2 |     prod: fn(100px);
  3 |     prod: --fn(100px);
    :                ^^^^^
- 4 |     prod: --fn--fn(100px);
-   `----
-
-  x Length
-   ,-[$DIR/tests/fixture/function/unknown/input.css:2:1]
- 2 |     prod: fn(100px);
- 3 |     prod: --fn(100px);
-   :                ^^^^^
- 4 |     prod: --fn--fn(100px);
-   `----
-
-  x Number
-   ,-[$DIR/tests/fixture/function/unknown/input.css:2:1]
- 2 |     prod: fn(100px);
- 3 |     prod: --fn(100px);
-   :                ^^^
- 4 |     prod: --fn--fn(100px);
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/function/unknown/input.css:2:1]
- 2 |     prod: fn(100px);
- 3 |     prod: --fn(100px);
-   :                   ^^
  4 |     prod: --fn--fn(100px);
    `----
 
@@ -331,7 +307,7 @@
  5 | }
    `----
 
-  x Ident
+  x DashedIdent
    ,-[$DIR/tests/fixture/function/unknown/input.css:3:1]
  3 |     prod: --fn(100px);
  4 |     prod: --fn--fn(100px);
@@ -347,34 +323,10 @@
  5 | }
    `----
 
-  x Dimension
+  x Dimension(DimensionToken { value: 100.0, raw_value: "100", unit: Atom('px' type=static), type_flag: Integer, raw_unit: "px" })
    ,-[$DIR/tests/fixture/function/unknown/input.css:3:1]
  3 |     prod: --fn(100px);
  4 |     prod: --fn--fn(100px);
    :                    ^^^^^
- 5 | }
-   `----
-
-  x Length
-   ,-[$DIR/tests/fixture/function/unknown/input.css:3:1]
- 3 |     prod: --fn(100px);
- 4 |     prod: --fn--fn(100px);
-   :                    ^^^^^
- 5 | }
-   `----
-
-  x Number
-   ,-[$DIR/tests/fixture/function/unknown/input.css:3:1]
- 3 |     prod: --fn(100px);
- 4 |     prod: --fn--fn(100px);
-   :                    ^^^
- 5 | }
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/function/unknown/input.css:3:1]
- 3 |     prod: --fn(100px);
- 4 |     prod: --fn--fn(100px);
-   :                       ^^
  5 | }
    `----

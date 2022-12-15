@@ -267,11 +267,10 @@ where
         &mut self,
         mut function: Function,
     ) -> PResult<Function> {
-        let function_name = function.name.value.to_ascii_lowercase();
         let locv = self.create_locv(function.value);
 
         function.value = match self.parse_according_to_grammar(&locv, |parser| {
-            parser.parse_function_values(&function_name)
+            parser.parse_function_values(&function.name)
         }) {
             Ok(values) => values,
             Err(err) => {

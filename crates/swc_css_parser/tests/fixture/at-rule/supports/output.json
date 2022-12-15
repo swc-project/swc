@@ -4161,7 +4161,7 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Ident",
+                  "type": "DashedIdent",
                   "span": {
                     "start": 1709,
                     "end": 1718,
