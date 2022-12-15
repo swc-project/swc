@@ -22,9 +22,7 @@
         eval();
     }();
     Collector.usePlugin(CepRule, "cep");
-    var TTTTT = new Collector("default"), Collector$1 = Collector;
-    var _default = TTTTT;
+    var Collector$1 = Collector;
 
-    exports.default = _default;
     exports.Collector = Collector$1;
 })()
