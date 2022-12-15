@@ -38,8 +38,6 @@ impl Compressor {
     }
 
     pub(super) fn compress_media_condition(&mut self, n: &mut MediaCondition) {
-        dedup(&mut n.conditions);
-
         match n.conditions.get(1) {
             Some(MediaConditionAllType::Or(_)) => {
                 let need_compress = n.conditions.iter().any(|item| match item {
@@ -63,59 +61,59 @@ impl Compressor {
                 });
 
                 if !need_compress {
-                    return;
-                }
+                    let mut new_conditions = Vec::with_capacity(n.conditions.len());
 
-                let mut new_conditions = Vec::with_capacity(n.conditions.len());
-
-                for item in take(&mut n.conditions) {
-                    match item {
-                        MediaConditionAllType::MediaInParens(MediaInParens::MediaCondition(
-                            media_condition,
-                        )) if self.is_first_or_media_type(&media_condition)
-                            && self.is_first_media_in_parens(&media_condition) =>
-                        {
-                            let mut iter = media_condition.conditions.into_iter();
-
-                            if let Some(MediaConditionAllType::MediaInParens(media_in_parens)) =
-                                iter.next()
-                            {
-                                new_conditions
-                                    .push(MediaConditionAllType::MediaInParens(media_in_parens));
-
-                                new_conditions.extend(iter);
-                            }
-                        }
-                        MediaConditionAllType::Or(media_or) => match media_or.condition {
-                            MediaInParens::MediaCondition(media_condition)
-                                if self.is_first_or_media_type(&media_condition)
-                                    && self.is_first_media_in_parens(&media_condition) =>
+                    for item in take(&mut n.conditions) {
+                        match item {
+                            MediaConditionAllType::MediaInParens(
+                                MediaInParens::MediaCondition(media_condition),
+                            ) if self.is_first_or_media_type(&media_condition)
+                                && self.is_first_media_in_parens(&media_condition) =>
                             {
                                 let mut iter = media_condition.conditions.into_iter();
 
                                 if let Some(MediaConditionAllType::MediaInParens(media_in_parens)) =
                                     iter.next()
                                 {
-                                    new_conditions.push(MediaConditionAllType::Or(MediaOr {
-                                        span: DUMMY_SP,
-                                        keyword: None,
-                                        condition: media_in_parens,
-                                    }));
+                                    new_conditions.push(MediaConditionAllType::MediaInParens(
+                                        media_in_parens,
+                                    ));
 
                                     new_conditions.extend(iter);
                                 }
                             }
+                            MediaConditionAllType::Or(media_or) => match media_or.condition {
+                                MediaInParens::MediaCondition(media_condition)
+                                    if self.is_first_or_media_type(&media_condition)
+                                        && self.is_first_media_in_parens(&media_condition) =>
+                                {
+                                    let mut iter = media_condition.conditions.into_iter();
+
+                                    if let Some(MediaConditionAllType::MediaInParens(
+                                        media_in_parens,
+                                    )) = iter.next()
+                                    {
+                                        new_conditions.push(MediaConditionAllType::Or(MediaOr {
+                                            span: DUMMY_SP,
+                                            keyword: None,
+                                            condition: media_in_parens,
+                                        }));
+
+                                        new_conditions.extend(iter);
+                                    }
+                                }
+                                _ => {
+                                    new_conditions.push(MediaConditionAllType::Or(media_or));
+                                }
+                            },
                             _ => {
-                                new_conditions.push(MediaConditionAllType::Or(media_or));
+                                new_conditions.push(item);
                             }
-                        },
-                        _ => {
-                            new_conditions.push(item);
                         }
                     }
-                }
 
-                n.conditions = new_conditions;
+                    n.conditions = new_conditions;
+                }
             }
             Some(MediaConditionAllType::And(_)) => {
                 let need_compress = n.conditions.iter().any(|item| match item {
@@ -139,67 +137,67 @@ impl Compressor {
                 });
 
                 if !need_compress {
-                    return;
-                }
+                    let mut new_conditions = Vec::with_capacity(n.conditions.len());
 
-                let mut new_conditions = Vec::with_capacity(n.conditions.len());
-
-                for item in take(&mut n.conditions) {
-                    match item {
-                        MediaConditionAllType::MediaInParens(MediaInParens::MediaCondition(
-                            media_condition,
-                        )) if self.is_first_and_media_type(&media_condition)
-                            && self.is_first_media_in_parens(&media_condition) =>
-                        {
-                            let mut iter = media_condition.conditions.into_iter();
-
-                            if let Some(MediaConditionAllType::MediaInParens(media_in_parens)) =
-                                iter.next()
-                            {
-                                new_conditions
-                                    .push(MediaConditionAllType::MediaInParens(media_in_parens));
-
-                                new_conditions.extend(iter);
-                            }
-                        }
-                        MediaConditionAllType::And(media_and) => match media_and.condition {
-                            MediaInParens::MediaCondition(media_condition)
-                                if self.is_first_and_media_type(&media_condition)
-                                    && self.is_first_media_in_parens(&media_condition) =>
+                    for item in take(&mut n.conditions) {
+                        match item {
+                            MediaConditionAllType::MediaInParens(
+                                MediaInParens::MediaCondition(media_condition),
+                            ) if self.is_first_and_media_type(&media_condition)
+                                && self.is_first_media_in_parens(&media_condition) =>
                             {
                                 let mut iter = media_condition.conditions.into_iter();
 
                                 if let Some(MediaConditionAllType::MediaInParens(media_in_parens)) =
                                     iter.next()
                                 {
-                                    new_conditions.push(MediaConditionAllType::And(MediaAnd {
-                                        span: DUMMY_SP,
-                                        keyword: None,
-                                        condition: media_in_parens,
-                                    }));
+                                    new_conditions.push(MediaConditionAllType::MediaInParens(
+                                        media_in_parens,
+                                    ));
 
                                     new_conditions.extend(iter);
                                 }
                             }
+                            MediaConditionAllType::And(media_and) => match media_and.condition {
+                                MediaInParens::MediaCondition(media_condition)
+                                    if self.is_first_and_media_type(&media_condition)
+                                        && self.is_first_media_in_parens(&media_condition) =>
+                                {
+                                    let mut iter = media_condition.conditions.into_iter();
+
+                                    if let Some(MediaConditionAllType::MediaInParens(
+                                        media_in_parens,
+                                    )) = iter.next()
+                                    {
+                                        new_conditions.push(MediaConditionAllType::And(MediaAnd {
+                                            span: DUMMY_SP,
+                                            keyword: None,
+                                            condition: media_in_parens,
+                                        }));
+
+                                        new_conditions.extend(iter);
+                                    }
+                                }
+                                _ => {
+                                    new_conditions.push(MediaConditionAllType::And(media_and));
+                                }
+                            },
                             _ => {
-                                new_conditions.push(MediaConditionAllType::And(media_and));
+                                new_conditions.push(item);
                             }
-                        },
-                        _ => {
-                            new_conditions.push(item);
                         }
                     }
-                }
 
-                n.conditions = new_conditions;
+                    n.conditions = new_conditions;
+                }
             }
             _ => {}
         }
+
+        dedup(&mut n.conditions);
     }
 
     pub(super) fn compress_media_condition_without_or(&mut self, n: &mut MediaConditionWithoutOr) {
-        dedup(&mut n.conditions);
-
         if let Some(MediaConditionWithoutOrType::And(_)) = n.conditions.get(1) {
             let need_compress = n.conditions.iter().any(|item| match item {
                 MediaConditionWithoutOrType::MediaInParens(MediaInParens::MediaCondition(
@@ -222,65 +220,23 @@ impl Compressor {
             });
 
             if !need_compress {
-                return;
-            }
+                let mut new_conditions = Vec::with_capacity(n.conditions.len());
 
-            let mut new_conditions = Vec::with_capacity(n.conditions.len());
-
-            for item in take(&mut n.conditions) {
-                match item {
-                    MediaConditionWithoutOrType::MediaInParens(MediaInParens::MediaCondition(
-                        media_condition,
-                    )) if self.is_first_and_media_type(&media_condition)
-                        && self.is_first_media_in_parens(&media_condition) =>
-                    {
-                        let mut iter = media_condition.conditions.into_iter();
-
-                        if let Some(MediaConditionAllType::MediaInParens(media_in_parens)) =
-                            iter.next()
-                        {
-                            new_conditions
-                                .push(MediaConditionWithoutOrType::MediaInParens(media_in_parens));
-
-                            for new_item in iter {
-                                match new_item {
-                                    MediaConditionAllType::Not(media_not) => {
-                                        new_conditions
-                                            .push(MediaConditionWithoutOrType::Not(media_not));
-                                    }
-                                    MediaConditionAllType::And(media_and) => {
-                                        new_conditions
-                                            .push(MediaConditionWithoutOrType::And(media_and));
-                                    }
-                                    MediaConditionAllType::MediaInParens(media_in_parens) => {
-                                        new_conditions.push(
-                                            MediaConditionWithoutOrType::MediaInParens(
-                                                media_in_parens,
-                                            ),
-                                        );
-                                    }
-                                    _ => {
-                                        unreachable!();
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    MediaConditionWithoutOrType::And(media_and) => match media_and.condition {
-                        MediaInParens::MediaCondition(media_condition)
-                            if self.is_first_and_media_type(&media_condition)
-                                && self.is_first_media_in_parens(&media_condition) =>
+                for item in take(&mut n.conditions) {
+                    match item {
+                        MediaConditionWithoutOrType::MediaInParens(
+                            MediaInParens::MediaCondition(media_condition),
+                        ) if self.is_first_and_media_type(&media_condition)
+                            && self.is_first_media_in_parens(&media_condition) =>
                         {
                             let mut iter = media_condition.conditions.into_iter();
 
                             if let Some(MediaConditionAllType::MediaInParens(media_in_parens)) =
                                 iter.next()
                             {
-                                new_conditions.push(MediaConditionWithoutOrType::And(MediaAnd {
-                                    span: DUMMY_SP,
-                                    keyword: None,
-                                    condition: media_in_parens,
-                                }));
+                                new_conditions.push(MediaConditionWithoutOrType::MediaInParens(
+                                    media_in_parens,
+                                ));
 
                                 for new_item in iter {
                                     match new_item {
@@ -306,18 +262,67 @@ impl Compressor {
                                 }
                             }
                         }
+                        MediaConditionWithoutOrType::And(media_and) => match media_and.condition {
+                            MediaInParens::MediaCondition(media_condition)
+                                if self.is_first_and_media_type(&media_condition)
+                                    && self.is_first_media_in_parens(&media_condition) =>
+                            {
+                                let mut iter = media_condition.conditions.into_iter();
+
+                                if let Some(MediaConditionAllType::MediaInParens(media_in_parens)) =
+                                    iter.next()
+                                {
+                                    new_conditions.push(MediaConditionWithoutOrType::And(
+                                        MediaAnd {
+                                            span: DUMMY_SP,
+                                            keyword: None,
+                                            condition: media_in_parens,
+                                        },
+                                    ));
+
+                                    for new_item in iter {
+                                        match new_item {
+                                            MediaConditionAllType::Not(media_not) => {
+                                                new_conditions.push(
+                                                    MediaConditionWithoutOrType::Not(media_not),
+                                                );
+                                            }
+                                            MediaConditionAllType::And(media_and) => {
+                                                new_conditions.push(
+                                                    MediaConditionWithoutOrType::And(media_and),
+                                                );
+                                            }
+                                            MediaConditionAllType::MediaInParens(
+                                                media_in_parens,
+                                            ) => {
+                                                new_conditions.push(
+                                                    MediaConditionWithoutOrType::MediaInParens(
+                                                        media_in_parens,
+                                                    ),
+                                                );
+                                            }
+                                            _ => {
+                                                unreachable!();
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            _ => {
+                                new_conditions.push(MediaConditionWithoutOrType::And(media_and));
+                            }
+                        },
                         _ => {
-                            new_conditions.push(MediaConditionWithoutOrType::And(media_and));
+                            new_conditions.push(item);
                         }
-                    },
-                    _ => {
-                        new_conditions.push(item);
                     }
                 }
-            }
 
-            n.conditions = new_conditions;
+                n.conditions = new_conditions;
+            }
         }
+
+        dedup(&mut n.conditions);
     }
 
     pub(super) fn compress_media_in_parens(&mut self, n: &mut MediaInParens) {
