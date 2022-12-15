@@ -6,7 +6,7 @@ use super::Compressor;
 use crate::util::dedup;
 
 impl Compressor {
-    pub(super) fn comrpess_selector_list(&mut self, selector_list: &mut SelectorList) {
+    pub(super) fn compress_selector_list(&mut self, selector_list: &mut SelectorList) {
         dedup(&mut selector_list.children);
     }
 
@@ -62,9 +62,7 @@ impl Compressor {
                 });
             }
             // `even` => `2n`
-            AnPlusB::Ident(Ident { value, span, .. })
-                if value.eq_ignore_ascii_case(&js_word!("even")) =>
-            {
+            AnPlusB::Ident(Ident { value, span, .. }) if *value == js_word!("even") => {
                 *an_plus_b = AnPlusB::AnPlusBNotation(AnPlusBNotation {
                     span: *span,
                     a: Some(2),
@@ -110,12 +108,12 @@ impl Compressor {
     pub(super) fn compress_subclass_selector(&mut self, subclass_selector: &mut SubclassSelector) {
         match &subclass_selector {
             SubclassSelector::PseudoElement(PseudoElementSelector { name, span, .. }) => {
-                if matches_eq_ignore_ascii_case!(
+                if matches!(
                     name.value,
-                    js_word!("before"),
-                    js_word!("after"),
-                    js_word!("first-letter"),
-                    js_word!("first-line")
+                    js_word!("before")
+                        | js_word!("after")
+                        | js_word!("first-letter")
+                        | js_word!("first-line")
                 ) {
                     *subclass_selector = SubclassSelector::PseudoClass(PseudoClassSelector {
                         span: *span,
@@ -129,9 +127,7 @@ impl Compressor {
                 children: Some(children),
                 span,
                 ..
-            }) if name.value.eq_ignore_ascii_case(&js_word!("nth-child"))
-                && children.len() == 1 =>
-            {
+            }) if name.value == js_word!("nth-child") && children.len() == 1 => {
                 match children.get(0) {
                     Some(PseudoClassSelectorChildren::AnPlusB(AnPlusB::AnPlusBNotation(
                         AnPlusBNotation {
@@ -158,11 +154,7 @@ impl Compressor {
                 children: Some(children),
                 span,
                 ..
-            }) if name
-                .value
-                .eq_str_ignore_ascii_case(&js_word!("nth-last-child"))
-                && children.len() == 1 =>
-            {
+            }) if name.value == js_word!("nth-last-child") && children.len() == 1 => {
                 match children.get(0) {
                     Some(PseudoClassSelectorChildren::AnPlusB(AnPlusB::AnPlusBNotation(
                         AnPlusBNotation {
@@ -189,9 +181,7 @@ impl Compressor {
                 children: Some(children),
                 span,
                 ..
-            }) if name.value.eq_ignore_ascii_case(&js_word!("nth-of-type"))
-                && children.len() == 1 =>
-            {
+            }) if name.value == js_word!("nth-of-type") && children.len() == 1 => {
                 match children.get(0) {
                     Some(PseudoClassSelectorChildren::AnPlusB(AnPlusB::AnPlusBNotation(
                         AnPlusBNotation {
@@ -218,11 +208,7 @@ impl Compressor {
                 children: Some(children),
                 span,
                 ..
-            }) if name
-                .value
-                .eq_ignore_ascii_case(&js_word!("nth-last-of-type"))
-                && children.len() == 1 =>
-            {
+            }) if name.value == js_word!("nth-last-of-type") && children.len() == 1 => {
                 match children.get(0) {
                     Some(PseudoClassSelectorChildren::AnPlusB(AnPlusB::AnPlusBNotation(
                         AnPlusBNotation {

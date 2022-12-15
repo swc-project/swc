@@ -37,3 +37,11 @@ h1 {
 .broken {
     content: image-set('foo@1x.png' 1x, "foo@2x.png" 2x) "test";
 }
+
+a {
+    background-image: image-set("foo@1x.png" 1x, url(foo@2x.png) 2x);
+}
+
+a {
+    background-image: image-set(url(foo@1x.png) 1x, unknown("foo@2x.png") 2x);
+}

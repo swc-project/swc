@@ -798,6 +798,7 @@ code
 codebase
 col
 colgroup
+collection
 color
 color-index
 color-mix
@@ -835,6 +836,9 @@ createClass
 createReactClass
 crossorigin
 cubic-bezier
+cue
+cue-region
+current
 currentColor
 currentcolor
 cursor
@@ -893,6 +897,7 @@ ellipse
 else
 em
 embed
+embedded-opentype
 empty-cells
 encoding
 end
@@ -1014,11 +1019,13 @@ foreignObject
 foreignobject
 form
 formaction
+format
 frame
 frameset
 from
 from-image
 function
+future
 g
 get
 global
@@ -1050,14 +1057,18 @@ h4
 h5
 h6
 hanging-punctuation
+has
 head
 header
 headers
 height
 hgroup
+highlight
 historical-forms
 hkern
 horizontal-tb
+host
+host-context
 hr
 href
 hsl
@@ -1303,7 +1314,9 @@ noscript
 not
 nowrap
 nth-child
+nth-col
 nth-last-child
+nth-last-col
 nth-last-of-type
 nth-of-type
 null
@@ -1423,6 +1436,7 @@ onwebkitanimationstart
 onwebkittransitionend
 onwheel
 opacity
+opentype
 optgroup
 option
 or
@@ -1470,6 +1484,7 @@ paint-order
 panose-1
 param
 part
+past
 path
 pathLength
 pathlength
@@ -1653,6 +1668,7 @@ skewx
 skewy
 slice
 slot
+slotted
 small
 solid
 solidColor
@@ -1793,6 +1809,7 @@ translateZ
 transparent
 tref
 true
+truetype
 try
 tspan
 tt
@@ -1841,6 +1858,8 @@ widows
 width
 will-change
 with
+woff
+woff2
 word-break
 word-spacing
 word-wrap

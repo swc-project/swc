@@ -1,6 +1,7 @@
 use(function(__unused_webpack_module, exports, __webpack_require__) {
-    var e, t;
-    e = this, t = function(exports, React) {
+    !function(e, t) {
+        t(exports, __webpack_require__(7294), __webpack_require__(1321));
+    }(this, function(exports, React) {
         "use strict";
         var index_production = {
             exports: {}
@@ -23,7 +24,7 @@ use(function(__unused_webpack_module, exports, __webpack_require__) {
         exports.chunkBlocks = index_production.exports.chunkBlocks, exports.encodeDirectory = index_production.exports.encodeDirectory, exports.encodeFile = index_production.exports.encodeFile, Object.defineProperty(exports, "__esModule", {
             value: !0
         });
-    }, t(exports, __webpack_require__(7294), __webpack_require__(1321)), true;
+    });
 });
 (function e() {
     const e = 1;
