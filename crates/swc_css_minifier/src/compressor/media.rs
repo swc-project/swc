@@ -38,6 +38,8 @@ impl Compressor {
     }
 
     pub(super) fn compress_media_condition(&mut self, n: &mut MediaCondition) {
+        dedup(&mut n.conditions);
+
         match n.conditions.get(1) {
             Some(MediaConditionAllType::Or(_)) => {
                 let need_compress = n.conditions.iter().any(|item| match item {
@@ -196,6 +198,8 @@ impl Compressor {
     }
 
     pub(super) fn compress_media_condition_without_or(&mut self, n: &mut MediaConditionWithoutOr) {
+        dedup(&mut n.conditions);
+
         if let Some(MediaConditionWithoutOrType::And(_)) = n.conditions.get(1) {
             let need_compress = n.conditions.iter().any(|item| match item {
                 MediaConditionWithoutOrType::MediaInParens(MediaInParens::MediaCondition(
@@ -415,6 +419,12 @@ impl Compressor {
                             span: range.span,
                             name: MediaFeatureName::Ident(name.clone()),
                         });
+                    } else if range.comparison == MediaFeatureRangeComparison::Eq {
+                        *n = MediaFeature::Plain(MediaFeaturePlain {
+                            span: range.span,
+                            name: MediaFeatureName::Ident(name.clone()),
+                            value: range.right.clone(),
+                        });
                     }
                 } else if let MediaFeatureValue::Ident(name) = &*range.right {
                     if matches!(
@@ -426,6 +436,12 @@ impl Compressor {
                         *n = MediaFeature::Boolean(MediaFeatureBoolean {
                             span: range.span,
                             name: MediaFeatureName::Ident(name.clone()),
+                        });
+                    } else if range.comparison == MediaFeatureRangeComparison::Eq {
+                        *n = MediaFeature::Plain(MediaFeaturePlain {
+                            span: range.span,
+                            name: MediaFeatureName::Ident(name.clone()),
+                            value: range.left.clone(),
                         });
                     }
                 }
