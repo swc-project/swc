@@ -14,9 +14,7 @@ impl ReverseMap<'_> {
         self.inner.entry(key).or_default().push(id);
     }
 
-    pub fn get(&self, key: &FastJsWord) -> Option<&Vec<FastId>> {
-        self.inner.get(key)
-    }
+    pub fn get(&self, key: &FastJsWord) -> impl Iterator<Item = &FastId> {}
 
     pub fn next(&self) -> ReverseMap {
         ReverseMap {

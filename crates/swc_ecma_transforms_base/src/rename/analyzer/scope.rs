@@ -180,15 +180,13 @@ impl Scope {
         // We can optimize this
         // We only need to check the current scope and parents (ignoring `a` generated
         // for unrelated scopes)
-        if let Some(lefts) = reverse.get(symbol) {
-            for left in lefts {
-                if left.1 == id.1 && *left.0 .0 == id.0 {
-                    continue;
-                }
+        for left in reverse.get(symbol) {
+            if left.1 == id.1 && *left.0 .0 == id.0 {
+                continue;
+            }
 
-                if self.data.all.contains(left) {
-                    return false;
-                }
+            if self.data.all.contains(left) {
+                return false;
             }
         }
 
