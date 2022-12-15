@@ -6310,7 +6310,7 @@
         },
         5546: function(module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
-            var adapter, process = __webpack_require__(3454), utils = __webpack_require__(4867), normalizeHeaderName = __webpack_require__(6016), AxiosError = __webpack_require__(723), transitionalDefaults = __webpack_require__(7874), toFormData = __webpack_require__(7675), DEFAULT_CONTENT_TYPE = {
+            var process = __webpack_require__(3454), utils = __webpack_require__(4867), normalizeHeaderName = __webpack_require__(6016), AxiosError = __webpack_require__(723), transitionalDefaults = __webpack_require__(7874), toFormData = __webpack_require__(7675), DEFAULT_CONTENT_TYPE = {
                 'Content-Type': 'application/x-www-form-urlencoded'
             };
             function setContentTypeIfUnset(headers, value) {
@@ -6326,7 +6326,10 @@
             }
             var defaults = {
                 transitional: transitionalDefaults,
-                adapter: ('undefined' != typeof XMLHttpRequest ? adapter = __webpack_require__(5448) : void 0 !== process && '[object process]' === Object.prototype.toString.call(process) && (adapter = __webpack_require__(5448)), adapter),
+                adapter: function() {
+                    var adapter;
+                    return 'undefined' != typeof XMLHttpRequest ? adapter = __webpack_require__(5448) : void 0 !== process && '[object process]' === Object.prototype.toString.call(process) && (adapter = __webpack_require__(5448)), adapter;
+                }(),
                 transformRequest: [
                     function(data, headers) {
                         if (normalizeHeaderName(headers, 'Accept'), normalizeHeaderName(headers, 'Content-Type'), utils.isFormData(data) || utils.isArrayBuffer(data) || utils.isBuffer(data) || utils.isStream(data) || utils.isFile(data) || utils.isBlob(data)) return data;
@@ -6445,25 +6448,29 @@
         4372: function(module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
             var utils = __webpack_require__(4867);
-            module.exports = utils.isStandardBrowserEnv() ? {
-                write: function(name, value, expires, path, domain, secure) {
-                    var cookie = [];
-                    cookie.push(name + '=' + encodeURIComponent(value)), utils.isNumber(expires) && cookie.push('expires=' + new Date(expires).toGMTString()), utils.isString(path) && cookie.push('path=' + path), utils.isString(domain) && cookie.push('domain=' + domain), !0 === secure && cookie.push('secure'), document.cookie = cookie.join('; ');
-                },
-                read: function(name) {
-                    var match = document.cookie.match(RegExp('(^|;\\s*)(' + name + ')=([^;]*)'));
-                    return match ? decodeURIComponent(match[3]) : null;
-                },
-                remove: function(name) {
-                    this.write(name, '', Date.now() - 86400000);
-                }
-            } : {
-                write: function() {},
-                read: function() {
-                    return null;
-                },
-                remove: function() {}
-            };
+            module.exports = utils.isStandardBrowserEnv() ? function() {
+                return {
+                    write: function(name, value, expires, path, domain, secure) {
+                        var cookie = [];
+                        cookie.push(name + '=' + encodeURIComponent(value)), utils.isNumber(expires) && cookie.push('expires=' + new Date(expires).toGMTString()), utils.isString(path) && cookie.push('path=' + path), utils.isString(domain) && cookie.push('domain=' + domain), !0 === secure && cookie.push('secure'), document.cookie = cookie.join('; ');
+                    },
+                    read: function(name) {
+                        var match = document.cookie.match(RegExp('(^|;\\s*)(' + name + ')=([^;]*)'));
+                        return match ? decodeURIComponent(match[3]) : null;
+                    },
+                    remove: function(name) {
+                        this.write(name, '', Date.now() - 86400000);
+                    }
+                };
+            }() : function() {
+                return {
+                    write: function() {},
+                    read: function() {
+                        return null;
+                    },
+                    remove: function() {}
+                };
+            }();
         },
         1793: function(module) {
             "use strict";
@@ -6501,8 +6508,10 @@
                     return parsed.protocol === originURL.protocol && parsed.host === originURL.host;
                 };
             }() : function() {
-                return !0;
-            };
+                return function() {
+                    return !0;
+                };
+            }();
         },
         6016: function(module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
@@ -6639,10 +6648,12 @@
         },
         4867: function(module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
-            var cache, TypedArray, bind = __webpack_require__(1849), toString1 = Object.prototype.toString, kindOf = (cache = Object.create(null), function(thing) {
-                var str = toString1.call(thing);
-                return cache[str] || (cache[str] = str.slice(8, -1).toLowerCase());
-            });
+            var bind = __webpack_require__(1849), toString1 = Object.prototype.toString, kindOf = function(cache) {
+                return function(thing) {
+                    var str = toString1.call(thing);
+                    return cache[str] || (cache[str] = str.slice(8, -1).toLowerCase());
+                };
+            }(Object.create(null));
             function kindOfTest(type) {
                 return type = type.toLowerCase(), function(thing) {
                     return kindOf(thing) === type;
@@ -6741,9 +6752,11 @@
                 for(var arr = Array(i); i-- > 0;)arr[i] = thing[i];
                 return arr;
             }
-            var isTypedArray = (TypedArray = 'undefined' != typeof Uint8Array && Object.getPrototypeOf(Uint8Array), function(thing) {
-                return TypedArray && thing instanceof TypedArray;
-            });
+            var isTypedArray = function(TypedArray) {
+                return function(thing) {
+                    return TypedArray && thing instanceof TypedArray;
+                };
+            }('undefined' != typeof Uint8Array && Object.getPrototypeOf(Uint8Array));
             module.exports = {
                 isArray: isArray,
                 isArrayBuffer: isArrayBuffer,
@@ -6838,7 +6851,7 @@
                     1e13
                 ], SQRT_BASE = 1e7, MAX = 1E9;
                 function clone(configObject) {
-                    var pow2_53, random53bitInt, basePrefix, dotAfter, dotBefore, isInfinityOrNaN, whitespaceOrPlus, div, convertBase, parseNumeric, P = BigNumber.prototype = {
+                    var div, convertBase, parseNumeric, P = BigNumber.prototype = {
                         constructor: BigNumber,
                         toString: null,
                         valueOf: null
@@ -7046,33 +7059,36 @@
                         return maxOrMin(arguments, P.lt);
                     }, BigNumber.minimum = BigNumber.min = function() {
                         return maxOrMin(arguments, P.gt);
-                    }, BigNumber.random = (pow2_53 = 0x20000000000000, random53bitInt = 0x20000000000000 * Math.random() & 0x1fffff ? function() {
-                        return mathfloor(Math.random() * pow2_53);
-                    } : function() {
-                        return (0x40000000 * Math.random() | 0) * 0x800000 + (0x800000 * Math.random() | 0);
-                    }, function(dp) {
-                        var a, b, e, k, v, i = 0, c = [], rand = new BigNumber(ONE);
-                        if (null == dp ? dp = DECIMAL_PLACES : intCheck(dp, 0, MAX), k = mathceil(dp / LOG_BASE), CRYPTO) {
-                            if (crypto.getRandomValues) {
-                                for(a = crypto.getRandomValues(new Uint32Array(k *= 2)); i < k;)(v = 0x20000 * a[i] + (a[i + 1] >>> 11)) >= 9e15 ? (b = crypto.getRandomValues(new Uint32Array(2)), a[i] = b[0], a[i + 1] = b[1]) : (c.push(v % 1e14), i += 2);
-                                i = k / 2;
-                            } else if (crypto.randomBytes) {
-                                for(a = crypto.randomBytes(k *= 7); i < k;)(v = (31 & a[i]) * 0x1000000000000 + 0x10000000000 * a[i + 1] + 0x100000000 * a[i + 2] + 0x1000000 * a[i + 3] + (a[i + 4] << 16) + (a[i + 5] << 8) + a[i + 6]) >= 9e15 ? crypto.randomBytes(7).copy(a, i) : (c.push(v % 1e14), i += 7);
-                                i = k / 7;
-                            } else throw CRYPTO = !1, Error(bignumberError + 'crypto unavailable');
-                        }
-                        if (!CRYPTO) for(; i < k;)(v = random53bitInt()) < 9e15 && (c[i++] = v % 1e14);
-                        for(k = c[--i], dp %= LOG_BASE, k && dp && (v = POWS_TEN[LOG_BASE - dp], c[i] = mathfloor(k / v) * v); 0 === c[i]; c.pop(), i--);
-                        if (i < 0) c = [
-                            e = 0
-                        ];
-                        else {
-                            for(e = -1; 0 === c[0]; c.splice(0, 1), e -= LOG_BASE);
-                            for(i = 1, v = c[0]; v >= 10; v /= 10, i++);
-                            i < LOG_BASE && (e -= LOG_BASE - i);
-                        }
-                        return rand.e = e, rand.c = c, rand;
-                    }), BigNumber.sum = function() {
+                    }, BigNumber.random = function() {
+                        var pow2_53 = 0x20000000000000, random53bitInt = 0x20000000000000 * Math.random() & 0x1fffff ? function() {
+                            return mathfloor(Math.random() * pow2_53);
+                        } : function() {
+                            return (0x40000000 * Math.random() | 0) * 0x800000 + (0x800000 * Math.random() | 0);
+                        };
+                        return function(dp) {
+                            var a, b, e, k, v, i = 0, c = [], rand = new BigNumber(ONE);
+                            if (null == dp ? dp = DECIMAL_PLACES : intCheck(dp, 0, MAX), k = mathceil(dp / LOG_BASE), CRYPTO) {
+                                if (crypto.getRandomValues) {
+                                    for(a = crypto.getRandomValues(new Uint32Array(k *= 2)); i < k;)(v = 0x20000 * a[i] + (a[i + 1] >>> 11)) >= 9e15 ? (b = crypto.getRandomValues(new Uint32Array(2)), a[i] = b[0], a[i + 1] = b[1]) : (c.push(v % 1e14), i += 2);
+                                    i = k / 2;
+                                } else if (crypto.randomBytes) {
+                                    for(a = crypto.randomBytes(k *= 7); i < k;)(v = (31 & a[i]) * 0x1000000000000 + 0x10000000000 * a[i + 1] + 0x100000000 * a[i + 2] + 0x1000000 * a[i + 3] + (a[i + 4] << 16) + (a[i + 5] << 8) + a[i + 6]) >= 9e15 ? crypto.randomBytes(7).copy(a, i) : (c.push(v % 1e14), i += 7);
+                                    i = k / 7;
+                                } else throw CRYPTO = !1, Error(bignumberError + 'crypto unavailable');
+                            }
+                            if (!CRYPTO) for(; i < k;)(v = random53bitInt()) < 9e15 && (c[i++] = v % 1e14);
+                            for(k = c[--i], dp %= LOG_BASE, k && dp && (v = POWS_TEN[LOG_BASE - dp], c[i] = mathfloor(k / v) * v); 0 === c[i]; c.pop(), i--);
+                            if (i < 0) c = [
+                                e = 0
+                            ];
+                            else {
+                                for(e = -1; 0 === c[0]; c.splice(0, 1), e -= LOG_BASE);
+                                for(i = 1, v = c[0]; v >= 10; v /= 10, i++);
+                                i < LOG_BASE && (e -= LOG_BASE - i);
+                            }
+                            return rand.e = e, rand.c = c, rand;
+                        };
+                    }(), BigNumber.sum = function() {
                         for(var i = 1, args = arguments, sum = new BigNumber(args[0]); i < args.length;)sum = sum.plus(args[i++]);
                         return sum;
                     }, convertBase = function() {
@@ -7154,18 +7170,21 @@
                             } else q.e = e, q.r = +more;
                             return q;
                         };
-                    }(), basePrefix = /^(-?)0([xbo])(?=\w[\w.]*$)/i, dotAfter = /^([^.]+)\.$/, dotBefore = /^\.([^.]+)$/, isInfinityOrNaN = /^-?(Infinity|NaN)$/, whitespaceOrPlus = /^\s*\+(?=[\w.])|^\s+|\s+$/g, parseNumeric = function(x, str, isNum, b) {
-                        var base, s = isNum ? str : str.replace(whitespaceOrPlus, '');
-                        if (isInfinityOrNaN.test(s)) x.s = isNaN(s) ? null : s < 0 ? -1 : 1;
-                        else {
-                            if (!isNum && (s = s.replace(basePrefix, function(m, p1, p2) {
-                                return base = 'x' == (p2 = p2.toLowerCase()) ? 16 : 'b' == p2 ? 2 : 8, b && b != base ? m : p1;
-                            }), b && (base = b, s = s.replace(dotAfter, '$1').replace(dotBefore, '0.$1')), str != s)) return new BigNumber(s, base);
-                            if (BigNumber.DEBUG) throw Error(bignumberError + 'Not a' + (b ? ' base ' + b : '') + ' number: ' + str);
-                            x.s = null;
-                        }
-                        x.c = x.e = null;
-                    }, P.absoluteValue = P.abs = function() {
+                    }(), parseNumeric = function() {
+                        var basePrefix = /^(-?)0([xbo])(?=\w[\w.]*$)/i, dotAfter = /^([^.]+)\.$/, dotBefore = /^\.([^.]+)$/, isInfinityOrNaN = /^-?(Infinity|NaN)$/, whitespaceOrPlus = /^\s*\+(?=[\w.])|^\s+|\s+$/g;
+                        return function(x, str, isNum, b) {
+                            var base, s = isNum ? str : str.replace(whitespaceOrPlus, '');
+                            if (isInfinityOrNaN.test(s)) x.s = isNaN(s) ? null : s < 0 ? -1 : 1;
+                            else {
+                                if (!isNum && (s = s.replace(basePrefix, function(m, p1, p2) {
+                                    return base = 'x' == (p2 = p2.toLowerCase()) ? 16 : 'b' == p2 ? 2 : 8, b && b != base ? m : p1;
+                                }), b && (base = b, s = s.replace(dotAfter, '$1').replace(dotBefore, '0.$1')), str != s)) return new BigNumber(s, base);
+                                if (BigNumber.DEBUG) throw Error(bignumberError + 'Not a' + (b ? ' base ' + b : '') + ' number: ' + str);
+                                x.s = null;
+                            }
+                            x.c = x.e = null;
+                        };
+                    }(), P.absoluteValue = P.abs = function() {
                         var x = new BigNumber(this);
                         return x.s < 0 && (x.s = 1), x;
                     }, P.comparedTo = function(y, b) {
@@ -11737,8 +11756,9 @@
             };
         },
         3346: function(module, __unused_webpack_exports, __webpack_require__) {
-            var global, factory;
-            global = 0, factory = function() {
+            !function(global, factory) {
+                module.exports = factory();
+            }(0, function() {
                 'use strict';
                 var toStringFunction = Function.prototype.toString, create = Object.create, defineProperty = Object.defineProperty, getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor, getOwnPropertyNames = Object.getOwnPropertyNames, getOwnPropertySymbols = Object.getOwnPropertySymbols, getPrototypeOf$1 = Object.getPrototypeOf, _a = Object.prototype, hasOwnProperty = _a.hasOwnProperty, propertyIsEnumerable = _a.propertyIsEnumerable, SYMBOL_PROPERTIES = 'function' == typeof getOwnPropertySymbols, WEAK_MAP = 'function' == typeof WeakMap, createCache = function() {
                     if (WEAK_MAP) return function() {
@@ -11829,7 +11849,7 @@
                         realm: options ? options.realm : void 0
                     });
                 }, copy;
-            }, module.exports = factory();
+            });
         },
         4029: function(module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
@@ -15451,7 +15471,10 @@
             module.exports = isKeyable;
         },
         5346: function(module, __unused_webpack_exports, __webpack_require__) {
-            var uid, coreJsData = __webpack_require__(4429), maskSrcKey = (uid = /[^.]+$/.exec(coreJsData && coreJsData.keys && coreJsData.keys.IE_PROTO || '')) ? 'Symbol(src)_1.' + uid : '';
+            var coreJsData = __webpack_require__(4429), maskSrcKey = function() {
+                var uid = /[^.]+$/.exec(coreJsData && coreJsData.keys && coreJsData.keys.IE_PROTO || '');
+                return uid ? 'Symbol(src)_1.' + uid : '';
+            }();
             function isMasked(func) {
                 return !!maskSrcKey && maskSrcKey in func;
             }
@@ -19357,7 +19380,7 @@
                     return unzipRaw;
                 }
             }), module = __webpack_require__.hmd(module);
-            var u16, u32, process = __webpack_require__(3454);
+            var process = __webpack_require__(3454);
             function readBlobAsArrayBuffer(blob) {
                 return blob.arrayBuffer ? blob.arrayBuffer() : new Promise((resolve, reject)=>{
                     const reader = new FileReader();
@@ -19532,187 +19555,190 @@
             function _get17(dt, pos) {
                 return (dt[pos >>> 3] | dt[(pos >>> 3) + 1] << 8 | dt[(pos >>> 3) + 2] << 16) >>> (7 & pos);
             }
-            const U = (u16 = Uint16Array, u32 = Uint32Array, {
-                next_code: new u16(16),
-                bl_count: new u16(16),
-                ordr: [
-                    16,
-                    17,
-                    18,
-                    0,
-                    8,
-                    7,
-                    9,
-                    6,
-                    10,
-                    5,
-                    11,
-                    4,
-                    12,
-                    3,
-                    13,
-                    2,
-                    14,
-                    1,
-                    15
-                ],
-                of0: [
-                    3,
-                    4,
-                    5,
-                    6,
-                    7,
-                    8,
-                    9,
-                    10,
-                    11,
-                    13,
-                    15,
-                    17,
-                    19,
-                    23,
-                    27,
-                    31,
-                    35,
-                    43,
-                    51,
-                    59,
-                    67,
-                    83,
-                    99,
-                    115,
-                    131,
-                    163,
-                    195,
-                    227,
-                    258,
-                    999,
-                    999,
-                    999
-                ],
-                exb: [
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    1,
-                    1,
-                    1,
-                    1,
-                    2,
-                    2,
-                    2,
-                    2,
-                    3,
-                    3,
-                    3,
-                    3,
-                    4,
-                    4,
-                    4,
-                    4,
-                    5,
-                    5,
-                    5,
-                    5,
-                    0,
-                    0,
-                    0,
-                    0
-                ],
-                ldef: new u16(32),
-                df0: [
-                    1,
-                    2,
-                    3,
-                    4,
-                    5,
-                    7,
-                    9,
-                    13,
-                    17,
-                    25,
-                    33,
-                    49,
-                    65,
-                    97,
-                    129,
-                    193,
-                    257,
-                    385,
-                    513,
-                    769,
-                    1025,
-                    1537,
-                    2049,
-                    3073,
-                    4097,
-                    6145,
-                    8193,
-                    12289,
-                    16385,
-                    24577,
-                    65535,
-                    65535
-                ],
-                dxb: [
-                    0,
-                    0,
-                    0,
-                    0,
-                    1,
-                    1,
-                    2,
-                    2,
-                    3,
-                    3,
-                    4,
-                    4,
-                    5,
-                    5,
-                    6,
-                    6,
-                    7,
-                    7,
-                    8,
-                    8,
-                    9,
-                    9,
-                    10,
-                    10,
-                    11,
-                    11,
-                    12,
-                    12,
-                    13,
-                    13,
-                    0,
-                    0
-                ],
-                ddef: new u32(32),
-                flmap: new u16(512),
-                fltree: [],
-                fdmap: new u16(32),
-                fdtree: [],
-                lmap: new u16(32768),
-                ltree: [],
-                ttree: [],
-                dmap: new u16(32768),
-                dtree: [],
-                imap: new u16(512),
-                itree: [],
-                rev15: new u16(32768),
-                lhst: new u32(286),
-                dhst: new u32(30),
-                ihst: new u32(19),
-                lits: new u32(15000),
-                strt: new u16(65536),
-                prev: new u16(32768)
-            });
+            const U = function() {
+                var u16 = Uint16Array, u32 = Uint32Array;
+                return {
+                    next_code: new u16(16),
+                    bl_count: new u16(16),
+                    ordr: [
+                        16,
+                        17,
+                        18,
+                        0,
+                        8,
+                        7,
+                        9,
+                        6,
+                        10,
+                        5,
+                        11,
+                        4,
+                        12,
+                        3,
+                        13,
+                        2,
+                        14,
+                        1,
+                        15
+                    ],
+                    of0: [
+                        3,
+                        4,
+                        5,
+                        6,
+                        7,
+                        8,
+                        9,
+                        10,
+                        11,
+                        13,
+                        15,
+                        17,
+                        19,
+                        23,
+                        27,
+                        31,
+                        35,
+                        43,
+                        51,
+                        59,
+                        67,
+                        83,
+                        99,
+                        115,
+                        131,
+                        163,
+                        195,
+                        227,
+                        258,
+                        999,
+                        999,
+                        999
+                    ],
+                    exb: [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        1,
+                        1,
+                        1,
+                        2,
+                        2,
+                        2,
+                        2,
+                        3,
+                        3,
+                        3,
+                        3,
+                        4,
+                        4,
+                        4,
+                        4,
+                        5,
+                        5,
+                        5,
+                        5,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    ldef: new u16(32),
+                    df0: [
+                        1,
+                        2,
+                        3,
+                        4,
+                        5,
+                        7,
+                        9,
+                        13,
+                        17,
+                        25,
+                        33,
+                        49,
+                        65,
+                        97,
+                        129,
+                        193,
+                        257,
+                        385,
+                        513,
+                        769,
+                        1025,
+                        1537,
+                        2049,
+                        3073,
+                        4097,
+                        6145,
+                        8193,
+                        12289,
+                        16385,
+                        24577,
+                        65535,
+                        65535
+                    ],
+                    dxb: [
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        1,
+                        2,
+                        2,
+                        3,
+                        3,
+                        4,
+                        4,
+                        5,
+                        5,
+                        6,
+                        6,
+                        7,
+                        7,
+                        8,
+                        8,
+                        9,
+                        9,
+                        10,
+                        10,
+                        11,
+                        11,
+                        12,
+                        12,
+                        13,
+                        13,
+                        0,
+                        0
+                    ],
+                    ddef: new u32(32),
+                    flmap: new u16(512),
+                    fltree: [],
+                    fdmap: new u16(32),
+                    fdtree: [],
+                    lmap: new u16(32768),
+                    ltree: [],
+                    ttree: [],
+                    dmap: new u16(32768),
+                    dtree: [],
+                    imap: new u16(512),
+                    itree: [],
+                    rev15: new u16(32768),
+                    lhst: new u32(286),
+                    dhst: new u32(30),
+                    ihst: new u32(19),
+                    lits: new u32(15000),
+                    strt: new u16(65536),
+                    prev: new u16(32768)
+                };
+            }();
             !function() {
                 for(var len = 32768, i = 0; i < len; i++){
                     var x = i;
@@ -21475,10 +21501,12 @@
         },
         7312: function(__unused_webpack_module, exports) {
             "use strict";
-            var SmartWeaveTags, SmartWeaveTags1;
+            var SmartWeaveTags;
             Object.defineProperty(exports, "__esModule", {
                 value: !0
-            }), exports.SmartWeaveTags = void 0, (SmartWeaveTags1 = SmartWeaveTags = exports.SmartWeaveTags || (exports.SmartWeaveTags = {})).APP_NAME = "App-Name", SmartWeaveTags1.APP_VERSION = "App-Version", SmartWeaveTags1.CONTRACT_TX_ID = "Contract", SmartWeaveTags1.INPUT = "Input", SmartWeaveTags1.CONTENT_TYPE = "Content-Type", SmartWeaveTags1.CONTRACT_SRC_TX_ID = "Contract-Src", SmartWeaveTags1.SDK = "SDK", SmartWeaveTags1.MIN_FEE = "Min-Fee", SmartWeaveTags1.INIT_STATE = "Init-State", SmartWeaveTags1.INIT_STATE_TX = "Init-State-TX", SmartWeaveTags1.INTERACT_WRITE = "Interact-Write", SmartWeaveTags1.WASM_LANG = "Wasm-Lang", SmartWeaveTags1.WASM_LANG_VERSION = "Wasm-Lang-Version", SmartWeaveTags1.WASM_META = "Wasm-Meta", SmartWeaveTags1.REQUEST_VRF = "Request-Vrf";
+            }), exports.SmartWeaveTags = void 0, function(SmartWeaveTags) {
+                SmartWeaveTags.APP_NAME = "App-Name", SmartWeaveTags.APP_VERSION = "App-Version", SmartWeaveTags.CONTRACT_TX_ID = "Contract", SmartWeaveTags.INPUT = "Input", SmartWeaveTags.CONTENT_TYPE = "Content-Type", SmartWeaveTags.CONTRACT_SRC_TX_ID = "Contract-Src", SmartWeaveTags.SDK = "SDK", SmartWeaveTags.MIN_FEE = "Min-Fee", SmartWeaveTags.INIT_STATE = "Init-State", SmartWeaveTags.INIT_STATE_TX = "Init-State-TX", SmartWeaveTags.INTERACT_WRITE = "Interact-Write", SmartWeaveTags.WASM_LANG = "Wasm-Lang", SmartWeaveTags.WASM_LANG_VERSION = "Wasm-Lang-Version", SmartWeaveTags.WASM_META = "Wasm-Meta", SmartWeaveTags.REQUEST_VRF = "Request-Vrf";
+            }(SmartWeaveTags = exports.SmartWeaveTags || (exports.SmartWeaveTags = {}));
         },
         2009: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
@@ -22416,14 +22444,16 @@
         },
         1533: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
-            var SourceType, SourceType1;
+            var SourceType;
             Object.defineProperty(exports, "__esModule", {
                 value: !0
             }), exports.WarpGatewayInteractionsLoader = exports.SourceType = void 0;
             const Benchmark_1 = __webpack_require__(9106), LoggerFactory_1 = __webpack_require__(5913);
             __webpack_require__(9180);
             const utils_1 = __webpack_require__(5082);
-            (SourceType1 = SourceType = exports.SourceType || (exports.SourceType = {})).ARWEAVE = "arweave", SourceType1.WARP_SEQUENCER = "redstone-sequencer";
+            !function(SourceType) {
+                SourceType.ARWEAVE = "arweave", SourceType.WARP_SEQUENCER = "redstone-sequencer";
+            }(SourceType = exports.SourceType || (exports.SourceType = {}));
             class WarpGatewayInteractionsLoader {
                 constructor(baseUrl, confirmationStatus = null, source = null){
                     this.baseUrl = baseUrl, this.confirmationStatus = confirmationStatus, this.source = source, this.logger = LoggerFactory_1.LoggerFactory.INST.create('WarpGatewayInteractionsLoader'), this.baseUrl = (0, utils_1.stripTrailingSlash)(baseUrl), Object.assign(this, confirmationStatus), this.source = source;
@@ -23595,7 +23625,9 @@
             var SmartWeaveErrorType;
             Object.defineProperty(exports, "__esModule", {
                 value: !0
-            }), exports.SmartWeaveError = exports.SmartWeaveErrorType = void 0, (SmartWeaveErrorType = exports.SmartWeaveErrorType || (exports.SmartWeaveErrorType = {})).CONTRACT_NOT_FOUND = "CONTRACT_NOT_FOUND";
+            }), exports.SmartWeaveError = exports.SmartWeaveErrorType = void 0, function(SmartWeaveErrorType) {
+                SmartWeaveErrorType.CONTRACT_NOT_FOUND = "CONTRACT_NOT_FOUND";
+            }(SmartWeaveErrorType = exports.SmartWeaveErrorType || (exports.SmartWeaveErrorType = {}));
             class SmartWeaveError extends Error {
                 constructor(type, optional = {}){
                     optional.message ? super(optional.message) : super(), this.type = type, this.otherInfo = optional;
