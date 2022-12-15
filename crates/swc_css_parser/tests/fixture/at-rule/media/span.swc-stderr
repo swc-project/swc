@@ -151,7 +151,13 @@
  148 | |   @media func(100px) {}
  149 | |   @media screen and func(100px) {}
  150 | |   @media(min-width:calc(10px + 10px)) {}
- 151 | `-> @media (width > calc(220px + 100px)) {}
+ 151 | |   @media (width > calc(220px + 100px)) {}
+ 152 | |   
+ 153 | |   @m\65 dia {
+ 154 | |       .color {
+ 155 | |           color: red;
+ 156 | |       }
+ 157 | `-> }
      `----
 
   x Rule
@@ -23167,4 +23173,189 @@
  150 | @media(min-width:calc(10px + 10px)) {}
  151 | @media (width > calc(220px + 100px)) {}
      :                                      ^
+     `----
+
+  x Rule
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:152:1]
+ 152 |     
+ 153 | ,-> @m\65 dia {
+ 154 | |       .color {
+ 155 | |           color: red;
+ 156 | |       }
+ 157 | `-> }
+     `----
+
+  x AtRule
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:152:1]
+ 152 |     
+ 153 | ,-> @m\65 dia {
+ 154 | |       .color {
+ 155 | |           color: red;
+ 156 | |       }
+ 157 | `-> }
+     `----
+
+  x AtRuleName
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:152:1]
+ 152 | 
+ 153 | @m\65 dia {
+     :  ^^^^^^^^
+ 154 |     .color {
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:152:1]
+ 152 | 
+ 153 | @m\65 dia {
+     :  ^^^^^^^^
+ 154 |     .color {
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:152:1]
+ 152 |     
+ 153 | ,-> @m\65 dia {
+ 154 | |       .color {
+ 155 | |           color: red;
+ 156 | |       }
+ 157 | `-> }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:152:1]
+ 152 | 
+ 153 | @m\65 dia {
+     :           ^
+ 154 |     .color {
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:153:1]
+ 153 |     @m\65 dia {
+ 154 | ,->     .color {
+ 155 | |           color: red;
+ 156 | `->     }
+ 157 |     }
+     `----
+
+  x QualifiedRule
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:153:1]
+ 153 |     @m\65 dia {
+ 154 | ,->     .color {
+ 155 | |           color: red;
+ 156 | `->     }
+ 157 |     }
+     `----
+
+  x SelectorList
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:153:1]
+ 153 | @m\65 dia {
+ 154 |     .color {
+     :     ^^^^^^
+ 155 |         color: red;
+     `----
+
+  x ComplexSelector
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:153:1]
+ 153 | @m\65 dia {
+ 154 |     .color {
+     :     ^^^^^^
+ 155 |         color: red;
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:153:1]
+ 153 | @m\65 dia {
+ 154 |     .color {
+     :     ^^^^^^
+ 155 |         color: red;
+     `----
+
+  x SubclassSelector
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:153:1]
+ 153 | @m\65 dia {
+ 154 |     .color {
+     :     ^^^^^^
+ 155 |         color: red;
+     `----
+
+  x ClassSelector
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:153:1]
+ 153 | @m\65 dia {
+ 154 |     .color {
+     :     ^^^^^^
+ 155 |         color: red;
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:153:1]
+ 153 | @m\65 dia {
+ 154 |     .color {
+     :      ^^^^^
+ 155 |         color: red;
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:153:1]
+ 153 |     @m\65 dia {
+ 154 | ,->     .color {
+ 155 | |           color: red;
+ 156 | `->     }
+ 157 |     }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:153:1]
+ 153 | @m\65 dia {
+ 154 |     .color {
+     :            ^
+ 155 |         color: red;
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:154:1]
+ 154 |     .color {
+ 155 |         color: red;
+     :         ^^^^^^^^^^
+ 156 |     }
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:154:1]
+ 154 |     .color {
+ 155 |         color: red;
+     :         ^^^^^^^^^^
+ 156 |     }
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:154:1]
+ 154 |     .color {
+ 155 |         color: red;
+     :         ^^^^^
+ 156 |     }
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:154:1]
+ 154 |     .color {
+ 155 |         color: red;
+     :         ^^^^^
+ 156 |     }
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:154:1]
+ 154 |     .color {
+ 155 |         color: red;
+     :                ^^^
+ 156 |     }
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:154:1]
+ 154 |     .color {
+ 155 |         color: red;
+     :                ^^^
+ 156 |     }
      `----

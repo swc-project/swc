@@ -149,3 +149,9 @@
 @media screen and func(100px) {}
 @media(min-width:calc(10px + 10px)) {}
 @media (width > calc(220px + 100px)) {}
+
+@m\65 dia {
+    .color {
+        color: red;
+    }
+}
