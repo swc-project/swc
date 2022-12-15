@@ -34,6 +34,12 @@
 
 - **(css/prefixer)** Use `eq_ignore_span` (#6656) ([d4660a4](https://github.com/swc-project/swc/commit/d4660a4673e19d628b7720e1352fa905bdc4456a))
 
+### Testing
+
+
+
+- **(css/parser)** Add a test (#6666) ([87e1efd](https://github.com/swc-project/swc/commit/87e1efd98ce3c58325ee047c2b01b0df575e921f))
+
 ## [1.3.23] - 2022-12-14
 
 ### Bug Fixes
