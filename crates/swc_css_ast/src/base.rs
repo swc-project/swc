@@ -109,6 +109,15 @@ pub enum FunctionName {
     DashedIdent(DashedIdent),
 }
 
+impl PartialEq<str> for FunctionName {
+    fn eq(&self, other: &str) -> bool {
+        match self {
+            FunctionName::DashedIdent(v) => *v == *other,
+            FunctionName::Ident(v) => *v == *other,
+        }
+    }
+}
+
 #[ast_node("Function")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct Function {
@@ -274,6 +283,15 @@ pub enum DeclarationName {
     Ident(Ident),
     #[tag("DashedIdent")]
     DashedIdent(DashedIdent),
+}
+
+impl PartialEq<str> for DeclarationName {
+    fn eq(&self, other: &str) -> bool {
+        match self {
+            DeclarationName::DashedIdent(v) => *v == *other,
+            DeclarationName::Ident(v) => *v == *other,
+        }
+    }
 }
 
 #[ast_node("ImportantFlag")]

@@ -1316,6 +1316,14 @@ where
     }
 
     #[emitter]
+    fn emit_function_name(&mut self, n: &FunctionName) -> Result {
+        match n {
+            FunctionName::Ident(n) => emit!(self, n),
+            FunctionName::DashedIdent(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
     fn emit_color_profile_name(&mut self, n: &ColorProfileName) -> Result {
         match n {
             ColorProfileName::Ident(n) => emit!(self, n),

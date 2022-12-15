@@ -41,9 +41,16 @@ impl VisitMut for FunctionNameReplacer<'_> {
     fn visit_mut_function(&mut self, n: &mut Function) {
         n.visit_mut_children_with(self);
 
-        if n.name.value.eq_str_ignore_ascii_case(self.from) {
-            n.name.value = self.to.into();
-            n.name.raw = None;
+        match &mut n.name {
+            FunctionName::Ident(name) if name.value.eq_str_ignore_ascii_case(self.from) => {
+                name.value = self.to.into();
+                name.raw = None;
+            }
+            FunctionName::DashedIdent(name) if name.value.eq_str_ignore_ascii_case(self.from) => {
+                name.value = self.to.into();
+                name.raw = None;
+            }
+            _ => {}
         }
     }
 }

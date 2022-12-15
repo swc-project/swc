@@ -287,6 +287,7 @@ impl VisitMut for NormalizeTest {
     }
 
     fn visit_mut_function(&mut self, n: &mut Function) {
+    fn visit_mut_url(&mut self, n: &mut Url) {
         n.visit_mut_children_with(self);
 
         n.name.value = n.name.value.to_lowercase().into();
