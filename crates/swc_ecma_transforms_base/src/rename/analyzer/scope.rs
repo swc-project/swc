@@ -210,7 +210,7 @@ impl Scope {
     {
         let queue = self.data.queue.take();
 
-        let mut cloned_reverse = reverse.clone();
+        let mut cloned_reverse = reverse.next();
 
         self.rename_one_scope_in_mangle_mode(
             renamer,

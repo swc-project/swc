@@ -3,7 +3,7 @@ use rustc_hash::FxHashMap;
 use super::scope::{FastId, FastJsWord};
 
 #[derive(Debug, Default)]
-pub(super) struct ReverseMap<'a> {
+pub(crate) struct ReverseMap<'a> {
     prev: Option<&'a ReverseMap<'a>>,
 
     inner: FxHashMap<FastJsWord, Vec<FastId>>,
@@ -12,5 +12,16 @@ pub(super) struct ReverseMap<'a> {
 impl ReverseMap<'_> {
     pub fn push_entry(&mut self, key: FastJsWord, id: FastId) {
         self.inner.entry(key).or_default().push(id);
+    }
+
+    pub fn get(&self, key: &FastJsWord) -> Option<&Vec<FastId>> {
+        self.inner.get(key)
+    }
+
+    pub fn next(&self) -> ReverseMap {
+        ReverseMap {
+            prev: Some(self),
+            ..Default::default()
+        }
     }
 }
