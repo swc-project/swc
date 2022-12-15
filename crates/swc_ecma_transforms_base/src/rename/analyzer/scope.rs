@@ -1,6 +1,9 @@
 #![allow(clippy::too_many_arguments)]
 
-use std::mem::{transmute_copy, ManuallyDrop};
+use std::{
+    fmt::{Display, Formatter},
+    mem::{transmute_copy, ManuallyDrop},
+};
 
 #[cfg(feature = "concurrent-renamer")]
 use rayon::prelude::*;
@@ -32,6 +35,12 @@ impl Clone for FastJsWord {
     }
 }
 
+impl Display for FastJsWord {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        Display::fmt(&*self.0, f)
+    }
+}
+
 impl FastJsWord {
     pub fn new(src: JsWord) -> Self {
         FastJsWord(ManuallyDrop::new(src))
@@ -46,7 +55,7 @@ pub(crate) type FastId = (FastJsWord, SyntaxContext);
 
 pub(crate) type RenameMap = AHashMap<FastId, JsWord>;
 
-pub(crate) type ReverseMap = FxHashMap<JsWord, Vec<FastId>>;
+pub(crate) type ReverseMap = FxHashMap<FastJsWord, Vec<FastId>>;
 
 #[derive(Debug, Default)]
 pub(super) struct ScopeData {
@@ -151,6 +160,7 @@ impl Scope {
                 if preserved_symbols.contains(&sym) {
                     continue;
                 }
+                let sym = FastJsWord::new(sym);
 
                 if self.can_rename(&id, &sym, reverse) {
                     if cfg!(debug_assertions) {
@@ -158,8 +168,8 @@ impl Scope {
                     }
 
                     let fid = fast_id(id);
-                    to.insert(fid.clone(), sym.clone());
-                    reverse.entry(sym).or_default().push(fid);
+                    reverse.entry(sym.clone()).or_default().push(fid.clone());
+                    to.insert(fid, sym.into_inner());
 
                     break;
                 }
@@ -167,7 +177,7 @@ impl Scope {
         }
     }
 
-    fn can_rename(&self, id: &Id, symbol: &JsWord, reverse: &ReverseMap) -> bool {
+    fn can_rename(&self, id: &Id, symbol: &FastJsWord, reverse: &ReverseMap) -> bool {
         // We can optimize this
         // We only need to check the current scope and parents (ignoring `a` generated
         // for unrelated scopes)
@@ -289,6 +299,8 @@ impl Scope {
                     continue;
                 }
 
+                let sym = FastJsWord::new(sym);
+
                 if self.can_rename(&id, &sym, reverse) {
                     #[cfg(debug_assertions)]
                     {
@@ -296,8 +308,8 @@ impl Scope {
                     }
 
                     let fid = fast_id(id.clone());
-                    to.insert(fid.clone(), sym.clone());
-                    reverse.entry(sym).or_default().push(fid.clone());
+                    reverse.entry(sym.clone()).or_default().push(fid.clone());
+                    to.insert(fid.clone(), sym.into_inner());
                     // self.data.decls.remove(&id);
                     // self.data.usages.remove(&id);
 
