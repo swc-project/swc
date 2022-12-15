@@ -7,12 +7,13 @@ use std::{
 
 #[cfg(feature = "concurrent-renamer")]
 use rayon::prelude::*;
-use rustc_hash::{FxHashMap, FxHashSet};
+use rustc_hash::FxHashSet;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{collections::AHashMap, util::take::Take, SyntaxContext};
 use swc_ecma_ast::*;
 use tracing::debug;
 
+use super::rope_map::RopeMap;
 use crate::rename::Renamer;
 
 #[derive(Debug, Default)]
@@ -55,7 +56,7 @@ pub(crate) type FastId = (FastJsWord, SyntaxContext);
 
 pub(crate) type RenameMap = AHashMap<FastId, JsWord>;
 
-pub(crate) type ReverseMap = FxHashMap<FastJsWord, Vec<FastId>>;
+pub(crate) type ReverseMap = RopeMap<FastJsWord, Vec<FastId>>;
 
 #[derive(Debug, Default)]
 pub(super) struct ScopeData {
