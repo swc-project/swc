@@ -1,3 +1,4 @@
+use swc_atoms::js_word;
 use swc_css_ast::*;
 use swc_css_visit::{Visit, VisitWith};
 
@@ -37,8 +38,7 @@ impl Visit for CustomPropertyNoMissingVarFunction {
     }
 
     fn visit_function(&mut self, function: &Function) {
-        self.in_var_function
-            .push(function.name.value.eq_str_ignore_ascii_case("var"));
+        self.in_var_function.push(function.name == js_word!("var"));
         function.visit_children_with(self);
         self.in_var_function.pop();
     }

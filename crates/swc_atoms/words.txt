@@ -2110,6 +2110,9 @@ scale3d
 scaleX
 scaleY
 scaleZ
+scalex
+scaley
+scalez
 script
 scroll
 scroll-behavior
@@ -2341,6 +2344,8 @@ translate3d
 translateX
 translateY
 translateZ
+translatey
+translatez
 transparent
 tref
 true
@@ -2440,8 +2445,3 @@ z-index
 zoom
 zoomAndPan
 zoomandpan
-scalez
-scaley
-scalex
-translatez
-translatey

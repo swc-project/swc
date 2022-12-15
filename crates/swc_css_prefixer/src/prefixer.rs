@@ -127,7 +127,7 @@ impl VisitMut for CrossFadeFunctionReplacerOnLegacyVariant<'_> {
     fn visit_mut_function(&mut self, n: &mut Function) {
         n.visit_mut_children_with(self);
 
-        if n.name.value.eq_str_ignore_ascii_case(self.from) {
+        if n.name == *self.from {
             let mut transparency_values = vec![];
 
             for group in n.value.split_mut(|n| {
@@ -217,8 +217,16 @@ impl VisitMut for CrossFadeFunctionReplacerOnLegacyVariant<'_> {
 
             n.value = new_value;
 
-            n.name.value = self.to.into();
-            n.name.raw = None;
+            match &mut n.name {
+                FunctionName::Ident(name) => {
+                    name.value = self.to.into();
+                    name.raw = None;
+                }
+                FunctionName::DashedIdent(name) => {
+                    name.value = self.to.into();
+                    name.raw = None;
+                }
+            }
         }
     }
 }
@@ -265,13 +273,21 @@ impl VisitMut for ImageSetFunctionReplacerOnLegacyVariant<'_> {
     fn visit_mut_function(&mut self, n: &mut Function) {
         let old_in_function = self.in_function;
 
-        self.in_function = n.name.value.eq_str_ignore_ascii_case(self.from);
+        self.in_function = n.name == *self.from;
 
         n.visit_mut_children_with(self);
 
-        if n.name.value.eq_str_ignore_ascii_case(self.from) {
-            n.name.value = self.to.into();
-            n.name.raw = None;
+        if n.name == *self.from {
+            match &mut n.name {
+                FunctionName::Ident(name) => {
+                    name.value = self.to.into();
+                    name.raw = None;
+                }
+                FunctionName::DashedIdent(name) => {
+                    name.value = self.to.into();
+                    name.raw = None;
+                }
+            }
         }
 
         self.in_function = old_in_function;
@@ -300,9 +316,17 @@ impl VisitMut for LinearGradientFunctionReplacerOnLegacyVariant<'_> {
     fn visit_mut_function(&mut self, n: &mut Function) {
         n.visit_mut_children_with(self);
 
-        if &*n.name.value.to_ascii_lowercase() == self.from {
-            n.name.value = self.to.into();
-            n.name.raw = None;
+        if n.name == *self.from {
+            match &mut n.name {
+                FunctionName::Ident(name) => {
+                    name.value = self.to.into();
+                    name.raw = None;
+                }
+                FunctionName::DashedIdent(name) => {
+                    name.value = self.to.into();
+                    name.raw = None;
+                }
+            }
 
             let first = n.value.get(0);
 
@@ -526,10 +550,8 @@ impl VisitMut for CalcReplacer<'_> {
     fn visit_mut_function(&mut self, n: &mut Function) {
         let old_inside_calc = self.inside_calc;
 
-        let name = n.name.value.to_ascii_lowercase();
-
-        let is_webkit_calc = matches!(name, js_word!("-webkit-calc"));
-        let is_moz_calc = matches!(name, js_word!("-moz-calc"));
+        let is_webkit_calc = n.name == js_word!("-webkit-calc");
+        let is_moz_calc = n.name == js_word!("-moz-calc");
 
         if self.to.is_none() && (is_webkit_calc || is_moz_calc) {
             return;
@@ -541,14 +563,24 @@ impl VisitMut for CalcReplacer<'_> {
             return;
         }
 
-        self.inside_calc = matches!(name, js_word!("calc")) || is_webkit_calc || is_moz_calc;
+        let is_calc = n.name == js_word!("calc");
+
+        self.inside_calc = is_calc || is_webkit_calc || is_moz_calc;
 
         n.visit_mut_children_with(self);
 
-        if matches!(name, js_word!("calc")) {
+        if is_calc {
             if let Some(to) = self.to {
-                n.name.value = to.clone();
-                n.name.raw = None;
+                match &mut n.name {
+                    FunctionName::Ident(name) => {
+                        name.value = to.into();
+                        name.raw = None;
+                    }
+                    FunctionName::DashedIdent(name) => {
+                        name.value = to.into();
+                        name.raw = None;
+                    }
+                }
             }
         }
 
@@ -563,11 +595,11 @@ impl VisitMut for CalcReplacer<'_> {
         }
 
         if let CalcValue::Function(function) = n {
-            let name = function.name.value.to_ascii_lowercase();
-
-            if matches!(
-                name,
-                js_word!("calc") | js_word!("-webkit-calc") | js_word!("-moz-calc")
+            if matches_eq!(
+                function.name,
+                js_word!("calc"),
+                js_word!("-webkit-calc"),
+                js_word!("-moz-calc")
             ) {
                 let calc_sum = match function.value.get(0) {
                     Some(ComponentValue::CalcSum(calc_sum)) => *calc_sum.clone(),
@@ -599,7 +631,7 @@ impl VisitMut for FontFaceFormatOldSyntax {
     fn visit_mut_function(&mut self, n: &mut Function) {
         n.visit_mut_children_with(self);
 
-        if !n.name.value.eq_ignore_ascii_case(&js_word!("format")) {
+        if !(n.name == js_word!("format")) {
             return;
         }
 
@@ -2519,6 +2551,7 @@ impl VisitMut for Prefixer {
                 ComponentValue::PreservedToken(_) => {}
                 ComponentValue::Function(function)
                     if function.name.value.eq_ignore_ascii_case(&js_word!("alpha")) => {}
+                ComponentValue::Function(function) if function.name == js_word!("alpha") => {}
                 _ => {
                     add_declaration!(Prefix::Webkit, js_word!("-webkit-filter"), None);
                 }
@@ -2699,18 +2732,18 @@ impl VisitMut for Prefixer {
 
                 let has_3d_function = n.value.iter().any(|n| match n {
                     ComponentValue::Function(function)
-                        if matches_eq_ignore_ascii_case!(
-                            &*function.name.value,
-                            "matrix3d",
-                            "translate3d",
-                            "translatez",
-                            "scale3d",
-                            "scalez",
-                            "rotate3d",
-                            "rotatex",
-                            "rotatey",
-                            "rotatez",
-                            "perspective"
+                        if matches_eq!(
+                            function.name,
+                            js_word!("matrix3d"),
+                            js_word!("translate3d"),
+                            js_word!("translatez"),
+                            js_word!("scale3d"),
+                            js_word!("scalez"),
+                            js_word!("rotate3d"),
+                            js_word!("rotatex"),
+                            js_word!("rotatey"),
+                            js_word!("rotatez"),
+                            js_word!("perspective")
                         ) =>
                     {
                         true

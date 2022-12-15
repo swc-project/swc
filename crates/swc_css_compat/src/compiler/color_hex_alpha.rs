@@ -2,7 +2,7 @@ use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_css_ast::{
     AbsoluteColorBase, AlphaValue, Color, ComponentValue, Delimiter, DelimiterValue, Function,
-    Ident, Number,
+    FunctionName, Ident, Number,
 };
 use swc_css_utils::{hex_to_rgba, round_alpha};
 
@@ -43,11 +43,11 @@ impl Compiler {
             *n = ComponentValue::Color(Box::new(Color::AbsoluteColorBase(
                 AbsoluteColorBase::Function(Function {
                     span: hex_color.span,
-                    name: Ident {
+                    name: FunctionName::Ident(Ident {
                         span: DUMMY_SP,
                         value: js_word!("rgba"),
                         raw: None,
-                    },
+                    }),
                     value: vec![
                         ComponentValue::Number(Box::new(Number {
                             span: DUMMY_SP,
