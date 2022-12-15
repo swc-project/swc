@@ -167,7 +167,7 @@ impl Scope {
                     }
 
                     let fid = fast_id(id);
-                    reverse.entry(sym.clone()).or_default().push(fid.clone());
+                    reverse.push_entry(sym.clone(), fid.clone());
                     to.insert(fid, sym.into_inner());
 
                     break;
@@ -307,7 +307,7 @@ impl Scope {
                     }
 
                     let fid = fast_id(id.clone());
-                    reverse.entry(sym.clone()).or_default().push(fid.clone());
+                    reverse.push_entry(sym.clone(), fid.clone());
                     to.insert(fid.clone(), sym.into_inner());
                     // self.data.decls.remove(&id);
                     // self.data.usages.remove(&id);
