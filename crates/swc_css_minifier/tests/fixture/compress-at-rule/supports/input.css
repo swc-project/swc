@@ -215,3 +215,15 @@
         animation: fade 3s cubic-bezier(0.25, 0.1, 0.25, 1)
     }
 }
+
+@supports (display: table-cell) and (display: list-item) and (display: list-item) and (display: contents) and (display: contents) {
+    .color {
+        color: red;
+    }
+}
+
+@supports (display: table-cell) and ((display: list-item) and (display: contents)) and ((display: list-item) and (display: contents)) {
+    .color {
+        color: blue;
+    }
+}

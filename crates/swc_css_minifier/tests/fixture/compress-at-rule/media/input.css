@@ -73,3 +73,38 @@
 @media (max-width: calc(5px + 1rem)) { body { color: red; } }
 
 @media (-webkit-calc(10px + 100px) < width <= calc(1000px + 10px)) { body { color: red; } }
+
+@media (color) { body { color: red; } }
+@media (min-color: 1) { body { color: red; } }
+@media (color >= 1) { body { color: red; } }
+@media (1 <= color) { body { color: red; } }
+
+@media (color-index) { body { color: red; } }
+@media (min-color-index: 1) { body { color: red; } }
+@media (color-index >= 1) { body { color: red; } }
+@media (1 <= color-index) { body { color: red; } }
+
+@media (monochrome) { body { color: red; } }
+@media (min-monochrome: 1) { body { color: red; } }
+@media (monochrome >= 1) { body { color: red; } }
+@media (1 <= monochrome) { body { color: red; } }
+
+@media (width = 1024px) { body {background: green;} }
+@media (1024px = width) { body {background: green;} }
+@media (width: 1024px) { body {background: green;} }
+
+@media (min-width: 900px) and (min-width: 900px) and (min-width: 900px),
+    (min-width: 900px) or (min-width: 900px) or (min-width: 900px) or (min-width: 900px)
+{
+    a {
+        color: red;
+    }
+}
+
+@media screen and (min-width: 900px) and (min-width: 900px) and (min-width: 900px),
+    (min-width: 900px) or (min-width: 900px) or (min-width: 900px) or (min-width: 900px)
+{
+    a {
+        color: red;
+    }
+}
