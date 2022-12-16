@@ -265,7 +265,7 @@ impl VisitMut for ImageSetFunctionReplacerOnLegacyVariant<'_> {
     fn visit_mut_function(&mut self, n: &mut Function) {
         let old_in_function = self.in_function;
 
-        self.in_function = true;
+        self.in_function = n.name.value.eq_str_ignore_ascii_case(self.from);
 
         n.visit_mut_children_with(self);
 
@@ -591,6 +591,53 @@ where
         inside_calc: false,
         to,
     });
+}
+
+pub struct FontFaceFormatOldSyntax {}
+
+impl VisitMut for FontFaceFormatOldSyntax {
+    fn visit_mut_function(&mut self, n: &mut Function) {
+        n.visit_mut_children_with(self);
+
+        if !n.name.value.eq_ignore_ascii_case(&js_word!("format")) {
+            return;
+        }
+
+        if n.value.len() != 1 {
+            return;
+        }
+
+        if let Some(ComponentValue::Ident(box ident)) = n.value.get(0) {
+            let new_value: JsWord = ident.value.to_ascii_lowercase();
+            let new_value = match new_value {
+                js_word!("woff")
+                | js_word!("truetype")
+                | js_word!("opentype")
+                | js_word!("woff2")
+                | js_word!("embedded-opentype")
+                | js_word!("collection")
+                | js_word!("svg") => new_value,
+                _ => {
+                    return;
+                }
+            };
+
+            let new_value = Str {
+                value: new_value,
+                span: ident.span,
+                raw: None,
+            };
+
+            n.value = vec![ComponentValue::Str(Box::new(new_value))];
+        }
+    }
+}
+
+pub fn font_face_format_old_syntax<N>(node: &mut N)
+where
+    N: VisitMutWith<FontFaceFormatOldSyntax>,
+{
+    node.visit_mut_with(&mut FontFaceFormatOldSyntax {});
 }
 
 macro_rules! to_ident {
@@ -1070,7 +1117,7 @@ impl VisitMut for Prefixer {
                     "-moz-placeholder",
                 );
 
-                if new_moz_prelude_with_previous != new_moz_prelude {
+                if !new_moz_prelude_with_previous.eq_ignore_span(&new_moz_prelude) {
                     let qualified_rule = Box::new(QualifiedRule {
                         span: DUMMY_SP,
                         prelude: new_moz_prelude_with_previous,
@@ -1156,7 +1203,7 @@ impl VisitMut for Prefixer {
                     "-ms-input-placeholder",
                 );
 
-                if new_ms_prelude_with_previous != new_ms_prelude {
+                if !new_ms_prelude_with_previous.eq_ignore_span(&new_ms_prelude) {
                     let qualified_rule = Box::new(QualifiedRule {
                         span: DUMMY_SP,
                         prelude: new_ms_prelude_with_previous,
@@ -1549,7 +1596,7 @@ impl VisitMut for Prefixer {
             }};
         }
 
-        let property_name = &*name.to_ascii_lowercase();
+        let property_name: &str = name;
 
         match property_name {
             "appearance" => {
@@ -1760,7 +1807,7 @@ impl VisitMut for Prefixer {
                             );
                         }
 
-                        if n.value != old_spec_webkit_value {
+                        if !n.value.eq_ignore_span(&old_spec_webkit_value) {
                             self.added_declarations.push(Box::new(Declaration {
                                 span: n.span,
                                 name: n.name.clone(),
@@ -2413,7 +2460,7 @@ impl VisitMut for Prefixer {
 
                     replace_ident(&mut old_spec_ms_value, "pixelated", "nearest-neighbor");
 
-                    if ms_value != old_spec_ms_value {
+                    if !ms_value.eq_ignore_span(&old_spec_ms_value) {
                         add_declaration!(
                             Prefix::Ms,
                             "-ms-interpolation-mode",
@@ -3296,12 +3343,22 @@ impl VisitMut for Prefixer {
                 add_declaration!(Prefix::Moz, "-moz-border-radius-bottomleft", None);
             }
 
+            "src" if should_prefix("font-face-format-ident", self.env, true) => {
+                let mut new_declaration = n.clone();
+
+                font_face_format_old_syntax(&mut new_declaration);
+
+                if n.value != new_declaration.value {
+                    self.added_declarations.push(Box::new(new_declaration));
+                }
+            }
+
             // TODO add `grid` support https://github.com/postcss/autoprefixer/tree/main/lib/hacks (starting with grid)
             // TODO fix me https://github.com/postcss/autoprefixer/blob/main/test/cases/custom-prefix.out.css
             _ => {}
         }
 
-        if n.value != webkit_value {
+        if !n.value.eq_ignore_span(&webkit_value) {
             self.added_declarations.push(Box::new(Declaration {
                 span: n.span,
                 name: n.name.clone(),
@@ -3310,7 +3367,7 @@ impl VisitMut for Prefixer {
             }));
         }
 
-        if n.value != moz_value {
+        if !n.value.eq_ignore_span(&moz_value) {
             self.added_declarations.push(Box::new(Declaration {
                 span: n.span,
                 name: n.name.clone(),
@@ -3319,7 +3376,7 @@ impl VisitMut for Prefixer {
             }));
         }
 
-        if n.value != o_value {
+        if !n.value.eq_ignore_span(&o_value) {
             self.added_declarations.push(Box::new(Declaration {
                 span: n.span,
                 name: n.name.clone(),
@@ -3328,7 +3385,7 @@ impl VisitMut for Prefixer {
             }));
         }
 
-        if n.value != ms_value {
+        if !n.value.eq_ignore_span(&ms_value) {
             self.added_declarations.push(Box::new(Declaration {
                 span: n.span,
                 name: n.name.clone(),

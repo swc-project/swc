@@ -43,3 +43,11 @@ h1 {
   content: -webkit-image-set(url("foo@1x.png") 1x, url("foo@2x.png") 2x) "test";
   content: image-set('foo@1x.png' 1x, "foo@2x.png" 2x) "test";
 }
+a {
+  background-image: -webkit-image-set(url("foo@1x.png") 1x, url(foo@2x.png) 2x);
+  background-image: image-set("foo@1x.png" 1x, url(foo@2x.png) 2x);
+}
+a {
+  background-image: -webkit-image-set(url(foo@1x.png) 1x, unknown("foo@2x.png") 2x);
+  background-image: image-set(url(foo@1x.png) 1x, unknown("foo@2x.png") 2x);
+}

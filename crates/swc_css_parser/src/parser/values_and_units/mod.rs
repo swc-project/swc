@@ -2381,7 +2381,7 @@ where
         match bump!(self) {
             Token::Hash { value, raw, .. } => Ok(HexColor {
                 span,
-                value,
+                value: value.to_ascii_lowercase(),
                 raw: Some(raw),
             }),
             _ => {

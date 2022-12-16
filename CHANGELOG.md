@@ -5,6 +5,56 @@
 
 
 
+- **(css/minifier)** Don't remove custom variables with different case (#6655) ([dd7280d](https://github.com/swc-project/swc/commit/dd7280d5bda960292bf5f4e12816d5a340277222))
+
+
+- **(es/minifier)** Abort IIFE invoker completely on eval (#6659) ([bb9fab8](https://github.com/swc-project/swc/commit/bb9fab8d0358262b8236c372d62660a50b5b3417))
+
+### Features
+
+
+
+- **(css/compat)** Support function notation (#6651) ([39afc46](https://github.com/swc-project/swc/commit/39afc4627e2a1e6ca397bc22cd3d9abe68c45fe2))
+
+
+- **(css/minifier)** Compress alpha in a hex (#6653) ([f6292e6](https://github.com/swc-project/swc/commit/f6292e63b51e5ad5a8d1fcc253e8342438098898))
+
+
+- **(css/parser)** Normalize hex colors (#6652) ([b257d5d](https://github.com/swc-project/swc/commit/b257d5d591c04feedf2f5997a984bf2f843b9d19))
+
+
+- **(css/parser)** Normalize selector AST (#6657) ([649438b](https://github.com/swc-project/swc/commit/649438b76a8ea61f2ddb2160a212d318d9d05267))
+
+
+- **(css/parser)** Normalize declaration and important (#6663) ([1fc97a7](https://github.com/swc-project/swc/commit/1fc97a7cea4ddf5b70f3b9193388e481caa60731))
+
+
+- **(css/prefixer)** Support font-face format (#6644) ([199ac74](https://github.com/swc-project/swc/commit/199ac7461814553bab97c1f0f7b1c89f34897122))
+
+### Performance
+
+
+
+- **(es/minifier)** Use rope-like structure for the name mangler (#6661) ([cb4173a](https://github.com/swc-project/swc/commit/cb4173aa73fbfd95f2411ceb97cec95e408f59ee))
+
+### Refactor
+
+
+
+- **(css/prefixer)** Use `eq_ignore_span` (#6656) ([d4660a4](https://github.com/swc-project/swc/commit/d4660a4673e19d628b7720e1352fa905bdc4456a))
+
+### Testing
+
+
+
+- **(css/parser)** Add a test (#6666) ([87e1efd](https://github.com/swc-project/swc/commit/87e1efd98ce3c58325ee047c2b01b0df575e921f))
+
+## [1.3.23] - 2022-12-14
+
+### Bug Fixes
+
+
+
 - **(css/minifier)** Fix compressions of transform functions (#6617) ([208fd55](https://github.com/swc-project/swc/commit/208fd559ba383b32c72ffdf5d8ad50cbf9679ec6))
 
 

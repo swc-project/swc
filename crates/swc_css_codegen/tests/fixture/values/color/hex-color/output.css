@@ -21,3 +21,7 @@ div {
 .foo {
   border: thick double #32a1ce;
 }
+.bar {
+  color: #123abcFF;
+  color: #123F;
+}
