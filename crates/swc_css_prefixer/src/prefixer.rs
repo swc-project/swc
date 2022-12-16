@@ -1594,7 +1594,7 @@ impl VisitMut for Prefixer {
             }};
         }
 
-        let property_name: &str = &*name;
+        let property_name: &str = name;
 
         match property_name {
             "appearance" => {
