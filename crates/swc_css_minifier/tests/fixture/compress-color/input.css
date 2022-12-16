@@ -424,3 +424,15 @@
 .class-83 {
     color: rgba(100, 100, 100, -300%);
 }
+
+.color {
+    color: #ff0000;
+    color: #FF0000;
+}
+
+.alpha {
+    color: #ffff;
+    color: #ffffffff;
+    color: #123f;
+    color: #123abcff;
+}

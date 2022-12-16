@@ -5723,7 +5723,7 @@
                         "end": 1309,
                         "ctxt": 0
                       },
-                      "value": "Nth-Child",
+                      "value": "nth-child",
                       "raw": "Nth-Child"
                     },
                     "children": [
@@ -5813,7 +5813,7 @@
                         "end": 1329,
                         "ctxt": 0
                       },
-                      "value": "NTH-CHILD",
+                      "value": "nth-child",
                       "raw": "NTH-CHILD"
                     },
                     "children": [
@@ -6002,7 +6002,7 @@
                           "end": 1373,
                           "ctxt": 0
                         },
-                        "value": "ODD",
+                        "value": "odd",
                         "raw": "ODD"
                       }
                     ]
@@ -6090,7 +6090,7 @@
                           "end": 1392,
                           "ctxt": 0
                         },
-                        "value": "oDd",
+                        "value": "odd",
                         "raw": "oDd"
                       }
                     ]
@@ -6266,7 +6266,7 @@
                           "end": 1432,
                           "ctxt": 0
                         },
-                        "value": "eVeN",
+                        "value": "even",
                         "raw": "eVeN"
                       }
                     ]
@@ -6354,7 +6354,7 @@
                           "end": 1452,
                           "ctxt": 0
                         },
-                        "value": "EVEN",
+                        "value": "even",
                         "raw": "EVEN"
                       }
                     ]

@@ -1,15 +1,19 @@
 #![allow(clippy::too_many_arguments)]
 
-use std::mem::{transmute_copy, ManuallyDrop};
+use std::{
+    fmt::{Display, Formatter},
+    mem::{transmute_copy, ManuallyDrop},
+};
 
 #[cfg(feature = "concurrent-renamer")]
 use rayon::prelude::*;
-use rustc_hash::{FxHashMap, FxHashSet};
+use rustc_hash::FxHashSet;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{collections::AHashMap, util::take::Take, SyntaxContext};
 use swc_ecma_ast::*;
 use tracing::debug;
 
+use super::reverse_map::ReverseMap;
 use crate::rename::Renamer;
 
 #[derive(Debug, Default)]
@@ -32,6 +36,12 @@ impl Clone for FastJsWord {
     }
 }
 
+impl Display for FastJsWord {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        Display::fmt(&*self.0, f)
+    }
+}
+
 impl FastJsWord {
     pub fn new(src: JsWord) -> Self {
         FastJsWord(ManuallyDrop::new(src))
@@ -45,8 +55,6 @@ impl FastJsWord {
 pub(crate) type FastId = (FastJsWord, SyntaxContext);
 
 pub(crate) type RenameMap = AHashMap<FastId, JsWord>;
-
-pub(crate) type ReverseMap = FxHashMap<JsWord, Vec<FastId>>;
 
 #[derive(Debug, Default)]
 pub(super) struct ScopeData {
@@ -151,6 +159,7 @@ impl Scope {
                 if preserved_symbols.contains(&sym) {
                     continue;
                 }
+                let sym = FastJsWord::new(sym);
 
                 if self.can_rename(&id, &sym, reverse) {
                     if cfg!(debug_assertions) {
@@ -158,8 +167,8 @@ impl Scope {
                     }
 
                     let fid = fast_id(id);
-                    to.insert(fid.clone(), sym.clone());
-                    reverse.entry(sym).or_default().push(fid);
+                    reverse.push_entry(sym.clone(), fid.clone());
+                    to.insert(fid, sym.into_inner());
 
                     break;
                 }
@@ -167,19 +176,17 @@ impl Scope {
         }
     }
 
-    fn can_rename(&self, id: &Id, symbol: &JsWord, reverse: &ReverseMap) -> bool {
+    fn can_rename(&self, id: &Id, symbol: &FastJsWord, reverse: &ReverseMap) -> bool {
         // We can optimize this
         // We only need to check the current scope and parents (ignoring `a` generated
         // for unrelated scopes)
-        if let Some(lefts) = reverse.get(symbol) {
-            for left in lefts {
-                if left.1 == id.1 && *left.0 .0 == id.0 {
-                    continue;
-                }
+        for left in reverse.get(symbol) {
+            if left.1 == id.1 && *left.0 .0 == id.0 {
+                continue;
+            }
 
-                if self.data.all.contains(left) {
-                    return false;
-                }
+            if self.data.all.contains(left) {
+                return false;
             }
         }
 
@@ -201,7 +208,7 @@ impl Scope {
     {
         let queue = self.data.queue.take();
 
-        let mut cloned_reverse = reverse.clone();
+        let mut cloned_reverse = reverse.next();
 
         self.rename_one_scope_in_mangle_mode(
             renamer,
@@ -289,6 +296,8 @@ impl Scope {
                     continue;
                 }
 
+                let sym = FastJsWord::new(sym);
+
                 if self.can_rename(&id, &sym, reverse) {
                     #[cfg(debug_assertions)]
                     {
@@ -296,8 +305,8 @@ impl Scope {
                     }
 
                     let fid = fast_id(id.clone());
-                    to.insert(fid.clone(), sym.clone());
-                    reverse.entry(sym).or_default().push(fid.clone());
+                    reverse.push_entry(sym.clone(), fid.clone());
+                    to.insert(fid.clone(), sym.into_inner());
                     // self.data.decls.remove(&id);
                     // self.data.usages.remove(&id);
 

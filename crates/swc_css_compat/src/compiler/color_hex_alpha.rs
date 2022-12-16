@@ -23,12 +23,9 @@ fn shorten_hex_color(value: &str) -> Option<&str> {
     let length = value.len();
     let chars = value.as_bytes();
 
-    if length == 8
-        && (chars[6] == b'f' || chars[6] == b'F')
-        && (chars[7] == b'f' || chars[7] == b'F')
-    {
+    if length == 8 && chars[6] == b'f' && chars[7] == b'f' {
         return Some(&value[0..6]);
-    } else if length == 4 && chars[3] == b'f' || chars[3] == b'F' {
+    } else if length == 4 && chars[3] == b'f' {
         return Some(&value[0..3]);
     }
 

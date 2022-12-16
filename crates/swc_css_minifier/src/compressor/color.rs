@@ -1,4 +1,4 @@
-use swc_atoms::js_word;
+use swc_atoms::{js_word, JsWord};
 use swc_common::DUMMY_SP;
 use swc_css_ast::*;
 use swc_css_utils::NAMED_COLORS;
@@ -8,6 +8,27 @@ use super::{
     Compressor,
 };
 use crate::compressor::alpha_value::compress_alpha_value;
+
+fn compress_alpha_in_hex(value: &JsWord) -> Option<&str> {
+    let length = value.len();
+
+    if length == 3 || length == 6 {
+        return None;
+    }
+
+    let chars = value.as_bytes();
+
+    if length == 8
+        && (chars[6] == b'f' || chars[6] == b'F')
+        && (chars[7] == b'f' || chars[7] == b'F')
+    {
+        return Some(&value[0..6]);
+    } else if length == 4 && chars[3] == b'f' || chars[3] == b'F' {
+        return Some(&value[0..3]);
+    }
+
+    None
+}
 
 fn get_short_hex(v: u32) -> u32 {
     ((v & 0x0ff00000) >> 12) | ((v & 0x00000ff0) >> 4)
@@ -414,7 +435,7 @@ impl Compressor {
             Color::AbsoluteColorBase(AbsoluteColorBase::HexColor(HexColor {
                 span, value, ..
             })) => {
-                if let Some(value) = self.get_named_color_by_hex(&value.to_ascii_lowercase()) {
+                if let Some(value) = self.get_named_color_by_hex(value) {
                     *color = Color::AbsoluteColorBase(AbsoluteColorBase::NamedColorOrTransparent(
                         Ident {
                             span: *span,
@@ -422,6 +443,8 @@ impl Compressor {
                             raw: None,
                         },
                     ));
+                } else if let Some(new_value) = compress_alpha_in_hex(value) {
+                    *value = new_value.into();
                 }
             }
             Color::AbsoluteColorBase(AbsoluteColorBase::Function(Function {
