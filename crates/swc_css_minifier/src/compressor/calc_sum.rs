@@ -93,6 +93,7 @@ struct CalcSumContext {
 impl CalcSumContext {
     pub fn fold(&mut self, calc_sum: &mut CalcSum) {
         self.nested_fold(None, calc_sum);
+        self.remove_zeroes();
         calc_sum.expressions = self.expressions.to_vec();
         remove_unnecessary_nesting_from_calc_sum(calc_sum);
     }
@@ -117,6 +118,163 @@ impl CalcSumContext {
             if let Some(CalcProductOrOperator::Operator(op)) = expr_it.next() {
                 operator = CalcSumContext::merge_operators(surrounding_operator, Some(op));
             }
+        }
+    }
+
+    fn remove_zeroes(&mut self) {
+        if self.expressions.len() == 1 {
+            // We do not want to transform "calc(0)" into "calc()", that would be invalid
+            return;
+        }
+
+        let mut idx = 0;
+        while idx < self.expressions.len() {
+            if let Some(CalcProductOrOperator::Product(calc_product)) = self.expressions.get(idx) {
+                if CalcSumContext::is_calc_product_zero(calc_product)
+                    && self.try_to_remove_sum_operator_and_term(idx)
+                {
+                    continue;
+                }
+            }
+            idx += 1;
+        }
+    }
+
+    fn try_to_remove_sum_operator_and_term(&mut self, term_index: usize) -> bool {
+        if term_index == 0 {
+            if self.expressions.len() > 1 {
+                // If the next operator is minus ("-"), we try to merge it into its following
+                // term eg: calc(0 - 3% + 10px) => calc(-3% + 10px)
+                // ... but it's not always possible: calc(0 - pi)
+                let can_be_removed = match &self.expressions[1] {
+                    CalcProductOrOperator::Operator(CalcOperator {
+                        value: CalcOperatorType::Sub,
+                        ..
+                    }) => self.try_to_switch_sum_term_sign(term_index + 2),
+                    _ => true,
+                };
+
+                if can_be_removed {
+                    // Remove the term
+                    self.expressions.remove(term_index);
+                    // Remove the next operator (the sign has been merged into its term)
+                    self.expressions.remove(term_index);
+                }
+                return can_be_removed;
+            }
+            false
+        } else {
+            // Remove the term
+            self.expressions.remove(term_index);
+            // Remove the operator
+            self.expressions.remove(term_index - 1);
+            true
+        }
+    }
+
+    fn try_to_switch_sum_term_sign(&mut self, term_index: usize) -> bool {
+        if let Some(CalcProductOrOperator::Product(ref mut calc_product)) =
+            self.expressions.get_mut(term_index)
+        {
+            let mut idx = 0;
+            while idx < calc_product.expressions.len() {
+                match &mut calc_product.expressions[idx] {
+                    CalcValueOrOperator::Value(CalcValue::Number(n)) => {
+                        n.value = -n.value;
+                        return true;
+                    }
+                    CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::Angle(a))) => {
+                        a.value.value = -a.value.value;
+                        return true;
+                    }
+                    CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::Flex(f))) => {
+                        f.value.value = -f.value.value;
+                        return true;
+                    }
+                    CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::Frequency(f))) => {
+                        f.value.value = -f.value.value;
+                        return true;
+                    }
+                    CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::Length(l))) => {
+                        l.value.value = -l.value.value;
+                        return true;
+                    }
+                    CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::Resolution(r))) => {
+                        r.value.value = -r.value.value;
+                        return true;
+                    }
+                    CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::Time(d))) => {
+                        d.value.value = -d.value.value;
+                        return true;
+                    }
+                    CalcValueOrOperator::Value(CalcValue::Dimension(
+                        Dimension::UnknownDimension(u),
+                    )) => {
+                        u.value.value = -u.value.value;
+                        return true;
+                    }
+                    CalcValueOrOperator::Value(CalcValue::Percentage(p)) => {
+                        p.value.value = -p.value.value;
+                        return true;
+                    }
+                    _ => {}
+                }
+                idx += 1;
+            }
+        }
+
+        false
+    }
+
+    fn is_calc_product_zero(calc_product: &CalcProduct) -> bool {
+        if calc_product.expressions.len() == 1 {
+            match &calc_product.expressions[0] {
+                CalcValueOrOperator::Value(calc_value) => {
+                    CalcSumContext::is_calc_value_zero(calc_value)
+                }
+                _ => false,
+            }
+        } else {
+            false
+        }
+    }
+
+    fn is_calc_value_zero(calc_value: &CalcValue) -> bool {
+        match calc_value {
+            CalcValue::Number(Number { value, .. })
+            | CalcValue::Dimension(Dimension::Angle(Angle {
+                value: Number { value, .. },
+                ..
+            }))
+            | CalcValue::Dimension(Dimension::Length(Length {
+                value: Number { value, .. },
+                ..
+            }))
+            | CalcValue::Dimension(Dimension::Flex(Flex {
+                value: Number { value, .. },
+                ..
+            }))
+            | CalcValue::Dimension(Dimension::Frequency(Frequency {
+                value: Number { value, .. },
+                ..
+            }))
+            | CalcValue::Dimension(Dimension::Resolution(Resolution {
+                value: Number { value, .. },
+                ..
+            }))
+            | CalcValue::Dimension(Dimension::Time(Time {
+                value: Number { value, .. },
+                ..
+            }))
+            | CalcValue::Dimension(Dimension::UnknownDimension(UnknownDimension {
+                value: Number { value, .. },
+                ..
+            }))
+            | CalcValue::Percentage(Percentage {
+                value: Number { value, .. },
+                ..
+            }) => *value == 0.0,
+            _ => false,
         }
     }
 
@@ -798,6 +956,21 @@ fn fold_calc_product(calc_product: &mut CalcProduct) {
                     }));
                     prev_operand = cur_operand
                 }
+            }
+            (
+                Some(operand1),
+                Some(CalcOperator {
+                    value: CalcOperatorType::Div,
+                    span: op_span,
+                }),
+                Some(_),
+            ) => {
+                folded_expressions.push(CalcValueOrOperator::Value(operand1.clone()));
+                folded_expressions.push(CalcValueOrOperator::Operator(CalcOperator {
+                    span: *op_span,
+                    value: CalcOperatorType::Div,
+                }));
+                prev_operand = cur_operand
             }
             _ => {
                 // Something is wrong: we should iterate over some (operand, operator, operand)
