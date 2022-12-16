@@ -14,6 +14,9 @@
 
 
 
+- **(css/compat)** Support function notation (#6651) ([39afc46](https://github.com/swc-project/swc/commit/39afc4627e2a1e6ca397bc22cd3d9abe68c45fe2))
+
+
 - **(css/minifier)** Compress alpha in a hex (#6653) ([f6292e6](https://github.com/swc-project/swc/commit/f6292e63b51e5ad5a8d1fcc253e8342438098898))
 
 
