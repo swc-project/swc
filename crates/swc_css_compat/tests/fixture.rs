@@ -150,6 +150,8 @@ fn test_color_hex_alpha(input: PathBuf) {
 
 #[testing::fixture("tests/color-legacy/**/*.css", exclude("expect.css"))]
 fn test_color_space_separated_function_notation(input: PathBuf) {
+#[testing::fixture("tests/selector-not/**/*.css", exclude("expect.css"))]
+fn test_selector_not(input: PathBuf) {
     let output = input.with_extension("expect.css");
 
     testing::run_test(false, |cm, _| {
@@ -161,6 +163,7 @@ fn test_color_space_separated_function_notation(input: PathBuf) {
             process: Features::COLOR_SPACE_SEPARATED_PARAMETERS
                 | Features::COLOR_ALPHA_PARAMETER
                 | Features::COLOR_LEGACY_RGB_AND_HSL,
+            process: Features::SELECTOR_NOT,
         }));
 
         let s = print_stylesheet(&ss);

@@ -1,6 +1,7 @@
 use swc_common::{Spanned, DUMMY_SP};
 use swc_css_ast::{
     AbsoluteColorBase, AtRule, ComponentValue, MediaAnd, MediaCondition, MediaConditionAllType,
+    AtRule, ComponentValue, CompoundSelector, MediaAnd, MediaCondition, MediaConditionAllType,
     MediaConditionWithoutOr, MediaInParens, MediaQuery, Rule, SupportsCondition,
 };
 use swc_css_visit::{VisitMut, VisitMutWith};
@@ -15,6 +16,7 @@ mod custom_media;
 mod legacy_rgb_and_hsl;
 mod media_query_ranges;
 mod utils;
+mod selector_not;
 
 /// Compiles a modern CSS file to a CSS file which works with old browsers.
 #[derive(Debug)]
@@ -120,6 +122,18 @@ impl VisitMut for Compiler {
                     }
                 }
             }
+        }
+    }
+
+    fn visit_mut_compound_selector(&mut self, n: &mut CompoundSelector) {
+        n.visit_mut_children_with(self);
+
+        if self.in_supports_condition {
+            return;
+        }
+
+        if self.c.process.contains(Features::SELECTOR_NOT) {
+            self.process_selector_not(n);
         }
     }
 
