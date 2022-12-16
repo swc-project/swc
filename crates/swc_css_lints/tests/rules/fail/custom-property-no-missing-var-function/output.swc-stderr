@@ -46,7 +46,7 @@
  7 | :root { --bar: 0; } a { color: --foo(--bar); }
    `----
 
-  x Unexpected missing var function for '----foo'.
+  x Unexpected missing var function for '--foo'.
    ,-[$DIR/tests/rules/fail/custom-property-no-missing-var-function/input.css:6:1]
  6 | :root { --foo: pink; }  a { color: --foo, red; }
  7 | :root { --bar: 0; } a { color: --foo(--bar); }
