@@ -37,7 +37,7 @@ impl Compressor {
             return;
         }
 
-        let from = match get_angle_type(&angle.unit.value.to_ascii_lowercase()) {
+        let from = match get_angle_type(&angle.unit.value) {
             Some(angel_type) => angel_type,
             None => return,
         };
