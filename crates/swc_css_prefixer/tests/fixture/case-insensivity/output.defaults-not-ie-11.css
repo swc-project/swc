@@ -6,3 +6,11 @@ b {
   -webkit-appearance: AUTO;
   APPEARANCE: AUTO;
 }
+c {
+  -WEBKIT-APPEARANCE: NONE;
+  APPEARANCE: NONE;
+}
+d {
+  -webkit-appearance: NONE;
+  APPEARANCE: NONE;
+}

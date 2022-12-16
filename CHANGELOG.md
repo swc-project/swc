@@ -23,6 +23,9 @@
 - **(css/parser)** Normalize selector AST (#6657) ([649438b](https://github.com/swc-project/swc/commit/649438b76a8ea61f2ddb2160a212d318d9d05267))
 
 
+- **(css/parser)** Normalize declaration and important (#6663) ([1fc97a7](https://github.com/swc-project/swc/commit/1fc97a7cea4ddf5b70f3b9193388e481caa60731))
+
+
 - **(css/prefixer)** Support font-face format (#6644) ([199ac74](https://github.com/swc-project/swc/commit/199ac7461814553bab97c1f0f7b1c89f34897122))
 
 ### Performance

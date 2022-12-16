@@ -10,3 +10,15 @@ b {
   -ms-appearance: AUTO;
   APPEARANCE: AUTO;
 }
+c {
+  -WEBKIT-APPEARANCE: NONE;
+  -moz-appearance: NONE;
+  -ms-appearance: NONE;
+  APPEARANCE: NONE;
+}
+d {
+  -webkit-appearance: NONE;
+  -moz-appearance: NONE;
+  -ms-appearance: NONE;
+  APPEARANCE: NONE;
+}
