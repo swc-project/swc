@@ -20,6 +20,9 @@
 - **(css/minifier)** Compress alpha in a hex (#6653) ([f6292e6](https://github.com/swc-project/swc/commit/f6292e63b51e5ad5a8d1fcc253e8342438098898))
 
 
+- **(css/minifier)** Improve compression of media at-rules (#6665) ([2fd3ced](https://github.com/swc-project/swc/commit/2fd3ced40c97fbac162f70e49c76c775e66a4552))
+
+
 - **(css/parser)** Normalize hex colors (#6652) ([b257d5d](https://github.com/swc-project/swc/commit/b257d5d591c04feedf2f5997a984bf2f843b9d19))
 
 
