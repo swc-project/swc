@@ -453,7 +453,7 @@
                   "end": 219,
                   "ctxt": 0
                 },
-                "value": "IMPORTANT",
+                "value": "important",
                 "raw": "IMPORTANT"
               }
             }
@@ -501,7 +501,7 @@
                   "end": 251,
                   "ctxt": 0
                 },
-                "value": "IMPORTANT",
+                "value": "important",
                 "raw": "IMPORTANT"
               }
             }
@@ -930,7 +930,7 @@
                   "end": 519,
                   "ctxt": 0
                 },
-                "value": "iMpOrTaNt",
+                "value": "important",
                 "raw": "iMpOrTaNt"
               }
             }

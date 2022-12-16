@@ -613,7 +613,11 @@ where
         let name = if is_dashed_ident {
             DeclarationName::DashedIdent(self.parse()?)
         } else {
-            DeclarationName::Ident(self.parse()?)
+            let mut ident: Ident = self.parse()?;
+
+            ident.value = ident.value.to_ascii_lowercase();
+
+            DeclarationName::Ident(ident)
         };
         let mut declaration = Declaration {
             span: Default::default(),
@@ -742,7 +746,7 @@ where
             };
             let value = Ident {
                 span: important_ident.span,
-                value: value.0,
+                value: value.0.to_ascii_lowercase(),
                 raw: Some(value.1),
             };
 

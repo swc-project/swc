@@ -6,8 +6,8 @@ use super::Compressor;
 
 impl Compressor {
     pub(super) fn compress_declaration(&self, declaration: &mut Declaration) {
-        if let DeclarationName::Ident(Ident { value, .. }) = &declaration.name {
-            match value.to_ascii_lowercase() {
+        if let DeclarationName::Ident(Ident { value: name, .. }) = &declaration.name {
+            match *name {
                 js_word!("display") if declaration.value.len() > 1 => {
                     let mut outside = None;
                     let mut inside = None;
@@ -616,12 +616,12 @@ impl Compressor {
 
     fn compress_from_initial(&self, declaration: &mut Declaration, span: Span) {
         let name = if let DeclarationName::Ident(Ident { value, .. }) = &declaration.name {
-            value.to_ascii_lowercase()
+            value
         } else {
             return;
         };
 
-        match name {
+        match *name {
             js_word!("accent-color")
             | js_word!("align-self")
             | js_word!("animation-timeline")
@@ -1282,12 +1282,12 @@ impl Compressor {
 
     fn _compress_to_initial(&self, declaration: &mut Declaration) {
         let name = if let DeclarationName::Ident(Ident { value, .. }) = &declaration.name {
-            value.to_ascii_lowercase()
+            value
         } else {
             return;
         };
 
-        match name {
+        match *name {
             js_word!("background-clip") | js_word!("mask-clip") | js_word!("mask-origin") => {
                 if let Some(ComponentValue::Ident(box Ident { value, span, .. })) =
                     declaration.value.get(0)
