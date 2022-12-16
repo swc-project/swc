@@ -188,7 +188,7 @@
                     "end": 42,
                     "ctxt": 0
                   },
-                  "value": "--fn",
+                  "value": "fn",
                   "raw": "--fn"
                 },
                 "value": [
@@ -246,7 +246,7 @@
                     "end": 69,
                     "ctxt": 0
                   },
-                  "value": "--fn--fn",
+                  "value": "fn--fn",
                   "raw": "--fn--fn"
                 },
                 "value": [

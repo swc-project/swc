@@ -937,7 +937,7 @@ where
         let name = if is_dashed_ident {
             FunctionName::DashedIdent(DashedIdent {
                 span: Span::new(span.lo, span.hi - BytePos(1), Default::default()),
-                value: function_name.0,
+                value: function_name.0[2..].into(),
                 raw: Some(function_name.1),
             })
         } else {

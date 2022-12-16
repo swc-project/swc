@@ -384,7 +384,7 @@ impl<'a> Input<'a> {
                                     _ => (name.value.clone(), Atom::from(name.value)),
                                 },
                                 FunctionName::DashedIdent(name) => match name.raw {
-                                    Some(raw) => (name.value, raw),
+                                    Some(raw) => (format!("--{}", name.value).into(), raw),
                                     _ => (name.value.clone(), Atom::from(name.value)),
                                 },
                             };

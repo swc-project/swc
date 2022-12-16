@@ -15,7 +15,11 @@
  12 | |   }
  13 | |   
  14 | |   @--custom {}
- 15 | `-> @--library1-custom {}
+ 15 | |   @--library1-custom {}
+ 16 | |   
+ 17 | |   .class {
+ 18 | |       --vendor-property: --vendor-function("test");
+ 19 | `-> }
     `----
 
   x Rule
@@ -633,4 +637,156 @@
  14 | @--custom {}
  15 | @--library1-custom {}
     :                    ^
+    `----
+
+  x Rule
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:16:1]
+ 16 |     
+ 17 | ,-> .class {
+ 18 | |       --vendor-property: --vendor-function("test");
+ 19 | `-> }
+    `----
+
+  x QualifiedRule
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:16:1]
+ 16 |     
+ 17 | ,-> .class {
+ 18 | |       --vendor-property: --vendor-function("test");
+ 19 | `-> }
+    `----
+
+  x SelectorList
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:16:1]
+ 16 | 
+ 17 | .class {
+    : ^^^^^^
+ 18 |     --vendor-property: --vendor-function("test");
+    `----
+
+  x ComplexSelector
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:16:1]
+ 16 | 
+ 17 | .class {
+    : ^^^^^^
+ 18 |     --vendor-property: --vendor-function("test");
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:16:1]
+ 16 | 
+ 17 | .class {
+    : ^^^^^^
+ 18 |     --vendor-property: --vendor-function("test");
+    `----
+
+  x SubclassSelector
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:16:1]
+ 16 | 
+ 17 | .class {
+    : ^^^^^^
+ 18 |     --vendor-property: --vendor-function("test");
+    `----
+
+  x ClassSelector
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:16:1]
+ 16 | 
+ 17 | .class {
+    : ^^^^^^
+ 18 |     --vendor-property: --vendor-function("test");
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:16:1]
+ 16 | 
+ 17 | .class {
+    :  ^^^^^
+ 18 |     --vendor-property: --vendor-function("test");
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:16:1]
+ 16 |     
+ 17 | ,-> .class {
+ 18 | |       --vendor-property: --vendor-function("test");
+ 19 | `-> }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:16:1]
+ 16 | 
+ 17 | .class {
+    :        ^
+ 18 |     --vendor-property: --vendor-function("test");
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:17:1]
+ 17 | .class {
+ 18 |     --vendor-property: --vendor-function("test");
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 19 | }
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:17:1]
+ 17 | .class {
+ 18 |     --vendor-property: --vendor-function("test");
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 19 | }
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:17:1]
+ 17 | .class {
+ 18 |     --vendor-property: --vendor-function("test");
+    :     ^^^^^^^^^^^^^^^^^
+ 19 | }
+    `----
+
+  x DashedIdent
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:17:1]
+ 17 | .class {
+ 18 |     --vendor-property: --vendor-function("test");
+    :     ^^^^^^^^^^^^^^^^^
+ 19 | }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:17:1]
+ 17 | .class {
+ 18 |     --vendor-property: --vendor-function("test");
+    :                        ^^^^^^^^^^^^^^^^^^^^^^^^^
+ 19 | }
+    `----
+
+  x Function
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:17:1]
+ 17 | .class {
+ 18 |     --vendor-property: --vendor-function("test");
+    :                        ^^^^^^^^^^^^^^^^^^^^^^^^^
+ 19 | }
+    `----
+
+  x DashedIdent
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:17:1]
+ 17 | .class {
+ 18 |     --vendor-property: --vendor-function("test");
+    :                        ^^^^^^^^^^^^^^^^^
+ 19 | }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:17:1]
+ 17 | .class {
+ 18 |     --vendor-property: --vendor-function("test");
+    :                                          ^^^^^^
+ 19 | }
+    `----
+
+  x String { value: Atom('test' type=inline), raw: "\"test\"" }
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:17:1]
+ 17 | .class {
+ 18 |     --vendor-property: --vendor-function("test");
+    :                                          ^^^^^^
+ 19 | }
     `----

@@ -13,3 +13,7 @@
 
 @--custom {}
 @--library1-custom {}
+
+.class {
+    --vendor-property: --vendor-function("test");
+}
