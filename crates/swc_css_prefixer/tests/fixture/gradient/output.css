@@ -261,3 +261,9 @@ div {
   background: -o-linear-gradient(bottom, green, blue);
   background: linear-gradient(0turn, green, blue);
 }
+a {
+  background: -webkit-linear-gradient(99.5deg, white, black), -webkit-linear-gradient(220deg, black, white), -webkit-linear-gradient(45deg, black, white);
+  background: -moz-linear-gradient(99.5deg, white, black), -moz-linear-gradient(220deg, black, white), -moz-linear-gradient(45deg, black, white);
+  background: -o-linear-gradient(99.5deg, white, black), -o-linear-gradient(220deg, black, white), -o-linear-gradient(45deg, black, white);
+  background: linear-gradient(350.5DEG, white, black), linear-gradient(-130DEG, black, white), linear-gradient(45DEG, black, white);
+}

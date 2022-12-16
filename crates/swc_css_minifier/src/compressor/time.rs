@@ -5,7 +5,7 @@ use super::Compressor;
 
 impl Compressor {
     pub(super) fn compress_time(&self, time: &mut Time) {
-        match time.unit.value.to_ascii_lowercase() {
+        match time.unit.value {
             js_word!("ms") if time.value.value == 0.0 || time.value.value >= 100.0 => {
                 let new_value = time.value.value / 1000.0;
 

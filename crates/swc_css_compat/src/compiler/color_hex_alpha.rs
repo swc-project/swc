@@ -5,7 +5,7 @@ use swc_css_ast::{
     Ident, Number,
 };
 
-use crate::compiler::Compiler;
+use crate::compiler::{utils::round_alpha, Compiler};
 
 #[inline]
 fn from_hex(c: u8) -> u8 {
@@ -17,11 +17,6 @@ fn from_hex(c: u8) -> u8 {
             unreachable!();
         }
     }
-}
-
-#[inline]
-fn clamp_unit_f32(val: f64) -> u8 {
-    (val * 255.).round().max(0.).min(255.) as u8
 }
 
 fn shorten_hex_color(value: &str) -> Option<&str> {
@@ -83,17 +78,6 @@ impl Compiler {
 
             let rgba = hex_to_rgba(&hex_color.value);
 
-            let r = rgba.0 as f64;
-            let g = rgba.1 as f64;
-            let b = rgba.2 as f64;
-            let a = rgba.3;
-
-            let mut rounded_alpha = (a * 100.).round() / 100.;
-
-            if clamp_unit_f32(rounded_alpha) != clamp_unit_f32(a) {
-                rounded_alpha = (a * 1000.).round() / 1000.;
-            }
-
             *n = ComponentValue::Color(Box::new(Color::AbsoluteColorBase(
                 AbsoluteColorBase::Function(Function {
                     span: hex_color.span,
@@ -105,7 +89,7 @@ impl Compiler {
                     value: vec![
                         ComponentValue::Number(Box::new(Number {
                             span: DUMMY_SP,
-                            value: r,
+                            value: rgba.0 as f64,
                             raw: None,
                         })),
                         ComponentValue::Delimiter(Box::new(Delimiter {
@@ -114,7 +98,7 @@ impl Compiler {
                         })),
                         ComponentValue::Number(Box::new(Number {
                             span: DUMMY_SP,
-                            value: g,
+                            value: rgba.1 as f64,
                             raw: None,
                         })),
                         ComponentValue::Delimiter(Box::new(Delimiter {
@@ -123,7 +107,7 @@ impl Compiler {
                         })),
                         ComponentValue::Number(Box::new(Number {
                             span: DUMMY_SP,
-                            value: b,
+                            value: rgba.2 as f64,
                             raw: None,
                         })),
                         ComponentValue::Delimiter(Box::new(Delimiter {
@@ -132,7 +116,7 @@ impl Compiler {
                         })),
                         ComponentValue::AlphaValue(Box::new(AlphaValue::Number(Number {
                             span: DUMMY_SP,
-                            value: rounded_alpha,
+                            value: round_alpha(rgba.3),
                             raw: None,
                         }))),
                     ],

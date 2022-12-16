@@ -291,8 +291,7 @@ impl CalcSumContext {
     }
 
     fn sum_length(&mut self, operator: Option<&CalcOperator>, operand: &CalcProduct, l: &Length) {
-        let unit = l.unit.value.to_ascii_lowercase();
-        if is_absolute_length(unit) {
+        if is_absolute_length(&l.unit.value) {
             self.sum_absolute_length(operator, operand, l)
         } else {
             self.sum_other_length(operator, operand, l)
@@ -310,17 +309,17 @@ impl CalcSumContext {
                 operator: prev_operator,
                 operand: IndexedData { pos, data },
             }) => {
-                let prev_unit = data.unit.value.to_ascii_lowercase();
-                let unit = l.unit.value.to_ascii_lowercase();
-                if let Some(result) = get_absolute_length_ratio(prev_unit, unit).and_then(|ratio| {
-                    CalcSumContext::try_to_sum_values(
-                        prev_operator.as_ref(),
-                        operator,
-                        data.value.value,
-                        l.value.value,
-                        Some(ratio),
-                    )
-                }) {
+                if let Some(result) = get_absolute_length_ratio(&data.unit.value, &l.unit.value)
+                    .and_then(|ratio| {
+                        CalcSumContext::try_to_sum_values(
+                            prev_operator.as_ref(),
+                            operator,
+                            data.value.value,
+                            l.value.value,
+                            Some(ratio),
+                        )
+                    })
+                {
                     data.value.value = result;
 
                     CalcSumContext::switch_sign_if_needed(
@@ -351,8 +350,7 @@ impl CalcSumContext {
         operand: &CalcProduct,
         l: &Length,
     ) {
-        let unit = l.unit.value.to_ascii_lowercase();
-        match &mut self.other_lengths.get_mut(&unit) {
+        match &mut self.other_lengths.get_mut(&l.unit.value) {
             Some(IndexedOperatorAndOperand {
                 operator: prev_operator,
                 operand: IndexedData { pos, data },
@@ -384,7 +382,8 @@ impl CalcSumContext {
             None => {
                 let indexed_data: IndexedOperatorAndOperand<Length> =
                     self.new_indexed_data(operator, operand, l.clone());
-                self.other_lengths.insert(unit, indexed_data);
+                self.other_lengths
+                    .insert(l.unit.value.clone(), indexed_data);
             }
         }
     }
@@ -430,17 +429,17 @@ impl CalcSumContext {
                 operator: prev_operator,
                 operand: IndexedData { pos, data },
             }) => {
-                let prev_unit = data.unit.value.to_ascii_lowercase();
-                let unit = d.unit.value.to_ascii_lowercase();
-                if let Some(result) = get_duration_ratio(prev_unit, unit).and_then(|ratio| {
-                    CalcSumContext::try_to_sum_values(
-                        prev_operator.as_ref(),
-                        operator,
-                        data.value.value,
-                        d.value.value,
-                        Some(ratio),
-                    )
-                }) {
+                if let Some(result) =
+                    get_duration_ratio(&data.unit.value, &d.unit.value).and_then(|ratio| {
+                        CalcSumContext::try_to_sum_values(
+                            prev_operator.as_ref(),
+                            operator,
+                            data.value.value,
+                            d.value.value,
+                            Some(ratio),
+                        )
+                    })
+                {
                     data.value.value = result;
 
                     CalcSumContext::switch_sign_if_needed(
@@ -474,17 +473,17 @@ impl CalcSumContext {
                 operator: prev_operator,
                 operand: IndexedData { pos, data },
             }) => {
-                let prev_unit = data.unit.value.to_ascii_lowercase();
-                let unit = f.unit.value.to_ascii_lowercase();
-                if let Some(result) = get_frequency_ratio(prev_unit, unit).and_then(|ratio| {
-                    CalcSumContext::try_to_sum_values(
-                        prev_operator.as_ref(),
-                        operator,
-                        data.value.value,
-                        f.value.value,
-                        Some(ratio),
-                    )
-                }) {
+                if let Some(result) =
+                    get_frequency_ratio(&data.unit.value, &f.unit.value).and_then(|ratio| {
+                        CalcSumContext::try_to_sum_values(
+                            prev_operator.as_ref(),
+                            operator,
+                            data.value.value,
+                            f.value.value,
+                            Some(ratio),
+                        )
+                    })
+                {
                     data.value.value = result;
 
                     CalcSumContext::switch_sign_if_needed(
@@ -518,17 +517,17 @@ impl CalcSumContext {
                 operator: prev_operator,
                 operand: IndexedData { pos, data },
             }) => {
-                let prev_unit = data.unit.value.to_ascii_lowercase();
-                let unit = r.unit.value.to_ascii_lowercase();
-                if let Some(result) = get_resolution_ratio(prev_unit, unit).and_then(|ratio| {
-                    CalcSumContext::try_to_sum_values(
-                        prev_operator.as_ref(),
-                        operator,
-                        data.value.value,
-                        r.value.value,
-                        Some(ratio),
-                    )
-                }) {
+                if let Some(result) = get_resolution_ratio(&data.unit.value, &r.unit.value)
+                    .and_then(|ratio| {
+                        CalcSumContext::try_to_sum_values(
+                            prev_operator.as_ref(),
+                            operator,
+                            data.value.value,
+                            r.value.value,
+                            Some(ratio),
+                        )
+                    })
+                {
                     data.value.value = result;
 
                     CalcSumContext::switch_sign_if_needed(
@@ -591,8 +590,7 @@ impl CalcSumContext {
         operand: &CalcProduct,
         u: &UnknownDimension,
     ) {
-        let unit = u.unit.value.to_ascii_lowercase();
-        match &mut self.unknown_dimension.get_mut(&unit) {
+        match &mut self.unknown_dimension.get_mut(&u.unit.value) {
             Some(IndexedOperatorAndOperand {
                 operator: prev_operator,
                 operand: IndexedData { pos, data },
@@ -625,7 +623,8 @@ impl CalcSumContext {
             None => {
                 let indexed_data: IndexedOperatorAndOperand<UnknownDimension> =
                     self.new_indexed_data(operator, operand, u.clone());
-                self.unknown_dimension.insert(unit, indexed_data);
+                self.unknown_dimension
+                    .insert(u.unit.value.clone(), indexed_data);
             }
         }
     }

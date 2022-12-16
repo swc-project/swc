@@ -651,7 +651,7 @@
                       "end": 234,
                       "ctxt": 0
                     },
-                    "value": "CONTENT",
+                    "value": "content",
                     "raw": "CONTENT"
                   },
                   "value": [
@@ -685,7 +685,7 @@
                 "end": 255,
                 "ctxt": 0
               },
-              "value": "MARGIN-LEFT",
+              "value": "margin-left",
               "raw": "MARGIN-LEFT"
             },
             "value": [

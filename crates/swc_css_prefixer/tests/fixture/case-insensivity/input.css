@@ -5,3 +5,13 @@ a {
 b {
     APPEARANCE: AUTO;
 }
+
+c {
+    -WEBKIT-APPEARANCE: NONE;
+    APPEARANCE: NONE;
+}
+
+d {
+    -webkit-appearance: NONE;
+    APPEARANCE: NONE;
+}

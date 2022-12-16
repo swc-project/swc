@@ -123,3 +123,6 @@ div {
 .zero-turn {
   background: linear-gradient(0turn, green, blue);
 }
+a {
+  background: linear-gradient(350.5DEG, white, black), linear-gradient(-130DEG, black, white), linear-gradient(45DEG, black, white);
+}

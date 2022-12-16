@@ -9257,7 +9257,7 @@
                     "end": 4781,
                     "ctxt": 0
                   },
-                  "value": "DISPLAY",
+                  "value": "display",
                   "raw": "DISPLAY"
                 },
                 "value": [
@@ -9361,7 +9361,7 @@
                             "end": 4817,
                             "ctxt": 0
                           },
-                          "value": "PX",
+                          "value": "px",
                           "raw": "PX"
                         }
                       }
