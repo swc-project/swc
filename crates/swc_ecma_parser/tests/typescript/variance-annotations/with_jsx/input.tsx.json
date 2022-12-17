@@ -51,6 +51,7 @@
             },
             "in": false,
             "out": true,
+            "const": false,
             "constraint": null,
             "default": null
           }
@@ -393,6 +394,7 @@
             },
             "in": true,
             "out": false,
+            "const": false,
             "constraint": null,
             "default": null
           }
@@ -781,6 +783,7 @@
             },
             "in": true,
             "out": true,
+            "const": false,
             "constraint": null,
             "default": null
           }
@@ -1179,6 +1182,7 @@
             },
             "in": false,
             "out": true,
+            "const": false,
             "constraint": null,
             "default": null
           }
@@ -1249,6 +1253,7 @@
             },
             "in": true,
             "out": false,
+            "const": false,
             "constraint": null,
             "default": null
           }
@@ -1328,6 +1333,7 @@
             },
             "in": false,
             "out": true,
+            "const": false,
             "constraint": null,
             "default": null
           },
@@ -1350,6 +1356,7 @@
             },
             "in": false,
             "out": true,
+            "const": false,
             "constraint": {
               "type": "TsTypeOperator",
               "span": {
@@ -1475,6 +1482,7 @@
             },
             "in": true,
             "out": true,
+            "const": false,
             "constraint": null,
             "default": null
           }
@@ -1582,6 +1590,7 @@
             },
             "in": true,
             "out": false,
+            "const": false,
             "constraint": null,
             "default": null
           }
@@ -1694,6 +1703,7 @@
             },
             "in": false,
             "out": true,
+            "const": false,
             "constraint": null,
             "default": null
           }
@@ -1773,6 +1783,7 @@
             },
             "in": false,
             "out": true,
+            "const": false,
             "constraint": null,
             "default": null
           }
@@ -1931,6 +1942,7 @@
             },
             "in": true,
             "out": false,
+            "const": false,
             "constraint": null,
             "default": null
           }
@@ -2099,6 +2111,7 @@
             },
             "in": false,
             "out": true,
+            "const": false,
             "constraint": null,
             "default": null
           }
@@ -2267,6 +2280,7 @@
             },
             "in": true,
             "out": false,
+            "const": false,
             "constraint": null,
             "default": null
           }
@@ -2458,6 +2472,7 @@
             },
             "in": false,
             "out": false,
+            "const": false,
             "constraint": null,
             "default": null
           }
@@ -2610,6 +2625,7 @@
             },
             "in": false,
             "out": false,
+            "const": false,
             "constraint": null,
             "default": null
           }
@@ -2758,6 +2774,7 @@
             },
             "in": false,
             "out": true,
+            "const": false,
             "constraint": null,
             "default": null
           }
@@ -2949,6 +2966,7 @@
             },
             "in": false,
             "out": false,
+            "const": false,
             "constraint": null,
             "default": null
           }
@@ -3101,6 +3119,7 @@
             },
             "in": false,
             "out": false,
+            "const": false,
             "constraint": null,
             "default": null
           }
@@ -3249,6 +3268,7 @@
             },
             "in": true,
             "out": true,
+            "const": false,
             "constraint": null,
             "default": null
           }
@@ -3440,6 +3460,7 @@
             },
             "in": false,
             "out": false,
+            "const": false,
             "constraint": null,
             "default": null
           }
@@ -3592,6 +3613,7 @@
             },
             "in": false,
             "out": false,
+            "const": false,
             "constraint": null,
             "default": null
           }
@@ -3740,6 +3762,7 @@
             },
             "in": false,
             "out": false,
+            "const": false,
             "constraint": null,
             "default": null
           }
@@ -3810,6 +3833,7 @@
             },
             "in": true,
             "out": true,
+            "const": false,
             "constraint": null,
             "default": null
           }
@@ -3880,6 +3904,7 @@
             },
             "in": true,
             "out": true,
+            "const": false,
             "constraint": null,
             "default": null
           }
@@ -3950,6 +3975,7 @@
             },
             "in": false,
             "out": true,
+            "const": false,
             "constraint": null,
             "default": null
           }
@@ -4072,6 +4098,7 @@
             },
             "in": false,
             "out": false,
+            "const": false,
             "constraint": null,
             "default": null
           }
@@ -4145,6 +4172,7 @@
             },
             "in": false,
             "out": false,
+            "const": false,
             "constraint": null,
             "default": null
           }
@@ -4326,6 +4354,7 @@
             },
             "in": false,
             "out": true,
+            "const": false,
             "constraint": null,
             "default": null
           }
@@ -4387,6 +4416,7 @@
             },
             "in": true,
             "out": false,
+            "const": false,
             "constraint": null,
             "default": null
           }
@@ -4678,6 +4708,7 @@
             },
             "in": false,
             "out": true,
+            "const": false,
             "constraint": null,
             "default": null
           }
@@ -4936,6 +4967,7 @@
             },
             "in": false,
             "out": false,
+            "const": false,
             "constraint": null,
             "default": null
           },
@@ -4958,6 +4990,7 @@
             },
             "in": false,
             "out": false,
+            "const": false,
             "constraint": null,
             "default": {
               "type": "TsKeywordType",
@@ -5353,6 +5386,7 @@
             },
             "in": false,
             "out": false,
+            "const": false,
             "constraint": null,
             "default": null
           }
@@ -5944,6 +5978,7 @@
             },
             "in": false,
             "out": false,
+            "const": false,
             "constraint": null,
             "default": null
           },
@@ -5966,6 +6001,7 @@
             },
             "in": true,
             "out": true,
+            "const": false,
             "constraint": {
               "type": "TsTypeLiteral",
               "span": {
@@ -6069,6 +6105,7 @@
             },
             "in": false,
             "out": false,
+            "const": false,
             "constraint": {
               "type": "TsTypeLiteral",
               "span": {
@@ -6395,6 +6432,7 @@
             },
             "in": false,
             "out": false,
+            "const": false,
             "constraint": {
               "type": "TsTypeLiteral",
               "span": {
@@ -6639,6 +6677,7 @@
             },
             "in": false,
             "out": false,
+            "const": false,
             "constraint": null,
             "default": null
           }

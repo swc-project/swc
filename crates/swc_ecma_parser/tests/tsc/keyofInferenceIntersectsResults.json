@@ -280,6 +280,7 @@
             },
             "in": false,
             "out": false,
+            "const": false,
             "constraint": null,
             "default": {
               "type": "TsTypeReference",
@@ -492,6 +493,7 @@
             },
             "in": false,
             "out": false,
+            "const": false,
             "constraint": null,
             "default": null
           }
