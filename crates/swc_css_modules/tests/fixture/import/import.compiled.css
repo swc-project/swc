@@ -78,7 +78,7 @@
 @import url("./test.css");
 @import "./test.css";
 @import url("./test.css");
-@import url(./test test.css);
+@import url(./test\ test.css);
 @import url(./test%20test.css);
 @import url("./test%20test.css");
 @import url("./test%20test.css");

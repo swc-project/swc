@@ -186,13 +186,13 @@ a {
   background-image: image-set(url("./img1x.png") 1x, "./img2x.png" 2x);
 }
 .__local__class {
-  background: url(./img'img.png);
-  background: url(./img'''img.png);
-  background: url(./img(img.png);
-  background: url(./img)img.png);
-  background: url(./img img.png);
-  background: url(./img'() img.png);
-  background-image: image-set(url(./img'''img.png) 2x, url(./img'img.png) 3x, url(./img(img.png) 4x, url(./img)img.png) 5x, url(./img img.png) 6x, url(./img'() img.png) 7x);
+  background: url(./img\'img.png);
+  background: url(./img\'\'\'img.png);
+  background: url(./img\(img.png);
+  background: url(./img\)img.png);
+  background: url(./img\ img.png);
+  background: url(./img\'\(\)\ img.png);
+  background-image: image-set(url(./img\'\'\'img.png) 2x, url(./img\'img.png) 3x, url(./img\(img.png) 4x, url(./img\)img.png) 5x, url(./img\ img.png) 6x, url(./img\'\(\)\ img.png) 7x);
 }
 .__local__class-class-class {
   background: url("./img'''img.png");
@@ -237,7 +237,7 @@ a {
   background: url(./img.png);
   background: url("./img'img.png");
   background: url("./img'(%29 img.png");
-  background: url(./img'(%29 img.png);
+  background: url(./img\'\(%29\ img.png);
 }
 .__local__class {
   background: url("./something.png");
