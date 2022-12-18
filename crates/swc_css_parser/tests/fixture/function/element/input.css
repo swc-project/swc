@@ -1,0 +1,4 @@
+a {
+    background: element(#css-source) no-repeat;
+    background: -moz-element(#css-source) no-repeat;
+}

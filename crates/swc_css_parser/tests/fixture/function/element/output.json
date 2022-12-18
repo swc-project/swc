@@ -1,0 +1,232 @@
+{
+  "type": "Stylesheet",
+  "span": {
+    "start": 1,
+    "end": 107,
+    "ctxt": 0
+  },
+  "rules": [
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 1,
+        "end": 107,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 1,
+          "end": 2,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 1,
+              "end": 2,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 1,
+                  "end": 2,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": {
+                  "type": "TagNameSelector",
+                  "span": {
+                    "start": 1,
+                    "end": 2,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "WqName",
+                    "span": {
+                      "start": 1,
+                      "end": 2,
+                      "ctxt": 0
+                    },
+                    "prefix": null,
+                    "value": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 1,
+                        "end": 2,
+                        "ctxt": 0
+                      },
+                      "value": "a",
+                      "raw": "a"
+                    }
+                  }
+                },
+                "subclassSelectors": []
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 3,
+          "end": 107,
+          "ctxt": 0
+        },
+        "name": {
+          "type": "PreservedToken",
+          "span": {
+            "start": 3,
+            "end": 4,
+            "ctxt": 0
+          },
+          "token": "LBrace"
+        },
+        "value": [
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 9,
+              "end": 51,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 9,
+                "end": 19,
+                "ctxt": 0
+              },
+              "value": "background",
+              "raw": "background"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 21,
+                  "end": 41,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 21,
+                    "end": 28,
+                    "ctxt": 0
+                  },
+                  "value": "element",
+                  "raw": "element"
+                },
+                "value": [
+                  {
+                    "type": "IdSelector",
+                    "span": {
+                      "start": 29,
+                      "end": 40,
+                      "ctxt": 0
+                    },
+                    "text": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 29,
+                        "end": 40,
+                        "ctxt": 0
+                      },
+                      "value": "css-source",
+                      "raw": "css-source"
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "Ident",
+                "span": {
+                  "start": 42,
+                  "end": 51,
+                  "ctxt": 0
+                },
+                "value": "no-repeat",
+                "raw": "no-repeat"
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 57,
+              "end": 104,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 57,
+                "end": 67,
+                "ctxt": 0
+              },
+              "value": "background",
+              "raw": "background"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 69,
+                  "end": 94,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 69,
+                    "end": 81,
+                    "ctxt": 0
+                  },
+                  "value": "-moz-element",
+                  "raw": "-moz-element"
+                },
+                "value": [
+                  {
+                    "type": "IdSelector",
+                    "span": {
+                      "start": 82,
+                      "end": 93,
+                      "ctxt": 0
+                    },
+                    "text": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 82,
+                        "end": 93,
+                        "ctxt": 0
+                      },
+                      "value": "css-source",
+                      "raw": "css-source"
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "Ident",
+                "span": {
+                  "start": 95,
+                  "end": 104,
+                  "ctxt": 0
+                },
+                "value": "no-repeat",
+                "raw": "no-repeat"
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    }
+  ]
+}

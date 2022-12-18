@@ -1,0 +1,280 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/fixture/function/element/input.css:1:1]
+ 1 | ,-> a {
+ 2 | |       background: element(#css-source) no-repeat;
+ 3 | |       background: -moz-element(#css-source) no-repeat;
+ 4 | `-> }
+   `----
+
+  x Rule
+   ,-[$DIR/tests/fixture/function/element/input.css:1:1]
+ 1 | ,-> a {
+ 2 | |       background: element(#css-source) no-repeat;
+ 3 | |       background: -moz-element(#css-source) no-repeat;
+ 4 | `-> }
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/fixture/function/element/input.css:1:1]
+ 1 | ,-> a {
+ 2 | |       background: element(#css-source) no-repeat;
+ 3 | |       background: -moz-element(#css-source) no-repeat;
+ 4 | `-> }
+   `----
+
+  x SelectorList
+   ,-[$DIR/tests/fixture/function/element/input.css:1:1]
+ 1 | a {
+   : ^
+ 2 |     background: element(#css-source) no-repeat;
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/function/element/input.css:1:1]
+ 1 | a {
+   : ^
+ 2 |     background: element(#css-source) no-repeat;
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/function/element/input.css:1:1]
+ 1 | a {
+   : ^
+ 2 |     background: element(#css-source) no-repeat;
+   `----
+
+  x TypeSelector
+   ,-[$DIR/tests/fixture/function/element/input.css:1:1]
+ 1 | a {
+   : ^
+ 2 |     background: element(#css-source) no-repeat;
+   `----
+
+  x TagNameSelector
+   ,-[$DIR/tests/fixture/function/element/input.css:1:1]
+ 1 | a {
+   : ^
+ 2 |     background: element(#css-source) no-repeat;
+   `----
+
+  x WqName
+   ,-[$DIR/tests/fixture/function/element/input.css:1:1]
+ 1 | a {
+   : ^
+ 2 |     background: element(#css-source) no-repeat;
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/function/element/input.css:1:1]
+ 1 | a {
+   : ^
+ 2 |     background: element(#css-source) no-repeat;
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/function/element/input.css:1:1]
+ 1 | ,-> a {
+ 2 | |       background: element(#css-source) no-repeat;
+ 3 | |       background: -moz-element(#css-source) no-repeat;
+ 4 | `-> }
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/function/element/input.css:1:1]
+ 1 | a {
+   :   ^
+ 2 |     background: element(#css-source) no-repeat;
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/function/element/input.css:1:1]
+ 1 | a {
+ 2 |     background: element(#css-source) no-repeat;
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 3 |     background: -moz-element(#css-source) no-repeat;
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/fixture/function/element/input.css:1:1]
+ 1 | a {
+ 2 |     background: element(#css-source) no-repeat;
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 3 |     background: -moz-element(#css-source) no-repeat;
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/fixture/function/element/input.css:1:1]
+ 1 | a {
+ 2 |     background: element(#css-source) no-repeat;
+   :     ^^^^^^^^^^
+ 3 |     background: -moz-element(#css-source) no-repeat;
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/function/element/input.css:1:1]
+ 1 | a {
+ 2 |     background: element(#css-source) no-repeat;
+   :     ^^^^^^^^^^
+ 3 |     background: -moz-element(#css-source) no-repeat;
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/function/element/input.css:1:1]
+ 1 | a {
+ 2 |     background: element(#css-source) no-repeat;
+   :                 ^^^^^^^^^^^^^^^^^^^^
+ 3 |     background: -moz-element(#css-source) no-repeat;
+   `----
+
+  x Function
+   ,-[$DIR/tests/fixture/function/element/input.css:1:1]
+ 1 | a {
+ 2 |     background: element(#css-source) no-repeat;
+   :                 ^^^^^^^^^^^^^^^^^^^^
+ 3 |     background: -moz-element(#css-source) no-repeat;
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/function/element/input.css:1:1]
+ 1 | a {
+ 2 |     background: element(#css-source) no-repeat;
+   :                 ^^^^^^^
+ 3 |     background: -moz-element(#css-source) no-repeat;
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/function/element/input.css:1:1]
+ 1 | a {
+ 2 |     background: element(#css-source) no-repeat;
+   :                         ^^^^^^^^^^^
+ 3 |     background: -moz-element(#css-source) no-repeat;
+   `----
+
+  x IdSelector
+   ,-[$DIR/tests/fixture/function/element/input.css:1:1]
+ 1 | a {
+ 2 |     background: element(#css-source) no-repeat;
+   :                         ^^^^^^^^^^^
+ 3 |     background: -moz-element(#css-source) no-repeat;
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/function/element/input.css:1:1]
+ 1 | a {
+ 2 |     background: element(#css-source) no-repeat;
+   :                         ^^^^^^^^^^^
+ 3 |     background: -moz-element(#css-source) no-repeat;
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/function/element/input.css:1:1]
+ 1 | a {
+ 2 |     background: element(#css-source) no-repeat;
+   :                                      ^^^^^^^^^
+ 3 |     background: -moz-element(#css-source) no-repeat;
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/function/element/input.css:1:1]
+ 1 | a {
+ 2 |     background: element(#css-source) no-repeat;
+   :                                      ^^^^^^^^^
+ 3 |     background: -moz-element(#css-source) no-repeat;
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/function/element/input.css:2:1]
+ 2 |     background: element(#css-source) no-repeat;
+ 3 |     background: -moz-element(#css-source) no-repeat;
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 4 | }
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/fixture/function/element/input.css:2:1]
+ 2 |     background: element(#css-source) no-repeat;
+ 3 |     background: -moz-element(#css-source) no-repeat;
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 4 | }
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/fixture/function/element/input.css:2:1]
+ 2 |     background: element(#css-source) no-repeat;
+ 3 |     background: -moz-element(#css-source) no-repeat;
+   :     ^^^^^^^^^^
+ 4 | }
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/function/element/input.css:2:1]
+ 2 |     background: element(#css-source) no-repeat;
+ 3 |     background: -moz-element(#css-source) no-repeat;
+   :     ^^^^^^^^^^
+ 4 | }
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/function/element/input.css:2:1]
+ 2 |     background: element(#css-source) no-repeat;
+ 3 |     background: -moz-element(#css-source) no-repeat;
+   :                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+ 4 | }
+   `----
+
+  x Function
+   ,-[$DIR/tests/fixture/function/element/input.css:2:1]
+ 2 |     background: element(#css-source) no-repeat;
+ 3 |     background: -moz-element(#css-source) no-repeat;
+   :                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+ 4 | }
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/function/element/input.css:2:1]
+ 2 |     background: element(#css-source) no-repeat;
+ 3 |     background: -moz-element(#css-source) no-repeat;
+   :                 ^^^^^^^^^^^^
+ 4 | }
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/function/element/input.css:2:1]
+ 2 |     background: element(#css-source) no-repeat;
+ 3 |     background: -moz-element(#css-source) no-repeat;
+   :                              ^^^^^^^^^^^
+ 4 | }
+   `----
+
+  x IdSelector
+   ,-[$DIR/tests/fixture/function/element/input.css:2:1]
+ 2 |     background: element(#css-source) no-repeat;
+ 3 |     background: -moz-element(#css-source) no-repeat;
+   :                              ^^^^^^^^^^^
+ 4 | }
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/function/element/input.css:2:1]
+ 2 |     background: element(#css-source) no-repeat;
+ 3 |     background: -moz-element(#css-source) no-repeat;
+   :                              ^^^^^^^^^^^
+ 4 | }
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/function/element/input.css:2:1]
+ 2 |     background: element(#css-source) no-repeat;
+ 3 |     background: -moz-element(#css-source) no-repeat;
+   :                                           ^^^^^^^^^
+ 4 | }
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/function/element/input.css:2:1]
+ 2 |     background: element(#css-source) no-repeat;
+ 3 |     background: -moz-element(#css-source) no-repeat;
+   :                                           ^^^^^^^^^
+ 4 | }
+   `----

@@ -2557,14 +2557,22 @@
                       },
                       "value": [
                         {
-                          "type": "HexColor",
+                          "type": "IdSelector",
                           "span": {
                             "start": 916,
                             "end": 919,
                             "ctxt": 0
                           },
-                          "value": "id",
-                          "raw": "id"
+                          "text": {
+                            "type": "Ident",
+                            "span": {
+                              "start": 916,
+                              "end": 919,
+                              "ctxt": 0
+                            },
+                            "value": "id",
+                            "raw": "id"
+                          }
                         }
                       ]
                     }

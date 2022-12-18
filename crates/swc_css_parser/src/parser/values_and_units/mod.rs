@@ -1617,6 +1617,16 @@ where
                 self.input.skip_ws();
             }
             js_word!("selector") if self.ctx.in_supports_at_rule => {
+            "element" | "-moz-element" => {
+                self.input.skip_ws();
+
+                let calc_sum = ComponentValue::IdSelector(self.parse()?);
+
+                values.push(calc_sum);
+
+                self.input.skip_ws();
+            }
+            "selector" if self.ctx.in_supports_at_rule => {
                 self.input.skip_ws();
 
                 let selector = ComponentValue::ComplexSelector(self.parse()?);

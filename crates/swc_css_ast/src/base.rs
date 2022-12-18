@@ -4,9 +4,9 @@ use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span};
 
 use crate::{
     AlphaValue, AnglePercentage, AtRule, CalcSum, CmykComponent, Color, ComplexSelector,
-    DashedIdent, Delimiter, Dimension, FrequencyPercentage, Hue, Ident, Integer, KeyframeBlock,
-    LayerName, LengthPercentage, Number, Percentage, Ratio, RelativeSelectorList, SelectorList,
-    Str, SupportsCondition, TimePercentage, TokenAndSpan, UnicodeRange, Url,
+    DashedIdent, Delimiter, Dimension, FrequencyPercentage, Hue, IdSelector, Ident, Integer,
+    KeyframeBlock, LayerName, LengthPercentage, Number, Percentage, Ratio, RelativeSelectorList,
+    SelectorList, Str, SupportsCondition, TimePercentage, TokenAndSpan, UnicodeRange, Url,
 };
 
 #[ast_node("Stylesheet")]
@@ -218,6 +218,8 @@ pub enum ComponentValue {
     SupportsCondition(Box<SupportsCondition>),
     #[tag("Declaration")]
     Declaration(Box<Declaration>),
+    #[tag("IdSelector")]
+    IdSelector(Box<IdSelector>),
 }
 
 impl From<StyleBlock> for ComponentValue {
