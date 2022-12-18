@@ -3,9 +3,9 @@ div {
   background: url(https://example.com/image.png);
   background: url(https://example.com/image.png);
   background: url("https://example.com/image.png");
-  background: url('https://example.com/image.png');
-  background: URL('https://example.com/image.png');
-  background: URL('https://example.com/image.png');
+  background: url("https://example.com/image.png");
+  background: URL("https://example.com/image.png");
+  background: URL("https://example.com/image.png");
   background: url(data:image/png;base64,iRxVB0);
   background: url(#IDofSVGpath);
   background: url("//aa.com/img.svg" prefetch);
@@ -13,7 +13,7 @@ div {
   background: url("http://example.com/image.svg" param(--color var(--primary-color)));
   background: url();
   background: url("");
-  background: url('');
+  background: url("");
   --foo: "http://www.example.com/pinkish.gif";
   background: src("http://www.example.com/pinkish.gif");
   background: SRC("http://www.example.com/pinkish.gif");
@@ -36,13 +36,13 @@ div {
   background: url(foo.img) red;
 }
 * {
-  background: url('foo');
-  background: url('f o');
-  background: url('f  o');
-  background: url('foo)');
-  background: url('(foo');
-  background: url('(foo)');
-  background: url('\"foo\"');
+  background: url("foo");
+  background: url("f o");
+  background: url("f  o");
+  background: url("foo)");
+  background: url("(foo");
+  background: url("(foo)");
+  background: url("\"foo\"");
 }
 .bar {
   background: url(http://example.com/image.svg param(--color var(--primary-color)));

@@ -4272,7 +4272,7 @@ fieldset[disabled] .select select:hover {
 }
 .breadcrumb li + li::before {
   color: #b5b5b5;
-  content: "\0002f";
+  content: "/";
 }
 .breadcrumb ul, 
 .breadcrumb ol {
@@ -4305,16 +4305,16 @@ fieldset[disabled] .select select:hover {
   font-size: 1.5rem;
 }
 .breadcrumb.has-arrow-separator li + li::before {
-  content: "\02192";
+  content: "→";
 }
 .breadcrumb.has-bullet-separator li + li::before {
-  content: "\02022";
+  content: "•";
 }
 .breadcrumb.has-dot-separator li + li::before {
-  content: "\000b7";
+  content: "·";
 }
 .breadcrumb.has-succeeds-separator li + li::before {
-  content: "\0227B";
+  content: "≻";
 }
 .card {
   background-color: white;

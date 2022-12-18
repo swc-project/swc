@@ -1,41 +1,41 @@
 div {
-  content: '⬇';
+  content: "⬇";
   content: "😀";
-  content: "\'test\'";
-  content: "\\'test\'";
-  content: "\\\\'test\'";
-  content: '"string" is string';
-  content: "'string' is string";
-  content: '\"string\" is string';
-  content: '\'string\' is string';
-  content: "\"string\" is string";
-  content: "\'string\' is string";
-  content: '\'string\' is \"string\"';
-  content: "\'string\' is \"string\"";
-  content: "'test' \'test\'";
-  content: '"test" \"test\"';
   content: "'test'";
-  content: "\'test\'";
+  content: "\\'test'";
+  content: "\\\\'test'";
+  content: "\"string\" is string";
+  content: "'string' is string";
+  content: "\"string\" is string";
+  content: "'string' is string";
+  content: "\"string\" is string";
+  content: "'string' is string";
+  content: "'string' is \"string\"";
+  content: "'string' is \"string\"";
+  content: "'test' 'test'";
+  content: "\"test\" \"test\"";
+  content: "'test'";
+  content: "'test'";
   content: "\"test\"";
-  content: '\'test\'';
-  content: '\'test\'';
-  content: '\"test\"';
-  content: "\22string\22";
-  content: '\27string\27';
-  content: "This string has a \Aline break in it.";
-  content: "This string has a \A line break in it.";
-  content: "This string has a \00000Aline break in it.";
-  content: "This string has a \00000A line break in it.";
+  content: "'test'";
+  content: "'test'";
+  content: "\"test\"";
+  content: "\"string\"";
+  content: "'string'";
+  content: "This string has a \a line break in it.";
+  content: "This string has a \a line break in it.";
+  content: "This string has a \a line break in it.";
+  content: "This string has a \a line break in it.";
   content: "\"test\" \"test\" \"test\" 'test'";
-  content: "\"test\" \"test\" \"test\" \'test\'";
-  content: "\'test\' \'test\' \'test\' \"test\"";
-  content: '\"test\" \"test\" \"test\" \'test\'';
-  content: '\'test\' \'test\' \'test\' "test"';
-  content: '\'test\' \'test\' \'test\' \"test\"';
-  content: '\\\'test\\\' \\\'test\\\' \\\'test\\\' \\\"test\\\"';
-  background: url('http://example.com/foo\'bar.jpg');
-  background: url('http://example.com/foo\"bar.jpg');
-  background: url("http://example.com/foo\'bar.jpg");
+  content: "\"test\" \"test\" \"test\" 'test'";
+  content: "'test' 'test' 'test' \"test\"";
+  content: "\"test\" \"test\" \"test\" 'test'";
+  content: "'test' 'test' 'test' \"test\"";
+  content: "'test' 'test' 'test' \"test\"";
+  content: "\\'test\\' \\'test\\' \\'test\\' \\\"test\\\"";
+  background: url("http://example.com/foo'bar.jpg");
+  background: url("http://example.com/foo\"bar.jpg");
+  background: url("http://example.com/foo'bar.jpg");
   background: url("http://example.com/foo\"bar.jpg");
 }
 div {
@@ -48,12 +48,8 @@ div {
   prop: name "test";
 }
 .foo {
-  content: 'string \
-is string';
+  content: "string is string";
 }
 .foo {
-  content: 'stri\
-ng\
- is stri\
-ng';
+  content: "string is string";
 }

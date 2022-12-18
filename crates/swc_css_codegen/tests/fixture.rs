@@ -262,6 +262,7 @@ impl VisitMut for NormalizeTest {
     fn visit_mut_str(&mut self, n: &mut Str) {
         n.visit_mut_children_with(self);
 
+        n.value = n.value.replace('\0', "\u{FFFD}").into();
         n.raw = None;
     }
 

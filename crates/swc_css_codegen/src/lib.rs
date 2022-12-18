@@ -1226,8 +1226,6 @@ where
             let minified = minify_string(&n.value);
 
             write_str!(self, n.span, &minified);
-        } else if let Some(raw) = &n.raw {
-            write_str!(self, n.span, raw);
         } else {
             let value = serialize_string(&n.value);
 
@@ -2701,7 +2699,7 @@ fn serialize_string(value: &str) -> String {
                 minified.push_str("\\\\");
             }
             '"' => {
-                minified.push_str("\\\"");
+                minified.push_str("\"");
             }
             // Otherwise, the character itself.
             _ => {

@@ -825,11 +825,11 @@ a.pure-button-selected {
 }
 .pure-menu-has-children > .pure-menu-link:after {
   padding-left: 0.5em;
-  content: "\25B8";
+  content: "▸";
   font-size: small;
 }
 .pure-menu-horizontal .pure-menu-has-children > .pure-menu-link:after {
-  content: "\25BE";
+  content: "▾";
 }
 .pure-menu-scrollable {
   overflow-y: scroll;

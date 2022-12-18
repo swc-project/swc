@@ -872,7 +872,7 @@ img {
   float: none;
 }
 .sans-serif {
-  font-family: -apple-system, BlinkMacSystemFont, 'avenir next', avenir, 'helvetica neue', helvetica, ubuntu, roboto, noto, 'segoe ui', arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "avenir next", avenir, "helvetica neue", helvetica, ubuntu, roboto, noto, "segoe ui", arial, sans-serif;
 }
 .serif {
   font-family: georgia, times, serif;
@@ -888,13 +888,13 @@ code,
   font-family: Consolas, monaco, monospace;
 }
 .courier {
-  font-family: 'Courier Next', courier, monospace;
+  font-family: "Courier Next", courier, monospace;
 }
 .helvetica {
-  font-family: 'helvetica neue', helvetica, sans-serif;
+  font-family: "helvetica neue", helvetica, sans-serif;
 }
 .avenir {
-  font-family: 'avenir next', avenir, sans-serif;
+  font-family: "avenir next", avenir, sans-serif;
 }
 .athelas {
   font-family: athelas, georgia, serif;
@@ -2971,7 +2971,7 @@ code,
   transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 .shadow-hover::after {
-  content: '';
+  content: "";
   box-shadow: 0 0 16px 2px rgba(0, 0, 0, 0.2);
   border-radius: inherit;
   opacity: 0;

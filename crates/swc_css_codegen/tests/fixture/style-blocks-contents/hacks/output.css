@@ -44,7 +44,7 @@ body:last-child .selector {}
 _:-moz-tree-row(hover), 
 .selector {}
 _::selection, 
-.selector:not([attr*='']) {}
+.selector:not([attr*=""]) {}
 @supports (-webkit-appearance: none) {}
 * html .selector {}
 .unused-class.selector {}
@@ -58,12 +58,12 @@ body *.selector {}
 html > body .selector {}
 head ~ body .selector {}
 _::selection, 
-.selector:not([attr*='']) {}
+.selector:not([attr*=""]) {}
 :root .selector {}
 body:last-child .selector {}
 body:nth-of-type(1) .selector {}
 body:first-of-type .selector {}
-.selector:not([attr*='']) {}
+.selector:not([attr*=""]) {}
 .selector {
   _property: value;
 }
