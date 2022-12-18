@@ -7,7 +7,7 @@
 .selector {
   [;property: value;];}
 @media \\0 screen {}
-@media all and (-webkit-min-device-pixel-ratio: 0) and (min-resolution: .001dpcm) {
+@media all and (-webkit-min-device-pixel-ratio: 0) and (min-resolution: 0.001dpcm) {
   .selector {}
 }
 body:empty .selector {}
@@ -22,8 +22,8 @@ body:not(:-moz-handler-blocked) .selector {}
 @media screen and (min--moz-device-pixel-ratio: 0) {}
 _::-moz-progress-bar, 
 body:last-child .selector {}
-@media all and (min--moz-device-pixel-ratio: 0) and (min-resolution: .001dpcm) {}
-@media all and (-moz-images-in-menus: 0) and (min-resolution: .001dpcm) {}
+@media all and (min--moz-device-pixel-ratio: 0) and (min-resolution: 0.001dpcm) {}
+@media all and (-moz-images-in-menus: 0) and (min-resolution: 0.001dpcm) {}
 @media all and (min--moz-device-pixel-ratio: 0) {
   @media (min-width: 0px) {}
 }
@@ -39,7 +39,7 @@ body:last-child .selector {}
 @supports (-moz-appearance: meterbar) and (image-orientation: 90deg) {}
 @supports (-moz-appearance: meterbar) and (all: initial) {}
 @supports (-moz-appearance: meterbar) and (list-style-type: japanese-formal) {}
-@media all and (min--moz-device-pixel-ratio: 0) and (min-resolution: 3e1dpcm) {}
+@media all and (min--moz-device-pixel-ratio: 0) and (min-resolution: 30dpcm) {}
 @supports (-moz-appearance: meterbar) and (background-blend-mode: difference, normal) {}
 _:-moz-tree-row(hover), 
 .selector {}
@@ -159,12 +159,12 @@ html:first-child .selector {}
 _:-o-prefocus, 
 body:last-child .selector {}
 @media all and (-webkit-min-device-pixel-ratio: 10000), not all and (-webkit-min-device-pixel-ratio: 0) {}
-@media (min-resolution: .001dpcm) {
+@media (min-resolution: 0.001dpcm) {
   _:-o-prefocus, 
   .selector {}
 }
 *|html[xmlns*=""] .selector {}
-@media all and (-webkit-min-device-pixel-ratio: 0) and (min-resolution: .001dpcm) {
+@media all and (-webkit-min-device-pixel-ratio: 0) and (min-resolution: 0.001dpcm) {
   .selector {}
 }
 .selector:not(*:root) {}

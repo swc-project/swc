@@ -1819,8 +1819,6 @@ where
     fn emit_integer(&mut self, n: &Integer) -> Result {
         if self.config.minify {
             write_raw!(self, n.span, &n.value.to_string());
-        } else if let Some(raw) = &n.raw {
-            write_raw!(self, n.span, raw);
         } else {
             write_raw!(self, n.span, &n.value.to_string());
         }
@@ -1832,8 +1830,6 @@ where
             let minified = minify_numeric(n.value);
 
             write_raw!(self, n.span, &minified);
-        } else if let Some(raw) = &n.raw {
-            write_raw!(self, n.span, raw);
         } else {
             write_raw!(self, n.span, &n.value.to_string());
         }

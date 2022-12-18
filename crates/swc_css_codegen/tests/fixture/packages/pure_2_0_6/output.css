@@ -254,7 +254,7 @@ html {
 }
 .pure-u-1-8, 
 .pure-u-3-24 {
-  width: 12.5000%;
+  width: 12.5%;
 }
 .pure-u-1-6, 
 .pure-u-4-24 {
@@ -279,7 +279,7 @@ html {
 }
 .pure-u-3-8, 
 .pure-u-9-24 {
-  width: 37.5000%;
+  width: 37.5%;
 }
 .pure-u-2-5 {
   width: 40%;
@@ -307,7 +307,7 @@ html {
 }
 .pure-u-5-8, 
 .pure-u-15-24 {
-  width: 62.5000%;
+  width: 62.5%;
 }
 .pure-u-2-3, 
 .pure-u-16-24 {
@@ -332,7 +332,7 @@ html {
 }
 .pure-u-7-8, 
 .pure-u-21-24 {
-  width: 87.5000%;
+  width: 87.5%;
 }
 .pure-u-11-12, 
 .pure-u-22-24 {
@@ -384,7 +384,7 @@ html {
   font-family: inherit;
   font-size: 100%;
   padding: 0.5em 1em;
-  color: rgba(0, 0, 0, 0.80);
+  color: rgba(0, 0, 0, 0.8);
   border: none rgba(0, 0, 0, 0);
   background-color: #E6E6E6;
   text-decoration: none;
@@ -393,16 +393,16 @@ html {
 .pure-button-hover, 
 .pure-button:hover, 
 .pure-button:focus {
-  background-image: -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(40%, rgba(0, 0, 0, 0.05)), to(rgba(0, 0, 0, 0.10)));
-  background-image: linear-gradient(transparent, rgba(0, 0, 0, 0.05) 40%, rgba(0, 0, 0, 0.10));
+  background-image: -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(40%, rgba(0, 0, 0, 0.05)), to(rgba(0, 0, 0, 0.1)));
+  background-image: linear-gradient(transparent, rgba(0, 0, 0, 0.05) 40%, rgba(0, 0, 0, 0.1));
 }
 .pure-button:focus {
   outline: 0;
 }
 .pure-button-active, 
 .pure-button:active {
-  -webkit-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15) inset, 0 0 6px rgba(0, 0, 0, 0.20) inset;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15) inset, 0 0 6px rgba(0, 0, 0, 0.20) inset;
+  -webkit-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15) inset, 0 0 6px rgba(0, 0, 0, 0.2) inset;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15) inset, 0 0 6px rgba(0, 0, 0, 0.2) inset;
   border-color: #000;
 }
 .pure-button[disabled], 
@@ -412,7 +412,7 @@ html {
 .pure-button-disabled:active {
   border: none;
   background-image: none;
-  opacity: 0.40;
+  opacity: 0.4;
   cursor: not-allowed;
   -webkit-box-shadow: none;
   box-shadow: none;
@@ -845,18 +845,18 @@ a.pure-button-selected {
   white-space: nowrap;
   overflow-y: hidden;
   overflow-x: auto;
-  padding: .5em 0;
+  padding: 0.5em 0;
 }
 .pure-menu-separator, 
 .pure-menu-horizontal .pure-menu-children .pure-menu-separator {
   background-color: #ccc;
   height: 1px;
-  margin: .3em 0;
+  margin: 0.3em 0;
 }
 .pure-menu-horizontal .pure-menu-separator {
   width: 1px;
   height: 1.3em;
-  margin: 0 .3em;
+  margin: 0 0.3em;
 }
 .pure-menu-horizontal .pure-menu-children .pure-menu-separator {
   display: block;
@@ -874,10 +874,10 @@ a.pure-button-selected {
 }
 .pure-menu-link, 
 .pure-menu-heading {
-  padding: .5em 1em;
+  padding: 0.5em 1em;
 }
 .pure-menu-disabled {
-  opacity: .5;
+  opacity: 0.5;
 }
 .pure-menu-disabled .pure-menu-link:hover {
   background-color: transparent;

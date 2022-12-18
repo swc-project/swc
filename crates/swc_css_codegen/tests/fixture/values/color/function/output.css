@@ -1,12 +1,12 @@
 div {
   color: rgb(255, 255, 255);
   color: hwb(1.5708rad 20% 10% / 0.7);
-  color: hsla(30, 100%, 50%, .3);
+  color: hsla(30, 100%, 50%, 0.3);
   color: hsl(30, 100%, 50%);
   color: rgb(214, 122, 127);
-  border: 4mm ridge rgba(170, 50, 220, .6);
-  border-color: red rgba(170, 50, 220, .6) green;
-  border-color: red yellow green hsla(60, 90%, 50%, .8);
+  border: 4mm ridge rgba(170, 50, 220, 0.6);
+  border-color: red rgba(170, 50, 220, 0.6) green;
+  border-color: red yellow green hsla(60, 90%, 50%, 0.8);
   prop: rgb(255, 255, 255) rgb(255, 255, 255);
 }
 .rgb-and-rgba {
@@ -14,7 +14,7 @@ div {
   color: rgba(34, 12, 64, 0.6);
   color: rgb(34 12 64/ 0.6);
   color: rgba(34 12 64/ 0.3);
-  color: rgb(34.0 12 64/ 60%);
+  color: rgb(34 12 64/ 60%);
   color: rgba(34.6 12 64/ 30%);
 }
 .hsl-and-hsla {
@@ -22,7 +22,7 @@ div {
   color: hsla(30, 100%, 50%, 0.6);
   color: hsl(30 100% 50% / 0.6);
   color: hsla(30 100% 50% / 0.6);
-  color: hsl(30.0 100% 50% / 60%);
+  color: hsl(30 100% 50% / 60%);
   color: hsla(30.2 100% 50% / 60%);
 }
 .hwb {
@@ -30,5 +30,5 @@ div {
   color: hwb(90 10% 10% / 0.5);
   color: hwb(90deg 10% 10%);
   color: hwb(1.5708rad 60% 0%);
-  color: hwb(.25turn 0% 40% / 50%);
+  color: hwb(0.25turn 0% 40% / 50%);
 }
