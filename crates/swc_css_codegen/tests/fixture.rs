@@ -232,18 +232,30 @@ impl VisitMut for NormalizeTest {
     fn visit_mut_ident(&mut self, n: &mut Ident) {
         n.visit_mut_children_with(self);
 
+        n.value = n
+            .value
+            .replace("\0", &char::REPLACEMENT_CHARACTER.to_string())
+            .into();
         n.raw = None;
     }
 
     fn visit_mut_custom_ident(&mut self, n: &mut CustomIdent) {
         n.visit_mut_children_with(self);
 
+        n.value = n
+            .value
+            .replace("\0", &char::REPLACEMENT_CHARACTER.to_string())
+            .into();
         n.raw = None;
     }
 
     fn visit_mut_dashed_ident(&mut self, n: &mut DashedIdent) {
         n.visit_mut_children_with(self);
 
+        n.value = n
+            .value
+            .replace("\0", &char::REPLACEMENT_CHARACTER.to_string())
+            .into();
         n.raw = None;
     }
 

@@ -224,9 +224,8 @@ pub fn serialize_ident(value: &str, minify: bool) -> Cow<'_, str> {
     for (i, c) in value.chars().enumerate() {
         match c {
             // If the character is NULL (U+0000), then the REPLACEMENT CHARACTER (U+FFFD).
-            // Old browser hacks with `\0` and other - IE
             '\x00' => {
-                result.push('\0');
+                result.push(char::REPLACEMENT_CHARACTER);
             }
             // If the character is in the range [\1-\1f] (U+0001 to U+001F) or is U+007F, then the
             // character escaped as code point.

@@ -1,5 +1,5 @@
 .selector:not(*:root) {}
-@media screen and (min-width: 0�) {}
+@media screen and (min-width: 0\0) {}
 .selector:not(*:root) {}
 @supports (-webkit-appearance: none) {}
 .selector {
@@ -140,7 +140,7 @@ body:first-of-type .selector {}
 @media screen\9  {}
 @media �screen\,screen\9  {}
 @media �screen {}
-@media screen and (min-width: 0�) {}
+@media screen and (min-width: 0\0) {}
 _:-ms-input-placeholder, 
 :root .selector {}
 _:-ms-fullscreen, 
@@ -173,7 +173,7 @@ body:last-child .selector {}
   (;property: value;);}
 .selector {
   [;property: value;];}
-@media screen and (min-width: 0�) {}
+@media screen and (min-width: 0\0) {}
 @media screen {
   @media (min-width: 0px) {}
 }

@@ -1357,6 +1357,7 @@ where
             ComponentValue::LayerName(n) => emit!(self, n),
             ComponentValue::Declaration(n) => emit!(self, n),
             ComponentValue::SupportsCondition(n) => emit!(self, n),
+            ComponentValue::IdSelector(n) => emit!(self, n),
         }
     }
 
@@ -1486,6 +1487,7 @@ where
 
         // The unit of a <dimension-token> may need escaping to disambiguate with
         // scientific notation.
+        // Old browser hacks with `\0` and other - IE
         if self.ctx.is_dimension_unit {
             let mut chars = serialized.chars();
 
@@ -1497,12 +1499,24 @@ where
                     escaped.push(c);
                     escaped.push_str(&serialized[2..]);
 
-                    write_raw!(self, n.span, &escaped);
+                    write_raw!(
+                        self,
+                        n.span,
+                        &escaped.replace(char::REPLACEMENT_CHARACTER, "\\0")
+                    );
                 } else {
-                    write_raw!(self, n.span, &serialized);
+                    write_raw!(
+                        self,
+                        n.span,
+                        &serialized.replace(char::REPLACEMENT_CHARACTER, "\\0")
+                    );
                 }
             } else {
-                write_raw!(self, n.span, &serialized);
+                write_raw!(
+                    self,
+                    n.span,
+                    &serialized.replace(char::REPLACEMENT_CHARACTER, "\\0")
+                );
             }
         } else {
             write_raw!(self, n.span, &serialized);
