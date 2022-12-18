@@ -1,6 +1,7 @@
 #![deny(clippy::all)]
 
 use std::{borrow::Cow, char::REPLACEMENT_CHARACTER, f64::consts::PI, str};
+use std::{borrow::Cow, str};
 
 use once_cell::sync::Lazy;
 use serde::{Deserialize, Serialize};
@@ -161,7 +162,7 @@ pub static NAMED_COLORS: Lazy<AHashMap<JsWord, NamedColor>> = Lazy::new(|| {
 });
 
 #[inline]
-fn is_escape_not_required(value: &str, raw: Option<&str>) -> bool {
+fn is_escape_not_required(value: &str) -> bool {
     if value.is_empty() {
         return true;
     }
@@ -183,7 +184,6 @@ fn is_escape_not_required(value: &str, raw: Option<&str>) -> bool {
 
     value.chars().all(|c| {
         match c {
-            REPLACEMENT_CHARACTER if raw.is_some() => false,
             '\x00' => false,
             '\x01'..='\x1f' | '\x7F' => false,
             '-' | '_' => true,
@@ -201,9 +201,9 @@ fn is_escape_not_required(value: &str, raw: Option<&str>) -> bool {
 }
 
 // https://drafts.csswg.org/cssom/#serialize-an-identifier
-pub fn serialize_ident<'a>(value: &'a str, raw: Option<&str>, minify: bool) -> Cow<'a, str> {
+pub fn serialize_ident(value: &str, minify: bool) -> Cow<'_, str> {
     // Fast-path
-    if is_escape_not_required(value, raw) {
+    if is_escape_not_required(value) {
         return Cow::Borrowed(value);
     }
 

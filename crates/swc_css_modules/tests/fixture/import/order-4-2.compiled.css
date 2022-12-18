@@ -1,5 +1,5 @@
-@import url('./order-4-2-1.css');
-@import url('./order-4-2-2.css') (orientation: landscape);
+@import url("./order-4-2-1.css");
+@import url("./order-4-2-2.css") (orientation: landscape);
 .__local__order-4-2 {
   color: red;
 }

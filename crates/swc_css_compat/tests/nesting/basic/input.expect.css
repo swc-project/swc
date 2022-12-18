@@ -65,7 +65,7 @@ figure > figcaption {
   background: hsl(0 0% 0% / 50%);
 }
 figure > figcaption > p {
-  font-size: .9rem;
+  font-size: 0.9rem;
 }
 .foo {
   color: blue;
@@ -186,7 +186,7 @@ figure > figcaption {
   background: hsl(0 0% 0% / 50%);
 }
 figure > figcaption > p {
-  font-size: .9rem;
+  font-size: 0.9rem;
 }
 @layer base {
   html {

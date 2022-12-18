@@ -1482,7 +1482,7 @@ where
             Cow::Borrowed(&n.value)
         };
 
-        let serialized = serialize_ident(&value, None, self.config.minify);
+        let serialized = serialize_ident(&value, self.config.minify);
 
         // The unit of a <dimension-token> may need escaping to disambiguate with
         // scientific notation.
@@ -1511,7 +1511,7 @@ where
 
     #[emitter]
     fn emit_custom_ident(&mut self, n: &CustomIdent) -> Result {
-        let serialized = serialize_ident(&n.value, None, self.config.minify);
+        let serialized = serialize_ident(&n.value, self.config.minify);
 
         write_raw!(self, n.span, &serialized);
     }
@@ -1520,21 +1520,21 @@ where
     fn emit_dashed_ident(&mut self, n: &DashedIdent) -> Result {
         write_raw!(self, lo_span_offset!(n.span, 2), "--");
 
-        let serialized = serialize_ident(&n.value, None, self.config.minify);
+        let serialized = serialize_ident(&n.value, self.config.minify);
 
         write_raw!(self, n.span, &serialized);
     }
 
     #[emitter]
     fn emit_extension_name(&mut self, n: &ExtensionName) -> Result {
-        let serialized = serialize_ident(&n.value, None, self.config.minify);
+        let serialized = serialize_ident(&n.value, self.config.minify);
 
         write_raw!(self, n.span, &serialized);
     }
 
     #[emitter]
     fn emit_custom_highlight_name(&mut self, n: &CustomHighlightName) -> Result {
-        let serialized = serialize_ident(&n.value, None, self.config.minify);
+        let serialized = serialize_ident(&n.value, self.config.minify);
 
         write_raw!(self, n.span, &serialized);
     }

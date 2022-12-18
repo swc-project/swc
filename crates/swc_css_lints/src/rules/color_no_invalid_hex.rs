@@ -24,6 +24,7 @@ impl Visit for ColorNoInvalidHex {
         }
 
         let message = format!("Unexpected invalid hex color '#{}'.", value);
+
         self.ctx.report(hex_color, message);
 
         hex_color.visit_children_with(self);
