@@ -2337,27 +2337,27 @@ where
 
     #[emitter]
     fn emit_an_plus_b_notation(&mut self, n: &AnPlusBNotation) -> Result {
-        let mut an_plus_b_minified = String::with_capacity(4);
+        let mut an_plus_b = String::with_capacity(4);
 
         if let Some(a) = &n.a {
             if *a == -1 {
-                an_plus_b_minified.push('-');
+                an_plus_b.push('-');
             } else if *a != 1 {
-                an_plus_b_minified.push_str(&a.to_string());
+                an_plus_b.push_str(&a.to_string());
             }
 
-            an_plus_b_minified.push('n');
+            an_plus_b.push('n');
         }
 
         if let Some(b) = &n.b {
             if *b >= 0 && n.a.is_some() {
-                an_plus_b_minified.push('+');
+                an_plus_b.push('+');
             }
 
-            an_plus_b_minified.push_str(&b.to_string());
+            an_plus_b.push_str(&b.to_string());
         }
 
-        write_raw!(self, n.span, &an_plus_b_minified);
+        write_raw!(self, n.span, &an_plus_b);
     }
 
     #[emitter]
@@ -2702,6 +2702,9 @@ fn serialize_url(value: &str) -> String {
             '(' | ')' | '"' | '\'' => {
                 new_value.push('\\');
                 new_value.push(c)
+            }
+            '\\' => {
+                new_value.push_str("\\\\");
             }
             _ if c.is_whitespace() => {
                 new_value.push('\\');

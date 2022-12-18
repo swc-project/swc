@@ -48,3 +48,7 @@ div {
 .foo {
   background: url(foo bar);
 }
+.bar {
+  background: url(foo\\\\bar);
+  background: url("foo\\\\bar");
+}
