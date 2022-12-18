@@ -456,7 +456,7 @@
           "end": 146,
           "ctxt": 0
         },
-        "value": "--custom",
+        "value": "custom",
         "raw": "--custom"
       },
       "prelude": {
@@ -515,7 +515,7 @@
           "end": 168,
           "ctxt": 0
         },
-        "value": "--library1-custom",
+        "value": "library1-custom",
         "raw": "--library1-custom"
       },
       "prelude": {
