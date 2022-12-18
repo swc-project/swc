@@ -234,7 +234,7 @@ impl VisitMut for NormalizeTest {
 
         n.value = n
             .value
-            .replace("\0", &char::REPLACEMENT_CHARACTER.to_string())
+            .replace('\0', &char::REPLACEMENT_CHARACTER.to_string())
             .into();
         n.raw = None;
     }
@@ -244,7 +244,7 @@ impl VisitMut for NormalizeTest {
 
         n.value = n
             .value
-            .replace("\0", &char::REPLACEMENT_CHARACTER.to_string())
+            .replace('\0', &char::REPLACEMENT_CHARACTER.to_string())
             .into();
         n.raw = None;
     }
@@ -254,7 +254,7 @@ impl VisitMut for NormalizeTest {
 
         n.value = n
             .value
-            .replace("\0", &char::REPLACEMENT_CHARACTER.to_string())
+            .replace('\0', &char::REPLACEMENT_CHARACTER.to_string())
             .into();
         n.raw = None;
     }
