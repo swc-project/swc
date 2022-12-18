@@ -2,7 +2,7 @@ use std::mem::take;
 
 use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
-use swc_css_ast::{AbsoluteColorBase, ComponentValue, Delimiter, DelimiterValue};
+use swc_css_ast::{matches_eq, AbsoluteColorBase, ComponentValue, Delimiter, DelimiterValue};
 
 use crate::compiler::Compiler;
 
@@ -12,11 +12,12 @@ impl Compiler {
         n: &mut AbsoluteColorBase,
     ) {
         if let AbsoluteColorBase::Function(function) = n {
-            let name = function.name.value.to_ascii_lowercase();
-
-            if !matches!(
-                name,
-                js_word!("rgb") | js_word!("rgba") | js_word!("hsl") | js_word!("hsla")
+            if !matches_eq!(
+                function.name,
+                js_word!("rgb"),
+                js_word!("rgba"),
+                js_word!("hsl"),
+                js_word!("hsla")
             ) {
                 return;
             }
