@@ -620,7 +620,6 @@ where
             let mut ident: Ident = self.parse()?;
 
             ident.value = ident.value.to_ascii_lowercase();
-            let ident = self.parse()?;
 
             DeclarationName::Ident(ident)
         };
