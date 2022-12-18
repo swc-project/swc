@@ -1489,35 +1489,7 @@ where
         // scientific notation.
         // Old browser hacks with `\0` and other - IE
         if self.ctx.is_dimension_unit {
-            let mut chars = serialized.chars();
-
-            if let Some('e') = chars.next() {
-                if let Some(c @ '0'..='9') = chars.next() {
-                    let mut escaped = String::with_capacity(serialized.len() + 2);
-
-                    escaped.push_str("e\\3");
-                    escaped.push(c);
-                    escaped.push_str(&serialized[2..]);
-
-                    write_raw!(
-                        self,
-                        n.span,
-                        &escaped.replace(char::REPLACEMENT_CHARACTER, "\\0")
-                    );
-                } else {
-                    write_raw!(
-                        self,
-                        n.span,
-                        &serialized.replace(char::REPLACEMENT_CHARACTER, "\\0")
-                    );
-                }
-            } else {
-                write_raw!(
-                    self,
-                    n.span,
-                    &serialized.replace(char::REPLACEMENT_CHARACTER, "\\0")
-                );
-            }
+            write_raw!(self, n.span, &serialize_dimension_unit(&serialized));
         } else {
             write_raw!(self, n.span, &serialized);
         }
@@ -2797,4 +2769,43 @@ fn minify_string(value: &str) -> String {
     } else {
         format!("\"{}\"", minified.replace('"', "\\\""))
     }
+}
+
+fn serialize_dimension_unit(value: &str) -> Cow<'_, str> {
+    // Fast-path
+    let need_escape = (value.len() >= 2
+        && value.as_bytes()[0] == b'e'
+        && (b'0'..=b'9').contains(&value.as_bytes()[1]))
+        || value.contains(|c| c == char::REPLACEMENT_CHARACTER);
+
+    if !need_escape {
+        return Cow::Borrowed(value);
+    }
+
+    let mut result = String::with_capacity(value.len());
+    let mut chars = value.chars().enumerate().peekable();
+
+    while let Some((i, c)) = chars.next() {
+        match c {
+            // Old browser hacks with `\0` and other - IE
+            char::REPLACEMENT_CHARACTER => {
+                result.push_str("\\0");
+            }
+            // The unit of a <dimension-token> may need escaping to disambiguate with scientific
+            // notation.
+            'e' if i == 0 => {
+                if matches!(chars.peek(), Some((_, '0'..='9'))) {
+                    result.push(c);
+                    result.push_str("\\3");
+                } else {
+                    result.push(c);
+                }
+            }
+            _ => {
+                result.push(c);
+            }
+        }
+    }
+
+    Cow::Owned(result)
 }
