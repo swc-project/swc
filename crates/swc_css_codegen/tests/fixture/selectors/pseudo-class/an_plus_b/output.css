@@ -7,16 +7,16 @@ p:nth-child(7) {
 p:nth-child(5n) {
   color: blue;
 }
-p:nth-child(n + 7) {
-  color: blue;
-}
-p:nth-child(3n + 4) {
+p:nth-child(n+7) {
   color: blue;
 }
 p:nth-child(3n+4) {
   color: blue;
 }
-p:nth-child(-n + 3) {
+p:nth-child(3n+4) {
+  color: blue;
+}
+p:nth-child(-n+3) {
   color: blue;
 }
 p:nth-child(-n+3) {
@@ -25,7 +25,7 @@ p:nth-child(-n+3) {
 p:nth-child(n) {
   color: blue;
 }
-p:nth-child(+n) {
+p:nth-child(n) {
   color: blue;
 }
 p:nth-child(-n) {
@@ -34,46 +34,46 @@ p:nth-child(-n) {
 p:nth-child(1) {
   color: blue;
 }
-p:nth-child(2n + 1) {
+p:nth-child(2n+1) {
   color: blue;
 }
-p:nth-child(2n + 1) {
+p:nth-child(2n+1) {
   color: blue;
 }
-p:nth-child(+2n + 1) {
+p:nth-child(2n+1) {
   color: blue;
 }
-p:nth-child(-2n + 1) {
+p:nth-child(-2n+1) {
   color: blue;
 }
-p:nth-child(2n + 1) {
+p:nth-child(2n+1) {
   color: blue;
 }
-p:nth-child(n + 1) {
+p:nth-child(n+1) {
   color: blue;
 }
-p:nth-child(+n + 1) {
+p:nth-child(n+1) {
   color: blue;
 }
-p:nth-child(-n + 1) {
+p:nth-child(-n+1) {
   color: blue;
 }
 p:nth-child(0n+3) {
   color: blue;
 }
-p:nth-child(+0n+3) {
+p:nth-child(0n+3) {
   color: blue;
 }
-p:nth-child(-0n+3) {
+p:nth-child(0n+3) {
   color: blue;
 }
-p:nth-child(1n + 1) {
+p:nth-child(n+1) {
   color: blue;
 }
-p:nth-child(+1n + 1) {
+p:nth-child(n+1) {
   color: blue;
 }
-p:nth-child(-1n + 1) {
+p:nth-child(-n+1) {
   color: blue;
 }
 p:nth-child(even) {
@@ -91,10 +91,10 @@ p:nth-child(1) {
 p:nth-child(0n+1) {
   color: blue;
 }
-p:nth-child(-0n+1) {
+p:nth-child(0n+1) {
   color: blue;
 }
-p:nth-child(+0n+1) {
+p:nth-child(0n+1) {
   color: blue;
 }
 p:nth-child(0n+5) {
@@ -103,13 +103,13 @@ p:nth-child(0n+5) {
 p:nth-child(0n-5) {
   color: blue;
 }
-p:nth-child(-1n+3) {
+p:nth-child(-n+3) {
   color: blue;
 }
-p:nth-child(+1n+3) {
+p:nth-child(n+3) {
   color: blue;
 }
-p:nth-child(1n+3) {
+p:nth-child(n+3) {
   color: blue;
 }
 p:nth-child(n+3) {
@@ -118,10 +118,10 @@ p:nth-child(n+3) {
 p:nth-child(-n+3) {
   color: blue;
 }
-p:nth-child(+n+3) {
+p:nth-child(n+3) {
   color: blue;
 }
-p:nth-child(+n-3) {
+p:nth-child(n-3) {
   color: blue;
 }
 p:nth-child(0n-3) {
@@ -130,16 +130,16 @@ p:nth-child(0n-3) {
 p:nth-child(0n+3) {
   color: blue;
 }
-p:nth-child(-0n-3) {
+p:nth-child(0n-3) {
   color: blue;
 }
-p:nth-child(+0n-3) {
+p:nth-child(0n-3) {
   color: blue;
 }
 p:nth-child(n+0) {
   color: blue;
 }
-p:nth-child(+n+0) {
+p:nth-child(n+0) {
   color: blue;
 }
 p:nth-child(-n+0) {
@@ -151,7 +151,7 @@ p:nth-child(5n+0) {
 p:nth-child(-5n+0) {
   color: blue;
 }
-p:nth-child(+5n+0) {
+p:nth-child(5n+0) {
   color: blue;
 }
 p:nth-child(-2n+1) {
@@ -166,16 +166,16 @@ p:nth-last-col(2n+1) {
 p:nth-col(2n+1) {
   color: blue;
 }
-p:nth-child(n - 0) {
+p:nth-child(n+0) {
   color: blue;
 }
-p:nth-child(n + 0) {
+p:nth-child(n+0) {
   color: blue;
 }
 p:nth-child(5) {
   color: blue;
 }
-p:nth-child(+5) {
+p:nth-child(5) {
   color: blue;
 }
 p:nth-child(-5) {

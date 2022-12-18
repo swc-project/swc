@@ -1688,11 +1688,7 @@ where
 
     #[emitter]
     fn emit_integer(&mut self, n: &Integer) -> Result {
-        if self.config.minify {
-            write_raw!(self, n.span, &n.value.to_string());
-        } else {
-            write_raw!(self, n.span, &n.value.to_string());
-        }
+        write_raw!(self, n.span, &n.value.to_string());
     }
 
     #[emitter]
@@ -2341,42 +2337,27 @@ where
 
     #[emitter]
     fn emit_an_plus_b_notation(&mut self, n: &AnPlusBNotation) -> Result {
-        if self.config.minify {
-            let mut an_plus_b_minified = String::with_capacity(4);
+        let mut an_plus_b_minified = String::with_capacity(4);
 
-            if let Some(a) = &n.a {
-                if *a == -1 {
-                    an_plus_b_minified.push('-');
-                } else if *a != 1 {
-                    an_plus_b_minified.push_str(&a.to_string());
-                }
-
-                an_plus_b_minified.push('n');
+        if let Some(a) = &n.a {
+            if *a == -1 {
+                an_plus_b_minified.push('-');
+            } else if *a != 1 {
+                an_plus_b_minified.push_str(&a.to_string());
             }
 
-            if let Some(b) = &n.b {
-                if *b >= 0 && n.a.is_some() {
-                    an_plus_b_minified.push('+');
-                }
-
-                an_plus_b_minified.push_str(&b.to_string());
-            }
-
-            write_raw!(self, n.span, &an_plus_b_minified);
-        } else {
-            let mut an_plus_b = String::with_capacity(4);
-
-            if let Some(a_raw) = &n.a_raw {
-                an_plus_b.push_str(a_raw);
-                an_plus_b.push('n');
-            }
-
-            if let Some(b_raw) = &n.b_raw {
-                an_plus_b.push_str(b_raw);
-            }
-
-            write_raw!(self, n.span, &an_plus_b);
+            an_plus_b_minified.push('n');
         }
+
+        if let Some(b) = &n.b {
+            if *b >= 0 && n.a.is_some() {
+                an_plus_b_minified.push('+');
+            }
+
+            an_plus_b_minified.push_str(&b.to_string());
+        }
+
+        write_raw!(self, n.span, &an_plus_b_minified);
     }
 
     #[emitter]
