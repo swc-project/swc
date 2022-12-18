@@ -4,35 +4,35 @@
   --Foo: blue;
 }
 .box {
-  back\ground-color: \rebeccap\urple;
-  back\ground-color: var(--fg-color);
+  background-color: rebeccapurple;
+  background-color: var(--fg-color);
   border-radius: 10px;
-  width: 100\p\x;
+  width: 100px;
   height: 100px;
 }
-.b\ox:hover {
+.box:hover {
   animation-name: rotate\ rotate;
   animation-duration: 0.7s;
 }
-@ke\yframes rotate\ rotate {
+@keyframes rotate\ rotate {
   0% {
-    transform: ro\tate(0);
+    transform: rotate(0);
   }
   100% {
     transform: rotate(360deg);
   }
 }
-@ke\yframes rotate {
+@keyframes rotate {
   0% {
-    transform: ro\tate(0);
+    transform: rotate(0);
   }
   100% {
     transform: rotate(360deg);
   }
 }
-@ke\yframes rotat\e  {
+@keyframes rotat\e  {
   0% {
-    transform: ro\tate(0);
+    transform: rotate(0);
   }
   100% {
     transform: rotate(360deg);
@@ -44,11 +44,11 @@
 \*|* {
   color: blue;
 }
-@media screen and (min-width: 0\0) {
+@media screen and (min-width: 0�) {
   body {
     color: red;
   }
 }
 body {
-  margin: \-\1\p\x;
+  margin: -\1 px;
 }

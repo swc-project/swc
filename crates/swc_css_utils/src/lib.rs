@@ -223,15 +223,10 @@ pub fn serialize_ident<'a>(value: &'a str, raw: Option<&str>, minify: bool) -> C
     // by the concatenation of, for each character of the identifier:
     for (i, c) in value.chars().enumerate() {
         match c {
-            // Old browser hacks with `\0` and other - IE
-            REPLACEMENT_CHARACTER if raw.is_some() => {
-                result.push_str(raw.unwrap());
-
-                return Cow::Owned(result);
-            }
             // If the character is NULL (U+0000), then the REPLACEMENT CHARACTER (U+FFFD).
+            // Old browser hacks with `\0` and other - IE
             '\x00' => {
-                result.push(char::REPLACEMENT_CHARACTER);
+                result.push('\0');
             }
             // If the character is in the range [\1-\1f] (U+0001 to U+001F) or is U+007F, then the
             // character escaped as code point.

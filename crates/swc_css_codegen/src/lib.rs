@@ -1478,20 +1478,35 @@ where
 
     #[emitter]
     fn emit_ident(&mut self, n: &Ident) -> Result {
-        if self.config.minify {
-            let value = if self.ctx.allow_to_lowercase && self.config.minify {
-                Cow::Owned(n.value.to_ascii_lowercase())
-            } else {
-                Cow::Borrowed(&n.value)
-            };
-            let serialized = serialize_ident(&value, n.raw.as_deref(), true);
-
-            write_raw!(self, n.span, &serialized);
-        } else if let Some(raw) = &n.raw {
-            write_raw!(self, n.span, raw);
+        let value = if self.ctx.allow_to_lowercase && self.config.minify {
+            Cow::Owned(n.value.to_ascii_lowercase())
         } else {
-            let serialized = serialize_ident(&n.value, n.raw.as_deref(), false);
+            Cow::Borrowed(&n.value)
+        };
 
+        let serialized = serialize_ident(&value, None, self.config.minify);
+
+        // The unit of a <dimension-token> may need escaping to disambiguate with
+        // scientific notation.
+        if self.ctx.is_dimension_unit {
+            let mut chars = serialized.chars();
+
+            if let Some('e') = chars.next() {
+                if let Some(c @ '0'..='9') = chars.next() {
+                    let mut escaped = String::with_capacity(serialized.len() + 2);
+
+                    escaped.push_str("e\\3");
+                    escaped.push(c);
+                    escaped.push_str(&serialized[2..]);
+
+                    write_raw!(self, n.span, &escaped);
+                } else {
+                    write_raw!(self, n.span, &serialized);
+                }
+            } else {
+                write_raw!(self, n.span, &serialized);
+            }
+        } else {
             write_raw!(self, n.span, &serialized);
         }
     }
@@ -1587,6 +1602,7 @@ where
         emit!(self, n.value);
         emit!(
             &mut *self.with_ctx(Ctx {
+                is_dimension_unit: true,
                 allow_to_lowercase: true,
                 ..self.ctx
             }),
@@ -1599,6 +1615,7 @@ where
         emit!(self, n.value);
         emit!(
             &mut *self.with_ctx(Ctx {
+                is_dimension_unit: true,
                 allow_to_lowercase: true,
                 ..self.ctx
             }),
@@ -1611,6 +1628,7 @@ where
         emit!(self, n.value);
         emit!(
             &mut *self.with_ctx(Ctx {
+                is_dimension_unit: true,
                 allow_to_lowercase: true,
                 ..self.ctx
             }),
@@ -1623,6 +1641,7 @@ where
         emit!(self, n.value);
         emit!(
             &mut *self.with_ctx(Ctx {
+                is_dimension_unit: true,
                 allow_to_lowercase: true,
                 ..self.ctx
             }),
@@ -1635,6 +1654,7 @@ where
         emit!(self, n.value);
         emit!(
             &mut *self.with_ctx(Ctx {
+                is_dimension_unit: true,
                 allow_to_lowercase: true,
                 ..self.ctx
             }),
@@ -1647,6 +1667,7 @@ where
         emit!(self, n.value);
         emit!(
             &mut *self.with_ctx(Ctx {
+                is_dimension_unit: true,
                 allow_to_lowercase: true,
                 ..self.ctx
             }),
@@ -1659,6 +1680,7 @@ where
         emit!(self, n.value);
         emit!(
             &mut *self.with_ctx(Ctx {
+                is_dimension_unit: true,
                 allow_to_lowercase: true,
                 ..self.ctx
             }),

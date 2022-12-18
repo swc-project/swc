@@ -11,6 +11,14 @@ div {
   width: 0.00254cm;
 }
 .foo {
-  width: 100PX;
-  TRANSFORM: ROTATE(45DEG);
+  width: 100px;
+  transform: ROTATE(45deg);
+}
+a {
+  width: 10e\30px;
+  width: 10e\31px;
+  width: 10e\32px;
+  width: 10e\39px;
+  width: 10e\@px;
+  width: 10ae2px;
 }

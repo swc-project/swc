@@ -1,5 +1,5 @@
-@\media screen {}
-@\media \screen {}
+@media screen {}
+@media screen {}
 @media all {}
 @media screen {}
 @media print {}
@@ -113,7 +113,7 @@
 @media (max-width: 650px), calc(150px + 150px) {}
 @MEDIA ALL {}
 @MEDIA (PREFERS-reduced-motion: no-preference) {
-  :ROOT {
+  :root {
     scroll-behavior: smooth;
   }
 }
