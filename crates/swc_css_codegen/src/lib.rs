@@ -504,19 +504,7 @@ where
 
             if n.condition.is_some() {
                 space!(self);
-
-                if n.keyword.is_some() {
-                    emit!(
-                        &mut *self.with_ctx(Ctx {
-                            allow_to_lowercase: true,
-                            ..self.ctx
-                        }),
-                        n.keyword
-                    );
-                } else {
-                    write_raw!(self, "and");
-                }
-
+                write_raw!(self, "and");
                 space!(self);
             }
         }
@@ -586,54 +574,21 @@ where
 
     #[emitter]
     fn emit_media_not(&mut self, n: &MediaNot) -> Result {
-        if n.keyword.is_some() {
-            emit!(
-                &mut *self.with_ctx(Ctx {
-                    allow_to_lowercase: true,
-                    ..self.ctx
-                }),
-                n.keyword
-            );
-        } else {
-            write_raw!(self, "not");
-        }
-
+        write_raw!(self, "not");
         space!(self);
         emit!(self, n.condition);
     }
 
     #[emitter]
     fn emit_media_and(&mut self, n: &MediaAnd) -> Result {
-        if n.keyword.is_some() {
-            emit!(
-                &mut *self.with_ctx(Ctx {
-                    allow_to_lowercase: true,
-                    ..self.ctx
-                }),
-                n.keyword
-            );
-        } else {
-            write_raw!(self, "and");
-        }
-
+        write_raw!(self, "and");
         space!(self);
         emit!(self, n.condition);
     }
 
     #[emitter]
     fn emit_media_or(&mut self, n: &MediaOr) -> Result {
-        if n.keyword.is_some() {
-            emit!(
-                &mut *self.with_ctx(Ctx {
-                    allow_to_lowercase: true,
-                    ..self.ctx
-                }),
-                n.keyword
-            );
-        } else {
-            write_raw!(self, "or");
-        }
-
+        write_raw!(self, "or");
         space!(self);
         emit!(self, n.condition);
     }
@@ -755,54 +710,21 @@ where
 
     #[emitter]
     fn emit_supports_not(&mut self, n: &SupportsNot) -> Result {
-        if n.keyword.is_some() {
-            emit!(
-                &mut *self.with_ctx(Ctx {
-                    allow_to_lowercase: true,
-                    ..self.ctx
-                }),
-                n.keyword
-            );
-        } else {
-            write_raw!(self, "not");
-        }
-
+        write_raw!(self, "not");
         space!(self);
         emit!(self, n.condition);
     }
 
     #[emitter]
     fn emit_supports_and(&mut self, n: &SupportsAnd) -> Result {
-        if n.keyword.is_some() {
-            emit!(
-                &mut *self.with_ctx(Ctx {
-                    allow_to_lowercase: true,
-                    ..self.ctx
-                }),
-                n.keyword
-            );
-        } else {
-            write_raw!(self, "and");
-        }
-
+        write_raw!(self, "and");
         space!(self);
         emit!(self, n.condition);
     }
 
     #[emitter]
     fn emit_support_or(&mut self, n: &SupportsOr) -> Result {
-        if n.keyword.is_some() {
-            emit!(
-                &mut *self.with_ctx(Ctx {
-                    allow_to_lowercase: true,
-                    ..self.ctx
-                }),
-                n.keyword
-            );
-        } else {
-            write_raw!(self, "or");
-        }
-
+        write_raw!(self, "or");
         space!(self);
         emit!(self, n.condition);
     }
@@ -965,54 +887,21 @@ where
 
     #[emitter]
     fn emit_container_query_not(&mut self, n: &ContainerQueryNot) -> Result {
-        if n.keyword.is_some() {
-            emit!(
-                &mut *self.with_ctx(Ctx {
-                    allow_to_lowercase: true,
-                    ..self.ctx
-                }),
-                n.keyword
-            );
-        } else {
-            write_raw!(self, "not");
-        }
-
+        write_raw!(self, "not");
         space!(self);
         emit!(self, n.query);
     }
 
     #[emitter]
     fn emit_container_query_and(&mut self, n: &ContainerQueryAnd) -> Result {
-        if n.keyword.is_some() {
-            emit!(
-                &mut *self.with_ctx(Ctx {
-                    allow_to_lowercase: true,
-                    ..self.ctx
-                }),
-                n.keyword
-            );
-        } else {
-            write_raw!(self, "and");
-        }
-
+        write_raw!(self, "and");
         space!(self);
         emit!(self, n.query);
     }
 
     #[emitter]
     fn emit_container_query_or(&mut self, n: &ContainerQueryOr) -> Result {
-        if n.keyword.is_some() {
-            emit!(
-                &mut *self.with_ctx(Ctx {
-                    allow_to_lowercase: true,
-                    ..self.ctx
-                }),
-                n.keyword
-            );
-        } else {
-            write_raw!(self, "or");
-        }
-
+        write_raw!(self, "or");
         space!(self);
         emit!(self, n.query);
     }

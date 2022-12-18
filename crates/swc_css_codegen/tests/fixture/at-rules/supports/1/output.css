@@ -32,4 +32,4 @@
 @supports ((display: flex) or (display: -webkit-box) or (display: -webkit-flex) or (display: -moz-box) or (display: -ms-flexbox)) or (display: -webkit-box) {}
 @supports ((display: flex) and (display: -webkit-box) and (display: -webkit-flex) and (display: -moz-box) and (display: -ms-flexbox)) and (display: -webkit-box) {}
 @supports ((display: flex) and (display: -webkit-box) and (display: -webkit-flex) and (display: -moz-box) and (display: -ms-flexbox)) or (display: -webkit-box) {}
-@supports NOT (NOT (Transform-origin: 2px)) {}
+@supports not (not (Transform-origin: 2px)) {}
