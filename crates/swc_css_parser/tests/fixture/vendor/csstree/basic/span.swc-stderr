@@ -3411,15 +3411,7 @@
  30 |     }
     `----
 
-  x Color
-    ,-[$DIR/tests/fixture/vendor/csstree/basic/input.css:28:1]
- 28 |         --custom2: ([]) !important;
- 29 |         background: element(#id);
-    :                             ^^^
- 30 |     }
-    `----
-
-  x HexColor
+  x Hash { is_id: true, value: Atom('id' type=static), raw: "id" }
     ,-[$DIR/tests/fixture/vendor/csstree/basic/input.css:28:1]
  28 |         --custom2: ([]) !important;
  29 |         background: element(#id);

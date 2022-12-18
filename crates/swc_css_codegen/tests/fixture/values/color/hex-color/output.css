@@ -1,8 +1,8 @@
 div {
   color: #fff;
   color: #ffffff;
-  color: #FFF;
-  color: #FFFFFF;
+  color: #fff;
+  color: #ffffff;
   color: #dc143c;
   color: #ff0000;
   color: #ff0000ff;
@@ -22,6 +22,6 @@ div {
   border: thick double #32a1ce;
 }
 .bar {
-  color: #123abcFF;
-  color: #123F;
+  color: #123abcff;
+  color: #123f;
 }

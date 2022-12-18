@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 18,
+    "end": 19,
     "ctxt": 0
   },
   "rules": [
@@ -10,7 +10,7 @@
       "type": "QualifiedRule",
       "span": {
         "start": 1,
-        "end": 18,
+        "end": 19,
         "ctxt": 0
       },
       "prelude": {
@@ -74,7 +74,7 @@
         "type": "SimpleBlock",
         "span": {
           "start": 3,
-          "end": 18,
+          "end": 19,
           "ctxt": 0
         },
         "name": {
@@ -91,7 +91,7 @@
             "type": "Declaration",
             "span": {
               "start": 5,
-              "end": 17,
+              "end": 18,
               "ctxt": 0
             },
             "name": {
@@ -106,14 +106,19 @@
             },
             "value": [
               {
-                "type": "HexColor",
+                "type": "PreservedToken",
                 "span": {
                   "start": 12,
-                  "end": 16,
+                  "end": 17,
                   "ctxt": 0
                 },
-                "value": "x,",
-                "raw": "x\\,"
+                "token": {
+                  "Hash": {
+                    "is_id": true,
+                    "value": ",x",
+                    "raw": "\\2cx"
+                  }
+                }
               }
             ],
             "important": null

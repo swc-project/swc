@@ -2435,11 +2435,20 @@ where
         }
 
         match bump!(self) {
-            Token::Hash { value, raw, .. } => Ok(HexColor {
-                span,
-                value: value.to_ascii_lowercase(),
-                raw: Some(raw),
-            }),
+            Token::Hash { value, raw, .. } => {
+                if value.chars().any(|x| !x.is_ascii_hexdigit()) {
+                    return Err(Error::new(
+                        span,
+                        ErrorKind::Unexpected("character in hex color"),
+                    ));
+                }
+
+                Ok(HexColor {
+                    span,
+                    value: value.to_ascii_lowercase(),
+                    raw: Some(raw),
+                })
+            }
             _ => {
                 unreachable!()
             }

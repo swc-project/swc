@@ -1746,8 +1746,6 @@ where
             let minified = minify_hex_color(&n.value);
 
             hex_color.push_str(&minified);
-        } else if let Some(raw) = &n.raw {
-            hex_color.push_str(raw);
         } else {
             hex_color.push_str(&n.value);
         }

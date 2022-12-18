@@ -386,7 +386,7 @@ html {
   padding: 0.5em 1em;
   color: rgba(0, 0, 0, 0.8);
   border: none rgba(0, 0, 0, 0);
-  background-color: #E6E6E6;
+  background-color: #e6e6e6;
   text-decoration: none;
   border-radius: 2px;
 }
@@ -498,17 +498,17 @@ a.pure-button-selected {
 .pure-form select:focus, 
 .pure-form textarea:focus {
   outline: 0;
-  border-color: #129FEA;
+  border-color: #129fea;
 }
 .pure-form input:not([type]):focus {
   outline: 0;
-  border-color: #129FEA;
+  border-color: #129fea;
 }
 .pure-form input[type="file"]:focus, 
 .pure-form input[type="radio"]:focus, 
 .pure-form input[type="checkbox"]:focus {
-  outline: thin solid #129FEA;
-  outline: 1px auto #129FEA;
+  outline: thin solid #129fea;
+  outline: 1px auto #129fea;
 }
 .pure-form .pure-checkbox, 
 .pure-form .pure-radio {

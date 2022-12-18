@@ -106,14 +106,19 @@
             },
             "value": [
               {
-                "type": "HexColor",
+                "type": "PreservedToken",
                 "span": {
                   "start": 12,
                   "end": 19,
                   "ctxt": 0
                 },
-                "value": "hash",
-                "raw": "h\\61sh"
+                "token": {
+                  "Hash": {
+                    "is_id": true,
+                    "value": "ڊsh",
+                    "raw": "\\68ash"
+                  }
+                }
               }
             ],
             "important": null
