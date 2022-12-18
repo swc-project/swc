@@ -3,12 +3,10 @@
 @import url("test.css");
 @IMPORT url(test.css);
 @import url(test.css);
-@import url(test.css );
-@import url( test.css);
-@import url( test.css );
-@import url(
-  test.css
-);
+@import url(test.css);
+@import url(test.css);
+@import url(test.css);
+@import url(test.css);
 @import url();
 @import url("");
 @import url("");
@@ -80,13 +78,13 @@
 @import url("./test.css");
 @import "./test.css";
 @import url("./test.css");
-@import url(./test\ test.css);
-@import url(./t\65st%20test.css);
+@import url(./test test.css);
+@import url(./test%20test.css);
 @import url("./test%20test.css");
 @import url("./test%20test.css");
 @import "./test%20test.css";
 @import "./test%20test.css";
-@import url(                 test.css                      );
+@import url(test.css);
 @import nourl(test.css);
 @import "";
 @import url("!!../../helpers/string-loader.js?esModule=false!~package/tilde.css");
@@ -109,7 +107,7 @@
 @import url("something.css?foo=2&bar=1");
 @import "   ./test.css   ";
 @import url("   ./test.css   ");
-@import url(   ./test.css   );
+@import url(./test.css);
 @import "./my.scss";
 @import url("   https://fonts.googleapis.com/css?family=Roboto   ");
 @import url("!!../../helpers/string-loader.js?esModule=false!");

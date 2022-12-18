@@ -21,7 +21,7 @@
   background: green url("./img.png") xyz;
 }
 .__local__class {
-  background: green url( ./img.png ) xyz;
+  background: green url(./img.png) xyz;
 }
 .__local__class {
   background: green url(~package/img.png) url(./other-img.png) xyz;
@@ -92,8 +92,7 @@ b {
   background: green url("   ") xyz;
 }
 .__local__class {
-  background: green url(
-  ) xyz;
+  background: green url() xyz;
 }
 .__local__class {
   background: green url(https://raw.githubusercontent.com/webpack/media/master/logo/icon.png) xyz;
@@ -187,13 +186,13 @@ a {
   background-image: image-set(url("./img1x.png") 1x, "./img2x.png" 2x);
 }
 .__local__class {
-  background: url(./img\'img.png);
-  background: url(./img\'\'\'img.png);
-  background: url(./img\(img.png);
-  background: url(./img\)img.png);
-  background: url(./img\ img.png);
-  background: url(./img\'\(\)\ img.png);
-  background-image: image-set(url(./img\'\'\'img.png) 2x, url(./img\'img.png) 3x, url(./img\(img.png) 4x, url(./img\)img.png) 5x, url(./img\ img.png) 6x, url(./img\'\(\)\ img.png) 7x);
+  background: url(./img'img.png);
+  background: url(./img'''img.png);
+  background: url(./img(img.png);
+  background: url(./img)img.png);
+  background: url(./img img.png);
+  background: url(./img'() img.png);
+  background-image: image-set(url(./img'''img.png) 2x, url(./img'img.png) 3x, url(./img(img.png) 4x, url(./img)img.png) 5x, url(./img img.png) 6x, url(./img'() img.png) 7x);
 }
 .__local__class-class-class {
   background: url("./img'''img.png");
@@ -235,10 +234,10 @@ a {
   background: url("./img)img.png");
   background: url("./img img.png");
   background: url("./img.png");
-  background: url(./\69\6D\67.png);
+  background: url(./img.png);
   background: url("./img'img.png");
   background: url("./img'(%29 img.png");
-  background: url(./img\'\28%29\ img.png);
+  background: url(./img'(%29 img.png);
 }
 .__local__class {
   background: url("./something.png");
