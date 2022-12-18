@@ -1620,11 +1620,16 @@ where
             "element" | "-moz-element" => {
                 self.input.skip_ws();
 
-                let calc_sum = ComponentValue::IdSelector(self.parse()?);
+                let id_selector = self.try_parse_variable_function(
+                    |parser, _| Ok(Some(ComponentValue::IdSelector(parser.parse()?))),
+                    &mut false,
+                )?;
 
-                values.push(calc_sum);
+                if let Some(id_selector) = id_selector {
+                    values.push(id_selector);
 
-                self.input.skip_ws();
+                    self.input.skip_ws();
+                }
             }
             "selector" if self.ctx.in_supports_at_rule => {
                 self.input.skip_ws();

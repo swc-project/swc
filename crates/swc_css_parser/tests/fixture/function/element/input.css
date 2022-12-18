@@ -1,4 +1,6 @@
 a {
     background: element(#css-source) no-repeat;
+    background: element(var(--foo)) no-repeat;
     background: -moz-element(#css-source) no-repeat;
+    background: -moz-element(var(--foo)) no-repeat;
 }
