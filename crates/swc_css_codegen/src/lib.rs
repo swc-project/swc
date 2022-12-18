@@ -1498,15 +1498,9 @@ where
 
     #[emitter]
     fn emit_custom_ident(&mut self, n: &CustomIdent) -> Result {
-        if self.config.minify {
-            let serialized = serialize_ident(&n.value, n.raw.as_deref(), true);
+        let serialized = serialize_ident(&n.value, None, self.config.minify);
 
-            write_raw!(self, n.span, &serialized);
-        } else {
-            let serialized = serialize_ident(&n.value, n.raw.as_deref(), false);
-
-            write_raw!(self, n.span, &serialized);
-        }
+        write_raw!(self, n.span, &serialized);
     }
 
     #[emitter]
