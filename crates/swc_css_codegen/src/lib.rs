@@ -1993,7 +1993,7 @@ where
 
     #[emitter]
     fn emit_url_value_raw(&mut self, n: &UrlValueRaw) -> Result {
-        write_str!(self, n.span, &n.value);
+        write_str!(self, n.span, &serialize_url(&n.value));
     }
 
     #[emitter]
@@ -2689,6 +2689,50 @@ fn serialize_string(value: &str) -> String {
     }
 
     format!("\"{}\"", minified.replace('"', "\\\""))
+}
+
+fn serialize_url(value: &str) -> String {
+    let mut new_value = String::with_capacity(value.len());
+
+    for c in value.chars() {
+        match c {
+            '\x01'..='\x1F' | '\x7F' => {
+                static HEX_DIGITS: &[u8; 16] = b"0123456789abcdef";
+
+                let b3;
+                let b4;
+                let char_as_u8 = c as u8;
+
+                let bytes = if char_as_u8 > 0x0f {
+                    let high = (char_as_u8 >> 4) as usize;
+                    let low = (char_as_u8 & 0x0f) as usize;
+
+                    b4 = [b'\\', HEX_DIGITS[high], HEX_DIGITS[low], b' '];
+
+                    &b4[..]
+                } else {
+                    b3 = [b'\\', HEX_DIGITS[c as usize], b' '];
+
+                    &b3[..]
+                };
+
+                new_value.push_str(from_utf8(bytes).unwrap());
+            }
+            '(' | ')' | '"' | '\'' => {
+                new_value.push('\\');
+                new_value.push(c)
+            }
+            _ if c.is_whitespace() => {
+                new_value.push('\\');
+                new_value.push(c)
+            }
+            _ => {
+                new_value.push(c);
+            }
+        };
+    }
+
+    new_value
 }
 
 fn minify_string(value: &str) -> String {
