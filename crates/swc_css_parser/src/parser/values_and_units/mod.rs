@@ -2576,7 +2576,7 @@ where
 
                 let name = Ident {
                     span: Span::new(span.lo, span.hi - BytePos(1), Default::default()),
-                    value: function_name,
+                    value: function_name.to_ascii_lowercase(),
                     raw: Some(raw_function_name),
                 };
 
