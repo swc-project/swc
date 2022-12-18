@@ -1502,8 +1502,6 @@ where
             let serialized = serialize_ident(&n.value, n.raw.as_deref(), true);
 
             write_raw!(self, n.span, &serialized);
-        } else if let Some(raw) = &n.raw {
-            write_raw!(self, n.span, raw);
         } else {
             let serialized = serialize_ident(&n.value, n.raw.as_deref(), false);
 
