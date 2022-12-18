@@ -212,13 +212,6 @@ impl VisitMut for NormalizeTest {
         n.raw = None;
     }
 
-    fn visit_mut_important_flag(&mut self, n: &mut ImportantFlag) {
-        n.visit_mut_children_with(self);
-
-        n.value.value = n.value.value.to_lowercase().into();
-        n.value.raw = None;
-    }
-
     // TODO - we should parse only some properties as `<integer>`, but it requires
     // more work, let's postpone it to avoid breaking code
     fn visit_mut_component_value(&mut self, n: &mut ComponentValue) {
@@ -284,9 +277,14 @@ impl VisitMut for NormalizeTest {
         if let DeclarationName::Ident(name) = &mut n.name {
             name.value = name.value.to_lowercase().into();
         }
+    fn visit_mut_function(&mut self, n: &mut Function) {
+        n.visit_mut_children_with(self);
+
+        n.name.value = n.name.value.to_lowercase().into();
     }
 
     fn visit_mut_pseudo_class_selector(&mut self, n: &mut PseudoClassSelector) {
+    fn visit_mut_url(&mut self, n: &mut Url) {
         n.visit_mut_children_with(self);
 
         n.name.value = n.name.value.to_lowercase().into();
@@ -320,42 +318,6 @@ impl VisitMut for NormalizeTest {
         if n.b_raw.is_some() {
             n.b_raw = None;
         }
-    }
-
-    fn visit_mut_length(&mut self, n: &mut Length) {
-        n.visit_mut_children_with(self);
-
-        n.unit.value = n.unit.value.to_lowercase().into();
-    }
-
-    fn visit_mut_angle(&mut self, n: &mut Angle) {
-        n.visit_mut_children_with(self);
-
-        n.unit.value = n.unit.value.to_lowercase().into();
-    }
-
-    fn visit_mut_time(&mut self, n: &mut Time) {
-        n.visit_mut_children_with(self);
-
-        n.unit.value = n.unit.value.to_lowercase().into();
-    }
-
-    fn visit_mut_frequency(&mut self, n: &mut Frequency) {
-        n.visit_mut_children_with(self);
-
-        n.unit.value = n.unit.value.to_lowercase().into();
-    }
-
-    fn visit_mut_resolution(&mut self, n: &mut Resolution) {
-        n.visit_mut_children_with(self);
-
-        n.unit.value = n.unit.value.to_lowercase().into();
-    }
-
-    fn visit_mut_flex(&mut self, n: &mut Flex) {
-        n.visit_mut_children_with(self);
-
-        n.unit.value = n.unit.value.to_lowercase().into();
     }
 
     fn visit_mut_token_and_span(&mut self, n: &mut TokenAndSpan) {
@@ -741,20 +703,12 @@ fn parse_again(input: PathBuf) {
             err.to_diagnostics(&handler).emit();
         }
 
-        stylesheet.visit_mut_with(&mut DropSpan);
-        parsed.visit_mut_with(&mut DropSpan);
+        stylesheet.visit_mut_with(&mut NormalizeTest);
+        parsed.visit_mut_with(&mut NormalizeTest);
 
         assert_eq!(stylesheet, parsed);
 
         Ok(())
     })
     .unwrap();
-}
-
-struct DropSpan;
-
-impl VisitMut for DropSpan {
-    fn visit_mut_span(&mut self, n: &mut Span) {
-        *n = Default::default()
-    }
 }
