@@ -1511,49 +1511,25 @@ where
 
     #[emitter]
     fn emit_dashed_ident(&mut self, n: &DashedIdent) -> Result {
-        if self.config.minify {
-            write_raw!(self, lo_span_offset!(n.span, 2), "--");
+        write_raw!(self, lo_span_offset!(n.span, 2), "--");
 
-            let serialized = serialize_ident(&n.value, n.raw.as_deref(), true);
+        let serialized = serialize_ident(&n.value, None, self.config.minify);
 
-            write_raw!(self, n.span, &serialized);
-        } else if let Some(raw) = &n.raw {
-            write_raw!(self, n.span, raw);
-        } else {
-            write_raw!(self, lo_span_offset!(n.span, 2), "--");
-
-            let serialized = serialize_ident(&n.value, n.raw.as_deref(), false);
-
-            write_raw!(self, n.span, &serialized);
-        }
+        write_raw!(self, n.span, &serialized);
     }
 
     #[emitter]
     fn emit_extension_name(&mut self, n: &ExtensionName) -> Result {
-        if self.config.minify {
-            let serialized = serialize_ident(&n.value, n.raw.as_deref(), true);
+        let serialized = serialize_ident(&n.value, None, self.config.minify);
 
-            write_raw!(self, n.span, &serialized);
-        } else if let Some(raw) = &n.raw {
-            write_raw!(self, n.span, raw);
-        } else {
-            let serialized = serialize_ident(&n.value, n.raw.as_deref(), false);
-
-            write_raw!(self, n.span, &serialized);
-        }
+        write_raw!(self, n.span, &serialized);
     }
 
     #[emitter]
     fn emit_custom_highlight_name(&mut self, n: &CustomHighlightName) -> Result {
-        if self.config.minify {
-            let serialized = serialize_ident(&n.value, n.raw.as_deref(), true);
+        let serialized = serialize_ident(&n.value, None, self.config.minify);
 
-            write_raw!(self, n.span, &serialized);
-        } else {
-            let serialized = serialize_ident(&n.value, n.raw.as_deref(), true);
-
-            write_raw!(self, n.span, &serialized);
-        }
+        write_raw!(self, n.span, &serialized);
     }
 
     #[emitter]

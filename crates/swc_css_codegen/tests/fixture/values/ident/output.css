@@ -1,11 +1,11 @@
 :root {
-  --fg-c\olor: blue;
-  --fg-\color-other: blue;
+  --fg-color: blue;
+  --fg-\c olor-other: blue;
   --Foo: blue;
 }
 .box {
   back\ground-color: \rebeccap\urple;
-  back\ground-color: var(--fg-c\olor);
+  back\ground-color: var(--fg-color);
   border-radius: 10px;
   width: 100\p\x;
   height: 100px;
