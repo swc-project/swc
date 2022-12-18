@@ -1993,25 +1993,7 @@ where
 
     #[emitter]
     fn emit_url_value_raw(&mut self, n: &UrlValueRaw) -> Result {
-        if self.config.minify {
-            let mut url = String::with_capacity(n.value.len());
-
-            url.push_str(&n.value);
-
-            write_str!(self, n.span, &url);
-        } else if let Some(raw) = &n.raw {
-            let mut url = String::with_capacity(raw.len());
-
-            url.push_str(raw);
-
-            write_str!(self, n.span, &url);
-        } else {
-            let mut url = String::with_capacity(n.value.len());
-
-            url.push_str(&n.value);
-
-            write_str!(self, n.span, &url);
-        }
+        write_str!(self, n.span, &n.value);
     }
 
     #[emitter]
@@ -2693,13 +2675,11 @@ fn serialize_string(value: &str) -> String {
                 minified.push_str(from_utf8(bytes).unwrap());
             }
             // If the character is '"' (U+0022) or "\" (U+005C), the escaped character.
-            // We avoid escaping `"` to better string compression - we count the quantity of
-            // quotes to choose the best default quotes
             '\\' => {
                 minified.push_str("\\\\");
             }
             '"' => {
-                minified.push_str("\"");
+                minified.push('\"');
             }
             // Otherwise, the character itself.
             _ => {

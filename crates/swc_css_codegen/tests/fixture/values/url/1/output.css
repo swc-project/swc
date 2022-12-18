@@ -18,19 +18,11 @@ div {
   background: src("http://www.example.com/pinkish.gif");
   background: SRC("http://www.example.com/pinkish.gif");
   background: src(var(--foo));
-  background: url(   https://example.com/image.png   );
-  background: url(   https://example.com/image.png   );
-  background: url(   
-    https://example.com/image.png
-    );
-  background: url(
-
-
-https://example.com/image.png
-
-
-    );
-  background: url(image.png\D799);
+  background: url(https://example.com/image.png);
+  background: url(https://example.com/image.png);
+  background: url(https://example.com/image.png);
+  background: url(https://example.com/image.png);
+  background: url(image.png힙);
 }
 div {
   background: url(foo.img) red;
