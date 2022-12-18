@@ -1596,10 +1596,7 @@ impl VisitMut for Prefixer {
             }};
         }
 
-        let property_name: &str = name;
-        let property_name = name.to_ascii_lowercase();
-
-        match property_name {
+        match *name {
             js_word!("appearance") => {
                 add_declaration!(Prefix::Webkit, js_word!("-webkit-appearance"), None);
                 add_declaration!(Prefix::Moz, js_word!("-moz-appearance"), None);
@@ -3094,7 +3091,7 @@ impl VisitMut for Prefixer {
             | js_word!("grid-auto-columns")
             | js_word!("grid-auto-rows") => {
                 let is_grid_property = matches!(
-                    property_name,
+                    *name,
                     js_word!("grid")
                         | js_word!("grid-template")
                         | js_word!("grid-template-rows")
