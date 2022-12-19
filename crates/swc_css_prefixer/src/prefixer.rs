@@ -3188,6 +3188,10 @@ impl VisitMut for Prefixer {
                 add_declaration!(Prefix::O, "-o-object-position", None);
             }
 
+            "overflow-wrap" => {
+                add_declaration!("word-wrap", None);
+            }
+
             "tab-size" => {
                 add_declaration!(Prefix::Moz, "-moz-tab-size", None);
                 add_declaration!(Prefix::O, "-o-tab-size", None);
