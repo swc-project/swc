@@ -364,7 +364,25 @@ impl Pure<'_> {
         }
     }
 
-    pub(super) fn optimize_opt_chain(&mut self, e: &mut Expr) {}
+    pub(super) fn optimize_opt_chain(&mut self, e: &mut Expr) {
+        let opt = match e {
+            Expr::OptChain(c) => c,
+            _ => return,
+        };
+
+        if let OptChainBase::Member(base) = &mut opt.base {
+            if base.obj.is_array() || base.obj.is_object() {
+                self.changed = true;
+                report_change!("Optimized optional chaining expression where object is not null");
+
+                *e = Expr::Member(MemberExpr {
+                    span: opt.span,
+                    obj: base.obj.take(),
+                    prop: base.prop.take(),
+                });
+            }
+        }
+    }
 
     /// new Array(...) -> Array(...)
     pub(super) fn optimize_builtin_object(&mut self, e: &mut Expr) {
