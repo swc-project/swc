@@ -43,6 +43,9 @@
 
 - **(css/prefixer)** Support font-face format (#6644) ([199ac74](https://github.com/swc-project/swc/commit/199ac7461814553bab97c1f0f7b1c89f34897122))
 
+
+- **(css/prefixer)** Support `word-wrap` (#6679) ([46241b4](https://github.com/swc-project/swc/commit/46241b4e554b7a6ee090db8e35acd0151e8caf2b))
+
 ### Performance
 
 
