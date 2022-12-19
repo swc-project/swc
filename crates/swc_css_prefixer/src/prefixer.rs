@@ -3409,6 +3409,13 @@ impl VisitMut for Prefixer {
             js_word!("tab-size") => {
                 add_declaration!(Prefix::Moz, js_word!("-moz-tab-size"), None);
                 add_declaration!(Prefix::O, js_word!("-o-tab-size"), None);
+            "overflow-wrap" => {
+                add_declaration!("word-wrap", None);
+            }
+
+            "tab-size" => {
+                add_declaration!(Prefix::Moz, "-moz-tab-size", None);
+                add_declaration!(Prefix::O, "-o-tab-size", None);
             }
 
             js_word!("hyphens") => {
