@@ -466,32 +466,19 @@ impl Compressor {
                 value,
                 ..
             })) if matches!(&*name.value, "hwb") => {
-                let hsla: Vec<_> = value
-                    .iter()
-                    .filter(|n| {
-                        !matches!(
-                            n,
-                            ComponentValue::Delimiter(box Delimiter {
-                                value: DelimiterValue::Comma | DelimiterValue::Solidus,
-                                ..
-                            })
-                        )
-                    })
-                    .collect();
-
-                let h = match self.get_hue(hsla.get(0)) {
+                let h = match self.get_hue(value.get(0).as_ref()) {
                     Some(value) => value,
                     _ => return,
                 };
-                let w = match self.get_percentage(hsla.get(1)) {
+                let w = match self.get_percentage(value.get(1).as_ref()) {
                     Some(value) => value,
                     _ => return,
                 };
-                let b = match self.get_percentage(hsla.get(2)) {
+                let b = match self.get_percentage(value.get(2).as_ref()) {
                     Some(value) => value,
                     _ => return,
                 };
-                let a = match self.get_alpha_value(hsla.get(3)) {
+                let a = match self.get_alpha_value(value.get(4).as_ref()) {
                     Some(value) => value,
                     _ => return,
                 };

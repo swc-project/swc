@@ -8,7 +8,7 @@ use swc_css_utils::{angle_to_deg, hwb_to_rgb, to_rgb255};
 use crate::compiler::Compiler;
 
 impl Compiler {
-    fn get_hue(&self, hue: Option<&&ComponentValue>) -> Option<f64> {
+    fn get_hue(&self, hue: Option<&ComponentValue>) -> Option<f64> {
         match hue {
             Some(ComponentValue::Hue(box hue)) => {
                 let mut value = match hue {
@@ -37,7 +37,7 @@ impl Compiler {
         }
     }
 
-    fn get_percentage(&self, percentage: Option<&&ComponentValue>) -> Option<f64> {
+    fn get_percentage(&self, percentage: Option<&ComponentValue>) -> Option<f64> {
         match percentage {
             Some(ComponentValue::Percentage(box Percentage {
                 value: Number { value, .. },
@@ -60,7 +60,7 @@ impl Compiler {
         }
     }
 
-    fn get_alpha_value(&self, alpha_value: Option<&&ComponentValue>) -> Option<f64> {
+    fn get_alpha_value(&self, alpha_value: Option<&ComponentValue>) -> Option<f64> {
         match alpha_value {
             Some(ComponentValue::AlphaValue(box AlphaValue::Number(Number { value, .. }))) => {
                 if *value > 1.0 {
@@ -99,33 +99,19 @@ impl Compiler {
                 return;
             }
 
-            let hsla: Vec<_> = function
-                .value
-                .iter()
-                .filter(|n| {
-                    !matches!(
-                        n,
-                        ComponentValue::Delimiter(box Delimiter {
-                            value: DelimiterValue::Comma | DelimiterValue::Solidus,
-                            ..
-                        })
-                    )
-                })
-                .collect();
-
-            let h = match self.get_hue(hsla.get(0)) {
+            let h = match self.get_hue(function.value.get(0)) {
                 Some(value) => value,
                 _ => return,
             };
-            let w = match self.get_percentage(hsla.get(1)) {
+            let w = match self.get_percentage(function.value.get(1)) {
                 Some(value) => value,
                 _ => return,
             };
-            let b = match self.get_percentage(hsla.get(2)) {
+            let b = match self.get_percentage(function.value.get(2)) {
                 Some(value) => value,
                 _ => return,
             };
-            let a = match self.get_alpha_value(hsla.get(3)) {
+            let a = match self.get_alpha_value(function.value.get(4)) {
                 Some(value) => value,
                 _ => return,
             };
