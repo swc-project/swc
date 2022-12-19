@@ -47,6 +47,9 @@
 - **(css/parser)** Normalize URL functions (#6675) ([c01464e](https://github.com/swc-project/swc/commit/c01464e4525cb8c7d4b9f000d8b76d72e8e7531a))
 
 
+- **(css/parser)** Normalize at-rule names (#6676) ([7f8ba9c](https://github.com/swc-project/swc/commit/7f8ba9c22c9910e03a3b6122dd4ca4324314bbb5))
+
+
 - **(css/prefixer)** Support font-face format (#6644) ([199ac74](https://github.com/swc-project/swc/commit/199ac7461814553bab97c1f0f7b1c89f34897122))
 
 
