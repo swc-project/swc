@@ -3955,6 +3955,30 @@
       "samsung": "11.2"
     }
   ],
+  "overflow": [
+    {
+      "chrome": "4",
+      "edge": "12",
+      "safari": "3.1",
+      "firefox": "2",
+      "opera": "10",
+      "ie": "6",
+      "ios": "3.2",
+      "samsung": "4",
+      "android": "2.1"
+    },
+    {
+      "chrome": "67",
+      "edge": "17",
+      "safari": "13",
+      "firefox": "60",
+      "opera": "54",
+      "ie": "11",
+      "ios": "13.3",
+      "samsung": "14.0",
+      "android": "4.4.4"
+    }
+  ],
   "display:multi-keyword-values": [
     {
       "chrome": "4",
