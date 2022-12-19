@@ -1,4 +1,4 @@
-use swc_common::{Spanned, DUMMY_SP};
+use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_css_ast::{
     AbsoluteColorBase, AtRule, ComponentValue, CompoundSelector, MediaAnd, MediaCondition,
     MediaConditionAllType, MediaConditionWithoutOr, MediaInParens, MediaQuery, Rule,
@@ -7,7 +7,7 @@ use swc_css_ast::{
 use swc_css_visit::{VisitMut, VisitMutWith};
 
 use self::custom_media::CustomMediaHandler;
-use crate::feature::Features;
+use crate::{feature::Features, utils::rule_to_component_value};
 
 mod color_alpha_parameter;
 mod color_hex_alpha;
@@ -16,6 +16,7 @@ mod color_space_separated_parameters;
 mod custom_media;
 mod legacy_rgb_and_hsl;
 mod media_query_ranges;
+mod nesting;
 mod selector_not;
 mod utils;
 
@@ -88,7 +89,29 @@ impl VisitMut for Compiler {
     }
 
     fn visit_mut_rules(&mut self, n: &mut Vec<Rule>) {
-        n.visit_mut_children_with(self);
+        if self.c.process.contains(Features::NESTING) {
+            let mut new = vec![];
+
+            for n in n.take() {
+                match n {
+                    Rule::QualifiedRule(mut n) => {
+                        let mut rules = self.extract_nested_rules(&mut n);
+
+                        rules.visit_mut_with(self);
+
+                        new.push(Rule::QualifiedRule(n));
+                        new.extend(rules);
+                    }
+                    _ => {
+                        new.push(n);
+                    }
+                }
+            }
+
+            *n = new;
+        } else {
+            n.visit_mut_children_with(self);
+        }
 
         if self.c.process.contains(Features::CUSTOM_MEDIA) {
             self.custom_media.process_rules(n);
@@ -147,6 +170,33 @@ impl VisitMut for Compiler {
 
         if self.c.process.contains(Features::COLOR_HEX_ALPHA) {
             self.process_color_hex_alpha(n);
+        }
+    }
+
+    fn visit_mut_component_values(&mut self, n: &mut Vec<ComponentValue>) {
+        if self.c.process.contains(Features::NESTING) {
+            let mut new = vec![];
+
+            for n in n.take() {
+                match n {
+                    ComponentValue::QualifiedRule(mut n) => {
+                        let mut rules = self.extract_nested_rules(&mut n);
+
+                        rules.visit_mut_with(self);
+
+                        new.push(ComponentValue::QualifiedRule(n));
+                        new.extend(rules.into_iter().map(rule_to_component_value));
+                    }
+
+                    _ => {
+                        new.push(n);
+                    }
+                }
+            }
+
+            *n = new;
+        } else {
+            n.visit_mut_children_with(self);
         }
     }
 

@@ -2,15 +2,10 @@ use std::iter::once;
 
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_css_ast::*;
-use swc_css_visit::{VisitMut, VisitMutWith};
 
-pub fn nesting() -> impl VisitMut {
-    NestingHandler {}
-}
+use crate::{compiler::Compiler, utils::rule_to_component_value};
 
-struct NestingHandler {}
-
-impl NestingHandler {
+impl Compiler {
     fn process_subclass_selectors(
         &mut self,
         prelude: &SelectorList,
@@ -225,7 +220,7 @@ impl NestingHandler {
         }
     }
 
-    fn extract_nested_rules(&mut self, rule: &mut QualifiedRule) -> Vec<Rule> {
+    pub(crate) fn extract_nested_rules(&mut self, rule: &mut QualifiedRule) -> Vec<Rule> {
         let mut nested_rules = vec![];
         let mut block_values = vec![];
 
@@ -307,55 +302,4 @@ impl NestingHandler {
 
         nested_rules
     }
-}
-
-impl VisitMut for NestingHandler {
-    fn visit_mut_rules(&mut self, n: &mut Vec<Rule>) {
-        let mut new = vec![];
-
-        for n in n.take() {
-            match n {
-                Rule::QualifiedRule(mut n) => {
-                    let mut rules = self.extract_nested_rules(&mut n);
-
-                    rules.visit_mut_with(self);
-
-                    new.push(Rule::QualifiedRule(n));
-                    new.extend(rules);
-                }
-                _ => {
-                    new.push(n);
-                }
-            }
-        }
-
-        *n = new;
-    }
-
-    fn visit_mut_component_values(&mut self, n: &mut Vec<ComponentValue>) {
-        let mut new = vec![];
-
-        for n in n.take() {
-            match n {
-                ComponentValue::QualifiedRule(mut n) => {
-                    let mut rules = self.extract_nested_rules(&mut n);
-
-                    rules.visit_mut_with(self);
-
-                    new.push(ComponentValue::QualifiedRule(n));
-                    new.extend(rules.into_iter().map(rule_to_component_value));
-                }
-
-                _ => {
-                    new.push(n);
-                }
-            }
-        }
-
-        *n = new;
-    }
-}
-
-fn rule_to_component_value(rule: Rule) -> ComponentValue {
-    rule.into()
 }
