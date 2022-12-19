@@ -16,8 +16,31 @@ use tracing::debug;
 use super::reverse_map::ReverseMap;
 use crate::rename::Renamer;
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub(crate) enum ScopeKind {
+    Fn,
+    Block,
+}
+
+impl ScopeKind {
+    pub(crate) fn is_fn(&self) -> bool {
+        self == &Self::Fn
+    }
+
+    pub(crate) fn is_block(&self) -> bool {
+        self == &Self::Block
+    }
+}
+
+impl Default for ScopeKind {
+    fn default() -> Self {
+        Self::Fn
+    }
+}
+
 #[derive(Debug, Default)]
 pub(crate) struct Scope {
+    pub(super) kind: ScopeKind,
     pub(super) data: ScopeData,
 
     pub(super) children: Vec<Scope>,

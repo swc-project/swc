@@ -1,7 +1,9 @@
+use std::mem::take;
+
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
-use self::scope::Scope;
+use self::scope::{Scope, ScopeKind};
 
 mod reverse_map;
 pub(super) mod scope;
@@ -9,34 +11,77 @@ pub(super) mod scope;
 #[derive(Debug, Default)]
 pub(super) struct Analyzer {
     pub is_pat_decl: bool,
-
+    pub var_belong_to_fn_scope: bool,
+    pub in_catch_params: bool,
     pub scope: Scope,
+    /// If we try add variables declared by `var` to the block scope,
+    /// variables will be added to `hoisted_vars` and merged to latest
+    /// function scope in the end.
+    pub hoisted_vars: Vec<Id>,
 }
 
 impl Analyzer {
-    fn add_decl(&mut self, id: Id) {
-        self.scope.add_decl(&id);
+    fn add_decl(&mut self, id: Id, belong_to_fn_scope: bool) {
+        if belong_to_fn_scope {
+            match self.scope.kind {
+                ScopeKind::Fn => {
+                    self.scope.add_decl(&id);
+                }
+                ScopeKind::Block => self.hoisted_vars.push(id),
+            }
+        } else {
+            self.scope.add_decl(&id);
+        }
     }
 
     fn add_usage(&mut self, id: Id) {
         self.scope.add_usage(&id);
     }
 
-    fn with_scope<F>(&mut self, op: F)
+    fn with_scope<F>(&mut self, kind: ScopeKind, op: F)
     where
         F: FnOnce(&mut Analyzer),
     {
         {
             let mut v = Analyzer {
                 scope: Scope {
+                    kind,
                     ..Default::default()
                 },
                 is_pat_decl: self.is_pat_decl,
+                var_belong_to_fn_scope: false,
+                in_catch_params: false,
+                hoisted_vars: Default::default(),
             };
 
             op(&mut v);
-
+            if !v.hoisted_vars.is_empty() {
+                debug_assert!(v.scope.kind.is_block());
+                match self.scope.kind {
+                    ScopeKind::Fn => {
+                        v.hoisted_vars
+                            .into_iter()
+                            .for_each(|id| self.add_decl(id, true));
+                    }
+                    ScopeKind::Block => {
+                        self.hoisted_vars.extend(v.hoisted_vars);
+                    }
+                }
+            }
             self.scope.children.push(v.scope);
+        }
+    }
+
+    fn with_fn_scope<F>(&mut self, op: F)
+    where
+        F: FnOnce(&mut Analyzer),
+    {
+        self.with_scope(ScopeKind::Fn, op)
+    }
+
+    fn visit_fn_body_within_same_scope(&mut self, body: &Option<BlockStmt>) {
+        if let Some(body) = &body {
+            body.visit_children_with(self);
         }
     }
 }
@@ -45,7 +90,7 @@ impl Visit for Analyzer {
     noop_visit_type!();
 
     fn visit_arrow_expr(&mut self, e: &ArrowExpr) {
-        self.with_scope(|v| {
+        self.with_fn_scope(|v| {
             let old = v.is_pat_decl;
             v.is_pat_decl = true;
             e.params.visit_with(v);
@@ -59,34 +104,40 @@ impl Visit for Analyzer {
         p.visit_children_with(self);
 
         if self.is_pat_decl {
-            self.add_decl(p.key.to_id())
+            self.add_decl(p.key.to_id(), self.var_belong_to_fn_scope)
         } else {
             self.add_usage(p.key.to_id())
         }
     }
 
+    // Need to avoid crating extra block scope
     fn visit_catch_clause(&mut self, n: &CatchClause) {
-        let old = self.is_pat_decl;
+        self.with_scope(ScopeKind::Block, |v| {
+            let old = v.is_pat_decl;
+            let old_in_catch_params = v.in_catch_params;
 
-        self.is_pat_decl = false;
-        n.body.visit_with(self);
+            v.is_pat_decl = false;
+            n.body.visit_children_with(v);
 
-        self.is_pat_decl = true;
-        n.param.visit_with(self);
+            v.is_pat_decl = true;
+            v.in_catch_params = true;
+            n.param.visit_with(v);
 
-        self.is_pat_decl = old;
+            v.is_pat_decl = old;
+            v.in_catch_params = old_in_catch_params;
+        })
     }
 
     fn visit_class_decl(&mut self, c: &ClassDecl) {
-        self.add_decl(c.ident.to_id());
+        self.add_decl(c.ident.to_id(), false);
 
         c.class.visit_with(self);
     }
 
     fn visit_class_expr(&mut self, c: &ClassExpr) {
-        self.with_scope(|v| {
+        self.with_fn_scope(|v| {
             if let Some(id) = &c.ident {
-                v.add_decl(id.to_id());
+                v.add_decl(id.to_id(), false);
             }
 
             c.class.visit_with(v);
@@ -96,14 +147,18 @@ impl Visit for Analyzer {
     fn visit_class_method(&mut self, f: &ClassMethod) {
         f.key.visit_with(self);
 
-        self.with_scope(|v| {
-            f.function.visit_with(v);
+        self.with_fn_scope(|v| {
+            f.function.decorators.visit_with(v);
+            f.function.params.visit_with(v);
+            v.visit_fn_body_within_same_scope(&f.function.body);
         })
     }
 
     fn visit_constructor(&mut self, f: &Constructor) {
-        self.with_scope(|v| {
-            f.visit_children_with(v);
+        self.with_fn_scope(|v| {
+            f.key.visit_with(v);
+            f.params.visit_with(v);
+            v.visit_fn_body_within_same_scope(&f.body);
         })
     }
 
@@ -111,20 +166,22 @@ impl Visit for Analyzer {
         match d {
             DefaultDecl::Class(c) => {
                 if let Some(id) = &c.ident {
-                    self.add_decl(id.to_id());
+                    self.add_decl(id.to_id(), false);
                 }
 
-                self.with_scope(|v| {
+                self.with_fn_scope(|v| {
                     c.class.visit_with(v);
                 })
             }
             DefaultDecl::Fn(f) => {
                 if let Some(id) = &f.ident {
-                    self.add_decl(id.to_id());
+                    self.add_decl(id.to_id(), true);
                 }
 
-                self.with_scope(|v| {
-                    f.function.visit_with(v);
+                self.with_fn_scope(|v| {
+                    f.function.decorators.visit_with(v);
+                    f.function.params.visit_with(v);
+                    v.visit_fn_body_within_same_scope(&f.function.body);
                 })
             }
             DefaultDecl::TsInterfaceDecl(_) => {}
@@ -154,38 +211,46 @@ impl Visit for Analyzer {
     }
 
     fn visit_fn_decl(&mut self, f: &FnDecl) {
-        self.add_decl(f.ident.to_id());
+        self.add_decl(f.ident.to_id(), true);
 
-        self.with_scope(|v| {
-            f.function.visit_with(v);
+        self.with_fn_scope(|v| {
+            f.function.decorators.visit_with(v);
+            f.function.params.visit_with(v);
+            // WARN: Option<BlockStmt>::visit_mut_children_wth
+            // is not same with BlockStmt::visit_mut_children_wth
+            v.visit_fn_body_within_same_scope(&f.function.body);
         })
     }
 
     fn visit_fn_expr(&mut self, f: &FnExpr) {
         if let Some(id) = &f.ident {
-            self.with_scope(|v| {
-                v.add_decl(id.to_id());
-                v.with_scope(|v| {
-                    f.function.visit_with(v);
+            self.with_fn_scope(|v| {
+                v.add_decl(id.to_id(), true);
+                v.with_fn_scope(|v| {
+                    f.function.decorators.visit_with(v);
+                    f.function.params.visit_with(v);
+                    v.visit_fn_body_within_same_scope(&f.function.body);
                 });
             })
         } else {
-            self.with_scope(|v| {
-                f.function.visit_with(v);
+            self.with_fn_scope(|v| {
+                f.function.decorators.visit_with(v);
+                f.function.params.visit_with(v);
+                v.visit_fn_body_within_same_scope(&f.function.body);
             })
         }
     }
 
     fn visit_import_default_specifier(&mut self, n: &ImportDefaultSpecifier) {
-        self.add_decl(n.local.to_id());
+        self.add_decl(n.local.to_id(), true);
     }
 
     fn visit_import_named_specifier(&mut self, n: &ImportNamedSpecifier) {
-        self.add_decl(n.local.to_id());
+        self.add_decl(n.local.to_id(), true);
     }
 
     fn visit_import_star_as_specifier(&mut self, n: &ImportStarAsSpecifier) {
-        self.add_decl(n.local.to_id());
+        self.add_decl(n.local.to_id(), true);
     }
 
     fn visit_member_expr(&mut self, e: &MemberExpr) {
@@ -199,8 +264,10 @@ impl Visit for Analyzer {
     fn visit_method_prop(&mut self, f: &MethodProp) {
         f.key.visit_with(self);
 
-        self.with_scope(|v| {
-            f.function.visit_with(v);
+        self.with_fn_scope(|v| {
+            f.function.decorators.visit_with(v);
+            f.function.params.visit_with(v);
+            v.visit_fn_body_within_same_scope(&f.function.body);
         })
     }
 
@@ -214,7 +281,11 @@ impl Visit for Analyzer {
 
     fn visit_param(&mut self, e: &Param) {
         let old = self.is_pat_decl;
+        let old_need_hoisted = self.var_belong_to_fn_scope;
 
+        // Params belong to function scope.
+        // Params in catch clause belong to block scope
+        self.var_belong_to_fn_scope = !self.in_catch_params;
         self.is_pat_decl = false;
         e.decorators.visit_with(self);
 
@@ -222,6 +293,7 @@ impl Visit for Analyzer {
         e.pat.visit_with(self);
 
         self.is_pat_decl = old;
+        self.var_belong_to_fn_scope = old_need_hoisted
     }
 
     fn visit_pat(&mut self, e: &Pat) {
@@ -229,7 +301,7 @@ impl Visit for Analyzer {
 
         if let Pat::Ident(i) = e {
             if self.is_pat_decl {
-                self.add_decl(i.to_id())
+                self.add_decl(i.to_id(), self.var_belong_to_fn_scope)
             } else {
                 self.add_usage(i.to_id())
             }
@@ -252,7 +324,6 @@ impl Visit for Analyzer {
 
     fn visit_var_declarator(&mut self, v: &VarDeclarator) {
         let old = self.is_pat_decl;
-
         self.is_pat_decl = true;
         v.name.visit_with(self);
 
@@ -260,5 +331,24 @@ impl Visit for Analyzer {
         v.init.visit_with(self);
 
         self.is_pat_decl = old;
+    }
+
+    fn visit_var_decl(&mut self, n: &VarDecl) {
+        let old_need_hoisted = self.var_belong_to_fn_scope;
+        self.var_belong_to_fn_scope = n.kind == VarDeclKind::Var;
+        n.visit_children_with(self);
+        self.var_belong_to_fn_scope = old_need_hoisted;
+    }
+
+    fn visit_block_stmt(&mut self, n: &BlockStmt) {
+        self.with_scope(ScopeKind::Block, |v| n.visit_children_with(v))
+    }
+
+    fn visit_block_stmt_or_expr(&mut self, n: &BlockStmtOrExpr) {
+        match n {
+            // This avoid crating extra block scope for arrow function
+            BlockStmtOrExpr::BlockStmt(n) => n.visit_children_with(self),
+            BlockStmtOrExpr::Expr(n) => n.visit_with(self),
+        }
     }
 }
