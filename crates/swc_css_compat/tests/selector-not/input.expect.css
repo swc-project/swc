@@ -2,7 +2,7 @@ body {
   order: 1;
 }
 body, 
-Not {
+not {
   order: 2;
 }
 em[attr=:not],
@@ -23,7 +23,7 @@ em[not="abc"] {
 :not(a):not(b) {
   order: 7;
 }
-:nOt(a):nOt(b) {
+:not(a):not(b) {
   order: 7.1;
 }
 tag:not(.class):not(.class2) {
