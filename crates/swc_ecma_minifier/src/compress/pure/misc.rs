@@ -364,6 +364,8 @@ impl Pure<'_> {
         }
     }
 
+    pub(super) fn optimize_opt_chain(&mut self, e: &mut Expr) {}
+
     /// new Array(...) -> Array(...)
     pub(super) fn optimize_builtin_object(&mut self, e: &mut Expr) {
         if !self.options.pristine_globals {
