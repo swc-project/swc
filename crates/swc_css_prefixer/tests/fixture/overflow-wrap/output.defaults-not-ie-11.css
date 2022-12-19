@@ -1,0 +1,10 @@
+.someClass {
+  overflow-wrap: break-word;
+}
+.anotherClass {
+  font-size: 1rem;
+  overflow-wrap: break-word;
+}
+main {
+  overflow-wrap: normal;
+}
