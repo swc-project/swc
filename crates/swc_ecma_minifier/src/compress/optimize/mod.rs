@@ -2184,6 +2184,7 @@ where
             let ctx = Ctx {
                 in_obj_of_non_computed_member: !n.prop.is_computed(),
                 is_exact_lhs_of_assign: false,
+                is_update_arg: false,
                 ..self.ctx
             };
             n.obj.visit_mut_with(&mut *self.with_ctx(ctx));
@@ -2192,6 +2193,7 @@ where
             let ctx = Ctx {
                 is_exact_lhs_of_assign: false,
                 is_lhs_of_assign: false,
+                is_update_arg: false,
                 ..self.ctx
             };
             c.visit_mut_with(&mut *self.with_ctx(ctx));
