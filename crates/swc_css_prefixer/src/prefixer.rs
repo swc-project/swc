@@ -3567,8 +3567,6 @@ impl VisitMut for Prefixer {
                 }
             }
 
-            // TODO handle `align-content` and `justify-content` for very old browsers (for all
-            // `place-*`)
             "place-content" if should_prefix("place-content", self.env, false) => {
                 match (n.value.get(0), n.value.get(1)) {
                     (Some(left), Some(right)) => {
