@@ -1,12 +1,9 @@
 use swc_atoms::{js_word, JsWord};
 use swc_common::DUMMY_SP;
 use swc_css_ast::*;
-use swc_css_utils::{hsl_to_rgb, hwb_to_rgb, to_rgb255, NAMED_COLORS};
+use swc_css_utils::{angle_to_deg, hsl_to_rgb, hwb_to_rgb, to_rgb255, NAMED_COLORS};
 
-use super::{
-    angle::{get_angle_type, to_deg},
-    Compressor,
-};
+use super::Compressor;
 use crate::compressor::alpha_value::compress_alpha_value;
 
 fn compress_alpha_in_hex(value: &JsWord) -> Option<&str> {
@@ -268,14 +265,7 @@ impl Compressor {
                         value: Number { value, .. },
                         unit: Ident { value: unit, .. },
                         ..
-                    }) => {
-                        let angel_type = match get_angle_type(unit) {
-                            Some(angel_type) => angel_type,
-                            _ => return None,
-                        };
-
-                        to_deg(*value, angel_type)
-                    }
+                    }) => angle_to_deg(*value, unit),
                 };
 
                 value %= 360.0;

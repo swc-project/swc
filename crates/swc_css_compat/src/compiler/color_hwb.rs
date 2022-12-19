@@ -1,39 +1,11 @@
-use std::f64::consts::PI;
-
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::js_word;
 use swc_css_ast::{
     AbsoluteColorBase, AlphaValue, Angle, ComponentValue, Delimiter, DelimiterValue, Hue, Ident,
     Number, Percentage,
 };
-use swc_css_utils::{hwb_to_rgb, to_rgb255};
+use swc_css_utils::{angle_to_deg, hwb_to_rgb, to_rgb255};
 
 use crate::compiler::Compiler;
-
-pub(crate) enum AngleType {
-    Deg,
-    Grad,
-    Rad,
-    Turn,
-}
-
-pub(crate) fn to_deg(value: f64, from: AngleType) -> f64 {
-    match from {
-        AngleType::Deg => value,
-        AngleType::Grad => value * 180.0 / 200.0,
-        AngleType::Turn => value * 360.0,
-        AngleType::Rad => value * 180.0 / PI,
-    }
-}
-
-fn get_angle_type(unit: &JsWord) -> Option<AngleType> {
-    match *unit {
-        js_word!("deg") => Some(AngleType::Deg),
-        js_word!("grad") => Some(AngleType::Grad),
-        js_word!("rad") => Some(AngleType::Rad),
-        js_word!("turn") => Some(AngleType::Turn),
-        _ => None,
-    }
-}
 
 impl Compiler {
     fn get_hue(&self, hue: Option<&&ComponentValue>) -> Option<f64> {
@@ -45,14 +17,7 @@ impl Compiler {
                         value: Number { value, .. },
                         unit: Ident { value: unit, .. },
                         ..
-                    }) => {
-                        let angel_type = match get_angle_type(unit) {
-                            Some(angel_type) => angel_type,
-                            _ => return None,
-                        };
-
-                        to_deg(*value, angel_type)
-                    }
+                    }) => angle_to_deg(*value, unit),
                 };
 
                 value %= 360.0;

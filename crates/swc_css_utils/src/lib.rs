@@ -1,10 +1,10 @@
 #![deny(clippy::all)]
 
-use std::{borrow::Cow, char::REPLACEMENT_CHARACTER, str};
+use std::{borrow::Cow, char::REPLACEMENT_CHARACTER, f64::consts::PI, str};
 
 use once_cell::sync::Lazy;
 use serde::{Deserialize, Serialize};
-use swc_atoms::JsWord;
+use swc_atoms::{js_word, JsWord};
 use swc_common::collections::AHashMap;
 use swc_css_ast::*;
 use swc_css_visit::{VisitMut, VisitMutWith};
@@ -401,6 +401,18 @@ pub fn hex_to_rgba(hex: &str) -> (u8, u8, u8, f64) {
 
         _ => {
             unreachable!()
+        }
+    }
+}
+
+pub fn angle_to_deg(value: f64, from: &JsWord) -> f64 {
+    match *from {
+        js_word!("deg") => value,
+        js_word!("grad") => value * 180.0 / 200.0,
+        js_word!("turn") => value * 360.0,
+        js_word!("rad") => value * 180.0 / PI,
+        _ => {
+            unreachable!("Unknown angle type: {:?}", from);
         }
     }
 }
