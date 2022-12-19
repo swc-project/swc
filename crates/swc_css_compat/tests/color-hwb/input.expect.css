@@ -1,0 +1,13 @@
+.test-hwb {
+  color: hwb(194 0% 0%);
+  color: hwb(194 0% 0% / .5);
+  color: hwb(0 10% 90%);
+  color: hwb(0 20% 80%);
+  color: hwb(0 30% 70%);
+  color: hwb(0 40% 60%);
+  color: hwb(0 50% 50%);
+  color: hwb(0 60% 40%);
+}
+.test-ignore {
+  color: hwb(194, 0%, 0%, .5);
+}

@@ -11,6 +11,7 @@ use crate::feature::Features;
 
 mod color_alpha_parameter;
 mod color_hex_alpha;
+mod color_hwb;
 mod color_space_separated_parameters;
 mod custom_media;
 mod legacy_rgb_and_hsl;
@@ -171,6 +172,10 @@ impl VisitMut for Compiler {
 
         if process.contains(Features::COLOR_LEGACY_RGB_AND_HSL) {
             self.process_rgb_and_hsl(n);
+        }
+
+        if process.contains(Features::COLOR_HWB) {
+            self.process_color_hwb(n);
         }
     }
 }
