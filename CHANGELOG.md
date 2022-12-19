@@ -8,6 +8,9 @@
 - **(css/minifier)** Don't remove custom variables with different case (#6655) ([dd7280d](https://github.com/swc-project/swc/commit/dd7280d5bda960292bf5f4e12816d5a340277222))
 
 
+- **(css/minifier)** Fix a bug with a modern hash (#6664) ([1d3e06a](https://github.com/swc-project/swc/commit/1d3e06aa886ffd8b18044c42a899fc3c780a6179))
+
+
 - **(es/minifier)** Abort IIFE invoker completely on eval (#6659) ([bb9fab8](https://github.com/swc-project/swc/commit/bb9fab8d0358262b8236c372d62660a50b5b3417))
 
 ### Features
@@ -15,6 +18,9 @@
 
 
 - **(css/compat)** Support function notation (#6651) ([39afc46](https://github.com/swc-project/swc/commit/39afc4627e2a1e6ca397bc22cd3d9abe68c45fe2))
+
+
+- **(css/compat)** Support `not` with multiple arguments (#6668) ([352896f](https://github.com/swc-project/swc/commit/352896f4cb627c1a006ea82780f993915af7e8b1))
 
 
 - **(css/minifier)** Compress alpha in a hex (#6653) ([f6292e6](https://github.com/swc-project/swc/commit/f6292e63b51e5ad5a8d1fcc253e8342438098898))
@@ -36,6 +42,9 @@
 
 
 - **(css/prefixer)** Support font-face format (#6644) ([199ac74](https://github.com/swc-project/swc/commit/199ac7461814553bab97c1f0f7b1c89f34897122))
+
+
+- **(css/prefixer)** Support `word-wrap` (#6679) ([46241b4](https://github.com/swc-project/swc/commit/46241b4e554b7a6ee090db8e35acd0151e8caf2b))
 
 ### Performance
 

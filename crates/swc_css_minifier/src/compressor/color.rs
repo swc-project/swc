@@ -151,8 +151,9 @@ macro_rules! make_color {
             let is_alpha_hex_supported = false;
 
             if is_alpha_hex_supported {
+                let alpha = (($a * 255.0) as f64).round().max(0.0).min(255.0) as u8;
                 let hex: u32 =
-                    ((r as u32) << 24) | ((g as u32) << 16) | ((b as u32) << 8) | ($a as u32);
+                    ((r as u32) << 24) | ((g as u32) << 16) | ((b as u32) << 8) | (alpha as u32);
 
                 let compact = get_short_hex(hex);
                 let value = if hex == get_long_hex(compact) {
