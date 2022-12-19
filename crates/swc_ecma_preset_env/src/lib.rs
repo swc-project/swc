@@ -388,10 +388,13 @@ impl Fold for Polyfills {
             },
         };
         let required = required
-            .into_iter()
-            .filter(|s| !self.excludes.contains(&**s))
+            .iter()
+            .filter(|s| {
+                !s.starts_with("esnext") || !required.contains(&s.replace("esnext", "es").as_str())
+            })
+            .filter(|s| !self.excludes.contains(&***s))
             .map(|s| -> JsWord {
-                if s != "regenerator-runtime/runtime.js" {
+                if *s != "regenerator-runtime/runtime.js" {
                     format!("core-js/modules/{}.js", s).into()
                 } else {
                     "regenerator-runtime/runtime.js".to_string().into()

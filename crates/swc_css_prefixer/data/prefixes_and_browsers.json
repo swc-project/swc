@@ -3945,5 +3945,27 @@
       "safari": "3.2",
       "ios": "4.3"
     }
+  ],
+  "word-wrap": [
+    {
+      "chrome": "4",
+      "edge": "12",
+      "safari": "3.1",
+      "firefox": "3.5",
+      "opera": "11.5",
+      "ie": "6",
+      "ios": "3.2",
+      "android": "2.1"
+    },
+    {
+      "chrome": "22",
+      "edge": "17",
+      "safari": "6",
+      "firefox": "48",
+      "opera": "11.5",
+      "ie": "11",
+      "ios": "6.1",
+      "android": "4.3.0"
+    }
   ]
 }

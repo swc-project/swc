@@ -369,7 +369,7 @@
                     "end": 291,
                     "ctxt": 0
                   },
-                  "value": "URL",
+                  "value": "url",
                   "raw": "URL"
                 },
                 "value": {
@@ -419,7 +419,7 @@
                     "end": 346,
                     "ctxt": 0
                   },
-                  "value": "URL",
+                  "value": "url",
                   "raw": "\\URL"
                 },
                 "value": {
@@ -1087,7 +1087,7 @@
                     "end": 948,
                     "ctxt": 0
                   },
-                  "value": "SRC",
+                  "value": "src",
                   "raw": "SRC"
                 },
                 "value": {
