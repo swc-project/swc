@@ -743,9 +743,7 @@ impl VisitMut for Prefixer {
         at_rule.visit_mut_children_with(self);
 
         match &at_rule.name {
-            AtRuleName::Ident(Ident { span, value, .. })
-                if value.as_ref().eq_ignore_ascii_case("viewport") =>
-            {
+            AtRuleName::Ident(Ident { span, value, .. }) if value == "viewport" => {
                 if should_prefix("@-o-viewport", self.env, false) {
                     self.add_at_rule(
                         Prefix::Ms,
@@ -778,9 +776,7 @@ impl VisitMut for Prefixer {
                     );
                 }
             }
-            AtRuleName::Ident(Ident { span, value, .. })
-                if value.as_ref().eq_ignore_ascii_case("keyframes") =>
-            {
+            AtRuleName::Ident(Ident { span, value, .. }) if value == "keyframes" => {
                 if should_prefix("@-webkit-keyframes", self.env, false) {
                     self.add_at_rule(
                         Prefix::Webkit,

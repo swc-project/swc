@@ -113,14 +113,6 @@ fn run(input: &Path, minify: bool) {
 struct NormalizeTest;
 
 impl VisitMut for NormalizeTest {
-    fn visit_mut_at_rule(&mut self, n: &mut AtRule) {
-        n.visit_mut_children_with(self);
-
-        if let AtRuleName::Ident(ident) = &mut n.name {
-            ident.value = ident.value.to_lowercase().into();
-        }
-    }
-
     fn visit_mut_media_query(&mut self, n: &mut MediaQuery) {
         n.visit_mut_children_with(self);
 
