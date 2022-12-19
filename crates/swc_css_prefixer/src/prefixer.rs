@@ -3558,6 +3558,71 @@ impl VisitMut for Prefixer {
                 }
             }
 
+            // TODO handle `align-content` and `justify-content` for very old browsers (for all
+            // `place-*`)
+            "place-content" if should_prefix("place-content", self.env, false) => {
+                match (n.value.get(0), n.value.get(1)) {
+                    (Some(left), Some(right)) => {
+                        add_declaration!(
+                            "align-content",
+                            Some(Box::new(|| { vec![left.clone()] }))
+                        );
+                        add_declaration!(
+                            "justify-content",
+                            Some(Box::new(|| { vec![right.clone()] }))
+                        );
+                    }
+                    (Some(left), None) => {
+                        add_declaration!(
+                            "align-content",
+                            Some(Box::new(|| { vec![left.clone()] }))
+                        );
+                        add_declaration!(
+                            "justify-content",
+                            Some(Box::new(|| { vec![left.clone()] }))
+                        );
+                    }
+                    _ => {}
+                }
+            }
+
+            "place-items" if should_prefix("place-items", self.env, false) => {
+                match (n.value.get(0), n.value.get(1)) {
+                    (Some(left), Some(right)) => {
+                        add_declaration!("align-items", Some(Box::new(|| { vec![left.clone()] })));
+                        add_declaration!(
+                            "justify-items",
+                            Some(Box::new(|| { vec![right.clone()] }))
+                        );
+                    }
+                    (Some(left), None) => {
+                        add_declaration!("align-items", Some(Box::new(|| { vec![left.clone()] })));
+                        add_declaration!(
+                            "justify-items",
+                            Some(Box::new(|| { vec![left.clone()] }))
+                        );
+                    }
+                    _ => {}
+                }
+            }
+
+            "place-self" if should_prefix("place-self", self.env, false) => {
+                match (n.value.get(0), n.value.get(1)) {
+                    (Some(left), Some(right)) => {
+                        add_declaration!("align-self", Some(Box::new(|| { vec![left.clone()] })));
+                        add_declaration!(
+                            "justify-self",
+                            Some(Box::new(|| { vec![right.clone()] }))
+                        );
+                    }
+                    (Some(left), None) => {
+                        add_declaration!("align-self", Some(Box::new(|| { vec![left.clone()] })));
+                        add_declaration!("justify-self", Some(Box::new(|| { vec![left.clone()] })));
+                    }
+                    _ => {}
+                }
+            }
+
             // TODO add `grid` support https://github.com/postcss/autoprefixer/tree/main/lib/hacks (starting with grid)
             // TODO fix me https://github.com/postcss/autoprefixer/blob/main/test/cases/custom-prefix.out.css
             _ => {}

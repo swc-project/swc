@@ -1,0 +1,126 @@
+a {
+  align-content: space-between;
+  justify-content: center;
+  place-content: space-between center;
+  align-items: center;
+  justify-items: normal;
+  place-items: center normal;
+  align-self: center;
+  justify-self: center;
+  place-self: center;
+}
+A {
+  align-content: space-between;
+  justify-content: center;
+  PLACE-CONTENT: space-between center;
+  align-items: center;
+  justify-items: normal;
+  PLACE-ITEMS: center normal;
+  align-self: auto;
+  justify-self: center;
+  PLACE-SELF: auto center;
+}
+b {
+  align-content: space-between;
+  justify-content: space-between;
+  place-content: space-between;
+  align-items: center;
+  justify-items: center;
+  place-items: center;
+  align-self: center;
+  justify-self: center;
+  place-self: center;
+}
+c {
+  align-content: var(--first);
+  justify-content: center;
+  place-content: var(--first) center;
+  align-items: var(--first);
+  justify-items: normal;
+  place-items: var(--first) normal;
+  align-self: var(--first);
+  justify-self: var(--first);
+  place-self: var(--first);
+}
+d {
+  align-content: space-between;
+  justify-content: var(--second);
+  place-content: space-between var(--second);
+  align-items: self-start;
+  justify-items: var(--second);
+  place-items: self-start var(--second);
+}
+e {
+  align-content: var(--first, var(--fallback));
+  justify-content: center;
+  place-content: var(--first, var(--fallback)) center;
+  align-items: var(--first, var(--fallback));
+  justify-items: legacy;
+  place-items: var(--first, var(--fallback)) legacy;
+}
+.test-unparseable-var-in-place-declaration {
+  align-content: var(var(--foo), ;);
+  justify-content: var(var(--foo), ;);
+  place-content: var(var(--foo), ;);
+}
+.order-0 {
+  -webkit-place-content: first second;
+}
+.order-1 {
+  -moz-place-content: first second;
+}
+.order-2 {
+  -ms-place-content: first second;
+}
+.order-3 {
+  -o-place-content: first second;
+}
+.order-4 {
+  --place-content: first second;
+}
+.order-5 {
+  foo-place-content: first second;
+}
+.content {
+  content: 'place-content: first second;';
+}
+.important {
+  align-content: first !important;
+  justify-content: second !important;
+  place-content: first second !important;
+}
+@supports ((place-content: first second) or (align-content: first) or (justify-content: second)) {
+  .support {
+    align-content: first;
+    justify-content: second;
+    place-content: first second;
+  }
+}
+@-webkit-keyframes KEYFRAMES {
+  50% {
+    align-content: first;
+    justify-content: second;
+    place-content: first second;
+  }
+}
+@-moz-keyframes KEYFRAMES {
+  50% {
+    align-content: first;
+    justify-content: second;
+    place-content: first second;
+  }
+}
+@-o-keyframes KEYFRAMES {
+  50% {
+    align-content: first;
+    justify-content: second;
+    place-content: first second;
+  }
+}
+@keyframes KEYFRAMES {
+  50% {
+    align-content: first;
+    justify-content: second;
+    place-content: first second;
+  }
+}
