@@ -7,7 +7,7 @@ use swc_css_ast::{
 use swc_css_visit::{VisitMut, VisitMutWith};
 
 use self::custom_media::CustomMediaHandler;
-use crate::{feature::Features, utils::rule_to_component_value};
+use crate::feature::Features;
 
 mod color_alpha_parameter;
 mod color_hex_alpha;
@@ -170,33 +170,6 @@ impl VisitMut for Compiler {
 
         if self.c.process.contains(Features::COLOR_HEX_ALPHA) {
             self.process_color_hex_alpha(n);
-        }
-    }
-
-    fn visit_mut_component_values(&mut self, n: &mut Vec<ComponentValue>) {
-        if self.c.process.contains(Features::NESTING) {
-            let mut new = vec![];
-
-            for n in n.take() {
-                match n {
-                    ComponentValue::QualifiedRule(mut n) => {
-                        let mut rules = self.extract_nested_rules(&mut n);
-
-                        rules.visit_mut_with(self);
-
-                        new.push(ComponentValue::QualifiedRule(n));
-                        new.extend(rules.into_iter().map(rule_to_component_value));
-                    }
-
-                    _ => {
-                        new.push(n);
-                    }
-                }
-            }
-
-            *n = new;
-        } else {
-            n.visit_mut_children_with(self);
         }
     }
 
