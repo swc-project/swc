@@ -1578,19 +1578,28 @@ impl VisitMut for Prefixer {
                     let value: Option<Box<dyn Fn() -> Vec<ComponentValue>>> = $value;
 
                     if let Some(value) = value {
-                        self.added_declarations.push(Box::new(Declaration {
+                        let mut declaration = Declaration {
                             span: n.span,
                             name,
                             value: value(),
                             important: n.important.clone(),
-                        }));
+                        };
+
+                        // TODO should we handle with prefix?
+                        declaration.visit_mut_with(self);
+
+                        self.added_declarations.push(Box::new(declaration));
                     } else {
-                        self.added_declarations.push(Box::new(Declaration {
+                        let mut declaration = Declaration {
                             span: n.span,
                             name,
                             value: n.value.clone(),
                             important: n.important.clone(),
-                        }));
+                        };
+
+                        declaration.visit_mut_with(self);
+
+                        self.added_declarations.push(Box::new(declaration));
                     }
                 }
             }};
