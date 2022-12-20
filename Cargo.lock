@@ -3264,7 +3264,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.49.0"
+version = "0.49.1"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -3317,7 +3317,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css"
-version = "0.145.0"
+version = "0.145.1"
 dependencies = [
  "swc_css_ast",
  "swc_css_codegen",
@@ -3462,7 +3462,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_prefixer"
-version = "0.142.17"
+version = "0.142.18"
 dependencies = [
  "once_cell",
  "preset_env_base",
