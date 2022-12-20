@@ -62,6 +62,9 @@
 - **(css/parser)** Normalize keyframe selectors (#6688) ([d7a0524](https://github.com/swc-project/swc/commit/d7a0524fb64c97facf067281ae3a2fc4afae68fe))
 
 
+- **(css/parser)** Normalize and improve function name (#6667) ([2571070](https://github.com/swc-project/swc/commit/257107014801e892a78ec68c2c0ec0899a083053))
+
+
 - **(css/prefixer)** Support font-face format (#6644) ([199ac74](https://github.com/swc-project/swc/commit/199ac7461814553bab97c1f0f7b1c89f34897122))
 
 
