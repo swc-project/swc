@@ -13,7 +13,10 @@ use swc_css_codegen::{
     writer::basic::{BasicCssWriter, BasicCssWriterConfig},
     CodegenConfig, Emit,
 };
-use swc_css_compat::nesting::nesting;
+use swc_css_compat::{
+    compiler::{Compiler, Config},
+    feature::Features,
+};
 use swc_css_parser::{parse_file, parser::ParserConfig};
 use swc_css_visit::VisitMutWith;
 use testing::NormalizedOutput;
@@ -48,8 +51,9 @@ fn test_full(input: PathBuf, suffix: Option<&str>) {
         }
 
         swc_css_modules::compile(&mut ss, TestConfig {});
-
-        ss.visit_mut_with(&mut nesting());
+        ss.visit_mut_with(&mut Compiler::new(Config {
+            process: Features::NESTING,
+        }));
 
         let mut s = String::new();
         {
