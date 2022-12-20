@@ -1,7 +1,6 @@
 #![deny(clippy::all)]
 
-use std::{borrow::Cow, char::REPLACEMENT_CHARACTER, f64::consts::PI, str};
-use std::{borrow::Cow, str};
+use std::{borrow::Cow, f64::consts::PI, str};
 
 use once_cell::sync::Lazy;
 use serde::{Deserialize, Serialize};
