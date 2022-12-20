@@ -3895,6 +3895,48 @@
     },
     {}
   ],
+
+  "place-content": [
+    {
+      "chrome": "4",
+      "edge": "12",
+      "safari": "3.1",
+      "firefox": "2",
+      "opera": "10",
+      "ie": "6",
+      "ios": "3.2",
+      "samsung": "4",
+      "android": "2.1"
+    },
+    {
+      "chrome": "58",
+      "edge": "18",
+      "safari": "8",
+      "firefox": "44",
+      "opera": "45",
+      "ie": "11",
+      "ios": "8.4",
+      "android": "4.4.4",
+      "samsung": "6.4"
+    }
+  ],
+  "place-items": [
+    {
+      "chrome": "4"
+    },
+    {
+      "chrome": "58"
+    }
+  ],
+  "place-self": [
+    {
+      "chrome": "4"
+    },
+    {
+      "chrome": "58"
+    }
+  ],
+
   "opacity": [
     {
       "chrome": "4",
