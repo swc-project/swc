@@ -18,7 +18,6 @@ mod legacy_rgb_and_hsl;
 mod media_query_ranges;
 mod nesting;
 mod selector_not;
-mod utils;
 
 /// Compiles a modern CSS file to a CSS file which works with old browsers.
 #[derive(Debug)]

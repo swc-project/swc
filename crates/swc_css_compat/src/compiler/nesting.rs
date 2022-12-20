@@ -3,7 +3,7 @@ use std::iter::once;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_css_ast::*;
 
-use crate::{compiler::Compiler, utils::rule_to_component_value};
+use crate::compiler::Compiler;
 
 impl Compiler {
     fn process_subclass_selectors(
@@ -257,7 +257,7 @@ impl Compiler {
                                         nested_of_media.extend(
                                             once(Rule::QualifiedRule(q))
                                                 .chain(rules.into_iter())
-                                                .map(rule_to_component_value),
+                                                .map(From::from),
                                         );
                                     }
 
