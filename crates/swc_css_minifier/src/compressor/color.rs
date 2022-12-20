@@ -465,23 +465,8 @@ impl Compressor {
                 name,
                 value,
                 ..
-            })) if matches!(&*name.value, "hwb") => {
-                let h = match self.get_hue(value.get(0).as_ref()) {
             })) if name == &js_word!("hwb") => {
-                let hsla: Vec<_> = value
-                    .iter()
-                    .filter(|n| {
-                        !matches!(
-                            n,
-                            ComponentValue::Delimiter(box Delimiter {
-                                value: DelimiterValue::Comma | DelimiterValue::Solidus,
-                                ..
-                            })
-                        )
-                    })
-                    .collect();
-
-                let h = match self.get_hue(hsla.get(0)) {
+                let h = match self.get_hue(value.get(0).as_ref()) {
                     Some(value) => value,
                     _ => return,
                 };

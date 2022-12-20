@@ -2547,11 +2547,10 @@ impl VisitMut for Prefixer {
                 }
             }
 
-            js_word!("filter") => match &n.value[0] {
-                ComponentValue::PreservedToken(_) => {}
-                ComponentValue::Function(function)
-                    if function.name.value.eq_ignore_ascii_case(&js_word!("alpha")) => {}
-                ComponentValue::Function(function) if function.name == js_word!("alpha") => {}
+            js_word!("filter") => match &n.value.get(0) {
+                Some(ComponentValue::PreservedToken(_)) => {}
+                Some(ComponentValue::Function(function)) if function.name == js_word!("alpha") => {}
+                None => {}
                 _ => {
                     add_declaration!(Prefix::Webkit, js_word!("-webkit-filter"), None);
                 }
