@@ -845,7 +845,7 @@ dependencies = [
 
 [[package]]
 name = "dbg-swc"
-version = "0.60.9"
+version = "0.60.11"
 dependencies = [
  "anyhow",
  "clap 3.1.0",
@@ -3264,7 +3264,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.48.40"
+version = "0.49.1"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -3317,7 +3317,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css"
-version = "0.144.31"
+version = "0.145.1"
 dependencies = [
  "swc_css_ast",
  "swc_css_codegen",
@@ -3374,7 +3374,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_compat"
-version = "0.16.18"
+version = "0.17.0"
 dependencies = [
  "bitflags",
  "once_cell",
@@ -3428,7 +3428,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_modules"
-version = "0.17.18"
+version = "0.18.0"
 dependencies = [
  "rustc-hash",
  "serde",
@@ -3462,7 +3462,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_prefixer"
-version = "0.142.17"
+version = "0.142.18"
 dependencies = [
  "once_cell",
  "preset_env_base",

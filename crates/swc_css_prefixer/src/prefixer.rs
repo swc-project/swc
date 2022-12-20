@@ -1610,19 +1610,28 @@ impl VisitMut for Prefixer {
                     let value: Option<Box<dyn Fn() -> Vec<ComponentValue>>> = $value;
 
                     if let Some(value) = value {
-                        self.added_declarations.push(Box::new(Declaration {
+                        let mut declaration = Declaration {
                             span: n.span,
                             name,
                             value: value(),
                             important: n.important.clone(),
-                        }));
+                        };
+
+                        // TODO should we handle with prefix?
+                        declaration.visit_mut_with(self);
+
+                        self.added_declarations.push(Box::new(declaration));
                     } else {
-                        self.added_declarations.push(Box::new(Declaration {
+                        let mut declaration = Declaration {
                             span: n.span,
                             name,
                             value: n.value.clone(),
                             important: n.important.clone(),
-                        }));
+                        };
+
+                        declaration.visit_mut_with(self);
+
+                        self.added_declarations.push(Box::new(declaration));
                     }
                 }
             }};
@@ -3587,6 +3596,84 @@ impl VisitMut for Prefixer {
 
                 if n.value != new_declaration.value {
                     self.added_declarations.push(Box::new(new_declaration));
+                }
+            }
+
+            js_word!("place-content") if should_prefix("place-content", self.env, false) => {
+                match (n.value.get(0), n.value.get(1)) {
+                    (Some(left), Some(right)) => {
+                        add_declaration!(
+                            js_word!("align-content"),
+                            Some(Box::new(|| { vec![left.clone()] }))
+                        );
+                        add_declaration!(
+                            js_word!("justify-content"),
+                            Some(Box::new(|| { vec![right.clone()] }))
+                        );
+                    }
+                    (Some(left), None) => {
+                        add_declaration!(
+                            js_word!("align-content"),
+                            Some(Box::new(|| { vec![left.clone()] }))
+                        );
+                        add_declaration!(
+                            js_word!("justify-content"),
+                            Some(Box::new(|| { vec![left.clone()] }))
+                        );
+                    }
+                    _ => {}
+                }
+            }
+
+            js_word!("place-items") if should_prefix("place-items", self.env, false) => {
+                match (n.value.get(0), n.value.get(1)) {
+                    (Some(left), Some(right)) => {
+                        add_declaration!(
+                            js_word!("align-items"),
+                            Some(Box::new(|| { vec![left.clone()] }))
+                        );
+                        add_declaration!(
+                            js_word!("justify-items"),
+                            Some(Box::new(|| { vec![right.clone()] }))
+                        );
+                    }
+                    (Some(left), None) => {
+                        add_declaration!(
+                            js_word!("align-items"),
+                            Some(Box::new(|| { vec![left.clone()] }))
+                        );
+                        add_declaration!(
+                            js_word!("justify-items"),
+                            Some(Box::new(|| { vec![left.clone()] }))
+                        );
+                    }
+                    _ => {}
+                }
+            }
+
+            js_word!("place-self") if should_prefix("place-self", self.env, false) => {
+                match (n.value.get(0), n.value.get(1)) {
+                    (Some(left), Some(right)) => {
+                        add_declaration!(
+                            js_word!("align-self"),
+                            Some(Box::new(|| { vec![left.clone()] }))
+                        );
+                        add_declaration!(
+                            js_word!("justify-self"),
+                            Some(Box::new(|| { vec![right.clone()] }))
+                        );
+                    }
+                    (Some(left), None) => {
+                        add_declaration!(
+                            js_word!("align-self"),
+                            Some(Box::new(|| { vec![left.clone()] }))
+                        );
+                        add_declaration!(
+                            js_word!("justify-self"),
+                            Some(Box::new(|| { vec![left.clone()] }))
+                        );
+                    }
+                    _ => {}
                 }
             }
 

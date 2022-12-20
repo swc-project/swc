@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_core"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.48.40"
+version       = "0.49.1"
   [package.metadata.docs.rs]
   features = [
     "common_perf",
@@ -349,9 +349,9 @@ swc_common                       = { optional = true, version = "0.29.24", path 
 swc_css_ast                      = { optional = true, version = "0.131.4", path = "../swc_css_ast" }
 swc_css_codegen                  = { optional = true, version = "0.141.12", path = "../swc_css_codegen" }
 swc_css_minifier                 = { optional = true, version = "0.106.20", path = "../swc_css_minifier" }
-swc_css_modules                  = { optional = true, version = "0.17.18", path = "../swc_css_modules" }
+swc_css_modules                  = { optional = true, version = "0.18.0", path = "../swc_css_modules" }
 swc_css_parser                   = { optional = true, version = "0.140.12", path = "../swc_css_parser" }
-swc_css_prefixer                 = { optional = true, version = "0.142.17", path = "../swc_css_prefixer" }
+swc_css_prefixer                 = { optional = true, version = "0.142.18", path = "../swc_css_prefixer" }
 swc_css_utils                    = { optional = true, version = "0.128.4", path = "../swc_css_utils/" }
 swc_css_visit                    = { optional = true, version = "0.130.4", path = "../swc_css_visit" }
 swc_ecma_ast                     = { optional = true, version = "0.95.8", path = "../swc_ecma_ast" }
@@ -381,7 +381,7 @@ swc_plugin_proxy                 = { optional = true, version = "0.23.8", path =
 swc_trace_macro                  = { optional = true, version = "0.1.2", path = "../swc_trace_macro" }
 testing                          = { optional = true, version = "0.31.26", path = "../testing" }
 # TODO: eventually swc_plugin_runner needs to remove default features
-swc_css_compat    = { version = "0.16.18", path = "../swc_css_compat", optional = true }
+swc_css_compat    = { version = "0.17.0", path = "../swc_css_compat", optional = true }
 swc_plugin_runner = { optional = true, version = "0.81.12", path = "../swc_plugin_runner", default-features = false }
 
 [build-dependencies]
