@@ -551,6 +551,12 @@ impl VisitMut for Pure<'_> {
         if e.is_seq() {
             debug_assert_valid(e);
         }
+
+        self.optimize_opt_chain(e);
+
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
     }
 
     fn visit_mut_expr_stmt(&mut self, s: &mut ExprStmt) {

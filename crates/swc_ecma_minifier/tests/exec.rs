@@ -10394,3 +10394,16 @@ fn issue_6528() {
         "###,
     )
 }
+
+#[test]
+fn issue_6641() {
+    run_default_exec_test(
+        r###"
+        const iota = (i => () => 1 << ++i)(-1);
+
+        const a = iota(), b = iota();
+            
+        console.log(a, b);
+        "###,
+    )
+}

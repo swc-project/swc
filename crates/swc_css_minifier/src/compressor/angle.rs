@@ -1,7 +1,6 @@
-use core::f64::consts::PI;
-
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::js_word;
 use swc_css_ast::*;
+use swc_css_utils::angle_to_deg;
 
 use super::Compressor;
 
@@ -37,12 +36,7 @@ impl Compressor {
             return;
         }
 
-        let from = match get_angle_type(&angle.unit.value) {
-            Some(angel_type) => angel_type,
-            None => return,
-        };
-
-        let deg = to_deg(angle.value.value, from);
+        let deg = angle_to_deg(angle.value.value, &angle.unit.value);
 
         if deg.fract() != 0.0 {
             return;
@@ -61,32 +55,6 @@ impl Compressor {
             value: js_word!("deg"),
             raw: None,
         };
-    }
-}
-
-pub(crate) enum AngleType {
-    Deg,
-    Grad,
-    Rad,
-    Turn,
-}
-
-pub(crate) fn to_deg(value: f64, from: AngleType) -> f64 {
-    match from {
-        AngleType::Deg => value,
-        AngleType::Grad => value * 180.0 / 200.0,
-        AngleType::Turn => value * 360.0,
-        AngleType::Rad => value * 180.0 / PI,
-    }
-}
-
-pub(crate) fn get_angle_type(unit: &JsWord) -> Option<AngleType> {
-    match *unit {
-        js_word!("deg") => Some(AngleType::Deg),
-        js_word!("grad") => Some(AngleType::Grad),
-        js_word!("rad") => Some(AngleType::Rad),
-        js_word!("turn") => Some(AngleType::Turn),
-        _ => None,
     }
 }
 

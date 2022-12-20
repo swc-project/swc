@@ -1,12 +1,9 @@
 use swc_atoms::{js_word, JsWord};
 use swc_common::DUMMY_SP;
 use swc_css_ast::*;
-use swc_css_utils::NAMED_COLORS;
+use swc_css_utils::{angle_to_deg, hsl_to_rgb, hwb_to_rgb, to_rgb255, NAMED_COLORS};
 
-use super::{
-    angle::{get_angle_type, to_deg},
-    Compressor,
-};
+use super::Compressor;
 use crate::compressor::alpha_value::compress_alpha_value;
 
 fn compress_alpha_in_hex(value: &JsWord) -> Option<&str> {
@@ -80,62 +77,6 @@ fn get_named_color_by_hex(v: u32) -> Option<&'static str> {
     };
 
     Some(s)
-}
-
-fn hsl_to_rgb(hsl: [f64; 3]) -> [f64; 3] {
-    let [h, s, l] = hsl;
-
-    let r;
-    let g;
-    let b;
-
-    if s == 0.0 {
-        r = l;
-        g = l;
-        b = l;
-    } else {
-        let f = |n: f64| -> f64 {
-            let k = (n + h / 30.0) % 12.0;
-            let a = s * f64::min(l, 1.0 - l);
-
-            l - a * f64::max(-1.0, f64::min(f64::min(k - 3.0, 9.0 - k), 1.0))
-        };
-
-        r = f(0.0);
-        g = f(8.0);
-        b = f(4.0);
-    }
-
-    [r, g, b]
-}
-
-fn hwb_to_rgb(hwb: [f64; 3]) -> [f64; 3] {
-    let [h, w, b] = hwb;
-
-    if w + b >= 1.0 {
-        let gray = w / (w + b);
-
-        return [gray, gray, gray];
-    }
-
-    let mut rgb = hsl_to_rgb([h, 1.0, 0.5]);
-
-    for item in &mut rgb {
-        *item *= 1.0 - w - b;
-        *item += w;
-    }
-
-    [rgb[0], rgb[1], rgb[2]]
-}
-
-fn to_rgb255(abc: [f64; 3]) -> [f64; 3] {
-    let mut abc255 = abc;
-
-    for item in &mut abc255 {
-        *item *= 255.0;
-    }
-
-    abc255
 }
 
 macro_rules! make_color {
@@ -324,14 +265,7 @@ impl Compressor {
                         value: Number { value, .. },
                         unit: Ident { value: unit, .. },
                         ..
-                    }) => {
-                        let angel_type = match get_angle_type(unit) {
-                            Some(angel_type) => angel_type,
-                            _ => return None,
-                        };
-
-                        to_deg(*value, angel_type)
-                    }
+                    }) => angle_to_deg(*value, unit),
                 };
 
                 value %= 360.0;
@@ -532,32 +466,19 @@ impl Compressor {
                 value,
                 ..
             })) if matches!(&*name.value, "hwb") => {
-                let hsla: Vec<_> = value
-                    .iter()
-                    .filter(|n| {
-                        !matches!(
-                            n,
-                            ComponentValue::Delimiter(box Delimiter {
-                                value: DelimiterValue::Comma | DelimiterValue::Solidus,
-                                ..
-                            })
-                        )
-                    })
-                    .collect();
-
-                let h = match self.get_hue(hsla.get(0)) {
+                let h = match self.get_hue(value.get(0).as_ref()) {
                     Some(value) => value,
                     _ => return,
                 };
-                let w = match self.get_percentage(hsla.get(1)) {
+                let w = match self.get_percentage(value.get(1).as_ref()) {
                     Some(value) => value,
                     _ => return,
                 };
-                let b = match self.get_percentage(hsla.get(2)) {
+                let b = match self.get_percentage(value.get(2).as_ref()) {
                     Some(value) => value,
                     _ => return,
                 };
-                let a = match self.get_alpha_value(hsla.get(3)) {
+                let a = match self.get_alpha_value(value.get(4).as_ref()) {
                     Some(value) => value,
                     _ => return,
                 };
