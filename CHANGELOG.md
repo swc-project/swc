@@ -62,6 +62,9 @@
 
 
 
+- **(css/prefixer)** Use `JsWord` instead of `&str` (#6658) ([d27a270](https://github.com/swc-project/swc/commit/d27a270fec7f08895c5a9ab2b56da6d77f52d5af))
+
+
 - **(es/minifier)** Use rope-like structure for the name mangler (#6661) ([cb4173a](https://github.com/swc-project/swc/commit/cb4173aa73fbfd95f2411ceb97cec95e408f59ee))
 
 ### Refactor

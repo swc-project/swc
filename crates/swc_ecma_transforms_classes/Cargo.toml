@@ -6,15 +6,15 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_ecma_transforms_classes"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.101.15"
+version       = "0.101.16"
 
 [lib]
 bench = false
 
 [dependencies]
-swc_atoms                = { version = "0.4.29", path = "../swc_atoms" }
-swc_common               = { version = "0.29.23", path = "../swc_common" }
-swc_ecma_ast             = { version = "0.95.7", path = "../swc_ecma_ast" }
-swc_ecma_transforms_base = { version = "0.112.15", path = "../swc_ecma_transforms_base" }
-swc_ecma_utils           = { version = "0.106.11", path = "../swc_ecma_utils" }
-swc_ecma_visit           = { version = "0.81.7", path = "../swc_ecma_visit" }
+swc_atoms                = { version = "0.4.31", path = "../swc_atoms" }
+swc_common               = { version = "0.29.24", path = "../swc_common" }
+swc_ecma_ast             = { version = "0.95.8", path = "../swc_ecma_ast" }
+swc_ecma_transforms_base = { version = "0.112.16", path = "../swc_ecma_transforms_base" }
+swc_ecma_utils           = { version = "0.106.12", path = "../swc_ecma_utils" }
+swc_ecma_visit           = { version = "0.81.8", path = "../swc_ecma_visit" }
