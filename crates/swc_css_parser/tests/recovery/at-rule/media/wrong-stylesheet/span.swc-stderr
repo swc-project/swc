@@ -164,7 +164,7 @@
  3 |     main {
    `----
 
-  x Ident { value: Atom('teal' type=inline), raw: "teal" }
+  x Ident { value: Atom('teal' type=static), raw: "teal" }
    ,-[$DIR/tests/recovery/at-rule/media/wrong-stylesheet/input.css:1:1]
  1 | @media print {
  2 |     color: teal;

@@ -196,7 +196,7 @@ where
                     at_rule.span = span!(self, span.lo);
 
                     // Canonicalization against a grammar
-                    if self.ctx.need_canonicalize {
+                    if !is_dashed_ident && self.ctx.need_canonicalize {
                         at_rule = self.canonicalize_at_rule_prelude(at_rule)?;
                     }
 
@@ -214,7 +214,7 @@ where
                     at_rule.span = span!(self, span.lo);
 
                     // Canonicalization against a grammar
-                    if self.ctx.need_canonicalize {
+                    if !is_dashed_ident && self.ctx.need_canonicalize {
                         at_rule = self.canonicalize_at_rule_prelude(at_rule)?;
                         at_rule = self.canonicalize_at_rule_block(at_rule)?;
                     }
@@ -605,14 +605,17 @@ where
         //
         // Return nothing.
         let span = self.input.cur_span();
-        let is_dashed_ident = match cur!(self) {
-            Token::Ident { value, .. } => value.starts_with("--"),
+        let declaration_name = match cur!(self) {
+            Token::Ident { value, .. } => value,
             _ => {
                 return Err(Error::new(span, ErrorKind::Expected("ident")));
             }
         };
+        let is_dashed_ident = declaration_name.starts_with("--");
         let name = if is_dashed_ident {
-            DeclarationName::DashedIdent(self.parse()?)
+            let ident = self.parse()?;
+
+            DeclarationName::DashedIdent(ident)
         } else {
             let mut ident: Ident = self.parse()?;
 
@@ -923,16 +926,25 @@ where
         // Create a function with its name equal to the value of the current input token
         // and with its value initially set to an empty list.
         let span = self.input.cur_span();
-        let ident = match bump!(self) {
+        let function_name = match bump!(self) {
             Token::Function { value, raw } => (value, raw),
             _ => {
                 unreachable!()
             }
         };
-        let name = Ident {
-            span: Span::new(span.lo, span.hi - BytePos(1), Default::default()),
-            value: ident.0,
-            raw: Some(ident.1),
+        let is_dashed_ident = function_name.0.starts_with("--");
+        let name = if is_dashed_ident {
+            FunctionName::DashedIdent(DashedIdent {
+                span: Span::new(span.lo, span.hi - BytePos(1), Default::default()),
+                value: function_name.0[2..].into(),
+                raw: Some(function_name.1),
+            })
+        } else {
+            FunctionName::Ident(Ident {
+                span: Span::new(span.lo, span.hi - BytePos(1), Default::default()),
+                value: function_name.0.to_ascii_lowercase(),
+                raw: Some(function_name.1),
+            })
         };
         let mut function = Function {
             span: Default::default(),
@@ -975,7 +987,7 @@ where
         function.span = span!(self, span.lo);
 
         // Canonicalization against a grammar
-        if self.ctx.need_canonicalize {
+        if !is_dashed_ident && self.ctx.need_canonicalize {
             function = self.canonicalize_function_value(function)?;
         }
 

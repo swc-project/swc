@@ -119,11 +119,11 @@ macro_rules! make_color {
 
                 Color::AbsoluteColorBase(AbsoluteColorBase::Function(Function {
                     span: $span,
-                    name: Ident {
+                    name: FunctionName::Ident(Ident {
                         span: DUMMY_SP,
                         value: js_word!("rgba"),
                         raw: None,
-                    },
+                    }),
                     value: vec![
                         ComponentValue::Number(Box::new(Number {
                             span: DUMMY_SP,
@@ -387,7 +387,7 @@ impl Compressor {
                 name,
                 value,
                 ..
-            })) if matches!(&*name.value, "rgb" | "rgba") => {
+            })) if name == &js_word!("rgb") || name == &js_word!("rgba") => {
                 let rgba: Vec<_> = value
                     .iter()
                     .filter(|n| {
@@ -425,7 +425,7 @@ impl Compressor {
                 name,
                 value,
                 ..
-            })) if matches!(&*name.value, "hsl" | "hsla") => {
+            })) if name == &js_word!("hsl") || name == &js_word!("hsla") => {
                 let hsla: Vec<_> = value
                     .iter()
                     .filter(|n| {
@@ -465,7 +465,7 @@ impl Compressor {
                 name,
                 value,
                 ..
-            })) if matches!(&*name.value, "hwb") => {
+            })) if name == &js_word!("hwb") => {
                 let h = match self.get_hue(value.get(0).as_ref()) {
                     Some(value) => value,
                     _ => return,

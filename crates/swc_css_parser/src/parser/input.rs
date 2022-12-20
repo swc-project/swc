@@ -1,8 +1,8 @@
 use std::{borrow::Cow, fmt::Debug, mem::take};
 
-use swc_atoms::{Atom, JsWord};
+use swc_atoms::Atom;
 use swc_common::{BytePos, Span, Spanned, SyntaxContext};
-use swc_css_ast::{ComponentValue, ListOfComponentValues, Token, TokenAndSpan};
+use swc_css_ast::{ComponentValue, FunctionName, ListOfComponentValues, Token, TokenAndSpan};
 
 use super::PResult;
 use crate::error::{Error, ErrorKind};
@@ -224,7 +224,7 @@ type SpanLike = (BytePos, BytePos);
 #[derive(Debug)]
 enum TokenOrBlock<'a> {
     Token(&'a TokenAndSpan),
-    Function(Box<(Span, JsWord, Atom)>),
+    Function(Box<(Span, FunctionName)>),
     LBracket(SpanLike),
     LParen(SpanLike),
     LBrace(SpanLike),
@@ -279,11 +279,7 @@ impl<'a> Input<'a> {
                             function.name.span_hi() + BytePos(1),
                             Default::default(),
                         ),
-                        function.name.value.clone(),
-                        match &function.name.raw {
-                            Some(raw) => raw.clone(),
-                            _ => Atom::from(function.name.value.clone()),
-                        },
+                        function.name.clone(),
                     ))));
                 }
 
@@ -381,13 +377,26 @@ impl<'a> Input<'a> {
                         TokenOrBlock::Token(token_and_span) => {
                             return Ok(Cow::Borrowed(token_and_span))
                         }
-                        TokenOrBlock::Function(function) => TokenAndSpan {
-                            span: function.0,
-                            token: Token::Function {
-                                value: function.1,
-                                raw: function.2,
-                            },
-                        },
+                        TokenOrBlock::Function(function) => {
+                            let name = match function.1 {
+                                FunctionName::Ident(name) => match name.raw {
+                                    Some(raw) => (name.value, raw),
+                                    _ => (name.value.clone(), Atom::from(name.value)),
+                                },
+                                FunctionName::DashedIdent(name) => match name.raw {
+                                    Some(raw) => (format!("--{}", name.value).into(), raw),
+                                    _ => (name.value.clone(), Atom::from(name.value)),
+                                },
+                            };
+
+                            TokenAndSpan {
+                                span: function.0,
+                                token: Token::Function {
+                                    value: name.0,
+                                    raw: name.1,
+                                },
+                            }
+                        }
                         TokenOrBlock::LBracket(span) => TokenAndSpan {
                             span: Span::new(span.0, span.1, Default::default()),
                             token: Token::LBracket,

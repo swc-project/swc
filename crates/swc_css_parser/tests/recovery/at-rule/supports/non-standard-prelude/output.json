@@ -47,13 +47,13 @@
                   "ctxt": 0
                 },
                 "name": {
-                  "type": "Ident",
+                  "type": "DashedIdent",
                   "span": {
                     "start": 12,
                     "end": 21,
                     "ctxt": 0
                   },
-                  "value": "--element",
+                  "value": "element",
                   "raw": "--element"
                 },
                 "value": [
@@ -1496,13 +1496,13 @@
                                           "ctxt": 0
                                         },
                                         "name": {
-                                          "type": "Ident",
+                                          "type": "DashedIdent",
                                           "span": {
                                             "start": 356,
                                             "end": 362,
                                             "ctxt": 0
                                           },
-                                          "value": "--func",
+                                          "value": "func",
                                           "raw": "--func"
                                         },
                                         "value": [

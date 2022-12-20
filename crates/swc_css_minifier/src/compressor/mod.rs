@@ -341,8 +341,8 @@ impl VisitMut for Compressor {
     }
 
     fn visit_mut_function(&mut self, n: &mut Function) {
-        if matches_eq_ignore_ascii_case!(
-            n.name.value,
+        if matches_eq!(
+            n.name,
             js_word!("rotate"),
             js_word!("skew"),
             js_word!("skewx"),

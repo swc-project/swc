@@ -256,7 +256,7 @@
                           "end": 158,
                           "ctxt": 0
                         },
-                        "value": "translateX",
+                        "value": "translatex",
                         "raw": "translateX"
                       },
                       "value": [
@@ -354,7 +354,7 @@
                           "end": 209,
                           "ctxt": 0
                         },
-                        "value": "translateX",
+                        "value": "translatex",
                         "raw": "translateX"
                       },
                       "value": [
@@ -1566,7 +1566,7 @@
                           "end": 718,
                           "ctxt": 0
                         },
-                        "value": "translateX",
+                        "value": "translatex",
                         "raw": "translateX"
                       },
                       "value": [
@@ -1664,7 +1664,7 @@
                           "end": 769,
                           "ctxt": 0
                         },
-                        "value": "translateX",
+                        "value": "translatex",
                         "raw": "translateX"
                       },
                       "value": [

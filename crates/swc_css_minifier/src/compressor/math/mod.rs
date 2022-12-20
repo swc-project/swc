@@ -1,13 +1,10 @@
 use swc_atoms::js_word;
 use swc_css_ast::*;
 
-pub fn is_calc_function_name(ident: &Ident) -> bool {
-    matches_eq_ignore_ascii_case!(
-        ident.value,
-        js_word!("calc"),
-        js_word!("-webkit-calc"),
-        js_word!("-moz-calc")
-    )
+pub fn is_calc_function_name(function_name: &FunctionName) -> bool {
+    *function_name == js_word!("calc")
+        || *function_name == js_word!("-webkit-calc")
+        || *function_name == js_word!("-moz-calc")
 }
 
 pub fn transform_calc_value_into_component_value(calc_value: &CalcValue) -> Option<ComponentValue> {

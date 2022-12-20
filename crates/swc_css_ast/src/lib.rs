@@ -32,3 +32,26 @@ macro_rules! matches_eq_ignore_ascii_case {
         )* false
     }};
 }
+
+/// Returns true if the given value matches one of the given patterns.
+///
+/// The type of value and patterns should be identical.
+///
+/// # Examples
+///
+/// ```
+/// use swc_atoms::JsWord;
+/// use swc_atoms::js_word;
+/// use swc_css_ast::*;
+///
+/// assert!(matches_eq!(JsWord::from("a"), js_word!("a")));
+/// assert!(matches_eq!("a", "a"));
+/// ```
+#[macro_export]
+macro_rules! matches_eq {
+    ($value:expr, $($pat:expr),*) => {{
+        $(
+            $value == $pat ||
+        )* false
+    }};
+}

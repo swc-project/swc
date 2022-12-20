@@ -36,6 +36,15 @@ impl PartialEq<str> for AtRuleName {
     }
 }
 
+impl PartialEq<JsWord> for AtRuleName {
+    fn eq(&self, other: &JsWord) -> bool {
+        match self {
+            AtRuleName::DashedIdent(v) => v.value == *other,
+            AtRuleName::Ident(v) => v.value == *other,
+        }
+    }
+}
+
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum AtRulePrelude {

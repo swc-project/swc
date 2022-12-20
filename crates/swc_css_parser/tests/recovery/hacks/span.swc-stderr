@@ -19316,7 +19316,7 @@
  245 |     _background: white;
      `----
 
-  x Ident { value: Atom('black' type=inline), raw: "black" }
+  x Ident { value: Atom('black' type=static), raw: "black" }
      ,-[$DIR/tests/recovery/hacks/input.css:243:1]
  243 | a {
  244 |     *color : black;

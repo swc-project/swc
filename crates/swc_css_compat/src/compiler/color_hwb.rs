@@ -1,7 +1,7 @@
 use swc_atoms::js_word;
 use swc_css_ast::{
-    AbsoluteColorBase, AlphaValue, Angle, ComponentValue, Delimiter, DelimiterValue, Hue, Ident,
-    Number, Percentage,
+    AbsoluteColorBase, AlphaValue, Angle, ComponentValue, Delimiter, DelimiterValue, FunctionName,
+    Hue, Ident, Number, Percentage,
 };
 use swc_css_utils::{angle_to_deg, hwb_to_rgb, to_rgb255};
 
@@ -95,7 +95,7 @@ impl Compiler {
 
     pub(crate) fn process_color_hwb(&mut self, n: &mut AbsoluteColorBase) {
         if let AbsoluteColorBase::Function(function) = n {
-            if function.name.value != js_word!("hwb") {
+            if function.name != js_word!("hwb") {
                 return;
             }
 
@@ -120,11 +120,11 @@ impl Compiler {
 
             if a == 1.0 {
                 *n = AbsoluteColorBase::Function(swc_css_ast::Function {
-                    name: Ident {
+                    name: FunctionName::Ident(Ident {
                         value: js_word!("rgb"),
                         span: Default::default(),
                         raw: None,
-                    },
+                    }),
                     value: vec![
                         ComponentValue::Number(Box::new(Number {
                             value: rgb[0].round(),
@@ -154,11 +154,11 @@ impl Compiler {
                 });
             } else {
                 *n = AbsoluteColorBase::Function(swc_css_ast::Function {
-                    name: Ident {
+                    name: FunctionName::Ident(Ident {
                         value: js_word!("rgba"),
                         span: Default::default(),
                         raw: None,
-                    },
+                    }),
                     value: vec![
                         ComponentValue::Number(Box::new(Number {
                             value: rgb[0].round(),

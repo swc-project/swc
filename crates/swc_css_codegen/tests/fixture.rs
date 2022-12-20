@@ -286,12 +286,6 @@ impl VisitMut for NormalizeTest {
         }
     }
 
-    fn visit_mut_function(&mut self, n: &mut Function) {
-        n.visit_mut_children_with(self);
-
-        n.name.value = n.name.value.to_lowercase().into();
-    }
-
     fn visit_mut_pseudo_class_selector(&mut self, n: &mut PseudoClassSelector) {
         n.visit_mut_children_with(self);
 

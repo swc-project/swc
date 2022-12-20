@@ -651,7 +651,7 @@
  21 | }
     `----
 
-  x Ident { value: Atom('blue' type=inline), raw: "blue" }
+  x Ident { value: Atom('blue' type=static), raw: "blue" }
     ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:19:1]
  19 | 
  20 |     color: blue;
