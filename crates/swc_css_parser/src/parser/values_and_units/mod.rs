@@ -1616,8 +1616,7 @@ where
 
                 self.input.skip_ws();
             }
-            js_word!("selector") if self.ctx.in_supports_at_rule => {
-            "element" | "-moz-element" => {
+            js_word!("element") | js_word!("-moz-element") => {
                 self.input.skip_ws();
 
                 let id_selector = self.try_parse_variable_function(
@@ -1631,7 +1630,7 @@ where
                     self.input.skip_ws();
                 }
             }
-            "selector" if self.ctx.in_supports_at_rule => {
+            js_word!("selector") if self.ctx.in_supports_at_rule => {
                 self.input.skip_ws();
 
                 let selector = ComponentValue::ComplexSelector(self.parse()?);

@@ -7,10 +7,10 @@
   }
 }
 @keyframes ONE_TWO_THREE {
-  FROM {
-    transform: translateX(0%);
+  from {
+    transform: translatex(0%);
   }
-  TO {
-    transform: translateX(100%);
+  to {
+    transform: translatex(100%);
   }
 }

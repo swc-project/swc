@@ -274,7 +274,10 @@ impl VisitMut for NormalizeTest {
     fn visit_mut_str(&mut self, n: &mut Str) {
         n.visit_mut_children_with(self);
 
-        n.value = n.value.replace('\0', "\u{FFFD}").into();
+        n.value = n
+            .value
+            .replace('\0', &char::REPLACEMENT_CHARACTER.to_string())
+            .into();
         n.raw = None;
     }
 
@@ -282,18 +285,6 @@ impl VisitMut for NormalizeTest {
         n.visit_mut_children_with(self);
 
         n.raw = None;
-    }
-
-    fn visit_mut_declaration(&mut self, n: &mut Declaration) {
-        n.visit_mut_children_with(self);
-
-        if let DeclarationName::Ident(name) = &mut n.name {
-            name.value = name.value.to_lowercase().into();
-        }
-    fn visit_mut_function(&mut self, n: &mut Function) {
-        n.visit_mut_children_with(self);
-
-        n.name.value = n.name.value.to_lowercase().into();
     }
 
     fn visit_mut_an_plus_b_notation(&mut self, n: &mut AnPlusBNotation) {

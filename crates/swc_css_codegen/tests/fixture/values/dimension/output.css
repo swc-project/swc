@@ -12,7 +12,7 @@ div {
 }
 .foo {
   width: 100px;
-  transform: ROTATE(45deg);
+  transform: rotate(45deg);
 }
 a {
   width: 10e\30px;

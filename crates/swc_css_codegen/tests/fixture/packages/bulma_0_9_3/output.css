@@ -177,7 +177,7 @@ fieldset[disabled] .pagination-ellipsis {
   left: 50%;
   position: absolute;
   top: 50%;
-  transform: translateX(-50%) translateY(-50%) rotate(45deg);
+  transform: translatex(-50%) translatey(-50%) rotate(45deg);
   transform-origin: center center;
 }
 .delete::before, 
@@ -2859,7 +2859,7 @@ div.icon-text {
   left: 50%;
   position: absolute;
   top: 50%;
-  transform: translateX(-50%) translateY(-50%) rotate(45deg);
+  transform: translatex(-50%) translatey(-50%) rotate(45deg);
   transform-origin: center center;
 }
 .tag:not(body).is-delete::before {
@@ -5605,13 +5605,13 @@ body.has-navbar-fixed-bottom {
   background-color: rgba(0, 0, 0, 0.05);
 }
 .navbar-burger.is-active span:nth-child(1) {
-  transform: translateY(5px) rotate(45deg);
+  transform: translatey(5px) rotate(45deg);
 }
 .navbar-burger.is-active span:nth-child(2) {
   opacity: 0;
 }
 .navbar-burger.is-active span:nth-child(3) {
-  transform: translateY(-5px) rotate(-45deg);
+  transform: translatey(-5px) rotate(-45deg);
 }
 .navbar-menu {
   display: none;
@@ -5838,7 +5838,7 @@ a.navbar-item.is-active,
   .navbar-item.is-hoverable:hover .navbar-dropdown.is-boxed {
     opacity: 1;
     pointer-events: auto;
-    transform: translateY(0);
+    transform: translatey(0);
   }
   .navbar-menu {
     flex-grow: 1;
@@ -5891,7 +5891,7 @@ a.navbar-item.is-active,
     opacity: 0;
     pointer-events: none;
     top: calc(100% + (-4px));
-    transform: translateY(-5px);
+    transform: translatey(-5px);
     transition-duration: 86ms;
     transition-property: opacity, transform;
   }
