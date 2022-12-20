@@ -34,7 +34,7 @@ impl Compressor {
 
     pub(super) fn compress_keyframe_selector(&mut self, keyframe_selector: &mut KeyframeSelector) {
         match keyframe_selector {
-            KeyframeSelector::Ident(i) if i.value.eq_ignore_ascii_case(&js_word!("from")) => {
+            KeyframeSelector::Ident(i) if i.value == js_word!("from") => {
                 *keyframe_selector = KeyframeSelector::Percentage(Percentage {
                     span: i.span,
                     value: Number {

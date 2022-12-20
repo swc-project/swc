@@ -733,6 +733,11 @@ where
                 })
                 .cloned()
             {
+                if !matches!(&*value, Expr::Ident(..) | Expr::Member(..)) && self.ctx.is_update_arg
+                {
+                    return;
+                }
+
                 self.changed = true;
                 report_change!("inline: Replacing a variable `{}` with cheap expression", i);
 
