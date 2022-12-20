@@ -2379,7 +2379,6 @@ impl VisitMut for Prefixer {
             }
 
             js_word!("opacity") if should_prefix("opacity", self.env, true) => {
-            "opacity" if should_prefix("opacity", self.env, false) => {
                 let old_value = match n.value.get(0) {
                     Some(ComponentValue::Percentage(percentage)) => Some(percentage.value.value),
                     _ => None,
@@ -3389,19 +3388,30 @@ impl VisitMut for Prefixer {
 
             js_word!("overflow-wrap") => {
                 add_declaration!(js_word!("word-wrap"), None);
-            "overflow-wrap" => {
-                add_declaration!("word-wrap", None);
-            "overflow" if should_prefix("overflow", self.env, false) && n.value.len() == 2 => {
+            }
+
+            js_word!("overflow")
+                if should_prefix("overflow", self.env, false) && n.value.len() == 2 =>
+            {
                 if let (
                     Some(left @ ComponentValue::Ident(box first)),
                     Some(right @ ComponentValue::Ident(box second)),
                 ) = (n.value.get(0), n.value.get(1))
                 {
                     if first.value.eq_ignore_ascii_case(&second.value) {
-                        add_declaration!("overflow", Some(Box::new(|| { vec![left.clone()] })));
+                        add_declaration!(
+                            js_word!("overflow"),
+                            Some(Box::new(|| { vec![left.clone()] }))
+                        );
                     } else {
-                        add_declaration!("overflow-x", Some(Box::new(|| { vec![left.clone()] })));
-                        add_declaration!("overflow-y", Some(Box::new(|| { vec![right.clone()] })));
+                        add_declaration!(
+                            js_word!("overflow-x"),
+                            Some(Box::new(|| { vec![left.clone()] }))
+                        );
+                        add_declaration!(
+                            js_word!("overflow-y"),
+                            Some(Box::new(|| { vec![right.clone()] }))
+                        );
                     }
                 }
             }
@@ -3409,13 +3419,10 @@ impl VisitMut for Prefixer {
             js_word!("tab-size") => {
                 add_declaration!(Prefix::Moz, js_word!("-moz-tab-size"), None);
                 add_declaration!(Prefix::O, js_word!("-o-tab-size"), None);
-            "overflow-wrap" => {
-                add_declaration!("word-wrap", None);
             }
 
-            "tab-size" => {
-                add_declaration!(Prefix::Moz, "-moz-tab-size", None);
-                add_declaration!(Prefix::O, "-o-tab-size", None);
+            js_word!("overflow-wrap") => {
+                add_declaration!(js_word!("word-wrap"), None);
             }
 
             js_word!("hyphens") => {
@@ -3612,8 +3619,7 @@ impl VisitMut for Prefixer {
                 add_declaration!(Prefix::Moz, js_word!("-moz-border-radius-bottomleft"), None);
             }
 
-            js_word!("src") if should_prefix("font-face-format-ident", self.env, true) => {
-            "src" if should_prefix("font-face-format-ident", self.env, false) => {
+            js_word!("src") if should_prefix("font-face-format-ident", self.env, false) => {
                 let mut new_declaration = n.clone();
 
                 font_face_format_old_syntax(&mut new_declaration);
