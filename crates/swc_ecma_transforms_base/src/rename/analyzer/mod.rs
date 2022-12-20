@@ -1,5 +1,3 @@
-use std::mem::take;
-
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
@@ -56,7 +54,7 @@ impl Analyzer {
 
             op(&mut v);
             if !v.hoisted_vars.is_empty() {
-                debug_assert!(v.scope.kind.is_block());
+                debug_assert!(matches!(v.scope.kind, ScopeKind::Block));
                 match self.scope.kind {
                     ScopeKind::Fn => {
                         v.hoisted_vars
@@ -117,7 +115,6 @@ impl Visit for Analyzer {
         }
     }
 
-    // Need to avoid crating extra block scope
     fn visit_catch_clause(&mut self, n: &CatchClause) {
         self.with_scope(ScopeKind::Block, |v| {
             let old = v.is_pat_decl;
@@ -360,7 +357,7 @@ impl Visit for Analyzer {
     }
 
     fn visit_for_in_stmt(&mut self, n: &ForInStmt) {
-        self.with_scope(ScopeKind::Block, |mut v| {
+        self.with_scope(ScopeKind::Block, |v| {
             n.left.visit_with(v);
             n.right.visit_with(v);
 
@@ -371,7 +368,7 @@ impl Visit for Analyzer {
     }
 
     fn visit_for_of_stmt(&mut self, n: &ForOfStmt) {
-        self.with_scope(ScopeKind::Block, |mut v| {
+        self.with_scope(ScopeKind::Block, |v| {
             n.left.visit_with(v);
             n.right.visit_with(v);
 
@@ -382,7 +379,7 @@ impl Visit for Analyzer {
     }
 
     fn visit_for_stmt(&mut self, n: &ForStmt) {
-        self.with_scope(ScopeKind::Block, |mut v| {
+        self.with_scope(ScopeKind::Block, |v| {
             n.init.visit_with(v);
             n.test.visit_with(v);
             n.update.visit_with(v);
@@ -391,5 +388,9 @@ impl Visit for Analyzer {
                 v.visit_for_body_within_same_scope(&n.body);
             })
         });
+    }
+
+    fn visit_static_block(&mut self, n: &StaticBlock) {
+        self.with_fn_scope(|v| n.body.visit_children_with(v))
     }
 }

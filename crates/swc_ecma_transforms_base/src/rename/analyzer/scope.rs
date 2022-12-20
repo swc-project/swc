@@ -22,16 +22,6 @@ pub(crate) enum ScopeKind {
     Block,
 }
 
-impl ScopeKind {
-    pub(crate) fn is_fn(&self) -> bool {
-        self == &Self::Fn
-    }
-
-    pub(crate) fn is_block(&self) -> bool {
-        self == &Self::Block
-    }
-}
-
 impl Default for ScopeKind {
     fn default() -> Self {
         Self::Fn
