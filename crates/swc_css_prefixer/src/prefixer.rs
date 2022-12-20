@@ -3518,12 +3518,18 @@ impl VisitMut for Prefixer {
             js_word!("break-inside") => {
                 if let ComponentValue::Ident(ident) = &n.value[0] {
                     match ident.value.to_ascii_lowercase() {
-                        js_word!("auto") | js_word!("avoid") => {
+                        js_word!("auto")
+                        | js_word!("avoid")
+                        | js_word!("initial")
+                        | js_word!("inherit")
+                        | js_word!("revert")
+                        | js_word!("revert-layer") => {
                             add_declaration!(
                                 Prefix::Webkit,
                                 js_word!("-webkit-column-break-inside"),
                                 None
                             );
+                            add_declaration!(js_word!("page-break-inside"), None);
                         }
                         _ => {}
                     }
@@ -3533,11 +3539,26 @@ impl VisitMut for Prefixer {
             js_word!("break-before") => {
                 if let ComponentValue::Ident(ident) = &n.value[0] {
                     match ident.value.to_ascii_lowercase() {
-                        js_word!("auto") | js_word!("avoid") => {
+                        js_word!("auto")
+                        | js_word!("avoid")
+                        | js_word!("initial")
+                        | js_word!("inherit")
+                        | js_word!("revert")
+                        | js_word!("revert-layer") => {
                             add_declaration!(
                                 Prefix::Webkit,
                                 js_word!("-webkit-column-break-before"),
                                 None
+                            );
+                            add_declaration!(js_word!("page-break-before"), None);
+                        }
+                        js_word!("left") | js_word!("right") => {
+                            add_declaration!(js_word!("page-break-before"), None);
+                        }
+                        js_word!("page") => {
+                            add_declaration!(
+                                js_word!("page-break-before"),
+                                Some(Box::new(|| { vec![to_ident!("always")] }))
                             );
                         }
                         js_word!("column") => {
@@ -3555,11 +3576,26 @@ impl VisitMut for Prefixer {
             js_word!("break-after") => {
                 if let ComponentValue::Ident(ident) = &n.value[0] {
                     match ident.value.to_ascii_lowercase() {
-                        js_word!("auto") | js_word!("avoid") => {
+                        js_word!("auto")
+                        | js_word!("avoid")
+                        | js_word!("initial")
+                        | js_word!("inherit")
+                        | js_word!("revert")
+                        | js_word!("revert-layer") => {
                             add_declaration!(
                                 Prefix::Webkit,
                                 js_word!("-webkit-column-break-after"),
                                 None
+                            );
+                            add_declaration!(js_word!("page-break-after"), None);
+                        }
+                        js_word!("left") | js_word!("right") => {
+                            add_declaration!(js_word!("page-break-after"), None);
+                        }
+                        js_word!("page") => {
+                            add_declaration!(
+                                js_word!("page-break-after"),
+                                Some(Box::new(|| { vec![to_ident!("always")] }))
                             );
                         }
                         js_word!("column") => {
