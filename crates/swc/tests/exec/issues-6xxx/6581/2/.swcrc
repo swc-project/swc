@@ -1,0 +1,20 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "tsx": true
+        },
+        "target": "es2019",
+        "loose": true,
+        "minify": {
+            "compress": false,
+            "mangle": false
+        },
+        "externalHelpers": true
+    },
+    "module": {
+        "type": "es6"
+    },
+    "minify": false,
+    "isModule": true
+}

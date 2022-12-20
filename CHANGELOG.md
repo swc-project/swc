@@ -11,6 +11,9 @@
 - **(css/minifier)** Fix a bug with a modern hash (#6664) ([1d3e06a](https://github.com/swc-project/swc/commit/1d3e06aa886ffd8b18044c42a899fc3c780a6179))
 
 
+- **(es/helpers)** Fix loose mode (#6691) ([5016ebe](https://github.com/swc-project/swc/commit/5016ebed8f68ed1afb40d5d86c13d5e787e9cc13))
+
+
 - **(es/minifier)** Abort IIFE invoker completely on eval (#6659) ([bb9fab8](https://github.com/swc-project/swc/commit/bb9fab8d0358262b8236c372d62660a50b5b3417))
 
 
@@ -78,6 +81,9 @@
 
 ### Refactor
 
+
+
+- **(css/compat)** Merge nesting into the compiler (#6686) ([1840e74](https://github.com/swc-project/swc/commit/1840e748af8334d244a1455a25325625b06fff93))
 
 
 - **(css/prefixer)** Use `eq_ignore_span` (#6656) ([d4660a4](https://github.com/swc-project/swc/commit/d4660a4673e19d628b7720e1352fa905bdc4456a))
