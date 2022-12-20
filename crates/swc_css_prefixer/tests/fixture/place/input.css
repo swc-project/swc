@@ -1,0 +1,82 @@
+a {
+    place-content: space-between center;
+    place-items: center normal;
+    place-self: center;
+}
+
+A {
+    PLACE-CONTENT: space-between center;
+    PLACE-ITEMS: center normal;
+    PLACE-SELF: auto center;
+}
+
+b {
+    place-content: space-between;
+    place-items: center;
+    place-self: center;
+}
+
+c {
+    place-content: var(--first) center;
+    place-items: var(--first) normal;
+    place-self: var(--first);
+}
+
+d {
+    place-content: space-between var(--second);
+    place-items: self-start var(--second);
+}
+
+e {
+    place-content: var(--first, var(--fallback)) center;
+    place-items: var(--first, var(--fallback)) legacy;
+}
+
+.test-unparseable-var-in-place-declaration {
+    place-content: var(var(--foo), ; );
+}
+
+.order-0 {
+    -webkit-place-content: first second;
+}
+
+.order-1 {
+    -moz-place-content: first second;
+}
+
+.order-2 {
+    -ms-place-content: first second;
+}
+
+.order-3 {
+    -o-place-content: first second;
+}
+
+.order-4 {
+    --place-content: first second;
+}
+
+.order-5 {
+    foo-place-content: first second;
+}
+
+/* place-content: first second; */
+
+.content {
+    content: 'place-content: first second;';
+}
+
+.important {
+    place-content: first second !important;
+}
+
+@supports (place-content: first second) {
+    .support {
+        place-content: first second;
+    }
+}
+@keyframes KEYFRAMES {
+    50% {
+        place-content: first second;
+    }
+}

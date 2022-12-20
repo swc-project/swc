@@ -16,7 +16,6 @@ use swc_css_codegen::{
 use swc_css_compat::{
     compiler::{Compiler, Config},
     feature::Features,
-    nesting::nesting,
 };
 use swc_css_parser::{parse_file, parser::ParserConfig};
 use swc_css_visit::VisitMutWith;
@@ -54,18 +53,17 @@ fn print_stylesheet(ss: &Stylesheet) -> String {
     s
 }
 
-fn test_nesting(input: PathBuf, suffix: Option<&str>) {
-    let parent = input.parent().unwrap();
-    let output = match suffix {
-        Some(suffix) => parent.join("output.".to_owned() + suffix + ".css"),
-        _ => parent.join("output.css"),
-    };
+#[testing::fixture("tests/nesting/**/*.css", exclude("expect.css"))]
+fn test_nesting(input: PathBuf) {
+    let output = input.with_extension("expect.css");
 
     testing::run_test(false, |cm, _| {
         let fm = cm.load_file(&input).unwrap();
         let mut ss = parse_stylesheet(&fm);
 
-        ss.visit_mut_with(&mut nesting());
+        ss.visit_mut_with(&mut Compiler::new(Config {
+            process: Features::NESTING,
+        }));
 
         let s = print_stylesheet(&ss);
 
@@ -74,11 +72,6 @@ fn test_nesting(input: PathBuf, suffix: Option<&str>) {
         Ok(())
     })
     .unwrap();
-}
-
-#[testing::fixture("tests/nesting/**/input.css")]
-fn test_nesting_without_env(input: PathBuf) {
-    test_nesting(input, None)
 }
 
 #[testing::fixture("tests/custom-media-query/**/*.css", exclude("expect.css"))]
@@ -177,6 +170,27 @@ fn test_selector_not(input: PathBuf) {
 
         ss.visit_mut_with(&mut Compiler::new(Config {
             process: Features::SELECTOR_NOT,
+        }));
+
+        let s = print_stylesheet(&ss);
+
+        NormalizedOutput::from(s).compare_to_file(&output).unwrap();
+
+        Ok(())
+    })
+    .unwrap();
+}
+
+#[testing::fixture("tests/color-hwb/**/*.css", exclude("expect.css"))]
+fn test_color_hwb(input: PathBuf) {
+    let output = input.with_extension("expect.css");
+
+    testing::run_test(false, |cm, _| {
+        let fm = cm.load_file(&input).unwrap();
+        let mut ss = parse_stylesheet(&fm);
+
+        ss.visit_mut_with(&mut Compiler::new(Config {
+            process: Features::COLOR_HWB,
         }));
 
         let s = print_stylesheet(&ss);

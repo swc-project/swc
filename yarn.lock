@@ -2124,12 +2124,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@napi-rs/cli@npm:^2.10.0":
-  version: 2.12.0
-  resolution: "@napi-rs/cli@npm:2.12.0"
+"@napi-rs/cli@npm:^2.13.3":
+  version: 2.13.3
+  resolution: "@napi-rs/cli@npm:2.13.3"
   bin:
     napi: scripts/index.js
-  checksum: 88e4cb33022ad9f2185a3e539d2b692f0c5edaeb55d8ecf2c92e512d1a68770f97d0d56ff7aa24595e83c783cbd8509309968052671b79bbed780340b9201c8f
+  checksum: b16c3b307927b68adfe378bd76153b75c4a1a9d4101d7c49e0b1b9d425ce0f63a6d18acb9548d210dd90a4244333666f839d3f27070d3a07d63fa8ae1bfe2f35
   languageName: node
   linkType: hard
 
@@ -2450,7 +2450,7 @@ __metadata:
     "@babel/preset-react": ^7.13.13
     "@babel/preset-typescript": ^7.13.0
     "@babel/types": ^7.14.0
-    "@napi-rs/cli": ^2.10.0
+    "@napi-rs/cli": ^2.13.3
     "@swc/core": =1.2.220
     "@swc/core-darwin-arm64": 1.2.146
     "@swc/core-darwin-x64": 1.2.146

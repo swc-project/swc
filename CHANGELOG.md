@@ -11,7 +11,13 @@
 - **(css/minifier)** Fix a bug with a modern hash (#6664) ([1d3e06a](https://github.com/swc-project/swc/commit/1d3e06aa886ffd8b18044c42a899fc3c780a6179))
 
 
+- **(es/helpers)** Fix loose mode (#6691) ([5016ebe](https://github.com/swc-project/swc/commit/5016ebed8f68ed1afb40d5d86c13d5e787e9cc13))
+
+
 - **(es/minifier)** Abort IIFE invoker completely on eval (#6659) ([bb9fab8](https://github.com/swc-project/swc/commit/bb9fab8d0358262b8236c372d62660a50b5b3417))
+
+
+- **(es/minifier)** Don't inline invalid LHS into an update argument (#6680) ([7e6ec8d](https://github.com/swc-project/swc/commit/7e6ec8d587471dba1dde44ebcfd6af6d03247955))
 
 
 - **(es/preset-env)** Align polyfills with `@babel/plugin-polyfill-corejs3` (#6673) ([5fed222](https://github.com/swc-project/swc/commit/5fed22282971c62af3be8bf0b858684ca90ec7fc))
@@ -24,6 +30,9 @@
 
 
 - **(css/compat)** Support `not` with multiple arguments (#6668) ([352896f](https://github.com/swc-project/swc/commit/352896f4cb627c1a006ea82780f993915af7e8b1))
+
+
+- **(css/compat)** Support `hwb` color (#6687) ([b23cf50](https://github.com/swc-project/swc/commit/b23cf50f4ff58a2c6d434cb03f2388e75a35d510))
 
 
 - **(css/minifier)** Compress alpha in a hex (#6653) ([f6292e6](https://github.com/swc-project/swc/commit/f6292e63b51e5ad5a8d1fcc253e8342438098898))
@@ -58,6 +67,12 @@
 
 - **(css/prefixer)** Support `word-wrap` (#6679) ([46241b4](https://github.com/swc-project/swc/commit/46241b4e554b7a6ee090db8e35acd0151e8caf2b))
 
+
+- **(css/prefixer)** Support `place-*` properties (#6685) ([d8df1b5](https://github.com/swc-project/swc/commit/d8df1b53d13cb25aa8f513f9dc3baeb535fd714e))
+
+
+- **(es/minifier)** Improve simplification of `?.` (#6681) ([707b1e3](https://github.com/swc-project/swc/commit/707b1e3cd203be22eccc60367dc3c84f62105de5))
+
 ### Performance
 
 
@@ -71,6 +86,9 @@
 
 
 
+- **(css/compat)** Merge nesting into the compiler (#6686) ([1840e74](https://github.com/swc-project/swc/commit/1840e748af8334d244a1455a25325625b06fff93))
+
+
 - **(css/prefixer)** Use `eq_ignore_span` (#6656) ([d4660a4](https://github.com/swc-project/swc/commit/d4660a4673e19d628b7720e1352fa905bdc4456a))
 
 ### Testing
@@ -78,6 +96,12 @@
 
 
 - **(css/parser)** Add a test (#6666) ([87e1efd](https://github.com/swc-project/swc/commit/87e1efd98ce3c58325ee047c2b01b0df575e921f))
+
+### Build
+
+
+
+- **(bindings)** Crash in GraalVM (#6689) ([e7849db](https://github.com/swc-project/swc/commit/e7849dbc6a68274ec5f177f061da80bdf8788902))
 
 ## [1.3.23] - 2022-12-14
 

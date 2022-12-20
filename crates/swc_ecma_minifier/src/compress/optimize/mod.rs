@@ -1536,6 +1536,7 @@ where
                     },
                 is_lhs_of_assign: false,
                 is_exact_lhs_of_assign: false,
+                is_update_arg: false,
                 ..self.ctx
             };
             e.callee.visit_mut_with(&mut *self.with_ctx(ctx));
@@ -1566,6 +1567,7 @@ where
                 is_this_aware_callee: false,
                 is_lhs_of_assign: false,
                 is_exact_lhs_of_assign: false,
+                is_update_arg: false,
                 ..self.ctx
             };
             // TODO: Prevent inline if callee is unknown.
@@ -1583,6 +1585,7 @@ where
         {
             let ctx = Ctx {
                 dont_invoke_iife: true,
+                is_update_arg: false,
                 ..self.ctx
             };
             n.super_class.visit_mut_with(&mut *self.with_ctx(ctx));
@@ -1591,6 +1594,7 @@ where
         {
             let ctx = Ctx {
                 in_strict: true,
+                is_update_arg: false,
                 ..self.ctx
             };
             n.body.visit_mut_with(&mut *self.with_ctx(ctx));
@@ -2184,6 +2188,7 @@ where
             let ctx = Ctx {
                 in_obj_of_non_computed_member: !n.prop.is_computed(),
                 is_exact_lhs_of_assign: false,
+                is_update_arg: false,
                 ..self.ctx
             };
             n.obj.visit_mut_with(&mut *self.with_ctx(ctx));
@@ -2192,6 +2197,7 @@ where
             let ctx = Ctx {
                 is_exact_lhs_of_assign: false,
                 is_lhs_of_assign: false,
+                is_update_arg: false,
                 ..self.ctx
             };
             c.visit_mut_with(&mut *self.with_ctx(ctx));
