@@ -825,7 +825,7 @@
           "end": 330,
           "ctxt": 0
         },
-        "value": "SUPPORTS",
+        "value": "supports",
         "raw": "SUPPORTS"
       },
       "prelude": {

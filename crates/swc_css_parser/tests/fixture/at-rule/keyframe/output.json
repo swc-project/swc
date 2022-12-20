@@ -1513,7 +1513,7 @@
                   "end": 686,
                   "ctxt": 0
                 },
-                "value": "fRoM",
+                "value": "from",
                 "raw": "fRoM"
               }
             ],
@@ -1611,7 +1611,7 @@
                   "end": 737,
                   "ctxt": 0
                 },
-                "value": "tO",
+                "value": "to",
                 "raw": "tO"
               }
             ],

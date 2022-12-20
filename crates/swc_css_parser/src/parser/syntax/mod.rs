@@ -148,16 +148,17 @@ where
                 unreachable!()
             }
         };
-        let name = if at_keyword_name.0.starts_with("--") {
+        let is_dashed_ident = at_keyword_name.0.starts_with("--");
+        let name = if is_dashed_ident {
             AtRuleName::DashedIdent(DashedIdent {
                 span: Span::new(span.lo + BytePos(1), span.hi, Default::default()),
-                value: at_keyword_name.0,
+                value: at_keyword_name.0[2..].into(),
                 raw: Some(at_keyword_name.1),
             })
         } else {
             AtRuleName::Ident(Ident {
                 span: Span::new(span.lo + BytePos(1), span.hi, Default::default()),
-                value: at_keyword_name.0,
+                value: at_keyword_name.0.to_ascii_lowercase(),
                 raw: Some(at_keyword_name.1),
             })
         };
