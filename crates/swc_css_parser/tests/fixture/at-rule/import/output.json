@@ -272,7 +272,7 @@
           "end": 136,
           "ctxt": 0
         },
-        "value": "IMPORT",
+        "value": "import",
         "raw": "IMPORT"
       },
       "prelude": {
@@ -412,7 +412,7 @@
               "end": 194,
               "ctxt": 0
             },
-            "value": "URL",
+            "value": "url",
             "raw": "URL"
           },
           "value": {
@@ -2016,7 +2016,7 @@
           "end": 904,
           "ctxt": 0
         },
-        "value": "IMPORT",
+        "value": "import",
         "raw": "IMPORT"
       },
       "prelude": {

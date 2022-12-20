@@ -53,8 +53,8 @@ impl Visit for CompatibilityChecker {
 impl Compressor {
     fn get_at_rule_name(&self, at_rule: &AtRule) -> JsWord {
         match &at_rule.name {
-            AtRuleName::Ident(Ident { value, .. }) => value.to_ascii_lowercase(),
-            AtRuleName::DashedIdent(DashedIdent { value, .. }) => value.to_ascii_lowercase(),
+            AtRuleName::Ident(Ident { value, .. }) => value.clone(),
+            AtRuleName::DashedIdent(DashedIdent { value, .. }) => value.clone(),
         }
     }
 
@@ -329,13 +329,13 @@ impl Compressor {
             _ => return false,
         };
 
-        matches_eq_ignore_ascii_case!(
-            name,
-            js_word!("media"),
-            js_word!("supports"),
-            js_word!("container"),
-            js_word!("layer"),
-            js_word!("nest")
+        matches!(
+            *name,
+            js_word!("media")
+                | js_word!("supports")
+                | js_word!("container")
+                | js_word!("layer")
+                | js_word!("nest")
         )
     }
 
@@ -643,6 +643,7 @@ impl Compressor {
     }
 }
 
+#[inline]
 fn need_keep_by_name(name: &JsWord) -> bool {
-    matches_eq_ignore_ascii_case!(name, js_word!("color-profile"))
+    *name == js_word!("color-profile")
 }

@@ -13,6 +13,12 @@
 
 - **(es/minifier)** Abort IIFE invoker completely on eval (#6659) ([bb9fab8](https://github.com/swc-project/swc/commit/bb9fab8d0358262b8236c372d62660a50b5b3417))
 
+
+- **(es/minifier)** Don't inline invalid LHS into an update argument (#6680) ([7e6ec8d](https://github.com/swc-project/swc/commit/7e6ec8d587471dba1dde44ebcfd6af6d03247955))
+
+
+- **(es/preset-env)** Align polyfills with `@babel/plugin-polyfill-corejs3` (#6673) ([5fed222](https://github.com/swc-project/swc/commit/5fed22282971c62af3be8bf0b858684ca90ec7fc))
+
 ### Features
 
 
@@ -21,6 +27,9 @@
 
 
 - **(css/compat)** Support `not` with multiple arguments (#6668) ([352896f](https://github.com/swc-project/swc/commit/352896f4cb627c1a006ea82780f993915af7e8b1))
+
+
+- **(css/compat)** Support `hwb` color (#6687) ([b23cf50](https://github.com/swc-project/swc/commit/b23cf50f4ff58a2c6d434cb03f2388e75a35d510))
 
 
 - **(css/minifier)** Compress alpha in a hex (#6653) ([f6292e6](https://github.com/swc-project/swc/commit/f6292e63b51e5ad5a8d1fcc253e8342438098898))
@@ -41,6 +50,15 @@
 - **(css/parser)** Normalize dimension (#6654) ([3d3863d](https://github.com/swc-project/swc/commit/3d3863dc1f80a7a1dc141cc9fb0ed9277537a3d0))
 
 
+- **(css/parser)** Normalize URL functions (#6675) ([c01464e](https://github.com/swc-project/swc/commit/c01464e4525cb8c7d4b9f000d8b76d72e8e7531a))
+
+
+- **(css/parser)** Normalize at-rule names (#6676) ([7f8ba9c](https://github.com/swc-project/swc/commit/7f8ba9c22c9910e03a3b6122dd4ca4324314bbb5))
+
+
+- **(css/parser)** Normalize keyframe selectors (#6688) ([d7a0524](https://github.com/swc-project/swc/commit/d7a0524fb64c97facf067281ae3a2fc4afae68fe))
+
+
 - **(css/prefixer)** Support font-face format (#6644) ([199ac74](https://github.com/swc-project/swc/commit/199ac7461814553bab97c1f0f7b1c89f34897122))
 
 
@@ -48,6 +66,9 @@
 
 ### Performance
 
+
+
+- **(css/prefixer)** Use `JsWord` instead of `&str` (#6658) ([d27a270](https://github.com/swc-project/swc/commit/d27a270fec7f08895c5a9ab2b56da6d77f52d5af))
 
 
 - **(es/minifier)** Use rope-like structure for the name mangler (#6661) ([cb4173a](https://github.com/swc-project/swc/commit/cb4173aa73fbfd95f2411ceb97cec95e408f59ee))
@@ -63,6 +84,12 @@
 
 
 - **(css/parser)** Add a test (#6666) ([87e1efd](https://github.com/swc-project/swc/commit/87e1efd98ce3c58325ee047c2b01b0df575e921f))
+
+### Build
+
+
+
+- **(bindings)** Crash in GraalVM (#6689) ([e7849db](https://github.com/swc-project/swc/commit/e7849dbc6a68274ec5f177f061da80bdf8788902))
 
 ## [1.3.23] - 2022-12-14
 
