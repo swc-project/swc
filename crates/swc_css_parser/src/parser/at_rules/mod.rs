@@ -896,10 +896,11 @@ where
     fn parse(&mut self) -> PResult<KeyframeSelector> {
         match cur!(self) {
             tok!("ident") => {
-                let ident: Ident = self.parse()?;
-                let normalized_ident_value = ident.value.to_ascii_lowercase();
+                let mut ident: Ident = self.parse()?;
 
-                if &*normalized_ident_value != "from" && &*normalized_ident_value != "to" {
+                ident.value = ident.value.to_ascii_lowercase();
+
+                if ident.value != js_word!("from") && ident.value != js_word!("to") {
                     return Err(Error::new(
                         ident.span,
                         ErrorKind::Expected("'from' or 'to' idents"),
