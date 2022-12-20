@@ -371,7 +371,11 @@ impl Pure<'_> {
         };
 
         if let OptChainBase::Member(base) = &mut opt.base {
-            if base.obj.is_array() || base.obj.is_object() {
+            if match &*base.obj {
+                Expr::Lit(Lit::Null(..)) => false,
+                Expr::Lit(..) | Expr::Object(..) | Expr::Array(..) => true,
+                _ => false,
+            } {
                 self.changed = true;
                 report_change!("Optimized optional chaining expression where object is not null");
 
