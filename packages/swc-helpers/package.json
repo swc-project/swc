@@ -23,7 +23,7 @@
         "helpers"
     ],
     "author": "강동윤 <kdy1997.dev@gmail.com>",
-    "license": "MIT",
+    "license": "Apache-2.0",
     "bugs": {
         "url": "https://github.com/swc-project/swc/issues"
     },
