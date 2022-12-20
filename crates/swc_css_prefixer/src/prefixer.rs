@@ -672,6 +672,68 @@ where
     node.visit_mut_with(&mut FontFaceFormatOldSyntax {});
 }
 
+pub struct ClampReplacer {}
+
+impl VisitMut for ClampReplacer {
+    fn visit_mut_function(&mut self, n: &mut Function) {
+        n.visit_mut_children_with(self);
+
+        if n.name != js_word!("clamp") {
+            return;
+        }
+
+        let min_function = if let (
+            Some(middle @ ComponentValue::CalcSum(_)),
+            Some(comma),
+            Some(right @ ComponentValue::CalcSum(_)),
+        ) = (n.value.get(2), n.value.get(3), n.value.get(4))
+        {
+            Function {
+                span: n.span,
+                name: FunctionName::Ident(Ident {
+                    span: n.span,
+                    value: js_word!("min"),
+                    raw: None,
+                }),
+                value: vec![middle.clone(), comma.clone(), right.clone()],
+            }
+        } else {
+            return;
+        };
+
+        if let (Some(left), Some(comma)) = (n.value.get(0), n.value.get(1)) {
+            *n = Function {
+                span: n.span,
+                name: FunctionName::Ident(Ident {
+                    span: n.span,
+                    value: js_word!("max"),
+                    raw: None,
+                }),
+                value: vec![
+                    left.clone(),
+                    comma.clone(),
+                    ComponentValue::CalcSum(Box::new(CalcSum {
+                        span: DUMMY_SP,
+                        expressions: vec![CalcProductOrOperator::Product(CalcProduct {
+                            span: DUMMY_SP,
+                            expressions: vec![CalcValueOrOperator::Value(CalcValue::Function(
+                                min_function,
+                            ))],
+                        })],
+                    })),
+                ],
+            };
+        }
+    }
+}
+
+pub fn replace_clamp<N>(node: &mut N)
+where
+    N: VisitMutWith<ClampReplacer>,
+{
+    node.visit_mut_with(&mut ClampReplacer {});
+}
+
 macro_rules! to_ident {
     ($val:expr) => {{
         ComponentValue::Ident(Box::new(Ident {
@@ -1437,6 +1499,10 @@ impl VisitMut for Prefixer {
                     "repeating-radial-gradient",
                     "-webkit-repeating-radial-gradient",
                 );
+            }
+
+            if should_prefix("clamp()", self.env, true) {
+                replace_clamp(&mut webkit_value);
             }
         }
 
