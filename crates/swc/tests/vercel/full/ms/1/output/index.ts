@@ -51,8 +51,8 @@ export default function(s, c) {
         }(s);
         if ("number" == typeof s && isFinite(s)) return (null == c ? void 0 : c.long) ? (a = Math.abs(s)) >= 86400000 ? e(s, a, 86400000, "day") : a >= 3600000 ? e(s, a, 3600000, "hour") : a >= 60000 ? e(s, a, 60000, "minute") : a >= 1000 ? e(s, a, 1000, "second") : "".concat(s, " ms") : (r = Math.abs(s)) >= 86400000 ? "".concat(Math.round(s / 86400000), "d") : r >= 3600000 ? "".concat(Math.round(s / 3600000), "h") : r >= 60000 ? "".concat(Math.round(s / 60000), "m") : r >= 1000 ? "".concat(Math.round(s / 1000), "s") : "".concat(s, "ms");
         throw Error("Value is not a string or number.");
-    } catch (n) {
-        throw Error("object" == typeof n && null !== n && "message" in n ? "".concat(n.message, ". value=").concat(JSON.stringify(s)) : "An unknown error has occurred.");
+    } catch (e) {
+        throw Error("object" == typeof e && null !== e && "message" in e ? "".concat(e.message, ". value=").concat(JSON.stringify(s)) : "An unknown error has occurred.");
     }
 };
 function e(e, s, c, a) {

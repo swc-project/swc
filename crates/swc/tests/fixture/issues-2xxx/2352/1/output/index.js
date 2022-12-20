@@ -1,7 +1,7 @@
 async function test(listings) {
     for (const listing of listings){}
-    for (const listing1 of activeAndOpen){
-        const listing11 = await foo(listing1);
-        console.log(listing11);
+    for (const listing of activeAndOpen){
+        const listing1 = await foo(listing);
+        console.log(listing1);
     }
 }
