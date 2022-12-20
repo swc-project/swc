@@ -84,6 +84,13 @@ impl Analyzer {
             body.visit_children_with(self);
         }
     }
+
+    fn visit_for_body_within_same_scope(&mut self, body: &Stmt) {
+        match body {
+            Stmt::Block(s) => s.visit_children_with(self),
+            _ => body.visit_with(self),
+        }
+    }
 }
 
 impl Visit for Analyzer {
@@ -350,5 +357,39 @@ impl Visit for Analyzer {
             BlockStmtOrExpr::BlockStmt(n) => n.visit_children_with(self),
             BlockStmtOrExpr::Expr(n) => n.visit_with(self),
         }
+    }
+
+    fn visit_for_in_stmt(&mut self, n: &ForInStmt) {
+        self.with_scope(ScopeKind::Block, |mut v| {
+            n.left.visit_with(v);
+            n.right.visit_with(v);
+
+            v.with_scope(ScopeKind::Block, |v| {
+                v.visit_for_body_within_same_scope(&n.body);
+            })
+        });
+    }
+
+    fn visit_for_of_stmt(&mut self, n: &ForOfStmt) {
+        self.with_scope(ScopeKind::Block, |mut v| {
+            n.left.visit_with(v);
+            n.right.visit_with(v);
+
+            v.with_scope(ScopeKind::Block, |v| {
+                v.visit_for_body_within_same_scope(&n.body);
+            })
+        });
+    }
+
+    fn visit_for_stmt(&mut self, n: &ForStmt) {
+        self.with_scope(ScopeKind::Block, |mut v| {
+            n.init.visit_with(v);
+            n.test.visit_with(v);
+            n.update.visit_with(v);
+
+            v.with_scope(ScopeKind::Block, |v| {
+                v.visit_for_body_within_same_scope(&n.body);
+            })
+        });
     }
 }
