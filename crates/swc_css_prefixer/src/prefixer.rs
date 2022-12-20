@@ -669,6 +669,70 @@ where
     node.visit_mut_with(&mut FontFaceFormatOldSyntax {});
 }
 
+pub struct PseudoClassSearcher<'a> {
+    found: &'a mut bool,
+}
+
+impl VisitMut for PseudoClassSearcher<'_> {
+    fn visit_mut_pseudo_class_selector(&mut self, n: &mut PseudoClassSelector) {
+        n.visit_mut_children_with(self);
+
+        if n.name.value == js_word!("any-link") {
+            *self.found = true;
+        }
+    }
+}
+
+pub struct PseudoClassAnyLinkFallback {}
+
+impl VisitMut for PseudoClassAnyLinkFallback {
+    fn visit_mut_selector_list(&mut self, n: &mut SelectorList) {
+        n.visit_mut_children_with(self);
+
+        let mut found = false;
+
+        n.visit_mut_with(&mut PseudoClassSearcher { found: &mut found });
+
+        if !found {
+            return;
+        }
+
+        let mut new_children: Vec<ComplexSelector> = vec![];
+
+        for complex_selector in &n.children {
+            let mut link_complex_selector = complex_selector.clone();
+
+            replace_pseudo_class_selector_name(&mut link_complex_selector, "any-link", "link");
+
+            if link_complex_selector.eq_ignore_span(complex_selector) {
+                new_children.push(complex_selector.clone());
+
+                continue;
+            }
+
+            let mut visited_complex_selectors = complex_selector.clone();
+
+            replace_pseudo_class_selector_name(
+                &mut visited_complex_selectors,
+                "any-link",
+                "visited",
+            );
+
+            new_children.push(link_complex_selector);
+            new_children.push(visited_complex_selectors);
+        }
+
+        n.children = new_children;
+    }
+}
+
+pub fn pseudo_class_any_link_fallback<N>(node: &mut N)
+where
+    N: VisitMutWith<PseudoClassAnyLinkFallback>,
+{
+    node.visit_mut_with(&mut PseudoClassAnyLinkFallback {});
+}
+
 macro_rules! to_ident {
     ($val:expr) => {{
         ComponentValue::Ident(Box::new(Ident {
@@ -875,7 +939,6 @@ impl VisitMut for Prefixer {
     fn visit_mut_import_conditions(&mut self, import_conditions: &mut ImportConditions) {
         import_conditions.visit_mut_children_with(self);
 
-        // ComponentValue::Declaration(declaration)
         if !self.added_declarations.is_empty() {
             if let Some(supports) = import_conditions.supports.take() {
                 let mut conditions = Vec::with_capacity(1 + self.added_declarations.len());
@@ -1035,6 +1098,31 @@ impl VisitMut for Prefixer {
         let original_simple_block = n.block.clone();
 
         n.visit_mut_children_with(self);
+
+        // `:any-link` fallback generates only for old browsers, which doesn't support
+        // `-webkit and `-moz` prefixes
+        if should_prefix(":any-link-fallback", self.env, false) {
+            let mut new_prelude = n.prelude.clone();
+
+            pseudo_class_any_link_fallback(&mut new_prelude);
+
+            if !n.prelude.eq_ignore_span(&new_prelude) {
+                let qualified_rule = Box::new(QualifiedRule {
+                    span: DUMMY_SP,
+                    prelude: new_prelude,
+                    block: original_simple_block.clone(),
+                });
+
+                // TODO refactor and avoid using prefix
+                if self.simple_block.is_none() {
+                    self.added_top_rules
+                        .push((Prefix::Webkit, Rule::QualifiedRule(qualified_rule)));
+                } else {
+                    self.added_qualified_rules
+                        .push((Prefix::Webkit, qualified_rule));
+                }
+            }
+        }
 
         if self.rule_prefix == Some(Prefix::Webkit) || self.rule_prefix.is_none() {
             let mut new_webkit_prelude = n.prelude.clone();

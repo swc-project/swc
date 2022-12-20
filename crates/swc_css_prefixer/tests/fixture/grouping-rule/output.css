@@ -63,6 +63,10 @@
 .g:read-write {
   background: #fff;
 }
+.example:link:read-only, 
+.example:visited:read-only {
+  color: red;
+}
 .example:-webkit-any-link:read-only {
   color: red;
 }
