@@ -17,7 +17,6 @@ a {
 }
 
 a {
-    /* TODO fix me duplication */
     page-break-inside: avoid;
     break-inside: avoid;
 }
