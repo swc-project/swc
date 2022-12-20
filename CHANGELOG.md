@@ -73,6 +73,12 @@
 
 - **(es/minifier)** Improve simplification of `?.` (#6681) ([707b1e3](https://github.com/swc-project/swc/commit/707b1e3cd203be22eccc60367dc3c84f62105de5))
 
+### Miscellaneous Tasks
+
+
+
+- **(helpers)** Fix license (#6690) ([8a71dbc](https://github.com/swc-project/swc/commit/8a71dbca6d94af76c3bf7317390dd1da835cacae))
+
 ### Performance
 
 
