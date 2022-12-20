@@ -1533,22 +1533,6 @@ impl VisitMut for Prefixer {
 
         let mut ms_value = n.value.clone();
 
-        let declarations = Lazy::new(|| {
-            if let Some(simple_block) = &self.simple_block {
-                let mut declarations = Vec::with_capacity(simple_block.value.len());
-
-                for n in simple_block.value.iter() {
-                    if let ComponentValue::Declaration(declaration) = n {
-                        declarations.push(declaration);
-                    }
-                }
-
-                declarations
-            } else {
-                vec![]
-            }
-        });
-
         // TODO avoid insert moz/etc prefixes for `appearance: -webkit-button;`
         // TODO check logic for duplicate values
         macro_rules! add_declaration {
@@ -3039,118 +3023,125 @@ impl VisitMut for Prefixer {
             }
 
             js_word!("writing-mode") if n.value.len() == 1 => {
-                let direction = match declarations.iter().rev().find(|declaration| {
-                    matches!(&****declaration, Declaration {
-                              name: DeclarationName::Ident(Ident { value, .. }),
-                                ..
-                            } if value.eq_ignore_ascii_case(&js_word!("direction")))
-                }) {
-                    Some(box Declaration { value, .. }) => match value.get(0) {
-                        Some(ComponentValue::Ident(ident))
-                            if ident.value.eq_ignore_ascii_case(&js_word!("rtl")) =>
-                        {
-                            Some("rtl")
+                if let Some(simple_block) = &self.simple_block {
+                    let direction =
+                    match simple_block
+                        .value
+                        .iter()
+                        .rev()
+                        .find(|declaration| {
+                            matches!(declaration, ComponentValue::Declaration(box Declaration { name: DeclarationName::Ident(Ident { value, .. }), .. })
+                                if value.eq_ignore_ascii_case(&js_word!("direction")))
+                        }) {
+                        Some(ComponentValue::Declaration(box Declaration { value, .. })) => {
+                            match value.get(0) {
+                                Some(ComponentValue::Ident(ident))
+                                if ident.value.eq_ignore_ascii_case(&js_word!("rtl")) =>
+                                    {
+                                        Some("rtl")
+                                    }
+                                _ => Some("ltr"),
+                            }
                         }
                         _ => Some("ltr"),
-                    },
-                    _ => Some("ltr"),
-                };
+                    };
 
-                if let ComponentValue::Ident(ident) = &n.value[0] {
-                    match ident.value.to_ascii_lowercase() {
-                        js_word!("vertical-lr") => {
-                            add_declaration!(
-                                Prefix::Webkit,
-                                js_word!("-webkit-writing-mode"),
-                                None
-                            );
+                    if let ComponentValue::Ident(ident) = &n.value[0] {
+                        match ident.value.to_ascii_lowercase() {
+                            js_word!("vertical-lr") => {
+                                add_declaration!(
+                                    Prefix::Webkit,
+                                    js_word!("-webkit-writing-mode"),
+                                    None
+                                );
 
-                            match direction {
-                                Some("ltr") => {
-                                    add_declaration!(
-                                        Prefix::Ms,
-                                        js_word!("-ms-writing-mode"),
-                                        Some(Box::new(|| { vec![to_ident!("tb-lr")] }))
-                                    );
+                                match direction {
+                                    Some("ltr") => {
+                                        add_declaration!(
+                                            Prefix::Ms,
+                                            js_word!("-ms-writing-mode"),
+                                            Some(Box::new(|| { vec![to_ident!("tb-lr")] }))
+                                        );
+                                    }
+                                    Some("rtl") => {
+                                        add_declaration!(
+                                            Prefix::Ms,
+                                            js_word!("-ms-writing-mode"),
+                                            Some(Box::new(|| { vec![to_ident!("bt-lr")] }))
+                                        );
+                                    }
+                                    _ => {}
                                 }
-                                Some("rtl") => {
-                                    add_declaration!(
-                                        Prefix::Ms,
-                                        js_word!("-ms-writing-mode"),
-                                        Some(Box::new(|| { vec![to_ident!("bt-lr")] }))
-                                    );
-                                }
-                                _ => {}
                             }
-                        }
 
-                        js_word!("vertical-rl") => {
-                            add_declaration!(
-                                Prefix::Webkit,
-                                js_word!("-webkit-writing-mode"),
-                                None
-                            );
+                            js_word!("vertical-rl") => {
+                                add_declaration!(
+                                    Prefix::Webkit,
+                                    js_word!("-webkit-writing-mode"),
+                                    None
+                                );
 
-                            match direction {
-                                Some("ltr") => {
-                                    add_declaration!(
-                                        Prefix::Ms,
-                                        js_word!("-ms-writing-mode"),
-                                        Some(Box::new(|| { vec![to_ident!("tb-rl")] }))
-                                    );
+                                match direction {
+                                    Some("ltr") => {
+                                        add_declaration!(
+                                            Prefix::Ms,
+                                            js_word!("-ms-writing-mode"),
+                                            Some(Box::new(|| { vec![to_ident!("tb-rl")] }))
+                                        );
+                                    }
+                                    Some("rtl") => {
+                                        add_declaration!(
+                                            Prefix::Ms,
+                                            js_word!("-ms-writing-mode"),
+                                            Some(Box::new(|| { vec![to_ident!("bt-rl")] }))
+                                        );
+                                    }
+                                    _ => {}
                                 }
-                                Some("rtl") => {
-                                    add_declaration!(
-                                        Prefix::Ms,
-                                        js_word!("-ms-writing-mode"),
-                                        Some(Box::new(|| { vec![to_ident!("bt-rl")] }))
-                                    );
-                                }
-                                _ => {}
                             }
-                        }
 
-                        js_word!("horizontal-tb") => {
-                            add_declaration!(
-                                Prefix::Webkit,
-                                js_word!("-webkit-writing-mode"),
-                                None
-                            );
+                            js_word!("horizontal-tb") => {
+                                add_declaration!(
+                                    Prefix::Webkit,
+                                    js_word!("-webkit-writing-mode"),
+                                    None
+                                );
 
-                            match direction {
-                                Some("ltr") => {
-                                    add_declaration!(
-                                        Prefix::Ms,
-                                        js_word!("-ms-writing-mode"),
-                                        Some(Box::new(|| { vec![to_ident!("lr-tb")] }))
-                                    );
+                                match direction {
+                                    Some("ltr") => {
+                                        add_declaration!(
+                                            Prefix::Ms,
+                                            js_word!("-ms-writing-mode"),
+                                            Some(Box::new(|| { vec![to_ident!("lr-tb")] }))
+                                        );
+                                    }
+                                    Some("rtl") => {
+                                        add_declaration!(
+                                            Prefix::Ms,
+                                            js_word!("-ms-writing-mode"),
+                                            Some(Box::new(|| { vec![to_ident!("rl-tb")] }))
+                                        );
+                                    }
+                                    _ => {}
                                 }
-                                Some("rtl") => {
-                                    add_declaration!(
-                                        Prefix::Ms,
-                                        js_word!("-ms-writing-mode"),
-                                        Some(Box::new(|| { vec![to_ident!("rl-tb")] }))
-                                    );
-                                }
-                                _ => {}
                             }
-                        }
 
-                        js_word!("sideways-rl") | js_word!("sideways-lr") => {
-                            add_declaration!(
-                                Prefix::Webkit,
-                                js_word!("-webkit-writing-mode"),
-                                None
-                            );
-                        }
+                            js_word!("sideways-rl") | js_word!("sideways-lr") => {
+                                add_declaration!(
+                                    Prefix::Webkit,
+                                    js_word!("-webkit-writing-mode"),
+                                    None
+                                );
+                            }
 
-                        _ => {
-                            add_declaration!(
-                                Prefix::Webkit,
-                                js_word!("-webkit-writing-mode"),
-                                None
-                            );
-                            add_declaration!(Prefix::Ms, js_word!("-ms-writing-mode"), None);
+                            _ => {
+                                add_declaration!(
+                                    Prefix::Webkit,
+                                    js_word!("-webkit-writing-mode"),
+                                    None
+                                );
+                                add_declaration!(Prefix::Ms, js_word!("-ms-writing-mode"), None);
+                            }
                         }
                     }
                 }
