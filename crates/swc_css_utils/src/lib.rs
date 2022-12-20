@@ -1,10 +1,10 @@
 #![deny(clippy::all)]
 
-use std::{borrow::Cow, char::REPLACEMENT_CHARACTER, str};
+use std::{borrow::Cow, char::REPLACEMENT_CHARACTER, f64::consts::PI, str};
 
 use once_cell::sync::Lazy;
 use serde::{Deserialize, Serialize};
-use swc_atoms::JsWord;
+use swc_atoms::{js_word, JsWord};
 use swc_common::collections::AHashMap;
 use swc_css_ast::*;
 use swc_css_visit::{VisitMut, VisitMutWith};
@@ -293,5 +293,126 @@ fn hex_escape(ascii_byte: u8, minify: bool) -> String {
     } else {
         unsafe { str::from_utf8_unchecked(&[b'\\', HEX_DIGITS[ascii_byte as usize], b' ']) }
             .to_string()
+    }
+}
+
+pub fn hwb_to_rgb(hwb: [f64; 3]) -> [f64; 3] {
+    let [h, w, b] = hwb;
+
+    if w + b >= 1.0 {
+        let gray = w / (w + b);
+
+        return [gray, gray, gray];
+    }
+
+    let mut rgb = hsl_to_rgb([h, 1.0, 0.5]);
+
+    for item in &mut rgb {
+        *item *= 1.0 - w - b;
+        *item += w;
+    }
+
+    [rgb[0], rgb[1], rgb[2]]
+}
+
+pub fn hsl_to_rgb(hsl: [f64; 3]) -> [f64; 3] {
+    let [h, s, l] = hsl;
+
+    let r;
+    let g;
+    let b;
+
+    if s == 0.0 {
+        r = l;
+        g = l;
+        b = l;
+    } else {
+        let f = |n: f64| -> f64 {
+            let k = (n + h / 30.0) % 12.0;
+            let a = s * f64::min(l, 1.0 - l);
+
+            l - a * f64::max(-1.0, f64::min(f64::min(k - 3.0, 9.0 - k), 1.0))
+        };
+
+        r = f(0.0);
+        g = f(8.0);
+        b = f(4.0);
+    }
+
+    [r, g, b]
+}
+
+pub fn to_rgb255(abc: [f64; 3]) -> [f64; 3] {
+    let mut abc255 = abc;
+
+    for item in &mut abc255 {
+        *item *= 255.0;
+    }
+
+    abc255
+}
+
+pub fn clamp_unit_f64(val: f64) -> u8 {
+    (val * 255.).round().max(0.).min(255.) as u8
+}
+
+pub fn round_alpha(alpha: f64) -> f64 {
+    let mut rounded_alpha = (alpha * 100.).round() / 100.;
+
+    if clamp_unit_f64(rounded_alpha) != clamp_unit_f64(alpha) {
+        rounded_alpha = (alpha * 1000.).round() / 1000.;
+    }
+
+    rounded_alpha
+}
+
+#[inline]
+fn from_hex(c: u8) -> u8 {
+    match c {
+        b'0'..=b'9' => c - b'0',
+        b'a'..=b'f' => c - b'a' + 10,
+        b'A'..=b'F' => c - b'A' + 10,
+        _ => {
+            unreachable!();
+        }
+    }
+}
+
+pub fn hex_to_rgba(hex: &str) -> (u8, u8, u8, f64) {
+    let hex = hex.as_bytes();
+
+    match hex.len() {
+        8 => {
+            let r = from_hex(hex[0]) * 16 + from_hex(hex[1]);
+            let g = from_hex(hex[2]) * 16 + from_hex(hex[3]);
+            let b = from_hex(hex[4]) * 16 + from_hex(hex[5]);
+            let a = (from_hex(hex[6]) * 16 + from_hex(hex[7])) as f64 / 255.0;
+
+            (r, g, b, a)
+        }
+        4 => {
+            let r = from_hex(hex[0]) * 17;
+            let g = from_hex(hex[1]) * 17;
+            let b = from_hex(hex[2]) * 17;
+            let a = (from_hex(hex[3]) * 17) as f64 / 255.0;
+
+            (r, g, b, a)
+        }
+
+        _ => {
+            unreachable!()
+        }
+    }
+}
+
+pub fn angle_to_deg(value: f64, from: &JsWord) -> f64 {
+    match *from {
+        js_word!("deg") => value,
+        js_word!("grad") => value * 180.0 / 200.0,
+        js_word!("turn") => value * 360.0,
+        js_word!("rad") => value * 180.0 / PI,
+        _ => {
+            unreachable!("Unknown angle type: {:?}", from);
+        }
     }
 }
