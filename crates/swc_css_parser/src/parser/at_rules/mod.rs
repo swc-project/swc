@@ -35,7 +35,11 @@ where
                         if value.starts_with("--") {
                             ColorProfileName::DashedIdent(self.parse()?)
                         } else {
-                            ColorProfileName::Ident(self.parse()?)
+                            let mut name: Ident = self.parse()?;
+
+                            name.value = name.value.to_ascii_lowercase();
+
+                            ColorProfileName::Ident(name)
                         }
                     }
                     _ => {
@@ -1974,9 +1978,19 @@ where
 
         let value = match cur!(self) {
             Token::Ident { value, .. }
-                if matches_eq_ignore_ascii_case!(&**value, "left", "right", "first", "blank") =>
+                if matches_eq_ignore_ascii_case!(
+                    value,
+                    js_word!("left"),
+                    js_word!("right"),
+                    js_word!("first"),
+                    js_word!("blank")
+                ) =>
             {
-                self.parse()?
+                let mut name: Ident = self.parse()?;
+
+                name.value = name.value.to_ascii_lowercase();
+
+                name
             }
             _ => {
                 let span = self.input.cur_span();

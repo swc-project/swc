@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 223,
+    "end": 350,
     "ctxt": 0
   },
   "rules": [
@@ -187,6 +187,103 @@
                   "span": {
                     "start": 139,
                     "end": 218,
+                    "ctxt": 0
+                  },
+                  "value": "https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc",
+                  "raw": "'https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc'"
+                },
+                "modifiers": []
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "AtRule",
+      "span": {
+        "start": 224,
+        "end": 349,
+        "ctxt": 0
+      },
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 225,
+          "end": 238,
+          "ctxt": 0
+        },
+        "value": "color-profile",
+        "raw": "color-profile"
+      },
+      "prelude": {
+        "type": "Ident",
+        "span": {
+          "start": 239,
+          "end": 250,
+          "ctxt": 0
+        },
+        "value": "device-cmyk",
+        "raw": "DEVICE-CMYK"
+      },
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 251,
+          "end": 349,
+          "ctxt": 0
+        },
+        "name": {
+          "type": "PreservedToken",
+          "span": {
+            "start": 251,
+            "end": 252,
+            "ctxt": 0
+          },
+          "token": "LBrace"
+        },
+        "value": [
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 257,
+              "end": 346,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 257,
+                "end": 260,
+                "ctxt": 0
+              },
+              "value": "src",
+              "raw": "src"
+            },
+            "value": [
+              {
+                "type": "Url",
+                "span": {
+                  "start": 262,
+                  "end": 346,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 262,
+                    "end": 265,
+                    "ctxt": 0
+                  },
+                  "value": "url",
+                  "raw": "url"
+                },
+                "value": {
+                  "type": "String",
+                  "span": {
+                    "start": 266,
+                    "end": 345,
                     "ctxt": 0
                   },
                   "value": "https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc",
