@@ -7,6 +7,12 @@
 
 - **(es)** Preserve license comments by default (#6703) ([58700f2](https://github.com/swc-project/swc/commit/58700f2bec696d0d2b2466ab6b4641f0a7017808))
 
+### Features
+
+
+
+- **(css/prefixer)** Support page break (#6693) ([27a8b7e](https://github.com/swc-project/swc/commit/27a8b7e50b67de076089ca8b05d6e44944182b31))
+
 ## [1.3.24] - 2022-12-21
 
 ### Bug Fixes
