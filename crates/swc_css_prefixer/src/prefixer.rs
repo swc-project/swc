@@ -118,7 +118,7 @@ pub fn prefixer(options: Options) -> impl VisitMut {
     }
 }
 
-pub struct CrossFadeFunctionReplacerOnLegacyVariant<'a> {
+struct CrossFadeFunctionReplacerOnLegacyVariant<'a> {
     from: &'a str,
     to: &'a str,
 }
@@ -231,14 +231,14 @@ impl VisitMut for CrossFadeFunctionReplacerOnLegacyVariant<'_> {
     }
 }
 
-pub fn replace_cross_fade_function_on_legacy_variant<N>(node: &mut N, from: &str, to: &str)
+fn replace_cross_fade_function_on_legacy_variant<N>(node: &mut N, from: &str, to: &str)
 where
     N: for<'aa> VisitMutWith<CrossFadeFunctionReplacerOnLegacyVariant<'aa>>,
 {
     node.visit_mut_with(&mut CrossFadeFunctionReplacerOnLegacyVariant { from, to });
 }
 
-pub struct ImageSetFunctionReplacerOnLegacyVariant<'a> {
+struct ImageSetFunctionReplacerOnLegacyVariant<'a> {
     from: &'a str,
     to: &'a str,
     in_function: bool,
@@ -294,7 +294,7 @@ impl VisitMut for ImageSetFunctionReplacerOnLegacyVariant<'_> {
     }
 }
 
-pub fn replace_image_set_function_on_legacy_variant<N>(node: &mut N, from: &str, to: &str)
+fn replace_image_set_function_on_legacy_variant<N>(node: &mut N, from: &str, to: &str)
 where
     N: for<'aa> VisitMutWith<ImageSetFunctionReplacerOnLegacyVariant<'aa>>,
 {
@@ -305,7 +305,7 @@ where
     });
 }
 
-pub struct LinearGradientFunctionReplacerOnLegacyVariant<'a> {
+struct LinearGradientFunctionReplacerOnLegacyVariant<'a> {
     from: &'a str,
     to: &'a str,
 }
@@ -481,14 +481,14 @@ impl VisitMut for LinearGradientFunctionReplacerOnLegacyVariant<'_> {
     }
 }
 
-pub fn replace_gradient_function_on_legacy_variant<N>(node: &mut N, from: &str, to: &str)
+fn replace_gradient_function_on_legacy_variant<N>(node: &mut N, from: &str, to: &str)
 where
     N: for<'aa> VisitMutWith<LinearGradientFunctionReplacerOnLegacyVariant<'aa>>,
 {
     node.visit_mut_with(&mut LinearGradientFunctionReplacerOnLegacyVariant { from, to });
 }
 
-pub struct MediaFeatureResolutionReplacerOnLegacyVariant<'a> {
+struct MediaFeatureResolutionReplacerOnLegacyVariant<'a> {
     from: &'a str,
     to: &'a str,
 }
@@ -534,7 +534,7 @@ impl VisitMut for MediaFeatureResolutionReplacerOnLegacyVariant<'_> {
     }
 }
 
-pub fn replace_media_feature_resolution_on_legacy_variant<N>(node: &mut N, from: &str, to: &str)
+fn replace_media_feature_resolution_on_legacy_variant<N>(node: &mut N, from: &str, to: &str)
 where
     N: for<'aa> VisitMutWith<MediaFeatureResolutionReplacerOnLegacyVariant<'aa>>,
 {
@@ -625,7 +625,7 @@ where
     });
 }
 
-pub struct FontFaceFormatOldSyntax {}
+struct FontFaceFormatOldSyntax {}
 
 impl VisitMut for FontFaceFormatOldSyntax {
     fn visit_mut_function(&mut self, n: &mut Function) {
@@ -665,14 +665,14 @@ impl VisitMut for FontFaceFormatOldSyntax {
     }
 }
 
-pub fn font_face_format_old_syntax<N>(node: &mut N)
+fn font_face_format_old_syntax<N>(node: &mut N)
 where
     N: VisitMutWith<FontFaceFormatOldSyntax>,
 {
     node.visit_mut_with(&mut FontFaceFormatOldSyntax {});
 }
 
-pub struct ClampReplacer {}
+struct ClampReplacer {}
 
 impl VisitMut for ClampReplacer {
     fn visit_mut_function(&mut self, n: &mut Function) {
@@ -727,7 +727,7 @@ impl VisitMut for ClampReplacer {
     }
 }
 
-pub fn replace_clamp<N>(node: &mut N)
+fn replace_clamp<N>(node: &mut N)
 where
     N: VisitMutWith<ClampReplacer>,
 {
