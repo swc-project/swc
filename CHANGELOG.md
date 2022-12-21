@@ -74,6 +74,9 @@
 - **(css/prefixer)** Support `place-*` properties (#6685) ([d8df1b5](https://github.com/swc-project/swc/commit/d8df1b53d13cb25aa8f513f9dc3baeb535fd714e))
 
 
+- **(css/prefixer)** Support `overflow` (#6678) ([1c7f003](https://github.com/swc-project/swc/commit/1c7f003779fd17d3d2c372ce502cbbaabb49ed48))
+
+
 - **(es/minifier)** Improve simplification of `?.` (#6681) ([707b1e3](https://github.com/swc-project/swc/commit/707b1e3cd203be22eccc60367dc3c84f62105de5))
 
 ### Miscellaneous Tasks
