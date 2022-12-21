@@ -1,4 +1,88 @@
-.class {
-  -o-text-overflow: clip;
-  text-overflow: clip;
+html.single-overflow {
+  overflow: hidden;
+}
+html.double-overflow {
+  overflow-x: hidden;
+  overflow-y: auto;
+  overflow: hidden auto;
+}
+html.double-overflow {
+  overflow: auto;
+  overflow: auto auto;
+}
+html.double-overflow {
+  overflow-x: hidden;
+  overflow-y: auto;
+  overflow: hidden auto;
+}
+html.double-overflow {
+  overflow-x: hidden;
+  overflow-y: auto;
+  overflow: hidden auto;
+}
+html.double-overflow {
+  overflow-x: hidden;
+  overflow-y: auto;
+  overflow: hidden auto;
+}
+.order-0 {
+  -webkit-overflow: hidden auto;
+}
+.order-1 {
+  -moz-overflow: hidden auto;
+}
+.order-2 {
+  -ms-overflow: hidden auto;
+}
+.order-3 {
+  -o-overflow: hidden auto;
+}
+.order-4 {
+  --overflow: hidden auto;
+}
+.order-5 {
+  foo-overflow: hidden auto;
+}
+.content {
+  content: 'overflow: hidden auto;';
+}
+.important {
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  overflow: hidden auto !important;
+}
+@supports ((overflow: hidden auto) or (overflow-x: hidden) or (overflow-y: auto)) {
+  .support {
+    overflow-x: hidden;
+    overflow-y: auto;
+    overflow: hidden auto;
+  }
+}
+@-webkit-keyframes KEYFRAMES {
+  50% {
+    overflow-x: hidden;
+    overflow-y: auto;
+    overflow: hidden auto;
+  }
+}
+@-moz-keyframes KEYFRAMES {
+  50% {
+    overflow-x: hidden;
+    overflow-y: auto;
+    overflow: hidden auto;
+  }
+}
+@-o-keyframes KEYFRAMES {
+  50% {
+    overflow-x: hidden;
+    overflow-y: auto;
+    overflow: hidden auto;
+  }
+}
+@keyframes KEYFRAMES {
+  50% {
+    overflow-x: hidden;
+    overflow-y: auto;
+    overflow: hidden auto;
+  }
 }
