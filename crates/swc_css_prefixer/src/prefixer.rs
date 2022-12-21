@@ -6,10 +6,7 @@ use std::mem::take;
 use once_cell::sync::Lazy;
 use preset_env_base::{query::targets_to_versions, version::Version, BrowserData, Versions};
 use swc_atoms::{js_word, JsWord};
-use swc_common::{
-    collections::{AHashMap, AHashSet},
-    EqIgnoreSpan, DUMMY_SP,
-};
+use swc_common::{collections::AHashMap, EqIgnoreSpan, DUMMY_SP};
 use swc_css_ast::*;
 use swc_css_utils::{
     replace_function_name, replace_ident, replace_pseudo_class_selector_name,
@@ -732,6 +729,20 @@ impl Prefixer {
             self.added_at_rules
                 .push((prefix, Box::new(at_rule.clone())));
         }
+    }
+
+    fn is_duplicate(&self, name: &JsWord) -> bool {
+        if let Some(simple_block) = &self.simple_block {
+            for n in simple_block.value.iter() {
+                if let ComponentValue::Declaration(box declaration) = n {
+                    if declaration.name == *name {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        false
     }
 }
 
@@ -1522,36 +1533,8 @@ impl VisitMut for Prefixer {
 
         let mut ms_value = n.value.clone();
 
-        let declarations = Lazy::new(|| {
-            if let Some(simple_block) = &self.simple_block {
-                let mut declarations = Vec::with_capacity(simple_block.value.len());
-
-                for n in simple_block.value.iter() {
-                    if let ComponentValue::Declaration(declaration) = n {
-                        declarations.push(declaration);
-                    }
-                }
-
-                declarations
-            } else {
-                vec![]
-            }
-        });
-
-        let properties = Lazy::new(|| {
-            let mut properties: AHashSet<&JsWord> = AHashSet::default();
-
-            for declaration in declarations.iter() {
-                if let DeclarationName::Ident(ident) = &declaration.name {
-                    properties.insert(&ident.value);
-                }
-            }
-
-            properties
-        });
-
         // TODO avoid insert moz/etc prefixes for `appearance: -webkit-button;`
-        // TODO avoid duplication insert
+        // TODO check logic for duplicate values
         macro_rules! add_declaration {
             ($prefix:expr,$property:expr, $value:expr) => {{
                 let property: JsWord = $property;
@@ -1561,7 +1544,7 @@ impl VisitMut for Prefixer {
                     // don't use `-moz` prefix for properties in `@-webkit-keyframes` at-rule
                     if self.rule_prefix == Some($prefix) || self.rule_prefix.is_none() {
                         // Check we don't have prefixed property
-                        if !properties.contains(&$property) {
+                        if !self.is_duplicate(&$property) {
                             let name = DeclarationName::Ident(Ident {
                                 span: DUMMY_SP,
                                 value: property,
@@ -1600,7 +1583,7 @@ impl VisitMut for Prefixer {
             ($property:expr, $value:expr) => {{
                 let property: JsWord = $property;
 
-                if should_prefix(&*property, self.env, true) {
+                if should_prefix(&*property, self.env, true) && !self.is_duplicate(&$property) {
                     let name = DeclarationName::Ident(Ident {
                         span: DUMMY_SP,
                         value: property,
@@ -1930,115 +1913,155 @@ impl VisitMut for Prefixer {
                         match (&first.value, &second.value) {
                             (&js_word!("block"), &js_word!("flow"))
                             | (&js_word!("flow"), &js_word!("block")) => {
-                                add_declaration!(
-                                    js_word!("display"),
-                                    Some(Box::new(|| { vec![to_ident!("block")] }))
-                                );
+                                self.added_declarations.push(Box::new(Declaration {
+                                    span: n.span,
+                                    name: n.name.clone(),
+                                    value: vec![to_ident!("block")],
+                                    important: n.important.clone(),
+                                }));
                             }
                             (&js_word!("block"), &js_word!("flow-root"))
                             | (&js_word!("flow-root"), &js_word!("block")) => {
-                                add_declaration!(
-                                    js_word!("display"),
-                                    Some(Box::new(|| { vec![to_ident!("flow-root")] }))
-                                );
+                                self.added_declarations.push(Box::new(Declaration {
+                                    span: n.span,
+                                    name: n.name.clone(),
+                                    value: vec![to_ident!("flow-root")],
+                                    important: n.important.clone(),
+                                }));
                             }
                             (&js_word!("inline"), &js_word!("flow"))
                             | (&js_word!("flow"), &js_word!("inline")) => {
-                                add_declaration!(
-                                    js_word!("display"),
-                                    Some(Box::new(|| { vec![to_ident!("inline")] }))
-                                );
+                                self.added_declarations.push(Box::new(Declaration {
+                                    span: n.span,
+                                    name: n.name.clone(),
+                                    value: vec![to_ident!("inline")],
+                                    important: n.important.clone(),
+                                }));
                             }
                             (&js_word!("inline"), &js_word!("flow-root"))
                             | (&js_word!("flow-root"), &js_word!("inline")) => {
-                                add_declaration!(
-                                    js_word!("display"),
-                                    Some(Box::new(|| { vec![to_ident!("inline-block")] }))
-                                );
+                                self.added_declarations.push(Box::new(Declaration {
+                                    span: n.span,
+                                    name: n.name.clone(),
+                                    value: vec![to_ident!("inline-block")],
+                                    important: n.important.clone(),
+                                }));
                             }
                             (&js_word!("run-in"), &js_word!("flow"))
                             | (&js_word!("flow"), &js_word!("run-in")) => {
-                                add_declaration!(
-                                    js_word!("display"),
-                                    Some(Box::new(|| { vec![to_ident!("run-in")] }))
-                                );
+                                self.added_declarations.push(Box::new(Declaration {
+                                    span: n.span,
+                                    name: n.name.clone(),
+                                    value: vec![to_ident!("run-in")],
+                                    important: n.important.clone(),
+                                }));
                             }
                             (&js_word!("block"), &js_word!("flex"))
                             | (&js_word!("flex"), &js_word!("block")) => {
-                                add_declaration!(
-                                    js_word!("display"),
-                                    Some(Box::new(|| { vec![to_ident!("flex")] }))
-                                );
+                                let mut declaration = Declaration {
+                                    span: n.span,
+                                    name: n.name.clone(),
+                                    value: vec![to_ident!("flex")],
+                                    important: n.important.clone(),
+                                };
+
+                                declaration.visit_mut_with(self);
+
+                                self.added_declarations.push(Box::new(declaration));
                             }
                             (&js_word!("inline"), &js_word!("flex"))
                             | (&js_word!("flex"), &js_word!("inline")) => {
-                                add_declaration!(
-                                    js_word!("display"),
-                                    Some(Box::new(|| { vec![to_ident!("inline-flex")] }))
-                                );
+                                let mut declaration = Declaration {
+                                    span: n.span,
+                                    name: n.name.clone(),
+                                    value: vec![to_ident!("inline-flex")],
+                                    important: n.important.clone(),
+                                };
+
+                                declaration.visit_mut_with(self);
+
+                                self.added_declarations.push(Box::new(declaration));
                             }
                             (&js_word!("block"), &js_word!("grid"))
                             | (&js_word!("grid"), &js_word!("block")) => {
-                                add_declaration!(
-                                    js_word!("display"),
-                                    Some(Box::new(|| { vec![to_ident!("grid")] }))
-                                );
+                                self.added_declarations.push(Box::new(Declaration {
+                                    span: n.span,
+                                    name: n.name.clone(),
+                                    value: vec![to_ident!("grid")],
+                                    important: n.important.clone(),
+                                }));
                             }
                             (&js_word!("inline"), &js_word!("grid"))
                             | (&js_word!("grid"), &js_word!("inline")) => {
-                                add_declaration!(
-                                    js_word!("display"),
-                                    Some(Box::new(|| { vec![to_ident!("inline-grid")] }))
-                                );
+                                self.added_declarations.push(Box::new(Declaration {
+                                    span: n.span,
+                                    name: n.name.clone(),
+                                    value: vec![to_ident!("inline-grid")],
+                                    important: n.important.clone(),
+                                }));
                             }
                             (&js_word!("inline"), &js_word!("ruby"))
                             | (&js_word!("ruby"), &js_word!("inline")) => {
-                                add_declaration!(
-                                    js_word!("display"),
-                                    Some(Box::new(|| { vec![to_ident!("ruby")] }))
-                                );
+                                self.added_declarations.push(Box::new(Declaration {
+                                    span: n.span,
+                                    name: n.name.clone(),
+                                    value: vec![to_ident!("ruby")],
+                                    important: n.important.clone(),
+                                }));
                             }
                             (&js_word!("block"), &js_word!("table"))
                             | (&js_word!("table"), &js_word!("block")) => {
-                                add_declaration!(
-                                    js_word!("display"),
-                                    Some(Box::new(|| { vec![to_ident!("table")] }))
-                                );
+                                self.added_declarations.push(Box::new(Declaration {
+                                    span: n.span,
+                                    name: n.name.clone(),
+                                    value: vec![to_ident!("table")],
+                                    important: n.important.clone(),
+                                }));
                             }
                             (&js_word!("inline"), &js_word!("table"))
                             | (&js_word!("table"), &js_word!("inline")) => {
-                                add_declaration!(
-                                    js_word!("display"),
-                                    Some(Box::new(|| { vec![to_ident!("inline-table")] }))
-                                );
+                                self.added_declarations.push(Box::new(Declaration {
+                                    span: n.span,
+                                    name: n.name.clone(),
+                                    value: vec![to_ident!("inline-table")],
+                                    important: n.important.clone(),
+                                }));
                             }
                             (&js_word!("table-cell"), &js_word!("flow"))
                             | (&js_word!("flow"), &js_word!("table-cell")) => {
-                                add_declaration!(
-                                    js_word!("display"),
-                                    Some(Box::new(|| { vec![to_ident!("table-cell")] }))
-                                );
+                                self.added_declarations.push(Box::new(Declaration {
+                                    span: n.span,
+                                    name: n.name.clone(),
+                                    value: vec![to_ident!("table-cell")],
+                                    important: n.important.clone(),
+                                }));
                             }
                             (&js_word!("table-caption"), &js_word!("flow"))
                             | (&js_word!("flow"), &js_word!("table-caption")) => {
-                                add_declaration!(
-                                    js_word!("display"),
-                                    Some(Box::new(|| { vec![to_ident!("table-caption")] }))
-                                );
+                                self.added_declarations.push(Box::new(Declaration {
+                                    span: n.span,
+                                    name: n.name.clone(),
+                                    value: vec![to_ident!("table-caption")],
+                                    important: n.important.clone(),
+                                }));
                             }
                             (&js_word!("ruby-base"), &js_word!("flow"))
                             | (&js_word!("flow"), &js_word!("ruby-base")) => {
-                                add_declaration!(
-                                    js_word!("display"),
-                                    Some(Box::new(|| { vec![to_ident!("ruby-base")] }))
-                                );
+                                self.added_declarations.push(Box::new(Declaration {
+                                    span: n.span,
+                                    name: n.name.clone(),
+                                    value: vec![to_ident!("ruby-base")],
+                                    important: n.important.clone(),
+                                }));
                             }
                             (&js_word!("ruby-text"), &js_word!("flow"))
                             | (&js_word!("flow"), &js_word!("ruby-text")) => {
-                                add_declaration!(
-                                    js_word!("display"),
-                                    Some(Box::new(|| { vec![to_ident!("ruby-text")] }))
-                                );
+                                self.added_declarations.push(Box::new(Declaration {
+                                    span: n.span,
+                                    name: n.name.clone(),
+                                    value: vec![to_ident!("ruby-text")],
+                                    important: n.important.clone(),
+                                }));
                             }
                             _ => {}
                         }
@@ -2059,10 +2082,12 @@ impl VisitMut for Prefixer {
                             | (&js_word!("block"), &js_word!("flow"), &js_word!("list-item"))
                             | (&js_word!("flow"), &js_word!("block"), &js_word!("list-item"))
                             | (&js_word!("flow"), &js_word!("list-item"), &js_word!("block")) => {
-                                add_declaration!(
-                                    js_word!("display"),
-                                    Some(Box::new(|| { vec![to_ident!("list-item")] }))
-                                );
+                                self.added_declarations.push(Box::new(Declaration {
+                                    span: n.span,
+                                    name: n.name.clone(),
+                                    value: vec![to_ident!("list-item")],
+                                    important: n.important.clone(),
+                                }));
                             }
                             (&js_word!("inline"), &js_word!("flow"), &js_word!("list-item"))
                             | (&js_word!("inline"), &js_word!("list-item"), &js_word!("flow"))
@@ -2070,12 +2095,12 @@ impl VisitMut for Prefixer {
                             | (&js_word!("flow"), &js_word!("list-item"), &js_word!("inline"))
                             | (&js_word!("list-item"), &js_word!("flow"), &js_word!("inline"))
                             | (&js_word!("list-item"), &js_word!("inline"), &js_word!("flow")) => {
-                                add_declaration!(
-                                    js_word!("display"),
-                                    Some(Box::new(|| {
-                                        vec![to_ident!("inline"), to_ident!("list-item")]
-                                    }))
-                                );
+                                self.added_declarations.push(Box::new(Declaration {
+                                    span: n.span,
+                                    name: n.name.clone(),
+                                    value: vec![to_ident!("inline"), to_ident!("list-item")],
+                                    important: n.important.clone(),
+                                }));
                             }
                             _ => {}
                         }
@@ -2387,10 +2412,12 @@ impl VisitMut for Prefixer {
                 if let Some(old_value) = old_value {
                     let rounded_alpha = (old_value * 1000.0).round() / 100000.0;
 
-                    add_declaration!(
-                        js_word!("opacity"),
-                        Some(Box::new(|| { vec![to_number!(rounded_alpha)] }))
-                    );
+                    self.added_declarations.push(Box::new(Declaration {
+                        span: n.span,
+                        name: n.name.clone(),
+                        value: vec![to_number!(rounded_alpha)],
+                        important: n.important.clone(),
+                    }));
                 }
             }
 
@@ -2996,118 +3023,125 @@ impl VisitMut for Prefixer {
             }
 
             js_word!("writing-mode") if n.value.len() == 1 => {
-                let direction = match declarations.iter().rev().find(|declaration| {
-                    matches!(&****declaration, Declaration {
-                              name: DeclarationName::Ident(Ident { value, .. }),
-                                ..
-                            } if value.eq_ignore_ascii_case(&js_word!("direction")))
-                }) {
-                    Some(box Declaration { value, .. }) => match value.get(0) {
-                        Some(ComponentValue::Ident(ident))
-                            if ident.value.eq_ignore_ascii_case(&js_word!("rtl")) =>
-                        {
-                            Some("rtl")
+                if let Some(simple_block) = &self.simple_block {
+                    let direction =
+                    match simple_block
+                        .value
+                        .iter()
+                        .rev()
+                        .find(|declaration| {
+                            matches!(declaration, ComponentValue::Declaration(box Declaration { name: DeclarationName::Ident(Ident { value, .. }), .. })
+                                if value.eq_ignore_ascii_case(&js_word!("direction")))
+                        }) {
+                        Some(ComponentValue::Declaration(box Declaration { value, .. })) => {
+                            match value.get(0) {
+                                Some(ComponentValue::Ident(ident))
+                                if ident.value.eq_ignore_ascii_case(&js_word!("rtl")) =>
+                                    {
+                                        Some("rtl")
+                                    }
+                                _ => Some("ltr"),
+                            }
                         }
                         _ => Some("ltr"),
-                    },
-                    _ => Some("ltr"),
-                };
+                    };
 
-                if let ComponentValue::Ident(ident) = &n.value[0] {
-                    match ident.value.to_ascii_lowercase() {
-                        js_word!("vertical-lr") => {
-                            add_declaration!(
-                                Prefix::Webkit,
-                                js_word!("-webkit-writing-mode"),
-                                None
-                            );
+                    if let ComponentValue::Ident(ident) = &n.value[0] {
+                        match ident.value.to_ascii_lowercase() {
+                            js_word!("vertical-lr") => {
+                                add_declaration!(
+                                    Prefix::Webkit,
+                                    js_word!("-webkit-writing-mode"),
+                                    None
+                                );
 
-                            match direction {
-                                Some("ltr") => {
-                                    add_declaration!(
-                                        Prefix::Ms,
-                                        js_word!("-ms-writing-mode"),
-                                        Some(Box::new(|| { vec![to_ident!("tb-lr")] }))
-                                    );
+                                match direction {
+                                    Some("ltr") => {
+                                        add_declaration!(
+                                            Prefix::Ms,
+                                            js_word!("-ms-writing-mode"),
+                                            Some(Box::new(|| { vec![to_ident!("tb-lr")] }))
+                                        );
+                                    }
+                                    Some("rtl") => {
+                                        add_declaration!(
+                                            Prefix::Ms,
+                                            js_word!("-ms-writing-mode"),
+                                            Some(Box::new(|| { vec![to_ident!("bt-lr")] }))
+                                        );
+                                    }
+                                    _ => {}
                                 }
-                                Some("rtl") => {
-                                    add_declaration!(
-                                        Prefix::Ms,
-                                        js_word!("-ms-writing-mode"),
-                                        Some(Box::new(|| { vec![to_ident!("bt-lr")] }))
-                                    );
-                                }
-                                _ => {}
                             }
-                        }
 
-                        js_word!("vertical-rl") => {
-                            add_declaration!(
-                                Prefix::Webkit,
-                                js_word!("-webkit-writing-mode"),
-                                None
-                            );
+                            js_word!("vertical-rl") => {
+                                add_declaration!(
+                                    Prefix::Webkit,
+                                    js_word!("-webkit-writing-mode"),
+                                    None
+                                );
 
-                            match direction {
-                                Some("ltr") => {
-                                    add_declaration!(
-                                        Prefix::Ms,
-                                        js_word!("-ms-writing-mode"),
-                                        Some(Box::new(|| { vec![to_ident!("tb-rl")] }))
-                                    );
+                                match direction {
+                                    Some("ltr") => {
+                                        add_declaration!(
+                                            Prefix::Ms,
+                                            js_word!("-ms-writing-mode"),
+                                            Some(Box::new(|| { vec![to_ident!("tb-rl")] }))
+                                        );
+                                    }
+                                    Some("rtl") => {
+                                        add_declaration!(
+                                            Prefix::Ms,
+                                            js_word!("-ms-writing-mode"),
+                                            Some(Box::new(|| { vec![to_ident!("bt-rl")] }))
+                                        );
+                                    }
+                                    _ => {}
                                 }
-                                Some("rtl") => {
-                                    add_declaration!(
-                                        Prefix::Ms,
-                                        js_word!("-ms-writing-mode"),
-                                        Some(Box::new(|| { vec![to_ident!("bt-rl")] }))
-                                    );
-                                }
-                                _ => {}
                             }
-                        }
 
-                        js_word!("horizontal-tb") => {
-                            add_declaration!(
-                                Prefix::Webkit,
-                                js_word!("-webkit-writing-mode"),
-                                None
-                            );
+                            js_word!("horizontal-tb") => {
+                                add_declaration!(
+                                    Prefix::Webkit,
+                                    js_word!("-webkit-writing-mode"),
+                                    None
+                                );
 
-                            match direction {
-                                Some("ltr") => {
-                                    add_declaration!(
-                                        Prefix::Ms,
-                                        js_word!("-ms-writing-mode"),
-                                        Some(Box::new(|| { vec![to_ident!("lr-tb")] }))
-                                    );
+                                match direction {
+                                    Some("ltr") => {
+                                        add_declaration!(
+                                            Prefix::Ms,
+                                            js_word!("-ms-writing-mode"),
+                                            Some(Box::new(|| { vec![to_ident!("lr-tb")] }))
+                                        );
+                                    }
+                                    Some("rtl") => {
+                                        add_declaration!(
+                                            Prefix::Ms,
+                                            js_word!("-ms-writing-mode"),
+                                            Some(Box::new(|| { vec![to_ident!("rl-tb")] }))
+                                        );
+                                    }
+                                    _ => {}
                                 }
-                                Some("rtl") => {
-                                    add_declaration!(
-                                        Prefix::Ms,
-                                        js_word!("-ms-writing-mode"),
-                                        Some(Box::new(|| { vec![to_ident!("rl-tb")] }))
-                                    );
-                                }
-                                _ => {}
                             }
-                        }
 
-                        js_word!("sideways-rl") | js_word!("sideways-lr") => {
-                            add_declaration!(
-                                Prefix::Webkit,
-                                js_word!("-webkit-writing-mode"),
-                                None
-                            );
-                        }
+                            js_word!("sideways-rl") | js_word!("sideways-lr") => {
+                                add_declaration!(
+                                    Prefix::Webkit,
+                                    js_word!("-webkit-writing-mode"),
+                                    None
+                                );
+                            }
 
-                        _ => {
-                            add_declaration!(
-                                Prefix::Webkit,
-                                js_word!("-webkit-writing-mode"),
-                                None
-                            );
-                            add_declaration!(Prefix::Ms, js_word!("-ms-writing-mode"), None);
+                            _ => {
+                                add_declaration!(
+                                    Prefix::Webkit,
+                                    js_word!("-webkit-writing-mode"),
+                                    None
+                                );
+                                add_declaration!(Prefix::Ms, js_word!("-ms-writing-mode"), None);
+                            }
                         }
                     }
                 }
@@ -3399,19 +3433,33 @@ impl VisitMut for Prefixer {
                 ) = (n.value.get(0), n.value.get(1))
                 {
                     if first.value.eq_ignore_ascii_case(&second.value) {
-                        add_declaration!(
-                            js_word!("overflow"),
-                            Some(Box::new(|| { vec![left.clone()] }))
-                        );
+                        self.added_declarations.push(Box::new(Declaration {
+                            span: n.span,
+                            name: n.name.clone(),
+                            value: vec![left.clone()],
+                            important: n.important.clone(),
+                        }));
                     } else {
-                        add_declaration!(
-                            js_word!("overflow-x"),
-                            Some(Box::new(|| { vec![left.clone()] }))
-                        );
-                        add_declaration!(
-                            js_word!("overflow-y"),
-                            Some(Box::new(|| { vec![right.clone()] }))
-                        );
+                        self.added_declarations.push(Box::new(Declaration {
+                            span: n.span,
+                            name: DeclarationName::Ident(Ident {
+                                span: DUMMY_SP,
+                                value: js_word!("overflow-x"),
+                                raw: None,
+                            }),
+                            value: vec![left.clone()],
+                            important: n.important.clone(),
+                        }));
+                        self.added_declarations.push(Box::new(Declaration {
+                            span: n.span,
+                            name: DeclarationName::Ident(Ident {
+                                span: DUMMY_SP,
+                                value: js_word!("overflow-y"),
+                                raw: None,
+                            }),
+                            value: vec![right.clone()],
+                            important: n.important.clone(),
+                        }));
                     }
                 }
             }
@@ -3518,12 +3566,18 @@ impl VisitMut for Prefixer {
             js_word!("break-inside") => {
                 if let ComponentValue::Ident(ident) = &n.value[0] {
                     match ident.value.to_ascii_lowercase() {
-                        js_word!("auto") | js_word!("avoid") => {
+                        js_word!("auto")
+                        | js_word!("avoid")
+                        | js_word!("initial")
+                        | js_word!("inherit")
+                        | js_word!("revert")
+                        | js_word!("revert-layer") => {
                             add_declaration!(
                                 Prefix::Webkit,
                                 js_word!("-webkit-column-break-inside"),
                                 None
                             );
+                            add_declaration!(js_word!("page-break-inside"), None);
                         }
                         _ => {}
                     }
@@ -3533,11 +3587,26 @@ impl VisitMut for Prefixer {
             js_word!("break-before") => {
                 if let ComponentValue::Ident(ident) = &n.value[0] {
                     match ident.value.to_ascii_lowercase() {
-                        js_word!("auto") | js_word!("avoid") => {
+                        js_word!("auto")
+                        | js_word!("avoid")
+                        | js_word!("initial")
+                        | js_word!("inherit")
+                        | js_word!("revert")
+                        | js_word!("revert-layer") => {
                             add_declaration!(
                                 Prefix::Webkit,
                                 js_word!("-webkit-column-break-before"),
                                 None
+                            );
+                            add_declaration!(js_word!("page-break-before"), None);
+                        }
+                        js_word!("left") | js_word!("right") => {
+                            add_declaration!(js_word!("page-break-before"), None);
+                        }
+                        js_word!("page") => {
+                            add_declaration!(
+                                js_word!("page-break-before"),
+                                Some(Box::new(|| { vec![to_ident!("always")] }))
                             );
                         }
                         js_word!("column") => {
@@ -3555,11 +3624,26 @@ impl VisitMut for Prefixer {
             js_word!("break-after") => {
                 if let ComponentValue::Ident(ident) = &n.value[0] {
                     match ident.value.to_ascii_lowercase() {
-                        js_word!("auto") | js_word!("avoid") => {
+                        js_word!("auto")
+                        | js_word!("avoid")
+                        | js_word!("initial")
+                        | js_word!("inherit")
+                        | js_word!("revert")
+                        | js_word!("revert-layer") => {
                             add_declaration!(
                                 Prefix::Webkit,
                                 js_word!("-webkit-column-break-after"),
                                 None
+                            );
+                            add_declaration!(js_word!("page-break-after"), None);
+                        }
+                        js_word!("left") | js_word!("right") => {
+                            add_declaration!(js_word!("page-break-after"), None);
+                        }
+                        js_word!("page") => {
+                            add_declaration!(
+                                js_word!("page-break-after"),
+                                Some(Box::new(|| { vec![to_ident!("always")] }))
                             );
                         }
                         js_word!("column") => {

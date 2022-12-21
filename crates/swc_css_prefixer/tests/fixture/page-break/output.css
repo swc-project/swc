@@ -1,0 +1,35 @@
+a {
+  -webkit-column-break-inside: avoid;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+a {
+  -webkit-column-break-after: avoid;
+  page-break-after: avoid;
+  break-after: avoid;
+}
+a {
+  page-break-before: always;
+  break-before: page;
+  break-after: avoid-page;
+}
+a {
+  break-inside: avoid-column;
+  break-after: avoid-region;
+}
+a {
+  page-break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+  break-inside: avoid;
+}
+a {
+  -webkit-column-break-inside: inherit;
+  page-break-inside: inherit;
+  break-inside: inherit;
+  -webkit-column-break-before: inherit;
+  page-break-before: inherit;
+  break-before: inherit;
+  -webkit-column-break-after: inherit;
+  page-break-after: inherit;
+  break-after: inherit;
+}
