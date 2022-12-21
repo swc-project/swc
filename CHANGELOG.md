@@ -83,6 +83,9 @@
 
 
 
+- **(ci)** Fix upload of cli binaries (#6701) ([025d626](https://github.com/swc-project/swc/commit/025d6268cdcbdb2cf280ccbef7b15a6f3daf00a5))
+
+
 - **(helpers)** Fix license (#6690) ([8a71dbc](https://github.com/swc-project/swc/commit/8a71dbca6d94af76c3bf7317390dd1da835cacae))
 
 ### Performance
