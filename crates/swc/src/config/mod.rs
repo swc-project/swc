@@ -943,7 +943,7 @@ pub struct JsMinifyFormatOptions {
     #[serde(default)]
     pub braces: bool,
 
-    #[serde(default)]
+    #[serde(default = "default_comments")]
     pub comments: BoolOrDataConfig<JsMinifyCommentOption>,
 
     /// Not implemented yet.
@@ -1013,6 +1013,10 @@ pub struct JsMinifyFormatOptions {
     /// Not implemented yet.
     #[serde(default, alias = "wrap_func_args")]
     pub wrap_func_args: bool,
+}
+
+fn default_comments() -> BoolOrDataConfig<JsMinifyCommentOption> {
+    BoolOrDataConfig::from_obj(JsMinifyCommentOption::PreserveSomeComments)
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
