@@ -2726,14 +2726,14 @@ where
         // should start with `u` or `U`
         match cur!(self) {
             Token::Ident { value, .. } if matches_eq_ignore_ascii_case!(value, js_word!("u")) => {
-                let ident = match bump!(self) {
+                let u = match bump!(self) {
                     Token::Ident { value, .. } => value,
                     _ => {
                         unreachable!();
                     }
                 };
 
-                unicode_range.push_str(&ident);
+                unicode_range.push_str(&u.to_ascii_lowercase());
             }
             _ => {
                 return Err(Error::new(span, ErrorKind::Expected("'u' ident token")));
@@ -2944,7 +2944,7 @@ where
                     next = chars.next();
                 }
                 Some(c @ 'A'..='F') | Some(c @ 'a'..='f') => {
-                    start.push(c);
+                    start.push(c.to_ascii_lowercase());
 
                     next = chars.next();
                 }
@@ -3044,7 +3044,7 @@ where
                     next = chars.next();
                 }
                 Some(c @ 'A'..='F') | Some(c @ 'a'..='f') => {
-                    end.push(c);
+                    end.push(c.to_ascii_lowercase());
                     next = chars.next();
                 }
                 _ => {

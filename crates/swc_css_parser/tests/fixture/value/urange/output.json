@@ -148,7 +148,7 @@
                   "end": 102,
                   "ctxt": 0
                 },
-                "prefix": "U",
+                "prefix": "u",
                 "start": "26",
                 "end": null
               }
@@ -212,9 +212,9 @@
                   "end": 191,
                   "ctxt": 0
                 },
-                "prefix": "U",
+                "prefix": "u",
                 "start": "0",
-                "end": "7F"
+                "end": "7f"
               }
             ],
             "important": null
@@ -244,9 +244,9 @@
                   "end": 223,
                   "ctxt": 0
                 },
-                "prefix": "U",
+                "prefix": "u",
                 "start": "0025",
-                "end": "00FF"
+                "end": "00ff"
               }
             ],
             "important": null
@@ -276,7 +276,7 @@
                   "end": 278,
                   "ctxt": 0
                 },
-                "prefix": "U",
+                "prefix": "u",
                 "start": "4??",
                 "end": null
               }
@@ -308,9 +308,9 @@
                   "end": 344,
                   "ctxt": 0
                 },
-                "prefix": "U",
+                "prefix": "u",
                 "start": "0025",
-                "end": "00FF"
+                "end": "00ff"
               },
               {
                 "type": "Delimiter",
@@ -328,7 +328,7 @@
                   "end": 351,
                   "ctxt": 0
                 },
-                "prefix": "U",
+                "prefix": "u",
                 "start": "4??",
                 "end": null
               }
@@ -360,8 +360,8 @@
                   "end": 398,
                   "ctxt": 0
                 },
-                "prefix": "U",
-                "start": "A5",
+                "prefix": "u",
+                "start": "a5",
                 "end": null
               },
               {
@@ -380,9 +380,9 @@
                   "end": 411,
                   "ctxt": 0
                 },
-                "prefix": "U",
-                "start": "4E00",
-                "end": "9FFF"
+                "prefix": "u",
+                "start": "4e00",
+                "end": "9fff"
               },
               {
                 "type": "Delimiter",
@@ -400,7 +400,7 @@
                   "end": 419,
                   "ctxt": 0
                 },
-                "prefix": "U",
+                "prefix": "u",
                 "start": "30??",
                 "end": null
               },
@@ -420,9 +420,9 @@
                   "end": 432,
                   "ctxt": 0
                 },
-                "prefix": "U",
-                "start": "FF00",
-                "end": "FF9F"
+                "prefix": "u",
+                "start": "ff00",
+                "end": "ff9f"
               }
             ],
             "important": null
@@ -452,7 +452,7 @@
                   "end": 481,
                   "ctxt": 0
                 },
-                "prefix": "U",
+                "prefix": "u",
                 "start": "????",
                 "end": null
               }
@@ -484,7 +484,7 @@
                   "end": 510,
                   "ctxt": 0
                 },
-                "prefix": "U",
+                "prefix": "u",
                 "start": "??????",
                 "end": null
               }
@@ -516,7 +516,7 @@
                   "end": 535,
                   "ctxt": 0
                 },
-                "prefix": "U",
+                "prefix": "u",
                 "start": "12",
                 "end": null
               }
@@ -548,7 +548,7 @@
                   "end": 564,
                   "ctxt": 0
                 },
-                "prefix": "U",
+                "prefix": "u",
                 "start": "12e112",
                 "end": null
               }
@@ -580,7 +580,7 @@
                   "end": 593,
                   "ctxt": 0
                 },
-                "prefix": "U",
+                "prefix": "u",
                 "start": "1e1ee1",
                 "end": null
               }
@@ -612,9 +612,9 @@
                   "end": 629,
                   "ctxt": 0
                 },
-                "prefix": "U",
+                "prefix": "u",
                 "start": "1e1ee1",
-                "end": "FFFFFF"
+                "end": "ffffff"
               }
             ],
             "important": null
@@ -644,7 +644,7 @@
                   "end": 658,
                   "ctxt": 0
                 },
-                "prefix": "U",
+                "prefix": "u",
                 "start": "1e1ee?",
                 "end": null
               }
@@ -676,7 +676,7 @@
                   "end": 686,
                   "ctxt": 0
                 },
-                "prefix": "U",
+                "prefix": "u",
                 "start": "12",
                 "end": "13"
               }
