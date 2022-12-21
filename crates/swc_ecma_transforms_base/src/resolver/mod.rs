@@ -27,7 +27,7 @@ const LOG: bool = false && cfg!(debug_assertions);
 ///
 /// # What does it do
 ///
-/// Firstly all scopes (fn, block) has it's own SyntaxContext.
+/// Firstly all scopes (fn, block) has its own SyntaxContext.
 /// Resolver visits all identifiers in module, and look for binding identifies
 /// in the scope. Those identifiers now have the SyntaxContext of scope (fn,
 /// block). While doing so, resolver tries to resolve normal identifiers (no
@@ -117,8 +117,7 @@ const LOG: bool = false && cfg!(debug_assertions);
 ///
 /// # FAQ
 ///
-/// ## Does a pair `(JsWord, SyntaxContext)` always uniquely identifiers a
-/// variable binding?
+/// ## Does a pair `(JsWord, SyntaxContext)` always uniquely identifies a variable binding?
 ///
 /// Yes, but multiple variables can have the exactly same name.
 ///
