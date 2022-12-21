@@ -508,7 +508,7 @@ impl VisitMut for MediaFeatureResolutionReplacerOnLegacyVariant<'_> {
                 return;
             };
 
-            if &*feature_name_value == self.from {
+            if feature_name_value == self.from {
                 n.name = MediaFeatureName::Ident(Ident {
                     span: *feature_name_span,
                     value: self.to.into(),
