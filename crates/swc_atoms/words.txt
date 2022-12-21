@@ -55,8 +55,8 @@
 -moz-dialogtext
 -moz-document
 -moz-dragtargetzone
--moz-eventreerow
 -moz-element
+-moz-eventreerow
 -moz-font-feature-settings
 -moz-font-language-override
 -moz-font-variant-ligatures

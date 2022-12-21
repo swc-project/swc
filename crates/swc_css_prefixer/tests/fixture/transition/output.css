@@ -91,11 +91,11 @@ input[type=range]::-webkit-slider-thumb {
 }
 button::-moz-submit-invalid {
   opacity: 1;
-  -webkit-transform: translateX(45px);
-  -moz-transform: translateX(45px);
-  -ms-transform: translateX(45px);
-  -o-transform: translateX(45px);
-  transform: translateX(45px);
+  -webkit-transform: translatex(45px);
+  -moz-transform: translatex(45px);
+  -ms-transform: translatex(45px);
+  -o-transform: translatex(45px);
+  transform: translatex(45px);
   -webkit-transition: opacity 0.5s 2s, -webkit-transform 0.5s 0.5s;
   -moz-transition: opacity 0.5s 2s, -moz-transform 0.5s 0.5s;
   -o-transition: opacity 0.5s 2s, -o-transform 0.5s 0.5s;
@@ -107,11 +107,11 @@ button::-moz-submit-invalid {
 @supports ((transition: opacity 0.5s 2s, transform 0.5s 0.5s) or (-webkit-transition: opacity 0.5s 2s, -webkit-transform 0.5s 0.5s) or (-moz-transition: opacity 0.5s 2s, -moz-transform 0.5s 0.5s) or (-o-transition: opacity 0.5s 2s, -o-transform 0.5s 0.5s) or (transition: opacity 0.5s 2s, -webkit-transform 0.5s 0.5s) or (transition: opacity 0.5s 2s, -moz-transform 0.5s 0.5s) or (transition: opacity 0.5s 2s, -o-transform 0.5s 0.5s)) {
   button::-moz-submit-invalid {
     opacity: 1;
-    -webkit-transform: translateX(45px);
-    -moz-transform: translateX(45px);
-    -ms-transform: translateX(45px);
-    -o-transform: translateX(45px);
-    transform: translateX(45px);
+    -webkit-transform: translatex(45px);
+    -moz-transform: translatex(45px);
+    -ms-transform: translatex(45px);
+    -o-transform: translatex(45px);
+    transform: translatex(45px);
     -webkit-transition: opacity 0.5s 2s, -webkit-transform 0.5s 0.5s;
     -moz-transition: opacity 0.5s 2s, -moz-transform 0.5s 0.5s;
     -o-transition: opacity 0.5s 2s, -o-transform 0.5s 0.5s;
@@ -122,11 +122,11 @@ button::-moz-submit-invalid {
   }
   button {
     opacity: 1;
-    -webkit-transform: translateX(45px);
-    -moz-transform: translateX(45px);
-    -ms-transform: translateX(45px);
-    -o-transform: translateX(45px);
-    transform: translateX(45px);
+    -webkit-transform: translatex(45px);
+    -moz-transform: translatex(45px);
+    -ms-transform: translatex(45px);
+    -o-transform: translatex(45px);
+    transform: translatex(45px);
     -webkit-transition: opacity 0.5s 2s, -webkit-transform 0.5s 0.5s;
     -moz-transition: opacity 0.5s 2s, -moz-transform 0.5s 0.5s;
     -o-transition: opacity 0.5s 2s, -o-transform 0.5s 0.5s;
