@@ -2733,7 +2733,7 @@ where
                     }
                 };
 
-                unicode_range.push_str(&u.to_ascii_lowercase());
+                unicode_range.push_str(&u);
             }
             _ => {
                 return Err(Error::new(span, ErrorKind::Expected("'u' ident token")));
@@ -2915,12 +2915,12 @@ where
 
         // 1. Skipping the first u token, concatenate the representations of all the
         // tokens in the production together. Let this be text.
-        let prefix = chars.next().unwrap();
-
-        let mut next = chars.next();
+        chars.next();
 
         // 2. If the first character of text is U+002B PLUS SIGN, consume it. Otherwise,
         // this is an invalid <urange>, and this algorithm must exit.
+        let mut next = chars.next();
+
         if next != Some('+') {
             return Err(Error::new(
                 span,
@@ -2999,9 +2999,9 @@ where
             // 4. Exit this algorithm.
             return Ok(UnicodeRange {
                 span: span!(self, span.lo),
-                prefix,
                 start: start.into(),
                 end: None,
+                raw: Some(unicode_range.into()),
             });
         }
 
@@ -3013,9 +3013,9 @@ where
         if next.is_none() {
             return Ok(UnicodeRange {
                 span: span!(self, span.lo),
-                prefix,
                 start: start.into(),
                 end: None,
+                raw: Some(unicode_range.into()),
             });
         }
 
@@ -3073,9 +3073,9 @@ where
 
         return Ok(UnicodeRange {
             span: span!(self, span.lo),
-            prefix,
             start: start.into(),
             end: Some(end.into()),
+            raw: Some(unicode_range.into()),
         });
     }
 }
