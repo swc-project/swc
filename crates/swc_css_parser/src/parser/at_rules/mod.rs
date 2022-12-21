@@ -1928,7 +1928,7 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<PageSelectorList> {
-        let selector = self.parse()?;
+        let selector: PageSelector = self.parse()?;
         let mut selectors = vec![selector];
 
         loop {
@@ -1946,13 +1946,13 @@ where
         }
 
         let start_pos = match selectors.first() {
-            Some(PageSelector { span, .. }) => span.lo,
+            Some(first) => first.span_lo(),
             _ => {
                 unreachable!();
             }
         };
         let last_pos = match selectors.last() {
-            Some(PageSelector { span, .. }) => span.hi,
+            Some(last) => last.span_hi(),
             _ => {
                 unreachable!();
             }
