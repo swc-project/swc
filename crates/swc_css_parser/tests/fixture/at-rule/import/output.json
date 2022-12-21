@@ -3160,7 +3160,7 @@
                     "end": 1318,
                     "ctxt": 0
                   },
-                  "value": "SCREEN",
+                  "value": "screen",
                   "raw": "SCREEN"
                 },
                 "keyword": {
@@ -9299,7 +9299,7 @@
                     "end": 4795,
                     "ctxt": 0
                   },
-                  "value": "SCREEN",
+                  "value": "screen",
                   "raw": "SCREEN"
                 },
                 "keyword": {

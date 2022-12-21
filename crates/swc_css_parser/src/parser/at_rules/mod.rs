@@ -1,5 +1,5 @@
 use swc_atoms::{js_word, JsWord};
-use swc_common::Span;
+use swc_common::{Span, Spanned};
 use swc_css_ast::*;
 
 use super::{input::ParserInput, PResult, Parser};
@@ -1298,7 +1298,7 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<MediaQueryList> {
-        let query = self.parse()?;
+        let query: MediaQuery = self.parse()?;
         let mut queries = vec![query];
 
         // TODO error recovery
@@ -1320,13 +1320,13 @@ where
         }
 
         let start_pos = match queries.first() {
-            Some(MediaQuery { span, .. }) => span.lo,
+            Some(first) => first.span_lo(),
             _ => {
                 unreachable!();
             }
         };
         let last_pos = match queries.last() {
-            Some(MediaQuery { span, .. }) => span.hi,
+            Some(last) => last.span_hi(),
             _ => {
                 unreachable!();
             }
@@ -1416,7 +1416,11 @@ where
     fn parse(&mut self) -> PResult<MediaType> {
         match cur!(self) {
             _ if !is_one_of_case_insensitive_ident!(self, "not", "and", "or", "only", "layer") => {
-                Ok(MediaType::Ident(self.parse()?))
+                let mut name: Ident = self.parse()?;
+
+                name.value = name.value.to_ascii_lowercase();
+
+                Ok(MediaType::Ident(name))
             }
             _ => {
                 let span = self.input.cur_span();
