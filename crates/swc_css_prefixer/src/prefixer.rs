@@ -3433,19 +3433,33 @@ impl VisitMut for Prefixer {
                 ) = (n.value.get(0), n.value.get(1))
                 {
                     if first.value.eq_ignore_ascii_case(&second.value) {
-                        add_declaration!(
-                            js_word!("overflow"),
-                            Some(Box::new(|| { vec![left.clone()] }))
-                        );
+                        self.added_declarations.push(Box::new(Declaration {
+                            span: n.span,
+                            name: n.name.clone(),
+                            value: vec![left.clone()],
+                            important: n.important.clone(),
+                        }));
                     } else {
-                        add_declaration!(
-                            js_word!("overflow-x"),
-                            Some(Box::new(|| { vec![left.clone()] }))
-                        );
-                        add_declaration!(
-                            js_word!("overflow-y"),
-                            Some(Box::new(|| { vec![right.clone()] }))
-                        );
+                        self.added_declarations.push(Box::new(Declaration {
+                            span: n.span,
+                            name: DeclarationName::Ident(Ident {
+                                span: DUMMY_SP,
+                                value: js_word!("overflow-x"),
+                                raw: None,
+                            }),
+                            value: vec![left.clone()],
+                            important: n.important.clone(),
+                        }));
+                        self.added_declarations.push(Box::new(Declaration {
+                            span: n.span,
+                            name: DeclarationName::Ident(Ident {
+                                span: DUMMY_SP,
+                                value: js_word!("overflow-y"),
+                                raw: None,
+                            }),
+                            value: vec![right.clone()],
+                            important: n.important.clone(),
+                        }));
                     }
                 }
             }
