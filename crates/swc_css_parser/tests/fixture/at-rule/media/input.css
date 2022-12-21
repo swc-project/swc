@@ -157,3 +157,17 @@
 }
 
 @media SCREEN AND (UPDATE: SLOW) AND (WIDTH > 1500px) {}
+
+@media (--modern) and (width > 1024px) {
+    .a { color: green; }
+}
+@media (--) and (width > 1024px) {
+    .a { color: green; }
+}
+
+@MEDIA ALL {}
+@MEDIA (PREFERS-reduced-motion: no-preference) {
+    :ROOT {
+        scroll-behavior: smooth;
+    }
+}

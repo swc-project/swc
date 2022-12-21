@@ -1700,6 +1700,24 @@ where
 
         self.input.skip_ws();
 
+        match cur!(self) {
+            // The <extension-name> can then be used in a media feature. It must be used in a
+            // boolean context; using them in a normal or range context is a syntax error.
+            Token::Ident { value, .. } if value.starts_with("--") => {
+                let name = MediaFeatureName::ExtensionName(self.parse()?);
+
+                self.input.skip_ws();
+
+                expect!(self, ")");
+
+                return Ok(MediaFeature::Boolean(MediaFeatureBoolean {
+                    span: span!(self, span.lo),
+                    name,
+                }));
+            }
+            _ => {}
+        };
+
         let left = self.parse()?;
 
         self.input.skip_ws();
@@ -2534,6 +2552,13 @@ where
             return Err(Error::new(span, ErrorKind::Expected("indent token")));
         }
 
+        // All extensions defined in this specification use a common syntax for defining
+        // their ”names”: the <extension-name> production. An <extension-name> is any
+        // identifier that starts with two dashes (U+002D HYPHEN-MINUS), like --foo, or
+        // even exotic names like -- or ------. The CSS language will never use
+        // identifiers of this form for any language-defined purpose, so it’s safe to
+        // use them for author-defined purposes without ever having to worry about
+        // colliding with CSS-defined names.
         match bump!(self) {
             Token::Ident { value, raw, .. } => {
                 if !value.starts_with("--") {

@@ -159,7 +159,21 @@
  156 | |       }
  157 | |   }
  158 | |   
- 159 | `-> @media SCREEN AND (UPDATE: SLOW) AND (WIDTH > 1500px) {}
+ 159 | |   @media SCREEN AND (UPDATE: SLOW) AND (WIDTH > 1500px) {}
+ 160 | |   
+ 161 | |   @media (--modern) and (width > 1024px) {
+ 162 | |       .a { color: green; }
+ 163 | |   }
+ 164 | |   @media (--) and (width > 1024px) {
+ 165 | |       .a { color: green; }
+ 166 | |   }
+ 167 | |   
+ 168 | |   @MEDIA ALL {}
+ 169 | |   @MEDIA (PREFERS-reduced-motion: no-preference) {
+ 170 | |       :ROOT {
+ 171 | |           scroll-behavior: smooth;
+ 172 | |       }
+ 173 | `-> }
      `----
 
   x Rule
@@ -14621,13 +14635,6 @@
     :         ^^^^^^^^
     `----
 
-  x Ident
-    ,-[$DIR/tests/fixture/at-rule/media/input.css:94:1]
- 94 | 
- 95 | @media (--modern) and (min-width: 1024px) {}
-    :         ^^^^^^^^
-    `----
-
   x MediaConditionAllType
     ,-[$DIR/tests/fixture/at-rule/media/input.css:94:1]
  94 | 
@@ -23591,4 +23598,1048 @@
  158 | 
  159 | @media SCREEN AND (UPDATE: SLOW) AND (WIDTH > 1500px) {}
      :                                                       ^
+     `----
+
+  x Rule
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:160:1]
+ 160 |     
+ 161 | ,-> @media (--modern) and (width > 1024px) {
+ 162 | |       .a { color: green; }
+ 163 | `-> }
+ 164 |     @media (--) and (width > 1024px) {
+     `----
+
+  x AtRule
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:160:1]
+ 160 |     
+ 161 | ,-> @media (--modern) and (width > 1024px) {
+ 162 | |       .a { color: green; }
+ 163 | `-> }
+ 164 |     @media (--) and (width > 1024px) {
+     `----
+
+  x AtRuleName
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:160:1]
+ 160 | 
+ 161 | @media (--modern) and (width > 1024px) {
+     :  ^^^^^
+ 162 |     .a { color: green; }
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:160:1]
+ 160 | 
+ 161 | @media (--modern) and (width > 1024px) {
+     :  ^^^^^
+ 162 |     .a { color: green; }
+     `----
+
+  x MediaQueryList
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:160:1]
+ 160 | 
+ 161 | @media (--modern) and (width > 1024px) {
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 162 |     .a { color: green; }
+     `----
+
+  x MediaQuery
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:160:1]
+ 160 | 
+ 161 | @media (--modern) and (width > 1024px) {
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 162 |     .a { color: green; }
+     `----
+
+  x MediaCondition
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:160:1]
+ 160 | 
+ 161 | @media (--modern) and (width > 1024px) {
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 162 |     .a { color: green; }
+     `----
+
+  x MediaConditionAllType
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:160:1]
+ 160 | 
+ 161 | @media (--modern) and (width > 1024px) {
+     :        ^^^^^^^^^^
+ 162 |     .a { color: green; }
+     `----
+
+  x MediaInParens
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:160:1]
+ 160 | 
+ 161 | @media (--modern) and (width > 1024px) {
+     :        ^^^^^^^^^^
+ 162 |     .a { color: green; }
+     `----
+
+  x MediaFeature
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:160:1]
+ 160 | 
+ 161 | @media (--modern) and (width > 1024px) {
+     :        ^^^^^^^^^^
+ 162 |     .a { color: green; }
+     `----
+
+  x MediaFeatureBoolean
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:160:1]
+ 160 | 
+ 161 | @media (--modern) and (width > 1024px) {
+     :        ^^^^^^^^^^
+ 162 |     .a { color: green; }
+     `----
+
+  x MediaFeatureName
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:160:1]
+ 160 | 
+ 161 | @media (--modern) and (width > 1024px) {
+     :         ^^^^^^^^
+ 162 |     .a { color: green; }
+     `----
+
+  x MediaConditionAllType
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:160:1]
+ 160 | 
+ 161 | @media (--modern) and (width > 1024px) {
+     :                   ^^^^^^^^^^^^^^^^^^^^
+ 162 |     .a { color: green; }
+     `----
+
+  x MediaAnd
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:160:1]
+ 160 | 
+ 161 | @media (--modern) and (width > 1024px) {
+     :                   ^^^^^^^^^^^^^^^^^^^^
+ 162 |     .a { color: green; }
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:160:1]
+ 160 | 
+ 161 | @media (--modern) and (width > 1024px) {
+     :                   ^^^
+ 162 |     .a { color: green; }
+     `----
+
+  x MediaInParens
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:160:1]
+ 160 | 
+ 161 | @media (--modern) and (width > 1024px) {
+     :                       ^^^^^^^^^^^^^^^^
+ 162 |     .a { color: green; }
+     `----
+
+  x MediaFeature
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:160:1]
+ 160 | 
+ 161 | @media (--modern) and (width > 1024px) {
+     :                       ^^^^^^^^^^^^^^^^
+ 162 |     .a { color: green; }
+     `----
+
+  x MediaFeatureRange
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:160:1]
+ 160 | 
+ 161 | @media (--modern) and (width > 1024px) {
+     :                       ^^^^^^^^^^^^^^^^
+ 162 |     .a { color: green; }
+     `----
+
+  x MediaFeatureValue
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:160:1]
+ 160 | 
+ 161 | @media (--modern) and (width > 1024px) {
+     :                        ^^^^^
+ 162 |     .a { color: green; }
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:160:1]
+ 160 | 
+ 161 | @media (--modern) and (width > 1024px) {
+     :                        ^^^^^
+ 162 |     .a { color: green; }
+     `----
+
+  x MediaFeatureValue
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:160:1]
+ 160 | 
+ 161 | @media (--modern) and (width > 1024px) {
+     :                                ^^^^^^
+ 162 |     .a { color: green; }
+     `----
+
+  x Dimension
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:160:1]
+ 160 | 
+ 161 | @media (--modern) and (width > 1024px) {
+     :                                ^^^^^^
+ 162 |     .a { color: green; }
+     `----
+
+  x Length
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:160:1]
+ 160 | 
+ 161 | @media (--modern) and (width > 1024px) {
+     :                                ^^^^^^
+ 162 |     .a { color: green; }
+     `----
+
+  x Number
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:160:1]
+ 160 | 
+ 161 | @media (--modern) and (width > 1024px) {
+     :                                ^^^^
+ 162 |     .a { color: green; }
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:160:1]
+ 160 | 
+ 161 | @media (--modern) and (width > 1024px) {
+     :                                    ^^
+ 162 |     .a { color: green; }
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:160:1]
+ 160 |     
+ 161 | ,-> @media (--modern) and (width > 1024px) {
+ 162 | |       .a { color: green; }
+ 163 | `-> }
+ 164 |     @media (--) and (width > 1024px) {
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:160:1]
+ 160 | 
+ 161 | @media (--modern) and (width > 1024px) {
+     :                                        ^
+ 162 |     .a { color: green; }
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:161:1]
+ 161 | @media (--modern) and (width > 1024px) {
+ 162 |     .a { color: green; }
+     :     ^^^^^^^^^^^^^^^^^^^^
+ 163 | }
+     `----
+
+  x QualifiedRule
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:161:1]
+ 161 | @media (--modern) and (width > 1024px) {
+ 162 |     .a { color: green; }
+     :     ^^^^^^^^^^^^^^^^^^^^
+ 163 | }
+     `----
+
+  x SelectorList
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:161:1]
+ 161 | @media (--modern) and (width > 1024px) {
+ 162 |     .a { color: green; }
+     :     ^^
+ 163 | }
+     `----
+
+  x ComplexSelector
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:161:1]
+ 161 | @media (--modern) and (width > 1024px) {
+ 162 |     .a { color: green; }
+     :     ^^
+ 163 | }
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:161:1]
+ 161 | @media (--modern) and (width > 1024px) {
+ 162 |     .a { color: green; }
+     :     ^^
+ 163 | }
+     `----
+
+  x SubclassSelector
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:161:1]
+ 161 | @media (--modern) and (width > 1024px) {
+ 162 |     .a { color: green; }
+     :     ^^
+ 163 | }
+     `----
+
+  x ClassSelector
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:161:1]
+ 161 | @media (--modern) and (width > 1024px) {
+ 162 |     .a { color: green; }
+     :     ^^
+ 163 | }
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:161:1]
+ 161 | @media (--modern) and (width > 1024px) {
+ 162 |     .a { color: green; }
+     :      ^
+ 163 | }
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:161:1]
+ 161 | @media (--modern) and (width > 1024px) {
+ 162 |     .a { color: green; }
+     :        ^^^^^^^^^^^^^^^^^
+ 163 | }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:161:1]
+ 161 | @media (--modern) and (width > 1024px) {
+ 162 |     .a { color: green; }
+     :        ^
+ 163 | }
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:161:1]
+ 161 | @media (--modern) and (width > 1024px) {
+ 162 |     .a { color: green; }
+     :          ^^^^^^^^^^^^
+ 163 | }
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:161:1]
+ 161 | @media (--modern) and (width > 1024px) {
+ 162 |     .a { color: green; }
+     :          ^^^^^^^^^^^^
+ 163 | }
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:161:1]
+ 161 | @media (--modern) and (width > 1024px) {
+ 162 |     .a { color: green; }
+     :          ^^^^^
+ 163 | }
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:161:1]
+ 161 | @media (--modern) and (width > 1024px) {
+ 162 |     .a { color: green; }
+     :          ^^^^^
+ 163 | }
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:161:1]
+ 161 | @media (--modern) and (width > 1024px) {
+ 162 |     .a { color: green; }
+     :                 ^^^^^
+ 163 | }
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:161:1]
+ 161 | @media (--modern) and (width > 1024px) {
+ 162 |     .a { color: green; }
+     :                 ^^^^^
+ 163 | }
+     `----
+
+  x Rule
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:163:1]
+ 163 |     }
+ 164 | ,-> @media (--) and (width > 1024px) {
+ 165 | |       .a { color: green; }
+ 166 | `-> }
+     `----
+
+  x AtRule
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:163:1]
+ 163 |     }
+ 164 | ,-> @media (--) and (width > 1024px) {
+ 165 | |       .a { color: green; }
+ 166 | `-> }
+     `----
+
+  x AtRuleName
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:163:1]
+ 163 | }
+ 164 | @media (--) and (width > 1024px) {
+     :  ^^^^^
+ 165 |     .a { color: green; }
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:163:1]
+ 163 | }
+ 164 | @media (--) and (width > 1024px) {
+     :  ^^^^^
+ 165 |     .a { color: green; }
+     `----
+
+  x MediaQueryList
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:163:1]
+ 163 | }
+ 164 | @media (--) and (width > 1024px) {
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^
+ 165 |     .a { color: green; }
+     `----
+
+  x MediaQuery
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:163:1]
+ 163 | }
+ 164 | @media (--) and (width > 1024px) {
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^
+ 165 |     .a { color: green; }
+     `----
+
+  x MediaCondition
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:163:1]
+ 163 | }
+ 164 | @media (--) and (width > 1024px) {
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^
+ 165 |     .a { color: green; }
+     `----
+
+  x MediaConditionAllType
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:163:1]
+ 163 | }
+ 164 | @media (--) and (width > 1024px) {
+     :        ^^^^
+ 165 |     .a { color: green; }
+     `----
+
+  x MediaInParens
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:163:1]
+ 163 | }
+ 164 | @media (--) and (width > 1024px) {
+     :        ^^^^
+ 165 |     .a { color: green; }
+     `----
+
+  x MediaFeature
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:163:1]
+ 163 | }
+ 164 | @media (--) and (width > 1024px) {
+     :        ^^^^
+ 165 |     .a { color: green; }
+     `----
+
+  x MediaFeatureBoolean
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:163:1]
+ 163 | }
+ 164 | @media (--) and (width > 1024px) {
+     :        ^^^^
+ 165 |     .a { color: green; }
+     `----
+
+  x MediaFeatureName
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:163:1]
+ 163 | }
+ 164 | @media (--) and (width > 1024px) {
+     :         ^^
+ 165 |     .a { color: green; }
+     `----
+
+  x MediaConditionAllType
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:163:1]
+ 163 | }
+ 164 | @media (--) and (width > 1024px) {
+     :             ^^^^^^^^^^^^^^^^^^^^
+ 165 |     .a { color: green; }
+     `----
+
+  x MediaAnd
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:163:1]
+ 163 | }
+ 164 | @media (--) and (width > 1024px) {
+     :             ^^^^^^^^^^^^^^^^^^^^
+ 165 |     .a { color: green; }
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:163:1]
+ 163 | }
+ 164 | @media (--) and (width > 1024px) {
+     :             ^^^
+ 165 |     .a { color: green; }
+     `----
+
+  x MediaInParens
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:163:1]
+ 163 | }
+ 164 | @media (--) and (width > 1024px) {
+     :                 ^^^^^^^^^^^^^^^^
+ 165 |     .a { color: green; }
+     `----
+
+  x MediaFeature
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:163:1]
+ 163 | }
+ 164 | @media (--) and (width > 1024px) {
+     :                 ^^^^^^^^^^^^^^^^
+ 165 |     .a { color: green; }
+     `----
+
+  x MediaFeatureRange
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:163:1]
+ 163 | }
+ 164 | @media (--) and (width > 1024px) {
+     :                 ^^^^^^^^^^^^^^^^
+ 165 |     .a { color: green; }
+     `----
+
+  x MediaFeatureValue
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:163:1]
+ 163 | }
+ 164 | @media (--) and (width > 1024px) {
+     :                  ^^^^^
+ 165 |     .a { color: green; }
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:163:1]
+ 163 | }
+ 164 | @media (--) and (width > 1024px) {
+     :                  ^^^^^
+ 165 |     .a { color: green; }
+     `----
+
+  x MediaFeatureValue
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:163:1]
+ 163 | }
+ 164 | @media (--) and (width > 1024px) {
+     :                          ^^^^^^
+ 165 |     .a { color: green; }
+     `----
+
+  x Dimension
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:163:1]
+ 163 | }
+ 164 | @media (--) and (width > 1024px) {
+     :                          ^^^^^^
+ 165 |     .a { color: green; }
+     `----
+
+  x Length
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:163:1]
+ 163 | }
+ 164 | @media (--) and (width > 1024px) {
+     :                          ^^^^^^
+ 165 |     .a { color: green; }
+     `----
+
+  x Number
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:163:1]
+ 163 | }
+ 164 | @media (--) and (width > 1024px) {
+     :                          ^^^^
+ 165 |     .a { color: green; }
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:163:1]
+ 163 | }
+ 164 | @media (--) and (width > 1024px) {
+     :                              ^^
+ 165 |     .a { color: green; }
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:163:1]
+ 163 |     }
+ 164 | ,-> @media (--) and (width > 1024px) {
+ 165 | |       .a { color: green; }
+ 166 | `-> }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:163:1]
+ 163 | }
+ 164 | @media (--) and (width > 1024px) {
+     :                                  ^
+ 165 |     .a { color: green; }
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:164:1]
+ 164 | @media (--) and (width > 1024px) {
+ 165 |     .a { color: green; }
+     :     ^^^^^^^^^^^^^^^^^^^^
+ 166 | }
+     `----
+
+  x QualifiedRule
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:164:1]
+ 164 | @media (--) and (width > 1024px) {
+ 165 |     .a { color: green; }
+     :     ^^^^^^^^^^^^^^^^^^^^
+ 166 | }
+     `----
+
+  x SelectorList
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:164:1]
+ 164 | @media (--) and (width > 1024px) {
+ 165 |     .a { color: green; }
+     :     ^^
+ 166 | }
+     `----
+
+  x ComplexSelector
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:164:1]
+ 164 | @media (--) and (width > 1024px) {
+ 165 |     .a { color: green; }
+     :     ^^
+ 166 | }
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:164:1]
+ 164 | @media (--) and (width > 1024px) {
+ 165 |     .a { color: green; }
+     :     ^^
+ 166 | }
+     `----
+
+  x SubclassSelector
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:164:1]
+ 164 | @media (--) and (width > 1024px) {
+ 165 |     .a { color: green; }
+     :     ^^
+ 166 | }
+     `----
+
+  x ClassSelector
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:164:1]
+ 164 | @media (--) and (width > 1024px) {
+ 165 |     .a { color: green; }
+     :     ^^
+ 166 | }
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:164:1]
+ 164 | @media (--) and (width > 1024px) {
+ 165 |     .a { color: green; }
+     :      ^
+ 166 | }
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:164:1]
+ 164 | @media (--) and (width > 1024px) {
+ 165 |     .a { color: green; }
+     :        ^^^^^^^^^^^^^^^^^
+ 166 | }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:164:1]
+ 164 | @media (--) and (width > 1024px) {
+ 165 |     .a { color: green; }
+     :        ^
+ 166 | }
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:164:1]
+ 164 | @media (--) and (width > 1024px) {
+ 165 |     .a { color: green; }
+     :          ^^^^^^^^^^^^
+ 166 | }
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:164:1]
+ 164 | @media (--) and (width > 1024px) {
+ 165 |     .a { color: green; }
+     :          ^^^^^^^^^^^^
+ 166 | }
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:164:1]
+ 164 | @media (--) and (width > 1024px) {
+ 165 |     .a { color: green; }
+     :          ^^^^^
+ 166 | }
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:164:1]
+ 164 | @media (--) and (width > 1024px) {
+ 165 |     .a { color: green; }
+     :          ^^^^^
+ 166 | }
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:164:1]
+ 164 | @media (--) and (width > 1024px) {
+ 165 |     .a { color: green; }
+     :                 ^^^^^
+ 166 | }
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:164:1]
+ 164 | @media (--) and (width > 1024px) {
+ 165 |     .a { color: green; }
+     :                 ^^^^^
+ 166 | }
+     `----
+
+  x Rule
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:167:1]
+ 167 | 
+ 168 | @MEDIA ALL {}
+     : ^^^^^^^^^^^^^
+ 169 | @MEDIA (PREFERS-reduced-motion: no-preference) {
+     `----
+
+  x AtRule
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:167:1]
+ 167 | 
+ 168 | @MEDIA ALL {}
+     : ^^^^^^^^^^^^^
+ 169 | @MEDIA (PREFERS-reduced-motion: no-preference) {
+     `----
+
+  x AtRuleName
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:167:1]
+ 167 | 
+ 168 | @MEDIA ALL {}
+     :  ^^^^^
+ 169 | @MEDIA (PREFERS-reduced-motion: no-preference) {
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:167:1]
+ 167 | 
+ 168 | @MEDIA ALL {}
+     :  ^^^^^
+ 169 | @MEDIA (PREFERS-reduced-motion: no-preference) {
+     `----
+
+  x MediaQueryList
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:167:1]
+ 167 | 
+ 168 | @MEDIA ALL {}
+     :        ^^^
+ 169 | @MEDIA (PREFERS-reduced-motion: no-preference) {
+     `----
+
+  x MediaQuery
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:167:1]
+ 167 | 
+ 168 | @MEDIA ALL {}
+     :        ^^^
+ 169 | @MEDIA (PREFERS-reduced-motion: no-preference) {
+     `----
+
+  x MediaType
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:167:1]
+ 167 | 
+ 168 | @MEDIA ALL {}
+     :        ^^^
+ 169 | @MEDIA (PREFERS-reduced-motion: no-preference) {
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:167:1]
+ 167 | 
+ 168 | @MEDIA ALL {}
+     :        ^^^
+ 169 | @MEDIA (PREFERS-reduced-motion: no-preference) {
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:167:1]
+ 167 | 
+ 168 | @MEDIA ALL {}
+     :            ^^
+ 169 | @MEDIA (PREFERS-reduced-motion: no-preference) {
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:167:1]
+ 167 | 
+ 168 | @MEDIA ALL {}
+     :            ^
+ 169 | @MEDIA (PREFERS-reduced-motion: no-preference) {
+     `----
+
+  x Rule
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:168:1]
+ 168 |     @MEDIA ALL {}
+ 169 | ,-> @MEDIA (PREFERS-reduced-motion: no-preference) {
+ 170 | |       :ROOT {
+ 171 | |           scroll-behavior: smooth;
+ 172 | |       }
+ 173 | `-> }
+     `----
+
+  x AtRule
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:168:1]
+ 168 |     @MEDIA ALL {}
+ 169 | ,-> @MEDIA (PREFERS-reduced-motion: no-preference) {
+ 170 | |       :ROOT {
+ 171 | |           scroll-behavior: smooth;
+ 172 | |       }
+ 173 | `-> }
+     `----
+
+  x AtRuleName
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:168:1]
+ 168 | @MEDIA ALL {}
+ 169 | @MEDIA (PREFERS-reduced-motion: no-preference) {
+     :  ^^^^^
+ 170 |     :ROOT {
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:168:1]
+ 168 | @MEDIA ALL {}
+ 169 | @MEDIA (PREFERS-reduced-motion: no-preference) {
+     :  ^^^^^
+ 170 |     :ROOT {
+     `----
+
+  x MediaQueryList
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:168:1]
+ 168 | @MEDIA ALL {}
+ 169 | @MEDIA (PREFERS-reduced-motion: no-preference) {
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 170 |     :ROOT {
+     `----
+
+  x MediaQuery
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:168:1]
+ 168 | @MEDIA ALL {}
+ 169 | @MEDIA (PREFERS-reduced-motion: no-preference) {
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 170 |     :ROOT {
+     `----
+
+  x MediaCondition
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:168:1]
+ 168 | @MEDIA ALL {}
+ 169 | @MEDIA (PREFERS-reduced-motion: no-preference) {
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 170 |     :ROOT {
+     `----
+
+  x MediaConditionAllType
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:168:1]
+ 168 | @MEDIA ALL {}
+ 169 | @MEDIA (PREFERS-reduced-motion: no-preference) {
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 170 |     :ROOT {
+     `----
+
+  x MediaInParens
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:168:1]
+ 168 | @MEDIA ALL {}
+ 169 | @MEDIA (PREFERS-reduced-motion: no-preference) {
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 170 |     :ROOT {
+     `----
+
+  x MediaFeature
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:168:1]
+ 168 | @MEDIA ALL {}
+ 169 | @MEDIA (PREFERS-reduced-motion: no-preference) {
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 170 |     :ROOT {
+     `----
+
+  x MediaFeaturePlain
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:168:1]
+ 168 | @MEDIA ALL {}
+ 169 | @MEDIA (PREFERS-reduced-motion: no-preference) {
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 170 |     :ROOT {
+     `----
+
+  x MediaFeatureName
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:168:1]
+ 168 | @MEDIA ALL {}
+ 169 | @MEDIA (PREFERS-reduced-motion: no-preference) {
+     :         ^^^^^^^^^^^^^^^^^^^^^^
+ 170 |     :ROOT {
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:168:1]
+ 168 | @MEDIA ALL {}
+ 169 | @MEDIA (PREFERS-reduced-motion: no-preference) {
+     :         ^^^^^^^^^^^^^^^^^^^^^^
+ 170 |     :ROOT {
+     `----
+
+  x MediaFeatureValue
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:168:1]
+ 168 | @MEDIA ALL {}
+ 169 | @MEDIA (PREFERS-reduced-motion: no-preference) {
+     :                                 ^^^^^^^^^^^^^
+ 170 |     :ROOT {
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:168:1]
+ 168 | @MEDIA ALL {}
+ 169 | @MEDIA (PREFERS-reduced-motion: no-preference) {
+     :                                 ^^^^^^^^^^^^^
+ 170 |     :ROOT {
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:168:1]
+ 168 |     @MEDIA ALL {}
+ 169 | ,-> @MEDIA (PREFERS-reduced-motion: no-preference) {
+ 170 | |       :ROOT {
+ 171 | |           scroll-behavior: smooth;
+ 172 | |       }
+ 173 | `-> }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:168:1]
+ 168 | @MEDIA ALL {}
+ 169 | @MEDIA (PREFERS-reduced-motion: no-preference) {
+     :                                                ^
+ 170 |     :ROOT {
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:169:1]
+ 169 |     @MEDIA (PREFERS-reduced-motion: no-preference) {
+ 170 | ,->     :ROOT {
+ 171 | |           scroll-behavior: smooth;
+ 172 | `->     }
+ 173 |     }
+     `----
+
+  x QualifiedRule
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:169:1]
+ 169 |     @MEDIA (PREFERS-reduced-motion: no-preference) {
+ 170 | ,->     :ROOT {
+ 171 | |           scroll-behavior: smooth;
+ 172 | `->     }
+ 173 |     }
+     `----
+
+  x SelectorList
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:169:1]
+ 169 | @MEDIA (PREFERS-reduced-motion: no-preference) {
+ 170 |     :ROOT {
+     :     ^^^^^
+ 171 |         scroll-behavior: smooth;
+     `----
+
+  x ComplexSelector
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:169:1]
+ 169 | @MEDIA (PREFERS-reduced-motion: no-preference) {
+ 170 |     :ROOT {
+     :     ^^^^^
+ 171 |         scroll-behavior: smooth;
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:169:1]
+ 169 | @MEDIA (PREFERS-reduced-motion: no-preference) {
+ 170 |     :ROOT {
+     :     ^^^^^
+ 171 |         scroll-behavior: smooth;
+     `----
+
+  x SubclassSelector
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:169:1]
+ 169 | @MEDIA (PREFERS-reduced-motion: no-preference) {
+ 170 |     :ROOT {
+     :     ^^^^^
+ 171 |         scroll-behavior: smooth;
+     `----
+
+  x PseudoClassSelector
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:169:1]
+ 169 | @MEDIA (PREFERS-reduced-motion: no-preference) {
+ 170 |     :ROOT {
+     :     ^^^^^
+ 171 |         scroll-behavior: smooth;
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:169:1]
+ 169 | @MEDIA (PREFERS-reduced-motion: no-preference) {
+ 170 |     :ROOT {
+     :      ^^^^
+ 171 |         scroll-behavior: smooth;
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:169:1]
+ 169 |     @MEDIA (PREFERS-reduced-motion: no-preference) {
+ 170 | ,->     :ROOT {
+ 171 | |           scroll-behavior: smooth;
+ 172 | `->     }
+ 173 |     }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:169:1]
+ 169 | @MEDIA (PREFERS-reduced-motion: no-preference) {
+ 170 |     :ROOT {
+     :           ^
+ 171 |         scroll-behavior: smooth;
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:170:1]
+ 170 |     :ROOT {
+ 171 |         scroll-behavior: smooth;
+     :         ^^^^^^^^^^^^^^^^^^^^^^^
+ 172 |     }
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:170:1]
+ 170 |     :ROOT {
+ 171 |         scroll-behavior: smooth;
+     :         ^^^^^^^^^^^^^^^^^^^^^^^
+ 172 |     }
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:170:1]
+ 170 |     :ROOT {
+ 171 |         scroll-behavior: smooth;
+     :         ^^^^^^^^^^^^^^^
+ 172 |     }
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:170:1]
+ 170 |     :ROOT {
+ 171 |         scroll-behavior: smooth;
+     :         ^^^^^^^^^^^^^^^
+ 172 |     }
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:170:1]
+ 170 |     :ROOT {
+ 171 |         scroll-behavior: smooth;
+     :                          ^^^^^^
+ 172 |     }
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:170:1]
+ 170 |     :ROOT {
+ 171 |         scroll-behavior: smooth;
+     :                          ^^^^^^
+ 172 |     }
      `----

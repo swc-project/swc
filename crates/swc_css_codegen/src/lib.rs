@@ -630,13 +630,8 @@ where
     #[emitter]
     fn emit_media_feature_name(&mut self, n: &MediaFeatureName) -> Result {
         match n {
-            MediaFeatureName::Ident(n) => emit!(
-                &mut *self.with_ctx(Ctx {
-                    allow_to_lowercase: true,
-                    ..self.ctx
-                }),
-                n
-            ),
+            MediaFeatureName::Ident(n) => emit!(self, n),
+            MediaFeatureName::ExtensionName(n) => emit!(self, n),
         }
     }
 
@@ -646,6 +641,7 @@ where
             MediaFeatureValue::Number(n) => emit!(self, n),
             MediaFeatureValue::Dimension(n) => emit!(self, n),
             MediaFeatureValue::Ident(n) => emit!(self, n),
+            MediaFeatureValue::ExtensionName(n) => emit!(self, n),
             MediaFeatureValue::Ratio(n) => emit!(self, n),
             MediaFeatureValue::Function(n) => emit!(self, n),
         }

@@ -504,9 +504,11 @@ impl VisitMut for MediaFeatureResolutionReplacerOnLegacyVariant<'_> {
                 value: feature_name_value,
                 span: feature_name_span,
                 ..
-            }) = &n.name;
+            }) = &n.name else {
+                return;
+            };
 
-            if &*feature_name_value.to_ascii_lowercase() == self.from {
+            if &*feature_name_value == self.from {
                 n.name = MediaFeatureName::Ident(Ident {
                     span: *feature_name_span,
                     value: self.to.into(),
