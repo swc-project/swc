@@ -155,3 +155,5 @@
         color: red;
     }
 }
+
+@media SCREEN AND (UPDATE: SLOW) AND (WIDTH > 1500px) {}

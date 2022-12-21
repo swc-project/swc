@@ -3195,7 +3195,7 @@
                           "end": 1335,
                           "ctxt": 0
                         },
-                        "value": "ORIENTATION",
+                        "value": "orientation",
                         "raw": "ORIENTATION"
                       },
                       "value": {
@@ -3205,7 +3205,7 @@
                           "end": 1346,
                           "ctxt": 0
                         },
-                        "value": "LANDSCAPE",
+                        "value": "landscape",
                         "raw": "LANDSCAPE"
                       }
                     }
@@ -9334,7 +9334,7 @@
                           "end": 4810,
                           "ctxt": 0
                         },
-                        "value": "MIN-WIDTH",
+                        "value": "min-width",
                         "raw": "MIN-WIDTH"
                       },
                       "value": {

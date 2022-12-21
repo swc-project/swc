@@ -157,7 +157,9 @@
  154 | |       .color {
  155 | |           color: red;
  156 | |       }
- 157 | `-> }
+ 157 | |   }
+ 158 | |   
+ 159 | `-> @media SCREEN AND (UPDATE: SLOW) AND (WIDTH > 1500px) {}
      `----
 
   x Rule
@@ -23358,4 +23360,235 @@
  155 |         color: red;
      :                ^^^
  156 |     }
+     `----
+
+  x Rule
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:158:1]
+ 158 | 
+ 159 | @media SCREEN AND (UPDATE: SLOW) AND (WIDTH > 1500px) {}
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x AtRule
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:158:1]
+ 158 | 
+ 159 | @media SCREEN AND (UPDATE: SLOW) AND (WIDTH > 1500px) {}
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x AtRuleName
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:158:1]
+ 158 | 
+ 159 | @media SCREEN AND (UPDATE: SLOW) AND (WIDTH > 1500px) {}
+     :  ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:158:1]
+ 158 | 
+ 159 | @media SCREEN AND (UPDATE: SLOW) AND (WIDTH > 1500px) {}
+     :  ^^^^^
+     `----
+
+  x MediaQueryList
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:158:1]
+ 158 | 
+ 159 | @media SCREEN AND (UPDATE: SLOW) AND (WIDTH > 1500px) {}
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x MediaQuery
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:158:1]
+ 158 | 
+ 159 | @media SCREEN AND (UPDATE: SLOW) AND (WIDTH > 1500px) {}
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x MediaType
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:158:1]
+ 158 | 
+ 159 | @media SCREEN AND (UPDATE: SLOW) AND (WIDTH > 1500px) {}
+     :        ^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:158:1]
+ 158 | 
+ 159 | @media SCREEN AND (UPDATE: SLOW) AND (WIDTH > 1500px) {}
+     :        ^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:158:1]
+ 158 | 
+ 159 | @media SCREEN AND (UPDATE: SLOW) AND (WIDTH > 1500px) {}
+     :               ^^^
+     `----
+
+  x MediaConditionWithoutOr
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:158:1]
+ 158 | 
+ 159 | @media SCREEN AND (UPDATE: SLOW) AND (WIDTH > 1500px) {}
+     :                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x MediaConditionWithoutOrType
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:158:1]
+ 158 | 
+ 159 | @media SCREEN AND (UPDATE: SLOW) AND (WIDTH > 1500px) {}
+     :                   ^^^^^^^^^^^^^^
+     `----
+
+  x MediaInParens
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:158:1]
+ 158 | 
+ 159 | @media SCREEN AND (UPDATE: SLOW) AND (WIDTH > 1500px) {}
+     :                   ^^^^^^^^^^^^^^
+     `----
+
+  x MediaFeature
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:158:1]
+ 158 | 
+ 159 | @media SCREEN AND (UPDATE: SLOW) AND (WIDTH > 1500px) {}
+     :                   ^^^^^^^^^^^^^^
+     `----
+
+  x MediaFeaturePlain
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:158:1]
+ 158 | 
+ 159 | @media SCREEN AND (UPDATE: SLOW) AND (WIDTH > 1500px) {}
+     :                   ^^^^^^^^^^^^^^
+     `----
+
+  x MediaFeatureName
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:158:1]
+ 158 | 
+ 159 | @media SCREEN AND (UPDATE: SLOW) AND (WIDTH > 1500px) {}
+     :                    ^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:158:1]
+ 158 | 
+ 159 | @media SCREEN AND (UPDATE: SLOW) AND (WIDTH > 1500px) {}
+     :                    ^^^^^^
+     `----
+
+  x MediaFeatureValue
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:158:1]
+ 158 | 
+ 159 | @media SCREEN AND (UPDATE: SLOW) AND (WIDTH > 1500px) {}
+     :                            ^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:158:1]
+ 158 | 
+ 159 | @media SCREEN AND (UPDATE: SLOW) AND (WIDTH > 1500px) {}
+     :                            ^^^^
+     `----
+
+  x MediaConditionWithoutOrType
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:158:1]
+ 158 | 
+ 159 | @media SCREEN AND (UPDATE: SLOW) AND (WIDTH > 1500px) {}
+     :                                  ^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x MediaAnd
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:158:1]
+ 158 | 
+ 159 | @media SCREEN AND (UPDATE: SLOW) AND (WIDTH > 1500px) {}
+     :                                  ^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:158:1]
+ 158 | 
+ 159 | @media SCREEN AND (UPDATE: SLOW) AND (WIDTH > 1500px) {}
+     :                                  ^^^
+     `----
+
+  x MediaInParens
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:158:1]
+ 158 | 
+ 159 | @media SCREEN AND (UPDATE: SLOW) AND (WIDTH > 1500px) {}
+     :                                      ^^^^^^^^^^^^^^^^
+     `----
+
+  x MediaFeature
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:158:1]
+ 158 | 
+ 159 | @media SCREEN AND (UPDATE: SLOW) AND (WIDTH > 1500px) {}
+     :                                      ^^^^^^^^^^^^^^^^
+     `----
+
+  x MediaFeatureRange
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:158:1]
+ 158 | 
+ 159 | @media SCREEN AND (UPDATE: SLOW) AND (WIDTH > 1500px) {}
+     :                                      ^^^^^^^^^^^^^^^^
+     `----
+
+  x MediaFeatureValue
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:158:1]
+ 158 | 
+ 159 | @media SCREEN AND (UPDATE: SLOW) AND (WIDTH > 1500px) {}
+     :                                       ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:158:1]
+ 158 | 
+ 159 | @media SCREEN AND (UPDATE: SLOW) AND (WIDTH > 1500px) {}
+     :                                       ^^^^^
+     `----
+
+  x MediaFeatureValue
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:158:1]
+ 158 | 
+ 159 | @media SCREEN AND (UPDATE: SLOW) AND (WIDTH > 1500px) {}
+     :                                               ^^^^^^
+     `----
+
+  x Dimension
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:158:1]
+ 158 | 
+ 159 | @media SCREEN AND (UPDATE: SLOW) AND (WIDTH > 1500px) {}
+     :                                               ^^^^^^
+     `----
+
+  x Length
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:158:1]
+ 158 | 
+ 159 | @media SCREEN AND (UPDATE: SLOW) AND (WIDTH > 1500px) {}
+     :                                               ^^^^^^
+     `----
+
+  x Number
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:158:1]
+ 158 | 
+ 159 | @media SCREEN AND (UPDATE: SLOW) AND (WIDTH > 1500px) {}
+     :                                               ^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:158:1]
+ 158 | 
+ 159 | @media SCREEN AND (UPDATE: SLOW) AND (WIDTH > 1500px) {}
+     :                                                   ^^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:158:1]
+ 158 | 
+ 159 | @media SCREEN AND (UPDATE: SLOW) AND (WIDTH > 1500px) {}
+     :                                                       ^^
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:158:1]
+ 158 | 
+ 159 | @media SCREEN AND (UPDATE: SLOW) AND (WIDTH > 1500px) {}
+     :                                                       ^
      `----

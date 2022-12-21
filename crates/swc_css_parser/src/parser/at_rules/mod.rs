@@ -1016,7 +1016,11 @@ where
         let span = self.input.cur_span();
         let keyword = match cur!(self) {
             Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("not") => {
-                Some(self.parse()?)
+                let mut ident: Ident = self.parse()?;
+
+                ident.value = ident.value.to_ascii_lowercase();
+
+                Some(ident)
             }
             _ => {
                 return Err(Error::new(
@@ -1046,7 +1050,11 @@ where
         let span = self.input.cur_span();
         let keyword = match cur!(self) {
             Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("and") => {
-                Some(self.parse()?)
+                let mut ident: Ident = self.parse()?;
+
+                ident.value = ident.value.to_ascii_lowercase();
+
+                Some(ident)
             }
             _ => {
                 return Err(Error::new(
@@ -1076,7 +1084,11 @@ where
         let span = self.input.cur_span();
         let keyword = match cur!(self) {
             Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("or") => {
-                Some(self.parse()?)
+                let mut ident: Ident = self.parse()?;
+
+                ident.value = ident.value.to_ascii_lowercase();
+
+                Some(ident)
             }
             _ => {
                 return Err(Error::new(
@@ -1542,7 +1554,11 @@ where
         let span = self.input.cur_span();
         let keyword = match cur!(self) {
             Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("not") => {
-                Some(self.parse()?)
+                let mut ident: Ident = self.parse()?;
+
+                ident.value = ident.value.to_ascii_lowercase();
+
+                Some(ident)
             }
             _ => {
                 return Err(Error::new(
@@ -1572,7 +1588,11 @@ where
         let span = self.input.cur_span();
         let keyword = match cur!(self) {
             Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("and") => {
-                Some(self.parse()?)
+                let mut ident: Ident = self.parse()?;
+
+                ident.value = ident.value.to_ascii_lowercase();
+
+                Some(ident)
             }
             _ => {
                 return Err(Error::new(
@@ -1602,7 +1622,11 @@ where
         let span = self.input.cur_span();
         let keyword = match cur!(self) {
             Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("or") => {
-                Some(self.parse()?)
+                let mut ident: Ident = self.parse()?;
+
+                ident.value = ident.value.to_ascii_lowercase();
+
+                Some(ident)
             }
             _ => {
                 return Err(Error::new(
@@ -1860,7 +1884,13 @@ where
 
                 Ok(MediaFeatureValue::Number(left))
             }
-            tok!("ident") => Ok(MediaFeatureValue::Ident(self.parse()?)),
+            tok!("ident") => {
+                let mut name: Ident = self.parse()?;
+
+                name.value = name.value.to_ascii_lowercase();
+
+                Ok(MediaFeatureValue::Ident(name))
+            }
             tok!("dimension") => Ok(MediaFeatureValue::Dimension(self.parse()?)),
             Token::Function { value, .. } if is_math_function(value) => {
                 let function = self.parse()?;
@@ -2146,7 +2176,11 @@ where
         let span = self.input.cur_span();
         let keyword = match cur!(self) {
             Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("not") => {
-                Some(self.parse()?)
+                let mut ident: Ident = self.parse()?;
+
+                ident.value = ident.value.to_ascii_lowercase();
+
+                Some(ident)
             }
             _ => {
                 return Err(Error::new(
@@ -2176,7 +2210,11 @@ where
         let span = self.input.cur_span();
         let keyword = match cur!(self) {
             Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("and") => {
-                Some(self.parse()?)
+                let mut ident: Ident = self.parse()?;
+
+                ident.value = ident.value.to_ascii_lowercase();
+
+                Some(ident)
             }
             _ => {
                 return Err(Error::new(
@@ -2206,7 +2244,11 @@ where
         let span = self.input.cur_span();
         let keyword = match cur!(self) {
             Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("or") => {
-                Some(self.parse()?)
+                let mut ident: Ident = self.parse()?;
+
+                ident.value = ident.value.to_ascii_lowercase();
+
+                Some(ident)
             }
             _ => {
                 return Err(Error::new(
@@ -2460,7 +2502,13 @@ where
 
                 Ok(SizeFeatureValue::Number(left))
             }
-            tok!("ident") => Ok(SizeFeatureValue::Ident(self.parse()?)),
+            tok!("ident") => {
+                let mut name: Ident = self.parse()?;
+
+                name.value = name.value.to_ascii_lowercase();
+
+                Ok(SizeFeatureValue::Ident(name))
+            }
             tok!("dimension") => Ok(SizeFeatureValue::Dimension(self.parse()?)),
             Token::Function { value, .. } if is_math_function(value) => {
                 let function = self.parse()?;
