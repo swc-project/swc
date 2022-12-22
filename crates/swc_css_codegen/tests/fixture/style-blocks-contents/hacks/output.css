@@ -7,13 +7,13 @@
 .selector {
   [;property: value;];}
 @media \\0 screen {}
-@media all and (-webkit-min-device-pixel-ratio: 0) and (min-resolution: .001dpcm) {
+@media all and (-webkit-min-device-pixel-ratio: 0) and (min-resolution: 0.001dpcm) {
   .selector {}
 }
 body:empty .selector {}
 body:last-child .selector, 
 x:-moz-any-link {}
-@media \0 all {}
+@media �all {}
 body:last-child .selector, 
 x:-moz-any-link, 
 x:default {}
@@ -22,8 +22,8 @@ body:not(:-moz-handler-blocked) .selector {}
 @media screen and (min--moz-device-pixel-ratio: 0) {}
 _::-moz-progress-bar, 
 body:last-child .selector {}
-@media all and (min--moz-device-pixel-ratio: 0) and (min-resolution: .001dpcm) {}
-@media all and (-moz-images-in-menus: 0) and (min-resolution: .001dpcm) {}
+@media all and (min--moz-device-pixel-ratio: 0) and (min-resolution: 0.001dpcm) {}
+@media all and (-moz-images-in-menus: 0) and (min-resolution: 0.001dpcm) {}
 @media all and (min--moz-device-pixel-ratio: 0) {
   @media (min-width: 0px) {}
 }
@@ -39,31 +39,31 @@ body:last-child .selector {}
 @supports (-moz-appearance: meterbar) and (image-orientation: 90deg) {}
 @supports (-moz-appearance: meterbar) and (all: initial) {}
 @supports (-moz-appearance: meterbar) and (list-style-type: japanese-formal) {}
-@media all and (min--moz-device-pixel-ratio: 0) and (min-resolution: 3e1dpcm) {}
+@media all and (min--moz-device-pixel-ratio: 0) and (min-resolution: 30dpcm) {}
 @supports (-moz-appearance: meterbar) and (background-blend-mode: difference, normal) {}
 _:-moz-tree-row(hover), 
 .selector {}
 _::selection, 
-.selector:not([attr*='']) {}
+.selector:not([attr*=""]) {}
 @supports (-webkit-appearance: none) {}
 * html .selector {}
 .unused-class.selector {}
 html > body .selector {}
 *:first-child + html .selector {}
 .selector, 
-x:-IE7 {}
+x:-ie7 {}
 * + html .selector {}
 body *.selector {}
 .selector\  {}
 html > body .selector {}
 head ~ body .selector {}
 _::selection, 
-.selector:not([attr*='']) {}
+.selector:not([attr*=""]) {}
 :root .selector {}
 body:last-child .selector {}
 body:nth-of-type(1) .selector {}
 body:first-of-type .selector {}
-.selector:not([attr*='']) {}
+.selector:not([attr*=""]) {}
 .selector {
   _property: value;
 }
@@ -71,10 +71,10 @@ body:first-of-type .selector {}
   -property: value;
 }
 .selector {
-  property: value\9;
+  property: value\9 ;
 }
 .selector {
-  property: value\9;
+  property: value\9 ;
 }
 .selector {
   !property: value;color: red;
@@ -138,8 +138,8 @@ body:first-of-type .selector {}
   property: value !ie;
 }
 @media screen\9  {}
-@media \0screen\,screen\9  {}
-@media \0screen {}
+@media �screen\,screen\9  {}
+@media �screen {}
 @media screen and (min-width: 0\0) {}
 _:-ms-input-placeholder, 
 :root .selector {}
@@ -159,12 +159,12 @@ html:first-child .selector {}
 _:-o-prefocus, 
 body:last-child .selector {}
 @media all and (-webkit-min-device-pixel-ratio: 10000), not all and (-webkit-min-device-pixel-ratio: 0) {}
-@media (min-resolution: .001dpcm) {
+@media (min-resolution: 0.001dpcm) {
   _:-o-prefocus, 
   .selector {}
 }
 *|html[xmlns*=""] .selector {}
-@media all and (-webkit-min-device-pixel-ratio: 0) and (min-resolution: .001dpcm) {
+@media all and (-webkit-min-device-pixel-ratio: 0) and (min-resolution: 0.001dpcm) {
   .selector {}
 }
 .selector:not(*:root) {}
@@ -195,7 +195,7 @@ div {
 }
 selector {
   property: value;
-  p\roperty: normal-value;
+  property: normal-value;
 }
 div {
   color: red;

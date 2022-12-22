@@ -57,6 +57,7 @@ define!({
         LayerName(Box<LayerName>),
         SupportsCondition(Box<SupportsCondition>),
         Declaration(Box<Declaration>),
+        IdSelector(Box<IdSelector>),
     }
 
     pub struct Ident {

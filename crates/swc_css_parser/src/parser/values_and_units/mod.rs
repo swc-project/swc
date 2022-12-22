@@ -1616,6 +1616,20 @@ where
 
                 self.input.skip_ws();
             }
+            js_word!("element") | js_word!("-moz-element") => {
+                self.input.skip_ws();
+
+                let id_selector = self.try_parse_variable_function(
+                    |parser, _| Ok(Some(ComponentValue::IdSelector(parser.parse()?))),
+                    &mut false,
+                )?;
+
+                if let Some(id_selector) = id_selector {
+                    values.push(id_selector);
+
+                    self.input.skip_ws();
+                }
+            }
             js_word!("selector") if self.ctx.in_supports_at_rule => {
                 self.input.skip_ws();
 
@@ -2435,11 +2449,20 @@ where
         }
 
         match bump!(self) {
-            Token::Hash { value, raw, .. } => Ok(HexColor {
-                span,
-                value: value.to_ascii_lowercase(),
-                raw: Some(raw),
-            }),
+            Token::Hash { value, raw, .. } => {
+                if value.chars().any(|x| !x.is_ascii_hexdigit()) {
+                    return Err(Error::new(
+                        span,
+                        ErrorKind::Unexpected("character in hex color"),
+                    ));
+                }
+
+                Ok(HexColor {
+                    span,
+                    value: value.to_ascii_lowercase(),
+                    raw: Some(raw),
+                })
+            }
             _ => {
                 unreachable!()
             }

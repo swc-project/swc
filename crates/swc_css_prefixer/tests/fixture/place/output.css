@@ -21,7 +21,7 @@ a {
   justify-self: center;
   place-self: center;
 }
-A {
+a {
   -webkit-align-content: space-between;
   -ms-flex-line-pack: justify;
   align-content: space-between;
@@ -30,19 +30,19 @@ A {
   -moz-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
-  PLACE-CONTENT: space-between center;
+  place-content: space-between center;
   -webkit-box-align: center;
   -webkit-align-items: center;
   -moz-box-align: center;
   -ms-flex-align: center;
   align-items: center;
   justify-items: normal;
-  PLACE-ITEMS: center normal;
+  place-items: center normal;
   -webkit-align-self: auto;
   -ms-flex-item-align: auto;
   align-self: auto;
   justify-self: center;
-  PLACE-SELF: auto center;
+  place-self: auto center;
 }
 b {
   -webkit-align-content: space-between;
@@ -156,7 +156,7 @@ e {
   foo-place-content: first second;
 }
 .content {
-  content: 'place-content: first second;';
+  content: "place-content: first second;";
 }
 .important {
   -webkit-align-content: first !important;
