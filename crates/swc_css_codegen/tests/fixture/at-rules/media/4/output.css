@@ -1,5 +1,5 @@
-@\media screen {}
-@\media \screen {}
+@media screen {}
+@media screen {}
 @media all {}
 @media screen {}
 @media print {}
@@ -91,9 +91,9 @@
 @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
 @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
 @media NOT all {}
-@media ONLY screen AND (color) {}
-@media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
-@media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
+@media ONLY screen and (color) {}
+@media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
+@media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
 @media{}
 @media{}
 @media not (min-width: 100px) {}
@@ -111,9 +111,9 @@
 @media func(100px) {}
 @media screen and func(100px) {}
 @media (max-width: 650px), calc(150px + 150px) {}
-@MEDIA ALL {}
-@MEDIA (PREFERS-reduced-motion: no-preference) {
-  :ROOT {
+@media ALL {}
+@media (PREFERS-reduced-motion: no-preference) {
+  :root {
     scroll-behavior: smooth;
   }
 }

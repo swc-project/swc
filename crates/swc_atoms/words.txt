@@ -1,5 +1,4 @@
 *
-*
 -infinity
 -moz-activehyperlinktext
 -moz-animation
@@ -11,8 +10,6 @@
 -moz-animation-name
 -moz-animation-play-state
 -moz-animation-timing-function
--moz-any
--moz-any
 -moz-any
 -moz-appearance
 -moz-backface-visibility
@@ -38,8 +35,6 @@
 -moz-buttonhoverface
 -moz-buttonhovertext
 -moz-calc
--moz-calc
--moz-calc
 -moz-cellhighlight
 -moz-cellhighlighttext
 -moz-column-count
@@ -59,9 +54,8 @@
 -moz-dialog
 -moz-dialogtext
 -moz-document
--moz-document
--moz-document
 -moz-dragtargetzone
+-moz-element
 -moz-eventreerow
 -moz-font-feature-settings
 -moz-font-language-override
@@ -70,8 +64,6 @@
 -moz-html-cellhighlighttext
 -moz-hyperlinktext
 -moz-hyphens
--moz-keyframes
--moz-keyframes
 -moz-keyframes
 -moz-mac-accentdarkestshadow
 -moz-mac-accentdarkshadow

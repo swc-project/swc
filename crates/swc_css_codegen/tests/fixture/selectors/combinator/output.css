@@ -1,5 +1,5 @@
 .class > a {}
-a #foo > [foo='bar'], 
+a #foo > [foo="bar"], 
 .FOO {}
 body article p {}
 article > p {}

@@ -1,5 +1,5 @@
-@import './imported.css';
-@import './other-imported.css';
+@import "./imported.css";
+@import "./other-imported.css";
 .__local__foo {
   color: red;
   color: rgb(0 0 100% / 90%);

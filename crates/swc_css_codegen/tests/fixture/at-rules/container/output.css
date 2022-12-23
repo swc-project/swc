@@ -26,11 +26,11 @@ aside {
 }
 .media-object {
   display: grid;
-  grid-template: 'img' auto 'content' auto/ 100%;
+  grid-template: "img" auto "content" auto/ 100%;
 }
 @container my-layout (inline-size > 45em) {
   .media-object {
-    grid-template: 'img content' auto/ auto 1fr;
+    grid-template: "img content" auto/ auto 1fr;
   }
 }
 @container card (inline-size > 30em) and style(--responsive: true) {

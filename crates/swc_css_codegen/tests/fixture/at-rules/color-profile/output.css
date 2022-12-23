@@ -1,7 +1,7 @@
 @color-profile --swop5c {
-  src: url('https://example.org/SWOP2006_Coated5v2.icc');
+  src: url("https://example.org/SWOP2006_Coated5v2.icc");
 }
 @color-profile --fogra55beta {
-  src: url('https://example.org/2020_13.003_FOGRA55beta_CL_Profile.icc');
+  src: url("https://example.org/2020_13.003_FOGRA55beta_CL_Profile.icc");
   prop: value;
 }

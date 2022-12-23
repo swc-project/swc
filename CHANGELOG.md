@@ -13,6 +13,12 @@
 
 - **(css/prefixer)** Support page break (#6693) ([27a8b7e](https://github.com/swc-project/swc/commit/27a8b7e50b67de076089ca8b05d6e44944182b31))
 
+### Refactor
+
+
+
+- **(css/codegen)** Do not use `raw` (#6674) ([ebebd60](https://github.com/swc-project/swc/commit/ebebd608750bf63d6f715350835a1a5349efdb68))
+
 ## [1.3.24] - 2022-12-21
 
 ### Bug Fixes

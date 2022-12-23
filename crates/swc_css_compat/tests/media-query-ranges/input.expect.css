@@ -100,7 +100,7 @@
     color: red;
   }
 }
-@media screen and ((min-resolution: .5dppx) and (max-resolution: 2.5dppx)) {
+@media screen and ((min-resolution: 0.5dppx) and (max-resolution: 2.5dppx)) {
   a {
     color: red;
   }
@@ -155,7 +155,7 @@
     color: red;
   }
 }
-@media screen and (min-width: -0.58px) and (max-width: .99px) {
+@media screen and (min-width: -0.58px) and (max-width: 0.99px) {
   a {
     color: red;
   }
@@ -280,7 +280,7 @@
     color: red;
   }
 }
-@media screen and (device-width) and ((min-device-width: .08px) and (max-device-width: 0.68px)) {
+@media screen and (device-width) and ((min-device-width: 0.08px) and (max-device-width: 0.68px)) {
   a {
     color: red;
   }
@@ -300,7 +300,7 @@
     color: red;
   }
 }
-@media screen and (device-height) and ((min-device-height: .08px) and (max-device-height: 0.68px)) {
+@media screen and (device-height) and ((min-device-height: 0.08px) and (max-device-height: 0.68px)) {
   a {
     color: red;
   }
@@ -390,7 +390,7 @@
     color: red;
   }
 }
-@media screen and (width) and ((min-width: .08px) and (max-width: 0.68px)) {
+@media screen and (width) and ((min-width: 0.08px) and (max-width: 0.68px)) {
   a {
     color: red;
   }
@@ -410,7 +410,7 @@
     color: red;
   }
 }
-@media screen and (height) and ((min-height: .08px) and (max-height: 0.68px)) {
+@media screen and (height) and ((min-height: 0.08px) and (max-height: 0.68px)) {
   a {
     color: red;
   }
