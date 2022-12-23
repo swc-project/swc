@@ -1,4 +1,4 @@
 //// [for-of54.ts]
 for (let v of []){
-    var v1 = 0;
+    var v = 0;
 }

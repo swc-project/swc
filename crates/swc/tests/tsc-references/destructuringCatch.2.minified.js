@@ -14,8 +14,8 @@ try {
         a: 0,
         b: 1
     };
-} catch (param1) {
-    param1.a, param1.b;
+} catch (param) {
+    param.a, param.b;
 }
 try {
     throw [
@@ -26,7 +26,7 @@ try {
             z: 1
         }
     ];
-} catch (param2) {
-    var _param_ = _sliced_to_array(param2, 1)[0];
+} catch (param) {
+    var _param_ = _sliced_to_array(param, 1)[0];
     _sliced_to_array(_param_.x, 1)[0], _param_.z;
 }

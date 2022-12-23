@@ -69,34 +69,34 @@ class C extends B {
         super.w();
     }
     static{
-        var [Reflect1] = [
+        var [Reflect] = [
             null
         ]; // collision (es2015-es2021 only)
         super.w();
     }
     static{
-        var Reflect2; // collision (es2015-es2021 only)
+        var Reflect; // collision (es2015-es2021 only)
         super.w();
     }
     static{
-        class Reflect3 {
+        class Reflect {
         } // collision (es2015-es2021 only)
         super.w();
     }
     static{
-        function Reflect4() {} // collision (es2015-es2021 only)
+        function Reflect() {} // collision (es2015-es2021 only)
         super.w();
     }
     static{
-        let Reflect5// collision (es2015-es2021 only)
+        let Reflect// collision (es2015-es2021 only)
         ;
-        (function(Reflect5) {})(Reflect5 || (Reflect5 = {}));
+        (function(Reflect) {})(Reflect || (Reflect = {}));
         super.w();
     }
     static{
-        let Reflect6// collision (es2015-es2021 only)
+        let Reflect// collision (es2015-es2021 only)
         ;
-        (function(Reflect6) {})(Reflect6 || (Reflect6 = {}));
+        (function(Reflect) {})(Reflect || (Reflect = {}));
         super.w();
     }
     static{

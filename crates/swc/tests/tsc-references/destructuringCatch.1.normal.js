@@ -14,8 +14,8 @@ try {
         a: 0,
         b: 1
     };
-} catch (param1) {
-    var a1 = param1.a, b1 = param1.b;
+} catch (param) {
+    var a1 = param.a, b1 = param.b;
     a1 + b1;
 }
 try {
@@ -27,11 +27,11 @@ try {
             z: 1
         }
     ];
-} catch (param2) {
-    var _param1 = _sliced_to_array(param2, 1), _param_ = _param1[0], _param__x = _sliced_to_array(_param_.x, 1), y = _param__x[0], z = _param_.z;
+} catch (param) {
+    var _param1 = _sliced_to_array(param, 1), _param_ = _param1[0], _param__x = _sliced_to_array(_param_.x, 1), y = _param__x[0], z = _param_.z;
     y + z;
 }
 // Test of comment ranges. A fix to GH#11755 should update this.
-try {} catch (param3) {
-    var _param2 = _sliced_to_array(param3, 1), /*a*/ a2 = _param2[0];
+try {} catch (param) {
+    var _param2 = _sliced_to_array(param, 1), /*a*/ a2 = _param2[0];
 }

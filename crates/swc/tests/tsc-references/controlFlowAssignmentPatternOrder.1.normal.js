@@ -9,31 +9,31 @@
     ]] = [];
     const bb = b;
 }{
-    let a1 = 1;
-    let b1;
-    [{ [a1]: b1  } = [
+    let a = 1;
+    let b;
+    [{ [a]: b  } = [
         9,
-        a1 = 0
+        a = 0
     ]] = [];
-    const bb1 = b1;
+    const bb = b;
 }{
-    let a2 = 0;
-    let b2;
-    [{ [a2 = 1]: b2  } = [
+    let a = 0;
+    let b;
+    [{ [a = 1]: b  } = [
         9,
-        a2
+        a
     ]] = [
         [
             9,
             8
         ]
     ];
-    const bb2 = b2;
+    const bb = b;
 }{
-    let a3 = 1;
-    let b3;
-    [{ [a3]: b3  } = [
-        a3 = 0,
+    let a = 1;
+    let b;
+    [{ [a]: b  } = [
+        a = 0,
         9
     ]] = [
         [
@@ -41,42 +41,42 @@
             9
         ]
     ];
-    const bb3 = b3;
+    const bb = b;
 }// same as above but on left of a binary expression
 {
-    let a4 = 0;
-    let b4;
-    [{ [a4 = 1]: b4  } = [
+    let a = 0;
+    let b;
+    [{ [a = 1]: b  } = [
         9,
-        a4
+        a
     ]] = [], f();
-    const bb4 = b4;
+    const bb = b;
 }{
-    let a5 = 1;
-    let b5;
-    [{ [a5]: b5  } = [
+    let a = 1;
+    let b;
+    [{ [a]: b  } = [
         9,
-        a5 = 0
+        a = 0
     ]] = [], f();
-    const bb5 = b5;
+    const bb = b;
 }{
-    let a6 = 0;
-    let b6;
-    [{ [a6 = 1]: b6  } = [
+    let a = 0;
+    let b;
+    [{ [a = 1]: b  } = [
         9,
-        a6
+        a
     ]] = [
         [
             9,
             8
         ]
     ], f();
-    const bb6 = b6;
+    const bb = b;
 }{
-    let a7 = 1;
-    let b7;
-    [{ [a7]: b7  } = [
-        a7 = 0,
+    let a = 1;
+    let b;
+    [{ [a]: b  } = [
+        a = 0,
         9
     ]] = [
         [
@@ -84,42 +84,42 @@
             9
         ]
     ], f();
-    const bb7 = b7;
+    const bb = b;
 }// same as above but on right of a binary expression
 {
-    let a8 = 0;
-    let b8;
-    f(), [{ [a8 = 1]: b8  } = [
+    let a = 0;
+    let b;
+    f(), [{ [a = 1]: b  } = [
         9,
-        a8
+        a
     ]] = [];
-    const bb8 = b8;
+    const bb = b;
 }{
-    let a9 = 1;
-    let b9;
-    f(), [{ [a9]: b9  } = [
+    let a = 1;
+    let b;
+    f(), [{ [a]: b  } = [
         9,
-        a9 = 0
+        a = 0
     ]] = [];
-    const bb9 = b9;
+    const bb = b;
 }{
-    let a10 = 0;
-    let b10;
-    f(), [{ [a10 = 1]: b10  } = [
+    let a = 0;
+    let b;
+    f(), [{ [a = 1]: b  } = [
         9,
-        a10
+        a
     ]] = [
         [
             9,
             8
         ]
     ];
-    const bb10 = b10;
+    const bb = b;
 }{
-    let a11 = 1;
-    let b11;
-    f(), [{ [a11]: b11  } = [
-        a11 = 0,
+    let a = 1;
+    let b;
+    f(), [{ [a]: b  } = [
+        a = 0,
         9
     ]] = [
         [
@@ -127,5 +127,5 @@
             9
         ]
     ];
-    const bb11 = b11;
+    const bb = b;
 }
