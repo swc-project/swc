@@ -35,6 +35,7 @@ output.mjs
 index.g.js
 output.json
 output.ts
+output.*.ts
 output.css
 output.min.css
 output.html
