@@ -5,7 +5,7 @@
         "./_root.js",
         "./stubFalse.js"
     ], factory);
-    else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.input = {}, global.rootJs, global.stubFalseJs);
+    else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.input = {}, global.root, global.stubFalse);
 })(this, function(exports1, _rootJs, _stubFalseJs) {
     "use strict";
     Object.defineProperty(exports1, "__esModule", {

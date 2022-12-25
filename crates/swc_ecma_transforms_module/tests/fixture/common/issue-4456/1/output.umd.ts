@@ -7,7 +7,7 @@
         "@eduzz/houston-tokens/variables/breakpoints",
         "@emotion/css"
     ], factory);
-    else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.input = {}, global[""], global.styled, global.breakpoints, global.css);
+    else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.input = {}, global._, global.styled, global.breakpoints, global.css);
 })(this, function(exports, _, _styled, _breakpoints, _css) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
