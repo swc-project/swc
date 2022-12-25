@@ -1,0 +1,8 @@
+{
+  "globals": {
+    "SomeNoMatchingGlob": "TMSparkle",
+    "dingDang": "TheMagician",
+    "./some/worldLevel.js.some": "Dragon",
+    "phenomena": "StormS"
+  }
+}

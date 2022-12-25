@@ -1,0 +1,11 @@
+{
+  "globals": {
+    "sparkle": "MatchedTMSparkle",
+    "worldLevel": "MatchedWorldLevel",
+    "storm": "MatchedStormJs",
+    "phenomenaLevels": "MatchedPhenomenaLevels",
+    "index": "MatchedIndexJs",
+    "_": "Matched_",
+    "input": "WorldLib"
+  }
+}

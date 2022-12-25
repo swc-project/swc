@@ -1,0 +1,6 @@
+{
+  "exactGlobals": [
+    ["^NotMatching1$", "NotMatching"],
+    ["^NotMa.*?tching2$", "NotMatching2"]
+  ]
+}

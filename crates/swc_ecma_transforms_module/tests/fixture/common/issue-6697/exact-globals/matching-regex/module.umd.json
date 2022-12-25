@@ -1,0 +1,12 @@
+{
+  "exactGlobals": [
+    ["@themagician/sparkle", "MatchedTMSparkle"],
+    ["\\./worldLevel", "MatchedWorldLevel"],
+    ["\\./storm\\.js", "MatchedStormJs"],
+    ["phenomena\\..*?$", "MatchedPhenomenaLevels"],
+    ["\\./some/index\\..*$", "MatchedIndexJs"],
+    ["^(\\.*?/*\\.*)*$", "Matched_"],
+    ["(^|.*?/)input$", "WorldLib"],
+    [".*NOMatch", "NO_MATCH"]
+  ]
+}
