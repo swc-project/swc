@@ -19,6 +19,8 @@ pub struct BrowserData<T: Default> {
     #[serde(default)]
     pub chrome: T,
     #[serde(default)]
+    pub chrome_android: T,
+    #[serde(default)]
     pub and_chr: T,
     #[serde(default)]
     pub and_ff: T,
