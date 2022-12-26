@@ -10,6 +10,9 @@
 
 - **(es)** Preserve license comments by default (#6703) ([58700f2](https://github.com/swc-project/swc/commit/58700f2bec696d0d2b2466ab6b4641f0a7017808))
 
+
+- **(preset-env)** Update data (#6719) ([d506c96](https://github.com/swc-project/swc/commit/d506c9680577173e5abb1dd0f75456145fda60c9))
+
 ### Features
 
 
