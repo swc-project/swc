@@ -23,6 +23,9 @@
 
 
 
+- **(css/parser)** Normalize urange (#6704) ([8af627d](https://github.com/swc-project/swc/commit/8af627d5c4720644246f99012b6f49b419066eef))
+
+
 - **(css/prefixer)** Support page break (#6693) ([27a8b7e](https://github.com/swc-project/swc/commit/27a8b7e50b67de076089ca8b05d6e44944182b31))
 
 ### Refactor
