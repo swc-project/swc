@@ -287,6 +287,44 @@ impl VisitMut for NormalizeTest {
         n.raw = None;
     }
 
+    fn visit_mut_unicode_range(&mut self, n: &mut UnicodeRange) {
+        n.visit_mut_children_with(self);
+
+        n.raw = None;
+    }
+
+    fn visit_mut_declaration(&mut self, n: &mut Declaration) {
+        n.visit_mut_children_with(self);
+
+        if let DeclarationName::Ident(name) = &mut n.name {
+            name.value = name.value.to_lowercase().into();
+        }
+    }
+
+    fn visit_mut_pseudo_class_selector(&mut self, n: &mut PseudoClassSelector) {
+        n.visit_mut_children_with(self);
+
+        n.name.value = n.name.value.to_lowercase().into();
+    }
+
+    fn visit_mut_pseudo_element_selector(&mut self, n: &mut PseudoElementSelector) {
+        n.visit_mut_children_with(self);
+
+        n.name.value = n.name.value.to_lowercase().into();
+    }
+
+    fn visit_mut_tag_name_selector(&mut self, n: &mut TagNameSelector) {
+        n.visit_mut_children_with(self);
+
+        n.name.value.value = n.name.value.value.to_lowercase().into();
+    }
+
+    fn visit_mut_attribute_selector_modifier(&mut self, n: &mut AttributeSelectorModifier) {
+        n.visit_mut_children_with(self);
+
+        n.value.value = n.value.value.to_lowercase().into();
+    }
+
     fn visit_mut_an_plus_b_notation(&mut self, n: &mut AnPlusBNotation) {
         n.visit_mut_children_with(self);
 

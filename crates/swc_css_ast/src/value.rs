@@ -454,14 +454,21 @@ pub enum UrlModifier {
 }
 
 #[ast_node("UnicodeRange")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash)]
 pub struct UnicodeRange {
     pub span: Span,
-    pub prefix: char,
     #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub start: JsWord,
     #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub end: Option<JsWord>,
+    pub raw: Option<Atom>,
+}
+
+impl EqIgnoreSpan for UnicodeRange {
+    #[inline]
+    fn eq_ignore_span(&self, other: &Self) -> bool {
+        self.start == other.start && self.end == other.end
+    }
 }
 
 #[ast_node("CalcSum")]
