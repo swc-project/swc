@@ -1,3 +1,7 @@
+a:link, 
+a:visited {
+  color: red;
+}
 a:-webkit-any-link {
   color: red;
 }
@@ -6,4 +10,700 @@ a:-moz-any-link {
 }
 a:any-link {
   color: red;
+}
+nav :link > span, 
+nav :visited > span, 
+foo > bar {
+  background-color: yellow;
+}
+nav :-webkit-any-link > span, 
+foo > bar {
+  background-color: yellow;
+}
+nav :-moz-any-link > span, 
+foo > bar {
+  background-color: yellow;
+}
+nav :any-link > span, 
+foo > bar {
+  background-color: yellow;
+}
+:link, 
+:visited {
+  -webkit-box-ordinal-group: 2;
+  -webkit-order: 1;
+  order: 1;
+}
+:-webkit-any-link {
+  -webkit-box-ordinal-group: 2;
+  -webkit-order: 1;
+  order: 1;
+}
+:-moz-any-link {
+  -moz-box-ordinal-group: 2;
+  order: 1;
+}
+:any-link {
+  -webkit-box-ordinal-group: 2;
+  -webkit-order: 1;
+  -moz-box-ordinal-group: 2;
+  -ms-flex-order: 1;
+  order: 1;
+}
+:link, 
+:visited {
+  -webkit-box-ordinal-group: 1.1;
+  -webkit-order: 1.1;
+  -moz-box-ordinal-group: 1.1;
+  order: 1.1;
+}
+:-webkit-any-link {
+  -webkit-box-ordinal-group: 1.1;
+  -webkit-order: 1.1;
+  -moz-box-ordinal-group: 1.1;
+  order: 1.1;
+}
+:-moz-any-link {
+  order: 1.1;
+}
+:aNy-LiNK {
+  -webkit-box-ordinal-group: 1.1;
+  -webkit-order: 1.1;
+  -moz-box-ordinal-group: 1.1;
+  -ms-flex-order: 1.1;
+  order: 1.1;
+}
+:link, 
+:visited, 
+ul a:link > span, 
+ul a:visited > span {
+  -webkit-box-ordinal-group: 3;
+  -webkit-order: 2;
+  order: 2;
+}
+:-webkit-any-link, 
+ul a:-webkit-any-link > span {
+  -webkit-box-ordinal-group: 3;
+  -webkit-order: 2;
+  order: 2;
+}
+:-moz-any-link, 
+ul a:-moz-any-link > span {
+  -moz-box-ordinal-group: 3;
+  order: 2;
+}
+:any-link, 
+ul a:any-link > span {
+  -webkit-box-ordinal-group: 3;
+  -webkit-order: 2;
+  -moz-box-ordinal-group: 3;
+  -ms-flex-order: 2;
+  order: 2;
+}
+:link :link, 
+:visited :visited {
+  -webkit-box-ordinal-group: 4;
+  -webkit-order: 3;
+  order: 3;
+}
+:-webkit-any-link :-webkit-any-link {
+  -webkit-box-ordinal-group: 4;
+  -webkit-order: 3;
+  order: 3;
+}
+:-moz-any-link :-moz-any-link {
+  -moz-box-ordinal-group: 4;
+  order: 3;
+}
+:any-link :any-link {
+  -webkit-box-ordinal-group: 4;
+  -webkit-order: 3;
+  -moz-box-ordinal-group: 4;
+  -ms-flex-order: 3;
+  order: 3;
+}
+:link(.ignore), 
+:visited(.ignore) {
+  -webkit-box-ordinal-group: 5;
+  -webkit-order: 4;
+  order: 4;
+}
+:-webkit-any-link(.ignore) {
+  -webkit-box-ordinal-group: 5;
+  -webkit-order: 4;
+  order: 4;
+}
+:-moz-any-link(.ignore) {
+  -moz-box-ordinal-group: 5;
+  order: 4;
+}
+:any-link(.ignore) {
+  -webkit-box-ordinal-group: 5;
+  -webkit-order: 4;
+  -moz-box-ordinal-group: 5;
+  -ms-flex-order: 4;
+  order: 4;
+}
+.foo :link, 
+.foo :visited {
+  -webkit-box-ordinal-group: 6;
+  -webkit-order: 5;
+  order: 5;
+}
+.foo :-webkit-any-link {
+  -webkit-box-ordinal-group: 6;
+  -webkit-order: 5;
+  order: 5;
+}
+.foo :-moz-any-link {
+  -moz-box-ordinal-group: 6;
+  order: 5;
+}
+.foo :any-link {
+  -webkit-box-ordinal-group: 6;
+  -webkit-order: 5;
+  -moz-box-ordinal-group: 6;
+  -ms-flex-order: 5;
+  order: 5;
+}
+.foo:link, 
+.foo:visited {
+  -webkit-box-ordinal-group: 7;
+  -webkit-order: 6;
+  order: 6;
+}
+.foo:-webkit-any-link {
+  -webkit-box-ordinal-group: 7;
+  -webkit-order: 6;
+  order: 6;
+}
+.foo:-moz-any-link {
+  -moz-box-ordinal-group: 7;
+  order: 6;
+}
+.foo:any-link {
+  -webkit-box-ordinal-group: 7;
+  -webkit-order: 6;
+  -moz-box-ordinal-group: 7;
+  -ms-flex-order: 6;
+  order: 6;
+}
+.foo:is(:link), 
+.foo:is(:visited) {
+  -webkit-box-ordinal-group: 8;
+  -webkit-order: 7;
+  order: 7;
+}
+.foo:is(:-webkit-any-link) {
+  -webkit-box-ordinal-group: 8;
+  -webkit-order: 7;
+  order: 7;
+}
+.foo:is(:-moz-any-link) {
+  -moz-box-ordinal-group: 8;
+  order: 7;
+}
+.foo:is(:any-link) {
+  -webkit-box-ordinal-group: 8;
+  -webkit-order: 7;
+  -moz-box-ordinal-group: 8;
+  -ms-flex-order: 7;
+  order: 7;
+}
+:link::before, 
+:visited::before, 
+:link:before, 
+:visited:before {
+  -webkit-box-ordinal-group: 9;
+  -webkit-order: 8;
+  order: 8;
+}
+:-webkit-any-link::before, 
+:-webkit-any-link:before {
+  -webkit-box-ordinal-group: 9;
+  -webkit-order: 8;
+  order: 8;
+}
+:-moz-any-link::before, 
+:-moz-any-link:before {
+  -moz-box-ordinal-group: 9;
+  order: 8;
+}
+:any-link::before, 
+:any-link:before {
+  -webkit-box-ordinal-group: 9;
+  -webkit-order: 8;
+  -moz-box-ordinal-group: 9;
+  -ms-flex-order: 8;
+  order: 8;
+}
+::before:link, 
+::before:visited, 
+:before:link, 
+:before:visited {
+  -webkit-box-ordinal-group: 8.1;
+  -webkit-order: 8.1;
+  -moz-box-ordinal-group: 8.1;
+  order: 8.1;
+}
+::before:-webkit-any-link, 
+:before:-webkit-any-link {
+  -webkit-box-ordinal-group: 8.1;
+  -webkit-order: 8.1;
+  -moz-box-ordinal-group: 8.1;
+  order: 8.1;
+}
+::before:-moz-any-link, 
+:before:-moz-any-link {
+  order: 8.1;
+}
+::before:any-link, 
+:before:any-link {
+  -webkit-box-ordinal-group: 8.1;
+  -webkit-order: 8.1;
+  -moz-box-ordinal-group: 8.1;
+  -ms-flex-order: 8.1;
+  order: 8.1;
+}
+a:link, 
+a:visited {
+  -webkit-box-ordinal-group: 10;
+  -webkit-order: 9;
+  order: 9;
+}
+a:-webkit-any-link {
+  -webkit-box-ordinal-group: 10;
+  -webkit-order: 9;
+  order: 9;
+}
+a:-moz-any-link {
+  -moz-box-ordinal-group: 10;
+  order: 9;
+}
+a:any-link {
+  -webkit-box-ordinal-group: 10;
+  -webkit-order: 9;
+  -moz-box-ordinal-group: 10;
+  -ms-flex-order: 9;
+  order: 9;
+}
+area:link, 
+area:visited {
+  -webkit-box-ordinal-group: 11;
+  -webkit-order: 10;
+  order: 10;
+}
+area:-webkit-any-link {
+  -webkit-box-ordinal-group: 11;
+  -webkit-order: 10;
+  order: 10;
+}
+area:-moz-any-link {
+  -moz-box-ordinal-group: 11;
+  order: 10;
+}
+area:any-link {
+  -webkit-box-ordinal-group: 11;
+  -webkit-order: 10;
+  -moz-box-ordinal-group: 11;
+  -ms-flex-order: 10;
+  order: 10;
+}
+[hidden] area:link, 
+[hidden] area:visited {
+  -webkit-box-ordinal-group: 10.1;
+  -webkit-order: 10.1;
+  -moz-box-ordinal-group: 10.1;
+  order: 10.1;
+}
+[hidden] area:-webkit-any-link {
+  -webkit-box-ordinal-group: 10.1;
+  -webkit-order: 10.1;
+  -moz-box-ordinal-group: 10.1;
+  order: 10.1;
+}
+[hidden] area:-moz-any-link {
+  order: 10.1;
+}
+[hidden] area:any-link {
+  -webkit-box-ordinal-group: 10.1;
+  -webkit-order: 10.1;
+  -moz-box-ordinal-group: 10.1;
+  -ms-flex-order: 10.1;
+  order: 10.1;
+}
+AREA:link, 
+AREA:visited {
+  -webkit-box-ordinal-group: 10.2;
+  -webkit-order: 10.2;
+  -moz-box-ordinal-group: 10.2;
+  order: 10.2;
+}
+AREA:-webkit-any-link {
+  -webkit-box-ordinal-group: 10.2;
+  -webkit-order: 10.2;
+  -moz-box-ordinal-group: 10.2;
+  order: 10.2;
+}
+AREA:-moz-any-link {
+  order: 10.2;
+}
+AREA:any-link {
+  -webkit-box-ordinal-group: 10.2;
+  -webkit-order: 10.2;
+  -moz-box-ordinal-group: 10.2;
+  -ms-flex-order: 10.2;
+  order: 10.2;
+}
+area :link, 
+area :visited {
+  -webkit-box-ordinal-group: 12;
+  -webkit-order: 11;
+  order: 11;
+}
+area :-webkit-any-link {
+  -webkit-box-ordinal-group: 12;
+  -webkit-order: 11;
+  order: 11;
+}
+area :-moz-any-link {
+  -moz-box-ordinal-group: 12;
+  order: 11;
+}
+area :any-link {
+  -webkit-box-ordinal-group: 12;
+  -webkit-order: 11;
+  -moz-box-ordinal-group: 12;
+  -ms-flex-order: 11;
+  order: 11;
+}
+area > :link, 
+area > :visited {
+  -webkit-box-ordinal-group: 13;
+  -webkit-order: 12;
+  order: 12;
+}
+area > :-webkit-any-link {
+  -webkit-box-ordinal-group: 13;
+  -webkit-order: 12;
+  order: 12;
+}
+area > :-moz-any-link {
+  -moz-box-ordinal-group: 13;
+  order: 12;
+}
+area > :any-link {
+  -webkit-box-ordinal-group: 13;
+  -webkit-order: 12;
+  -moz-box-ordinal-group: 13;
+  -ms-flex-order: 12;
+  order: 12;
+}
+div:link, 
+div:visited {
+  -webkit-box-ordinal-group: 14;
+  -webkit-order: 13;
+  order: 13;
+}
+div:-webkit-any-link {
+  -webkit-box-ordinal-group: 14;
+  -webkit-order: 13;
+  order: 13;
+}
+div:-moz-any-link {
+  -moz-box-ordinal-group: 14;
+  order: 13;
+}
+div:any-link {
+  -webkit-box-ordinal-group: 14;
+  -webkit-order: 13;
+  -moz-box-ordinal-group: 14;
+  -ms-flex-order: 13;
+  order: 13;
+}
+:link + input[type=file]:hover::file-selector-button, 
+:visited + input[type=file]:hover::file-selector-button {
+  -webkit-box-ordinal-group: 15;
+  -webkit-order: 14;
+  order: 14;
+}
+:-webkit-any-link + input[type=file]:hover::-webkit-file-upload-button {
+  -webkit-box-ordinal-group: 15;
+  -webkit-order: 14;
+  order: 14;
+}
+:-moz-any-link + input[type=file]:hover::file-selector-button {
+  -moz-box-ordinal-group: 15;
+  order: 14;
+}
+:any-link + input[type=file]:hover::-ms-browse {
+  -ms-flex-order: 14;
+  order: 14;
+}
+:any-link + input[type=file]:hover::file-selector-button {
+  -webkit-box-ordinal-group: 15;
+  -webkit-order: 14;
+  -moz-box-ordinal-group: 15;
+  -ms-flex-order: 14;
+  order: 14;
+}
+:link + input[type=file]:hover::-webkit-file-upload-button, 
+:visited + input[type=file]:hover::-webkit-file-upload-button {
+  -webkit-box-ordinal-group: 15;
+  -webkit-order: 14;
+  order: 14;
+}
+:link + input[type=file]:hover::-ms-browse, 
+:visited + input[type=file]:hover::-ms-browse {
+  -webkit-box-ordinal-group: 15;
+  -webkit-order: 14;
+  order: 14;
+}
+:link + input[type=file]::file-selector-button:hover, 
+:visited + input[type=file]::file-selector-button:hover {
+  -webkit-box-ordinal-group: 16;
+  -webkit-order: 15;
+  order: 15;
+}
+:-webkit-any-link + input[type=file]::-webkit-file-upload-button:hover {
+  -webkit-box-ordinal-group: 16;
+  -webkit-order: 15;
+  order: 15;
+}
+:-moz-any-link + input[type=file]::file-selector-button:hover {
+  -moz-box-ordinal-group: 16;
+  order: 15;
+}
+:any-link + input[type=file]::-ms-browse:hover {
+  -ms-flex-order: 15;
+  order: 15;
+}
+:any-link + input[type=file]::file-selector-button:hover {
+  -webkit-box-ordinal-group: 16;
+  -webkit-order: 15;
+  -moz-box-ordinal-group: 16;
+  -ms-flex-order: 15;
+  order: 15;
+}
+:link + input[type=file]::-webkit-file-upload-button:hover, 
+:visited + input[type=file]::-webkit-file-upload-button:hover {
+  -webkit-box-ordinal-group: 16;
+  -webkit-order: 15;
+  order: 15;
+}
+:link + input[type=file]::-ms-browse:hover, 
+:visited + input[type=file]::-ms-browse:hover {
+  -webkit-box-ordinal-group: 16;
+  -webkit-order: 15;
+  order: 15;
+}
+a:link, 
+a:visited, 
+b {
+  -webkit-box-ordinal-group: 17;
+  -webkit-order: 16;
+  order: 16;
+}
+a:-webkit-any-link, 
+b {
+  -webkit-box-ordinal-group: 17;
+  -webkit-order: 16;
+  order: 16;
+}
+a:-moz-any-link, 
+b {
+  -moz-box-ordinal-group: 17;
+  order: 16;
+}
+a:any-link, 
+b {
+  -webkit-box-ordinal-group: 17;
+  -webkit-order: 16;
+  -moz-box-ordinal-group: 17;
+  -ms-flex-order: 16;
+  order: 16;
+}
+.any > .class:link[attr]::before:focus, 
+.any > .class:visited[attr]::before:focus {
+  -webkit-box-ordinal-group: 100.1;
+  -webkit-order: 100.1;
+  -moz-box-ordinal-group: 100.1;
+  order: 100.1;
+}
+.any > .class:-webkit-any-link[attr]::before:focus {
+  -webkit-box-ordinal-group: 100.1;
+  -webkit-order: 100.1;
+  -moz-box-ordinal-group: 100.1;
+  order: 100.1;
+}
+.any > .class:-moz-any-link[attr]::before:focus {
+  order: 100.1;
+}
+.any > .class:any-link[attr]::before:focus {
+  -webkit-box-ordinal-group: 100.1;
+  -webkit-order: 100.1;
+  -moz-box-ordinal-group: 100.1;
+  -ms-flex-order: 100.1;
+  order: 100.1;
+}
+.any > .class[attr]:link::before:focus, 
+.any > .class[attr]:visited::before:focus {
+  -webkit-box-ordinal-group: 100.2;
+  -webkit-order: 100.2;
+  -moz-box-ordinal-group: 100.2;
+  order: 100.2;
+}
+.any > .class[attr]:-webkit-any-link::before:focus {
+  -webkit-box-ordinal-group: 100.2;
+  -webkit-order: 100.2;
+  -moz-box-ordinal-group: 100.2;
+  order: 100.2;
+}
+.any > .class[attr]:-moz-any-link::before:focus {
+  order: 100.2;
+}
+.any > .class[attr]:any-link::before:focus {
+  -webkit-box-ordinal-group: 100.2;
+  -webkit-order: 100.2;
+  -moz-box-ordinal-group: 100.2;
+  -ms-flex-order: 100.2;
+  order: 100.2;
+}
+.any > .class[attr]:link::before:focus, 
+.any > .class[attr]:visited::before:focus {
+  -webkit-box-ordinal-group: 100.3;
+  -webkit-order: 100.3;
+  -moz-box-ordinal-group: 100.3;
+  order: 100.3;
+}
+.any > .class[attr]:-webkit-any-link::before:focus {
+  -webkit-box-ordinal-group: 100.3;
+  -webkit-order: 100.3;
+  -moz-box-ordinal-group: 100.3;
+  order: 100.3;
+}
+.any > .class[attr]:-moz-any-link::before:focus {
+  order: 100.3;
+}
+.any > .class[attr]:any-link::before:focus {
+  -webkit-box-ordinal-group: 100.3;
+  -webkit-order: 100.3;
+  -moz-box-ordinal-group: 100.3;
+  -ms-flex-order: 100.3;
+  order: 100.3;
+}
+.any > .class:link[attr]:focus::before, 
+.any > .class:visited[attr]:focus::before {
+  -webkit-box-ordinal-group: 101.1;
+  -webkit-order: 101.1;
+  -moz-box-ordinal-group: 101.1;
+  order: 101.1;
+}
+.any > .class:-webkit-any-link[attr]:focus::before {
+  -webkit-box-ordinal-group: 101.1;
+  -webkit-order: 101.1;
+  -moz-box-ordinal-group: 101.1;
+  order: 101.1;
+}
+.any > .class:-moz-any-link[attr]:focus::before {
+  order: 101.1;
+}
+.any > .class:any-link[attr]:focus::before {
+  -webkit-box-ordinal-group: 101.1;
+  -webkit-order: 101.1;
+  -moz-box-ordinal-group: 101.1;
+  -ms-flex-order: 101.1;
+  order: 101.1;
+}
+.any > .class[attr]:link:focus::before, 
+.any > .class[attr]:visited:focus::before {
+  -webkit-box-ordinal-group: 101.2;
+  -webkit-order: 101.2;
+  -moz-box-ordinal-group: 101.2;
+  order: 101.2;
+}
+.any > .class[attr]:-webkit-any-link:focus::before {
+  -webkit-box-ordinal-group: 101.2;
+  -webkit-order: 101.2;
+  -moz-box-ordinal-group: 101.2;
+  order: 101.2;
+}
+.any > .class[attr]:-moz-any-link:focus::before {
+  order: 101.2;
+}
+.any > .class[attr]:any-link:focus::before {
+  -webkit-box-ordinal-group: 101.2;
+  -webkit-order: 101.2;
+  -moz-box-ordinal-group: 101.2;
+  -ms-flex-order: 101.2;
+  order: 101.2;
+}
+.any > .class[attr]:link:focus::before, 
+.any > .class[attr]:visited:focus::before {
+  -webkit-box-ordinal-group: 101.3;
+  -webkit-order: 101.3;
+  -moz-box-ordinal-group: 101.3;
+  order: 101.3;
+}
+.any > .class[attr]:-webkit-any-link:focus::before {
+  -webkit-box-ordinal-group: 101.3;
+  -webkit-order: 101.3;
+  -moz-box-ordinal-group: 101.3;
+  order: 101.3;
+}
+.any > .class[attr]:-moz-any-link:focus::before {
+  order: 101.3;
+}
+.any > .class[attr]:any-link:focus::before {
+  -webkit-box-ordinal-group: 101.3;
+  -webkit-order: 101.3;
+  -moz-box-ordinal-group: 101.3;
+  -ms-flex-order: 101.3;
+  order: 101.3;
+}
+.any > .class[attr]:focus:link::before, 
+.any > .class[attr]:focus:visited::before {
+  -webkit-box-ordinal-group: 101.3;
+  -webkit-order: 101.3;
+  -moz-box-ordinal-group: 101.3;
+  order: 101.3;
+}
+.any > .class[attr]:focus:-webkit-any-link::before {
+  -webkit-box-ordinal-group: 101.3;
+  -webkit-order: 101.3;
+  -moz-box-ordinal-group: 101.3;
+  order: 101.3;
+}
+.any > .class[attr]:focus:-moz-any-link::before {
+  order: 101.3;
+}
+.any > .class[attr]:focus:any-link::before {
+  -webkit-box-ordinal-group: 101.3;
+  -webkit-order: 101.3;
+  -moz-box-ordinal-group: 101.3;
+  -ms-flex-order: 101.3;
+  order: 101.3;
+}
+.any + :link + .other, 
+.any + :visited + .other {
+  -webkit-box-ordinal-group: 101.4;
+  -webkit-order: 101.4;
+  -moz-box-ordinal-group: 101.4;
+  order: 101.4;
+}
+.any + :-webkit-any-link + .other {
+  -webkit-box-ordinal-group: 101.4;
+  -webkit-order: 101.4;
+  -moz-box-ordinal-group: 101.4;
+  order: 101.4;
+}
+.any + :-moz-any-link + .other {
+  order: 101.4;
+}
+.any + :any-link + .other {
+  -webkit-box-ordinal-group: 101.4;
+  -webkit-order: 101.4;
+  -moz-box-ordinal-group: 101.4;
+  -ms-flex-order: 101.4;
+  order: 101.4;
 }

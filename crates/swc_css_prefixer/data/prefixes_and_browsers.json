@@ -101,6 +101,30 @@
       "firefox": "49"
     }
   ],
+  ":any-link-fallback": [
+    {
+      "chrome": "4",
+      "edge": "12",
+      "safari": "3",
+      "firefox": "2",
+      "opera": "10",
+      "ie": "6",
+      "ios": "3.2",
+      "samsung": "4",
+      "android": "2.1"
+    },
+    {
+      "chrome": "14",
+      "edge": "17",
+      "safari": "6",
+      "firefox": "2",
+      "opera": "21.1",
+      "ie": "11",
+      "ios": "5.1",
+      "samsung": "4",
+      "android": "4.3"
+    }
+  ],
 
   ":-webkit-full-screen": [
     {
