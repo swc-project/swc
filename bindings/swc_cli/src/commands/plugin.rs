@@ -164,7 +164,7 @@ lto = true
 
 [dependencies]
 serde = "1"
-swc_core = {{ version = "{}", features = ["plugin_transform"] }}
+swc_core = {{ version = "{}", features = ["ecma_plugin_transform"] }}
 
 # .cargo/config defines few alias to build plugin.
 # cargo build-wasi generates wasm-wasi32 binary
