@@ -1875,9 +1875,9 @@
                   "end": 651,
                   "ctxt": 0
                 },
-                "prefix": "u",
                 "start": "123",
-                "end": "456"
+                "end": "456",
+                "raw": "u+123-456"
               },
               {
                 "type": "UnicodeRange",
@@ -1886,9 +1886,9 @@
                   "end": 660,
                   "ctxt": 0
                 },
-                "prefix": "u",
                 "start": "123???",
-                "end": null
+                "end": null,
+                "raw": "u+123???"
               },
               {
                 "type": "Function",
@@ -2557,14 +2557,22 @@
                       },
                       "value": [
                         {
-                          "type": "HexColor",
+                          "type": "IdSelector",
                           "span": {
                             "start": 916,
                             "end": 919,
                             "ctxt": 0
                           },
-                          "value": "id",
-                          "raw": "id"
+                          "text": {
+                            "type": "Ident",
+                            "span": {
+                              "start": 916,
+                              "end": 919,
+                              "ctxt": 0
+                            },
+                            "value": "id",
+                            "raw": "id"
+                          }
                         }
                       ]
                     }

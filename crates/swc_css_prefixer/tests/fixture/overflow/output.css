@@ -44,7 +44,7 @@ html.double-overflow {
   foo-overflow: hidden auto;
 }
 .content {
-  content: 'overflow: hidden auto;';
+  content: "overflow: hidden auto;";
 }
 .important {
   overflow-x: hidden !important;

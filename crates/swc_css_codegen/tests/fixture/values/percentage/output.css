@@ -18,7 +18,7 @@ div {
   background: rgba(0, 0, 0, 0) image-set(url("image.png") 1x) repeat scroll 0% 0%;
 }
 div {
-  width: 100.00%;
+  width: 100%;
   width: 100.01%;
 }
 div {
@@ -26,26 +26,26 @@ div {
   width: 0.1%;
   width: 100%;
   width: 100.5%;
-  width: 100.1000%;
-  width: 1e0%;
-  width: 1e1%;
-  width: 1e2%;
-  width: 10e-1%;
-  width: 10e-5%;
-  width: 10e+2%;
-  width: 12e+2%;
-  width: +0%;
+  width: 100.1%;
+  width: 1%;
+  width: 10%;
+  width: 100%;
+  width: 1%;
+  width: 0.0001%;
+  width: 1000%;
+  width: 1200%;
+  width: 0%;
   width: -0%;
-  width: +0000%;
-  width: 0000%;
+  width: 0%;
+  width: 0%;
   width: 10.5%;
-  width: 10.5000%;
-  width: 10.0%;
-  width: 0.0%;
-  width: -0.0%;
-  width: 10.0e2%;
-  width: 10.0e5%;
-  width: 10.0E5%;
+  width: 10.5%;
+  width: 10%;
+  width: 0%;
+  width: -0%;
+  width: 1000%;
+  width: 1000000%;
+  width: 1000000%;
 }
 .geist-list {
   display: flex;

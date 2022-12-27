@@ -1,8 +1,8 @@
 @keyframes slidein {
   from {
-    transform: translateX(0%);
+    transform: translatex(0%);
   }
   to {
-    transform: translateX(100%);
+    transform: translatex(100%);
   }
 }

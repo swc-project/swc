@@ -1,16 +1,16 @@
 a {
   -webkit-appearance: NONE;
-  APPEARANCE: NONE;
+  appearance: NONE;
 }
 b {
   -webkit-appearance: AUTO;
-  APPEARANCE: AUTO;
+  appearance: AUTO;
 }
 c {
-  -WEBKIT-APPEARANCE: NONE;
-  APPEARANCE: NONE;
+  -webkit-appearance: NONE;
+  appearance: NONE;
 }
 d {
   -webkit-appearance: NONE;
-  APPEARANCE: NONE;
+  appearance: NONE;
 }

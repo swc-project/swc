@@ -2344,17 +2344,17 @@ textarea.form-control-lg {
 }
 .form-floating > .form-control:not(:-moz-placeholder-shown) ~ label {
   opacity: 0.65;
-  transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
+  transform: scale(0.85) translatey(-0.5rem) translatex(0.15rem);
 }
 .form-floating > .form-control:focus ~ label, 
 .form-floating > .form-control:not(:placeholder-shown) ~ label, 
 .form-floating > .form-select ~ label {
   opacity: 0.65;
-  transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
+  transform: scale(0.85) translatey(-0.5rem) translatex(0.15rem);
 }
 .form-floating > .form-control:-webkit-autofill ~ label {
   opacity: 0.65;
-  transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
+  transform: scale(0.85) translatey(-0.5rem) translatex(0.15rem);
 }
 .input-group {
   position: relative;
@@ -5707,11 +5707,11 @@ fieldset:disabled .btn {
 }
 .carousel-item-next:not(.carousel-item-start), 
 .active.carousel-item-end {
-  transform: translateX(100%);
+  transform: translatex(100%);
 }
 .carousel-item-prev:not(.carousel-item-end), 
 .active.carousel-item-start {
-  transform: translateX(-100%);
+  transform: translatex(-100%);
 }
 .carousel-fade .carousel-item {
   opacity: 0;
@@ -5975,14 +5975,14 @@ fieldset:disabled .btn {
   left: 0;
   width: 400px;
   border-right: 1px solid rgba(0, 0, 0, 0.2);
-  transform: translateX(-100%);
+  transform: translatex(-100%);
 }
 .offcanvas-end {
   top: 0;
   right: 0;
   width: 400px;
   border-left: 1px solid rgba(0, 0, 0, 0.2);
-  transform: translateX(100%);
+  transform: translatex(100%);
 }
 .offcanvas-top {
   top: 0;
@@ -5991,7 +5991,7 @@ fieldset:disabled .btn {
   height: 30vh;
   max-height: 100%;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-  transform: translateY(-100%);
+  transform: translatey(-100%);
 }
 .offcanvas-bottom {
   right: 0;
@@ -5999,7 +5999,7 @@ fieldset:disabled .btn {
   height: 30vh;
   max-height: 100%;
   border-top: 1px solid rgba(0, 0, 0, 0.2);
-  transform: translateY(100%);
+  transform: translatey(100%);
 }
 .offcanvas.show {
   transform: none;
@@ -6406,10 +6406,10 @@ fieldset:disabled .btn {
   transform: translate(-50%, -50%) !important;
 }
 .translate-middle-x {
-  transform: translateX(-50%) !important;
+  transform: translatex(-50%) !important;
 }
 .translate-middle-y {
-  transform: translateY(-50%) !important;
+  transform: translatey(-50%) !important;
 }
 .border {
   border: 1px solid #dee2e6 !important;

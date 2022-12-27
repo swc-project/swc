@@ -1,0 +1,28 @@
+a {
+    break-inside: avoid;
+}
+
+a {
+    break-after: avoid;
+}
+
+a {
+    break-before: page;
+    break-after: avoid-page;
+}
+
+a {
+    break-inside: avoid-column;
+    break-after: avoid-region;
+}
+
+a {
+    page-break-inside: avoid;
+    break-inside: avoid;
+}
+
+a {
+    break-inside: inherit;
+    break-before: inherit;
+    break-after: inherit;
+}

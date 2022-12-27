@@ -1616,6 +1616,20 @@ where
 
                 self.input.skip_ws();
             }
+            js_word!("element") | js_word!("-moz-element") => {
+                self.input.skip_ws();
+
+                let id_selector = self.try_parse_variable_function(
+                    |parser, _| Ok(Some(ComponentValue::IdSelector(parser.parse()?))),
+                    &mut false,
+                )?;
+
+                if let Some(id_selector) = id_selector {
+                    values.push(id_selector);
+
+                    self.input.skip_ws();
+                }
+            }
             js_word!("selector") if self.ctx.in_supports_at_rule => {
                 self.input.skip_ws();
 
@@ -2435,11 +2449,20 @@ where
         }
 
         match bump!(self) {
-            Token::Hash { value, raw, .. } => Ok(HexColor {
-                span,
-                value: value.to_ascii_lowercase(),
-                raw: Some(raw),
-            }),
+            Token::Hash { value, raw, .. } => {
+                if value.chars().any(|x| !x.is_ascii_hexdigit()) {
+                    return Err(Error::new(
+                        span,
+                        ErrorKind::Unexpected("character in hex color"),
+                    ));
+                }
+
+                Ok(HexColor {
+                    span,
+                    value: value.to_ascii_lowercase(),
+                    raw: Some(raw),
+                })
+            }
             _ => {
                 unreachable!()
             }
@@ -2703,14 +2726,14 @@ where
         // should start with `u` or `U`
         match cur!(self) {
             Token::Ident { value, .. } if matches_eq_ignore_ascii_case!(value, js_word!("u")) => {
-                let ident = match bump!(self) {
+                let u = match bump!(self) {
                     Token::Ident { value, .. } => value,
                     _ => {
                         unreachable!();
                     }
                 };
 
-                unicode_range.push_str(&ident);
+                unicode_range.push_str(&u);
             }
             _ => {
                 return Err(Error::new(span, ErrorKind::Expected("'u' ident token")));
@@ -2892,12 +2915,12 @@ where
 
         // 1. Skipping the first u token, concatenate the representations of all the
         // tokens in the production together. Let this be text.
-        let prefix = chars.next().unwrap();
-
-        let mut next = chars.next();
+        chars.next();
 
         // 2. If the first character of text is U+002B PLUS SIGN, consume it. Otherwise,
         // this is an invalid <urange>, and this algorithm must exit.
+        let mut next = chars.next();
+
         if next != Some('+') {
             return Err(Error::new(
                 span,
@@ -2921,7 +2944,7 @@ where
                     next = chars.next();
                 }
                 Some(c @ 'A'..='F') | Some(c @ 'a'..='f') => {
-                    start.push(c);
+                    start.push(c.to_ascii_lowercase());
 
                     next = chars.next();
                 }
@@ -2976,9 +2999,9 @@ where
             // 4. Exit this algorithm.
             return Ok(UnicodeRange {
                 span: span!(self, span.lo),
-                prefix,
                 start: start.into(),
                 end: None,
+                raw: Some(unicode_range.into()),
             });
         }
 
@@ -2990,9 +3013,9 @@ where
         if next.is_none() {
             return Ok(UnicodeRange {
                 span: span!(self, span.lo),
-                prefix,
                 start: start.into(),
                 end: None,
+                raw: Some(unicode_range.into()),
             });
         }
 
@@ -3021,7 +3044,7 @@ where
                     next = chars.next();
                 }
                 Some(c @ 'A'..='F') | Some(c @ 'a'..='f') => {
-                    end.push(c);
+                    end.push(c.to_ascii_lowercase());
                     next = chars.next();
                 }
                 _ => {
@@ -3050,9 +3073,9 @@ where
 
         return Ok(UnicodeRange {
             span: span!(self, span.lo),
-            prefix,
             start: start.into(),
             end: Some(end.into()),
+            raw: Some(unicode_range.into()),
         });
     }
 }
