@@ -115,7 +115,7 @@ pub fn prefixer(options: Options) -> impl VisitMut {
     }
 }
 
-pub struct CrossFadeFunctionReplacerOnLegacyVariant<'a> {
+struct CrossFadeFunctionReplacerOnLegacyVariant<'a> {
     from: &'a str,
     to: &'a str,
 }
@@ -228,14 +228,14 @@ impl VisitMut for CrossFadeFunctionReplacerOnLegacyVariant<'_> {
     }
 }
 
-pub fn replace_cross_fade_function_on_legacy_variant<N>(node: &mut N, from: &str, to: &str)
+fn replace_cross_fade_function_on_legacy_variant<N>(node: &mut N, from: &str, to: &str)
 where
     N: for<'aa> VisitMutWith<CrossFadeFunctionReplacerOnLegacyVariant<'aa>>,
 {
     node.visit_mut_with(&mut CrossFadeFunctionReplacerOnLegacyVariant { from, to });
 }
 
-pub struct ImageSetFunctionReplacerOnLegacyVariant<'a> {
+struct ImageSetFunctionReplacerOnLegacyVariant<'a> {
     from: &'a str,
     to: &'a str,
     in_function: bool,
@@ -291,7 +291,7 @@ impl VisitMut for ImageSetFunctionReplacerOnLegacyVariant<'_> {
     }
 }
 
-pub fn replace_image_set_function_on_legacy_variant<N>(node: &mut N, from: &str, to: &str)
+fn replace_image_set_function_on_legacy_variant<N>(node: &mut N, from: &str, to: &str)
 where
     N: for<'aa> VisitMutWith<ImageSetFunctionReplacerOnLegacyVariant<'aa>>,
 {
@@ -302,7 +302,7 @@ where
     });
 }
 
-pub struct LinearGradientFunctionReplacerOnLegacyVariant<'a> {
+struct LinearGradientFunctionReplacerOnLegacyVariant<'a> {
     from: &'a str,
     to: &'a str,
 }
@@ -478,14 +478,14 @@ impl VisitMut for LinearGradientFunctionReplacerOnLegacyVariant<'_> {
     }
 }
 
-pub fn replace_gradient_function_on_legacy_variant<N>(node: &mut N, from: &str, to: &str)
+fn replace_gradient_function_on_legacy_variant<N>(node: &mut N, from: &str, to: &str)
 where
     N: for<'aa> VisitMutWith<LinearGradientFunctionReplacerOnLegacyVariant<'aa>>,
 {
     node.visit_mut_with(&mut LinearGradientFunctionReplacerOnLegacyVariant { from, to });
 }
 
-pub struct MediaFeatureResolutionReplacerOnLegacyVariant<'a> {
+struct MediaFeatureResolutionReplacerOnLegacyVariant<'a> {
     from: &'a str,
     to: &'a str,
 }
@@ -531,7 +531,7 @@ impl VisitMut for MediaFeatureResolutionReplacerOnLegacyVariant<'_> {
     }
 }
 
-pub fn replace_media_feature_resolution_on_legacy_variant<N>(node: &mut N, from: &str, to: &str)
+fn replace_media_feature_resolution_on_legacy_variant<N>(node: &mut N, from: &str, to: &str)
 where
     N: for<'aa> VisitMutWith<MediaFeatureResolutionReplacerOnLegacyVariant<'aa>>,
 {
@@ -622,7 +622,7 @@ where
     });
 }
 
-pub struct FontFaceFormatOldSyntax {}
+struct FontFaceFormatOldSyntax {}
 
 impl VisitMut for FontFaceFormatOldSyntax {
     fn visit_mut_function(&mut self, n: &mut Function) {
@@ -662,11 +662,73 @@ impl VisitMut for FontFaceFormatOldSyntax {
     }
 }
 
-pub fn font_face_format_old_syntax<N>(node: &mut N)
+fn font_face_format_old_syntax<N>(node: &mut N)
 where
     N: VisitMutWith<FontFaceFormatOldSyntax>,
 {
     node.visit_mut_with(&mut FontFaceFormatOldSyntax {});
+}
+
+struct ClampReplacer {}
+
+impl VisitMut for ClampReplacer {
+    fn visit_mut_function(&mut self, n: &mut Function) {
+        n.visit_mut_children_with(self);
+
+        if n.name != js_word!("clamp") {
+            return;
+        }
+
+        let min_function = if let (
+            Some(middle @ ComponentValue::CalcSum(_)),
+            Some(comma),
+            Some(right @ ComponentValue::CalcSum(_)),
+        ) = (n.value.get(2), n.value.get(3), n.value.get(4))
+        {
+            Function {
+                span: n.span,
+                name: FunctionName::Ident(Ident {
+                    span: n.span,
+                    value: js_word!("min"),
+                    raw: None,
+                }),
+                value: vec![middle.clone(), comma.clone(), right.clone()],
+            }
+        } else {
+            return;
+        };
+
+        if let (Some(left), Some(comma)) = (n.value.get(0), n.value.get(1)) {
+            *n = Function {
+                span: n.span,
+                name: FunctionName::Ident(Ident {
+                    span: n.span,
+                    value: js_word!("max"),
+                    raw: None,
+                }),
+                value: vec![
+                    left.clone(),
+                    comma.clone(),
+                    ComponentValue::CalcSum(Box::new(CalcSum {
+                        span: DUMMY_SP,
+                        expressions: vec![CalcProductOrOperator::Product(CalcProduct {
+                            span: DUMMY_SP,
+                            expressions: vec![CalcValueOrOperator::Value(CalcValue::Function(
+                                min_function,
+                            ))],
+                        })],
+                    })),
+                ],
+            };
+        }
+    }
+}
+
+fn replace_clamp<N>(node: &mut N)
+where
+    N: VisitMutWith<ClampReplacer>,
+{
+    node.visit_mut_with(&mut ClampReplacer {});
 }
 
 macro_rules! to_ident {
@@ -1448,6 +1510,10 @@ impl VisitMut for Prefixer {
                     "repeating-radial-gradient",
                     "-webkit-repeating-radial-gradient",
                 );
+            }
+
+            if should_prefix("clamp()", self.env, true) {
+                replace_clamp(&mut webkit_value);
             }
         }
 
