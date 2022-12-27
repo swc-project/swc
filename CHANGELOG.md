@@ -14,6 +14,9 @@
 - **(es)** Remove import statement canonicalization (#6716) ([b451fa9](https://github.com/swc-project/swc/commit/b451fa9e88aee33368759a67913e7c6eb9c3898f))
 
 
+- **(es/plugin)** Fix plugin starter template (#6723) ([082dc21](https://github.com/swc-project/swc/commit/082dc2101b8f3c05b103cf59484355ef87016a57))
+
+
 - **(preset-env)** Update data (#6719) ([d506c96](https://github.com/swc-project/swc/commit/d506c9680577173e5abb1dd0f75456145fda60c9))
 
 ### Features
