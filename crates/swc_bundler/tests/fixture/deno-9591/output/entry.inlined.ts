@@ -53,19 +53,19 @@ function parse(args, { "--": doubleDash = false , alias ={} , boolean: __boolean
     }
     const aliases = {};
     if (alias !== undefined) {
-        for(const key1 in alias){
-            const val = getForce(alias, key1);
+        for(const key in alias){
+            const val = getForce(alias, key);
             if (typeof val === "string") {
-                aliases[key1] = [
+                aliases[key] = [
                     val
                 ];
             } else {
-                aliases[key1] = val;
+                aliases[key] = val;
             }
-            for (const alias1 of getForce(aliases, key1)){
-                aliases[alias1] = [
-                    key1
-                ].concat(aliases[key1].filter((y)=>alias1 !== y));
+            for (const alias of getForce(aliases, key)){
+                aliases[alias] = [
+                    key
+                ].concat(aliases[key].filter((y)=>alias !== y));
             }
         }
     }
@@ -73,11 +73,11 @@ function parse(args, { "--": doubleDash = false , alias ={} , boolean: __boolean
         const stringArgs = typeof string === "string" ? [
             string
         ] : string;
-        for (const key2 of stringArgs.filter(Boolean)){
-            flags.strings[key2] = true;
-            const alias2 = get(aliases, key2);
-            if (alias2) {
-                for (const al of alias2){
+        for (const key of stringArgs.filter(Boolean)){
+            flags.strings[key] = true;
+            const alias = get(aliases, key);
+            if (alias) {
+                for (const al of alias){
                     flags.strings[al] = true;
                 }
             }
@@ -125,8 +125,8 @@ function parse(args, { "--": doubleDash = false , alias ={} , boolean: __boolean
     function aliasIsBoolean(key) {
         return getForce(aliases, key).some((x)=>typeof get(flags.bools, x) === "boolean");
     }
-    for (const key3 of Object.keys(flags.bools)){
-        setArg(key3, defaults[key3] === undefined ? false : defaults[key3]);
+    for (const key of Object.keys(flags.bools)){
+        setArg(key, defaults[key] === undefined ? false : defaults[key]);
     }
     let notFlags = [];
     if (args.includes("--")) {
@@ -138,47 +138,47 @@ function parse(args, { "--": doubleDash = false , alias ={} , boolean: __boolean
         if (/^--.+=/.test(arg)) {
             const m = arg.match(/^--([^=]+)=(.*)$/s);
             assert(m != null);
-            const [, key4, value] = m;
-            if (flags.bools[key4]) {
+            const [, key, value] = m;
+            if (flags.bools[key]) {
                 const booleanValue = value !== "false";
-                setArg(key4, booleanValue, arg);
+                setArg(key, booleanValue, arg);
             } else {
-                setArg(key4, value, arg);
+                setArg(key, value, arg);
             }
         } else if (/^--no-.+/.test(arg)) {
-            const m1 = arg.match(/^--no-(.+)/);
-            assert(m1 != null);
-            setArg(m1[1], false, arg);
+            const m = arg.match(/^--no-(.+)/);
+            assert(m != null);
+            setArg(m[1], false, arg);
         } else if (/^--.+/.test(arg)) {
-            const m2 = arg.match(/^--(.+)/);
-            assert(m2 != null);
-            const [, key5] = m2;
+            const m = arg.match(/^--(.+)/);
+            assert(m != null);
+            const [, key] = m;
             const next = args[i + 1];
-            if (next !== undefined && !/^-/.test(next) && !get(flags.bools, key5) && !flags.allBools && (get(aliases, key5) ? !aliasIsBoolean(key5) : true)) {
-                setArg(key5, next, arg);
+            if (next !== undefined && !/^-/.test(next) && !get(flags.bools, key) && !flags.allBools && (get(aliases, key) ? !aliasIsBoolean(key) : true)) {
+                setArg(key, next, arg);
                 i++;
             } else if (/^(true|false)$/.test(next)) {
-                setArg(key5, next === "true", arg);
+                setArg(key, next === "true", arg);
                 i++;
             } else {
-                setArg(key5, get(flags.strings, key5) ? "" : true, arg);
+                setArg(key, get(flags.strings, key) ? "" : true, arg);
             }
         } else if (/^-[^-]+/.test(arg)) {
             const letters = arg.slice(1, -1).split("");
             let broken = false;
             for(let j = 0; j < letters.length; j++){
-                const next1 = arg.slice(j + 2);
-                if (next1 === "-") {
-                    setArg(letters[j], next1, arg);
+                const next = arg.slice(j + 2);
+                if (next === "-") {
+                    setArg(letters[j], next, arg);
                     continue;
                 }
-                if (/[A-Za-z]/.test(letters[j]) && /=/.test(next1)) {
-                    setArg(letters[j], next1.split(/=(.+)/)[1], arg);
+                if (/[A-Za-z]/.test(letters[j]) && /=/.test(next)) {
+                    setArg(letters[j], next.split(/=(.+)/)[1], arg);
                     broken = true;
                     break;
                 }
-                if (/[A-Za-z]/.test(letters[j]) && /-?\d+(\.\d*)?(e-?\d+)?$/.test(next1)) {
-                    setArg(letters[j], next1, arg);
+                if (/[A-Za-z]/.test(letters[j]) && /-?\d+(\.\d*)?(e-?\d+)?$/.test(next)) {
+                    setArg(letters[j], next, arg);
                     broken = true;
                     break;
                 }
@@ -190,16 +190,16 @@ function parse(args, { "--": doubleDash = false , alias ={} , boolean: __boolean
                     setArg(letters[j], get(flags.strings, letters[j]) ? "" : true, arg);
                 }
             }
-            const [key6] = arg.slice(-1);
-            if (!broken && key6 !== "-") {
-                if (args[i + 1] && !/^(-|--)[^-]/.test(args[i + 1]) && !get(flags.bools, key6) && (get(aliases, key6) ? !aliasIsBoolean(key6) : true)) {
-                    setArg(key6, args[i + 1], arg);
+            const [key] = arg.slice(-1);
+            if (!broken && key !== "-") {
+                if (args[i + 1] && !/^(-|--)[^-]/.test(args[i + 1]) && !get(flags.bools, key) && (get(aliases, key) ? !aliasIsBoolean(key) : true)) {
+                    setArg(key, args[i + 1], arg);
                     i++;
                 } else if (args[i + 1] && /^(true|false)$/.test(args[i + 1])) {
-                    setArg(key6, args[i + 1] === "true", arg);
+                    setArg(key, args[i + 1] === "true", arg);
                     i++;
                 } else {
-                    setArg(key6, get(flags.strings, key6) ? "" : true, arg);
+                    setArg(key, get(flags.strings, key) ? "" : true, arg);
                 }
             }
         } else {
@@ -212,24 +212,24 @@ function parse(args, { "--": doubleDash = false , alias ={} , boolean: __boolean
             }
         }
     }
-    for (const key7 of Object.keys(defaults)){
-        if (!hasKey(argv, key7.split("."))) {
-            setKey(argv, key7.split("."), defaults[key7]);
-            if (aliases[key7]) {
-                for (const x of aliases[key7]){
-                    setKey(argv, x.split("."), defaults[key7]);
+    for (const key of Object.keys(defaults)){
+        if (!hasKey(argv, key.split("."))) {
+            setKey(argv, key.split("."), defaults[key]);
+            if (aliases[key]) {
+                for (const x of aliases[key]){
+                    setKey(argv, x.split("."), defaults[key]);
                 }
             }
         }
     }
     if (doubleDash) {
         argv["--"] = [];
-        for (const key8 of notFlags){
-            argv["--"].push(key8);
+        for (const key of notFlags){
+            argv["--"].push(key);
         }
     } else {
-        for (const key9 of notFlags){
-            argv._.push(key9);
+        for (const key of notFlags){
+            argv._.push(key);
         }
     }
     return argv;
@@ -2017,10 +2017,10 @@ class RotatingFileHandler extends FileHandler {
                 }
             }
         } else if (this._mode === "x") {
-            for(let i1 = 1; i1 <= this.#maxBackupCount; i1++){
-                if (await exists(this._filename + "." + i1)) {
+            for(let i = 1; i <= this.#maxBackupCount; i++){
+                if (await exists(this._filename + "." + i)) {
                     this.destroy();
-                    throw new Deno.errors.AlreadyExists("Backup log file " + this._filename + "." + i1 + " already exists");
+                    throw new Deno.errors.AlreadyExists("Backup log file " + this._filename + "." + i + " already exists");
                 }
             }
         } else {
@@ -2151,16 +2151,16 @@ async function setup(config) {
     for(const loggerName in loggers){
         const loggerConfig = loggers[loggerName];
         const handlerNames = loggerConfig.handlers || [];
-        const handlers1 = [];
+        const handlers = [];
         handlerNames.forEach((handlerName)=>{
             const handler = state.handlers.get(handlerName);
             if (handler) {
-                handlers1.push(handler);
+                handlers.push(handler);
             }
         });
         const levelName = loggerConfig.level || DEFAULT_LEVEL;
         const logger = new Logger(loggerName, levelName, {
-            handlers: handlers1
+            handlers: handlers
         });
         state.loggers.set(loggerName, logger);
     }
@@ -3709,12 +3709,12 @@ function testSet(set, version, options) {
         }
     }
     if (version.prerelease.length && !options.includePrerelease) {
-        for(let i1 = 0; i1 < set.length; i1++){
-            if (set[i1].semver === ANY) {
+        for(let i = 0; i < set.length; i++){
+            if (set[i].semver === ANY) {
                 continue;
             }
-            if (set[i1].semver.prerelease.length > 0) {
-                const allowed = set[i1].semver;
+            if (set[i].semver.prerelease.length > 0) {
+                const allowed = set[i].semver;
                 if (allowed.major === version.major && allowed.minor === version.minor && allowed.patch === version.patch) {
                     return true;
                 }
@@ -4820,11 +4820,11 @@ function unionJsonBinding(dresolver, union, params, boundTypeParams) {
         const jobj = asJsonObject(json);
         if (jobj) {
             for(let k in jobj){
-                let details1 = lookupDetails(k);
+                let details = lookupDetails(k);
                 try {
                     return {
-                        kind: details1.field.name,
-                        value: details1.jsonBinding().fromJson(jobj[k])
+                        kind: details.field.name,
+                        value: details.jsonBinding().fromJson(jobj[k])
                     };
                 } catch (e) {
                     if (isJsonParseException(e)) {
