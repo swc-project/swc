@@ -18,6 +18,18 @@ pub mod version;
 pub struct BrowserData<T: Default> {
     #[serde(default)]
     pub chrome: T,
+    #[serde(default, rename = "chrome-android")]
+    pub chrome_android: T,
+    #[serde(default, rename = "firefox-android")]
+    pub firerfox_android: T,
+    #[serde(default, rename = "opera-android")]
+    pub opera_android: T,
+
+    #[serde(default)]
+    pub quest: T,
+    #[serde(default, rename = "react-native")]
+    pub react_native: T,
+
     #[serde(default)]
     pub and_chr: T,
     #[serde(default)]

@@ -10,11 +10,26 @@
 
 - **(es)** Preserve license comments by default (#6703) ([58700f2](https://github.com/swc-project/swc/commit/58700f2bec696d0d2b2466ab6b4641f0a7017808))
 
+
+- **(es)** Remove import statement canonicalization (#6716) ([b451fa9](https://github.com/swc-project/swc/commit/b451fa9e88aee33368759a67913e7c6eb9c3898f))
+
+
+- **(es/plugin)** Fix plugin starter template (#6723) ([082dc21](https://github.com/swc-project/swc/commit/082dc2101b8f3c05b103cf59484355ef87016a57))
+
+
+- **(preset-env)** Update data (#6719) ([d506c96](https://github.com/swc-project/swc/commit/d506c9680577173e5abb1dd0f75456145fda60c9))
+
 ### Features
 
 
 
+- **(css/parser)** Normalize urange (#6704) ([8af627d](https://github.com/swc-project/swc/commit/8af627d5c4720644246f99012b6f49b419066eef))
+
+
 - **(css/prefixer)** Support page break (#6693) ([27a8b7e](https://github.com/swc-project/swc/commit/27a8b7e50b67de076089ca8b05d6e44944182b31))
+
+
+- **(css/prefixer)** Support `clamp` (#6695) ([1722428](https://github.com/swc-project/swc/commit/1722428909ba380fec114be1e2a75f0d2462a645))
 
 ### Refactor
 

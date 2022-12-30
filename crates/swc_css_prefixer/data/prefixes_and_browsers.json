@@ -3294,6 +3294,16 @@
       "samsung": "4"
     }
   ],
+  "clamp()": [
+    {
+      "safari": "11.1",
+      "ios": "11.3"
+    },
+    {
+      "safari": "13",
+      "ios": "13.3"
+    }
+  ],
 
   "-webkit-image-set()": [
     {
