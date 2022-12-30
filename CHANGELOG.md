@@ -23,6 +23,9 @@
 
 
 
+- **(bindings)** Remove `swcx` from `@swc/core` (#6720) ([30dd65b](https://github.com/swc-project/swc/commit/30dd65bb83a3159ca9d569af6b29aed03796056f))
+
+
 - **(css/parser)** Normalize urange (#6704) ([8af627d](https://github.com/swc-project/swc/commit/8af627d5c4720644246f99012b6f49b419066eef))
 
 
