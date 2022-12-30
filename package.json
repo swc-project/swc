@@ -4,9 +4,6 @@
     "description": "Super-fast alternative for babel",
     "homepage": "https://swc.rs",
     "main": "./index.js",
-    "bin": {
-        "swcx": "run_swcx.js"
-    },
     "author": "강동윤 <kdy1997.dev@gmail.com>",
     "license": "Apache-2.0",
     "keywords": [
@@ -162,7 +159,6 @@
         "Visitor.js",
         "binding.d.ts",
         "index.js",
-        "run_swcx.js",
         "types.d.ts",
         "util.js",
         "README.md",
