@@ -93,8 +93,6 @@ impl Entry {
 
 impl VisitMut for Entry {
     fn visit_mut_import_decl(&mut self, i: &mut ImportDecl) {
-        i.visit_mut_children_with(self);
-
         let remove = i.specifiers.is_empty() && self.add(&i.src.value);
 
         if remove {
