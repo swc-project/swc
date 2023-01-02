@@ -175,7 +175,7 @@ to!(
 ",
     "let y;
     {
-        let y1;
+        let y;
         x;
     }
     y;"
@@ -211,8 +211,8 @@ to!(
     x;
     const g = 2;
     {
-        const g1 = 3;
-        let y1;
+        const g = 3;
+        let y;
         3;
     }
     x;
@@ -2050,7 +2050,7 @@ fn test_let_const() {
         concat!(
             "function f(x) {",
             "  let y;",
-            "  { let y1;",
+            "  { let y;",
             "    x;",
             "  }",
             "}"
@@ -2070,7 +2070,7 @@ fn test_let_const() {
             "function f(x) {",
             "  let y; ",
             "  x; const g = 2;",
-            "  { const g1 = 3; let y1; 3;}",
+            "  { const g = 3; let y; 3;}",
             "}"
         ),
     );
