@@ -482,6 +482,8 @@ pub struct Hoister {
 impl Visit for Hoister {
     noop_visit_type!();
 
+    fn visit_fn_expr(&mut self, _n: &FnExpr) {}
+
     fn visit_assign_expr(&mut self, node: &AssignExpr) {
         node.right.visit_children_with(self);
     }
@@ -511,8 +513,6 @@ impl Visit for Hoister {
 
         v.visit_children_with(self)
     }
-
-    fn visit_fn_expr(&mut self, _n: &FnExpr) {}
 }
 
 #[derive(Debug, Clone)]
