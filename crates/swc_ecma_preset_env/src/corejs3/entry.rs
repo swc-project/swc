@@ -7,7 +7,7 @@ use preset_env_base::{
 use swc_atoms::js_word;
 use swc_common::{collections::AHashMap, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{VisitMut, VisitMutWith};
+use swc_ecma_visit::VisitMut;
 
 use super::{compat::DATA as CORE_JS_COMPAT_DATA, data::MODULES_BY_VERSION};
 
