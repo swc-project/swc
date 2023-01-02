@@ -41,7 +41,7 @@
         if (void 0 === valueof) for (let value of values)null != value && (value = +value) >= value && ++count;
         else {
             let index = -1;
-            for (let value1 of values)null != (value1 = valueof(value1, ++index, values)) && (value1 = +value1) >= value1 && ++count;
+            for (let value of values)null != (value = valueof(value, ++index, values)) && (value = +value) >= value && ++count;
         }
         return count;
     }
@@ -59,7 +59,7 @@
         if (void 0 === valueof) for (let value of values)null != value && (value = +value) >= value && (delta = value - mean, mean += delta / ++count, sum += delta * (value - mean));
         else {
             let index = -1;
-            for (let value1 of values)null != (value1 = valueof(value1, ++index, values)) && (value1 = +value1) >= value1 && (delta = value1 - mean, mean += delta / ++count, sum += delta * (value1 - mean));
+            for (let value of values)null != (value = valueof(value, ++index, values)) && (value = +value) >= value && (delta = value - mean, mean += delta / ++count, sum += delta * (value - mean));
         }
         if (count > 1) return sum / (count - 1);
     }
@@ -72,7 +72,7 @@
         if (void 0 === valueof) for (const value of values)null != value && (void 0 === min ? value >= value && (min = max = value) : (min > value && (min = value), max < value && (max = value)));
         else {
             let index = -1;
-            for (let value1 of values)null != (value1 = valueof(value1, ++index, values)) && (void 0 === min ? value1 >= value1 && (min = max = value1) : (min > value1 && (min = value1), max < value1 && (max = value1)));
+            for (let value of values)null != (value = valueof(value, ++index, values)) && (void 0 === min ? value >= value && (min = max = value) : (min > value && (min = value), max < value && (max = value)));
         }
         return [
             min,
@@ -120,7 +120,7 @@
                     value
                 ]);
             }
-            for (const [key1, values1] of groups)groups.set(key1, regroup(values1, i));
+            for (const [key, values] of groups)groups.set(key, regroup(values, i));
             return map(groups);
         }(values, 0);
     }
@@ -202,7 +202,7 @@
         if (void 0 === valueof) for (const value of values)null != value && (max < value || void 0 === max && value >= value) && (max = value);
         else {
             let index = -1;
-            for (let value1 of values)null != (value1 = valueof(value1, ++index, values)) && (max < value1 || void 0 === max && value1 >= value1) && (max = value1);
+            for (let value of values)null != (value = valueof(value, ++index, values)) && (max < value || void 0 === max && value >= value) && (max = value);
         }
         return max;
     }
@@ -211,7 +211,7 @@
         if (void 0 === valueof) for (const value of values)null != value && (min > value || void 0 === min && value >= value) && (min = value);
         else {
             let index = -1;
-            for (let value1 of values)null != (value1 = valueof(value1, ++index, values)) && (min > value1 || void 0 === min && value1 >= value1) && (min = value1);
+            for (let value of values)null != (value = valueof(value, ++index, values)) && (min > value || void 0 === min && value >= value) && (min = value);
         }
         return min;
     }
@@ -240,7 +240,7 @@
             if (void 0 === valueof) for (let value of values)null != value && (value = +value) >= value && (yield value);
             else {
                 let index = -1;
-                for (let value1 of values)null != (value1 = valueof(value1, ++index, values)) && (value1 = +value1) >= value1 && (yield value1);
+                for (let value of values)null != (value = valueof(value, ++index, values)) && (value = +value) >= value && (yield value);
             }
         }(values, valueof))).length) {
             if ((p = +p) <= 0 || n < 2) return min(values);
@@ -261,7 +261,7 @@
         let max;
         let maxIndex = -1, index = -1;
         if (void 0 === valueof) for (const value of values)++index, null != value && (max < value || void 0 === max && value >= value) && (max = value, maxIndex = index);
-        else for (let value1 of values)null != (value1 = valueof(value1, ++index, values)) && (max < value1 || void 0 === max && value1 >= value1) && (max = value1, maxIndex = index);
+        else for (let value of values)null != (value = valueof(value, ++index, values)) && (max < value || void 0 === max && value >= value) && (max = value, maxIndex = index);
         return maxIndex;
     }
     function merge(arrays) {
@@ -273,7 +273,7 @@
         let min;
         let minIndex = -1, index = -1;
         if (void 0 === valueof) for (const value of values)++index, null != value && (min > value || void 0 === min && value >= value) && (min = value, minIndex = index);
-        else for (let value1 of values)null != (value1 = valueof(value1, ++index, values)) && (min > value1 || void 0 === min && value1 >= value1) && (min = value1, minIndex = index);
+        else for (let value of values)null != (value = valueof(value, ++index, values)) && (min > value || void 0 === min && value >= value) && (min = value, minIndex = index);
         return minIndex;
     }
     function pair(a, b) {
@@ -2633,7 +2633,7 @@
                     const point = points[0];
                     abs(point.cur[0] - point[0]) > abs(point.cur[1] - point[1]) ? lockY = !0 : lockX = !0;
                 }
-                for (const point1 of points)point1.cur && (point1[0] = point1.cur[0], point1[1] = point1.cur[1]);
+                for (const point of points)point.cur && (point[0] = point.cur[0], point[1] = point.cur[1]);
                 moving = !0, noevent$1(event), move(event);
             }
             function move(event) {
@@ -2761,73 +2761,73 @@
             }
             dx = (k = max$2(0, tau$1 - padAngle * n) / k) ? padAngle : tau$1 / n;
             {
-                let x1 = 0;
-                for (const i1 of (sortGroups && groupIndex.sort((a, b)=>sortGroups(groupSums[a], groupSums[b])), groupIndex)){
-                    const x0 = x1;
+                let x = 0;
+                for (const i of (sortGroups && groupIndex.sort((a, b)=>sortGroups(groupSums[a], groupSums[b])), groupIndex)){
+                    const x0 = x;
                     if (directed) {
-                        const subgroupIndex = range(~n + 1, n).filter((j)=>j < 0 ? matrix[~j * n + i1] : matrix[i1 * n + j]);
-                        for (const j1 of (sortSubgroups && subgroupIndex.sort((a, b)=>sortSubgroups(a < 0 ? -matrix[~a * n + i1] : matrix[i1 * n + a], b < 0 ? -matrix[~b * n + i1] : matrix[i1 * n + b])), subgroupIndex))if (j1 < 0) {
-                            const chord = chords[~j1 * n + i1] || (chords[~j1 * n + i1] = {
+                        const subgroupIndex = range(~n + 1, n).filter((j)=>j < 0 ? matrix[~j * n + i] : matrix[i * n + j]);
+                        for (const j of (sortSubgroups && subgroupIndex.sort((a, b)=>sortSubgroups(a < 0 ? -matrix[~a * n + i] : matrix[i * n + a], b < 0 ? -matrix[~b * n + i] : matrix[i * n + b])), subgroupIndex))if (j < 0) {
+                            const chord = chords[~j * n + i] || (chords[~j * n + i] = {
                                 source: null,
                                 target: null
                             });
                             chord.target = {
-                                index: i1,
-                                startAngle: x1,
-                                endAngle: x1 += matrix[~j1 * n + i1] * k,
-                                value: matrix[~j1 * n + i1]
+                                index: i,
+                                startAngle: x,
+                                endAngle: x += matrix[~j * n + i] * k,
+                                value: matrix[~j * n + i]
                             };
                         } else {
-                            const chord1 = chords[i1 * n + j1] || (chords[i1 * n + j1] = {
+                            const chord = chords[i * n + j] || (chords[i * n + j] = {
                                 source: null,
                                 target: null
                             });
-                            chord1.source = {
-                                index: i1,
-                                startAngle: x1,
-                                endAngle: x1 += matrix[i1 * n + j1] * k,
-                                value: matrix[i1 * n + j1]
+                            chord.source = {
+                                index: i,
+                                startAngle: x,
+                                endAngle: x += matrix[i * n + j] * k,
+                                value: matrix[i * n + j]
                             };
                         }
-                        groups[i1] = {
-                            index: i1,
+                        groups[i] = {
+                            index: i,
                             startAngle: x0,
-                            endAngle: x1,
-                            value: groupSums[i1]
+                            endAngle: x,
+                            value: groupSums[i]
                         };
                     } else {
-                        const subgroupIndex1 = range(0, n).filter((j)=>matrix[i1 * n + j] || matrix[j * n + i1]);
-                        for (const j2 of (sortSubgroups && subgroupIndex1.sort((a, b)=>sortSubgroups(matrix[i1 * n + a], matrix[i1 * n + b])), subgroupIndex1)){
-                            let chord2;
-                            if (i1 < j2 ? (chord2 = chords[i1 * n + j2] || (chords[i1 * n + j2] = {
+                        const subgroupIndex = range(0, n).filter((j)=>matrix[i * n + j] || matrix[j * n + i]);
+                        for (const j of (sortSubgroups && subgroupIndex.sort((a, b)=>sortSubgroups(matrix[i * n + a], matrix[i * n + b])), subgroupIndex)){
+                            let chord;
+                            if (i < j ? (chord = chords[i * n + j] || (chords[i * n + j] = {
                                 source: null,
                                 target: null
                             })).source = {
-                                index: i1,
-                                startAngle: x1,
-                                endAngle: x1 += matrix[i1 * n + j2] * k,
-                                value: matrix[i1 * n + j2]
-                            } : ((chord2 = chords[j2 * n + i1] || (chords[j2 * n + i1] = {
+                                index: i,
+                                startAngle: x,
+                                endAngle: x += matrix[i * n + j] * k,
+                                value: matrix[i * n + j]
+                            } : ((chord = chords[j * n + i] || (chords[j * n + i] = {
                                 source: null,
                                 target: null
                             })).target = {
-                                index: i1,
-                                startAngle: x1,
-                                endAngle: x1 += matrix[i1 * n + j2] * k,
-                                value: matrix[i1 * n + j2]
-                            }, i1 === j2 && (chord2.source = chord2.target)), chord2.source && chord2.target && chord2.source.value < chord2.target.value) {
-                                const source = chord2.source;
-                                chord2.source = chord2.target, chord2.target = source;
+                                index: i,
+                                startAngle: x,
+                                endAngle: x += matrix[i * n + j] * k,
+                                value: matrix[i * n + j]
+                            }, i === j && (chord.source = chord.target)), chord.source && chord.target && chord.source.value < chord.target.value) {
+                                const source = chord.source;
+                                chord.source = chord.target, chord.target = source;
                             }
                         }
-                        groups[i1] = {
-                            index: i1,
+                        groups[i] = {
+                            index: i,
                             startAngle: x0,
-                            endAngle: x1,
-                            value: groupSums[i1]
+                            endAngle: x,
+                            value: groupSums[i]
                         };
                     }
-                    x1 += dx;
+                    x += dx;
                 }
             }
             return (chords = Object.values(chords)).groups = groups, sortChords ? chords.sort(sortChords) : chords;
@@ -3297,42 +3297,42 @@
             }
             const cx = (minX + maxX) / 2, cy = (minY + maxY) / 2;
             let minDist = 1 / 0;
-            for(let i3 = 0; i3 < n; i3++){
-                const d = dist(cx, cy, coords[2 * i3], coords[2 * i3 + 1]);
-                d < minDist && (i0 = i3, minDist = d);
+            for(let i = 0; i < n; i++){
+                const d = dist(cx, cy, coords[2 * i], coords[2 * i + 1]);
+                d < minDist && (i0 = i, minDist = d);
             }
             const i0x = coords[2 * i0], i0y = coords[2 * i0 + 1];
             minDist = 1 / 0;
-            for(let i4 = 0; i4 < n; i4++){
-                if (i4 === i0) continue;
-                const d1 = dist(i0x, i0y, coords[2 * i4], coords[2 * i4 + 1]);
-                d1 < minDist && d1 > 0 && (i1 = i4, minDist = d1);
+            for(let i = 0; i < n; i++){
+                if (i === i0) continue;
+                const d = dist(i0x, i0y, coords[2 * i], coords[2 * i + 1]);
+                d < minDist && d > 0 && (i1 = i, minDist = d);
             }
             let i1x = coords[2 * i1], i1y = coords[2 * i1 + 1], minRadius = 1 / 0;
-            for(let i5 = 0; i5 < n; i5++){
-                if (i5 === i0 || i5 === i1) continue;
+            for(let i = 0; i < n; i++){
+                if (i === i0 || i === i1) continue;
                 const r = function(ax, ay, bx, by, cx, cy) {
                     const dx = bx - ax, dy = by - ay, ex = cx - ax, ey = cy - ay, bl = dx * dx + dy * dy, cl = ex * ex + ey * ey, d = 0.5 / (dx * ey - dy * ex), x = (ey * bl - dy * cl) * d, y = (dx * cl - ex * bl) * d;
                     return x * x + y * y;
-                }(i0x, i0y, i1x, i1y, coords[2 * i5], coords[2 * i5 + 1]);
-                r < minRadius && (i2 = i5, minRadius = r);
+                }(i0x, i0y, i1x, i1y, coords[2 * i], coords[2 * i + 1]);
+                r < minRadius && (i2 = i, minRadius = r);
             }
             let i2x = coords[2 * i2], i2y = coords[2 * i2 + 1];
             if (minRadius === 1 / 0) {
-                for(let i6 = 0; i6 < n; i6++)this._dists[i6] = coords[2 * i6] - coords[0] || coords[2 * i6 + 1] - coords[1];
+                for(let i = 0; i < n; i++)this._dists[i] = coords[2 * i] - coords[0] || coords[2 * i + 1] - coords[1];
                 quicksort(this._ids, this._dists, 0, n - 1);
                 const hull = new Uint32Array(n);
                 let j = 0;
-                for(let i7 = 0, d0 = -1 / 0; i7 < n; i7++){
-                    const id = this._ids[i7];
+                for(let i = 0, d0 = -1 / 0; i < n; i++){
+                    const id = this._ids[i];
                     this._dists[id] > d0 && (hull[j++] = id, d0 = this._dists[id]);
                 }
                 this.hull = hull.subarray(0, j), this.triangles = new Uint32Array(0), this.halfedges = new Uint32Array(0);
                 return;
             }
             if (orient(i0x, i0y, i1x, i1y, i2x, i2y)) {
-                const i8 = i1, x1 = i1x, y1 = i1y;
-                i1 = i2, i1x = i2x, i1y = i2y, i2 = i8, i2x = x1, i2y = y1;
+                const i = i1, x = i1x, y = i1y;
+                i1 = i2, i1x = i2x, i1y = i2y, i2 = i, i2x = x, i2y = y;
             }
             const center = function(ax, ay, bx, by, cx, cy) {
                 const dx = bx - ax, dy = by - ay, ex = cx - ax, ey = cy - ay, bl = dx * dx + dy * dy, cl = ex * ex + ey * ey, d = 0.5 / (dx * ey - dy * ex);
@@ -3342,30 +3342,30 @@
                 };
             }(i0x, i0y, i1x, i1y, i2x, i2y);
             this._cx = center.x, this._cy = center.y;
-            for(let i9 = 0; i9 < n; i9++)this._dists[i9] = dist(coords[2 * i9], coords[2 * i9 + 1], center.x, center.y);
+            for(let i = 0; i < n; i++)this._dists[i] = dist(coords[2 * i], coords[2 * i + 1], center.x, center.y);
             quicksort(this._ids, this._dists, 0, n - 1), this._hullStart = i0;
             let hullSize = 3;
             hullNext[i0] = hullPrev[i2] = i1, hullNext[i1] = hullPrev[i0] = i2, hullNext[i2] = hullPrev[i1] = i0, hullTri[i0] = 0, hullTri[i1] = 1, hullTri[i2] = 2, hullHash.fill(-1), hullHash[this._hashKey(i0x, i0y)] = i0, hullHash[this._hashKey(i1x, i1y)] = i1, hullHash[this._hashKey(i2x, i2y)] = i2, this.trianglesLen = 0, this._addTriangle(i0, i1, i2, -1, -1, -1);
             for(let k = 0, xp, yp; k < this._ids.length; k++){
-                const i10 = this._ids[k], x2 = coords[2 * i10], y2 = coords[2 * i10 + 1];
-                if (k > 0 && 0.0000000000000002220446049250313 >= Math.abs(x2 - xp) && 0.0000000000000002220446049250313 >= Math.abs(y2 - yp) || (xp = x2, yp = y2, i10 === i0 || i10 === i1 || i10 === i2)) continue;
+                const i = this._ids[k], x = coords[2 * i], y = coords[2 * i + 1];
+                if (k > 0 && 0.0000000000000002220446049250313 >= Math.abs(x - xp) && 0.0000000000000002220446049250313 >= Math.abs(y - yp) || (xp = x, yp = y, i === i0 || i === i1 || i === i2)) continue;
                 let start = 0;
-                for(let j1 = 0, key = this._hashKey(x2, y2); j1 < this._hashSize && (-1 === (start = hullHash[(key + j1) % this._hashSize]) || start === hullNext[start]); j1++);
+                for(let j = 0, key = this._hashKey(x, y); j < this._hashSize && (-1 === (start = hullHash[(key + j) % this._hashSize]) || start === hullNext[start]); j++);
                 let e = start = hullPrev[start], q;
-                for(; q = hullNext[e], !orient(x2, y2, coords[2 * e], coords[2 * e + 1], coords[2 * q], coords[2 * q + 1]);)if ((e = q) === start) {
+                for(; q = hullNext[e], !orient(x, y, coords[2 * e], coords[2 * e + 1], coords[2 * q], coords[2 * q + 1]);)if ((e = q) === start) {
                     e = -1;
                     break;
                 }
                 if (-1 === e) continue;
-                let t = this._addTriangle(e, i10, hullNext[e], -1, -1, hullTri[e]);
-                hullTri[i10] = this._legalize(t + 2), hullTri[e] = t, hullSize++;
-                let n1 = hullNext[e];
-                for(; q = hullNext[n1], orient(x2, y2, coords[2 * n1], coords[2 * n1 + 1], coords[2 * q], coords[2 * q + 1]);)t = this._addTriangle(n1, i10, q, hullTri[i10], -1, hullTri[n1]), hullTri[i10] = this._legalize(t + 2), hullNext[n1] = n1, hullSize--, n1 = q;
-                if (e === start) for(; orient(x2, y2, coords[2 * (q = hullPrev[e])], coords[2 * q + 1], coords[2 * e], coords[2 * e + 1]);)t = this._addTriangle(q, i10, e, -1, hullTri[e], hullTri[q]), this._legalize(t + 2), hullTri[q] = t, hullNext[e] = e, hullSize--, e = q;
-                this._hullStart = hullPrev[i10] = e, hullNext[e] = hullPrev[n1] = i10, hullNext[i10] = n1, hullHash[this._hashKey(x2, y2)] = i10, hullHash[this._hashKey(coords[2 * e], coords[2 * e + 1])] = e;
+                let t = this._addTriangle(e, i, hullNext[e], -1, -1, hullTri[e]);
+                hullTri[i] = this._legalize(t + 2), hullTri[e] = t, hullSize++;
+                let n = hullNext[e];
+                for(; q = hullNext[n], orient(x, y, coords[2 * n], coords[2 * n + 1], coords[2 * q], coords[2 * q + 1]);)t = this._addTriangle(n, i, q, hullTri[i], -1, hullTri[n]), hullTri[i] = this._legalize(t + 2), hullNext[n] = n, hullSize--, n = q;
+                if (e === start) for(; orient(x, y, coords[2 * (q = hullPrev[e])], coords[2 * q + 1], coords[2 * e], coords[2 * e + 1]);)t = this._addTriangle(q, i, e, -1, hullTri[e], hullTri[q]), this._legalize(t + 2), hullTri[q] = t, hullNext[e] = e, hullSize--, e = q;
+                this._hullStart = hullPrev[i] = e, hullNext[e] = hullPrev[n] = i, hullNext[i] = n, hullHash[this._hashKey(x, y)] = i, hullHash[this._hashKey(coords[2 * e], coords[2 * e + 1])] = e;
             }
             this.hull = new Uint32Array(hullSize);
-            for(let i11 = 0, e1 = this._hullStart; i11 < hullSize; i11++)this.hull[i11] = e1, e1 = hullNext[e1];
+            for(let i = 0, e = this._hullStart; i < hullSize; i++)this.hull[i] = e, e = hullNext[e];
             this.triangles = this._triangles.subarray(0, this.trianglesLen), this.halfedges = this._halfedges.subarray(0, this.trianglesLen);
         }
         _hashKey(x, y) {
@@ -3439,18 +3439,18 @@
             ids[j + 1] = temp;
         }
         else {
-            let i1 = left + 1, j1 = right;
-            swap$1(ids, left + right >> 1, i1), dists[ids[left]] > dists[ids[right]] && swap$1(ids, left, right), dists[ids[i1]] > dists[ids[right]] && swap$1(ids, i1, right), dists[ids[left]] > dists[ids[i1]] && swap$1(ids, left, i1);
-            const temp1 = ids[i1], tempDist1 = dists[temp1];
+            let i = left + 1, j = right;
+            swap$1(ids, left + right >> 1, i), dists[ids[left]] > dists[ids[right]] && swap$1(ids, left, right), dists[ids[i]] > dists[ids[right]] && swap$1(ids, i, right), dists[ids[left]] > dists[ids[i]] && swap$1(ids, left, i);
+            const temp = ids[i], tempDist = dists[temp];
             for(;;){
-                do i1++;
-                while (dists[ids[i1]] < tempDist1)
-                do j1--;
-                while (dists[ids[j1]] > tempDist1)
-                if (j1 < i1) break;
-                swap$1(ids, i1, j1);
+                do i++;
+                while (dists[ids[i]] < tempDist)
+                do j--;
+                while (dists[ids[j]] > tempDist)
+                if (j < i) break;
+                swap$1(ids, i, j);
             }
-            ids[left + 1] = ids[j1], ids[j1] = temp1, right - i1 + 1 >= j1 - left ? (quicksort(ids, dists, i1, right), quicksort(ids, dists, left, j1 - 1)) : (quicksort(ids, dists, left, j1 - 1), quicksort(ids, dists, i1, right));
+            ids[left + 1] = ids[j], ids[j] = temp, right - i + 1 >= j - left ? (quicksort(ids, dists, i, right), quicksort(ids, dists, left, j - 1)) : (quicksort(ids, dists, left, j - 1), quicksort(ids, dists, i, right));
         }
     }
     function swap$1(arr, i, j) {
@@ -3538,9 +3538,9 @@
                 } else x = (x1 + x3) / 2 - 1e8 * ey, y = (y1 + y3) / 2 + 1e8 * ex;
                 circumcenters[j] = x, circumcenters[j + 1] = y;
             }
-            let h = hull[hull.length - 1], p0, p1 = 4 * h, x0, x11 = points[2 * h], y0, y11 = points[2 * h + 1];
+            let h = hull[hull.length - 1], p0, p1 = 4 * h, x0, x1 = points[2 * h], y0, y1 = points[2 * h + 1];
             vectors.fill(0);
-            for(let i1 = 0; i1 < hull.length; ++i1)h = hull[i1], p0 = p1, x0 = x11, y0 = y11, p1 = 4 * h, x11 = points[2 * h], y11 = points[2 * h + 1], vectors[p0 + 2] = vectors[p1] = y0 - y11, vectors[p0 + 3] = vectors[p1 + 1] = x11 - x0;
+            for(let i = 0; i < hull.length; ++i)h = hull[i], p0 = p1, x0 = x1, y0 = y1, p1 = 4 * h, x1 = points[2 * h], y1 = points[2 * h + 1], vectors[p0 + 2] = vectors[p1] = y0 - y1, vectors[p0 + 3] = vectors[p1 + 1] = x1 - x0;
         }
         render(context) {
             const buffer = null == context ? context = new Path$1 : void 0, { delaunay: { halfedges , inedges , hull  } , circumcenters , vectors  } = this;
@@ -3552,8 +3552,8 @@
                 this._renderSegment(xi, yi, xj, yj, context);
             }
             let h0, h1 = hull[hull.length - 1];
-            for(let i1 = 0; i1 < hull.length; ++i1){
-                h0 = h1, h1 = hull[i1];
+            for(let i = 0; i < hull.length; ++i){
+                h0 = h1, h1 = hull[i];
                 const t = 2 * Math.floor(inedges[h1] / 3), x = circumcenters[t], y = circumcenters[t + 1], v = 4 * h0, p = this._project(x, y, vectors[v + 2], vectors[v + 3]);
                 p && this._renderSegment(x, y, p[0], p[1], context);
             }
@@ -3569,7 +3569,7 @@
             context.moveTo(points[0], points[1]);
             let n = points.length;
             for(; points[0] === points[n - 2] && points[1] === points[n - 1] && n > 1;)n -= 2;
-            for(let i1 = 2; i1 < n; i1 += 2)(points[i1] !== points[i1 - 2] || points[i1 + 1] !== points[i1 - 1]) && context.lineTo(points[i1], points[i1 + 1]);
+            for(let i = 2; i < n; i += 2)(points[i] !== points[i - 2] || points[i + 1] !== points[i - 1]) && context.lineTo(points[i], points[i + 1]);
             return context.closePath(), buffer && buffer.value();
         }
         *cellPolygons() {
@@ -3727,9 +3727,9 @@
                 }
                 (P[j] !== x || P[j + 1] !== y) && this.contains(i, x, y) && (P.splice(j, 0, x, y), j += 2);
             }
-            if (P.length > 4) for(let i1 = 0; i1 < P.length; i1 += 2){
-                const j1 = (i1 + 2) % P.length, k = (i1 + 4) % P.length;
-                (P[i1] === P[j1] && P[j1] === P[k] || P[i1 + 1] === P[j1 + 1] && P[j1 + 1] === P[k + 1]) && (P.splice(j1, 2), i1 -= 2);
+            if (P.length > 4) for(let i = 0; i < P.length; i += 2){
+                const j = (i + 2) % P.length, k = (i + 4) % P.length;
+                (P[i] === P[j] && P[j] === P[k] || P[i + 1] === P[j + 1] && P[j + 1] === P[k + 1]) && (P.splice(j, 2), i -= 2);
             }
             return j;
         }
@@ -3818,11 +3818,11 @@
                 this._delaunator = new Delaunator(points);
             } else delete this.collinear;
             const halfedges = this.halfedges = this._delaunator.halfedges, hull = this.hull = this._delaunator.hull, triangles = this.triangles = this._delaunator.triangles, inedges = this.inedges.fill(-1), hullIndex = this._hullIndex.fill(-1);
-            for(let e1 = 0, n1 = halfedges.length; e1 < n1; ++e1){
-                const p1 = triangles[e1 % 3 == 2 ? e1 - 2 : e1 + 1];
-                (-1 === halfedges[e1] || -1 === inedges[p1]) && (inedges[p1] = e1);
+            for(let e = 0, n = halfedges.length; e < n; ++e){
+                const p = triangles[e % 3 == 2 ? e - 2 : e + 1];
+                (-1 === halfedges[e] || -1 === inedges[p]) && (inedges[p] = e);
             }
-            for(let i1 = 0, n2 = hull.length; i1 < n2; ++i1)hullIndex[hull[i1]] = i1;
+            for(let i = 0, n = hull.length; i < n; ++i)hullIndex[hull[i]] = i;
             hull.length <= 2 && hull.length > 0 && (this.triangles = new Int32Array(3).fill(-1), this.halfedges = new Int32Array(3).fill(-1), this.triangles[0] = hull[0], this.triangles[1] = hull[1], this.triangles[2] = hull[1], inedges[hull[0]] = 1, 2 === hull.length && (inedges[hull[1]] = 0));
         }
         voronoi(bounds) {
@@ -3893,8 +3893,8 @@
             const buffer = null == context ? context = new Path$1 : void 0, { hull , points  } = this, h = 2 * hull[0], n = hull.length;
             context.moveTo(points[h], points[h + 1]);
             for(let i = 1; i < n; ++i){
-                const h1 = 2 * hull[i];
-                context.lineTo(points[h1], points[h1 + 1]);
+                const h = 2 * hull[i];
+                context.lineTo(points[h], points[h + 1]);
             }
             return context.closePath(), buffer && buffer.value();
         }
@@ -9616,7 +9616,7 @@
         if (void 0 === valueof) for (let value of values)(value = +value) && adder.add(value);
         else {
             let index = -1;
-            for (let value1 of values)(value1 = +valueof(value1, ++index, values)) && adder.add(value1);
+            for (let value of values)(value = +valueof(value, ++index, values)) && adder.add(value);
         }
         return +adder;
     }, exports1.geoAlbers = albers, exports1.geoAlbersUsa = function() {
@@ -9995,7 +9995,7 @@
                 const value = compare(element);
                 (defined ? ascending(value, maxValue) > 0 : 0 === ascending(value, value)) && (max = element, maxValue = value, defined = !0);
             }
-        } else for (const value1 of values)(defined ? compare(value1, max) > 0 : 0 === compare(value1, value1)) && (max = value1, defined = !0);
+        } else for (const value of values)(defined ? compare(value, max) > 0 : 0 === compare(value, value)) && (max = value, defined = !0);
         return max;
     }, exports1.greatestIndex = function(values, compare = ascending) {
         let maxValue;
@@ -10075,7 +10075,7 @@
                 const value = compare(element);
                 (defined ? 0 > ascending(value, minValue) : 0 === ascending(value, value)) && (min = element, minValue = value, defined = !0);
             }
-        } else for (const value1 of values)(defined ? 0 > compare(value1, min) : 0 === compare(value1, value1)) && (min = value1, defined = !0);
+        } else for (const value of values)(defined ? 0 > compare(value, min) : 0 === compare(value, value)) && (min = value, defined = !0);
         return min;
     }, exports1.leastIndex = leastIndex, exports1.line = line, exports1.lineRadial = lineRadial$1, exports1.linkHorizontal = function() {
         return link$2(curveHorizontal);
@@ -10093,7 +10093,7 @@
         if (void 0 === valueof) for (let value of values)null != value && (value = +value) >= value && (++count, sum += value);
         else {
             let index = -1;
-            for (let value1 of values)null != (value1 = valueof(value1, ++index, values)) && (value1 = +value1) >= value1 && (++count, sum += value1);
+            for (let value of values)null != (value = valueof(value, ++index, values)) && (value = +value) >= value && (++count, sum += value);
         }
         if (count) return sum / count;
     }, exports1.median = function(values, valueof) {
@@ -10590,7 +10590,7 @@
         if (void 0 === valueof) for (let value of values)(value = +value) && (sum += value);
         else {
             let index = -1;
-            for (let value1 of values)(value1 = +valueof(value1, ++index, values)) && (sum += value1);
+            for (let value of values)(value = +valueof(value, ++index, values)) && (sum += value);
         }
         return sum;
     }, exports1.superset = superset, exports1.svg = svg, exports1.symbol = function(type, size) {

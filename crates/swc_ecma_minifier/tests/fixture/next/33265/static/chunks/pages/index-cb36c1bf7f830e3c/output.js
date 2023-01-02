@@ -4769,12 +4769,12 @@
                                             cue.lineAlign = settings.get("lineAlign", "start"), cue.snapToLines = settings.get("snapToLines", !0), cue.size = settings.get("size", 100);
                                             try {
                                                 cue.align = settings.get("align", "center");
-                                            } catch (e1) {
+                                            } catch (e) {
                                                 cue.align = settings.get("align", "middle");
                                             }
                                             try {
                                                 cue.position = settings.get("position", "auto");
-                                            } catch (e2) {
+                                            } catch (e) {
                                                 cue.position = settings.get("position", {
                                                     start: 0,
                                                     left: 0,
@@ -4794,8 +4794,8 @@
                                             }, cue.align);
                                         }(input, cue);
                                     }(line, self1.cue, self1.regionList);
-                                } catch (e1) {
-                                    self1.reportOrThrowError(e1), self1.cue = null, self1.state = "BADCUE";
+                                } catch (e) {
+                                    self1.reportOrThrowError(e), self1.cue = null, self1.state = "BADCUE";
                                     continue;
                                 }
                                 self1.state = "CUETEXT";
@@ -4812,8 +4812,8 @@
                                 line || (self1.state = "ID");
                                 continue;
                         }
-                    } catch (e2) {
-                        self1.reportOrThrowError(e2), "CUETEXT" === self1.state && self1.cue && self1.oncue && self1.oncue(self1.cue), self1.cue = null, self1.state = "INITIAL" === self1.state ? "BADWEBVTT" : "BADCUE";
+                    } catch (e) {
+                        self1.reportOrThrowError(e), "CUETEXT" === self1.state && self1.cue && self1.oncue && self1.oncue(self1.cue), self1.cue = null, self1.state = "INITIAL" === self1.state ? "BADWEBVTT" : "BADCUE";
                     }
                     return this;
                 },

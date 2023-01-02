@@ -2041,8 +2041,8 @@
                 }
                 try {
                     promise = dispatchRequest(newConfig);
-                } catch (error1) {
-                    return Promise.reject(error1);
+                } catch (error) {
+                    return Promise.reject(error);
                 }
                 for(; responseInterceptorChain.length;)promise = promise.then(responseInterceptorChain.shift(), responseInterceptorChain.shift());
                 return promise;
@@ -2713,7 +2713,7 @@
                             if (TypedArray[KEY] && !forced) return;
                             try {
                                 return redefine(TypedArray, KEY, forced ? property : NATIVE_ARRAY_BUFFER_VIEWS && TypedArray[KEY] || property);
-                            } catch (error1) {}
+                            } catch (error) {}
                         }
                         for(ARRAY in TypedArrayConstructorsList)(TypedArrayConstructor = global[ARRAY]) && (!TypedArrayConstructor[KEY] || forced) && redefine(TypedArrayConstructor, KEY, property);
                     }
@@ -8283,7 +8283,7 @@
                     if (CollectionPrototype[TO_STRING_TAG] || createNonEnumerableProperty(CollectionPrototype, TO_STRING_TAG, COLLECTION_NAME), DOMIterables[COLLECTION_NAME]) {
                         for(var METHOD_NAME in ArrayIteratorMethods)if (CollectionPrototype[METHOD_NAME] !== ArrayIteratorMethods[METHOD_NAME]) try {
                             createNonEnumerableProperty(CollectionPrototype, METHOD_NAME, ArrayIteratorMethods[METHOD_NAME]);
-                        } catch (error1) {
+                        } catch (error) {
                             CollectionPrototype[METHOD_NAME] = ArrayIteratorMethods[METHOD_NAME];
                         }
                     }
@@ -10101,7 +10101,7 @@
                 if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) return cachedSetTimeout = setTimeout, setTimeout(fun, 0);
                 try {
                     return cachedSetTimeout(fun, 0);
-                } catch (e1) {
+                } catch (e) {
                     try {
                         return cachedSetTimeout.call(null, fun, 0);
                     } catch (e) {
@@ -10117,7 +10117,7 @@
                 }
                 try {
                     cachedClearTimeout = "function" == typeof clearTimeout ? clearTimeout : defaultClearTimeout;
-                } catch (e1) {
+                } catch (e) {
                     cachedClearTimeout = defaultClearTimeout;
                 }
             }();
@@ -10138,7 +10138,7 @@
                         if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) return cachedClearTimeout = clearTimeout, clearTimeout(marker);
                         try {
                             cachedClearTimeout(marker);
-                        } catch (e1) {
+                        } catch (e) {
                             try {
                                 return cachedClearTimeout.call(null, marker);
                             } catch (e) {
@@ -10303,10 +10303,10 @@
                         "separator"
                     ].includes(options.arrayFormat) ? value : decode(value, options), formatter(decode(key, options), value, ret);
                 }
-                for (const key1 of Object.keys(ret)){
-                    const value1 = ret[key1];
-                    if ("object" == typeof value1 && null !== value1) for (const k of Object.keys(value1))value1[k] = parseValue(value1[k], options);
-                    else ret[key1] = parseValue(value1, options);
+                for (const key of Object.keys(ret)){
+                    const value = ret[key];
+                    if ("object" == typeof value && null !== value) for (const k of Object.keys(value))value[k] = parseValue(value[k], options);
+                    else ret[key] = parseValue(value, options);
                 }
                 return !1 === options.sort ? ret : (!0 === options.sort ? Object.keys(ret).sort() : Object.keys(ret).sort(options.sort)).reduce((result, key)=>{
                     const value = ret[key];
@@ -10831,22 +10831,22 @@
                         } else {
                             try {
                                 b.call();
-                            } catch (k1) {
-                                d = k1;
+                            } catch (k) {
+                                d = k;
                             }
                             a.call(b.prototype);
                         }
                     } else {
                         try {
                             throw Error();
-                        } catch (k2) {
-                            d = k2;
+                        } catch (k) {
+                            d = k;
                         }
                         a();
                     }
-                } catch (k3) {
-                    if (k3 && d && "string" == typeof k3.stack) {
-                        for(var e = k3.stack.split("\n"), f = d.stack.split("\n"), g = e.length - 1, h = f.length - 1; 1 <= g && 0 <= h && e[g] !== f[h];)h--;
+                } catch (k) {
+                    if (k && d && "string" == typeof k.stack) {
+                        for(var e = k.stack.split("\n"), f = d.stack.split("\n"), g = e.length - 1, h = f.length - 1; 1 <= g && 0 <= h && e[g] !== f[h];)h--;
                         for(; 1 <= g && 0 <= h; g--, h--)if (e[g] !== f[h]) {
                             if (1 !== g || 1 !== h) do if (g--, 0 > --h || e[g] !== f[h]) return "\n" + e[g].replace(" at new ", " at ");
                             while (1 <= g && 0 <= h)
@@ -11269,7 +11269,7 @@
                         Pb = !0;
                     }
                 }), window.addEventListener("test", Qb, Qb), window.removeEventListener("test", Qb, Qb);
-            } catch (a1) {
+            } catch (a) {
                 Pb = !1;
             }
             function Rb(a, b, c, d, e, f, g, h, k) {
@@ -14034,8 +14034,8 @@
                                         d = b;
                                         try {
                                             e();
-                                        } catch (f1) {
-                                            Wi(d, f1);
+                                        } catch (f) {
+                                            Wi(d, f);
                                         }
                                     }
                                 }
@@ -14046,8 +14046,8 @@
                     case 1:
                         if (Vi(b), "function" == typeof (a = b.stateNode).componentWillUnmount) try {
                             a.props = b.memoizedProps, a.state = b.memoizedState, a.componentWillUnmount();
-                        } catch (f2) {
-                            Wi(b, f2);
+                        } catch (f) {
+                            Wi(b, f);
                         }
                         break;
                     case 5:
@@ -14921,9 +14921,9 @@
                                 })), Z = Z.nextEffect;
                             }
                         }();
-                    } catch (va1) {
+                    } catch (va) {
                         if (null === Z) throw Error(y(330));
-                        Wi(Z, va1), Z = Z.nextEffect;
+                        Wi(Z, va), Z = Z.nextEffect;
                     }
                     while (null !== Z)
                     Ij = null, Z = d;
@@ -14960,9 +14960,9 @@
                             }
                             Z = Z.nextEffect;
                         }
-                    } catch (va2) {
+                    } catch (va) {
                         if (null === Z) throw Error(y(330));
-                        Wi(Z, va2), Z = Z.nextEffect;
+                        Wi(Z, va), Z = Z.nextEffect;
                     }
                     while (null !== Z)
                     if (v = lf, q = Ne(), t = v.focusedElem, g = v.selectionRange, q !== t && t && t.ownerDocument && function Me(a, b) {
@@ -15046,9 +15046,9 @@
                             }
                             Z = Z.nextEffect;
                         }
-                    } catch (va3) {
+                    } catch (va) {
                         if (null === Z) throw Error(y(330));
-                        Wi(Z, va3), Z = Z.nextEffect;
+                        Wi(Z, va), Z = Z.nextEffect;
                     }
                     while (null !== Z)
                     Z = null, $f(), X = e;
@@ -15057,7 +15057,7 @@
                 else for(Z = d; null !== Z;)b = Z.nextEffect, Z.nextEffect = null, 8 & Z.flags && ((K = Z).sibling = null, K.stateNode = null), Z = b;
                 if (0 === (d = a.pendingLanes) && (Ti = null), 1 === d ? a === Ej ? Dj++ : (Dj = 0, Ej = a) : Dj = 0, c = c.stateNode, Mf && "function" == typeof Mf.onCommitFiberRoot) try {
                     Mf.onCommitFiberRoot(Lf, c, void 0, 64 == (64 & c.current.flags));
-                } catch (va4) {}
+                } catch (va) {}
                 if (Mj(a, O()), Qi) throw Qi = !1, a = Ri, Ri = null, a;
                 return 0 != (8 & X) || ig(), null;
             }
@@ -15095,9 +15095,9 @@
                     try {
                         var h = e.create;
                         e.destroy = h();
-                    } catch (k1) {
+                    } catch (k) {
                         if (null === f) throw Error(y(330));
-                        Wi(f, k1);
+                        Wi(f, k);
                     }
                 }
                 for(h = a.current.firstEffect; null !== h;)a = h.nextEffect, h.nextEffect = null, 8 & h.flags && (h.sibling = null, h.stateNode = null), h = a;
@@ -15594,7 +15594,7 @@
                 var yk = __REACT_DEVTOOLS_GLOBAL_HOOK__;
                 if (!yk.isDisabled && yk.supportsFiber) try {
                     Lf = yk.inject(xk), Mf = yk;
-                } catch (a2) {}
+                } catch (a) {}
             }
             exports.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = {
                 Events: [

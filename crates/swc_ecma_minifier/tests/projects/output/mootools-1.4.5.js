@@ -822,7 +822,7 @@ var $try = Function.attempt;
     var arrayFrom = Array.from;
     try {
         arrayFrom(document1.html.childNodes);
-    } catch (e1) {
+    } catch (e) {
         Array.from = function(item) {
             if ("string" != typeof item && Type.isEnumerable(item) && "array" != typeOf(item)) {
                 for(var i = item.length, array = Array(i); i--;)array[i] = item[i];
@@ -1213,44 +1213,44 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
                 testNode.style.display = "none", testNode.appendChild(document1.createComment("")), starSelectsComments = testNode.getElementsByTagName("*").length > 1;
                 try {
                     testNode.innerHTML = "foo</foo>", starSelectsClosed = (selected = testNode.getElementsByTagName("*")) && !!selected.length && "/" == selected[0].nodeName.charAt(0);
-                } catch (e1) {}
+                } catch (e) {}
                 features.brokenStarGEBTN = starSelectsComments || starSelectsClosed;
                 try {
                     testNode.innerHTML = '<a name="' + id + '"></a><b id="' + id + '"></b>', features.idGetsName = document1.getElementById(id) === testNode.firstChild;
-                } catch (e2) {}
+                } catch (e) {}
                 if (testNode.getElementsByClassName) {
                     try {
                         testNode.innerHTML = '<a class="f"></a><a class="b"></a>', testNode.getElementsByClassName("b").length, testNode.firstChild.className = "b", cachedGetElementsByClassName = 2 != testNode.getElementsByClassName("b").length;
-                    } catch (e3) {}
+                    } catch (e) {}
                     try {
                         testNode.innerHTML = '<a class="a"></a><a class="f b a"></a>', brokenSecondClassNameGEBCN = 2 != testNode.getElementsByClassName("a").length;
-                    } catch (e4) {}
+                    } catch (e) {}
                     features.brokenGEBCN = cachedGetElementsByClassName || brokenSecondClassNameGEBCN;
                 }
                 if (testNode.querySelectorAll) {
                     try {
                         testNode.innerHTML = "foo</foo>", selected = testNode.querySelectorAll("*"), features.starSelectsClosedQSA = selected && !!selected.length && "/" == selected[0].nodeName.charAt(0);
-                    } catch (e5) {}
+                    } catch (e) {}
                     try {
                         testNode.innerHTML = '<a class="MiX"></a>', features.brokenMixedCaseQSA = !testNode.querySelectorAll(".MiX").length;
-                    } catch (e6) {}
+                    } catch (e) {}
                     try {
                         testNode.innerHTML = '<select><option selected="selected">a</option></select>', features.brokenCheckedQSA = 0 == testNode.querySelectorAll(":checked").length;
-                    } catch (e7) {}
+                    } catch (e) {}
                     try {
                         testNode.innerHTML = '<a class=""></a>', features.brokenEmptyAttributeQSA = 0 != testNode.querySelectorAll('[class*=""]').length;
-                    } catch (e8) {}
+                    } catch (e) {}
                 }
                 try {
                     testNode.innerHTML = '<form action="s"><input id="action"/></form>', brokenFormAttributeGetter = "s" != testNode.firstChild.getAttribute("action");
-                } catch (e9) {}
+                } catch (e) {}
                 if (features.nativeMatchesSelector = root.matchesSelector || root.mozMatchesSelector || root.webkitMatchesSelector, features.nativeMatchesSelector) try {
                     features.nativeMatchesSelector.call(root, ":slick"), features.nativeMatchesSelector = null;
-                } catch (e10) {}
+                } catch (e) {}
             }
             try {
                 root.slick_expando = 1, delete root.slick_expando, features.getUID = this.getUIDHTML;
-            } catch (e11) {
+            } catch (e) {
                 features.getUID = this.getUIDXML;
             }
             testRoot.removeChild(testNode), testNode = selected = testRoot = null, features.getAttribute = features.isHTMLDocument && brokenFormAttributeGetter ? function(node, name) {
