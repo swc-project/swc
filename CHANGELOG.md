@@ -14,6 +14,9 @@
 - **(es)** Remove import statement canonicalization (#6716) ([b451fa9](https://github.com/swc-project/swc/commit/b451fa9e88aee33368759a67913e7c6eb9c3898f))
 
 
+- **(es/compat)** Fix syntax context of `async-to-generator` (#6741) ([206c0db](https://github.com/swc-project/swc/commit/206c0dbebe5eecaa8a5c1846189b26cb5517d84c))
+
+
 - **(es/plugin)** Fix plugin starter template (#6723) ([082dc21](https://github.com/swc-project/swc/commit/082dc2101b8f3c05b103cf59484355ef87016a57))
 
 

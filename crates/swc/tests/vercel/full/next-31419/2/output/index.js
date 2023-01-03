@@ -19,7 +19,7 @@ export const listOfUser = function(n) {
         postgreSQL.query(t, null, function(n, t) {
             n ? e(n) : r(t.rows);
         });
-    }), function(r, e) {
+    }), function(r, n) {
         return e.apply(this, arguments);
     }));
 };
