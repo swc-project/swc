@@ -17,6 +17,9 @@
 - **(es/plugin)** Fix plugin starter template (#6723) ([082dc21](https://github.com/swc-project/swc/commit/082dc2101b8f3c05b103cf59484355ef87016a57))
 
 
+- **(es/utils)** Fix detection of hoisting (#6738) ([b5d31cc](https://github.com/swc-project/swc/commit/b5d31cc2dabcf79886606946c75d0a15f2fe4091))
+
+
 - **(preset-env)** Update data (#6719) ([d506c96](https://github.com/swc-project/swc/commit/d506c9680577173e5abb1dd0f75456145fda60c9))
 
 ### Features
