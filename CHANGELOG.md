@@ -25,6 +25,12 @@
 
 - **(preset-env)** Update data (#6719) ([d506c96](https://github.com/swc-project/swc/commit/d506c9680577173e5abb1dd0f75456145fda60c9))
 
+### Documentation
+
+
+
+- **(es)** Fix example (#6743) ([79afcb5](https://github.com/swc-project/swc/commit/79afcb5d81cb5cca89c48d39b950ddc24f31d434))
+
 ### Features
 
 
