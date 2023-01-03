@@ -2453,6 +2453,14 @@ impl Visit for UsageCounter<'_> {
         }
     }
 
+    fn visit_key_value_prop(&mut self, key_value: &KeyValueProp) {
+        // Object literal `{ foo: 1 }`, foo should not be treated as target
+        if !key_value.key.is_ident() {
+            key_value.key.visit_children_with(self);
+        }
+        key_value.value.visit_children_with(self);
+    }
+
     fn visit_pat(&mut self, p: &Pat) {
         let old = self.in_lhs;
         self.in_lhs = true;
@@ -2513,4 +2521,45 @@ fn can_drop_op_for(a: AssignOp, b: AssignOp) -> bool {
     }
 
     false
+}
+
+#[cfg(test)]
+mod tests {
+    use swc_atoms::JsWord;
+    use swc_common::{FileName, SourceMap, DUMMY_SP};
+    use swc_ecma_ast::{EsVersion, Ident};
+    use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
+    use swc_ecma_visit::VisitWith;
+
+    use super::UsageCounter;
+
+    #[test]
+    fn usage_counter() {
+        let cm = SourceMap::default();
+        let fm = cm.new_source_file(FileName::Anon, "a({ foo: 1 })".into());
+        let input = StringInput::from(&*fm);
+        let lexer = Lexer::new(
+            Syntax::Es(Default::default()),
+            EsVersion::Es2022,
+            input,
+            None,
+        );
+
+        let mut parser = Parser::new_from(lexer);
+
+        let n = parser.parse_module().unwrap();
+
+        let target = Ident::new(JsWord::from("foo"), DUMMY_SP);
+
+        let mut usage_counter = UsageCounter {
+            expr_usage: 0,
+            pat_usage: 0,
+            target: &target,
+            in_lhs: false,
+        };
+
+        n.visit_with(&mut usage_counter);
+
+        assert_eq!(usage_counter.expr_usage, 0);
+    }
 }
