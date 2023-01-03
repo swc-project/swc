@@ -37,6 +37,12 @@
 
 - **(css/prefixer)** Support `clamp` (#6695) ([1722428](https://github.com/swc-project/swc/commit/1722428909ba380fec114be1e2a75f0d2462a645))
 
+### Performance
+
+
+
+- **(es/preset-env)** Use `VisitMut` instead of `Fold` for polyfill (#6734) ([98da644](https://github.com/swc-project/swc/commit/98da6444b6499d3b3d895d3f81941c778340cf3b))
+
 ### Refactor
 
 
