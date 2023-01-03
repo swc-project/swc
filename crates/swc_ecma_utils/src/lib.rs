@@ -494,8 +494,6 @@ impl Visit for Hoister {
 
     fn visit_fn_decl(&mut self, f: &FnDecl) {
         self.vars.push(f.ident.clone());
-
-        f.visit_children_with(self)
     }
 
     fn visit_pat(&mut self, p: &Pat) {
@@ -513,6 +511,8 @@ impl Visit for Hoister {
 
         v.visit_children_with(self)
     }
+
+    fn visit_fn_expr(&mut self, _n: &FnExpr) {}
 }
 
 #[derive(Debug, Clone)]
