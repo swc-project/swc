@@ -2828,7 +2828,8 @@ pub fn contains_top_level_await<V: VisitWith<TopLevelAwait>>(t: &V) -> bool {
 
 /// Variable remapper
 ///
-/// - Used for evaluating IIFEs
+/// This visitor modifies [SyntaxContext] while preserving the symbol of
+/// [Ident]s.
 
 pub struct Remapper<'a> {
     vars: &'a FxHashMap<Id, SyntaxContext>,
