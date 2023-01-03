@@ -5,7 +5,7 @@ use swc_atoms::js_word;
 use swc_common::{pass::Either, util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    contains_arguments, contains_this_expr, find_pat_ids, undefined, ExprFactory,
+    contains_arguments, contains_this_expr, find_pat_ids, undefined, ExprFactory, Remapper,
 };
 use swc_ecma_visit::VisitMutWith;
 
@@ -13,7 +13,7 @@ use super::{util::NormalMultiReplacer, Optimizer};
 #[cfg(feature = "debug")]
 use crate::debug::dump;
 use crate::{
-    compress::optimize::{util::Remapper, Ctx},
+    compress::optimize::Ctx,
     mode::Mode,
     util::{idents_captured_by, idents_used_by, make_number},
 };
@@ -578,7 +578,7 @@ where
                         if self.vars.inline_with_multi_replacer(body) {
                             self.changed = true;
                         }
-                        body.visit_mut_with(&mut Remapper { vars: remap });
+                        body.visit_mut_with(&mut Remapper::new(&remap));
                         exprs.push(body.take());
 
                         report_change!("inline: Inlining a call to an arrow function");
@@ -889,7 +889,7 @@ where
         if self.vars.inline_with_multi_replacer(body) {
             self.changed = true;
         }
-        body.visit_mut_with(&mut Remapper { vars: remap });
+        body.visit_mut_with(&mut Remapper::new(&remap));
 
         let mut vars = Vec::new();
         let mut exprs = Vec::new();

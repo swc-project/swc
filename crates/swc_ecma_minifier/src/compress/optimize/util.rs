@@ -5,7 +5,7 @@ use std::{
 
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::js_word;
-use swc_common::{util::take::Take, Span, SyntaxContext, DUMMY_SP};
+use swc_common::{util::take::Take, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{Parallel, ParallelExt};
 use swc_ecma_utils::{ExprCtx, ExprExt};
@@ -183,24 +183,6 @@ pub(crate) fn extract_class_side_effect(expr_ctx: &ExprCtx, c: Class) -> Vec<Box
 
 pub(crate) fn is_valid_for_lhs(e: &Expr) -> bool {
     !matches!(e, Expr::Lit(..) | Expr::Unary(..))
-}
-
-/// Variable remapper
-///
-/// - Used for evaluating IIFEs
-
-pub(crate) struct Remapper {
-    pub vars: FxHashMap<Id, SyntaxContext>,
-}
-
-impl VisitMut for Remapper {
-    noop_visit_mut_type!();
-
-    fn visit_mut_ident(&mut self, i: &mut Ident) {
-        if let Some(new_ctxt) = self.vars.get(&i.to_id()).copied() {
-            i.span.ctxt = new_ctxt;
-        }
-    }
 }
 
 /// A visitor responsible for inlining special kind of variables and removing
