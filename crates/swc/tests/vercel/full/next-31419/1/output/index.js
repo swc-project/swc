@@ -64,7 +64,7 @@ export var listOfUser = function(t) {
                 2
             ];
         });
-    }), function(r, e) {
+    }), function(r, n) {
         return e.apply(this, arguments);
     }));
 };

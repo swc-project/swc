@@ -18,6 +18,7 @@ use std::{
     ops::Add,
 };
 
+use rustc_hash::FxHashMap;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{collections::AHashSet, Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -2823,6 +2824,31 @@ pub fn contains_top_level_await<V: VisitWith<TopLevelAwait>>(t: &V) -> bool {
     t.visit_with(&mut finder);
 
     finder.found
+}
+
+/// Variable remapper
+///
+/// This visitor modifies [SyntaxContext] while preserving the symbol of
+/// [Ident]s.
+
+pub struct Remapper<'a> {
+    vars: &'a FxHashMap<Id, SyntaxContext>,
+}
+
+impl<'a> Remapper<'a> {
+    pub fn new(vars: &'a FxHashMap<Id, SyntaxContext>) -> Self {
+        Self { vars }
+    }
+}
+
+impl VisitMut for Remapper<'_> {
+    noop_visit_mut_type!();
+
+    fn visit_mut_ident(&mut self, i: &mut Ident) {
+        if let Some(new_ctxt) = self.vars.get(&i.to_id()).copied() {
+            i.span.ctxt = new_ctxt;
+        }
+    }
 }
 
 #[cfg(test)]
