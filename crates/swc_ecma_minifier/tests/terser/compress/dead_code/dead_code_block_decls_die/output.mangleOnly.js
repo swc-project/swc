@@ -1,7 +1,7 @@
 if (0) {
-    let o = 6;
-    const a = 12;
-    class l {
+    let a = 6;
+    const l = 12;
+    class s {
     }
     var o;
 }

@@ -1,7 +1,7 @@
 {
-    let s;
-    const l = 1;
-    class c {
+    let l;
+    const c = 1;
+    class e {
     }
     var s;
 }let l;

@@ -1,7 +1,7 @@
 function t() {
     if (FOO) {
-        let t;
-        let a;
+        let e;
+        let f;
         var t;
         var a;
     }

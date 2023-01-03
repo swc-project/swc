@@ -11,7 +11,6 @@ pub(super) struct Analyzer {
     pub is_pat_decl: bool,
     pub var_belong_to_fn_scope: bool,
     pub in_catch_params: bool,
-    pub in_catch_block: bool,
     pub scope: Scope,
     /// If we try add variables declared by `var` to the block scope,
     /// variables will be added to `hoisted_vars` and merged to latest
@@ -26,14 +25,7 @@ impl Analyzer {
                 ScopeKind::Fn => {
                     self.scope.add_decl(&id);
                 }
-                ScopeKind::Block => {
-                    // This prevents renamed params in catch clause overriding declared variables
-                    // using `var` and `function`.
-                    if self.in_catch_block {
-                        self.add_usage(id.clone());
-                    }
-                    self.hoisted_vars.push(id)
-                }
+                ScopeKind::Block => self.hoisted_vars.push(id),
             }
         } else {
             self.scope.add_decl(&id);
@@ -41,7 +33,7 @@ impl Analyzer {
     }
 
     fn add_usage(&mut self, id: Id) {
-        self.scope.add_usage(&id);
+        self.scope.add_usage(id);
     }
 
     fn with_scope<F>(&mut self, kind: ScopeKind, op: F)
@@ -57,13 +49,18 @@ impl Analyzer {
                 is_pat_decl: self.is_pat_decl,
                 var_belong_to_fn_scope: false,
                 in_catch_params: false,
-                in_catch_block: false,
                 hoisted_vars: Default::default(),
             };
 
             op(&mut v);
             if !v.hoisted_vars.is_empty() {
                 debug_assert!(matches!(v.scope.kind, ScopeKind::Block));
+                v.hoisted_vars.clone().into_iter().for_each(|id| {
+                    // For variables declared in block scope using `var` and `function`,
+                    // We should create a fake usage in the block to prevent conflicted
+                    // renaming.
+                    v.add_usage(id);
+                });
                 match self.scope.kind {
                     ScopeKind::Fn => {
                         v.hoisted_vars
@@ -128,12 +125,9 @@ impl Visit for Analyzer {
         self.with_scope(ScopeKind::Block, |v| {
             let old = v.is_pat_decl;
             let old_in_catch_params = v.in_catch_params;
-            let old_in_catch_block = v.in_catch_block;
 
             v.is_pat_decl = false;
-            v.in_catch_block = true;
             n.body.visit_children_with(v);
-            v.in_catch_block = old_in_catch_block;
 
             v.is_pat_decl = true;
             v.in_catch_params = true;

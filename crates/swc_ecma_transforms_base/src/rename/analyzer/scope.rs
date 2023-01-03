@@ -92,12 +92,12 @@ impl Scope {
         }
     }
 
-    pub(super) fn add_usage(&mut self, id: &Id) {
+    pub(super) fn add_usage(&mut self, id: Id) {
         if id.0 == js_word!("arguments") {
             return;
         }
 
-        self.data.all.insert(fast_id(id.clone()));
+        self.data.all.insert(fast_id(id));
     }
 
     /// Copy `children.data.all` to `self.data.all`.
