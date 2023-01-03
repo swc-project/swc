@@ -3,6 +3,6 @@
         var o = 1;
         throw "";
         var c = 2;
-    } catch (r) {}
+    } catch (o) {}
     console.log(o, c);
 })();

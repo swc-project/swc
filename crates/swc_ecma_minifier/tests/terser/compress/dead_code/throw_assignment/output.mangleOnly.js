@@ -73,8 +73,8 @@ function u(u) {
         w = null;
         try {
             o(10 * (1 + n));
-        } catch (t) {
-            console.log("caught " + t);
+        } catch (o) {
+            console.log("caught " + o);
         }
         if (null !== w) console.log("a: " + w);
     });

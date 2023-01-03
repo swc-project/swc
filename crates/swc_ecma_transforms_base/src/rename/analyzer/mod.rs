@@ -22,15 +22,18 @@ pub(super) struct Analyzer {
 impl Analyzer {
     fn add_decl(&mut self, id: Id, belong_to_fn_scope: bool) {
         if belong_to_fn_scope {
-            // See test terser_rename_mangle_catch_var
-            if self.in_catch_block {
-                self.add_usage(id.clone());
-            }
             match self.scope.kind {
                 ScopeKind::Fn => {
                     self.scope.add_decl(&id);
                 }
-                ScopeKind::Block => self.hoisted_vars.push(id),
+                ScopeKind::Block => {
+                    // This prevents renamed params in catch clause overriding declared variables
+                    // using `var` and `function`.
+                    if self.in_catch_block {
+                        self.add_usage(id.clone());
+                    }
+                    self.hoisted_vars.push(id)
+                }
             }
         } else {
             self.scope.add_decl(&id);

@@ -2,9 +2,9 @@
     const n = function() {};
     n(bar());
 }{
-    let t = function() {};
-    t(bar());
+    let n = function() {};
+    n(bar());
 }{
-    var a = function() {};
-    a(bar());
+    var n = function() {};
+    n(bar());
 }

@@ -27,11 +27,11 @@ try {
 }
 try {
     RegExp(1, 2);
-} catch (r) {
-    console.log(r.name);
+} catch (e) {
+    console.log(e.name);
 }
 try {
     Array(NaN);
-} catch (o) {
-    console.log(o.name);
+} catch (e) {
+    console.log(e.name);
 }

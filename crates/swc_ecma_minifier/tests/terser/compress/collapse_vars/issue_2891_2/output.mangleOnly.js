@@ -4,5 +4,5 @@ try {
     o = c = 0;
     t = "FAIL";
     o();
-} catch (r) {}
+} catch (t) {}
 console.log(t);

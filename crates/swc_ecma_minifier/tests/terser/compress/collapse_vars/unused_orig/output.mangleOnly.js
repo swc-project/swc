@@ -6,7 +6,7 @@ console.log((function(r) {
         var a;
         return --r + n[0];
     }
-    try {} catch (v) {
+    try {} catch (n) {
         --r + a;
     }
     a && a.NaN;

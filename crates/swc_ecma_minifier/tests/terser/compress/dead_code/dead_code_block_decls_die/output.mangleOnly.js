@@ -3,6 +3,6 @@ if (0) {
     const a = 12;
     class l {
     }
-    var s;
+    var o;
 }
 console.log(foo, bar, Baz);

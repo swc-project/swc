@@ -5,6 +5,6 @@ var o = function(o, c) {
 };
 try {
     o(1, 2);
-} catch (c) {
-    console.log(c);
+} catch (o) {
+    console.log(o);
 }

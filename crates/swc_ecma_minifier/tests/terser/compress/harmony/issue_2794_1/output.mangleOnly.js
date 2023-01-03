@@ -1,8 +1,8 @@
 function n() {
-    for (const n of c(t)){
-        console.log(n);
+    for (const o of n(t)){
+        console.log(o);
     }
-    function c(n) {
+    function n(n) {
         return o(n);
     }
 }

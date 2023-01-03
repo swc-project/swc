@@ -7,8 +7,8 @@ function n() {
     function o() {}
     try {
         throw o;
-    } catch (n) {
-        return n;
+    } catch (o) {
+        return o;
     }
 }
 o();

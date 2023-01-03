@@ -3,10 +3,10 @@
     const l = 1;
     class c {
     }
-    var e;
-}let o;
-const a = 2;
-class t {
+    var s;
+}let l;
+const c = 2;
+class e {
 }
-var n;
+var o;
 console.log(x, y, Zee);
