@@ -812,6 +812,10 @@ fn should_visit() {
 
 #[testing::fixture("tests/fixture/**/input/")]
 #[testing::fixture("tests/vercel/**/input/")]
+fn fixture(input_dir: PathBuf) {
+    tests(input_dir)
+}
+
 fn tests(input_dir: PathBuf) {
     let output = input_dir.parent().unwrap().join("output");
 
