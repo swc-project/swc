@@ -10412,7 +10412,7 @@ fn issue_6641() {
 fn issue_6728() {
     run_default_exec_test(
         r###"
-        export async function foo() {
+        async function foo() {
             if (undefined_var_1) {
               let replace;
             
@@ -10425,6 +10425,7 @@ fn issue_6728() {
               await a({ replace })
             }
         }
+        console.log('PASS')
         "###,
     )
 }
