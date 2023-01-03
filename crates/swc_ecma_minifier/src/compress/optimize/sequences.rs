@@ -2444,15 +2444,6 @@ impl Visit for UsageCounter<'_> {
         }
     }
 
-    fn visit_super_prop_expr(&mut self, e: &SuperPropExpr) {
-        if let SuperProp::Computed(c) = &e.prop {
-            let old = self.in_lhs;
-            self.in_lhs = false;
-            c.expr.visit_with(self);
-            self.in_lhs = old;
-        }
-    }
-
     fn visit_pat(&mut self, p: &Pat) {
         let old = self.in_lhs;
         self.in_lhs = true;
@@ -2465,6 +2456,22 @@ impl Visit for UsageCounter<'_> {
         self.in_lhs = true;
         p.visit_children_with(self);
         self.in_lhs = old;
+    }
+
+    fn visit_prop_name(&mut self, p: &PropName) {
+        match p {
+            PropName::Computed(p) => p.visit_with(self),
+            _ => {}
+        }
+    }
+
+    fn visit_super_prop_expr(&mut self, e: &SuperPropExpr) {
+        if let SuperProp::Computed(c) = &e.prop {
+            let old = self.in_lhs;
+            self.in_lhs = false;
+            c.expr.visit_with(self);
+            self.in_lhs = old;
+        }
     }
 }
 
