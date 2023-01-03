@@ -2459,9 +2459,8 @@ impl Visit for UsageCounter<'_> {
     }
 
     fn visit_prop_name(&mut self, p: &PropName) {
-        match p {
-            PropName::Computed(p) => p.visit_with(self),
-            _ => {}
+        if let PropName::Computed(p) = p {
+            p.visit_with(self)
         }
     }
 
