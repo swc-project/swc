@@ -11,6 +11,7 @@ pub(super) struct Analyzer {
     pub is_pat_decl: bool,
     pub var_belong_to_fn_scope: bool,
     pub in_catch_params: bool,
+    pub in_catch_block: bool,
     pub scope: Scope,
     /// If we try add variables declared by `var` to the block scope,
     /// variables will be added to `hoisted_vars` and merged to latest
@@ -21,6 +22,10 @@ pub(super) struct Analyzer {
 impl Analyzer {
     fn add_decl(&mut self, id: Id, belong_to_fn_scope: bool) {
         if belong_to_fn_scope {
+            // See test terser_rename_mangle_catch_var
+            if self.in_catch_block {
+                self.add_usage(id.clone());
+            }
             match self.scope.kind {
                 ScopeKind::Fn => {
                     self.scope.add_decl(&id);
@@ -49,6 +54,7 @@ impl Analyzer {
                 is_pat_decl: self.is_pat_decl,
                 var_belong_to_fn_scope: false,
                 in_catch_params: false,
+                in_catch_block: false,
                 hoisted_vars: Default::default(),
             };
 
@@ -119,9 +125,12 @@ impl Visit for Analyzer {
         self.with_scope(ScopeKind::Block, |v| {
             let old = v.is_pat_decl;
             let old_in_catch_params = v.in_catch_params;
+            let old_in_catch_block = v.in_catch_block;
 
             v.is_pat_decl = false;
+            v.in_catch_block = true;
             n.body.visit_children_with(v);
+            v.in_catch_block = old_in_catch_block;
 
             v.is_pat_decl = true;
             v.in_catch_params = true;
