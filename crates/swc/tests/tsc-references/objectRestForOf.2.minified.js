@@ -3,9 +3,9 @@ let array, xx;
 import _object_spread from "@swc/helpers/src/_object_spread.mjs";
 import _object_spread_props from "@swc/helpers/src/_object_spread_props.mjs";
 import _object_without_properties from "@swc/helpers/src/_object_without_properties.mjs";
-for (let _ref of array){
-    var _ref, { x  } = _ref;
-    _object_without_properties(_ref, [
+for (let _ref1 of array){
+    var _ref, { x  } = _ref1;
+    _object_without_properties(_ref1, [
         "x"
     ]);
 }
