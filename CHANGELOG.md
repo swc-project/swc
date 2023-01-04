@@ -17,6 +17,9 @@
 - **(es/compat)** Fix syntax context of `async-to-generator` (#6741) ([206c0db](https://github.com/swc-project/swc/commit/206c0dbebe5eecaa8a5c1846189b26cb5517d84c))
 
 
+- **(es/minifier)** Fix usage counter to fix infinite loop (#6744) ([88d40e8](https://github.com/swc-project/swc/commit/88d40e8ab899976c123b5b5f74f0ad02ec9d7868))
+
+
 - **(es/plugin)** Fix plugin starter template (#6723) ([082dc21](https://github.com/swc-project/swc/commit/082dc2101b8f3c05b103cf59484355ef87016a57))
 
 
