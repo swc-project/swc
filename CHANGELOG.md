@@ -26,6 +26,9 @@
 - **(es/plugin)** Fix plugin starter template (#6723) ([082dc21](https://github.com/swc-project/swc/commit/082dc2101b8f3c05b103cf59484355ef87016a57))
 
 
+- **(es/react)** Force refresh if code contains `@refresh reset` (#6749) ([36b26d3](https://github.com/swc-project/swc/commit/36b26d3496fd9ad7e3ccb41c164600657476a8a3))
+
+
 - **(es/utils)** Fix detection of hoisting (#6738) ([b5d31cc](https://github.com/swc-project/swc/commit/b5d31cc2dabcf79886606946c75d0a15f2fe4091))
 
 
