@@ -329,7 +329,9 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
                 if c == '<' {
                     self.input.bump();
                     return Ok(Some(tok!('<')));
-                } else if c == '>' {
+                } else if c == '>'
+                    && (!self.state.is_expr_allowed || self.input.peek() != Some('>'))
+                {
                     self.input.bump();
                     return Ok(Some(tok!('>')));
                 }
