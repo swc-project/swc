@@ -1,0 +1,23 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "tsx": false,
+            "dynamicImport": true,
+            "decorators": true
+        },
+        "transform": {
+            "legacyDecorator": true,
+            "hidden": {
+                "jest": true
+            }
+        },
+        "target": "es2016",
+        "loose": false,
+        "externalHelpers": false,
+        "keepClassNames": false
+    },
+    "module": {
+        "type": "commonjs"
+    }
+}
