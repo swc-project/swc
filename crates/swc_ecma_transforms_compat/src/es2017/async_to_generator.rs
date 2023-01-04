@@ -6,9 +6,9 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, helper_expr, perf::Check};
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
-    contains_this_expr,
+    contains_this_expr, find_pat_ids,
     function::{FnEnvHoister, FnWrapperResult, FunctionWrapper},
-    private_ident, quote_ident, ExprFactory, StmtLike,
+    private_ident, quote_ident, ExprFactory, Remapper, StmtLike,
 };
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
@@ -393,6 +393,16 @@ impl<C: Comments> Actual<C> {
 /// `_asyncToGenerator(function*() {})` from `async function() {}`;
 #[tracing::instrument(level = "info", skip_all)]
 fn make_fn_ref(mut expr: FnExpr) -> Expr {
+    {
+        let param_ids: Vec<Id> = find_pat_ids(&expr.function.params);
+        let mapping = param_ids
+            .into_iter()
+            .map(|id| (id, SyntaxContext::empty().apply_mark(Mark::new())))
+            .collect();
+
+        expr.function.visit_mut_with(&mut Remapper::new(&mapping));
+    }
+
     expr.function.body.visit_mut_with(&mut AsyncFnBodyHandler {
         is_async_generator: expr.function.is_generator,
     });

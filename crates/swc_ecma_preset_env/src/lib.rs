@@ -22,7 +22,7 @@ use swc_ecma_transforms::{
     Assumptions,
 };
 use swc_ecma_utils::prepend_stmts;
-use swc_ecma_visit::{Fold, FoldWith, VisitWith};
+use swc_ecma_visit::{as_folder, Fold, VisitMut, VisitMutWith, VisitWith};
 
 pub use self::transform_data::Feature;
 
@@ -311,7 +311,7 @@ where
 
     chain!(
         pass,
-        Polyfills {
+        as_folder(Polyfills {
             mode: c.mode,
             regenerator: should_enable!(Regenerator, true),
             corejs: c.core_js.unwrap_or(Version {
@@ -323,7 +323,7 @@ where
             targets,
             includes: included_modules,
             excludes: excluded_modules,
-        }
+        })
     )
 }
 
@@ -338,8 +338,8 @@ struct Polyfills {
     excludes: AHashSet<String>,
 }
 
-impl Fold for Polyfills {
-    fn fold_module(&mut self, mut m: Module) -> Module {
+impl VisitMut for Polyfills {
+    fn visit_mut_module(&mut self, m: &mut Module) {
         let span = m.span;
 
         let required = match self.mode {
@@ -365,7 +365,7 @@ impl Fold for Polyfills {
                     _ => unimplemented!("corejs version other than 2 / 3"),
                 };
 
-                if regenerator::is_required(&m) {
+                if regenerator::is_required(m) {
                     r.insert("regenerator-runtime/runtime.js");
                 }
 
@@ -374,13 +374,13 @@ impl Fold for Polyfills {
             Some(Mode::Entry) => match self.corejs {
                 Version { major: 2, .. } => {
                     let mut v = corejs2::Entry::new(self.targets, self.regenerator);
-                    m = m.fold_with(&mut v);
+                    m.visit_mut_with(&mut v);
                     v.imports
                 }
 
                 Version { major: 3, .. } => {
                     let mut v = corejs3::Entry::new(self.targets, self.corejs, !self.regenerator);
-                    m = m.fold_with(&mut v);
+                    m.visit_mut_with(&mut v);
                     v.imports
                 }
 
@@ -450,11 +450,9 @@ impl Fold for Polyfills {
         }
 
         m.body.retain(|item| !matches!(item, ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl { src, .. })) if src.span == DUMMY_SP && src.value == js_word!("")));
-
-        m
     }
 
-    fn fold_script(&mut self, _: Script) -> Script {
+    fn visit_mut_script(&mut self, _: &mut Script) {
         unimplemented!("automatic polyfill for scripts")
     }
 }

@@ -14,10 +14,22 @@
 - **(es)** Remove import statement canonicalization (#6716) ([b451fa9](https://github.com/swc-project/swc/commit/b451fa9e88aee33368759a67913e7c6eb9c3898f))
 
 
+- **(es/compat)** Fix syntax context of `async-to-generator` (#6741) ([206c0db](https://github.com/swc-project/swc/commit/206c0dbebe5eecaa8a5c1846189b26cb5517d84c))
+
+
 - **(es/plugin)** Fix plugin starter template (#6723) ([082dc21](https://github.com/swc-project/swc/commit/082dc2101b8f3c05b103cf59484355ef87016a57))
 
 
+- **(es/utils)** Fix detection of hoisting (#6738) ([b5d31cc](https://github.com/swc-project/swc/commit/b5d31cc2dabcf79886606946c75d0a15f2fe4091))
+
+
 - **(preset-env)** Update data (#6719) ([d506c96](https://github.com/swc-project/swc/commit/d506c9680577173e5abb1dd0f75456145fda60c9))
+
+### Documentation
+
+
+
+- **(es)** Fix example (#6743) ([79afcb5](https://github.com/swc-project/swc/commit/79afcb5d81cb5cca89c48d39b950ddc24f31d434))
 
 ### Features
 
@@ -33,6 +45,12 @@
 
 
 - **(css/prefixer)** Support `clamp` (#6695) ([1722428](https://github.com/swc-project/swc/commit/1722428909ba380fec114be1e2a75f0d2462a645))
+
+### Performance
+
+
+
+- **(es/preset-env)** Use `VisitMut` instead of `Fold` for polyfill (#6734) ([98da644](https://github.com/swc-project/swc/commit/98da6444b6499d3b3d895d3f81941c778340cf3b))
 
 ### Refactor
 
