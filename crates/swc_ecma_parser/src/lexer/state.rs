@@ -329,10 +329,7 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
                 if c == '<' {
                     self.input.bump();
                     return Ok(Some(tok!('<')));
-                } else if c == '>'
-                    && !self.ctx.prefer_bin_op_over_type_arg_closing
-                    && !(self.state.is_expr_allowed || self.input.peek() != Some('>'))
-                {
+                } else if c == '>' && !self.ctx.prefer_bin_op_over_type_arg_closing {
                     self.input.bump();
                     return Ok(Some(tok!('>')));
                 }
