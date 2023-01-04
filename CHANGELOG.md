@@ -20,6 +20,9 @@
 - **(es/minifier)** Fix usage counter to fix infinite loop (#6744) ([88d40e8](https://github.com/swc-project/swc/commit/88d40e8ab899976c123b5b5f74f0ad02ec9d7868))
 
 
+- **(es/parser)** Fix priority of `>>>` (#6748) ([65a0d3a](https://github.com/swc-project/swc/commit/65a0d3a3109f3d32818f7bf2c8ebbeb863c62060))
+
+
 - **(es/plugin)** Fix plugin starter template (#6723) ([082dc21](https://github.com/swc-project/swc/commit/082dc2101b8f3c05b103cf59484355ef87016a57))
 
 
