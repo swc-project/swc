@@ -596,9 +596,6 @@ impl ProgramData {
     fn report(&mut self, i: Id, ctx: Ctx, is_modify: bool, dejavu: &mut AHashSet<Id>) {
         // trace!("report({}{:?})", i.0, i.1);
 
-        dbg!(&i);
-        dbg!(ctx);
-
         let is_first = dejavu.is_empty();
 
         if !dejavu.insert(i.clone()) {
@@ -619,7 +616,6 @@ impl ProgramData {
             }
         });
 
-        dbg!(&*e);
         e.inline_prevented |= ctx.inline_prevented;
 
         if is_first {
@@ -660,8 +656,6 @@ impl ProgramData {
                     e.reassigned_with_assignment = true
                 }
             }
-
-            dbg!(&*e);
 
             for other in e.infects.clone() {
                 self.report(other.0, ctx, true, dejavu)
