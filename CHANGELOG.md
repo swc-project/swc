@@ -1,5 +1,5 @@
 # Changelog
-## [1.3.25] - 2023-01-05
+## [unreleased]
 
 ### Bug Fixes
 
@@ -63,6 +63,15 @@
 
 
 - **(es/jest)** Support chaining of jest function calls (#6747) ([72fb606](https://github.com/swc-project/swc/commit/72fb606eb204fddad5df284afda0955fd6e760ff))
+
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Fix publish action ([ed2277f](https://github.com/swc-project/swc/commit/ed2277fc07bc1be133001eefcee707c8e6f194fd))
+
+
+- **(ci)** Fix publish action (#6757) ([7e6e7b1](https://github.com/swc-project/swc/commit/7e6e7b107e40b7ca2192f6c04f668a526fc2db35))
 
 ### Performance
 
