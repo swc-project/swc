@@ -1998,8 +1998,7 @@ where
                 + 2,
         );
 
-        value.push(n.prefix);
-        value.push('+');
+        value.push_str("u+");
         value.push_str(&n.start);
 
         if let Some(end) = &n.end {

@@ -7,7 +7,7 @@ use preset_env_base::{
 use swc_atoms::js_word;
 use swc_common::{collections::AHashMap, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::VisitMut;
 
 use super::{compat::DATA as CORE_JS_COMPAT_DATA, data::MODULES_BY_VERSION};
 
@@ -91,24 +91,13 @@ impl Entry {
     }
 }
 
-impl Fold for Entry {
-    fn fold_import_decl(&mut self, i: ImportDecl) -> ImportDecl {
-        let i: ImportDecl = i.fold_children_with(self);
-
+impl VisitMut for Entry {
+    fn visit_mut_import_decl(&mut self, i: &mut ImportDecl) {
         let remove = i.specifiers.is_empty() && self.add(&i.src.value);
 
         if remove {
-            ImportDecl {
-                src: Str {
-                    span: DUMMY_SP,
-                    value: js_word!(""),
-                    ..*i.src
-                }
-                .into(),
-                ..i
-            }
-        } else {
-            i
+            i.src.span = DUMMY_SP;
+            i.src.value = js_word!("");
         }
     }
 }

@@ -1815,3 +1815,33 @@ fn issue_1825() {
 fn issue_1851_1() {
     test("x ?? (x = 'abc');", "x ?? (x = 'abc');");
 }
+
+#[test]
+fn issue_6732_1() {
+    test(
+        "
+    if (false) {
+        foo(function () {
+            var module = {};
+            return module;
+        });
+    }
+    ",
+        "",
+    );
+}
+
+#[test]
+fn issue_6732_2() {
+    test(
+        "
+    if (false) {
+        function foo() {
+            var module = {};
+            return module;
+        };
+    }
+    ",
+        "var foo;",
+    );
+}

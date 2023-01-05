@@ -2522,8 +2522,6 @@ __metadata:
       optional: true
     "@swc/core-win32-x64-msvc":
       optional: true
-  bin:
-    swcx: run_swcx.js
   languageName: unknown
   linkType: soft
 

@@ -375,6 +375,10 @@ pub struct Context {
     ignore_else_clause: bool,
 
     disallow_conditional_types: bool,
+
+    /// Used for parsing `>`. If true, `>>` and `>>>` are parsed as binary
+    /// operators.
+    prefer_bin_op_over_type_arg_closing: bool,
 }
 
 #[derive(Debug, Clone, Copy, Default)]
