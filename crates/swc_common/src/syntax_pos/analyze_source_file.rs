@@ -80,7 +80,7 @@ fn analyze_source_file_generic(
             let pos = BytePos::from_usize(i) + output_offset;
 
             match byte {
-                b'\n' => {
+                b'\n' | b'\r' => {
                     lines.push(pos + BytePos(1));
                 }
                 b'\t' => {
