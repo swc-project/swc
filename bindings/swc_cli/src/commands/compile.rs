@@ -1,6 +1,6 @@
 use std::{
     fs::{self, File},
-    io::{self, BufRead, Write},
+    io::{self, Read, Write},
     path::{Path, PathBuf},
     sync::Arc,
 };
@@ -245,14 +245,14 @@ fn collect_stdin_input() -> Option<String> {
         return None;
     }
 
-    Some(
-        io::stdin()
-            .lock()
-            .lines()
-            .map(|line| line.expect("Not able to read stdin"))
-            .collect::<Vec<String>>()
-            .join("\n"),
-    )
+    let mut buffer = String::new();
+    let result = io::stdin().lock().read_to_string(&mut buffer);
+
+    if result.is_ok() && !buffer.is_empty() {
+        Some(buffer)
+    } else {
+        None
+    }
 }
 
 struct InputContext {
