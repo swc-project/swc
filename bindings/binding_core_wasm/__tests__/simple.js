@@ -109,8 +109,8 @@ describe("parse", () => {
                     "optional": false,
                     "span": Object {
                       "ctxt": 1,
-                      "end": 394,
-                      "start": 391,
+                      "end": 324,
+                      "start": 321,
                     },
                     "type": "Identifier",
                     "value": "Foo",
@@ -119,8 +119,8 @@ describe("parse", () => {
                   "isAbstract": false,
                   "span": Object {
                     "ctxt": 0,
-                    "end": 397,
-                    "start": 385,
+                    "end": 327,
+                    "start": 315,
                   },
                   "superClass": null,
                   "superTypeParams": null,
@@ -131,8 +131,8 @@ describe("parse", () => {
               "interpreter": null,
               "span": Object {
                 "ctxt": 0,
-                "end": 397,
-                "start": 385,
+                "end": 327,
+                "start": 315,
               },
               "type": "Module",
             }
@@ -156,8 +156,8 @@ describe("parse", () => {
                     "optional": false,
                     "span": Object {
                       "ctxt": 1,
-                      "end": 407,
-                      "start": 404,
+                      "end": 337,
+                      "start": 334,
                     },
                     "type": "Identifier",
                     "value": "Foo",
@@ -166,8 +166,8 @@ describe("parse", () => {
                   "isAbstract": false,
                   "span": Object {
                     "ctxt": 0,
-                    "end": 410,
-                    "start": 398,
+                    "end": 340,
+                    "start": 328,
                   },
                   "superClass": null,
                   "superTypeParams": null,
@@ -178,8 +178,8 @@ describe("parse", () => {
               "interpreter": null,
               "span": Object {
                 "ctxt": 0,
-                "end": 410,
-                "start": 398,
+                "end": 340,
+                "start": 328,
               },
               "type": "Module",
             }
