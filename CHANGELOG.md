@@ -5,6 +5,9 @@
 
 
 
+- **(bindings/cli)** Skip empty stdin in non tty environments (#6714) ([0076418](https://github.com/swc-project/swc/commit/00764188195c63af1e5a8e34ce29dcf650b20f04))
+
+
 - **(cli)** Use the `--source-maps` option (#6708) ([24cd384](https://github.com/swc-project/swc/commit/24cd384c20abc9bacdc89b50cd6a9a9df243b687))
 
 
