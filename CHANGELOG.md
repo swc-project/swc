@@ -17,6 +17,9 @@
 - **(es)** Remove import statement canonicalization (#6716) ([b451fa9](https://github.com/swc-project/swc/commit/b451fa9e88aee33368759a67913e7c6eb9c3898f))
 
 
+- **(es)** Fix wasm (#6755) ([b46815a](https://github.com/swc-project/swc/commit/b46815a684a13ff3b364b2913c18acf57afbbac7))
+
+
 - **(es/compat)** Fix syntax context of `async-to-generator` (#6741) ([206c0db](https://github.com/swc-project/swc/commit/206c0dbebe5eecaa8a5c1846189b26cb5517d84c))
 
 
