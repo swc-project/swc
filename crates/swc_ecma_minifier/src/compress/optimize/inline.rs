@@ -159,7 +159,7 @@ where
                     .data
                     .vars
                     .get(&init.to_id())
-                    .map_or(false, |v| v.is_fn_local)
+                    .map_or(false, |v| v.is_fn_local || !v.reassigned())
                 {
                     log_abort!("inline: Initializer is not fn-local");
                     return;
