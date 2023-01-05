@@ -154,18 +154,6 @@ where
                 }
             }
 
-            if let Expr::Ident(init) = init {
-                if !self
-                    .data
-                    .vars
-                    .get(&init.to_id())
-                    .map_or(false, |v| v.is_fn_local || !v.assign_count > 1)
-                {
-                    log_abort!("inline: Initializer is not fn-local");
-                    return;
-                }
-            }
-
             if !usage.reassigned() {
                 match init {
                     Expr::Fn(..) | Expr::Arrow(..) => {
