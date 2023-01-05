@@ -95,7 +95,7 @@ jobs:
               export CC_aarch64_unknown_linux_gnu=/usr/aarch64-unknown-linux-gnu/bin/aarch64-unknown-linux-gnu-gcc &&
               yarn build --target aarch64-unknown-linux-gnu &&
               llvm-strip -x swc.linux-arm64-gnu.node
-          - host: ubuntu-18.04
+          - host: ubuntu-latest
             target: armv7-unknown-linux-gnueabihf
             setup: |
               sudo apt-get update
