@@ -66,6 +66,12 @@ fn simple() {
     assert_eq!(eval("const foo = 4", "foo").unwrap(), "4");
 }
 
+#[test]
+fn eval_lit() {
+    assert_eq!(eval("", "true").unwrap(), "true");
+    assert_eq!(eval("", "false").unwrap(), "false");
+}
+
 struct PartialInliner {
     marks: Marks,
     eval: Option<Evaluator>,
