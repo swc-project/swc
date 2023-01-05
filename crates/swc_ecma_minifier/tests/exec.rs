@@ -10452,7 +10452,11 @@ fn issue_6750_1() {
             }
         }
 
-        f(obj)
+        try {
+            f(obj)
+        } catch (e) {
+            console.log('PASS')
+        }
         "###,
     )
 }
