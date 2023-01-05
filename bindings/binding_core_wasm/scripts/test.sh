@@ -3,4 +3,4 @@
 set -eu
 
 ./scripts/build.sh
-npx jest
+npx jest $@
