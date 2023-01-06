@@ -3,7 +3,7 @@ function c(c) {
         var n = x();
         ++c;
         return c(n);
-    } catch (o) {}
+    } catch (c) {}
     console.log(c);
 }
 c(0);

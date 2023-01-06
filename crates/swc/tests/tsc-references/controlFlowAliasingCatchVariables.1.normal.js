@@ -8,13 +8,13 @@ try {} catch (e) {
         e.toUpperCase(); // e string
     }
 }
-try {} catch (e1) {
-    var isString1 = typeof e1 === "string";
-    e1 = 1;
+try {} catch (e) {
+    var isString1 = typeof e === "string";
+    e = 1;
     if (isString1) {
-        e1.toUpperCase(); // e any/unknown
+        e.toUpperCase(); // e any/unknown
     }
-    if (typeof e1 === "string") {
-        e1.toUpperCase(); // e string
+    if (typeof e === "string") {
+        e.toUpperCase(); // e string
     }
 }

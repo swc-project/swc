@@ -6,6 +6,6 @@ async function f() {
     for await (y of {}){}
     for await (z of asyncIterable){}
     for await (z of iterable){}
-    for (const x1 of asyncIterable){}
+    for (const x of asyncIterable){}
     for (y of asyncIterable){}
 }

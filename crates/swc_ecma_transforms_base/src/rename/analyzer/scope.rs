@@ -16,8 +16,21 @@ use tracing::debug;
 use super::reverse_map::ReverseMap;
 use crate::rename::Renamer;
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub(crate) enum ScopeKind {
+    Fn,
+    Block,
+}
+
+impl Default for ScopeKind {
+    fn default() -> Self {
+        Self::Fn
+    }
+}
+
 #[derive(Debug, Default)]
 pub(crate) struct Scope {
+    pub(super) kind: ScopeKind,
     pub(super) data: ScopeData,
 
     pub(super) children: Vec<Scope>,
@@ -79,12 +92,12 @@ impl Scope {
         }
     }
 
-    pub(super) fn add_usage(&mut self, id: &Id) {
+    pub(super) fn add_usage(&mut self, id: Id) {
         if id.0 == js_word!("arguments") {
             return;
         }
 
-        self.data.all.insert(fast_id(id.clone()));
+        self.data.all.insert(fast_id(id));
     }
 
     /// Copy `children.data.all` to `self.data.all`.

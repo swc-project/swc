@@ -2973,7 +2973,7 @@
                             buffered: !0
                         }, T || {})), C;
                     }
-                } catch (n1) {}
+                } catch (n) {}
             }, d = function(n, y) {
                 var T = function t(T) {
                     "pagehide" !== T.type && "hidden" !== document.visibilityState || (n(T), y && (removeEventListener("visibilitychange", t, !0), removeEventListener("pagehide", t, !0)));

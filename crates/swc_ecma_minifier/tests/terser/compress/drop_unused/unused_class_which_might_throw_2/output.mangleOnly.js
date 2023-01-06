@@ -1,9 +1,9 @@
 let l = "FAIL";
 try {
-    class o {
+    class l {
         [ima_throw_lol()] = null;
     }
-} catch (c) {
+} catch (o) {
     l = "PASS";
 }
 console.log(l);

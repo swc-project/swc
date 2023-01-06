@@ -3,5 +3,5 @@ try {
     a = c.p = 0;
     o = "FAIL";
     a();
-} catch (l) {}
+} catch (o) {}
 console.log(o);

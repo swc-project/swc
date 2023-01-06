@@ -923,9 +923,9 @@
             value && isFunction(method = value.promise) ? method.call(value).done(resolve).fail(reject) : value && isFunction(method = value.then) ? method.call(value, resolve, reject) : resolve.apply(void 0, [
                 value
             ].slice(noValue));
-        } catch (value1) {
+        } catch (value) {
             reject.apply(void 0, [
-                value1
+                value
             ]);
         }
     }
@@ -2671,9 +2671,9 @@
                 }, s.timeout));
                 try {
                     completed = !1, transport.send(requestHeaders, done);
-                } catch (e1) {
-                    if (completed) throw e1;
-                    done(-1, e1);
+                } catch (e) {
+                    if (completed) throw e;
+                    done(-1, e);
                 }
             } else done(-1, "No Transport");
             function done(status, nativeStatusText, responses, headers) {

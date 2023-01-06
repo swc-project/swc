@@ -7,5 +7,5 @@ try {
         o = "FAIL";
         c && c.c;
     }while (0)
-} catch (t) {}
+} catch (o) {}
 console.log(o);

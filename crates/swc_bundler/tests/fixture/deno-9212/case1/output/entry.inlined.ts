@@ -826,22 +826,22 @@ var ia = Bn((re)=>{
             } else {
                 try {
                     n.call();
-                } catch (s1) {
-                    r = s1;
+                } catch (s) {
+                    r = s;
                 }
                 e.call(n.prototype);
             }
             else {
                 try {
                     throw Error();
-                } catch (s2) {
-                    r = s2;
+                } catch (s) {
+                    r = s;
                 }
                 e();
             }
-        } catch (s3) {
-            if (s3 && r && typeof s3.stack == "string") {
-                for(var l = s3.stack.split(`
+        } catch (s) {
+            if (s && r && typeof s.stack == "string") {
+                for(var l = s.stack.split(`
 `), i = r.stack.split(`
 `), o = l.length - 1, u = i.length - 1; 1 <= o && 0 <= u && l[o] !== i[u];)u--;
                 for(; 1 <= o && 0 <= u; o--, u--)if (l[o] !== i[u]) {
@@ -4455,8 +4455,8 @@ Error generating stack: ` + i.message + `
                             r = n;
                             try {
                                 l();
-                            } catch (i1) {
-                                Qe(r, i1);
+                            } catch (i) {
+                                Qe(r, i);
                             }
                         }
                         t = t.next;
@@ -4466,8 +4466,8 @@ Error generating stack: ` + i.message + `
             case 1:
                 if (Vs(n), e = n.stateNode, typeof e.componentWillUnmount == "function") try {
                     e.props = n.memoizedProps, e.state = n.memoizedState, e.componentWillUnmount();
-                } catch (i2) {
-                    Qe(n, i2);
+                } catch (i) {
+                    Qe(n, i);
                 }
                 break;
             case 5:
@@ -5071,9 +5071,9 @@ Add a <Suspense fallback=...> component higher in the tree to provide a loading 
             }, ur = !1, jt = null, Yr = !1, g = r;
             do try {
                 fc();
-            } catch (P1) {
+            } catch (P) {
                 if (g === null) throw Error(v(330));
-                Qe(g, P1), g = g.nextEffect;
+                Qe(g, P), g = g.nextEffect;
             }
             while (g !== null)
             jt = null, g = r;
@@ -5110,9 +5110,9 @@ Add a <Suspense fallback=...> component higher in the tree to provide a loading 
                     }
                     g = g.nextEffect;
                 }
-            } catch (P2) {
+            } catch (P) {
                 if (g === null) throw Error(v(330));
-                Qe(g, P2), g = g.nextEffect;
+                Qe(g, P), g = g.nextEffect;
             }
             while (g !== null)
             if (m = oi, p = Nu(), f = m.focusedElem, o = m.selectionRange, p !== f && f && f.ownerDocument && Cu(f.ownerDocument.documentElement, f)) {
@@ -5144,9 +5144,9 @@ Add a <Suspense fallback=...> component higher in the tree to provide a loading 
                     }
                     g = g.nextEffect;
                 }
-            } catch (P3) {
+            } catch (P) {
                 if (g === null) throw Error(v(330));
-                Qe(g, P3), g = g.nextEffect;
+                Qe(g, P), g = g.nextEffect;
             }
             while (g !== null)
             g = null, Hf(), x = l;
@@ -5155,7 +5155,7 @@ Add a <Suspense fallback=...> component higher in the tree to provide a loading 
         else for(g = r; g !== null;)n = g.nextEffect, g.nextEffect = null, g.flags & 8 && (w = g, w.sibling = null, w.stateNode = null), g = n;
         if (r = e.pendingLanes, r === 0 && (ge = null), r === 1 ? e === to ? Rt++ : (Rt = 0, to = e) : Rt = 0, t = t.stateNode, nn && typeof nn.onCommitFiberRoot == "function") try {
             nn.onCommitFiberRoot(ci, t, void 0, (t.current.flags & 64) == 64);
-        } catch (P4) {}
+        } catch (P) {}
         if (se(e, $()), Wr) throw Wr = !1, e = $i, $i = null, e;
         return (x & 8) != 0 || me(), null;
     }
@@ -5208,9 +5208,9 @@ Add a <Suspense fallback=...> component higher in the tree to provide a loading 
             try {
                 var u = l.create;
                 l.destroy = u();
-            } catch (s1) {
+            } catch (s) {
                 if (i === null) throw Error(v(330));
-                Qe(i, s1);
+                Qe(i, s);
             }
         }
         for(u = e.current.firstEffect; u !== null;)e = u.nextEffect, u.nextEffect = null, u.flags & 8 && (u.sibling = null, u.stateNode = null), u = e;
@@ -5734,7 +5734,7 @@ Add a <Suspense fallback=...> component higher in the tree to provide a loading 
     };
     if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ != "undefined" && (Ut = __REACT_DEVTOOLS_GLOBAL_HOOK__, !Ut.isDisabled && Ut.supportsFiber)) try {
         ci = Ut.inject(wc), nn = Ut;
-    } catch (e1) {}
+    } catch (e) {}
     var Ut;
     re.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = gc;
     re.createPortal = la;

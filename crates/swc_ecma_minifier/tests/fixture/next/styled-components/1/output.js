@@ -4521,7 +4521,7 @@
                 return t.insertRule = function(e, t) {
                     try {
                         return this.sheet.insertRule(t, e), this.length++, !0;
-                    } catch (e1) {
+                    } catch (e) {
                         return !1;
                     }
                 }, t.deleteRule = function(e) {
@@ -4683,7 +4683,7 @@
                     function t(t) {
                         if (t) try {
                             e(t + "}");
-                        } catch (e1) {}
+                        } catch (e) {}
                     }
                     return function(n, r, o, s, i, a, c, u, l, d) {
                         switch(n){
@@ -6479,7 +6479,7 @@
                             if ((r === defaultSetTimout || !r) && setTimeout) return r = setTimeout, setTimeout(e, 0);
                             try {
                                 return r(e, 0);
-                            } catch (t1) {
+                            } catch (t) {
                                 try {
                                     return r.call(null, e, 0);
                                 } catch (t) {
@@ -6495,7 +6495,7 @@
                             }
                             try {
                                 n = "function" == typeof clearTimeout ? clearTimeout : defaultClearTimeout;
-                            } catch (e1) {
+                            } catch (e) {
                                 n = defaultClearTimeout;
                             }
                         }();
@@ -6516,7 +6516,7 @@
                                     if ((n === defaultClearTimeout || !n) && clearTimeout) return n = clearTimeout, clearTimeout(e);
                                     try {
                                         n(e);
-                                    } catch (t1) {
+                                    } catch (t) {
                                         try {
                                             return n.call(null, e);
                                         } catch (t) {

@@ -221,7 +221,7 @@
             return 3 === element[0].nodeType ? lowercase(elemHtml) : elemHtml.match(/^(<[^>]+>)/)[1].replace(/^<([\w\-]+)/, function(match, nodeName) {
                 return "<" + lowercase(nodeName);
             });
-        } catch (e1) {
+        } catch (e) {
             return lowercase(elemHtml);
         }
     }
@@ -1254,8 +1254,8 @@
                             var scopeToChild = scope;
                             for(newIsolateScopeDirective && (newIsolateScopeDirective.template || null === newIsolateScopeDirective.templateUrl) && (scopeToChild = isolateScope), childLinkFn && childLinkFn(scopeToChild, linkNode.childNodes, undefined, boundTranscludeFn), i = postLinkFns.length - 1; i >= 0; i--)try {
                                 (linkFn = postLinkFns[i])(linkFn.isolateScope ? isolateScope : scope, $element, attrs, linkFn.require && getControllers(linkFn.require, $element, elementControllers), transcludeFn);
-                            } catch (e1) {
-                                $exceptionHandler(e1, startingTag($element));
+                            } catch (e) {
+                                $exceptionHandler(e, startingTag($element));
                             }
                         }
                     }(directives, nodeList[i], attrs, transcludeFn, $rootElement, null, [], [], previousCompileContext) : null) && nodeLinkFn.terminal || !nodeList[i].childNodes || !nodeList[i].childNodes.length ? null : compileNodes(nodeList[i].childNodes, nodeLinkFn ? nodeLinkFn.transclude : transcludeFn), linkFns.push(nodeLinkFn), linkFns.push(childLinkFn), linkFnFound = linkFnFound || nodeLinkFn || childLinkFn, previousCompileContext = null;
@@ -2783,8 +2783,8 @@
                                             }
                                         } else dirty = !0, lastDirtyWatch = watch, watch.last = watch.eq ? copy(value) : value, watch.fn(value, last === initWatchVal ? value : last, current), ttl < 5 && (watchLog[logIdx = 4 - ttl] || (watchLog[logIdx] = []), logMsg = (isFunction(watch.exp) ? "fn: " + (watch.exp.name || watch.exp.toString()) : watch.exp) + ("; newVal: " + toJson(value) + "; oldVal: ") + toJson(last), watchLog[logIdx].push(logMsg));
                                     }
-                                } catch (e1) {
-                                    clearPhase(), $exceptionHandler(e1);
+                                } catch (e) {
+                                    clearPhase(), $exceptionHandler(e);
                                 }
                                 if (!(next = current.$$childHead || current !== this && current.$$nextSibling)) for(; current !== this && !(next = current.$$nextSibling);)current = current.$parent;
                             }while (current = next)
@@ -2792,8 +2792,8 @@
                         }while (dirty || asyncQueue.length)
                         for(clearPhase(); postDigestQueue.length;)try {
                             postDigestQueue.shift()();
-                        } catch (e2) {
-                            $exceptionHandler(e2);
+                        } catch (e) {
+                            $exceptionHandler(e);
                         }
                     },
                     $destroy: function() {
@@ -2825,8 +2825,8 @@
                             clearPhase();
                             try {
                                 $rootScope.$digest();
-                            } catch (e1) {
-                                throw $exceptionHandler(e1), e1;
+                            } catch (e) {
+                                throw $exceptionHandler(e), e;
                             }
                         }
                     },

@@ -7,7 +7,7 @@
                 o[1] = "foo";
             })();
             console.log("FAIL");
-        } catch (c) {
+        } catch (o) {
             console.log("PASS");
         }
     }

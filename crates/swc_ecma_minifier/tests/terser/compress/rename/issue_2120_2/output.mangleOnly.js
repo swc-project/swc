@@ -2,11 +2,11 @@
 var a = 1, t = "FAIL";
 try {
     throw 1;
-} catch (o) {
+} catch (a) {
     try {
         throw 0;
     } catch (c) {
-        if (o) t = "PASS";
+        if (a) t = "PASS";
     }
 }
 console.log(t);

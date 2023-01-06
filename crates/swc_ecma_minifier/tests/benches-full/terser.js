@@ -28,13 +28,13 @@
         if (croak) {
             for(const i in ret)if (HOP(ret, i) && !HOP(defs, i)) throw new DefaultsError("`" + i + "` is not a supported option", defs);
         }
-        for(const i1 in defs)if (HOP(defs, i1)) {
-            if (args && HOP(args, i1)) {
-                if ("ecma" === i1) {
-                    let ecma = 0 | args[i1];
-                    ecma > 5 && ecma < 2015 && (ecma += 2009), ret[i1] = ecma;
-                } else ret[i1] = args && HOP(args, i1) ? args[i1] : defs[i1];
-            } else ret[i1] = defs[i1];
+        for(const i in defs)if (HOP(defs, i)) {
+            if (args && HOP(args, i)) {
+                if ("ecma" === i) {
+                    let ecma = 0 | args[i];
+                    ecma > 5 && ecma < 2015 && (ecma += 2009), ret[i] = ecma;
+                } else ret[i] = args && HOP(args, i) ? args[i] : defs[i];
+            } else ret[i] = defs[i];
         }
         return ret;
     }
@@ -445,8 +445,8 @@
                         if (!has_dot && RE_BIG_INT.test(num) && !isNaN(valid)) return token("big_int", without_n);
                         parse_error("Invalid or unexpected token");
                     }
-                    var valid1 = parse_js_number(num);
-                    if (!isNaN(valid1)) return token("num", valid1);
+                    var valid = parse_js_number(num);
+                    if (!isNaN(valid)) return token("num", valid);
                     parse_error("Invalid syntax: " + num);
                 }
                 function is_octal(ch) {
@@ -1522,8 +1522,8 @@
                     });
                 }
                 {
-                    const AccessorClass1 = "get" === accessor_type ? AST_ObjectGetter : AST_ObjectSetter;
-                    return name = get_symbol_ast(name), new AccessorClass1({
+                    const AccessorClass = "get" === accessor_type ? AST_ObjectGetter : AST_ObjectSetter;
+                    return name = get_symbol_ast(name), new AccessorClass({
                         start,
                         static: is_static,
                         key: name,
@@ -1720,17 +1720,17 @@
                 let chain_contents;
                 if (next(), allow_calls && is("punc", "(")) {
                     next();
-                    const call1 = new AST_Call({
+                    const call = new AST_Call({
                         start,
                         optional: !0,
                         expression: expr,
                         args: call_args(),
                         end: prev()
                     });
-                    annotate(call1), chain_contents = subscripts(call1, !0, !0);
+                    annotate(call), chain_contents = subscripts(call, !0, !0);
                 } else if (is("name") || is("privatename")) {
-                    const AST_DotVariant1 = is("privatename") ? AST_DotHash : AST_Dot;
-                    chain_contents = subscripts(new AST_DotVariant1({
+                    const AST_DotVariant = is("privatename") ? AST_DotHash : AST_Dot;
+                    chain_contents = subscripts(new AST_DotVariant({
                         start,
                         expression: expr,
                         optional: !0,
@@ -2921,12 +2921,12 @@
     ]) {
         const push = to_visit.push.bind(to_visit);
         for(; to_visit.length;){
-            const node1 = to_visit.pop(), ret = cb(node1, to_visit);
+            const node = to_visit.pop(), ret = cb(node, to_visit);
             if (ret) {
                 if (ret === walk_abort) return !0;
                 continue;
             }
-            node1._children_backwards(push);
+            node._children_backwards(push);
         }
         return !1;
     }
@@ -3933,11 +3933,11 @@
             });
             var string_or_num = "string" == typeof M.key || "number" == typeof M.key, computed = !string_or_num && (!(M.key instanceof AST_Symbol) || M.key instanceof AST_SymbolRef);
             if (M instanceof AST_ObjectKeyVal ? (kind = "init", computed = !string_or_num) : M instanceof AST_ObjectGetter ? kind = "get" : M instanceof AST_ObjectSetter && (kind = "set"), M instanceof AST_PrivateGetter || M instanceof AST_PrivateSetter) {
-                const kind1 = M instanceof AST_PrivateGetter ? "get" : "set";
+                const kind = M instanceof AST_PrivateGetter ? "get" : "set";
                 return {
                     type: "MethodDefinition",
                     computed: !1,
-                    kind: kind1,
+                    kind: kind,
                     static: M.static,
                     key: {
                         type: "PrivateIdentifier",
@@ -4463,8 +4463,8 @@
                                     const value = filter_comment(c.value);
                                     value && print("//" + value), need_newline_indented = !0;
                                 } else if ("comment2" == c.type) {
-                                    const value1 = filter_comment(c.value);
-                                    value1 && print("/*" + value1 + "*/"), need_space = !0;
+                                    const value = filter_comment(c.value);
+                                    value && print("/*" + value + "*/"), need_space = !0;
                                 }
                             }
                         }), OUTPUT.length() > insert && (newline_insert = insert);
@@ -5123,8 +5123,8 @@
             }
             if (node instanceof AST_Scope) {
                 node.init_scope_vars(scope);
-                var def, save_scope1 = scope, save_defun = defun, save_labels = labels;
-                return defun = scope = node, labels = new Map(), descend(), scope = save_scope1, defun = save_defun, labels = save_labels, !0;
+                var def, save_scope = scope, save_defun = defun, save_labels = labels;
+                return defun = scope = node, labels = new Map(), descend(), scope = save_scope, defun = save_defun, labels = save_labels, !0;
             }
             if (node instanceof AST_LabeledStatement) {
                 var l = node.label;
@@ -5190,8 +5190,8 @@
                     ref.thedef = def, ref.reference();
                 }), node.thedef = def, node.reference(), !0;
             }
-        }), options.safari10) for (const scope1 of for_scopes)scope1.parent_scope.variables.forEach(function(def) {
-            push_uniq(scope1.enclosed, def);
+        }), options.safari10) for (const scope of for_scopes)scope.parent_scope.variables.forEach(function(def) {
+            push_uniq(scope.enclosed, def);
         });
     }), AST_Toplevel.DEFMETHOD("def_global", function(node) {
         var globals = this.globals, name = node.name;
@@ -7613,12 +7613,12 @@
                     return map_add(initializations, node_def.id, node), !0;
                 }
                 if (node instanceof AST_SymbolFunarg && scope === self1 && map_add(var_defs_by_id, node.definition().id, node), node instanceof AST_Definitions && scope === self1) {
-                    const in_export1 = tw.parent() instanceof AST_Export;
+                    const in_export = tw.parent() instanceof AST_Export;
                     return node.definitions.forEach(function(def) {
-                        if (def.name instanceof AST_SymbolVar && map_add(var_defs_by_id, def.name.definition().id, def), (in_export1 || !drop_vars) && walk(def.name, (node)=>{
+                        if (def.name instanceof AST_SymbolVar && map_add(var_defs_by_id, def.name.definition().id, def), (in_export || !drop_vars) && walk(def.name, (node)=>{
                             if (node instanceof AST_SymbolDeclaration) {
                                 const def = node.definition();
-                                (in_export1 || def.global) && !in_use_ids.has(def.id) && in_use_ids.set(def.id, def);
+                                (in_export || def.global) && !in_use_ids.has(def.id) && in_use_ids.set(def.id, def);
                             }
                         }), def.value) {
                             if (def.name instanceof AST_Destructuring) def.walk(tw);
@@ -7654,13 +7654,13 @@
             }
             if (scope === self1) {
                 if (node.name && (node instanceof AST_ClassExpression && !keep_name(compressor.option("keep_classnames"), (def = node.name.definition()).name) || node instanceof AST_Function && !keep_name(compressor.option("keep_fnames"), (def = node.name.definition()).name)) && (!in_use_ids.has(def.id) || def.orig.length > 1) && (node.name = null), node instanceof AST_Lambda && !(node instanceof AST_Accessor)) for(var trim = !compressor.option("keep_fargs"), a = node.argnames, i = a.length; --i >= 0;){
-                    var sym1 = a[i];
-                    sym1 instanceof AST_Expansion && (sym1 = sym1.expression), sym1 instanceof AST_DefaultAssign && (sym1 = sym1.left), sym1 instanceof AST_Destructuring || in_use_ids.has(sym1.definition().id) ? trim = !1 : (set_flag(sym1, 0b00000001), trim && a.pop());
+                    var sym = a[i];
+                    sym instanceof AST_Expansion && (sym = sym.expression), sym instanceof AST_DefaultAssign && (sym = sym.left), sym instanceof AST_Destructuring || in_use_ids.has(sym.definition().id) ? trim = !1 : (set_flag(sym, 0b00000001), trim && a.pop());
                 }
                 if ((node instanceof AST_Defun || node instanceof AST_DefClass) && node !== self1) {
-                    const def1 = node.name.definition();
-                    if (!(def1.global && !drop_funcs || in_use_ids.has(def1.id))) {
-                        if (def1.eliminated++, node instanceof AST_DefClass) {
+                    const def = node.name.definition();
+                    if (!(def.global && !drop_funcs || in_use_ids.has(def.id))) {
+                        if (def.eliminated++, node instanceof AST_DefClass) {
                             const side_effects = node.drop_side_effect_free(compressor);
                             if (side_effects) return make_node(AST_SimpleStatement, node, {
                                 body: side_effects
@@ -7670,7 +7670,7 @@
                     }
                 }
                 if (node instanceof AST_Definitions && !(parent instanceof AST_ForIn && parent.init === node)) {
-                    var drop_block = !(parent instanceof AST_Toplevel) && !(node instanceof AST_Var), body = [], head = [], tail = [], side_effects1 = [];
+                    var drop_block = !(parent instanceof AST_Toplevel) && !(node instanceof AST_Var), body = [], head = [], tail = [], side_effects = [];
                     switch(node.definitions.forEach(function(def) {
                         def.value && (def.value = def.value.transform(tt));
                         var is_destructure = def.name instanceof AST_Destructuring, sym = is_destructure ? new SymbolDef(null, {
@@ -7690,24 +7690,24 @@
                                             left: ref,
                                             right: def.value
                                         });
-                                        fixed_ids.get(sym.id) === def && fixed_ids.set(sym.id, assign), side_effects1.push(assign.transform(tt));
+                                        fixed_ids.get(sym.id) === def && fixed_ids.set(sym.id, assign), side_effects.push(assign.transform(tt));
                                     }
                                     remove(var_defs, def), sym.eliminated++;
                                     return;
                                 }
                             }
-                            def.value ? (side_effects1.length > 0 && (tail.length > 0 ? (side_effects1.push(def.value), def.value = make_sequence(def.value, side_effects1)) : body.push(make_node(AST_SimpleStatement, node, {
-                                body: make_sequence(node, side_effects1)
-                            })), side_effects1 = []), tail.push(def)) : head.push(def);
+                            def.value ? (side_effects.length > 0 && (tail.length > 0 ? (side_effects.push(def.value), def.value = make_sequence(def.value, side_effects)) : body.push(make_node(AST_SimpleStatement, node, {
+                                body: make_sequence(node, side_effects)
+                            })), side_effects = []), tail.push(def)) : head.push(def);
                         } else if (sym.orig[0] instanceof AST_SymbolCatch) {
                             var value = def.value && def.value.drop_side_effect_free(compressor);
-                            value && side_effects1.push(value), def.value = null, head.push(def);
+                            value && side_effects.push(value), def.value = null, head.push(def);
                         } else {
                             var value = def.value && def.value.drop_side_effect_free(compressor);
-                            value && side_effects1.push(value), sym.eliminated++;
+                            value && side_effects.push(value), sym.eliminated++;
                         }
-                    }), (head.length > 0 || tail.length > 0) && (node.definitions = head.concat(tail), body.push(node)), side_effects1.length > 0 && body.push(make_node(AST_SimpleStatement, node, {
-                        body: make_sequence(node, side_effects1)
+                    }), (head.length > 0 || tail.length > 0) && (node.definitions = head.concat(tail), body.push(node)), side_effects.length > 0 && body.push(make_node(AST_SimpleStatement, node, {
+                        body: make_sequence(node, side_effects)
                     })), body.length){
                         case 0:
                             return in_list ? MAP.skip : make_node(AST_EmptyStatement, node);
@@ -7849,14 +7849,14 @@
                     }), defs_by_id.set(def.id, defs), MAP.splice(assignments);
                 }
             } else if (node instanceof AST_PropAccess && node.expression instanceof AST_SymbolRef) {
-                const defs1 = defs_by_id.get(node.expression.definition().id);
-                if (defs1) {
-                    const def1 = defs1.get(String(get_simple_key(node.property))), sym1 = make_node(AST_SymbolRef, node, {
-                        name: def1.name,
+                const defs = defs_by_id.get(node.expression.definition().id);
+                if (defs) {
+                    const def = defs.get(String(get_simple_key(node.property))), sym = make_node(AST_SymbolRef, node, {
+                        name: def.name,
                         scope: node.expression.scope,
-                        thedef: def1
+                        thedef: def
                     });
-                    return sym1.reference({}), sym1;
+                    return sym.reference({}), sym;
                 }
             }
         });
@@ -8071,29 +8071,29 @@
         for(; i < len;)eliminate_branch(self1.body[i++], body[body.length - 1]);
         self1.body = body;
         let default_or_exact = default_branch || exact_match;
-        if (default_branch = null, exact_match = null, body.every((branch, i)=>(branch === default_or_exact || branch.expression instanceof AST_Constant) && (0 === branch.body.length || aborts(branch) || body.length - 1 === i))) for(let i1 = 0; i1 < body.length; i1++){
-            const branch1 = body[i1];
-            for(let j = i1 + 1; j < body.length; j++){
+        if (default_branch = null, exact_match = null, body.every((branch, i)=>(branch === default_or_exact || branch.expression instanceof AST_Constant) && (0 === branch.body.length || aborts(branch) || body.length - 1 === i))) for(let i = 0; i < body.length; i++){
+            const branch = body[i];
+            for(let j = i + 1; j < body.length; j++){
                 const next = body[j];
                 if (0 === next.body.length) continue;
-                const last_branch = j === body.length - 1, equivalentBranch = branches_equivalent(next, branch1, !1);
-                if (equivalentBranch || last_branch && branches_equivalent(next, branch1, !0)) {
+                const last_branch = j === body.length - 1, equivalentBranch = branches_equivalent(next, branch, !1);
+                if (equivalentBranch || last_branch && branches_equivalent(next, branch, !0)) {
                     !equivalentBranch && last_branch && next.body.push(make_node(AST_Break));
                     let x = j - 1, fallthroughDepth = 0;
-                    for(; x > i1;)if (is_inert_body(body[x--])) fallthroughDepth++;
+                    for(; x > i;)if (is_inert_body(body[x--])) fallthroughDepth++;
                     else break;
                     const plucked = body.splice(j - fallthroughDepth, 1 + fallthroughDepth);
-                    body.splice(i1 + 1, 0, ...plucked), i1 += plucked.length;
+                    body.splice(i + 1, 0, ...plucked), i += plucked.length;
                 }
             }
         }
-        for(let i2 = 0; i2 < body.length; i2++){
-            let branch2 = body[i2];
-            if (0 !== branch2.body.length && aborts(branch2)) for(let j1 = i2 + 1; j1 < body.length; i2++, j1++){
-                let next1 = body[j1];
-                if (0 !== next1.body.length) {
-                    if (branches_equivalent(next1, branch2, !1) || j1 === body.length - 1 && branches_equivalent(next1, branch2, !0)) {
-                        branch2.body = [], branch2 = next1;
+        for(let i = 0; i < body.length; i++){
+            let branch = body[i];
+            if (0 !== branch.body.length && aborts(branch)) for(let j = i + 1; j < body.length; i++, j++){
+                let next = body[j];
+                if (0 !== next.body.length) {
+                    if (branches_equivalent(next, branch, !1) || j === body.length - 1 && branches_equivalent(next, branch, !0)) {
+                        branch.body = [], branch = next;
                         continue;
                     }
                     break;
@@ -8101,48 +8101,48 @@
             }
         }
         {
-            let i3 = body.length - 1;
-            for(; i3 >= 0; i3--){
-                let bbody = body[i3].body;
-                if (is_break(bbody[bbody.length - 1], compressor) && bbody.pop(), !is_inert_body(body[i3])) break;
+            let i = body.length - 1;
+            for(; i >= 0; i--){
+                let bbody = body[i].body;
+                if (is_break(bbody[bbody.length - 1], compressor) && bbody.pop(), !is_inert_body(body[i])) break;
             }
-            if (i3++, !default_or_exact || body.indexOf(default_or_exact) >= i3) for(let j2 = body.length - 1; j2 >= i3; j2--){
-                let branch3 = body[j2];
-                if (branch3 === default_or_exact) default_or_exact = null, body.pop();
-                else if (branch3.expression.has_side_effects(compressor)) break;
+            if (i++, !default_or_exact || body.indexOf(default_or_exact) >= i) for(let j = body.length - 1; j >= i; j--){
+                let branch = body[j];
+                if (branch === default_or_exact) default_or_exact = null, body.pop();
+                else if (branch.expression.has_side_effects(compressor)) break;
                 else body.pop();
             }
         }
         DEFAULT: if (default_or_exact) {
-            let default_index1 = body.indexOf(default_or_exact), default_body_index = default_index1;
+            let default_index = body.indexOf(default_or_exact), default_body_index = default_index;
             for(; default_body_index < body.length - 1 && is_inert_body(body[default_body_index]); default_body_index++);
             if (default_body_index < body.length - 1) break DEFAULT;
             let side_effect_index = body.length - 1;
             for(; side_effect_index >= 0; side_effect_index--){
-                let branch4 = body[side_effect_index];
-                if (branch4 !== default_or_exact && branch4.expression.has_side_effects(compressor)) break;
+                let branch = body[side_effect_index];
+                if (branch !== default_or_exact && branch.expression.has_side_effects(compressor)) break;
             }
             if (default_body_index > side_effect_index) {
-                let prev_body_index = default_index1 - 1;
+                let prev_body_index = default_index - 1;
                 for(; prev_body_index >= 0 && is_inert_body(body[prev_body_index]); prev_body_index--);
-                let before = Math.max(side_effect_index, prev_body_index) + 1, after = default_index1;
-                side_effect_index > default_index1 ? (after = side_effect_index, body[side_effect_index].body = body[default_body_index].body) : default_or_exact.body = body[default_body_index].body, body.splice(after + 1, default_body_index - after), body.splice(before, default_index1 - before);
+                let before = Math.max(side_effect_index, prev_body_index) + 1, after = default_index;
+                side_effect_index > default_index ? (after = side_effect_index, body[side_effect_index].body = body[default_body_index].body) : default_or_exact.body = body[default_body_index].body, body.splice(after + 1, default_body_index - after), body.splice(before, default_index - before);
             }
         }
         DEFAULT: if (default_or_exact) {
-            let caseBody, i4 = body.findIndex((branch)=>!is_inert_body(branch));
-            if (i4 === body.length - 1) {
-                let branch5 = body[i4];
+            let caseBody, i = body.findIndex((branch)=>!is_inert_body(branch));
+            if (i === body.length - 1) {
+                let branch = body[i];
                 if (has_nested_break(self1)) break DEFAULT;
-                caseBody = make_node(AST_BlockStatement, branch5, {
-                    body: branch5.body
-                }), branch5.body = [];
-            } else if (-1 !== i4) break DEFAULT;
+                caseBody = make_node(AST_BlockStatement, branch, {
+                    body: branch.body
+                }), branch.body = [];
+            } else if (-1 !== i) break DEFAULT;
             if (!body.find((branch)=>branch !== default_or_exact && branch.expression.has_side_effects(compressor))) return make_node(AST_BlockStatement, self1, {
                 body: decl.concat(statement(self1.expression), default_or_exact.expression ? statement(default_or_exact.expression) : [], caseBody || [])
             }).optimize(compressor);
-            const default_index2 = body.indexOf(default_or_exact);
-            if (body.splice(default_index2, 1), default_or_exact = null, caseBody) return make_node(AST_BlockStatement, self1, {
+            const default_index = body.indexOf(default_or_exact);
+            if (body.splice(default_index, 1), default_or_exact = null, caseBody) return make_node(AST_BlockStatement, self1, {
                 body: decl.concat(self1, caseBody)
             }).optimize(compressor);
         }
@@ -8150,39 +8150,39 @@
             body: decl.concat(statement(self1.expression))
         }).optimize(compressor);
         if (1 == body.length && !has_nested_break(self1)) {
-            let branch6 = body[0];
+            let branch = body[0];
             return make_node(AST_If, self1, {
                 condition: make_node(AST_Binary, self1, {
                     operator: "===",
                     left: self1.expression,
-                    right: branch6.expression
+                    right: branch.expression
                 }),
-                body: make_node(AST_BlockStatement, branch6, {
-                    body: branch6.body
+                body: make_node(AST_BlockStatement, branch, {
+                    body: branch.body
                 }),
                 alternative: null
             }).optimize(compressor);
         }
         if (2 === body.length && default_or_exact && !has_nested_break(self1)) {
-            let branch7 = body[0] === default_or_exact ? body[1] : body[0], exact_exp = default_or_exact.expression && statement(default_or_exact.expression);
+            let branch = body[0] === default_or_exact ? body[1] : body[0], exact_exp = default_or_exact.expression && statement(default_or_exact.expression);
             if (aborts(body[0])) {
                 let first = body[0];
                 return is_break(first.body[first.body.length - 1], compressor) && first.body.pop(), make_node(AST_If, self1, {
                     condition: make_node(AST_Binary, self1, {
                         operator: "===",
                         left: self1.expression,
-                        right: branch7.expression
+                        right: branch.expression
                     }),
-                    body: make_node(AST_BlockStatement, branch7, {
-                        body: branch7.body
+                    body: make_node(AST_BlockStatement, branch, {
+                        body: branch.body
                     }),
                     alternative: make_node(AST_BlockStatement, default_or_exact, {
                         body: [].concat(exact_exp || [], default_or_exact.body)
                     })
                 }).optimize(compressor);
             }
-            let operator = "===", consequent = make_node(AST_BlockStatement, branch7, {
-                body: branch7.body
+            let operator = "===", consequent = make_node(AST_BlockStatement, branch, {
+                body: branch.body
             }), always = make_node(AST_BlockStatement, default_or_exact, {
                 body: [].concat(exact_exp || [], default_or_exact.body)
             });
@@ -8197,7 +8197,7 @@
                         condition: make_node(AST_Binary, self1, {
                             operator: operator,
                             left: self1.expression,
-                            right: branch7.expression
+                            right: branch.expression
                         }),
                         body: consequent,
                         alternative: null
@@ -8341,7 +8341,7 @@
                     }).optimize(compressor);
                     if (self1.args[0] instanceof AST_Number && self1.args[0].value <= 11) {
                         const elements = [];
-                        for(let i1 = 0; i1 < self1.args[0].value; i1++)elements.push(new AST_Hole);
+                        for(let i = 0; i < self1.args[0].value; i++)elements.push(new AST_Hole);
                         return new AST_Array({
                             elements
                         });
@@ -8416,32 +8416,32 @@
                 case "join":
                     if (exp.expression instanceof AST_Array) {
                         EXIT: if (!(self1.args.length > 0) || (separator = self1.args[0].evaluate(compressor)) !== self1.args[0]) {
-                            for(var separator, first, elements1 = [], consts = [], i = 0, len = exp.expression.elements.length; i < len; i++){
+                            for(var separator, first, elements = [], consts = [], i = 0, len = exp.expression.elements.length; i < len; i++){
                                 var el = exp.expression.elements[i];
                                 if (el instanceof AST_Expansion) break EXIT;
                                 var value = el.evaluate(compressor);
-                                value !== el ? consts.push(value) : (consts.length > 0 && (elements1.push(make_node(AST_String, self1, {
+                                value !== el ? consts.push(value) : (consts.length > 0 && (elements.push(make_node(AST_String, self1, {
                                     value: consts.join(separator)
-                                })), consts.length = 0), elements1.push(el));
+                                })), consts.length = 0), elements.push(el));
                             }
-                            if (consts.length > 0 && elements1.push(make_node(AST_String, self1, {
+                            if (consts.length > 0 && elements.push(make_node(AST_String, self1, {
                                 value: consts.join(separator)
-                            })), 0 == elements1.length) return make_node(AST_String, self1, {
+                            })), 0 == elements.length) return make_node(AST_String, self1, {
                                 value: ""
                             });
-                            if (1 == elements1.length) {
-                                if (elements1[0].is_string(compressor)) return elements1[0];
-                                return make_node(AST_Binary, elements1[0], {
+                            if (1 == elements.length) {
+                                if (elements[0].is_string(compressor)) return elements[0];
+                                return make_node(AST_Binary, elements[0], {
                                     operator: "+",
                                     left: make_node(AST_String, self1, {
                                         value: ""
                                     }),
-                                    right: elements1[0]
+                                    right: elements[0]
                                 });
                             }
-                            if ("" == separator) return first = elements1[0].is_string(compressor) || elements1[1].is_string(compressor) ? elements1.shift() : make_node(AST_String, self1, {
+                            if ("" == separator) return first = elements[0].is_string(compressor) || elements[1].is_string(compressor) ? elements.shift() : make_node(AST_String, self1, {
                                 value: ""
-                            }), elements1.reduce(function(prev, el) {
+                            }), elements.reduce(function(prev, el) {
                                 return make_node(AST_Binary, el, {
                                     operator: "+",
                                     left: prev,
@@ -8449,7 +8449,7 @@
                                 });
                             }, first).optimize(compressor);
                             var node = self1.clone();
-                            return node.expression = node.expression.clone(), node.expression.expression = node.expression.expression.clone(), node.expression.expression.elements = elements1, best_of(compressor, self1, node);
+                            return node.expression = node.expression.clone(), node.expression.expression = node.expression.expression.clone(), node.expression.expression.elements = elements, best_of(compressor, self1, node);
                         }
                     }
                     break;
@@ -8529,8 +8529,8 @@
             let returned = stat.value;
             if (!returned || returned.is_constant_expression()) {
                 returned = returned ? returned.clone(!0) : make_node(AST_Undefined, self1);
-                const args1 = self1.args.concat(returned);
-                return make_sequence(self1, args1).optimize(compressor);
+                const args = self1.args.concat(returned);
+                return make_sequence(self1, args).optimize(compressor);
             }
             if (1 === fn.argnames.length && fn.argnames[0] instanceof AST_SymbolFunarg && self1.args.length < 2 && returned instanceof AST_SymbolRef && returned.name === fn.argnames[0].name) {
                 let parent;
@@ -8930,8 +8930,8 @@
                     var ll = self1.left.evaluate(compressor);
                     if (!(ll instanceof AST_Node)) return null == ll ? self1.right : self1.left;
                     if (compressor.in_boolean_context()) {
-                        const rr1 = self1.right.evaluate(compressor);
-                        if (!(rr1 instanceof AST_Node) && !rr1) return self1.left;
+                        const rr = self1.right.evaluate(compressor);
+                        if (!(rr instanceof AST_Node) && !rr) return self1.left;
                     }
             }
             var associative = !0;
@@ -17885,13 +17885,13 @@
             }
             try {
                 result = await minify(files, options, fs);
-            } catch (ex1) {
-                if ("SyntaxError" == ex1.name) {
-                    print_error("Parse error at " + ex1.filename + ":" + ex1.line + "," + ex1.col);
-                    var col = ex1.col, lines = files[ex1.filename].split(/\r?\n/), line = lines[ex1.line - 1];
-                    line || col || (col = (line = lines[ex1.line - 2]).length), line && (col > 70 && (line = line.slice(col - 70), col = 70), print_error(line.slice(0, 80)), print_error(line.slice(0, col).replace(/\S/g, " ") + "^"));
+            } catch (ex) {
+                if ("SyntaxError" == ex.name) {
+                    print_error("Parse error at " + ex.filename + ":" + ex.line + "," + ex.col);
+                    var col = ex.col, lines = files[ex.filename].split(/\r?\n/), line = lines[ex.line - 1];
+                    line || col || (col = (line = lines[ex.line - 2]).length), line && (col > 70 && (line = line.slice(col - 70), col = 70), print_error(line.slice(0, 80)), print_error(line.slice(0, col).replace(/\S/g, " ") + "^"));
                 }
-                ex1.defs && (print_error("Supported options:"), print_error(format_object(ex1.defs))), fatal(ex1);
+                ex.defs && (print_error("Supported options:"), print_error(format_object(ex.defs))), fatal(ex);
                 return;
             }
             if ("ast" == program.output) options.compress || options.mangle || result.ast.figure_out_scope({}), console.log(JSON.stringify(result.ast, function(key, value) {
@@ -17929,8 +17929,8 @@
                     }
                 }, fs);
                 console.log(JSON.stringify(minified.ast.to_mozilla_ast(), null, 2));
-            } catch (ex2) {
-                fatal(ex2);
+            } catch (ex) {
+                fatal(ex);
                 return;
             }
             else program.output ? (fs.writeFileSync(program.output, result.code), options.sourceMap && "inline" !== options.sourceMap.url && result.map && fs.writeFileSync(program.output + ".map", result.map)) : console.log(result.code);
