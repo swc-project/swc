@@ -81,11 +81,12 @@ fn analyze_source_file_generic(
 
             match byte {
                 b'\r' => {
-                    lines.push(pos + BytePos(1));
                     if let Some(b'\n') = src_bytes.get(i as usize + 1) {
+                        lines.push(pos + BytePos(2));
                         i += 2;
                         continue;
                     }
+                    lines.push(pos + BytePos(1));
                 }
 
                 b'\n' => {
