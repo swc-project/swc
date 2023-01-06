@@ -482,8 +482,6 @@ fn issue_6694() {
                 let source_map = sourcemap::SourceMap::from_slice(map.as_bytes())
                     .expect("failed to deserialize sourcemap");
 
-                dbg!(&source_map);
-
                 let token = source_map.lookup_token(1, 0).expect("failed to find token");
                 assert_eq!(token.get_src_line(), 0);
                 assert_eq!(token.get_src_col(), 38);
