@@ -11,7 +11,9 @@ use std::{
 
 use anyhow::{Context, Error};
 use swc::{
-    config::{Config, InputSourceMap, IsModule, ModuleConfig, Options, SourceMapsConfig},
+    config::{
+        Config, InputSourceMap, IsModule, JscConfig, ModuleConfig, Options, SourceMapsConfig,
+    },
     Compiler,
 };
 use testing::{assert_eq, NormalizedOutput, StdErr, Tester};
