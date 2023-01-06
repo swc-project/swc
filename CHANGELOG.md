@@ -13,6 +13,9 @@
 
 - **(es/minifier)** Make name mangler understand block scoping (#6670) ([a1ccc8a](https://github.com/swc-project/swc/commit/a1ccc8afdff1f252210d571907124508cf760694))
 
+
+- **(es/minifier)** Handle boolean in `Evaluator` (#6756) ([8a6a1cb](https://github.com/swc-project/swc/commit/8a6a1cbcf1279b805e740f4d77ebb9fb72d52d41))
+
 ## [1.3.25] - 2023-01-05
 
 ### Bug Fixes
