@@ -11,7 +11,9 @@ use std::{
 
 use anyhow::{Context, Error};
 use swc::{
-    config::{Config, InputSourceMap, IsModule, ModuleConfig, Options, SourceMapsConfig},
+    config::{
+        Config, InputSourceMap, IsModule, JscConfig, ModuleConfig, Options, SourceMapsConfig,
+    },
     Compiler,
 };
 use testing::{assert_eq, NormalizedOutput, StdErr, Tester};
@@ -423,4 +425,113 @@ fn issue_4578() {
         },
     )
     .unwrap();
+}
+
+#[test]
+fn issue_6694() {
+    Tester::new().print_errors(|cm, handler| {
+        let c = Compiler::new(cm.clone());
+        let fm = cm.new_source_file(
+            swc_common::FileName::Real("./app.js".into()),
+            r#"console.log("test1") // line 1 correct
+
+            let text = `
+                1
+                1
+                1
+                1
+                1
+                1
+                `
+            
+            console.log("test2") // this should be line 12, instead 17 in devtools
+            
+            let test0
+            let test1
+            
+            console.log("test3")"#
+                .replace('\n', "\r\n"),
+        );
+        let result = c.process_js_file(
+            fm.clone(),
+            &handler,
+            &Options {
+                swcrc: false,
+                source_maps: Some(SourceMapsConfig::Bool(true)),
+                config: Config {
+                    jsc: JscConfig {
+                        target: Some(swc_ecma_ast::EsVersion::Es5),
+                        ..Default::default()
+                    },
+                    is_module: IsModule::Bool(true),
+                    inline_sources_content: true.into(),
+                    emit_source_map_columns: true.into(),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        );
+
+        match result {
+            Ok(result) => {
+                println!("{}", result.code);
+
+                assert!(result.map.is_some());
+                let map = result.map.unwrap();
+
+                let source_map = sourcemap::SourceMap::from_slice(map.as_bytes())
+                    .expect("failed to deserialize sourcemap");
+
+                dbg!(&source_map);
+
+                let token = source_map.lookup_token(1, 0).expect("failed to find token");
+                assert_eq!(token.get_src_line(), 0);
+                assert_eq!(token.get_src_col(), 38);
+
+                let token = source_map.lookup_token(4, 0).expect("failed to find token");
+                assert_eq!(token.get_src_line(), 11);
+                assert_eq!(token.get_src_col(), 83);
+            }
+            Err(err) => {
+                panic!("Error: {:#?}", err);
+            }
+        }
+
+        let result2 = c.process_js_file(
+            fm,
+            &handler,
+            &Options {
+                swcrc: false,
+                source_maps: Some(SourceMapsConfig::Bool(true)),
+                config: Config {
+                    is_module: IsModule::Bool(true),
+                    inline_sources_content: true.into(),
+                    emit_source_map_columns: false.into(),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        );
+
+        match result2 {
+            Ok(result) => {
+                assert!(result.map.is_some());
+                let map = result.map.unwrap();
+                let source_map = sourcemap::SourceMap::from_slice(map.as_bytes())
+                    .expect("failed to deserialize sourcemap");
+                let token = source_map
+                    .lookup_token(1, 14)
+                    .expect("failed to find token");
+                assert_eq!(token.get_dst_line(), 1);
+                assert_eq!(token.get_dst_col(), 0);
+                assert_eq!(token.get_src_line(), 2);
+                assert_eq!(token.get_src_col(), 2);
+            }
+            Err(err) => {
+                panic!("Error: {:#?}", err);
+            }
+        }
+
+        Ok(())
+    });
 }
