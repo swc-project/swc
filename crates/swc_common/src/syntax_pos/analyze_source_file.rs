@@ -281,4 +281,13 @@ mod tests {
         multi_byte_chars: vec![(13 + 1000, 2), (29 + 1000, 2)],
         non_narrow_chars: vec![(2 + 1000, 4), (24 + 1000, 0)],
     );
+
+    test!(
+        case: windows_crlf,
+        text: "012345678\r\nabcdef012345678\r\na",
+        source_file_start_pos: 0,
+        lines: vec![0, 10, 26],
+        multi_byte_chars: vec![],
+        non_narrow_chars: vec![],
+    );
 }
