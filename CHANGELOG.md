@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(common)** Mark `\r` as a line ending (#6752) ([26a0c13](https://github.com/swc-project/swc/commit/26a0c135896098e1e1a8fbb99a623311828af5b2))
+
 ### Features
 
 
