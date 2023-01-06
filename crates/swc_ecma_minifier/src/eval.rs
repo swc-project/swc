@@ -88,10 +88,13 @@ impl Evaluator {
         match e {
             Expr::Seq(s) => return self.eval(s.exprs.last()?),
 
-            Expr::Lit(l @ Lit::Null(..))
-            | Expr::Lit(l @ Lit::Num(..) | l @ Lit::Str(..) | l @ Lit::BigInt(..)) => {
-                return Some(EvalResult::Lit(l.clone()))
-            }
+            Expr::Lit(
+                l @ Lit::Num(..)
+                | l @ Lit::Str(..)
+                | l @ Lit::BigInt(..)
+                | l @ Lit::Bool(..)
+                | l @ Lit::Null(..),
+            ) => return Some(EvalResult::Lit(l.clone())),
 
             Expr::Tpl(t) => {
                 return self.eval_tpl(t);
