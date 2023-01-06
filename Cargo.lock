@@ -3134,7 +3134,7 @@ dependencies = [
 
 [[package]]
 name = "swc_atoms"
-version = "0.4.32"
+version = "0.4.33"
 dependencies = [
  "bytecheck",
  "once_cell",
