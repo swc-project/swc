@@ -3375,8 +3375,8 @@ class PolyNumberFormatter {
             const fixed = this.floor ? Math.floor(i) : i;
             return this.inf.format(fixed);
         } else {
-            const fixed1 = this.floor ? Math.floor(i) : roundTo(i, 3);
-            return padStart(fixed1, this.padTo);
+            const fixed = this.floor ? Math.floor(i) : roundTo(i, 3);
+            return padStart(fixed, this.padTo);
         }
     }
 }
@@ -3712,14 +3712,14 @@ class Interval {
             try {
                 start = DateTime.fromISO(s, opts);
                 startIsValid = start.isValid;
-            } catch (e1) {
+            } catch (e) {
                 startIsValid = false;
             }
             let end, endIsValid;
             try {
                 end = DateTime.fromISO(e, opts);
                 endIsValid = end.isValid;
-            } catch (e2) {
+            } catch (e) {
                 endIsValid = false;
             }
             if (startIsValid && endIsValid) {
@@ -3731,9 +3731,9 @@ class Interval {
                     return Interval.after(start, dur);
                 }
             } else if (endIsValid) {
-                const dur1 = Duration.fromISO(s, opts);
-                if (dur1.isValid) {
-                    return Interval.before(end, dur1);
+                const dur = Duration.fromISO(s, opts);
+                if (dur.isValid) {
+                    return Interval.before(end, dur);
                 }
             }
         }

@@ -1309,9 +1309,11 @@ impl ModuleConfig {
         available_features: FeatureFlag,
     ) -> Box<dyn swc_ecma_visit::Fold + 'cmt> {
         let base = match base {
-            FileName::Real(path) if !paths.is_empty() && !path.is_absolute() => {
-                FileName::Real(std::env::current_dir().unwrap().join(path))
-            }
+            FileName::Real(path) if !paths.is_empty() && !path.is_absolute() => FileName::Real(
+                std::env::current_dir()
+                    .map(|v| v.join(path))
+                    .unwrap_or_else(|_| path.to_path_buf()),
+            ),
             _ => base.to_owned(),
         };
 

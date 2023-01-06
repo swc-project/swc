@@ -357,7 +357,7 @@
                                     }
                                 };
                                 return Object.setPrototypeOf(r, Uint8Array.prototype), Object.setPrototypeOf(e, r), 42 === e.foo();
-                            } catch (e1) {
+                            } catch (e) {
                                 return !1;
                             }
                         }(), Buffer.TYPED_ARRAY_SUPPORT || "undefined" == typeof console || "function" != typeof console.error || console.error("This browser lacks typed array (Uint8Array) support which is required by `buffer` v5.x. Use `buffer` v4.x if you require old browser support."), Object.defineProperty(Buffer.prototype, "parent", {
@@ -764,7 +764,7 @@
                             if ((r === defaultSetTimout || !r) && setTimeout) return r = setTimeout, setTimeout(e, 0);
                             try {
                                 return r(e, 0);
-                            } catch (t1) {
+                            } catch (t) {
                                 try {
                                     return r.call(null, e, 0);
                                 } catch (t) {
@@ -780,7 +780,7 @@
                             }
                             try {
                                 n = "function" == typeof clearTimeout ? clearTimeout : defaultClearTimeout;
-                            } catch (e1) {
+                            } catch (e) {
                                 n = defaultClearTimeout;
                             }
                         }();
@@ -801,7 +801,7 @@
                                     if ((n === defaultClearTimeout || !n) && clearTimeout) return n = clearTimeout, clearTimeout(e);
                                     try {
                                         n(e);
-                                    } catch (t1) {
+                                    } catch (t) {
                                         try {
                                             return n.call(null, e);
                                         } catch (t) {
@@ -883,7 +883,7 @@
                             f({}, "a", {
                                 value: 1
                             });
-                        } catch (r1) {
+                        } catch (r) {
                             f = null;
                         }
                         r.exports = function(r) {
@@ -904,11 +904,11 @@
                         var o, n = SyntaxError, i = Function, a = TypeError, getEvalledConstructor = function(r) {
                             try {
                                 return Function('"use strict"; return (' + r + ").constructor;")();
-                            } catch (r1) {}
+                            } catch (r) {}
                         }, y = Object.getOwnPropertyDescriptor;
                         if (y) try {
                             y({}, "");
-                        } catch (r1) {
+                        } catch (r) {
                             y = null;
                         }
                         var throwTypeError = function() {
@@ -916,7 +916,7 @@
                         }, p = y ? function() {
                             try {
                                 return arguments.callee, throwTypeError;
-                            } catch (r1) {
+                            } catch (r) {
                                 try {
                                     return y(arguments, "callee").get;
                                 } catch (r) {
@@ -1289,11 +1289,11 @@
                         var o, n = SyntaxError, i = Function, a = TypeError, getEvalledConstructor = function(r) {
                             try {
                                 return i('"use strict"; return (' + r + ").constructor;")();
-                            } catch (r1) {}
+                            } catch (r) {}
                         }, y = Object.getOwnPropertyDescriptor;
                         if (y) try {
                             y({}, "");
-                        } catch (r1) {
+                        } catch (r) {
                             y = null;
                         }
                         var throwTypeError = function() {
@@ -1301,7 +1301,7 @@
                         }, p = y ? function() {
                             try {
                                 return arguments.callee, throwTypeError;
-                            } catch (r1) {
+                            } catch (r) {
                                 try {
                                     return y(arguments, "callee").get;
                                 } catch (r) {
@@ -1738,7 +1738,7 @@
                             return o(c, function(e, o) {
                                 if (!t) try {
                                     t = e.call(r) === o;
-                                } catch (r1) {}
+                                } catch (r) {}
                             }), t;
                         };
                         r.exports = function(r) {
@@ -1750,7 +1750,7 @@
                         var n = e(879)("%Object.getOwnPropertyDescriptor%");
                         if (n) try {
                             n([], "length");
-                        } catch (r1) {
+                        } catch (r) {
                             n = null;
                         }
                         r.exports = n;
@@ -1773,7 +1773,7 @@
                             if ("object" != typeof r) return !1;
                             try {
                                 return t(r), !0;
-                            } catch (r1) {
+                            } catch (r) {
                                 return !1;
                             }
                         }
@@ -1906,7 +1906,7 @@
                                     case "%j":
                                         try {
                                             return JSON.stringify(o[e++]);
-                                        } catch (r1) {
+                                        } catch (r) {
                                             return "[Circular]";
                                         }
                                     default:
@@ -2190,8 +2190,8 @@
                                 });
                                 try {
                                     r.apply(this, n);
-                                } catch (r1) {
-                                    e(r1);
+                                } catch (r) {
+                                    e(r);
                                 }
                                 return o;
                             }
@@ -2236,7 +2236,7 @@
                                 if (!t) try {
                                     var n = e.call(r);
                                     n === o && (t = n);
-                                } catch (r1) {}
+                                } catch (r) {}
                             }), t;
                         }, g = e(234);
                         r.exports = function(r) {
@@ -2248,11 +2248,11 @@
                         var o, n = SyntaxError, i = Function, a = TypeError, getEvalledConstructor = function(r) {
                             try {
                                 return Function('"use strict"; return (' + r + ").constructor;")();
-                            } catch (r1) {}
+                            } catch (r) {}
                         }, y = Object.getOwnPropertyDescriptor;
                         if (y) try {
                             y({}, "");
-                        } catch (r1) {
+                        } catch (r) {
                             y = null;
                         }
                         var throwTypeError = function() {
@@ -2260,7 +2260,7 @@
                         }, p = y ? function() {
                             try {
                                 return arguments.callee, throwTypeError;
-                            } catch (r1) {
+                            } catch (r) {
                                 try {
                                     return y(arguments, "callee").get;
                                 } catch (r) {
@@ -2594,7 +2594,7 @@
                         var n = e(227)("%Object.getOwnPropertyDescriptor%");
                         if (n) try {
                             n([], "length");
-                        } catch (r1) {
+                        } catch (r) {
                             n = null;
                         }
                         r.exports = n;

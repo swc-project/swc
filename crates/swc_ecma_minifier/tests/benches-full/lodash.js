@@ -1799,7 +1799,7 @@
                 } catch (e) {}
                 try {
                     return func + '';
-                } catch (e1) {}
+                } catch (e) {}
             }
             return '';
         }

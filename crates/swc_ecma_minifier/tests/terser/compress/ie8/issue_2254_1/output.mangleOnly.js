@@ -1,8 +1,8 @@
 "eeeeee";
 try {
-    console.log(t("PASS"));
+    console.log(e("PASS"));
 } catch (e) {}
-function t(e) {
+function e(e) {
     try {
         throw "FAIL";
     } catch (t) {

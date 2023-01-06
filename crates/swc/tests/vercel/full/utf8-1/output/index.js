@@ -62,8 +62,8 @@ n(function(e) {
                 p.apply(this, arguments);
             }();
         } else "reloadPage" === t.action && document.location.reload(!0);
-    } catch (a) {
-        console.warn("Invalid HMR message: " + e.data + "\n" + a);
+    } catch (t) {
+        console.warn("Invalid HMR message: " + e.data + "\n" + t);
     }
 }), c({
     assetPrefix: s,

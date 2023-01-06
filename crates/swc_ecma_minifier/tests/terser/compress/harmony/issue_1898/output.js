@@ -1,17 +1,17 @@
 class Foo {
     bar() {
-        for (const o of [
+        for (const f of [
             6,
             5
         ]){
-            for (let f of [
+            for (let r of [
                 4,
                 3
             ]){
-                for (var r of [
+                for (var o of [
                     2,
                     1
-                ])console.log(o, f, r);
+                ])console.log(f, r, o);
             }
         }
     }

@@ -44,7 +44,7 @@ class C extends B {
         super.w();
     }
     static{
-        var [Reflect1] = [
+        var [Reflect] = [
             null
         ];
         super.w();
@@ -59,12 +59,12 @@ class C extends B {
         super.w();
     }
     static{
-        let Reflect2;
-        Reflect2 || (Reflect2 = {}), super.w();
+        let Reflect;
+        Reflect || (Reflect = {}), super.w();
     }
     static{
-        let Reflect3;
-        Reflect3 || (Reflect3 = {}), super.w();
+        let Reflect;
+        Reflect || (Reflect = {}), super.w();
     }
     static{
         super.w();

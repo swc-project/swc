@@ -114,8 +114,8 @@ function chunkedBodyReader(h, r) {
                 return buf.byteLength;
             } else {
                 const bufToFill = buf.subarray(0, chunkSize);
-                const eof1 = await r.readFull(bufToFill);
-                if (eof1 === null) throw new Deno.errors.UnexpectedEof();
+                const eof = await r.readFull(bufToFill);
+                if (eof === null) throw new Deno.errors.UnexpectedEof();
                 if (await tp.readLine() === null) throw new Deno.errors.UnexpectedEof();
                 return chunkSize;
             }
@@ -219,14 +219,14 @@ async function writeResponse(w, r) {
     const n = await writer.write(header);
     assert(n === header.byteLength);
     if (r.body instanceof Uint8Array) {
-        const n1 = await writer.write(r.body);
-        assert(n1 === r.body.byteLength);
+        const n = await writer.write(r.body);
+        assert(n === r.body.byteLength);
     } else if (headers.has("content-length")) {
         const contentLength = headers.get("content-length");
         assert(contentLength != null);
         const bodyLength = parseInt(contentLength);
-        const n2 = await Deno.copy(r.body, writer);
-        assert(n2 === bodyLength);
+        const n = await Deno.copy(r.body, writer);
+        assert(n === bodyLength);
     } else await writeChunkedBody(writer, r.body);
     if (r.trailers) {
         const t = await r.trailers();

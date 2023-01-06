@@ -1,8 +1,19 @@
 # Changelog
 ## [unreleased]
 
+### Features
+
+
+
+- **(es/minifier)** Make name mangler understand block scoping (#6670) ([a1ccc8a](https://github.com/swc-project/swc/commit/a1ccc8afdff1f252210d571907124508cf760694))
+
+## [1.3.25] - 2023-01-05
+
 ### Bug Fixes
 
+
+
+- **(bindings/cli)** Skip empty stdin in non tty environments (#6714) ([0076418](https://github.com/swc-project/swc/commit/00764188195c63af1e5a8e34ce29dcf650b20f04))
 
 
 - **(cli)** Use the `--source-maps` option (#6708) ([24cd384](https://github.com/swc-project/swc/commit/24cd384c20abc9bacdc89b50cd6a9a9df243b687))
@@ -12,6 +23,9 @@
 
 
 - **(es)** Remove import statement canonicalization (#6716) ([b451fa9](https://github.com/swc-project/swc/commit/b451fa9e88aee33368759a67913e7c6eb9c3898f))
+
+
+- **(es)** Fix wasm (#6755) ([b46815a](https://github.com/swc-project/swc/commit/b46815a684a13ff3b364b2913c18acf57afbbac7))
 
 
 - **(es/compat)** Fix syntax context of `async-to-generator` (#6741) ([206c0db](https://github.com/swc-project/swc/commit/206c0dbebe5eecaa8a5c1846189b26cb5517d84c))
@@ -57,6 +71,15 @@
 
 
 - **(es/jest)** Support chaining of jest function calls (#6747) ([72fb606](https://github.com/swc-project/swc/commit/72fb606eb204fddad5df284afda0955fd6e760ff))
+
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Fix publish action ([ed2277f](https://github.com/swc-project/swc/commit/ed2277fc07bc1be133001eefcee707c8e6f194fd))
+
+
+- **(ci)** Fix publish action (#6757) ([7e6e7b1](https://github.com/swc-project/swc/commit/7e6e7b107e40b7ca2192f6c04f668a526fc2db35))
 
 ### Performance
 

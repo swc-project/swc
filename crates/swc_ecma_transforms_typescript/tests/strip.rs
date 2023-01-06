@@ -4332,31 +4332,31 @@ var Namespace;
 })(Namespace || (Namespace = {
 }));
 {
-    let Enum1;
-    (function (Enum1) {
-        Enum1[Enum1["test"] = 1] = "test";
-    })(Enum1 || (Enum1 = {}));
-    let Namespace1;
+    let Enum;
+    (function (Enum) {
+        Enum[Enum["test"] = 1] = "test";
+    })(Enum || (Enum = {}));
+    let Namespace;
     (function(Namespace) {
         let Enum;
         (function(Enum) {
             Enum[Enum["test"] = 1] = "test";
         })(Enum = Namespace.Enum || (Namespace.Enum = {}));
-    })(Namespace1 || (Namespace1 = {
+    })(Namespace || (Namespace = {
     }));
 }
 {
-    let Enum2;
-    (function (Enum2) {
-        Enum2[Enum2["test"] = 1] = "test";
-    })(Enum2 || (Enum2 = {}));
-    let Namespace2;
+    let Enum;
+    (function (Enum) {
+        Enum[Enum["test"] = 1] = "test";
+    })(Enum || (Enum = {}));
+    let Namespace;
     (function(Namespace) {
         let Enum;
         (function(Enum) {
             Enum[Enum["test"] = 1] = "test";
         })(Enum = Namespace.Enum || (Namespace.Enum = {}));
-    })(Namespace2 || (Namespace2 = {
+    })(Namespace || (Namespace = {
     }));
 }
     "#

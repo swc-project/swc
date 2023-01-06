@@ -2,7 +2,7 @@ function t() {
     var t;
     try {
         x();
-    } catch (a) {
+    } catch (t) {
         y();
     }
     alert(t);

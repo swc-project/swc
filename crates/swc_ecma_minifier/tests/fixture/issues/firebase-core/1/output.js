@@ -739,20 +739,20 @@
                                 if (1 >= Cc(c.i) && c.ka) {
                                     try {
                                         c.ka();
-                                    } catch (m1) {}
+                                    } catch (m) {}
                                     c.ka = void 0;
                                 }
                             } else Q(c, 11);
                         } else if ((a.J || c.g == a) && zc(c), !sa(b)) for(e = c.Ca.g.parse(b), b = 0; b < e.length; b++){
-                            let m2 = e[b];
-                            if (c.U = m2[0], m2 = m2[1], 2 == c.G) {
-                                if ("c" == m2[0]) {
-                                    c.J = m2[1], c.la = m2[2];
-                                    const r = m2[3];
+                            let m = e[b];
+                            if (c.U = m[0], m = m[1], 2 == c.G) {
+                                if ("c" == m[0]) {
+                                    c.J = m[1], c.la = m[2];
+                                    const r = m[3];
                                     null != r && (c.ma = r, c.h.info("VER=" + c.ma));
-                                    const G = m2[4];
+                                    const G = m[4];
                                     null != G && (c.za = G, c.h.info("SVER=" + c.za));
-                                    const Da = m2[5];
+                                    const Da = m[5];
                                     null != Da && "number" == typeof Da && 0 < Da && (d = 1.5 * Da, c.K = d, c.h.info("backChannelRequestTimeoutMs_=" + d)), d = c;
                                     const ca = a.g;
                                     if (ca) {
@@ -772,12 +772,12 @@
                                         u && a.setTimeout(u), a.B && (pc(a), lc(a)), d.g = a;
                                     } else Gc(d);
                                     0 < c.l.length && Hc(c);
-                                } else "stop" != m2[0] && "close" != m2[0] || Q(c, 7);
-                            } else 3 == c.G && ("stop" == m2[0] || "close" == m2[0] ? "stop" == m2[0] ? Q(c, 7) : Ic(c) : "noop" != m2[0] && c.j && c.j.wa(m2), c.A = 0);
+                                } else "stop" != m[0] && "close" != m[0] || Q(c, 7);
+                            } else 3 == c.G && ("stop" == m[0] || "close" == m[0] ? "stop" == m[0] ? Q(c, 7) : Ic(c) : "noop" != m[0] && c.j && c.j.wa(m), c.A = 0);
                         }
                     }
                     I(4);
-                } catch (m3) {}
+                } catch (m) {}
             }
             function Kc(a, b) {
                 if (a.forEach && "function" == typeof a.forEach) a.forEach(b, void 0);
@@ -889,7 +889,7 @@
                             } else 400 == c && 0 < h.indexOf("Unknown SID") ? (this.o = 3, J(12)) : (this.o = 0, J(13)), P(this), rc(this);
                         }
                     }
-                } catch (r1) {} finally{}
+                } catch (r) {} finally{}
             }, k.fb = function() {
                 if (this.g) {
                     var a = O(this.g), b = this.g.ga();
@@ -1542,8 +1542,8 @@
                         }
                         return 0 <= a;
                     }(9)) && "number" == typeof a1.timeout && void 0 !== a1.ontimeout)) ? (this.g.timeout = this.B, this.g.ontimeout = q(this.pa, this)) : this.A = Gb(this.pa, this.B, this)), this.v = !0, this.g.send(a), this.v = !1;
-                } catch (f1) {
-                    zd(this, f1);
+                } catch (f) {
+                    zd(this, f);
                 }
             }, k.pa = function() {
                 void 0 !== goog && this.g && (this.j = "Timed out after " + this.B + "ms, aborting", this.m = 8, D(this, "timeout"), this.abort(8));

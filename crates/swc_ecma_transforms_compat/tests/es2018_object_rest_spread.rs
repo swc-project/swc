@@ -195,16 +195,16 @@ try {
     }, _objectDestructuringEmpty(_param));
 }
 try {
-} catch (_param1) {
-    var { a1  } = _param1, b1 = _objectWithoutProperties(_param1, ["a1"]);
+} catch (_param) {
+    var { a1  } = _param, b1 = _objectWithoutProperties(_param, ["a1"]);
 }
 try {
-} catch (_param2) {
-    var { a2 , b2  } = _param2, c2 = _objectWithoutProperties(_param2, ["a2", "b2"]);
+} catch (_param) {
+    var { a2 , b2  } = _param, c2 = _objectWithoutProperties(_param, ["a2", "b2"]);
 }
 try {
-} catch (_param3) {
-    var { a2 , b2 , c2: { c3  }  } = _param3, c4 = _objectWithoutProperties(_param3.c2, ["c3"]);
+} catch (_param) {
+    var { a2 , b2 , c2: { c3  }  } = _param, c4 = _objectWithoutProperties(_param.c2, ["c3"]);
 }
 try {
 } catch (a) {

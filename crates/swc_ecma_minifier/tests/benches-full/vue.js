@@ -1477,9 +1477,9 @@
         _parentVnode && (vm.$scopedSlots = normalizeScopedSlots(_parentVnode.data.scopedSlots, vm.$slots, vm.$scopedSlots)), vm.$vnode = _parentVnode;
         try {
             currentRenderingInstance = vm, vnode = render.call(vm._renderProxy, vm.$createElement);
-        } catch (e1) {
-            if (handleError(e1, vm, "render"), vm.$options.renderError) try {
-                vnode = vm.$options.renderError.call(vm._renderProxy, vm.$createElement, e1);
+        } catch (e) {
+            if (handleError(e, vm, "render"), vm.$options.renderError) try {
+                vnode = vm.$options.renderError.call(vm._renderProxy, vm.$createElement, e);
             } catch (e) {
                 handleError(e, vm, "renderError"), vnode = vm._vnode;
             }

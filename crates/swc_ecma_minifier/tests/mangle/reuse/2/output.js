@@ -31,8 +31,8 @@ const i = (e, t, n, r)=>{
     if (typeof e === "function") {
         return e(t, r || "");
     } else {
-        for(let a in t){
-            e = e.replace(`:${a}`, t[a]);
+        for(let n in t){
+            e = e.replace(`:${n}`, t[n]);
         }
         return e;
     }
@@ -52,22 +52,22 @@ const l = (e, { messages: t , attributes: n  })=>{
         const c = e[s];
         const f = (n || {})[s] || s;
         r[s] = {};
-        for (let m of c){
-            const d = u(m.rule);
-            const h = d ? m.rule.substr(0, m.rule.length - d.length - 1) : m.rule;
-            if (m.rule === "validateObject" && m.params.errors) {
-                r[s][h] = l(m.params.errors, {
+        for (let e of c){
+            const c = u(e.rule);
+            const m = c ? e.rule.substr(0, e.rule.length - c.length - 1) : e.rule;
+            if (e.rule === "validateObject" && e.params.errors) {
+                r[s][m] = l(e.params.errors, {
                     messages: t,
                     attributes: n
                 });
-            } else if (m.rule === "validateArray" && m.params.errors) {
-                r[s][h] = l(m.params.errors, {
+            } else if (e.rule === "validateArray" && e.params.errors) {
+                r[s][m] = l(e.params.errors, {
                     messages: t,
                     attributes: n
                 });
             } else {
-                const b = o(t || {}, s, m.rule, h, a);
-                r[s][h] = i(b, m.params, f, d);
+                const n = o(t || {}, s, e.rule, m, a);
+                r[s][m] = i(n, e.params, f, c);
             }
         }
     }
@@ -138,21 +138,21 @@ const g = new Set([
 const p = async (e, t, a)=>{
     const i = [];
     if (r(e) && s(t)) {
-        const u = t.filter((e)=>g.has(e.name));
-        if (u.length === 0) {
+        const n = t.filter((e)=>g.has(e.name));
+        if (n.length === 0) {
             return [];
         }
-        for (let o of t.filter((e)=>g.has(e.name))){
-            let l = o(e, a);
-            if (l instanceof Promise) {
-                l = await l;
+        for (let n of t.filter((e)=>g.has(e.name))){
+            let t = n(e, a);
+            if (t instanceof Promise) {
+                t = await t;
             }
-            if (l !== undefined && l.noContext) {
+            if (t !== undefined && t.noContext) {
                 return [];
             }
-            if (l !== undefined) {
-                i.push(l);
-                if (l.implicit) {
+            if (t !== undefined) {
+                i.push(t);
+                if (t.implicit) {
                     return i;
                 }
             }
@@ -162,14 +162,14 @@ const p = async (e, t, a)=>{
     if (typeof e === "object" && e === null && n(t)) {
         return [];
     }
-    for (let c of t){
-        let f = c(e, a);
-        if (f instanceof Promise) {
-            f = await f;
+    for (let n of t){
+        let t = n(e, a);
+        if (t instanceof Promise) {
+            t = await t;
         }
-        if (f !== undefined && !f.noContext) {
-            i.push(f);
-            if (f.implicit === true) {
+        if (t !== undefined && !t.noContext) {
+            i.push(t);
+            if (t.implicit === true) {
                 break;
             }
         }

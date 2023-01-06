@@ -11,7 +11,7 @@ for(let l in o){
         "f",
         "g"
     ];
-    for(let n in o){
-        console.log(n);
+    for(let l in o){
+        console.log(l);
     }
 }

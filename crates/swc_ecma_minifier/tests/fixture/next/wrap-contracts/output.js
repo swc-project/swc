@@ -224,7 +224,7 @@
                     return 1 === this.length && 0 === this.words[0] && (this.negative = 0), this;
                 }, 'undefined' != typeof Symbol && 'function' == typeof Symbol.for) try {
                     BN.prototype[Symbol.for('nodejs.util.inspect.custom')] = inspect;
-                } catch (e1) {
+                } catch (e) {
                     BN.prototype.inspect = inspect;
                 }
                 else BN.prototype.inspect = inspect;
@@ -1361,8 +1361,8 @@
                     if (err) return cb(err);
                     try {
                         key = this[kKeys] && void 0 !== key ? this[kKeyEncoding].decode(key) : void 0, value = this[kValues] && void 0 !== value ? this[kValueEncoding].decode(value) : void 0;
-                    } catch (err1) {
-                        return cb(new IteratorDecodeError('entry', err1));
+                    } catch (err) {
+                        return cb(new IteratorDecodeError('entry', err));
                     }
                     !(void 0 === key && void 0 === value) && this[kCount]++, cb(null, key, value);
                 }
@@ -1374,8 +1374,8 @@
                             const key = entry[0], value = entry[1];
                             entry[0] = this[kKeys] && void 0 !== key ? this[kKeyEncoding].decode(key) : void 0, entry[1] = this[kValues] && void 0 !== value ? this[kValueEncoding].decode(value) : void 0;
                         }
-                    } catch (err1) {
-                        return this[kReturnMany](cb, new IteratorDecodeError('entries', err1));
+                    } catch (err) {
+                        return this[kReturnMany](cb, new IteratorDecodeError('entries', err));
                     }
                     this[kCount] += entries.length, this[kReturnMany](cb, null, entries);
                 }
@@ -1394,8 +1394,8 @@
                     if (err) return cb(err);
                     try {
                         key = void 0 !== key ? this[kKeyEncoding].decode(key) : void 0;
-                    } catch (err1) {
-                        return cb(new IteratorDecodeError('key', err1));
+                    } catch (err) {
+                        return cb(new IteratorDecodeError('key', err));
                     }
                     void 0 !== key && this[kCount]++, cb(null, key);
                 }
@@ -1407,8 +1407,8 @@
                             const key = keys[i];
                             keys[i] = void 0 !== key ? this[kKeyEncoding].decode(key) : void 0;
                         }
-                    } catch (err1) {
-                        return this[kReturnMany](cb, new IteratorDecodeError('keys', err1));
+                    } catch (err) {
+                        return this[kReturnMany](cb, new IteratorDecodeError('keys', err));
                     }
                     this[kCount] += keys.length, this[kReturnMany](cb, null, keys);
                 }
@@ -1422,8 +1422,8 @@
                     if (err) return cb(err);
                     try {
                         value = void 0 !== value ? this[kValueEncoding].decode(value) : void 0;
-                    } catch (err1) {
-                        return cb(new IteratorDecodeError('value', err1));
+                    } catch (err) {
+                        return cb(new IteratorDecodeError('value', err));
                     }
                     void 0 !== value && this[kCount]++, cb(null, value);
                 }
@@ -1435,8 +1435,8 @@
                             const value = values[i];
                             values[i] = void 0 !== value ? this[kValueEncoding].decode(value) : void 0;
                         }
-                    } catch (err1) {
-                        return this[kReturnMany](cb, new IteratorDecodeError('values', err1));
+                    } catch (err) {
+                        return this[kReturnMany](cb, new IteratorDecodeError('values', err));
                     }
                     this[kCount] += values.length, this[kReturnMany](cb, null, values);
                 }
@@ -1594,10 +1594,10 @@
                         if (err) return ('LEVEL_NOT_FOUND' === err.code || err.notFound || /NotFound/i.test(err)) && (err.code || (err.code = 'LEVEL_NOT_FOUND'), err.notFound || (err.notFound = !0), err.status || (err.status = 404)), callback(err);
                         try {
                             value = valueEncoding.decode(value);
-                        } catch (err1) {
+                        } catch (err) {
                             return callback(new ModuleError('Could not decode value', {
                                 code: 'LEVEL_DECODE_ERROR',
-                                cause: err1
+                                cause: err
                             }));
                         }
                         callback(null, value);
@@ -1626,10 +1626,10 @@
                         if (err) return callback(err);
                         try {
                             for(let i = 0; i < values.length; i++)void 0 !== values[i] && (values[i] = valueEncoding.decode(values[i]));
-                        } catch (err1) {
+                        } catch (err) {
                             return callback(new ModuleError(`Could not decode one or more of ${values.length} value(s)`, {
                                 code: 'LEVEL_DECODE_ERROR',
-                                cause: err1
+                                cause: err
                             }));
                         }
                         callback(null, values);
@@ -1866,22 +1866,22 @@
             }, Iterator.prototype._all = function(options, callback) {
                 this[kCallback] = callback, this[kIterator].all(options, this[kHandleMany]);
             };
-            for (const Iterator1 of [
+            for (const Iterator of [
                 AbstractSublevelValueIterator
-            ])Iterator1.prototype._next = function(callback) {
+            ])Iterator.prototype._next = function(callback) {
                 this[kIterator].next(callback);
-            }, Iterator1.prototype._nextv = function(size, options, callback) {
+            }, Iterator.prototype._nextv = function(size, options, callback) {
                 this[kIterator].nextv(size, options, callback);
-            }, Iterator1.prototype._all = function(options, callback) {
+            }, Iterator.prototype._all = function(options, callback) {
                 this[kIterator].all(options, callback);
             };
-            for (const Iterator2 of [
+            for (const Iterator of [
                 AbstractSublevelIterator,
                 AbstractSublevelKeyIterator,
                 AbstractSublevelValueIterator
-            ])Iterator2.prototype._seek = function(target, options) {
+            ])Iterator.prototype._seek = function(target, options) {
                 this[kIterator].seek(target, options);
-            }, Iterator2.prototype._close = function(callback) {
+            }, Iterator.prototype._close = function(callback) {
                 this[kIterator].close(callback);
             };
             exports.AbstractSublevelIterator = AbstractSublevelIterator, exports.AbstractSublevelKeyIterator = AbstractSublevelKeyIterator, exports.AbstractSublevelValueIterator = AbstractSublevelValueIterator;
@@ -2414,8 +2414,8 @@
                         transaction.reward = await this.transactions.getPrice(encrypted.byteLength), transaction.data = ArweaveUtils.bufferTob64Url(encrypted);
                     }
                     if (attributes.data instanceof Uint8Array) {
-                        const encrypted1 = await this.crypto.encrypt(attributes.data, siloResource.getEncryptionKey());
-                        transaction.reward = await this.transactions.getPrice(encrypted1.byteLength), transaction.data = ArweaveUtils.bufferTob64Url(encrypted1);
+                        const encrypted = await this.crypto.encrypt(attributes.data, siloResource.getEncryptionKey());
+                        transaction.reward = await this.transactions.getPrice(encrypted.byteLength), transaction.data = ArweaveUtils.bufferTob64Url(encrypted);
                     }
                     const siloTransaction = new transaction_1.default(transaction);
                     return siloTransaction.addTag("Silo-Name", siloResource.getAccessKey()), siloTransaction.addTag("Silo-Version", "0.1.0"), siloTransaction;
@@ -2755,11 +2755,11 @@
                     ]);
                     return await deepHashChunks(data, await common_1.default.crypto.hash(tag, "SHA-384"));
                 }
-                const tag1 = common_1.default.utils.concatBuffers([
+                const tag = common_1.default.utils.concatBuffers([
                     common_1.default.utils.stringToBuffer("blob"),
                     common_1.default.utils.stringToBuffer(data.byteLength.toString())
                 ]), taggedHash = common_1.default.utils.concatBuffers([
-                    await common_1.default.crypto.hash(tag1, "SHA-384"),
+                    await common_1.default.crypto.hash(tag, "SHA-384"),
                     await common_1.default.crypto.hash(data, "SHA-384")
                 ]);
                 return await common_1.default.crypto.hash(taggedHash, "SHA-384");
@@ -2794,7 +2794,7 @@
                 } catch (e) {}
                 if (resp.data instanceof ArrayBuffer || resp.data instanceof Uint8Array) try {
                     data = JSON.parse(data.toString());
-                } catch (e1) {}
+                } catch (e) {}
                 return data ? data.error || data : resp.statusText || "unknown";
             }
             exports.default = ArweaveError, exports.getError = getError;
@@ -3099,8 +3099,8 @@
                         }
                         throw this.lastResponseError = (0, error_1.getError)(resp), Error(`Unable to upload transaction: ${resp.status}, ${this.lastResponseError}`);
                     }
-                    const resp1 = await this.api.post("tx", this.transaction);
-                    if (this.lastRequestTimeEnd = Date.now(), this.lastResponseStatus = resp1.status, !(resp1.status >= 200 && resp1.status < 300)) throw this.lastResponseError = (0, error_1.getError)(resp1), Error(`Unable to upload transaction: ${resp1.status}, ${this.lastResponseError}`);
+                    const resp = await this.api.post("tx", this.transaction);
+                    if (this.lastRequestTimeEnd = Date.now(), this.lastResponseStatus = resp.status, !(resp.status >= 200 && resp.status < 300)) throw this.lastResponseError = (0, error_1.getError)(resp), Error(`Unable to upload transaction: ${resp.status}, ${this.lastResponseError}`);
                     this.txPosted = !0;
                 }
             }
@@ -3312,7 +3312,7 @@
                 for(let i = 0; i < buffers.length; i++)total_length += buffers[i].byteLength;
                 let temp = new Uint8Array(total_length), offset = 0;
                 temp.set(new Uint8Array(buffers[0]), offset), offset += buffers[0].byteLength;
-                for(let i1 = 1; i1 < buffers.length; i1++)temp.set(new Uint8Array(buffers[i1]), offset), offset += buffers[i1].byteLength;
+                for(let i = 1; i < buffers.length; i++)temp.set(new Uint8Array(buffers[i]), offset), offset += buffers[i].byteLength;
                 return temp;
             }
             function b64UrlToString(b64UrlString) {
@@ -3608,8 +3608,8 @@
                         console.warn(`Falling back to gateway cache for ${id}`);
                         try {
                             data = (await this.api.get(`/${id}`)).data;
-                        } catch (error1) {
-                            console.error(`Error while trying to download contiguous data from gateway cache for ${id}`), console.error(error1);
+                        } catch (error) {
+                            console.error(`Error while trying to download contiguous data from gateway cache for ${id}`), console.error(error);
                         }
                     }
                     if (!data) throw Error(`${id} was not found!`);
@@ -3931,8 +3931,8 @@
                         transaction.reward = await this.transactions.getPrice(encrypted.byteLength), transaction.data = ArweaveUtils.bufferTob64Url(encrypted);
                     }
                     if (attributes.data instanceof Uint8Array) {
-                        const encrypted1 = await this.crypto.encrypt(attributes.data, siloResource.getEncryptionKey());
-                        transaction.reward = await this.transactions.getPrice(encrypted1.byteLength), transaction.data = ArweaveUtils.bufferTob64Url(encrypted1);
+                        const encrypted = await this.crypto.encrypt(attributes.data, siloResource.getEncryptionKey());
+                        transaction.reward = await this.transactions.getPrice(encrypted.byteLength), transaction.data = ArweaveUtils.bufferTob64Url(encrypted);
                     }
                     const siloTransaction = new transaction_1.default(transaction);
                     return siloTransaction.addTag("Silo-Name", siloResource.getAccessKey()), siloTransaction.addTag("Silo-Version", "0.1.0"), siloTransaction;
@@ -4213,11 +4213,11 @@
                     ]);
                     return await deepHashChunks(data, await common_1.default.crypto.hash(tag, "SHA-384"));
                 }
-                const tag1 = common_1.default.utils.concatBuffers([
+                const tag = common_1.default.utils.concatBuffers([
                     common_1.default.utils.stringToBuffer("blob"),
                     common_1.default.utils.stringToBuffer(data.byteLength.toString())
                 ]), taggedHash = common_1.default.utils.concatBuffers([
-                    await common_1.default.crypto.hash(tag1, "SHA-384"),
+                    await common_1.default.crypto.hash(tag, "SHA-384"),
                     await common_1.default.crypto.hash(data, "SHA-384")
                 ]);
                 return await common_1.default.crypto.hash(taggedHash, "SHA-384");
@@ -4252,7 +4252,7 @@
                 } catch (e) {}
                 if (resp.data instanceof ArrayBuffer || resp.data instanceof Uint8Array) try {
                     data = JSON.parse(data.toString());
-                } catch (e1) {}
+                } catch (e) {}
                 return data ? data.error || data : resp.statusText || "unknown";
             }
             exports.default = ArweaveError, exports.getError = getError;
@@ -4525,8 +4525,8 @@
                         }
                         throw this.lastResponseError = (0, error_1.getError)(resp), Error(`Unable to upload transaction: ${resp.status}, ${this.lastResponseError}`);
                     }
-                    const resp1 = await this.api.post("tx", this.transaction);
-                    if (this.lastRequestTimeEnd = Date.now(), this.lastResponseStatus = resp1.status, !(resp1.status >= 200 && resp1.status < 300)) throw this.lastResponseError = (0, error_1.getError)(resp1), Error(`Unable to upload transaction: ${resp1.status}, ${this.lastResponseError}`);
+                    const resp = await this.api.post("tx", this.transaction);
+                    if (this.lastRequestTimeEnd = Date.now(), this.lastResponseStatus = resp.status, !(resp.status >= 200 && resp.status < 300)) throw this.lastResponseError = (0, error_1.getError)(resp), Error(`Unable to upload transaction: ${resp.status}, ${this.lastResponseError}`);
                     this.txPosted = !0;
                 }
             }
@@ -4686,7 +4686,7 @@
                 for(let i = 0; i < buffers.length; i++)total_length += buffers[i].byteLength;
                 let temp = new Uint8Array(total_length), offset = 0;
                 temp.set(new Uint8Array(buffers[0]), offset), offset += buffers[0].byteLength;
-                for(let i1 = 1; i1 < buffers.length; i1++)temp.set(new Uint8Array(buffers[i1]), offset), offset += buffers[i1].byteLength;
+                for(let i = 1; i < buffers.length; i++)temp.set(new Uint8Array(buffers[i]), offset), offset += buffers[i].byteLength;
                 return temp;
             }
             function b64UrlToString(b64UrlString) {
@@ -4931,8 +4931,8 @@
                         console.warn(`Falling back to gateway cache for ${id}`);
                         try {
                             data = (await this.api.get(`/${id}`)).data;
-                        } catch (error1) {
-                            console.error(`Error while trying to download contiguous data from gateway cache for ${id}`), console.error(error1);
+                        } catch (error) {
+                            console.error(`Error while trying to download contiguous data from gateway cache for ${id}`), console.error(error);
                         }
                     }
                     if (!data) throw Error(`${id} was not found!`);
@@ -5342,11 +5342,11 @@
                     }
                     const start = input.offset;
                     if (null === state.use && null === state.choice) {
-                        let save1;
-                        state.any && (save1 = input.save());
+                        let save;
+                        state.any && (save = input.save());
                         const body = this._decodeTag(input, null !== state.implicit ? state.implicit : state.tag, state.any);
                         if (input.isError(body)) return body;
-                        state.any ? result = input.raw(save1) : input = body;
+                        state.any ? result = input.raw(save) : input = body;
                     }
                     if (options && options.track && null !== state.tag && options.track(input.path(), start, input.length, 'tagged'), options && options.track && null !== state.tag && options.track(input.path(), input.offset, input.length, 'content'), state.any || (result = null === state.choice ? this._decodeGeneric(state.tag, input, options) : this._decodeChoice(input, options)), input.isError(result)) return result;
                     if (state.any || null !== state.choice || null === state.children || state.children.forEach(function(child) {
@@ -5774,11 +5774,11 @@
                 }
                 let lenOctets = 1;
                 for(let i = content.length; i >= 0x100; i >>= 8)lenOctets++;
-                const header1 = Buffer.alloc(2 + lenOctets);
-                header1[0] = encodedTag, header1[1] = 0x80 | lenOctets;
-                for(let i1 = 1 + lenOctets, j = content.length; j > 0; i1--, j >>= 8)header1[i1] = 0xff & j;
+                const header = Buffer.alloc(2 + lenOctets);
+                header[0] = encodedTag, header[1] = 0x80 | lenOctets;
+                for(let i = 1 + lenOctets, j = content.length; j > 0; i--, j >>= 8)header[i] = 0xff & j;
                 return this._createEncoderBuffer([
-                    header1,
+                    header,
                     content
                 ]);
             }, DERNode.prototype._encodeStr = function(str, tag) {
@@ -5800,7 +5800,7 @@
                     for(let i = 0; i < id.length; i++)id[i] |= 0;
                 } else if (Array.isArray(id)) {
                     id = id.slice();
-                    for(let i1 = 0; i1 < id.length; i1++)id[i1] |= 0;
+                    for(let i = 0; i < id.length; i++)id[i] |= 0;
                 }
                 if (!Array.isArray(id)) return this.reporter.error("objid() should be either array or string, got: " + JSON.stringify(id));
                 if (!relative) {
@@ -5808,15 +5808,15 @@
                     id.splice(0, 2, 40 * id[0] + id[1]);
                 }
                 let size = 0;
-                for(let i2 = 0; i2 < id.length; i2++){
-                    let ident = id[i2];
+                for(let i = 0; i < id.length; i++){
+                    let ident = id[i];
                     for(size++; ident >= 0x80; ident >>= 7)size++;
                 }
                 const objid = Buffer.alloc(size);
                 let offset = objid.length - 1;
-                for(let i3 = id.length - 1; i3 >= 0; i3--){
-                    let ident1 = id[i3];
-                    for(objid[offset--] = 0x7f & ident1; (ident1 >>= 7) > 0;)objid[offset--] = 0x80 | 0x7f & ident1;
+                for(let i = id.length - 1; i >= 0; i--){
+                    let ident = id[i];
+                    for(objid[offset--] = 0x7f & ident; (ident >>= 7) > 0;)objid[offset--] = 0x80 | 0x7f & ident;
                 }
                 return this._createEncoderBuffer(objid);
             }, DERNode.prototype._encodeTime = function(time, tag) {
@@ -5862,11 +5862,11 @@
                     0,
                     num
                 ]);
-                let size1 = 1;
-                for(let i = num; i >= 0x100; i >>= 8)size1++;
-                const out1 = Array(size1);
-                for(let i1 = out1.length - 1; i1 >= 0; i1--)out1[i1] = 0xff & num, num >>= 8;
-                return 0x80 & out1[0] && out1.unshift(0), this._createEncoderBuffer(Buffer.from(out1));
+                let size = 1;
+                for(let i = num; i >= 0x100; i >>= 8)size++;
+                const out = Array(size);
+                for(let i = out.length - 1; i >= 0; i--)out[i] = 0xff & num, num >>= 8;
+                return 0x80 & out[0] && out.unshift(0), this._createEncoderBuffer(Buffer.from(out));
             }, DERNode.prototype._encodeBool = function(value) {
                 return this._createEncoderBuffer(value ? 0xff : 0);
             }, DERNode.prototype._use = function(entity, obj) {
@@ -6091,8 +6091,8 @@
                 }
                 try {
                     promise = dispatchRequest(newConfig);
-                } catch (error1) {
-                    return Promise.reject(error1);
+                } catch (error) {
+                    return Promise.reject(error);
                 }
                 for(; responseInterceptorChain.length;)promise = promise.then(responseInterceptorChain.shift(), responseInterceptorChain.shift());
                 return promise;
@@ -10515,7 +10515,7 @@
                 for(var Qprime, i = 0; i < 4; i++){
                     try {
                         Qprime = this.recoverPubKey(e, signature, i);
-                    } catch (e1) {
+                    } catch (e) {
                         continue;
                     }
                     if (Qprime.eq(Q)) return i;
@@ -15666,7 +15666,7 @@
                     } catch (e) {}
                     try {
                         return func + '';
-                    } catch (e1) {}
+                    } catch (e) {}
                 }
                 return '';
             }
@@ -16033,7 +16033,7 @@
                             if ((r === defaultSetTimout || !r) && setTimeout) return r = setTimeout, setTimeout(e, 0);
                             try {
                                 return r(e, 0);
-                            } catch (t1) {
+                            } catch (t) {
                                 try {
                                     return r.call(null, e, 0);
                                 } catch (t) {
@@ -16046,7 +16046,7 @@
                             if ((n === defaultClearTimeout || !n) && clearTimeout) return n = clearTimeout, clearTimeout(e);
                             try {
                                 return n(e);
-                            } catch (t1) {
+                            } catch (t) {
                                 try {
                                     return n.call(null, e);
                                 } catch (t) {
@@ -16062,7 +16062,7 @@
                             }
                             try {
                                 n = "function" == typeof clearTimeout ? clearTimeout : defaultClearTimeout;
-                            } catch (e1) {
+                            } catch (e) {
                                 n = defaultClearTimeout;
                             }
                         }();
@@ -16181,8 +16181,8 @@
                             let n, i;
                             if ("string" == typeof t && startsWith(t, "not ") ? (n = "must not be", t = t.replace(/^not /, "")) : n = "must be", endsWith(e, " argument")) i = `The ${e} ${n} ${oneOf(t, "type")}`;
                             else {
-                                const r1 = includes(e, ".") ? "property" : "argument";
-                                i = `The "${e}" ${r1} ${n} ${oneOf(t, "type")}`;
+                                const r = includes(e, ".") ? "property" : "argument";
+                                i = `The "${e}" ${r} ${n} ${oneOf(t, "type")}`;
                             }
                             return i + `. Received type ${typeof r}`;
                         }, TypeError), createErrorType("ERR_STREAM_PUSH_AFTER_EOF", "stream.push() after EOF"), createErrorType("ERR_METHOD_NOT_IMPLEMENTED", function(e) {
@@ -17159,8 +17159,8 @@
                         function asyncGeneratorStep(e, t, r, n, i, a, o) {
                             try {
                                 var s = e[a](o), f = s.value;
-                            } catch (e1) {
-                                r(e1);
+                            } catch (e) {
+                                r(e);
                                 return;
                             }
                             s.done ? t(f) : Promise.resolve(f).then(n, i);
@@ -17228,8 +17228,8 @@
                                     try {
                                         var e = yield i.next(), t = e.value;
                                         e.done ? a.push(null) : a.push((yield t)) ? next() : o = !1;
-                                    } catch (e1) {
-                                        a.destroy(e1);
+                                    } catch (e) {
+                                        a.destroy(e);
                                     }
                                 })).apply(this, arguments);
                             }
@@ -17535,7 +17535,7 @@
                         function config(e) {
                             try {
                                 if (!__webpack_require__.g.localStorage) return !1;
-                            } catch (e1) {
+                            } catch (e) {
                                 return !1;
                             }
                             var t = __webpack_require__.g.localStorage[e];
@@ -18447,8 +18447,8 @@
                             params: []
                         }, paramCount = leb.unsigned.readBn(stream).toNumber();
                         for(let q = 0; q < paramCount; q++){
-                            const type1 = stream.read(1)[0];
-                            entry.params.push(LANGUAGE_TYPES[type1]);
+                            const type = stream.read(1)[0];
+                            entry.params.push(LANGUAGE_TYPES[type]);
                         }
                         const numOfReturns = leb.unsigned.readBn(stream).toNumber();
                         numOfReturns && (type = stream.read(1)[0], entry.return_type = LANGUAGE_TYPES[type]), json.entries.push(entry);
@@ -18544,7 +18544,7 @@
                         };
                         entry.index = leb.unsigned.readBn(stream).toNumber(), entry.offset = _exports.typeParsers.initExpr(stream);
                         const numElem = leb.unsigned.readBn(stream).toNumber();
-                        for(let i1 = 0; i1 < numElem; i1++){
+                        for(let i = 0; i < numElem; i++){
                             const elem = leb.unsigned.readBn(stream).toNumber();
                             entry.elements.push(elem);
                         }
@@ -18703,18 +18703,18 @@
                         section.entries.push(importJson);
                         break;
                     case 'export':
-                        for (const entry1 of section.entries)'function' === entry1.kind && entry1.index >= funcIndex && entry1.index++;
+                        for (const entry of section.entries)'function' === entry.kind && entry.index >= funcIndex && entry.index++;
                         break;
                     case 'element':
-                        for (const entry2 of section.entries)entry2.elements = entry2.elements.map((el)=>el >= funcIndex ? ++el : el);
+                        for (const entry of section.entries)entry.elements = entry.elements.map((el)=>el >= funcIndex ? ++el : el);
                         break;
                     case 'start':
                         section.index >= funcIndex && section.index++;
                         break;
                     case 'code':
                         for(const i in section.entries){
-                            const entry3 = section.entries[i], typeIndex = functionModule.entries[i], type = typeModule.entries[typeIndex], cost = getCost(type, costTable.type);
-                            meterCodeEntry(entry3, costTable.code, funcIndex, meterType, cost);
+                            const entry = section.entries[i], typeIndex = functionModule.entries[i], type = typeModule.entries[typeIndex], cost = getCost(type, costTable.type);
+                            meterCodeEntry(entry, costTable.code, funcIndex, meterType, cost);
                         }
                 }
                 return json;
@@ -18885,8 +18885,8 @@
                     const charCode = str.charCodeAt(1);
                     return `${str[0]}\\u${charCode.toString(16)}`;
                 }
-                const charCode1 = str.charCodeAt(0);
-                return meta.length > charCode1 ? meta[charCode1] : `\\u${charCode1.toString(16)}`;
+                const charCode = str.charCodeAt(0);
+                return meta.length > charCode ? meta[charCode] : `\\u${charCode.toString(16)}`;
             }
             function strEscape(str) {
                 if (str.length < 5000 && !strEscapeSequencesRegExp.test(str)) return str;
@@ -18897,8 +18897,8 @@
                     if (34 === point || 92 === point || point < 32) result += `${str.slice(last, i)}${meta[point]}`, last = i + 1;
                     else if (point >= 0xd800 && point <= 0xdfff) {
                         if (point <= 0xdbff && i + 1 < str.length) {
-                            const point1 = str.charCodeAt(i + 1);
-                            if (point1 >= 0xdc00 && point1 <= 0xdfff) {
+                            const point = str.charCodeAt(i + 1);
+                            if (point >= 0xdc00 && point <= 0xdfff) {
                                 i++;
                                 continue;
                             }
@@ -18990,8 +18990,8 @@
                                         const tmp = stringifyFnReplacer(i, value, stack, replacer, spacer, indentation);
                                         res += (void 0 !== tmp ? tmp : 'null') + join;
                                     }
-                                    const tmp1 = stringifyFnReplacer(i, value, stack, replacer, spacer, indentation);
-                                    if (res += void 0 !== tmp1 ? tmp1 : 'null', value.length - 1 > maximumBreadth) {
+                                    const tmp = stringifyFnReplacer(i, value, stack, replacer, spacer, indentation);
+                                    if (res += void 0 !== tmp ? tmp : 'null', value.length - 1 > maximumBreadth) {
                                         const removedKeys = value.length - maximumBreadth - 1;
                                         res += `${join}"... ${getItemCount(removedKeys)} not stringified"`;
                                     }
@@ -19005,13 +19005,13 @@
                                 '' !== spacer && (indentation += spacer, join = `,\n${indentation}`, whitespace = ' ');
                                 let maximumPropertiesToStringify = Math.min(keyLength, maximumBreadth);
                                 isTypedArrayWithEntries(value) && (res += stringifyTypedArray(value, join, maximumBreadth), keys = keys.slice(value.length), maximumPropertiesToStringify -= value.length, separator = join), deterministic && (keys = insertSort(keys)), stack.push(value);
-                                for(let i1 = 0; i1 < maximumPropertiesToStringify; i1++){
-                                    const key1 = keys[i1], tmp2 = stringifyFnReplacer(key1, value, stack, replacer, spacer, indentation);
-                                    void 0 !== tmp2 && (res += `${separator}"${strEscape(key1)}":${whitespace}${tmp2}`, separator = join);
+                                for(let i = 0; i < maximumPropertiesToStringify; i++){
+                                    const key = keys[i], tmp = stringifyFnReplacer(key, value, stack, replacer, spacer, indentation);
+                                    void 0 !== tmp && (res += `${separator}"${strEscape(key)}":${whitespace}${tmp}`, separator = join);
                                 }
                                 if (keyLength > maximumBreadth) {
-                                    const removedKeys1 = keyLength - maximumBreadth;
-                                    res += `${separator}"...":${whitespace}"${getItemCount(removedKeys1)} not stringified"`, separator = join;
+                                    const removedKeys = keyLength - maximumBreadth;
+                                    res += `${separator}"...":${whitespace}"${getItemCount(removedKeys)} not stringified"`, separator = join;
                                 }
                                 return '' !== spacer && separator.length > 1 && (res = `\n${indentation}${res}\n${originalIndentation}`), stack.pop(), `{${res}}`;
                             }
@@ -19043,8 +19043,8 @@
                                         const tmp = stringifyArrayReplacer(i, value[i], stack, replacer, spacer, indentation);
                                         res += (void 0 !== tmp ? tmp : 'null') + join;
                                     }
-                                    const tmp1 = stringifyArrayReplacer(i, value[i], stack, replacer, spacer, indentation);
-                                    if (res += void 0 !== tmp1 ? tmp1 : 'null', value.length - 1 > maximumBreadth) {
+                                    const tmp = stringifyArrayReplacer(i, value[i], stack, replacer, spacer, indentation);
+                                    if (res += void 0 !== tmp ? tmp : 'null', value.length - 1 > maximumBreadth) {
                                         const removedKeys = value.length - maximumBreadth - 1;
                                         res += `${join}"... ${getItemCount(removedKeys)} not stringified"`;
                                     }
@@ -19055,9 +19055,9 @@
                                 let whitespace = '';
                                 '' !== spacer && (indentation += spacer, join = `,\n${indentation}`, whitespace = ' ');
                                 let separator = '';
-                                for (const key1 of replacer){
-                                    const tmp2 = stringifyArrayReplacer(key1, value[key1], stack, replacer, spacer, indentation);
-                                    void 0 !== tmp2 && (res += `${separator}"${strEscape(key1)}":${whitespace}${tmp2}`, separator = join);
+                                for (const key of replacer){
+                                    const tmp = stringifyArrayReplacer(key, value[key], stack, replacer, spacer, indentation);
+                                    void 0 !== tmp && (res += `${separator}"${strEscape(key)}":${whitespace}${tmp}`, separator = join);
                                 }
                                 return '' !== spacer && separator.length > 1 && (res = `\n${indentation}${res}\n${originalIndentation}`), stack.pop(), `{${res}}`;
                             }
@@ -19093,8 +19093,8 @@
                                         const tmp = stringifyIndent(i, value[i], stack, spacer, indentation);
                                         res += (void 0 !== tmp ? tmp : 'null') + join;
                                     }
-                                    const tmp1 = stringifyIndent(i, value[i], stack, spacer, indentation);
-                                    if (res += void 0 !== tmp1 ? tmp1 : 'null', value.length - 1 > maximumBreadth) {
+                                    const tmp = stringifyIndent(i, value[i], stack, spacer, indentation);
+                                    if (res += void 0 !== tmp ? tmp : 'null', value.length - 1 > maximumBreadth) {
                                         const removedKeys = value.length - maximumBreadth - 1;
                                         res += `${join}"... ${getItemCount(removedKeys)} not stringified"`;
                                     }
@@ -19105,18 +19105,18 @@
                                 if (0 === keyLength) return '{}';
                                 if (maximumDepth < stack.length + 1) return '"[Object]"';
                                 indentation += spacer;
-                                const join1 = `,\n${indentation}`;
-                                let res1 = '', separator = '', maximumPropertiesToStringify = Math.min(keyLength, maximumBreadth);
-                                isTypedArrayWithEntries(value) && (res1 += stringifyTypedArray(value, join1, maximumBreadth), keys = keys.slice(value.length), maximumPropertiesToStringify -= value.length, separator = join1), deterministic && (keys = insertSort(keys)), stack.push(value);
-                                for(let i1 = 0; i1 < maximumPropertiesToStringify; i1++){
-                                    const key1 = keys[i1], tmp2 = stringifyIndent(key1, value[key1], stack, spacer, indentation);
-                                    void 0 !== tmp2 && (res1 += `${separator}"${strEscape(key1)}": ${tmp2}`, separator = join1);
+                                const join = `,\n${indentation}`;
+                                let res = '', separator = '', maximumPropertiesToStringify = Math.min(keyLength, maximumBreadth);
+                                isTypedArrayWithEntries(value) && (res += stringifyTypedArray(value, join, maximumBreadth), keys = keys.slice(value.length), maximumPropertiesToStringify -= value.length, separator = join), deterministic && (keys = insertSort(keys)), stack.push(value);
+                                for(let i = 0; i < maximumPropertiesToStringify; i++){
+                                    const key = keys[i], tmp = stringifyIndent(key, value[key], stack, spacer, indentation);
+                                    void 0 !== tmp && (res += `${separator}"${strEscape(key)}": ${tmp}`, separator = join);
                                 }
                                 if (keyLength > maximumBreadth) {
-                                    const removedKeys1 = keyLength - maximumBreadth;
-                                    res1 += `${separator}"...": "${getItemCount(removedKeys1)} not stringified"`, separator = join1;
+                                    const removedKeys = keyLength - maximumBreadth;
+                                    res += `${separator}"...": "${getItemCount(removedKeys)} not stringified"`, separator = join;
                                 }
-                                return '' !== separator && (res1 = `\n${indentation}${res1}\n${originalIndentation}`), stack.pop(), `{${res1}}`;
+                                return '' !== separator && (res = `\n${indentation}${res}\n${originalIndentation}`), stack.pop(), `{${res}}`;
                             }
                         case 'number':
                             return isFinite(value) ? String(value) : 'null';
@@ -19149,8 +19149,8 @@
                                         const tmp = stringifySimple(i, value[i], stack);
                                         res += (void 0 !== tmp ? tmp : 'null') + ',';
                                     }
-                                    const tmp1 = stringifySimple(i, value[i], stack);
-                                    if (res += void 0 !== tmp1 ? tmp1 : 'null', value.length - 1 > maximumBreadth) {
+                                    const tmp = stringifySimple(i, value[i], stack);
+                                    if (res += void 0 !== tmp ? tmp : 'null', value.length - 1 > maximumBreadth) {
                                         const removedKeys = value.length - maximumBreadth - 1;
                                         res += `,"... ${getItemCount(removedKeys)} not stringified"`;
                                     }
@@ -19162,13 +19162,13 @@
                                 if (maximumDepth < stack.length + 1) return '"[Object]"';
                                 let separator = '', maximumPropertiesToStringify = Math.min(keyLength, maximumBreadth);
                                 isTypedArrayWithEntries(value) && (res += stringifyTypedArray(value, ',', maximumBreadth), keys = keys.slice(value.length), maximumPropertiesToStringify -= value.length, separator = ','), deterministic && (keys = insertSort(keys)), stack.push(value);
-                                for(let i1 = 0; i1 < maximumPropertiesToStringify; i1++){
-                                    const key1 = keys[i1], tmp2 = stringifySimple(key1, value[key1], stack);
-                                    void 0 !== tmp2 && (res += `${separator}"${strEscape(key1)}":${tmp2}`, separator = ',');
+                                for(let i = 0; i < maximumPropertiesToStringify; i++){
+                                    const key = keys[i], tmp = stringifySimple(key, value[key], stack);
+                                    void 0 !== tmp && (res += `${separator}"${strEscape(key)}":${tmp}`, separator = ',');
                                 }
                                 if (keyLength > maximumBreadth) {
-                                    const removedKeys1 = keyLength - maximumBreadth;
-                                    res += `${separator}"...":"${getItemCount(removedKeys1)} not stringified"`;
+                                    const removedKeys = keyLength - maximumBreadth;
+                                    res += `${separator}"...":"${getItemCount(removedKeys)} not stringified"`;
                                 }
                                 return stack.pop(), `{${res}}`;
                             }
@@ -19812,16 +19812,16 @@
                             ], {
                                 type: 'application/javascript'
                             }));
-                            const worker1 = await startWorker(url);
-                            return config.workerURL = url, worker1;
-                        } catch (e1) {
+                            const worker = await startWorker(url);
+                            return config.workerURL = url, worker;
+                        } catch (e) {
                             console.warn('could not load worker via fetch:', url);
                         }
                         if (void 0 !== text) try {
                             url = `data:application/javascript;base64,${btoa(text)}`;
-                            const worker2 = await startWorker(url);
-                            return config.workerURL = url, worker2;
-                        } catch (e2) {
+                            const worker = await startWorker(url);
+                            return config.workerURL = url, worker;
+                        } catch (e) {
                             console.warn('could not load worker via dataURI');
                         }
                         throw console.warn('workers will not be used'), Error('can not start workers');
@@ -19905,9 +19905,9 @@
                         }
                     }
                     for(; waitingForWorkerQueue.length;){
-                        const { src: src1 , uncompressedSize: uncompressedSize1 , type: type1 , resolve: resolve1  } = waitingForWorkerQueue.shift();
-                        let data = src1;
-                        isBlob(src1) && (data = await readBlobAsUint8Array(src1)), inflateRawLocal(data, uncompressedSize1, type1, resolve1);
+                        const { src , uncompressedSize , type , resolve  } = waitingForWorkerQueue.shift();
+                        let data = src;
+                        isBlob(src) && (data = await readBlobAsUint8Array(src)), inflateRawLocal(data, uncompressedSize, type, resolve);
                     }
                 }
             }
@@ -20110,7 +20110,7 @@
                         type
                     });
                 }
-                const typedArrayOrBlob1 = await readAsBlobOrTypedArray(reader, fileDataStart, rawEntry.compressedSize), result = await inflateRawAsync(typedArrayOrBlob1, rawEntry.uncompressedSize, type);
+                const typedArrayOrBlob = await readAsBlobOrTypedArray(reader, fileDataStart, rawEntry.compressedSize), result = await inflateRawAsync(typedArrayOrBlob, rawEntry.uncompressedSize, type);
                 return result;
             }
             function setOptions$1(options) {
@@ -20937,8 +20937,8 @@
                             });
                         }), this.logger.debug('Tags with inner calls', tags);
                     } else if (strict) {
-                        const handlerResult1 = await this.callContract(input, void 0, void 0, tags, transfer);
-                        if ('ok' !== handlerResult1.type) throw Error(`Cannot create interaction: ${handlerResult1.errorMessage}`);
+                        const handlerResult = await this.callContract(input, void 0, void 0, tags, transfer);
+                        if ('ok' !== handlerResult.type) throw Error(`Cannot create interaction: ${handlerResult.errorMessage}`);
                     }
                     vrf && tags.push({
                         name: SmartWeaveTags_1.SmartWeaveTags.REQUEST_VRF,
@@ -21029,15 +21029,15 @@
                         caller: executionContext.caller
                     };
                     this.logger.debug('interaction', interaction);
-                    const tx = await (0, create_interaction_tx_1.createInteractionTx)(arweave, this.signer, this._contractTxId, input, tags, transfer.target, transfer.winstonQty, !0), dummyTx1 = (0, create_interaction_tx_1.createDummyTx)(tx, executionContext.caller, currentBlockData);
+                    const tx = await (0, create_interaction_tx_1.createInteractionTx)(arweave, this.signer, this._contractTxId, input, tags, transfer.target, transfer.winstonQty, !0), dummyTx = (0, create_interaction_tx_1.createDummyTx)(tx, executionContext.caller, currentBlockData);
                     this.logger.debug('Creating sortKey for', {
-                        blockId: dummyTx1.block.id,
-                        id: dummyTx1.id,
-                        height: dummyTx1.block.height
-                    }), dummyTx1.sortKey = await this._sorter.createSortKey(dummyTx1.block.id, dummyTx1.id, dummyTx1.block.height, !0);
+                        blockId: dummyTx.block.id,
+                        id: dummyTx.id,
+                        height: dummyTx.block.height
+                    }), dummyTx.sortKey = await this._sorter.createSortKey(dummyTx.block.id, dummyTx.id, dummyTx.block.height, !0);
                     const handleResult = await this.evalInteraction({
                         interaction,
-                        interactionTx: dummyTx1,
+                        interactionTx: dummyTx,
                         currentTx: []
                     }, executionContext, evalStateResult.cachedValue);
                     return 'ok' !== handleResult.type && this.logger.fatal('Error while interacting with contract', {
@@ -21300,9 +21300,9 @@
                             const go = new go_wasm_imports_1.Go(null), module = new WebAssembly.Instance(wasmModule, go.importObject);
                             go.run(module), lang = go.exports.lang(), wasmVersion = go.exports.version();
                         } else {
-                            const module1 = await WebAssembly.instantiate(src, dummyImports(moduleImports));
-                            if (!module1.instance.exports.lang) throw Error('No info about source type in wasm binary. Did you forget to export "lang" function?');
-                            if (lang = module1.instance.exports.lang(), wasmVersion = module1.instance.exports.version(), !wasmTypeMapping.has(lang)) throw Error(`Unknown wasm source type ${lang}`);
+                            const module = await WebAssembly.instantiate(src, dummyImports(moduleImports));
+                            if (!module.instance.exports.lang) throw Error('No info about source type in wasm binary. Did you forget to export "lang" function?');
+                            if (lang = module.instance.exports.lang(), wasmVersion = module.instance.exports.version(), !wasmTypeMapping.has(lang)) throw Error(`Unknown wasm source type ${lang}`);
                         }
                         if (wasmLang = wasmTypeMapping.get(lang), null == wasmSrcCodeDir) throw Error('No path to original wasm contract source code');
                         const zippedSourceCode = await this.zipContents(wasmSrcCodeDir);
@@ -22107,8 +22107,8 @@
                                 currentTx
                             };
                             this.logger.debug(`${(0, utils_1.indent)(depth)}Interaction:`, interaction);
-                            const interactionCall1 = contract.getCallStack().addInteractionData(interactionData), result = await executionContext.handler.handle(executionContext, new StateEvaluator_1.EvalStateResult(currentState, validity, errorMessages), interactionData);
-                            if (errorMessage = result.errorMessage, 'ok' !== result.type && (errorMessages[missingInteraction.id] = errorMessage), this.logResult(result, missingInteraction, executionContext), this.logger.debug(`${(0, utils_1.indent)(depth)}Interaction evaluation`, singleInteractionBenchmark.elapsed()), interactionCall1.update({
+                            const interactionCall = contract.getCallStack().addInteractionData(interactionData), result = await executionContext.handler.handle(executionContext, new StateEvaluator_1.EvalStateResult(currentState, validity, errorMessages), interactionData);
+                            if (errorMessage = result.errorMessage, 'ok' !== result.type && (errorMessages[missingInteraction.id] = errorMessage), this.logResult(result, missingInteraction, executionContext), this.logger.debug(`${(0, utils_1.indent)(depth)}Interaction evaluation`, singleInteractionBenchmark.elapsed()), interactionCall.update({
                                 cacheHit: !1,
                                 outputState: stackTrace.saveState ? currentState : void 0,
                                 executionTime: singleInteractionBenchmark.elapsed(!0),
@@ -22117,11 +22117,11 @@
                                 gasUsed: result.gasUsed
                             }), 'exception' === result.type && !0 !== ignoreExceptions) throw Error(`Exception while processing ${JSON.stringify(interaction)}:\n${result.errorMessage}`);
                             validity[missingInteraction.id] = 'ok' === result.type, currentState = result.state;
-                            const toCache1 = new StateEvaluator_1.EvalStateResult(currentState, validity, errorMessages);
+                            const toCache = new StateEvaluator_1.EvalStateResult(currentState, validity, errorMessages);
                             (0, StateCache_1.canBeCached)(missingInteraction) && (lastConfirmedTxState = {
                                 tx: missingInteraction,
-                                state: toCache1
-                            }), await this.onStateUpdate(missingInteraction, executionContext, toCache1);
+                                state: toCache
+                            }), await this.onStateUpdate(missingInteraction, executionContext, toCache);
                         }
                         for (const { modify  } of this.executionContextModifiers)executionContext = await modify(currentState, executionContext);
                     }
@@ -22216,17 +22216,17 @@
                                 }
                             case 'rust':
                                 {
-                                    const wasmInstanceExports1 = {
+                                    const wasmInstanceExports = {
                                         exports: null,
                                         modifiedExports: {
                                             wasm_bindgen__convert__closures__invoke2_mut__: null,
                                             _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__: null
                                         }
-                                    }, wasmModule = await getWasmModule(wasmResponse, contractDefinition.srcBinary), moduleImports = WebAssembly.Module.imports(wasmModule), wbindgenImports = moduleImports.filter((imp)=>'__wbindgen_placeholder__' === imp.module).map((imp)=>imp.name), { imports , exports  } = (0, rust_wasm_imports_1.rustWasmImports)(swGlobal, wbindgenImports, wasmInstanceExports1, contractDefinition.metadata.dtor);
-                                    jsExports = exports, wasmInstance = await WebAssembly.instantiate(wasmModule, imports), wasmInstanceExports1.exports = wasmInstance.exports;
+                                    }, wasmModule = await getWasmModule(wasmResponse, contractDefinition.srcBinary), moduleImports = WebAssembly.Module.imports(wasmModule), wbindgenImports = moduleImports.filter((imp)=>'__wbindgen_placeholder__' === imp.module).map((imp)=>imp.name), { imports , exports  } = (0, rust_wasm_imports_1.rustWasmImports)(swGlobal, wbindgenImports, wasmInstanceExports, contractDefinition.metadata.dtor);
+                                    jsExports = exports, wasmInstance = await WebAssembly.instantiate(wasmModule, imports), wasmInstanceExports.exports = wasmInstance.exports;
                                     const moduleExports = Object.keys(wasmInstance.exports);
                                     moduleExports.forEach((moduleExport)=>{
-                                        moduleExport.startsWith('wasm_bindgen__convert__closures__invoke2_mut__') && (wasmInstanceExports1.modifiedExports.wasm_bindgen__convert__closures__invoke2_mut__ = wasmInstance.exports[moduleExport]), moduleExport.startsWith('_dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__') && (wasmInstanceExports1.modifiedExports._dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__ = wasmInstance.exports[moduleExport]);
+                                        moduleExport.startsWith('wasm_bindgen__convert__closures__invoke2_mut__') && (wasmInstanceExports.modifiedExports.wasm_bindgen__convert__closures__invoke2_mut__ = wasmInstance.exports[moduleExport]), moduleExport.startsWith('_dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__') && (wasmInstanceExports.modifiedExports._dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__ = wasmInstance.exports[moduleExport]);
                                     });
                                     break;
                                 }
@@ -22238,8 +22238,8 @@
                                             swGlobal.useGas(value);
                                         }
                                     };
-                                    const wasmModule1 = await getWasmModule(wasmResponse, contractDefinition.srcBinary);
-                                    wasmInstance = await WebAssembly.instantiate(wasmModule1, go.importObject), go.run(wasmInstance), jsExports = go.exports;
+                                    const wasmModule = await getWasmModule(wasmResponse, contractDefinition.srcBinary);
+                                    wasmInstance = await WebAssembly.instantiate(wasmModule, go.importObject), go.run(wasmInstance), jsExports = go.exports;
                                     break;
                                 }
                             default:
@@ -22714,8 +22714,8 @@
                             }
                         case 'go':
                             {
-                                const result1 = await this.wasmExports.handle((0, safe_stable_stringify_1.default)(action.input));
-                                return JSON.parse(result1);
+                                const result = await this.wasmExports.handle((0, safe_stable_stringify_1.default)(action.input));
+                                return JSON.parse(result);
                             }
                         default:
                             throw Error(`Support for ${this.contractDefinition.srcWasmLang} not implemented yet.`);
@@ -23392,20 +23392,20 @@
                         const buf = cachedTextEncoder.encode(arg), ptr = malloc(buf.length);
                         return getUint8Memory0().subarray(ptr, ptr + buf.length).set(buf), WASM_VECTOR_LEN = buf.length, ptr;
                     }
-                    let len = arg.length, ptr1 = malloc(len);
+                    let len = arg.length, ptr = malloc(len);
                     const mem = getUint8Memory0();
                     let offset = 0;
                     for(; offset < len; offset++){
                         const code = arg.charCodeAt(offset);
                         if (code > 0x7f) break;
-                        mem[ptr1 + offset] = code;
+                        mem[ptr + offset] = code;
                     }
                     if (offset !== len) {
-                        0 !== offset && (arg = arg.slice(offset)), ptr1 = realloc(ptr1, len, len = offset + 3 * arg.length);
-                        const view = getUint8Memory0().subarray(ptr1 + offset, ptr1 + len), ret = encodeString(arg, view);
+                        0 !== offset && (arg = arg.slice(offset)), ptr = realloc(ptr, len, len = offset + 3 * arg.length);
+                        const view = getUint8Memory0().subarray(ptr + offset, ptr + len), ret = encodeString(arg, view);
                         offset += ret.written;
                     }
-                    return WASM_VECTOR_LEN = offset, ptr1;
+                    return WASM_VECTOR_LEN = offset, ptr;
                 }
                 let cachegetInt32Memory0 = null;
                 function getInt32Memory0() {

@@ -2,8 +2,8 @@ function n(n, e, t, r, o, u, i) {
     try {
         var a = n[u](i);
         var c = a.value;
-    } catch (s) {
-        t(s);
+    } catch (n) {
+        t(n);
         return;
     }
     if (a.done) e(c);
