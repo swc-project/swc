@@ -286,7 +286,7 @@ mod tests {
         case: windows_crlf,
         text: "012345678\r\nabcdef012345678\r\na",
         source_file_start_pos: 0,
-        lines: vec![0, 10, 26],
+        lines: vec![0, 11, 28],
         multi_byte_chars: vec![],
         non_narrow_chars: vec![],
     );
