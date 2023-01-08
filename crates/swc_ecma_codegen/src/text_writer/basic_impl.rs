@@ -51,6 +51,9 @@ impl<'a, W: Write> JsWriter<'a, W> {
         for _ in 0..self.indent {
             self.raw_write(INDENT)?;
         }
+        if self.srcmap.is_some() {
+            self.line_pos += INDENT.len() * self.indent;
+        }
 
         Ok(())
     }
@@ -59,11 +62,7 @@ impl<'a, W: Write> JsWriter<'a, W> {
     fn raw_write(&mut self, data: &str) -> Result {
         // #[cfg(debug_assertions)]
         // tracing::trace!("Write: `{}`", data);
-
         self.wr.write_all(data.as_bytes())?;
-        if self.srcmap.is_some() {
-            self.line_pos += data.chars().count();
-        }
 
         Ok(())
     }
@@ -86,6 +85,7 @@ impl<'a, W: Write> JsWriter<'a, W> {
             }
 
             self.raw_write(data)?;
+            self.update_pos(data);
 
             if let Some(span) = span {
                 self.srcmap(span.hi());
@@ -93,6 +93,21 @@ impl<'a, W: Write> JsWriter<'a, W> {
         }
 
         Ok(())
+    }
+
+    #[inline]
+    fn update_pos(&mut self, s: &str) {
+        if self.srcmap.is_some() {
+            let line_start_of_s = compute_line_starts(s);
+            self.line_count += line_start_of_s.line_count;
+
+            let chars = s[line_start_of_s.byte_pos..].encode_utf16().count();
+            if line_start_of_s.line_count > 0 {
+                self.line_pos = chars;
+            } else {
+                self.line_pos += chars;
+            }
+        }
     }
 
     #[inline]
@@ -183,8 +198,10 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
         let pending = self.pending_srcmap.take();
         if !self.line_start {
             self.raw_write(self.new_line)?;
-            self.line_count += 1;
-            self.line_pos = 0;
+            if self.srcmap.is_some() {
+                self.line_count += 1;
+                self.line_pos = 0;
+            }
             self.line_start = true;
 
             if let Some(pending) = pending {
@@ -200,18 +217,7 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
     fn write_lit(&mut self, span: Span, s: &str) -> Result {
         if !s.is_empty() {
             self.srcmap(span.lo());
-
             self.write(None, s)?;
-
-            if self.srcmap.is_some() {
-                let line_start_of_s = compute_line_starts(s);
-                if line_start_of_s.len() > 1 {
-                    self.line_count = self.line_count + line_start_of_s.len() - 1;
-                    let last_line_byte_index = line_start_of_s.last().cloned().unwrap_or(0);
-                    self.line_pos = s[last_line_byte_index..].chars().count();
-                }
-            }
-
             self.srcmap(span.hi());
         }
 
@@ -222,14 +228,6 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
     #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
     fn write_comment(&mut self, s: &str) -> Result {
         self.write(None, s)?;
-        if self.srcmap.is_some() {
-            let line_start_of_s = compute_line_starts(s);
-            if line_start_of_s.len() > 1 {
-                self.line_count = self.line_count + line_start_of_s.len() - 1;
-                let last_line_byte_index = line_start_of_s.last().cloned().unwrap_or(0);
-                self.line_pos = s[last_line_byte_index..].chars().count();
-            }
-        }
         Ok(())
     }
 
@@ -239,16 +237,6 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
         if !s.is_empty() {
             self.srcmap(span.lo());
             self.write(None, s)?;
-
-            if self.srcmap.is_some() {
-                let line_start_of_s = compute_line_starts(s);
-                if line_start_of_s.len() > 1 {
-                    self.line_count = self.line_count + line_start_of_s.len() - 1;
-                    let last_line_byte_index = line_start_of_s.last().cloned().unwrap_or(0);
-                    self.line_pos = s[last_line_byte_index..].chars().count();
-                }
-            }
-
             self.srcmap(span.hi());
         }
 
@@ -285,10 +273,12 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
     #[inline]
     #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
     fn add_srcmap(&mut self, pos: BytePos) -> Result {
-        if self.line_start {
-            self.pending_srcmap = Some(pos);
-        } else {
-            self.srcmap(pos);
+        if self.srcmap.is_some() {
+            if self.line_start {
+                self.pending_srcmap = Some(pos);
+            } else {
+                self.srcmap(pos);
+            }
         }
         Ok(())
     }
@@ -300,23 +290,31 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
     }
 }
 
-fn compute_line_starts(s: &str) -> Vec<usize> {
-    let mut res = vec![];
-
+#[derive(Debug)]
+struct LineStart {
+    line_count: usize,
+    byte_pos: usize,
+}
+fn compute_line_starts(s: &str) -> LineStart {
+    let mut count = 0;
     let mut line_start = 0;
 
-    let mut chars = s.char_indices().peekable();
+    let mut chars = s.as_bytes().iter().enumerate().peekable();
 
     while let Some((pos, c)) = chars.next() {
         match c {
-            '\r' => {
-                if let Some(&(_, '\n')) = chars.peek() {
+            b'\r' => {
+                count += 1;
+                if let Some(&(_, b'\n')) = chars.peek() {
                     let _ = chars.next();
+                    line_start = pos + 2
+                } else {
+                    line_start = pos + 1
                 }
             }
 
-            '\n' => {
-                res.push(line_start);
+            b'\n' => {
+                count += 1;
                 line_start = pos + 1;
             }
 
@@ -324,7 +322,8 @@ fn compute_line_starts(s: &str) -> Vec<usize> {
         }
     }
 
-    // Last line.
-    res.push(line_start);
-    res
+    LineStart {
+        line_count: count,
+        byte_pos: line_start,
+    }
 }

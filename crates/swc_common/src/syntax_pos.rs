@@ -1220,7 +1220,10 @@ pub struct LineInfo {
 /// Used to create a `.map` file.
 #[derive(Copy, Clone, Debug, PartialEq, Eq, Hash)]
 pub struct LineCol {
+    /// Index of line, starting from 0.
     pub line: u32,
+
+    /// UTF-16 column in line, starting from 0.
     pub col: u32,
 }
 

@@ -283,10 +283,28 @@ mod tests {
     );
 
     test!(
-        case: windows_crlf,
-        text: "012345678\r\nabcdef012345678\r\na",
+        case: unix_lf,
+        text: "/**\n * foo\n */\n012345678\nabcdef012345678\na",
         source_file_start_pos: 0,
-        lines: vec![0, 11, 28],
+        lines: vec![0, 4, 11, 15, 25, 41],
+        multi_byte_chars: vec![],
+        non_narrow_chars: vec![],
+    );
+
+    test!(
+        case: windows_cr,
+        text: "/**\r * foo\r */\r012345678\rabcdef012345678\ra",
+        source_file_start_pos: 0,
+        lines: vec![0, 4, 11, 15, 25, 41],
+        multi_byte_chars: vec![],
+        non_narrow_chars: vec![],
+    );
+
+    test!(
+        case: windows_crlf,
+        text: "/**\r\n * foo\r\n */\r\n012345678\r\nabcdef012345678\r\na",
+        source_file_start_pos: 0,
+        lines: vec![0, 5, 13, 18, 29, 46],
         multi_byte_chars: vec![],
         non_narrow_chars: vec![],
     );
