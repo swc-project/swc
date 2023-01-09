@@ -1,0 +1,17 @@
+{
+  "mappings": "AAAA;AAAA,SAAQA,MAAM,QAAO,YAAW;AAChC,SAAQC,GAAG,QAAO,QAAO;AAEzB,MAAMC,eAAeC,SAASC,cAAc,CAAC;AAE7CJ,qBAAO,KAACC,UAAQC",
+  "names": [
+    "render",
+    "App",
+    "appContainer",
+    "document",
+    "getElementById"
+  ],
+  "sources": [
+    "../../input/index.tsx"
+  ],
+  "sourcesContent": [
+    "import {render} from 'react-dom'\nimport {App} from './app'\n\nconst appContainer = document.getElementById('project-root')\n\nrender(<App />, appContainer)"
+  ],
+  "version": 3
+}
