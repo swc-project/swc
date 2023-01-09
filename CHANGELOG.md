@@ -10,6 +10,9 @@
 
 - **(es/codegen)** Fix LineCol calculation of printed files (#6763) ([2b503c1](https://github.com/swc-project/swc/commit/2b503c16d5f338c6a786a19c7c0acbc4c06bcfee))
 
+
+- **(es/helpers)** Make `_classPrivateFieldLooseBase ` return receiver (#6770) ([1d14760](https://github.com/swc-project/swc/commit/1d147602c0bfe291408c65b2e444cea0b5ceba89))
+
 ### Features
 
 
