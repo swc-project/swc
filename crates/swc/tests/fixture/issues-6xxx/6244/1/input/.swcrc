@@ -1,0 +1,17 @@
+{
+    "$schema": "https://json.schemastore.org/swcrc",
+    "jsc": {
+        "target": "es2020",
+        "parser": {
+          "syntax": "typescript",
+          "tsx": true
+        },
+        "transform": {
+          "react": {
+            "runtime": "automatic",
+            "useBuiltins": true
+          }
+        }
+    },
+    "minify": false
+  }
