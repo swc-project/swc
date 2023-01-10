@@ -920,4 +920,6 @@ pub struct TSTypeParameter {
     pub is_in: bool,
     #[serde(default, rename = "out")]
     pub is_out: bool,
+    #[serde(default, rename = "const")]
+    pub is_const: bool,
 }
