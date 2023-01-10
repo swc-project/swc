@@ -22,6 +22,9 @@
 
 - **(es/minifier)** Handle boolean in `Evaluator` (#6756) ([8a6a1cb](https://github.com/swc-project/swc/commit/8a6a1cbcf1279b805e740f4d77ebb9fb72d52d41))
 
+
+- **(es/typescript)** Support const modifier on type parameters (#6672) ([019cf37](https://github.com/swc-project/swc/commit/019cf371994b87a92fd26fc623959a797f35991b))
+
 ### Miscellaneous Tasks
 
 
