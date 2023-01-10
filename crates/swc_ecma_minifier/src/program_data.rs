@@ -351,6 +351,7 @@ impl Storage for ProgramData {
         // }
 
         let v = self.vars.entry(i.to_id()).or_default();
+        v.is_top_level |= ctx.is_top_level;
 
         if has_init && (v.declared || v.var_initialized) {
             #[cfg(feature = "debug")]
