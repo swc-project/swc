@@ -16,6 +16,9 @@
 
 - **(es/helpers)** Make `_classPrivateFieldLooseBase ` return receiver (#6770) ([1d14760](https://github.com/swc-project/swc/commit/1d147602c0bfe291408c65b2e444cea0b5ceba89))
 
+
+- **(es/minifier)** Make name mangler respect `toplevel` (#6774) ([ec7e913](https://github.com/swc-project/swc/commit/ec7e9138158426b83d12dc3a29896098fb4c9ffa))
+
 ### Features
 
 
