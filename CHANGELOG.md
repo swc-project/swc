@@ -10,6 +10,9 @@
 
 - **(es/codegen)** Fix LineCol calculation of printed files (#6763) ([2b503c1](https://github.com/swc-project/swc/commit/2b503c16d5f338c6a786a19c7c0acbc4c06bcfee))
 
+
+- **(es/helpers)** Make `_classPrivateFieldLooseBase ` return receiver (#6770) ([1d14760](https://github.com/swc-project/swc/commit/1d147602c0bfe291408c65b2e444cea0b5ceba89))
+
 ### Features
 
 
@@ -18,6 +21,18 @@
 
 
 - **(es/minifier)** Handle boolean in `Evaluator` (#6756) ([8a6a1cb](https://github.com/swc-project/swc/commit/8a6a1cbcf1279b805e740f4d77ebb9fb72d52d41))
+
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Fix CI action (#6772) ([6d365de](https://github.com/swc-project/swc/commit/6d365de9e21d57c785f1634f4c19418765d9ca9b))
+
+### Testing
+
+
+
+- **(es)** Add a test for a fixed source map issue (#6768) ([6c126da](https://github.com/swc-project/swc/commit/6c126da1d42922229e9bb1c7594570f701e083ba))
 
 ## [1.3.25] - 2023-01-05
 
