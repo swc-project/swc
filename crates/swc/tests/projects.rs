@@ -6,8 +6,8 @@ use std::{
 use rayon::prelude::*;
 use swc::{
     config::{
-        BuiltInput, Config, FileMatcher, IsModule, JscConfig, ModuleConfig, Options,
-        SourceMapsConfig, TransformConfig,
+        BuiltInput, Config, FileMatcher, JscConfig, ModuleConfig, Options, SourceMapsConfig,
+        TransformConfig,
     },
     Compiler, TransformOutput,
 };

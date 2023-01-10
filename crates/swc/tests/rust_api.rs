@@ -1,7 +1,5 @@
 use swc::{
-    config::{
-        Config, InputSourceMap, IsModule, JscConfig, ModuleConfig, Options, SourceMapsConfig,
-    },
+    config::{Config, InputSourceMap, JscConfig, ModuleConfig, Options, SourceMapsConfig},
     Compiler,
 };
 use swc_common::{comments::SingleThreadedComments, FileName};

@@ -14,9 +14,7 @@ use regex::Regex;
 use serde::de::DeserializeOwned;
 use serde_json::from_str;
 use swc::{
-    config::{
-        Config, IsModule, JsMinifyOptions, JscConfig, ModuleConfig, Options, TransformConfig,
-    },
+    config::{Config, JsMinifyOptions, JscConfig, ModuleConfig, Options, TransformConfig},
     try_with_handler, Compiler,
 };
 use swc_common::{

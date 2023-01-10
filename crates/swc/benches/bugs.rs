@@ -3,7 +3,6 @@ extern crate swc_node_base;
 use std::{io::stderr, path::Path};
 
 use criterion::{black_box, criterion_group, criterion_main, Bencher, Criterion};
-use swc::config::{Config, IsModule, Options};
 use swc_common::{errors::Handler, sync::Lrc, FilePathMapping, SourceMap};
 use swc_ecma_utils::swc_common::GLOBALS;
 
