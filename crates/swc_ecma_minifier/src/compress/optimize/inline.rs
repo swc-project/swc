@@ -58,6 +58,10 @@ where
             if !usage.var_initialized {
                 return;
             }
+            if !self.options.top_level() && usage.is_top_level {
+                return;
+            }
+
             if self.data.top.used_arguments && usage.declared_as_fn_param {
                 return;
             }
