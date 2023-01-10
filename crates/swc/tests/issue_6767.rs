@@ -69,6 +69,8 @@ console.log("xyz", z);
                 let mut map_buf = vec![];
                 let (code, src_map_buf) = emit(cm.clone(), comments, &module).unwrap();
 
+                dbg!(&src_map_buf);
+
                 struct SourceMapConfigImpl;
 
                 impl SourceMapGenConfig for SourceMapConfigImpl {
