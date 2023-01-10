@@ -1043,6 +1043,7 @@
                   },
                   "in": false,
                   "out": false,
+                  "const": false,
                   "constraint": {
                     "type": "TsTypeReference",
                     "span": {
@@ -1599,6 +1600,7 @@
                   },
                   "in": false,
                   "out": false,
+                  "const": false,
                   "constraint": {
                     "type": "TsTypeReference",
                     "span": {

@@ -103,6 +103,7 @@
             },
             "in": false,
             "out": false,
+            "const": false,
             "constraint": {
               "type": "TsTupleType",
               "span": {

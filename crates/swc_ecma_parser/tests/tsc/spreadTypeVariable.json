@@ -148,6 +148,7 @@
             },
             "in": false,
             "out": false,
+            "const": false,
             "constraint": {
               "type": "TsKeywordType",
               "span": {
@@ -305,6 +306,7 @@
             },
             "in": false,
             "out": false,
+            "const": false,
             "constraint": {
               "type": "TsArrayType",
               "span": {
@@ -470,6 +472,7 @@
             },
             "in": false,
             "out": false,
+            "const": false,
             "constraint": {
               "type": "TsUnionType",
               "span": {
@@ -654,6 +657,7 @@
             },
             "in": false,
             "out": false,
+            "const": false,
             "constraint": {
               "type": "TsUnionType",
               "span": {
@@ -887,6 +891,7 @@
             },
             "in": false,
             "out": false,
+            "const": false,
             "constraint": {
               "type": "TsUnionType",
               "span": {
@@ -1128,6 +1133,7 @@
             },
             "in": false,
             "out": false,
+            "const": false,
             "constraint": null,
             "default": null
           }
