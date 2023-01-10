@@ -49,7 +49,7 @@ impl Visit for Preserver {
     fn visit_catch_clause(&mut self, n: &CatchClause) {
         let old = self.should_preserve;
 
-        if self.options.ie8 && !self.options.top_level {
+        if self.options.ie8 && !self.options.top_level.unwrap_or_default() {
             self.should_preserve = true;
             n.param.visit_with(self);
         }
@@ -61,7 +61,7 @@ impl Visit for Preserver {
     fn visit_class_decl(&mut self, n: &ClassDecl) {
         n.visit_children_with(self);
 
-        if (self.in_top_level && !self.options.top_level)
+        if (self.in_top_level && !self.options.top_level.unwrap_or_default())
             || self.options.keep_class_names
             || self.is_reserved(&n.ident)
         {
@@ -110,7 +110,7 @@ impl Visit for Preserver {
     fn visit_fn_decl(&mut self, n: &FnDecl) {
         n.visit_children_with(self);
 
-        if (self.in_top_level && !self.options.top_level)
+        if (self.in_top_level && !self.options.top_level.unwrap_or_default())
             || self.is_reserved(&n.ident)
             || self.options.keep_fn_names
         {
@@ -157,7 +157,7 @@ impl Visit for Preserver {
     fn visit_var_declarator(&mut self, n: &VarDeclarator) {
         n.visit_children_with(self);
 
-        if self.in_top_level && !self.options.top_level {
+        if self.in_top_level && !self.options.top_level.unwrap_or_default() {
             let old = self.should_preserve;
             self.should_preserve = true;
             n.name.visit_with(self);
