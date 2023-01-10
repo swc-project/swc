@@ -80,6 +80,7 @@
                 },
                 "in": false,
                 "out": false,
+                "const": false,
                 "constraint": null,
                 "default": null
               }

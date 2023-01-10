@@ -11,6 +11,9 @@
 - **(es/codegen)** Fix LineCol calculation of printed files (#6763) ([2b503c1](https://github.com/swc-project/swc/commit/2b503c16d5f338c6a786a19c7c0acbc4c06bcfee))
 
 
+- **(es/codegen)** Skip `lo` of a program if body is not empty (#6773) ([3f0f664](https://github.com/swc-project/swc/commit/3f0f664c488b4f51a12d277b29ad17e28a413a2b))
+
+
 - **(es/helpers)** Make `_classPrivateFieldLooseBase ` return receiver (#6770) ([1d14760](https://github.com/swc-project/swc/commit/1d147602c0bfe291408c65b2e444cea0b5ceba89))
 
 ### Features
@@ -21,6 +24,9 @@
 
 
 - **(es/minifier)** Handle boolean in `Evaluator` (#6756) ([8a6a1cb](https://github.com/swc-project/swc/commit/8a6a1cbcf1279b805e740f4d77ebb9fb72d52d41))
+
+
+- **(es/typescript)** Support const modifier on type parameters (#6672) ([019cf37](https://github.com/swc-project/swc/commit/019cf371994b87a92fd26fc623959a797f35991b))
 
 ### Miscellaneous Tasks
 
