@@ -2,10 +2,10 @@ use swc_atoms::JsWord;
 use swc_common::{
     chain,
     comments::SingleThreadedComments,
-    errors::{DiagnosticBuilder, Emitter, Handler},
+    errors::{DiagnosticBuilder, Emitter},
     source_map::SourceMapGenConfig,
     sync::Lrc,
-    FileName, Globals, Mark, SourceMap, DUMMY_SP,
+    FileName, Mark, SourceMap, DUMMY_SP,
 };
 use swc_ecma_ast::{Ident, ImportDecl, Module, ModuleDecl, ModuleItem};
 use swc_ecma_codegen::{text_writer::JsWriter, Config};
@@ -28,72 +28,71 @@ impl Emitter for ErrorBuffer {
 
 #[test]
 fn issue_6767() {
-    let cm = Lrc::<SourceMap>::default();
+    testing::run_test(false, |cm, _| {
+        let src = r#"/*------------------------------------
+        ------------------------------------*/
+      var _a;
+      import z from "./z.js";
+      console.log("xyz", z);
+      "#;
 
-    let src = r#"/*------------------------------------
-  ------------------------------------*/
-var _a;
-import z from "./z.js";
-console.log("xyz", z);
-"#;
+        let (module, comments) = parse(src, "test.js", &cm).unwrap();
 
-    let (module, comments) = parse(src, "test.js", &cm).unwrap();
+        helpers::HELPERS.set(&helpers::Helpers::new(true), || {
+            if false {
+                return Ok(());
+            }
 
-    let error_buffer = ErrorBuffer::default();
-    let handler = Handler::with_emitter(true, false, Box::new(error_buffer));
-    swc_common::errors::HANDLER.set(&handler, || {
-        swc_common::GLOBALS.set(&Globals::new(), || {
-            helpers::HELPERS.set(&helpers::Helpers::new(true), || {
-                let unresolved_mark = Mark::fresh(Mark::root());
-                let top_level_mark = Mark::fresh(Mark::root());
-                let mut module =
-                    module.fold_with(&mut resolver(unresolved_mark, top_level_mark, false));
+            let unresolved_mark = Mark::fresh(Mark::root());
+            let top_level_mark = Mark::fresh(Mark::root());
+            let mut module =
+                module.fold_with(&mut resolver(unresolved_mark, top_level_mark, false));
 
-                module.body.splice(
-                    0..0,
-                    vec![ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
-                        specifiers: vec![],
-                        asserts: None,
-                        span: DUMMY_SP,
-                        src: Box::new("new".into()),
-                        type_only: false,
-                    }))],
-                );
+            module.body.splice(
+                0..0,
+                vec![ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
+                    specifiers: vec![],
+                    asserts: None,
+                    span: DUMMY_SP,
+                    src: Box::new("new".into()),
+                    type_only: false,
+                }))],
+            );
 
-                let module = module.fold_with(&mut chain!(
-                    reserved_words(),
-                    hygiene(),
-                    fixer(Some(&comments))
-                ));
+            let module = module.fold_with(&mut chain!(
+                reserved_words(),
+                hygiene(),
+                fixer(Some(&comments))
+            ));
 
-                let mut map_buf = vec![];
-                let (code, src_map_buf) = emit(cm.clone(), comments, &module).unwrap();
+            let mut map_buf = vec![];
+            let (code, src_map_buf) = emit(cm.clone(), comments, &module).unwrap();
 
-                dbg!(&src_map_buf);
+            dbg!(&src_map_buf);
 
-                struct SourceMapConfigImpl;
+            struct SourceMapConfigImpl;
 
-                impl SourceMapGenConfig for SourceMapConfigImpl {
-                    fn file_name_to_source(&self, f: &swc_common::FileName) -> String {
-                        f.to_string()
-                    }
-
-                    fn inline_sources_content(&self, _: &swc_common::FileName) -> bool {
-                        true
-                    }
+            impl SourceMapGenConfig for SourceMapConfigImpl {
+                fn file_name_to_source(&self, f: &swc_common::FileName) -> String {
+                    f.to_string()
                 }
-                cm.build_source_map_with_config(&src_map_buf, None, SourceMapConfigImpl)
-                    .to_writer(&mut map_buf)
-                    .unwrap();
 
-                println!(
-                    "{}",
-                    visualizer_url(&code, &String::from_utf8(map_buf).unwrap())
-                );
-                panic!()
-            });
-        });
-    });
+                fn inline_sources_content(&self, _: &swc_common::FileName) -> bool {
+                    true
+                }
+            }
+            cm.build_source_map_with_config(&src_map_buf, None, SourceMapConfigImpl)
+                .to_writer(&mut map_buf)
+                .unwrap();
+
+            println!(
+                "{}",
+                visualizer_url(&code, &String::from_utf8(map_buf).unwrap())
+            );
+            panic!()
+        })
+    })
+    .unwrap();
 }
 
 fn visualizer_url(code: &str, map: &str) -> String {
