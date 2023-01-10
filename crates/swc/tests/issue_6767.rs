@@ -1,6 +1,3 @@
-use std::collections::HashSet;
-
-use swc::{self};
 use swc_atoms::JsWord;
 use swc_common::{
     chain,
@@ -8,25 +5,15 @@ use swc_common::{
     errors::{DiagnosticBuilder, Emitter, Handler},
     source_map::SourceMapGenConfig,
     sync::Lrc,
-    FileName, Globals, Mark, SourceMap, SyntaxContext, DUMMY_SP,
+    FileName, Globals, Mark, SourceMap, DUMMY_SP,
 };
-use swc_ecma_ast::{
-    CatchClause, Decl, Id, Ident, ImportDecl, Module, ModuleDecl, ModuleItem, Pat, Stmt,
-    VarDeclKind,
-};
+use swc_ecma_ast::{Ident, ImportDecl, Module, ModuleDecl, ModuleItem};
 use swc_ecma_codegen::{text_writer::JsWriter, Config};
-use swc_ecma_parser::{lexer::Lexer, EsConfig, PResult, Parser, StringInput, Syntax, TsConfig};
-use swc_ecma_preset_env::{preset_env, BrowserData, Mode, Targets, Version};
+use swc_ecma_parser::{lexer::Lexer, PResult, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_transforms::{
-    compat::reserved_words::reserved_words,
-    fixer,
-    fixer::paren_remover,
-    helpers, hygiene,
-    optimization::simplify::{dead_branch_remover, expr_simplifier},
-    react::{self, Runtime},
-    resolver,
+    compat::reserved_words::reserved_words, fixer, helpers, hygiene, resolver,
 };
-use swc_ecma_visit::{Fold, FoldWith, Visit, VisitWith};
+use swc_ecma_visit::{Fold, FoldWith};
 
 #[derive(Debug, Clone, Default)]
 pub struct ErrorBuffer(std::sync::Arc<std::sync::Mutex<Vec<swc_common::errors::Diagnostic>>>);
