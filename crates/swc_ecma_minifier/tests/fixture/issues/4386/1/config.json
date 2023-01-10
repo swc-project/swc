@@ -1,6 +1,4 @@
 {
-    "arrows": false,
-    "conditionals": false,
-    "evaluate": false,
+    "defaults": true,
     "toplevel": false
 }
