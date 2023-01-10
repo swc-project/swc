@@ -336,7 +336,10 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                 need_analyzer
             ),
             compat::reserved_words::reserved_words(),
-            Optional::new(helpers::inject_helpers(), self.inject_helpers),
+            Optional::new(
+                helpers::inject_helpers(self.unresolved_mark),
+                self.inject_helpers
+            ),
             ModuleConfig::build(
                 self.cm.clone(),
                 comments,

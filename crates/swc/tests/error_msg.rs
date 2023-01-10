@@ -17,10 +17,6 @@ fn file(f: impl AsRef<Path>) -> NormalizedOutput {
                 fm,
                 &handler,
                 &Options {
-                    config: Config {
-                        is_module: IsModule::Bool(true),
-                        ..Default::default()
-                    },
                     swcrc: true,
                     ..Default::default()
                 },
@@ -72,7 +68,7 @@ fn fixture(input: PathBuf) {
                     handler,
                     &Options {
                         config: Config {
-                            is_module: IsModule::Unknown,
+                            is_module: Some(IsModule::Unknown),
                             ..Default::default()
                         },
                         swcrc: true,

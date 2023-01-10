@@ -23,18 +23,8 @@ fn bench_file(b: &mut Bencher, path: &Path) {
 
         let result = {
             GLOBALS.set(&Default::default(), || {
-                c.process_js_file(
-                    fm,
-                    &handler,
-                    &Options {
-                        config: Config {
-                            is_module: IsModule::Bool(true),
-                            ..Default::default()
-                        },
-                        ..Default::default()
-                    },
-                )
-                .unwrap()
+                c.process_js_file(fm, &handler, &Default::default())
+                    .unwrap()
             })
         };
         black_box(result);

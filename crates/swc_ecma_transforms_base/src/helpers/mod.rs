@@ -8,7 +8,7 @@ use rustc_hash::FxHashMap;
 use swc_atoms::JsWord;
 use swc_common::{FileName, FilePathMapping, Mark, SourceMap, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{prepend_stmts, DropSpan};
+use swc_ecma_utils::{prepend_stmts, DropSpan, ExprFactory};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 #[macro_export]
@@ -25,7 +25,6 @@ fn parse(code: &str) -> Vec<Stmt> {
     let cm = SourceMap::new(FilePathMapping::empty());
 
     let fm = cm.new_source_file(FileName::Custom(stringify!($name).into()), code.into());
-
     swc_ecma_parser::parse_file_as_script(
         &fm,
         Default::default(),
@@ -92,6 +91,52 @@ macro_rules! add_import_to {
     }};
 }
 
+macro_rules! add_require_to {
+    ($buf:expr, $name:ident, $b:expr, $mark:expr, $global_mark:expr) => {{
+        let enable = $b.load(Ordering::Relaxed);
+        if enable {
+            let c = CallExpr {
+                span: DUMMY_SP,
+                callee: Expr::Ident(Ident {
+                    span: DUMMY_SP.apply_mark($global_mark),
+                    sym: "require".into(),
+                    optional: false,
+                })
+                .as_callee(),
+                args: vec![Str {
+                    span: DUMMY_SP,
+                    value: "@swc/helpers".into(),
+                    raw: None,
+                }
+                .as_arg()],
+                type_args: None,
+            };
+            let decl = Decl::Var(
+                VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    declare: false,
+                    decls: vec![VarDeclarator {
+                        span: DUMMY_SP,
+                        name: Pat::Ident(Ident::new(
+                            concat!("_", stringify!($name)).into(),
+                            DUMMY_SP.apply_mark($mark),
+                        ).into()),
+                        init: Some(MemberExpr {
+                            span: DUMMY_SP,
+                            obj: c.into(),
+                            prop: Ident::new(stringify!($name).into(), DUMMY_SP).into(),
+                        }
+                        .into()),
+                        definite: false,
+                    }],
+                }
+                .into(),
+            );
+            $buf.push(Stmt::Decl(decl));
+        }
+    }};
+}
 better_scoped_tls::scoped_tls!(
     /// This variable is used to manage helper scripts like `_inherits` from babel.
     ///
@@ -201,6 +246,17 @@ macro_rules! define_helpers {
                     )*
                 });
 
+                buf
+            }
+
+            fn build_requires(&self) -> Vec<Stmt>{
+                let mut buf = vec![];
+                HELPERS.with(|helpers|{
+                    debug_assert!(helpers.external);
+                    $(
+                        add_require_to!(buf, $name, helpers.inner.$name, helpers.mark.0, self.global_mark);
+                    )*
+                });
                 buf
             }
         }
@@ -364,11 +420,13 @@ define_helpers!(Helpers {
     ts_values: (),
 });
 
-pub fn inject_helpers() -> impl Fold + VisitMut {
-    as_folder(InjectHelpers)
+pub fn inject_helpers(global_mark: Mark) -> impl Fold + VisitMut {
+    as_folder(InjectHelpers { global_mark })
 }
 
-struct InjectHelpers;
+struct InjectHelpers {
+    global_mark: Mark,
+}
 
 impl InjectHelpers {
     fn make_helpers_for_module(&self) -> Vec<ModuleItem> {
@@ -391,13 +449,14 @@ impl InjectHelpers {
         let external = HELPERS.with(|helper| helper.external());
 
         if external {
-            panic!(
-                "Cannot use script with externalHelpers; There's no standard way to import other \
-                 modules"
-            );
+            if self.is_helper_used() {
+                self.build_requires()
+            } else {
+                vec![]
+            }
+        } else {
+            self.build_helpers()
         }
-
-        self.build_helpers()
     }
 }
 
@@ -526,7 +585,9 @@ _throw();",
 
                 eprintln!("----- Actual -----");
 
-                let tr = as_folder(InjectHelpers);
+                let tr = as_folder(InjectHelpers {
+                    global_mark: Mark::fresh(Mark::root()),
+                });
                 let actual = tester
                     .apply_transform(tr, "input.js", Default::default(), input)?
                     .fold_with(&mut crate::hygiene::hygiene())
@@ -559,7 +620,9 @@ _throw();",
             Default::default(),
             |_| {
                 enable_helper!(throw);
-                as_folder(InjectHelpers)
+                as_folder(InjectHelpers {
+                    global_mark: Mark::fresh(Mark::root()),
+                })
             },
             "'use strict'",
             "'use strict'
@@ -578,7 +641,9 @@ function _throw(e) {
             Default::default(),
             |_| {
                 enable_helper!(throw);
-                as_folder(InjectHelpers)
+                as_folder(InjectHelpers {
+                    global_mark: Mark::fresh(Mark::root()),
+                })
             },
             "let _throw = null",
             "function _throw(e) {

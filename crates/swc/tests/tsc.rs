@@ -393,7 +393,6 @@ fn matrix(input: &Path) -> Vec<TestUnitData> {
                             ..Default::default()
                         },
                         module: Some(module.into()),
-                        is_module: IsModule::Bool(true),
                         ..Default::default()
                     },
                     ..Default::default()

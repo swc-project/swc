@@ -33,7 +33,6 @@ fn file(f: &str, config: Config) -> Result<(), StdErr> {
                 &handler,
                 &Options {
                     config: Config {
-                        is_module: IsModule::Bool(true),
                         inline_sources_content: true.into(),
                         ..config
                     },
@@ -88,7 +87,6 @@ fn inline(f: &str) -> Result<(), StdErr> {
                 &handler,
                 &Options {
                     config: Config {
-                        is_module: IsModule::Bool(true),
                         inline_sources_content: true.into(),
                         ..Default::default()
                     },
@@ -329,7 +327,6 @@ fn should_work_with_emit_source_map_columns() {
                 swcrc: false,
                 source_maps: Some(SourceMapsConfig::Bool(true)),
                 config: Config {
-                    is_module: IsModule::Bool(true),
                     inline_sources_content: true.into(),
                     emit_source_map_columns: true.into(),
                     ..Default::default()
@@ -384,7 +381,6 @@ fn should_work_with_emit_source_map_columns() {
                 swcrc: false,
                 source_maps: Some(SourceMapsConfig::Bool(true)),
                 config: Config {
-                    is_module: IsModule::Bool(true),
                     inline_sources_content: true.into(),
                     emit_source_map_columns: false.into(),
                     ..Default::default()
@@ -460,7 +456,6 @@ export const fixupRiskConfigData = (data: any): types.RiskConfigType => {
                         syntax: Some(Syntax::Typescript(Default::default())),
                         ..Default::default()
                     },
-                    is_module: IsModule::Bool(true),
                     inline_sources_content: true.into(),
                     emit_source_map_columns: true.into(),
                     ..Default::default()

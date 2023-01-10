@@ -4,7 +4,7 @@ use ahash::AHashMap;
 use anyhow::Error;
 use relative_path::RelativePath;
 use swc_atoms::js_word;
-use swc_common::{util::move_map::MoveMap, FileName, DUMMY_SP};
+use swc_common::{util::move_map::MoveMap, FileName, Mark, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{
     fixer::fixer,
@@ -54,8 +54,9 @@ where
 
                     let module = bundle.module;
 
-                    bundle.module =
-                        HELPERS.set(&swc_helpers, || module.fold_with(&mut inject_helpers()));
+                    bundle.module = HELPERS.set(&swc_helpers, || {
+                        module.fold_with(&mut inject_helpers(Mark::fresh(Mark::root())))
+                    });
                 }
 
                 match bundle.kind {
