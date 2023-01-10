@@ -1,0 +1,14 @@
+{
+    "jsc": {
+        "transform": {
+            "optimizer": {
+                "simplify": false,
+                "globals": {
+                    "vars": {
+                        "import.meta.ENV": "'production'"
+                    }
+                }
+            }
+        }
+    }
+}
