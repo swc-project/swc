@@ -633,14 +633,6 @@ impl TreeShaker {
             } else if !self.in_block_stmt {
                 return false;
             }
-
-            // Abort if the variable is declared on top level scope.
-            let ix = self.data.graph_ix.get_index_of(&name);
-            if let Some(ix) = ix {
-                if self.data.entries.contains(&(ix as u32)) {
-                    return false;
-                }
-            }
         }
 
         if self.config.top_retain.contains(&name.0) {
