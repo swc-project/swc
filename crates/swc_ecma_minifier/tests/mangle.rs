@@ -355,7 +355,7 @@ class a {
         src,
         expected,
         MangleOptions {
-            top_level: true,
+            top_level: Some(true),
             keep_private_props: true,
             ..Default::default()
         },
