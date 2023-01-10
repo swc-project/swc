@@ -128,7 +128,7 @@ fn do_test(_entry: &Path, entries: HashMap<String, FileName>, inline: bool, mini
                                     ..Default::default()
                                 }),
                                 mangle: Some(MangleOptions {
-                                    top_level: true,
+                                    top_level: Some(true),
                                     ..Default::default()
                                 }),
                                 ..Default::default()
