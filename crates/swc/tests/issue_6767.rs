@@ -37,10 +37,10 @@ import z from "./z.js";
 console.log("xyz", z);
 "#;
 
-    let (module, comments) = parse(&src, "test.js", &cm).unwrap();
+    let (module, comments) = parse(src, "test.js", &cm).unwrap();
 
     let error_buffer = ErrorBuffer::default();
-    let handler = Handler::with_emitter(true, false, Box::new(error_buffer.clone()));
+    let handler = Handler::with_emitter(true, false, Box::new(error_buffer));
     swc_common::errors::HANDLER.set(&handler, || {
         swc_common::GLOBALS.set(&Globals::new(), || {
             helpers::HELPERS.set(&helpers::Helpers::new(true), || {
