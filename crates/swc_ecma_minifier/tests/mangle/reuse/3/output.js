@@ -156,34 +156,34 @@ function m(u, t) {
 function w(u) {
     const t = [];
     let e = false;
-    for (const n of u){
+    for (const i of u){
         if (e) {
-            t.push(n);
-        } else if (n === "--") {
+            t.push(i);
+        } else if (i === "--") {
             e = true;
-            t.push(n);
-        } else if (n[0] === "-") {
-            const i = n[1] === "-";
-            if (n.includes("=")) {
-                const s = n.split("=");
-                const r = s.shift();
-                if (i) {
-                    t.push(r);
+            t.push(i);
+        } else if (i[0] === "-") {
+            const u = i[1] === "-";
+            if (i.includes("=")) {
+                const e = i.split("=");
+                const s = e.shift();
+                if (u) {
+                    t.push(s);
                 } else {
-                    o(r);
+                    n(s);
                 }
-                t.push(s.join("="));
-            } else if (i) {
-                t.push(n);
+                t.push(e.join("="));
+            } else if (u) {
+                t.push(i);
             } else {
-                o(n);
+                n(i);
             }
         } else {
-            t.push(n);
+            t.push(i);
         }
     }
     return t;
-    function o(u) {
+    function n(u) {
         const e = u.slice(1).split("");
         if (isNaN(u[u.length - 1])) {
             e.forEach((u)=>t.push(`-${u}`));
@@ -241,63 +241,63 @@ function _(u, t) {
 }
 function O(u, t, e, n) {
     const i = {};
-    for (const s of u){
-        const r = g(s.name);
-        if (typeof t[r] === "undefined" && typeof s.default !== "undefined") {
-            t[r] = typeof s.default === "function" ? s.default() : s.default;
-            i[r] = true;
+    for (const e of u){
+        const u = g(e.name);
+        if (typeof t[u] === "undefined" && typeof e.default !== "undefined") {
+            t[u] = typeof e.default === "function" ? e.default() : e.default;
+            i[u] = true;
         }
     }
-    const o = Object.keys(t);
-    if (o.length === 0 && n) {
+    const s = Object.keys(t);
+    if (s.length === 0 && n) {
         return;
     }
-    const A = o.map((t)=>({
+    const r = s.map((t)=>({
             name: t,
             option: _(u, m(t))
         }));
-    for (const { name: E , option: a  } of A){
-        if (!a) {
-            throw new Error("Unknown option: --" + E);
+    for (const { name: u , option: e  } of r){
+        if (!e) {
+            throw new Error("Unknown option: --" + u);
         }
-        if (a.standalone) {
-            if (o.length > 1) {
-                if (A.every(({ option: u  })=>u && (a === u || i[u.name]))) {
+        if (e.standalone) {
+            if (s.length > 1) {
+                if (r.every(({ option: u  })=>u && (e === u || i[u.name]))) {
                     return;
                 }
-                throw new Error(`Option --${a.name} cannot be combined with other options.`);
+                throw new Error(`Option --${e.name} cannot be combined with other options.`);
             }
             return;
         }
-        a.conflicts?.forEach((u)=>{
-            if (l(u)) {
-                throw new Error(`Option --${a.name} conflicts with option: --${u}`);
+        e.conflicts?.forEach((u)=>{
+            if (o(u)) {
+                throw new Error(`Option --${e.name} conflicts with option: --${u}`);
             }
         });
-        a.depends?.forEach((u)=>{
-            if (!l(u) && !i[a.name]) {
-                throw new Error(`Option --${a.name} depends on option: --${u}`);
+        e.depends?.forEach((u)=>{
+            if (!o(u) && !i[e.name]) {
+                throw new Error(`Option --${e.name} depends on option: --${u}`);
             }
         });
-        const C = (a.args?.length || 0) > 1;
-        a.args?.forEach((u, e)=>{
-            if (u.requiredValue && (typeof t[E] === "undefined" || (C && typeof t[E][e] === "undefined"))) {
-                throw new Error(`Missing value for option: --${a.name}`);
+        const n = (e.args?.length || 0) > 1;
+        e.args?.forEach((i, s)=>{
+            if (i.requiredValue && (typeof t[u] === "undefined" || (n && typeof t[u][s] === "undefined"))) {
+                throw new Error(`Missing value for option: --${e.name}`);
             }
         });
-        function l(u) {
+        function o(u) {
             const e = g(u);
             return typeof t[e] !== "undefined";
         }
     }
-    for (const h of u){
-        if (h.required && !(g(h.name) in t)) {
-            if ((!h.conflicts || !h.conflicts.find((u)=>!!t[u])) && !A.find((u)=>u.option?.conflicts?.find((u)=>u === h.name))) {
-                throw new Error(`Missing required option: --${h.name}`);
+    for (const e of u){
+        if (e.required && !(g(e.name) in t)) {
+            if ((!e.conflicts || !e.conflicts.find((u)=>!!t[u])) && !r.find((u)=>u.option?.conflicts?.find((u)=>u === e.name))) {
+                throw new Error(`Missing required option: --${e.name}`);
             }
         }
     }
-    if (o.length === 0 && !n) {
+    if (s.length === 0 && !n) {
         throw new Error("No arguments.");
     }
 }
@@ -322,10 +322,10 @@ function S(u, t = {}) {
             }
         });
     });
-    for(let E = 0; E < e.length; E++){
+    for(let u = 0; u < e.length; u++){
         let a;
         let C;
-        const l = e[E];
+        const l = e[u];
         if (n) {
             r.push(l);
             continue;
@@ -335,20 +335,20 @@ function S(u, t = {}) {
             continue;
         }
         const h = l.length > 1 && l[0] === "-";
-        const F = ()=>e[E + 1];
+        const F = ()=>e[u + 1];
         if (h && !A) {
             if (l[2] === "-" || (l[1] === "-" && l.length === 3)) {
                 throw new Error(`Invalid flag name: ${l}`);
             }
             i = l.indexOf("--no-") === 0;
-            const c = l.replace(/^-+(no-)?/, "");
-            a = _(t.flags, c);
+            const n = l.replace(/^-+(no-)?/, "");
+            a = _(t.flags, n);
             if (!a) {
                 if (t.flags.length) {
                     throw new Error(`Unknown option: ${l}`);
                 }
                 a = {
-                    name: c,
+                    name: n,
                     optionalValue: true,
                     type: y.STRING
                 };
@@ -356,8 +356,8 @@ function S(u, t = {}) {
             if (!a.name) {
                 throw new Error(`Missing name for option: ${l}`);
             }
-            const f = g(a.name);
-            if (typeof s[f] !== "undefined" && !a.collect) {
+            const r = g(a.name);
+            if (typeof s[r] !== "undefined" && !a.collect) {
                 throw new Error(`Duplicate option: ${l}`);
             }
             C = a.args?.length ? a.args : [
@@ -370,103 +370,103 @@ function S(u, t = {}) {
                     separator: a.separator
                 }
             ];
-            let p = 0;
-            let B = false;
-            const d = s[f];
-            m(a, C);
-            if (typeof s[f] === "undefined") {
+            let o = 0;
+            let A = false;
+            const h = s[r];
+            E(a, C);
+            if (typeof s[r] === "undefined") {
                 if (typeof a.default !== "undefined") {
-                    s[f] = typeof a.default === "function" ? a.default() : a.default;
-                } else if (C[p].requiredValue) {
+                    s[r] = typeof a.default === "function" ? a.default() : a.default;
+                } else if (C[o].requiredValue) {
                     throw new Error(`Missing value for option: --${a.name}`);
                 } else {
-                    s[f] = true;
+                    s[r] = true;
                 }
             }
             if (typeof a.value !== "undefined") {
-                s[f] = a.value(s[f], d);
+                s[r] = a.value(s[r], h);
             } else if (a.collect) {
-                const D = d || [];
-                D.push(s[f]);
-                s[f] = D;
+                const u = h || [];
+                u.push(s[r]);
+                s[r] = u;
             }
-            function m(u, n) {
-                const r = n[p];
-                if (!r) {
+            function E(n, a) {
+                const C = a[o];
+                if (!C) {
                     throw new Error("Unknown option: " + F());
                 }
-                if (!r.type) {
-                    r.type = y.BOOLEAN;
+                if (!C.type) {
+                    C.type = y.BOOLEAN;
                 }
-                if (u.args?.length) {
-                    if ((typeof r.optionalValue === "undefined" || r.optionalValue === false) && typeof r.requiredValue === "undefined") {
-                        r.requiredValue = true;
+                if (n.args?.length) {
+                    if ((typeof C.optionalValue === "undefined" || C.optionalValue === false) && typeof C.requiredValue === "undefined") {
+                        C.requiredValue = true;
                     }
                 } else {
-                    if (r.type !== y.BOOLEAN && (typeof r.optionalValue === "undefined" || r.optionalValue === false) && typeof r.requiredValue === "undefined") {
-                        r.requiredValue = true;
+                    if (C.type !== y.BOOLEAN && (typeof C.optionalValue === "undefined" || C.optionalValue === false) && typeof C.requiredValue === "undefined") {
+                        C.requiredValue = true;
                     }
                 }
-                if (r.requiredValue) {
-                    if (B) {
-                        throw new Error(`An required argument can not follow an optional argument but found in: ${u.name}`);
+                if (C.requiredValue) {
+                    if (A) {
+                        throw new Error(`An required argument can not follow an optional argument but found in: ${n.name}`);
                     }
                 } else {
-                    B = true;
+                    A = true;
                 }
                 if (i) {
-                    if (r.type !== y.BOOLEAN && !r.optionalValue) {
-                        throw new Error(`Negate not supported by --${u.name}. Only optional option or options of type boolean can be negated.`);
+                    if (C.type !== y.BOOLEAN && !C.optionalValue) {
+                        throw new Error(`Negate not supported by --${n.name}. Only optional option or options of type boolean can be negated.`);
                     }
-                    s[f] = false;
+                    s[r] = false;
                     return;
                 }
-                let o;
-                let A = false;
-                if (r.list && C(r)) {
-                    const a = F().split(r.separator || ",").map((t)=>{
-                        const e = l(u, r, t);
-                        if (typeof e === "undefined") {
-                            throw new Error(`List item of option --${u?.name} must be of type ${r.type} but got: ${t}`);
+                let l;
+                let h = false;
+                if (C.list && c(C)) {
+                    const u = F().split(C.separator || ",").map((u)=>{
+                        const t = f(n, C, u);
+                        if (typeof t === "undefined") {
+                            throw new Error(`List item of option --${n?.name} must be of type ${C.type} but got: ${u}`);
                         }
-                        return e;
+                        return t;
                     });
-                    if (a?.length) {
-                        o = a;
+                    if (u?.length) {
+                        l = u;
                     }
                 } else {
-                    if (C(r)) {
-                        o = l(u, r, F());
-                    } else if (r.optionalValue && r.type === y.BOOLEAN) {
-                        o = true;
+                    if (c(C)) {
+                        l = f(n, C, F());
+                    } else if (C.optionalValue && C.type === y.BOOLEAN) {
+                        l = true;
                     }
                 }
-                if (A) {
-                    E++;
-                    if (!r.variadic) {
-                        p++;
-                    } else if (n[p + 1]) {
+                if (h) {
+                    u++;
+                    if (!C.variadic) {
+                        o++;
+                    } else if (a[o + 1]) {
                         throw new Error("An argument cannot follow an variadic argument: " + F());
                     }
                 }
-                if (typeof o !== "undefined" && (n.length > 1 || r.variadic)) {
-                    if (!s[f]) {
-                        s[f] = [];
+                if (typeof l !== "undefined" && (a.length > 1 || C.variadic)) {
+                    if (!s[r]) {
+                        s[r] = [];
                     }
-                    s[f].push(o);
-                    if (C(r)) {
-                        m(u, n);
+                    s[r].push(l);
+                    if (c(C)) {
+                        E(n, a);
                     }
                 } else {
-                    s[f] = o;
+                    s[r] = l;
                 }
-                function C(u) {
-                    return !!(e[E + 1] && (u.optionalValue || u.requiredValue || u.variadic) && (e[E + 1][0] !== "-" || (u.type === y.NUMBER && !isNaN(e[E + 1]))) && u);
+                function c(t) {
+                    return !!(e[u + 1] && (t.optionalValue || t.requiredValue || t.variadic) && (e[u + 1][0] !== "-" || (t.type === y.NUMBER && !isNaN(e[u + 1]))) && t);
                 }
-                function l(u, e, n) {
+                function f(u, e, n) {
                     let i = t.parse ? t.parse(e.type || y.STRING, u, e, n) : V(u, e, n);
                     if (typeof i !== "undefined") {
-                        A = true;
+                        h = true;
                     }
                     return i;
                 }
@@ -507,48 +507,48 @@ const { inspect: N  } = Deno;
 const G = /%[sdjoO%]/g;
 function M(...u) {
     if (typeof u[0] !== "string") {
-        let t = [];
-        for(let e = 0; e < arguments.length; e++){
-            t.push(N(arguments[e]));
+        let u = [];
+        for(let t = 0; t < arguments.length; t++){
+            u.push(N(arguments[t]));
         }
-        return t.join(" ");
+        return u.join(" ");
     }
-    let n = 1;
-    const i = u[0];
-    const s = u.length;
-    let r = String(i).replace(G, function(t) {
-        if (t === "%%") {
+    let t = 1;
+    const e = u[0];
+    const n = u.length;
+    let i = String(e).replace(G, function(e) {
+        if (e === "%%") {
             return "%";
         }
-        if (n >= s) {
-            return t;
+        if (t >= n) {
+            return e;
         }
-        switch(t){
+        switch(e){
             case "%s":
-                return String(u[n++]);
+                return String(u[t++]);
             case "%d":
-                return String(Number(u[n++]));
+                return String(Number(u[t++]));
             case "%j":
                 try {
-                    return JSON.stringify(u[n++]);
-                } catch (e) {
+                    return JSON.stringify(u[t++]);
+                } catch (u) {
                     return "[Circular]";
                 }
             case "%o":
             case "%O":
-                return N(u[n++]);
+                return N(u[t++]);
             default:
-                return t;
+                return e;
         }
     });
-    for(let o = u[n]; n < s; o = u[++n]){
-        if (o == null || typeof o !== "object") {
-            r += " " + o;
+    for(let e = u[t]; t < n; e = u[++t]){
+        if (e == null || typeof e !== "object") {
+            i += " " + e;
         } else {
-            r += " " + N(o);
+            i += " " + N(e);
         }
     }
-    return r;
+    return i;
 }
 class T {
 }
@@ -591,38 +591,38 @@ class U {
         let e = false;
         let n = false;
         const i = u.split(/ +/);
-        for (const s of i){
+        for (const u of i){
             if (n) {
                 throw new Error("An argument can not follow an variadic argument.");
             }
-            const r = s.split(this.ARGUMENT_DETAILS_REGEX);
-            const o = r[2] || y.STRING;
-            let A = {
-                optionalValue: s[0] !== "<",
-                name: r[1],
-                action: r[3] || o,
+            const i = u.split(this.ARGUMENT_DETAILS_REGEX);
+            const s = i[2] || y.STRING;
+            let r = {
+                optionalValue: u[0] !== "<",
+                name: i[1],
+                action: i[3] || s,
                 variadic: false,
-                list: o ? s.indexOf(o + "[]") !== -1 : false,
-                type: o
+                list: s ? u.indexOf(s + "[]") !== -1 : false,
+                type: s
             };
-            if (!A.optionalValue && e) {
+            if (!r.optionalValue && e) {
                 throw new Error("An required argument can not follow an optional argument.");
             }
-            if (s[0] === "[") {
+            if (u[0] === "[") {
                 e = true;
             }
-            if (A.name.length > 3) {
-                const E = A.name.slice(0, 3) === "...";
-                const a = A.name.slice(-3) === "...";
-                n = A.variadic = E || a;
-                if (E) {
-                    A.name = A.name.slice(3);
-                } else if (a) {
-                    A.name = A.name.slice(0, -3);
+            if (r.name.length > 3) {
+                const u = r.name.slice(0, 3) === "...";
+                const t = r.name.slice(-3) === "...";
+                n = r.variadic = u || t;
+                if (u) {
+                    r.name = r.name.slice(3);
+                } else if (t) {
+                    r.name = r.name.slice(0, -3);
                 }
             }
-            if (A.name) {
-                t.push(A);
+            if (r.name) {
+                t.push(r);
             }
         }
         return t;
@@ -759,21 +759,21 @@ class I extends Array {
 function k(u, t) {
     let e = "";
     const n = t.split(/ /g);
-    for(let i = 0; i < n.length; i++){
-        let s = n[i];
-        let r = s.indexOf("\n") !== -1;
-        if (r) {
-            s = s.split("\n").shift();
+    for(let t = 0; t < n.length; t++){
+        let i = n[t];
+        let s = i.indexOf("\n") !== -1;
+        if (s) {
+            i = i.split("\n").shift();
         }
         if (e) {
-            const o = Z(s).length;
-            const A = Z(e).length;
-            if (A + o >= u) {
+            const t = Z(i).length;
+            const n = Z(e).length;
+            if (n + t >= u) {
                 break;
             }
         }
-        e += (i > 0 ? " " : "") + s;
-        if (r) {
+        e += (t > 0 ? " " : "") + i;
+        if (s) {
             break;
         }
     }
@@ -813,27 +813,27 @@ class X {
             ...this.table
         ] : this.table.slice());
         const s = Math.max(...i.map((u)=>u.length));
-        for (const r of i){
-            const o = r.length;
-            if (o < s) {
-                const A = s - o;
-                for(let E = 0; E < A; E++){
-                    r.push(this.createCell(null, r));
+        for (const u of i){
+            const t = u.length;
+            if (t < s) {
+                const e = s - t;
+                for(let t = 0; t < e; t++){
+                    u.push(this.createCell(null, u));
                 }
             }
         }
-        const a = [];
-        const C = [];
-        for(let l = 0; l < s; l++){
-            const h = Array.isArray(this.options.minCellWidth) ? this.options.minCellWidth[l] : this.options.minCellWidth;
-            const F = Array.isArray(this.options.maxCellWidth) ? this.options.maxCellWidth[l] : this.options.maxCellWidth;
-            const c = J(l, i, F);
-            C[l] = Math.min(F, Math.max(h, c));
-            a[l] = Array.isArray(this.options.padding) ? this.options.padding[l] : this.options.padding;
+        const r = [];
+        const o = [];
+        for(let u = 0; u < s; u++){
+            const t = Array.isArray(this.options.minCellWidth) ? this.options.minCellWidth[u] : this.options.minCellWidth;
+            const e = Array.isArray(this.options.maxCellWidth) ? this.options.maxCellWidth[u] : this.options.maxCellWidth;
+            const n = J(u, i, e);
+            o[u] = Math.min(e, Math.max(t, n));
+            r[u] = Array.isArray(this.options.padding) ? this.options.padding[u] : this.options.padding;
         }
         return {
-            padding: a,
-            width: C,
+            padding: r,
+            width: o,
             rows: i,
             columns: s,
             hasBorder: e,
@@ -892,22 +892,22 @@ class X {
         }
         let E = false;
         o += " ".repeat(this.options.indent || 0);
-        for(let a = 0; a < e.columns; a++){
+        for(let t = 0; t < e.columns; t++){
             if (A > 1) {
                 A--;
-                u[a] = u[a - 1];
+                u[t] = u[t - 1];
                 continue;
             }
-            o += this.renderCell(a, i, s, u, e);
-            if (u[a] > 1) {
+            o += this.renderCell(t, i, s, u, e);
+            if (u[t] > 1) {
                 if (!n) {
-                    u[a]--;
+                    u[t]--;
                 }
-            } else if (!s || s[a] !== i[a]) {
-                u[a] = i[a].getRowSpan();
+            } else if (!s || s[t] !== i[t]) {
+                u[t] = i[t].getRowSpan();
             }
-            A = i[a].getColSpan();
-            if (u[a] === 1 && i[a].length) {
+            A = i[t].getColSpan();
+            if (u[t] === 1 && i[t].length) {
                 E = true;
             }
         }
@@ -952,19 +952,19 @@ class X {
         let E = i.width[u];
         const a = A.getColSpan();
         if (a > 1) {
-            for(let C = 1; C < a; C++){
-                E += i.width[u + C] + i.padding[u + C];
+            for(let t = 1; t < a; t++){
+                E += i.width[u + t] + i.padding[u + t];
                 if (i.hasBorder) {
-                    E += i.padding[u + C] + 1;
+                    E += i.padding[u + t] + 1;
                 }
             }
         }
-        const { current: l , next: h  } = this.renderCellValue(A, E);
-        t[u].setValue(h);
+        const { current: C , next: l  } = this.renderCellValue(A, E);
+        t[u].setValue(l);
         if (i.hasBorder) {
             r += " ".repeat(i.padding[u]);
         }
-        r += l;
+        r += C;
         if (i.hasBorder || u < i.columns - 1) {
             r += " ".repeat(i.padding[u]);
         }
@@ -1033,28 +1033,28 @@ class X {
             }
         } else if (u < i.columns) {
             if ((E && l) || (C && a)) {
-                const f = h(s);
-                const p = h(r);
-                const B = h(o);
-                const d = h(A);
-                const D = F(s);
-                const g = F(r);
-                const m = F(o);
-                const w = F(A);
-                const y = E && l && C && a;
-                const b = D && m && g && w;
-                const $ = f && B && p && d;
-                if (b && y) {
+                const u = h(s);
+                const t = h(r);
+                const e = h(o);
+                const n = h(A);
+                const i = F(s);
+                const f = F(r);
+                const p = F(o);
+                const B = F(A);
+                const d = E && l && C && a;
+                const D = i && p && f && B;
+                const g = u && e && t && n;
+                if (D && d) {
                     c += this.options.chars.middle;
-                } else if ($ && y && s === o && r === A) {
+                } else if (g && d && s === o && r === A) {
                     c += this.options.chars.mid;
-                } else if (f && B && s === o) {
+                } else if (u && e && s === o) {
                     c += this.options.chars.topMid;
-                } else if (p && d && r === A) {
+                } else if (t && n && r === A) {
                     c += this.options.chars.bottomMid;
-                } else if (D && g && s === r) {
+                } else if (i && f && s === r) {
                     c += this.options.chars.leftMid;
-                } else if (m && w && o === A) {
+                } else if (p && B && o === A) {
                     c += this.options.chars.rightMid;
                 } else {
                     c += this.options.chars.midMid;
@@ -1095,7 +1095,7 @@ class X {
                 c += " ";
             }
         }
-        const x = i.padding[u] + i.width[u] + i.padding[u];
+        const f = i.padding[u] + i.width[u] + i.padding[u];
         if (n[u] > 1 && e) {
             c += this.renderCell(u, e, t, n, i, true);
             if (e[u] === e[e.length - 1]) {
@@ -1107,13 +1107,13 @@ class X {
                 return c;
             }
         } else if (C && l) {
-            c += this.options.chars.mid.repeat(x);
+            c += this.options.chars.mid.repeat(f);
         } else if (C) {
-            c += this.options.chars.bottom.repeat(x);
+            c += this.options.chars.bottom.repeat(f);
         } else if (l) {
-            c += this.options.chars.top.repeat(x);
+            c += this.options.chars.top.repeat(f);
         } else {
-            c += " ".repeat(x);
+            c += " ".repeat(f);
         }
         if (u === i.columns - 1) {
             if (C && l) {
@@ -1612,33 +1612,33 @@ class us {
             ...e
         };
         if (s.separator) {
-            for (const r of i){
-                if (r.list) {
-                    r.separator = s.separator;
+            for (const u of i){
+                if (u.list) {
+                    u.separator = s.separator;
                 }
             }
         }
-        for (const o of n.args){
-            const A = o.trim();
-            const E = /^--/.test(A);
-            const a = E ? A.slice(2) : A.slice(1);
-            if (s.name === a || (s.aliases && ~s.aliases.indexOf(a))) {
-                throw this.error(new Error(`Duplicate command name: ${a}`));
+        for (const u of n.args){
+            const t = u.trim();
+            const n = /^--/.test(t);
+            const i = n ? t.slice(2) : t.slice(1);
+            if (s.name === i || (s.aliases && ~s.aliases.indexOf(i))) {
+                throw this.error(new Error(`Duplicate command name: ${i}`));
             }
-            if (!s.name && E) {
-                s.name = a;
+            if (!s.name && n) {
+                s.name = i;
             } else if (!s.aliases) {
                 s.aliases = [
-                    a
+                    i
                 ];
             } else {
-                s.aliases.push(a);
+                s.aliases.push(i);
             }
-            if (this.cmd.getBaseOption(a, true)) {
+            if (this.cmd.getBaseOption(i, true)) {
                 if (e?.override) {
-                    this.removeOption(a);
+                    this.removeOption(i);
                 } else {
-                    throw this.error(new Error(`Duplicate option name: ${a}`));
+                    throw this.error(new Error(`Duplicate option name: ${i}`));
                 }
             }
         }
@@ -1713,19 +1713,19 @@ class us {
             }
             return await this.execute({}, ...this.rawArgs);
         } else {
-            const { flags: n , unknown: i , literal: s  } = this.parseFlags(this.rawArgs);
-            this.literalArgs = s;
-            const r = this.parseArguments(i, n);
+            const { flags: u , unknown: e , literal: n  } = this.parseFlags(this.rawArgs);
+            this.literalArgs = n;
+            const i = this.parseArguments(e, u);
             this.validateEnvVars();
             if (t) {
                 return {
-                    options: n,
-                    args: r,
+                    options: u,
+                    args: i,
                     cmd: this,
                     literal: this.literalArgs
                 };
             }
-            return await this.execute(n, ...r);
+            return await this.execute(u, ...i);
         }
     }
     registerDefaults() {
@@ -1771,19 +1771,19 @@ class us {
         if (this.fn) {
             try {
                 await this.fn(u, ...t);
-            } catch (n) {
-                throw this.error(n);
+            } catch (u) {
+                throw this.error(u);
             }
         } else if (this.defaultCommand) {
-            const i = this.getCommand(this.defaultCommand, true);
-            if (!i) {
+            const e = this.getCommand(this.defaultCommand, true);
+            if (!e) {
                 throw this.error(new Error(`Default command '${this.defaultCommand}' not found.`));
             }
-            i._globalParent = this;
+            e._globalParent = this;
             try {
-                await i.execute(u, ...t);
-            } catch (s) {
-                throw this.error(s);
+                await e.execute(u, ...t);
+            } catch (u) {
+                throw this.error(u);
             }
         }
         return {
@@ -1805,9 +1805,9 @@ class us {
                 ]
             });
             return;
-        } catch (i) {
-            if (!i.message.match(/No such file or directory/)) {
-                throw i;
+        } catch (u) {
+            if (!u.message.match(/No such file or directory/)) {
+                throw u;
             }
         }
         try {
@@ -1818,9 +1818,9 @@ class us {
                 ]
             });
             return;
-        } catch (s) {
-            if (!s.message.match(/No such file or directory/)) {
-                throw s;
+        } catch (u) {
+            if (!u.message.match(/No such file or directory/)) {
+                throw u;
             }
         }
         throw this.error(new Error(`Sub-command executable not found: ${n}${o("(.ts)")}`));
@@ -1833,8 +1833,8 @@ class us {
                 flags: this.getOptions(true),
                 parse: (u, t, e, n)=>this.parseType(u, t, e, n)
             });
-        } catch (t) {
-            throw this.error(t);
+        } catch (u) {
+            throw this.error(u);
         }
     }
     parseType(u, t, e, n) {
@@ -1878,28 +1878,28 @@ class us {
             }
         } else {
             if (!u.length) {
-                const n = this.getArguments().filter((u)=>!u.optionalValue).map((u)=>u.name);
-                if (n.length) {
-                    const i = Object.keys(t);
-                    const s = !!i.find((u)=>this.getOption(u, true)?.standalone);
-                    if (!s) {
-                        throw this.error(new Error("Missing argument(s): " + n.join(", ")));
+                const u = this.getArguments().filter((u)=>!u.optionalValue).map((u)=>u.name);
+                if (u.length) {
+                    const e = Object.keys(t);
+                    const n = !!e.find((u)=>this.getOption(u, true)?.standalone);
+                    if (!n) {
+                        throw this.error(new Error("Missing argument(s): " + u.join(", ")));
                     }
                 }
                 return e;
             }
-            for (const r of this.getArguments()){
-                if (!r.optionalValue && !u.length) {
-                    throw this.error(new Error(`Missing argument: ${r.name}`));
+            for (const t of this.getArguments()){
+                if (!t.optionalValue && !u.length) {
+                    throw this.error(new Error(`Missing argument: ${t.name}`));
                 }
-                let o;
-                if (r.variadic) {
-                    o = u.splice(0, u.length);
+                let n;
+                if (t.variadic) {
+                    n = u.splice(0, u.length);
                 } else {
-                    o = u.shift();
+                    n = u.shift();
                 }
-                if (o) {
-                    e.push(o);
+                if (n) {
+                    e.push(n);
                 }
             }
             if (u.length) {
@@ -1910,10 +1910,10 @@ class us {
     }
     findActionFlag(u) {
         const t = Object.keys(u);
-        for (const e of t){
-            const n = this.getOption(e, true);
-            if (n?.action) {
-                return n;
+        for (const u of t){
+            const t = this.getOption(u, true);
+            if (t?.action) {
+                return t;
             }
         }
         return;
@@ -2330,11 +2330,11 @@ function _${ur(t)}() {` + (!u.getParent() ? `\n\n    local context state state_d
         _describe 'command' commands`;
         }
         if (u.hasArguments()) {
-            const i = t.split(" ").slice(1).join(" ");
-            const s = u.getArguments()[0];
-            const r = this.addAction(s, i);
-            if (r) {
-                n += `\n        __${ur(this.cmd.getName())}_complete ${r.arg.name} ${r.arg.action} ${r.cmd}`;
+            const e = t.split(" ").slice(1).join(" ");
+            const i = u.getArguments()[0];
+            const s = this.addAction(i, e);
+            if (s) {
+                n += `\n        __${ur(this.cmd.getName())}_complete ${s.arg.name} ${s.arg.action} ${s.cmd}`;
             }
         }
         if (n) {
@@ -2364,13 +2364,13 @@ function _${ur(t)}() {` + (!u.getParent() ? `\n\n    local context state state_d
             i += ` \\\n        '${++n}: :_commands'`;
         }
         if (u.hasArguments() || u.hasCommands(false)) {
-            const s = [];
-            for (const r of u.getArguments().slice(1)){
-                const o = t.split(" ").slice(1).join(" ");
-                const A = this.addAction(r, o);
-                s.push(`${++n}${r.optionalValue ? "::" : ":"}${A.name}`);
+            const e = [];
+            for (const i of u.getArguments().slice(1)){
+                const u = t.split(" ").slice(1).join(" ");
+                const s = this.addAction(i, u);
+                e.push(`${++n}${i.optionalValue ? "::" : ":"}${s.name}`);
             }
-            i += s.map((u)=>`\\\n        '${u}'`).join("");
+            i += e.map((u)=>`\\\n        '${u}'`).join("");
             if (u.hasCommands(false)) {
                 i += ` \\\n        '*:: :->command_args'`;
             }
@@ -2383,8 +2383,8 @@ function _${ur(t)}() {` + (!u.getParent() ? `\n\n    local context state state_d
         n.shift();
         const i = n.join(" ");
         const s = u.getOptions(false).map((u)=>u.standalone ? u.flags.split(/[, ] */g) : false).flat().filter((u)=>typeof u === "string");
-        for (const r of u.getOptions(false)){
-            e.push(this.generateOption(r, i, s));
+        for (const t of u.getOptions(false)){
+            e.push(this.generateOption(t, i, s));
         }
         return e;
     }
@@ -2398,22 +2398,22 @@ function _${ur(t)}() {` + (!u.getParent() ? `\n\n    local context state state_d
             ...u.flags.split(/[, ] */g)
         ];
         let i = "";
-        for (const s of u.args){
-            const r = this.addAction(s, t);
-            if (s.variadic) {
-                i += `${s.optionalValue ? "::" : ":"}${s.name}:->${r.name}`;
+        for (const e of u.args){
+            const u = this.addAction(e, t);
+            if (e.variadic) {
+                i += `${e.optionalValue ? "::" : ":"}${e.name}:->${u.name}`;
             } else {
-                i += `${s.optionalValue ? "::" : ":"}${s.name}:->${r.name}`;
+                i += `${e.optionalValue ? "::" : ":"}${e.name}:->${u.name}`;
             }
         }
-        const o = u.description.trim().split("\n").shift();
-        const A = u.collect ? "*" : "";
-        const E = u.flags.replace(/ +/g, "");
+        const s = u.description.trim().split("\n").shift();
+        const r = u.collect ? "*" : "";
+        const o = u.flags.replace(/ +/g, "");
         if (u.standalone) {
-            return `'(- *)'{${A}${E}}'[${o}]${i}'`;
+            return `'(- *)'{${r}${o}}'[${s}]${i}'`;
         } else {
-            const a = n.length ? `'(${n.join(" ")})'` : "";
-            return `${a}{${A}${E}}'[${o}]${i}'`;
+            const u = n.length ? `'(${n.join(" ")})'` : "";
+            return `${u}{${r}${o}}'[${s}]${i}'`;
         }
     }
     addAction(u, t) {

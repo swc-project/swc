@@ -234,6 +234,7 @@
     "es.weak-map",
     "es.weak-set",
     "esnext.aggregate-error",
+    "esnext.suppressed-error.constructor",
     "esnext.array.from-async",
     "esnext.array.at",
     "esnext.array.filter-out",
@@ -252,8 +253,10 @@
     "esnext.array.to-spliced",
     "esnext.array.unique-by",
     "esnext.array.with",
+    "esnext.async-disposable-stack.constructor",
     "esnext.async-iterator.constructor",
     "esnext.async-iterator.as-indexed-pairs",
+    "esnext.async-iterator.async-dispose",
     "esnext.async-iterator.drop",
     "esnext.async-iterator.every",
     "esnext.async-iterator.filter",
@@ -270,12 +273,14 @@
     "esnext.bigint.range",
     "esnext.composite-key",
     "esnext.composite-symbol",
+    "esnext.disposable-stack.constructor",
     "esnext.function.is-callable",
     "esnext.function.is-constructor",
     "esnext.function.un-this",
     "esnext.global-this",
     "esnext.iterator.constructor",
     "esnext.iterator.as-indexed-pairs",
+    "esnext.iterator.dispose",
     "esnext.iterator.drop",
     "esnext.iterator.every",
     "esnext.iterator.filter",
@@ -344,25 +349,33 @@
     "esnext.reflect.metadata",
     "esnext.set.add-all",
     "esnext.set.delete-all",
+    "esnext.set.difference.v2",
     "esnext.set.difference",
     "esnext.set.every",
     "esnext.set.filter",
     "esnext.set.find",
     "esnext.set.from",
+    "esnext.set.intersection.v2",
     "esnext.set.intersection",
+    "esnext.set.is-disjoint-from.v2",
     "esnext.set.is-disjoint-from",
+    "esnext.set.is-subset-of.v2",
     "esnext.set.is-subset-of",
+    "esnext.set.is-superset-of.v2",
     "esnext.set.is-superset-of",
     "esnext.set.join",
     "esnext.set.map",
     "esnext.set.of",
     "esnext.set.reduce",
     "esnext.set.some",
+    "esnext.set.symmetric-difference.v2",
     "esnext.set.symmetric-difference",
+    "esnext.set.union.v2",
     "esnext.set.union",
     "esnext.string.at",
     "esnext.string.cooked",
     "esnext.string.code-points",
+    "esnext.string.dedent",
     "esnext.string.is-well-formed",
     "esnext.string.match-all",
     "esnext.string.replace-all",
@@ -647,6 +660,7 @@
     "es.weak-map",
     "es.weak-set",
     "esnext.aggregate-error",
+    "esnext.suppressed-error.constructor",
     "esnext.array.from-async",
     "esnext.array.at",
     "esnext.array.find-last",
@@ -659,12 +673,51 @@
     "esnext.array.to-sorted",
     "esnext.array.to-spliced",
     "esnext.array.with",
+    "esnext.async-iterator.constructor",
+    "esnext.async-iterator.drop",
+    "esnext.async-iterator.every",
+    "esnext.async-iterator.filter",
+    "esnext.async-iterator.find",
+    "esnext.async-iterator.flat-map",
+    "esnext.async-iterator.for-each",
+    "esnext.async-iterator.from",
+    "esnext.async-iterator.map",
+    "esnext.async-iterator.reduce",
+    "esnext.async-iterator.some",
+    "esnext.async-iterator.take",
+    "esnext.async-iterator.to-array",
+    "esnext.disposable-stack.constructor",
     "esnext.global-this",
+    "esnext.iterator.constructor",
+    "esnext.iterator.dispose",
+    "esnext.iterator.drop",
+    "esnext.iterator.every",
+    "esnext.iterator.filter",
+    "esnext.iterator.find",
+    "esnext.iterator.flat-map",
+    "esnext.iterator.for-each",
+    "esnext.iterator.from",
+    "esnext.iterator.map",
+    "esnext.iterator.reduce",
+    "esnext.iterator.some",
+    "esnext.iterator.take",
+    "esnext.iterator.to-array",
+    "esnext.iterator.to-async",
     "esnext.object.has-own",
     "esnext.promise.all-settled",
     "esnext.promise.any",
+    "esnext.set.difference.v2",
+    "esnext.set.intersection.v2",
+    "esnext.set.is-disjoint-from.v2",
+    "esnext.set.is-subset-of.v2",
+    "esnext.set.is-superset-of.v2",
+    "esnext.set.symmetric-difference.v2",
+    "esnext.set.union.v2",
+    "esnext.string.is-well-formed",
     "esnext.string.match-all",
     "esnext.string.replace-all",
+    "esnext.string.to-well-formed",
+    "esnext.symbol.dispose",
     "esnext.typed-array.at",
     "esnext.typed-array.find-last",
     "esnext.typed-array.find-last-index",
@@ -1086,6 +1139,101 @@
   "core-js/actual/array/with": [
     "esnext.array.with"
   ],
+  "core-js/actual/async-iterator": [
+    "es.array.iterator",
+    "es.object.to-string",
+    "es.promise",
+    "es.string.iterator",
+    "esnext.async-iterator.constructor",
+    "esnext.async-iterator.drop",
+    "esnext.async-iterator.every",
+    "esnext.async-iterator.filter",
+    "esnext.async-iterator.find",
+    "esnext.async-iterator.flat-map",
+    "esnext.async-iterator.for-each",
+    "esnext.async-iterator.from",
+    "esnext.async-iterator.map",
+    "esnext.async-iterator.reduce",
+    "esnext.async-iterator.some",
+    "esnext.async-iterator.take",
+    "esnext.async-iterator.to-array",
+    "web.dom-collections.iterator"
+  ],
+  "core-js/actual/async-iterator/drop": [
+    "es.object.to-string",
+    "es.promise",
+    "esnext.async-iterator.constructor",
+    "esnext.async-iterator.drop"
+  ],
+  "core-js/actual/async-iterator/every": [
+    "es.object.to-string",
+    "es.promise",
+    "esnext.async-iterator.constructor",
+    "esnext.async-iterator.every"
+  ],
+  "core-js/actual/async-iterator/filter": [
+    "es.object.to-string",
+    "es.promise",
+    "esnext.async-iterator.constructor",
+    "esnext.async-iterator.filter"
+  ],
+  "core-js/actual/async-iterator/find": [
+    "es.object.to-string",
+    "es.promise",
+    "esnext.async-iterator.constructor",
+    "esnext.async-iterator.find"
+  ],
+  "core-js/actual/async-iterator/flat-map": [
+    "es.object.to-string",
+    "es.promise",
+    "esnext.async-iterator.constructor",
+    "esnext.async-iterator.flat-map"
+  ],
+  "core-js/actual/async-iterator/for-each": [
+    "es.object.to-string",
+    "es.promise",
+    "esnext.async-iterator.constructor",
+    "esnext.async-iterator.for-each"
+  ],
+  "core-js/actual/async-iterator/from": [
+    "es.array.iterator",
+    "es.object.to-string",
+    "es.promise",
+    "es.string.iterator",
+    "esnext.async-iterator.constructor",
+    "esnext.async-iterator.from",
+    "web.dom-collections.iterator"
+  ],
+  "core-js/actual/async-iterator/map": [
+    "es.object.to-string",
+    "es.promise",
+    "esnext.async-iterator.constructor",
+    "esnext.async-iterator.map"
+  ],
+  "core-js/actual/async-iterator/reduce": [
+    "es.object.to-string",
+    "es.promise",
+    "esnext.async-iterator.constructor",
+    "esnext.async-iterator.reduce"
+  ],
+  "core-js/actual/async-iterator/some": [
+    "es.object.to-string",
+    "es.promise",
+    "esnext.async-iterator.constructor",
+    "esnext.async-iterator.some"
+  ],
+  "core-js/actual/async-iterator/take": [
+    "es.object.to-string",
+    "es.promise",
+    "esnext.async-iterator.constructor",
+    "esnext.async-iterator.take"
+  ],
+  "core-js/actual/async-iterator/to-array": [
+    "es.object.to-string",
+    "es.promise",
+    "esnext.async-iterator.constructor",
+    "esnext.async-iterator.to-array"
+  ],
   "core-js/actual/atob": [
     "es.error.to-string",
     "es.object.to-string",
@@ -1145,6 +1293,18 @@
   ],
   "core-js/actual/date/to-string": [
     "es.date.to-string"
+  ],
+  "core-js/actual/disposable-stack": [
+    "es.error.cause",
+    "es.object.to-string",
+    "esnext.suppressed-error.constructor",
+    "esnext.disposable-stack.constructor"
+  ],
+  "core-js/actual/disposable-stack/constructor": [
+    "es.error.cause",
+    "es.object.to-string",
+    "esnext.suppressed-error.constructor",
+    "esnext.disposable-stack.constructor"
   ],
   "core-js/actual/dom-collections": [
     "es.array.iterator",
@@ -1304,6 +1464,9 @@
   "core-js/actual/instance/index-of": [
     "es.array.index-of"
   ],
+  "core-js/actual/instance/is-well-formed": [
+    "esnext.string.is-well-formed"
+  ],
   "core-js/actual/instance/keys": [
     "es.array.iterator",
     "es.object.to-string",
@@ -1371,6 +1534,9 @@
   "core-js/actual/instance/to-spliced": [
     "esnext.array.to-spliced"
   ],
+  "core-js/actual/instance/to-well-formed": [
+    "esnext.string.to-well-formed"
+  ],
   "core-js/actual/instance/trim": [
     "es.string.trim"
   ],
@@ -1401,6 +1567,100 @@
     "es.array.iterator",
     "es.string.iterator",
     "web.dom-collections.iterator"
+  ],
+  "core-js/actual/iterator": [
+    "es.array.iterator",
+    "es.object.to-string",
+    "es.promise",
+    "es.string.iterator",
+    "esnext.iterator.constructor",
+    "esnext.iterator.dispose",
+    "esnext.iterator.drop",
+    "esnext.iterator.every",
+    "esnext.iterator.filter",
+    "esnext.iterator.find",
+    "esnext.iterator.flat-map",
+    "esnext.iterator.for-each",
+    "esnext.iterator.from",
+    "esnext.iterator.map",
+    "esnext.iterator.reduce",
+    "esnext.iterator.some",
+    "esnext.iterator.take",
+    "esnext.iterator.to-array",
+    "esnext.iterator.to-async",
+    "web.dom-collections.iterator"
+  ],
+  "core-js/actual/iterator/dispose": [
+    "esnext.iterator.dispose"
+  ],
+  "core-js/actual/iterator/drop": [
+    "es.object.to-string",
+    "esnext.iterator.constructor",
+    "esnext.iterator.drop"
+  ],
+  "core-js/actual/iterator/every": [
+    "es.object.to-string",
+    "esnext.iterator.constructor",
+    "esnext.iterator.every"
+  ],
+  "core-js/actual/iterator/filter": [
+    "es.object.to-string",
+    "esnext.iterator.constructor",
+    "esnext.iterator.filter"
+  ],
+  "core-js/actual/iterator/find": [
+    "es.object.to-string",
+    "esnext.iterator.constructor",
+    "esnext.iterator.find"
+  ],
+  "core-js/actual/iterator/flat-map": [
+    "es.object.to-string",
+    "esnext.iterator.constructor",
+    "esnext.iterator.flat-map"
+  ],
+  "core-js/actual/iterator/for-each": [
+    "es.object.to-string",
+    "esnext.iterator.constructor",
+    "esnext.iterator.for-each"
+  ],
+  "core-js/actual/iterator/from": [
+    "es.array.iterator",
+    "es.object.to-string",
+    "es.string.iterator",
+    "esnext.iterator.constructor",
+    "esnext.iterator.from",
+    "web.dom-collections.iterator"
+  ],
+  "core-js/actual/iterator/map": [
+    "es.object.to-string",
+    "esnext.iterator.constructor",
+    "esnext.iterator.map"
+  ],
+  "core-js/actual/iterator/reduce": [
+    "es.object.to-string",
+    "esnext.iterator.constructor",
+    "esnext.iterator.reduce"
+  ],
+  "core-js/actual/iterator/some": [
+    "es.object.to-string",
+    "esnext.iterator.constructor",
+    "esnext.iterator.some"
+  ],
+  "core-js/actual/iterator/take": [
+    "es.object.to-string",
+    "esnext.iterator.constructor",
+    "esnext.iterator.take"
+  ],
+  "core-js/actual/iterator/to-array": [
+    "es.object.to-string",
+    "esnext.iterator.constructor",
+    "esnext.iterator.to-array"
+  ],
+  "core-js/actual/iterator/to-async": [
+    "es.object.to-string",
+    "es.promise",
+    "esnext.iterator.constructor",
+    "esnext.iterator.to-async"
   ],
   "core-js/actual/json": [
     "es.json.stringify",
@@ -1848,6 +2108,13 @@
     "es.object.to-string",
     "es.set",
     "es.string.iterator",
+    "esnext.set.difference.v2",
+    "esnext.set.intersection.v2",
+    "esnext.set.is-disjoint-from.v2",
+    "esnext.set.is-subset-of.v2",
+    "esnext.set.is-superset-of.v2",
+    "esnext.set.symmetric-difference.v2",
+    "esnext.set.union.v2",
     "web.dom-collections.iterator"
   ],
   "core-js/actual/set-immediate": [
@@ -1858,6 +2125,34 @@
   ],
   "core-js/actual/set-timeout": [
     "web.timers"
+  ],
+  "core-js/actual/set/difference": [
+    "es.set",
+    "esnext.set.difference.v2"
+  ],
+  "core-js/actual/set/intersection": [
+    "es.set",
+    "esnext.set.intersection.v2"
+  ],
+  "core-js/actual/set/is-disjoint-from": [
+    "es.set",
+    "esnext.set.is-disjoint-from.v2"
+  ],
+  "core-js/actual/set/is-subset-of": [
+    "es.set",
+    "esnext.set.is-subset-of.v2"
+  ],
+  "core-js/actual/set/is-superset-of": [
+    "es.set",
+    "esnext.set.is-superset-of.v2"
+  ],
+  "core-js/actual/set/symmetric-difference": [
+    "es.set",
+    "esnext.set.symmetric-difference.v2"
+  ],
+  "core-js/actual/set/union": [
+    "es.set",
+    "esnext.set.union.v2"
   ],
   "core-js/actual/string": [
     "es.object.to-string",
@@ -1895,7 +2190,9 @@
     "es.string.small",
     "es.string.strike",
     "es.string.sub",
-    "es.string.sup"
+    "es.string.sup",
+    "esnext.string.is-well-formed",
+    "esnext.string.to-well-formed"
   ],
   "core-js/actual/string/anchor": [
     "es.string.anchor"
@@ -1932,6 +2229,9 @@
   ],
   "core-js/actual/string/includes": [
     "es.string.includes"
+  ],
+  "core-js/actual/string/is-well-formed": [
+    "esnext.string.is-well-formed"
   ],
   "core-js/actual/string/italics": [
     "es.string.italics"
@@ -1999,6 +2299,9 @@
   "core-js/actual/string/sup": [
     "es.string.sup"
   ],
+  "core-js/actual/string/to-well-formed": [
+    "esnext.string.to-well-formed"
+  ],
   "core-js/actual/string/trim": [
     "es.string.trim"
   ],
@@ -2048,7 +2351,9 @@
     "es.string.small",
     "es.string.strike",
     "es.string.sub",
-    "es.string.sup"
+    "es.string.sup",
+    "esnext.string.is-well-formed",
+    "esnext.string.to-well-formed"
   ],
   "core-js/actual/string/virtual/anchor": [
     "es.string.anchor"
@@ -2082,6 +2387,9 @@
   ],
   "core-js/actual/string/virtual/includes": [
     "es.string.includes"
+  ],
+  "core-js/actual/string/virtual/is-well-formed": [
+    "esnext.string.is-well-formed"
   ],
   "core-js/actual/string/virtual/italics": [
     "es.string.italics"
@@ -2130,6 +2438,9 @@
   "core-js/actual/string/virtual/sup": [
     "es.string.sup"
   ],
+  "core-js/actual/string/virtual/to-well-formed": [
+    "esnext.string.to-well-formed"
+  ],
   "core-js/actual/string/virtual/trim": [
     "es.string.trim"
   ],
@@ -2157,6 +2468,10 @@
     "web.dom-exception.to-string-tag",
     "web.structured-clone"
   ],
+  "core-js/actual/suppressed-error": [
+    "es.error.cause",
+    "esnext.suppressed-error.constructor"
+  ],
   "core-js/actual/symbol": [
     "es.symbol",
     "es.symbol.description",
@@ -2178,6 +2493,7 @@
     "es.math.to-string-tag",
     "es.object.to-string",
     "es.reflect.to-string-tag",
+    "esnext.symbol.dispose",
     "web.dom-collections.iterator"
   ],
   "core-js/actual/symbol/async-iterator": [
@@ -2185,6 +2501,9 @@
   ],
   "core-js/actual/symbol/description": [
     "es.symbol.description"
+  ],
+  "core-js/actual/symbol/dispose": [
+    "esnext.symbol.dispose"
   ],
   "core-js/actual/symbol/for": [
     "es.symbol"
@@ -5160,6 +5479,7 @@
     "es.weak-map",
     "es.weak-set",
     "esnext.aggregate-error",
+    "esnext.suppressed-error.constructor",
     "esnext.array.from-async",
     "esnext.array.at",
     "esnext.array.filter-out",
@@ -5178,8 +5498,10 @@
     "esnext.array.to-spliced",
     "esnext.array.unique-by",
     "esnext.array.with",
+    "esnext.async-disposable-stack.constructor",
     "esnext.async-iterator.constructor",
     "esnext.async-iterator.as-indexed-pairs",
+    "esnext.async-iterator.async-dispose",
     "esnext.async-iterator.drop",
     "esnext.async-iterator.every",
     "esnext.async-iterator.filter",
@@ -5196,12 +5518,14 @@
     "esnext.bigint.range",
     "esnext.composite-key",
     "esnext.composite-symbol",
+    "esnext.disposable-stack.constructor",
     "esnext.function.is-callable",
     "esnext.function.is-constructor",
     "esnext.function.un-this",
     "esnext.global-this",
     "esnext.iterator.constructor",
     "esnext.iterator.as-indexed-pairs",
+    "esnext.iterator.dispose",
     "esnext.iterator.drop",
     "esnext.iterator.every",
     "esnext.iterator.filter",
@@ -5270,25 +5594,33 @@
     "esnext.reflect.metadata",
     "esnext.set.add-all",
     "esnext.set.delete-all",
+    "esnext.set.difference.v2",
     "esnext.set.difference",
     "esnext.set.every",
     "esnext.set.filter",
     "esnext.set.find",
     "esnext.set.from",
+    "esnext.set.intersection.v2",
     "esnext.set.intersection",
+    "esnext.set.is-disjoint-from.v2",
     "esnext.set.is-disjoint-from",
+    "esnext.set.is-subset-of.v2",
     "esnext.set.is-subset-of",
+    "esnext.set.is-superset-of.v2",
     "esnext.set.is-superset-of",
     "esnext.set.join",
     "esnext.set.map",
     "esnext.set.of",
     "esnext.set.reduce",
     "esnext.set.some",
+    "esnext.set.symmetric-difference.v2",
     "esnext.set.symmetric-difference",
+    "esnext.set.union.v2",
     "esnext.set.union",
     "esnext.string.at",
     "esnext.string.cooked",
     "esnext.string.code-points",
+    "esnext.string.dedent",
     "esnext.string.is-well-formed",
     "esnext.string.match-all",
     "esnext.string.replace-all",
@@ -5779,6 +6111,20 @@
   "core-js/features/array/with": [
     "esnext.array.with"
   ],
+  "core-js/features/async-disposable-stack": [
+    "es.error.cause",
+    "es.object.to-string",
+    "es.promise",
+    "esnext.suppressed-error.constructor",
+    "esnext.async-disposable-stack.constructor"
+  ],
+  "core-js/features/async-disposable-stack/constructor": [
+    "es.error.cause",
+    "es.object.to-string",
+    "es.promise",
+    "esnext.suppressed-error.constructor",
+    "esnext.async-disposable-stack.constructor"
+  ],
   "core-js/features/async-iterator": [
     "es.array.iterator",
     "es.object.to-string",
@@ -5786,6 +6132,7 @@
     "es.string.iterator",
     "esnext.async-iterator.constructor",
     "esnext.async-iterator.as-indexed-pairs",
+    "esnext.async-iterator.async-dispose",
     "esnext.async-iterator.drop",
     "esnext.async-iterator.every",
     "esnext.async-iterator.filter",
@@ -5806,6 +6153,11 @@
     "es.promise",
     "esnext.async-iterator.constructor",
     "esnext.async-iterator.as-indexed-pairs"
+  ],
+  "core-js/features/async-iterator/async-dispose": [
+    "es.object.to-string",
+    "es.promise",
+    "esnext.async-iterator.async-dispose"
   ],
   "core-js/features/async-iterator/drop": [
     "es.object.to-string",
@@ -5962,6 +6314,18 @@
   ],
   "core-js/features/date/to-string": [
     "es.date.to-string"
+  ],
+  "core-js/features/disposable-stack": [
+    "es.error.cause",
+    "es.object.to-string",
+    "esnext.suppressed-error.constructor",
+    "esnext.disposable-stack.constructor"
+  ],
+  "core-js/features/disposable-stack/constructor": [
+    "es.error.cause",
+    "es.object.to-string",
+    "esnext.suppressed-error.constructor",
+    "esnext.disposable-stack.constructor"
   ],
   "core-js/features/dom-collections": [
     "es.array.iterator",
@@ -6269,6 +6633,7 @@
     "es.string.iterator",
     "esnext.iterator.constructor",
     "esnext.iterator.as-indexed-pairs",
+    "esnext.iterator.dispose",
     "esnext.iterator.drop",
     "esnext.iterator.every",
     "esnext.iterator.filter",
@@ -6289,6 +6654,9 @@
     "es.object.to-string",
     "esnext.iterator.constructor",
     "esnext.iterator.as-indexed-pairs"
+  ],
+  "core-js/features/iterator/dispose": [
+    "esnext.iterator.dispose"
   ],
   "core-js/features/iterator/drop": [
     "es.object.to-string",
@@ -7046,21 +7414,28 @@
     "es.string.iterator",
     "esnext.set.add-all",
     "esnext.set.delete-all",
+    "esnext.set.difference.v2",
     "esnext.set.difference",
     "esnext.set.every",
     "esnext.set.filter",
     "esnext.set.find",
     "esnext.set.from",
+    "esnext.set.intersection.v2",
     "esnext.set.intersection",
+    "esnext.set.is-disjoint-from.v2",
     "esnext.set.is-disjoint-from",
+    "esnext.set.is-subset-of.v2",
     "esnext.set.is-subset-of",
+    "esnext.set.is-superset-of.v2",
     "esnext.set.is-superset-of",
     "esnext.set.join",
     "esnext.set.map",
     "esnext.set.of",
     "esnext.set.reduce",
     "esnext.set.some",
+    "esnext.set.symmetric-difference.v2",
     "esnext.set.symmetric-difference",
+    "esnext.set.union.v2",
     "esnext.set.union",
     "web.dom-collections.iterator"
   ],
@@ -7085,6 +7460,7 @@
     "es.array.iterator",
     "es.set",
     "es.string.iterator",
+    "esnext.set.difference.v2",
     "esnext.set.difference",
     "web.dom-collections.iterator"
   ],
@@ -7111,6 +7487,7 @@
     "es.array.iterator",
     "es.set",
     "es.string.iterator",
+    "esnext.set.intersection.v2",
     "esnext.set.intersection",
     "web.dom-collections.iterator"
   ],
@@ -7118,6 +7495,7 @@
     "es.array.iterator",
     "es.set",
     "es.string.iterator",
+    "esnext.set.is-disjoint-from.v2",
     "esnext.set.is-disjoint-from",
     "web.dom-collections.iterator"
   ],
@@ -7125,6 +7503,7 @@
     "es.array.iterator",
     "es.set",
     "es.string.iterator",
+    "esnext.set.is-subset-of.v2",
     "esnext.set.is-subset-of",
     "web.dom-collections.iterator"
   ],
@@ -7132,6 +7511,7 @@
     "es.array.iterator",
     "es.set",
     "es.string.iterator",
+    "esnext.set.is-superset-of.v2",
     "esnext.set.is-superset-of",
     "web.dom-collections.iterator"
   ],
@@ -7160,6 +7540,7 @@
     "es.array.iterator",
     "es.set",
     "es.string.iterator",
+    "esnext.set.symmetric-difference.v2",
     "esnext.set.symmetric-difference",
     "web.dom-collections.iterator"
   ],
@@ -7167,6 +7548,7 @@
     "es.array.iterator",
     "es.set",
     "es.string.iterator",
+    "esnext.set.union.v2",
     "esnext.set.union",
     "web.dom-collections.iterator"
   ],
@@ -7207,9 +7589,11 @@
     "es.string.strike",
     "es.string.sub",
     "es.string.sup",
+    "es.weak-map",
     "esnext.string.at",
     "esnext.string.cooked",
     "esnext.string.code-points",
+    "esnext.string.dedent",
     "esnext.string.is-well-formed",
     "esnext.string.match-all",
     "esnext.string.replace-all",
@@ -7240,6 +7624,11 @@
   ],
   "core-js/features/string/cooked": [
     "esnext.string.cooked"
+  ],
+  "core-js/features/string/dedent": [
+    "es.string.from-code-point",
+    "es.weak-map",
+    "esnext.string.dedent"
   ],
   "core-js/features/string/ends-with": [
     "es.string.ends-with"
@@ -7509,6 +7898,10 @@
     "web.dom-exception.stack",
     "web.dom-exception.to-string-tag",
     "web.structured-clone"
+  ],
+  "core-js/features/suppressed-error": [
+    "es.error.cause",
+    "esnext.suppressed-error.constructor"
   ],
   "core-js/features/symbol": [
     "es.symbol",
@@ -8623,6 +9016,7 @@
     "es.weak-map",
     "es.weak-set",
     "esnext.aggregate-error",
+    "esnext.suppressed-error.constructor",
     "esnext.array.from-async",
     "esnext.array.at",
     "esnext.array.filter-out",
@@ -8641,8 +9035,10 @@
     "esnext.array.to-spliced",
     "esnext.array.unique-by",
     "esnext.array.with",
+    "esnext.async-disposable-stack.constructor",
     "esnext.async-iterator.constructor",
     "esnext.async-iterator.as-indexed-pairs",
+    "esnext.async-iterator.async-dispose",
     "esnext.async-iterator.drop",
     "esnext.async-iterator.every",
     "esnext.async-iterator.filter",
@@ -8659,12 +9055,14 @@
     "esnext.bigint.range",
     "esnext.composite-key",
     "esnext.composite-symbol",
+    "esnext.disposable-stack.constructor",
     "esnext.function.is-callable",
     "esnext.function.is-constructor",
     "esnext.function.un-this",
     "esnext.global-this",
     "esnext.iterator.constructor",
     "esnext.iterator.as-indexed-pairs",
+    "esnext.iterator.dispose",
     "esnext.iterator.drop",
     "esnext.iterator.every",
     "esnext.iterator.filter",
@@ -8733,25 +9131,33 @@
     "esnext.reflect.metadata",
     "esnext.set.add-all",
     "esnext.set.delete-all",
+    "esnext.set.difference.v2",
     "esnext.set.difference",
     "esnext.set.every",
     "esnext.set.filter",
     "esnext.set.find",
     "esnext.set.from",
+    "esnext.set.intersection.v2",
     "esnext.set.intersection",
+    "esnext.set.is-disjoint-from.v2",
     "esnext.set.is-disjoint-from",
+    "esnext.set.is-subset-of.v2",
     "esnext.set.is-subset-of",
+    "esnext.set.is-superset-of.v2",
     "esnext.set.is-superset-of",
     "esnext.set.join",
     "esnext.set.map",
     "esnext.set.of",
     "esnext.set.reduce",
     "esnext.set.some",
+    "esnext.set.symmetric-difference.v2",
     "esnext.set.symmetric-difference",
+    "esnext.set.union.v2",
     "esnext.set.union",
     "esnext.string.at",
     "esnext.string.cooked",
     "esnext.string.code-points",
+    "esnext.string.dedent",
     "esnext.string.is-well-formed",
     "esnext.string.match-all",
     "esnext.string.replace-all",
@@ -9242,6 +9648,20 @@
   "core-js/full/array/with": [
     "esnext.array.with"
   ],
+  "core-js/full/async-disposable-stack": [
+    "es.error.cause",
+    "es.object.to-string",
+    "es.promise",
+    "esnext.suppressed-error.constructor",
+    "esnext.async-disposable-stack.constructor"
+  ],
+  "core-js/full/async-disposable-stack/constructor": [
+    "es.error.cause",
+    "es.object.to-string",
+    "es.promise",
+    "esnext.suppressed-error.constructor",
+    "esnext.async-disposable-stack.constructor"
+  ],
   "core-js/full/async-iterator": [
     "es.array.iterator",
     "es.object.to-string",
@@ -9249,6 +9669,7 @@
     "es.string.iterator",
     "esnext.async-iterator.constructor",
     "esnext.async-iterator.as-indexed-pairs",
+    "esnext.async-iterator.async-dispose",
     "esnext.async-iterator.drop",
     "esnext.async-iterator.every",
     "esnext.async-iterator.filter",
@@ -9269,6 +9690,11 @@
     "es.promise",
     "esnext.async-iterator.constructor",
     "esnext.async-iterator.as-indexed-pairs"
+  ],
+  "core-js/full/async-iterator/async-dispose": [
+    "es.object.to-string",
+    "es.promise",
+    "esnext.async-iterator.async-dispose"
   ],
   "core-js/full/async-iterator/drop": [
     "es.object.to-string",
@@ -9425,6 +9851,18 @@
   ],
   "core-js/full/date/to-string": [
     "es.date.to-string"
+  ],
+  "core-js/full/disposable-stack": [
+    "es.error.cause",
+    "es.object.to-string",
+    "esnext.suppressed-error.constructor",
+    "esnext.disposable-stack.constructor"
+  ],
+  "core-js/full/disposable-stack/constructor": [
+    "es.error.cause",
+    "es.object.to-string",
+    "esnext.suppressed-error.constructor",
+    "esnext.disposable-stack.constructor"
   ],
   "core-js/full/dom-collections": [
     "es.array.iterator",
@@ -9732,6 +10170,7 @@
     "es.string.iterator",
     "esnext.iterator.constructor",
     "esnext.iterator.as-indexed-pairs",
+    "esnext.iterator.dispose",
     "esnext.iterator.drop",
     "esnext.iterator.every",
     "esnext.iterator.filter",
@@ -9752,6 +10191,9 @@
     "es.object.to-string",
     "esnext.iterator.constructor",
     "esnext.iterator.as-indexed-pairs"
+  ],
+  "core-js/full/iterator/dispose": [
+    "esnext.iterator.dispose"
   ],
   "core-js/full/iterator/drop": [
     "es.object.to-string",
@@ -10509,21 +10951,28 @@
     "es.string.iterator",
     "esnext.set.add-all",
     "esnext.set.delete-all",
+    "esnext.set.difference.v2",
     "esnext.set.difference",
     "esnext.set.every",
     "esnext.set.filter",
     "esnext.set.find",
     "esnext.set.from",
+    "esnext.set.intersection.v2",
     "esnext.set.intersection",
+    "esnext.set.is-disjoint-from.v2",
     "esnext.set.is-disjoint-from",
+    "esnext.set.is-subset-of.v2",
     "esnext.set.is-subset-of",
+    "esnext.set.is-superset-of.v2",
     "esnext.set.is-superset-of",
     "esnext.set.join",
     "esnext.set.map",
     "esnext.set.of",
     "esnext.set.reduce",
     "esnext.set.some",
+    "esnext.set.symmetric-difference.v2",
     "esnext.set.symmetric-difference",
+    "esnext.set.union.v2",
     "esnext.set.union",
     "web.dom-collections.iterator"
   ],
@@ -10548,6 +10997,7 @@
     "es.array.iterator",
     "es.set",
     "es.string.iterator",
+    "esnext.set.difference.v2",
     "esnext.set.difference",
     "web.dom-collections.iterator"
   ],
@@ -10574,6 +11024,7 @@
     "es.array.iterator",
     "es.set",
     "es.string.iterator",
+    "esnext.set.intersection.v2",
     "esnext.set.intersection",
     "web.dom-collections.iterator"
   ],
@@ -10581,6 +11032,7 @@
     "es.array.iterator",
     "es.set",
     "es.string.iterator",
+    "esnext.set.is-disjoint-from.v2",
     "esnext.set.is-disjoint-from",
     "web.dom-collections.iterator"
   ],
@@ -10588,6 +11040,7 @@
     "es.array.iterator",
     "es.set",
     "es.string.iterator",
+    "esnext.set.is-subset-of.v2",
     "esnext.set.is-subset-of",
     "web.dom-collections.iterator"
   ],
@@ -10595,6 +11048,7 @@
     "es.array.iterator",
     "es.set",
     "es.string.iterator",
+    "esnext.set.is-superset-of.v2",
     "esnext.set.is-superset-of",
     "web.dom-collections.iterator"
   ],
@@ -10623,6 +11077,7 @@
     "es.array.iterator",
     "es.set",
     "es.string.iterator",
+    "esnext.set.symmetric-difference.v2",
     "esnext.set.symmetric-difference",
     "web.dom-collections.iterator"
   ],
@@ -10630,6 +11085,7 @@
     "es.array.iterator",
     "es.set",
     "es.string.iterator",
+    "esnext.set.union.v2",
     "esnext.set.union",
     "web.dom-collections.iterator"
   ],
@@ -10670,9 +11126,11 @@
     "es.string.strike",
     "es.string.sub",
     "es.string.sup",
+    "es.weak-map",
     "esnext.string.at",
     "esnext.string.cooked",
     "esnext.string.code-points",
+    "esnext.string.dedent",
     "esnext.string.is-well-formed",
     "esnext.string.match-all",
     "esnext.string.replace-all",
@@ -10703,6 +11161,11 @@
   ],
   "core-js/full/string/cooked": [
     "esnext.string.cooked"
+  ],
+  "core-js/full/string/dedent": [
+    "es.string.from-code-point",
+    "es.weak-map",
+    "esnext.string.dedent"
   ],
   "core-js/full/string/ends-with": [
     "es.string.ends-with"
@@ -10972,6 +11435,10 @@
     "web.dom-exception.stack",
     "web.dom-exception.to-string-tag",
     "web.structured-clone"
+  ],
+  "core-js/full/suppressed-error": [
+    "es.error.cause",
+    "esnext.suppressed-error.constructor"
   ],
   "core-js/full/symbol": [
     "es.symbol",
@@ -12661,8 +13128,14 @@
   "core-js/modules/esnext.array.with": [
     "esnext.array.with"
   ],
+  "core-js/modules/esnext.async-disposable-stack.constructor": [
+    "esnext.async-disposable-stack.constructor"
+  ],
   "core-js/modules/esnext.async-iterator.as-indexed-pairs": [
     "esnext.async-iterator.as-indexed-pairs"
+  ],
+  "core-js/modules/esnext.async-iterator.async-dispose": [
+    "esnext.async-iterator.async-dispose"
   ],
   "core-js/modules/esnext.async-iterator.constructor": [
     "esnext.async-iterator.constructor"
@@ -12715,6 +13188,9 @@
   "core-js/modules/esnext.composite-symbol": [
     "esnext.composite-symbol"
   ],
+  "core-js/modules/esnext.disposable-stack.constructor": [
+    "esnext.disposable-stack.constructor"
+  ],
   "core-js/modules/esnext.function.is-callable": [
     "esnext.function.is-callable"
   ],
@@ -12732,6 +13208,9 @@
   ],
   "core-js/modules/esnext.iterator.constructor": [
     "esnext.iterator.constructor"
+  ],
+  "core-js/modules/esnext.iterator.dispose": [
+    "esnext.iterator.dispose"
   ],
   "core-js/modules/esnext.iterator.drop": [
     "esnext.iterator.drop"
@@ -12949,6 +13428,9 @@
   "core-js/modules/esnext.set.difference": [
     "esnext.set.difference"
   ],
+  "core-js/modules/esnext.set.difference.v2": [
+    "esnext.set.difference.v2"
+  ],
   "core-js/modules/esnext.set.every": [
     "esnext.set.every"
   ],
@@ -12964,14 +13446,26 @@
   "core-js/modules/esnext.set.intersection": [
     "esnext.set.intersection"
   ],
+  "core-js/modules/esnext.set.intersection.v2": [
+    "esnext.set.intersection.v2"
+  ],
   "core-js/modules/esnext.set.is-disjoint-from": [
     "esnext.set.is-disjoint-from"
+  ],
+  "core-js/modules/esnext.set.is-disjoint-from.v2": [
+    "esnext.set.is-disjoint-from.v2"
   ],
   "core-js/modules/esnext.set.is-subset-of": [
     "esnext.set.is-subset-of"
   ],
+  "core-js/modules/esnext.set.is-subset-of.v2": [
+    "esnext.set.is-subset-of.v2"
+  ],
   "core-js/modules/esnext.set.is-superset-of": [
     "esnext.set.is-superset-of"
+  ],
+  "core-js/modules/esnext.set.is-superset-of.v2": [
+    "esnext.set.is-superset-of.v2"
   ],
   "core-js/modules/esnext.set.join": [
     "esnext.set.join"
@@ -12991,8 +13485,14 @@
   "core-js/modules/esnext.set.symmetric-difference": [
     "esnext.set.symmetric-difference"
   ],
+  "core-js/modules/esnext.set.symmetric-difference.v2": [
+    "esnext.set.symmetric-difference.v2"
+  ],
   "core-js/modules/esnext.set.union": [
     "esnext.set.union"
+  ],
+  "core-js/modules/esnext.set.union.v2": [
+    "esnext.set.union.v2"
   ],
   "core-js/modules/esnext.string.at": [
     "esnext.string.at"
@@ -13006,6 +13506,9 @@
   "core-js/modules/esnext.string.cooked": [
     "esnext.string.cooked"
   ],
+  "core-js/modules/esnext.string.dedent": [
+    "esnext.string.dedent"
+  ],
   "core-js/modules/esnext.string.is-well-formed": [
     "esnext.string.is-well-formed"
   ],
@@ -13017,6 +13520,9 @@
   ],
   "core-js/modules/esnext.string.to-well-formed": [
     "esnext.string.to-well-formed"
+  ],
+  "core-js/modules/esnext.suppressed-error.constructor": [
+    "esnext.suppressed-error.constructor"
   ],
   "core-js/modules/esnext.symbol.async-dispose": [
     "esnext.symbol.async-dispose"
@@ -13172,6 +13678,7 @@
     "es.map",
     "es.string.at-alternative",
     "esnext.aggregate-error",
+    "esnext.suppressed-error.constructor",
     "esnext.array.from-async",
     "esnext.array.at",
     "esnext.array.filter-out",
@@ -13190,8 +13697,10 @@
     "esnext.array.to-spliced",
     "esnext.array.unique-by",
     "esnext.array.with",
+    "esnext.async-disposable-stack.constructor",
     "esnext.async-iterator.constructor",
     "esnext.async-iterator.as-indexed-pairs",
+    "esnext.async-iterator.async-dispose",
     "esnext.async-iterator.drop",
     "esnext.async-iterator.every",
     "esnext.async-iterator.filter",
@@ -13208,12 +13717,14 @@
     "esnext.bigint.range",
     "esnext.composite-key",
     "esnext.composite-symbol",
+    "esnext.disposable-stack.constructor",
     "esnext.function.is-callable",
     "esnext.function.is-constructor",
     "esnext.function.un-this",
     "esnext.global-this",
     "esnext.iterator.constructor",
     "esnext.iterator.as-indexed-pairs",
+    "esnext.iterator.dispose",
     "esnext.iterator.drop",
     "esnext.iterator.every",
     "esnext.iterator.filter",
@@ -13282,25 +13793,33 @@
     "esnext.reflect.metadata",
     "esnext.set.add-all",
     "esnext.set.delete-all",
+    "esnext.set.difference.v2",
     "esnext.set.difference",
     "esnext.set.every",
     "esnext.set.filter",
     "esnext.set.find",
     "esnext.set.from",
+    "esnext.set.intersection.v2",
     "esnext.set.intersection",
+    "esnext.set.is-disjoint-from.v2",
     "esnext.set.is-disjoint-from",
+    "esnext.set.is-subset-of.v2",
     "esnext.set.is-subset-of",
+    "esnext.set.is-superset-of.v2",
     "esnext.set.is-superset-of",
     "esnext.set.join",
     "esnext.set.map",
     "esnext.set.of",
     "esnext.set.reduce",
     "esnext.set.some",
+    "esnext.set.symmetric-difference.v2",
     "esnext.set.symmetric-difference",
+    "esnext.set.union.v2",
     "esnext.set.union",
     "esnext.string.at",
     "esnext.string.cooked",
     "esnext.string.code-points",
+    "esnext.string.dedent",
     "esnext.string.is-well-formed",
     "esnext.string.match-all",
     "esnext.string.replace-all",
@@ -13399,6 +13918,12 @@
     "esnext.array.unique-by",
     "esnext.typed-array.unique-by"
   ],
+  "core-js/proposals/async-explicit-resource-management": [
+    "esnext.suppressed-error.constructor",
+    "esnext.async-disposable-stack.constructor",
+    "esnext.async-iterator.async-dispose",
+    "esnext.symbol.async-dispose"
+  ],
   "core-js/proposals/async-iteration": [
     "es.symbol.async-iterator"
   ],
@@ -13467,6 +13992,12 @@
     "es.error.cause",
     "es.aggregate-error.cause"
   ],
+  "core-js/proposals/explicit-resource-management": [
+    "esnext.suppressed-error.constructor",
+    "esnext.disposable-stack.constructor",
+    "esnext.iterator.dispose",
+    "esnext.symbol.dispose"
+  ],
   "core-js/proposals/function-is-callable-is-constructor": [
     "esnext.function.is-callable",
     "esnext.function.is-constructor"
@@ -13503,6 +14034,35 @@
     "esnext.iterator.for-each",
     "esnext.iterator.from",
     "esnext.iterator.indexed",
+    "esnext.iterator.map",
+    "esnext.iterator.reduce",
+    "esnext.iterator.some",
+    "esnext.iterator.take",
+    "esnext.iterator.to-array",
+    "esnext.iterator.to-async"
+  ],
+  "core-js/proposals/iterator-helpers-stage-3": [
+    "esnext.async-iterator.constructor",
+    "esnext.async-iterator.drop",
+    "esnext.async-iterator.every",
+    "esnext.async-iterator.filter",
+    "esnext.async-iterator.find",
+    "esnext.async-iterator.flat-map",
+    "esnext.async-iterator.for-each",
+    "esnext.async-iterator.from",
+    "esnext.async-iterator.map",
+    "esnext.async-iterator.reduce",
+    "esnext.async-iterator.some",
+    "esnext.async-iterator.take",
+    "esnext.async-iterator.to-array",
+    "esnext.iterator.constructor",
+    "esnext.iterator.drop",
+    "esnext.iterator.every",
+    "esnext.iterator.filter",
+    "esnext.iterator.find",
+    "esnext.iterator.flat-map",
+    "esnext.iterator.for-each",
+    "esnext.iterator.from",
     "esnext.iterator.map",
     "esnext.iterator.reduce",
     "esnext.iterator.some",
@@ -13618,13 +14178,29 @@
     "esnext.math.seeded-prng"
   ],
   "core-js/proposals/set-methods": [
+    "esnext.set.difference.v2",
     "esnext.set.difference",
+    "esnext.set.intersection.v2",
     "esnext.set.intersection",
+    "esnext.set.is-disjoint-from.v2",
     "esnext.set.is-disjoint-from",
+    "esnext.set.is-subset-of.v2",
     "esnext.set.is-subset-of",
+    "esnext.set.is-superset-of.v2",
     "esnext.set.is-superset-of",
+    "esnext.set.symmetric-difference.v2",
     "esnext.set.symmetric-difference",
+    "esnext.set.union.v2",
     "esnext.set.union"
+  ],
+  "core-js/proposals/set-methods-v2": [
+    "esnext.set.difference.v2",
+    "esnext.set.intersection.v2",
+    "esnext.set.is-disjoint-from.v2",
+    "esnext.set.is-subset-of.v2",
+    "esnext.set.is-superset-of.v2",
+    "esnext.set.symmetric-difference.v2",
+    "esnext.set.union.v2"
   ],
   "core-js/proposals/string-at": [
     "esnext.string.at"
@@ -13634,6 +14210,9 @@
   ],
   "core-js/proposals/string-cooked": [
     "esnext.string.cooked"
+  ],
+  "core-js/proposals/string-dedent": [
+    "esnext.string.dedent"
   ],
   "core-js/proposals/string-left-right-trim": [
     "es.string.trim-end",
@@ -15877,6 +16456,7 @@
     "es.map",
     "es.string.at-alternative",
     "esnext.aggregate-error",
+    "esnext.suppressed-error.constructor",
     "esnext.array.from-async",
     "esnext.array.at",
     "esnext.array.filter-out",
@@ -15895,8 +16475,10 @@
     "esnext.array.to-spliced",
     "esnext.array.unique-by",
     "esnext.array.with",
+    "esnext.async-disposable-stack.constructor",
     "esnext.async-iterator.constructor",
     "esnext.async-iterator.as-indexed-pairs",
+    "esnext.async-iterator.async-dispose",
     "esnext.async-iterator.drop",
     "esnext.async-iterator.every",
     "esnext.async-iterator.filter",
@@ -15913,12 +16495,14 @@
     "esnext.bigint.range",
     "esnext.composite-key",
     "esnext.composite-symbol",
+    "esnext.disposable-stack.constructor",
     "esnext.function.is-callable",
     "esnext.function.is-constructor",
     "esnext.function.un-this",
     "esnext.global-this",
     "esnext.iterator.constructor",
     "esnext.iterator.as-indexed-pairs",
+    "esnext.iterator.dispose",
     "esnext.iterator.drop",
     "esnext.iterator.every",
     "esnext.iterator.filter",
@@ -15987,25 +16571,33 @@
     "esnext.reflect.metadata",
     "esnext.set.add-all",
     "esnext.set.delete-all",
+    "esnext.set.difference.v2",
     "esnext.set.difference",
     "esnext.set.every",
     "esnext.set.filter",
     "esnext.set.find",
     "esnext.set.from",
+    "esnext.set.intersection.v2",
     "esnext.set.intersection",
+    "esnext.set.is-disjoint-from.v2",
     "esnext.set.is-disjoint-from",
+    "esnext.set.is-subset-of.v2",
     "esnext.set.is-subset-of",
+    "esnext.set.is-superset-of.v2",
     "esnext.set.is-superset-of",
     "esnext.set.join",
     "esnext.set.map",
     "esnext.set.of",
     "esnext.set.reduce",
     "esnext.set.some",
+    "esnext.set.symmetric-difference.v2",
     "esnext.set.symmetric-difference",
+    "esnext.set.union.v2",
     "esnext.set.union",
     "esnext.string.at",
     "esnext.string.cooked",
     "esnext.string.code-points",
+    "esnext.string.dedent",
     "esnext.string.is-well-formed",
     "esnext.string.match-all",
     "esnext.string.replace-all",
@@ -16047,6 +16639,7 @@
     "es.map",
     "es.string.at-alternative",
     "esnext.aggregate-error",
+    "esnext.suppressed-error.constructor",
     "esnext.array.from-async",
     "esnext.array.at",
     "esnext.array.filter-out",
@@ -16065,8 +16658,10 @@
     "esnext.array.to-spliced",
     "esnext.array.unique-by",
     "esnext.array.with",
+    "esnext.async-disposable-stack.constructor",
     "esnext.async-iterator.constructor",
     "esnext.async-iterator.as-indexed-pairs",
+    "esnext.async-iterator.async-dispose",
     "esnext.async-iterator.drop",
     "esnext.async-iterator.every",
     "esnext.async-iterator.filter",
@@ -16083,12 +16678,14 @@
     "esnext.bigint.range",
     "esnext.composite-key",
     "esnext.composite-symbol",
+    "esnext.disposable-stack.constructor",
     "esnext.function.is-callable",
     "esnext.function.is-constructor",
     "esnext.function.un-this",
     "esnext.global-this",
     "esnext.iterator.constructor",
     "esnext.iterator.as-indexed-pairs",
+    "esnext.iterator.dispose",
     "esnext.iterator.drop",
     "esnext.iterator.every",
     "esnext.iterator.filter",
@@ -16148,25 +16745,33 @@
     "esnext.promise.try",
     "esnext.set.add-all",
     "esnext.set.delete-all",
+    "esnext.set.difference.v2",
     "esnext.set.difference",
     "esnext.set.every",
     "esnext.set.filter",
     "esnext.set.find",
     "esnext.set.from",
+    "esnext.set.intersection.v2",
     "esnext.set.intersection",
+    "esnext.set.is-disjoint-from.v2",
     "esnext.set.is-disjoint-from",
+    "esnext.set.is-subset-of.v2",
     "esnext.set.is-subset-of",
+    "esnext.set.is-superset-of.v2",
     "esnext.set.is-superset-of",
     "esnext.set.join",
     "esnext.set.map",
     "esnext.set.of",
     "esnext.set.reduce",
     "esnext.set.some",
+    "esnext.set.symmetric-difference.v2",
     "esnext.set.symmetric-difference",
+    "esnext.set.union.v2",
     "esnext.set.union",
     "esnext.string.at",
     "esnext.string.cooked",
     "esnext.string.code-points",
+    "esnext.string.dedent",
     "esnext.string.is-well-formed",
     "esnext.string.match-all",
     "esnext.string.replace-all",
@@ -16208,6 +16813,7 @@
     "es.map",
     "es.string.at-alternative",
     "esnext.aggregate-error",
+    "esnext.suppressed-error.constructor",
     "esnext.array.from-async",
     "esnext.array.at",
     "esnext.array.filter-reject",
@@ -16225,8 +16831,10 @@
     "esnext.array.to-spliced",
     "esnext.array.unique-by",
     "esnext.array.with",
+    "esnext.async-disposable-stack.constructor",
     "esnext.async-iterator.constructor",
     "esnext.async-iterator.as-indexed-pairs",
+    "esnext.async-iterator.async-dispose",
     "esnext.async-iterator.drop",
     "esnext.async-iterator.every",
     "esnext.async-iterator.filter",
@@ -16243,9 +16851,11 @@
     "esnext.bigint.range",
     "esnext.composite-key",
     "esnext.composite-symbol",
+    "esnext.disposable-stack.constructor",
     "esnext.global-this",
     "esnext.iterator.constructor",
     "esnext.iterator.as-indexed-pairs",
+    "esnext.iterator.dispose",
     "esnext.iterator.drop",
     "esnext.iterator.every",
     "esnext.iterator.filter",
@@ -16301,24 +16911,32 @@
     "esnext.promise.try",
     "esnext.set.add-all",
     "esnext.set.delete-all",
+    "esnext.set.difference.v2",
     "esnext.set.difference",
     "esnext.set.every",
     "esnext.set.filter",
     "esnext.set.find",
     "esnext.set.from",
+    "esnext.set.intersection.v2",
     "esnext.set.intersection",
+    "esnext.set.is-disjoint-from.v2",
     "esnext.set.is-disjoint-from",
+    "esnext.set.is-subset-of.v2",
     "esnext.set.is-subset-of",
+    "esnext.set.is-superset-of.v2",
     "esnext.set.is-superset-of",
     "esnext.set.join",
     "esnext.set.map",
     "esnext.set.of",
     "esnext.set.reduce",
     "esnext.set.some",
+    "esnext.set.symmetric-difference.v2",
     "esnext.set.symmetric-difference",
+    "esnext.set.union.v2",
     "esnext.set.union",
     "esnext.string.cooked",
     "esnext.string.code-points",
+    "esnext.string.dedent",
     "esnext.string.is-well-formed",
     "esnext.string.match-all",
     "esnext.string.replace-all",
@@ -16355,6 +16973,7 @@
   "core-js/stage/2": [
     "es.string.at-alternative",
     "esnext.aggregate-error",
+    "esnext.suppressed-error.constructor",
     "esnext.array.from-async",
     "esnext.array.at",
     "esnext.array.find-last",
@@ -16368,8 +16987,10 @@
     "esnext.array.to-sorted",
     "esnext.array.to-spliced",
     "esnext.array.with",
+    "esnext.async-disposable-stack.constructor",
     "esnext.async-iterator.constructor",
     "esnext.async-iterator.as-indexed-pairs",
+    "esnext.async-iterator.async-dispose",
     "esnext.async-iterator.drop",
     "esnext.async-iterator.every",
     "esnext.async-iterator.filter",
@@ -16383,9 +17004,11 @@
     "esnext.async-iterator.some",
     "esnext.async-iterator.take",
     "esnext.async-iterator.to-array",
+    "esnext.disposable-stack.constructor",
     "esnext.global-this",
     "esnext.iterator.constructor",
     "esnext.iterator.as-indexed-pairs",
+    "esnext.iterator.dispose",
     "esnext.iterator.drop",
     "esnext.iterator.every",
     "esnext.iterator.filter",
@@ -16404,13 +17027,21 @@
     "esnext.object.has-own",
     "esnext.promise.all-settled",
     "esnext.promise.any",
+    "esnext.set.difference.v2",
     "esnext.set.difference",
+    "esnext.set.intersection.v2",
     "esnext.set.intersection",
+    "esnext.set.is-disjoint-from.v2",
     "esnext.set.is-disjoint-from",
+    "esnext.set.is-subset-of.v2",
     "esnext.set.is-subset-of",
+    "esnext.set.is-superset-of.v2",
     "esnext.set.is-superset-of",
+    "esnext.set.symmetric-difference.v2",
     "esnext.set.symmetric-difference",
+    "esnext.set.union.v2",
     "esnext.set.union",
+    "esnext.string.dedent",
     "esnext.string.is-well-formed",
     "esnext.string.match-all",
     "esnext.string.replace-all",
@@ -16432,6 +17063,7 @@
   "core-js/stage/3": [
     "es.string.at-alternative",
     "esnext.aggregate-error",
+    "esnext.suppressed-error.constructor",
     "esnext.array.from-async",
     "esnext.array.at",
     "esnext.array.find-last",
@@ -16444,12 +17076,51 @@
     "esnext.array.to-sorted",
     "esnext.array.to-spliced",
     "esnext.array.with",
+    "esnext.async-iterator.constructor",
+    "esnext.async-iterator.drop",
+    "esnext.async-iterator.every",
+    "esnext.async-iterator.filter",
+    "esnext.async-iterator.find",
+    "esnext.async-iterator.flat-map",
+    "esnext.async-iterator.for-each",
+    "esnext.async-iterator.from",
+    "esnext.async-iterator.map",
+    "esnext.async-iterator.reduce",
+    "esnext.async-iterator.some",
+    "esnext.async-iterator.take",
+    "esnext.async-iterator.to-array",
+    "esnext.disposable-stack.constructor",
     "esnext.global-this",
+    "esnext.iterator.constructor",
+    "esnext.iterator.dispose",
+    "esnext.iterator.drop",
+    "esnext.iterator.every",
+    "esnext.iterator.filter",
+    "esnext.iterator.find",
+    "esnext.iterator.flat-map",
+    "esnext.iterator.for-each",
+    "esnext.iterator.from",
+    "esnext.iterator.map",
+    "esnext.iterator.reduce",
+    "esnext.iterator.some",
+    "esnext.iterator.take",
+    "esnext.iterator.to-array",
+    "esnext.iterator.to-async",
     "esnext.object.has-own",
     "esnext.promise.all-settled",
     "esnext.promise.any",
+    "esnext.set.difference.v2",
+    "esnext.set.intersection.v2",
+    "esnext.set.is-disjoint-from.v2",
+    "esnext.set.is-subset-of.v2",
+    "esnext.set.is-superset-of.v2",
+    "esnext.set.symmetric-difference.v2",
+    "esnext.set.union.v2",
+    "esnext.string.is-well-formed",
     "esnext.string.match-all",
     "esnext.string.replace-all",
+    "esnext.string.to-well-formed",
+    "esnext.symbol.dispose",
     "esnext.typed-array.at",
     "esnext.typed-array.find-last",
     "esnext.typed-array.find-last-index",
@@ -16478,6 +17149,7 @@
     "es.map",
     "es.string.at-alternative",
     "esnext.aggregate-error",
+    "esnext.suppressed-error.constructor",
     "esnext.array.from-async",
     "esnext.array.at",
     "esnext.array.filter-out",
@@ -16496,8 +17168,10 @@
     "esnext.array.to-spliced",
     "esnext.array.unique-by",
     "esnext.array.with",
+    "esnext.async-disposable-stack.constructor",
     "esnext.async-iterator.constructor",
     "esnext.async-iterator.as-indexed-pairs",
+    "esnext.async-iterator.async-dispose",
     "esnext.async-iterator.drop",
     "esnext.async-iterator.every",
     "esnext.async-iterator.filter",
@@ -16514,12 +17188,14 @@
     "esnext.bigint.range",
     "esnext.composite-key",
     "esnext.composite-symbol",
+    "esnext.disposable-stack.constructor",
     "esnext.function.is-callable",
     "esnext.function.is-constructor",
     "esnext.function.un-this",
     "esnext.global-this",
     "esnext.iterator.constructor",
     "esnext.iterator.as-indexed-pairs",
+    "esnext.iterator.dispose",
     "esnext.iterator.drop",
     "esnext.iterator.every",
     "esnext.iterator.filter",
@@ -16588,25 +17264,33 @@
     "esnext.reflect.metadata",
     "esnext.set.add-all",
     "esnext.set.delete-all",
+    "esnext.set.difference.v2",
     "esnext.set.difference",
     "esnext.set.every",
     "esnext.set.filter",
     "esnext.set.find",
     "esnext.set.from",
+    "esnext.set.intersection.v2",
     "esnext.set.intersection",
+    "esnext.set.is-disjoint-from.v2",
     "esnext.set.is-disjoint-from",
+    "esnext.set.is-subset-of.v2",
     "esnext.set.is-subset-of",
+    "esnext.set.is-superset-of.v2",
     "esnext.set.is-superset-of",
     "esnext.set.join",
     "esnext.set.map",
     "esnext.set.of",
     "esnext.set.reduce",
     "esnext.set.some",
+    "esnext.set.symmetric-difference.v2",
     "esnext.set.symmetric-difference",
+    "esnext.set.union.v2",
     "esnext.set.union",
     "esnext.string.at",
     "esnext.string.cooked",
     "esnext.string.code-points",
+    "esnext.string.dedent",
     "esnext.string.is-well-formed",
     "esnext.string.match-all",
     "esnext.string.replace-all",

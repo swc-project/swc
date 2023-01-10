@@ -17,7 +17,7 @@ div {
 }
 @font-face{
   font-family: examplefont;
-  src: local(Example Font), url('examplefont.woff') format("woff"), url('examplefont.otf') format("opentype");
+  src: local(Example Font), url("examplefont.woff") format("woff"), url("examplefont.otf") format("opentype");
 }
 .three {
   background-color: var(--my-var, var(--my-background, pink));

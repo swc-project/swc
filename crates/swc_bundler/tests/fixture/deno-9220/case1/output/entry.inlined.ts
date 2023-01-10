@@ -659,8 +659,8 @@ const JpegImage = function jpegImage() {
                                 }
                             } else if (quantizationTableSpec >> 4 === 1) {
                                 for(j = 0; j < 64; j++){
-                                    const z1 = dctZigZag[j];
-                                    tableData[z1] = readUint16();
+                                    const z = dctZigZag[j];
+                                    tableData[z] = readUint16();
                                 }
                             } else {
                                 throw new Error("DQT: invalid table spec");
@@ -752,11 +752,11 @@ const JpegImage = function jpegImage() {
             if (frames.length != 1) {
                 throw new Error("only single frame JPEGs supported");
             }
-            for(let i1 = 0; i1 < frames.length; i1++){
-                const cp = frames[i1].components;
-                for(const j1 in cp){
-                    cp[j1].quantizationTable = quantizationTables[cp[j1].quantizationIdx];
-                    delete cp[j1].quantizationIdx;
+            for(let i = 0; i < frames.length; i++){
+                const cp = frames[i].components;
+                for(const j in cp){
+                    cp[j].quantizationTable = quantizationTables[cp[j].quantizationIdx];
+                    delete cp[j].quantizationIdx;
                 }
             }
             this.width = frame.samplesPerLine;
@@ -764,12 +764,12 @@ const JpegImage = function jpegImage() {
             this.jfif = jfif;
             this.adobe = adobe;
             this.components = [];
-            for(let i2 = 0; i2 < frame.componentsOrder.length; i2++){
-                const component1 = frame.components[frame.componentsOrder[i2]];
+            for(let i = 0; i < frame.componentsOrder.length; i++){
+                const component = frame.components[frame.componentsOrder[i]];
                 this.components.push({
-                    lines: buildComponentData(frame, component1),
-                    scaleX: component1.h / frame.maxH,
-                    scaleY: component1.v / frame.maxV
+                    lines: buildComponentData(frame, component),
+                    scaleX: component.h / frame.maxH,
+                    scaleY: component.v / frame.maxV
                 });
             }
         },

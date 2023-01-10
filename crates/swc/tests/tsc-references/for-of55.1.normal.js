@@ -2,6 +2,6 @@
 let v = [
     1
 ];
-for (let v1 of v1){
-    v1;
+for (let v of v){
+    v;
 }

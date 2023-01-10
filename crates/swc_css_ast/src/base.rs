@@ -1,11 +1,12 @@
 use is_macro::Is;
+use swc_atoms::JsWord;
 use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span};
 
 use crate::{
     AlphaValue, AnglePercentage, AtRule, CalcSum, CmykComponent, Color, ComplexSelector,
-    DashedIdent, Delimiter, Dimension, FrequencyPercentage, Hue, Ident, Integer, KeyframeBlock,
-    LayerName, LengthPercentage, Number, Percentage, Ratio, RelativeSelectorList, SelectorList,
-    Str, SupportsCondition, TimePercentage, TokenAndSpan, UnicodeRange, Url,
+    DashedIdent, Delimiter, Dimension, FrequencyPercentage, Hue, IdSelector, Ident, Integer,
+    KeyframeBlock, LayerName, LengthPercentage, Number, Percentage, Ratio, RelativeSelectorList,
+    SelectorList, Str, SupportsCondition, TimePercentage, TokenAndSpan, UnicodeRange, Url,
 };
 
 #[ast_node("Stylesheet")]
@@ -100,12 +101,39 @@ impl Take for SimpleBlock {
     }
 }
 
+#[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
+pub enum FunctionName {
+    #[tag("Ident")]
+    Ident(Ident),
+    #[tag("DashedIdent")]
+    DashedIdent(DashedIdent),
+}
+
+impl PartialEq<str> for FunctionName {
+    fn eq(&self, other: &str) -> bool {
+        match self {
+            FunctionName::DashedIdent(v) => *v == *other,
+            FunctionName::Ident(v) => *v == *other,
+        }
+    }
+}
+
+impl PartialEq<JsWord> for FunctionName {
+    fn eq(&self, other: &JsWord) -> bool {
+        match self {
+            FunctionName::DashedIdent(v) => v.value == *other,
+            FunctionName::Ident(v) => v.value == *other,
+        }
+    }
+}
+
 #[ast_node("Function")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct Function {
     /// Span starting from the `lo` of identifier and to the end of `)`.
     pub span: Span,
-    pub name: Ident,
+    pub name: FunctionName,
     pub value: Vec<ComponentValue>,
 }
 
@@ -190,6 +218,8 @@ pub enum ComponentValue {
     SupportsCondition(Box<SupportsCondition>),
     #[tag("Declaration")]
     Declaration(Box<Declaration>),
+    #[tag("IdSelector")]
+    IdSelector(Box<IdSelector>),
 }
 
 impl From<StyleBlock> for ComponentValue {
@@ -265,6 +295,24 @@ pub enum DeclarationName {
     Ident(Ident),
     #[tag("DashedIdent")]
     DashedIdent(DashedIdent),
+}
+
+impl PartialEq<str> for DeclarationName {
+    fn eq(&self, other: &str) -> bool {
+        match self {
+            DeclarationName::DashedIdent(v) => *v == *other,
+            DeclarationName::Ident(v) => *v == *other,
+        }
+    }
+}
+
+impl PartialEq<JsWord> for DeclarationName {
+    fn eq(&self, other: &JsWord) -> bool {
+        match self {
+            DeclarationName::DashedIdent(v) => v.value == *other,
+            DeclarationName::Ident(v) => v.value == *other,
+        }
+    }
 }
 
 #[ast_node("ImportantFlag")]

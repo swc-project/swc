@@ -1,0 +1,44 @@
+a {
+    width: clamp(10px, 64px, 80px);
+}
+
+a {
+    width: clamp(calc(100% - 10px), min(10px, 100%), max(40px, 4em));
+}
+
+a {
+    width: clamp(10%, 2px, 4rem);
+}
+
+a {
+    width: clamp(10%, 2px, 4rem);
+    height: calc(10px + 100%);
+}
+
+a {
+    width: clamp(10%, 2.5px, 5.1px);
+}
+
+a {
+    width: clamp(10%, 2.5px, 5px);
+}
+
+a {
+    width: clamp(calc(10px + 100%), calc(10rem + 200%), 10px);
+}
+
+a {
+    width: clamp(var(--foo-a), var(--foo-b), var(--foo-c));
+}
+
+a {
+    margin: 0 40px 0 calc(-1 * clamp(32px, 16vw, 64px));
+}
+
+a {
+    font-size: clamp(clamp(1rem, 2vw, 3rem), 4vw, 5rem);
+}
+
+a {
+    width: calc(10px + clamp(2px, 4px, 6px));
+}

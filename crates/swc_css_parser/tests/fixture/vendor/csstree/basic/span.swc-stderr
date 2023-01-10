@@ -3411,7 +3411,7 @@
  30 |     }
     `----
 
-  x Color
+  x IdSelector
     ,-[$DIR/tests/fixture/vendor/csstree/basic/input.css:28:1]
  28 |         --custom2: ([]) !important;
  29 |         background: element(#id);
@@ -3419,7 +3419,7 @@
  30 |     }
     `----
 
-  x HexColor
+  x Ident
     ,-[$DIR/tests/fixture/vendor/csstree/basic/input.css:28:1]
  28 |         --custom2: ([]) !important;
  29 |         background: element(#id);

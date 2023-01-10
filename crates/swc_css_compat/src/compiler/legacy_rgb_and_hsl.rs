@@ -1,20 +1,18 @@
 use std::f64::consts::PI;
 
 use swc_atoms::js_word;
-use swc_css_ast::{AbsoluteColorBase, AlphaValue, Angle, ComponentValue, Hue, Number, Percentage};
-
-use crate::compiler::{
-    utils::{clamp_unit_f32, round_alpha},
-    Compiler,
+use swc_css_ast::{
+    matches_eq, AbsoluteColorBase, AlphaValue, Angle, ComponentValue, Hue, Number, Percentage,
 };
+use swc_css_utils::{clamp_unit_f64, round_alpha};
+
+use crate::compiler::Compiler;
 
 impl Compiler {
     pub(crate) fn process_rgb_and_hsl(&mut self, n: &mut AbsoluteColorBase) {
         if let AbsoluteColorBase::Function(function) = n {
-            let name = function.name.value.to_ascii_lowercase();
-
-            let is_rgb = matches!(name, js_word!("rgb") | js_word!("rgba"));
-            let is_hsl = matches!(name, js_word!("hsl") | js_word!("hsla"));
+            let is_rgb = matches_eq!(function.name, js_word!("rgb"), js_word!("rgba"));
+            let is_hsl = matches_eq!(function.name, js_word!("hsl"), js_word!("hsla"));
 
             if is_rgb {
                 function.value = function
@@ -28,7 +26,7 @@ impl Compiler {
                             ..
                         }) => ComponentValue::Number(Box::new(Number {
                             span,
-                            value: clamp_unit_f32(value / 100.0) as f64,
+                            value: clamp_unit_f64(value / 100.0) as f64,
                             raw: None,
                         })),
                         _ => n,

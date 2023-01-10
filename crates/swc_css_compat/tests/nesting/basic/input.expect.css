@@ -1,0 +1,300 @@
+table.colortable {}
+table.colortable td {
+  text-align: center;
+}
+table.colortable td.c {
+  text-transform: uppercase;
+}
+table.colortable td:first-child, 
+table.colortable td:first-child + td {
+  border: 1px solid black;
+}
+table.colortable th {
+  text-align: center;
+  background: black;
+  color: white;
+}
+.foo {
+  color: blue;
+}
+.foo > .bar {
+  color: red;
+}
+.foo {
+  color: blue;
+}
+.foo.bar {
+  color: red;
+}
+.foo, 
+.bar {
+  color: blue;
+}
+.foo + .baz, 
+.foo.qux, 
+.bar + .baz, 
+.bar.qux {
+  color: red;
+}
+.foo {
+  color: blue;
+}
+.foo .bar .foo .baz .foo .qux {
+  color: red;
+}
+.foo {
+  color: blue;
+}
+.foo {
+  padding: 2ch;
+}
+.error, 
+#test {}
+.error:hover > .baz, 
+#test:hover > .baz {
+  color: red;
+}
+.foo {}
+.foo:is(.bar, .foo.baz) {
+  color: red;
+}
+figure {
+  margin: 0;
+}
+figure > figcaption {
+  background: hsl(0 0% 0% / 50%);
+}
+figure > figcaption > p {
+  font-size: 0.9rem;
+}
+.foo {
+  color: blue;
+}
+__bar.foo {
+  color: red;
+}
+.foo {
+  color: red;
+}
+.foo > bar {
+  color: green;
+}
+.foo > bar > baz {
+  color: blue;
+}
+.foo {
+  color: red;
+}
+.foo > bar {
+  color: green;
+}
+.foo > bar > baz {
+  color: blue;
+}
+.foo {
+  color: red;
+}
+.foo.bar {
+  color: green;
+}
+.foo.bar.one, 
+.foo.bar.two {
+  color: blue;
+}
+.foo {
+  color: red;
+}
+.foo > bar-1, 
+.foo > bar-2 {
+  color: green;
+}
+.foo > bar-1 > baz-1, 
+.foo > bar-1 > baz-2, 
+.foo > bar-2 > baz-1, 
+.foo > bar-2 > baz-2 {
+  color: blue;
+}
+.foo {
+  color: blue;
+}
+.foo > .bar {
+  color: red;
+}
+.foo > .baz {
+  color: green;
+}
+.foo {
+  color: blue;
+}
+.foo.bar {
+  color: red;
+}
+.foo, 
+.bar {
+  color: blue;
+}
+.foo + .baz, 
+.foo.qux, 
+.bar + .baz, 
+.bar.qux {
+  color: red;
+}
+.foo {
+  color: blue;
+}
+.foo .bar .foo .baz .foo .qux {
+  color: red;
+}
+.foo {
+  color: red;
+}
+.parent .foo {
+  color: blue;
+}
+.foo {
+  color: red;
+}
+.foo :not(&) {
+  color: blue;
+}
+.foo {
+  color: red;
+}
+.foo + .bar + .foo {
+  color: blue;
+}
+.foo {
+  color: blue;
+}
+.foo {
+  padding: 2ch;
+}
+.error, 
+#id {}
+.error:hover > .baz, 
+#id:hover > .baz {
+  color: red;
+}
+.ancestor .el {}
+.other-ancestor .ancestor .el {
+  color: red;
+}
+figure {
+  margin: 0;
+}
+figure > figcaption {
+  background: hsl(0 0% 0% / 50%);
+}
+figure > figcaption > p {
+  font-size: 0.9rem;
+}
+@layer base {
+  html {
+    block-size: 100%;
+    & body {
+      min-block-size: 100%;
+    }
+  }
+}
+@layer base {
+  html {
+    block-size: 100%;
+    @layer base.support {
+      & body {
+        min-block-size: 100%;
+      }
+    }
+  }
+}
+.foo {
+  display: grid;
+}
+@media (orientation: landscape) {
+  .foo {
+    grid-auto-flow: column;
+  }
+}
+.foo {
+  display: grid;
+}
+@media (orientation: landscape) {
+  .foo {
+    grid-auto-flow: column;
+    @media (min-width > 1024px) {
+      max-inline-size: 1024px;
+    }
+  }
+}
+.foo {
+  display: grid;
+}
+@supports (grid-auto-flow: column) {
+  .foo {
+    grid-auto-flow: column;
+  }
+}
+.foo {
+  display: grid;
+}
+@supports (grid-auto-flow: column) {
+  .foo {
+    grid-auto-flow: column;
+    @supports (max-inline-size: 1024px) {
+      max-inline-size: 1024px;
+    }
+  }
+}
+.foo {
+  display: grid;
+}
+@container (min-width: 700px) {
+  .foo {
+    grid-auto-flow: column;
+  }
+}
+.foo {
+  display: grid;
+}
+@container (min-width: 700px) {
+  .foo {
+    grid-auto-flow: column;
+    @container (min-width: 400px) {
+      max-inline-size: 1024px;
+    }
+  }
+}
+article {
+  color: green;
+  color: red;
+}
+article {
+  color: blue;
+}
+.foo, 
+.foo::before, 
+.foo::after {
+  color: red;
+}
+.foo:hover, 
+.foo::before:hover, 
+.foo::after:hover {
+  color: blue;
+}
+.foo {
+  color: red;
+}
+.foo .bar {
+  color: blue;
+}
+.foo {
+  color: red;
+}
+.foo [test="test"] {
+  color: blue;
+}
+.foo {
+  color: red;
+}
+.foo #id {
+  color: blue;
+}

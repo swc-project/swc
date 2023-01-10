@@ -109,3 +109,8 @@
 @font-face {
     unicode-range: U+000450-0004FF;
 }
+
+@font-face {
+    unicode-range: U+26;
+    unicode-range: u+26;
+}

@@ -9,10 +9,10 @@
 .__local__iconButton:disabled {
   cursor: not-allowed;
 }
-.__local__iconButton[data-open='true'] {
+.__local__iconButton[data-open="true"] {
   --icon-rotation: 180deg;
 }
-.__local__iconButton[data-open='true'] .__local__chevron {
+.__local__iconButton[data-open="true"] .__local__chevron {
   transform: rotate(var(--icon-rotation));
 }
 .__local__iconButton > span {

@@ -9,8 +9,8 @@ export const def = {
         if (0 === properties.length) return;
         const valid = gen.name("valid");
         for (const prop1 of properties){
-            var prop2;
-            (prop2 = prop1, it.opts.useDefaults && !it.compositeRule && void 0 !== schema[prop2].default) ? applyPropertySchema(prop1) : (gen.if((0, code_1.propertyInData)(gen, data, prop1, it.opts.ownProperties)), applyPropertySchema(prop1), it.allErrors || gen.else().var(valid, !0), gen.endIf()), cxt.it.definedProperties.add(prop1), cxt.ok(valid);
+            var prop;
+            (prop = prop1, it.opts.useDefaults && !it.compositeRule && void 0 !== schema[prop].default) ? applyPropertySchema(prop1) : (gen.if((0, code_1.propertyInData)(gen, data, prop1, it.opts.ownProperties)), applyPropertySchema(prop1), it.allErrors || gen.else().var(valid, !0), gen.endIf()), cxt.it.definedProperties.add(prop1), cxt.ok(valid);
         }
         function applyPropertySchema(prop) {
             cxt.subschema({

@@ -256,7 +256,7 @@
                           "end": 158,
                           "ctxt": 0
                         },
-                        "value": "translateX",
+                        "value": "translatex",
                         "raw": "translateX"
                       },
                       "value": [
@@ -354,7 +354,7 @@
                           "end": 209,
                           "ctxt": 0
                         },
-                        "value": "translateX",
+                        "value": "translatex",
                         "raw": "translateX"
                       },
                       "value": [
@@ -1513,7 +1513,7 @@
                   "end": 686,
                   "ctxt": 0
                 },
-                "value": "fRoM",
+                "value": "from",
                 "raw": "fRoM"
               }
             ],
@@ -1566,7 +1566,7 @@
                           "end": 718,
                           "ctxt": 0
                         },
-                        "value": "translateX",
+                        "value": "translatex",
                         "raw": "translateX"
                       },
                       "value": [
@@ -1611,7 +1611,7 @@
                   "end": 737,
                   "ctxt": 0
                 },
-                "value": "tO",
+                "value": "to",
                 "raw": "tO"
               }
             ],
@@ -1664,7 +1664,7 @@
                           "end": 769,
                           "ctxt": 0
                         },
-                        "value": "translateX",
+                        "value": "translatex",
                         "raw": "translateX"
                       },
                       "value": [

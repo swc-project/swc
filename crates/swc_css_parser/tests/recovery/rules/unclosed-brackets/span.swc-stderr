@@ -285,7 +285,7 @@
    :                 ^^^
    `----
 
-  x Ident { value: Atom('red' type=inline), raw: "red" }
+  x Ident { value: Atom('red' type=static), raw: "red" }
    ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:4:1]
  4 | 
  5 | .class { color: red }
@@ -448,7 +448,7 @@
    :                 ^^^^
    `----
 
-  x Ident { value: Atom('blue' type=inline), raw: "blue" }
+  x Ident { value: Atom('blue' type=static), raw: "blue" }
    ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:6:1]
  6 | 
  7 | .class { color: blue }

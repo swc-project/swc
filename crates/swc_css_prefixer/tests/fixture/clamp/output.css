@@ -1,0 +1,51 @@
+a {
+  width: max(10px, min(64px, 80px));
+  width: clamp(10px, 64px, 80px);
+}
+a {
+  width: max(-webkit-calc(100% - 10px), min(min(10px, 100%), max(40px, 4em)));
+  width: clamp(-moz-calc(100% - 10px), min(10px, 100%), max(40px, 4em));
+  width: clamp(calc(100% - 10px), min(10px, 100%), max(40px, 4em));
+}
+a {
+  width: max(10%, min(2px, 4rem));
+  width: clamp(10%, 2px, 4rem);
+}
+a {
+  width: max(10%, min(2px, 4rem));
+  width: clamp(10%, 2px, 4rem);
+  height: -webkit-calc(10px + 100%);
+  height: -moz-calc(10px + 100%);
+  height: calc(10px + 100%);
+}
+a {
+  width: max(10%, min(2.5px, 5.1px));
+  width: clamp(10%, 2.5px, 5.1px);
+}
+a {
+  width: max(10%, min(2.5px, 5px));
+  width: clamp(10%, 2.5px, 5px);
+}
+a {
+  width: max(-webkit-calc(10px + 100%), min(-webkit-calc(10rem + 200%), 10px));
+  width: clamp(-moz-calc(10px + 100%), -moz-calc(10rem + 200%), 10px);
+  width: clamp(calc(10px + 100%), calc(10rem + 200%), 10px);
+}
+a {
+  width: max(var(--foo-a), min(var(--foo-b), var(--foo-c)));
+  width: clamp(var(--foo-a), var(--foo-b), var(--foo-c));
+}
+a {
+  margin: 0 40px 0 -webkit-calc(-1 * max(32px, min(16vw, 64px)));
+  margin: 0 40px 0 -moz-calc(-1 * clamp(32px, 16vw, 64px));
+  margin: 0 40px 0 calc(-1 * clamp(32px, 16vw, 64px));
+}
+a {
+  font-size: max(max(1rem, min(2vw, 3rem)), min(4vw, 5rem));
+  font-size: clamp(clamp(1rem, 2vw, 3rem), 4vw, 5rem);
+}
+a {
+  width: -webkit-calc(10px + max(2px, min(4px, 6px)));
+  width: -moz-calc(10px + clamp(2px, 4px, 6px));
+  width: calc(10px + clamp(2px, 4px, 6px));
+}

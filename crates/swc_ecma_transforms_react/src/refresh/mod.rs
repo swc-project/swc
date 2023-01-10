@@ -249,6 +249,12 @@ where
                 });
             }
 
+            comments.with_leading(n.lo, |comments| {
+                if comments.iter().any(|c| c.text.contains("@refresh reset")) {
+                    should_refresh = true
+                }
+            });
+
             comments.with_trailing(n.lo, |comments| {
                 if comments.iter().any(|c| c.text.contains("@refresh reset")) {
                     should_refresh = true
@@ -265,14 +271,18 @@ impl<C: Comments> VisitMut for Refresh<C> {
     // Does anyone write react without esmodule?
     // fn visit_mut_script(&mut self, _: &mut Script) {}
 
-    fn visit_mut_module_items(&mut self, module_items: &mut Vec<ModuleItem>) {
+    fn visit_mut_module(&mut self, n: &mut Module) {
         if !self.enable {
             return;
         }
 
         // to collect comments
-        self.visit_module_items(module_items);
+        self.visit_module(n);
 
+        self.visit_mut_module_items(&mut n.body);
+    }
+
+    fn visit_mut_module_items(&mut self, module_items: &mut Vec<ModuleItem>) {
         let used_in_jsx = collect_ident_in_jsx(module_items);
 
         let mut items = Vec::with_capacity(module_items.len());

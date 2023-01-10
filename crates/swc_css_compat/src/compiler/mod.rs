@@ -1,7 +1,8 @@
-use swc_common::{Spanned, DUMMY_SP};
+use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_css_ast::{
-    AbsoluteColorBase, AtRule, ComponentValue, MediaAnd, MediaCondition, MediaConditionAllType,
-    MediaConditionWithoutOr, MediaInParens, MediaQuery, Rule, SupportsCondition,
+    AbsoluteColorBase, AtRule, ComponentValue, CompoundSelector, MediaAnd, MediaCondition,
+    MediaConditionAllType, MediaConditionWithoutOr, MediaInParens, MediaQuery, Rule,
+    SupportsCondition,
 };
 use swc_css_visit::{VisitMut, VisitMutWith};
 
@@ -10,11 +11,13 @@ use crate::feature::Features;
 
 mod color_alpha_parameter;
 mod color_hex_alpha;
+mod color_hwb;
 mod color_space_separated_parameters;
 mod custom_media;
 mod legacy_rgb_and_hsl;
 mod media_query_ranges;
-mod utils;
+mod nesting;
+mod selector_not;
 
 /// Compiles a modern CSS file to a CSS file which works with old browsers.
 #[derive(Debug)]
@@ -85,7 +88,29 @@ impl VisitMut for Compiler {
     }
 
     fn visit_mut_rules(&mut self, n: &mut Vec<Rule>) {
-        n.visit_mut_children_with(self);
+        if self.c.process.contains(Features::NESTING) {
+            let mut new = vec![];
+
+            for n in n.take() {
+                match n {
+                    Rule::QualifiedRule(mut n) => {
+                        let mut rules = self.extract_nested_rules(&mut n);
+
+                        rules.visit_mut_with(self);
+
+                        new.push(Rule::QualifiedRule(n));
+                        new.extend(rules);
+                    }
+                    _ => {
+                        new.push(n);
+                    }
+                }
+            }
+
+            *n = new;
+        } else {
+            n.visit_mut_children_with(self);
+        }
 
         if self.c.process.contains(Features::CUSTOM_MEDIA) {
             self.custom_media.process_rules(n);
@@ -123,6 +148,18 @@ impl VisitMut for Compiler {
         }
     }
 
+    fn visit_mut_compound_selector(&mut self, n: &mut CompoundSelector) {
+        n.visit_mut_children_with(self);
+
+        if self.in_supports_condition {
+            return;
+        }
+
+        if self.c.process.contains(Features::SELECTOR_NOT) {
+            self.process_selector_not(n);
+        }
+    }
+
     fn visit_mut_component_value(&mut self, n: &mut ComponentValue) {
         n.visit_mut_children_with(self);
 
@@ -157,6 +194,10 @@ impl VisitMut for Compiler {
 
         if process.contains(Features::COLOR_LEGACY_RGB_AND_HSL) {
             self.process_rgb_and_hsl(n);
+        }
+
+        if process.contains(Features::COLOR_HWB) {
+            self.process_color_hwb(n);
         }
     }
 }

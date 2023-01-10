@@ -1,6 +1,6 @@
 use std::{
     fs::{self, File},
-    io::{self, BufRead, Write},
+    io::{self, Read, Write},
     path::{Path, PathBuf},
     sync::Arc,
 };
@@ -13,7 +13,7 @@ use rayon::prelude::*;
 use relative_path::RelativePath;
 use swc_core::{
     base::{
-        config::{Config, ConfigFile, Options},
+        config::{ConfigFile, Options, SourceMapsConfig},
         try_with_handler, Compiler, HandlerOpts, TransformOutput,
     },
     common::{
@@ -245,14 +245,14 @@ fn collect_stdin_input() -> Option<String> {
         return None;
     }
 
-    Some(
-        io::stdin()
-            .lock()
-            .lines()
-            .map(|line| line.expect("Not able to read stdin"))
-            .collect::<Vec<String>>()
-            .join("\n"),
-    )
+    let mut buffer = String::new();
+    let result = io::stdin().lock().read_to_string(&mut buffer);
+
+    if result.is_ok() && !buffer.is_empty() {
+        Some(buffer)
+    } else {
+        None
+    }
 }
 
 struct InputContext {
@@ -266,28 +266,32 @@ struct InputContext {
 #[swc_trace]
 impl CompileOptions {
     fn build_transform_options(&self, file_path: &Option<&Path>) -> anyhow::Result<Options> {
-        let base_options = Options::default();
-        let base_config = Config::default();
-
         let config_file = self.config_file.as_ref().map(|config_file_path| {
             ConfigFile::Str(config_file_path.to_string_lossy().to_string())
         });
 
-        let mut ret = Options {
-            config: Config { ..base_config },
+        let mut options = Options {
             config_file,
-            ..base_options
+            ..Options::default()
         };
 
         if let Some(file_path) = *file_path {
-            ret.filename = file_path.to_str().unwrap_or_default().to_owned();
+            options.filename = file_path.to_str().unwrap_or_default().to_owned();
         }
 
         if let Some(env_name) = &self.env_name {
-            ret.env_name = env_name.to_string();
+            options.env_name = env_name.to_string();
         }
 
-        Ok(ret)
+        if let Some(source_maps) = &self.source_maps {
+            options.source_maps = Some(match source_maps.as_str() {
+                "false" => SourceMapsConfig::Bool(false),
+                "true" => SourceMapsConfig::Bool(true),
+                value => SourceMapsConfig::Str(value.to_string()),
+            });
+        }
+
+        Ok(options)
     }
 
     /// Create canonical list of inputs to be processed across stdin / single

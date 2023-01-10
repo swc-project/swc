@@ -10,11 +10,11 @@
   background-image: image-set(url(foo.jpg) 2x);
 }
 .class {
-  background: filter(url('image.jpg'), blur(2px));
+  background: filter(url("image.jpg"), blur(2px));
 }
 .class {
-  background: filter(url('image.jpg'), blur(2px));
+  background: filter(url("image.jpg"), blur(2px));
 }
 .class {
-  background: url(image.jpg), filter(url('image.jpg'), blur(2px));
+  background: url(image.jpg), filter(url("image.jpg"), blur(2px));
 }

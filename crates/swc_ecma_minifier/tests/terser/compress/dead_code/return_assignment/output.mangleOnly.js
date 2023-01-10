@@ -47,8 +47,8 @@ function e(l) {
         try {
             o += 1;
             console.log("result " + n(10 * o, 100 * o, 1e3 * o));
-        } catch (t) {
-            console.log("caught " + t);
+        } catch (n) {
+            console.log("caught " + n);
         }
         if (null !== i) console.log("e: " + i);
     });

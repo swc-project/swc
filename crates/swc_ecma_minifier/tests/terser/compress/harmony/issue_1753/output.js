@@ -1,7 +1,9 @@
 class SomeClass {
-    constructor(r) {
+    constructor(r){
         let s = [];
-        for (let a = 0; a < 6; a++)
-            s.push({ mainDrawNumbers: [], extraDrawNumbers: [] });
+        for(let r = 0; r < 6; r++)s.push({
+            mainDrawNumbers: [],
+            extraDrawNumbers: []
+        });
     }
 }

@@ -1,12 +1,9 @@
 {
     "name": "@swc/core",
-    "version": "1.3.23",
+    "version": "1.3.25",
     "description": "Super-fast alternative for babel",
     "homepage": "https://swc.rs",
     "main": "./index.js",
-    "bin": {
-        "swcx": "run_swcx.js"
-    },
     "author": "강동윤 <kdy1997.dev@gmail.com>",
     "license": "Apache-2.0",
     "keywords": [
@@ -94,7 +91,7 @@
         "@babel/preset-react": "^7.13.13",
         "@babel/preset-typescript": "^7.13.0",
         "@babel/types": "^7.14.0",
-        "@napi-rs/cli": "^2.10.0",
+        "@napi-rs/cli": "^2.14.1",
         "@swc/core": "=1.2.220",
         "@swc/helpers": "^0.4.2",
         "@swc/plugin-jest": "1.5.25",
@@ -162,7 +159,6 @@
         "Visitor.js",
         "binding.d.ts",
         "index.js",
-        "run_swcx.js",
         "types.d.ts",
         "util.js",
         "README.md",

@@ -2124,12 +2124,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@napi-rs/cli@npm:^2.10.0":
-  version: 2.12.0
-  resolution: "@napi-rs/cli@npm:2.12.0"
+"@napi-rs/cli@npm:^2.14.1":
+  version: 2.14.1
+  resolution: "@napi-rs/cli@npm:2.14.1"
   bin:
     napi: scripts/index.js
-  checksum: 88e4cb33022ad9f2185a3e539d2b692f0c5edaeb55d8ecf2c92e512d1a68770f97d0d56ff7aa24595e83c783cbd8509309968052671b79bbed780340b9201c8f
+  checksum: ac93f7ce67b9b5ab839fadc7afbaa0a33126325807578133df016ed9d88455f403e7ceb9f225d2996d65e4a9d67960516533bab155a47998192f42febe35de24
   languageName: node
   linkType: hard
 
@@ -2450,7 +2450,7 @@ __metadata:
     "@babel/preset-react": ^7.13.13
     "@babel/preset-typescript": ^7.13.0
     "@babel/types": ^7.14.0
-    "@napi-rs/cli": ^2.10.0
+    "@napi-rs/cli": ^2.14.1
     "@swc/core": =1.2.220
     "@swc/core-darwin-arm64": 1.2.146
     "@swc/core-darwin-x64": 1.2.146
@@ -2522,8 +2522,6 @@ __metadata:
       optional: true
     "@swc/core-win32-x64-msvc":
       optional: true
-  bin:
-    swcx: run_swcx.js
   languageName: unknown
   linkType: soft
 

@@ -42,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('constant' type=dynamic),
+                    value: Atom('constant' type=static),
                 },
                 tag: Const(
                     ConstTag {

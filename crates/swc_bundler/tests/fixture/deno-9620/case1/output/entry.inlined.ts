@@ -70,9 +70,9 @@ function concat(...buf) {
     }
     const output = new Uint8Array(length);
     let index = 0;
-    for (const b1 of buf){
-        output.set(b1, index);
-        index += b1.length;
+    for (const b of buf){
+        output.set(b, index);
+        index += b.length;
     }
     return output;
 }
@@ -1267,10 +1267,10 @@ class BufReader {
         if (p.byteLength === 0) return rr;
         if (this.r === this.w) {
             if (p.byteLength >= this.buf.byteLength) {
-                const rr1 = await this.rd.read(p);
-                const nread = rr1 ?? 0;
+                const rr = await this.rd.read(p);
+                const nread = rr ?? 0;
                 assert(nread >= 0, "negative read");
-                return rr1;
+                return rr;
             }
             this.r = 0;
             this.w = 0;
@@ -1668,10 +1668,10 @@ class MultipartReader {
                 continue;
             }
             let formFile;
-            const n1 = await copyN(p, buf, maxValueBytes);
+            const n = await copyN(p, buf, maxValueBytes);
             const contentType = p.headers.get("content-type");
             assert(contentType != null, "content-type must be set");
-            if (n1 > maxMemory) {
+            if (n > maxMemory) {
                 const ext = extname2(p.fileName);
                 const filepath = await Deno.makeTempFile({
                     dir: ".",
@@ -1701,8 +1701,8 @@ class MultipartReader {
                     content: buf.bytes(),
                     size: buf.length
                 };
-                maxMemory -= n1;
-                maxValueBytes -= n1;
+                maxMemory -= n;
+                maxValueBytes -= n;
             }
             if (formFile) {
                 const mapVal = fileMap.get(p.formName);

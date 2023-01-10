@@ -5,7 +5,7 @@ use super::Compressor;
 
 impl Compressor {
     pub(super) fn compress_url(&self, url: &mut Url) {
-        if !url.name.value.eq_ignore_ascii_case(&js_word!("url")) {
+        if url.name.value != js_word!("url") {
             return;
         }
 
@@ -16,36 +16,27 @@ impl Compressor {
         }
 
         if let Some(UrlValue::Str(Str { value, span, .. })) = url.value.as_deref() {
-            let mut escaped = String::with_capacity(value.len());
-            let mut has_escaped = false;
+            let mut counter = 0;
 
             for c in value.chars() {
+                if counter == 2 {
+                    return;
+                }
+
                 match c {
                     '(' | ')' | '"' | '\'' => {
-                        if has_escaped {
-                            return;
-                        }
-
-                        has_escaped = true;
-                        escaped.push('\\');
-                        escaped.push(c)
+                        counter += 1;
                     }
                     _ if c.is_whitespace() => {
-                        if has_escaped {
-                            return;
-                        }
-
-                        has_escaped = true;
-                        escaped.push('\\');
-                        escaped.push(c)
+                        counter += 1;
                     }
-                    _ => escaped.push(c),
+                    _ => {}
                 }
             }
 
             url.value = Some(Box::new(UrlValue::Raw(UrlValueRaw {
                 span: *span,
-                value: escaped.into(),
+                value: value.clone(),
                 raw: None,
             })));
         }

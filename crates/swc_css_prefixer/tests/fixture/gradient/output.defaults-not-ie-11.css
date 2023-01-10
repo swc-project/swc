@@ -36,7 +36,7 @@ div {
 }
 .second {
   background: red linear-gradient(red, blue);
-  background: url('logo.png'), linear-gradient(#fff, #000);
+  background: url("logo.png"), linear-gradient(#fff, #000);
 }
 .px {
   background: linear-gradient(black 0, white 100px);
@@ -83,10 +83,10 @@ div {
   background: linear-gradient(black);
 }
 .background-shorthand {
-  background: radial-gradient(#FFF, transparent) 0 0/ cover no-repeat #F0F;
+  background: radial-gradient(#fff, transparent) 0 0/ cover no-repeat #f0f;
 }
 .background-advanced {
-  background: radial-gradient(ellipse farthest-corner at 5px 15px, rgba(214, 168, 18, 0.7) 0%, rgba(255, 21, 177, 0.7) 50%, rgba(210, 7, 148, 0.7) 95%), radial-gradient(#FFF, transparent), url(path/to/image.jpg) 50% / cover;
+  background: radial-gradient(ellipse farthest-corner at 5px 15px, rgba(214, 168, 18, 0.7) 0%, rgba(255, 21, 177, 0.7) 50%, rgba(210, 7, 148, 0.7) 95%), radial-gradient(#fff, transparent), url(path/to/image.jpg) 50% / cover;
 }
 .multiradial {
   -webkit-mask-image: radial-gradient(circle closest-corner at 100% 50%, #000, transparent);
@@ -124,5 +124,5 @@ div {
   background: linear-gradient(0turn, green, blue);
 }
 a {
-  background: linear-gradient(350.5DEG, white, black), linear-gradient(-130DEG, black, white), linear-gradient(45DEG, black, white);
+  background: linear-gradient(350.5deg, white, black), linear-gradient(-130deg, black, white), linear-gradient(45deg, black, white);
 }

@@ -6331,7 +6331,7 @@
  52 |     [--self] {
     `----
 
-  x Ident
+  x DashedIdent
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:50:1]
  50 | 
  51 | @supports (--element(".minwidth")) {
@@ -8977,7 +8977,7 @@
  89 |         }
     `----
 
-  x Ident { value: Atom('black' type=inline), raw: "black" }
+  x Ident { value: Atom('black' type=static), raw: "black" }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:87:1]
  87 |         from {
  88 |             color: black;
@@ -9163,7 +9163,7 @@
  92 |         }
     `----
 
-  x Ident { value: Atom('white' type=inline), raw: "white" }
+  x Ident { value: Atom('white' type=static), raw: "white" }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:90:1]
  90 |         to {
  91 |             color: white
@@ -9527,7 +9527,7 @@
  101 |     body {
      `----
 
-  x Ident { value: Atom('green' type=inline), raw: "green" }
+  x Ident { value: Atom('green' type=static), raw: "green" }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:99:1]
   99 | 
  100 | @supports (--foo: green) {
@@ -11493,7 +11493,7 @@
  126 |         }
      `----
 
-  x Ident { value: Atom('black' type=inline), raw: "black" }
+  x Ident { value: Atom('black' type=static), raw: "black" }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:124:1]
  124 |         from {
  125 |             color: black;
@@ -11679,7 +11679,7 @@
  129 |         }
      `----
 
-  x Ident { value: Atom('white' type=inline), raw: "white" }
+  x Ident { value: Atom('white' type=static), raw: "white" }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:127:1]
  127 |         to {
  128 |             color: white

@@ -6686,7 +6686,7 @@
  50 | }
     `----
 
-  x Ident { value: Atom('red' type=inline), raw: "red" }
+  x Ident { value: Atom('red' type=static), raw: "red" }
     ,-[$DIR/tests/fixture/at-rule/unknown/input.css:48:1]
  48 |     
  49 |     color: red;

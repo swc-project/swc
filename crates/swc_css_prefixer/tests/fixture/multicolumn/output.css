@@ -1,13 +1,17 @@
 .a {
   -webkit-column-break-inside: auto;
+  page-break-inside: auto;
   break-inside: auto;
   -webkit-column-break-before: auto;
+  page-break-before: auto;
   break-before: auto;
   -webkit-column-break-after: auto;
+  page-break-after: auto;
   break-after: auto;
 }
 .b {
   -webkit-column-break-inside: avoid;
+  page-break-inside: avoid;
   break-inside: avoid;
 }
 .c {
@@ -23,10 +27,12 @@
   break-inside: region;
 }
 .class {
+  page-break-before: always;
   break-before: page;
 }
 .class {
   -webkit-column-break-before: avoid;
+  page-break-before: avoid;
   break-before: avoid;
 }
 .class {
@@ -34,6 +40,7 @@
 }
 .class {
   -webkit-column-break-after: avoid;
+  page-break-after: avoid;
   break-after: avoid;
 }
 .class {

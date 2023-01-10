@@ -2,22 +2,11 @@ use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_css_ast::{
     AbsoluteColorBase, AlphaValue, Color, ComponentValue, Delimiter, DelimiterValue, Function,
-    Ident, Number,
+    FunctionName, Ident, Number,
 };
+use swc_css_utils::{hex_to_rgba, round_alpha};
 
-use crate::compiler::{utils::round_alpha, Compiler};
-
-#[inline]
-fn from_hex(c: u8) -> u8 {
-    match c {
-        b'0'..=b'9' => c - b'0',
-        b'a'..=b'f' => c - b'a' + 10,
-        b'A'..=b'F' => c - b'A' + 10,
-        _ => {
-            unreachable!();
-        }
-    }
-}
+use crate::compiler::Compiler;
 
 fn shorten_hex_color(value: &str) -> Option<&str> {
     let length = value.len();
@@ -30,33 +19,6 @@ fn shorten_hex_color(value: &str) -> Option<&str> {
     }
 
     None
-}
-
-fn hex_to_rgba(hex: &str) -> (u8, u8, u8, f64) {
-    let hex = hex.as_bytes();
-
-    match hex.len() {
-        8 => {
-            let r = from_hex(hex[0]) * 16 + from_hex(hex[1]);
-            let g = from_hex(hex[2]) * 16 + from_hex(hex[3]);
-            let b = from_hex(hex[4]) * 16 + from_hex(hex[5]);
-            let a = (from_hex(hex[6]) * 16 + from_hex(hex[7])) as f64 / 255.0;
-
-            (r, g, b, a)
-        }
-        4 => {
-            let r = from_hex(hex[0]) * 17;
-            let g = from_hex(hex[1]) * 17;
-            let b = from_hex(hex[2]) * 17;
-            let a = (from_hex(hex[3]) * 17) as f64 / 255.0;
-
-            (r, g, b, a)
-        }
-
-        _ => {
-            unreachable!()
-        }
-    }
 }
 
 impl Compiler {
@@ -81,11 +43,11 @@ impl Compiler {
             *n = ComponentValue::Color(Box::new(Color::AbsoluteColorBase(
                 AbsoluteColorBase::Function(Function {
                     span: hex_color.span,
-                    name: Ident {
+                    name: FunctionName::Ident(Ident {
                         span: DUMMY_SP,
                         value: js_word!("rgba"),
                         raw: None,
-                    },
+                    }),
                     value: vec![
                         ComponentValue::Number(Box::new(Number {
                             span: DUMMY_SP,

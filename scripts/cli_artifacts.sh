@@ -15,10 +15,8 @@ do
 
   if [ -f "$CLI_BINARY_PATH" ]; then
       chmod +x $CLI_BINARY_PATH
-      cp -v $CLI_BINARY_PATH ./artifacts_cli/swc-$BINDING_ABI
-      mv $CLI_BINARY_PATH ./scripts/npm/$BINDING_ABI
+      mv -v $CLI_BINARY_PATH ./artifacts_cli/swc-$BINDING_ABI
   elif [ -f "$CLI_BINARY_PATH.exe" ]; then
-      cp -v $CLI_BINARY_PATH.exe ./artifacts_cli/swc-$BINDING_ABI
-      mv $CLI_BINARY_PATH.exe ./scripts/npm/$BINDING_ABI
+      mv -v $CLI_BINARY_PATH.exe ./artifacts_cli/swc-$BINDING_ABI.exe
   fi
 done

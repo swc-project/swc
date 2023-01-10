@@ -1,3 +1,3 @@
 .__local__bar {
-  background: url('./img-from-imported.png');
+  background: url("./img-from-imported.png");
 }

@@ -1,10 +1,10 @@
 import r from "@swc/helpers/src/_async_to_generator.mjs";
 Promise.all(assignAll).then(function() {
     var n = r(function*(r) {
-        for(let n in obj){
-            let e = obj[n];
-            e.id, (yield listOfUser(e.id)).forEach((r)=>{
-                insertQuery += `INSERT INTO "TABLE"("UUID", id, other_ids_here) VALUES ('${uuidv4()}', '${e.id}', now());`;
+        for(let r in obj){
+            let n = obj[r];
+            n.id, (yield listOfUser(n.id)).forEach((r)=>{
+                insertQuery += `INSERT INTO "TABLE"("UUID", id, other_ids_here) VALUES ('${uuidv4()}', '${n.id}', now());`;
             });
         }
     });
@@ -19,7 +19,7 @@ export const listOfUser = function(n) {
         postgreSQL.query(t, null, function(n, t) {
             n ? e(n) : r(t.rows);
         });
-    }), function(r, e) {
+    }), function(r, n) {
         return e.apply(this, arguments);
     }));
 };

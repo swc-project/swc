@@ -423,16 +423,16 @@
                 } else {
                     try {
                         Fake.call();
-                    } catch (x1) {
-                        control = x1;
+                    } catch (x) {
+                        control = x;
                     }
                     fn.call(Fake.prototype);
                 }
             } else {
                 try {
                     throw Error();
-                } catch (x2) {
-                    control = x2;
+                } catch (x) {
+                    control = x;
                 }
                 fn();
             }
@@ -5566,7 +5566,7 @@
                     try {
                         var currentState = queue.lastRenderedState, eagerState = lastRenderedReducer(currentState, action);
                         if (update.eagerReducer = lastRenderedReducer, update.eagerState = eagerState, objectIs(eagerState, currentState)) return;
-                    } catch (error1) {} finally{
+                    } catch (error) {} finally{
                         ReactCurrentDispatcher$1.current = prevDispatcher;
                     }
                 }
@@ -8664,7 +8664,7 @@
     hasBadMapPolyfill = !1;
     try {
         Object.preventExtensions({});
-    } catch (e1) {
+    } catch (e) {
         hasBadMapPolyfill = !0;
     }
     var debugCounter = 1;

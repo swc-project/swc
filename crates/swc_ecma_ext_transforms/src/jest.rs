@@ -44,14 +44,13 @@ impl Jest {
                                     prop: MemberProp::Ident(prop),
                                     ..
                                 },
-                            ) => match &*callee.obj {
-                                Expr::Ident(i)
-                                    if i.sym == *"jest" && HOIST_METHODS.contains(&*prop.sym) =>
-                                {
+                            ) => {
+                                if is_jest(&callee.obj) && HOIST_METHODS.contains(&*prop.sym) {
                                     hoisted.push(T::from_stmt(stmt))
+                                } else {
+                                    new.push(T::from_stmt(stmt));
                                 }
-                                _ => new.push(T::from_stmt(stmt)),
-                            },
+                            }
                             _ => new.push(T::from_stmt(stmt)),
                         },
                         _ => new.push(T::from_stmt(stmt)),
@@ -78,5 +77,17 @@ impl VisitMut for Jest {
 
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
         self.visit_mut_stmt_like(stmts)
+    }
+}
+
+fn is_jest(e: &Expr) -> bool {
+    match e {
+        Expr::Ident(i) => i.sym == *"jest",
+        Expr::Member(MemberExpr { obj, .. }) => is_jest(obj),
+        Expr::Call(CallExpr {
+            callee: Callee::Expr(callee),
+            ..
+        }) => is_jest(callee),
+        _ => false,
     }
 }

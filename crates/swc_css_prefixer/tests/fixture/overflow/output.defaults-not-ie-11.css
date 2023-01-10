@@ -1,3 +1,52 @@
-.class {
-  text-overflow: clip;
+html.single-overflow {
+  overflow: hidden;
+}
+html.double-overflow {
+  overflow: hidden auto;
+}
+html.double-overflow {
+  overflow: auto auto;
+}
+html.double-overflow {
+  overflow: hidden auto;
+}
+html.double-overflow {
+  overflow: hidden auto;
+}
+html.double-overflow {
+  overflow: hidden auto;
+}
+.order-0 {
+  -webkit-overflow: hidden auto;
+}
+.order-1 {
+  -moz-overflow: hidden auto;
+}
+.order-2 {
+  -ms-overflow: hidden auto;
+}
+.order-3 {
+  -o-overflow: hidden auto;
+}
+.order-4 {
+  --overflow: hidden auto;
+}
+.order-5 {
+  foo-overflow: hidden auto;
+}
+.content {
+  content: "overflow: hidden auto;";
+}
+.important {
+  overflow: hidden auto !important;
+}
+@supports (overflow: hidden auto) {
+  .support {
+    overflow: hidden auto;
+  }
+}
+@keyframes KEYFRAMES {
+  50% {
+    overflow: hidden auto;
+  }
 }

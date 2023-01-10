@@ -773,7 +773,7 @@
                         if (!ignoreFocusEvents) {
                             if (isFocused = !0, useragent.isEdge) try {
                                 if (!document.hasFocus()) return;
-                            } catch (e1) {}
+                            } catch (e) {}
                             host.onFocus(e), useragent.isEdge ? setTimeout(resetSelection) : resetSelection();
                         }
                     }, host), this.$focusScroll = !1, this.focus = function() {
@@ -874,8 +874,8 @@
                             try {
                                 if (data) return !1 !== clipboardData.setData(mime, data);
                                 return clipboardData.getData(mime);
-                            } catch (e1) {
-                                if (!forceIEMime) return handleClipboardData(e1, data, !0);
+                            } catch (e) {
+                                if (!forceIEMime) return handleClipboardData(e, data, !0);
                             }
                         }
                     }, doCopy = function(e, isCut) {
@@ -1350,7 +1350,7 @@
                         ], copyModifierState = useragent.isMac ? e.altKey : e.ctrlKey, effectAllowed = "uninitialized";
                         try {
                             effectAllowed = e.dataTransfer.effectAllowed.toLowerCase();
-                        } catch (e1) {}
+                        } catch (e) {}
                         var dropEffect = "none";
                         return copyModifierState && copyAllowed.indexOf(effectAllowed) >= 0 ? dropEffect = "copy" : [
                             "move",

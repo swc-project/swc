@@ -398,7 +398,7 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
         props[SERVER_PROPS_ID] = true;
     }
     if (getServerSideProps && !isFallback) {
-        let data1;
+        let data;
         let canAccessRes = true;
         let resOrProxy = res;
         if (process.env.NODE_ENV !== "production") {
@@ -412,7 +412,7 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
             });
         }
         try {
-            data1 = await getServerSideProps({
+            data = await getServerSideProps({
                 req: req,
                 res: resOrProxy,
                 query,
@@ -437,45 +437,45 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
             }
             throw serverSidePropsError;
         }
-        if (data1 == null) {
+        if (data == null) {
             throw new Error(GSSP_NO_RETURNED_VALUE);
         }
-        const invalidKeys1 = Object.keys(data1).filter((key)=>key !== "props" && key !== "redirect" && key !== "notFound");
-        if (data1.unstable_notFound) {
+        const invalidKeys = Object.keys(data).filter((key)=>key !== "props" && key !== "redirect" && key !== "notFound");
+        if (data.unstable_notFound) {
             throw new Error(`unstable_notFound has been renamed to notFound, please update the field to continue. Page: ${pathname}`);
         }
-        if (data1.unstable_redirect) {
+        if (data.unstable_redirect) {
             throw new Error(`unstable_redirect has been renamed to redirect, please update the field to continue. Page: ${pathname}`);
         }
-        if (invalidKeys1.length) {
-            throw new Error(invalidKeysMsg("getServerSideProps", invalidKeys1));
+        if (invalidKeys.length) {
+            throw new Error(invalidKeysMsg("getServerSideProps", invalidKeys));
         }
-        if ("notFound" in data1 && data1.notFound) {
+        if ("notFound" in data && data.notFound) {
             if (pathname === "/404") {
                 throw new Error(`The /404 page can not return notFound in "getStaticProps", please remove it to continue!`);
             }
             renderOpts.isNotFound = true;
             return null;
         }
-        if ("redirect" in data1 && typeof data1.redirect === "object") {
-            checkRedirectValues(data1.redirect, req, "getServerSideProps");
-            data1.props = {
-                __N_REDIRECT: data1.redirect.destination,
-                __N_REDIRECT_STATUS: getRedirectStatus(data1.redirect)
+        if ("redirect" in data && typeof data.redirect === "object") {
+            checkRedirectValues(data.redirect, req, "getServerSideProps");
+            data.props = {
+                __N_REDIRECT: data.redirect.destination,
+                __N_REDIRECT_STATUS: getRedirectStatus(data.redirect)
             };
-            if (typeof data1.redirect.basePath !== "undefined") {
-                data1.props.__N_REDIRECT_BASE_PATH = data1.redirect.basePath;
+            if (typeof data.redirect.basePath !== "undefined") {
+                data.props.__N_REDIRECT_BASE_PATH = data.redirect.basePath;
             }
             renderOpts.isRedirect = true;
         }
-        if (data1.props instanceof Promise) {
-            data1.props = await data1.props;
+        if (data.props instanceof Promise) {
+            data.props = await data.props;
         }
-        if ((dev || isBuildTimeSSG) && !isSerializableProps(pathname, "getServerSideProps", data1.props)) {
+        if ((dev || isBuildTimeSSG) && !isSerializableProps(pathname, "getServerSideProps", data.props)) {
             // this fn should throw an error instead of ever returning `false`
             throw new Error("invariant: getServerSideProps did not return valid props. Please report this.");
         }
-        props.pageProps = Object.assign({}, props.pageProps, data1.props);
+        props.pageProps = Object.assign({}, props.pageProps, data.props);
         renderOpts.pageData = props;
     }
     if (!isSSG && // we only show this warning for legacy pages
@@ -545,12 +545,12 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
                     throw new Error(`'router' and 'Component' can not be returned in getInitialProps from _app.js https://nextjs.org/docs/messages/cant-override-next-props`);
                 }
                 const { App: EnhancedApp , Component: EnhancedComponent  } = enhanceComponents(options, App, Component);
-                const html1 = ReactDOMServer.renderToString(/*#__PURE__*/ React.createElement(AppContainer, null, /*#__PURE__*/ React.createElement(EnhancedApp, _extends({
+                const html = ReactDOMServer.renderToString(/*#__PURE__*/ React.createElement(AppContainer, null, /*#__PURE__*/ React.createElement(EnhancedApp, _extends({
                     Component: EnhancedComponent,
                     router: router
                 }, props))));
                 return {
-                    html: html1,
+                    html,
                     head
                 };
             };

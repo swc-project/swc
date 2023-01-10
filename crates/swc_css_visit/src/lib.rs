@@ -57,6 +57,7 @@ define!({
         LayerName(Box<LayerName>),
         SupportsCondition(Box<SupportsCondition>),
         Declaration(Box<Declaration>),
+        IdSelector(Box<IdSelector>),
     }
 
     pub struct Ident {
@@ -154,9 +155,14 @@ define!({
         pub value: DelimiterValue,
     }
 
+    pub enum FunctionName {
+        Ident(Ident),
+        DashedIdent(DashedIdent),
+    }
+
     pub struct Function {
         pub span: Span,
-        pub name: Ident,
+        pub name: FunctionName,
         pub value: Vec<ComponentValue>,
     }
 
@@ -302,9 +308,9 @@ define!({
 
     pub struct UnicodeRange {
         pub span: Span,
-        pub prefix: char,
         pub start: JsWord,
         pub end: Option<JsWord>,
+        pub raw: Option<Atom>,
     }
 
     pub struct CalcSum {

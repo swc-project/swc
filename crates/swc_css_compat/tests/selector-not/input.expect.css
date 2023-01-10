@@ -1,0 +1,79 @@
+body {
+  order: 1;
+}
+body, 
+not {
+  order: 2;
+}
+em[attr=:not],
+em[attr=":not"] {
+  order: 3;
+}
+em[attr~=:not],
+em[attr~=":not"] {
+  order: 4;
+}
+em[not=abc], 
+em[not="abc"] {
+  order: 5;
+}
+:not {
+  order: 6;
+}
+:not(a):not(b) {
+  order: 7;
+}
+:not(a):not(b) {
+  order: 7.1;
+}
+tag:not(.class):not(.class2) {
+  order: 8;
+}
+tag :not(tag2):not(tag3) {
+  order: 9;
+}
+tag :not(tag2):not(tag3) :not(tag4):not(tag5) {
+  order: 10;
+}
+tag :not(tag2):not(tag3) :not(tag4):not(tag5), 
+test {
+  order: 11;
+}
+tag :not(tag2 :not(tag4):not(tag5)):not(tag3) {
+  order: 12;
+}
+.foo:not(:nth-child(-n+2)):not(.bar) {
+  order: 13;
+}
+a:not(.b):not(.c) {
+  order: 14;
+}
+.foo:not(:hover):not(:focus)::before {
+  order: 15;
+}
+.foo\\:not-italic {
+  order: 16;
+}
+.foo\\:not-italic:not(:hover):not(:focus) {
+  order: 17;
+}
+:not :dir(ltr) {
+  order: 18;
+}
+:not(something > complex):not(other) {
+  order: 19;
+}
+div:not([style*="(120, 60, 12"]) {
+  order: 20;
+}
+@supports selector(:not(something > complex, other)) {
+  :not(something > complex):not(other) {
+    order: 19;
+  }
+}
+:not(h1):not(h2):not(h3) {
+  color: red;
+}
+:not(h1) {
+  color: red;
+}

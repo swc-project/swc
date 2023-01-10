@@ -159,8 +159,8 @@ fn block_scoping_with_usage() {
         "
         var foo = 1;
         {
-            let foo1 = 2;
-            use(foo1);
+            let foo = 2;
+            use(foo);
         }
         use(foo);",
     );
@@ -186,7 +186,7 @@ fn block_scoping_no_usage() {
         "
         let foo;
         {
-            let foo1;
+            let foo;
         }
         ",
     );
@@ -1097,7 +1097,7 @@ fn issue_281_02() {
         "function foo(e1) {
             e: {
                 try {
-                } catch (e2) {
+                } catch (e1) {
                     o = null;
                     break e
                 }

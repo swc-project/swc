@@ -1,9 +1,9 @@
 use indexmap::IndexSet;
 use preset_env_base::{version::should_enable, Versions};
 use swc_atoms::js_word;
-use swc_common::{util::move_map::MoveMap, DUMMY_SP};
+use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 use super::builtin::BUILTINS;
 
@@ -64,31 +64,21 @@ impl Entry {
     }
 }
 
-impl Fold for Entry {
-    fn fold_import_decl(&mut self, i: ImportDecl) -> ImportDecl {
-        let i: ImportDecl = i.fold_children_with(self);
+impl VisitMut for Entry {
+    noop_visit_mut_type!();
 
+    fn visit_mut_import_decl(&mut self, i: &mut ImportDecl) {
         let remove = i.specifiers.is_empty() && self.add_all(&i.src.value);
 
         if remove {
-            ImportDecl {
-                src: Str {
-                    span: DUMMY_SP,
-                    value: js_word!(""),
-                    ..*i.src
-                }
-                .into(),
-                ..i
-            }
-        } else {
-            i
+            i.src.value = js_word!("");
+            i.src.span = DUMMY_SP;
         }
     }
 
-    fn fold_module_items(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
-        items.move_flat_map(|item| {
-            let item: ModuleItem = item.fold_with(self);
-
+    fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
+        items.retain_mut(|item| {
+            item.visit_mut_children_with(self);
             if let ModuleItem::Stmt(Stmt::Expr(ExprStmt { expr, .. })) = &item {
                 if let Expr::Call(CallExpr {
                     callee: Callee::Expr(callee),
@@ -115,13 +105,12 @@ impl Fold for Entry {
                             }
                             && self.add_all("@swc/polyfill")
                         {
-                            return None;
+                            return false;
                         }
                     }
                 }
             }
-
-            Some(item)
+            true
         })
     }
 }

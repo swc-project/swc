@@ -24761,7 +24761,7 @@
                 if (void 0 === valueof) for (let value of values)null != value && (value = +value) >= value && ++count;
                 else {
                     let index = -1;
-                    for (let value1 of values)null != (value1 = valueof(value1, ++index, values)) && (value1 = +value1) >= value1 && ++count;
+                    for (let value of values)null != (value = valueof(value, ++index, values)) && (value = +value) >= value && ++count;
                 }
                 return count;
             }
@@ -24833,7 +24833,7 @@
                 if (void 0 === valueof) for (const value of values)null != value && (void 0 === min ? value >= value && (min = max = value) : (min > value && (min = value), max < value && (max = value)));
                 else {
                     let index = -1;
-                    for (let value1 of values)null != (value1 = valueof(value1, ++index, values)) && (void 0 === min ? value1 >= value1 && (min = max = value1) : (min > value1 && (min = value1), max < value1 && (max = value1)));
+                    for (let value of values)null != (value = valueof(value, ++index, values)) && (void 0 === min ? value >= value && (min = max = value) : (min > value && (min = value), max < value && (max = value)));
                 }
                 return [
                     min,
@@ -24856,7 +24856,7 @@
                         const value = compare(element);
                         (defined ? Object(_ascending_js__WEBPACK_IMPORTED_MODULE_0__.default)(value, maxValue) > 0 : 0 === Object(_ascending_js__WEBPACK_IMPORTED_MODULE_0__.default)(value, value)) && (max = element, maxValue = value, defined = !0);
                     }
-                } else for (const value1 of values)(defined ? compare(value1, max) > 0 : 0 === compare(value1, value1)) && (max = value1, defined = !0);
+                } else for (const value of values)(defined ? compare(value, max) > 0 : 0 === compare(value, value)) && (max = value, defined = !0);
                 return max;
             }
         },
@@ -24909,7 +24909,7 @@
                             value
                         ]);
                     }
-                    for (const [key1, values1] of groups)groups.set(key1, regroup(values1, i));
+                    for (const [key, values] of groups)groups.set(key, regroup(values, i));
                     return map(groups);
                 }(values, 0);
             }
@@ -25105,7 +25105,7 @@
                         const value = compare(element);
                         (defined ? 0 > Object(_ascending_js__WEBPACK_IMPORTED_MODULE_0__.default)(value, minValue) : 0 === Object(_ascending_js__WEBPACK_IMPORTED_MODULE_0__.default)(value, value)) && (min = element, minValue = value, defined = !0);
                     }
-                } else for (const value1 of values)(defined ? 0 > compare(value1, min) : 0 === compare(value1, value1)) && (min = value1, defined = !0);
+                } else for (const value of values)(defined ? 0 > compare(value, min) : 0 === compare(value, value)) && (min = value, defined = !0);
                 return min;
             }
         },
@@ -25130,7 +25130,7 @@
                 if (void 0 === valueof) for (const value of values)null != value && (max < value || void 0 === max && value >= value) && (max = value);
                 else {
                     let index = -1;
-                    for (let value1 of values)null != (value1 = valueof(value1, ++index, values)) && (max < value1 || void 0 === max && value1 >= value1) && (max = value1);
+                    for (let value of values)null != (value = valueof(value, ++index, values)) && (max < value || void 0 === max && value >= value) && (max = value);
                 }
                 return max;
             }
@@ -25144,7 +25144,7 @@
                 let max;
                 let maxIndex = -1, index = -1;
                 if (void 0 === valueof) for (const value of values)++index, null != value && (max < value || void 0 === max && value >= value) && (max = value, maxIndex = index);
-                else for (let value1 of values)null != (value1 = valueof(value1, ++index, values)) && (max < value1 || void 0 === max && value1 >= value1) && (max = value1, maxIndex = index);
+                else for (let value of values)null != (value = valueof(value, ++index, values)) && (max < value || void 0 === max && value >= value) && (max = value, maxIndex = index);
                 return maxIndex;
             }
             __webpack_require__.r(__webpack_exports__), __webpack_require__.d(__webpack_exports__, "default", function() {
@@ -25158,7 +25158,7 @@
                 if (void 0 === valueof) for (let value of values)null != value && (value = +value) >= value && (++count, sum += value);
                 else {
                     let index = -1;
-                    for (let value1 of values)null != (value1 = valueof(value1, ++index, values)) && (value1 = +value1) >= value1 && (++count, sum += value1);
+                    for (let value of values)null != (value = valueof(value, ++index, values)) && (value = +value) >= value && (++count, sum += value);
                 }
                 if (count) return sum / count;
             }
@@ -25192,7 +25192,7 @@
                 if (void 0 === valueof) for (const value of values)null != value && (min > value || void 0 === min && value >= value) && (min = value);
                 else {
                     let index = -1;
-                    for (let value1 of values)null != (value1 = valueof(value1, ++index, values)) && (min > value1 || void 0 === min && value1 >= value1) && (min = value1);
+                    for (let value of values)null != (value = valueof(value, ++index, values)) && (min > value || void 0 === min && value >= value) && (min = value);
                 }
                 return min;
             }
@@ -25206,7 +25206,7 @@
                 let min;
                 let minIndex = -1, index = -1;
                 if (void 0 === valueof) for (const value of values)++index, null != value && (min > value || void 0 === min && value >= value) && (min = value, minIndex = index);
-                else for (let value1 of values)null != (value1 = valueof(value1, ++index, values)) && (min > value1 || void 0 === min && value1 >= value1) && (min = value1, minIndex = index);
+                else for (let value of values)null != (value = valueof(value, ++index, values)) && (min > value || void 0 === min && value >= value) && (min = value, minIndex = index);
                 return minIndex;
             }
             __webpack_require__.r(__webpack_exports__), __webpack_require__.d(__webpack_exports__, "default", function() {
@@ -25219,7 +25219,7 @@
                 if (void 0 === valueof) for (let value of values)null != value && (value = +value) >= value && (yield value);
                 else {
                     let index = -1;
-                    for (let value1 of values)null != (value1 = valueof(value1, ++index, values)) && (value1 = +value1) >= value1 && (yield value1);
+                    for (let value of values)null != (value = valueof(value, ++index, values)) && (value = +value) >= value && (yield value);
                 }
             }
             __webpack_require__.r(__webpack_exports__), __webpack_require__.d(__webpack_exports__, "numbers", function() {
@@ -25342,7 +25342,7 @@
                 if (void 0 === valueof) for (let value of values)(value = +value) && (sum += value);
                 else {
                     let index = -1;
-                    for (let value1 of values)(value1 = +valueof(value1, ++index, values)) && (sum += value1);
+                    for (let value of values)(value = +valueof(value, ++index, values)) && (sum += value);
                 }
                 return sum;
             }
@@ -25421,7 +25421,7 @@
                 if (void 0 === valueof) for (let value of values)null != value && (value = +value) >= value && (delta = value - mean, mean += delta / ++count, sum += delta * (value - mean));
                 else {
                     let index = -1;
-                    for (let value1 of values)null != (value1 = valueof(value1, ++index, values)) && (value1 = +value1) >= value1 && (delta = value1 - mean, mean += delta / ++count, sum += delta * (value1 - mean));
+                    for (let value of values)null != (value = valueof(value, ++index, values)) && (value = +value) >= value && (delta = value - mean, mean += delta / ++count, sum += delta * (value - mean));
                 }
                 if (count > 1) return sum / (count - 1);
             }

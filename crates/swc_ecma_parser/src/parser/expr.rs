@@ -671,7 +671,11 @@ impl<I: Tokens> Parser<I> {
         return_if_arrow!(self, obj);
 
         let type_args = if self.syntax().typescript() && is!(self, '<') {
-            self.try_parse_ts_type_args()
+            self.with_ctx(Context {
+                prefer_bin_op_over_type_arg_closing: true,
+                ..self.ctx()
+            })
+            .try_parse_ts_type_args()
         } else {
             None
         };

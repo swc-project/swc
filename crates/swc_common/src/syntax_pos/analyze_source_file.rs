@@ -25,8 +25,9 @@ pub fn analyze_source_file(
     let mut non_narrow_chars = vec![];
 
     // Calls the right implementation, depending on hardware support available.
-    analyze_source_file_dispatch(
+    analyze_source_file_generic(
         src,
+        src.len(),
         source_file_start_pos,
         &mut lines,
         &mut multi_byte_chars,
@@ -45,167 +46,6 @@ pub fn analyze_source_file(
     }
 
     (lines, multi_byte_chars, non_narrow_chars)
-}
-
-cfg_if::cfg_if! {
-    if #[cfg(all(any(target_arch = "x86", target_arch = "x86_64")))] {
-        fn analyze_source_file_dispatch(src: &str,
-                                    source_file_start_pos: BytePos,
-                                    lines: &mut Vec<BytePos>,
-                                    multi_byte_chars: &mut Vec<MultiByteChar>,
-                                    non_narrow_chars: &mut Vec<NonNarrowChar>) {
-            if is_x86_feature_detected!("sse2") && cfg!(not(miri)) {
-                unsafe {
-                    analyze_source_file_sse2(src,
-                                         source_file_start_pos,
-                                         lines,
-                                         multi_byte_chars,
-                                         non_narrow_chars);
-                }
-            } else {
-                analyze_source_file_generic(src,
-                                        src.len(),
-                                        source_file_start_pos,
-                                        lines,
-                                        multi_byte_chars,
-                                        non_narrow_chars);
-
-            }
-        }
-
-        /// Checks 16 byte chunks of text at a time. If the chunk contains
-        /// something other than printable ASCII characters and newlines, the
-        /// function falls back to the generic implementation. Otherwise it uses
-        /// SSE2 intrinsics to quickly find all newlines.
-        #[target_feature(enable = "sse2")]
-        unsafe fn analyze_source_file_sse2(src: &str,
-                                       output_offset: BytePos,
-                                       lines: &mut Vec<BytePos>,
-                                       multi_byte_chars: &mut Vec<MultiByteChar>,
-                                       non_narrow_chars: &mut Vec<NonNarrowChar>) {
-            #[cfg(target_arch = "x86")]
-            use std::arch::x86::*;
-            #[cfg(target_arch = "x86_64")]
-            use std::arch::x86_64::*;
-
-            const CHUNK_SIZE: usize = 16;
-
-            let src_bytes = src.as_bytes();
-
-            let chunk_count = src.len() / CHUNK_SIZE;
-
-            // This variable keeps track of where we should start decoding a
-            // chunk. If a multi-byte character spans across chunk boundaries,
-            // we need to skip that part in the next chunk because we already
-            // handled it.
-            let mut intra_chunk_offset = 0;
-
-            for chunk_index in 0 .. chunk_count {
-                let ptr = src_bytes.as_ptr() as *const __m128i;
-                // We don't know if the pointer is aligned to 16 bytes, so we
-                // use `loadu`, which supports unaligned loading.
-                let chunk = _mm_loadu_si128(ptr.add(chunk_index));
-
-                // For character in the chunk, see if its byte value is < 0, which
-                // indicates that it's part of a UTF-8 char.
-                let multibyte_test = _mm_cmplt_epi8(chunk, _mm_set1_epi8(0));
-                // Create a bit mask from the comparison results.
-                let multibyte_mask = _mm_movemask_epi8(multibyte_test);
-
-                // If the bit mask is all zero, we only have ASCII chars here:
-                if multibyte_mask == 0 {
-                    assert!(intra_chunk_offset == 0);
-
-                    // Check if there are any control characters in the chunk. All
-                    // control characters that we can encounter at this point have a
-                    // byte value less than 32 or ...
-                    let control_char_test0 = _mm_cmplt_epi8(chunk, _mm_set1_epi8(32));
-                    let control_char_mask0 = _mm_movemask_epi8(control_char_test0);
-
-                    // ... it's the ASCII 'DEL' character with a value of 127.
-                    let control_char_test1 = _mm_cmpeq_epi8(chunk, _mm_set1_epi8(127));
-                    let control_char_mask1 = _mm_movemask_epi8(control_char_test1);
-
-                    let control_char_mask = control_char_mask0 | control_char_mask1;
-
-                    if control_char_mask != 0 {
-                        // Check for newlines in the chunk
-                        let newlines_test = _mm_cmpeq_epi8(chunk, _mm_set1_epi8(b'\n' as i8));
-                        let newlines_mask = _mm_movemask_epi8(newlines_test);
-
-                        if control_char_mask == newlines_mask {
-                            // All control characters are newlines, record them
-                            let mut newlines_mask = 0xFFFF0000 | newlines_mask as u32;
-                            let output_offset = output_offset +
-                                BytePos::from_usize(chunk_index * CHUNK_SIZE + 1);
-
-                            loop {
-                                let index = newlines_mask.trailing_zeros();
-
-                                if index >= CHUNK_SIZE as u32 {
-                                    // We have arrived at the end of the chunk.
-                                    break
-                                }
-
-                                lines.push(BytePos(index) + output_offset);
-
-                                // Clear the bit, so we can find the next one.
-                                newlines_mask &= (!1) << index;
-                            }
-
-                            // We are done for this chunk. All control characters were
-                            // newlines and we took care of those.
-                            continue
-                        } else {
-                            // Some of the control characters are not newlines,
-                            // fall through to the slow path below.
-                        }
-                    } else {
-                        // No control characters, nothing to record for this chunk
-                        continue
-                    }
-                }
-
-                // The slow path.
-                // There are control chars in here, fallback to generic decoding.
-                let scan_start = chunk_index * CHUNK_SIZE + intra_chunk_offset;
-                intra_chunk_offset = analyze_source_file_generic(
-                    &src[scan_start .. ],
-                    CHUNK_SIZE - intra_chunk_offset,
-                    BytePos::from_usize(scan_start) + output_offset,
-                    lines,
-                    multi_byte_chars,
-                    non_narrow_chars
-                );
-            }
-
-            // There might still be a tail left to analyze
-            let tail_start = chunk_count * CHUNK_SIZE + intra_chunk_offset;
-            if tail_start < src.len() {
-                analyze_source_file_generic(&src[tail_start as usize ..],
-                                        src.len() - tail_start,
-                                        output_offset + BytePos::from_usize(tail_start),
-                                        lines,
-                                        multi_byte_chars,
-                                        non_narrow_chars);
-            }
-        }
-    } else {
-
-        // The target (or compiler version) does not support SSE2 ...
-        fn analyze_source_file_dispatch(src: &str,
-                                    source_file_start_pos: BytePos,
-                                    lines: &mut Vec<BytePos>,
-                                    multi_byte_chars: &mut Vec<MultiByteChar>,
-                                    non_narrow_chars: &mut Vec<NonNarrowChar>) {
-            analyze_source_file_generic(src,
-                                    src.len(),
-                                    source_file_start_pos,
-                                    lines,
-                                    multi_byte_chars,
-                                    non_narrow_chars);
-        }
-    }
 }
 
 // `scan_len` determines the number of bytes in `src` to scan. Note that the
@@ -240,6 +80,15 @@ fn analyze_source_file_generic(
             let pos = BytePos::from_usize(i) + output_offset;
 
             match byte {
+                b'\r' => {
+                    if let Some(b'\n') = src_bytes.get(i as usize + 1) {
+                        lines.push(pos + BytePos(2));
+                        i += 2;
+                        continue;
+                    }
+                    lines.push(pos + BytePos(1));
+                }
+
                 b'\n' => {
                     lines.push(pos + BytePos(1));
                 }
@@ -431,5 +280,32 @@ mod tests {
         lines: vec![0 + 1000, 7 + 1000, 27 + 1000],
         multi_byte_chars: vec![(13 + 1000, 2), (29 + 1000, 2)],
         non_narrow_chars: vec![(2 + 1000, 4), (24 + 1000, 0)],
+    );
+
+    test!(
+        case: unix_lf,
+        text: "/**\n * foo\n */\n012345678\nabcdef012345678\na",
+        source_file_start_pos: 0,
+        lines: vec![0, 4, 11, 15, 25, 41],
+        multi_byte_chars: vec![],
+        non_narrow_chars: vec![],
+    );
+
+    test!(
+        case: windows_cr,
+        text: "/**\r * foo\r */\r012345678\rabcdef012345678\ra",
+        source_file_start_pos: 0,
+        lines: vec![0, 4, 11, 15, 25, 41],
+        multi_byte_chars: vec![],
+        non_narrow_chars: vec![],
+    );
+
+    test!(
+        case: windows_crlf,
+        text: "/**\r\n * foo\r\n */\r\n012345678\r\nabcdef012345678\r\na",
+        source_file_start_pos: 0,
+        lines: vec![0, 5, 13, 18, 29, 46],
+        multi_byte_chars: vec![],
+        non_narrow_chars: vec![],
     );
 }
