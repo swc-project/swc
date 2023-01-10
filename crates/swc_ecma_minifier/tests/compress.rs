@@ -105,7 +105,7 @@ impl TestMangleOptions {
         let mut data = serde_json::from_str::<Self>(s).expect("failed to deserialize mangle.json");
 
         if let TestMangleOptions::Normal(v) = &mut data {
-            v.top_level = top_level.top_level;
+            v.top_level = Some(top_level.top_level);
         }
 
         data
@@ -216,7 +216,7 @@ fn run(
                     TestMangleOptions::Bool(v) => {
                         if v {
                             Some(MangleOptions {
-                                top_level: false,
+                                top_level: Some(false),
                                 ..Default::default()
                             })
                         } else {
@@ -359,7 +359,7 @@ fn projects(input: PathBuf) {
                 &input,
                 r#"{ "defaults": true, "toplevel": true, "passes": 3 }"#,
                 Some(TestMangleOptions::Normal(MangleOptions {
-                    top_level: true,
+                    top_level: Some(true),
                     ..Default::default()
                 })),
                 false,
@@ -1690,7 +1690,7 @@ fn full(input: PathBuf) {
             &input,
             &config,
             Some(TestMangleOptions::Normal(MangleOptions {
-                top_level: true,
+                top_level: Some(true),
                 ..Default::default()
             })),
             false,

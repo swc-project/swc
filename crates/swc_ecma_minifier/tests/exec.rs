@@ -215,7 +215,7 @@ fn run_exec_test(input_src: &str, config: &str, skip_mangle: bool) {
                 None,
                 Some(MangleOptions {
                     keep_fn_names: true,
-                    top_level: true,
+                    top_level: Some(true),
                     ..Default::default()
                 }),
             );

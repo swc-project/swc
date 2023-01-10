@@ -98,7 +98,7 @@ fn snapshot_compress_fixture(input: PathBuf) {
             None,
             &MinifyOptions {
                 mangle: Some(MangleOptions {
-                    top_level: true,
+                    top_level: Some(true),
                     ..Default::default()
                 }),
                 compress: None,
@@ -161,7 +161,7 @@ fn fixture(input: PathBuf) {
             None,
             &MinifyOptions {
                 mangle: Some(MangleOptions {
-                    top_level: true,
+                    top_level: Some(true),
                     ..Default::default()
                 }),
                 compress: None,
@@ -243,7 +243,7 @@ function n() {
         src,
         expected,
         MangleOptions {
-            top_level: true,
+            top_level: Some(true),
             reserved: vec!["func1".into()],
             ..Default::default()
         },
@@ -270,7 +270,7 @@ class l {
         src,
         expected,
         MangleOptions {
-            top_level: true,
+            top_level: Some(true),
             reserved: vec!["Class1".into()],
             ..Default::default()
         },
@@ -297,7 +297,7 @@ class s {
         src,
         expected,
         MangleOptions {
-            top_level: true,
+            top_level: Some(true),
             reserved: vec!["hello1".into()],
             props: Some(ManglePropertiesOptions {
                 reserved: vec!["hello2".into()],
@@ -328,7 +328,7 @@ class a {
         src,
         expected,
         MangleOptions {
-            top_level: true,
+            top_level: Some(true),
             reserved: vec!["hello1".into()],
             ..Default::default()
         },
