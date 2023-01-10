@@ -11,6 +11,9 @@
 - **(es/codegen)** Fix LineCol calculation of printed files (#6763) ([2b503c1](https://github.com/swc-project/swc/commit/2b503c16d5f338c6a786a19c7c0acbc4c06bcfee))
 
 
+- **(es/codegen)** Skip `lo` of a program if body is not empty (#6773) ([3f0f664](https://github.com/swc-project/swc/commit/3f0f664c488b4f51a12d277b29ad17e28a413a2b))
+
+
 - **(es/helpers)** Make `_classPrivateFieldLooseBase ` return receiver (#6770) ([1d14760](https://github.com/swc-project/swc/commit/1d147602c0bfe291408c65b2e444cea0b5ceba89))
 
 ### Features
