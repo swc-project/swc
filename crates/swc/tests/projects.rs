@@ -1042,7 +1042,7 @@ fn issue_6009() {
                     );
                 }
                 Err(err) => {
-                    let expected_error_msg = "failed to process input file";
+                    let expected_error_msg = "cannot process file because";
 
                     assert!(
                         err.to_string().contains(expected_error_msg),
