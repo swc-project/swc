@@ -37,6 +37,15 @@ impl Preserver {
 impl Visit for Preserver {
     noop_visit_type!();
 
+    fn visit_block_stmt(&mut self, n: &BlockStmt) {
+        let old_top_level = self.in_top_level;
+        for n in n.stmts.iter() {
+            self.in_top_level = false;
+            n.visit_with(self);
+        }
+        self.in_top_level = old_top_level;
+    }
+
     fn visit_catch_clause(&mut self, n: &CatchClause) {
         let old = self.should_preserve;
 
@@ -121,13 +130,6 @@ impl Visit for Preserver {
 
     fn visit_ident(&mut self, _: &Ident) {}
 
-    fn visit_script(&mut self, n: &Script) {
-        for n in n.body.iter() {
-            self.in_top_level = true;
-            n.visit_with(self);
-        }
-    }
-
     fn visit_module_items(&mut self, n: &[ModuleItem]) {
         for n in n {
             self.in_top_level = true;
@@ -145,13 +147,11 @@ impl Visit for Preserver {
         }
     }
 
-    fn visit_block_stmt(&mut self, n: &BlockStmt) {
-        let old_top_level = self.in_top_level;
-        for n in n.stmts.iter() {
-            self.in_top_level = false;
+    fn visit_script(&mut self, n: &Script) {
+        for n in n.body.iter() {
+            self.in_top_level = true;
             n.visit_with(self);
         }
-        self.in_top_level = old_top_level;
     }
 
     fn visit_var_declarator(&mut self, n: &VarDeclarator) {
