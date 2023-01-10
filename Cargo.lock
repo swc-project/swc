@@ -241,7 +241,7 @@ dependencies = [
  "serde",
  "serde-wasm-bindgen",
  "serde_json",
- "string_cache",
+ "string_cache 0.8.4 (registry+https://github.com/rust-lang/crates.io-index)",
  "string_cache_codegen",
  "thiserror",
  "wasm-bindgen",
@@ -3027,6 +3027,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "string_cache"
+version = "0.8.4"
+source = "git+https://github.com/swc-project/string-cache?branch=swc#db382616e9a1bf71bff2004853c3ab88f85a2235"
+dependencies = [
+ "new_debug_unreachable",
+ "once_cell",
+ "phf_shared",
+ "precomputed-hash",
+ "serde",
+]
+
+[[package]]
 name = "string_cache_codegen"
 version = "0.5.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3157,7 +3169,7 @@ dependencies = [
  "rkyv-test",
  "rustc-hash",
  "serde",
- "string_cache",
+ "string_cache 0.8.4 (git+https://github.com/swc-project/string-cache?branch=swc)",
  "string_cache_codegen",
  "triomphe",
 ]
@@ -3245,7 +3257,7 @@ dependencies = [
  "serde_json",
  "siphasher",
  "sourcemap",
- "string_cache",
+ "string_cache 0.8.4 (git+https://github.com/swc-project/string-cache?branch=swc)",
  "swc_atoms",
  "swc_eq_ignore_macros",
  "swc_visit",
