@@ -1,5 +1,5 @@
 "use strict";
-function e(e, t) {
+function _default(e, t) {
     "use strict";
     t.vr = function(e, t, r) {
         return function() {
@@ -11,5 +11,5 @@ Object.defineProperty(exports, "__esModule", {
     value: !0
 }), Object.defineProperty(exports, "default", {
     enumerable: !0,
-    get: ()=>e
+    get: ()=>_default
 });

@@ -1009,7 +1009,9 @@ impl Compiler {
                 }
 
                 if let Some(opts) = &mut min_opts.mangle {
-                    opts.top_level = true;
+                    if opts.top_level.is_none() {
+                        opts.top_level = Some(true);
+                    }
                 }
             }
 
