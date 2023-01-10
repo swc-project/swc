@@ -22,6 +22,12 @@
 
 - **(es/minifier)** Handle boolean in `Evaluator` (#6756) ([8a6a1cb](https://github.com/swc-project/swc/commit/8a6a1cbcf1279b805e740f4d77ebb9fb72d52d41))
 
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Fix CI action (#6772) ([6d365de](https://github.com/swc-project/swc/commit/6d365de9e21d57c785f1634f4c19418765d9ca9b))
+
 ### Testing
 
 
