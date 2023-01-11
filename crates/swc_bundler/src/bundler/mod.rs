@@ -198,7 +198,7 @@ where
 
         let bundles = self.chunk(local)?;
 
-        let bundles = self.finalize(bundles)?;
+        let bundles = self.finalize(bundles, self.unresolved_mark)?;
 
         #[cfg(feature = "concurrent")]
         {
