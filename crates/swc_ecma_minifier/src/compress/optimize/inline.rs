@@ -29,7 +29,7 @@ where
         &mut self,
         ident: &mut Ident,
         init: &mut Expr,
-        should_preserve: bool,
+        mut should_preserve: bool,
         can_drop: bool,
     ) {
         trace_op!(
@@ -58,6 +58,7 @@ where
             if !usage.var_initialized {
                 return;
             }
+
             if self.data.top.used_arguments && usage.declared_as_fn_param {
                 return;
             }
@@ -94,6 +95,8 @@ where
 
             let is_inline_enabled =
                 self.options.reduce_vars || self.options.collapse_vars || self.options.inline != 0;
+
+            should_preserve |= !self.options.top_level() && usage.is_top_level;
 
             self.vars.inline_with_multi_replacer(init);
 

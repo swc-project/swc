@@ -121,6 +121,9 @@ pub(crate) struct VarUsageInfo {
 
     pub(crate) pure_fn: bool,
 
+    /// Is the variable declared in top level?
+    pub(crate) is_top_level: bool,
+
     /// `infects_to`. This should be renamed, but it will be done with another
     /// PR. (because it's hard to review)
     infects: Vec<Access>,
@@ -168,6 +171,7 @@ impl Default for VarUsageInfo {
             used_in_non_child_fn: Default::default(),
             accessed_props: Default::default(),
             used_recursively: Default::default(),
+            is_top_level: Default::default(),
         }
     }
 }
@@ -346,6 +350,7 @@ impl Storage for ProgramData {
         // }
 
         let v = self.vars.entry(i.to_id()).or_default();
+        v.is_top_level |= ctx.is_top_level;
 
         if has_init && (v.declared || v.var_initialized) {
             #[cfg(feature = "debug")]
