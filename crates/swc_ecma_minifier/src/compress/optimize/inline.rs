@@ -29,7 +29,7 @@ where
         &mut self,
         ident: &mut Ident,
         init: &mut Expr,
-        should_preserve: bool,
+        mut should_preserve: bool,
         can_drop: bool,
     ) {
         trace_op!(
@@ -58,9 +58,8 @@ where
             if !usage.var_initialized {
                 return;
             }
-            if !self.options.top_level() && usage.is_top_level {
-                return;
-            }
+
+            should_preserve |= !self.options.top_level() && usage.is_top_level;
 
             if self.data.top.used_arguments && usage.declared_as_fn_param {
                 return;
