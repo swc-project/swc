@@ -26,6 +26,9 @@
 - **(es/minifier)** Don't inline conditionally initialized vars (#6751) ([336b1d8](https://github.com/swc-project/swc/commit/336b1d8b4d6489da8f78731d9e12fef962a005da))
 
 
+- **(es/minifier)** Make AST compressor respect `toplevel` (#6775) ([06770cf](https://github.com/swc-project/swc/commit/06770cff047055b9cea27970e7ce882d770257ba))
+
+
 - **(es/parser)** Allow parsing `import.meta` as an expression (#6783) ([ff8face](https://github.com/swc-project/swc/commit/ff8facef64ffe115936cfc154b35ec08359524f8))
 
 ### Features
