@@ -41,7 +41,7 @@ export async function getDependency(): Promise<any> {
 it("should report good error", () => {
   expect(() => {
     swc.transformFileSync(__dirname + "/../tests/error/simple.js");
-  }).toThrow("failed to process input file");
+  }).toThrow("failed to read swcrc file");
 });
 
 it("should report good error (handler)", () => {
