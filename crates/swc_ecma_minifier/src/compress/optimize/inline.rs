@@ -59,8 +59,6 @@ where
                 return;
             }
 
-            should_preserve |= !self.options.top_level() && usage.is_top_level;
-
             if self.data.top.used_arguments && usage.declared_as_fn_param {
                 return;
             }
@@ -97,6 +95,8 @@ where
 
             let is_inline_enabled =
                 self.options.reduce_vars || self.options.collapse_vars || self.options.inline != 0;
+
+            should_preserve |= !self.options.top_level() && usage.is_top_level;
 
             self.vars.inline_with_multi_replacer(init);
 
