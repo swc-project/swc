@@ -511,7 +511,7 @@ fn get_type_ann_of_pat(p: &Pat) -> Option<&TsTypeAnn> {
 fn is_str(ty: &TsType) -> bool {
     match ty {
         TsType::TsLitType(TsLitType {
-            lit: TsLit::Str(..),
+            lit: TsLit::Str(..) | TsLit::Tpl(..),
             ..
         })
         | TsType::TsKeywordType(TsKeywordType {
