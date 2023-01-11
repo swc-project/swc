@@ -54,6 +54,9 @@ pub struct TsTypeParam {
     #[serde(default, rename = "out")]
     pub is_out: bool,
 
+    #[serde(default, rename = "const")]
+    pub is_const: bool,
+
     #[serde(default)]
     pub constraint: Option<Box<TsType>>,
 

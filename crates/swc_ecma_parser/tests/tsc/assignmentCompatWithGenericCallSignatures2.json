@@ -191,6 +191,7 @@
                   },
                   "in": false,
                   "out": false,
+                  "const": false,
                   "constraint": null,
                   "default": null
                 }
@@ -377,6 +378,7 @@
                   },
                   "in": false,
                   "out": false,
+                  "const": false,
                   "constraint": null,
                   "default": null
                 }

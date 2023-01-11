@@ -104,7 +104,7 @@ impl<I: Tokens> Parser<I> {
                     }
                 }
 
-                let type_parameters = p.parse_ts_type_params(false)?;
+                let type_parameters = p.parse_ts_type_params(false, false)?;
                 let mut arrow = p.parse_assignment_expr_base()?;
                 match *arrow {
                     Expr::Arrow(ArrowExpr {

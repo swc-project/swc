@@ -271,6 +271,7 @@ impl Storage for ProgramData {
                     e.get_mut().declared_as_fn_param |= var_info.declared_as_fn_param;
                     e.get_mut().declared_as_fn_decl |= var_info.declared_as_fn_decl;
                     e.get_mut().declared_as_fn_expr |= var_info.declared_as_fn_expr;
+                    e.get_mut().declared_as_catch_param |= var_info.declared_as_catch_param;
 
                     // If a var is registered at a parent scope, it means that it's delcared before
                     // usages.
@@ -281,8 +282,6 @@ impl Storage for ProgramData {
                     e.get_mut().assign_count += var_info.assign_count;
                     e.get_mut().mutation_by_call_count += var_info.mutation_by_call_count;
                     e.get_mut().usage_count += var_info.usage_count;
-
-                    e.get_mut().declared_as_catch_param |= var_info.declared_as_catch_param;
 
                     e.get_mut().infects.extend(var_info.infects);
 

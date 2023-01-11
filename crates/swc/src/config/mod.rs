@@ -393,7 +393,9 @@ impl Options {
                         _ => None,
                     })
                     .map(|mut c| {
-                        c.top_level = true;
+                        if c.top_level.is_none() {
+                            c.top_level = Some(true);
+                        }
 
                         c
                     })

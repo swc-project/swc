@@ -93,7 +93,7 @@ impl<I: Tokens> Parser<I> {
             }
 
             let type_params = if p.input.syntax().typescript() {
-                p.try_parse_ts_type_params(true)?
+                p.try_parse_ts_type_params(true, true)?
             } else {
                 None
             };
@@ -716,7 +716,7 @@ impl<I: Tokens> Parser<I> {
                         self.emit_err(span!(self, start), SyntaxError::TS1098);
                         self.emit_err(span!(self, start2), SyntaxError::TS1092);
                     } else {
-                        let type_params = self.try_parse_ts_type_params(false)?;
+                        let type_params = self.try_parse_ts_type_params(false, true)?;
 
                         if let Some(type_params) = type_params {
                             for param in type_params.params {
@@ -1184,7 +1184,7 @@ impl<I: Tokens> Parser<I> {
                     trace_cur!(p, parse_fn_args_body__type_params);
 
                     Ok(if is!(p, '<') {
-                        Some(p.parse_ts_type_params(false)?)
+                        Some(p.parse_ts_type_params(false, true)?)
                     } else if is!(p, JSXTagStart) {
                         debug_assert_eq!(
                             p.input.token_context().current(),
@@ -1197,7 +1197,7 @@ impl<I: Tokens> Parser<I> {
                         );
                         p.input.token_context_mut().pop();
 
-                        Some(p.parse_ts_type_params(false)?)
+                        Some(p.parse_ts_type_params(false, true)?)
                     } else {
                         None
                     })

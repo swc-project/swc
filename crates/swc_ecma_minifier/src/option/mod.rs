@@ -59,7 +59,7 @@ pub struct MangleOptions {
     pub props: Option<ManglePropertiesOptions>,
 
     #[serde(default, alias = "toplevel")]
-    pub top_level: bool,
+    pub top_level: Option<bool>,
 
     #[serde(default, alias = "keep_classnames")]
     pub keep_class_names: bool,

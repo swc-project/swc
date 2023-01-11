@@ -1,17 +1,17 @@
 "use strict";
-function n() {}
-var r = function() {
+function a() {}
+var te = function() {
     var n = function n(n) {};
-    var r = null;
+    var t = null;
     return {
-        init: function t(t) {
-            return r = new n(t);
+        init: function r(r) {
+            return t = new n(r);
         }
     };
 }();
-var t = function() {
-    var r = function r() {
-        n();
+var he = function() {
+    var n = function n() {
+        a();
     };
     ;
     var t = null;

@@ -94,7 +94,10 @@ where
     #[emitter]
     pub fn emit_module(&mut self, node: &Module) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
-        srcmap!(node, true);
+
+        if node.body.is_empty() {
+            srcmap!(node, true);
+        }
 
         if let Some(ref shebang) = node.shebang {
             punct!("#!");
@@ -115,7 +118,9 @@ where
     pub fn emit_script(&mut self, node: &Script) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, true);
+        if node.body.is_empty() {
+            srcmap!(node, true);
+        }
 
         if let Some(ref shebang) = node.shebang {
             punct!("#!");

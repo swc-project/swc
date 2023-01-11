@@ -5687,12 +5687,13 @@
             return cache = cacheStream = null, projection;
         }
         return projection.stream = function(stream) {
-            return cache && cacheStream === stream ? cache : cache = transformRadians(transformer({
+            var rotate1;
+            return cache && cacheStream === stream ? cache : cache = transformRadians((rotate1 = rotate, transformer({
                 point: function(x, y) {
-                    var r = rotate(x, y);
+                    var r = rotate1(x, y);
                     return this.stream.point(r[0], r[1]);
                 }
-            })(preclip(projectResample(postclip(cacheStream = stream)))));
+            }))(preclip(projectResample(postclip(cacheStream = stream)))));
         }, projection.preclip = function(_) {
             return arguments.length ? (preclip = _, theta = void 0, reset()) : preclip;
         }, projection.postclip = function(_) {

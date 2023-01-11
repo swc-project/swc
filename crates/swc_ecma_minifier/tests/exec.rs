@@ -215,7 +215,7 @@ fn run_exec_test(input_src: &str, config: &str, skip_mangle: bool) {
                 None,
                 Some(MangleOptions {
                     keep_fn_names: true,
-                    top_level: true,
+                    top_level: Some(true),
                     ..Default::default()
                 }),
             );
@@ -10427,5 +10427,72 @@ fn issue_6728() {
         }
         console.log('PASS')
         "###,
+    )
+}
+
+#[test]
+fn issue_6750_1() {
+    run_default_exec_test(
+        r###"
+        let current_component;
+
+        function set_current_component(component) {
+            current_component = component;
+        }
+
+        function f(component) {
+            const parent = current_component
+            set_current_component(component)
+            parent.m()
+        }
+
+        const obj = {
+            m() {
+                console.log("call m()")
+            }
+        }
+
+        try {
+            f(obj)
+        } catch (e) {
+            console.log('PASS')
+        }
+        "###,
+    )
+}
+
+#[test]
+fn issue_6750_2() {
+    run_exec_test(
+        r###"
+        let current_component;
+
+        function set_current_component(component) {
+            current_component = component;
+        }
+
+        function f(component) {
+            const parent = current_component
+            set_current_component(component)
+            parent.m()
+        }
+
+        const obj = {
+            m() {
+                console.log("call m()")
+            }
+        }
+
+        try {
+            f(obj)
+        } catch (e) {
+            console.log('PASS')
+        }
+        "###,
+        r###"{
+            "defaults": true,
+            "sequences": false
+        }"###,
+        false,
     )
 }

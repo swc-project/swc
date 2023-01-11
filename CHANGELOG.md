@@ -8,10 +8,25 @@
 - **(common)** Mark `\r` as a line ending (#6752) ([26a0c13](https://github.com/swc-project/swc/commit/26a0c135896098e1e1a8fbb99a623311828af5b2))
 
 
+- **(es)** Remove useless context (#6777) ([ae3cfa7](https://github.com/swc-project/swc/commit/ae3cfa7d2d4cff7f3246691d24286bc2470792e1))
+
+
 - **(es/codegen)** Fix LineCol calculation of printed files (#6763) ([2b503c1](https://github.com/swc-project/swc/commit/2b503c16d5f338c6a786a19c7c0acbc4c06bcfee))
 
 
+- **(es/codegen)** Skip `lo` of a program if body is not empty (#6773) ([3f0f664](https://github.com/swc-project/swc/commit/3f0f664c488b4f51a12d277b29ad17e28a413a2b))
+
+
 - **(es/helpers)** Make `_classPrivateFieldLooseBase ` return receiver (#6770) ([1d14760](https://github.com/swc-project/swc/commit/1d147602c0bfe291408c65b2e444cea0b5ceba89))
+
+
+- **(es/minifier)** Make name mangler respect `toplevel` (#6774) ([ec7e913](https://github.com/swc-project/swc/commit/ec7e9138158426b83d12dc3a29896098fb4c9ffa))
+
+
+- **(es/minifier)** Don't inline conditionally initialized vars (#6751) ([336b1d8](https://github.com/swc-project/swc/commit/336b1d8b4d6489da8f78731d9e12fef962a005da))
+
+
+- **(es/parser)** Allow parsing `import.meta` as an expression (#6783) ([ff8face](https://github.com/swc-project/swc/commit/ff8facef64ffe115936cfc154b35ec08359524f8))
 
 ### Features
 
@@ -21,6 +36,9 @@
 
 
 - **(es/minifier)** Handle boolean in `Evaluator` (#6756) ([8a6a1cb](https://github.com/swc-project/swc/commit/8a6a1cbcf1279b805e740f4d77ebb9fb72d52d41))
+
+
+- **(es/typescript)** Support const modifier on type parameters (#6672) ([019cf37](https://github.com/swc-project/swc/commit/019cf371994b87a92fd26fc623959a797f35991b))
 
 ### Miscellaneous Tasks
 
@@ -33,6 +51,9 @@
 
 
 - **(es)** Add a test for a fixed source map issue (#6768) ([6c126da](https://github.com/swc-project/swc/commit/6c126da1d42922229e9bb1c7594570f701e083ba))
+
+
+- **(es/module)** Add a test for invalid issue (#6785) ([0ef84e1](https://github.com/swc-project/swc/commit/0ef84e1c0004ec5282d26e9a84ea5729681ff106))
 
 ## [1.3.25] - 2023-01-05
 

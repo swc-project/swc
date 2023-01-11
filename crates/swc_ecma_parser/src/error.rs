@@ -255,6 +255,7 @@ pub enum SyntaxError {
     TS1267,
     TS1273(JsWord),
     TS1274(JsWord),
+    TS1277(JsWord),
     TS1383,
     TS2206,
     TS2207,
@@ -647,6 +648,11 @@ impl SyntaxError {
             SyntaxError::TS1274(word) => format!(
                 "'{}' modifier can only appear on a type parameter of a class, interface or type \
                  alias",
+                word
+            )
+            .into(),
+            SyntaxError::TS1277(word) => format!(
+                "'{}' modifier can only appear on a type parameter of a function, method or class",
                 word
             )
             .into(),

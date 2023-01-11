@@ -1405,6 +1405,7 @@ define!({
         pub name: Ident,
         pub is_in: bool,
         pub is_out: bool,
+        pub is_const: bool,
         pub constraint: Option<Box<TsType>>,
         pub default: Option<Box<TsType>>,
     }

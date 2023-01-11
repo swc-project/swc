@@ -51,6 +51,7 @@
             },
             "in": false,
             "out": false,
+            "const": false,
             "constraint": null,
             "default": null
           },
@@ -73,6 +74,7 @@
             },
             "in": false,
             "out": false,
+            "const": false,
             "constraint": null,
             "default": null
           }
@@ -228,6 +230,7 @@
             },
             "in": false,
             "out": false,
+            "const": false,
             "constraint": null,
             "default": null
           }
@@ -390,6 +393,7 @@
             },
             "in": false,
             "out": false,
+            "const": false,
             "constraint": null,
             "default": null
           }
@@ -661,6 +665,7 @@
                   },
                   "in": false,
                   "out": false,
+                  "const": false,
                   "constraint": null,
                   "default": null
                 }
@@ -889,6 +894,7 @@
                   },
                   "in": false,
                   "out": false,
+                  "const": false,
                   "constraint": null,
                   "default": null
                 }
@@ -1202,6 +1208,7 @@
                   },
                   "in": false,
                   "out": false,
+                  "const": false,
                   "constraint": null,
                   "default": null
                 }
@@ -1498,6 +1505,7 @@
                   },
                   "in": false,
                   "out": false,
+                  "const": false,
                   "constraint": null,
                   "default": null
                 }
@@ -2634,6 +2642,7 @@
                   },
                   "in": false,
                   "out": false,
+                  "const": false,
                   "constraint": null,
                   "default": {
                     "type": "TsTypeReference",
@@ -2674,6 +2683,7 @@
                   },
                   "in": false,
                   "out": false,
+                  "const": false,
                   "constraint": null,
                   "default": {
                     "type": "TsKeywordType",
@@ -2809,6 +2819,7 @@
             },
             "in": false,
             "out": false,
+            "const": false,
             "constraint": null,
             "default": null
           },
@@ -2831,6 +2842,7 @@
             },
             "in": false,
             "out": false,
+            "const": false,
             "constraint": null,
             "default": null
           }

@@ -1061,7 +1061,7 @@ fn bundle(url: &str, minify: bool) -> String {
                         &swc_ecma_minifier::option::MinifyOptions {
                             compress: Some(Default::default()),
                             mangle: Some(MangleOptions {
-                                top_level: true,
+                                top_level: Some(true),
                                 ..Default::default()
                             }),
                             ..Default::default()
