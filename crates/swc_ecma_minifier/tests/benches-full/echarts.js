@@ -35218,14 +35218,14 @@
         }, DataZoomFeature.prototype.dispose = function(ecModel, api) {
             this._brushController && this._brushController.dispose();
         }, DataZoomFeature.prototype._onBrush = function(eventParam) {
-            var storedSnapshots, areas = eventParam.areas;
+            var ecModel, newSnapshot, storedSnapshots, areas = eventParam.areas;
             if (eventParam.isEnd && areas.length) {
-                var snapshot = {}, ecModel = this.ecModel;
-                this._brushController.updateCovers([]), new BrushTargetManager(makeAxisFinder(this.model), ecModel, {
+                var snapshot = {}, ecModel1 = this.ecModel;
+                this._brushController.updateCovers([]), new BrushTargetManager(makeAxisFinder(this.model), ecModel1, {
                     include: [
                         'grid'
                     ]
-                }).matchOutputRanges(areas, ecModel, function(area, coordRange, coordSys) {
+                }).matchOutputRanges(areas, ecModel1, function(area, coordRange, coordSys) {
                     if ('cartesian2d' === coordSys.type) {
                         var brushType = area.brushType;
                         'rect' === brushType ? (setBatch('x', coordSys, coordRange[0]), setBatch('y', coordSys, coordRange[1])) : setBatch({
@@ -35233,7 +35233,7 @@
                             lineY: 'y'
                         }[brushType], coordSys, coordRange);
                     }
-                }), storedSnapshots = getStoreSnapshots(ecModel), each(snapshot, function(batchItem, dataZoomId) {
+                }), ecModel = ecModel1, newSnapshot = snapshot, storedSnapshots = getStoreSnapshots(ecModel), each(newSnapshot, function(batchItem, dataZoomId) {
                     for(var i = storedSnapshots.length - 1; i >= 0 && !storedSnapshots[i][dataZoomId]; i--);
                     if (i < 0) {
                         var dataZoomModel = ecModel.queryComponents({
@@ -35250,10 +35250,10 @@
                             };
                         }
                     }
-                }), storedSnapshots.push(snapshot), this._dispatchZoomAction(snapshot);
+                }), storedSnapshots.push(newSnapshot), this._dispatchZoomAction(snapshot);
             }
             function setBatch(dimName, coordSys, minMax) {
-                var found, axis = coordSys.getAxis(dimName), axisModel = axis.model, dataZoomModel = (ecModel.eachComponent({
+                var found, axis = coordSys.getAxis(dimName), axisModel = axis.model, dataZoomModel = (ecModel1.eachComponent({
                     mainType: 'dataZoom',
                     subType: 'select'
                 }, function(dzModel) {

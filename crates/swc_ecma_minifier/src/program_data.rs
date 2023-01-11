@@ -121,6 +121,9 @@ pub(crate) struct VarUsageInfo {
 
     pub(crate) pure_fn: bool,
 
+    /// Is the variable declared in top level?
+    pub(crate) is_top_level: bool,
+
     /// `infects_to`. This should be renamed, but it will be done with another
     /// PR. (because it's hard to review)
     infects: Vec<Access>,
@@ -168,6 +171,7 @@ impl Default for VarUsageInfo {
             used_in_non_child_fn: Default::default(),
             accessed_props: Default::default(),
             used_recursively: Default::default(),
+            is_top_level: Default::default(),
         }
     }
 }
@@ -267,6 +271,7 @@ impl Storage for ProgramData {
                     e.get_mut().declared_as_fn_param |= var_info.declared_as_fn_param;
                     e.get_mut().declared_as_fn_decl |= var_info.declared_as_fn_decl;
                     e.get_mut().declared_as_fn_expr |= var_info.declared_as_fn_expr;
+                    e.get_mut().declared_as_catch_param |= var_info.declared_as_catch_param;
 
                     // If a var is registered at a parent scope, it means that it's delcared before
                     // usages.
@@ -277,8 +282,6 @@ impl Storage for ProgramData {
                     e.get_mut().assign_count += var_info.assign_count;
                     e.get_mut().mutation_by_call_count += var_info.mutation_by_call_count;
                     e.get_mut().usage_count += var_info.usage_count;
-
-                    e.get_mut().declared_as_catch_param |= var_info.declared_as_catch_param;
 
                     e.get_mut().infects.extend(var_info.infects);
 
@@ -347,6 +350,7 @@ impl Storage for ProgramData {
         // }
 
         let v = self.vars.entry(i.to_id()).or_default();
+        v.is_top_level |= ctx.is_top_level;
 
         if has_init && (v.declared || v.var_initialized) {
             #[cfg(feature = "debug")]

@@ -21,6 +21,7 @@ where
 }
 
 #[derive(Debug, Default, Clone, Copy)]
+#[non_exhaustive]
 pub struct Ctx {
     /// See [crate::marks::Marks]
     pub skip_standalone: bool,
@@ -60,6 +61,8 @@ pub struct Ctx {
     pub inline_prevented: bool,
 
     pub is_op_assign: bool,
+
+    pub is_top_level: bool,
 }
 
 pub(super) struct WithCtx<'a, S>

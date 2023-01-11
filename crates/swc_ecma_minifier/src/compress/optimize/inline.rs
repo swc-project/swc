@@ -29,7 +29,7 @@ where
         &mut self,
         ident: &mut Ident,
         init: &mut Expr,
-        should_preserve: bool,
+        mut should_preserve: bool,
         can_drop: bool,
     ) {
         trace_op!(
@@ -58,6 +58,7 @@ where
             if !usage.var_initialized {
                 return;
             }
+
             if self.data.top.used_arguments && usage.declared_as_fn_param {
                 return;
             }
@@ -94,6 +95,8 @@ where
 
             let is_inline_enabled =
                 self.options.reduce_vars || self.options.collapse_vars || self.options.inline != 0;
+
+            should_preserve |= !self.options.top_level() && usage.is_top_level;
 
             self.vars.inline_with_multi_replacer(init);
 
@@ -185,7 +188,7 @@ where
                         .vars
                         .get(&id.to_id())
                         .filter(|a| {
-                            !a.reassigned() && a.declared && {
+                            !a.reassigned() && a.declared && !a.cond_init && {
                                 // Function declarations are hoisted
                                 //
                                 // As we copy expressions, this can cause a problem.
@@ -356,8 +359,11 @@ where
                     }
 
                     Expr::Ident(id) if !id.eq_ignore_span(ident) => {
-                        if let Some(v_usage) = self.data.vars.get(&id.to_id()) {
-                            if v_usage.reassigned() || !v_usage.declared {
+                        if let Some(init_usage) = self.data.vars.get(&id.to_id()) {
+                            if init_usage.reassigned()
+                                || !init_usage.declared
+                                || init_usage.cond_init
+                            {
                                 return;
                             }
                         }
