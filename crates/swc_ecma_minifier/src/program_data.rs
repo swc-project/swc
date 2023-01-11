@@ -642,8 +642,7 @@ impl ProgramData {
             if ctx.is_op_assign {
                 e.usage_count += 1;
             } else if is_first {
-                if e.declared
-                    && e.ref_count == 1
+                if e.ref_count == 1
                     && ctx.in_assign_lhs
                     && e.var_kind != Some(VarDeclKind::Const)
                     && !inited
