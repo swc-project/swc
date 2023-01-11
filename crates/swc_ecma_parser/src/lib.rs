@@ -442,7 +442,11 @@ macro_rules! expose {
     };
 }
 
-expose!(parse_file_as_expr, Box<Expr>, |p| { p.parse_expr() });
+expose!(parse_file_as_expr, Box<Expr>, |p| {
+    // This allow to parse `import.meta`
+    p.input().ctx.can_be_module = true;
+    p.parse_expr()
+});
 expose!(parse_file_as_module, Module, |p| { p.parse_module() });
 expose!(parse_file_as_script, Script, |p| { p.parse_script() });
 expose!(parse_file_as_program, Program, |p| { p.parse_program() });

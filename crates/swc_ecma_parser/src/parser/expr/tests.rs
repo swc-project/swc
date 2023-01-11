@@ -2,12 +2,12 @@ extern crate test;
 
 use std::hint::black_box;
 
-use swc_common::DUMMY_SP as span;
+use swc_common::{FileName, SourceMap, DUMMY_SP as span};
 use swc_ecma_visit::assert_eq_ignore_span;
 use test::Bencher;
 
 use super::*;
-use crate::EsConfig;
+use crate::{parse_file_as_expr, EsConfig};
 
 fn syntax() -> Syntax {
     Syntax::Es(EsConfig {
@@ -517,6 +517,22 @@ fn issue_5947() {
         Syntax::Typescript(Default::default()),
         |p| p.parse_module(),
     );
+}
+
+#[test]
+fn issue_6781() {
+    let cm = SourceMap::default();
+    let fm = cm.new_source_file(FileName::Anon, "import.meta.env".to_string());
+    let mut errors = vec![];
+    let expr = parse_file_as_expr(
+        &fm,
+        Default::default(),
+        Default::default(),
+        None,
+        &mut errors,
+    );
+    assert!(expr.is_ok());
+    assert!(errors.is_empty());
 }
 
 #[bench]
