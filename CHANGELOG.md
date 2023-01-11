@@ -17,6 +17,9 @@
 - **(es/codegen)** Skip `lo` of a program if body is not empty (#6773) ([3f0f664](https://github.com/swc-project/swc/commit/3f0f664c488b4f51a12d277b29ad17e28a413a2b))
 
 
+- **(es/decorator)** Fix type detection for template literal types (#6786) ([bbfa97a](https://github.com/swc-project/swc/commit/bbfa97a475fdfe18fe9e3ea29329ecb39ed2ddac))
+
+
 - **(es/helpers)** Make `_classPrivateFieldLooseBase ` return receiver (#6770) ([1d14760](https://github.com/swc-project/swc/commit/1d147602c0bfe291408c65b2e444cea0b5ceba89))
 
 
