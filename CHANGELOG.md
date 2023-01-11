@@ -49,6 +49,9 @@
 
 - **(es)** Add a test for a fixed source map issue (#6768) ([6c126da](https://github.com/swc-project/swc/commit/6c126da1d42922229e9bb1c7594570f701e083ba))
 
+
+- **(es/module)** Add a test for invalid issue (#6785) ([0ef84e1](https://github.com/swc-project/swc/commit/0ef84e1c0004ec5282d26e9a84ea5729681ff106))
+
 ## [1.3.25] - 2023-01-05
 
 ### Bug Fixes
