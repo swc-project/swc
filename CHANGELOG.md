@@ -23,6 +23,9 @@
 - **(es/minifier)** Make name mangler respect `toplevel` (#6774) ([ec7e913](https://github.com/swc-project/swc/commit/ec7e9138158426b83d12dc3a29896098fb4c9ffa))
 
 
+- **(es/minifier)** Don't inline conditionally initialized vars (#6751) ([336b1d8](https://github.com/swc-project/swc/commit/336b1d8b4d6489da8f78731d9e12fef962a005da))
+
+
 - **(es/parser)** Allow parsing `import.meta` as an expression (#6783) ([ff8face](https://github.com/swc-project/swc/commit/ff8facef64ffe115936cfc154b35ec08359524f8))
 
 ### Features
