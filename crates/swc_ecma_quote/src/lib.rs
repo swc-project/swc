@@ -86,6 +86,7 @@ mod clone;
 ///
 /// ## Using `Str`
 ///
+/// The grammar is `"$var_name"`.
 ///
 /// ```rust
 /// use swc_common::DUMMY_SP;
