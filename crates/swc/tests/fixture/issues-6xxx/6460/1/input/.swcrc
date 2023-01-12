@@ -2,19 +2,9 @@
     "jsc": {
         "parser": {
             "syntax": "ecmascript",
-            "jsx": false
-        },
-        "loose": false,
-        "minify": {
-            "compress": false,
-            "mangle": false
+            "jsx": true
         }
     },
-    "module": {
-        "type": "es6"
-    },
-    "minify": false,
-    "isModule": true,
     "env": {
         "mode": "usage",
         "coreJs": "3.26.1"
