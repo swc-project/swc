@@ -46,7 +46,7 @@ mod clone;
 /// ## Typed variables
 ///
 /// As this macro generates static AST, it can't substitute variables if an
-/// ideitifier is not allowed in such position. In other words, this macro only
+/// identifier is not allowed in such position. In other words, this macro only
 /// supports substituting
 ///
 ///  - Ident
