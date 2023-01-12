@@ -6,7 +6,7 @@ function _templateObject() {
         "abc",
         "def"
     ]);
-    return _templateObject = function _templateObject() {
+    return _templateObject = function() {
         return data;
     }, data;
 }

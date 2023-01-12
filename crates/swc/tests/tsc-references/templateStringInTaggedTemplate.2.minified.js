@@ -5,7 +5,7 @@ function _templateObject() {
         "I ",
         " THE TEMPLATE PORTION"
     ]);
-    return _templateObject = function _templateObject() {
+    return _templateObject = function() {
         return data;
     }, data;
 }
