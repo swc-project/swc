@@ -3,11 +3,11 @@
     "object" == typeof module && "object" == typeof module.exports ? factory(exports) : "function" == typeof define && define.amd ? define([
         "exports"
     ], factory) : (global = "undefined" != typeof globalThis ? globalThis : global || self) && factory(global.aTs = {});
-}(this, function(exports) {
+}(this, function(exports1) {
     "use strict";
-    Object.defineProperty(exports, "__esModule", {
+    Object.defineProperty(exports1, "__esModule", {
         value: !0
-    }), Object.defineProperty(exports, "default", {
+    }), Object.defineProperty(exports1, "default", {
         enumerable: !0,
         get: ()=>_default
     });
@@ -23,9 +23,9 @@
         "@swc/helpers/src/_interop_require_default.mjs",
         "./a"
     ], factory) : (global = "undefined" != typeof globalThis ? globalThis : global || self) && factory(global.bTs = {}, global.asyncToGeneratorMjs, global.interopRequireDefaultMjs, global.a);
-}(this, function(exports, _asyncToGenerator, _interopRequireDefault, _a) {
+}(this, function(exports1, _asyncToGenerator, _interopRequireDefault, _a) {
     "use strict";
-    Object.defineProperty(exports, "__esModule", {
+    Object.defineProperty(exports1, "__esModule", {
         value: !0
     }), _asyncToGenerator = _asyncToGenerator.default, _a = (_interopRequireDefault = _interopRequireDefault.default)(_a), _asyncToGenerator(function*() {
         yield _a.default;

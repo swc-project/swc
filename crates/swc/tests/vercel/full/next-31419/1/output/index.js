@@ -3,29 +3,29 @@ import n from "@swc/helpers/src/_ts_generator.mjs";
 import t from "@swc/helpers/src/_ts_values.mjs";
 Promise.all(assignAll).then(function() {
     var e = r(function(r) {
-        var e, s, i, c, o, u;
-        return n(this, function(a) {
-            switch(a.label){
+        var e, s, i, c, o;
+        return n(this, function(u) {
+            switch(u.label){
                 case 0:
-                    for(c in e = function(u) {
-                        var t;
+                    for(c in e = function(t) {
+                        var e;
                         return n(this, function(n) {
                             switch(n.label){
                                 case 0:
-                                    return t = r[u], s += "'".concat(t.id, "', "), [
+                                    return e = r[t], s += "'".concat(e.id, "', "), [
                                         4,
-                                        listOfUser(t.id)
+                                        listOfUser(e.id)
                                     ];
                                 case 1:
                                     return n.sent().forEach(function(r) {
-                                        insertQuery += 'INSERT INTO "TABLE"("UUID", id, other_ids_here) VALUES (\''.concat(uuidv4(), "', '").concat(t.id, "', now());");
+                                        insertQuery += 'INSERT INTO "TABLE"("UUID", id, other_ids_here) VALUES (\''.concat(uuidv4(), "', '").concat(e.id, "', now());");
                                     }), [
                                         2
                                     ];
                             }
                         });
                     }, s = 'DELETE FROM "TABLE" WHERE "UUID" IN ( ', i = [], r);
-                    o = 0, a.label = 1;
+                    o = 0, u.label = 1;
                 case 1:
                     if (!(o < i.length)) return [
                         3,
@@ -33,10 +33,10 @@ Promise.all(assignAll).then(function() {
                     ];
                     return [
                         5,
-                        t(e(u = i[o]))
+                        t(e(i[o]))
                     ];
                 case 2:
-                    a.label = 3;
+                    u.label = 3;
                 case 3:
                     return o++, [
                         3,

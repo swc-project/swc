@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(es/transform)** Apply `hygiene` and `resolver` if minify is specified (#6793) ([c145409](https://github.com/swc-project/swc/commit/c14540905f81e1c1677e7c9d723e71b1b6a9740b))
+
 ### Testing
 
 

@@ -5,7 +5,7 @@ function _templateObject() {
         "",
         ""
     ]);
-    return _templateObject = function _templateObject() {
+    return _templateObject = function() {
         return data;
     }, data;
 }
@@ -14,7 +14,7 @@ function _templateObject1() {
         "",
         ""
     ]);
-    return _templateObject1 = function _templateObject1() {
+    return _templateObject1 = function() {
         return data;
     }, data;
 }

@@ -3,16 +3,16 @@
     "object" == typeof module && "object" == typeof module.exports ? factory(exports) : "function" == typeof define && define.amd ? define([
         "exports"
     ], factory) : (global = "undefined" != typeof globalThis ? globalThis : global || self) && factory(global.0Ts = {});
-}(this, function(exports) {
+}(this, function(exports1) {
     "use strict";
-    Object.defineProperty(exports, "__esModule", {
+    Object.defineProperty(exports1, "__esModule", {
         value: !0
     }), function(target, all) {
         for(var name in all)Object.defineProperty(target, name, {
             enumerable: !0,
             get: all[name]
         });
-    }(exports, {
+    }(exports1, {
         a: function() {
             return a;
         },
@@ -29,11 +29,11 @@
         "@swc/helpers/src/_interop_require_wildcard.mjs",
         "./0"
     ], factory) : (global = "undefined" != typeof globalThis ? globalThis : global || self) && factory(global.1Ts = {}, global.interopRequireWildcardMjs, global["0"]);
-}(this, function(exports, _interopRequireWildcard, _0) {
+}(this, function(exports1, _interopRequireWildcard, _0) {
     "use strict";
-    Object.defineProperty(exports, "__esModule", {
+    Object.defineProperty(exports1, "__esModule", {
         value: !0
-    }), Object.defineProperty(exports, "default", {
+    }), Object.defineProperty(exports1, "default", {
         enumerable: !0,
         get: function() {
             return _0;
@@ -47,11 +47,11 @@
         "@swc/helpers/src/_interop_require_wildcard.mjs",
         "./0"
     ], factory) : (global = "undefined" != typeof globalThis ? globalThis : global || self) && factory(global.11Ts = {}, global.interopRequireWildcardMjs, global["0"]);
-}(this, function(exports, _interopRequireWildcard, _0) {
+}(this, function(exports1, _interopRequireWildcard, _0) {
     "use strict";
-    Object.defineProperty(exports, "__esModule", {
+    Object.defineProperty(exports1, "__esModule", {
         value: !0
-    }), Object.defineProperty(exports, "default", {
+    }), Object.defineProperty(exports1, "default", {
         enumerable: !0,
         get: function() {
             return _default;
@@ -67,9 +67,9 @@
         "./1",
         "./11"
     ], factory) : (global = "undefined" != typeof globalThis ? globalThis : global || self) && factory(global.2Ts = {}, global.interopRequireDefaultMjs, global["1"], global["11"]);
-}(this, function(exports, _interopRequireDefault, _1, _11) {
+}(this, function(exports1, _interopRequireDefault, _1, _11) {
     "use strict";
-    Object.defineProperty(exports, "__esModule", {
+    Object.defineProperty(exports1, "__esModule", {
         value: !0
     }), _1 = (_interopRequireDefault = _interopRequireDefault.default)(_1), _11 = _interopRequireDefault(_11), _1.default.a, _11.default.a, _1.default.b, _11.default.b;
 });

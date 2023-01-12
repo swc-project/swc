@@ -4,7 +4,7 @@ function _templateObject() {
     var data = _tagged_template_literal([
         ""
     ]);
-    return _templateObject = function _templateObject() {
+    return _templateObject = function() {
         return data;
     }, data;
 }
@@ -13,7 +13,7 @@ function _templateObject1() {
         "",
         ""
     ]);
-    return _templateObject1 = function _templateObject1() {
+    return _templateObject1 = function() {
         return data;
     }, data;
 }
@@ -23,7 +23,7 @@ function _templateObject2() {
         "",
         ""
     ]);
-    return _templateObject2 = function _templateObject2() {
+    return _templateObject2 = function() {
         return data;
     }, data;
 }
@@ -33,7 +33,7 @@ function _templateObject3() {
         "",
         ""
     ]);
-    return _templateObject3 = function _templateObject3() {
+    return _templateObject3 = function() {
         return data;
     }, data;
 }
@@ -43,7 +43,7 @@ function _templateObject4() {
         "",
         ""
     ]);
-    return _templateObject4 = function _templateObject4() {
+    return _templateObject4 = function() {
         return data;
     }, data;
 }
@@ -54,7 +54,7 @@ function _templateObject5() {
         "",
         ""
     ]);
-    return _templateObject5 = function _templateObject5() {
+    return _templateObject5 = function() {
         return data;
     }, data;
 }

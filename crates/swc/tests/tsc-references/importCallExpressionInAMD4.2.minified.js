@@ -67,11 +67,9 @@ define([
                 ], (m)=>resolve(_interopRequireWildcard(m)), reject)), this.myModule.then((Zero)=>{
                 console.log(Zero.foo());
             }, async (err)=>{
-                console.log(err);
-                let one = await new Promise((resolve, reject)=>require([
+                console.log(err), console.log((await new Promise((resolve, reject)=>require([
                         "./1"
-                    ], (m)=>resolve(_interopRequireWildcard(m)), reject));
-                console.log(one.backup());
+                    ], (m)=>resolve(_interopRequireWildcard(m)), reject))).backup());
             });
         }
     }

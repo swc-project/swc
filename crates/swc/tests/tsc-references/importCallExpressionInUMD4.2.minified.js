@@ -3,16 +3,16 @@
     "object" == typeof module && "object" == typeof module.exports ? factory(exports) : "function" == typeof define && define.amd ? define([
         "exports"
     ], factory) : (global = "undefined" != typeof globalThis ? globalThis : global || self) && factory(global.0Ts = {});
-}(this, function(exports) {
+}(this, function(exports1) {
     "use strict";
-    Object.defineProperty(exports, "__esModule", {
+    Object.defineProperty(exports1, "__esModule", {
         value: !0
     }), function(target, all) {
         for(var name in all)Object.defineProperty(target, name, {
             enumerable: !0,
             get: all[name]
         });
-    }(exports, {
+    }(exports1, {
         B: ()=>B,
         foo: ()=>foo
     });
@@ -30,14 +30,14 @@
     "object" == typeof module && "object" == typeof module.exports ? factory(exports) : "function" == typeof define && define.amd ? define([
         "exports"
     ], factory) : (global = "undefined" != typeof globalThis ? globalThis : global || self) && factory(global.1Ts = {});
-}(this, function(exports) {
+}(this, function(exports1) {
     "use strict";
     function backup() {
         return "backup";
     }
-    Object.defineProperty(exports, "__esModule", {
+    Object.defineProperty(exports1, "__esModule", {
         value: !0
-    }), Object.defineProperty(exports, "backup", {
+    }), Object.defineProperty(exports1, "backup", {
         enumerable: !0,
         get: ()=>backup
     });
@@ -48,11 +48,11 @@
         "exports",
         "@swc/helpers/src/_interop_require_wildcard.mjs"
     ], factory) : (global = "undefined" != typeof globalThis ? globalThis : global || self) && factory(global.2Ts = {}, global.interopRequireWildcardMjs);
-}(this, function(exports, _interopRequireWildcard) {
+}(this, function(exports1, _interopRequireWildcard) {
     "use strict";
-    Object.defineProperty(exports, "__esModule", {
+    Object.defineProperty(exports1, "__esModule", {
         value: !0
-    }), Object.defineProperty(exports, "D", {
+    }), Object.defineProperty(exports1, "D", {
         enumerable: !0,
         get: ()=>D
     }), _interopRequireWildcard = _interopRequireWildcard.default;
@@ -62,9 +62,7 @@
             import("./0"), this.myModule.then((Zero)=>{
                 console.log(Zero.foo());
             }, async (err)=>{
-                console.log(err);
-                let one = await import("./1");
-                console.log(one.backup());
+                console.log(err), console.log((await import("./1")).backup());
             });
         }
     }

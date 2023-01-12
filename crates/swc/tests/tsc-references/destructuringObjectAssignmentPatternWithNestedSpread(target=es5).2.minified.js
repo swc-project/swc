@@ -1,5 +1,5 @@
 //// [destructuringObjectAssignmentPatternWithNestedSpread.ts]
-var _c, ref, d;
+var _c, ref1, d;
 import _object_without_properties from "@swc/helpers/src/_object_without_properties.mjs";
 _object_without_properties((_c = {
     x: {
@@ -8,4 +8,4 @@ _object_without_properties((_c = {
     }
 }).x, [
     "a"
-]), (void 0 === (ref = _c.x) ? d : ref).a;
+]), (void 0 === (ref1 = _c.x) ? d : ref1).a;
