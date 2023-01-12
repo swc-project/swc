@@ -1,0 +1,12 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "ecmascript",
+            "jsx": true
+        }
+    },
+    "env": {
+        "mode": "usage",
+        "coreJs": "3.26.1"
+    }
+}

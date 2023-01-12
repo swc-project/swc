@@ -187,6 +187,10 @@ impl VisitMut for ConstructorFolder<'_> {
 
     ignore_return!(visit_mut_constructor, Constructor);
 
+    ignore_return!(visit_mut_getter_prop, GetterProp);
+
+    ignore_return!(visit_mut_setter_prop, SetterProp);
+
     fn visit_mut_function(&mut self, _: &mut Function) {}
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {

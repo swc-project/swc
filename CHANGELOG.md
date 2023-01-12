@@ -5,6 +5,26 @@
 
 
 
+- **(es/compat)** Ignore `this` in nested scopes in `classes` pass (#6796) ([07676d5](https://github.com/swc-project/swc/commit/07676d5515321c50206b3f0ea9f1473b6b2c3192))
+
+
+- **(es/transform)** Apply `hygiene` and `resolver` if minify is specified (#6793) ([c145409](https://github.com/swc-project/swc/commit/c14540905f81e1c1677e7c9d723e71b1b6a9740b))
+
+### Testing
+
+
+
+- **(es/compat)** Add a test to verify parameters passs (#6792) ([7dc5ccb](https://github.com/swc-project/swc/commit/7dc5ccb0fc217abdb7ab4e76ac7f646c5087b3a8))
+
+
+- **(es/preset-env)** Add a test for a wrong issue (#6794) ([b29aa5b](https://github.com/swc-project/swc/commit/b29aa5b5a0d4f78795eaf3784c84a18ba1b88bfa))
+
+## [1.3.26] - 2023-01-11
+
+### Bug Fixes
+
+
+
 - **(common)** Mark `\r` as a line ending (#6752) ([26a0c13](https://github.com/swc-project/swc/commit/26a0c135896098e1e1a8fbb99a623311828af5b2))
 
 

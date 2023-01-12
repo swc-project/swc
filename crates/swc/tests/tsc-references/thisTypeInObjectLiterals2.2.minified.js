@@ -47,8 +47,8 @@ var p11 = defineProp(p1, "bar", {
     get: function() {
         return this.x;
     },
-    set: function(value) {
-        this.x = value;
+    set: function(value1) {
+        this.x = value1;
     }
 });
 p11.bar = p11.bar + 1;
@@ -60,8 +60,8 @@ var p12 = defineProps(p1, {
         get: function() {
             return this.x;
         },
-        set: function(value) {
-            this.x = value;
+        set: function(value1) {
+            this.x = value1;
         }
     }
 });
@@ -86,7 +86,7 @@ var vue = new Vue({
             get: function() {
                 return "hi";
             },
-            set: function(value) {}
+            set: function(value1) {}
         }
     }
 });

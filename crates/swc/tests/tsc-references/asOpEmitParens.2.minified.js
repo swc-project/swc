@@ -1,2 +1,2 @@
 //// [asOpEmitParens.ts]
-x.y, new (x());
+x, x.y, new (x());

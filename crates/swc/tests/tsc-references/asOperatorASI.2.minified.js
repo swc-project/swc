@@ -5,7 +5,7 @@ function _templateObject() {
     var data = _tagged_template_literal([
         "Hello world"
     ]);
-    return _templateObject = function _templateObject() {
+    return _templateObject = function() {
         return data;
     }, data;
 }
