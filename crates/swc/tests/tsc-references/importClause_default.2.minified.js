@@ -6,5 +6,5 @@ var A = function A() {
 };
 export { A as default };
 //// [/b.ts]
-new A();
+new A(), A;
 export { };

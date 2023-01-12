@@ -43,9 +43,7 @@ System.register([], function(_export, _context) {
                     _context.import("./0"), this.myModule.then((Zero)=>{
                         console.log(Zero.foo());
                     }, async (err)=>{
-                        console.log(err);
-                        let one = await import("./1");
-                        console.log(one.backup());
+                        console.log(err), console.log((await import("./1")).backup());
                     });
                 }
             });
