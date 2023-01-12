@@ -4,7 +4,6 @@
             "syntax": "ecmascript",
             "jsx": false
         },
-        "target": "es2015",
         "loose": false,
         "minify": {
             "compress": false,
@@ -17,6 +16,7 @@
     "minify": false,
     "isModule": true,
     "env": {
-        "mode": "usage"
+        "mode": "usage",
+        "coreJs": "3.26.1"
     }
 }
