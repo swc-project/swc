@@ -273,9 +273,10 @@ impl Compiler {
             match input_src_map {
                 InputSourceMap::Bool(false) => Ok(None),
                 InputSourceMap::Bool(true) => {
-                    let s = "sourceMappingURL=";
-                    let idx = fm.src.rfind(s);
-                    let src_mapping_url = idx.map(|idx| &fm.src[idx + s.len()..]);
+                    const NEEDLE: &str = "sourceMappingURL=";
+
+                    let idx = fm.src.rfind(NEEDLE);
+                    let src_mapping_url = idx.map(|idx| &fm.src[idx + NEEDLE.len()..]);
 
                     // Load original source map if possible
                     match &name {
@@ -327,49 +328,40 @@ impl Compiler {
                         }
                     }
                 }
-                InputSourceMap::Str(ref s) => {
-                    if s == "inline" {
-                        const NEEDLE: &str = "sourceMappingURL=";
-                        // Load inline source map by simple string
-                        // operations
-                        let idx = fm.src.rfind(NEEDLE);
-                        let idx = match idx {
-                            None => bail!(
-                                "failed to parse inline source map: `sourceMappingURL` not found"
-                            ),
-                            Some(v) => v,
-                        };
-                        let data_url = fm.src[idx + NEEDLE.len()..].trim();
-                        let url = Url::parse(data_url).with_context(|| {
-                            format!("failed to parse inline source map url\n{}", data_url)
-                        })?;
+                InputSourceMap::Inline => {
+                    const NEEDLE: &str = "sourceMappingURL=";
 
-                        let idx = match url.path().find("base64,") {
-                            Some(v) => v,
-                            None => {
-                                bail!("failed to parse inline source map: not base64: {:?}", url)
-                            }
-                        };
+                    // Load inline source map by simple string operations
+                    let idx = fm.src.rfind(NEEDLE);
+                    let idx = match idx {
+                        None => {
+                            bail!("failed to parse inline source map: `sourceMappingURL` not found")
+                        }
+                        Some(v) => v,
+                    };
+                    let src_mapping_url = fm.src[idx + NEEDLE.len()..].trim();
+                    let url = Url::parse(src_mapping_url).with_context(|| {
+                        format!("failed to parse inline source map url\n{}", src_mapping_url)
+                    })?;
 
-                        let content = url.path()[idx + "base64,".len()..].trim();
+                    let idx = match url.path().find("base64,") {
+                        Some(v) => v,
+                        None => {
+                            bail!("failed to parse inline source map: not base64: {:?}", url)
+                        }
+                    };
 
-                        let res = base64::decode_config(
-                            content.as_bytes(),
-                            base64::Config::new(base64::CharacterSet::Standard, true),
-                        )
-                        .context("failed to decode base64-encoded source map")?;
+                    let content = url.path()[idx + "base64,".len()..].trim();
 
-                        Ok(Some(sourcemap::SourceMap::from_slice(&res).context(
-                            "failed to read input source map from inlined base64 encoded string",
-                        )?))
-                    } else {
-                        // Load source map passed by user
-                        Ok(Some(
-                            sourcemap::SourceMap::from_slice(s.as_bytes()).context(
-                                "failed to read input source map from user-provided sourcemap",
-                            )?,
-                        ))
-                    }
+                    let res = base64::decode_config(
+                        content.as_bytes(),
+                        base64::Config::new(base64::CharacterSet::Standard, true),
+                    )
+                    .context("failed to decode base64-encoded source map")?;
+
+                    Ok(Some(sourcemap::SourceMap::from_slice(&res).context(
+                        "failed to read input source map from inlined base64 encoded string",
+                    )?))
                 }
             }
         })
@@ -442,6 +434,7 @@ impl Compiler {
         output_path: Option<PathBuf>,
         inline_sources_content: bool,
         target: EsVersion,
+        source_map_path: Option<PathBuf>,
         source_map: SourceMapsConfig,
         source_map_names: &AHashMap<BytePos, JsWord>,
         orig: Option<&sourcemap::SourceMap>,
@@ -505,33 +498,37 @@ impl Compiler {
             }
 
             let (code, map) = match source_map {
-                SourceMapsConfig::Bool(v) => {
-                    if v {
-                        let mut buf = vec![];
+                SourceMapsConfig::Bool(false) => (src, None),
+                SourceMapsConfig::Bool(true) | SourceMapsConfig::Linked => {
+                    let mut buf = vec![];
 
-                        self.cm
-                            .build_source_map_with_config(
-                                &src_map_buf,
-                                orig,
-                                SwcSourceMapConfig {
-                                    source_file_name,
-                                    output_path: output_path.as_deref(),
-                                    names: source_map_names,
-                                    inline_sources_content,
-                                    emit_columns: emit_source_map_columns,
-                                },
-                            )
-                            .to_writer(&mut buf)
-                            .context("failed to write source map")?;
-                        let map = String::from_utf8(buf).context("source map is not utf-8")?;
+                    self.cm
+                        .build_source_map_with_config(
+                            &src_map_buf,
+                            orig,
+                            SwcSourceMapConfig {
+                                source_file_name,
+                                output_path: output_path.as_deref(),
+                                names: source_map_names,
+                                inline_sources_content,
+                                emit_columns: emit_source_map_columns,
+                            },
+                        )
+                        .to_writer(&mut buf)
+                        .context("failed to write source map")?;
+                    let map = String::from_utf8(buf).context("source map is not utf-8")?;
+
+                    if source_map == SourceMapsConfig::Linked {
+                        let mut src = src;
+                        src.push_str("\n//# sourceMappingURL=");
+                        src.push_str(&source_map_path.unwrap().to_string_lossy());
+
                         (src, Some(map))
                     } else {
-                        (src, None)
+                        (src, Some(map))
                     }
                 }
-                SourceMapsConfig::Str(_) => {
-                    let mut src = src;
-
+                SourceMapsConfig::Inline => {
                     let mut buf = vec![];
 
                     self.cm
@@ -550,6 +547,7 @@ impl Compiler {
                         .context("failed to write source map file")?;
                     let map = String::from_utf8(buf).context("source map is not utf-8")?;
 
+                    let mut src = src;
                     src.push_str("\n//# sourceMappingURL=data:application/json;base64,");
                     base64::encode_config_buf(
                         map.as_bytes(),
@@ -903,6 +901,7 @@ impl Compiler {
                 target: config.target,
                 minify: config.minify,
                 external_helpers: config.external_helpers,
+                source_map_path: config.source_map_path,
                 source_maps: config.source_maps,
                 input_source_map: config.input_source_map,
                 is_module: config.is_module,
@@ -1086,6 +1085,7 @@ impl Compiler {
                 opts.output_path.clone().map(From::from),
                 opts.inline_sources_content,
                 target,
+                None,
                 source_map,
                 &source_map_names,
                 orig.as_ref(),
@@ -1160,6 +1160,7 @@ impl Compiler {
                 config.output_path,
                 config.inline_sources_content,
                 config.target,
+                config.source_map_path,
                 config.source_maps,
                 &source_map_names,
                 orig,

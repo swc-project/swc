@@ -1,0 +1,13 @@
+{
+  "mappings": "AAAA,IAAMA,MAAM",
+  "names": [
+    "foo"
+  ],
+  "sources": [
+    "../../input/index.js"
+  ],
+  "sourcesContent": [
+    "const foo = \"bar\";"
+  ],
+  "version": 3
+}

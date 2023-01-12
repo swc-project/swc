@@ -93,7 +93,7 @@ fn inline(f: &str) -> Result<(), StdErr> {
                         ..Default::default()
                     },
                     swcrc: true,
-                    source_maps: Some(SourceMapsConfig::Str(String::from("inline"))),
+                    source_maps: Some(SourceMapsConfig::Inline),
                     ..Default::default()
                 },
             )
@@ -120,6 +120,7 @@ fn inline(f: &str) -> Result<(), StdErr> {
         );
     })
 }
+
 #[test]
 fn issue_706() {
     inline("tests/srcmap/issue-706/index.js").unwrap();
@@ -170,7 +171,7 @@ fn stacktrace(input_dir: PathBuf) {
                             ..Default::default()
                         },
                         swcrc: true,
-                        source_maps: Some(SourceMapsConfig::Str("inline".to_string())),
+                        source_maps: Some(SourceMapsConfig::Inline),
                         ..Default::default()
                     },
                 ) {
@@ -421,7 +422,7 @@ fn issue_4578() {
     file(
         "tests/srcmap/issue-4578/after-babel.js",
         Config {
-            input_source_map: Some(InputSourceMap::Str("inline".into())),
+            input_source_map: Some(InputSourceMap::Inline),
             ..Default::default()
         },
     )

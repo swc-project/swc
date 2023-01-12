@@ -760,6 +760,7 @@ fn should_visit() {
                 target: config.target,
                 minify: config.minify,
                 external_helpers: config.external_helpers,
+                source_map_path: config.source_map_path,
                 source_maps: config.source_maps,
                 input_source_map: config.input_source_map,
                 is_module: config.is_module,
@@ -795,6 +796,7 @@ fn should_visit() {
                 config.output_path,
                 config.inline_sources_content,
                 config.target,
+                config.source_map_path,
                 config.source_maps,
                 &Default::default(),
                 None,
@@ -849,6 +851,7 @@ fn tests(input_dir: PathBuf) {
                     &Options {
                         swcrc: true,
                         output_path: Some(output.join(entry.file_name())),
+                        source_map_path: Some("index.map".into()),
                         config: Config {
                             is_module: IsModule::Bool(true),
                             jsc: JscConfig {

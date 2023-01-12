@@ -92,6 +92,7 @@ fn pass(input_dir: PathBuf) {
                             None,
                             false,
                             EsVersion::Es2020,
+                            None,
                             SourceMapsConfig::Bool(false),
                             &Default::default(),
                             None,

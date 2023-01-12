@@ -116,6 +116,7 @@ fn bench_codegen(b: &mut Bencher, _target: EsVersion) {
                     None,
                     false,
                     EsVersion::Es2020,
+                    None,
                     SourceMapsConfig::Bool(false),
                     &Default::default(),
                     None,

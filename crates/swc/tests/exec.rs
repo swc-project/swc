@@ -144,10 +144,17 @@ fn create_matrix(entry: &Path) -> Vec<Options> {
     })
     .matrix_bool()
     .matrix_bool()
-    .matrix_bool()
+    .matrix(|| {
+        vec![
+            SourceMapsConfig::Bool(false),
+            SourceMapsConfig::Bool(true),
+            SourceMapsConfig::Inline,
+            SourceMapsConfig::Linked,
+        ]
+    })
     .into_iter()
     .map(
-        |((((target, syntax), minify), external_helpers), source_map)| {
+        |((((target, syntax), minify), external_helpers), source_maps)| {
             // Actual
             Options {
                 config: Config {
@@ -186,11 +193,15 @@ fn create_matrix(entry: &Path) -> Vec<Options> {
                     minify: minify.into(),
                     ..Default::default()
                 },
-                source_maps: if source_map {
-                    Some(SourceMapsConfig::Str("inline".into()))
+                source_map_path: if source_maps.enabled() {
+                    Some(entry.with_extension(format!(
+                        "{}.map",
+                        entry.extension().unwrap().to_string_lossy(),
+                    )))
                 } else {
                     None
                 },
+                source_maps: Some(source_maps),
                 ..Default::default()
             }
         },

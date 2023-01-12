@@ -1,0 +1,3 @@
+var foo = "bar";
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL2lucHV0L2luZGV4LmpzIl0sInNvdXJjZXNDb250ZW50IjpbImNvbnN0IGZvbyA9IFwiYmFyXCI7Il0sIm5hbWVzIjpbImZvbyJdLCJtYXBwaW5ncyI6IkFBQUEsSUFBTUEsTUFBTSJ9
