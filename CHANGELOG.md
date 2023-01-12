@@ -1,6 +1,14 @@
 # Changelog
 ## [unreleased]
 
+### Testing
+
+
+
+- **(es/compat)** Add a test to verify parameters passs (#6792) ([7dc5ccb](https://github.com/swc-project/swc/commit/7dc5ccb0fc217abdb7ab4e76ac7f646c5087b3a8))
+
+## [1.3.26] - 2023-01-11
+
 ### Bug Fixes
 
 
