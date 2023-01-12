@@ -1,3 +1,4 @@
+use rayon::prelude::{IntoParallelIterator, ParallelIterator};
 use swc_common::util::move_map::MoveMap;
 #[cfg(feature = "concurrent")]
 use swc_common::{errors::HANDLER, GLOBALS};
@@ -108,38 +109,24 @@ where
         N: Send + Sync + VisitMutWith<Self>,
     {
         if nodes.len() >= threshold || option_env!("SWC_FORCE_CONCURRENT") == Some("1") {
-            GLOBALS.with(|globals| {
-                HELPERS.with(|helpers| {
-                    HANDLER.with(|handler| {
-                        use rayon::prelude::*;
+            let visitor = nodes
+                .into_par_iter()
+                .map(|node| {
+                    let mut visitor = Parallel::create(&*self);
+                    node.visit_mut_with(&mut visitor);
 
-                        let visitor = nodes
-                            .into_par_iter()
-                            .map(|node| {
-                                GLOBALS.set(globals, || {
-                                    HELPERS.set(helpers, || {
-                                        HANDLER.set(handler, || {
-                                            let mut visitor = Parallel::create(&*self);
-                                            node.visit_mut_with(&mut visitor);
-
-                                            visitor
-                                        })
-                                    })
-                                })
-                            })
-                            .reduce(
-                                || Parallel::create(&*self),
-                                |mut a, b| {
-                                    Parallel::merge(&mut a, b);
-
-                                    a
-                                },
-                            );
-
-                        Parallel::merge(self, visitor);
-                    })
+                    visitor
                 })
-            });
+                .reduce(
+                    || Parallel::create(&*self),
+                    |mut a, b| {
+                        Parallel::merge(&mut a, b);
+
+                        a
+                    },
+                );
+
+            Parallel::merge(self, visitor);
 
             return;
         }
