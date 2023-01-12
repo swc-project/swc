@@ -1,6 +1,6 @@
+#[cfg(feature = "concurrent")]
 use rayon::prelude::{IntoParallelIterator, ParallelIterator};
 use swc_common::util::move_map::MoveMap;
-#[cfg(feature = "concurrent")]
 use swc_ecma_ast::*;
 pub use swc_ecma_utils::parallel::*;
 use swc_ecma_visit::{Fold, FoldWith, Visit, VisitMut, VisitMutWith, VisitWith};
