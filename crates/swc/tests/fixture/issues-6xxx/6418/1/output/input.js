@@ -1,2 +1,2 @@
-var foo = function o() {};
+var foo = function foo() {};
 console.log("PASS");
