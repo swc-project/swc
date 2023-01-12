@@ -486,7 +486,7 @@ var DerivedWithObjectAccessors = /*#__PURE__*/ function(Base) {
         var _this;
         var obj = {
             get prop () {
-                return _possible_constructor_return(_this, true);
+                return true;
             },
             set prop (param){
                 _this._prop = param;
@@ -509,7 +509,7 @@ var DerivedWithObjectAccessorsUsingThisInKeys = /*#__PURE__*/ function(Base) {
         var obj = (_obj = {
             _prop: "prop"
         }, _mutatorMap[_this.propName] = _mutatorMap[_this.propName] || {}, _mutatorMap[_this.propName].get = function() {
-            return _possible_constructor_return(_this, true);
+            return true;
         }, _mutatorMap[_this.propName] = _mutatorMap[_this.propName] || {}, _mutatorMap[_this.propName].set = function(param1) {
             _this._prop = param1;
         }, _define_enumerable_properties(_obj, _mutatorMap), _obj);
@@ -529,7 +529,7 @@ var DerivedWithObjectAccessorsUsingThisInBodies = /*#__PURE__*/ function(Base) {
         var obj = {
             _prop: "prop",
             get prop () {
-                return _possible_constructor_return(_this, _this._prop);
+                return _this._prop;
             },
             set prop (param){
                 _this._prop = param;
