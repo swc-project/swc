@@ -1,13 +1,9 @@
 use rayon::prelude::{IntoParallelIterator, ParallelIterator};
 use swc_common::util::move_map::MoveMap;
 #[cfg(feature = "concurrent")]
-use swc_common::{errors::HANDLER, GLOBALS};
 use swc_ecma_ast::*;
 pub use swc_ecma_utils::parallel::*;
 use swc_ecma_visit::{Fold, FoldWith, Visit, VisitMut, VisitMutWith, VisitWith};
-
-#[cfg(feature = "concurrent")]
-use crate::helpers::HELPERS;
 
 pub trait Check: Visit + Default {
     fn should_handle(&self) -> bool;
@@ -51,38 +47,26 @@ where
         N: Send + Sync + VisitWith<Self>,
     {
         if nodes.len() >= threshold || option_env!("SWC_FORCE_CONCURRENT") == Some("1") {
-            GLOBALS.with(|globals| {
-                HELPERS.with(|helpers| {
-                    HANDLER.with(|handler| {
-                        use rayon::prelude::*;
+            use rayon::prelude::*;
 
-                        let visitor = nodes
-                            .into_par_iter()
-                            .map(|node| {
-                                GLOBALS.set(globals, || {
-                                    HELPERS.set(helpers, || {
-                                        HANDLER.set(handler, || {
-                                            let mut visitor = Parallel::create(&*self);
-                                            node.visit_with(&mut visitor);
+            let visitor = nodes
+                .into_par_iter()
+                .map(|node| {
+                    let mut visitor = Parallel::create(&*self);
+                    node.visit_with(&mut visitor);
 
-                                            visitor
-                                        })
-                                    })
-                                })
-                            })
-                            .reduce(
-                                || Parallel::create(&*self),
-                                |mut a, b| {
-                                    Parallel::merge(&mut a, b);
-
-                                    a
-                                },
-                            );
-
-                        Parallel::merge(self, visitor);
-                    })
+                    visitor
                 })
-            });
+                .reduce(
+                    || Parallel::create(&*self),
+                    |mut a, b| {
+                        Parallel::merge(&mut a, b);
+
+                        a
+                    },
+                );
+
+            Parallel::merge(self, visitor);
 
             return;
         }
@@ -155,46 +139,34 @@ where
         if nodes.len() >= threshold || option_env!("SWC_FORCE_CONCURRENT") == Some("1") {
             use rayon::prelude::*;
 
-            let (visitor, nodes) = GLOBALS.with(|globals| {
-                HELPERS.with(|helpers| {
-                    HANDLER.with(|handler| {
-                        nodes
-                            .into_par_iter()
-                            .map(|node| {
-                                GLOBALS.set(globals, || {
-                                    HELPERS.set(helpers, || {
-                                        HANDLER.set(handler, || {
-                                            let mut visitor = Parallel::create(&*self);
-                                            let node = node.fold_with(&mut visitor);
+            let (visitor, nodes) = nodes
+                .into_par_iter()
+                .map(|node| {
+                    let mut visitor = Parallel::create(&*self);
+                    let node = node.fold_with(&mut visitor);
 
-                                            (visitor, node)
-                                        })
-                                    })
-                                })
-                            })
-                            .fold(
-                                || (Parallel::create(&*self), vec![]),
-                                |mut a, b| {
-                                    Parallel::merge(&mut a.0, b.0);
-
-                                    a.1.push(b.1);
-
-                                    a
-                                },
-                            )
-                            .reduce(
-                                || (Parallel::create(&*self), vec![]),
-                                |mut a, b| {
-                                    Parallel::merge(&mut a.0, b.0);
-
-                                    a.1.extend(b.1);
-
-                                    a
-                                },
-                            )
-                    })
+                    (visitor, node)
                 })
-            });
+                .fold(
+                    || (Parallel::create(&*self), vec![]),
+                    |mut a, b| {
+                        Parallel::merge(&mut a.0, b.0);
+
+                        a.1.push(b.1);
+
+                        a
+                    },
+                )
+                .reduce(
+                    || (Parallel::create(&*self), vec![]),
+                    |mut a, b| {
+                        Parallel::merge(&mut a.0, b.0);
+
+                        a.1.extend(b.1);
+
+                        a
+                    },
+                );
 
             Parallel::merge(self, visitor);
 
