@@ -25,6 +25,7 @@ pub enum VarPos {
     Ident,
     Expr,
     Pat,
+    Str,
 }
 
 #[derive(Debug)]
@@ -137,6 +138,7 @@ pub(super) fn prepare_vars(
                 VarPos::Ident => "Ident",
                 VarPos::Expr => "Expr",
                 VarPos::Pat => "Pat",
+                VarPos::Str => "Str",
             },
             call_site(),
         );
