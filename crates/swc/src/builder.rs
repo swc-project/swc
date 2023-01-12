@@ -24,9 +24,9 @@ use swc_ecma_transforms::{
     modules,
     optimization::const_modules,
     pass::Optional,
-    Assumptions,
+    resolver, Assumptions,
 };
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut, VisitMutWith};
 
 use crate::config::{CompiledPaths, GlobalPassOption, JsMinifyOptions, ModuleConfig};
 
@@ -407,6 +407,13 @@ impl VisitMut for MinifierPass {
             if opts.compress.is_none() && opts.mangle.is_none() {
                 return;
             }
+
+            m.visit_mut_with(&mut hygiene());
+            m.visit_mut_with(&mut resolver(
+                self.unresolved_mark,
+                self.top_level_mark,
+                false,
+            ));
 
             m.map_with_mut(|m| {
                 swc_ecma_minifier::optimize(

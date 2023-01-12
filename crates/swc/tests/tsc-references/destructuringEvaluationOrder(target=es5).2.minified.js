@@ -10,13 +10,13 @@ var trace = [], order = function(n) {
 (void 0 === tmp ? order(0) : tmp)[order(1)];
 var tmp1 = {};
 (void 0 === tmp1 ? order(0) : tmp1)[order(1)];
-var _ref = {}, _order = order(0), _order1 = order(2), tmp2 = _ref[_order];
-(void 0 === tmp2 ? order(1) : tmp2)[_order1], _object_without_properties(_ref, [
+var _ref3 = {}, _order = order(0), _order1 = order(2), tmp2 = _ref3[_order];
+(void 0 === tmp2 ? order(1) : tmp2)[_order1], _object_without_properties(_ref3, [
     _order
 ].map(_to_property_key));
-var _ref1 = [
+var _ref5 = [
     {
         x: 1
     }
-], _ref2 = _sliced_to_array(_ref1, 2);
-_object_destructuring_empty(_ref2[0]), _ref2[1], _extends({}, _object_destructuring_empty(_ref1[0]));
+], _ref6 = _sliced_to_array(_ref5, 2);
+_object_destructuring_empty(_ref6[0]), _ref6[1], _extends({}, _object_destructuring_empty(_ref5[0]));

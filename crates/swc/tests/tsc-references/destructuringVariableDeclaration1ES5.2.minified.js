@@ -12,12 +12,12 @@ var tmp = {
 (void 0 === tmp ? {
     b11: "string"
 } : tmp).b11;
-var _ref1 = [
+var _ref2 = [
     void 0,
     void 0,
     void 0
 ];
-_ref1[0], _ref1[1], _ref1[2];
+_ref2[0], _ref2[1], _ref2[2];
 var _concat = _sliced_to_array([
     1,
     "string"

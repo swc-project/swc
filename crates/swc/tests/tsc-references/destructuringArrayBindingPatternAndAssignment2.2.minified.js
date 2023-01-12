@@ -1,10 +1,10 @@
 //// [destructuringArrayBindingPatternAndAssignment2.ts]
 import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
 import _to_consumable_array from "@swc/helpers/src/_to_consumable_array.mjs";
-var _ref_ = (_sliced_to_array([][0], 1)[0], _sliced_to_array([][1], 1));
-_sliced_to_array(_ref_[0], 1)[0];
-var _undefined = _sliced_to_array(void 0, 2), _undefined_ = (_sliced_to_array(_undefined[0], 1)[0], _sliced_to_array(_undefined[1], 1));
-_sliced_to_array(_undefined_[0], 1)[0];
+var _ref_1 = (_sliced_to_array([][0], 1)[0], _sliced_to_array([][1], 1));
+_sliced_to_array(_ref_1[0], 1)[0];
+var _undefined = _sliced_to_array(void 0, 2), _undefined_1 = (_sliced_to_array(_undefined[0], 1)[0], _sliced_to_array(_undefined[1], 1));
+_sliced_to_array(_undefined_1[0], 1)[0];
 var _bar = _sliced_to_array([
     1,
     2,
