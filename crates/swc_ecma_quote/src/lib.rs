@@ -46,12 +46,13 @@ mod clone;
 /// ## Typed variables
 ///
 /// As this macro generates static AST, it can't substitute variables if an
-/// ideitifier is not allowed in such position. In other words, this macro only
+/// identifier is not allowed in such position. In other words, this macro only
 /// supports substituting
 ///
-///  - Ident
-///  - Expr
-///  - Pat
+///  - [swc_ecma_ast::Ident]
+///  - [swc_ecma_ast::Expr]
+///  - [swc_ecma_ast::Pat]
+///  - [swc_ecma_ast::Str]
 ///
 /// You can use it like
 ///
@@ -81,6 +82,22 @@ mod clone;
 /// Ident::new("ref".into(), DUMMY_SP));
 ///
 /// // Tip: Use private_ident!("ref") for real identifiers.
+/// ```
+///
+/// ## Using `Str`
+///
+/// The grammar is `"$var_name"`.
+///
+/// ```rust
+/// use swc_common::DUMMY_SP;
+/// use swc_ecma_ast::Str;
+/// use swc_ecma_quote::quote;
+///
+/// // This will return ast for `import thing from "foo";`
+/// let _stmt = quote!(
+///                 "import thing from \"$thing\";" as ModuleItem,
+///                 thing: Str = "foo".into(),
+///             );
 /// ```
 #[macro_export]
 macro_rules! quote {
