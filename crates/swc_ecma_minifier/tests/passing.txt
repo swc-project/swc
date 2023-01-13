@@ -689,6 +689,7 @@ harmony/import_statement/input.js
 harmony/import_statement_mangling/input.js
 harmony/issue_1613/input.js
 harmony/issue_1753/input.js
+harmony/issue_1753_disable/input.js
 harmony/issue_1898/input.js
 harmony/issue_2028/input.js
 harmony/issue_2345/input.js
@@ -766,6 +767,7 @@ identity/inline_identity_regression/input.js
 identity/inline_identity_undefined/input.js
 ie8/do_screw/input.js
 ie8/do_screw_constants/input.js
+ie8/do_screw_try_catch/input.js
 ie8/dont_screw/input.js
 ie8/dont_screw_constants/input.js
 ie8/issue_1586_2/input.js

@@ -193,7 +193,6 @@ harmony/classes_extending_classes_out_of_pure_iifes/input.js
 harmony/default_assign/input.js
 harmony/expansion/input.js
 harmony/inline_arrow_using_arguments/input.js
-harmony/issue_1753_disable/input.js
 harmony/issue_2349b/input.js
 harmony/issue_2794_1/input.js
 harmony/issue_2794_2/input.js
