@@ -138,20 +138,43 @@ impl Visit for Analyzer {
     }
 
     fn visit_catch_clause(&mut self, n: &CatchClause) {
-        self.with_scope(ScopeKind::Block, |v| {
-            let old = v.is_pat_decl;
-            let old_in_catch_params = v.in_catch_params;
+        if self.safari_10 {
+            let old_is_pat_decl = self.is_pat_decl;
+            let old_in_catch_params = self.in_catch_params;
 
-            v.is_pat_decl = false;
-            n.body.visit_children_with(v);
+            self.is_pat_decl = true;
+            self.in_catch_params = true;
+            n.param.visit_with(self);
 
-            v.is_pat_decl = true;
-            v.in_catch_params = true;
-            n.param.visit_with(v);
+            self.in_catch_params = old_in_catch_params;
+            self.is_pat_decl = old_is_pat_decl;
 
-            v.is_pat_decl = old;
-            v.in_catch_params = old_in_catch_params;
-        })
+            self.with_scope(ScopeKind::Block, |v| {
+                let old = v.is_pat_decl;
+                let old_in_catch_params = v.in_catch_params;
+
+                v.is_pat_decl = false;
+                n.body.visit_children_with(v);
+
+                v.is_pat_decl = old;
+                v.in_catch_params = old_in_catch_params;
+            })
+        } else {
+            self.with_scope(ScopeKind::Block, |v| {
+                let old = v.is_pat_decl;
+                let old_in_catch_params = v.in_catch_params;
+
+                v.is_pat_decl = false;
+                n.body.visit_children_with(v);
+
+                v.is_pat_decl = true;
+                v.in_catch_params = true;
+                n.param.visit_with(v);
+
+                v.is_pat_decl = old;
+                v.in_catch_params = old_in_catch_params;
+            })
+        }
     }
 
     fn visit_class_decl(&mut self, c: &ClassDecl) {
