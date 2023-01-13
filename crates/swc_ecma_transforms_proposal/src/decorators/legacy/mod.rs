@@ -1,3 +1,5 @@
+use std::iter::once;
+
 use swc_atoms::JsWord;
 use swc_common::{collections::AHashMap, util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -161,7 +163,7 @@ impl TscDecorator {
         decorators: impl IntoIterator<Item = Box<Expr>>,
         target: ExprOrSpread,
         key: ExprOrSpread,
-        desc: ExprOrSpread,
+        desc: Option<ExprOrSpread>,
     ) {
         let decorators = ArrayLit {
             span: DUMMY_SP,
@@ -176,7 +178,11 @@ impl TscDecorator {
         self.appended_exprs.push(Box::new(Expr::Call(CallExpr {
             span: DUMMY_SP,
             callee: helper!(ts, ts_decorate, "__decorate"),
-            args: vec![decorators, target, key, desc],
+            args: once(decorators)
+                .chain(once(target))
+                .chain(once(key))
+                .chain(desc)
+                .collect(),
             type_args: Default::default(),
         })));
     }
@@ -327,7 +333,7 @@ impl VisitMut for TscDecorator {
                     c.function.decorators.drain(..).map(|d| d.expr),
                     target,
                     key.as_arg(),
-                    Lit::Null(Null::dummy()).as_arg(),
+                    None,
                 );
             }
         }
@@ -350,7 +356,7 @@ impl VisitMut for TscDecorator {
                     c.decorators.drain(..).map(|d| d.expr),
                     target,
                     key.as_arg(),
-                    undefined(DUMMY_SP).as_arg(),
+                    Some(undefined(DUMMY_SP).as_arg()),
                 );
 
                 if !self.use_define_for_class_fields && !c.is_static {
