@@ -113,6 +113,7 @@ where
     {
         let mut scope = {
             let mut v = Analyzer {
+                safari_10: self.config.safari_10,
                 ..Default::default()
             };
             if skip_one {

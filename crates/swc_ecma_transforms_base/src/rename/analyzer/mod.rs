@@ -8,6 +8,8 @@ pub(super) mod scope;
 
 #[derive(Debug, Default)]
 pub(super) struct Analyzer {
+    pub safari_10: bool,
+
     pub is_pat_decl: bool,
     pub var_belong_to_fn_scope: bool,
     pub in_catch_params: bool,
@@ -42,6 +44,8 @@ impl Analyzer {
     {
         {
             let mut v = Analyzer {
+                safari_10: self.safari_10,
+
                 scope: Scope {
                     kind,
                     ..Default::default()
