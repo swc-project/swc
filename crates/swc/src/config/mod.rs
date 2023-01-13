@@ -554,6 +554,7 @@ impl Options {
                 experimental.plugins,
                 transform_metadata_context,
                 Some(plugin_resolver),
+                cfg.config_filename,
                 comments,
                 source_map,
                 unresolved_mark,
@@ -587,6 +588,7 @@ impl Options {
             crate::plugin::plugins(
                 experimental.plugins,
                 transform_metadata_context,
+                None,
                 None,
                 comments,
                 source_map,
@@ -817,6 +819,23 @@ impl Rc {
 
         bail!(".swcrc exists but not matched")
     }
+
+    pub fn with_config_filename(self, config_filename: FileName) -> Self {
+        match self {
+            Rc::Single(mut c) => {
+                c.config_filename = Some(config_filename);
+                Rc::Single(c)
+            }
+            Rc::Multi(cs) => Rc::Multi(
+                cs.into_iter()
+                    .map(|mut c| {
+                        c.config_filename = Some(config_filename.clone());
+                        c
+                    })
+                    .collect(),
+            ),
+        }
+    }
 }
 
 /// A single object in the `.swcrc` file
@@ -862,6 +881,9 @@ pub struct Config {
 
     #[serde(rename = "$schema")]
     pub schema: Option<String>,
+
+    #[serde(skip)]
+    pub config_filename: Option<FileName>,
 }
 
 /// Second argument of `minify`.
