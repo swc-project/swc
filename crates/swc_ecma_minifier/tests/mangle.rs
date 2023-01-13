@@ -374,14 +374,13 @@ fn safari_10_1() {
         }
       }";
 
-    let expected = "";
+    let expected = "class s{foo(s){try{}catch({message:a}){}}}";
 
     assert_mangled(
         src,
         expected,
         MangleOptions {
             top_level: Some(true),
-            keep_private_props: true,
             safari10: true,
             ..Default::default()
         },
