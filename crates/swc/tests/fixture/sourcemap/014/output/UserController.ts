@@ -31,7 +31,7 @@ _ts_decorate([
     _ts_metadata("design:paramtypes", [
         typeof CreateUserDto === "undefined" ? Object : CreateUserDto
     ])
-], UserController.prototype, "signup", null);
+], UserController.prototype, "signup");
 _ts_decorate([
     UseGuards(JwtAuthGuard),
     Put(USER_UPDATE_ENDPOINT),
@@ -44,7 +44,7 @@ _ts_decorate([
         typeof UpdateUserDto === "undefined" ? Object : UpdateUserDto,
         typeof UserType === "undefined" ? Object : UserType
     ])
-], UserController.prototype, "update", null);
+], UserController.prototype, "update");
 UserController = _ts_decorate([
     Controller(USER_CONTROLLER_ROUTE),
     UseInterceptors(MongooseClassSerializerInterceptor(UserType)),

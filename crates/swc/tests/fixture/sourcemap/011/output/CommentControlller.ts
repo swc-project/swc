@@ -33,7 +33,7 @@ _ts_decorate([
         typeof UpdateCommentDto === "undefined" ? Object : UpdateCommentDto,
         typeof UserType === "undefined" ? Object : UserType
     ])
-], CommentController.prototype, "updateComment", null);
+], CommentController.prototype, "updateComment");
 _ts_decorate([
     UseGuards(JwtAuthGuard),
     Delete(COMMENT_DELETE_ENDPOINT),
@@ -44,7 +44,7 @@ _ts_decorate([
         String,
         typeof UserType === "undefined" ? Object : UserType
     ])
-], CommentController.prototype, "deleteComment", null);
+], CommentController.prototype, "deleteComment");
 CommentController = _ts_decorate([
     Controller(COMMENT_CONTROLLER_ROUTE),
     UseInterceptors(MongooseClassSerializerInterceptor(Comment)),

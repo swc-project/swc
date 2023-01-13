@@ -29,7 +29,7 @@ _tsDecorate([
     (0, _common.Get)(),
     _tsMetadata("design:type", Function),
     _tsMetadata("design:paramtypes", [])
-], AppController.prototype, "getHello", null);
+], AppController.prototype, "getHello");
 _tsDecorate([
     (0, _common.Post)(),
     _tsParam(0, (0, _common.Body)()),
@@ -37,7 +37,7 @@ _tsDecorate([
     _tsMetadata("design:paramtypes", [
         typeof _createUserDto.CreateUserDto === "undefined" ? Object : _createUserDto.CreateUserDto
     ])
-], AppController.prototype, "create", null);
+], AppController.prototype, "create");
 AppController = _tsDecorate([
     (0, _common.Controller)(),
     _tsMetadata("design:type", Function),

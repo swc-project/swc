@@ -11,4 +11,4 @@ class Cls {
 }
 _tsDecorate([
     Memoize()
-], Cls.prototype, _key, null);
+], Cls.prototype, _key);

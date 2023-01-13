@@ -41,7 +41,7 @@ _ts_decorate([
     Get(POST_GET_ALL_ENDPOINT),
     _ts_metadata("design:type", Function),
     _ts_metadata("design:paramtypes", [])
-], PostController.prototype, "getPosts", null);
+], PostController.prototype, "getPosts");
 _ts_decorate([
     Get(POST_GET_ENDPOINT),
     _ts_param(0, Param('id')),
@@ -49,7 +49,7 @@ _ts_decorate([
     _ts_metadata("design:paramtypes", [
         String
     ])
-], PostController.prototype, "getPost", null);
+], PostController.prototype, "getPost");
 _ts_decorate([
     UseGuards(JwtAuthGuard),
     Post(POST_CREATE_ENDPOINT),
@@ -60,7 +60,7 @@ _ts_decorate([
         typeof CreatePostDto === "undefined" ? Object : CreatePostDto,
         typeof UserType === "undefined" ? Object : UserType
     ])
-], PostController.prototype, "createPost", null);
+], PostController.prototype, "createPost");
 _ts_decorate([
     UseGuards(JwtAuthGuard),
     Put(POST_UPDATE_ENDPOINT),
@@ -73,7 +73,7 @@ _ts_decorate([
         typeof CreatePostDto === "undefined" ? Object : CreatePostDto,
         typeof UserType === "undefined" ? Object : UserType
     ])
-], PostController.prototype, "updatePost", null);
+], PostController.prototype, "updatePost");
 _ts_decorate([
     UseGuards(JwtAuthGuard),
     Delete(POST_DELETE_ENDPOINT),
@@ -84,7 +84,7 @@ _ts_decorate([
         String,
         typeof UserType === "undefined" ? Object : UserType
     ])
-], PostController.prototype, "deletePost", null);
+], PostController.prototype, "deletePost");
 _ts_decorate([
     UseInterceptors(MongooseClassSerializerInterceptor(Comment)),
     UseGuards(JwtAuthGuard),
@@ -98,7 +98,7 @@ _ts_decorate([
         typeof CreateCommentDto === "undefined" ? Object : CreateCommentDto,
         typeof UserType === "undefined" ? Object : UserType
     ])
-], PostController.prototype, "createPostComment", null);
+], PostController.prototype, "createPostComment");
 PostController = _ts_decorate([
     Controller(POST_CONTROLLER_ROUTE),
     UseInterceptors(MongooseClassSerializerInterceptor(PostType)),

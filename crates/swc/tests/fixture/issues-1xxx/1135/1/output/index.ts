@@ -21,4 +21,4 @@ class MyClass extends _module().Class {
 }
 _tsDecorate()([
     _module().Class.Decorator()
-], MyClass.prototype, "method", null);
+], MyClass.prototype, "method");

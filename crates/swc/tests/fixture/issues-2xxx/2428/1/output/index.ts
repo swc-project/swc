@@ -22,7 +22,7 @@ _tsDecorate([
     _tsMetadata("design:paramtypes", [
         Boolean
     ])
-], Foo.prototype, "fnName1", null);
+], Foo.prototype, "fnName1");
 _tsDecorate([
     _tsParam(0, Arg("GraphQLArgName", {
         nullable: true
@@ -31,4 +31,4 @@ _tsDecorate([
     _tsMetadata("design:paramtypes", [
         Boolean
     ])
-], Foo.prototype, "fnName2", null);
+], Foo.prototype, "fnName2");
