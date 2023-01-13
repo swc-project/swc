@@ -26,6 +26,9 @@
 
 
 
+- **(es)** Enable execution tests for fixed issues (#6805) ([e7ea054](https://github.com/swc-project/swc/commit/e7ea054c6389b43b0e7b104e9337e11a82bb23f7))
+
+
 - **(es/compat)** Add a test to verify parameters passs (#6792) ([7dc5ccb](https://github.com/swc-project/swc/commit/7dc5ccb0fc217abdb7ab4e76ac7f646c5087b3a8))
 
 
