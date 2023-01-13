@@ -1,0 +1,13 @@
+{
+    "$schema": "https://json.schemastore.org/swcrc",
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "tsx": true,
+            "dynamicImport": true,
+            "decorators": true
+        },
+        "target": "es5"
+    },
+    "minify": false
+}
