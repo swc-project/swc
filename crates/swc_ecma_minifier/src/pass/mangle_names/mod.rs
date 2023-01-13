@@ -23,7 +23,13 @@ pub(crate) fn name_mangler(
             n: Default::default(),
         },
         self::private_name::private_name_mangler(options.keep_private_props, chars),
-        renamer(Default::default(), ManglingRenamer { chars, preserved })
+        renamer(
+            swc_ecma_transforms_base::hygiene::Config {
+                keep_class_names: options.keep_class_names,
+                safari_10: options.safari10,
+            },
+            ManglingRenamer { chars, preserved }
+        )
     )
 }
 
