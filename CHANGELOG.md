@@ -16,6 +16,9 @@
 
 - **(es/quote)** Allow using `Str` as a var (#6797) ([224eff9](https://github.com/swc-project/swc/commit/224eff91eb06808e2c79bb4fbe06ccf46121758f))
 
+
+- **(es/renamer)** Support `safari10` from the name mangler (#6801) ([631dd78](https://github.com/swc-project/swc/commit/631dd7872b78b8698bb4923c1e81a9a8770c1fea))
+
 ### Testing
 
 
