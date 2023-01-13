@@ -12,6 +12,7 @@ use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 use tracing::{debug, span, Level};
 
 use self::{ctx::Ctx, misc::DropOpts};
+use super::util::is_pure_undefined_or_null;
 #[cfg(feature = "debug")]
 use crate::debug::dump;
 use crate::{
@@ -760,6 +761,16 @@ impl VisitMut for Pure<'_> {
 
     fn visit_mut_prop_or_spreads(&mut self, exprs: &mut Vec<PropOrSpread>) {
         self.visit_par(exprs);
+
+        exprs.retain(|e| {
+            if let PropOrSpread::Spread(spread) = e {
+                if is_pure_undefined_or_null(&self.expr_ctx, &spread.expr) {
+                    return false;
+                }
+            }
+
+            true
+        })
     }
 
     fn visit_mut_return_stmt(&mut self, s: &mut ReturnStmt) {
