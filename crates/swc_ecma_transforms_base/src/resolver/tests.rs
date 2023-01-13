@@ -130,6 +130,7 @@ fn issue_1279_1() {
         ",
         Config {
             keep_class_names: true,
+            ..Default::default()
         },
     );
 }
@@ -163,6 +164,7 @@ fn issue_1279_2() {
         ",
         Config {
             keep_class_names: true,
+            ..Default::default()
         },
     );
 }
@@ -182,6 +184,7 @@ fn issue_2516() {
         ",
         Config {
             keep_class_names: true,
+            ..Default::default()
         },
     );
 }
