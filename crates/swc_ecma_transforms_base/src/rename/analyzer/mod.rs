@@ -8,6 +8,8 @@ pub(super) mod scope;
 
 #[derive(Debug, Default)]
 pub(super) struct Analyzer {
+    pub safari_10: bool,
+
     pub is_pat_decl: bool,
     pub var_belong_to_fn_scope: bool,
     pub in_catch_params: bool,
@@ -42,6 +44,8 @@ impl Analyzer {
     {
         {
             let mut v = Analyzer {
+                safari_10: self.safari_10,
+
                 scope: Scope {
                     kind,
                     ..Default::default()
@@ -121,21 +125,56 @@ impl Visit for Analyzer {
         }
     }
 
+    fn visit_block_stmt(&mut self, n: &BlockStmt) {
+        self.with_scope(ScopeKind::Block, |v| n.visit_children_with(v))
+    }
+
+    fn visit_block_stmt_or_expr(&mut self, n: &BlockStmtOrExpr) {
+        match n {
+            // This avoid crating extra block scope for arrow function
+            BlockStmtOrExpr::BlockStmt(n) => n.visit_children_with(self),
+            BlockStmtOrExpr::Expr(n) => n.visit_with(self),
+        }
+    }
+
     fn visit_catch_clause(&mut self, n: &CatchClause) {
-        self.with_scope(ScopeKind::Block, |v| {
-            let old = v.is_pat_decl;
-            let old_in_catch_params = v.in_catch_params;
+        if self.safari_10 {
+            let old_is_pat_decl = self.is_pat_decl;
+            let old_in_catch_params = self.in_catch_params;
 
-            v.is_pat_decl = false;
-            n.body.visit_children_with(v);
+            self.is_pat_decl = true;
+            self.in_catch_params = true;
+            n.param.visit_with(self);
 
-            v.is_pat_decl = true;
-            v.in_catch_params = true;
-            n.param.visit_with(v);
+            self.in_catch_params = old_in_catch_params;
+            self.is_pat_decl = old_is_pat_decl;
 
-            v.is_pat_decl = old;
-            v.in_catch_params = old_in_catch_params;
-        })
+            self.with_scope(ScopeKind::Block, |v| {
+                let old = v.is_pat_decl;
+                let old_in_catch_params = v.in_catch_params;
+
+                v.is_pat_decl = false;
+                n.body.visit_children_with(v);
+
+                v.is_pat_decl = old;
+                v.in_catch_params = old_in_catch_params;
+            })
+        } else {
+            self.with_scope(ScopeKind::Block, |v| {
+                let old = v.is_pat_decl;
+                let old_in_catch_params = v.in_catch_params;
+
+                v.is_pat_decl = false;
+                n.body.visit_children_with(v);
+
+                v.is_pat_decl = true;
+                v.in_catch_params = true;
+                n.param.visit_with(v);
+
+                v.is_pat_decl = old;
+                v.in_catch_params = old_in_catch_params;
+            })
+        }
     }
 
     fn visit_class_decl(&mut self, c: &ClassDecl) {
@@ -251,6 +290,40 @@ impl Visit for Analyzer {
         }
     }
 
+    fn visit_for_in_stmt(&mut self, n: &ForInStmt) {
+        self.with_scope(ScopeKind::Block, |v| {
+            n.left.visit_with(v);
+            n.right.visit_with(v);
+
+            v.with_scope(ScopeKind::Block, |v| {
+                v.visit_for_body_within_same_scope(&n.body);
+            })
+        });
+    }
+
+    fn visit_for_of_stmt(&mut self, n: &ForOfStmt) {
+        self.with_scope(ScopeKind::Block, |v| {
+            n.left.visit_with(v);
+            n.right.visit_with(v);
+
+            v.with_scope(ScopeKind::Block, |v| {
+                v.visit_for_body_within_same_scope(&n.body);
+            })
+        });
+    }
+
+    fn visit_for_stmt(&mut self, n: &ForStmt) {
+        self.with_scope(ScopeKind::Block, |v| {
+            n.init.visit_with(v);
+            n.test.visit_with(v);
+            n.update.visit_with(v);
+
+            v.with_scope(ScopeKind::Block, |v| {
+                v.visit_for_body_within_same_scope(&n.body);
+            })
+        });
+    }
+
     fn visit_import_default_specifier(&mut self, n: &ImportDefaultSpecifier) {
         self.add_decl(n.local.to_id(), true);
     }
@@ -326,10 +399,21 @@ impl Visit for Analyzer {
         }
     }
 
+    fn visit_static_block(&mut self, n: &StaticBlock) {
+        self.with_fn_scope(|v| n.body.visit_children_with(v))
+    }
+
     fn visit_super_prop_expr(&mut self, e: &SuperPropExpr) {
         if let SuperProp::Computed(c) = &e.prop {
             c.visit_with(self);
         }
+    }
+
+    fn visit_var_decl(&mut self, n: &VarDecl) {
+        let old_need_hoisted = self.var_belong_to_fn_scope;
+        self.var_belong_to_fn_scope = n.kind == VarDeclKind::Var;
+        n.visit_children_with(self);
+        self.var_belong_to_fn_scope = old_need_hoisted;
     }
 
     fn visit_var_declarator(&mut self, v: &VarDeclarator) {
@@ -341,62 +425,5 @@ impl Visit for Analyzer {
         v.init.visit_with(self);
 
         self.is_pat_decl = old;
-    }
-
-    fn visit_var_decl(&mut self, n: &VarDecl) {
-        let old_need_hoisted = self.var_belong_to_fn_scope;
-        self.var_belong_to_fn_scope = n.kind == VarDeclKind::Var;
-        n.visit_children_with(self);
-        self.var_belong_to_fn_scope = old_need_hoisted;
-    }
-
-    fn visit_block_stmt(&mut self, n: &BlockStmt) {
-        self.with_scope(ScopeKind::Block, |v| n.visit_children_with(v))
-    }
-
-    fn visit_block_stmt_or_expr(&mut self, n: &BlockStmtOrExpr) {
-        match n {
-            // This avoid crating extra block scope for arrow function
-            BlockStmtOrExpr::BlockStmt(n) => n.visit_children_with(self),
-            BlockStmtOrExpr::Expr(n) => n.visit_with(self),
-        }
-    }
-
-    fn visit_for_in_stmt(&mut self, n: &ForInStmt) {
-        self.with_scope(ScopeKind::Block, |v| {
-            n.left.visit_with(v);
-            n.right.visit_with(v);
-
-            v.with_scope(ScopeKind::Block, |v| {
-                v.visit_for_body_within_same_scope(&n.body);
-            })
-        });
-    }
-
-    fn visit_for_of_stmt(&mut self, n: &ForOfStmt) {
-        self.with_scope(ScopeKind::Block, |v| {
-            n.left.visit_with(v);
-            n.right.visit_with(v);
-
-            v.with_scope(ScopeKind::Block, |v| {
-                v.visit_for_body_within_same_scope(&n.body);
-            })
-        });
-    }
-
-    fn visit_for_stmt(&mut self, n: &ForStmt) {
-        self.with_scope(ScopeKind::Block, |v| {
-            n.init.visit_with(v);
-            n.test.visit_with(v);
-            n.update.visit_with(v);
-
-            v.with_scope(ScopeKind::Block, |v| {
-                v.visit_for_body_within_same_scope(&n.body);
-            })
-        });
-    }
-
-    fn visit_static_block(&mut self, n: &StaticBlock) {
-        self.with_fn_scope(|v| n.body.visit_children_with(v))
     }
 }

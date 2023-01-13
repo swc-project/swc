@@ -12,6 +12,9 @@ mod tests;
 pub struct Config {
     /// If true, the `hygiene` pass will preserve class names.
     pub keep_class_names: bool,
+
+    /// If true, the bug of safari 10 is avoided.
+    pub safari_10: bool,
 }
 
 /// See [hygiene_with_config] for doc. Creates a `hygiene` pass with default
