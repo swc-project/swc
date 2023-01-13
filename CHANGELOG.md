@@ -14,6 +14,9 @@
 
 
 
+- **(es/minifier)** Remove noop spreads (#6803) ([8f683e3](https://github.com/swc-project/swc/commit/8f683e3f77fe9f4fd84a5bf64c067ae9526fb330))
+
+
 - **(es/quote)** Allow using `Str` as a var (#6797) ([224eff9](https://github.com/swc-project/swc/commit/224eff91eb06808e2c79bb4fbe06ccf46121758f))
 
 
