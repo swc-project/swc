@@ -2,6 +2,8 @@
 
 #![allow(clippy::unreadable_literal)]
 
+mod tests;
+
 /// Not a publish API.
 #[doc(hidden)]
 pub extern crate once_cell;
@@ -284,10 +286,7 @@ impl<'de> serde::de::Deserialize<'de> for Atom {
 #[macro_export]
 macro_rules! atom {
     ($s:literal) => {{
-        static CACHE: $crate::once_cell::sync::Lazy<$crate::Atom> =
-            $crate::once_cell::sync::Lazy::new(|| $crate::Atom::new($s));
-
-        $crate::Atom::clone(&*CACHE)
+        $crate::Atom::new_static($s)
     }};
 }
 
