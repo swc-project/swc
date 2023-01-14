@@ -44,11 +44,36 @@ include!(concat!(env!("OUT_DIR"), "/js_word.rs"));
 ///   "longer than xx" as this is a type.
 /// - Raw values.
 #[derive(Clone)]
-pub struct Atom(ThinArc<HeaderWithLength<()>, u8>);
+pub struct Atom(Inner);
 
-fn _assert_size() {
-    let _static_assert_size_eq = std::mem::transmute::<Atom, usize>;
+#[derive(Clone)]
+enum Inner {
+    Arc(ThinArc<HeaderWithLength<()>, u8>),
+    Static(&'static str),
 }
+
+impl Inner {
+    fn new<S>(s: S) -> Self
+    where
+        Arc<str>: From<S>,
+        S: AsRef<str>,
+    {
+        let len = s.as_ref().as_bytes().len();
+
+        Self::Arc(ThinArc::from_header_and_slice(
+            HeaderWithLength::new((), len),
+            s.as_ref().as_bytes(),
+        ))
+    }
+
+    fn new_static(s: &'static str) -> Self {
+        Self::Static(s)
+    }
+}
+
+// fn _assert_size() {
+//     let _static_assert_size_eq = std::mem::transmute::<Atom, usize>;
+// }
 
 impl Atom {
     /// Creates a bad [Atom] from a string.
@@ -67,12 +92,11 @@ impl Atom {
         Arc<str>: From<S>,
         S: AsRef<str>,
     {
-        let len = s.as_ref().as_bytes().len();
+        Self(Inner::new(s))
+    }
 
-        Self(ThinArc::from_header_and_slice(
-            HeaderWithLength::new((), len),
-            s.as_ref().as_bytes(),
-        ))
+    pub fn new_static(s: &'static str) -> Self {
+        Self(Inner::new_static(s))
     }
 }
 
@@ -81,10 +105,15 @@ impl Deref for Atom {
 
     #[inline]
     fn deref(&self) -> &Self::Target {
-        unsafe {
-            // Safety: We only consturct this type from valid str
+        match &self.0 {
+            Inner::Arc(interned) => {
+                unsafe {
+                    // Safety: We only construct this type from valid str
 
-            std::str::from_utf8_unchecked(&self.0.slice)
+                    std::str::from_utf8_unchecked(&interned.slice)
+                }
+            }
+            Inner::Static(s) => s,
         }
     }
 }
@@ -190,9 +219,9 @@ impl Ord for Atom {
 impl PartialEq for Atom {
     fn eq(&self, other: &Self) -> bool {
         // Fast path
-        if self.0.as_ptr() == other.0.as_ptr() {
-            return true;
-        }
+        // if self.0.as_ptr() == other.0.as_ptr() {
+        //     return true;
+        // }
 
         (**self).eq(&**other)
     }
