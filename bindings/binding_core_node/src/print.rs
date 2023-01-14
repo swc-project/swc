@@ -41,6 +41,7 @@ impl Task for PrintTask {
                     options.output_path.clone(),
                     true,
                     options.config.jsc.target.unwrap_or(EsVersion::Es2020),
+                    options.source_map_path.clone(),
                     options
                         .source_maps
                         .clone()
@@ -102,6 +103,7 @@ pub fn print_sync(program: String, options: Buffer) -> napi::Result<TransformOut
             options.output_path,
             true,
             codegen_target,
+            options.source_map_path.clone(),
             options
                 .source_maps
                 .clone()

@@ -249,6 +249,7 @@ macro_rules! build_print_sync {
                         None,
                         true,
                         opts.codegen_target().unwrap_or($crate::wasm::EsVersion::Es2020),
+                        opts.source_map_path.clone(),
                         opts.source_maps
                             .clone()
                             .unwrap_or($crate::wasm::SourceMapsConfig::Bool(false)),
