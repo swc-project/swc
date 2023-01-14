@@ -225,7 +225,7 @@ impl CustomMediaHandler {
 
     pub(crate) fn process_media_in_parens(&mut self, n: &MediaInParens) -> Option<MediaInParens> {
         if let MediaInParens::Feature(box MediaFeature::Boolean(MediaFeatureBoolean {
-            name: MediaFeatureName::Ident(name),
+            name: MediaFeatureName::ExtensionName(name),
             ..
         })) = n
         {

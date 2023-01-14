@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 2467,
+    "end": 2556,
     "ctxt": 0
   },
   "rules": [
@@ -7141,6 +7141,217 @@
                           ]
                         }
                       ]
+                    }
+                  ],
+                  "important": null
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "AtRule",
+      "span": {
+        "start": 2468,
+        "end": 2555,
+        "ctxt": 0
+      },
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 2469,
+          "end": 2478,
+          "ctxt": 0
+        },
+        "value": "container",
+        "raw": "container"
+      },
+      "prelude": {
+        "type": "ContainerCondition",
+        "span": {
+          "start": 2479,
+          "end": 2497,
+          "ctxt": 0
+        },
+        "name": null,
+        "query": {
+          "type": "ContainerQuery",
+          "span": {
+            "start": 2479,
+            "end": 2497,
+            "ctxt": 0
+          },
+          "queries": [
+            {
+              "type": "SizeFeatureRange",
+              "span": {
+                "start": 2479,
+                "end": 2497,
+                "ctxt": 0
+              },
+              "left": {
+                "type": "Ident",
+                "span": {
+                  "start": 2481,
+                  "end": 2486,
+                  "ctxt": 0
+                },
+                "value": "width",
+                "raw": "WIDTH"
+              },
+              "comparison": "<=",
+              "right": {
+                "type": "Length",
+                "span": {
+                  "start": 2490,
+                  "end": 2495,
+                  "ctxt": 0
+                },
+                "value": {
+                  "type": "Number",
+                  "span": {
+                    "start": 2490,
+                    "end": 2493,
+                    "ctxt": 0
+                  },
+                  "value": 150.0,
+                  "raw": "150"
+                },
+                "unit": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 2493,
+                    "end": 2495,
+                    "ctxt": 0
+                  },
+                  "value": "px",
+                  "raw": "px"
+                }
+              }
+            }
+          ]
+        }
+      },
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 2498,
+          "end": 2555,
+          "ctxt": 0
+        },
+        "name": {
+          "type": "PreservedToken",
+          "span": {
+            "start": 2498,
+            "end": 2499,
+            "ctxt": 0
+          },
+          "token": "LBrace"
+        },
+        "value": [
+          {
+            "type": "QualifiedRule",
+            "span": {
+              "start": 2504,
+              "end": 2553,
+              "ctxt": 0
+            },
+            "prelude": {
+              "type": "SelectorList",
+              "span": {
+                "start": 2504,
+                "end": 2510,
+                "ctxt": 0
+              },
+              "children": [
+                {
+                  "type": "ComplexSelector",
+                  "span": {
+                    "start": 2504,
+                    "end": 2510,
+                    "ctxt": 0
+                  },
+                  "children": [
+                    {
+                      "type": "CompoundSelector",
+                      "span": {
+                        "start": 2504,
+                        "end": 2510,
+                        "ctxt": 0
+                      },
+                      "nestingSelector": null,
+                      "typeSelector": null,
+                      "subclassSelectors": [
+                        {
+                          "type": "IdSelector",
+                          "span": {
+                            "start": 2504,
+                            "end": 2510,
+                            "ctxt": 0
+                          },
+                          "text": {
+                            "type": "Ident",
+                            "span": {
+                              "start": 2504,
+                              "end": 2510,
+                              "ctxt": 0
+                            },
+                            "value": "inner",
+                            "raw": "inner"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "block": {
+              "type": "SimpleBlock",
+              "span": {
+                "start": 2511,
+                "end": 2553,
+                "ctxt": 0
+              },
+              "name": {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 2511,
+                  "end": 2512,
+                  "ctxt": 0
+                },
+                "token": "LBrace"
+              },
+              "value": [
+                {
+                  "type": "Declaration",
+                  "span": {
+                    "start": 2521,
+                    "end": 2546,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 2521,
+                      "end": 2537,
+                      "ctxt": 0
+                    },
+                    "value": "background-color",
+                    "raw": "background-color"
+                  },
+                  "value": [
+                    {
+                      "type": "Ident",
+                      "span": {
+                        "start": 2539,
+                        "end": 2546,
+                        "ctxt": 0
+                      },
+                      "value": "skyblue",
+                      "raw": "skyblue"
                     }
                   ],
                   "important": null

@@ -1,5 +1,5 @@
 use swc_atoms::{js_word, JsWord};
-use swc_common::Span;
+use swc_common::{Span, Spanned};
 use swc_css_ast::*;
 
 use super::{input::ParserInput, PResult, Parser};
@@ -35,7 +35,11 @@ where
                         if value.starts_with("--") {
                             ColorProfileName::DashedIdent(self.parse()?)
                         } else {
-                            ColorProfileName::Ident(self.parse()?)
+                            let mut name: Ident = self.parse()?;
+
+                            name.value = name.value.to_ascii_lowercase();
+
+                            ColorProfileName::Ident(name)
                         }
                     }
                     _ => {
@@ -1012,7 +1016,11 @@ where
         let span = self.input.cur_span();
         let keyword = match cur!(self) {
             Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("not") => {
-                Some(self.parse()?)
+                let mut ident: Ident = self.parse()?;
+
+                ident.value = ident.value.to_ascii_lowercase();
+
+                Some(ident)
             }
             _ => {
                 return Err(Error::new(
@@ -1042,7 +1050,11 @@ where
         let span = self.input.cur_span();
         let keyword = match cur!(self) {
             Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("and") => {
-                Some(self.parse()?)
+                let mut ident: Ident = self.parse()?;
+
+                ident.value = ident.value.to_ascii_lowercase();
+
+                Some(ident)
             }
             _ => {
                 return Err(Error::new(
@@ -1072,7 +1084,11 @@ where
         let span = self.input.cur_span();
         let keyword = match cur!(self) {
             Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("or") => {
-                Some(self.parse()?)
+                let mut ident: Ident = self.parse()?;
+
+                ident.value = ident.value.to_ascii_lowercase();
+
+                Some(ident)
             }
             _ => {
                 return Err(Error::new(
@@ -1294,7 +1310,7 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<MediaQueryList> {
-        let query = self.parse()?;
+        let query: MediaQuery = self.parse()?;
         let mut queries = vec![query];
 
         // TODO error recovery
@@ -1316,13 +1332,13 @@ where
         }
 
         let start_pos = match queries.first() {
-            Some(MediaQuery { span, .. }) => span.lo,
+            Some(first) => first.span_lo(),
             _ => {
                 unreachable!();
             }
         };
         let last_pos = match queries.last() {
-            Some(MediaQuery { span, .. }) => span.hi,
+            Some(last) => last.span_hi(),
             _ => {
                 unreachable!();
             }
@@ -1412,7 +1428,11 @@ where
     fn parse(&mut self) -> PResult<MediaType> {
         match cur!(self) {
             _ if !is_one_of_case_insensitive_ident!(self, "not", "and", "or", "only", "layer") => {
-                Ok(MediaType::Ident(self.parse()?))
+                let mut name: Ident = self.parse()?;
+
+                name.value = name.value.to_ascii_lowercase();
+
+                Ok(MediaType::Ident(name))
             }
             _ => {
                 let span = self.input.cur_span();
@@ -1534,7 +1554,11 @@ where
         let span = self.input.cur_span();
         let keyword = match cur!(self) {
             Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("not") => {
-                Some(self.parse()?)
+                let mut ident: Ident = self.parse()?;
+
+                ident.value = ident.value.to_ascii_lowercase();
+
+                Some(ident)
             }
             _ => {
                 return Err(Error::new(
@@ -1564,7 +1588,11 @@ where
         let span = self.input.cur_span();
         let keyword = match cur!(self) {
             Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("and") => {
-                Some(self.parse()?)
+                let mut ident: Ident = self.parse()?;
+
+                ident.value = ident.value.to_ascii_lowercase();
+
+                Some(ident)
             }
             _ => {
                 return Err(Error::new(
@@ -1594,7 +1622,11 @@ where
         let span = self.input.cur_span();
         let keyword = match cur!(self) {
             Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("or") => {
-                Some(self.parse()?)
+                let mut ident: Ident = self.parse()?;
+
+                ident.value = ident.value.to_ascii_lowercase();
+
+                Some(ident)
             }
             _ => {
                 return Err(Error::new(
@@ -1667,6 +1699,24 @@ where
         expect!(self, "(");
 
         self.input.skip_ws();
+
+        match cur!(self) {
+            // The <extension-name> can then be used in a media feature. It must be used in a
+            // boolean context; using them in a normal or range context is a syntax error.
+            Token::Ident { value, .. } if value.starts_with("--") => {
+                let name = MediaFeatureName::ExtensionName(self.parse()?);
+
+                self.input.skip_ws();
+
+                expect!(self, ")");
+
+                return Ok(MediaFeature::Boolean(MediaFeatureBoolean {
+                    span: span!(self, span.lo),
+                    name,
+                }));
+            }
+            _ => {}
+        };
 
         let left = self.parse()?;
 
@@ -1852,7 +1902,13 @@ where
 
                 Ok(MediaFeatureValue::Number(left))
             }
-            tok!("ident") => Ok(MediaFeatureValue::Ident(self.parse()?)),
+            tok!("ident") => {
+                let mut name: Ident = self.parse()?;
+
+                name.value = name.value.to_ascii_lowercase();
+
+                Ok(MediaFeatureValue::Ident(name))
+            }
             tok!("dimension") => Ok(MediaFeatureValue::Dimension(self.parse()?)),
             Token::Function { value, .. } if is_math_function(value) => {
                 let function = self.parse()?;
@@ -1872,7 +1928,7 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<PageSelectorList> {
-        let selector = self.parse()?;
+        let selector: PageSelector = self.parse()?;
         let mut selectors = vec![selector];
 
         loop {
@@ -1890,13 +1946,13 @@ where
         }
 
         let start_pos = match selectors.first() {
-            Some(PageSelector { span, .. }) => span.lo,
+            Some(first) => first.span_lo(),
             _ => {
                 unreachable!();
             }
         };
         let last_pos = match selectors.last() {
-            Some(PageSelector { span, .. }) => span.hi,
+            Some(last) => last.span_hi(),
             _ => {
                 unreachable!();
             }
@@ -1974,9 +2030,19 @@ where
 
         let value = match cur!(self) {
             Token::Ident { value, .. }
-                if matches_eq_ignore_ascii_case!(&**value, "left", "right", "first", "blank") =>
+                if matches_eq_ignore_ascii_case!(
+                    value,
+                    js_word!("left"),
+                    js_word!("right"),
+                    js_word!("first"),
+                    js_word!("blank")
+                ) =>
             {
-                self.parse()?
+                let mut name: Ident = self.parse()?;
+
+                name.value = name.value.to_ascii_lowercase();
+
+                name
             }
             _ => {
                 let span = self.input.cur_span();
@@ -2128,7 +2194,11 @@ where
         let span = self.input.cur_span();
         let keyword = match cur!(self) {
             Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("not") => {
-                Some(self.parse()?)
+                let mut ident: Ident = self.parse()?;
+
+                ident.value = ident.value.to_ascii_lowercase();
+
+                Some(ident)
             }
             _ => {
                 return Err(Error::new(
@@ -2158,7 +2228,11 @@ where
         let span = self.input.cur_span();
         let keyword = match cur!(self) {
             Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("and") => {
-                Some(self.parse()?)
+                let mut ident: Ident = self.parse()?;
+
+                ident.value = ident.value.to_ascii_lowercase();
+
+                Some(ident)
             }
             _ => {
                 return Err(Error::new(
@@ -2188,7 +2262,11 @@ where
         let span = self.input.cur_span();
         let keyword = match cur!(self) {
             Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("or") => {
-                Some(self.parse()?)
+                let mut ident: Ident = self.parse()?;
+
+                ident.value = ident.value.to_ascii_lowercase();
+
+                Some(ident)
             }
             _ => {
                 return Err(Error::new(
@@ -2442,7 +2520,13 @@ where
 
                 Ok(SizeFeatureValue::Number(left))
             }
-            tok!("ident") => Ok(SizeFeatureValue::Ident(self.parse()?)),
+            tok!("ident") => {
+                let mut name: Ident = self.parse()?;
+
+                name.value = name.value.to_ascii_lowercase();
+
+                Ok(SizeFeatureValue::Ident(name))
+            }
             tok!("dimension") => Ok(SizeFeatureValue::Dimension(self.parse()?)),
             Token::Function { value, .. } if is_math_function(value) => {
                 let function = self.parse()?;
@@ -2468,6 +2552,13 @@ where
             return Err(Error::new(span, ErrorKind::Expected("indent token")));
         }
 
+        // All extensions defined in this specification use a common syntax for defining
+        // their ”names”: the <extension-name> production. An <extension-name> is any
+        // identifier that starts with two dashes (U+002D HYPHEN-MINUS), like --foo, or
+        // even exotic names like -- or ------. The CSS language will never use
+        // identifiers of this form for any language-defined purpose, so it’s safe to
+        // use them for author-defined purposes without ever having to worry about
+        // colliding with CSS-defined names.
         match bump!(self) {
             Token::Ident { value, raw, .. } => {
                 if !value.starts_with("--") {

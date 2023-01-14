@@ -791,6 +791,7 @@ define!({
 
     pub enum MediaFeatureName {
         Ident(Ident),
+        ExtensionName(ExtensionName),
     }
 
     pub enum MediaFeatureValue {

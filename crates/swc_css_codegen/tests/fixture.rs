@@ -120,10 +120,6 @@ impl VisitMut for NormalizeTest {
             modifier.value = modifier.value.to_lowercase().into();
         }
 
-        if let Some(MediaType::Ident(ident)) = &mut n.media_type {
-            ident.value = ident.value.to_lowercase().into();
-        }
-
         n.keyword = None;
     }
 
@@ -143,16 +139,6 @@ impl VisitMut for NormalizeTest {
         n.visit_mut_children_with(self);
 
         n.keyword = None;
-    }
-
-    fn visit_mut_media_feature_name(&mut self, n: &mut MediaFeatureName) {
-        n.visit_mut_children_with(self);
-
-        match n {
-            MediaFeatureName::Ident(ident) => {
-                ident.value = ident.value.to_lowercase().into();
-            }
-        }
     }
 
     fn visit_mut_supports_not(&mut self, n: &mut SupportsNot) {

@@ -131,3 +131,9 @@ main, aside {
 }
 
 @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+
+@container ( WIDTH <= 150px ) {
+    #inner {
+        background-color: skyblue;
+    }
+}

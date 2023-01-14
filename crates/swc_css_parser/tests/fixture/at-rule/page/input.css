@@ -58,3 +58,6 @@
     
     margin: 20px;
 }
+
+@page :FIRST {}
+@page :LEFT {}

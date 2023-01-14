@@ -44,6 +44,6 @@
 @page :blank:first {}
 @page :first {}
 @page toc, index {}
-@page :FIRST {
+@page :first {
   margin: 2cm;
 }
