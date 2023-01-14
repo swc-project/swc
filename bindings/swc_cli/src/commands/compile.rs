@@ -1,7 +1,7 @@
 use std::{
     fs::{self, File},
     io::{self, Read, Write},
-    path::{Path, PathBuf},
+    path::{Component, Path, PathBuf},
     sync::Arc,
 };
 
@@ -13,7 +13,7 @@ use rayon::prelude::*;
 use relative_path::RelativePath;
 use swc_core::{
     base::{
-        config::{ConfigFile, Options, SourceMapsConfig},
+        config::{ConfigFile, Options, PluginConfig, SourceMapsConfig},
         try_with_handler, Compiler, HandlerOpts, TransformOutput,
     },
     common::{
@@ -35,6 +35,16 @@ pub struct CompileOptions {
     /// Path to a .swcrc file to use
     #[clap(long)]
     config_file: Option<PathBuf>,
+
+    /// Plugin and configuration to use, formatted as
+    /// plugin_path={"config":"values"}
+    #[clap(long = "plugin", value_parser = parse_key_val::<String, serde_json::Value>)]
+    plugins: Vec<(String, serde_json::Value)>,
+
+    /// Cache directory, currently used to store compiled plugins [default:
+    /// .swc]
+    #[clap(long)]
+    cache_root: Option<String>,
 
     /// Filename to use when reading from stdin - this will be used in
     /// source-maps, errors etc
@@ -105,6 +115,20 @@ pub struct CompileOptions {
      *include_dotfiles: bool,
      *only: Option<String>,
      *no_swcrc: bool, */
+}
+
+/// Parse a single key=value pair
+fn parse_key_val<T, U>(s: &str) -> anyhow::Result<(T, U)>
+where
+    T: std::str::FromStr,
+    T::Err: std::error::Error + Send + Sync + 'static,
+    U: std::str::FromStr,
+    U::Err: std::error::Error + Send + Sync + 'static,
+{
+    let pos = s
+        .find('=')
+        .ok_or_else(|| anyhow::anyhow!("invalid key=value: no `=` found in `{}`", s))?;
+    Ok((s[..pos].parse()?, s[pos + 1..].parse()?))
 }
 
 static COMPILER: Lazy<Arc<Compiler>> = Lazy::new(|| {
@@ -289,6 +313,29 @@ impl CompileOptions {
                 "true" => SourceMapsConfig::Bool(true),
                 value => SourceMapsConfig::Str(value.to_string()),
             });
+        }
+
+        if let Some(cache_root) = &self.cache_root {
+            options.config.jsc.experimental.cache_root = Some(cache_root.to_owned());
+        }
+
+        let plugins = self.plugins.iter().map(|(raw_path, config)| {
+            // if the path starts with . or .., then turn it into an absolute path using the
+            // current working directory as the base
+            let path = Path::new(&raw_path);
+            let resolved_path = match path.components().next() {
+                Some(Component::CurDir) | Some(Component::ParentDir) => {
+                    path.absolutize().unwrap().display().to_string()
+                }
+                _ => raw_path.to_owned(),
+            };
+
+            PluginConfig(resolved_path, config.to_owned())
+        });
+        if let Some(ref mut config_plugins) = options.config.jsc.experimental.plugins {
+            config_plugins.extend(plugins);
+        } else {
+            options.config.jsc.experimental.plugins = Some(plugins.collect());
         }
 
         Ok(options)

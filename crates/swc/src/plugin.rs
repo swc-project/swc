@@ -25,7 +25,7 @@ use swc_ecma_visit::{noop_fold_type, Fold};
 /// plugin's entrypoint function.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
-pub struct PluginConfig(String, serde_json::Value);
+pub struct PluginConfig(pub String, pub serde_json::Value);
 
 #[cfg(any(feature = "plugin", feature = "plugin-bytecheck"))]
 pub fn plugins(
