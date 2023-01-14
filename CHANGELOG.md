@@ -14,6 +14,9 @@
 
 
 
+- **(css/parser)** Normalize at-rules (#6705) ([43e7519](https://github.com/swc-project/swc/commit/43e75194e546997d6524bbfb7f0a7ff531bb443f))
+
+
 - **(es/minifier)** Remove noop spreads (#6803) ([8f683e3](https://github.com/swc-project/swc/commit/8f683e3f77fe9f4fd84a5bf64c067ae9526fb330))
 
 
