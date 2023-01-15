@@ -20,6 +20,9 @@
 - **(css/parser)** Normalize at-rules (#6705) ([43e7519](https://github.com/swc-project/swc/commit/43e75194e546997d6524bbfb7f0a7ff531bb443f))
 
 
+- **(es/ast)** Add `EsNext` to `EsVersion` (#6816) ([ff78b8f](https://github.com/swc-project/swc/commit/ff78b8f7e077bad599f9b740ca4e831f835a347b))
+
+
 - **(es/minifier)** Remove noop spreads (#6803) ([8f683e3](https://github.com/swc-project/swc/commit/8f683e3f77fe9f4fd84a5bf64c067ae9526fb330))
 
 
