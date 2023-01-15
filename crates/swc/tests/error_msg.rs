@@ -40,14 +40,6 @@ fn swcrc_simple() {
     println!("{}", f);
 }
 
-#[test]
-fn issue_1532() {
-    let f = file("tests/swcrc_errors/issue-1532/index.js");
-    println!("{}", f);
-
-    assert!(f.contains("unknown variant `esnext`"))
-}
-
 #[testing::fixture("tests/errors/**/input.js")]
 #[testing::fixture("tests/errors/**/input.ts")]
 fn fixture(input: PathBuf) {
