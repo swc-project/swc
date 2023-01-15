@@ -202,7 +202,7 @@ build-wasm32 = "build --target wasm32-unknown-unknown"
         .context("failed to write config toml file")?;
 
         // Create package.json for npm package publishing.
-        let dist_output_path = format!("target/{}/release/{}.wasm", build_target, name);
+        let dist_output_path = format!("target/{}/release/{}.wasm", build_target, name.replace("-", "_"));
         fs::write(
             &path.join("package.json"),
             format!(
