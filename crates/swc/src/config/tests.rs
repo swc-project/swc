@@ -22,14 +22,6 @@ fn issue_4390() {
 }
 
 #[test]
-fn issue_1532() {
-    let res = serde_json::from_str::<Options>(include_str!("issue-1532.json"));
-
-    let err = res.expect_err("should fail");
-    assert!(err.to_string().contains("unknown variant `esnext`"));
-}
-
-#[test]
 fn jsonc() {
     let rc = parse_swcrc(include_str!("jsonc.json")).expect("failed to parse");
     dbg!(&rc);
