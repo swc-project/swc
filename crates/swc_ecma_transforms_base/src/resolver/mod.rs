@@ -151,6 +151,7 @@ pub fn resolver(
         config: InnerConfig {
             handle_types: typescript,
             unresolved_mark,
+            top_level_mark,
         },
     })
 }
@@ -211,6 +212,7 @@ struct Resolver<'a> {
 struct InnerConfig {
     handle_types: bool,
     unresolved_mark: Mark,
+    top_level_mark: Mark,
 }
 
 impl<'a> Resolver<'a> {
