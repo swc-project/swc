@@ -270,7 +270,17 @@ impl Visit for Analyzer {
     fn visit_fn_decl(&mut self, f: &FnDecl) {
         self.add_decl(f.ident.to_id(), true);
 
+        // https://github.com/swc-project/swc/issues/6819
+        let has_rest = f.function.params.iter().any(|p| p.pat.is_rest());
+        if has_rest {
+            self.add_usage(f.ident.to_id());
+        }
+
         self.with_fn_scope(|v| {
+            if has_rest {
+                v.add_usage(f.ident.to_id());
+            }
+
             f.function.decorators.visit_with(v);
             f.function.params.visit_with(v);
             // WARN: Option<BlockStmt>::visit_mut_children_wth
@@ -284,6 +294,11 @@ impl Visit for Analyzer {
             self.with_fn_scope(|v| {
                 v.add_decl(id.to_id(), true);
                 v.with_fn_scope(|v| {
+                    // https://github.com/swc-project/swc/issues/6819
+                    if f.function.params.iter().any(|p| p.pat.is_rest()) {
+                        v.add_usage(id.to_id());
+                    }
+
                     f.function.decorators.visit_with(v);
                     f.function.params.visit_with(v);
                     v.visit_fn_body_within_same_scope(&f.function.body);
