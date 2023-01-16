@@ -351,6 +351,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                 options: self.minify,
                 cm: self.cm.clone(),
                 comments: comments.cloned(),
+                top_level_mark: self.top_level_mark,
             }),
             Optional::new(
                 hygiene_with_config(swc_ecma_transforms_base::hygiene::Config {
@@ -368,6 +369,7 @@ struct MinifierPass {
     options: Option<JsMinifyOptions>,
     cm: Lrc<SourceMap>,
     comments: Option<SingleThreadedComments>,
+    top_level_mark: Mark,
 }
 
 impl VisitMut for MinifierPass {
@@ -407,7 +409,12 @@ impl VisitMut for MinifierPass {
                 return;
             }
 
-            m.visit_mut_with(&mut hygiene());
+            m.visit_mut_with(&mut hygiene_with_config(
+                swc_ecma_transforms_base::hygiene::Config {
+                    top_level_mark: self.top_level_mark,
+                    ..Default::default()
+                },
+            ));
 
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
@@ -462,7 +469,12 @@ impl VisitMut for MinifierPass {
                 return;
             }
 
-            m.visit_mut_with(&mut hygiene());
+            m.visit_mut_with(&mut hygiene_with_config(
+                swc_ecma_transforms_base::hygiene::Config {
+                    top_level_mark: self.top_level_mark,
+                    ..Default::default()
+                },
+            ));
 
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
