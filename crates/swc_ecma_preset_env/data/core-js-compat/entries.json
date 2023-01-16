@@ -1201,7 +1201,18 @@
     "es.promise",
     "es.string.iterator",
     "esnext.async-iterator.constructor",
+    "esnext.async-iterator.drop",
+    "esnext.async-iterator.every",
+    "esnext.async-iterator.filter",
+    "esnext.async-iterator.find",
+    "esnext.async-iterator.flat-map",
+    "esnext.async-iterator.for-each",
     "esnext.async-iterator.from",
+    "esnext.async-iterator.map",
+    "esnext.async-iterator.reduce",
+    "esnext.async-iterator.some",
+    "esnext.async-iterator.take",
+    "esnext.async-iterator.to-array",
     "web.dom-collections.iterator"
   ],
   "core-js/actual/async-iterator/map": [
@@ -1296,15 +1307,19 @@
   ],
   "core-js/actual/disposable-stack": [
     "es.error.cause",
+    "es.error.to-string",
     "es.object.to-string",
     "esnext.suppressed-error.constructor",
-    "esnext.disposable-stack.constructor"
+    "esnext.disposable-stack.constructor",
+    "esnext.iterator.dispose"
   ],
   "core-js/actual/disposable-stack/constructor": [
     "es.error.cause",
+    "es.error.to-string",
     "es.object.to-string",
     "esnext.suppressed-error.constructor",
-    "esnext.disposable-stack.constructor"
+    "esnext.disposable-stack.constructor",
+    "esnext.iterator.dispose"
   ],
   "core-js/actual/dom-collections": [
     "es.array.iterator",
@@ -1626,9 +1641,23 @@
   "core-js/actual/iterator/from": [
     "es.array.iterator",
     "es.object.to-string",
+    "es.promise",
     "es.string.iterator",
     "esnext.iterator.constructor",
+    "esnext.iterator.dispose",
+    "esnext.iterator.drop",
+    "esnext.iterator.every",
+    "esnext.iterator.filter",
+    "esnext.iterator.find",
+    "esnext.iterator.flat-map",
+    "esnext.iterator.for-each",
     "esnext.iterator.from",
+    "esnext.iterator.map",
+    "esnext.iterator.reduce",
+    "esnext.iterator.some",
+    "esnext.iterator.take",
+    "esnext.iterator.to-array",
+    "esnext.iterator.to-async",
     "web.dom-collections.iterator"
   ],
   "core-js/actual/iterator/map": [
@@ -2470,6 +2499,7 @@
   ],
   "core-js/actual/suppressed-error": [
     "es.error.cause",
+    "es.error.to-string",
     "esnext.suppressed-error.constructor"
   ],
   "core-js/actual/symbol": [
@@ -6113,17 +6143,23 @@
   ],
   "core-js/features/async-disposable-stack": [
     "es.error.cause",
+    "es.error.to-string",
     "es.object.to-string",
     "es.promise",
     "esnext.suppressed-error.constructor",
-    "esnext.async-disposable-stack.constructor"
+    "esnext.async-disposable-stack.constructor",
+    "esnext.async-iterator.async-dispose",
+    "esnext.iterator.dispose"
   ],
   "core-js/features/async-disposable-stack/constructor": [
     "es.error.cause",
+    "es.error.to-string",
     "es.object.to-string",
     "es.promise",
     "esnext.suppressed-error.constructor",
-    "esnext.async-disposable-stack.constructor"
+    "esnext.async-disposable-stack.constructor",
+    "esnext.async-iterator.async-dispose",
+    "esnext.iterator.dispose"
   ],
   "core-js/features/async-iterator": [
     "es.array.iterator",
@@ -6201,7 +6237,18 @@
     "es.promise",
     "es.string.iterator",
     "esnext.async-iterator.constructor",
+    "esnext.async-iterator.drop",
+    "esnext.async-iterator.every",
+    "esnext.async-iterator.filter",
+    "esnext.async-iterator.find",
+    "esnext.async-iterator.flat-map",
+    "esnext.async-iterator.for-each",
     "esnext.async-iterator.from",
+    "esnext.async-iterator.map",
+    "esnext.async-iterator.reduce",
+    "esnext.async-iterator.some",
+    "esnext.async-iterator.take",
+    "esnext.async-iterator.to-array",
     "web.dom-collections.iterator"
   ],
   "core-js/features/async-iterator/indexed": [
@@ -6317,15 +6364,19 @@
   ],
   "core-js/features/disposable-stack": [
     "es.error.cause",
+    "es.error.to-string",
     "es.object.to-string",
     "esnext.suppressed-error.constructor",
-    "esnext.disposable-stack.constructor"
+    "esnext.disposable-stack.constructor",
+    "esnext.iterator.dispose"
   ],
   "core-js/features/disposable-stack/constructor": [
     "es.error.cause",
+    "es.error.to-string",
     "es.object.to-string",
     "esnext.suppressed-error.constructor",
-    "esnext.disposable-stack.constructor"
+    "esnext.disposable-stack.constructor",
+    "esnext.iterator.dispose"
   ],
   "core-js/features/dom-collections": [
     "es.array.iterator",
@@ -6691,9 +6742,23 @@
   "core-js/features/iterator/from": [
     "es.array.iterator",
     "es.object.to-string",
+    "es.promise",
     "es.string.iterator",
     "esnext.iterator.constructor",
+    "esnext.iterator.dispose",
+    "esnext.iterator.drop",
+    "esnext.iterator.every",
+    "esnext.iterator.filter",
+    "esnext.iterator.find",
+    "esnext.iterator.flat-map",
+    "esnext.iterator.for-each",
     "esnext.iterator.from",
+    "esnext.iterator.map",
+    "esnext.iterator.reduce",
+    "esnext.iterator.some",
+    "esnext.iterator.take",
+    "esnext.iterator.to-array",
+    "esnext.iterator.to-async",
     "web.dom-collections.iterator"
   ],
   "core-js/features/iterator/indexed": [
@@ -7901,6 +7966,7 @@
   ],
   "core-js/features/suppressed-error": [
     "es.error.cause",
+    "es.error.to-string",
     "esnext.suppressed-error.constructor"
   ],
   "core-js/features/symbol": [
@@ -9650,17 +9716,23 @@
   ],
   "core-js/full/async-disposable-stack": [
     "es.error.cause",
+    "es.error.to-string",
     "es.object.to-string",
     "es.promise",
     "esnext.suppressed-error.constructor",
-    "esnext.async-disposable-stack.constructor"
+    "esnext.async-disposable-stack.constructor",
+    "esnext.async-iterator.async-dispose",
+    "esnext.iterator.dispose"
   ],
   "core-js/full/async-disposable-stack/constructor": [
     "es.error.cause",
+    "es.error.to-string",
     "es.object.to-string",
     "es.promise",
     "esnext.suppressed-error.constructor",
-    "esnext.async-disposable-stack.constructor"
+    "esnext.async-disposable-stack.constructor",
+    "esnext.async-iterator.async-dispose",
+    "esnext.iterator.dispose"
   ],
   "core-js/full/async-iterator": [
     "es.array.iterator",
@@ -9738,7 +9810,18 @@
     "es.promise",
     "es.string.iterator",
     "esnext.async-iterator.constructor",
+    "esnext.async-iterator.drop",
+    "esnext.async-iterator.every",
+    "esnext.async-iterator.filter",
+    "esnext.async-iterator.find",
+    "esnext.async-iterator.flat-map",
+    "esnext.async-iterator.for-each",
     "esnext.async-iterator.from",
+    "esnext.async-iterator.map",
+    "esnext.async-iterator.reduce",
+    "esnext.async-iterator.some",
+    "esnext.async-iterator.take",
+    "esnext.async-iterator.to-array",
     "web.dom-collections.iterator"
   ],
   "core-js/full/async-iterator/indexed": [
@@ -9854,15 +9937,19 @@
   ],
   "core-js/full/disposable-stack": [
     "es.error.cause",
+    "es.error.to-string",
     "es.object.to-string",
     "esnext.suppressed-error.constructor",
-    "esnext.disposable-stack.constructor"
+    "esnext.disposable-stack.constructor",
+    "esnext.iterator.dispose"
   ],
   "core-js/full/disposable-stack/constructor": [
     "es.error.cause",
+    "es.error.to-string",
     "es.object.to-string",
     "esnext.suppressed-error.constructor",
-    "esnext.disposable-stack.constructor"
+    "esnext.disposable-stack.constructor",
+    "esnext.iterator.dispose"
   ],
   "core-js/full/dom-collections": [
     "es.array.iterator",
@@ -10228,9 +10315,23 @@
   "core-js/full/iterator/from": [
     "es.array.iterator",
     "es.object.to-string",
+    "es.promise",
     "es.string.iterator",
     "esnext.iterator.constructor",
+    "esnext.iterator.dispose",
+    "esnext.iterator.drop",
+    "esnext.iterator.every",
+    "esnext.iterator.filter",
+    "esnext.iterator.find",
+    "esnext.iterator.flat-map",
+    "esnext.iterator.for-each",
     "esnext.iterator.from",
+    "esnext.iterator.map",
+    "esnext.iterator.reduce",
+    "esnext.iterator.some",
+    "esnext.iterator.take",
+    "esnext.iterator.to-array",
+    "esnext.iterator.to-async",
     "web.dom-collections.iterator"
   ],
   "core-js/full/iterator/indexed": [
@@ -11438,6 +11539,7 @@
   ],
   "core-js/full/suppressed-error": [
     "es.error.cause",
+    "es.error.to-string",
     "esnext.suppressed-error.constructor"
   ],
   "core-js/full/symbol": [

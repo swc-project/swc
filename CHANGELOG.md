@@ -5,6 +5,56 @@
 
 
 
+- **(es/compat)** Ignore `this` in nested scopes in `classes` pass (#6796) ([07676d5](https://github.com/swc-project/swc/commit/07676d5515321c50206b3f0ea9f1473b6b2c3192))
+
+
+- **(es/plugin)** Fix starter template (#6815) ([38fb70c](https://github.com/swc-project/swc/commit/38fb70c237f122a8d8f8fdf187bd341326e39f22))
+
+
+- **(es/transform)** Apply `hygiene` and `resolver` if minify is specified (#6793) ([c145409](https://github.com/swc-project/swc/commit/c14540905f81e1c1677e7c9d723e71b1b6a9740b))
+
+### Features
+
+
+
+- **(css/parser)** Normalize at-rules (#6705) ([43e7519](https://github.com/swc-project/swc/commit/43e75194e546997d6524bbfb7f0a7ff531bb443f))
+
+
+- **(es/ast)** Add `EsNext` to `EsVersion` (#6816) ([ff78b8f](https://github.com/swc-project/swc/commit/ff78b8f7e077bad599f9b740ca4e831f835a347b))
+
+
+- **(es/minifier)** Remove noop spreads (#6803) ([8f683e3](https://github.com/swc-project/swc/commit/8f683e3f77fe9f4fd84a5bf64c067ae9526fb330))
+
+
+- **(es/quote)** Allow using `Str` as a var (#6797) ([224eff9](https://github.com/swc-project/swc/commit/224eff91eb06808e2c79bb4fbe06ccf46121758f))
+
+
+- **(es/renamer)** Support `safari10` from the name mangler (#6801) ([631dd78](https://github.com/swc-project/swc/commit/631dd7872b78b8698bb4923c1e81a9a8770c1fea))
+
+
+- **(es/renamer)** Rename synthesized identifiers even on `eval` (#6818) ([82bd5c2](https://github.com/swc-project/swc/commit/82bd5c2041ba95f6d0260e03c446496b7eb37cb4))
+
+### Testing
+
+
+
+- **(es)** Enable execution tests for fixed issues (#6805) ([e7ea054](https://github.com/swc-project/swc/commit/e7ea054c6389b43b0e7b104e9337e11a82bb23f7))
+
+
+- **(es/compat)** Add a test to verify parameters passs (#6792) ([7dc5ccb](https://github.com/swc-project/swc/commit/7dc5ccb0fc217abdb7ab4e76ac7f646c5087b3a8))
+
+
+- **(es/minifier)** Add a test for an invalid issue (#6802) ([a299fd0](https://github.com/swc-project/swc/commit/a299fd04180c77a97817d9e817b247efa1973e06))
+
+
+- **(es/preset-env)** Add a test for a wrong issue (#6794) ([b29aa5b](https://github.com/swc-project/swc/commit/b29aa5b5a0d4f78795eaf3784c84a18ba1b88bfa))
+
+## [1.3.26] - 2023-01-11
+
+### Bug Fixes
+
+
+
 - **(common)** Mark `\r` as a line ending (#6752) ([26a0c13](https://github.com/swc-project/swc/commit/26a0c135896098e1e1a8fbb99a623311828af5b2))
 
 

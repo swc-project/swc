@@ -9,8 +9,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 var M, _extends = require("@swc/helpers/lib/_extends.js").default;
 !function(M) {
-    var React;
-    M.React = React;
+    var React1;
+    M.React = React1;
 }(M || (M = {})), M || (M = {}), _extends({
     x: ""
 }, void 0, {

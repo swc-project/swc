@@ -1,3 +1,4 @@
 function foo() {
-    class Bar {}
+    let Bar = class Bar {
+    };
 }

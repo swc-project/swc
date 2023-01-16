@@ -21,7 +21,7 @@
 @import url("");
 @import url("");
 @import url(test.css) screen and (orientation: landscape);
-@import url(test.css) SCREEN and (ORIENTATION: LANDSCAPE);
+@import url(test.css) screen and (orientation: landscape);
 @import url(test.css) screen and (orientation: landscape);
 @import url(test.css) screen and (orientation: landscape);
 @import url(test-media.css) screen and (orientation: landscape);
@@ -130,7 +130,7 @@
 @import url("./test.css") layer(default) supports(display: flex) screen and (min-width: 400px);
 @import url("./test.css") screen and (min-width: 400px);
 @import url("./test.css") layer(default) supports(display: flex) screen and (min-width: 400px);
-@import url("./test.css") layer(DEFAULT) supports(display: FLEX) SCREEN and (MIN-WIDTH: 400px);
+@import url("./test.css") layer(DEFAULT) supports(display: FLEX) screen and (min-width: 400px);
 @import url("./test.css") layer(default) supports(display: flex) screen and (min-width: 400px);
 @import url(test.css);
 @import url(test.css);

@@ -1,6 +1,6 @@
 function x() {
     (class Baz {
     });
-    class Foo {
-    }
+    let Foo = class Foo {
+    };
 }

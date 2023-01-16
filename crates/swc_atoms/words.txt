@@ -1002,6 +1002,7 @@ bigint
 bisque
 black
 blanchedalmond
+blank
 blink
 block
 block-overflow
@@ -1350,6 +1351,7 @@ filterUnits
 filterunits
 finally
 firebrick
+first
 first-child
 first-letter
 first-line

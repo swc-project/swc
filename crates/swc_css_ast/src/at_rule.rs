@@ -392,6 +392,9 @@ pub enum MediaFeature {
 pub enum MediaFeatureName {
     #[tag("Ident")]
     Ident(Ident),
+
+    #[tag("ExtensionName")]
+    ExtensionName(ExtensionName),
 }
 
 #[ast_node]

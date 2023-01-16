@@ -151,6 +151,7 @@ pub fn resolver(
         config: InnerConfig {
             handle_types: typescript,
             unresolved_mark,
+            top_level_mark,
         },
     })
 }
@@ -211,6 +212,7 @@ struct Resolver<'a> {
 struct InnerConfig {
     handle_types: bool,
     unresolved_mark: Mark,
+    top_level_mark: Mark,
 }
 
 impl<'a> Resolver<'a> {
@@ -232,7 +234,11 @@ impl<'a> Resolver<'a> {
         F: for<'aa> FnOnce(&mut Resolver<'aa>),
     {
         let mut child = Resolver {
-            current: Scope::new(kind, Mark::new(), Some(&self.current)),
+            current: Scope::new(
+                kind,
+                Mark::fresh(self.config.top_level_mark),
+                Some(&self.current),
+            ),
             ident_type: IdentType::Ref,
             config: self.config,
             in_type: self.in_type,

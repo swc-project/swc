@@ -3,14 +3,14 @@
     "object" == typeof module && "object" == typeof module.exports ? factory(exports) : "function" == typeof define && define.amd ? define([
         "exports"
     ], factory) : (global = "undefined" != typeof globalThis ? globalThis : global || self) && factory(global.0Ts = {});
-}(this, function(exports) {
+}(this, function(exports1) {
     "use strict";
     function foo() {
         return "foo";
     }
-    Object.defineProperty(exports, "__esModule", {
+    Object.defineProperty(exports1, "__esModule", {
         value: !0
-    }), Object.defineProperty(exports, "foo", {
+    }), Object.defineProperty(exports1, "foo", {
         enumerable: !0,
         get: ()=>foo
     });
@@ -22,9 +22,9 @@
         "@swc/helpers/src/_async_to_generator.mjs",
         "@swc/helpers/src/_interop_require_wildcard.mjs"
     ], factory) : (global = "undefined" != typeof globalThis ? globalThis : global || self) && factory(global.1Ts = {}, global.asyncToGeneratorMjs, global.interopRequireWildcardMjs);
-}(this, function(exports, _asyncToGenerator, _interopRequireWildcard) {
+}(this, function(exports1, _asyncToGenerator, _interopRequireWildcard) {
     "use strict";
-    Object.defineProperty(exports, "__esModule", {
+    Object.defineProperty(exports1, "__esModule", {
         value: !0
     }), _asyncToGenerator = _asyncToGenerator.default, _interopRequireWildcard = _interopRequireWildcard.default;
 });

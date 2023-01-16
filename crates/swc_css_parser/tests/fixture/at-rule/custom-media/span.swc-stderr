@@ -965,14 +965,6 @@
  7 | @custom-media --circular-mq-a (--circular-mq-b);
    `----
 
-  x Ident
-   ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:5:1]
- 5 | @custom-media --mq-b screen and (max-width: 30em);
- 6 | @custom-media --not-mq-a not all and (--mq-a);
-   :                                       ^^^^^^
- 7 | @custom-media --circular-mq-a (--circular-mq-b);
-   `----
-
   x Rule
    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:6:1]
  6 | @custom-media --not-mq-a not all and (--mq-a);
@@ -1069,14 +1061,6 @@
  8 | @custom-media --circular-mq-b (--circular-mq-a);
    `----
 
-  x Ident
-   ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:6:1]
- 6 | @custom-media --not-mq-a not all and (--mq-a);
- 7 | @custom-media --circular-mq-a (--circular-mq-b);
-   :                                ^^^^^^^^^^^^^^^
- 8 | @custom-media --circular-mq-b (--circular-mq-a);
-   `----
-
   x Rule
    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:7:1]
  7 | @custom-media --circular-mq-a (--circular-mq-b);
@@ -1166,14 +1150,6 @@
    `----
 
   x MediaFeatureName
-   ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:7:1]
- 7 | @custom-media --circular-mq-a (--circular-mq-b);
- 8 | @custom-media --circular-mq-b (--circular-mq-a);
-   :                                ^^^^^^^^^^^^^^^
- 9 | @custom-media --min (min-width: 320px);
-   `----
-
-  x Ident
    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:7:1]
  7 | @custom-media --circular-mq-a (--circular-mq-b);
  8 | @custom-media --circular-mq-b (--circular-mq-a);
@@ -2493,14 +2469,6 @@
  18 | @custom-media --md-and-larger3 only screen and (width >= 570px);
     `----
 
-  x Ident
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:16:1]
- 16 | @custom-media --md-and-larger1 --screen and (width >= 570px);
- 17 | @custom-media --md-and-larger2 (--screen) and (width >= 570px);
-    :                                 ^^^^^^^^
- 18 | @custom-media --md-and-larger3 only screen and (width >= 570px);
-    `----
-
   x MediaConditionAllType
     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:16:1]
  16 | @custom-media --md-and-larger1 --screen and (width >= 570px);
@@ -3613,14 +3581,6 @@
  24 | @custom-media --circular-mq-a (--circular-mq-b);
     `----
 
-  x Ident
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:22:1]
- 22 | @custom-media --mq-b screen and (max-width: 30em);
- 23 | @custom-media --not-mq-a not all and (--mq-a);
-    :                                       ^^^^^^
- 24 | @custom-media --circular-mq-a (--circular-mq-b);
-    `----
-
   x Rule
     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:23:1]
  23 | @custom-media --not-mq-a not all and (--mq-a);
@@ -3717,14 +3677,6 @@
  25 | @custom-media --circular-mq-b (--circular-mq-a);
     `----
 
-  x Ident
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:23:1]
- 23 | @custom-media --not-mq-a not all and (--mq-a);
- 24 | @custom-media --circular-mq-a (--circular-mq-b);
-    :                                ^^^^^^^^^^^^^^^
- 25 | @custom-media --circular-mq-b (--circular-mq-a);
-    `----
-
   x Rule
     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:24:1]
  24 | @custom-media --circular-mq-a (--circular-mq-b);
@@ -3814,14 +3766,6 @@
     `----
 
   x MediaFeatureName
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:24:1]
- 24 | @custom-media --circular-mq-a (--circular-mq-b);
- 25 | @custom-media --circular-mq-b (--circular-mq-a);
-    :                                ^^^^^^^^^^^^^^^
- 26 | @custom-media --min (min-width: 320px);
-    `----
-
-  x Ident
     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:24:1]
  24 | @custom-media --circular-mq-a (--circular-mq-b);
  25 | @custom-media --circular-mq-b (--circular-mq-a);
@@ -4930,14 +4874,6 @@
  33 |     body {
     `----
 
-  x Ident
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:31:1]
- 31 | 
- 32 | @media (--concat) {
-    :         ^^^^^^^^
- 33 |     body {
-    `----
-
   x SimpleBlock
     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:31:1]
  31 |     
@@ -5188,14 +5124,6 @@
     `----
 
   x MediaFeatureName
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:37:1]
- 37 | 
- 38 | @media (--concat) and (min-aspect-ratio: 16/9) {
-    :         ^^^^^^^^
- 39 |     body {
-    `----
-
-  x Ident
     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:37:1]
  37 | 
  38 | @media (--concat) and (min-aspect-ratio: 16/9) {
@@ -5556,14 +5484,6 @@
  45 |     body {
     `----
 
-  x Ident
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:43:1]
- 43 | 
- 44 | @media ( --mq-a ) {
-    :          ^^^^^^
- 45 |     body {
-    `----
-
   x SimpleBlock
     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:43:1]
  43 |     
@@ -5814,14 +5734,6 @@
     `----
 
   x MediaFeatureName
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:49:1]
- 49 | 
- 50 | @media (	--mq-a	) {
-    :          ^^^^^^
- 51 |     body {
-    `----
-
-  x Ident
     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:49:1]
  49 | 
  50 | @media (	--mq-a	) {
@@ -6086,14 +5998,6 @@
  57 |     body {
     `----
 
-  x Ident
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:55:1]
- 55 | 
- 56 | @media ( --mq-a ), (   --mq-a    ) {
-    :          ^^^^^^
- 57 |     body {
-    `----
-
   x MediaQuery
     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:55:1]
  55 | 
@@ -6143,14 +6047,6 @@
     `----
 
   x MediaFeatureName
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:55:1]
- 55 | 
- 56 | @media ( --mq-a ), (   --mq-a    ) {
-    :                        ^^^^^^
- 57 |     body {
-    `----
-
-  x Ident
     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:55:1]
  55 | 
  56 | @media ( --mq-a ), (   --mq-a    ) {
@@ -6415,14 +6311,6 @@
  63 |     body {
     `----
 
-  x Ident
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:61:1]
- 61 | 
- 62 | @media (	--mq-a	), (			--mq-a				) {
-    :          ^^^^^^
- 63 |     body {
-    `----
-
   x MediaQuery
     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:61:1]
  61 | 
@@ -6472,14 +6360,6 @@
     `----
 
   x MediaFeatureName
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:61:1]
- 61 | 
- 62 | @media (	--mq-a	), (			--mq-a				) {
-    :                        ^^^^^^
- 63 |     body {
-    `----
-
-  x Ident
     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:61:1]
  61 | 
  62 | @media (	--mq-a	), (			--mq-a				) {
@@ -6744,14 +6624,6 @@
  69 |     body {
     `----
 
-  x Ident
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:67:1]
- 67 | 
- 68 | @media ( --mq-a   ), (   --mq-a           ) {
-    :          ^^^^^^
- 69 |     body {
-    `----
-
   x MediaQuery
     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:67:1]
  67 | 
@@ -6801,14 +6673,6 @@
     `----
 
   x MediaFeatureName
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:67:1]
- 67 | 
- 68 | @media ( --mq-a   ), (   --mq-a           ) {
-    :                          ^^^^^^
- 69 |     body {
-    `----
-
-  x Ident
     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:67:1]
  67 | 
  68 | @media ( --mq-a   ), (   --mq-a           ) {
@@ -7073,14 +6937,6 @@
  75 |     body {
     `----
 
-  x Ident
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:73:1]
- 73 | 
- 74 | @media (--mq-a), (--mq-a) {
-    :         ^^^^^^
- 75 |     body {
-    `----
-
   x MediaQuery
     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:73:1]
  73 | 
@@ -7130,14 +6986,6 @@
     `----
 
   x MediaFeatureName
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:73:1]
- 73 | 
- 74 | @media (--mq-a), (--mq-a) {
-    :                   ^^^^^^
- 75 |     body {
-    `----
-
-  x Ident
     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:73:1]
  73 | 
  74 | @media (--mq-a), (--mq-a) {
@@ -7667,14 +7515,6 @@
  87 |     body {
     `----
 
-  x Ident
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:85:1]
- 85 | 
- 86 | @media (--min) and (--max) {
-    :         ^^^^^
- 87 |     body {
-    `----
-
   x MediaConditionAllType
     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:85:1]
  85 | 
@@ -7724,14 +7564,6 @@
     `----
 
   x MediaFeatureName
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:85:1]
- 85 | 
- 86 | @media (--min) and (--max) {
-    :                     ^^^^^
- 87 |     body {
-    `----
-
-  x Ident
     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:85:1]
  85 | 
  86 | @media (--min) and (--max) {
@@ -7996,14 +7828,6 @@
  93 |     body {
     `----
 
-  x Ident
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:91:1]
- 91 | 
- 92 | @media (--circular-mq-a) {
-    :         ^^^^^^^^^^^^^^^
- 93 |     body {
-    `----
-
   x SimpleBlock
     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:91:1]
  91 |     
@@ -8261,14 +8085,6 @@
  99 |     body {
     `----
 
-  x Ident
-    ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:97:1]
- 97 | 
- 98 | @media (--circular-mq-b) {
-    :         ^^^^^^^^^^^^^^^
- 99 |     body {
-    `----
-
   x SimpleBlock
      ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:97:1]
   97 |     
@@ -8519,14 +8335,6 @@
      `----
 
   x MediaFeatureName
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:103:1]
- 103 | 
- 104 | @media (--unresolved-mq) {
-     :         ^^^^^^^^^^^^^^^
- 105 |     body {
-     `----
-
-  x Ident
      ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:103:1]
  103 | 
  104 | @media (--unresolved-mq) {
@@ -8791,14 +8599,6 @@
  111 |     body {
      `----
 
-  x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:109:1]
- 109 | 
- 110 | @media (--mq-a) {
-     :         ^^^^^^
- 111 |     body {
-     `----
-
   x SimpleBlock
      ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:109:1]
  109 |     
@@ -9049,14 +8849,6 @@
      `----
 
   x MediaFeatureName
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:115:1]
- 115 | 
- 116 | @media (--mq-b) {
-     :         ^^^^^^
- 117 |     body {
-     `----
-
-  x Ident
      ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:115:1]
  115 | 
  116 | @media (--mq-b) {
@@ -9321,14 +9113,6 @@
  123 |     body {
      `----
 
-  x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:121:1]
- 121 | 
- 122 | @media (--mq-a), (--mq-a) {
-     :         ^^^^^^
- 123 |     body {
-     `----
-
   x MediaQuery
      ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:121:1]
  121 | 
@@ -9378,14 +9162,6 @@
      `----
 
   x MediaFeatureName
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:121:1]
- 121 | 
- 122 | @media (--mq-a), (--mq-a) {
-     :                   ^^^^^^
- 123 |     body {
-     `----
-
-  x Ident
      ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:121:1]
  121 | 
  122 | @media (--mq-a), (--mq-a) {
@@ -9682,14 +9458,6 @@
  129 |     body {
      `----
 
-  x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:127:1]
- 127 | 
- 128 | @media not all and (--mq-a) {
-     :                     ^^^^^^
- 129 |     body {
-     `----
-
   x SimpleBlock
      ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:127:1]
  127 |     
@@ -9940,14 +9708,6 @@
      `----
 
   x MediaFeatureName
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:133:1]
- 133 | 
- 134 | @media (--not-mq-a) {
-     :         ^^^^^^^^^^
- 135 |     body {
-     `----
-
-  x Ident
      ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:133:1]
  133 | 
  134 | @media (--not-mq-a) {
@@ -10244,14 +10004,6 @@
  141 |     body {
      `----
 
-  x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:139:1]
- 139 | 
- 140 | @media not all and (--not-mq-a) {
-     :                     ^^^^^^^^^^
- 141 |     body {
-     `----
-
   x SimpleBlock
      ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:139:1]
  139 |     
@@ -10509,14 +10261,6 @@
  148 |     .a {
      `----
 
-  x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:146:1]
- 146 | 
- 147 | @media (--🧑🏾‍🎤) {
-     :         ^^^^^^^^^^^^^^^^^
- 148 |     .a {
-     `----
-
   x SimpleBlock
      ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:146:1]
  146 |     
@@ -10766,14 +10510,6 @@
  154 |     .a {
      `----
 
-  x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:152:1]
- 152 | 
- 153 | @media (--\(\)-escaped) {
-     :         ^^^^^^^^^^^^^^
- 154 |     .a {
-     `----
-
   x SimpleBlock
      ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:152:1]
  152 |     
@@ -11012,14 +10748,6 @@
      `----
 
   x MediaFeatureName
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:158:1]
- 158 | 
- 159 | @media (--modern) and (width > 1024px) {
-     :         ^^^^^^^^
- 160 |     .a { order: 3; }
-     `----
-
-  x Ident
      ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:158:1]
  158 | 
  159 | @media (--modern) and (width > 1024px) {
@@ -11375,14 +11103,6 @@
  164 |     body {
      `----
 
-  x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:162:1]
- 162 | 
- 163 | @media (--md-and-larger1) {
-     :         ^^^^^^^^^^^^^^^^
- 164 |     body {
-     `----
-
   x SimpleBlock
      ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:162:1]
  162 |     
@@ -11640,14 +11360,6 @@
  170 |     body {
      `----
 
-  x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:168:1]
- 168 | 
- 169 | @media (--md-and-larger2) {
-     :         ^^^^^^^^^^^^^^^^
- 170 |     body {
-     `----
-
   x SimpleBlock
      ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:168:1]
  168 |     
@@ -11905,14 +11617,6 @@
  176 |     body {
      `----
 
-  x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:174:1]
- 174 | 
- 175 | @media (--md-and-larger3) {
-     :         ^^^^^^^^^^^^^^^^
- 176 |     body {
-     `----
-
   x SimpleBlock
      ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:174:1]
  174 |     
@@ -12170,14 +11874,6 @@
  182 |     body {
      `----
 
-  x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:180:1]
- 180 | 
- 181 | @media (--screen) and (--md-larger4) {
-     :         ^^^^^^^^
- 182 |     body {
-     `----
-
   x MediaConditionAllType
      ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:180:1]
  180 | 
@@ -12227,14 +11923,6 @@
      `----
 
   x MediaFeatureName
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:180:1]
- 180 | 
- 181 | @media (--screen) and (--md-larger4) {
-     :                        ^^^^^^^^^^^^
- 182 |     body {
-     `----
-
-  x Ident
      ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:180:1]
  180 | 
  181 | @media (--screen) and (--md-larger4) {
@@ -12499,14 +12187,6 @@
  188 |     body {
      `----
 
-  x Ident
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:186:1]
- 186 | 
- 187 | @media (--md-larger4) and (--md-smaller4) {
-     :         ^^^^^^^^^^^^
- 188 |     body {
-     `----
-
   x MediaConditionAllType
      ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:186:1]
  186 | 
@@ -12556,14 +12236,6 @@
      `----
 
   x MediaFeatureName
-     ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:186:1]
- 186 | 
- 187 | @media (--md-larger4) and (--md-smaller4) {
-     :                            ^^^^^^^^^^^^^
- 188 |     body {
-     `----
-
-  x Ident
      ,-[$DIR/tests/fixture/at-rule/custom-media/input.css:186:1]
  186 | 
  187 | @media (--md-larger4) and (--md-smaller4) {

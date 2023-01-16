@@ -32,7 +32,7 @@ a2.a, a2.b, a2 = {
 var b2 = _object_spread_props(_object_spread({}, b1), {
     z: 55
 });
-_object_spread({}, b2);
+_object_spread({}, b2), opts;
 var d1 = {
     kind: "a",
     pos: {

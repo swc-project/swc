@@ -1,3 +1,5 @@
+use std::path::PathBuf;
+
 use swc_common::{chain, comments::SingleThreadedComments, Mark};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::resolver;
@@ -7,7 +9,7 @@ use swc_ecma_transforms_compat::{
     },
     es2017::async_to_generator,
 };
-use swc_ecma_transforms_testing::{test, test_exec};
+use swc_ecma_transforms_testing::{test, test_exec, test_fixture};
 use swc_ecma_visit::Fold;
 
 fn syntax() -> Syntax {
@@ -2308,3 +2310,22 @@ test!(
     console.log(v0(1, 2, 'hello', true, 7));
 "#
 );
+
+#[testing::fixture("tests/parameters/**/input.js")]
+fn fixture(input: PathBuf) {
+    let output = input.with_file_name("output.js");
+
+    test_fixture(
+        Default::default(),
+        &|_| {
+            let unresolved_mark = Mark::new();
+            chain!(
+                resolver(unresolved_mark, Mark::new(), false),
+                parameters(Default::default(), unresolved_mark)
+            )
+        },
+        &input,
+        &output,
+        Default::default(),
+    );
+}

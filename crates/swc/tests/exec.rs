@@ -55,6 +55,10 @@ fn init_helpers() -> Arc<PathBuf> {
 
         let helper_dir = project_root.join("packages").join("swc-helpers");
 
+        if env::var("SKIP_HELPERS").unwrap_or_default() == "1" {
+            return Arc::new(helper_dir);
+        }
+
         let yarn = find_executable("yarn").expect("failed to find yarn");
         let npm = find_executable("npm").expect("failed to find npm");
         {

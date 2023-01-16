@@ -60,7 +60,10 @@
  57 | |       }
  58 | |       
  59 | |       margin: 20px;
- 60 | `-> }
+ 60 | |   }
+ 61 | |   
+ 62 | |   @page :FIRST {}
+ 63 | `-> @page :LEFT {}
     `----
 
   x Rule
@@ -3906,4 +3909,154 @@
  59 |     margin: 20px;
     :               ^^
  60 | }
+    `----
+
+  x Rule
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:61:1]
+ 61 | 
+ 62 | @page :FIRST {}
+    : ^^^^^^^^^^^^^^^
+ 63 | @page :LEFT {}
+    `----
+
+  x AtRule
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:61:1]
+ 61 | 
+ 62 | @page :FIRST {}
+    : ^^^^^^^^^^^^^^^
+ 63 | @page :LEFT {}
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:61:1]
+ 61 | 
+ 62 | @page :FIRST {}
+    :  ^^^^
+ 63 | @page :LEFT {}
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:61:1]
+ 61 | 
+ 62 | @page :FIRST {}
+    :  ^^^^
+ 63 | @page :LEFT {}
+    `----
+
+  x PageSelectorList
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:61:1]
+ 61 | 
+ 62 | @page :FIRST {}
+    :       ^^^^^^
+ 63 | @page :LEFT {}
+    `----
+
+  x PageSelector
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:61:1]
+ 61 | 
+ 62 | @page :FIRST {}
+    :       ^^^^^^
+ 63 | @page :LEFT {}
+    `----
+
+  x PageSelectorPseudo
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:61:1]
+ 61 | 
+ 62 | @page :FIRST {}
+    :       ^^^^^^
+ 63 | @page :LEFT {}
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:61:1]
+ 61 | 
+ 62 | @page :FIRST {}
+    :        ^^^^^
+ 63 | @page :LEFT {}
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:61:1]
+ 61 | 
+ 62 | @page :FIRST {}
+    :              ^^
+ 63 | @page :LEFT {}
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:61:1]
+ 61 | 
+ 62 | @page :FIRST {}
+    :              ^
+ 63 | @page :LEFT {}
+    `----
+
+  x Rule
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:62:1]
+ 62 | @page :FIRST {}
+ 63 | @page :LEFT {}
+    : ^^^^^^^^^^^^^^
+    `----
+
+  x AtRule
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:62:1]
+ 62 | @page :FIRST {}
+ 63 | @page :LEFT {}
+    : ^^^^^^^^^^^^^^
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:62:1]
+ 62 | @page :FIRST {}
+ 63 | @page :LEFT {}
+    :  ^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:62:1]
+ 62 | @page :FIRST {}
+ 63 | @page :LEFT {}
+    :  ^^^^
+    `----
+
+  x PageSelectorList
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:62:1]
+ 62 | @page :FIRST {}
+ 63 | @page :LEFT {}
+    :       ^^^^^
+    `----
+
+  x PageSelector
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:62:1]
+ 62 | @page :FIRST {}
+ 63 | @page :LEFT {}
+    :       ^^^^^
+    `----
+
+  x PageSelectorPseudo
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:62:1]
+ 62 | @page :FIRST {}
+ 63 | @page :LEFT {}
+    :       ^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:62:1]
+ 62 | @page :FIRST {}
+ 63 | @page :LEFT {}
+    :        ^^^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:62:1]
+ 62 | @page :FIRST {}
+ 63 | @page :LEFT {}
+    :             ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:62:1]
+ 62 | @page :FIRST {}
+ 63 | @page :LEFT {}
+    :             ^
     `----

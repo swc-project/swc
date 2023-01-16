@@ -5,7 +5,7 @@ function _templateObject() {
         "Hello ",
         " world!"
     ]);
-    return _templateObject = function _templateObject() {
+    return _templateObject = function() {
         return data;
     }, data;
 }
