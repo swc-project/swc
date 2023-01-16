@@ -234,7 +234,11 @@ impl<'a> Resolver<'a> {
         F: for<'aa> FnOnce(&mut Resolver<'aa>),
     {
         let mut child = Resolver {
-            current: Scope::new(kind, Mark::new(), Some(&self.current)),
+            current: Scope::new(
+                kind,
+                Mark::fresh(self.config.top_level_mark),
+                Some(&self.current),
+            ),
             ident_type: IdentType::Ref,
             config: self.config,
             in_type: self.in_type,
