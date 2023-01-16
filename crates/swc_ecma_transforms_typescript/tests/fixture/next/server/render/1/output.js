@@ -232,7 +232,7 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
         locales: renderOpts.locales,
         defaultLocale: renderOpts.defaultLocale,
         AppTree: (props)=>{
-            return <AppContainer >
+            return <AppContainer>
 
                     <App {...props} Component={Component} router={router}/>
 
@@ -552,7 +552,7 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
                     throw new Error(`'router' and 'Component' can not be returned in getInitialProps from _app.js https://nextjs.org/docs/messages/cant-override-next-props`);
                 }
                 const { App: EnhancedApp , Component: EnhancedComponent  } = enhanceComponents(options, App, Component);
-                const html = ReactDOMServer.renderToString(<AppContainer >
+                const html = ReactDOMServer.renderToString(<AppContainer>
 
                         <EnhancedApp Component={EnhancedComponent} router={router} {...props}/>
 
@@ -583,7 +583,7 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
                 styles: docProps.styles
             };
         } else {
-            const content = ctx.err && ErrorDebug ? <ErrorDebug error={ctx.err}/> : <AppContainer >
+            const content = ctx.err && ErrorDebug ? <ErrorDebug error={ctx.err}/> : <AppContainer>
 
                         <App {...props} Component={Component} router={router}/>
 
