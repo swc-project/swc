@@ -1,10 +1,10 @@
 //// [file.js]
+"use strict";
 /**
  * @namespace myTypes
  * @global
  * @type {Object<string,*>}
- */ "use strict";
-Object.defineProperty(exports, "__esModule", {
+ */ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 Object.defineProperty(exports, "myTypes", {

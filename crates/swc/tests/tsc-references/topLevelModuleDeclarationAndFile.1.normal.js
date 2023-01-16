@@ -13,8 +13,8 @@ var x = 42;
 //// [foo_1.ts]
 "use strict";
 //// [foo_2.ts]
-/// <reference path="foo_1.ts"/>
 "use strict";
+/// <reference path="foo_1.ts"/>
 Object.defineProperty(exports, "__esModule", {
     value: true
 });

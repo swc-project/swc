@@ -1,6 +1,6 @@
 //// [main.ts]
-// https://github.com/microsoft/TypeScript/issues/39149
 "use strict";
+// https://github.com/microsoft/TypeScript/issues/39149
 Object.defineProperty(exports, "__esModule", {
     value: true
 });

@@ -1,9 +1,9 @@
+"use strict";
 /*
  * Copyright (c) 2020. MeLike2D All Rights Reserved.
  * Neo is licensed under the MIT License.
  * See the LICENSE file in the project root for more details.
- */ "use strict";
-Object.defineProperty(exports, "__esModule", {
+ */ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 Object.defineProperty(exports, "Shard", {

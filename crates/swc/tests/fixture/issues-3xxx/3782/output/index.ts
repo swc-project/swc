@@ -1,5 +1,5 @@
-// index.ts
 "use strict";
+// index.ts
 function _export(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
         enumerable: true,

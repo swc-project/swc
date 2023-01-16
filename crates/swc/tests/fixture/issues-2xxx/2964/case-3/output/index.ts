@@ -1,5 +1,5 @@
-// single line comment
 "use strict";
+// single line comment
 Object.defineProperty(exports, "__esModule", {
     value: true
 });

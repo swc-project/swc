@@ -1,11 +1,11 @@
 //// [libReferenceNoLib.ts]
-// Test that passing noLib disables <reference lib> resolution.
 "use strict";
+// Test that passing noLib disables <reference lib> resolution.
 //// [fakelib.ts]
 "use strict";
 //// [file1.ts]
-/// <reference lib="dom" />
 "use strict";
+/// <reference lib="dom" />
 Object.defineProperty(exports, "__esModule", {
     value: true
 });

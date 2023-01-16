@@ -1,12 +1,12 @@
 //// [file1.ts]
-/// <reference lib="dom" />
 "use strict";
+/// <reference lib="dom" />
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 //// [file2.ts]
-/// <reference lib="dom" />
 "use strict";
+/// <reference lib="dom" />
 Object.defineProperty(exports, "__esModule", {
     value: true
 });

@@ -1,7 +1,7 @@
 //// [preact.tsx]
+"use strict";
 /// <reference path="/.lib/react16.d.ts" />
-/* @jsxImportSource preact */ "use strict";
-Object.defineProperty(exports, "__esModule", {
+/* @jsxImportSource preact */ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 var _objectSpread = require("@swc/helpers/lib/_object_spread.js").default;
@@ -18,9 +18,9 @@ var b = /*#__PURE__*/ (0, _react.createElement)("div", _objectSpreadProps(_objec
     key: "bar"
 }), "text");
 //// [react.tsx]
+"use strict";
 /// <reference path="/.lib/react16.d.ts" />
-/* @jsxImportSource react */ "use strict";
-Object.defineProperty(exports, "__esModule", {
+/* @jsxImportSource react */ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 var _objectSpread = require("@swc/helpers/lib/_object_spread.js").default;

@@ -1,5 +1,5 @@
-// work
 "use strict";
+// work
 Object.defineProperty(exports, "__esModule", {
     value: true
 });

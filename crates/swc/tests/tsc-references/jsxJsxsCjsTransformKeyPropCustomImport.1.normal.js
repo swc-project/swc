@@ -1,6 +1,6 @@
 //// [jsxJsxsCjsTransformKeyPropCustomImport.tsx]
-/// <reference path="/.lib/react16.d.ts" />
 "use strict";
+/// <reference path="/.lib/react16.d.ts" />
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
