@@ -1,4 +1,4 @@
-function e(...e) {
+function e(...n) {
     return value;
 }
 export { };
