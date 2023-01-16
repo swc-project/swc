@@ -91,52 +91,6 @@ macro_rules! add_import_to {
     }};
 }
 
-macro_rules! add_require_to {
-    ($buf:expr, $name:ident, $b:expr, $mark:expr, $global_mark:expr) => {{
-        let enable = $b.load(Ordering::Relaxed);
-        if enable {
-            let c = CallExpr {
-                span: DUMMY_SP,
-                callee: Expr::Ident(Ident {
-                    span: DUMMY_SP.apply_mark($global_mark),
-                    sym: "require".into(),
-                    optional: false,
-                })
-                .as_callee(),
-                args: vec![Str {
-                    span: DUMMY_SP,
-                    value: "@swc/helpers".into(),
-                    raw: None,
-                }
-                .as_arg()],
-                type_args: None,
-            };
-            let decl = Decl::Var(
-                VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    declare: false,
-                    decls: vec![VarDeclarator {
-                        span: DUMMY_SP,
-                        name: Pat::Ident(Ident::new(
-                            concat!("_", stringify!($name)).into(),
-                            DUMMY_SP.apply_mark($mark),
-                        ).into()),
-                        init: Some(MemberExpr {
-                            span: DUMMY_SP,
-                            obj: c.into(),
-                            prop: Ident::new(stringify!($name).into(), DUMMY_SP).into(),
-                        }
-                        .into()),
-                        definite: false,
-                    }],
-                }
-                .into(),
-            );
-            $buf.push(Stmt::Decl(decl));
-        }
-    }};
-}
 better_scoped_tls::scoped_tls!(
     /// This variable is used to manage helper scripts like `_inherits` from babel.
     ///
@@ -254,7 +208,11 @@ macro_rules! define_helpers {
                 HELPERS.with(|helpers|{
                     debug_assert!(helpers.external);
                     $(
-                        add_require_to!(buf, $name, helpers.inner.$name, helpers.mark.0, self.global_mark);
+                        let enable = helpers.inner.$name.load(Ordering::Relaxed);
+                        if enable {
+                            buf.push(self.build_reqire(stringify!($name), helpers.mark.0))
+                        }
+                        // add_require_to!(buf, $name, helpers.inner.$name, helpers.mark.0, self.global_mark);
                     )*
                 });
                 buf
@@ -457,6 +415,50 @@ impl InjectHelpers {
         } else {
             self.build_helpers()
         }
+    }
+
+    fn build_reqire(&self, name: &str, mark: Mark) -> Stmt {
+        let c = CallExpr {
+            span: DUMMY_SP,
+            callee: Expr::Ident(Ident {
+                span: DUMMY_SP.apply_mark(self.global_mark),
+                sym: "require".into(),
+                optional: false,
+            })
+            .as_callee(),
+            args: vec![Str {
+                span: DUMMY_SP,
+                value: "@swc/helpers".into(),
+                raw: None,
+            }
+            .as_arg()],
+            type_args: None,
+        };
+        let decl = Decl::Var(
+            VarDecl {
+                span: DUMMY_SP,
+                kind: VarDeclKind::Var,
+                declare: false,
+                decls: vec![VarDeclarator {
+                    span: DUMMY_SP,
+                    name: Pat::Ident(
+                        Ident::new(("_".to_string() + name).into(), DUMMY_SP.apply_mark(mark))
+                            .into(),
+                    ),
+                    init: Some(
+                        MemberExpr {
+                            span: DUMMY_SP,
+                            obj: c.into(),
+                            prop: Ident::new(name.into(), DUMMY_SP).into(),
+                        }
+                        .into(),
+                    ),
+                    definite: false,
+                }],
+            }
+            .into(),
+        );
+        Stmt::Decl(decl)
     }
 }
 
