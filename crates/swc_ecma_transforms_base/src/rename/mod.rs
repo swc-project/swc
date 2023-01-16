@@ -182,7 +182,7 @@ macro_rules! unit {
             if contains_eval(n, true) {
                 n.visit_mut_children_with(self);
             } else {
-                let map = self.get_map(n, false, false);
+                let map = self.get_map(n, false, false, false);
 
                 n.visit_mut_with(&mut rename_with_config(&map, self.config.clone()));
             }
@@ -194,7 +194,7 @@ macro_rules! unit {
             if contains_eval(n, true) {
                 n.visit_mut_children_with(self);
             } else {
-                let map = self.get_map(n, true, false);
+                let map = self.get_map(n, true, false, false);
 
                 n.visit_mut_with(&mut rename_with_config(&map, self.config.clone()));
             }
@@ -235,7 +235,7 @@ where
         if contains_eval(m, true) {
             m.visit_mut_children_with(self);
         } else {
-            let map = self.get_map(m, false, true);
+            let map = self.get_map(m, false, true, false);
 
             m.visit_mut_with(&mut rename_with_config(&map, self.config.clone()));
         }
@@ -248,7 +248,7 @@ where
         if contains_eval(s, true) {
             s.visit_mut_children_with(self);
         } else {
-            let map = self.get_map(s, false, true);
+            let map = self.get_map(s, false, true, false);
 
             s.visit_mut_with(&mut rename_with_config(&map, self.config.clone()));
         }
