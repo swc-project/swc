@@ -31,6 +31,9 @@
 
 - **(es/renamer)** Support `safari10` from the name mangler (#6801) ([631dd78](https://github.com/swc-project/swc/commit/631dd7872b78b8698bb4923c1e81a9a8770c1fea))
 
+
+- **(es/renamer)** Rename synthesized identifiers even on `eval` (#6818) ([82bd5c2](https://github.com/swc-project/swc/commit/82bd5c2041ba95f6d0260e03c446496b7eb37cb4))
+
 ### Testing
 
 
