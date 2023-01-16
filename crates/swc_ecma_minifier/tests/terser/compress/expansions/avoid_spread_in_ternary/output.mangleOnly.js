@@ -1,5 +1,5 @@
-function e(...e) {
-    console.log(...e);
+function e(...o) {
+    console.log(...o);
 }
 var o = [
     1,
