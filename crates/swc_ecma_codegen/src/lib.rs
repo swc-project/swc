@@ -104,6 +104,7 @@ where
         if !is_first_directive {
             self.emit_leading_comments_of_span(node.span(), false)?;
         }
+        let mut print_leading_comments = is_first_directive;
 
         if node.body.is_empty() {
             srcmap!(node, true);
@@ -114,8 +115,16 @@ where
             self.wr.write_str_lit(DUMMY_SP, shebang)?;
             self.wr.write_line()?;
         }
-        for stmt in &node.body {
+        for (i, stmt) in node.body.iter().enumerate() {
+            if i != 0 && print_leading_comments {
+                print_leading_comments = false;
+                self.emit_leading_comments_of_span(node.span, false)?;
+            }
+
             emit!(stmt);
+        }
+        if print_leading_comments {
+            self.emit_leading_comments_of_span(node.span, false)?;
         }
 
         self.emit_trailing_comments_of_pos(node.span().hi, true, true)?;
@@ -137,6 +146,7 @@ where
         if !is_first_directive {
             self.emit_leading_comments_of_span(node.span(), false)?;
         }
+        let mut print_leading_comments = is_first_directive;
 
         if node.body.is_empty() {
             srcmap!(node, true);
@@ -147,8 +157,16 @@ where
             self.wr.write_str_lit(DUMMY_SP, shebang)?;
             self.wr.write_line()?;
         }
-        for stmt in &node.body {
+        for (i, stmt) in node.body.iter().enumerate() {
+            if i != 0 && print_leading_comments {
+                print_leading_comments = false;
+                self.emit_leading_comments_of_span(node.span, false)?;
+            }
+
             emit!(stmt);
+        }
+        if print_leading_comments {
+            self.emit_leading_comments_of_span(node.span, false)?;
         }
 
         self.emit_trailing_comments_of_pos(node.span().hi, true, true)?;
