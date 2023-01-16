@@ -1,0 +1,23 @@
+{
+    "jsc": {
+        "preserveAllComments": true,
+        "parser": {
+            "syntax": "ecmascript",
+            "jsx": false
+        },
+        "target": "es5",
+        "loose": false,
+        "minify": {
+            "compress": false,
+            "format": {
+                "indent_level": 2
+            },
+            "mangle": false
+        }
+    },
+    "minify": false,
+    "isModule": true,
+    "module": {
+        "type": "commonjs"
+    }
+}
