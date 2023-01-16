@@ -233,13 +233,16 @@ where
         self.unresolved = self.get_unresolved(m);
 
         let has_eval = contains_eval(m, true);
+
+        {
+            let map = self.get_map(m, false, true, has_eval);
+
+            m.visit_mut_with(&mut rename_with_config(&map, self.config.clone()));
+        }
+
         if has_eval {
             m.visit_mut_children_with(self);
         }
-
-        let map = self.get_map(m, false, true, has_eval);
-
-        m.visit_mut_with(&mut rename_with_config(&map, self.config.clone()));
     }
 
     fn visit_mut_script(&mut self, m: &mut Script) {
@@ -247,13 +250,16 @@ where
         self.unresolved = self.get_unresolved(m);
 
         let has_eval = contains_eval(m, true);
+
+        {
+            let map = self.get_map(m, false, true, has_eval);
+
+            m.visit_mut_with(&mut rename_with_config(&map, self.config.clone()));
+        }
+
         if has_eval {
             m.visit_mut_children_with(self);
         }
-
-        let map = self.get_map(m, false, true, has_eval);
-
-        m.visit_mut_with(&mut rename_with_config(&map, self.config.clone()));
     }
 }
 
@@ -271,4 +277,14 @@ mod renamer_single {
 
     impl<T> Send for T where T: ?Sized {}
     impl<T> Sync for T where T: ?Sized {}
+}
+
+struct HygieneRemover;
+
+impl VisitMut for HygieneRemover {
+    noop_visit_mut_type!();
+
+    fn visit_mut_ident(&mut self, i: &mut Ident) {
+        i.span.ctxt = Default::default();
+    }
 }
