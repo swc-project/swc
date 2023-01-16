@@ -58,7 +58,7 @@ export interface BundleOptions extends SpackConfig {
 }
 
 /**
- * `spack.config,js`
+ * `spack.config.js`
  */
 export interface SpackConfig {
     /**
