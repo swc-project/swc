@@ -355,7 +355,10 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                 top_level_mark: self.top_level_mark,
             }),
             Optional::new(
-                hygiene_with_config(self.hygiene.clone().unwrap_or_default()),
+                hygiene_with_config(swc_ecma_transforms_base::hygiene::Config {
+                    top_level_mark: self.top_level_mark,
+                    ..self.hygiene.clone().unwrap_or_default()
+                }),
                 self.hygiene.is_some() && !is_mangler_enabled
             ),
             Optional::new(fixer(comments.map(|v| v as &dyn Comments)), self.fixer),
