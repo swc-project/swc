@@ -12,7 +12,7 @@ use swc_common::{
     util::take::Take,
     FileName, Mark, SourceMap,
 };
-use swc_ecma_ast::{EsVersion, Module};
+use swc_ecma_ast::{EsVersion, Module, Script};
 use swc_ecma_minifier::option::{terser::TerserTopLevelOptions, MinifyOptions};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::{
@@ -427,6 +427,61 @@ impl VisitMut for MinifierPass {
                     },
                 )
                 .expect_module()
+            })
+        }
+    }
+
+    fn visit_mut_script(&mut self, m: &mut Script) {
+        if let Some(options) = &self.options {
+            let opts = MinifyOptions {
+                compress: options
+                    .compress
+                    .clone()
+                    .unwrap_as_option(|default| match default {
+                        Some(true) => Some(Default::default()),
+                        _ => None,
+                    })
+                    .map(|mut v| {
+                        if v.const_to_let.is_none() {
+                            v.const_to_let = Some(true);
+                        }
+
+                        v.into_config(self.cm.clone())
+                    }),
+                mangle: options
+                    .mangle
+                    .clone()
+                    .unwrap_as_option(|default| match default {
+                        Some(true) => Some(Default::default()),
+                        _ => None,
+                    }),
+                ..Default::default()
+            };
+
+            if opts.compress.is_none() && opts.mangle.is_none() {
+                return;
+            }
+
+            m.visit_mut_with(&mut hygiene());
+
+            let unresolved_mark = Mark::new();
+            let top_level_mark = Mark::new();
+
+            m.visit_mut_with(&mut resolver(unresolved_mark, top_level_mark, false));
+
+            m.map_with_mut(|m| {
+                swc_ecma_minifier::optimize(
+                    m.into(),
+                    self.cm.clone(),
+                    self.comments.as_ref().map(|v| v as &dyn Comments),
+                    None,
+                    &opts,
+                    &swc_ecma_minifier::option::ExtraOptions {
+                        unresolved_mark,
+                        top_level_mark,
+                    },
+                )
+                .expect_script()
             })
         }
     }
