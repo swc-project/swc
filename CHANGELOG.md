@@ -5,6 +5,9 @@
 
 
 
+- **(es/codegen)** Skip space if jsx attrs is empty (#6823) ([e9fdac2](https://github.com/swc-project/swc/commit/e9fdac216c0a578f266a7a16000e2675d722068c))
+
+
 - **(es/compat)** Ignore `this` in nested scopes in `classes` pass (#6796) ([07676d5](https://github.com/swc-project/swc/commit/07676d5515321c50206b3f0ea9f1473b6b2c3192))
 
 
