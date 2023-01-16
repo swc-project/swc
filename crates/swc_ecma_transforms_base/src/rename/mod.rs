@@ -278,13 +278,3 @@ mod renamer_single {
     impl<T> Send for T where T: ?Sized {}
     impl<T> Sync for T where T: ?Sized {}
 }
-
-struct HygieneRemover;
-
-impl VisitMut for HygieneRemover {
-    noop_visit_mut_type!();
-
-    fn visit_mut_ident(&mut self, i: &mut Ident) {
-        i.span.ctxt = Default::default();
-    }
-}
