@@ -93,7 +93,17 @@ where
 
     #[emitter]
     pub fn emit_module(&mut self, node: &Module) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        let is_first_directive = match &node.body[0] {
+            ModuleItem::Stmt(Stmt::Expr(ExprStmt { expr, .. })) => match &**expr {
+                Expr::Lit(Lit::Str(..)) => true,
+                _ => false,
+            },
+            _ => false,
+        };
+
+        if !is_first_directive {
+            self.emit_leading_comments_of_span(node.span(), false)?;
+        }
 
         if node.body.is_empty() {
             srcmap!(node, true);
@@ -116,7 +126,17 @@ where
 
     #[emitter]
     pub fn emit_script(&mut self, node: &Script) -> Result {
-        self.emit_leading_comments_of_span(node.span(), false)?;
+        let is_first_directive = match &node.body[0] {
+            Stmt::Expr(ExprStmt { expr, .. }) => match &**expr {
+                Expr::Lit(Lit::Str(..)) => true,
+                _ => false,
+            },
+            _ => false,
+        };
+
+        if !is_first_directive {
+            self.emit_leading_comments_of_span(node.span(), false)?;
+        }
 
         if node.body.is_empty() {
             srcmap!(node, true);
