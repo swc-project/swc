@@ -232,26 +232,28 @@ where
         self.preserved = self.renamer.preserved_ids_for_module(m);
         self.unresolved = self.get_unresolved(m);
 
-        if contains_eval(m, true) {
+        let has_eval = contains_eval(m, true);
+        if has_eval {
             m.visit_mut_children_with(self);
-        } else {
-            let map = self.get_map(m, false, true, false);
-
-            m.visit_mut_with(&mut rename_with_config(&map, self.config.clone()));
         }
+
+        let map = self.get_map(m, false, true, has_eval);
+
+        m.visit_mut_with(&mut rename_with_config(&map, self.config.clone()));
     }
 
-    fn visit_mut_script(&mut self, s: &mut Script) {
-        self.preserved = self.renamer.preserved_ids_for_script(s);
-        self.unresolved = self.get_unresolved(s);
+    fn visit_mut_script(&mut self, m: &mut Script) {
+        self.preserved = self.renamer.preserved_ids_for_script(m);
+        self.unresolved = self.get_unresolved(m);
 
-        if contains_eval(s, true) {
-            s.visit_mut_children_with(self);
-        } else {
-            let map = self.get_map(s, false, true, false);
-
-            s.visit_mut_with(&mut rename_with_config(&map, self.config.clone()));
+        let has_eval = contains_eval(m, true);
+        if has_eval {
+            m.visit_mut_children_with(self);
         }
+
+        let map = self.get_map(m, false, true, has_eval);
+
+        m.visit_mut_with(&mut rename_with_config(&map, self.config.clone()));
     }
 }
 
