@@ -442,7 +442,7 @@ impl InjectHelpers {
                 decls: vec![VarDeclarator {
                     span: DUMMY_SP,
                     name: Pat::Ident(
-                        Ident::new(("_".to_string() + name).into(), DUMMY_SP.apply_mark(mark))
+                        Ident::new(format!("_{}", name).into(), DUMMY_SP.apply_mark(mark))
                             .into(),
                     ),
                     init: Some(
