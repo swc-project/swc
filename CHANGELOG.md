@@ -29,6 +29,9 @@
 - **(es/ast)** Add `EsNext` to `EsVersion` (#6816) ([ff78b8f](https://github.com/swc-project/swc/commit/ff78b8f7e077bad599f9b740ca4e831f835a347b))
 
 
+- **(es/helper)** Use `require` to load polyfills and helpers in Script (#6778) ([ad8d043](https://github.com/swc-project/swc/commit/ad8d043f1d75b2df5a5e2fe43fba1ec843d2fad4))
+
+
 - **(es/minifier)** Remove noop spreads (#6803) ([8f683e3](https://github.com/swc-project/swc/commit/8f683e3f77fe9f4fd84a5bf64c067ae9526fb330))
 
 
