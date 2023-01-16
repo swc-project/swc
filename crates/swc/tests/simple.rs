@@ -13,17 +13,7 @@ fn compile(src: &str, options: Options) -> String {
             let c = Compiler::new(cm.clone());
 
             let fm = cm.new_source_file(FileName::Real("input.js".into()), src.into());
-            let s = c.process_js_file(
-                fm,
-                &handler,
-                &Options {
-                    config: Config {
-                        is_module: IsModule::Bool(true),
-                        ..options.config
-                    },
-                    ..options
-                },
-            );
+            let s = c.process_js_file(fm, &handler, &options);
 
             match s {
                 Ok(v) => {
@@ -158,7 +148,7 @@ fn is_module_unknown_script() {
         Options {
             swcrc: false,
             config: Config {
-                is_module: IsModule::Unknown,
+                is_module: Some(IsModule::Unknown),
                 ..Default::default()
             },
             ..Default::default()
@@ -178,7 +168,7 @@ fn is_module_unknown_module() {
         Options {
             swcrc: false,
             config: Config {
-                is_module: IsModule::Unknown,
+                is_module: Some(IsModule::Unknown),
                 ..Default::default()
             },
             ..Default::default()

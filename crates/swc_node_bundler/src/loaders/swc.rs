@@ -212,7 +212,6 @@ impl SwcLoader {
                             module: None,
                             minify: false.into(),
                             input_source_map: InputSourceMap::Bool(false).into(),
-                            is_module: IsModule::Bool(true),
                             ..c.clone()
                         }
                     },

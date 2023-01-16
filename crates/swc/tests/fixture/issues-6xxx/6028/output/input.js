@@ -1,4 +1,4 @@
-import _create_for_of_iterator_helper_loose from "@swc/helpers/src/_create_for_of_iterator_helper_loose.mjs";
+var _create_for_of_iterator_helper_loose = require("@swc/helpers").create_for_of_iterator_helper_loose;
 var m = new Map([
     [
         1,
