@@ -274,7 +274,12 @@ pub fn optimize(
         )
         .compile();
 
-        n.visit_mut_with(&mut name_mangler(mangle.clone(), preserved, chars));
+        n.visit_mut_with(&mut name_mangler(
+            mangle.clone(),
+            preserved,
+            chars,
+            extra.top_level_mark,
+        ));
 
         if let Some(property_mangle_options) = &mangle.props {
             mangle_properties(&mut n, &module_info, property_mangle_options.clone(), chars);
