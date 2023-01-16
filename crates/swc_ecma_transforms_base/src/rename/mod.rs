@@ -106,6 +106,7 @@ where
         node: &N,
         skip_one: bool,
         is_module_or_script: bool,
+        has_eval: bool,
     ) -> AHashMap<Id, JsWord>
     where
         N: VisitWith<IdCollector> + VisitWith<CustomBindingCollector<Id>>,
@@ -114,6 +115,9 @@ where
         let mut scope = {
             let mut v = Analyzer {
                 safari_10: self.config.safari_10,
+                has_eval,
+                top_level_mark: self.config.top_level_mark,
+
                 ..Default::default()
             };
             if skip_one {
