@@ -31,12 +31,12 @@ impl Analyzer {
         if belong_to_fn_scope {
             match self.scope.kind {
                 ScopeKind::Fn => {
-                    self.scope.add_decl(&id);
+                    self.scope.add_decl(&id, self.has_eval, self.top_level_mark);
                 }
                 ScopeKind::Block => self.hoisted_vars.push(id),
             }
         } else {
-            self.scope.add_decl(&id);
+            self.scope.add_decl(&id, self.has_eval, self.top_level_mark);
         }
     }
 
