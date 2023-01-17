@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Make stale action to wait 30 days (#6828) ([1ef2347](https://github.com/swc-project/swc/commit/1ef2347bdf6901ea6d1e8629ba08611421d19c3e))
+
 ## [1.3.27] - 2023-01-17
 
 ### Bug Fixes
