@@ -2093,6 +2093,7 @@ where
         ));
 
         if !self.uninitialized_vars.is_empty() {
+            unreachable!();
             prepend_stmt(
                 &mut module.body,
                 VarDecl {
@@ -2481,6 +2482,7 @@ where
         n.visit_mut_children_with(self);
 
         if !self.uninitialized_vars.is_empty() {
+            unreachable!();
             prepend_stmt(
                 &mut n.body,
                 VarDecl {
