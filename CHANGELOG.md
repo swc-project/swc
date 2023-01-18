@@ -7,6 +7,12 @@
 
 - **(ci)** Make stale action to wait 30 days (#6828) ([1ef2347](https://github.com/swc-project/swc/commit/1ef2347bdf6901ea6d1e8629ba08611421d19c3e))
 
+### Refactor
+
+
+
+- **(es/typescript)** Remove unused code (#6830) ([7205543](https://github.com/swc-project/swc/commit/7205543d5f58e2aaa8ef8ba0820c2f05726001d1))
+
 ## [1.3.27] - 2023-01-17
 
 ### Bug Fixes
