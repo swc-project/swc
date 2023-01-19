@@ -1,14 +1,34 @@
 # Changelog
 ## [unreleased]
 
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Make stale action to wait 30 days (#6828) ([1ef2347](https://github.com/swc-project/swc/commit/1ef2347bdf6901ea6d1e8629ba08611421d19c3e))
+
+### Refactor
+
+
+
+- **(es/typescript)** Remove unused code (#6830) ([7205543](https://github.com/swc-project/swc/commit/7205543d5f58e2aaa8ef8ba0820c2f05726001d1))
+
+## [1.3.27] - 2023-01-17
+
 ### Bug Fixes
 
+
+
+- **(es/codegen)** Skip space if jsx attrs is empty (#6823) ([e9fdac2](https://github.com/swc-project/swc/commit/e9fdac216c0a578f266a7a16000e2675d722068c))
 
 
 - **(es/compat)** Ignore `this` in nested scopes in `classes` pass (#6796) ([07676d5](https://github.com/swc-project/swc/commit/07676d5515321c50206b3f0ea9f1473b6b2c3192))
 
 
 - **(es/plugin)** Fix starter template (#6815) ([38fb70c](https://github.com/swc-project/swc/commit/38fb70c237f122a8d8f8fdf187bd341326e39f22))
+
+
+- **(es/renamer)** Handle rest params correctly (#6821) ([ebce18b](https://github.com/swc-project/swc/commit/ebce18b221c50dedba9e3a4078148473822be949))
 
 
 - **(es/transform)** Apply `hygiene` and `resolver` if minify is specified (#6793) ([c145409](https://github.com/swc-project/swc/commit/c14540905f81e1c1677e7c9d723e71b1b6a9740b))
@@ -23,6 +43,9 @@
 - **(es/ast)** Add `EsNext` to `EsVersion` (#6816) ([ff78b8f](https://github.com/swc-project/swc/commit/ff78b8f7e077bad599f9b740ca4e831f835a347b))
 
 
+- **(es/helper)** Use `require` to load polyfills and helpers in Script (#6778) ([ad8d043](https://github.com/swc-project/swc/commit/ad8d043f1d75b2df5a5e2fe43fba1ec843d2fad4))
+
+
 - **(es/minifier)** Remove noop spreads (#6803) ([8f683e3](https://github.com/swc-project/swc/commit/8f683e3f77fe9f4fd84a5bf64c067ae9526fb330))
 
 
@@ -30,6 +53,9 @@
 
 
 - **(es/renamer)** Support `safari10` from the name mangler (#6801) ([631dd78](https://github.com/swc-project/swc/commit/631dd7872b78b8698bb4923c1e81a9a8770c1fea))
+
+
+- **(es/renamer)** Rename synthesized identifiers even on `eval` (#6818) ([82bd5c2](https://github.com/swc-project/swc/commit/82bd5c2041ba95f6d0260e03c446496b7eb37cb4))
 
 ### Testing
 

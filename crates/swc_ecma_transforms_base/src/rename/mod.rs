@@ -106,6 +106,7 @@ where
         node: &N,
         skip_one: bool,
         is_module_or_script: bool,
+        has_eval: bool,
     ) -> AHashMap<Id, JsWord>
     where
         N: VisitWith<IdCollector> + VisitWith<CustomBindingCollector<Id>>,
@@ -114,6 +115,9 @@ where
         let mut scope = {
             let mut v = Analyzer {
                 safari_10: self.config.safari_10,
+                has_eval,
+                top_level_mark: self.config.top_level_mark,
+
                 ..Default::default()
             };
             if skip_one {
@@ -178,7 +182,7 @@ macro_rules! unit {
             if contains_eval(n, true) {
                 n.visit_mut_children_with(self);
             } else {
-                let map = self.get_map(n, false, false);
+                let map = self.get_map(n, false, false, false);
 
                 n.visit_mut_with(&mut rename_with_config(&map, self.config.clone()));
             }
@@ -190,7 +194,7 @@ macro_rules! unit {
             if contains_eval(n, true) {
                 n.visit_mut_children_with(self);
             } else {
-                let map = self.get_map(n, true, false);
+                let map = self.get_map(n, true, false, false);
 
                 n.visit_mut_with(&mut rename_with_config(&map, self.config.clone()));
             }
@@ -228,25 +232,33 @@ where
         self.preserved = self.renamer.preserved_ids_for_module(m);
         self.unresolved = self.get_unresolved(m);
 
-        if contains_eval(m, true) {
-            m.visit_mut_children_with(self);
-        } else {
-            let map = self.get_map(m, false, true);
+        let has_eval = contains_eval(m, true);
+
+        {
+            let map = self.get_map(m, false, true, has_eval);
 
             m.visit_mut_with(&mut rename_with_config(&map, self.config.clone()));
         }
+
+        if has_eval {
+            m.visit_mut_children_with(self);
+        }
     }
 
-    fn visit_mut_script(&mut self, s: &mut Script) {
-        self.preserved = self.renamer.preserved_ids_for_script(s);
-        self.unresolved = self.get_unresolved(s);
+    fn visit_mut_script(&mut self, m: &mut Script) {
+        self.preserved = self.renamer.preserved_ids_for_script(m);
+        self.unresolved = self.get_unresolved(m);
 
-        if contains_eval(s, true) {
-            s.visit_mut_children_with(self);
-        } else {
-            let map = self.get_map(s, false, true);
+        let has_eval = contains_eval(m, true);
 
-            s.visit_mut_with(&mut rename_with_config(&map, self.config.clone()));
+        {
+            let map = self.get_map(m, false, true, has_eval);
+
+            m.visit_mut_with(&mut rename_with_config(&map, self.config.clone()));
+        }
+
+        if has_eval {
+            m.visit_mut_children_with(self);
         }
     }
 }

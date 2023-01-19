@@ -1,3 +1,4 @@
+use swc_common::Mark;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
@@ -9,6 +10,11 @@ pub(super) mod scope;
 #[derive(Debug, Default)]
 pub(super) struct Analyzer {
     pub safari_10: bool,
+    /// If `eval` exists for the current scope, we only rename synthesized
+    /// identifiers.
+    pub has_eval: bool,
+    /// The [Mark] which is parent of user-specified identifiers.
+    pub top_level_mark: Mark,
 
     pub is_pat_decl: bool,
     pub var_belong_to_fn_scope: bool,
@@ -25,12 +31,12 @@ impl Analyzer {
         if belong_to_fn_scope {
             match self.scope.kind {
                 ScopeKind::Fn => {
-                    self.scope.add_decl(&id);
+                    self.scope.add_decl(&id, self.has_eval, self.top_level_mark);
                 }
                 ScopeKind::Block => self.hoisted_vars.push(id),
             }
         } else {
-            self.scope.add_decl(&id);
+            self.scope.add_decl(&id, self.has_eval, self.top_level_mark);
         }
     }
 
@@ -45,14 +51,16 @@ impl Analyzer {
         {
             let mut v = Analyzer {
                 safari_10: self.safari_10,
+                has_eval: self.has_eval,
+                top_level_mark: self.top_level_mark,
 
+                is_pat_decl: self.is_pat_decl,
+                var_belong_to_fn_scope: false,
+                in_catch_params: false,
                 scope: Scope {
                     kind,
                     ..Default::default()
                 },
-                is_pat_decl: self.is_pat_decl,
-                var_belong_to_fn_scope: false,
-                in_catch_params: false,
                 hoisted_vars: Default::default(),
             };
 
@@ -262,7 +270,17 @@ impl Visit for Analyzer {
     fn visit_fn_decl(&mut self, f: &FnDecl) {
         self.add_decl(f.ident.to_id(), true);
 
+        // https://github.com/swc-project/swc/issues/6819
+        let has_rest = f.function.params.iter().any(|p| p.pat.is_rest());
+        if has_rest {
+            self.add_usage(f.ident.to_id());
+        }
+
         self.with_fn_scope(|v| {
+            if has_rest {
+                v.add_usage(f.ident.to_id());
+            }
+
             f.function.decorators.visit_with(v);
             f.function.params.visit_with(v);
             // WARN: Option<BlockStmt>::visit_mut_children_wth
@@ -276,6 +294,11 @@ impl Visit for Analyzer {
             self.with_fn_scope(|v| {
                 v.add_decl(id.to_id(), true);
                 v.with_fn_scope(|v| {
+                    // https://github.com/swc-project/swc/issues/6819
+                    if f.function.params.iter().any(|p| p.pat.is_rest()) {
+                        v.add_usage(id.to_id());
+                    }
+
                     f.function.decorators.visit_with(v);
                     f.function.params.visit_with(v);
                     v.visit_fn_body_within_same_scope(&f.function.body);

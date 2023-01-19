@@ -28,13 +28,15 @@ where
         punct!("<");
         emit!(node.name);
 
-        space!();
+        if !node.attrs.is_empty() {
+            space!();
 
-        self.emit_list(
-            node.span(),
-            Some(&node.attrs),
-            ListFormat::JsxElementAttributes,
-        )?;
+            self.emit_list(
+                node.span(),
+                Some(&node.attrs),
+                ListFormat::JsxElementAttributes,
+            )?;
+        }
 
         if node.self_closing {
             punct!("/");

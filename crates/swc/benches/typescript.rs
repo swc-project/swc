@@ -184,7 +184,6 @@ fn full_group(c: &mut Criterion) {
                                 ..Default::default()
                             },
                             module: None,
-                            is_module: IsModule::Bool(true),
                             ..Default::default()
                         },
                         swcrc: false,

@@ -9,7 +9,7 @@ use std::{
 use rayon::prelude::*;
 use rustc_hash::FxHashSet;
 use swc_atoms::{js_word, JsWord};
-use swc_common::{collections::AHashMap, util::take::Take, SyntaxContext};
+use swc_common::{collections::AHashMap, util::take::Take, Mark, SyntaxContext};
 use swc_ecma_ast::*;
 use tracing::debug;
 
@@ -81,13 +81,17 @@ pub(super) struct ScopeData {
 }
 
 impl Scope {
-    pub(super) fn add_decl(&mut self, id: &Id) {
+    pub(super) fn add_decl(&mut self, id: &Id, has_eval: bool, top_level_mark: Mark) {
         if id.0 == js_word!("arguments") {
             return;
         }
 
         self.data.all.insert(fast_id(id.clone()));
         if !self.data.queue.contains(id) {
+            if has_eval && id.1.outer().is_descendant_of(top_level_mark) {
+                return;
+            }
+
             self.data.queue.push(id.clone());
         }
     }
