@@ -591,6 +591,7 @@ CONTENT\r
 
 #[test]
 fn test_get_quoted_utf16() {
+    #[track_caller]
     fn es2020(src: &str, expected: &str) {
         assert_eq!(
             super::get_quoted_utf16(src, true, EsVersion::Es2020),
@@ -598,6 +599,7 @@ fn test_get_quoted_utf16() {
         )
     }
 
+    #[track_caller]
     fn es2020_nonascii(src: &str, expected: &str) {
         assert_eq!(
             super::get_quoted_utf16(src, true, EsVersion::Es2020),
@@ -605,6 +607,7 @@ fn test_get_quoted_utf16() {
         )
     }
 
+    #[track_caller]
     fn es5(src: &str, expected: &str) {
         assert_eq!(super::get_quoted_utf16(src, true, EsVersion::Es5), expected)
     }
@@ -612,7 +615,7 @@ fn test_get_quoted_utf16() {
     es2020("abcde", "\"abcde\"");
     es2020(
         "\x00\r\n\u{85}\u{2028}\u{2029};",
-        "\"\\0\\r\\n\\x85\\u2028\\u2029;\"",
+        "\"\\x00\\r\\n\\x85\\u2028\\u2029;\"",
     );
 
     es2020("\n", "\"\\n\"");
@@ -620,7 +623,7 @@ fn test_get_quoted_utf16() {
 
     es2020("'string'", "\"'string'\"");
 
-    es2020("\u{0}", "\"\\0\"");
+    es2020("\u{0}", "\"\\x00\"");
     es2020("\u{1}", "\"\\x01\"");
 
     es2020("\u{1000}", "\"\\u1000\"");
@@ -656,7 +659,7 @@ fn issue_1452_1() {
 fn issue_1619_1() {
     assert_min_target(
         "\"\\x00\" + \"\\x31\"",
-        "\"\\0\"+\"1\"",
+        "\"\\x00\"+\"1\"",
         EsVersion::latest(),
     );
 }
@@ -665,7 +668,7 @@ fn issue_1619_1() {
 fn issue_1619_2() {
     assert_min_target(
         "\"\\x00\" + \"\\x31\"",
-        "\"\\0\"+\"1\"",
+        "\"\\x00\"+\"1\"",
         EsVersion::latest(),
     );
 }

@@ -2097,7 +2097,7 @@
                                     }
                                 })
                             }) : t.push({
-                                string: s.replace(i, "\0"),
+                                string: s.replace(i, "\x00"),
                                 attributes: n.attributes
                             }), o = a + u.length;
                         }
