@@ -3480,8 +3480,8 @@ fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> String {
                 let next = iter.peek();
 
                 match next {
-                    Some('0'..='7') => buf.push_str("\\x00"),
-                    _ => buf.push_str("\\0"),
+                    Some('1'..='9') => buf.push_str("\\x00"),
+                    _ => buf.push_str("\\x00"),
                 }
             }
             '\u{0008}' => buf.push_str("\\b"),
