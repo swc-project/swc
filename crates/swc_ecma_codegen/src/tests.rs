@@ -656,7 +656,7 @@ fn issue_1452_1() {
 fn issue_1619_1() {
     assert_min_target(
         "\"\\x00\" + \"\\x31\"",
-        "\"\\0\"+\"1\"",
+        "\"\\x00\"+\"1\"",
         EsVersion::latest(),
     );
 }
@@ -665,7 +665,7 @@ fn issue_1619_1() {
 fn issue_1619_2() {
     assert_min_target(
         "\"\\x00\" + \"\\x31\"",
-        "\"\\0\"+\"1\"",
+        "\"\\x00\"+\"1\"",
         EsVersion::latest(),
     );
 }
