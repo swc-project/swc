@@ -591,6 +591,7 @@ CONTENT\r
 
 #[test]
 fn test_get_quoted_utf16() {
+    #[track_caller]
     fn es2020(src: &str, expected: &str) {
         assert_eq!(
             super::get_quoted_utf16(src, true, EsVersion::Es2020),
@@ -598,6 +599,7 @@ fn test_get_quoted_utf16() {
         )
     }
 
+    #[track_caller]
     fn es2020_nonascii(src: &str, expected: &str) {
         assert_eq!(
             super::get_quoted_utf16(src, true, EsVersion::Es2020),
@@ -605,6 +607,7 @@ fn test_get_quoted_utf16() {
         )
     }
 
+    #[track_caller]
     fn es5(src: &str, expected: &str) {
         assert_eq!(super::get_quoted_utf16(src, true, EsVersion::Es5), expected)
     }
