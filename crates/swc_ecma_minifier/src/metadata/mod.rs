@@ -17,7 +17,7 @@ struct EqIgnoreSpanExprRef<'a>(&'a Expr);
 
 impl<'a> PartialEq for EqIgnoreSpanExprRef<'a> {
     fn eq(&self, other: &Self) -> bool {
-        Ident::within_ignored_ctxt(|| self.0.eq_ignore_span(&other.0))
+        Ident::within_ignored_ctxt(|| self.0.eq_ignore_span(other.0))
     }
 }
 
