@@ -15,15 +15,15 @@ use swc_ecma_visit::{
 use crate::option::CompressOptions;
 
 #[derive(Debug, Eq)]
-struct EqIgnoreSpanExprRef<'a>(&'a Expr);
+struct HashEqIgnoreSpanExprRef<'a>(&'a Expr);
 
-impl<'a> PartialEq for EqIgnoreSpanExprRef<'a> {
+impl<'a> PartialEq for HashEqIgnoreSpanExprRef<'a> {
     fn eq(&self, other: &Self) -> bool {
         Ident::within_ignored_ctxt(|| self.0.eq_ignore_span(other.0))
     }
 }
 
-impl<'a> Hash for EqIgnoreSpanExprRef<'a> {
+impl<'a> Hash for HashEqIgnoreSpanExprRef<'a> {
     fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
         // In pratice, most of cases/input we are dealing with are Expr::Member or
         // Expr::Ident.
@@ -32,13 +32,15 @@ impl<'a> Hash for EqIgnoreSpanExprRef<'a> {
                 i.sym.hash(state);
             }
             Expr::Member(i) => {
-                Self(&*i.obj).hash(state);
-                match &i.prop {
-                    MemberProp::Ident(prop) => prop.sym.hash(state),
-                    _ => {}
+                Self(&i.obj).hash(state);
+                if let MemberProp::Ident(prop) = &i.prop {
+                    prop.sym.hash(state);
                 }
             }
-            _ => {}
+            _ => {
+                // Other expression kind would fallback to the same empty hash.
+                // So, their will spend linear time to do comparisons.
+            }
         }
     }
 }
@@ -57,7 +59,7 @@ pub(crate) fn info_marker<'a>(
         options
             .pure_funcs
             .iter()
-            .map(|f| EqIgnoreSpanExprRef(f))
+            .map(|f| HashEqIgnoreSpanExprRef(f))
             .collect()
     });
     InfoMarker {
@@ -79,7 +81,7 @@ struct State {
 struct InfoMarker<'a> {
     #[allow(dead_code)]
     options: Option<&'a CompressOptions>,
-    pure_funcs: Option<FxHashSet<EqIgnoreSpanExprRef<'a>>>,
+    pure_funcs: Option<FxHashSet<HashEqIgnoreSpanExprRef<'a>>>,
     comments: Option<&'a dyn Comments>,
     marks: Marks,
     // unresolved_mark: Mark,
@@ -171,10 +173,10 @@ impl VisitMut for InfoMarker<'_> {
                 println!("e: {e:#?}");
                 println!(
                     "pure_fns.contains(&EqIgnoreSpanExprRef(e)): {:?}",
-                    pure_fns.contains(&EqIgnoreSpanExprRef(e))
+                    pure_fns.contains(&HashEqIgnoreSpanExprRef(e))
                 );
                 // Check for pure_funcs
-                if pure_fns.contains(&EqIgnoreSpanExprRef(e)) {
+                if pure_fns.contains(&HashEqIgnoreSpanExprRef(e)) {
                     n.span = n.span.apply_mark(self.marks.pure);
                 };
             }
