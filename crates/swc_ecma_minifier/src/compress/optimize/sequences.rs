@@ -1479,7 +1479,7 @@ where
             )
         };
 
-        if b.is_lit() || b.is_class() || b.is_fn_expr() || b.is_arrow() {
+        if b.is_lit() || b.is_class() || b.is_fn_expr() || b.is_arrow() || b.is_await_expr() {
             return Ok(false);
         }
 
