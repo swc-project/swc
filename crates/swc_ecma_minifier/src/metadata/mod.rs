@@ -1,3 +1,4 @@
+use rustc_hash::FxHashSet;
 use swc_common::{
     comments::{Comment, CommentKind, Comments},
     EqIgnoreSpan, Span, SyntaxContext,
@@ -11,6 +12,15 @@ use swc_ecma_visit::{
 
 use crate::option::CompressOptions;
 
+#[derive(Debug, Eq, Hash)]
+struct EqIgnoreSpanExprRef<'a>(&'a Expr);
+
+impl<'a> PartialEq for EqIgnoreSpanExprRef<'a> {
+    fn eq(&self, other: &Self) -> bool {
+        Ident::within_ignored_ctxt(|| self.0.eq_ignore_span(&other.0))
+    }
+}
+
 #[cfg(test)]
 mod tests;
 
@@ -21,10 +31,18 @@ pub(crate) fn info_marker<'a>(
     marks: Marks,
     // unresolved_mark: Mark,
 ) -> impl 'a + VisitMut {
+    let pure_fns = options.map(|options| {
+        options
+            .pure_funcs
+            .iter()
+            .map(|f| EqIgnoreSpanExprRef(f))
+            .collect()
+    });
     InfoMarker {
         options,
         comments,
         marks,
+        pure_fns,
         // unresolved_mark,
         state: Default::default(),
     }
@@ -38,7 +56,7 @@ struct State {
 
 struct InfoMarker<'a> {
     options: Option<&'a CompressOptions>,
-
+    pure_fns: Option<FxHashSet<EqIgnoreSpanExprRef<'a>>>,
     comments: Option<&'a dyn Comments>,
     marks: Marks,
     // unresolved_mark: Mark,
@@ -124,17 +142,12 @@ impl VisitMut for InfoMarker<'_> {
 
         if self.has_pure(n.span) {
             n.span = n.span.apply_mark(self.marks.pure);
-        } else if let Some(options) = self.options {
+        } else if let Some(pure_fns) = &self.pure_fns {
             if let Callee::Expr(e) = &n.callee {
                 // Check for pure_funcs
-
-                if options
-                    .pure_funcs
-                    .iter()
-                    .any(|pure_func| Ident::within_ignored_ctxt(|| e.eq_ignore_span(pure_func)))
-                {
+                if pure_fns.contains(&EqIgnoreSpanExprRef(e)) {
                     n.span = n.span.apply_mark(self.marks.pure);
-                }
+                };
             }
         }
     }
