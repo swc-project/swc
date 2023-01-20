@@ -7,6 +7,9 @@
 
 - **(es/codegen)** Fix codegen of string literals with `\x000` (#6838) ([df70261](https://github.com/swc-project/swc/commit/df702614e1c23ee119d26beeb1b3abd454d7add0))
 
+
+- **(es/minifier)** Don't inline into `await` from sequential inliner (#6839) ([21e1478](https://github.com/swc-project/swc/commit/21e14787c521cc1f808c9b71e8671820a79bd12f))
+
 ### Miscellaneous Tasks
 
 
