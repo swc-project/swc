@@ -1,3 +1,5 @@
+use std::hash::Hash;
+
 use rustc_hash::FxHashSet;
 use swc_common::{
     comments::{Comment, CommentKind, Comments},
@@ -12,12 +14,32 @@ use swc_ecma_visit::{
 
 use crate::option::CompressOptions;
 
-#[derive(Debug, Eq, Hash)]
+#[derive(Debug, Eq)]
 struct EqIgnoreSpanExprRef<'a>(&'a Expr);
 
 impl<'a> PartialEq for EqIgnoreSpanExprRef<'a> {
     fn eq(&self, other: &Self) -> bool {
         Ident::within_ignored_ctxt(|| self.0.eq_ignore_span(other.0))
+    }
+}
+
+impl<'a> Hash for EqIgnoreSpanExprRef<'a> {
+    fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
+        // In pratice, most of cases/input we are dealing with are Expr::Member or
+        // Expr::Ident.
+        match self.0 {
+            Expr::Ident(i) => {
+                i.sym.hash(state);
+            }
+            Expr::Member(i) => {
+                Self(&*i.obj).hash(state);
+                match &i.prop {
+                    MemberProp::Ident(prop) => prop.sym.hash(state),
+                    _ => {}
+                }
+            }
+            _ => {}
+        }
     }
 }
 
@@ -145,6 +167,12 @@ impl VisitMut for InfoMarker<'_> {
             n.span = n.span.apply_mark(self.marks.pure);
         } else if let Some(pure_fns) = &self.pure_funcs {
             if let Callee::Expr(e) = &n.callee {
+                println!("--pure_fns: {pure_fns:#?}");
+                println!("e: {e:#?}");
+                println!(
+                    "pure_fns.contains(&EqIgnoreSpanExprRef(e)): {:?}",
+                    pure_fns.contains(&EqIgnoreSpanExprRef(e))
+                );
                 // Check for pure_funcs
                 if pure_fns.contains(&EqIgnoreSpanExprRef(e)) {
                     n.span = n.span.apply_mark(self.marks.pure);
