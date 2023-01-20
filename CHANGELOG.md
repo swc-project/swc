@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(es/codegen)** Fix codegen of string literals with `\x000` (#6838) ([df70261](https://github.com/swc-project/swc/commit/df702614e1c23ee119d26beeb1b3abd454d7add0))
+
 ### Miscellaneous Tasks
 
 
