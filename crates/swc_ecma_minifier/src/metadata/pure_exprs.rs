@@ -1,6 +1,6 @@
 use once_cell::sync::Lazy;
 use swc_common::DUMMY_SP;
-use swc_ecma_ast::{Expr, Ident};
+use swc_ecma_ast::Expr;
 use swc_ecma_utils::{member_expr, quote_ident};
 
 macro_rules! dummy_ident_expr {
@@ -9,7 +9,7 @@ macro_rules! dummy_ident_expr {
     };
 }
 
-pub(super) static PURE_FUNC_LIST: Lazy<Vec<Box<Expr>>> = Lazy::new(|| preset_of_pure_func());
+pub(super) static PURE_FUNC_LIST: Lazy<Vec<Box<Expr>>> = Lazy::new(preset_of_pure_func);
 
 // The list is copied from https://github.com/evanw/esbuild/blob/5fe21253ee75fb4c5ea395a0877b2a5ab51c3575/internal/config/globals.go
 fn preset_of_pure_func() -> Vec<Box<Expr>> {
