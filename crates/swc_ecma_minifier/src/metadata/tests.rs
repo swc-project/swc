@@ -160,7 +160,7 @@
 // }
 
 use rustc_hash::FxHashSet;
-use swc_common::{Mark, DUMMY_SP};
+use swc_common::{util::take::Take, Mark, DUMMY_SP};
 use swc_ecma_utils::{member_expr, quote_expr};
 
 use super::HashEqIgnoreSpanExprRef;
@@ -186,33 +186,50 @@ fn test_hash_eq_ignore_span_expr_ref() {
         let meaningful_null_expr = quote_expr!(meaningful_sp, null);
         let dummy_null_expr = quote_expr!(dummy_sp, null);
 
+        let meaningful_array_expr = Box::new(Expr::Array(ArrayLit {
+            span: meaningful_sp,
+            elems: Default::default(),
+        }));
+
+        let dummy_array_expr = Box::new(Expr::Array(ArrayLit::dummy()));
+
         // Should equal ignoring span and syntax context
         assert_eq!(
             expr_ref(&meaningful_ident_expr),
             expr_ref(&dummy_ident_expr)
         );
 
+        assert_eq!(
+            expr_ref(&meaningful_array_expr),
+            expr_ref(&dummy_array_expr)
+        );
+
         let mut set = FxHashSet::from_iter([
             expr_ref(&meaningful_ident_expr),
             expr_ref(&meaningful_member_expr),
             expr_ref(&meaningful_null_expr),
+            expr_ref(&meaningful_array_expr),
         ]);
 
         // Should produce the same hash value ignoring span and syntax context
         assert!(set.contains(&expr_ref(&dummy_ident_expr)));
         assert!(set.contains(&expr_ref(&dummy_member_expr)));
         assert!(set.contains(&expr_ref(&dummy_null_expr)));
+        assert!(set.contains(&expr_ref(&dummy_array_expr)));
 
         set.insert(expr_ref(&dummy_ident_expr));
         set.insert(expr_ref(&dummy_member_expr));
         set.insert(expr_ref(&dummy_null_expr));
-        assert_eq!(set.len(), 3);
+        set.insert(expr_ref(&dummy_array_expr));
+        assert_eq!(set.len(), 4);
 
         // Should not equal ignoring span and syntax context
         let dummy_ident_expr = Expr::Ident(Ident::new("baz".into(), dummy_sp));
         let dummy_member_expr = member_expr!(dummy_sp, baz.bar);
+        let dummy_arrow_expr = Box::new(Expr::Arrow(ArrowExpr::dummy()));
         assert!(!set.contains(&expr_ref(&dummy_ident_expr)));
         assert!(!set.contains(&expr_ref(&dummy_member_expr)));
+        assert!(!set.contains(&expr_ref(&dummy_arrow_expr)));
 
         Ok(())
     })
