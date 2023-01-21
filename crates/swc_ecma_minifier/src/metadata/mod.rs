@@ -14,6 +14,8 @@ use swc_ecma_visit::{
 
 use crate::option::CompressOptions;
 
+mod pure_exprs;
+
 #[derive(Debug, Eq)]
 struct HashEqIgnoreSpanExprRef<'a>(&'a Expr);
 
@@ -55,10 +57,17 @@ pub(crate) fn info_marker<'a>(
     marks: Marks,
     // unresolved_mark: Mark,
 ) -> impl 'a + VisitMut {
+    let pristine_globals = options.map_or(false, |opts| opts.pristine_globals);
+
     let pure_funcs = options.map(|options| {
         options
             .pure_funcs
             .iter()
+            .chain(if pristine_globals {
+                [].iter()
+            } else {
+                pure_exprs::PURE_FUNC_LIST.iter()
+            })
             .map(|f| HashEqIgnoreSpanExprRef(f))
             .collect()
     });
