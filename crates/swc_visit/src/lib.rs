@@ -67,8 +67,8 @@
 //! cases - `this` in arrow expressions are special and we need to generate
 //! different code if a `this` expression is used.
 //!
-//! You can use your `Visit` implementation like  `node.visit_with(&Invalid{
-//! span: DUMMY_SP, }, &mut visitor`. I think API is mis-designed, but it works
+//! You can use your `Visit` implementation like `node.visit_with(&Invalid{
+//! span: DUMMY_SP }, &mut visitor)`. I think API is mis-designed, but it works
 //! and there are really lots of code using `Visit` already.
 //!
 //!
