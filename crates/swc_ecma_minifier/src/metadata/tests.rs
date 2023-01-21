@@ -158,3 +158,57 @@
 // fn export_default_fn_1() {
 //     assert_standalone("export default function f(module, exports) {}", 0);
 // }
+
+use std::hash::Hash;
+
+use rustc_hash::FxHashSet;
+use swc_common::{Mark, DUMMY_SP};
+use swc_ecma_utils::{member_expr, quote_expr};
+
+use super::HashEqIgnoreSpanExprRef;
+
+#[test]
+fn test_hash_eq_ignore_span_expr_ref() {
+    use swc_ecma_ast::*;
+
+    fn expr_ref<'a>(expr_ref: &'a Expr) -> HashEqIgnoreSpanExprRef<'a> {
+        HashEqIgnoreSpanExprRef(expr_ref)
+    }
+
+    testing::run_test(false, |_cm, _handler| {
+        let dummy_sp = DUMMY_SP;
+        let meaningful_sp = dummy_sp.apply_mark(Mark::new());
+
+        let meaningful_ident_expr = Expr::Ident(Ident::new("foo".into(), meaningful_sp));
+        let dummy_ident_expr = Expr::Ident(Ident::new("foo".into(), dummy_sp));
+
+        let meaningful_member_expr = member_expr!(meaningful_sp, foo.bar);
+        let dummy_member_expr = member_expr!(dummy_sp, foo.bar);
+
+        let meaningful_null_expr = quote_expr!(meaningful_sp, null);
+        let dummy_null_expr = quote_expr!(dummy_sp, null);
+
+        assert_eq!(
+            expr_ref(&meaningful_ident_expr),
+            expr_ref(&dummy_ident_expr)
+        );
+
+        let mut set = FxHashSet::from_iter([
+            expr_ref(&meaningful_ident_expr),
+            expr_ref(&meaningful_member_expr),
+            expr_ref(&meaningful_null_expr),
+        ]);
+
+        assert!(set.contains(&expr_ref(&dummy_ident_expr)));
+        assert!(set.contains(&expr_ref(&dummy_member_expr)));
+        assert!(set.contains(&expr_ref(&dummy_null_expr)));
+
+        set.insert(expr_ref(&dummy_ident_expr));
+        set.insert(expr_ref(&dummy_member_expr));
+        set.insert(expr_ref(&dummy_null_expr));
+        assert_eq!(set.len(), 3);
+
+        Ok(())
+    })
+    .unwrap();
+}

@@ -169,12 +169,6 @@ impl VisitMut for InfoMarker<'_> {
             n.span = n.span.apply_mark(self.marks.pure);
         } else if let Some(pure_fns) = &self.pure_funcs {
             if let Callee::Expr(e) = &n.callee {
-                println!("--pure_fns: {pure_fns:#?}");
-                println!("e: {e:#?}");
-                println!(
-                    "pure_fns.contains(&EqIgnoreSpanExprRef(e)): {:?}",
-                    pure_fns.contains(&HashEqIgnoreSpanExprRef(e))
-                );
                 // Check for pure_funcs
                 if pure_fns.contains(&HashEqIgnoreSpanExprRef(e)) {
                     n.span = n.span.apply_mark(self.marks.pure);
