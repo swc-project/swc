@@ -58,19 +58,23 @@ pub(crate) fn info_marker<'a>(
     // unresolved_mark: Mark,
 ) -> impl 'a + VisitMut {
     let pristine_globals = options.map_or(false, |opts| opts.pristine_globals);
+    let mut pure_funcs = options
+        .map(|opts| {
+            opts.pure_funcs
+                .iter()
+                .map(|expr| HashEqIgnoreSpanExprRef(expr))
+                .collect::<FxHashSet<_>>()
+        })
+        .unwrap_or_default();
 
-    let pure_funcs = options.map(|options| {
-        options
-            .pure_funcs
-            .iter()
-            .chain(if pristine_globals {
-                [].iter()
-            } else {
-                pure_exprs::PURE_FUNC_LIST.iter()
-            })
-            .map(|f| HashEqIgnoreSpanExprRef(f))
-            .collect()
-    });
+    if pristine_globals {
+        pure_funcs.extend(
+            pure_exprs::PURE_FUNC_LIST
+                .iter()
+                .map(|expr| HashEqIgnoreSpanExprRef(expr)),
+        );
+    }
+
     InfoMarker {
         options,
         comments,
@@ -90,7 +94,7 @@ struct State {
 struct InfoMarker<'a> {
     #[allow(dead_code)]
     options: Option<&'a CompressOptions>,
-    pure_funcs: Option<FxHashSet<HashEqIgnoreSpanExprRef<'a>>>,
+    pure_funcs: FxHashSet<HashEqIgnoreSpanExprRef<'a>>,
     comments: Option<&'a dyn Comments>,
     marks: Marks,
     // unresolved_mark: Mark,
@@ -176,10 +180,12 @@ impl VisitMut for InfoMarker<'_> {
 
         if self.has_pure(n.span) {
             n.span = n.span.apply_mark(self.marks.pure);
-        } else if let Some(pure_fns) = &self.pure_funcs {
+        }
+
+        if !self.pure_funcs.is_empty() {
             if let Callee::Expr(e) = &n.callee {
                 // Check for pure_funcs
-                if pure_fns.contains(&HashEqIgnoreSpanExprRef(e)) {
+                if self.pure_funcs.contains(&HashEqIgnoreSpanExprRef(e)) {
                     n.span = n.span.apply_mark(self.marks.pure);
                 };
             }
