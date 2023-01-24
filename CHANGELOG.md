@@ -16,6 +16,12 @@
 
 - **(ci)** Make stale action to wait 30 days (#6828) ([1ef2347](https://github.com/swc-project/swc/commit/1ef2347bdf6901ea6d1e8629ba08611421d19c3e))
 
+### Performance
+
+
+
+- **(es/minifier)** Make pure function check `O(1)` (#6840) ([58208ef](https://github.com/swc-project/swc/commit/58208ef8aee994591f05d996a8b660da6e96d681))
+
 ### Refactor
 
 
