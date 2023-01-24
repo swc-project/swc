@@ -16,8 +16,17 @@
 
 - **(ci)** Make stale action to wait 30 days (#6828) ([1ef2347](https://github.com/swc-project/swc/commit/1ef2347bdf6901ea6d1e8629ba08611421d19c3e))
 
+### Performance
+
+
+
+- **(es/minifier)** Make pure function check `O(1)` (#6840) ([58208ef](https://github.com/swc-project/swc/commit/58208ef8aee994591f05d996a8b660da6e96d681))
+
 ### Refactor
 
+
+
+- **(es/preset-env)** Use a const fn instead of a macro (#6844) ([2fcab36](https://github.com/swc-project/swc/commit/2fcab36418b7cf0869a1a256dc927d3ccdbe35cd))
 
 
 - **(es/typescript)** Remove unused code (#6830) ([7205543](https://github.com/swc-project/swc/commit/7205543d5f58e2aaa8ef8ba0820c2f05726001d1))

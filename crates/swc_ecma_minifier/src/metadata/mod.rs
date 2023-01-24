@@ -57,6 +57,7 @@ pub(crate) fn info_marker<'a>(
     marks: Marks,
     // unresolved_mark: Mark,
 ) -> impl 'a + VisitMut {
+
     let pristine_globals = options.map_or(false, |opts| opts.pristine_globals);
     let mut pure_funcs = options
         .map(|opts| {
