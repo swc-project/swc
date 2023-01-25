@@ -88,7 +88,7 @@ impl PluginSourceMapProxy {
             })
             .expect("Host should return source code");
 
-            return extract_spource(&src, 0, src.len());
+            return extract_source(&src, 0, src.len());
         }
 
         #[cfg(not(target_arch = "wasm32"))]
