@@ -21,11 +21,11 @@ use swc_ecma_visit::Visit;
 use swc_plugin_runner::cache::PluginModuleCache;
 
 /// Returns the path to the built plugin
-fn build_plugin(dir: &Path) -> Result<PathBuf, Error> {
+fn build_plugin(dir: &Path, crate_name: &str) -> Result<PathBuf, Error> {
     {
         let mut cmd = Command::new("cargo");
         cmd.current_dir(dir);
-        cmd.args(["build", "--target=wasm32-wasi"])
+        cmd.args(["build", "--release", "--target=wasm32-wasi"])
             .stderr(Stdio::inherit());
         cmd.output()?;
 
@@ -42,7 +42,7 @@ fn build_plugin(dir: &Path) -> Result<PathBuf, Error> {
         let entry = entry?;
 
         let s = entry.file_name().to_string_lossy().into_owned();
-        if s.eq_ignore_ascii_case("swc_internal_plugin.wasm") {
+        if s.eq_ignore_ascii_case(&format!("{}.wasm", crate_name)) {
             return Ok(entry.path());
         }
     }
@@ -74,12 +74,15 @@ impl Visit for TestVisitor {
 #[cfg(feature = "__rkyv")]
 #[test]
 fn issue_6404() -> Result<(), Error> {
-    let path = build_plugin(
+    let plugin_path = build_plugin(
         &PathBuf::from(env::var("CARGO_MANIFEST_DIR")?)
             .join("tests")
             .join("fixture")
             .join("issue_6404"),
+        "swc_issue_6404",
     )?;
+
+    dbg!("Built!");
 
     // run single plugin
     testing::run_test(false, |cm, _handler| {
@@ -109,7 +112,7 @@ fn issue_6404() -> Result<(), Error> {
 
         let cache: Lazy<PluginModuleCache> = Lazy::new(PluginModuleCache::new);
         let mut plugin_transform_executor = swc_plugin_runner::create_plugin_transform_executor(
-            &path,
+            &plugin_path,
             &cache,
             &cm,
             &Arc::new(TransformPluginMetadataContext::new(
