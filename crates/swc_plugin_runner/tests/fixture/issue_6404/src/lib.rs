@@ -9,11 +9,12 @@ pub fn process_transform(program: Program, metadata: TransformPluginProgramMetad
     for i in 1..50000 {
         let j: u32 = i;
         println!("i {} j {}", i, j);
-        let _ = metadata.source_map.span_to_snippet(Span::new(
+        let res = metadata.source_map.span_to_snippet(Span::new(
             BytePos(j),
             BytePos(j + 10),
             SyntaxContext::empty(),
         ));
+        let _ = dbg!(res);
     }
 
     program
