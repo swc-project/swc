@@ -84,62 +84,66 @@ fn issue_6404() -> Result<(), Error> {
 
     dbg!("Built!");
 
-    // run single plugin
-    testing::run_test(false, |cm, _handler| {
-        let fm = cm.new_source_file(FileName::Anon, "console.log(foo)".into());
+    for _ in 0..10 {
+        // run single plugin
+        testing::run_test(false, |cm, _handler| {
+            let fm = cm.new_source_file(FileName::Anon, "console.log(foo)".into());
 
-        let program = parse_file_as_program(
-            &fm,
-            Syntax::Es(EsConfig {
-                ..Default::default()
-            }),
-            EsVersion::latest(),
-            None,
-            &mut vec![],
-        )
-        .unwrap();
-
-        let program = PluginSerializedBytes::try_serialize(&program).expect("Should serializable");
-        let experimental_metadata: AHashMap<String, String> = [
-            (
-                "TestExperimental".to_string(),
-                "ExperimentalValue".to_string(),
-            ),
-            ("OtherTest".to_string(), "OtherVal".to_string()),
-        ]
-        .into_iter()
-        .collect();
-
-        let cache: Lazy<PluginModuleCache> = Lazy::new(PluginModuleCache::new);
-        let mut plugin_transform_executor = swc_plugin_runner::create_plugin_transform_executor(
-            &plugin_path,
-            &cache,
-            &cm,
-            &Arc::new(TransformPluginMetadataContext::new(
+            let program = parse_file_as_program(
+                &fm,
+                Syntax::Es(EsConfig {
+                    ..Default::default()
+                }),
+                EsVersion::latest(),
                 None,
-                "development".to_string(),
-                Some(experimental_metadata),
-            )),
-            Some(json!({ "pluginConfig": "testValue" })),
-        )
-        .expect("Should load plugin");
+                &mut vec![],
+            )
+            .unwrap();
 
-        assert!(!plugin_transform_executor
-            .plugin_core_diag
-            .pkg_version
-            .is_empty());
+            let program =
+                PluginSerializedBytes::try_serialize(&program).expect("Should serializable");
+            let experimental_metadata: AHashMap<String, String> = [
+                (
+                    "TestExperimental".to_string(),
+                    "ExperimentalValue".to_string(),
+                ),
+                ("OtherTest".to_string(), "OtherVal".to_string()),
+            ]
+            .into_iter()
+            .collect();
 
-        let program_bytes = plugin_transform_executor
-            .transform(&program, Mark::new(), false)
-            .expect("Plugin should apply transform");
+            let cache: Lazy<PluginModuleCache> = Lazy::new(PluginModuleCache::new);
+            let mut plugin_transform_executor =
+                swc_plugin_runner::create_plugin_transform_executor(
+                    &plugin_path,
+                    &cache,
+                    &cm,
+                    &Arc::new(TransformPluginMetadataContext::new(
+                        None,
+                        "development".to_string(),
+                        Some(experimental_metadata),
+                    )),
+                    Some(json!({ "pluginConfig": "testValue" })),
+                )
+                .expect("Should load plugin");
 
-        let _: Program = program_bytes
-            .deserialize()
-            .expect("Should able to deserialize");
+            assert!(!plugin_transform_executor
+                .plugin_core_diag
+                .pkg_version
+                .is_empty());
 
-        Ok(())
-    })
-    .expect("Should able to run single plugin transform");
+            let program_bytes = plugin_transform_executor
+                .transform(&program, Mark::new(), false)
+                .expect("Plugin should apply transform");
+
+            let _: Program = program_bytes
+                .deserialize()
+                .expect("Should able to deserialize");
+
+            Ok(())
+        })
+        .expect("Should able to run single plugin transform");
+    }
 
     Ok(())
 }
