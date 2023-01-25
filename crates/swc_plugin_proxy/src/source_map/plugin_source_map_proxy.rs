@@ -67,49 +67,6 @@ pub struct PluginSourceMapProxy {
 #[cfg(all(feature = "__rkyv", feature = "__plugin_mode", target_arch = "wasm32"))]
 #[swc_trace]
 impl PluginSourceMapProxy {
-    /*
-    fn sss<F, Ret>(&self, sp: Span, extract_source: F) -> Result<Ret, Box<SpanSnippetError>>
-    where
-        F: FnOnce(&str, usize, usize) -> Ret,
-    {
-        if sp.lo() > sp.hi() {
-            return Err(SpanSnippetError::IllFormedSpan(sp));
-        }
-        if sp.lo.is_dummy() || sp.hi.is_dummy() {
-            return Err(SpanSnippetError::DummyBytePos);
-        }
-
-        let local_begin = self.lookup_byte_offset(sp.lo());
-        let local_end = self.lookup_byte_offset(sp.hi());
-
-        if local_begin.sf.start_pos != local_end.sf.start_pos {
-            Err(SpanSnippetError::DistinctSources(DistinctSources {
-                begin: (local_begin.sf.name.clone(), local_begin.sf.start_pos),
-                end: (local_end.sf.name.clone(), local_end.sf.start_pos),
-            }))
-        } else {
-            let pos: BytePos = BytePos(0);
-            let start_index = pos.to_usize();
-            let end_index = local_end.pos.to_usize();
-            let source_len = (local_begin.sf.end_pos - local_begin.sf.start_pos).to_usize();
-
-            if start_index > end_index || end_index > source_len {
-                return Err(SpanSnippetError::MalformedForSourcemap(
-                    MalformedSourceMapPositions {
-                        name: local_begin.sf.name.clone(),
-                        source_len,
-                        begin_pos: local_begin.pos,
-                        end_pos: local_end.pos,
-                    },
-                ));
-            }
-
-            let src = &local_begin.sf.src;
-            Ok(extract_source(src, start_index, end_index))
-        }
-    }
-     */
-
     pub fn span_to_source<F, Ret>(
         &self,
         sp: Span,
