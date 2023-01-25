@@ -45,6 +45,12 @@ extern "C" {
         span_ctxt: u32,
         allocated_ret_ptr: u32,
     ) -> u32;
+    fn __span_to_source_proxy(
+        span_lo: u32,
+        span_hi: u32,
+        span_ctxt: u32,
+        allocated_ret_ptr: u32,
+    ) -> u32;
     fn __span_to_lines_proxy(
         span_lo: u32,
         span_hi: u32,
@@ -77,50 +83,12 @@ impl PluginSourceMapProxy {
     {
         #[cfg(target_arch = "wasm32")]
         {
-            if sp.lo() > sp.hi() {
-                return Err(Box::new(SpanSnippetError::IllFormedSpan(sp)));
-            }
-            if sp.lo.is_dummy() || sp.hi.is_dummy() {
-                return Err(Box::new(SpanSnippetError::DummyBytePos));
-            }
+            let src: String = read_returned_result_from_host_fallible(|serialized_ptr| unsafe {
+                __span_to_source_proxy(sp.lo.0, sp.hi.0, sp.ctxt.as_u32(), serialized_ptr)
+            })
+            .expect("Host should return source code");
 
-            let local_begin: SourceFileAndBytePos =
-                read_returned_result_from_host_fallible(|serialized_ptr| unsafe {
-                    __lookup_byte_offset_proxy(sp.lo().0, serialized_ptr)
-                })
-                .expect("Should return begin offset");
-            let local_end: SourceFileAndBytePos =
-                read_returned_result_from_host_fallible(|serialized_ptr| unsafe {
-                    __lookup_byte_offset_proxy(sp.hi().0, serialized_ptr)
-                })
-                .expect("Should return end offset");
-
-            if local_begin.sf.start_pos != local_end.sf.start_pos {
-                Err(Box::new(SpanSnippetError::DistinctSources(
-                    DistinctSources {
-                        begin: (local_begin.sf.name.clone(), local_begin.sf.start_pos),
-                        end: (local_end.sf.name.clone(), local_end.sf.start_pos),
-                    },
-                )))
-            } else {
-                let start_index = local_begin.pos.to_usize();
-                let end_index = local_end.pos.to_usize();
-                let source_len = (local_begin.sf.end_pos - local_begin.sf.start_pos).to_usize();
-
-                if start_index > end_index || end_index > source_len {
-                    return Err(Box::new(SpanSnippetError::MalformedForSourcemap(
-                        MalformedSourceMapPositions {
-                            name: local_begin.sf.name.clone(),
-                            source_len,
-                            begin_pos: local_begin.pos,
-                            end_pos: local_end.pos,
-                        },
-                    )));
-                }
-
-                let src = &local_begin.sf.src;
-                return Ok(extract_source(src, start_index, end_index));
-            }
+            return extract_spource(&src, 0, src.len());
         }
 
         #[cfg(not(target_arch = "wasm32"))]
