@@ -83,12 +83,14 @@ impl PluginSourceMapProxy {
     {
         #[cfg(target_arch = "wasm32")]
         {
-            let src: String = read_returned_result_from_host_fallible(|serialized_ptr| unsafe {
-                __span_to_source_proxy(sp.lo.0, sp.hi.0, sp.ctxt.as_u32(), serialized_ptr)
-            })
-            .expect("Host should return source code");
+            let src: Result<String, Box<SpanSnippetError>> =
+                read_returned_result_from_host_fallible(|serialized_ptr| unsafe {
+                    __span_to_source_proxy(sp.lo.0, sp.hi.0, sp.ctxt.as_u32(), serialized_ptr)
+                })
+                .expect("Host should return source code");
 
-            return extract_source(&src, 0, src.len());
+            let src = src?;
+            return Ok(extract_source(&src, 0, src.len()));
         }
 
         #[cfg(not(target_arch = "wasm32"))]
