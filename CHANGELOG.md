@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Refactor
+
+
+
+- **(es/minifier)** Merge `cond_init` with `reassigned` (#6850) ([55225cb](https://github.com/swc-project/swc/commit/55225cb994d6cb0cfaae4cee77905f17ec6e37c7))
+
 ## [1.3.28] - 2023-01-24
 
 ### Bug Fixes
