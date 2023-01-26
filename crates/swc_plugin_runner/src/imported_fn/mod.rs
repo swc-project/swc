@@ -83,8 +83,8 @@ use self::{
     },
     source_map::{
         doctest_offset_line_proxy, lookup_byte_offset_proxy, lookup_char_pos_proxy,
-        merge_spans_proxy, span_to_filename_proxy, span_to_lines_proxy, span_to_string_proxy,
-        SourceMapHostEnvironment,
+        merge_spans_proxy, span_to_filename_proxy, span_to_lines_proxy, span_to_source_proxy,
+        span_to_string_proxy, SourceMapHostEnvironment,
     },
 };
 
@@ -281,6 +281,12 @@ pub(crate) fn build_import_object(
         span_to_filename_proxy,
     );
 
+    let span_to_source_fn_decl = Function::new_native_with_env(
+        store,
+        SourceMapHostEnvironment::new(&source_map, &source_map_buffer),
+        span_to_source_proxy,
+    );
+
     let span_to_lines_fn_decl = Function::new_native_with_env(
         store,
         SourceMapHostEnvironment::new(&source_map, &source_map_buffer),
@@ -339,6 +345,7 @@ pub(crate) fn build_import_object(
             "__merge_spans_proxy" => merge_spans_fn_decl,
             "__span_to_string_proxy" => span_to_string_fn_decl,
             "__span_to_filename_proxy" => span_to_filename_fn_decl,
+            "__span_to_source_proxy" => span_to_source_fn_decl,
             "__span_to_lines_proxy" => span_to_lines_fn_decl,
             "__lookup_byte_offset_proxy" => lookup_byte_offset_fn_decl
         }

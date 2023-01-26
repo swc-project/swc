@@ -23,10 +23,14 @@
         "crates/swc_html_parser/tests/html5lib-tests"
     ],
     "eslint.enable": false,
-    "cSpell.allowCompoundWords": true,
-    "cSpell.caseSensitive": true,
-    "rust-analyzer.checkOnSave.command": "clippy",
-    "rust-analyzer.checkOnSave.features": [
+    "rust-analyzer.check.command": "clippy",
+    "rust-analyzer.check.features": [
+        // We use this to make IDE faster
+        "rust-analyzer",
+        "rkyv-impl",
+        "debug"
+    ],
+    "rust-analyzer.cargo.features": [
         // We use this to make IDE faster
         "rust-analyzer",
         "rkyv-impl",
