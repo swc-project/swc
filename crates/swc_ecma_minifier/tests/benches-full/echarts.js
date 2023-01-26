@@ -26853,8 +26853,8 @@
         mousemove: function(e) {
             var x = e.offsetX, y = e.offsetY, localCursorPoint = this.group.transformCoordToLocal(x, y);
             if (!function(controller, e, localCursorPoint) {
-                if (!(!controller._brushType || (controller1 = controller, x = e.offsetX, y = e.offsetY, zr = controller1._zr, x < 0 || x > zr.getWidth() || y < 0 || y > zr.getHeight()))) {
-                    var controller1, x, y, zr, zr1 = controller._zr, covers = controller._covers, currPanel = getPanelByPoint(controller, e, localCursorPoint);
+                if (!(!controller._brushType || (x = e.offsetX, y = e.offsetY, zr = controller._zr, x < 0 || x > zr.getWidth() || y < 0 || y > zr.getHeight()))) {
+                    var x, y, zr, zr1 = controller._zr, covers = controller._covers, currPanel = getPanelByPoint(controller, e, localCursorPoint);
                     if (!controller._dragging) for(var i = 0; i < covers.length; i++){
                         var brushOption = covers[i].__brushOption;
                         if (currPanel && (!0 === currPanel || brushOption.panelId === currPanel.panelId) && coverRenderers[brushOption.brushType].contain(covers[i], localCursorPoint[0], localCursorPoint[1])) return;
@@ -36191,10 +36191,10 @@
                 'parallel' === seriesModel.subType ? (coordSys = seriesModel.coordinateSystem, hasBrushExists = hasBrushExists || coordSys.hasAxisBrushed(), linkOthers(seriesIndex) && coordSys.eachActiveState(seriesModel.getData(), function(activeState, dataIndex) {
                     'active' === activeState && (selectedDataIndexForLink[dataIndex] = 1);
                 })) : function(seriesModel, seriesIndex, rangeInfoList) {
-                    if (!(!seriesModel.brushSelector || (brushModel1 = brushModel, seriesIndex1 = seriesIndex, null != (seriesIndices = brushModel1.option.seriesIndex) && 'all' !== seriesIndices && (isArray(seriesIndices) ? 0 > indexOf(seriesIndices, seriesIndex1) : seriesIndex1 !== seriesIndices))) && (each(areas, function(area) {
+                    if (!(!seriesModel.brushSelector || null != (seriesIndices = brushModel.option.seriesIndex) && 'all' !== seriesIndices && (isArray(seriesIndices) ? 0 > indexOf(seriesIndices, seriesIndex) : seriesIndex !== seriesIndices)) && (each(areas, function(area) {
                         brushModel.brushTargetManager.controlSeries(area, seriesModel, ecModel) && rangeInfoList.push(area), hasBrushExists = hasBrushExists || brushed(rangeInfoList);
                     }), linkOthers(seriesIndex) && brushed(rangeInfoList))) {
-                        var brushModel1, seriesIndex1, seriesIndices, data_1 = seriesModel.getData();
+                        var seriesIndices, data_1 = seriesModel.getData();
                         data_1.each(function(dataIndex) {
                             checkInRange(seriesModel, rangeInfoList, data_1, dataIndex) && (selectedDataIndexForLink[dataIndex] = 1);
                         });
@@ -40856,8 +40856,8 @@
             return subOption = exprOption.not, errMsg = '', errMsg = makePrintable('"not" condition should only be `not: {}`.', 'Illegal condition:', exprOption), isObject(val = subOption) && !isArrayLike(val) || throwError(errMsg), (cond = new NotConditionInternal()).child = parseOption(subOption, getters), cond.child || throwError(errMsg), cond;
         }
         return function(exprOption, getters) {
-            for(var valueGetterParam = getters.prepareGetValue(exprOption), subCondList = [], exprKeys = keys(exprOption), parserName = exprOption.parser, valueParser = parserName ? (type = parserName, valueParserMap.get(type)) : null, i = 0; i < exprKeys.length; i++){
-                var type, keyRaw = exprKeys[i];
+            for(var valueGetterParam = getters.prepareGetValue(exprOption), subCondList = [], exprKeys = keys(exprOption), parserName = exprOption.parser, valueParser = parserName ? valueParserMap.get(parserName) : null, i = 0; i < exprKeys.length; i++){
+                var keyRaw = exprKeys[i];
                 if (!('parser' === keyRaw || getters.valueGetterAttrMap.get(keyRaw))) {
                     var op = hasOwn(RELATIONAL_EXPRESSION_OP_ALIAS_MAP, keyRaw) ? RELATIONAL_EXPRESSION_OP_ALIAS_MAP[keyRaw] : keyRaw, condValueRaw = exprOption[keyRaw], condValueParsed = valueParser ? valueParser(condValueRaw) : condValueRaw, evaluator = ('eq' === op || 'ne' === op ? new FilterEqualityComparator('eq' === op, condValueParsed) : hasOwn(ORDER_COMPARISON_OP_MAP, op) ? new FilterOrderComparator(op, condValueParsed) : null) || 'reg' === op && new RegExpEvaluator(condValueParsed);
                     evaluator || throwError(makePrintable('Illegal relational operation: "' + keyRaw + '" in condition:', exprOption)), subCondList.push(evaluator);
