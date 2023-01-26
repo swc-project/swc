@@ -42,7 +42,7 @@ System.register([
             });
             _export("cl2", cl2 = class cl2 {
                 constructor(){
-                    (void 0).p = {
+                    this.p = {
                         m: /*#__PURE__*/ _async_to_generator(function*() {
                             const req = yield import('./test') // FOUR
                             ;
