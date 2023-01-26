@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(plugin)** Make `span_to_source` use dedicated function (#6853) ([99d48e3](https://github.com/swc-project/swc/commit/99d48e305ef73352efc41bc134a10750b1d724bc))
+
 ### Refactor
 
 
