@@ -575,7 +575,7 @@ impl<I: Tokens> Parser<I> {
         debug_assert!(self.input.syntax().typescript());
 
         self.with_ctx(Context {
-            prefer_bin_op_over_type_arg_closing: true,
+            expected_type_arg_closer_count: self.ctx().expected_type_arg_closer_count + 1,
             ..self.ctx()
         })
         .try_parse_ts(|p| {
