@@ -1,0 +1,154 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 1,
+    "end": 92,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 1,
+        "end": 92,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "VariableDeclaration",
+        "span": {
+          "start": 8,
+          "end": 92,
+          "ctxt": 0
+        },
+        "kind": "const",
+        "declare": false,
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "span": {
+              "start": 14,
+              "end": 92,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 14,
+                "end": 31,
+                "ctxt": 0
+              },
+              "value": "useProductAccount",
+              "optional": false,
+              "typeAnnotation": null
+            },
+            "init": {
+              "type": "TsInstantiation",
+              "span": {
+                "start": 34,
+                "end": 92,
+                "ctxt": 0
+              },
+              "expression": {
+                "type": "Identifier",
+                "span": {
+                  "start": 34,
+                  "end": 44,
+                  "ctxt": 0
+                },
+                "value": "useAccount",
+                "optional": false
+              },
+              "typeArguments": {
+                "type": "TsTypeParameterInstantiation",
+                "span": {
+                  "start": 44,
+                  "end": 92,
+                  "ctxt": 0
+                },
+                "params": [
+                  {
+                    "type": "TsTypeReference",
+                    "span": {
+                      "start": 50,
+                      "end": 90,
+                      "ctxt": 0
+                    },
+                    "typeName": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 50,
+                        "end": 68,
+                        "ctxt": 0
+                      },
+                      "value": "WithAccountHelpers",
+                      "optional": false
+                    },
+                    "typeParams": {
+                      "type": "TsTypeParameterInstantiation",
+                      "span": {
+                        "start": 68,
+                        "end": 90,
+                        "ctxt": 0
+                      },
+                      "params": [
+                        {
+                          "type": "TsTypeReference",
+                          "span": {
+                            "start": 69,
+                            "end": 89,
+                            "ctxt": 0
+                          },
+                          "typeName": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 69,
+                              "end": 76,
+                              "ctxt": 0
+                            },
+                            "value": "Account",
+                            "optional": false
+                          },
+                          "typeParams": {
+                            "type": "TsTypeParameterInstantiation",
+                            "span": {
+                              "start": 76,
+                              "end": 89,
+                              "ctxt": 0
+                            },
+                            "params": [
+                              {
+                                "type": "TsTypeReference",
+                                "span": {
+                                  "start": 77,
+                                  "end": 88,
+                                  "ctxt": 0
+                                },
+                                "typeName": {
+                                  "type": "Identifier",
+                                  "span": {
+                                    "start": 77,
+                                    "end": 88,
+                                    "ctxt": 0
+                                  },
+                                  "value": "AccountType",
+                                  "optional": false
+                                },
+                                "typeParams": null
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            },
+            "definite": false
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}
