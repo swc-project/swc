@@ -41,10 +41,6 @@ impl Pure<'_> {
     }
 
     pub(super) fn optimize_arrow_body(&mut self, b: &mut BlockStmtOrExpr) {
-        if !self.options.arrows {
-            return;
-        }
-
         match b {
             BlockStmtOrExpr::BlockStmt(s) => {
                 if s.stmts.len() == 1 {
