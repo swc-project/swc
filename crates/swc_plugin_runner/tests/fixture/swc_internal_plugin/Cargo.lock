@@ -1249,7 +1249,7 @@ dependencies = [
 
 [[package]]
 name = "swc_atoms"
-version = "0.4.25"
+version = "0.4.34"
 dependencies = [
  "once_cell",
  "rkyv",
@@ -1262,7 +1262,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.29.17"
+version = "0.29.28"
 dependencies = [
  "ahash",
  "anyhow",
@@ -1293,7 +1293,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.44.6"
+version = "0.59.1"
 dependencies = [
  "once_cell",
  "swc_atoms",
@@ -1311,7 +1311,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.95.1"
+version = "0.96.2"
 dependencies = [
  "bitflags",
  "is-macro",
@@ -1327,7 +1327,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.128.2"
+version = "0.129.6"
 dependencies = [
  "memchr",
  "num-bigint",
@@ -1355,7 +1355,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.123.2"
+version = "0.124.3"
 dependencies = [
  "either",
  "enum_kind",
@@ -1372,7 +1372,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_quote_macros"
-version = "0.34.2"
+version = "0.35.3"
 dependencies = [
  "anyhow",
  "pmutil",
@@ -1398,7 +1398,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.112.2"
+version = "0.116.2"
 dependencies = [
  "better_scoped_tls",
  "bitflags",
@@ -1418,7 +1418,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_testing"
-version = "0.115.3"
+version = "0.119.2"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -1442,11 +1442,12 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.106.2"
+version = "0.107.3"
 dependencies = [
  "indexmap",
  "num_cpus",
  "once_cell",
+ "rustc-hash",
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
@@ -1457,7 +1458,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_visit"
-version = "0.81.1"
+version = "0.82.2"
 dependencies = [
  "num-bigint",
  "swc_atoms",
@@ -1479,7 +1480,7 @@ dependencies = [
 
 [[package]]
 name = "swc_error_reporters"
-version = "0.13.18"
+version = "0.13.29"
 dependencies = [
  "anyhow",
  "miette",
@@ -1515,7 +1516,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_macro"
-version = "0.9.9"
+version = "0.9.10"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -1524,7 +1525,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_proxy"
-version = "0.23.1"
+version = "0.25.0"
 dependencies = [
  "better_scoped_tls",
  "rkyv",
@@ -1609,7 +1610,7 @@ dependencies = [
 
 [[package]]
 name = "testing"
-version = "0.31.18"
+version = "0.31.30"
 dependencies = [
  "ansi_term",
  "difference",
