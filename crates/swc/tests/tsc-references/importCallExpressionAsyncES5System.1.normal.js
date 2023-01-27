@@ -91,8 +91,8 @@ System.register([
             });
             _export("cl2", cl2 = function cl2() {
                 "use strict";
-                _class_call_check(void 0, cl2);
-                (void 0).p = {
+                _class_call_check(this, cl2);
+                this.p = {
                     m: /*#__PURE__*/ _async_to_generator(function() {
                         var req;
                         return _ts_generator(this, function(_state) {
