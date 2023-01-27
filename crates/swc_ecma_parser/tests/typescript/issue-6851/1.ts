@@ -11,7 +11,7 @@ interface WithAccountHelpers<T> {
     helpers: string;
 }
 
-const useAccount = (): T => {
+const useAccount = <T>(): T => {
     return {} as T;
 }
 
