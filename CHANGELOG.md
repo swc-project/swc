@@ -5,6 +5,9 @@
 
 
 
+- **(es/module)** Fix handling of `this` for `systemjs` (#6857) ([39c75fd](https://github.com/swc-project/swc/commit/39c75fdcce4ae63a2320bfaac4c2369799729051))
+
+
 - **(es/parser)** Fix parsing of generics (#6859) ([60d9403](https://github.com/swc-project/swc/commit/60d9403073f2d24df275325e854a0ab2dc1bf448))
 
 ### Features
