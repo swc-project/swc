@@ -574,15 +574,12 @@ impl<I: Tokens> Parser<I> {
     pub(super) fn try_parse_ts_type_args(&mut self) -> Option<Box<TsTypeParamInstantiation>> {
         debug_assert!(self.input.syntax().typescript());
 
-        self.with_ctx(Context {
-            prefer_bin_op_over_type_arg_closing: true,
-            ..self.ctx()
-        })
-        .try_parse_ts(|p| {
+        self.try_parse_ts(|p| {
             let type_args = p.parse_ts_type_args()?;
+
             if is_one_of!(
                 p, '<', // invalid syntax
-                '>', '+', '-', // becomes relational expression
+                '>', ">>", '+', '-', // becomes relational expression
                 /* these should be type arguments in function call or template,
                  * not instantiation expression */
                 '(', '`'

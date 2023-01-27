@@ -116,6 +116,9 @@ macro_rules! tok {
     ('>') => {
         crate::token::Token::BinOp(crate::token::BinOpToken::Gt)
     };
+    (">>") => {
+        crate::token::Token::BinOp(crate::token::BinOpToken::RShift)
+    };
 
     ("++") => {
         crate::token::Token::PlusPlus
