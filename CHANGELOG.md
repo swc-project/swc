@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Miscellaneous Tasks
+
+
+
+- **(ci)** FIx CI (#6861) ([45cdfed](https://github.com/swc-project/swc/commit/45cdfed6c818ad7da2cf202a46abfbd06dda95eb))
+
 ## [1.3.29] - 2023-01-26
 
 ### Bug Fixes
