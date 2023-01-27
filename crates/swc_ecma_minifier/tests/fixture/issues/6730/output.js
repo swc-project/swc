@@ -1,6 +1,6 @@
-function n(n, e, t, r, o, u, i) {
+function n(n, e, t, r, o, i, u) {
     try {
-        var a = n[u](i);
+        var a = n[i](u);
         var c = a.value;
     } catch (n) {
         t(n);
@@ -12,20 +12,19 @@ function n(n, e, t, r, o, u, i) {
 function e(e) {
     return function() {
         var t = this, r = arguments;
-        return new Promise(function(o, u) {
-            var i = e.apply(t, r);
+        return new Promise(function(o, i) {
+            var u = e.apply(t, r);
             function a(e) {
-                n(i, o, u, a, c, "next", e);
+                n(u, o, i, a, c, "next", e);
             }
             function c(e) {
-                n(i, o, u, a, c, "throw", e);
+                n(u, o, i, a, c, "throw", e);
             }
             a(void 0);
         });
     };
 }
-export const styleLoader = ()=>{
-    return {
+export const styleLoader = ()=>({
         name: 'style-loader',
         setup (n) {
             n.onLoad({
@@ -38,5 +37,4 @@ export const styleLoader = ()=>{
                 };
             }());
         }
-    };
-};
+    });
