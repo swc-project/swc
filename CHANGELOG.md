@@ -1,4 +1,24 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es/parser)** Fix parsing of generics (#6859) ([60d9403](https://github.com/swc-project/swc/commit/60d9403073f2d24df275325e854a0ab2dc1bf448))
+
+### Features
+
+
+
+- **(es/minifier)** Improve compatibility of `arrows` with `terser` (#6862) ([d1687d8](https://github.com/swc-project/swc/commit/d1687d8e0128ad534b551ebbb7f8445abe3144c2))
+
+### Miscellaneous Tasks
+
+
+
+- **(ci)** FIx CI (#6861) ([45cdfed](https://github.com/swc-project/swc/commit/45cdfed6c818ad7da2cf202a46abfbd06dda95eb))
+
 ## [1.3.29] - 2023-01-26
 
 ### Bug Fixes
