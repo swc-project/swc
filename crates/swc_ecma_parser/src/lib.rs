@@ -378,7 +378,7 @@ pub struct Context {
 
     /// Used for parsing `>`. If true, `>>` and `>>>` are parsed as binary
     /// operators.
-    expected_type_arg_closer_count: u8,
+    prefer_bin_op_over_type_arg_closing: bool,
 }
 
 #[derive(Debug, Clone, Copy, Default)]
