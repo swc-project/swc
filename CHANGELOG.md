@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(es/parser)** Fix parsing of generics (#6859) ([60d9403](https://github.com/swc-project/swc/commit/60d9403073f2d24df275325e854a0ab2dc1bf448))
+
 ### Features
 
 
