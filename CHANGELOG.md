@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Features
+
+
+
+- **(es/minifier)** Improve compatibility of `arrows` with `terser` (#6862) ([d1687d8](https://github.com/swc-project/swc/commit/d1687d8e0128ad534b551ebbb7f8445abe3144c2))
+
 ### Miscellaneous Tasks
 
 
