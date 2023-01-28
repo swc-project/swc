@@ -382,6 +382,7 @@
         "value": "./t1",
         "raw": "\"./t1\""
       },
+      "typeOnly": false,
       "asserts": null
     },
     {
@@ -401,6 +402,7 @@
         "value": "./t2",
         "raw": "\"./t2\""
       },
+      "typeOnly": false,
       "asserts": null
     },
     {
@@ -420,6 +422,7 @@
         "value": "./t3",
         "raw": "\"./t3\""
       },
+      "typeOnly": false,
       "asserts": null
     },
     {

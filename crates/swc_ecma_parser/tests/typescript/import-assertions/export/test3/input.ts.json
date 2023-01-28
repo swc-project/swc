@@ -23,6 +23,7 @@
         "value": "./foo.js",
         "raw": "'./foo.js'"
       },
+      "typeOnly": false,
       "asserts": {
         "type": "ObjectExpression",
         "span": {
