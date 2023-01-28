@@ -5,6 +5,9 @@
 
 
 
+- **(es/minifier)** Track reassign in parent scope (#6865) ([c0e72ef](https://github.com/swc-project/swc/commit/c0e72ef64ad9925c9dffda3b0ff261682f6054ed))
+
+
 - **(es/module)** Fix handling of `this` for `systemjs` (#6857) ([39c75fd](https://github.com/swc-project/swc/commit/39c75fdcce4ae63a2320bfaac4c2369799729051))
 
 
