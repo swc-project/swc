@@ -13,6 +13,9 @@
 
 - **(bindings/cli)** Append `sourceMappingURL=` to the output (#6873) ([c4db8e4](https://github.com/swc-project/swc/commit/c4db8e42a154bd41b54354fc8c2891764fbb724f))
 
+
+- **(es/loader)** Support `node:` prefix from `NodeModulesResolver` (#6868) ([6b7249d](https://github.com/swc-project/swc/commit/6b7249dcde964d4cefba8531515c93b07d6dbcd9))
+
 ## [1.3.30] - 2023-01-28
 
 ### Bug Fixes
