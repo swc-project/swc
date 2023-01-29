@@ -65,3 +65,24 @@ fn hoisting() {
         );
     });
 }
+
+#[test]
+fn builtin_modules() {
+    let node_resolver = NodeModulesResolver::new(TargetEnv::Node, Default::default(), true);
+
+    // When
+    let resolved = node_resolver
+        .resolve(&FileName::Real(PathBuf::from("index.js")), "path")
+        .expect("should resolve");
+
+    // Expect
+    assert_eq!(resolved, FileName::Custom("node:path".to_string()));
+
+    // When
+    let resolved = node_resolver
+        .resolve(&FileName::Real(PathBuf::from("index.js")), "node:path")
+        .expect("should resolve");
+
+    // Expect
+    assert_eq!(resolved, FileName::Custom("node:path".to_string()));
+}

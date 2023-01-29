@@ -424,6 +424,10 @@ impl Resolve for NodeModulesResolver {
 
         // Handle builtin modules for nodejs
         if let TargetEnv::Node = self.target_env {
+            if target.starts_with("node:") {
+                return Ok(FileName::Custom(target.into()));
+            }
+
             if is_core_module(target) {
                 return Ok(FileName::Custom(format!("node:{}", target)));
             }
