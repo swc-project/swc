@@ -169,7 +169,7 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
 }
 
 fn make_field_enum_variant_from_named_field(type_name: &Ident, f: &Field) -> Variant {
-    let fields = if let Some(..) = extract_generic("Vec", &f.ty) {
+    let fields = if is_vec_or_opt_vec(&f.ty) {
         let mut v = Punctuated::new();
 
         v.push(Field {
@@ -357,7 +357,7 @@ fn make_field_enum(item: &Item) -> Vec<Item> {
                             f.ident.span(),
                         );
 
-                        if let Some(..) = extract_generic("Vec", &f.ty) {
+                        if is_vec_or_opt_vec(&f.ty) {
                             arms.push(Arm {
                                 attrs: Default::default(),
                                 pat: Pat::TupleStruct(PatTupleStruct {
@@ -2186,7 +2186,7 @@ fn visit_expr(
 
                 let ast_path_expr: Expr = match mode {
                     Mode::Visit(..) => {
-                        if let Some(..) = extract_generic("Vec", ty) {
+                        if is_vec_or_opt_vec(ty) {
                             q!(
                                 Vars {
                                     VariantName: type_name,
@@ -2215,7 +2215,7 @@ fn visit_expr(
                         }
                     }
                     _ => {
-                        if let Some(..) = extract_generic("Vec", ty) {
+                        if is_vec_or_opt_vec(ty) {
                             q!(
                                 Vars {
                                     VariantName: type_name,
@@ -3209,6 +3209,10 @@ fn is_opt_vec(ty: &Type) -> bool {
     } else {
         false
     }
+}
+
+fn is_vec_or_opt_vec(ty: &Type) -> bool {
+    is_opt_vec(ty) || extract_generic("Vec", ty).is_some()
 }
 
 fn method_name_as_str(mode: Mode, ty: &Type) -> String {
