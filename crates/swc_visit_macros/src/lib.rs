@@ -169,7 +169,11 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
 }
 
 fn make_field_enum_variant_from_named_field(type_name: &Ident, f: &Field) -> Variant {
-    let fields = if let Some(..) = extract_generic("Vec", &f.ty) {
+    let may_have_multiple_child = matches!(extract_generic("Vec", &f.ty), Some(..))
+        || extract_generic("Option", &f.ty)
+            .map_or(false, |ty| matches!(extract_generic("Vec", ty), Some(..)));
+
+    let fields = if may_have_multiple_child {
         let mut v = Punctuated::new();
 
         v.push(Field {
