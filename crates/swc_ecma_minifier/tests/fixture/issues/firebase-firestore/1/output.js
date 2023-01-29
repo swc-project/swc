@@ -4055,7 +4055,7 @@
                             return (null === s || t.snapshotVersion.compareTo(s.snapshotVersion) > 0) && (n.Un = n.Un.insert(t.targetId, t), n.qn.set(e, t.targetId)), t;
                         });
                     }(n.localStore, Ee(e)), r = n.sharedClientState.addLocalQueryTarget(t.targetId);
-                    i = await sc(n, e, s = t.targetId, "current" === r), n.isPrimaryClient && co(n.remoteStore, t);
+                    s = t.targetId, i = await sc(n, e, s, "current" === r), n.isPrimaryClient && co(n.remoteStore, t);
                 }
                 return i;
             }
@@ -4617,7 +4617,7 @@
                 verifyOperationInProgress() {}
                 async Sc() {
                     let t;
-                    do await (t = this._c);
+                    do t = this._c, await t;
                     while (t !== this._c)
                 }
                 Dc(t) {

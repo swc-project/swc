@@ -5,10 +5,102 @@
 
 
 
+- **(visit)** Fix detection of `Option<Vec<T>>` (#6872) ([508267d](https://github.com/swc-project/swc/commit/508267dccf479f114234f01f8d77db74b91bdb85))
+
+### Features
+
+
+
+- **(bindings/cli)** Append `sourceMappingURL=` to the output (#6873) ([c4db8e4](https://github.com/swc-project/swc/commit/c4db8e42a154bd41b54354fc8c2891764fbb724f))
+
+## [1.3.30] - 2023-01-28
+
+### Bug Fixes
+
+
+
+- **(es/minifier)** Track reassign in parent scope (#6865) ([c0e72ef](https://github.com/swc-project/swc/commit/c0e72ef64ad9925c9dffda3b0ff261682f6054ed))
+
+
+- **(es/module)** Fix handling of `this` for `systemjs` (#6857) ([39c75fd](https://github.com/swc-project/swc/commit/39c75fdcce4ae63a2320bfaac4c2369799729051))
+
+
+- **(es/parser)** Fix parsing of generics (#6859) ([60d9403](https://github.com/swc-project/swc/commit/60d9403073f2d24df275325e854a0ab2dc1bf448))
+
+### Features
+
+
+
+- **(es/minifier)** Improve compatibility of `arrows` with `terser` (#6862) ([d1687d8](https://github.com/swc-project/swc/commit/d1687d8e0128ad534b551ebbb7f8445abe3144c2))
+
+### Miscellaneous Tasks
+
+
+
+- **(ci)** FIx CI (#6861) ([45cdfed](https://github.com/swc-project/swc/commit/45cdfed6c818ad7da2cf202a46abfbd06dda95eb))
+
+## [1.3.29] - 2023-01-26
+
+### Bug Fixes
+
+
+
+- **(plugin)** Make `span_to_source` use dedicated function (#6853) ([99d48e3](https://github.com/swc-project/swc/commit/99d48e305ef73352efc41bc134a10750b1d724bc))
+
+### Refactor
+
+
+
+- **(es/minifier)** Merge `cond_init` with `reassigned` (#6850) ([55225cb](https://github.com/swc-project/swc/commit/55225cb994d6cb0cfaae4cee77905f17ec6e37c7))
+
+## [1.3.28] - 2023-01-24
+
+### Bug Fixes
+
+
+
+- **(es/codegen)** Fix codegen of string literals with `\x000` (#6838) ([df70261](https://github.com/swc-project/swc/commit/df702614e1c23ee119d26beeb1b3abd454d7add0))
+
+
+- **(es/minifier)** Don't inline into `await` from sequential inliner (#6839) ([21e1478](https://github.com/swc-project/swc/commit/21e14787c521cc1f808c9b71e8671820a79bd12f))
+
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Make stale action to wait 30 days (#6828) ([1ef2347](https://github.com/swc-project/swc/commit/1ef2347bdf6901ea6d1e8629ba08611421d19c3e))
+
+### Performance
+
+
+
+- **(es/minifier)** Make pure function check `O(1)` (#6840) ([58208ef](https://github.com/swc-project/swc/commit/58208ef8aee994591f05d996a8b660da6e96d681))
+
+### Refactor
+
+
+
+- **(es/preset-env)** Use a const fn instead of a macro (#6844) ([2fcab36](https://github.com/swc-project/swc/commit/2fcab36418b7cf0869a1a256dc927d3ccdbe35cd))
+
+
+- **(es/typescript)** Remove unused code (#6830) ([7205543](https://github.com/swc-project/swc/commit/7205543d5f58e2aaa8ef8ba0820c2f05726001d1))
+
+## [1.3.27] - 2023-01-17
+
+### Bug Fixes
+
+
+
+- **(es/codegen)** Skip space if jsx attrs is empty (#6823) ([e9fdac2](https://github.com/swc-project/swc/commit/e9fdac216c0a578f266a7a16000e2675d722068c))
+
+
 - **(es/compat)** Ignore `this` in nested scopes in `classes` pass (#6796) ([07676d5](https://github.com/swc-project/swc/commit/07676d5515321c50206b3f0ea9f1473b6b2c3192))
 
 
 - **(es/plugin)** Fix starter template (#6815) ([38fb70c](https://github.com/swc-project/swc/commit/38fb70c237f122a8d8f8fdf187bd341326e39f22))
+
+
+- **(es/renamer)** Handle rest params correctly (#6821) ([ebce18b](https://github.com/swc-project/swc/commit/ebce18b221c50dedba9e3a4078148473822be949))
 
 
 - **(es/transform)** Apply `hygiene` and `resolver` if minify is specified (#6793) ([c145409](https://github.com/swc-project/swc/commit/c14540905f81e1c1677e7c9d723e71b1b6a9740b))
@@ -23,6 +115,9 @@
 - **(es/ast)** Add `EsNext` to `EsVersion` (#6816) ([ff78b8f](https://github.com/swc-project/swc/commit/ff78b8f7e077bad599f9b740ca4e831f835a347b))
 
 
+- **(es/helper)** Use `require` to load polyfills and helpers in Script (#6778) ([ad8d043](https://github.com/swc-project/swc/commit/ad8d043f1d75b2df5a5e2fe43fba1ec843d2fad4))
+
+
 - **(es/minifier)** Remove noop spreads (#6803) ([8f683e3](https://github.com/swc-project/swc/commit/8f683e3f77fe9f4fd84a5bf64c067ae9526fb330))
 
 
@@ -30,6 +125,9 @@
 
 
 - **(es/renamer)** Support `safari10` from the name mangler (#6801) ([631dd78](https://github.com/swc-project/swc/commit/631dd7872b78b8698bb4923c1e81a9a8770c1fea))
+
+
+- **(es/renamer)** Rename synthesized identifiers even on `eval` (#6818) ([82bd5c2](https://github.com/swc-project/swc/commit/82bd5c2041ba95f6d0260e03c446496b7eb37cb4))
 
 ### Testing
 

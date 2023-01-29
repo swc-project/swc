@@ -6,6 +6,7 @@ use std::path::PathBuf;
 
 use preset_env_base::query::{targets_to_versions, Query};
 pub use preset_env_base::{query::Targets, version::Version, BrowserData, Versions};
+use regenerator::RegeneratorVisitor;
 use serde::Deserialize;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{chain, collections::AHashSet, comments::Comments, FromVariant, Mark, DUMMY_SP};
@@ -21,7 +22,7 @@ use swc_ecma_transforms::{
     pass::{noop, Optional},
     Assumptions,
 };
-use swc_ecma_utils::prepend_stmts;
+use swc_ecma_utils::{prepend_stmts, ExprFactory};
 use swc_ecma_visit::{as_folder, Fold, VisitMut, VisitMutWith, VisitWith};
 
 pub use self::transform_data::Feature;
@@ -323,6 +324,7 @@ where
             targets,
             includes: included_modules,
             excludes: excluded_modules,
+            global_mark
         })
     )
 }
@@ -336,12 +338,17 @@ struct Polyfills {
     regenerator: bool,
     includes: AHashSet<String>,
     excludes: AHashSet<String>,
+    global_mark: Mark,
 }
-
-impl VisitMut for Polyfills {
-    fn visit_mut_module(&mut self, m: &mut Module) {
-        let span = m.span;
-
+impl Polyfills {
+    fn collect<T>(&mut self, m: &mut T) -> Vec<JsWord>
+    where
+        T: VisitWith<corejs2::UsageVisitor>
+            + VisitWith<corejs3::UsageVisitor>
+            + VisitMutWith<corejs2::Entry>
+            + VisitMutWith<corejs3::Entry>
+            + VisitWith<RegeneratorVisitor>,
+    {
         let required = match self.mode {
             None => Default::default(),
             Some(Mode::Usage) => {
@@ -387,7 +394,7 @@ impl VisitMut for Polyfills {
                 _ => unimplemented!("corejs version other than 2 / 3"),
             },
         };
-        let required = required
+        required
             .iter()
             .filter(|s| {
                 !s.starts_with("esnext") || !required.contains(&s.replace("esnext", "es").as_str())
@@ -407,8 +414,13 @@ impl VisitMut for Polyfills {
                     "regenerator-runtime/runtime.js".to_string().into()
                 }
             }))
-            .collect::<Vec<_>>();
-
+            .collect::<Vec<_>>()
+    }
+}
+impl VisitMut for Polyfills {
+    fn visit_mut_module(&mut self, m: &mut Module) {
+        let span = m.span;
+        let required = self.collect(m);
         if cfg!(debug_assertions) {
             let mut v = required.into_iter().collect::<Vec<_>>();
             v.sort();
@@ -452,8 +464,64 @@ impl VisitMut for Polyfills {
         m.body.retain(|item| !matches!(item, ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl { src, .. })) if src.span == DUMMY_SP && src.value == js_word!("")));
     }
 
-    fn visit_mut_script(&mut self, _: &mut Script) {
-        unimplemented!("automatic polyfill for scripts")
+    fn visit_mut_script(&mut self, m: &mut Script) {
+        let span = m.span;
+        let required = self.collect(m);
+        if cfg!(debug_assertions) {
+            let mut v = required.into_iter().collect::<Vec<_>>();
+            v.sort();
+            prepend_stmts(
+                &mut m.body,
+                v.into_iter().map(|src| {
+                    Stmt::Expr(ExprStmt {
+                        span: DUMMY_SP,
+                        expr: CallExpr {
+                            span,
+                            callee: Expr::Ident(Ident {
+                                span: DUMMY_SP.apply_mark(self.global_mark),
+                                sym: js_word!("require"),
+                                optional: false,
+                            })
+                            .as_callee(),
+                            args: vec![Str {
+                                span: DUMMY_SP,
+                                value: src,
+                                raw: None,
+                            }
+                            .as_arg()],
+                            type_args: None,
+                        }
+                        .into(),
+                    })
+                }),
+            );
+        } else {
+            prepend_stmts(
+                &mut m.body,
+                required.into_iter().map(|src| {
+                    Stmt::Expr(ExprStmt {
+                        span: DUMMY_SP,
+                        expr: CallExpr {
+                            span,
+                            callee: Expr::Ident(Ident {
+                                span: DUMMY_SP.apply_mark(self.global_mark),
+                                sym: js_word!("require"),
+                                optional: false,
+                            })
+                            .as_callee(),
+                            args: vec![Str {
+                                span: DUMMY_SP,
+                                value: src,
+                                raw: None,
+                            }
+                            .as_arg()],
+                            type_args: None,
+                        }
+                        .into(),
+                    })
+                }),
+            );
+        }
     }
 }
 

@@ -2626,14 +2626,14 @@
                     var id = "__transition-" + this._uid + "-";
                     child.key = null == child.key ? child.isComment ? id + 'comment' : id + child.tag : isPrimitive(child.key) ? 0 === String(child.key).indexOf(id) ? child.key : id + child.key : child.key;
                     var data = (child.data || (child.data = {})).transition = extractTransitionData(this), oldRawChild = this._vnode, oldChild = getRealChild(oldRawChild);
-                    if (child.data.directives && child.data.directives.some(isVShowDirective) && (child.data.show = !0), oldChild && oldChild.data && (child1 = child, (oldChild1 = oldChild).key !== child1.key || oldChild1.tag !== child1.tag) && !isAsyncPlaceholder(oldChild) && !(oldChild.componentInstance && oldChild.componentInstance._vnode.isComment)) {
+                    if (child.data.directives && child.data.directives.some(isVShowDirective) && (child.data.show = !0), oldChild && oldChild.data && (oldChild.key !== child.key || oldChild.tag !== child.tag) && !isAsyncPlaceholder(oldChild) && !(oldChild.componentInstance && oldChild.componentInstance._vnode.isComment)) {
                         var oldData = oldChild.data.transition = extend({}, data);
                         if ('out-in' === mode) return this._leaving = !0, mergeVNodeHook(oldData, 'afterLeave', function() {
                             this$1._leaving = !1, this$1.$forceUpdate();
                         }), placeholder(h, rawChild);
                         if ('in-out' === mode) {
                             if (isAsyncPlaceholder(child)) return oldRawChild;
-                            var child1, oldChild1, delayedLeave, performLeave = function() {
+                            var delayedLeave, performLeave = function() {
                                 delayedLeave();
                             };
                             mergeVNodeHook(data, 'afterEnter', performLeave), mergeVNodeHook(data, 'enterCancelled', performLeave), mergeVNodeHook(oldData, 'delayLeave', function(leave) {
@@ -3092,17 +3092,17 @@
         if (el.for && !el.forProcessed) return genFor(el, state);
         if (el.if && !el.ifProcessed) return genIf(el, state);
         if ('template' === el.tag && !el.slotTarget && !state.pre) return genChildren(el, state) || 'void 0';
-        if ('slot' === el.tag) return el1 = el, state1 = state, res = "_t(" + (el1.slotName || '"default"') + ((children = genChildren(el1, state1)) ? "," + children : ''), attrs = el1.attrs || el1.dynamicAttrs ? genProps((el1.attrs || []).concat(el1.dynamicAttrs || []).map(function(attr) {
+        if ('slot' === el.tag) return res = "_t(" + (el.slotName || '"default"') + ((children = genChildren(el, state)) ? "," + children : ''), attrs = el.attrs || el.dynamicAttrs ? genProps((el.attrs || []).concat(el.dynamicAttrs || []).map(function(attr) {
             return {
                 name: camelize(attr.name),
                 value: attr.value,
                 dynamic: attr.dynamic
             };
-        })) : null, bind$$1 = el1.attrsMap['v-bind'], (attrs || bind$$1) && !children && (res += ",null"), attrs && (res += "," + attrs), bind$$1 && (res += (attrs ? '' : ',null') + "," + bind$$1), res + ')';
-        if (el.component) componentName = el.component, el2 = el, state2 = state, children1 = el2.inlineTemplate ? null : genChildren(el2, state2, !0), code = "_c(" + componentName + "," + genData$2(el2, state2) + (children1 ? "," + children1 : '') + ")";
+        })) : null, bind$$1 = el.attrsMap['v-bind'], (attrs || bind$$1) && !children && (res += ",null"), attrs && (res += "," + attrs), bind$$1 && (res += (attrs ? '' : ',null') + "," + bind$$1), res + ')';
+        if (el.component) componentName = el.component, children1 = el.inlineTemplate ? null : genChildren(el, state, !0), code = "_c(" + componentName + "," + genData$2(el, state) + (children1 ? "," + children1 : '') + ")";
         else {
             (!el.plain || el.pre && state.maybeComponent(el)) && (data = genData$2(el, state));
-            var el1, state1, children, res, attrs, bind$$1, code, componentName, el2, state2, children1, data, children2 = el.inlineTemplate ? null : genChildren(el, state, !0);
+            var children, res, attrs, bind$$1, code, componentName, children1, data, children2 = el.inlineTemplate ? null : genChildren(el, state, !0);
             code = "_c('" + el.tag + "'" + (data ? "," + data : '') + (children2 ? "," + children2 : '') + ")";
         }
         for(var i = 0; i < state.transforms.length; i++)code = state.transforms[i](el, code);

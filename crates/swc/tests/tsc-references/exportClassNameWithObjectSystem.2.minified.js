@@ -13,7 +13,7 @@ System.register([
         execute: function() {
             _export("Object", function Object() {
                 "use strict";
-                _class_call_check(void 0, Object);
+                _class_call_check(this, Object);
             });
         }
     };

@@ -120,7 +120,7 @@ where
             }
 
             if in_left_of_for_loop {
-                v.mark_reassigned_with_assign();
+                v.mark_reassigned();
                 v.mark_mutated();
             }
         } else {
@@ -299,7 +299,7 @@ where
     fn visit_block_stmt(&mut self, n: &BlockStmt) {
         self.with_child(n.span.ctxt, ScopeKind::Block, |child| {
             n.visit_children_with(child);
-        })
+        });
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]

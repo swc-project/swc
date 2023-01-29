@@ -4,7 +4,7 @@ use parking_lot::Mutex;
 use swc_common::{
     plugin::serialized::PluginSerializedBytes,
     source_map::{PartialFileLines, PartialLoc},
-    BytePos, SourceMap, Span, SyntaxContext,
+    BytePos, SourceMap, SourceMapper, Span, SyntaxContext,
 };
 use wasmer::{LazyInit, Memory, NativeFunc};
 
@@ -249,6 +249,40 @@ pub fn span_to_filename_proxy(
             ctxt: SyntaxContext::from_u32(span_ctxt),
         };
         let ret = (env.source_map.lock()).span_to_filename(span);
+        let serialized_loc_bytes =
+            PluginSerializedBytes::try_serialize(&ret).expect("Should be serializable");
+
+        if let Some(alloc_guest_memory) = env.alloc_guest_memory_ref() {
+            allocate_return_values_into_guest(
+                memory,
+                alloc_guest_memory,
+                allocated_ret_ptr,
+                &serialized_loc_bytes,
+            );
+            1
+        } else {
+            0
+        }
+    } else {
+        0
+    }
+}
+
+#[tracing::instrument(level = "info", skip_all)]
+pub fn span_to_source_proxy(
+    env: &SourceMapHostEnvironment,
+    span_lo: u32,
+    span_hi: u32,
+    span_ctxt: u32,
+    allocated_ret_ptr: u32,
+) -> i32 {
+    if let Some(memory) = env.memory_ref() {
+        let span = Span {
+            lo: BytePos(span_lo),
+            hi: BytePos(span_hi),
+            ctxt: SyntaxContext::from_u32(span_ctxt),
+        };
+        let ret = (env.source_map.lock()).span_to_snippet(span);
         let serialized_loc_bytes =
             PluginSerializedBytes::try_serialize(&ret).expect("Should be serializable");
 

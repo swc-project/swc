@@ -307,7 +307,7 @@ impl Options {
             cfg.adjust(base);
         }
 
-        let is_module = self.config.is_module;
+        let is_module = cfg.is_module.unwrap_or_default();
 
         let mut source_maps = self.source_maps.clone();
         source_maps.merge(cfg.source_maps.clone());
@@ -861,7 +861,7 @@ pub struct Config {
     pub error: ErrorConfig,
 
     #[serde(default)]
-    pub is_module: IsModule,
+    pub is_module: Option<IsModule>,
 
     #[serde(rename = "$schema")]
     pub schema: Option<String>,

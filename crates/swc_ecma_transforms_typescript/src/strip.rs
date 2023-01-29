@@ -162,7 +162,6 @@ pub fn strip_with_config(config: Config, top_level_mark: Mark) -> impl Fold + Vi
             scope: Default::default(),
             is_side_effect_import: Default::default(),
             is_type_only_export: Default::default(),
-            uninitialized_vars: Default::default(),
             decl_names: Default::default(),
             in_var_pat: Default::default(),
             keys: Default::default()
@@ -233,7 +232,6 @@ where
             scope: Default::default(),
             is_side_effect_import: Default::default(),
             is_type_only_export: Default::default(),
-            uninitialized_vars: Default::default(),
             decl_names: Default::default(),
             in_var_pat: Default::default(),
             keys: Default::default(),
@@ -278,7 +276,6 @@ where
 
     is_side_effect_import: bool,
     is_type_only_export: bool,
-    uninitialized_vars: Vec<VarDeclarator>,
 
     ts_enum_lit: TSEnumLit,
 
@@ -2092,19 +2089,6 @@ where
             self.config.import_export_assign_config,
         ));
 
-        if !self.uninitialized_vars.is_empty() {
-            prepend_stmt(
-                &mut module.body,
-                VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    decls: take(&mut self.uninitialized_vars),
-                    declare: false,
-                }
-                .into(),
-            );
-        }
-
         let is_module = module
             .body
             .iter()
@@ -2479,19 +2463,6 @@ where
         }
 
         n.visit_mut_children_with(self);
-
-        if !self.uninitialized_vars.is_empty() {
-            prepend_stmt(
-                &mut n.body,
-                VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    decls: take(&mut self.uninitialized_vars),
-                    declare: false,
-                }
-                .into(),
-            );
-        }
     }
 
     fn visit_mut_stmt(&mut self, stmt: &mut Stmt) {

@@ -69,11 +69,12 @@
                     return null != this._events[name] ? this._events[name].length : 0;
                 }
                 async trigger(name, ...args) {
+                    var promises;
                     try {
                         if ("debug" !== name && this.trigger("debug", `Event triggered: ${name}`, args), null == this._events[name]) return;
                         return this._events[name] = this._events[name].filter(function(listener) {
                             return "none" !== listener.status;
-                        }), (await Promise.all(this._events[name].map(async (listener)=>{
+                        }), promises = this._events[name].map(async (listener)=>{
                             var returned;
                             if ("none" !== listener.status) {
                                 "once" === listener.status && (listener.status = "none");
@@ -84,7 +85,7 @@
                                     return this.trigger("error", error), null;
                                 }
                             }
-                        }))).find(function(x) {
+                        }), (await Promise.all(promises)).find(function(x) {
                             return null != x;
                         });
                     } catch (error) {

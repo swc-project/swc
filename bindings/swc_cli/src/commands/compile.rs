@@ -204,7 +204,7 @@ fn resolve_output_file_path(
 }
 
 fn emit_output(
-    output: &TransformOutput,
+    mut output: TransformOutput,
     out_dir: &Option<PathBuf>,
     file_path: &Path,
     file_extension: PathBuf,
@@ -219,12 +219,18 @@ fn emit_output(
             fs::create_dir_all(output_dir)?;
         }
 
-        fs::write(&output_file_path, &output.code)?;
-
         if let Some(source_map) = &output.map {
             let source_map_path = output_file_path.with_extension("js.map");
+
+            output.code.push_str("\n//# sourceMappingURL=");
+            output
+                .code
+                .push_str(&source_map_path.file_name().unwrap().to_string_lossy());
+
             fs::write(source_map_path, source_map)?;
         }
+
+        fs::write(output_file_path, &output.code)?;
     } else {
         println!(
             "{}\n{}\n{}",
@@ -400,27 +406,38 @@ impl CompileOptions {
             )?;
             let mut buf = File::create(single_out_file)?;
             let mut buf_srcmap = None;
+            let mut source_map_path = None;
 
             // write all transformed files to single output buf
             result?.iter().try_for_each(|r| {
                 if let Some(src_map) = r.map.as_ref() {
                     if buf_srcmap.is_none() {
-                        // we'll init buf lazily as we don't read ./.swcrc directly to determine if
-                        // sourcemap would be generated or not
-                        let srcmap_buf_name =
-                            if let Some(source_map_target) = &self.source_map_target {
-                                File::create(source_map_target)?
-                            } else {
-                                File::create(single_out_file.with_extension(format!(
-                                    "{}map",
-                                    if let Some(ext) = single_out_file.extension() {
-                                        format!("{}.", ext.to_string_lossy())
-                                    } else {
-                                        "".to_string()
-                                    }
-                                )))?
-                            };
-                        buf_srcmap = Some(srcmap_buf_name);
+                        let map_out_file = if let Some(source_map_target) = &self.source_map_target
+                        {
+                            source_map_path = Some(source_map_target.clone());
+                            source_map_target.into()
+                        } else {
+                            let map_out_file = single_out_file.with_extension(format!(
+                                "{}map",
+                                if let Some(ext) = single_out_file.extension() {
+                                    format!("{}.", ext.to_string_lossy())
+                                } else {
+                                    "".to_string()
+                                }
+                            ));
+
+                            // Get the filename of the source map, as the source map will
+                            // be created in the same directory next to the output.
+                            source_map_path = Some(
+                                map_out_file
+                                    .file_name()
+                                    .unwrap()
+                                    .to_string_lossy()
+                                    .to_string(),
+                            );
+                            map_out_file
+                        };
+                        buf_srcmap = Some(File::create(map_out_file)?);
                     }
 
                     buf_srcmap
@@ -432,6 +449,11 @@ impl CompileOptions {
 
                 buf.write(r.code.as_bytes()).and(Ok(()))
             })?;
+
+            if let Some(source_map_path) = source_map_path {
+                buf.write_all(b"\n//# sourceMappingURL=")?;
+                buf.write_all(source_map_path.as_bytes())?;
+            }
 
             buf.flush()
                 .context("Failed to write output into single file")
@@ -448,7 +470,7 @@ impl CompileOptions {
 
                     match result {
                         Ok(output) => {
-                            emit_output(&output, &self.out_dir, &file_path, file_extension)
+                            emit_output(output, &self.out_dir, &file_path, file_extension)
                         }
                         Err(e) => Err(e),
                     }

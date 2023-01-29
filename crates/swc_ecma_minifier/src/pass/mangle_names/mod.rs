@@ -1,6 +1,6 @@
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::JsWord;
-use swc_common::chain;
+use swc_common::{chain, Mark};
 use swc_ecma_ast::{Module, *};
 use swc_ecma_transforms_base::rename::{renamer, Renamer};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
@@ -15,6 +15,7 @@ pub(crate) fn name_mangler(
     options: MangleOptions,
     preserved: FxHashSet<Id>,
     chars: Base54Chars,
+    top_level_mark: Mark,
 ) -> impl VisitMut {
     chain!(
         LabelMangler {
@@ -27,6 +28,7 @@ pub(crate) fn name_mangler(
             swc_ecma_transforms_base::hygiene::Config {
                 keep_class_names: options.keep_class_names,
                 safari_10: options.safari10,
+                top_level_mark
             },
             ManglingRenamer { chars, preserved }
         )

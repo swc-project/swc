@@ -54,6 +54,72 @@ test!(
             allow_top_level_this: false
         }
     ),
+    iife,
+    r#"
+    (function(a) {
+        this.foo = a;
+    })(this);
+    "#,
+    r#"System.register([], function(_export, _context) {
+        "use strict";
+        return {
+            setters: [],
+            execute: function() {
+                (function(a) {
+                    this.foo = a;
+                })(void 0);
+            }
+        };
+    });"#
+);
+
+test!(
+    syntax(),
+    |tester| tr(
+        tester,
+        Config {
+            allow_top_level_this: false
+        }
+    ),
+    top_level_this_false_class,
+    r#"
+    const a = this;
+    class A {
+        constructor() {
+          this.a = 1;
+        }
+        test() {
+          this.a = 2;
+        }
+    }"#,
+    r#"System.register([], function(_export, _context) {
+        "use strict";
+        var A, a;
+        return {
+            setters: [],
+            execute: function() {
+                a = void 0;
+                A = class A {
+                    constructor(){
+                        this.a = 1;
+                    }
+                    test() {
+                        this.a = 2;
+                    }
+                };
+            }
+        };
+    });"#
+);
+
+test!(
+    syntax(),
+    |tester| tr(
+        tester,
+        Config {
+            allow_top_level_this: false
+        }
+    ),
     allow_top_level_this_false,
     r#"export var v = this;
     function a() {

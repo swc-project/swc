@@ -24,7 +24,7 @@ use swc_common::{
     source_map::SourceMapGenConfig,
     sync::Lrc,
     util::take::Take,
-    FileName, SourceMap, DUMMY_SP,
+    FileName, Mark, SourceMap, DUMMY_SP,
 };
 use swc_ecma_ast::{Pat, *};
 use swc_ecma_codegen::Emitter;
@@ -399,7 +399,7 @@ where
             .fold_with(&mut fixer::fixer(Some(&tester.comments)));
 
         let src_without_helpers = tester.print(&module, &tester.comments.clone());
-        module = module.fold_with(&mut inject_helpers());
+        module = module.fold_with(&mut inject_helpers(Mark::fresh(Mark::root())));
 
         let transformed_src = tester.print(&module, &tester.comments.clone());
 
@@ -456,7 +456,7 @@ where
             .fold_with(&mut fixer::fixer(Some(&tester.comments)));
 
         let src_without_helpers = tester.print(&module, &tester.comments.clone());
-        module = module.fold_with(&mut inject_helpers());
+        module = module.fold_with(&mut inject_helpers(Mark::fresh(Mark::root())));
 
         let src = tester.print(&module, &tester.comments.clone());
 

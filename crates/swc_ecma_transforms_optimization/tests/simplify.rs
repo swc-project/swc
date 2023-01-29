@@ -606,7 +606,7 @@ test!(
             ),
             es3(true),
             import_analyzer(false.into(), false),
-            inject_helpers(),
+            inject_helpers(unresolved_mark),
             common_js(
                 Mark::fresh(Mark::root()),
                 Default::default(),

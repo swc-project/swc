@@ -67,6 +67,7 @@ fn test_mark_for() {
             InnerConfig {
                 handle_types: true,
                 unresolved_mark: Mark::fresh(Mark::root()),
+                top_level_mark: mark1,
             },
         );
         let mut folder2 = Resolver::new(
@@ -74,6 +75,7 @@ fn test_mark_for() {
             InnerConfig {
                 handle_types: true,
                 unresolved_mark: Mark::fresh(Mark::root()),
+                top_level_mark: mark2,
             },
         );
         folder2
@@ -86,6 +88,7 @@ fn test_mark_for() {
             InnerConfig {
                 handle_types: true,
                 unresolved_mark: Mark::fresh(Mark::root()),
+                top_level_mark: mark3,
             },
         );
         folder3
@@ -99,6 +102,7 @@ fn test_mark_for() {
             InnerConfig {
                 handle_types: true,
                 unresolved_mark: Mark::fresh(Mark::root()),
+                top_level_mark: mark4,
             },
         );
         folder4

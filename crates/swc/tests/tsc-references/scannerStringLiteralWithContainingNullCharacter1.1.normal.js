@@ -1,2 +1,2 @@
 //// [scannerStringLiteralWithContainingNullCharacter1.ts]
-" \0 ";
+" \x00 ";

@@ -64,9 +64,6 @@ pub(crate) struct VarUsageInfo {
     /// The number of direct reference to this identifier.
     pub(crate) ref_count: u32,
 
-    /// `true` if a variable is conditionally initialized.
-    pub(crate) cond_init: bool,
-
     /// `false` if it's only used.
     pub(crate) declared: bool,
     pub(crate) declared_count: u32,
@@ -86,9 +83,8 @@ pub(crate) struct VarUsageInfo {
     /// - Update is counted as usage, but assign is not
     pub(crate) usage_count: u32,
 
-    /// The variable itself is modified.
-    reassigned_with_assignment: bool,
-    reassigned_with_var_decl: bool,
+    /// The variable itself is assigned after reference.
+    reassigned: bool,
     /// The variable itself or a property of it is modified.
     pub(crate) mutated: bool,
 
@@ -140,7 +136,6 @@ impl Default for VarUsageInfo {
         Self {
             inline_prevented: Default::default(),
             ref_count: Default::default(),
-            cond_init: Default::default(),
             declared: Default::default(),
             declared_count: Default::default(),
             declared_as_fn_param: Default::default(),
@@ -149,8 +144,7 @@ impl Default for VarUsageInfo {
             assign_count: Default::default(),
             mutation_by_call_count: Default::default(),
             usage_count: Default::default(),
-            reassigned_with_assignment: Default::default(),
-            reassigned_with_var_decl: Default::default(),
+            reassigned: Default::default(),
             mutated: Default::default(),
             has_property_access: Default::default(),
             has_property_mutation: Default::default(),
@@ -186,8 +180,7 @@ impl VarUsageInfo {
     }
 
     pub(crate) fn reassigned(&self) -> bool {
-        self.reassigned_with_assignment
-            || self.reassigned_with_var_decl
+        self.reassigned
             || (u32::from(self.var_initialized)
                 + u32::from(self.declared_as_catch_param)
                 + u32::from(self.declared_as_fn_param)
@@ -241,25 +234,27 @@ impl Storage for ProgramData {
                 Entry::Occupied(mut e) => {
                     e.get_mut().inline_prevented |= var_info.inline_prevented;
 
-                    e.get_mut().cond_init |= if !inited && e.get().var_initialized {
-                        true
-                    } else {
-                        var_info.cond_init
-                    };
                     if var_info.var_initialized {
                         if e.get().var_initialized || e.get().ref_count > 0 {
                             e.get_mut().assign_count += 1;
-                            e.get_mut().reassigned_with_assignment = true;
+                            e.get_mut().reassigned = true;
                         } else {
                             // If it is referred outside child scope, it will
                             // be marked as var_initialized false
                             e.get_mut().var_initialized = true;
                         }
+                    } else {
+                        // If it is inited in some other child scope, but referenced in
+                        // current child scope
+                        if !inited && e.get().var_initialized && var_info.ref_count > 0 {
+                            e.get_mut().reassigned = true
+                        }
                     }
+
                     e.get_mut().ref_count += var_info.ref_count;
 
-                    e.get_mut().reassigned_with_assignment |= var_info.reassigned_with_assignment;
-                    e.get_mut().reassigned_with_var_decl |= var_info.reassigned_with_var_decl;
+                    e.get_mut().reassigned |= var_info.reassigned;
+
                     e.get_mut().mutated |= var_info.mutated;
 
                     e.get_mut().has_property_access |= var_info.has_property_access;
@@ -359,7 +354,7 @@ impl Storage for ProgramData {
             }
 
             v.mutated = true;
-            v.reassigned_with_var_decl = true;
+            v.reassigned = true;
             v.assign_count += 1;
         }
 
@@ -458,8 +453,8 @@ impl VarDataLike for VarUsageInfo {
         self.mutated = true;
     }
 
-    fn mark_reassigned_with_assign(&mut self) {
-        self.reassigned_with_assignment = true;
+    fn mark_reassigned(&mut self) {
+        self.reassigned = true;
     }
 
     fn add_infects_to(&mut self, other: Access) {
@@ -624,12 +619,12 @@ impl ProgramData {
 
         if is_first {
             e.ref_count += 1;
+            // If it is inited in some child scope, but referenced in current scope
             if !inited && e.var_initialized {
-                e.cond_init = true;
+                e.reassigned = true;
                 if !is_modify {
                     e.var_initialized = false;
                     e.assign_count += 1;
-                    e.reassigned_with_assignment = true
                 }
             }
         }
@@ -656,7 +651,7 @@ impl ProgramData {
                     e.assign_count -= 1;
                     e.var_initialized = true;
                 } else {
-                    e.reassigned_with_assignment = true
+                    e.reassigned = true
                 }
             }
 

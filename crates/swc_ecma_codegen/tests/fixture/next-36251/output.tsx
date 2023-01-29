@@ -3,7 +3,7 @@ type ü = {
     value: string;
 };
 export const SomeComponent = ({ name , value  }: ü)=>{
-    return (<div >
+    return (<div>
 
             {name} {value}
 

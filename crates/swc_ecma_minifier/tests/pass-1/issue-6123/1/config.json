@@ -1,0 +1,6 @@
+{
+    "defaults": false,
+    "conditionals": true,
+    "dead_code": true,
+    "arrows": false
+}

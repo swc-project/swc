@@ -4,7 +4,7 @@ use ahash::AHashMap;
 use anyhow::Error;
 use relative_path::RelativePath;
 use swc_atoms::js_word;
-use swc_common::{util::move_map::MoveMap, FileName, DUMMY_SP};
+use swc_common::{util::move_map::MoveMap, FileName, Mark, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{
     fixer::fixer,
@@ -26,7 +26,11 @@ where
     /// - inject helpers
     /// - rename chunks
     /// - invoke fixer
-    pub(super) fn finalize(&self, bundles: Vec<Bundle>) -> Result<Vec<Bundle>, Error> {
+    pub(super) fn finalize(
+        &self,
+        bundles: Vec<Bundle>,
+        unresolved_mark: Mark,
+    ) -> Result<Vec<Bundle>, Error> {
         self.run(|| {
             let mut new = Vec::with_capacity(bundles.len());
             let mut renamed = AHashMap::default();
@@ -54,8 +58,9 @@ where
 
                     let module = bundle.module;
 
-                    bundle.module =
-                        HELPERS.set(&swc_helpers, || module.fold_with(&mut inject_helpers()));
+                    bundle.module = HELPERS.set(&swc_helpers, || {
+                        module.fold_with(&mut inject_helpers(unresolved_mark))
+                    });
                 }
 
                 match bundle.kind {
