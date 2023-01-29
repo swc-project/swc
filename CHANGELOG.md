@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(visit)** Fix detection of `Option<Vec<T>>` (#6872) ([508267d](https://github.com/swc-project/swc/commit/508267dccf479f114234f01f8d77db74b91bdb85))
+
 ### Features
 
 
