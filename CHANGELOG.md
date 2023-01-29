@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Features
+
+
+
+- **(bindings/cli)** Append `sourceMappingURL=` to the output (#6873) ([c4db8e4](https://github.com/swc-project/swc/commit/c4db8e42a154bd41b54354fc8c2891764fbb724f))
+
 ## [1.3.30] - 2023-01-28
 
 ### Bug Fixes
