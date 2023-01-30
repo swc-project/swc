@@ -149,7 +149,6 @@ impl OptChaining {
     }
 }
 
-#[swc_trace]
 impl OptChaining {
     /// Only called from [VisitMut].
     fn handle_unary(&mut self, e: &mut UnaryExpr) -> Expr {
@@ -244,6 +243,15 @@ impl OptChaining {
     }
 
     fn handle_member(&mut self, e: &mut MemberExpr) -> Result<CondExpr, Expr> {
+        if self.in_opt_chain {
+            let mut opt = OptChainExpr {
+                span: e.span,
+                question_dot_token: DUMMY_SP,
+                base: OptChainBase::Member(e.take()),
+            };
+            return Ok(self.unwrap(&mut opt));
+        }
+
         let obj = match &mut *e.obj {
             Expr::Member(obj) => {
                 let obj = self.handle_member(obj).map(Expr::Cond);
