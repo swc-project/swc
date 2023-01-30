@@ -2,7 +2,7 @@
 // assignments in shortcutting chain
 import _instanceof from "@swc/helpers/src/_instanceof.mjs";
 import _type_of from "@swc/helpers/src/_type_of.mjs";
-var _o4_x, _o4_x1, _o5_x_y_z, _o5_x, _o5_x1, _o5_x2, _o5_x_y_z1, _o5_x3, _arr_i;
+var _o4_x, _o4_x1, _o5_x_y_z, _o5_x, _o5_x_y, _o5_x1, _o5_x2, _o5_x_y_z1, _o5_x3, _o5_x_y1, _arr_i;
 var a;
 o === null || o === void 0 ? void 0 : o[a = 1];
 a.toString();
@@ -68,28 +68,28 @@ if ((_o4_x = o4.x) === null || _o4_x === void 0 ? void 0 : _o4_x.y) {
 o4.x;
 (_o4_x1 = o4.x) === null || _o4_x1 === void 0 ? void 0 : _o4_x1.y;
 o4.x.y;
-if ((_o5_x_y_z = (_o5_x = o5.x) === null || _o5_x === void 0 ? void 0 : _o5_x.y.z) === null || _o5_x_y_z === void 0 ? void 0 : _o5_x_y_z.w) {
-    var _o5_x_y_z2, _o5_x4, _o5_x_y_z3, _o5_x5;
+if ((_o5_x_y_z = (_o5_x = o5.x) === null || _o5_x === void 0 ? void 0 : (_o5_x_y = _o5_x.y) === null || _o5_x_y === void 0 ? void 0 : _o5_x_y.z) === null || _o5_x_y_z === void 0 ? void 0 : _o5_x_y_z.w) {
+    var _o5_x_y_z2, _o5_x4, _o5_x_y_z3, _o5_x5, _o5_x_y2;
     o5.x;
     o5.x.y;
     o5.x.y.z;
     o5.x.y.z.w; // true
     (_o5_x_y_z2 = o5.x.y.z) === null || _o5_x_y_z2 === void 0 ? void 0 : _o5_x_y_z2.w; // true
     (_o5_x4 = o5.x) === null || _o5_x4 === void 0 ? void 0 : _o5_x4.y.z.w; // true
-    (_o5_x_y_z3 = (_o5_x5 = o5.x) === null || _o5_x5 === void 0 ? void 0 : _o5_x5.y.z) === null || _o5_x_y_z3 === void 0 ? void 0 : _o5_x_y_z3.w; // true
+    (_o5_x_y_z3 = (_o5_x5 = o5.x) === null || _o5_x5 === void 0 ? void 0 : (_o5_x_y2 = _o5_x5.y) === null || _o5_x_y2 === void 0 ? void 0 : _o5_x_y2.z) === null || _o5_x_y_z3 === void 0 ? void 0 : _o5_x_y_z3.w; // true
 } else {
-    var _o5_x6, _o5_x7, _o5_x_y_z4, _o5_x8;
+    var _o5_x6, _o5_x7, _o5_x_y_z4, _o5_x8, _o5_x_y3;
     o5.x;
     (_o5_x6 = o5.x) === null || _o5_x6 === void 0 ? void 0 : _o5_x6.y;
     (_o5_x7 = o5.x) === null || _o5_x7 === void 0 ? void 0 : _o5_x7.y.z;
-    (_o5_x_y_z4 = (_o5_x8 = o5.x) === null || _o5_x8 === void 0 ? void 0 : _o5_x8.y.z) === null || _o5_x_y_z4 === void 0 ? void 0 : _o5_x_y_z4.w;
+    (_o5_x_y_z4 = (_o5_x8 = o5.x) === null || _o5_x8 === void 0 ? void 0 : (_o5_x_y3 = _o5_x8.y) === null || _o5_x_y3 === void 0 ? void 0 : _o5_x_y3.z) === null || _o5_x_y_z4 === void 0 ? void 0 : _o5_x_y_z4.w;
     o5.x.y;
     o5.x.y.z.w;
 }
 o5.x;
 (_o5_x1 = o5.x) === null || _o5_x1 === void 0 ? void 0 : _o5_x1.y;
 (_o5_x2 = o5.x) === null || _o5_x2 === void 0 ? void 0 : _o5_x2.y.z;
-(_o5_x_y_z1 = (_o5_x3 = o5.x) === null || _o5_x3 === void 0 ? void 0 : _o5_x3.y.z) === null || _o5_x_y_z1 === void 0 ? void 0 : _o5_x_y_z1.w;
+(_o5_x_y_z1 = (_o5_x3 = o5.x) === null || _o5_x3 === void 0 ? void 0 : (_o5_x_y1 = _o5_x3.y) === null || _o5_x_y1 === void 0 ? void 0 : _o5_x_y1.z) === null || _o5_x_y_z1 === void 0 ? void 0 : _o5_x_y_z1.w;
 o5.x.y;
 o5.x.y.z.w;
 if (o6 === null || o6 === void 0 ? void 0 : o6.f()) {
