@@ -5,6 +5,9 @@
 
 
 
+- **(es/compat)** Fix optional chaining pass (#6875) ([d808864](https://github.com/swc-project/swc/commit/d8088646df1e8ebc7d1fd8b0b0e4822bc604a986))
+
+
 - **(visit)** Fix detection of `Option<Vec<T>>` (#6872) ([508267d](https://github.com/swc-project/swc/commit/508267dccf479f114234f01f8d77db74b91bdb85))
 
 ### Features
