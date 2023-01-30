@@ -844,7 +844,7 @@ dependencies = [
 
 [[package]]
 name = "dbg-swc"
-version = "0.66.15"
+version = "0.66.16"
 dependencies = [
  "anyhow",
  "clap 3.1.0",
