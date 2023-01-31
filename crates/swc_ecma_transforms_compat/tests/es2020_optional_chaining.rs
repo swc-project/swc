@@ -433,17 +433,18 @@ orders[client.key]?.price;
 
 "#,
     r#"
-    var _a_b_c, _a_b, _a_b_c_d, _a_b1, _a_b_c1, _a_b_c2, _a_b_c_d1, _orders_, _orders_client_key, _c, _ref;
-    foo === null || foo === void 0 ? void 0 : foo.bar;
-    (_a_b_c = a === null || a === void 0 ? void 0 : (_a_b = a.b) === null || _a_b === void 0 ? void 0 : _a_b.c) === null || _a_b_c === void 0 ? void 0 : _a_b_c.d.e;
-    (_a_b_c_d = (_a_b1 = a.b) === null || _a_b1 === void 0 ? void 0 : (_a_b_c1 = _a_b1.c) === null || _a_b_c1 === void 0 ? void 0 : _a_b_c1.d) === null || _a_b_c_d === void 0 ? void 0 : _a_b_c_d.e;
-    (_a_b_c2 = a.b.c) === null || _a_b_c2 === void 0 ? void 0 : (_a_b_c_d1 = _a_b_c2.d) === null || _a_b_c_d1 === void 0 ? void 0 : _a_b_c_d1.e;
-    orders === null || orders === void 0 ? void 0 : orders[0].price;
-    orders === null || orders === void 0 ? void 0 : (_orders_ = orders[0]) === null || _orders_ === void 0 ? void 0 : _orders_.price;
-    orders[client === null || client === void 0 ? void 0 : client.key].price;
-    (_orders_client_key = orders[client.key]) === null || _orders_client_key === void 0 ? void 0 : _orders_client_key.price;
-    (0, a === null || a === void 0 ? void 0 : a.b).c;
-    (0, (_c = (_ref = (0, a === null || a === void 0 ? void 0 : a.b)) === null || _ref === void 0 ? void 0 : _ref.c) === null || _c === void 0 ? void 0 : _c.d).e;"#
+var _a_b_c, _a_b_c_d, _a_b, _a_b_c1, _a_b_c_d1, _orders_, _orders_client_key, _c;
+foo === null || foo === void 0 ? void 0 : foo.bar;
+(_a_b_c = a === null || a === void 0 ? void 0 : a.b.c) === null || _a_b_c === void 0 ? void 0 : _a_b_c.d.e;
+(_a_b_c_d = (_a_b = a.b) === null || _a_b === void 0 ? void 0 : _a_b.c.d) === null || _a_b_c_d === void 0 ? void 0 : _a_b_c_d.e;
+(_a_b_c1 = a.b.c) === null || _a_b_c1 === void 0 ? void 0 : (_a_b_c_d1 = _a_b_c1.d) === null || _a_b_c_d1 === void 0 ? void 0 : _a_b_c_d1.e;
+orders === null || orders === void 0 ? void 0 : orders[0].price;
+orders === null || orders === void 0 ? void 0 : (_orders_ = orders[0]) === null || _orders_ === void 0 ? void 0 : _orders_.price;
+orders[client === null || client === void 0 ? void 0 : client.key].price;
+(_orders_client_key = orders[client.key]) === null || _orders_client_key === void 0 ? void 0 : _orders_client_key.price;
+(0, a === null || a === void 0 ? void 0 : a.b).c;
+(0, (_c = (0, a === null || a === void 0 ? void 0 : a.b).c) === null || _c === void 0 ? void 0 : _c.d).e;
+"#
 );
 
 // general_unary
