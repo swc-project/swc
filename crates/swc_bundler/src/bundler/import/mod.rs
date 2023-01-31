@@ -1,6 +1,4 @@
 use anyhow::{Context, Error};
-#[allow(unused_imports)]
-use retain_mut::RetainMut;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     collections::{AHashMap, AHashSet},
