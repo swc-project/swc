@@ -589,8 +589,6 @@ impl Fold for SystemJs {
                 _ => Expr::MetaProp(meta_prop_expr),
             },
             Expr::Await(await_expr) => {
-                let await_expr = await_expr.fold_children_with(self);
-
                 if self.enter_async_fn == 0 {
                     self.tla = true;
                 }
