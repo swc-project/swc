@@ -27,7 +27,6 @@ pub fn optional_chaining(c: Config) -> impl Fold + VisitMut {
 struct OptChaining {
     vars_without_init: Vec<VarDeclarator>,
     vars_with_init: Vec<VarDeclarator>,
-    in_opt_chain: bool,
     c: Config,
 }
 
@@ -149,6 +148,7 @@ impl OptChaining {
     }
 }
 
+#[swc_trace]
 impl OptChaining {
     /// Only called from [VisitMut].
     fn handle_unary(&mut self, e: &mut UnaryExpr) -> Expr {
@@ -243,15 +243,6 @@ impl OptChaining {
     }
 
     fn handle_member(&mut self, e: &mut MemberExpr) -> Result<CondExpr, Expr> {
-        if self.in_opt_chain {
-            let mut opt = OptChainExpr {
-                span: e.span,
-                question_dot_token: DUMMY_SP,
-                base: OptChainBase::Member(e.take()),
-            };
-            return Ok(self.unwrap(&mut opt));
-        }
-
         let obj = match &mut *e.obj {
             Expr::Member(obj) => {
                 let obj = self.handle_member(obj).map(Expr::Cond);
@@ -557,10 +548,7 @@ impl OptChaining {
             }
         };
 
-        let old = self.in_opt_chain;
-        self.in_opt_chain = true;
         base.visit_mut_with(self);
-        self.in_opt_chain = old;
 
         base
     }
