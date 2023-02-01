@@ -861,7 +861,12 @@ impl<'a> VisitMut for Resolver<'a> {
         f.decorators.visit_mut_with(self);
 
         {
-            let params: Vec<Id> = find_pat_ids(&f.params);
+            let params = f
+                .params
+                .iter()
+                .filter(|p| !p.pat.is_rest())
+                .flat_map(find_pat_ids)
+                .collect::<Vec<Id>>();
 
             for id in params {
                 self.current.declared_symbols.insert(id.0, DeclKind::Param);
