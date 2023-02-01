@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.3.32] - 2023-02-01
 
 ### Bug Fixes
 
@@ -9,6 +9,12 @@
 
 
 - **(es/compat)** Make optional chaining pass less permissive (#6885) ([57781e9](https://github.com/swc-project/swc/commit/57781e90d39915e3772757162f70767ff57bfbdd))
+
+### Testing
+
+
+
+- **(es/compat)** Add a test for a fixed issue (#6887) ([e79d466](https://github.com/swc-project/swc/commit/e79d46697c9ffb6f93976457f949a5168a59327a))
 
 ### Build
 
