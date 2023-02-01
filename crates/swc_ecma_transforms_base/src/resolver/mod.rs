@@ -1081,8 +1081,6 @@ impl<'a> VisitMut for Resolver<'a> {
 
     fn visit_mut_rest_pat(&mut self, node: &mut RestPat) {
         node.arg.visit_mut_with(self);
-
-        self.in_type = true;
         node.type_ann.visit_mut_with(self);
     }
 
