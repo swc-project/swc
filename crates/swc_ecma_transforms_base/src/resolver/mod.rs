@@ -857,6 +857,15 @@ impl<'a> VisitMut for Resolver<'a> {
         self.ident_type = IdentType::Ref;
         f.decorators.visit_mut_with(self);
 
+        {
+            let params: Vec<Ident> = find_pat_ids(&f.params);
+
+            self.ident_type = IdentType::Binding;
+            self.in_type = false;
+            for mut id in params {
+                self.modify(&mut id, DeclKind::Param);
+            }
+        }
         self.ident_type = IdentType::Binding;
         f.params.visit_mut_with(self);
 
