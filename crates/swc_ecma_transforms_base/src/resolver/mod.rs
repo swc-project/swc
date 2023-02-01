@@ -299,7 +299,6 @@ impl<'a> Resolver<'a> {
                 }
                 scope = cur.parent;
             }
-            return None;
         }
 
         let mut mark = self.current.mark;
