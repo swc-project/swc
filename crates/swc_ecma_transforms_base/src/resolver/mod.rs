@@ -399,9 +399,12 @@ macro_rules! typed_ref {
     ($name:ident, $T:ty) => {
         fn $name(&mut self, node: &mut $T) {
             if self.config.handle_types {
+                let in_type = self.in_type;
                 let ident_type = self.ident_type;
+                self.in_type = true;
                 node.visit_mut_children_with(self);
                 self.ident_type = ident_type;
+                self.in_type = in_type;
             }
         }
     };
@@ -1076,10 +1079,11 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_rest_pat(&mut self, node: &mut RestPat) {
-        // visit the type first so that it doesn't resolve any
-        // identifiers from the arg
-        node.type_ann.visit_mut_with(self);
         node.arg.visit_mut_with(self);
+
+        dbg!(&self.current);
+        self.in_type = true;
+        node.type_ann.visit_mut_with(self);
     }
 
     fn visit_mut_script(&mut self, script: &mut Script) {
