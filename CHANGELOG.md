@@ -7,6 +7,9 @@
 
 - **(es/resolver)** Resolve parameters correctly (#6890) ([861d87c](https://github.com/swc-project/swc/commit/861d87cae622f371ea697b1cb07ed79d32579b74))
 
+### Miscellaneous Tasks
+- **general**: Make issue templates mention `no +1` (#6894) ([5d5140f](https://github.com/swc-project/swc/commit/5d5140f0a50696d747ee62e72866b9b03e52cde3))
+
 ## [1.3.32] - 2023-02-01
 
 ### Bug Fixes
