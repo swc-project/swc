@@ -968,6 +968,9 @@ impl<'a> VisitMut for Resolver<'a> {
         let old = self.ident_type;
         self.ident_type = IdentType::Binding;
         s.local.visit_mut_with(self);
+        if self.config.handle_types {
+            self.current.declared_types.insert(s.local.sym.clone());
+        }
         self.ident_type = old;
     }
 
@@ -980,16 +983,6 @@ impl<'a> VisitMut for Resolver<'a> {
             | ImportSpecifier::Namespace(..)
             | ImportSpecifier::Default(..) => s.visit_mut_children_with(self),
             ImportSpecifier::Named(s) => s.local.visit_mut_with(self),
-        }
-
-        if self.config.handle_types {
-            let local = match s {
-                ImportSpecifier::Named(ImportNamedSpecifier { imported: None, .. })
-                | ImportSpecifier::Namespace(..)
-                | ImportSpecifier::Default(..) => return,
-                ImportSpecifier::Named(s) => &s.local,
-            };
-            self.current.declared_types.insert(local.sym.clone());
         }
 
         self.ident_type = old;
@@ -1707,18 +1700,39 @@ impl VisitMut for Hoister<'_, '_> {
         n.visit_mut_children_with(self);
 
         self.resolver.modify(&mut n.local, DeclKind::Lexical);
+
+        if self.resolver.config.handle_types {
+            self.resolver
+                .current
+                .declared_types
+                .insert(n.local.sym.clone());
+        }
     }
 
     fn visit_mut_import_named_specifier(&mut self, n: &mut ImportNamedSpecifier) {
         n.visit_mut_children_with(self);
 
         self.resolver.modify(&mut n.local, DeclKind::Lexical);
+
+        if self.resolver.config.handle_types {
+            self.resolver
+                .current
+                .declared_types
+                .insert(n.local.sym.clone());
+        }
     }
 
     fn visit_mut_import_star_as_specifier(&mut self, n: &mut ImportStarAsSpecifier) {
         n.visit_mut_children_with(self);
 
         self.resolver.modify(&mut n.local, DeclKind::Lexical);
+
+        if self.resolver.config.handle_types {
+            self.resolver
+                .current
+                .declared_types
+                .insert(n.local.sym.clone());
+        }
     }
 
     #[inline]
