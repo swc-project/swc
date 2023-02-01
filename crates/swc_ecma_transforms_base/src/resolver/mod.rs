@@ -980,7 +980,17 @@ impl<'a> VisitMut for Resolver<'a> {
             | ImportSpecifier::Namespace(..)
             | ImportSpecifier::Default(..) => s.visit_mut_children_with(self),
             ImportSpecifier::Named(s) => s.local.visit_mut_with(self),
-        };
+        }
+
+        if self.config.handle_types {
+            let local = match s {
+                ImportSpecifier::Named(ImportNamedSpecifier { imported: None, .. })
+                | ImportSpecifier::Namespace(..)
+                | ImportSpecifier::Default(..) => return,
+                ImportSpecifier::Named(s) => &s.local,
+            };
+            self.current.declared_types.insert(local.sym.clone());
+        }
 
         self.ident_type = old;
     }
@@ -1577,6 +1587,13 @@ impl VisitMut for Hoister<'_, '_> {
             return;
         }
         self.resolver.modify(&mut node.ident, DeclKind::Lexical);
+
+        if self.resolver.config.handle_types {
+            self.resolver
+                .current
+                .declared_types
+                .insert(node.ident.sym.clone());
+        }
     }
 
     #[inline]
